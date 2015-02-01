@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/mainwindow.qml</file>
+        <file>qml/mainview/Background.qml</file>
+        <file>qml/mainview/Display.qml</file>
+        <file>qml/mainview/QuickInfo.qml</file>
+        <file>qml/slidein/ThumbnailBar.qml</file>
+        <file>qml/slidein/MetaData.qml</file>
+        <file>qml/Shortcuts.qml</file>
+    </qresource>
+</RCC>
