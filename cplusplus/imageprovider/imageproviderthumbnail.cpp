@@ -21,8 +21,7 @@ QPixmap ImageProviderThumbnail::requestPixmap(const QString &filename_encoded, Q
 
 	// Commit database and exit
 	if(filename.startsWith("__**__")) {
-		if(db.isOpen()) db.commit();
-		db.close();
+		if(dbTransactionStarted) if(!db.commit()) qDebug() << "[imageprovider thumbs] ERROR: CAN'T commit DB TRANSACTION!";
 		dbTransactionStarted = false;
 		return QPixmap(1,1);
 	}
@@ -108,7 +107,9 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename, int thbsiz
 	} else if(cacheEnabled) {
 
 		QSqlQuery query(db);
-		query.exec(QString("SELECT thumbnail,filelastmod,origwidth,origheight FROM Thumbnails WHERE filepath='%1'").arg(QString::fromUtf8(filename)));
+		query.prepare("SELECT thumbnail,filelastmod,origwidth,origheight FROM Thumbnails WHERE filepath=:fpath");
+		query.bindValue(":fpath",filename);
+		query.exec();
 		if(query.next()) {
 
 			if(query.value(query.record().indexOf("filelastmod")).toUInt() == QFileInfo(filename).lastModified().toTime_t()) {
@@ -168,7 +169,8 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename, int thbsiz
 		} else if(cacheEnabled) {
 
 			if(!dbTransactionStarted) {
-				db.transaction();
+				if(!db.transaction())
+					qDebug() << "[imageprovider thumbs] ERROR: CAN'T START DB TRANSACTION!";
 				dbTransactionStarted = true;
 			}
 
@@ -210,6 +212,6 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename, int thbsiz
 }
 
 ImageProviderThumbnail::~ImageProviderThumbnail() {
-	db.commit();
+	if(dbTransactionStarted) if(!db.commit()) qDebug() << "[imageprovider thumbs ~] ERROR: CAN'T commit DB TRANSACTION!";
 	db.close();
 }

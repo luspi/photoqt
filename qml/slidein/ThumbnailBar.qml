@@ -20,6 +20,8 @@ Rectangle {
     property int previousIndex: -1
     property int hoveredIndex: -1
 
+    property int startedLoading: 0
+
 
     // Setup a new model
     function setupModel(stringlist) {
@@ -68,10 +70,11 @@ Rectangle {
             var visible_width = flick.visibleArea.widthRatio*gridView.width
 
             // Newly loaded dir => center item
-            if(previousIndex == -1)
-                flick.contentX = (pos+0.5)*(thumbnailsize+thumbnailspacing)-0.5*thumbnailBar.width
+            if(previousIndex == -1) {
+                var x = (pos+0.5)*(thumbnailsize+thumbnailspacing)-0.5*thumbnailBar.width
+                flick.contentX = (x >= 0 ? x : 0)
             // Ensure visible to the right
-            else if((pos+1)*(thumbnailsize+thumbnailspacing) > visible_x+visible_width)
+            } else if((pos+1)*(thumbnailsize+thumbnailspacing) > visible_x+visible_width)
                     flick.contentX = (pos+1.5)*(thumbnailsize+thumbnailspacing)-thumbnailBar.width
             // Ensure visible to the left
             else
@@ -92,6 +95,10 @@ Rectangle {
 
     }
 
+    function getCenterPos() {
+        return (flick.contentX+flick.width/2)/(settings.value("Thumbnail/ThumbnailSize")*1+settings.value("Thumbnail/ThumbnailSpacingBetween")*1)
+    }
+
     // Load next image
     function nextImage() {
         displayImage(previousIndex+1);
@@ -106,8 +113,16 @@ Rectangle {
 
     // Load proper thumbnail at position 'pos'
     function reloadImage(pos) {
+        ++startedLoading
+        console.log("reload",pos)
         var imageUrl = imageModel.get(pos).imageUrl;
         imageModel.set(pos,{"imageUrl" : imageUrl, "counter" : pos, "pre" : false})
+    }
+
+    function reloadImageSmart(pos) {
+        ++startedLoading
+        var imageUrl = imageModel.get(pos).imageUrl;
+        imageModel.set(pos,{"imageUrl" : "*s*" + imageUrl, "counter" : pos, "pre" : false})
     }
 
     // This image (and timer below) takes care of 'commit'ing the thumbnail database images
@@ -248,9 +263,13 @@ Rectangle {
                     // Catch 'loading completed' of thumbnail
                     onStatusChanged: {
                         // If image is ready and it's not a preload image
-                        if(img.status == Image.Ready && pre == false)
+                        if(img.status == Image.Ready && pre == false) {
                             // Start timer to commit thumbnail database
                             timerhiddenImageCommitDatabase.restart()
+                            --startedLoading
+                            if(startedLoading == 0)
+                                loadMoreThumbnails()
+                        }
                     }
                 }
 
@@ -347,7 +366,7 @@ Rectangle {
         // When flicking finished
         onMovementEnded: {
             // Item in center of flickable
-            var centerpos = (flick.contentX+flick.width/2)/(settings.value("Thumbnail/ThumbnailSize")*1+settings.value("Thumbnail/ThumbnailSpacingBetween")*1)
+            var centerpos = getCenterPos()
             // Emit 'scrolled' signal
             toplevel.thumbScrolled(centerpos)
         }

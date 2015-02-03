@@ -35,6 +35,8 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 	// Open file
 	connect(object, SIGNAL(openFile()), this, SLOT(openNewFile()));
 
+	connect(object, SIGNAL(loadMoreThumbnails()), this, SLOT(loadMoreThumbnails()));
+
 	// Quit PhotoQt
 	connect(this->engine(), SIGNAL(quit()), qApp, SLOT(quit()));
 
@@ -85,13 +87,19 @@ void MainWindow::openNewFile() {
 	// Get and store current position
 	int curPos = l.indexOf(QFileInfo(file));
 	settingsPerSession->setValue("curPos",curPos);
+	settingsPerSession->sync();
 
 	// Display current postiion in main image view
 	QMetaObject::invokeMethod(object, "displayImage",
 				  Q_ARG(QVariant, curPos));
 
+	QVariant centerPos = curPos;
+	if(!QMetaObject::invokeMethod(object, "getCenterPos",
+				  Q_RETURN_ARG(QVariant, centerPos)))
+		qDebug() << "couldn't get center pos!";
+
 	// And handle the thumbnails
-	handleThumbnails(curPos);
+	handleThumbnails(centerPos.toInt());
 
 }
 
@@ -105,43 +113,45 @@ void MainWindow::handleThumbnails(QVariant centerPos) {
 
 	// Get total and center pos
 	int countTot = settingsPerSession->value("countTot").toInt();
-	int center = centerPos.toInt();
+	currentCenter = centerPos.toInt();
 
 	// Generate how many to each side
 	int numberToOneSide = (this->width()/(thumbSize+thumbSpacing))/2;
 
 	// Load full directory
-	if(dynamicSmartNormal == 0) numberToOneSide = qMax(center,countTot-center);
+	if(dynamicSmartNormal == 0) numberToOneSide = qMax(currentCenter,countTot-currentCenter);
 
-	// Load thumbnails (we start at the screen edge working towards the center, cause QML starts with the latest one changed)
-	for(int i = numberToOneSide+3; i >= 1; --i) {
-		if(center-i >= 0 && !variables->loadedThumbnails.contains(center-i)) {
-			QMetaObject::invokeMethod(object, "reloadImage",
-						Q_ARG(QVariant, center-i));
-			variables->loadedThumbnails.append(center-i);
-		}
-		if(center+i < countTot && !variables->loadedThumbnails.contains(center+i)) {
-			QMetaObject::invokeMethod(object, "reloadImage",
-						Q_ARG(QVariant, center+i));
-			variables->loadedThumbnails.append(center+i);
-		}
-	}
-	// The first image to be loaded should be the central image
-	if(!variables->loadedThumbnails.contains(center)) {
-		QMetaObject::invokeMethod(object, "reloadImage",
-					Q_ARG(QVariant, center));
-		variables->loadedThumbnails.append(center);
+	loadThumbnailsInThisOrder.clear();
+	if(!variables->loadedThumbnails.contains(currentCenter)) loadThumbnailsInThisOrder.append(currentCenter);
+
+	// Load thumbnails in this order
+	for(int i = 1; i <= numberToOneSide+3; ++i) {
+		if((currentCenter-i) >= 0 && !variables->loadedThumbnails.contains(currentCenter-i))
+			loadThumbnailsInThisOrder.append(currentCenter-i);
+		if(currentCenter+i < countTot && !variables->loadedThumbnails.contains(currentCenter+i))
+			loadThumbnailsInThisOrder.append(currentCenter+i);
 	}
 
-	// In 'smart thumbnails' mode we load all other visible thumbnails after the currently visible ones are loaded
-	if(dynamicSmartNormal == 2)
-		smartLoadDirectory();
+	loadMoreThumbnails();
 
 }
 
-void MainWindow::smartLoadDirectory() {
+void MainWindow::loadMoreThumbnails() {
 
-	// TO-DO
+	if(loadThumbnailsInThisOrder.length() == 0) return;
+
+	int load = loadThumbnailsInThisOrder.first();
+
+	if(variables->loadedThumbnails.contains(load)) {
+		loadThumbnailsInThisOrder.removeFirst();
+		return loadMoreThumbnails();
+	}
+
+	loadThumbnailsInThisOrder.removeFirst();
+
+	QMetaObject::invokeMethod(object, "reloadImage",
+				  Q_ARG(QVariant, load));
+	variables->loadedThumbnails.append(load);
 
 }
 

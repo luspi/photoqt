@@ -11,9 +11,10 @@ Item {
     // This is how much bigger than the thumbnails the thumbnail bar is (this is the space to the top)
     property int thumbnailbarheight_addon: 50
 
-    // This signal is picked up by the mainwindow.cpp file
+    // These signals is picked up by the mainwindow.cpp file
     signal thumbScrolled(var filenameAtCenter)
     signal openFile()
+    signal loadMoreThumbnails();
 
     // Access to the permanent settings file (~/.photoqt/settings)
     Settings { id: settings }
@@ -84,5 +85,6 @@ Item {
     function displayImage(pos) { thumbnailBar.displayImage(pos) }
     function nextImage() { thumbnailBar.nextImage(); }
     function previousImage() { thumbnailBar.previousImage(); }
+    function getCenterPos() { console.log("center pos"); return thumbnailBar.getCenterPos(); }
 
 }

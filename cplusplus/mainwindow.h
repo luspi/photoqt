@@ -33,13 +33,18 @@ private:
 	Settings *settingsPermanent;
 	Variables *variables;
 
+
+	int currentCenter;
+	QList<int> loadThumbnailsInThisOrder;
+//	bool smartHandleThumbs_stopit;
+
 private slots:
 	void openNewFile();
 
 	void resized();
 
 	void handleThumbnails(QVariant centerPos);
-	void smartLoadDirectory();
+	void loadMoreThumbnails();
 
 signals:
 	void doSetupModel();
