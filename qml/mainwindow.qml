@@ -15,6 +15,7 @@ Item {
     signal thumbScrolled(var filenameAtCenter)
     signal openFile()
     signal loadMoreThumbnails();
+    signal didntLoadThisThumbnail(var pos);
 
     // Access to the permanent settings file (~/.photoqt/settings)
     Settings { id: settings }
@@ -69,7 +70,7 @@ Item {
         thumbnailBar.y = h-(thumbKeepVisible ? settings.value("Thumbnail/ThumbnailSize")*1+thumbnailbarheight_addon : 0)
 
 		image.width = w
-        image.height = (thumbKeepVisible ? h-thumbnailBar.height : h)
+        image.height = (thumbKeepVisible ? h-thumbnailBar.height+thumbnailbarheight_addon/2 : h)
 
         metaData.x = -10
         metaData.y = (h-metaData.height)/3
@@ -80,7 +81,8 @@ Item {
     }
 
     // Slots accessable by mainwindow.cpp, passed on to thumbnailbar
-    function reloadImage(pos) { thumbnailBar.reloadImage(pos) }
+    function reloadImage(pos, smart) { thumbnailBar.reloadImage(pos, smart) }
+    function reloadImageSmart(pos) { thumbnailBar.reloadImageSmart(pos) }
     function setupModel(stringlist) { thumbnailBar.setupModel(stringlist) }
     function displayImage(pos) { thumbnailBar.displayImage(pos) }
     function nextImage() { thumbnailBar.nextImage(); }

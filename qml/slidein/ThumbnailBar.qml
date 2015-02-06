@@ -37,7 +37,7 @@ Rectangle {
 
         // Add elements to model
         for (var i = 0; i < totalNumberImages; ++i)
-            imageModel.append({"imageUrl" : stringlist[i], "counter" : i, "pre" : true})
+            imageModel.append({"imageUrl" : stringlist[i], "counter" : i, "pre" : true, "smart" : false})
 
         // (Re-)set model
         gridView.model = imageModel
@@ -111,18 +111,11 @@ Rectangle {
         scrollTimer.restart()
     }
 
-    // Load proper thumbnail at position 'pos'
-    function reloadImage(pos) {
-        ++startedLoading
-        console.log("reload",pos)
-        var imageUrl = imageModel.get(pos).imageUrl;
-        imageModel.set(pos,{"imageUrl" : imageUrl, "counter" : pos, "pre" : false})
-    }
-
-    function reloadImageSmart(pos) {
+    // Load proper thumbnail at position 'pos' (smart == true means: ONLY IF IT EXISTS)
+    function reloadImage(pos, smart) {
         ++startedLoading
         var imageUrl = imageModel.get(pos).imageUrl;
-        imageModel.set(pos,{"imageUrl" : "*s*" + imageUrl, "counter" : pos, "pre" : false})
+        imageModel.set(pos,{"imageUrl" : imageUrl, "counter" : pos, "pre" : false, "smart" : smart})
     }
 
     // This image (and timer below) takes care of 'commit'ing the thumbnail database images
@@ -204,7 +197,7 @@ Rectangle {
 
                 // Set width/height
                 width: gridView.cellWidth
-                height: gridView.cellHeight
+                height: gridView.cellHeight+2*thumbnailspacing
 
                 // The actual thumbnail image
                 Image {
@@ -216,7 +209,7 @@ Rectangle {
                     property var path: imageUrl
 
                     // Set position
-                    y: 0
+                    y: thumbnailspacing
                     x: thumbnailspacing/2
 
                     // Adjust size
@@ -224,9 +217,7 @@ Rectangle {
                     height: thumbnailsize
 
                     // Set image source (preload or normal) and displayed source dimension
-                    source: (pre ? "qrc:/img/emptythumb.png" : "image://thumb/" + imageUrl)
-                    sourceSize.width: thumbnailsize
-                    sourceSize.height: thumbnailsize
+                    source: (pre ? "qrc:/img/emptythumb.png" : ("image://thumb/" + (smart ? "__**__smart" : "") + imageUrl))
 
                     // Adjust different values
                     fillMode: Image.PreserveAspectFit
@@ -234,6 +225,8 @@ Rectangle {
                     cache: true
                     smooth: true
                     asynchronous: true
+
+                    verticalAlignment: Image.AlignTop
 
                     MouseArea {
 
@@ -264,12 +257,19 @@ Rectangle {
                     onStatusChanged: {
                         // If image is ready and it's not a preload image
                         if(img.status == Image.Ready && pre == false) {
-                            // Start timer to commit thumbnail database
-                            timerhiddenImageCommitDatabase.restart()
-                            --startedLoading
-                            if(startedLoading == 0)
-                                loadMoreThumbnails()
+                            --startedLoading;
+                            // A size of (1,1) means, the image was smartly loaded and didn't exist yet -> re-set preload thumbnail
+                            if(img.sourceSize == Qt.size(1,1)) {
+                                didntLoadThisThumbnail(counter);
+                                imageModel.set(counter,{"imageUrl" : imageUrl, "counter" : counter, "pre" : true, "smart" : false})
+                            } else {
+                                // Start timer to commit thumbnail database
+                                timerhiddenImageCommitDatabase.restart()
+                                if(startedLoading == 0)
+                                    loadMoreThumbnails();
+                            }
                         }
+
                     }
                 }
 

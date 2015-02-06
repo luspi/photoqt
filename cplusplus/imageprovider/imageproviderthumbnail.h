@@ -27,6 +27,7 @@ private:
 	QImage getThumbnailImage(QByteArray filename, int thbsize);
 
 	bool dbTransactionStarted;
+	bool dontCreateThumbnailNew;
 
 	QHash<QString,QSize> allSizes;
 

@@ -19,11 +19,20 @@ QPixmap ImageProviderThumbnail::requestPixmap(const QString &filename_encoded, Q
 
 	QByteArray filename = QByteArray::fromPercentEncoding(filename_encoded.toUtf8());
 
-	// Commit database and exit
+	dontCreateThumbnailNew = false;
+
+	// Do some special action
 	if(filename.startsWith("__**__")) {
-		if(dbTransactionStarted) if(!db.commit()) qDebug() << "[imageprovider thumbs] ERROR: CAN'T commit DB TRANSACTION!";
-		dbTransactionStarted = false;
-		return QPixmap(1,1);
+		// Smartly preload this thumbnail
+		if(filename.startsWith("__**__smart")) {
+			filename = filename.remove(0,11);
+			dontCreateThumbnailNew = true;
+		// Commit database and exit
+		} else {
+			if(dbTransactionStarted) if(!db.commit()) qDebug() << "[imageprovider thumbs] ERROR: CAN'T commit DB TRANSACTION!";
+			dbTransactionStarted = false;
+			return QPixmap(1,1);
+		}
 	}
 
 	// Some general settings that are needed multiple times later-on
@@ -131,7 +140,7 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename, int thbsiz
 
 	// If file wasn't loaded from file or database, then it doesn't exist yet (or isn't up-to-date anymore) and we have to create it
 
-	if(!wasoncecreated) {
+	if(!wasoncecreated && !dontCreateThumbnailNew) {
 
 		ImageProviderFull image;
 		p = image.requestImage(filename.toPercentEncoding(),new QSize(ts,ts),QSize(ts,ts));
@@ -205,7 +214,8 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename, int thbsiz
 
 		}
 
-	}
+	} else if(!wasoncecreated && dontCreateThumbnailNew)
+		p = QImage(1,1,QImage::Format_ARGB32);
 
 	return p;
 

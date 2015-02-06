@@ -36,6 +36,7 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 	connect(object, SIGNAL(openFile()), this, SLOT(openNewFile()));
 
 	connect(object, SIGNAL(loadMoreThumbnails()), this, SLOT(loadMoreThumbnails()));
+	connect(object, SIGNAL(didntLoadThisThumbnail(QVariant)), this, SLOT(didntLoadThisThumbnail(QVariant)));
 
 	// Quit PhotoQt
 	connect(this->engine(), SIGNAL(quit()), qApp, SLOT(quit()));
@@ -120,16 +121,27 @@ void MainWindow::handleThumbnails(QVariant centerPos) {
 
 	// Load full directory
 	if(dynamicSmartNormal == 0) numberToOneSide = qMax(currentCenter,countTot-currentCenter);
+	int maxLoad = numberToOneSide;
+	if(dynamicSmartNormal == 2) maxLoad = qMax(currentCenter,countTot-currentCenter);
 
 	loadThumbnailsInThisOrder.clear();
+	smartLoadThumbnailsInThisOrder.clear();
+
 	if(!variables->loadedThumbnails.contains(currentCenter)) loadThumbnailsInThisOrder.append(currentCenter);
 
 	// Load thumbnails in this order
-	for(int i = 1; i <= numberToOneSide+3; ++i) {
-		if((currentCenter-i) >= 0 && !variables->loadedThumbnails.contains(currentCenter-i))
-			loadThumbnailsInThisOrder.append(currentCenter-i);
-		if(currentCenter+i < countTot && !variables->loadedThumbnails.contains(currentCenter+i))
-			loadThumbnailsInThisOrder.append(currentCenter+i);
+	for(int i = 1; i <= maxLoad+3; ++i) {
+		if(i <= numberToOneSide+3) {
+			if((currentCenter-i) >= 0 && !variables->loadedThumbnails.contains(currentCenter-i))
+				loadThumbnailsInThisOrder.append(currentCenter-i);
+			if(currentCenter+i < countTot && !variables->loadedThumbnails.contains(currentCenter+i))
+				loadThumbnailsInThisOrder.append(currentCenter+i);
+		} else {
+			if((currentCenter-i) >= 0 && !variables->loadedThumbnails.contains(currentCenter-i))
+				smartLoadThumbnailsInThisOrder.append(currentCenter-i);
+			if(currentCenter+i < countTot && !variables->loadedThumbnails.contains(currentCenter+i))
+				smartLoadThumbnailsInThisOrder.append(currentCenter+i);
+		}
 	}
 
 	loadMoreThumbnails();
@@ -138,21 +150,46 @@ void MainWindow::handleThumbnails(QVariant centerPos) {
 
 void MainWindow::loadMoreThumbnails() {
 
-	if(loadThumbnailsInThisOrder.length() == 0) return;
+	if(loadThumbnailsInThisOrder.length() == 0 && smartLoadThumbnailsInThisOrder.length() == 0) return;
 
-	int load = loadThumbnailsInThisOrder.first();
+	if(loadThumbnailsInThisOrder.length() != 0) {
 
-	if(variables->loadedThumbnails.contains(load)) {
+		int load = loadThumbnailsInThisOrder.first();
+
+		if(variables->loadedThumbnails.contains(load)) {
+			loadThumbnailsInThisOrder.removeFirst();
+			return loadMoreThumbnails();
+		}
+
 		loadThumbnailsInThisOrder.removeFirst();
-		return loadMoreThumbnails();
+
+		QMetaObject::invokeMethod(object, "reloadImage",
+					  Q_ARG(QVariant, load),
+					  Q_ARG(QVariant, false));
+		variables->loadedThumbnails.append(load);
+
+	} else {
+
+		int load = smartLoadThumbnailsInThisOrder.first();
+
+		if(variables->loadedThumbnails.contains(load)) {
+			smartLoadThumbnailsInThisOrder.removeFirst();
+			return loadMoreThumbnails();
+		}
+
+		smartLoadThumbnailsInThisOrder.removeFirst();
+
+		QMetaObject::invokeMethod(object, "reloadImage",
+					  Q_ARG(QVariant, load),
+					  Q_ARG(QVariant, true));
+		variables->loadedThumbnails.append(load);
 	}
 
-	loadThumbnailsInThisOrder.removeFirst();
+}
 
-	QMetaObject::invokeMethod(object, "reloadImage",
-				  Q_ARG(QVariant, load));
-	variables->loadedThumbnails.append(load);
-
+// This one was tried to be preloaded smartly, but didn't exist yet -> nothing done
+void MainWindow::didntLoadThisThumbnail(QVariant pos) {
+	variables->loadedThumbnails.removeAt(variables->loadedThumbnails.indexOf(pos.toInt()));
 }
 
 MainWindow::~MainWindow() { }
