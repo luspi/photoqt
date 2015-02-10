@@ -81,14 +81,15 @@ void MainWindow::openNewFile() {
 		ll.append(l.at(i).absoluteFilePath().toUtf8().toPercentEncoding("/ "));
 	settingsPerSession->setValue("allFileList",ll);
 
-	// Setiup thumbnail model
-	QMetaObject::invokeMethod(object, "setupModel",
-		Q_ARG(QVariant, ll));
-
 	// Get and store current position
 	int curPos = l.indexOf(QFileInfo(file));
 	settingsPerSession->setValue("curPos",curPos);
 	settingsPerSession->sync();
+
+	// Setiup thumbnail model
+	QMetaObject::invokeMethod(object, "setupModel",
+		Q_ARG(QVariant, ll),
+		Q_ARG(QVariant, curPos));
 
 	// Display current postiion in main image view
 	QMetaObject::invokeMethod(object, "displayImage",

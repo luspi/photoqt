@@ -83,7 +83,7 @@ Item {
     // Slots accessable by mainwindow.cpp, passed on to thumbnailbar
     function reloadImage(pos, smart) { thumbnailBar.reloadImage(pos, smart) }
     function reloadImageSmart(pos) { thumbnailBar.reloadImageSmart(pos) }
-    function setupModel(stringlist) { thumbnailBar.setupModel(stringlist) }
+    function setupModel(stringlist, pos) { thumbnailBar.setupModel(stringlist, pos) }
     function displayImage(pos) { thumbnailBar.displayImage(pos) }
     function nextImage() { thumbnailBar.nextImage(); }
     function previousImage() { thumbnailBar.previousImage(); }

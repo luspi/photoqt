@@ -52,8 +52,6 @@ QT5_ADD_RESOURCES(RESOURCES ${photoqt_RESOURCES})
 #### FINISHING UP ####
 ######################
 
-SET(CMAKE_BUILD_TYPE Debug)
-
 # moc files
 QT5_WRAP_CPP(photoqt_HEADERS_MOC ${photoqt_HEADERS})
 

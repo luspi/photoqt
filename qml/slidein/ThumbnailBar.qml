@@ -22,9 +22,8 @@ Rectangle {
 
     property int startedLoading: 0
 
-
     // Setup a new model
-    function setupModel(stringlist) {
+    function setupModel(stringlist, pos) {
 
         // remove previous index
         previousIndex = -1
@@ -36,14 +35,15 @@ Rectangle {
         totalNumberImages = stringlist.length
 
         // Add elements to model
-        for (var i = 0; i < totalNumberImages; ++i)
-            imageModel.append({"imageUrl" : stringlist[i], "counter" : i, "pre" : true, "smart" : false})
+        for(var j = 0; j < totalNumberImages; ++j)
+            imageModel.append({"imageUrl" : stringlist[j], "counter" : j, "pre" : true, "smart" : false})
 
         // (Re-)set model
         gridView.model = imageModel
 
         // Adjust gridView width
-        gridView.width = stringlist.length*gridView.cellWidth
+//        gridView.width = stringlist.length*gridView.cellWidth
+        gridView.width = stringlist.length*settings.value("Thumbnail/ThumbnailSize")
 
     }
 
@@ -71,20 +71,33 @@ Rectangle {
 
             // Newly loaded dir => center item
             if(previousIndex == -1) {
-                var x = (pos+0.5)*(thumbnailsize+thumbnailspacing)-0.5*thumbnailBar.width
-                flick.contentX = (x >= 0 ? x : 0)
+                var x = (pos+0.5)*(thumbnailsize)-0.5*thumbnailBar.width
+                var setx = x;
+                if(x < 0) x = 0
+                else if(x+flick.width > flick.contentWidth) x = flick.contentWidth-flick.width
+                flick.contentX = x
             // Ensure visible to the right
-            } else if((pos+1)*(thumbnailsize+thumbnailspacing) > visible_x+visible_width)
-                    flick.contentX = (pos+1.5)*(thumbnailsize+thumbnailspacing)-thumbnailBar.width
+            } else if((pos+1)*(thumbnailsize) > visible_x+visible_width) {
+                if(pos === totalNumberImages-1)
+                    flick.contentX = flick.contentWidth-flick.width
+                else
+                    flick.contentX = (pos+1.5)*(thumbnailsize)-thumbnailBar.width
             // Ensure visible to the left
-            else
-                if((pos-1)*(thumbnailsize+thumbnailspacing) < visible_x)
-                    flick.contentX = (pos-0.5)*(thumbnailsize+thumbnailspacing)
+            } else {
+                if(pos === 0)
+                    flick.contentX = 0
+                else if((pos-1)*(thumbnailsize) < visible_x)
+                    flick.contentX = (pos-0.5)*(thumbnailsize)
+            }
         }
 
         // Ensure loaded item is lifted up
-        if(hoveredIndex != pos) gridView.currentItem.y = gridView.currentItem.y-thumbnailliftup
-        if(previousIndex != -1 && hoveredIndex != previousIndex) previousItem.y = previousItem.y+thumbnailliftup
+        if(hoveredIndex !== pos) {
+            gridView.currentItem.y = gridView.currentItem.y-thumbnailliftup
+        }
+        if(previousIndex != -1 && hoveredIndex != previousIndex) {
+            previousItem.y = previousItem.y+thumbnailliftup
+        }
 
         // Store selected item
         previousItem = gridView.currentItem
@@ -96,19 +109,23 @@ Rectangle {
     }
 
     function getCenterPos() {
-        return (flick.contentX+flick.width/2)/(settings.value("Thumbnail/ThumbnailSize")*1+settings.value("Thumbnail/ThumbnailSpacingBetween")*1)
+        return (flick.contentX+(flick.width/2))/(settings.value("Thumbnail/ThumbnailSize")*1)
     }
 
     // Load next image
     function nextImage() {
-        displayImage(previousIndex+1);
-        scrollTimer.restart()
+        if(previousIndex+1 < totalNumberImages) {
+            displayImage(previousIndex+1);
+            scrollTimer.restart()
+        }
     }
 
     // Load previous image
     function previousImage() {
-        displayImage(previousIndex-1)
-        scrollTimer.restart()
+        if(previousIndex > 0) {
+            displayImage(previousIndex-1)
+            scrollTimer.restart()
+        }
     }
 
     // Load proper thumbnail at position 'pos' (smart == true means: ONLY IF IT EXISTS)
@@ -143,7 +160,7 @@ Rectangle {
         repeat: false
         onTriggered: {
             // Item in the center of the screen
-            var centerpos = (flick.contentX+flick.width/2)/(settings.value("Thumbnail/ThumbnailSize")*1+settings.value("Thumbnail/ThumbnailSpacingBetween")*1)
+            var centerpos = (flick.contentX+flick.width/2)/(settings.value("Thumbnail/ThumbnailSize")*1)
             // Emit 'scrolled' signal
             toplevel.thumbScrolled(centerpos)
         }
@@ -180,114 +197,90 @@ Rectangle {
             property int thumbnailliftup: settings.value("Thumbnail/ThumbnailLiftUp")*1
             property int thumbnailspacing: settings.value("Thumbnail/ThumbnailSpacingBetween")*1
 
-            Rectangle {
+            // The actual thumbnail image
+            Image {
 
-                id: imgrect
+                id: img
 
-                // half-transparent background
-                color: "#88000000"
+                // Store some values
+                property var count: counter
+                property var path: imageUrl
 
-                // Set a border
-                border.color: "#AA000000"
-                border.width: 1
-
-                // Adjust position
-                x: 0
+                // Set position
                 y: thumbnailbarheight_addon-5
+                x: 0
 
-                // Set width/height
-                width: gridView.cellWidth
-                height: gridView.cellHeight+2*thumbnailspacing
+                // Adjust size
+                width: thumbnailsize
+                height: thumbnailsize
 
-                // The actual thumbnail image
-                Image {
+                sourceSize: Qt.size(thumbnailsize,thumbnailsize)
 
-                    id: img
+                // Set image source (preload or normal) and displayed source dimension
+                source: (pre ? "" : ("image://thumb/" + (smart ? "__**__smart" : "") + imageUrl))
 
-                    // Store some values
-                    property var count: counter
-                    property var path: imageUrl
+                // Adjust different values
+                fillMode: Image.PreserveAspectFit
+                cache: false
+                asynchronous: true
 
-                    // Set position
-                    y: thumbnailspacing
-                    x: thumbnailspacing/2
+                MouseArea {
 
-                    // Adjust size
-                    width: thumbnailsize
-                    height: thumbnailsize
+                    cursorShape: Qt.PointingHandCursor
+                    anchors.fill: parent
+                    hoverEnabled: true
 
-                    // Set image source (preload or normal) and displayed source dimension
-                    source: (pre ? "qrc:/img/emptythumb.png" : ("image://thumb/" + (smart ? "__**__smart" : "") + imageUrl))
-
-                    // Adjust different values
-                    fillMode: Image.PreserveAspectFit
-                    clip: true
-                    cache: true
-                    smooth: true
-                    asynchronous: true
-
-                    verticalAlignment: Image.AlignTop
-
-                    MouseArea {
-
-                        cursorShape: Qt.PointingHandCursor
-                        anchors.fill: parent
-                        hoverEnabled: true
-
-                        // Lift item up on hover
-                        onEntered: {
-                            hoveredIndex = img.count
-                            if(img.count != gridView.currentIndex)
-                                imgrect.y = imgrect.y-thumbnailliftup;
-                        }
-                        // Remove item lift when leaving it
-                        onExited: {
-                            hoveredIndex = -1
-                            if(gridView.currentIndex != img.count)
-                                imgrect.y = imgrect.y+thumbnailliftup;
-                        }
-                        // Load thumbnail as main image
-                        onClicked: {
-                            if(previousIndex != index) {
-                                displayImage(index)
-                            }
-                        }
+                    // Lift item up on hover
+                    onEntered: {
+                        hoveredIndex = img.count
+                        if(img.count != gridView.currentIndex/* && totalNumberImages < maxNumberForAnimation*/)
+                            img.y = img.y-thumbnailliftup;
                     }
-                    // Catch 'loading completed' of thumbnail
-                    onStatusChanged: {
-                        // If image is ready and it's not a preload image
-                        if(img.status == Image.Ready && pre == false) {
-                            --startedLoading;
-                            // A size of (1,1) means, the image was smartly loaded and didn't exist yet -> re-set preload thumbnail
-                            if(img.sourceSize == Qt.size(1,1)) {
-                                didntLoadThisThumbnail(counter);
-                                imageModel.set(counter,{"imageUrl" : imageUrl, "counter" : counter, "pre" : true, "smart" : false})
-                            } else {
-                                // Start timer to commit thumbnail database
-                                timerhiddenImageCommitDatabase.restart()
-                                if(startedLoading == 0)
-                                    loadMoreThumbnails();
-                            }
+                    // Remove item lift when leaving it
+                    onExited: {
+                        hoveredIndex = -1
+                        if(gridView.currentIndex != img.count/* && totalNumberImages < maxNumberForAnimation*/)
+                            img.y = img.y+thumbnailliftup;
+                    }
+                    // Load thumbnail as main image
+                    onClicked: {
+                        if(previousIndex != index) {
+                            displayImage(index)
                         }
-
                     }
                 }
-
+                // Catch 'loading completed' of thumbnail
+                onStatusChanged: {
+                    // If image is ready and it's not a preload image
+                    if(img.status == Image.Ready && pre == false) {
+                        --startedLoading;
+                        // A size of (1,1) means, the image was smartly loaded and didn't exist yet -> re-set preload thumbnail
+                        if(img.sourceSize == Qt.size(1,1)) {
+                            didntLoadThisThumbnail(counter);
+                            imageModel.set(counter,{"imageUrl" : imageUrl, "counter" : counter, "pre" : true, "smart" : false})
+                        } else {
+                            // Start timer to commit thumbnail database
+                            timerhiddenImageCommitDatabase.restart()
+                            if(startedLoading == 0)
+                                loadMoreThumbnails();
+                        }
+                    }
+                }
                 // Rectangle+Text to display filename
                 Rectangle {
 
                     id: filenamerect
 
                     x: 3
-                    y: parent.height*0.67
+                    y: parent.height*0.2
 
                     // spacing to the left&right: 3 pixel
                     width: parent.width-6
-                    height: parent.height-y
+                    height: 30
 
                     // Some styling
-                    color: "#88000000"
-                    visible: settings.value("Thumbnail/ThumbnailWriteFilename")*1
+                    color: pre ? "#88000000" : "#00000000"
+                    visible: pre
                     radius: 3
 
                     // The actual filename text
@@ -297,7 +290,7 @@ Rectangle {
 
                         // Set filename (we need to filter it out of the path)
                         property var l: imageUrl.split("/")
-                        text: l[l.length-1]
+                        text: pre ? l[l.length-1] : ""
 
                         // Same size as parent of course
                         anchors.fill: parent
@@ -340,26 +333,18 @@ Rectangle {
         boundsBehavior: Flickable.StopAtBounds
 //        maximumFlickVelocity: 0
 
-        GridView {
+        ListView {
 
             id: gridView
 
             property int thumbnailsize: settings.value("Thumbnail/ThumbnailSize")*1
             property int thumbnailspacing: settings.value("Thumbnail/ThumbnailSpacingBetween")*1
 
-            // Center the view (if smaller than the Flickable)
-            anchors.horizontalCenter: parent.horizontalCenter
-
             // Set model and delegate
             model: imageModel
             delegate: imageDelegate
 
-            // Set fixed cell size
-            cellWidth: thumbnailsize+thumbnailspacing
-            cellHeight: thumbnailsize
-
-            // Set flow
-            flow: GridView.TopToBottom
+            orientation: ListView.Horizontal
 
         }
 

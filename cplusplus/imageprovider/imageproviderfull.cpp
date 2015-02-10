@@ -16,12 +16,12 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *s
 
 	QString filename = QByteArray::fromPercentEncoding(filename_encoded.toUtf8());
 
+	qDebug() << "requestedsize:" << requestedSize;
+
 	if(requestedSize.width() > 20 || requestedSize.height() > 20)
 		maxSize = requestedSize;
 	else
 		maxSize = settingsPerSession->value("curSize").toSize();
-
-//	if(verbose) std::clog << "[reader] zoomed: " << zoomed << std::endl;
 
 	// Which GraphicsEngine should we use?
 	QString whatToUse = whatDoIUse(filename);

@@ -24,12 +24,15 @@ private:
 	QSqlDatabase db;
 	Settings *settings;
 
-	QImage getThumbnailImage(QByteArray filename, int thbsize);
+	QImage getThumbnailImage(QByteArray filename);
 
 	bool dbTransactionStarted;
 	bool dontCreateThumbnailNew;
 
 	QHash<QString,QSize> allSizes;
+
+	int origwidth;
+	int origheight;
 
 };
 

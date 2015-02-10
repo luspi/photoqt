@@ -41,7 +41,7 @@ QPixmap ImageProviderThumbnail::requestPixmap(const QString &filename_encoded, Q
 	int thbsize = settings->value("Thumbnail/ThumbnailSize").toInt();
 
 	// Get full thumbnail
-	QImage thumbnail = getThumbnailImage(filename, width);
+	QImage thumbnail = getThumbnailImage(filename);
 
 
 	// Scaling it here as opposed to simple passing it on to QML and letting it handle the scaling there
@@ -61,14 +61,75 @@ QPixmap ImageProviderThumbnail::requestPixmap(const QString &filename_encoded, Q
 		h *= q;
 	}
 
-	// Scale image
-	thumbnail = thumbnail.scaled(w,h,Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
+	int spacing = settings->value("Thumbnail/ThumbnailSpacingBetween").toInt();
 
-	return QPixmap::fromImage(thumbnail);
+	int x = spacing/2;
+	int y = spacing/2;
+	if(w < thbsize) x = (thbsize-w)/2+spacing/2;
+	if(h < thbsize) y = (thbsize-h)/2+spacing/2;
+
+	QPixmap ret(thbsize+spacing,thbsize+spacing);
+	ret.fill(Qt::transparent);
+	QPainter p(&ret);
+	p.setOpacity(0.5);
+	p.fillRect(ret.rect(),Qt::black);
+	p.setOpacity(1);
+	p.drawImage(QRect(x,y,w,h),thumbnail,thumbnail.rect());
+//	p.drawImage(QPoint(0,0),thumbnail,QRect(0,0,thbsize,thbsize));
+	p.end();
+
+	// Scale image
+//	thumbnail = thumbnail.scaled(w,h,Qt::IgnoreAspectRatio,Qt::SmoothTransformation);
+
+	QPainter paint(&ret);
+
+	bool showFilename = true;
+	bool showDimensions = false;
+
+	bool filenameOnly = false;
+	int filenameOnlyFontsize = 8;
+	int fontsize = 8;
+
+	QTextDocument txt;
+	if(showFilename || showDimensions) {
+
+		QString textdocTXT = QString("<center><div style=\"text-align: center; font-size: %1pt; font-weight: bold; color: white; background: %2; border-radius: 10px\">").arg(filenameOnly ? filenameOnlyFontsize : fontsize).arg(filenameOnly ? "transparent" : "rgba(0,0,0,120)");
+		if(showFilename) textdocTXT += "<span>" + QFileInfo(QUrl::fromPercentEncoding(filename)).fileName() + "</span>";
+		if(showDimensions) {
+			if(showFilename) textdocTXT += "<br><i>(";
+			textdocTXT += QString("%1:%2").arg(origwidth).arg(origheight);
+			if(showFilename) textdocTXT += ")</i>";
+		}
+		textdocTXT += "</div></center>";
+
+//		qDebug() << "write filename" << textdocTXT;
+
+		txt.setHtml(textdocTXT);
+		txt.setTextWidth(thbsize+spacing);
+//		if(thumbpos == "Bottom") {
+			paint.translate(0,thbsize*(filenameOnly ? 0.1 : ((showFilename && showDimensions) ? 0.55 : 0.55)));
+//			paintHov.translate(0,size*(filenameOnly ? 0.1 : ((showFilename && showDimensions) ? 0.55 : 0.70)));
+//		} else if(thumbpos== "Top") {
+//			paint.translate(0,(filenameOnly ? size*0.1 : size/8.0));
+//			paintHov.translate(0,(filenameOnly ? size*0.1 : size/8.0));
+//		}
+		txt.drawContents(&paint);
+//		txt.drawContents(&paintHov);
+	}
+
+	paint.end();
+	
+	
+	
+	
+	
+//	paintHov.end();
+
+	return ret;
 
 }
 
-QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename, int thbsize) {
+QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
 
 	QString typeCache = (settings->value("Thumbnail/ThbCacheFile").toBool() ? "files" : "db");
 	bool cacheEnabled = settings->value("Thumbnail/ThumbnailCache").toBool();
@@ -86,8 +147,8 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename, int thbsiz
 	// as then we don't have to re-create thumbnails depending on change in settings
 	int ts = 256;
 
-	int origwidth = -1;
-	int origheight = -1;
+	origwidth = -1;
+	origheight = -1;
 
 	bool wasoncecreated = false;
 
