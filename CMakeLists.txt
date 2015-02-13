@@ -7,14 +7,14 @@ PROJECT(photoqt)
 
 #### SOURCES ####
 SET(photoqt_SOURCES cplusplus/main.cpp cplusplus/mainwindow.cpp cplusplus/variables.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/handlefiles/loaddir.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/handlefiles/loaddir.cpp cplusplus/handlefiles/getimageinfo.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/imageprovider/imageproviderfull.cpp cplusplus/imageprovider/imageproviderthumbnail.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/settings/settings.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/mainwindow.qml qml/slidein/ThumbnailBar.qml qml/mainview/Background.qml qml/mainview/Display.qml qml/mainview/QuickInfo.qml qml/slidein/MetaData.qml qml/Shortcuts.qml)
 
 #### HEADER ####
 SET(photoqt_HEADERS cplusplus/mainwindow.h cplusplus/variables.h)
-SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/handlefiles/loaddir.h)
+SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/handlefiles/loaddir.h cplusplus/handlefiles/getimageinfo.h)
 SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/imageprovider/imageproviderthumbnail.h cplusplus/imageprovider/imageproviderfull.h)
 SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/settings/settings.h)
 
@@ -44,7 +44,7 @@ SET(CMAKE_BUILD_TYPE "Debug")
 ####################################
 
 # Set resources
-SET(photoqt_RESOURCES qrc.qrc img.qrc)
+SET(photoqt_RESOURCES qml.qrc img.qrc)
 QT5_ADD_RESOURCES(RESOURCES ${photoqt_RESOURCES})
 
 

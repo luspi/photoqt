@@ -18,7 +18,7 @@ public:
 	explicit ImageProviderThumbnail();
 	~ImageProviderThumbnail();
 
-	QPixmap requestPixmap(const QString &filename_encoded, QSize *size, const QSize &requestedSize);
+	QImage requestImage(const QString &filename_encoded, QSize *size, const QSize &requestedSize);
 
 private:
 	QSqlDatabase db;

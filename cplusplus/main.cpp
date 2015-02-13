@@ -1,10 +1,10 @@
 #include <QApplication>
 #include "mainwindow.h"
-//#include <QQmlDebuggingEnabler>
+#include <QQmlDebuggingEnabler>
 
 int main(int argc, char *argv[]) {
 
-//	QQmlDebuggingEnabler enabler;
+	QQmlDebuggingEnabler enabler;
 
 	QApplication app(argc, argv);
 

@@ -1,5 +1,6 @@
 import QtQuick 2.3
 import my.settings 1.0
+import my.getimageinfo 1.0
 
 import "mainview/"
 import "slidein/"
@@ -20,6 +21,8 @@ Item {
     // Access to the permanent settings file (~/.photoqt/settings)
     Settings { id: settings }
 
+    GetImageInfo { id: getimageinfo }
+
     Shortcuts { id: sh }
 
     // Application background
@@ -35,10 +38,15 @@ Item {
 	}
 
     // The thumbnail bar at the bottom
+//    ThumbnailBar {
+//        id: thumbnailBar2
+//        objectName: "thumbnailbar2"
+//        height: settings.value("Thumbnail/ThumbnailSize")*1+thumbnailbarheight_addon
+//    }
     ThumbnailBar {
         id: thumbnailBar
         objectName: "thumbnailbar"
-		height: settings.value("Thumbnail/ThumbnailSize")*1+thumbnailbarheight_addon
+        height: settings.value("Thumbnail/ThumbnailSize")*1+thumbnailbarheight_addon
     }
 
     // The quickinfo (position in folder, filename)
@@ -66,6 +74,9 @@ Item {
 		background.width = w
 		background.height = h
 
+//        thumbnailBar2.width = w
+//        thumbnailBar2.y = (thumbKeepVisible ? 0 : -settings.value("Thumbnail/ThumbnailSize")*1+thumbnailbarheight_addon)
+
         thumbnailBar.width = w
         thumbnailBar.y = h-(thumbKeepVisible ? settings.value("Thumbnail/ThumbnailSize")*1+thumbnailbarheight_addon : 0)
 
@@ -75,14 +86,16 @@ Item {
         metaData.x = -10
         metaData.y = (h-metaData.height)/3
 
-        image.sourceSize.width = w
-        image.sourceSize.height = h
+        image.setSourceSize(w,h)
+
+//        image.sourceSize.width = w
+//        image.sourceSize.height = h
 
     }
 
     // Slots accessable by mainwindow.cpp, passed on to thumbnailbar
     function reloadImage(pos, smart) { thumbnailBar.reloadImage(pos, smart) }
-    function reloadImageSmart(pos) { thumbnailBar.reloadImageSmart(pos) }
+//    function reloadImageSmart(pos) { thumbnailBar.reloadImageSmart(pos) }
     function setupModel(stringlist, pos) { thumbnailBar.setupModel(stringlist, pos) }
     function displayImage(pos) { thumbnailBar.displayImage(pos) }
     function nextImage() { thumbnailBar.nextImage(); }

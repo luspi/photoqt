@@ -16,8 +16,6 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *s
 
 	QString filename = QByteArray::fromPercentEncoding(filename_encoded.toUtf8());
 
-	qDebug() << "requestedsize:" << requestedSize;
-
 	if(requestedSize.width() > 20 || requestedSize.height() > 20)
 		maxSize = requestedSize;
 	else
@@ -119,7 +117,7 @@ QImage ImageProviderFull::readImage_QT(QString filename) {
 		// Sometimes the size returned by reader.size() is <= 0 (observed for, e.g., .jp2 files)
 		// -> then we need to load the actual image to get dimensions
 		if(origSize.width() <= 0 || origSize.height() <= 0) {
-			qDebug() << "[imagereader qt] failed to read origsize";
+			std::cerr << "[imagereader qt] failed to read origsize" << std::endl;
 			QImageReader r;
 			r.setFileName(filename);
 			origSize = r.read().size();
