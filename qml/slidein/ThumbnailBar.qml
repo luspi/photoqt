@@ -15,6 +15,8 @@ Rectangle {
     // Index of currently hovered item
     property int hoveredIndex: -1
 
+    property int normalYPosition: thumbnailbarheight_addon-5
+
     // Transparent background
     color: "#00000000"
 
@@ -54,40 +56,23 @@ Rectangle {
             image.setAnimatedImage("file://" + imageUrl)
         else
             image.setNormalImage("image://full/" + imageUrl)
-//            image.source = "image://full/" + imageUrl
 
         // Ensure selected item is centered/visible
-        if(view.width > thumbnailBar.width) {
-
-            // content x and width of flick
-            var visible_x = view.visibleArea.xPosition*view.width
-            var visible_width = view.visibleArea.widthRatio*view.width
+        if(totalNumberImages*(thumbnailsize+thumbnailspacing) > thumbnailBar.width) {
 
             // Newly loaded dir => center item
             if(clickedIndex == -1) {
-                var x = (pos+0.5)*(thumbnailsize)-0.5*thumbnailBar.width
-                var setx = x;
-                if(x < 0) x = 0
-                else if(x+view.width > view.contentWidth) x = view.contentWidth-view.width
-                view.contentX = x
-            // Ensure visible to the right
-            } else if((pos+1)*(thumbnailsize) > visible_x+visible_width) {
-                if(pos === totalNumberImages-1)
-                    view.contentX = view.contentWidth-view.width
-                else
-                    view.contentX = (pos+1.5)*(thumbnailsize)-thumbnailBar.width
-            // Ensure visible to the left
+                view.positionViewAtIndex(pos,ListView.Center)
             } else {
-                if(pos === 0)
-                    view.contentX = 0
-                else if((pos-1)*(thumbnailsize) < visible_x)
-                    view.contentX = (pos-0.5)*(thumbnailsize)
+                view.positionViewAtIndex(pos-1,ListView.Contain)
+                view.positionViewAtIndex(pos+1,ListView.Contain)
+                scrollTimer.restart()
             }
         }
 
         // Ensure old item is not lifted up anymore
         if(clickedIndex !== pos && clickedIndex != -1)
-            clickedItem.y = clickedItem.y+thumbnailliftup
+            clickedItem.y = normalYPosition
 
         // We use the current{Index,Item} to get the actual view item (not possible otherwise as far as I know)
         view.currentIndex = pos
@@ -95,8 +80,10 @@ Rectangle {
         clickedItem = view.currentItem
 
         // Ensure new item is lifted up
-        if(pos !== -1 && pos != hoveredIndex)
-            clickedItem.y = clickedItem.y-thumbnailliftup
+        if(pos !== -1 && pos !== hoveredIndex)
+            clickedItem.y = normalYPosition-thumbnailliftup
+
+        hoveredIndex = pos
 
         // Update quickinfo (position, filename)
         quickInfo.updateQuickInfo(pos, totalNumberImages, imageUrl);
@@ -151,7 +138,7 @@ Rectangle {
     // If the view was scrolled/moved, this timer is set off
     Timer {
         id: scrollTimer
-        interval: 500
+        interval: 300
         running: false
         repeat: false
         onTriggered: {
@@ -194,7 +181,7 @@ Rectangle {
         }
 
         // Set delegate
-        delegate: viewDelegate
+        delegate: imageDelegate
 
         // Turn it horizontal
         orientation: ListView.Horizontal
@@ -205,100 +192,6 @@ Rectangle {
             var centerpos = getCenterPos()
             // Emit 'scrolled' signal
             toplevel.thumbScrolled(centerpos)
-        }
-    }
-
-    // Load the right delegate depending on 'pre' or not 'pre'
-    Component {
-        id: viewDelegate
-        Loader {
-            property string _imageUrl: imageUrl
-            property bool _smart: smart
-            property int _counter: counter
-            sourceComponent: pre ? emptyDelegate : imageDelegate
-        }
-    }
-
-    // Preload delegate (rectangle with filename)
-    Component {
-
-        id: emptyDelegate
-
-        Rectangle {
-
-            id: img
-            objectName: "emptyDelegate"
-
-            // Store some values...
-            property int thumbnailsize: settings.value("Thumbnail/ThumbnailSize")*1
-            property int thumbnailliftup: settings.value("Thumbnail/ThumbnailLiftUp")*1
-
-            // ... and some properties
-            property var count: _counter
-            property var path: _imageUrl
-
-            // Set position
-            x: 0
-            y: thumbnailbarheight_addon-5
-
-            // Adjust size
-            width: thumbnailsize
-            height: thumbnailsize
-
-            // Add border
-            border.color: "black"
-            border.width: 1
-
-            // Set background color to half-transparent
-            color: "#88000000"
-
-            Text {
-
-                x: 7
-                y: 7
-
-                width: parent.width-14
-                height: parent.height-14
-
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-
-                color: "white"
-                wrapMode: Text.WrapAnywhere
-                font.bold: true
-                font.pointSize: settings.value("Thumbnail/ThumbnailFontSize")*1
-
-                // Set filename
-                property var p: _imageUrl.split("/")
-                text: p[p.length-1]
-
-            }
-
-            MouseArea {
-
-                cursorShape: Qt.PointingHandCursor
-                anchors.fill: parent
-                hoverEnabled: true
-
-                // Lift item up on hover
-                onEntered: {
-                    hoveredIndex = img.count
-                    if(img.count != clickedIndex)
-                        img.y = img.y-thumbnailliftup;
-                }
-                // Remove item lift when leaving it
-                onExited: {
-                    hoveredIndex = -1
-                    if(clickedIndex != img.count)
-                        img.y = img.y+thumbnailliftup;
-                }
-                // Load thumbnail as main image
-                onClicked: {
-                    if(clickedIndex != hoveredIndex) {
-                        displayImage(hoveredIndex)
-                    }
-                }
-            }
         }
     }
 
@@ -314,11 +207,11 @@ Rectangle {
             property int thumbnailliftup: settings.value("Thumbnail/ThumbnailLiftUp")*1
             property int thumbnailspacing: settings.value("Thumbnail/ThumbnailSpacingBetween")*1
 
-            property var count: _counter
-            property var path: _imageUrl
+            property var count: counter
+            property var path: imageUrl
 
             x: 0
-            y: thumbnailbarheight_addon-5
+            y: normalYPosition
 
             width: thumbnailsize
             height: thumbnailsize
@@ -335,7 +228,9 @@ Rectangle {
                 sourceSize: Qt.size(thumbnailsize,thumbnailsize)
 
                 // Set image source (preload or normal) and displayed source dimension
-                source: "image://thumb/" + (_smart ? "__**_smart" : "") + _imageUrl
+                source: (pre ? "" : "image://thumb/" + (smart ? "__**_smart" : "") + imageUrl)
+
+                visible: !pre
 
                 // Set position
                 x: thumbnailspacing/2
@@ -349,45 +244,49 @@ Rectangle {
                 cache: false
                 asynchronous: true
 
-                MouseArea {
-
-                    cursorShape: Qt.PointingHandCursor
-                    anchors.fill: parent
-                    hoverEnabled: true
-
-                    // Lift item up on hover
-                    onEntered: {
-                        hoveredIndex = imgrect.count
-                        if(imgrect.count != clickedIndex)
-                            imgrect.y = imgrect.y-thumbnailliftup;
-                    }
-                    // Remove item lift when leaving it
-                    onExited: {
-                        hoveredIndex = -1
-                        if(clickedIndex != imgrect.count)
-                            imgrect.y = imgrect.y+thumbnailliftup;
-                    }
-                    // Load thumbnail as main image
-                    onClicked: {
-                        if(clickedIndex != hoveredIndex) {
-                            displayImage(hoveredIndex)
-                        }
-                    }
-                }
-
                 // Catch 'loading completed' of thumbnail
                 onStatusChanged: {
                     // If image is ready and it's not a preload image
                     if(img.status == Image.Ready) {
                         // A size of (1,1) means, the image was smartly loaded and didn't exist yet -> re-set preload thumbnail
                         if(img.sourceSize == Qt.size(1,1)) {
-                            didntLoadThisThumbnail(_counter);
-                            imageModel.set(counter,{"imageUrl" : _imageUrl, "counter" : _counter, "pre" : true, "smart" : false})
+                            didntLoadThisThumbnail(counter);
+                            imageModel.set(counter,{"imageUrl" : imageUrl, "counter" : counter, "pre" : true, "smart" : false})
                         } else {
                             // Start timer to commit thumbnail database
                             timerhiddenImageCommitDatabase.restart()
                             loadMoreThumbnails();
                         }
+                    }
+                }
+            }
+
+            MouseArea {
+
+                cursorShape: Qt.PointingHandCursor
+                anchors.fill: parent
+                hoverEnabled: true
+
+                // Lift item up on hover
+                onPositionChanged: {
+                    if(imgrect.y == normalYPosition)
+                        imgrect.y = normalYPosition-thumbnailliftup
+                    hoveredIndex = imgrect.count
+                }
+                onEntered: {
+                    if(imgrect.y == normalYPosition)
+                        imgrect.y = normalYPosition-thumbnailliftup
+                    hoveredIndex = imgrect.count
+                }
+                // Remove item lift when leaving it
+                onExited: {
+                    if(clickedIndex != imgrect.count && hoveredIndex == imgrect.count)
+                        imgrect.y = normalYPosition
+                }
+                // Load thumbnail as main image
+                onClicked: {
+                    if(clickedIndex != hoveredIndex) {
+                        displayImage(hoveredIndex)
                     }
                 }
             }
@@ -420,7 +319,7 @@ Rectangle {
                     maximumLineCount: 1
                     elide: Text.ElideRight
 
-                    property var p: _imageUrl.split("/")
+                    property var p: imageUrl.split("/")
                     text: p[p.length-1]
 
                 }
