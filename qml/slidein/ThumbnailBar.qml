@@ -228,7 +228,7 @@ Rectangle {
                 sourceSize: Qt.size(thumbnailsize,thumbnailsize)
 
                 // Set image source (preload or normal) and displayed source dimension
-                source: (pre ? "" : "image://thumb/" + (smart ? "__**_smart" : "") + imageUrl)
+                source: (pre ? "qrc:/img/emptythumb.png" : "image://thumb/" + (smart ? "__**__smart" : "") + imageUrl)
 
                 visible: !pre
 
