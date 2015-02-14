@@ -37,7 +37,6 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 	connect(object, SIGNAL(openFile()), this, SLOT(openNewFile()));
 
 	connect(object, SIGNAL(loadMoreThumbnails()), this, SLOT(loadMoreThumbnails()));
-	connect(object, SIGNAL(didntLoadThisThumbnail(QVariant)), this, SLOT(didntLoadThisThumbnail(QVariant)));
 
 	// Quit PhotoQt
 	connect(this->engine(), SIGNAL(quit()), qApp, SLOT(quit()));
@@ -124,7 +123,7 @@ void MainWindow::handleThumbnails(QVariant centerPos) {
 	// Load full directory
 	if(dynamicSmartNormal == 0) numberToOneSide = qMax(currentCenter,countTot-currentCenter);
 	int maxLoad = numberToOneSide;
-	if(dynamicSmartNormal == 2) maxLoad = qMax(currentCenter,countTot-currentCenter);
+//	if(dynamicSmartNormal == 2) maxLoad = qMax(currentCenter,countTot-currentCenter);
 
 	loadThumbnailsInThisOrder.clear();
 	smartLoadThumbnailsInThisOrder.clear();
@@ -187,11 +186,6 @@ void MainWindow::loadMoreThumbnails() {
 		variables->loadedThumbnails.append(load);
 	}
 
-}
-
-// This one was tried to be preloaded smartly, but didn't exist yet -> nothing done
-void MainWindow::didntLoadThisThumbnail(QVariant pos) {
-	variables->loadedThumbnails.removeAt(variables->loadedThumbnails.indexOf(pos.toInt()));
 }
 
 MainWindow::~MainWindow() { }

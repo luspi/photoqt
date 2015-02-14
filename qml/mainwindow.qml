@@ -16,7 +16,6 @@ Item {
     signal thumbScrolled(var filenameAtCenter)
     signal openFile()
     signal loadMoreThumbnails();
-    signal didntLoadThisThumbnail(var pos);
 
     // Access to the permanent settings file (~/.photoqt/settings)
     Settings { id: settings }
@@ -38,11 +37,6 @@ Item {
 	}
 
     // The thumbnail bar at the bottom
-//    ThumbnailBar {
-//        id: thumbnailBar2
-//        objectName: "thumbnailbar2"
-//        height: settings.value("Thumbnail/ThumbnailSize")*1+thumbnailbarheight_addon
-//    }
     ThumbnailBar {
         id: thumbnailBar
         objectName: "thumbnailbar"

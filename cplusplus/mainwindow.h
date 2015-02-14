@@ -38,7 +38,6 @@ private:
 	int currentCenter;
 	QList<int> loadThumbnailsInThisOrder;
 	QList<int> smartLoadThumbnailsInThisOrder;
-//	bool smartHandleThumbs_stopit;
 
 private slots:
 	void openNewFile();
@@ -47,7 +46,6 @@ private slots:
 
 	void handleThumbnails(QVariant centerPos);
 	void loadMoreThumbnails();
-	void didntLoadThisThumbnail(QVariant pos);
 
 signals:
 	void doSetupModel();

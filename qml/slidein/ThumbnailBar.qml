@@ -1,6 +1,8 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 
+import "../elements/"
+
 Rectangle {
 
     id: thumbnailBar
@@ -15,7 +17,7 @@ Rectangle {
     // Index of currently hovered item
     property int hoveredIndex: -1
 
-    property int normalYPosition: thumbnailbarheight_addon-5
+    property int normalYPosition: thumbnailbarheight_addon-12
 
     // Transparent background
     color: "#00000000"
@@ -163,7 +165,6 @@ Rectangle {
         }
     }
 
-    // View containing all the thumbnails
     ListView {
 
         id: view
@@ -193,6 +194,12 @@ Rectangle {
             // Emit 'scrolled' signal
             toplevel.thumbScrolled(centerpos)
         }
+
+    }
+
+    ScrollBarHorizontal {
+        flickable: view;
+        onScrollFinished: scrollTimer.restart()
     }
 
     Component {
@@ -248,15 +255,9 @@ Rectangle {
                 onStatusChanged: {
                     // If image is ready and it's not a preload image
                     if(img.status == Image.Ready) {
-                        // A size of (1,1) means, the image was smartly loaded and didn't exist yet -> re-set preload thumbnail
-                        if(img.sourceSize == Qt.size(1,1)) {
-                            didntLoadThisThumbnail(counter);
-                            imageModel.set(counter,{"imageUrl" : imageUrl, "counter" : counter, "pre" : true, "smart" : false})
-                        } else {
-                            // Start timer to commit thumbnail database
-                            timerhiddenImageCommitDatabase.restart()
-                            loadMoreThumbnails();
-                        }
+                        // Start timer to commit thumbnail database
+                        timerhiddenImageCommitDatabase.restart()
+                        loadMoreThumbnails();
                     }
                 }
             }

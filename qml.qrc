@@ -7,5 +7,6 @@
         <file>qml/slidein/ThumbnailBar.qml</file>
         <file>qml/slidein/MetaData.qml</file>
         <file>qml/Shortcuts.qml</file>
+        <file>qml/elements/ScrollBarHorizontal.qml</file>
     </qresource>
 </RCC>

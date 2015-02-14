@@ -43,21 +43,6 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *s
 	else
 		ret = readImage_QT(filename);
 
-	int w = ret.width();
-	int h = ret.height();
-	if(w < maxSize.width() && h < maxSize.height()) {
-		QPixmap retS(w,maxSize.height());
-		retS.fill(Qt::transparent);
-		int x = 0;
-		int y = 0;
-		if(h < maxSize.height())
-			y = (maxSize.height()-h)/2;
-		QPainter retP(&retS);
-		retP.drawImage(x,y,ret);
-		retP.end();
-		return retS.toImage();
-	}
-
 	return ret;
 
 }
