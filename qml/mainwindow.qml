@@ -16,6 +16,7 @@ Item {
     signal thumbScrolled(var filenameAtCenter)
     signal openFile()
     signal loadMoreThumbnails();
+    signal didntLoadThisThumbnail(var pos);
 
     // Access to the permanent settings file (~/.photoqt/settings)
     Settings { id: settings; }

@@ -228,7 +228,8 @@ Rectangle {
 
                 id: img
 
-                sourceSize: Qt.size(settings.thumbnailsize,settings.thumbnailsize)
+                // DO NOT SET SOURCESIZE - THIS WOULD BREAK 'SMART THUMBNAILS'
+                // sourceSize: Qt.size(settings.thumbnailsize,settings.thumbnailsize)
 
                 // Set image source (preload or normal) and displayed source dimension
                 source: (pre ? "qrc:/img/emptythumb.png" : "image://thumb/" + (smart ? "__**__smart" : "") + imageUrl)
@@ -251,9 +252,14 @@ Rectangle {
                 onStatusChanged: {
                     // If image is ready and it's not a preload image
                     if(img.status == Image.Ready) {
-                        // Start timer to commit thumbnail database
-                        timerhiddenImageCommitDatabase.restart()
-                        loadMoreThumbnails();
+                        if(img.sourceSize == Qt.size(1,1)) {
+                            didntLoadThisThumbnail(counter);
+                            imageModel.set(counter,{"imageUrl" : imageUrl, "counter" : counter, "pre" : true, "smart" : false})
+                        } else {
+                            // Start timer to commit thumbnail database
+                            timerhiddenImageCommitDatabase.restart()
+                            loadMoreThumbnails();
+                        }
                     }
                 }
             }

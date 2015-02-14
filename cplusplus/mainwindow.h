@@ -46,6 +46,7 @@ private slots:
 
 	void handleThumbnails(QVariant centerPos);
 	void loadMoreThumbnails();
+	void didntLoadThisThumbnail(QVariant pos);
 
 signals:
 	void doSetupModel();

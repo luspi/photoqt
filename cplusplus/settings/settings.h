@@ -22,6 +22,7 @@ class Settings : public QObject {
 
 public:
 	explicit Settings(QObject *parent = 0) : QObject(parent) {
+		verbose = false;
 		readSettings();
 		watcher = new QFileSystemWatcher;
 		watcher->addPath(QDir::homePath() + "/.photoqt/settings");
