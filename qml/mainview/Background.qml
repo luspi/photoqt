@@ -1,46 +1,88 @@
 import QtQuick 2.3
+import QtQuick.Controls 1.2
 
 Rectangle {
 
 	id: background
 	color: "#AA000000"
 
-    // Show thumbnail bar
-	MouseArea {
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
 
-        x: 0
-        y: background.height-50
+        // Hides everything when no other area is hovered
+        onPositionChanged: {
+            hideEverything()
+        }
 
-		width: background.width
-		height: 50
+        // METADATA
+        MouseArea {
+            x: 0
+            y: metaData.y
+            height: metaData.height
+            width: metaData.width
+            hoverEnabled: true
 
-		hoverEnabled: true
-
-        onEntered:
-            PropertyAnimation {
-                    target:  thumbnailBar
-                    property: (settings.thumbnailKeepVisible == 0 ? "y" : "");
-                    to: background.height-settings.thumbnailsize-thumbnailbarheight_addon
+            MouseArea {
+                x: 0
+                y: 0
+                height: parent.height
+                width: 25
+                hoverEnabled: true
+                onEntered:
+                    PropertyAnimation {
+                        target: metaData
+                        property: "x"
+                        to: -metaData.radius
+                    }
             }
-	}
 
-    // Hide thumbnail bar
-	MouseArea {
+        }
 
-        x: 0
-        y: 0
+        // THUMBNAILBAR
+        MouseArea {
+            x: 0
+            y: background.height-thumbnailBar.height
+            width: thumbnailBar.width
+            height:thumbnailBar.height
+            hoverEnabled: true
 
-		width: background.width
-        height: background.height-settings.thumbnailsize-thumbnailbarheight_addon-50
+            MouseArea {
+                x: 0
+                y: parent.height-50
+                width: parent.width
+                height: 50
+                hoverEnabled: true
+                onEntered:
+                    PropertyAnimation {
+                            target:  thumbnailBar
+                            property: (settings.thumbnailKeepVisible == 0 ? "y" : "");
+                            to: background.height-thumbnailBar.height
+                    }
+            }
 
-		hoverEnabled: true
+        }
 
-		onEntered:
-			PropertyAnimation {
-				target: thumbnailBar
-				property: "y"
-                to: background.height-(settings.thumbnailKeepVisible ? settings.thumbnailsize+thumbnailbarheight_addon : 0)
-		}
-	}
+    }
+
+    // Hide elements
+
+    function hideEverything() {
+        hideThumbnailBar.start()
+        hideMetaData.start()
+    }
+
+    PropertyAnimation {
+        id: hideThumbnailBar
+        target:  thumbnailBar
+        property: (settings.thumbnailKeepVisible == 0 ? "y" : "");
+        to: background.height
+    }
+    PropertyAnimation {
+        id: hideMetaData
+        target: metaData
+        property: "x"
+        to: -metaData.width
+    }
 
 }
