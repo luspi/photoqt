@@ -21,43 +21,24 @@ Item {
     // Access to the permanent settings file (~/.photoqt/settings)
     Settings { id: settings; }
 
-    GetImageInfo { id: getimageinfo }
+    GetImageInfo { id: getimageinfo; }
 
-    Shortcuts { id: sh }
+    Shortcuts { id: sh; }
 
     // Application background
-	Background {
-		id: background
-		objectName: "background"
-	}
+    Background { id: background; }
 
     // The main displayed image
-	Display {
-		id: image
-		objectName: "image"
-	}
+    Display { id: image; }
 
     // The thumbnail bar at the bottom
-    ThumbnailBar {
-        id: thumbnailBar
-        objectName: "thumbnailbar"
-    }
+    ThumbnailBar { id: thumbnailBar; }
 
     // The quickinfo (position in folder, filename)
-	QuickInfo {
-		id: quickInfo
-		x:5
-		y:5
-	}
+    QuickInfo { id: quickInfo; }
 
     // MetaData of the image (using the C++ Exiv2 library)
-    MetaData {
-        id: metaData
-        width: 300
-        height: 550
-        radius: 10
-        objectName: "metaData"
-    }
+    MetaData { id: metaData; }
 
 
     // Adjust size of all the elements
@@ -66,28 +47,21 @@ Item {
 		background.width = w
 		background.height = h
 
-//        thumbnailBar2.width = w
-//        thumbnailBar2.y = (thumbKeepVisible ? 0 : -settings.value("Thumbnail/ThumbnailSize")*1+thumbnailbarheight_addon)
-
         thumbnailBar.width = w
         thumbnailBar.y = h-(settings.thumbnailKeepVisible ? settings.thumbnailsize+thumbnailbarheight_addon : 0)
 
 		image.width = w
         image.height = (settings.thumbnailKeepVisible ? h-thumbnailBar.height+thumbnailbarheight_addon/2 : h)
 
-        metaData.x = -10
+        metaData.x = -metaData.width
         metaData.y = (h-metaData.height)/3
 
         image.setSourceSize(w,h)
-
-//        image.sourceSize.width = w
-//        image.sourceSize.height = h
 
     }
 
     // Slots accessable by mainwindow.cpp, passed on to thumbnailbar
     function reloadImage(pos, smart) { thumbnailBar.reloadImage(pos, smart) }
-//    function reloadImageSmart(pos) { thumbnailBar.reloadImageSmart(pos) }
     function setupModel(stringlist, pos) { thumbnailBar.setupModel(stringlist, pos) }
     function displayImage(pos) { thumbnailBar.displayImage(pos) }
     function nextImage() { thumbnailBar.nextImage(); }
