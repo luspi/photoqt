@@ -4,6 +4,9 @@ import QtQuick 2.3
 
 Item {
 
+    x:5
+    y:5
+
     // Set data
 	function updateQuickInfo(pos, totalNumberImages, filepath) {
 		counter.text = (pos+1).toString() + "/" + totalNumberImages.toString()
