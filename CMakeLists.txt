@@ -10,7 +10,11 @@ SET(photoqt_SOURCES cplusplus/main.cpp cplusplus/mainwindow.cpp cplusplus/variab
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/handlefiles/loaddir.cpp cplusplus/handlefiles/getimageinfo.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/imageprovider/imageproviderfull.cpp cplusplus/imageprovider/imageproviderthumbnail.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/settings/settings.h cplusplus/settings/fileformats.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} qml/mainwindow.qml qml/slidein/ThumbnailBar.qml qml/mainview/Background.qml qml/mainview/Display.qml qml/mainview/QuickInfo.qml qml/slidein/MetaData.qml qml/Shortcuts.qml qml/elements/ScrollBarHorizontal.qml)
+
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/mainwindow.qml qml/Shortcuts.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/slidein/ThumbnailBar.qml qml/slidein/MetaData.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/mainview/Background.qml qml/mainview/Display.qml qml/mainview/QuickInfo.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/ScrollBarHorizontal.qml)
 
 #### HEADER ####
 SET(photoqt_HEADERS cplusplus/mainwindow.h cplusplus/variables.h)
