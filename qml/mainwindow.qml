@@ -1,6 +1,6 @@
 import QtQuick 2.3
-import my.settings 1.0
-import my.getimageinfo 1.0
+import Settings 1.0
+import GetImageInfo 1.0
 
 import "mainview/"
 import "slidein/"
@@ -18,7 +18,7 @@ Item {
     signal loadMoreThumbnails();
 
     // Access to the permanent settings file (~/.photoqt/settings)
-    Settings { id: settings }
+    Settings { id: settings; }
 
     GetImageInfo { id: getimageinfo }
 
@@ -40,7 +40,6 @@ Item {
     ThumbnailBar {
         id: thumbnailBar
         objectName: "thumbnailbar"
-        height: settings.value("Thumbnail/ThumbnailSize")*1+thumbnailbarheight_addon
     }
 
     // The quickinfo (position in folder, filename)
@@ -63,8 +62,6 @@ Item {
     // Adjust size of all the elements
 	function resizeElements(w,h) {
 
-        var thumbKeepVisible = settings.value("Thumbnail/ThumbnailKeepVisible")*1
-
 		background.width = w
 		background.height = h
 
@@ -72,10 +69,10 @@ Item {
 //        thumbnailBar2.y = (thumbKeepVisible ? 0 : -settings.value("Thumbnail/ThumbnailSize")*1+thumbnailbarheight_addon)
 
         thumbnailBar.width = w
-        thumbnailBar.y = h-(thumbKeepVisible ? settings.value("Thumbnail/ThumbnailSize")*1+thumbnailbarheight_addon : 0)
+        thumbnailBar.y = h-(settings.thumbnailKeepVisible ? settings.thumbnailsize+thumbnailbarheight_addon : 0)
 
 		image.width = w
-        image.height = (thumbKeepVisible ? h-thumbnailBar.height+thumbnailbarheight_addon/2 : h)
+        image.height = (settings.thumbnailKeepVisible ? h-thumbnailBar.height+thumbnailbarheight_addon/2 : h)
 
         metaData.x = -10
         metaData.y = (h-metaData.height)/3

@@ -22,6 +22,9 @@ Rectangle {
     // Transparent background
     color: "#00000000"
 
+    height: settings.thumbnailsize+thumbnailbarheight_addon
+//    y: parent.height-(settings.thumbnailKeepVisible ? settings.thumbnailsize+thumbnailbarheight_addon : 0)
+
     function setupModel(stringlist, pos) {
 
         // remove previous index
@@ -41,7 +44,7 @@ Rectangle {
         view.model = imageModel
 
         // Adjust gridView width
-        view.width = stringlist.length*settings.value("Thumbnail/ThumbnailSize")
+        view.width = stringlist.length*settings.thumbnailsize
 
     }
 
@@ -49,9 +52,6 @@ Rectangle {
 
         // Store some values
         var imageUrl = imageModel.get(pos).imageUrl;
-        var thumbnailliftup = settings.value("Thumbnail/ThumbnailLiftUp")*1
-        var thumbnailsize = settings.value("Thumbnail/ThumbnailSize")*1
-        var thumbnailspacing = settings.value("Thumbnail/ThumbnailSpacingBetween")*1
 
         // Load image
         if(getimageinfo.isAnimated(imageUrl))
@@ -60,7 +60,7 @@ Rectangle {
             image.setNormalImage("image://full/" + imageUrl)
 
         // Ensure selected item is centered/visible
-        if(totalNumberImages*(thumbnailsize+thumbnailspacing) > thumbnailBar.width) {
+        if(totalNumberImages*(settings.thumbnailsize+settings.thumbnailSpacingBetween) > thumbnailBar.width) {
 
             // Newly loaded dir => center item
             if(clickedIndex == -1) {
@@ -83,7 +83,7 @@ Rectangle {
 
         // Ensure new item is lifted up
         if(pos !== -1 && pos !== hoveredIndex)
-            clickedItem.y = normalYPosition-thumbnailliftup
+            clickedItem.y = normalYPosition-settings.thumbnailLiftUp
 
         hoveredIndex = pos
 
@@ -93,7 +93,7 @@ Rectangle {
     }
 
     function getCenterPos() {
-        return (view.contentX+(view.width/2))/(settings.value("Thumbnail/ThumbnailSize")*1)
+        return (view.contentX+(view.width/2))/(settings.thumbnailsize)
     }
 
     // Load next image
@@ -145,7 +145,7 @@ Rectangle {
         repeat: false
         onTriggered: {
             // Item in the center of the screen
-            var centerpos = (view.contentX+view.width/2)/(settings.value("Thumbnail/ThumbnailSize")*1)
+            var centerpos = (view.contentX+view.width/2)/(settings.thumbnailsize)
             // Emit 'scrolled' signal
             toplevel.thumbScrolled(centerpos)
         }
@@ -210,18 +210,14 @@ Rectangle {
 
             id: imgrect
 
-            property int thumbnailsize: settings.value("Thumbnail/ThumbnailSize")*1
-            property int thumbnailliftup: settings.value("Thumbnail/ThumbnailLiftUp")*1
-            property int thumbnailspacing: settings.value("Thumbnail/ThumbnailSpacingBetween")*1
-
             property var count: counter
             property var path: imageUrl
 
             x: 0
             y: normalYPosition
 
-            width: thumbnailsize
-            height: thumbnailsize
+            width: settings.thumbnailsize
+            height: settings.thumbnailsize
 
             color: "#88000000"
 
@@ -232,7 +228,7 @@ Rectangle {
 
                 id: img
 
-                sourceSize: Qt.size(thumbnailsize,thumbnailsize)
+                sourceSize: Qt.size(settings.thumbnailsize,settings.thumbnailsize)
 
                 // Set image source (preload or normal) and displayed source dimension
                 source: (pre ? "qrc:/img/emptythumb.png" : "image://thumb/" + (smart ? "__**__smart" : "") + imageUrl)
@@ -240,12 +236,12 @@ Rectangle {
                 visible: !pre
 
                 // Set position
-                x: thumbnailspacing/2
-                y: thumbnailspacing/2
+                x: settings.thumbnailSpacingBetween/2
+                y: settings.thumbnailSpacingBetween/2
 
                 // Adjust size
-                width: parent.width-thumbnailspacing
-                height: parent.height-thumbnailspacing
+                width: parent.width-settings.thumbnailSpacingBetween
+                height: parent.height-settings.thumbnailSpacingBetween
 
                 fillMode: Image.PreserveAspectFit
                 cache: false
@@ -271,12 +267,12 @@ Rectangle {
                 // Lift item up on hover
                 onPositionChanged: {
                     if(imgrect.y == normalYPosition)
-                        imgrect.y = normalYPosition-thumbnailliftup
+                        imgrect.y = normalYPosition-settings.thumbnailLiftUp
                     hoveredIndex = imgrect.count
                 }
                 onEntered: {
                     if(imgrect.y == normalYPosition)
-                        imgrect.y = normalYPosition-thumbnailliftup
+                        imgrect.y = normalYPosition-settings.thumbnailLiftUp
                     hoveredIndex = imgrect.count
                 }
                 // Remove item lift when leaving it
@@ -315,7 +311,7 @@ Rectangle {
 
                     color: "white"
                     font.bold: true
-                    font.pointSize: settings.value("Thumbnail/ThumbnailFontSize")*1
+                    font.pointSize: settings.thumbnailFontSize
                     wrapMode: Text.WrapAnywhere
                     maximumLineCount: 1
                     elide: Text.ElideRight

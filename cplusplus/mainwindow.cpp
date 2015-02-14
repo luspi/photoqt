@@ -12,8 +12,8 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 	this->engine()->addImageProvider("full",new ImageProviderFull);
 
 	// Add settings access to QML
-	qmlRegisterType<Settings>("my.settings", 1, 0, "Settings");
-	qmlRegisterType<GetImageInfo>("my.getimageinfo", 1, 0, "GetImageInfo");
+	qmlRegisterType<Settings>("Settings", 1, 0, "Settings");
+	qmlRegisterType<GetImageInfo>("GetImageInfo", 1, 0, "GetImageInfo");
 
 	// Load QML
 	this->setSource(QUrl("qrc:/qml/mainwindow.qml"));
@@ -61,7 +61,24 @@ void MainWindow::resized() {
 void MainWindow::openNewFile() {
 
 	// Get new filename
-	QByteArray file = QFileDialog::getOpenFileName(0,tr("Open image file"),QDir::homePath(),tr("All Files") + " (*)").toUtf8();
+	QString opendir = QDir::homePath();
+	if(variables->currentDir != "")
+		opendir = variables->currentDir;
+
+	// Get new filename
+	QString known = settingsPermanent->knownFileTypes;
+	known = known.replace(","," ");
+	known = known.replace("**","*");
+	QString knownQT = settingsPermanent->knownFileTypesQt + (settingsPermanent->knownFileTypesQtExtras.length() != 0 ? "," + settingsPermanent->knownFileTypesQtExtras : "");
+	knownQT = knownQT.replace(","," ");
+	QString knownGM = settingsPermanent->knownFileTypesGm;
+	knownGM = knownGM.replace(","," ");
+	QByteArray file = QFileDialog::getOpenFileName(0,tr("Open image file"),opendir,tr("Images") + " (" + known + ");;"
+										+ tr("Images") + " (Qt)" + " (" + knownQT + ");;"
+					       #ifdef GM
+										+ tr("Images") + " (GraphicsMagick)" + " (" + knownGM + ");;"
+					       #endif
+										+ tr("All Files") + " (*)").toUtf8();
 
 	if(file.trimmed() == "") return;
 
@@ -109,9 +126,9 @@ void MainWindow::openNewFile() {
 void MainWindow::handleThumbnails(QVariant centerPos) {
 
 	// Get some settings for later use
-	int thumbSize = settingsPermanent->value("Thumbnail/ThumbnailSize").toInt();
-	int thumbSpacing = settingsPermanent->value("Thumbnail/ThumbnailSpacingBetween").toInt();
-	int dynamicSmartNormal = settingsPermanent->value("Thumbnail/ThumbnailDynamic").toInt();
+	int thumbSize = settingsPermanent->getThumbnailsize();
+	int thumbSpacing = settingsPermanent->getThumbnailSpacingBetween();
+	int dynamicSmartNormal = settingsPermanent->thumbnailDynamic;
 
 	// Get total and center pos
 	int countTot = settingsPerSession->value("countTot").toInt();

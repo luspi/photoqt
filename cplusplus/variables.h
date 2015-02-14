@@ -8,10 +8,12 @@ class Variables {
 public:
 	Variables() {
 		loadedThumbnails.clear();
+		currentDir = "";
 	}
 
 public:
 	QList<int> loadedThumbnails;
+	QString currentDir;
 
 };
 

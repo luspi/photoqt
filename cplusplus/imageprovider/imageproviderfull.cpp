@@ -6,9 +6,9 @@ ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider
 
 	settingsPerSession = new QSettings("photoqt_session");
 
-	gmfiles = "*.avs,*.x,*.cals,*.cal,*.dcl,*.ras,*.cin,*.cut,*.acr,*.dcm,*.dicom,*.dic,*.dcx,*.dib,*.dpx,*.epdf,*.fax,*.fits,*.fts,*.fit,*.fpx,*.jng,*.mat,*.miff,*.mono,*.mtv,*.otb,*.p7,*.palm,*.pam,*.pcd,*.pcds,*.pcx,*.pdb,*.pict,*.pct,*.pic,*.pix,*.pal,*.pnm,*.psd,*.ptif,*.ptiff,*.sfw,*.sgi,*.sun,*.tga,*.txt,*.vicar,*.viff,*.wpg,*.xwd";
-	qtfiles = "*.bmp,*.bitmap,*.dds,*.gif,*.tif,*.tiff,*.jpeg2000,*.jp2,*.jpc,*.j2k,*.jpf,*.jpx,*.jpm,*.mj2,*.mng,*.ico,*.icns,*.jpeg,*.jpg,*.png,*.pbm,*.pgm,*.ppm,*.svg,*.svgz,*.wbmp,*.webp,*.xbm,*.xpm,*.fil";
-	extrasfiles = "";
+	gmfiles = settings.knownFileTypesGm;
+	qtfiles = settings.knownFileTypesQt+","+settings.knownFileTypesQtExtras;
+	extrasfiles = settings.knownFileTypesExtras;
 
 }
 

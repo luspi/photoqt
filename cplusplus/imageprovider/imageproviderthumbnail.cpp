@@ -37,7 +37,7 @@ QImage ImageProviderThumbnail::requestImage(const QString &filename_encoded, QSi
 
 	// Some general settings that are needed multiple times later-on
 	int width = requestedSize.width();
-	if(width == -1) width = settings->value("Thumbnail/ThumbnailSize").toInt();
+	if(width == -1) width = settings->thumbnailsize;
 
 	// Return full thumbnail
 	return getThumbnailImage(filename);
@@ -46,8 +46,8 @@ QImage ImageProviderThumbnail::requestImage(const QString &filename_encoded, QSi
 
 QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
 
-	QString typeCache = (settings->value("Thumbnail/ThbCacheFile").toBool() ? "files" : "db");
-	bool cacheEnabled = settings->value("Thumbnail/ThumbnailCache").toBool();
+	QString typeCache = (settings->thbcachefile ? "files" : "db");
+	bool cacheEnabled = settings->thumbnailcache;
 
 	if(!db.isOpen()) db.open();
 

@@ -19,8 +19,8 @@ Rectangle {
         onEntered:
             PropertyAnimation {
                     target:  thumbnailBar
-                    property: (settings.value("Thumbnail/ThumbnailKeepVisible")*1 == 0 ? "y" : "");
-                    to: background.height-settings.value("Thumbnail/ThumbnailSize")*1-thumbnailbarheight_addon
+                    property: (settings.thumbnailKeepVisible == 0 ? "y" : "");
+                    to: background.height-settings.thumbnailsize-thumbnailbarheight_addon
             }
 	}
 
@@ -31,7 +31,7 @@ Rectangle {
         y: 0
 
 		width: background.width
-		height: background.height-settings.value("Thumbnail/ThumbnailSize")*1-thumbnailbarheight_addon-50
+        height: background.height-settings.thumbnailsize-thumbnailbarheight_addon-50
 
 		hoverEnabled: true
 
@@ -39,7 +39,7 @@ Rectangle {
 			PropertyAnimation {
 				target: thumbnailBar
 				property: "y"
-				to: background.height-(settings.value("Thumbnail/ThumbnailKeepVisible")*1 ? settings.value("Thumbnail/ThumbnailSize")*1+thumbnailbarheight_addon : 0)
+                to: background.height-(settings.thumbnailKeepVisible ? settings.thumbnailsize+thumbnailbarheight_addon : 0)
 		}
 	}
 
