@@ -446,7 +446,7 @@ QStringList GetMetaData::exifGps(QString gpsLonRef, QString gpsLon, QString gpsL
 	if(calcSecs > 0 && split.length() >= 3)
 		split.replace(2,QString::number(split.at(2).toFloat()+calcSecs*60));
 
-	gpsLat = split.at(0) + "&deg;" + split.at(1) + "'" + split.at(2) + "''";
+	gpsLat = split.at(0) + "°" + split.at(1) + "'" + split.at(2) + "''";
 
 	float secL = (split.at(1).toFloat()*60+split.at(2).toFloat())/3600.0;
 	float left = split.at(0).toFloat() + secL;
@@ -473,7 +473,7 @@ QStringList GetMetaData::exifGps(QString gpsLonRef, QString gpsLon, QString gpsL
 	// And calculate seconds and set them into third position
 	if(calcSecs > 0 && split.length() >= 3)
 		split.replace(2,QString::number(split.at(2).toFloat()+calcSecs*60));
-	gpsLon = split.at(0) + "&deg;" + split.at(1) + "'" + split.at(2) + "''";
+	gpsLon = split.at(0) + "°" + split.at(1) + "'" + split.at(2) + "''";
 
 	float secR = (split.at(1).toFloat()*60+split.at(2).toFloat())/3600.0;
 	float right = split.at(0).toFloat() + secR;
