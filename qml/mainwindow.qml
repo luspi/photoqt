@@ -1,6 +1,7 @@
 import QtQuick 2.3
 import Settings 1.0
 import GetImageInfo 1.0
+import GetMetaData 1.0
 
 import "mainview/"
 import "slidein/"
@@ -17,11 +18,14 @@ Item {
     signal openFile()
     signal loadMoreThumbnails();
     signal didntLoadThisThumbnail(var pos);
+    signal imageLoaded(var path)
 
     // Access to the permanent settings file (~/.photoqt/settings)
     Settings { id: settings; }
 
     GetImageInfo { id: getimageinfo; }
+
+    GetMetaData { id: getmetadata; }
 
     Shortcuts { id: sh; }
 

@@ -15,6 +15,7 @@ Item {
         normal.visible = false
         animated.source = path
         normal.source = ""
+        metaData.setData(getmetadata.getExiv2(path))
     }
     function setNormalImage(path) {
         var s = getimageinfo.getImageSize(path)
@@ -30,6 +31,7 @@ Item {
         normal.visible = true
         animated.source = ""
         normal.source = path
+        metaData.setData(getmetadata.getExiv2(path))
     }
 
     function setSourceSize(w,h) {
