@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 
 	// Add settings access to QML
 	qmlRegisterType<Settings>("Settings", 1, 0, "Settings");
+	qmlRegisterType<GetMetaData>("GetMetaData", 1, 0, "GetMetaData");
 	qmlRegisterType<GetImageInfo>("GetImageInfo", 1, 0, "GetImageInfo");
 
 	// Load QML
