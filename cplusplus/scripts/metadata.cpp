@@ -144,11 +144,21 @@ QVariantMap GetMetaData::getExiv2(QString path) {
 	QVariantMap ret;
 
 	// Set generic data
+	ret.insert("exiv2_type","");
 	ret.insert("filename",info.fileName());
 	ret.insert("filetype",info.suffix().toLower());
 	ret.insert("filesize",QString("%1").arg(info.size()/1024) + " KB");
-	QSize s = QImageReader(path).size();
-	ret.insert("dimensions",QString("%1x%2").arg(s.width()).arg(s.height()));
+	bool dimensionSet = false;
+	if(QImageReader::supportedImageFormats().contains(info.suffix().toLower().toLatin1())) {
+		QSize s = QImageReader(path).size();
+		if(s.width() > 0 && s.height() > 0) {
+			ret.insert("dimensions",QString("%1x%2").arg(s.width()).arg(s.height()));
+			dimensionSet = true;
+		}
+	}
+	if(!dimensionSet)
+		ret.insert("dimensions","<i>not set</i>");
+
 
 	// Default values
 	ret.insert("make","<i>not set</i>");
@@ -192,6 +202,8 @@ QVariantMap GetMetaData::getExiv2(QString path) {
 	if(!formats.contains(QFileInfo(path).suffix().toLower()))
 		return ret;
 	else {
+
+		ret["exiv2_type"] = "Exif";
 
 		Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path.toStdString());
 		image->readMetadata();
@@ -343,6 +355,26 @@ QVariantMap GetMetaData::getExiv2(QString path) {
 
 		}
 
+		if(!dimensionSet) {
+
+			QString dimX = "";
+			QString dimY = "";
+
+			Exiv2::ExifKey k("Exif.Photo.PixelXDimension");
+			Exiv2::ExifData::const_iterator it1 = exifData.findKey(k);
+			if(it1 != exifData.end())
+				dimX = QString::fromStdString(Exiv2::toString(it1->value()));
+
+			Exiv2::ExifKey l("Exif.Photo.PixelYDimension");
+			Exiv2::ExifData::const_iterator it2 = exifData.findKey(l);
+			if(it2 != exifData.end())
+				dimY = QString::fromStdString(Exiv2::toString(it2->value()));
+
+			if(dimX != "" && dimY != "") {
+				ret.insert("dimensions",QString("%1x%2").arg(dimX).arg(dimY));
+			}
+		}
+
 	}
 
 	return ret;
@@ -418,8 +450,6 @@ QString GetMetaData::exifPhotoTaken(QString value) {
 
 // Compose GPS data
 QStringList GetMetaData::exifGps(QString gpsLonRef, QString gpsLon, QString gpsLatRef, QString gpsLat) {
-
-	QString temp = gpsLat + " " + gpsLatRef + ", " + gpsLon + " " + gpsLonRef;
 
 	// Format the latitude string
 	QStringList split = gpsLat.split(" ");

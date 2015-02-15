@@ -17,7 +17,7 @@ Rectangle {
 
     // Adjust size
     width: ((view.width+2*radius < 350) ? 350 : view.width+2*radius)
-    height: modelSetup ? view.contentHeight+radius : width
+    height: modelSetup ? view.contentHeight : width
 
     // Corner radius
     radius: 10
@@ -36,6 +36,24 @@ Rectangle {
         font.bold: true
         font.pointSize: 18
         text: "No File Loaded"
+
+    }
+
+    // Label displaying which type of data was extracted
+    Text {
+
+        id: type
+
+        color: "grey"
+        font.bold: true
+        font.italic: true
+        font.pointSize: settings.exiffontsize+2
+
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.rightMargin: radius
+
+        text: ""
 
     }
 
@@ -61,20 +79,20 @@ Rectangle {
 
         Rectangle {
 
+            id: rect
+
             color: "#00000000";
-            width: view.width;
             height: val.height;
 
-            Row {
-                Text {
-                    id: val;
-                    color: "white";
-                    font.pointSize: settings.exiffontsize
-                    lineHeight: 1.3;
-                    text: (name != "") ? ("<b>" + name + "</b>: " + value) : "";
-                }
+            Text {
+                id: val;
+                color: "white";
+                font.pointSize: settings.exiffontsize+(name == "exiv2_type" ? 2 : 0)
+                lineHeight: 1.3;
+                text: name != "" ? "<b>" + name + "</b>: " + value : "";
             }
-        }
+
+       }
     }
 
     function setData(d) {
@@ -99,6 +117,8 @@ Rectangle {
             "", "",
             "gps", "GPS Position",
             "", ""]
+
+        type.text = d["exiv2_type"]
 
         // Set up model
         if(!modelSetup) {
