@@ -181,7 +181,10 @@ public:
 	bool exifenablemousetriggering;
 	QString exifrotation;
 	QString exifgpsmapservice;
+
 	int exiffontsize;
+	int getExiffontsize() { return exiffontsize; }
+	Q_PROPERTY(int exiffontsize READ getExiffontsize NOTIFY exiffontsizeChanged)
 
 	// Which Exif data is shown?
 	bool exiffilename;
@@ -845,13 +848,14 @@ private:
     QFileSystemWatcher *watcher;
 
 signals:
-    int thumbnailsizeChanged(int size);
-    bool thumbnailcacheChanged();
-    bool thbcachefileChanged();
-    int thumbnailSpacingBetweenChanged();
-    int thumbnailLiftUpChanged();
-    bool thumbnailKeepVisibleChanged();
-    int thumbnailFontSizeChanged();
+    void thumbnailsizeChanged(int size);
+    void thumbnailcacheChanged(bool cache);
+    void thbcachefileChanged(bool type);
+    void thumbnailSpacingBetweenChanged(int spacing);
+    void thumbnailLiftUpChanged(int liftup);
+    void thumbnailKeepVisibleChanged(bool vis);
+    void thumbnailFontSizeChanged(int size);
+    void exiffontsizeChanged(int size);
 
 
 };
