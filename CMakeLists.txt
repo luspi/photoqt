@@ -7,8 +7,9 @@ PROJECT(photoqt)
 
 #### SOURCES ####
 SET(photoqt_SOURCES cplusplus/main.cpp cplusplus/mainwindow.cpp cplusplus/variables.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/handlefiles/loaddir.cpp cplusplus/handlefiles/getimageinfo.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/handlefiles/loaddir.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/imageprovider/imageproviderfull.cpp cplusplus/imageprovider/imageproviderthumbnail.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/scripts/getimageinfo.cpp cplusplus/scripts/metadata.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/settings/settings.h cplusplus/settings/fileformats.h)
 
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/mainwindow.qml qml/Shortcuts.qml)
@@ -18,8 +19,9 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/ScrollBarHorizontal.qml)
 
 #### HEADER ####
 SET(photoqt_HEADERS cplusplus/mainwindow.h cplusplus/variables.h)
-SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/handlefiles/loaddir.h cplusplus/handlefiles/getimageinfo.h)
+SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/handlefiles/loaddir.h)
 SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/imageprovider/imageproviderthumbnail.h cplusplus/imageprovider/imageproviderfull.h)
+SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/scripts/getimageinfo.h cplusplus/scripts/metadata.h)
 SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/settings/settings.h cplusplus/settings/fileformats.h)
 
 
@@ -39,6 +41,7 @@ OPTION(QTONLY "ONLY USE QT-ONLY FEATURES" OFF)
 FIND_PACKAGE(Qt5 COMPONENTS Quick Widgets Core Svg REQUIRED)
 SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
 FIND_PACKAGE(Magick)
+FIND_PACKAGE(Exiv2)
 
 SET(CMAKE_BUILD_TYPE "Debug")
 
@@ -68,6 +71,18 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 add_executable(photoqt ${photoqt_SOURCES} ${photoqt_HEADERS_MOC} ${RESOURCES})
 qt5_use_modules(photoqt Quick Widgets Sql Svg Core)
 
+IF(EXIV2)
+	IF(NOT ${EXIV2_FOUND})
+		MESSAGE(FATAL_ERROR "** Unable to locate Exiv2... is it installed?")
+	ELSEIF(${EXIV2_FOUND})
+		INCLUDE_DIRECTORIES(${EXIV2_INCLUDE_DIR})
+		TARGET_LINK_LIBRARIES(photoqt "exiv2")
+		ADD_DEFINITIONS(-DEXIV2)
+		MESSAGE("** Exiv2 enabled")
+	ENDIF(NOT ${EXIV2_FOUND})
+ELSEIF(NOT EXIV2)
+	MESSAGE("** Exiv2 DISABLED")
+ENDIF(EXIV2)
 
 IF(GM)
 	IF(NOT ${MAGICK++_FOUND})
