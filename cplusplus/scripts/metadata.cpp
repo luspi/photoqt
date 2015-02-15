@@ -220,8 +220,8 @@ QVariantMap GetMetaData::getExiv2(QString path) {
 					// Check if value is known
 					if(mapAll.contains(i_key)) {
 						QMap<QString,QString> m = mapAll[i_key];
-						if(m.keys().contains(i_val))
-							val = m[i_val];
+						if(m.keys().contains(val))
+							val = m[val];
 						// If data is in unknown format
 						else
 							val = "[" + tr("Unknown data") + "]";
