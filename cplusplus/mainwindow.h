@@ -11,7 +11,7 @@
 #include <QtDebug>
 
 #include "scripts/getimageinfo.h"
-#include "scripts/metadata.h"
+#include "scripts/getmetadata.h"
 #include "handlefiles/loaddir.h"
 #include "imageprovider/imageproviderthumbnail.h"
 #include "imageprovider/imageproviderfull.h"
