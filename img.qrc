@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>img/emptythumb.png</file>
         <file>img/nothumb.png</file>
+        <file>img/closingx.png</file>
     </qresource>
 </RCC>

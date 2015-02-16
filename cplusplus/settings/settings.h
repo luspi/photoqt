@@ -93,7 +93,11 @@ public:
 	bool hidex;
 	// Size/Look of closing "x"
 	int closeXsize;
+	int getCloseXsize() { return closeXsize; }
+	Q_PROPERTY(int closeXsize READ getCloseXsize NOTIFY closeXsizeChanged)
 	bool fancyX;
+	bool getFancyx() { return fancyX; }
+	Q_PROPERTY(bool fancyX READ getFancyx NOTIFY fancyXChanged)
 
 	// Some settings of the slideshow
 	int slideShowTime;
@@ -848,14 +852,16 @@ private:
     QFileSystemWatcher *watcher;
 
 signals:
-    void thumbnailsizeChanged(int size);
+    void thumbnailsizeChanged(int s);
     void thumbnailcacheChanged(bool cache);
     void thbcachefileChanged(bool type);
     void thumbnailSpacingBetweenChanged(int spacing);
     void thumbnailLiftUpChanged(int liftup);
     void thumbnailKeepVisibleChanged(bool vis);
-    void thumbnailFontSizeChanged(int size);
-    void exiffontsizeChanged(int size);
+    void thumbnailFontSizeChanged(int s);
+    void exiffontsizeChanged(int s);
+    void fancyXChanged(bool f);
+    void closeXsizeChanged(int s);
 
 
 };

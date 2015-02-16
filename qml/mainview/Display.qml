@@ -65,4 +65,63 @@ Item {
 
     }
 
+
+    // Rectangle holding the closing x top right
+    Rectangle {
+
+        id: rect
+
+        // Position it
+        anchors.right: parent.right
+        anchors.top: parent.top
+        anchors.rightMargin: settings.fancyX ? 0 : 5
+
+        // Width depends on type of 'x'
+        width: (settings.fancyX ? 3 : 1.5)*settings.closeXsize
+        height: (settings.fancyX ? 3 : 1.5)*settings.closeXsize
+
+        // Invisible rectangle
+        color: "#00000000"
+
+        // Normal 'x'
+        Text {
+
+            id: txt_x
+
+            visible: !settings.fancyX
+            anchors.fill: parent
+
+            horizontalAlignment: Qt.AlignRight
+            verticalAlignment: Qt.AlignTop
+
+            font.pointSize: settings.closeXsize*1.5
+            font.bold: true
+            color: "white"
+            text: "x"
+
+        }
+
+        // Fancy 'x'
+        Image {
+
+            id: img_x
+
+            visible: settings.fancyX
+            anchors.right: parent.right
+            anchors.top: parent.top
+
+            source: "qrc:/img/closingx.png"
+            sourceSize: Qt.size(3*settings.closeXsize,3*settings.closeXsize)
+
+        }
+
+        // Click on either one of them
+        MouseArea {
+            anchors.fill: parent
+            cursorShape: Qt.PointingHandCursor
+            onClicked: Qt.quit()
+        }
+
+    }
+
 }
