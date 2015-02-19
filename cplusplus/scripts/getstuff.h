@@ -5,16 +5,19 @@
 #include <QFileInfo>
 #include <GraphicsMagick/Magick++.h>
 #include <QSettings>
+#include <QCursor>
 
-class GetImageInfo : public QObject {
+class GetStuff : public QObject {
 
 	Q_OBJECT
 
 public:
-	explicit GetImageInfo(QObject *parent = 0);
+	explicit GetStuff(QObject *parent = 0);
 
-	Q_INVOKABLE bool isAnimated(QString path);
+	Q_INVOKABLE bool isImageAnimated(QString path);
 	Q_INVOKABLE QSize getImageSize(QString path);
+
+	Q_INVOKABLE QPoint getCursorPos();
 
 private:
 	QImageReader reader;

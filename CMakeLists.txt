@@ -9,7 +9,7 @@ PROJECT(photoqt)
 SET(photoqt_SOURCES cplusplus/main.cpp cplusplus/mainwindow.cpp cplusplus/variables.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/handlefiles/loaddir.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/imageprovider/imageproviderfull.cpp cplusplus/imageprovider/imageproviderthumbnail.cpp)
-SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/scripts/getimageinfo.cpp cplusplus/scripts/getmetadata.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/scripts/getstuff.cpp cplusplus/scripts/getmetadata.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/settings/settings.h cplusplus/settings/fileformats.h)
 
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/mainwindow.qml qml/Shortcuts.qml)
@@ -21,7 +21,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/ScrollBarHorizontal.qml)
 SET(photoqt_HEADERS cplusplus/mainwindow.h cplusplus/variables.h)
 SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/handlefiles/loaddir.h)
 SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/imageprovider/imageproviderthumbnail.h cplusplus/imageprovider/imageproviderfull.h)
-SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/scripts/getimageinfo.h cplusplus/scripts/getmetadata.h)
+SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/scripts/getstuff.h cplusplus/scripts/getmetadata.h)
 SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/settings/settings.h cplusplus/settings/fileformats.h)
 
 

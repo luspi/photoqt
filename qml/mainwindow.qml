@@ -1,6 +1,6 @@
 import QtQuick 2.3
 import Settings 1.0
-import GetImageInfo 1.0
+import GetStuff 1.0
 import GetMetaData 1.0
 
 import "mainview/"
@@ -23,7 +23,7 @@ Item {
     // Access to the permanent settings file (~/.photoqt/settings)
     Settings { id: settings; }
 
-    GetImageInfo { id: getimageinfo; }
+    GetStuff { id: getstuff; }
 
     GetMetaData { id: getmetadata; }
 

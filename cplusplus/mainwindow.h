@@ -10,7 +10,7 @@
 #include <QShortcut>
 #include <QtDebug>
 
-#include "scripts/getimageinfo.h"
+#include "scripts/getstuff.h"
 #include "scripts/getmetadata.h"
 #include "handlefiles/loaddir.h"
 #include "imageprovider/imageproviderthumbnail.h"

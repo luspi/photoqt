@@ -1,12 +1,12 @@
-#include "getimageinfo.h"
+#include "getstuff.h"
 #include <QtDebug>
 #include <QUrl>
 
-GetImageInfo::GetImageInfo(QObject *parent) : QObject(parent) {
+GetStuff::GetStuff(QObject *parent) : QObject(parent) {
 	settings = new QSettings("photoqt_session");
 }
 
-bool GetImageInfo::isAnimated(QString path) {
+bool GetStuff::isImageAnimated(QString path) {
 
 	if(!reader.supportedImageFormats().contains(QFileInfo(path).suffix().toLower().toLatin1()))
 		return false;
@@ -16,7 +16,7 @@ bool GetImageInfo::isAnimated(QString path) {
 
 }
 
-QSize GetImageInfo::getImageSize(QString path) {
+QSize GetStuff::getImageSize(QString path) {
 
 	path = path.remove("image://full/");
 	path = QUrl::fromPercentEncoding(path.toLatin1());
@@ -34,5 +34,11 @@ QSize GetImageInfo::getImageSize(QString path) {
 			return settings->value("curSize").toSize();
 
 	}
+
+}
+
+QPoint GetStuff::getCursorPos() {
+
+	return QCursor::pos();
 
 }
