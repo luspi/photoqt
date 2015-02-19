@@ -8,5 +8,6 @@
         <file>qml/slidein/MetaData.qml</file>
         <file>qml/Shortcuts.qml</file>
         <file>qml/elements/ScrollBarHorizontal.qml</file>
+        <file>qml/elements/ScrollBarVertical.qml</file>
     </qresource>
 </RCC>
