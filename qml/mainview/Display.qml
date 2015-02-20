@@ -11,7 +11,7 @@ Item {
     property bool animated: false
 
     // How fast do we zoom in/out
-    property real scaleSpeed: 1.1
+    property real scaleSpeed: 0.1
 
     // Keep track of where we are in zooming
     property int zoomSteps: 0
@@ -22,10 +22,10 @@ Item {
         // Reset zoom
         if(zoomSteps < 0)
             for(var i = zoomSteps; i < 0; ++i)
-                anim.scale *=scaleSpeed
+                anim.scale += scaleSpeed
         else if(zoomSteps > 0)
             for(var j = zoomSteps; j > 0; --j)
-                anim.scale /= scaleSpeed
+                anim.scale -= scaleSpeed
         zoomSteps = 0
 
         // Pad or Fit?
@@ -55,10 +55,10 @@ Item {
         // Reset zoom
         if(zoomSteps < 0)
             for(var i = zoomSteps; i < 0; ++i)
-                norm.scale *=scaleSpeed
+                norm.scale += scaleSpeed
         else if(zoomSteps > 0)
             for(var j = zoomSteps; j > 0; --j)
-                norm.scale /= scaleSpeed
+                norm.scale -= scaleSpeed
         zoomSteps = 0
 
         // Pad or Fit?
@@ -75,7 +75,7 @@ Item {
         norm.source = path
 
         // Animated!!!
-        animated = true
+        animated = false
 
         // Update metadata
         metaData.setData(getmetadata.getExiv2(path))
@@ -142,7 +142,6 @@ Item {
                 onStatusChanged: {
                     if (status == Image.Ready) {
                         calculateSize();
-                        console.log("norm.size",norm.width,norm.height)
                     }
                 }
             }
@@ -186,26 +185,34 @@ Item {
                     var delta = wheel.angleDelta.y;
                     if(animated) {
                         if(delta > 0) {
-                            if(zoomSteps == 0)
+                            if(zoomSteps == 0) {
                                 anim.sourceSize = undefined
-                            anim.scale *= scaleSpeed    // has to come AFTER removing source size!
+                                anim.scale = Math.min(flickable.width / anim.width, flickable.height / anim.height);
+                            }
+                            anim.scale += scaleSpeed    // has to come AFTER removing source size!
                             zoomSteps += 1
                         } else if(delta < 0) {
-                            anim.scale *= 1/scaleSpeed  // has to come BEFORE setting source size!
-                            if(zoomSteps == 1)
+                            anim.scale -= scaleSpeed  // has to come BEFORE setting source size!
+                            if(zoomSteps == 1) {
                                 anim.sourceSize = Qt.size(item.width,item.height)
+                                anim.scale = Math.min(flickable.width / anim.width, flickable.height / anim.height);
+                            }
                             zoomSteps -= 1
                         }
                     } else {
                         if(delta > 0) {
-                            if(zoomSteps == 0)
+                            if(zoomSteps == 0) {
                                 norm.sourceSize = undefined
-                            norm.scale *= scaleSpeed    // has to come AFTER removing source size!
+                                norm.scale = Math.min(flickable.width / norm.width, flickable.height / norm.height);
+                            }
+                            norm.scale += scaleSpeed    // has to come AFTER removing source size!
                             zoomSteps += 1
                         } else if(delta < 0) {
-                            norm.scale *= 1/scaleSpeed  // has to come BEFORE setting source size!
-                            if(zoomSteps == 1)
+                            norm.scale -= scaleSpeed  // has to come BEFORE setting source size!
+                            if(zoomSteps == 1) {
                                 norm.sourceSize = Qt.size(item.width,item.height)
+                                norm.scale = Math.min(flickable.width / norm.width, flickable.height / norm.height);
+                            }
                             zoomSteps -= 1
                         }
                     }
