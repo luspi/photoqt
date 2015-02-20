@@ -60,7 +60,7 @@ Item {
         metaData.x = -metaData.width
         metaData.y = (h-metaData.height)/3
 
-        image.setSourceSize(w,h)
+        if(image.zoomSteps == 0) image.setSourceSize(w,h)
 
     }
 

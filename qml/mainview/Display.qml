@@ -7,149 +7,213 @@ Item {
 
     id: item
 
-    property int scaleSpeed: 40
+    // Current image animated?
+    property bool animated: false
 
+    // How fast do we zoom in/out
+    property real scaleSpeed: 1.1
+
+    // Keep track of where we are in zooming
+    property int zoomSteps: 0
+
+    // Set animated image
     function setAnimatedImage(path) {
+
+        // Reset zoom
+        if(zoomSteps < 0)
+            for(var i = zoomSteps; i < 0; ++i)
+                anim.scale *=scaleSpeed
+        else if(zoomSteps > 0)
+            for(var j = zoomSteps; j > 0; --j)
+                anim.scale /= scaleSpeed
+        zoomSteps = 0
+
+        // Pad or Fit?
         var s = getstuff.getImageSize(path)
-        if(s.width  < normal.width && s.height < normal.height) {
-            normal.fillMode = Image.Pad
-            animated.fillMode = Image.Pad
-        } else {
-            normal.fillMode = Image.PreserveAspectFit
-            animated.fillMode = Image.PreserveAspectFit
-        }
+        if(s.width < item.width && s.height < item.height)
+            anim.fillMode = Image.Pad
+        else
+            anim.fillMode = Image.PreserveAspectFit
 
-        normal.width = item.width
-        normal.height = item.height
-        animated.width = item.width
-        animated.height = item.height
+        // Reset source size
+        setSourceSize(item.width,item.height)
 
-        animated.visible = true
-        normal.visible = false
-        animated.source = path
-        normal.source = ""
+        // Set source
+        anim.source = path
+
+        // Animated!!!
+        animated = true
+
+        // Update metadata
         metaData.setData(getmetadata.getExiv2(path))
+
     }
+
+    // Set non animated image
     function setNormalImage(path) {
+
+        // Reset zoom
+        if(zoomSteps < 0)
+            for(var i = zoomSteps; i < 0; ++i)
+                norm.scale *=scaleSpeed
+        else if(zoomSteps > 0)
+            for(var j = zoomSteps; j > 0; --j)
+                norm.scale /= scaleSpeed
+        zoomSteps = 0
+
+        // Pad or Fit?
         var s = getstuff.getImageSize(path)
-        if(s.width  < normal.width && s.height < normal.height) {
-            normal.fillMode = Image.Pad
-            animated.fillMode = Image.Pad
-        } else {
-            normal.fillMode = Image.PreserveAspectFit
-            animated.fillMode = Image.PreserveAspectFit
-        }
+        if(s.width < item.width && s.height < item.height)
+            norm.fillMode = Image.Pad
+        else
+            norm.fillMode = Image.PreserveAspectFit
 
-        normal.width = item.width
-        normal.height = item.height
-        animated.width = item.width
-        animated.height = item.height
+        // Reset source size
+        setSourceSize(item.width,item.height)
 
-        animated.visible = false
-        normal.visible = true
-        animated.source = ""
-        normal.source = path
+        // Set source
+        norm.source = path
+
+        // Animated!!!
+        animated = true
+
+        // Update metadata
         metaData.setData(getmetadata.getExiv2(path))
+
     }
 
+    // Update source sizes
     function setSourceSize(w,h) {
-        animated.sourceSize.width = w
-        animated.sourceSize.height = h
-        normal.sourceSize.width = w
-        normal.sourceSize.height = h
+        anim.sourceSize.width = w
+        anim.sourceSize.height = h
+        norm.sourceSize.width = w
+        norm.sourceSize.height = h
     }
+
+    /****************************************************************************************************
+     *
+     * Zoom code lines inspired by code at:
+     *
+     * https://gitorious.org/spena-playground/xmcr/source/87a2bfcb6a1f6688e0ed7169c6b72308ad08778d:src/qml/ZoomableImage.qml
+     *
+     *****************************************************************************************************/
 
     Flickable {
 
-        id: flickArea
+        id: flickable
+        anchors.fill: parent
+        clip: true
 
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.verticalCenter: parent.verticalCenter
+        contentHeight: imageContainer.height
+        contentWidth: imageContainer.width
 
-        contentHeight: normal.height*normal.scale
-        contentWidth: normal.width*normal.scale
+        onHeightChanged: animated ? anim.calculateSize() : norm.calculateSize()
 
-        width: contentWidth < parent.width ? contentWidth : parent.width
-        height: contentHeight < parent.height ? contentHeight : parent.height
+        Item {
+            id: imageContainer
+            width: Math.max((animated ? anim.width : norm.width) * (animated ? anim.scale : norm.scale), flickable.width)
+            height: Math.max((animated ? anim.height : norm.height) * (animated ? anim.scale : norm.scale), flickable.height)
 
-        Image {
-
-            id: normal
-
-            width: item.width
-            height: item.height
-
-            fillMode: Image.PreserveAspectFit
-            asynchronous: false
-
-            transformOrigin: Item.TopLeft
-
-            MouseArea {
-
-                anchors.fill: parent
-
-                onWheel: doScaling(normal,wheel.angleDelta)
-
+            Image {
+                id: norm
+                visible: !animated
+                property real prevScale
+                anchors.centerIn: parent
+                asynchronous: false
+                function calculateSize() {
+                    prevScale = Math.min(scale, 1);
+                }
+                onScaleChanged: {
+                    var cursorpos = getstuff.getCursorPos()
+//                    var x_ratio = flickable.width/2;  // Use this for zoom to center
+//                    var y_ratio = flickable.height/2; // Use this for zoom to center
+                    var x_ratio = cursorpos.x;
+                    var y_ratio = cursorpos.y;
+                    if ((width * scale) > flickable.width) {
+                        var xoff = (x_ratio + flickable.contentX) * scale / prevScale;
+                        flickable.contentX = xoff - x_ratio;
+                    }
+                    if ((height * scale) > flickable.height) {
+                        var yoff = (y_ratio + flickable.contentY) * scale / prevScale;
+                        flickable.contentY = yoff - y_ratio;
+                    }
+                    prevScale = scale;
+                }
+                onStatusChanged: {
+                    if (status == Image.Ready) {
+                        calculateSize();
+                        console.log("norm.size",norm.width,norm.height)
+                    }
+                }
             }
 
-        }
-
-        AnimatedImage {
-
-            id: animated
-
-            width: item.width
-            height: item.height
-
-            fillMode: Image.PreserveAspectFit
-            asynchronous: false
-
-            transformOrigin: Item.TopLeft
-
-            MouseArea {
-
-                anchors.fill: parent
-
-                onWheel: doScaling(animated, wheel.angleDelta)
-
+            AnimatedImage {
+                id: anim
+                visible: animated
+                property real prevScale
+                anchors.centerIn: parent
+                asynchronous: false
+                function calculateSize() {
+                    prevScale = Math.min(scale, 1);
+                }
+                onScaleChanged: {
+                    var cursorpos = getstuff.getCursorPos()
+//                    var x_ratio = flickable.width/2;  // Use this for zoom to center
+//                    var y_ratio = flickable.height/2; // Use this for zoom to center
+                    var x_ratio = cursorpos.x;
+                    var y_ratio = cursorpos.y;
+                    if ((width * scale) > flickable.width) {
+                        var xoff = (x_ratio + flickable.contentX) * scale / prevScale;
+                        flickable.contentX = xoff - x_ratio;
+                    }
+                    if ((height * scale) > flickable.height) {
+                        var yoff = (y_ratio + flickable.contentY) * scale / prevScale;
+                        flickable.contentY = yoff - y_ratio;
+                    }
+                    prevScale = scale;
+                }
+                onStatusChanged: {
+                    if (status == Image.Ready) {
+                        calculateSize();
+                    }
+                }
             }
 
-
+            // ZOOM on wheel up/down
+            MouseArea {
+                anchors.fill: parent
+                onWheel: {
+                    var delta = wheel.angleDelta.y;
+                    if(animated) {
+                        if(delta > 0) {
+                            if(zoomSteps == 0)
+                                anim.sourceSize = undefined
+                            anim.scale *= scaleSpeed    // has to come AFTER removing source size!
+                            zoomSteps += 1
+                        } else if(delta < 0) {
+                            anim.scale *= 1/scaleSpeed  // has to come BEFORE setting source size!
+                            if(zoomSteps == 1)
+                                anim.sourceSize = Qt.size(item.width,item.height)
+                            zoomSteps -= 1
+                        }
+                    } else {
+                        if(delta > 0) {
+                            if(zoomSteps == 0)
+                                norm.sourceSize = undefined
+                            norm.scale *= scaleSpeed    // has to come AFTER removing source size!
+                            zoomSteps += 1
+                        } else if(delta < 0) {
+                            norm.scale *= 1/scaleSpeed  // has to come BEFORE setting source size!
+                            if(zoomSteps == 1)
+                                norm.sourceSize = Qt.size(item.width,item.height)
+                            zoomSteps -= 1
+                        }
+                    }
+                }
+            }
         }
 
     }
-
-    ScrollBarHorizontal { flickable: flickArea; }
-    ScrollBarVertical { flickable: flickArea; }
-
-    function doScaling(it, delta) {
-        it.scale *= (delta.y < 0 ? 1.05 : 1/1.05)
-
-        var newx;
-        var newy;
-
-        if(it.scale*item.width > item.width && it.scale*item.height > item.height) {
-
-            var cursorpos = getstuff.getCursorPos()
-
-            newx = cursorpos.x/it.scale-(cursorpos.x/item.width)*flickArea.contentItem.width
-            newy = cursorpos.y/it.scale-(cursorpos.y/item.height)*flickArea.contentItem.height
-
-            if(it.scale*item.width > item.width) {
-                flickArea.contentItem.x = newx
-            }
-
-            if(it.scale*item.height > item.height) {
-                flickArea.contentItem.y = newy
-            }
-
-        } else {
-            flickArea.contentItem.x = 0
-            flickArea.contentItem.y = 0
-        }
-
-    }
-
 
 
 

@@ -19,7 +19,8 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *s
 	if(requestedSize.width() > 20 || requestedSize.height() > 20)
 		maxSize = requestedSize;
 	else
-		maxSize = settingsPerSession->value("curSize").toSize();
+		// This indicates that the image has been zoomed -> no scaling!
+		maxSize = QSize(-1,-1);
 
 	// Which GraphicsEngine should we use?
 	QString whatToUse = whatDoIUse(filename);
@@ -136,8 +137,9 @@ QImage ImageProviderFull::readImage_QT(QString filename) {
 
 	} else {
 
-		// Scale imagereader
-		reader.setScaledSize(QSize(dispWidth,dispHeight));
+		// Scale imagereader (if not zoomed)
+		if(maxSize.width() != -1)
+			reader.setScaledSize(QSize(dispWidth,dispHeight));
 
 		// Eventually load the image
 		img = reader.read();
@@ -270,7 +272,7 @@ QImage ImageProviderFull::readImage_GM(QString filename) {
 		image.magick("PNG");
 		image.write(&ob);
 		const QByteArray imgData((char*)(ob.data()),ob.length());
-		QImage img(maxSize, QImage::Format_ARGB32);
+		QImage img((maxSize.width() > -1 ? maxSize : QSize(4000,3000)), QImage::Format_ARGB32);	// zoomed or not?
 		img.loadFromData(imgData);
 		return img;
 
