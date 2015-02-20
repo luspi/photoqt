@@ -197,7 +197,7 @@ Item {
                             }
                             anim.scale += scaleSpeed    // has to come AFTER removing source size!
                             zoomSteps += 1
-                        } else if(delta < 0) {
+                        } else if(delta < 0 && (zoomSteps-1)*scaleSpeed+1 > 0) {
                             anim.scale -= scaleSpeed  // has to come BEFORE setting source size!
                             if(zoomSteps == 1) {
                                 anim.sourceSize = Qt.size(item.width,item.height)
@@ -215,7 +215,7 @@ Item {
                             }
                             norm.scale += scaleSpeed    // has to come AFTER removing source size!
                             zoomSteps += 1
-                        } else if(delta < 0) {
+                        } else if(delta < 0 && (zoomSteps-1)*scaleSpeed+1 > 0) {
                             norm.scale -= scaleSpeed  // has to come BEFORE setting source size!
                             if(zoomSteps == 1) {
                                 norm.sourceSize = Qt.size(item.width,item.height)
