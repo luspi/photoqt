@@ -16,6 +16,8 @@ Item {
     // Keep track of where we are in zooming
     property int zoomSteps: 0
 
+    property string url: ""
+
     // Set animated image
     function setAnimatedImage(path) {
 
@@ -40,6 +42,7 @@ Item {
 
         // Set source
         anim.source = path
+        url = path
 
         // Animated!!!
         animated = true
@@ -73,6 +76,7 @@ Item {
 
         // Set source
         norm.source = path
+        url = path
 
         // Animated!!!
         animated = false
@@ -183,11 +187,13 @@ Item {
                 anchors.fill: parent
                 onWheel: {
                     var delta = wheel.angleDelta.y;
+                    var s = getstuff.getImageSize(url)
                     if(animated) {
                         if(delta > 0) {
                             if(zoomSteps == 0) {
                                 anim.sourceSize = undefined
-                                anim.scale = Math.min(flickable.width / anim.width, flickable.height / anim.height);
+                                if(s.width >= item.width && s.height >= item.height)
+                                    anim.scale = Math.min(flickable.width / anim.width, flickable.height / anim.height);
                             }
                             anim.scale += scaleSpeed    // has to come AFTER removing source size!
                             zoomSteps += 1
@@ -195,7 +201,8 @@ Item {
                             anim.scale -= scaleSpeed  // has to come BEFORE setting source size!
                             if(zoomSteps == 1) {
                                 anim.sourceSize = Qt.size(item.width,item.height)
-                                anim.scale = Math.min(flickable.width / anim.width, flickable.height / anim.height);
+                                if(s.width >= item.width && s.height >= item.height)
+                                    anim.scale = Math.min(flickable.width / anim.width, flickable.height / anim.height);
                             }
                             zoomSteps -= 1
                         }
@@ -203,7 +210,8 @@ Item {
                         if(delta > 0) {
                             if(zoomSteps == 0) {
                                 norm.sourceSize = undefined
-                                norm.scale = Math.min(flickable.width / norm.width, flickable.height / norm.height);
+                                if(s.width >= item.width && s.height >= item.height)
+                                    norm.scale = Math.min(flickable.width / norm.width, flickable.height / norm.height);
                             }
                             norm.scale += scaleSpeed    // has to come AFTER removing source size!
                             zoomSteps += 1
@@ -211,7 +219,8 @@ Item {
                             norm.scale -= scaleSpeed  // has to come BEFORE setting source size!
                             if(zoomSteps == 1) {
                                 norm.sourceSize = Qt.size(item.width,item.height)
-                                norm.scale = Math.min(flickable.width / norm.width, flickable.height / norm.height);
+                                if(s.width >= item.width && s.height >= item.height)
+                                    norm.scale = Math.min(flickable.width / norm.width, flickable.height / norm.height);
                             }
                             zoomSteps -= 1
                         }
