@@ -43,9 +43,6 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 	// Quit PhotoQt
 	connect(this->engine(), SIGNAL(quit()), qApp, SLOT(quit()));
 
-	// We have to call it with a timer to ensure the window is actually visible first
-	QTimer::singleShot(100, this, SLOT(openNewFile()));
-
 }
 
 // Window has been resized
@@ -60,27 +57,32 @@ void MainWindow::resized() {
 }
 
 // Open a new file
-void MainWindow::openNewFile() {
+void MainWindow::openNewFile(QString usethis) {
 
 	// Get new filename
 	QString opendir = QDir::homePath();
 	if(variables->currentDir != "")
 		opendir = variables->currentDir;
 
-	// Get new filename
-	QString known = settingsPermanent->knownFileTypes;
-	known = known.replace(","," ");
-	known = known.replace("**","*");
-	QString knownQT = settingsPermanent->knownFileTypesQt + (settingsPermanent->knownFileTypesQtExtras.length() != 0 ? "," + settingsPermanent->knownFileTypesQtExtras : "");
-	knownQT = knownQT.replace(","," ");
-	QString knownGM = settingsPermanent->knownFileTypesGm;
-	knownGM = knownGM.replace(","," ");
-	QByteArray file = QFileDialog::getOpenFileName(0,tr("Open image file"),opendir,tr("Images") + " (" + known + ");;"
+	QByteArray file = usethis.toUtf8();
+
+	if(usethis == "") {
+
+		// Get new filename
+		QString known = settingsPermanent->knownFileTypes;
+		known = known.replace(","," ");
+		known = known.replace("**","*");
+		QString knownQT = settingsPermanent->knownFileTypesQt + (settingsPermanent->knownFileTypesQtExtras.length() != 0 ? "," + settingsPermanent->knownFileTypesQtExtras : "");
+		knownQT = knownQT.replace(","," ");
+		QString knownGM = settingsPermanent->knownFileTypesGm;
+		knownGM = knownGM.replace(","," ");
+		file = QFileDialog::getOpenFileName(0,tr("Open image file"),opendir,tr("Images") + " (" + known + ");;"
 										+ tr("Images") + " (Qt)" + " (" + knownQT + ");;"
 					       #ifdef GM
 										+ tr("Images") + " (GraphicsMagick)" + " (" + knownGM + ");;"
 					       #endif
 										+ tr("All Files") + " (*)").toUtf8();
+	}
 
 	if(file.trimmed() == "") return;
 

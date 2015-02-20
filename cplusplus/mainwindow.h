@@ -26,6 +26,9 @@ public:
 	explicit MainWindow(QWindow *parent = 0);
 	~MainWindow();
 
+public slots:
+	void openNewFile(QString usethis = "");
+
 private:
 	QQuickItem *item;
 	QObject *object;
@@ -41,7 +44,6 @@ private:
 	QList<int> smartLoadThumbnailsInThisOrder;
 
 private slots:
-	void openNewFile();
 
 	void resized();
 
