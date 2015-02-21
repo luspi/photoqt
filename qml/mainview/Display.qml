@@ -25,6 +25,8 @@ Item {
     // Set animated image
     function setAnimatedImage(path) {
 
+        nofileloaded.visible = false
+
         resetZoom()
         resetRotation()
 
@@ -51,6 +53,8 @@ Item {
 
     // Set non animated image
     function setNormalImage(path) {
+
+        nofileloaded.visible = false
 
         resetZoom()
         resetRotation()
@@ -357,6 +361,25 @@ Item {
             cursorShape: Qt.PointingHandCursor
             onClicked: Qt.quit()
         }
+
+    }
+
+    // This label is displayed at startup, informing the user how to start
+    Text {
+
+        id: nofileloaded
+
+        anchors.fill: item
+
+        verticalAlignment: Qt.AlignVCenter
+        horizontalAlignment: Qt.AlignHCenter
+
+        color: "grey"
+        font.pointSize: 50
+        font.bold: true
+        wrapMode: Text.WordWrap
+
+        text: "Open a file to begin..."
 
     }
 
