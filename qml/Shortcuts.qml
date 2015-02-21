@@ -38,6 +38,11 @@ Item {
             image.resetZoom()
     }
     Action {
+        shortcut: "Ctrl+0"
+        onTriggered:
+            image.resetRotation()
+    }
+    Action {
         shortcut: "Ctrl++"
         onTriggered:
             image.zoomIn()
@@ -56,5 +61,16 @@ Item {
         shortcut: "-"
         onTriggered:
             image.zoomOut()
+    }
+
+    Action {
+        shortcut: "R"
+        onTriggered:
+            image.rotateRight()
+    }
+    Action {
+        shortcut: "L"
+        onTriggered:
+            image.rotateLeft()
     }
 }

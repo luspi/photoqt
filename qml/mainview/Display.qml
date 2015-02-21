@@ -20,10 +20,13 @@ Item {
 
     property bool zoomTowardsCenter: false
 
+    property bool imageWidthLargerThanHeight: true
+
     // Set animated image
     function setAnimatedImage(path) {
 
         resetZoom()
+        resetRotation()
 
         // Pad or Fit?
         var s = getstuff.getImageSize(path)
@@ -31,6 +34,8 @@ Item {
             anim.fillMode = Image.Pad
         else
             anim.fillMode = Image.PreserveAspectFit
+
+        imageWidthLargerThanHeight = (s.width >= s.height);
 
         // Set source
         anim.source = path
@@ -48,6 +53,7 @@ Item {
     function setNormalImage(path) {
 
         resetZoom()
+        resetRotation()
 
         // Pad or Fit?
         var s = getstuff.getImageSize(path)
@@ -55,6 +61,8 @@ Item {
             norm.fillMode = Image.Pad
         else
             norm.fillMode = Image.PreserveAspectFit
+
+        imageWidthLargerThanHeight = (s.width >= s.height);
 
         // Set source
         norm.source = path
@@ -79,7 +87,10 @@ Item {
     function resetZoom() {
 
         // Re-set source size to screen size
-        setSourceSize(item.width,item.height)
+        if((anim.rotation%180 == 90 || norm.rotation%180 == 90) && imageWidthLargerThanHeight)
+            setSourceSize(item.height,item.width)
+        else
+            setSourceSize(item.width,item.height)
 
         // Reset scaling
         norm.scale = 1
@@ -89,6 +100,12 @@ Item {
         zoomSteps = 0
     }
 
+    function resetRotation() {
+        norm.rotation = 0
+        anim.rotation = 0
+        setSourceSize(item.width,item.height)
+    }
+
     function zoomIn(towardsCenter) {
         zoomTowardsCenter = true
         doZoom(true)
@@ -96,6 +113,34 @@ Item {
     function zoomOut(towardsCenter) {
         zoomTowardsCenter = true
         doZoom(false)
+    }
+
+    function rotateRight() {
+        if(animated) {
+            anim.rotation += 90
+            anim.calculateSize()
+        } else {
+            norm.rotation += 90
+            norm.calculateSize()
+        }
+        if((anim.rotation%180 == 90 || norm.rotation%180 == 90) && imageWidthLargerThanHeight)
+            setSourceSize(item.height,item.width)
+        else
+            setSourceSize(item.width,item.height)
+    }
+
+    function rotateLeft() {
+        if(animated) {
+            anim.rotation -= 90
+            anim.calculateSize()
+        } else {
+            norm.rotation -= 90
+            norm.calculateSize()
+        }
+        if((anim.rotation%180 == 90 || norm.rotation%180 == 90) && imageWidthLargerThanHeight)
+            setSourceSize(item.height,item.width)
+        else
+            setSourceSize(item.width,item.height)
     }
 
     /****************************************************************************************************
