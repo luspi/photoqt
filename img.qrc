@@ -3,5 +3,12 @@
         <file>img/emptythumb.png</file>
         <file>img/nothumb.png</file>
         <file>img/closingx.png</file>
+        <file>img/mainmenu/about.png</file>
+        <file>img/mainmenu/filter.png</file>
+        <file>img/mainmenu/metadata.png</file>
+        <file>img/mainmenu/open.png</file>
+        <file>img/mainmenu/quit.png</file>
+        <file>img/mainmenu/settings.png</file>
+        <file>img/mainmenu/slideshow.png</file>
     </qresource>
 </RCC>

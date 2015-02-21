@@ -13,7 +13,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/scripts/getstuff.cpp cplusplus/
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/settings/settings.h cplusplus/settings/fileformats.h)
 
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/mainwindow.qml qml/Shortcuts.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} qml/slidein/ThumbnailBar.qml qml/slidein/MetaData.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/slidein/ThumbnailBar.qml qml/slidein/MetaData.qml qml/slidein/MainMenu.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/mainview/Background.qml qml/mainview/Display.qml qml/mainview/QuickInfo.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/ScrollBarHorizontal.qml qml/elements/ScrollBarVertical.qml)
 

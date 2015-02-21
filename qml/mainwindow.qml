@@ -41,6 +41,8 @@ Item {
     // The quickinfo (position in folder, filename)
     QuickInfo { id: quickInfo; }
 
+    MainMenu { id: mainmenu; }
+
     // MetaData of the image (using the C++ Exiv2 library)
     MetaData { id: metaData; }
 
@@ -59,6 +61,9 @@ Item {
 
         metaData.x = -metaData.width
         metaData.y = (h-metaData.height)/3
+
+        mainmenu.x = w-mainmenu.width-100
+        mainmenu.y = -mainmenu.height
 
         if(image.zoomSteps == 0) image.setSourceSize(w,h)
 

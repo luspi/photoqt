@@ -9,5 +9,6 @@
         <file>qml/Shortcuts.qml</file>
         <file>qml/elements/ScrollBarHorizontal.qml</file>
         <file>qml/elements/ScrollBarVertical.qml</file>
+        <file>qml/slidein/MainMenu.qml</file>
     </qresource>
 </RCC>

@@ -63,6 +63,28 @@ Rectangle {
 
         }
 
+        // MAINMENU
+        MouseArea {
+            x: mainmenu.x
+            y: 0
+            width: mainmenu.width
+            height: mainmenu.height
+            hoverEnabled: true
+            MouseArea {
+                x: 0
+                y: 0
+                width: parent.width
+                height: 50
+                hoverEnabled: true
+                onEntered:
+                    PropertyAnimation {
+                            target:  mainmenu
+                            property: "y"
+                            to: -mainmenu.radius
+                    }
+            }
+        }
+
     }
 
     // Hide elements
@@ -70,6 +92,7 @@ Rectangle {
     function hideEverything() {
         hideThumbnailBar.start()
         hideMetaData.start()
+        hideMainmenu.start()
     }
 
     PropertyAnimation {
@@ -83,6 +106,12 @@ Rectangle {
         target: metaData
         property: "x"
         to: -metaData.width
+    }
+    PropertyAnimation {
+        id: hideMainmenu
+        target: mainmenu
+        property: "y"
+        to: -mainmenu.height
     }
 
 }
