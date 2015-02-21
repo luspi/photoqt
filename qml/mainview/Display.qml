@@ -153,7 +153,7 @@ Item {
 
     Flickable {
 
-        id: flickable
+        id: flickarea
         anchors.fill: parent
         clip: true
 
@@ -164,8 +164,8 @@ Item {
 
         Item {
             id: imageContainer
-            width: Math.max((animated ? anim.width : norm.width) * (animated ? anim.scale : norm.scale), flickable.width)
-            height: Math.max((animated ? anim.height : norm.height) * (animated ? anim.scale : norm.scale), flickable.height)
+            width: Math.max((animated ? anim.width : norm.width) * (animated ? anim.scale : norm.scale), flickarea.width)
+            height: Math.max((animated ? anim.height : norm.height) * (animated ? anim.scale : norm.scale), flickarea.height)
 
             Image {
                 id: norm
@@ -178,15 +178,15 @@ Item {
                 }
                 onScaleChanged: {
                     var cursorpos = getstuff.getCursorPos()
-                    var x_ratio = (zoomTowardsCenter ? flickable.width/2 : cursorpos.x);
-                    var y_ratio = (zoomTowardsCenter ? flickable.height/2 : cursorpos.y);
-                    if ((width * scale) > flickable.width) {
-                        var xoff = (x_ratio + flickable.contentX) * scale / prevScale;
-                        flickable.contentX = xoff - x_ratio;
+                    var x_ratio = (zoomTowardsCenter ? flickarea.width/2 : cursorpos.x);
+                    var y_ratio = (zoomTowardsCenter ? flickarea.height/2 : cursorpos.y);
+                    if ((width * scale) > flickarea.width) {
+                        var xoff = (x_ratio + flickarea.contentX) * scale / prevScale;
+                        flickarea.contentX = xoff - x_ratio;
                     }
-                    if ((height * scale) > flickable.height) {
-                        var yoff = (y_ratio + flickable.contentY) * scale / prevScale;
-                        flickable.contentY = yoff - y_ratio;
+                    if ((height * scale) > flickarea.height) {
+                        var yoff = (y_ratio + flickarea.contentY) * scale / prevScale;
+                        flickarea.contentY = yoff - y_ratio;
                     }
                     prevScale = scale;
                 }
@@ -208,15 +208,15 @@ Item {
                 }
                 onScaleChanged: {
                     var cursorpos = getstuff.getCursorPos()
-                    var x_ratio = (zoomTowardsCenter ? flickable.width/2 : cursorpos.x);
-                    var y_ratio = (zoomTowardsCenter ? flickable.height/2 : cursorpos.y);
-                    if ((width * scale) > flickable.width) {
-                        var xoff = (x_ratio + flickable.contentX) * scale / prevScale;
-                        flickable.contentX = xoff - x_ratio;
+                    var x_ratio = (zoomTowardsCenter ? flickarea.width/2 : cursorpos.x);
+                    var y_ratio = (zoomTowardsCenter ? flickarea.height/2 : cursorpos.y);
+                    if ((width * scale) > flickarea.width) {
+                        var xoff = (x_ratio + flickarea.contentX) * scale / prevScale;
+                        flickarea.contentX = xoff - x_ratio;
                     }
-                    if ((height * scale) > flickable.height) {
-                        var yoff = (y_ratio + flickable.contentY) * scale / prevScale;
-                        flickable.contentY = yoff - y_ratio;
+                    if ((height * scale) > flickarea.height) {
+                        var yoff = (y_ratio + flickarea.contentY) * scale / prevScale;
+                        flickarea.contentY = yoff - y_ratio;
                     }
                     prevScale = scale;
                 }
@@ -238,6 +238,9 @@ Item {
         }
     }
 
+    ScrollBarHorizontal { flickable: flickarea; }
+    ScrollBarVertical { flickable: flickarea; }
+
     function doZoom(zoomin) {
 
         var s = getstuff.getImageSize(url)
@@ -249,7 +252,7 @@ Item {
                 if(zoomSteps == 0) {
                     anim.sourceSize = undefined
                     if(s.width >= item.width && s.height >= item.height)
-                        anim.scale = Math.min(flickable.width / anim.width, flickable.height / anim.height);
+                        anim.scale = Math.min(flickarea.width / anim.width, flickarea.height / anim.height);
                 }
                 anim.scale += scaleSpeed    // has to come AFTER removing source size!
                 zoomSteps += 1
@@ -260,7 +263,7 @@ Item {
                 if(zoomSteps == 1) {
                     anim.sourceSize = Qt.size(item.width,item.height)
                     if(s.width >= item.width && s.height >= item.height)
-                        anim.scale = Math.min(flickable.width / anim.width, flickable.height / anim.height);
+                        anim.scale = Math.min(flickarea.width / anim.width, flickarea.height / anim.height);
                 }
                 zoomSteps -= 1
             }
@@ -272,7 +275,7 @@ Item {
                 if(zoomSteps == 0) {
                     norm.sourceSize = undefined
                     if(s.width >= item.width && s.height >= item.height)
-                        norm.scale = Math.min(flickable.width / norm.width, flickable.height / norm.height);
+                        norm.scale = Math.min(flickarea.width / norm.width, flickarea.height / norm.height);
                 }
                 norm.scale += scaleSpeed    // has to come AFTER removing source size!
                 zoomSteps += 1
@@ -283,7 +286,7 @@ Item {
                 if(zoomSteps == 1) {
                     norm.sourceSize = Qt.size(item.width,item.height)
                     if(s.width >= item.width && s.height >= item.height)
-                        norm.scale = Math.min(flickable.width / norm.width, flickable.height / norm.height);
+                        norm.scale = Math.min(flickarea.width / norm.width, flickarea.height / norm.height);
                 }
 
                 zoomSteps -= 1
