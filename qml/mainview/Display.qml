@@ -244,6 +244,9 @@ Item {
 
     function doZoom(zoomin) {
 
+        // Don't zoom if nothing is loaded
+        if(url == "") return;
+
         var s = getstuff.getImageSize(url)
 
         if(animated) {
