@@ -14,7 +14,7 @@ Rectangle {
 
     // Adjust size
     width: 350
-    height: view.contentHeight+2*radius
+    height: view.contentHeight+3*radius
 
     // Corner radius
     radius: 10
