@@ -67,6 +67,8 @@ public:
 	int transition;
 	// Loop through folder?
 	bool loopthroughfolder;
+	bool getLoopthroughfolder() { return loopthroughfolder; }
+	Q_PROPERTY(bool loopthroughfolder READ getLoopthroughfolder NOTIFY loopthroughfolderChanged)
 	// Menu sensitivity
 	int menusensitivity;
 	// Close on click on background exits?
@@ -85,6 +87,8 @@ public:
 	bool rememberZoom;
 	// If image is too small, zoom to fit in window
 	bool fitInWindow;
+	bool getFitInWindow() { return fitInWindow; }
+	Q_PROPERTY(bool fitInWindow READ getFitInWindow NOTIFY fitInWindowChanged)
 
 	// Are quickinfos hidden?
 	bool hidecounter;
@@ -849,20 +853,21 @@ public slots:
 
 
 private:
-    QFileSystemWatcher *watcher;
+	QFileSystemWatcher *watcher;
 
 signals:
-    void thumbnailsizeChanged(int s);
-    void thumbnailcacheChanged(bool cache);
-    void thbcachefileChanged(bool type);
-    void thumbnailSpacingBetweenChanged(int spacing);
-    void thumbnailLiftUpChanged(int liftup);
-    void thumbnailKeepVisibleChanged(bool vis);
-    void thumbnailFontSizeChanged(int s);
-    void exiffontsizeChanged(int s);
-    void fancyXChanged(bool f);
-    void closeXsizeChanged(int s);
-
+	void thumbnailsizeChanged(int s);
+	void thumbnailcacheChanged(bool cache);
+	void thbcachefileChanged(bool type);
+	void thumbnailSpacingBetweenChanged(int spacing);
+	void thumbnailLiftUpChanged(int liftup);
+	void thumbnailKeepVisibleChanged(bool vis);
+	void thumbnailFontSizeChanged(int s);
+	void exiffontsizeChanged(int s);
+	void fancyXChanged(bool f);
+	void closeXsizeChanged(int s);
+	void loopthroughfolderChanged(bool l);
+	void fitInWindowChanged(bool f);
 
 };
 

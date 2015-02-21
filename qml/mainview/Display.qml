@@ -174,6 +174,7 @@ Item {
                 anchors.centerIn: parent
                 asynchronous: false
                 function calculateSize() {
+                    if(settings.fitInWindow) scale = Math.min(flickarea.width / width, flickarea.height / height);
                     prevScale = Math.min(scale, 1);
                 }
                 onScaleChanged: {
@@ -257,7 +258,7 @@ Item {
                 anim.scale += scaleSpeed    // has to come AFTER removing source size!
                 zoomSteps += 1
 
-            } else if(!zoomin && (zoomSteps-1)*scaleSpeed+1 > 0) {
+            } else if(!zoomin && anim.width*anim.scale > item.width*scaleSpeed) {
 
                 anim.scale -= scaleSpeed  // has to come BEFORE setting source size!
                 if(zoomSteps == 1) {
@@ -280,7 +281,7 @@ Item {
                 norm.scale += scaleSpeed    // has to come AFTER removing source size!
                 zoomSteps += 1
 
-            } else if(!zoomin && (zoomSteps-1)*scaleSpeed+1 > 0) {
+            } else if(!zoomin && norm.width*norm.scale > item.width*scaleSpeed) {
 
                 norm.scale -= scaleSpeed  // has to come BEFORE setting source size!
                 if(zoomSteps == 1) {
