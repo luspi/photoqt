@@ -18,17 +18,12 @@ Item {
 
     property string url: ""
 
+    property bool zoomTowardsCenter: false
+
     // Set animated image
     function setAnimatedImage(path) {
 
-        // Reset zoom
-        if(zoomSteps < 0)
-            for(var i = zoomSteps; i < 0; ++i)
-                anim.scale += scaleSpeed
-        else if(zoomSteps > 0)
-            for(var j = zoomSteps; j > 0; --j)
-                anim.scale -= scaleSpeed
-        zoomSteps = 0
+        resetZoom()
 
         // Pad or Fit?
         var s = getstuff.getImageSize(path)
@@ -36,9 +31,6 @@ Item {
             anim.fillMode = Image.Pad
         else
             anim.fillMode = Image.PreserveAspectFit
-
-        // Reset source size
-        setSourceSize(item.width,item.height)
 
         // Set source
         anim.source = path
@@ -55,14 +47,7 @@ Item {
     // Set non animated image
     function setNormalImage(path) {
 
-        // Reset zoom
-        if(zoomSteps < 0)
-            for(var i = zoomSteps; i < 0; ++i)
-                norm.scale += scaleSpeed
-        else if(zoomSteps > 0)
-            for(var j = zoomSteps; j > 0; --j)
-                norm.scale -= scaleSpeed
-        zoomSteps = 0
+        resetZoom()
 
         // Pad or Fit?
         var s = getstuff.getImageSize(path)
@@ -70,9 +55,6 @@ Item {
             norm.fillMode = Image.Pad
         else
             norm.fillMode = Image.PreserveAspectFit
-
-        // Reset source size
-        setSourceSize(item.width,item.height)
 
         // Set source
         norm.source = path
@@ -92,6 +74,28 @@ Item {
         anim.sourceSize.height = h
         norm.sourceSize.width = w
         norm.sourceSize.height = h
+    }
+
+    function resetZoom() {
+
+        // Re-set source size to screen size
+        setSourceSize(item.width,item.height)
+
+        // Reset scaling
+        norm.scale = 1
+        anim.scale = 1
+
+        // No more zooming
+        zoomSteps = 0
+    }
+
+    function zoomIn(towardsCenter) {
+        zoomTowardsCenter = true
+        doZoom(true)
+    }
+    function zoomOut(towardsCenter) {
+        zoomTowardsCenter = true
+        doZoom(false)
     }
 
     /****************************************************************************************************
@@ -129,10 +133,8 @@ Item {
                 }
                 onScaleChanged: {
                     var cursorpos = getstuff.getCursorPos()
-//                    var x_ratio = flickable.width/2;  // Use this for zoom to center
-//                    var y_ratio = flickable.height/2; // Use this for zoom to center
-                    var x_ratio = cursorpos.x;
-                    var y_ratio = cursorpos.y;
+                    var x_ratio = (zoomTowardsCenter ? flickable.width/2 : cursorpos.x);
+                    var y_ratio = (zoomTowardsCenter ? flickable.height/2 : cursorpos.y);
                     if ((width * scale) > flickable.width) {
                         var xoff = (x_ratio + flickable.contentX) * scale / prevScale;
                         flickable.contentX = xoff - x_ratio;
@@ -161,10 +163,8 @@ Item {
                 }
                 onScaleChanged: {
                     var cursorpos = getstuff.getCursorPos()
-//                    var x_ratio = flickable.width/2;  // Use this for zoom to center
-//                    var y_ratio = flickable.height/2; // Use this for zoom to center
-                    var x_ratio = cursorpos.x;
-                    var y_ratio = cursorpos.y;
+                    var x_ratio = (zoomTowardsCenter ? flickable.width/2 : cursorpos.x);
+                    var y_ratio = (zoomTowardsCenter ? flickable.height/2 : cursorpos.y);
                     if ((width * scale) > flickable.width) {
                         var xoff = (x_ratio + flickable.contentX) * scale / prevScale;
                         flickable.contentX = xoff - x_ratio;
@@ -186,49 +186,66 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 onWheel: {
-                    var delta = wheel.angleDelta.y;
-                    var s = getstuff.getImageSize(url)
-                    if(animated) {
-                        if(delta > 0) {
-                            if(zoomSteps == 0) {
-                                anim.sourceSize = undefined
-                                if(s.width >= item.width && s.height >= item.height)
-                                    anim.scale = Math.min(flickable.width / anim.width, flickable.height / anim.height);
-                            }
-                            anim.scale += scaleSpeed    // has to come AFTER removing source size!
-                            zoomSteps += 1
-                        } else if(delta < 0 && (zoomSteps-1)*scaleSpeed+1 > 0) {
-                            anim.scale -= scaleSpeed  // has to come BEFORE setting source size!
-                            if(zoomSteps == 1) {
-                                anim.sourceSize = Qt.size(item.width,item.height)
-                                if(s.width >= item.width && s.height >= item.height)
-                                    anim.scale = Math.min(flickable.width / anim.width, flickable.height / anim.height);
-                            }
-                            zoomSteps -= 1
-                        }
-                    } else {
-                        if(delta > 0) {
-                            if(zoomSteps == 0) {
-                                norm.sourceSize = undefined
-                                if(s.width >= item.width && s.height >= item.height)
-                                    norm.scale = Math.min(flickable.width / norm.width, flickable.height / norm.height);
-                            }
-                            norm.scale += scaleSpeed    // has to come AFTER removing source size!
-                            zoomSteps += 1
-                        } else if(delta < 0 && (zoomSteps-1)*scaleSpeed+1 > 0) {
-                            norm.scale -= scaleSpeed  // has to come BEFORE setting source size!
-                            if(zoomSteps == 1) {
-                                norm.sourceSize = Qt.size(item.width,item.height)
-                                if(s.width >= item.width && s.height >= item.height)
-                                    norm.scale = Math.min(flickable.width / norm.width, flickable.height / norm.height);
-                            }
-                            zoomSteps -= 1
-                        }
-                    }
+                    zoomTowardsCenter = false
+                    doZoom(wheel.angleDelta.y > 0)
                 }
             }
         }
+    }
 
+    function doZoom(zoomin) {
+
+        var s = getstuff.getImageSize(url)
+
+        if(animated) {
+
+            if(zoomin) {
+
+                if(zoomSteps == 0) {
+                    anim.sourceSize = undefined
+                    if(s.width >= item.width && s.height >= item.height)
+                        anim.scale = Math.min(flickable.width / anim.width, flickable.height / anim.height);
+                }
+                anim.scale += scaleSpeed    // has to come AFTER removing source size!
+                zoomSteps += 1
+
+            } else if(!zoomin && (zoomSteps-1)*scaleSpeed+1 > 0) {
+
+                anim.scale -= scaleSpeed  // has to come BEFORE setting source size!
+                if(zoomSteps == 1) {
+                    anim.sourceSize = Qt.size(item.width,item.height)
+                    if(s.width >= item.width && s.height >= item.height)
+                        anim.scale = Math.min(flickable.width / anim.width, flickable.height / anim.height);
+                }
+                zoomSteps -= 1
+            }
+
+        } else {
+
+            if(zoomin) {
+
+                if(zoomSteps == 0) {
+                    norm.sourceSize = undefined
+                    if(s.width >= item.width && s.height >= item.height)
+                        norm.scale = Math.min(flickable.width / norm.width, flickable.height / norm.height);
+                }
+                norm.scale += scaleSpeed    // has to come AFTER removing source size!
+                zoomSteps += 1
+
+            } else if(!zoomin && (zoomSteps-1)*scaleSpeed+1 > 0) {
+
+                norm.scale -= scaleSpeed  // has to come BEFORE setting source size!
+                if(zoomSteps == 1) {
+                    norm.sourceSize = Qt.size(item.width,item.height)
+                    if(s.width >= item.width && s.height >= item.height)
+                        norm.scale = Math.min(flickable.width / norm.width, flickable.height / norm.height);
+                }
+
+                zoomSteps -= 1
+
+            }
+
+        }
     }
 
 

@@ -32,4 +32,29 @@ Item {
         onTriggered:
             openFile()
     }
+    Action {
+        shortcut: "0"
+        onTriggered:
+            image.resetZoom()
+    }
+    Action {
+        shortcut: "Ctrl++"
+        onTriggered:
+            image.zoomIn()
+    }
+    Action {
+        shortcut: "+"
+        onTriggered:
+            image.zoomIn()
+    }
+    Action {
+        shortcut: "Ctrl+-"
+        onTriggered:
+            image.zoomOut()
+    }
+    Action {
+        shortcut: "-"
+        onTriggered:
+            image.zoomOut()
+    }
 }
