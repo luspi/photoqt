@@ -42,3 +42,9 @@ QPoint GetStuff::getCursorPos() {
 	return QCursor::pos();
 
 }
+
+QString GetStuff::removePathFromFilename(QString path) {
+
+	return QFileInfo(path).fileName();
+
+}

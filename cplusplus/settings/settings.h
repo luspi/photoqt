@@ -12,6 +12,7 @@
 #include <QSettings>
 #include <QDir>
 #include <QFileSystemWatcher>
+#include <QtDebug>
 #include "fileformats.h"
 
 // Convenience class to access and change permanent settings
@@ -92,8 +93,20 @@ public:
 
 	// Are quickinfos hidden?
 	bool hidecounter;
+	bool getHidecounter() { return hidecounter; }
+	void setHidecounter(bool h) { qDebug() << "hide counter: " << h; hidecounter = h; saveSettings(); }
+	Q_PROPERTY(bool hidecounter READ getHidecounter WRITE setHidecounter NOTIFY hidecounterChanged)
+
 	bool hidefilepathshowfilename;
+	bool getHidefilepathshowfilename() { return hidefilepathshowfilename; }
+	void setHidefilepathshowfilename(bool h) { hidefilepathshowfilename = h; saveSettings(); }
+	Q_PROPERTY(bool hidefilepathshowfilename READ getHidefilepathshowfilename WRITE setHidefilepathshowfilename NOTIFY hidefilepathshowfilenameChanged)
+
 	bool hidefilename;
+	bool getHidefilename() { return hidefilename; }
+	void setHidefilename(bool h) { hidefilename = h; saveSettings(); }
+	Q_PROPERTY(bool hidefilename READ getHidefilename WRITE setHidefilename NOTIFY hidefilenameChanged)
+
 	bool hidex;
 	// Size/Look of closing "x"
 	int closeXsize;
@@ -330,7 +343,7 @@ public:
 
 
 	// Save settings
-	void saveSettings(QMap<QString,bool> applySet = QMap<QString,bool>()) {
+	void saveSettings() {
 
 		QFile file(QDir::homePath() + "/.photoqt/settings");
 
@@ -868,6 +881,9 @@ signals:
 	void closeXsizeChanged(int s);
 	void loopthroughfolderChanged(bool l);
 	void fitInWindowChanged(bool f);
+	void hidecounterChanged(bool h);
+	void hidefilepathshowfilenameChanged(bool h);
+	void hidefilenameChanged(bool h);
 
 };
 

@@ -19,6 +19,8 @@ public:
 
 	Q_INVOKABLE QPoint getCursorPos();
 
+	Q_INVOKABLE QString removePathFromFilename(QString path);
+
 private:
 	QImageReader reader;
 	QSettings *settings;

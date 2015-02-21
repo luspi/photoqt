@@ -4,13 +4,44 @@ import QtQuick 2.3
 
 Item {
 
+    id: item
+
     x:5
     y:5
 
     // Set data
 	function updateQuickInfo(pos, totalNumberImages, filepath) {
-		counter.text = (pos+1).toString() + "/" + totalNumberImages.toString()
-		filename.text = filepath
+
+        if(settings.hidecounter) {
+            counter.text = ""
+            counter.visible = false
+            spacing.visible = false
+            spacing.width = 0
+        } else {
+            counter.text = (pos+1).toString() + "/" + totalNumberImages.toString()
+            counter.visible = true
+        }
+
+        if(settings.hidefilename) {
+            filename.text = ""
+            filename.visible = false
+            spacing.width = 0
+            spacing.visible = false
+        } else if(settings.hidefilepathshowfilename) {
+            filename.text = getstuff.removePathFromFilename(filepath)
+            filename.visible = true
+        } else {
+            filename.text = filepath
+            filename.visible = true
+        }
+
+        spacing.visible = (counter.visible && filename.visible)
+
+        if(!counter.visible && !filename.visible)
+            opacity = 0
+        else
+            opacity = 1
+
 	}
 
     // Rectangle holding all the items
@@ -63,7 +94,14 @@ Item {
 
                 MenuItem {
                     text: "<font color=\"white\">Hide Counter</font>"
-        //			onTriggered: ...
+                    onTriggered: {
+                        counter.text = ""
+                        counter.visible = false
+                        spacing.visible = false
+                        spacing.width = 0
+                        settings.hidecounter = true;
+                        if(filename.visible == false) item.opacity = 0
+                    }
                 }
 
             }
@@ -73,6 +111,8 @@ Item {
         // SPACING - it does nothing but seperate counter from filename
         Text {
             id: spacing
+
+            visible: !settings.hidecounter && !settings.hidefilepathshowfilename && !settings.hidefilename
 
             y: 3
             width: 10
@@ -115,12 +155,21 @@ Item {
 
                 MenuItem {
                     text: "<font color=\"white\">Hide Filepath, leave Filename</font>"
-        //			onTriggered: ...
+                    onTriggered: {
+                        filename.text = getstuff.removePathFromFilename(filename.text)
+                        settings.hidefilepathshowfilename = true;
+                    }
                 }
 
                 MenuItem {
                     text: "<font color=\"white\">Hide everything</font>"
-        //			onTriggered: ...
+                    onTriggered: {
+                        filename.text = ""
+                        spacing.visible = false
+                        spacing.width = 0
+                        settings.hidefilename = true;
+                        if(counter.visible == false) item.opacity = 0
+                    }
                 }
 
             }
