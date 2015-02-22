@@ -10,5 +10,6 @@
         <file>img/mainmenu/quit.png</file>
         <file>img/mainmenu/settings.png</file>
         <file>img/mainmenu/slideshow.png</file>
+        <file>img/logo.png</file>
     </qresource>
 </RCC>

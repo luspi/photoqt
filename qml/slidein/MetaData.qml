@@ -1,6 +1,8 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 
+import "../elements"
+
 Rectangle {
 
     id: meta
@@ -17,7 +19,7 @@ Rectangle {
 
     // Adjust size
     width: ((view.width+2*radius < 350) ? 350 : view.width+2*radius)
-    height: (imageLoaded) ? (view.contentHeight > width/2 ? view.contentHeight : width/2) : width
+    height: ((imageLoaded) ? (view.contentHeight > width/2 ? view.contentHeight : width/2) : width)+2*check.height
 
     // Corner radius
     radius: 10
@@ -83,13 +85,31 @@ Rectangle {
         y: radius
 
         width: childrenRect.width
-        height: meta.height
+        height: meta.height-2*check.height
 
         visible: imageLoaded
         model: ListModel { id: mod; }
         delegate: deleg
 
     }
+
+    Rectangle {
+        id: keepopen
+        color: "#00000000"
+        x: 0
+        y: view.height+view.y
+        width: meta.width
+        CustomCheckBox {
+            id: check
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: "Keep Open"
+            onCheckedChanged: {
+                settingssession.setValue("metadatakeepopen",check.checked)
+            }
+        }
+    }
+    function uncheckCheckbox() { check.checked = false; }
+    function checkCheckbox() { check.checked = true; }
 
     Component {
 

@@ -108,6 +108,10 @@ public:
 	Q_PROPERTY(bool hidefilename READ getHidefilename WRITE setHidefilename NOTIFY hidefilenameChanged)
 
 	bool hidex;
+	bool getHidex() { return hidex; }
+	void setHidex(bool h) { hidex = h; saveSettings(); }
+	Q_PROPERTY(bool hidex READ getHidex WRITE setHidex NOTIFY hidexChanged)
+
 	// Size/Look of closing "x"
 	int closeXsize;
 	int getCloseXsize() { return closeXsize; }
@@ -884,6 +888,7 @@ signals:
 	void hidecounterChanged(bool h);
 	void hidefilepathshowfilenameChanged(bool h);
 	void hidefilenameChanged(bool h);
+	void hidexChanged(bool h);
 
 };
 

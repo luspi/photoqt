@@ -10,19 +10,20 @@ SET(photoqt_SOURCES cplusplus/main.cpp cplusplus/mainwindow.cpp cplusplus/variab
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/handlefiles/loaddir.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/imageprovider/imageproviderfull.cpp cplusplus/imageprovider/imageproviderthumbnail.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/scripts/getstuff.cpp cplusplus/scripts/getmetadata.cpp)
-SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/settings/settings.h cplusplus/settings/fileformats.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/settings/settings.h cplusplus/settings/settingssession.h cplusplus/settings/fileformats.h)
 
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/mainwindow.qml qml/Shortcuts.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/slidein/ThumbnailBar.qml qml/slidein/MetaData.qml qml/slidein/MainMenu.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/mainview/Background.qml qml/mainview/Display.qml qml/mainview/QuickInfo.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/ScrollBarHorizontal.qml qml/elements/ScrollBarVertical.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/ScrollBarHorizontal.qml qml/elements/ScrollBarVertical.qml qml/elements/CustomCheckBox.qml qml/elements/CustomButton.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/fadein/About.qml)
 
 #### HEADER ####
 SET(photoqt_HEADERS cplusplus/mainwindow.h cplusplus/variables.h)
 SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/handlefiles/loaddir.h)
 SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/imageprovider/imageproviderthumbnail.h cplusplus/imageprovider/imageproviderfull.h)
 SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/scripts/getstuff.h cplusplus/scripts/getmetadata.h)
-SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/settings/settings.h cplusplus/settings/fileformats.h)
+SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/settings/settings.h cplusplus/settings/settingssession.h cplusplus/settings/fileformats.h)
 
 
 #############################################

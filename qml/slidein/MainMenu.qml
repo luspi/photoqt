@@ -6,7 +6,7 @@ Rectangle {
     id: mainmenu
 
     // Background color
-    color: "#99000000"
+    color: "#AA000000"
 
     // Set position (we pretend that rounded corners are along the bottom edge only, that's why visible y is off screen)
     x: mainmenu.width-width-100
@@ -25,7 +25,7 @@ Rectangle {
         ["wallpaper", "settings", "Set as Wallpaper"],
         ["slideshow", "slideshow", "Start Slideshow"],
         ["filter", "filter", "Filter Images in Folder"],
-        ["metadata", "metadata", "Show Metadata"],
+        ["metadata", "metadata", "Show/Hide Metadata"],
         ["about", "about", "About PhotoQt"],
         ["hide", "quit", "Hide (System Tray)"],
         ["quit", "quit", "Quit"]]
@@ -130,10 +130,23 @@ Rectangle {
 
     // Do stuff on clicking on an entry
     function mainmenuDo(what) {
+
         // Hide menu when an entry was clicked
-        hideMainmenu.start()
+        if(what !== "metadata") hideMainmenu.start()
+
         if(what === "open") openFile()
+
         else if(what === "quit") Qt.quit();
+
+        else if(what === "metadata") {
+            if(metaData.x > -2*metaData.radius) {
+                metaData.uncheckCheckbox()
+                background.hideMetadata()
+            } else {
+                metaData.checkCheckbox()
+                background.showMetadata()
+            }
+        }
     }
 
     // 'Hide' animation

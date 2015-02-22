@@ -10,5 +10,8 @@
         <file>qml/elements/ScrollBarHorizontal.qml</file>
         <file>qml/elements/ScrollBarVertical.qml</file>
         <file>qml/slidein/MainMenu.qml</file>
+        <file>qml/elements/CustomCheckBox.qml</file>
+        <file>qml/fadein/About.qml</file>
+        <file>qml/elements/CustomButton.qml</file>
     </qresource>
 </RCC>

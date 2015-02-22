@@ -5,72 +5,94 @@ Item {
     Action {
         shortcut: "Right"
          onTriggered:
-             thumbnailBar.nextImage()
+             if(!blocked)
+                 thumbnailBar.nextImage()
     }
     Action {
         shortcut: "Space"
          onTriggered:
-             thumbnailBar.nextImage()
+             if(!blocked)
+                 thumbnailBar.nextImage()
     }
     Action {
         shortcut: "Left"
          onTriggered:
-             thumbnailBar.previousImage()
+             if(!blocked)
+                 thumbnailBar.previousImage()
     }
     Action {
         shortcut: "Backspace"
          onTriggered:
-             thumbnailBar.previousImage()
+             if(!blocked)
+                 thumbnailBar.previousImage()
     }
     Action {
         shortcut: "Escape"
         onTriggered:
-            Qt.quit()
+            if(about.opacity == 1)
+                about.hideAbout()
+            else if(!blocked)
+                Qt.quit()
     }
     Action {
         shortcut: "O"
         onTriggered:
-            openFile()
+            if(!blocked)
+                openFile()
     }
     Action {
         shortcut: "0"
         onTriggered:
-            image.resetZoom()
+            if(!blocked)
+                image.resetZoom()
     }
     Action {
         shortcut: "Ctrl+0"
         onTriggered:
-            image.resetRotation()
+            if(!blocked)
+                image.resetRotation()
     }
     Action {
         shortcut: "Ctrl++"
         onTriggered:
-            image.zoomIn()
+            if(!blocked)
+                image.zoomIn()
     }
     Action {
         shortcut: "+"
         onTriggered:
-            image.zoomIn()
+            if(!blocked)
+                image.zoomIn()
     }
     Action {
         shortcut: "Ctrl+-"
         onTriggered:
-            image.zoomOut()
+            if(!blocked)
+                image.zoomOut()
     }
     Action {
         shortcut: "-"
         onTriggered:
-            image.zoomOut()
+            if(!blocked)
+                image.zoomOut()
     }
 
     Action {
         shortcut: "R"
         onTriggered:
-            image.rotateRight()
+            if(!blocked)
+                image.rotateRight()
     }
     Action {
         shortcut: "L"
         onTriggered:
-            image.rotateLeft()
+            if(!blocked)
+                image.rotateLeft()
+    }
+    Action {
+        shortcut: "I"
+        onTriggered:
+            if(!blocked)
+                about.showAbout()
     }
 }

@@ -1,10 +1,12 @@
 import QtQuick 2.3
 import Settings 1.0
+import SettingsSession 1.0
 import GetStuff 1.0
 import GetMetaData 1.0
 
 import "mainview/"
 import "slidein/"
+import "fadein/"
 
 Item {
 
@@ -20,8 +22,11 @@ Item {
     signal didntLoadThisThumbnail(var pos);
     signal imageLoaded(var path)
 
+    property bool blocked: false
+
     // Access to the permanent settings file (~/.photoqt/settings)
     Settings { id: settings; }
+    SettingsSession { id: settingssession; }
 
     GetStuff { id: getstuff; }
 
@@ -45,6 +50,8 @@ Item {
 
     // MetaData of the image (using the C++ Exiv2 library)
     MetaData { id: metaData; }
+
+    About { id: about; }
 
 
     // Adjust size of all the elements

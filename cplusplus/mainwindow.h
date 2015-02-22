@@ -16,6 +16,7 @@
 #include "imageprovider/imageproviderthumbnail.h"
 #include "imageprovider/imageproviderfull.h"
 #include "settings/settings.h"
+#include "settings/settingssession.h"
 #include "variables.h"
 
 class MainWindow : public QQuickView {
@@ -34,7 +35,7 @@ private:
 	QObject *object;
 	LoadDir *loadDir;
 
-	QSettings *settingsPerSession;
+	SettingsSession *settingsPerSession;
 	Settings *settingsPermanent;
 	Variables *variables;
 

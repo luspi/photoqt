@@ -3,7 +3,7 @@
 MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 
 	// Settings and variables
-	settingsPerSession = new QSettings("photoqt_session");
+	settingsPerSession = new SettingsSession;
 	settingsPermanent = new Settings;
 	variables = new Variables;
 
@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 
 	// Add settings access to QML
 	qmlRegisterType<Settings>("Settings", 1, 0, "Settings");
+	qmlRegisterType<SettingsSession>("SettingsSession", 1, 0, "SettingsSession");
 	qmlRegisterType<GetMetaData>("GetMetaData", 1, 0, "GetMetaData");
 	qmlRegisterType<GetStuff>("GetStuff", 1, 0, "GetStuff");
 
@@ -105,7 +106,6 @@ void MainWindow::openNewFile(QString usethis) {
 	// Get and store current position
 	int curPos = l.indexOf(QFileInfo(file));
 	settingsPerSession->setValue("curPos",curPos);
-	settingsPerSession->sync();
 
 	// Setiup thumbnail model
 	QMetaObject::invokeMethod(object, "setupModel",

@@ -1,4 +1,5 @@
 import QtQuick 2.4
+import QtQuick.Controls.Styles 1.2
 import QtQuick.Controls 1.3
 
 import "../elements"
@@ -311,6 +312,8 @@ Item {
 
         id: rect
 
+        visible: !settings.hidex
+
         // Position it
         anchors.right: parent.right
         anchors.top: parent.top
@@ -359,9 +362,31 @@ Item {
         MouseArea {
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
-            onClicked: Qt.quit()
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
+            onClicked: {
+                if (mouse.button == Qt.RightButton)
+                    contextmenuClosingX.popup()
+                else
+                    Qt.quit()
+            }
         }
 
+        // The actual context menu
+        Menu {
+            id: contextmenuClosingX
+            style: MenuStyle {
+                frame: Rectangle { color: "#0F0F0F"; }
+                itemDelegate.background: Rectangle { color: (styleData.selected ? "#4f4f4f" :"#0F0F0F"); }
+            }
+
+            MenuItem {
+                text: "<font color=\"white\">Hide 'x'</font>"
+                onTriggered: {
+                    settings.hidex = true;
+                    rect.visible = false;
+                }
+            }
+        }
     }
 
     // This label is displayed at startup, informing the user how to start

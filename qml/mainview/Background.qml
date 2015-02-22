@@ -29,12 +29,7 @@ Rectangle {
                 height: parent.height
                 width: 25
                 hoverEnabled: true
-                onEntered:
-                    PropertyAnimation {
-                        target: metaData
-                        property: "x"
-                        to: -metaData.radius
-                    }
+                onEntered: showMetadata()
             }
 
         }
@@ -87,18 +82,35 @@ Rectangle {
 
     }
 
+    // Show elements
+    function showMetadata() {
+        metadata_show.start()
+    }
+    PropertyAnimation {
+        id: metadata_show
+        target: metaData
+        property: "x"
+        to: -metaData.radius
+    }
+
     // Hide elements
 
     function hideEverything() {
         hideThumbnailBar.start()
-        hideMetaData.start()
+        if(settingssession.value("metadatakeepopen") === false) hideMetaData.start()
         hideMainmenu.start()
+    }
+    function hideMetadata() {
+        if(settingssession.value("metadatakeepopen") === true)
+            settingssession.setValue("metadatakeepopen",false)
+        metaData.uncheckCheckbox()
+        hideMetaData.start()
     }
 
     PropertyAnimation {
         id: hideThumbnailBar
         target:  thumbnailBar
-        property: (settings.thumbnailKeepVisible == 0 ? "y" : "");
+        property: (settings.thumbnailKeepVisible === false ? "y" : "");
         to: background.height
     }
     PropertyAnimation {
