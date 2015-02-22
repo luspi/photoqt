@@ -9,8 +9,12 @@ Item {
     x:5
     y:5
 
+    property bool somethingLoaded: false
+
     // Set data
 	function updateQuickInfo(pos, totalNumberImages, filepath) {
+
+        somethingLoaded = true
 
         if(settings.hidecounter) {
             counter.text = ""
@@ -78,7 +82,7 @@ Item {
                 anchors.fill: parent
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onClicked: {
-                    if (mouse.button == Qt.RightButton) {
+                    if (mouse.button == Qt.RightButton && somethingLoaded) {
                         contextmenuCounter.popup()
                     }
                 }
@@ -139,7 +143,7 @@ Item {
                 anchors.fill: parent
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onClicked: {
-                    if (mouse.button == Qt.RightButton) {
+                    if (mouse.button == Qt.RightButton && somethingLoaded) {
                         contextmenuFilename.popup()
                     }
                 }
@@ -162,7 +166,7 @@ Item {
                 }
 
                 MenuItem {
-                    text: "<font color=\"white\">Hide everything</font>"
+                    text: "<font color=\"white\">Hide both, Filename and Filepath</font>"
                     onTriggered: {
                         filename.text = ""
                         spacing.visible = false
