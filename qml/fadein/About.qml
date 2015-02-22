@@ -17,6 +17,7 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton | Qt.RightButton
+        onClicked: hideAboutAni.start()
     }
 
     Rectangle {
