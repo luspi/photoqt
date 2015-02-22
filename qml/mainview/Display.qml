@@ -250,7 +250,7 @@ Item {
     function doZoom(zoomin) {
 
         // Don't zoom if nothing is loaded
-        if(url == "") return;
+        if(url == "" || blocked) return;
 
         var s = getstuff.getImageSize(url)
 
