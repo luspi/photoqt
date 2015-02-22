@@ -11,9 +11,9 @@ Rectangle {
     property bool imageLoaded: false
 
     // Background/Border color
-    color: "#CC000000"
+    color: colour_slidein_bg
     border.width: 1
-    border.color: "#55bbbbbb"
+    border.color: colour_slidein_border
 
     // Set position (we pretend that rounded corners are along the right edge only, that's why visible x is off screen)
     x: -width
@@ -101,7 +101,7 @@ Rectangle {
         height: 1
         x: 0
         y: view.height+view.y
-        color: "#99999999"
+        color: colour_linecolour
     }
 
     Rectangle {

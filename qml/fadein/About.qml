@@ -8,7 +8,7 @@ Rectangle {
     id: about
 
     anchors.fill: background
-    color: "#22000000"
+    color: colour_fadein_block_bg
 
     opacity: 0
     visible: false
@@ -34,9 +34,9 @@ Rectangle {
 
         // Some styling
         border.width: 1
-        border.color: "#55bbbbbb"
+        border.color: colour_fadein_border
         radius: 10
-        color: "#BB000000"
+        color: colour_fadein_bg
 
         Rectangle {
 
@@ -172,7 +172,7 @@ Rectangle {
                 Rectangle {
                     width: rect.width
                     height: 1
-                    color: "white"
+                    color: colour_linecolour
                 }
 
                 Rectangle {
