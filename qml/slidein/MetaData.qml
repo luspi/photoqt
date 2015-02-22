@@ -112,15 +112,18 @@ Rectangle {
         width: meta.width
         CustomCheckBox {
             id: check
-            anchors.horizontalCenter: parent.horizontalCenter
+            textOnRight: false
+            anchors.right: parent.right
+            anchors.rightMargin: 5
+            textColour: "#33ffffff"
             text: "Keep Open"
-            onCheckedChanged: {
-                settingssession.setValue("metadatakeepopen",check.checked)
+            onButtonCheckedChanged: {
+                settingssession.setValue("metadatakeepopen",check.checkedButton)
             }
         }
     }
-    function uncheckCheckbox() { check.checked = false; }
-    function checkCheckbox() { check.checked = true; }
+    function uncheckCheckbox() { check.checkedButton = false; }
+    function checkCheckbox() { check.checkedButton = true; }
 
     Component {
 
