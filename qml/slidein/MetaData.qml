@@ -115,7 +115,7 @@ Rectangle {
             textOnRight: false
             anchors.right: parent.right
             anchors.rightMargin: 5
-            textColour: "#33ffffff"
+            textColour: "#66ffffff"
             text: "Keep Open"
             onButtonCheckedChanged: {
                 settingssession.setValue("metadatakeepopen",check.checkedButton)
