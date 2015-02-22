@@ -10,8 +10,10 @@ Rectangle {
     // Set up model on first load, afetrwards just change data
     property bool imageLoaded: false
 
-    // Background color
+    // Background/Border color
     color: "#CC000000"
+    border.width: 1
+    border.color: "#55bbbbbb"
 
     // Set position (we pretend that rounded corners are along the right edge only, that's why visible x is off screen)
     x: -width
@@ -19,7 +21,7 @@ Rectangle {
 
     // Adjust size
     width: ((view.width+2*radius < 350) ? 350 : view.width+2*radius)
-    height: ((imageLoaded) ? (view.contentHeight > width/2 ? view.contentHeight : width/2) : width)+2*check.height
+    height: ((imageLoaded) ? (view.contentHeight > width/2 ? view.contentHeight : width/2) : width)+2*check.height+2*spacing.height
 
     // Corner radius
     radius: 10
@@ -85,7 +87,7 @@ Rectangle {
         y: radius
 
         width: childrenRect.width
-        height: meta.height-2*check.height
+        height: meta.height-2*check.height-2*spacing.height
 
         visible: imageLoaded
         model: ListModel { id: mod; }
@@ -94,10 +96,19 @@ Rectangle {
     }
 
     Rectangle {
+        id: spacing
+        width: meta.width
+        height: 1
+        x: 0
+        y: view.height+view.y
+        color: "#99999999"
+    }
+
+    Rectangle {
         id: keepopen
         color: "#00000000"
         x: 0
-        y: view.height+view.y
+        y: view.height+view.y+spacing.height+3
         width: meta.width
         CustomCheckBox {
             id: check

@@ -404,7 +404,7 @@ Item {
         font.bold: true
         wrapMode: Text.WordWrap
 
-        text: "Open a file to begin..."
+        text: "Open a file to begin"
 
     }
 

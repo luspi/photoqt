@@ -5,8 +5,10 @@ Rectangle {
 
     id: mainmenu
 
-    // Background color
+    // Background/Border color
     color: "#AA000000"
+    border.width: 1
+    border.color: "#55bbbbbb"
 
     // Set position (we pretend that rounded corners are along the bottom edge only, that's why visible y is off screen)
     x: mainmenu.width-width-100
