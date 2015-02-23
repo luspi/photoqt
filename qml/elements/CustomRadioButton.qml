@@ -12,15 +12,13 @@ RadioButton {
                         implicitWidth: 16
                         implicitHeight: 16
                         radius: 9
-                        color: "#88000000"
-                        border.color: "white"
-                        border.width: 1
+                        color: "#22FFFFFF"
                         Rectangle {
                             anchors.fill: parent
                             visible: control.checked
                             color: "white"
                             radius: 9
-                            anchors.margins: 5
+                            anchors.margins: 4
                         }
                 }
                 label: Rectangle {
