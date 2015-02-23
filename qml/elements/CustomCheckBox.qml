@@ -56,17 +56,17 @@ Rectangle {
                     implicitWidth: fsize*2
                     implicitHeight: fsize*2
                     radius: 3
-                    color: "#22FFFFFF"
+                    color: control.enabled ? "#22FFFFFF" : "#11CCCCCC"
                     Rectangle {
                         visible: rect.checkedButton
-                        color: "#ffffff"
+                        color: control.enabled ? "#ffffff" : "#555555"
                         radius: 1
                         anchors.margins: 4
                         anchors.fill: parent
                     }
             }
             label: Text {
-                color: "white"
+                color: control.enabled ? "white" : "grey"
                 visible: textOnRight
                 text: textOnRight ? rect.text : ""
                 font.pointSize: fsize
