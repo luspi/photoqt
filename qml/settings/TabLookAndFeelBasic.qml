@@ -9,24 +9,30 @@ Rectangle {
 
     color: "#00000000"
 
-    anchors.fill: parent
-    anchors.margins: 20
+    anchors {
+        fill: parent
+        leftMargin: 20
+        rightMargin: 20
+        topMargin: 15
+        bottomMargin: 5
+    }
 
     Flickable {
 
         id: flickable
 
-        anchors {
-            top: parent.top
-            left: parent.left
-            right: parent.right
-            topMargin: 25
-        }
+        clip: true
 
-        contentHeight: childrenRect.height
-        contentWidth: childrenRect.width
+        anchors.fill: parent
+
+        contentHeight: contentItem.childrenRect.height+50
+        contentWidth: tab.width
+
+        boundsBehavior: Flickable.StopAtBounds
 
         Column {
+
+            id: maincol
 
             spacing: 15
 
@@ -37,13 +43,14 @@ Rectangle {
             Rectangle {
                 id: header
                 width: flickable.width
+                height: childrenRect.height
                 color: "#00000000"
                 Text {
                     color: "white"
                     font.pointSize: 18
                     font.bold: true
                     text: "Basic Settings"
-                    anchors.centerIn: parent
+                    anchors.horizontalCenter: parent.horizontalCenter
                 }
             }
 
@@ -192,9 +199,11 @@ Rectangle {
 
             }
 
+            /* LOOK OF CLOSING 'X' */
+
             Rectangle {
 
-                id: closingx_subrect
+                id: closingx_subrect1
 
                 color: "#00000000"
 
@@ -223,6 +232,124 @@ Rectangle {
                 }
 
             }
+
+            /* SIZE OF CLOSING 'X' */
+
+            Rectangle {
+
+                id: closingx_subrect2
+
+                color: "#00000000"
+
+                // center rectangle
+                width: childrenRect.width
+                height: childrenRect.height
+                x: (flickable.width-width)/2
+
+                Row {
+
+                    id: closingx_row
+                    spacing: 5
+
+                    Text {
+                        color: "white"
+                        font.pointSize: 10
+                        text: "Small Size"
+                    }
+
+                    CustomSlider {
+                        width: 300
+                        minimumValue: 5
+                        maximumValue: 25
+                        tickmarksEnabled: true
+                        stepSize: 1
+                    }
+
+                    Text {
+                        color: "white"
+                        font.pointSize: 10
+                        text: "Large Size"
+                    }
+
+                }
+
+            }
+
+
+            /************************
+             * FIT IMAGES IN WINDOW *
+             ************************/
+
+            SettingsText {
+
+                id: fitinwindow
+
+                width: tab.width
+
+                text: "<h2>Fit Image in Window</h2><br>If the image dimensions are smaller than the screen dimensions, PhotoQt can zoom those images to make them fir into the window. However, keep in mind, that such images will look pixelated to a certain degree (depending on each image)."
+
+            }
+
+            CustomCheckBox {
+                x: (tab.width-width)/2
+                text: "Fit Images in Window"
+            }
+
+
+
+            /******************************
+             * HIDE/SHOW QUICKINFO LABELS *
+             ******************************/
+
+            SettingsText {
+
+                id: quickinfo
+
+                width: tab.width
+
+                text: "<h2>Hide Quickinfo (Text Labels)</h2><br>Here you can hide the text labels shown in the main area: The Counter in the top left corner, the file path/name following the counter, and the \"X\" displayed in the top right corner. The labels can also be hidden by simply right-clicking on them and selecting \"Hide\"."
+
+            }
+
+            // Checkboxes
+
+            Rectangle {
+
+                id: quickinfo_subrect2
+
+                color: "#00000000"
+
+                // center rectangle
+                width: childrenRect.width
+                height: childrenRect.height
+                x: (flickable.width-width)/2
+
+                Column {
+
+                    id: quick_col
+                    spacing: 5
+
+                    CustomCheckBox {
+                        text: "Hide Counter"
+                    }
+
+                    CustomCheckBox {
+                        text: "Hide Filepath (Shows only file name)"
+                    }
+
+                    CustomCheckBox {
+                        text: "Hide Filename (Including file path)"
+                    }
+
+                    CustomCheckBox {
+                        text: "Hide \"X\" (Closing)"
+                    }
+
+                }
+
+            }
+
+
 
         }
 

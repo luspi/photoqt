@@ -20,7 +20,11 @@ Rectangle {
 
         id: view
 
-        anchors.fill: parent
+        x: 0
+        y: 0
+        width: parent.width
+        height: parent.height-butrow.height
+
         tabCount: 5     // We currently have 5 tabs in the settings
 
         Tab {
@@ -96,6 +100,71 @@ Rectangle {
 
             title: "Shortcuts"
             TabShortcuts { }
+
+        }
+
+    }
+
+    // Line between settings and buttons
+    Rectangle {
+
+        id: sep
+
+        x: 0
+        y: butrow.y-1
+        height: 1
+        width: parent.width
+
+        color: colour_linecolour
+
+    }
+
+    // A rectangle holding the three buttons at the bottom
+    Rectangle {
+
+        id: butrow
+
+        x: 0
+        y: parent.height-40
+        width: parent.width
+        height: 40
+
+        color: "#33000000"
+
+        // Button to restore default settings - bottom left
+        CustomButton {
+
+            id: restoredefault
+
+            x: 5
+            y: 5
+            height: parent.height-10
+
+            text: "Restore Default Settings"
+
+        }
+
+        // Button to exit without saving - bottom right
+        CustomButton {
+            id: exitnosave
+
+            x: parent.width-width-10
+            y: 5
+            height: parent.height-10
+
+            text: "Exit and Discard Changes"
+
+        }
+
+        // Button to exit with saving - bottom right, next to exitnosave button
+        CustomButton {
+            id: exitsave
+
+            x: exitnosave.x-width-10
+            y: 5
+            height: parent.height-10
+
+            text: "Save Changes and Exit"
 
         }
 

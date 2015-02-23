@@ -15,7 +15,6 @@ Button {
 
         background: Rectangle {
             color: but.pressedDown ? "#BB292929" : (but.hovered ? "#BB181818" : "#BB000000")
-            radius: 6
             border.width: 1
             border.color: "#CC333333"
         }
