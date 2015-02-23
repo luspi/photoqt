@@ -11,5 +11,7 @@
         <file>img/mainmenu/settings.png</file>
         <file>img/mainmenu/slideshow.png</file>
         <file>img/logo.png</file>
+        <file>img/settings/sortascending.png</file>
+        <file>img/settings/sortdescending.png</file>
     </qresource>
 </RCC>

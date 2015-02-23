@@ -31,6 +31,8 @@ Item {
         onTriggered:
             if(about.opacity == 1)
                 about.hideAbout()
+            else if(settingsitem.opacity == 1)
+                settingsitem.hideSettings()
             else if(!blocked)
                 Qt.quit()
     }
@@ -94,5 +96,11 @@ Item {
         onTriggered:
             if(!blocked)
                 about.showAbout()
+    }
+    Action {
+        shortcut: "E"
+        onTriggered:
+            if(!blocked)
+                settingsitem.showSettings()
     }
 }

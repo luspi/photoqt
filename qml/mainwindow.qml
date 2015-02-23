@@ -7,6 +7,7 @@ import GetMetaData 1.0
 import "mainview/"
 import "slidein/"
 import "fadein/"
+import "settings/"
 
 Item {
 
@@ -61,6 +62,8 @@ Item {
     MetaData { id: metaData; }
 
     About { id: about; }
+
+    SettingsItem { id: settingsitem; }
 
 
     // Adjust size of all the elements

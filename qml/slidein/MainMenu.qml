@@ -140,7 +140,9 @@ Rectangle {
 
         else if(what === "quit") Qt.quit();
 
-        else if(what == "about") about.showAbout()
+        else if(what === "about") about.showAbout()
+
+        else if(what === "settings") settingsitem.showSettings()
 
         else if(what === "metadata") {
             if(metaData.x > -2*metaData.radius) {

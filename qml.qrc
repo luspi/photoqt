@@ -13,5 +13,18 @@
         <file>qml/elements/CustomCheckBox.qml</file>
         <file>qml/fadein/About.qml</file>
         <file>qml/elements/CustomButton.qml</file>
+        <file>qml/settings/SettingsItem.qml</file>
+        <file>qml/elements/CustomTabView.qml</file>
+        <file>qml/settings/TabDetails.qml</file>
+        <file>qml/settings/TabLookAndFeelAdvanced.qml</file>
+        <file>qml/settings/TabLookAndFeelBasic.qml</file>
+        <file>qml/settings/TabThumbnailsAdvanced.qml</file>
+        <file>qml/settings/TabThumbnailsBasic.qml</file>
+        <file>qml/settings/TabShortcuts.qml</file>
+        <file>qml/settings/TabOther.qml</file>
+        <file>qml/settings/TabFiletypes.qml</file>
+        <file>qml/elements/SettingsText.qml</file>
+        <file>qml/elements/CustomComboBox.qml</file>
+        <file>qml/elements/CustomRadioButton.qml</file>
     </qresource>
 </RCC>
