@@ -60,7 +60,7 @@ Rectangle {
                     Rectangle {
                         visible: rect.checkedButton
                         color: control.enabled ? "#ffffff" : "#555555"
-                        radius: 1
+                        radius: 2
                         anchors.margins: 4
                         anchors.fill: parent
                     }
