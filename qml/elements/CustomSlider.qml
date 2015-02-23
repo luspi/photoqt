@@ -7,7 +7,7 @@ Slider {
     style: SliderStyle {
         groove: Rectangle {
             implicitWidth: 200
-            implicitHeight: 5
+            implicitHeight: 3
             color: "white"
             radius: 8
         }
