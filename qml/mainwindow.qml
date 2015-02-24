@@ -27,10 +27,10 @@ Item {
     property bool blocked: false
 
     // Some colour settings
-    property string colour_fadein_bg: "#BB000000"
+    property string colour_fadein_bg: "#DD000000"
     property string colour_fadein_block_bg: "#22000000"
     property string colour_fadein_border: "#55bbbbbb"
-    property string colour_slidein_bg: "#AA000000"
+    property string colour_slidein_bg: "#BB000000"
     property string colour_slidein_border: "#55bbbbbb"
     property string colour_linecolour: "#99999999"
 
