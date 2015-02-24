@@ -60,8 +60,6 @@ Rectangle {
 
             SettingsText {
 
-                id: sortimages
-
                 width: tab.width
 
                 text: "<h2>Sort Images</hr><br>Here you can adjust, how the images in a folder are supposed to be sorted. You can sort them by Filename, Natural Name (e.g., file10.jpg comes after file9.jpg and not after file1.jpg), File Size, and Date. Also, you can reverse the sorting order from ascending to descending if wanted.<br><br><b>Hint: You can also change this setting very quickly from the 'Quick Settings'' window, hidden behind the right screen edge.</b>"
@@ -94,6 +92,7 @@ Rectangle {
                     }
                     // Choose Criteria
                     CustomComboBox {
+                        id: sortimages_checkbox
                         width: 150
                         model: ["Name", "Natural Name", "Date", "Filesize"]
                     }
@@ -101,6 +100,7 @@ Rectangle {
                     // Ascending or Descending
                     ExclusiveGroup { id: radiobuttons_sorting }
                     CustomRadioButton {
+                        id: sortimages_ascending
                         text: "Ascending"
                         icon: "qrc:/img/settings/sortascending.png"
                         y: (sortimages_subrect.height-height)/2
@@ -108,6 +108,7 @@ Rectangle {
                         checked: true
                     }
                     CustomRadioButton {
+                        id: sortimages_descending
                         text: "Descending"
                         y: (sortimages_subrect.height-height)/2
                         icon: "qrc:/img/settings/sortdescending.png"
@@ -123,8 +124,6 @@ Rectangle {
 
             SettingsText {
 
-                id: windowmode
-
                 width: tab.width
 
                 text: "<h2>Window Mode</hr><br>PhotoQt is designed with the space of a fullscreen app in mind. That's why it by default runs as fullscreen. However, some might prefer to have it as a normal window, e.g. so that they can see the panel."
@@ -134,8 +133,6 @@ Rectangle {
             /* WINDOW MODE ELEMENTS */
 
             Rectangle {
-
-                id: windowmode_subrect
 
                 color: "#00000000"
 
@@ -149,14 +146,14 @@ Rectangle {
                     spacing: 10
 
                     CustomCheckBox {
-                        id: window
+                        id: windowmode
                         text: "Run PhotoQt in Window Mode"
                         onButtonCheckedChanged:     // 'Window Decoration' checkbox is only enabled when the 'Window ModeÄ checkbox is checked
-                            deco.enabled = checkedButton
+                            windowmode_deco.enabled = checkedButton
                     }
 
                     CustomCheckBox {
-                        id: deco
+                        id: windowmode_deco
                         enabled: false
                         text: "Show Window Decoration"
                     }
@@ -171,8 +168,6 @@ Rectangle {
 
             SettingsText {
 
-                id: trayicon
-
                 width: tab.width
 
                 text: "<h2>Hide to Tray Icon</h2><br>When started PhotoQt creates a tray icon in the system tray. If desired, you can set PhotoQt to minimise to the tray instead of quitting. This causes PhotoQt to be almost instantaneously available when an image is opened.<br>It is also possible to start PhotoQt already minimised to the tray (e.g. at system startup) when called with \"--start-in-tray\"."
@@ -180,6 +175,7 @@ Rectangle {
             }
 
             CustomCheckBox {
+                id: trayicon
                 x: (tab.width-width)/2
                 text: "Hide to Tray Icon"
             }
@@ -191,8 +187,6 @@ Rectangle {
 
             SettingsText {
 
-                id: closingx
-
                 width: tab.width
 
                 text: "<h2>Closing 'X' (top right)</h2><br>There are two looks for the closing 'x' at the top right: a normal 'x', or a slightly more fancy 'x'. Here you can switch back and forth between both of them, and also change their size. If you prefer not to have a closing 'x' at all, see below for an option to hide it."
@@ -202,8 +196,6 @@ Rectangle {
             /* LOOK OF CLOSING 'X' */
 
             Rectangle {
-
-                id: closingx_subrect1
 
                 color: "#00000000"
 
@@ -219,12 +211,14 @@ Rectangle {
                     ExclusiveGroup { id: radiobuttons_closingx }
 
                     CustomRadioButton {
+                        id: closingx_normal
                         text: "Normal Look"
                         checked: true
                         exclusiveGroup: radiobuttons_closingx
                     }
 
                     CustomRadioButton {
+                        id: closingx_fancy
                         text: "Fancy Look"
                         exclusiveGroup: radiobuttons_closingx
                     }
@@ -237,8 +231,6 @@ Rectangle {
 
             Rectangle {
 
-                id: closingx_subrect2
-
                 color: "#00000000"
 
                 // center rectangle
@@ -248,7 +240,6 @@ Rectangle {
 
                 Row {
 
-                    id: closingx_row
                     spacing: 5
 
                     Text {
@@ -258,6 +249,7 @@ Rectangle {
                     }
 
                     CustomSlider {
+                        id: closingx_sizeslider
                         width: 300
                         minimumValue: 5
                         maximumValue: 25
@@ -282,8 +274,6 @@ Rectangle {
 
             SettingsText {
 
-                id: fitinwindow
-
                 width: tab.width
 
                 text: "<h2>Fit Image in Window</h2><br>If the image dimensions are smaller than the screen dimensions, PhotoQt can zoom those images to make them fir into the window. However, keep in mind, that such images will look pixelated to a certain degree (depending on each image)."
@@ -291,6 +281,7 @@ Rectangle {
             }
 
             CustomCheckBox {
+                id: fitinwindow
                 x: (tab.width-width)/2
                 text: "Fit Images in Window"
             }
@@ -303,8 +294,6 @@ Rectangle {
 
             SettingsText {
 
-                id: quickinfo
-
                 width: tab.width
 
                 text: "<h2>Hide Quickinfo (Text Labels)</h2><br>Here you can hide the text labels shown in the main area: The Counter in the top left corner, the file path/name following the counter, and the \"X\" displayed in the top right corner. The labels can also be hidden by simply right-clicking on them and selecting \"Hide\"."
@@ -315,8 +304,6 @@ Rectangle {
 
             Rectangle {
 
-                id: quickinfo_subrect2
-
                 color: "#00000000"
 
                 // center rectangle
@@ -326,22 +313,25 @@ Rectangle {
 
                 Column {
 
-                    id: quick_col
                     spacing: 5
 
                     CustomCheckBox {
+                        id: quickinfo_counter
                         text: "Hide Counter"
                     }
 
                     CustomCheckBox {
+                        id: quickinfo_filepath
                         text: "Hide Filepath (Shows only file name)"
                     }
 
                     CustomCheckBox {
+                        id: quickinfo_filename
                         text: "Hide Filename (Including file path)"
                     }
 
                     CustomCheckBox {
+                        id: quickinfo_closingx
                         text: "Hide \"X\" (Closing)"
                     }
 
@@ -349,9 +339,70 @@ Rectangle {
 
             }
 
-
-
         }
+
+    }
+
+    function saveData() {
+
+        if(sortimages_checkbox.currentIndex == 0)
+            settings.sortby = "name"
+        else if(sortimages_checkbox.currentIndex == 1)
+            settings.sortby = "naturalname"
+        else if(sortimages_checkbox.currentIndex == 2)
+            settings.sortby = "date"
+        else if(sortimages_checkbox.currentIndex == 3)
+            settings.sortby = "size"
+
+        settings.sortbyAscending = sortimages_ascending.checked
+
+        settings.windowmode = windowmode.checkedButton
+        settings.windowDecoration = windowmode_deco.checkedButton
+
+        settings.trayicon = trayicon.checkedButton
+
+        settings.fancyX = closingx_fancy.checked
+        settings.closeXsize = closingx_sizeslider.value
+
+        settings.fitInWindow = fitinwindow.checkedButton
+
+        settings.hidecounter = quickinfo_counter.checkedButton
+        settings.hidefilepathshowfilename = quickinfo_filepath.checkedButton
+        settings.hidefilename = quickinfo_filename.checkedButton
+        settings.hidex = quickinfo_closingx.checkedButton
+
+    }
+
+    function setData() {
+
+        if(settings.sortby === "name")
+            sortimages_checkbox.currentIndex = 0
+        else if(settings.sortby === "naturalname")
+            sortimages_checkbox.currentIndex = 1
+        else if(settings.sortby === "date")
+            sortimages_checkbox.currentIndex = 2
+        else if(settings.sortby === "size")
+            sortimages_checkbox.currentIndex = 3
+
+        sortimages_ascending.checked = settings.sortbyAscending
+        sortimages_descending.checked = !settings.sortbyAscending
+
+        windowmode.checkedButton = settings.windowmode
+        windowmode_deco.enabled = windowmode.checkedButton
+        windowmode_deco.checkedButton = settings.windowDecoration
+
+        trayicon.checkedButton = settings.trayicon
+
+        closingx_normal.checked = !settings.fancyX
+        closingx_fancy.checked = settings.fancyX
+        closingx_sizeslider.value = settings.closeXsize
+
+        fitinwindow.checkedButton = settings.fitInWindow
+
+        quickinfo_counter.checkedButton = settings.hidecounter
+        quickinfo_filepath.checkedButton = settings.hidefilepathshowfilename
+        quickinfo_filename.checkedButton = settings.hidefilename
+        quickinfo_closingx.checkedButton = settings.hidex
 
     }
 

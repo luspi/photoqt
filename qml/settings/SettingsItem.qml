@@ -29,8 +29,6 @@ Rectangle {
 
         Tab {
 
-            id: look
-
             title: "Look and Feel"
 
             CustomTabView {
@@ -40,6 +38,10 @@ Rectangle {
 
                 Tab {
                     title: "Basic"
+
+                    function setData() { children[0].setData(); }
+                    function saveData() { children[0].saveData(); }
+
                     TabLookAndFeelBasic { }
                 }
                 Tab {
@@ -154,6 +156,12 @@ Rectangle {
 
             text: "Exit and Discard Changes"
 
+            onClickedButton: {
+                setData()
+                hideSettings()
+            }
+
+
         }
 
         // Button to exit with saving - bottom right, next to exitnosave button
@@ -165,6 +173,11 @@ Rectangle {
             height: parent.height-10
 
             text: "Save Changes and Exit"
+
+            onClickedButton: {
+                saveData()
+                hideSettings()
+            }
 
         }
 
@@ -198,7 +211,16 @@ Rectangle {
         onStarted: {
             visible = true
             blocked = true
+            setData()
         }
+    }
+
+    function setData() {
+        view.getTab(0).item.getTab(0).setData()
+    }
+
+    function saveData() {
+        view.getTab(0).item.getTab(0).saveData()
     }
 
 }

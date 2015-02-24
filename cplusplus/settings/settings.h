@@ -13,6 +13,7 @@
 #include <QDir>
 #include <QFileSystemWatcher>
 #include <QtDebug>
+#include <QTimer>
 #include "fileformats.h"
 
 // Convenience class to access and change permanent settings
@@ -28,6 +29,11 @@ public:
 		watcher = new QFileSystemWatcher;
 		watcher->addPath(QDir::homePath() + "/.photoqt/settings");
 		connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(readSettings()));
+
+		saveSettingsTimer = new QTimer;
+		saveSettingsTimer->setInterval(400);
+		saveSettingsTimer->setSingleShot(true);
+		connect(saveSettingsTimer, SIGNAL(timeout()), this, SLOT(saveSettings()));
 	}
 
 	bool verbose;
@@ -62,14 +68,23 @@ public:
 	bool backgroundImageStretch;
 	bool backgroundImageCenter;
 
+
+
 	// Hide to tray icon?
 	bool trayicon;
+	bool getTrayicon() { return trayicon; }
+	void setTayicon(bool t) { trayicon = t; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool trayicon READ getTrayicon WRITE setTayicon NOTIFY trayiconChanged)
+
 	// Smooth Transition for changing images
 	int transition;
+
 	// Loop through folder?
 	bool loopthroughfolder;
 	bool getLoopthroughfolder() { return loopthroughfolder; }
-	Q_PROPERTY(bool loopthroughfolder READ getLoopthroughfolder NOTIFY loopthroughfolderChanged)
+	void setLoopthroughfolder(bool l) { loopthroughfolder = l; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool loopthroughfolder READ getLoopthroughfolder WRITE setLoopthroughfolder NOTIFY loopthroughfolderChanged)
+
 	// Menu sensitivity
 	int menusensitivity;
 	// Close on click on background exits?
@@ -78,47 +93,62 @@ public:
 	int borderAroundImg;
 	// Show Quick Settings on mouse movement
 	bool quickSettings;
+
 	// Sort images by
 	QString sortby;
+	QString getSortby() { return sortby; }
+	void setSortby(QString s) { sortby = s; saveSettingsTimer->start(); }
+	Q_PROPERTY(QString sortby READ getSortby WRITE setSortby NOTIFY sortbyChanged)
+
 	bool sortbyAscending;
+	bool getSortbyAscending() { return sortbyAscending; }
+	void setSortbyAscending(bool s) { sortbyAscending = s; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool sortbyAscending READ getSortbyAscending WRITE setSortbyAscending NOTIFY sortbyAscendingChanged)
+
+
 	// Mouse Wheel sensitivity
 	int mouseWheelSensitivity;
 	// Remember per session
 	bool rememberRotation;
 	bool rememberZoom;
+
 	// If image is too small, zoom to fit in window
 	bool fitInWindow;
 	bool getFitInWindow() { return fitInWindow; }
-	Q_PROPERTY(bool fitInWindow READ getFitInWindow NOTIFY fitInWindowChanged)
+	void setFitInWindow(bool f) { fitInWindow = f; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool fitInWindow READ getFitInWindow WRITE setFitInWindow NOTIFY fitInWindowChanged)
 
 	// Are quickinfos hidden?
 	bool hidecounter;
 	bool getHidecounter() { return hidecounter; }
-	void setHidecounter(bool h) { qDebug() << "hide counter: " << h; hidecounter = h; saveSettings(); }
+	void setHidecounter(bool h) { hidecounter = h; saveSettingsTimer->start(); }
 	Q_PROPERTY(bool hidecounter READ getHidecounter WRITE setHidecounter NOTIFY hidecounterChanged)
 
 	bool hidefilepathshowfilename;
 	bool getHidefilepathshowfilename() { return hidefilepathshowfilename; }
-	void setHidefilepathshowfilename(bool h) { hidefilepathshowfilename = h; saveSettings(); }
+	void setHidefilepathshowfilename(bool h) { hidefilepathshowfilename = h; saveSettingsTimer->start(); }
 	Q_PROPERTY(bool hidefilepathshowfilename READ getHidefilepathshowfilename WRITE setHidefilepathshowfilename NOTIFY hidefilepathshowfilenameChanged)
 
 	bool hidefilename;
 	bool getHidefilename() { return hidefilename; }
-	void setHidefilename(bool h) { hidefilename = h; saveSettings(); }
+	void setHidefilename(bool h) { hidefilename = h; saveSettingsTimer->start(); }
 	Q_PROPERTY(bool hidefilename READ getHidefilename WRITE setHidefilename NOTIFY hidefilenameChanged)
 
 	bool hidex;
 	bool getHidex() { return hidex; }
-	void setHidex(bool h) { hidex = h; saveSettings(); }
+	void setHidex(bool h) { hidex = h; saveSettingsTimer->start(); }
 	Q_PROPERTY(bool hidex READ getHidex WRITE setHidex NOTIFY hidexChanged)
 
 	// Size/Look of closing "x"
 	int closeXsize;
 	int getCloseXsize() { return closeXsize; }
-	Q_PROPERTY(int closeXsize READ getCloseXsize NOTIFY closeXsizeChanged)
+	void setCloseXsize(int c) { closeXsize = c; saveSettingsTimer->start(); }
+	Q_PROPERTY(int closeXsize READ getCloseXsize WRITE setCloseXsize NOTIFY closeXsizeChanged)
+
 	bool fancyX;
-	bool getFancyx() { return fancyX; }
-	Q_PROPERTY(bool fancyX READ getFancyx NOTIFY fancyXChanged)
+	bool getFancyX() { return fancyX; }
+	void setFancyX(bool f) { fancyX = f; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool fancyX READ getFancyX WRITE setFancyX NOTIFY fancyXChanged)
 
 	// Some settings of the slideshow
 	int slideShowTime;
@@ -137,7 +167,8 @@ public:
 	// The Size of the thumbnail squares
 	int thumbnailsize;
 	int getThumbnailsize() { return thumbnailsize; }
-	Q_PROPERTY(int thumbnailsize READ getThumbnailsize NOTIFY thumbnailsizeChanged)
+	void setThumbnailsize(int t) { thumbnailsize = t; saveSettingsTimer->start(); }
+	Q_PROPERTY(int thumbnailsize READ getThumbnailsize WRITE setThumbnailsize NOTIFY thumbnailsizeChanged)
 
 	// Thumbnails at the bottom or top?
 	QString thumbnailposition;
@@ -145,27 +176,32 @@ public:
 	// Enable thumbnail cache
 	bool thumbnailcache;
 	bool getThumbnailcache() { return thumbnailcache; }
-	Q_PROPERTY(bool thumbnailcache READ getThumbnailcache NOTIFY thumbnailcacheChanged)
+	void setThumbnailcache(bool t) { thumbnailcache = t; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool thumbnailcache READ getThumbnailcache WRITE setThumbnailcache NOTIFY thumbnailcacheChanged)
 
 	// Are files used for caching (use database if false)
 	bool thbcachefile;
 	bool getThbcachefile() { return thbcachefile; }
-	Q_PROPERTY(bool thbcachefile READ getThbcachefile NOTIFY thbcachefileChanged)
+	void setThbcachefile(bool t) { thbcachefile = t; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool thbcachefile READ getThbcachefile WRITE setThbcachefile NOTIFY thbcachefileChanged)
 
 	// Border between thumbnails
 	int thumbnailSpacingBetween;
 	int getThumbnailSpacingBetween() { return thumbnailSpacingBetween; }
-	Q_PROPERTY(int thumbnailSpacingBetween READ getThumbnailSpacingBetween NOTIFY thumbnailSpacingBetweenChanged)
+	void setThumbnailSpacingBetween(int t) { thumbnailSpacingBetween = t; saveSettingsTimer->start(); }
+	Q_PROPERTY(int thumbnailSpacingBetween READ getThumbnailSpacingBetween WRITE setThumbnailSpacingBetween NOTIFY thumbnailSpacingBetweenChanged)
 
 	// Lift hovered/selected thumbnails by x pixels
 	int thumbnailLiftUp;
 	int getThumbnailLiftUp() { return thumbnailLiftUp; }
-	Q_PROPERTY(int thumbnailLiftUp READ getThumbnailLiftUp NOTIFY thumbnailLiftUpChanged)
+	void setThumbnailLiftUp(int t) { thumbnailLiftUp = t; saveSettingsTimer->start(); }
+	Q_PROPERTY(int thumbnailLiftUp READ getThumbnailLiftUp WRITE setThumbnailLiftUp NOTIFY thumbnailLiftUpChanged)
 
 	// Are the thumbnails fading out or always visible?
 	bool thumbnailKeepVisible;
 	bool getThumbnailKeepVisible() { return thumbnailKeepVisible; }
-	Q_PROPERTY(bool thumbnailKeepVisible READ getThumbnailKeepVisible NOTIFY thumbnailKeepVisibleChanged)
+	void setThumbnailKeepVisible(bool t) { thumbnailKeepVisible = t; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool thumbnailKeepVisible READ getThumbnailKeepVisible WRITE setThumbnailKeepVisible NOTIFY thumbnailKeepVisibleChanged)
 
 	// Enable dynamic thumbnail creation (1 = dynamic, 2 = smart)
 	int thumbnailDynamic;
@@ -186,12 +222,19 @@ public:
 
 	int thumbnailFontSize;
 	int getThumbnailFontSize() { return thumbnailFontSize; }
-	Q_PROPERTY(int thumbnailFontSize READ getThumbnailFontSize NOTIFY thumbnailFontSizeChanged)
+	void setThumbnailFontSize(int t) { thumbnailFontSize = t; saveSettingsTimer->start(); }
+	Q_PROPERTY(int thumbnailFontSize READ getThumbnailFontSize WRITE setThumbnailFontSize NOTIFY thumbnailFontSizeChanged)
 
 	// Window Mode
 	bool windowmode;
+	bool getWindowmode() { return windowmode; }
+	void setWindowmode(bool w) { windowmode = w; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool windowmode READ getWindowmode WRITE setWindowmode NOTIFY windowmodeChanged)
 	// w/ or w/o decoration
 	bool windowDecoration;
+	bool getWindowDecoration() { return windowDecoration; }
+	void setWindowDecoration(bool w) { windowDecoration = w; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool windowDecoration READ getWindowDecoration WRITE setWindowDecoration NOTIFY windowDecorationChanged)
 
 	// The currently known filetypes
 	FileFormats *fileFormats;
@@ -209,7 +252,8 @@ public:
 
 	int exiffontsize;
 	int getExiffontsize() { return exiffontsize; }
-	Q_PROPERTY(int exiffontsize READ getExiffontsize NOTIFY exiffontsizeChanged)
+	void setExiffontsize(int e) { exiffontsize = e; saveSettingsTimer->start(); }
+	Q_PROPERTY(int exiffontsize READ getExiffontsize WRITE setExiffontsize NOTIFY exiffontsizeChanged)
 
 	// Which Exif data is shown?
 	bool exiffilename;
@@ -346,6 +390,7 @@ public:
 	}
 
 
+public slots:
 	// Save settings
 	void saveSettings() {
 
@@ -485,8 +530,6 @@ public:
 
 	}
 
-
-public slots:
 	// Read the current settings
 	void readSettings() {
 
@@ -871,6 +914,7 @@ public slots:
 
 private:
 	QFileSystemWatcher *watcher;
+	QTimer *saveSettingsTimer;
 
 signals:
 	void thumbnailsizeChanged(int s);
@@ -889,6 +933,11 @@ signals:
 	void hidefilepathshowfilenameChanged(bool h);
 	void hidefilenameChanged(bool h);
 	void hidexChanged(bool h);
+	void sortbyAscendingChanged(bool s);
+	void sortbyChanged(QString s);
+	void windowmodeChanged(bool w);
+	void windowDecorationChanged(bool w);
+	void trayiconChanged(bool t);
 
 };
 
