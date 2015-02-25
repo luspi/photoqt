@@ -20,7 +20,7 @@ TabView {
 
         // Slightly darker overall background
         frame: Rectangle {
-            color: "#33000000"
+            color: subtab ? "#00000000" : "#33000000"
         }
 
         // Invisible main background of tabbar
