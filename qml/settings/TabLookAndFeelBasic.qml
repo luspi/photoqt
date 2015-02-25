@@ -62,7 +62,7 @@ Rectangle {
 
                 width: tab.width
 
-                text: "<h2>Sort Images</hr><br>Here you can adjust, how the images in a folder are supposed to be sorted. You can sort them by Filename, Natural Name (e.g., file10.jpg comes after file9.jpg and not after file1.jpg), File Size, and Date. Also, you can reverse the sorting order from ascending to descending if wanted.<br><br><b>Hint: You can also change this setting very quickly from the 'Quick Settings'' window, hidden behind the right screen edge.</b>"
+                text: "<h2>Sort Images</h2><br>Here you can adjust, how the images in a folder are supposed to be sorted. You can sort them by Filename, Natural Name (e.g., file10.jpg comes after file9.jpg and not after file1.jpg), File Size, and Date. Also, you can reverse the sorting order from ascending to descending if wanted.<br><br><b>Hint: You can also change this setting very quickly from the 'Quick Settings'' window, hidden behind the right screen edge.</b>"
 
             }
 
@@ -126,7 +126,7 @@ Rectangle {
 
                 width: tab.width
 
-                text: "<h2>Window Mode</hr><br>PhotoQt is designed with the space of a fullscreen app in mind. That's why it by default runs as fullscreen. However, some might prefer to have it as a normal window, e.g. so that they can see the panel."
+                text: "<h2>Window Mode</h2><br>PhotoQt is designed with the space of a fullscreen app in mind. That's why it by default runs as fullscreen. However, some might prefer to have it as a normal window, e.g. so that they can see the panel."
 
             }
 

@@ -27,5 +27,6 @@
         <file>qml/elements/CustomComboBox.qml</file>
         <file>qml/elements/CustomRadioButton.qml</file>
         <file>qml/elements/CustomSlider.qml</file>
+        <file>qml/elements/CustomSpinBox.qml</file>
     </qresource>
 </RCC>

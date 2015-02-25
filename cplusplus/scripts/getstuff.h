@@ -6,6 +6,8 @@
 #include <GraphicsMagick/Magick++.h>
 #include <QSettings>
 #include <QCursor>
+#include <QColor>
+#include <QFileDialog>
 
 class GetStuff : public QObject {
 
@@ -20,6 +22,10 @@ public:
 	Q_INVOKABLE QPoint getCursorPos();
 
 	Q_INVOKABLE QString removePathFromFilename(QString path);
+
+	Q_INVOKABLE QColor addAlphaToColor(QString col, int alpha);
+
+	Q_INVOKABLE QString getFilenameQtImage();
 
 private:
 	QImageReader reader;

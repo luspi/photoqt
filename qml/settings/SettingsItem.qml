@@ -1,5 +1,6 @@
-import QtQuick 2.3
-import QtQuick.Controls 1.2
+import QtQuick 2.4
+import QtQuick.Controls 1.3
+
 
 import "./"
 import "../elements"
@@ -15,6 +16,13 @@ Rectangle {
     // Invisible at startup
     visible: false
     opacity: 0
+
+    // setData is only emitted when settings have been 'closed without saving'
+    // See comment above 'setData_restore()' function below
+    signal setData()
+
+    // Save data
+    signal saveData()
 
     CustomTabView {
 
@@ -33,20 +41,59 @@ Rectangle {
 
             CustomTabView {
 
+                id: subtab1
+
                 subtab: true   // this is a subtab
                 tabCount: 2    // and we have 2 tabs in it
 
+
+
                 Tab {
+
                     title: "Basic"
 
-                    function setData() { children[0].setData(); }
-                    function saveData() { children[0].saveData(); }
+                    TabLookAndFeelBasic {
+                        Connections {
+                            target: tabrect
+                            onSetData:{
+                                setData()
+                            }
+                        }
+                        Connections {
+                            target: tabrect
+                            onSaveData:{
+                                saveData()
+                            }
+                        }
+                        Component.onCompleted: {
+                            setData()
+                        }
+                    }
 
-                    TabLookAndFeelBasic { }
                 }
+
                 Tab {
+
                     title: "Advanced"
-                    TabLookAndFeelAdvanced { }
+
+                    TabLookAndFeelAdvanced {
+                        Connections {
+                            target: tabrect
+                            onSetData:{
+                                setData()
+                            }
+                        }
+                        Connections {
+                            target: tabrect
+                            onSaveData:{
+                                saveData()
+                            }
+                        }
+                        Component.onCompleted: {
+                            setData()
+                        }
+                    }
+
                 }
             }
         }
@@ -157,7 +204,7 @@ Rectangle {
             text: "Exit and Discard Changes"
 
             onClickedButton: {
-                setData()
+                setData_restore()
                 hideSettings()
             }
 
@@ -211,16 +258,18 @@ Rectangle {
         onStarted: {
             visible = true
             blocked = true
-            setData()
+            // We do NOT need to call setData() here, as this is called whenever a tab is set up
         }
     }
 
-    function setData() {
-        view.getTab(0).item.getTab(0).setData()
-    }
 
-    function saveData() {
-        view.getTab(0).item.getTab(0).saveData()
+    // This function is only called, when settings have been opened and "closed without saving"
+    // In any other case, the actual tabs are ONLY SET UP WHEN OPENED (i.e., as needed) and use
+    // the Component.onCompleted signal to make sure that the settings are loaded.
+    function setData_restore() {
+        setData()
     }
 
 }
+
+

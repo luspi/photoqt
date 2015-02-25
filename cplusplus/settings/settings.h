@@ -47,26 +47,86 @@ public:
 
 	// Possibility to en-/disable animated fade-in
 	bool myWidgetAnimated;
+	bool getMyWidgetAnimated() { return myWidgetAnimated; }
+	void setMyWidgetAnimated(bool c) { myWidgetAnimated = c; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool myWidgetAnimated READ getMyWidgetAnimated WRITE setMyWidgetAnimated NOTIFY myWidgetAnimatedChanged)
+
 	// Possibility to en-/disable save/restore of window geometry on quit
 	bool saveWindowGeometry;
+	bool getSaveWindowGeometry() { return saveWindowGeometry; }
+	void setSaveWindowGeometry(bool c) { saveWindowGeometry = c; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool saveWindowGeometry READ getSaveWindowGeometry WRITE setSaveWindowGeometry NOTIFY saveWindowGeometryChanged)
+
 	// Keep PhotoQt on top of other windows?
 	bool keepOnTop;
 	// Is composite enabled?
 	bool composite;
+	bool getComposite() { return composite; }
+	void setComposite(bool c) { composite = c; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool composite READ getComposite WRITE setComposite NOTIFY compositeChanged)
 
 	// Set the background color
 	int bgColorRed;
+	int getBgColorRed() { return bgColorRed; }
+	void setBgColorRed(int b) { bgColorRed = b; saveSettingsTimer->start(); }
+	Q_PROPERTY(int bgColorRed READ getBgColorRed WRITE setBgColorRed NOTIFY bgColorRedChanged)
+
 	int bgColorGreen;
+	int getBgColorGreen() { return bgColorGreen; }
+	void setBgColorGreen(int b) { bgColorGreen = b; saveSettingsTimer->start(); }
+	Q_PROPERTY(int bgColorGreen READ getBgColorGreen WRITE setBgColorGreen NOTIFY bgColorGreenChanged)
+
 	int bgColorBlue;
+	int getBgColorBlue() { return bgColorBlue; }
+	void setBgColorBlue(int b) { bgColorBlue = b; saveSettingsTimer->start(); }
+	Q_PROPERTY(int bgColorBlue READ getBgColorBlue WRITE setBgColorBlue NOTIFY bgColorBlueChanged)
+
 	int bgColorAlpha;
+	int getBgColorAlpha() { return bgColorAlpha; }
+	void setBgColorAlpha(int b) { bgColorAlpha = b; saveSettingsTimer->start(); }
+	Q_PROPERTY(int bgColorAlpha READ getBgColorAlpha WRITE setBgColorAlpha NOTIFY bgColorAlphaChanged)
+
 
 	// Background image in use?
 	bool backgroundImageScreenshot;
+	bool getBackgroundImageScreenshot() { return backgroundImageScreenshot; }
+	void setBackgroundImageScreenshot(bool b) { backgroundImageScreenshot = b; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool backgroundImageScreenshot READ getBackgroundImageScreenshot WRITE setBackgroundImageScreenshot NOTIFY backgroundImageScreenshotChanged)
+
 	bool backgroundImageUse;
+	bool getBackgroundImageUse() { return backgroundImageUse; }
+	void setBackgroundImageUse(bool b) { backgroundImageUse = b; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool backgroundImageUse READ getBackgroundImageUse WRITE setBackgroundImageUse NOTIFY backgroundImageUseChanged)
+
 	QString backgroundImagePath;
+	QString getBackgroundImagePath() { return backgroundImagePath; }
+	void setBackgroundImagePath(QString b) { backgroundImagePath = b; saveSettingsTimer->start(); }
+	Q_PROPERTY(QString backgroundImagePath READ getBackgroundImagePath WRITE setBackgroundImagePath NOTIFY backgroundImagePathChanged)
+
 	bool backgroundImageScale;
+	bool getBackgroundImageScale() { return backgroundImageScale; }
+	void setBackgroundImageScale(bool b) { backgroundImageScale = b; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool backgroundImageScale READ getBackgroundImageScale WRITE setBackgroundImageScale NOTIFY backgroundImageScaleChanged)
+
+	bool backgroundImageScaleCrop;
+	bool getBackgroundImageScaleCrop() { return backgroundImageScaleCrop; }
+	void setBackgroundImageScaleCrop(bool b) { backgroundImageScaleCrop = b; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool backgroundImageScaleCrop READ getBackgroundImageScaleCrop WRITE setBackgroundImageScaleCrop NOTIFY backgroundImageScaleCropChanged)
+
 	bool backgroundImageStretch;
+	bool getBackgroundImageStretch() { return backgroundImageStretch; }
+	void setBackgroundImageStretch(bool b) { backgroundImageStretch = b; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool backgroundImageStretch READ getBackgroundImageStretch WRITE setBackgroundImageStretch NOTIFY backgroundImageStretchChanged)
+
 	bool backgroundImageCenter;
+	bool getBackgroundImageCenter() { return backgroundImageCenter; }
+	void setBackgroundImageCenter(bool b) { backgroundImageCenter = b; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool backgroundImageCenter READ getBackgroundImageCenter WRITE setBackgroundImageCenter NOTIFY backgroundImageCenterChanged)
+
+	bool backgroundImageTile;
+	bool getBackgroundImageTile() { return backgroundImageTile; }
+	void setBackgroundImageTile(bool b) { backgroundImageTile = b; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool backgroundImageTile READ getBackgroundImageTile WRITE setBackgroundImageTile NOTIFY backgroundImageTileChanged)
 
 
 
@@ -78,6 +138,9 @@ public:
 
 	// Smooth Transition for changing images
 	int transition;
+	int getTransition() { return transition; }
+	void setTransition(int t) { transition = t; saveSettingsTimer->start(); }
+	Q_PROPERTY(int transition READ getTransition WRITE setTransition NOTIFY transitionChanged)
 
 	// Loop through folder?
 	bool loopthroughfolder;
@@ -87,12 +150,27 @@ public:
 
 	// Menu sensitivity
 	int menusensitivity;
+	int getMenusensitivity() { return menusensitivity; }
+	void setMenusensitivity(int m) { menusensitivity = m; saveSettingsTimer->start(); }
+	Q_PROPERTY(int menusensitivity READ getMenusensitivity WRITE setMenusensitivity NOTIFY menusensitivityChanged)
+
 	// Close on click on background exits?
 	bool closeongrey;
+	bool getCloseongrey() { return closeongrey; }
+	void setCloseongrey(bool l) { closeongrey = l; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool closeongrey READ getCloseongrey WRITE setCloseongrey NOTIFY closeongreyChanged)
+
 	// Border around big image
 	int borderAroundImg;
+	int getBorderAroundImg() { return borderAroundImg; }
+	void setBorderAroundImg(int b) { borderAroundImg = b; saveSettingsTimer->start(); }
+	Q_PROPERTY(int borderAroundImg READ getBorderAroundImg WRITE setBorderAroundImg NOTIFY borderAroundImgChanged)
+
 	// Show Quick Settings on mouse movement
 	bool quickSettings;
+	bool getQuickSettings() { return quickSettings; }
+	void setQuickSettings(bool l) { quickSettings = l; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool quickSettings READ getQuickSettings WRITE setQuickSettings NOTIFY quickSettingsChanged)
 
 	// Sort images by
 	QString sortby;
@@ -105,12 +183,23 @@ public:
 	void setSortbyAscending(bool s) { sortbyAscending = s; saveSettingsTimer->start(); }
 	Q_PROPERTY(bool sortbyAscending READ getSortbyAscending WRITE setSortbyAscending NOTIFY sortbyAscendingChanged)
 
-
 	// Mouse Wheel sensitivity
 	int mouseWheelSensitivity;
+	int getMouseWheelSensitivity() { return mouseWheelSensitivity; }
+	void setMouseWheelSensitivity(int b) { mouseWheelSensitivity = b; saveSettingsTimer->start(); }
+	Q_PROPERTY(int mouseWheelSensitivity READ getMouseWheelSensitivity WRITE setMouseWheelSensitivity NOTIFY mouseWheelSensitivityChanged)
+
 	// Remember per session
 	bool rememberRotation;
+	bool getRememberRotation() { return rememberRotation; }
+	void setRememberRotation(bool l) { rememberRotation = l; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool rememberRotation READ getRememberRotation WRITE setRememberRotation NOTIFY rememberRotationChanged)
+
 	bool rememberZoom;
+	bool getRememberZoom() { return rememberZoom; }
+	void setRememberZoom(bool l) { rememberZoom = l; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool rememberZoom READ getRememberZoom WRITE setRememberZoom NOTIFY rememberZoomChanged)
+
 
 	// If image is too small, zoom to fit in window
 	bool fitInWindow;
@@ -239,6 +328,9 @@ public:
 	// The currently known filetypes
 	FileFormats *fileFormats;
 	QString knownFileTypesQt;
+	QString getKnownFileTypesQt() { return knownFileTypesQt; }
+	void setKnownFileTypesQt(QString k) { knownFileTypesQt = k; saveSettingsTimer->start(); }
+	Q_PROPERTY(QString knownFileTypesQt READ getKnownFileTypesQt WRITE setKnownFileTypesQt NOTIFY knownFileTypesQtChanged)
 	QString knownFileTypesQtExtras;
 	QString knownFileTypesGm;
 	QString knownFileTypesExtras;
@@ -304,18 +396,20 @@ public:
 //#ifdef Q_OS_WIN32
 //		backgroundImageScreenshot = (QtWin::isCompositionEnabled() ? false : true);
 //#else
-		backgroundImageScreenshot = true;
+		backgroundImageScreenshot = false;
 //#endif
 		backgroundImageUse = false;
 		backgroundImagePath = "";
-		backgroundImageScale = false;
+		backgroundImageScale = true;
+		backgroundImageScaleCrop = false;
 		backgroundImageStretch = false;
 		backgroundImageCenter = false;
+		backgroundImageTile = false;
 
 //#ifdef Q_OS_WIN32
 //		composite = (QtWin::isCompositionEnabled() ? true : false);
 //#else
-		composite = false;
+		composite = true;
 //#endif
 		trayicon = false;
 		transition = 0;
@@ -438,8 +532,10 @@ public slots:
 			cont += QString("BackgroundImageUse=%1\n").arg(backgroundImageUse);
 			cont += QString("BackgroundImagePath=%1\n").arg(backgroundImagePath);
 			cont += QString("BackgroundImageScale=%1\n").arg(backgroundImageScale);
+			cont += QString("BackgroundImageScaleCrop=%1\n").arg(backgroundImageScaleCrop);
 			cont += QString("BackgroundImageStretch=%1\n").arg(backgroundImageStretch);
 			cont += QString("BackgroundImageCenter=%1\n").arg(backgroundImageCenter);
+			cont += QString("BackgroundImageTile=%1\n").arg(backgroundImageTile);
 
 			cont += "\n[Behaviour]\n";
 
@@ -632,10 +728,14 @@ public slots:
 				backgroundImageUse = bool(all.split("BackgroundImageUse=").at(1).split("\n").at(0).toInt());
 			if(all.contains("BackgroundImageScale="))
 				backgroundImageScale = bool(all.split("BackgroundImageScale=").at(1).split("\n").at(0).toInt());
+			if(all.contains("BackgroundImageScaleCrop="))
+				backgroundImageScaleCrop = bool(all.split("BackgroundImageScaleCrop=").at(1).split("\n").at(0).toInt());
 			if(all.contains("BackgroundImageStretch="))
 				backgroundImageStretch = bool(all.split("BackgroundImageStretch=").at(1).split("\n").at(0).toInt());
 			if(all.contains("BackgroundImageCenter="))
 				backgroundImageCenter = bool(all.split("BackgroundImageCenter=").at(1).split("\n").at(0).toInt());
+			if(all.contains("BackgroundImageTile="))
+				backgroundImageTile = bool(all.split("BackgroundImageTile=").at(1).split("\n").at(0).toInt());
 
 
 			if(all.contains("TrayIcon=1"))
@@ -938,6 +1038,30 @@ signals:
 	void windowmodeChanged(bool w);
 	void windowDecorationChanged(bool w);
 	void trayiconChanged(bool t);
+	void compositeChanged(bool c);
+	void bgColorRedChanged(int b);
+	void bgColorGreenChanged(int b);
+	void bgColorBlueChanged(int b);
+	void bgColorAlphaChanged(int b);
+	void backgroundImageScreenshotChanged(bool b);
+	void backgroundImageUseChanged(bool b);
+	void backgroundImagePathChanged(QString b);
+	void backgroundImageScaleChanged(bool b);
+	void backgroundImageScaleCropChanged(bool b);
+	void backgroundImageStretchChanged(bool b);
+	void backgroundImageCenterChanged(bool b);
+	void backgroundImageTileChanged(bool b);
+	void transitionChanged(int t);
+	void menusensitivityChanged(int m);
+	void closeongreyChanged(bool c);
+	void borderAroundImgChanged(int b);
+	void quickSettingsChanged(bool q);
+	void mouseWheelSensitivityChanged(int m);
+	void rememberRotationChanged(bool r);
+	void rememberZoomChanged(bool r);
+	void knownFileTypesQtChanged(QString k);
+	void myWidgetAnimatedChanged(bool c);
+	void saveWindowGeometryChanged(bool c);
 
 };
 

@@ -13,5 +13,7 @@
         <file>img/logo.png</file>
         <file>img/settings/sortascending.png</file>
         <file>img/settings/sortdescending.png</file>
+        <file>img/settings/emptybackground.png</file>
+        <file>img/transparent.png</file>
     </qresource>
 </RCC>

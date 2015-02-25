@@ -32,6 +32,7 @@ QSize GetStuff::getImageSize(QString path) {
 		QSize s = QSize(geo.width(),geo.height());
 		if(s.width() < 2 && s.height() < 2)
 			return settings->value("curSize").toSize();
+		return s;
 
 	}
 
@@ -46,5 +47,26 @@ QPoint GetStuff::getCursorPos() {
 QString GetStuff::removePathFromFilename(QString path) {
 
 	return QFileInfo(path).fileName();
+
+}
+
+QColor GetStuff::addAlphaToColor(QString col, int alpha) {
+
+	col = col.remove(0,1);
+
+	bool ok;
+	int red = (QString(col.at(0)) + QString(col.at(1))).toUInt(&ok,16);
+	int green = (QString(col.at(2)) + QString(col.at(3))).toUInt(&ok,16);
+	int blue = (QString(col.at(4)) + QString(col.at(5))).toUInt(&ok,16);
+
+	qDebug() << col << " - " << red << " - " << green << " - " << blue << " - " << alpha;
+
+	return QColor(red, green, blue, alpha);
+
+}
+
+QString GetStuff::getFilenameQtImage() {
+
+	return QFileDialog::getOpenFileName(0,"Please select image file",QDir::homePath());
 
 }

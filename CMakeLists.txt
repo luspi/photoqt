@@ -18,6 +18,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} qml/mainview/Background.qml qml/mainview/
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/ScrollBarHorizontal.qml qml/elements/ScrollBarVertical.qml qml/elements/SettingsText.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/CustomCheckBox.qml qml/elements/CustomButton.qml qml/elements/CustomTabView.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/CustomComboBox.qml qml/elements/CustomRadioButton.qml qml/elements/CustomSlider.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/CustomSpinBox.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/fadein/About.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/SettingsItem.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/TabLookAndFeelBasic.qml qml/settings/TabLookAndFeelAdvanced.qml)

@@ -13,7 +13,7 @@ Rectangle {
     // Some properties that can be adjusted from parent
     property bool checkedButton: false
     property string text: ""
-    property int fsize: 8
+    property int fsize: 9
     property string textColour: "white"
 
     // Per default the text in on the right
