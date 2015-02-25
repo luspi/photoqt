@@ -108,8 +108,27 @@ Rectangle {
                 tabCount: 2
 
                 Tab {
+
                     title: "Basic"
-                    TabThumbnailsBasic { }
+
+                    TabThumbnailsBasic {
+                        Connections {
+                            target: tabrect
+                            onSetData:{
+                                setData()
+                            }
+                        }
+                        Connections {
+                            target: tabrect
+                            onSaveData:{
+                                saveData()
+                            }
+                        }
+                        Component.onCompleted: {
+                            setData()
+                        }
+                    }
+
                 }
                 Tab {
                     title: "Advanced"

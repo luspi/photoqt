@@ -236,7 +236,7 @@ public:
 
 	bool fancyX;
 	bool getFancyX() { return fancyX; }
-	void setFancyX(bool f) { fancyX = f; saveSettingsTimer->start(); }
+	void setFancyX(bool f) { bool tmp = fancyX; fancyX = f; if(fancyX != tmp) emit fancyXChanged(f); saveSettingsTimer->start(); }
 	Q_PROPERTY(bool fancyX READ getFancyX WRITE setFancyX NOTIFY fancyXChanged)
 
 	// Some settings of the slideshow
@@ -294,8 +294,16 @@ public:
 
 	// Enable dynamic thumbnail creation (1 = dynamic, 2 = smart)
 	int thumbnailDynamic;
+	int getThumbnailDynamic() { return thumbnailDynamic; }
+	void setThumbnailDynamic(int t) { thumbnailDynamic = t; saveSettingsTimer->start(); }
+	Q_PROPERTY(int thumbnailDynamic READ getThumbnailDynamic WRITE setThumbnailDynamic NOTIFY thumbnailDynamicChanged)
+
 	// Always center on active thumbnails
 	bool thumbnailCenterActive;
+	bool getThumbnailCenterActive() { return thumbnailCenterActive; }
+	void setThumbnailCenterActive(bool t) { thumbnailCenterActive = t; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool thumbnailCenterActive READ getThumbnailCenterActive WRITE setThumbnailCenterActive NOTIFY thumbnailCenterActiveChanged)
+
 	// Don't load actual thumbnail but just display the filename
 	bool thumbnailFilenameInstead;
 	int thumbnailFilenameInsteadFontSize;
@@ -1062,6 +1070,8 @@ signals:
 	void knownFileTypesQtChanged(QString k);
 	void myWidgetAnimatedChanged(bool c);
 	void saveWindowGeometryChanged(bool c);
+	void thumbnailDynamicChanged(int t);
+	void thumbnailCenterActiveChanged(bool c);
 
 };
 
