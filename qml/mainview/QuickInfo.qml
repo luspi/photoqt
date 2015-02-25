@@ -9,6 +9,8 @@ Item {
     x:5
     y:5
 
+    opacity: 0
+
     property bool somethingLoaded: false
 
     // Set data
@@ -72,7 +74,7 @@ Item {
             x:3
             y:3
 
-            text: " Open a file to begin..."
+            text: ""
 
             color: "white"
             font.bold: true
