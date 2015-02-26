@@ -12,7 +12,7 @@ RadioButton {
                         implicitWidth: 16
                         implicitHeight: 16
                         radius: 9
-                        color: "#22FFFFFF"
+                        color: control.enabled ? "#22FFFFFF" : "#22888888"
                         Rectangle {
                             anchors.fill: parent
                             visible: control.checked
@@ -38,7 +38,7 @@ RadioButton {
                             id: txt
                             x: (icon != "") ? 18 : 0
                             y: 0
-                            color: "white"
+                            color: control.enabled ? "white" : "#555555"
                             height: 16
                             text: control.text
                         }
