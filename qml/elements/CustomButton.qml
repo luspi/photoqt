@@ -9,12 +9,14 @@ Button {
     property bool pressedDown: false
     property bool hovered: false
 
+    implicitHeight: 30
+
     signal clickedButton()
 
     style: ButtonStyle {
 
         background: Rectangle {
-            color: but.pressedDown ? "#BB292929" : (but.hovered ? "#BB181818" : "#BB000000")
+            color: control.pressedDown ? "#BB292929" : (control.hovered ? "#BB181818" : "#BB000000")
             border.width: 1
             border.color: "#CC333333"
         }
@@ -22,8 +24,8 @@ Button {
         label: Text {
             horizontalAlignment: Qt.AlignHCenter
             verticalAlignment: Qt.AlignVCenter
-            color: "white"
-            text: "  " + but.text + "  "
+            color: control.enabled ? "white" : "#555555"
+            text: "  " + control.text + "  "
         }
 
     }
