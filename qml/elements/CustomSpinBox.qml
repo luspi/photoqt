@@ -7,24 +7,26 @@ SpinBox {
     style: SpinBoxStyle{
             background: Rectangle {
                 implicitWidth: 50
-                implicitHeight: 20
-                color: "#88000000"
-                border.color: "#99969696"
+                implicitHeight: 25
+                color: control.enabled ? "#88000000" : "#55000000"
+                border.color: control.enabled ? "#99969696" : "#44969696"
                 radius: 2
             }
-            textColor: "white"
-            selectionColor: "white"
+            textColor: control.enabled ? "white" : "grey"
+            selectionColor: control.enabled ? "white" : "grey"
             selectedTextColor: "black"
             decrementControl: Text {
-                color: "white"
-                y: -height*2/3
-                font.pixelSize: control.height
+                color: control.enabled ? "white" : "grey"
+                y: -height/3
+                x: -2
+                font.pixelSize: control.height*2/3
                 text: "-"
             }
             incrementControl: Text {
-                color: "white"
-                y: -height*2/3
-                font.pixelSize: control.height
+                color: control.enabled ? "white" : "grey"
+                y: -height/3
+                x: -2
+                font.pixelSize: control.height*2/3
                 text: "+"
             }
         }
