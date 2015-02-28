@@ -29,5 +29,6 @@
         <file>qml/elements/CustomSlider.qml</file>
         <file>qml/elements/CustomSpinBox.qml</file>
         <file>qml/elements/CustomConfirm.qml</file>
+        <file>qml/settings/TabDetailsTile.qml</file>
     </qresource>
 </RCC>

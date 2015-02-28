@@ -1,5 +1,5 @@
-import QtQuick 2.4
-import QtQuick.Controls 1.3
+import QtQuick 2.3
+import QtQuick.Controls 1.2
 
 
 import "./"
@@ -63,9 +63,6 @@ Rectangle {
                             onSetData:{
                                 setData()
                             }
-                        }
-                        Connections {
-                            target: tabrect
                             onSaveData:{
                                 saveData()
                             }
@@ -87,9 +84,6 @@ Rectangle {
                             onSetData:{
                                 setData()
                             }
-                        }
-                        Connections {
-                            target: tabrect
                             onSaveData:{
                                 saveData()
                             }
@@ -122,9 +116,6 @@ Rectangle {
                             onSetData:{
                                 setData()
                             }
-                        }
-                        Connections {
-                            target: tabrect
                             onSaveData:{
                                 saveData()
                             }
@@ -168,7 +159,20 @@ Rectangle {
         Tab {
 
             title: "Details"
-            TabDetails { }
+            TabDetails {
+                Connections {
+                    target: tabrect
+                    onSetData:{
+                        setData()
+                    }
+                    onSaveData:{
+                        saveData()
+                    }
+                }
+                Component.onCompleted: {
+                    setData()
+                }
+            }
 
         }
 

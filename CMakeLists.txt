@@ -20,7 +20,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/CustomCheckBox.qml qml/eleme
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/CustomComboBox.qml qml/elements/CustomRadioButton.qml qml/elements/CustomSlider.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/CustomSpinBox.qml qml/elements/CustomConfirm.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/fadein/About.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/SettingsItem.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/SettingsItem.qml qml/settings/TabDetailsTile.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/TabLookAndFeelBasic.qml qml/settings/TabLookAndFeelAdvanced.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/TabThumbnailsBasic.qml qml/settings/TabThumbnailsAdvanced.qml qml/settings/TabShortcuts.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/TabDetails.qml qml/settings/TabOther.qml qml/settings/TabFiletypes.qml)

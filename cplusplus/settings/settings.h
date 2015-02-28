@@ -374,33 +374,125 @@ public:
 	// A combination of all of them
 	QString knownFileTypes;
 
+
 	// Some exif settings
 	bool exifenablemousetriggering;
+	bool getExifenablemousetriggering() { return exifenablemousetriggering; }
+	void setExifenablemousetriggering(bool w) { exifenablemousetriggering = w; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool exifenablemousetriggering READ getExifenablemousetriggering WRITE setExifenablemousetriggering NOTIFY exifenablemousetriggeringChanged)
+
 	QString exifrotation;
+	QString getExifrotation() { return exifrotation; }
+	void setExifrotation(QString w) { exifrotation = w; saveSettingsTimer->start(); }
+	Q_PROPERTY(QString exifrotation READ getExifrotation WRITE setExifrotation NOTIFY exifrotationChanged)
+
 	QString exifgpsmapservice;
+	QString getExifgpsmapservice() { return exifgpsmapservice; }
+	void setExifgpsmapservice(QString w) { exifgpsmapservice = w; saveSettingsTimer->start(); }
+	Q_PROPERTY(QString exifgpsmapservice READ getExifgpsmapservice WRITE setExifgpsmapservice NOTIFY exifgpsmapserviceChanged)
+
 
 	int exiffontsize;
 	int getExiffontsize() { return exiffontsize; }
 	void setExiffontsize(int e) { exiffontsize = e; saveSettingsTimer->start(); }
 	Q_PROPERTY(int exiffontsize READ getExiffontsize WRITE setExiffontsize NOTIFY exiffontsizeChanged)
 
+
 	// Which Exif data is shown?
 	bool exiffilename;
+	bool getExiffilename() { return exiffilename; }
+	void setExiffilename(bool w) { exiffilename = w; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool exiffilename READ getExiffilename WRITE setExiffilename NOTIFY exiffilenameChanged)
+
 	bool exiffiletype;
+	bool getExiffiletype() { return exiffiletype; }
+	void setExiffiletype(bool w) { exiffiletype = w; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool exiffiletype READ getExiffiletype WRITE setExiffiletype NOTIFY exiffiletypeChanged)
+
 	bool exiffilesize;
+	bool getExiffilesize() { return exiffilesize; }
+	void setExiffilesize(bool w) { exiffilesize = w; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool exiffilesize READ getExiffilesize WRITE setExiffilesize NOTIFY exiffilesizeChanged)
+
 	bool exifdimensions;
+	bool getExifdimensions() { return exifdimensions; }
+	void setExifdimensions(bool w) { exifdimensions = w; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool exifdimensions READ getExifdimensions WRITE setExifdimensions NOTIFY exifdimensionsChanged)
+
 	bool exifmake;
+	bool getExifmake() { return exifmake; }
+	void setExifmake(bool w) { exifmake = w; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool exifmake READ getExifmake WRITE setExifmake NOTIFY exifmakeChanged)
+
 	bool exifmodel;
+	bool getExifmodel() { return exifmodel; }
+	void setExifmodel(bool w) { exifmodel = w; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool exifmodel READ getExifmodel WRITE setExifmodel NOTIFY exifmodelChanged)
+
 	bool exifsoftware;
+	bool getExifsoftware() { return exifsoftware; }
+	void setExifsoftware(bool w) { exifsoftware = w; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool exifsoftware READ getExifsoftware WRITE setExifsoftware NOTIFY exifsoftwareChanged)
+
 	bool exifphototaken;
+	bool getExifphototaken() { return exifphototaken; }
+	void setExifphototaken(bool w) { exifphototaken = w; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool exifphototaken READ getExifphototaken WRITE setExifphototaken NOTIFY exifphototakenChanged)
+
 	bool exifexposuretime;
+	bool getExifexposuretime() { return exifexposuretime; }
+	void setExifexposuretime(bool w) { exifexposuretime = w; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool exifexposuretime READ getExifexposuretime WRITE setExifexposuretime NOTIFY exifexposuretimeChanged)
+
 	bool exifflash;
+	bool getExifflash() { return exifflash; }
+	void setExifflash(bool w) { exifflash = w; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool exifflash READ getExifflash WRITE setExifflash NOTIFY exifflashChanged)
+
 	bool exifiso;
+	bool getExifiso() { return exifiso; }
+	void setExifiso(bool w) { exifiso = w; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool exifiso READ getExifiso WRITE setExifiso NOTIFY exifisoChanged)
+
 	bool exifscenetype;
+	bool getExifscenetype() { return exifscenetype; }
+	void setExifscenetype(bool w) { exifscenetype = w; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool exifscenetype READ getExifscenetype WRITE setExifscenetype NOTIFY exifscenetypeChanged)
+
 	bool exifflength;
+	bool getExifflength() { return exifflength; }
+	void setExifflength(bool w) { exifflength = w; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool exifflength READ getExifflength WRITE setExifflength NOTIFY exifflengthChanged)
+
 	bool exiffnumber;
+	bool getExiffnumber() { return exiffnumber; }
+	void setExiffnumber(bool w) { exiffnumber = w; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool exiffnumber READ getExiffnumber WRITE setExiffnumber NOTIFY exiffnumberChanged)
+
 	bool exiflightsource;
+	bool getExiflightsource() { return exiflightsource; }
+	void setExiflightsource(bool w) { exiflightsource = w; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool exiflightsource READ getExiflightsource WRITE setExiflightsource NOTIFY exiflightsourceChanged)
+
+	bool iptckeywords;
+	bool getIptckeywords() { return iptckeywords; }
+	void setIptckeywords(bool w) { iptckeywords = w; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool iptckeywords READ getIptckeywords WRITE setIptckeywords NOTIFY iptckeywordsChanged)
+
+	bool iptclocation;
+	bool getIptclocation() { return iptclocation; }
+	void setIptclocation(bool w) { iptclocation = w; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool iptclocation READ getIptclocation WRITE setIptclocation NOTIFY iptclocationChanged)
+
+	bool iptccopyright;
+	bool getIptccopyright() { return iptccopyright; }
+	void setIptccopyright(bool w) { iptccopyright = w; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool iptccopyright READ getIptccopyright WRITE setIptccopyright NOTIFY iptccopyrightChanged)
+
 	bool exifgps;
+	bool getExifgps() { return exifgps; }
+	void setExifgps(bool w) { exifgps = w; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool exifgps READ getExifgps WRITE setExifgps NOTIFY exifgpsChanged)
 
 	// Set the default settings
 	void setDefault() {
@@ -515,6 +607,9 @@ public:
 		exifflength = true;
 		exiffnumber = true;
 		exiflightsource = true;
+		iptckeywords = true;
+		iptclocation = true;
+		iptccopyright = true;
 		exifgps = true;
 		exifrotation = "Never";
 		exifgpsmapservice = "openstreetmap.org";
@@ -655,6 +750,11 @@ public slots:
 			cont += QString("ExifGps=%1\n").arg(int(exifgps));
 			cont += QString("ExifRotation=%1\n").arg(exifrotation);
 			cont += QString("ExifGPSMapService=%1\n").arg(exifgpsmapservice);
+
+			cont += "\n[Iptc]\n";
+			cont += QString("IptcKeywords=%1\n").arg(int(iptckeywords));
+			cont += QString("IptcLocation=%1\n").arg(int(iptclocation));
+			cont += QString("IptcCopyright=%1\n").arg(int(iptccopyright));
 
 			out << cont;
 			file.close();
@@ -1036,6 +1136,21 @@ public slots:
 			else if(all.contains("ExifGps=0"))
 				exifgps = false;
 
+			if(all.contains("IptcKeywords=1"))
+				iptckeywords = true;
+			else if(all.contains("IptcKeywords=0"))
+				iptckeywords = false;
+
+			if(all.contains("IptcLocation=1"))
+				iptclocation = true;
+			else if(all.contains("IptcLocation=0"))
+				iptclocation = false;
+
+			if(all.contains("IptcCopyright=1"))
+				iptccopyright = true;
+			else if(all.contains("IptcCopyright=0"))
+				iptccopyright = false;
+
 			if(all.contains("ExifRotation="))
 				exifrotation = all.split("ExifRotation=").at(1).split("\n").at(0);
 
@@ -1109,6 +1224,28 @@ signals:
 	void thumbnailPreloadNumberChanged(int t);
 	void thumbnailWriteFilenameChanged(bool c);
 	void thumbnailWriteResolutionChanged(bool c);
+	void exifenablemousetriggeringChanged(bool e);
+	void exifrotationChanged(QString e);
+	void exifgpsmapserviceChanged(QString e);
+	void exiffilenameChanged(bool e);
+	void exiffiletypeChanged(bool e);
+	void exiffilesizeChanged(bool e);
+	void exifdimensionsChanged(bool e);
+	void exifmakeChanged(bool e);
+	void exifmodelChanged(bool e);
+	void exifsoftwareChanged(bool e);
+	void exifphototakenChanged(bool e);
+	void exifexposuretimeChanged(bool e);
+	void exifflashChanged(bool e);
+	void exifisoChanged(bool e);
+	void exifscenetypeChanged(bool e);
+	void exifflengthChanged(bool e);
+	void exiffnumberChanged(bool e);
+	void exiflightsourceChanged(bool e);
+	void iptckeywordsChanged(bool i);
+	void iptclocationChanged(bool i);
+	void iptccopyrightChanged(bool i);
+	void exifgpsChanged(bool e);
 
 };
 

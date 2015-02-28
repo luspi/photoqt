@@ -16,6 +16,9 @@ Rectangle {
     property int fsize: 9
     property string textColour: "white"
 
+    property string indicatorColourEnabled: "#ffffff"
+    property string indicatorBackgroundColourEnabled: "#22FFFFFF"
+
     // Per default the text in on the right
     property bool textOnRight: true
 
@@ -45,7 +48,7 @@ Rectangle {
         id: check
 
         anchors.left: txt.right
-        anchors.leftMargin: 5
+        anchors.leftMargin: textOnRight ? 0 : 5
 
         // Checked state is tied to this global property
         checked: rect.checkedButton
@@ -56,10 +59,10 @@ Rectangle {
                     implicitWidth: fsize*2
                     implicitHeight: fsize*2
                     radius: 3
-                    color: control.enabled ? "#22FFFFFF" : "#11CCCCCC"
+                    color: control.enabled ? indicatorBackgroundColourEnabled : "#11CCCCCC"
                     Rectangle {
                         visible: rect.checkedButton
-                        color: control.enabled ? "#ffffff" : "#555555"
+                        color: control.enabled ? indicatorColourEnabled : "#555555"
                         radius: 2
                         anchors.margins: 4
                         anchors.fill: parent
