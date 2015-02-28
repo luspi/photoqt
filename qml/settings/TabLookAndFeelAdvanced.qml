@@ -188,28 +188,28 @@ Rectangle {
 
                             CustomRadioButton {
                                 id: background_image_scale
-                                text: "Scale To Fit"
+                                text: "Scale to fit"
                                 exclusiveGroup: radiobuttons_image
                                 checked: true
                             }
                             CustomRadioButton {
                                 id: background_image_scalecrop
-                                text: "Scale and Crop To Fit"
+                                text: "Scale and Crop to fit"
                                 exclusiveGroup: radiobuttons_image
                             }
                             CustomRadioButton {
                                 id: background_image_stretch
-                                text: "Stretch To Fit"
+                                text: "Stretch to fit"
                                 exclusiveGroup: radiobuttons_image
                             }
                             CustomRadioButton {
                                 id: background_image_center
-                                text: "Center Image"
+                                text: "Center image"
                                 exclusiveGroup: radiobuttons_image
                             }
                             CustomRadioButton {
                                 id: background_image_tile
-                                text: "Tile Image"
+                                text: "Tile image"
                                 exclusiveGroup: radiobuttons_image
                             }
 
