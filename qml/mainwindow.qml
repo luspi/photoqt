@@ -3,6 +3,7 @@ import Settings 1.0
 import SettingsSession 1.0
 import GetStuff 1.0
 import GetMetaData 1.0
+import ThumbnailManagement 1.0
 
 import "mainview/"
 import "slidein/"
@@ -28,7 +29,7 @@ Item {
 
     // Some colour settings
     property string colour_fadein_bg: "#DD000000"
-    property string colour_fadein_block_bg: "#22000000"
+    property string colour_fadein_block_bg: "#55000000"
     property string colour_fadein_border: "#55bbbbbb"
     property string colour_slidein_bg: "#BB000000"
     property string colour_slidein_border: "#55bbbbbb"
@@ -39,8 +40,8 @@ Item {
     SettingsSession { id: settingssession; }
 
     GetStuff { id: getstuff; }
-
     GetMetaData { id: getmetadata; }
+    ThumbnailManagement { id: thumbnailmanagement; }
 
     Shortcuts { id: sh; }
 

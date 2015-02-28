@@ -4,8 +4,8 @@ Rectangle {
 
     id: confirm
 
-    property int confirmWidth: 400
-    property int confirmHeight: 250
+    property int confirmWidth: 500
+    property int confirmHeight: 300
     property Item fillAnchors: parent
 
     property string header: "Confirm me?"
@@ -58,10 +58,12 @@ Rectangle {
         Text {
 
             anchors.fill: parent
+            anchors.margins: 5
             anchors.bottomMargin: butrect.height
 
             color: "white"
-            font.pointSize: 15
+            font.pointSize: 13
+            wrapMode: Text.WordWrap
 
             text: "<h1>" + header + "</h1><br>" + description
 

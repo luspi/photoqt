@@ -261,6 +261,9 @@ public:
 
 	// Thumbnails at the bottom or top?
 	QString thumbnailposition;
+	QString getThumbnailposition() { return thumbnailposition; }
+	void setThumbnailposition(QString t) { thumbnailposition = t; saveSettingsTimer->start(); }
+	Q_PROPERTY(QString thumbnailposition READ getThumbnailposition WRITE setThumbnailposition NOTIFY thumbnailpositionChanged)
 
 	// Enable thumbnail cache
 	bool thumbnailcache;
@@ -305,17 +308,43 @@ public:
 	Q_PROPERTY(bool thumbnailCenterActive READ getThumbnailCenterActive WRITE setThumbnailCenterActive NOTIFY thumbnailCenterActiveChanged)
 
 	// Don't load actual thumbnail but just display the filename
-	bool thumbnailFilenameInstead;
+	bool thumbnailFilenameInstead;bool getThumbnailFilenameInstead() { return thumbnailFilenameInstead; }
+	void setThumbnailFilenameInstead(bool t) { thumbnailFilenameInstead = t; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool thumbnailFilenameInstead READ getThumbnailFilenameInstead WRITE setThumbnailFilenameInstead NOTIFY thumbnailFilenameInsteadChanged)
+
 	int thumbnailFilenameInsteadFontSize;
+	int getThumbnailFilenameInsteadFontSize() { return thumbnailFilenameInsteadFontSize; }
+	void setThumbnailFilenameInsteadFontSize(int t) { thumbnailFilenameInsteadFontSize = t; saveSettingsTimer->start(); }
+	Q_PROPERTY(int thumbnailFilenameInsteadFontSize READ getThumbnailFilenameInsteadFontSize WRITE setThumbnailFilenameInsteadFontSize NOTIFY thumbnailFilenameInsteadFontSizeChanged)
+
 	// Thumbnails can be disabled altogether
 	bool thumbnailDisable;
+	bool getThumbnailDisable() { return thumbnailDisable; }
+	void setThumbnailDisable(bool t) { thumbnailDisable = t; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool thumbnailDisable READ getThumbnailDisable WRITE setThumbnailDisable NOTIFY thumbnailDisableChanged)
+
 	// Preload full directory (no matter the size)
 	bool thumbnailPreloadFullDirectory;
+	bool getThumbnailPreloadFullDirectory() { return thumbnailPreloadFullDirectory; }
+	void setThumbnailPreloadFullDirectory(bool t) { thumbnailPreloadFullDirectory = t; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool thumbnailPreloadFullDirectory READ getThumbnailPreloadFullDirectory WRITE setThumbnailPreloadFullDirectory NOTIFY thumbnailPreloadFullDirectoryChanged)
+
 	// How many thumbnail shall be reloaded?
-	unsigned int thumbnailPreloadNumber;
+	int thumbnailPreloadNumber;
+	int getThumbnailPreloadNumber() { return thumbnailPreloadNumber; }
+	void setThumbnailPreloadNumber(int t) { thumbnailPreloadNumber = t; saveSettingsTimer->start(); }
+	Q_PROPERTY(int thumbnailPreloadNumber READ getThumbnailPreloadNumber WRITE setThumbnailPreloadNumber NOTIFY thumbnailPreloadNumberChanged)
+
 
 	bool thumbnailWriteFilename;
+	bool getThumbnailWriteFilename() { return thumbnailWriteFilename; }
+	void setThumbnailWriteFilename(bool t) { thumbnailWriteFilename = t; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool thumbnailWriteFilename READ getThumbnailWriteFilename WRITE setThumbnailWriteFilename NOTIFY thumbnailWriteFilenameChanged)
+
 	bool thumbnailWriteResolution;
+	bool getThumbnailWriteResolution() { return thumbnailWriteResolution; }
+	void setThumbnailWriteResolution(bool t) { thumbnailWriteResolution = t; saveSettingsTimer->start(); }
+	Q_PROPERTY(bool thumbnailWriteResolution READ getThumbnailWriteResolution WRITE setThumbnailWriteResolution NOTIFY thumbnailWriteResolutionChanged)
 
 	int thumbnailFontSize;
 	int getThumbnailFontSize() { return thumbnailFontSize; }
@@ -1072,6 +1101,14 @@ signals:
 	void saveWindowGeometryChanged(bool c);
 	void thumbnailDynamicChanged(int t);
 	void thumbnailCenterActiveChanged(bool c);
+	void thumbnailpositionChanged(QString k);
+	void thumbnailFilenameInsteadChanged(bool c);
+	void thumbnailFilenameInsteadFontSizeChanged(int t);
+	void thumbnailDisableChanged(bool c);
+	void thumbnailPreloadFullDirectoryChanged(bool c);
+	void thumbnailPreloadNumberChanged(int t);
+	void thumbnailWriteFilenameChanged(bool c);
+	void thumbnailWriteResolutionChanged(bool c);
 
 };
 

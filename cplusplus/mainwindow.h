@@ -12,6 +12,7 @@
 
 #include "scripts/getstuff.h"
 #include "scripts/getmetadata.h"
+#include "scripts/thumbnailsmanagement.h"
 #include "handlefiles/loaddir.h"
 #include "imageprovider/imageproviderthumbnail.h"
 #include "imageprovider/imageproviderfull.h"

@@ -24,6 +24,11 @@ Rectangle {
     // Save data
     signal saveData()
 
+    // signals needed for thumbnail db handling (for communication between confirm rect here and thumbnails>advanced tab)
+    signal cleanDatabase()
+    signal eraseDatabase()
+    signal updateDatabaseInfo()
+
     CustomTabView {
 
         id: view
@@ -132,7 +137,30 @@ Rectangle {
                 }
                 Tab {
                     title: "Advanced"
-                    TabThumbnailsAdvanced { }
+                    TabThumbnailsAdvanced {
+                        Connections {
+                            target: tabrect
+                            onSetData:{
+                                setData()
+                            }
+                            onSaveData:{
+                                saveData()
+                            }
+                            onCleanDatabase: {
+                                cleanDatabase()
+                            }
+                            onEraseDatabase: {
+                                eraseDatabase()
+                            }
+                            onUpdateDatabaseInfo: {
+                                updateDatabaseInfo()
+                            }
+                        }
+
+                        Component.onCompleted: {
+                            setData()
+                        }
+                    }
                 }
             }
         }
@@ -249,11 +277,37 @@ Rectangle {
 
     }
 
+    CustomConfirm {
+        fillAnchors: tabrect
+        id: confirmclean
+        header: "Clean Database"
+        description: "Do you really want to clean up the database?<br><br>This removes all obsolete thumbnails, thus possibly making PhotoQt a little faster.<bR><br>This process might take a little while."
+        confirmbuttontext: "Yes, clean is good"
+        rejectbuttontext: "No, don't have time for that"
+        onAccepted: cleanDatabase()
+    }
+
+    CustomConfirm {
+        fillAnchors: tabrect
+        id: confirmerase
+        header: "Erase Database"
+        description: "Do you really want to ERASE the entire database?<br><br>This removes every single item in the database! This step should never really be necessarily. After that, every thumbnail has to be newly re-created.<br>This step cannot be reversed!"
+        confirmbuttontext: "Yes, get rid of it all"
+        rejectbuttontext: "Nooo, I want to keep it"
+        onAccepted: eraseDatabase()
+    }
+
     function showSettings() {
         showAboutAni.start()
+        updateDatabaseInfo()
     }
     function hideSettings() {
-        hideAboutAni.start()
+        if(confirmclean.visible)
+            confirmclean.hide()
+        else if(confirmerase.visible)
+            confirmerase.hide()
+        else
+            hideAboutAni.start()
     }
 
     PropertyAnimation {
