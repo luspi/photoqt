@@ -34,7 +34,7 @@ Item {
             spacing.width = 0
             spacing.visible = false
         } else if(settings.hidefilepathshowfilename) {
-            filename.text = getstuff.removePathFromFilename(filepath)
+            filename.text = getanddostuff.removePathFromFilename(filepath)
             filename.visible = true
         } else {
             filename.text = filepath
@@ -162,7 +162,7 @@ Item {
                 MenuItem {
                     text: "<font color=\"white\">Hide Filepath, leave Filename</font>"
                     onTriggered: {
-                        filename.text = getstuff.removePathFromFilename(filename.text)
+                        filename.text = getanddostuff.removePathFromFilename(filename.text)
                         settings.hidefilepathshowfilename = true;
                     }
                 }

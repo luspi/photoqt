@@ -8,13 +8,15 @@
 #include <QCursor>
 #include <QColor>
 #include <QFileDialog>
+#include <QJSValue>
+#include <iostream>
 
-class GetStuff : public QObject {
+class GetAndDoStuff : public QObject {
 
 	Q_OBJECT
 
 public:
-	explicit GetStuff(QObject *parent = 0);
+	explicit GetAndDoStuff(QObject *parent = 0);
 
 	Q_INVOKABLE bool isImageAnimated(QString path);
 	Q_INVOKABLE QSize getImageSize(QString path);
@@ -26,6 +28,10 @@ public:
 	Q_INVOKABLE QColor addAlphaToColor(QString col, int alpha);
 
 	Q_INVOKABLE QString getFilenameQtImage();
+
+	Q_INVOKABLE QStringList getContextMenu();
+
+	Q_INVOKABLE void saveContextMenu(QJSValue m);
 
 private:
 	QImageReader reader;

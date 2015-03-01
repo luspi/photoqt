@@ -43,7 +43,9 @@ public:
 
 	// The language selected and available languages
 	QString language;
-	QStringList availableLang;
+	QString getLanguage() { return language; }
+	void setLanguage(QString c) { language = c; saveSettingsTimer->start(); }
+	Q_PROPERTY(QString language READ getLanguage WRITE setLanguage NOTIFY languageChanged)
 
 	// Possibility to en-/disable animated fade-in
 	bool myWidgetAnimated;
@@ -1169,6 +1171,7 @@ private:
 	QTimer *saveSettingsTimer;
 
 signals:
+	void languageChanged(QString l);
 	void thumbnailsizeChanged(int s);
 	void thumbnailcacheChanged(bool cache);
 	void thbcachefileChanged(bool type);

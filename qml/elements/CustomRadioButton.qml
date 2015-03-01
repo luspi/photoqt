@@ -7,16 +7,19 @@ RadioButton {
     // there can be an icon displayed as part of the label
     property string icon: ""
 
+    property string indicatorColourEnabled: "#ffffff"
+    property string indicatorBackgroundColourEnabled: "#22FFFFFF"
+
     style: RadioButtonStyle {
                 indicator: Rectangle {
                         implicitWidth: 16
                         implicitHeight: 16
                         radius: 9
-                        color: control.enabled ? "#22FFFFFF" : "#22888888"
+                        color: control.enabled ? indicatorBackgroundColourEnabled : "#22888888"
                         Rectangle {
                             anchors.fill: parent
                             visible: control.checked
-                            color: "white"
+                            color: indicatorColourEnabled
                             radius: 9
                             anchors.margins: 4
                         }

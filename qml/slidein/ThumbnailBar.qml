@@ -54,7 +54,7 @@ Rectangle {
         var imageUrl = imageModel.get(pos).imageUrl;
 
         // Load image
-        if(getstuff.isImageAnimated(imageUrl))
+        if(getanddostuff.isImageAnimated(imageUrl))
             image.setAnimatedImage("file://" + imageUrl)
         else
             image.setNormalImage("image://full/" + imageUrl)

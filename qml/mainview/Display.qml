@@ -32,7 +32,7 @@ Item {
         resetRotation()
 
         // Pad or Fit?
-        var s = getstuff.getImageSize(path)
+        var s = getanddostuff.getImageSize(path)
         if(s.width < item.width && s.height < item.height)
             anim.fillMode = Image.Pad
         else
@@ -61,7 +61,7 @@ Item {
         resetRotation()
 
         // Pad or Fit?
-        var s = getstuff.getImageSize(path)
+        var s = getanddostuff.getImageSize(path)
         if(s.width < item.width && s.height < item.height)
             norm.fillMode = Image.Pad
         else
@@ -183,7 +183,7 @@ Item {
                     prevScale = Math.min(scale, 1);
                 }
                 onScaleChanged: {
-                    var cursorpos = getstuff.getCursorPos()
+                    var cursorpos = getanddostuff.getCursorPos()
                     var x_ratio = (zoomTowardsCenter ? flickarea.width/2 : cursorpos.x);
                     var y_ratio = (zoomTowardsCenter ? flickarea.height/2 : cursorpos.y);
                     if ((width * scale) > flickarea.width) {
@@ -213,7 +213,7 @@ Item {
                     prevScale = Math.min(scale, 1);
                 }
                 onScaleChanged: {
-                    var cursorpos = getstuff.getCursorPos()
+                    var cursorpos = getanddostuff.getCursorPos()
                     var x_ratio = (zoomTowardsCenter ? flickarea.width/2 : cursorpos.x);
                     var y_ratio = (zoomTowardsCenter ? flickarea.height/2 : cursorpos.y);
                     if ((width * scale) > flickarea.width) {
@@ -252,7 +252,7 @@ Item {
         // Don't zoom if nothing is loaded
         if(url == "" || blocked) return;
 
-        var s = getstuff.getImageSize(url)
+        var s = getanddostuff.getImageSize(url)
 
         if(animated) {
 

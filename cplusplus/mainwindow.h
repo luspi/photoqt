@@ -10,7 +10,7 @@
 #include <QShortcut>
 #include <QtDebug>
 
-#include "scripts/getstuff.h"
+#include "scripts/getanddostuff.h"
 #include "scripts/getmetadata.h"
 #include "scripts/thumbnailsmanagement.h"
 #include "handlefiles/loaddir.h"

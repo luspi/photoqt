@@ -9,7 +9,7 @@ PROJECT(photoqt)
 SET(photoqt_SOURCES cplusplus/main.cpp cplusplus/mainwindow.cpp cplusplus/variables.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/handlefiles/loaddir.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/imageprovider/imageproviderfull.cpp cplusplus/imageprovider/imageproviderthumbnail.cpp)
-SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/scripts/getstuff.cpp cplusplus/scripts/getmetadata.cpp cplusplus/scripts/thumbnailsmanagement.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/scripts/getanddostuff.cpp cplusplus/scripts/getmetadata.cpp cplusplus/scripts/thumbnailsmanagement.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/settings/settings.h cplusplus/settings/settingssession.h cplusplus/settings/fileformats.h)
 
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/mainwindow.qml qml/Shortcuts.qml)
@@ -20,8 +20,8 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/CustomCheckBox.qml qml/eleme
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/CustomComboBox.qml qml/elements/CustomRadioButton.qml qml/elements/CustomSlider.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/CustomSpinBox.qml qml/elements/CustomConfirm.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/fadein/About.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/SettingsItem.qml qml/settings/TabDetailsTile.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/TabLookAndFeelBasic.qml qml/settings/TabLookAndFeelAdvanced.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/SettingsItem.qml qml/settings/TabDetailsTile.qml qml/settings/TabOtherLanguageTiles.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/TabLookAndFeelBasic.qml qml/settings/TabLookAndFeelAdvanced.qml qml/settings/TabOtherContext.qml qml/settings/TabOtherContextTextEdit.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/TabThumbnailsBasic.qml qml/settings/TabThumbnailsAdvanced.qml qml/settings/TabShortcuts.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/TabDetails.qml qml/settings/TabOther.qml qml/settings/TabFiletypes.qml)
 
@@ -29,7 +29,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/TabDetails.qml qml/settings/
 SET(photoqt_HEADERS cplusplus/mainwindow.h cplusplus/variables.h)
 SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/handlefiles/loaddir.h)
 SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/imageprovider/imageproviderthumbnail.h cplusplus/imageprovider/imageproviderfull.h)
-SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/scripts/getstuff.h cplusplus/scripts/getmetadata.h cplusplus/scripts/thumbnailsmanagement.h)
+SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/scripts/getanddostuff.h cplusplus/scripts/getmetadata.h cplusplus/scripts/thumbnailsmanagement.h)
 SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/settings/settings.h cplusplus/settings/settingssession.h cplusplus/settings/fileformats.h)
 
 

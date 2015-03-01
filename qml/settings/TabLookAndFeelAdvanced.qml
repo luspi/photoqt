@@ -148,7 +148,7 @@ Rectangle {
                             anchors.fill: parent
                             cursorShape: Qt.PointingHandCursor
                             onClicked: {
-                                var f = getstuff.getFilenameQtImage()
+                                var f = getanddostuff.getFilenameQtImage()
                                 if(f !== "")
                                     parent.source = "file:/" + f
                             }

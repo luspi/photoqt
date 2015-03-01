@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 	qmlRegisterType<Settings>("Settings", 1, 0, "Settings");
 	qmlRegisterType<SettingsSession>("SettingsSession", 1, 0, "SettingsSession");
 	qmlRegisterType<GetMetaData>("GetMetaData", 1, 0, "GetMetaData");
-	qmlRegisterType<GetStuff>("GetStuff", 1, 0, "GetStuff");
+	qmlRegisterType<GetAndDoStuff>("GetAndDoStuff", 1, 0, "GetAndDoStuff");
 	qmlRegisterType<ThumbnailManagement>("ThumbnailManagement", 1, 0, "ThumbnailManagement");
 
 	// Load QML

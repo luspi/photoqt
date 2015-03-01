@@ -1,7 +1,7 @@
 import QtQuick 2.3
 import Settings 1.0
 import SettingsSession 1.0
-import GetStuff 1.0
+import GetAndDoStuff 1.0
 import GetMetaData 1.0
 import ThumbnailManagement 1.0
 
@@ -39,7 +39,7 @@ Item {
     Settings { id: settings; }
     SettingsSession { id: settingssession; }
 
-    GetStuff { id: getstuff; }
+    GetAndDoStuff { id: getanddostuff; }
     GetMetaData { id: getmetadata; }
     ThumbnailManagement { id: thumbnailmanagement; }
 

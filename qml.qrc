@@ -30,5 +30,8 @@
         <file>qml/elements/CustomSpinBox.qml</file>
         <file>qml/elements/CustomConfirm.qml</file>
         <file>qml/settings/TabDetailsTile.qml</file>
+        <file>qml/settings/TabOtherLanguageTiles.qml</file>
+        <file>qml/settings/TabOtherContext.qml</file>
+        <file>qml/settings/TabOtherContextTextEdit.qml</file>
     </qresource>
 </RCC>

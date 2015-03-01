@@ -187,7 +187,20 @@ Rectangle {
 
                 Tab {
                     title: "Other"
-                    TabOther { }
+                    TabOther {
+                        Connections {
+                            target: tabrect
+                            onSetData:{
+                                setData()
+                            }
+                            onSaveData:{
+                                saveData()
+                            }
+                        }
+                        Component.onCompleted: {
+                            setData()
+                        }
+                    }
                 }
                 Tab {
                     title: "Filetypes"
