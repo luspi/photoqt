@@ -85,6 +85,8 @@ Rectangle {
 
                     id: languages
 
+                    columns: 6
+
                     TabOtherLanguageTiles { objectName: "en"; text: "English"; exclusiveGroup: languagegroup; checked: true }
                     TabOtherLanguageTiles { objectName: "cs"; text: "Čeština"; exclusiveGroup: languagegroup; }
                     TabOtherLanguageTiles { objectName: "de"; text: "Deutsch"; exclusiveGroup: languagegroup; }
