@@ -205,6 +205,12 @@ Rectangle {
                 }
             }
 
+            CustomButton {
+                text: "Add new context menu entry"
+                x: (parent.width-width)/2
+                onClickedButton: context.addNewItem()
+            }
+
         }
 
     }
