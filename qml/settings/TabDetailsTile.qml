@@ -16,7 +16,7 @@ Rectangle {
     height: 90
 
     // Look
-    color: (checked || hovered) ? "#C8ffffff" : "#77ffffff"
+    color: (checked || hovered) ? "#B8ffffff" : "#67ffffff"
     radius: 5
 
     // the text, which item this one is
