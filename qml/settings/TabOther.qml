@@ -157,7 +157,7 @@ Rectangle {
 
                     id: headContext
 
-                    color: "white"
+                    color: "#CCCCCC"
 
                     width: parent.width-10
                     height: 30
