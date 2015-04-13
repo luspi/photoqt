@@ -2,104 +2,104 @@ import QtQuick 2.3;
 
 Item {
 
-    id: scrollbar;
+	id: scrollbar;
 
-    width: (handleSize + 2 * (backScrollbar.border.width +1));
-    visible: (flickable.visibleArea.heightRatio < 1.0);
+	width: (handleSize + 2 * (backScrollbar.border.width +1));
+	visible: (flickable.visibleArea.heightRatio < 1.0);
 
-    anchors {
-        top: flickable.top;
-        right: flickable.right;
-        bottom: flickable.bottom;
-        margins: 1;
-    }
+	anchors {
+		top: flickable.top;
+		right: flickable.right;
+		bottom: flickable.bottom;
+		margins: 1;
+	}
 
-    property Flickable flickable               : null;
-    property int       handleSize              : 8;
+	property Flickable flickable: null;
+	property int handleSize: 8;
 
-    property real       opacityVisible          : 0.8
-    property real       opacityHidden           : 0.1
+	property real opacityVisible: 0.8
+	property real opacityHidden: 0.1
 
-    signal scrollFinished();
+	signal scrollFinished();
 
-    Binding {
-        target: handle;
-        property: "x";
-        value: (flickable.contentY * clicker.drag.maximumY / (flickable.contentHeight - flickable.height));
-        when: (!clicker.drag.active);
-    }
+	Binding {
+		target: handle;
+		property: "x";
+		value: (flickable.contentY * clicker.drag.maximumY / (flickable.contentHeight - flickable.height));
+		when: (!clicker.drag.active);
+	}
 
-    Binding {
-        target: flickable;
-        property: "contentY";
-        value: (handle.y * (flickable.contentHeight - flickable.height) / clicker.drag.maximumY);
-        when: (clicker.drag.active || clicker.pressed);
-    }
+	Binding {
+		target: flickable;
+		property: "contentY";
+		value: (handle.y * (flickable.contentHeight - flickable.height) / clicker.drag.maximumY);
+		when: (clicker.drag.active || clicker.pressed);
+	}
 
-    Rectangle {
-        id: backScrollbar;
-        antialiasing: true;
-        color: Qt.rgba(0, 0, 0, 0.2);
-        anchors.fill: parent;
-    }
+	Rectangle {
+		id: backScrollbar;
+		antialiasing: true;
+		color: Qt.rgba(0, 0, 0, 0.2);
+		anchors.fill: parent;
+	}
 
-    Item {
+	Item {
 
-        id: groove;
-        clip: true;
+		id: groove;
+		clip: true;
 
-        anchors {
-            fill: parent;
-            topMargin: (backScrollbar.border.width +1);
-            leftMargin: (backScrollbar.border.width +1);
-            rightMargin: (backScrollbar.border.width +1);
-            bottomMargin: (backScrollbar.border.width +1);
-        }
+		anchors {
+			fill: parent;
+			topMargin: (backScrollbar.border.width +1);
+			leftMargin: (backScrollbar.border.width +1);
+			rightMargin: (backScrollbar.border.width +1);
+			bottomMargin: (backScrollbar.border.width +1);
+		}
 
-        MouseArea {
+		MouseArea {
 
-            id: clicker;
+			id: clicker;
 
-            anchors.fill: parent;
-            cursorShape: (pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor)
-            hoverEnabled: true
+			anchors.fill: parent;
+			cursorShape: (pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor)
+			hoverEnabled: true
 
-            drag {
-                target: handle;
-                minimumY: 0;
-                maximumY: (groove.height - handle.height);
-                axis: Drag.YAxis;
-            }
+			drag {
+				target: handle;
+				minimumY: 0;
+				maximumY: (groove.height - handle.height);
+				axis: Drag.YAxis;
+			}
 
-            onClicked: flickable.contentY = (mouse.y / groove.height * (flickable.contentHeight - flickable.height));
-            onReleased: scrollFinished();
+			onClicked: flickable.contentY = (mouse.y / groove.height * (flickable.contentHeight - flickable.height));
+			onReleased: scrollFinished();
 
-        }
+		}
 
-        Item {
+		Item {
 
-            id: handle;
+			id: handle;
 
-            width: Math.max (20, (flickable.visibleArea.heightRatio * groove.height));
+			width: Math.max (20, (flickable.visibleArea.heightRatio * groove.height));
 
-            anchors {
-                left: parent.left;
-                right: parent.right;
-            }
+			anchors {
+				left: parent.left;
+				right: parent.right;
+			}
 
-            Rectangle {
+			Rectangle {
 
-                id: backHandle;
+				id: backHandle;
 
-                anchors.fill: parent;
-                color: ((clicker.containsMouse || clicker.pressed) ? "black" : "black");
-                border.color: "white"
-                border.width: 1
-                opacity: ((clicker.containsMouse || clicker.pressed) ? opacityVisible : opacityHidden);
+				anchors.fill: parent;
+				color: ((clicker.containsMouse || clicker.pressed) ? "black" : "black");
+				border.color: "white"
+				border.width: 1
+				opacity: ((clicker.containsMouse || clicker.pressed) ? opacityVisible : opacityHidden);
 
-                Behavior on opacity { NumberAnimation { duration: 50; } }
+				Behavior on opacity { NumberAnimation { duration: 50; } }
 
-            }
-        }
-    }
+			}
+		}
+	}
 }

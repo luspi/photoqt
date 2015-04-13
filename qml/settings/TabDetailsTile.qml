@@ -4,65 +4,66 @@ import "../elements"
 
 Rectangle {
 
-    id: rect
+	id: rect
 
-    property string text: ""
+	property string text: ""
 
-    property bool checked: false
-    property bool hovered: false
+	property bool checked: false
+	property bool hovered: false
 
-    // Size
-    width: 90
-    height: 90
+	// Size
+	width: 90
+	height: 90
 
-    // Look
-    color: (checked || hovered) ? "#B8ffffff" : "#67ffffff"
-    radius: 5
+	// Look
+	color: (checked || hovered) ? "#B8ffffff" : "#67ffffff"
+	radius: 5
 
-    // the text, which item this one is
-    Text {
+	// the text, which item this one is
+	Text {
 
-        x: 5
-        y: 5
-        width: parent.width-5
-        height: parent.height-check.height-10
+		x: 5
+		y: 5
+		width: parent.width-5
+		height: parent.height-check.height-10
 
-        color: "black"
-        verticalAlignment: Qt.AlignVCenter
-        horizontalAlignment: Qt.AlignHCenter
-        wrapMode: Text.WordWrap
+		color: "black"
+		verticalAlignment: Qt.AlignVCenter
+		horizontalAlignment: Qt.AlignHCenter
+		wrapMode: Text.WordWrap
 
-        text: rect.text
+		text: rect.text
 
-    }
+	}
 
-    // And the checkbox indicator
-    CustomCheckBox {
+	// And the checkbox indicator
+	CustomCheckBox {
 
-        id: check
+		id: check
 
-        checkedButton: checked
+		checkedButton: checked
 
-        x: (parent.width-width)/2
-        y: parent.height-height-5
+		x: (parent.width-width)/2
+		y: parent.height-height-5
 
-        indicatorColourEnabled: "#444444"
-        indicatorBackgroundColourEnabled: "#22000000"
+		indicatorColourEnabled: "#444444"
+		indicatorBackgroundColourEnabled: "#22000000"
 
-        text: ""
+		text: ""
 
-    }
+	}
 
-    // A mouseares governing the hover/checked look
-    MouseArea {
+	// A mouseares governing the hover/checked look
+	MouseArea {
 
-        anchors.fill: rect
-        cursorShape: Qt.PointingHandCursor
-        hoverEnabled: true
-        onEntered: hovered = true
-        onExited: hovered = false
-        onClicked: checked = !checked
-    }
+		anchors.fill: rect
+		cursorShape: Qt.PointingHandCursor
+		hoverEnabled: true
+		onEntered: hovered = true
+		onExited: hovered = false
+		onClicked: checked = !checked
+
+	}
 
 
 }

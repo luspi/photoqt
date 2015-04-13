@@ -8,239 +8,239 @@ import "../elements"
 
 Rectangle {
 
-    id: tab
+	id: tab
 
-    color: "#00000000"
+	color: "#00000000"
 
-    anchors {
-        fill: parent
-        leftMargin: 20
-        rightMargin: 20
-        topMargin: 15
-        bottomMargin: 5
-    }
+	anchors {
+		fill: parent
+		leftMargin: 20
+		rightMargin: 20
+		topMargin: 15
+		bottomMargin: 5
+	}
 
-    Flickable {
+	Flickable {
 
-        id: flickable
+		id: flickable
 
-        clip: true
+		clip: true
 
-        anchors.fill: parent
+		anchors.fill: parent
 
-        contentHeight: contentItem.childrenRect.height+50
-        contentWidth: tab.width
+		contentHeight: contentItem.childrenRect.height+50
+		contentWidth: tab.width
 
-        boundsBehavior: Flickable.StopAtBounds
+		boundsBehavior: Flickable.StopAtBounds
 
-        Column {
+		Column {
 
-            id: maincol
+			id: maincol
 
-            spacing: 25
+			spacing: 25
 
-            /**********
-             * HEADER *
-             **********/
+			/**********
+			* HEADER *
+			**********/
 
-            Rectangle {
-                id: header
-                width: flickable.width
-                height: childrenRect.height
-                color: "#00000000"
-                Text {
-                    color: "white"
-                    font.pointSize: 18
-                    font.bold: true
-                    text: "Other Settings"
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-            }
+			Rectangle {
+				id: header
+				width: flickable.width
+				height: childrenRect.height
+				color: "#00000000"
+				Text {
+					color: "white"
+					font.pointSize: 18
+					font.bold: true
+					text: "Other Settings"
+					anchors.horizontalCenter: parent.horizontalCenter
+				}
+			}
 
 
-            /************
-             * LANGUAGE *
-             ************/
+			/************
+			* LANGUAGE *
+			************/
 
-            SettingsText {
+			SettingsText {
 
-                width: flickable.width
+				width: flickable.width
 
-                text: "<h2>Choose Language</h2><br>There are a good few different languages available. Thanks to everybody who took the time to translate PhotoQt!"
+				text: "<h2>Choose Language</h2><br>There are a good few different languages available. Thanks to everybody who took the time to translate PhotoQt!"
 
-            }
+			}
 
-            ExclusiveGroup { id: languagegroup; }
+			ExclusiveGroup { id: languagegroup; }
 
-            Rectangle {
+			Rectangle {
 
-                color: "#00000000"
+				color: "#00000000"
 
-                width: childrenRect.width
-                height: childrenRect.height
+				width: childrenRect.width
+				height: childrenRect.height
 
-                x: (parent.width-width)/2
+				x: (parent.width-width)/2
 
-                GridLayout {
+				GridLayout {
 
-                    id: languages
+					id: languages
 
-                    columns: 6
+					columns: 6
 
-                    TabOtherLanguageTiles { objectName: "en"; text: "English"; exclusiveGroup: languagegroup; checked: true }
-                    TabOtherLanguageTiles { objectName: "cs"; text: "Čeština"; exclusiveGroup: languagegroup; }
-                    TabOtherLanguageTiles { objectName: "de"; text: "Deutsch"; exclusiveGroup: languagegroup; }
-                    TabOtherLanguageTiles { objectName: "el"; text: "Ελληνικά"; exclusiveGroup: languagegroup; }
-                    TabOtherLanguageTiles { objectName: "es_ES"; text: "Español"; exclusiveGroup: languagegroup; }
-                    TabOtherLanguageTiles { objectName: "fi"; text: "Suomen kieli"; exclusiveGroup: languagegroup; }
-                    TabOtherLanguageTiles { objectName: "fr"; text: "Français"; exclusiveGroup: languagegroup; }
-                    TabOtherLanguageTiles { objectName: "it"; text: "Italiano"; exclusiveGroup: languagegroup; }
-                    TabOtherLanguageTiles { objectName: "ja"; text: "日本語"; exclusiveGroup: languagegroup; }
-                    TabOtherLanguageTiles { objectName: "pt_BR"; text: "Português (Brasil)"; exclusiveGroup: languagegroup; }
-                    TabOtherLanguageTiles { objectName: "pt_PT"; text: "Português (Portugal)"; exclusiveGroup: languagegroup; }
-                    TabOtherLanguageTiles { objectName: "sk"; text: "Slovenčina"; exclusiveGroup: languagegroup; }
-                    TabOtherLanguageTiles { objectName: "uk_UA"; text: "Українська"; exclusiveGroup: languagegroup; }
-                    TabOtherLanguageTiles { objectName: "zh_CN"; text: "Chinese"; exclusiveGroup: languagegroup; }
-                    TabOtherLanguageTiles { objectName: "zh_TW"; text: "Chinese (traditional)"; exclusiveGroup: languagegroup; }
+					TabOtherLanguageTiles { objectName: "en"; text: "English"; exclusiveGroup: languagegroup; checked: true }
+					TabOtherLanguageTiles { objectName: "cs"; text: "Čeština"; exclusiveGroup: languagegroup; }
+					TabOtherLanguageTiles { objectName: "de"; text: "Deutsch"; exclusiveGroup: languagegroup; }
+					TabOtherLanguageTiles { objectName: "el"; text: "Ελληνικά"; exclusiveGroup: languagegroup; }
+					TabOtherLanguageTiles { objectName: "es_ES"; text: "Español"; exclusiveGroup: languagegroup; }
+					TabOtherLanguageTiles { objectName: "fi"; text: "Suomen kieli"; exclusiveGroup: languagegroup; }
+					TabOtherLanguageTiles { objectName: "fr"; text: "Français"; exclusiveGroup: languagegroup; }
+					TabOtherLanguageTiles { objectName: "it"; text: "Italiano"; exclusiveGroup: languagegroup; }
+					TabOtherLanguageTiles { objectName: "ja"; text: "日本語"; exclusiveGroup: languagegroup; }
+					TabOtherLanguageTiles { objectName: "pt_BR"; text: "Português (Brasil)"; exclusiveGroup: languagegroup; }
+					TabOtherLanguageTiles { objectName: "pt_PT"; text: "Português (Portugal)"; exclusiveGroup: languagegroup; }
+					TabOtherLanguageTiles { objectName: "sk"; text: "Slovenčina"; exclusiveGroup: languagegroup; }
+					TabOtherLanguageTiles { objectName: "uk_UA"; text: "Українська"; exclusiveGroup: languagegroup; }
+					TabOtherLanguageTiles { objectName: "zh_CN"; text: "Chinese"; exclusiveGroup: languagegroup; }
+					TabOtherLanguageTiles { objectName: "zh_TW"; text: "Chinese (traditional)"; exclusiveGroup: languagegroup; }
 
-                }
+				}
 
-            }
+			}
 
 
-            /******************
-             * QUICK SETTINGS *
-             ******************/
+			/******************
+			* QUICK SETTINGS *
+			******************/
 
-            SettingsText {
+			SettingsText {
 
-                width: flickable.width
+				width: flickable.width
 
-                text: "<h2>Quick Settings</h2><br>The 'Quick Settings' is a widget hidden on the right side of the screen. When you move the cursor there, it shows up, and you can adjust a few simple settings on the spot without having to go through this settings dialog. Of course, only a small subset of settings is available (the ones needed most often). Here you can disable the dialog so that it doesn't show on mouse movement anymore."
+				text: "<h2>Quick Settings</h2><br>The 'Quick Settings' is a widget hidden on the right side of the screen. When you move the cursor there, it shows up, and you can adjust a few simple settings on the spot without having to go through this settings dialog. Of course, only a small subset of settings is available (the ones needed most often). Here you can disable the dialog so that it doesn't show on mouse movement anymore."
 
-            }
+			}
 
-            CustomCheckBox {
+			CustomCheckBox {
 
-                id: quicksettings
+				id: quicksettings
 
-                x: (parent.width-width)/2
+				x: (parent.width-width)/2
 
-                text: "Show 'Quick Settings' on mouse hovering"
+				text: "Show 'Quick Settings' on mouse hovering"
 
-            }
+			}
 
 
-            /****************
-             * CONTEXT MENU *
-             ****************/
+			/****************
+			* CONTEXT MENU *
+			****************/
 
-            SettingsText {
+			SettingsText {
 
-                width: flickable.width
+				width: flickable.width
 
-                text: "<h2>Adjust Context Menu</h2><br>Here you can adjust the context menu. You can simply drag and drop the entries, edit them, add a new one and remove an existing one."
+				text: "<h2>Adjust Context Menu</h2><br>Here you can adjust the context menu. You can simply drag and drop the entries, edit them, add a new one and remove an existing one."
 
-            }
+			}
 
-            Rectangle {
+			Rectangle {
 
-                width: 650
-                height: 300
-                x: (parent.width-width)/2
+				width: 650
+				height: 300
+				x: (parent.width-width)/2
 
-                radius: 5
+				radius: 5
 
-                color: "#32FFFFFF"
+				color: "#32FFFFFF"
 
-                Rectangle {
+				Rectangle {
 
-                    id: headContext
+					id: headContext
 
-                    color: "#CCCCCC"
+					color: "#CCCCCC"
 
-                    width: parent.width-10
-                    height: 30
+					width: parent.width-10
+					height: 30
 
-                    x: 5
-                    y: 5
-                    radius: 5
+					x: 5
+					y: 5
+					radius: 5
 
-                    Text {
+					Text {
 
-                        x: context.binaryX
-                        y: (parent.height-height)/2
-                        width: context.textEditWidth
+						x: context.binaryX
+						y: (parent.height-height)/2
+						width: context.textEditWidth
 
-                        font.bold: true
-                        verticalAlignment: Qt.AlignVCenter
-                        horizontalAlignment: Qt.AlignHCenter
+						font.bold: true
+						verticalAlignment: Qt.AlignVCenter
+						horizontalAlignment: Qt.AlignHCenter
 
-                        text: "Executable"
+						text: "Executable"
 
-                    }
+					}
 
-                    Text {
+					Text {
 
-                        x: context.descriptionX
-                        y: (parent.height-height)/2
-                        width: context.textEditWidth
+						x: context.descriptionX
+						y: (parent.height-height)/2
+						width: context.textEditWidth
 
-                        font.bold: true
-                        verticalAlignment: Qt.AlignVCenter
-                        horizontalAlignment: Qt.AlignHCenter
+						font.bold: true
+						verticalAlignment: Qt.AlignVCenter
+						horizontalAlignment: Qt.AlignHCenter
 
-                        text: "Menu Text"
+						text: "Menu Text"
 
-                    }
+					}
 
-                }
+				}
 
-                TabOtherContext {
-                    id: context
-                    x: 5
-                    y: headContext.height+10
-                    width: parent.width-10
-                    height: parent.height-headContext.height-20
-                }
-            }
+				TabOtherContext {
+					id: context
+					x: 5
+					y: headContext.height+10
+					width: parent.width-10
+					height: parent.height-headContext.height-20
+				}
+			}
 
-            CustomButton {
-                text: "Add new context menu entry"
-                x: (parent.width-width)/2
-                onClickedButton: context.addNewItem()
-            }
+			CustomButton {
+				text: "Add new context menu entry"
+				x: (parent.width-width)/2
+				onClickedButton: context.addNewItem()
+			}
 
-        }
+		}
 
-    }
+	}
 
-    function setData() {
+	function setData() {
 
-        for(var i = 0; i < languages.children.length; ++i) {
-            if(settings.language === languages.children[i].objectName) {
-                languages.children[i].checked = true
-                break
-            }
-        }
+		for(var i = 0; i < languages.children.length; ++i) {
+			if(settings.language === languages.children[i].objectName) {
+				languages.children[i].checked = true
+				break
+			}
 
-        quicksettings.checkedButton = settings.quickSettings
+		}
 
-        // The sub element handles its own data
-        context.setData()
+		quicksettings.checkedButton = settings.quickSettings
 
+		// The sub element handles its own data
+		context.setData()
 
-    }
+	}
 
-    function saveData() {
+	function saveData() {
 
-        settings.language = languagegroup.current.objectName
+		settings.language = languagegroup.current.objectName
 
-        settings.quickSettings = quicksettings.checkedButton
+		settings.quickSettings = quicksettings.checkedButton
 
-        // The sub element handles its own data
-        context.saveData()
+		// The sub element handles its own data
+		context.saveData()
 
-    }
+	}
 
 }

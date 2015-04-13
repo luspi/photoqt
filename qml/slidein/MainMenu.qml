@@ -3,164 +3,164 @@ import QtQuick.Controls 1.2
 
 Rectangle {
 
-    id: mainmenu
+	id: mainmenu
 
-    // Background/Border color
-    color: colour_slidein_bg
-    border.width: 1
-    border.color: colour_slidein_border
+	// Background/Border color
+	color: colour_slidein_bg
+	border.width: 1
+	border.color: colour_slidein_border
 
-    // Set position (we pretend that rounded corners are along the bottom edge only, that's why visible y is off screen)
-    x: mainmenu.width-width-100
-    y: -height
+	// Set position (we pretend that rounded corners are along the bottom edge only, that's why visible y is off screen)
+	x: mainmenu.width-width-100
+	y: -height
 
-    // Adjust size
-    width: 350
-    height: view.contentHeight+3*radius
+	// Adjust size
+	width: 350
+	height: view.contentHeight+3*radius
 
-    // Corner radius
-    radius: 10
+	// Corner radius
+	radius: 10
 
-    // [id, icon, text]
-    property var allitems: [["open", "open", "Open File"],
-        ["settings", "settings", "Settings"],
-        ["wallpaper", "settings", "Set as Wallpaper"],
-        ["slideshow", "slideshow", "Start Slideshow"],
-        ["filter", "filter", "Filter Images in Folder"],
-        ["metadata", "metadata", "Show/Hide Metadata"],
-        ["about", "about", "About PhotoQt"],
-        ["hide", "quit", "Hide (System Tray)"],
-        ["quit", "quit", "Quit"]]
+	// [id, icon, text]
+	property var allitems: [["open", "open", "Open File"],
+				["settings", "settings", "Settings"],
+				["wallpaper", "settings", "Set as Wallpaper"],
+				["slideshow", "slideshow", "Start Slideshow"],
+				["filter", "filter", "Filter Images in Folder"],
+				["metadata", "metadata", "Show/Hide Metadata"],
+				["about", "about", "About PhotoQt"],
+				["hide", "quit", "Hide (System Tray)"],
+				["quit", "quit", "Quit"]]
 
-    // All entries in the menu
-    ListView {
+	// All entries in the menu
+	ListView {
 
-        id: view
+		id: view
 
-        // No scrolling/flicking!
-        boundsBehavior: ListView.StopAtBounds
+		// No scrolling/flicking!
+		boundsBehavior: ListView.StopAtBounds
 
-        // Same size as parent
-        anchors {
-            fill: parent
-            margins: mainmenu.radius
-            topMargin: 2*mainmenu.radius
-        }
+		// Same size as parent
+		anchors {
+			fill: parent
+			margins: mainmenu.radius
+			topMargin: 2*mainmenu.radius
+		}
 
-        // Simple model and delegate
-        model: allitems.length
-        delegate: deleg
+		// Simple model and delegate
+		model: allitems.length
+		delegate: deleg
 
-    }
+	}
 
-    Component {
+	Component {
 
-        id: deleg
+		id: deleg
 
-        // Icon and entry text in a row
-        Row {
+		// Icon and entry text in a row
+		Row {
 
-            // Icon
-            Image {
-                y: 2.5
-                width: val.height*0.5
-                height: val.height*0.5
-                sourceSize.width: width
-                sourceSize.height: height
-                source: "qrc:/img/mainmenu/" + allitems[index][1] + ".png"
-            }
+			// Icon
+			Image {
+				y: 2.5
+				width: val.height*0.5
+				height: val.height*0.5
+				sourceSize.width: width
+				sourceSize.height: height
+				source: "qrc:/img/mainmenu/" + allitems[index][1] + ".png"
+			}
 
-            // Entry text
-            Text {
+			// Entry text
+			Text {
 
-                id: val;
+				id: val;
 
-                color: "#dddddd";
-                lineHeight: 1.5
+				color: "#dddddd";
+				lineHeight: 1.5
 
-                font.pointSize: 10
-                font.bold: true
+				font.pointSize: 10
+				font.bold: true
 
-                // The spaces guarantee a bit of space betwene icon and text
-                text: "  " + allitems[index][2];
+				// The spaces guarantee a bit of space betwene icon and text
+				text: "  " + allitems[index][2];
 
-                MouseArea {
+				MouseArea {
 
-                    anchors.fill: parent
+					anchors.fill: parent
 
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
+					hoverEnabled: true
+					cursorShape: Qt.PointingHandCursor
 
-                    onEntered: val.color = "#ffffff"
-                    onExited: val.color = "#cccccc"
-                    onClicked: mainmenuDo(allitems[index][0])
+					onEntered: val.color = "#ffffff"
+					onExited: val.color = "#cccccc"
+					onClicked: mainmenuDo(allitems[index][0])
 
-                }
+				}
 
-            }
+			}
 
-            // This is a second text entry - currently only used for Slideshow Quickstart entry (two in a row)
-            Text {
+			// This is a second text entry - currently only used for Slideshow Quickstart entry (two in a row)
+			Text {
 
-                id: val2
+				id: val2
 
-                visible: allitems[index][0] === "slideshow"
+				visible: allitems[index][0] === "slideshow"
 
-                color: "#dddddd"
-                lineHeight: 1.5
+				color: "#dddddd"
+				lineHeight: 1.5
 
-                font.pointSize: 10
-                font.bold: true
+				font.pointSize: 10
+				font.bold: true
 
-                text: " (Quickstart)"
+				text: " (Quickstart)"
 
-                MouseArea {
+				MouseArea {
 
-                    anchors.fill: parent
-                    hoverEnabled: true
+					anchors.fill: parent
+					hoverEnabled: true
 
-                    cursorShape: Qt.PointingHandCursor
-                    onEntered: val2.color = "#ffffff"
-                    onExited: val2.color = "#cccccc"
+					cursorShape: Qt.PointingHandCursor
+					onEntered: val2.color = "#ffffff"
+					onExited: val2.color = "#cccccc"
 
-                }
-            }
+				}
+			}
 
-        }
+		}
 
-    }
+	}
 
-    // Do stuff on clicking on an entry
-    function mainmenuDo(what) {
+	// Do stuff on clicking on an entry
+	function mainmenuDo(what) {
 
-        // Hide menu when an entry was clicked
-        if(what !== "metadata") hideMainmenu.start()
+		// Hide menu when an entry was clicked
+		if(what !== "metadata") hideMainmenu.start()
 
-        if(what === "open") openFile()
+		if(what === "open") openFile()
 
-        else if(what === "quit") Qt.quit();
+		else if(what === "quit") Qt.quit();
 
-        else if(what === "about") about.showAbout()
+		else if(what === "about") about.showAbout()
 
-        else if(what === "settings") settingsitem.showSettings()
+		else if(what === "settings") settingsitem.showSettings()
 
-        else if(what === "metadata") {
-            if(metaData.x > -2*metaData.radius) {
-                metaData.uncheckCheckbox()
-                background.hideMetadata()
-            } else {
-                metaData.checkCheckbox()
-                background.showMetadata()
-            }
-        }
-    }
+		else if(what === "metadata") {
+			if(metaData.x > -2*metaData.radius) {
+				metaData.uncheckCheckbox()
+				background.hideMetadata()
+			} else {
+				metaData.checkCheckbox()
+				background.showMetadata()
+			}
+		}
+	}
 
-    // 'Hide' animation
-    PropertyAnimation {
-        id: hideMainmenu
-        target: mainmenu
-        property: "y"
-        to: -mainmenu.height
-    }
+	// 'Hide' animation
+	PropertyAnimation {
+		id: hideMainmenu
+		target: mainmenu
+		property: "y"
+		to: -mainmenu.height
+	}
 
 }

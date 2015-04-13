@@ -13,90 +13,90 @@ import "settings/"
 
 Item {
 
-    id: toplevel
+	id: toplevel
 
-    // This is how much bigger than the thumbnails the thumbnail bar is (this is the space to the top)
-    property int thumbnailbarheight_addon: 50
+	// This is how much bigger than the thumbnails the thumbnail bar is (this is the space to the top)
+	property int thumbnailbarheight_addon: 50
 
-    // These signals is picked up by the mainwindow.cpp file
-    signal thumbScrolled(var filenameAtCenter)
-    signal openFile()
-    signal loadMoreThumbnails();
-    signal didntLoadThisThumbnail(var pos);
-    signal imageLoaded(var path)
+	// These signals is picked up by the mainwindow.cpp file
+	signal thumbScrolled(var filenameAtCenter)
+	signal openFile()
+	signal loadMoreThumbnails();
+	signal didntLoadThisThumbnail(var pos);
+	signal imageLoaded(var path)
 
-    // Interface blocked?
-    property bool blocked: false
+	// Interface blocked?
+	property bool blocked: false
 
-    // Some colour settings
-    property string colour_fadein_bg: "#DD000000"
-    property string colour_fadein_block_bg: "#55000000"
-    property string colour_fadein_border: "#55bbbbbb"
-    property string colour_slidein_bg: "#BB000000"
-    property string colour_slidein_border: "#55bbbbbb"
-    property string colour_linecolour: "#99999999"
+	// Some colour settings
+	property string colour_fadein_bg: "#DD000000"
+	property string colour_fadein_block_bg: "#55000000"
+	property string colour_fadein_border: "#55bbbbbb"
+	property string colour_slidein_bg: "#BB000000"
+	property string colour_slidein_border: "#55bbbbbb"
+	property string colour_linecolour: "#99999999"
 
-    // Access to the permanent settings file (~/.photoqt/settings)
-    Settings { id: settings; }
-    FileFormats { id: fileformats; }
-    SettingsSession { id: settingssession; }
+	// Access to the permanent settings file (~/.photoqt/settings)
+	Settings { id: settings; }
+	FileFormats { id: fileformats; }
+	SettingsSession { id: settingssession; }
 
-    GetAndDoStuff { id: getanddostuff; }
-    GetMetaData { id: getmetadata; }
-    ThumbnailManagement { id: thumbnailmanagement; }
+	GetAndDoStuff { id: getanddostuff; }
+	GetMetaData { id: getmetadata; }
+	ThumbnailManagement { id: thumbnailmanagement; }
 
-    Shortcuts { id: sh; }
+	Shortcuts { id: sh; }
 
-    // Application background
-    Background { id: background; }
+	// Application background
+	Background { id: background; }
 
-    // The main displayed image
-    Display { id: image; }
+	// The main displayed image
+	Display { id: image; }
 
-    // The thumbnail bar at the bottom
-    ThumbnailBar { id: thumbnailBar; }
+	// The thumbnail bar at the bottom
+	ThumbnailBar { id: thumbnailBar; }
 
-    // The quickinfo (position in folder, filename)
-    QuickInfo { id: quickInfo; }
+	// The quickinfo (position in folder, filename)
+	QuickInfo { id: quickInfo; }
 
-    MainMenu { id: mainmenu; }
+	MainMenu { id: mainmenu; }
 
-    // MetaData of the image (using the C++ Exiv2 library)
-    MetaData { id: metaData; }
+	// MetaData of the image (using the C++ Exiv2 library)
+	MetaData { id: metaData; }
 
-    About { id: about; }
+	About { id: about; }
 
-    SettingsItem { id: settingsitem; }
+	SettingsItem { id: settingsitem; }
 
 
-    // Adjust size of all the elements
+	// Adjust size of all the elements
 	function resizeElements(w,h) {
 
 		background.width = w
 		background.height = h
 
-        thumbnailBar.width = w
-        thumbnailBar.y = h-(settings.thumbnailKeepVisible ? settings.thumbnailsize+thumbnailbarheight_addon : 0)
+		thumbnailBar.width = w
+		thumbnailBar.y = h-(settings.thumbnailKeepVisible ? settings.thumbnailsize+thumbnailbarheight_addon : 0)
 
 		image.width = w
-        image.height = (settings.thumbnailKeepVisible ? h-thumbnailBar.height+thumbnailbarheight_addon/2 : h)
+		image.height = (settings.thumbnailKeepVisible ? h-thumbnailBar.height+thumbnailbarheight_addon/2 : h)
 
-        metaData.x = -metaData.width
-        metaData.y = (h-metaData.height)/3
+		metaData.x = -metaData.width
+		metaData.y = (h-metaData.height)/3
 
-        mainmenu.x = w-mainmenu.width-100
-        mainmenu.y = -mainmenu.height
+		mainmenu.x = w-mainmenu.width-100
+		mainmenu.y = -mainmenu.height
 
-        if(image.zoomSteps == 0) image.setSourceSize(w,h)
+		if(image.zoomSteps == 0) image.setSourceSize(w,h)
 
-    }
+	}
 
-    // Slots accessable by mainwindow.cpp, passed on to thumbnailbar
-    function reloadImage(pos, smart) { thumbnailBar.reloadImage(pos, smart) }
-    function setupModel(stringlist, pos) { thumbnailBar.setupModel(stringlist, pos) }
-    function displayImage(pos) { thumbnailBar.displayImage(pos) }
-    function nextImage() { thumbnailBar.nextImage(); }
-    function previousImage() { thumbnailBar.previousImage(); }
-    function getCenterPos() { console.log("center pos"); return thumbnailBar.getCenterPos(); }
+	// Slots accessable by mainwindow.cpp, passed on to thumbnailbar
+	function reloadImage(pos, smart) { thumbnailBar.reloadImage(pos, smart) }
+	function setupModel(stringlist, pos) { thumbnailBar.setupModel(stringlist, pos) }
+	function displayImage(pos) { thumbnailBar.displayImage(pos) }
+	function nextImage() { thumbnailBar.nextImage(); }
+	function previousImage() { thumbnailBar.previousImage(); }
+	function getCenterPos() { console.log("center pos"); return thumbnailBar.getCenterPos(); }
 
 }

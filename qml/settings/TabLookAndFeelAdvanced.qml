@@ -7,823 +7,815 @@ import "../elements"
 
 Rectangle {
 
-    id: tab
-
-    color: "#00000000"
+	id: tab
+
+	color: "#00000000"
 
-    anchors {
-        fill: parent
-        leftMargin: 20
-        rightMargin: 20
-        topMargin: 15
-        bottomMargin: 5
-    }
+	anchors {
+		fill: parent
+		leftMargin: 20
+		rightMargin: 20
+		topMargin: 15
+		bottomMargin: 5
+	}
 
-    Flickable {
+	Flickable {
 
-        id: flickable
+		id: flickable
 
-        clip: true
+		clip: true
 
-        anchors.fill: parent
+		anchors.fill: parent
 
-        contentHeight: contentItem.childrenRect.height+50
-        contentWidth: tab.width
+		contentHeight: contentItem.childrenRect.height+50
+		contentWidth: tab.width
 
-        boundsBehavior: Flickable.StopAtBounds
+		boundsBehavior: Flickable.StopAtBounds
 
-        Column {
+		Column {
 
-            id: maincol
+			id: maincol
 
-            spacing: 15
+			spacing: 15
 
-            /**********
-             * HEADER *
-             **********/
+			/**********
+			* HEADER *
+			**********/
 
-            Rectangle {
-                id: header
-                width: flickable.width
-                height: childrenRect.height
-                color: "#00000000"
-                Text {
-                    color: "white"
-                    font.pointSize: 18
-                    font.bold: true
-                    text: "Advanced Settings"
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-            }
-
-            /**************
-             * BACKGROUND *
-             **************/
-
-            SettingsText {
-
-                width: flickable.width
-
-                text: "<h2>Background of PhotoQt</h2><br>The background of PhotoQt is the part, that is not covered by an image. It can be made either real (half-)transparent (using a compositor), or faked transparent (instead of the actual desktop a screenshot of it is shown), or a custom background image can be set, or none of the above.<br>Note: Fake transparency currently only really works when PhotoQt is run in fullscreen/maximised!"
-
-            }
-
-            /* BACKGROUND ELEMENTS */
-
-            // packed in rectangle for centering
-            Rectangle {
-
-                color: "#00000000"
-
-                // center rectangle
-                width: childrenRect.width
-                height: childrenRect.height
-                x: (flickable.width-width)/2
-
-                Column {
-
-                    spacing: 10
-
-                    // Ascending or Descending
-                    ExclusiveGroup { id: radiobuttons_background }
-                    CustomRadioButton {
-                        id: background_halftrans
-                        text: "Use (half-)transparent background"
-                        exclusiveGroup: radiobuttons_background
-                        checked: true
-                    }
-                    CustomRadioButton {
-                        id: background_fakedtrans
-                        text: "Use faked transparency"
-                        exclusiveGroup: radiobuttons_background
-                    }
-                    CustomRadioButton {
-                        id: background_image
-                        text: "Use custom background image"
-                        exclusiveGroup: radiobuttons_background
-                    }
-                    CustomRadioButton {
-                        id: background_onecoloured
-                        text: "Use one-coloured, non-transparent background"
-                        exclusiveGroup: radiobuttons_background
-                    }
-                }
-
-            }
-
-            /* SELECT AND ADJUST BACKGROUND IMAGE */
-
-            Rectangle {
-
-                width: childrenRect.width
-                height: childrenRect.height+20
-
-                visible: background_image.checked
-
-                x: (parent.width-width)/2
-                y: 20
-
-                color: "#00000000"
-
-                Row {
-
-                    spacing: 20
-
-                    // DIsplay background image preview
-                    Image {
-                        id: background_image_select
-                        width: 200
-                        height: 150
-                        fillMode: background_image_scale.checked
-                                  ? Image.PreserveAspectFit
-                                  : (background_image_stretch.checked
-                                     ? Image.Stretch
-                                     : (background_image_scalecrop.checked
-                                        ? Image.PreserveAspectCrop
-                                        : (background_image_tile.checked
-                                           ? Image.Tile
-                                           : Image.Pad)))
-                        source: ""
-                        MouseArea {
-                            anchors.fill: parent
-                            cursorShape: Qt.PointingHandCursor
-                            onClicked: {
-                                var f = getanddostuff.getFilenameQtImage()
-                                if(f !== "")
-                                    parent.source = "file:/" + f
-                            }
-                        }
-
-                        // This is an 'empty' rectangle on top of image above - only visible when image source is empty
-                        Rectangle {
-                            anchors.fill: parent
-                            color: "#99222222"
-                            visible: (background_image_select.source == "")
-                            Text {
-                                anchors.fill: parent
-                                horizontalAlignment: Qt.AlignHCenter
-                                verticalAlignment: Qt.AlignVCenter
-                                color: "white"
-                                text: "No image selected"
-                            }
-                        }
-                    }
-
-                    Rectangle {
-
-                        height: bg_col.height
-                        width: bg_col.width
-
-                        y: (parent.height-height)/2
-
-                        color: "#00000000"
-
-                        Column {
-
-                            id: bg_col
-
-                            spacing: 10
-
-                            ExclusiveGroup { id: radiobuttons_image }
-
-                            CustomRadioButton {
-                                id: background_image_scale
-                                text: "Scale to fit"
-                                exclusiveGroup: radiobuttons_image
-                                checked: true
-                            }
-                            CustomRadioButton {
-                                id: background_image_scalecrop
-                                text: "Scale and Crop to fit"
-                                exclusiveGroup: radiobuttons_image
-                            }
-                            CustomRadioButton {
-                                id: background_image_stretch
-                                text: "Stretch to fit"
-                                exclusiveGroup: radiobuttons_image
-                            }
-                            CustomRadioButton {
-                                id: background_image_center
-                                text: "Center image"
-                                exclusiveGroup: radiobuttons_image
-                            }
-                            CustomRadioButton {
-                                id: background_image_tile
-                                text: "Tile image"
-                                exclusiveGroup: radiobuttons_image
-                            }
-
-                        }
-                    }
-
-                }
-            }
-
-
-            /*********************
-             * BACKGROUND COLOUR *
-             *********************/
-
-            SettingsText {
-
-                width: flickable.width
-
-                text: "<h2>Background/Overlay Color</h2><br>Here you can adjust the background colour of PhotoQt (of the part not covered by an image). When using compositing or a background image, then you can also specify an alpha value, i.e. the transparency of the coloured overlay layer. When neither compositing is enabled nor a background image is set, then this colour will be the non-transparent background of PhotoQt."
-
-            }
-
-            Rectangle {
-
-                color: "#00000000"
-                width: childrenRect.width
-                height: childrenRect.height
-                x: (flickable.width-width)/2
-
-                Row {
-
-                    spacing: 5
-
-                    Column {
-
-                        id: slider_column
-                        spacing: 5
-
-                        Rectangle {
-                            color: "#00000000"
-                            height: childrenRect.height
-                            width: childrenRect.width
-                            Row {
-                                spacing: 5
-                                Text {
-                                    width: 60
-                                    horizontalAlignment: Qt.AlignRight
-                                    color: "white"
-                                    text: "Red:"
-                                }
-
-                                CustomSlider {
-                                    id: red
-                                    minimumValue: 0
-                                    maximumValue: 1
-                                    stepSize: 0.01
-                                }
-                            }
-                        }
-                        Rectangle {
-                            color: "#00000000"
-                            height: childrenRect.height
-                            width: childrenRect.width
-                            Row {
-                                spacing: 5
-                                Text {
-                                    width: 60
-                                    horizontalAlignment: Qt.AlignRight
-                                    color: "white"
-                                    text: "Green:"
-                                }
-
-                                CustomSlider {
-                                    id: green
-                                    minimumValue: 0
-                                    maximumValue: 1
-                                    stepSize: 0.01
-                                }
-                            }
-                        }
-                        Rectangle {
-                            color: "#00000000"
-                            height: childrenRect.height
-                            width: childrenRect.width
-                            Row {
-                                spacing: 5
-                                Text {
-                                    width: 60
-                                    horizontalAlignment: Qt.AlignRight
-                                    color: "white"
-                                    text: "Blue:"
-                                }
-
-                                CustomSlider {
-                                    id: blue
-                                    minimumValue: 0
-                                    maximumValue: 1
-                                    stepSize: 0.01
-                                }
-                            }
-                        }
-                        Rectangle {
-                            color: "#00000000"
-                            height: childrenRect.height
-                            width: childrenRect.width
-                            Row {
-                                spacing: 5
-                                Text {
-                                    width: 60
-                                    horizontalAlignment: Qt.AlignRight
-                                    color: "white"
-                                    text: "Alpha:"
-                                }
+			Rectangle {
+				id: header
+				width: flickable.width
+				height: childrenRect.height
+				color: "#00000000"
+				Text {
+					color: "white"
+					font.pointSize: 18
+					font.bold: true
+					text: "Advanced Settings"
+					anchors.horizontalCenter: parent.horizontalCenter
+				}
+			}
+
+			/**************
+			* BACKGROUND *
+			**************/
+
+			SettingsText {
+
+				width: flickable.width
+
+				text: "<h2>Background of PhotoQt</h2><br>The background of PhotoQt is the part, that is not covered by an image. It can be made either real (half-)transparent (using a compositor), or faked transparent (instead of the actual desktop a screenshot of it is shown), or a custom background image can be set, or none of the above.<br>Note: Fake transparency currently only really works when PhotoQt is run in fullscreen/maximised!"
+
+			}
+
+			/* BACKGROUND ELEMENTS */
+
+			// packed in rectangle for centering
+			Rectangle {
+
+				color: "#00000000"
+
+				// center rectangle
+				width: childrenRect.width
+				height: childrenRect.height
+				x: (flickable.width-width)/2
 
-                                CustomSlider {
-                                    id: alpha
-                                    minimumValue: 0
-                                    maximumValue: 1
-                                    stepSize: 0.01
-                                }
-                            }
-                        }
+				Column {
 
-                    }
+					spacing: 10
 
-                    /* Image, Rectangle, and Label to preview background colour */
+					// Ascending or Descending
+					ExclusiveGroup { id: radiobuttons_background }
+					CustomRadioButton {
+						id: background_halftrans
+						text: "Use (half-)transparent background"
+						exclusiveGroup: radiobuttons_background
+						checked: true
+					}
+					CustomRadioButton {
+						id: background_fakedtrans
+						text: "Use faked transparency"
+						exclusiveGroup: radiobuttons_background
+					}
+					CustomRadioButton {
+						id: background_image
+						text: "Use custom background image"
+						exclusiveGroup: radiobuttons_background
+					}
+					CustomRadioButton {
+						id: background_onecoloured
+						text: "Use one-coloured, non-transparent background"
+						exclusiveGroup: radiobuttons_background
+					}
+				}
+
+			}
+
+			/* SELECT AND ADJUST BACKGROUND IMAGE */
+
+			Rectangle {
+
+				width: childrenRect.width
+				height: childrenRect.height+20
+
+				visible: background_image.checked
+
+				x: (parent.width-width)/2
+				y: 20
+
+				color: "#00000000"
+
+				Row {
+
+					spacing: 20
+
+					// DIsplay background image preview
+					Image {
+						id: background_image_select
+						width: 200
+						height: 150
+						fillMode: background_image_scale.checked
+							? Image.PreserveAspectFit : (background_image_stretch.checked
+								? Image.Stretch : (background_image_scalecrop.checked
+									? Image.PreserveAspectCrop : (background_image_tile.checked
+										? Image.Tile : Image.Pad)))
+						source: ""
+						MouseArea {
+							anchors.fill: parent
+							cursorShape: Qt.PointingHandCursor
+							onClicked: {
+							var f = getanddostuff.getFilenameQtImage()
+							if(f !== "")
+								parent.source = "file:/" + f
+							}
+						}
+
+						// This is an 'empty' rectangle on top of image above - only visible when image source is empty
+						Rectangle {
+							anchors.fill: parent
+							color: "#99222222"
+							visible: (background_image_select.source == "")
+							Text {
+								anchors.fill: parent
+								horizontalAlignment: Qt.AlignHCenter
+								verticalAlignment: Qt.AlignVCenter
+								color: "white"
+								text: "No image selected"
+							}
+						}
+					}
+
+					Rectangle {
+
+						height: bg_col.height
+						width: bg_col.width
+
+						y: (parent.height-height)/2
+
+						color: "#00000000"
+
+						Column {
+
+							id: bg_col
+
+							spacing: 10
+
+							ExclusiveGroup { id: radiobuttons_image }
+
+							CustomRadioButton {
+								id: background_image_scale
+								text: "Scale to fit"
+								exclusiveGroup: radiobuttons_image
+								checked: true
+							}
+							CustomRadioButton {
+								id: background_image_scalecrop
+								text: "Scale and Crop to fit"
+								exclusiveGroup: radiobuttons_image
+							}
+							CustomRadioButton {
+								id: background_image_stretch
+								text: "Stretch to fit"
+								exclusiveGroup: radiobuttons_image
+							}
+							CustomRadioButton {
+								id: background_image_center
+								text: "Center image"
+								exclusiveGroup: radiobuttons_image
+							}
+							CustomRadioButton {
+								id: background_image_tile
+								text: "Tile image"
+								exclusiveGroup: radiobuttons_image
+							}
+
+						}
+					}
+
+				}
+			}
+
+
+			/*********************
+			* BACKGROUND COLOUR *
+			*********************/
+
+			SettingsText {
+
+				width: flickable.width
+
+				text: "<h2>Background/Overlay Color</h2><br>Here you can adjust the background colour of PhotoQt (of the part not covered by an image). When using compositing or a background image, then you can also specify an alpha value, i.e. the transparency of the coloured overlay layer. When neither compositing is enabled nor a background image is set, then this colour will be the non-transparent background of PhotoQt."
+
+			}
+
+			Rectangle {
+
+				color: "#00000000"
+				width: childrenRect.width
+				height: childrenRect.height
+				x: (flickable.width-width)/2
+
+				Row {
+
+					spacing: 5
+
+					Column {
+
+						id: slider_column
+						spacing: 5
+
+						Rectangle {
+							color: "#00000000"
+							height: childrenRect.height
+							width: childrenRect.width
+							Row {
+								spacing: 5
+								Text {
+									width: 60
+									horizontalAlignment: Qt.AlignRight
+									color: "white"
+									text: "Red:"
+								}
+
+								CustomSlider {
+									id: red
+									minimumValue: 0
+									maximumValue: 1
+									stepSize: 0.01
+								}
+							}
+						}
+						Rectangle {
+							color: "#00000000"
+							height: childrenRect.height
+							width: childrenRect.width
+							Row {
+								spacing: 5
+								Text {
+									width: 60
+									horizontalAlignment: Qt.AlignRight
+									color: "white"
+									text: "Green:"
+								}
+
+								CustomSlider {
+									id: green
+									minimumValue: 0
+									maximumValue: 1
+									stepSize: 0.01
+								}
+							}
+						}
+						Rectangle {
+							color: "#00000000"
+							height: childrenRect.height
+							width: childrenRect.width
+							Row {
+								spacing: 5
+								Text {
+									width: 60
+									horizontalAlignment: Qt.AlignRight
+									color: "white"
+									text: "Blue:"
+								}
+
+								CustomSlider {
+									id: blue
+									minimumValue: 0
+									maximumValue: 1
+									stepSize: 0.01
+								}
+							}
+						}
+						Rectangle {
+							color: "#00000000"
+							height: childrenRect.height
+							width: childrenRect.width
+							Row {
+								spacing: 5
+								Text {
+									width: 60
+									horizontalAlignment: Qt.AlignRight
+									color: "white"
+									text: "Alpha:"
+								}
 
-                    Image {
+								CustomSlider {
+									id: alpha
+									minimumValue: 0
+									maximumValue: 1
+									stepSize: 0.01
+								}
+							}
+						}
 
-                        id: background_colour
+					}
 
-                        width: 200
-                        height: slider_column.height
+					/* Image, Rectangle, and Label to preview background colour */
 
-                        source: "qrc:/img/transparent.png"
-                        fillMode: Image.Tile
+					Image {
 
-                        Rectangle {
+						id: background_colour
 
-                            id: background_colour_label_back
+						width: 200
+						height: slider_column.height
 
-                            anchors.fill: parent
+						source: "qrc:/img/transparent.png"
+						fillMode: Image.Tile
 
-                            color: Qt.rgba(red.value,green.value,blue.value,alpha.value)
+						Rectangle {
 
-                            border.width: 1
-                            border.color: "#99969696"
+							id: background_colour_label_back
 
-                            Rectangle {
+							anchors.fill: parent
 
-                                color: "#88000000"
+							color: Qt.rgba(red.value,green.value,blue.value,alpha.value)
 
-                                x: (parent.width-width)/2
-                                y: (parent.height-height)/2
+							border.width: 1
+							border.color: "#99969696"
 
-                                width: col_txt.width+10
-                                height: col_txt.height+10
+							Rectangle {
 
-                                radius: 5
+								color: "#88000000"
 
-                                Text {
+								x: (parent.width-width)/2
+								y: (parent.height-height)/2
 
-                                    id: col_txt
+								width: col_txt.width+10
+								height: col_txt.height+10
 
-                                    x: 5
-                                    y: 5
+								radius: 5
 
-                                    horizontalAlignment: Qt.AlignHCenter
-                                    verticalAlignment: Qt.AlignVCenter
+								Text {
 
-                                    color: "white"
-                                    text: "Preview colour"
+									id: col_txt
 
-                                }
+									x: 5
+									y: 5
 
-                            }
+									horizontalAlignment: Qt.AlignHCenter
+									verticalAlignment: Qt.AlignVCenter
 
-                        }
+									color: "white"
+									text: "Preview colour"
 
-                    }
+								}
 
-                }
+							}
 
-            }
+						}
 
+					}
 
-            /***********************
-             * BORDER AROUND IMAGE *
-             ***********************/
+				}
 
-            SettingsText {
+			}
 
-                width: flickable.width
 
-                text: "<h2>Border Around Image</h2><br>Whenever you load an image, the image is per default not shown completely in fullscreen, i.e. it's not stretching from screen edge to screen edge. Instead there is a small margin around the image of a couple pixels (looks better). Here you can adjust the width of this margin (set to 0 to disable it)."
+			/***********************
+			* BORDER AROUND IMAGE *
+			***********************/
 
-            }
+			SettingsText {
 
-            Rectangle {
+				width: flickable.width
 
-                color: "#00000000"
+				text: "<h2>Border Around Image</h2><br>Whenever you load an image, the image is per default not shown completely in fullscreen, i.e. it's not stretching from screen edge to screen edge. Instead there is a small margin around the image of a couple pixels (looks better). Here you can adjust the width of this margin (set to 0 to disable it)."
 
-                width: childrenRect.width
-                height: childrenRect.height
+			}
 
-                x: (flickable.width-width)/2
+			Rectangle {
 
-                Row {
+				color: "#00000000"
 
-                    spacing: 10
+				width: childrenRect.width
+				height: childrenRect.height
 
-                    CustomSlider {
+				x: (flickable.width-width)/2
 
-                        id: border_sizeslider
+				Row {
 
-                        width: 400
+					spacing: 10
 
-                        minimumValue: 0
-                        maximumValue: 20
+					CustomSlider {
 
-                        value: border_sizespinbox.value
-                        tickmarksEnabled: true
-                        stepSize: 1
+						id: border_sizeslider
 
-                    }
+						width: 400
 
-                    CustomSpinBox {
+						minimumValue: 0
+						maximumValue: 20
 
-                        id: border_sizespinbox
+						value: border_sizespinbox.value
+						tickmarksEnabled: true
+						stepSize: 1
 
-                        width: 75
+					}
 
-                        minimumValue: 0
-                        maximumValue: 20
+					CustomSpinBox {
 
-                        value: border_sizeslider.value
-                        suffix: " %"
+						id: border_sizespinbox
 
-                    }
+						width: 75
 
+						minimumValue: 0
+						maximumValue: 20
 
-                }
+						value: border_sizeslider.value
+						suffix: " %"
 
-            }
+					}
 
+				}
 
-            /********************************
-             * CLOSE ON CLICK ON EMPTY AREA *
-             ********************************/
+			}
 
-            SettingsText {
 
-                width: flickable.width
+			/********************************
+			* CLOSE ON CLICK ON EMPTY AREA *
+			********************************/
 
-                text: "<h2>Close on Click in empty area</h2><br>This option makes PhotoQt behave a bit like the JavaScript image viewers you find on many websites. A click outside of the image on the empty background will close the application. It can be a nice feature, PhotoQt will feel even more like a \"floating layer\". However, you might at times close PhotoQt accidentally.<br><br>Note: If you use a mouse click for a shortcut already, then this option wont have any effect!"
+			SettingsText {
 
-            }
+				width: flickable.width
 
-            CustomCheckBox {
-                id: closeongrey
-                text: "Close on click in empty area"
-                x: (flickable.width-width)/2
-            }
+				text: "<h2>Close on Click in empty area</h2><br>This option makes PhotoQt behave a bit like the JavaScript image viewers you find on many websites. A click outside of the image on the empty background will close the application. It can be a nice feature, PhotoQt will feel even more like a \"floating layer\". However, you might at times close PhotoQt accidentally.<br><br>Note: If you use a mouse click for a shortcut already, then this option wont have any effect!"
 
+			}
 
-            /**************************
-             * LOOPING THROUGH FOLDER *
-             **************************/
+			CustomCheckBox {
+				id: closeongrey
+				text: "Close on click in empty area"
+				x: (flickable.width-width)/2
+			}
 
-            SettingsText {
 
-                width: flickable.width
+			/**************************
+			* LOOPING THROUGH FOLDER *
+			**************************/
 
-                text: "<h2>Looping Through Folder</h2><br>When you load the last image in a directory and select 'Next', PhotoQt automatically jumps to the first image (and vice versa: if you select 'Previous' while having the first image loaded, PhotoQt jumps to the last image). Disabling this option makes PhotoQt stop at the first/last image (i.e. selecting 'Next'/'Previous' will have no effect in these two special cases)."
+			SettingsText {
 
-            }
+				width: flickable.width
 
-            CustomCheckBox {
-                id: loopfolder
-                text: "Loop through folder"
-                x: (flickable.width-width)/2
-            }
+				text: "<h2>Looping Through Folder</h2><br>When you load the last image in a directory and select 'Next', PhotoQt automatically jumps to the first image (and vice versa: if you select 'Previous' while having the first image loaded, PhotoQt jumps to the last image). Disabling this option makes PhotoQt stop at the first/last image (i.e. selecting 'Next'/'Previous' will have no effect in these two special cases)."
 
+			}
 
-            /*********************
-             * SMOOTH TRANSITION *
-             *********************/
+			CustomCheckBox {
+				id: loopfolder
+				text: "Loop through folder"
+				x: (flickable.width-width)/2
+			}
 
-            SettingsText {
 
-                width: flickable.width
+			/*********************
+			* SMOOTH TRANSITION *
+			*********************/
 
-                text: "<h2>Smooth Transition</h2><br>Switching between images can be done smoothly, the new image can be set to fade into the old image. 'No transition' means, that the previous image is simply replaced by the new image."
+			SettingsText {
 
-            }
+				width: flickable.width
 
-            Rectangle {
+				text: "<h2>Smooth Transition</h2><br>Switching between images can be done smoothly, the new image can be set to fade into the old image. 'No transition' means, that the previous image is simply replaced by the new image."
 
-                color: "#00000000"
+			}
 
-                width: childrenRect.width
-                height: childrenRect.height
+			Rectangle {
 
-                x: (flickable.width-width)/2
+				color: "#00000000"
 
-                Row {
+				width: childrenRect.width
+				height: childrenRect.height
 
-                    spacing: 10
+				x: (flickable.width-width)/2
 
-                    Text {
-                        color: "white"
-                        text: "No Transition"
-                    }
+				Row {
 
-                    CustomSlider {
+					spacing: 10
 
-                        id: transition
+					Text {
+						color: "white"
+						text: "No Transition"
+					}
 
-                        width: 400
+					CustomSlider {
 
-                        minimumValue: 0
-                        maximumValue: 10
+						id: transition
 
-                        tickmarksEnabled: true
-                        stepSize: 1
+						width: 400
 
-                    }
+						minimumValue: 0
+						maximumValue: 10
 
-                    Text {
-                        color: "white"
-                        text: "Long Transition"
-                    }
+						tickmarksEnabled: true
+						stepSize: 1
 
+					}
 
-                }
+					Text {
+						color: "white"
+						text: "Long Transition"
+					}
 
-            }
 
+				}
 
-            /********************
-             * MENU SENSITIVITY *
-             ********************/
+			}
 
-            SettingsText {
 
-                width: flickable.width
+			/********************
+			* MENU SENSITIVITY *
+			********************/
 
-                text: "<h2>Menu Sensitivity</h2><br>Here you can adjust the sensitivity of the drop-down menu. The menu opens when your mouse cursor gets close to the right side of the upper edge. Here you can adjust how close you need to get for it to open."
+			SettingsText {
 
-            }
+				width: flickable.width
 
-            Rectangle {
+				text: "<h2>Menu Sensitivity</h2><br>Here you can adjust the sensitivity of the drop-down menu. The menu opens when your mouse cursor gets close to the right side of the upper edge. Here you can adjust how close you need to get for it to open."
 
-                color: "#00000000"
+			}
 
-                width: childrenRect.width
-                height: childrenRect.height
+			Rectangle {
 
-                x: (flickable.width-width)/2
+				color: "#00000000"
 
-                Row {
+				width: childrenRect.width
+				height: childrenRect.height
 
-                    spacing: 10
+				x: (flickable.width-width)/2
 
-                    Text {
-                        color: "white"
-                        text: "Low Sensitivity"
-                    }
+				Row {
 
-                    CustomSlider {
+					spacing: 10
 
-                        id: menusensitivity
+					Text {
+						color: "white"
+						text: "Low Sensitivity"
+					}
 
-                        width: 400
+					CustomSlider {
 
-                        minimumValue: 1
-                        maximumValue: 10
+						id: menusensitivity
 
-                        tickmarksEnabled: true
-                        stepSize: 1
+						width: 400
 
-                    }
+						minimumValue: 1
+						maximumValue: 10
 
-                    Text {
-                        color: "white"
-                        text: "High Sensitivity"
-                    }
+						tickmarksEnabled: true
+						stepSize: 1
 
+					}
 
-                }
+					Text {
+						color: "white"
+						text: "High Sensitivity"
+					}
 
-            }
+				}
 
+			}
 
 
-            /***************************
-             * MOUSE WHEEL SENSITIVITY *
-             ***************************/
 
-            SettingsText {
+			/***************************
+			* MOUSE WHEEL SENSITIVITY *
+			***************************/
 
-                width: flickable.width
+			SettingsText {
 
-                text: "<h2>Mouse Wheel Sensitivity</h2><br>Here you can adjust the sensitivity of the mouse wheel. For example, if you have set the mouse wheel up/down for switching back and forth between images, then a lower sensitivity means that you will have to scroll further for triggering a shortcut. Per default it is set to the highest sensitivity, i.e. every single wheel movement is evaluated."
+				width: flickable.width
 
-            }
+				text: "<h2>Mouse Wheel Sensitivity</h2><br>Here you can adjust the sensitivity of the mouse wheel. For example, if you have set the mouse wheel up/down for switching back and forth between images, then a lower sensitivity means that you will have to scroll further for triggering a shortcut. Per default it is set to the highest sensitivity, i.e. every single wheel movement is evaluated."
 
-            Rectangle {
+			}
 
-                color: "#00000000"
+			Rectangle {
 
-                width: childrenRect.width
-                height: childrenRect.height
+				color: "#00000000"
 
-                x: (flickable.width-width)/2
+				width: childrenRect.width
+				height: childrenRect.height
 
-                Row {
+				x: (flickable.width-width)/2
 
-                    spacing: 10
+				Row {
 
-                    Text {
-                        color: "white"
-                        text: "Very sensitive"
-                    }
+					spacing: 10
 
-                    CustomSlider {
+					Text {
+						color: "white"
+						text: "Very sensitive"
+					}
 
-                        id: wheelsensitivity
+					CustomSlider {
 
-                        width: 400
+						id: wheelsensitivity
 
-                        minimumValue: 1
-                        maximumValue: 10
+						width: 400
 
-                        tickmarksEnabled: true
-                        stepSize: 1
+						minimumValue: 1
+						maximumValue: 10
 
-                    }
+						tickmarksEnabled: true
+						stepSize: 1
 
-                    Text {
-                        color: "white"
-                        text: "Not at all sensitive"
-                    }
+					}
 
+					Text {
+						color: "white"
+						text: "Not at all sensitive"
+					}
 
-                }
+				}
 
-            }
+			}
 
 
 
-            /************************
-             * REMEMBER PER SESSION *
-             ************************/
+			/************************
+			* REMEMBER PER SESSION *
+			************************/
 
-            SettingsText {
+			SettingsText {
 
-                width: flickable.width
+				width: flickable.width
 
-                text: "<h2>Remember per session</h2><br>If you would like PhotoQt to remember the rotation/flipping and/or zoom level per session (not permanent), then you can enable it here. If not set, then every time a new image is displayed, it is displayed neither zoomed nor rotated nor flipped (one could say, it is displayed 'normal')."
+				text: "<h2>Remember per session</h2><br>If you would like PhotoQt to remember the rotation/flipping and/or zoom level per session (not permanent), then you can enable it here. If not set, then every time a new image is displayed, it is displayed neither zoomed nor rotated nor flipped (one could say, it is displayed 'normal')."
 
-            }
+			}
 
-            Rectangle {
+			Rectangle {
 
-                color: "#00000000"
+				color: "#00000000"
 
-                width: childrenRect.width
-                height: childrenRect.height
+				width: childrenRect.width
+				height: childrenRect.height
 
-                x: (flickable.width-width)/2
+				x: (flickable.width-width)/2
 
-                Row {
+				Row {
 
-                    spacing: 10
+					spacing: 10
 
-                    CustomCheckBox {
-                        id: remember_rotation
-                        text: "Remember Rotation/Flip"
-                    }
+					CustomCheckBox {
+						id: remember_rotation
+						text: "Remember Rotation/Flip"
+					}
 
-                    CustomCheckBox {
-                        id: remember_zoom
-                        text: "Remember Zoom Level"
-                    }
+					CustomCheckBox {
+						id: remember_zoom
+						text: "Remember Zoom Level"
+					}
 
+				}
 
-                }
+			}
 
-            }
 
 
+			/************************
+			* REMEMBER PER SESSION *
+			************************/
 
-            /************************
-             * REMEMBER PER SESSION *
-             ************************/
+			SettingsText {
 
-            SettingsText {
+				width: flickable.width
 
-                width: flickable.width
+				text: "<h2>Animation and Window Geometry</h2><br>There are two things that can be adjusted here:<ol><li>Animation of fade-in widgets (like, e.g., Settings or About Widget)</li><li>Save and restore of Window Geometry: On quitting PhotoQt, it stores the size and position of the window and can restore it the next time started.</li></ol>"
 
-                text: "<h2>Animation and Window Geometry</h2><br>There are two things that can be adjusted here:<ol><li>Animation of fade-in widgets (like, e.g., Settings or About Widget)</li><li>Save and restore of Window Geometry: On quitting PhotoQt, it stores the size and position of the window and can restore it the next time started.</li></ol>"
+			}
 
-            }
+			Rectangle {
 
-            Rectangle {
+				color: "#00000000"
 
-                color: "#00000000"
+				width: childrenRect.width
+				height: childrenRect.height
 
-                width: childrenRect.width
-                height: childrenRect.height
+				x: (flickable.width-width)/2
 
-                x: (flickable.width-width)/2
+				Column {
 
-                Column {
+				spacing: 10
 
-                    spacing: 10
+					CustomCheckBox {
+						id: animate_elements
+						text: "Animate all fade-in elements"
+					}
 
-                    CustomCheckBox {
-                        id: animate_elements
-                        text: "Animate all fade-in elements"
-                    }
+					CustomCheckBox {
+						id: save_restore_geometry
+						text: "Save and restore window geometry"
+					}
 
-                    CustomCheckBox {
-                        id: save_restore_geometry
-                        text: "Save and restore window geometry"
-                    }
 
+				}
 
-                }
+			}
 
-            }
+		}
 
-        }
+	}
 
-    }
+	function saveData() {
 
-    function saveData() {
+		settings.composite = background_halftrans.checked
+		settings.backgroundImageScreenshot = background_fakedtrans.checked
+		settings.backgroundImageUse = background_image.checked
 
-        settings.composite = background_halftrans.checked
-        settings.backgroundImageScreenshot = background_fakedtrans.checked
-        settings.backgroundImageUse = background_image.checked
+		settings.backgroundImagePath = background_image_select.source
 
-        settings.backgroundImagePath = background_image_select.source
+		settings.backgroundImageScale = background_image_scale.checked
+		settings.backgroundImageScaleCrop = background_image_scalecrop.checked =
+		settings.backgroundImageStretch = background_image_stretch.checked
+		settings.backgroundImageCenter = background_image_center.checked
+		settings.backgroundImageTile = background_image_tile.checked
 
-        settings.backgroundImageScale = background_image_scale.checked
-        settings.backgroundImageScaleCrop = background_image_scalecrop.checked =
-        settings.backgroundImageStretch = background_image_stretch.checked
-        settings.backgroundImageCenter = background_image_center.checked
-        settings.backgroundImageTile = background_image_tile.checked
+		settings.bgColorRed = red.value*255.0
+		settings.bgColorGreen = green.value*255.0
+		settings.bgColorBlue = blue.value*255.0
+		settings.bgColorAlpha = alpha.value*255.0
 
-        settings.bgColorRed = red.value*255.0
-        settings.bgColorGreen = green.value*255.0
-        settings.bgColorBlue = blue.value*255.0
-        settings.bgColorAlpha = alpha.value*255.0
+		settings.borderAroundImg = border_sizeslider.value
 
-        settings.borderAroundImg = border_sizeslider.value
+		settings.closeongrey = closeongrey.checkedButton
 
-        settings.closeongrey = closeongrey.checkedButton
+		settings.loopthroughfolder = loopfolder.checkedButton
 
-        settings.loopthroughfolder = loopfolder.checkedButton
+		settings.transition = transition.value
 
-        settings.transition = transition.value
+		settings.menusensitivity = menusensitivity.value
 
-        settings.menusensitivity = menusensitivity.value
+		settings.mouseWheelSensitivity = wheelsensitivity.value
 
-        settings.mouseWheelSensitivity = wheelsensitivity.value
+		settings.rememberRotation = remember_rotation.checkedButton
+		settings.rememberZoom = remember_zoom.checkedButton
 
-        settings.rememberRotation = remember_rotation.checkedButton
-        settings.rememberZoom = remember_zoom.checkedButton
+		settings.myWidgetAnimated = animate_elements.checkedButton
+		settings.saveWindowGeometry = save_restore_geometry.checkedButton
 
-        settings.myWidgetAnimated = animate_elements.checkedButton
-        settings.saveWindowGeometry = save_restore_geometry.checkedButton
+	}
 
-    }
+	function setData() {
 
-    function setData() {
+		background_halftrans.checked = settings.composite
+		background_fakedtrans.checked = settings.backgroundImageScreenshot
+		background_image.checked = settings.backgroundImageUse
+		background_onecoloured.checked = (!settings.composite && !settings.backgroundImageScreenshot && !settings.backgroundImageUse)
 
-        background_halftrans.checked = settings.composite
-        background_fakedtrans.checked = settings.backgroundImageScreenshot
-        background_image.checked = settings.backgroundImageUse
-        background_onecoloured.checked = (!settings.composite && !settings.backgroundImageScreenshot && !settings.backgroundImageUse)
+		background_image_select.source = settings.backgroundImagePath
 
-        background_image_select.source = settings.backgroundImagePath
+		background_image_scale.checked = settings.backgroundImageScale
+		background_image_scalecrop.checked = settings.backgroundImageScaleCrop
+		background_image_stretch.checked = settings.backgroundImageStretch
+		background_image_center.checked = settings.backgroundImageCenter
+		background_image_tile.checked = settings.backgroundImageTile
 
-        background_image_scale.checked = settings.backgroundImageScale
-        background_image_scalecrop.checked = settings.backgroundImageScaleCrop
-        background_image_stretch.checked = settings.backgroundImageStretch
-        background_image_center.checked = settings.backgroundImageCenter
-        background_image_tile.checked = settings.backgroundImageTile
+		red.value = settings.bgColorRed/255.0
+		green.value = settings.bgColorGreen/255.0
+		blue.value = settings.bgColorBlue/255.0
+		alpha.value = settings.bgColorAlpha/255.0
 
-        red.value = settings.bgColorRed/255.0
-        green.value = settings.bgColorGreen/255.0
-        blue.value = settings.bgColorBlue/255.0
-        alpha.value = settings.bgColorAlpha/255.0
+		border_sizeslider.value = settings.borderAroundImg
 
-        border_sizeslider.value = settings.borderAroundImg
+		closeongrey.checkedButton = settings.closeongrey
 
-        closeongrey.checkedButton = settings.closeongrey
+		loopfolder.checkedButton = settings.loopthroughfolder
 
-        loopfolder.checkedButton = settings.loopthroughfolder
+		transition.value = settings.transition
 
-        transition.value = settings.transition
+		menusensitivity.value = settings.menusensitivity
 
-        menusensitivity.value = settings.menusensitivity
+		wheelsensitivity.value = settings.mouseWheelSensitivity
 
-        wheelsensitivity.value = settings.mouseWheelSensitivity
+		remember_rotation.checkedButton = settings.rememberRotation
+		remember_zoom.checkedButton = settings.rememberZoom
 
-        remember_rotation.checkedButton = settings.rememberRotation
-        remember_zoom.checkedButton = settings.rememberZoom
+		animate_elements.checkedButton = settings.myWidgetAnimated
+		save_restore_geometry.checkedButton = settings.saveWindowGeometry
 
-        animate_elements.checkedButton = settings.myWidgetAnimated
-        save_restore_geometry.checkedButton = settings.saveWindowGeometry
-
-    }
+	}
 
 }

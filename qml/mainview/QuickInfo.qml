@@ -4,187 +4,187 @@ import QtQuick 2.3
 
 Item {
 
-    id: item
+	id: item
 
-    x:5
-    y:5
+	x:5
+	y:5
 
-    opacity: 0
+	opacity: 0
 
-    property bool somethingLoaded: false
+	property bool somethingLoaded: false
 
-    // Set data
+	// Set data
 	function updateQuickInfo(pos, totalNumberImages, filepath) {
 
-        somethingLoaded = true
+		somethingLoaded = true
 
-        if(settings.hidecounter) {
-            counter.text = ""
-            counter.visible = false
-            spacing.visible = false
-            spacing.width = 0
-        } else {
-            counter.text = (pos+1).toString() + "/" + totalNumberImages.toString()
-            counter.visible = true
-        }
+		if(settings.hidecounter) {
+			counter.text = ""
+			counter.visible = false
+			spacing.visible = false
+			spacing.width = 0
+		} else {
+			counter.text = (pos+1).toString() + "/" + totalNumberImages.toString()
+			counter.visible = true
+		}
 
-        if(settings.hidefilename) {
-            filename.text = ""
-            filename.visible = false
-            spacing.width = 0
-            spacing.visible = false
-        } else if(settings.hidefilepathshowfilename) {
-            filename.text = getanddostuff.removePathFromFilename(filepath)
-            filename.visible = true
-        } else {
-            filename.text = filepath
-            filename.visible = true
-        }
+		if(settings.hidefilename) {
+			filename.text = ""
+			filename.visible = false
+			spacing.width = 0
+			spacing.visible = false
+		} else if(settings.hidefilepathshowfilename) {
+			filename.text = getanddostuff.removePathFromFilename(filepath)
+			filename.visible = true
+		} else {
+			filename.text = filepath
+			filename.visible = true
+		}
 
-        spacing.visible = (counter.visible && filename.visible)
+		spacing.visible = (counter.visible && filename.visible)
 
-        if(!counter.visible && !filename.visible)
-            opacity = 0
-        else
-            opacity = 1
+		if(!counter.visible && !filename.visible)
+			opacity = 0
+		else
+			opacity = 1
 
 	}
 
-    // Rectangle holding all the items
-    Rectangle {
+	// Rectangle holding all the items
+	Rectangle {
 
-        id: counterRect
+		id: counterRect
 
-        x: 0
-        y: 0
+		x: 0
+		y: 0
 
-        // it is always as big as the item it contains
-        width: childrenRect.width+6
-        height: childrenRect.height+6
+		// it is always as big as the item it contains
+		width: childrenRect.width+6
+		height: childrenRect.height+6
 
-        // Some styling
-        color: "#55000000"
-        radius: 5
+		// Some styling
+		color: "#55000000"
+		radius: 5
 
-        // COUNTER
-        Text {
+		// COUNTER
+		Text {
 
-            id: counter
+			id: counter
 
-            x:3
-            y:3
+			x:3
+			y:3
 
-            text: ""
+			text: ""
 
-            color: "white"
-            font.bold: true
+			color: "white"
+			font.bold: true
 
-            // Show context menu on right click
-            MouseArea {
-                anchors.fill: parent
-                acceptedButtons: Qt.LeftButton | Qt.RightButton
-                onClicked: {
-                    if (mouse.button == Qt.RightButton && somethingLoaded) {
-                        contextmenuCounter.popup()
-                    }
-                }
-            }
+			// Show context menu on right click
+			MouseArea {
+				anchors.fill: parent
+				acceptedButtons: Qt.LeftButton | Qt.RightButton
+				onClicked: {
+					if (mouse.button == Qt.RightButton && somethingLoaded) {
+					contextmenuCounter.popup()
+					}
+				}
+			}
 
-            // The context menu
-            Menu {
-                id: contextmenuCounter
-                style: MenuStyle {
-                    frame: menuFrame
-                    itemDelegate.background: menuHighlight
-                }
+			// The context menu
+			Menu {
+				id: contextmenuCounter
+				style: MenuStyle {
+					frame: menuFrame
+					itemDelegate.background: menuHighlight
+				}
 
-                MenuItem {
-                    text: "<font color=\"white\">Hide Counter</font>"
-                    onTriggered: {
-                        counter.text = ""
-                        counter.visible = false
-                        spacing.visible = false
-                        spacing.width = 0
-                        settings.hidecounter = true;
-                        if(filename.visible == false) item.opacity = 0
-                    }
-                }
+				MenuItem {
+					text: "<font color=\"white\">Hide Counter</font>"
+					onTriggered: {
+					counter.text = ""
+					counter.visible = false
+					spacing.visible = false
+					spacing.width = 0
+					settings.hidecounter = true;
+					if(filename.visible == false) item.opacity = 0
+					}
+				}
 
-            }
+			}
 
-        }
+		}
 
-        // SPACING - it does nothing but seperate counter from filename
-        Text {
-            id: spacing
+		// SPACING - it does nothing but seperate counter from filename
+		Text {
+			id: spacing
 
-            visible: !settings.hidecounter && !settings.hidefilepathshowfilename && !settings.hidefilename
+			visible: !settings.hidecounter && !settings.hidefilepathshowfilename && !settings.hidefilename
 
-            y: 3
-            width: 10
-            anchors.left: counter.right
+			y: 3
+			width: 10
+			anchors.left: counter.right
 
-            text: ""
+			text: ""
 
-        }
+		}
 
-        // FILENAME
-        Text {
+		// FILENAME
+		Text {
 
-            id: filename
+			id: filename
 
-            y: 3
-            anchors.left: spacing.right
+			y: 3
+			anchors.left: spacing.right
 
-            text: ""
-            color: "white"
-            font.bold: true
+			text: ""
+			color: "white"
+			font.bold: true
 
-            // Show context menu
-            MouseArea {
-                anchors.fill: parent
-                acceptedButtons: Qt.LeftButton | Qt.RightButton
-                onClicked: {
-                    if (mouse.button == Qt.RightButton && somethingLoaded) {
-                        contextmenuFilename.popup()
-                    }
-                }
-            }
+			// Show context menu
+			MouseArea {
+				anchors.fill: parent
+				acceptedButtons: Qt.LeftButton | Qt.RightButton
+				onClicked: {
+					if (mouse.button == Qt.RightButton && somethingLoaded) {
+						contextmenuFilename.popup()
+					}
+				}
+			}
 
-            // The actual context menu
-            Menu {
-                id: contextmenuFilename
-                style: MenuStyle {
-                    frame: menuFrame
-                    itemDelegate.background: menuHighlight
-                }
+			// The actual context menu
+			Menu {
+				id: contextmenuFilename
+				style: MenuStyle {
+					frame: menuFrame
+					itemDelegate.background: menuHighlight
+				}
 
-                MenuItem {
-                    text: "<font color=\"white\">Hide Filepath, leave Filename</font>"
-                    onTriggered: {
-                        filename.text = getanddostuff.removePathFromFilename(filename.text)
-                        settings.hidefilepathshowfilename = true;
-                    }
-                }
+				MenuItem {
+					text: "<font color=\"white\">Hide Filepath, leave Filename</font>"
+					onTriggered: {
+						filename.text = getanddostuff.removePathFromFilename(filename.text)
+						settings.hidefilepathshowfilename = true;
+					}
+				}
 
-                MenuItem {
-                    text: "<font color=\"white\">Hide both, Filename and Filepath</font>"
-                    onTriggered: {
-                        filename.text = ""
-                        spacing.visible = false
-                        spacing.width = 0
-                        settings.hidefilename = true;
-                        if(counter.visible == false) item.opacity = 0
-                    }
-                }
+				MenuItem {
+					text: "<font color=\"white\">Hide both, Filename and Filepath</font>"
+					onTriggered: {
+						filename.text = ""
+						spacing.visible = false
+						spacing.width = 0
+						settings.hidefilename = true;
+						if(counter.visible == false) item.opacity = 0
+					}
+				}
 
-            }
+			}
 
-        }
+		}
 
-    }
+	}
 
-    // Some menu styling
+	// Some menu styling
 	Component {
 		id: menuFrame
 		Rectangle {

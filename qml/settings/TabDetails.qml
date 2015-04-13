@@ -8,400 +8,399 @@ import "../elements"
 
 Rectangle {
 
-    id: tab
+	id: tab
 
-    color: "#00000000"
+	color: "#00000000"
 
-    anchors {
-        fill: parent
-        leftMargin: 20
-        rightMargin: 20
-        topMargin: 15
-        bottomMargin: 5
-    }
+	anchors {
+		fill: parent
+		leftMargin: 20
+		rightMargin: 20
+		topMargin: 15
+		bottomMargin: 5
+	}
 
-    property var tiles: ["Filename","Filetype","Filesize","Dimensions","Make","Model","Software","Time Photo was taken","Exposure Time","Flash","ISO","Scene Type","Focal Length","F-Number","Light Source","GPS Position"]
+	property var tiles: ["Filename","Filetype","Filesize","Dimensions","Make","Model","Software","Time Photo was taken","Exposure Time","Flash","ISO","Scene Type","Focal Length","F-Number","Light Source","GPS Position"]
 
-    Flickable {
+	Flickable {
 
-        id: flickable
+		id: flickable
 
-        clip: true
+		clip: true
 
-        anchors.fill: parent
+		anchors.fill: parent
 
-        contentHeight: contentItem.childrenRect.height+50
-        contentWidth: tab.width
+		contentHeight: contentItem.childrenRect.height+50
+		contentWidth: tab.width
 
-        boundsBehavior: Flickable.StopAtBounds
+		boundsBehavior: Flickable.StopAtBounds
 
-        Column {
+		Column {
 
-            id: maincol
+			id: maincol
 
-            spacing: 15
+			spacing: 15
 
-            /**********
-             * HEADER *
-             **********/
+			/**********
+			* HEADER *
+			**********/
 
-            Rectangle {
-                id: header
-                width: flickable.width
-                height: childrenRect.height
-                color: "#00000000"
-                Text {
-                    color: "white"
-                    font.pointSize: 18
-                    font.bold: true
-                    text: "Image Details and Information"
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-            }
+			Rectangle {
+				id: header
+				width: flickable.width
+				height: childrenRect.height
+				color: "#00000000"
+				Text {
+					color: "white"
+					font.pointSize: 18
+					font.bold: true
+					text: "Image Details and Information"
+					anchors.horizontalCenter: parent.horizontalCenter
+				}
+			}
 
-            /********************
-             * DESCRIPTIVE TEXT *
-             ********************/
+			/********************
+			* DESCRIPTIVE TEXT *
+			********************/
 
-            SettingsText {
+			SettingsText {
 
-                width: flickable.width
+				width: flickable.width
 
-                text: "<br>PhotoQt can display different information of and about each image. The widget for this information is on the left outside the screen and slides in when mouse gets close to it and/or when the set shortcut (default Ctrl+E) is triggered. On demand, the triggering by mouse movement can be disabled by checking the box below.<br>"
+				text: "<br>PhotoQt can display different information of and about each image. The widget for this information is on the left outside the screen and slides in when mouse gets close to it and/or when the set shortcut (default Ctrl+E) is triggered. On demand, the triggering by mouse movement can be disabled by checking the box below.<br>"
 
-            }
+			}
 
 
 
-            /*********************
-             * TRRIGGER ON MOUSE *
-             *********************/
+			/*********************
+			* TRRIGGER ON MOUSE *
+			*********************/
 
-            SettingsText {
+			SettingsText {
 
-                width: flickable.width
+				width: flickable.width
 
-                text: "<h2>Trigger Widget on Mouse Hovering</h2><br>Per default the info widget can be shown two ways: Moving the mouse cursor to the left screen edge to fade it in temporarily (as long as the mouse is hovering it), or permanently by clicking the checkbox (checkbox only stored per session, can't be saved permanently!). Alternatively the widget can also be triggered by shortcut. On demand the mouse triggering can be disabled, so that the widget would only show on shortcut. This can come in handy, if you get annoyed by accidentally opening the widget occasionally."
+				text: "<h2>Trigger Widget on Mouse Hovering</h2><br>Per default the info widget can be shown two ways: Moving the mouse cursor to the left screen edge to fade it in temporarily (as long as the mouse is hovering it), or permanently by clicking the checkbox (checkbox only stored per session, can't be saved permanently!). Alternatively the widget can also be triggered by shortcut. On demand the mouse triggering can be disabled, so that the widget would only show on shortcut. This can come in handy, if you get annoyed by accidentally opening the widget occasionally."
 
-            }
+			}
 
-            CustomCheckBox {
+			CustomCheckBox {
 
-                id: triggeronmouse
+				id: triggeronmouse
 
-                x: (parent.width-width)/2
-                text: "Turn mouse triggering OFF"
+				x: (parent.width-width)/2
+				text: "Turn mouse triggering OFF"
 
-            }
+			}
 
 
-            /*****************
-             * DETAILS TILES *
-             *****************/
+			/*****************
+			* DETAILS TILES *
+			*****************/
 
-            SettingsText {
+			SettingsText {
 
-                width: flickable.width
+				width: flickable.width
 
-                text: "<h2>Which items are shown?</h2><br>PhotoQt can display a number of information about the image (often called 'Exif data''). However, you might not be interested in all of them, hence you can choose to disable some of them here."
+				text: "<h2>Which items are shown?</h2><br>PhotoQt can display a number of information about the image (often called 'Exif data''). However, you might not be interested in all of them, hence you can choose to disable some of them here."
 
-            }
+			}
 
-            Rectangle {
+			Rectangle {
 
-                x: (parent.width-width)/2
+				x: (parent.width-width)/2
 
-                width: childrenRect.width
-                height: childrenRect.height
+				width: childrenRect.width
+				height: childrenRect.height
 
-                color: "#00000000"
+				color: "#00000000"
 
-                Row {
+				Row {
 
-                    spacing: 10
+					spacing: 10
 
-                    CustomButton {
-                        text: "Enable ALL"
-                        width: 150
-                        onClickedButton: { checkAllTiles(true) }
-                    }
-                    CustomButton {
-                        text: "Disable ALL"
-                        width: 150
-                        onClickedButton: { checkAllTiles(false) }
-                    }
+					CustomButton {
+						text: "Enable ALL"
+						width: 150
+						onClickedButton: { checkAllTiles(true) }
+					}
+					CustomButton {
+						text: "Disable ALL"
+						width: 150
+						onClickedButton: { checkAllTiles(false) }
+					}
 
-                }
+				}
 
-            }
+			}
 
-            Rectangle {
+			Rectangle {
 
-                x: (parent.width-width)/2
+				x: (parent.width-width)/2
 
-                width: childrenRect.width
-                height: childrenRect.height
+				width: childrenRect.width
+				height: childrenRect.height
 
-                color: "#00000000"
+				color: "#00000000"
 
-                GridLayout {
+				GridLayout {
 
-                    id: grid
-                    columns: 6
+					id: grid
+					columns: 6
 
-                    TabDetailsTile { id: filesize; text: "Filesize"; }
-                    TabDetailsTile { id: dimensions; text: "Dimensions"; }
-                    TabDetailsTile { id: make; text: "Make"; }
-                    TabDetailsTile { id: model; text: "Model"; }
-                    TabDetailsTile { id: software; text: "Software"; }
-                    TabDetailsTile { id: timephototaken; text: "Time Photo was Taken"; }
-                    TabDetailsTile { id: exposuretime; text: "Exposure Time"; }
-                    TabDetailsTile { id: flash; text: "Flash"; }
-                    TabDetailsTile { id: iso; text: "ISO"; }
-                    TabDetailsTile { id: scenetype; text: "Scene Type"; }
-                    TabDetailsTile { id: focallength; text: "Focal Length"; }
-                    TabDetailsTile { id: fnumber; text: "F-Number"; }
-                    TabDetailsTile { id: lightsource; text: "Light Source"; }
-                    TabDetailsTile { id: keywords; text: "Keywords"; }
-                    TabDetailsTile { id: location; text: "Location"; }
-                    TabDetailsTile { id: copyright; text: "Copyright"; }
-                    TabDetailsTile { id: gps; text: "GPS Position"; }
+					TabDetailsTile { id: filesize; text: "Filesize"; }
+					TabDetailsTile { id: dimensions; text: "Dimensions"; }
+					TabDetailsTile { id: make; text: "Make"; }
+					TabDetailsTile { id: model; text: "Model"; }
+					TabDetailsTile { id: software; text: "Software"; }
+					TabDetailsTile { id: timephototaken; text: "Time Photo was Taken"; }
+					TabDetailsTile { id: exposuretime; text: "Exposure Time"; }
+					TabDetailsTile { id: flash; text: "Flash"; }
+					TabDetailsTile { id: iso; text: "ISO"; }
+					TabDetailsTile { id: scenetype; text: "Scene Type"; }
+					TabDetailsTile { id: focallength; text: "Focal Length"; }
+					TabDetailsTile { id: fnumber; text: "F-Number"; }
+					TabDetailsTile { id: lightsource; text: "Light Source"; }
+					TabDetailsTile { id: keywords; text: "Keywords"; }
+					TabDetailsTile { id: location; text: "Location"; }
+					TabDetailsTile { id: copyright; text: "Copyright"; }
+					TabDetailsTile { id: gps; text: "GPS Position"; }
 
-                }
+				}
 
-            }
+			}
 
 
-            /*************
-             * FONT SIZE *
-             *************/
+			/*************
+			* FONT SIZE *
+			*************/
 
-            SettingsText {
+			SettingsText {
 
-                width: flickable.width
+				width: flickable.width
 
-                text: "<h2>Adjusting Font Size</h2><br>Computers can have very different resolutions. On some of them, it might be nice to increase the font size of the labels to have them easier readable. Often, a size of 8 or 9 should be working quite well..."
+				text: "<h2>Adjusting Font Size</h2><br>Computers can have very different resolutions. On some of them, it might be nice to increase the font size of the labels to have them easier readable. Often, a size of 8 or 9 should be working quite well..."
 
-            }
+			}
 
-            Rectangle {
+			Rectangle {
 
-                x: (parent.width-width)/2
+				x: (parent.width-width)/2
 
-                width: childrenRect.width
-                height: childrenRect.height
+				width: childrenRect.width
+				height: childrenRect.height
 
-                color: "#00000000"
+				color: "#00000000"
 
-                Row {
+				Row {
 
-                    spacing: 10
+					spacing: 10
 
-                    CustomSlider {
+					CustomSlider {
 
-                        id: fontsize_slider
+						id: fontsize_slider
 
-                        width: 400
+						width: 400
 
-                        minimumValue: 5
-                        maximumValue: 20
+						minimumValue: 5
+						maximumValue: 20
 
-                        value: fontsize_spinbox.value
-                        tickmarksEnabled: true
-                        stepSize: 1
+						value: fontsize_spinbox.value
+						tickmarksEnabled: true
+						stepSize: 1
 
-                    }
+					}
 
-                    CustomSpinBox {
+					CustomSpinBox {
 
-                        id: fontsize_spinbox
+						id: fontsize_spinbox
 
-                        width: 75
+						width: 75
 
-                        minimumValue: 5
-                        maximumValue: 20
+						minimumValue: 5
+						maximumValue: 20
 
-                        value: fontsize_slider.value
-                        suffix: " pt"
+						value: fontsize_slider.value
+						suffix: " pt"
 
-                    }
+					}
 
+				}
 
-                }
+			}
 
-            }
 
 
+			/*********************
+			* ROTATING/FLIPPING *
+			*********************/
 
-            /*********************
-             * ROTATING/FLIPPING *
-             *********************/
+			SettingsText {
 
-            SettingsText {
+				width: flickable.width
 
-                width: flickable.width
+				text: "<h2>Rotating/Flipping Image according to Exif Data</h2><br>Some cameras can detect - while taking the photo - whether the camera was turned and might store this information in the image exif data. If PhotoQt finds this information, it can rotate the image accordingly. Per default it's not doing it, but it can be enabled here as desired."
 
-                text: "<h2>Rotating/Flipping Image according to Exif Data</h2><br>Some cameras can detect - while taking the photo - whether the camera was turned and might store this information in the image exif data. If PhotoQt finds this information, it can rotate the image accordingly. Per default it's not doing it, but it can be enabled here as desired."
+			}
 
-            }
+			Rectangle {
 
-            Rectangle {
+				x: (parent.width-width)/2
 
-                x: (parent.width-width)/2
+				width: childrenRect.width
+				height: childrenRect.height
 
-                width: childrenRect.width
-                height: childrenRect.height
+				color: "#00000000"
 
-                color: "#00000000"
+				ExclusiveGroup { id: rotateflipgroup; }
 
-                ExclusiveGroup { id: rotateflipgroup; }
+				Row {
 
-                Row {
+					spacing: 10
 
-                    spacing: 10
+					CustomRadioButton {
+						id: neverrotate
+						text: "Never rotate images"
+						exclusiveGroup: rotateflipgroup
+						checked: true
+					}
+					CustomRadioButton {
+						id: alwaysrotate
+						text: "Always rotate images"
+						exclusiveGroup: rotateflipgroup
+					}
+					CustomRadioButton {
+						id: alwaysask
+						text: "Always ask"
+						exclusiveGroup: rotateflipgroup
+					}
 
-                    CustomRadioButton {
-                        id: neverrotate
-                        text: "Never rotate images"
-                        exclusiveGroup: rotateflipgroup
-                        checked: true
-                    }
-                    CustomRadioButton {
-                        id: alwaysrotate
-                        text: "Always rotate images"
-                        exclusiveGroup: rotateflipgroup
-                    }
-                    CustomRadioButton {
-                        id: alwaysask
-                        text: "Always ask"
-                        exclusiveGroup: rotateflipgroup
-                    }
+				}
 
-                }
+			}
 
-            }
+			/**********************
+			* ONLINE MAP FOR GPS *
+			**********************/
 
-            /**********************
-             * ONLINE MAP FOR GPS *
-             **********************/
+			SettingsText {
 
-            SettingsText {
+				width: flickable.width
 
-                width: flickable.width
+				text: "<h2>Online map for GPS</h2><br>If you're image includes a GPS location, then a click on the location text will load this location in an online map using your default external browser. Here you can choose which online service to use (suggestions for other online maps always welcome)."
 
-                text: "<h2>Online map for GPS</h2><br>If you're image includes a GPS location, then a click on the location text will load this location in an online map using your default external browser. Here you can choose which online service to use (suggestions for other online maps always welcome)."
+			}
 
-            }
+			Rectangle {
 
-            Rectangle {
+				x: (parent.width-width)/2
 
-                x: (parent.width-width)/2
+				width: childrenRect.width
+				height: childrenRect.height
 
-                width: childrenRect.width
-                height: childrenRect.height
+				color: "#00000000"
 
-                color: "#00000000"
+				ExclusiveGroup { id: mapgroup; }
 
-                ExclusiveGroup { id: mapgroup; }
+				Row {
 
-                Row {
+					spacing: 10
 
-                    spacing: 10
+					CustomRadioButton {
+						id: openstreetmap
+						text: "openstreetmap.org"
+						exclusiveGroup: mapgroup
+						checked: true
+					}
+					CustomRadioButton {
+						id: googlemaps
+						text: "maps.google.com"
+						exclusiveGroup: mapgroup
+					}
+					CustomRadioButton {
+						id: bingmaps
+						text: "bing.com/maps"
+						exclusiveGroup: mapgroup
+					}
 
-                    CustomRadioButton {
-                        id: openstreetmap
-                        text: "openstreetmap.org"
-                        exclusiveGroup: mapgroup
-                        checked: true
-                    }
-                    CustomRadioButton {
-                        id: googlemaps
-                        text: "maps.google.com"
-                        exclusiveGroup: mapgroup
-                    }
-                    CustomRadioButton {
-                        id: bingmaps
-                        text: "bing.com/maps"
-                        exclusiveGroup: mapgroup
-                    }
+				}
 
-                }
+			}
 
-            }
+		}
 
-        }
+	}
 
-    }
+	function checkAllTiles(checked) {
 
-    function checkAllTiles(checked) {
+		for(var i = 0; i < grid.children.length; ++i) {
+			grid.children[i].checked = checked
+		}
 
-        for(var i = 0; i < grid.children.length; ++i) {
-            grid.children[i].checked = checked
-        }
+	}
 
-    }
+	function setData() {
 
-    function setData() {
+		triggeronmouse.checkedButton = !settings.exifenablemousetriggering
 
-        triggeronmouse.checkedButton = !settings.exifenablemousetriggering
+		filesize.checked = settings.exiffilesize
+		dimensions.checked = settings.exifdimensions
+		make.checked = settings.exifmake
+		model.checked = settings.exifmodel
+		software.checked = settings.exifsoftware
+		timephototaken.checked = settings.exifphototaken
+		exposuretime.checked = settings.exifexposuretime
+		flash.checked = settings.exifflash
+		iso.checked = settings.exifiso
+		scenetype.checked = settings.exifscenetype
+		focallength.checked = settings.exifflength
+		fnumber.checked = settings.exiffnumber
+		lightsource.checked = settings.exiflightsource
+		keywords.checked = settings.iptckeywords
+		location.checked = settings.iptclocation
+		copyright.checked = settings.iptccopyright
+		gps.checked = settings.exifgps
 
-        filesize.checked = settings.exiffilesize
-        dimensions.checked = settings.exifdimensions
-        make.checked = settings.exifmake
-        model.checked = settings.exifmodel
-        software.checked = settings.exifsoftware
-        timephototaken.checked = settings.exifphototaken
-        exposuretime.checked = settings.exifexposuretime
-        flash.checked = settings.exifflash
-        iso.checked = settings.exifiso
-        scenetype.checked = settings.exifscenetype
-        focallength.checked = settings.exifflength
-        fnumber.checked = settings.exiffnumber
-        lightsource.checked = settings.exiflightsource
-        keywords.checked = settings.iptckeywords
-        location.checked = settings.iptclocation
-        copyright.checked = settings.iptccopyright
-        gps.checked = settings.exifgps
+		fontsize_slider.value = settings.exiffontsize
 
-        fontsize_slider.value = settings.exiffontsize
+		neverrotate.checked = (settings.exifrotation === "Never")
+		alwaysrotate.checked = (settings.exifrotation === "Always")
+		alwaysask.checked = (settings.exifrotation === "Ask")
 
-        neverrotate.checked = (settings.exifrotation === "Never")
-        alwaysrotate.checked = (settings.exifrotation === "Always")
-        alwaysask.checked = (settings.exifrotation === "Ask")
+		openstreetmap.checked = (settings.exifgpsmapservice === "openstreetmap.org")
+		googlemaps.checked = (settings.exifgpsmapservice === "maps.google.com")
+		bingmaps.checked = (settings.exifgpsmapservice === "bing.com/maps")
 
-        openstreetmap.checked = (settings.exifgpsmapservice === "openstreetmap.org")
-        googlemaps.checked = (settings.exifgpsmapservice === "maps.google.com")
-        bingmaps.checked = (settings.exifgpsmapservice === "bing.com/maps")
+	}
 
-    }
+	function saveData() {
 
-    function saveData() {
+		settings.exifenablemousetriggering = !triggeronmouse.checkedButton
 
-         settings.exifenablemousetriggering = !triggeronmouse.checkedButton
+		settings.exiffilesize = filesize.checked
+		settings.exifdimensions = dimensions.checked
+		settings.exifmake = make.checked
+		settings.exifmodel = model.checked
+		settings.exifsoftware = software.checked
+		settings.exifphototaken = timephototaken.checked
+		settings.exifexposuretime = exposuretime.checked
+		settings.exifflash = flash.checked
+		settings.exifiso = iso.checked
+		settings.exifscenetype = scenetype.checked
+		settings.exifflength = focallength.checked
+		settings.exiffnumber = fnumber.checked
+		settings.exiflightsource = lightsource.checked
+		settings.iptckeywords = keywords.checked
+		settings.iptclocation = location.checked
+		settings.iptccopyright = copyright.checked
+		settings.exifgps = gps.checked
 
-         settings.exiffilesize = filesize.checked
-         settings.exifdimensions = dimensions.checked
-         settings.exifmake = make.checked
-         settings.exifmodel = model.checked
-         settings.exifsoftware = software.checked
-         settings.exifphototaken = timephototaken.checked
-         settings.exifexposuretime = exposuretime.checked
-         settings.exifflash = flash.checked
-         settings.exifiso = iso.checked
-         settings.exifscenetype = scenetype.checked
-         settings.exifflength = focallength.checked
-         settings.exiffnumber = fnumber.checked
-         settings.exiflightsource = lightsource.checked
-         settings.iptckeywords = keywords.checked
-         settings.iptclocation = location.checked
-         settings.iptccopyright = copyright.checked
-         settings.exifgps = gps.checked
+		settings.exiffontsize = fontsize_slider.value
 
-         settings.exiffontsize = fontsize_slider.value
+		settings.exifrotation = neverrotate.checked ? "Never" : (alwaysrotate.checked ? "Always" : "Ask")
+		settings.exifgpsmapservice = openstreetmap.checked ? "openstreetmap.org" : (googlemaps.checked ? "maps.google.com" : "bing.com/maps")
 
-        settings.exifrotation = neverrotate.checked ? "Never" : (alwaysrotate.checked ? "Always" : "Ask")
-        settings.exifgpsmapservice = openstreetmap.checked ? "openstreetmap.org" : (googlemaps.checked ? "maps.google.com" : "bing.com/maps")
-
-    }
+	}
 
 }
