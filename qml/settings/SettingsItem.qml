@@ -204,7 +204,20 @@ Rectangle {
                 }
                 Tab {
                     title: "Filetypes"
-                    TabFiletypes { }
+                    TabFiletypes {
+                        Connections {
+                            target: tabrect
+                            onSetData:{
+                                setData()
+                            }
+                            onSaveData:{
+//                                saveData()
+                            }
+                        }
+                        Component.onCompleted: {
+                            setData()
+                        }
+                    }
                 }
             }
         }

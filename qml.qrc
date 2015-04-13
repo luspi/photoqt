@@ -33,5 +33,7 @@
         <file>qml/settings/TabOtherLanguageTiles.qml</file>
         <file>qml/settings/TabOtherContext.qml</file>
         <file>qml/settings/TabOtherContextTextEdit.qml</file>
+        <file>qml/settings/TabFiletypesTiles.qml</file>
+        <file>qml/elements/CustomTextEdit.qml</file>
     </qresource>
 </RCC>

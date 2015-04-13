@@ -8,13 +8,13 @@
 //******************************************************//
 //******************************************************//
 
+#include <iostream>
 #include <QObject>
 #include <QSettings>
 #include <QDir>
 #include <QFileSystemWatcher>
 #include <QtDebug>
 #include <QTimer>
-#include "fileformats.h"
 
 // Convenience class to access and change permanent settings
 
@@ -364,17 +364,8 @@ public:
 	void setWindowDecoration(bool w) { windowDecoration = w; saveSettingsTimer->start(); }
 	Q_PROPERTY(bool windowDecoration READ getWindowDecoration WRITE setWindowDecoration NOTIFY windowDecorationChanged)
 
-	// The currently known filetypes
-	FileFormats *fileFormats;
-	QString knownFileTypesQt;
-	QString getKnownFileTypesQt() { return knownFileTypesQt; }
-	void setKnownFileTypesQt(QString k) { knownFileTypesQt = k; saveSettingsTimer->start(); }
-	Q_PROPERTY(QString knownFileTypesQt READ getKnownFileTypesQt WRITE setKnownFileTypesQt NOTIFY knownFileTypesQtChanged)
+	// The currently known filetypes (only extra Qt filetypes)
 	QString knownFileTypesQtExtras;
-	QString knownFileTypesGm;
-	QString knownFileTypesExtras;
-	// A combination of all of them
-	QString knownFileTypes;
 
 
 	// Some exif settings
@@ -501,13 +492,7 @@ public:
 
 		version = QString::fromStdString(VERSION);
 
-		fileFormats = new FileFormats;
-		fileFormats->getFormats();
-		knownFileTypesQt = fileFormats->formatsQtEnabled.join(",");
 		knownFileTypesQtExtras = "";
-		knownFileTypesGm = fileFormats->formatsGmEnabled.join(",");
-		knownFileTypesExtras = fileFormats->formatsExtrasEnabled.join(",");
-		knownFileTypes = (QStringList() << knownFileTypesQt << knownFileTypesGm << knownFileTypesExtras).join(",");
 
 		sortby = "name";
 		sortbyAscending = true;
@@ -647,14 +632,6 @@ public slots:
 			cont += QString("KeepOnTop=%1\n").arg(int(keepOnTop));
 			cont += QString("KnownFileTypesQtExtras=%1\n").arg(knownFileTypesQtExtras);
 
-			// We'll operate the replace() and split() below on temporary strings, not the actual ones (since we want to keep the *'s there)
-			QString knownFileTypesQt_tmp = knownFileTypesQt;
-			QString knownFileTypesGm_tmp = knownFileTypesGm;
-			QString knownFileTypesExtras_tmp = knownFileTypesExtras;
-			fileFormats->saveFormats(knownFileTypesQt_tmp.split(","),
-						 knownFileTypesGm_tmp.split(","),
-						 knownFileTypesExtras_tmp.split(","));
-
 			cont += "\n[Look]\n";
 
 			cont += QString("Composite=%1\n").arg(int(composite));
@@ -787,22 +764,8 @@ public slots:
 			if(all.contains("Language="))
 				language = all.split("Language=").at(1).split("\n").at(0);
 
-			knownFileTypesQt = (fileFormats->formatsQtEnabled.length() != 0) ? fileFormats->formatsQtEnabled.join(",") : "";
-			knownFileTypesGm = (fileFormats->formatsGmEnabled.length() != 0) ? fileFormats->formatsGmEnabled.join(",") : "";
-
 			if(all.contains("KnownFileTypesQtExtras="))
 				knownFileTypesQtExtras = all.split("KnownFileTypesQtExtras=").at(1).split("\n").at(0);
-
-			knownFileTypes = "";
-			if(knownFileTypesQt != "")
-				knownFileTypes += "," + knownFileTypesQt;
-			if(knownFileTypesGm != "")
-				knownFileTypes += "," + knownFileTypesGm;
-			if(knownFileTypesExtras != "")
-				knownFileTypes += "," + knownFileTypesExtras;
-			if(knownFileTypesQtExtras != "")
-				knownFileTypes += "," + knownFileTypesQtExtras;
-			if(knownFileTypes.startsWith(",")) knownFileTypes = knownFileTypes.remove(0,1);
 
 			if(all.contains("SortImagesBy="))
 				sortby = all.split("SortImagesBy=").at(1).split("\n").at(0);

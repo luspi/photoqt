@@ -1,5 +1,6 @@
 import QtQuick 2.3
 import Settings 1.0
+import FileFormats 1.0
 import SettingsSession 1.0
 import GetAndDoStuff 1.0
 import GetMetaData 1.0
@@ -37,6 +38,7 @@ Item {
 
     // Access to the permanent settings file (~/.photoqt/settings)
     Settings { id: settings; }
+    FileFormats { id: fileformats; }
     SettingsSession { id: settingssession; }
 
     GetAndDoStuff { id: getanddostuff; }

@@ -4,16 +4,32 @@
 #include <QObject>
 #include <QTextStream>
 #include <iostream>
+#include <QDir>
+#include <QFileSystemWatcher>
 
-class FileFormats {
+class FileFormats : public QObject {
+
+	Q_OBJECT
 
 private:
-	bool readonly;
+	QFileSystemWatcher *watcher;
 
 public:
 
+	FileFormats(QObject *parent = 0) : QObject(parent) {
+
+		setDefaultFormats();
+		getFormats("");
+
+		watcher = new QFileSystemWatcher;
+		watcher->addPaths(QStringList() << QDir::homePath() + "/.photoqt/settings" << QDir::homePath() + "/.photoqt/fileformats.disabled");
+		connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(getFormats(QString)));
+
+	}
+
 	// Per default enabled image formats
 	QStringList formatsQtEnabled;
+	QStringList formatsQtEnabledExtras;
 	QStringList formatsGmEnabled;
 	QStringList formatsExtrasEnabled;
 
@@ -21,6 +37,7 @@ public:
 
 		formatsQtEnabled.clear();
 		formatsGmEnabled.clear();
+		formatsQtEnabledExtras.clear();
 
 		/******************************
 		 ***** 14 FORMATS WORKING *****
@@ -259,19 +276,41 @@ public:
 	}
 
 	// Read formats from file (if available)
-	void getFormats() {
+	void getFormats(QString path) {
 
-		setDefaultFormats();
+		QFile file1(QDir::homePath() + "/.photoqt/settings");
+		if(!file1.open(QIODevice::ReadOnly)) {
+			std::cerr << "ERROR: Can't read extra Qt file formats" << std::endl;
+			setDefaultFormats();
+		} else {
 
-		QFile file(QDir::homePath() + "/.photoqt/fileformats.disabled");
+			QTextStream in(&file1);
+			QString all = in.readAll();
+			QString extra = all.split("KnownFileTypesQtExtras=").at(1).split("\n").at(0).trimmed();
 
-		if(file.exists()) {
+			if(path == QDir::homePath() + "/.photoqt/settings") {
+				QStringList list = extra.split(",");
+				bool stophere = true;
+				foreach(QString l, list) {
+					if(l.trimmed() != "" && !formatsQtEnabledExtras.contains(l.trimmed()))
+						stophere = false;
+				}
+				if(stophere) return;
+			}
+			setDefaultFormats();
+			formatsQtEnabledExtras = extra.split(",");
+		}
 
-			if(!file.open(QIODevice::ReadOnly))
+
+		QFile file2(QDir::homePath() + "/.photoqt/fileformats.disabled");
+
+		if(file2.exists()) {
+
+			if(!file2.open(QIODevice::ReadOnly))
 				std::cerr << "ERROR: Can't open disabled image formats file" << std::endl;
 			else {
 
-				QTextStream in(&file);
+				QTextStream in(&file2);
 
 				QString line = in.readLine();
 				while (!line.isNull()) {
@@ -298,56 +337,47 @@ public:
 
 		setDefaultFormats();
 
-		if(!readonly) {
+		QStringList disabled;
 
-			QStringList disabled;
+		for(int i = 0; i < formatsQtEnabled.length(); ++i) {
 
-			for(int i = 0; i < formatsQtEnabled.length(); ++i) {
-
-				if(!new_qtformats.contains(formatsQtEnabled.at(i)))
-					disabled.append(formatsQtEnabled.at(i));
-
-			}
-
-			for(int i = 0; i < formatsGmEnabled.length(); ++i) {
-
-				if(!new_gmformats.contains(formatsGmEnabled.at(i)))
-					disabled.append(formatsGmEnabled.at(i));
-
-			}
-
-			for(int i = 0; i < formatsExtrasEnabled.length(); ++i) {
-
-				if(!new_extrasFormats.contains(formatsExtrasEnabled.at(i)))
-					disabled.append(formatsExtrasEnabled.at(i));
-
-			}
-
-			formatsQtEnabled = new_qtformats;
-			formatsGmEnabled = new_gmformats;
-			formatsExtrasEnabled = new_extrasFormats;
-
-			QFile file(QDir::homePath() + "/.photoqt/fileformats.disabled");
-			if(file.exists()) {
-				if(!file.remove())
-					std::cerr << "ERROR: Cannot replace disabled image formats file" << std::endl;
-			}
-			if(!file.open(QIODevice::WriteOnly))
-				std::cerr << "ERROR: Cannot write to disabled image formats file" << std::endl;
-			else {
-				QTextStream out(&file);
-				out << disabled.join("\n");
-				file.close();
-			}
+			if(!new_qtformats.contains(formatsQtEnabled.at(i)))
+				disabled.append(formatsQtEnabled.at(i));
 
 		}
 
-	}
+		for(int i = 0; i < formatsGmEnabled.length(); ++i) {
 
-	void setReadonly(bool ro) {
-		readonly = ro;
-	}
+			if(!new_gmformats.contains(formatsGmEnabled.at(i)))
+				disabled.append(formatsGmEnabled.at(i));
 
+		}
+
+		for(int i = 0; i < formatsExtrasEnabled.length(); ++i) {
+
+			if(!new_extrasFormats.contains(formatsExtrasEnabled.at(i)))
+				disabled.append(formatsExtrasEnabled.at(i));
+
+		}
+
+		formatsQtEnabled = new_qtformats;
+		formatsGmEnabled = new_gmformats;
+		formatsExtrasEnabled = new_extrasFormats;
+
+		QFile file(QDir::homePath() + "/.photoqt/fileformats.disabled");
+		if(file.exists()) {
+			if(!file.remove())
+				std::cerr << "ERROR: Cannot replace disabled image formats file" << std::endl;
+		}
+		if(!file.open(QIODevice::WriteOnly))
+			std::cerr << "ERROR: Cannot write to disabled image formats file" << std::endl;
+		else {
+			QTextStream out(&file);
+			out << disabled.join("\n");
+			file.close();
+		}
+
+	}
 
 };
 

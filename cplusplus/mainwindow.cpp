@@ -5,6 +5,7 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 	// Settings and variables
 	settingsPerSession = new SettingsSession;
 	settingsPermanent = new Settings;
+	fileformats = new FileFormats;
 	variables = new Variables;
 
 	// Add image providers
@@ -13,6 +14,7 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 
 	// Add settings access to QML
 	qmlRegisterType<Settings>("Settings", 1, 0, "Settings");
+	qmlRegisterType<FileFormats>("FileFormats", 1, 0, "FileFormats");
 	qmlRegisterType<SettingsSession>("SettingsSession", 1, 0, "SettingsSession");
 	qmlRegisterType<GetMetaData>("GetMetaData", 1, 0, "GetMetaData");
 	qmlRegisterType<GetAndDoStuff>("GetAndDoStuff", 1, 0, "GetAndDoStuff");
@@ -71,17 +73,13 @@ void MainWindow::openNewFile(QString usethis) {
 	if(usethis == "") {
 
 		// Get new filename
-		QString known = settingsPermanent->knownFileTypes;
-		known = known.replace(","," ");
-		known = known.replace("**","*");
-		QString knownQT = settingsPermanent->knownFileTypesQt + (settingsPermanent->knownFileTypesQtExtras.length() != 0 ? "," + settingsPermanent->knownFileTypesQtExtras : "");
-		knownQT = knownQT.replace(","," ");
-		QString knownGM = settingsPermanent->knownFileTypesGm;
-		knownGM = knownGM.replace(","," ");
-		file = QFileDialog::getOpenFileName(0,tr("Open image file"),opendir,tr("Images") + " (" + known + ");;"
-										+ tr("Images") + " (Qt)" + " (" + knownQT + ");;"
+		QString knownQT = fileformats->formatsQtEnabled.join(" ") + " " + fileformats->formatsQtEnabledExtras.join(" ");
+		QString knownGM = fileformats->formatsGmEnabled.join(" ");
+		QString known = knownQT + " " + knownGM + " " + fileformats->formatsExtrasEnabled.join(" ");
+		file = QFileDialog::getOpenFileName(0,tr("Open image file"),opendir,tr("Images") + " (" + known.trimmed() + ");;"
+										+ tr("Images") + " (Qt)" + " (" + knownQT.trimmed() + ");;"
 					       #ifdef GM
-										+ tr("Images") + " (GraphicsMagick)" + " (" + knownGM + ");;"
+										+ tr("Images") + " (GraphicsMagick)" + " (" + knownGM.trimmed() + ");;"
 					       #endif
 										+ tr("All Files") + " (*)").toUtf8();
 	}

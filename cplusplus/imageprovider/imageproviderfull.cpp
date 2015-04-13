@@ -5,10 +5,11 @@ ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider
 	verbose = false;
 
 	settingsPerSession = new QSettings("photoqt_session");
+	fileformats = new FileFormats();
 
-	gmfiles = settings.knownFileTypesGm;
-	qtfiles = settings.knownFileTypesQt+","+settings.knownFileTypesQtExtras;
-	extrasfiles = settings.knownFileTypesExtras;
+	gmfiles = fileformats->formatsGmEnabled.join(",");
+	qtfiles = fileformats->formatsQtEnabled.join(",") + (fileformats->formatsQtEnabledExtras.length() ? "," : "") + fileformats->formatsQtEnabledExtras.join(",");
+	extrasfiles = fileformats->formatsExtrasEnabled.join(",");
 
 }
 

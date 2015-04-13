@@ -5,7 +5,7 @@
 #include <iostream>
 #include <QFileInfo>
 #include <QtSvg/QtSvg>
-#include "../settings/settings.h"
+#include "../settings/fileformats.h"
 
 #ifdef GM
 #include <GraphicsMagick/Magick++/Image.h>
@@ -25,7 +25,7 @@ private:
 
 	QSize maxSize;
 	QSettings *settingsPerSession;
-	Settings settings;
+	FileFormats *fileformats;
 
 	QString qtfiles;
 	QString gmfiles;

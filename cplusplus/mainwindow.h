@@ -17,6 +17,7 @@
 #include "imageprovider/imageproviderthumbnail.h"
 #include "imageprovider/imageproviderfull.h"
 #include "settings/settings.h"
+#include "settings/fileformats.h"
 #include "settings/settingssession.h"
 #include "variables.h"
 
@@ -38,6 +39,7 @@ private:
 
 	SettingsSession *settingsPerSession;
 	Settings *settingsPermanent;
+	FileFormats *fileformats;
 	Variables *variables;
 
 
