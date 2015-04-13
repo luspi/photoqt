@@ -275,6 +275,9 @@ public:
 
 	}
 
+
+private slots:
+
 	// Read formats from file (if available)
 	void getFormats(QString path) {
 
