@@ -33,6 +33,8 @@ public:
 
 	Q_INVOKABLE void saveContextMenu(QJSValue m);
 
+	Q_INVOKABLE QVariantList getShortcuts();
+
 private:
 	QImageReader reader;
 	QSettings *settings;

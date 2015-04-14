@@ -137,3 +137,31 @@ void GetAndDoStuff::saveContextMenu(QJSValue m) {
 	file.close();
 
 }
+
+QVariantList GetAndDoStuff::getShortcuts() {
+
+	QVariantList ret;
+
+	QFile file(QDir::homePath() + "/.photoqt/shortcuts");
+	if(!file.open(QIODevice::ReadOnly)) {
+		std::cerr << "ERROR: failed to read shortcuts file" << std::endl;
+		return QVariantList();
+	}
+
+	QTextStream in(&file);
+	QStringList all = in.readAll().split("\n");
+	foreach(QString line, all) {
+		if(line.startsWith("Version") || line.trimmed() == "") continue;
+		QStringList parts = line.split("::");
+		if(parts.length() != 3) {
+			std::cerr << "ERROR: invalid shortcuts data: " << line.toStdString() << std::endl;
+			continue;
+		}
+		ret.append(parts[0]);
+		ret.append(parts[1]);
+		ret.append(parts[2]);
+	}
+
+	return ret;
+
+}
