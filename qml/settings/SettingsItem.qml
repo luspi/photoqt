@@ -223,7 +223,20 @@ Rectangle {
 		Tab {
 
 			title: "Shortcuts"
-			TabShortcuts { }
+			TabShortcuts {
+				Connections {
+					target: tabrect
+					onSetData:{
+						setData()
+					}
+					onSaveData:{
+//						saveData()
+					}
+				}
+				Component.onCompleted: {
+					setData()
+				}
+			}
 
 		}
 

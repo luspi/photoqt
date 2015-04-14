@@ -15,5 +15,6 @@
         <file>img/settings/sortdescending.png</file>
         <file>img/settings/emptybackground.png</file>
         <file>img/transparent.png</file>
+        <file>img/settings/addshortcut.png</file>
     </qresource>
 </RCC>
