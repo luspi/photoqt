@@ -363,7 +363,7 @@ Rectangle {
 			confirmclean.hide()
 		else if(confirmerase.visible)
 			confirmerase.hide()
-		else
+		else if(!detectShortcut.visible)
 			hideAboutAni.start()
 	}
 
