@@ -59,6 +59,10 @@ Rectangle {
 		color: "black"
 		font.pointSize: 8
 		horizontalAlignment: Text.AlignHCenter
+		MouseArea {
+			anchors.fill: parent
+			cursorShape: Qt.PointingHandCursor
+		}
 	}
 
 }

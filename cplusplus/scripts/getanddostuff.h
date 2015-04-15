@@ -35,6 +35,8 @@ public:
 
 	Q_INVOKABLE QVariantList getShortcuts();
 
+	Q_INVOKABLE QString trim(QString s) { return s.trimmed(); }
+
 private:
 	QImageReader reader;
 	QSettings *settings;

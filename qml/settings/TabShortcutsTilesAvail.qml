@@ -9,6 +9,7 @@ Rectangle {
 	radius: 10
 
 	property string _desc: ""
+	property string _cmd: ""
 
 	Rectangle {
 
@@ -60,6 +61,11 @@ Rectangle {
 
 		anchors.fill: parent
 		cursorShape: Qt.PointingHandCursor
+
+		onClicked: {
+			detectShortcut.command = _cmd
+			detectShortcut.show()
+		}
 
 	}
 

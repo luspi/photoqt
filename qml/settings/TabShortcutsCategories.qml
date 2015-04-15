@@ -96,7 +96,7 @@ Rectangle {
 					boundsBehavior: Flickable.StopAtBounds
 
 					model: ListModel { id: modAvail }
-					delegate: TabShortcutsTilesAvail { _desc: desc }
+					delegate: TabShortcutsTilesAvail { _desc: desc; _cmd: cmd }
 				}
 
 			}
@@ -110,6 +110,7 @@ Rectangle {
 	function setData(shortcuts) {
 
 		modSet.clear()
+		modAvail.clear()
 
 		for(var i = 0; i < shortcuts.length/3; ++i) {
 			var index = responsiblefor.indexOf(shortcuts[i*3+2])
@@ -132,10 +133,14 @@ Rectangle {
 
 		for(var i = 0; i < responsiblefor.length; ++i) {
 
-			modAvail.append({ "desc" : responsiblefor_text[i] })
+			modAvail.append({ "desc" : responsiblefor_text[i], "cmd" : responsiblefor[i] })
 
 		}
 
+	}
+
+	function addShortcut(cmd, key) {
+		modSet.append({ "close" : "0", "keys" : key, "mouse" : false, "cmd" : cmd, "desc" : responsiblefor_text[responsiblefor.indexOf(cmd)] })
 	}
 
 }

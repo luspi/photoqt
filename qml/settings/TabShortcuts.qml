@@ -92,6 +92,14 @@ Rectangle {
 
 	}
 
+	function addShortcut(cmd, key) {
+		if(cat.responsiblefor.indexOf(cmd) != -1) {
+			cat.addShortcut(cmd,key)
+		}
+
+		console.log("new:",cmd,key)
+	}
+
 	function setData() {
 
 		var shortcuts = getanddostuff.getShortcuts()

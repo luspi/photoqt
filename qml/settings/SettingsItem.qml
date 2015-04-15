@@ -28,6 +28,8 @@ Rectangle {
 	signal eraseDatabase()
 	signal updateDatabaseInfo()
 
+	signal newShortcut(var cmd, var key)
+
 	CustomTabView {
 
 		id: view
@@ -232,6 +234,9 @@ Rectangle {
 					onSaveData:{
 //						saveData()
 					}
+					onNewShortcut: {
+						addShortcut(cmd, key)
+					}
 				}
 				Component.onCompleted: {
 					setData()
@@ -337,6 +342,16 @@ Rectangle {
 		confirmbuttontext: "Yes, get rid of it all"
 		rejectbuttontext: "Nooo, I want to keep it"
 		onAccepted: eraseDatabase()
+	}
+
+	CustomDetectShortcut {
+		fillAnchors: tabrect
+		id: detectShortcut
+		onUpdateCombo: updateComboString(txt)
+		onGotKeyCombo: {
+			gotCombo(txt)
+			newShortcut(cmd, txt)
+		}
 	}
 
 	function showSettings() {
