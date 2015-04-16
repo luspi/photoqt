@@ -79,40 +79,94 @@ Rectangle {
 			}
 
 			TabShortcutsCategories {
-				id: cat
+				id: navigation
 				category: "Navigation"
 				responsiblefor: ["__open","__filterImages","__next","__prev","__gotoFirstThb","__gotoLastThb","__hide","__close"]
 				responsiblefor_text: ["Open New File","Filter Images in Folder","Next Image","Previous Image","Go to first Image","Go to last Image","Hide to System Tray","Quit PhotoQt"]
 			}
 
+			TabShortcutsCategories {
+				id: image
+				category: "Image"
+				responsiblefor: ["__zoomIn","__zoomOut","__zoomActual","__zoomReset","__rotateR","__rotateL","__rotate0","__flipH","__flipV","__scale"]
+				responsiblefor_text: ["Zoom In","Zoom Out","Reset Zoom","Zoom to Actual Size","Rotate Right","Rotate Left","Reset Rotation","Flip Horizontally","Flip Vertically","Scale Image"]
+			}
 
+			TabShortcutsCategories {
+				id: file
+				category: "File"
+				responsiblefor: ["__rename","__delete","__copy","__move"]
+				responsiblefor_text: ["Rename File","Delete File","Copy File to a New Location","Move File to a New Location"]
+			}
 
+			TabShortcutsCategories {
+				id: other
+				category: "Other"
+				responsiblefor: ["__stopThb","__reloadThb","__hideMeta","__showContext","__settings","__slideshow","__slideshowQuick","__about","__wallpaper"]
+				responsiblefor_text: ["Interrupt Thumbnail Creation","Reload Thumbnails","Hide/Show Exif Info","Show Context Menu","Show Settings","Start Slideshow","Start Slideshow (Quickstart)","About PhotoQt","Set as Wallpaper"]
+			}
 
 		}
 
 	}
 
 	function addShortcut(cmd, key) {
-		if(cat.responsiblefor.indexOf(cmd) != -1) {
-			cat.addShortcut(cmd,key)
+		if(navigation.responsiblefor.indexOf(cmd) != -1) {
+			navigation.addShortcut(cmd,key)
+		}
+		if(image.responsiblefor.indexOf(cmd) != -1) {
+			image.addShortcut(cmd,key)
+		}
+		if(file.responsiblefor.indexOf(cmd) != -1) {
+			file.addShortcut(cmd,key)
+		}
+		if(other.responsiblefor.indexOf(cmd) != -1) {
+			other.addShortcut(cmd,key)
 		}
 	}
 
 	function addMouseShortcut(cmd, key) {
-		if(cat.responsiblefor.indexOf(cmd) != -1) {
-			cat.addMouseShortcut(cmd,key)
+		if(navigation.responsiblefor.indexOf(cmd) != -1) {
+			navigation.addMouseShortcut(cmd,key)
+		}
+		if(image.responsiblefor.indexOf(cmd) != -1) {
+			image.addMouseShortcut(cmd,key)
+		}
+		if(file.responsiblefor.indexOf(cmd) != -1) {
+			file.addMouseShortcut(cmd,key)
+		}
+		if(other.responsiblefor.indexOf(cmd) != -1) {
+			other.addMouseShortcut(cmd,key)
 		}
 	}
 
 	function updateExistingShortcut(cmd, key, id) {
-		if(cat.responsiblefor.indexOf(cmd) != -1) {
-			cat.updateShortcut(cmd, key, id)
+		if(navigation.responsiblefor.indexOf(cmd) != -1) {
+			navigation.updateShortcut(cmd, key, id)
+		}
+		if(image.responsiblefor.indexOf(cmd) != -1) {
+			image.updateShortcut(cmd, key, id)
+		}
+		if(file.responsiblefor.indexOf(cmd) != -1) {
+			file.updateShortcut(cmd, key, id)
+		}
+		if(other.responsiblefor.indexOf(cmd) != -1) {
+			other.updateShortcut(cmd, key, id)
 		}
 	}
 
 	function updateExistingMouseShortcut(cmd, key, id) {
-		if(cat.responsiblefor.indexOf(cmd) != -1) {
-			cat.updateMouseShortcut(cmd, key, id)
+		if(navigation.responsiblefor.indexOf(cmd) != -1) {
+			navigation.updateMouseShortcut(cmd, key, id)
+		}
+		if(image.responsiblefor.indexOf(cmd) != -1) {
+			image.updateMouseShortcut(cmd, key, id)
+		}
+		if(file.responsiblefor.indexOf(cmd) != -1) {
+			file.updateMouseShortcut(cmd, key, id)
+		}
+		if(other.responsiblefor.indexOf(cmd) != -1) {
+			other.updateMouseShortcut(cmd, key, id)
 		}
 	}
 
@@ -120,7 +174,10 @@ Rectangle {
 
 		var shortcuts = getanddostuff.getShortcuts()
 
-		cat.setData(shortcuts)
+		navigation.setData(shortcuts)
+		image.setData(shortcuts)
+		file.setData(shortcuts)
+		other.setData(shortcuts)
 	}
 
 
