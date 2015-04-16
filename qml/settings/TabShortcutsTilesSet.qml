@@ -65,6 +65,17 @@ Rectangle {
 		MouseArea {
 			anchors.fill: parent
 			cursorShape: Qt.PointingHandCursor
+			onClicked: {
+				if(_mouse) {
+					resetMouseShortcut.command = _cmd
+					resetMouseShortcut.posIfNew = _id
+					resetMouseShortcut.show()
+				} else {
+					resetShortcut.command = _cmd
+					resetShortcut.posIfNew = _id
+					resetShortcut.show()
+				}
+			}
 		}
 	}
 

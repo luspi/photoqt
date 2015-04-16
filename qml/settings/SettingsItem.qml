@@ -31,6 +31,9 @@ Rectangle {
 	signal newShortcut(var cmd, var key)
 	signal newMouseShortcut(var cmd, var key)
 
+	signal updateShortcut(var cmd, var key, var id)
+	signal updateMouseShortcut(var cmd, var key, var id)
+
 	CustomTabView {
 
 		id: view
@@ -238,8 +241,14 @@ Rectangle {
 					onNewShortcut: {
 						addShortcut(cmd, key)
 					}
+					onUpdateShortcut: {
+						updateExistingShortcut(cmd, key, id)
+					}
 					onNewMouseShortcut: {
 						addMouseShortcut(cmd, key)
+					}
+					onUpdateMouseShortcut: {
+						updateExistingMouseShortcut(cmd, key, id)
 					}
 				}
 				Component.onCompleted: {
@@ -357,11 +366,25 @@ Rectangle {
 			newShortcut(cmd, txt)
 		}
 	}
+	CustomDetectShortcut {
+		fillAnchors: tabrect
+		id: resetShortcut
+		onUpdateNewCombo: updateComboString(txt)
+		onGotNewKeyCombo: {
+			gotCombo(txt)
+			updateShortcut(cmd, txt, id)
+		}
+	}
 
 	CustomMouseShortcut {
 		fillAnchors: tabrect
 		id: detectMouseShortcut
 		onGotMouseShortcut: newMouseShortcut(cmd, txt)
+	}
+	CustomMouseShortcut {
+		fillAnchors: tabrect
+		id: resetMouseShortcut
+		onGotNewMouseShortcut: updateMouseShortcut(cmd, txt, id)
 	}
 
 	function showSettings() {

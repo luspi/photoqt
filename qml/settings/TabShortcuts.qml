@@ -96,16 +96,24 @@ Rectangle {
 		if(cat.responsiblefor.indexOf(cmd) != -1) {
 			cat.addShortcut(cmd,key)
 		}
-
-		console.log("new:",cmd,key)
 	}
 
 	function addMouseShortcut(cmd, key) {
 		if(cat.responsiblefor.indexOf(cmd) != -1) {
 			cat.addMouseShortcut(cmd,key)
 		}
+	}
 
-		console.log("new mouse:",cmd,key)
+	function updateExistingShortcut(cmd, key, id) {
+		if(cat.responsiblefor.indexOf(cmd) != -1) {
+			cat.updateShortcut(cmd, key, id)
+		}
+	}
+
+	function updateExistingMouseShortcut(cmd, key, id) {
+		if(cat.responsiblefor.indexOf(cmd) != -1) {
+			cat.updateMouseShortcut(cmd, key, id)
+		}
 	}
 
 	function setData() {

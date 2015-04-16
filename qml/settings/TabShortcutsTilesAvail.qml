@@ -68,6 +68,7 @@ Rectangle {
 
 			onClicked: {
 				detectShortcut.command = _cmd
+				detectShortcut.posIfNew = -1
 				detectShortcut.show()
 			}
 
@@ -108,6 +109,7 @@ Rectangle {
 
 			onClicked: {
 				detectMouseShortcut.command = _cmd
+				detectMouseShortcut.posIfNew = -1
 				detectMouseShortcut.show()
 			}
 

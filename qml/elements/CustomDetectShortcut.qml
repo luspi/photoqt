@@ -11,9 +11,12 @@ Rectangle {
 	property Item fillAnchors: parent
 
 	signal gotKeyCombo(var txt, var cmd)
+	signal gotNewKeyCombo(var txt, var cmd, var id)
 	signal updateCombo(var txt, var cmd)
+	signal updateNewCombo(var txt, var cmd, var id)
 
 	property string combo: ""
+	property int posIfNew: -1
 	property bool normalkey: false
 
 	anchors.fill: fillAnchors
@@ -219,7 +222,10 @@ Rectangle {
 				} else
 					normalkey = false
 
-				updateCombo(txt, detect.command)
+				if(posIfNew == -1)
+					updateCombo(txt, detect.command)
+				else
+					updateNewCombo(txt, detect.command, detect.posIfNew)
 
 				detect.combo = txt
 
@@ -230,7 +236,10 @@ Rectangle {
 		Keys.onReleased: {
 			if(detect.opacity == 1) {
 				if(normalkey && (event.key == 0 || event.modifiers == 0)) {
-					gotKeyCombo(detect.combo, detect.command)
+					if(posIfNew == -1)
+						gotKeyCombo(detect.combo, detect.command)
+					else
+						gotNewKeyCombo(detect.combo, detect.command, detect.posIfNew)
 				}
 			}
 		}

@@ -157,6 +157,24 @@ Rectangle {
 		modSet.append({ "close" : "0", "keys" : key, "mouse" : false, "cmd" : cmd, "desc" : responsiblefor_text[responsiblefor.indexOf(cmd)] })
 	}
 
+	function updateShortcut(cmd, key, id) {
+		var takeaway = 0
+		for(var i = 0; i < deleted.length; ++i) {
+			if(deleted[i] < id)
+				takeaway += 1
+		}
+		modSet.set(id-takeaway, { "close" : "0", "keys" : key, "mouse" : false, "cmd" : cmd, "desc" : responsiblefor_text[responsiblefor.indexOf(cmd)] })
+	}
+
+	function updateMouseShortcut(cmd, key, id) {
+		var takeaway = 0
+		for(var i = 0; i < deleted.length; ++i) {
+			if(deleted[i] < id)
+				takeaway += 1
+		}
+		modSet.set(id-takeaway, { "close" : "0", "keys" : key, "mouse" : true, "cmd" : cmd, "desc" : responsiblefor_text[responsiblefor.indexOf(cmd)] })
+	}
+
 	function addMouseShortcut(cmd, key) {
 		modSet.append({ "close" : "0", "keys" : key, "mouse" : true, "cmd" : cmd, "desc" : responsiblefor_text[responsiblefor.indexOf(cmd)] })
 	}

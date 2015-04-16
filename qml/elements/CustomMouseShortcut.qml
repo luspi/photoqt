@@ -5,12 +5,14 @@ Rectangle {
 	id: detect
 
 	property string command: ""
+	property int posIfNew: -1
 
 	property int detectWidth: 400
 	property int detectHeight: 200
 	property Item fillAnchors: parent
 
 	signal gotMouseShortcut(var txt, var cmd)
+	signal gotNewMouseShortcut(var txt, var cmd, var id)
 
 	property string combo: ""
 
@@ -131,7 +133,11 @@ Rectangle {
 					txt += mouseshortcut_modifier.currentText + " + "
 				txt += mouseshortcut_button.currentText
 
-				gotMouseShortcut(txt, command)
+				if(posIfNew == -1)
+					gotMouseShortcut(txt, command)
+				else
+					gotNewMouseShortcut(txt, command, posIfNew)
+
 				hide()
 			}
 
