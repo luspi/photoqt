@@ -7,16 +7,23 @@ Rectangle {
 
 	id: top
 
+	// The category above the box
 	property string category: "category"
+
+	// The available shortcuts
 	property var responsiblefor: []
 	property var responsiblefor_text: []
 
+	// All the deleted id's (needed so that we don't have to change all id's when deleting a tile)
 	property var deleted: []
 
-	color: "#00000000"
+	// Sizing
 	height: 250
 	width: parent.width
 
+	color: "#00000000"
+
+	// Category label
 	Text {
 		id: cat
 		text: "Category: " + category
@@ -25,6 +32,7 @@ Rectangle {
 		font.bold: true
 	}
 
+	// Main box
 	Rectangle {
 
 		id: cont
@@ -32,6 +40,7 @@ Rectangle {
 		color: "#00000000"
 		radius: 10
 
+		// Anchor it in place
 		anchors {
 			top: cat.bottom
 			topMargin: 5
@@ -44,26 +53,30 @@ Rectangle {
 
 			spacing: 5
 
+			// Space on the left
 			Rectangle { color: "#00000000"; width: 1; height: 1; }
 
+			// The 'set' shortcuts
 			Rectangle {
-
-				radius: 10
 
 				id: set
 
 				width: (cont.width-3*5-2)/2
 				height: cont.height
 
-				color: "#44ffffff"
+				radius: 10
 
+				color: "#44ffffff"
 				clip: true
 
+				// The view for all the tiles
 				GridView {
-					width: parent.width-5
+
 					x: 2.5
-					height: parent.height-5
 					y: 2.5
+					width: parent.width-5
+					height: parent.height-5
+
 					cellWidth: 105
 					cellHeight: 105
 
@@ -84,22 +97,26 @@ Rectangle {
 
 			}
 
+			// the box for the available shortcuts
 			Rectangle {
 
-				radius: 10
-
 				id: avail
+
+				radius: 10
 
 				width: (cont.width-3*5-2)/2
 				height: cont.height
 
 				color: "#44ffffff"
 
+				// The view for all the tiles
 				GridView {
-					width: parent.width-5
+
 					x: 2.5
-					height: parent.height-5
 					y: 2.5
+					width: parent.width-5
+					height: parent.height-5
+
 					cellWidth: 105
 					cellHeight: 105
 
@@ -111,19 +128,23 @@ Rectangle {
 
 			}
 
+			// Space on the right
 			Rectangle { color: "#00000000"; width: 1; height: 1; }
 
 		}
 
 	}
 
+	// Set all the set shortcuts
 	function setData(shortcuts) {
 
+		// Clear old ones
 		modSet.clear()
 		modAvail.clear()
 
 		var counter = 0;
 
+		// Set all shortcuts
 		for(var i = 0; i < shortcuts.length/3; ++i) {
 			var index = responsiblefor.indexOf(shortcuts[i*3+2])
 			if(index != -1) {
@@ -145,6 +166,7 @@ Rectangle {
 			}
 		}
 
+		// And set all available shortcuts (needed for startup)
 		for(var i = 0; i < responsiblefor.length; ++i) {
 
 			modAvail.append({ "desc" : responsiblefor_text[i], "cmd" : responsiblefor[i] })
@@ -153,10 +175,12 @@ Rectangle {
 
 	}
 
+	// Add a new shortcut
 	function addShortcut(cmd, key) {
 		modSet.append({ "close" : "0", "keys" : key, "mouse" : false, "cmd" : cmd, "desc" : responsiblefor_text[responsiblefor.indexOf(cmd)] })
 	}
 
+	// Update an existing shortcut
 	function updateShortcut(cmd, key, id) {
 		var takeaway = 0
 		for(var i = 0; i < deleted.length; ++i) {
@@ -166,6 +190,12 @@ Rectangle {
 		modSet.set(id-takeaway, { "close" : "0", "keys" : key, "mouse" : false, "cmd" : cmd, "desc" : responsiblefor_text[responsiblefor.indexOf(cmd)] })
 	}
 
+	// Add a new mouse shortcut
+	function addMouseShortcut(cmd, key) {
+		modSet.append({ "close" : "0", "keys" : key, "mouse" : true, "cmd" : cmd, "desc" : responsiblefor_text[responsiblefor.indexOf(cmd)] })
+	}
+
+	// Update an existing mouse shortcut
 	function updateMouseShortcut(cmd, key, id) {
 		var takeaway = 0
 		for(var i = 0; i < deleted.length; ++i) {
@@ -175,10 +205,7 @@ Rectangle {
 		modSet.set(id-takeaway, { "close" : "0", "keys" : key, "mouse" : true, "cmd" : cmd, "desc" : responsiblefor_text[responsiblefor.indexOf(cmd)] })
 	}
 
-	function addMouseShortcut(cmd, key) {
-		modSet.append({ "close" : "0", "keys" : key, "mouse" : true, "cmd" : cmd, "desc" : responsiblefor_text[responsiblefor.indexOf(cmd)] })
-	}
-
+	// Delete a tile
 	function deleteOneTile(id) {
 		var takeaway = 0
 		for(var i = 0; i < deleted.length; ++i) {
@@ -186,7 +213,7 @@ Rectangle {
 				takeaway += 1
 		}
 		modSet.remove(id-takeaway)
-		deleted.push(id)
+		deleted.push(id)	// Need this info so that we don't need to adjust all id's of all other tiles
 	}
 
 }

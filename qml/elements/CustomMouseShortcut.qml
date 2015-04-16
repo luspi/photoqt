@@ -152,6 +152,15 @@ Rectangle {
 		hideMe.start()
 	}
 
+	function setShortcut(mod,but) {
+
+		if(mod === "")
+			mouseshortcut_modifier.currentIndex = 0
+		else
+			mouseshortcut_modifier.currentIndex = mouseshortcut_modifier.find(mod)
+		mouseshortcut_button.currentIndex = mouseshortcut_button.find(but)
+	}
+
 	PropertyAnimation {
 		id: hideMe
 		target: detect

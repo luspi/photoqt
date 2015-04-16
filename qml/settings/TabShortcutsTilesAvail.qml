@@ -4,37 +4,71 @@ Rectangle {
 
 	color: "#00000000"
 
+	// All have the same size
 	width: 100
 	height: 100
 	radius: 10
 
+	// Store description and command
 	property string _desc: ""
 	property string _cmd: ""
 
 	Rectangle {
 
+		id: desc
+
 		color: "#44ffffff"
 
+		// Top half is the description
 		width: 100
 		height: 50
 		radius: 10
 
-		property string _desc: ""
-
+		// The description text
 		Text {
-			anchors.verticalCenter: parent.verticalCenter
-			width: parent.width-6
+
 			x: 3
-			text: _desc
+			width: parent.width-6
+
+			anchors.verticalCenter: parent.verticalCenter
+			horizontalAlignment: Text.AlignHCenter
+			wrapMode: Text.WordWrap
+
 			color: "black"
 			font.bold: true
 			font.pointSize: 8
-			horizontalAlignment: Text.AlignHCenter
-			wrapMode: Text.WordWrap
+
+			text: _desc
+
+		}
+
+		// Highlight description and key button
+		MouseArea {
+
+			anchors.fill: parent
+			cursorShape: Qt.PointingHandCursor
+			hoverEnabled: true
+
+			onEntered: {
+				key.color = "#88ffffff"
+				desc.color = "#88ffffff"
+			}
+			onExited: {
+				key.color = "#44ffffff"
+				desc.color = "#44ffffff"
+			}
+
+			onClicked: {
+				detectShortcut.command = _cmd
+				detectShortcut.posIfNew = -1	// This means that it is a new shortcut
+				detectShortcut.show()
+			}
+
 		}
 
 	}
 
+	// "Key" button
 	Rectangle {
 
 		id: key
@@ -42,29 +76,43 @@ Rectangle {
 		color: "#44ffffff"
 
 		x: 1
+		y: 53
 		width: 47
 		height: 45
-		y: 53
+
 		radius: 5
 
+		// The text in the center
 		Text {
+
 			anchors.fill: parent
+
 			horizontalAlignment: Text.AlignHCenter
 			verticalAlignment: Text.AlignVCenter
+
 			color: "black"
 			font.pointSize: 8
 			font.bold: true
+
 			text: "key"
+
 		}
 
+		// Highlight both the key button and the description, and on click set mouse shortcut
 		MouseArea {
 
 			anchors.fill: parent
 			cursorShape: Qt.PointingHandCursor
 			hoverEnabled: true
 
-			onEntered: key.color = "#88ffffff"
-			onExited: key.color = "#44ffffff"
+			onEntered: {
+				key.color = "#88ffffff"
+				desc.color = "#88ffffff"
+			}
+			onExited: {
+				key.color = "#44ffffff"
+				desc.color = "#44ffffff"
+			}
 
 			onClicked: {
 				detectShortcut.command = _cmd
@@ -76,6 +124,7 @@ Rectangle {
 
 	}
 
+	// A "mouse" button
 	Rectangle {
 
 		id: mouse
@@ -83,21 +132,27 @@ Rectangle {
 		color: "#44ffffff"
 
 		x: 52
+		y: 53
 		width: 47
 		height: 45
-		y: 53
+
 		radius: 5
 
+		// The text
 		Text {
 			anchors.fill: parent
+
 			horizontalAlignment: Text.AlignHCenter
 			verticalAlignment: Text.AlignVCenter
+
 			color: "black"
 			font.pointSize: 8
 			font.bold: true
+
 			text: "mouse"
 		}
 
+		// Highlight on hover and on click set mouse shortcut
 		MouseArea {
 
 			anchors.fill: parent
