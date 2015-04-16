@@ -14,6 +14,9 @@ Rectangle {
 	property string _cmd: ""
 	property string _desc: ""
 
+	property int _id: 0
+	signal deleteTile(var id)
+
 	Text {
 		width: parent.width
 		y: 2
@@ -26,7 +29,6 @@ Rectangle {
 	}
 
 	Text {
-		width: parent.width
 		y: 0
 		x: parent.width-width-parent.radius/2
 		text: "x"
@@ -37,6 +39,7 @@ Rectangle {
 		MouseArea {
 			anchors.fill: parent
 			cursorShape: Qt.PointingHandCursor
+			onClicked: deleteTile(_id)
 		}
 	}
 

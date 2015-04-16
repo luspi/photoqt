@@ -100,6 +100,14 @@ Rectangle {
 		console.log("new:",cmd,key)
 	}
 
+	function addMouseShortcut(cmd, key) {
+		if(cat.responsiblefor.indexOf(cmd) != -1) {
+			cat.addMouseShortcut(cmd,key)
+		}
+
+		console.log("new mouse:",cmd,key)
+	}
+
 	function setData() {
 
 		var shortcuts = getanddostuff.getShortcuts()

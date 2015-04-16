@@ -11,6 +11,8 @@ Rectangle {
 	property var responsiblefor: []
 	property var responsiblefor_text: []
 
+	property var deleted: []
+
 	color: "#00000000"
 	height: 250
 	width: parent.width
@@ -68,7 +70,15 @@ Rectangle {
 					boundsBehavior: Flickable.StopAtBounds
 
 					model: ListModel { id: modSet }
-					delegate: TabShortcutsTilesSet { _close: close; _keys: keys; _mouse: mouse; _cmd: cmd; _desc: desc }
+					delegate: TabShortcutsTilesSet {
+						_close: close;
+						_keys: keys;
+						_mouse: mouse;
+						_cmd: cmd;
+						_desc: desc;
+						_id: id;
+						onDeleteTile: deleteOneTile(id)
+					}
 				}
 
 
@@ -112,6 +122,8 @@ Rectangle {
 		modSet.clear()
 		modAvail.clear()
 
+		var counter = 0;
+
 		for(var i = 0; i < shortcuts.length/3; ++i) {
 			var index = responsiblefor.indexOf(shortcuts[i*3+2])
 			if(index != -1) {
@@ -127,7 +139,9 @@ Rectangle {
 						     "keys" : k,
 						     "mouse" : m,
 						     "cmd" : shortcuts[i*3+2],
-						     "desc" : responsiblefor_text[index]})
+						     "desc" : responsiblefor_text[index],
+						     "id" : counter })
+				++counter
 			}
 		}
 
@@ -141,6 +155,20 @@ Rectangle {
 
 	function addShortcut(cmd, key) {
 		modSet.append({ "close" : "0", "keys" : key, "mouse" : false, "cmd" : cmd, "desc" : responsiblefor_text[responsiblefor.indexOf(cmd)] })
+	}
+
+	function addMouseShortcut(cmd, key) {
+		modSet.append({ "close" : "0", "keys" : key, "mouse" : true, "cmd" : cmd, "desc" : responsiblefor_text[responsiblefor.indexOf(cmd)] })
+	}
+
+	function deleteOneTile(id) {
+		var takeaway = 0
+		for(var i = 0; i < deleted.length; ++i) {
+			if(deleted[i] < id)
+				takeaway += 1
+		}
+		modSet.remove(id-takeaway)
+		deleted.push(id)
 	}
 
 }

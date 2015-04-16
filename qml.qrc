@@ -39,5 +39,6 @@
         <file>qml/settings/TabShortcutsTilesSet.qml</file>
         <file>qml/settings/TabShortcutsTilesAvail.qml</file>
         <file>qml/elements/CustomDetectShortcut.qml</file>
+        <file>qml/elements/CustomMouseShortcut.qml</file>
     </qresource>
 </RCC>

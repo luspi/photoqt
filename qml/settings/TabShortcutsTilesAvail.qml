@@ -16,7 +16,7 @@ Rectangle {
 		color: "#44ffffff"
 
 		width: 100
-		height: 70
+		height: 50
 		radius: 10
 
 		property string _desc: ""
@@ -37,34 +37,80 @@ Rectangle {
 
 	Rectangle {
 
+		id: key
+
 		color: "#44ffffff"
 
-		width: 100
-		height: 25
-		y: 75
-		radius: 10
+		x: 1
+		width: 47
+		height: 45
+		y: 53
+		radius: 5
 
-		Image {
+		Text {
+			anchors.fill: parent
+			horizontalAlignment: Text.AlignHCenter
+			verticalAlignment: Text.AlignVCenter
+			color: "black"
+			font.pointSize: 8
+			font.bold: true
+			text: "key"
+		}
 
-			x: (parent.width-width)/2
-			y: 3
+		MouseArea {
 
-			source: "qrc:/img/settings/addshortcut.png"
-			sourceSize: Qt.size(19,19)
+			anchors.fill: parent
+			cursorShape: Qt.PointingHandCursor
+			hoverEnabled: true
+
+			onEntered: key.color = "#88ffffff"
+			onExited: key.color = "#44ffffff"
+
+			onClicked: {
+				detectShortcut.command = _cmd
+				detectShortcut.show()
+			}
 
 		}
 
-
 	}
 
-	MouseArea {
+	Rectangle {
 
-		anchors.fill: parent
-		cursorShape: Qt.PointingHandCursor
+		id: mouse
 
-		onClicked: {
-			detectShortcut.command = _cmd
-			detectShortcut.show()
+		color: "#44ffffff"
+
+		x: 52
+		width: 47
+		height: 45
+		y: 53
+		radius: 5
+
+		Text {
+			anchors.fill: parent
+			horizontalAlignment: Text.AlignHCenter
+			verticalAlignment: Text.AlignVCenter
+			color: "black"
+			font.pointSize: 8
+			font.bold: true
+			text: "mouse"
+		}
+
+		MouseArea {
+
+			anchors.fill: parent
+			cursorShape: Qt.PointingHandCursor
+			hoverEnabled: true
+
+			onEntered: mouse.color = "#88ffffff"
+			onExited: mouse.color = "#44ffffff"
+
+			onClicked: {
+				detectMouseShortcut.command = _cmd
+				detectMouseShortcut.show()
+			}
+
 		}
 
 	}

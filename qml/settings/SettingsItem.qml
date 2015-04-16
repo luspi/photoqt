@@ -29,6 +29,7 @@ Rectangle {
 	signal updateDatabaseInfo()
 
 	signal newShortcut(var cmd, var key)
+	signal newMouseShortcut(var cmd, var key)
 
 	CustomTabView {
 
@@ -237,6 +238,9 @@ Rectangle {
 					onNewShortcut: {
 						addShortcut(cmd, key)
 					}
+					onNewMouseShortcut: {
+						addMouseShortcut(cmd, key)
+					}
 				}
 				Component.onCompleted: {
 					setData()
@@ -352,6 +356,12 @@ Rectangle {
 			gotCombo(txt)
 			newShortcut(cmd, txt)
 		}
+	}
+
+	CustomMouseShortcut {
+		fillAnchors: tabrect
+		id: detectMouseShortcut
+		onGotMouseShortcut: newMouseShortcut(cmd, txt)
 	}
 
 	function showSettings() {
