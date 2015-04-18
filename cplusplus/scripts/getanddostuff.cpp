@@ -26,6 +26,7 @@ QSize GetAndDoStuff::getImageSize(QString path) {
 		return reader.size();
 	} else {
 
+#ifdef GM
 		Magick::Image image;
 		image.read(path.toStdString());
 		Magick::Geometry geo = image.size();
@@ -33,6 +34,9 @@ QSize GetAndDoStuff::getImageSize(QString path) {
 		if(s.width() < 2 && s.height() < 2)
 			return settings->value("curSize").toSize();
 		return s;
+#else
+		return QSize();
+#endif
 
 	}
 

@@ -3,13 +3,16 @@
 
 #include <QImageReader>
 #include <QFileInfo>
-#include <GraphicsMagick/Magick++.h>
 #include <QSettings>
 #include <QCursor>
 #include <QColor>
 #include <QFileDialog>
 #include <QJSValue>
 #include <iostream>
+
+#ifdef GM
+#include <GraphicsMagick/Magick++.h>
+#endif
 
 class GetAndDoStuff : public QObject {
 

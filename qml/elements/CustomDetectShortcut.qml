@@ -168,9 +168,6 @@ Rectangle {
 					txt += "Meta + "
 				if(event.modifiers & Qt.KeypadModifier)
 					txt += "Keypad + "
-
-				console.log(event.key,"-",Qt.Key_Escape)
-
 				if(event.key === Qt.Key_Escape) {
 					normalkey = true
 					txt += "Escape";

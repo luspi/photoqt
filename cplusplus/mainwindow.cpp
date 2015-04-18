@@ -76,12 +76,18 @@ void MainWindow::openNewFile(QString usethis) {
 		QString knownQT = fileformats->formatsQtEnabled.join(" ") + " " + fileformats->formatsQtEnabledExtras.join(" ");
 		QString knownGM = fileformats->formatsGmEnabled.join(" ");
 		QString known = knownQT + " " + knownGM + " " + fileformats->formatsExtrasEnabled.join(" ");
-		file = QFileDialog::getOpenFileName(0,tr("Open image file"),opendir,tr("Images") + " (" + known.trimmed() + ");;"
+		// FileDialog is unresponsive with the DontUseNativeDialog option in Qt 5.4.1
+		file = QFileDialog::getOpenFileName(NULL,tr("Open image file"),opendir,tr("Images") + " (" + known.trimmed() + ");;"
 										+ tr("Images") + " (Qt)" + " (" + knownQT.trimmed() + ");;"
-					       #ifdef GM
+						 #ifdef GM
 										+ tr("Images") + " (GraphicsMagick)" + " (" + knownGM.trimmed() + ");;"
-					       #endif
+						 #endif
+
+#if (QT_VERSION == QT_VERSION_CHECK(5, 4, 1))
+										+ tr("All Files") + " (*)",0,QFileDialog::DontUseNativeDialog).toUtf8();
+#else
 										+ tr("All Files") + " (*)").toUtf8();
+#endif
 	}
 
 	if(file.trimmed() == "") return;
