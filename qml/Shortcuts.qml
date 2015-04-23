@@ -115,7 +115,7 @@ Item {
 		if(cmd == "__next")
 			thumbnailBar.nextImage()
 		if(cmd == "__prev")
-			thumbnailBar.nextImage()
+			thumbnailBar.previousImage()
 //		if(cmd == "__reloadThb")
 		if(cmd == "__about")
 			about.showAbout()
