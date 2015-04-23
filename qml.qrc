@@ -40,5 +40,6 @@
         <file>qml/settings/TabShortcutsTilesAvail.qml</file>
         <file>qml/elements/CustomDetectShortcut.qml</file>
         <file>qml/elements/CustomMouseShortcut.qml</file>
+        <file>javascript/keydetect.js</file>
     </qresource>
 </RCC>

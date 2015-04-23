@@ -1,4 +1,5 @@
 import QtQuick 2.3
+import "../../javascript/keydetect.js" as KeyDetect
 
 Rectangle {
 
@@ -158,67 +159,9 @@ Rectangle {
 
 			if(detect.opacity == 1) {
 
-				var txt = ""
-				if(event.modifiers & Qt.ShiftModifier)
-					txt += "Shift + "
-				if(event.modifiers & Qt.ControlModifier)
-					txt += "Ctrl + "
-				if(event.modifiers & Qt.AltModifier)
-					txt += "Alt + "
-				if(event.modifiers & Qt.MetaModifier)
-					txt += "Meta + "
-				if(event.modifiers & Qt.KeypadModifier)
-					txt += "Keypad + "
-				if(event.key === Qt.Key_Escape) {
-					normalkey = true
-					txt += "Escape";
-				} else if(event.key === Qt.Key_Right) {
-					normalkey = true
-					txt += "Right";
-				} else if(event.key === Qt.Key_Left) {
-					normalkey = true
-					txt += "Left";
-				} else if(event.key === Qt.Key_Up) {
-					normalkey = true
-					txt += "Up";
-				} else if(event.key === Qt.Key_Down) {
-					normalkey = true
-					txt += "Down";
-				} else if(event.key === Qt.Key_Space) {
-					normalkey = true
-					txt += "Space";
-				} else if(event.key === Qt.Key_Delete) {
-					normalkey = true
-					txt += "Delete";
-				} else if(event.key === Qt.Key_Home) {
-					normalkey = true
-					txt += "Home";
-				} else if(event.key === Qt.Key_End) {
-					normalkey = true
-					txt += "End";
-				} else if(event.key === Qt.Key_PageUp) {
-					normalkey = true
-					txt += "Page Up";
-				} else if(event.key === Qt.Key_PageDown) {
-					txt += "Page Down";
-					normalkey = true
-				} else if(event.key === Qt.Key_Insert) {
-					normalkey = true
-					txt += "Insert";
-				} else if(event.key === Qt.Key_Tab) {
-					normalkey = true
-					txt += "Tab"
-				} else if(event.key === Qt.Key_Return) {
-					normalkey = true
-					txt += "Return"
-				} else if(event.key === Qt.Key_Enter) {
-					normalkey = true
-					txt += "Enter"
-				} else if(event.key < 1000) {
-					normalkey = true
-					txt += String.fromCharCode(event.key)
-				} else
-					normalkey = false
+				var ret = KeyDetect.handleKeyPress(event.key, event.modifiers)
+				normalkey = ret[0]
+				var txt = ret[1]
 
 				if(posIfNew == -1)
 					updateCombo(txt, command)

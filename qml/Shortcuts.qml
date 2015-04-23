@@ -1,5 +1,6 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
+import "../javascript/keydetect.js" as KeyDetect
 
 Item {
 
@@ -18,69 +19,10 @@ Item {
 			return
 		}
 
-		var txt = ""
-		if(event.modifiers & Qt.ShiftModifier)
-			txt += "Shift+"
-		if(event.modifiers & Qt.ControlModifier)
-			txt += "Ctrl+"
-		if(event.modifiers & Qt.AltModifier)
-			txt += "Alt+"
-		if(event.modifiers & Qt.MetaModifier)
-			txt += "Meta+"
-		if(event.modifiers & Qt.KeypadModifier)
-			txt += "Keypad+"
-		if(event.key === Qt.Key_Escape) {
-			normalkey = true
-			txt += "Escape";
-		} else if(event.key === Qt.Key_Right) {
-			normalkey = true
-			txt += "Right";
-		} else if(event.key === Qt.Key_Left) {
-			normalkey = true
-			txt += "Left";
-		} else if(event.key === Qt.Key_Up) {
-			normalkey = true
-			txt += "Up";
-		} else if(event.key === Qt.Key_Down) {
-			normalkey = true
-			txt += "Down";
-		} else if(event.key === Qt.Key_Space) {
-			normalkey = true
-			txt += "Space";
-		} else if(event.key === Qt.Key_Delete) {
-			normalkey = true
-			txt += "Delete";
-		} else if(event.key === Qt.Key_Home) {
-			normalkey = true
-			txt += "Home";
-		} else if(event.key === Qt.Key_End) {
-			normalkey = true
-			txt += "End";
-		} else if(event.key === Qt.Key_PageUp) {
-			normalkey = true
-			txt += "Page Up";
-		} else if(event.key === Qt.Key_PageDown) {
-			txt += "Page Down";
-			normalkey = true
-		} else if(event.key === Qt.Key_Insert) {
-			normalkey = true
-			txt += "Insert";
-		} else if(event.key === Qt.Key_Tab) {
-			normalkey = true
-			txt += "Tab"
-		} else if(event.key === Qt.Key_Return) {
-			normalkey = true
-			txt += "Return"
-		} else if(event.key === Qt.Key_Enter) {
-			normalkey = true
-			txt += "Enter"
-		} else if(event.key < 1000) {
-			normalkey = true
-			txt += String.fromCharCode(event.key)
-		} else
-			normalkey = false
+		var ret = KeyDetect.handleKeyPress(event.key, event.modifiers)
 
-		combo = txt
+		normalkey = ret[0]
+		combo = ret[1]
 
 	}
 
@@ -106,44 +48,44 @@ Item {
 
 //		if(cmd == "__stopThb")
 
-		if(cmd == "__close")
+		if(cmd === "__close")
 			Qt.quit()
-		if(cmd == "__hide")
+		if(cmd === "__hide")
 			Qt.quit()
-		if(cmd == "__settings")
+		if(cmd === "__settings")
 			settingsitem.showSettings()
-		if(cmd == "__next")
+		if(cmd === "__next")
 			thumbnailBar.nextImage()
-		if(cmd == "__prev")
+		if(cmd === "__prev")
 			thumbnailBar.previousImage()
-//		if(cmd == "__reloadThb")
-		if(cmd == "__about")
+//		if(cmd === "__reloadThb")
+		if(cmd === "__about")
 			about.showAbout()
-//		if(cmd == "__slideshow")
-//		if(cmd == "__filterImages")
-//		if(cmd == "__slideshowQuick")
-		if(cmd == "__open" || cmd == "__openOld")
+//		if(cmd === "__slideshow")
+//		if(cmd === "__filterImages")
+//		if(cmd === "__slideshowQuick")
+		if(cmd === "__open" || cmd == "__openOld")
 			openFile()
-		if(cmd == "__zoomIn")
+		if(cmd === "__zoomIn")
 			image.zoomIn()
-		if(cmd == "__zoomOut")
+		if(cmd === "__zoomOut")
 			image.zoomOut()
-		if(cmd == "__zoomReset")
+		if(cmd === "__zoomReset")
 			image.resetZoom()
-//		if(cmd == "__zoomActual")
-		if(cmd == "__rotateL")
+//		if(cmd === "__zoomActual")
+		if(cmd === "__rotateL")
 			image.rotateLeft()
-		if(cmd == "__rotateR")
+		if(cmd === "__rotateR")
 			image.rotateRight()
-		if(cmd == "__rotate0")
+		if(cmd === "__rotate0")
 			image.resetRotation()
-//		if(cmd == "__flipH")
-//		if(cmd == "__flipV")
-//		if(cmd == "__rename")
-//		if(cmd == "__delete")
-//		if(cmd == "__copy")
-//		if(cmd == "__move")
-		if(cmd == "__hideMeta") {
+//		if(cmd === "__flipH")
+//		if(cmd === "__flipV")
+//		if(cmd === "__rename")
+//		if(cmd === "__delete")
+//		if(cmd === "__copy")
+//		if(cmd === "__move")
+		if(cmd === "__hideMeta") {
 			if(metaData.x < -40) {
 				metaData.checkCheckbox()
 				background.showMetadata()
@@ -152,12 +94,12 @@ Item {
 				background.hideMetadata()
 			}
 		}
-//		if(cmd == "__showContext")
-//		if(cmd == "__gotoFirstThb")
-//		if(cmd == "__gotoLastThb")
+//		if(cmd === "__showContext")
+//		if(cmd === "__gotoFirstThb")
+//		if(cmd === "__gotoLastThb")
 
-//		if(cmd == "__wallpaper")
-//		if(cmd == "__scale")
+//		if(cmd === "__wallpaper")
+//		if(cmd === "__scale")
 	}
 
 }

@@ -12,6 +12,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/imageprovider/imageproviderfull
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/scripts/getanddostuff.cpp cplusplus/scripts/getmetadata.cpp cplusplus/scripts/thumbnailsmanagement.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/settings/settings.h cplusplus/settings/settingssession.h cplusplus/settings/fileformats.h)
 
+SET(photoqt_SOURCES ${photoqt_SOURCES} javascript/keydetect.js)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/mainwindow.qml qml/Shortcuts.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/slidein/ThumbnailBar.qml qml/slidein/MetaData.qml qml/slidein/MainMenu.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/mainview/Background.qml qml/mainview/Display.qml qml/mainview/QuickInfo.qml)
