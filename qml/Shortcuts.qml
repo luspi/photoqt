@@ -8,33 +8,19 @@ Item {
 
 	property var shortcutfile: getanddostuff.getShortcuts()
 
-	property string combo: ""
-	property bool normalkey: false
-
 	Keys.onPressed: {
 
-		if(blocked && (event.key !== Qt.Key_Escape || blockedSystem)) {
-			combo = ""
-			normalkey = false
-			return
-		}
+		if(blocked && blockedSystem) return
 
 		var ret = KeyDetect.handleKeyPress(event.key, event.modifiers)
 
-		normalkey = ret[0]
-		combo = ret[1]
-
-	}
-
-	Keys.onReleased: {
-		if(!blockedSystem && normalkey && (event.key == 0 || event.modifiers == 0)) {
-			if(blocked && combo == "Escape")
+		if(!blockedSystem && ret[0]) {
+			if(blocked && ret[1] == "Escape")
 				catchEscape()
-			else if(combo in shortcutfile)
-				execute(shortcutfile[combo][1]);
+			else if(ret[1] in shortcutfile)
+				execute(shortcutfile[ret[1]][1]);
 		}
 
-		combo = "";
 	}
 
 	function catchEscape() {
@@ -46,8 +32,7 @@ Item {
 
 	function execute(cmd) {
 
-//		if(cmd == "__stopThb")
-
+//		if(cmd === "__stopThb")
 		if(cmd === "__close")
 			Qt.quit()
 		if(cmd === "__hide")
@@ -64,7 +49,7 @@ Item {
 //		if(cmd === "__slideshow")
 //		if(cmd === "__filterImages")
 //		if(cmd === "__slideshowQuick")
-		if(cmd === "__open" || cmd == "__openOld")
+		if(cmd === "__open" || cmd === "__openOld")
 			openFile()
 		if(cmd === "__zoomIn")
 			image.zoomIn()
@@ -79,8 +64,10 @@ Item {
 			image.rotateRight()
 		if(cmd === "__rotate0")
 			image.resetRotation()
-//		if(cmd === "__flipH")
-//		if(cmd === "__flipV")
+		if(cmd === "__flipH")
+			image.flipHorizontal()
+		if(cmd === "__flipV")
+			image.flipVertical()
 //		if(cmd === "__rename")
 //		if(cmd === "__delete")
 //		if(cmd === "__copy")
