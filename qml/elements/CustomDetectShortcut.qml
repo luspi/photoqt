@@ -225,7 +225,7 @@ Rectangle {
 				else
 					updateNewCombo(txt, command, posIfNew)
 
-				combo = txt
+				detect.combo = txt
 
 			}
 
@@ -235,12 +235,12 @@ Rectangle {
 			if(detect.opacity == 1) {
 				if(normalkey && (event.key == 0 || event.modifiers == 0)) {
 					if(posIfNew == -1)
-						gotKeyCombo(combo, command)
+						gotKeyCombo(detect.combo, command)
 					else
-						gotNewKeyCombo(combo, command, posIfNew)
+						gotNewKeyCombo(detect.combo, command, posIfNew)
 				}
 			}
-			combo = ""
+			detect.combo = ""
 		}
 	}
 
