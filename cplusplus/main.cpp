@@ -14,7 +14,10 @@ int main(int argc, char *argv[]) {
 #endif
 
 	MainWindow w;
-	w.showFullScreen();
+	if(QString(getenv("DESKTOP")).startsWith("Enlightenment"))
+		w.showMaximized();
+	else
+		w.showFullScreen();
 
 	if(argc > 1) {
 		QTimer *timer = new QTimer;
