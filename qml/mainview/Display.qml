@@ -148,6 +148,30 @@ Item {
 			setSourceSize(item.width,item.height)
 	}
 
+	function flipHorizontal() {
+		if(animated) {
+			anim.mirror = !anim.mirror
+			anim.calculateSize()
+		} else {
+			norm.mirror = !norm.mirror
+			norm.calculateSize()
+		}
+	}
+
+	function flipVertical() {
+		if(animated) {
+			anim.rotation += 90
+			anim.mirror = !anim.mirror
+			anim.rotation += 90
+			anim.calculateSize()
+		} else {
+			norm.rotation += 90
+			norm.mirror = !norm.mirror
+			norm.rotation += 90
+			norm.calculateSize()
+		}
+	}
+
 	/****************************************************************************************************
 	*
 	* Zoom code lines inspired by code at:
