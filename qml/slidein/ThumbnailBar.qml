@@ -125,8 +125,8 @@ Rectangle {
 
 	// Load proper thumbnail at position 'pos' (smart == true means: ONLY IF IT EXISTS)
 	function reloadImage(pos, smart) {
-	var imageUrl = imageModel.get(pos).imageUrl;
-	imageModel.set(pos,{"imageUrl" : imageUrl, "counter" : pos, "pre" : false, "smart" : smart})
+		var imageUrl = imageModel.get(pos).imageUrl;
+		imageModel.set(pos,{"imageUrl" : imageUrl, "counter" : pos, "pre" : false, "smart" : smart})
 	}
 
 	/**********************************************************/
