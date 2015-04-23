@@ -82,8 +82,10 @@ Item {
 			}
 		}
 //		if(cmd === "__showContext")
-//		if(cmd === "__gotoFirstThb")
-//		if(cmd === "__gotoLastThb")
+		if(cmd === "__gotoFirstThb")
+			thumbnailBar.gotoFirstImage()
+		if(cmd === "__gotoLastThb")
+			thumbnailBar.gotoLastImage()
 
 //		if(cmd === "__wallpaper")
 //		if(cmd === "__scale")

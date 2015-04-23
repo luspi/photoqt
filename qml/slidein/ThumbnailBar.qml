@@ -116,6 +116,13 @@ Rectangle {
 		}
 	}
 
+	function gotoFirstImage() {
+		displayImage(0);
+	}
+	function gotoLastImage() {
+		displayImage(totalNumberImages-1);
+	}
+
 	// Load proper thumbnail at position 'pos' (smart == true means: ONLY IF IT EXISTS)
 	function reloadImage(pos, smart) {
 	var imageUrl = imageModel.get(pos).imageUrl;
