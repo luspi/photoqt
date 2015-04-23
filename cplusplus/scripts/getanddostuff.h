@@ -40,6 +40,9 @@ public:
 
 	Q_INVOKABLE QString trim(QString s) { return s.trimmed(); }
 
+	Q_INVOKABLE QString getShortcutFile();
+	Q_INVOKABLE QString filterOutShortcutCommand(QString combo, QString file);
+
 private:
 	QImageReader reader;
 	QSettings *settings;

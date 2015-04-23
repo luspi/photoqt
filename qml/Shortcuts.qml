@@ -2,105 +2,152 @@ import QtQuick 2.3
 import QtQuick.Controls 1.2
 
 Item {
-	Action {
-		shortcut: "Right"
-		onTriggered:
-		if(!blocked)
-			thumbnailBar.nextImage()
-	}
-	Action {
-		shortcut: "Space"
-		onTriggered:
-		if(!blocked)
-			thumbnailBar.nextImage()
-	}
-	Action {
-		shortcut: "Left"
-		onTriggered:
-		if(!blocked)
-			thumbnailBar.previousImage()
-	}
-	Action {
-		shortcut: "Backspace"
-		onTriggered:
-		if(!blocked)
-			thumbnailBar.previousImage()
-	}
-	Action {
-		shortcut: "Escape"
-		onTriggered:
-		if(about.opacity == 1)
-			about.hideAbout()
-		else if(settingsitem.opacity == 1)
-			settingsitem.hideSettings()
-		else if(!blocked)
-			Qt.quit()
-	}
-	Action {
-		shortcut: "O"
-		onTriggered:
-		if(!blocked)
-			openFile()
-	}
-	Action {
-		shortcut: "0"
-		onTriggered:
-		if(!blocked)
-			image.resetZoom()
-	}
-	Action {
-		shortcut: "Ctrl+0"
-		onTriggered:
-		if(!blocked)
-			image.resetRotation()
-	}
-	Action {
-		shortcut: "Ctrl++"
-		onTriggered:
-		if(!blocked)
-			image.zoomIn()
-	}
-	Action {
-		shortcut: "+"
-		onTriggered:
-		if(!blocked)
-			image.zoomIn()
-	}
-	Action {
-		shortcut: "Ctrl+-"
-		onTriggered:
-		if(!blocked)
-			image.zoomOut()
-	}
-	Action {
-		shortcut: "-"
-		onTriggered:
-		if(!blocked)
-			image.zoomOut()
+
+	id: detect
+
+	property string shortcutfile: getanddostuff.getShortcutFile()
+
+	property string combo: ""
+	property bool normalkey: false
+
+	Keys.onPressed: {
+
+		var txt = ""
+		if(event.modifiers & Qt.ShiftModifier)
+			txt += "Shift+"
+		if(event.modifiers & Qt.ControlModifier)
+			txt += "Ctrl+"
+		if(event.modifiers & Qt.AltModifier)
+			txt += "Alt+"
+		if(event.modifiers & Qt.MetaModifier)
+			txt += "Meta+"
+		if(event.modifiers & Qt.KeypadModifier)
+			txt += "Keypad+"
+		if(event.key === Qt.Key_Escape) {
+			normalkey = true
+			txt += "Escape";
+		} else if(event.key === Qt.Key_Right) {
+			normalkey = true
+			txt += "Right";
+		} else if(event.key === Qt.Key_Left) {
+			normalkey = true
+			txt += "Left";
+		} else if(event.key === Qt.Key_Up) {
+			normalkey = true
+			txt += "Up";
+		} else if(event.key === Qt.Key_Down) {
+			normalkey = true
+			txt += "Down";
+		} else if(event.key === Qt.Key_Space) {
+			normalkey = true
+			txt += "Space";
+		} else if(event.key === Qt.Key_Delete) {
+			normalkey = true
+			txt += "Delete";
+		} else if(event.key === Qt.Key_Home) {
+			normalkey = true
+			txt += "Home";
+		} else if(event.key === Qt.Key_End) {
+			normalkey = true
+			txt += "End";
+		} else if(event.key === Qt.Key_PageUp) {
+			normalkey = true
+			txt += "Page Up";
+		} else if(event.key === Qt.Key_PageDown) {
+			txt += "Page Down";
+			normalkey = true
+		} else if(event.key === Qt.Key_Insert) {
+			normalkey = true
+			txt += "Insert";
+		} else if(event.key === Qt.Key_Tab) {
+			normalkey = true
+			txt += "Tab"
+		} else if(event.key === Qt.Key_Return) {
+			normalkey = true
+			txt += "Return"
+		} else if(event.key === Qt.Key_Enter) {
+			normalkey = true
+			txt += "Enter"
+		} else if(event.key < 1000) {
+			normalkey = true
+			txt += String.fromCharCode(event.key)
+		} else
+			normalkey = false
+
+		detect.combo = txt
+
 	}
 
-	Action {
-		shortcut: "R"
-		onTriggered:
-		if(!blocked)
-			image.rotateRight()
+	Keys.onReleased: {
+		if(detect.opacity == 1) {
+			if(normalkey && (event.key == 0 || event.modifiers == 0)) {
+				if(shortcutfile.indexOf("::" + combo + "::") != -1) {
+					var cmd = getanddostuff.filterOutShortcutCommand(combo,shortcutfile)
+					execute(cmd)
+					console.log("exec:",cmd)
+				}
+			}
+		}
 	}
-	Action {
-		shortcut: "L"
-		onTriggered:
-		if(!blocked)
-			image.rotateLeft()
-	}
-	Action {
-		shortcut: "I"
-		onTriggered:
-		if(!blocked)
-			about.showAbout()
-	}
-	Action {
-		shortcut: "E"
-		onTriggered:
-		if(!blocked)
+
+	function execute(cmd) {
+
+		if(blocked) return;
+
+//		if(cmd == "__stopThb")
+
+		if(cmd == "__close")
+			Qt.quit()
+		if(cmd == "__hide")
+			Qt.quit()
+		if(cmd == "__settings")
 			settingsitem.showSettings()
+		if(cmd == "__next")
+			thumbnailBar.nextImage()
+		if(cmd == "__prev")
+			thumbnailBar.nextImage()
+//		if(cmd == "__reloadThb")
+		if(cmd == "__about")
+			about.showAbout()
+//		if(cmd == "__slideshow")
+//		if(cmd == "__filterImages")
+//		if(cmd == "__slideshowQuick")
+		if(cmd == "__open" || cmd == "__openOld")
+			openFile()
+		if(cmd == "__zoomIn")
+			image.zoomIn()
+		if(cmd == "__zoomOut")
+			image.zoomOut()
+		if(cmd == "__zoomReset")
+			image.resetZoom()
+//		if(cmd == "__zoomActual")
+		if(cmd == "__rotateL")
+			image.rotateLeft()
+		if(cmd == "__rotateR")
+			image.rotateRight()
+		if(cmd == "__rotate0")
+			image.resetRotation()
+//		if(cmd == "__flipH")
+//		if(cmd == "__flipV")
+//		if(cmd == "__rename")
+//		if(cmd == "__delete")
+//		if(cmd == "__copy")
+//		if(cmd == "__move")
+		if(cmd == "__hideMeta") {
+			if(metaData.x < -40) {
+				metaData.checkCheckbox()
+				background.showMetadata()
+			} else {
+				metaData.uncheckCheckbox()
+				background.hideMetadata()
+			}
+		}
+//		if(cmd == "__showContext")
+//		if(cmd == "__gotoFirstThb")
+//		if(cmd == "__gotoLastThb")
+
+//		if(cmd == "__wallpaper")
+//		if(cmd == "__scale")
 	}
+
 }

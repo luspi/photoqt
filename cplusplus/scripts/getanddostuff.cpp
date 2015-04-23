@@ -169,3 +169,26 @@ QVariantList GetAndDoStuff::getShortcuts() {
 	return ret;
 
 }
+
+QString GetAndDoStuff::getShortcutFile() {
+
+	QFile file(QDir::homePath() + "/.photoqt/shortcuts");
+	if(!file.open(QIODevice::ReadOnly)) {
+		std::cerr << "ERROR: Unable to read shortcuts file" << std::endl;
+		return "";
+	}
+	QTextStream in(&file);
+	QString all = in.readAll();
+	file.close();
+	return all;
+
+}
+
+QString GetAndDoStuff::filterOutShortcutCommand(QString combo, QString file) {
+
+	if(!file.contains("::" + combo + "::"))
+		return "";
+
+	return file.split("::" + combo + "::").at(1).split("\n").at(0).trimmed();
+
+}

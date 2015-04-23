@@ -89,6 +89,8 @@ Item {
 
 		if(image.zoomSteps == 0) image.setSourceSize(w,h)
 
+		sh.forceActiveFocus()
+
 	}
 
 	// Slots accessable by mainwindow.cpp, passed on to thumbnailbar

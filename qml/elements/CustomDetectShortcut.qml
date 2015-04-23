@@ -129,6 +129,7 @@ Rectangle {
 	}
 	function hide() {
 		hideDetect.start()
+		sh.forceActiveFocus()
 	}
 
 	PropertyAnimation {
