@@ -145,22 +145,22 @@ Rectangle {
 		var counter = 0;
 
 		// Set all shortcuts
-		for(var i = 0; i < shortcuts.length/3; ++i) {
-			var index = responsiblefor.indexOf(shortcuts[i*3+2])
-			if(index != -1) {
+		for(var obj in shortcuts) {
+
+			if(responsiblefor.indexOf(shortcuts[obj][1]) != -1) {
 
 				var m = false
-				var k = shortcuts[i*3+1]
+				var k = obj
 				if(k.substr(0,3) == "[M]") {
 					k = k.substr(3,k.length)
 					m = true
 				}
 
-				modSet.append({ "close" : shortcuts[i*3],
+				modSet.append({ "close" : shortcuts[obj][0],
 						     "keys" : k,
 						     "mouse" : m,
-						     "cmd" : shortcuts[i*3+2],
-						     "desc" : responsiblefor_text[index],
+						     "cmd" : shortcuts[obj][1],
+						     "desc" : responsiblefor_text[responsiblefor.indexOf(shortcuts[obj][1])],
 						     "id" : counter })
 				++counter
 			}
