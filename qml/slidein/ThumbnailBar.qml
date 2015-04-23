@@ -101,7 +101,7 @@ Rectangle {
 		if(clickedIndex+1 < totalNumberImages) {
 			displayImage(clickedIndex+1);
 			scrollTimer.restart()
-		} else if(settings.loopthroughfolderChanged) {
+		} else if(settings.loopthroughfolder) {
 			displayImage(0);
 		}
 	}
@@ -111,7 +111,7 @@ Rectangle {
 		if(clickedIndex-1 >= 0) {
 			displayImage(clickedIndex-1)
 			scrollTimer.restart()
-		} else if(settings.loopthroughfolderChanged) {
+		} else if(settings.loopthroughfolder) {
 			displayImage(totalNumberImages-1);
 		}
 	}
