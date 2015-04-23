@@ -36,7 +36,7 @@ public:
 
 	Q_INVOKABLE void saveContextMenu(QJSValue m);
 
-	Q_INVOKABLE QVariantList getShortcuts();
+	Q_INVOKABLE QVariantMap getShortcuts();
 
 	Q_INVOKABLE QString trim(QString s) { return s.trimmed(); }
 
