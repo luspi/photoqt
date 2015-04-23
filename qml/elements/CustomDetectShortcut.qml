@@ -221,11 +221,11 @@ Rectangle {
 					normalkey = false
 
 				if(posIfNew == -1)
-					updateCombo(txt, detect.command)
+					updateCombo(txt, command)
 				else
-					updateNewCombo(txt, detect.command, detect.posIfNew)
+					updateNewCombo(txt, command, posIfNew)
 
-				detect.combo = txt
+				combo = txt
 
 			}
 
@@ -235,11 +235,12 @@ Rectangle {
 			if(detect.opacity == 1) {
 				if(normalkey && (event.key == 0 || event.modifiers == 0)) {
 					if(posIfNew == -1)
-						gotKeyCombo(detect.combo, detect.command)
+						gotKeyCombo(combo, command)
 					else
-						gotNewKeyCombo(detect.combo, detect.command, detect.posIfNew)
+						gotNewKeyCombo(combo, command, posIfNew)
 				}
 			}
+			combo = ""
 		}
 	}
 
