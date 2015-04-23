@@ -72,6 +72,9 @@ void MainWindow::openNewFile(QString usethis) {
 
 	if(usethis == "") {
 
+		QMetaObject::invokeMethod(object, "alsoIgnoreSystemShortcuts",
+					  Q_ARG(QVariant, true));
+
 		// Get new filename
 		QString knownQT = fileformats->formatsQtEnabled.join(" ") + " " + fileformats->formatsQtEnabledExtras.join(" ");
 		QString knownGM = fileformats->formatsGmEnabled.join(" ");
@@ -88,6 +91,8 @@ void MainWindow::openNewFile(QString usethis) {
 #else
 										+ tr("All Files") + " (*)").toUtf8();
 #endif
+		QMetaObject::invokeMethod(object, "alsoIgnoreSystemShortcuts",
+					  Q_ARG(QVariant, false));
 	}
 
 	if(file.trimmed() == "") return;

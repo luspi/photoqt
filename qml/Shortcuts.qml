@@ -5,12 +5,18 @@ Item {
 
 	id: detect
 
-	property string shortcutfile: getanddostuff.getShortcutFile()
+	property var shortcutfile: getanddostuff.getShortcuts()
 
 	property string combo: ""
 	property bool normalkey: false
 
 	Keys.onPressed: {
+
+		if(blocked && (event.key !== Qt.Key_Escape || blockedSystem)) {
+			combo = ""
+			normalkey = false
+			return
+		}
 
 		var txt = ""
 		if(event.modifiers & Qt.ShiftModifier)
@@ -74,25 +80,29 @@ Item {
 		} else
 			normalkey = false
 
-		detect.combo = txt
+		combo = txt
 
 	}
 
 	Keys.onReleased: {
-		if(detect.opacity == 1) {
-			if(normalkey && (event.key == 0 || event.modifiers == 0)) {
-				if(shortcutfile.indexOf("::" + combo + "::") != -1) {
-					var cmd = getanddostuff.filterOutShortcutCommand(combo,shortcutfile)
-					execute(cmd)
-					console.log("exec:",cmd)
-				}
-			}
+		if(!blockedSystem && normalkey && (event.key == 0 || event.modifiers == 0)) {
+			if(blocked && combo == "Escape")
+				catchEscape()
+			else if(combo in shortcutfile)
+				execute(shortcutfile[combo][1]);
 		}
+
+		combo = "";
+	}
+
+	function catchEscape() {
+		if(about.opacity == 1)
+			about.hideAbout()
+		else if(settingsitem.opacity == 1)
+			settingsitem.hideSettings()
 	}
 
 	function execute(cmd) {
-
-		if(blocked) return;
 
 //		if(cmd == "__stopThb")
 

@@ -25,8 +25,9 @@ Item {
 	signal didntLoadThisThumbnail(var pos);
 	signal imageLoaded(var path)
 
-	// Interface blocked?
+	// Interface blocked? System Shortcuts blocked?
 	property bool blocked: false
+	property bool blockedSystem: false
 
 	// Some colour settings
 	property string colour_fadein_bg: "#DD000000"
@@ -100,5 +101,10 @@ Item {
 	function nextImage() { thumbnailBar.nextImage(); }
 	function previousImage() { thumbnailBar.previousImage(); }
 	function getCenterPos() { console.log("center pos"); return thumbnailBar.getCenterPos(); }
+
+	function alsoIgnoreSystemShortcuts(block) {
+		blocked = block;
+		blockedSystem = block;
+	}
 
 }
