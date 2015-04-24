@@ -45,4 +45,14 @@ Rectangle {
 
 		}
 	}
+
+	function selectAll() {
+		ed1.focus = true
+		ed1.selectAll()
+	}
+
+	function getText() {
+		return ed1.text
+	}
+
 }

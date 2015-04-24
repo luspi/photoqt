@@ -90,6 +90,9 @@ Rectangle {
 			onClicked: {
 				if(_extern) {
 					setExternalCommand.command = _cmd
+					setExternalCommand.id = _id
+					setExternalCommand.keys = _keys
+					setExternalCommand.isMouse = _mouse
 					setExternalCommand.show()
 				}
 			}

@@ -28,11 +28,14 @@ Rectangle {
 	signal eraseDatabase()
 	signal updateDatabaseInfo()
 
+	// signals needed for shortcut handling
 	signal newShortcut(var cmd, var key)
 	signal newMouseShortcut(var cmd, var key)
 
 	signal updateShortcut(var cmd, var key, var id)
 	signal updateMouseShortcut(var cmd, var key, var id)
+
+	signal updateTheCommand(var id, var mouse, var keys, var cmd)
 
 	CustomTabView {
 
@@ -250,6 +253,9 @@ Rectangle {
 					onUpdateMouseShortcut: {
 						updateExistingMouseShortcut(cmd, key, id)
 					}
+					onUpdateTheCommand: {
+						updateCommand(id, mouse, keys, cmd)
+					}
 				}
 				Component.onCompleted: {
 					setData()
@@ -378,6 +384,9 @@ Rectangle {
 	CustomExternalCommand {
 		fillAnchors: tabrect
 		id: setExternalCommand
+		onUpdateCommand: {
+			updateTheCommand(id,mouse,keys,cmd)
+		}
 //		onUpdateNewCombo: updateComboString(txt)
 //		onGotNewKeyCombo: {
 //			gotCombo(txt)

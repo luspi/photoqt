@@ -121,31 +121,27 @@ Rectangle {
 	function addShortcut(cmd, key) {
 		if(navigation.responsiblefor.indexOf(cmd) != -1) {
 			navigation.addShortcut(cmd,key)
-		}
-		if(image.responsiblefor.indexOf(cmd) != -1) {
+		} else if(image.responsiblefor.indexOf(cmd) != -1) {
 			image.addShortcut(cmd,key)
-		}
-		if(file.responsiblefor.indexOf(cmd) != -1) {
+		} else if(file.responsiblefor.indexOf(cmd) != -1) {
 			file.addShortcut(cmd,key)
-		}
-		if(other.responsiblefor.indexOf(cmd) != -1) {
+		} else if(other.responsiblefor.indexOf(cmd) != -1) {
 			other.addShortcut(cmd,key)
-		}
+		} else
+			extern.addExternalShortcut(key)
 	}
 
 	function addMouseShortcut(cmd, key) {
-		if(navigation.responsiblefor.indexOf(cmd) != -1) {
+		if(navigation.responsiblefor.indexOf(cmd) != -1)
 			navigation.addMouseShortcut(cmd,key)
-		}
-		if(image.responsiblefor.indexOf(cmd) != -1) {
+		else if(image.responsiblefor.indexOf(cmd) != -1)
 			image.addMouseShortcut(cmd,key)
-		}
-		if(file.responsiblefor.indexOf(cmd) != -1) {
+		else if(file.responsiblefor.indexOf(cmd) != -1)
 			file.addMouseShortcut(cmd,key)
-		}
-		if(other.responsiblefor.indexOf(cmd) != -1) {
+		else if(other.responsiblefor.indexOf(cmd) != -1)
 			other.addMouseShortcut(cmd,key)
-		}
+		else
+			extern.addExternalMouseShortcut(key)
 	}
 
 	function updateExistingShortcut(cmd, key, id) {
@@ -176,6 +172,10 @@ Rectangle {
 		if(other.responsiblefor.indexOf(cmd) != -1) {
 			other.updateMouseShortcut(cmd, key, id)
 		}
+	}
+
+	function updateCommand(id, mouse, keys, cmd) {
+		extern.updateCommand(id,mouse,keys,cmd)
 	}
 
 	function setData() {

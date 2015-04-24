@@ -5,12 +5,13 @@ Rectangle {
 	id: detect
 
 	property string command: ""
+	property int id: -1
+	property string keys: ""
+	property bool isMouse: false
 
 	property int detectWidth: 400
 	property int detectHeight: 200
 	property Item fillAnchors: parent
-
-	property int posIfNew: -1
 
 	anchors.fill: fillAnchors
 
@@ -18,6 +19,8 @@ Rectangle {
 	visible: false
 
 	color: colour_fadein_block_bg
+
+	signal updateCommand(var id, var mouse, var keys, var cmd)
 
 	// Click on background is like rejecting it
 	// (this MouseArea has to come here at the top so that it can be overwritten below for the actual widget
@@ -53,6 +56,8 @@ Rectangle {
 		// Confirmation text
 		Text {
 
+			id: header
+
 			x: 0
 			y: 20
 			width: parent.width
@@ -63,6 +68,20 @@ Rectangle {
 			wrapMode: Text.WordWrap
 
 			text: "<h2>External Command</h2>"
+
+		}
+
+		Text {
+
+			x: 0
+			y: 15+header.height
+			width: parent.width
+			horizontalAlignment: Text.AlignHCenter
+
+			color: "white"
+			wrapMode: Text.WordWrap
+
+			text: "%f = current file, %d = current directory."
 
 		}
 
@@ -78,7 +97,7 @@ Rectangle {
 			text: command
 			x: 10
 			width: parent.width-20-(browse.width+10)
-			y: (parent.height-height)/2
+			y: (parent.height-height)/2+10
 		}
 
 		CustomButton {
@@ -93,12 +112,26 @@ Rectangle {
 
 		CustomButton {
 
-			width: 200
-			x: (parent.width-width)/2
+			width: 150
+			x: (parent.width-2*width-10)/2
 			y: parent.height-height-15
 			text: "Cancel"
 
 			onClickedButton: {
+				hide()
+			}
+
+		}
+
+		CustomButton {
+
+			width: 150
+			x: parent.width/2+5
+			y: parent.height-height-15
+			text: "Save it"
+
+			onClickedButton: {
+				updateCommand(id,isMouse,keys,lineedit.getText())
 				hide()
 			}
 
@@ -110,9 +143,12 @@ Rectangle {
 
 	function show() {
 		showDetect.start()
+		lineedit.enabled = true
+		lineedit.selectAll()
 	}
 	function hide() {
 		hideDetect.start()
+		lineedit.enabled = false
 	}
 
 	function browseForExec() {

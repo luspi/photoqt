@@ -201,7 +201,8 @@ Rectangle {
 
 	// Add a new shortcut
 	function addShortcut(cmd, key) {
-		modSet.append({ "close" : "0", "keys" : key, "mouse" : false, "cmd" : cmd, "desc" : responsiblefor_text[responsiblefor.indexOf(cmd)] })
+		var counter = modSet.count
+		modSet.append({ "close" : "0", "keys" : key, "mouse" : false, "cmd" : cmd, "desc" : responsiblefor_text[responsiblefor.indexOf(cmd)], "id" : counter })
 	}
 
 	// Update an existing shortcut
@@ -216,7 +217,8 @@ Rectangle {
 
 	// Add a new mouse shortcut
 	function addMouseShortcut(cmd, key) {
-		modSet.append({ "close" : "0", "keys" : key, "mouse" : true, "cmd" : cmd, "desc" : responsiblefor_text[responsiblefor.indexOf(cmd)] })
+		var counter = modSet.count
+		modSet.append({ "close" : "0", "keys" : key, "mouse" : true, "cmd" : cmd, "desc" : responsiblefor_text[responsiblefor.indexOf(cmd)], "id" : counter })
 	}
 
 	// Update an existing mouse shortcut
@@ -238,6 +240,36 @@ Rectangle {
 		}
 		modSet.remove(id-takeaway)
 		deleted.push(id)	// Need this info so that we don't need to adjust all id's of all other tiles
+	}
+
+	// Update the command (external category)
+	function updateCommand(id, mouse, key, cmd) {
+		var takeaway = 0
+		for(var i = 0; i < deleted.length; ++i) {
+			if(deleted[i] < id)
+				takeaway += 1
+		}
+		modSet.set(id-takeaway, { "close" : "0", "keys" : key, "mouse" : mouse, "cmd" : cmd, "desc" : cmd })
+	}
+
+	function addExternalShortcut(key) {
+		var counter = modSet.count
+		modSet.append({ "close" : "0", "keys" : key, "mouse" : false, "cmd" : "", "desc" : "", "id" : counter, "external" : true })
+		setExternalCommand.command = ""
+		setExternalCommand.id = counter
+		setExternalCommand.keys = key
+		setExternalCommand.isMouse = false
+		setExternalCommand.show()
+	}
+
+	function addExternalMouseShortcut(key) {
+		var counter = modSet.count
+		modSet.append({ "close" : "0", "keys" : key, "mouse" : true, "cmd" : "", "desc" : "", "id" : counter, "external" : true })
+		setExternalCommand.command = ""
+		setExternalCommand.id = counter
+		setExternalCommand.keys = key
+		setExternalCommand.isMouse = true
+		setExternalCommand.show()
 	}
 
 }
