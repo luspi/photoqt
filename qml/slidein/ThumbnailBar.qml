@@ -176,41 +176,50 @@ Rectangle {
 		}
 	}
 
-	ListView {
+	// This item make sure, that the thumbnails are displayed centered when their combined width is less than the width of the screen
+	Item {
 
-		id: view
+		anchors.top: parent.top
+		anchors.bottom: parent.bottom
+		x: (totalNumberImages*settings.thumbnailsize > parent.width ? 0 : (parent.width-totalNumberImages*settings.thumbnailsize)/2)
+		width: (totalNumberImages*settings.thumbnailsize > parent.width ? parent.width : totalNumberImages*settings.thumbnailsize)
 
-		// Fix size
-		anchors.fill: parent
+		ListView {
 
-		// No bouncing past ends
-		boundsBehavior: Flickable.StopAtBounds
+			id: view
 
-		// Set model
-		model:  ListModel {
-			id: imageModel
-			objectName: "model"
+			anchors.fill: parent
+
+			// No bouncing past ends
+			boundsBehavior: Flickable.StopAtBounds
+
+			// Set model
+			model:  ListModel {
+				id: imageModel
+				objectName: "model"
+			}
+
+			// Set delegate
+			delegate: imageDelegate
+
+			// Turn it horizontal
+			orientation: ListView.Horizontal
+
+			// When flicking finished
+			onMovementEnded: {
+				// Item in center of flickable
+				var centerpos = getCenterPos()
+				// Emit 'scrolled' signal
+				toplevel.thumbScrolled(centerpos)
+			}
+
 		}
 
-		// Set delegate
-		delegate: imageDelegate
-
-		// Turn it horizontal
-		orientation: ListView.Horizontal
-
-		// When flicking finished
-		onMovementEnded: {
-			// Item in center of flickable
-			var centerpos = getCenterPos()
-			// Emit 'scrolled' signal
-			toplevel.thumbScrolled(centerpos)
+		ScrollBarHorizontal {
+			flickable: view;
+			onScrollFinished: scrollTimer.restart()
 		}
 
-	}
-
-	ScrollBarHorizontal {
-		flickable: view;
-		onScrollFinished: scrollTimer.restart()
 	}
 
 	Component {
