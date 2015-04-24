@@ -16,6 +16,9 @@ Rectangle {
 	property string _cmd: ""
 	property string _desc: ""
 
+	// An external shortcut
+	property bool _extern: false
+
 	// This is the id in the model
 	property int _id: 0
 
@@ -75,10 +78,24 @@ Rectangle {
 
 		color: "black"
 		font.bold: true
-		font.pointSize: 9
+		font.pointSize: (_extern ? 7 : 9)
 		wrapMode: Text.WordWrap
 
 		text: _desc
+
+		MouseArea {
+			anchors.fill: parent
+			cursorShape: (_extern ? Qt.PointingHandCursor : Qt.ArrowCursor)
+
+			onClicked: {
+				if(_extern) {
+					setExternalCommand.command = _cmd
+					setExternalCommand.show()
+				}
+			}
+
+		}
+
 	}
 
 	// The shortcut

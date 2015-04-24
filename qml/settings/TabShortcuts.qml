@@ -106,6 +106,14 @@ Rectangle {
 				responsiblefor_text: ["Interrupt Thumbnail Creation","Reload Thumbnails","Hide/Show Exif Info","Show Context Menu","Show Settings","Start Slideshow","Start Slideshow (Quickstart)","About PhotoQt","Set as Wallpaper"]
 			}
 
+			TabShortcutsCategories {
+				id: extern
+				category: "Extern"
+				extern: true
+				responsiblefor: ["__extern"]
+				responsiblefor_text: ["EXTERN"]
+			}
+
 		}
 
 	}
@@ -178,6 +186,7 @@ Rectangle {
 		image.setData(shortcuts)
 		file.setData(shortcuts)
 		other.setData(shortcuts)
+		extern.setData(shortcuts)
 	}
 
 

@@ -32,7 +32,6 @@
         <file>qml/settings/TabDetailsTile.qml</file>
         <file>qml/settings/TabOtherLanguageTiles.qml</file>
         <file>qml/settings/TabOtherContext.qml</file>
-        <file>qml/settings/TabOtherContextTextEdit.qml</file>
         <file>qml/settings/TabFiletypesTiles.qml</file>
         <file>qml/elements/CustomTextEdit.qml</file>
         <file>qml/settings/TabShortcutsCategories.qml</file>
@@ -41,5 +40,7 @@
         <file>qml/elements/CustomDetectShortcut.qml</file>
         <file>qml/elements/CustomMouseShortcut.qml</file>
         <file>javascript/keydetect.js</file>
+        <file>qml/elements/CustomExternalCommand.qml</file>
+        <file>qml/elements/CustomLineEdit.qml</file>
     </qresource>
 </RCC>

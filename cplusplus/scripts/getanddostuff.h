@@ -43,6 +43,8 @@ public:
 	Q_INVOKABLE QString getShortcutFile();
 	Q_INVOKABLE QString filterOutShortcutCommand(QString combo, QString file);
 
+	Q_INVOKABLE QString getFilename(QString caption, QString dir, QString filter = "");
+
 private:
 	QImageReader reader;
 	QSettings *settings;

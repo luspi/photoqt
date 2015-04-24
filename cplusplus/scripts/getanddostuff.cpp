@@ -190,3 +190,13 @@ QString GetAndDoStuff::filterOutShortcutCommand(QString combo, QString file) {
 	return file.split("::" + combo + "::").at(1).split("\n").at(0).trimmed();
 
 }
+
+QString GetAndDoStuff::getFilename(QString caption, QString dir, QString filter) {
+
+	dir = dir.replace("\\ ","\\---");
+	dir = dir.split(" ").at(0);
+	dir = dir.replace("\\---","\\ ");
+
+	return QFileDialog::getOpenFileName(0, caption, dir, filter);
+
+}

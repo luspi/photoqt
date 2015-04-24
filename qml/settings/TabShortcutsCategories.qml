@@ -17,6 +17,9 @@ Rectangle {
 	// All the deleted id's (needed so that we don't have to change all id's when deleting a tile)
 	property var deleted: []
 
+	// External category?
+	property bool extern: false
+
 	// Sizing
 	height: 250
 	width: parent.width
@@ -87,6 +90,7 @@ Rectangle {
 						_close: close;
 						_keys: keys;
 						_mouse: mouse;
+						_extern: external;
 						_cmd: cmd;
 						_desc: desc;
 						_id: id;
@@ -159,10 +163,30 @@ Rectangle {
 				modSet.append({ "close" : shortcuts[obj][0],
 						     "keys" : k,
 						     "mouse" : m,
+						     "external": false,
 						     "cmd" : shortcuts[obj][1],
 						     "desc" : responsiblefor_text[responsiblefor.indexOf(shortcuts[obj][1])],
 						     "id" : counter })
 				++counter
+
+			} else if(extern && shortcuts[obj][1].slice(0,2) !== "__") {
+
+				var m = false
+				var k = obj
+				if(k.substr(0,3) == "[M]") {
+					k = k.substr(3,k.length)
+					m = true
+				}
+
+				modSet.append({ "close" : shortcuts[obj][0],
+						     "keys" : k,
+						     "mouse" : m,
+						     "external": true,
+						     "cmd" : shortcuts[obj][1],
+						     "desc" : shortcuts[obj][1],
+						     "id" : counter })
+				++counter
+
 			}
 		}
 

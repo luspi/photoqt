@@ -375,6 +375,15 @@ Rectangle {
 			updateShortcut(cmd, txt, id)
 		}
 	}
+	CustomExternalCommand {
+		fillAnchors: tabrect
+		id: setExternalCommand
+//		onUpdateNewCombo: updateComboString(txt)
+//		onGotNewKeyCombo: {
+//			gotCombo(txt)
+//			updateShortcut(cmd, txt, id)
+//		}
+	}
 
 	CustomMouseShortcut {
 		fillAnchors: tabrect
