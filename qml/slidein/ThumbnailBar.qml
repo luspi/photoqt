@@ -19,6 +19,9 @@ Rectangle {
 
 	property int normalYPosition: thumbnailbarheight_addon-12
 
+	// Is a directory loaded?
+	property bool directoryLoaded: false
+
 	// Transparent background
 	color: "#00000000"
 
@@ -26,6 +29,8 @@ Rectangle {
 	//    y: parent.height-(settings.thumbnailKeepVisible ? settings.thumbnailsize+thumbnailbarheight_addon : 0)
 
 	function setupModel(stringlist, pos) {
+
+		directoryLoaded = true
 
 		// remove previous index
 		clickedIndex = -1
@@ -49,6 +54,8 @@ Rectangle {
 	}
 
 	function displayImage(pos) {
+
+		if(!directoryLoaded) return
 
 		// Store some values
 		var imageUrl = imageModel.get(pos).imageUrl;
