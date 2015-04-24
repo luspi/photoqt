@@ -8,20 +8,26 @@ Item {
 
 	property var shortcutfile: getanddostuff.getShortcuts()
 
+	property string keys: ""
+
 	Keys.onPressed: {
 
 		if(blocked && blockedSystem) return
 
 		var ret = KeyDetect.handleKeyPress(event.key, event.modifiers)
 
+		keys = ret[1];
+
 		if(!blockedSystem && ret[0]) {
-			if(blocked && ret[1] == "Escape")
+			if(blocked && keys == "Escape")
 				catchEscape()
-			else if(ret[1] in shortcutfile)
-				execute(shortcutfile[ret[1]][1]);
+			else if(keys in shortcutfile)
+				execute(shortcutfile[keys][1]);
 		}
 
 	}
+
+	Keys.onReleased: keys = ""
 
 	function catchEscape() {
 		if(about.opacity == 1)
@@ -49,8 +55,10 @@ Item {
 //		if(cmd === "__slideshow")
 //		if(cmd === "__filterImages")
 //		if(cmd === "__slideshowQuick")
-		if(cmd === "__open" || cmd === "__openOld")
+		if(cmd === "__open" || cmd === "__openOld") {
 			openFile()
+			keys = ""	// This is needed, as the KeyReleased event is not catched when the open dialog opens
+		}
 		if(cmd === "__zoomIn")
 			image.zoomIn()
 		if(cmd === "__zoomOut")
@@ -89,6 +97,17 @@ Item {
 
 //		if(cmd === "__wallpaper")
 //		if(cmd === "__scale")
+	}
+
+	function gotMouseShortcut(sh) {
+
+		var shortcut = "[M] "
+		if(keys != "") shortcut += getanddostuff.trim(keys.substr(0,keys.length-1)) + "+"
+		shortcut += sh
+
+		if(!blockedSystem && shortcut  in shortcutfile)
+				execute(shortcutfile[shortcut][1]);
+
 	}
 
 }

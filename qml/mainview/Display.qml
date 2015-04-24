@@ -260,9 +260,17 @@ Item {
 			// ZOOM on wheel up/down
 			MouseArea {
 				anchors.fill: parent
+				acceptedButtons: Qt.LeftButton | Qt.RightButton | Qt.MiddleButton
 				onWheel: {
-					zoomTowardsCenter = false
-					doZoom(wheel.angleDelta.y > 0)
+					sh.gotMouseShortcut(wheel.angleDelta.y > 0 ? "Wheel Up" : "Wheel Down");
+				}
+				onClicked: {
+					if(mouse.button == Qt.LeftButton)
+						sh.gotMouseShortcut("Left Button")
+					if(mouse.button == Qt.RightButton)
+						sh.gotMouseShortcut("Right Button")
+					if(mouse.button == Qt.MiddleButton)
+						sh.gotMouseShortcut("Middle Button")
 				}
 			}
 		}
