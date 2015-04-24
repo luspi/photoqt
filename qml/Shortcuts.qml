@@ -101,6 +101,8 @@ Item {
 
 	function gotMouseShortcut(sh) {
 
+		if(blocked) return
+
 		var shortcut = "[M] "
 		if(keys != "") shortcut += getanddostuff.trim(keys.substr(0,keys.length-1)) + "+"
 		shortcut += sh
