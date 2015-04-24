@@ -96,7 +96,7 @@ Rectangle {
 					// Before saving all data, we request them to update us with their current setting
 					Connections {
 						target: rect
-						onRequestUpdateModelData: updateModelData(delegateRoot.posInList,delegateRoot.visualIndex, binary.text,description.text,quit.checkedButton)
+						onRequestUpdateModelData: updateModelData(delegateRoot.posInList,delegateRoot.visualIndex, binary.getText(),description.getText(),quit.checkedButton)
 					}
 
 					Row {
