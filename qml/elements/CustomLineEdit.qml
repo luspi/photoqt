@@ -2,8 +2,6 @@ import QtQuick 2.3
 
 Rectangle {
 
-	id: binary
-
 	width: 200
 	height: 30
 
@@ -27,6 +25,8 @@ Rectangle {
 		selectedTextColor: "black"
 		selectionColor: "white"
 		text: parent.text
+
+		clip: true
 
 		onTextChanged: parent.textEdited()
 

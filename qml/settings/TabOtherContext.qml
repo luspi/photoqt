@@ -136,7 +136,7 @@ Rectangle {
 						}
 
 						// Another sub-element for editing the executable
-						TabOtherContextTextEdit {
+						CustomLineEdit {
 
 							id: binary
 
@@ -153,7 +153,7 @@ Rectangle {
 						}
 
 						// Another sub-element for editing the menu text
-						TabOtherContextTextEdit {
+						CustomLineEdit {
 
 							id: description
 
