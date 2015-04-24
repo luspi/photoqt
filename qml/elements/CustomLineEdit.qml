@@ -11,6 +11,8 @@ Rectangle {
 	property string text: ed1.text
 
 	signal textEdited()
+	signal accepted()
+	signal rejected()
 
 	TextEdit {
 
@@ -44,6 +46,11 @@ Rectangle {
 			onPositionChanged: {if(held) ed1.moveCursorSelection(ed1.positionAt(mouse.x,mouse.y)) }
 
 		}
+
+		Keys.onEnterPressed: accepted()
+		Keys.onReturnPressed: accepted()
+		Keys.onEscapePressed: rejected()
+
 	}
 
 	function selectAll() {

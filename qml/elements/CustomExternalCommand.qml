@@ -98,6 +98,8 @@ Rectangle {
 			x: 10
 			width: parent.width-20-(browse.width+10)
 			y: (parent.height-height)/2+10
+			onAccepted: sh.simulateShortcut("Enter")
+			onRejected: sh.simulateShortcut("Escape")
 		}
 
 		CustomButton {

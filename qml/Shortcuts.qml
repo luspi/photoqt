@@ -29,6 +29,16 @@ Item {
 
 	Keys.onReleased: keys = ""
 
+	function simulateShortcut(keys) {
+		forceActiveFocus()
+		if(!blockedSystem) {
+			if(blocked && keys == "Escape")
+				catchEscape()
+			else if(keys in shortcutfile)
+				execute(shortcutfile[keys][1]);
+		}
+	}
+
 	function catchEscape() {
 		if(about.opacity == 1)
 			about.hideAbout()

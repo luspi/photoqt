@@ -150,6 +150,9 @@ Rectangle {
 							onXChanged: binaryX = binary.x
 							onWidthChanged: textEditWidth = binary.width
 
+							onAccepted: sh.simulateShortcut("Enter")
+							onRejected: sh.simulateShortcut("Escape")
+
 						}
 
 						// Another sub-element for editing the menu text
@@ -165,6 +168,9 @@ Rectangle {
 
 							// As the width of both textedits is the same, we don't need to check for it here
 							onXChanged: descriptionX = description.x
+
+							onAccepted: sh.simulateShortcut("Enter")
+							onRejected: sh.simulateShortcut("Escape")
 
 						}
 
