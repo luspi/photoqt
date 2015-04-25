@@ -33,6 +33,33 @@ Rectangle {
 		onExited: color = "#44ffffff"
 	}
 
+	// "Close" photoqt after executing shortcut (external shortcut only)
+	Text {
+
+		y: 2
+		x: 2
+		visible: _extern
+
+		property bool checked: false
+		opacity: 0.5
+		font.strikeout: true
+		text: "close"
+
+		color: "white"
+		font.bold: true
+		font.pointSize: 7
+
+		MouseArea {
+			anchors.fill: parent
+			cursorShape: Qt.PointingHandCursor
+			onClicked: {
+				parent.checked = !parent.checked
+				parent.font.strikeout = (parent.checked ? false : true)
+				parent.opacity = (parent.checked ? 1 : 0.5)
+			}
+		}
+	}
+
 	// This "M" is visible for mouse shortcuts only
 	Text {
 		y: 2
