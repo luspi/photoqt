@@ -7,6 +7,7 @@ Rectangle {
 	property string command: ""
 	property int id: -1
 	property string keys: ""
+	property bool close: false
 	property bool isMouse: false
 
 	property int detectWidth: 400
@@ -20,7 +21,7 @@ Rectangle {
 
 	color: colour_fadein_block_bg
 
-	signal updateCommand(var id, var mouse, var keys, var cmd)
+	signal updateCommand(var id, var close, var mouse, var keys, var cmd)
 
 	// Click on background is like rejecting it
 	// (this MouseArea has to come here at the top so that it can be overwritten below for the actual widget
@@ -133,7 +134,7 @@ Rectangle {
 			text: "Save it"
 
 			onClickedButton: {
-				updateCommand(id,isMouse,keys,lineedit.getText())
+				updateCommand(id,close,isMouse,keys,lineedit.getText())
 				hide()
 			}
 

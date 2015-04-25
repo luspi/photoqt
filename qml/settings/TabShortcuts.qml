@@ -178,8 +178,8 @@ Rectangle {
 		}
 	}
 
-	function updateCommand(id, mouse, keys, cmd) {
-		extern.updateCommand(id,mouse,keys,cmd)
+	function updateCommand(id, close, mouse, keys, cmd) {
+		extern.updateCommand(id,close,mouse,keys,cmd)
 	}
 
 	function setData() {
@@ -193,5 +193,16 @@ Rectangle {
 		extern.setData(shortcuts)
 	}
 
+	function saveData() {
+
+		var collected1 = navigation.saveData()
+		collected1 = collected1.concat(image.saveData())
+		collected1 = collected1.concat(file.saveData())
+		collected1 = collected1.concat(other.saveData())
+		collected1 = collected1.concat(extern.saveData())
+
+		getanddostuff.saveShortcuts(collected1)
+
+	}
 
 }

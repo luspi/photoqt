@@ -161,10 +161,44 @@ QVariantMap GetAndDoStuff::getShortcuts() {
 			std::cerr << "ERROR: invalid shortcuts data: " << line.toStdString() << std::endl;
 			continue;
 		}
-		ret.insert(parts[1],QStringList() << parts[0] << parts[2]);
+		ret.insert(parts[1],QStringList() << parts[0] << QByteArray::fromPercentEncoding(parts[2].toUtf8()));
 	}
 
 	return ret;
+
+}
+
+void GetAndDoStuff::saveShortcuts(QVariantList l) {
+
+	QString header = "Version=" + QString::fromStdString(VERSION) + "\n";
+	QString keys = "";
+	QString mouse = "";
+	foreach(QVariant s, l) {
+		QVariantList s_l = s.toList();
+		QString cl = QString::number(s_l.at(0).toInt());
+		QString sh = (s_l.at(1).toBool() ? "[M]" : "") + s_l.at(2).toString();
+		QByteArray ds = s_l.at(3).toString().toUtf8().toPercentEncoding();
+		if(s_l.at(1).toBool())
+			mouse += QString("%1::%2::%3\n").arg(cl).arg(sh).arg(QString(ds));
+		else
+			keys += QString("%1::%2::%3\n").arg(cl).arg(sh).arg(QString(ds));
+	}
+
+	QFile file(QDir::homePath() + "/.photoqt/shortcuts");
+	if(!file.remove()) {
+		std::cerr << "ERROR: Unable to remove old shortcuts file" << std::endl;
+		return;
+	}
+
+	if(!file.open(QIODevice::WriteOnly)) {
+		std::cerr << "ERROR: Unable to open shortcuts file for writing/saving" << std::endl;
+		return;
+	}
+
+	QTextStream out(&file);
+	out << header << keys << mouse;
+
+	file.close();
 
 }
 
@@ -176,7 +210,7 @@ QString GetAndDoStuff::getShortcutFile() {
 		return "";
 	}
 	QTextStream in(&file);
-	QString all = in.readAll();
+	QString all = QByteArray::fromPercentEncoding(in.readAll().toUtf8());
 	file.close();
 	return all;
 

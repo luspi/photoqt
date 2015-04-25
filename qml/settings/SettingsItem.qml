@@ -35,7 +35,7 @@ Rectangle {
 	signal updateShortcut(var cmd, var key, var id)
 	signal updateMouseShortcut(var cmd, var key, var id)
 
-	signal updateTheCommand(var id, var mouse, var keys, var cmd)
+	signal updateTheCommand(var id, var close, var mouse, var keys, var cmd)
 
 	CustomTabView {
 
@@ -239,7 +239,7 @@ Rectangle {
 						setData()
 					}
 					onSaveData:{
-//						saveData()
+						saveData()
 					}
 					onNewShortcut: {
 						addShortcut(cmd, key)
@@ -254,7 +254,7 @@ Rectangle {
 						updateExistingMouseShortcut(cmd, key, id)
 					}
 					onUpdateTheCommand: {
-						updateCommand(id, mouse, keys, cmd)
+						updateCommand(id, close, mouse, keys, cmd)
 					}
 				}
 				Component.onCompleted: {
@@ -385,7 +385,7 @@ Rectangle {
 		fillAnchors: tabrect
 		id: setExternalCommand
 		onUpdateCommand: {
-			updateTheCommand(id,mouse,keys,cmd)
+			updateTheCommand(id,close,mouse,keys,cmd)
 		}
 	}
 

@@ -85,7 +85,7 @@ Rectangle {
 
 					boundsBehavior: Flickable.StopAtBounds
 
-					model: ListModel { id: modSet }
+					model: ListModel { id: modSet; }
 					delegate: TabShortcutsTilesSet {
 						_close: close;
 						_keys: keys;
@@ -95,6 +95,7 @@ Rectangle {
 						_desc: desc;
 						_id: id;
 						onDeleteTile: deleteOneTile(id)
+						onCloseToggled: toggleClose(id,chk)
 					}
 				}
 
@@ -160,7 +161,7 @@ Rectangle {
 					m = true
 				}
 
-				modSet.append({ "close" : shortcuts[obj][0],
+				modSet.append({ "close" : 1*shortcuts[obj][0],
 						     "keys" : k,
 						     "mouse" : m,
 						     "external": false,
@@ -178,7 +179,7 @@ Rectangle {
 					m = true
 				}
 
-				modSet.append({ "close" : shortcuts[obj][0],
+				modSet.append({ "close" : 1*shortcuts[obj][0],
 						     "keys" : k,
 						     "mouse" : m,
 						     "external": true,
@@ -199,10 +200,41 @@ Rectangle {
 
 	}
 
+
+	function saveData() {
+
+		var collected = []
+
+		for(var i = 0; i < modSet.count; ++i) {
+
+			var dat = modSet.get(i);
+
+			collected[i] = [dat.close, dat.mouse, dat.keys, dat.cmd]
+		}
+
+		return collected
+
+	}
+
+
+	function toggleClose(id, chk) {
+
+		var takeaway = 0
+		for(var i = 0; i < deleted.length; ++i) {
+			if(deleted[i] < id)
+				takeaway += 1
+		}
+		var dat = modSet.get(id-takeaway)
+		modSet.set(id-takeaway, { "close" : chk ? 1 : 0, "keys" : dat.key, "mouse" : dat.mouse, "cmd" : dat.cmd, "desc" : responsiblefor_text[responsiblefor.indexOf(dat.cmd)] })
+
+	}
+
+
+
 	// Add a new shortcut
 	function addShortcut(cmd, key) {
 		var counter = modSet.count
-		modSet.append({ "close" : "0", "keys" : key, "mouse" : false, "cmd" : cmd, "desc" : responsiblefor_text[responsiblefor.indexOf(cmd)], "id" : counter })
+		modSet.append({ "close" : 0, "keys" : key, "mouse" : false, "cmd" : cmd, "desc" : responsiblefor_text[responsiblefor.indexOf(cmd)], "id" : counter })
 	}
 
 	// Update an existing shortcut
@@ -212,13 +244,13 @@ Rectangle {
 			if(deleted[i] < id)
 				takeaway += 1
 		}
-		modSet.set(id-takeaway, { "close" : "0", "keys" : key, "mouse" : false, "cmd" : cmd, "desc" : responsiblefor_text[responsiblefor.indexOf(cmd)] })
+		modSet.set(id-takeaway, { "close" : 0, "keys" : key, "mouse" : false, "cmd" : cmd, "desc" : responsiblefor_text[responsiblefor.indexOf(cmd)] })
 	}
 
 	// Add a new mouse shortcut
 	function addMouseShortcut(cmd, key) {
 		var counter = modSet.count
-		modSet.append({ "close" : "0", "keys" : key, "mouse" : true, "cmd" : cmd, "desc" : responsiblefor_text[responsiblefor.indexOf(cmd)], "id" : counter })
+		modSet.append({ "close" : 0, "keys" : key, "mouse" : true, "cmd" : cmd, "desc" : responsiblefor_text[responsiblefor.indexOf(cmd)], "id" : counter })
 	}
 
 	// Update an existing mouse shortcut
@@ -228,7 +260,7 @@ Rectangle {
 			if(deleted[i] < id)
 				takeaway += 1
 		}
-		modSet.set(id-takeaway, { "close" : "0", "keys" : key, "mouse" : true, "cmd" : cmd, "desc" : responsiblefor_text[responsiblefor.indexOf(cmd)] })
+		modSet.set(id-takeaway, { "close" : 0, "keys" : key, "mouse" : true, "cmd" : cmd, "desc" : responsiblefor_text[responsiblefor.indexOf(cmd)] })
 	}
 
 	// Delete a tile
@@ -243,18 +275,18 @@ Rectangle {
 	}
 
 	// Update the command (external category)
-	function updateCommand(id, mouse, key, cmd) {
+	function updateCommand(id, close, mouse, key, cmd) {
 		var takeaway = 0
 		for(var i = 0; i < deleted.length; ++i) {
 			if(deleted[i] < id)
 				takeaway += 1
 		}
-		modSet.set(id-takeaway, { "close" : "0", "keys" : key, "mouse" : mouse, "cmd" : cmd, "desc" : cmd })
+		modSet.set(id-takeaway, { "close" : 1*close, "keys" : key, "mouse" : mouse, "cmd" : cmd, "desc" : cmd })
 	}
 
 	function addExternalShortcut(key) {
 		var counter = modSet.count
-		modSet.append({ "close" : "0", "keys" : key, "mouse" : false, "cmd" : "", "desc" : "", "id" : counter, "external" : true })
+		modSet.append({ "close" : 0, "keys" : key, "mouse" : false, "cmd" : "", "desc" : "", "id" : counter, "external" : true })
 		setExternalCommand.command = ""
 		setExternalCommand.id = counter
 		setExternalCommand.keys = key
@@ -264,7 +296,7 @@ Rectangle {
 
 	function addExternalMouseShortcut(key) {
 		var counter = modSet.count
-		modSet.append({ "close" : "0", "keys" : key, "mouse" : true, "cmd" : "", "desc" : "", "id" : counter, "external" : true })
+		modSet.append({ "close" : 0, "keys" : key, "mouse" : true, "cmd" : "", "desc" : "", "id" : counter, "external" : true })
 		setExternalCommand.command = ""
 		setExternalCommand.id = counter
 		setExternalCommand.keys = key

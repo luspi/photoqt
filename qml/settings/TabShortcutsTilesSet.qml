@@ -25,6 +25,8 @@ Rectangle {
 	// Delete this tile
 	signal deleteTile(var id)
 
+	signal closeToggled(var id, var chk)
+
 	// Highlight on hover
 	MouseArea {
 		anchors.fill: parent
@@ -36,13 +38,15 @@ Rectangle {
 	// "Close" photoqt after executing shortcut (external shortcut only)
 	Text {
 
+		id: cl
+
 		y: 2
 		x: 2
 		visible: _extern
 
-		property bool checked: false
-		opacity: 0.5
-		font.strikeout: true
+		property bool checked: (_close=="1" ? true : false)
+		opacity: (_close=="1" ? 1 : 0.5)
+		font.strikeout: (_close=="1" ? false : true)
 		text: "close"
 
 		color: "white"
@@ -52,16 +56,15 @@ Rectangle {
 		MouseArea {
 			anchors.fill: parent
 			cursorShape: Qt.PointingHandCursor
-			onClicked: {
-				parent.checked = !parent.checked
-				parent.font.strikeout = (parent.checked ? false : true)
-				parent.opacity = (parent.checked ? 1 : 0.5)
-			}
+			onClicked: closeToggled(_id,!parent.checked)
 		}
 	}
 
 	// This "M" is visible for mouse shortcuts only
 	Text {
+
+		id: m
+
 		y: 2
 		width: parent.width
 		visible: _mouse
@@ -97,6 +100,9 @@ Rectangle {
 
 	// The description label
 	Text {
+
+		id: d
+
 		x: 3
 		width: parent.width-6
 
@@ -118,6 +124,7 @@ Rectangle {
 				if(_extern) {
 					setExternalCommand.command = _cmd
 					setExternalCommand.id = _id
+					setExternalCommand.close = _close
 					setExternalCommand.keys = _keys
 					setExternalCommand.isMouse = _mouse
 					setExternalCommand.show()
@@ -130,6 +137,8 @@ Rectangle {
 
 	// The shortcut
 	Text {
+
+		id: k
 
 		y: parent.height-height-2
 		width: parent.width
@@ -171,6 +180,10 @@ Rectangle {
 
 			}
 		}
+	}
+
+	function getData() {
+		return [cl.checked,m.visible,d.text,k.text]
 	}
 
 }
