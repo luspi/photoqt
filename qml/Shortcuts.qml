@@ -128,4 +128,13 @@ Item {
 
 	}
 
+	Timer {
+		interval: 500
+		running: true;
+		repeat: true
+		onTriggered: {
+			if(!blockedSystem) forceActiveFocus()
+		}
+	}
+
 }
