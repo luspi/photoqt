@@ -5,6 +5,9 @@
 GetAndDoStuff::GetAndDoStuff(QObject *parent) : QObject(parent) {
 	settings = new QSettings("photoqt_session");
 }
+GetAndDoStuff::~GetAndDoStuff() {
+	delete settings;
+}
 
 bool GetAndDoStuff::isImageAnimated(QString path) {
 

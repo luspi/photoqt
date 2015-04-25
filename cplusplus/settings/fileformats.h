@@ -27,6 +27,8 @@ public:
 
 	}
 
+	~FileFormats() { delete watcher; }
+
 	// Per default enabled image formats
 	QStringList formatsQtEnabled;
 	QStringList formatsQtEnabledExtras;

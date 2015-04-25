@@ -239,4 +239,55 @@ void MainWindow::keyReleaseEvent(QKeyEvent *e) {
 	QQuickView::keyReleaseEvent(e);
 }
 
-MainWindow::~MainWindow() { }
+// Catch wheel events
+void MainWindow::wheelEvent(QWheelEvent *e) {
+
+	QString combo = "";
+
+	if(e->angleDelta().y() < 0)
+		combo = "Wheel Down";
+	else if(e->angleDelta().y() > 0)
+		combo = "Wheel Up";
+
+	QMetaObject::invokeMethod(object,"mouseWheelEvent",
+							  Q_ARG(QVariant, combo));
+
+    QQuickView::wheelEvent(e);
+
+}
+
+// Catch mouse events (ignored when mouse moved when button pressed)
+void MainWindow::mousePressEvent(QMouseEvent *e) {
+
+	mouseCombo = "";
+	mouseOrigPoint = e->pos();
+
+	if(e->button() == Qt::RightButton)
+		mouseCombo = "Right Button";
+	else if(e->button() == Qt::MiddleButton)
+		mouseCombo = "Middle Button";
+	else if(e->button() == Qt::LeftButton)
+		mouseCombo = "Left Button";
+
+	QQuickView::mousePressEvent(e);
+
+}
+void MainWindow::mouseReleaseEvent(QMouseEvent *e) {
+
+	if(abs(mouseOrigPoint.x()-e->pos().x()) > 20 || abs(mouseOrigPoint.y()-e->pos().y()) > 20) return;
+
+	QMetaObject::invokeMethod(object,"mouseWheelEvent",
+							  Q_ARG(QVariant, mouseCombo));
+
+	QQuickView::mouseReleaseEvent(e);
+
+}
+
+MainWindow::~MainWindow() {
+	delete settingsPerSession;
+	delete settingsPermanent;
+	delete fileformats;
+	delete variables;
+	delete shortcuts;
+	delete loadDir;
+}

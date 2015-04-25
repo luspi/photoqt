@@ -4,6 +4,9 @@ LoadDir::LoadDir() : QObject() {
 	settings = new QSettings(QDir::homePath() + "/.photoqt/settings",QSettings::IniFormat);
 }
 
+LoadDir::~LoadDir() {
+	delete settings;
+}
 
 QFileInfoList LoadDir::loadDir(QByteArray filepath) {
 

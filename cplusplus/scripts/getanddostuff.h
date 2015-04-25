@@ -20,6 +20,7 @@ class GetAndDoStuff : public QObject {
 
 public:
 	explicit GetAndDoStuff(QObject *parent = 0);
+	~GetAndDoStuff();
 
 	Q_INVOKABLE bool isImageAnimated(QString path);
 	Q_INVOKABLE QSize getImageSize(QString path);

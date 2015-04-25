@@ -15,6 +15,7 @@ class ImageProviderFull : public QQuickImageProvider {
 
 public:
 	explicit ImageProviderFull();
+	~ImageProviderFull();
 
 	QImage requestImage(const QString &filename_encoded, QSize *size, const QSize &requestedSize);
 

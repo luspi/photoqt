@@ -17,6 +17,7 @@ class LoadDir : public QObject {
 
 public:
 	explicit LoadDir();
+	~LoadDir();
 
 	QFileInfoList loadDir(QByteArray filepath);
 

@@ -50,6 +50,9 @@ private:
 	QList<int> loadThumbnailsInThisOrder;
 	QList<int> smartLoadThumbnailsInThisOrder;
 
+	QString mouseCombo;
+	QPoint mouseOrigPoint;
+
 private slots:
 
 	void resized();
@@ -63,6 +66,9 @@ private slots:
 protected:
 	void keyPressEvent(QKeyEvent *e);
 	void keyReleaseEvent(QKeyEvent *e);
+    void wheelEvent(QWheelEvent *e);
+	void mousePressEvent(QMouseEvent *e);
+	void mouseReleaseEvent(QMouseEvent *e);
 
 signals:
 	void doSetupModel();

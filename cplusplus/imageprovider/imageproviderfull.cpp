@@ -13,6 +13,11 @@ ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider
 
 }
 
+ImageProviderFull::~ImageProviderFull() {
+	delete settingsPerSession;
+	delete fileformats;
+}
+
 QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *size, const QSize &requestedSize) {
 
 	QString filename = QByteArray::fromPercentEncoding(filename_encoded.toUtf8());
