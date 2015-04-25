@@ -19,8 +19,8 @@ Item {
 		keys = ret[1];
 
 		if(!blockedSystem && ret[0]) {
-			if(blocked && keys == "Escape")
-				catchEscape()
+			if(blocked)
+				checkForSystemShortcut(keys)
 			else if(keys in shortcutfile)
 				execute(shortcutfile[keys][1]);
 		}
@@ -32,18 +32,24 @@ Item {
 	function simulateShortcut(keys) {
 		forceActiveFocus()
 		if(!blockedSystem) {
-			if(blocked && keys == "Escape")
-				catchEscape()
+			if(blocked)
+				checkForSystemShortcut(keys)
 			else if(keys in shortcutfile)
 				execute(shortcutfile[keys][1]);
 		}
 	}
 
-	function catchEscape() {
-		if(about.opacity == 1)
-			about.hideAbout()
-		else if(settingsitem.opacity == 1)
-			settingsitem.hideSettings()
+	function checkForSystemShortcut(keys) {
+		if(keys === "Escape") {
+			if(about.opacity == 1)
+				about.hideAbout()
+			else if(settingsitem.opacity == 1)
+				settingsitem.hideSettings()
+		} else if(keys === "Ctrl+Tab" && settingsitem.opacity == 1)
+			settingsitem.nextTab()
+		else if((keys === "Ctrl+Shift+Tab") && settingsitem.opacity == 1)
+			settingsitem.prevTab()
+
 	}
 
 	function execute(cmd) {

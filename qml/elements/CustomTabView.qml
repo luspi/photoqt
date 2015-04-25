@@ -79,4 +79,13 @@ TabView {
 
 	}
 
+	function nextTab() {
+		if(view.currentIndex < view.count-1)
+			++view.currentIndex
+	}
+	function prevTab() {
+		if(view.currentIndex > 0)
+			--view.currentIndex
+	}
+
 }

@@ -451,6 +451,13 @@ Rectangle {
 		setData()
 	}
 
+	function nextTab() {
+		view.nextTab()
+	}
+	function prevTab() {
+		view.prevTab()
+	}
+
 }
 
 
