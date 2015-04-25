@@ -3,12 +3,12 @@ function handleKeyPress(key,mod) {
 	var txt = ""
 	var normalkey = false
 
-	if(mod & Qt.ShiftModifier)
-		txt += "Shift+"
 	if(mod & Qt.ControlModifier)
 		txt += "Ctrl+"
 	if(mod & Qt.AltModifier)
 		txt += "Alt+"
+	if(mod & Qt.ShiftModifier)
+		txt += "Shift+"
 	if(mod & Qt.MetaModifier)
 		txt += "Meta+"
 	if(mod & Qt.KeypadModifier)
@@ -49,7 +49,7 @@ function handleKeyPress(key,mod) {
 	} else if(key === Qt.Key_Insert) {
 		normalkey = true
 		txt += "Insert";
-	} else if(key === Qt.Key_Tab) {
+	} else if(key === Qt.Key_Tab || key === Qt.Key_Backtab) {
 		normalkey = true
 		txt += "Tab"
 	} else if(key === Qt.Key_Return) {
