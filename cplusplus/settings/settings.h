@@ -1,13 +1,6 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-//******************************************************//
-// THIS IS THE GLOBAL VERSION STRING, ONCE DEFINED HERE //
-//******************************************************//
-#define VERSION "1.2"
-//******************************************************//
-//******************************************************//
-
 #include <iostream>
 #include <QObject>
 #include <QSettings>

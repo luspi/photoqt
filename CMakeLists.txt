@@ -5,6 +5,13 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(photoqt)
 
+
+##################################################################
+####  GLOBAL VERSION STRING FOR ALL FILES (INCLUDING CPP/QML) ####
+##################################################################
+ADD_DEFINITIONS(-DVERSION="1.2")
+
+
 #### SOURCES ####
 SET(photoqt_SOURCES cplusplus/main.cpp cplusplus/mainwindow.cpp cplusplus/variables.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/handlefiles/loaddir.cpp)
