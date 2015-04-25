@@ -16,6 +16,8 @@ Rectangle {
 	visible: false
 	opacity: 0
 
+	property bool amDetectingKeyDontStealFocus: false
+
 	// setData is only emitted when settings have been 'closed without saving'
 	// See comment above 'setData_restore()' function below
 	signal setData()
@@ -371,6 +373,8 @@ Rectangle {
 			gotCombo(txt)
 			newShortcut(cmd, txt)
 		}
+		onShowing: amDetectingKeyDontStealFocus = true
+		onHiding: amDetectingKeyDontStealFocus = false
 	}
 	CustomDetectShortcut {
 		fillAnchors: tabrect
@@ -380,6 +384,8 @@ Rectangle {
 			gotCombo(txt)
 			updateShortcut(cmd, txt, id)
 		}
+		onShowing: amDetectingKeyDontStealFocus = true
+		onHiding: amDetectingKeyDontStealFocus = false
 	}
 	CustomExternalCommand {
 		fillAnchors: tabrect

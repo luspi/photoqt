@@ -20,6 +20,9 @@ Rectangle {
 	property int posIfNew: -1
 	property bool normalkey: false
 
+	signal showing()
+	signal hiding()
+
 	anchors.fill: fillAnchors
 
 	opacity: 0
@@ -138,9 +141,8 @@ Rectangle {
 		target: detect
 		property: "opacity"
 		to: 0
-		onStopped: {
-			visible = false
-		}
+		onStarted: hiding()
+		onStopped: visible = false
 	}
 	PropertyAnimation {
 		id: showDetect
@@ -148,6 +150,7 @@ Rectangle {
 		property: "opacity"
 		to: 1
 		onStarted: {
+			showing()
 			visible = true
 		}
 	}

@@ -133,7 +133,7 @@ Item {
 		running: true;
 		repeat: true
 		onTriggered: {
-			if(!blockedSystem) forceActiveFocus()
+			if(!blockedSystem && !settingsitem.amDetectingKeyDontStealFocus) forceActiveFocus()
 		}
 	}
 
