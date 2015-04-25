@@ -16,8 +16,6 @@ Rectangle {
 	visible: false
 	opacity: 0
 
-	property bool amDetectingKeyDontStealFocus: false
-
 	// setData is only emitted when settings have been 'closed without saving'
 	// See comment above 'setData_restore()' function below
 	signal setData()
@@ -373,8 +371,6 @@ Rectangle {
 			gotCombo(txt)
 			newShortcut(cmd, txt)
 		}
-		onShowing: amDetectingKeyDontStealFocus = true
-		onHiding: amDetectingKeyDontStealFocus = false
 	}
 	CustomDetectShortcut {
 		fillAnchors: tabrect
@@ -384,8 +380,6 @@ Rectangle {
 			gotCombo(txt)
 			updateShortcut(cmd, txt, id)
 		}
-		onShowing: amDetectingKeyDontStealFocus = true
-		onHiding: amDetectingKeyDontStealFocus = false
 	}
 	CustomExternalCommand {
 		fillAnchors: tabrect
@@ -393,11 +387,6 @@ Rectangle {
 		onUpdateCommand: {
 			updateTheCommand(id,mouse,keys,cmd)
 		}
-//		onUpdateNewCombo: updateComboString(txt)
-//		onGotNewKeyCombo: {
-//			gotCombo(txt)
-//			updateShortcut(cmd, txt, id)
-//		}
 	}
 
 	CustomMouseShortcut {
@@ -420,8 +409,21 @@ Rectangle {
 			confirmclean.hide()
 		else if(confirmerase.visible)
 			confirmerase.hide()
-		else if(!detectShortcut.visible)
+		else if(!detectShortcut.visible && !resetShortcut.visible)
 			hideAboutAni.start()
+	}
+
+	function detectedKeyCombo(combo) {
+		if(detectShortcut.opacity == 1)
+			detectShortcut.detectedCombo(combo)
+		if(resetShortcut.opacity == 1)
+			resetShortcut.detectedCombo(combo)
+	}
+	function keysReleased() {
+		if(detectShortcut.opacity == 1)
+			detectShortcut.keysReleased()
+		if(resetShortcut.opacity == 1)
+			resetShortcut.keysReleased()
 	}
 
 	PropertyAnimation {

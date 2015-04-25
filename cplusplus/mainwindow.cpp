@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 	settingsPermanent = new Settings;
 	fileformats = new FileFormats;
 	variables = new Variables;
+	shortcuts = new Shortcuts;
 
 	// Add image providers
 	this->engine()->addImageProvider("thumb",new ImageProviderThumbnail);
@@ -222,6 +223,20 @@ void MainWindow::loadMoreThumbnails() {
 // This one was tried to be preloaded smartly, but didn't exist yet -> nothing done
 void MainWindow::didntLoadThisThumbnail(QVariant pos) {
 	variables->loadedThumbnails.removeAt(variables->loadedThumbnails.indexOf(pos.toInt()));
+}
+
+// These are used to communicate key combos to the qml interface (for shortcuts, lineedits, etc.)
+void MainWindow::detectedKeyCombo(QString combo) {
+	QMetaObject::invokeMethod(object, "detectedKeyCombo",
+				  Q_ARG(QVariant, combo));
+}
+void MainWindow::keyPressEvent(QKeyEvent *e) {
+	detectedKeyCombo(shortcuts->handleKeyPress(e));
+	QQuickView::keyPressEvent(e);
+}
+void MainWindow::keyReleaseEvent(QKeyEvent *e) {
+	QMetaObject::invokeMethod(object, "keysReleased");
+	QQuickView::keyReleaseEvent(e);
 }
 
 MainWindow::~MainWindow() { }

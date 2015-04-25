@@ -81,6 +81,7 @@ Rectangle {
 			TabShortcutsCategories {
 				id: navigation
 				category: "Navigation"
+				extern: false
 				responsiblefor: ["__open","__filterImages","__next","__prev","__gotoFirstThb","__gotoLastThb","__hide","__close"]
 				responsiblefor_text: ["Open New File","Filter Images in Folder","Next Image","Previous Image","Go to first Image","Go to last Image","Hide to System Tray","Quit PhotoQt"]
 			}
@@ -88,6 +89,7 @@ Rectangle {
 			TabShortcutsCategories {
 				id: image
 				category: "Image"
+				extern: false
 				responsiblefor: ["__zoomIn","__zoomOut","__zoomActual","__zoomReset","__rotateR","__rotateL","__rotate0","__flipH","__flipV","__scale"]
 				responsiblefor_text: ["Zoom In","Zoom Out","Reset Zoom","Zoom to Actual Size","Rotate Right","Rotate Left","Reset Rotation","Flip Horizontally","Flip Vertically","Scale Image"]
 			}
@@ -95,6 +97,7 @@ Rectangle {
 			TabShortcutsCategories {
 				id: file
 				category: "File"
+				extern: false
 				responsiblefor: ["__rename","__delete","__copy","__move"]
 				responsiblefor_text: ["Rename File","Delete File","Copy File to a New Location","Move File to a New Location"]
 			}
@@ -102,6 +105,7 @@ Rectangle {
 			TabShortcutsCategories {
 				id: other
 				category: "Other"
+				extern: false
 				responsiblefor: ["__stopThb","__reloadThb","__hideMeta","__showContext","__settings","__slideshow","__slideshowQuick","__about","__wallpaper"]
 				responsiblefor_text: ["Interrupt Thumbnail Creation","Reload Thumbnails","Hide/Show Exif Info","Show Context Menu","Show Settings","Start Slideshow","Start Slideshow (Quickstart)","About PhotoQt","Set as Wallpaper"]
 			}

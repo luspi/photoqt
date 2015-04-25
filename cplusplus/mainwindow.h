@@ -20,6 +20,7 @@
 #include "settings/fileformats.h"
 #include "settings/settingssession.h"
 #include "variables.h"
+#include "shortcuts/shortcuts.h"
 
 class MainWindow : public QQuickView {
 
@@ -42,6 +43,8 @@ private:
 	FileFormats *fileformats;
 	Variables *variables;
 
+	Shortcuts *shortcuts;
+
 
 	int currentCenter;
 	QList<int> loadThumbnailsInThisOrder;
@@ -54,6 +57,12 @@ private slots:
 	void handleThumbnails(QVariant centerPos);
 	void loadMoreThumbnails();
 	void didntLoadThisThumbnail(QVariant pos);
+
+	void detectedKeyCombo(QString combo);
+
+protected:
+	void keyPressEvent(QKeyEvent *e);
+	void keyReleaseEvent(QKeyEvent *e);
 
 signals:
 	void doSetupModel();

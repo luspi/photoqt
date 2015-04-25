@@ -100,15 +100,12 @@ Item {
 	function previousImage() { thumbnailBar.previousImage(); }
 	function getCenterPos() { console.log("center pos"); return thumbnailBar.getCenterPos(); }
 
+	function detectedKeyCombo(combo) { sh.detectedKeyCombo(combo); settingsitem.detectedKeyCombo(combo); }
+	function keysReleased() { settingsitem.keysReleased(); sh.releasedKeys(); }
+
 	function alsoIgnoreSystemShortcuts(block) {
 		blocked = block;
 		blockedSystem = block;
 	}
-
-	function refocusOnShortcutsItem() {
-		sh.forceActiveFocus()
-	}
-
-	Component.onCompleted: sh.forceActiveFocus()
 
 }

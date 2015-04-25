@@ -20,9 +20,6 @@ Rectangle {
 	property int posIfNew: -1
 	property bool normalkey: false
 
-	signal showing()
-	signal hiding()
-
 	anchors.fill: fillAnchors
 
 	opacity: 0
@@ -129,11 +126,9 @@ Rectangle {
 	function show() {
 		showDetect.start()
 		updateComboString("[Press keys]")
-		detectitem.forceActiveFocus()
 	}
 	function hide() {
 		hideDetect.start()
-		sh.forceActiveFocus()
 	}
 
 	PropertyAnimation {
@@ -141,7 +136,6 @@ Rectangle {
 		target: detect
 		property: "opacity"
 		to: 0
-		onStarted: hiding()
 		onStopped: visible = false
 	}
 	PropertyAnimation {
@@ -149,45 +143,25 @@ Rectangle {
 		target: detect
 		property: "opacity"
 		to: 1
-		onStarted: {
-			showing()
-			visible = true
-		}
+		onStarted: visible = true
 	}
 
-	Item {
-		id: detectitem
-		anchors.fill: parent
-		Keys.onPressed: {
+	function detectedCombo(txt) {
+		if(posIfNew == -1)
+			updateCombo(txt, command)
+		else
+			updateNewCombo(txt, command, posIfNew)
 
-			if(detect.opacity == 1) {
+		detect.combo = txt
+	}
 
-				var ret = KeyDetect.handleKeyPress(event.key, event.modifiers)
-				normalkey = ret[0]
-				var txt = ret[1]
+	function keysReleased() {
+		if(posIfNew == -1)
+			gotKeyCombo(detect.combo, command)
+		else
+			gotNewKeyCombo(detect.combo, command, posIfNew)
 
-				if(posIfNew == -1)
-					updateCombo(txt, command)
-				else
-					updateNewCombo(txt, command, posIfNew)
-
-				detect.combo = txt
-
-			}
-
-		}
-
-		Keys.onReleased: {
-			if(detect.opacity == 1) {
-				if(normalkey && (event.key == 0 || event.modifiers == 0)) {
-					if(posIfNew == -1)
-						gotKeyCombo(detect.combo, command)
-					else
-						gotNewKeyCombo(detect.combo, command, posIfNew)
-				}
-			}
-			detect.combo = ""
-		}
+		detect.combo = ""
 	}
 
 }

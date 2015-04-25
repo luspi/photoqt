@@ -4,33 +4,28 @@ import "../javascript/keydetect.js" as KeyDetect
 
 Item {
 
-	id: detect
+	id: top
 
 	property var shortcutfile: getanddostuff.getShortcuts()
 
 	property string keys: ""
 
-	Keys.onPressed: {
-
-		if(blocked && blockedSystem) return
-
-		var ret = KeyDetect.handleKeyPress(event.key, event.modifiers)
-
-		keys = ret[1];
-
-		if(!blockedSystem && ret[0]) {
+	// Connected via mainwindow to shortcuts.cpp file
+	function detectedKeyCombo(combo) {
+		if(!blockedSystem) {
 			if(blocked)
-				checkForSystemShortcut(keys)
-			else if(keys in shortcutfile)
-				execute(shortcutfile[keys][1]);
+				checkForSystemShortcut(combo)
+			else if(combo in shortcutfile)
+				execute(shortcutfile[combo][1]);
 		}
-
+		keys = combo
 	}
 
-	Keys.onReleased: keys = ""
+	function releasedKeys() {
+		keys = "";
+	}
 
 	function simulateShortcut(keys) {
-		forceActiveFocus()
 		if(!blockedSystem) {
 			if(blocked)
 				checkForSystemShortcut(keys)
@@ -43,8 +38,9 @@ Item {
 		if(keys === "Escape") {
 			if(about.opacity == 1)
 				about.hideAbout()
-			else if(settingsitem.opacity == 1)
+			else if(settingsitem.opacity == 1) {
 				settingsitem.hideSettings()
+			}
 		} else if(keys === "Ctrl+Tab" && settingsitem.opacity == 1)
 			settingsitem.nextTab()
 		else if((keys === "Ctrl+Shift+Tab") && settingsitem.opacity == 1)
@@ -71,10 +67,8 @@ Item {
 //		if(cmd === "__slideshow")
 //		if(cmd === "__filterImages")
 //		if(cmd === "__slideshowQuick")
-		if(cmd === "__open" || cmd === "__openOld") {
+		if(cmd === "__open" || cmd === "__openOld")
 			openFile()
-			keys = ""	// This is needed, as the KeyReleased event is not catched when the open dialog opens
-		}
 		if(cmd === "__zoomIn")
 			image.zoomIn()
 		if(cmd === "__zoomOut")
@@ -113,28 +107,28 @@ Item {
 
 //		if(cmd === "__wallpaper")
 //		if(cmd === "__scale")
+
 	}
 
 	function gotMouseShortcut(sh) {
 
 		if(blocked) return
 
+		// Sometimes there's a "leftover" key combo (in particular when 'open file' shortcut was triggered) - here we filter it out
+		var mods = ["Ctrl","Alt","Shift"]
+		var gotmod = (keys != "" ? true : false)
+		var k = keys.split("+")
+		for(var i = 0; i < k.length; ++i)
+			if(k[i] !== "" && mods.indexOf(k[i]) == -1)
+				gotmod = false
+
 		var shortcut = "[M] "
-		if(keys != "") shortcut += getanddostuff.trim(keys.substr(0,keys.length-1)) + "+"
+		if(gotmod) shortcut += getanddostuff.trim(keys.substr(0,keys.length-1)) + "+"
 		shortcut += sh
 
 		if(!blockedSystem && shortcut  in shortcutfile)
 				execute(shortcutfile[shortcut][1]);
 
-	}
-
-	Timer {
-		interval: 500
-		running: true;
-		repeat: true
-		onTriggered: {
-			if(!blockedSystem && !settingsitem.amDetectingKeyDontStealFocus) forceActiveFocus()
-		}
 	}
 
 }
