@@ -65,6 +65,8 @@ Item {
 	// MetaData of the image (using the C++ Exiv2 library)
 	MetaData { id: metaData; }
 
+	QuickSettings { id: quicksettings; }
+
 	About { id: about; }
 
 	SettingsItem { id: settingsitem; }
@@ -87,6 +89,9 @@ Item {
 
 		mainmenu.x = w-mainmenu.width-100
 		mainmenu.y = -mainmenu.height
+
+		quicksettings.x = w
+		quicksettings.y = (h-quicksettings.height)/3
 
 		if(image.zoomSteps == 0) image.setSourceSize(w,h)
 

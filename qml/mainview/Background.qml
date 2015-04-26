@@ -80,6 +80,28 @@ Rectangle {
 			}
 		}
 
+		// QUICKSETTINGS
+		MouseArea {
+			x: parent.width-quicksettings.width
+			y: quicksettings.y
+			width: quicksettings.width
+			height: quicksettings.height
+			hoverEnabled: true
+			MouseArea {
+				x: quicksettings.width-50
+				y: 0
+				width: 50
+				height: parent.height
+				hoverEnabled: true
+				onEntered:
+				PropertyAnimation {
+					target:  quicksettings
+					property: "x"
+					to: background.width-quicksettings.width+quicksettings.radius
+				}
+			}
+		}
+
 	}
 
 	// Show elements
@@ -98,7 +120,8 @@ Rectangle {
 	function hideEverything() {
 		hideThumbnailBar.start()
 		if(settingssession.value("metadatakeepopen") === false) hideMetaData.start()
-			hideMainmenu.start()
+		hideMainmenu.start()
+		hideQuicksettings.start()
 	}
 	function hideMetadata() {
 		if(settingssession.value("metadatakeepopen") === true)
@@ -124,6 +147,12 @@ Rectangle {
 		target: mainmenu
 		property: "y"
 		to: -mainmenu.height
+	}
+	PropertyAnimation {
+		id: hideQuicksettings
+		target: quicksettings
+		property: "x"
+		to: background.width
 	}
 
 }
