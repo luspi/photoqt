@@ -321,6 +321,8 @@ Item {
 	}
 
 
+	function getClosingX_x() { return rect.x; }
+	function getClosingX_height() { return rect.height; }
 
 	// Rectangle holding the closing x top right
 	Rectangle {

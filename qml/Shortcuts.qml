@@ -126,6 +126,7 @@ Item {
 		// Check for quickinfo
 		if(quickInfo.x < cursorpos.x && (quickInfo.x+quickInfo.getWidth()) > cursorpos.x
 				&& quickInfo.y < cursorpos.y && (quickInfo.y+quickInfo.getHeight()) > cursorpos.y) return
+		if(image.getClosingX_x() < cursorpos.x && image.getClosingX_height() > cursorpos.y) return
 
 		// Sometimes there's a "leftover" key combo (in particular when 'open file' shortcut was triggered) - here we filter it out
 		var mods = ["Ctrl","Alt","Shift"]
