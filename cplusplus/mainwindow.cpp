@@ -261,6 +261,8 @@ void MainWindow::mousePressEvent(QMouseEvent *e) {
 
 	mouseCombo = "";
 	mouseOrigPoint = e->pos();
+	mouseDx = 0;
+	mouseDy = 0;
 
 	if(e->button() == Qt::RightButton)
 		mouseCombo = "Right Button";
@@ -274,12 +276,20 @@ void MainWindow::mousePressEvent(QMouseEvent *e) {
 }
 void MainWindow::mouseReleaseEvent(QMouseEvent *e) {
 
-	if(abs(mouseOrigPoint.x()-e->pos().x()) > 20 || abs(mouseOrigPoint.y()-e->pos().y()) > 20) return;
+	QQuickView::mouseReleaseEvent(e);
+
+	if(mouseDx > 20 || mouseDy > 20 || abs(mouseOrigPoint.x()-e->pos().x()) > 20 || abs(mouseOrigPoint.y()-e->pos().y()) > 20) return;
 
 	QMetaObject::invokeMethod(object,"mouseWheelEvent",
 							  Q_ARG(QVariant, mouseCombo));
 
-	QQuickView::mouseReleaseEvent(e);
+}
+void MainWindow::mouseMoveEvent(QMouseEvent *e) {
+
+	mouseDx += abs(mouseOrigPoint.x()-e->pos().x());
+	mouseDy += abs(mouseOrigPoint.y()-e->pos().y());
+
+	QQuickView::mouseMoveEvent(e);
 
 }
 

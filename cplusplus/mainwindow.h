@@ -52,6 +52,8 @@ private:
 
 	QString mouseCombo;
 	QPoint mouseOrigPoint;
+	int mouseDx;
+	int mouseDy;
 
 private slots:
 
@@ -69,6 +71,7 @@ protected:
     void wheelEvent(QWheelEvent *e);
 	void mousePressEvent(QMouseEvent *e);
 	void mouseReleaseEvent(QMouseEvent *e);
+	void mouseMoveEvent(QMouseEvent *e);
 
 signals:
 	void doSetupModel();
