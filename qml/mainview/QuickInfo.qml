@@ -9,6 +9,9 @@ Item {
 	x:5
 	y:5
 
+	function getWidth() { return counterRect.width; }
+	function getHeight() { return counterRect.height; }
+
 	opacity: 0
 
 	property bool somethingLoaded: false

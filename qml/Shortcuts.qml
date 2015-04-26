@@ -114,6 +114,19 @@ Item {
 
 		if(blocked) return
 
+        // We need to ignore mouseclicks on slidein widgets like mainmenu, etc.
+        var cursorpos = getanddostuff.getCursorPos()
+
+        // Check for mainmenu
+        if(mainmenu.x < cursorpos.x && (mainmenu.x+mainmenu.width) > cursorpos.x && (mainmenu.y+mainmenu.height) > cursorpos.y) return
+        // Check for thumbnailbar
+        if(thumbnailBar.y < cursorpos.y) return
+        // Check for image data
+        if((metaData.x+metaData.width) > cursorpos.x && metaData.y < cursorpos.y && (metaData.y+metaData.height) > cursorpos.y) return
+		// Check for quickinfo
+		if(quickInfo.x < cursorpos.x && (quickInfo.x+quickInfo.getWidth()) > cursorpos.x
+				&& quickInfo.y < cursorpos.y && (quickInfo.y+quickInfo.getHeight()) > cursorpos.y) return
+
 		// Sometimes there's a "leftover" key combo (in particular when 'open file' shortcut was triggered) - here we filter it out
 		var mods = ["Ctrl","Alt","Shift"]
 		var gotmod = (keys != "" ? true : false)
