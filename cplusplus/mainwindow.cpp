@@ -86,12 +86,8 @@ void MainWindow::openNewFile(QString usethis) {
 						 #ifdef GM
 										+ tr("Images") + " (GraphicsMagick)" + " (" + knownGM.trimmed() + ");;"
 						 #endif
-
-#if (QT_VERSION == QT_VERSION_CHECK(5, 4, 1))
-										+ tr("All Files") + " (*)",0,QFileDialog::DontUseNativeDialog).toUtf8();
-#else
 										+ tr("All Files") + " (*)").toUtf8();
-#endif
+
 		QMetaObject::invokeMethod(object, "alsoIgnoreSystemShortcuts",
 					  Q_ARG(QVariant, false));
 	}
