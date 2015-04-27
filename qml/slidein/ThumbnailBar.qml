@@ -17,6 +17,8 @@ Rectangle {
 	// Index of currently hovered item
 	property int hoveredIndex: -1
 
+	property point clickpos: Qt.point(0,0)
+
 	property int normalYPosition: thumbnailbarheight_addon-12
 
 	// Is a directory loaded?
@@ -313,10 +315,28 @@ Rectangle {
 					if(clickedIndex != imgrect.count && hoveredIndex == imgrect.count)
 						imgrect.y = normalYPosition
 				}
-				// Load thumbnail as main image
+				// Load thumbnail as main image (timer when pressed to NOT do anything if thumbnails dragged (i.e. mouse position changed))
 				onPressed: {
 					if(clickedIndex != hoveredIndex) {
-						displayImage(hoveredIndex)
+						clickpos = getanddostuff.getCursorPos()
+						displaytimer.start()
+					}
+				}
+				// On released, i.e. a normal click, we stop the timer and load the image right away
+				onReleased: {
+					displaytimer.stop()
+					displayImage(hoveredIndex)
+				}
+				// Load image (see two comments above for more details)
+				Timer {
+					id: displaytimer
+					interval: 150
+					running: false
+					repeat: false
+					onTriggered: {
+						var p = getanddostuff.getCursorPos()
+						if(Math.abs(clickpos.x-p.x) < 10 && Math.abs(clickpos.y-p.y) < 10)
+							displayImage(hoveredIndex)
 					}
 				}
 			}
