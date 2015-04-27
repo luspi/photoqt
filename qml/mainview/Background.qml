@@ -97,7 +97,8 @@ Rectangle {
 				PropertyAnimation {
 					target:  quicksettings
 					property: "x"
-					to: background.width-quicksettings.width+quicksettings.radius
+					onStarted: quicksettings.setData()
+					to: (settings.quickSettings ? (background.width-quicksettings.width+quicksettings.radius) : background.width)
 				}
 			}
 		}

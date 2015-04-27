@@ -447,7 +447,7 @@ Rectangle {
 		onStarted: {
 			visible = true
 			blocked = true
-			// We do NOT need to call setData() here, as this is called whenever a tab is set up
+			setData()	// We DO need to call setData() here, as otherwise - once set up - a tab would not be updated (e.g. with changes from quicksettings)
 		}
 	}
 

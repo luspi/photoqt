@@ -80,6 +80,16 @@ Rectangle {
 					id: sortby
 					width: 150
 					model: ["Name", "Natural Name", "Date", "File Size"]
+					onCurrentIndexChanged: {
+						if(currentIndex == 0)
+							settings.sortby = "name"
+						else if(currentIndex == 1)
+							settings.sortby = "naturalname"
+						else if(currentIndex == 2)
+							settings.sortby = "date"
+						else if(currentIndex == 3)
+							settings.sortby = "size"
+					}
 				}
 				ExclusiveGroup { id: radiobuttons_sorting }
 				CustomRadioButton {
@@ -87,12 +97,14 @@ Rectangle {
 					icon: "qrc:/img/settings/sortascending.png"
 					y: (sortby.height-height)/2
 					exclusiveGroup: radiobuttons_sorting
+					onClicked: settings.sortbyAscending = sortby_asc.checked
 				}
 				CustomRadioButton {
 					id: sortby_desc
 					icon: "qrc:/img/settings/sortdescending.png"
 					y: (sortby.height-height)/2
 					exclusiveGroup: radiobuttons_sorting
+					onClicked: settings.sortbyAscending = sortby_asc.checked
 				}
 			}
 
@@ -113,6 +125,7 @@ Rectangle {
 			id: systray
 			text: "Hide to system tray"
 			x: quicksettings.radius
+			onCheckedButtonChanged: settings.trayicon = systray.checkedButton
 		}
 
 		/**************************************/
@@ -130,6 +143,7 @@ Rectangle {
 			id: loop
 			text: "Loop through folder"
 			x: quicksettings.radius
+			onCheckedButtonChanged: settings.loopthroughfolder = loop.checkedButton
 		}
 
 		/**************************************/
@@ -147,6 +161,7 @@ Rectangle {
 			id: windowmode
 			text: "Window mode"
 			x: quicksettings.radius
+			onCheckedButtonChanged: settings.windowmode = windowmode.checkedButton
 		}
 
 		CustomCheckBox {
@@ -154,6 +169,7 @@ Rectangle {
 			text: "Show window decoration"
 			x: quicksettings.radius
 			enabled: windowmode.checkedButton
+			onCheckedButtonChanged: settings.windowDecoration = windowdeco.checkedButton
 		}
 
 		/**************************************/
@@ -171,6 +187,7 @@ Rectangle {
 			id: closeclick
 			text: "Close on click on background"
 			x: quicksettings.radius
+			onCheckedButtonChanged: settings.closeongrey = closeclick.checkedButton
 		}
 
 		/**************************************/
@@ -188,6 +205,7 @@ Rectangle {
 			id: keepvisible
 			text: "Keep thumbnails visible"
 			x: quicksettings.radius
+			onCheckedButtonChanged: settings.thumbnailKeepVisible = keepvisible.checkedButton
 		}
 
 		/**************************************/
@@ -206,6 +224,7 @@ Rectangle {
 			width: quicksettings.width-3*quicksettings.radius
 			x: quicksettings.radius
 			model: ["Normal thumbnails", "Dynamic thumbnails", "Smart thumbnails"]
+			onCurrentIndexChanged: settings.thumbnailDynamic = thumbmode.currentIndex
 		}
 
 		/**************************************/
@@ -223,6 +242,11 @@ Rectangle {
 			id: quickset
 			text: "Enable 'Quick Settings'"
 			x: quicksettings.radius
+			onCheckedButtonChanged: {
+				settings.quickSettings = quickset.checkedButton
+				if(!checkedButton)
+					hideQuick.start()
+			}
 		}
 
 
@@ -255,6 +279,14 @@ Rectangle {
 			width: 5
 		}
 
+	}
+
+	// 'Hide' animation
+	PropertyAnimation {
+		id: hideQuick
+		target: quicksettings
+		property: "x"
+		to: background.width
 	}
 
 
