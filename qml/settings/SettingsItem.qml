@@ -466,6 +466,8 @@ Rectangle {
 		view.prevTab()
 	}
 
+	function saveSettings() { saveData(); hideSettings(); }
+
 }
 
 

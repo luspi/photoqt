@@ -20,14 +20,11 @@ Rectangle {
 			x: 0
 			y: metaData.y
 			height: metaData.height
-			width: metaData.width
+			width: (metaData.x == -metaData.width ? settings.menusensitivity*3 : metaData.width)
 			hoverEnabled: true
 
 			MouseArea {
-				x: 0
-				y: 0
-				height: parent.height
-				width: 25
+				anchors.fill: parent
 				hoverEnabled: true
 				onEntered: showMetadata()
 			}
@@ -37,21 +34,18 @@ Rectangle {
 		// THUMBNAILBAR
 		MouseArea {
 			x: 0
-			y: background.height-thumbnailBar.height
+			y: (thumbnailBar.y == background.height ? background.height-settings.menusensitivity*3 : background.height-thumbnailBar.height)
 			width: thumbnailBar.width
-			height:thumbnailBar.height
+			height: (thumbnailBar.y == background.height ? settings.menusensitivity*3 : thumbnailBar.height)
 			hoverEnabled: true
 
 			MouseArea {
-				x: 0
-				y: parent.height-50
-				width: parent.width
-				height: 50
+				anchors.fill: parent
 				hoverEnabled: true
 				onEntered:
 				PropertyAnimation {
 					target:  thumbnailBar
-					property: (settings.thumbnailKeepVisible == 0 ? "y" : "");
+					property: (settings.thumbnailKeepVisible == false ? "y" : "");
 					to: background.height-thumbnailBar.height
 				}
 			}
@@ -63,13 +57,10 @@ Rectangle {
 			x: mainmenu.x
 			y: 0
 			width: mainmenu.width
-			height: mainmenu.height
+			height: (mainmenu.y > -mainmenu.height ? mainmenu.height : settings.menusensitivity*3)
 			hoverEnabled: true
 			MouseArea {
-				x: 0
-				y: 0
-				width: parent.width
-				height: 50
+				anchors.fill: parent
 				hoverEnabled: true
 				onEntered:
 				PropertyAnimation {
@@ -82,16 +73,13 @@ Rectangle {
 
 		// QUICKSETTINGS
 		MouseArea {
-			x: parent.width-quicksettings.width
+			x: (quicksettings.x == background.width ? background.width-settings.menusensitivity*3 : background.width-quicksettings.width)
 			y: quicksettings.y
-			width: quicksettings.width
+			width: (quicksettings.x == background.width ? settings.menusensitivity*3 : quicksettings.width)
 			height: quicksettings.height
 			hoverEnabled: true
 			MouseArea {
-				x: quicksettings.width-50
-				y: 0
-				width: 50
-				height: parent.height
+				anchors.fill: parent
 				hoverEnabled: true
 				onEntered:
 				PropertyAnimation {
