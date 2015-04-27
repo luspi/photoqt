@@ -37,6 +37,11 @@ Rectangle {
 
 	signal updateTheCommand(var id, var close, var mouse, var keys, var cmd)
 
+	MouseArea {
+		anchors.fill: parent
+		hoverEnabled: true
+	}
+
 	CustomTabView {
 
 		id: view
