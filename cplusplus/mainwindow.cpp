@@ -253,7 +253,8 @@ void MainWindow::wheelEvent(QWheelEvent *e) {
 	QMetaObject::invokeMethod(object,"mouseWheelEvent",
 							  Q_ARG(QVariant, combo));
 
-	QQuickView::wheelEvent(e);
+	if(object->property("blocked").toBool())
+		QQuickView::wheelEvent(e);
 
 }
 
