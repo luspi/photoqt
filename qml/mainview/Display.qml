@@ -79,6 +79,15 @@ Item {
 		// Update metadata
 		metaData.setData(getmetadata.getExiv2(path))
 
+		// As Qt rotates images starting with 5.4.1 (actually 5.4.0, but there was a bug), we need to adjust the size here.
+		// This is save to do for any Qt version, as for previous versions the if-check evaluates to false.
+		// On discussion regarding Exif rotation and QT: http://development.qt-project.narkive.com/LkvsHvRE/rotating-jpeg-images-by-default
+		if(imageContainer.height > item.height && zoomSteps == 0)
+			norm.scale *= item.height/imageContainer.height
+		if(imageContainer.width > item.width && zoomSteps == 0)
+			norm.scale *= item.width/imageContainer.width
+
+
 	}
 
 	// Update source sizes
