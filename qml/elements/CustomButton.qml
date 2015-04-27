@@ -16,15 +16,15 @@ Button {
 	style: ButtonStyle {
 
 		background: Rectangle {
-			color: control.pressedDown ? "#BB292929" : (control.hovered ? "#BB181818" : "#BB000000")
-			border.width: 1
-			border.color: "#CC333333"
+			anchors.fill: parent
+			color: control.pressedDown ? "#66DDDDDD" : (control.hovered ? "#44DDDDDD" : "#22DDDDDD")
+			radius: 5
 		}
 
 		label: Text {
 			horizontalAlignment: Qt.AlignHCenter
 			verticalAlignment: Qt.AlignVCenter
-			color: control.enabled ? "white" : "#555555"
+			color: control.enabled ? ((control.hovered || control.pressedDown) ? "#aacccccc" : "#aacccccc") : "#aacccccc"
 			text: "  " + control.text + "  "
 		}
 
