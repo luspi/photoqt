@@ -15,6 +15,7 @@ public:
 		settings_ = new QSettings("photoqt_session");
 		setValue("metadatakeepopen",false);
 	}
+	~SettingsSession() { delete settings_; }
 
 	Q_INVOKABLE void setValue(const QString & key, const QVariant & value) {
 		settings_->setValue(key, value);
