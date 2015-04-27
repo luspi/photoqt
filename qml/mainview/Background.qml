@@ -26,7 +26,7 @@ Rectangle {
 			MouseArea {
 				anchors.fill: parent
 				hoverEnabled: true
-				onEntered: showMetadata()
+				onEntered: if(softblocked == 0) showMetadata()
 			}
 
 		}
@@ -45,7 +45,7 @@ Rectangle {
 				onEntered:
 				PropertyAnimation {
 					target:  thumbnailBar
-					property: (settings.thumbnailKeepVisible == false ? "y" : "");
+					property: (softblocked == 0 ? (settings.thumbnailKeepVisible == false ? "y" : "") : "")
 					to: background.height-thumbnailBar.height
 				}
 			}
@@ -65,7 +65,7 @@ Rectangle {
 				onEntered:
 				PropertyAnimation {
 					target:  mainmenu
-					property: "y"
+					property: (softblocked == 0 ? "y" : "")
 					to: -mainmenu.radius
 				}
 			}
@@ -84,7 +84,7 @@ Rectangle {
 				onEntered:
 				PropertyAnimation {
 					target:  quicksettings
-					property: "x"
+					property: (softblocked == 0 ? "x" : "")
 					onStarted: quicksettings.setData()
 					to: (settings.quickSettings ? (background.width-quicksettings.width+quicksettings.radius) : background.width)
 				}

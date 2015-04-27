@@ -61,6 +61,8 @@ Item {
 	// The quickinfo (position in folder, filename)
 	QuickInfo { id: quickInfo; }
 
+	ContextMenu { id: contextmenu; }
+
 	MainMenu { id: mainmenu; }
 
 	// MetaData of the image (using the C++ Exiv2 library)

@@ -114,7 +114,8 @@ Item {
 				background.hideMetadata()
 			}
 		}
-//		if(cmd === "__showContext")
+		if(cmd === "__showContext")
+			contextmenu.popup(getanddostuff.getCursorPos())
 		if(cmd === "__gotoFirstThb")
 			thumbnailBar.gotoFirstImage()
 		if(cmd === "__gotoLastThb")
@@ -130,6 +131,15 @@ Item {
 		// Ignore Wheel events when, e.g., a context menu is open
 		if(softblocked != 0 && sh !== "Right Button" && sh !== "Left Button")
 			return
+
+		if((sh === "Right Button" || sh === "Left Button") && contextmenu.visible) {
+			var pos = getanddostuff.getCursorPos()
+			if(contextmenu.x < pos.x && contextmenu.x+contextmenu.width > pos.x
+					&& contextmenu.y < pos.y && contextmenu.y+contextmenu.height > pos.y) return
+			softblocked = 0
+			contextmenu.hide()
+			return
+		}
 
 		// This means, e.g., a context menu is open and the user clicked somewhere else (closes context menu, doesn't do anything else)
 		if(softblocked == 1) {

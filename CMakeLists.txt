@@ -23,7 +23,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/settings/settings.h cplusplus/s
 SET(photoqt_SOURCES ${photoqt_SOURCES} javascript/keydetect.js)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/mainwindow.qml qml/Shortcuts.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/slidein/ThumbnailBar.qml qml/slidein/MetaData.qml qml/slidein/MainMenu.qml qml/slidein/QuickSettings.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} qml/mainview/Background.qml qml/mainview/Display.qml qml/mainview/QuickInfo.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/mainview/Background.qml qml/mainview/Display.qml qml/mainview/QuickInfo.qml qml/mainview/ContextMenu.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/ScrollBarHorizontal.qml qml/elements/ScrollBarVertical.qml qml/elements/SettingsText.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/CustomCheckBox.qml qml/elements/CustomButton.qml qml/elements/CustomTabView.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/CustomComboBox.qml qml/elements/CustomRadioButton.qml qml/elements/CustomSlider.qml)
