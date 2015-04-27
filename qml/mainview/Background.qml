@@ -140,7 +140,7 @@ Rectangle {
 	PropertyAnimation {
 		id: hideQuicksettings
 		target: quicksettings
-		property: "x"
+		property: (quicksettings.dontAnimateComboboxOpened ? "" : "x")
 		to: background.width
 	}
 

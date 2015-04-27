@@ -28,6 +28,7 @@ Item {
 	// Interface blocked? System Shortcuts blocked?
 	property bool blocked: false
 	property bool blockedSystem: false
+	property int softblocked: 0
 
 	// Some colour settings
 	property string colour_fadein_bg: "#DD000000"
@@ -106,7 +107,7 @@ Item {
 	function getCenterPos() { console.log("center pos"); return thumbnailBar.getCenterPos(); }
 
 	function detectedKeyCombo(combo) { sh.detectedKeyCombo(combo); settingsitem.detectedKeyCombo(combo); }
-	function keysReleased() { settingsitem.keysReleased(); sh.releasedKeys(); }
+	function keysReleased(combo) { settingsitem.keysReleased(); sh.releasedKeys(combo); }
 	function mouseWheelEvent(combo) { sh.gotMouseShortcut(combo); }
 
 	function alsoIgnoreSystemShortcuts(block) {

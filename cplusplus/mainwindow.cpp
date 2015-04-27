@@ -235,7 +235,8 @@ void MainWindow::keyPressEvent(QKeyEvent *e) {
 	QQuickView::keyPressEvent(e);
 }
 void MainWindow::keyReleaseEvent(QKeyEvent *e) {
-	QMetaObject::invokeMethod(object, "keysReleased");
+	QMetaObject::invokeMethod(object, "keysReleased",
+							  Q_ARG(QVariant,shortcuts->handleKeyPress(e)));
 	QQuickView::keyReleaseEvent(e);
 }
 
@@ -252,7 +253,7 @@ void MainWindow::wheelEvent(QWheelEvent *e) {
 	QMetaObject::invokeMethod(object,"mouseWheelEvent",
 							  Q_ARG(QVariant, combo));
 
-    QQuickView::wheelEvent(e);
+	QQuickView::wheelEvent(e);
 
 }
 

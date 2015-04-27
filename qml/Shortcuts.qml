@@ -4,6 +4,9 @@ import "../javascript/keydetect.js" as KeyDetect
 
 Item {
 
+	// softBlocked = 1 -> context menu (and there like opened)
+	// softBlocked = 2 -> context menu closed (still ignore shortcuts)
+
 	id: top
 
 	property var shortcutfile: getanddostuff.getShortcuts()
@@ -12,7 +15,11 @@ Item {
 
 	// Connected via mainwindow to shortcuts.cpp file
 	function detectedKeyCombo(combo) {
-		if(!blockedSystem) {
+		if(softblocked != 0 && combo === "Escape")
+			softblocked = 0
+		else if(softblocked != 0)
+			return
+		else if(!blockedSystem) {
 			if(blocked)
 				checkForSystemShortcut(combo)
 			else if(combo in shortcutfile)
@@ -21,12 +28,18 @@ Item {
 		keys = combo
 	}
 
-	function releasedKeys() {
+	function releasedKeys(combo) {
+		if(softblocked != 0 && combo === "Escape")
+			softblocked = 0
 		keys = "";
 	}
 
 	function simulateShortcut(keys) {
-		if(!blockedSystem) {
+		if(softblocked != 0 && combo === "Escape")
+			softblocked = 0
+		else if(softblocked != 0)
+			return
+		else if(!blockedSystem) {
 			if(blocked)
 				checkForSystemShortcut(keys)
 			else if(keys in shortcutfile)
@@ -114,6 +127,20 @@ Item {
 
 	function gotMouseShortcut(sh) {
 
+		// Ignore Wheel events when, e.g., a context menu is open
+		if(softblocked != 0 && sh !== "Right Button" && sh !== "Left Button")
+			return
+
+		// This means, e.g., a context menu is open and the user clicked somewhere else (closes context menu, doesn't do anything else)
+		if(softblocked == 1) {
+			softblocked = 2
+			return
+		}
+		if(softblocked == 2) {
+			softblocked = 0
+			return
+		}
+
 		if(blocked) return
 
 		// We need to ignore mouseclicks on slidein widgets like mainmenu, etc.
@@ -129,6 +156,8 @@ Item {
 		if(quickInfo.x < cursorpos.x && (quickInfo.x+quickInfo.getWidth()) > cursorpos.x
 				&& quickInfo.y < cursorpos.y && (quickInfo.y+quickInfo.getHeight()) > cursorpos.y) return
 		if(image.getClosingX_x() < cursorpos.x && image.getClosingX_height() > cursorpos.y) return
+		// Check for quicksettings
+		if(quicksettings.x < cursorpos.x && quicksettings.y < cursorpos.y && (quicksettings.y+quicksettings.height) > cursorpos.y) return
 
 		// Sometimes there's a "leftover" key combo (in particular when 'open file' shortcut was triggered) - here we filter it out
 		var mods = ["Ctrl","Alt","Shift"]

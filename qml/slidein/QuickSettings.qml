@@ -8,7 +8,7 @@ Rectangle {
 	id: quicksettings
 
 	// Set up model on first load, afetrwards just change data
-	property bool imageLoaded: false
+	property bool dontAnimateComboboxOpened: false
 
 	// Background/Border color
 	color: colour_slidein_bg
@@ -89,6 +89,10 @@ Rectangle {
 							settings.sortby = "date"
 						else if(currentIndex == 3)
 							settings.sortby = "size"
+					}
+					onPressedChanged: {
+						if(pressed) softblocked = 1
+						dontAnimateComboboxOpened = pressed
 					}
 				}
 				ExclusiveGroup { id: radiobuttons_sorting }
@@ -225,6 +229,10 @@ Rectangle {
 			x: quicksettings.radius
 			model: ["Normal thumbnails", "Dynamic thumbnails", "Smart thumbnails"]
 			onCurrentIndexChanged: settings.thumbnailDynamic = thumbmode.currentIndex
+			onPressedChanged: {
+				if(pressed) softblocked = 1
+				dontAnimateComboboxOpened = pressed
+			}
 		}
 
 		/**************************************/
@@ -285,7 +293,7 @@ Rectangle {
 	PropertyAnimation {
 		id: hideQuick
 		target: quicksettings
-		property: "x"
+		property: (dontAnimateComboboxOpened ? "" : "x")
 		to: background.width
 	}
 
