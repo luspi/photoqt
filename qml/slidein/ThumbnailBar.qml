@@ -314,7 +314,7 @@ Rectangle {
 						imgrect.y = normalYPosition
 				}
 				// Load thumbnail as main image
-				onClicked: {
+				onPressed: {
 					if(clickedIndex != hoveredIndex) {
 						displayImage(hoveredIndex)
 					}
