@@ -107,11 +107,15 @@ Item {
 
 	function detectedKeyCombo(combo) { sh.detectedKeyCombo(combo); settingsitem.detectedKeyCombo(combo); }
 	function keysReleased() { settingsitem.keysReleased(); sh.releasedKeys(); }
-    function mouseWheelEvent(combo) { sh.gotMouseShortcut(combo); }
+	function mouseWheelEvent(combo) { sh.gotMouseShortcut(combo); }
 
 	function alsoIgnoreSystemShortcuts(block) {
 		blocked = block;
 		blockedSystem = block;
+	}
+
+	Component.onCompleted: {
+		quicksettings.setData()
 	}
 
 }

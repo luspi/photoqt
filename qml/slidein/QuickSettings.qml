@@ -83,11 +83,13 @@ Rectangle {
 				}
 				ExclusiveGroup { id: radiobuttons_sorting }
 				CustomRadioButton {
+					id: sortby_asc
 					icon: "qrc:/img/settings/sortascending.png"
 					y: (sortby.height-height)/2
 					exclusiveGroup: radiobuttons_sorting
 				}
 				CustomRadioButton {
+					id: sortby_desc
 					icon: "qrc:/img/settings/sortdescending.png"
 					y: (sortby.height-height)/2
 					exclusiveGroup: radiobuttons_sorting
@@ -105,26 +107,10 @@ Rectangle {
 			color: "white"
 		}
 
-		// BACKGROUND
-
-		CustomComboBox {
-			width: quicksettings.width-3*quicksettings.radius
-			x: quicksettings.radius
-			model: ["Real transparency", "Faked transparency", "Background image", "Coloured background"]
-		}
-
-		/**************************************/
-
-		Rectangle {
-			x: quicksettings.radius
-			width: quicksettings.width-3*quicksettings.radius
-			height: 1
-			color: "white"
-		}
-
 		// SYSTEM TRAY
 
 		CustomCheckBox {
+			id: systray
 			text: "Hide to system tray"
 			x: quicksettings.radius
 		}
@@ -141,6 +127,7 @@ Rectangle {
 		// LOOP THROUGH FOLDER
 
 		CustomCheckBox {
+			id: loop
 			text: "Loop through folder"
 			x: quicksettings.radius
 		}
@@ -181,6 +168,7 @@ Rectangle {
 		// CLOSE ON CLICK
 
 		CustomCheckBox {
+			id: closeclick
 			text: "Close on click on background"
 			x: quicksettings.radius
 		}
@@ -197,6 +185,7 @@ Rectangle {
 		// KEEP THUMBNAILS VISIBLE
 
 		CustomCheckBox {
+			id: keepvisible
 			text: "Keep thumbnails visible"
 			x: quicksettings.radius
 		}
@@ -213,6 +202,7 @@ Rectangle {
 		// THUMBNAIL MODE
 
 		CustomComboBox {
+			id: thumbmode
 			width: quicksettings.width-3*quicksettings.radius
 			x: quicksettings.radius
 			model: ["Normal thumbnails", "Dynamic thumbnails", "Smart thumbnails"]
@@ -230,6 +220,7 @@ Rectangle {
 		// QUICK SETTINGS
 
 		CustomCheckBox {
+			id: quickset
 			text: "Enable 'Quick Settings'"
 			x: quicksettings.radius
 		}
@@ -251,6 +242,10 @@ Rectangle {
 			CustomButton {
 				text: "Show full settings"
 				anchors.horizontalCenter: parent.horizontalCenter
+				onClickedButton: {
+					background.hideEverything()
+					settingsitem.showSettings()
+				}
 			}
 		}
 
@@ -263,7 +258,35 @@ Rectangle {
 	}
 
 
-	function setData(d) {
+	function setData() {
+
+		if(settings.sortby === "name")
+			sortby.currentIndex = 0
+		else if(settings.sortby === "naturalname")
+			sortby.currentIndex = 1
+		else if(settings.sortby === "date")
+			sortby.currentIndex = 2
+		else if(settings.sortby === "size")
+			sortby.currentIndex = 3
+
+		sortby_asc.checked = settings.sortbyAscending
+		sortby_desc.checked = !settings.sortbyAscending
+
+		systray.checkedButton = settings.trayicon
+
+		loop.checkedButton = settings.loopthroughfolder
+
+		windowmode.checkedButton = settings.windowmode
+		windowdeco.enabled = windowmode.checkedButton
+		windowdeco.checkedButton = settings.windowDecoration
+
+		closeclick.checkedButton = settings.closeongrey
+
+		keepvisible.checkedButton = settings.thumbnailKeepVisible
+
+		thumbmode.currentIndex = settings.thumbnailDynamic
+
+		quickset.checkedButton = settings.quickSettings
 
 	}
 
