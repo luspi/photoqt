@@ -29,210 +29,78 @@ public:
 		connect(saveSettingsTimer, SIGNAL(timeout()), this, SLOT(saveSettings()));
 	}
 
+
+	/*#################################################################################################*/
+	/*#################################################################################################*/
+
+	/***************
+	 * ELEMENTS *
+	 ***************/
+
 	bool verbose;
 
 	// The current version
 	QString version;
-
 	// The language selected and available languages
 	QString language;
-	QString getLanguage() { return language; }
-	void setLanguage(QString c) { language = c; saveSettingsTimer->start(); }
-	Q_PROPERTY(QString language READ getLanguage WRITE setLanguage NOTIFY languageChanged)
-
 	// Possibility to en-/disable animated fade-in
 	bool myWidgetAnimated;
-	bool getMyWidgetAnimated() { return myWidgetAnimated; }
-	void setMyWidgetAnimated(bool c) { myWidgetAnimated = c; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool myWidgetAnimated READ getMyWidgetAnimated WRITE setMyWidgetAnimated NOTIFY myWidgetAnimatedChanged)
-
 	// Possibility to en-/disable save/restore of window geometry on quit
 	bool saveWindowGeometry;
-	bool getSaveWindowGeometry() { return saveWindowGeometry; }
-	void setSaveWindowGeometry(bool c) { saveWindowGeometry = c; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool saveWindowGeometry READ getSaveWindowGeometry WRITE setSaveWindowGeometry NOTIFY saveWindowGeometryChanged)
-
 	// Keep PhotoQt on top of other windows?
 	bool keepOnTop;
 	// Is composite enabled?
 	bool composite;
-	bool getComposite() { return composite; }
-	void setComposite(bool c) { composite = c; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool composite READ getComposite WRITE setComposite NOTIFY compositeChanged)
 
 	// Set the background color
 	int bgColorRed;
-	int getBgColorRed() { return bgColorRed; }
-	void setBgColorRed(int b) { bgColorRed = b; saveSettingsTimer->start(); }
-	Q_PROPERTY(int bgColorRed READ getBgColorRed WRITE setBgColorRed NOTIFY bgColorRedChanged)
-
 	int bgColorGreen;
-	int getBgColorGreen() { return bgColorGreen; }
-	void setBgColorGreen(int b) { bgColorGreen = b; saveSettingsTimer->start(); }
-	Q_PROPERTY(int bgColorGreen READ getBgColorGreen WRITE setBgColorGreen NOTIFY bgColorGreenChanged)
-
 	int bgColorBlue;
-	int getBgColorBlue() { return bgColorBlue; }
-	void setBgColorBlue(int b) { bgColorBlue = b; saveSettingsTimer->start(); }
-	Q_PROPERTY(int bgColorBlue READ getBgColorBlue WRITE setBgColorBlue NOTIFY bgColorBlueChanged)
-
 	int bgColorAlpha;
-	int getBgColorAlpha() { return bgColorAlpha; }
-	void setBgColorAlpha(int b) { bgColorAlpha = b; saveSettingsTimer->start(); }
-	Q_PROPERTY(int bgColorAlpha READ getBgColorAlpha WRITE setBgColorAlpha NOTIFY bgColorAlphaChanged)
-
 
 	// Background image in use?
 	bool backgroundImageScreenshot;
-	bool getBackgroundImageScreenshot() { return backgroundImageScreenshot; }
-	void setBackgroundImageScreenshot(bool b) { backgroundImageScreenshot = b; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool backgroundImageScreenshot READ getBackgroundImageScreenshot WRITE setBackgroundImageScreenshot NOTIFY backgroundImageScreenshotChanged)
-
 	bool backgroundImageUse;
-	bool getBackgroundImageUse() { return backgroundImageUse; }
-	void setBackgroundImageUse(bool b) { backgroundImageUse = b; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool backgroundImageUse READ getBackgroundImageUse WRITE setBackgroundImageUse NOTIFY backgroundImageUseChanged)
-
 	QString backgroundImagePath;
-	QString getBackgroundImagePath() { return backgroundImagePath; }
-	void setBackgroundImagePath(QString b) { backgroundImagePath = b; saveSettingsTimer->start(); }
-	Q_PROPERTY(QString backgroundImagePath READ getBackgroundImagePath WRITE setBackgroundImagePath NOTIFY backgroundImagePathChanged)
-
 	bool backgroundImageScale;
-	bool getBackgroundImageScale() { return backgroundImageScale; }
-	void setBackgroundImageScale(bool b) { backgroundImageScale = b; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool backgroundImageScale READ getBackgroundImageScale WRITE setBackgroundImageScale NOTIFY backgroundImageScaleChanged)
-
 	bool backgroundImageScaleCrop;
-	bool getBackgroundImageScaleCrop() { return backgroundImageScaleCrop; }
-	void setBackgroundImageScaleCrop(bool b) { backgroundImageScaleCrop = b; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool backgroundImageScaleCrop READ getBackgroundImageScaleCrop WRITE setBackgroundImageScaleCrop NOTIFY backgroundImageScaleCropChanged)
-
 	bool backgroundImageStretch;
-	bool getBackgroundImageStretch() { return backgroundImageStretch; }
-	void setBackgroundImageStretch(bool b) { backgroundImageStretch = b; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool backgroundImageStretch READ getBackgroundImageStretch WRITE setBackgroundImageStretch NOTIFY backgroundImageStretchChanged)
-
 	bool backgroundImageCenter;
-	bool getBackgroundImageCenter() { return backgroundImageCenter; }
-	void setBackgroundImageCenter(bool b) { backgroundImageCenter = b; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool backgroundImageCenter READ getBackgroundImageCenter WRITE setBackgroundImageCenter NOTIFY backgroundImageCenterChanged)
-
 	bool backgroundImageTile;
-	bool getBackgroundImageTile() { return backgroundImageTile; }
-	void setBackgroundImageTile(bool b) { backgroundImageTile = b; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool backgroundImageTile READ getBackgroundImageTile WRITE setBackgroundImageTile NOTIFY backgroundImageTileChanged)
-
-
 
 	// Hide to tray icon?
 	bool trayicon;
-	bool getTrayicon() { return trayicon; }
-	void setTayicon(bool t) { trayicon = t; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool trayicon READ getTrayicon WRITE setTayicon NOTIFY trayiconChanged)
-
 	// Smooth Transition for changing images
 	int transition;
-	int getTransition() { return transition; }
-	void setTransition(int t) { transition = t; saveSettingsTimer->start(); }
-	Q_PROPERTY(int transition READ getTransition WRITE setTransition NOTIFY transitionChanged)
-
 	// Loop through folder?
 	bool loopthroughfolder;
-	bool getLoopthroughfolder() { return loopthroughfolder; }
-	void setLoopthroughfolder(bool l) { loopthroughfolder = l; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool loopthroughfolder READ getLoopthroughfolder WRITE setLoopthroughfolder NOTIFY loopthroughfolderChanged)
-
 	// Menu sensitivity
 	int menusensitivity;
-	int getMenusensitivity() { return menusensitivity; }
-	void setMenusensitivity(int m) { menusensitivity = m; saveSettingsTimer->start(); }
-	Q_PROPERTY(int menusensitivity READ getMenusensitivity WRITE setMenusensitivity NOTIFY menusensitivityChanged)
-
 	// Close on click on background exits?
 	bool closeongrey;
-	bool getCloseongrey() { return closeongrey; }
-	void setCloseongrey(bool l) { closeongrey = l; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool closeongrey READ getCloseongrey WRITE setCloseongrey NOTIFY closeongreyChanged)
-
 	// Border around big image
 	int borderAroundImg;
-	int getBorderAroundImg() { return borderAroundImg; }
-	void setBorderAroundImg(int b) { borderAroundImg = b; saveSettingsTimer->start(); }
-	Q_PROPERTY(int borderAroundImg READ getBorderAroundImg WRITE setBorderAroundImg NOTIFY borderAroundImgChanged)
-
 	// Show Quick Settings on mouse movement
 	bool quickSettings;
-	bool getQuickSettings() { return quickSettings; }
-	void setQuickSettings(bool l) { quickSettings = l; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool quickSettings READ getQuickSettings WRITE setQuickSettings NOTIFY quickSettingsChanged)
-
 	// Sort images by
 	QString sortby;
-	QString getSortby() { return sortby; }
-	void setSortby(QString s) { sortby = s; saveSettingsTimer->start(); }
-	Q_PROPERTY(QString sortby READ getSortby WRITE setSortby NOTIFY sortbyChanged)
-
 	bool sortbyAscending;
-	bool getSortbyAscending() { return sortbyAscending; }
-	void setSortbyAscending(bool s) { sortbyAscending = s; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool sortbyAscending READ getSortbyAscending WRITE setSortbyAscending NOTIFY sortbyAscendingChanged)
-
 	// Mouse Wheel sensitivity
 	int mouseWheelSensitivity;
-	int getMouseWheelSensitivity() { return mouseWheelSensitivity; }
-	void setMouseWheelSensitivity(int b) { mouseWheelSensitivity = b; saveSettingsTimer->start(); }
-	Q_PROPERTY(int mouseWheelSensitivity READ getMouseWheelSensitivity WRITE setMouseWheelSensitivity NOTIFY mouseWheelSensitivityChanged)
-
 	// Remember per session
 	bool rememberRotation;
-	bool getRememberRotation() { return rememberRotation; }
-	void setRememberRotation(bool l) { rememberRotation = l; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool rememberRotation READ getRememberRotation WRITE setRememberRotation NOTIFY rememberRotationChanged)
-
 	bool rememberZoom;
-	bool getRememberZoom() { return rememberZoom; }
-	void setRememberZoom(bool l) { rememberZoom = l; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool rememberZoom READ getRememberZoom WRITE setRememberZoom NOTIFY rememberZoomChanged)
-
-
 	// If image is too small, zoom to fit in window
 	bool fitInWindow;
-	bool getFitInWindow() { return fitInWindow; }
-	void setFitInWindow(bool f) { fitInWindow = f; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool fitInWindow READ getFitInWindow WRITE setFitInWindow NOTIFY fitInWindowChanged)
 
 	// Are quickinfos hidden?
 	bool hidecounter;
-	bool getHidecounter() { return hidecounter; }
-	void setHidecounter(bool h) { hidecounter = h; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool hidecounter READ getHidecounter WRITE setHidecounter NOTIFY hidecounterChanged)
-
 	bool hidefilepathshowfilename;
-	bool getHidefilepathshowfilename() { return hidefilepathshowfilename; }
-	void setHidefilepathshowfilename(bool h) { hidefilepathshowfilename = h; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool hidefilepathshowfilename READ getHidefilepathshowfilename WRITE setHidefilepathshowfilename NOTIFY hidefilepathshowfilenameChanged)
-
 	bool hidefilename;
-	bool getHidefilename() { return hidefilename; }
-	void setHidefilename(bool h) { hidefilename = h; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool hidefilename READ getHidefilename WRITE setHidefilename NOTIFY hidefilenameChanged)
-
 	bool hidex;
-	bool getHidex() { return hidex; }
-	void setHidex(bool h) { hidex = h; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool hidex READ getHidex WRITE setHidex NOTIFY hidexChanged)
-
 	// Size/Look of closing "x"
 	int closeXsize;
-	int getCloseXsize() { return closeXsize; }
-	void setCloseXsize(int c) { closeXsize = c; saveSettingsTimer->start(); }
-	Q_PROPERTY(int closeXsize READ getCloseXsize WRITE setCloseXsize NOTIFY closeXsizeChanged)
-
 	bool fancyX;
-	bool getFancyX() { return fancyX; }
-	void setFancyX(bool f) { bool tmp = fancyX; fancyX = f; if(fancyX != tmp) emit fancyXChanged(f); saveSettingsTimer->start(); }
-	Q_PROPERTY(bool fancyX READ getFancyX WRITE setFancyX NOTIFY fancyXChanged)
 
 	// Some settings of the slideshow
 	int slideShowTime;
@@ -246,239 +114,388 @@ public:
 	QString wallpaperAlignment;
 	QString wallpaperScale;
 
-
-
 	// The Size of the thumbnail squares
 	int thumbnailsize;
-	int getThumbnailsize() { return thumbnailsize; }
-	void setThumbnailsize(int t) { thumbnailsize = t; saveSettingsTimer->start(); }
-	Q_PROPERTY(int thumbnailsize READ getThumbnailsize WRITE setThumbnailsize NOTIFY thumbnailsizeChanged)
-
 	// Thumbnails at the bottom or top?
 	QString thumbnailposition;
-	QString getThumbnailposition() { return thumbnailposition; }
-	void setThumbnailposition(QString t) { thumbnailposition = t; saveSettingsTimer->start(); }
-	Q_PROPERTY(QString thumbnailposition READ getThumbnailposition WRITE setThumbnailposition NOTIFY thumbnailpositionChanged)
-
 	// Enable thumbnail cache
 	bool thumbnailcache;
-	bool getThumbnailcache() { return thumbnailcache; }
-	void setThumbnailcache(bool t) { thumbnailcache = t; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool thumbnailcache READ getThumbnailcache WRITE setThumbnailcache NOTIFY thumbnailcacheChanged)
-
 	// Are files used for caching (use database if false)
 	bool thbcachefile;
-	bool getThbcachefile() { return thbcachefile; }
-	void setThbcachefile(bool t) { thbcachefile = t; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool thbcachefile READ getThbcachefile WRITE setThbcachefile NOTIFY thbcachefileChanged)
-
 	// Border between thumbnails
 	int thumbnailSpacingBetween;
-	int getThumbnailSpacingBetween() { return thumbnailSpacingBetween; }
-	void setThumbnailSpacingBetween(int t) { thumbnailSpacingBetween = t; saveSettingsTimer->start(); }
-	Q_PROPERTY(int thumbnailSpacingBetween READ getThumbnailSpacingBetween WRITE setThumbnailSpacingBetween NOTIFY thumbnailSpacingBetweenChanged)
-
 	// Lift hovered/selected thumbnails by x pixels
 	int thumbnailLiftUp;
-	int getThumbnailLiftUp() { return thumbnailLiftUp; }
-	void setThumbnailLiftUp(int t) { thumbnailLiftUp = t; saveSettingsTimer->start(); }
-	Q_PROPERTY(int thumbnailLiftUp READ getThumbnailLiftUp WRITE setThumbnailLiftUp NOTIFY thumbnailLiftUpChanged)
-
 	// Are the thumbnails fading out or always visible?
 	bool thumbnailKeepVisible;
-	bool getThumbnailKeepVisible() { return thumbnailKeepVisible; }
-	void setThumbnailKeepVisible(bool t) { thumbnailKeepVisible = t; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool thumbnailKeepVisible READ getThumbnailKeepVisible WRITE setThumbnailKeepVisible NOTIFY thumbnailKeepVisibleChanged)
-
 	// Enable dynamic thumbnail creation (1 = dynamic, 2 = smart)
 	int thumbnailDynamic;
-	int getThumbnailDynamic() { return thumbnailDynamic; }
-	void setThumbnailDynamic(int t) { thumbnailDynamic = t; saveSettingsTimer->start(); }
-	Q_PROPERTY(int thumbnailDynamic READ getThumbnailDynamic WRITE setThumbnailDynamic NOTIFY thumbnailDynamicChanged)
-
 	// Always center on active thumbnails
 	bool thumbnailCenterActive;
-	bool getThumbnailCenterActive() { return thumbnailCenterActive; }
-	void setThumbnailCenterActive(bool t) { thumbnailCenterActive = t; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool thumbnailCenterActive READ getThumbnailCenterActive WRITE setThumbnailCenterActive NOTIFY thumbnailCenterActiveChanged)
-
 	// Don't load actual thumbnail but just display the filename
-	bool thumbnailFilenameInstead;bool getThumbnailFilenameInstead() { return thumbnailFilenameInstead; }
-	void setThumbnailFilenameInstead(bool t) { thumbnailFilenameInstead = t; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool thumbnailFilenameInstead READ getThumbnailFilenameInstead WRITE setThumbnailFilenameInstead NOTIFY thumbnailFilenameInsteadChanged)
-
+	bool thumbnailFilenameInstead;
 	int thumbnailFilenameInsteadFontSize;
-	int getThumbnailFilenameInsteadFontSize() { return thumbnailFilenameInsteadFontSize; }
-	void setThumbnailFilenameInsteadFontSize(int t) { thumbnailFilenameInsteadFontSize = t; saveSettingsTimer->start(); }
-	Q_PROPERTY(int thumbnailFilenameInsteadFontSize READ getThumbnailFilenameInsteadFontSize WRITE setThumbnailFilenameInsteadFontSize NOTIFY thumbnailFilenameInsteadFontSizeChanged)
-
 	// Thumbnails can be disabled altogether
 	bool thumbnailDisable;
-	bool getThumbnailDisable() { return thumbnailDisable; }
-	void setThumbnailDisable(bool t) { thumbnailDisable = t; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool thumbnailDisable READ getThumbnailDisable WRITE setThumbnailDisable NOTIFY thumbnailDisableChanged)
-
 	// Preload full directory (no matter the size)
 	bool thumbnailPreloadFullDirectory;
-	bool getThumbnailPreloadFullDirectory() { return thumbnailPreloadFullDirectory; }
-	void setThumbnailPreloadFullDirectory(bool t) { thumbnailPreloadFullDirectory = t; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool thumbnailPreloadFullDirectory READ getThumbnailPreloadFullDirectory WRITE setThumbnailPreloadFullDirectory NOTIFY thumbnailPreloadFullDirectoryChanged)
-
 	// How many thumbnail shall be reloaded?
 	int thumbnailPreloadNumber;
-	int getThumbnailPreloadNumber() { return thumbnailPreloadNumber; }
-	void setThumbnailPreloadNumber(int t) { thumbnailPreloadNumber = t; saveSettingsTimer->start(); }
-	Q_PROPERTY(int thumbnailPreloadNumber READ getThumbnailPreloadNumber WRITE setThumbnailPreloadNumber NOTIFY thumbnailPreloadNumberChanged)
-
-
 	bool thumbnailWriteFilename;
-	bool getThumbnailWriteFilename() { return thumbnailWriteFilename; }
-	void setThumbnailWriteFilename(bool t) { thumbnailWriteFilename = t; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool thumbnailWriteFilename READ getThumbnailWriteFilename WRITE setThumbnailWriteFilename NOTIFY thumbnailWriteFilenameChanged)
-
 	bool thumbnailWriteResolution;
-	bool getThumbnailWriteResolution() { return thumbnailWriteResolution; }
-	void setThumbnailWriteResolution(bool t) { thumbnailWriteResolution = t; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool thumbnailWriteResolution READ getThumbnailWriteResolution WRITE setThumbnailWriteResolution NOTIFY thumbnailWriteResolutionChanged)
-
 	int thumbnailFontSize;
-	int getThumbnailFontSize() { return thumbnailFontSize; }
-	void setThumbnailFontSize(int t) { thumbnailFontSize = t; saveSettingsTimer->start(); }
-	Q_PROPERTY(int thumbnailFontSize READ getThumbnailFontSize WRITE setThumbnailFontSize NOTIFY thumbnailFontSizeChanged)
 
 	// Window Mode
 	bool windowmode;
-	bool getWindowmode() { return windowmode; }
-	void setWindowmode(bool w) { windowmode = w; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool windowmode READ getWindowmode WRITE setWindowmode NOTIFY windowmodeChanged)
 	// w/ or w/o decoration
 	bool windowDecoration;
-	bool getWindowDecoration() { return windowDecoration; }
-	void setWindowDecoration(bool w) { windowDecoration = w; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool windowDecoration READ getWindowDecoration WRITE setWindowDecoration NOTIFY windowDecorationChanged)
-
 	// The currently known filetypes (only extra Qt filetypes)
 	QString knownFileTypesQtExtras;
 
-
 	// Some exif settings
 	bool exifenablemousetriggering;
-	bool getExifenablemousetriggering() { return exifenablemousetriggering; }
-	void setExifenablemousetriggering(bool w) { exifenablemousetriggering = w; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool exifenablemousetriggering READ getExifenablemousetriggering WRITE setExifenablemousetriggering NOTIFY exifenablemousetriggeringChanged)
-
 	QString exifrotation;
-	QString getExifrotation() { return exifrotation; }
-	void setExifrotation(QString w) { exifrotation = w; saveSettingsTimer->start(); }
-	Q_PROPERTY(QString exifrotation READ getExifrotation WRITE setExifrotation NOTIFY exifrotationChanged)
-
 	QString exifgpsmapservice;
-	QString getExifgpsmapservice() { return exifgpsmapservice; }
-	void setExifgpsmapservice(QString w) { exifgpsmapservice = w; saveSettingsTimer->start(); }
-	Q_PROPERTY(QString exifgpsmapservice READ getExifgpsmapservice WRITE setExifgpsmapservice NOTIFY exifgpsmapserviceChanged)
-
-
 	int exiffontsize;
-	int getExiffontsize() { return exiffontsize; }
-	void setExiffontsize(int e) { exiffontsize = e; saveSettingsTimer->start(); }
-	Q_PROPERTY(int exiffontsize READ getExiffontsize WRITE setExiffontsize NOTIFY exiffontsizeChanged)
-
-
 	// Which Exif data is shown?
 	bool exiffilename;
-	bool getExiffilename() { return exiffilename; }
-	void setExiffilename(bool w) { exiffilename = w; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool exiffilename READ getExiffilename WRITE setExiffilename NOTIFY exiffilenameChanged)
-
 	bool exiffiletype;
-	bool getExiffiletype() { return exiffiletype; }
-	void setExiffiletype(bool w) { exiffiletype = w; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool exiffiletype READ getExiffiletype WRITE setExiffiletype NOTIFY exiffiletypeChanged)
-
 	bool exiffilesize;
-	bool getExiffilesize() { return exiffilesize; }
-	void setExiffilesize(bool w) { exiffilesize = w; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool exiffilesize READ getExiffilesize WRITE setExiffilesize NOTIFY exiffilesizeChanged)
-
 	bool exifdimensions;
-	bool getExifdimensions() { return exifdimensions; }
-	void setExifdimensions(bool w) { exifdimensions = w; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool exifdimensions READ getExifdimensions WRITE setExifdimensions NOTIFY exifdimensionsChanged)
-
 	bool exifmake;
-	bool getExifmake() { return exifmake; }
-	void setExifmake(bool w) { exifmake = w; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool exifmake READ getExifmake WRITE setExifmake NOTIFY exifmakeChanged)
-
 	bool exifmodel;
-	bool getExifmodel() { return exifmodel; }
-	void setExifmodel(bool w) { exifmodel = w; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool exifmodel READ getExifmodel WRITE setExifmodel NOTIFY exifmodelChanged)
-
 	bool exifsoftware;
-	bool getExifsoftware() { return exifsoftware; }
-	void setExifsoftware(bool w) { exifsoftware = w; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool exifsoftware READ getExifsoftware WRITE setExifsoftware NOTIFY exifsoftwareChanged)
-
 	bool exifphototaken;
-	bool getExifphototaken() { return exifphototaken; }
-	void setExifphototaken(bool w) { exifphototaken = w; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool exifphototaken READ getExifphototaken WRITE setExifphototaken NOTIFY exifphototakenChanged)
-
 	bool exifexposuretime;
-	bool getExifexposuretime() { return exifexposuretime; }
-	void setExifexposuretime(bool w) { exifexposuretime = w; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool exifexposuretime READ getExifexposuretime WRITE setExifexposuretime NOTIFY exifexposuretimeChanged)
-
 	bool exifflash;
-	bool getExifflash() { return exifflash; }
-	void setExifflash(bool w) { exifflash = w; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool exifflash READ getExifflash WRITE setExifflash NOTIFY exifflashChanged)
-
 	bool exifiso;
-	bool getExifiso() { return exifiso; }
-	void setExifiso(bool w) { exifiso = w; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool exifiso READ getExifiso WRITE setExifiso NOTIFY exifisoChanged)
-
 	bool exifscenetype;
-	bool getExifscenetype() { return exifscenetype; }
-	void setExifscenetype(bool w) { exifscenetype = w; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool exifscenetype READ getExifscenetype WRITE setExifscenetype NOTIFY exifscenetypeChanged)
-
 	bool exifflength;
-	bool getExifflength() { return exifflength; }
-	void setExifflength(bool w) { exifflength = w; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool exifflength READ getExifflength WRITE setExifflength NOTIFY exifflengthChanged)
-
 	bool exiffnumber;
-	bool getExiffnumber() { return exiffnumber; }
-	void setExiffnumber(bool w) { exiffnumber = w; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool exiffnumber READ getExiffnumber WRITE setExiffnumber NOTIFY exiffnumberChanged)
-
 	bool exiflightsource;
-	bool getExiflightsource() { return exiflightsource; }
-	void setExiflightsource(bool w) { exiflightsource = w; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool exiflightsource READ getExiflightsource WRITE setExiflightsource NOTIFY exiflightsourceChanged)
-
 	bool iptckeywords;
-	bool getIptckeywords() { return iptckeywords; }
-	void setIptckeywords(bool w) { iptckeywords = w; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool iptckeywords READ getIptckeywords WRITE setIptckeywords NOTIFY iptckeywordsChanged)
-
 	bool iptclocation;
-	bool getIptclocation() { return iptclocation; }
-	void setIptclocation(bool w) { iptclocation = w; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool iptclocation READ getIptclocation WRITE setIptclocation NOTIFY iptclocationChanged)
-
 	bool iptccopyright;
-	bool getIptccopyright() { return iptccopyright; }
-	void setIptccopyright(bool w) { iptccopyright = w; saveSettingsTimer->start(); }
-	Q_PROPERTY(bool iptccopyright READ getIptccopyright WRITE setIptccopyright NOTIFY iptccopyrightChanged)
-
 	bool exifgps;
+
+
+	/*#################################################################################################*/
+	/*#################################################################################################*/
+
+	/***************
+	 * GET methods *
+	 ***************/
+
+	QString getLanguage() { return language; }
+	bool getMyWidgetAnimated() { return myWidgetAnimated; }
+	bool getSaveWindowGeometry() { return saveWindowGeometry; }
+	bool getKeepOnTop() { return keepOnTop; }
+	bool getComposite() { return composite; }
+
+	int getBgColorRed() { return bgColorRed; }
+	int getBgColorGreen() { return bgColorGreen; }
+	int getBgColorBlue() { return bgColorBlue; }
+	int getBgColorAlpha() { return bgColorAlpha; }
+
+	bool getBackgroundImageScreenshot() { return backgroundImageScreenshot; }
+	bool getBackgroundImageUse() { return backgroundImageUse; }
+	QString getBackgroundImagePath() { return backgroundImagePath; }
+	bool getBackgroundImageScale() { return backgroundImageScale; }
+	bool getBackgroundImageScaleCrop() { return backgroundImageScaleCrop; }
+	bool getBackgroundImageStretch() { return backgroundImageStretch; }
+	bool getBackgroundImageCenter() { return backgroundImageCenter; }
+	bool getBackgroundImageTile() { return backgroundImageTile; }
+
+	bool getTrayicon() { return trayicon; }
+	int getTransition() { return transition; }
+	bool getLoopthroughfolder() { return loopthroughfolder; }
+	int getMenusensitivity() { return menusensitivity; }
+	bool getCloseongrey() { return closeongrey; }
+	int getBorderAroundImg() { return borderAroundImg; }
+	bool getQuickSettings() { return quickSettings; }
+	QString getSortby() { return sortby; }
+	bool getSortbyAscending() { return sortbyAscending; }
+	int getMouseWheelSensitivity() { return mouseWheelSensitivity; }
+	bool getRememberRotation() { return rememberRotation; }
+	bool getRememberZoom() { return rememberZoom; }
+	bool getFitInWindow() { return fitInWindow; }
+
+	bool getHidecounter() { return hidecounter; }
+	bool getHidefilepathshowfilename() { return hidefilepathshowfilename; }
+	bool getHidefilename() { return hidefilename; }
+	bool getHidex() { return hidex; }
+	int getCloseXsize() { return closeXsize; }
+	bool getFancyX() { return fancyX; }
+
+	int getSlideShowTime() { return slideShowTime; }
+	int getSlideShowTransition() { return slideShowTransition; }
+	QString getSlideShowMusicFile() { return slideShowMusicFile; }
+	bool getSlideShowShuffle() { return slideShowShuffle; }
+	bool getSlideShowLoop() { return slideShowLoop; }
+	bool getSlideShowHideQuickinfo() { return slideShowHideQuickinfo; }
+
+	QString getWallpaperAlignment() { return wallpaperAlignment; }
+	QString getWallpaperScale() { return wallpaperScale; }
+
+	int getThumbnailsize() { return thumbnailsize; }
+	QString getThumbnailposition() { return thumbnailposition; }
+	bool getThumbnailcache() { return thumbnailcache; }
+	bool getThbcachefile() { return thbcachefile; }
+	int getThumbnailSpacingBetween() { return thumbnailSpacingBetween; }
+	int getThumbnailLiftUp() { return thumbnailLiftUp; }
+	bool getThumbnailKeepVisible() { return thumbnailKeepVisible; }
+	int getThumbnailDynamic() { return thumbnailDynamic; }
+	bool getThumbnailCenterActive() { return thumbnailCenterActive; }
+	bool getThumbnailFilenameInstead() { return thumbnailFilenameInstead; }
+	int getThumbnailFilenameInsteadFontSize() { return thumbnailFilenameInsteadFontSize; }
+	bool getThumbnailDisable() { return thumbnailDisable; }
+	bool getThumbnailPreloadFullDirectory() { return thumbnailPreloadFullDirectory; }
+	int getThumbnailPreloadNumber() { return thumbnailPreloadNumber; }
+	bool getThumbnailWriteFilename() { return thumbnailWriteFilename; }
+	bool getThumbnailWriteResolution() { return thumbnailWriteResolution; }
+	int getThumbnailFontSize() { return thumbnailFontSize; }
+
+	bool getWindowmode() { return windowmode; }
+	bool getWindowDecoration() { return windowDecoration; }
+	QString getKnownFileTypesQtExtras() { return knownFileTypesQtExtras; }
+
+	bool getExifenablemousetriggering() { return exifenablemousetriggering; }
+	QString getExifrotation() { return exifrotation; }
+	QString getExifgpsmapservice() { return exifgpsmapservice; }
+	int getExiffontsize() { return exiffontsize; }
+	bool getExiffilename() { return exiffilename; }
+	bool getExiffiletype() { return exiffiletype; }
+	bool getExiffilesize() { return exiffilesize; }
+	bool getExifdimensions() { return exifdimensions; }
+	bool getExifmake() { return exifmake; }
+	bool getExifmodel() { return exifmodel; }
+	bool getExifsoftware() { return exifsoftware; }
+	bool getExifphototaken() { return exifphototaken; }
+	bool getExifexposuretime() { return exifexposuretime; }
+	bool getExifflash() { return exifflash; }
+	bool getExifiso() { return exifiso; }
+	bool getExifscenetype() { return exifscenetype; }
+	bool getExifflength() { return exifflength; }
+	bool getExiffnumber() { return exiffnumber; }
+	bool getExiflightsource() { return exiflightsource; }
+	bool getIptckeywords() { return iptckeywords; }
+	bool getIptclocation() { return iptclocation; }
+	bool getIptccopyright() { return iptccopyright; }
 	bool getExifgps() { return exifgps; }
-	void setExifgps(bool w) { exifgps = w; saveSettingsTimer->start(); }
+
+
+	/*#################################################################################################*/
+	/*#################################################################################################*/
+
+	/***************
+	 * SET methods *
+	 ***************/
+
+	void setLanguage(QString val) { language = val; saveSettingsTimer->start(); emit languageChanged(val); }
+	void setMyWidgetAnimated(bool val) { myWidgetAnimated = val; saveSettingsTimer->start(); emit myWidgetAnimatedChanged(val);}
+	void setSaveWindowGeometry(bool val) { saveWindowGeometry = val; saveSettingsTimer->start(); emit saveWindowGeometryChanged(val); }
+	void setKeepOnTop(bool val) { keepOnTop = val; saveSettingsTimer->start(); emit keepOnTopChanged(val); }
+	void setComposite(bool val) { composite = val; saveSettingsTimer->start(); emit compositeChanged(val);}
+
+	void setBgColorRed(int val) { bgColorRed = val; saveSettingsTimer->start(); emit bgColorRedChanged(val); }
+	void setBgColorGreen(int val) { bgColorGreen = val; saveSettingsTimer->start(); emit bgColorGreenChanged(val);}
+	void setBgColorBlue(int val) { bgColorBlue = val; saveSettingsTimer->start(); emit bgColorBlueChanged(val);}
+	void setBgColorAlpha(int val) { bgColorAlpha = val; saveSettingsTimer->start(); emit bgColorAlphaChanged(val);}
+
+	void setBackgroundImageScreenshot(bool val) { backgroundImageScreenshot = val; saveSettingsTimer->start(); emit backgroundImageScreenshotChanged(val);}
+	void setBackgroundImageUse(bool val) { backgroundImageUse = val; saveSettingsTimer->start(); emit backgroundImageUseChanged(val);}
+	void setBackgroundImagePath(QString val) { backgroundImagePath = val; saveSettingsTimer->start(); emit backgroundImagePathChanged(val);}
+	void setBackgroundImageScale(bool val) { backgroundImageScale = val; saveSettingsTimer->start(); emit backgroundImageScaleChanged(val);}
+	void setBackgroundImageScaleCrop(bool val) { backgroundImageScaleCrop = val; saveSettingsTimer->start(); emit backgroundImageScaleCropChanged(val);}
+	void setBackgroundImageStretch(bool val) { backgroundImageStretch = val; saveSettingsTimer->start(); emit backgroundImageStretchChanged(val);}
+	void setBackgroundImageCenter(bool val) { backgroundImageCenter = val; saveSettingsTimer->start(); emit backgroundImageCenterChanged(val);}
+	void setBackgroundImageTile(bool val) { backgroundImageTile = val; saveSettingsTimer->start(); emit backgroundImageTileChanged(val);}
+
+	void setTayicon(bool val) { trayicon = val; saveSettingsTimer->start(); emit trayiconChanged(val); }
+	void setTransition(int val) { transition = val; saveSettingsTimer->start(); emit transitionChanged(val); }
+	void setLoopthroughfolder(bool val) { loopthroughfolder = val; saveSettingsTimer->start(); emit loopthroughfolderChanged(val); }
+	void setMenusensitivity(int val) { menusensitivity = val; saveSettingsTimer->start(); emit menusensitivityChanged(val); }
+	void setCloseongrey(bool val) { closeongrey = val; saveSettingsTimer->start(); emit closeongreyChanged(val); }
+	void setBorderAroundImg(int val) { borderAroundImg = val; saveSettingsTimer->start(); emit borderAroundImgChanged(val); }
+	void setQuickSettings(bool val) { quickSettings = val; saveSettingsTimer->start(); emit quickSettingsChanged(val); }
+	void setSortby(QString val) { sortby = val; saveSettingsTimer->start(); emit sortbyChanged(val); }
+	void setSortbyAscending(bool val) { sortbyAscending = val; saveSettingsTimer->start(); emit sortbyAscendingChanged(val); }
+	void setMouseWheelSensitivity(int val) { mouseWheelSensitivity = val; saveSettingsTimer->start(); emit mouseWheelSensitivityChanged(val); }
+	void setRememberRotation(bool val) { rememberRotation = val; saveSettingsTimer->start(); emit rememberRotationChanged(val); }
+	void setRememberZoom(bool val) { rememberZoom = val; saveSettingsTimer->start(); emit rememberZoomChanged(val); }
+	void setFitInWindow(bool val) { fitInWindow = val; saveSettingsTimer->start(); emit fitInWindowChanged(val); }
+
+	void setHidecounter(bool val) { hidecounter = val; saveSettingsTimer->start(); }
+	void setHidefilepathshowfilename(bool val) { hidefilepathshowfilename = val; saveSettingsTimer->start(); }
+	void setHidefilename(bool val) { hidefilename = val; saveSettingsTimer->start(); }
+	void setHidex(bool val) { hidex = val; saveSettingsTimer->start(); }
+	void setCloseXsize(int val) { closeXsize = val; saveSettingsTimer->start(); }
+	void setFancyX(bool val) {fancyX = val; saveSettingsTimer->start(); emit fancyXChanged(val); }
+
+	void setSlideShowTime(int val) { slideShowTime = val; saveSettingsTimer->start(); emit slideShowTimeChanged(val); }
+	void setSlideShowTransition(int val) { slideShowTransition = val; saveSettingsTimer->start(); emit slideShowTransitionChanged(val); }
+	void setSlideShowMusicFile(QString val) { slideShowMusicFile = val; saveSettingsTimer->start(); emit slideShowMusicFileChanged(val); }
+	void setSlideShowShuffle(bool val) { slideShowShuffle = val; saveSettingsTimer->start(); emit slideShowShuffleChanged(val); }
+	void setSlideShowLoop(bool val) { slideShowLoop = val; saveSettingsTimer->start(); emit slideShowLoopChanged(val); }
+	void setSlideShowHideQuickinfo(bool val) { slideShowHideQuickinfo = val; saveSettingsTimer->start(); emit slideShowHideQuickinfoChanged(val); }
+
+	void setWallpaperAlignment(QString val) { wallpaperAlignment = val; saveSettingsTimer->start(); emit wallpaperAlignmentChanged(val); }
+	void setWallpaperScale(QString val) { wallpaperScale = val; saveSettingsTimer->start(); emit wallpaperScaleChanged(val); }
+
+	void setThumbnailsize(int val) { thumbnailsize = val; saveSettingsTimer->start(); emit thumbnailsizeChanged(val); }
+	void setThumbnailposition(QString val) { thumbnailposition = val; saveSettingsTimer->start(); emit thumbnailpositionChanged(val); }
+	void setThumbnailcache(bool val) { thumbnailcache = val; saveSettingsTimer->start(); emit thumbnailcacheChanged(val); }
+	void setThbcachefile(bool val) { thbcachefile = val; saveSettingsTimer->start(); emit thbcachefileChanged(val); }
+	void setThumbnailSpacingBetween(int val) { thumbnailSpacingBetween = val; saveSettingsTimer->start(); emit thumbnailSpacingBetweenChanged(val); }
+	void setThumbnailLiftUp(int val) { thumbnailLiftUp = val; saveSettingsTimer->start(); emit thumbnailLiftUpChanged(val); }
+	void setThumbnailKeepVisible(bool val) { thumbnailKeepVisible = val; saveSettingsTimer->start(); emit thumbnailKeepVisibleChanged(val); }
+	void setThumbnailDynamic(int val) { thumbnailDynamic = val; saveSettingsTimer->start(); emit thumbnailDynamicChanged(val); }
+	void setThumbnailCenterActive(bool val) { thumbnailCenterActive = val; saveSettingsTimer->start(); emit thumbnailCenterActiveChanged(val); }
+	void setThumbnailFilenameInstead(bool val) { thumbnailFilenameInstead = val; saveSettingsTimer->start(); emit thumbnailFilenameInsteadChanged(val); }
+	void setThumbnailFilenameInsteadFontSize(int val) { thumbnailFilenameInsteadFontSize = val; saveSettingsTimer->start(); emit thumbnailFilenameInsteadFontSizeChanged(val); }
+	void setThumbnailDisable(bool val) { thumbnailDisable = val; saveSettingsTimer->start(); emit thumbnailDisableChanged(val); }
+	void setThumbnailPreloadFullDirectory(bool val) { thumbnailPreloadFullDirectory = val; saveSettingsTimer->start(); emit thumbnailPreloadFullDirectoryChanged(val); }
+	void setThumbnailPreloadNumber(int val) { thumbnailPreloadNumber = val; saveSettingsTimer->start(); emit thumbnailPreloadNumberChanged(val); }
+	void setThumbnailWriteFilename(bool val) { thumbnailWriteFilename = val; saveSettingsTimer->start(); emit thumbnailWriteFilenameChanged(val); }
+	void setThumbnailWriteResolution(bool val) { thumbnailWriteResolution = val; saveSettingsTimer->start(); emit thumbnailWriteResolutionChanged(val); }
+	void setThumbnailFontSize(int val) { thumbnailFontSize = val; saveSettingsTimer->start(); emit thumbnailFontSizeChanged(val); }
+
+	void setWindowmode(bool val) { windowmode = val; saveSettingsTimer->start(); emit windowmodeChanged(val); }
+	void setWindowDecoration(bool val) { windowDecoration = val; saveSettingsTimer->start(); emit windowDecorationChanged(val); }
+	void setKnownFileTypesQtExtras(QString val) { knownFileTypesQtExtras = val; saveSettingsTimer->start(); emit knownFileTypesQtExtrasChanged(val); }
+
+	void setExifenablemousetriggering(bool val) { exifenablemousetriggering = val; saveSettingsTimer->start(); emit exifenablemousetriggeringChanged(val); }
+	void setExifrotation(QString val) { exifrotation = val; saveSettingsTimer->start(); emit exifrotationChanged(val); }
+	void setExifgpsmapservice(QString val) { exifgpsmapservice = val; saveSettingsTimer->start(); emit exifgpsmapserviceChanged(val); }
+	void setExiffontsize(int val) { exiffontsize = val; saveSettingsTimer->start(); emit exiffontsizeChanged(val); }
+	void setExiffilename(bool val) { exiffilename = val; saveSettingsTimer->start(); emit exiffilenameChanged(val); }
+	void setExiffiletype(bool val) { exiffiletype = val; saveSettingsTimer->start(); emit exiffiletypeChanged(val); }
+	void setExiffilesize(bool val) { exiffilesize = val; saveSettingsTimer->start(); emit exiffilesizeChanged(val); }
+	void setExifdimensions(bool val) { exifdimensions = val; saveSettingsTimer->start(); emit exifdimensionsChanged(val); }
+	void setExifmake(bool val) { exifmake = val; saveSettingsTimer->start(); emit exifmakeChanged(val); }
+	void setExifmodel(bool val) { exifmodel = val; saveSettingsTimer->start(); emit exifmodelChanged(val); }
+	void setExifsoftware(bool val) { exifsoftware = val; saveSettingsTimer->start(); emit exifsoftwareChanged(val); }
+	void setExifphototaken(bool val) { exifphototaken = val; saveSettingsTimer->start(); emit exifphototakenChanged(val); }
+	void setExifexposuretime(bool val) { exifexposuretime = val; saveSettingsTimer->start(); emit exifexposuretimeChanged(val); }
+	void setExifflash(bool val) { exifflash = val; saveSettingsTimer->start(); emit exifflashChanged(val); }
+	void setExifiso(bool val) { exifiso = val; saveSettingsTimer->start(); emit exifisoChanged(val); }
+	void setExifscenetype(bool val) { exifscenetype = val; saveSettingsTimer->start(); emit exifscenetypeChanged(val); }
+	void setExifflength(bool val) { exifflength = val; saveSettingsTimer->start(); emit exifflengthChanged(val); }
+	void setExiffnumber(bool val) { exiffnumber = val; saveSettingsTimer->start(); emit exiffnumberChanged(val); }
+	void setExiflightsource(bool val) { exiflightsource = val; saveSettingsTimer->start(); emit exiflightsourceChanged(val); }
+	void setIptckeywords(bool val) { iptckeywords = val; saveSettingsTimer->start(); emit iptckeywordsChanged(val); }
+	void setIptclocation(bool val) { iptclocation = val; saveSettingsTimer->start(); emit iptclocationChanged(val); }
+	void setIptccopyright(bool val) { iptccopyright = val; saveSettingsTimer->start(); emit iptccopyrightChanged(val); }
+	void setExifgps(bool val) { exifgps = val; saveSettingsTimer->start(); emit exifgpsChanged(val); }
+
+
+	/*#################################################################################################*/
+	/*#################################################################################################*/
+
+	/**********************
+	 * Q_PROPERTY methods *
+	 **********************/
+
+	Q_PROPERTY(QString language READ getLanguage WRITE setLanguage NOTIFY languageChanged)
+	Q_PROPERTY(bool myWidgetAnimated READ getMyWidgetAnimated WRITE setMyWidgetAnimated NOTIFY myWidgetAnimatedChanged)
+	Q_PROPERTY(bool saveWindowGeometry READ getSaveWindowGeometry WRITE setSaveWindowGeometry NOTIFY saveWindowGeometryChanged)
+	Q_PROPERTY(bool keepOnTop READ getKeepOnTop WRITE setKeepOnTop NOTIFY keepOnTopChanged)
+	Q_PROPERTY(bool composite READ getComposite WRITE setComposite NOTIFY compositeChanged)
+
+	Q_PROPERTY(int bgColorRed READ getBgColorRed WRITE setBgColorRed NOTIFY bgColorRedChanged)
+	Q_PROPERTY(int bgColorGreen READ getBgColorGreen WRITE setBgColorGreen NOTIFY bgColorGreenChanged)
+	Q_PROPERTY(int bgColorBlue READ getBgColorBlue WRITE setBgColorBlue NOTIFY bgColorBlueChanged)
+	Q_PROPERTY(int bgColorAlpha READ getBgColorAlpha WRITE setBgColorAlpha NOTIFY bgColorAlphaChanged)
+
+	Q_PROPERTY(bool backgroundImageScreenshot READ getBackgroundImageScreenshot WRITE setBackgroundImageScreenshot NOTIFY backgroundImageScreenshotChanged)
+	Q_PROPERTY(bool backgroundImageUse READ getBackgroundImageUse WRITE setBackgroundImageUse NOTIFY backgroundImageUseChanged)
+	Q_PROPERTY(QString backgroundImagePath READ getBackgroundImagePath WRITE setBackgroundImagePath NOTIFY backgroundImagePathChanged)
+	Q_PROPERTY(bool backgroundImageScale READ getBackgroundImageScale WRITE setBackgroundImageScale NOTIFY backgroundImageScaleChanged)
+	Q_PROPERTY(bool backgroundImageScaleCrop READ getBackgroundImageScaleCrop WRITE setBackgroundImageScaleCrop NOTIFY backgroundImageScaleCropChanged)
+	Q_PROPERTY(bool backgroundImageStretch READ getBackgroundImageStretch WRITE setBackgroundImageStretch NOTIFY backgroundImageStretchChanged)
+	Q_PROPERTY(bool backgroundImageCenter READ getBackgroundImageCenter WRITE setBackgroundImageCenter NOTIFY backgroundImageCenterChanged)
+	Q_PROPERTY(bool backgroundImageTile READ getBackgroundImageTile WRITE setBackgroundImageTile NOTIFY backgroundImageTileChanged)
+
+	Q_PROPERTY(bool trayicon READ getTrayicon WRITE setTayicon NOTIFY trayiconChanged)
+	Q_PROPERTY(int transition READ getTransition WRITE setTransition NOTIFY transitionChanged)
+	Q_PROPERTY(bool loopthroughfolder READ getLoopthroughfolder WRITE setLoopthroughfolder NOTIFY loopthroughfolderChanged)
+	Q_PROPERTY(int menusensitivity READ getMenusensitivity WRITE setMenusensitivity NOTIFY menusensitivityChanged)
+	Q_PROPERTY(bool closeongrey READ getCloseongrey WRITE setCloseongrey NOTIFY closeongreyChanged)
+	Q_PROPERTY(int borderAroundImg READ getBorderAroundImg WRITE setBorderAroundImg NOTIFY borderAroundImgChanged)
+	Q_PROPERTY(bool quickSettings READ getQuickSettings WRITE setQuickSettings NOTIFY quickSettingsChanged)
+	Q_PROPERTY(QString sortby READ getSortby WRITE setSortby NOTIFY sortbyChanged)
+	Q_PROPERTY(bool sortbyAscending READ getSortbyAscending WRITE setSortbyAscending NOTIFY sortbyAscendingChanged)
+	Q_PROPERTY(int mouseWheelSensitivity READ getMouseWheelSensitivity WRITE setMouseWheelSensitivity NOTIFY mouseWheelSensitivityChanged)
+	Q_PROPERTY(bool rememberRotation READ getRememberRotation WRITE setRememberRotation NOTIFY rememberRotationChanged)
+	Q_PROPERTY(bool rememberZoom READ getRememberZoom WRITE setRememberZoom NOTIFY rememberZoomChanged)
+	Q_PROPERTY(bool fitInWindow READ getFitInWindow WRITE setFitInWindow NOTIFY fitInWindowChanged)
+
+	Q_PROPERTY(bool hidecounter READ getHidecounter WRITE setHidecounter NOTIFY hidecounterChanged)
+	Q_PROPERTY(bool hidefilepathshowfilename READ getHidefilepathshowfilename WRITE setHidefilepathshowfilename NOTIFY hidefilepathshowfilenameChanged)
+	Q_PROPERTY(bool hidefilename READ getHidefilename WRITE setHidefilename NOTIFY hidefilenameChanged)
+	Q_PROPERTY(bool hidex READ getHidex WRITE setHidex NOTIFY hidexChanged)
+	Q_PROPERTY(int closeXsize READ getCloseXsize WRITE setCloseXsize NOTIFY closeXsizeChanged)
+	Q_PROPERTY(bool fancyX READ getFancyX WRITE setFancyX NOTIFY fancyXChanged)
+
+	Q_PROPERTY(int slideShowTime READ getSlideShowTime WRITE setSlideShowTime NOTIFY slideShowTimeChanged)
+	Q_PROPERTY(int slideShowTransition READ getSlideShowTransition WRITE setSlideShowTransition NOTIFY slideShowTransitionChanged)
+	Q_PROPERTY(QString slideShowMusicFile READ getSlideShowMusicFile WRITE setSlideShowMusicFile NOTIFY slideShowMusicFileChanged)
+	Q_PROPERTY(bool slideShowShuffle READ getSlideShowShuffle WRITE setSlideShowShuffle NOTIFY slideShowShuffleChanged)
+	Q_PROPERTY(bool slideShowLoop READ getSlideShowLoop WRITE setSlideShowLoop NOTIFY slideShowLoopChanged)
+	Q_PROPERTY(bool slideShowHideQuickinfo READ getSlideShowHideQuickinfo WRITE setSlideShowHideQuickinfo NOTIFY slideShowHideQuickinfoChanged)
+
+	Q_PROPERTY(QString wallpaperAlignment READ getWallpaperAlignment WRITE setWallpaperAlignment NOTIFY wallpaperAlignmentChanged)
+	Q_PROPERTY(QString wallpaperScale READ getWallpaperScale WRITE setWallpaperScale NOTIFY wallpaperScaleChanged)
+
+	Q_PROPERTY(int thumbnailsize READ getThumbnailsize WRITE setThumbnailsize NOTIFY thumbnailsizeChanged)
+	Q_PROPERTY(QString thumbnailposition READ getThumbnailposition WRITE setThumbnailposition NOTIFY thumbnailpositionChanged)
+	Q_PROPERTY(bool thumbnailcache READ getThumbnailcache WRITE setThumbnailcache NOTIFY thumbnailcacheChanged)
+	Q_PROPERTY(bool thbcachefile READ getThbcachefile WRITE setThbcachefile NOTIFY thbcachefileChanged)
+	Q_PROPERTY(int thumbnailSpacingBetween READ getThumbnailSpacingBetween WRITE setThumbnailSpacingBetween NOTIFY thumbnailSpacingBetweenChanged)
+	Q_PROPERTY(int thumbnailLiftUp READ getThumbnailLiftUp WRITE setThumbnailLiftUp NOTIFY thumbnailLiftUpChanged)
+	Q_PROPERTY(bool thumbnailKeepVisible READ getThumbnailKeepVisible WRITE setThumbnailKeepVisible NOTIFY thumbnailKeepVisibleChanged)
+	Q_PROPERTY(int thumbnailDynamic READ getThumbnailDynamic WRITE setThumbnailDynamic NOTIFY thumbnailDynamicChanged)
+	Q_PROPERTY(bool thumbnailCenterActive READ getThumbnailCenterActive WRITE setThumbnailCenterActive NOTIFY thumbnailCenterActiveChanged)
+	Q_PROPERTY(bool thumbnailFilenameInstead READ getThumbnailFilenameInstead WRITE setThumbnailFilenameInstead NOTIFY thumbnailFilenameInsteadChanged)
+	Q_PROPERTY(int thumbnailFilenameInsteadFontSize READ getThumbnailFilenameInsteadFontSize WRITE setThumbnailFilenameInsteadFontSize NOTIFY thumbnailFilenameInsteadFontSizeChanged)
+	Q_PROPERTY(bool thumbnailDisable READ getThumbnailDisable WRITE setThumbnailDisable NOTIFY thumbnailDisableChanged)
+	Q_PROPERTY(bool thumbnailPreloadFullDirectory READ getThumbnailPreloadFullDirectory WRITE setThumbnailPreloadFullDirectory NOTIFY thumbnailPreloadFullDirectoryChanged)
+	Q_PROPERTY(int thumbnailPreloadNumber READ getThumbnailPreloadNumber WRITE setThumbnailPreloadNumber NOTIFY thumbnailPreloadNumberChanged)
+	Q_PROPERTY(bool thumbnailWriteFilename READ getThumbnailWriteFilename WRITE setThumbnailWriteFilename NOTIFY thumbnailWriteFilenameChanged)
+	Q_PROPERTY(bool thumbnailWriteResolution READ getThumbnailWriteResolution WRITE setThumbnailWriteResolution NOTIFY thumbnailWriteResolutionChanged)
+	Q_PROPERTY(int thumbnailFontSize READ getThumbnailFontSize WRITE setThumbnailFontSize NOTIFY thumbnailFontSizeChanged)
+
+	Q_PROPERTY(bool windowmode READ getWindowmode WRITE setWindowmode NOTIFY windowmodeChanged)
+	Q_PROPERTY(bool windowDecoration READ getWindowDecoration WRITE setWindowDecoration NOTIFY windowDecorationChanged)
+	Q_PROPERTY(QString knownFileTypesQtExtras READ getKnownFileTypesQtExtras WRITE setKnownFileTypesQtExtras NOTIFY knownFileTypesQtExtrasChanged)
+
+	Q_PROPERTY(bool exifenablemousetriggering READ getExifenablemousetriggering WRITE setExifenablemousetriggering NOTIFY exifenablemousetriggeringChanged)
+	Q_PROPERTY(QString exifrotation READ getExifrotation WRITE setExifrotation NOTIFY exifrotationChanged)
+	Q_PROPERTY(QString exifgpsmapservice READ getExifgpsmapservice WRITE setExifgpsmapservice NOTIFY exifgpsmapserviceChanged)
+	Q_PROPERTY(int exiffontsize READ getExiffontsize WRITE setExiffontsize NOTIFY exiffontsizeChanged)
+	Q_PROPERTY(bool exiffilename READ getExiffilename WRITE setExiffilename NOTIFY exiffilenameChanged)
+	Q_PROPERTY(bool exiffiletype READ getExiffiletype WRITE setExiffiletype NOTIFY exiffiletypeChanged)
+	Q_PROPERTY(bool exiffilesize READ getExiffilesize WRITE setExiffilesize NOTIFY exiffilesizeChanged)
+	Q_PROPERTY(bool exifdimensions READ getExifdimensions WRITE setExifdimensions NOTIFY exifdimensionsChanged)
+	Q_PROPERTY(bool exifmake READ getExifmake WRITE setExifmake NOTIFY exifmakeChanged)
+	Q_PROPERTY(bool exifmodel READ getExifmodel WRITE setExifmodel NOTIFY exifmodelChanged)
+	Q_PROPERTY(bool exifsoftware READ getExifsoftware WRITE setExifsoftware NOTIFY exifsoftwareChanged)
+	Q_PROPERTY(bool exifphototaken READ getExifphototaken WRITE setExifphototaken NOTIFY exifphototakenChanged)
+	Q_PROPERTY(bool exifexposuretime READ getExifexposuretime WRITE setExifexposuretime NOTIFY exifexposuretimeChanged)
+	Q_PROPERTY(bool exifflash READ getExifflash WRITE setExifflash NOTIFY exifflashChanged)
+	Q_PROPERTY(bool exifiso READ getExifiso WRITE setExifiso NOTIFY exifisoChanged)
+	Q_PROPERTY(bool exifscenetype READ getExifscenetype WRITE setExifscenetype NOTIFY exifscenetypeChanged)
+	Q_PROPERTY(bool exifflength READ getExifflength WRITE setExifflength NOTIFY exifflengthChanged)
+	Q_PROPERTY(bool exiffnumber READ getExiffnumber WRITE setExiffnumber NOTIFY exiffnumberChanged)
+	Q_PROPERTY(bool exiflightsource READ getExiflightsource WRITE setExiflightsource NOTIFY exiflightsourceChanged)
+	Q_PROPERTY(bool iptckeywords READ getIptckeywords WRITE setIptckeywords NOTIFY iptckeywordsChanged)
+	Q_PROPERTY(bool iptclocation READ getIptclocation WRITE setIptclocation NOTIFY iptclocationChanged)
+	Q_PROPERTY(bool iptccopyright READ getIptccopyright WRITE setIptccopyright NOTIFY iptccopyrightChanged)
 	Q_PROPERTY(bool exifgps READ getExifgps WRITE setExifgps NOTIFY exifgpsChanged)
+
+
+	/*#################################################################################################*/
+	/*#################################################################################################*/
 
 	// Set the default settings
 	void setDefault() {
@@ -595,6 +612,9 @@ public:
 		exifgpsmapservice = "openstreetmap.org";
 	}
 
+
+	/*#################################################################################################*/
+	/*#################################################################################################*/
 
 public slots:
 	// Save settings
@@ -734,6 +754,9 @@ public slots:
 		}
 
 	}
+
+	/*#################################################################################################*/
+	/*#################################################################################################*/
 
 	// Read the current settings
 	void readSettings() {
@@ -1126,85 +1149,108 @@ private:
 	QFileSystemWatcher *watcher;
 	QTimer *saveSettingsTimer;
 
+
+	/*#################################################################################################*/
+	/*#################################################################################################*/
+
 signals:
-	void languageChanged(QString l);
-	void thumbnailsizeChanged(int s);
-	void thumbnailcacheChanged(bool cache);
-	void thbcachefileChanged(bool type);
-	void thumbnailSpacingBetweenChanged(int spacing);
-	void thumbnailLiftUpChanged(int liftup);
-	void thumbnailKeepVisibleChanged(bool vis);
-	void thumbnailFontSizeChanged(int s);
-	void exiffontsizeChanged(int s);
-	void fancyXChanged(bool f);
-	void closeXsizeChanged(int s);
-	void loopthroughfolderChanged(bool l);
-	void fitInWindowChanged(bool f);
-	void hidecounterChanged(bool h);
-	void hidefilepathshowfilenameChanged(bool h);
-	void hidefilenameChanged(bool h);
-	void hidexChanged(bool h);
-	void sortbyAscendingChanged(bool s);
-	void sortbyChanged(QString s);
-	void windowmodeChanged(bool w);
-	void windowDecorationChanged(bool w);
-	void trayiconChanged(bool t);
-	void compositeChanged(bool c);
-	void bgColorRedChanged(int b);
-	void bgColorGreenChanged(int b);
-	void bgColorBlueChanged(int b);
-	void bgColorAlphaChanged(int b);
-	void backgroundImageScreenshotChanged(bool b);
-	void backgroundImageUseChanged(bool b);
-	void backgroundImagePathChanged(QString b);
-	void backgroundImageScaleChanged(bool b);
-	void backgroundImageScaleCropChanged(bool b);
-	void backgroundImageStretchChanged(bool b);
-	void backgroundImageCenterChanged(bool b);
-	void backgroundImageTileChanged(bool b);
-	void transitionChanged(int t);
-	void menusensitivityChanged(int m);
-	void closeongreyChanged(bool c);
-	void borderAroundImgChanged(int b);
-	void quickSettingsChanged(bool q);
-	void mouseWheelSensitivityChanged(int m);
-	void rememberRotationChanged(bool r);
-	void rememberZoomChanged(bool r);
-	void knownFileTypesQtChanged(QString k);
-	void myWidgetAnimatedChanged(bool c);
-	void saveWindowGeometryChanged(bool c);
-	void thumbnailDynamicChanged(int t);
-	void thumbnailCenterActiveChanged(bool c);
-	void thumbnailpositionChanged(QString k);
-	void thumbnailFilenameInsteadChanged(bool c);
-	void thumbnailFilenameInsteadFontSizeChanged(int t);
-	void thumbnailDisableChanged(bool c);
-	void thumbnailPreloadFullDirectoryChanged(bool c);
-	void thumbnailPreloadNumberChanged(int t);
-	void thumbnailWriteFilenameChanged(bool c);
-	void thumbnailWriteResolutionChanged(bool c);
-	void exifenablemousetriggeringChanged(bool e);
-	void exifrotationChanged(QString e);
-	void exifgpsmapserviceChanged(QString e);
-	void exiffilenameChanged(bool e);
-	void exiffiletypeChanged(bool e);
-	void exiffilesizeChanged(bool e);
-	void exifdimensionsChanged(bool e);
-	void exifmakeChanged(bool e);
-	void exifmodelChanged(bool e);
-	void exifsoftwareChanged(bool e);
-	void exifphototakenChanged(bool e);
-	void exifexposuretimeChanged(bool e);
-	void exifflashChanged(bool e);
-	void exifisoChanged(bool e);
-	void exifscenetypeChanged(bool e);
-	void exifflengthChanged(bool e);
-	void exiffnumberChanged(bool e);
-	void exiflightsourceChanged(bool e);
-	void iptckeywordsChanged(bool i);
-	void iptclocationChanged(bool i);
-	void iptccopyrightChanged(bool i);
-	void exifgpsChanged(bool e);
+	void languageChanged(QString val);
+	void myWidgetAnimatedChanged(bool val);
+	void saveWindowGeometryChanged(bool val);
+	void keepOnTopChanged(bool val);
+	void compositeChanged(bool val);
+
+	void bgColorRedChanged(int val);
+	void bgColorGreenChanged(int val);
+	void bgColorBlueChanged(int val);
+	void bgColorAlphaChanged(int val);
+
+	void backgroundImageScreenshotChanged(bool val);
+	void backgroundImageUseChanged(bool val);
+	void backgroundImagePathChanged(QString val);
+	void backgroundImageScaleChanged(bool val);
+	void backgroundImageScaleCropChanged(bool val);
+	void backgroundImageStretchChanged(bool val);
+	void backgroundImageCenterChanged(bool val);
+	void backgroundImageTileChanged(bool val);
+
+	void trayiconChanged(bool val);
+	void transitionChanged(int val);
+	void loopthroughfolderChanged(bool val);
+	void menusensitivityChanged(int val);
+	void closeongreyChanged(bool val);
+	void borderAroundImgChanged(int val);
+	void quickSettingsChanged(bool val);
+	void sortbyChanged(QString val);
+	void sortbyAscendingChanged(bool val);
+	void mouseWheelSensitivityChanged(int val);
+	void rememberRotationChanged(bool val);
+	void rememberZoomChanged(bool val);
+	void fitInWindowChanged(bool val);
+
+	void hidecounterChanged(bool val);
+	void hidefilepathshowfilenameChanged(bool val);
+	void hidefilenameChanged(bool val);
+	void hidexChanged(bool val);
+	void closeXsizeChanged(int val);
+	void fancyXChanged(bool val);
+
+	void slideShowTimeChanged(int val);
+	void slideShowMusicFileChanged(QString);
+	void slideShowShuffleChanged(bool val);
+	void slideShowLoopChanged(bool val);
+	void slideShowTransitionChanged(int val);
+	void slideShowHideQuickinfoChanged(bool val);
+
+	void wallpaperAlignmentChanged(QString);
+	void wallpaperScaleChanged(QString);
+
+	void thumbnailsizeChanged(int val);
+	void thumbnailcacheChanged(bool val);
+	void thbcachefileChanged(bool val);
+	void thumbnailSpacingBetweenChanged(int val);
+	void thumbnailLiftUpChanged(int val);
+	void thumbnailKeepVisibleChanged(bool val);
+	void thumbnailFontSizeChanged(int val);
+	void thumbnailDynamicChanged(int val);
+	void thumbnailCenterActiveChanged(bool val);
+	void thumbnailpositionChanged(QString val);
+	void thumbnailFilenameInsteadChanged(bool val);
+	void thumbnailFilenameInsteadFontSizeChanged(int val);
+	void thumbnailDisableChanged(bool val);
+	void thumbnailPreloadFullDirectoryChanged(bool val);
+	void thumbnailPreloadNumberChanged(int val);
+	void thumbnailWriteFilenameChanged(bool val);
+	void thumbnailWriteResolutionChanged(bool val);
+
+	void windowmodeChanged(bool val);
+	void windowDecorationChanged(bool val);
+	void knownFileTypesQtExtrasChanged(QString val);
+
+	void exiffontsizeChanged(int val);
+	void exifenablemousetriggeringChanged(bool val);
+	void exifrotationChanged(QString val);
+	void exifgpsmapserviceChanged(QString val);
+	void exiffilenameChanged(bool val);
+	void exiffiletypeChanged(bool val);
+	void exiffilesizeChanged(bool val);
+	void exifdimensionsChanged(bool val);
+	void exifmakeChanged(bool val);
+	void exifmodelChanged(bool val);
+	void exifsoftwareChanged(bool val);
+	void exifphototakenChanged(bool val);
+	void exifexposuretimeChanged(bool val);
+	void exifflashChanged(bool val);
+	void exifisoChanged(bool val);
+	void exifscenetypeChanged(bool val);
+	void exifflengthChanged(bool val);
+	void exiffnumberChanged(bool val);
+	void exiflightsourceChanged(bool val);
+	void iptckeywordsChanged(bool val);
+	void iptclocationChanged(bool val);
+	void iptccopyrightChanged(bool val);
+	void exifgpsChanged(bool val);
+
 
 };
 
