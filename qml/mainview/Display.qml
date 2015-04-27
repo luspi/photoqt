@@ -112,11 +112,11 @@ Item {
 	}
 
 	function zoomIn(towardsCenter) {
-		zoomTowardsCenter = true
+		zoomTowardsCenter = (towardsCenter !== undefined ? towardsCenter : false)
 		doZoom(true)
 	}
 	function zoomOut(towardsCenter) {
-		zoomTowardsCenter = true
+		zoomTowardsCenter = (towardsCenter !== undefined ? towardsCenter : false)
 		doZoom(false)
 	}
 
@@ -193,6 +193,7 @@ Item {
 
 		Item {
 			id: imageContainer
+
 			width: Math.max((animated ? anim.width : norm.width) * (animated ? anim.scale : norm.scale), flickarea.width)
 			height: Math.max((animated ? anim.height : norm.height) * (animated ? anim.scale : norm.scale), flickarea.height)
 
