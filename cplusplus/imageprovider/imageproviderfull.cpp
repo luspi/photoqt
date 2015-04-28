@@ -5,6 +5,7 @@ ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider
 	verbose = false;
 
 	settingsPerSession = new QSettings("photoqt_session");
+	settings = new Settings;
 	fileformats = new FileFormats();
 
 	gmfiles = fileformats->formatsGmEnabled.join(",");
@@ -149,6 +150,19 @@ QImage ImageProviderFull::readImage_QT(QString filename) {
 
 		// Eventually load the image
 		img = reader.read();
+
+		// Qt 5.4 introduces an autorotate for JPEG w/ rotation Exif tag set and no way to turn it off (grrrrrrr!!!)
+		// On discussion regarding Exif rotation and QT: http://development.qt-project.narkive.com/LkvsHvRE/rotating-jpeg-images-by-default
+		// As this breaks some of PhotoQt's functionality, we need to revert this change
+		// Unfortunately, this slows down the loading a little bit :-(
+		if(img.width() != reader.scaledSize().width() && settings->exifrotation != "Always" && maxSize.width() != 256) {
+			QTransform transform;
+			transform.rotate(-90);
+			img = img.transformed(transform,Qt::SmoothTransformation);
+		// If we take the rotation, we need to adjust the scaling (why oh why did they change this?????)
+		} else if(img.width() != reader.scaledSize().width() && maxSize.width() != -1) {
+			img = img.scaledToHeight(dispHeight);
+		}
 
 		// If an error occured
 		if(img.isNull()) {
