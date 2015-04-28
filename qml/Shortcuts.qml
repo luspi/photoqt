@@ -15,9 +15,10 @@ Item {
 
 	// Connected via mainwindow to shortcuts.cpp file
 	function detectedKeyCombo(combo) {
-		if(softblocked != 0 && combo === "Escape")
+		if(softblocked != 0 && combo === "Escape") {
 			softblocked = 0
-		else if(softblocked != 0)
+			if(contextmenu.visible) contextmenu.hide()
+		} else if(softblocked != 0)
 			return
 		else if(!blockedSystem) {
 			if(blocked)
@@ -29,8 +30,11 @@ Item {
 	}
 
 	function releasedKeys(combo) {
-		if(softblocked != 0 && combo === "Escape")
+		if(softblocked != 0 && combo === "Escape") {
 			softblocked = 0
+			if(contextmenu.visible)
+				contextmenu.hide()
+		}
 		keys = "";
 	}
 

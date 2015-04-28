@@ -44,5 +44,6 @@
         <file>qml/elements/CustomLineEdit.qml</file>
         <file>qml/slidein/QuickSettings.qml</file>
         <file>qml/mainview/ContextMenu.qml</file>
+        <file>qml/mainview/ContextMenuEntry.qml</file>
     </qresource>
 </RCC>

@@ -17,6 +17,8 @@ Rectangle {
 	// Index of currently hovered item
 	property int hoveredIndex: -1
 
+	property string currentFile: ""
+
 	property point clickpos: Qt.point(0,0)
 
 	property int normalYPosition: thumbnailbarheight_addon-12
@@ -60,13 +62,13 @@ Rectangle {
 		if(!directoryLoaded) return
 
 		// Store some values
-		var imageUrl = imageModel.get(pos).imageUrl;
+		currentFile = imageModel.get(pos).imageUrl;
 
 		// Load image
-		if(getanddostuff.isImageAnimated(imageUrl))
-			image.setAnimatedImage("file://" + imageUrl)
+		if(getanddostuff.isImageAnimated(currentFile))
+			image.setAnimatedImage("file://" + currentFile)
 		else
-			image.setNormalImage("image://full/" + imageUrl)
+			image.setNormalImage("image://full/" + currentFile)
 
 		// Ensure selected item is centered/visible
 		if(totalNumberImages*(settings.thumbnailsize+settings.thumbnailSpacingBetween) > thumbnailBar.width) {
@@ -97,7 +99,7 @@ Rectangle {
 		hoveredIndex = pos
 
 		// Update quickinfo (position, filename)
-		quickInfo.updateQuickInfo(pos, totalNumberImages, imageUrl);
+		quickInfo.updateQuickInfo(pos, totalNumberImages, currentFile);
 
 	}
 

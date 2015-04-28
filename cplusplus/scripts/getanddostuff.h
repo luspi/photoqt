@@ -9,6 +9,8 @@
 #include <QFileDialog>
 #include <QJSValue>
 #include <iostream>
+#include <QIcon>
+#include <QProcess>
 
 #ifdef GM
 #include <GraphicsMagick/Magick++.h>
@@ -46,6 +48,10 @@ public:
 	Q_INVOKABLE QString filterOutShortcutCommand(QString combo, QString file);
 
 	Q_INVOKABLE QString getFilename(QString caption, QString dir, QString filter = "");
+
+	Q_INVOKABLE QString getIconPathFromTheme(QString binary);
+	Q_INVOKABLE bool checkIfBinaryExists(QString exec);
+	Q_INVOKABLE void executeApp(QString exec, QString fname);
 
 private:
 	QImageReader reader;

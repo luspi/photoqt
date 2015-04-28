@@ -16,5 +16,15 @@
         <file>img/settings/emptybackground.png</file>
         <file>img/transparent.png</file>
         <file>img/settings/addshortcut.png</file>
+        <file>img/contextmenu/first.png</file>
+        <file>img/contextmenu/last.png</file>
+        <file>img/contextmenu/rotateLeft.png</file>
+        <file>img/contextmenu/rotateRight.png</file>
+        <file>img/contextmenu/flipH.png</file>
+        <file>img/contextmenu/flipV.png</file>
+        <file>img/contextmenu/delete.png</file>
+        <file>img/contextmenu/open.png</file>
+        <file>img/contextmenu/rename.png</file>
+        <file>img/contextmenu/scale.png</file>
     </qresource>
 </RCC>
