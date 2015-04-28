@@ -258,6 +258,17 @@ Item {
 				}
 			}
 		}
+
+		// ignore wheel events (use for shortcuts, not for scrolling (scroll+zoom leads to unwanted behaviour))
+		MouseArea {
+			anchors.fill: parent
+			propagateComposedEvents: true
+			onWheel: wheel.accepted = true	// ignore mouse wheel
+			onPressed: mouse.accepted = false
+			onReleased: mouse.accepted = false
+			onMouseXChanged: mouse.accepted = false
+			onMouseYChanged: mouse.accepted = false
+		}
 	}
 
 	ScrollBarHorizontal { flickable: flickarea; }
