@@ -60,17 +60,17 @@ Item {
 		resetZoom()
 		resetRotation()
 
+		// Set source
+		norm.source = path
+
 		// Pad or Fit?
-		var s = getanddostuff.getImageSize(path)
-		if(s.width < item.width && s.height < item.height)
+		if(norm.width < item.width && norm.height < item.height)
 			norm.fillMode = Image.Pad
 		else
 			norm.fillMode = Image.PreserveAspectFit
 
-		imageWidthLargerThanHeight = (s.width >= s.height);
+		imageWidthLargerThanHeight = (norm.width >= norm.height);
 
-		// Set source
-		norm.source = path
 		url = path
 
 		// Animated!!!
@@ -128,7 +128,7 @@ Item {
 			norm.rotation += 90
 			norm.calculateSize()
 		}
-		if((anim.rotation%180 == 90 || norm.rotation%180 == 90) && imageWidthLargerThanHeight)
+		if((Math.abs(anim.rotation%180) == 90 || Math.abs(norm.rotation%180) == 90))
 			setSourceSize(item.height,item.width)
 		else
 			setSourceSize(item.width,item.height)
@@ -142,7 +142,7 @@ Item {
 			norm.rotation -= 90
 			norm.calculateSize()
 		}
-		if((anim.rotation%180 == 90 || norm.rotation%180 == 90) && imageWidthLargerThanHeight)
+		if((Math.abs(anim.rotation%180) == 90 || Math.abs(norm.rotation%180) == 90))
 			setSourceSize(item.height,item.width)
 		else
 			setSourceSize(item.width,item.height)
