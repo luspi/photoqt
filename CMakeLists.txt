@@ -56,6 +56,19 @@ SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/settings/settings.h cplusplus/s
 OPTION(EXIV2 "Use exiv2 library" ON)
 OPTION(GM "Use graphicsmagick library" ON)
 OPTION(QTONLY "ONLY USE QT-ONLY FEATURES" OFF)
+OPTION(C11 "Enable C++11 features (recommended!)" ON)
+
+
+###############################
+#### ENABLE C++11 FEATURES ####
+###############################
+
+IF(C11)
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+	ADD_DEFINITIONS(-DC11)
+ELSEIF(NOT C11)
+	MESSAGE(WARNING "C++11 HAS BEEN DISABLED! It is highly recommended to keep it ENABLED, as some things might not quite work as expected!")
+ENDIF(C11)
 
 
 ################################

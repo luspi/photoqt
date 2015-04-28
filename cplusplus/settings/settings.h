@@ -9,6 +9,10 @@
 #include <QtDebug>
 #include <QTimer>
 
+#ifdef C11
+	#include <thread>
+#endif
+
 // Convenience class to access and change permanent settings
 
 class Settings : public QObject {
@@ -18,15 +22,27 @@ class Settings : public QObject {
 public:
 	explicit Settings(QObject *parent = 0) : QObject(parent) {
 		verbose = false;
-		readSettings();
+
+		// Watch the settings file (this needs to come BEFORE readSettings() as there's a bug in it (see readSettings() function)
 		watcher = new QFileSystemWatcher;
 		watcher->addPath(QDir::homePath() + "/.photoqt/settings");
 		connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(readSettings()));
 
+		// Read settings initially
+		readSettings();
+
+		// When saving the settings, we don't want to write the settings file hundreds of time within a few milliseconds, but use a timer to save it once after all settings are set
 		saveSettingsTimer = new QTimer;
 		saveSettingsTimer->setInterval(400);
 		saveSettingsTimer->setSingleShot(true);
 		connect(saveSettingsTimer, SIGNAL(timeout()), this, SLOT(saveSettings()));
+
+	}
+
+	// CLean-up
+	~Settings() {
+		delete watcher;
+		delete saveSettingsTimer;
 	}
 
 
@@ -761,13 +777,24 @@ public slots:
 	// Read the current settings
 	void readSettings() {
 
+		// QFileSystemWatcher always thinks that a file was deleted, even if it was only modified.
+		// Thus, we need to re-add it to its list of watched files. Since the file might not yet be completely written, we
+		// check if the file exists and wait for that (needs C++11 features)
+#ifdef C11
+		QFileInfo checkFile(QDir::homePath() + "/.photoqt/settings");
+		while(!checkFile.exists())
+			std::this_thread::sleep_for(std::chrono::milliseconds(10));
+#endif
+		watcher->addPath(QDir::homePath() + "/.photoqt/settings");
+
+		// Set default values to start out with
 		setDefault();
 
 		QFile file(QDir::homePath() + "/.photoqt/settings");
 
 		if(!file.open(QIODevice::ReadOnly))
 
-			std::cerr << "ERROR reading settings" << std::endl;
+			std::cerr << "ERROR reading settings:" << file.errorString().trimmed().toStdString() << std::endl;
 
 		else {
 
