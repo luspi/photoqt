@@ -5,14 +5,9 @@
  PhotoQt is a fast and highly configurable image viewer with a simple and nice
  interface.
 
- THIS IS AN ATTEMPT AT PORTING PHOTOQT FROM QWIDGETS TO QML.
-
- ###########################################
- ## THIS IS A WORK IN PROGRESS            ##
- ## NOT SUITABLE FOR PRODUCTIVE USE (YET) ##
- ## MANY FEATURES STILL MISSING AND NOT   ##
- ## YET WORKING PROPERLY                  ##
- ###########################################
+ ############################################################################
+ THIS IS A PORT OF PHOTOQT OVER TO QML - WORKING, BUT NOT YET FULLY COMPLETED
+ ############################################################################
 
 
  DEPENDENCIES
@@ -74,6 +69,12 @@
    # their location via the following environment variables:
      MAGICK_LOCATION
      EXIV2_LOCATION
+
+   # In a few places, PhotoQt requires C++11 features of the compiler to be
+   # enabled. By default, that is the case. However, if the compiler you have
+   # available does not support C++11, you can disable it with the option:
+   -DC11=OFF                    # default: ON
+   # NOTE: It is HIGHLY RECOMMENDED to keep C++11 ENABLED!
 
 3) make  # This creates an executeable photoqt binary located in the ./build/ folder
 
