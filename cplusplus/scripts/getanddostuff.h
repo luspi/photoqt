@@ -11,6 +11,7 @@
 #include <iostream>
 #include <QIcon>
 #include <QProcess>
+#include <QDateTime>
 
 #ifdef GM
 #include <GraphicsMagick/Magick++.h>
@@ -35,9 +36,12 @@ public:
 
 	Q_INVOKABLE QString getFilenameQtImage();
 
+	Q_INVOKABLE QStringList setDefaultContextMenuEntries();
 	Q_INVOKABLE QStringList getContextMenu();
+	Q_INVOKABLE qint64 getContextMenuFileModifiedTime();
 
 	Q_INVOKABLE void saveContextMenu(QJSValue m);
+	void saveContextMenu(QVariantList m);
 
 	Q_INVOKABLE QVariantMap getShortcuts();
 	Q_INVOKABLE void saveShortcuts(QVariantList l);

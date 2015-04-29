@@ -15,7 +15,7 @@ Rectangle {
 	visible: false
 	opacity: 0
 
-	property bool contextMenuSetup: false
+	property int contextMenuSetup_modTime: 0
 
 	Rectangle {
 
@@ -281,27 +281,23 @@ Rectangle {
 	function popup(p) {
 
 		// Set-up the contextmenu on first open every session
-		if(!contextMenuSetup) {
+		var mod = getanddostuff.getContextMenuFileModifiedTime()
+		if(contextMenuSetup_modTime == 0 || mod !== contextMenuSetup_modTime) {
 
 			contextmodel.clear()
 
-			// These are the possible entries
-			var m = ["Edit with Gimp","gimp %f","gimp",
-					 "Edit with Krita","krita %f","calligrakrita",
-					 "Edit with KolourPaint","kolourpaint %f","kolourpaint",
-					 "Open in GwenView","gwenview %f","gwenview",
-					 "Open in showFoto","showfoto %f","showfoto",
-					 "Open in Shotwell","shotwell %f","shotwell",
-					 "Open in GThumb","gthumb %f","gthumb",
-					 "Open in Eye of Gnome","eog %f","eog"]
+			var c = getanddostuff.getContextMenu()
 
-			// Check for all entries
-			for(var i = 0; i < m.length/3; ++i) {
-				if(getanddostuff.checkIfBinaryExists(m[3*i+1]))
-					contextmodel.append({"txt" : m[3*i], "bin" : m[3*i+1], "icn" : m[3*i+2] })
+			for(var i = 0; i < c.length/3; ++i) {
+				var bin = getanddostuff.trim(c[3*i].replace("%f","").replace("%d",""))
+				// The icon for Krita is called 'calligrakrita'
+				if(bin === "krita")
+					contextmodel.append({"txt" : c[3*i+2], "bin" : c[3*i], "close" : c[3*i+1], "icn" : "calligrakrita" });
+				else
+					contextmodel.append({"txt" : c[3*i+2], "bin" : c[3*i], "close" : c[3*i+1], "icn" : bin });
 			}
 
-			contextMenuSetup = true
+			contextMenuSetup_modTime = mod
 
 		}
 

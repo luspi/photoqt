@@ -145,6 +145,8 @@ Rectangle {
 
 			Rectangle {
 
+				id: contextrect
+
 				width: 650
 				height: 300
 				x: (parent.width-width)/2
@@ -203,12 +205,36 @@ Rectangle {
 					width: parent.width-10
 					height: parent.height-headContext.height-20
 				}
-			}
 
-			CustomButton {
-				text: "Add new context menu entry"
-				x: (parent.width-width)/2
-				onClickedButton: context.addNewItem()
+				Rectangle {
+
+					color: "#00000000"
+					width: contextrect.width
+					height: contextadd.height
+					anchors.top: context.bottom
+					anchors.topMargin: 15
+
+					CustomButton {
+						id: contextadd
+						text: "Add new context menu entry"
+						anchors.horizontalCenter: parent.horizontalCenter
+						onClickedButton: context.addNewItem()
+					}
+
+
+					CustomButton {
+						id: contextreset
+						text: "(Re-)set automatically"
+						fontsize: 10
+						anchors.right: parent.right
+						onClickedButton: {
+							getanddostuff.setDefaultContextMenuEntries()
+							context.setData()
+						}
+					}
+
+				}
+
 			}
 
 		}

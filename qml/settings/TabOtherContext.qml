@@ -211,7 +211,7 @@ Rectangle {
 							MouseArea {
 								anchors.fill: parent
 								cursorShape: Qt.PointingHandCursor
-								onClicked: deleteItem(visualIndex)
+								onClicked: deleteItem(visualIndex, posInList)
 							}
 
 						}
@@ -243,10 +243,13 @@ Rectangle {
 				DropArea {
 					id:dropArea
 					anchors { fill: parent; margins: 5 }
-					onEntered:visualModel.items.move(drag.source.visualIndex, delegateRoot.visualIndex)
+					onEntered: visualModel.items.move(drag.source.visualIndex, delegateRoot.visualIndex)
 				}
 
-				onReleased: ani.stop()
+				onReleased: {
+					visualIndex = DelegateModel.itemsIndex
+					ani.stop()
+				}
 
 				onMouseYChanged: {
 
@@ -280,8 +283,10 @@ Rectangle {
 	}
 
 	// Delete an item
-	function deleteItem(index) {
-		contextmodel.remove(index)
+	function deleteItem(modelIndex, listIndex) {
+		contextmodel.remove(listIndex)
+		modelData = []
+		requestUpdateModelData()
 	}
 
 	// Add an item
@@ -293,7 +298,7 @@ Rectangle {
 
 	// Add an empty item
 	function addNewItem() {
-		contextmodel.append({_binary: "executable", _description: "menu text", _quit: false })
+		addItem("executeable","menu text",0)
 	}
 
 
@@ -307,6 +312,7 @@ Rectangle {
 
 	// Save current items
 	function saveData() {
+		modelData = []
 		requestUpdateModelData()
 		getanddostuff.saveContextMenu(modelData)
 	}
