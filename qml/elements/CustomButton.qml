@@ -8,8 +8,9 @@ Button {
 
 	property bool pressedDown: false
 	property bool hovered: false
+	property int fontsize: 13
 
-	implicitHeight: 30
+	implicitHeight: 2.5*fontsize
 
 	signal clickedButton()
 
@@ -24,6 +25,7 @@ Button {
 		label: Text {
 			horizontalAlignment: Qt.AlignHCenter
 			verticalAlignment: Qt.AlignVCenter
+			font.pixelSize: fontsize
 			color: control.enabled ? ((control.hovered || control.pressedDown) ? "#aacccccc" : "#aacccccc") : "#aacccccc"
 			text: "  " + control.text + "  "
 		}
