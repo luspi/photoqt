@@ -30,6 +30,10 @@ public:
 	explicit MainWindow(QWindow *parent = 0);
 	~MainWindow();
 
+	// These are used by main.cpp when thumbnails are disabled at startup, or to set default fileformats
+	void disableThumbnails() { settingsPermanent->thumbnailDisable = true; }
+	void setDefaultFileFormats() { fileformats->getFormats(""); }
+
 public slots:
 	void openNewFile(QString usethis = "");
 

@@ -93,8 +93,8 @@ public:
 
 
 		formatsExtrasEnabled << "**.psb"
-				     << "**.psd"
-				     << "**.xcf";
+							 << "**.psd"
+							 << "**.xcf";
 
 #ifdef GM
 
@@ -278,7 +278,7 @@ public:
 	}
 
 
-private slots:
+public slots:
 
 	// Read formats from file (if available)
 	void getFormats(QString path) {
@@ -336,6 +336,8 @@ private slots:
 		}
 
 	}
+
+private slots:
 
 	// Save all enabled formats to file
 	void saveFormats(QStringList new_qtformats, QStringList new_gmformats, QStringList new_extrasFormats) {
