@@ -55,7 +55,7 @@ public:
 
 	Q_INVOKABLE QString getIconPathFromTheme(QString binary);
 	Q_INVOKABLE bool checkIfBinaryExists(QString exec);
-	Q_INVOKABLE void executeApp(QString exec, QString fname);
+	Q_INVOKABLE void executeApp(QString exec, QString fname, QString close);
 
 private:
 	QImageReader reader;

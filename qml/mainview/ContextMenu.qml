@@ -264,7 +264,7 @@ Rectangle {
 						icon: getanddostuff.getIconPathFromTheme(icn)
 						text: txt
 						onClicked: {
-							executeExternal(bin)
+							executeExternal(bin,close)
 							softblocked = 0
 							hide()
 						}
@@ -316,8 +316,8 @@ Rectangle {
 		hideAni.start()
 	}
 
-	function executeExternal(bin) {
-		getanddostuff.executeApp(bin,thumbnailBar.currentFile)
+	function executeExternal(bin,close) {
+		getanddostuff.executeApp(bin,thumbnailBar.currentFile,close)
 	}
 
 	PropertyAnimation {

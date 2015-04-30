@@ -349,12 +349,14 @@ bool GetAndDoStuff::checkIfBinaryExists(QString exec) {
 	return p.exitCode() != 2;
 }
 
-void GetAndDoStuff::executeApp(QString exec, QString fname) {
+void GetAndDoStuff::executeApp(QString exec, QString fname, QString close) {
 
 	QProcess *p = new QProcess;
 	exec = exec.replace("%f",'"' + fname + '"');
 	exec = exec.replace("%d",'"' + QFileInfo(fname).absoluteDir().absolutePath() + '"');
 	p->start(exec);
 	while(!p->waitForStarted()) { }
+
+	if(close == "1") qApp->quit();
 
 }
