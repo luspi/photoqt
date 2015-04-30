@@ -391,32 +391,32 @@ int main(int argc, char *argv[]) {
 
 		// DISPLAY MAINWINDOW
 		w.showFullScreen();
-//		if(!startintray) {
-//			bool keepOnTop = settingsFileTxt.contains("KeepOnTop=1");
-//			if(settingsFileTxt.contains("WindowMode=1")) {
-//				if(keepOnTop) {
-//					settingsFileTxt.contains("WindowDecoration=1")
-//							  ? w.setWindowFlags(Qt::Window | Qt::WindowStaysOnTopHint)
-//							  : w.setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
-//				} else {
-//					settingsFileTxt.contains("WindowDecoration=1")
-//							  ? w.setWindowFlags(Qt::Window)
-//							  : w.setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
-//				}
+		if(!startintray) {
+			bool keepOnTop = settingsFileTxt.contains("KeepOnTop=1");
+			if(settingsFileTxt.contains("WindowMode=1")) {
+				if(keepOnTop) {
+					settingsFileTxt.contains("WindowDecoration=1")
+							  ? w.setFlags(Qt::Window | Qt::WindowStaysOnTopHint)
+							  : w.setFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+				} else {
+					settingsFileTxt.contains("WindowDecoration=1")
+							  ? w.setFlags(Qt::Window)
+							  : w.setFlags(Qt::Window | Qt::FramelessWindowHint);
+				}
 
-//				QSettings settings("photoqt","photoqt");
-//				if(settings.allKeys().contains("mainWindowGeometry") && settingsFileTxt.contains("SaveWindowGeometry=1")) {
-//					w.show();
-//					w.restoreGeometry(settings.value("mainWindowGeometry").toByteArray());
-//				} else
-//					w.showMaximized();
+				QSettings settings("photoqt","photoqt");
+				if(settings.allKeys().contains("mainWindowGeometry") && settingsFileTxt.contains("SaveWindowGeometry=1")) {
+					w.show();
+					w.setGeometry(settings.value("mainWindowGeometry").toRect());
+				} else
+					w.showMaximized();
 
-//			} else {
-//				if(keepOnTop) w.setWindowFlags(Qt::WindowStaysOnTopHint);
+			} else {
+				if(keepOnTop) w.setFlags(Qt::WindowStaysOnTopHint);
 				QString(getenv("DESKTOP")).startsWith("Enlightenment") ? w.showMaximized() : w.showFullScreen();
-//			}
-//		} else
-//			w.hide();
+			}
+		} else
+			w.hide();
 
 		// Look for a filename possibly passed on by the user. We NEED to start at i=1, otherwise it simply takes the app name as image filename
 		QString file_str = "";

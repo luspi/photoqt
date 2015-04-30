@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 	// Load QML
 	this->setSource(QUrl("qrc:/qml/mainwindow.qml"));
 	this->setColor(QColor(Qt::transparent));
-	this->setFlags(Qt::FramelessWindowHint | Qt::Window);
+//	this->setFlags(Qt::FramelessWindowHint | Qt::Window);
 
 	// Get object (for signals and stuff)
 	object = this->rootObject();
@@ -46,7 +46,7 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 	connect(object, SIGNAL(didntLoadThisThumbnail(QVariant)), this, SLOT(didntLoadThisThumbnail(QVariant)));
 
 	// Quit PhotoQt
-	connect(this->engine(), SIGNAL(quit()), qApp, SLOT(quit()));
+	connect(this->engine(), SIGNAL(quit()), this, SLOT(close()));
 
 }
 
@@ -287,6 +287,50 @@ void MainWindow::mouseMoveEvent(QMouseEvent *e) {
 	mouseDy += abs(mouseOrigPoint.y()-e->pos().y());
 
 	QQuickView::mouseMoveEvent(e);
+
+}
+
+bool MainWindow::event(QEvent *e) {
+
+	if (e->type() == QEvent::Close) {
+
+		// If a widget (like settings or about) is open, then this close event only closes this widget (like escape)
+		if(object->property("blocked").toBool()) {
+
+//			if(globVar->verbose) std::clog << "Ignoring closeEvent, sending 'Escape' shortcut" << std::endl;
+
+			e->ignore();
+
+			detectedKeyCombo("Escape");
+
+		} else {
+
+			// Hide to system tray
+			if(settingsPermanent->trayicon) {
+
+				this->hide();
+//				if(globVar->verbose) std::clog << "Hiding to System Tray." << std::endl;
+				e->ignore();
+
+			// Quit
+			} else {
+
+				// Save current geometry
+				QSettings settings("photoqt","photoqt");
+				settings.setValue("mainWindowGeometry", geometry());
+
+				// Remove 'running' file
+				QFile(QDir::homePath() + "/.photoqt/running").remove();
+
+				e->accept();
+
+				std::cout << "Goodbye!" << std::endl;
+			}
+
+		}
+	}
+
+	return QQuickWindow::event(e);
 
 }
 

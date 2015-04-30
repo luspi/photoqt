@@ -70,6 +70,7 @@ private slots:
 	void detectedKeyCombo(QString combo);
 
 protected:
+	bool event(QEvent *e);
 	void keyPressEvent(QKeyEvent *e);
 	void keyReleaseEvent(QKeyEvent *e);
 	void wheelEvent(QWheelEvent *e);
