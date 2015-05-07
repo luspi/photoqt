@@ -31,7 +31,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/CustomComboBox.qml qml/eleme
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/CustomSpinBox.qml qml/elements/CustomConfirm.qml qml/elements/CustomTextEdit.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/CustomDetectShortcut.qml qml/elements/CustomMouseShortcut.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/CustomExternalCommand.qml qml/elements/CustomLineEdit.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} qml/fadein/About.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/fadein/About.qml qml/fadein/Scale.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/SettingsItem.qml qml/settings/TabDetailsTile.qml qml/settings/TabOtherLanguageTiles.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/TabLookAndFeelBasic.qml qml/settings/TabLookAndFeelAdvanced.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/TabOtherContext.qml)

@@ -73,6 +73,7 @@ Item {
 	QuickSettings { id: quicksettings; }
 
 	About { id: about; }
+	Scale { id: scaleImage; }
 
 	SettingsItem { id: settingsitem; }
 

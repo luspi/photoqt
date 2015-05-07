@@ -206,6 +206,7 @@ Rectangle {
 				text: "Scale Image"
 				onClicked: {
 					hide()
+					scaleImage.showScale()
 					softblocked = 0
 				}
 			}

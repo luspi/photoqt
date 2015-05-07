@@ -45,5 +45,6 @@
         <file>qml/slidein/QuickSettings.qml</file>
         <file>qml/mainview/ContextMenu.qml</file>
         <file>qml/mainview/ContextMenuEntry.qml</file>
+        <file>qml/fadein/Scale.qml</file>
     </qresource>
 </RCC>

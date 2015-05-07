@@ -55,9 +55,10 @@ Item {
 		if(keys === "Escape") {
 			if(about.opacity == 1)
 				about.hideAbout()
-			else if(settingsitem.opacity == 1) {
+			else if(settingsitem.opacity == 1)
 				settingsitem.hideSettings()
-			}
+			else if(scaleImage.opacity == 1)
+				scaleImage.hideScale()
 		} else if(keys === "Ctrl+Tab" && settingsitem.opacity == 1)
 			settingsitem.nextTab()
 		else if((keys === "Ctrl+Shift+Tab") && settingsitem.opacity == 1)
@@ -130,7 +131,8 @@ Item {
 			thumbnailBar.gotoLastImage()
 
 //		if(cmd === "__wallpaper")
-//		if(cmd === "__scale")
+		if(cmd === "__scale")
+			scaleImage.showScale()
 
 	}
 

@@ -27,5 +27,7 @@
         <file>img/contextmenu/rename.png</file>
         <file>img/contextmenu/scale.png</file>
         <file>img/icon.png</file>
+        <file>img/ratioKeep.png</file>
+        <file>img/ratioDontKeep.png</file>
     </qresource>
 </RCC>
