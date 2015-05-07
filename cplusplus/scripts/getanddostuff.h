@@ -45,6 +45,7 @@ public:
 
 	Q_INVOKABLE QVariantMap getShortcuts();
 	Q_INVOKABLE void saveShortcuts(QVariantList l);
+	Q_INVOKABLE QVariantMap getDefaultShortcuts();
 
 	Q_INVOKABLE QString trim(QString s) { return s.trimmed(); }
 

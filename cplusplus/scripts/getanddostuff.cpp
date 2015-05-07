@@ -206,6 +206,13 @@ QVariantMap GetAndDoStuff::getShortcuts() {
 	QVariantMap ret;
 
 	QFile file(QDir::homePath() + "/.photoqt/shortcuts");
+
+	if(!file.exists()) {
+		// Set-up Map of default shortcuts;
+		std::cout << "INFO: Using default shortcuts set" << std::endl;
+		return getDefaultShortcuts();
+	}
+
 	if(!file.open(QIODevice::ReadOnly)) {
 		std::cerr << "ERROR: failed to read shortcuts file" << std::endl;
 		return QVariantMap();
@@ -222,6 +229,61 @@ QVariantMap GetAndDoStuff::getShortcuts() {
 		}
 		ret.insert(parts[1],QStringList() << parts[0] << QByteArray::fromPercentEncoding(parts[2].toUtf8()));
 	}
+
+	return ret;
+
+}
+
+QVariantMap GetAndDoStuff::getDefaultShortcuts() {
+
+	QVariantMap ret;
+	ret.insert("O",QStringList() << "0" << "__open");
+	ret.insert("Ctrl+O",QStringList() << "0" << "__open");
+	ret.insert("Right",QStringList() << "0" << "__next");
+	ret.insert("Space",QStringList() << "0" << "__next");
+	ret.insert("Left",QStringList() << "0" << "__prev");
+	ret.insert("Backspace",QStringList() << "0" << "__prev");
+
+	ret.insert("+",QStringList() << "0" << "__zoomIn");
+	ret.insert("Ctrl++",QStringList() << "0" << "__zoomIn");
+	ret.insert("-",QStringList() << "0" << "__zoomOut");
+	ret.insert("Ctrl+-",QStringList() << "0" << "__zoomOut");
+	ret.insert("0",QStringList() << "0" << "__zoomReset");
+	ret.insert("1",QStringList() << "0" << "__zoomActual");
+	ret.insert("Ctrl+1",QStringList() << "0" << "__zoomActual");
+
+	ret.insert("R",QStringList() << "0" << "__rotateR");
+	ret.insert("L",QStringList() << "0" << "__rotateL");
+	ret.insert("Ctrl+0",QStringList() << "0" << "__rotate0");
+	ret.insert("Ctrl+H",QStringList() << "0" << "__flipH");
+	ret.insert("Ctrl+V",QStringList() << "0" << "__flipV");
+
+	ret.insert("Ctrl+X",QStringList() << "0" << "__scale");
+	ret.insert("Ctrl+E",QStringList() << "0" << "__hideMeta");
+	ret.insert("E",QStringList() << "0" << "__settings");
+	ret.insert("I",QStringList() << "0" << "__about");
+	ret.insert("M",QStringList() << "0" << "__slideshow");
+	ret.insert("Shift+M",QStringList() << "0" << "__slideshowQuick");
+	ret.insert("W",QStringList() << "0" << "__wallpaper");
+
+	ret.insert("F2",QStringList() << "0" << "__rename");
+	ret.insert("Ctrl+C",QStringList() << "0" << "__copy");
+	ret.insert("Ctrl+M",QStringList() << "0" << "__move");
+	ret.insert("Delete",QStringList() << "0" << "__delete");
+
+	ret.insert("S",QStringList() << "0" << "__stopThb");
+	ret.insert("Ctrl+R",QStringList() << "0" << "__reloadThb");
+	ret.insert("Escape",QStringList() << "0" << "__hide");
+	ret.insert("Q",QStringList() << "0" << "__close");
+	ret.insert("Ctrl+Q",QStringList() << "0" << "__close");
+
+	ret.insert("Home",QStringList() << "0" << "__gotoFirstThb");
+	ret.insert("End",QStringList() << "0" << "__gotoLastThb");
+
+	ret.insert("[M] Ctrl+Wheel Down",QStringList() << "0" << "__zoomOut");
+	ret.insert("[M] Ctrl+Wheel Up",QStringList() << "0" << "__zoomIn");
+	ret.insert("[M] Ctrl+Middle Button",QStringList() << "0" << "__zoomReset");
+	ret.insert("[M] Right Button",QStringList() << "0" << "__showContext");
 
 	return ret;
 
