@@ -12,6 +12,7 @@
 #include <QIcon>
 #include <QProcess>
 #include <QDateTime>
+#include <QDesktopServices>
 
 #ifdef GM
 #include <GraphicsMagick/Magick++.h>
@@ -57,6 +58,7 @@ public:
 	Q_INVOKABLE QString getIconPathFromTheme(QString binary);
 	Q_INVOKABLE bool checkIfBinaryExists(QString exec);
 	Q_INVOKABLE void executeApp(QString exec, QString fname, QString close);
+    Q_INVOKABLE void openInDefaultFileManager(QString file);
 
 private:
 	QImageReader reader;

@@ -215,6 +215,7 @@ Rectangle {
 				text: "Open in default File Manager"
 				onClicked: {
 					hide()
+					getanddostuff.openInDefaultFileManager(thumbnailBar.currentFile)
 					softblocked = 0
 				}
 			}

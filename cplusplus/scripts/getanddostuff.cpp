@@ -424,3 +424,6 @@ void GetAndDoStuff::executeApp(QString exec, QString fname, QString close) {
 	if(close == "1") qApp->quit();
 
 }
+void GetAndDoStuff::openInDefaultFileManager(QString file) {
+    QDesktopServices::openUrl(QUrl("file:///" + QFileInfo(file).absolutePath()));
+}
