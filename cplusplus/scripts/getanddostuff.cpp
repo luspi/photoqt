@@ -82,7 +82,9 @@ QStringList GetAndDoStuff::getContextMenu() {
 
 	QFile file(QDir::homePath() + "/.photoqt/contextmenu");
 
-	if(!file.open(QIODevice::ReadOnly)) {
+    if(!file.exists()) return setDefaultContextMenuEntries();
+
+    if(!file.open(QIODevice::ReadOnly)) {
 		std::cerr << "ERROR: Can't open contextmenu file" << std::endl;
 		return QStringList();
 	}
@@ -169,7 +171,7 @@ void GetAndDoStuff::saveContextMenu(QVariantList l) {
 	// Open file
 	QFile file(QDir::homePath() + "/.photoqt/contextmenu");
 
-	if(!file.remove()) {
+    if(file.exists() && !file.remove()) {
 		std::cerr << "ERROR: Failed to remove old contextmenu file" << std::endl;
 		return;
 	}
