@@ -68,6 +68,7 @@ Rectangle {
 				sourceSize.width: width
 				sourceSize.height: height
 				source: "qrc:/img/mainmenu/" + allitems[index][1] + ".png"
+				opacity: (settings.trayicon || allitems[index][0] !== "hide") ? 1 : 0.5
 			}
 
 			// Entry text
@@ -75,11 +76,15 @@ Rectangle {
 
 				id: val;
 
-				color: "#dddddd";
+				color: "#cccccc";
 				lineHeight: 1.5
+
+				opacity: enabled ? 1 : 0.5
 
 				font.pointSize: 10
 				font.bold: true
+
+				enabled: (settings.trayicon || allitems[index][0] !== "hide")
 
 				// The spaces guarantee a bit of space betwene icon and text
 				text: "  " + allitems[index][2];
