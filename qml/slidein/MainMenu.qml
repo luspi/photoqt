@@ -138,7 +138,7 @@ Rectangle {
 
 		if(what === "open") openFile()
 
-		else if(what === "quit") Qt.quit();
+		else if(what === "quit") quitPhotoQt()
 
 		else if(what === "about") about.showAbout()
 

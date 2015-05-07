@@ -24,6 +24,8 @@ Item {
 	signal loadMoreThumbnails();
 	signal didntLoadThisThumbnail(var pos);
 	signal imageLoaded(var path)
+	signal hideToSystemTray();
+	signal quitPhotoQt();
 
 	// Interface blocked? System Shortcuts blocked?
 	property bool blocked: false

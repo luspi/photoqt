@@ -306,7 +306,7 @@ void GetAndDoStuff::saveShortcuts(QVariantList l) {
 	}
 
 	QFile file(QDir::homePath() + "/.photoqt/shortcuts");
-	if(!file.remove()) {
+    if(file.exists() && !file.remove()) {
 		std::cerr << "ERROR: Unable to remove old shortcuts file" << std::endl;
 		return;
 	}

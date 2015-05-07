@@ -58,8 +58,9 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 	connect(object, SIGNAL(loadMoreThumbnails()), this, SLOT(loadMoreThumbnails()));
 	connect(object, SIGNAL(didntLoadThisThumbnail(QVariant)), this, SLOT(didntLoadThisThumbnail(QVariant)));
 
-	// Quit PhotoQt
-	connect(this->engine(), SIGNAL(quit()), this, SLOT(close()));
+    // Hide/Quit window
+    connect(object, SIGNAL(hideToSystemTray()), this, SLOT(hideToSystemTray()));
+    connect(object, SIGNAL(quitPhotoQt()), this, SLOT(quitPhotoQt()));
 
 }
 
@@ -322,10 +323,10 @@ bool MainWindow::event(QEvent *e) {
 
 		} else {
 
-			// Hide to system tray
-			if(settingsPermanent->trayicon) {
+            // Hide to system tray (except if a 'quit' was requested)
+            if(settingsPermanent->trayicon && !variables->skipSystemTrayAndQuit) {
 
-				this->hide();
+                trayAction(QSystemTrayIcon::Trigger);
 //				if(globVar->verbose) std::clog << "Hiding to System Tray." << std::endl;
 				e->ignore();
 
@@ -376,6 +377,14 @@ void MainWindow::trayAction(QSystemTrayIcon::ActivationReason reason) {
 
     }
 
+}
+
+void MainWindow::hideToSystemTray() {
+        trayAction(QSystemTrayIcon::Trigger);
+}
+void MainWindow::quitPhotoQt() {
+    variables->skipSystemTrayAndQuit = true;
+    this->close();
 }
 
 MainWindow::~MainWindow() {

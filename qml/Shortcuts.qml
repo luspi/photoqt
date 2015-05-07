@@ -71,9 +71,13 @@ Item {
 
 //		if(cmd === "__stopThb")
 		if(cmd === "__close")
-			Qt.quit()
-		if(cmd === "__hide")
-			Qt.quit()
+			quitPhotoQt()
+		if(cmd === "__hide") {
+			if(settings.trayicon)
+				hideToSystemTray()
+			else
+				quitPhotoQt()
+		}
 		if(cmd === "__settings")
 			settingsitem.showSettings()
 		if(cmd === "__next")

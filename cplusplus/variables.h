@@ -12,6 +12,7 @@ public:
 		currentDir = "";
         fileDialogOpened = false;
         geometryWhenHiding = QRect();
+        skipSystemTrayAndQuit = false;
 	}
 
 public:
@@ -20,6 +21,7 @@ public:
 
     bool fileDialogOpened;
     QRect geometryWhenHiding;
+    bool skipSystemTrayAndQuit;
 
 };
 

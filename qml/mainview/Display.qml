@@ -393,11 +393,15 @@ Item {
 			cursorShape: Qt.PointingHandCursor
 			acceptedButtons: Qt.LeftButton | Qt.RightButton
 			onClicked: {
-			if (mouse.button == Qt.RightButton) {
-				softblocked = 1
-				contextmenuClosingX.popup()
-			} else
-				Qt.quit()
+				if (mouse.button == Qt.RightButton) {
+					softblocked = 1
+					contextmenuClosingX.popup()
+				} else {
+					if(settings.trayicon)
+						hideToSystemTray()
+					else
+						quitPhotoQt()
+				}
 			}
 		}
 
