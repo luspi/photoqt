@@ -112,6 +112,9 @@ void MainWindow::openNewFile(QString usethis) {
 
 	if(file.trimmed() == "") return;
 
+    // Save current directory
+    variables->currentDir = QFileInfo(file).absolutePath();
+
 	// Clear loaded thumbnails
 	variables->loadedThumbnails.clear();
 
