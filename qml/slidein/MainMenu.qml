@@ -111,7 +111,7 @@ Rectangle {
 
 				visible: allitems[index][0] === "slideshow"
 
-				color: "#dddddd"
+				color: "#cccccc"
 				lineHeight: 1.5
 
 				font.pointSize: 10
