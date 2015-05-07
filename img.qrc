@@ -26,5 +26,6 @@
         <file>img/contextmenu/open.png</file>
         <file>img/contextmenu/rename.png</file>
         <file>img/contextmenu/scale.png</file>
+        <file>img/icon.png</file>
     </qresource>
 </RCC>

@@ -9,6 +9,20 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 	variables = new Variables;
 	shortcuts = new Shortcuts;
 
+	trayIcon = new QSystemTrayIcon(this);
+	trayIcon->setIcon(QIcon(":/img/icon.png"));
+	trayIcon->setToolTip("PhotoQt - " + tr("Image Viewer"));
+	// A context menu for the tray icon
+	QMenu *trayIconMenu = new QMenu;
+	trayIconMenu->setStyleSheet("background-color: rgb(67,67,67); color: white; border-radius: 5px;");
+	QAction *trayAcToggle = new QAction(QIcon(":/img/logo.png"),tr("Hide/Show PhotoQt"),this);
+	trayIconMenu->addAction(trayAcToggle);
+	connect(trayAcToggle, SIGNAL(triggered()), this, SLOT(show()));
+	// Set the menu to the tray icon
+	trayIcon->setContextMenu(trayIconMenu);
+	trayIcon->show();
+    connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayAction(QSystemTrayIcon::ActivationReason)));
+
 	// Add image providers
 	this->engine()->addImageProvider("thumb",new ImageProviderThumbnail);
 	this->engine()->addImageProvider("full",new ImageProviderFull);
@@ -24,7 +38,6 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 	// Load QML
 	this->setSource(QUrl("qrc:/qml/mainwindow.qml"));
 	this->setColor(QColor(Qt::transparent));
-//	this->setFlags(Qt::FramelessWindowHint | Qt::Window);
 
 	// Get object (for signals and stuff)
 	object = this->rootObject();
@@ -76,6 +89,8 @@ void MainWindow::openNewFile(QString usethis) {
 		QMetaObject::invokeMethod(object, "alsoIgnoreSystemShortcuts",
 					  Q_ARG(QVariant, true));
 
+        variables->fileDialogOpened = true;
+
 		// Get new filename
 		QString knownQT = fileformats->formatsQtEnabled.join(" ") + " " + fileformats->formatsQtEnabledExtras.join(" ");
 		QString knownGM = fileformats->formatsGmEnabled.join(" ");
@@ -87,6 +102,8 @@ void MainWindow::openNewFile(QString usethis) {
 										+ tr("Images") + " (GraphicsMagick)" + " (" + knownGM.trimmed() + ");;"
 						 #endif
 										+ tr("All Files") + " (*)").toUtf8();
+
+        variables->fileDialogOpened = false;
 
 		QMetaObject::invokeMethod(object, "alsoIgnoreSystemShortcuts",
 					  Q_ARG(QVariant, false));
@@ -322,15 +339,42 @@ bool MainWindow::event(QEvent *e) {
 				// Remove 'running' file
 				QFile(QDir::homePath() + "/.photoqt/running").remove();
 
+				trayIcon->hide();
 				e->accept();
 
 				std::cout << "Goodbye!" << std::endl;
+
+				qApp->quit();
+
 			}
 
 		}
 	}
 
 	return QQuickWindow::event(e);
+
+}
+
+void MainWindow::trayAction(QSystemTrayIcon::ActivationReason reason) {
+
+    if(reason == QSystemTrayIcon::Trigger) {
+
+        if(this->isVisible()) {
+            if(!variables->fileDialogOpened) {
+                variables->geometryWhenHiding = this->geometry();
+                this->hide();
+            }
+        } else {
+            if(settingsPermanent->windowmode)
+                this->show();
+            else
+                this->showFullScreen();
+            this->setGeometry(variables->geometryWhenHiding);
+
+            if(variables->currentDir == "") openNewFile();
+        }
+
+    }
 
 }
 
@@ -341,4 +385,5 @@ MainWindow::~MainWindow() {
 	delete variables;
 	delete shortcuts;
 	delete loadDir;
+	delete trayIcon;
 }

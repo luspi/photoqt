@@ -8,6 +8,7 @@
 #include <QFileDialog>
 #include <QQmlContext>
 #include <QShortcut>
+#include <QSystemTrayIcon>
 #include <QtDebug>
 
 #include "scripts/getanddostuff.h"
@@ -59,6 +60,8 @@ private:
 	int mouseDx;
 	int mouseDy;
 
+	QSystemTrayIcon *trayIcon;
+
 private slots:
 
 	void resized();
@@ -68,6 +71,8 @@ private slots:
 	void didntLoadThisThumbnail(QVariant pos);
 
 	void detectedKeyCombo(QString combo);
+
+    void trayAction(QSystemTrayIcon::ActivationReason reason);
 
 protected:
 	bool event(QEvent *e);

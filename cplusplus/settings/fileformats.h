@@ -291,7 +291,9 @@ public slots:
 
 			QTextStream in(&file1);
 			QString all = in.readAll();
-			QString extra = all.split("KnownFileTypesQtExtras=").at(1).split("\n").at(0).trimmed();
+			QString extra = "";
+			if(all.contains("KnownFileTypesQtExtras="))
+				extra = all.split("KnownFileTypesQtExtras=").at(1).split("\n").at(0).trimmed();
 
 			if(path == QDir::homePath() + "/.photoqt/settings") {
 				QStringList list = extra.split(",");

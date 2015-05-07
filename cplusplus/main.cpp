@@ -335,6 +335,7 @@ int main(int argc, char *argv[]) {
 
 		}
 
+		qApp->setQuitOnLastWindowClosed(true);
 
 		/***************************
 		 ***************************/
@@ -412,7 +413,7 @@ int main(int argc, char *argv[]) {
 					w.showMaximized();
 
 			} else {
-				if(keepOnTop) w.setFlags(Qt::WindowStaysOnTopHint);
+				if(keepOnTop) w.setFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
 				QString(getenv("DESKTOP")).startsWith("Enlightenment") ? w.showMaximized() : w.showFullScreen();
 			}
 		} else
