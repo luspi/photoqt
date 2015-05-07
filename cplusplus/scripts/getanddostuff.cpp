@@ -53,7 +53,13 @@ QPoint GetAndDoStuff::getCursorPos() {
 
 QString GetAndDoStuff::removePathFromFilename(QString path) {
 
-	return QFileInfo(path).fileName();
+    return QFileInfo(path).fileName();
+
+}
+
+QString GetAndDoStuff::removeFilenameFromPath(QString file) {
+
+    return QFileInfo(file).absolutePath();
 
 }
 
@@ -426,4 +432,117 @@ void GetAndDoStuff::executeApp(QString exec, QString fname, QString close) {
 }
 void GetAndDoStuff::openInDefaultFileManager(QString file) {
     QDesktopServices::openUrl(QUrl("file:///" + QFileInfo(file).absolutePath()));
+}
+
+bool GetAndDoStuff::scaleImage(QString filename, int width, int height, int quality, QString newfilename) {
+
+    // These image formats known by exiv2 are also supported by PhotoQt
+    QStringList formats;
+    formats << "jpeg"
+        << "jpg"
+        << "tif"
+        << "tiff"
+        << "png"
+        << "psd"
+        << "jpeg2000"
+        << "jp2"
+        << "jpc"
+        << "j2k"
+        << "jpf"
+        << "jpx"
+        << "jpm"
+        << "mj2"
+        << "bmp"
+        << "bitmap"
+        << "gif"
+        << "tga";
+
+#ifdef EXIV2
+
+    // This will store all the exif data
+    Exiv2::ExifData exifData;
+    bool gotExifData = false;
+
+    if(formats.contains(QFileInfo(filename).suffix().toLower()) && formats.contains(QFileInfo(newfilename).suffix().toLower())) {
+
+//        if(verbose) std::clog << "scale: image format supported by exiv2" << std::endl;
+
+        try {
+
+            // Open image for exif reading
+            Exiv2::Image::AutoPtr image_read = Exiv2::ImageFactory::open(filename.toStdString());
+
+            if(image_read.get() != 0) {
+
+                // YAY, WE FOUND SOME!!!!!
+                gotExifData = true;
+
+                // read exif
+                image_read->readMetadata();
+                exifData = image_read->exifData();
+
+                // Update dimensions
+                exifData["Exif.Photo.PixelXDimension"] = int32_t(width);
+                exifData["Exif.Photo.PixelYDimension"] = int32_t(height);
+
+            }
+
+        }
+
+        catch (Exiv2::Error& e) {
+            std::cerr << "ERROR [scale]: reading exif data (caught exception): " << e.what() << std::endl;
+        }
+
+    } else {
+        std::cerr << "ERROR [scale]: image format NOT supported by exiv2" << std::endl;
+        return false;
+    }
+
+
+#endif
+
+    // We need to do the actual scaling in between reading the exif data above and writing it below,
+    // since we might be scaling the image in place and thus would overwrite old exif data
+    QImageReader reader(filename);
+    reader.setScaledSize(QSize(width,height));
+    QImage img = reader.read();
+    if(!img.save(newfilename,0,quality)) {
+        std::cerr << "ERROR [scale]: Unable to save file";
+        return false;
+    }
+
+#ifdef EXIV2
+
+    // We don't need to check again, if both files are actually supported formats, since if either one isn't supported, this bool cannot be true
+    if(gotExifData) {
+
+        try {
+
+            // And write exif data to new image file
+            Exiv2::Image::AutoPtr image_write = Exiv2::ImageFactory::open(newfilename.toStdString());
+            image_write->setExifData(exifData);
+            image_write->writeMetadata();
+
+        }
+
+        catch (Exiv2::Error& e) {
+            std::cerr << "ERROR [scale]: writing exif data (caught exception): " << e.what() << std::endl;
+        }
+
+    }
+
+#endif
+
+    return true;
+
+}
+
+QString GetAndDoStuff::getSaveFilename(QString caption, QString file) {
+
+    file = file.replace("\\ ","\\---");
+    file = file.split(" ").at(0);
+    file = file.replace("\\---","\\ ");
+
+    return QFileDialog::getSaveFileName(0, caption, file);
+
 }

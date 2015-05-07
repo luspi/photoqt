@@ -18,6 +18,11 @@
 #include <GraphicsMagick/Magick++.h>
 #endif
 
+#ifdef EXIV2
+#include <exiv2/image.hpp>
+#include <exiv2/exif.hpp>
+#endif
+
 class GetAndDoStuff : public QObject {
 
 	Q_OBJECT
@@ -32,6 +37,7 @@ public:
 	Q_INVOKABLE QPoint getCursorPos();
 
 	Q_INVOKABLE QString removePathFromFilename(QString path);
+    Q_INVOKABLE QString removeFilenameFromPath(QString file);
 
 	Q_INVOKABLE QColor addAlphaToColor(QString col, int alpha);
 
@@ -59,6 +65,9 @@ public:
 	Q_INVOKABLE bool checkIfBinaryExists(QString exec);
 	Q_INVOKABLE void executeApp(QString exec, QString fname, QString close);
     Q_INVOKABLE void openInDefaultFileManager(QString file);
+
+    Q_INVOKABLE bool scaleImage(QString filename, int width, int height, int quality, QString newfilename);
+    Q_INVOKABLE QString getSaveFilename(QString caption, QString file);
 
 private:
 	QImageReader reader;

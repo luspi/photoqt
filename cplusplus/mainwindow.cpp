@@ -55,6 +55,8 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 	// Open file
 	connect(object, SIGNAL(openFile()), this, SLOT(openNewFile()));
 
+
+    connect(object, SIGNAL(reloadDirectory(QVariant)), this, SLOT(openNewFile(QVariant)));
 	connect(object, SIGNAL(loadMoreThumbnails()), this, SLOT(loadMoreThumbnails()));
 	connect(object, SIGNAL(didntLoadThisThumbnail(QVariant)), this, SLOT(didntLoadThisThumbnail(QVariant)));
 
@@ -76,6 +78,7 @@ void MainWindow::resized() {
 }
 
 // Open a new file
+void MainWindow::openNewFile(QVariant usethis) { openNewFile(usethis.toString()); }
 void MainWindow::openNewFile(QString usethis) {
 
 	// Get new filename

@@ -36,7 +36,8 @@ public:
 	void setDefaultFileFormats() { fileformats->getFormats(""); }
 
 public slots:
-	void openNewFile(QString usethis = "");
+    void openNewFile(QString usethis = "");
+    void openNewFile(QVariant usethis);
 
 private:
 	QQuickItem *item;

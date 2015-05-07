@@ -26,6 +26,7 @@ Item {
 	signal imageLoaded(var path)
 	signal hideToSystemTray();
 	signal quitPhotoQt();
+	signal reloadDirectory(var filename);
 
 	// Interface blocked? System Shortcuts blocked?
 	property bool blocked: false

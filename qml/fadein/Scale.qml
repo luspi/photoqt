@@ -13,6 +13,9 @@ Rectangle {
 	opacity: 0
 	visible: false
 
+	// This is used for proper handling of dis-/enabling 'keep aspect ratio' (takes last changed value as fixed, adjusts other one)
+	property string lastClicked: "w"
+
 	// Click on background closes scale element
 	MouseArea {
 		anchors.fill: parent
@@ -95,6 +98,13 @@ Rectangle {
 					}
 				}
 
+				Text {
+					id: error
+					x: (parent.width-width)/2
+					color: "red"
+					text: "Error! Something went wrong, unable to save new dimension..."
+				}
+
 				// New settings
 				Rectangle {
 
@@ -116,13 +126,13 @@ Rectangle {
 							height: childrenRect.height
 							Text {
 								color: "white"
-								text: "New Width:"
+								text: "New width:"
 								horizontalAlignment: Text.AlignRight
 								y: (newwidth.height-height)/2+5
 							}
 							Text {
 								color: "white"
-								text: "New Height:"
+								text: "New height:"
 								horizontalAlignment: Text.AlignRight
 								y: newwidth.height+10+(newheight.height-height)/2
 							}
@@ -142,6 +152,13 @@ Rectangle {
 								maximumValue: 99999
 								minimumValue: 1
 								y: 5
+								onValueChanged: {
+									if(aspect_image.keepaspectratio)
+										adjustHeight()
+								}
+								onFocusChanged: {
+									if(focus) lastClicked = "w"
+								}
 							}
 							// new height
 							CustomSpinBox {
@@ -151,6 +168,13 @@ Rectangle {
 								maximumValue: 99999
 								minimumValue: 1
 								y: newwidth.height+10
+								onValueChanged: {
+									if(aspect_image.keepaspectratio)
+										adjustWidth()
+								}
+								onFocusChanged: {
+									if(focus) lastClicked = "h"
+								}
 							}
 						}
 
@@ -170,6 +194,7 @@ Rectangle {
 								onClicked: {
 									parent.keepaspectratio = !parent.keepaspectratio
 									parent.source = parent.keepaspectratio ? "qrc:/img/ratioKeep.png" : "qrc:/img/ratioDontKeep.png"
+									if(parent.keepaspectratio) reenableKeepAspectRatio()
 								}
 							}
 						}
@@ -190,6 +215,7 @@ Rectangle {
 								onClicked: {
 									aspect_image.keepaspectratio = !aspect_image.keepaspectratio
 									aspect_image.source = aspect_image.keepaspectratio ? "qrc:/img/ratioKeep.png" : "qrc:/img/ratioDontKeep.png"
+									if(aspect_image.keepaspectratio) reenableKeepAspectRatio()
 								}
 							}
 						}
@@ -242,12 +268,31 @@ Rectangle {
 						CustomButton {
 							id: scale_inplace
 							text: "Scale in place"
-							onClickedButton: hideScale()
+							onClickedButton: {
+								if(getanddostuff.scaleImage(thumbnailBar.currentFile, newwidth.value, newheight.value,
+															quality_slider.value, thumbnailBar.currentFile)) {
+									reloadDirectory(thumbnailBar.currentFile)
+									hideScale()
+								} else
+									error.visible = true
+
+							}
 						}
 						CustomButton {
 							id: scale_innewfile
 							text: "Scale into new file"
-							onClickedButton: hideScale()
+							onClickedButton: {
+								var fname = getanddostuff.getSaveFilename("Save file as...",thumbnailBar.currentFile);
+								if(fname !== "") {
+									if(getanddostuff.scaleImage(thumbnailBar.currentFile,newwidth.value, newheight.value,
+																quality_slider.value, fname)) {
+										reloadDirectory(thumbnailBar.currentFile)
+										hideScale()
+									} else
+										error.visible = true
+
+								}
+							}
 						}
 						CustomButton {
 							id: scale_dont
@@ -260,7 +305,27 @@ Rectangle {
 		}
 	}
 
+	function adjustWidth() {
+		newwidth.value = newheight.value*((currentwidth.text*1)/(currentheight.text*1));
+	}
+	function adjustHeight() {
+		newheight.value = newwidth.value*((currentheight.text*1)/(currentwidth.text*1));
+	}
+	function reenableKeepAspectRatio() {
+		if(lastClicked == "w")
+			adjustHeight()
+		else
+			adjustWidth()
+	}
+
 	function showScale() {
+		if(thumbnailBar.currentFile == "") return
+		var s = getanddostuff.getImageSize(thumbnailBar.currentFile)
+		currentheight.text = s.height
+		newheight.value = s.height
+		currentwidth.text = s.width
+		newwidth.value = s.width
+		error.visible = false
 		showScaleAni.start()
 	}
 	function hideScale() {
