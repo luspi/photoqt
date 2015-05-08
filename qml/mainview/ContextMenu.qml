@@ -232,11 +232,12 @@ Rectangle {
 			}
 
 			ContextMenuEntry {
-				id: rename
+				id: entry_rename
 				icon: "qrc:/img/contextmenu/rename.png"
 				text: "Rename File"
 				onClicked: {
 					hide()
+					rename.showRename()
 					softblocked = 0
 				}
 			}
@@ -260,7 +261,7 @@ Rectangle {
 					orientation: Qt.Vertical
 					spacing: 5
 					width: container.width
-					height: contextmodel.count*(rename.height+5)
+					height: contextmodel.count*(entry_rename.height+5)
 					model: ListModel { id: contextmodel; }
 					delegate: ContextMenuEntry {
 						iconEnabled: true

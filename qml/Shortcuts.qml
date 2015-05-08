@@ -62,9 +62,13 @@ Item {
 				scaleImage.hideScale()
 			else if(deleteImage.opacity == 1)
 				deleteImage.hideDelete()
+			else if(rename.opacity == 1)
+				rename.hideRename()
 		} else if(keys === "Enter" || keys === "Return") {
 			if(deleteImage.opacity == 1)
 				deleteImage.simulateEnter()
+			else if(rename.opacity == 1)
+				rename.simulateEnter()
 		} else if(keys === "Shift+Enter" || keys === "Shift+Return" || keys === "Shift+Keypad+Enter") {
 			if(deleteImage.opacity == 1)
 				deleteImage.simulateShiftEnter()
@@ -119,7 +123,8 @@ Item {
 			image.flipHorizontal()
 		if(cmd === "__flipV")
 			image.flipVertical()
-//		if(cmd === "__rename")
+		if(cmd === "__rename")
+			rename.showRename()
 		if(cmd === "__delete")
 			deleteImage.showDelete()
 //		if(cmd === "__copy")

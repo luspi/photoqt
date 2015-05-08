@@ -9,6 +9,7 @@ Rectangle {
 	color: "#88000000"
 
 	property string text: ed1.text
+	property int fontsize: 10
 
 	signal textEdited()
 	signal accepted()
@@ -27,6 +28,7 @@ Rectangle {
 		selectedTextColor: "black"
 		selectionColor: "white"
 		text: parent.text
+		font.pointSize: parent.fontsize
 
 		clip: true
 

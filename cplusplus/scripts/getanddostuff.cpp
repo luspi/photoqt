@@ -71,8 +71,10 @@ QPoint GetAndDoStuff::getGlobalCursorPos() {
 
 }
 
-QString GetAndDoStuff::removePathFromFilename(QString path) {
+QString GetAndDoStuff::removePathFromFilename(QString path, bool removeSuffix) {
 
+    if(removeSuffix)
+        return QFileInfo(path).baseName();
     return QFileInfo(path).fileName();
 
 }
@@ -80,6 +82,12 @@ QString GetAndDoStuff::removePathFromFilename(QString path) {
 QString GetAndDoStuff::removeFilenameFromPath(QString file) {
 
     return QFileInfo(file).absolutePath();
+
+}
+
+QString GetAndDoStuff::getSuffix(QString file) {
+
+    return QFileInfo(file).completeSuffix();
 
 }
 
@@ -696,5 +704,35 @@ void GetAndDoStuff::deleteImage(QString filename, bool trash) {
 
 
 #endif
+
+}
+
+bool GetAndDoStuff::renameImage(QString oldfilename, QString newfilename) {
+
+    // The old file
+    QFile file(oldfilename);
+
+    // The new filename including full path
+    QString newfile = QFileInfo(oldfilename).absolutePath() + "/" + newfilename;
+
+    qDebug() << newfile;
+
+//	if(verbose) std::clog << "fhd: Rename: " << currentfile.toStdString() << " -> " << newfile.toStdString() << std::endl;
+
+    // Do renaming (this first check of existence shouldn't be needed but just to be on the safe side)
+    if(!QFile(newfile).exists()) {
+        if(file.copy(newfile)) {
+            if(!file.remove()) {
+                std::cerr << "ERROR! Couldn't remove the old filename" << std::endl;
+                return false;
+            }
+        } else {
+            std::cerr << "ERROR! Couldn't rename file" << std::endl;
+            return false;
+        }
+
+    }
+
+    return true;
 
 }

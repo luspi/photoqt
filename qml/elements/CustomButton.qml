@@ -18,7 +18,7 @@ Button {
 
 		background: Rectangle {
 			anchors.fill: parent
-			color: control.pressedDown ? "#66DDDDDD" : (control.hovered ? "#44DDDDDD" : "#22DDDDDD")
+			color: control.enabled ? (control.pressedDown ? "#66DDDDDD" : (control.hovered ? "#44DDDDDD" : "#22DDDDDD")) : "#11777777"
 			radius: 5
 		}
 
@@ -26,7 +26,7 @@ Button {
 			horizontalAlignment: Qt.AlignHCenter
 			verticalAlignment: Qt.AlignVCenter
 			font.pixelSize: fontsize
-			color: control.enabled ? ((control.hovered || control.pressedDown) ? "#aacccccc" : "#aacccccc") : "#aacccccc"
+			color: control.enabled ? ((control.hovered || control.pressedDown) ? "#aacccccc" : "#aacccccc") : "#55cccccc"
 			text: "  " + control.text + "  "
 		}
 

@@ -76,6 +76,7 @@ Item {
 	About { id: about; }
 	Scale { id: scaleImage; }
 	Delete { id: deleteImage; }
+	Rename { id: rename; }
 
 	SettingsItem { id: settingsitem; }
 

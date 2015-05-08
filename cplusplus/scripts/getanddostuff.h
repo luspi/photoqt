@@ -39,8 +39,9 @@ public:
     Q_INVOKABLE QPoint getCursorPos();
     Q_INVOKABLE QPoint getGlobalCursorPos();
 
-	Q_INVOKABLE QString removePathFromFilename(QString path);
+    Q_INVOKABLE QString removePathFromFilename(QString path, bool removeSuffix = false);
     Q_INVOKABLE QString removeFilenameFromPath(QString file);
+    Q_INVOKABLE QString getSuffix(QString file);
 
 	Q_INVOKABLE QColor addAlphaToColor(QString col, int alpha);
 
@@ -75,6 +76,7 @@ public:
 
     Q_INVOKABLE bool amIOnLinux();
     Q_INVOKABLE void deleteImage(QString filename, bool trash);
+    Q_INVOKABLE bool renameImage(QString oldfilename, QString newfilename);
 
 
 private:
