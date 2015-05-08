@@ -106,7 +106,7 @@ Rectangle {
 							id: newfilename
 							text: "P1080310"
 							fontsize: 20
-							width: 250
+							width: 350
 						}
 						Text {
 							id: suffix
