@@ -73,6 +73,10 @@ public:
     Q_INVOKABLE bool scaleImage(QString filename, int width, int height, int quality, QString newfilename);
     Q_INVOKABLE QString getSaveFilename(QString caption, QString file);
 
+    Q_INVOKABLE bool amIOnLinux();
+    Q_INVOKABLE void deleteImage(QString filename, bool trash);
+
+
 private:
 	QImageReader reader;
 	QSettings *settings;

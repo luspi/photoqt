@@ -46,5 +46,9 @@
         <file>qml/mainview/ContextMenu.qml</file>
         <file>qml/mainview/ContextMenuEntry.qml</file>
         <file>qml/fadein/Scale.qml</file>
+        <file>qml/fadein/Copy.qml</file>
+        <file>qml/fadein/Delete.qml</file>
+        <file>qml/fadein/Move.qml</file>
+        <file>qml/fadein/Rename.qml</file>
     </qresource>
 </RCC>

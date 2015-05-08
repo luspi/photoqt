@@ -226,6 +226,7 @@ Rectangle {
 				text: "Delete File"
 				onClicked: {
 					hide()
+					deleteImage.showDelete()
 					softblocked = 0
 				}
 			}

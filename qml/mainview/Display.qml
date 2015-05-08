@@ -172,6 +172,12 @@ Item {
 		}
 	}
 
+	function clear() {
+		norm.source = ""
+		anim.source = ""
+		nofileloaded.visible = true
+	}
+
 	/****************************************************************************************************
 	*
 	* Zoom code lines inspired by code at:

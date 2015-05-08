@@ -1,6 +1,7 @@
 #include "getanddostuff.h"
 #include <QtDebug>
 #include <QUrl>
+#include <unistd.h>
 
 GetAndDoStuff::GetAndDoStuff(QObject *parent) : QObject(parent) {
 	settings = new QSettings("photoqt_session");
@@ -567,5 +568,133 @@ QString GetAndDoStuff::getSaveFilename(QString caption, QString file) {
     file = file.replace("\\---","\\ ");
 
     return QFileDialog::getSaveFileName(0, caption, file);
+
+}
+
+bool GetAndDoStuff::amIOnLinux() {
+#ifdef Q_OS_LINUX
+    return true;
+#else
+    return false;
+#endif
+}
+
+void GetAndDoStuff::deleteImage(QString filename, bool trash) {
+
+#ifdef Q_OS_LINUX
+
+    if(trash) {
+
+//        if(verbose) std::clog << "fhd: Move to trash" << std::endl;
+
+        // The file to delete
+        QFile f(filename);
+
+        // Of course we only proceed if the file actually exists
+        if(f.exists()) {
+
+            // Create the meta .trashinfo file
+            QString info = "[Trash Info]\n";
+            info += "Path=" + QUrl(filename).toEncoded() + "\n";
+            info += "DeletionDate=" + QDateTime::currentDateTime().toString("yyyy-MM-ddThh:mm:ss");
+
+            // The base patzh for the Trah (files on external devices  use the external device for Trash)
+            QString baseTrash = "";
+
+            // If file lies in the home directory
+            if(QFileInfo(filename).absoluteFilePath().startsWith(QDir::homePath())) {
+
+                // Set the base path and make sure all the dirs exist
+                baseTrash = QString(qgetenv("XDG_DATA_HOME"));
+                if(baseTrash.trimmed() == "") baseTrash = QDir::homePath() + "/.local/share";
+                baseTrash += "/Trash/";
+
+                if(!QDir(baseTrash).exists())
+                    QDir().mkpath(baseTrash);
+                if(!QDir(baseTrash + "files").exists())
+                    QDir().mkdir(baseTrash + "files");
+                if(!QDir(baseTrash + "info").exists())
+                    QDir().mkdir(baseTrash + "info");
+            } else {
+                // Set the base path and make sure all the dirs exist
+                baseTrash = "/" + filename.split("/").at(1) + "/" + filename.split("/").at(2) + QString("/.Trash-%1/").arg(getuid());
+                if(!QDir(baseTrash).exists())
+                    QDir().mkdir(baseTrash);
+                if(!QDir(baseTrash + "files").exists())
+                    QDir().mkdir(baseTrash + "files");
+                if(!QDir(baseTrash + "info").exists())
+                    QDir().mkdir(baseTrash + "info");
+
+            }
+
+            // that's the new trash file
+            QString trashFile = baseTrash + "files/" + QUrl::toPercentEncoding(QFileInfo(f).fileName(),""," ");
+
+            // If there exists already a file with that name, we simply append the next higher number (sarting at 1)
+            QFile ensure(trashFile);
+            int j = 1;
+            while(ensure.exists()) {
+                trashFile = QFileInfo(trashFile).absolutePath() + "/" + QFileInfo(trashFile).baseName() + QString(" %1.").arg(j) + QFileInfo(trashFile).completeSuffix();
+                ensure.setFileName(trashFile);
+            }
+
+            // Copy the file to the Trash
+            if(f.copy(trashFile)) {
+
+                // And remove the old file
+                if(!f.remove())
+                    std::cerr << "ERROR: Old file couldn't be removed!" << std::endl;
+
+                // Write the .trashinfo file
+                QFile i(baseTrash + "info/" + QFileInfo(trashFile).fileName() + ".trashinfo");
+                if(i.open(QIODevice::WriteOnly)) {
+                    QTextStream out(&i);
+                    out << info;
+                    i.close();
+                } else
+                    std::cerr << "ERROR: *.trashinfo file couldn't be created!" << std::endl;
+
+            } else
+                std::cerr << "ERROR: File couldn't be deleted (moving file failed)" << std::endl;
+
+        } else
+            std::cerr << "ERROR: File '" << filename.toStdString() << "' doesn't exist...?" << std::endl;
+
+    } else {
+
+//        if(verbose) std::clog << "fhd: Hard delete file" << std::endl;
+
+        // current file
+        QFile file(filename);
+
+        // Delete it if it exists (if it got here, the file should exist)
+        if(file.exists()) {
+
+            file.remove();
+
+        } else {
+            std::cerr << "ERROR! File '" << filename.toStdString() << "' doesn't exist...?" << std::endl;
+        }
+
+    }
+
+#else
+
+//    if(verbose) std::clog << "fhd: Delete file" << std::endl;
+
+    // current file
+    QFile file(filename);
+
+    // Delete it if it exists (if it got here, the file should exist)
+    if(file.exists()) {
+
+        file.remove();
+
+    } else {
+        std::cerr << "ERROR! File doesn't exist...?" << std::endl;
+    }
+
+
+#endif
 
 }

@@ -52,6 +52,7 @@ Item {
 	}
 
 	function checkForSystemShortcut(keys) {
+		console.log(keys)
 		if(keys === "Escape") {
 			if(about.opacity == 1)
 				about.hideAbout()
@@ -59,6 +60,14 @@ Item {
 				settingsitem.hideSettings()
 			else if(scaleImage.opacity == 1)
 				scaleImage.hideScale()
+			else if(deleteImage.opacity == 1)
+				deleteImage.hideDelete()
+		} else if(keys === "Enter" || keys === "Return") {
+			if(deleteImage.opacity == 1)
+				deleteImage.simulateEnter()
+		} else if(keys === "Shift+Enter" || keys === "Shift+Return" || keys === "Shift+Keypad+Enter") {
+			if(deleteImage.opacity == 1)
+				deleteImage.simulateShiftEnter()
 		} else if(keys === "Ctrl+Tab" && settingsitem.opacity == 1)
 			settingsitem.nextTab()
 		else if((keys === "Ctrl+Shift+Tab") && settingsitem.opacity == 1)
@@ -111,7 +120,8 @@ Item {
 		if(cmd === "__flipV")
 			image.flipVertical()
 //		if(cmd === "__rename")
-//		if(cmd === "__delete")
+		if(cmd === "__delete")
+			deleteImage.showDelete()
 //		if(cmd === "__copy")
 //		if(cmd === "__move")
 		if(cmd === "__hideMeta") {

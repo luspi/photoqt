@@ -127,6 +127,19 @@ Rectangle {
 		}
 	}
 
+	function getNewFilenameAfterDeletion() {
+		console.log("after:",clickedIndex,totalNumberImages)
+		if(totalNumberImages == 1) {
+			image.clear()
+			metaData.clear()
+			quickInfo.opacity = 0
+			return ""
+		}
+		if(clickedIndex < totalNumberImages-1)
+			return imageModel.get(clickedIndex+1).imageUrl
+		return imageModel.get(clickedIndex-1).imageUrl
+	}
+
 	function gotoFirstImage() {
 		displayImage(0);
 	}
@@ -136,6 +149,7 @@ Rectangle {
 
 	// Load proper thumbnail at position 'pos' (smart == true means: ONLY IF IT EXISTS)
 	function reloadImage(pos, smart) {
+		if(pos < 0 || pos >= totalNumberImages) return
 		var imageUrl = imageModel.get(pos).imageUrl;
 		imageModel.set(pos,{"imageUrl" : imageUrl, "counter" : pos, "pre" : false, "smart" : smart})
 	}

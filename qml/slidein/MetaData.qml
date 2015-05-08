@@ -289,4 +289,8 @@ Rectangle {
 
 	}
 
+	function clear() {
+		imageLoaded = false
+	}
+
 }
