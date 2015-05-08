@@ -13,6 +13,8 @@
 #include <QProcess>
 #include <QDateTime>
 #include <QDesktopServices>
+#include <QScreen>
+#include <QGuiApplication>
 
 #ifdef GM
 #include <GraphicsMagick/Magick++.h>
@@ -34,7 +36,8 @@ public:
 	Q_INVOKABLE bool isImageAnimated(QString path);
 	Q_INVOKABLE QSize getImageSize(QString path);
 
-	Q_INVOKABLE QPoint getCursorPos();
+    Q_INVOKABLE QPoint getCursorPos();
+    Q_INVOKABLE QPoint getGlobalCursorPos();
 
 	Q_INVOKABLE QString removePathFromFilename(QString path);
     Q_INVOKABLE QString removeFilenameFromPath(QString file);

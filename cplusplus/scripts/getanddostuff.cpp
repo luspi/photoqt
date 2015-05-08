@@ -47,7 +47,26 @@ QSize GetAndDoStuff::getImageSize(QString path) {
 
 QPoint GetAndDoStuff::getCursorPos() {
 
-	return QCursor::pos();
+    QPoint p = QCursor::pos();
+
+    // Find the values taken away from x/y coordinates to make the point local to screen
+    int sub_x = 0;
+    int sub_y = 0;
+    for(int i = 0; i < QGuiApplication::screens().count(); ++i) {
+        if(QGuiApplication::screens().at(i)->geometry().contains(p.x(),p.y())) {
+            sub_x = QGuiApplication::screens().at(i)->geometry().x();
+            sub_y = QGuiApplication::screens().at(i)->geometry().y();
+        }
+    }
+
+    // Return "corrected" point
+    return QPoint(p.x()-sub_x,p.y()-sub_y);
+
+}
+
+QPoint GetAndDoStuff::getGlobalCursorPos() {
+
+    return QCursor::pos();
 
 }
 
