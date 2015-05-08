@@ -64,6 +64,7 @@ public:
 	Q_INVOKABLE QString getIconPathFromTheme(QString binary);
 	Q_INVOKABLE bool checkIfBinaryExists(QString exec);
 	Q_INVOKABLE void executeApp(QString exec, QString fname, QString close);
+    Q_INVOKABLE void openLink(QString url);
     Q_INVOKABLE void openInDefaultFileManager(QString file);
 
     Q_INVOKABLE bool scaleImage(QString filename, int width, int height, int quality, QString newfilename);

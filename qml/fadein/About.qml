@@ -39,6 +39,12 @@ Rectangle {
 		radius: 10
 		color: colour_fadein_bg
 
+		// Clicks INSIDE element doesn't close it
+		MouseArea {
+			anchors.fill: parent
+			acceptedButtons: Qt.LeftButton | Qt.RightButton
+		}
+
 		Rectangle {
 
 			id: rect
@@ -111,14 +117,15 @@ Rectangle {
 								+ "If you find a bug or if you have a question or suggestion, tell me. I'm open to any feedback I get :)<br>";
 
 							}
-							// Pointing hand cursor when over link
+							// Pointing hand cursor and click when over link
 							MouseArea {
 								anchors.fill: parent
 								cursorShape: txt.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+								onClicked: {
+									if(txt.hoveredLink)
+										Qt.openUrlExternally(txt.hoveredLink)
+								}
 							}
-
-							// Click on link
-							onLinkActivated: Qt.openUrlExternally(link)
 						}
 
 						// Big text thanking supporters and contributors
@@ -160,13 +167,13 @@ Rectangle {
 							MouseArea {
 								anchors.fill: parent
 								cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+								onClicked: {
+									if(parent.hoveredLink)
+										Qt.openUrlExternally(parent.hoveredLink)
+								}
 							}
-
-							onLinkActivated: Qt.openUrlExternally(link)
 						}
-
 					}
-
 				}
 
 				// Horizontal line

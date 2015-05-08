@@ -419,6 +419,10 @@ bool GetAndDoStuff::checkIfBinaryExists(QString exec) {
 	return p.exitCode() != 2;
 }
 
+void GetAndDoStuff::openLink(QString url) {
+    QDesktopServices::openUrl(url);
+}
+
 void GetAndDoStuff::executeApp(QString exec, QString fname, QString close) {
 
 	QProcess *p = new QProcess;

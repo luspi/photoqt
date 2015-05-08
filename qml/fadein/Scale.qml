@@ -41,6 +41,12 @@ Rectangle {
 		radius: 10
 		color: colour_fadein_bg
 
+		// Clicks INSIDE element doesn't close it
+		MouseArea {
+			anchors.fill: parent
+			acceptedButtons: Qt.LeftButton | Qt.RightButton
+		}
+
 		Rectangle {
 
 			id: rect
@@ -49,10 +55,6 @@ Rectangle {
 			anchors.fill: parent
 			anchors.margins: item.radius
 			color: "#00000000"
-
-			MouseArea {
-				anchors.fill: parent
-			}
 
 			Column {
 
