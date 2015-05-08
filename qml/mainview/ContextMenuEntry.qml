@@ -25,7 +25,7 @@ Rectangle {
 	Row {
 
 		id: row
-		spacing: 2
+		spacing: 4
 
 		// Icon left of text
 		Image {
