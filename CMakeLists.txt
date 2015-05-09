@@ -19,7 +19,6 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/imageprovider/imageproviderfull
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/scripts/getanddostuff.cpp cplusplus/scripts/getmetadata.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/scripts/thumbnailsmanagement.cpp cplusplus/shortcuts/shortcuts.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/settings/settings.h cplusplus/settings/settingssession.h cplusplus/settings/fileformats.h)
-
 SET(photoqt_SOURCES ${photoqt_SOURCES} javascript/keydetect.js)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/mainwindow.qml qml/Shortcuts.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/slidein/ThumbnailBar.qml qml/slidein/MetaData.qml qml/slidein/MainMenu.qml qml/slidein/QuickSettings.qml)
@@ -31,8 +30,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/CustomComboBox.qml qml/eleme
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/CustomSpinBox.qml qml/elements/CustomConfirm.qml qml/elements/CustomTextEdit.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/CustomDetectShortcut.qml qml/elements/CustomMouseShortcut.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/CustomExternalCommand.qml qml/elements/CustomLineEdit.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} qml/fadein/About.qml qml/fadein/Scale.qml qml/fadein/Rename.qml qml/fadein/Copy.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} qml/fadein/Move.qml qml/fadein/Delete.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/fadein/About.qml qml/fadein/Scale.qml qml/fadein/Rename.qml qml/fadein/Delete.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/SettingsItem.qml qml/settings/TabDetailsTile.qml qml/settings/TabOtherLanguageTiles.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/TabLookAndFeelBasic.qml qml/settings/TabLookAndFeelAdvanced.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/TabOtherContext.qml)

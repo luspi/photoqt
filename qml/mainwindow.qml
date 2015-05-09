@@ -46,7 +46,17 @@ Item {
 	FileFormats { id: fileformats; }
 	SettingsSession { id: settingssession; }
 
-	GetAndDoStuff { id: getanddostuff; }
+	GetAndDoStuff {
+		id: getanddostuff;
+		// The reloadDirectory signal is emitted by copy/move actions in getanddostuff.cpp
+		// We can't emit the qml reload signal from here (empty error message?), so we go the detour with a function emitting the signal
+		onReloadDirectory: {
+			if(deleted)
+				doReload(thumbnailBar.getNewFilenameAfterDeletion())
+			else
+				doReload(path)
+		}
+	}
 	GetMetaData { id: getmetadata; }
 	ThumbnailManagement { id: thumbnailmanagement; }
 
@@ -125,6 +135,11 @@ Item {
 
 	Component.onCompleted: {
 		quicksettings.setData()
+	}
+
+	// We can't emit the signal from the subcomponent (empty error message), so we go the detour with a function emitting the signal
+	function doReload(path) {
+		reloadDirectory(path)
 	}
 
 }

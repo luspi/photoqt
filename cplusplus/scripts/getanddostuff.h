@@ -77,11 +77,16 @@ public:
     Q_INVOKABLE bool amIOnLinux();
     Q_INVOKABLE void deleteImage(QString filename, bool trash);
     Q_INVOKABLE bool renameImage(QString oldfilename, QString newfilename);
+    Q_INVOKABLE void copyImage(QString path);
+    Q_INVOKABLE void moveImage(QString path);
 
 
 private:
 	QImageReader reader;
 	QSettings *settings;
+
+signals:
+    void reloadDirectory(QString path, bool deleted = false);
 
 };
 

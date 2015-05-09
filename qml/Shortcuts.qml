@@ -127,8 +127,10 @@ Item {
 			rename.showRename()
 		if(cmd === "__delete")
 			deleteImage.showDelete()
-//		if(cmd === "__copy")
-//		if(cmd === "__move")
+		if(cmd === "__copy")
+			getanddostuff.copyImage(thumbnailBar.currentFile)
+		if(cmd === "__move")
+			getanddostuff.moveImage(thumbnailBar.currentFile)
 		if(cmd === "__hideMeta") {
 			if(metaData.x < -40) {
 				metaData.checkCheckbox()

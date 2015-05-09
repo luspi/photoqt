@@ -736,3 +736,55 @@ bool GetAndDoStuff::renameImage(QString oldfilename, QString newfilename) {
     return true;
 
 }
+
+void GetAndDoStuff::copyImage(QString path) {
+
+    // Get new filepath
+    QString newpath = QFileDialog::getSaveFileName(0,"Copy Image to...",path,"Image (*." + QFileInfo(path).completeSuffix() + ")");
+
+    // Don't do anything here
+    if(newpath.trimmed() == "") return;
+    if(newpath == path) return;
+
+    // And copy file
+    QFile file(path);
+    if(file.copy(newpath))
+        if(QFileInfo(newpath).absolutePath() == QFileInfo(path).absolutePath())
+            emit reloadDirectory(newpath);
+    else
+        std::clog << "ERROR: Couldn't copy file" << std::endl;
+
+}
+
+void GetAndDoStuff::moveImage(QString path) {
+
+    // Get new filepath
+    QString newpath = QFileDialog::getSaveFileName(0,"Move Image to...",path,"Image (*." + QFileInfo(path).completeSuffix() + ")");
+
+    // Don't do anything here
+    if(newpath.trimmed() == "") return;
+    if(newpath == path) return;
+
+    // Make sure, that the right suffix is there...
+    if(QFileInfo(newpath).completeSuffix().toLower() != QFileInfo(path).completeSuffix().toLower())
+        newpath += QFileInfo(newpath).completeSuffix();
+
+    // And move file
+    QFile file(path);
+    if(file.copy(newpath)) {
+        if(!file.remove()) {
+            std::cerr << "ERROR: Couldn't remove old file" << std::endl;
+            if(QFileInfo(newpath).absolutePath() == QFileInfo(path).absolutePath())
+                emit reloadDirectory(newpath);
+        } else {
+            if(QFileInfo(newpath).absolutePath() == QFileInfo(path).absolutePath())
+                emit reloadDirectory(newpath);
+            else
+                // A value of true signals, that the file has been moved to a different directory (i.e. "deleted" from current directory)
+                reloadDirectory(path,true);
+        }
+
+    } else
+        std::cerr << "ERROR: Couldn't move file" << std::endl;
+
+}
