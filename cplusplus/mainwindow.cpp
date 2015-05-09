@@ -251,7 +251,7 @@ void MainWindow::detectedKeyCombo(QString combo) {
 				  Q_ARG(QVariant, combo));
 }
 void MainWindow::keyPressEvent(QKeyEvent *e) {
-	detectedKeyCombo(shortcuts->handleKeyPress(e));
+    detectedKeyCombo(shortcuts->handleKeyPress(e));
 	QQuickView::keyPressEvent(e);
 }
 void MainWindow::keyReleaseEvent(QKeyEvent *e) {

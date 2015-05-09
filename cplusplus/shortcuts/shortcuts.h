@@ -80,7 +80,9 @@ public:
 		} else if(e->key() == Qt::Key_Enter) {
 			isvalid = true;
 			txt += "Enter";
-		} else if(e->key() < 1000) {
+        // Fis key detection
+        } else if(e->key() != Qt::Key_Control && e->key() != Qt::Key_Alt && e->key() != Qt::Key_Shift
+                  && e->key() != Qt::Key_AltGr && e->key() != Qt::Key_Meta && e->key() != Qt::KeypadModifier) {
 			isvalid = true;
 			txt += QKeySequence(e->key()).toString();
 		}

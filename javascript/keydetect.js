@@ -58,7 +58,8 @@ function handleKeyPress(key,mod) {
 	} else if(key === Qt.Key_Enter) {
 		normalkey = true
 		txt += "Enter"
-	} else if(key < 1000) {
+	} else if(key !== Qt.Key_Control && key !== Qt.Key_Alt && key !== Qt.Key_Shift
+			  && key !== Qt.Key_AltGr && key !== Qt.Key_Meta && key !== Qt.KeypadModifier) {
 		normalkey = true
 		txt += String.fromCharCode(key)
 	} else
