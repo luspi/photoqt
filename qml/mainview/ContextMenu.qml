@@ -216,31 +216,99 @@ Rectangle {
 				text: "Open in default File Manager"
 				onClicked: {
 					hide()
-					getanddostuff.openInDefaultFileManager(thumbnailBar.currentFile)
 					softblocked = 0
+					if(thumbnailBar.currentFile !== "")
+						getanddostuff.openInDefaultFileManager(thumbnailBar.currentFile)
 				}
 			}
 
-			ContextMenuEntry {
-				icon: "qrc:/img/contextmenu/delete.png"
-				text: "Delete File"
-				onClicked: {
-					hide()
-					deleteImage.showDelete()
-					softblocked = 0
+			Rectangle {
+
+				color: "#00000000"
+				width: childrenRect.width
+				height: childrenRect.height
+
+				Row {
+
+					spacing: 40
+
+					Rectangle {
+
+						color: "#00000000"
+						width: childrenRect.width
+						height: childrenRect.height
+
+						Column {
+
+							spacing: 10
+
+							ContextMenuEntry {
+								id: entry_rename
+								icon: "qrc:/img/contextmenu/rename.png"
+								text: "Rename File"
+								onClicked: {
+									hide()
+									rename.showRename()
+									softblocked = 0
+								}
+							}
+
+							ContextMenuEntry {
+								icon: "qrc:/img/contextmenu/delete.png"
+								text: "Delete File"
+								onClicked: {
+									hide()
+									deleteImage.showDelete()
+									softblocked = 0
+								}
+							}
+
+						}
+
+					}
+
+					Rectangle {
+
+						color: "#00000000"
+						width: childrenRect.width
+						height: childrenRect.height
+
+						Column {
+
+							spacing: 10
+
+							ContextMenuEntry {
+								id: entry_copy
+								icon: "qrc:/img/contextmenu/copy.png"
+								text: "Copy File"
+								onClicked: {
+									hide()
+									softblocked = 0
+									if(thumbnailBar.currentFile !== "")
+										getanddostuff.copyImage(thumbnailBar.currentFile)
+								}
+							}
+
+							ContextMenuEntry {
+								icon: "qrc:/img/contextmenu/move.png"
+								text: "Move File"
+								onClicked: {
+									hide()
+									softblocked = 0
+									if(thumbnailBar.currentFile !== "")
+										getanddostuff.moveImage(thumbnailBar.currentFile)
+								}
+							}
+
+						}
+
+					}
+
 				}
+
 			}
 
-			ContextMenuEntry {
-				id: entry_rename
-				icon: "qrc:/img/contextmenu/rename.png"
-				text: "Rename File"
-				onClicked: {
-					hide()
-					rename.showRename()
-					softblocked = 0
-				}
-			}
+
 
 			Rectangle {
 				color: "#00000000"
@@ -321,7 +389,8 @@ Rectangle {
 	}
 
 	function executeExternal(bin,close) {
-		getanddostuff.executeApp(bin,thumbnailBar.currentFile,close)
+		if(thumbnailBar.currentFile !== "")
+			getanddostuff.executeApp(bin,thumbnailBar.currentFile,close)
 	}
 
 	PropertyAnimation {
