@@ -128,6 +128,7 @@ Item {
 	function detectedKeyCombo(combo) { sh.detectedKeyCombo(combo); settingsitem.detectedKeyCombo(combo); }
 	function keysReleased(combo) { settingsitem.keysReleased(); sh.releasedKeys(combo); }
 	function mouseWheelEvent(combo) { sh.gotMouseShortcut(combo); }
+	function closeContextMenuWhenOpen() { softblocked = 0; contextmenu.hide(); }
 
 	function alsoIgnoreSystemShortcuts(block) {
 		blocked = block;

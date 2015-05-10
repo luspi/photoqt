@@ -299,10 +299,11 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *e) {
 
 	QQuickView::mouseReleaseEvent(e);
 
-	if(mouseDx > 20 || mouseDy > 20 || abs(mouseOrigPoint.x()-e->pos().x()) > 20 || abs(mouseOrigPoint.y()-e->pos().y()) > 20) return;
-
-	QMetaObject::invokeMethod(object,"mouseWheelEvent",
-							  Q_ARG(QVariant, mouseCombo));
+    if(mouseDx > 20 || mouseDy > 20 || abs(mouseOrigPoint.x()-e->pos().x()) > 20 || abs(mouseOrigPoint.y()-e->pos().y()) > 20)
+        QMetaObject::invokeMethod(object,"closeContextMenuWhenOpen");
+    else
+        QMetaObject::invokeMethod(object,"mouseWheelEvent",
+                                  Q_ARG(QVariant, mouseCombo));
 
 }
 void MainWindow::mouseMoveEvent(QMouseEvent *e) {
