@@ -80,6 +80,9 @@ public:
     Q_INVOKABLE void copyImage(QString path);
     Q_INVOKABLE void moveImage(QString path);
 
+    Q_INVOKABLE QString detectWindowManager();
+    Q_INVOKABLE void setWallpaper(QString wm, QVariantMap options, QString file);
+
 
 private:
 	QImageReader reader;

@@ -15,6 +15,8 @@ Rectangle {
 
 	property int currentlySelectedWm: 0
 
+	property var selectedScreens: []
+
 	MouseArea {
 		anchors.fill: parent
 		hoverEnabled: true
@@ -116,6 +118,20 @@ Rectangle {
 					fontsize: 14
 					width: 150
 					model: ["KDE4","Plasma 5","Gnome/Unity","XFCE4","Other"]
+					// We detect the wm only here, right at the beginning, and NOT everytime the element is opened, as we don't want to change any settings that the user did during that runtime (this is useful to, e.g., play around with different wallpapers to see which one fits best)
+					Component.onCompleted: {
+						var wm = getanddostuff.detectWindowManager();
+						if(wm === "kde4")
+							wm_selection.currentIndex = 0
+						if(wm === "plasma5")
+							wm_selection.currentIndex = 1
+						if(wm === "gnome_unity")
+							wm_selection.currentIndex = 2
+						if(wm === "xfce4")
+							wm_selection.currentIndex = 3
+						if(wm === "other")
+							wm_selection.currentIndex = 4
+					}
 				}
 
 				Rectangle { color: "#00000000"; width: 1; height: 1; }
@@ -136,7 +152,7 @@ Rectangle {
 					height: Math.min(300,wallpaper.height/3)
 					contentHeight: settingsrect.height
 					clip: true
-					boundsBehavior: Flickable.StopAtBounds
+					boundsBehavior: (settingsrect.height > height ? Flickable.DragAndOvershootBounds : Flickable.StopAtBounds)
 
 					Rectangle {
 
@@ -226,7 +242,7 @@ Rectangle {
 
 								Rectangle { color: "#00000000"; width: 1; height: 1; }
 
-								ExclusiveGroup { id: wallpaperoptions_kde; }
+								ExclusiveGroup { id: wallpaperoptions_gnomeunity; }
 								Rectangle {
 
 									color: "#00000000"
@@ -241,28 +257,28 @@ Rectangle {
 										CustomRadioButton {
 											text: "wallpaper"
 											fontsize: 11
-											exclusiveGroup: wallpaperoptions_kde
+											exclusiveGroup: wallpaperoptions_gnomeunity
 											checked: true
 										}
 										CustomRadioButton {
 											text: "centered"
 											fontsize: 11
-											exclusiveGroup: wallpaperoptions_kde
+											exclusiveGroup: wallpaperoptions_gnomeunity
 										}
 										CustomRadioButton {
 											text: "scaled"
 											fontsize: 11
-											exclusiveGroup: wallpaperoptions_kde
+											exclusiveGroup: wallpaperoptions_gnomeunity
 										}
 										CustomRadioButton {
 											text: "zoom"
 											fontsize: 11
-											exclusiveGroup: wallpaperoptions_kde
+											exclusiveGroup: wallpaperoptions_gnomeunity
 										}
 										CustomRadioButton {
 											text: "spanned"
 											fontsize: 11
-											exclusiveGroup: wallpaperoptions_kde
+											exclusiveGroup: wallpaperoptions_gnomeunity
 										}
 
 									}
@@ -306,7 +322,7 @@ Rectangle {
 									height: childrenRect.height
 									x: (rect.width-width)/2
 									ListView {
-										id: view
+										id: xfce4_monitor
 										width: 10
 										spacing: 5
 										height: childrenRect.height
@@ -314,8 +330,20 @@ Rectangle {
 											text: "Screen #" + index
 											checkedButton: true
 											Component.onCompleted: {
-												if(view.width < width)
-													view.width = width
+												selectedScreens[selectedScreens.length] = index
+												if(xfce4_monitor.width < width)
+													xfce4_monitor.width = width
+											}
+											onCheckedButtonChanged: {
+												if(checkedButton)
+													selectedScreens[selectedScreens.length] = index
+												else {
+													var newlist = []
+													for(var i = 0; i < selectedScreens.length; ++i)
+														if(selectedScreens[i] !== index)
+															newlist[newlist.length] = selectedScreens[i]
+													selectedScreens = newlist
+												}
 											}
 										}
 										model: 2
@@ -562,7 +590,33 @@ Rectangle {
 		showWallpaperAni.start()
 	}
 	function hideWallpaper() {
+
 		hideWallpaperAni.start()
+
+		if(wm_selection.currentIndex == 0 || wm_selection.currentIndex == 1)
+			return;
+
+		var wm = ""
+		var options = {}
+
+		if(wm_selection.currentIndex == 2)  {
+			wm = "gnome_unity"
+			options = { "option" : wallpaperoptions_gnomeunity.current.text }
+		}
+		if(wm_selection.currentIndex == 3)  {
+			wm = "xfce4"
+			options = { "screens" : selectedScreens,
+						"option" : wallpaperoptions_xfce.current.text }
+		}
+		if(wm_selection.currentIndex == 4) {
+			wm = "other"
+			options = { "app" : (feh.checkedButton ? "feh" : "nitrogen"),
+						"feh_option" : fehexclusive.current.text,
+						"nitrogen_option" : nitrogenexclusive.current.text }
+		}
+
+
+		getanddostuff.setWallpaper(wm, options, thumbnailBar.currentFile)
 	}
 
 	PropertyAnimation {
