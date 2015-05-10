@@ -9,19 +9,20 @@ RadioButton {
 
 	property string indicatorColourEnabled: "#ffffff"
 	property string indicatorBackgroundColourEnabled: "#22FFFFFF"
+	property int fontsize: 10
 
 	style: RadioButtonStyle {
 		indicator: Rectangle {
-			implicitWidth: 16
-			implicitHeight: 16
-			radius: 9
+			implicitWidth: 1.6*fontsize
+			implicitHeight: 1.6*fontsize
+			radius: 0.9*fontsize
 			color: control.enabled ? indicatorBackgroundColourEnabled : "#22888888"
 			Rectangle {
 				anchors.fill: parent
 				visible: control.checked
 				color: indicatorColourEnabled
-				radius: 9
-				anchors.margins: 4
+				radius: 0.9*fontsize
+				anchors.margins: 0.4*fontsize
 			}
 		}
 		label: Rectangle {
@@ -32,17 +33,18 @@ RadioButton {
 				id: img
 				x: 0
 				y: 0
-				width: (icon != "") ? 16 : 0
-				height: (icon != "") ? 16 : 0
+				width: (icon != "") ? 1.6*fontsize : 0
+				height: (icon != "") ? 1.6*fontsize : 0
 				source: icon
 				visible: (icon != "")
 			}
 			Text {
 				id: txt
-				x: (icon != "") ? 18 : 0
+				x: (icon != "") ? 1.8*fontsize : 0
 				y: 0
 				color: control.enabled ? "white" : "#555555"
-				height: 16
+				height: 1.6*fontsize
+				font.pointSize: fontsize
 				text: control.text
 			}
 		}

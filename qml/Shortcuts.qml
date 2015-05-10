@@ -52,7 +52,6 @@ Item {
 	}
 
 	function checkForSystemShortcut(keys) {
-		console.log(keys)
 		if(keys === "Escape") {
 			if(about.opacity == 1)
 				about.hideAbout()
@@ -64,11 +63,15 @@ Item {
 				deleteImage.hideDelete()
 			else if(rename.opacity == 1)
 				rename.hideRename()
-		} else if(keys === "Enter" || keys === "Return") {
+			else if(wallpaper.opacity == 1)
+				wallpaper.hideWallpaper()
+		} else if(keys === "Enter" || keys === "Keypad+Enter" || keys === "Return") {
 			if(deleteImage.opacity == 1)
 				deleteImage.simulateEnter()
 			else if(rename.opacity == 1)
 				rename.simulateEnter()
+			else if(wallpaper.opacity == 1)
+				wallpaper.simularEnter()
 		} else if(keys === "Shift+Enter" || keys === "Shift+Return" || keys === "Shift+Keypad+Enter") {
 			if(deleteImage.opacity == 1)
 				deleteImage.simulateShiftEnter()
@@ -147,7 +150,8 @@ Item {
 		if(cmd === "__gotoLastThb")
 			thumbnailBar.gotoLastImage()
 
-//		if(cmd === "__wallpaper")
+		if(cmd === "__wallpaper")
+			wallpaper.showWallpaper()
 		if(cmd === "__scale")
 			scaleImage.showScale()
 

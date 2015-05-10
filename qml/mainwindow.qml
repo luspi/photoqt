@@ -84,6 +84,7 @@ Item {
 	QuickSettings { id: quicksettings; }
 
 	About { id: about; }
+	Wallpaper { id: wallpaper; }
 	Scale { id: scaleImage; }
 	Delete { id: deleteImage; }
 	Rename { id: rename; }
