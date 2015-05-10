@@ -41,6 +41,11 @@ Item {
 	property string colour_slidein_border: "#55bbbbbb"
 	property string colour_linecolour: "#99999999"
 
+	// When the slidein widgets are not visible, then they are moved away a safety distance,
+	// otherwise they might be visible for a fraction of a second when resizing the windowChanged
+	// (and also at startup)
+	property int safetyDistanceForSlidein: 500
+
 	// Access to the permanent settings file (~/.photoqt/settings)
 	Settings { id: settings; }
 	FileFormats { id: fileformats; }
@@ -104,13 +109,13 @@ Item {
 		image.width = w
 		image.height = (settings.thumbnailKeepVisible ? h-thumbnailBar.height+thumbnailbarheight_addon/2 : h)
 
-		metaData.x = -metaData.width
+		metaData.x = -metaData.width-safetyDistanceForSlidein
 		metaData.y = (h-metaData.height)/3
 
 		mainmenu.x = w-mainmenu.width-100
-		mainmenu.y = -mainmenu.height
+		mainmenu.y = -mainmenu.height-safetyDistanceForSlidein
 
-		quicksettings.x = w
+		quicksettings.x = w+safetyDistanceForSlidein
 		quicksettings.y = (h-quicksettings.height)/3
 
 		if(image.zoomSteps == 0) image.setSourceSize(w,h)

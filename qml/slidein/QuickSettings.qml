@@ -16,7 +16,7 @@ Rectangle {
 	border.color: colour_slidein_border
 
 	// Set position (we pretend that rounded corners are along the right edge only, that's why visible x is off screen)
-	x: parent.width
+	x: parent.width+500
 	y: (parent.height-quicksettings.height)/3
 
 	// Adjust size
@@ -294,7 +294,7 @@ Rectangle {
 		id: hideQuick
 		target: quicksettings
 		property: (dontAnimateComboboxOpened ? "" : "x")
-		to: background.width
+		to: background.width+safetyDistanceForSlidein
 	}
 
 

@@ -26,7 +26,7 @@ Rectangle {
 			MouseArea {
 				anchors.fill: parent
 				hoverEnabled: true
-				onEntered: if(softblocked == 0) showMetadata()
+				onEntered: if(softblocked == 0 && metaData.x < -metaData.width) showMetadata()
 			}
 
 		}
@@ -65,7 +65,8 @@ Rectangle {
 				onEntered:
 				PropertyAnimation {
 					target:  mainmenu
-					property: (softblocked == 0 ? "y" : "")
+					from: -mainmenu.height
+					property: ((softblocked == 0 && mainmenu.y < -mainmenu.height) ? "y" : "")
 					to: -mainmenu.radius
 				}
 			}
@@ -73,9 +74,9 @@ Rectangle {
 
 		// QUICKSETTINGS
 		MouseArea {
-			x: (quicksettings.x == background.width ? background.width-settings.menusensitivity*3 : background.width-quicksettings.width)
+			x: (quicksettings.x > background.width ? background.width-settings.menusensitivity*3 : background.width-quicksettings.width)
 			y: quicksettings.y
-			width: (quicksettings.x == background.width ? settings.menusensitivity*3 : quicksettings.width)
+			width: (quicksettings.x > background.width ? settings.menusensitivity*3 : quicksettings.width)
 			height: quicksettings.height
 			hoverEnabled: true
 			MouseArea {
@@ -84,8 +85,9 @@ Rectangle {
 				onEntered:
 				PropertyAnimation {
 					target:  quicksettings
-					property: (softblocked == 0 ? "x" : "")
-					onStarted: quicksettings.setData()
+					property: ((softblocked == 0 && quicksettings.x > background.width) ? "x" : "")
+					from: background.width
+					onStarted: { quicksettings.setData(); }
 					to: (settings.quickSettings ? (background.width-quicksettings.width+quicksettings.radius) : background.width)
 				}
 			}
@@ -101,6 +103,7 @@ Rectangle {
 		id: metadata_show
 		target: metaData
 		property: "x"
+		from: -metaData.width
 		to: -metaData.radius
 	}
 
@@ -110,7 +113,8 @@ Rectangle {
 		hideThumbnailBar.start()
 		if(settingssession.value("metadatakeepopen") === false) hideMetaData.start()
 		hideMainmenu.start()
-		hideQuicksettings.start()
+		if(quicksettings.x < background.width)
+			hideQuicksettings.start()
 	}
 	function hideMetadata() {
 		if(settingssession.value("metadatakeepopen") === true)
@@ -129,19 +133,19 @@ Rectangle {
 		id: hideMetaData
 		target: metaData
 		property: "x"
-		to: -metaData.width
+		to: -metaData.width-safetyDistanceForSlidein
 	}
 	PropertyAnimation {
 		id: hideMainmenu
 		target: mainmenu
 		property: "y"
-		to: -mainmenu.height
+		to: -mainmenu.height-safetyDistanceForSlidein
 	}
 	PropertyAnimation {
 		id: hideQuicksettings
 		target: quicksettings
 		property: (quicksettings.dontAnimateComboboxOpened ? "" : "x")
-		to: background.width
+		to: background.width+safetyDistanceForSlidein
 	}
 
 }

@@ -12,7 +12,7 @@ Rectangle {
 
 	// Set position (we pretend that rounded corners are along the bottom edge only, that's why visible y is off screen)
 	x: mainmenu.width-width-100
-	y: -height
+	y: -height-safetyDistanceForSlidein
 
 	// Adjust size
 	width: 350
@@ -167,7 +167,7 @@ Rectangle {
 		id: hideMainmenu
 		target: mainmenu
 		property: "y"
-		to: -mainmenu.height
+		to: -mainmenu.height-safetyDistanceForSlidein
 	}
 
 }
