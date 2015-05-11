@@ -329,6 +329,7 @@ Rectangle {
 										delegate: CustomCheckBox {
 											text: "Screen #" + index
 											checkedButton: true
+											fsize: 11
 											Component.onCompleted: {
 												selectedScreens[selectedScreens.length] = index
 												if(xfce4_monitor.width < width)
@@ -375,33 +376,33 @@ Rectangle {
 									Column {
 										spacing: 10
 										CustomRadioButton {
-											text: "automatic"
+											text: "Automatic"
 											fontsize: 11
 											exclusiveGroup: wallpaperoptions_xfce
 											checked: true
 										}
 										CustomRadioButton {
-											text: "centered"
+											text: "Centered"
 											fontsize: 11
 											exclusiveGroup: wallpaperoptions_xfce
 										}
 										CustomRadioButton {
-											text: "tiled"
+											text: "Tiled"
 											fontsize: 11
 											exclusiveGroup: wallpaperoptions_xfce
 										}
 										CustomRadioButton {
-											text: "spanned"
+											text: "Stretched"
 											fontsize: 11
 											exclusiveGroup: wallpaperoptions_xfce
 										}
 										CustomRadioButton {
-											text: "scaled"
+											text: "Scaled"
 											fontsize: 11
 											exclusiveGroup: wallpaperoptions_xfce
 										}
 										CustomRadioButton {
-											text: "magnified"
+											text: "Zoomed"
 											fontsize: 11
 											exclusiveGroup: wallpaperoptions_xfce
 										}

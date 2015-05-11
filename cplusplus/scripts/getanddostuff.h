@@ -16,6 +16,8 @@
 #include <QScreen>
 #include <QGuiApplication>
 
+#include "runprocess.h"
+
 #ifdef GM
 #include <GraphicsMagick/Magick++.h>
 #endif

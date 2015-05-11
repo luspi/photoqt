@@ -797,7 +797,7 @@ QString GetAndDoStuff::detectWindowManager() {
         return "kde4";
     } else if(QString(getenv("DESKTOP_SESSION")).toLower() == "gnome" || QString(getenv("XDG_CURRENT_DESKTOP")).toLower() == "unity" || QString(getenv("DESKTOP_SESSION")).toLower() == "ubuntu")
         return "gnome_unity";
-    else if(QString(getenv("DESKTOP_SESSION")).toLower() == "xfce4")
+    else if(QString(getenv("DESKTOP_SESSION")).toLower() == "xfce4" || QString(getenv("DESKTOP_SESSION")).toLower() == "xfce")
         return "xfce4";
     else
         return "other";
@@ -806,83 +806,71 @@ QString GetAndDoStuff::detectWindowManager() {
 
 void GetAndDoStuff::setWallpaper(QString wm, QVariantMap options, QString file) {
 
-    qDebug() << "WM: " << wm;
-    qDebug() << "options:" << options;
-
+    // SET GNOME/UNITY WALLPAPER
     if(wm == "gnome_unity") {
 
-//        if(verbose) std::clog << "Set Gnome/Unity wallpaper." << std::endl;
-
         QProcess proc;
-        proc.execute(QString("gsettings set org.gnome.desktop.background picture-options %1").arg(options.value("option").toString()));
-        proc.execute(QString("gsettings set org.gnome.desktop.background picture-uri file://%1").arg(file));
+        int ret = proc.execute(QString("gsettings set org.gnome.desktop.background picture-options %1").arg(options.value("option").toString()));
+        if(ret != 0)
+            std::cerr << "ERROR [wallpaper]: gsettings failed with exit code " << ret << " - are you sure Gnome/Unity is installed?" << std::endl;
+        else
+            proc.execute(QString("gsettings set org.gnome.desktop.background picture-uri file://%1").arg(file));
+
     }
 
+    // SET XFCE4 WALLPAPER
     if(wm == "xfce4") {
 
-        QStringList xfcePicOpts;
-        xfcePicOpts << "automatic";
-        xfcePicOpts << "centered";
-        xfcePicOpts << "tiled";
-        xfcePicOpts << "spanned";
-        xfcePicOpts << "scaled";
-        xfcePicOpts << "magnified";
         QVariantList screens = options.value("screens").toList();
 
-        for(int i = 0; i < screens.length(); ++i) {
+        RunProcess proc;
 
-            int currentscreen = screens.at(i).toInt();
+        proc.start("xfconf-query -c xfce4-desktop -lv");
+        while(proc.waitForOutput()) {}
+        if(proc.gotError()) {
+            std::cerr << "ERROR (code: " << proc.getErrorCode() << "): Failed to start xfconf-query! Is XFCE4 installed?" << std::endl;
+            return;
+        }
 
-            QProcess proc;
+        QStringList output = proc.getOutput().split("\n");
 
-            // Trying to set image style
-            if(proc.execute(QString("xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor%1/image-style -s %2").arg(currentscreen).arg(xfcePicOpts.indexOf(options.value("option").toString())))) {
+        // Filter out all the config paths that we need to adjust
+        QStringList pathToSetImageTo;
+        for(int i = 0; i < output.length(); ++i) {
 
-                // If we don't succeed, then the property most likely doesn't exist
-//                if(verbose) std::clog << "image-style property not found, trying to create it" << std::endl;
-
-                // Create Property
-                if(proc.execute(QString("xfconf-query -c xfce4-desktop -n -p /backdrop/screen0/monitor%1/image-style -t int -s 0").arg(currentscreen)) == 1)
-                    std::cerr << QString("ERROR: Unable to create property '/backdrop/screen0/monitor%1/image-style'!").arg(i).toStdString() << std::endl;
-                else {
-
-                    // Trying to set image style again
-                    if(proc.execute(QString("xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor%1/image-style -s %2").arg(currentscreen).arg(xfcePicOpts.indexOf(options.value("option").toString()))) == 1)
-                        std::cerr << "ERROR: Couldn't set image-style!" << std::endl;
-//                    else
-//                        if(verbose) std::clog << "Image style set..." << std::endl;
-
+            QString line = output.at(i);
+            // Correct line
+            if(line.startsWith("/backdrop/screen0/monitor")
+                        && line.contains("/image-style")) {
+                line = line.split("/image-style").at(0).trimmed();
+                bool ignore = true;
+                // Check for screen
+                for(int i = 0; i < screens.length(); ++i) {
+                    if(line.contains(QString("-%1/workspace").arg(screens.at(i).toInt()))) {
+                        ignore = false;
+                        break;
+                    }
                 }
-
-            } /*else*/
-//                if(verbose) std::clog << "image-style set" << std::endl;
-
-
-
-
-            if(proc.execute(QString("xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor%1/image-path -s \"%2\"").arg(currentscreen).arg(file)) == 1) {
-
-                // If we don't succeed, then the property most likely doesn't exist
-//                if(verbose) std::clog << "image-path property not found, trying to create it" << std::endl;
-
-                // Create Property
-                if(proc.execute(QString("xfconf-query -c xfce4-desktop -n -p /backdrop/screen0/monitor%1/image-path -t string -s ''").arg(currentscreen)) == 1)
-                    std::cerr << QString("ERROR: Unable to create property '/backdrop/screen0/monitor%1/image-path'!").arg(currentscreen).toStdString() << std::endl;
-                else {
-
-                    // And try again setting wallpaper
-                    if(proc.execute(QString("xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitor%1/image-path -s \"%2\"").arg(currentscreen).arg(file)) == 1)
-                        std::cerr << QString("ERROR: Unable to create property '/backdrop/screen0/monitor%1image-path' needed to set background!").arg(currentscreen).toStdString() << std::endl;
-//                    else
-//                        if(verbose) std::clog << "Image set..." << std::endl;
-                }
+                if(!ignore)
+                    pathToSetImageTo.append(line);
             }
-//            if(verbose) std::clog << "Property found, image set..." << std::endl;
 
-        } /*else
-            if(verbose) std::clog << "Monitor #" << currentscreen << " not checked..." << std::endl;*/
+        }
 
+        QStringList xfcePicOpts;
+        xfcePicOpts << "Automatic";
+        xfcePicOpts << "Centered";
+        xfcePicOpts << "Tiled";
+        xfcePicOpts << "Stretched";
+        xfcePicOpts << "Scaled";
+        xfcePicOpts << "Zoomed";
+        int imagestyle = xfcePicOpts.indexOf(options.value("option").toString());
 
+        for(int i = 0; i < pathToSetImageTo.length(); ++i) {
+            QProcess setwallpaper;
+            setwallpaper.execute(QString("xfconf-query -c xfce4-desktop -p %1/image-style -s \"%2\"").arg(pathToSetImageTo.at(i)).arg(imagestyle));
+            setwallpaper.execute(QString("xfconf-query -c xfce4-desktop -p %1/last-image -s \"%2\"").arg(pathToSetImageTo.at(i)).arg(file));
+        }
 
     }
 
