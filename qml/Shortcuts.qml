@@ -71,7 +71,7 @@ Item {
 			else if(rename.opacity == 1)
 				rename.simulateEnter()
 			else if(wallpaper.opacity == 1)
-				wallpaper.simularEnter()
+				wallpaper.simulateEnter()
 		} else if(keys === "Shift+Enter" || keys === "Shift+Return" || keys === "Shift+Keypad+Enter") {
 			if(deleteImage.opacity == 1)
 				deleteImage.simulateShiftEnter()

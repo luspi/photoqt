@@ -132,6 +132,7 @@ Rectangle {
 						if(wm === "other")
 							wm_selection.currentIndex = 4
 					}
+					onCurrentIndexChanged: okay.enabled = enDisableEnter()
 				}
 
 				Rectangle { color: "#00000000"; width: 1; height: 1; }
@@ -307,6 +308,7 @@ Rectangle {
 
 								// MONITOR HEADING
 								Text {
+									id: xfce4_monitor_part_1
 									color: "white"
 									font.pointSize: 11
 									width: rect.width
@@ -317,6 +319,7 @@ Rectangle {
 
 								// MONITOR SELECTION
 								Rectangle {
+									id: xfce4_monitor_part_2
 									color: "#00000000"
 									width: childrenRect.width
 									height: childrenRect.height
@@ -345,14 +348,15 @@ Rectangle {
 															newlist[newlist.length] = selectedScreens[i]
 													selectedScreens = newlist
 												}
+												okay.enabled = enDisableEnter()
 											}
 										}
 										model: ListModel { id: xfce4_monitor_model; }
 									}
 								}
 
-								Rectangle { color: "#00000000"; width: 1; height: 1; }
-								Rectangle { color: "#00000000"; width: 1; height: 1; }
+								Rectangle { id: xfce4_monitor_part_3; color: "#00000000"; width: 1; height: 1; }
+								Rectangle { id: xfce4_monitor_part_4; color: "#00000000"; width: 1; height: 1; }
 
 								// PICTURE OPTIONS HEADING
 								Text {
@@ -567,8 +571,9 @@ Rectangle {
 					Row {
 						spacing: 10
 						CustomButton {
+							id: okay
 							text: "Okay, do it!"
-							enabled: (wm_selection.currentIndex != 0 && wm_selection.currentIndex != 1)
+							enabled: enDisableEnter()
 							onClickedButton: simulateEnter();
 						}
 						CustomButton {
@@ -584,9 +589,18 @@ Rectangle {
 
 	}
 
+	function enDisableEnter() {
+		console.log("enDisable:", wm_selection.currentIndex,selectedScreens)
+		if(wm_selection.currentIndex == 3 && selectedScreens.length != 0)
+			return true
+		else if(wm_selection.currentIndex != 0 && wm_selection.currentIndex != 1 && wm_selection.currentIndex != 3)
+			return true;
+		return false;
+	}
+
 	function simulateEnter() {
 
-		if(wm_selection.currentIndex == 0 || wm_selection.currentIndex == 1)
+		if(!okay.enabled)
 			return;
 
 		var wm = ""
@@ -621,9 +635,16 @@ Rectangle {
 		for(var i = 0; i < c; ++i)
 			xfce4_monitor_model.append({ "index" : i })
 
+		xfce4_monitor_part_1.visible = (c > 1)
+		xfce4_monitor_part_2.visible = (c > 1)
+		xfce4_monitor_part_3.visible = (c > 1)
+		xfce4_monitor_part_4.visible = (c > 1)
+
 		showWallpaperAni.start()
 	}
 	function hideWallpaper() {
+
+		console.log(selectedScreens)
 
 		hideWallpaperAni.start()
 
