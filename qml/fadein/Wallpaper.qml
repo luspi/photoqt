@@ -589,8 +589,8 @@ Rectangle {
 
 	}
 
+	// Detect if settings are valid or not
 	function enDisableEnter() {
-		console.log("enDisable:", wm_selection.currentIndex,selectedScreens)
 		if(wm_selection.currentIndex == 3 && selectedScreens.length != 0)
 			return true
 		else if(wm_selection.currentIndex != 0 && wm_selection.currentIndex != 1 && wm_selection.currentIndex != 3)
@@ -600,6 +600,7 @@ Rectangle {
 
 	function simulateEnter() {
 
+		// This way we detect if the current setting is valid or not
 		if(!okay.enabled)
 			return;
 
@@ -635,6 +636,7 @@ Rectangle {
 		for(var i = 0; i < c; ++i)
 			xfce4_monitor_model.append({ "index" : i })
 
+		// Hide screen selection elements for single screen set-ups
 		xfce4_monitor_part_1.visible = (c > 1)
 		xfce4_monitor_part_2.visible = (c > 1)
 		xfce4_monitor_part_3.visible = (c > 1)
@@ -642,12 +644,9 @@ Rectangle {
 
 		showWallpaperAni.start()
 	}
+
 	function hideWallpaper() {
-
-		console.log(selectedScreens)
-
 		hideWallpaperAni.start()
-
 	}
 
 	PropertyAnimation {
