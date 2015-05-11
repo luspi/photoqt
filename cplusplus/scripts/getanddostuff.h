@@ -84,6 +84,7 @@ public:
 
     Q_INVOKABLE QString detectWindowManager();
     Q_INVOKABLE void setWallpaper(QString wm, QVariantMap options, QString file);
+    Q_INVOKABLE int getScreenCount();
 
 
 private:

@@ -347,7 +347,7 @@ Rectangle {
 												}
 											}
 										}
-										model: 2
+										model: ListModel { id: xfce4_monitor_model; }
 									}
 								}
 
@@ -569,7 +569,7 @@ Rectangle {
 						CustomButton {
 							text: "Okay, do it!"
 							enabled: (wm_selection.currentIndex != 0 && wm_selection.currentIndex != 1)
-							onClickedButton: hideWallpaper()
+							onClickedButton: simulateEnter();
 						}
 						CustomButton {
 							text: "Nooo, don't!"
@@ -584,16 +584,7 @@ Rectangle {
 
 	}
 
-	function simularEnter() {
-		hideWallpaper()
-	}
-
-	function showWallpaper() {
-		showWallpaperAni.start()
-	}
-	function hideWallpaper() {
-
-		hideWallpaperAni.start()
+	function simulateEnter() {
 
 		if(wm_selection.currentIndex == 0 || wm_selection.currentIndex == 1)
 			return;
@@ -616,9 +607,26 @@ Rectangle {
 						"feh_option" : fehexclusive.current.text,
 						"nitrogen_option" : nitrogenexclusive.current.text }
 		}
-
-
 		getanddostuff.setWallpaper(wm, options, thumbnailBar.currentFile)
+
+		hideWallpaper()
+
+	}
+
+	function showWallpaper() {
+
+		// Set-up monitor checkboxes
+		var c = getanddostuff.getScreenCount()
+		xfce4_monitor_model.clear()
+		for(var i = 0; i < c; ++i)
+			xfce4_monitor_model.append({ "index" : i })
+
+		showWallpaperAni.start()
+	}
+	function hideWallpaper() {
+
+		hideWallpaperAni.start()
+
 	}
 
 	PropertyAnimation {

@@ -891,3 +891,7 @@ void GetAndDoStuff::setWallpaper(QString wm, QVariantMap options, QString file) 
     }
 
 }
+
+int GetAndDoStuff::getScreenCount() {
+    return QGuiApplication::screens().count();
+}
