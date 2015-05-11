@@ -874,4 +874,20 @@ void GetAndDoStuff::setWallpaper(QString wm, QVariantMap options, QString file) 
 
     }
 
+    if(wm == "other") {
+
+        QString app = options.value("app").toString();
+
+        if(app == "feh") {
+            int ret = QProcess::execute(QString("feh %1 %2").arg(options.value("feh_option").toString()).arg(file));
+            if(ret != 0)
+                std::cerr << "ERROR [wallpaper]: feh exited with error code " << ret << " - are you sure it is installed?" << std::endl;
+        } else {
+            int ret = QProcess::execute(QString("nitrogen %1 %2").arg(options.value("nitrogen_option").toString()).arg(file));
+            if(ret != 0)
+                std::cerr << "ERROR [wallpaper]: nitrogen exited with error code " << ret << " - are you sure it is installed?" << std::endl;
+        }
+
+    }
+
 }
