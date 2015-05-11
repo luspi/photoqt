@@ -379,7 +379,6 @@ Rectangle {
 											text: "Automatic"
 											fontsize: 11
 											exclusiveGroup: wallpaperoptions_xfce
-											checked: true
 										}
 										CustomRadioButton {
 											text: "Centered"
@@ -405,6 +404,7 @@ Rectangle {
 											text: "Zoomed"
 											fontsize: 11
 											exclusiveGroup: wallpaperoptions_xfce
+											checked: true
 										}
 
 									}
