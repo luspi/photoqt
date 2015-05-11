@@ -15,7 +15,9 @@ Rectangle {
 
 	property int currentlySelectedWm: 0
 
-	property var selectedScreens: []
+	property var selectedScreens_xfce4: []
+	property var selectedScreens_enlightenment: []
+	property var selectedWorkspaces_enlightenment: []
 
 	MouseArea {
 		anchors.fill: parent
@@ -116,8 +118,8 @@ Rectangle {
 					id: wm_selection
 					x: (rect.width-width)/2
 					fontsize: 14
-					width: 150
-					model: ["KDE4","Plasma 5","Gnome/Unity","XFCE4","Other"]
+					width: 200
+					model: ["KDE4","Plasma 5","Gnome/Unity","XFCE4","Enlightenment","Other"]
 					// We detect the wm only here, right at the beginning, and NOT everytime the element is opened, as we don't want to change any settings that the user did during that runtime (this is useful to, e.g., play around with different wallpapers to see which one fits best)
 					Component.onCompleted: {
 						var wm = getanddostuff.detectWindowManager();
@@ -129,8 +131,10 @@ Rectangle {
 							wm_selection.currentIndex = 2
 						if(wm === "xfce4")
 							wm_selection.currentIndex = 3
-						if(wm === "other")
+						if(wm === "enlightenment")
 							wm_selection.currentIndex = 4
+						if(wm === "other")
+							wm_selection.currentIndex = 5
 					}
 					onCurrentIndexChanged: okay.enabled = enDisableEnter()
 				}
@@ -334,19 +338,19 @@ Rectangle {
 											checkedButton: true
 											fsize: 11
 											Component.onCompleted: {
-												selectedScreens[selectedScreens.length] = index
+												selectedScreens_xfce4[selectedScreens_xfce4.length] = index
 												if(xfce4_monitor.width < width)
 													xfce4_monitor.width = width
 											}
 											onCheckedButtonChanged: {
 												if(checkedButton)
-													selectedScreens[selectedScreens.length] = index
+													selectedScreens_xfce4[selectedScreens_xfce4.length] = index
 												else {
 													var newlist = []
-													for(var i = 0; i < selectedScreens.length; ++i)
-														if(selectedScreens[i] !== index)
-															newlist[newlist.length] = selectedScreens[i]
-													selectedScreens = newlist
+													for(var i = 0; i < selectedScreens_xfce4.length; ++i)
+														if(selectedScreens_xfce4[i] !== index)
+															newlist[newlist.length] = selectedScreens_xfce4[i]
+													selectedScreens_xfce4 = newlist
 												}
 												okay.enabled = enDisableEnter()
 											}
@@ -423,8 +427,9 @@ Rectangle {
 
 						/**********************************************************************************/
 						/**********************************************************************************/
-						// OTHER
+						// ENLIGHTENMENT
 						/**********************************************************************************/
+
 						Rectangle {
 
 							visible: (wm_selection.currentIndex == 4)
@@ -432,6 +437,149 @@ Rectangle {
 							color: "#00000000"
 							width: childrenRect.width
 							height: (wm_selection.currentIndex == 4 ? childrenRect.height : 10)
+
+							Column {
+
+								spacing: 15
+
+								// NOTE
+								Text {
+									id: enlightenment_error
+									visible: false
+									color: "red"
+									font.pointSize: 11
+									width: rect.width
+//									font.bold: true
+									wrapMode: Text.WordWrap
+									horizontalAlignment: Text.AlignHCenter
+									text: "Error: It seems that the 'msgbus' (DBUS) module is not activated<br>It can be activated in the settings console > Add-ons > Modules > System!";
+								}
+
+								// MONITOR HEADING
+								Text {
+									id: enlightenment_monitor_part_1
+									color: "white"
+									font.pointSize: 11
+									width: rect.width
+									wrapMode: Text.WordWrap
+									horizontalAlignment: Text.AlignHCenter
+									text: "The wallpaper can be set to either of the available monitors (or any combination)."
+								}
+
+								// MONITOR SELECTION
+								Rectangle {
+									id: enlightenment_monitor_part_2
+									color: "#00000000"
+									width: childrenRect.width
+									height: childrenRect.height
+									x: (rect.width-width)/2
+									ListView {
+										id: enlightenment_monitor
+										width: 10
+										spacing: 5
+										height: childrenRect.height
+										delegate: CustomCheckBox {
+											text: "Screen #" + index
+											checkedButton: true
+											fsize: 11
+											Component.onCompleted: {
+												selectedScreens_enlightenment[selectedScreens_enlightenment.length] = index
+												if(enlightenment_monitor.width < width)
+													enlightenment_monitor.width = width
+											}
+											onCheckedButtonChanged: {
+												if(checkedButton)
+													selectedScreens_enlightenment[selectedScreens_enlightenment.length] = index
+												else {
+													var newlist = []
+													for(var i = 0; i < selectedScreens_enlightenment.length; ++i)
+														if(selectedScreens_enlightenment[i] !== index)
+															newlist[newlist.length] = selectedScreens_enlightenment[i]
+													selectedScreens_enlightenment = newlist
+												}
+												okay.enabled = enDisableEnter()
+											}
+										}
+										model: ListModel { id: enlightenment_monitor_model; }
+									}
+								}
+
+								Rectangle { id: enlightenment_monitor_part_3; color: "#00000000"; width: 1; height: 1; }
+								Rectangle { id: enlightenment_monitor_part_4; color: "#00000000"; width: 1; height: 1; }
+
+								// PICTURE OPTIONS HEADING
+								Text {
+									color: "white"
+									font.pointSize: 11
+									width: rect.width
+									wrapMode: Text.WordWrap
+									horizontalAlignment: Text.AlignHCenter
+									text: "You can set the wallpaper to any sub-selection of workspaces"
+								}
+
+								Rectangle { color: "#00000000"; width: 1; height: 1; }
+
+								// WORKSPACE SELECTION
+								Rectangle {
+									color: "#00000000"
+									width: childrenRect.width
+									height: childrenRect.height
+									x: (rect.width-width)/2
+									ListView {
+										id: enlightenment_workspace
+										width: 10
+										spacing: 5
+										height: childrenRect.height
+										property int index: selectedWorkspaces_enlightenment.length
+										delegate: CustomCheckBox {
+											text: {
+												if(row == -1)
+													return "Workspace #" + column
+												if(column == -1)
+													return "Workspace #" + row
+												return "Workspace #" + row + "-" + column
+											}
+											checkedButton: true
+											fsize: 11
+											Component.onCompleted: {
+												// SINGLE COLUMNS/ROWS ARE TREATED SPECIALLY (DIFFERENTLY DISPLAYED!)
+												selectedWorkspaces_enlightenment[index] = (row == -1 ? 10000*(column+1) : (column == -1 ? 10000000*(row+1) : row*100+column))
+												if(enlightenment_workspace.width < width)
+													enlightenment_workspace.width = width
+											}
+											onCheckedButtonChanged: {
+												if(checkedButton)
+													selectedWorkspaces_enlightenment[selectedWorkspaces_enlightenment.length] = (row == -1 ? 10000*(column+1) : (column == -1 ? 10000000*(row+1) : row*100+column))
+												else {
+													var newlist = []
+													for(var i = 0; i < selectedWorkspaces_enlightenment.length; ++i)
+														if(selectedWorkspaces_enlightenment[i] !== (row == -1 ? 10000*(column+1) : (column == -1 ? 10000000*(row+1) : row*100+column)))
+															newlist[newlist.length] = selectedWorkspaces_enlightenment[i]
+													selectedWorkspaces_enlightenment = newlist
+												}
+												okay.enabled = enDisableEnter()
+											}
+										}
+										model: ListModel { id: enlightenment_workspace_model; }
+									}
+								}
+
+							}
+
+						}
+
+
+						/**********************************************************************************/
+						/**********************************************************************************/
+						// OTHER
+						/**********************************************************************************/
+						Rectangle {
+
+							visible: (wm_selection.currentIndex == 5)
+
+							color: "#00000000"
+							width: childrenRect.width
+							height: (wm_selection.currentIndex == 5 ? childrenRect.height : 10)
 
 							Column {
 
@@ -591,7 +739,7 @@ Rectangle {
 
 	// Detect if settings are valid or not
 	function enDisableEnter() {
-		if(wm_selection.currentIndex == 3 && selectedScreens.length != 0)
+		if(wm_selection.currentIndex == 3 && selectedScreens_xfce4.length != 0)
 			return true
 		else if(wm_selection.currentIndex != 0 && wm_selection.currentIndex != 1 && wm_selection.currentIndex != 3)
 			return true;
@@ -613,10 +761,16 @@ Rectangle {
 		}
 		if(wm_selection.currentIndex == 3)  {
 			wm = "xfce4"
-			options = { "screens" : selectedScreens,
+			options = { "screens" : selectedScreens_xfce4,
 						"option" : wallpaperoptions_xfce.current.text }
 		}
 		if(wm_selection.currentIndex == 4) {
+			wm = "enlightenment"
+			options = { "screens" : selectedScreens_enlightenment,
+						"workspaces" : selectedWorkspaces_enlightenment }
+		}
+
+		if(wm_selection.currentIndex == 5) {
 			wm = "other"
 			options = { "app" : (feh.checkedButton ? "feh" : "nitrogen"),
 						"feh_option" : fehexclusive.current.text,
@@ -633,14 +787,31 @@ Rectangle {
 		// Set-up monitor checkboxes
 		var c = getanddostuff.getScreenCount()
 		xfce4_monitor_model.clear()
-		for(var i = 0; i < c; ++i)
+		enlightenment_monitor_model.clear()
+		for(var i = 0; i < c; ++i) {
 			xfce4_monitor_model.append({ "index" : i })
+			enlightenment_monitor_model.append({ "index" : i })
+		}
+
+		// Set-up enlightenment workspaces
+		enlightenment_workspace_model.clear()
+		var d = getanddostuff.getEnlightenmentWorkspaceCount()
+		for(var i = 0; i < d[0]; ++i)
+			for(var j = 0; j < d[1]; ++j)
+				enlightenment_workspace_model.append({"row" : (d[0] === 1 ? -1 : i), "column" : (d[1] === 1 ? -1 : j)})
 
 		// Hide screen selection elements for single screen set-ups
 		xfce4_monitor_part_1.visible = (c > 1)
 		xfce4_monitor_part_2.visible = (c > 1)
 		xfce4_monitor_part_3.visible = (c > 1)
 		xfce4_monitor_part_4.visible = (c > 1)
+
+		enlightenment_monitor_part_1.visible = (c > 1)
+		enlightenment_monitor_part_2.visible = (c > 1)
+		enlightenment_monitor_part_3.visible = (c > 1)
+		enlightenment_monitor_part_4.visible = (c > 1)
+
+		enlightenment_error.visible = !getanddostuff.checkEnlightenmentModuleMsgbusLoaded();
 
 		showWallpaperAni.start()
 	}

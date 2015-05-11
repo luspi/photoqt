@@ -799,6 +799,8 @@ QString GetAndDoStuff::detectWindowManager() {
         return "gnome_unity";
     else if(QString(getenv("DESKTOP_SESSION")).toLower() == "xfce4" || QString(getenv("DESKTOP_SESSION")).toLower() == "xfce")
         return "xfce4";
+    else if(QString(getenv("DESKTOP_SESSION")).toLower() == "enlightenment")
+        return "enlightenment";
     else
         return "other";
 
@@ -874,6 +876,46 @@ void GetAndDoStuff::setWallpaper(QString wm, QVariantMap options, QString file) 
 
     }
 
+    if(wm == "enlightenment") {
+
+        QVariantList screens = options.value("screens").toList();
+        QVariantList workspaces = options.value("workspaces").toList();
+
+        // First we check if DBUS is enabled (we could enable it automatically, however, the available options presented to the user might change depending on its output!)
+        RunProcess proc;
+        proc.start("enlightenment_remote -module-list");
+        while(proc.waitForOutput()) {}
+        if(proc.gotError()) {
+            std::cerr << "ERROR (code: " << proc.getErrorCode() << "): Failed to start enlightenment_remote! Is Enlightenment installed?" << std::endl;
+            return;
+        }
+        if(!proc.getOutput().contains("msgbus -- Enabled")) {
+            std::cerr << "ERROR: Enlightenment module 'msgbus' doesn't seem to be loaded! Please check that..." << std::endl;
+            return;
+        }
+
+        for(int i = 0; i < screens.length(); ++i) {
+            for(int j = 0; j < workspaces.length(); ++j) {
+                int currentscreen = screens.at(i).toInt();
+                int currentworkspace = workspaces.at(j).toInt();
+                // >= 1e7 - This means, that there is a single COLUMN of workspaces
+                if(currentworkspace >= 1e7) {
+                    QProcess::execute(QString("enlightenment_remote -desktop-bg-add 0 %1 0 %2 \"%3\"").arg(currentscreen).arg((currentworkspace/1e7)-1).arg(file));
+                // >= 1e4 - This means, that there is a single ROW of workspaces
+                } else if(currentworkspace >= 1e4) {
+                    QProcess::execute(QString("enlightenment_remote -desktop-bg-add 0 %1 %2 0 \"%3\"").arg(currentscreen).arg((currentworkspace/1e4)-1).arg(file));
+                // This means, that there is a grid of workspaces, both dimensions larger than 1
+                } else {
+                    int row = currentworkspace/100;
+                    int column = currentworkspace%100;
+                    QProcess::execute(QString("enlightenment_remote -desktop-bg-add 0 %1 %2 %3 \"%3\"").arg(currentscreen).arg(row).arg(column).arg(file));
+                }
+
+            }
+        }
+
+    }
+
     if(wm == "other") {
 
         QString app = options.value("app").toString();
@@ -894,4 +936,40 @@ void GetAndDoStuff::setWallpaper(QString wm, QVariantMap options, QString file) 
 
 int GetAndDoStuff::getScreenCount() {
     return QGuiApplication::screens().count();
+}
+
+QList<int> GetAndDoStuff::getEnlightenmentWorkspaceCount() {
+
+    QList<int> ret;
+
+    RunProcess proc;
+
+    proc.start("enlightenment_remote -desktops-get");
+    while(proc.waitForOutput()) {}
+    if(proc.gotError()) {
+        std::cerr << "ERROR (code: " << proc.getErrorCode() << "): Failed to start enlightenment_remote! Is Enlightenment installed and the DBUS module activated?" << std::endl;
+        return QList<int>() << 1 << 1;
+    }
+
+    QStringList parts = proc.getOutput().trimmed().split(" ");
+    if(parts.length() != 2) {
+        std::cerr << "ERROR: Failed to get proper workspace count! Falling back to default (1x1)" << std::endl;
+        return QList<int>() << 1 << 1;
+    }
+    // Enlightenment returns columns before rows
+    ret.append(parts.at(1).toInt());
+    ret.append(parts.at(0).toInt());
+
+    return ret;
+
+
+}
+
+bool GetAndDoStuff::checkEnlightenmentModuleMsgbusLoaded() {
+
+    RunProcess proc;
+    proc.start("enlightenment_remote -module-list");
+    while(proc.waitForOutput()) {}
+    // We DO NOT check for/output any errors here, as this WILL FAIL if enlightenment is not installed, but it is checked ANYWAYS!
+    return proc.getOutput().contains("msgbus -- Enabled");
 }

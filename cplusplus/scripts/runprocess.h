@@ -4,7 +4,6 @@
 #include <QProcess>
 #include <QApplication>
 #include <thread>
-#include <QtDebug>
 
 // This is a convenience class to start a process and receive the standard output with ease
 class RunProcess : public QObject {
@@ -47,7 +46,6 @@ private:
 private slots:
     void read() {
         output = proc.readAll();
-        qDebug() << output;
         gotOutput = true;
     }
     void readError(QProcess::ProcessError e) {
