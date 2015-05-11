@@ -568,6 +568,7 @@ Rectangle {
 						spacing: 10
 						CustomButton {
 							text: "Okay, do it!"
+							enabled: (wm_selection.currentIndex != 0 && wm_selection.currentIndex != 1)
 							onClickedButton: hideWallpaper()
 						}
 						CustomButton {
