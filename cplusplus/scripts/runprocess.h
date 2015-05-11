@@ -18,16 +18,19 @@ public:
         connect(&proc, SIGNAL(readyRead()), this, SLOT(read()));
         connect(&proc, SIGNAL(error(QProcess::ProcessError)), this, SLOT(readError(QProcess::ProcessError)));
     }
+    // START PROCESS
     void start(QString exec) {
         gotOutput = false;
         error = false;
         proc.start(exec);
     }
 
+    // GET INFO
     QString getOutput() { return output; }
     bool gotError() { return error; }
     int getErrorCode() { return errorCode; }
 
+    // WAIT FUNCTION
     bool waitForOutput() {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         QApplication::processEvents();
