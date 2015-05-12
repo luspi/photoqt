@@ -855,6 +855,8 @@ Rectangle {
 
 	function showWallpaper() {
 
+		if(thumbnailBar.currentFile === "") return
+
 		// Set-up monitor checkboxes
 		var c = getanddostuff.getScreenCount()
 		xfce4_monitor_model.clear()
