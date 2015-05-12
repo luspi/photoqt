@@ -235,6 +235,18 @@ Rectangle {
 
 								spacing: 5
 
+								// NOTE (tool not existing)
+								Text {
+									id: gnome_unity_error
+									visible: false
+									color: "red"
+									font.pointSize: 11
+									width: rect.width
+									wrapMode: Text.WordWrap
+									horizontalAlignment: Text.AlignHCenter
+									text: "Warning: 'gsettings' doesn't seem to be available! Are you sure Gnome/Unity is installed?";
+								}
+
 								// PICTURE OPTIONS HEADING
 								Text {
 									color: "white"
@@ -309,6 +321,20 @@ Rectangle {
 							Column {
 
 								spacing: 5
+
+								// NOTE (tool not existing)
+								Text {
+									id: xfce4_error
+									visible: false
+									color: "red"
+									font.pointSize: 11
+									width: rect.width
+									wrapMode: Text.WordWrap
+									horizontalAlignment: Text.AlignHCenter
+									text: "Warning: 'xfconf-query' doesn't seem to be available! Are you sure XFCE4 is installed?";
+								}
+
+								Rectangle { id: xfce4_error_spacing; color: "#00000000"; width: 1; height: 1; }
 
 								// MONITOR HEADING
 								Text {
@@ -442,17 +468,27 @@ Rectangle {
 
 								spacing: 15
 
-								// NOTE
+								// NOTE (dbus error)
 								Text {
-									id: enlightenment_error
+									id: enlightenment_error_msgbus
 									visible: false
 									color: "red"
 									font.pointSize: 11
 									width: rect.width
-//									font.bold: true
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter
-									text: "Error: It seems that the 'msgbus' (DBUS) module is not activated<br>It can be activated in the settings console > Add-ons > Modules > System!";
+									text: "Warning: It seems that the 'msgbus' (DBUS) module is not activated<br>It can be activated in the settings console > Add-ons > Modules > System!";
+								}
+								// NOTE (tool not existing)
+								Text {
+									id: enlightenment_error_exitence
+									visible: false
+									color: "red"
+									font.pointSize: 11
+									width: rect.width
+									wrapMode: Text.WordWrap
+									horizontalAlignment: Text.AlignHCenter
+									text: "Warning: 'enlightenment_remote' doesn't seem to be available! Are you sure Enlightenment is installed?";
 								}
 
 								// MONITOR HEADING
@@ -584,6 +620,41 @@ Rectangle {
 							Column {
 
 								spacing: 15
+
+								// NOTE for feh (tool not existing)
+								Text {
+									id: other_error_feh
+									visible: false
+									color: "red"
+									font.pointSize: 11
+									width: rect.width
+									wrapMode: Text.WordWrap
+									horizontalAlignment: Text.AlignHCenter
+									text: "Warning: 'feh' doesn't seem to be installed!";
+								}
+								// NOTE for nitrogen (tool not existing)
+								Text {
+									id: other_error_nitrogen
+									visible: false
+									color: "red"
+									font.pointSize: 11
+									width: rect.width
+									wrapMode: Text.WordWrap
+									horizontalAlignment: Text.AlignHCenter
+									text: "Warning: 'nitrogen' doesn't seem to be installed!";
+								}
+								// NOTE for feh AND nitrogen (tool not existing)
+								Text {
+									id: other_error_feh_nitrogen
+									visible: false
+									color: "red"
+									font.pointSize: 11
+									width: rect.width
+									wrapMode: Text.WordWrap
+									horizontalAlignment: Text.AlignHCenter
+									text: "Warning: Both 'feh' and 'nitrogen' don't seem to be installed!";
+								}
+
 
 								// HEADING
 								Text {
@@ -811,7 +882,19 @@ Rectangle {
 		enlightenment_monitor_part_3.visible = (c > 1)
 		enlightenment_monitor_part_4.visible = (c > 1)
 
-		enlightenment_error.visible = !getanddostuff.checkEnlightenmentModuleMsgbusLoaded();
+		// Check for tools (and display appropriate error messages
+		var ret = getanddostuff.checkWallpaperTool("enlightenment")
+		enlightenment_error_exitence.visible = (ret === 1)
+		enlightenment_error_msgbus.visible = (ret === 2)
+		ret = getanddostuff.checkWallpaperTool("gnome_unity")
+		gnome_unity_error.visible = (ret === 1)
+		ret = getanddostuff.checkWallpaperTool("xfce4")
+		xfce4_error.visible = (ret === 1)
+		xfce4_error_spacing.visible = (ret === 1)
+		ret = getanddostuff.checkWallpaperTool("other")
+		other_error_feh_nitrogen.visible = (ret === 3)
+		other_error_nitrogen.visible = (ret === 2)
+		other_error_feh.visible = (ret === 1)
 
 		showWallpaperAni.start()
 	}

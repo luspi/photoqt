@@ -953,7 +953,8 @@ QList<int> GetAndDoStuff::getEnlightenmentWorkspaceCount() {
 
     QStringList parts = proc.getOutput().trimmed().split(" ");
     if(parts.length() != 2) {
-        std::cerr << "ERROR: Failed to get proper workspace count! Falling back to default (1x1)" << std::endl;
+        if(checkWallpaperTool("enlightenment") != 2)
+            std::cerr << "ERROR: Failed to get proper workspace count! Falling back to default (1x1)" << std::endl;
         return QList<int>() << 1 << 1;
     }
     // Enlightenment returns columns before rows
@@ -965,11 +966,48 @@ QList<int> GetAndDoStuff::getEnlightenmentWorkspaceCount() {
 
 }
 
-bool GetAndDoStuff::checkEnlightenmentModuleMsgbusLoaded() {
+int GetAndDoStuff::checkWallpaperTool(QString wm) {
 
-    RunProcess proc;
-    proc.start("enlightenment_remote -module-list");
-    while(proc.waitForOutput()) {}
-    // We DO NOT check for/output any errors here, as this WILL FAIL if enlightenment is not installed, but it is checked ANYWAYS!
-    return proc.getOutput().contains("msgbus -- Enabled");
+    if(wm == "enlightenment") {
+        RunProcess proc;
+        proc.start("enlightenment_remote -module-list");
+        while(proc.waitForOutput()) {}
+        if(proc.gotError())
+            return 1;
+        if(!proc.getOutput().contains("msgbus -- Enabled"))
+            return 2;
+        return 0;
+    } else if(wm == "gnome_unity") {
+        QProcess proc;
+        proc.setStandardOutputFile(QProcess::nullDevice());
+        proc.start("gsettings");
+        while(proc.waitForFinished()) { }
+        int ret = proc.exitCode();
+        if(ret <= 0) return 1; // gsettings unavailable
+        return 0;
+    } else if(wm == "xfce4") {
+        QProcess proc;
+        proc.setStandardOutputFile(QProcess::nullDevice());
+        proc.start("xfconf-query");
+        while(proc.waitForFinished()) { }
+        int ret = proc.exitCode();
+        if(ret <= 0) return 1; // xfconf-query unavailable
+        return 0;
+    } else if(wm == "other") {
+        QProcess proc;
+        proc.setStandardOutputFile(QProcess::nullDevice());
+        proc.start("feh");
+        while(proc.waitForFinished()) { }
+        int ret_feh = proc.exitCode();
+        proc.start("nitrogen");
+        while(proc.waitForFinished()) { }
+        int ret_nit = proc.exitCode();
+        if(ret_feh <= 0 && ret_nit <= 0)
+            return 3;   // both nitrogen and feh not available
+        else if(ret_nit <= 0)
+            return 2;   // nitrogen not available
+        else if(ret_feh <= 0)
+            return 1;   // feh not available
+        return 0;
+    }
 }

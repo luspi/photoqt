@@ -12,16 +12,18 @@ class RunProcess : public QObject {
 
 public:
     explicit RunProcess() {
+        proc = new QProcess;
         gotOutput = false;
         error = false;
-        connect(&proc, SIGNAL(readyRead()), this, SLOT(read()));
-        connect(&proc, SIGNAL(error(QProcess::ProcessError)), this, SLOT(readError(QProcess::ProcessError)));
+        connect(proc, SIGNAL(readyRead()), this, SLOT(read()));
+        connect(proc, SIGNAL(error(QProcess::ProcessError)), this, SLOT(readError(QProcess::ProcessError)));
     }
+    ~RunProcess() { while(proc->waitForFinished()) {} delete proc; }
     // START PROCESS
     void start(QString exec) {
         gotOutput = false;
         error = false;
-        proc.start(exec);
+        proc->start(exec);
     }
 
     // GET INFO
@@ -37,7 +39,7 @@ public:
     }
 
 private:
-    QProcess proc;
+    QProcess *proc;
     QString output;
     bool gotOutput;
     bool error;
@@ -45,7 +47,7 @@ private:
 
 private slots:
     void read() {
-        output = proc.readAll();
+        output = proc->readAll();
         gotOutput = true;
     }
     void readError(QProcess::ProcessError e) {
