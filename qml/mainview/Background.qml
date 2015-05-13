@@ -20,7 +20,7 @@ Rectangle {
 			x: 0
 			y: metaData.y
 			height: metaData.height
-			width: (metaData.x == -metaData.width ? settings.menusensitivity*3 : metaData.width)
+			width: (metaData.x <= -metaData.width ? settings.menusensitivity*3 : metaData.width)
 			hoverEnabled: true
 
 			MouseArea {
