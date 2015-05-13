@@ -50,6 +50,6 @@
         <file>qml/fadein/Rename.qml</file>
         <file>qml/elements/CustomFileSystemBrowser.qml</file>
         <file>qml/fadein/Wallpaper.qml</file>
-        <file>qml/elements/TransitionImage.qml</file>
+        <file>qml/mainview/TransitionImage.qml</file>
     </qresource>
 </RCC>
