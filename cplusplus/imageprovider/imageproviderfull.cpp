@@ -155,6 +155,7 @@ QImage ImageProviderFull::readImage_QT(QString filename) {
 		// On discussion regarding Exif rotation and QT: http://development.qt-project.narkive.com/LkvsHvRE/rotating-jpeg-images-by-default
 		// As this breaks some of PhotoQt's functionality, we need to revert this change
 		// Unfortunately, this slows down the loading a little bit :-(
+        // THIS SEEMS TO BE REVERTED AGAIN FOR LATER VERSION OF QT!! WE STILL NEED TO CHECK THOUGH AS IT DOESN'T SEEM CONSISTENT :-(
 		if(img.width() != reader.scaledSize().width() && settings->exifrotation != "Always" && maxSize.width() != 256) {
 			QTransform transform;
 			transform.rotate(-90);

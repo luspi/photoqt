@@ -28,8 +28,8 @@ Item {
 
 		nofileloaded.visible = false
 
-		resetZoom()
 		resetRotation()
+		resetZoom()
 
 		// Pad or Fit?
 		var s = getanddostuff.getImageSize(path)
@@ -57,7 +57,7 @@ Item {
 
 		nofileloaded.visible = false
 
-		resetZoom()
+		resetZoom(true)
 		resetRotation()
 
 		// Set source
@@ -85,11 +85,10 @@ Item {
 	function setSourceSize(w,h) {
 		anim.sourceSize.width = w
 		anim.sourceSize.height = h
-		norm.sourceSize.width = w
-		norm.sourceSize.height = h
+		norm.sourceSize = Qt.size(w,h)
 	}
 
-	function resetZoom() {
+	function resetZoom(loadNewImage) {
 
 		// Re-set source size to screen size
 		if((anim.rotation%180 == 90 || norm.rotation%180 == 90) && imageWidthLargerThanHeight)
@@ -98,7 +97,7 @@ Item {
 			setSourceSize(item.width,item.height)
 
 		// Reset scaling
-		norm.scale = 1
+		norm.resetZoom(loadNewImage)
 		anim.scale = 1
 
 		// No more zooming
@@ -203,7 +202,7 @@ Item {
 			width: Math.max((animated ? anim.width : norm.width) * (animated ? anim.scale : norm.scale), flickarea.width)
 			height: Math.max((animated ? anim.height : norm.height) * (animated ? anim.scale : norm.scale), flickarea.height)
 
-			Image {
+			TransitionImage {
 				id: norm
 				visible: !animated
 				property real prevScale
@@ -315,7 +314,7 @@ Item {
 			if(zoomin) {
 
 				if(zoomSteps == 0) {
-					norm.sourceSize = undefined
+					norm.sourceSize = s
 					if(s.width >= item.width && s.height >= item.height)
 						norm.scale = Math.min(flickarea.width / norm.width, flickarea.height / norm.height);
 				}
