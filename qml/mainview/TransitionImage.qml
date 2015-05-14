@@ -15,7 +15,18 @@ Rectangle {
 		two_fadein.stop()
 		two_fadeout.stop()
 
-		if(settings.transition == 0) {
+		// We fade the first image in in whenever we load a new directory
+		var newImageSoFadeItIn = false
+		if((one.source == "" && two.source == "" && source != "")
+				|| (one.source != ""
+					&& (getanddostuff.removeFilenameFromPath(one.source) !== getanddostuff.removeFilenameFromPath(source))
+					&& currentone == "one")
+				|| (two.source != ""
+					&& (getanddostuff.removeFilenameFromPath(two.source) !== getanddostuff.removeFilenameFromPath(source))
+					&& currentone == "two"))
+				newImageSoFadeItIn = true
+
+		if(settings.transition === 0 && !newImageSoFadeItIn) {
 
 			if(currentone == "one") {
 				one.opacity = 1
@@ -28,12 +39,19 @@ Rectangle {
 				two.source = source
 			}
 
+
 		} else {
 
-			one_fadein.duration = settings.transition*150
-			one_fadeout.duration = settings.transition*150
-			two_fadein.duration = settings.transition*150
-			two_fadeout.duration = settings.transition*150
+			var duration = settings.transition*150
+
+			// On start, the first image is always faded in
+			if(newImageSoFadeItIn && settings.transition === 0)
+				duration = 300
+
+			one_fadein.duration = duration
+			one_fadeout.duration = duration
+			two_fadein.duration = duration
+			two_fadeout.duration = duration
 
 			if(currentone == "one") {
 				one.opacity = 1
