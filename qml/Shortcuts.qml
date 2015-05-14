@@ -65,6 +65,8 @@ Item {
 				rename.hideRename()
 			else if(wallpaper.opacity == 1)
 				wallpaper.hideWallpaper()
+			else if(slideshow.opacity == 1)
+				slideshow.hideSlideshow()
 		} else if(keys === "Enter" || keys === "Keypad+Enter" || keys === "Return") {
 			if(deleteImage.opacity == 1)
 				deleteImage.simulateEnter()
@@ -72,6 +74,8 @@ Item {
 				rename.simulateEnter()
 			else if(wallpaper.opacity == 1)
 				wallpaper.simulateEnter()
+			else if(slideshow.opacity == 1)
+				slideshow.simulateEnter()
 		} else if(keys === "Shift+Enter" || keys === "Shift+Return" || keys === "Shift+Keypad+Enter") {
 			if(deleteImage.opacity == 1)
 				deleteImage.simulateShiftEnter()
@@ -104,7 +108,8 @@ Item {
 //		if(cmd === "__reloadThb")
 		if(cmd === "__about")
 			about.showAbout()
-//		if(cmd === "__slideshow")
+		if(cmd === "__slideshow")
+			slideshow.showSlideshow()
 //		if(cmd === "__filterImages")
 //		if(cmd === "__slideshowQuick")
 		if(cmd === "__open" || cmd === "__openOld")

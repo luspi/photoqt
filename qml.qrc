@@ -51,5 +51,6 @@
         <file>qml/elements/CustomFileSystemBrowser.qml</file>
         <file>qml/fadein/Wallpaper.qml</file>
         <file>qml/mainview/TransitionImage.qml</file>
+        <file>qml/fadein/Slideshow.qml</file>
     </qresource>
 </RCC>

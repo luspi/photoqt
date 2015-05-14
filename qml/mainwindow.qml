@@ -93,6 +93,7 @@ Item {
 	Scale { id: scaleImage; }
 	Delete { id: deleteImage; }
 	Rename { id: rename; }
+	Slideshow { id: slideshow; }
 
 	SettingsItem { id: settingsitem; }
 

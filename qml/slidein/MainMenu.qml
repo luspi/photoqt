@@ -151,6 +151,8 @@ Rectangle {
 
 		else if(what === "wallpaper") wallpaper.showWallpaper()
 
+		else if(what === "slideshow") slideshow.showSlideshow()
+
 		else if(what === "metadata") {
 			if(metaData.x > -2*metaData.radius) {
 				metaData.uncheckCheckbox()
