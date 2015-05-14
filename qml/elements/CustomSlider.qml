@@ -4,6 +4,8 @@ import QtQuick.Controls.Styles 1.2
 
 Slider {
 
+	property int scrollStep: 3
+
 	style: SliderStyle {
 		groove: Rectangle {
 			implicitWidth: 200
@@ -28,6 +30,12 @@ Slider {
 		propagateComposedEvents: true
 		onPressed: mouse.accepted = false
 		onReleased: mouse.accepted = false
+		onWheel: {
+			if(wheel.angleDelta.y < 0)
+				value += scrollStep
+			else
+				value -= scrollStep
+		}
 	}
 
 }
