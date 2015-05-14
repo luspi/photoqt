@@ -66,16 +66,15 @@ Rectangle {
 
 	property size sourceSize: Qt.size(0,0);
 	onSourceSizeChanged: {
-		if(one.opacity != 0) {
-			one.sourceSize.width = sourceSize.width
-			one.sourceSize.height = sourceSize.height
-		}
+		if(one.opacity != 0)
+			one.sourceSize = sourceSize
+		if(two.opacity != 0)
+			two.sourceSize = sourceSize
+	}
 
-		if(opacity != 0) {
-			two.sourceSize.width = sourceSize.width
-			two.sourceSize.height = sourceSize.height
-		}
-
+	function forceSourceSizeToBoth(s) {
+		one.sourceSize = s
+		two.sourceSize = s
 	}
 
 	signal statusChanged(var status)

@@ -45,10 +45,6 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 	// Class to load a new directory
 	loadDir = new LoadDir;
 
-	// Window resized
-	connect(this, SIGNAL(widthChanged(int)), this, SLOT(resized()));
-	connect(this, SIGNAL(heightChanged(int)), this, SLOT(resized()));
-
 	// Scrolled view
 	connect(object, SIGNAL(thumbScrolled(QVariant)), this, SLOT(handleThumbnails(QVariant)));
 
@@ -63,17 +59,6 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
     // Hide/Quit window
     connect(object, SIGNAL(hideToSystemTray()), this, SLOT(hideToSystemTray()));
     connect(object, SIGNAL(quitPhotoQt()), this, SLOT(quitPhotoQt()));
-
-}
-
-// Window has been resized
-void MainWindow::resized() {
-
-	settingsPerSession->setValue("curSize",QSize(this->width(),this->height()));
-
-	QMetaObject::invokeMethod(object, "resizeElements",
-		Q_ARG(QVariant, this->width()),
-		Q_ARG(QVariant, this->height()));
 
 }
 

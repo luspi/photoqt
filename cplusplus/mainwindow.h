@@ -65,8 +65,6 @@ private:
 
 private slots:
 
-	void resized();
-
 	void handleThumbnails(QVariant centerPos);
 	void loadMoreThumbnails();
 	void didntLoadThisThumbnail(QVariant pos);

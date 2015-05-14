@@ -22,6 +22,7 @@ Item {
 	property bool zoomTowardsCenter: false
 
 	property bool imageWidthLargerThanHeight: true
+	property size imageSize: Qt.size(0,0)
 
 	x: 0
 	y: 0
@@ -37,13 +38,13 @@ Item {
 		resetZoom()
 
 		// Pad or Fit?
-		var s = getanddostuff.getImageSize(path)
-		if(s.width < item.width && s.height < item.height)
+		imageSize = getanddostuff.getImageSize(path)
+		if(imageSize.width < item.width && imageSize.height < item.height)
 			anim.fillMode = Image.Pad
 		else
 			anim.fillMode = Image.PreserveAspectFit
 
-		imageWidthLargerThanHeight = (s.width >= s.height);
+		imageWidthLargerThanHeight = (imageSize.width >= imageSize.height);
 
 		// Set source
 		anim.source = path
@@ -69,12 +70,13 @@ Item {
 		norm.source = path
 
 		// Pad or Fit?
-		if(norm.width < item.width && norm.height < item.height)
+		imageSize = getanddostuff.getImageSize(path)
+		if(imageSize.width < item.width && imageSize.height < item.height)
 			norm.fillMode = Image.Pad
 		else
 			norm.fillMode = Image.PreserveAspectFit
 
-		imageWidthLargerThanHeight = (norm.width >= norm.height);
+		imageWidthLargerThanHeight = (imageSize.width >= imageSize.height);
 
 		url = path
 
@@ -88,9 +90,11 @@ Item {
 
 	// Update source sizes
 	function setSourceSize(w,h) {
+
 		anim.sourceSize.width = w
 		anim.sourceSize.height = h
-		norm.sourceSize = Qt.size(w,h)
+		norm.forceSourceSizeToBoth(Qt.size(w,h))
+
 	}
 
 	function resetZoom(loadNewImage) {
@@ -236,6 +240,7 @@ Item {
 						calculateSize();
 					}
 				}
+
 			}
 
 			AnimatedImage {
@@ -289,15 +294,13 @@ Item {
 		// Don't zoom if nothing is loaded
 		if(url == "" || blocked) return;
 
-		var s = getanddostuff.getImageSize(url)
-
 		if(animated) {
 
 			if(zoomin) {
 
 				if(zoomSteps == 0) {
 					anim.sourceSize = undefined
-					if(s.width >= item.width && s.height >= item.height)
+					if(imageSize.width >= item.width && imageSize.height >= item.height)
 						anim.scale = Math.min(flickarea.width / anim.width, flickarea.height / anim.height);
 				}
 				anim.scale += scaleSpeed    // has to come AFTER removing source size!
@@ -308,7 +311,7 @@ Item {
 				anim.scale -= scaleSpeed  // has to come BEFORE setting source size!
 				if(zoomSteps == 1) {
 					anim.sourceSize = Qt.size(item.width,item.height)
-					if(s.width >= item.width && s.height >= item.height)
+					if(imageSize.width >= item.width && imageSize.height >= item.height)
 						anim.scale = Math.min(flickarea.width / anim.width, flickarea.height / anim.height);
 				}
 				zoomSteps -= 1
@@ -319,8 +322,8 @@ Item {
 			if(zoomin) {
 
 				if(zoomSteps == 0) {
-					norm.sourceSize = s
-					if(s.width >= item.width && s.height >= item.height)
+					norm.sourceSize = imageSize
+					if(imageSize.width >= item.width && imageSize.height >= item.height)
 						norm.scale = Math.min(flickarea.width / norm.width, flickarea.height / norm.height);
 				}
 				norm.scale += scaleSpeed    // has to come AFTER removing source size!
@@ -331,7 +334,7 @@ Item {
 				norm.scale -= scaleSpeed  // has to come BEFORE setting source size!
 				if(zoomSteps == 1) {
 					norm.sourceSize = Qt.size(item.width,item.height)
-					if(s.width >= item.width && s.height >= item.height)
+					if(imageSize.width >= item.width && imageSize.height >= item.height)
 						norm.scale = Math.min(flickarea.width / norm.width, flickarea.height / norm.height);
 				}
 
@@ -451,5 +454,8 @@ Item {
 		text: "Open a file to begin"
 
 	}
+
+
+	Component.onCompleted: setSourceSize(background.width,background.height)
 
 }

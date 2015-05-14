@@ -15,6 +15,9 @@ Item {
 
 	id: toplevel
 
+	width: (parent != null ? parent.width : 600)
+	height: (parent != null ? parent.height : 400)
+
 	// This is how much bigger than the thumbnails the thumbnail bar is (this is the space to the top)
 	property int thumbnailbarheight_addon: 50
 
@@ -100,17 +103,6 @@ Item {
 	SlideshowBar { id: slideshowbar; }
 
 	SettingsItem { id: settingsitem; }
-
-
-	// Adjust size of all the elements
-	function resizeElements(w,h) {
-
-		background.width = w
-		background.height = h
-
-		if(image.zoomSteps == 0) image.setSourceSize(w,h)
-
-	}
 
 	// Slots accessable by mainwindow.cpp, passed on to thumbnailbar
 	function reloadImage(pos, smart) { thumbnailBar.reloadImage(pos, smart) }

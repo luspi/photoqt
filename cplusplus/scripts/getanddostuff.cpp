@@ -36,7 +36,7 @@ QSize GetAndDoStuff::getImageSize(QString path) {
 		Magick::Geometry geo = image.size();
 		QSize s = QSize(geo.width(),geo.height());
 		if(s.width() < 2 && s.height() < 2)
-			return settings->value("curSize").toSize();
+			return QSize(1024,768);
 		return s;
 #else
 		return QSize();

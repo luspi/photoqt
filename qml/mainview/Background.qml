@@ -6,6 +6,11 @@ Rectangle {
 	id: background
 	color: "#AA000000"
 
+	width: parent.width
+	height: parent.height
+	onWidthChanged: image.setSourceSize(width,height)
+	onHeightChanged: image.setSourceSize(width,height)
+
 	MouseArea {
 		anchors.fill: parent
 		hoverEnabled: true
