@@ -95,6 +95,16 @@ Rectangle {
 
 	}
 
+	// SLIDESHOWBAR
+	MouseArea {
+		x: 0
+		y: 0
+		width: background.width
+		height: slideshowRunning ? ((slideshowbar.y <= -slideshowbar.height) ? 3*settings.menusensitivity : slideshowbar.height) : 0
+		hoverEnabled: true
+		onEntered: slideshowbar.showBar()
+	}
+
 	// Show elements
 	function showMetadata() {
 		metadata_show.start()
@@ -115,6 +125,7 @@ Rectangle {
 		hideMainmenu.start()
 		if(quicksettings.x < background.width)
 			hideQuicksettings.start()
+		slideshowbar.hideBar()
 	}
 	function hideMetadata() {
 		if(settingssession.value("metadatakeepopen") === true)

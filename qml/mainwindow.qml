@@ -41,6 +41,9 @@ Item {
 	property string colour_slidein_border: "#55bbbbbb"
 	property string colour_linecolour: "#99999999"
 
+	// Detect some states (e.g. for slideshow)
+	property bool slideshowRunning: false
+
 	// When the slidein widgets are not visible, then they are moved away a safety distance,
 	// otherwise they might be visible for a fraction of a second when resizing the windowChanged
 	// (and also at startup)
@@ -94,6 +97,7 @@ Item {
 	Delete { id: deleteImage; }
 	Rename { id: rename; }
 	Slideshow { id: slideshow; }
+	SlideshowBar { id: slideshowbar; }
 
 	SettingsItem { id: settingsitem; }
 

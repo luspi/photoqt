@@ -52,5 +52,6 @@
         <file>qml/fadein/Wallpaper.qml</file>
         <file>qml/mainview/TransitionImage.qml</file>
         <file>qml/fadein/Slideshow.qml</file>
+        <file>qml/slidein/SlideshowBar.qml</file>
     </qresource>
 </RCC>

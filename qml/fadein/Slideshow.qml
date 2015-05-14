@@ -358,6 +358,10 @@ Rectangle {
 		saveSettings()
 		hideSlideshow()
 
+		slideshowRunning = true
+		blocked = true
+		softblocked = 1
+
 		// INITIATE START OF SLIDESHOW
 
 	}
