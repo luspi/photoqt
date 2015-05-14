@@ -29,8 +29,10 @@ Rectangle {
 	// Transparent background
 	color: "#00000000"
 
+	x: 0
+	y: background.height-(settings.thumbnailKeepVisible ? settings.thumbnailsize+thumbnailbarheight_addon : 0)
+	width: background.width
 	height: settings.thumbnailsize+thumbnailbarheight_addon
-	//    y: parent.height-(settings.thumbnailKeepVisible ? settings.thumbnailsize+thumbnailbarheight_addon : 0)
 
 	function setupModel(stringlist, pos) {
 

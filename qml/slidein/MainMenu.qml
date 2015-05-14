@@ -11,7 +11,7 @@ Rectangle {
 	border.color: colour_slidein_border
 
 	// Set position (we pretend that rounded corners are along the bottom edge only, that's why visible y is off screen)
-	x: mainmenu.width-width-100
+	x: background.width-width-100
 	y: -height-safetyDistanceForSlidein
 
 	// Adjust size

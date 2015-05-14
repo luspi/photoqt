@@ -17,7 +17,7 @@ Rectangle {
 
 	// Set position (we pretend that rounded corners are along the right edge only, that's why visible x is off screen)
 	x: -width-safetyDistanceForSlidein
-	y: (parent.height-meta.height)/3
+	y: (background.height-meta.height)/3
 
 	// Adjust size
 	width: ((view.width+2*radius < 350) ? 350 : view.width+2*radius)

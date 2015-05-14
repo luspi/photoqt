@@ -108,21 +108,6 @@ Item {
 		background.width = w
 		background.height = h
 
-		thumbnailBar.width = w
-		thumbnailBar.y = h-(settings.thumbnailKeepVisible ? settings.thumbnailsize+thumbnailbarheight_addon : 0)
-
-		image.width = w
-		image.height = (settings.thumbnailKeepVisible ? h-thumbnailBar.height+thumbnailbarheight_addon/2 : h)
-
-		metaData.x = -metaData.width-safetyDistanceForSlidein
-		metaData.y = (h-metaData.height)/3
-
-		mainmenu.x = w-mainmenu.width-100
-		mainmenu.y = -mainmenu.height-safetyDistanceForSlidein
-
-		quicksettings.x = w+safetyDistanceForSlidein
-		quicksettings.y = (h-quicksettings.height)/3
-
 		if(image.zoomSteps == 0) image.setSourceSize(w,h)
 
 	}

@@ -23,6 +23,11 @@ Item {
 
 	property bool imageWidthLargerThanHeight: true
 
+	x: 0
+	y: 0
+	width: background.width
+	height: (settings.thumbnailKeepVisible ? background.height-thumbnailBar.height+thumbnailbarheight_addon/2 : background.height)
+
 	// Set animated image
 	function setAnimatedImage(path) {
 

@@ -16,8 +16,8 @@ Rectangle {
 	border.color: colour_slidein_border
 
 	// Set position (we pretend that rounded corners are along the right edge only, that's why visible x is off screen)
-	x: parent.width+500
-	y: (parent.height-quicksettings.height)/3
+	x: background.width+safetyDistanceForSlidein
+	y: (background.height-height)/3
 
 	// Adjust size
 	width: 350
