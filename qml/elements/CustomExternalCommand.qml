@@ -82,7 +82,7 @@ Rectangle {
 			color: "white"
 			wrapMode: Text.WordWrap
 
-			text: "%f = current file, %d = current directory."
+			text: "%f = current file (with path), %u = current file (without path), %d = current directory."
 
 		}
 

@@ -455,7 +455,9 @@ void GetAndDoStuff::executeApp(QString exec, QString fname, QString close) {
 
 	QProcess *p = new QProcess;
 	exec = exec.replace("%f",'"' + fname + '"');
+	exec = exec.replace("%u",'"' + QFileInfo(fname).fileName() + '"');
 	exec = exec.replace("%d",'"' + QFileInfo(fname).absoluteDir().absolutePath() + '"');
+
 	p->start(exec);
 	while(!p->waitForStarted()) { }
 

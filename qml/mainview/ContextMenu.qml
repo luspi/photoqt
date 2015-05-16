@@ -361,7 +361,7 @@ Rectangle {
 			var c = getanddostuff.getContextMenu()
 
 			for(var i = 0; i < c.length/3; ++i) {
-				var bin = getanddostuff.trim(c[3*i].replace("%f","").replace("%d",""))
+				var bin = getanddostuff.trim(c[3*i].replace("%f","").replace("%u","").replace("%d",""))
 				// The icon for Krita is called 'calligrakrita'
 				if(bin === "krita")
 					contextmodel.append({"txt" : c[3*i+2], "bin" : c[3*i], "close" : c[3*i+1], "icn" : "calligrakrita" });
