@@ -164,8 +164,12 @@ Item {
 			scaleImage.showScale()
 		else {
 			getanddostuff.executeApp(cmd,thumbnailBar.currentFile)
-			if(close !== undefined && close === true)
-				quitPhotoQt()
+			console.log("external:",close)
+			if(close !== undefined && close == true)
+				if(settings.trayicon)
+					hideToSystemTray()
+				else
+					quitPhotoQt()
 		}
 
 	}

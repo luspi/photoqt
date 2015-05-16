@@ -391,7 +391,11 @@ Rectangle {
 	function executeExternal(bin,close) {
 		if(thumbnailBar.currentFile !== "") {
 			getanddostuff.executeApp(bin,thumbnailBar.currentFile,close)
-			if(close) quitPhotoQt()
+			if(close)
+				if(settings.trayicon)
+					hideToSystemTray()
+				else
+					quitPhotoQt()
 		}
 	}
 
