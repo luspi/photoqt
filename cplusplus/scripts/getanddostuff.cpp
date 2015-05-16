@@ -451,7 +451,7 @@ void GetAndDoStuff::openLink(QString url) {
     QDesktopServices::openUrl(url);
 }
 
-void GetAndDoStuff::executeApp(QString exec, QString fname, QString close) {
+void GetAndDoStuff::executeApp(QString exec, QString fname) {
 
 	QProcess *p = new QProcess;
 	exec = exec.replace("%f",'"' + fname + '"');
@@ -459,11 +459,11 @@ void GetAndDoStuff::executeApp(QString exec, QString fname, QString close) {
 	exec = exec.replace("%d",'"' + QFileInfo(fname).absoluteDir().absolutePath() + '"');
 
 	p->start(exec);
-	while(!p->waitForStarted()) { }
-
-	if(close == "1") qApp->quit();
+	if(p->error() == 5)
+		while(!p->waitForStarted()) { }
 
 }
+
 void GetAndDoStuff::openInDefaultFileManager(QString file) {
     QDesktopServices::openUrl(QUrl("file:///" + QFileInfo(file).absolutePath()));
 }

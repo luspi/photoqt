@@ -389,8 +389,10 @@ Rectangle {
 	}
 
 	function executeExternal(bin,close) {
-		if(thumbnailBar.currentFile !== "")
+		if(thumbnailBar.currentFile !== "") {
 			getanddostuff.executeApp(bin,thumbnailBar.currentFile,close)
+			if(close) quitPhotoQt()
+		}
 	}
 
 	PropertyAnimation {

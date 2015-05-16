@@ -28,7 +28,7 @@ Item {
 			if(blocked)
 				checkForSystemShortcut(combo)
 			else if(combo in shortcutfile)
-				execute(shortcutfile[combo][1]);
+				execute(shortcutfile[combo][1],shortcutfile[combo][0]);
 		}
 		keys = combo
 	}
@@ -92,58 +92,58 @@ Item {
 
 	}
 
-	function execute(cmd) {
+	// Close is only defined for external shortcuts
+	function execute(cmd, close) {
 
 //		if(cmd === "__stopThb")
 		if(cmd === "__close")
 			quitPhotoQt()
-		if(cmd === "__hide") {
+		else if(cmd === "__hide") {
 			if(settings.trayicon)
 				hideToSystemTray()
 			else
 				quitPhotoQt()
-		}
-		if(cmd === "__settings")
+		} else if(cmd === "__settings")
 			settingsitem.showSettings()
-		if(cmd === "__next")
+		else if(cmd === "__next")
 			thumbnailBar.nextImage()
-		if(cmd === "__prev")
+		else if(cmd === "__prev")
 			thumbnailBar.previousImage()
 //		if(cmd === "__reloadThb")
-		if(cmd === "__about")
+		else if(cmd === "__about")
 			about.showAbout()
-		if(cmd === "__slideshow")
+		else if(cmd === "__slideshow")
 			slideshow.showSlideshow()
 //		if(cmd === "__filterImages")
 //		if(cmd === "__slideshowQuick")
-		if(cmd === "__open" || cmd === "__openOld")
+		else if(cmd === "__open" || cmd === "__openOld")
 			openFile()
-		if(cmd === "__zoomIn")
+		else if(cmd === "__zoomIn")
 			image.zoomIn()
-		if(cmd === "__zoomOut")
+		else if(cmd === "__zoomOut")
 			image.zoomOut()
-		if(cmd === "__zoomReset")
+		else if(cmd === "__zoomReset")
 			image.resetZoom()
 //		if(cmd === "__zoomActual")
-		if(cmd === "__rotateL")
+		else if(cmd === "__rotateL")
 			image.rotateLeft()
-		if(cmd === "__rotateR")
+		else if(cmd === "__rotateR")
 			image.rotateRight()
-		if(cmd === "__rotate0")
+		else if(cmd === "__rotate0")
 			image.resetRotation()
-		if(cmd === "__flipH")
+		else if(cmd === "__flipH")
 			image.flipHorizontal()
-		if(cmd === "__flipV")
+		else if(cmd === "__flipV")
 			image.flipVertical()
-		if(cmd === "__rename")
+		else if(cmd === "__rename")
 			rename.showRename()
-		if(cmd === "__delete")
+		else if(cmd === "__delete")
 			deleteImage.showDelete()
-		if(cmd === "__copy")
+		else if(cmd === "__copy")
 			getanddostuff.copyImage(thumbnailBar.currentFile)
-		if(cmd === "__move")
+		else if(cmd === "__move")
 			getanddostuff.moveImage(thumbnailBar.currentFile)
-		if(cmd === "__hideMeta") {
+		else if(cmd === "__hideMeta") {
 			if(metaData.x < -40) {
 				metaData.checkCheckbox()
 				background.showMetadata()
@@ -151,18 +151,22 @@ Item {
 				metaData.uncheckCheckbox()
 				background.hideMetadata()
 			}
-		}
-		if(cmd === "__showContext")
+		} else if(cmd === "__showContext")
 			contextmenu.popup(getanddostuff.getCursorPos())
-		if(cmd === "__gotoFirstThb")
+		else if(cmd === "__gotoFirstThb")
 			thumbnailBar.gotoFirstImage()
-		if(cmd === "__gotoLastThb")
+		else if(cmd === "__gotoLastThb")
 			thumbnailBar.gotoLastImage()
 
-		if(cmd === "__wallpaper")
+		else if(cmd === "__wallpaper")
 			wallpaper.showWallpaper()
-		if(cmd === "__scale")
+		else if(cmd === "__scale")
 			scaleImage.showScale()
+		else {
+			getanddostuff.executeApp(cmd,thumbnailBar.currentFile)
+			if(close !== undefined && close === true)
+				quitPhotoQt()
+		}
 
 	}
 
