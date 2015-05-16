@@ -8,6 +8,8 @@ Rectangle {
 	width: childrenRect.width
 	height: childrenRect.height
 
+	property bool mirror: false
+
 	property string source: ""
 	onSourceChanged: {
 		one_fadein.stop()
@@ -109,6 +111,8 @@ Rectangle {
 
 		opacity: 1
 
+		mirror: parent.mirror
+
 		onStatusChanged: {
 			parent.statusChanged(status)
 		}
@@ -126,6 +130,8 @@ Rectangle {
 		y: (Math.max(one.height,two.height)-height)/2
 
 		opacity: 1
+
+		mirror: parent.mirror
 
 		onStatusChanged: {
 			parent.statusChanged(status)

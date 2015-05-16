@@ -115,7 +115,9 @@ Item {
 
 	function resetRotation() {
 		norm.rotation = 0
+		norm.mirror = false
 		anim.rotation = 0
+		anim.mirror = false
 		setSourceSize(item.width,item.height)
 	}
 
