@@ -22,6 +22,8 @@ public:
     bool fileDialogOpened;
     QRect geometryWhenHiding;
     bool skipSystemTrayAndQuit;
+	bool trayiconSetup;
+	bool trayiconVisible;
 
 };
 

@@ -126,10 +126,18 @@ Rectangle {
 		// SYSTEM TRAY
 
 		CustomCheckBox {
+			id: systray_enable
+			text: "Enable tray icon"
+			x: quicksettings.radius
+			onCheckedButtonChanged: settings.trayicon = (systray_enable.checkedButton ? (systray.checkedButton ? 1 : 0) : 2)
+		}
+
+		CustomCheckBox {
 			id: systray
 			text: "Hide to system tray"
 			x: quicksettings.radius
-			onCheckedButtonChanged: settings.trayicon = systray.checkedButton
+			onCheckedButtonChanged: settings.trayicon = (systray_enable.checkedButton ? (systray.checkedButton ? 1 : 0) : 2)
+			enabled: systray_enable.checkedButton
 		}
 
 		/**************************************/
@@ -312,7 +320,8 @@ Rectangle {
 		sortby_asc.checked = settings.sortbyAscending
 		sortby_desc.checked = !settings.sortbyAscending
 
-		systray.checkedButton = settings.trayicon
+		systray.checkedButton = (settings.trayicon === 1)
+		systray_enable.checkedButton = (settings.trayicon !== 2)
 
 		loop.checkedButton = settings.loopthroughfolder
 

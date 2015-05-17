@@ -9,20 +9,6 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 	variables = new Variables;
 	shortcuts = new Shortcuts;
 
-	trayIcon = new QSystemTrayIcon(this);
-	trayIcon->setIcon(QIcon(":/img/icon.png"));
-	trayIcon->setToolTip("PhotoQt - " + tr("Image Viewer"));
-	// A context menu for the tray icon
-	QMenu *trayIconMenu = new QMenu;
-	trayIconMenu->setStyleSheet("background-color: rgb(67,67,67); color: white; border-radius: 5px;");
-	QAction *trayAcToggle = new QAction(QIcon(":/img/logo.png"),tr("Hide/Show PhotoQt"),this);
-	trayIconMenu->addAction(trayAcToggle);
-	connect(trayAcToggle, SIGNAL(triggered()), this, SLOT(show()));
-	// Set the menu to the tray icon
-	trayIcon->setContextMenu(trayIconMenu);
-	trayIcon->show();
-    connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayAction(QSystemTrayIcon::ActivationReason)));
-
 	// Add image providers
 	this->engine()->addImageProvider("thumb",new ImageProviderThumbnail);
 	this->engine()->addImageProvider("full",new ImageProviderFull);
@@ -59,6 +45,12 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
     // Hide/Quit window
     connect(object, SIGNAL(hideToSystemTray()), this, SLOT(hideToSystemTray()));
     connect(object, SIGNAL(quitPhotoQt()), this, SLOT(quitPhotoQt()));
+
+	// Reflect change in tray icon change
+	connect(settingsPermanent, SIGNAL(trayiconChanged(int)), this, SLOT(showTrayIcon()));
+	connect(settingsPermanent, SIGNAL(trayiconChanged(int)), this, SLOT(hideTrayIcon()));
+
+	showTrayIcon();
 
 }
 
@@ -316,7 +308,7 @@ bool MainWindow::event(QEvent *e) {
 		} else {
 
             // Hide to system tray (except if a 'quit' was requested)
-            if(settingsPermanent->trayicon && !variables->skipSystemTrayAndQuit) {
+			if(settingsPermanent->trayicon == 1 && !variables->skipSystemTrayAndQuit) {
 
                 trayAction(QSystemTrayIcon::Trigger);
 //				if(globVar->verbose) std::clog << "Hiding to System Tray." << std::endl;
@@ -332,7 +324,6 @@ bool MainWindow::event(QEvent *e) {
 				// Remove 'running' file
 				QFile(QDir::homePath() + "/.photoqt/running").remove();
 
-				trayIcon->hide();
 				e->accept();
 
 				std::cout << "Goodbye!" << std::endl;
@@ -372,11 +363,54 @@ void MainWindow::trayAction(QSystemTrayIcon::ActivationReason reason) {
 }
 
 void MainWindow::hideToSystemTray() {
-        trayAction(QSystemTrayIcon::Trigger);
+		this->close();
 }
 void MainWindow::quitPhotoQt() {
     variables->skipSystemTrayAndQuit = true;
     this->close();
+}
+
+void MainWindow::showTrayIcon() {
+
+	if(settingsPermanent->trayicon != 2) {
+
+		if(!variables->trayiconSetup) {
+
+			trayIcon = new QSystemTrayIcon(this);
+			trayIcon->setIcon(QIcon(":/img/icon.png"));
+			trayIcon->setToolTip("PhotoQt - " + tr("Image Viewer"));
+
+			// A context menu for the tray icon
+			QMenu *trayIconMenu = new QMenu;
+			trayIconMenu->setStyleSheet("background-color: rgb(67,67,67); color: white; border-radius: 5px;");
+			QAction *trayAcToggle = new QAction(QIcon(":/img/logo.png"),tr("Hide/Show PhotoQt"),this);
+			trayIconMenu->addAction(trayAcToggle);
+			connect(trayAcToggle, SIGNAL(triggered()), this, SLOT(show()));
+
+			// Set the menu to the tray icon
+			trayIcon->setContextMenu(trayIconMenu);
+			connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(trayAction(QSystemTrayIcon::ActivationReason)));
+
+			variables->trayiconSetup = true;
+
+		}
+
+		trayIcon->show();
+		variables->trayiconVisible = true;
+
+	}
+
+}
+
+void MainWindow::hideTrayIcon() {
+
+	if(settingsPermanent->trayicon == 2 && variables->trayiconSetup) {
+
+		trayIcon->hide();
+		variables->trayiconVisible = false;
+
+	}
+
 }
 
 MainWindow::~MainWindow() {
@@ -386,5 +420,5 @@ MainWindow::~MainWindow() {
 	delete variables;
 	delete shortcuts;
 	delete loadDir;
-	delete trayIcon;
+	if(variables->trayiconSetup) delete trayIcon;
 }

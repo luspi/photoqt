@@ -71,6 +71,9 @@ private slots:
 
 	void detectedKeyCombo(QString combo);
 
+	void showTrayIcon();
+	void hideTrayIcon();
+
     void hideToSystemTray();
     void quitPhotoQt();
     void trayAction(QSystemTrayIcon::ActivationReason reason);

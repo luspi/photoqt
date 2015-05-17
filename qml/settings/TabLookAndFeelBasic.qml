@@ -183,7 +183,7 @@ Rectangle {
 			CustomCheckBox {
 				id: trayicon
 				x: (tab.width-width)/2
-				text: "Hide to Tray Icon"
+				text: "Hide to System Tray"
 				enabled: trayiconEnable.checkedButton
 			}
 
