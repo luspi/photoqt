@@ -27,6 +27,7 @@ public:
 		watcher = new QFileSystemWatcher;
 		watcher->addPath(QDir::homePath() + "/.photoqt/settings");
 		connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(readSettings()));
+		connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(emitAllSignals()));
 
 		// Read settings initially
 		readSettings();
@@ -307,102 +308,102 @@ public:
 	 * SET methods *
 	 ***************/
 
-	void setLanguage(QString val) { language = val; saveSettingsTimer->start(); emit languageChanged(val); }
-	void setMyWidgetAnimated(bool val) { myWidgetAnimated = val; saveSettingsTimer->start(); emit myWidgetAnimatedChanged(val);}
-	void setSaveWindowGeometry(bool val) { saveWindowGeometry = val; saveSettingsTimer->start(); emit saveWindowGeometryChanged(val); }
-	void setKeepOnTop(bool val) { keepOnTop = val; saveSettingsTimer->start(); emit keepOnTopChanged(val); }
-	void setComposite(bool val) { composite = val; saveSettingsTimer->start(); emit compositeChanged(val);}
+	void setLanguage(QString val) { language = val; saveSettingsTimer->start(); }
+	void setMyWidgetAnimated(bool val) { myWidgetAnimated = val; saveSettingsTimer->start(); }
+	void setSaveWindowGeometry(bool val) { saveWindowGeometry = val; saveSettingsTimer->start(); }
+	void setKeepOnTop(bool val) { keepOnTop = val; saveSettingsTimer->start(); }
+	void setComposite(bool val) { composite = val; saveSettingsTimer->start(); }
 
-	void setBgColorRed(int val) { bgColorRed = val; saveSettingsTimer->start(); emit bgColorRedChanged(val); }
-	void setBgColorGreen(int val) { bgColorGreen = val; saveSettingsTimer->start(); emit bgColorGreenChanged(val);}
-	void setBgColorBlue(int val) { bgColorBlue = val; saveSettingsTimer->start(); emit bgColorBlueChanged(val);}
-	void setBgColorAlpha(int val) { bgColorAlpha = val; saveSettingsTimer->start(); emit bgColorAlphaChanged(val);}
+	void setBgColorRed(int val) { bgColorRed = val; saveSettingsTimer->start(); }
+	void setBgColorGreen(int val) { bgColorGreen = val; saveSettingsTimer->start(); }
+	void setBgColorBlue(int val) { bgColorBlue = val; saveSettingsTimer->start(); }
+	void setBgColorAlpha(int val) { bgColorAlpha = val; saveSettingsTimer->start(); }
 
-	void setBackgroundImageScreenshot(bool val) { backgroundImageScreenshot = val; saveSettingsTimer->start(); emit backgroundImageScreenshotChanged(val);}
-	void setBackgroundImageUse(bool val) { backgroundImageUse = val; saveSettingsTimer->start(); emit backgroundImageUseChanged(val);}
-	void setBackgroundImagePath(QString val) { backgroundImagePath = val; saveSettingsTimer->start(); emit backgroundImagePathChanged(val);}
-	void setBackgroundImageScale(bool val) { backgroundImageScale = val; saveSettingsTimer->start(); emit backgroundImageScaleChanged(val);}
-	void setBackgroundImageScaleCrop(bool val) { backgroundImageScaleCrop = val; saveSettingsTimer->start(); emit backgroundImageScaleCropChanged(val);}
-	void setBackgroundImageStretch(bool val) { backgroundImageStretch = val; saveSettingsTimer->start(); emit backgroundImageStretchChanged(val);}
-	void setBackgroundImageCenter(bool val) { backgroundImageCenter = val; saveSettingsTimer->start(); emit backgroundImageCenterChanged(val);}
-	void setBackgroundImageTile(bool val) { backgroundImageTile = val; saveSettingsTimer->start(); emit backgroundImageTileChanged(val);}
+	void setBackgroundImageScreenshot(bool val) { backgroundImageScreenshot = val; saveSettingsTimer->start(); }
+	void setBackgroundImageUse(bool val) { backgroundImageUse = val; saveSettingsTimer->start(); }
+	void setBackgroundImagePath(QString val) { backgroundImagePath = val; saveSettingsTimer->start(); }
+	void setBackgroundImageScale(bool val) { backgroundImageScale = val; saveSettingsTimer->start(); }
+	void setBackgroundImageScaleCrop(bool val) { backgroundImageScaleCrop = val; saveSettingsTimer->start(); }
+	void setBackgroundImageStretch(bool val) { backgroundImageStretch = val; saveSettingsTimer->start(); }
+	void setBackgroundImageCenter(bool val) { backgroundImageCenter = val; saveSettingsTimer->start(); }
+	void setBackgroundImageTile(bool val) { backgroundImageTile = val; saveSettingsTimer->start(); }
 
-	void setTayicon(int val) { trayicon = val; saveSettingsTimer->start(); emit trayiconChanged(val); }
-	void setTransition(int val) { transition = val; saveSettingsTimer->start(); emit transitionChanged(val); }
-	void setLoopthroughfolder(bool val) { loopthroughfolder = val; saveSettingsTimer->start(); emit loopthroughfolderChanged(val); }
-	void setMenusensitivity(int val) { menusensitivity = val; saveSettingsTimer->start(); emit menusensitivityChanged(val); }
-	void setCloseongrey(bool val) { closeongrey = val; saveSettingsTimer->start(); emit closeongreyChanged(val); }
-	void setBorderAroundImg(int val) { borderAroundImg = val; saveSettingsTimer->start(); emit borderAroundImgChanged(val); }
-	void setQuickSettings(bool val) { quickSettings = val; saveSettingsTimer->start(); emit quickSettingsChanged(val); }
-	void setSortby(QString val) { sortby = val; saveSettingsTimer->start(); emit sortbyChanged(val); }
-	void setSortbyAscending(bool val) { sortbyAscending = val; saveSettingsTimer->start(); emit sortbyAscendingChanged(val); }
-	void setMouseWheelSensitivity(int val) { mouseWheelSensitivity = val; saveSettingsTimer->start(); emit mouseWheelSensitivityChanged(val); }
-	void setRememberRotation(bool val) { rememberRotation = val; saveSettingsTimer->start(); emit rememberRotationChanged(val); }
-	void setRememberZoom(bool val) { rememberZoom = val; saveSettingsTimer->start(); emit rememberZoomChanged(val); }
-	void setFitInWindow(bool val) { fitInWindow = val; saveSettingsTimer->start(); emit fitInWindowChanged(val); }
+	void setTrayicon(int val) { trayicon = val; saveSettingsTimer->start(); }
+	void setTransition(int val) { transition = val; saveSettingsTimer->start(); }
+	void setLoopthroughfolder(bool val) { loopthroughfolder = val; saveSettingsTimer->start(); }
+	void setMenusensitivity(int val) { menusensitivity = val; saveSettingsTimer->start(); }
+	void setCloseongrey(bool val) { closeongrey = val; saveSettingsTimer->start(); }
+	void setBorderAroundImg(int val) { borderAroundImg = val; saveSettingsTimer->start(); }
+	void setQuickSettings(bool val) { quickSettings = val; saveSettingsTimer->start(); }
+	void setSortby(QString val) { sortby = val; saveSettingsTimer->start(); }
+	void setSortbyAscending(bool val) { sortbyAscending = val; saveSettingsTimer->start(); }
+	void setMouseWheelSensitivity(int val) { mouseWheelSensitivity = val; saveSettingsTimer->start(); }
+	void setRememberRotation(bool val) { rememberRotation = val; saveSettingsTimer->start(); }
+	void setRememberZoom(bool val) { rememberZoom = val; saveSettingsTimer->start(); }
+	void setFitInWindow(bool val) { fitInWindow = val; saveSettingsTimer->start(); }
 
 	void setHidecounter(bool val) { hidecounter = val; saveSettingsTimer->start(); }
 	void setHidefilepathshowfilename(bool val) { hidefilepathshowfilename = val; saveSettingsTimer->start(); }
 	void setHidefilename(bool val) { hidefilename = val; saveSettingsTimer->start(); }
 	void setHidex(bool val) { hidex = val; saveSettingsTimer->start(); }
 	void setCloseXsize(int val) { closeXsize = val; saveSettingsTimer->start(); }
-	void setFancyX(bool val) {fancyX = val; saveSettingsTimer->start(); emit fancyXChanged(val); }
+	void setFancyX(bool val) {fancyX = val; saveSettingsTimer->start(); }
 
-	void setSlideShowTime(int val) { slideShowTime = val; saveSettingsTimer->start(); emit slideShowTimeChanged(val); }
-	void setSlideShowTransition(int val) { slideShowTransition = val; saveSettingsTimer->start(); emit slideShowTransitionChanged(val); }
-	void setSlideShowMusicFile(QString val) { slideShowMusicFile = val; saveSettingsTimer->start(); emit slideShowMusicFileChanged(val); }
-	void setSlideShowShuffle(bool val) { slideShowShuffle = val; saveSettingsTimer->start(); emit slideShowShuffleChanged(val); }
-	void setSlideShowLoop(bool val) { slideShowLoop = val; saveSettingsTimer->start(); emit slideShowLoopChanged(val); }
-	void setSlideShowHideQuickinfo(bool val) { slideShowHideQuickinfo = val; saveSettingsTimer->start(); emit slideShowHideQuickinfoChanged(val); }
+	void setSlideShowTime(int val) { slideShowTime = val; saveSettingsTimer->start(); }
+	void setSlideShowTransition(int val) { slideShowTransition = val; saveSettingsTimer->start(); }
+	void setSlideShowMusicFile(QString val) { slideShowMusicFile = val; saveSettingsTimer->start(); }
+	void setSlideShowShuffle(bool val) { slideShowShuffle = val; saveSettingsTimer->start(); }
+	void setSlideShowLoop(bool val) { slideShowLoop = val; saveSettingsTimer->start(); }
+	void setSlideShowHideQuickinfo(bool val) { slideShowHideQuickinfo = val; saveSettingsTimer->start(); }
 
-	void setWallpaperAlignment(QString val) { wallpaperAlignment = val; saveSettingsTimer->start(); emit wallpaperAlignmentChanged(val); }
-	void setWallpaperScale(QString val) { wallpaperScale = val; saveSettingsTimer->start(); emit wallpaperScaleChanged(val); }
+	void setWallpaperAlignment(QString val) { wallpaperAlignment = val; saveSettingsTimer->start(); }
+	void setWallpaperScale(QString val) { wallpaperScale = val; saveSettingsTimer->start(); }
 
-	void setThumbnailsize(int val) { thumbnailsize = val; saveSettingsTimer->start(); emit thumbnailsizeChanged(val); }
-	void setThumbnailposition(QString val) { thumbnailposition = val; saveSettingsTimer->start(); emit thumbnailpositionChanged(val); }
-	void setThumbnailcache(bool val) { thumbnailcache = val; saveSettingsTimer->start(); emit thumbnailcacheChanged(val); }
-	void setThbcachefile(bool val) { thbcachefile = val; saveSettingsTimer->start(); emit thbcachefileChanged(val); }
-	void setThumbnailSpacingBetween(int val) { thumbnailSpacingBetween = val; saveSettingsTimer->start(); emit thumbnailSpacingBetweenChanged(val); }
-	void setThumbnailLiftUp(int val) { thumbnailLiftUp = val; saveSettingsTimer->start(); emit thumbnailLiftUpChanged(val); }
-	void setThumbnailKeepVisible(bool val) { thumbnailKeepVisible = val; saveSettingsTimer->start(); emit thumbnailKeepVisibleChanged(val); }
-	void setThumbnailDynamic(int val) { thumbnailDynamic = val; saveSettingsTimer->start(); emit thumbnailDynamicChanged(val); }
-	void setThumbnailCenterActive(bool val) { thumbnailCenterActive = val; saveSettingsTimer->start(); emit thumbnailCenterActiveChanged(val); }
-	void setThumbnailFilenameInstead(bool val) { thumbnailFilenameInstead = val; saveSettingsTimer->start(); emit thumbnailFilenameInsteadChanged(val); }
-	void setThumbnailFilenameInsteadFontSize(int val) { thumbnailFilenameInsteadFontSize = val; saveSettingsTimer->start(); emit thumbnailFilenameInsteadFontSizeChanged(val); }
-	void setThumbnailDisable(bool val) { thumbnailDisable = val; saveSettingsTimer->start(); emit thumbnailDisableChanged(val); }
-	void setThumbnailPreloadFullDirectory(bool val) { thumbnailPreloadFullDirectory = val; saveSettingsTimer->start(); emit thumbnailPreloadFullDirectoryChanged(val); }
-	void setThumbnailPreloadNumber(int val) { thumbnailPreloadNumber = val; saveSettingsTimer->start(); emit thumbnailPreloadNumberChanged(val); }
-	void setThumbnailWriteFilename(bool val) { thumbnailWriteFilename = val; saveSettingsTimer->start(); emit thumbnailWriteFilenameChanged(val); }
-	void setThumbnailWriteResolution(bool val) { thumbnailWriteResolution = val; saveSettingsTimer->start(); emit thumbnailWriteResolutionChanged(val); }
-	void setThumbnailFontSize(int val) { thumbnailFontSize = val; saveSettingsTimer->start(); emit thumbnailFontSizeChanged(val); }
+	void setThumbnailsize(int val) { thumbnailsize = val; saveSettingsTimer->start(); }
+	void setThumbnailposition(QString val) { thumbnailposition = val; saveSettingsTimer->start(); }
+	void setThumbnailcache(bool val) { thumbnailcache = val; saveSettingsTimer->start(); }
+	void setThbcachefile(bool val) { thbcachefile = val; saveSettingsTimer->start(); }
+	void setThumbnailSpacingBetween(int val) { thumbnailSpacingBetween = val; saveSettingsTimer->start(); }
+	void setThumbnailLiftUp(int val) { thumbnailLiftUp = val; saveSettingsTimer->start(); }
+	void setThumbnailKeepVisible(bool val) { thumbnailKeepVisible = val; saveSettingsTimer->start(); }
+	void setThumbnailDynamic(int val) { thumbnailDynamic = val; saveSettingsTimer->start(); }
+	void setThumbnailCenterActive(bool val) { thumbnailCenterActive = val; saveSettingsTimer->start(); }
+	void setThumbnailFilenameInstead(bool val) { thumbnailFilenameInstead = val; saveSettingsTimer->start(); }
+	void setThumbnailFilenameInsteadFontSize(int val) { thumbnailFilenameInsteadFontSize = val; saveSettingsTimer->start(); }
+	void setThumbnailDisable(bool val) { thumbnailDisable = val; saveSettingsTimer->start(); }
+	void setThumbnailPreloadFullDirectory(bool val) { thumbnailPreloadFullDirectory = val; saveSettingsTimer->start(); }
+	void setThumbnailPreloadNumber(int val) { thumbnailPreloadNumber = val; saveSettingsTimer->start(); }
+	void setThumbnailWriteFilename(bool val) { thumbnailWriteFilename = val; saveSettingsTimer->start(); }
+	void setThumbnailWriteResolution(bool val) { thumbnailWriteResolution = val; saveSettingsTimer->start(); }
+	void setThumbnailFontSize(int val) { thumbnailFontSize = val; saveSettingsTimer->start(); }
 
-	void setWindowmode(bool val) { windowmode = val; saveSettingsTimer->start(); emit windowmodeChanged(val); }
-	void setWindowDecoration(bool val) { windowDecoration = val; saveSettingsTimer->start(); emit windowDecorationChanged(val); }
-	void setKnownFileTypesQtExtras(QString val) { knownFileTypesQtExtras = val; saveSettingsTimer->start(); emit knownFileTypesQtExtrasChanged(val); }
+	void setWindowmode(bool val) { windowmode = val; saveSettingsTimer->start(); }
+	void setWindowDecoration(bool val) { windowDecoration = val; saveSettingsTimer->start(); }
+	void setKnownFileTypesQtExtras(QString val) { knownFileTypesQtExtras = val; saveSettingsTimer->start(); }
 
-	void setExifenablemousetriggering(bool val) { exifenablemousetriggering = val; saveSettingsTimer->start(); emit exifenablemousetriggeringChanged(val); }
-	void setExifrotation(QString val) { exifrotation = val; saveSettingsTimer->start(); emit exifrotationChanged(val); }
-	void setExifgpsmapservice(QString val) { exifgpsmapservice = val; saveSettingsTimer->start(); emit exifgpsmapserviceChanged(val); }
-	void setExiffontsize(int val) { exiffontsize = val; saveSettingsTimer->start(); emit exiffontsizeChanged(val); }
-	void setExiffilename(bool val) { exiffilename = val; saveSettingsTimer->start(); emit exiffilenameChanged(val); }
-	void setExiffiletype(bool val) { exiffiletype = val; saveSettingsTimer->start(); emit exiffiletypeChanged(val); }
-	void setExiffilesize(bool val) { exiffilesize = val; saveSettingsTimer->start(); emit exiffilesizeChanged(val); }
-	void setExifdimensions(bool val) { exifdimensions = val; saveSettingsTimer->start(); emit exifdimensionsChanged(val); }
-	void setExifmake(bool val) { exifmake = val; saveSettingsTimer->start(); emit exifmakeChanged(val); }
-	void setExifmodel(bool val) { exifmodel = val; saveSettingsTimer->start(); emit exifmodelChanged(val); }
-	void setExifsoftware(bool val) { exifsoftware = val; saveSettingsTimer->start(); emit exifsoftwareChanged(val); }
-	void setExifphototaken(bool val) { exifphototaken = val; saveSettingsTimer->start(); emit exifphototakenChanged(val); }
-	void setExifexposuretime(bool val) { exifexposuretime = val; saveSettingsTimer->start(); emit exifexposuretimeChanged(val); }
-	void setExifflash(bool val) { exifflash = val; saveSettingsTimer->start(); emit exifflashChanged(val); }
-	void setExifiso(bool val) { exifiso = val; saveSettingsTimer->start(); emit exifisoChanged(val); }
-	void setExifscenetype(bool val) { exifscenetype = val; saveSettingsTimer->start(); emit exifscenetypeChanged(val); }
-	void setExifflength(bool val) { exifflength = val; saveSettingsTimer->start(); emit exifflengthChanged(val); }
-	void setExiffnumber(bool val) { exiffnumber = val; saveSettingsTimer->start(); emit exiffnumberChanged(val); }
-	void setExiflightsource(bool val) { exiflightsource = val; saveSettingsTimer->start(); emit exiflightsourceChanged(val); }
-	void setIptckeywords(bool val) { iptckeywords = val; saveSettingsTimer->start(); emit iptckeywordsChanged(val); }
-	void setIptclocation(bool val) { iptclocation = val; saveSettingsTimer->start(); emit iptclocationChanged(val); }
-	void setIptccopyright(bool val) { iptccopyright = val; saveSettingsTimer->start(); emit iptccopyrightChanged(val); }
-	void setExifgps(bool val) { exifgps = val; saveSettingsTimer->start(); emit exifgpsChanged(val); }
+	void setExifenablemousetriggering(bool val) { exifenablemousetriggering = val; saveSettingsTimer->start(); }
+	void setExifrotation(QString val) { exifrotation = val; saveSettingsTimer->start(); }
+	void setExifgpsmapservice(QString val) { exifgpsmapservice = val; saveSettingsTimer->start(); }
+	void setExiffontsize(int val) { exiffontsize = val; saveSettingsTimer->start(); }
+	void setExiffilename(bool val) { exiffilename = val; saveSettingsTimer->start(); }
+	void setExiffiletype(bool val) { exiffiletype = val; saveSettingsTimer->start(); }
+	void setExiffilesize(bool val) { exiffilesize = val; saveSettingsTimer->start(); }
+	void setExifdimensions(bool val) { exifdimensions = val; saveSettingsTimer->start(); }
+	void setExifmake(bool val) { exifmake = val; saveSettingsTimer->start(); }
+	void setExifmodel(bool val) { exifmodel = val; saveSettingsTimer->start(); }
+	void setExifsoftware(bool val) { exifsoftware = val; saveSettingsTimer->start(); }
+	void setExifphototaken(bool val) { exifphototaken = val; saveSettingsTimer->start(); }
+	void setExifexposuretime(bool val) { exifexposuretime = val; saveSettingsTimer->start(); }
+	void setExifflash(bool val) { exifflash = val; saveSettingsTimer->start(); }
+	void setExifiso(bool val) { exifiso = val; saveSettingsTimer->start(); }
+	void setExifscenetype(bool val) { exifscenetype = val; saveSettingsTimer->start(); }
+	void setExifflength(bool val) { exifflength = val; saveSettingsTimer->start(); }
+	void setExiffnumber(bool val) { exiffnumber = val; saveSettingsTimer->start(); }
+	void setExiflightsource(bool val) { exiflightsource = val; saveSettingsTimer->start(); }
+	void setIptckeywords(bool val) { iptckeywords = val; saveSettingsTimer->start(); }
+	void setIptclocation(bool val) { iptclocation = val; saveSettingsTimer->start(); }
+	void setIptccopyright(bool val) { iptccopyright = val; saveSettingsTimer->start(); }
+	void setExifgps(bool val) { exifgps = val; saveSettingsTimer->start(); }
 
 
 	/*#################################################################################################*/
@@ -432,7 +433,7 @@ public:
 	Q_PROPERTY(bool backgroundImageCenter READ getBackgroundImageCenter WRITE setBackgroundImageCenter NOTIFY backgroundImageCenterChanged)
 	Q_PROPERTY(bool backgroundImageTile READ getBackgroundImageTile WRITE setBackgroundImageTile NOTIFY backgroundImageTileChanged)
 
-	Q_PROPERTY(int trayicon READ getTrayicon WRITE setTayicon NOTIFY trayiconChanged)
+	Q_PROPERTY(int trayicon READ getTrayicon WRITE setTrayicon NOTIFY trayiconChanged)
 	Q_PROPERTY(int transition READ getTransition WRITE setTransition NOTIFY transitionChanged)
 	Q_PROPERTY(bool loopthroughfolder READ getLoopthroughfolder WRITE setLoopthroughfolder NOTIFY loopthroughfolderChanged)
 	Q_PROPERTY(int menusensitivity READ getMenusensitivity WRITE setMenusensitivity NOTIFY menusensitivityChanged)
@@ -1169,6 +1170,105 @@ public slots:
 
 	}
 
+private slots:
+	void emitAllSignals() {
+		emit languageChanged(language);
+		emit myWidgetAnimatedChanged(myWidgetAnimated);
+		emit saveWindowGeometryChanged(saveWindowGeometry);
+		emit keepOnTopChanged(keepOnTop);
+		emit compositeChanged(composite);
+
+		emit bgColorRedChanged(bgColorRed);
+		emit bgColorGreenChanged(bgColorGreen);
+		emit bgColorBlueChanged(bgColorBlue);
+		emit bgColorAlphaChanged(bgColorAlpha);
+
+		emit backgroundImageScreenshotChanged(backgroundImageScreenshot);
+		emit backgroundImageUseChanged(backgroundImageUse);
+		emit backgroundImagePathChanged(backgroundImagePath);
+		emit backgroundImageScaleChanged(backgroundImageScale);
+		emit backgroundImageScaleCropChanged(backgroundImageScaleCrop);
+		emit backgroundImageStretchChanged(backgroundImageStretch);
+		emit backgroundImageCenterChanged(backgroundImageCenter);
+		emit backgroundImageTileChanged(backgroundImageTile);
+
+		emit trayiconChanged(trayicon);
+		emit transitionChanged(transition);
+		emit loopthroughfolderChanged(loopthroughfolder);
+		emit menusensitivityChanged(menusensitivity);
+		emit closeongreyChanged(closeongrey);
+		emit borderAroundImgChanged(borderAroundImg);
+		emit quickSettingsChanged(quickSettings);
+		emit sortbyChanged(sortby);
+		emit sortbyAscendingChanged(sortbyAscending);
+		emit mouseWheelSensitivityChanged(mouseWheelSensitivity);
+		emit rememberRotationChanged(rememberRotation);
+		emit rememberZoomChanged(rememberZoom);
+		emit fitInWindowChanged(fitInWindow);
+
+		emit hidecounterChanged(hidecounter);
+		emit hidefilepathshowfilenameChanged(hidefilepathshowfilename);
+		emit hidefilenameChanged(hidefilename);
+		emit hidexChanged(hidex);
+		emit closeXsizeChanged(closeXsize);
+		emit fancyXChanged(fancyX);
+
+		emit slideShowTimeChanged(slideShowTime);
+		emit slideShowMusicFileChanged(slideShowMusicFile);
+		emit slideShowShuffleChanged(slideShowShuffle);
+		emit slideShowLoopChanged(slideShowLoop);
+		emit slideShowTransitionChanged(slideShowTransition);
+		emit slideShowHideQuickinfoChanged(slideShowHideQuickinfo);
+
+		emit wallpaperAlignmentChanged(wallpaperAlignment);
+		emit wallpaperScaleChanged(wallpaperScale);
+
+		emit thumbnailsizeChanged(thumbnailsize);
+		emit thumbnailcacheChanged(thumbnailcache);
+		emit thbcachefileChanged(thbcachefile);
+		emit thumbnailSpacingBetweenChanged(thumbnailSpacingBetween);
+		emit thumbnailLiftUpChanged(thumbnailLiftUp);
+		emit thumbnailKeepVisibleChanged(thumbnailKeepVisible);
+		emit thumbnailFontSizeChanged(thumbnailFontSize);
+		emit thumbnailDynamicChanged(thumbnailDynamic);
+		emit thumbnailCenterActiveChanged(thumbnailCenterActive);
+		emit thumbnailpositionChanged(thumbnailposition);
+		emit thumbnailFilenameInsteadChanged(thumbnailFilenameInstead);
+		emit thumbnailFilenameInsteadFontSizeChanged(thumbnailFilenameInsteadFontSize);
+		emit thumbnailDisableChanged(thumbnailDisable);
+		emit thumbnailPreloadFullDirectoryChanged(thumbnailPreloadFullDirectory);
+		emit thumbnailPreloadNumberChanged(thumbnailPreloadNumber);
+		emit thumbnailWriteFilenameChanged(thumbnailWriteFilename);
+		emit thumbnailWriteResolutionChanged(thumbnailWriteResolution);
+
+		emit windowmodeChanged(windowmode);
+		emit windowDecorationChanged(windowDecoration);
+		emit knownFileTypesQtExtrasChanged(knownFileTypesQtExtras);
+
+		emit exiffontsizeChanged(exiffontsize);
+		emit exifenablemousetriggeringChanged(exifenablemousetriggering);
+		emit exifrotationChanged(exifrotation);
+		emit exifgpsmapserviceChanged(exifgpsmapservice);
+		emit exiffilenameChanged(exiffilename);
+		emit exiffiletypeChanged(exiffiletype);
+		emit exiffilesizeChanged(exiffilesize);
+		emit exifdimensionsChanged(exifdimensions);
+		emit exifmakeChanged(exifmake);
+		emit exifmodelChanged(exifmodel);
+		emit exifsoftwareChanged(exifsoftware);
+		emit exifphototakenChanged(exifphototaken);
+		emit exifexposuretimeChanged(exifexposuretime);
+		emit exifflashChanged(exifflash);
+		emit exifisoChanged(exifiso);
+		emit exifscenetypeChanged(exifscenetype);
+		emit exifflengthChanged(exifflength);
+		emit exiffnumberChanged(exiffnumber);
+		emit exiflightsourceChanged(exiflightsource);
+		emit iptckeywordsChanged(iptckeywords);
+		emit iptclocationChanged(iptclocation);
+		emit iptccopyrightChanged(iptccopyright);
+		emit exifgpsChanged(exifgps);
+	}
 
 private:
 	QFileSystemWatcher *watcher;
