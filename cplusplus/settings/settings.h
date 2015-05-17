@@ -85,7 +85,7 @@ public:
 	bool backgroundImageTile;
 
 	// Hide to tray icon?
-	bool trayicon;
+	int trayicon;
 	// Smooth Transition for changing images
 	int transition;
 	// Loop through folder?
@@ -222,7 +222,7 @@ public:
 	bool getBackgroundImageCenter() { return backgroundImageCenter; }
 	bool getBackgroundImageTile() { return backgroundImageTile; }
 
-	bool getTrayicon() { return trayicon; }
+	int getTrayicon() { return trayicon; }
 	int getTransition() { return transition; }
 	bool getLoopthroughfolder() { return loopthroughfolder; }
 	int getMenusensitivity() { return menusensitivity; }
@@ -327,7 +327,7 @@ public:
 	void setBackgroundImageCenter(bool val) { backgroundImageCenter = val; saveSettingsTimer->start(); emit backgroundImageCenterChanged(val);}
 	void setBackgroundImageTile(bool val) { backgroundImageTile = val; saveSettingsTimer->start(); emit backgroundImageTileChanged(val);}
 
-	void setTayicon(bool val) { trayicon = val; saveSettingsTimer->start(); emit trayiconChanged(val); }
+	void setTayicon(int val) { trayicon = val; saveSettingsTimer->start(); emit trayiconChanged(val); }
 	void setTransition(int val) { transition = val; saveSettingsTimer->start(); emit transitionChanged(val); }
 	void setLoopthroughfolder(bool val) { loopthroughfolder = val; saveSettingsTimer->start(); emit loopthroughfolderChanged(val); }
 	void setMenusensitivity(int val) { menusensitivity = val; saveSettingsTimer->start(); emit menusensitivityChanged(val); }
@@ -432,7 +432,7 @@ public:
 	Q_PROPERTY(bool backgroundImageCenter READ getBackgroundImageCenter WRITE setBackgroundImageCenter NOTIFY backgroundImageCenterChanged)
 	Q_PROPERTY(bool backgroundImageTile READ getBackgroundImageTile WRITE setBackgroundImageTile NOTIFY backgroundImageTileChanged)
 
-	Q_PROPERTY(bool trayicon READ getTrayicon WRITE setTayicon NOTIFY trayiconChanged)
+	Q_PROPERTY(int trayicon READ getTrayicon WRITE setTayicon NOTIFY trayiconChanged)
 	Q_PROPERTY(int transition READ getTransition WRITE setTransition NOTIFY transitionChanged)
 	Q_PROPERTY(bool loopthroughfolder READ getLoopthroughfolder WRITE setLoopthroughfolder NOTIFY loopthroughfolderChanged)
 	Q_PROPERTY(int menusensitivity READ getMenusensitivity WRITE setMenusensitivity NOTIFY menusensitivityChanged)
@@ -553,7 +553,7 @@ public:
 //#else
 		composite = true;
 //#endif
-		trayicon = false;
+		trayicon = 0;
 		transition = 0;
 		loopthroughfolder = true;
 		menusensitivity = 4;
@@ -679,7 +679,7 @@ public slots:
 
 			cont += "\n[Behaviour]\n";
 
-			cont += QString("TrayIcon=%1\n").arg(int(trayicon));
+			cont += QString("TrayIcon=%1\n").arg(trayicon);
 			cont += QString("Transition=%1\n").arg(transition);
 			cont += QString("LoopThroughFolder=%1\n").arg(int(loopthroughfolder));
 			cont += QString("MenuSensitivity=%1\n").arg(menusensitivity);
@@ -883,10 +883,8 @@ public slots:
 				backgroundImageTile = bool(all.split("BackgroundImageTile=").at(1).split("\n").at(0).toInt());
 
 
-			if(all.contains("TrayIcon=1"))
-				trayicon = true;
-			else if(all.contains("TrayIcon=0"))
-				trayicon = false;
+			if(all.contains("TrayIcon="))
+				trayicon = all.split("TrayIcon=").at(1).split("\n").at(0).toInt();
 
 			if(all.contains("Transition="))
 				transition = all.split("Transition=").at(1).split("\n").at(0).toInt();
@@ -1201,7 +1199,7 @@ signals:
 	void backgroundImageCenterChanged(bool val);
 	void backgroundImageTileChanged(bool val);
 
-	void trayiconChanged(bool val);
+	void trayiconChanged(int val);
 	void transitionChanged(int val);
 	void loopthroughfolderChanged(bool val);
 	void menusensitivityChanged(int val);

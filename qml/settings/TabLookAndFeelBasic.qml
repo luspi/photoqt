@@ -175,9 +175,16 @@ Rectangle {
 			}
 
 			CustomCheckBox {
+				id: trayiconEnable
+				x: (tab.width-width)/2
+				text: "Enable Tray Icon"
+			}
+
+			CustomCheckBox {
 				id: trayicon
 				x: (tab.width-width)/2
 				text: "Hide to Tray Icon"
+				enabled: trayiconEnable.checkedButton
 			}
 
 
@@ -359,7 +366,7 @@ Rectangle {
 		settings.windowmode = windowmode.checkedButton
 		settings.windowDecoration = windowmode_deco.checkedButton
 
-		settings.trayicon = trayicon.checkedButton
+		settings.trayicon = (trayiconEnable.checkedButton ? (trayicon.checkedButton ? 1 : 0) : 2)
 
 		settings.fancyX = closingx_fancy.checked
 		settings.closeXsize = closingx_sizeslider.value
@@ -391,7 +398,8 @@ Rectangle {
 		windowmode_deco.enabled = windowmode.checkedButton
 		windowmode_deco.checkedButton = settings.windowDecoration
 
-		trayicon.checkedButton = settings.trayicon
+		trayiconEnable.checkedButton = (settings.trayicon !== 2)
+		trayicon.checkedButton = (settings.trayicon === 1)
 
 		closingx_normal.checked = !settings.fancyX
 		closingx_fancy.checked = settings.fancyX
