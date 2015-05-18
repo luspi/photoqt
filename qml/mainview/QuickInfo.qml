@@ -16,8 +16,12 @@ Item {
 
 	property bool somethingLoaded: false
 
+	property int _pos: -1
+
 	// Set data
 	function updateQuickInfo(pos, totalNumberImages, filepath) {
+
+		_pos = pos
 
 		somethingLoaded = true
 
@@ -46,7 +50,7 @@ Item {
 
 		spacing.visible = (counter.visible && filename.visible)
 
-		if(!counter.visible && !filename.visible)
+		if((!counter.visible && !filename.visible) || (slideshowRunning && settings.slideShowHideQuickinfo))
 			opacity = 0
 		else
 			opacity = 1

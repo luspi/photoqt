@@ -28,7 +28,7 @@ Rectangle {
 					&& currentone == "two"))
 				newImageSoFadeItIn = true
 
-		if(settings.transition === 0 && !newImageSoFadeItIn) {
+		if(((slideshowRunning && settings.slideShowTransition === 0) || (!slideshowRunning && settings.transition === 0)) && !newImageSoFadeItIn) {
 
 			if(currentone == "one") {
 				one.opacity = 1
@@ -44,10 +44,10 @@ Rectangle {
 
 		} else {
 
-			var duration = settings.transition*150
+			var duration = (slideshowRunning ? settings.slideShowTransition : settings.transition)*150
 
 			// On start, the first image is always faded in
-			if(newImageSoFadeItIn && settings.transition === 0)
+			if(newImageSoFadeItIn && ((slideshowRunning && settings.slideShowTransition === 0) || settings.transition === 0))
 				duration = 300
 
 			one_fadein.duration = duration
@@ -176,7 +176,7 @@ Rectangle {
 
 	function resetZoom(loadNewImage) {
 
-		if(loadNewImage !== undefined && loadNewImage === true && settings.transition != 0) {
+		if(loadNewImage !== undefined && loadNewImage === true && ((slideshowRunning && settings.slideShowTransition != 0) || settings.transition != 0)) {
 			if(currentone == "one") {
 				one.scale = scale
 				scale = 1

@@ -364,8 +364,8 @@ Rectangle {
 		blocked = true
 		softblocked = 1
 
+		// The slideshowbar handles the slideshow (as it has an active role during the slideshow)
 		slideshowbar.startSlideshow()
-		// INITIATE START OF SLIDESHOW
 
 	}
 

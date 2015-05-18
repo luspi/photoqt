@@ -24,6 +24,9 @@ Rectangle {
 	// paused?
 	property bool paused: false
 
+	property var images: []
+	property int current: 0
+
 	CustomButton {
 		id: pause
 		x: 10
@@ -73,55 +76,167 @@ Rectangle {
 		onClickedButton: stopSlideshow()
 	}
 
+	// Audio element
 	Audio {
 		id: slideshowmusic
 		volume: volumeslider.value/100.0
 		onError: console.log("AUDIO ERROR:",errorString,"-",source)
 	}
 
+	// Display the bar
 	function showBar() {
 		if(bar.y <= -bar.height && slideshowRunning)
 			showBarAni.start()
 	}
+	// Hide the bar
 	function hideBar() {
 		if(!paused)
 			hideBarAni.start()
 	}
 
+	// Show and hide the bar shortly after again (used at start and end of slideshow)
 	function showAndHideBar() {
 		showBar()
 		hidebarsoon.start()
 	}
 
+	// Start a slideshow
 	function startSlideshow() {
-		showAndHideBar()
+
+		// Update the quickinfo (i.e., hide if requested)
+		quickInfo.updateQuickInfo(quickInfo._pos,thumbnailBar.totalNumberImages,thumbnailBar.currentFile)
+
+		// Set music file
 		if(settings.slideShowMusicFile != "") {
 			slideshowmusic.source = "file://" + settings.slideShowMusicFile
 			slideshowmusic.play()
 		}
+
+		// Reset changes to current image
+		image.resetZoom()
+		image.resetRotation()
+
+		// Setup an array with image indices
+		// Three possibilities (say, current index = 5, total number = 8)
+		// 1) not shuffled, not looped: array = [5,6,7]
+		// 2) not shuffled, looped: array = [5,6,7,0,1,2,3,4]
+		// 3) shuffled: array random (see below for algorithm)
+		//    -> once through the array, we rework a new random array to not simply repeat same sequence
+		images = []
+		current = 0	// We obviously start at beginning of array
+		if(!settings.slideShowShuffle) {
+
+			// Option 1
+			for(var i = quickInfo._pos+1; i < thumbnailBar.totalNumberImages; ++i)
+				images.push(i);
+
+			// Option 2
+			if(settings.slideShowLoop) {
+				for(var i = 0; i <= quickInfo._pos; ++i)
+					images.push(i);
+			}
+
+		// Option 3
+		} else {
+
+			for(var i = 0; i < thumbnailBar.totalNumberImages; ++i)
+				if(i != quickInfo._pos)
+					images.push(i)
+
+			// Shuffle function at end of file
+			images = shuffle(images)
+
+			// We always end up again at the currently displayed one
+			images.push(quickInfo._pos)
+
+		}
+
+		// Set up timer for switching images
+		imageswitcher.interval = settings.slideShowTime*1000
+		imageswitcher.start()
+
+		// Slide in and out bar to signal start of slideshow
+		showAndHideBar()
+
 	}
 
+	// Pause/Play slideshow
 	function pauseSlideshow() {
+
+		// Pause
 		if(!paused) {
+			// Pause music (if set)
 			if(settings.slideShowMusicFile != "")
 				slideshowmusic.pause()
 			paused = true
+			imageswitcher.stop()
+			// The bar remains shown when slideshow paused
 			showBar()
+		// Play
 		} else {
+			// Play music (if set)
 			if(settings.slideShowMusicFile != "")
 				slideshowmusic.play()
 			paused = false
+			imageswitcher.start()
 		}
 	}
 
+	// Stop slideshow
 	function stopSlideshow() {
+
+		// We're definitely not paused anymore
 		paused = false
-		hideBar()
+
+		// Stop switching images
+		imageswitcher.stop()
+
+		// Signal end by slide in/out of bar
+		showAndHideBar()
+
+		// Stop music (if started)
 		if(settings.slideShowMusicFile != "")
 			slideshowmusic.stop()
+
+		// Update variables
 		slideshowRunning = false
 		blocked = false
 		softblocked = 0
+
+		// Update quickinfo state
+		quickInfo.updateQuickInfo(quickInfo._pos,thumbnailBar.totalNumberImages,thumbnailBar.currentFile)
+
+	}
+
+	// Load a new image
+	function switchImage() {
+
+		// If we reached the end of the array
+		if(current == images.length) {
+
+			// If looping the array
+			if(settings.slideShowLoop) {
+
+				// Start back at beginning of array
+				current = 0
+				// If shuffled, we create a new random sequence
+				if(settings.slideShowShuffle) {
+					images = []
+					for(var i = 0; i < thumbnailBar.totalNumberImages; ++i)
+						if(i != quickInfo._pos)
+							images.push(i)
+					images = shuffle(images)
+					images.push(quickInfo._pos)
+				}
+			// End of array, not looping -> stop slideshow
+			} else {
+				stopSlideshow()
+				return;
+			}
+		}
+		// Display new image and increment counter
+		thumbnailBar.displayImage(images[current])
+		++current
 	}
 
 	PropertyAnimation {
@@ -147,6 +262,37 @@ Rectangle {
 		repeat: false
 		running: false
 		onTriggered: hideBar()
+	}
+
+	Timer {
+		id: imageswitcher
+		repeat: true
+		running: false
+		onTriggered: switchImage()
+	}
+
+	/***************************************/
+	// The Fisher–Yates shuffle algorithm
+	// Code found at http://stackoverflow.com/questions/6274339/how-can-i-shuffle-an-array-in-javascript
+	// (adapted from http://bost.ocks.org/mike/shuffle/)
+	function shuffle(array) {
+		var counter = array.length, temp, index;
+
+		// While there are elements in the array
+		while (counter > 0) {
+			// Pick a random index
+			index = Math.floor(Math.random() * counter);
+
+			// Decrease counter by 1
+			counter--;
+
+			// And swap the last element with it
+			temp = array[counter];
+			array[counter] = array[index];
+			array[index] = temp;
+		}
+
+		return array;
 	}
 
 }
