@@ -103,6 +103,11 @@ Rectangle {
 	// Start a slideshow
 	function startSlideshow() {
 
+		// Set some variables
+		slideshowRunning = true
+		blocked = true
+		softblocked = 1
+
 		// Update the quickinfo (i.e., hide if requested)
 		quickInfo.updateQuickInfo(quickInfo._pos,thumbnailBar.totalNumberImages,thumbnailBar.currentFile)
 

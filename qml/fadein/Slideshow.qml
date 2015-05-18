@@ -360,10 +360,6 @@ Rectangle {
 		saveSettings()
 		hideSlideshow()
 
-		slideshowRunning = true
-		blocked = true
-		softblocked = 1
-
 		// The slideshowbar handles the slideshow (as it has an active role during the slideshow)
 		slideshowbar.startSlideshow()
 
@@ -414,7 +410,7 @@ Rectangle {
 		to: 0
 		onStopped: {
 			visible = false
-			blocked = false
+			if(!slideshowRunning) blocked = false
 			if(image.url === "")
 				openFile()
 		}
