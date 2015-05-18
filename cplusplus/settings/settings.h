@@ -27,7 +27,6 @@ public:
 		watcher = new QFileSystemWatcher;
 		watcher->addPath(QDir::homePath() + "/.photoqt/settings");
 		connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(readSettings()));
-		connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(emitAllSignals()));
 
 		// Read settings initially
 		readSettings();
@@ -1165,6 +1164,8 @@ public slots:
 				exifgpsmapservice = all.split("ExifGPSMapService=").at(1).split("\n").at(0);
 
 			file.close();
+
+			emitAllSignals();
 
 		}
 
