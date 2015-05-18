@@ -362,6 +362,7 @@ Rectangle {
 		blocked = true
 		softblocked = 1
 
+		slideshowbar.startSlideshow()
 		// INITIATE START OF SLIDESHOW
 
 	}

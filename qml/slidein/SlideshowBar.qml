@@ -1,5 +1,6 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
+import QtMultimedia 5.3
 
 import "../elements"
 
@@ -20,11 +21,15 @@ Rectangle {
 	width: background.width+2
 	height: pause.height+20
 
+	// paused?
+	property bool paused: false
+
 	CustomButton {
 		id: pause
 		x: 10
 		y: 10
-		text: "Pause Slideshow"
+		text: paused ? "Play Slideshow" : "Pause Slideshow"
+		onClickedButton: pauseSlideshow()
 	}
 
 	Rectangle {
@@ -43,7 +48,7 @@ Rectangle {
 				y: (volumerect.height-height)/2
 			}
 			CustomSlider {
-				id: volume
+				id: volumeslider
 				minimumValue: 0
 				maximumValue: 100
 				stepSize: 1
@@ -53,7 +58,7 @@ Rectangle {
 			}
 			Text {
 				color: "white"
-				text: "" + volume.value + "%"
+				text: "" + volumeslider.value + "%"
 				y: (volumerect.height-height)/2
 			}
 		}
@@ -67,16 +72,52 @@ Rectangle {
 		onClickedButton: stopSlideshow()
 	}
 
+	Audio {
+		id: slideshowmusic
+		volume: volumeslider.value/100.0
+		onError: console.log("AUDIO ERROR:",errorString,"-",source)
+	}
+
 	function showBar() {
 		if(bar.y <= -bar.height && slideshowRunning)
 			showBarAni.start()
 	}
 	function hideBar() {
-		hideBarAni.start()
+		if(!paused)
+			hideBarAni.start()
+	}
+
+	function showAndHideBar() {
+		showBar()
+		hidebarsoon.start()
+	}
+
+	function startSlideshow() {
+		showAndHideBar()
+		if(settings.slideShowMusicFile != "") {
+			slideshowmusic.source = "file://" + settings.slideShowMusicFile
+			slideshowmusic.play()
+		}
+	}
+
+	function pauseSlideshow() {
+		if(!paused) {
+			if(settings.slideShowMusicFile != "")
+				slideshowmusic.pause()
+			paused = true
+			showBar()
+		} else {
+			if(settings.slideShowMusicFile != "")
+				slideshowmusic.play()
+			paused = false
+		}
 	}
 
 	function stopSlideshow() {
+		paused = false
 		hideBar()
+		if(settings.slideShowMusicFile != "")
+			slideshowmusic.stop()
 		slideshowRunning = false
 		blocked = false
 		softblocked = 0
@@ -96,6 +137,15 @@ Rectangle {
 		from: -bar.height
 		to: -1
 		onStarted: hideBarAni.stop()
+	}
+
+
+	Timer {
+		id: hidebarsoon
+		interval: 500
+		repeat: false
+		running: false
+		onTriggered: hideBar()
 	}
 
 }
