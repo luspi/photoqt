@@ -127,6 +127,7 @@ Rectangle {
 					cursorShape: Qt.PointingHandCursor
 					onEntered: val2.color = "#ffffff"
 					onExited: val2.color = "#cccccc"
+					onClicked: mainmenuDo("slideshowquickstart")
 
 				}
 			}
@@ -152,6 +153,8 @@ Rectangle {
 		else if(what === "wallpaper") wallpaper.showWallpaper()
 
 		else if(what === "slideshow") slideshow.showSlideshow()
+
+		else if(what === "slideshowquickstart") slideshow.quickstart()
 
 		else if(what === "metadata") {
 			if(metaData.x > -2*metaData.radius) {

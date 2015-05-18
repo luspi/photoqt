@@ -369,6 +369,12 @@ Rectangle {
 
 	}
 
+	function quickstart() {
+		if(thumbnailBar.currentFile == "") return;
+		loadSettings()
+		simulateEnter()
+	}
+
 	function showSlideshow() {
 		if(thumbnailBar.currentFile == "") return;
 		loadSettings()
