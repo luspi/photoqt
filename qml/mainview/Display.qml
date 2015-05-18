@@ -356,7 +356,7 @@ Item {
 
 		id: rect
 
-		visible: !settings.hidex
+		visible: (!slideshowRunning && !settings.hidex) || (slideshowRunning && !settings.slideShowHideQuickinfo)
 
 		// Position it
 		anchors.right: parent.right
