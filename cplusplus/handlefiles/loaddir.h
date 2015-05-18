@@ -6,7 +6,8 @@
 #include <QDateTime>
 #include <QHash>
 #include <QAbstractListModel>
-#include <QSettings>
+#include "../settings/settings.h"
+#include "../settings/fileformats.h"
 #include <QtDebug>
 
 class MyCppModel;
@@ -23,7 +24,8 @@ public:
 
 private:
 
-	QSettings *settings;
+	Settings *settings;
+	FileFormats *fileformats;
 
 	QString currentfile;
 	QStringList imageFilter;

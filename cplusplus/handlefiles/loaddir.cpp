@@ -1,11 +1,13 @@
 #include "loaddir.h"
 
 LoadDir::LoadDir() : QObject() {
-	settings = new QSettings(QDir::homePath() + "/.photoqt/settings",QSettings::IniFormat);
+	settings = new Settings;
+	fileformats = new FileFormats;
 }
 
 LoadDir::~LoadDir() {
 	delete settings;
+	delete fileformats;
 }
 
 QFileInfoList LoadDir::loadDir(QByteArray filepath) {
@@ -16,7 +18,7 @@ QFileInfoList LoadDir::loadDir(QByteArray filepath) {
 	QDir dir(QFileInfo(filepath).absolutePath());
 
 	// These are the images known by PhotoQt
-	QStringList flt = QStringList() << "*.jpg" << "*.png" << "*.jpeg";
+	QStringList flt = fileformats->formatsQtEnabled+fileformats->formatsQtEnabledExtras+fileformats->formatsGmEnabled+fileformats->formatsExtrasEnabled;
 	dir.setNameFilters(flt);
 
 
@@ -27,8 +29,8 @@ QFileInfoList LoadDir::loadDir(QByteArray filepath) {
 	if(!allImgsInfo.contains(QFileInfo(currentfile))) allImgsInfo.append(QFileInfo(currentfile));
 
 	// Sort images...
-	bool asc = settings->value("Behaviour/SortImagesAscending").toBool();
-	QString sortby = settings->value("Behaviour/SortImagesBy").toString();
+	bool asc = settings->sortbyAscending;
+	QString sortby = settings->sortby;
 	if(sortby == "name") {
 		qDebug() << "sortby: name";
 		std::sort(allImgsInfo.begin(),allImgsInfo.end(),(asc ? sort_name : sort_name_desc));
