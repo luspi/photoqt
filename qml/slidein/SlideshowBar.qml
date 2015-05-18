@@ -43,9 +43,9 @@ Rectangle {
 		Row {
 			spacing: 5
 			Text {
-				color: "white"
 				text: "Music Volume:"
 				y: (volumerect.height-height)/2
+				color: settings.slideShowMusicFile == "" ? "grey" : "white"
 			}
 			CustomSlider {
 				id: volumeslider
@@ -54,12 +54,13 @@ Rectangle {
 				stepSize: 1
 				scrollStep: 5
 				value: 80
+				enabled: settings.slideShowMusicFile != ""
 				y: (volumerect.height-height)/2
 			}
 			Text {
-				color: "white"
 				text: "" + volumeslider.value + "%"
 				y: (volumerect.height-height)/2
+				color: settings.slideShowMusicFile == "" ? "grey" : "white"
 			}
 		}
 	}

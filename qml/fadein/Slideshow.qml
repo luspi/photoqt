@@ -282,6 +282,8 @@ Rectangle {
 							Text {
 								id: musictxt
 								x: 15
+								clip: true
+								elide: Text.ElideLeft
 								width: parent.width-30
 								y: (parent.height-height)/2
 								color: parent.enabled ? "white" : "grey"
