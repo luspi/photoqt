@@ -22,7 +22,7 @@ Item {
 				softblocked = 0
 				if(contextmenu.visible) contextmenu.hide()
 			}
-		} else if(softblocked != 0)
+		} else if(softblocked != 0 && !slideshowRunning)
 			return
 		else if(!blockedSystem) {
 			if(blocked)
@@ -80,6 +80,11 @@ Item {
 				wallpaper.simulateEnter()
 			else if(slideshow.opacity == 1)
 				slideshow.simulateEnter()
+		} else if(keys === "Space") {
+			if(slideshowRunning) {
+				slideshowbar.pauseSlideshow()
+				if(!slideshowbar.paused) slideshowbar.hideBar()
+			}
 		} else if(keys === "Shift+Enter" || keys === "Shift+Return" || keys === "Shift+Keypad+Enter") {
 			if(deleteImage.opacity == 1)
 				deleteImage.simulateShiftEnter()
