@@ -2,6 +2,7 @@
 #include <QtDebug>
 #include <QUrl>
 #include <unistd.h>
+#include <QMovie>
 
 GetAndDoStuff::GetAndDoStuff(QObject *parent) : QObject(parent) {
 	settings = new QSettings("photoqt_session");
@@ -12,11 +13,7 @@ GetAndDoStuff::~GetAndDoStuff() {
 
 bool GetAndDoStuff::isImageAnimated(QString path) {
 
-	if(!reader.supportedImageFormats().contains(QFileInfo(path).suffix().toLower().toLatin1()))
-		return false;
-
-	reader.setFileName(path);
-	return reader.supportsAnimation();
+	return QMovie::supportedFormats().contains(QFileInfo(path).suffix().toLower().toLatin1());
 
 }
 
@@ -80,6 +77,11 @@ QString GetAndDoStuff::removePathFromFilename(QString path, bool removeSuffix) {
 }
 
 QString GetAndDoStuff::removeFilenameFromPath(QString file) {
+
+	if(file.startsWith("file:/"))
+		file = file.remove(0,6);
+	if(file.startsWith("image://full/"))
+		file = file.remove(0,13);
 
     return QFileInfo(file).absolutePath();
 

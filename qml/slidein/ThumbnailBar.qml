@@ -67,10 +67,11 @@ Rectangle {
 		currentFile = imageModel.get(pos).imageUrl;
 
 		// Load image
-		if(getanddostuff.isImageAnimated(currentFile))
-			image.setAnimatedImage("file://" + currentFile)
-		else
-			image.setNormalImage("image://full/" + currentFile)
+		if(getanddostuff.isImageAnimated(currentFile)) {
+			image.setImage("file://" + currentFile, true)
+		} else {
+			image.setImage("image://full/" + currentFile, false)
+		}
 
 		// Ensure selected item is centered/visible
 		if(totalNumberImages*(settings.thumbnailsize+settings.thumbnailSpacingBetween) > thumbnailBar.width) {

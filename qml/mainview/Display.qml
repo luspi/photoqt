@@ -8,63 +8,35 @@ Item {
 
 	id: item
 
-	// Current image animated?
-	property bool animated: false
+	// Position item
+	x: 0
+	y: 0
+	width: background.width
+	height: (settings.thumbnailKeepVisible ? background.height-thumbnailBar.height+thumbnailbarheight_addon/2 : background.height)
 
 	// How fast do we zoom in/out
 	property real scaleSpeed: 0.1
 
 	// Keep track of where we are in zooming
 	property int zoomSteps: 0
-
-	property string url: ""
-
 	property bool zoomTowardsCenter: false
 
+	// Some image stuff
 	property bool imageWidthLargerThanHeight: true
 	property size imageSize: Qt.size(0,0)
 
-	x: 0
-	y: 0
-	width: background.width
-	height: (settings.thumbnailKeepVisible ? background.height-thumbnailBar.height+thumbnailbarheight_addon/2 : background.height)
+	// Set image
+	function setImage(path, animated) {
 
-	// Set animated image
-	function setAnimatedImage(path) {
-
+		// Hide 'nothing loaded' message
 		nofileloaded.visible = false
 
-		resetRotation()
-		resetZoom()
-
-		// Pad or Fit?
-		imageSize = getanddostuff.getImageSize(path)
-		if(imageSize.width < item.width && imageSize.height < item.height)
-			anim.fillMode = Image.Pad
-		else
-			anim.fillMode = Image.PreserveAspectFit
-
-		imageWidthLargerThanHeight = (imageSize.width >= imageSize.height);
-
-		// Set source
-		anim.source = path
-		url = path
-
-		// Animated!!!
-		animated = true
-
-		// Update metadata
-		metaData.setData(getmetadata.getExiv2(path))
-
-	}
-
-	// Set non animated image
-	function setNormalImage(path) {
-
-		nofileloaded.visible = false
-
+		// Reset changes
 		resetZoom(true)
 		resetRotation()
+
+		// Set animation
+		norm.animated = animated
 
 		// Set source
 		norm.source = path
@@ -78,11 +50,6 @@ Item {
 
 		imageWidthLargerThanHeight = (imageSize.width >= imageSize.height);
 
-		url = path
-
-		// Animated!!!
-		animated = false
-
 		// Update metadata
 		metaData.setData(getmetadata.getExiv2(path))
 
@@ -90,24 +57,19 @@ Item {
 
 	// Update source sizes
 	function setSourceSize(w,h) {
-
-		anim.sourceSize.width = w
-		anim.sourceSize.height = h
 		norm.forceSourceSizeToBoth(Qt.size(w,h))
-
 	}
 
 	function resetZoom(loadNewImage) {
 
 		// Re-set source size to screen size
-		if((anim.rotation%180 == 90 || norm.rotation%180 == 90) && imageWidthLargerThanHeight)
+		if(norm.rotation%180 == 90 && imageWidthLargerThanHeight)
 			setSourceSize(item.height,item.width)
 		else
 			setSourceSize(item.width,item.height)
 
 		// Reset scaling
 		norm.resetZoom(loadNewImage)
-		anim.scale = 1
 
 		// No more zooming
 		zoomSteps = 0
@@ -116,8 +78,6 @@ Item {
 	function resetRotation() {
 		norm.rotation = 0
 		norm.mirror = false
-		anim.rotation = 0
-		anim.mirror = false
 		setSourceSize(item.width,item.height)
 	}
 
@@ -131,60 +91,37 @@ Item {
 	}
 
 	function rotateRight() {
-		if(animated) {
-			anim.rotation += 90
-			anim.calculateSize()
-		} else {
-			norm.rotation += 90
-			norm.calculateSize()
-		}
-		if((Math.abs(anim.rotation%180) == 90 || Math.abs(norm.rotation%180) == 90))
+		norm.rotation += 90
+		norm.calculateSize()
+		if(Math.abs(norm.rotation%180) == 90)
 			setSourceSize(item.height,item.width)
 		else
 			setSourceSize(item.width,item.height)
 	}
 
 	function rotateLeft() {
-		if(animated) {
-			anim.rotation -= 90
-			anim.calculateSize()
-		} else {
-			norm.rotation -= 90
-			norm.calculateSize()
-		}
-		if((Math.abs(anim.rotation%180) == 90 || Math.abs(norm.rotation%180) == 90))
+		norm.rotation -= 90
+		norm.calculateSize()
+		if(Math.abs(norm.rotation%180) == 90)
 			setSourceSize(item.height,item.width)
 		else
 			setSourceSize(item.width,item.height)
 	}
 
 	function flipHorizontal() {
-		if(animated) {
-			anim.mirror = !anim.mirror
-			anim.calculateSize()
-		} else {
-			norm.mirror = !norm.mirror
-			norm.calculateSize()
-		}
+		norm.mirror = !norm.mirror
+		norm.calculateSize()
 	}
 
 	function flipVertical() {
-		if(animated) {
-			anim.rotation += 90
-			anim.mirror = !anim.mirror
-			anim.rotation += 90
-			anim.calculateSize()
-		} else {
-			norm.rotation += 90
-			norm.mirror = !norm.mirror
-			norm.rotation += 90
-			norm.calculateSize()
-		}
+		norm.rotation += 90
+		norm.mirror = !norm.mirror
+		norm.rotation += 90
+		norm.calculateSize()
 	}
 
 	function clear() {
 		norm.source = ""
-		anim.source = ""
 		nofileloaded.visible = true
 	}
 
@@ -205,17 +142,16 @@ Item {
 		contentHeight: imageContainer.height
 		contentWidth: imageContainer.width
 
-		onHeightChanged: animated ? anim.calculateSize() : norm.calculateSize()
+		onHeightChanged: norm.calculateSize()
 
 		Item {
 			id: imageContainer
 
-			width: Math.max((animated ? anim.width : norm.width) * (animated ? anim.scale : norm.scale), flickarea.width)
-			height: Math.max((animated ? anim.height : norm.height) * (animated ? anim.scale : norm.scale), flickarea.height)
+			width: Math.max(norm.width * norm.scale, flickarea.width)
+			height: Math.max(norm.height * norm.scale, flickarea.height)
 
 			TransitionImage {
 				id: norm
-				visible: !animated
 				property real prevScale
 				anchors.centerIn: parent
 				asynchronous: false
@@ -244,36 +180,6 @@ Item {
 				}
 
 			}
-
-			AnimatedImage {
-				id: anim
-				visible: animated
-				property real prevScale
-				anchors.centerIn: parent
-				asynchronous: false
-				function calculateSize() {
-					prevScale = Math.min(scale, 1);
-				}
-				onScaleChanged: {
-					var cursorpos = getanddostuff.getCursorPos()
-					var x_ratio = (zoomTowardsCenter ? flickarea.width/2 : cursorpos.x);
-					var y_ratio = (zoomTowardsCenter ? flickarea.height/2 : cursorpos.y);
-					if ((width * scale) > flickarea.width) {
-						var xoff = (x_ratio + flickarea.contentX) * scale / prevScale;
-						flickarea.contentX = xoff - x_ratio;
-					}
-					if ((height * scale) > flickarea.height) {
-						var yoff = (y_ratio + flickarea.contentY) * scale / prevScale;
-						flickarea.contentY = yoff - y_ratio;
-					}
-					prevScale = scale;
-				}
-				onStatusChanged: {
-					if (status == Image.Ready) {
-						calculateSize();
-					}
-				}
-			}
 		}
 
 		// ignore wheel events (use for shortcuts, not for scrolling (scroll+zoom leads to unwanted behaviour))
@@ -294,57 +200,31 @@ Item {
 	function doZoom(zoomin) {
 
 		// Don't zoom if nothing is loaded
-		if(url == "" || blocked) return;
+		if(thumbnailBar.currentFile == "" || blocked) return;
 
-		if(animated) {
+		if(zoomin) {
 
-			if(zoomin) {
+			if(zoomSteps == 0) {
+				norm.sourceSize = imageSize
+				if(imageSize.width >= item.width && imageSize.height >= item.height)
+					norm.scale = Math.min(flickarea.width / norm.width, flickarea.height / norm.height);
+			}
+			norm.scale += scaleSpeed    // has to come AFTER removing source size!
+			zoomSteps += 1
 
-				if(zoomSteps == 0) {
-					anim.sourceSize = undefined
-					if(imageSize.width >= item.width && imageSize.height >= item.height)
-						anim.scale = Math.min(flickarea.width / anim.width, flickarea.height / anim.height);
-				}
-				anim.scale += scaleSpeed    // has to come AFTER removing source size!
-				zoomSteps += 1
+		} else if(!zoomin && norm.width*norm.scale > item.width*scaleSpeed) {
 
-			} else if(!zoomin && anim.width*anim.scale > item.width*scaleSpeed) {
-
-				anim.scale -= scaleSpeed  // has to come BEFORE setting source size!
-				if(zoomSteps == 1) {
-					anim.sourceSize = Qt.size(item.width,item.height)
-					if(imageSize.width >= item.width && imageSize.height >= item.height)
-						anim.scale = Math.min(flickarea.width / anim.width, flickarea.height / anim.height);
-				}
-				zoomSteps -= 1
+			norm.scale -= scaleSpeed  // has to come BEFORE setting source size!
+			if(zoomSteps == 1) {
+				norm.sourceSize = Qt.size(item.width,item.height)
+				if(imageSize.width >= item.width && imageSize.height >= item.height)
+					norm.scale = Math.min(flickarea.width / norm.width, flickarea.height / norm.height);
 			}
 
-		} else {
-
-			if(zoomin) {
-
-				if(zoomSteps == 0) {
-					norm.sourceSize = imageSize
-					if(imageSize.width >= item.width && imageSize.height >= item.height)
-						norm.scale = Math.min(flickarea.width / norm.width, flickarea.height / norm.height);
-				}
-				norm.scale += scaleSpeed    // has to come AFTER removing source size!
-				zoomSteps += 1
-
-			} else if(!zoomin && norm.width*norm.scale > item.width*scaleSpeed) {
-
-				norm.scale -= scaleSpeed  // has to come BEFORE setting source size!
-				if(zoomSteps == 1) {
-					norm.sourceSize = Qt.size(item.width,item.height)
-					if(imageSize.width >= item.width && imageSize.height >= item.height)
-						norm.scale = Math.min(flickarea.width / norm.width, flickarea.height / norm.height);
-				}
-
-				zoomSteps -= 1
-
-			}
+			zoomSteps -= 1
 
 		}
+
 	}
 
 

@@ -8,37 +8,98 @@ Rectangle {
 	width: childrenRect.width
 	height: childrenRect.height
 
+	property bool asynchronous: false
 	property bool mirror: false
+	property bool animated: false
 
 	property string source: ""
+	property string currentone: "one"
+
+	property int fillMode: Image.PreserveAspectFit
+	property size sourceSize: Qt.size(0,0);
+
+	// The image source has changed
 	onSourceChanged: {
+
+		var _source = Qt.resolvedUrl(source)
+
+		// Stop all animations
 		one_fadein.stop()
 		one_fadeout.stop()
 		two_fadein.stop()
 		two_fadeout.stop()
+		three_fadein.stop()
+		three_fadeout.stop()
+		four_fadein.stop()
+		four_fadeout.stop()
 
 		// We fade the first image in in whenever we load a new directory
 		var newImageSoFadeItIn = false
-		if((one.source == "" && two.source == "" && source != "")
+		if((one.source == "" && two.source == "" && three.source == "" && four.source == "" && _source != "")
 				|| (one.source != ""
-					&& (getanddostuff.removeFilenameFromPath(one.source) !== getanddostuff.removeFilenameFromPath(source))
+					&& (getanddostuff.removeFilenameFromPath(one.source) !== getanddostuff.removeFilenameFromPath(_source))
 					&& currentone == "one")
 				|| (two.source != ""
-					&& (getanddostuff.removeFilenameFromPath(two.source) !== getanddostuff.removeFilenameFromPath(source))
-					&& currentone == "two"))
+					&& (getanddostuff.removeFilenameFromPath(two.source) !== getanddostuff.removeFilenameFromPath(_source))
+					&& currentone == "two")
+				|| (three.source != ""
+					&& (getanddostuff.removeFilenameFromPath(three.source) !== getanddostuff.removeFilenameFromPath(_source))
+					&& currentone == "three")
+				|| (four.source != ""
+					&& (getanddostuff.removeFilenameFromPath(four.source) !== getanddostuff.removeFilenameFromPath(_source))
+					&& currentone == "four"))
 				newImageSoFadeItIn = true
 
+		// No transition
 		if(((slideshowRunning && settings.slideShowTransition === 0) || (!slideshowRunning && settings.transition === 0)) && !newImageSoFadeItIn) {
 
-			if(currentone == "one") {
-				one.opacity = 1
-				two.opacity = 0
-				one.source = source
-			}
-			if(currentone == "two") {
-				two.opacity = 1
+			// Use 'three' (animated image)
+			if(animated && currentone != "three" && currentone != "four") {
 				one.opacity = 0
-				two.source = source
+				two.opacity = 0
+				three.opacity = 1
+				three.visible = true;
+				four.opacity = 0
+				three.source = _source
+				currentone = "three"
+			// Use 'one' (not animated image)
+			} else if(!animated && currentone != "one" && currentone != "two") {
+				one.opacity = 1
+				one.visible = true;
+				two.opacity = 0
+				three.opacity = 0
+				four.opacity = 0
+				one.source = _source
+				currentone = "one"
+			// Keep same image element (ONCE PAST HERE WE CAN STICK TO THE SAME IMAGE ELEMENT)
+			} else if(currentone == "one") {
+				one.opacity = 1
+				one.visible = true;
+				two.opacity = 0
+				three.opacity = 0
+				four.opacity = 0
+				one.source = _source
+			} else if(currentone == "two") {
+				one.opacity = 0
+				two.opacity = 1
+				two.visible = true;
+				three.opacity = 0
+				four.opacity = 0
+				two.source = _source
+			} else if(currentone == "three") {
+				one.opacity = 0
+				two.opacity = 0
+				three.opacity = 1
+				three.visible = true;
+				four.opacity = 0
+				three.source = _source
+			} else if(currentone == "four") {
+				one.opacity = 0
+				two.opacity = 0
+				three.opacity = 0
+				four.opacity = 1
+				four.visible = true;
+				four.source = _source
 			}
 
 
@@ -54,47 +115,147 @@ Rectangle {
 			one_fadeout.duration = duration
 			two_fadein.duration = duration
 			two_fadeout.duration = duration
+			three_fadein.duration = duration
+			three_fadeout.duration = duration
+			four_fadein.duration = duration
+			four_fadeout.duration = duration
 
 			if(currentone == "one") {
-				one.opacity = 1
-				two.opacity = 0
-				two.scale = 1
-				two.visible = true
-				two.source = ""
-				two.source = source
-				two_fadein.start()
-				one_fadeout.start()
-				currentone = "two"
-			} else {
-				two.opacity = 1
-				one.opacity = 0
-				one.scale = 1
-				one.visible = true
-				one.source = ""
-				one.source = source
-				one_fadein.start()
-				two_fadeout.start()
-				currentone = "one"
+
+				if(animated) {
+
+					one.opacity = 1
+					three.opacity = 0
+					three.scale = 1
+					three.visible = true
+					three.source = ""
+					three.source = _source
+					three_fadein.start()
+					one_fadeout.start()
+					currentone = "three"
+
+				} else {
+
+					one.opacity = 1
+					two.opacity = 0
+					two.scale = 1
+					two.visible = true
+					two.source = ""
+					two.source = _source
+					two_fadein.start()
+					one_fadeout.start()
+					currentone = "two"
+
+				}
+
+			} else if(currentone == "two") {
+
+				if(animated) {
+
+					two.opacity = 1
+					three.opacity = 0
+					three.scale = 1
+					three.visible = true
+					three.source = ""
+					three.source = _source
+					three_fadein.start()
+					two_fadeout.start()
+					currentone = "three"
+
+				} else {
+
+					two.opacity = 1
+					one.opacity = 0
+					one.scale = 1
+					one.visible = true
+					one.source = ""
+					one.source = _source
+					one_fadein.start()
+					two_fadeout.start()
+					currentone = "one"
+
+				}
+			} else if(currentone == "three") {
+
+				if(animated) {
+
+					three.opacity = 1
+					four.opacity = 0
+					four.scale = 1
+					four.visible = true
+					four.source = ""
+					four.source = _source
+					four_fadein.start()
+					three_fadeout.start()
+					currentone = "four"
+
+				} else {
+
+					three.opacity = 1
+					one.opacity = 0
+					one.scale = 1
+					one.visible = true
+					one.source = ""
+					one.source = _source
+					one_fadein.start()
+					three_fadeout.start()
+					currentone = "one"
+
+				}
+			} else if(currentone == "four") {
+
+				if(animated) {
+
+					four.opacity = 1
+					three.opacity = 0
+					three.scale = 1
+					three.visible = true
+					three.source = ""
+					three.source = _source
+					three_fadein.start()
+					four_fadeout.start()
+					currentone = "three"
+
+				} else {
+
+					four.opacity = 1
+					one.opacity = 0
+					one.scale = 1
+					one.visible = true
+					one.source = ""
+					one.source = _source
+					one_fadein.start()
+					four_fadeout.start()
+					currentone = "one"
+
+				}
 			}
 
 		}
 	}
-	property string currentone: "one"
 
-	property bool asynchronous: false
-	property int fillMode: Image.PreserveAspectFit
-
-	property size sourceSize: Qt.size(0,0);
 	onSourceSizeChanged: {
 		if(one.opacity != 0)
 			one.sourceSize = sourceSize
 		if(two.opacity != 0)
 			two.sourceSize = sourceSize
+		if(three.opacity != 0) {
+			three.sourceSize.width = sourceSize.width
+			three.sourceSize.height = sourceSize.height
+		}
+		if(four.opacity != 0) {
+			four.sourceSize.width = sourceSize.width
+			four.sourceSize.height = sourceSize.height
+		}
 	}
 
 	function forceSourceSizeToBoth(s) {
 		one.sourceSize = s
 		two.sourceSize = s
+		three.sourceSize.width = s.width
+		three.sourceSize.height = s.height
+		four.sourceSize.width = s.width
+		four.sourceSize.height = s.height
 	}
 
 	signal statusChanged(var status)
@@ -106,8 +267,8 @@ Rectangle {
 
 		id: one
 
-		x: (Math.max(one.width,two.width)-width)/2
-		y: (Math.max(one.height,two.height)-height)/2
+		x: (Math.max(one.width,two.width,three.width,four.width)-width)/2
+		y: (Math.max(one.height,two.height,three.height,four.height)-height)/2
 
 		opacity: 1
 
@@ -126,8 +287,48 @@ Rectangle {
 
 		id: two
 
-		x: (Math.max(one.width,two.width)-width)/2
-		y: (Math.max(one.height,two.height)-height)/2
+		x: (Math.max(one.width,two.width,three.width,four.width)-width)/2
+		y: (Math.max(one.height,two.height,three.height,four.height)-height)/2
+
+		opacity: 1
+
+		mirror: parent.mirror
+
+		onStatusChanged: {
+			parent.statusChanged(status)
+		}
+
+	}
+
+	AnimatedImage {
+
+		asynchronous: parent.asynchronous
+		fillMode: parent.fillMode
+
+		id: three
+
+		x: (Math.max(one.width,two.width,three.width,four.width)-width)/2
+		y: (Math.max(one.height,two.height,three.height,four.height)-height)/2
+
+		opacity: 1
+
+		mirror: parent.mirror
+
+		onStatusChanged: {
+			parent.statusChanged(status)
+		}
+
+	}
+
+	AnimatedImage {
+
+		asynchronous: parent.asynchronous
+		fillMode: parent.fillMode
+
+		id: four
+
+		x: (Math.max(one.width,two.width,three.width,four.width)-width)/2
+		y: (Math.max(one.height,two.height,three.height,four.height)-height)/2
 
 		opacity: 1
 
@@ -156,6 +357,22 @@ Rectangle {
 		duration: 300
 	}
 	PropertyAnimation {
+		id: three_fadein
+		target: three
+		properties: "opacity"
+		from: 0
+		to: 1
+		duration: 300
+	}
+	PropertyAnimation {
+		id: four_fadein
+		target: four
+		properties: "opacity"
+		from: 0
+		to: 1
+		duration: 300
+	}
+	PropertyAnimation {
 		id: one_fadeout
 		target: one
 		properties: "opacity"
@@ -173,6 +390,24 @@ Rectangle {
 		duration: 300
 		onStopped: two.visible = false
 	}
+	PropertyAnimation {
+		id: three_fadeout
+		target: three
+		properties: "opacity"
+		from: 1
+		to: 0
+		duration: 300
+		onStopped: three.visible = false
+	}
+	PropertyAnimation {
+		id: four_fadeout
+		target: four
+		properties: "opacity"
+		from: 1
+		to: 0
+		duration: 300
+		onStopped: four.visible = false
+	}
 
 	function resetZoom(loadNewImage) {
 
@@ -185,9 +420,19 @@ Rectangle {
 				two.scale = scale
 				scale = 1
 			}
+			if(currentone == "three") {
+				three.scale = scale
+				scale = 1
+			}
+			if(currentone == "four") {
+				four.scale = scale
+				scale = 1
+			}
 		} else {
 			one.scale = 1
 			two.scale = 1
+			three.scale = 1
+			four.scale = 1
 			scale = 1
 		}
 
