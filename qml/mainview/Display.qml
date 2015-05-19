@@ -95,6 +95,12 @@ Item {
 		doZoom(false)
 	}
 
+	function zoomActual() {
+		norm.scale = 1
+		fullsizeImageLoaded = true
+		setSourceSize(imageSize.width, imageSize.height)
+	}
+
 	function rotateRight() {
 		norm.rotation += 90
 		norm.calculateSize()
