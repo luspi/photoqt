@@ -151,33 +151,11 @@ QImage ImageProviderFull::readImage_QT(QString filename) {
 		// Eventually load the image
 		img = reader.read();
 
-		bool rotatedAccordingToExif = false;
-
-#if (QT_VERSION == QT_VERSION_CHECK(5, 4, 0)) || (QT_VERSION == QT_VERSION_CHECK(5, 4, 1))
-
-		// Qt 5.4 introduces an autorotate for JPEG w/ rotation Exif tag set and no way to turn it off (grrrrrrr!!!)
-		// On discussion regarding Exif rotation and QT: http://development.qt-project.narkive.com/LkvsHvRE/rotating-jpeg-images-by-default
-		// As this breaks some of PhotoQt's functionality, we need to revert this change
-		// Unfortunately, this slows down the loading a little bit :-(
-		// THIS SEEMS TO BE PATCHED AWAY AGAIN IN 5.4.1 (THOUGH I OBSERVED IT IN 5.4.1 BEFORE).
-		// THUS WE STILL NEED TO PERFORM THE CHECK FOR QT VERSION 5.4.0 AND 5.4.1
-		if(img.width() != reader.scaledSize().width() && maxSize.width() != 256 && (settings->exifrotation != "Always" || !settings->exifrotationAlreadyOnImageLoad)) {
-			QTransform transform;
-			transform.rotate(-90);
-			img = img.transformed(transform,Qt::SmoothTransformation);
-		// If we take the rotation, we need to adjust the scaling (why oh why did they change this?????)
-		} else if(img.width() != reader.scaledSize().width() && maxSize.width() != -1) {
-			rotatedAccordingToExif = true;
-			img = img.scaledToHeight(dispHeight);
-		}
-
-#endif
-
 #ifdef EXIV2
 
 		// If this setting is enabled, then we check at image load for the Exif rotation tag
 		// and change the image accordingly
-		if(!rotatedAccordingToExif && settings->exifrotation == "Always" && settings->exifrotationAlreadyOnImageLoad) {
+		if(settings->exifrotation == "Always" && settings->exifrotationAlreadyOnImageLoad) {
 
 			// Known formats by Exiv2
 			QStringList formats;
