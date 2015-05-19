@@ -271,6 +271,7 @@ Rectangle {
 		y: (Math.max(one.height,two.height,three.height,four.height)-height)/2
 
 		opacity: 1
+		mipmap: true
 
 		mirror: parent.mirror
 
@@ -291,6 +292,7 @@ Rectangle {
 		y: (Math.max(one.height,two.height,three.height,four.height)-height)/2
 
 		opacity: 1
+		mipmap: true
 
 		mirror: parent.mirror
 
@@ -311,6 +313,7 @@ Rectangle {
 		y: (Math.max(one.height,two.height,three.height,four.height)-height)/2
 
 		opacity: 1
+		mipmap: true
 
 		mirror: parent.mirror
 
@@ -331,6 +334,7 @@ Rectangle {
 		y: (Math.max(one.height,two.height,three.height,four.height)-height)/2
 
 		opacity: 1
+		mipmap: true
 
 		mirror: parent.mirror
 
