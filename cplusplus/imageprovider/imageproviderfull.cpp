@@ -151,21 +151,109 @@ QImage ImageProviderFull::readImage_QT(QString filename) {
 		// Eventually load the image
 		img = reader.read();
 
+		bool rotatedAccordingToExif = false;
+
 #if (QT_VERSION == QT_VERSION_CHECK(5, 4, 0)) || (QT_VERSION == QT_VERSION_CHECK(5, 4, 1))
 
 		// Qt 5.4 introduces an autorotate for JPEG w/ rotation Exif tag set and no way to turn it off (grrrrrrr!!!)
 		// On discussion regarding Exif rotation and QT: http://development.qt-project.narkive.com/LkvsHvRE/rotating-jpeg-images-by-default
 		// As this breaks some of PhotoQt's functionality, we need to revert this change
 		// Unfortunately, this slows down the loading a little bit :-(
-        // THIS SEEMS TO BE PATCHED AWAY AGAIN IN 5.4.1 (THOUGH I OBSERVED IT IN 5.4.1 BEFORE).
-        // THUS WE STILL NEED TO PERFORM THE CHECK FOR QT VERSION 5.4.0 AND 5.4.1
-        if(img.width() != reader.scaledSize().width() && maxSize.width() != 256) {
+		// THIS SEEMS TO BE PATCHED AWAY AGAIN IN 5.4.1 (THOUGH I OBSERVED IT IN 5.4.1 BEFORE).
+		// THUS WE STILL NEED TO PERFORM THE CHECK FOR QT VERSION 5.4.0 AND 5.4.1
+		if(img.width() != reader.scaledSize().width() && maxSize.width() != 256 && (settings->exifrotation != "Always" || !settings->exifrotationAlreadyOnImageLoad)) {
 			QTransform transform;
 			transform.rotate(-90);
 			img = img.transformed(transform,Qt::SmoothTransformation);
 		// If we take the rotation, we need to adjust the scaling (why oh why did they change this?????)
 		} else if(img.width() != reader.scaledSize().width() && maxSize.width() != -1) {
+			rotatedAccordingToExif = true;
 			img = img.scaledToHeight(dispHeight);
+		}
+
+#endif
+
+#ifdef EXIV2
+
+		// If this setting is enabled, then we check at image load for the Exif rotation tag
+		// and change the image accordingly
+		if(!rotatedAccordingToExif && settings->exifrotation == "Always" && settings->exifrotationAlreadyOnImageLoad) {
+
+			// Known formats by Exiv2
+			QStringList formats;
+			formats << "jpeg" << "jpg" << "tif" << "tiff"
+				<< "png" << "psd" << "jpeg2000" << "jp2"
+				<< "j2k" << "jpc" << "jpf" << "jpx"
+				<< "jpm" << "mj2" << "bmp" << "bitmap"
+				<< "gif" << "tga";
+
+			if(formats.contains(QFileInfo(filename).suffix().toLower().trimmed())) {
+
+				// Obtain metadata
+				Exiv2::Image::AutoPtr meta = Exiv2::ImageFactory::open(filename.toStdString());
+				meta->readMetadata();
+				Exiv2::ExifData &exifData = meta->exifData();
+
+				// We only need this one key
+				Exiv2::ExifKey k("Exif.Image.Orientation");
+				Exiv2::ExifData::const_iterator it = exifData.findKey(k);
+
+				// If it exists
+				if(it != exifData.end()) {
+
+					// Get its value and analyse it
+					QString val = QString::fromStdString(Exiv2::toString(it->value()));
+
+					bool flipHor = false;
+					int rotationDeg = 0;
+					// 1 = No rotation/flipping
+					if(val == "1")
+						rotationDeg = 0;
+					// 2 = Horizontally Flipped
+					if(val == "2") {
+						rotationDeg = 0;
+						flipHor = true;
+					// 3 = Rotated by 180 degrees
+					} else if(val == "3")
+						rotationDeg = 180;
+					// 4 = Rotated by 180 degrees and flipped horizontally
+					else if(val == "4") {
+						rotationDeg = 180;
+						flipHor = true;
+					// 5 = Rotated by 270 degrees and flipped horizontally
+					} else if(val == "5") {
+						rotationDeg = 270;
+						flipHor = true;
+					// 6 = Rotated by 270 degrees
+					} else if(val == "6")
+						rotationDeg = 270;
+					// 7 = Flipped Horizontally and Rotated by 90 degrees
+					else if(val == "7") {
+						rotationDeg = 90;
+						flipHor = true;
+					// 8 = Rotated by 90 degrees
+					} else if(val == "8")
+						rotationDeg = 90;
+
+					// Perform some rotation
+					if(rotationDeg != 0) {
+						QTransform transform;
+						transform.rotate(-rotationDeg);
+						img = img.transformed(transform);
+					}
+					// And flip image
+					if(flipHor)
+						img = img.mirrored(true,false);
+
+					// Depending on our rotation, we might need to adjust the image dimensions here accordingly
+					if(img.width() != reader.scaledSize().width() && maxSize.width() != -1) {
+						img = img.scaledToHeight(dispHeight);
+					}
+
+				}
+
+			}
+
 		}
 
 #endif

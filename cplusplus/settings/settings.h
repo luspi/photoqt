@@ -171,6 +171,7 @@ public:
 	// Some exif settings
 	bool exifenablemousetriggering;
 	QString exifrotation;
+	bool exifrotationAlreadyOnImageLoad;
 	QString exifgpsmapservice;
 	int exiffontsize;
 	// Which Exif data is shown?
@@ -277,6 +278,7 @@ public:
 
 	bool getExifenablemousetriggering() { return exifenablemousetriggering; }
 	QString getExifrotation() { return exifrotation; }
+	bool getExifrotationAlreadyOnImageLoad() { return exifrotationAlreadyOnImageLoad; }
 	QString getExifgpsmapservice() { return exifgpsmapservice; }
 	int getExiffontsize() { return exiffontsize; }
 	bool getExiffilename() { return exiffilename; }
@@ -382,6 +384,7 @@ public:
 
 	void setExifenablemousetriggering(bool val) { exifenablemousetriggering = val; saveSettingsTimer->start(); }
 	void setExifrotation(QString val) { exifrotation = val; saveSettingsTimer->start(); }
+	void setExifrotationAlreadyOnImageLoad(bool val) { exifrotationAlreadyOnImageLoad = val; saveSettingsTimer->start(); }
 	void setExifgpsmapservice(QString val) { exifgpsmapservice = val; saveSettingsTimer->start(); }
 	void setExiffontsize(int val) { exiffontsize = val; saveSettingsTimer->start(); }
 	void setExiffilename(bool val) { exiffilename = val; saveSettingsTimer->start(); }
@@ -487,6 +490,7 @@ public:
 
 	Q_PROPERTY(bool exifenablemousetriggering READ getExifenablemousetriggering WRITE setExifenablemousetriggering NOTIFY exifenablemousetriggeringChanged)
 	Q_PROPERTY(QString exifrotation READ getExifrotation WRITE setExifrotation NOTIFY exifrotationChanged)
+	Q_PROPERTY(bool exifrotationAlreadyOnImageLoad READ getExifrotationAlreadyOnImageLoad WRITE setExifrotationAlreadyOnImageLoad NOTIFY exifrotationAlreadyOnImageLoadChanged)
 	Q_PROPERTY(QString exifgpsmapservice READ getExifgpsmapservice WRITE setExifgpsmapservice NOTIFY exifgpsmapserviceChanged)
 	Q_PROPERTY(int exiffontsize READ getExiffontsize WRITE setExiffontsize NOTIFY exiffontsizeChanged)
 	Q_PROPERTY(bool exiffilename READ getExiffilename WRITE setExiffilename NOTIFY exiffilenameChanged)
@@ -625,6 +629,7 @@ public:
 		iptccopyright = true;
 		exifgps = true;
 		exifrotation = "Never";
+		exifrotationAlreadyOnImageLoad = false;
 		exifgpsmapservice = "openstreetmap.org";
 	}
 
@@ -757,6 +762,7 @@ public slots:
 			cont += QString("ExifLightSource=%1\n").arg(int(exiflightsource));
 			cont += QString("ExifGps=%1\n").arg(int(exifgps));
 			cont += QString("ExifRotation=%1\n").arg(exifrotation);
+			cont += QString("ExifRotationAlreadyOnImageLoad=%1\n").arg(exifrotationAlreadyOnImageLoad);
 			cont += QString("ExifGPSMapService=%1\n").arg(exifgpsmapservice);
 
 			cont += "\n[Iptc]\n";
@@ -1160,6 +1166,11 @@ public slots:
 			if(all.contains("ExifRotation="))
 				exifrotation = all.split("ExifRotation=").at(1).split("\n").at(0);
 
+			if(all.contains("ExifRotationAlreadyOnImageLoad=1"))
+				exifrotationAlreadyOnImageLoad = true;
+			else if(all.contains("ExifRotationAlreadyOnImageLoad=0"))
+				exifrotationAlreadyOnImageLoad = false;
+
 			if(all.contains("ExifGPSMapService="))
 				exifgpsmapservice = all.split("ExifGPSMapService=").at(1).split("\n").at(0);
 
@@ -1249,6 +1260,7 @@ private slots:
 		emit exiffontsizeChanged(exiffontsize);
 		emit exifenablemousetriggeringChanged(exifenablemousetriggering);
 		emit exifrotationChanged(exifrotation);
+		emit exifrotationAlreadyOnImageLoadChanged(exifrotationAlreadyOnImageLoad);
 		emit exifgpsmapserviceChanged(exifgpsmapservice);
 		emit exiffilenameChanged(exiffilename);
 		emit exiffiletypeChanged(exiffiletype);
@@ -1356,6 +1368,7 @@ signals:
 	void exiffontsizeChanged(int val);
 	void exifenablemousetriggeringChanged(bool val);
 	void exifrotationChanged(QString val);
+	void exifrotationAlreadyOnImageLoadChanged(bool val);
 	void exifgpsmapserviceChanged(QString val);
 	void exiffilenameChanged(bool val);
 	void exiffiletypeChanged(bool val);
