@@ -284,7 +284,7 @@ Rectangle {
 				id: rotateonload
 				text: "Rotate/Flip images already while loading them (including thumbnails)"
 				x: (parent.width-width)/2
-				enabled: alwaysrotate.checked
+				visible: alwaysrotate.checked
 			}
 
 			/**********************
