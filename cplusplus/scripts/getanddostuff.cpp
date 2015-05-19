@@ -462,7 +462,7 @@ void GetAndDoStuff::executeApp(QString exec, QString fname) {
 
 	p->start(exec);
 	if(p->error() == 5)
-		while(!p->waitForStarted()) { }
+		p->waitForStarted(2000);
 
 }
 
