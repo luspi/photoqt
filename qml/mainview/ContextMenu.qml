@@ -391,7 +391,7 @@ Rectangle {
 	function executeExternal(bin,close) {
 		if(thumbnailBar.currentFile !== "") {
 			getanddostuff.executeApp(bin,thumbnailBar.currentFile,close)
-			if(close)
+			if(close*1 == 1)
 				if(settings.trayicon)
 					hideToSystemTray()
 				else
