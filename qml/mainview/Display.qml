@@ -66,6 +66,8 @@ Item {
 
 	function resetZoom(loadNewImage) {
 
+		fullsizeImageLoaded = false
+
 		// Re-set source size to screen size
 		if(norm.rotation%180 == 90 && imageWidthLargerThanHeight)
 			setSourceSize(item.height,item.width)
@@ -80,6 +82,7 @@ Item {
 	function resetRotation() {
 		norm.rotation = 0
 		norm.mirror = false
+		fullsizeImageLoaded = false
 		setSourceSize(item.width,item.height)
 	}
 
@@ -219,7 +222,7 @@ Item {
 					|| (Math.abs(h-background.height) < norm.height*scaleSpeed
 						&& w <= background.width)) {
 				fullsizeImageLoaded = true
-				norm.sourceSize = imageSize
+				setSourceSize(imageSize.width, imageSize.height)
 				if(imageSize.width >= item.width && imageSize.height >= item.height)
 					norm.scale = Math.min(item.width / imageSize.width, item.height / imageSize.height);
 			}
@@ -234,7 +237,7 @@ Item {
 			if((Math.abs((w-imageSize.width*scaleSpeed)-background.width) < norm.width*scaleSpeed)
 					&& (Math.abs(h-imageSize.height*scaleSpeed-background.height) < norm.height*scaleSpeed)) {
 				fullsizeImageLoaded = false
-				norm.sourceSize = Qt.size(item.width,item.height)
+				setSourceSize(item.width,item.height)
 				if(imageSize.width >= item.width && imageSize.height >= item.height)
 					norm.scale = Math.min(flickarea.width / norm.width, flickarea.height / norm.height);
 			}
