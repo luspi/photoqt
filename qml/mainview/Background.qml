@@ -8,8 +8,6 @@ Rectangle {
 
 	width: parent.width
 	height: parent.height
-	onWidthChanged: image.setSourceSize(width,height)
-	onHeightChanged: image.setSourceSize(width,height)
 
 	MouseArea {
 		anchors.fill: parent

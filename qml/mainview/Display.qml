@@ -18,18 +18,22 @@ Item {
 	property real scaleSpeed: 0.1
 
 	// Keep track of where we are in zooming
-	property int zoomSteps: 0
 	property bool zoomTowardsCenter: false
 
 	// Some image stuff
 	property bool imageWidthLargerThanHeight: true
 	property size imageSize: Qt.size(0,0)
+	property bool fullsizeImageLoaded: false
+	function isFullsizeImageLoaded() { return fullsizeImageLoaded; }
 
 	// Set image
 	function setImage(path, animated) {
 
 		// Hide 'nothing loaded' message
 		nofileloaded.visible = false
+
+		// Load scaled down version by default
+		fullsizeImageLoaded = false
 
 		// Reset changes
 		resetZoom(true)
@@ -71,8 +75,6 @@ Item {
 		// Reset scaling
 		norm.resetZoom(loadNewImage)
 
-		// No more zooming
-		zoomSteps = 0
 	}
 
 	function resetRotation() {
@@ -142,8 +144,6 @@ Item {
 		contentHeight: imageContainer.height
 		contentWidth: imageContainer.width
 
-		onHeightChanged: norm.calculateSize()
-
 		Item {
 			id: imageContainer
 
@@ -202,26 +202,42 @@ Item {
 		// Don't zoom if nothing is loaded
 		if(thumbnailBar.currentFile == "" || blocked) return;
 
+		// We take the content size of the flickarea, except if image is zoomed out
+		// (as then the flickarea contentsize remains at item.size, though the actual image is smaller)
+		var w = flickarea.contentWidth
+		var h = flickarea.contentHeight
+		if(!fullsizeImageLoaded) {
+			w = norm.width*norm.scale
+			h = norm.height*norm.scale
+		}
+
 		if(zoomin) {
 
-			if(zoomSteps == 0) {
+			// If first zoom in step, load fullsized image
+			if((Math.abs(w-background.width) < norm.width*scaleSpeed
+						&& h <= background.height)
+					|| (Math.abs(h-background.height) < norm.height*scaleSpeed
+						&& w <= background.width)) {
+				fullsizeImageLoaded = true
 				norm.sourceSize = imageSize
 				if(imageSize.width >= item.width && imageSize.height >= item.height)
-					norm.scale = Math.min(flickarea.width / norm.width, flickarea.height / norm.height);
+					norm.scale = Math.min(item.width / imageSize.width, item.height / imageSize.height);
 			}
-			norm.scale += scaleSpeed    // has to come AFTER removing source size!
-			zoomSteps += 1
 
-		} else if(!zoomin && norm.width*norm.scale > item.width*scaleSpeed) {
+			norm.scale += scaleSpeed    // has to come AFTER removing source size!
+
+		} else if(!zoomin && imageSize.width*norm.scale > item.width*scaleSpeed) {
 
 			norm.scale -= scaleSpeed  // has to come BEFORE setting source size!
-			if(zoomSteps == 1) {
+
+			// When returned to screen size, we re-set the scaled down version
+			if((Math.abs((w-imageSize.width*scaleSpeed)-background.width) < norm.width*scaleSpeed)
+					&& (Math.abs(h-imageSize.height*scaleSpeed-background.height) < norm.height*scaleSpeed)) {
+				fullsizeImageLoaded = false
 				norm.sourceSize = Qt.size(item.width,item.height)
 				if(imageSize.width >= item.width && imageSize.height >= item.height)
 					norm.scale = Math.min(flickarea.width / norm.width, flickarea.height / norm.height);
 			}
-
-			zoomSteps -= 1
 
 		}
 
