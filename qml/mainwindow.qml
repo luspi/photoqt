@@ -19,7 +19,7 @@ Item {
 	height: (parent != null ? parent.height : 400)
 
 	// This is how much bigger than the thumbnails the thumbnail bar is (this is the space to the top)
-	property int thumbnailbarheight_addon: 50
+	readonly property int thumbnailbarheight_addon: 50
 
 	// These signals is picked up by the mainwindow.cpp file
 	signal thumbScrolled(var filenameAtCenter)
@@ -37,12 +37,12 @@ Item {
 	property int softblocked: 0
 
 	// Some colour settings
-	property string colour_fadein_bg: "#DD000000"
-	property string colour_fadein_block_bg: "#55000000"
-	property string colour_fadein_border: "#55bbbbbb"
-	property string colour_slidein_bg: "#BB000000"
-	property string colour_slidein_border: "#55bbbbbb"
-	property string colour_linecolour: "#99999999"
+	readonly property string colour_fadein_bg: "#DD000000"
+	readonly property string colour_fadein_block_bg: "#55000000"
+	readonly property string colour_fadein_border: "#55bbbbbb"
+	readonly property string colour_slidein_bg: "#BB000000"
+	readonly property string colour_slidein_border: "#55bbbbbb"
+	readonly property string colour_linecolour: "#99999999"
 
 	// Detect some states (e.g. for slideshow)
 	property bool slideshowRunning: false
@@ -50,7 +50,7 @@ Item {
 	// When the slidein widgets are not visible, then they are moved away a safety distance,
 	// otherwise they might be visible for a fraction of a second when resizing the windowChanged
 	// (and also at startup)
-	property int safetyDistanceForSlidein: 500
+	readonly property int safetyDistanceForSlidein: 500
 
 	// Access to the permanent settings file (~/.photoqt/settings)
 	Settings { id: settings; }
