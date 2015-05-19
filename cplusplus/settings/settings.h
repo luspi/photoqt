@@ -628,8 +628,8 @@ public:
 		iptclocation = true;
 		iptccopyright = true;
 		exifgps = true;
-		exifrotation = "Never";
-		exifrotationAlreadyOnImageLoad = false;
+		exifrotation = "Always";
+		exifrotationAlreadyOnImageLoad = true;
 		exifgpsmapservice = "openstreetmap.org";
 	}
 
