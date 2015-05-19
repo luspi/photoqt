@@ -54,7 +54,7 @@ Rectangle {
 					color: "white"
 					font.pointSize: 18
 					font.bold: true
-					text: "Image Details and Information"
+					text: "Image Metadata"
 					anchors.horizontalCenter: parent.horizontalCenter
 				}
 			}

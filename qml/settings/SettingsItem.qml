@@ -170,7 +170,7 @@ Rectangle {
 
 		Tab {
 
-			title: "Details"
+			title: "Metadata"
 			TabDetails {
 				Connections {
 					target: tabrect
