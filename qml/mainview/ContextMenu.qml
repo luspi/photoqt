@@ -179,7 +179,7 @@ Rectangle {
 					ContextMenuEntry {
 						text: "(1:1) Actual"
 						iconEnabled: false
-//						onClicked: image.zoom
+						onClicked: image.zoomActual()
 					}
 					ContextMenuEntry {
 						text: "(0) Reset"
