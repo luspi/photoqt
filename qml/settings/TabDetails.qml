@@ -240,7 +240,7 @@ Rectangle {
 
 				width: flickable.width
 
-				text: "<h2>Rotating/Flipping Image according to Exif Data</h2><br>Some cameras can detect - while taking the photo - whether the camera was turned and might store this information in the image exif data. If PhotoQt finds this information, it can rotate the image accordingly. Per default it's not doing it, but it can be enabled here as desired."
+				text: "<h2>Rotating/Flipping Image according to Exif Data</h2><br>Some cameras can detect - while taking the photo - whether the camera was turned and might store this information in the image exif data. If PhotoQt finds this information, it can rotate the image accordingly. It can even already perform this check while loading the image. This would lead to proper orientations, even for thumbnails right from the start (requires 'Always rotate/flip images' to be selected)."
 
 			}
 
@@ -261,13 +261,13 @@ Rectangle {
 
 					CustomRadioButton {
 						id: neverrotate
-						text: "Never rotate images"
+						text: "Never rotate/flip images"
 						exclusiveGroup: rotateflipgroup
 						checked: true
 					}
 					CustomRadioButton {
 						id: alwaysrotate
-						text: "Always rotate images"
+						text: "Always rotate/flip images"
 						exclusiveGroup: rotateflipgroup
 					}
 					CustomRadioButton {
@@ -278,6 +278,13 @@ Rectangle {
 
 				}
 
+			}
+
+			CustomCheckBox {
+				id: rotateonload
+				text: "Rotate/Flip images already while loading them (including thumbnails)"
+				x: (parent.width-width)/2
+				enabled: alwaysrotate.checked
 			}
 
 			/**********************
@@ -367,6 +374,7 @@ Rectangle {
 		neverrotate.checked = (settings.exifrotation === "Never")
 		alwaysrotate.checked = (settings.exifrotation === "Always")
 		alwaysask.checked = (settings.exifrotation === "Ask")
+		rotateonload.checkedButton = settings.exifrotationAlreadyOnImageLoad
 
 		openstreetmap.checked = (settings.exifgpsmapservice === "openstreetmap.org")
 		googlemaps.checked = (settings.exifgpsmapservice === "maps.google.com")
@@ -399,6 +407,7 @@ Rectangle {
 		settings.exiffontsize = fontsize_slider.value
 
 		settings.exifrotation = neverrotate.checked ? "Never" : (alwaysrotate.checked ? "Always" : "Ask")
+		settings.exifrotationAlreadyOnImageLoad = rotateonload.checkedButton
 		settings.exifgpsmapservice = openstreetmap.checked ? "openstreetmap.org" : (googlemaps.checked ? "maps.google.com" : "bing.com/maps")
 
 	}
