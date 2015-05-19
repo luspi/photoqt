@@ -96,9 +96,15 @@ Item {
 	}
 
 	function zoomActual() {
+		// the current offset (as a ratio)
+		var x_ratio = ((flickarea.width/2)+flickarea.contentX)/flickarea.contentWidth
+		var y_ratio = ((flickarea.height/2)+flickarea.contentY)/flickarea.contentHeight
 		norm.scale = 1
 		fullsizeImageLoaded = true
 		setSourceSize(imageSize.width, imageSize.height)
+		// reset the previous offset ratio (in effect this yields a 'zoom to center until actual size')
+		flickarea.contentX = (flickarea.contentWidth)*x_ratio-flickarea.width/2
+		flickarea.contentY = (flickarea.contentHeight)*y_ratio-flickarea.height/2
 	}
 
 	function rotateRight() {
