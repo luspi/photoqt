@@ -91,7 +91,7 @@ Rectangle {
 				category: "Image"
 				extern: false
 				responsiblefor: ["__zoomIn","__zoomOut","__zoomActual","__zoomReset","__rotateR","__rotateL","__rotate0","__flipH","__flipV","__scale"]
-				responsiblefor_text: ["Zoom In","Zoom Out","Reset Zoom","Zoom to Actual Size","Rotate Right","Rotate Left","Reset Rotation","Flip Horizontally","Flip Vertically","Scale Image"]
+				responsiblefor_text: ["Zoom In","Zoom Out","Zoom to Actual Size","Reset Zoom","Rotate Right","Rotate Left","Reset Rotation","Flip Horizontally","Flip Vertically","Scale Image"]
 			}
 
 			TabShortcutsCategories {
