@@ -71,6 +71,8 @@ Item {
 				wallpaper.hideWallpaper()
 			else if(slideshow.opacity == 1)
 				slideshow.hideSlideshow()
+			else if(filter.opacity == 1)
+				filter.hideFilter()
 		} else if(keys === "Enter" || keys === "Keypad+Enter" || keys === "Return") {
 			if(deleteImage.opacity == 1)
 				deleteImage.simulateEnter()
@@ -80,6 +82,8 @@ Item {
 				wallpaper.simulateEnter()
 			else if(slideshow.opacity == 1)
 				slideshow.simulateEnter()
+			else if(filter.opacity == 1)
+				filter.simulateEnter()
 		} else if(keys === "Space") {
 			if(slideshowRunning) {
 				slideshowbar.pauseSlideshow()
@@ -119,8 +123,10 @@ Item {
 			about.showAbout()
 		else if(cmd === "__slideshow")
 			slideshow.showSlideshow()
-//		if(cmd === "__filterImages")
-//		if(cmd === "__slideshowQuick")
+		else if(cmd === "__filterImages")
+			filter.showFilter()
+		else if(cmd === "__slideshowQuick")
+			slideshow.quickstart()
 		else if(cmd === "__open" || cmd === "__openOld")
 			openFile()
 		else if(cmd === "__zoomIn")

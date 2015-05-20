@@ -25,20 +25,18 @@ Item {
 
 		somethingLoaded = true
 
-		if(settings.hidecounter) {
+		if(settings.hidecounter || totalNumberImages === 0) {
 			counter.text = ""
 			counter.visible = false
 			spacing.visible = false
-			spacing.width = 0
 		} else {
 			counter.text = (pos+1).toString() + "/" + totalNumberImages.toString()
 			counter.visible = true
 		}
 
-		if(settings.hidefilename) {
+		if(settings.hidefilename || totalNumberImages === 0) {
 			filename.text = ""
 			filename.visible = false
-			spacing.width = 0
 			spacing.visible = false
 		} else if(settings.hidefilepathshowfilename) {
 			filename.text = getanddostuff.removePathFromFilename(filepath)
@@ -48,11 +46,12 @@ Item {
 			filename.visible = true
 		}
 
-		spacing.visible = (counter.visible && filename.visible)
+		spacing.visible = (counter.visible && filename.visible && totalNumberImages !== 0)
+		spacing.width = (spacing.visible ? 10 : 0)
 
-		if((!counter.visible && !filename.visible) || (slideshowRunning && settings.slideShowHideQuickinfo))
+		if(((!counter.visible && !filename.visible) || (slideshowRunning && settings.slideShowHideQuickinfo)) && currentfilter == "") {
 			opacity = 0
-		else
+		} else
 			opacity = 1
 
 	}
@@ -196,7 +195,42 @@ Item {
 				}
 
 			}
+		}
 
+		// Filter label
+		Rectangle {
+			id: filterLabel
+			visible: (currentfilter != "")
+			x: (_pos == -1 ? 5 : filename.x-filter_delete.width-filterrow.spacing)
+			y: (_pos == -1 ? (filename.height-height/2)/2 : filename.y+filename.height+2)
+			width: childrenRect.width
+			height: childrenRect.height
+			color: "#00000000"
+			Row {
+				id: filterrow
+				spacing: 5
+				Text {
+					id: filter_delete
+					color: "#99ffffff"
+					visible: (currentfilter != "")
+					text: "x"
+					font.pointSize: 8
+					y: (parent.height-height)/2
+					MouseArea {
+						anchors.fill: parent
+						cursorShape: Qt.PointingHandCursor
+						onClicked: {
+							currentfilter = ""
+							doReload(thumbnailBar.currentFile)
+						}
+					}
+				}
+				Text {
+					color: "white"
+					text: "Filter: " + currentfilter
+					visible: (currentfilter != "")
+				}
+			}
 		}
 
 	}

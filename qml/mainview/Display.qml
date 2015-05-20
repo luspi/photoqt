@@ -26,11 +26,17 @@ Item {
 	property bool fullsizeImageLoaded: false
 	function isFullsizeImageLoaded() { return fullsizeImageLoaded; }
 
+	function noFilterResultsFound() {
+		noresultsfound.visible = true;
+		norm.source = ""
+	}
+
 	// Set image
 	function setImage(path, animated) {
 
 		// Hide 'nothing loaded' message
 		nofileloaded.visible = false
+		noresultsfound.visible = false
 
 		// Load scaled down version by default
 		fullsizeImageLoaded = false
@@ -365,6 +371,25 @@ Item {
 		wrapMode: Text.WordWrap
 
 		text: "Open a file to begin"
+
+	}
+
+	Text {
+
+		id: noresultsfound
+
+		anchors.fill: item
+		visible: false
+
+		verticalAlignment: Qt.AlignVCenter
+		horizontalAlignment: Qt.AlignHCenter
+
+		color: "grey"
+		font.pointSize: 50
+		font.bold: true
+		wrapMode: Text.WordWrap
+
+		text: "No results found..."
 
 	}
 

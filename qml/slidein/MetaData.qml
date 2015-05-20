@@ -140,6 +140,7 @@ Rectangle {
 
 				id: val;
 
+				visible: imageLoaded
 				color: "white";
 				font.pointSize: settings.exiffontsize
 				lineHeight: (name == "" ? 0.8 : 1.3);

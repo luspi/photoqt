@@ -38,7 +38,7 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 	connect(object, SIGNAL(openFile()), this, SLOT(openNewFile()));
 
 
-    connect(object, SIGNAL(reloadDirectory(QVariant)), this, SLOT(openNewFile(QVariant)));
+	connect(object, SIGNAL(reloadDirectory(QVariant,QVariant)), this, SLOT(openNewFile(QVariant,QVariant)));
 	connect(object, SIGNAL(loadMoreThumbnails()), this, SLOT(loadMoreThumbnails()));
 	connect(object, SIGNAL(didntLoadThisThumbnail(QVariant)), this, SLOT(didntLoadThisThumbnail(QVariant)));
 
@@ -55,8 +55,8 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 }
 
 // Open a new file
-void MainWindow::openNewFile(QVariant usethis) { openNewFile(usethis.toString()); }
-void MainWindow::openNewFile(QString usethis) {
+void MainWindow::openNewFile(QVariant usethis, QVariant filter) { openNewFile(usethis.toString(), filter); }
+void MainWindow::openNewFile(QString usethis, QVariant filter) {
 
 	// Get new filename
 	QString opendir = QDir::homePath();
@@ -99,7 +99,13 @@ void MainWindow::openNewFile(QString usethis) {
 	variables->loadedThumbnails.clear();
 
 	// Load direcgtory
-	QFileInfoList l = loadDir->loadDir(file);
+	QFileInfoList l = loadDir->loadDir(file,filter.toString());
+	if(l.isEmpty()) {
+		QMetaObject::invokeMethod(object, "noResultsFromFilter");
+		return;
+	}
+	if(!l.contains(QFileInfo(file)))
+		file = l.at(0).filePath().toLatin1();
 
 	// Get and store length
 	int l_length = l.length();

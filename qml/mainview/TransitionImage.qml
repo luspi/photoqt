@@ -18,8 +18,32 @@ Rectangle {
 	property int fillMode: Image.PreserveAspectFit
 	property size sourceSize: Qt.size(0,0);
 
+	// When a filter returns an empty result, we fade out the image, reset the source (using this boolean),
+	// so that after removing the filter, the image is faded in again
+	property bool resetSourceToEmptyAfterFadeOut: false
+
 	// The image source has changed
 	onSourceChanged: {
+
+		// This is usually the case, when a filter returns no results
+		if(source == "") {
+
+			resetSourceToEmptyAfterFadeOut = true
+
+			one_fadeout.duration = 300
+			one_fadeout.start()
+			two_fadeout.duration = 300
+			two_fadeout.start()
+			three_fadeout.duration = 300
+			three_fadeout.start()
+			four_fadeout.duration = 300
+			four_fadeout.start()
+
+			return;
+
+		}
+
+		resetSourceToEmptyAfterFadeOut = false
 
 		var _source = Qt.resolvedUrl(source)
 
@@ -383,7 +407,10 @@ Rectangle {
 		from: 1
 		to: 0
 		duration: 300
-		onStopped: one.visible = false
+		onStopped: {
+			if(resetSourceToEmptyAfterFadeOut) one.source = ""
+			one.visible = false
+		}
 	}
 	PropertyAnimation {
 		id: two_fadeout
@@ -392,7 +419,10 @@ Rectangle {
 		from: 1
 		to: 0
 		duration: 300
-		onStopped: two.visible = false
+		onStopped: {
+			if(resetSourceToEmptyAfterFadeOut) two.source = ""
+			two.visible = false
+		}
 	}
 	PropertyAnimation {
 		id: three_fadeout
@@ -401,7 +431,10 @@ Rectangle {
 		from: 1
 		to: 0
 		duration: 300
-		onStopped: three.visible = false
+		onStopped: {
+			if(resetSourceToEmptyAfterFadeOut) three.source = ""
+			three.visible = false
+		}
 	}
 	PropertyAnimation {
 		id: four_fadeout
@@ -410,7 +443,10 @@ Rectangle {
 		from: 1
 		to: 0
 		duration: 300
-		onStopped: four.visible = false
+		onStopped: {
+			if(resetSourceToEmptyAfterFadeOut) four.source = ""
+			four.visible = false
+		}
 	}
 
 	function resetZoom(loadNewImage) {

@@ -29,7 +29,7 @@ Item {
 	signal imageLoaded(var path)
 	signal hideToSystemTray();
 	signal quitPhotoQt();
-	signal reloadDirectory(var filename);
+	signal reloadDirectory(var filename, var filter);
 
 	// Interface blocked? System Shortcuts blocked?
 	property bool blocked: false
@@ -44,8 +44,9 @@ Item {
 	readonly property string colour_slidein_border: "#55bbbbbb"
 	readonly property string colour_linecolour: "#99999999"
 
-	// Detect some states (e.g. for slideshow)
+	// Detect some states/properties (e.g. for slideshow)
 	property bool slideshowRunning: false
+	property string currentfilter: ""
 
 	// When the slidein widgets are not visible, then they are moved away a safety distance,
 	// otherwise they might be visible for a fraction of a second when resizing the windowChanged
@@ -101,6 +102,7 @@ Item {
 	Rename { id: rename; }
 	Slideshow { id: slideshow; }
 	SlideshowBar { id: slideshowbar; }
+	Filter { id: filter; }
 
 	SettingsItem { id: settingsitem; }
 
@@ -117,6 +119,13 @@ Item {
 	function mouseWheelEvent(combo) { sh.gotMouseShortcut(combo); }
 	function closeContextMenuWhenOpen() { softblocked = 0; contextmenu.hide(); }
 
+	function noResultsFromFilter() {
+		image.noFilterResultsFound()
+		thumbnailBar.setupModel([],0)
+		metaData.clear()
+		quickInfo.updateQuickInfo(-1,0,"")
+	}
+
 	function alsoIgnoreSystemShortcuts(block) {
 		blocked = block;
 		blockedSystem = block;
@@ -128,7 +137,7 @@ Item {
 
 	// We can't emit the signal from the subcomponent (empty error message), so we go the detour with a function emitting the signal
 	function doReload(path) {
-		reloadDirectory(path)
+		reloadDirectory(path,currentfilter)
 	}
 
 }

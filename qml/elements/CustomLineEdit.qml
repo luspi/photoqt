@@ -8,6 +8,8 @@ Rectangle {
 	radius: 3
 	color: "#88000000"
 
+	border.color: "#33ffffff"
+
 	property string text: ed1.text
 	property int fontsize: 10
 

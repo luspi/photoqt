@@ -53,5 +53,6 @@
         <file>qml/mainview/TransitionImage.qml</file>
         <file>qml/fadein/Slideshow.qml</file>
         <file>qml/slidein/SlideshowBar.qml</file>
+        <file>qml/fadein/Filter.qml</file>
     </qresource>
 </RCC>

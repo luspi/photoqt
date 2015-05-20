@@ -20,18 +20,15 @@ public:
 	explicit LoadDir();
 	~LoadDir();
 
-	QFileInfoList loadDir(QByteArray filepath);
+	QFileInfoList loadDir(QByteArray filepath, QString filter);
 
 private:
 
 	Settings *settings;
 	FileFormats *fileformats;
 
-	QString currentfile;
 	QStringList imageFilter;
 
-	int counttot;
-	int countpos;
 	QFileInfoList allImgsInfo;
 
 	static bool sort_name(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);

@@ -10,23 +10,38 @@ LoadDir::~LoadDir() {
 	delete fileformats;
 }
 
-QFileInfoList LoadDir::loadDir(QByteArray filepath) {
-
-	currentfile = filepath;
-	counttot = 0;
+QFileInfoList LoadDir::loadDir(QByteArray filepath, QString filter) {
 
 	QDir dir(QFileInfo(filepath).absolutePath());
 
-	// These are the images known by PhotoQt
-	QStringList flt = fileformats->formatsQtEnabled+fileformats->formatsQtEnabledExtras+fileformats->formatsGmEnabled+fileformats->formatsExtrasEnabled;
-	dir.setNameFilters(flt);
-
+	// Set appropriate filter
+	if(filter.trimmed() == "") {
+		// These are the images known by PhotoQt
+		QStringList flt = fileformats->formatsQtEnabled+fileformats->formatsQtEnabledExtras+fileformats->formatsGmEnabled+fileformats->formatsExtrasEnabled;
+		dir.setNameFilters(flt);
+	} else {
+		QStringList new_flt;
+		foreach(QString f, filter.split(" ")) {
+			if(f.startsWith("."))
+				new_flt.append("*" + f);
+			else
+				new_flt.append("*" + f + "*");
+		}
+		dir.setNameFilters(new_flt);
+	}
 
 	// Store a QFileInfoList and a QStringList with the filenames
 	allImgsInfo = dir.entryInfoList(QDir::Files,QDir::IgnoreCase);
 
 	// When opening an unknown file (i.e., one that doesn't match any set format), then we need to manually add it to the list of loaded images
-	if(!allImgsInfo.contains(QFileInfo(currentfile))) allImgsInfo.append(QFileInfo(currentfile));
+	if(!allImgsInfo.contains(QFileInfo(filepath))) {
+		if(filter.trimmed() == "")
+			allImgsInfo.append(QFileInfo(filepath));
+		else if(allImgsInfo.length() > 0)
+			filepath = allImgsInfo.at(0).filePath().toLatin1();
+		else
+			return QFileInfoList();
+	}
 
 	// Sort images...
 	bool asc = settings->sortbyAscending;
@@ -47,9 +62,6 @@ QFileInfoList LoadDir::loadDir(QByteArray filepath) {
 		qDebug() << "sortby: size";
 		std::sort(allImgsInfo.begin(),allImgsInfo.end(),(asc ? sort_size : sort_size_desc));
 	}
-
-	// Storing number of images
-	counttot = allImgsInfo.length();
 
 	return allImgsInfo;
 
