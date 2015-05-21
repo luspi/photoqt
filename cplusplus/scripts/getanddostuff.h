@@ -1,31 +1,7 @@
 #ifndef GETIMAGEINFO_H
 #define GETIMAGEINFO_H
 
-#include <QImageReader>
-#include <QFileInfo>
-#include <QSettings>
-#include <QCursor>
-#include <QColor>
-#include <QFileDialog>
 #include <QJSValue>
-#include <iostream>
-#include <QIcon>
-#include <QProcess>
-#include <QDateTime>
-#include <QDesktopServices>
-#include <QScreen>
-#include <QGuiApplication>
-
-#include "runprocess.h"
-
-#ifdef GM
-#include <GraphicsMagick/Magick++.h>
-#endif
-
-#ifdef EXIV2
-#include <exiv2/image.hpp>
-#include <exiv2/exif.hpp>
-#endif
 
 #include "getanddostuff/context.h"
 #include "getanddostuff/external.h"
