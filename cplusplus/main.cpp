@@ -256,31 +256,9 @@ int main(int argc, char *argv[]) {
 	}
 
 	// DISPLAY MAINWINDOW
-	w.showFullScreen();
 	if(!startintray) {
-		bool keepOnTop = settingsFileTxt.contains("KeepOnTop=1");
-		if(settingsFileTxt.contains("WindowMode=1")) {
-			if(keepOnTop) {
-				settingsFileTxt.contains("WindowDecoration=1")
-						  ? w.setFlags(Qt::Window | Qt::WindowStaysOnTopHint)
-						  : w.setFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
-			} else {
-				settingsFileTxt.contains("WindowDecoration=1")
-						  ? w.setFlags(Qt::Window)
-						  : w.setFlags(Qt::Window | Qt::FramelessWindowHint);
-			}
-
-			QSettings settings("photoqt","photoqt");
-			if(settings.allKeys().contains("mainWindowGeometry") && settingsFileTxt.contains("SaveWindowGeometry=1")) {
-				w.show();
-				w.setGeometry(settings.value("mainWindowGeometry").toRect());
-			} else
-				w.showMaximized();
-
-		} else {
-			if(keepOnTop) w.setFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
-			QString(getenv("DESKTOP")).startsWith("Enlightenment") ? w.showMaximized() : w.showFullScreen();
-		}
+		// There's no need to have the code to show the window twice (it used to be here AND in the mainwindow.cpp)
+		w.showWindow();
 	} else
 		w.hide();
 
@@ -290,8 +268,11 @@ int main(int argc, char *argv[]) {
 		w.disableThumbnails();
 	}
 
+	// Set startup filename, call openNewFile after 250ms - if window wasn't yet finished setting up, then the image is displayed 'weirdly'
+	// -> resetting zoom after 500ms to be safe
 	w.startup_filename = a.filename;
-	QTimer::singleShot(100, &w, SLOT(openNewFile()));
+	QTimer::singleShot(250, &w, SLOT(openNewFile()));
+	QTimer::singleShot(500,&w,SLOT(resetZoom()));
 
 	return a.exec();
 

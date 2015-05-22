@@ -113,6 +113,7 @@ Item {
 	function nextImage() { thumbnailBar.nextImage(); }
 	function previousImage() { thumbnailBar.previousImage(); }
 	function getCenterPos() { console.log("center pos"); return thumbnailBar.getCenterPos(); }
+	function resetZoom() { image.resetZoom(); }
 
 	function detectedKeyCombo(combo) { sh.detectedKeyCombo(combo); settingsitem.detectedKeyCombo(combo); }
 	function keysReleased(combo) { settingsitem.keysReleased(); sh.releasedKeys(combo); }

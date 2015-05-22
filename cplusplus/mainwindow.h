@@ -38,9 +38,15 @@ public:
 	// Set only by main.cpp at start-up, contains filename passed via command line
 	QString startup_filename;
 
+	// This is used by main.cpp to set the window geometry (we do NOT call 'open file' yet, this is handled in main.cpp (with timers))
+	void showWindow() { remoteAction("show_noopen"); }
+
 public slots:
 	void openNewFile(QString usethis = "", QVariant filter = QVariant());
 	void openNewFile(QVariant usethis, QVariant filter = QVariant());
+
+	// This is used by main.cpp (see there (at the end of file) for details)
+	void resetZoom() { QMetaObject::invokeMethod(object,"resetZoom"); }
 
 private:
 	QQuickItem *item;
