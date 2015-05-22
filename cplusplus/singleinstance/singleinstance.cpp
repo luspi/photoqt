@@ -124,9 +124,9 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
 	/* Server/Socket */
 	/*****************/
 
-	// Create cleaned-up server name
-	QString server_str = QApplication::organizationName() + QApplication::applicationName();
-	server_str = server_str.replace(QRegExp("[^\\w\\-. ]"), "");
+	// Create server name - a more 'portable' way would be to possibly also use organisationName, and to make sure no
+	// special characters are used. However in our case that's not necessary...
+	QString server_str = qApp->applicationName();
 
 	// Connect to a Local Server (if available)
     socket = new QLocalSocket();
