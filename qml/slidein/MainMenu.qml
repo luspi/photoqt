@@ -156,6 +156,8 @@ Rectangle {
 
 		else if(what === "slideshowquickstart") slideshow.quickstart()
 
+		else if(what === "filter") filter.showFilter()
+
 		else if(what === "metadata") {
 			if(metaData.x > -2*metaData.radius) {
 				metaData.uncheckCheckbox()
