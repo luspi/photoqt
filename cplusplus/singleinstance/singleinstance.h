@@ -2,6 +2,7 @@
 #define SINGLEINSTANCE_H
 
 #include <iostream>
+#include <thread>
 #include <QApplication>
 #include <QLocalSocket>
 #include <QLocalServer>

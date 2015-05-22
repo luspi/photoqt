@@ -131,6 +131,10 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
 	// If this is successfull, then an instance is already running
 	if(socket->waitForConnected(1000)) {
 
+		// if no argument was passed on, we add 'show'
+		if(argc == 1)
+			message += ":-:-:::show::";
+
 		// Send composed message string
 		socket->write(message);
 		socket->flush();
@@ -139,6 +143,8 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
 		std::clog << "Running instance of PhotoQt detected..." << std::endl;
 
 		// Exit the code (need to use stdlib exit function to ensure an immediate exit)
+		// We wait 100ms as otherwise this instance might return as a crash (even though it doesn't really)
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 		std::exit(0);
 
 	} else {
