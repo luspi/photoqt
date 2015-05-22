@@ -97,12 +97,8 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
 				err = true;
 			else {
 				QString filename = allArgs.at(i);
-				if(!filename.startsWith("/"))
-					filename = QFileInfo(filename).absoluteFilePath();
-				if(filename != this->applicationFilePath()) {
-					message += ":-:-:";
-					message += QByteArray("::file::") + filename.toLatin1();
-				}
+				message += ":-:-:";
+				message += QByteArray("::file::") + QFileInfo(filename).absoluteFilePath().toLatin1();
 			}
 		}
 	}
