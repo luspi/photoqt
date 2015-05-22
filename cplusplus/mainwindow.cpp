@@ -431,9 +431,67 @@ void MainWindow::hideTrayIcon() {
 // Remote controlling
 void MainWindow::remoteAction(QString cmd) {
 
-	// TO-DO
+	if(cmd == "open") {
 
-	qDebug() << "do this:" << cmd;
+//		std::clog << "[remote] Open new file" << std::endl;
+		openNewFile();
+
+	} else if(cmd == "nothumbs") {
+
+//		std::clog << "[remote] Disable thumbnails" << std::endl;
+		settingsPermanent->setThumbnailDisable(true);
+
+	} else if(cmd == "thumbs") {
+
+//		std::clog << "[remote] Enable thumbnails" << std::endl;
+		settingsPermanent->setThumbnailDisable(false);
+
+	} else if(cmd == "hide" || (cmd == "toggle" && this->isVisible())) {
+
+//		std::clog << "[remote] Hide window" << std::endl;
+		if(settingsPermanent->trayicon != 1)
+			settingsPermanent->setTrayicon(1);
+		this->hide();
+
+	} else if(cmd.startsWith("show") || (cmd == "toggle" && !this->isVisible())) {
+
+//		std::clog << "[remote] Show window" << std::endl;
+
+		// The same code can be found at the end of main.cpp
+		if(!this->isVisible()) {
+			if(settingsPermanent->windowmode) {
+				if(settingsPermanent->keepOnTop) {
+					settingsPermanent->windowDecoration
+							  ? this->setFlags(Qt::Window | Qt::WindowStaysOnTopHint)
+							  : this->setFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+				} else {
+					settingsPermanent->windowDecoration
+							  ? this->setFlags(Qt::Window)
+							  : this->setFlags(Qt::Window | Qt::FramelessWindowHint);
+				}
+				QSettings settings("photoqt","photoqt");
+				if(settings.allKeys().contains("mainWindowGeometry") && settingsPermanent->saveWindowGeometry) {
+					this->show();
+					this->setGeometry(settings.value("mainWindowGeometry").toRect());
+				} else
+					this->showMaximized();
+			} else {
+				if(settingsPermanent->keepOnTop) this->setFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
+				QString(getenv("DESKTOP")).startsWith("Enlightenment") ? this->showMaximized() : this->showFullScreen();
+			}
+			this->raise();
+		}
+
+		if(variables->currentDir == "" && cmd != "show_noopen")
+			openNewFile();
+
+	} else if(cmd.startsWith("::file::")) {
+
+//		std::clog << "[remote] Open new file" << std::endl;
+		openNewFile(cmd.remove(0,8));
+
+	}
+
 
 }
 
