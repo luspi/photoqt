@@ -186,14 +186,10 @@ void SingleInstance::handleResponse(QString msg) {
 	update = (msg.contains("::update::"));
 	install = (msg.contains("::install::"));
 
-	// Check for passed on filename
-	if(msg.contains("::file::")) {
+	// Check for passed on filename (we check in mainwindow.cpp if it's an actually valid file)
+	if(msg.contains("::file::"))
 		filename = msg.split("::file::").at(1).split(":-:-:").at(0);
-		if(!QFile(filename).exists()) {
-			std::cerr << "Error: This file doesn't seem to exist..." << std::endl;
-			filename = "";
-		}
-	} else
+	else
 		filename = "";
 
 	if(filename != "") emit interaction("::file::" + filename);
