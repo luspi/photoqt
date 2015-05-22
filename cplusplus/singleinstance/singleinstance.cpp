@@ -172,7 +172,7 @@ void SingleInstance::handleResponse(QString msg) {
 	thumbs = msg.contains("::thumbs::");
 	toggle = msg.contains("::toggle::") && !msg.contains("::startintray::");
 	show = ((msg.contains("::show::") || !msg.contains("::hide::")) && !msg.contains("::toggle::") && !msg.contains("::startintray::"));
-	hide = (msg.contains("::hide::") && !msg.contains("::toggle::") && !msg.contains("::file::") && !msg.contains("::startintray::"));
+	hide = (msg.contains("::hide::") && !msg.contains("::toggle::") && !msg.contains("::startintray::"));
 
 	// These ones only play a role on startup and are ignored otherwise
 	verbose = (msg.contains("::verbose::") || QFile(QDir::homePath() + "/.photoqt/verbose").exists());
