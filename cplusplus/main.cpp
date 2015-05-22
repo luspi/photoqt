@@ -290,10 +290,8 @@ int main(int argc, char *argv[]) {
 		w.disableThumbnails();
 	}
 
-	w.openNewFile(a.filename);
-
-//		if(!startintray)
-//			w.startUpTimer->start();
+	w.startup_filename = a.filename;
+	QTimer::singleShot(100, &w, SLOT(openNewFile()));
 
 	return a.exec();
 

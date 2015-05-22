@@ -9,6 +9,9 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 	variables = new Variables;
 	shortcuts = new Shortcuts;
 
+	// Set only by main.cpp at start-up, contains filename passed via command line
+	startup_filename = "";
+
 	// Add image providers
 	this->engine()->addImageProvider("thumb",new ImageProviderThumbnail);
 	this->engine()->addImageProvider("full",new ImageProviderFull);
@@ -57,6 +60,12 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 // Open a new file
 void MainWindow::openNewFile(QVariant usethis, QVariant filter) { openNewFile(usethis.toString(), filter); }
 void MainWindow::openNewFile(QString usethis, QVariant filter) {
+
+	// Only possibly set at start-up, filename passed via command line
+	if(startup_filename != "") {
+		usethis = startup_filename;
+		startup_filename = "";
+	}
 
 	// Get new filename
 	QString opendir = QDir::homePath();

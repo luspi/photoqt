@@ -35,6 +35,9 @@ public:
 	void disableThumbnails() { settingsPermanent->thumbnailDisable = true; }
 	void setDefaultFileFormats() { fileformats->getFormats(""); }
 
+	// Set only by main.cpp at start-up, contains filename passed via command line
+	QString startup_filename;
+
 public slots:
 	void openNewFile(QString usethis = "", QVariant filter = QVariant());
 	void openNewFile(QVariant usethis, QVariant filter = QVariant());
