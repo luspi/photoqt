@@ -32,9 +32,6 @@ public:
 	bool install;
 
 signals:
-	// This means, a new instance was started -> restore/raise window
-	void raise();
-
 	// Interact with application
 	void interaction(QString exec);
 

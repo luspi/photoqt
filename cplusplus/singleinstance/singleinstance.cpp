@@ -163,8 +163,7 @@ void SingleInstance::newConnection() {
 	if(socket->waitForReadyRead(2000))
 		handleResponse(socket->readAll());
     socket->close();
-    delete socket;
-	emit raise();
+	delete socket;
 }
 
 void SingleInstance::handleResponse(QString msg) {
