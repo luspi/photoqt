@@ -419,6 +419,15 @@ void MainWindow::hideTrayIcon() {
 
 }
 
+// Remote controlling
+void MainWindow::remoteAction(QString cmd) {
+
+	// TO-DO
+
+	qDebug() << "do this:" << cmd;
+
+}
+
 MainWindow::~MainWindow() {
 	delete settingsPerSession;
 	delete settingsPermanent;

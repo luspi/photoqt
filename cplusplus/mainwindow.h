@@ -78,6 +78,8 @@ private slots:
     void quitPhotoQt();
     void trayAction(QSystemTrayIcon::ActivationReason reason);
 
+	void remoteAction(QString cmd);
+
 protected:
 	bool event(QEvent *e);
 	void keyPressEvent(QKeyEvent *e);
