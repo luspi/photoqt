@@ -164,7 +164,7 @@ Rectangle {
 				background.hideMetadata()
 			} else {
 				metaData.checkCheckbox()
-				background.showMetadata()
+				background.showMetadata(true)
 			}
 		}
 	}

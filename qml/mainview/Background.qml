@@ -168,8 +168,9 @@ Rectangle {
 	}
 
 	// Show elements
-	function showMetadata() {
-		metadata_show.start()
+	function showMetadata(from_mainmenu) {
+		if(settings.exifenablemousetriggering || (from_mainmenu !== undefined && from_mainmenu === true))
+			metadata_show.start()
 	}
 	PropertyAnimation {
 		id: metadata_show

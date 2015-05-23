@@ -77,7 +77,7 @@ Rectangle {
 		if(totalNumberImages*(settings.thumbnailsize+settings.thumbnailSpacingBetween) > thumbnailBar.width) {
 
 			// Newly loaded dir => center item
-			if(clickedIndex == -1) {
+			if(clickedIndex == -1 || settings.thumbnailCenterActive) {
 				view.positionViewAtIndex(pos,ListView.Center)
 			} else {
 				view.positionViewAtIndex(pos-1,ListView.Contain)
