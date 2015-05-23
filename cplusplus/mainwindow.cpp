@@ -262,14 +262,18 @@ void MainWindow::wheelEvent(QWheelEvent *e) {
 
 	if(e->angleDelta().y() < 0) {
 
-		// Wheel direction changed -> start counting at beginning
-		if(variables->wheelcounter >= 0 && settingsPermanent->mouseWheelSensitivity > 1) {
-			variables->wheelcounter = -1;
-			return;
-		// Same direction, but haven't reached counter yet
-		} else if(variables->wheelcounter*-1 < settingsPermanent->mouseWheelSensitivity-1 && settingsPermanent->mouseWheelSensitivity > 1) {
-			--variables->wheelcounter;
-			return;
+		if(!object->property("blocked").toBool()) {
+
+			// Wheel direction changed -> start counting at beginning
+			if(variables->wheelcounter >= 0 && settingsPermanent->mouseWheelSensitivity > 1) {
+				variables->wheelcounter = -1;
+				return;
+			// Same direction, but haven't reached counter yet
+			} else if(variables->wheelcounter*-1 < settingsPermanent->mouseWheelSensitivity-1 && settingsPermanent->mouseWheelSensitivity > 1) {
+				--variables->wheelcounter;
+				return;
+			}
+
 		}
 
 		// We got here? Great, so reset counter (i.e., next event starts at beginning again)
@@ -280,14 +284,18 @@ void MainWindow::wheelEvent(QWheelEvent *e) {
 
 	} else if(e->angleDelta().y() > 0) {
 
-		// Wheel direction changed -> start counting at beginning
-		if(variables->wheelcounter <= 0 && settingsPermanent->mouseWheelSensitivity > 1) {
-			variables->wheelcounter = 1;
-			return;
-		// Same direction, but haven't reached counter yet
-		} else if(variables->wheelcounter < settingsPermanent->mouseWheelSensitivity-1 && settingsPermanent->mouseWheelSensitivity > 1) {
-			++variables->wheelcounter;
-			return;
+		if(!object->property("blocked").toBool()) {
+
+			// Wheel direction changed -> start counting at beginning
+			if(variables->wheelcounter <= 0 && settingsPermanent->mouseWheelSensitivity > 1) {
+				variables->wheelcounter = 1;
+				return;
+			// Same direction, but haven't reached counter yet
+			} else if(variables->wheelcounter < settingsPermanent->mouseWheelSensitivity-1 && settingsPermanent->mouseWheelSensitivity > 1) {
+				++variables->wheelcounter;
+				return;
+			}
+
 		}
 
 		// We got here? Great, so reset counter (i.e., next event starts at beginning again)
