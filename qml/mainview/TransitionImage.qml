@@ -455,18 +455,19 @@ Rectangle {
 			if(currentone == "one") {
 				one.scale = scale
 				scale = 1
-			}
-			if(currentone == "two") {
+				if(settings.fitInWindow) norm.scale = Math.min(parent.width / one.width, parent.height / one.height);
+			} else if(currentone == "two") {
 				two.scale = scale
 				scale = 1
-			}
-			if(currentone == "three") {
+				if(settings.fitInWindow) norm.scale = Math.min(parent.width / two.width, parent.height / two.height);
+			} else if(currentone == "three") {
 				three.scale = scale
 				scale = 1
-			}
-			if(currentone == "four") {
+				if(settings.fitInWindow) norm.scale = Math.min(parent.width / three.width, parent.height / three.height);
+			} else if(currentone == "four") {
 				four.scale = scale
 				scale = 1
+				if(settings.fitInWindow) norm.scale = Math.min(parent.width / four.width, parent.height / four.height);
 			}
 		} else {
 			one.scale = 1
@@ -474,6 +475,12 @@ Rectangle {
 			three.scale = 1
 			four.scale = 1
 			scale = 1
+			if(settings.fitInWindow) {
+				if(currentone == "one") norm.scale = Math.min(parent.width / one.width, parent.height / one.height);
+				else if(currentone == "two") norm.scale = Math.min(parent.width / two.width, parent.height / two.height);
+				else if(currentone == "three") norm.scale = Math.min(parent.width / three.width, parent.height / three.height);
+				else if(currentone == "four") norm.scale = Math.min(parent.width / four.width, parent.height / four.height);
+			}
 		}
 
 	}

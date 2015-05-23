@@ -178,7 +178,7 @@ Item {
 				asynchronous: false
 				function calculateSize() {
 					if(settings.fitInWindow) scale = Math.min(flickarea.width / width, flickarea.height / height);
-						prevScale = Math.min(scale, 1);
+					prevScale = Math.min(scale, 1);
 				}
 				onScaleChanged: {
 					var cursorpos = getanddostuff.getCursorPos()
