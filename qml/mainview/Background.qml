@@ -4,7 +4,7 @@ import QtQuick.Controls 1.2
 Rectangle {
 
 	id: background
-	color: "#AA000000"
+	color: getanddostuff.addAlphaToColor(Qt.rgba(settings.bgColorRed,settings.bgColorGreen,settings.bgColorBlue,settings.bgColorAlpha),settings.bgColorAlpha)
 
 	width: parent.width
 	height: parent.height
