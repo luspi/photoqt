@@ -260,15 +260,43 @@ void MainWindow::keyReleaseEvent(QKeyEvent *e) {
 // Catch wheel events
 void MainWindow::wheelEvent(QWheelEvent *e) {
 
-	QString combo = "";
+	if(e->angleDelta().y() < 0) {
 
-	if(e->angleDelta().y() < 0)
-		combo = "Wheel Down";
-	else if(e->angleDelta().y() > 0)
-		combo = "Wheel Up";
+		// Wheel direction changed -> start counting at beginning
+		if(variables->wheelcounter >= 0 && settingsPermanent->mouseWheelSensitivity > 1) {
+			variables->wheelcounter = -1;
+			return;
+		// Same direction, but haven't reached counter yet
+		} else if(variables->wheelcounter*-1 < settingsPermanent->mouseWheelSensitivity-1 && settingsPermanent->mouseWheelSensitivity > 1) {
+			--variables->wheelcounter;
+			return;
+		}
 
-	QMetaObject::invokeMethod(object,"mouseWheelEvent",
-							  Q_ARG(QVariant, combo));
+		// We got here? Great, so reset counter (i.e., next event starts at beginning again)
+		variables->wheelcounter = 0;
+
+		QMetaObject::invokeMethod(object,"mouseWheelEvent",
+								  Q_ARG(QVariant, "Wheel Down"));
+
+	} else if(e->angleDelta().y() > 0) {
+
+		// Wheel direction changed -> start counting at beginning
+		if(variables->wheelcounter <= 0 && settingsPermanent->mouseWheelSensitivity > 1) {
+			variables->wheelcounter = 1;
+			return;
+		// Same direction, but haven't reached counter yet
+		} else if(variables->wheelcounter < settingsPermanent->mouseWheelSensitivity-1 && settingsPermanent->mouseWheelSensitivity > 1) {
+			++variables->wheelcounter;
+			return;
+		}
+
+		// We got here? Great, so reset counter (i.e., next event starts at beginning again)
+		variables->wheelcounter = 0;
+
+		QMetaObject::invokeMethod(object,"mouseWheelEvent",
+								  Q_ARG(QVariant, "Wheel Up"));
+
+	}
 
 	QQuickView::wheelEvent(e);
 

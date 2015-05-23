@@ -16,6 +16,7 @@ public:
 		trayiconSetup = false;
 		trayiconVisible = false;
 		hiddenToTrayIcon = false;
+		wheelcounter = 0;
 	}
 
 public:
@@ -28,6 +29,8 @@ public:
 	bool trayiconSetup;
 	bool trayiconVisible;
 	bool hiddenToTrayIcon;
+
+	int wheelcounter;
 
 };
 
