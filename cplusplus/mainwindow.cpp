@@ -363,22 +363,28 @@ void MainWindow::trayAction(QSystemTrayIcon::ActivationReason reason) {
 
     if(reason == QSystemTrayIcon::Trigger) {
 
-        if(this->isVisible()) {
+		if(!variables->hiddenToTrayIcon) {
             if(!variables->fileDialogOpened) {
                 variables->geometryWhenHiding = this->geometry();
                 this->hide();
             }
         } else {
-            if(settingsPermanent->windowmode)
-                this->show();
-            else
-                this->showFullScreen();
-            this->setGeometry(variables->geometryWhenHiding);
+
+			// Get screenshots
+			for(int i = 0; i < QGuiApplication::screens().count(); ++i) {
+				QScreen *screen = QGuiApplication::screens().at(i);
+				QRect r = screen->geometry();
+				QPixmap pix = screen->grabWindow(0,r.x(),r.y(),r.width(),r.height());
+				if(!pix.save(QDir::tempPath() + QString("/photoqt_screenshot_%1.jpg").arg(i)))
+					std::cerr << "[ERROR] Unable to update screenshot for screen #" << i << std::endl;
+			}
+
+			updateWindowGeometry();
 
             if(variables->currentDir == "") openNewFile();
         }
 
-    }
+	}
 
 }
 
@@ -464,6 +470,13 @@ void MainWindow::remoteAction(QString cmd) {
 
 		// The same code can be found at the end of main.cpp
 		if(!this->isVisible()) {
+			// Get screenshots
+			for(int i = 0; i < QGuiApplication::screens().count(); ++i) {
+				QScreen *screen = QGuiApplication::screens().at(i);
+				QRect r = screen->geometry();
+				QPixmap pix = screen->grabWindow(0,r.x(),r.y(),r.width(),r.height());
+				pix.save(QDir::tempPath() + QString("/photoqt_screenshot_%1.jpg").arg(i));
+			}
 			updateWindowGeometry();
 			this->raise();
 		}
