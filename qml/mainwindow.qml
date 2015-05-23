@@ -54,7 +54,13 @@ Item {
 	readonly property int safetyDistanceForSlidein: 500
 
 	// Access to the permanent settings file (~/.photoqt/settings)
-	Settings { id: settings; }
+	Settings {
+		id: settings;
+		onHidecounterChanged: quickInfo.updateQuickInfo(quickInfo._pos, thumbnailBar.totalNumberImages, thumbnailBar.currentFile)
+		onHidefilenameChanged: quickInfo.updateQuickInfo(quickInfo._pos, thumbnailBar.totalNumberImages, thumbnailBar.currentFile)
+		onHidefilepathshowfilenameChanged: quickInfo.updateQuickInfo(quickInfo._pos, thumbnailBar.totalNumberImages, thumbnailBar.currentFile)
+		onHidexChanged: quickInfo.updateQuickInfo(quickInfo._pos, thumbnailBar.totalNumberImages, thumbnailBar.currentFile)
+	}
 	FileFormats { id: fileformats; }
 	SettingsSession { id: settingssession; }
 
