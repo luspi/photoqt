@@ -411,8 +411,6 @@ Rectangle {
 		onStopped: {
 			visible = false
 			if(!slideshowRunning) blocked = false
-			if(image.url === "")
-				openFile()
 		}
 	}
 

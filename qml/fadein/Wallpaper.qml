@@ -913,8 +913,6 @@ Rectangle {
 		onStopped: {
 			visible = false
 			blocked = false
-			if(image.url === "")
-				openFile()
 		}
 	}
 

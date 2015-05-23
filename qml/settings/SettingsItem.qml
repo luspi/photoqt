@@ -439,7 +439,7 @@ Rectangle {
 		onStopped: {
 			visible = false
 			blocked = false
-			if(image.url == "")
+			if(thumbnailBar.currentFile == "")
 				openFile()
 		}
 	}
