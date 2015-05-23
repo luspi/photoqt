@@ -424,7 +424,7 @@ Rectangle {
 						width: 400
 
 						minimumValue: 0
-						maximumValue: 20
+						maximumValue: 50
 
 						value: border_sizespinbox.value
 						tickmarksEnabled: true
@@ -439,10 +439,10 @@ Rectangle {
 						width: 75
 
 						minimumValue: 0
-						maximumValue: 20
+						maximumValue: 50
 
 						value: border_sizeslider.value
-						suffix: " %"
+						suffix: " px"
 
 					}
 

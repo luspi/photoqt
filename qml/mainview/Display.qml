@@ -9,10 +9,10 @@ Item {
 	id: item
 
 	// Position item
-	x: 0
-	y: 0
-	width: background.width
-	height: (settings.thumbnailKeepVisible ? background.height-thumbnailBar.height+thumbnailbarheight_addon/2 : background.height)
+	x: settings.borderAroundImg
+	y: settings.borderAroundImg
+	width: background.width - 2*settings.borderAroundImg
+	height: (settings.thumbnailKeepVisible ? background.height-thumbnailBar.height+thumbnailbarheight_addon/2 : background.height)-2*settings.borderAroundImg
 
 	// How fast do we zoom in/out
 	property real scaleSpeed: 0.1
@@ -278,7 +278,8 @@ Item {
 		// Position it
 		anchors.right: parent.right
 		anchors.top: parent.top
-		anchors.rightMargin: settings.fancyX ? 0 : 5
+		anchors.rightMargin: settings.fancyX ? -settings.borderAroundImg : -settings.borderAroundImg+5
+		anchors.topMargin: settings.fancyX ? -settings.borderAroundImg : -settings.borderAroundImg+5
 
 		// Width depends on type of 'x'
 		width: (settings.fancyX ? 3 : 1.5)*settings.closeXsize
