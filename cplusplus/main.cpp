@@ -258,7 +258,7 @@ int main(int argc, char *argv[]) {
 	// DISPLAY MAINWINDOW
 	if(!startintray) {
 		// There's no need to have the code to show the window twice (it used to be here AND in the mainwindow.cpp)
-		w.showWindow();
+		w.updateWindowGeometry();
 	} else
 		w.hide();
 

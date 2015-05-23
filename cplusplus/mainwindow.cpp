@@ -49,9 +49,11 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
     connect(object, SIGNAL(hideToSystemTray()), this, SLOT(hideToSystemTray()));
     connect(object, SIGNAL(quitPhotoQt()), this, SLOT(quitPhotoQt()));
 
-	// Reflect change in tray icon change
+	// React to some settings...
 	connect(settingsPermanent, SIGNAL(trayiconChanged(int)), this, SLOT(showTrayIcon()));
 	connect(settingsPermanent, SIGNAL(trayiconChanged(int)), this, SLOT(hideTrayIcon()));
+	connect(settingsPermanent, SIGNAL(windowmodeChanged(bool)), this, SLOT(updateWindowGeometry()));
+	connect(settingsPermanent, SIGNAL(windowDecorationChanged(bool)), this, SLOT(updateWindowGeometry()));
 
 	showTrayIcon();
 
@@ -459,26 +461,7 @@ void MainWindow::remoteAction(QString cmd) {
 
 		// The same code can be found at the end of main.cpp
 		if(!this->isVisible()) {
-			if(settingsPermanent->windowmode) {
-				if(settingsPermanent->keepOnTop) {
-					settingsPermanent->windowDecoration
-							  ? this->setFlags(Qt::Window | Qt::WindowStaysOnTopHint)
-							  : this->setFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
-				} else {
-					settingsPermanent->windowDecoration
-							  ? this->setFlags(Qt::Window)
-							  : this->setFlags(Qt::Window | Qt::FramelessWindowHint);
-				}
-				QSettings settings("photoqt","photoqt");
-				if(settings.allKeys().contains("mainWindowGeometry") && settingsPermanent->saveWindowGeometry) {
-					this->show();
-					this->setGeometry(settings.value("mainWindowGeometry").toRect());
-				} else
-					this->showMaximized();
-			} else {
-				if(settingsPermanent->keepOnTop) this->setFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
-				QString(getenv("DESKTOP")).startsWith("Enlightenment") ? this->showMaximized() : this->showFullScreen();
-			}
+			updateWindowGeometry();
 			this->raise();
 		}
 
@@ -492,6 +475,31 @@ void MainWindow::remoteAction(QString cmd) {
 
 	}
 
+
+}
+
+void MainWindow::updateWindowGeometry() {
+
+	if(settingsPermanent->windowmode) {
+		if(settingsPermanent->keepOnTop) {
+			settingsPermanent->windowDecoration
+					  ? this->setFlags(Qt::Window | Qt::WindowStaysOnTopHint)
+					  : this->setFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+		} else {
+			settingsPermanent->windowDecoration
+					  ? this->setFlags(Qt::Window)
+					  : this->setFlags(Qt::Window | Qt::FramelessWindowHint);
+		}
+		QSettings settings("photoqt","photoqt");
+		if(settings.allKeys().contains("mainWindowGeometry") && settingsPermanent->saveWindowGeometry) {
+			this->show();
+			this->setGeometry(settings.value("mainWindowGeometry").toRect());
+		} else
+			this->showMaximized();
+	} else {
+		if(settingsPermanent->keepOnTop) this->setFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
+		QString(getenv("DESKTOP")).startsWith("Enlightenment") ? this->showMaximized() : this->showFullScreen();
+	}
 
 }
 
