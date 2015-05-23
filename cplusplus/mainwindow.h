@@ -89,6 +89,8 @@ private slots:
 
 	void remoteAction(QString cmd);
 
+	void updateWindowXandY();
+
 protected:
 	bool event(QEvent *e);
 	void keyPressEvent(QKeyEvent *e);

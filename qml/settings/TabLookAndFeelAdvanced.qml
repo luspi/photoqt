@@ -748,7 +748,7 @@ Rectangle {
 		settings.backgroundImagePath = background_image_select.source
 
 		settings.backgroundImageScale = background_image_scale.checked
-		settings.backgroundImageScaleCrop = background_image_scalecrop.checked =
+		settings.backgroundImageScaleCrop = background_image_scalecrop.checked
 		settings.backgroundImageStretch = background_image_stretch.checked
 		settings.backgroundImageCenter = background_image_center.checked
 		settings.backgroundImageTile = background_image_tile.checked

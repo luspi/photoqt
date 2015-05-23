@@ -1,10 +1,58 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
+import QtQuick.Window 2.1
 
 Rectangle {
 
 	id: background
-	color: getanddostuff.addAlphaToColor(Qt.rgba(settings.bgColorRed,settings.bgColorGreen,settings.bgColorBlue,settings.bgColorAlpha),settings.bgColorAlpha)
+
+	// BELOW ARE FOUR ELMENETS THAT CAN ACT AS BACKGROUND.
+	// ONLY ONE OF THEM IS VISIBLE AT A TIME (DEPENDING ON SETTINGS)
+
+	// True transparency
+	color: settings.composite ? getanddostuff.addAlphaToColor(Qt.rgba(settings.bgColorRed, settings.bgColorGreen, settings.bgColorBlue, settings.bgColorAlpha), settings.bgColorAlpha)
+							  : "#00000000"
+	// Fake transparency
+	Image {
+		anchors.fill: parent
+		visible: !settings.composite && settings.backgroundImageScreenshot
+		source: (!settings.composite && settings.backgroundImageScreenshot) ? "file://tmp/photoqt_screenshot_" + getanddostuff.getCurrentScreen(toplevel.windowx,toplevel.windowy) + ".jpg" : ""
+		Rectangle {
+			anchors.fill: parent
+			visible: parent.visible
+			color: getanddostuff.addAlphaToColor(Qt.rgba(settings.bgColorRed, settings.bgColorGreen, settings.bgColorBlue, settings.bgColorAlpha), settings.bgColorAlpha)
+		}
+	}
+
+	// Background screenshot
+	Image {
+		visible: settings.backgroundImageUse
+		anchors.fill: parent
+		horizontalAlignment: settings.backgroundImageCenter ? Image.AlignHCenter : Image.AlignLeft
+		verticalAlignment: settings.backgroundImageCenter ? Image.AlignVCenter : Image.AlignTop
+		fillMode: settings.backgroundImageScale ? Image.PreserveAspectFit
+												: (settings.backgroundImageScaleCrop ? Image.PreserveAspectCrop
+													: (settings.backgroundImageStretch ? Image.Stretch
+														: (settings.backgroundImageTile ? Image.Tile : Image.Pad)))
+		source: settings.backgroundImagePath
+		Rectangle {
+			anchors.fill: parent
+			visible: parent.visible
+			color: getanddostuff.addAlphaToColor(Qt.rgba(settings.bgColorRed, settings.bgColorGreen, settings.bgColorBlue, settings.bgColorAlpha), settings.bgColorAlpha)
+		}
+
+	}
+
+	// BACKGROUND COLOR
+	Rectangle {
+		anchors.fill: parent
+		// The Qt.rgba() function IGNORES the alpha value by default (that's why above we use a custom function to add it!)
+		color: Qt.rgba(settings.bgColorRed,settings.bgColorGreen,settings.bgColorBlue,settings.bgColorAlpha)
+		visible: !settings.composite && !settings.backgroundImageScreenshot && !settings.backgroundImageUse
+	}
+
+	/******* END BACKGROUND ELEMENTS **********/
+
 
 	width: parent.width
 	height: parent.height

@@ -47,6 +47,8 @@ Item {
 	// Detect some states/properties (e.g. for slideshow)
 	property bool slideshowRunning: false
 	property string currentfilter: ""
+	property int windowx: 0
+	property int windowy: 0
 
 	// When the slidein widgets are not visible, then they are moved away a safety distance,
 	// otherwise they might be visible for a fraction of a second when resizing the windowChanged

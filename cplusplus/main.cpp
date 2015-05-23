@@ -24,6 +24,14 @@ int main(int argc, char *argv[]) {
 	// SOME START-UP CHECKS
 	// TO-DO: some clean-up
 
+	// Get screenshots
+	for(int i = 0; i < QGuiApplication::screens().count(); ++i) {
+		QScreen *screen = QGuiApplication::screens().at(i);
+		QRect r = screen->geometry();
+		QPixmap pix = screen->grabWindow(0,r.x(),r.y(),r.width(),r.height());
+		pix.save(QDir::tempPath() + QString("/photoqt_screenshot_%1.jpg").arg(i));
+	}
+
 	// Ensure that the config folder exists
 	QDir dir(QDir::homePath() + "/.photoqt");
 	if(!dir.exists()) {

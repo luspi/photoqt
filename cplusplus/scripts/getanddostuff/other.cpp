@@ -80,3 +80,11 @@ bool GetAndDoStuffOther::amIOnLinux() {
 	return false;
 #endif
 }
+
+int GetAndDoStuffOther::getCurrentScreen(int x, int y) {
+
+	for(int i = 0; i < QGuiApplication::screens().count(); ++i)
+		if(QGuiApplication::screens().at(i)->geometry().contains(x,y))
+			return i;
+
+}

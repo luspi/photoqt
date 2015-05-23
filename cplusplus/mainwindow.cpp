@@ -55,6 +55,9 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 	connect(settingsPermanent, SIGNAL(windowmodeChanged(bool)), this, SLOT(updateWindowGeometry()));
 	connect(settingsPermanent, SIGNAL(windowDecorationChanged(bool)), this, SLOT(updateWindowGeometry()));
 
+	connect(this, SIGNAL(xChanged(int)), this, SLOT(updateWindowXandY()));
+	connect(this, SIGNAL(yChanged(int)), this, SLOT(updateWindowXandY()));
+
 	showTrayIcon();
 
 }
@@ -500,6 +503,13 @@ void MainWindow::updateWindowGeometry() {
 		if(settingsPermanent->keepOnTop) this->setFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
 		QString(getenv("DESKTOP")).startsWith("Enlightenment") ? this->showMaximized() : this->showFullScreen();
 	}
+
+}
+
+void MainWindow::updateWindowXandY() {
+
+	object->setProperty("windowx",this->x());
+	object->setProperty("windowy",this->y());
 
 }
 

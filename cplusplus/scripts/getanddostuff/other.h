@@ -30,6 +30,7 @@ public:
 	QColor addAlphaToColor(QString col, int alpha);
 	bool amIOnLinux();
 	QString trim(QString s) { return s.trimmed(); }
+	int getCurrentScreen(int x, int y);
 
 private:
 	QImageReader reader;

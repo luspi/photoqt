@@ -75,6 +75,7 @@ public:
 	Q_INVOKABLE QColor addAlphaToColor(QString col, int alpha) { return other->addAlphaToColor(col, alpha); }
 	Q_INVOKABLE bool amIOnLinux() { return other->amIOnLinux(); }
 	Q_INVOKABLE QString trim(QString s) { return other->trim(s); }
+	Q_INVOKABLE int getCurrentScreen(int x, int y) { return other->getCurrentScreen(x,y); }
 
 	// SHORTCUTS
 	Q_INVOKABLE QVariantMap getShortcuts() { return shortcuts->getShortcuts(); }
