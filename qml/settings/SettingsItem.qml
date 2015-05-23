@@ -406,7 +406,7 @@ Rectangle {
 	}
 
 	function showSettings() {
-		showAboutAni.start()
+		showSettingsAni.start()
 		updateDatabaseInfo()
 	}
 	function hideSettings() {
@@ -415,7 +415,7 @@ Rectangle {
 		else if(confirmerase.visible)
 			confirmerase.hide()
 		else if(!detectShortcut.visible && !resetShortcut.visible)
-			hideAboutAni.start()
+			hideSettingsAni.start()
 	}
 
 	function detectedKeyCombo(combo) {
@@ -432,10 +432,11 @@ Rectangle {
 	}
 
 	PropertyAnimation {
-		id: hideAboutAni
+		id: hideSettingsAni
 		target: tabrect
 		property: "opacity"
 		to: 0
+		duration: settings.myWidgetAnimated ? 250 : 0
 		onStopped: {
 			visible = false
 			blocked = false
@@ -445,10 +446,11 @@ Rectangle {
 	}
 
 	PropertyAnimation {
-		id: showAboutAni
+		id: showSettingsAni
 		target: tabrect
 		property: "opacity"
 		to: 1
+		duration: settings.myWidgetAnimated ? 250 : 0
 		onStarted: {
 			visible = true
 			blocked = true
