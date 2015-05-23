@@ -910,6 +910,7 @@ Rectangle {
 		target:  wallpaper
 		property: "opacity"
 		to: 0
+		duration: settings.myWidgetAnimated ? 250 : 0
 		onStopped: {
 			visible = false
 			blocked = false
@@ -921,6 +922,7 @@ Rectangle {
 		target:  wallpaper
 		property: "opacity"
 		to: 1
+		duration: settings.myWidgetAnimated ? 250 : 0
 		onStarted: {
 			visible = true
 			blocked = true

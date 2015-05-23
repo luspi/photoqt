@@ -106,6 +106,7 @@ Rectangle {
 					target:  thumbnailBar
 					property: (softblocked == 0 ? (settings.thumbnailKeepVisible == false ? "y" : "") : "")
 					to: background.height-thumbnailBar.height
+					duration: settings.myWidgetAnimated ? 250 : 0
 				}
 			}
 
@@ -127,6 +128,7 @@ Rectangle {
 					from: -mainmenu.height
 					property: ((softblocked == 0 && mainmenu.y < -mainmenu.height) ? "y" : "")
 					to: -mainmenu.radius
+					duration: settings.myWidgetAnimated ? 250 : 0
 				}
 			}
 		}
@@ -148,6 +150,7 @@ Rectangle {
 					from: background.width
 					onStarted: { quicksettings.setData(); }
 					to: (settings.quickSettings ? (background.width-quicksettings.width+quicksettings.radius) : background.width)
+					duration: settings.myWidgetAnimated ? 250 : 0
 				}
 			}
 		}
@@ -174,6 +177,7 @@ Rectangle {
 		property: "x"
 		from: -metaData.width
 		to: -metaData.radius
+		duration: settings.myWidgetAnimated ? 250 : 0
 	}
 
 	// Hide elements
@@ -198,24 +202,28 @@ Rectangle {
 		target:  thumbnailBar
 		property: (settings.thumbnailKeepVisible === false ? "y" : "");
 		to: background.height
+		duration: settings.myWidgetAnimated ? 250 : 0
 	}
 	PropertyAnimation {
 		id: hideMetaData
 		target: metaData
 		property: "x"
 		to: -metaData.width-safetyDistanceForSlidein
+		duration: settings.myWidgetAnimated ? 250 : 0
 	}
 	PropertyAnimation {
 		id: hideMainmenu
 		target: mainmenu
 		property: "y"
 		to: -mainmenu.height-safetyDistanceForSlidein
+		duration: settings.myWidgetAnimated ? 250 : 0
 	}
 	PropertyAnimation {
 		id: hideQuicksettings
 		target: quicksettings
 		property: (quicksettings.dontAnimateComboboxOpened ? "" : "x")
 		to: background.width+safetyDistanceForSlidein
+		duration: settings.myWidgetAnimated ? 250 : 0
 	}
 
 }
