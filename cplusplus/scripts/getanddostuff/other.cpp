@@ -88,3 +88,7 @@ int GetAndDoStuffOther::getCurrentScreen(int x, int y) {
 			return i;
 
 }
+
+QString GetAndDoStuffOther::getTempDir() {
+	return QDir::tempPath();
+}

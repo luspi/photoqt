@@ -398,7 +398,7 @@ void MainWindow::quitPhotoQt() {
 
 void MainWindow::showTrayIcon() {
 
-	if(settingsPermanent->trayicon != 2) {
+	if(settingsPermanent->trayicon != 0) {
 
 		if(!variables->trayiconSetup) {
 
@@ -430,7 +430,7 @@ void MainWindow::showTrayIcon() {
 
 void MainWindow::hideTrayIcon() {
 
-	if(settingsPermanent->trayicon == 2 && variables->trayiconSetup) {
+	if(settingsPermanent->trayicon == 0 && variables->trayiconSetup) {
 
 		trayIcon->hide();
 		variables->trayiconVisible = false;

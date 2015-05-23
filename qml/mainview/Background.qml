@@ -14,14 +14,22 @@ Rectangle {
 							  : "#00000000"
 	// Fake transparency
 	Image {
+		id: fake
 		anchors.fill: parent
 		visible: !settings.composite && settings.backgroundImageScreenshot
-		source: (!settings.composite && settings.backgroundImageScreenshot) ? "file://tmp/photoqt_screenshot_" + getanddostuff.getCurrentScreen(toplevel.windowx,toplevel.windowy) + ".jpg" : ""
+		source: (!settings.composite && settings.backgroundImageScreenshot) ? "file:/" + getanddostuff.getTempDir() +"/photoqt_screenshot_" + getanddostuff.getCurrentScreen(toplevel.windowx,toplevel.windowy) + ".jpg" : ""
+		cache: false
 		Rectangle {
 			anchors.fill: parent
 			visible: parent.visible
 			color: getanddostuff.addAlphaToColor(Qt.rgba(settings.bgColorRed, settings.bgColorGreen, settings.bgColorBlue, settings.bgColorAlpha), settings.bgColorAlpha)
 		}
+	}
+	function reloadScreenshot() {
+		console.log("reloading")
+		fake.source = ""
+		if(!settings.composite && settings.backgroundImageScreenshot)
+			fake.source = "file:/" + getanddostuff.getTempDir() +"/photoqt_screenshot_" + getanddostuff.getCurrentScreen(toplevel.windowx+background.width/2,toplevel.windowy+background.height/2) + ".jpg"
 	}
 
 	// Background screenshot

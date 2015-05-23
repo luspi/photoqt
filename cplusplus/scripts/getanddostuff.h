@@ -76,6 +76,7 @@ public:
 	Q_INVOKABLE bool amIOnLinux() { return other->amIOnLinux(); }
 	Q_INVOKABLE QString trim(QString s) { return other->trim(s); }
 	Q_INVOKABLE int getCurrentScreen(int x, int y) { return other->getCurrentScreen(x,y); }
+	Q_INVOKABLE QString getTempDir() { return other->getTempDir(); }
 
 	// SHORTCUTS
 	Q_INVOKABLE QVariantMap getShortcuts() { return shortcuts->getShortcuts(); }

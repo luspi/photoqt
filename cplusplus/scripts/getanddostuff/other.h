@@ -10,6 +10,7 @@
 #include <QCursor>
 #include <QScreen>
 #include <QColor>
+#include <QDir>
 
 #ifdef GM
 #include <GraphicsMagick/Magick++.h>
@@ -31,6 +32,7 @@ public:
 	bool amIOnLinux();
 	QString trim(QString s) { return s.trimmed(); }
 	int getCurrentScreen(int x, int y);
+	QString getTempDir();
 
 private:
 	QImageReader reader;

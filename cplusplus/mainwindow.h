@@ -48,8 +48,11 @@ public slots:
 	// This is used by main.cpp to set the window geometry (we do NOT call 'open file' yet, this is handled in main.cpp (with timers))
 	void updateWindowGeometry();
 
-	void show() { variables->hiddenToTrayIcon = false; QQuickView::show(); }
-	void hide() { variables->hiddenToTrayIcon = true; QQuickView::hide(); }
+	// Re-implement show/hide functions to update properties
+	void show() { variables->hiddenToTrayIcon = false; object->setProperty("windowshown",true); QQuickView::show(); }
+	void showMaximized() { variables->hiddenToTrayIcon = false; object->setProperty("windowshown",true); QQuickView::showMaximized(); }
+	void showFullScreen() { variables->hiddenToTrayIcon = false; object->setProperty("windowshown",true); QQuickView::showFullScreen(); }
+	void hide() { variables->hiddenToTrayIcon = true; object->setProperty("windowshown",false); QQuickView::hide(); }
 
 private:
 	QQuickItem *item;

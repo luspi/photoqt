@@ -174,19 +174,12 @@ Rectangle {
 
 			}
 
-			CustomCheckBox {
-				id: trayiconEnable
-				x: (tab.width-width)/2
-				text: "Enable Tray Icon"
-			}
-
-			CustomCheckBox {
+			CustomComboBox {
 				id: trayicon
-				x: (tab.width-width)/2
-				text: "Hide to System Tray"
-				enabled: trayiconEnable.checkedButton
+				width: 250
+				x: (parent.width-width)/2
+				model: ["No tray icon","Hide to tray icon","Show tray icon, but don't hide to it"]
 			}
-
 
 			/***************
 			* CLOSING 'X' *
@@ -366,7 +359,7 @@ Rectangle {
 		settings.windowmode = windowmode.checkedButton
 		settings.windowDecoration = windowmode_deco.checkedButton
 
-		settings.trayicon = (trayiconEnable.checkedButton ? (trayicon.checkedButton ? 1 : 0) : 2)
+		settings.trayicon = trayicon.currentIndex
 
 		settings.fancyX = closingx_fancy.checked
 		settings.closeXsize = closingx_sizeslider.value
@@ -398,8 +391,7 @@ Rectangle {
 		windowmode_deco.enabled = windowmode.checkedButton
 		windowmode_deco.checkedButton = settings.windowDecoration
 
-		trayiconEnable.checkedButton = (settings.trayicon !== 2)
-		trayicon.checkedButton = (settings.trayicon === 1)
+		trayicon.currentIndex = settings.trayicon
 
 		closingx_normal.checked = !settings.fancyX
 		closingx_fancy.checked = settings.fancyX
