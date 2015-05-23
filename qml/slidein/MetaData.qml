@@ -233,63 +233,6 @@ Rectangle {
 
 	}
 
-	function setData2(d) {
-
-		var labels = []
-
-		if(d["amount_found"]*1 < 5)
-			labels.push("","")
-
-		labels.push("filesize", "Filesize",
-				"dimensions", "Dimensions",
-				"","",
-				"make", "Make",
-				"model", "Model",
-				"software", "Software",
-				"","",
-				"datetime", "Time Photo was Taken",
-				"exposuretime", "Exposure Time",
-				"flash", "Flash",
-				"iso", "ISO",
-				"scene", "Scene Type",
-				"focal", "Focal Length",
-				"fnumber", "F Number",
-				"light", "Light Source",
-				"","",
-				"keywords", "Keywords",
-				"location", "Location",
-				"copyright", "Copyright",
-				"","",
-				"gps", "GPS Position",
-				"","")
-
-		if(d["amount_found"]*1 < 5)
-			labels.push("","")
-
-		// Set up model
-
-		mod.clear()
-
-		var oneEmpty = false;
-
-		for(var i = 0; i < labels.length; i+=2) {
-			if(labels[i] == "" && labels[i+1] == "") {
-				if(!oneEmpty) {
-					oneEmpty = true
-					mod.append({"name" : "", "value" : ""})
-				}
-			} else if(d[labels[i]] != "" && d[labels[i+1]] != "") {
-				oneEmpty = false;
-				mod.append({"name" : labels[i+1], "value" : d[labels[i]]})
-			}
-		}
-
-		view.model = mod
-		imageLoaded = true
-
-
-	}
-
 	function clear() {
 		imageLoaded = false
 	}
