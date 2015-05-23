@@ -13,6 +13,8 @@ public:
         fileDialogOpened = false;
         geometryWhenHiding = QRect();
         skipSystemTrayAndQuit = false;
+		trayiconSetup = false;
+		trayiconVisible = false;
 		hiddenToTrayIcon = false;
 	}
 
