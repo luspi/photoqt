@@ -63,6 +63,10 @@ Item {
 		// Update metadata
 		metaData.setData(getmetadata.getExiv2(path))
 
+		if(metaData.orientation != 1 && settings.exifrotation == "Ask") {
+			rotateconfirm.show()
+		}
+
 	}
 
 	// Update source sizes
@@ -392,6 +396,53 @@ Item {
 
 		text: "No results found..."
 
+	}
+
+
+	CustomConfirm {
+		id: rotateconfirm
+		header: "Rotate Image?"
+		description: "The Exif data of this image says, that this image is supposed to be rotated.<br><br>Do you want to apply the rotation?"
+		confirmbuttontext: "Yes, do it"
+		rejectbuttontext: "No, don't"
+		showDontAskAgain: true
+		onAccepted: {
+			// 1 = Do nothing
+			// 2 = Horizontally Flipped
+			if(metaData.orientation == 2) {
+				image.flipHorizontal()
+			// 3 = Rotated by 180 degrees
+			} else if(metaData.orientation == 3) {
+				image.rotateRight()
+				image.rotateRight()
+			// 4 = Rotated by 180 degrees and flipped horizontally
+			} else if(metaData.orientation == 4) {
+				image.rotateRight()
+				image.rotateRight()
+				image.flipHorizontal()
+			// 5 = Rotated by 270 degrees and flipped horizontally
+			} else if(metaData.orientation == 5) {
+				image.rotateRight()
+				image.flipHorizontal()
+			// 6 = Rotated by 270 degrees
+			} else if(metaData.orientation == 6)
+				image.rotateRight()
+			// 7 = Flipped Horizontally and Rotated by 90 degrees
+			else if(metaData.orientation == 7) {
+				image.rotateLeft()
+				image.flipHorizontal()
+			// 8 = Rotated by 90 degrees
+			} else if(metaData.orientation == 8)
+				image.rotateLeft()
+
+			if(alwaysDoThis)
+				settings.exifrotation = "Always"
+		}
+
+		onRejected: {
+			if(alwaysDoThis)
+				settings.exifrotation = "Never"
+		}
 	}
 
 
