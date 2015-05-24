@@ -6,6 +6,8 @@ Rectangle {
 
 	property Item fillAnchors: parent
 
+	property int maxwidth: 500
+
 	property string header: "Confirm me?"
 	property string description: "Do you really want to do this?"
 	property string confirmbuttontext: "Yes, do it"
@@ -46,7 +48,7 @@ Rectangle {
 		y: (parent.height-height)/2
 
 		// Set size
-		width: 500
+		width: maxwidth
 		height: col.height+5
 
 		// Adjust colour and look
