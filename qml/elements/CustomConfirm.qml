@@ -4,14 +4,15 @@ Rectangle {
 
 	id: confirm
 
-	property int confirmWidth: 500
-	property int confirmHeight: 300
 	property Item fillAnchors: parent
 
 	property string header: "Confirm me?"
 	property string description: "Do you really want to do this?"
 	property string confirmbuttontext: "Yes, do it"
 	property string rejectbuttontext: "No, don't"
+
+	property bool alwaysDoThis: false
+	property bool showDontAskAgain: false
 
 	signal accepted()
 	signal rejected()
@@ -45,32 +46,14 @@ Rectangle {
 		y: (parent.height-height)/2
 
 		// Set size
-		width: confirmWidth
-		height: confirmHeight
+		width: 500
+		height: col.height+5
 
 		// Adjust colour and look
 		color: colour_fadein_bg
 		border.width: 1
 		border.color: colour_fadein_border
 		radius: 5
-
-		// Confirmation text
-		Text {
-
-			anchors.fill: parent
-			anchors.margins: 5
-			anchors.bottomMargin: butrect.height
-
-			color: "white"
-			font.pointSize: 13
-			wrapMode: Text.WordWrap
-
-			text: "<h1>" + header + "</h1><br>" + description
-
-			horizontalAlignment: Qt.AlignHCenter
-			verticalAlignment: Qt.AlignVCenter
-
-		}
 
 		// Mousearea preventing background mousearea from catching clicks
 		MouseArea {
@@ -79,52 +62,109 @@ Rectangle {
 			onClicked: {}
 		}
 
-		// Buttons for accepting/rejecting
-		Rectangle {
+		Column {
 
-			id: butrect
+			id: col
+			spacing: 5
 
-			x: 5
-			y: parent.height-childrenRect.height-5
-			width: parent.width-10
-			height: childrenRect.height
+			Text {
+				id: head
+				x: 5
+				width: rect.width-10
+				color: "white"
+				font.pointSize: 13
+				wrapMode: Text.WordWrap
+				text: "<h1>" + header + "</h1>"
+				horizontalAlignment: Text.AlignHCenter
+			}
 
-			color: "#00000000"
+			// Confirmation text
+			Text {
 
-			Row {
+				id: txt
 
-				id: butrow
-				spacing: 5
+				x: 5
+				width: rect.width-10
 
-				CustomButton {
+				color: "white"
+				font.pointSize: 13
+				wrapMode: Text.WordWrap
 
-					width: (butrect.width-butrow.spacing)/2
-					text: confirmbuttontext
+				text: description
 
-					onClickedButton: {
-						accepted()
-						hide()
+				horizontalAlignment: Qt.AlignHCenter
+
+			}
+
+			Rectangle {
+				color: "#00000000"
+				width: 1
+				height: 10
+			}
+
+			CustomCheckBox {
+				id: ask
+				x: (parent.width-width)/2
+				text: "Don't ask again"
+				visible: showDontAskAgain
+			}
+
+			Rectangle {
+				color: "#00000000"
+				width: 1
+				height: 10
+			}
+
+			// Buttons for accepting/rejecting
+			Rectangle {
+
+				id: butrect
+
+				x: 5
+				width: rect.width-10
+				height: childrenRect.height
+
+				color: "#00000000"
+
+				Row {
+
+					id: butrow
+					spacing: 5
+
+					CustomButton {
+
+						width: (butrect.width-butrow.spacing)/2
+						text: confirmbuttontext
+
+						onClickedButton: {
+							alwaysDoThis = ask.checkedButton
+							accepted()
+							hide()
+						}
+
 					}
 
-				}
+					CustomButton {
 
-				CustomButton {
+						width: (butrect.width-butrow.spacing)/2
+						text: rejectbuttontext
 
-					width: (butrect.width-butrow.spacing)/2
-					text: rejectbuttontext
+						onClickedButton: {
+							alwaysDoThis = ask.checkedButton
+							rejected()
+							hide()
+						}
 
-					onClickedButton: {
-						rejected()
-						hide()
 					}
-
 				}
 			}
-		}
+
+		} // END Column
 
 	}
 
 	function show() {
+		ask.checkedButton = false
 		showConfirm.start()
 	}
 	function hide() {
