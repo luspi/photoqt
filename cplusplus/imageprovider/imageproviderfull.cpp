@@ -155,7 +155,7 @@ QImage ImageProviderFull::readImage_QT(QString filename) {
 
 		// If this setting is enabled, then we check at image load for the Exif rotation tag
 		// and change the image accordingly
-		if(settings->exifrotation == "Always" && settings->exifrotationAlreadyOnImageLoad) {
+		if(settings->exifrotation == "Always") {
 
 			// Known formats by Exiv2
 			QStringList formats;
