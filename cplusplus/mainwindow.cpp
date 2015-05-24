@@ -562,6 +562,13 @@ void MainWindow::updateWindowXandY() {
 
 }
 
+void MainWindow::showStartup(QString type) {
+
+	QMetaObject::invokeMethod(object,"showStartup",
+							  Q_ARG(QVariant, type));
+
+}
+
 MainWindow::~MainWindow() {
 	delete settingsPerSession;
 	delete settingsPermanent;

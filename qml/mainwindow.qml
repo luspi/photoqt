@@ -114,6 +114,7 @@ Item {
 	Slideshow { id: slideshow; }
 	SlideshowBar { id: slideshowbar; }
 	Filter { id: filter; }
+	Startup { id: startup; }
 
 	SettingsItem { id: settingsitem; }
 
@@ -130,6 +131,8 @@ Item {
 	function keysReleased(combo) { settingsitem.keysReleased(); sh.releasedKeys(combo); }
 	function mouseWheelEvent(combo) { sh.gotMouseShortcut(combo); }
 	function closeContextMenuWhenOpen() { softblocked = 0; contextmenu.hide(); }
+
+	function showStartup(type) { startup.showStartup(type); }
 
 	function noResultsFromFilter() {
 		image.noFilterResultsFound()

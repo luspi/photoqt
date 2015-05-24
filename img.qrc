@@ -31,5 +31,12 @@
         <file>img/ratioDontKeep.png</file>
         <file>img/contextmenu/copy.png</file>
         <file>img/contextmenu/move.png</file>
+        <file>img/startup/exif.png</file>
+        <file>img/startup/fileformats.png</file>
+        <file>img/startup/localisation.png</file>
+        <file>img/startup/settings.png</file>
+        <file>img/startup/shortcuts.png</file>
+        <file>img/startup/slideshow.png</file>
+        <file>img/startup/thumbnails.png</file>
     </qresource>
 </RCC>

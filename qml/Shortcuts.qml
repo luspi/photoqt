@@ -78,6 +78,8 @@ Item {
 				slideshow.hideSlideshow()
 			else if(filter.opacity == 1)
 				filter.hideFilter()
+			else if(startup.opacity == 1)
+				startup.hideStartup()
 		} else if(keys === "Enter" || keys === "Keypad+Enter" || keys === "Return") {
 			if(deleteImage.opacity == 1)
 				deleteImage.simulateEnter()

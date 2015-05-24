@@ -22,9 +22,9 @@ int main(int argc, char *argv[]) {
 
 
 	// SOME START-UP CHECKS
-	// TO-DO: some clean-up
 
-	// Get screenshots
+
+	// Get screenshots for fake transparency
 	for(int i = 0; i < QGuiApplication::screens().count(); ++i) {
 		QScreen *screen = QGuiApplication::screens().at(i);
 		QRect r = screen->geometry();
@@ -96,14 +96,8 @@ int main(int argc, char *argv[]) {
 	Magick::InitializeMagick(*argv);
 #endif
 
-	if(QFile(QDir::homePath()+"/.photoqt/cmd").exists())
-		QFile(QDir::homePath()+"/.photoqt/cmd").remove();
-
-	// This boolean stores if PhotoQt needs to be minimized to the tray
-	bool startintray = a.startintray;
-
 	// If PhotoQt is supposed to be started minimized in system tray
-	if(startintray) {
+	if(a.startintray) {
 		if(a.verbose) std::clog << "Starting minimised to tray" << std::endl;
 		// If the option "Use Tray Icon" in the settings is not set, we set it
 		QFile set(QDir::homePath() + "/.photoqt/settings");
@@ -113,6 +107,8 @@ int main(int argc, char *argv[]) {
 			if(!all.contains("TrayIcon=1")) {
 				if(all.contains("TrayIcon=0"))
 					all.replace("TrayIcon=0","TrayIcon=1");
+				else if(all.contains("TrayIcon=2"))
+					all.replace("TrayIcon=2","TrayIcon=1");
 				else
 					all += "\n[Temporary Appended]\nTrayIcon=1\n";
 				set.close();
@@ -216,9 +212,10 @@ int main(int argc, char *argv[]) {
 	/***************************
 	 ***************************/
 
+	// A remote action triggers the 'interaction' signal, so we pass it on to the MainWindow
 	QObject::connect(&a, SIGNAL(interaction(QString)), &w, SLOT(remoteAction(QString)));
 
-	// We move from old way of handling image formats to new way
+	// We moved from old way of handling image formats to new way
 	// We can't do it before here, since we need access to global settings
 	QFile fileformatsFile(QDir::homePath() + "/.photoqt/fileformats.disabled");
 	if(!fileformatsFile.exists()) {
@@ -264,7 +261,7 @@ int main(int argc, char *argv[]) {
 	}
 
 	// DISPLAY MAINWINDOW
-	if(!startintray) {
+	if(!a.startintray) {
 		// There's no need to have the code to show the window twice (it used to be here AND in the mainwindow.cpp)
 		w.updateWindowGeometry();
 	} else
@@ -278,9 +275,14 @@ int main(int argc, char *argv[]) {
 
 	// Set startup filename, call openNewFile after 250ms - if window wasn't yet finished setting up, then the image is displayed 'weirdly'
 	// -> resetting zoom after 500ms to be safe
+	// After a new install/update, we first show a startup message (which, when closed, calls openFile())
 	w.startup_filename = a.filename;
-	QTimer::singleShot(250, &w, SLOT(openNewFile()));
-	QTimer::singleShot(500,&w,SLOT(resetZoom()));
+	if(photoQtUpdated || photoQtInstalled) {
+		w.showStartup(photoQtInstalled ? "installed" : "updated");
+	} else {
+		QTimer::singleShot(250, &w, SLOT(openNewFile()));
+		QTimer::singleShot(500,&w,SLOT(resetZoom()));
+	}
 
 	return a.exec();
 
