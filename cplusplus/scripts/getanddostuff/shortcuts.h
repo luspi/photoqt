@@ -2,11 +2,14 @@
 #define GETANDDOSTUFF_H
 
 #include <iostream>
+#include <thread>
 #include <QObject>
 #include <QVariantMap>
 #include <QFile>
 #include <QDir>
 #include <QTextStream>
+#include <QTime>
+#include <QFileSystemWatcher>
 
 class GetAndDoStuffShortcuts : public QObject {
 
@@ -21,6 +24,15 @@ public:
 	QVariantMap getDefaultShortcuts();
 	QString getShortcutFile();
 	QString filterOutShortcutCommand(QString combo, QString file);
+
+private:
+	QFileSystemWatcher *watcher;
+
+private slots:
+	void fileChanged();
+
+signals:
+	void shortcutFileChanged(int);
 
 };
 

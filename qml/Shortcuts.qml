@@ -11,6 +11,11 @@ Item {
 
 	property var shortcutfile: getanddostuff.getShortcuts()
 
+	// This is a "trick" of sorts. The notifierChanged signal is triggered in getanddostuff.h whenever the shortcuts file was modified,
+	// which in turns reloads the shortcuts file.
+	property int notifier: getanddostuff.shortcutNotifier
+	onNotifierChanged: shortcutfile = getanddostuff.getShortcuts()
+
 	property string keys: ""
 
 	// Connected via mainwindow to shortcuts.cpp file

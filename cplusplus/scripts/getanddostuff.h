@@ -27,6 +27,7 @@ public:
 		wallpaper = new GetAndDoStuffWallpaper;
 
 		connect(manipulation, SIGNAL(reloadDirectory(QString,bool)), this, SIGNAL(reloadDirectory(QString,bool)));
+		connect(shortcuts, SIGNAL(shortcutFileChanged(int)), this, SLOT(setShortcutNotifier(int)));
 
 	}
 
@@ -92,6 +93,15 @@ public:
 	Q_INVOKABLE int checkWallpaperTool(QString wm) { return wallpaper->checkWallpaperTool(wm); }
 	Q_INVOKABLE QList<int> getEnlightenmentWorkspaceCount() { return wallpaper->getEnlightenmentWorkspaceCount(); }
 
+	int shortcutNotifier;
+	Q_PROPERTY(int shortcutNotifier READ getShortcutNotifier WRITE setShortcutNotifier NOTIFY shortcutNotifierChanged)
+	int getShortcutNotifier() { return shortcutNotifier; }
+
+public slots:
+	void setShortcutNotifier(int val) {
+		shortcutNotifier = val;
+		emit shortcutNotifierChanged(val);
+	}
 
 private:
 	GetAndDoStuffContext *context;
@@ -104,6 +114,7 @@ private:
 
 signals:
     void reloadDirectory(QString path, bool deleted = false);
+	void shortcutNotifierChanged(int val);
 
 };
 
