@@ -34,6 +34,7 @@ Rectangle {
 
 	signal updateShortcut(var cmd, var key, var id)
 	signal updateMouseShortcut(var cmd, var key, var id)
+	signal reloadShortcuts()
 
 	signal updateTheCommand(var id, var close, var mouse, var keys, var cmd)
 
@@ -261,6 +262,9 @@ Rectangle {
 					onUpdateTheCommand: {
 						updateCommand(id, close, mouse, keys, cmd)
 					}
+					onReloadShortcuts: {
+						setData()
+					}
 				}
 				Component.onCompleted: {
 					setData()
@@ -368,6 +372,29 @@ Rectangle {
 		onAccepted: eraseDatabase()
 	}
 
+	CustomConfirm {
+		fillAnchors: tabrect
+		id: confirmdefaultshortcuts
+		header: "Set Default Shortcuts"
+		description: "Are you sure you want to reset the shortcuts to the default set?"
+		confirmbuttontext: "Yes, please"
+		rejectbuttontext: "Nah, don't"
+		maxwidth: 400
+		onAccepted: {
+			var m = getanddostuff.getDefaultShortcuts()
+			// We need to change the format for the save function (from Map to List)
+			var keys = Object.keys(m)
+			var l = []
+			for(var i = 0; i < keys.length; ++i)
+				l[i] = [m[keys[i]][0],
+							(keys[i].slice(0,3) === "[M]"),
+							(keys[i].slice(0,3) === "[M]") ? getanddostuff.trim(keys[i].slice(3)) : keys[i],
+							m[keys[i]][1]]
+			getanddostuff.saveShortcuts(l)
+			reloadShortcuts()
+		}
+	}
+
 	CustomDetectShortcut {
 		fillAnchors: tabrect
 		id: detectShortcut
@@ -414,6 +441,8 @@ Rectangle {
 			confirmclean.hide()
 		else if(confirmerase.visible)
 			confirmerase.hide()
+		else if(confirmdefaultshortcuts.visible)
+			confirmdefaultshortcuts.hide()
 		else if(!detectShortcut.visible && !resetShortcut.visible)
 			hideSettingsAni.start()
 	}

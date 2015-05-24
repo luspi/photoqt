@@ -76,6 +76,7 @@ Rectangle {
 			CustomButton {
 				text: "Set default shortcuts"
 				anchors.horizontalCenter: parent.horizontalCenter
+				onClickedButton: confirmdefaultshortcuts.show()
 			}
 
 			TabShortcutsCategories {
