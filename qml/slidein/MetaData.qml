@@ -144,7 +144,17 @@ Rectangle {
 				color: "white";
 				font.pointSize: settings.exiffontsize
 				lineHeight: (name == "" ? 0.8 : 1.3);
-				text: name != "" ? "<b>" + name + "</b>: " + value : "";
+				textFormat: Text.RichText
+				text: name !== "" ? "<b>" + name + "</b>: " + value : ""
+
+				MouseArea {
+					anchors.fill: parent
+					cursorShape: prop == "Exif.GPSInfo.GPSLongitudeRef" ? Qt.PointingHandCursor : Qt.ArrowCursor
+					onClicked: {
+						if(prop == "Exif.GPSInfo.GPSLongitudeRef")
+							gpsClick(value)
+					}
+				}
 
 			}
 
@@ -170,15 +180,15 @@ Rectangle {
 
 				mod.clear()
 
-				mod.append({"name" : "Filesize", "value" : d["filesize"], "tooltip" : d["filesize"]})
+				mod.append({"name" : "Filesize", "prop" : "", "value" : d["filesize"], "tooltip" : d["filesize"]})
 				if("dimensions" in d)
-					mod.append({"name" : "Dimensions", "value" : d["dimensions"], "tooltip" : d["dimensions"]})
+					mod.append({"name" : "Dimensions", "prop" : "", "value" : d["dimensions"], "tooltip" : d["dimensions"]})
 				else if("Exif.Photo.PixelXDimension" in d && "Exif.Photo.PixelYDimension" in d) {
 					var dim = d["Exif.Photo.PixelXDimension"] + "x" + d["Exif.Photo.PixelYDimension"]
-					mod.append({"name" : "Dimensions", "value" : dim, "tooltip" : dim})
+					mod.append({"name" : "Dimensions", "prop" : "", "value" : dim, "tooltip" : dim})
 				}
 
-				mod.append({"name" : "", "value" : ""})
+				mod.append({"name" : "", "prop" : "", "value" : ""})
 
 				var labels = ["Exif.Image.Make", "Make", "",
 						"Exif.Image.Model", "Model", "",
@@ -214,11 +224,12 @@ Rectangle {
 					if(labels[i] == "" && labels[i+1] == "") {
 						if(!oneEmpty) {
 							oneEmpty = true
-							mod.append({"name" : "", "value" : "", "tooltip" : ""})
+							mod.append({"name" : "", "prop" : "", "value" : "", "tooltip" : ""})
 						}
 					} else if(d[labels[i]] != "" && d[labels[i+1]] != "") {
 						oneEmpty = false;
 						mod.append({"name" : labels[i+1],
+								"prop" : labels[i],
 								"value" : d[labels[i]],
 								"tooltip" : d[labels[i+2] == "" ? d[labels[i]] : d[labels[i+2]]]})
 					}
@@ -229,6 +240,31 @@ Rectangle {
 
 			}
 
+		}
+
+	}
+
+	function gpsClick(value) {
+
+		if(settings.exifgpsmapservice == "bing.com/maps")
+			Qt.openUrlExternally("http://www.bing.com/maps/?sty=r&q=" + value + "&obox=1")
+		else if(settings.exifgpsmapservice == "maps.google.com")
+			Qt.openUrlExternally("http://maps.google.com/maps?t=h&q=" + value)
+		else {
+
+			// For openstreetmap.org, we need to convert the GPS location into decimal format
+
+			var one = value.split(", ")[0]
+			var one_dec = 1*one.split("°")[0] + (1*(one.split("°")[1].split("'")[0]))/60 + (1*(one.split("'")[1].split("''")[0]))/3600
+			if(one.indexOf("S") !== -1)
+				one_dec *= -1;
+
+			var two = value.split(", ")[1]
+			var two_dec = 1*two.split("°")[0] + (1*(two.split("°")[1].split("'")[0]))/60 + (1*(two.split("'")[1].split("''")[0]))/3600
+			if(two.indexOf("W") !== -1)
+				two_dec *= -1;
+
+			Qt.openUrlExternally("http://www.openstreetmap.org/#map=15/" + "" + one_dec + "/" + two_dec)
 		}
 
 	}
