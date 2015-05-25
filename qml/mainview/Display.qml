@@ -388,7 +388,7 @@ Item {
 	Image {
 		id: metadataarrow
 		visible: settings.exifenablemousetriggering
-		x: 5
+		x: 0
 		y: metaData.y+metaData.height/2-height/2
 		source: "qrc:/img/mainview/arrowleft.png"
 		width: 150
