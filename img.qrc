@@ -38,5 +38,9 @@
         <file>img/startup/shortcuts.png</file>
         <file>img/startup/slideshow.png</file>
         <file>img/startup/thumbnails.png</file>
+        <file>img/mainview/arrowdown.png</file>
+        <file>img/mainview/arrowleft.png</file>
+        <file>img/mainview/arrowright.png</file>
+        <file>img/mainview/arrowup.png</file>
     </qresource>
 </RCC>
