@@ -10,7 +10,7 @@ Item {
 
 	// Position item
 	x: settings.borderAroundImg
-	y: settings.borderAroundImg
+	y: (settings.thumbnailKeepVisible && settings.thumbnailposition == "Top" ? settings.borderAroundImg+thumbnailBar.height : settings.borderAroundImg)
 	width: background.width - 2*settings.borderAroundImg
 	height: (settings.thumbnailKeepVisible ? background.height-thumbnailBar.height+thumbnailbarheight_addon/2 : background.height)-2*settings.borderAroundImg
 
