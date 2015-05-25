@@ -387,6 +387,7 @@ Item {
 	// Arrow pointing to metadata widget
 	Image {
 		id: metadataarrow
+		visible: settings.exifenablemousetriggering
 		x: 5
 		y: metaData.y+metaData.height/2-height/2
 		source: "qrc:/img/mainview/arrowleft.png"
@@ -397,6 +398,7 @@ Item {
 	// Arrow pointing to quicksettings widget
 	Image {
 		id: quicksettingsarrow
+		visible: settings.quickSettings
 		x: background.width-width-5
 		y: quicksettings.y+quicksettings.height/2-height/2
 		source: "qrc:/img/mainview/arrowright.png"
