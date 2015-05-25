@@ -51,7 +51,7 @@ Rectangle {
 					color: "white"
 					font.pointSize: 18
 					font.bold: true
-					text: "Shortcuts"
+					text: qsTr("Shortcuts")
 					anchors.horizontalCenter: parent.horizontalCenter
 				}
 			}
@@ -60,12 +60,24 @@ Rectangle {
 			* DESCRIPTIVE TEXT *
 			********************/
 
+			Rectangle {
+				color: "#00000000"
+				width: 1
+				height: 1
+			}
+
 			SettingsText {
 
 				width: flickable.width
 
-				text: "<br>Here you can adjust the shortcuts, add new or remove existing ones, or change a key combination. The shortcuts are grouped into 4 different categories for internal commands plus a category for external commands. The boxes on the right side contain all the possible commands. To add a shortcut for one of the available function you can either double click on the tile or click the \"+\" button. This automatically opens another widget where you can set a key combination.<br>"
+				text: qsTr("Here you can adjust the shortcuts, add new or remove existing ones, or change a key combination. The shortcuts are grouped into 4 different categories for internal commands plus a category for external commands. The boxes on the right side contain all the possible commands. To add a shortcut for one of the available function you can either double click on the tile or click the \"+\" button. This automatically opens another widget where you can set a key combination.")
 
+			}
+
+			Rectangle {
+				color: "#00000000"
+				width: 1
+				height: 1
 			}
 
 
@@ -74,17 +86,17 @@ Rectangle {
 			 ****************************/
 
 			CustomButton {
-				text: "Set default shortcuts"
+				text: qsTr("Set default shortcuts")
 				anchors.horizontalCenter: parent.horizontalCenter
 				onClickedButton: confirmdefaultshortcuts.show()
 			}
 
 			TabShortcutsCategories {
 				id: navigation
-				category: "Navigation"
+				category: qsTr("Navigation")
 				extern: false
 				responsiblefor: ["__open","__filterImages","__next","__prev","__gotoFirstThb","__gotoLastThb","__hide","__close"]
-				responsiblefor_text: ["Open New File","Filter Images in Folder","Next Image","Previous Image","Go to first Image","Go to last Image","Hide to System Tray","Quit PhotoQt"]
+				responsiblefor_text: [qsTr("Open New File"),qsTr("Filter Images in Folder"),qsTr("Next Image"),qsTr("Previous Image"),qsTr("Go to first Image"),qsTr("Go to last Image"),qsTr("Hide to System Tray"),qsTr("Quit PhotoQt")]
 			}
 
 			TabShortcutsCategories {
@@ -92,7 +104,7 @@ Rectangle {
 				category: "Image"
 				extern: false
 				responsiblefor: ["__zoomIn","__zoomOut","__zoomActual","__zoomReset","__rotateR","__rotateL","__rotate0","__flipH","__flipV","__scale"]
-				responsiblefor_text: ["Zoom In","Zoom Out","Zoom to Actual Size","Reset Zoom","Rotate Right","Rotate Left","Reset Rotation","Flip Horizontally","Flip Vertically","Scale Image"]
+				responsiblefor_text: [qsTr("Zoom In"),qsTr("Zoom Out"),qsTr("Zoom to Actual Size"),qsTr("Reset Zoom"),qsTr("Rotate Right"),qsTr("Rotate Left"),qsTr("Reset Rotation"),qsTr("Flip Horizontally"),qsTr("Flip Vertically"),qsTr("Scale Image")]
 			}
 
 			TabShortcutsCategories {
@@ -100,7 +112,7 @@ Rectangle {
 				category: "File"
 				extern: false
 				responsiblefor: ["__rename","__delete","__copy","__move"]
-				responsiblefor_text: ["Rename File","Delete File","Copy File to a New Location","Move File to a New Location"]
+				responsiblefor_text: [qsTr("Rename File"),qsTr("Delete File"),qsTr("Copy File to a New Location"),qsTr("Move File to a New Location")]
 			}
 
 			TabShortcutsCategories {
@@ -108,15 +120,16 @@ Rectangle {
 				category: "Other"
 				extern: false
 				responsiblefor: ["__stopThb","__reloadThb","__hideMeta","__showContext","__settings","__slideshow","__slideshowQuick","__about","__wallpaper"]
-				responsiblefor_text: ["Interrupt Thumbnail Creation","Reload Thumbnails","Hide/Show Exif Info","Show Context Menu","Show Settings","Start Slideshow","Start Slideshow (Quickstart)","About PhotoQt","Set as Wallpaper"]
+				responsiblefor_text: [qsTr("Interrupt Thumbnail Creation"),qsTr("Reload Thumbnails"),qsTr("Hide/Show Exif Info"),qsTr("Show Context Menu"),qsTr("Show Settings"),qsTr("Start Slideshow"),qsTr("Start Slideshow (Quickstart)"),qsTr("About PhotoQt"),qsTr("Set as Wallpaper")]
 			}
 
 			TabShortcutsCategories {
 				id: extern
-				category: "Extern"
+				category: qsTr("Extern")
 				extern: true
 				responsiblefor: ["__extern"]
-				responsiblefor_text: ["EXTERN"]
+				//: Is the shortcut tile text for EXTERNal shortcuts
+				responsiblefor_text: [qsTr("EXTERN")]
 			}
 
 		}

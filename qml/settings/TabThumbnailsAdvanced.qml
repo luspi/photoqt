@@ -49,7 +49,7 @@ Rectangle {
 					color: "white"
 					font.pointSize: 18
 					font.bold: true
-					text: "Advanced Settings"
+					text: qsTr("Advanced Settings")
 					anchors.horizontalCenter: parent.horizontalCenter
 				}
 			}
@@ -62,7 +62,7 @@ Rectangle {
 
 				width: flickable.width
 
-				text: "<h2>Change Thumbnail Position</h2><br>Per default the bar with the thumbnails is shown at the lower edge. However, some might find it nice and handy to have the thumbnail bar at the upper edge, so that's what can be changed here."
+				text: "<h2>" + qsTr("Change Thumbnail Position") + "</h2><br>" + qsTr("Per default the bar with the thumbnails is shown at the lower edge. However, some might find it nice and handy to have the thumbnail bar at the upper edge, so that's what can be changed here.")
 
 			}
 
@@ -83,14 +83,14 @@ Rectangle {
 
 					CustomRadioButton {
 						id: loweredge
-						text: "Show at lower edge"
+						text: qsTr("Show at lower edge")
 						checked: true
 						exclusiveGroup: edgegroup
 					}
 
 					CustomRadioButton {
 						id: upperedge
-						text: "Show at upper edge"
+						text: qsTr("Show at upper edge")
 						exclusiveGroup: edgegroup
 					}
 
@@ -107,7 +107,7 @@ Rectangle {
 
 				width: flickable.width
 
-				text: "<h2>Filename? Dimension? Or both?</h2><br>When thumbnails are displayed at the top/bottom, PhotoQt usually writes the filename on them. But also the dimension of the image can be written on it. Or also both or none. You can use the slider below to adjust the font size."
+				text: "<h2>" + qsTr("Filename? Dimension? Or both?") + "</h2><br>" + qsTr("When thumbnails are displayed at the top/bottom, PhotoQt usually writes the filename on them. But also the dimension of the image can be written on it. Or also both or none. You can use the slider below to adjust the font size.")
 
 			}
 
@@ -128,12 +128,12 @@ Rectangle {
 
 					CustomCheckBox {
 						id: writefilename
-						text: "Write Filename"
+						text: qsTr("Write Filename")
 					}
 
 					CustomCheckBox {
 						id: writedimension
-						text: "Write Dimension"
+						text: qsTr("Write Dimension")
 					}
 
 				}
@@ -200,7 +200,7 @@ Rectangle {
 
 				width: flickable.width
 
-				text: "<h2>Use file-name-only Thumbnails</h2><br>If you don't want PhotoQt to always load the actual image thumbnail in the background, but you still want to have something for better navigating, then you can set a file-name-only thumbnail, i.e. PhotoQt wont load any thumbnail images but simply puts the file name into the box. You can also adjust the font size of this text."
+				text: "<h2>" + qsTr("Use file-name-only Thumbnails") + "</h2><br>" + qsTr("If you don't want PhotoQt to always load the actual image thumbnail in the background, but you still want to have something for better navigating, then you can set a file-name-only thumbnail, i.e. PhotoQt wont load any thumbnail images but simply puts the file name into the box. You can also adjust the font size of this text.")
 
 			}
 
@@ -271,7 +271,7 @@ Rectangle {
 
 				width: flickable.width
 
-				text: "<h2>Preloading</h2><br>Here you can adjust, how many images AT MOST will be preloaded. For example, if the directory contains 800 images, a limit of 400 (default value) means, that starting from the opened image, 200 images to the left and 200 to the right are preloaded.<br><br>If you don't want to limit PhotoQt to any number, you can simply enable the option to always preload the full directory. WARNING: This is perfectly fine for directories with a small number of images (usually anything less than 1000, depending on your computer), but can lead to performance and memory issues for larger directories. Make sure you know what you're doing before enabling this!"
+				text: "<h2>" + qsTr("Preloading") + "</h2><br>" + qsTr("Here you can adjust, how many images AT MOST will be preloaded. For example, if the directory contains 800 images, a limit of 400 (default value) means, that starting from the opened image, 200 images to the left and 200 to the right are preloaded.") + "<br><br>" + qsTr("If you don't want to limit PhotoQt to any number, you can simply enable the option to always preload the full directory. WARNING: This is perfectly fine for directories with a small number of images (usually anything less than 1000, depending on your computer), but can lead to performance and memory issues for larger directories. Make sure you know what you're doing before enabling this!")
 
 			}
 
@@ -317,7 +317,7 @@ Rectangle {
 							minimumValue: 50
 							maximumValue: 2500
 
-							suffix: " images"
+							suffix: " " + qsTr("images")
 
 							enabled: !preload_button.checkedButton
 
@@ -330,7 +330,7 @@ Rectangle {
 					CustomCheckBox {
 						id: preload_button
 						x: (parent.width-width)/2
-						text: "Preload Full Directory"
+						text: qsTr("Preload Full Directory")
 					}
 
 
@@ -346,7 +346,7 @@ Rectangle {
 
 				width: flickable.width
 
-				text: "<h2>Disable Thumbnails</h2><br>If you just don't need or don't want any thumbnails whatsoever, then you can disable them here completely. This option can also be toggled remotely via command line (run 'photoqt --help' for more information on that). This might increase the speed of PhotoQt a good bit, however, navigating through a folder might be a little harder without thumbnails."
+				text: "<h2>" + qsTr("Disable Thumbnails") + "</h2><br>" + qsTr("If you just don't need or don't want any thumbnails whatsoever, then you can disable them here completely. This option can also be toggled remotely via command line (run 'photoqt --help' for more information on that). This might increase the speed of PhotoQt a good bit, however, navigating through a folder might be a little harder without thumbnails.")
 
 			}
 
@@ -354,7 +354,7 @@ Rectangle {
 
 				id: disable
 
-				text: "Disable Thumbnails altogether"
+				text: qsTr("Disable Thumbnails altogether")
 
 				x: (flickable.width-width)/2
 
@@ -369,7 +369,7 @@ Rectangle {
 
 				width: flickable.width
 
-				text: "<h2>Thumbnail Cache</h2><br>Thumbnails can be cached in two different ways:<br>1) File Caching (following the freedesktop.org standard) or<br>2) Database Caching (better performance and management, default option).<br><br>Both ways have their advantages and disadvantages:<br>File Caching is done according to the freedesktop.org standard and thus different applications can share the same thumbnail for the same image file. However, it's not possible to check for obsolete thumbnails (thus this may lead to many unneeded thumbnail files).<br>Database Caching doesn't have the advantage of sharing thumbnails with other applications (and thus every thumbnails has to be newly created for PhotoQt), but it brings a slightly better performance, and it allows a better handling of existing thumbnails (e.g. deleting obsolete thumbnails).<br><br>PhotoQt works with either option, though the second way is set as default.<br><br>Although everybody is encouraged to use at least one of the two options, caching can be completely disabled altogether. However, that does affect the performance and usability of PhotoQt, since thumbnails have to be newly re-created every time they are needed."
+				text: "<h2>" + qsTr("Thumbnail Cache") + "</h2><br>" + qsTr("Thumbnails can be cached in two different ways:<br>1) File Caching (following the freedesktop.org standard) or<br>2) Database Caching (better performance and management, default option).") + "<br><br>" + qsTr("Both ways have their advantages and disadvantages:") + "<br>" + qsTr("File Caching is done according to the freedesktop.org standard and thus different applications can share the same thumbnail for the same image file. However, it's not possible to check for obsolete thumbnails (thus this may lead to many unneeded thumbnail files).") + "<br>" + qsTr("Database Caching doesn't have the advantage of sharing thumbnails with other applications (and thus every thumbnails has to be newly created for PhotoQt), but it brings a slightly better performance, and it allows a better handling of existing thumbnails (e.g. deleting obsolete thumbnails).") + "<br><br>" + qsTr("PhotoQt works with either option, though the second way is set as default.") + "<br><br>" + qsTr("Although everybody is encouraged to use at least one of the two options, caching can be completely disabled altogether. However, that does affect the performance and usability of PhotoQt, since thumbnails have to be newly re-created every time they are needed.")
 
 			}
 
@@ -394,7 +394,7 @@ Rectangle {
 
 						x: (parent.width-width)/2
 
-						text: "Enable Thumbnail Cache"
+						text: qsTr("Enable Thumbnail Cache")
 
 					}
 
@@ -415,13 +415,13 @@ Rectangle {
 
 							CustomRadioButton {
 								id: cache_file
-								text: "File Caching"
+								text: qsTr("File Caching")
 								enabled: cache.checkedButton
 								exclusiveGroup: cachegroup
 							}
 							CustomRadioButton {
 								id: cache_db
-								text: "Database Caching"
+								text: qsTr("Database Caching")
 								enabled: cache.checkedButton
 								exclusiveGroup: cachegroup
 							}
@@ -445,7 +445,7 @@ Rectangle {
 								spacing: 5
 								Text {
 									color: cache.checkedButton ? "white" : "#555555"
-									text: "Current database filesize:"
+									text: qsTr("Current database filesize:")
 								}
 								Text {
 									id: db_filesize
@@ -469,7 +469,7 @@ Rectangle {
 								spacing: 5
 								Text {
 									color: cache.checkedButton ? "white" : "#555555"
-									text: "Entries in database:"
+									text: qsTr("Entries in database:")
 								}
 								Text {
 									id: db_entries
@@ -489,7 +489,7 @@ Rectangle {
 
 							id: cleanup
 							height: 35
-							text: "CLEAN UP database"
+							text: qsTr("CLEAN UP database")
 
 							enabled: cache.checkedButton
 
@@ -501,7 +501,7 @@ Rectangle {
 
 							id: erase
 							height: 35
-							text: "ERASE database"
+							text: qsTr("ERASE database")
 
 							enabled: cache.checkedButton
 

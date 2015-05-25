@@ -31,7 +31,7 @@ Rectangle {
 		id: pause
 		x: 10
 		y: 10
-		text: paused ? "Play Slideshow" : "Pause Slideshow"
+		text: paused ? qsTr("Play Slideshow") : qsTr("Pause Slideshow")
 		onClickedButton: pauseSlideshow()
 	}
 
@@ -46,7 +46,7 @@ Rectangle {
 		Row {
 			spacing: 5
 			Text {
-				text: "Music Volume:"
+				text: qsTr("Music Volume:")
 				y: (volumerect.height-height)/2
 				color: settings.slideShowMusicFile == "" ? "grey" : "white"
 			}
@@ -72,7 +72,7 @@ Rectangle {
 		id: exit
 		x: bar.width-width-10
 		y: 10
-		text: "Exit Slideshow"
+		text: qsTr("Exit Slideshow")
 		onClickedButton: stopSlideshow()
 	}
 

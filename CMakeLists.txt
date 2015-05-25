@@ -87,7 +87,7 @@ ENDIF(C11)
 #### FIND REQUIRED PACKAGES ####
 ################################
 
-FIND_PACKAGE(Qt5 COMPONENTS Quick Widgets Core Svg REQUIRED)
+FIND_PACKAGE(Qt5 COMPONENTS LinguistTools Quick Widgets Core Svg REQUIRED)
 SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
 FIND_PACKAGE(Magick)
 FIND_PACKAGE(Exiv2)
@@ -99,8 +99,20 @@ SET(CMAKE_BUILD_TYPE "Debug")
 #### TRANSLATIONS AND RESOURCES ####
 ####################################
 
+FILE(GLOB files "lang/*.ts")
+FOREACH(file ${files})
+	QT5_CREATE_TRANSLATION(qm_files ${photoqt_SOURCES} ${file} OPTIONS "-no-obsolete")
+ENDFOREACH()
+
+# Copy the language QRC file to the output directory, because the files listed in the
+# qrc file are relative to that directory.
+ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/lang.qrc
+		   COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/lang.qrc ${CMAKE_CURRENT_BINARY_DIR}/lang.qrc
+		   MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/lang.qrc
+		   DEPENDS ${qm_files})
+
 # Set resources
-SET(photoqt_RESOURCES qml.qrc img.qrc)
+SET(photoqt_RESOURCES qml.qrc img.qrc ${CMAKE_CURRENT_BINARY_DIR}/lang.qrc)
 QT5_ADD_RESOURCES(RESOURCES ${photoqt_RESOURCES})
 
 

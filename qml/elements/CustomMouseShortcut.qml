@@ -66,7 +66,7 @@ Rectangle {
 			font.pointSize: 13
 			wrapMode: Text.WordWrap
 
-			text: "<h2>Set Mouse Shortcut</h2>"
+			text: "<h2>" + qsTr("Set Mouse Shortcut") + "</h2>"
 
 		}
 
@@ -111,7 +111,7 @@ Rectangle {
 			width: 2.5*(parent.width/7)
 			x: parent.width/7
 			y: parent.height-height-15
-			text: "Don't set"
+			text: qsTr("Don't set")
 
 			onClickedButton: {
 				hide()
@@ -124,7 +124,7 @@ Rectangle {
 			width: 2.5*(parent.width/7)
 			x: 3.5*(parent.width/7)
 			y: parent.height-height-15
-			text: "Set Shortcut"
+			text: qsTr("Set Shortcut")
 
 			onClickedButton: {
 

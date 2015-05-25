@@ -68,7 +68,7 @@ Rectangle {
 			font.pointSize: 13
 			wrapMode: Text.WordWrap
 
-			text: "<h2>External Command</h2>"
+			text: "<h2>" + qsTr("External Command") + "</h2>"
 
 		}
 
@@ -82,7 +82,7 @@ Rectangle {
 			color: "white"
 			wrapMode: Text.WordWrap
 
-			text: "%f = current file (with path), %u = current file (without path), %d = current directory."
+			text: "%f = " + qsTr("current file (with path)") + ", %u = " + qsTr("current file (without path)") + ", %d = " + qsTr("current directory") + "."
 
 		}
 
@@ -118,7 +118,7 @@ Rectangle {
 			width: 150
 			x: (parent.width-2*width-10)/2
 			y: parent.height-height-15
-			text: "Cancel"
+			text: qsTr("Cancel")
 
 			onClickedButton: {
 				hide()
@@ -131,7 +131,7 @@ Rectangle {
 			width: 150
 			x: parent.width/2+5
 			y: parent.height-height-15
-			text: "Save it"
+			text: qsTr("Save it")
 
 			onClickedButton: {
 				updateCommand(id,close,isMouse,keys,lineedit.getText())
@@ -155,7 +155,7 @@ Rectangle {
 	}
 
 	function browseForExec() {
-		var ret = getanddostuff.getFilename("Select Executeable",lineedit.text);
+		var ret = getanddostuff.getFilename(qsTr("Select Executeable"),lineedit.text);
 		if(ret !== "") lineedit.text = ret
 	}
 

@@ -94,7 +94,8 @@ Rectangle {
 			font.pointSize: 8
 			font.bold: true
 
-			text: "key"
+			//: tile text for KEY shortcut. If multiple translations possible, please try to stick to a short one..
+			text: qsTr("key")
 
 		}
 
@@ -149,7 +150,8 @@ Rectangle {
 			font.pointSize: 8
 			font.bold: true
 
-			text: "mouse"
+			//: tile text for MOUSE shortcut. If multiple translations possible, please try to stick to a short one..
+			text: qsTr("mouse")
 		}
 
 		// Highlight on hover and on click set mouse shortcut

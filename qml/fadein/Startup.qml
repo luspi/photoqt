@@ -71,7 +71,7 @@ Rectangle {
 				x: 10
 				width: rect.width-20
 				horizontalAlignment: Text.AlignHCenter
-				text: (type == "installed" ? "PhotoQt was successfully installed" : "PhotoQt was successfully updated")
+				text: (type == "installed" ? qsTr("PhotoQt was successfully installed") : qsTr("PhotoQt was successfully updated"))
 			}
 
 			Rectangle {
@@ -88,8 +88,8 @@ Rectangle {
 				x: 10
 				width: rect.width-20
 				text: (type == "installed")
-					  ? "Welcome to PhotoQt. PhotoQt is an image viewer, aimed at being fast and reliable, highly customisable and good looking." + "<br><br>" + "This app started out more than three years ago, and it has developed quite a bit since then. It has become very efficient, reliable, and highly flexible (check out the settings). I'm convinced it can hold up to the more 'traditional' image viewers out there in every way." + "<br><br>" + "Here below you find a short overview of what PhotoQt has to offer, but feel free to skip it and just get started."
-					  : "Welcome back to PhotoQt. It hasn't been that long since the last release of PhotoQt. Yet, it changed pretty much entirely, as it now is based on QtQuick rather than QWidgets. A large quantity of the code had to be re-written, while some chunks could be re-used. Thus, it is now more reliable than ever before and overall simply feels well rounded." + "<br><br>" + "Below you find a short overview over the features of PhotoQt. But feel free to skip it and just get started.";
+					  ? qsTr("Welcome to PhotoQt. PhotoQt is an image viewer, aimed at being fast and reliable, highly customisable and good looking.") + "<br><br>" + qsTr("This app started out more than three and a half years ago, and it has developed quite a bit since then. It has become very efficient, reliable, and highly flexible (check out the settings). I'm convinced it can hold up to the more 'traditional' image viewers out there in every way.") + "<br><br>" + qsTr("Here below you find a short overview of what PhotoQt has to offer, but feel free to skip it and just get started.")
+					  : qsTr("Welcome back to PhotoQt. It hasn't been that long since the last release of PhotoQt. Yet, it changed pretty much entirely, as it now is based on QtQuick rather than QWidgets. A large quantity of the code had to be re-written, while some chunks could be re-used. Thus, it is now more reliable than ever before and overall simply feels well rounded.") + "<br><br>" + qsTr("Below you find a short overview over the features of PhotoQt. But feel free to skip it and just get started.");
 			}
 
 			Rectangle {
@@ -119,7 +119,7 @@ Rectangle {
 					x: fileformats_img.width+25
 					y: (Math.max(height,fileformats_img.height)-height)/2
 					width: parent.width-x
-					text: "<h2>Many File Formats</h2><br>PhotoQt can make use of GraphicsMagick, an image library, to display many different image formats. Currently, there are up to 72 different file formats supported (exact number depends on your system)! You can find a list of it in the settings (Tab 'Other'). There you can en-/disable different ones and also add custom file endings."
+					text: "<h2>" + qsTr("Many File Formats") + "</h2><br>" + qsTr("PhotoQt can make use of GraphicsMagick, an image library, to display many different image formats. Currently, there are up to 72 different file formats supported (exact number depends on your system)! You can find a list of it in the settings (Tab 'Other'). There you can en-/disable different ones and also add custom file endings.")
 				}
 
 			}
@@ -144,7 +144,7 @@ Rectangle {
 					x: 0
 					y: (Math.max(height,customisability_img.height)-height)/2
 					width: parent.width-customisability_img.width
-					text: "<h2>Make PhotoQt your own</h2><br>PhotoQt has an extensive settings area. By default you can call it with the shortcut 'e' or through the dropdown menu at the top edge towards the top right corner. You can adjust almost everything in PhotoQt, and it's certainly worth having a look there. Each setting usually comes with a little explanation text."
+					text: "<h2>" + qsTr("Make PhotoQt your own") + "</h2><br>" + qsTr("PhotoQt has an extensive settings area. By default you can call it with the shortcut 'e' or through the dropdown menu at the top edge towards the top right corner. You can adjust almost everything in PhotoQt, and it's certainly worth having a look there. Each setting usually comes with a little explanation text.")
 				}
 
 				Image {
@@ -182,7 +182,7 @@ Rectangle {
 					x: thumbnails_img.width+25
 					y: (Math.max(height,thumbnails_img.height)-height)/2
 					width: parent.width-x
-					text: "<h2>Thumbnails</h2><br>What would be an image viewer without thumbnails support? It would only be half as good. Whenever you load an image, PhotoQt loads the other images in the directory in the background (by default, it tries to be smart about it and only loads the ones that are needed). It lines them up in a row at the bottom edge (move your mouse there to see them). There are many settings just for the thumbnails, like, e.g., size, liftup, en-/disabled, type, filename, permanently shown/hidden, etc. PhotoQt's quite flexible with that."
+					text: "<h2>" + qsTr("Thumbnails") + "</h2><br>" + qsTr("What would be an image viewer without thumbnails support? It would only be half as good. Whenever you load an image, PhotoQt loads the other images in the directory in the background (by default, it tries to be smart about it and only loads the ones that are needed). It lines them up in a row at the bottom edge (move your mouse there to see them). There are many settings just for the thumbnails, like, e.g., size, liftup, en-/disabled, type, filename, permanently shown/hidden, etc. PhotoQt's quite flexible with that.")
 				}
 
 			}
@@ -207,7 +207,7 @@ Rectangle {
 					x: 0
 					y: (Math.max(height,shortcuts_img.height)-height)/2
 					width: parent.width-shortcuts_img.width
-					text: "<h2>Shortcuts</h2><br>One of the many strengths of PhotoQt is the ability to easily set a shortcut for almost anything. Even mouse shortcuts are possible! You can choose from a huge number of internal functions, or you can run any custom script or command."
+					text: "<h2>" + qsTr("Shortcuts") + "</h2><br>" + qsTr("One of the many strengths of PhotoQt is the ability to easily set a shortcut for almost anything. Even mouse shortcuts are possible! You can choose from a huge number of internal functions, or you can run any custom script or command.")
 				}
 
 				Image {
@@ -245,7 +245,7 @@ Rectangle {
 					x: exif_img.width+25
 					y: (Math.max(height,exif_img.height)-height)/2
 					width: parent.width-x
-					text: "<h2>Image Information (Exif/IPTC)</h2><br>Most images store some information about the image in the file. PhotoQt can read and display a selection of Exif and IPTC tags. You can find this information in the slide-in window hidden behind the left edge of PhotoQt."
+					text: "<h2>" + qsTr("Image Information (Exif/IPTC)") + "</h2><br>" + qsTr("Most images store some information about the image in the file. PhotoQt can read and display a selection of Exif and IPTC tags. You can find this information in the slide-in window hidden behind the left edge of PhotoQt.")
 				}
 
 			}
@@ -270,7 +270,7 @@ Rectangle {
 					x: 0
 					y: (Math.max(height,slideshow_img.height)-height)/2
 					width: parent.width-slideshow_img.width
-					text: "<h2>Slideshow</h2><br>PhotoQt also brings a slideshow feature. When you start a slideshow, it starts at the currently displayed image. There are a couple settings like transition, speed, loop, and shuffle. Plus, you can set a music file that is played in the background. When the slideshow takes longer than the music file, then PhotoQt starts the music file all over from the beginning. At anytime during the slideshow, you can move the mouse cursor to the top edge of the screen to get a little bar, where you can pause/exit the slideshow and adjust the music volume."
+					text: "<h2>" + qsTr("Slideshow") + "</h2><br>" + qsTr("PhotoQt also brings a slideshow feature. When you start a slideshow, it starts at the currently displayed image. There are a couple settings like transition, speed, loop, and shuffle. Plus, you can set a music file that is played in the background. When the slideshow takes longer than the music file, then PhotoQt starts the music file all over from the beginning. At anytime during the slideshow, you can move the mouse cursor to the top edge of the screen to get a little bar, where you can pause/exit the slideshow and adjust the music volume.")
 				}
 
 				Image {
@@ -308,7 +308,7 @@ Rectangle {
 					x: localisation_img.width+25
 					y: (Math.max(height,localisation_img.height)-height)/2
 					width: parent.width-x
-					text: "<h2>Localisation</h2><br>PhotoQt comes with a number of translations. Many have taken some of their time to create/update one of them (Thank you!). Not all of them are complete... do you want to help?"
+					text: "<h2>" + qsTr("Localisation") + "</h2><br>" + qsTr("PhotoQt comes with a number of translations. Many have taken some of their time to create/update one of them (Thank you!). Not all of them are complete... do you want to help?")
 				}
 
 			}
@@ -326,7 +326,7 @@ Rectangle {
 				wrapMode: Text.WordWrap
 				x: 10
 				width: rect.width-20
-				text: "There are many many more features. Best is, you just give it a go. Don't forget to check out the settings to make PhotoQt YOUR image viewer. Enjoy :-)"
+				text: qsTr("There are many many more features. Best is, you just give it a go. Don't forget to check out the settings to make PhotoQt YOUR image viewer. Enjoy :-)")
 			}
 
 			Rectangle {
@@ -358,7 +358,7 @@ Rectangle {
 		CustomButton {
 			x: (parent.width-width)/2
 			y: 10
-			text: "Okay, I got enough now. Lets start!"
+			text: qsTr("Okay, I got enough now. Lets start!")
 			onClickedButton: hideStartup()
 		}
 	}

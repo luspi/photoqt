@@ -43,7 +43,7 @@ Rectangle {
 			horizontalAlignment: Text.AlignHCenter
 			x: quicksettings.radius
 			width: quicksettings.width-3*quicksettings.radius
-			text: "Quick Settings"
+			text: qsTr("Quick Settings")
 			font.pointSize: 15
 			font.bold: true
 		}
@@ -52,7 +52,7 @@ Rectangle {
 
 		Text {
 			color: "white"
-			text: "Change settings with one click. They are saved and applied immediately. If you're unsure what a setting does, check the full settings for descriptions."
+			text: qsTr("Change settings with one click. They are saved and applied immediately. If you're unsure what a setting does, check the full settings for descriptions.")
 			wrapMode: Text.WordWrap
 			x: quicksettings.radius
 			width: quicksettings.width-3*quicksettings.radius
@@ -73,13 +73,13 @@ Rectangle {
 
 				Text {
 					color: "white"
-					text: "Sort by"
+					text: qsTr("Sort by")
 					y: (sortby.height-height)/2
 				}
 				CustomComboBox {
 					id: sortby
 					width: 150
-					model: ["Name", "Natural Name", "Date", "File Size"]
+					model: [qsTr("Name"), qsTr("Natural Name"), qsTr("Date"), qsTr("File Size")]
 					onCurrentIndexChanged: {
 						if(currentIndex == 0)
 							settings.sortby = "name"
@@ -129,7 +129,7 @@ Rectangle {
 			id: trayicon
 			width: 250
 			x: quicksettings.radius
-			model: ["No tray icon","Hide to tray icon","Show tray icon, but don't hide to it"]
+			model: [qsTr("No tray icon"),qsTr("Hide to tray icon"),qsTr("Show tray icon, but don't hide to it")]
 			onCurrentIndexChanged: settings.trayicon = trayicon.currentIndex
 		}
 
@@ -146,7 +146,7 @@ Rectangle {
 
 		CustomCheckBox {
 			id: loop
-			text: "Loop through folder"
+			text: qsTr("Loop through folder")
 			x: quicksettings.radius
 			onCheckedButtonChanged: settings.loopthroughfolder = loop.checkedButton
 		}
@@ -164,14 +164,14 @@ Rectangle {
 
 		CustomCheckBox {
 			id: windowmode
-			text: "Window mode"
+			text: qsTr("Window mode")
 			x: quicksettings.radius
 			onCheckedButtonChanged: settings.windowmode = windowmode.checkedButton
 		}
 
 		CustomCheckBox {
 			id: windowdeco
-			text: "Show window decoration"
+			text: qsTr("Show window decoration")
 			x: quicksettings.radius
 			enabled: windowmode.checkedButton
 			onCheckedButtonChanged: settings.windowDecoration = windowdeco.checkedButton
@@ -190,7 +190,7 @@ Rectangle {
 
 		CustomCheckBox {
 			id: closeclick
-			text: "Close on click on background"
+			text: qsTr("Close on click on background")
 			x: quicksettings.radius
 			onCheckedButtonChanged: settings.closeongrey = closeclick.checkedButton
 		}
@@ -208,7 +208,7 @@ Rectangle {
 
 		CustomCheckBox {
 			id: keepvisible
-			text: "Keep thumbnails visible"
+			text: qsTr("Keep thumbnails visible")
 			x: quicksettings.radius
 			onCheckedButtonChanged: settings.thumbnailKeepVisible = keepvisible.checkedButton
 		}
@@ -228,7 +228,7 @@ Rectangle {
 			id: thumbmode
 			width: quicksettings.width-3*quicksettings.radius
 			x: quicksettings.radius
-			model: ["Normal thumbnails", "Dynamic thumbnails", "Smart thumbnails"]
+			model: [qsTr("Normal thumbnails"), qsTr("Dynamic thumbnails"), qsTr("Smart thumbnails")]
 			onCurrentIndexChanged: settings.thumbnailDynamic = thumbmode.currentIndex
 			onPressedChanged: {
 				if(pressed) softblocked = 1
@@ -249,7 +249,7 @@ Rectangle {
 
 		CustomCheckBox {
 			id: quickset
-			text: "Enable 'Quick Settings'"
+			text: qsTr("Enable 'Quick Settings'")
 			x: quicksettings.radius
 			onCheckedButtonChanged: {
 				settings.quickSettings = quickset.checkedButton
@@ -273,7 +273,7 @@ Rectangle {
 			width: quicksettings.width-3*quicksettings.radius
 			height: childrenRect.height
 			CustomButton {
-				text: "Show full settings"
+				text: qsTr("Show full settings")
 				anchors.horizontalCenter: parent.horizontalCenter
 				onClickedButton: {
 					background.hideEverything()

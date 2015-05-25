@@ -65,7 +65,7 @@ Rectangle {
 
 				// Heading
 				Text {
-					text: "Rename File"
+					text: qsTr("Rename File")
 					color: "white"
 					font.bold: true
 					font.pointSize: 28
@@ -82,7 +82,7 @@ Rectangle {
 				// The filename is dynamically updated when element is shown
 				Text {
 					id: filename
-					text: "P1080310.JPG"
+					text: ""
 					color: "grey"
 					font.pointSize: 15
 					x: (rect.width-width)/2
@@ -104,7 +104,7 @@ Rectangle {
 						spacing: 5
 						CustomLineEdit {
 							id: newfilename
-							text: "P1080310"
+							text: ""
 							fontsize: 20
 							width: 350
 						}
@@ -144,7 +144,7 @@ Rectangle {
 							}
 						}
 						CustomButton {
-							text: "Cancel"
+							text: qsTr("Cancel")
 							fontsize: 18
 							onClickedButton: hideRename()
 						}

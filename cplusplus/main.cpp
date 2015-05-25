@@ -146,14 +146,14 @@ int main(int argc, char *argv[]) {
 		code2 = QLocale::system().name().split("_").at(0);
 	}
 	if(a.verbose) std::clog << "Found following language: " << code1.toStdString()  << "/" << code2.toStdString() << std::endl;
-	if(QFile(":/lang/photoqt_" + code1 + ".qm").exists()) {
+	if(QFile(":/photoqt_" + code1 + ".qm").exists()) {
 		std::clog << "Loading Translation:" << code1.toStdString() << std::endl;
-		trans.load(":/lang/photoqt_" + code1);
+		trans.load(":/photoqt_" + code1);
 		a.installTranslator(&trans);
 		code2 = code1;
-	} else if(QFile(":/lang/photoqt_" + code2 + ".qm").exists()) {
+	} else if(QFile(":/photoqt_" + code2 + ".qm").exists()) {
 		std::clog << "Loading Translation:" << code2.toStdString() << std::endl;
-		trans.load(":/lang/photoqt_" + code2);
+		trans.load(":/photoqt_" + code2);
 		a.installTranslator(&trans);
 		code1 = code2;
 	}

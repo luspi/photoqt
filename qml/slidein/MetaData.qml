@@ -41,7 +41,7 @@ Rectangle {
 
 		font.bold: true
 		font.pointSize: 18
-		text: "No File Loaded"
+		text: qsTr("No File Loaded")
 
 	}
 
@@ -59,7 +59,7 @@ Rectangle {
 
 		font.bold: true
 		font.pointSize: 18
-		text: "File Format Not Supported"
+		text: qsTr("File Format Not Supported")
 
 	}
 
@@ -77,7 +77,7 @@ Rectangle {
 
 		font.bold: true
 		font.pointSize: 18
-		text: "Invalid File"
+		text: qsTr("Invalid File")
 
 	}
 
@@ -118,7 +118,7 @@ Rectangle {
 			anchors.right: parent.right
 			anchors.rightMargin: 5
 			textColour: "#66ffffff"
-			text: "Keep Open"
+			text: qsTr("Keep Open")
 			onButtonCheckedChanged: {
 				settingssession.setValue("metadatakeepopen",check.checkedButton)
 			}
@@ -184,34 +184,34 @@ Rectangle {
 
 				mod.clear()
 
-				mod.append({"name" : "Filesize", "prop" : "", "value" : d["filesize"], "tooltip" : d["filesize"]})
+				mod.append({"name" : qsTr("Filesize"), "prop" : "", "value" : d["filesize"], "tooltip" : d["filesize"]})
 				if("dimensions" in d)
-					mod.append({"name" : "Dimensions", "prop" : "", "value" : d["dimensions"], "tooltip" : d["dimensions"]})
+					mod.append({"name" : qsTr("Dimensions"), "prop" : "", "value" : d["dimensions"], "tooltip" : d["dimensions"]})
 				else if("Exif.Photo.PixelXDimension" in d && "Exif.Photo.PixelYDimension" in d) {
 					var dim = d["Exif.Photo.PixelXDimension"] + "x" + d["Exif.Photo.PixelYDimension"]
-					mod.append({"name" : "Dimensions", "prop" : "", "value" : dim, "tooltip" : dim})
+					mod.append({"name" : qsTr("Dimensions"), "prop" : "", "value" : dim, "tooltip" : dim})
 				}
 
 				mod.append({"name" : "", "prop" : "", "value" : ""})
 
-				var labels = ["Exif.Image.Make", "Make", "",
-						"Exif.Image.Model", "Model", "",
-						"Exif.Image.Software", "Software", "",
+				var labels = ["Exif.Image.Make", qsTr("Make"), "",
+						"Exif.Image.Model", qsTr("Model"), "",
+						"Exif.Image.Software", qsTr("Software"), "",
 						"","", "",
-						"Exif.Photo.DateTimeOriginal", "Time Photo was Taken", "",
-						"Exif.Photo.ExposureTime", "Exposure Time", "",
-						"Exif.Photo.Flash", "Flash", "",
-						"Exif.Photo.ISOSpeedRatings", "ISO", "",
-						"Exif.Photo.SceneCaptureType", "Scene Type", "",
-						"Exif.Photo.FocalLength", "Focal Length", "",
-						"Exif.Photo.FNumber", "F Number", "",
-						"Exif.Photo.LightSource", "Light Source", "",
+						"Exif.Photo.DateTimeOriginal", qsTr("Time Photo was Taken"), "",
+						"Exif.Photo.ExposureTime", qsTr("Exposure Time"), "",
+						"Exif.Photo.Flash", qsTr("Flash"), "",
+						"Exif.Photo.ISOSpeedRatings", qsTr("ISO"), "",
+						"Exif.Photo.SceneCaptureType", qsTr("Scene Type"), "",
+						"Exif.Photo.FocalLength", qsTr("Focal Length"), "",
+						"Exif.Photo.FNumber", qsTr("F Number"), "",
+						"Exif.Photo.LightSource", qsTr("Light Source"), "",
 						"","", "",
-						"Iptc.Application2.Keywords", "Keywords", "",
-						"Iptc.Application2.City", "Location", "",
-						"Iptc.Application2.Copyright", "Copyright", "",
+						"Iptc.Application2.Keywords", qsTr("Keywords"), "",
+						"Iptc.Application2.City", qsTr("Location"), "",
+						"Iptc.Application2.Copyright", qsTr("Copyright"), "",
 						"","", "",
-						"Exif.GPSInfo.GPSLongitudeRef", "GPS Position", "Exif.GPSInfo.GPSLatitudeRef",
+						"Exif.GPSInfo.GPSLongitudeRef", qsTr("GPS Position"), "Exif.GPSInfo.GPSLatitudeRef",
 						"","",""]
 
 

@@ -52,7 +52,7 @@ Rectangle {
 					color: "white"
 					font.pointSize: 18
 					font.bold: true
-					text: "Other Settings"
+					text: qsTr("Other Settings")
 					anchors.horizontalCenter: parent.horizontalCenter
 				}
 			}
@@ -66,7 +66,7 @@ Rectangle {
 
 				width: flickable.width
 
-				text: "<h2>Choose Language</h2><br>There are a good few different languages available. Thanks to everybody who took the time to translate PhotoQt!"
+				text: "<h2>" + qsTr("Choose Language") + "</h2><br>" + qsTr("There are a good few different languages available. Thanks to everybody who took the time to translate PhotoQt!")
 
 			}
 
@@ -116,7 +116,7 @@ Rectangle {
 
 				width: flickable.width
 
-				text: "<h2>Quick Settings</h2><br>The 'Quick Settings' is a widget hidden on the right side of the screen. When you move the cursor there, it shows up, and you can adjust a few simple settings on the spot without having to go through this settings dialog. Of course, only a small subset of settings is available (the ones needed most often). Here you can disable the dialog so that it doesn't show on mouse movement anymore."
+				text: "<h2>" + qsTr("Quick Settings") + "</h2><br>" + qsTr("The 'Quick Settings' is a widget hidden on the right side of the screen. When you move the cursor there, it shows up, and you can adjust a few simple settings on the spot without having to go through this settings dialog. Of course, only a small subset of settings is available (the ones needed most often). Here you can disable the dialog so that it doesn't show on mouse movement anymore.")
 
 			}
 
@@ -126,7 +126,7 @@ Rectangle {
 
 				x: (parent.width-width)/2
 
-				text: "Show 'Quick Settings' on mouse hovering"
+				text: qsTr("Show 'Quick Settings' on mouse hovering")
 
 			}
 
@@ -139,7 +139,7 @@ Rectangle {
 
 				width: flickable.width
 
-				text: "<h2>Adjust Context Menu</h2><br>Here you can adjust the context menu. You can simply drag and drop the entries, edit them, add a new one and remove an existing one."
+				text: "<h2>" + qsTr("Adjust Context Menu") + "</h2><br>" + qsTr("Here you can adjust the context menu. You can simply drag and drop the entries, edit them, add a new one and remove an existing one.")
 
 			}
 
@@ -178,7 +178,7 @@ Rectangle {
 						verticalAlignment: Qt.AlignVCenter
 						horizontalAlignment: Qt.AlignHCenter
 
-						text: "Executable"
+						text: qsTr("Executable")
 
 					}
 
@@ -192,7 +192,7 @@ Rectangle {
 						verticalAlignment: Qt.AlignVCenter
 						horizontalAlignment: Qt.AlignHCenter
 
-						text: "Menu Text"
+						text: qsTr("Menu Text")
 
 					}
 
@@ -216,7 +216,7 @@ Rectangle {
 
 					CustomButton {
 						id: contextadd
-						text: "Add new context menu entry"
+						text: qsTr("Add new context menu entry")
 						anchors.horizontalCenter: parent.horizontalCenter
 						onClickedButton: context.addNewItem()
 					}
@@ -224,7 +224,7 @@ Rectangle {
 
 					CustomButton {
 						id: contextreset
-						text: "(Re-)set automatically"
+						text: qsTr("(Re-)set automatically")
 						fontsize: 10
 						anchors.right: parent.right
 						onClickedButton: {

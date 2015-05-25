@@ -52,7 +52,7 @@ Rectangle {
 					color: "white"
 					font.pointSize: 18
 					font.bold: true
-					text: "Filetypes"
+					text: qsTr("Filetypes")
 					anchors.horizontalCenter: parent.horizontalCenter
 				}
 			}
@@ -66,7 +66,7 @@ Rectangle {
 
 				width: flickable.width
 
-				text: "<h2>File Types - Qt</h2><br>These are the file types natively supported by Qt. Make sure, that you'll have the required libraries installed (e.g., qt5-imageformats), otherwise some of them might not work on your system.<br>If a file ending for one of the formats is missing, you can add it below, formatted like '*.ending' (without single quotation marks), multiple entries seperated by commas."
+				text: "<h2>" + qsTr("File Types - Qt") + "</h2><br>" + qsTr("These are the file types natively supported by Qt. Make sure, that you'll have the required libraries installed (e.g., qt5-imageformats), otherwise some of them might not work on your system.<br>If a file ending for one of the formats is missing, you can add it below, formatted like '*.ending' (without single quotation marks), multiple entries seperated by commas.")
 
 			}
 
@@ -89,7 +89,7 @@ Rectangle {
 					id: extralabel
 					y: (extrasQt.height-height)/2
 					color: "white"
-					text: "Extra FIle Types:"
+					text: qsTr("Extra File Types:")
 					anchors.left: parent.left
 				}
 
@@ -105,13 +105,13 @@ Rectangle {
 				CustomButton {
 					id: marknoneqt
 					y: (extrasQt.height-height)/2
-					text: "Mark None"
+					text: qsTr("Mark None")
 					anchors.right: parent.right
 					onClickedButton: setModel(false,"qt")
 				}
 				CustomButton {
 					id: markallqt
-					text: "Mark All"
+					text: qsTr("Mark All")
 					y: (extrasQt.height-height)/2
 					anchors.right: marknoneqt.left
 					anchors.rightMargin: 5
@@ -129,7 +129,7 @@ Rectangle {
 
 				width: flickable.width
 
-				text: "<h2>File Types - GraphicsMagick</h2><br>PhotoQt makes use of GraphicsMagick for support of many different image formats. The list below are all those formats, that were successfully displayed using test images. If you prefer not to have one or the other enabled in PhotoQt, you can simply disable individual formats below.<br>There are a few formats, that were not tested in PhotoQt (due to lack of a test image). You can find those in the 'Untested' category below."
+				text: "<h2>" + qsTr("File Types - GraphicsMagick") + "</h2><br>" + qsTr("PhotoQt makes use of GraphicsMagick for support of many different image formats. The list below are all those formats, that were successfully displayed using test images. If you prefer not to have one or the other enabled in PhotoQt, you can simply disable individual formats below.<br>There are a few formats, that were not tested in PhotoQt (due to lack of a test image). You can find those in the 'Untested' category below.")
 
 			}
 
@@ -149,13 +149,13 @@ Rectangle {
 
 				CustomButton {
 					id: marknonegm
-					text: "Mark None"
+					text: qsTr("Mark None")
 					anchors.right: parent.right
 					onClickedButton: setModel(false,"gm")
 				}
 				CustomButton {
 					id: markallgm
-					text: "Mark All"
+					text: qsTr("Mark All")
 					anchors.right: marknonegm.left
 					anchors.rightMargin: 5
 					onClickedButton: setModel(true,"gm")
@@ -172,7 +172,7 @@ Rectangle {
 
 				width: flickable.width
 
-				text: "<h2>File Types - GraphicsMagick (requires Ghostscript)</h2><br>The following file types are supported by GraphicsMagick, and they have been tested and work. However, they require Ghostscript to be installed on the system."
+				text: "<h2>" + qsTr("File Types - GraphicsMagick (requires Ghostscript)") + "</h2><br>" + qsTr("The following file types are supported by GraphicsMagick, and they have been tested and work. However, they require Ghostscript to be installed on the system.")
 
 			}
 
@@ -192,13 +192,13 @@ Rectangle {
 
 				CustomButton {
 					id: marknoneghostscript
-					text: "Mark None"
+					text: qsTr("Mark None")
 					anchors.right: parent.right
 					onClickedButton: setModel(false,"gs")
 				}
 				CustomButton {
 					id: markallghostscript
-					text: "Mark All"
+					text: qsTr("Mark All")
 					anchors.right: marknoneghostscript.left
 					anchors.rightMargin: 5
 					onClickedButton: setModel(true,"gs")
@@ -216,7 +216,7 @@ Rectangle {
 
 				width: flickable.width
 
-				text: "<h2>File Types - Other tools required</h2><br>The following filetypes are supported by means of other third party tools. You first need to install them before you can use them.<br><br><b>Note</b>: If an image format is also provided by GraphicsMagick/Qt, then PhotoQt first chooses the external tool (if enabled)."
+				text: "<h2>" + qsTr("File Types - Other tools required") + "</h2><br>" + qsTr("The following filetypes are supported by means of other third party tools. You first need to install them before you can use them.") + "<br><br><b>" + qsTr("Note") + "</b>: " + qsTr("If an image format is also provided by GraphicsMagick/Qt, then PhotoQt first chooses the external tool (if enabled).")
 
 			}
 
@@ -246,7 +246,8 @@ Rectangle {
 							y: (xcftools.height-height)/2
 
 							color: "white"
-							text: "Gimp's XCF file format.<br><br>Makes use of: xcftools - https://github.com/j-jorge/xcftools"
+							//: 'Makes use of' is in connection with an external tool (i.e., it 'makes use of' tool abc)
+							text: qsTr("Gimp's XCF file format.") + "<br><br>" + qsTr("Makes use of") + ": xcftools - https://github.com/j-jorge/xcftools"
 
 						}
 
@@ -267,7 +268,7 @@ Rectangle {
 							y: (libqpsd.height-height)/2
 
 							color: "white"
-							text: "Adobe Photoshop PSD and PSB.<br><br>Makes use of: libqpsd - https://github.com/Code-ReaQtor/libqpsd"
+							text: qsTr("Adobe Photoshop PSD and PSB.") + "<br><br>" + qsTr("Makes use of") + ": libqpsd - https://github.com/Code-ReaQtor/libqpsd"
 
 						}
 
@@ -287,7 +288,7 @@ Rectangle {
 
 				width: flickable.width
 
-				text: "<h2>File Types - GraphicsMagick (Untested)</h2><br>The following file types are generally supported by GraphicsMagick, but I wasn't able to test them in PhotoQt (due to lack of test images). They might very well be working, but I simply can't say. If you decide to enable some of the, the worst that could happen ist, that you see an error image instead of the actual image.<br><br><i>If you happen to have an image in one of those formats and don't mind sending it to me, that'd be really cool...</i>"
+				text: "<h2>" + qsTr("File Types - GraphicsMagick (Untested)") + "</h2><br>" + qsTr("The following file types are generally supported by GraphicsMagick, but I wasn't able to test them in PhotoQt (due to lack of test images). They might very well be working, but I simply can't say. If you decide to enable some of the, the worst that could happen ist, that you see an error image instead of the actual image.") + "<br><br><i>" + qsTr("If you happen to have an image in one of those formats and don't mind sending it to me, that'd be really cool...") + "</i>"
 
 			}
 
@@ -307,13 +308,13 @@ Rectangle {
 
 				CustomButton {
 					id: marknoneuntested
-					text: "Mark None"
+					text: qsTr("Mark None")
 					anchors.right: parent.right
 					onClickedButton: setModel(false,"untested")
 				}
 				CustomButton {
 					id: markalluntested
-					text: "Mark All"
+					text: qsTr("Mark All")
 					anchors.right: marknoneuntested.left
 					anchors.rightMargin: 5
 					onClickedButton: setModel(true,"untested")

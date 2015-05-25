@@ -83,7 +83,7 @@ Rectangle {
 							font.pointSize: 20
 							font.bold: true
 							x: (rect.width-width)/2
-							text: "Start a Slideshow"
+							text: qsTr("Start a Slideshow")
 						}
 
 						Rectangle { color: "#00000000"; width: 1; height: 1; }
@@ -93,13 +93,13 @@ Rectangle {
 							color: "white"
 							width: rect.width
 							wrapMode: Text.WordWrap
-							text: "There are several settings that can be adjusted for a slideshow, like the time between the image, if and how long the transition between the images should be, and also a music file can be specified that is played in the background."
+							text: qsTr("There are several settings that can be adjusted for a slideshow, like the time between the image, if and how long the transition between the images should be, and also a music file can be specified that is played in the background.")
 						}
 						Text {
 							color: "white"
 							width: rect.width
 							wrapMode: Text.WordWrap
-							text: "Once you have set the desired options, you can also start a slideshow the next time via 'Quickstart', i.e. skipping this settings window."
+							text: qsTr("Once you have set the desired options, you can also start a slideshow the next time via 'Quickstart', i.e. skipping this settings window.")
 						}
 
 						// TIME BETWEEN IMAGES
@@ -109,13 +109,13 @@ Rectangle {
 							wrapMode: Text.WordWrap
 							font.pointSize: 15
 							font.bold: true
-							text: "Time in between"
+							text: qsTr("Time in between")
 						}
 						Text {
 							color: "white"
 							width: rect.width
 							wrapMode: Text.WordWrap
-							text: "Adjust the time between the images. The time specified here is the amount of time the image will be completely visible, i.e. the transitioning (if set) is not part of this time."
+							text: qsTr("Adjust the time between the images. The time specified here is the amount of time the image will be completely visible, i.e. the transitioning (if set) is not part of this time.")
 						}
 
 						// Adjust the time in between (slider/spinbox)
@@ -155,13 +155,13 @@ Rectangle {
 							wrapMode: Text.WordWrap
 							font.pointSize: 15
 							font.bold: true
-							text: "Smooth Transition"
+							text: qsTr("Smooth Transition")
 						}
 						Text {
 							color: "white"
 							width: rect.width
 							wrapMode: Text.WordWrap
-							text: "Here you can set, if you want the images to fade into each other, and how fast they are to do that."
+							text: qsTr("Here you can set, if you want the images to fade into each other, and how fast they are to do that.")
 						}
 
 						// Slider to adjust transition time
@@ -174,7 +174,7 @@ Rectangle {
 								spacing: 5
 								Text {
 									color: "white"
-									text: "No Transition"
+									text: qsTr("No Transition")
 								}
 								CustomSlider {
 									id: transitionslider
@@ -189,7 +189,7 @@ Rectangle {
 								}
 								Text {
 									color: "white"
-									text: "Long Transition"
+									text: qsTr("Long Transition")
 								}
 							}
 						}
@@ -201,25 +201,25 @@ Rectangle {
 							wrapMode: Text.WordWrap
 							font.pointSize: 15
 							font.bold: true
-							text: "Shuffle and Loop"
+							text: qsTr("Shuffle and Loop")
 						}
 						Text {
 							color: "white"
 							width: rect.width
 							wrapMode: Text.WordWrap
-							text: "If you want PhotoQt to loop over all images (i.e., once it shows the last image it starts from the beginning), or if you want PhotoQt to load your images in random order, you can check either or both boxes below. Note, that no image will be shown twice before every image has been shown once."
+							text: qsTr("If you want PhotoQt to loop over all images (i.e., once it shows the last image it starts from the beginning), or if you want PhotoQt to load your images in random order, you can check either or both boxes below. Note, that no image will be shown twice before every image has been shown once.")
 						}
 
 						// Checkboxes to en-/disable it
 						CustomCheckBox {
 							id: loop
-							text: "Loop over images"
+							text: qsTr("Loop over images")
 							checkedButton: settings.slideShowLoop
 							x: (rect.width-width)/2
 						}
 						CustomCheckBox {
 							id: shuffle
-							text: "Shuffle images"
+							text: qsTr("Shuffle images")
 							checkedButton: settings.slideShowShuffle
 							x: (rect.width-width)/2
 						}
@@ -231,19 +231,19 @@ Rectangle {
 							wrapMode: Text.WordWrap
 							font.pointSize: 15
 							font.bold: true
-							text: "Hide Quickinfo"
+							text: qsTr("Hide Quickinfo")
 						}
 
 						Text {
 							color: "white"
 							width: rect.width
 							wrapMode: Text.WordWrap
-							text: "Depending on your setup, PhotoQt displays some information at the top edge, like position in current directory or file path/name. Here you can disable them temporarily for the slideshow."
+							text: qsTr("Depending on your setup, PhotoQt displays some information at the top edge, like position in current directory or file path/name. Here you can disable them temporarily for the slideshow.")
 						}
 
 						CustomCheckBox {
 							id: quickinfo
-							text: "Hide Quickinfos"
+							text: qsTr("Hide Quickinfos")
 							checkedButton: settings.slideShowHideQuickinfo
 							x: (rect.width-width)/2
 						}
@@ -255,20 +255,20 @@ Rectangle {
 							wrapMode: Text.WordWrap
 							font.pointSize: 15
 							font.bold: true
-							text: "Background Music"
+							text: qsTr("Background Music")
 						}
 						Text {
 							color: "white"
 							width: rect.width
 							wrapMode: Text.WordWrap
-							text: "Some might like to listen to some music while the slideshow is running. Here you can select a music file you want to be played in the background."
+							text: qsTr("Some might like to listen to some music while the slideshow is running. Here you can select a music file you want to be played in the background.")
 						}
 						// Checkbox to enable music
 						CustomCheckBox {
 							id: musiccheckbox
 							x: (rect.width-width)/2
 							checkedButton: (settings.slideShowMusicFile != "")
-							text: "Enable Music"
+							text: qsTr("Enable Music")
 						}
 						// Area displaying music file path and option to change it
 						Rectangle {
@@ -296,7 +296,7 @@ Rectangle {
 								width: parent.width-30
 								y: (parent.height-height)/2
 								color: "grey"
-								text: "Click here to select music file..."
+								text: qsTr("Click here to select music file...")
 							}
 							// Click on area offers option to select new file
 							MouseArea {
@@ -330,15 +330,15 @@ Rectangle {
 						spacing: 10
 						CustomButton {
 							id: okay
-							text: "Okay, lets start"
+							text: qsTr("Okay, lets start")
 							onClickedButton: simulateEnter();
 						}
 						CustomButton {
-							text: "Wait, maybe later"
+							text: qsTr("Wait, maybe later")
 							onClickedButton: hideSlideshow()
 						}
 						CustomButton {
-							text: "Save changes, but don't start just yet"
+							text: qsTr("Save changes, but don't start just yet")
 							onClickedButton: hideSlideshowAndRememberSettings()
 						}
 					}
@@ -351,7 +351,7 @@ Rectangle {
 	}
 
 	function selectNewMusicFile() {
-		var ret = getanddostuff.getFilename("Select music file...","/home/luspi/Musik","Music Files (*.mp3 *.flac *.ogg *.wav);;All Files (*.*)")
+		var ret = getanddostuff.getFilename(qsTr("Select music file..."),getanddostuff.getHomeDir(),qsTr("Music Files") + " (*.mp3 *.flac *.ogg *.wav);;" + qsTr("All Files") + " (*.*)")
 		if(ret !== "")
 			musictxt.text = ret
 	}

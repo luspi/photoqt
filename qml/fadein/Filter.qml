@@ -65,7 +65,7 @@ Rectangle {
 
 				// Heading
 				Text {
-					text: "Filter images in current directory"
+					text: qsTr("Filter images in current directory")
 					color: "white"
 					font.bold: true
 					font.pointSize: 20
@@ -80,13 +80,13 @@ Rectangle {
 				}
 
 				Text {
-					text: "Enter here the term you want to search for. Seperate multiple terms by a space."
+					text: qsTr("Enter here the term you want to search for. Seperate multiple terms by a space.")
 					x: (rect.width-width)/2
 					color: "white"
 				}
 
 				Text {
-					text: "If you want to limit a term to file extensions, prepend a dot '.' to the term."
+					text: qsTr("If you want to limit a term to file extensions, prepend a dot '.' to the term.")
 					x: (rect.width-width)/2
 					color: "white"
 				}
@@ -132,7 +132,7 @@ Rectangle {
 
 						CustomButton {
 							id: enter
-							text: "Filter"
+							text: qsTr("Filter")
 							fontsize: 15
 							onClickedButton: {
 								simulateEnter()
@@ -140,7 +140,7 @@ Rectangle {
 						}
 
 						CustomButton {
-							text: "Cancel"
+							text: qsTr("Cancel")
 							fontsize: 15
 							onClickedButton: hideFilter()
 						}
@@ -153,7 +153,7 @@ Rectangle {
 
 						CustomButton {
 							id: remove
-							text: "Remove Filter"
+							text: qsTr("Remove Filter")
 							fontsize: 10
 							enabled: currentfilter != ""
 							y: (parent.height-height)/2

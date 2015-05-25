@@ -48,7 +48,8 @@ Rectangle {
 
 					Text {
 						color: "#bbbbbb"
-						text: "Move:"
+						//: as in: "Move file..."
+						text: qsTr("Move:")
 					}
 					ContextMenuEntry {
 						textEnabled: false
@@ -56,12 +57,14 @@ Rectangle {
 						onClicked: thumbnailBar.gotoFirstImage()
 					}
 					ContextMenuEntry {
-						text: "Previous"
+						//: Go to previous file
+						text: qsTr("Previous")
 						iconEnabled: false
 						onClicked: thumbnailBar.previousImage()
 					}
 					ContextMenuEntry {
-						text: "Next"
+						//: Go to next file
+						text: qsTr("Next")
 						iconEnabled: false
 						onClicked: thumbnailBar.nextImage()
 					}
@@ -91,16 +94,19 @@ Rectangle {
 
 					Text {
 						color: "#bbbbbb"
-						text: "Rotate:"
+						//: As in: Rotate file
+						text: qsTr("Rotate:")
 					}
 					ContextMenuEntry {
-						text: "Left"
+						//: As in: rotate LEFT
+						text: qsTr("Left")
 						icon: "qrc:/img/contextmenu/rotateLeft.png"
 						onClicked: image.rotateLeft()
 					}
 
 					ContextMenuEntry {
-						text: "Right"
+						//: As in: Rotate RIGHT
+						text: qsTr("Right")
 						icon: "qrc:/img/contextmenu/rotateRight.png"
 						iconPositionLeft: false
 						onClicked: image.rotateRight()
@@ -128,16 +134,19 @@ Rectangle {
 
 					Text {
 						color: "#bbbbbb"
-						text: "Flip:"
+						//: As in: Flip file
+						text: qsTr("Flip:")
 					}
 					ContextMenuEntry {
-						text: "Horizontal"
+						//: As in: Flip file HORIZONTALLY
+						text: qsTr("Horizontal")
 						icon: "qrc:/img/contextmenu/flipH.png"
 						onClicked: image.flipHorizontal()
 					}
 
 					ContextMenuEntry {
-						text: "Vertical"
+						//: As in: Flip file VERTICALLY
+						text: qsTr("Vertical")
 						icon: "qrc:/img/contextmenu/flipV.png"
 						onClicked: image.flipVertical()
 					}
@@ -164,25 +173,30 @@ Rectangle {
 
 					Text {
 						color: "#bbbbbb"
-						text: "Zoom:"
+						//: Zoom file
+						text: qsTr("Zoom:")
 					}
 					ContextMenuEntry {
-						text: "(+) In"
+						//: As in: Zoom IN
+						text: "(+) " + qsTr("In")
 						iconEnabled: false
 						onClicked: image.zoomIn(true)
 					}
 					ContextMenuEntry {
-						text: "(-) Out"
+						// As in: Zoom OUT
+						text: "(-) " + qsTr("Out")
 						iconEnabled: false
 						onClicked: image.zoomOut(true)
 					}
 					ContextMenuEntry {
-						text: "(1:1) Actual"
+						//: As in: Zoom to ACTUAL size
+						text: "(1:1) " + qsTr("Actual")
 						iconEnabled: false
 						onClicked: image.zoomActual()
 					}
 					ContextMenuEntry {
-						text: "(0) Reset"
+						//: As in: Reset zoom
+						text: "(0) " + qsTr("Reset")
 						iconEnabled: false
 						onClicked: image.resetZoom()
 					}
@@ -203,7 +217,7 @@ Rectangle {
 
 			ContextMenuEntry {
 				icon: "qrc:/img/contextmenu/scale.png"
-				text: "Scale Image"
+				text: qsTr("Scale Image")
 				onClicked: {
 					hide()
 					scaleImage.showScale()
@@ -213,7 +227,7 @@ Rectangle {
 
 			ContextMenuEntry {
 				icon: "qrc:/img/contextmenu/open.png"
-				text: "Open in default File Manager"
+				text: qsTr("Open in default File Manager")
 				onClicked: {
 					hide()
 					softblocked = 0
@@ -245,7 +259,7 @@ Rectangle {
 							ContextMenuEntry {
 								id: entry_rename
 								icon: "qrc:/img/contextmenu/rename.png"
-								text: "Rename File"
+								text: qsTr("Rename File")
 								onClicked: {
 									hide()
 									rename.showRename()
@@ -255,7 +269,7 @@ Rectangle {
 
 							ContextMenuEntry {
 								icon: "qrc:/img/contextmenu/delete.png"
-								text: "Delete File"
+								text: qsTr("Delete File")
 								onClicked: {
 									hide()
 									deleteImage.showDelete()
@@ -280,7 +294,7 @@ Rectangle {
 							ContextMenuEntry {
 								id: entry_copy
 								icon: "qrc:/img/contextmenu/copy.png"
-								text: "Copy File"
+								text: qsTr("Copy File")
 								onClicked: {
 									hide()
 									softblocked = 0
@@ -291,7 +305,7 @@ Rectangle {
 
 							ContextMenuEntry {
 								icon: "qrc:/img/contextmenu/move.png"
-								text: "Move File"
+								text: qsTr("Move File")
 								onClicked: {
 									hide()
 									softblocked = 0

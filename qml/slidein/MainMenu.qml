@@ -22,15 +22,15 @@ Rectangle {
 	radius: 10
 
 	// [id, icon, text]
-	property var allitems: [["open", "open", "Open File"],
-				["settings", "settings", "Settings"],
-				["wallpaper", "settings", "Set as Wallpaper"],
-				["slideshow", "slideshow", "Start Slideshow"],
-				["filter", "filter", "Filter Images in Folder"],
-				["metadata", "metadata", "Show/Hide Metadata"],
-				["about", "about", "About PhotoQt"],
-				["hide", "quit", "Hide (System Tray)"],
-				["quit", "quit", "Quit"]]
+	property var allitems: [["open", "open", qsTr("Open File")],
+				["settings", "settings", qsTr("Settings")],
+				["wallpaper", "settings", qsTr("Set as Wallpaper")],
+				["slideshow", "slideshow", qsTr("Start Slideshow")],
+				["filter", "filter", qsTr("Filter Images in Folder")],
+				["metadata", "metadata", qsTr("Show/Hide Metadata")],
+				["about", "about", qsTr("About PhotoQt")],
+				["hide", "quit", qsTr("Hide (System Tray)")],
+				["quit", "quit", qsTr("Quit")]]
 
 	// All entries in the menu
 	ListView {
@@ -117,7 +117,7 @@ Rectangle {
 				font.pointSize: 10
 				font.bold: true
 
-				text: " (Quickstart)"
+				text: " (" + qsTr("Quickstart") + ")"
 
 				MouseArea {
 

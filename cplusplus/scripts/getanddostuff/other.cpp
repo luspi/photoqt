@@ -92,3 +92,7 @@ int GetAndDoStuffOther::getCurrentScreen(int x, int y) {
 QString GetAndDoStuffOther::getTempDir() {
 	return QDir::tempPath();
 }
+
+QString GetAndDoStuffOther::getHomeDir() {
+	return QDir::homePath();
+}

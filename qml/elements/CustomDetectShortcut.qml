@@ -70,7 +70,7 @@ Rectangle {
 			font.pointSize: 13
 			wrapMode: Text.WordWrap
 
-			text: "<h2>Detect key combination</h2>"
+			text: "<h2>" + qsTr("Detect key combination") + "</h2>"
 
 		}
 
@@ -88,7 +88,7 @@ Rectangle {
 			font.pointSize: 11
 			font.italic: true
 
-			text: "[Press keys]"
+			text: "[" + qsTr("Press keys") + "]"
 
 		}
 
@@ -105,7 +105,7 @@ Rectangle {
 			width: 200
 			x: (parent.width-width)/2
 			y: parent.height-height-15
-			text: "Cancel"
+			text: qsTr("Cancel")
 
 			onClickedButton: {
 				hide()
@@ -125,7 +125,7 @@ Rectangle {
 
 	function show() {
 		showDetect.start()
-		updateComboString("[Press keys]")
+		updateComboString("[" + qsTr("Press keys") + "]")
 	}
 	function hide() {
 		hideDetect.start()

@@ -64,7 +64,7 @@ Rectangle {
 
 				// Header
 				Text {
-					text: "Scale Image"
+					text: qsTr("Scale Image")
 					color: "white"
 					font.pointSize: 25
 					font.bold: true
@@ -80,7 +80,7 @@ Rectangle {
 					Row {
 						spacing: 5
 						Text {
-							text: "Current Size:"
+							text: qsTr("Current Size:")
 							color: "white"
 						}
 						Text {
@@ -104,7 +104,7 @@ Rectangle {
 					id: error
 					x: (parent.width-width)/2
 					color: "red"
-					text: "Error! Something went wrong, unable to save new dimension..."
+					text: qsTr("Error! Something went wrong, unable to save new dimension...")
 				}
 
 				// New settings
@@ -128,13 +128,13 @@ Rectangle {
 							height: childrenRect.height
 							Text {
 								color: "white"
-								text: "New width:"
+								text: qsTr("New width:")
 								horizontalAlignment: Text.AlignRight
 								y: (newwidth.height-height)/2+5
 							}
 							Text {
 								color: "white"
-								text: "New height:"
+								text: qsTr("New height:")
 								horizontalAlignment: Text.AlignRight
 								y: newwidth.height+10+(newheight.height-height)/2
 							}
@@ -206,7 +206,7 @@ Rectangle {
 							id: aspect_text
 							color: "white"
 							opacity: aspect_image.keepaspectratio ? 1 : 0.3
-							text: "Aspect Ratio"
+							text: qsTr("Aspect Ratio")
 							font.strikeout: !aspect_image.keepaspectratio
 							y: (rowedits.height-height)/2+5
 							// Click triggers keeping of aspect ratio
@@ -234,7 +234,7 @@ Rectangle {
 						spacing: 5
 						Text {
 							color: "white"
-							text: "Quality"
+							text: qsTr("Quality")
 						}
 						CustomSlider {
 							id: quality_slider
@@ -269,7 +269,7 @@ Rectangle {
 
 						CustomButton {
 							id: scale_inplace
-							text: "Scale in place"
+							text: qsTr("Scale in place")
 							onClickedButton: {
 								if(getanddostuff.scaleImage(thumbnailBar.currentFile, newwidth.value, newheight.value,
 															quality_slider.value, thumbnailBar.currentFile)) {
@@ -282,7 +282,7 @@ Rectangle {
 						}
 						CustomButton {
 							id: scale_innewfile
-							text: "Scale into new file"
+							text: qsTr("Scale into new file")
 							onClickedButton: {
 								var fname = getanddostuff.getSaveFilename("Save file as...",thumbnailBar.currentFile);
 								if(fname !== "") {
@@ -298,7 +298,7 @@ Rectangle {
 						}
 						CustomButton {
 							id: scale_dont
-							text: "Don't scale"
+							text: qsTr("Don't scale")
 							onClickedButton: hideScale()
 						}
 					}

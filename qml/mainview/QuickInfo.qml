@@ -110,7 +110,7 @@ Item {
 				}
 
 				MenuItem {
-					text: "<font color=\"white\">Hide Counter</font>"
+					text: "<font color=\"white\">" + qsTr("Hide Counter") + "</font>"
 					onTriggered: {
 					counter.text = ""
 					counter.visible = false
@@ -176,7 +176,7 @@ Item {
 				}
 
 				MenuItem {
-					text: "<font color=\"white\">Hide Filepath, leave Filename</font>"
+					text: "<font color=\"white\">" + qsTr("Hide Filepath, leave Filename") + "</font>"
 					onTriggered: {
 						filename.text = getanddostuff.removePathFromFilename(filename.text)
 						settings.hidefilepathshowfilename = true;
@@ -184,7 +184,7 @@ Item {
 				}
 
 				MenuItem {
-					text: "<font color=\"white\">Hide both, Filename and Filepath</font>"
+					text: "<font color=\"white\">" + qsTr("Hide both, Filename and Filepath") + "</font>"
 					onTriggered: {
 						filename.text = ""
 						spacing.visible = false
@@ -227,7 +227,8 @@ Item {
 				}
 				Text {
 					color: "white"
-					text: "Filter: " + currentfilter
+					//: As in: FILTER images
+					text: qsTr("Filter:") + " " + currentfilter
 					visible: (currentfilter != "")
 				}
 			}

@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>photoqt_de.qm</file>
+        <file>photoqt_en.qm</file>
+    </qresource>
+</RCC>

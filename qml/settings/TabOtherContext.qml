@@ -113,7 +113,7 @@ Rectangle {
 
 							height: icon.height
 							verticalAlignment: Qt.AlignVCenter
-							text: "Click here to drag"
+							text: qsTr("Click here to drag")
 
 							color: "white"
 
@@ -181,7 +181,7 @@ Rectangle {
 
 							y: (parent.height-height)/2
 
-							text: "quit"
+							text: qsTr("quit")
 
 							checkedButton: _quit
 

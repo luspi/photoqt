@@ -51,7 +51,7 @@ Rectangle {
 					color: "white"
 					font.pointSize: 18
 					font.bold: true
-					text: "Advanced Settings"
+					text: qsTr("Advanced Settings")
 					anchors.horizontalCenter: parent.horizontalCenter
 				}
 			}
@@ -64,7 +64,7 @@ Rectangle {
 
 				width: flickable.width
 
-				text: "<h2>Background of PhotoQt</h2><br>The background of PhotoQt is the part, that is not covered by an image. It can be made either real (half-)transparent (using a compositor), or faked transparent (instead of the actual desktop a screenshot of it is shown), or a custom background image can be set, or none of the above.<br>Note: Fake transparency currently only really works when PhotoQt is run in fullscreen/maximised!"
+				text: "<h2>" + qsTr("Background of PhotoQt") + "</h2><br>" + qsTr("The background of PhotoQt is the part, that is not covered by an image. It can be made either real (half-)transparent (using a compositor), or faked transparent (instead of the actual desktop a screenshot of it is shown), or a custom background image can be set, or none of the above.<br>Note: Fake transparency currently only really works when PhotoQt is run in fullscreen/maximised!")
 
 			}
 
@@ -88,23 +88,23 @@ Rectangle {
 					ExclusiveGroup { id: radiobuttons_background }
 					CustomRadioButton {
 						id: background_halftrans
-						text: "Use (half-)transparent background"
+						text: qsTr("Use (half-)transparent background")
 						exclusiveGroup: radiobuttons_background
 						checked: true
 					}
 					CustomRadioButton {
 						id: background_fakedtrans
-						text: "Use faked transparency"
+						text: qsTr("Use faked transparency")
 						exclusiveGroup: radiobuttons_background
 					}
 					CustomRadioButton {
 						id: background_image
-						text: "Use custom background image"
+						text: qsTr("Use custom background image")
 						exclusiveGroup: radiobuttons_background
 					}
 					CustomRadioButton {
 						id: background_onecoloured
-						text: "Use one-coloured, non-transparent background"
+						text: qsTr("Use one-coloured, non-transparent background")
 						exclusiveGroup: radiobuttons_background
 					}
 				}
@@ -160,7 +160,7 @@ Rectangle {
 								horizontalAlignment: Qt.AlignHCenter
 								verticalAlignment: Qt.AlignVCenter
 								color: "white"
-								text: "No image selected"
+								text: qsTr("No image selected")
 							}
 						}
 					}
@@ -184,28 +184,28 @@ Rectangle {
 
 							CustomRadioButton {
 								id: background_image_scale
-								text: "Scale to fit"
+								text: qsTr("Scale to fit")
 								exclusiveGroup: radiobuttons_image
 								checked: true
 							}
 							CustomRadioButton {
 								id: background_image_scalecrop
-								text: "Scale and Crop to fit"
+								text: qsTr("Scale and Crop to fit")
 								exclusiveGroup: radiobuttons_image
 							}
 							CustomRadioButton {
 								id: background_image_stretch
-								text: "Stretch to fit"
+								text: qsTr("Stretch to fit")
 								exclusiveGroup: radiobuttons_image
 							}
 							CustomRadioButton {
 								id: background_image_center
-								text: "Center image"
+								text: qsTr("Center image")
 								exclusiveGroup: radiobuttons_image
 							}
 							CustomRadioButton {
 								id: background_image_tile
-								text: "Tile image"
+								text: qsTr("Tile image")
 								exclusiveGroup: radiobuttons_image
 							}
 
@@ -224,7 +224,7 @@ Rectangle {
 
 				width: flickable.width
 
-				text: "<h2>Background/Overlay Color</h2><br>Here you can adjust the background colour of PhotoQt (of the part not covered by an image). When using compositing or a background image, then you can also specify an alpha value, i.e. the transparency of the coloured overlay layer. When neither compositing is enabled nor a background image is set, then this colour will be the non-transparent background of PhotoQt."
+				text: "<h2>" + qsTr("Background/Overlay Color") + "</h2><br>" + qsTr("Here you can adjust the background colour of PhotoQt (of the part not covered by an image). When using compositing or a background image, then you can also specify an alpha value, i.e. the transparency of the coloured overlay layer. When neither compositing is enabled nor a background image is set, then this colour will be the non-transparent background of PhotoQt.")
 
 			}
 
@@ -254,7 +254,7 @@ Rectangle {
 									width: 60
 									horizontalAlignment: Qt.AlignRight
 									color: "white"
-									text: "Red:"
+									text: qsTr("Red:")
 								}
 
 								CustomSlider {
@@ -275,7 +275,7 @@ Rectangle {
 									width: 60
 									horizontalAlignment: Qt.AlignRight
 									color: "white"
-									text: "Green:"
+									text: qsTr("Green:")
 								}
 
 								CustomSlider {
@@ -296,7 +296,7 @@ Rectangle {
 									width: 60
 									horizontalAlignment: Qt.AlignRight
 									color: "white"
-									text: "Blue:"
+									text: qsTr("Blue:")
 								}
 
 								CustomSlider {
@@ -317,7 +317,7 @@ Rectangle {
 									width: 60
 									horizontalAlignment: Qt.AlignRight
 									color: "white"
-									text: "Alpha:"
+									text: qsTr("Alpha:")
 								}
 
 								CustomSlider {
@@ -377,7 +377,7 @@ Rectangle {
 									verticalAlignment: Qt.AlignVCenter
 
 									color: "white"
-									text: "Preview colour"
+									text: qsTr("Preview colour")
 
 								}
 
@@ -400,7 +400,7 @@ Rectangle {
 
 				width: flickable.width
 
-				text: "<h2>Border Around Image</h2><br>Whenever you load an image, the image is per default not shown completely in fullscreen, i.e. it's not stretching from screen edge to screen edge. Instead there is a small margin around the image of a couple pixels (looks better). Here you can adjust the width of this margin (set to 0 to disable it)."
+				text: "<h2>" + qsTr("Border Around Image") + "</h2><br>" + qsTr("Whenever you load an image, the image is per default not shown completely in fullscreen, i.e. it's not stretching from screen edge to screen edge. Instead there is a small margin around the image of a couple pixels (looks better). Here you can adjust the width of this margin (set to 0 to disable it).")
 
 			}
 
@@ -459,13 +459,13 @@ Rectangle {
 
 				width: flickable.width
 
-				text: "<h2>Close on Click in empty area</h2><br>This option makes PhotoQt behave a bit like the JavaScript image viewers you find on many websites. A click outside of the image on the empty background will close the application. It can be a nice feature, PhotoQt will feel even more like a \"floating layer\". However, you might at times close PhotoQt accidentally.<br><br>Note: If you use a mouse click for a shortcut already, then this option wont have any effect!"
+				text: "<h2>" + qsTr("Close on Click in empty area") + "</h2><br>" + qsTr("This option makes PhotoQt behave a bit like the JavaScript image viewers you find on many websites. A click outside of the image on the empty background will close the application. It can be a nice feature, PhotoQt will feel even more like a \"floating layer\". However, you might at times close PhotoQt accidentally.") + "<br><br>" + qsTr("Note: If you use a mouse click for a shortcut already, then this option wont have any effect!")
 
 			}
 
 			CustomCheckBox {
 				id: closeongrey
-				text: "Close on click in empty area"
+				text: qsTr("Close on click in empty area")
 				x: (flickable.width-width)/2
 			}
 
@@ -478,13 +478,13 @@ Rectangle {
 
 				width: flickable.width
 
-				text: "<h2>Looping Through Folder</h2><br>When you load the last image in a directory and select 'Next', PhotoQt automatically jumps to the first image (and vice versa: if you select 'Previous' while having the first image loaded, PhotoQt jumps to the last image). Disabling this option makes PhotoQt stop at the first/last image (i.e. selecting 'Next'/'Previous' will have no effect in these two special cases)."
+				text: "<h2>" + qsTr("Looping Through Folder") + "</h2><br>" + qsTr("When you load the last image in a directory and select 'Next', PhotoQt automatically jumps to the first image (and vice versa: if you select 'Previous' while having the first image loaded, PhotoQt jumps to the last image). Disabling this option makes PhotoQt stop at the first/last image (i.e. selecting 'Next'/'Previous' will have no effect in these two special cases).")
 
 			}
 
 			CustomCheckBox {
 				id: loopfolder
-				text: "Loop through folder"
+				text: qsTr("Loop through folder")
 				x: (flickable.width-width)/2
 			}
 
@@ -497,7 +497,7 @@ Rectangle {
 
 				width: flickable.width
 
-				text: "<h2>Smooth Transition</h2><br>Switching between images can be done smoothly, the new image can be set to fade into the old image. 'No transition' means, that the previous image is simply replaced by the new image."
+				text: "<h2>" + qsTr("Smooth Transition") + "</h2><br>" + qsTr("Switching between images can be done smoothly, the new image can be set to fade into the old image. 'No transition' means, that the previous image is simply replaced by the new image.")
 
 			}
 
@@ -516,7 +516,7 @@ Rectangle {
 
 					Text {
 						color: "white"
-						text: "No Transition"
+						text: qsTr("No Transition")
 					}
 
 					CustomSlider {
@@ -535,7 +535,7 @@ Rectangle {
 
 					Text {
 						color: "white"
-						text: "Long Transition"
+						text: qsTr("Long Transition")
 					}
 
 
@@ -552,7 +552,7 @@ Rectangle {
 
 				width: flickable.width
 
-				text: "<h2>Menu Sensitivity</h2><br>Here you can adjust the sensitivity of the drop-down menu. The menu opens when your mouse cursor gets close to the right side of the upper edge. Here you can adjust how close you need to get for it to open."
+				text: "<h2>" + qsTr("Menu Sensitivity") + "</h2><br>" + qsTr("Here you can adjust the sensitivity of the drop-down menu. The menu opens when your mouse cursor gets close to the right side of the upper edge. Here you can adjust how close you need to get for it to open.")
 
 			}
 
@@ -571,7 +571,7 @@ Rectangle {
 
 					Text {
 						color: "white"
-						text: "Low Sensitivity"
+						text: qsTr("Low Sensitivity")
 					}
 
 					CustomSlider {
@@ -590,7 +590,7 @@ Rectangle {
 
 					Text {
 						color: "white"
-						text: "High Sensitivity"
+						text: qsTr("High Sensitivity")
 					}
 
 				}
@@ -607,7 +607,7 @@ Rectangle {
 
 				width: flickable.width
 
-				text: "<h2>Mouse Wheel Sensitivity</h2><br>Here you can adjust the sensitivity of the mouse wheel. For example, if you have set the mouse wheel up/down for switching back and forth between images, then a lower sensitivity means that you will have to scroll further for triggering a shortcut. Per default it is set to the highest sensitivity, i.e. every single wheel movement is evaluated."
+				text: "<h2>" + qsTr("Mouse Wheel Sensitivity") + "</h2><br>" + qsTr("Here you can adjust the sensitivity of the mouse wheel. For example, if you have set the mouse wheel up/down for switching back and forth between images, then a lower sensitivity means that you will have to scroll further for triggering a shortcut. Per default it is set to the highest sensitivity, i.e. every single wheel movement is evaluated.")
 
 			}
 
@@ -626,7 +626,7 @@ Rectangle {
 
 					Text {
 						color: "white"
-						text: "Very sensitive"
+						text: qsTr("Very sensitive")
 					}
 
 					CustomSlider {
@@ -645,7 +645,7 @@ Rectangle {
 
 					Text {
 						color: "white"
-						text: "Not at all sensitive"
+						text: qsTr("Not at all sensitive")
 					}
 
 				}
@@ -662,7 +662,7 @@ Rectangle {
 
 				width: flickable.width
 
-				text: "<h2>Remember per session</h2><br>If you would like PhotoQt to remember the rotation/flipping and/or zoom level per session (not permanent), then you can enable it here. If not set, then every time a new image is displayed, it is displayed neither zoomed nor rotated nor flipped (one could say, it is displayed 'normal')."
+				text: "<h2>" + qsTr("Remember per session") + "</h2><br>" + qsTr("If you would like PhotoQt to remember the rotation/flipping and/or zoom level per session (not permanent), then you can enable it here. If not set, then every time a new image is displayed, it is displayed neither zoomed nor rotated nor flipped (one could say, it is displayed 'normal').")
 
 			}
 
@@ -681,12 +681,12 @@ Rectangle {
 
 					CustomCheckBox {
 						id: remember_rotation
-						text: "Remember Rotation/Flip"
+						text: qsTr("Remember Rotation/Flip")
 					}
 
 					CustomCheckBox {
 						id: remember_zoom
-						text: "Remember Zoom Level"
+						text: qsTr("Remember Zoom Level")
 					}
 
 				}
@@ -703,7 +703,7 @@ Rectangle {
 
 				width: flickable.width
 
-				text: "<h2>Animation and Window Geometry</h2><br>There are two things that can be adjusted here:<ol><li>Animation of fade-in widgets (like, e.g., Settings or About Widget)</li><li>Save and restore of Window Geometry: On quitting PhotoQt, it stores the size and position of the window and can restore it the next time started.</li></ol>"
+				text: "<h2>" + qsTr("Animation and Window Geometry") + "</h2><br>" + qsTr("There are two things that can be adjusted here:") + "<ol><li>" + qsTr("Animation of fade-in widgets (like, e.g., Settings or About Widget)") + "</li><li>" + qsTr("Save and restore of Window Geometry: On quitting PhotoQt, it stores the size and position of the window and can restore it the next time started.") + "</li></ol>"
 
 			}
 
@@ -722,12 +722,12 @@ Rectangle {
 
 					CustomCheckBox {
 						id: animate_elements
-						text: "Animate all fade-in elements"
+						text: qsTr("Animate all fade-in elements")
 					}
 
 					CustomCheckBox {
 						id: save_restore_geometry
-						text: "Save and restore window geometry"
+						text: qsTr("Save and restore window geometry")
 					}
 
 

@@ -56,7 +56,7 @@ Rectangle {
 
 		Tab {
 
-			title: "Look and Feel"
+			title: qsTr("Look and Feel")
 
 			CustomTabView {
 
@@ -69,7 +69,7 @@ Rectangle {
 
 				Tab {
 
-					title: "Basic"
+					title: qsTr("Basic")
 
 					TabLookAndFeelBasic {
 						Connections {
@@ -90,7 +90,7 @@ Rectangle {
 
 				Tab {
 
-					title: "Advanced"
+					title: qsTr("Advanced")
 
 					TabLookAndFeelAdvanced {
 						Connections {
@@ -112,7 +112,7 @@ Rectangle {
 
 		Tab {
 
-			title: "Thumbnails"
+			title: qsTr("Thumbnails")
 
 			CustomTabView {
 
@@ -121,7 +121,7 @@ Rectangle {
 
 				Tab {
 
-					title: "Basic"
+					title: qsTr("Basic")
 
 					TabThumbnailsBasic {
 						Connections {
@@ -140,7 +140,7 @@ Rectangle {
 
 				}
 				Tab {
-					title: "Advanced"
+					title: qsTr("Advanced")
 					TabThumbnailsAdvanced {
 						Connections {
 							target: tabrect
@@ -171,7 +171,7 @@ Rectangle {
 
 		Tab {
 
-			title: "Metadata"
+			title: qsTr("Metadata")
 			TabDetails {
 				Connections {
 					target: tabrect
@@ -191,7 +191,7 @@ Rectangle {
 
 		Tab {
 
-			title: "Other Settings"
+			title: qsTr("Other Settings")
 
 			CustomTabView {
 
@@ -216,7 +216,7 @@ Rectangle {
 					}
 				}
 				Tab {
-					title: "Filetypes"
+					title: qsTr("Filetypes")
 					TabFiletypes {
 						Connections {
 							target: tabrect
@@ -237,7 +237,7 @@ Rectangle {
 
 		Tab {
 
-			title: "Shortcuts"
+			title: qsTr("Shortcuts")
 			TabShortcuts {
 				Connections {
 					target: tabrect
@@ -310,7 +310,7 @@ Rectangle {
 			y: 5
 			height: parent.height-10
 
-			text: "Restore Default Settings"
+			text: qsTr("Restore Default Settings")
 
 		}
 
@@ -323,7 +323,7 @@ Rectangle {
 			y: 5
 			height: parent.height-10
 
-			text: "Exit and Discard Changes"
+			text: qsTr("Exit and Discard Changes")
 
 			onClickedButton: {
 				setData_restore()
@@ -341,7 +341,7 @@ Rectangle {
 			y: 5
 			height: parent.height-10
 
-			text: "Save Changes and Exit"
+			text: qsTr("Save Changes and Exit")
 
 			onClickedButton: {
 				saveData()
@@ -355,30 +355,30 @@ Rectangle {
 	CustomConfirm {
 		fillAnchors: tabrect
 		id: confirmclean
-		header: "Clean Database"
-		description: "Do you really want to clean up the database?<br><br>This removes all obsolete thumbnails, thus possibly making PhotoQt a little faster.<bR><br>This process might take a little while."
-		confirmbuttontext: "Yes, clean is good"
-		rejectbuttontext: "No, don't have time for that"
+		header: qsTr("Clean Database")
+		description: qsTr("Do you really want to clean up the database?") + "<br><br>" + qsTr("This removes all obsolete thumbnails, thus possibly making PhotoQt a little faster.") + "<bR><br>" + qsTr("This process might take a little while.")
+		confirmbuttontext: qsTr("Yes, clean is good")
+		rejectbuttontext: qsTr("No, don't have time for that")
 		onAccepted: cleanDatabase()
 	}
 
 	CustomConfirm {
 		fillAnchors: tabrect
 		id: confirmerase
-		header: "Erase Database"
-		description: "Do you really want to ERASE the entire database?<br><br>This removes every single item in the database! This step should never really be necessarily. After that, every thumbnail has to be newly re-created.<br>This step cannot be reversed!"
-		confirmbuttontext: "Yes, get rid of it all"
-		rejectbuttontext: "Nooo, I want to keep it"
+		header: qsTr("Erase Database")
+		description: qsTr("Do you really want to ERASE the entire database?") + "<br><br>" + qsTr("This removes every single item in the database! This step should never really be necessarily. After that, every thumbnail has to be newly re-created.") + "<br>" + qsTr("This step cannot be reversed!")
+		confirmbuttontext: qsTr("Yes, get rid of it all")
+		rejectbuttontext: qsTr("Nooo, I want to keep it")
 		onAccepted: eraseDatabase()
 	}
 
 	CustomConfirm {
 		fillAnchors: tabrect
 		id: confirmdefaultshortcuts
-		header: "Set Default Shortcuts"
-		description: "Are you sure you want to reset the shortcuts to the default set?"
-		confirmbuttontext: "Yes, please"
-		rejectbuttontext: "Nah, don't"
+		header: qsTr("Set Default Shortcuts")
+		description: qsTr("Are you sure you want to reset the shortcuts to the default set?")
+		confirmbuttontext: qsTr("Yes, please")
+		rejectbuttontext: qsTr("Nah, don't")
 		maxwidth: 400
 		onAccepted: {
 			var m = getanddostuff.getDefaultShortcuts()

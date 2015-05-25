@@ -8,10 +8,10 @@ Rectangle {
 
 	property int maxwidth: 500
 
-	property string header: "Confirm me?"
-	property string description: "Do you really want to do this?"
-	property string confirmbuttontext: "Yes, do it"
-	property string rejectbuttontext: "No, don't"
+	property string header: qsTr("Confirm me?")
+	property string description: qsTr("Do you really want to do this?")
+	property string confirmbuttontext: qsTr("Yes, do it")
+	property string rejectbuttontext: qsTr("No, don't")
 
 	property bool alwaysDoThis: false
 	property bool showDontAskAgain: false
@@ -107,7 +107,7 @@ Rectangle {
 			CustomCheckBox {
 				id: ask
 				x: (parent.width-width)/2
-				text: "Don't ask again"
+				text: qsTr("Don't ask again")
 				visible: showDontAskAgain
 			}
 

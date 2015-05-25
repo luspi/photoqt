@@ -49,7 +49,7 @@ Rectangle {
 					color: "white"
 					font.pointSize: 18
 					font.bold: true
-					text: "Basic Settings"
+					text: qsTr("Basic Settings")
 					anchors.horizontalCenter: parent.horizontalCenter
 				}
 			}
@@ -62,7 +62,7 @@ Rectangle {
 
 				width: tab.width
 
-				text: "<h2>Sort Images</h2><br>Here you can adjust, how the images in a folder are supposed to be sorted. You can sort them by Filename, Natural Name (e.g., file10.jpg comes after file9.jpg and not after file1.jpg), File Size, and Date. Also, you can reverse the sorting order from ascending to descending if wanted.<br><br><b>Hint: You can also change this setting very quickly from the 'Quick Settings'' window, hidden behind the right screen edge.</b>"
+				text: "<h2>" + qsTr("Sort Images") + "</h2><br>" + qsTr("Here you can adjust, how the images in a folder are supposed to be sorted. You can sort them by Filename, Natural Name (e.g., file10.jpg comes after file9.jpg and not after file1.jpg), File Size, and Date. Also, you can reverse the sorting order from ascending to descending if wanted.") + "<br><br><b>" + qsTr("Hint: You can also change this setting very quickly from the 'Quick Settings' window, hidden behind the right screen edge.") + "</b>"
 
 			}
 
@@ -87,21 +87,21 @@ Rectangle {
 					// Label
 					Text {
 						color: "white"
-						text: "Sort by:"
+						text: qsTr("Sort by:")
 						y: (sortimages_subrect.height-height)/2
 					}
 					// Choose Criteria
 					CustomComboBox {
 						id: sortimages_checkbox
 						width: 150
-						model: ["Name", "Natural Name", "Date", "Filesize"]
+						model: [qsTr("Name"), qsTr("Natural Name"), qsTr("Date"), qsTr("Filesize")]
 					}
 
 					// Ascending or Descending
 					ExclusiveGroup { id: radiobuttons_sorting }
 					CustomRadioButton {
 						id: sortimages_ascending
-						text: "Ascending"
+						text: qsTr("Ascending")
 						icon: "qrc:/img/settings/sortascending.png"
 						y: (sortimages_subrect.height-height)/2
 						exclusiveGroup: radiobuttons_sorting
@@ -109,7 +109,7 @@ Rectangle {
 					}
 					CustomRadioButton {
 						id: sortimages_descending
-						text: "Descending"
+						text: qsTr("Descending")
 						y: (sortimages_subrect.height-height)/2
 						icon: "qrc:/img/settings/sortdescending.png"
 						exclusiveGroup: radiobuttons_sorting
@@ -126,7 +126,7 @@ Rectangle {
 
 				width: tab.width
 
-				text: "<h2>Window Mode</h2><br>PhotoQt is designed with the space of a fullscreen app in mind. That's why it by default runs as fullscreen. However, some might prefer to have it as a normal window, e.g. so that they can see the panel."
+				text: "<h2>" + qsTr("Window Mode") + "</h2><br>" + qsTr("PhotoQt is designed with the space of a fullscreen app in mind. That's why it by default runs as fullscreen. However, some might prefer to have it as a normal window, e.g. so that they can see the panel.")
 
 			}
 
@@ -147,7 +147,7 @@ Rectangle {
 
 					CustomCheckBox {
 						id: windowmode
-						text: "Run PhotoQt in Window Mode"
+						text: qsTr("Run PhotoQt in Window Mode")
 						onButtonCheckedChanged:     // 'Window Decoration' checkbox is only enabled when the 'Window ModeÄ checkbox is checked
 						windowmode_deco.enabled = checkedButton
 					}
@@ -155,7 +155,7 @@ Rectangle {
 					CustomCheckBox {
 						id: windowmode_deco
 						enabled: false
-						text: "Show Window Decoration"
+						text: qsTr("Show Window Decoration")
 					}
 
 				}
@@ -170,7 +170,7 @@ Rectangle {
 
 				width: tab.width
 
-				text: "<h2>Hide to Tray Icon</h2><br>When started PhotoQt creates a tray icon in the system tray. If desired, you can set PhotoQt to minimise to the tray instead of quitting. This causes PhotoQt to be almost instantaneously available when an image is opened.<br>It is also possible to start PhotoQt already minimised to the tray (e.g. at system startup) when called with \"--start-in-tray\"."
+				text: "<h2>" + qsTr("Hide to Tray Icon") + "</h2><br>" + qsTr("When started PhotoQt creates a tray icon in the system tray. If desired, you can set PhotoQt to minimise to the tray instead of quitting. This causes PhotoQt to be almost instantaneously available when an image is opened.<br>It is also possible to start PhotoQt already minimised to the tray (e.g. at system startup) when called with \"--start-in-tray\".")
 
 			}
 
@@ -178,7 +178,7 @@ Rectangle {
 				id: trayicon
 				width: 250
 				x: (parent.width-width)/2
-				model: ["No tray icon","Hide to tray icon","Show tray icon, but don't hide to it"]
+				model: [qsTr("No tray icon"),qsTr("Hide to tray icon"),qsTr("Show tray icon, but don't hide to it")]
 			}
 
 			/***************
@@ -189,7 +189,7 @@ Rectangle {
 
 				width: tab.width
 
-				text: "<h2>Closing 'X' (top right)</h2><br>There are two looks for the closing 'x' at the top right: a normal 'x', or a slightly more fancy 'x'. Here you can switch back and forth between both of them, and also change their size. If you prefer not to have a closing 'x' at all, see below for an option to hide it."
+				text: "<h2>" + qsTr("Closing 'X' (top right)") + "</h2><br>" + qsTr("There are two looks for the closing 'x' at the top right: a normal 'x', or a slightly more fancy 'x'. Here you can switch back and forth between both of them, and also change their size. If you prefer not to have a closing 'x' at all, see below for an option to hide it.")
 
 			}
 
@@ -212,14 +212,14 @@ Rectangle {
 
 					CustomRadioButton {
 						id: closingx_normal
-						text: "Normal Look"
+						text: qsTr("Normal Look")
 						checked: true
 						exclusiveGroup: radiobuttons_closingx
 					}
 
 					CustomRadioButton {
 						id: closingx_fancy
-						text: "Fancy Look"
+						text: qsTr("Fancy Look")
 						exclusiveGroup: radiobuttons_closingx
 					}
 
@@ -245,7 +245,7 @@ Rectangle {
 					Text {
 						color: "white"
 						font.pointSize: 10
-						text: "Small Size"
+						text: qsTr("Small Size")
 					}
 
 					CustomSlider {
@@ -260,7 +260,7 @@ Rectangle {
 					Text {
 						color: "white"
 						font.pointSize: 10
-						text: "Large Size"
+						text: qsTr("Large Size")
 					}
 
 				}
@@ -276,14 +276,14 @@ Rectangle {
 
 				width: tab.width
 
-				text: "<h2>Fit Image in Window</h2><br>If the image dimensions are smaller than the screen dimensions, PhotoQt can zoom those images to make them fir into the window. However, keep in mind, that such images will look pixelated to a certain degree (depending on each image)."
+				text: "<h2>" + qsTr("Fit Image in Window") + "</h2><br>" + qsTr("If the image dimensions are smaller than the screen dimensions, PhotoQt can zoom those images to make them fir into the window. However, keep in mind, that such images will look pixelated to a certain degree (depending on each image).")
 
 			}
 
 			CustomCheckBox {
 				id: fitinwindow
 				x: (tab.width-width)/2
-				text: "Fit Images in Window"
+				text: qsTr("Fit Images in Window")
 			}
 
 
@@ -296,7 +296,7 @@ Rectangle {
 
 				width: tab.width
 
-				text: "<h2>Hide Quickinfo (Text Labels)</h2><br>Here you can hide the text labels shown in the main area: The Counter in the top left corner, the file path/name following the counter, and the \"X\" displayed in the top right corner. The labels can also be hidden by simply right-clicking on them and selecting \"Hide\"."
+				text: "<h2>" + qsTr("Hide Quickinfo (Text Labels)") + "</h2><br>" + qsTr("Here you can hide the text labels shown in the main area: The Counter in the top left corner, the file path/name following the counter, and the \"X\" displayed in the top right corner. The labels can also be hidden by simply right-clicking on them and selecting \"Hide\".")
 
 			}
 
@@ -317,22 +317,22 @@ Rectangle {
 
 					CustomCheckBox {
 						id: quickinfo_counter
-						text: "Hide Counter"
+						text: qsTr("Hide Counter")
 					}
 
 					CustomCheckBox {
 						id: quickinfo_filepath
-						text: "Hide Filepath (Shows only file name)"
+						text: qsTr("Hide Filepath (Shows only file name)")
 					}
 
 					CustomCheckBox {
 						id: quickinfo_filename
-						text: "Hide Filename (Including file path)"
+						text: qsTr("Hide Filename (Including file path)")
 					}
 
 					CustomCheckBox {
 						id: quickinfo_closingx
-						text: "Hide \"X\" (Closing)"
+						text: qsTr("Hide \"X\" (Closing)")
 					}
 
 				}

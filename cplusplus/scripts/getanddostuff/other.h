@@ -33,6 +33,7 @@ public:
 	QString trim(QString s) { return s.trimmed(); }
 	int getCurrentScreen(int x, int y);
 	QString getTempDir();
+	QString getHomeDir();
 
 private:
 	QImageReader reader;

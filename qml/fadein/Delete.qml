@@ -65,7 +65,7 @@ Rectangle {
 
 				// Heading
 				Text {
-					text: "Delete File"
+					text: qsTr("Delete File")
 					color: "white"
 					font.bold: true
 					font.pointSize: 28
@@ -82,7 +82,7 @@ Rectangle {
 				// The filename is dynamically updated when element is shown
 				Text {
 					id: filename
-					text: "P1080310.JPG"
+					text: ""
 					color: "grey"
 					font.pointSize: 20
 					x: (rect.width-width)/2
@@ -95,7 +95,7 @@ Rectangle {
 				}
 
 				Text {
-					text: "Do you really want to delete this file?"
+					text: qsTr("Do you really want to delete this file?")
 					x: (rect.width-width)/2
 					font.pointSize: 22
 					color: "white"
@@ -123,7 +123,7 @@ Rectangle {
 						// This button triggers "Move to Trash" under Linux, and permanent "Delete" under Windows
 						CustomButton {
 							id: movetotrash
-							text: getanddostuff.amIOnLinux() ? "Move to Trash" : "Delete"
+							text: getanddostuff.amIOnLinux() ? qsTr("Move to Trash") : qsTr("Delete")
 							fontsize: 20
 							onClickedButton: {
 								hideDelete()
@@ -133,7 +133,7 @@ Rectangle {
 						}
 
 						CustomButton {
-							text: "Cancel"
+							text: qsTr("Cancel")
 							fontsize: 20
 							onClickedButton: hideDelete()
 						}
@@ -143,7 +143,7 @@ Rectangle {
 
 				// Permanent "Delete" (needed on Linux only)
 				CustomButton {
-					text: "Delete permanently"
+					text: qsTr("Delete permanently")
 					fontsize: 15
 					visible: getanddostuff.amIOnLinux()
 					x: (rect.width-width)/2
@@ -162,7 +162,7 @@ Rectangle {
 
 				// A little explanatory text informing the user about the shortcuts
 				Text {
-					text: getanddostuff.amIOnLinux() ? "Enter = Move to Trash, Shift+Enter = Delete permanently, Escape = Cancel" : "Enter = Delete, Escape = Cancel"
+					text: getanddostuff.amIOnLinux() ? qsTr("Enter = Move to Trash, Shift+Enter = Delete permanently, Escape = Cancel") : qsTr("Enter = Delete, Escape = Cancel")
 					color: "white"
 					font.pointSize: 10
 					x: rect.width-width

@@ -351,7 +351,7 @@ Item {
 			}
 
 			MenuItem {
-				text: "<font color=\"white\">Hide 'x'</font>"
+				text: "<font color=\"white\">" + qsTr("Hide") + " 'x'</font>"
 				onTriggered: {
 					settings.hidex = true;
 					rect.visible = false;
@@ -375,7 +375,7 @@ Item {
 		font.bold: true
 		wrapMode: Text.WordWrap
 
-		text: "Open a file to begin"
+		text: qsTr("Open a file to begin")
 
 	}
 
@@ -394,17 +394,17 @@ Item {
 		font.bold: true
 		wrapMode: Text.WordWrap
 
-		text: "No results found..."
+		text: qsTr("No results found...")
 
 	}
 
 
 	CustomConfirm {
 		id: rotateconfirm
-		header: "Rotate Image?"
-		description: "The Exif data of this image says, that this image is supposed to be rotated.<br><br>Do you want to apply the rotation?"
-		confirmbuttontext: "Yes, do it"
-		rejectbuttontext: "No, don't"
+		header: qsTr("Rotate Image?")
+		description: qsTr("The Exif data of this image says, that this image is supposed to be rotated.") + "<br><br>" + qsTr("Do you want to apply the rotation?")
+		confirmbuttontext: qsTr("Yes, do it")
+		rejectbuttontext: qsTr("No, don't")
 		showDontAskAgain: true
 		onAccepted: {
 			// 1 = Do nothing

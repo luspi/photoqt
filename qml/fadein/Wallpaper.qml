@@ -83,13 +83,13 @@ Rectangle {
 							color: "white"
 							font.pointSize: 20
 							font.bold: true
-							text: "Set as Wallpaper:"
+							text: qsTr("Set as Wallpaper:")
 						}
 						Text {
 							y: parent.height-height
 							color: "white"
 							font.pointSize: 19
-							text: "P1080310.JPG"
+							text: ""
 						}
 					}
 				}
@@ -103,7 +103,7 @@ Rectangle {
 					color: "white"
 					font.bold: true
 					font.pointSize: 16
-					text: "Window Manager"
+					text: qsTr("Window Manager")
 				}
 
 				Text {
@@ -111,7 +111,7 @@ Rectangle {
 					font.pointSize: 11
 					width: rect.width
 					wrapMode: Text.WordWrap
-					text: "PhotoQt tries to detect your window manager according to the environment variables set by your system. If it still got it wrong, you can change the window manager manually."
+					text: qsTr("PhotoQt tries to detect your window manager according to the environment variables set by your system. If it still got it wrong, you can change the window manager manually.")
 				}
 
 				CustomComboBox {
@@ -187,7 +187,7 @@ Rectangle {
 								font.bold: true
 								wrapMode: Text.WordWrap
 								horizontalAlignment: Text.AlignHCenter
-								text: "Sorry, KDE4 doesn't offer the feature to change the wallpaper except from their own system settings. Unfortunately there's nothing I can do about that."
+								text: qsTr("Sorry, KDE4 doesn't offer the feature to change the wallpaper except from their own system settings. Unfortunately there's nothing I can do about that.")
 
 							}
 
@@ -213,7 +213,7 @@ Rectangle {
 								font.bold: true
 								wrapMode: Text.WordWrap
 								horizontalAlignment: Text.AlignHCenter
-								text: "Sorry, Plasma 5 doesn't yet offer the feature to change the wallpaper except from their own system settings. Hopefully this will change soon, but until then there's nothing I can do about that."
+								text: qsTr("Sorry, Plasma 5 doesn't yet offer the feature to change the wallpaper except from their own system settings. Hopefully this will change soon, but until then there's nothing I can do about that.")
 
 							}
 
@@ -244,7 +244,7 @@ Rectangle {
 									width: rect.width
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter
-									text: "Warning: 'gsettings' doesn't seem to be available! Are you sure Gnome/Unity is installed?";
+									text: qsTr("Warning: 'gsettings' doesn't seem to be available! Are you sure Gnome/Unity is installed?");
 								}
 
 								// PICTURE OPTIONS HEADING
@@ -254,7 +254,7 @@ Rectangle {
 									width: rect.width
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter
-									text: "There are several picture options that can be set for the wallpaper image."
+									text: qsTr("There are several picture options that can be set for the wallpaper image.")
 								}
 
 								Rectangle { color: "#00000000"; width: 1; height: 1; }
@@ -331,7 +331,7 @@ Rectangle {
 									width: rect.width
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter
-									text: "Warning: 'xfconf-query' doesn't seem to be available! Are you sure XFCE4 is installed?";
+									text: qsTr("Warning: 'xfconf-query' doesn't seem to be available! Are you sure XFCE4 is installed?");
 								}
 
 								Rectangle { id: xfce4_error_spacing; color: "#00000000"; width: 1; height: 1; }
@@ -344,7 +344,7 @@ Rectangle {
 									width: rect.width
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter
-									text: "The wallpaper can be set to either of the available monitors (or any combination)."
+									text: qsTr("The wallpaper can be set to either of the available monitors (or any combination).")
 								}
 
 								// MONITOR SELECTION
@@ -360,7 +360,7 @@ Rectangle {
 										spacing: 5
 										height: childrenRect.height
 										delegate: CustomCheckBox {
-											text: "Screen #" + index
+											text: qsTr("Screen #") + index
 											checkedButton: true
 											fsize: 11
 											Component.onCompleted: {
@@ -395,7 +395,7 @@ Rectangle {
 									width: rect.width
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter
-									text: "There are several picture options that can be set for the wallpaper image."
+									text: qsTr("There are several picture options that can be set for the wallpaper image.")
 								}
 
 								Rectangle { color: "#00000000"; width: 1; height: 1; }
@@ -477,7 +477,7 @@ Rectangle {
 									width: rect.width
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter
-									text: "Warning: It seems that the 'msgbus' (DBUS) module is not activated<br>It can be activated in the settings console > Add-ons > Modules > System!";
+									text: qsTr("Warning: It seems that the 'msgbus' (DBUS) module is not activated! It can be activated in the settings console > Add-ons > Modules > System.");
 								}
 								// NOTE (tool not existing)
 								Text {
@@ -488,7 +488,7 @@ Rectangle {
 									width: rect.width
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter
-									text: "Warning: 'enlightenment_remote' doesn't seem to be available! Are you sure Enlightenment is installed?";
+									text: qsTr("Warning: 'enlightenment_remote' doesn't seem to be available! Are you sure Enlightenment is installed?");
 								}
 
 								// MONITOR HEADING
@@ -499,7 +499,7 @@ Rectangle {
 									width: rect.width
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter
-									text: "The wallpaper can be set to either of the available monitors (or any combination)."
+									text: qsTr("The wallpaper can be set to either of the available monitors (or any combination).")
 								}
 
 								// MONITOR SELECTION
@@ -515,7 +515,7 @@ Rectangle {
 										spacing: 5
 										height: childrenRect.height
 										delegate: CustomCheckBox {
-											text: "Screen #" + index
+											text: qsTr("Screen #") + index
 											checkedButton: true
 											fsize: 11
 											Component.onCompleted: {
@@ -550,7 +550,7 @@ Rectangle {
 									width: rect.width
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter
-									text: "You can set the wallpaper to any sub-selection of workspaces"
+									text: qsTr("You can set the wallpaper to any sub-selection of workspaces")
 								}
 
 								Rectangle { color: "#00000000"; width: 1; height: 1; }
@@ -570,10 +570,10 @@ Rectangle {
 										delegate: CustomCheckBox {
 											text: {
 												if(row == -1)
-													return "Workspace #" + column
+													return qsTr("Workspace #") + column
 												if(column == -1)
-													return "Workspace #" + row
-												return "Workspace #" + row + "-" + column
+													return qsTr("Workspace #") + row
+												return qsTr("Workspace #") + row + "-" + column
 											}
 											checkedButton: true
 											fsize: 11
@@ -630,7 +630,7 @@ Rectangle {
 									width: rect.width
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter
-									text: "Warning: 'feh' doesn't seem to be installed!";
+									text: qsTr("Warning: 'feh' doesn't seem to be installed!");
 								}
 								// NOTE for nitrogen (tool not existing)
 								Text {
@@ -641,7 +641,7 @@ Rectangle {
 									width: rect.width
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter
-									text: "Warning: 'nitrogen' doesn't seem to be installed!";
+									text: qsTr("Warning: 'nitrogen' doesn't seem to be installed!");
 								}
 								// NOTE for feh AND nitrogen (tool not existing)
 								Text {
@@ -652,7 +652,7 @@ Rectangle {
 									width: rect.width
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter
-									text: "Warning: Both 'feh' and 'nitrogen' don't seem to be installed!";
+									text: qsTr("Warning: Both 'feh' and 'nitrogen' don't seem to be installed!");
 								}
 
 
@@ -663,7 +663,7 @@ Rectangle {
 									width: rect.width
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter
-									text: "PhotoQt can use 'feh' or 'nitrogen' to change the background of the desktop.<br>This is intended particularly for window managers that don't natively support wallpapers (e.g., like Openbox)."
+									text: qsTr("PhotoQt can use 'feh' or 'nitrogen' to change the background of the desktop.<br>This is intended particularly for window managers that don't natively support wallpapers (e.g., like Openbox).")
 								}
 
 								// SWITCH BETWEEN feh AND nitrogen
@@ -678,13 +678,15 @@ Rectangle {
 										spacing: 15
 										CustomCheckBox {
 											id: feh
-											text: "Use 'feh'"
+											//: feh is an application, do not translate
+											text: qsTr("Use 'feh'")
 											checkedButton: true
 											onButtonCheckedChanged: nitrogen.checkedButton = !feh.checkedButton
 										}
 										CustomCheckBox {
 											id: nitrogen
-											text: "Use 'nitrogen'"
+											//: nitrogen is an application, do not translate
+											text: qsTr("Use 'nitrogen'")
 											checkedButton: false
 											onButtonCheckedChanged: feh.checkedButton = !nitrogen.checkedButton
 										}
@@ -791,12 +793,12 @@ Rectangle {
 						spacing: 10
 						CustomButton {
 							id: okay
-							text: "Okay, do it!"
+							text: qsTr("Okay, do it!")
 							enabled: enDisableEnter()
 							onClickedButton: simulateEnter();
 						}
 						CustomButton {
-							text: "Nooo, don't!"
+							text: qsTr("Nooo, don't!")
 							onClickedButton: hideWallpaper()
 						}
 					}

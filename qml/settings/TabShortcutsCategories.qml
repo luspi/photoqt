@@ -29,7 +29,7 @@ Rectangle {
 	// Category label
 	Text {
 		id: cat
-		text: "Category: " + category
+		text: qsTr("Category:") + " " + category
 		anchors.horizontalCenter: parent.horizontalCenter
 		color: "white"
 		font.bold: true
