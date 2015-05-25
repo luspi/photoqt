@@ -30,7 +30,9 @@ Rectangle {
 	color: "#00000000"
 
 	x: 0
-	y: background.height-(settings.thumbnailKeepVisible ? settings.thumbnailsize+thumbnailbarheight_addon : 0)
+	y: settings.thumbnailposition == "Bottom"
+	   ? background.height-(settings.thumbnailKeepVisible ? settings.thumbnailsize+thumbnailbarheight_addon+safetyDistanceForSlidein : 0)
+	   : settings.thumbnailKeepVisible ? 0 : -height-safetyDistanceForSlidein
 	width: background.width
 	height: settings.thumbnailsize+thumbnailbarheight_addon
 

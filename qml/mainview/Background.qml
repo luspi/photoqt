@@ -93,9 +93,13 @@ Rectangle {
 		// THUMBNAILBAR
 		MouseArea {
 			x: 0
-			y: (thumbnailBar.y == background.height ? background.height-settings.menusensitivity*3 : background.height-thumbnailBar.height)
+			y: settings.thumbnailposition == "Bottom"
+			   ? (thumbnailBar.y == background.height ? background.height-settings.menusensitivity*3 : background.height-thumbnailBar.height)
+			   : 0
 			width: thumbnailBar.width
-			height: (thumbnailBar.y == background.height ? settings.menusensitivity*3 : thumbnailBar.height)
+			height: settings.thumbnailposition == "Bottom"
+					? (thumbnailBar.y == background.height ? settings.menusensitivity*3 : thumbnailBar.height)
+					: (thumbnailBar.y == 0 ? thumbnailBar.height : settings.menusensitivity*3)
 			hoverEnabled: true
 
 			MouseArea {
@@ -104,8 +108,9 @@ Rectangle {
 				onEntered:
 				PropertyAnimation {
 					target:  thumbnailBar
+					from: settings.thumbnailposition == "Bottom" ? background.height : -thumbnailBar.height
 					property: (softblocked == 0 ? (settings.thumbnailKeepVisible == false ? "y" : "") : "")
-					to: background.height-thumbnailBar.height
+					to: settings.thumbnailposition == "Bottom" ? background.height-thumbnailBar.height : 0
 					duration: settings.myWidgetAnimated ? 250 : 0
 				}
 			}
@@ -115,9 +120,11 @@ Rectangle {
 		// MAINMENU
 		MouseArea {
 			x: mainmenu.x
-			y: 0
+			y: settings.thumbnailposition == "Bottom" ? 0 : background.height-height
 			width: mainmenu.width
-			height: (mainmenu.y > -mainmenu.height ? mainmenu.height : settings.menusensitivity*3)
+			height: settings.thumbnailposition == "Bottom"
+					? (mainmenu.y > -mainmenu.height ? mainmenu.height : settings.menusensitivity*3)
+					: (mainmenu.y > background.height ? settings.menusensitivity*3 : mainmenu.height)
 			hoverEnabled: true
 			MouseArea {
 				anchors.fill: parent
@@ -125,9 +132,10 @@ Rectangle {
 				onEntered:
 				PropertyAnimation {
 					target:  mainmenu
-					from: -mainmenu.height
-					property: ((softblocked == 0 && mainmenu.y < -mainmenu.height) ? "y" : "")
-					to: -mainmenu.radius
+					from: settings.thumbnailposition == "Bottom" ? -mainmenu.height : background.height
+					property: settings.thumbnailposition == "Bottom" ? ((softblocked == 0 && mainmenu.y < -mainmenu.height) ? "y" : "")
+									: ((softblocked == 0 && mainmenu.y > background.height) ? "y" : "")
+					to: settings.thumbnailposition == "Bottom" ? -mainmenu.radius : background.height-mainmenu.height+mainmenu.radius
 					duration: settings.myWidgetAnimated ? 250 : 0
 				}
 			}
@@ -202,7 +210,7 @@ Rectangle {
 		id: hideThumbnailBar
 		target:  thumbnailBar
 		property: (settings.thumbnailKeepVisible === false ? "y" : "");
-		to: background.height
+		to: settings.thumbnailposition == "Bottom" ? background.height+safetyDistanceForSlidein : -thumbnailBar.height-safetyDistanceForSlidein
 		duration: settings.myWidgetAnimated ? 250 : 0
 	}
 	PropertyAnimation {
@@ -216,7 +224,7 @@ Rectangle {
 		id: hideMainmenu
 		target: mainmenu
 		property: "y"
-		to: -mainmenu.height-safetyDistanceForSlidein
+		to: settings.thumbnailposition == "Bottom" ? -mainmenu.height-safetyDistanceForSlidein : background.height+safetyDistanceForSlidein
 		duration: settings.myWidgetAnimated ? 250 : 0
 	}
 	PropertyAnimation {

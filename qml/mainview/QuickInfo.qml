@@ -62,7 +62,7 @@ Item {
 		id: counterRect
 
 		x: 0
-		y: 0
+		y: settings.thumbnailposition == "Bottom" ? 0 : background.height-height-6
 
 		// it is always as big as the item it contains
 		width: childrenRect.width+6
