@@ -32,7 +32,7 @@
         <location filename="../qml/fadein/About.qml" line="174"/>
         <source>You want to join the team and do something, e.g. translating PhotoQt to another language? Drop me and email (%1), and for translations, check the project page on Transifex:</source>
         <extracomment>Don&apos;t forget to add the %1 in your translation!!</extracomment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Du möchtest mithelfen und z. B. PhotoQt in eine andere Sprache übersetzen? Schicke mir eine E-Mail (%1), und werfe einen Blick auf die Projekt-Seite auf Transifex für Übersetzungen: </translation>
     </message>
     <message>
         <location filename="../qml/fadein/About.qml" line="119"/>
@@ -61,114 +61,114 @@
         <location filename="../qml/mainview/ContextMenu.qml" line="52"/>
         <source>Move:</source>
         <extracomment>as in: &quot;Move file...&quot;</extracomment>
-        <translation type="unfinished">Verschieben:</translation>
+        <translation>Verschieben:</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="61"/>
         <source>Previous</source>
         <extracomment>Go to previous file</extracomment>
-        <translation type="unfinished">Vorheriges</translation>
+        <translation>Vorheriges</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="67"/>
         <source>Next</source>
         <extracomment>Go to next file</extracomment>
-        <translation type="unfinished">Nächstes</translation>
+        <translation>Nächstes</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="98"/>
         <source>Rotate:</source>
         <extracomment>As in: Rotate file</extracomment>
-        <translation type="unfinished">Drehen:</translation>
+        <translation>Drehen:</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="102"/>
         <source>Left</source>
         <extracomment>As in: rotate LEFT</extracomment>
-        <translation type="unfinished">Links</translation>
+        <translation>Links</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="109"/>
         <source>Right</source>
         <extracomment>As in: Rotate RIGHT</extracomment>
-        <translation type="unfinished">Rechts</translation>
+        <translation>Rechts</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="138"/>
         <source>Flip:</source>
         <extracomment>As in: Flip file</extracomment>
-        <translation type="unfinished">Spiegeln:</translation>
+        <translation>Spiegeln:</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="142"/>
         <source>Horizontal</source>
         <extracomment>As in: Flip file HORIZONTALLY</extracomment>
-        <translation type="unfinished">Horizontal</translation>
+        <translation>Horizontal</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="149"/>
         <source>Vertical</source>
         <extracomment>As in: Flip file VERTICALLY</extracomment>
-        <translation type="unfinished">Vertikal</translation>
+        <translation>Vertikal</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="177"/>
         <source>Zoom:</source>
         <extracomment>Zoom file</extracomment>
-        <translation type="unfinished">Zoom:</translation>
+        <translation>Zoom:</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="181"/>
         <source>In</source>
         <extracomment>As in: Zoom IN</extracomment>
-        <translation type="unfinished">Hinein</translation>
+        <translation>Hinein</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="187"/>
         <source>Out</source>
-        <translation type="unfinished">Heraus</translation>
+        <translation>Heraus</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="193"/>
         <source>Actual</source>
         <extracomment>As in: Zoom to ACTUAL size</extracomment>
-        <translation type="unfinished">Tatsächlich</translation>
+        <translation>Tatsächlich</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="199"/>
         <source>Reset</source>
         <extracomment>As in: Reset zoom</extracomment>
-        <translation type="unfinished">Zurücksetzen</translation>
+        <translation>Zurücksetzen</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="220"/>
         <source>Scale Image</source>
-        <translation type="unfinished">Bild skalieren</translation>
+        <translation>Bild skalieren</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="230"/>
         <source>Open in default File Manager</source>
-        <translation type="unfinished">Im Dateimanager öffnen</translation>
+        <translation>Im Dateimanager öffnen</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="262"/>
         <source>Rename File</source>
-        <translation type="unfinished">Datei umbenennen</translation>
+        <translation>Datei umbenennen</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="272"/>
         <source>Delete File</source>
-        <translation type="unfinished">Datei löschen</translation>
+        <translation>Datei löschen</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="297"/>
         <source>Copy File</source>
-        <translation type="unfinished">Datei kopieren</translation>
+        <translation>Datei kopieren</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="308"/>
         <source>Move File</source>
-        <translation type="unfinished">Datei verschieben</translation>
+        <translation>Datei verschieben</translation>
     </message>
 </context>
 <context>
@@ -176,27 +176,27 @@
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="11"/>
         <source>Confirm me?</source>
-        <translation type="unfinished"></translation>
+        <translation>Bestätigung?</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="12"/>
         <source>Do you really want to do this?</source>
-        <translation type="unfinished"></translation>
+        <translation>Möchtest du dies wirklich tun?</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="13"/>
         <source>Yes, do it</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ja, mach es</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="14"/>
         <source>No, don&apos;t</source>
-        <translation type="unfinished"></translation>
+        <translation>Nein, nicht</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="110"/>
         <source>Don&apos;t ask again</source>
-        <translation type="unfinished"></translation>
+        <translation>Frage mich nicht noch einmal</translation>
     </message>
 </context>
 <context>
@@ -204,13 +204,13 @@
     <message>
         <location filename="../qml/elements/CustomDetectShortcut.qml" line="73"/>
         <source>Detect key combination</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tastenkombination ermitteln</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomDetectShortcut.qml" line="91"/>
         <location filename="../qml/elements/CustomDetectShortcut.qml" line="128"/>
         <source>Press keys</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Drücke Tasten</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomDetectShortcut.qml" line="108"/>
@@ -223,22 +223,22 @@
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="71"/>
         <source>External Command</source>
-        <translation type="unfinished"></translation>
+        <translation>Externer Befehl</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="85"/>
         <source>current file (with path)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">aktuelle Datei (inkl. Pfad)</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="85"/>
         <source>current file (without path)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">aktuelle Datei (ohne Pfad)</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="85"/>
         <source>current directory</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">aktuelles Verzeichnis</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="121"/>
@@ -248,12 +248,12 @@
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="134"/>
         <source>Save it</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Speichern</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="158"/>
         <source>Select Executeable</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wähle ausführbare Datei aus</translation>
     </message>
 </context>
 <context>
@@ -261,17 +261,17 @@
     <message>
         <location filename="../qml/elements/CustomMouseShortcut.qml" line="69"/>
         <source>Set Mouse Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Setze Mausbefehl</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomMouseShortcut.qml" line="114"/>
         <source>Don&apos;t set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bitte nicht</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomMouseShortcut.qml" line="127"/>
         <source>Set Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Setze Kurzbefehl</translation>
     </message>
 </context>
 <context>
@@ -294,7 +294,7 @@
     <message>
         <location filename="../qml/fadein/Delete.qml" line="126"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Löschen</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Delete.qml" line="136"/>
@@ -309,55 +309,55 @@
     <message>
         <location filename="../qml/fadein/Delete.qml" line="165"/>
         <source>Enter = Move to Trash, Shift+Enter = Delete permanently, Escape = Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Enter = In den Mülleimer verschieben, Umschalt+Enter = Dauerhaft löschen, Escape = Abbrechen</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Delete.qml" line="165"/>
         <source>Enter = Delete, Escape = Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Enter = Löschen, Escape = Abbrechen</translation>
     </message>
 </context>
 <context>
     <name>Display</name>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="354"/>
+        <location filename="../qml/mainview/Display.qml" line="357"/>
         <source>Hide</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Verstecke</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="378"/>
+        <location filename="../qml/mainview/Display.qml" line="383"/>
         <source>Open a file to begin</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Öffne eine Datei um anzufangen</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="397"/>
+        <location filename="../qml/mainview/Display.qml" line="434"/>
         <source>No results found...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Keine Ergebnisse gefunden...</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="404"/>
+        <location filename="../qml/mainview/Display.qml" line="441"/>
         <source>Rotate Image?</source>
         <translation type="unfinished">Bild drehen?</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="405"/>
+        <location filename="../qml/mainview/Display.qml" line="442"/>
         <source>The Exif data of this image says, that this image is supposed to be rotated.</source>
         <translation type="unfinished">Die Exif-Daten dieses Bildes sagen, dass dieses Bild gedreht werden soll.</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="405"/>
+        <location filename="../qml/mainview/Display.qml" line="442"/>
         <source>Do you want to apply the rotation?</source>
         <translation type="unfinished">Möchtest du die Drehung anwenden?</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="406"/>
+        <location filename="../qml/mainview/Display.qml" line="443"/>
         <source>Yes, do it</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ya, mach es</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="407"/>
+        <location filename="../qml/mainview/Display.qml" line="444"/>
         <source>No, don&apos;t</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nein, nicht</translation>
     </message>
 </context>
 <context>
@@ -365,7 +365,7 @@
     <message>
         <location filename="../qml/fadein/Filter.qml" line="68"/>
         <source>Filter images in current directory</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Filter die Bilder im aktuellen Verzeichnis</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Filter.qml" line="83"/>
@@ -438,12 +438,12 @@
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="337"/>
         <source>Daylight fluorescent</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fluoreszierendes Tageslicht</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="340"/>
         <source>Day white fluorescent</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fluoreszierendes Tagesweiß</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="343"/>
@@ -465,7 +465,7 @@
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="367"/>
         <source>D50</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">D50</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="370"/>
@@ -481,7 +481,7 @@
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="376"/>
         <source>Invalid light source</source>
         <extracomment>This string refers to the light source</extracomment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ungültige Lichtquelle</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="385"/>
@@ -546,7 +546,7 @@
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="450"/>
         <source>Invalid flash</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ungültiger Blitz</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="460"/>
@@ -572,7 +572,7 @@
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="472"/>
         <source>Invalid Scene Type</source>
         <extracomment>This string refers to a type of scene</extracomment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ungültiger Szenetyp</translation>
     </message>
 </context>
 <context>
@@ -605,12 +605,12 @@
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="30"/>
         <source>Show/Hide Metadata</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zeige/Verstecke Metadaten</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="31"/>
         <source>About PhotoQt</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Über PhotoQt</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="32"/>
@@ -625,7 +625,7 @@
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="120"/>
         <source>Quickstart</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Schnellstart</translation>
     </message>
 </context>
 <context>
@@ -663,17 +663,17 @@
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="44"/>
         <source>No File Loaded</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Keine Datei geladen</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="62"/>
         <source>File Format Not Supported</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dateiformat nicht unterstützt</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="80"/>
         <source>Invalid File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ungültige Datei</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="121"/>
@@ -689,7 +689,7 @@
         <location filename="../qml/slidein/MetaData.qml" line="189"/>
         <location filename="../qml/slidein/MetaData.qml" line="192"/>
         <source>Dimensions</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Abmessungen</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="197"/>
@@ -749,17 +749,17 @@
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="210"/>
         <source>Keywords</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Stichwörter</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="211"/>
         <source>Location</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ort</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="212"/>
         <source>Copyright</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Copyright</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="214"/>
@@ -782,13 +782,13 @@
     <message>
         <location filename="../qml/mainview/QuickInfo.qml" line="187"/>
         <source>Hide both, Filename and Filepath</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Verstecke beides, Dateiname und Dateipfad</translation>
     </message>
     <message>
         <location filename="../qml/mainview/QuickInfo.qml" line="231"/>
         <source>Filter:</source>
         <extracomment>As in: FILTER images</extracomment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Filter:</translation>
     </message>
 </context>
 <context>
@@ -876,17 +876,17 @@
     <message>
         <location filename="../qml/slidein/QuickSettings.qml" line="132"/>
         <source>No tray icon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kein Ablagesymbol</translation>
     </message>
     <message>
         <location filename="../qml/slidein/QuickSettings.qml" line="132"/>
         <source>Hide to tray icon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Verstecke zum Ablagesymbol</translation>
     </message>
     <message>
         <location filename="../qml/slidein/QuickSettings.qml" line="132"/>
         <source>Show tray icon, but don&apos;t hide to it</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zeige Ablagesymbol, aber nicht dorthin verstecken</translation>
     </message>
     <message>
         <location filename="../qml/slidein/QuickSettings.qml" line="276"/>
@@ -922,32 +922,32 @@
     <message>
         <location filename="../qml/fadein/Scale.qml" line="107"/>
         <source>Error! Something went wrong, unable to save new dimension...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fehler! Etwas ist schiefgelaufen, kann die neuen Abmessungen nicht speichern...</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Scale.qml" line="131"/>
         <source>New width:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Neue Breite:</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Scale.qml" line="137"/>
         <source>New height:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Neue Höhe:</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Scale.qml" line="237"/>
         <source>Quality</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Qualität</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Scale.qml" line="285"/>
         <source>Scale into new file</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bild zu neuer Datei skalieren</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Scale.qml" line="301"/>
         <source>Don&apos;t scale</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nicht skalieren</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Scale.qml" line="209"/>
@@ -965,7 +965,7 @@
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="59"/>
         <source>Look and Feel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aussehen und Verhalten</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="72"/>
@@ -987,7 +987,7 @@
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="174"/>
         <source>Metadata</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Metadaten</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="194"/>
@@ -997,7 +997,7 @@
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="219"/>
         <source>Filetypes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dateitypen</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="240"/>
@@ -1027,12 +1027,12 @@
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="359"/>
         <source>Do you really want to clean up the database?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Möchtest du die Datenbank wirklich aufräumen?</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="359"/>
         <source>This removes all obsolete thumbnails, thus possibly making PhotoQt a little faster.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dies entfernt alle obsoleten Vorschaubilder, wodurch PhotoQt möglicherweise ein kleines bisschen schneller wird.</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="359"/>
@@ -1057,12 +1057,12 @@
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="369"/>
         <source>Do you really want to ERASE the entire database?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Möchtest du wirklich die gesamte Datenbank LÖSCHEN?</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="369"/>
         <source>This removes every single item in the database! This step should never really be necessarily. After that, every thumbnail has to be newly re-created.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dies entfernt alle Vorschaubilder von der Datenbank! Dieser Schritt sollte eigentlich niemals notwendig sein. Anschließend müssen alle Vorschaubilder neu erstellt werden.</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="369"/>
@@ -1082,22 +1082,22 @@
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="378"/>
         <source>Set Default Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Setze Standard-Kurzbefehle</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="379"/>
         <source>Are you sure you want to reset the shortcuts to the default set?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bist du dir sicher, dass du alle Kurzbefehle durch den Standardsatz ersetzen möchtest?</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="380"/>
         <source>Yes, please</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ja, bitte</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="381"/>
         <source>Nah, don&apos;t</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ne, lieber nicht</translation>
     </message>
 </context>
 <context>
@@ -1135,7 +1135,7 @@
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="164"/>
         <source>Here you can set, if you want the images to fade into each other, and how fast they are to do that.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hier kann eingestellt werden, ob die Bilder ineinander übergehen sollen, und auch wie fast.</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="177"/>
@@ -1145,7 +1145,7 @@
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="192"/>
         <source>Long Transition</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Langer Übergang</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="204"/>
@@ -1200,7 +1200,7 @@
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="299"/>
         <source>Click here to select music file...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Klicke hier, um eine Musikdatei auszuwählen...</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="333"/>
@@ -1210,22 +1210,22 @@
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="337"/>
         <source>Wait, maybe later</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Warte, vielleicht später</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="341"/>
         <source>Save changes, but don&apos;t start just yet</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Speicher Änderungen, aber fang jetzt noch nicht an</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="354"/>
         <source>Select music file...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wähle Musikdatei aus...</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="354"/>
         <source>Music Files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Musikdateien</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="354"/>
@@ -1276,7 +1276,7 @@
     <message>
         <location filename="../qml/fadein/Startup.qml" line="91"/>
         <source>This app started out more than three and a half years ago, and it has developed quite a bit since then. It has become very efficient, reliable, and highly flexible (check out the settings). I&apos;m convinced it can hold up to the more &apos;traditional&apos; image viewers out there in every way.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Diese Anwendung hat vor über dreieinhalb Jahren angefangen, und ist seitdem ganz ordentlich gewachsen. Es ist sehr effiziente, zuverlässig, und höchst flexibel (wird einen Blick in die Einstellungen). Ich bin überzeugt, dass es in jeder Hinsicht den &apos;traditionellen&apos; Bildbetrachtern das Wasser reichen kann.</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="91"/>
@@ -1286,7 +1286,7 @@
     <message>
         <location filename="../qml/fadein/Startup.qml" line="92"/>
         <source>Welcome back to PhotoQt. It hasn&apos;t been that long since the last release of PhotoQt. Yet, it changed pretty much entirely, as it now is based on QtQuick rather than QWidgets. A large quantity of the code had to be re-written, while some chunks could be re-used. Thus, it is now more reliable than ever before and overall simply feels well rounded.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Willkommen zurück zu PhotoQt. Seit der letzten Veröffentlichung ist nicht zu viel Zeit vergangen. Trotz allem hat sich PhotoQt so ziemlich komplett verändert, da es jetzt auf QtQuick anstelle von QWidgets aufbaut. Ein Großteil des Quelltextes musste neu geschrieben werden, wobei einige kleinere Blöcke wiederverwendet werden konnten. Daher ist es nun zuverlässiger als jemals zuvor und fühlt sich einfach besser an. </translation>
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="92"/>
@@ -1336,12 +1336,12 @@
     <message>
         <location filename="../qml/fadein/Startup.qml" line="248"/>
         <source>Image Information (Exif/IPTC)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bildinformationen (Exif/IPTC)</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="248"/>
         <source>Most images store some information about the image in the file. PhotoQt can read and display a selection of Exif and IPTC tags. You can find this information in the slide-in window hidden behind the left edge of PhotoQt.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Die meisten Bilder speichern Bild-Informationen in der Datei. PhotoQt kann eine Auswahl and Exif und IPTC tags auslesen und anzeigen. Du kannst diese Informationen im Fenster finden, welches sich hinter der linken Bildschirmkante versteckt.</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="273"/>
@@ -1366,7 +1366,7 @@
     <message>
         <location filename="../qml/fadein/Startup.qml" line="329"/>
         <source>There are many many more features. Best is, you just give it a go. Don&apos;t forget to check out the settings to make PhotoQt YOUR image viewer. Enjoy :-)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Neben diesen gibt es eine ganze Menge mehr Funktionen und Möglichkeiten. Am besten du probierst es einfach aus.Vergiss nicht, einen  Blick in die Einstellungen zu werfen um PhotoQt in DEINEN Bildbetrachter zu verwandeln. Viel Spaß :-) </translation>
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="361"/>
@@ -1429,7 +1429,7 @@
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="161"/>
         <source>Dimensions</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Abmessungen</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="162"/>
@@ -1489,17 +1489,17 @@
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="173"/>
         <source>Keywords</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Stichwörter</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="174"/>
         <source>Location</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ort</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="175"/>
         <source>Copyright</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Copyright</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="176"/>
@@ -1524,17 +1524,17 @@
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="251"/>
         <source>Some cameras can detect - while taking the photo - whether the camera was turned and might store this information in the image exif data. If PhotoQt finds this information, it can rotate the image accordingly. When asking PhotoQt to always rotate images automatically without asking, it already does so at image load (including thumbnails).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Einige Fotoapparate können während das Foto geschossen wird erkennen ob der Apparat gedreht war, und speichern diese Information in den Exif-Daten des Bildes. Falls photoQt diese Information findet, kann es das Bild dementsprechend drehen. Wenn PhotoQt gebeten wird dies automatisch und ohne zu fragen zu tun, dann wird dies schon während des Ladens der Bilder getan (einschließlich der Vorschaubilder).</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="272"/>
         <source>Never rotate/flip images</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bilder niemals drehen/spiegeln</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="278"/>
         <source>Always rotate/flip images</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bilder immer drehen/spiegeln</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="283"/>
@@ -1557,7 +1557,7 @@
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="55"/>
         <source>Filetypes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dateitypen</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="69"/>
@@ -1567,12 +1567,12 @@
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="69"/>
         <source>These are the file types natively supported by Qt. Make sure, that you&apos;ll have the required libraries installed (e.g., qt5-imageformats), otherwise some of them might not work on your system.&lt;br&gt;If a file ending for one of the formats is missing, you can add it below, formatted like &apos;*.ending&apos; (without single quotation marks), multiple entries seperated by commas.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dies sind die Dateitypen, welche Qt von Haus aus unterstützt. Stelle jedoch sicher, dass die benötigten Bibliotheken installiert sind (z.B. qt5-imageformats), ansonsten werden ein paar auf deinem System evtl. nicht funktionieren.&lt;br&gt;Falls eine Dateiendung für eines der Formate fehlen sollte, dann kann dies unten hinzugefügt werden in der Form &apos;*.endung&apos; (ohne die Anführungszeichen). Mehrere Einträge müssen durch ein Komma getrennt sein.</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="92"/>
         <source>Extra File Types:</source>
-        <translation type="unfinished">Zusätzliche Dateitypen</translation>
+        <translation type="unfinished">Zusätzliche Dateitypen:</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="108"/>
@@ -1598,7 +1598,7 @@
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="132"/>
         <source>PhotoQt makes use of GraphicsMagick for support of many different image formats. The list below are all those formats, that were successfully displayed using test images. If you prefer not to have one or the other enabled in PhotoQt, you can simply disable individual formats below.&lt;br&gt;There are a few formats, that were not tested in PhotoQt (due to lack of a test image). You can find those in the &apos;Untested&apos; category below.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">PhotoQt benutzt GraphicsMagick um viele verschiedene Dateiformate zu unterstützen. Die untenstehende Liste beinhaltet all jene, die einen Anzeigetest erfolgreich bestanden haben. Solltest du es bevorzugen, die eine oder andere nicht in PhotoQt aktiviert zu haben, dann können einzelne Formate einfach deaktiviert werden.&lt;br&gt;Ein paar Dateiformate konnten nicht in PhotoQt getestet werden (mangels Testbild). Du kannst diese in der Kategorie &apos;Ungetestet&apos; finden.</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="175"/>
@@ -1634,13 +1634,13 @@
         <location filename="../qml/settings/TabFiletypes.qml" line="250"/>
         <source>Gimp&apos;s XCF file format.</source>
         <extracomment>&apos;Makes use of&apos; is in connection with an external tool (i.e., it &apos;makes use of&apos; tool abc)</extracomment>
-        <translation type="unfinished">Gimp XCF Dateiformat</translation>
+        <translation type="unfinished">Gimp XCF Dateiformat.</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="250"/>
         <location filename="../qml/settings/TabFiletypes.qml" line="271"/>
         <source>Makes use of</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gebraucht</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="271"/>
@@ -1828,7 +1828,7 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="538"/>
         <source>Long Transition</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Langer Übergang</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="555"/>
@@ -2011,17 +2011,17 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="181"/>
         <source>No tray icon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kein Ablagesymbol</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="181"/>
         <source>Hide to tray icon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Verstecke zum Ablagesymbol</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="181"/>
         <source>Show tray icon, but don&apos;t hide to it</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zeige Ablagesymbol, aber nicht dorthin verstecken</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="192"/>
@@ -2144,7 +2144,7 @@
     <message>
         <location filename="../qml/settings/TabOther.qml" line="181"/>
         <source>Executable</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ausführbare Datei</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabOther.qml" line="195"/>
@@ -2154,12 +2154,12 @@
     <message>
         <location filename="../qml/settings/TabOther.qml" line="219"/>
         <source>Add new context menu entry</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Füge neuen Eintrag zum Kontextmenü hinzu</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabOther.qml" line="227"/>
         <source>(Re-)set automatically</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Automatisch setzen</translation>
     </message>
 </context>
 <context>
@@ -2235,7 +2235,7 @@
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="99"/>
         <source>Quit PhotoQt</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">PhotoQt beenden</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="107"/>
@@ -2345,7 +2345,7 @@
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="123"/>
         <source>About PhotoQt</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Über PhotoQt</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="123"/>
@@ -2378,13 +2378,13 @@
         <location filename="../qml/settings/TabShortcutsTilesAvail.qml" line="98"/>
         <source>key</source>
         <extracomment>tile text for KEY shortcut. If multiple translations possible, please try to stick to a short one..</extracomment>
-        <translation type="unfinished">Tasten</translation>
+        <translation type="unfinished">Taste</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcutsTilesAvail.qml" line="154"/>
         <source>mouse</source>
         <extracomment>tile text for MOUSE shortcut. If multiple translations possible, please try to stick to a short one..</extracomment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Maus</translation>
     </message>
 </context>
 <context>
@@ -2407,12 +2407,12 @@
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="86"/>
         <source>Show at lower edge</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zeige an unterer Kante</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="93"/>
         <source>Show at upper edge</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zeige an oberer Kante</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="110"/>
@@ -2432,7 +2432,7 @@
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="136"/>
         <source>Write Dimension</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Schreibe Abmessung</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="203"/>
@@ -2462,12 +2462,12 @@
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="320"/>
         <source>images</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bilder</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="333"/>
         <source>Preload Full Directory</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gesamtes Verzeichnis vorladen</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="349"/>
@@ -2527,32 +2527,32 @@
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="418"/>
         <source>File Caching</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zwischenspeicher</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="424"/>
         <source>Database Caching</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Datenbank-Zwischenspeicher</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="448"/>
         <source>Current database filesize:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Aktuelle Datenbank-Dateigröße:</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="472"/>
         <source>Entries in database:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Einträge in Datenbank:</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="492"/>
         <source>CLEAN UP database</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Datenbank AUFRÄUMEN</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="504"/>
         <source>ERASE database</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Datenbank LÖSCHEN</translation>
     </message>
 </context>
 <context>
@@ -2605,7 +2605,7 @@
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="259"/>
         <source>Keep Thumnails Visible</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Halte Vorschaubilder sichtbar</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="274"/>
@@ -2630,7 +2630,7 @@
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="295"/>
         <source>Normal Thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Normaly Vorschaubilder</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="301"/>
@@ -2640,7 +2640,7 @@
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="307"/>
         <source>Smart Thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Intelligente Vorschaubilder</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="325"/>
@@ -2684,7 +2684,7 @@
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="86"/>
         <source>Set as Wallpaper:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Setze als Hintergrund:</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="114"/>
@@ -2721,7 +2721,7 @@
         <location filename="../qml/fadein/Wallpaper.qml" line="363"/>
         <location filename="../qml/fadein/Wallpaper.qml" line="518"/>
         <source>Screen #</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Anzeige #</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="480"/>
@@ -2743,7 +2743,7 @@
         <location filename="../qml/fadein/Wallpaper.qml" line="575"/>
         <location filename="../qml/fadein/Wallpaper.qml" line="576"/>
         <source>Workspace #</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Arbeitsfläche #</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="633"/>
