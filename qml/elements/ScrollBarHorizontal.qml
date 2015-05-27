@@ -20,6 +20,38 @@ Item {
 	property real opacityVisible: 0.8
 	property real opacityHidden: 0.1
 
+	property bool displayAtBottomEdge: true
+	onDisplayAtBottomEdgeChanged: {
+		if(!displayAtBottomEdge) {
+			anchors.bottom = undefined
+			state = "reanchor_top"
+		} else {
+			anchors.top = undefined
+			state = "reanchor_bottom"
+		}
+	}
+
+	states: [
+		State {
+			name: "reanchor_bottom"
+			AnchorChanges {
+				target: scrollbar
+				anchors.left: flickable.left;
+				anchors.right: flickable.right;
+				anchors.bottom: flickable.bottom
+			}
+		},
+		State {
+			name: "reanchor_top"
+			AnchorChanges {
+				target: scrollbar
+				anchors.left: flickable.left;
+				anchors.right: flickable.right;
+				anchors.top: flickable.top
+			}
+		}
+	]
+
 	signal scrollFinished();
 
 	Binding {
