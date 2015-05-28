@@ -26,6 +26,12 @@ Item {
 	property bool fullsizeImageLoaded: false
 	function isFullsizeImageLoaded() { return fullsizeImageLoaded; }
 
+	// Store the rotation/zoom (if enabled)
+	property var storeRotation: {"":0}
+	property var storeZoom: {"":[]}
+	// This info is needed to set the right image when restoring zoom
+	property string zoomedDirection: ""
+
 	function noFilterResultsFound() {
 		noresultsfound.visible = true;
 		norm.source = ""
@@ -33,6 +39,16 @@ Item {
 
 	// Set image
 	function setImage(path, animated) {
+
+		// Store rotation/zoom
+		if(norm.source != "" && !nofileloaded.visible && !noresultsfound.visible) {
+
+			if(settings.rememberZoom && zoomedDirection != "")
+				storeZoom[norm.source] = [norm.scale,zoomedDirection,flickarea.contentX,flickarea.contentY]
+			if(settings.rememberRotation)
+				storeRotation[norm.source] = norm.rotation
+
+		}
 
 		// Hide 'nothing loaded' message and arrows
 		nofileloaded.visible = false
@@ -66,7 +82,40 @@ Item {
 		// Update metadata
 		metaData.setData(getmetadata.getExiv2(path))
 
-		if(metaData.orientation != 1 && settings.exifrotation == "Ask") {
+		// Restore rotation/zoom if saved
+		if(Object.keys(storeRotation).indexOf(path) != -1 || Object.keys(storeZoom).indexOf(path) != -1) {
+
+			if((Object.keys(storeRotation).indexOf(path) != -1) && storeRotation[path] !== 0 && settings.rememberRotation) {
+				norm.rotation = storeRotation[path]
+				norm.calculateSize()
+				if(Math.abs(norm.rotation%180) == 90)
+					setSourceSize(item.height,item.width)
+				else
+					setSourceSize(item.width,item.height)
+			}
+
+			if(Object.keys(storeZoom).indexOf(path) != -1 && settings.rememberZoom) {
+
+				if(storeZoom[path][1] == "in") {
+					fullsizeImageLoaded = true
+					setSourceSize(imageSize.width, imageSize.height)
+					if(imageSize.width >= item.width && imageSize.height >= item.height)
+						norm.scale = Math.min(item.width / imageSize.width, item.height / imageSize.height);
+				} else if(storeZoom[path][1] == "out") {
+					fullsizeImageLoaded = false
+					setSourceSize(item.width,item.height)
+					if(imageSize.width >= item.width && imageSize.height >= item.height)
+						norm.scale = Math.min(flickarea.width / norm.width, flickarea.height / norm.height);
+				}
+
+				norm.scale = storeZoom[path][0]
+				flickarea.contentX = storeZoom[path][2]
+				flickarea.contentY = storeZoom[path][3]
+
+			}
+
+		// If the above check succeeds, then the image was changed already, and so we don't want to display this box anymore...
+		} else if(metaData.orientation != 1 && settings.exifrotation == "Ask") {
 			rotateconfirm.show()
 		}
 
@@ -89,6 +138,8 @@ Item {
 
 		// Reset scaling
 		norm.resetZoom(loadNewImage)
+
+		zoomedDirection = ""
 
 	}
 
@@ -250,6 +301,7 @@ Item {
 				setSourceSize(imageSize.width, imageSize.height)
 				if(imageSize.width >= item.width && imageSize.height >= item.height)
 					norm.scale = Math.min(item.width / imageSize.width, item.height / imageSize.height);
+				zoomedDirection = "in"
 			}
 
 			norm.scale += scaleSpeed    // has to come AFTER removing source size!
@@ -265,7 +317,12 @@ Item {
 				setSourceSize(item.width,item.height)
 				if(imageSize.width >= item.width && imageSize.height >= item.height)
 					norm.scale = Math.min(flickarea.width / norm.width, flickarea.height / norm.height);
+				zoomedDirection = "out"
 			}
+
+			// when zooming out right after loading image, this variable would stay unset (even though the image is zoomed out)
+			if(zoomedDirection == "")
+				zoomedDirection = "out"
 
 		}
 
