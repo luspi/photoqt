@@ -266,82 +266,6 @@ Rectangle {
 			}
 
 
-
-			/**************
-			* PRELOADING *
-			**************/
-
-			SettingsText {
-
-				width: flickable.width
-
-				text: "<h2>" + qsTr("Preloading") + "</h2><br>" + qsTr("Here you can adjust, how many images AT MOST will be preloaded. For example, if the directory contains 800 images, a limit of 400 (default value) means, that starting from the opened image, 200 images to the left and 200 to the right are preloaded.") + "<br><br>" + qsTr("If you don't want to limit PhotoQt to any number, you can simply enable the option to always preload the full directory. WARNING: This is perfectly fine for directories with a small number of images (usually anything less than 1000, depending on your computer), but can lead to performance and memory issues for larger directories. Make sure you know what you're doing before enabling this!")
-
-			}
-
-			Rectangle {
-
-				color: "#00000000"
-
-				width: childrenRect.width
-				height: childrenRect.height
-
-				x: (flickable.width-width)/2
-
-				Column {
-
-					spacing: 10
-
-					Row {
-
-						spacing: 5
-
-						CustomSlider {
-
-							id: preload_slider
-
-							width: 400
-
-							minimumValue: 50
-							maximumValue: 2500
-
-							enabled: !preload_button.checkedButton
-
-							value: preload_spinbox.value
-							stepSize: 1
-
-						}
-
-						CustomSpinBox {
-
-							id: preload_spinbox
-
-							width: 125
-
-							minimumValue: 50
-							maximumValue: 2500
-
-							suffix: " " + qsTr("images")
-
-							enabled: !preload_button.checkedButton
-
-							value: preload_slider.value
-
-						}
-
-					}
-
-					CustomCheckBox {
-						id: preload_button
-						x: (parent.width-width)/2
-						text: qsTr("Preload Full Directory")
-					}
-
-
-				}
-
-			}
-
 			/**********************
 			* DISABLE THUMBNAILS *
 			**********************/
@@ -535,9 +459,6 @@ Rectangle {
 		filenameonly.checkedButton = settings.thumbnailFilenameInstead
 		filenameonly_fontsize_slider.value = settings.thumbnailFilenameInsteadFontSize
 
-		preload_slider.value = settings.thumbnailPreloadNumber
-		preload_button.checkedButton = settings.thumbnailPreloadFullDirectory
-
 		disable.checkedButton = settings.thumbnailDisable
 
 		cache.checkedButton = settings.thumbnailcache
@@ -560,9 +481,6 @@ Rectangle {
 
 		settings.thumbnailFilenameInstead = filenameonly.checkedButton
 		settings.thumbnailFilenameInsteadFontSize = filenameonly_fontsize_slider.value
-
-		settings.thumbnailPreloadNumber = preload_slider.value
-		settings.thumbnailPreloadFullDirectory = preload_button.checkedButton
 
 		settings.thumbnailDisable = disable.checkedButton
 

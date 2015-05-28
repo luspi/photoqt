@@ -153,10 +153,6 @@ public:
 	int thumbnailFilenameInsteadFontSize;
 	// Thumbnails can be disabled altogether
 	bool thumbnailDisable;
-	// Preload full directory (no matter the size)
-	bool thumbnailPreloadFullDirectory;
-	// How many thumbnail shall be reloaded?
-	int thumbnailPreloadNumber;
 	bool thumbnailWriteFilename;
 	bool thumbnailWriteResolution;
 	int thumbnailFontSize;
@@ -265,8 +261,6 @@ public:
 	bool getThumbnailFilenameInstead() { return thumbnailFilenameInstead; }
 	int getThumbnailFilenameInsteadFontSize() { return thumbnailFilenameInsteadFontSize; }
 	bool getThumbnailDisable() { return thumbnailDisable; }
-	bool getThumbnailPreloadFullDirectory() { return thumbnailPreloadFullDirectory; }
-	int getThumbnailPreloadNumber() { return thumbnailPreloadNumber; }
 	bool getThumbnailWriteFilename() { return thumbnailWriteFilename; }
 	bool getThumbnailWriteResolution() { return thumbnailWriteResolution; }
 	int getThumbnailFontSize() { return thumbnailFontSize; }
@@ -370,8 +364,6 @@ public:
 	void setThumbnailFilenameInstead(bool val) { thumbnailFilenameInstead = val; saveSettingsTimer->start(); }
 	void setThumbnailFilenameInsteadFontSize(int val) { thumbnailFilenameInsteadFontSize = val; saveSettingsTimer->start(); }
 	void setThumbnailDisable(bool val) { thumbnailDisable = val; saveSettingsTimer->start(); }
-	void setThumbnailPreloadFullDirectory(bool val) { thumbnailPreloadFullDirectory = val; saveSettingsTimer->start(); }
-	void setThumbnailPreloadNumber(int val) { thumbnailPreloadNumber = val; saveSettingsTimer->start(); }
 	void setThumbnailWriteFilename(bool val) { thumbnailWriteFilename = val; saveSettingsTimer->start(); }
 	void setThumbnailWriteResolution(bool val) { thumbnailWriteResolution = val; saveSettingsTimer->start(); }
 	void setThumbnailFontSize(int val) { thumbnailFontSize = val; saveSettingsTimer->start(); }
@@ -475,8 +467,6 @@ public:
 	Q_PROPERTY(bool thumbnailFilenameInstead READ getThumbnailFilenameInstead WRITE setThumbnailFilenameInstead NOTIFY thumbnailFilenameInsteadChanged)
 	Q_PROPERTY(int thumbnailFilenameInsteadFontSize READ getThumbnailFilenameInsteadFontSize WRITE setThumbnailFilenameInsteadFontSize NOTIFY thumbnailFilenameInsteadFontSizeChanged)
 	Q_PROPERTY(bool thumbnailDisable READ getThumbnailDisable WRITE setThumbnailDisable NOTIFY thumbnailDisableChanged)
-	Q_PROPERTY(bool thumbnailPreloadFullDirectory READ getThumbnailPreloadFullDirectory WRITE setThumbnailPreloadFullDirectory NOTIFY thumbnailPreloadFullDirectoryChanged)
-	Q_PROPERTY(int thumbnailPreloadNumber READ getThumbnailPreloadNumber WRITE setThumbnailPreloadNumber NOTIFY thumbnailPreloadNumberChanged)
 	Q_PROPERTY(bool thumbnailWriteFilename READ getThumbnailWriteFilename WRITE setThumbnailWriteFilename NOTIFY thumbnailWriteFilenameChanged)
 	Q_PROPERTY(bool thumbnailWriteResolution READ getThumbnailWriteResolution WRITE setThumbnailWriteResolution NOTIFY thumbnailWriteResolutionChanged)
 	Q_PROPERTY(int thumbnailFontSize READ getThumbnailFontSize WRITE setThumbnailFontSize NOTIFY thumbnailFontSizeChanged)
@@ -586,8 +576,6 @@ public:
 		thumbnailWriteFilename = true;
 		thumbnailWriteResolution = false;
 		thumbnailFontSize = 7;
-		thumbnailPreloadFullDirectory = false;
-		thumbnailPreloadNumber = 400;
 
 		thumbnailFilenameInstead = false;
 		thumbnailFilenameInsteadFontSize = 8;
@@ -719,8 +707,6 @@ public slots:
 			cont += QString("ThumbnailWriteFilename=%1\n").arg(int(thumbnailWriteFilename));
 			cont += QString("ThumbnailWriteResolution=%1\n").arg(int(thumbnailWriteResolution));
 			cont += QString("ThumbnailFontSize=%1\n").arg(thumbnailFontSize);
-			cont += QString("ThumbnailPreloadFullDirectory=%1\n").arg(int(thumbnailPreloadFullDirectory));
-			cont += QString("ThumbnailPreloadNumber=%1\n").arg(thumbnailPreloadNumber);
 
 			cont += "\n[Slideshow]\n";
 
@@ -1017,14 +1003,6 @@ public slots:
 			if(all.contains("ThumbnailFontSize="))
 				thumbnailFontSize = all.split("ThumbnailFontSize=").at(1).split("\n").at(0).toInt();
 
-			if(all.contains("ThumbnailPreloadFullDirectory=1"))
-				thumbnailPreloadFullDirectory = true;
-			else if(all.contains("ThumbnailPreloadFullDirectory=0"))
-				thumbnailPreloadFullDirectory = false;
-
-			if(all.contains("ThumbnailPreloadNumber="))
-				thumbnailPreloadNumber = all.split("ThumbnailPreloadNumber=").at(1).split("\n").at(0).toInt();
-
 
 			if(all.contains("SlideShowTime="))
 				slideShowTime = all.split("SlideShowTime=").at(1).split("\n").at(0).toInt();
@@ -1237,8 +1215,6 @@ private slots:
 		emit thumbnailFilenameInsteadChanged(thumbnailFilenameInstead);
 		emit thumbnailFilenameInsteadFontSizeChanged(thumbnailFilenameInsteadFontSize);
 		emit thumbnailDisableChanged(thumbnailDisable);
-		emit thumbnailPreloadFullDirectoryChanged(thumbnailPreloadFullDirectory);
-		emit thumbnailPreloadNumberChanged(thumbnailPreloadNumber);
 		emit thumbnailWriteFilenameChanged(thumbnailWriteFilename);
 		emit thumbnailWriteResolutionChanged(thumbnailWriteResolution);
 
@@ -1344,8 +1320,6 @@ signals:
 	void thumbnailFilenameInsteadChanged(bool val);
 	void thumbnailFilenameInsteadFontSizeChanged(int val);
 	void thumbnailDisableChanged(bool val);
-	void thumbnailPreloadFullDirectoryChanged(bool val);
-	void thumbnailPreloadNumberChanged(int val);
 	void thumbnailWriteFilenameChanged(bool val);
 	void thumbnailWriteResolutionChanged(bool val);
 
