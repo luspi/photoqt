@@ -270,6 +270,8 @@ Rectangle {
 			width: settings.thumbnailsize
 			height: settings.thumbnailsize
 
+			visible: !settings.thumbnailDisable
+
 			color: "#88000000"
 
 			border.color: "#BB000000"
@@ -283,9 +285,9 @@ Rectangle {
 				// sourceSize: Qt.size(settings.thumbnailsize,settings.thumbnailsize)
 
 				// Set image source (preload or normal) and displayed source dimension
-				source: (pre ? "qrc:/img/emptythumb.png" : "image://thumb/" + (smart ? "__**__smart" : "") + imageUrl)
+				source: (settings.thumbnailDisable ? "" : (pre ? "qrc:/img/emptythumb.png" : "image://thumb/" + (smart ? "__**__smart" : "") + imageUrl))
 
-				visible: !pre
+				visible: !pre && !settings.thumbnailDisable
 
 				// Set position
 				x: settings.thumbnailSpacingBetween/2
