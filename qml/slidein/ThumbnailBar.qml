@@ -246,6 +246,7 @@ Rectangle {
 		}
 
 		ScrollBarHorizontal {
+			visible: !settings.thumbnailDisable
 			flickable: view;
 			displayAtBottomEdge: settings.thumbnailposition == "Bottom"
 			onScrollFinished: scrollTimer.restart()
