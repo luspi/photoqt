@@ -107,7 +107,8 @@ Rectangle {
 
 				width: flickable.width
 
-				text: "<h2>" + qsTr("Filename? Dimension? Or both?") + "</h2><br>" + qsTr("When thumbnails are displayed at the top/bottom, PhotoQt usually writes the filename on them. But also the dimension of the image can be written on it. Or also both or none. You can use the slider below to adjust the font size.")
+				text: "<h2>" + qsTr("Filename? Dimension? Or both?") + "</h2><br>" + qsTr("When thumbnails are displayed at the top/bottom, PhotoQt usually writes the filename on them (if not disabled). You can also use the slider below to adjust the font size.")
+//				text: "<h2>" + qsTr("Filename? Dimension? Or both?") + "</h2><br>" + qsTr("When thumbnails are displayed at the top/bottom, PhotoQt usually writes the filename on them. But also the dimension of the image can be written on it. Or also both or none. You can use the slider below to adjust the font size.")
 
 			}
 
@@ -131,10 +132,11 @@ Rectangle {
 						text: qsTr("Write Filename")
 					}
 
-					CustomCheckBox {
-						id: writedimension
-						text: qsTr("Write Dimension")
-					}
+					// CURRENTLY UNAVAILABLE
+//					CustomCheckBox {
+//						id: writedimension
+//						text: qsTr("Write Dimension")
+//					}
 
 				}
 
@@ -166,8 +168,10 @@ Rectangle {
 
 						value: fontsize_spinbox.value
 						stepSize: 1
+						scrollStep: 1
+						tickmarksEnabled: true
 
-						enabled: writefilename.checkedButton || writedimension.checkedButton
+						enabled: writefilename.checkedButton /*|| writedimension.checkedButton*/
 
 					}
 
@@ -182,7 +186,7 @@ Rectangle {
 
 						value: fontsize_slider.value
 
-						enabled: writefilename.checkedButton || writedimension.checkedButton
+						enabled: writefilename.checkedButton /*|| writedimension.checkedButton*/
 
 					}
 
@@ -525,7 +529,7 @@ Rectangle {
 		upperedge.checked = (settings.thumbnailposition === "Top")
 
 		writefilename.checkedButton = settings.thumbnailWriteFilename
-		writedimension.checkedButton = settings.thumbnailWriteResolution
+//		writedimension.checkedButton = settings.thumbnailWriteResolution
 		fontsize_slider.value = settings.thumbnailFontSize
 
 		filenameonly.checkedButton = settings.thumbnailFilenameInstead
@@ -551,7 +555,7 @@ Rectangle {
 		else settings.thumbnailposition = "Top"
 
 		settings.thumbnailWriteFilename = writefilename.checkedButton
-		settings.thumbnailWriteResolution = writedimension.checkedButton
+//		settings.thumbnailWriteResolution = writedimension.checkedButton
 		settings.thumbnailFontSize = fontsize_slider.value
 
 		settings.thumbnailFilenameInstead = filenameonly.checkedButton
