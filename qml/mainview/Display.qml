@@ -206,6 +206,14 @@ Item {
 		nofileloaded.visible = true
 	}
 
+	function getImageRect() {
+		var w = norm.width*norm.scale
+		var h = norm.height*norm.scale
+		var x = (background.width-w)/2
+		var y = (background.height-h)/2
+		return [x,y,w,h]
+	}
+
 	/****************************************************************************************************
 	*
 	* Zoom code lines inspired by code at:
