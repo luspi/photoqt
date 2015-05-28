@@ -200,6 +200,8 @@ void MainWindow::handleThumbnails(QVariant centerPos) {
 
 void MainWindow::loadMoreThumbnails() {
 
+	if(settingsPermanent->thumbnailFilenameInstead) return;
+
 	if(loadThumbnailsInThisOrder.length() == 0 && smartLoadThumbnailsInThisOrder.length() == 0) return;
 
 	if(loadThumbnailsInThisOrder.length() != 0) {

@@ -10,7 +10,7 @@ Rectangle {
 	// Set up model on first load, afetrwards just change data
 	property bool imageLoaded: false
 
-	property int orientation: 0
+	property string orientation: ""
 
 	// Background/Border color
 	color: colour_slidein_bg

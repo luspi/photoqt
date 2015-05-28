@@ -363,11 +363,13 @@ Rectangle {
 				}
 			}
 
-			// Filename label
+			// Filename label (when filename-only NOT enabled)
 			Rectangle {
 
 				x: 5
 				y: parent.height*0.67
+
+				visible: !settings.thumbnailFilenameInstead
 
 				color: "#88000000"
 
@@ -380,6 +382,8 @@ Rectangle {
 					y: 2
 
 					width: parent.width-4
+
+					visible: !settings.thumbnailFilenameInstead
 
 					horizontalAlignment: Text.AlignHCenter
 					verticalAlignment: Text.AlignVCenter
@@ -394,6 +398,40 @@ Rectangle {
 					property var p: imageUrl.split("/")
 					text: p[p.length-1]
 
+				}
+			}
+
+			// Filename label (when filename-only IS enabled)
+			Rectangle {
+
+				x: 5
+				y: 5
+				width: parent.width-10
+				height: parent.height-10
+
+				visible: settings.thumbnailFilenameInstead
+				color: "#00000000"
+
+				Text {
+
+					x: 0
+					y: 0
+					width: parent.width
+					height: parent.height
+
+					visible: settings.thumbnailFilenameInstead
+
+					horizontalAlignment: Text.AlignHCenter
+					verticalAlignment: Text.AlignVCenter
+					wrapMode: Text.WrapAnywhere
+					elide: Text.ElideRight
+
+					color: "white"
+					font.pointSize: settings.thumbnailFilenameInsteadFontSize
+					font.bold: true
+
+					property var p: imageUrl.split("/")
+					text: p[p.length-1]
 				}
 			}
 		}
