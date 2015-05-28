@@ -243,6 +243,8 @@ Rectangle {
 
 						value: filenameonly_fontsize_spinbox.value
 						stepSize: 1
+						scrollStep: 1
+						tickmarksEnabled: true
 
 					}
 
