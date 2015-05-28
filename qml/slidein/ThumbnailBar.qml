@@ -369,7 +369,7 @@ Rectangle {
 				x: 5
 				y: parent.height*0.67
 
-				visible: !settings.thumbnailFilenameInstead
+				visible: !settings.thumbnailFilenameInstead && settings.thumbnailWriteFilename
 
 				color: "#88000000"
 
@@ -383,7 +383,7 @@ Rectangle {
 
 					width: parent.width-4
 
-					visible: !settings.thumbnailFilenameInstead
+					visible: !settings.thumbnailFilenameInstead && settings.thumbnailWriteFilename
 
 					horizontalAlignment: Text.AlignHCenter
 					verticalAlignment: Text.AlignVCenter
