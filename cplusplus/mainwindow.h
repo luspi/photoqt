@@ -99,6 +99,8 @@ private slots:
 
 	void updateWindowXandY();
 
+	void resetWindowGeometry();
+
 protected:
 	bool event(QEvent *e);
 	void keyPressEvent(QKeyEvent *e);

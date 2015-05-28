@@ -12,6 +12,8 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 	// Set only by main.cpp at start-up, contains filename passed via command line
 	startup_filename = "";
 
+	this->setMinimumSize(QSize(600,400));
+
 	// Add image providers
 	this->engine()->addImageProvider("thumb",new ImageProviderThumbnail);
 	this->engine()->addImageProvider("full",new ImageProviderFull);
@@ -379,9 +381,6 @@ bool MainWindow::event(QEvent *e) {
 				QSettings settings("photoqt","photoqt");
 				settings.setValue("mainWindowGeometry", geometry());
 
-				// Remove 'running' file
-				QFile(QDir::homePath() + "/.photoqt/running").remove();
-
 				e->accept();
 
 				std::cout << "Goodbye!" << std::endl;
@@ -548,6 +547,7 @@ void MainWindow::updateWindowGeometry() {
 		if(settings.allKeys().contains("mainWindowGeometry") && settingsPermanent->saveWindowGeometry) {
 			this->show();
 			this->setGeometry(settings.value("mainWindowGeometry").toRect());
+			QTimer::singleShot(200,this, SLOT(resetWindowGeometry()));
 		} else
 			this->showMaximized();
 	} else {
@@ -555,6 +555,11 @@ void MainWindow::updateWindowGeometry() {
 		QString(getenv("DESKTOP")).startsWith("Enlightenment") ? this->showMaximized() : this->showFullScreen();
 	}
 
+}
+
+void MainWindow::resetWindowGeometry() {
+	QSettings settings("photoqt","photoqt");
+	this->setGeometry(settings.value("mainWindowGeometry").toRect());
 }
 
 void MainWindow::updateWindowXandY() {
