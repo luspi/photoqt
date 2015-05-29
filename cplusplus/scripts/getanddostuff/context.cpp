@@ -7,10 +7,10 @@ QStringList GetAndDoStuffContext::setDefaultContextMenuEntries() {
 
 	// These are the possible entries
 	QStringList m;
-	m << "Edit with Gimp" << "gimp %f"
+	m << tr("Edit with") + " Gimp" << "gimp %f"
 		<< "Edit with Krita" << "krita %f"
 		<< "Edit with KolourPaint" << "kolourpaint %f"
-		<< "Open in GwenView" << "gwenview %f"
+		<< tr("Open in") + " GwenView" << "gwenview %f"
 		<< "Open in showFoto" << "showfoto %f"
 		<< "Open in Shotwell" << "shotwell %f"
 		<< "Open in GThumb" << "gthumb %f"

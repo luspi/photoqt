@@ -210,7 +210,7 @@ Rectangle {
 
 			CustomCheckBox {
 				id: filenameonly
-				text: "Use filename-only thumbnail"
+				text: qsTr("Use filename-only thumbnail")
 				x: (flickable.width-width)/2
 			}
 

@@ -101,7 +101,7 @@ Rectangle {
 
 			TabShortcutsCategories {
 				id: image
-				category: "Image"
+				category: qsTr("Image")
 				extern: false
 				responsiblefor: ["__zoomIn","__zoomOut","__zoomActual","__zoomReset","__rotateR","__rotateL","__rotate0","__flipH","__flipV","__scale"]
 				responsiblefor_text: [qsTr("Zoom In"),qsTr("Zoom Out"),qsTr("Zoom to Actual Size"),qsTr("Reset Zoom"),qsTr("Rotate Right"),qsTr("Rotate Left"),qsTr("Reset Rotation"),qsTr("Flip Horizontally"),qsTr("Flip Vertically"),qsTr("Scale Image")]
@@ -109,7 +109,7 @@ Rectangle {
 
 			TabShortcutsCategories {
 				id: file
-				category: "File"
+				category: qsTr("File")
 				extern: false
 				responsiblefor: ["__rename","__delete","__copy","__move"]
 				responsiblefor_text: [qsTr("Rename File"),qsTr("Delete File"),qsTr("Copy File to a New Location"),qsTr("Move File to a New Location")]
@@ -117,7 +117,7 @@ Rectangle {
 
 			TabShortcutsCategories {
 				id: other
-				category: "Other"
+				category: qsTr("Other")
 				extern: false
 				responsiblefor: ["__stopThb","__reloadThb","__hideMeta","__showContext","__settings","__slideshow","__slideshowQuick","__about","__wallpaper"]
 				responsiblefor_text: [qsTr("Interrupt Thumbnail Creation"),qsTr("Reload Thumbnails"),qsTr("Hide/Show Exif Info"),qsTr("Show Context Menu"),qsTr("Show Settings"),qsTr("Start Slideshow"),qsTr("Start Slideshow (Quickstart)"),qsTr("About PhotoQt"),qsTr("Set as Wallpaper")]
