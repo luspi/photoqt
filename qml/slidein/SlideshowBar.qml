@@ -9,9 +9,9 @@ Rectangle {
 	id: bar
 
 	// Background/Border color
-	color: colour_slidein_bg
+	color: colour.slidein_bg
 	border.width: 1
-	border.color: colour_slidein_border
+	border.color: colour.slidein_border
 
 	// Set position (we pretend that rounded corners are along the bottom edge only, that's why visible y is off screen)
 	x: -1
@@ -48,7 +48,7 @@ Rectangle {
 			Text {
 				text: qsTr("Music Volume:")
 				y: (volumerect.height-height)/2
-				color: settings.slideShowMusicFile == "" ? "grey" : "white"
+				color: settings.slideShowMusicFile == "" ? colour.disabled : colour.text
 			}
 			CustomSlider {
 				id: volumeslider
@@ -63,7 +63,7 @@ Rectangle {
 			Text {
 				text: "" + volumeslider.value + "%"
 				y: (volumerect.height-height)/2
-				color: settings.slideShowMusicFile == "" ? "grey" : "white"
+				color: settings.slideShowMusicFile == "" ? colour.disabled : colour.text
 			}
 		}
 	}

@@ -49,7 +49,7 @@ Rectangle {
 				height: childrenRect.height
 				color: "#00000000"
 				Text {
-					color: "white"
+					color: colour.text
 					font.pointSize: 18
 					font.bold: true
 					text: qsTr("Image Metadata")

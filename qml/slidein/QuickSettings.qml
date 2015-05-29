@@ -11,9 +11,9 @@ Rectangle {
 	property bool dontAnimateComboboxOpened: false
 
 	// Background/Border color
-	color: colour_slidein_bg
+	color: colour.slidein_bg
 	border.width: 1
-	border.color: colour_slidein_border
+	border.color: colour.slidein_border
 
 	// Set position (we pretend that rounded corners are along the right edge only, that's why visible x is off screen)
 	x: background.width+safetyDistanceForSlidein
@@ -39,7 +39,7 @@ Rectangle {
 		// HEADER
 
 		Text {
-			color: "white"
+			color: colour.text
 			horizontalAlignment: Text.AlignHCenter
 			x: quicksettings.radius
 			width: quicksettings.width-3*quicksettings.radius
@@ -51,7 +51,7 @@ Rectangle {
 		// DESCRIPTION
 
 		Text {
-			color: "white"
+			color: colour.text
 			text: qsTr("Change settings with one click. They are saved and applied immediately. If you're unsure what a setting does, check the full settings for descriptions.")
 			wrapMode: Text.WordWrap
 			x: quicksettings.radius
@@ -72,7 +72,7 @@ Rectangle {
 				spacing: 5
 
 				Text {
-					color: "white"
+					color: colour.text
 					text: qsTr("Sort by")
 					y: (sortby.height-height)/2
 				}
@@ -120,7 +120,7 @@ Rectangle {
 			x: quicksettings.radius
 			width: quicksettings.width-3*quicksettings.radius
 			height: 1
-			color: "white"
+			color: colour.linecolour
 		}
 
 		// SYSTEM TRAY
@@ -139,7 +139,7 @@ Rectangle {
 			x: quicksettings.radius
 			width: quicksettings.width-3*quicksettings.radius
 			height: 1
-			color: "white"
+			color: colour.linecolour
 		}
 
 		// LOOP THROUGH FOLDER
@@ -157,7 +157,7 @@ Rectangle {
 			x: quicksettings.radius
 			width: quicksettings.width-3*quicksettings.radius
 			height: 1
-			color: "white"
+			color: colour.linecolour
 		}
 
 		// WINDOW MODE
@@ -183,7 +183,7 @@ Rectangle {
 			x: quicksettings.radius
 			width: quicksettings.width-3*quicksettings.radius
 			height: 1
-			color: "white"
+			color: colour.linecolour
 		}
 
 		// CLOSE ON CLICK
@@ -201,7 +201,7 @@ Rectangle {
 			x: quicksettings.radius
 			width: quicksettings.width-3*quicksettings.radius
 			height: 1
-			color: "white"
+			color: colour.linecolour
 		}
 
 		// KEEP THUMBNAILS VISIBLE
@@ -219,7 +219,7 @@ Rectangle {
 			x: quicksettings.radius
 			width: quicksettings.width-3*quicksettings.radius
 			height: 1
-			color: "white"
+			color: colour.linecolour
 		}
 
 		// THUMBNAIL MODE
@@ -242,7 +242,7 @@ Rectangle {
 			x: quicksettings.radius
 			width: quicksettings.width-3*quicksettings.radius
 			height: 1
-			color: "white"
+			color: colour.linecolour
 		}
 
 		// QUICK SETTINGS

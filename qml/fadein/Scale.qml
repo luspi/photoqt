@@ -8,7 +8,7 @@ Rectangle {
 	id: scale
 
 	anchors.fill: background
-	color: colour_fadein_block_bg
+	color: colour.fadein_block_bg
 
 	opacity: 0
 	visible: false
@@ -37,9 +37,9 @@ Rectangle {
 
 		// Some styling
 		border.width: 1
-		border.color: colour_fadein_border
+		border.color: colour.fadein_border
 		radius: 10
-		color: colour_fadein_bg
+		color: colour.fadein_bg
 
 		// Clicks INSIDE element doesn't close it
 		MouseArea {
@@ -65,7 +65,7 @@ Rectangle {
 				// Header
 				Text {
 					text: qsTr("Scale Image")
-					color: "white"
+					color: colour.text
 					font.pointSize: 25
 					font.bold: true
 					x: (parent.width-width)/2
@@ -81,21 +81,21 @@ Rectangle {
 						spacing: 5
 						Text {
 							text: qsTr("Current Size:")
-							color: "white"
+							color: colour.text
 						}
 						Text {
 							id: currentwidth
 							text: "4000"
-							color: "white"
+							color: colour.text
 						}
 						Text {
 							text: "x"
-							color: "white"
+							color: colour.text
 						}
 						Text {
 							id: currentheight
 							text: "3000"
-							color: "white"
+							color: colour.text
 						}
 					}
 				}
@@ -103,7 +103,7 @@ Rectangle {
 				Text {
 					id: error
 					x: (parent.width-width)/2
-					color: "red"
+					color: colour.warning
 					text: qsTr("Error! Something went wrong, unable to save new dimension...")
 				}
 
@@ -127,13 +127,13 @@ Rectangle {
 							width: childrenRect.width
 							height: childrenRect.height
 							Text {
-								color: "white"
+								color: colour.text
 								text: qsTr("New width:")
 								horizontalAlignment: Text.AlignRight
 								y: (newwidth.height-height)/2+5
 							}
 							Text {
-								color: "white"
+								color: colour.text
 								text: qsTr("New height:")
 								horizontalAlignment: Text.AlignRight
 								y: newwidth.height+10+(newheight.height-height)/2
@@ -204,7 +204,7 @@ Rectangle {
 						// Text explaining the current aspect ratio setting
 						Text {
 							id: aspect_text
-							color: "white"
+							color: colour.text
 							opacity: aspect_image.keepaspectratio ? 1 : 0.3
 							text: qsTr("Aspect Ratio")
 							font.strikeout: !aspect_image.keepaspectratio
@@ -233,7 +233,7 @@ Rectangle {
 					Row {
 						spacing: 5
 						Text {
-							color: "white"
+							color: colour.text
 							text: qsTr("Quality")
 						}
 						CustomSlider {
@@ -248,7 +248,7 @@ Rectangle {
 						// Display quality percentage
 						Text {
 							id: quality_text
-							color: "white"
+							color: colour.text
 							text: quality_slider.value.toString()
 						}
 					}

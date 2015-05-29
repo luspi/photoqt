@@ -1,5 +1,9 @@
 import QtQuick 2.3
 
+/****************************
+ * CURRENTLY NOT IN USE !!! *
+ ****************************/
+
 Rectangle {
 
 	width: 200
@@ -21,9 +25,9 @@ Rectangle {
 
 		width: parent.width-6
 
-		color: "white"
-		selectedTextColor: "black"
-		selectionColor: "white"
+		color: colour.text
+//		selectedTextColor: "black"
+//		selectionColor: "white"
 		text: parent.text
 
 		onTextChanged: parent.textEdited()

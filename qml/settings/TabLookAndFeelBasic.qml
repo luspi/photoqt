@@ -46,7 +46,7 @@ Rectangle {
 				height: childrenRect.height
 				color: "#00000000"
 				Text {
-					color: "white"
+					color: colour.text
 					font.pointSize: 18
 					font.bold: true
 					text: qsTr("Basic Settings")
@@ -86,7 +86,7 @@ Rectangle {
 
 					// Label
 					Text {
-						color: "white"
+						color: colour.text
 						text: qsTr("Sort by:")
 						y: (sortimages_subrect.height-height)/2
 					}
@@ -243,7 +243,7 @@ Rectangle {
 					spacing: 5
 
 					Text {
-						color: "white"
+						color: colour.text
 						font.pointSize: 10
 						text: qsTr("Small Size")
 					}
@@ -258,7 +258,7 @@ Rectangle {
 					}
 
 					Text {
-						color: "white"
+						color: colour.text
 						font.pointSize: 10
 						text: qsTr("Large Size")
 					}

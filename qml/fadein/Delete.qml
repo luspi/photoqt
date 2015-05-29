@@ -8,7 +8,7 @@ Rectangle {
 	id: deleteImage
 
 	anchors.fill: background
-	color: colour_fadein_block_bg
+	color: colour.fadein_block_bg
 
 	opacity: 0
 	visible: false
@@ -32,9 +32,9 @@ Rectangle {
 
 		// Some styling
 		border.width: 1
-		border.color: colour_fadein_border
+		border.color: colour.fadein_border
 		radius: 10
-		color: colour_fadein_bg
+		color: colour.fadein_bg
 
 		// Clicks INSIDE element doesn't close it
 		MouseArea {
@@ -66,7 +66,7 @@ Rectangle {
 				// Heading
 				Text {
 					text: qsTr("Delete File")
-					color: "white"
+					color: colour.text
 					font.bold: true
 					font.pointSize: 28
 					x: (rect.width-width)/2
@@ -83,7 +83,7 @@ Rectangle {
 				Text {
 					id: filename
 					text: ""
-					color: "grey"
+					color: colour.disabled
 					font.pointSize: 20
 					x: (rect.width-width)/2
 				}
@@ -98,7 +98,7 @@ Rectangle {
 					text: qsTr("Do you really want to delete this file?")
 					x: (rect.width-width)/2
 					font.pointSize: 22
-					color: "white"
+					color: colour.text
 				}
 
 				Rectangle {
@@ -163,7 +163,7 @@ Rectangle {
 				// A little explanatory text informing the user about the shortcuts
 				Text {
 					text: getanddostuff.amIOnLinux() ? qsTr("Enter = Move to Trash, Shift+Enter = Delete permanently, Escape = Cancel") : qsTr("Enter = Delete, Escape = Cancel")
-					color: "white"
+					color: colour.text
 					font.pointSize: 10
 					x: rect.width-width
 				}

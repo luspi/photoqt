@@ -373,7 +373,7 @@ Item {
 
 			font.pointSize: settings.closeXsize*1.5
 			font.bold: true
-			color: "white"
+			color: colour.quickinfo_text
 			text: "x"
 
 		}
@@ -414,12 +414,12 @@ Item {
 		Menu {
 			id: contextmenuClosingX
 			style: MenuStyle {
-			frame: Rectangle { color: "#0F0F0F"; }
-			itemDelegate.background: Rectangle { color: (styleData.selected ? "#4f4f4f" :"#0F0F0F"); }
+			frame: Rectangle { color: colour.menu_frame; }
+			itemDelegate.background: Rectangle { color: (styleData.selected ? colour.menu_bg_highlight : colour.menu_bg); }
 			}
 
 			MenuItem {
-				text: "<font color=\"white\">" + qsTr("Hide") + " 'x'</font>"
+				text: "<font color=\"" + colour.menu_text + "\">" + qsTr("Hide") + " 'x'</font>"
 				onTriggered: {
 					settings.hidex = true;
 					rect.visible = false;
@@ -440,7 +440,7 @@ Item {
 		verticalAlignment: Qt.AlignVCenter
 		horizontalAlignment: Qt.AlignHCenter
 
-		color: "grey"
+		color: colour.bg_label
 		font.pointSize: 50
 		font.bold: true
 		wrapMode: Text.WordWrap
@@ -491,7 +491,7 @@ Item {
 		verticalAlignment: Qt.AlignVCenter
 		horizontalAlignment: Qt.AlignHCenter
 
-		color: "grey"
+		color: colour.bg_label
 		font.pointSize: 50
 		font.bold: true
 		wrapMode: Text.WordWrap

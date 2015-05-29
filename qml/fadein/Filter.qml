@@ -8,7 +8,7 @@ Rectangle {
 	id: filter
 
 	anchors.fill: background
-	color: colour_fadein_block_bg
+	color: colour.fadein_block_bg
 
 	opacity: 0
 	visible: false
@@ -32,9 +32,9 @@ Rectangle {
 
 		// Some styling
 		border.width: 1
-		border.color: colour_fadein_border
+		border.color: colour.fadein_border
 		radius: 10
-		color: colour_fadein_bg
+		color: colour.fadein_bg
 
 		// Clicks INSIDE element doesn't close it
 		MouseArea {
@@ -66,7 +66,7 @@ Rectangle {
 				// Heading
 				Text {
 					text: qsTr("Filter images in current directory")
-					color: "white"
+					color: colour.text
 					font.bold: true
 					font.pointSize: 20
 					x: (rect.width-width)/2
@@ -82,13 +82,13 @@ Rectangle {
 				Text {
 					text: qsTr("Enter here the term you want to search for. Seperate multiple terms by a space.")
 					x: (rect.width-width)/2
-					color: "white"
+					color: colour.text
 				}
 
 				Text {
 					text: qsTr("If you want to limit a term to file extensions, prepend a dot '.' to the term.")
 					x: (rect.width-width)/2
-					color: "white"
+					color: colour.text
 				}
 
 				Rectangle {

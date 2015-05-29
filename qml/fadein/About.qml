@@ -8,7 +8,7 @@ Rectangle {
 	id: about
 
 	anchors.fill: background
-	color: colour_fadein_block_bg
+	color: colour.fadein_block_bg
 
 	opacity: 0
 	visible: false
@@ -35,9 +35,9 @@ Rectangle {
 
 		// Some styling
 		border.width: 1
-		border.color: colour_fadein_border
+		border.color: colour.fadein_border
 		radius: 10
-		color: colour_fadein_bg
+		color: colour.fadein_bg
 
 		// Clicks INSIDE element doesn't close it
 		MouseArea {
@@ -63,7 +63,7 @@ Rectangle {
 				// Set license (not scrolled)
 				Text {
 					id: license
-					color: "white"
+					color: colour.text
 					font.pointSize: 9
 					text: "PhotoQt QML, Lukas Spies, 2015 (Lukas@photoqt.org) - " + qsTr("website:") + " photoqt.org - " + qsTr("Licensed under GPLv2 or later, without any guarantee")
 				}
@@ -104,7 +104,7 @@ Rectangle {
 						Text {
 							id: txt
 							width: rect.width
-							color: "white"
+							color: colour.text
 							font.pointSize: 11
 							wrapMode: Text.WordWrap
 							textFormat:Text.RichText
@@ -147,7 +147,7 @@ Rectangle {
 								width: rect.width/2
 
 								horizontalAlignment: Qt.AlignHCenter
-								color: "white"
+								color: colour.text
 
 								font.pointSize: 20
 								font.bold: true
@@ -163,7 +163,7 @@ Rectangle {
 
 							width: rect.width
 
-							color: "white"
+							color: colour.text
 
 							font.pointSize: 11
 							wrapMode: Text.WordWrap
@@ -189,7 +189,7 @@ Rectangle {
 				Rectangle {
 					width: rect.width
 					height: 1
-					color: colour_linecolour
+					color: colour.linecolour
 				}
 
 				Rectangle {

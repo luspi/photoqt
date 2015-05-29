@@ -36,14 +36,6 @@ Item {
 	property bool blockedSystem: false
 	property int softblocked: 0
 
-	// Some colour settings
-	readonly property string colour_fadein_bg: "#DD000000"
-	readonly property string colour_fadein_block_bg: "#55000000"
-	readonly property string colour_fadein_border: "#55bbbbbb"
-	readonly property string colour_slidein_bg: "#BB000000"
-	readonly property string colour_slidein_border: "#55bbbbbb"
-	readonly property string colour_linecolour: "#99999999"
-
 	// Detect some states/properties (e.g. for slideshow)
 	property bool slideshowRunning: false
 	property string currentfilter: ""
@@ -69,6 +61,7 @@ Item {
 	FileFormats { id: fileformats; }
 	SettingsSession { id: settingssession; }
 
+	Colour { id: colour; }
 	GetAndDoStuff {
 		id: getanddostuff;
 		// The reloadDirectory signal is emitted by copy/move actions in getanddostuff.cpp

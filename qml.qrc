@@ -55,5 +55,6 @@
         <file>qml/slidein/SlideshowBar.qml</file>
         <file>qml/fadein/Filter.qml</file>
         <file>qml/fadein/Startup.qml</file>
+        <file>qml/Colour.qml</file>
     </qresource>
 </RCC>

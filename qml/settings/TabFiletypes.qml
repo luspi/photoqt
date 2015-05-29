@@ -49,7 +49,7 @@ Rectangle {
 				height: childrenRect.height
 				color: "#00000000"
 				Text {
-					color: "white"
+					color: colour.text
 					font.pointSize: 18
 					font.bold: true
 					text: qsTr("Filetypes")
@@ -88,18 +88,16 @@ Rectangle {
 				Text {
 					id: extralabel
 					y: (extrasQt.height-height)/2
-					color: "white"
+					color: colour.text
 					text: qsTr("Extra File Types:")
 					anchors.left: parent.left
 				}
 
-				CustomTextEdit {
+				CustomLineEdit {
 					id: extrasQt
 					anchors.left: extralabel.right
 					anchors.leftMargin: 5
-					border.width: 1
 					width: 400
-					border.color: colour_fadein_border
 				}
 
 				CustomButton {
@@ -245,7 +243,7 @@ Rectangle {
 
 							y: (xcftools.height-height)/2
 
-							color: "white"
+							color: colour.text
 							//: 'Makes use of' is in connection with an external tool (i.e., it 'makes use of' tool abc)
 							text: qsTr("Gimp's XCF file format.") + "<br><br>" + qsTr("Makes use of") + ": xcftools - https://github.com/j-jorge/xcftools"
 
@@ -267,7 +265,7 @@ Rectangle {
 
 							y: (libqpsd.height-height)/2
 
-							color: "white"
+							color: colour.text
 							text: qsTr("Adobe Photoshop PSD and PSB.") + "<br><br>" + qsTr("Makes use of") + ": libqpsd - https://github.com/Code-ReaQtor/libqpsd"
 
 						}

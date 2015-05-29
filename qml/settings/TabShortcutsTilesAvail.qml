@@ -17,7 +17,7 @@ Rectangle {
 
 		id: desc
 
-		color: "#44ffffff"
+		color: colour.tiles_inactive
 
 		// Top half is the description
 		width: 100
@@ -34,7 +34,7 @@ Rectangle {
 			horizontalAlignment: Text.AlignHCenter
 			wrapMode: Text.WordWrap
 
-			color: "black"
+			color: colour.tiles_text
 			font.bold: true
 			font.pointSize: 8
 
@@ -50,12 +50,12 @@ Rectangle {
 			hoverEnabled: true
 
 			onEntered: {
-				key.color = "#88ffffff"
-				desc.color = "#88ffffff"
+				key.color = colour.tiles_active
+				desc.color = colour.tiles_active
 			}
 			onExited: {
-				key.color = "#44ffffff"
-				desc.color = "#44ffffff"
+				key.color = colour.tiles_inactive
+				desc.color = colour.tiles_inactive
 			}
 
 			onClicked: {
@@ -73,7 +73,7 @@ Rectangle {
 
 		id: key
 
-		color: "#44ffffff"
+		color: colour.tiles_inactive
 
 		x: 1
 		y: 53
@@ -90,7 +90,7 @@ Rectangle {
 			horizontalAlignment: Text.AlignHCenter
 			verticalAlignment: Text.AlignVCenter
 
-			color: "black"
+			color: colour.tiles_text
 			font.pointSize: 8
 			font.bold: true
 
@@ -107,12 +107,12 @@ Rectangle {
 			hoverEnabled: true
 
 			onEntered: {
-				key.color = "#88ffffff"
-				desc.color = "#88ffffff"
+				key.color = colour.tiles_active
+				desc.color = colour.tiles_active
 			}
 			onExited: {
-				key.color = "#44ffffff"
-				desc.color = "#44ffffff"
+				key.color = colour.tiles_inactive
+				desc.color = colour.tiles_inactive
 			}
 
 			onClicked: {
@@ -130,7 +130,7 @@ Rectangle {
 
 		id: mouse
 
-		color: "#44ffffff"
+		color: colour.tiles_inactive
 
 		x: 52
 		y: 53
@@ -146,7 +146,7 @@ Rectangle {
 			horizontalAlignment: Text.AlignHCenter
 			verticalAlignment: Text.AlignVCenter
 
-			color: "black"
+			color: colour.tiles_text
 			font.pointSize: 8
 			font.bold: true
 
@@ -161,8 +161,8 @@ Rectangle {
 			cursorShape: Qt.PointingHandCursor
 			hoverEnabled: true
 
-			onEntered: mouse.color = "#88ffffff"
-			onExited: mouse.color = "#44ffffff"
+			onEntered: mouse.color = colour.tiles_active
+			onExited: mouse.color = colour.tiles_inactivee
 
 			onClicked: {
 				detectMouseShortcut.command = _cmd

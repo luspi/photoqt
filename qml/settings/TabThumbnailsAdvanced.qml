@@ -46,7 +46,7 @@ Rectangle {
 				height: childrenRect.height
 				color: "#00000000"
 				Text {
-					color: "white"
+					color: colour.text
 					font.pointSize: 18
 					font.bold: true
 					text: qsTr("Advanced Settings")
@@ -374,12 +374,12 @@ Rectangle {
 							Row {
 								spacing: 5
 								Text {
-									color: cache.checkedButton ? "white" : "#555555"
+									color: cache.checkedButton ? colour.text : colour.disabled
 									text: qsTr("Current database filesize:")
 								}
 								Text {
 									id: db_filesize
-									color: cache.checkedButton ? "white" : "#555555"
+									color: cache.checkedButton ? colour.text : colour.disabled
 									text: "0 KB"
 								}
 							}
@@ -398,12 +398,12 @@ Rectangle {
 							Row {
 								spacing: 5
 								Text {
-									color: cache.checkedButton ? "white" : "#555555"
+									color: cache.checkedButton ? colour.text : colour.disabled
 									text: qsTr("Entries in database:")
 								}
 								Text {
 									id: db_entries
-									color: cache.checkedButton ? "white" : "#555555"
+									color: cache.checkedButton ? colour.text : colour.disabled
 									text: "0"
 								}
 							}

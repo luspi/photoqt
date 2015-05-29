@@ -10,7 +10,7 @@ Rectangle {
 
 	// Positioning and basic look
 	anchors.fill: background
-	color: colour_fadein_bg
+	color: colour.fadein_bg
 
 	// Invisible at startup
 	visible: false
@@ -285,7 +285,7 @@ Rectangle {
 		height: 1
 		width: parent.width
 
-		color: colour_linecolour
+		color: colour.linecolour
 
 	}
 
@@ -299,7 +299,7 @@ Rectangle {
 		width: parent.width
 		height: 40
 
-		color: "#33000000"
+		color: "#00000000"
 
 		// Button to restore default settings - bottom left
 		CustomButton {

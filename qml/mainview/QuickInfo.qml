@@ -69,7 +69,7 @@ Item {
 		height: childrenRect.height+6
 
 		// Some styling
-		color: "#55000000"
+		color: colour.quickinfo_bg
 		radius: 5
 
 		// COUNTER
@@ -82,7 +82,7 @@ Item {
 
 			text: ""
 
-			color: "white"
+			color: colour.quickinfo_text
 			font.bold: true
 
 			// Show context menu on right click
@@ -110,7 +110,7 @@ Item {
 				}
 
 				MenuItem {
-					text: "<font color=\"white\">" + qsTr("Hide Counter") + "</font>"
+					text: "<font color=\"" + colour.menu_text + "\">" + qsTr("Hide Counter") + "</font>"
 					onTriggered: {
 					counter.text = ""
 					counter.visible = false
@@ -148,7 +148,7 @@ Item {
 			anchors.left: spacing.right
 
 			text: ""
-			color: "white"
+			color: colour.quickinfo_text
 			font.bold: true
 
 			// Show context menu
@@ -176,7 +176,7 @@ Item {
 				}
 
 				MenuItem {
-					text: "<font color=\"white\">" + qsTr("Hide Filepath, leave Filename") + "</font>"
+					text: "<font color=\"" + colour.menu_text + "\">" + qsTr("Hide Filepath, leave Filename") + "</font>"
 					onTriggered: {
 						filename.text = getanddostuff.removePathFromFilename(filename.text)
 						settings.hidefilepathshowfilename = true;
@@ -184,7 +184,7 @@ Item {
 				}
 
 				MenuItem {
-					text: "<font color=\"white\">" + qsTr("Hide both, Filename and Filepath") + "</font>"
+					text: "<font color=\"" + colour.menu_text + "\">" + qsTr("Hide both, Filename and Filepath") + "</font>"
 					onTriggered: {
 						filename.text = ""
 						spacing.visible = false
@@ -211,7 +211,7 @@ Item {
 				spacing: 5
 				Text {
 					id: filter_delete
-					color: "#99ffffff"
+					color: colour.quickinfo_text
 					visible: (currentfilter != "")
 					text: "x"
 					font.pointSize: 8
@@ -226,7 +226,7 @@ Item {
 					}
 				}
 				Text {
-					color: "white"
+					color: colour.quickinfo_text
 					//: As in: FILTER images
 					text: qsTr("Filter:") + " " + currentfilter
 					visible: (currentfilter != "")
@@ -240,13 +240,13 @@ Item {
 	Component {
 		id: menuFrame
 		Rectangle {
-			color: "#0F0F0F"
+			color: colour.menu_frame
 		}
 	}
 	Component {
 		id: menuHighlight
 		Rectangle {
-			color: (styleData.selected ? "#4f4f4f" :"#0F0F0F")
+			color: (styleData.selected ? colour.menu_bg_highlight : colour.menu_bg)
 		}
 	}
 

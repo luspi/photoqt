@@ -7,7 +7,7 @@ Rectangle {
 
 	id: top
 
-	color: colour_fadein_bg
+	color: colour.fadein_bg
 
 	width: container.width+16
 	height: container.height+16
@@ -47,7 +47,7 @@ Rectangle {
 					spacing: 15
 
 					Text {
-						color: "#bbbbbb"
+						color: colour.contextmenu_infotext
 						//: as in: "Move file..."
 						text: qsTr("Move:")
 					}
@@ -93,7 +93,7 @@ Rectangle {
 					spacing: 15
 
 					Text {
-						color: "#bbbbbb"
+						color: colour.contextmenu_infotext
 						//: As in: Rotate file
 						text: qsTr("Rotate:")
 					}
@@ -133,7 +133,7 @@ Rectangle {
 					spacing: 15
 
 					Text {
-						color: "#bbbbbb"
+						color: colour.contextmenu_infotext
 						//: As in: Flip file
 						text: qsTr("Flip:")
 					}
@@ -172,7 +172,7 @@ Rectangle {
 					spacing: 15
 
 					Text {
-						color: "#bbbbbb"
+						color: colour.contextmenu_infotext
 						//: Zoom file
 						text: qsTr("Zoom:")
 					}

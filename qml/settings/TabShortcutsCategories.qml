@@ -112,7 +112,7 @@ Rectangle {
 				width: (cont.width-3*5-2)/2
 				height: cont.height
 
-				color: "#44ffffff"
+				color: colour.tiles_inactive
 
 				// The view for all the tiles
 				GridView {

@@ -8,7 +8,7 @@ Rectangle {
 	id: slideshow
 
 	anchors.fill: background
-	color: colour_fadein_block_bg
+	color: colour.fadein_block_bg
 
 	opacity: 0
 	visible: false
@@ -35,9 +35,9 @@ Rectangle {
 
 		// Some styling
 		border.width: 1
-		border.color: colour_fadein_border
+		border.color: colour.fadein_border
 		radius: 10
-		color: colour_fadein_bg
+		color: colour.fadein_bg
 
 		// Clicks INSIDE element doesn't close it
 		MouseArea {
@@ -79,7 +79,7 @@ Rectangle {
 
 						// HEADING
 						Text {
-							color: "white"
+							color: colour.text
 							font.pointSize: 20
 							font.bold: true
 							x: (rect.width-width)/2
@@ -90,13 +90,13 @@ Rectangle {
 
 						// DESCRIPTION
 						Text {
-							color: "white"
+							color: colour.text
 							width: rect.width
 							wrapMode: Text.WordWrap
 							text: qsTr("There are several settings that can be adjusted for a slideshow, like the time between the image, if and how long the transition between the images should be, and also a music file can be specified that is played in the background.")
 						}
 						Text {
-							color: "white"
+							color: colour.text
 							width: rect.width
 							wrapMode: Text.WordWrap
 							text: qsTr("Once you have set the desired options, you can also start a slideshow the next time via 'Quickstart', i.e. skipping this settings window.")
@@ -104,7 +104,7 @@ Rectangle {
 
 						// TIME BETWEEN IMAGES
 						Text {
-							color: "white"
+							color: colour.text
 							width: rect.width
 							wrapMode: Text.WordWrap
 							font.pointSize: 15
@@ -112,7 +112,7 @@ Rectangle {
 							text: qsTr("Time in between")
 						}
 						Text {
-							color: "white"
+							color: colour.text
 							width: rect.width
 							wrapMode: Text.WordWrap
 							text: qsTr("Adjust the time between the images. The time specified here is the amount of time the image will be completely visible, i.e. the transitioning (if set) is not part of this time.")
@@ -150,7 +150,7 @@ Rectangle {
 
 						// SMOOTH TRANSITION OF IMAGES
 						Text {
-							color: "white"
+							color: colour.text
 							width: rect.width
 							wrapMode: Text.WordWrap
 							font.pointSize: 15
@@ -158,7 +158,7 @@ Rectangle {
 							text: qsTr("Smooth Transition")
 						}
 						Text {
-							color: "white"
+							color: colour.text
 							width: rect.width
 							wrapMode: Text.WordWrap
 							text: qsTr("Here you can set, if you want the images to fade into each other, and how fast they are to do that.")
@@ -173,7 +173,7 @@ Rectangle {
 							Row {
 								spacing: 5
 								Text {
-									color: "white"
+									color: colour.text
 									text: qsTr("No Transition")
 								}
 								CustomSlider {
@@ -188,7 +188,7 @@ Rectangle {
 									value: settings.slideShowTransition
 								}
 								Text {
-									color: "white"
+									color: colour.text
 									text: qsTr("Long Transition")
 								}
 							}
@@ -196,7 +196,7 @@ Rectangle {
 
 						// SHUFFLE AND LOOP
 						Text {
-							color: "white"
+							color: colour.text
 							width: rect.width
 							wrapMode: Text.WordWrap
 							font.pointSize: 15
@@ -204,7 +204,7 @@ Rectangle {
 							text: qsTr("Shuffle and Loop")
 						}
 						Text {
-							color: "white"
+							color: colour.text
 							width: rect.width
 							wrapMode: Text.WordWrap
 							text: qsTr("If you want PhotoQt to loop over all images (i.e., once it shows the last image it starts from the beginning), or if you want PhotoQt to load your images in random order, you can check either or both boxes below. Note, that no image will be shown twice before every image has been shown once.")
@@ -226,7 +226,7 @@ Rectangle {
 
 						// HIDE QUICKINFOS
 						Text {
-							color: "white"
+							color: colour.text
 							width: rect.width
 							wrapMode: Text.WordWrap
 							font.pointSize: 15
@@ -235,7 +235,7 @@ Rectangle {
 						}
 
 						Text {
-							color: "white"
+							color: colour.text
 							width: rect.width
 							wrapMode: Text.WordWrap
 							text: qsTr("Depending on your setup, PhotoQt displays some information at the top edge, like position in current directory or file path/name. Here you can disable them temporarily for the slideshow.")
@@ -250,7 +250,7 @@ Rectangle {
 
 						// BACKGROUND MUSIC
 						Text {
-							color: "white"
+							color: colour.text
 							width: rect.width
 							wrapMode: Text.WordWrap
 							font.pointSize: 15
@@ -258,7 +258,7 @@ Rectangle {
 							text: qsTr("Background Music")
 						}
 						Text {
-							color: "white"
+							color: colour.text
 							width: rect.width
 							wrapMode: Text.WordWrap
 							text: qsTr("Some might like to listen to some music while the slideshow is running. Here you can select a music file you want to be played in the background.")
@@ -272,13 +272,13 @@ Rectangle {
 						}
 						// Area displaying music file path and option to change it
 						Rectangle {
-							color: enabled ? "#11999999" : "#11ffffff"
+							color: enabled ? getanddostuff.addAlphaToColor(colour.disabled,20) : getanddostuff.addAlphaToColor(colour.text,20)
 							width: rect.width/2
 							enabled: musiccheckbox.checkedButton
 							x: rect.width/4
 							height: musictxt.height+20
 							radius: 5
-							border.color: "#303030"
+							border.color: colour.bordercolor
 							Text {
 								id: musictxt
 								x: 15
@@ -286,7 +286,7 @@ Rectangle {
 								elide: Text.ElideLeft
 								width: parent.width-30
 								y: (parent.height-height)/2
-								color: parent.enabled ? "white" : "grey"
+								color: parent.enabled ? colour.text : colour.disabled
 								text: settings.slideShowMusicFile
 							}
 							Text {
@@ -295,7 +295,7 @@ Rectangle {
 								visible: musictxt.text == ""
 								width: parent.width-30
 								y: (parent.height-height)/2
-								color: "grey"
+								color: colour.disabled
 								text: qsTr("Click here to select music file...")
 							}
 							// Click on area offers option to select new file
@@ -315,7 +315,7 @@ Rectangle {
 
 
 				Rectangle {
-					color: "grey"
+					color: colour.linecolour
 					width: rect.width
 					height: 1
 				}

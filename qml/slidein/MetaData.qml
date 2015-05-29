@@ -13,9 +13,9 @@ Rectangle {
 	property string orientation: ""
 
 	// Background/Border color
-	color: colour_slidein_bg
+	color: colour.slidein_bg
 	border.width: 1
-	border.color: colour_slidein_border
+	border.color: colour.slidein_border
 
 	// Set position (we pretend that rounded corners are along the right edge only, that's why visible x is off screen)
 	x: -width-safetyDistanceForSlidein
@@ -33,7 +33,7 @@ Rectangle {
 
 		anchors.fill: parent
 
-		color: "grey"
+		color: colour.bg_label
 
 		visible: !imageLoaded
 		horizontalAlignment: Qt.AlignHCenter
@@ -51,7 +51,7 @@ Rectangle {
 
 		anchors.fill: parent
 
-		color: "grey"
+		color: colour.bg_label
 
 		visible: false
 		horizontalAlignment: Qt.AlignHCenter
@@ -69,7 +69,7 @@ Rectangle {
 
 		anchors.fill: parent
 
-		color: "grey"
+		color: colour.bg_label
 
 		visible: false
 		horizontalAlignment: Qt.AlignHCenter
@@ -103,7 +103,7 @@ Rectangle {
 		height: 1
 		x: 0
 		y: view.height+view.y
-		color: colour_linecolour
+		color: colour.linecolour
 	}
 
 	Rectangle {
@@ -117,7 +117,7 @@ Rectangle {
 			textOnRight: false
 			anchors.right: parent.right
 			anchors.rightMargin: 5
-			textColour: "#66ffffff"
+			textColour: getanddostuff.addAlphaToColor(colour.text,100)
 			text: qsTr("Keep Open")
 			onButtonCheckedChanged: {
 				settingssession.setValue("metadatakeepopen",check.checkedButton)
@@ -143,7 +143,7 @@ Rectangle {
 				id: val;
 
 				visible: imageLoaded
-				color: "white";
+				color: colour.text
 				font.pointSize: settings.exiffontsize
 				lineHeight: (name == "" ? 0.8 : 1.3);
 				textFormat: Text.RichText

@@ -38,7 +38,7 @@ Rectangle {
 
 		// Some text
 		Text {
-			color: (_hovered ? "white" : "#cccccc")
+			color: (_hovered ? colour.contextmenu_text_active : colour.contextmenu_text_inactive)
 			text: rect.text
 			visible: textEnabled
 		}

@@ -49,7 +49,7 @@ Rectangle {
 				height: childrenRect.height
 				color: "#00000000"
 				Text {
-					color: "white"
+					color: colour.text
 					font.pointSize: 18
 					font.bold: true
 					text: qsTr("Other Settings")
@@ -153,13 +153,13 @@ Rectangle {
 
 				radius: 5
 
-				color: "#32FFFFFF"
+				color: colour.tiles_inactive
 
 				Rectangle {
 
 					id: headContext
 
-					color: "#CCCCCC"
+					color: colour.context_header_bg
 
 					width: parent.width-10
 					height: 30
@@ -175,6 +175,7 @@ Rectangle {
 						width: context.textEditWidth
 
 						font.bold: true
+						color: colour.context_header_text
 						verticalAlignment: Qt.AlignVCenter
 						horizontalAlignment: Qt.AlignHCenter
 
@@ -189,6 +190,7 @@ Rectangle {
 						width: context.textEditWidth
 
 						font.bold: true
+						color: colour.context_header_text
 						verticalAlignment: Qt.AlignVCenter
 						horizontalAlignment: Qt.AlignHCenter
 

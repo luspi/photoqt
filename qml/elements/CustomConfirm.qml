@@ -24,7 +24,7 @@ Rectangle {
 	opacity: 0
 	visible: false
 
-	color: colour_fadein_block_bg
+	color: colour.fadein_block_bg
 
 	// Click on background is like rejecting it
 	// (this MouseArea has to come here at the top so that it can be overwritten below for the actual widget
@@ -52,9 +52,9 @@ Rectangle {
 		height: col.height+5
 
 		// Adjust colour and look
-		color: colour_fadein_bg
+		color: colour.fadein_bg
 		border.width: 1
-		border.color: colour_fadein_border
+		border.color: colour.fadein_border
 		radius: 5
 
 		// Mousearea preventing background mousearea from catching clicks

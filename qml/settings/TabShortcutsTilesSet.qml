@@ -31,8 +31,8 @@ Rectangle {
 	MouseArea {
 		anchors.fill: parent
 		hoverEnabled: true
-		onEntered: color = "#88ffffff"
-		onExited: color = "#44ffffff"
+		onEntered: color = colour.tiles_active
+		onExited: color = colour.tiles_inactive
 	}
 
 	// "Close" photoqt after executing shortcut (external shortcut only)
@@ -49,7 +49,7 @@ Rectangle {
 		font.strikeout: (_close=="1" ? false : true)
 		text: "close"
 
-		color: "white"
+		color: colour.text
 		font.bold: true
 		font.pointSize: 7
 
@@ -69,7 +69,7 @@ Rectangle {
 		width: parent.width
 		visible: _mouse
 
-		color: "white"
+		color: colour.text
 		font.pointSize: 10
 		font.bold: true
 		horizontalAlignment: Text.AlignHCenter
@@ -109,7 +109,7 @@ Rectangle {
 		anchors.verticalCenter: parent.verticalCenter
 		horizontalAlignment: Text.AlignHCenter
 
-		color: "black"
+		color: colour.tiles_text
 		font.bold: true
 		font.pointSize: (_extern ? 7 : 9)
 		wrapMode: Text.WordWrap
@@ -143,7 +143,7 @@ Rectangle {
 		y: parent.height-height-2
 		width: parent.width
 
-		color: "black"
+		color: colour.tiles_text
 		font.pointSize: 8
 		horizontalAlignment: Text.AlignHCenter
 		wrapMode: Text.Wrap

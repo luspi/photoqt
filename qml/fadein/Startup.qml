@@ -10,7 +10,7 @@ Rectangle {
 
 	// Positioning and basic look
 	anchors.fill: background
-	color: colour_fadein_bg
+	color: colour.fadein_bg
 
 	// Invisible at startup
 	visible: false
@@ -64,7 +64,7 @@ Rectangle {
 
 			// HEADER
 			Text {
-				color: "white"
+				color: colour.text
 				font.pointSize: 25
 				font.bold: true
 				wrapMode: Text.WordWrap
@@ -82,7 +82,7 @@ Rectangle {
 
 			// INTRODUCTORY TEXT
 			Text {
-				color: "white"
+				color: colour.text
 				font.pointSize: 13
 				wrapMode: Text.WordWrap
 				x: 10
@@ -113,7 +113,7 @@ Rectangle {
 				}
 
 				Text {
-					color: "white"
+					color: colour.text
 					font.pointSize: 13
 					wrapMode: Text.WordWrap
 					x: fileformats_img.width+25
@@ -138,7 +138,7 @@ Rectangle {
 				height: childrenRect.height
 
 				Text {
-					color: "white"
+					color: colour.text
 					font.pointSize: 13
 					wrapMode: Text.WordWrap
 					x: 0
@@ -176,7 +176,7 @@ Rectangle {
 				}
 
 				Text {
-					color: "white"
+					color: colour.text
 					font.pointSize: 13
 					wrapMode: Text.WordWrap
 					x: thumbnails_img.width+25
@@ -201,7 +201,7 @@ Rectangle {
 				height: childrenRect.height
 
 				Text {
-					color: "white"
+					color: colour.text
 					font.pointSize: 13
 					wrapMode: Text.WordWrap
 					x: 0
@@ -239,7 +239,7 @@ Rectangle {
 				}
 
 				Text {
-					color: "white"
+					color: colour.text
 					font.pointSize: 13
 					wrapMode: Text.WordWrap
 					x: exif_img.width+25
@@ -264,7 +264,7 @@ Rectangle {
 				height: childrenRect.height
 
 				Text {
-					color: "white"
+					color: colour.text
 					font.pointSize: 13
 					wrapMode: Text.WordWrap
 					x: 0
@@ -302,7 +302,7 @@ Rectangle {
 				}
 
 				Text {
-					color: "white"
+					color: colour.text
 					font.pointSize: 13
 					wrapMode: Text.WordWrap
 					x: localisation_img.width+25
@@ -321,7 +321,7 @@ Rectangle {
 
 			// FINISH TEXT
 			Text {
-				color: "white"
+				color: colour.text
 				font.pointSize: 13
 				wrapMode: Text.WordWrap
 				x: 10
@@ -340,7 +340,7 @@ Rectangle {
 	} // END Flickable
 
 	Rectangle {
-		color: "#666666"
+		color: colour.linecolour
 		x: 0
 		width: rect.width
 		height: 1

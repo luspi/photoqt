@@ -48,7 +48,7 @@ Rectangle {
 				height: childrenRect.height
 				color: "#00000000"
 				Text {
-					color: "white"
+					color: colour.text
 					font.pointSize: 18
 					font.bold: true
 					text: qsTr("Advanced Settings")
@@ -253,7 +253,7 @@ Rectangle {
 								Text {
 									width: 60
 									horizontalAlignment: Qt.AlignRight
-									color: "white"
+									color: colour.text
 									text: qsTr("Red:")
 								}
 
@@ -274,7 +274,7 @@ Rectangle {
 								Text {
 									width: 60
 									horizontalAlignment: Qt.AlignRight
-									color: "white"
+									color: colour.text
 									text: qsTr("Green:")
 								}
 
@@ -295,7 +295,7 @@ Rectangle {
 								Text {
 									width: 60
 									horizontalAlignment: Qt.AlignRight
-									color: "white"
+									color: colour.text
 									text: qsTr("Blue:")
 								}
 
@@ -316,7 +316,7 @@ Rectangle {
 								Text {
 									width: 60
 									horizontalAlignment: Qt.AlignRight
-									color: "white"
+									color: colour.text
 									text: qsTr("Alpha:")
 								}
 
@@ -515,7 +515,7 @@ Rectangle {
 					spacing: 10
 
 					Text {
-						color: "white"
+						color: colour.text
 						text: qsTr("No Transition")
 					}
 
@@ -534,7 +534,7 @@ Rectangle {
 					}
 
 					Text {
-						color: "white"
+						color: colour.text
 						text: qsTr("Long Transition")
 					}
 
@@ -570,7 +570,7 @@ Rectangle {
 					spacing: 10
 
 					Text {
-						color: "white"
+						color: colour.text
 						text: qsTr("Low Sensitivity")
 					}
 
@@ -589,7 +589,7 @@ Rectangle {
 					}
 
 					Text {
-						color: "white"
+						color: colour.text
 						text: qsTr("High Sensitivity")
 					}
 
@@ -625,7 +625,7 @@ Rectangle {
 					spacing: 10
 
 					Text {
-						color: "white"
+						color: colour.text
 						text: qsTr("Very sensitive")
 					}
 
@@ -644,7 +644,7 @@ Rectangle {
 					}
 
 					Text {
-						color: "white"
+						color: colour.text
 						text: qsTr("Not at all sensitive")
 					}
 

@@ -16,7 +16,7 @@ Rectangle {
 	height: 90
 
 	// Look
-	color: (checked || hovered) ? "#B8ffffff" : "#67ffffff"
+	color: (checked || hovered) ? colour.exif_bg_active : colour.exif_bg_inactive
 	radius: 5
 
 	// the text, which item this one is
@@ -27,7 +27,7 @@ Rectangle {
 		width: parent.width-5
 		height: parent.height-check.height-10
 
-		color: "black"
+		color: (checked || hovered) ? colour.exif_text_active : colour.exif_text_inactive
 		verticalAlignment: Qt.AlignVCenter
 		horizontalAlignment: Qt.AlignHCenter
 		wrapMode: Text.WordWrap
@@ -46,8 +46,8 @@ Rectangle {
 		x: (parent.width-width)/2
 		y: parent.height-height-5
 
-		indicatorColourEnabled: "#444444"
-		indicatorBackgroundColourEnabled: "#22000000"
+		indicatorColourEnabled: colour.exif_indicator_col
+		indicatorBackgroundColourEnabled: colour.exif_indicator_bg
 
 		text: ""
 

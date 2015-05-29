@@ -273,9 +273,9 @@ Rectangle {
 
 			visible: !settings.thumbnailDisable
 
-			color: "#88000000"
+			color: colour.thumbnails_bg
 
-			border.color: "#BB000000"
+			border.color: colour.thumbnails_border
 			border.width: 1
 
 			Image {
@@ -374,7 +374,7 @@ Rectangle {
 
 				visible: !settings.thumbnailFilenameInstead && settings.thumbnailWriteFilename
 
-				color: "#88000000"
+				color: colour.thumbnails_filename_bg
 
 				width: parent.width-10
 				height: childrenRect.height+4
@@ -391,7 +391,7 @@ Rectangle {
 					horizontalAlignment: Text.AlignHCenter
 					verticalAlignment: Text.AlignVCenter
 
-					color: "white"
+					color: colour.text
 					font.bold: true
 					font.pointSize: settings.thumbnailFontSize
 					wrapMode: Text.WrapAnywhere
@@ -429,7 +429,7 @@ Rectangle {
 					wrapMode: Text.WrapAnywhere
 					elide: Text.ElideRight
 
-					color: "white"
+					color: colour.text
 					font.pointSize: settings.thumbnailFilenameInsteadFontSize
 					font.bold: true
 

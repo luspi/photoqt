@@ -19,7 +19,7 @@ Rectangle {
 	opacity: 0
 	visible: false
 
-	color: colour_fadein_block_bg
+	color: colour.fadein_block_bg
 
 	signal updateCommand(var id, var close, var mouse, var keys, var cmd)
 
@@ -49,9 +49,9 @@ Rectangle {
 		height: detectHeight
 
 		// Adjust colour and look
-		color: colour_fadein_bg
+		color: colour.fadein_bg
 		border.width: 1
-		border.color: colour_fadein_border
+		border.color: colour.fadein_border
 		radius: 5
 
 		// Confirmation text

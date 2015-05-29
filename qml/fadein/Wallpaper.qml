@@ -8,7 +8,7 @@ Rectangle {
 	id: wallpaper
 
 	anchors.fill: background
-	color: colour_fadein_block_bg
+	color: colour.fadein_block_bg
 
 	opacity: 0
 	visible: false
@@ -41,9 +41,9 @@ Rectangle {
 
 		// Some styling
 		border.width: 1
-		border.color: colour_fadein_border
+		border.color: colour.fadein_border
 		radius: 10
-		color: colour_fadein_bg
+		color: colour.fadein_bg
 
 		// Clicks INSIDE element doesn't close it
 		MouseArea {
@@ -80,14 +80,14 @@ Rectangle {
 					Row {
 						spacing: 5
 						Text {
-							color: "white"
+							color: colour.text
 							font.pointSize: 20
 							font.bold: true
 							text: qsTr("Set as Wallpaper:")
 						}
 						Text {
 							y: parent.height-height
-							color: "white"
+							color: colour.text
 							font.pointSize: 19
 							text: ""
 						}
@@ -100,14 +100,14 @@ Rectangle {
 
 				// WINDOW MANAGER SETTINGS
 				Text {
-					color: "white"
+					color: colour.text
 					font.bold: true
 					font.pointSize: 16
 					text: qsTr("Window Manager")
 				}
 
 				Text {
-					color: "white"
+					color: colour.text
 					font.pointSize: 11
 					width: rect.width
 					wrapMode: Text.WordWrap
@@ -142,7 +142,7 @@ Rectangle {
 				Rectangle { color: "#00000000"; width: 1; height: 1; }
 
 				Rectangle {
-					color: "grey"
+					color: colour.linecolour
 					width: rect.width
 					height: 1
 				}
@@ -183,7 +183,7 @@ Rectangle {
 
 								width: rect.width*0.75
 								x: (rect.width-width)/2
-								color: "red"
+								color: colour.warning
 								font.bold: true
 								wrapMode: Text.WordWrap
 								horizontalAlignment: Text.AlignHCenter
@@ -209,7 +209,7 @@ Rectangle {
 
 								width: rect.width*0.75
 								x: (rect.width-width)/2
-								color: "red"
+								color: colour.warning
 								font.bold: true
 								wrapMode: Text.WordWrap
 								horizontalAlignment: Text.AlignHCenter
@@ -239,7 +239,7 @@ Rectangle {
 								Text {
 									id: gnome_unity_error
 									visible: false
-									color: "red"
+									color: colour.warning
 									font.pointSize: 11
 									width: rect.width
 									wrapMode: Text.WordWrap
@@ -249,7 +249,7 @@ Rectangle {
 
 								// PICTURE OPTIONS HEADING
 								Text {
-									color: "white"
+									color: colour.text
 									font.pointSize: 11
 									width: rect.width
 									wrapMode: Text.WordWrap
@@ -326,7 +326,7 @@ Rectangle {
 								Text {
 									id: xfce4_error
 									visible: false
-									color: "red"
+									color: colour.warning
 									font.pointSize: 11
 									width: rect.width
 									wrapMode: Text.WordWrap
@@ -339,7 +339,7 @@ Rectangle {
 								// MONITOR HEADING
 								Text {
 									id: xfce4_monitor_part_1
-									color: "white"
+									color: colour.text
 									font.pointSize: 11
 									width: rect.width
 									wrapMode: Text.WordWrap
@@ -390,7 +390,7 @@ Rectangle {
 
 								// PICTURE OPTIONS HEADING
 								Text {
-									color: "white"
+									color: colour.text
 									font.pointSize: 11
 									width: rect.width
 									wrapMode: Text.WordWrap
@@ -472,7 +472,7 @@ Rectangle {
 								Text {
 									id: enlightenment_error_msgbus
 									visible: false
-									color: "red"
+									color: colour.warning
 									font.pointSize: 11
 									width: rect.width
 									wrapMode: Text.WordWrap
@@ -483,7 +483,7 @@ Rectangle {
 								Text {
 									id: enlightenment_error_exitence
 									visible: false
-									color: "red"
+									color: colour.warning
 									font.pointSize: 11
 									width: rect.width
 									wrapMode: Text.WordWrap
@@ -494,7 +494,7 @@ Rectangle {
 								// MONITOR HEADING
 								Text {
 									id: enlightenment_monitor_part_1
-									color: "white"
+									color: text
 									font.pointSize: 11
 									width: rect.width
 									wrapMode: Text.WordWrap
@@ -545,7 +545,7 @@ Rectangle {
 
 								// PICTURE OPTIONS HEADING
 								Text {
-									color: "white"
+									color: colour.text
 									font.pointSize: 11
 									width: rect.width
 									wrapMode: Text.WordWrap
@@ -625,7 +625,7 @@ Rectangle {
 								Text {
 									id: other_error_feh
 									visible: false
-									color: "red"
+									color: colour.warning
 									font.pointSize: 11
 									width: rect.width
 									wrapMode: Text.WordWrap
@@ -636,7 +636,7 @@ Rectangle {
 								Text {
 									id: other_error_nitrogen
 									visible: false
-									color: "red"
+									color: colour.warning
 									font.pointSize: 11
 									width: rect.width
 									wrapMode: Text.WordWrap
@@ -647,7 +647,7 @@ Rectangle {
 								Text {
 									id: other_error_feh_nitrogen
 									visible: false
-									color: "red"
+									color: colour.warning
 									font.pointSize: 11
 									width: rect.width
 									wrapMode: Text.WordWrap
@@ -658,7 +658,7 @@ Rectangle {
 
 								// HEADING
 								Text {
-									color: "white"
+									color: colour.text
 									font.pointSize: 11
 									width: rect.width
 									wrapMode: Text.WordWrap
@@ -778,7 +778,7 @@ Rectangle {
 				}	// END FLickable
 
 				Rectangle {
-					color: "grey"
+					color: colour.linecolour
 					width: rect.width
 					height: 1
 				}
