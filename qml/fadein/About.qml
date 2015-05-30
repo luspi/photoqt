@@ -171,7 +171,7 @@ Rectangle {
 
 							//: Don't forget to add the %1 in your translation!!
 							text: "<style type='text/css'>a:link{color:white; text-decoration: none; font-style: italic; }</style><br>"
-								+ qsTr("You want to join the team and do something, e.g. translating PhotoQt to another language? Drop me and email (%1), and for translations, check the project page on Transifex:").arg("<a href=\"mailto:Lukas@photoqt.org\">Lukas@photoqt.org</a>") + " <a href=\"http://transifex.com/p/photo\">http://transifex.com/p/photo</a>."
+								+ qsTr("You want to join the team and do something, e.g. translating PhotoQt to another language? Drop me and email (%1), and for translations, check the project page on Transifex:").arg("<a href=\"mailto:Lukas@photoqt.org\">Lukas@photoqt.org</a>") + " <a href=\"http://transifex.com/projects/p/photo\">http://transifex.com/projects/p/photo</a>."
 
 							MouseArea {
 								anchors.fill: parent
