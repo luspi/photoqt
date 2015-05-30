@@ -32,7 +32,7 @@ Rectangle {
 		horizontalAlignment: Qt.AlignHCenter
 		wrapMode: Text.WordWrap
 
-		font.pointSize: 7.5
+		font.pointSize: global_fontsize_tiles
 		font.bold: true
 
 		text: rect.text

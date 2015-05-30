@@ -81,7 +81,7 @@ Rectangle {
 
 				opacity: enabled ? 1 : 0.5
 
-				font.pointSize: 10
+				font.pointSize: global_fontsize_normal
 				font.bold: true
 
 				enabled: (settings.trayicon || allitems[index][0] !== "hide")
@@ -114,7 +114,7 @@ Rectangle {
 				color: colour.text_inactive
 				lineHeight: 1.5
 
-				font.pointSize: 10
+				font.pointSize: global_fontsize_normal
 				font.bold: true
 
 				text: " (" + qsTr("Quickstart") + ")"

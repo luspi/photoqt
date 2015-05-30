@@ -47,7 +47,7 @@ Rectangle {
 				color: "#00000000"
 				Text {
 					color: colour.text
-					font.pointSize: 18
+					font.pointSize: global_fontsize_title
 					font.bold: true
 					text: qsTr("Advanced Settings")
 					anchors.horizontalCenter: parent.horizontalCenter
@@ -374,10 +374,12 @@ Rectangle {
 							Row {
 								spacing: 5
 								Text {
+									font.pointSize: global_fontsize_normal
 									color: cache.checkedButton ? colour.text : colour.disabled
 									text: qsTr("Current database filesize:")
 								}
 								Text {
+									font.pointSize: global_fontsize_normal
 									id: db_filesize
 									color: cache.checkedButton ? colour.text : colour.disabled
 									text: "0 KB"
@@ -398,10 +400,12 @@ Rectangle {
 							Row {
 								spacing: 5
 								Text {
+									font.pointSize: global_fontsize_normal
 									color: cache.checkedButton ? colour.text : colour.disabled
 									text: qsTr("Entries in database:")
 								}
 								Text {
+									font.pointSize: global_fontsize_normal
 									id: db_entries
 									color: cache.checkedButton ? colour.text : colour.disabled
 									text: "0"

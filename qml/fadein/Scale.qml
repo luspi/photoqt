@@ -66,7 +66,7 @@ Rectangle {
 				Text {
 					text: qsTr("Scale Image")
 					color: colour.text
-					font.pointSize: 25
+					font.pointSize: global_fontsize_title
 					font.bold: true
 					x: (parent.width-width)/2
 				}
@@ -81,20 +81,24 @@ Rectangle {
 						spacing: 5
 						Text {
 							text: qsTr("Current Size:")
+							font.pointSize: global_fontsize_normal
 							color: colour.text
 						}
 						Text {
 							id: currentwidth
 							text: "4000"
+							font.pointSize: global_fontsize_normal
 							color: colour.text
 						}
 						Text {
 							text: "x"
+							font.pointSize: global_fontsize_normal
 							color: colour.text
 						}
 						Text {
 							id: currentheight
 							text: "3000"
+							font.pointSize: global_fontsize_normal
 							color: colour.text
 						}
 					}
@@ -104,6 +108,7 @@ Rectangle {
 					id: error
 					x: (parent.width-width)/2
 					color: colour.warning
+					font.pointSize: global_fontsize_normal
 					text: qsTr("Error! Something went wrong, unable to save new dimension...")
 				}
 
@@ -129,12 +134,14 @@ Rectangle {
 							Text {
 								color: colour.text
 								text: qsTr("New width:")
+								font.pointSize: global_fontsize_normal
 								horizontalAlignment: Text.AlignRight
 								y: (newwidth.height-height)/2+5
 							}
 							Text {
 								color: colour.text
 								text: qsTr("New height:")
+								font.pointSize: global_fontsize_normal
 								horizontalAlignment: Text.AlignRight
 								y: newwidth.height+10+(newheight.height-height)/2
 							}
@@ -207,6 +214,7 @@ Rectangle {
 							color: colour.text
 							opacity: aspect_image.keepaspectratio ? 1 : 0.3
 							text: qsTr("Aspect Ratio")
+							font.pointSize: global_fontsize_normal
 							font.strikeout: !aspect_image.keepaspectratio
 							y: (rowedits.height-height)/2+5
 							// Click triggers keeping of aspect ratio
@@ -234,6 +242,7 @@ Rectangle {
 						spacing: 5
 						Text {
 							color: colour.text
+							font.pointSize: global_fontsize_normal
 							text: qsTr("Quality")
 						}
 						CustomSlider {
@@ -248,6 +257,7 @@ Rectangle {
 						// Display quality percentage
 						Text {
 							id: quality_text
+							font.pointSize: global_fontsize_normal
 							color: colour.text
 							text: quality_slider.value.toString()
 						}

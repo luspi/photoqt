@@ -50,7 +50,7 @@ Rectangle {
 				color: "#00000000"
 				Text {
 					color: colour.text
-					font.pointSize: 18
+					font.pointSize: global_fontsize_title
 					font.bold: true
 					text: qsTr("Other Settings")
 					anchors.horizontalCenter: parent.horizontalCenter
@@ -175,6 +175,7 @@ Rectangle {
 						width: context.textEditWidth
 
 						font.bold: true
+						font.pointSize: global_fontsize_normal
 						color: colour.context_header_text
 						verticalAlignment: Qt.AlignVCenter
 						horizontalAlignment: Qt.AlignHCenter
@@ -190,6 +191,7 @@ Rectangle {
 						width: context.textEditWidth
 
 						font.bold: true
+						font.pointSize: global_fontsize_normal
 						color: colour.context_header_text
 						verticalAlignment: Qt.AlignVCenter
 						horizontalAlignment: Qt.AlignHCenter
@@ -227,7 +229,7 @@ Rectangle {
 					CustomButton {
 						id: contextreset
 						text: qsTr("(Re-)set automatically")
-						fontsize: 10
+						fontsize: global_fontsize_normal
 						anchors.right: parent.right
 						onClickedButton: {
 							getanddostuff.setDefaultContextMenuEntries()

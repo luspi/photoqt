@@ -64,7 +64,7 @@ Rectangle {
 				Text {
 					id: license
 					color: colour.text
-					font.pointSize: 9
+					font.pointSize: global_fontsize_normal
 					text: "PhotoQt QML, Lukas Spies, 2015 (Lukas@photoqt.org) - " + qsTr("website:") + " photoqt.org - " + qsTr("Licensed under GPLv2 or later, without any guarantee")
 				}
 
@@ -105,7 +105,7 @@ Rectangle {
 							id: txt
 							width: rect.width
 							color: colour.text
-							font.pointSize: 11
+							font.pointSize: global_fontsize_normal
 							wrapMode: Text.WordWrap
 							textFormat:Text.RichText
 							text: {
@@ -149,7 +149,7 @@ Rectangle {
 								horizontalAlignment: Qt.AlignHCenter
 								color: colour.text
 
-								font.pointSize: 20
+								font.pointSize: global_fontsize_title
 								font.bold: true
 
 								wrapMode: Text.WordWrap
@@ -165,7 +165,7 @@ Rectangle {
 
 							color: colour.text
 
-							font.pointSize: 11
+							font.pointSize: global_fontsize_normal
 							wrapMode: Text.WordWrap
 							textFormat: Text.RichText
 

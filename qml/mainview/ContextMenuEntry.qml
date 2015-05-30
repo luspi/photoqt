@@ -40,6 +40,7 @@ Rectangle {
 		Text {
 			color: (_hovered ? colour.contextmenu_text_active : colour.contextmenu_text_inactive)
 			text: rect.text
+			font.pointSize: global_fontsize_normal
 			visible: textEnabled
 		}
 

@@ -31,6 +31,7 @@ Rectangle {
 		verticalAlignment: Qt.AlignVCenter
 		horizontalAlignment: Qt.AlignHCenter
 		wrapMode: Text.WordWrap
+		font.pointSize: global_fontsize_tiles
 
 		text: rect.text
 

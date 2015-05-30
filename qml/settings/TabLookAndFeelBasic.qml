@@ -47,7 +47,7 @@ Rectangle {
 				color: "#00000000"
 				Text {
 					color: colour.text
-					font.pointSize: 18
+					font.pointSize: global_fontsize_title
 					font.bold: true
 					text: qsTr("Basic Settings")
 					anchors.horizontalCenter: parent.horizontalCenter
@@ -88,6 +88,7 @@ Rectangle {
 					Text {
 						color: colour.text
 						text: qsTr("Sort by:")
+						font.pointSize: global_fontsize_normal
 						y: (sortimages_subrect.height-height)/2
 					}
 					// Choose Criteria
@@ -244,7 +245,7 @@ Rectangle {
 
 					Text {
 						color: colour.text
-						font.pointSize: 10
+						font.pointSize: global_fontsize_normal
 						text: qsTr("Small Size")
 					}
 
@@ -259,7 +260,7 @@ Rectangle {
 
 					Text {
 						color: colour.text
-						font.pointSize: 10
+						font.pointSize: global_fontsize_normal
 						text: qsTr("Large Size")
 					}
 

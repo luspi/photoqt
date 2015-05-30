@@ -36,7 +36,7 @@ Rectangle {
 
 			color: colour.tiles_text_active
 			font.bold: true
-			font.pointSize: 8
+			font.pointSize: global_fontsize_tiles
 
 			text: _desc
 
@@ -91,7 +91,7 @@ Rectangle {
 			verticalAlignment: Text.AlignVCenter
 
 			color: colour.tiles_text_active
-			font.pointSize: 8
+			font.pointSize: global_fontsize_tiles
 			font.bold: true
 
 			//: tile text for KEY shortcut. If multiple translations possible, please try to stick to a short one..
@@ -147,7 +147,7 @@ Rectangle {
 			verticalAlignment: Text.AlignVCenter
 
 			color: colour.tiles_text_active
-			font.pointSize: 8
+			font.pointSize: global_fontsize_tiles
 			font.bold: true
 
 			//: tile text for MOUSE shortcut. If multiple translations possible, please try to stick to a short one..

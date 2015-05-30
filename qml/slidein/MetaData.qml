@@ -40,7 +40,7 @@ Rectangle {
 		verticalAlignment: Qt.AlignVCenter
 
 		font.bold: true
-		font.pointSize: 18
+		font.pointSize: global_fontsize_title
 		text: qsTr("No File Loaded")
 
 	}
@@ -58,7 +58,7 @@ Rectangle {
 		verticalAlignment: Qt.AlignVCenter
 
 		font.bold: true
-		font.pointSize: 18
+		font.pointSize: global_fontsize_title
 		text: qsTr("File Format Not Supported")
 
 	}
@@ -76,7 +76,7 @@ Rectangle {
 		verticalAlignment: Qt.AlignVCenter
 
 		font.bold: true
-		font.pointSize: 18
+		font.pointSize: global_fontsize_title
 		text: qsTr("Invalid File")
 
 	}
@@ -144,7 +144,7 @@ Rectangle {
 
 				visible: imageLoaded
 				color: colour.text
-				font.pointSize: settings.exiffontsize
+				font.pointSize: settings.exiffontsize*font_multiplier
 				lineHeight: (name == "" ? 0.8 : 1.3);
 				textFormat: Text.RichText
 				text: name !== "" ? "<b>" + name + "</b>: " + value : ""

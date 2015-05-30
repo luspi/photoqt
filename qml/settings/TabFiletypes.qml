@@ -50,7 +50,7 @@ Rectangle {
 				color: "#00000000"
 				Text {
 					color: colour.text
-					font.pointSize: 18
+					font.pointSize: global_fontsize_title
 					font.bold: true
 					text: qsTr("Filetypes")
 					anchors.horizontalCenter: parent.horizontalCenter
@@ -91,6 +91,7 @@ Rectangle {
 					color: colour.text
 					text: qsTr("Extra File Types:")
 					anchors.left: parent.left
+					font.pointSize: global_fontsize_normal
 				}
 
 				CustomLineEdit {
@@ -242,6 +243,7 @@ Rectangle {
 						Text {
 
 							y: (xcftools.height-height)/2
+							font.pointSize: global_fontsize_normal
 
 							color: colour.text
 							//: 'Makes use of' is in connection with an external tool (i.e., it 'makes use of' tool abc)
@@ -264,6 +266,7 @@ Rectangle {
 						Text {
 
 							y: (libqpsd.height-height)/2
+							font.pointSize: global_fontsize_normal
 
 							color: colour.text
 							text: qsTr("Adobe Photoshop PSD and PSB.") + "<br><br>" + qsTr("Makes use of") + ": libqpsd - https://github.com/Code-ReaQtor/libqpsd"

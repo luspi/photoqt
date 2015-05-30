@@ -63,7 +63,7 @@ Rectangle {
 			horizontalAlignment: Text.AlignHCenter
 
 			color: colour.text
-			font.pointSize: 13
+			font.pointSize: global_fontsize_normal
 			wrapMode: Text.WordWrap
 
 			text: "<h2>" + qsTr("Set Mouse Shortcut") + "</h2>"

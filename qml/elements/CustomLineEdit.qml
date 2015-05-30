@@ -11,7 +11,7 @@ Rectangle {
 	border.color: colour.element_border_color
 
 	property string text: ed1.text
-	property int fontsize: 10
+	property int fontsize: global_fontsize_normal
 
 	signal textEdited()
 	signal accepted()

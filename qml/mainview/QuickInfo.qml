@@ -84,6 +84,7 @@ Item {
 
 			color: colour.quickinfo_text
 			font.bold: true
+			font.pointSize: global_fontsize_normal
 
 			// Show context menu on right click
 			MouseArea {
@@ -150,6 +151,7 @@ Item {
 			text: ""
 			color: colour.quickinfo_text
 			font.bold: true
+			font.pointSize: global_fontsize_normal
 
 			// Show context menu
 			MouseArea {
@@ -214,7 +216,7 @@ Item {
 					color: colour.quickinfo_text
 					visible: (currentfilter != "")
 					text: "x"
-					font.pointSize: 8
+					font.pointSize: global_fontsize_normal
 					y: (parent.height-height)/2
 					MouseArea {
 						anchors.fill: parent
@@ -227,6 +229,7 @@ Item {
 				}
 				Text {
 					color: colour.quickinfo_text
+					font.pointSize: global_fontsize_normal
 					//: As in: FILTER images
 					text: qsTr("Filter:") + " " + currentfilter
 					visible: (currentfilter != "")

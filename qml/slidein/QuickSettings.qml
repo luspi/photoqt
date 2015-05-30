@@ -44,7 +44,7 @@ Rectangle {
 			x: quicksettings.radius
 			width: quicksettings.width-3*quicksettings.radius
 			text: qsTr("Quick Settings")
-			font.pointSize: 15
+			font.pointSize: global_fontsize_header
 			font.bold: true
 		}
 
@@ -53,6 +53,7 @@ Rectangle {
 		Text {
 			color: colour.text
 			text: qsTr("Change settings with one click. They are saved and applied immediately. If you're unsure what a setting does, check the full settings for descriptions.")
+			font.pointSize: global_fontsize_normal
 			wrapMode: Text.WordWrap
 			x: quicksettings.radius
 			width: quicksettings.width-3*quicksettings.radius
@@ -74,6 +75,7 @@ Rectangle {
 				Text {
 					color: colour.text
 					text: qsTr("Sort by")
+					font.pointSize: global_fontsize_normal
 					y: (sortby.height-height)/2
 				}
 				CustomComboBox {

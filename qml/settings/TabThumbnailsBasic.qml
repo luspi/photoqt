@@ -47,7 +47,7 @@ Rectangle {
 				color: "#00000000"
 				Text {
 					color: colour.text
-					font.pointSize: 18
+					font.pointSize: global_fontsize_title
 					font.bold: true
 					text: qsTr("Basic Settings")
 					anchors.horizontalCenter: parent.horizontalCenter

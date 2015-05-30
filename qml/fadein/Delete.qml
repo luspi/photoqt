@@ -68,7 +68,7 @@ Rectangle {
 					text: qsTr("Delete File")
 					color: colour.text
 					font.bold: true
-					font.pointSize: 28
+					font.pointSize: global_fontsize_title*2
 					x: (rect.width-width)/2
 				}
 
@@ -84,7 +84,7 @@ Rectangle {
 					id: filename
 					text: ""
 					color: colour.disabled
-					font.pointSize: 20
+					font.pointSize: global_fontsize_normal*2
 					x: (rect.width-width)/2
 				}
 
@@ -97,7 +97,7 @@ Rectangle {
 				Text {
 					text: qsTr("Do you really want to delete this file?")
 					x: (rect.width-width)/2
-					font.pointSize: 22
+					font.pointSize: global_fontsize_normal*2
 					color: colour.text
 				}
 
@@ -124,7 +124,7 @@ Rectangle {
 						CustomButton {
 							id: movetotrash
 							text: getanddostuff.amIOnLinux() ? qsTr("Move to Trash") : qsTr("Delete")
-							fontsize: 20
+							fontsize: global_fontsize_title
 							onClickedButton: {
 								hideDelete()
 								getanddostuff.deleteImage(thumbnailBar.currentFile,getanddostuff.amIOnLinux())
@@ -134,7 +134,7 @@ Rectangle {
 
 						CustomButton {
 							text: qsTr("Cancel")
-							fontsize: 20
+							fontsize: global_fontsize_title
 							onClickedButton: hideDelete()
 						}
 
@@ -144,7 +144,7 @@ Rectangle {
 				// Permanent "Delete" (needed on Linux only)
 				CustomButton {
 					text: qsTr("Delete permanently")
-					fontsize: 15
+					fontsize: global_fontsize_large
 					visible: getanddostuff.amIOnLinux()
 					x: (rect.width-width)/2
 					onClickedButton: {
@@ -164,7 +164,7 @@ Rectangle {
 				Text {
 					text: getanddostuff.amIOnLinux() ? qsTr("Enter = Move to Trash, Shift+Enter = Delete permanently, Escape = Cancel") : qsTr("Enter = Delete, Escape = Cancel")
 					color: colour.text
-					font.pointSize: 10
+					font.pointSize: global_fontsize_normal*0.8
 					x: rect.width-width
 				}
 

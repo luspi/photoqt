@@ -49,7 +49,7 @@ Rectangle {
 				color: "#00000000"
 				Text {
 					color: colour.text
-					font.pointSize: 18
+					font.pointSize: global_fontsize_title
 					font.bold: true
 					text: qsTr("Advanced Settings")
 					anchors.horizontalCenter: parent.horizontalCenter
@@ -160,6 +160,7 @@ Rectangle {
 								horizontalAlignment: Qt.AlignHCenter
 								verticalAlignment: Qt.AlignVCenter
 								color: "white"
+								font.pointSize: global_fontsize_normal
 								text: qsTr("No image selected")
 							}
 						}
@@ -254,6 +255,7 @@ Rectangle {
 									width: 60
 									horizontalAlignment: Qt.AlignRight
 									color: colour.text
+									font.pointSize: global_fontsize_normal
 									text: qsTr("Red:")
 								}
 
@@ -275,6 +277,7 @@ Rectangle {
 									width: 60
 									horizontalAlignment: Qt.AlignRight
 									color: colour.text
+									font.pointSize: global_fontsize_normal
 									text: qsTr("Green:")
 								}
 
@@ -296,6 +299,7 @@ Rectangle {
 									width: 60
 									horizontalAlignment: Qt.AlignRight
 									color: colour.text
+									font.pointSize: global_fontsize_normal
 									text: qsTr("Blue:")
 								}
 
@@ -317,6 +321,7 @@ Rectangle {
 									width: 60
 									horizontalAlignment: Qt.AlignRight
 									color: colour.text
+									font.pointSize: global_fontsize_normal
 									text: qsTr("Alpha:")
 								}
 
@@ -372,6 +377,8 @@ Rectangle {
 
 									x: 5
 									y: 5
+
+									font.pointSize: global_fontsize_normal
 
 									horizontalAlignment: Qt.AlignHCenter
 									verticalAlignment: Qt.AlignVCenter
@@ -517,6 +524,7 @@ Rectangle {
 					Text {
 						color: colour.text
 						text: qsTr("No Transition")
+						font.pointSize: global_fontsize_normal
 					}
 
 					CustomSlider {
@@ -536,6 +544,7 @@ Rectangle {
 					Text {
 						color: colour.text
 						text: qsTr("Long Transition")
+						font.pointSize: global_fontsize_normal
 					}
 
 
@@ -572,6 +581,7 @@ Rectangle {
 					Text {
 						color: colour.text
 						text: qsTr("Low Sensitivity")
+						font.pointSize: global_fontsize_normal
 					}
 
 					CustomSlider {
@@ -591,6 +601,7 @@ Rectangle {
 					Text {
 						color: colour.text
 						text: qsTr("High Sensitivity")
+						font.pointSize: global_fontsize_normal
 					}
 
 				}
@@ -627,6 +638,7 @@ Rectangle {
 					Text {
 						color: colour.text
 						text: qsTr("Very sensitive")
+						font.pointSize: global_fontsize_normal
 					}
 
 					CustomSlider {
@@ -646,6 +658,7 @@ Rectangle {
 					Text {
 						color: colour.text
 						text: qsTr("Not at all sensitive")
+						font.pointSize: global_fontsize_normal
 					}
 
 				}
