@@ -8,22 +8,22 @@ SpinBox {
 		background: Rectangle {
 			implicitWidth: 50
 			implicitHeight: 25
-			color: control.enabled ? "#88000000" : "#55000000"
-			border.color: control.enabled ? "#99969696" : "#44969696"
+			color: control.enabled ? colour.element_bg_color : colour.element_bg_color_disabled
+			border.color: control.enabled ? colour.element_border_color : colour.element_border_color_disabled
 			radius: 2
 		}
-		textColor: control.enabled ? "white" : "grey"
-		selectionColor: control.enabled ? "white" : "grey"
-		selectedTextColor: "black"
+		textColor: control.enabled ? colour.text : colour.disabled
+		selectionColor: control.enabled ? colour.text_selection_color : colour.text_selection_color_disabled
+		selectedTextColor: colour.text_selected
 		decrementControl: Text {
-			color: control.enabled ? "white" : "grey"
+			color: control.enabled ? colour.text : colour.disabled
 			y: -height/3
 			x: -2
 			font.pixelSize: control.height*2/3
 			text: "-"
 		}
 		incrementControl: Text {
-			color: control.enabled ? "white" : "grey"
+			color: control.enabled ? colour.text : colour.disabled
 			y: -height/3
 			x: -2
 			font.pixelSize: control.height*2/3

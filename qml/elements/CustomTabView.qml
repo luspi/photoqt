@@ -20,7 +20,7 @@ TabView {
 
 		// Slightly darker overall background
 		frame: Rectangle {
-			color: subtab ? "#00000000" : "#33000000"
+			color: subtab ? colour.subtab_bg_color : colour.tab_bg_color
 		}
 
 		// Invisible main background of tabbar
@@ -37,7 +37,7 @@ TabView {
 		tab: Rectangle {
 
 			// The color depending on state
-			color: (styleData.selected || styleData.pressed) ? "#96676767" : (styleData.hovered ? "#96444444" : "#96212121")
+			color: (styleData.selected || styleData.pressed) ? colour.tab_color_selected : (styleData.hovered ? colour.tab_color_active : colour.tab_color_inactive)
 
 			// Width and Height
 			implicitWidth: (subtab ? view.width*2/5 : view.width)/tabCount
@@ -45,7 +45,7 @@ TabView {
 
 			// The tab text
 			Text {
-				color: (styleData.selected || styleData.pressed) ? "white" : (styleData.hovered ? "#cccccc" : "#969696")
+				color: (styleData.selected || styleData.pressed) ? colour.tab_text_selected : (styleData.hovered ? colour.tab_text_active : colour.tab_text_inactive)
 				font.bold: true
 				font.pointSize: 11
 				anchors.centerIn: parent
@@ -57,7 +57,7 @@ TabView {
 				y: 0
 				width: parent.width
 				height: 1
-				color: "#969696"
+				color: colour.subtab_line_top
 				visible: subtab
 			}
 			// Line at BOTTOM of tab (sub-tab only)
@@ -66,7 +66,7 @@ TabView {
 				y: parent.height-1
 				width: parent.width
 				height: 1
-				color: "#969696"
+				color: colour.subtab_line_bottom
 				visible: subtab
 			}
 			// Change cursor to pointing hand

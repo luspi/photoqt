@@ -14,10 +14,10 @@ Rectangle {
 	property bool checkedButton: false
 	property string text: ""
 	property int fsize: 9
-	property string textColour: "white"
+	property string textColour: colour.text
 
-	property string indicatorColourEnabled: "#ffffff"
-	property string indicatorBackgroundColourEnabled: "#22FFFFFF"
+	property string indicatorColourEnabled: colour.radio_check_indicator_color
+	property string indicatorBackgroundColourEnabled: colour.radio_check_indicator_bg_color
 
 	// Per default the text in on the right
 	property bool textOnRight: true
@@ -59,17 +59,17 @@ Rectangle {
 				implicitWidth: fsize*2
 				implicitHeight: fsize*2
 				radius: 3
-				color: control.enabled ? indicatorBackgroundColourEnabled : "#11CCCCCC"
+				color: control.enabled ? indicatorBackgroundColourEnabled : colour.radio_check_indicator_bg_color_disabled
 				Rectangle {
 					visible: rect.checkedButton
-					color: control.enabled ? indicatorColourEnabled : "#555555"
+					color: control.enabled ? indicatorColourEnabled : colour.radio_check_indicator_color_disabled
 					radius: 2
 					anchors.margins: 4
 					anchors.fill: parent
 				}
 			}
 			label: Text {
-				color: control.enabled ? "white" : "grey"
+				color: control.enabled ? colour.text : colour.disabled
 				visible: textOnRight
 				text: textOnRight ? rect.text : ""
 				font.pointSize: fsize

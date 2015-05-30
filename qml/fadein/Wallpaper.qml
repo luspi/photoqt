@@ -8,7 +8,7 @@ Rectangle {
 	id: wallpaper
 
 	anchors.fill: background
-	color: colour.fadein_block_bg
+	color: colour.fadein_slidein_block_bg
 
 	opacity: 0
 	visible: false
@@ -41,9 +41,9 @@ Rectangle {
 
 		// Some styling
 		border.width: 1
-		border.color: colour.fadein_border
+		border.color: colour.fadein_slidein_border
 		radius: 10
-		color: colour.fadein_bg
+		color: colour.fadein_slidein_bg
 
 		// Clicks INSIDE element doesn't close it
 		MouseArea {

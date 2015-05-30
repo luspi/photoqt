@@ -2,7 +2,7 @@ import QtQuick 2.3
 
 Rectangle {
 
-	color: "#44ffffff"
+	color: colour.tiles_inactive
 
 	// The size
 	width: 100
@@ -109,7 +109,7 @@ Rectangle {
 		anchors.verticalCenter: parent.verticalCenter
 		horizontalAlignment: Text.AlignHCenter
 
-		color: colour.tiles_text
+		color: colour.tiles_text_active
 		font.bold: true
 		font.pointSize: (_extern ? 7 : 9)
 		wrapMode: Text.WordWrap
@@ -143,7 +143,7 @@ Rectangle {
 		y: parent.height-height-2
 		width: parent.width
 
-		color: colour.tiles_text
+		color: colour.tiles_text_active
 		font.pointSize: 8
 		horizontalAlignment: Text.AlignHCenter
 		wrapMode: Text.Wrap

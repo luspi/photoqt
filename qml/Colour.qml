@@ -5,24 +5,22 @@ Item {
 	// Text colour of labels in background (e.g., "Open File to Start" label)
 	readonly property string bg_label: "#808080"
 
+	// Standard border color
+	readonly property string bordercolor: "#303030"
+
 	// Standard text colour (enabled and disabled)
 	readonly property string text: "#ffffff"
+	readonly property string text_inactive: "#cccccc"
+	readonly property string text_selection_color: "#ffffff"
+	readonly property string text_selection_color_disabled: "#cccccc"
+	readonly property string text_selected: "#000000"
 	readonly property string warning: "#ff0000"
-	readonly property string bordercolor: "#303030"
 	readonly property string disabled: "#808080"
 
-	// Standard mainmenu text colour (active and inactive)
-	readonly property string mainmenu_active: "#ffffff"
-	readonly property string mainmenu_inactive: "#cccccc"
-
-	// Fade-in elements colouring
-	readonly property string fadein_bg: "#DD000000"
-	readonly property string fadein_block_bg: "#55000000"
-	readonly property string fadein_border: "#55bbbbbb"
-
-	// Slide-in elements colouring
-	readonly property string slidein_bg: "#BB000000"
-	readonly property string slidein_border: "#55bbbbbb"
+	// Fade-in/Slide-in elements colouring
+	readonly property string fadein_slidein_bg: "#DD000000"
+	readonly property string fadein_slidein_block_bg: "#55000000"
+	readonly property string fadein_slidein_border: "#55bbbbbb"
 
 	// Line colour used for seperating things in elements (e.g. bottom of settings)
 	readonly property string linecolour: "#99999999"
@@ -32,39 +30,17 @@ Item {
 	readonly property string thumbnails_border: "#BB000000"
 	readonly property string thumbnails_filename_bg: "#88000000"
 
-	// Shortcuts tiles
-	readonly property string tiles_active: "#88ffffff"
-	readonly property string tiles_inactive: "#44ffffff"
-	readonly property string tiles_text: "#000000"
-
-	// Language tiles
-	readonly property string lang_bg_active: "#C8ffffff"
-	readonly property string lang_bg_inactive: "#77ffffff"
-	readonly property string lang_text: "#000000"
-	readonly property string lang_indicatorCol: "#444444"
-	readonly property string lang_indicatorBg: "#22000000"
+	// Tiles in settings
+	readonly property string tiles_active: "#C8ffffff"
+	readonly property string tiles_inactive: "#77ffffff"
+	readonly property string tiles_text_active: "#000000"
+	readonly property string tiles_text_inactive: "#000000"
+	readonly property string tiles_indicator_col: "#444444"
+	readonly property string tiles_indicator_bg: "#22000000"
 
 	// Context setting
 	readonly property string context_header_bg: "#cccccc"
 	readonly property string context_header_text: "#000000"
-	readonly property string context_entry_bg: "#88000000"
-	readonly property string context_entry_text: "#ffffff"
-
-	// Filetype tiles
-	readonly property string filetypes_bg_active: "#B8ffffff"
-	readonly property string filetypes_bg_inactive: "#67ffffff"
-	readonly property string filetypes_text_active: "#000000"
-	readonly property string filetypes_text_inactive: "#222222"
-	readonly property string filetypes_indicator_col: "#444444"
-	readonly property string filetypes_indicator_bg: "#22000000"
-
-	// Exif tyles
-	readonly property string exif_bg_active: "#B8ffffff"
-	readonly property string exif_bg_inactive: "#67ffffff"
-	readonly property string exif_text_active: "#000000"
-	readonly property string exif_text_inactive: "#222222"
-	readonly property string exif_indicator_col: "#444444"
-	readonly property string exif_indicator_bg: "#22000000"
 
 	// Quickinfo
 	readonly property string quickinfo_bg: "#55000000"
@@ -85,5 +61,55 @@ Item {
 	// Slideshow specialities
 	readonly property string slideshow_music_enabled: "#11999999"
 	readonly property string slideshow_music_disabled: "#11ffffff"
+
+	// TabView colouring
+	readonly property string tab_bg_color: "#33000000"
+	readonly property string tab_color_active: "#96444444"
+	readonly property string tab_color_inactive: "#96212121"
+	readonly property string tab_color_selected: "#96676767"
+	readonly property string tab_text_active: "#cccccc"
+	readonly property string tab_text_inactive: "#969696"
+	readonly property string tab_text_selected: "#ffffff"
+	readonly property string subtab_bg_color: "#00000000"
+	readonly property string subtab_line_top: "#969696"
+	readonly property string subtab_line_bottom: "#969696"
+
+	// CustomElements background/border (SpinBox)
+	readonly property string element_bg_color: "#88000000"
+	readonly property string element_bg_color_disabled: "#55000000"
+	readonly property string element_border_color: "#99969696"
+	readonly property string element_border_color_disabled: "#44969696"
+
+	// CustomSlider
+	readonly property string slider_groove_bg_color: "#ffffff"
+	readonly property string slider_groove_bg_color_disabled: "#777777"
+	readonly property string slider_handle_color_active: "#444444"
+	readonly property string slider_handle_color_inactive: "#111111"
+	readonly property string slider_handle_color_disabled: "#080808"
+	readonly property string slider_handle_border_color: "#666666"
+	readonly property string slider_handle_border_color_disabled: "#333333"
+
+	// CustomRadioButton and CustomCheckBox
+	readonly property string radio_check_indicator_color: "#ffffff"
+	readonly property string radio_check_indicator_color_disabled: "#555555"
+	readonly property string radio_check_indicator_bg_color: "#22FFFFFF"
+	readonly property string radio_check_indicator_bg_color_disabled: "#22888888"
+
+	// CustomComboBox
+	readonly property string combo_dropdown_frame: "#bb000000"
+	readonly property string combo_dropdown_frame_border: "#404040"
+	readonly property string combo_dropdown_text: "#ffffff"
+	readonly property string combo_dropdown_text_highlight: "#000000"
+	readonly property string combo_dropdown_background: "#000000"
+	readonly property string combo_dropdown_background_highlight: "#ffffff"
+
+	// CustomButton
+	readonly property string button_bg: "#22DDDDDD"
+	readonly property string button_bg_hovered: "#44DDDDDD"
+	readonly property string button_bg_pressed: "#66DDDDDD"
+	readonly property string button_bg_disabled: "#11777777"
+	readonly property string button_text: "#aacccccc"
+	readonly property string button_text_active: "#aacccccc"
+	readonly property string button_text_disabled: "#55cccccc"
 
 }

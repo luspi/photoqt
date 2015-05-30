@@ -6,9 +6,9 @@ Rectangle {
 	height: 30
 
 	radius: 3
-	color: "#88000000"
+	color: colour.element_bg_color
 
-	border.color: "#33ffffff"
+	border.color: colour.element_border_color
 
 	property string text: ed1.text
 	property int fontsize: 10
@@ -26,9 +26,9 @@ Rectangle {
 
 		width: parent.width-6
 
-		color: "white"
-		selectedTextColor: "black"
-		selectionColor: "white"
+		color: colour.text
+		selectedTextColor: colour.text_selected
+		selectionColor: colour.text_selection_color
 		text: parent.text
 		font.pointSize: parent.fontsize
 

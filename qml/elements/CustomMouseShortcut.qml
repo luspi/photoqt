@@ -21,7 +21,7 @@ Rectangle {
 	opacity: 0
 	visible: false
 
-	color: colour.fadein_block_bg
+	color: colour.fadein_slidein_block_bg
 
 	// Click on background is like rejecting it
 	// (this MouseArea has to come here at the top so that it can be overwritten below for the actual widget
@@ -49,9 +49,9 @@ Rectangle {
 		height: detectHeight
 
 		// Adjust colour and look
-		color: colour.fadein_bg
+		color: colour.fadein_slidein_bg
 		border.width: 1
-		border.color: colour.fadein_border
+		border.color: colour.fadein_slidein_border
 		radius: 5
 
 		// Confirmation text
@@ -62,7 +62,7 @@ Rectangle {
 			width: parent.width
 			horizontalAlignment: Text.AlignHCenter
 
-			color: "white"
+			color: colour.text
 			font.pointSize: 13
 			wrapMode: Text.WordWrap
 

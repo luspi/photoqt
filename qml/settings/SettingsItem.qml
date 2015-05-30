@@ -10,7 +10,7 @@ Rectangle {
 
 	// Positioning and basic look
 	anchors.fill: background
-	color: colour.fadein_bg
+	color: colour.fadein_slidein_bg
 
 	// Invisible at startup
 	visible: false

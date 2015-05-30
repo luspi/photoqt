@@ -7,7 +7,7 @@ Rectangle {
 
 	id: top
 
-	color: colour.fadein_bg
+	color: colour.fadein_slidein_bg
 
 	width: container.width+16
 	height: container.height+16

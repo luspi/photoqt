@@ -85,7 +85,7 @@ Rectangle {
 					height: 30
 
 					radius: 5
-					color: colour.context_entry_bg
+					color: colour.element_bg_color
 
 					// These are needed, otherwise the rectangle wont "snap back" into its spot, but stays exactly were it is left
 					anchors {
@@ -115,7 +115,7 @@ Rectangle {
 							verticalAlignment: Qt.AlignVCenter
 							text: qsTr("Click here to drag")
 
-							color: colour.context_entry_text
+							color: colour.text
 
 							MouseArea {
 								anchors.fill: parent
@@ -129,7 +129,7 @@ Rectangle {
 
 							id: seperator1
 
-							color: colour.context_entry_text
+							color: colour.text
 							height: parent.height-4
 							y: 2
 							width: 1
@@ -192,7 +192,7 @@ Rectangle {
 
 							id: seperator2
 
-							color: colour.context_entry_text
+							color: colour.text
 							height: parent.height-4
 							y: 2
 							width: 1
@@ -205,7 +205,7 @@ Rectangle {
 
 							y: (parent.height-height)/2
 
-							color: colour.context_entry_text
+							color: colour.text
 							text: "x"
 
 							MouseArea {

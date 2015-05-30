@@ -7,8 +7,8 @@ RadioButton {
 	// there can be an icon displayed as part of the label
 	property string icon: ""
 
-	property string indicatorColourEnabled: "#ffffff"
-	property string indicatorBackgroundColourEnabled: "#22FFFFFF"
+	property string indicatorColourEnabled: colour.radio_check_indicator_color
+	property string indicatorBackgroundColourEnabled: colour.radio_check_indicator_bg_color
 	property int fontsize: 10
 
 	style: RadioButtonStyle {
@@ -16,7 +16,7 @@ RadioButton {
 			implicitWidth: 1.6*fontsize
 			implicitHeight: 1.6*fontsize
 			radius: 0.9*fontsize
-			color: control.enabled ? indicatorBackgroundColourEnabled : "#22888888"
+			color: control.enabled ? indicatorBackgroundColourEnabled : colour.radio_check_indicator_bg_color_disabled
 			Rectangle {
 				anchors.fill: parent
 				visible: control.checked
@@ -42,7 +42,7 @@ RadioButton {
 				id: txt
 				x: (icon != "") ? 1.8*fontsize : 0
 				y: 0
-				color: control.enabled ? "white" : "#555555"
+				color: control.enabled ? colour.text : colour.disabled
 				height: 1.6*fontsize
 				font.pointSize: fontsize
 				text: control.text

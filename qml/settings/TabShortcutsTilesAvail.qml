@@ -2,7 +2,7 @@ import QtQuick 2.3
 
 Rectangle {
 
-	color: "#22ffffff"
+	color: "#00000000"
 
 	// All have the same size
 	width: 100
@@ -34,7 +34,7 @@ Rectangle {
 			horizontalAlignment: Text.AlignHCenter
 			wrapMode: Text.WordWrap
 
-			color: colour.tiles_text
+			color: colour.tiles_text_active
 			font.bold: true
 			font.pointSize: 8
 
@@ -90,7 +90,7 @@ Rectangle {
 			horizontalAlignment: Text.AlignHCenter
 			verticalAlignment: Text.AlignVCenter
 
-			color: colour.tiles_text
+			color: colour.tiles_text_active
 			font.pointSize: 8
 			font.bold: true
 
@@ -146,7 +146,7 @@ Rectangle {
 			horizontalAlignment: Text.AlignHCenter
 			verticalAlignment: Text.AlignVCenter
 
-			color: colour.tiles_text
+			color: colour.tiles_text_active
 			font.pointSize: 8
 			font.bold: true
 
@@ -162,7 +162,7 @@ Rectangle {
 			hoverEnabled: true
 
 			onEntered: mouse.color = colour.tiles_active
-			onExited: mouse.color = colour.tiles_inactivee
+			onExited: mouse.color = colour.tiles_inactive
 
 			onClicked: {
 				detectMouseShortcut.command = _cmd

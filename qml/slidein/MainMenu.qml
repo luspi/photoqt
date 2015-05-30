@@ -6,9 +6,9 @@ Rectangle {
 	id: mainmenu
 
 	// Background/Border color
-	color: colour.slidein_bg
+	color: colour.fadein_slidein_bg
 	border.width: 1
-	border.color: colour.slidein_border
+	border.color: colour.fadein_slidein_border
 
 	// Set position (we pretend that rounded corners are along the bottom edge only, that's why visible y is off screen)
 	x: background.width-width-100
@@ -76,7 +76,7 @@ Rectangle {
 
 				id: val;
 
-				color: colour.mainmenu_active
+				color: colour.text_inactive
 				lineHeight: 1.5
 
 				opacity: enabled ? 1 : 0.5
@@ -96,8 +96,8 @@ Rectangle {
 					hoverEnabled: true
 					cursorShape: Qt.PointingHandCursor
 
-					onEntered: val.color = colour.mainmenu_active
-					onExited: val.color = colour.mainmenu_inactive
+					onEntered: val.color = colour.text
+					onExited: val.color = colour.text_inactive
 					onClicked: mainmenuDo(allitems[index][0])
 
 				}
@@ -111,7 +111,7 @@ Rectangle {
 
 				visible: allitems[index][0] === "slideshow"
 
-				color: colour.mainmenu_active
+				color: colour.text_inactive
 				lineHeight: 1.5
 
 				font.pointSize: 10
@@ -125,8 +125,8 @@ Rectangle {
 					hoverEnabled: true
 
 					cursorShape: Qt.PointingHandCursor
-					onEntered: val2.color = colour.mainmenu_active
-					onExited: val2.color = colour.mainmenu_inactive
+					onEntered: val2.color = colour.text
+					onExited: val2.color = colour.text_inactive
 					onClicked: mainmenuDo("slideshowquickstart")
 
 				}

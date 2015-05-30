@@ -9,16 +9,16 @@ ComboBox {
 	style: ComboBoxStyle {
 
 		background: Rectangle {
-			color: "#88000000"
+			color: colour.element_bg_color
 			border.width: 1
-			border.color: "#404040"
+			border.color: colour.element_border_color
 			implicitWidth: 100
 		}
 		label: Text {
 			id: txt
 			font.pointSize: fontsize
 			text: control.currentText
-			color: "white"
+			color: colour.text
 		}
 
 		// Undocumented and unofficial way to style dropdown menu
@@ -32,9 +32,9 @@ ComboBox {
 
 			// background
 			frame: Rectangle {
-				color: "#bb000000"
+				color: colour.combo_dropdown_frame
 				border.width: 1
-				border.color: "#404040"
+				border.color: colour.combo_dropdown_frame_border
 			}
 
 			// an item text
@@ -42,14 +42,14 @@ ComboBox {
 				verticalAlignment: Text.AlignVCenter
 				horizontalAlignment: Text.AlignHCenter
 				font.pointSize: fontsize
-				color: styleData.selected ? "black" : "white"
+				color: styleData.selected ? colour.combo_dropdown_text_highlight : colour.combo_dropdown_text
 				text: styleData.text
 			}
 
 			// selection of an item
 			itemDelegate.background: Rectangle {
 				radius: 2
-				color: styleData.selected ? "white" : "black"
+				color: styleData.selected ? colour.combo_dropdown_background_highlight : colour.combo_dropdown_background
 			}
 
 			__scrollerStyle: ScrollViewStyle { }

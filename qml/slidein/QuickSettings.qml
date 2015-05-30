@@ -11,9 +11,9 @@ Rectangle {
 	property bool dontAnimateComboboxOpened: false
 
 	// Background/Border color
-	color: colour.slidein_bg
+	color: colour.fadein_slidein_bg
 	border.width: 1
-	border.color: colour.slidein_border
+	border.color: colour.fadein_slidein_border
 
 	// Set position (we pretend that rounded corners are along the right edge only, that's why visible x is off screen)
 	x: background.width+safetyDistanceForSlidein
