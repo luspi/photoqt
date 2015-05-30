@@ -58,12 +58,12 @@ Rectangle {
 			indicator: Rectangle {
 				implicitWidth: fsize*2
 				implicitHeight: fsize*2
-				radius: 3
+				radius: global_item_radius/2
 				color: control.enabled ? indicatorBackgroundColourEnabled : colour.radio_check_indicator_bg_color_disabled
 				Rectangle {
 					visible: rect.checkedButton
 					color: control.enabled ? indicatorColourEnabled : colour.radio_check_indicator_color_disabled
-					radius: 2
+					radius: global_item_radius/2
 					anchors.margins: 4
 					anchors.fill: parent
 				}

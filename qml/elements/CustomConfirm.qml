@@ -55,7 +55,7 @@ Rectangle {
 		color: colour.fadein_slidein_bg
 		border.width: 1
 		border.color: colour.fadein_slidein_border
-		radius: 5
+		radius: global_element_radius
 
 		// Mousearea preventing background mousearea from catching clicks
 		MouseArea {

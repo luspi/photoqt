@@ -19,7 +19,7 @@ Button {
 		background: Rectangle {
 			anchors.fill: parent
 			color: control.enabled ? (control.pressedDown ? colour.button_bg_pressed : (control.hovered ? colour.button_bg_hovered : colour.button_bg)) : colour.button_bg_disabled
-			radius: 5
+			radius: global_item_radius
 		}
 
 		label: Text {

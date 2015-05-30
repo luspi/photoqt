@@ -48,7 +48,6 @@ ComboBox {
 
 			// selection of an item
 			itemDelegate.background: Rectangle {
-				radius: 2
 				color: styleData.selected ? colour.combo_dropdown_background_highlight : colour.combo_dropdown_background
 			}
 

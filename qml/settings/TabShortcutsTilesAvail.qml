@@ -7,7 +7,7 @@ Rectangle {
 	// All have the same size
 	width: 100
 	height: 100
-	radius: 10
+	radius: global_item_radius
 
 	// Store description and command
 	property string _desc: ""
@@ -22,7 +22,7 @@ Rectangle {
 		// Top half is the description
 		width: 100
 		height: 50
-		radius: 10
+		radius: global_item_radius
 
 		// The description text
 		Text {
@@ -80,7 +80,7 @@ Rectangle {
 		width: 47
 		height: 45
 
-		radius: 5
+		radius: global_item_radius
 
 		// The text in the center
 		Text {
@@ -137,7 +137,7 @@ Rectangle {
 		width: 47
 		height: 45
 
-		radius: 5
+		radius: global_item_radius
 
 		// The text
 		Text {

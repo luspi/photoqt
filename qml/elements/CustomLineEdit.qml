@@ -5,7 +5,7 @@ Rectangle {
 	width: 200
 	height: 30
 
-	radius: 3
+	radius: global_item_radius
 	color: colour.element_bg_color
 
 	border.color: colour.element_border_color

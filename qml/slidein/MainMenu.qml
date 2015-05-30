@@ -19,7 +19,7 @@ Rectangle {
 	height: view.contentHeight+3*radius
 
 	// Corner radius
-	radius: 10
+	radius: global_element_radius
 
 	// [id, icon, text]
 	property var allitems: [["open", "open", qsTr("Open File")],

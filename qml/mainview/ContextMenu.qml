@@ -11,7 +11,7 @@ Rectangle {
 
 	width: container.width+16
 	height: container.height+16
-	radius: 10
+	radius: global_element_radius
 	visible: false
 	opacity: 0
 

@@ -21,7 +21,7 @@ Rectangle {
 
 	// Look
 	color: (checked || hovered) ? colour.tiles_active : colour.tiles_inactive
-	radius: 5
+	radius: global_item_radius
 
 	// the text, which item this one is
 	Text {

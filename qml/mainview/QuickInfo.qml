@@ -70,7 +70,7 @@ Item {
 
 		// Some styling
 		color: colour.quickinfo_bg
-		radius: 5
+		radius: global_item_radius
 
 		// COUNTER
 		Text {

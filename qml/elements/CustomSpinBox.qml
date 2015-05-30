@@ -10,7 +10,7 @@ SpinBox {
 			implicitHeight: 25
 			color: control.enabled ? colour.element_bg_color : colour.element_bg_color_disabled
 			border.color: control.enabled ? colour.element_border_color : colour.element_border_color_disabled
-			radius: 2
+			radius: global_item_radius
 		}
 		textColor: control.enabled ? colour.text : colour.disabled
 		selectionColor: control.enabled ? colour.text_selection_color : colour.text_selection_color_disabled

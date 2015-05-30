@@ -26,7 +26,7 @@ Rectangle {
 	height: ((imageLoaded) ? (view.contentHeight > width/2 ? view.contentHeight : width/2) : width)+2*check.height+2*spacing.height
 
 	// Corner radius
-	radius: 10
+	radius: global_element_radius
 
 	// Label at first start-up
 	Text {

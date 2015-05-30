@@ -84,7 +84,7 @@ Rectangle {
 					width: root.width-10
 					height: 30
 
-					radius: 5
+					radius: global_item_radius
 					color: colour.element_bg_color
 
 					// These are needed, otherwise the rectangle wont "snap back" into its spot, but stays exactly were it is left

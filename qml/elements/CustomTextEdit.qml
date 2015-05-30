@@ -9,7 +9,7 @@ Rectangle {
 	width: 200
 	height: 30
 
-	radius: 5
+	radius: global_item_radius
 	color: "#88000000"
 
 	property string text: ed1.text

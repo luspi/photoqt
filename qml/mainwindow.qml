@@ -45,6 +45,11 @@ Item {
 	onWindowshownChanged: if(windowshown) background.reloadScreenshot()
 	onWindowxChanged: if(windowshown) background.reloadScreenshot()
 
+	// Element radius is the radius of "windows" (e.g., About or Quicksettings)
+	// Item radius is the radius of smaller items (e.g., spinbox)
+	readonly property int global_element_radius: 10
+	readonly property int global_item_radius: 5
+
 	// When the slidein widgets are not visible, then they are moved away a safety distance,
 	// otherwise they might be visible for a fraction of a second when resizing the windowChanged
 	// (and also at startup)

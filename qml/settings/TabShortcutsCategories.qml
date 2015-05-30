@@ -41,7 +41,7 @@ Rectangle {
 		id: cont
 
 		color: "#00000000"
-		radius: 10
+		radius: global_item_radius
 
 		// Anchor it in place
 		anchors {
@@ -67,7 +67,7 @@ Rectangle {
 				width: (cont.width-3*5-2)/2
 				height: cont.height
 
-				radius: 10
+				radius: global_item_radius
 
 				color: "#44ffffff"
 				clip: true
@@ -107,7 +107,7 @@ Rectangle {
 
 				id: avail
 
-				radius: 10
+				radius: global_item_radius
 
 				width: (cont.width-3*5-2)/2
 				height: cont.height

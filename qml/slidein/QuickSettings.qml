@@ -24,7 +24,7 @@ Rectangle {
 	height: childrenRect.height
 
 	// Corner radius
-	radius: 10
+	radius: global_element_radius
 
 	Column {
 

@@ -11,7 +11,7 @@ Slider {
 			implicitWidth: 200
 			implicitHeight: 3
 			color: control.enabled ? colour.slider_groove_bg_color : colour.slider_groove_bg_color_disabled
-			radius: 8
+			radius: global_item_radius
 		}
 		handle: Rectangle {
 			anchors.centerIn: parent
@@ -20,7 +20,7 @@ Slider {
 			border.width: 1
 			implicitWidth: 18
 			implicitHeight: 12
-			radius: 5
+			radius: global_item_radius
 		}
 	}
 

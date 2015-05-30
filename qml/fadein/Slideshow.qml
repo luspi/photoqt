@@ -36,7 +36,7 @@ Rectangle {
 		// Some styling
 		border.width: 1
 		border.color: colour.fadein_slidein_border
-		radius: 10
+		radius: global_element_radius
 		color: colour.fadein_slidein_bg
 
 		// Clicks INSIDE element doesn't close it
@@ -277,7 +277,7 @@ Rectangle {
 							enabled: musiccheckbox.checkedButton
 							x: rect.width/4
 							height: musictxt.height+20
-							radius: 5
+							radius: global_item_radius
 							border.color: colour.bordercolor
 							Text {
 								id: musictxt

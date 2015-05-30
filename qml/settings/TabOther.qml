@@ -151,7 +151,7 @@ Rectangle {
 				height: 300
 				x: (parent.width-width)/2
 
-				radius: 5
+				radius: global_item_radius
 
 				color: colour.tiles_inactive
 
@@ -166,7 +166,7 @@ Rectangle {
 
 					x: 5
 					y: 5
-					radius: 5
+					radius: global_item_radius
 
 					Text {
 

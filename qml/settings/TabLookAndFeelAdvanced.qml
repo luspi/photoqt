@@ -364,7 +364,7 @@ Rectangle {
 								width: col_txt.width+10
 								height: col_txt.height+10
 
-								radius: 5
+								radius: global_item_radius
 
 								Text {
 

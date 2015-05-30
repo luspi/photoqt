@@ -42,7 +42,7 @@ Rectangle {
 		// Some styling
 		border.width: 1
 		border.color: colour.fadein_slidein_border
-		radius: 10
+		radius: global_element_radius
 		color: colour.fadein_slidein_bg
 
 		// Clicks INSIDE element doesn't close it

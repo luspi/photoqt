@@ -7,7 +7,7 @@ Rectangle {
 	// The size
 	width: 100
 	height: 100
-	radius: 10
+	radius: global_item_radius
 
 	// Some properties
 	property string _close: ""
