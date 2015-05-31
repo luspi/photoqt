@@ -50,7 +50,7 @@ Rectangle {
 						color: colour.contextmenu_infotext
 						//: as in: "Move file..."
 						text: qsTr("Move:")
-						font.pointSize: global_fontsize_normal
+						font.pointSize: 10
 					}
 					ContextMenuEntry {
 						textEnabled: false
@@ -97,7 +97,7 @@ Rectangle {
 						color: colour.contextmenu_infotext
 						//: As in: Rotate file
 						text: qsTr("Rotate:")
-						font.pointSize: global_fontsize_normal
+						font.pointSize: 10
 					}
 					ContextMenuEntry {
 						//: As in: rotate LEFT
@@ -138,7 +138,7 @@ Rectangle {
 						color: colour.contextmenu_infotext
 						//: As in: Flip file
 						text: qsTr("Flip:")
-						font.pointSize: global_fontsize_normal
+						font.pointSize: 10
 					}
 					ContextMenuEntry {
 						//: As in: Flip file HORIZONTALLY
@@ -178,7 +178,7 @@ Rectangle {
 						color: colour.contextmenu_infotext
 						//: Zoom file
 						text: qsTr("Zoom:")
-						font.pointSize: global_fontsize_normal
+						font.pointSize: 10
 					}
 					ContextMenuEntry {
 						//: As in: Zoom IN

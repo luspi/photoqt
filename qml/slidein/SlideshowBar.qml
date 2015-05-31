@@ -47,7 +47,7 @@ Rectangle {
 			spacing: 5
 			Text {
 				text: qsTr("Music Volume:")
-				font.pointSize: global_fontsize_normal
+				font.pointSize: 10
 				y: (volumerect.height-height)/2
 				color: settings.slideShowMusicFile == "" ? colour.disabled : colour.text
 			}
@@ -63,7 +63,7 @@ Rectangle {
 			}
 			Text {
 				text: "" + volumeslider.value + "%"
-				font.pointSize: global_fontsize_normal
+				font.pointSize: 10
 				y: (volumerect.height-height)/2
 				color: settings.slideShowMusicFile == "" ? colour.disabled : colour.text
 			}

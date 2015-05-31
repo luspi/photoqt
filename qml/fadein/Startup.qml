@@ -65,7 +65,7 @@ Rectangle {
 			// HEADER
 			Text {
 				color: colour.text
-				font.pointSize: global_fontsize_title
+				font.pointSize: 18
 				font.bold: true
 				wrapMode: Text.WordWrap
 				x: 10
@@ -83,7 +83,7 @@ Rectangle {
 			// INTRODUCTORY TEXT
 			Text {
 				color: colour.text
-				font.pointSize: global_fontsize_large
+				font.pointSize: 13
 				wrapMode: Text.WordWrap
 				x: 10
 				width: rect.width-20
@@ -114,7 +114,7 @@ Rectangle {
 
 				Text {
 					color: colour.text
-					font.pointSize: global_fontsize_normal
+					font.pointSize: 10
 					wrapMode: Text.WordWrap
 					x: fileformats_img.width+25
 					y: (Math.max(height,fileformats_img.height)-height)/2
@@ -139,7 +139,7 @@ Rectangle {
 
 				Text {
 					color: colour.text
-					font.pointSize: global_fontsize_normal
+					font.pointSize: 10
 					wrapMode: Text.WordWrap
 					x: 0
 					y: (Math.max(height,customisability_img.height)-height)/2
@@ -177,7 +177,7 @@ Rectangle {
 
 				Text {
 					color: colour.text
-					font.pointSize: global_fontsize_normal
+					font.pointSize: 10
 					wrapMode: Text.WordWrap
 					x: thumbnails_img.width+25
 					y: (Math.max(height,thumbnails_img.height)-height)/2
@@ -202,7 +202,7 @@ Rectangle {
 
 				Text {
 					color: colour.text
-					font.pointSize: global_fontsize_normal
+					font.pointSize: 10
 					wrapMode: Text.WordWrap
 					x: 0
 					y: (Math.max(height,shortcuts_img.height)-height)/2
@@ -240,7 +240,7 @@ Rectangle {
 
 				Text {
 					color: colour.text
-					font.pointSize: global_fontsize_normal
+					font.pointSize: 10
 					wrapMode: Text.WordWrap
 					x: exif_img.width+25
 					y: (Math.max(height,exif_img.height)-height)/2
@@ -265,7 +265,7 @@ Rectangle {
 
 				Text {
 					color: colour.text
-					font.pointSize: global_fontsize_normal
+					font.pointSize: 10
 					wrapMode: Text.WordWrap
 					x: 0
 					y: (Math.max(height,slideshow_img.height)-height)/2
@@ -303,7 +303,7 @@ Rectangle {
 
 				Text {
 					color: colour.text
-					font.pointSize: global_fontsize_normal
+					font.pointSize: 10
 					wrapMode: Text.WordWrap
 					x: localisation_img.width+25
 					y: (Math.max(height,localisation_img.height)-height)/2
@@ -322,7 +322,7 @@ Rectangle {
 			// FINISH TEXT
 			Text {
 				color: colour.text
-				font.pointSize: global_fontsize_normal
+				font.pointSize: 10
 				wrapMode: Text.WordWrap
 				x: 10
 				width: rect.width-20

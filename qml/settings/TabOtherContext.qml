@@ -115,7 +115,7 @@ Rectangle {
 							verticalAlignment: Qt.AlignVCenter
 							text: qsTr("Click here to drag")
 
-							font.pointSize: global_fontsize_normal
+							font.pointSize: 10
 
 							color: colour.text
 
@@ -210,7 +210,7 @@ Rectangle {
 							color: colour.text
 							text: "x"
 
-							font.pointSize: global_fontsize_normal
+							font.pointSize: 10
 
 							MouseArea {
 								anchors.fill: parent

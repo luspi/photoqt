@@ -51,7 +51,7 @@ Rectangle {
 
 		color: colour.text
 		font.bold: true
-		font.pointSize: global_fontsize_tiles
+		font.pointSize: 8
 
 		MouseArea {
 			anchors.fill: parent
@@ -70,7 +70,7 @@ Rectangle {
 		visible: _mouse
 
 		color: colour.text
-		font.pointSize: global_fontsize_tiles
+		font.pointSize: 8
 		font.bold: true
 		horizontalAlignment: Text.AlignHCenter
 
@@ -84,7 +84,7 @@ Rectangle {
 		y: 0
 
 		color: "#390000"
-		font.pointSize: global_fontsize_tiles
+		font.pointSize: 8
 		font.bold: true
 		horizontalAlignment: Text.AlignRight
 
@@ -111,7 +111,7 @@ Rectangle {
 
 		color: colour.tiles_text_active
 		font.bold: true
-		font.pointSize: global_fontsize_tiles
+		font.pointSize: 8
 		wrapMode: Text.WordWrap
 
 		text: _desc
@@ -144,7 +144,7 @@ Rectangle {
 		width: parent.width
 
 		color: colour.tiles_text_active
-		font.pointSize: global_fontsize_tiles
+		font.pointSize: 8
 		horizontalAlignment: Text.AlignHCenter
 		wrapMode: Text.Wrap
 

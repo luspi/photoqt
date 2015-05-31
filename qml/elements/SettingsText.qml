@@ -4,7 +4,7 @@ import QtQuick 2.3
 Text {
 
 	color: colour.text
-	font.pointSize: global_fontsize_normal
+	font.pointSize: 10
 	wrapMode: Text.WordWrap
 	textFormat: Text.StyledText
 

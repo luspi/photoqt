@@ -13,7 +13,7 @@ Rectangle {
 	// Some properties that can be adjusted from parent
 	property bool checkedButton: false
 	property string text: ""
-	property int fsize: global_fontsize_normal
+	property int fsize: 10
 	property string textColour: colour.text
 
 	property string indicatorColourEnabled: colour.radio_check_indicator_color

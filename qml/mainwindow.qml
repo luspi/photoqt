@@ -50,13 +50,19 @@ Item {
 	readonly property int global_element_radius: 10
 	readonly property int global_item_radius: 5
 
-	// Global FONT SIZE settings
-	readonly property real font_multiplier: 1
-	readonly property real global_fontsize_tiles: Math.max(8*font_multiplier,4)
-	readonly property real global_fontsize_normal: Math.max(10*font_multiplier,5)
-	readonly property real global_fontsize_large: Math.max(13*font_multiplier,6.5)
-	readonly property real global_fontsize_header: Math.max(15*font_multiplier,7.5)
-	readonly property real global_fontsize_title: Math.max(18*font_multiplier,9)
+	// GLOBAL FONT SIZE SETTINGS
+	// An attempt to use global variables for font-sizes failed
+	// as this resulted in numerous mysterious and unexplainable
+	// 'QFont::setPointSizeF: Point size <= 0 (0.000000), must be greater than 0'
+	// that I have no idea where they came from...
+	// SO, BECAUSE OF THIS
+	// Use these font point sizes directly in the code:
+	// tiles = 8
+	// normal = 10
+	// large = 13
+	// header = 15
+	// title = 18
+
 
 	// When the slidein widgets are not visible, then they are moved away a safety distance,
 	// otherwise they might be visible for a fraction of a second when resizing the windowChanged

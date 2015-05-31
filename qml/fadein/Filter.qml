@@ -68,7 +68,7 @@ Rectangle {
 					text: qsTr("Filter images in current directory")
 					color: colour.text
 					font.bold: true
-					font.pointSize: global_fontsize_title
+					font.pointSize: 18
 					x: (rect.width-width)/2
 				}
 
@@ -83,14 +83,14 @@ Rectangle {
 					text: qsTr("Enter here the term you want to search for. Seperate multiple terms by a space.")
 					x: (rect.width-width)/2
 					color: colour.text
-					font.pointSize: global_fontsize_normal
+					font.pointSize: 10
 				}
 
 				Text {
 					text: qsTr("If you want to limit a term to file extensions, prepend a dot '.' to the term.")
 					x: (rect.width-width)/2
 					color: colour.text
-					font.pointSize: global_fontsize_normal
+					font.pointSize: 10
 				}
 
 				Rectangle {
@@ -154,7 +154,7 @@ Rectangle {
 						CustomButton {
 							id: remove
 							text: qsTr("Remove Filter")
-							fontsize: global_fontsize_normal
+							fontsize: 10
 							enabled: currentfilter != ""
 							y: (parent.height-height)/2
 							onClickedButton: {

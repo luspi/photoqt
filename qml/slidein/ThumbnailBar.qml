@@ -393,7 +393,7 @@ Rectangle {
 
 					color: colour.text
 					font.bold: true
-					font.pointSize: Math.max(settings.thumbnailFontSize*font_multiplier,2)
+					font.pointSize: settings.thumbnailFontSize
 					wrapMode: Text.WrapAnywhere
 					maximumLineCount: 1
 					elide: Text.ElideRight
@@ -430,7 +430,7 @@ Rectangle {
 					elide: Text.ElideRight
 
 					color: colour.text
-					font.pointSize: settings.thumbnailFilenameInsteadFontSize*font_multiplier
+					font.pointSize: settings.thumbnailFilenameInsteadFontSize
 					font.bold: true
 
 					property var p: imageUrl.split("/")

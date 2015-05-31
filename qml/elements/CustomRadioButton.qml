@@ -9,7 +9,7 @@ RadioButton {
 
 	property string indicatorColourEnabled: colour.radio_check_indicator_color
 	property string indicatorBackgroundColourEnabled: colour.radio_check_indicator_bg_color
-	property int fontsize: global_fontsize_normal
+	property int fontsize: 10
 
 	style: RadioButtonStyle {
 		indicator: Rectangle {

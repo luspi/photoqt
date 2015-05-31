@@ -81,14 +81,14 @@ Rectangle {
 						spacing: 5
 						Text {
 							color: colour.text
-							font.pointSize: global_fontsize_title
+							font.pointSize: 18
 							font.bold: true
 							text: qsTr("Set as Wallpaper:")
 						}
 						Text {
 							y: parent.height-height
 							color: colour.text
-							font.pointSize: global_fontsize_title-1
+							font.pointSize: 18-1
 							text: ""
 						}
 					}
@@ -102,13 +102,13 @@ Rectangle {
 				Text {
 					color: colour.text
 					font.bold: true
-					font.pointSize: global_fontsize_header
+					font.pointSize: 15
 					text: qsTr("Window Manager")
 				}
 
 				Text {
 					color: colour.text
-					font.pointSize: global_fontsize_normal
+					font.pointSize: 10
 					width: rect.width
 					wrapMode: Text.WordWrap
 					text: qsTr("PhotoQt tries to detect your window manager according to the environment variables set by your system. If it still got it wrong, you can change the window manager manually.")
@@ -117,7 +117,7 @@ Rectangle {
 				CustomComboBox {
 					id: wm_selection
 					x: (rect.width-width)/2
-					fontsize: global_fontsize_large
+					fontsize: 13
 					width: 200
 					model: ["KDE4","Plasma 5","Gnome/Unity","XFCE4","Enlightenment","Other"]
 					// We detect the wm only here, right at the beginning, and NOT everytime the element is opened, as we don't want to change any settings that the user did during that runtime (this is useful to, e.g., play around with different wallpapers to see which one fits best)
@@ -185,7 +185,7 @@ Rectangle {
 								x: (rect.width-width)/2
 								color: colour.warning
 								font.bold: true
-								font.pointSize: global_fontsize_normal
+								font.pointSize: 10
 								wrapMode: Text.WordWrap
 								horizontalAlignment: Text.AlignHCenter
 								text: qsTr("Sorry, KDE4 doesn't offer the feature to change the wallpaper except from their own system settings. Unfortunately there's nothing I can do about that.")
@@ -212,7 +212,7 @@ Rectangle {
 								x: (rect.width-width)/2
 								color: colour.warning
 								font.bold: true
-								font.pointSize: global_fontsize_normal
+								font.pointSize: 10
 								wrapMode: Text.WordWrap
 								horizontalAlignment: Text.AlignHCenter
 								text: qsTr("Sorry, Plasma 5 doesn't yet offer the feature to change the wallpaper except from their own system settings. Hopefully this will change soon, but until then there's nothing I can do about that.")
@@ -242,7 +242,7 @@ Rectangle {
 									id: gnome_unity_error
 									visible: false
 									color: colour.warning
-									font.pointSize: global_fontsize_normal
+									font.pointSize: 10
 									width: rect.width
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter
@@ -252,7 +252,7 @@ Rectangle {
 								// PICTURE OPTIONS HEADING
 								Text {
 									color: colour.text
-									font.pointSize: global_fontsize_normal
+									font.pointSize: 10
 									width: rect.width
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter
@@ -275,28 +275,28 @@ Rectangle {
 
 										CustomRadioButton {
 											text: "wallpaper"
-											fontsize: global_fontsize_normal
+											fontsize: 10
 											exclusiveGroup: wallpaperoptions_gnomeunity
 											checked: true
 										}
 										CustomRadioButton {
 											text: "centered"
-											fontsize: global_fontsize_normal
+											fontsize: 10
 											exclusiveGroup: wallpaperoptions_gnomeunity
 										}
 										CustomRadioButton {
 											text: "scaled"
-											fontsize: global_fontsize_normal
+											fontsize: 10
 											exclusiveGroup: wallpaperoptions_gnomeunity
 										}
 										CustomRadioButton {
 											text: "zoom"
-											fontsize: global_fontsize_normal
+											fontsize: 10
 											exclusiveGroup: wallpaperoptions_gnomeunity
 										}
 										CustomRadioButton {
 											text: "spanned"
-											fontsize: global_fontsize_normal
+											fontsize: 10
 											exclusiveGroup: wallpaperoptions_gnomeunity
 										}
 
@@ -329,7 +329,7 @@ Rectangle {
 									id: xfce4_error
 									visible: false
 									color: colour.warning
-									font.pointSize: global_fontsize_normal
+									font.pointSize: 10
 									width: rect.width
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter
@@ -342,7 +342,7 @@ Rectangle {
 								Text {
 									id: xfce4_monitor_part_1
 									color: colour.text
-									font.pointSize: global_fontsize_normal
+									font.pointSize: 10
 									width: rect.width
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter
@@ -364,7 +364,7 @@ Rectangle {
 										delegate: CustomCheckBox {
 											text: qsTr("Screen #") + index
 											checkedButton: true
-											fsize: global_fontsize_normal
+											fsize: 10
 											Component.onCompleted: {
 												selectedScreens_xfce4[selectedScreens_xfce4.length] = index
 												if(xfce4_monitor.width < width)
@@ -393,7 +393,7 @@ Rectangle {
 								// PICTURE OPTIONS HEADING
 								Text {
 									color: colour.text
-									font.pointSize: global_fontsize_normal
+									font.pointSize: 10
 									width: rect.width
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter
@@ -413,32 +413,32 @@ Rectangle {
 										spacing: 10
 										CustomRadioButton {
 											text: "Automatic"
-											fontsize: global_fontsize_normal
+											fontsize: 10
 											exclusiveGroup: wallpaperoptions_xfce
 										}
 										CustomRadioButton {
 											text: "Centered"
-											fontsize: global_fontsize_normal
+											fontsize: 10
 											exclusiveGroup: wallpaperoptions_xfce
 										}
 										CustomRadioButton {
 											text: "Tiled"
-											fontsize: global_fontsize_normal
+											fontsize: 10
 											exclusiveGroup: wallpaperoptions_xfce
 										}
 										CustomRadioButton {
 											text: "Stretched"
-											fontsize: global_fontsize_normal
+											fontsize: 10
 											exclusiveGroup: wallpaperoptions_xfce
 										}
 										CustomRadioButton {
 											text: "Scaled"
-											fontsize: global_fontsize_normal
+											fontsize: 10
 											exclusiveGroup: wallpaperoptions_xfce
 										}
 										CustomRadioButton {
 											text: "Zoomed"
-											fontsize: global_fontsize_normal
+											fontsize: 10
 											exclusiveGroup: wallpaperoptions_xfce
 											checked: true
 										}
@@ -475,7 +475,7 @@ Rectangle {
 									id: enlightenment_error_msgbus
 									visible: false
 									color: colour.warning
-									font.pointSize: global_fontsize_normal
+									font.pointSize: 10
 									width: rect.width
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter
@@ -486,7 +486,7 @@ Rectangle {
 									id: enlightenment_error_exitence
 									visible: false
 									color: colour.warning
-									font.pointSize: global_fontsize_normal
+									font.pointSize: 10
 									width: rect.width
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter
@@ -497,7 +497,7 @@ Rectangle {
 								Text {
 									id: enlightenment_monitor_part_1
 									color: text
-									font.pointSize: global_fontsize_normal
+									font.pointSize: 10
 									width: rect.width
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter
@@ -519,7 +519,7 @@ Rectangle {
 										delegate: CustomCheckBox {
 											text: qsTr("Screen #") + index
 											checkedButton: true
-											fsize: global_fontsize_normal
+											fsize: 10
 											Component.onCompleted: {
 												selectedScreens_enlightenment[selectedScreens_enlightenment.length] = index
 												if(enlightenment_monitor.width < width)
@@ -548,7 +548,7 @@ Rectangle {
 								// PICTURE OPTIONS HEADING
 								Text {
 									color: colour.text
-									font.pointSize: global_fontsize_normal
+									font.pointSize: 10
 									width: rect.width
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter
@@ -578,7 +578,7 @@ Rectangle {
 												return qsTr("Workspace #") + row + "-" + column
 											}
 											checkedButton: true
-											fsize: global_fontsize_normal
+											fsize: 10
 											Component.onCompleted: {
 												// SINGLE COLUMNS/ROWS ARE TREATED SPECIALLY (DIFFERENTLY DISPLAYED!)
 												selectedWorkspaces_enlightenment[index] = (row == -1 ? 10000*(column+1) : (column == -1 ? 10000000*(row+1) : row*100+column))
@@ -628,7 +628,7 @@ Rectangle {
 									id: other_error_feh
 									visible: false
 									color: colour.warning
-									font.pointSize: global_fontsize_normal
+									font.pointSize: 10
 									width: rect.width
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter
@@ -639,7 +639,7 @@ Rectangle {
 									id: other_error_nitrogen
 									visible: false
 									color: colour.warning
-									font.pointSize: global_fontsize_normal
+									font.pointSize: 10
 									width: rect.width
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter
@@ -650,7 +650,7 @@ Rectangle {
 									id: other_error_feh_nitrogen
 									visible: false
 									color: colour.warning
-									font.pointSize: global_fontsize_normal
+									font.pointSize: 10
 									width: rect.width
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter
@@ -661,7 +661,7 @@ Rectangle {
 								// HEADING
 								Text {
 									color: colour.text
-									font.pointSize: global_fontsize_normal
+									font.pointSize: 10
 									width: rect.width
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter

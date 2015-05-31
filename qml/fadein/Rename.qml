@@ -68,7 +68,7 @@ Rectangle {
 					text: qsTr("Rename File")
 					color: colour.text
 					font.bold: true
-					font.pointSize: global_fontsize_title*2
+					font.pointSize: 18*2
 					x: (rect.width-width)/2
 				}
 
@@ -84,7 +84,7 @@ Rectangle {
 					id: filename
 					text: ""
 					color: colour.disabled
-					font.pointSize: global_fontsize_normal*2
+					font.pointSize: 10*2
 					x: (rect.width-width)/2
 				}
 
@@ -105,14 +105,14 @@ Rectangle {
 						CustomLineEdit {
 							id: newfilename
 							text: ""
-							fontsize: global_fontsize_large
+							fontsize: 13
 							width: 350
 						}
 						Text {
 							id: suffix
 							color: colour.text
 							text: ".JPG"
-							font.pointSize: global_fontsize_large
+							font.pointSize: 13
 						}
 					}
 				}
@@ -133,7 +133,7 @@ Rectangle {
 						spacing: 5
 						CustomButton {
 							text: "Save"
-							fontsize: global_fontsize_title
+							fontsize: 18
 							enabled: newfilename.getText() !== ""
 							onClickedButton: {
 								if(newfilename.getText() !== "") {
@@ -145,7 +145,7 @@ Rectangle {
 						}
 						CustomButton {
 							text: qsTr("Cancel")
-							fontsize: global_fontsize_title
+							fontsize: 18
 							onClickedButton: hideRename()
 						}
 					}

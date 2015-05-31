@@ -4,7 +4,7 @@ import QtQuick.Controls.Styles 1.2
 
 ComboBox {
 
-	property int fontsize: global_fontsize_normal
+	property int fontsize: 10
 
 	style: ComboBoxStyle {
 

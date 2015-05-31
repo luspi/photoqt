@@ -65,7 +65,7 @@ Rectangle {
 			horizontalAlignment: Text.AlignHCenter
 
 			color: colour.text
-			font.pointSize: global_fontsize_normal
+			font.pointSize: 10
 			wrapMode: Text.WordWrap
 
 			text: "<h2>" + qsTr("External Command") + "</h2>"
@@ -81,7 +81,7 @@ Rectangle {
 
 			color: colour.text
 			wrapMode: Text.WordWrap
-			font.pointSize: global_fontsize_normal
+			font.pointSize: 10
 
 			text: "%f = " + qsTr("current file (with path)") + ", %u = " + qsTr("current file (without path)") + ", %d = " + qsTr("current directory") + "."
 

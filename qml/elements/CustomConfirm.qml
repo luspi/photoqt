@@ -74,7 +74,7 @@ Rectangle {
 				x: 5
 				width: rect.width-10
 				color: colour.text
-				font.pointSize: global_fontsize_normal
+				font.pointSize: 10
 				wrapMode: Text.WordWrap
 				text: "<h1>" + header + "</h1>"
 				horizontalAlignment: Text.AlignHCenter
@@ -89,7 +89,7 @@ Rectangle {
 				width: rect.width-10
 
 				color: colour.text
-				font.pointSize: global_fontsize_normal
+				font.pointSize: 10
 				wrapMode: Text.WordWrap
 
 				text: description

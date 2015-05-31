@@ -47,7 +47,7 @@ TabView {
 			Text {
 				color: (styleData.selected || styleData.pressed) ? colour.tab_text_selected : (styleData.hovered ? colour.tab_text_active : colour.tab_text_inactive)
 				font.bold: true
-				font.pointSize: global_fontsize_normal
+				font.pointSize: 10
 				anchors.centerIn: parent
 				text: styleData.title
 			}

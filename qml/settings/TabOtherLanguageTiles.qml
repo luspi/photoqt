@@ -31,7 +31,7 @@ Rectangle {
 		width: parent.width-5
 		height: parent.height-check.height-10
 
-		font.pointSize: global_fontsize_tiles
+		font.pointSize: 8
 
 		color: colour.tiles_text_active
 		verticalAlignment: Qt.AlignVCenter

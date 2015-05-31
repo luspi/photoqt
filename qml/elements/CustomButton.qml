@@ -8,7 +8,7 @@ Button {
 
 	property bool pressedDown: false
 	property bool hovered: false
-	property int fontsize: global_fontsize_large
+	property int fontsize: 13
 
 	implicitHeight: 2.5*fontsize
 

@@ -67,7 +67,7 @@ Rectangle {
 			horizontalAlignment: Text.AlignHCenter
 
 			color: colour.text
-			font.pointSize: global_fontsize_normal
+			font.pointSize: 10
 			wrapMode: Text.WordWrap
 
 			text: "<h2>" + qsTr("Detect key combination") + "</h2>"
@@ -85,7 +85,7 @@ Rectangle {
 			horizontalAlignment: Text.AlignHCenter
 
 			color: colour.text
-			font.pointSize: global_fontsize_normal
+			font.pointSize: 10
 			font.italic: true
 
 			text: "[" + qsTr("Press keys") + "]"

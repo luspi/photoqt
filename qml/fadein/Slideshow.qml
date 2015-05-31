@@ -80,7 +80,7 @@ Rectangle {
 						// HEADING
 						Text {
 							color: colour.text
-							font.pointSize: global_fontsize_title
+							font.pointSize: 18
 							font.bold: true
 							x: (rect.width-width)/2
 							text: qsTr("Start a Slideshow")
@@ -93,14 +93,14 @@ Rectangle {
 							color: colour.text
 							width: rect.width
 							wrapMode: Text.WordWrap
-							font.pointSize: global_fontsize_normal
+							font.pointSize: 10
 							text: qsTr("There are several settings that can be adjusted for a slideshow, like the time between the image, if and how long the transition between the images should be, and also a music file can be specified that is played in the background.")
 						}
 						Text {
 							color: colour.text
 							width: rect.width
 							wrapMode: Text.WordWrap
-							font.pointSize: global_fontsize_normal
+							font.pointSize: 10
 							text: qsTr("Once you have set the desired options, you can also start a slideshow the next time via 'Quickstart', i.e. skipping this settings window.")
 						}
 
@@ -109,7 +109,7 @@ Rectangle {
 							color: colour.text
 							width: rect.width
 							wrapMode: Text.WordWrap
-							font.pointSize: global_fontsize_header
+							font.pointSize: 15
 							font.bold: true
 							text: qsTr("Time in between")
 						}
@@ -117,7 +117,7 @@ Rectangle {
 							color: colour.text
 							width: rect.width
 							wrapMode: Text.WordWrap
-							font.pointSize: global_fontsize_normal
+							font.pointSize: 10
 							text: qsTr("Adjust the time between the images. The time specified here is the amount of time the image will be completely visible, i.e. the transitioning (if set) is not part of this time.")
 						}
 
@@ -156,7 +156,7 @@ Rectangle {
 							color: colour.text
 							width: rect.width
 							wrapMode: Text.WordWrap
-							font.pointSize: global_fontsize_header
+							font.pointSize: 15
 							font.bold: true
 							text: qsTr("Smooth Transition")
 						}
@@ -164,7 +164,7 @@ Rectangle {
 							color: colour.text
 							width: rect.width
 							wrapMode: Text.WordWrap
-							font.pointSize: global_fontsize_normal
+							font.pointSize: 10
 							text: qsTr("Here you can set, if you want the images to fade into each other, and how fast they are to do that.")
 						}
 
@@ -178,7 +178,7 @@ Rectangle {
 								spacing: 5
 								Text {
 									color: colour.text
-									font.pointSize: global_fontsize_normal
+									font.pointSize: 10
 									text: qsTr("No Transition")
 								}
 								CustomSlider {
@@ -193,7 +193,7 @@ Rectangle {
 									value: settings.slideShowTransition
 								}
 								Text {
-									font.pointSize: global_fontsize_normal
+									font.pointSize: 10
 									color: colour.text
 									text: qsTr("Long Transition")
 								}
@@ -205,7 +205,7 @@ Rectangle {
 							color: colour.text
 							width: rect.width
 							wrapMode: Text.WordWrap
-							font.pointSize: global_fontsize_header
+							font.pointSize: 15
 							font.bold: true
 							text: qsTr("Shuffle and Loop")
 						}
@@ -213,7 +213,7 @@ Rectangle {
 							color: colour.text
 							width: rect.width
 							wrapMode: Text.WordWrap
-							font.pointSize: global_fontsize_normal
+							font.pointSize: 10
 							text: qsTr("If you want PhotoQt to loop over all images (i.e., once it shows the last image it starts from the beginning), or if you want PhotoQt to load your images in random order, you can check either or both boxes below. Note, that no image will be shown twice before every image has been shown once.")
 						}
 
@@ -236,7 +236,7 @@ Rectangle {
 							color: colour.text
 							width: rect.width
 							wrapMode: Text.WordWrap
-							font.pointSize: global_fontsize_header
+							font.pointSize: 15
 							font.bold: true
 							text: qsTr("Hide Quickinfo")
 						}
@@ -245,7 +245,7 @@ Rectangle {
 							color: colour.text
 							width: rect.width
 							wrapMode: Text.WordWrap
-							font.pointSize: global_fontsize_normal
+							font.pointSize: 10
 							text: qsTr("Depending on your setup, PhotoQt displays some information at the top edge, like position in current directory or file path/name. Here you can disable them temporarily for the slideshow.")
 						}
 
@@ -261,7 +261,7 @@ Rectangle {
 							color: colour.text
 							width: rect.width
 							wrapMode: Text.WordWrap
-							font.pointSize: global_fontsize_header
+							font.pointSize: 15
 							font.bold: true
 							text: qsTr("Background Music")
 						}
@@ -269,7 +269,7 @@ Rectangle {
 							color: colour.text
 							width: rect.width
 							wrapMode: Text.WordWrap
-							font.pointSize: global_fontsize_normal
+							font.pointSize: 10
 							text: qsTr("Some might like to listen to some music while the slideshow is running. Here you can select a music file you want to be played in the background.")
 						}
 						// Checkbox to enable music
@@ -294,7 +294,7 @@ Rectangle {
 								clip: true
 								elide: Text.ElideLeft
 								width: parent.width-30
-								font.pointSize: global_fontsize_normal
+								font.pointSize: 10
 								y: (parent.height-height)/2
 								color: parent.enabled ? colour.text : colour.disabled
 								text: settings.slideShowMusicFile
@@ -305,7 +305,7 @@ Rectangle {
 								visible: musictxt.text == ""
 								width: parent.width-30
 								y: (parent.height-height)/2
-								font.pointSize: global_fontsize_normal
+								font.pointSize: 10
 								color: colour.disabled
 								text: qsTr("Click here to select music file...")
 							}
