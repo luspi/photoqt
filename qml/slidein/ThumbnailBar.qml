@@ -393,7 +393,7 @@ Rectangle {
 
 					color: colour.text
 					font.bold: true
-					font.pointSize: settings.thumbnailFontSize*font_multiplier
+					font.pointSize: Math.max(settings.thumbnailFontSize*font_multiplier,2)
 					wrapMode: Text.WrapAnywhere
 					maximumLineCount: 1
 					elide: Text.ElideRight

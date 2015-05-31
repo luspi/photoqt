@@ -52,11 +52,11 @@ Item {
 
 	// Global FONT SIZE settings
 	readonly property real font_multiplier: 1
-	readonly property real global_fontsize_tiles: 8*font_multiplier
-	readonly property real global_fontsize_normal: 10*font_multiplier
-	readonly property real global_fontsize_large: 13*font_multiplier
-	readonly property real global_fontsize_header: 15*font_multiplier
-	readonly property real global_fontsize_title: 18*font_multiplier
+	readonly property real global_fontsize_tiles: Math.max(8*font_multiplier,4)
+	readonly property real global_fontsize_normal: Math.max(10*font_multiplier,5)
+	readonly property real global_fontsize_large: Math.max(13*font_multiplier,6.5)
+	readonly property real global_fontsize_header: Math.max(15*font_multiplier,7.5)
+	readonly property real global_fontsize_title: Math.max(18*font_multiplier,9)
 
 	// When the slidein widgets are not visible, then they are moved away a safety distance,
 	// otherwise they might be visible for a fraction of a second when resizing the windowChanged
@@ -69,11 +69,8 @@ Item {
 		onHidecounterChanged: quickInfo.updateQuickInfo(quickInfo._pos, thumbnailBar.totalNumberImages, thumbnailBar.currentFile)
 		onHidefilenameChanged: quickInfo.updateQuickInfo(quickInfo._pos, thumbnailBar.totalNumberImages, thumbnailBar.currentFile)
 		onHidefilepathshowfilenameChanged: quickInfo.updateQuickInfo(quickInfo._pos, thumbnailBar.totalNumberImages, thumbnailBar.currentFile)
-		onHidexChanged: {
-			quickInfo.updateQuickInfo(quickInfo._pos, thumbnailBar.totalNumberImages, thumbnailBar.currentFile)
-			console.log(global_fontsize_header,global_fontsize_large,global_fontsize_normal,global_fontsize_tiles,global_fontsize_title)
+		onHidexChanged: quickInfo.updateQuickInfo(quickInfo._pos, thumbnailBar.totalNumberImages, thumbnailBar.currentFile)
 		}
-	}
 	FileFormats { id: fileformats; }
 	SettingsSession { id: settingssession; }
 

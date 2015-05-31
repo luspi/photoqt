@@ -144,7 +144,7 @@ Rectangle {
 
 				visible: imageLoaded
 				color: colour.text
-				font.pointSize: settings.exiffontsize*font_multiplier
+				font.pointSize: Math.max(settings.exiffontsize*font_multiplier,4)
 				lineHeight: (name == "" ? 0.8 : 1.3);
 				textFormat: Text.RichText
 				text: name !== "" ? "<b>" + name + "</b>: " + value : ""
