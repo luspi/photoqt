@@ -84,22 +84,18 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
 	QByteArray message = "";
 
 	for(int i = 0; i < allArgs.length(); ++i) {
-
-		// We ignore the verbose switch when an instance is already running
-		if(allArgs.at(i) != "--v" && allArgs.at(i) != "--verbose") {
-			if(knownArgs.contains(allArgs.at(i))) {
-				message += ":-:-:";
-				message += knownArgs_msg.at(knownArgs.indexOf(allArgs.at(i)));
-			} else if(knownArgs.contains("-" + allArgs.at(i))) {
-				message += ":-:-:";
-				message += "-" + knownArgs_msg.at(knownArgs.indexOf("-" + allArgs.at(i)));
-			} else if(allArgs.at(i).startsWith("-"))
-				err = true;
-			else {
-				QString filename = allArgs.at(i);
-				message += ":-:-:";
-				message += QByteArray("::file::") + QFileInfo(filename).absoluteFilePath().toLatin1();
-			}
+		if(knownArgs.contains(allArgs.at(i))) {
+			message += ":-:-:";
+			message += knownArgs_msg.at(knownArgs.indexOf(allArgs.at(i)));
+		} else if(knownArgs.contains("-" + allArgs.at(i))) {
+			message += ":-:-:";
+			message += "-" + knownArgs_msg.at(knownArgs.indexOf("-" + allArgs.at(i)));
+		} else if(allArgs.at(i).startsWith("-"))
+			err = true;
+		else {
+			QString filename = allArgs.at(i);
+			message += ":-:-:";
+			message += QByteArray("::file::") + QFileInfo(filename).absoluteFilePath().toLatin1();
 		}
 	}
 
