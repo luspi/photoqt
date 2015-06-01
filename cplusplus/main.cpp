@@ -3,6 +3,7 @@
 #include <QQmlDebuggingEnabler>
 #include <QSignalMapper>
 #include "singleinstance/singleinstance.h"
+#include "logger.h"
 
 int main(int argc, char *argv[]) {
 
@@ -20,6 +21,9 @@ int main(int argc, char *argv[]) {
 	SingleInstance a(argc, argv);
 
 
+	if(a.verbose)
+		LOG << DATE << "Starting PhotoQt..." << std::endl;
+
 
 	// SOME START-UP CHECKS
 
@@ -35,7 +39,7 @@ int main(int argc, char *argv[]) {
 	// Ensure that the config folder exists
 	QDir dir(QDir::homePath() + "/.photoqt");
 	if(!dir.exists()) {
-		if(a.verbose) std::clog << "Creating ~/.photoqt/" << std::endl;
+		if(a.verbose) LOG << DATE << "Creating ~/.photoqt/" << std::endl;
 		dir.mkdir(QDir::homePath() + "/.photoqt");
 	}
 
@@ -56,9 +60,9 @@ int main(int argc, char *argv[]) {
 	QFile file(QDir::homePath() + "/.photoqt/settings");
 	if(!file.exists()) {
 		if(!file.open(QIODevice::WriteOnly))
-			std::cerr << "ERROR: Couldn't create settings file! Please ensure that you have read&write access to your home directory" << std::endl;
+			LOG << DATE << "ERROR: Couldn't create settings file! Please ensure that you have read&write access to your home directory" << std::endl;
 		else {
-			if(a.verbose) std::clog << "Creating empty settings file" << std::endl;
+			if(a.verbose) LOG << DATE << "Creating empty settings file" << std::endl;
 			QTextStream out(&file);
 			out << "Version=" + version + "\n";
 			file.close();
@@ -69,12 +73,12 @@ int main(int argc, char *argv[]) {
 	// If file does exist, check if it is from a previous version -> PhotoQt was updated
 	} else {
 		if(!file.open(QIODevice::ReadWrite))
-			std::cerr << "ERROR: Couldn't read settings file! Please ensure that you have read&write access to home directory" << std::endl;
+			LOG << DATE << "ERROR: Couldn't read settings file! Please ensure that you have read&write access to home directory" << std::endl;
 		else {
 			QTextStream in(&file);
 			settingsFileTxt = in.readAll();
 
-			if(a.verbose) std::clog << "Checking if first run of new version" << std::endl;
+			if(a.verbose) LOG << DATE << "Checking if first run of new version" << std::endl;
 
 			// If it doesn't contain current version (some previous version)
 			if(!settingsFileTxt.contains("Version=" + version + "\n")) {
@@ -99,7 +103,7 @@ int main(int argc, char *argv[]) {
 
 	// If PhotoQt is supposed to be started minimized in system tray
 	if(a.startintray) {
-		if(a.verbose) std::clog << "Starting minimised to tray" << std::endl;
+		if(a.verbose) LOG << DATE << "Starting minimised to tray" << std::endl;
 		// If the option "Use Tray Icon" in the settings is not set, we set it
 		QFile set(QDir::homePath() + "/.photoqt/settings");
 		if(set.open(QIODevice::ReadOnly)) {
@@ -115,14 +119,14 @@ int main(int argc, char *argv[]) {
 				set.close();
 				set.remove();
 				if(!set.open(QIODevice::WriteOnly))
-					std::cerr << "ERROR: Can't enable tray icon setting!" << std::endl;
+					LOG << DATE << "ERROR: Can't enable tray icon setting!" << std::endl;
 				QTextStream out(&set);
 				out << all;
 				set.close();
 			} else
 				set.close();
 		} else
-			std::cerr << "Unable to ensure TrayIcon is enabled - make sure it is enabled!!" << std::endl;
+			LOG << DATE << "Unable to ensure TrayIcon is enabled - make sure it is enabled!!" << std::endl;
 	}
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
@@ -136,7 +140,7 @@ int main(int argc, char *argv[]) {
 	// We use two strings, since the system locale usually is of the form e.g. "de_DE"
 	// and some translations only come with the first part, i.e. "de",
 	// and some with the full string. We need to be able to find both!
-	if(a.verbose) std::clog << "Checking for translation" << std::endl;
+	if(a.verbose) LOG << DATE << "Checking for translation" << std::endl;
 	QString code1 = "";
 	QString code2 = "";
 	if(settingsFileTxt.contains("Language=") && !settingsFileTxt.contains("Language=en") && !settingsFileTxt.contains("Language=\n")) {
@@ -146,14 +150,14 @@ int main(int argc, char *argv[]) {
 		code1 = QLocale::system().name();
 		code2 = QLocale::system().name().split("_").at(0);
 	}
-	if(a.verbose) std::clog << "Found following language: " << code1.toStdString()  << "/" << code2.toStdString() << std::endl;
+	if(a.verbose) LOG << DATE << "Found following language: " << code1.toStdString()  << "/" << code2.toStdString() << std::endl;
 	if(QFile(":/photoqt_" + code1 + ".qm").exists()) {
-		std::clog << "Loading Translation:" << code1.toStdString() << std::endl;
+		LOG << DATE << "Loading Translation:" << code1.toStdString() << std::endl;
 		trans.load(":/photoqt_" + code1);
 		a.installTranslator(&trans);
 		code2 = code1;
 	} else if(QFile(":/photoqt_" + code2 + ".qm").exists()) {
-		std::clog << "Loading Translation:" << code2.toStdString() << std::endl;
+		LOG << DATE << "Loading Translation:" << code2.toStdString() << std::endl;
 		trans.load(":/photoqt_" + code2);
 		a.installTranslator(&trans);
 		code1 = code2;
@@ -163,26 +167,26 @@ int main(int argc, char *argv[]) {
 	QFile database(QDir::homePath() + "/.photoqt/thumbnails");
 	if(!database.exists()) {
 
-		if(a.verbose) std::clog << "Create Thumbnail Database" << std::endl;
+		if(a.verbose) LOG << DATE << "Create Thumbnail Database" << std::endl;
 
 		QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", "thumbDB1");
 		db.setDatabaseName(QDir::homePath() + "/.photoqt/thumbnails");
-		if(!db.open()) std::cerr << "ERROR: Couldn't open thumbnail database:" << db.lastError().text().trimmed().toStdString() << std::endl;
+		if(!db.open()) LOG << DATE << "ERROR: Couldn't open thumbnail database:" << db.lastError().text().trimmed().toStdString() << std::endl;
 		QSqlQuery query(db);
 		query.prepare("CREATE TABLE Thumbnails (filepath TEXT,thumbnail BLOB, filelastmod INT, thumbcreated INT, origwidth INT, origheight INT)");
 		query.exec();
-		if(query.lastError().text().trimmed().length()) std::cerr << "ERROR (Creating Thumbnail Datbase):" << query.lastError().text().trimmed().toStdString() << std::endl;
+		if(query.lastError().text().trimmed().length()) LOG << DATE << "ERROR (Creating Thumbnail Datbase):" << query.lastError().text().trimmed().toStdString() << std::endl;
 		query.clear();
 
 
 	} else {
 
-		if(a.verbose) std::clog << "Opening Thumbnail Database" << std::endl;
+		if(a.verbose) LOG << DATE << "Opening Thumbnail Database" << std::endl;
 
 		// Opening the thumbnail database
 		QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE","thumbDB2");
 		db.setDatabaseName(QDir::homePath() + "/.photoqt/thumbnails");
-		if(!db.open()) std::cerr << "ERROR: Couldn't open thumbnail database:" << db.lastError().text().trimmed().toStdString() << std::endl;
+		if(!db.open()) LOG << DATE << "ERROR: Couldn't open thumbnail database:" << db.lastError().text().trimmed().toStdString() << std::endl;
 
 		QSqlQuery query_check(db);
 		query_check.prepare("SELECT COUNT( * ) AS 'Count' FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Thumbnails' AND COLUMN_NAME = 'origwidth'");
@@ -192,11 +196,11 @@ int main(int argc, char *argv[]) {
 			QSqlQuery query(db);
 			query.prepare("ALTER TABLE Thumbnails ADD COLUMN origwidth INT");
 			query.exec();
-			if(query.lastError().text().trimmed().length()) std::cerr << "ERROR (Adding origwidth to Thumbnail Database):" << query.lastError().text().trimmed().toStdString() << std::endl;
+			if(query.lastError().text().trimmed().length()) LOG << DATE << "ERROR (Adding origwidth to Thumbnail Database):" << query.lastError().text().trimmed().toStdString() << std::endl;
 			query.clear();
 			query.prepare("ALTER TABLE Thumbnails ADD COLUMN origheight INT");
 			query.exec();
-			if(query.lastError().text().trimmed().length()) std::cerr << "ERROR (Adding origheight to Thumbnail Database):" << query.lastError().text().trimmed().toStdString() << std::endl;
+			if(query.lastError().text().trimmed().length()) LOG << DATE << "ERROR (Adding origheight to Thumbnail Database):" << query.lastError().text().trimmed().toStdString() << std::endl;
 			query.clear();
 		}
 		query_check.clear();
@@ -253,7 +257,7 @@ int main(int argc, char *argv[]) {
 			out << fileformatsDisabled;
 			fileformatsFile.close();
 		} else
-			std::cerr << "ERROR: Can't write default disabled fileformats file" << std::endl;
+			LOG << DATE << "ERROR: Can't write default disabled fileformats file" << std::endl;
 
 
 		// Update settings with new values
@@ -270,7 +274,7 @@ int main(int argc, char *argv[]) {
 
 	// Possibly disable thumbnails
 	if(a.nothumbs) {
-		if(a.verbose) std::clog << "Disabling Thumbnails" << std::endl;
+		if(a.verbose) LOG << DATE << "Disabling Thumbnails" << std::endl;
 		w.disableThumbnails();
 	}
 

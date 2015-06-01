@@ -71,7 +71,7 @@ void MainWindow::openNewFile(QVariant usethis, QVariant filter) { openNewFile(us
 void MainWindow::openNewFile(QString usethis, QVariant filter) {
 
 	if(variables->verbose)
-		std::clog << "[" << QDateTime::currentDateTime().toString("dd/MM/yyyy HH:mm:ss").toStdString() << "] Request to open new file" << std::endl;
+		LOG << DATE << "openNewFile(): Request to open new file" << std::endl;
 
 	// Only possibly set at start-up, filename passed via command line
 	if(startup_filename != "") {
@@ -87,6 +87,9 @@ void MainWindow::openNewFile(QString usethis, QVariant filter) {
 	QByteArray file = usethis.toUtf8();
 
 	if(usethis == "") {
+
+		if(variables->verbose)
+			LOG << DATE << "openNewFile(): No filename passed -> requesting new one" << std::endl;
 
 		QMetaObject::invokeMethod(object, "alsoIgnoreSystemShortcuts",
 					  Q_ARG(QVariant, true));
@@ -164,6 +167,9 @@ void MainWindow::openNewFile(QString usethis, QVariant filter) {
 // Thumbnail handling (centerPos is image currently displayed in the visible center of thumbnail bar)
 void MainWindow::handleThumbnails(QVariant centerPos) {
 
+	if(variables->verbose)
+		LOG << DATE << "handleThumbnails(): New thumbnail center pos: " << centerPos.toInt() << std::endl;
+
 	// Get some settings for later use
 	int thumbSize = settingsPermanent->getThumbnailsize();
 	int thumbSpacing = settingsPermanent->getThumbnailSpacingBetween();
@@ -207,6 +213,9 @@ void MainWindow::handleThumbnails(QVariant centerPos) {
 
 void MainWindow::loadMoreThumbnails() {
 
+	if(variables->verbose)
+		LOG << DATE << "loadMoreThumbnails(): Continue loading thumbnails?" << std::endl;
+
 	if(settingsPermanent->thumbnailFilenameInstead) return;
 
 	if(loadThumbnailsInThisOrder.length() == 0 && smartLoadThumbnailsInThisOrder.length() == 0) return;
@@ -219,6 +228,9 @@ void MainWindow::loadMoreThumbnails() {
 			loadThumbnailsInThisOrder.removeFirst();
 			return loadMoreThumbnails();
 		}
+
+		if(variables->verbose)
+			LOG << DATE << "loadMoreThumbnails(): Yes, please (visible)! Load #" << load << std::endl;
 
 		loadThumbnailsInThisOrder.removeFirst();
 
@@ -236,6 +248,9 @@ void MainWindow::loadMoreThumbnails() {
 			return loadMoreThumbnails();
 		}
 
+		if(variables->verbose)
+			LOG << DATE << "loadMoreThumbnails(): Yes, please (invisible, smart)! Load #" << load << std::endl;
+
 		smartLoadThumbnailsInThisOrder.removeFirst();
 
 		QMetaObject::invokeMethod(object, "reloadImage",
@@ -248,19 +263,27 @@ void MainWindow::loadMoreThumbnails() {
 
 // This one was tried to be preloaded smartly, but didn't exist yet -> nothing done
 void MainWindow::didntLoadThisThumbnail(QVariant pos) {
+	if(variables->verbose)
+		LOG << DATE << "didntLoadThisThumbnail(): Thumbnail #" << pos.toInt() << " not loaded smartly..." << std::endl;
 	variables->loadedThumbnails.removeAt(variables->loadedThumbnails.indexOf(pos.toInt()));
 }
 
 // These are used to communicate key combos to the qml interface (for shortcuts, lineedits, etc.)
 void MainWindow::detectedKeyCombo(QString combo) {
+	if(variables->verbose)
+		LOG << DATE << "detectedKeyCombo(): " << combo.toStdString() << std::endl;
 	QMetaObject::invokeMethod(object, "detectedKeyCombo",
 				  Q_ARG(QVariant, combo));
 }
 void MainWindow::keyPressEvent(QKeyEvent *e) {
+	if(variables->verbose)
+		LOG << DATE << "keyPressEvent()" << std::endl;
     detectedKeyCombo(shortcuts->handleKeyPress(e));
 	QQuickView::keyPressEvent(e);
 }
 void MainWindow::keyReleaseEvent(QKeyEvent *e) {
+	if(variables->verbose)
+		LOG << DATE << "keyReleaseEvent()" << std::endl;
 	QMetaObject::invokeMethod(object, "keysReleased",
 							  Q_ARG(QVariant,shortcuts->handleKeyPress(e)));
 	QQuickView::keyReleaseEvent(e);
@@ -268,6 +291,9 @@ void MainWindow::keyReleaseEvent(QKeyEvent *e) {
 
 // Catch wheel events
 void MainWindow::wheelEvent(QWheelEvent *e) {
+
+	if(variables->verbose)
+		LOG << DATE << "wheelEvent()" << std::endl;
 
 	if(e->angleDelta().y() < 0) {
 
@@ -287,6 +313,9 @@ void MainWindow::wheelEvent(QWheelEvent *e) {
 
 		// We got here? Great, so reset counter (i.e., next event starts at beginning again)
 		variables->wheelcounter = 0;
+
+		if(variables->verbose)
+			LOG << DATE << "wheelEvent(): Wheel down" << std::endl;
 
 		QMetaObject::invokeMethod(object,"mouseWheelEvent",
 								  Q_ARG(QVariant, "Wheel Down"));
@@ -310,6 +339,9 @@ void MainWindow::wheelEvent(QWheelEvent *e) {
 		// We got here? Great, so reset counter (i.e., next event starts at beginning again)
 		variables->wheelcounter = 0;
 
+		if(variables->verbose)
+			LOG << DATE << "wheelEvent(): Wheel up" << std::endl;
+
 		QMetaObject::invokeMethod(object,"mouseWheelEvent",
 								  Q_ARG(QVariant, "Wheel Up"));
 
@@ -321,6 +353,9 @@ void MainWindow::wheelEvent(QWheelEvent *e) {
 
 // Catch mouse events (ignored when mouse moved when button pressed)
 void MainWindow::mousePressEvent(QMouseEvent *e) {
+
+	if(variables->verbose)
+		LOG << DATE << "mousePressEvent()" << std::endl;
 
 	mouseCombo = "";
 	mouseOrigPoint = e->pos();
@@ -334,10 +369,16 @@ void MainWindow::mousePressEvent(QMouseEvent *e) {
 	else if(e->button() == Qt::LeftButton)
 		mouseCombo = "Left Button";
 
+	if(variables->verbose)
+		LOG << DATE << "mousePressEvent(): mouseCombo = " << mouseCombo.toStdString() << std::endl;
+
 	QQuickView::mousePressEvent(e);
 
 }
 void MainWindow::mouseReleaseEvent(QMouseEvent *e) {
+
+	if(variables->verbose)
+		LOG << DATE << "mouseReleaseEvent()" << std::endl;
 
 	QQuickView::mouseReleaseEvent(e);
 
@@ -350,6 +391,9 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *e) {
 }
 void MainWindow::mouseMoveEvent(QMouseEvent *e) {
 
+	if(variables->verbose)
+		LOG << DATE << "mouseMoveEvent()" << std::endl;
+
 	mouseDx += abs(mouseOrigPoint.x()-e->pos().x());
 	mouseDy += abs(mouseOrigPoint.y()-e->pos().y());
 
@@ -361,10 +405,14 @@ bool MainWindow::event(QEvent *e) {
 
 	if (e->type() == QEvent::Close) {
 
+		if(variables->verbose)
+			LOG << DATE << "closeEvent()" << std::endl;
+
 		// If a widget (like settings or about) is open, then this close event only closes this widget (like escape)
 		if(object->property("blocked").toBool()) {
 
-//			if(globVar->verbose) std::clog << "Ignoring closeEvent, sending 'Escape' shortcut" << std::endl;
+			if(variables->verbose)
+				LOG << DATE << "closeEvent(): Ignoring event, sending 'Escape' shortcut" << std::endl;
 
 			e->ignore();
 
@@ -376,7 +424,7 @@ bool MainWindow::event(QEvent *e) {
 			if(settingsPermanent->trayicon == 1 && !variables->skipSystemTrayAndQuit) {
 
                 trayAction(QSystemTrayIcon::Trigger);
-//				if(globVar->verbose) std::clog << "Hiding to System Tray." << std::endl;
+				if(variables->verbose) LOG << DATE << "closeEvent(): Hiding to System Tray." << std::endl;
 				e->ignore();
 
 			// Quit
@@ -388,7 +436,9 @@ bool MainWindow::event(QEvent *e) {
 
 				e->accept();
 
-				std::cout << "Goodbye!" << std::endl;
+				if(variables->verbose)
+					LOG << DATE;
+				LOG << "Goodbye!" << std::endl;
 
 				qApp->quit();
 
@@ -403,14 +453,22 @@ bool MainWindow::event(QEvent *e) {
 
 void MainWindow::trayAction(QSystemTrayIcon::ActivationReason reason) {
 
+	if(variables->verbose)
+		LOG << DATE << "trayAction()" << std::endl;
+
     if(reason == QSystemTrayIcon::Trigger) {
 
 		if(!variables->hiddenToTrayIcon) {
             if(!variables->fileDialogOpened) {
                 variables->geometryWhenHiding = this->geometry();
+				if(variables->verbose)
+					LOG << DATE << "trayAction(): Hiding to tray" << std::endl;
                 this->hide();
             }
         } else {
+
+			if(variables->verbose)
+				LOG << DATE << "trayAction(): Updating screenshots" << std::endl;
 
 			// Get screenshots
 			for(int i = 0; i < QGuiApplication::screens().count(); ++i) {
@@ -420,6 +478,9 @@ void MainWindow::trayAction(QSystemTrayIcon::ActivationReason reason) {
 				if(!pix.save(QDir::tempPath() + QString("/photoqt_screenshot_%1.jpg").arg(i)))
 					std::cerr << "[ERROR] Unable to update screenshot for screen #" << i << std::endl;
 			}
+
+			if(variables->verbose)
+				LOG << DATE << "trayAction(): SHowing window" << std::endl;
 
 			updateWindowGeometry();
 
@@ -440,9 +501,15 @@ void MainWindow::quitPhotoQt() {
 
 void MainWindow::showTrayIcon() {
 
+	if(variables->verbose)
+		LOG << DATE << "showTrayIcon()" << std::endl;
+
 	if(settingsPermanent->trayicon != 0) {
 
 		if(!variables->trayiconSetup) {
+
+			if(variables->verbose)
+				LOG << DATE << "showTrayIcon(): Setting up" << std::endl;
 
 			trayIcon = new QSystemTrayIcon(this);
 			trayIcon->setIcon(QIcon(":/img/icon.png"));
@@ -463,6 +530,9 @@ void MainWindow::showTrayIcon() {
 
 		}
 
+		if(variables->verbose)
+			LOG << DATE << "showTrayIcon(): Setting icon to visible" << std::endl;
+
 		trayIcon->show();
 		variables->trayiconVisible = true;
 
@@ -471,6 +541,9 @@ void MainWindow::showTrayIcon() {
 }
 
 void MainWindow::hideTrayIcon() {
+
+	if(variables->verbose)
+		LOG << DATE << "hideTrayIcon()" << std::endl;
 
 	if(settingsPermanent->trayicon == 0 && variables->trayiconSetup) {
 
@@ -484,31 +557,39 @@ void MainWindow::hideTrayIcon() {
 // Remote controlling
 void MainWindow::remoteAction(QString cmd) {
 
+	if(variables->verbose)
+		LOG << DATE << "remoteAction()" << std::endl;
+
 	if(cmd == "open") {
 
-//		std::clog << "[remote] Open new file" << std::endl;
+		if(variables->verbose)
+			LOG << DATE << "remoteAction(): Open file" << std::endl;
 		openNewFile();
 
 	} else if(cmd == "nothumbs") {
 
-//		std::clog << "[remote] Disable thumbnails" << std::endl;
+		if(variables->verbose)
+			LOG << DATE << "remoteAction(): Disable thumbnails" << std::endl;
 		settingsPermanent->setThumbnailDisable(true);
 
 	} else if(cmd == "thumbs") {
 
-//		std::clog << "[remote] Enable thumbnails" << std::endl;
+		if(variables->verbose)
+			LOG << DATE << "remoteAction(): Enable thumbnails" << std::endl;
 		settingsPermanent->setThumbnailDisable(false);
 
 	} else if(cmd == "hide" || (cmd == "toggle" && this->isVisible())) {
 
-//		std::clog << "[remote] Hide window" << std::endl;
+		if(variables->verbose)
+			LOG << DATE << "remoteAction(): Hiding" << std::endl;
 		if(settingsPermanent->trayicon != 1)
 			settingsPermanent->setTrayicon(1);
 		this->hide();
 
 	} else if(cmd.startsWith("show") || (cmd == "toggle" && !this->isVisible())) {
 
-//		std::clog << "[remote] Show window" << std::endl;
+		if(variables->verbose)
+			LOG << DATE << "remoteAction(): Showing" << std::endl;
 
 		// The same code can be found at the end of main.cpp
 		if(!this->isVisible()) {
@@ -528,7 +609,8 @@ void MainWindow::remoteAction(QString cmd) {
 
 	} else if(cmd.startsWith("::file::")) {
 
-//		std::clog << "[remote] Open new file" << std::endl;
+		if(variables->verbose)
+			LOG << DATE << "remoteAction(): Opening passed-on file" << std::endl;
 		openNewFile(cmd.remove(0,8));
 
 	}
@@ -537,6 +619,9 @@ void MainWindow::remoteAction(QString cmd) {
 }
 
 void MainWindow::updateWindowGeometry() {
+
+	if(variables->verbose)
+		LOG << DATE << "updateWindowGeometry()" << std::endl;
 
 	if(settingsPermanent->windowmode) {
 		if(settingsPermanent->keepOnTop) {
@@ -563,6 +648,8 @@ void MainWindow::updateWindowGeometry() {
 }
 
 void MainWindow::resetWindowGeometry() {
+	if(variables->verbose)
+		LOG << DATE << "resetWindowGeometry()" << std::endl;
 	QSettings settings("photoqt","photoqt");
 	this->setGeometry(settings.value("mainWindowGeometry").toRect());
 }
@@ -575,6 +662,9 @@ void MainWindow::updateWindowXandY() {
 }
 
 void MainWindow::showStartup(QString type) {
+
+	if(variables->verbose)
+		LOG << DATE << "showStartup(): " << type.toStdString() << std::endl;
 
 	QMetaObject::invokeMethod(object,"showStartup",
 							  Q_ARG(QVariant, type));

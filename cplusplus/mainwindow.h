@@ -11,6 +11,7 @@
 #include <QSystemTrayIcon>
 #include <QtDebug>
 
+#include "logger.h"
 #include "scripts/getanddostuff.h"
 #include "scripts/getmetadata.h"
 #include "scripts/thumbnailsmanagement.h"
