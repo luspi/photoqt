@@ -2,6 +2,7 @@
 #define GETANDDOSTUFFMANIPLULATION_H
 
 #include <unistd.h>
+#include <iostream>
 #include <QObject>
 #include <QStringList>
 #include <QFileInfo>

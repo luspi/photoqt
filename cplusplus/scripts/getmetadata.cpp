@@ -76,6 +76,8 @@ QVariantMap GetMetaData::getExiv2(QString path) {
 			returnMap.insert("Iptc.Application2.CountryName","");
 			returnMap.insert("Iptc.Application2.Copyright","");
 
+#ifdef EXIV2
+
 			// Obtain METADATA
 
 			Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path.toStdString());
@@ -168,6 +170,8 @@ QVariantMap GetMetaData::getExiv2(QString path) {
 			QString country = returnMap["Iptc.Application2.CountryName"].toString();
 
 			returnMap["Iptc.Application2.City"] = city + ((city != "" && country != "") ? ", " : "") + country;
+
+#endif
 
 			return returnMap;
 
