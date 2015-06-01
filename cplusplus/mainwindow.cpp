@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 
-MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
+MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 
 	// Settings and variables
 	settingsPerSession = new SettingsSession;
@@ -8,6 +8,8 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 	fileformats = new FileFormats;
 	variables = new Variables;
 	shortcuts = new Shortcuts;
+
+	variables->verbose = verbose;
 
 	// Set only by main.cpp at start-up, contains filename passed via command line
 	startup_filename = "";
@@ -67,6 +69,9 @@ MainWindow::MainWindow(QWindow *parent) : QQuickView(parent) {
 // Open a new file
 void MainWindow::openNewFile(QVariant usethis, QVariant filter) { openNewFile(usethis.toString(), filter); }
 void MainWindow::openNewFile(QString usethis, QVariant filter) {
+
+	if(variables->verbose)
+		std::clog << "[" << QDateTime::currentDateTime().toString("dd/MM/yyyy HH:mm:ss").toStdString() << "] Request to open new file" << std::endl;
 
 	// Only possibly set at start-up, filename passed via command line
 	if(startup_filename != "") {

@@ -209,7 +209,7 @@ int main(int argc, char *argv[]) {
 	 ***************************/
 	// The Window has to be initialised *AFTER* the checks above to ensure that the settings exist and are updated and can be loaded
 //		MainWindow w(0,verbose);
-	MainWindow w(0);
+	MainWindow w(a.verbose,0);
 	/***************************
 	 ***************************/
 

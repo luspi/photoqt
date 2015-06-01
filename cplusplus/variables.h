@@ -8,6 +8,7 @@ class Variables {
 
 public:
 	Variables() {
+		verbose = false;
 		loadedThumbnails.clear();
 		currentDir = "";
         fileDialogOpened = false;
@@ -20,6 +21,8 @@ public:
 	}
 
 public:
+	bool verbose;
+
 	QList<int> loadedThumbnails;
 	QString currentDir;
 

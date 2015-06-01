@@ -28,7 +28,7 @@ class MainWindow : public QQuickView {
 	Q_OBJECT
 
 public:
-	explicit MainWindow(QWindow *parent = 0);
+	explicit MainWindow(bool verbose, QWindow *parent = 0);
 	~MainWindow();
 
 	// These are used by main.cpp when thumbnails are disabled at startup, or to set default fileformats
