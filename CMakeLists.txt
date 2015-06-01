@@ -13,7 +13,7 @@ ADD_DEFINITIONS(-DVERSION="1.2")
 
 
 #### SOURCES ####
-SET(photoqt_SOURCES cplusplus/main.cpp cplusplus/mainwindow.cpp cplusplus/variables.h)
+SET(photoqt_SOURCES cplusplus/main.cpp cplusplus/mainwindow.cpp cplusplus/variables.h cplusplus/logger.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/handlefiles/loaddir.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/imageprovider/imageproviderfull.cpp cplusplus/imageprovider/imageproviderthumbnail.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/scripts/getanddostuff.h cplusplus/scripts/getmetadata.cpp cplusplus/scripts/runprocess.h)
@@ -47,7 +47,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/TabThumbnailsBasic.qml qml/s
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/TabDetails.qml qml/settings/TabOther.qml qml/settings/TabFiletypes.qml)
 
 #### HEADER ####
-SET(photoqt_HEADERS cplusplus/mainwindow.h cplusplus/variables.h)
+SET(photoqt_HEADERS cplusplus/mainwindow.h cplusplus/variables.h cplusplus/logger.h)
 SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/handlefiles/loaddir.h)
 SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/imageprovider/imageproviderthumbnail.h cplusplus/imageprovider/imageproviderfull.h)
 SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/scripts/getanddostuff.h cplusplus/scripts/getmetadata.h cplusplus/scripts/runprocess.h)
