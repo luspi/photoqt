@@ -103,3 +103,10 @@ bool GetAndDoStuffOther::isExivSupportEnabled() {
 #endif
 	return false;
 }
+
+bool GetAndDoStuffOther::isGraphicsMagickSupportEnabled() {
+#ifdef GM
+	return true;
+#endif
+	return false;
+}
