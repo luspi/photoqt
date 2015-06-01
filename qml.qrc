@@ -39,7 +39,6 @@
         <file>qml/settings/TabShortcutsTilesAvail.qml</file>
         <file>qml/elements/CustomDetectShortcut.qml</file>
         <file>qml/elements/CustomMouseShortcut.qml</file>
-        <file>javascript/keydetect.js</file>
         <file>qml/elements/CustomExternalCommand.qml</file>
         <file>qml/elements/CustomLineEdit.qml</file>
         <file>qml/slidein/QuickSettings.qml</file>
