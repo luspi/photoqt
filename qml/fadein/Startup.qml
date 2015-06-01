@@ -144,7 +144,7 @@ Rectangle {
 					x: 0
 					y: (Math.max(height,customisability_img.height)-height)/2
 					width: parent.width-customisability_img.width
-					text: "<h2>" + qsTr("Make PhotoQt your own") + "</h2><br>" + qsTr("PhotoQt has an extensive settings area. By default you can call it with the shortcut 'e' or through the dropdown menu at the top edge towards the top right corner. You can adjust almost everything in PhotoQt, and it's certainly worth having a look there. Each setting usually comes with a little explanation text.")
+					text: "<h2>" + qsTr("Make PhotoQt your own") + "</h2><br>" + qsTr("PhotoQt has an extensive settings area. By default you can call it with the shortcut 'e' or through the dropdown menu at the top edge towards the top right corner. You can adjust almost everything in PhotoQt, and it's certainly worth having a look there. Each setting usually comes with a little explanation text. Some of the most often used settings can also be conveniently adjusted in a slide-in widget, hidden behind the right screen edge.")
 				}
 
 				Image {
@@ -239,13 +239,26 @@ Rectangle {
 				}
 
 				Text {
-					color: colour.text
+					id: exiv
+					color: getanddostuff.isExivSupportEnabled() ? colour.text : colour.disabled
 					font.pointSize: 10
 					wrapMode: Text.WordWrap
 					x: exif_img.width+25
-					y: (Math.max(height,exif_img.height)-height)/2
+					y: (Math.max(height,exif_img.height)+(getanddostuff.isExivSupportEnabled() ? 0 : exivunavailable.height)-height)/2
 					width: parent.width-x
-					text: "<h2>" + qsTr("Image Information (Exif/IPTC)") + "</h2><br>" + qsTr("Most images store some information about the image in the file. PhotoQt can read and display a selection of Exif and IPTC tags. You can find this information in the slide-in window hidden behind the left edge of PhotoQt.")
+					text: "<h2>" + qsTr("Image Information (Exif/IPTC)") + "</h2><br>" + qsTr("Most images store some additional information within the file's metadata. PhotoQt can read and display a selection of this data. You can find this information in the slide-in window hidden behind the left edge of PhotoQt.")
+				}
+
+				Text {
+					id: exivunavailable
+					visible: !getanddostuff.isExivSupportEnabled()
+					color: colour.warning
+					wrapMode: Text.WordWrap
+					x: exif_img.width+25
+					y: exiv.y+exiv.height+10
+					horizontalAlignment: Text.AlignHCenter
+					width: parent.width-x
+					text: "SUPPORT FOR EXIF/IPTC TAGS WAS DISABLED AT COMPILE TIME!"
 				}
 
 			}
@@ -270,7 +283,7 @@ Rectangle {
 					x: 0
 					y: (Math.max(height,slideshow_img.height)-height)/2
 					width: parent.width-slideshow_img.width
-					text: "<h2>" + qsTr("Slideshow") + "</h2><br>" + qsTr("PhotoQt also brings a slideshow feature. When you start a slideshow, it starts at the currently displayed image. There are a couple settings like transition, speed, loop, and shuffle. Plus, you can set a music file that is played in the background. When the slideshow takes longer than the music file, then PhotoQt starts the music file all over from the beginning. At anytime during the slideshow, you can move the mouse cursor to the top edge of the screen to get a little bar, where you can pause/exit the slideshow and adjust the music volume.")
+					text: "<h2>" + qsTr("Slideshow") + "</h2><br>" + qsTr("PhotoQt also brings a slideshow feature. When you start a slideshow, it starts at the currently displayed image. There are a couple of settings that can be set, like transition, speed, loop, and shuffle. Plus, you can set a music file that is played in the background. When the slideshow takes longer than the music file, then PhotoQt starts the music file all over from the beginning. At anytime during the slideshow, you can move the mouse cursor to the top edge of the screen to get a little bar, where you can pause/exit the slideshow and adjust the music volume.")
 				}
 
 				Image {
