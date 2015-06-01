@@ -96,3 +96,10 @@ QString GetAndDoStuffOther::getTempDir() {
 QString GetAndDoStuffOther::getHomeDir() {
 	return QDir::homePath();
 }
+
+bool GetAndDoStuffOther::isExivSupportEnabled() {
+#ifdef EXIV2
+	return true;
+#endif
+	return false;
+}

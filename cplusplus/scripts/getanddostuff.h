@@ -79,6 +79,7 @@ public:
 	Q_INVOKABLE int getCurrentScreen(int x, int y) { return other->getCurrentScreen(x,y); }
 	Q_INVOKABLE QString getTempDir() { return other->getTempDir(); }
 	Q_INVOKABLE QString getHomeDir() { return other->getHomeDir(); }
+	Q_INVOKABLE bool isExivSupportEnabled() { return other->isExivSupportEnabled(); }
 
 	// SHORTCUTS
 	Q_INVOKABLE QVariantMap getShortcuts() { return shortcuts->getShortcuts(); }

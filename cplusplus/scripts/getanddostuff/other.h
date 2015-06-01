@@ -34,6 +34,7 @@ public:
 	int getCurrentScreen(int x, int y);
 	QString getTempDir();
 	QString getHomeDir();
+	bool isExivSupportEnabled();
 
 private:
 	QImageReader reader;
