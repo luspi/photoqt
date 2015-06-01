@@ -18,11 +18,10 @@ void GetAndDoStuffShortcuts::fileChanged() {
 	emit shortcutFileChanged(QTime::currentTime().msecsSinceStartOfDay());
 
 	// Re-add file to watcher (for more details see watcher in setting.h)
-#ifdef C11
 	QFileInfo checkFile(QDir::homePath() + "/.photoqt/shortcuts");
 	while(!checkFile.exists())
 		std::this_thread::sleep_for(std::chrono::milliseconds(10));
-#endif
+
 	watcher->addPath(QDir::homePath() + "/.photoqt/shortcuts");
 
 }

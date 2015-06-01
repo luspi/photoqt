@@ -2,16 +2,13 @@
 #define SETTINGS_H
 
 #include <iostream>
+#include <thread>
 #include <QObject>
 #include <QSettings>
 #include <QDir>
 #include <QFileSystemWatcher>
 #include <QtDebug>
 #include <QTimer>
-
-#ifdef C11
-	#include <thread>
-#endif
 
 // Convenience class to access and change permanent settings
 
@@ -766,11 +763,10 @@ public slots:
 		// QFileSystemWatcher always thinks that a file was deleted, even if it was only modified.
 		// Thus, we need to re-add it to its list of watched files. Since the file might not yet be completely written, we
 		// check if the file exists and wait for that (needs C++11 features)
-#ifdef C11
 		QFileInfo checkFile(QDir::homePath() + "/.photoqt/settings");
 		while(!checkFile.exists())
 			std::this_thread::sleep_for(std::chrono::milliseconds(10));
-#endif
+
 		watcher->addPath(QDir::homePath() + "/.photoqt/settings");
 
 		// Set default values to start out with
