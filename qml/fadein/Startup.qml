@@ -113,13 +113,26 @@ Rectangle {
 				}
 
 				Text {
-					color: colour.text
+					id: gm
+					color: getanddostuff.isGraphicsMagickSupportEnabled() ? colour.text : colour.disabled
 					font.pointSize: 10
 					wrapMode: Text.WordWrap
 					x: fileformats_img.width+25
-					y: (Math.max(height,fileformats_img.height)-height)/2
+					y: (Math.max(height,fileformats_img.height)-(getanddostuff.isGraphicsMagickSupportEnabled() ? 0 : gmunavailable.height)-height)/2
 					width: parent.width-x
 					text: "<h2>" + qsTr("Many File Formats") + "</h2><br>" + qsTr("PhotoQt can make use of GraphicsMagick, an image library, to display many different image formats. Currently, there are up to 72 different file formats supported (exact number depends on your system)! You can find a list of it in the settings (Tab 'Other'). There you can en-/disable different ones and also add custom file endings.")
+				}
+
+				Text {
+					id: gmunavailable
+					visible: !getanddostuff.isGraphicsMagickSupportEnabled()
+					color: colour.warning
+					wrapMode: Text.WordWrap
+					x: fileformats_img.width+25
+					y: gm.y+gm.height+10
+					horizontalAlignment: Text.AlignHCenter
+					width: parent.width-x
+					text: "SUPPORT FOR GRAPHICSMAGICK WAS DISABLED AT COMPILE TIME!"
 				}
 
 			}

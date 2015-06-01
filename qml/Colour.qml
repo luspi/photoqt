@@ -33,6 +33,7 @@ Item {
 	// Tiles in settings
 	readonly property string tiles_active: "#C8ffffff"
 	readonly property string tiles_inactive: "#77ffffff"
+	readonly property string tiles_disabled: "#33ffffff"
 	readonly property string tiles_text_active: "#000000"
 	readonly property string tiles_text_inactive: "#000000"
 	readonly property string tiles_indicator_col: "#444444"

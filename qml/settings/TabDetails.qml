@@ -81,6 +81,23 @@ Rectangle {
 				height: 1
 			}
 
+			Text {
+				visible: !getanddostuff.isExivSupportEnabled()
+				width: flickable.width
+				horizontalAlignment: Text.AlignHCenter
+				color: colour.warning
+				font.pointSize: 13
+				font.bold: true
+				text: "Note: Support for Exiv2 was disabled at compile time!"
+			}
+
+			Rectangle {
+				visible: !getanddostuff.isExivSupportEnabled()
+				color: "#00000000"
+				width: 1
+				height: 1
+			}
+
 			/*********************
 			* TRRIGGER ON MOUSE *
 			*********************/
@@ -131,11 +148,13 @@ Rectangle {
 					CustomButton {
 						text: qsTr("Enable ALL")
 						width: 150
+						enabled: getanddostuff.isExivSupportEnabled();
 						onClickedButton: { checkAllTiles(true) }
 					}
 					CustomButton {
 						text: qsTr("Disable ALL")
 						width: 150
+						enabled: getanddostuff.isExivSupportEnabled();
 						onClickedButton: { checkAllTiles(false) }
 					}
 
@@ -159,21 +178,21 @@ Rectangle {
 
 					TabDetailsTile { id: filesize; text: qsTr("Filesize"); }
 					TabDetailsTile { id: dimensions; text: qsTr("Dimensions"); }
-					TabDetailsTile { id: make; text: qsTr("Make"); }
-					TabDetailsTile { id: model; text: qsTr("Model"); }
-					TabDetailsTile { id: software; text: qsTr("Software"); }
-					TabDetailsTile { id: timephototaken; text: qsTr("Time Photo was Taken"); }
-					TabDetailsTile { id: exposuretime; text: qsTr("Exposure Time"); }
-					TabDetailsTile { id: flash; text: qsTr("Flash"); }
-					TabDetailsTile { id: iso; text: qsTr("ISO"); }
-					TabDetailsTile { id: scenetype; text: qsTr("Scene Type"); }
-					TabDetailsTile { id: focallength; text: qsTr("Focal Length"); }
-					TabDetailsTile { id: fnumber; text: qsTr("F-Number"); }
-					TabDetailsTile { id: lightsource; text: qsTr("Light Source"); }
-					TabDetailsTile { id: keywords; text: qsTr("Keywords"); }
-					TabDetailsTile { id: location; text: qsTr("Location"); }
-					TabDetailsTile { id: copyright; text: qsTr("Copyright"); }
-					TabDetailsTile { id: gps; text: qsTr("GPS Position"); }
+					TabDetailsTile { enabled: getanddostuff.isExivSupportEnabled(); id: make; text: qsTr("Make"); }
+					TabDetailsTile { enabled: getanddostuff.isExivSupportEnabled(); id: model; text: qsTr("Model"); }
+					TabDetailsTile { enabled: getanddostuff.isExivSupportEnabled(); id: software; text: qsTr("Software"); }
+					TabDetailsTile { enabled: getanddostuff.isExivSupportEnabled(); id: timephototaken; text: qsTr("Time Photo was Taken"); }
+					TabDetailsTile { enabled: getanddostuff.isExivSupportEnabled(); id: exposuretime; text: qsTr("Exposure Time"); }
+					TabDetailsTile { enabled: getanddostuff.isExivSupportEnabled(); id: flash; text: qsTr("Flash"); }
+					TabDetailsTile { enabled: getanddostuff.isExivSupportEnabled(); id: iso; text: qsTr("ISO"); }
+					TabDetailsTile { enabled: getanddostuff.isExivSupportEnabled(); id: scenetype; text: qsTr("Scene Type"); }
+					TabDetailsTile { enabled: getanddostuff.isExivSupportEnabled(); id: focallength; text: qsTr("Focal Length"); }
+					TabDetailsTile { enabled: getanddostuff.isExivSupportEnabled(); id: fnumber; text: qsTr("F-Number"); }
+					TabDetailsTile { enabled: getanddostuff.isExivSupportEnabled(); id: lightsource; text: qsTr("Light Source"); }
+					TabDetailsTile { enabled: getanddostuff.isExivSupportEnabled(); id: keywords; text: qsTr("Keywords"); }
+					TabDetailsTile { enabled: getanddostuff.isExivSupportEnabled(); id: location; text: qsTr("Location"); }
+					TabDetailsTile { enabled: getanddostuff.isExivSupportEnabled(); id: copyright; text: qsTr("Copyright"); }
+					TabDetailsTile { enabled: getanddostuff.isExivSupportEnabled(); id: gps; text: qsTr("GPS Position"); }
 
 				}
 
@@ -247,6 +266,7 @@ Rectangle {
 			SettingsText {
 
 				width: flickable.width
+				enabled: getanddostuff.isExivSupportEnabled();
 
 				text: "<h2>" + qsTr("Rotating/Flipping Image according to Exif Data") + "</h2><br>" + qsTr("Some cameras can detect - while taking the photo - whether the camera was turned and might store this information in the image exif data. If PhotoQt finds this information, it can rotate the image accordingly. When asking PhotoQt to always rotate images automatically without asking, it already does so at image load (including thumbnails).")
 
@@ -255,6 +275,8 @@ Rectangle {
 			Rectangle {
 
 				x: (parent.width-width)/2
+
+				enabled: getanddostuff.isExivSupportEnabled();
 
 				width: childrenRect.width
 				height: childrenRect.height
@@ -296,6 +318,8 @@ Rectangle {
 
 				width: flickable.width
 
+				enabled: getanddostuff.isExivSupportEnabled();
+
 				text: "<h2>" + qsTr("Online map for GPS") + "</h2><br>" + qsTr("If you're image includes a GPS location, then a click on the location text will load this location in an online map using your default external browser. Here you can choose which online service to use (suggestions for other online maps always welcome).")
 
 			}
@@ -303,6 +327,8 @@ Rectangle {
 			Rectangle {
 
 				x: (parent.width-width)/2
+
+				enabled: getanddostuff.isExivSupportEnabled();
 
 				width: childrenRect.width
 				height: childrenRect.height

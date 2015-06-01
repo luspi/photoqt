@@ -57,6 +57,16 @@ Rectangle {
 				}
 			}
 
+			Text {
+				visible: !getanddostuff.isGraphicsMagickSupportEnabled()
+				width: flickable.width
+				horizontalAlignment: Text.AlignHCenter
+				color: colour.warning
+				font.pointSize: 13
+				font.bold: true
+				text: "Note: Support for GraphicsMagick was disabled at compile time!"
+			}
+
 
 			/*******************
 			* FILE TYPES - QT *
@@ -128,11 +138,14 @@ Rectangle {
 
 				width: flickable.width
 
+				enabled: getanddostuff.isGraphicsMagickSupportEnabled()
+
 				text: "<h2>" + qsTr("File Types - GraphicsMagick") + "</h2><br>" + qsTr("PhotoQt makes use of GraphicsMagick for support of many different image formats. The list below are all those formats, that were successfully displayed using test images. If you prefer not to have one or the other enabled in PhotoQt, you can simply disable individual formats below.<br>There are a few formats, that were not tested in PhotoQt (due to lack of a test image). You can find those in the 'Untested' category below.")
 
 			}
 
 			GridView {
+				enabled: getanddostuff.isGraphicsMagickSupportEnabled()
 				boundsBehavior: GridView.StopAtBounds
 				width: parent.width
 				height: childrenRect.height
@@ -141,6 +154,8 @@ Rectangle {
 			}
 
 			Rectangle {
+
+				enabled: getanddostuff.isGraphicsMagickSupportEnabled()
 
 				width: parent.width
 				height: childrenRect.height
@@ -171,11 +186,14 @@ Rectangle {
 
 				width: flickable.width
 
+				enabled: getanddostuff.isGraphicsMagickSupportEnabled()
+
 				text: "<h2>" + qsTr("File Types - GraphicsMagick (requires Ghostscript)") + "</h2><br>" + qsTr("The following file types are supported by GraphicsMagick, and they have been tested and work. However, they require Ghostscript to be installed on the system.")
 
 			}
 
 			GridView {
+				enabled: getanddostuff.isGraphicsMagickSupportEnabled()
 				boundsBehavior: GridView.StopAtBounds
 				width: parent.width
 				height: childrenRect.height
@@ -184,6 +202,8 @@ Rectangle {
 			}
 
 			Rectangle {
+
+				enabled: getanddostuff.isGraphicsMagickSupportEnabled()
 
 				width: parent.width
 				height: childrenRect.height
@@ -289,11 +309,14 @@ Rectangle {
 
 				width: flickable.width
 
+				enabled: getanddostuff.isGraphicsMagickSupportEnabled()
+
 				text: "<h2>" + qsTr("File Types - GraphicsMagick (Untested)") + "</h2><br>" + qsTr("The following file types are generally supported by GraphicsMagick, but I wasn't able to test them in PhotoQt (due to lack of test images). They might very well be working, but I simply can't say. If you decide to enable some of the, the worst that could happen ist, that you see an error image instead of the actual image.") + "<br><br><i>" + qsTr("If you happen to have an image in one of those formats and don't mind sending it to me, that'd be really cool...") + "</i>"
 
 			}
 
 			GridView {
+				enabled: getanddostuff.isGraphicsMagickSupportEnabled()
 				boundsBehavior: GridView.StopAtBounds
 				width: parent.width
 				height: childrenRect.height
@@ -302,6 +325,8 @@ Rectangle {
 			}
 
 			Rectangle {
+
+				enabled: getanddostuff.isGraphicsMagickSupportEnabled()
 
 				width: parent.width
 				height: childrenRect.height

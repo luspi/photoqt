@@ -16,7 +16,7 @@ Rectangle {
 	height: 90
 
 	// Look
-	color: (checked || hovered) ? colour.tiles_active : colour.tiles_inactive
+	color: enabled ? (checked || hovered) ? colour.tiles_active : colour.tiles_inactive : colour.tiles_disabled
 	radius: global_item_radius
 
 	// the text, which item this one is
