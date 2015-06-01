@@ -42,6 +42,14 @@ int main(int argc, char *argv[]) {
 	// This int holds 1 if PhotoQt was updated and 2 if it's newly installed
 	bool photoQtUpdated = false;
 	bool photoQtInstalled = false;
+
+	/****************************************************/
+	// DEVELOPMENT ONLY
+	photoQtUpdated = a.update;
+	photoQtInstalled = a.install;
+	// DEVELOPMENT ONLY
+	/****************************************************/
+
 	QString settingsFileTxt = "";
 
 	// Check if the settings file exists. If not, create an empty file.
@@ -56,7 +64,7 @@ int main(int argc, char *argv[]) {
 			file.close();
 		}
 
-		photoQtUpdated = true;
+		photoQtInstalled = true;
 
 	// If file does exist, check if it is from a previous version -> PhotoQt was updated
 	} else {
@@ -77,20 +85,13 @@ int main(int argc, char *argv[]) {
 				allSplit.removeFirst();
 				QString allFile = "Version=" + version + "\n" + allSplit.join("\n");
 				in << allFile;
-				photoQtInstalled = true;
+				photoQtUpdated = true;
 			}
 
 			file.close();
 
 		}
 	}
-
-	/****************************************************/
-	// DEVELOPMENT ONLY
-	photoQtUpdated = a.update;
-	photoQtInstalled = a.install;
-	// DEVELOPMENT ONLY
-	/****************************************************/
 
 #ifdef GM
 	Magick::InitializeMagick(*argv);
