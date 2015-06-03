@@ -675,7 +675,7 @@ MainWindow::~MainWindow() {
 	delete settingsPerSession;
 	delete settingsPermanent;
 	delete fileformats;
-	delete trayIcon;
+	if(variables->trayiconSetup) delete trayIcon;
 	delete variables;
 	delete shortcuts;
 	delete loadDir;
