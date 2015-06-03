@@ -36,7 +36,7 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 	object = this->rootObject();
 
 	// Class to load a new directory
-	loadDir = new LoadDir;
+	loadDir = new LoadDir(verbose);
 
 	// Scrolled view
 	connect(object, SIGNAL(thumbScrolled(QVariant)), this, SLOT(handleThumbnails(QVariant)));

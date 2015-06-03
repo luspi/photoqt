@@ -9,6 +9,7 @@
 #include "../settings/settings.h"
 #include "../settings/fileformats.h"
 #include <QtDebug>
+#include "../logger.h"
 
 class MyCppModel;
 
@@ -17,12 +18,14 @@ class LoadDir : public QObject {
 	Q_OBJECT
 
 public:
-	explicit LoadDir();
+	explicit LoadDir(bool verbose);
 	~LoadDir();
 
 	QFileInfoList loadDir(QByteArray filepath, QString filter);
 
 private:
+
+	bool verbose;
 
 	Settings *settings;
 	FileFormats *fileformats;

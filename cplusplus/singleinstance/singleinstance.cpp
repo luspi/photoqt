@@ -136,7 +136,7 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
 		socket->flush();
 
 		// Inform user
-		std::clog << "Running instance of PhotoQt detected..." << std::endl;
+		LOG << DATE << "Running instance of PhotoQt detected..." << std::endl;
 
 		// Exit the code (need to use stdlib exit function to ensure an immediate exit)
 		// We wait 100ms as otherwise this instance might return as a crash (even though it doesn't really)

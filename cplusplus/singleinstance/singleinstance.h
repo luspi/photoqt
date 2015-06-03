@@ -1,7 +1,7 @@
 #ifndef SINGLEINSTANCE_H
 #define SINGLEINSTANCE_H
 
-#include <iostream>
+#include "../logger.h"
 #include <thread>
 #include <QApplication>
 #include <QLocalSocket>

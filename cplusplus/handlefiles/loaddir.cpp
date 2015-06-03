@@ -1,6 +1,7 @@
 #include "loaddir.h"
 
-LoadDir::LoadDir() : QObject() {
+LoadDir::LoadDir(bool verbose) : QObject() {
+	this->verbose = verbose;
 	settings = new Settings;
 	fileformats = new FileFormats;
 }
@@ -12,6 +13,9 @@ LoadDir::~LoadDir() {
 
 QFileInfoList LoadDir::loadDir(QByteArray filepath, QString filter) {
 
+	if(verbose)
+		LOG << DATE << "LoadDir::loadDir(): Loading filepath '" << filepath.toStdString() << "'" << std::endl;
+
 	QDir dir(QFileInfo(filepath).absolutePath());
 
 	// Set appropriate filter
@@ -20,6 +24,8 @@ QFileInfoList LoadDir::loadDir(QByteArray filepath, QString filter) {
 		QStringList flt = fileformats->formatsQtEnabled+fileformats->formatsQtEnabledExtras+fileformats->formatsGmEnabled+fileformats->formatsExtrasEnabled;
 		dir.setNameFilters(flt);
 	} else {
+		if(verbose)
+			LOG << DATE << "LoadDir::loaddir(): Filter set: '" << filter.toStdString() << "'" << std::endl;
 		QStringList new_flt;
 		foreach(QString f, filter.split(" ")) {
 			if(f.startsWith("."))
@@ -47,18 +53,26 @@ QFileInfoList LoadDir::loadDir(QByteArray filepath, QString filter) {
 	bool asc = settings->sortbyAscending;
 	QString sortby = settings->sortby;
 	if(sortby == "name") {
+		if(verbose)
+			LOG << DATE << "LoadDir::loaddir(): Sorting by name" << std::endl;
 		qDebug() << "sortby: name";
 		std::sort(allImgsInfo.begin(),allImgsInfo.end(),(asc ? sort_name : sort_name_desc));
 	}
 	if(sortby == "naturalname") {
+		if(verbose)
+			LOG << DATE << "LoadDir::loaddir(): Sorting by natural name" << std::endl;
 		qDebug() << "sortby: natural name";
 		std::sort(allImgsInfo.begin(),allImgsInfo.end(),(asc ? sort_naturalname : sort_naturalname_desc));
 	}
 	if(sortby == "date") {
+		if(verbose)
+			LOG << DATE << "LoadDir::loaddir(): Sorting by date" << std::endl;
 		qDebug() << "sortby: date";
 		std::sort(allImgsInfo.begin(),allImgsInfo.end(),(asc ? sort_date : sort_date_desc));
 	}
 	if(sortby == "size") {
+		if(verbose)
+			LOG << DATE << "LoadDir::loaddir(): Sorting by size" << std::endl;
 		qDebug() << "sortby: size";
 		std::sort(allImgsInfo.begin(),allImgsInfo.end(),(asc ? sort_size : sort_size_desc));
 	}

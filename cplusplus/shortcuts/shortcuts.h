@@ -1,6 +1,7 @@
 #ifndef SHORTCUTS_H
 #define SHORTCUTS_H
 
+#include "../logger.h"
 #include <QObject>
 #include <QKeyEvent>
 #include <QtDebug>
