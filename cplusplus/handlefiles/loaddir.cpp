@@ -55,25 +55,21 @@ QFileInfoList LoadDir::loadDir(QByteArray filepath, QString filter) {
 	if(sortby == "name") {
 		if(verbose)
 			LOG << DATE << "LoadDir::loaddir(): Sorting by name" << std::endl;
-		qDebug() << "sortby: name";
 		std::sort(allImgsInfo.begin(),allImgsInfo.end(),(asc ? sort_name : sort_name_desc));
 	}
 	if(sortby == "naturalname") {
 		if(verbose)
 			LOG << DATE << "LoadDir::loaddir(): Sorting by natural name" << std::endl;
-		qDebug() << "sortby: natural name";
 		std::sort(allImgsInfo.begin(),allImgsInfo.end(),(asc ? sort_naturalname : sort_naturalname_desc));
 	}
 	if(sortby == "date") {
 		if(verbose)
 			LOG << DATE << "LoadDir::loaddir(): Sorting by date" << std::endl;
-		qDebug() << "sortby: date";
 		std::sort(allImgsInfo.begin(),allImgsInfo.end(),(asc ? sort_date : sort_date_desc));
 	}
 	if(sortby == "size") {
 		if(verbose)
 			LOG << DATE << "LoadDir::loaddir(): Sorting by size" << std::endl;
-		qDebug() << "sortby: size";
 		std::sort(allImgsInfo.begin(),allImgsInfo.end(),(asc ? sort_size : sort_size_desc));
 	}
 
