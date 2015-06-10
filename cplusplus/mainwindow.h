@@ -102,6 +102,8 @@ private slots:
 
 	void resetWindowGeometry();
 
+	void qmlVerboseMessage(QVariant loc, QVariant msg);
+
 protected:
 	bool event(QEvent *e);
 	void keyPressEvent(QKeyEvent *e);

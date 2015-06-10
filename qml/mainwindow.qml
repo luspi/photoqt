@@ -30,6 +30,7 @@ Item {
 	signal hideToSystemTray();
 	signal quitPhotoQt();
 	signal reloadDirectory(var filename, var filter);
+	signal verboseMessage(var loc, var msg);
 
 	// Interface blocked? System Shortcuts blocked?
 	property bool blocked: false
@@ -147,6 +148,7 @@ Item {
 	function showStartup(type) { startup.showStartup(type); }
 
 	function noResultsFromFilter() {
+		verboseMessage("MainWindow::noResultsFromFilter()","Displaying 'no results found' message")
 		image.noFilterResultsFound()
 		thumbnailBar.setupModel([],0)
 		metaData.clear()
@@ -154,6 +156,7 @@ Item {
 	}
 
 	function alsoIgnoreSystemShortcuts(block) {
+		verboseMessage("MainWindow::alsoIgnoreSystemShortcuts()","Setting interface and system shortcut block to '" + block + "'")
 		blocked = block;
 		blockedSystem = block;
 	}
@@ -164,6 +167,7 @@ Item {
 
 	// We can't emit the signal from the subcomponent (empty error message), so we go the detour with a function emitting the signal
 	function doReload(path) {
+		verboseMessage("MainWindow::doReload()","Reloading directory '" + path + "'")
 		reloadDirectory(path,currentfilter)
 	}
 

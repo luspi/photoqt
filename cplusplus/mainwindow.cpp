@@ -49,6 +49,8 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 	connect(object, SIGNAL(loadMoreThumbnails()), this, SLOT(loadMoreThumbnails()));
 	connect(object, SIGNAL(didntLoadThisThumbnail(QVariant)), this, SLOT(didntLoadThisThumbnail(QVariant)));
 
+	connect(object, SIGNAL(verboseMessage(QVariant,QVariant)), this, SLOT(qmlVerboseMessage(QVariant,QVariant)));
+
     // Hide/Quit window
     connect(object, SIGNAL(hideToSystemTray()), this, SLOT(hideToSystemTray()));
     connect(object, SIGNAL(quitPhotoQt()), this, SLOT(quitPhotoQt()));
@@ -669,6 +671,11 @@ void MainWindow::showStartup(QString type) {
 	QMetaObject::invokeMethod(object,"showStartup",
 							  Q_ARG(QVariant, type));
 
+}
+
+void MainWindow::qmlVerboseMessage(QVariant loc, QVariant msg) {
+	if(variables->verbose)
+		LOG << DATE << "[QML] " << loc.toString().toStdString() << ": " << msg.toString().toStdString() << std::endl;
 }
 
 MainWindow::~MainWindow() {
