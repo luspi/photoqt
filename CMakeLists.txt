@@ -121,8 +121,13 @@ INCLUDE_DIRECTORIES(${Qt5Widgets_INCLUDES})
 ADD_DEFINITIONS(${Qt5Widgets_DEFINITIONS})
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
-# And add the executeable
-add_executable(photoqt ${photoqt_SOURCES} ${photoqt_HEADERS_MOC} ${RESOURCES})
+# And add the executeable (on windows we add application icons...)
+IF(WIN32)
+	ADD_EXECUTABLE(photoqt WIN32 ${photoqt_SOURCES} ${photoqt_HEADERS_MOC} ${RESOURCES} windowsicons.rc)
+ELSEIF(NOT WIN32)
+	ADD_EXECUTABLE(photoqt ${photoqt_SOURCES} ${photoqt_HEADERS_MOC} ${RESOURCES})
+ENDIF(WIN32)
+
 qt5_use_modules(photoqt Quick Widgets Sql Svg Core)
 
 IF(EXIV2)
