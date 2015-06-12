@@ -368,6 +368,8 @@ Rectangle {
 
 	function checkAllTiles(checked) {
 
+		verboseMessage("Settings::TabDetails::checkAllTiles()",checked)
+
 		for(var i = 0; i < grid.children.length; ++i) {
 			grid.children[i].checked = checked
 		}
@@ -375,6 +377,8 @@ Rectangle {
 	}
 
 	function setData() {
+
+		verboseMessage("Settings::TabDetails::setData()","")
 
 		triggeronmouse.checkedButton = !settings.exifenablemousetriggering
 
@@ -409,6 +413,8 @@ Rectangle {
 	}
 
 	function saveData() {
+
+		verboseMessage("Settings::TabDetails::saveData()","")
 
 		settings.exifenablemousetriggering = !triggeronmouse.checkedButton
 

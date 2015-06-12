@@ -381,6 +381,7 @@ Rectangle {
 		rejectbuttontext: qsTr("Nah, don't")
 		maxwidth: 400
 		onAccepted: {
+			verboseMessage("Settings","Setting default shortcuts...")
 			var m = getanddostuff.getDefaultShortcuts()
 			// We need to change the format for the save function (from Map to List)
 			var keys = Object.keys(m)
@@ -433,10 +434,12 @@ Rectangle {
 	}
 
 	function showSettings() {
+		verboseMessage("Settings::showSettings()","Showing Settings...")
 		showSettingsAni.start()
 		updateDatabaseInfo()
 	}
 	function hideSettings() {
+		verboseMessage("Settings::hideSettings()",confirmclean.visible + "/" + confirmerase.visible + "/" + confirmdefaultshortcuts.visible + "/" + detectShortcut.visible + "/" + resetShortcut.visible)
 		if(confirmclean.visible)
 			confirmclean.hide()
 		else if(confirmerase.visible)
@@ -448,12 +451,14 @@ Rectangle {
 	}
 
 	function detectedKeyCombo(combo) {
+		verboseMessage("Settings::detectedKeyCombo()",combo)
 		if(detectShortcut.opacity == 1)
 			detectShortcut.detectedCombo(combo)
 		if(resetShortcut.opacity == 1)
 			resetShortcut.detectedCombo(combo)
 	}
 	function keysReleased() {
+		verboseMessage("Settings::keysReleased()",detectShortcut.opacity + "/" + resetShortcut.opacity)
 		if(detectShortcut.opacity == 1)
 			detectShortcut.keysReleased()
 		if(resetShortcut.opacity == 1)

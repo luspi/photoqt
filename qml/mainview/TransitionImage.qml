@@ -25,6 +25,8 @@ Rectangle {
 	// The image source has changed
 	onSourceChanged: {
 
+		verboseMessage("TransitionImage::onSourceChanged()",currentone + " - " + source + " - " + mirror + " - " + animated)
+
 		// This is usually the case, when a filter returns no results
 		if(source == "") {
 
@@ -450,6 +452,8 @@ Rectangle {
 	}
 
 	function resetZoom(loadNewImage) {
+
+		verboseMessage("TransitionImage::resetZoom()",loadNewImage)
 
 		if(loadNewImage !== undefined && loadNewImage === true && ((slideshowRunning && settings.slideShowTransition != 0) || settings.transition != 0)) {
 			if(currentone == "one") {

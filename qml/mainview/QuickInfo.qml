@@ -21,6 +21,8 @@ Item {
 	// Set data
 	function updateQuickInfo(pos, totalNumberImages, filepath) {
 
+		verboseMessage("QuickInfo::updateQuickInfo()",pos + "/" + totalNumberImages + " - " + filepath)
+
 		_pos = pos
 
 		somethingLoaded = true

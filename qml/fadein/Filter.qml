@@ -136,13 +136,17 @@ Rectangle {
 							id: enter
 							text: qsTr("Filter")
 							onClickedButton: {
+								verboseMessage("Filter","Accept filter")
 								simulateEnter()
 							}
 						}
 
 						CustomButton {
 							text: qsTr("Cancel")
-							onClickedButton: hideFilter()
+							onClickedButton: {
+								verboseMessage("Filter","Cancel filter")
+								hideFilter()
+							}
 						}
 
 						Rectangle {
@@ -158,6 +162,7 @@ Rectangle {
 							enabled: currentfilter != ""
 							y: (parent.height-height)/2
 							onClickedButton: {
+								verboseMessage("Filter","Remove filter")
 								currentfilter = ""
 								doReload(thumbnailBar.currentFile)
 								hideFilter()
@@ -175,12 +180,14 @@ Rectangle {
 
 	// These two 'simulate' functions can be called via shortcuts
 	function simulateEnter() {
+		verboseMessage("Filter::simulateEnter()","")
 		currentfilter = term.getText()
 		doReload(thumbnailBar.currentFile)
 		hideFilter()
 	}
 
 	function showFilter() {
+		verboseMessage("Filter::showFilter()","")
 		term.text = currentfilter
 		term.forceActiveFocus()
 		term.selectAll()

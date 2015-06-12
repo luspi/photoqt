@@ -201,6 +201,7 @@ Rectangle {
 								hoverEnabled: true
 								cursorShape: Qt.PointingHandCursor
 								onClicked: {
+									verboseMessage("Scale","Trigger aspect ratio")
 									parent.keepaspectratio = !parent.keepaspectratio
 									parent.source = parent.keepaspectratio ? "qrc:/img/ratioKeep.png" : "qrc:/img/ratioDontKeep.png"
 									if(parent.keepaspectratio) reenableKeepAspectRatio()
@@ -223,6 +224,7 @@ Rectangle {
 								hoverEnabled: true
 								cursorShape: Qt.PointingHandCursor
 								onClicked: {
+									verboseMessage("Scale","Trigger aspect ratio")
 									aspect_image.keepaspectratio = !aspect_image.keepaspectratio
 									aspect_image.source = aspect_image.keepaspectratio ? "qrc:/img/ratioKeep.png" : "qrc:/img/ratioDontKeep.png"
 									if(aspect_image.keepaspectratio) reenableKeepAspectRatio()
@@ -281,6 +283,7 @@ Rectangle {
 							id: scale_inplace
 							text: qsTr("Scale in place")
 							onClickedButton: {
+								verboseMessage("Scale","Scale in place")
 								if(getanddostuff.scaleImage(thumbnailBar.currentFile, newwidth.value, newheight.value,
 															quality_slider.value, thumbnailBar.currentFile)) {
 									reloadDirectory(thumbnailBar.currentFile)
@@ -295,6 +298,7 @@ Rectangle {
 							text: qsTr("Scale into new file")
 							onClickedButton: {
 								var fname = getanddostuff.getSaveFilename("Save file as...",thumbnailBar.currentFile);
+								verboseMessage("Scale","Scale into new file: " + fname)
 								if(fname !== "") {
 									if(getanddostuff.scaleImage(thumbnailBar.currentFile,newwidth.value, newheight.value,
 																quality_slider.value, fname)) {
@@ -324,6 +328,7 @@ Rectangle {
 		newheight.value = newwidth.value*((currentheight.text*1)/(currentwidth.text*1));
 	}
 	function reenableKeepAspectRatio() {
+		verboseMessage("Scale::reenableKeepAspectRatio()",lastClicked)
 		if(lastClicked == "w")
 			adjustHeight()
 		else
@@ -331,6 +336,7 @@ Rectangle {
 	}
 
 	function showScale() {
+		verboseMessage("Scale::showScale()",thumbnailBar.currentFile)
 		if(thumbnailBar.currentFile == "") return
 		var s = getanddostuff.getImageSize(thumbnailBar.currentFile)
 		currentheight.text = s.height

@@ -247,6 +247,8 @@ Rectangle {
 
 	function setData() {
 
+		verboseMessage("Settings::TabOther::setData()","")
+
 		for(var i = 0; i < languages.children.length; ++i) {
 			if(settings.language === languages.children[i].objectName) {
 				languages.children[i].checked = true
@@ -263,6 +265,8 @@ Rectangle {
 	}
 
 	function saveData() {
+
+		verboseMessage("Settings::TabOther::saveData()","")
 
 		settings.language = languagegroup.current.objectName
 

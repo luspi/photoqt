@@ -288,6 +288,7 @@ Rectangle {
 
 	// Delete an item
 	function deleteItem(modelIndex, listIndex) {
+		verboseMessage("Settings::TabOtherContext::deleteItem()",modelIndex + " - " + listIndex)
 		contextmodel.remove(listIndex)
 		modelData = []
 		requestUpdateModelData()
@@ -302,12 +303,14 @@ Rectangle {
 
 	// Add an empty item
 	function addNewItem() {
+		verboseMessage("Settings::TabOtherContext::addNewItem()","")
 		addItem("executeable","menu text",0)
 	}
 
 
 	// Load current items
 	function setData() {
+		verboseMessage("Settings::TabOtherContext::setData()","")
 		contextmodel.clear()
 		var con = getanddostuff.getContextMenu()
 		for(var j = 0; j < con.length; j+=3)
@@ -316,6 +319,7 @@ Rectangle {
 
 	// Save current items
 	function saveData() {
+		verboseMessage("Settings::TabOtherContext::saveData()","")
 		modelData = []
 		requestUpdateModelData()
 		getanddostuff.saveContextMenu(modelData)

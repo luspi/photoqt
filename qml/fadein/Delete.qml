@@ -126,6 +126,7 @@ Rectangle {
 							text: getanddostuff.amIOnLinux() ? qsTr("Move to Trash") : qsTr("Delete")
 							fontsize: 18
 							onClickedButton: {
+								verboseMessage("Delete","move to trash")
 								hideDelete()
 								getanddostuff.deleteImage(thumbnailBar.currentFile,getanddostuff.amIOnLinux())
 								reloadDirectory(thumbnailBar.getNewFilenameAfterDeletion())
@@ -135,7 +136,10 @@ Rectangle {
 						CustomButton {
 							text: qsTr("Cancel")
 							fontsize: 18
-							onClickedButton: hideDelete()
+							onClickedButton: {
+								verboseMessage("Delete","do not delete")
+								hideDelete()
+							}
 						}
 
 					}
@@ -148,6 +152,7 @@ Rectangle {
 					visible: getanddostuff.amIOnLinux()
 					x: (rect.width-width)/2
 					onClickedButton: {
+						verboseMessage("Delete","delete permanently")
 						hideDelete()
 						getanddostuff.deleteImage(thumbnailBar.currentFile,false)
 						reloadDirectory(thumbnailBar.getNewFilenameAfterDeletion())
@@ -176,11 +181,13 @@ Rectangle {
 
 	// These two 'simulate' functions can be called via shortcuts
 	function simulateEnter() {
+		verboseMessage("Delete::simulateEnter()","")
 		hideDelete()
 		getanddostuff.deleteImage(thumbnailBar.currentFile,getanddostuff.amIOnLinux())
 		reloadDirectory(thumbnailBar.getNewFilenameAfterDeletion())
 	}
 	function simulateShiftEnter() {
+		verboseMessage("Delete::simulateShiftEnter()","")
 		hideDelete()
 		getanddostuff.deleteImage(thumbnailBar.currentFile,false)
 		reloadDirectory(thumbnailBar.getNewFilenameAfterDeletion())

@@ -192,6 +192,7 @@ Rectangle {
 	// Hide elements
 
 	function hideEverything() {
+		verboseMessage("Background::hideEverything()","")
 		hideThumbnailBar.start()
 		if(settingssession.value("metadatakeepopen") === false) hideMetaData.start()
 		hideMainmenu.start()

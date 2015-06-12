@@ -346,6 +346,8 @@ Rectangle {
 
 	function saveData() {
 
+		verboseMessage("Settings::TabLookAndFeelBasic::saveData()","")
+
 		if(sortimages_checkbox.currentIndex == 0)
 			settings.sortby = "name"
 		else if(sortimages_checkbox.currentIndex == 1)
@@ -375,6 +377,8 @@ Rectangle {
 	}
 
 	function setData() {
+
+		verboseMessage("Settings::TabLookAndFeelBasic::setData()","")
 
 		if(settings.sortby === "name")
 			sortimages_checkbox.currentIndex = 0

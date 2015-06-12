@@ -370,6 +370,8 @@ Rectangle {
 
 	function popup(p) {
 
+		verboseMessage("ContextMenu::popup()","(" + p.x + ", " + p.y + ")")
+
 		// Set-up the contextmenu on first open every session
 		var mod = getanddostuff.getContextMenuFileModifiedTime()
 		if(contextMenuSetup_modTime == 0 || mod !== contextMenuSetup_modTime) {
@@ -407,6 +409,7 @@ Rectangle {
 	}
 
 	function executeExternal(bin,close) {
+		verboseMessage("ContextMenu::executeExternal()",close + " - " + bin)
 		if(thumbnailBar.currentFile !== "") {
 			getanddostuff.executeApp(bin,thumbnailBar.currentFile,close)
 			if(close*1 == 1)

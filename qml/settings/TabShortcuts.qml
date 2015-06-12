@@ -137,6 +137,7 @@ Rectangle {
 	}
 
 	function addShortcut(cmd, key) {
+		verboseMessage("Settings::TabShortcuts::addShortcut()",cmd + " - " + key)
 		if(navigation.responsiblefor.indexOf(cmd) != -1) {
 			navigation.addShortcut(cmd,key)
 		} else if(image.responsiblefor.indexOf(cmd) != -1) {
@@ -150,6 +151,7 @@ Rectangle {
 	}
 
 	function addMouseShortcut(cmd, key) {
+		verboseMessage("Settings::TabShortcuts::addMouseShortcut()",cmd + " - " + key)
 		if(navigation.responsiblefor.indexOf(cmd) != -1)
 			navigation.addMouseShortcut(cmd,key)
 		else if(image.responsiblefor.indexOf(cmd) != -1)
@@ -163,6 +165,7 @@ Rectangle {
 	}
 
 	function updateExistingShortcut(cmd, key, id) {
+		verboseMessage("Settings::TabShortcuts::updateExistingShortcut()",id + " - " + cmd + " - " + key)
 		if(navigation.responsiblefor.indexOf(cmd) != -1) {
 			navigation.updateShortcut(cmd, key, id)
 		}
@@ -178,6 +181,7 @@ Rectangle {
 	}
 
 	function updateExistingMouseShortcut(cmd, key, id) {
+		verboseMessage("Settings::TabShortcuts::updateExistingMouseShortcut()",id + " - " + cmd + " - " + key)
 		if(navigation.responsiblefor.indexOf(cmd) != -1) {
 			navigation.updateMouseShortcut(cmd, key, id)
 		}
@@ -193,10 +197,13 @@ Rectangle {
 	}
 
 	function updateCommand(id, close, mouse, keys, cmd) {
+		verboseMessage("Settings::TabShortcuts::updateCommand()",id + " - " + close + " - " + cmd + " - " + keys + " - " + mouse)
 		extern.updateCommand(id,close,mouse,keys,cmd)
 	}
 
 	function setData() {
+
+		verboseMessage("Settings::TabShortcuts::setData()","")
 
 		var shortcuts = getanddostuff.getShortcuts()
 
@@ -208,6 +215,8 @@ Rectangle {
 	}
 
 	function saveData() {
+
+		verboseMessage("Settings::TabShortcuts::saveData()","")
 
 		var collected1 = navigation.saveData()
 		collected1 = collected1.concat(image.saveData())

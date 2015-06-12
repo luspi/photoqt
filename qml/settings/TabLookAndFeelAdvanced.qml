@@ -754,6 +754,8 @@ Rectangle {
 
 	function saveData() {
 
+		verboseMessage("Settings::TabLookAndFeelAdvanced::saveData()","")
+
 		settings.composite = background_halftrans.checked
 		settings.backgroundImageScreenshot = background_fakedtrans.checked
 		settings.backgroundImageUse = background_image.checked
@@ -792,6 +794,8 @@ Rectangle {
 	}
 
 	function setData() {
+
+		verboseMessage("Settings::TabLookAndFeelAdvanced::setData()","")
 
 		background_halftrans.checked = settings.composite
 		background_fakedtrans.checked = settings.backgroundImageScreenshot

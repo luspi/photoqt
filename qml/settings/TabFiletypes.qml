@@ -353,10 +353,13 @@ Rectangle {
 	}
 
 	function setData() {
+		verboseMessage("Settings::TabFiletypes::setData()","")
 		setModel(true,"default")
 	}
 
 	function setModel(mark, cat) {
+
+		verboseMessage("Settings::TabFiletypes::setModel()", cat + " - " + mark)
 
 		if(cat === "default" || cat === "qt") {
 

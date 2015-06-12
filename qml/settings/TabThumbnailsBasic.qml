@@ -341,6 +341,8 @@ Rectangle {
 
 	function setData() {
 
+		verboseMessage("Settings::TabThumbnailsBasic::setData()","")
+
 		size_slider.value = settings.thumbnailsize
 
 		spacing_slider.value = settings.thumbnailSpacingBetween
@@ -358,6 +360,8 @@ Rectangle {
 	}
 
 	function saveData() {
+
+		verboseMessage("Settings::TabThumbnailsBasic::saveData()","")
 
 		settings.thumbnailsize = size_slider.value
 

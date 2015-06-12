@@ -455,6 +455,8 @@ Rectangle {
 
 	function setData() {
 
+		verboseMessage("Settings::TabThumbnailsAdvanced::setData()","")
+
 		loweredge.checked = (settings.thumbnailposition === "Bottom")
 		upperedge.checked = (settings.thumbnailposition === "Top")
 
@@ -477,6 +479,8 @@ Rectangle {
 	}
 
 	function saveData() {
+
+		verboseMessage("Settings::TabThumbnailsAdvanced::saveData()","")
 
 		if(loweredge.checked) settings.thumbnailposition = "Bottom"
 		else settings.thumbnailposition = "Top"

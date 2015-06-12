@@ -143,6 +143,8 @@ Rectangle {
 	// Set all the set shortcuts
 	function setData(shortcuts) {
 
+		verboseMessage("Settings::TabShortcutsCategories::setData()",category)
+
 		// Clear old ones
 		modSet.clear()
 		modAvail.clear()
@@ -203,6 +205,8 @@ Rectangle {
 
 	function saveData() {
 
+		verboseMessage("Settings::TabShortcutsCategories::saveData()",category)
+
 		var collected = []
 
 		for(var i = 0; i < modSet.count; ++i) {
@@ -233,12 +237,14 @@ Rectangle {
 
 	// Add a new shortcut
 	function addShortcut(cmd, key) {
+		verboseMessage("Settings::TabShortcutsCategories::saveData()",category + " - " + cmd + " - " + key)
 		var counter = modSet.count
 		modSet.append({ "close" : 0, "keys" : key, "mouse" : false, "cmd" : cmd, "desc" : responsiblefor_text[responsiblefor.indexOf(cmd)], "id" : counter })
 	}
 
 	// Update an existing shortcut
 	function updateShortcut(cmd, key, id) {
+		verboseMessage("Settings::TabShortcutsCategories::saveData()",category + " - " + id + " - " + cmd + " - " + key)
 		var takeaway = 0
 		for(var i = 0; i < deleted.length; ++i) {
 			if(deleted[i] < id)
@@ -249,12 +255,14 @@ Rectangle {
 
 	// Add a new mouse shortcut
 	function addMouseShortcut(cmd, key) {
+		verboseMessage("Settings::TabShortcutsCategories::saveData()",category + " - " + cmd + " - " + key)
 		var counter = modSet.count
 		modSet.append({ "close" : 0, "keys" : key, "mouse" : true, "cmd" : cmd, "desc" : responsiblefor_text[responsiblefor.indexOf(cmd)], "id" : counter })
 	}
 
 	// Update an existing mouse shortcut
 	function updateMouseShortcut(cmd, key, id) {
+		verboseMessage("Settings::TabShortcutsCategories::saveData()",category + " - " + id + " - " + cmd + " - " + key)
 		var takeaway = 0
 		for(var i = 0; i < deleted.length; ++i) {
 			if(deleted[i] < id)
@@ -265,6 +273,7 @@ Rectangle {
 
 	// Delete a tile
 	function deleteOneTile(id) {
+		verboseMessage("Settings::TabShortcutsCategories::saveData()",category + " - " + id)
 		var takeaway = 0
 		for(var i = 0; i < deleted.length; ++i) {
 			if(deleted[i] < id)
@@ -276,6 +285,7 @@ Rectangle {
 
 	// Update the command (external category)
 	function updateCommand(id, close, mouse, key, cmd) {
+		verboseMessage("Settings::TabShortcutsCategories::saveData()",category + " - " + id + " - " + close + " - " + cmd + " - " + key + " - " + mouse)
 		var takeaway = 0
 		for(var i = 0; i < deleted.length; ++i) {
 			if(deleted[i] < id)
@@ -285,6 +295,7 @@ Rectangle {
 	}
 
 	function addExternalShortcut(key) {
+		verboseMessage("Settings::TabShortcutsCategories::saveData()",category + " - " + key)
 		var counter = modSet.count
 		modSet.append({ "close" : 0, "keys" : key, "mouse" : false, "cmd" : "", "desc" : "", "id" : counter, "external" : true })
 		setExternalCommand.command = ""
@@ -295,6 +306,7 @@ Rectangle {
 	}
 
 	function addExternalMouseShortcut(key) {
+		verboseMessage("Settings::TabShortcutsCategories::saveData()",category + " - " + key)
 		var counter = modSet.count
 		modSet.append({ "close" : 0, "keys" : key, "mouse" : true, "cmd" : "", "desc" : "", "id" : counter, "external" : true })
 		setExternalCommand.command = ""

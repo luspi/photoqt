@@ -136,6 +136,7 @@ Rectangle {
 							fontsize: 18
 							enabled: newfilename.getText() !== ""
 							onClickedButton: {
+								verboseMessage("Rename","Save")
 								if(newfilename.getText() !== "") {
 									getanddostuff.renameImage(thumbnailBar.currentFile,newfilename.getText() + suffix.text)
 									reloadDirectory(getanddostuff.removeFilenameFromPath(thumbnailBar.currentFile) + "/" + newfilename.getText() + suffix.text)
@@ -146,7 +147,10 @@ Rectangle {
 						CustomButton {
 							text: qsTr("Cancel")
 							fontsize: 18
-							onClickedButton: hideRename()
+							onClickedButton: {
+								verboseMessage("Rename","Cancel")
+								hideRename()
+							}
 						}
 					}
 				}
@@ -160,6 +164,7 @@ Rectangle {
 
 	// This 'simulate' function can be called via shortcut
 	function simulateEnter() {
+		verboseMessage("Rename::simulateEnter()","")
 		if(newfilename.getText() !== "") {
 			getanddostuff.renameImage(thumbnailBar.currentFile,newfilename.getText() + suffix.text)
 			reloadDirectory(getanddostuff.removeFilenameFromPath(thumbnailBar.currentFile) + "/" + newfilename.getText() + suffix.text)
@@ -168,6 +173,7 @@ Rectangle {
 	}
 
 	function showRename() {
+		verboseMessage("Rename::showRename()","")
 		if(thumbnailBar.currentFile === "") return
 		filename.text = getanddostuff.removePathFromFilename(thumbnailBar.currentFile)
 		newfilename.text = ""	// This is needed, otherwise the lineedit might keep its old contents

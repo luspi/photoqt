@@ -362,12 +362,16 @@ Rectangle {
 	}
 
 	function selectNewMusicFile() {
+		verboseMessage("Slideshow::selectNewMusicFile()","")
 		var ret = getanddostuff.getFilename(qsTr("Select music file..."),getanddostuff.getHomeDir(),qsTr("Music Files") + " (*.mp3 *.flac *.ogg *.wav);;" + qsTr("All Files") + " (*.*)")
 		if(ret !== "")
 			musictxt.text = ret
 	}
 
 	function simulateEnter() {
+
+		verboseMessage("Slideshow::simulateEnter()","")
+
 		saveSettings()
 		hideSlideshow()
 
@@ -377,26 +381,31 @@ Rectangle {
 	}
 
 	function quickstart() {
+		verboseMessage("Slideshow::quickstart()",thumbnailBar.currentFile)
 		if(thumbnailBar.currentFile == "") return;
 		loadSettings()
 		simulateEnter()
 	}
 
 	function showSlideshow() {
+		verboseMessage("Slideshow::showSlideshow()",thumbnailBar.currentFile)
 		if(thumbnailBar.currentFile == "") return;
 		loadSettings()
 		showSlideshowAni.start()
 	}
 
 	function hideSlideshow() {
+		verboseMessage("Slideshow::hideSlideshow()","")
 		hideSlideshowAni.start()
 	}
 	function hideSlideshowAndRememberSettings() {
+		verboseMessage("Slideshow::hideSlideshowAndRememberSettings()","")
 		saveSettings()
 		hideSlideshowAni.start()
 	}
 
 	function saveSettings() {
+		verboseMessage("Slideshow::saveSettings()","")
 		settings.slideShowTime = timeslider.value
 		settings.slideShowTransition = transitionslider.value
 		settings.slideShowLoop = loop.checkedButton
@@ -405,6 +414,7 @@ Rectangle {
 		settings.slideShowMusicFile = (musiccheckbox.checkedButton ? musictxt.text : "")
 	}
 	function loadSettings() {
+		verboseMessage("Slideshow::loadSettings()","")
 		timeslider.value = settings.slideShowTime
 		transitionslider.value = settings.slideShowTransition
 		loop.checkedButton = settings.slideShowLoop

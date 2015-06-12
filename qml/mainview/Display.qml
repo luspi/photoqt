@@ -40,6 +40,8 @@ Item {
 	// Set image
 	function setImage(path, animated) {
 
+		verboseMessage("Display::setImage()", animated + " - " + path)
+
 		// Store rotation/zoom
 		if(norm.source != "" && !nofileloaded.visible && !noresultsfound.visible) {
 
@@ -128,6 +130,8 @@ Item {
 
 	function resetZoom(loadNewImage) {
 
+		verboseMessage("Display::resetZoom()",loadNewImage)
+
 		fullsizeImageLoaded = false
 
 		// Re-set source size to screen size
@@ -144,6 +148,7 @@ Item {
 	}
 
 	function resetRotation() {
+		verboseMessage("Display::resetRotation()","")
 		norm.rotation = 0
 		norm.mirror = false
 		fullsizeImageLoaded = false
@@ -151,15 +156,18 @@ Item {
 	}
 
 	function zoomIn(towardsCenter) {
+		verboseMessage("Display::zoomIn()",towardsCenter)
 		zoomTowardsCenter = (towardsCenter !== undefined ? towardsCenter : false)
 		doZoom(true)
 	}
 	function zoomOut(towardsCenter) {
+		verboseMessage("Display::zoomOut()",towardsCenter)
 		zoomTowardsCenter = (towardsCenter !== undefined ? towardsCenter : false)
 		doZoom(false)
 	}
 
 	function zoomActual() {
+		verboseMessage("Display::zoomActual()","")
 		// the current offset (as a ratio)
 		var x_ratio = ((flickarea.width/2)+flickarea.contentX)/flickarea.contentWidth
 		var y_ratio = ((flickarea.height/2)+flickarea.contentY)/flickarea.contentHeight
@@ -172,6 +180,7 @@ Item {
 	}
 
 	function rotateRight() {
+		verboseMessage("Display::rotateRight()","")
 		norm.rotation += 90
 		norm.calculateSize()
 		if(Math.abs(norm.rotation%180) == 90)
@@ -181,6 +190,7 @@ Item {
 	}
 
 	function rotateLeft() {
+		verboseMessage("Display::rotateLeft()","")
 		norm.rotation -= 90
 		norm.calculateSize()
 		if(Math.abs(norm.rotation%180) == 90)
@@ -190,11 +200,13 @@ Item {
 	}
 
 	function flipHorizontal() {
+		verboseMessage("Display::flipHorizontal()","")
 		norm.mirror = !norm.mirror
 		norm.calculateSize()
 	}
 
 	function flipVertical() {
+		verboseMessage("Display::flipVertical()","")
 		norm.rotation += 90
 		norm.mirror = !norm.mirror
 		norm.rotation += 90
@@ -285,6 +297,8 @@ Item {
 	ScrollBarVertical { flickable: flickarea; }
 
 	function doZoom(zoomin) {
+
+		verboseMessage("Display::doZoom()",zoomin)
 
 		// Don't zoom if nothing is loaded
 		if(thumbnailBar.currentFile == "" || blocked) return;
