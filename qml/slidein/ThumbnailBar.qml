@@ -38,6 +38,8 @@ Rectangle {
 
 	function setupModel(stringlist, pos) {
 
+		verboseMessage("ThumbnailBar::setupModel()",pos + "/" + stringlist.length)
+
 		directoryLoaded = true
 
 		// remove previous index
@@ -63,6 +65,8 @@ Rectangle {
 
 	function displayImage(pos) {
 
+		verboseMessage("ThumbnailBar::displayImage()",pos)
+
 		if(!directoryLoaded) return
 
 		// Store some values
@@ -80,8 +84,10 @@ Rectangle {
 
 			// Newly loaded dir => center item
 			if(clickedIndex == -1 || settings.thumbnailCenterActive) {
+				verboseMessage("ThumbnailBar::displayImage()","Show thumbnail centered")
 				view.positionViewAtIndex(pos,ListView.Center)
 			} else {
+				verboseMessage("ThumbnailBar::displayImage()","Keep thumbnail visible")
 				view.positionViewAtIndex(pos-1,ListView.Contain)
 				view.positionViewAtIndex(pos+1,ListView.Contain)
 				scrollTimer.restart()
@@ -109,11 +115,13 @@ Rectangle {
 	}
 
 	function getCenterPos() {
+		verboseMessage("ThumbnailBar::getCenterPos()","Getting position of thumbnail in the center of view")
 		return (view.contentX+(view.width/2))/(settings.thumbnailsize)
 	}
 
 	// Load next image
 	function nextImage() {
+		verboseMessage("ThumbnailBar::nextImage()", clickedIndex + " - " + totalNumberImages + " - " + settings.loopthroughfolder)
 		if(clickedIndex+1 < totalNumberImages) {
 			displayImage(clickedIndex+1);
 			scrollTimer.restart()
@@ -124,6 +132,7 @@ Rectangle {
 
 	// Load previous image
 	function previousImage() {
+		verboseMessage("ThumbnailBar::previousImage()", clickedIndex + " - " + settings.loopthroughfolder)
 		if(clickedIndex-1 >= 0) {
 			displayImage(clickedIndex-1)
 			scrollTimer.restart()
@@ -133,7 +142,7 @@ Rectangle {
 	}
 
 	function getNewFilenameAfterDeletion() {
-		console.log("after:",clickedIndex,totalNumberImages)
+		verboseMessage("ThumbnailBar::getNewFilenameAfterDeletion()",totalNumberImages + " - " + clickedIndex + " - " + totalNumberImages)
 		if(totalNumberImages == 1) {
 			image.clear()
 			metaData.clear()
@@ -146,14 +155,17 @@ Rectangle {
 	}
 
 	function gotoFirstImage() {
+		verboseMessage("ThumbnailBar::gotoFirstImage()","Start")
 		displayImage(0);
 	}
 	function gotoLastImage() {
+		verboseMessage("ThumbnailBar::gotoLastImage()","End")
 		displayImage(totalNumberImages-1);
 	}
 
 	// Load proper thumbnail at position 'pos' (smart == true means: ONLY IF IT EXISTS)
 	function reloadImage(pos, smart) {
+		verboseMessage("ThumbnailBar::reloadImage()",pos + " - " + smart)
 		if(pos < 0 || pos >= totalNumberImages) return
 		var imageUrl = imageModel.get(pos).imageUrl;
 		imageModel.set(pos,{"imageUrl" : imageUrl, "counter" : pos, "pre" : false, "smart" : smart})
@@ -185,6 +197,7 @@ Rectangle {
 		running: false
 		repeat: false
 		onTriggered: {
+			verboseMessage("ThumbnailBar","View scrolled (timer)")
 			// Item in the center of the screen
 			var centerpos = (view.contentX+view.width/2)/(settings.thumbnailsize)
 			// Emit 'scrolled' signal
@@ -237,6 +250,7 @@ Rectangle {
 
 			// When flicking finished
 			onMovementEnded: {
+				verboseMessage("ThumbnailBar","View scrolled (moved)")
 				// Item in center of flickable
 				var centerpos = getCenterPos()
 				// Emit 'scrolled' signal

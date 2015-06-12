@@ -6,6 +6,8 @@ import GetAndDoStuff 1.0
 import GetMetaData 1.0
 import ThumbnailManagement 1.0
 
+import QtQuick.Dialogs 1.2
+
 import "mainview/"
 import "slidein/"
 import "fadein/"
@@ -170,5 +172,4 @@ Item {
 		verboseMessage("MainWindow::doReload()","Reloading directory '" + path + "'")
 		reloadDirectory(path,currentfilter)
 	}
-
 }

@@ -170,13 +170,17 @@ Rectangle {
 		unsupportedLabel.visible = false
 		view.visible = false
 
-		if(d["validfile"] == "0")
+		if(d["validfile"] == "0") {
+			verboseMessage("MetaData::setData()","Invalid file")
 			invalidLabel.visible = true
-		else {
+		} else {
 
-			if(d["supported"] == "0")
+			if(d["supported"] == "0") {
+				verboseMessage("MetaData::setData()","Unsupported file format")
 				unsupportedLabel.visible = true
-			else {
+			} else {
+
+				verboseMessage("MetaData::setData()","Setting data")
 
 				orientation = d["Exif.Image.Orientation"]
 
@@ -249,6 +253,8 @@ Rectangle {
 	}
 
 	function gpsClick(value) {
+
+		verboseMessage("MetaData::gpsClick()",value)
 
 		if(settings.exifgpsmapservice == "bing.com/maps")
 			Qt.openUrlExternally("http://www.bing.com/maps/?sty=r&q=" + value + "&obox=1")

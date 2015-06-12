@@ -139,6 +139,8 @@ Rectangle {
 	// Do stuff on clicking on an entry
 	function mainmenuDo(what) {
 
+		verboseMessage("MainMenu::mainmenuDo()",what)
+
 		// Hide menu when an entry was clicked
 		if(what !== "metadata") hideMainmenu.start()
 

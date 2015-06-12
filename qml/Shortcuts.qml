@@ -19,6 +19,7 @@ Item {
 
 	// Connected via mainwindow to shortcuts.cpp file
 	function detectedKeyCombo(combo) {
+		verboseMessage("Shortcuts::detectKeyCombo()",combo + " - " + blocked + "/" + blockedSystem + "/" + softblocked + "/" + slideshowRunning)
 		if(softblocked != 0 && combo === "Escape") {
 			if(slideshowRunning)
 				slideshowbar.stopSlideshow()
@@ -38,6 +39,7 @@ Item {
 	}
 
 	function releasedKeys(combo) {
+		verboseMessage("Shortcuts::releasedKeys()", combo + " - " + softblocked)
 		if(softblocked != 0 && combo === "Escape") {
 			softblocked = 0
 			if(contextmenu.visible)
@@ -47,6 +49,7 @@ Item {
 	}
 
 	function simulateShortcut(keys) {
+		verboseMessage("Shortcuts::simulateShortcut()", keys + " - " + blocked + "/" + blockedSystem + "/" + softblocked)
 		if(softblocked != 0 && combo === "Escape")
 			softblocked = 0
 		else if(softblocked != 0)
@@ -60,6 +63,7 @@ Item {
 	}
 
 	function checkForSystemShortcut(keys) {
+		verboseMessage("Shortcuts::checkForSystemShortcut()", keys)
 		if(keys === "Escape") {
 			if(about.opacity == 1)
 				about.hideAbout()
@@ -109,6 +113,8 @@ Item {
 
 	// Close is only defined for external shortcuts
 	function execute(cmd, close) {
+
+		verboseMessage("Shortcuts::execute()", cmd + " - " + close)
 
 //		if(cmd === "__stopThb")
 		if(cmd === "__close")
@@ -193,6 +199,8 @@ Item {
 	}
 
 	function gotMouseShortcut(sh) {
+
+		verboseMessage("Shortcuts::gotMouseShortcut()", sh + " - " + blocked + "/" + blockedSystem + "/" + softblocked)
 
 		// Ignore Wheel events when, e.g., a context menu is open
 		if(softblocked != 0 && sh !== "Right Button" && sh !== "Left Button")

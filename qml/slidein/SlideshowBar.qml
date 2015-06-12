@@ -87,23 +87,28 @@ Rectangle {
 
 	// Display the bar
 	function showBar() {
+		verboseMessage("SlideshowBar::showBar()",bar.y + "/" + bar.height + " (" + slideshowRunning + ")")
 		if(bar.y <= -bar.height && slideshowRunning)
 			showBarAni.start()
 	}
 	// Hide the bar
 	function hideBar() {
+		verboseMessage("SlideshowBar::hideBar()",paused)
 		if(!paused)
 			hideBarAni.start()
 	}
 
 	// Show and hide the bar shortly after again (used at start and end of slideshow)
 	function showAndHideBar() {
+		verboseMessage("SlideshowBar::showAndHideBar()","Show and Hide")
 		showBar()
 		hidebarsoon.start()
 	}
 
 	// Start a slideshow
 	function startSlideshow() {
+
+		verboseMessage("SlideshowBar::startSlideshow()","Starting Slideshow...")
 
 		// Set some variables
 		slideshowRunning = true
@@ -170,6 +175,8 @@ Rectangle {
 	// Pause/Play slideshow
 	function pauseSlideshow() {
 
+		verboseMessage("SlideshowBar::pauseSlideshow()",paused)
+
 		// Pause
 		if(!paused) {
 			// Pause music (if set)
@@ -191,6 +198,8 @@ Rectangle {
 
 	// Stop slideshow
 	function stopSlideshow() {
+
+		verboseMessage("SlideshowBar::stopSlideshow()","Stopping show...")
 
 		// We're definitely not paused anymore
 		paused = false
@@ -217,6 +226,8 @@ Rectangle {
 
 	// Load a new image
 	function switchImage() {
+
+		verboseMessage("SlideshowBar::switchImage()",current + "/" + images.length + " - " + settings.slideShowLoop + " - " + settings.slideShowShuffle)
 
 		// If we reached the end of the array
 		if(current == images.length) {

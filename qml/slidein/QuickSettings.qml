@@ -83,6 +83,7 @@ Rectangle {
 					width: 150
 					model: [qsTr("Name"), qsTr("Natural Name"), qsTr("Date"), qsTr("File Size")]
 					onCurrentIndexChanged: {
+						verboseMessage("QuickSettings","Sort-by-Combo: " + currentIndex)
 						if(currentIndex == 0)
 							settings.sortby = "name"
 						else if(currentIndex == 1)
@@ -103,14 +104,20 @@ Rectangle {
 					icon: "qrc:/img/settings/sortascending.png"
 					y: (sortby.height-height)/2
 					exclusiveGroup: radiobuttons_sorting
-					onClicked: settings.sortbyAscending = sortby_asc.checked
+					onClicked: {
+						verboseMessage("QuickSettings","Sort in ascending order: " + sortby_asc.checked)
+						settings.sortbyAscending = sortby_asc.checked
+					}
 				}
 				CustomRadioButton {
 					id: sortby_desc
 					icon: "qrc:/img/settings/sortdescending.png"
 					y: (sortby.height-height)/2
 					exclusiveGroup: radiobuttons_sorting
-					onClicked: settings.sortbyAscending = sortby_asc.checked
+					onClicked: {
+						verboseMessage("QuickSettings","Sort in ascending order: " + sortby_asc.checked)
+						settings.sortbyAscending = sortby_asc.checked
+					}
 				}
 			}
 
@@ -132,7 +139,10 @@ Rectangle {
 			width: 250
 			x: quicksettings.radius
 			model: [qsTr("No tray icon"),qsTr("Hide to tray icon"),qsTr("Show tray icon, but don't hide to it")]
-			onCurrentIndexChanged: settings.trayicon = trayicon.currentIndex
+			onCurrentIndexChanged: {
+				verboseMessage("QuickSettings","Hide to tray Icon: " + trayicon.currentIndex)
+				settings.trayicon = trayicon.currentIndex
+			}
 		}
 
 		/**************************************/
@@ -150,7 +160,10 @@ Rectangle {
 			id: loop
 			text: qsTr("Loop through folder")
 			x: quicksettings.radius
-			onCheckedButtonChanged: settings.loopthroughfolder = loop.checkedButton
+			onCheckedButtonChanged: {
+				verboseMessage("QuickSettings","Loop through folder: " + loop.checkedButton)
+				settings.loopthroughfolder = loop.checkedButton
+			}
 		}
 
 		/**************************************/
@@ -168,7 +181,10 @@ Rectangle {
 			id: windowmode
 			text: qsTr("Window mode")
 			x: quicksettings.radius
-			onCheckedButtonChanged: settings.windowmode = windowmode.checkedButton
+			onCheckedButtonChanged: {
+				verboseMessage("QuickSettings","Window Mode: " + windowmode.checkedButton)
+				settings.windowmode = windowmode.checkedButton
+			}
 		}
 
 		CustomCheckBox {
@@ -176,7 +192,10 @@ Rectangle {
 			text: qsTr("Show window decoration")
 			x: quicksettings.radius
 			enabled: windowmode.checkedButton
-			onCheckedButtonChanged: settings.windowDecoration = windowdeco.checkedButton
+			onCheckedButtonChanged: {
+				verboseMessage("QuickSettings","Window Deco: " + windowdeco.checkedButton)
+				settings.windowDecoration = windowdeco.checkedButton
+			}
 		}
 
 		/**************************************/
@@ -194,7 +213,10 @@ Rectangle {
 			id: closeclick
 			text: qsTr("Close on click on background")
 			x: quicksettings.radius
-			onCheckedButtonChanged: settings.closeongrey = closeclick.checkedButton
+			onCheckedButtonChanged: {
+				verboseMessage("QuickSettings","Close on Click on Background: " + closeclick.checkedButton)
+				settings.closeongrey = closeclick.checkedButton
+			}
 		}
 
 		/**************************************/
@@ -212,7 +234,10 @@ Rectangle {
 			id: keepvisible
 			text: qsTr("Keep thumbnails visible")
 			x: quicksettings.radius
-			onCheckedButtonChanged: settings.thumbnailKeepVisible = keepvisible.checkedButton
+			onCheckedButtonChanged: {
+				verboseMessage("QuickSettings","Keep thumbnails visible: " + keepvisible.checkedButton)
+				settings.thumbnailKeepVisible = keepvisible.checkedButton
+			}
 		}
 
 		/**************************************/
@@ -233,6 +258,7 @@ Rectangle {
 			model: [qsTr("Normal thumbnails"), qsTr("Dynamic thumbnails"), qsTr("Smart thumbnails")]
 			onCurrentIndexChanged: settings.thumbnailDynamic = thumbmode.currentIndex
 			onPressedChanged: {
+				verboseMessage("QuickSettings","Thumbnail type: " + thumbmode.currentText + " (" + pressed + ")")
 				if(pressed) softblocked = 1
 				dontAnimateComboboxOpened = pressed
 			}
@@ -254,6 +280,7 @@ Rectangle {
 			text: qsTr("Enable 'Quick Settings'")
 			x: quicksettings.radius
 			onCheckedButtonChanged: {
+				verboseMessage("QuickSettings","Enable Quick Settings: " + quickset.checkedButton)
 				settings.quickSettings = quickset.checkedButton
 				if(!checkedButton)
 					hideQuick.start()
@@ -278,6 +305,7 @@ Rectangle {
 				text: qsTr("Show full settings")
 				anchors.horizontalCenter: parent.horizontalCenter
 				onClickedButton: {
+					verboseMessage("QuickSettings","Showing full settings")
 					background.hideEverything()
 					settingsitem.showSettings()
 				}
@@ -302,6 +330,8 @@ Rectangle {
 
 
 	function setData() {
+
+		verboseMessage("QuickSettings","Setting Data")
 
 		if(settings.sortby === "name")
 			sortby.currentIndex = 0
