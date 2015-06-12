@@ -93,7 +93,6 @@ Rectangle {
 	}
 	// Hide the bar
 	function hideBar() {
-		verboseMessage("SlideshowBar::hideBar()",paused)
 		if(!paused)
 			hideBarAni.start()
 	}

@@ -26,7 +26,7 @@ Rectangle {
 		}
 	}
 	function reloadScreenshot() {
-		console.log("reloading")
+		verboseMessage("Background::reloadScreenshot()","")
 		fake.source = ""
 		if(!settings.composite && settings.backgroundImageScreenshot)
 			fake.source = "file:/" + getanddostuff.getTempDir() +"/photoqt_screenshot_" + getanddostuff.getCurrentScreen(toplevel.windowx+background.width/2,toplevel.windowy+background.height/2) + ".jpg"
@@ -192,7 +192,6 @@ Rectangle {
 	// Hide elements
 
 	function hideEverything() {
-		verboseMessage("Background::hideEverything()","")
 		hideThumbnailBar.start()
 		if(settingssession.value("metadatakeepopen") === false) hideMetaData.start()
 		hideMainmenu.start()

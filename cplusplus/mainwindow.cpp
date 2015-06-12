@@ -410,9 +410,6 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *e) {
 }
 void MainWindow::mouseMoveEvent(QMouseEvent *e) {
 
-	if(variables->verbose)
-		LOG << DATE << "mouseMoveEvent()" << std::endl;
-
 	mouseDx += abs(mouseOrigPoint.x()-e->pos().x());
 	mouseDy += abs(mouseOrigPoint.y()-e->pos().y());
 
@@ -701,8 +698,10 @@ void MainWindow::showStartup(QString type) {
 }
 
 void MainWindow::qmlVerboseMessage(QVariant loc, QVariant msg) {
-	if(variables->verbose)
-		LOG << DATE << "[QML] " << loc.toString().toStdString() << ": " << msg.toString().toStdString() << std::endl;
+	if(variables->verbose) {
+		LOG << DATE << "[QML] " << loc.toString().toStdString();
+		if(msg.toString().trimmed() != "") LOG << ": " << msg.toString().toStdString() << std::endl;
+	}
 }
 
 MainWindow::~MainWindow() {
