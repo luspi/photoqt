@@ -81,6 +81,8 @@ private:
 
 	QSystemTrayIcon *trayIcon;
 
+	QFileDialog *filedialog;
+
 private slots:
 
 	void handleThumbnails(QVariant centerPos);

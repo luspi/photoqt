@@ -38,6 +38,14 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 	// Class to load a new directory
 	loadDir = new LoadDir(verbose);
 
+	// Filedialog to open new files
+	// We HAVE TO use it this way (and NOT using, e.g., the static method getOpenFileName())
+	// as otherwise the window might be displayed BEHIND the main app window without any way to interact with it.
+	// Settings setModal() to false and calling it with .exec() later-on seems to does the trick...
+	filedialog = new QFileDialog;
+	filedialog->setModal(false);
+	filedialog->setWindowTitle(tr("Open image file"));
+
 	// Scrolled view
 	connect(object, SIGNAL(thumbScrolled(QVariant)), this, SLOT(handleThumbnails(QVariant)));
 
@@ -96,21 +104,31 @@ void MainWindow::openNewFile(QString usethis, QVariant filter) {
 		QMetaObject::invokeMethod(object, "alsoIgnoreSystemShortcuts",
 					  Q_ARG(QVariant, true));
 
-        variables->fileDialogOpened = true;
+		variables->fileDialogOpened = true;
 
 		// Get new filename
 		QString knownQT = fileformats->formatsQtEnabled.join(" ") + " " + fileformats->formatsQtEnabledExtras.join(" ");
 		QString knownGM = fileformats->formatsGmEnabled.join(" ");
 		QString known = knownQT + " " + knownGM + " " + fileformats->formatsExtrasEnabled.join(" ");
-		// FileDialog is unresponsive with the DontUseNativeDialog option in Qt 5.4.1
-		file = QFileDialog::getOpenFileName(NULL,tr("Open image file"),opendir,tr("Images") + " (" + known.trimmed() + ");;"
+
+		// Set filedialog options
+		filedialog->setDirectory(opendir);
+		filedialog->setNameFilter(tr("Images") + " (" + known.trimmed() + ");;"
 										+ tr("Images") + " (Qt)" + " (" + knownQT.trimmed() + ");;"
 						 #ifdef GM
 										+ tr("Images") + " (GraphicsMagick)" + " (" + knownGM.trimmed() + ");;"
 						 #endif
-										+ tr("All Files") + " (*)").toUtf8();
+										+ tr("All Files") + " (*)");
+		variables->fileOpenFilter = filter;
+		filedialog->exec();
 
-        variables->fileDialogOpened = false;
+		// Check return file
+		if(filedialog->selectedFiles().length() == 0)
+			file = "";
+		else
+			file = filedialog->selectedFiles().first().toUtf8();
+
+		variables->fileDialogOpened = false;
 
 		QMetaObject::invokeMethod(object, "alsoIgnoreSystemShortcuts",
 					  Q_ARG(QVariant, false));
@@ -627,10 +645,12 @@ void MainWindow::updateWindowGeometry() {
 
 	if(settingsPermanent->windowmode) {
 		if(settingsPermanent->keepOnTop) {
+			filedialog->setWindowFlags(filedialog->windowFlags() | Qt::WindowStaysOnTopHint);
 			settingsPermanent->windowDecoration
 					  ? this->setFlags(Qt::Window | Qt::WindowStaysOnTopHint)
 					  : this->setFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
 		} else {
+			filedialog->setWindowFlags(filedialog->windowFlags() & ~Qt::WindowStaysOnTopHint);
 			settingsPermanent->windowDecoration
 					  ? this->setFlags(Qt::Window)
 					  : this->setFlags(Qt::Window | Qt::FramelessWindowHint);
@@ -643,7 +663,15 @@ void MainWindow::updateWindowGeometry() {
 		} else
 			this->showMaximized();
 	} else {
-		if(settingsPermanent->keepOnTop) this->setFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
+
+		if(settingsPermanent->keepOnTop) {
+			this->setFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
+			filedialog->setWindowFlags(filedialog->windowFlags() | Qt::WindowStaysOnTopHint);
+		} else {
+			this->setFlags(Qt::FramelessWindowHint);
+			filedialog->setWindowFlags(filedialog->windowFlags() & ~Qt::WindowStaysOnTopHint);
+		}
+
 		QString(getenv("DESKTOP")).startsWith("Enlightenment") ? this->showMaximized() : this->showFullScreen();
 	}
 
