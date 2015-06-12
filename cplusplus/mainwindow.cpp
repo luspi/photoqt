@@ -119,7 +119,6 @@ void MainWindow::openNewFile(QString usethis, QVariant filter) {
 										+ tr("Images") + " (GraphicsMagick)" + " (" + knownGM.trimmed() + ");;"
 						 #endif
 										+ tr("All Files") + " (*)");
-		variables->fileOpenFilter = filter;
 		filedialog->exec();
 
 		// Check return file
