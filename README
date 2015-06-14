@@ -1,13 +1,9 @@
- PhotoQt QMLport - Copyright (C) 2015, Lukas Spies (Lukas@photoqt.org),
+ PhotoQt v1.3BETA - Copyright (C) 2015, Lukas Spies (Lukas@photoqt.org),
  License: GPLv2 (or later) -- http://photoqt.org
 -------------------------------------------------------------------------------
 
  PhotoQt is a fast and highly configurable image viewer with a simple and nice
  interface.
-
- ############################################################################
- THIS IS A PORT OF PHOTOQT OVER TO QML - WORKING, BUT NOT YET FULLY COMPLETED
- ############################################################################
 
 
  DEPENDENCIES
@@ -69,12 +65,6 @@
    # their location via the following environment variables:
      MAGICK_LOCATION
      EXIV2_LOCATION
-
-   # In a few places, PhotoQt requires C++11 features of the compiler to be
-   # enabled. By default, that is the case. However, if the compiler you have
-   # available does not support C++11, you can disable it with the option:
-   -DC11=OFF                    # default: ON
-   # NOTE: It is HIGHLY RECOMMENDED to keep C++11 ENABLED!
 
 3) make  # This creates an executeable photoqt binary located in the ./build/ folder
 
