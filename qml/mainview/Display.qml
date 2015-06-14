@@ -19,6 +19,7 @@ Item {
 
 	// Keep track of where we are in zooming
 	property bool zoomTowardsCenter: false
+	property double imageRotatedAndRescaled: 1
 
 	// Some image stuff
 	property bool imageWidthLargerThanHeight: true
@@ -121,6 +122,8 @@ Item {
 			rotateconfirm.show()
 		}
 
+		imageRotatedAndRescaled = 1;
+
 	}
 
 	// Update source sizes
@@ -134,11 +137,11 @@ Item {
 
 		fullsizeImageLoaded = false
 
+		if(imageRotatedAndRescaled != 1) norm.scale /= imageRotatedAndRescaled
+		imageRotatedAndRescaled = 1
+
 		// Re-set source size to screen size
-		if(norm.rotation%180 == 90 && imageWidthLargerThanHeight)
-			setSourceSize(item.height,item.width)
-		else
-			setSourceSize(item.width,item.height)
+		setSourceSize(item.width,item.height)
 
 		// Reset scaling
 		norm.resetZoom(loadNewImage)
@@ -152,6 +155,8 @@ Item {
 		norm.rotation = 0
 		norm.mirror = false
 		fullsizeImageLoaded = false
+		if(imageRotatedAndRescaled != 1) norm.scale /= imageRotatedAndRescaled
+		imageRotatedAndRescaled = 1
 		setSourceSize(item.width,item.height)
 	}
 
@@ -182,21 +187,59 @@ Item {
 	function rotateRight() {
 		verboseMessage("Display::rotateRight()","")
 		norm.rotation += 90
-		norm.calculateSize()
-		if(Math.abs(norm.rotation%180) == 90)
-			setSourceSize(item.height,item.width)
-		else
+		if(!fullsizeImageLoaded) {
+			norm.calculateSize()
 			setSourceSize(item.width,item.height)
+
+			if(imageRotatedAndRescaled == 1) {
+				var fraction1 = 1
+				var fraction2 = 1
+
+				if(flickarea.contentWidth > item.width)
+					fraction1 = item.width/flickarea.contentWidth
+				if(flickarea.contentHeight > item.height)
+					fraction2 = item.height/flickarea.contentHeight
+
+				imageRotatedAndRescaled = Math.min(fraction1,fraction2)
+				norm.scale *= imageRotatedAndRescaled
+
+			} else {
+
+				norm.scale /= imageRotatedAndRescaled
+				imageRotatedAndRescaled = 1;
+
+			}
+		}
 	}
 
 	function rotateLeft() {
 		verboseMessage("Display::rotateLeft()","")
 		norm.rotation -= 90
-		norm.calculateSize()
-		if(Math.abs(norm.rotation%180) == 90)
-			setSourceSize(item.height,item.width)
-		else
+		if(!fullsizeImageLoaded) {
+			norm.calculateSize()
 			setSourceSize(item.width,item.height)
+
+
+			if(imageRotatedAndRescaled == 1) {
+
+				var fraction1 = 1
+				var fraction2 = 1
+
+				if(flickarea.contentWidth > item.width)
+					fraction1 = item.width/flickarea.contentWidth
+				if(flickarea.contentHeight > item.height)
+					fraction2 = item.height/flickarea.contentHeight
+
+				imageRotatedAndRescaled = Math.min(fraction1,fraction2)
+				norm.scale *= imageRotatedAndRescaled
+
+			} else {
+
+				norm.scale /= imageRotatedAndRescaled
+				imageRotatedAndRescaled = 1;
+
+			}
+		}
 	}
 
 	function flipHorizontal() {
@@ -246,8 +289,8 @@ Item {
 		Item {
 			id: imageContainer
 
-			width: Math.max(norm.width * norm.scale, flickarea.width)
-			height: Math.max(norm.height * norm.scale, flickarea.height)
+			width: Math.max((norm.rotation%180 == 0 ? norm.width : norm.height) * norm.scale, flickarea.width)
+			height: Math.max((norm.rotation%180 == 0 ? norm.height : norm.width) * norm.scale, flickarea.height)
 
 			TransitionImage {
 				id: norm
