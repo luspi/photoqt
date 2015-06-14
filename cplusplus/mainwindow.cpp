@@ -294,19 +294,6 @@ void MainWindow::detectedKeyCombo(QString combo) {
 	QMetaObject::invokeMethod(object, "detectedKeyCombo",
 				  Q_ARG(QVariant, combo));
 }
-void MainWindow::keyPressEvent(QKeyEvent *e) {
-	if(variables->verbose)
-		LOG << DATE << "keyPressEvent()" << std::endl;
-    detectedKeyCombo(shortcuts->handleKeyPress(e));
-	QQuickView::keyPressEvent(e);
-}
-void MainWindow::keyReleaseEvent(QKeyEvent *e) {
-	if(variables->verbose)
-		LOG << DATE << "keyReleaseEvent()" << std::endl;
-	QMetaObject::invokeMethod(object, "keysReleased",
-							  Q_ARG(QVariant,shortcuts->handleKeyPress(e)));
-	QQuickView::keyReleaseEvent(e);
-}
 
 // Catch wheel events
 void MainWindow::wheelEvent(QWheelEvent *e) {
@@ -419,7 +406,20 @@ void MainWindow::mouseMoveEvent(QMouseEvent *e) {
 
 bool MainWindow::event(QEvent *e) {
 
-	if (e->type() == QEvent::Close) {
+	if(e->type() == QEvent::KeyPress) {
+
+		if(variables->verbose)
+			LOG << DATE << "keyPressEvent()" << std::endl;
+		detectedKeyCombo(shortcuts->handleKeyPress((QKeyEvent*)e));
+
+	} else if(e->type() == QEvent::KeyRelease) {
+
+		if(variables->verbose)
+			LOG << DATE << "keyReleaseEvent()" << std::endl;
+		QMetaObject::invokeMethod(object, "keysReleased",
+								  Q_ARG(QVariant,shortcuts->handleKeyPress((QKeyEvent*)e)));
+
+	} else if (e->type() == QEvent::Close) {
 
 		if(variables->verbose)
 			LOG << DATE << "closeEvent()" << std::endl;

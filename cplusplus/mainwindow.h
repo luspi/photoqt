@@ -108,8 +108,6 @@ private slots:
 
 protected:
 	bool event(QEvent *e);
-	void keyPressEvent(QKeyEvent *e);
-	void keyReleaseEvent(QKeyEvent *e);
 	void wheelEvent(QWheelEvent *e);
 	void mousePressEvent(QMouseEvent *e);
 	void mouseReleaseEvent(QMouseEvent *e);
