@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.1" language="sk">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="sk" version="2.1">
 <context>
     <name>About</name>
     <message>
@@ -11,12 +9,12 @@
     <message>
         <location filename="../qml/fadein/About.qml" line="115"/>
         <source>With PhotoQt I try to be different than other image viewers (after all, there are plenty of good image viewers already out there). Its interface is kept very simple, yet there is an abundance of settings to customize the look and feel to make PhotoQt YOUR image viewer.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/fadein/About.qml" line="117"/>
         <source>I&apos;m not a trained programmer. I&apos;m a simple Maths student that loves doing stuff like this. Most of my programming knowledge I taught myself over the past 10-ish years, and it has been developing a lot since I started PhotoQt. During my studies in university I learned a lot about the basics of programming that I was missing. And simply working on PhotoQt gave me a lot of invaluable experience. So the code of PhotoQt might in places not quite be done in the best of ways, but I think it&apos;s getting better and better with each release.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/fadein/About.qml" line="121"/>
@@ -31,18 +29,18 @@
     <message>
         <location filename="../qml/fadein/About.qml" line="174"/>
         <source>You want to join the team and do something, e.g. translating PhotoQt to another language? Drop me and email (%1), and for translations, check the project page on Transifex:</source>
-        <extracomment>Don&apos;t forget to add the %1 in your translation!!</extracomment>
-        <translation type="unfinished"></translation>
+        <extracomment>Don't forget to add the %1 in your translation!!</extracomment>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/fadein/About.qml" line="119"/>
         <source>I heard a number of times people saying, that PhotoQt is a &apos;copy&apos; of Picasa&apos;s image viewer. Well, it&apos;s not. In fact, I myself have never used Picasa. I have seen it in use though by others, and I can&apos;t deny that it influenced the basic design idea a little. But I&apos;m not trying to do something &apos;like Picasa&apos;. I try to do my own thing, and to do it as good as I can.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/fadein/About.qml" line="158"/>
         <source>Thanks to everybody who contributed to PhotoQt and/or translated PhotoQt to another language! You guys rock!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/fadein/About.qml" line="68"/>
@@ -61,114 +59,114 @@
         <location filename="../qml/mainview/ContextMenu.qml" line="52"/>
         <source>Move:</source>
         <extracomment>as in: &quot;Move file...&quot;</extracomment>
-        <translation type="unfinished">Presunúť:</translation>
+        <translation>Presunúť:</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/ContextMenu.qml" line="61"/>
+        <location filename="../qml/mainview/ContextMenu.qml" line="62"/>
         <source>Previous</source>
         <extracomment>Go to previous file</extracomment>
-        <translation type="unfinished">Predchádzajúci</translation>
+        <translation>Predchádzajúci</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/ContextMenu.qml" line="67"/>
+        <location filename="../qml/mainview/ContextMenu.qml" line="68"/>
         <source>Next</source>
         <extracomment>Go to next file</extracomment>
-        <translation type="unfinished">Nasledujúci</translation>
+        <translation>Nasledujúci</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/ContextMenu.qml" line="98"/>
+        <location filename="../qml/mainview/ContextMenu.qml" line="99"/>
         <source>Rotate:</source>
         <extracomment>As in: Rotate file</extracomment>
-        <translation type="unfinished">Otočiť:</translation>
+        <translation>Otočiť:</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/ContextMenu.qml" line="102"/>
+        <location filename="../qml/mainview/ContextMenu.qml" line="104"/>
         <source>Left</source>
         <extracomment>As in: rotate LEFT</extracomment>
-        <translation type="unfinished">Vľavo</translation>
+        <translation>Vľavo</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/ContextMenu.qml" line="109"/>
+        <location filename="../qml/mainview/ContextMenu.qml" line="111"/>
         <source>Right</source>
         <extracomment>As in: Rotate RIGHT</extracomment>
-        <translation type="unfinished">Vpravo</translation>
+        <translation>Vpravo</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/ContextMenu.qml" line="138"/>
+        <location filename="../qml/mainview/ContextMenu.qml" line="140"/>
         <source>Flip:</source>
         <extracomment>As in: Flip file</extracomment>
-        <translation type="unfinished">Prevrátiť:</translation>
+        <translation>Prevrátiť:</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/ContextMenu.qml" line="142"/>
+        <location filename="../qml/mainview/ContextMenu.qml" line="145"/>
         <source>Horizontal</source>
         <extracomment>As in: Flip file HORIZONTALLY</extracomment>
-        <translation type="unfinished">Horizontálne</translation>
+        <translation>Horizontálne</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/ContextMenu.qml" line="149"/>
+        <location filename="../qml/mainview/ContextMenu.qml" line="152"/>
         <source>Vertical</source>
         <extracomment>As in: Flip file VERTICALLY</extracomment>
-        <translation type="unfinished">Vertikálne</translation>
+        <translation>Vertikálne</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/ContextMenu.qml" line="177"/>
+        <location filename="../qml/mainview/ContextMenu.qml" line="180"/>
         <source>Zoom:</source>
         <extracomment>Zoom file</extracomment>
-        <translation type="unfinished">Zoom:</translation>
+        <translation>Zoom:</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/ContextMenu.qml" line="181"/>
+        <location filename="../qml/mainview/ContextMenu.qml" line="185"/>
         <source>In</source>
         <extracomment>As in: Zoom IN</extracomment>
-        <translation type="unfinished">Priblížiť</translation>
+        <translation>Priblížiť</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/ContextMenu.qml" line="187"/>
+        <location filename="../qml/mainview/ContextMenu.qml" line="191"/>
         <source>Out</source>
-        <translation type="unfinished">Oddialiť</translation>
+        <translation>Oddialiť</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/ContextMenu.qml" line="193"/>
+        <location filename="../qml/mainview/ContextMenu.qml" line="197"/>
         <source>Actual</source>
         <extracomment>As in: Zoom to ACTUAL size</extracomment>
-        <translation type="unfinished">Skutočný</translation>
+        <translation>Skutočný</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/ContextMenu.qml" line="199"/>
+        <location filename="../qml/mainview/ContextMenu.qml" line="203"/>
         <source>Reset</source>
         <extracomment>As in: Reset zoom</extracomment>
-        <translation type="unfinished">Reset</translation>
+        <translation>Reset</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/ContextMenu.qml" line="220"/>
+        <location filename="../qml/mainview/ContextMenu.qml" line="224"/>
         <source>Scale Image</source>
-        <translation type="unfinished">Prevzorkovať obrázok</translation>
+        <translation>Prevzorkovať obrázok</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/ContextMenu.qml" line="230"/>
+        <location filename="../qml/mainview/ContextMenu.qml" line="234"/>
         <source>Open in default File Manager</source>
-        <translation type="unfinished">Otvoriť v predvolenom súborovom manažéri.</translation>
+        <translation>Otvoriť v predvolenom súborovom manažéri</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/ContextMenu.qml" line="262"/>
+        <location filename="../qml/mainview/ContextMenu.qml" line="266"/>
         <source>Rename File</source>
-        <translation type="unfinished">Premenovať súbor</translation>
+        <translation>Premenovať súbor</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/ContextMenu.qml" line="272"/>
+        <location filename="../qml/mainview/ContextMenu.qml" line="276"/>
         <source>Delete File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/mainview/ContextMenu.qml" line="297"/>
+        <location filename="../qml/mainview/ContextMenu.qml" line="301"/>
         <source>Copy File</source>
-        <translation type="unfinished">Kopírovať súbor</translation>
+        <translation>Kopírovať súbor</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/ContextMenu.qml" line="308"/>
+        <location filename="../qml/mainview/ContextMenu.qml" line="312"/>
         <source>Move File</source>
-        <translation type="unfinished">Presunúť súbor</translation>
+        <translation>Presunúť súbor</translation>
     </message>
 </context>
 <context>
@@ -176,46 +174,46 @@
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="11"/>
         <source>Confirm me?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="12"/>
         <source>Do you really want to do this?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="13"/>
         <source>Yes, do it</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="14"/>
         <source>No, don&apos;t</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="110"/>
         <source>Don&apos;t ask again</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>CustomDetectShortcut</name>
     <message>
-        <location filename="../qml/elements/CustomDetectShortcut.qml" line="73"/>
+        <location filename="../qml/elements/CustomDetectShortcut.qml" line="72"/>
         <source>Detect key combination</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/elements/CustomDetectShortcut.qml" line="91"/>
-        <location filename="../qml/elements/CustomDetectShortcut.qml" line="128"/>
+        <location filename="../qml/elements/CustomDetectShortcut.qml" line="90"/>
+        <location filename="../qml/elements/CustomDetectShortcut.qml" line="127"/>
         <source>Press keys</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/elements/CustomDetectShortcut.qml" line="108"/>
+        <location filename="../qml/elements/CustomDetectShortcut.qml" line="107"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušiť</translation>
+        <translation>Zrušiť</translation>
     </message>
 </context>
 <context>
@@ -223,37 +221,37 @@
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="71"/>
         <source>External Command</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/elements/CustomExternalCommand.qml" line="85"/>
+        <location filename="../qml/elements/CustomExternalCommand.qml" line="86"/>
         <source>current file (with path)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/elements/CustomExternalCommand.qml" line="85"/>
+        <location filename="../qml/elements/CustomExternalCommand.qml" line="86"/>
         <source>current file (without path)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/elements/CustomExternalCommand.qml" line="85"/>
+        <location filename="../qml/elements/CustomExternalCommand.qml" line="86"/>
         <source>current directory</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/elements/CustomExternalCommand.qml" line="121"/>
+        <location filename="../qml/elements/CustomExternalCommand.qml" line="122"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušiť</translation>
+        <translation>Zrušiť</translation>
     </message>
     <message>
-        <location filename="../qml/elements/CustomExternalCommand.qml" line="134"/>
+        <location filename="../qml/elements/CustomExternalCommand.qml" line="135"/>
         <source>Save it</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/elements/CustomExternalCommand.qml" line="158"/>
+        <location filename="../qml/elements/CustomExternalCommand.qml" line="159"/>
         <source>Select Executeable</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -261,17 +259,17 @@
     <message>
         <location filename="../qml/elements/CustomMouseShortcut.qml" line="69"/>
         <source>Set Mouse Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/elements/CustomMouseShortcut.qml" line="114"/>
         <source>Don&apos;t set</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/elements/CustomMouseShortcut.qml" line="127"/>
         <source>Set Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -279,85 +277,85 @@
     <message>
         <location filename="../qml/fadein/Delete.qml" line="68"/>
         <source>Delete File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/fadein/Delete.qml" line="98"/>
         <source>Do you really want to delete this file?</source>
-        <translation type="unfinished">Naozaj chcete zmazať tento súbor?</translation>
+        <translation>Naozaj chcete zmazať tento súbor?</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Delete.qml" line="126"/>
         <source>Move to Trash</source>
-        <translation type="unfinished">Presunúť do koša</translation>
+        <translation>Presunúť do koša</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Delete.qml" line="126"/>
         <source>Delete</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Delete.qml" line="136"/>
+        <location filename="../qml/fadein/Delete.qml" line="137"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušiť</translation>
+        <translation>Zrušiť</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Delete.qml" line="146"/>
+        <location filename="../qml/fadein/Delete.qml" line="150"/>
         <source>Delete permanently</source>
-        <translation type="unfinished">Zmazať natrvalo</translation>
+        <translation>Zmazať natrvalo</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Delete.qml" line="165"/>
+        <location filename="../qml/fadein/Delete.qml" line="170"/>
         <source>Enter = Move to Trash, Shift+Enter = Delete permanently, Escape = Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Delete.qml" line="165"/>
+        <location filename="../qml/fadein/Delete.qml" line="170"/>
         <source>Enter = Delete, Escape = Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>Display</name>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="354"/>
+        <location filename="../qml/mainview/Display.qml" line="436"/>
         <source>Hide</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="378"/>
+        <location filename="../qml/mainview/Display.qml" line="462"/>
         <source>Open a file to begin</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="397"/>
+        <location filename="../qml/mainview/Display.qml" line="513"/>
         <source>No results found...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="404"/>
+        <location filename="../qml/mainview/Display.qml" line="520"/>
         <source>Rotate Image?</source>
-        <translation type="unfinished">Otočiť obrázok?</translation>
+        <translation>Otočiť obrázok?</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="405"/>
+        <location filename="../qml/mainview/Display.qml" line="521"/>
         <source>The Exif data of this image says, that this image is supposed to be rotated.</source>
-        <translation type="unfinished">Exif dáta v súbore tvrdia, že obrázok by mal byť otočený.</translation>
+        <translation>Exif dáta v súbore tvrdia, že obrázok by mal byť otočený.</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="405"/>
+        <location filename="../qml/mainview/Display.qml" line="521"/>
         <source>Do you want to apply the rotation?</source>
-        <translation type="unfinished">Chcete použiť otočenie?</translation>
+        <translation>Chcete použiť otočenie?</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="406"/>
+        <location filename="../qml/mainview/Display.qml" line="522"/>
         <source>Yes, do it</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="407"/>
+        <location filename="../qml/mainview/Display.qml" line="523"/>
         <source>No, don&apos;t</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -365,214 +363,227 @@
     <message>
         <location filename="../qml/fadein/Filter.qml" line="68"/>
         <source>Filter images in current directory</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/fadein/Filter.qml" line="83"/>
         <source>Enter here the term you want to search for. Seperate multiple terms by a space.</source>
-        <translation type="unfinished">Sem zadajte výraz, ktorý chcete vyhľadať. Jednotlivé výrazy oddelťe medzerou.</translation>
+        <translation>Sem zadajte výraz, ktorý chcete vyhľadať. Jednotlivé výrazy oddelťe medzerou.</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Filter.qml" line="89"/>
+        <location filename="../qml/fadein/Filter.qml" line="90"/>
         <source>If you want to limit a term to file extensions, prepend a dot &apos;.&apos; to the term.</source>
-        <translation type="unfinished">Pridajte pred výraz bodku, ak chcete filtrovať typ obrázkov.</translation>
+        <translation>Pridajte pred výraz bodku, ak chcete filtrovať typ obrázkov.</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Filter.qml" line="135"/>
+        <location filename="../qml/fadein/Filter.qml" line="137"/>
         <source>Filter</source>
-        <translation type="unfinished">Filtrovať</translation>
+        <translation>Filtrovať</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Filter.qml" line="143"/>
+        <location filename="../qml/fadein/Filter.qml" line="145"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušiť</translation>
+        <translation>Zrušiť</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Filter.qml" line="156"/>
+        <location filename="../qml/fadein/Filter.qml" line="160"/>
         <source>Remove Filter</source>
-        <translation type="unfinished">Odstrániť filter</translation>
+        <translation>Odstrániť filter</translation>
+    </message>
+</context>
+<context>
+    <name>GetAndDoStuffContext</name>
+    <message>
+        <location filename="../cplusplus/scripts/getanddostuff/context.cpp" line="10"/>
+        <source>Edit with</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../cplusplus/scripts/getanddostuff/context.cpp" line="13"/>
+        <source>Open in</source>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>GetMetaData</name>
     <message>
-        <location filename="../cplusplus/scripts/getmetadata.cpp" line="313"/>
+        <location filename="../cplusplus/scripts/getmetadata.cpp" line="317"/>
         <source>Unknown</source>
-        <translation type="unfinished">Neznáme</translation>
+        <translation>Neznáme</translation>
     </message>
     <message>
-        <location filename="../cplusplus/scripts/getmetadata.cpp" line="316"/>
+        <location filename="../cplusplus/scripts/getmetadata.cpp" line="320"/>
         <source>Daylight</source>
-        <translation type="unfinished">Denné svetlo</translation>
+        <translation>Denné svetlo</translation>
     </message>
     <message>
-        <location filename="../cplusplus/scripts/getmetadata.cpp" line="319"/>
+        <location filename="../cplusplus/scripts/getmetadata.cpp" line="323"/>
         <source>Fluorescent</source>
-        <translation type="unfinished">Svetielkujúci</translation>
+        <translation>Svetielkujúci</translation>
     </message>
     <message>
-        <location filename="../cplusplus/scripts/getmetadata.cpp" line="322"/>
+        <location filename="../cplusplus/scripts/getmetadata.cpp" line="326"/>
         <source>Tungsten (incandescent light)</source>
-        <translation type="unfinished">Volfrám (rozžeravené svetlo)</translation>
+        <translation>Volfrám (rozžeravené svetlo)</translation>
     </message>
     <message>
-        <location filename="../cplusplus/scripts/getmetadata.cpp" line="325"/>
+        <location filename="../cplusplus/scripts/getmetadata.cpp" line="329"/>
         <source>Flash</source>
-        <translation type="unfinished">Režim blesku</translation>
+        <translation>Režim blesku</translation>
     </message>
     <message>
-        <location filename="../cplusplus/scripts/getmetadata.cpp" line="328"/>
+        <location filename="../cplusplus/scripts/getmetadata.cpp" line="332"/>
         <source>Fine weather</source>
-        <translation type="unfinished">Pekné počasie</translation>
+        <translation>Pekné počasie</translation>
     </message>
     <message>
-        <location filename="../cplusplus/scripts/getmetadata.cpp" line="331"/>
+        <location filename="../cplusplus/scripts/getmetadata.cpp" line="335"/>
         <source>Cloudy Weather</source>
-        <translation type="unfinished">Zamračené</translation>
+        <translation>Zamračené</translation>
     </message>
     <message>
-        <location filename="../cplusplus/scripts/getmetadata.cpp" line="334"/>
+        <location filename="../cplusplus/scripts/getmetadata.cpp" line="338"/>
         <source>Shade</source>
-        <translation type="unfinished">Tieň</translation>
+        <translation>Tieň</translation>
     </message>
     <message>
-        <location filename="../cplusplus/scripts/getmetadata.cpp" line="337"/>
+        <location filename="../cplusplus/scripts/getmetadata.cpp" line="341"/>
         <source>Daylight fluorescent</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../cplusplus/scripts/getmetadata.cpp" line="340"/>
+        <location filename="../cplusplus/scripts/getmetadata.cpp" line="344"/>
         <source>Day white fluorescent</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../cplusplus/scripts/getmetadata.cpp" line="343"/>
+        <location filename="../cplusplus/scripts/getmetadata.cpp" line="347"/>
         <source>Cool white fluorescent</source>
-        <translation type="unfinished">Chladná biela žiarivka</translation>
+        <translation>Chladná biela žiarivka</translation>
     </message>
     <message>
-        <location filename="../cplusplus/scripts/getmetadata.cpp" line="346"/>
+        <location filename="../cplusplus/scripts/getmetadata.cpp" line="350"/>
         <source>White fluorescent</source>
-        <translation type="unfinished">Biela žiarivka</translation>
+        <translation>Biela žiarivka</translation>
     </message>
     <message>
-        <location filename="../cplusplus/scripts/getmetadata.cpp" line="349"/>
-        <location filename="../cplusplus/scripts/getmetadata.cpp" line="352"/>
-        <location filename="../cplusplus/scripts/getmetadata.cpp" line="355"/>
+        <location filename="../cplusplus/scripts/getmetadata.cpp" line="353"/>
+        <location filename="../cplusplus/scripts/getmetadata.cpp" line="356"/>
+        <location filename="../cplusplus/scripts/getmetadata.cpp" line="359"/>
         <source>Standard light</source>
-        <translation type="unfinished">Štandardné svetlo</translation>
+        <translation>Štandardné svetlo</translation>
     </message>
     <message>
-        <location filename="../cplusplus/scripts/getmetadata.cpp" line="367"/>
+        <location filename="../cplusplus/scripts/getmetadata.cpp" line="371"/>
         <source>D50</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../cplusplus/scripts/getmetadata.cpp" line="370"/>
+        <location filename="../cplusplus/scripts/getmetadata.cpp" line="374"/>
         <source>ISO studio tungsten</source>
-        <translation type="unfinished">ISO štúdiové rozžeravené</translation>
+        <translation>ISO štúdiové rozžeravené</translation>
     </message>
     <message>
-        <location filename="../cplusplus/scripts/getmetadata.cpp" line="373"/>
+        <location filename="../cplusplus/scripts/getmetadata.cpp" line="377"/>
         <source>Other light source</source>
-        <translation type="unfinished">Iný svetelný zdroj</translation>
+        <translation>Iný svetelný zdroj</translation>
     </message>
     <message>
-        <location filename="../cplusplus/scripts/getmetadata.cpp" line="376"/>
+        <location filename="../cplusplus/scripts/getmetadata.cpp" line="380"/>
         <source>Invalid light source</source>
         <extracomment>This string refers to the light source</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../cplusplus/scripts/getmetadata.cpp" line="385"/>
-        <source>yes</source>
-        <extracomment>This string identifies that flash was fired</extracomment>
-        <translation type="unfinished">áno</translation>
-    </message>
-    <message>
-        <location filename="../cplusplus/scripts/getmetadata.cpp" line="387"/>
-        <source>no</source>
-        <extracomment>This string identifies that flash wasn&apos;t fired</extracomment>
-        <translation type="unfinished">nie</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="389"/>
-        <source>No flash function</source>
-        <extracomment>This string refers to the absense of a flash</extracomment>
-        <translation type="unfinished">bez blesku</translation>
+        <source>yes</source>
+        <extracomment>This string identifies that flash was fired</extracomment>
+        <translation>áno</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="391"/>
-        <source>strobe return light not detected</source>
-        <extracomment>This string refers to a flash mode</extracomment>
-        <translation type="unfinished">prerušované svetlo nie je prítomné</translation>
+        <source>no</source>
+        <extracomment>This string identifies that flash wasn't fired</extracomment>
+        <translation>nie</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="393"/>
-        <source>strobe return light detected</source>
-        <extracomment>This string refers to a flash mode</extracomment>
-        <translation type="unfinished">prítomné prerušované svetlo</translation>
+        <source>No flash function</source>
+        <extracomment>This string refers to the absense of a flash</extracomment>
+        <translation>bez blesku</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="395"/>
-        <source>compulsory flash mode</source>
+        <source>strobe return light not detected</source>
         <extracomment>This string refers to a flash mode</extracomment>
-        <translation type="unfinished">vynútený mód blesku</translation>
+        <translation>prerušované svetlo nie je prítomné</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="397"/>
-        <source>auto mode</source>
+        <source>strobe return light detected</source>
         <extracomment>This string refers to a flash mode</extracomment>
-        <translation type="unfinished">automatický mód</translation>
+        <translation>prítomné prerušované svetlo</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="399"/>
-        <source>red-eye reduction mode</source>
+        <source>compulsory flash mode</source>
         <extracomment>This string refers to a flash mode</extracomment>
-        <translation type="unfinished">redukcia červených očí</translation>
+        <translation>vynútený mód blesku</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="401"/>
-        <source>return light detected</source>
+        <source>auto mode</source>
         <extracomment>This string refers to a flash mode</extracomment>
-        <translation type="unfinished">návratové svetlo prítomné</translation>
+        <translation>automatický mód</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="403"/>
+        <source>red-eye reduction mode</source>
+        <extracomment>This string refers to a flash mode</extracomment>
+        <translation>redukcia červených očí</translation>
+    </message>
+    <message>
+        <location filename="../cplusplus/scripts/getmetadata.cpp" line="405"/>
+        <source>return light detected</source>
+        <extracomment>This string refers to a flash mode</extracomment>
+        <translation>návratové svetlo prítomné</translation>
+    </message>
+    <message>
+        <location filename="../cplusplus/scripts/getmetadata.cpp" line="407"/>
         <source>return light not detected</source>
         <extracomment>This string refers to a flash mode</extracomment>
-        <translation type="unfinished">návratové svetlo neprítomné</translation>
+        <translation>návratové svetlo neprítomné</translation>
     </message>
     <message>
-        <location filename="../cplusplus/scripts/getmetadata.cpp" line="450"/>
+        <location filename="../cplusplus/scripts/getmetadata.cpp" line="454"/>
         <source>Invalid flash</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../cplusplus/scripts/getmetadata.cpp" line="460"/>
+        <location filename="../cplusplus/scripts/getmetadata.cpp" line="464"/>
         <source>Standard</source>
-        <translation type="unfinished">štandardný</translation>
+        <translation>štandardný</translation>
     </message>
     <message>
-        <location filename="../cplusplus/scripts/getmetadata.cpp" line="463"/>
+        <location filename="../cplusplus/scripts/getmetadata.cpp" line="467"/>
         <source>Landscape</source>
-        <translation type="unfinished">krajina</translation>
+        <translation>krajina</translation>
     </message>
     <message>
-        <location filename="../cplusplus/scripts/getmetadata.cpp" line="466"/>
+        <location filename="../cplusplus/scripts/getmetadata.cpp" line="470"/>
         <source>Portrait</source>
-        <translation type="unfinished">portrét</translation>
+        <translation>portrét</translation>
     </message>
     <message>
-        <location filename="../cplusplus/scripts/getmetadata.cpp" line="469"/>
+        <location filename="../cplusplus/scripts/getmetadata.cpp" line="473"/>
         <source>Night Scene</source>
-        <translation type="unfinished">nočná scéna</translation>
+        <translation>nočná scéna</translation>
     </message>
     <message>
-        <location filename="../cplusplus/scripts/getmetadata.cpp" line="472"/>
+        <location filename="../cplusplus/scripts/getmetadata.cpp" line="476"/>
         <source>Invalid Scene Type</source>
         <extracomment>This string refers to a type of scene</extracomment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -580,80 +591,80 @@
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="25"/>
         <source>Open File</source>
-        <translation type="unfinished">Otvoriť súbor</translation>
+        <translation>Otvoriť súbor</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="26"/>
         <source>Settings</source>
-        <translation type="unfinished">Nastavenia</translation>
+        <translation>Nastavenia</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="27"/>
         <source>Set as Wallpaper</source>
-        <translation type="unfinished">Použiť ako tapetu</translation>
+        <translation>Použiť ako tapetu</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="28"/>
         <source>Start Slideshow</source>
-        <translation type="unfinished">Spustiť Slideshow</translation>
+        <translation>Spustiť Slideshow</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="29"/>
         <source>Filter Images in Folder</source>
-        <translation type="unfinished">Filtrovať obrázky v priečinku</translation>
+        <translation>Filtrovať obrázky v priečinku</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="30"/>
         <source>Show/Hide Metadata</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="31"/>
         <source>About PhotoQt</source>
-        <translation type="unfinished">O aplikácii PhotoQt</translation>
+        <translation>O aplikácii PhotoQt</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="32"/>
         <source>Hide (System Tray)</source>
-        <translation type="unfinished">Skryť do systémového panela</translation>
+        <translation>Skryť do systémového panela</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="33"/>
         <source>Quit</source>
-        <translation type="unfinished">Ukončiť</translation>
+        <translation>Ukončiť</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="120"/>
         <source>Quickstart</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="94"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="47"/>
         <source>Open image file</source>
         <translation>Otvoriť súbor obrázka</translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="94"/>
-        <location filename="../cplusplus/mainwindow.cpp" line="95"/>
-        <location filename="../cplusplus/mainwindow.cpp" line="97"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="116"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="117"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="119"/>
         <source>Images</source>
         <translation>Obrázky</translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="99"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="121"/>
         <source>All Files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="443"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="532"/>
         <source>Image Viewer</source>
         <translation>Prehliadač obrázkov</translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="448"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="537"/>
         <source>Hide/Show PhotoQt</source>
         <translation>Skryť/ukázať PhotoQt</translation>
     </message>
@@ -663,132 +674,132 @@
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="44"/>
         <source>No File Loaded</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="62"/>
         <source>File Format Not Supported</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="80"/>
         <source>Invalid File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="121"/>
         <source>Keep Open</source>
-        <translation type="unfinished">Nechať otvorené</translation>
+        <translation>Nechať otvorené</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/MetaData.qml" line="187"/>
+        <location filename="../qml/slidein/MetaData.qml" line="191"/>
         <source>Filesize</source>
-        <translation type="unfinished">Veľkosť súboru</translation>
+        <translation>Veľkosť súboru</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/MetaData.qml" line="189"/>
-        <location filename="../qml/slidein/MetaData.qml" line="192"/>
+        <location filename="../qml/slidein/MetaData.qml" line="193"/>
+        <location filename="../qml/slidein/MetaData.qml" line="196"/>
         <source>Dimensions</source>
-        <translation type="unfinished">Rozmery</translation>
-    </message>
-    <message>
-        <location filename="../qml/slidein/MetaData.qml" line="197"/>
-        <source>Make</source>
-        <translation type="unfinished">Výrobca</translation>
-    </message>
-    <message>
-        <location filename="../qml/slidein/MetaData.qml" line="198"/>
-        <source>Model</source>
-        <translation type="unfinished">Model</translation>
-    </message>
-    <message>
-        <location filename="../qml/slidein/MetaData.qml" line="199"/>
-        <source>Software</source>
-        <translation type="unfinished">Softvér</translation>
+        <translation>Rozmery</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="201"/>
-        <source>Time Photo was Taken</source>
-        <translation type="unfinished">Čas fotenia</translation>
+        <source>Make</source>
+        <translation>Výrobca</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="202"/>
-        <source>Exposure Time</source>
-        <translation type="unfinished">Čas expozície</translation>
+        <source>Model</source>
+        <translation>Model</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="203"/>
-        <source>Flash</source>
-        <translation type="unfinished">Režim blesku</translation>
-    </message>
-    <message>
-        <location filename="../qml/slidein/MetaData.qml" line="204"/>
-        <source>ISO</source>
-        <translation type="unfinished">ISO</translation>
+        <source>Software</source>
+        <translation>Softvér</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="205"/>
-        <source>Scene Type</source>
-        <translation type="unfinished">Typ scény</translation>
+        <source>Time Photo was Taken</source>
+        <translation>Čas fotenia</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="206"/>
-        <source>Focal Length</source>
-        <translation type="unfinished">Ohnisková vzdialenosť</translation>
+        <source>Exposure Time</source>
+        <translation>Čas expozície</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="207"/>
-        <source>F Number</source>
-        <translation type="unfinished">Clonové číslo</translation>
+        <source>Flash</source>
+        <translation>Režim blesku</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="208"/>
-        <source>Light Source</source>
-        <translation type="unfinished">Svetelný zdroj</translation>
+        <source>ISO</source>
+        <translation>ISO</translation>
+    </message>
+    <message>
+        <location filename="../qml/slidein/MetaData.qml" line="209"/>
+        <source>Scene Type</source>
+        <translation>Typ scény</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="210"/>
-        <source>Keywords</source>
-        <translation type="unfinished"></translation>
+        <source>Focal Length</source>
+        <translation>Ohnisková vzdialenosť</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="211"/>
-        <source>Location</source>
-        <translation type="unfinished"></translation>
+        <source>F Number</source>
+        <translation>Clonové číslo</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="212"/>
-        <source>Copyright</source>
-        <translation type="unfinished"></translation>
+        <source>Light Source</source>
+        <translation>Svetelný zdroj</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="214"/>
+        <source>Keywords</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/slidein/MetaData.qml" line="215"/>
+        <source>Location</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/slidein/MetaData.qml" line="216"/>
+        <source>Copyright</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/slidein/MetaData.qml" line="218"/>
         <source>GPS Position</source>
-        <translation type="unfinished">GPS pozícia</translation>
+        <translation>GPS pozícia</translation>
     </message>
 </context>
 <context>
     <name>QuickInfo</name>
     <message>
-        <location filename="../qml/mainview/QuickInfo.qml" line="113"/>
+        <location filename="../qml/mainview/QuickInfo.qml" line="116"/>
         <source>Hide Counter</source>
-        <translation type="unfinished">Skryť počitadlo</translation>
+        <translation>Skryť počitadlo</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/QuickInfo.qml" line="179"/>
+        <location filename="../qml/mainview/QuickInfo.qml" line="183"/>
         <source>Hide Filepath, leave Filename</source>
-        <translation type="unfinished">Skryť cestu k súboru, nechať názov súboru</translation>
+        <translation>Skryť cestu k súboru, nechať názov súboru</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/QuickInfo.qml" line="187"/>
+        <location filename="../qml/mainview/QuickInfo.qml" line="191"/>
         <source>Hide both, Filename and Filepath</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/mainview/QuickInfo.qml" line="231"/>
+        <location filename="../qml/mainview/QuickInfo.qml" line="236"/>
         <source>Filter:</source>
         <extracomment>As in: FILTER images</extracomment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -804,92 +815,92 @@
         <translation>Nastavenia môžete zmeniť jediným kliknutím. Zmeny sa uložia a prejavia ihneď. Ak si nie ste istý čo nastavenie spôsobí, prečítajte si popis v hlavných nastaveniach.</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="76"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="77"/>
         <source>Sort by</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="82"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="84"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="82"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="84"/>
         <source>Natural Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="82"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="84"/>
         <source>Date</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="82"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="84"/>
         <source>File Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="149"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="161"/>
         <source>Loop through folder</source>
         <translation>Zreťaz obrázky v priečinku</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="167"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="182"/>
         <source>Window mode</source>
         <translation>Mód v okne</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="174"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="192"/>
         <source>Show window decoration</source>
         <translation>Zobrazovať dekorácie okna</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="193"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="214"/>
         <source>Close on click on background</source>
         <translation>Zatvoriť kliknutím na pozadie</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="211"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="235"/>
         <source>Keep thumbnails visible</source>
         <translation>Ponechať náhľady viditeľné</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="231"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="258"/>
         <source>Normal thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="231"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="258"/>
         <source>Dynamic thumbnails</source>
         <translation>Dynamické náhľady</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="252"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="280"/>
         <source>Enable &apos;Quick Settings&apos;</source>
         <translation>Zapnúť &quot;Rýche nastavenia&quot;</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="231"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="258"/>
         <source>Smart thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="132"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="141"/>
         <source>No tray icon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="132"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="141"/>
         <source>Hide to tray icon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="132"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="141"/>
         <source>Show tray icon, but don&apos;t hide to it</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="276"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="305"/>
         <source>Show full settings</source>
         <translation>Ukázať plné nastavenia</translation>
     </message>
@@ -899,12 +910,12 @@
     <message>
         <location filename="../qml/fadein/Rename.qml" line="68"/>
         <source>Rename File</source>
-        <translation type="unfinished">Premenovať súbor</translation>
+        <translation>Premenovať súbor</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Rename.qml" line="147"/>
+        <location filename="../qml/fadein/Rename.qml" line="148"/>
         <source>Cancel</source>
-        <translation type="unfinished">Zrušiť</translation>
+        <translation>Zrušiť</translation>
     </message>
 </context>
 <context>
@@ -920,42 +931,42 @@
         <translation>Aktuálna veľkosť:</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Scale.qml" line="107"/>
+        <location filename="../qml/fadein/Scale.qml" line="112"/>
         <source>Error! Something went wrong, unable to save new dimension...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Scale.qml" line="131"/>
+        <location filename="../qml/fadein/Scale.qml" line="136"/>
         <source>New width:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Scale.qml" line="137"/>
+        <location filename="../qml/fadein/Scale.qml" line="143"/>
         <source>New height:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Scale.qml" line="237"/>
+        <location filename="../qml/fadein/Scale.qml" line="248"/>
         <source>Quality</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Scale.qml" line="285"/>
+        <location filename="../qml/fadein/Scale.qml" line="298"/>
         <source>Scale into new file</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Scale.qml" line="301"/>
+        <location filename="../qml/fadein/Scale.qml" line="315"/>
         <source>Don&apos;t scale</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Scale.qml" line="209"/>
+        <location filename="../qml/fadein/Scale.qml" line="217"/>
         <source>Aspect Ratio</source>
         <translation>Pomer strán</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Scale.qml" line="272"/>
+        <location filename="../qml/fadein/Scale.qml" line="284"/>
         <source>Scale in place</source>
         <translation>Prevzorkovať tento súbor</translation>
     </message>
@@ -965,139 +976,139 @@
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="59"/>
         <source>Look and Feel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="72"/>
         <location filename="../qml/settings/SettingsItem.qml" line="124"/>
         <source>Basic</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="93"/>
         <location filename="../qml/settings/SettingsItem.qml" line="143"/>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="115"/>
         <source>Thumbnails</source>
-        <translation type="unfinished">Náhľady</translation>
+        <translation>Náhľady</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="174"/>
         <source>Metadata</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="194"/>
         <source>Other Settings</source>
-        <translation type="unfinished">Ostatné nastavenia</translation>
+        <translation>Ostatné nastavenia</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="219"/>
         <source>Filetypes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="240"/>
         <source>Shortcuts</source>
-        <translation type="unfinished">Skratky</translation>
+        <translation>Skratky</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="313"/>
         <source>Restore Default Settings</source>
-        <translation type="unfinished">Obnoviť predvolené nastavenia</translation>
+        <translation>Obnoviť predvolené nastavenia</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="326"/>
         <source>Exit and Discard Changes</source>
-        <translation type="unfinished">Skončiť bez uloženia zmien</translation>
+        <translation>Skončiť bez uloženia zmien</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="344"/>
         <source>Save Changes and Exit</source>
-        <translation type="unfinished">Uložiť zmeny a skončiť</translation>
+        <translation>Uložiť zmeny a skončiť</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="358"/>
         <source>Clean Database</source>
-        <translation type="unfinished">Prečistenie databázy</translation>
+        <translation>Prečistenie databázy</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="359"/>
         <source>Do you really want to clean up the database?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="359"/>
         <source>This removes all obsolete thumbnails, thus possibly making PhotoQt a little faster.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="359"/>
         <source>This process might take a little while.</source>
-        <translation type="unfinished">Tento proces môže trochu trvať.</translation>
+        <translation>Tento proces môže trochu trvať.</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="360"/>
         <source>Yes, clean is good</source>
-        <translation type="unfinished">Áno, prečistenie je dobré</translation>
+        <translation>Áno, prečistenie je dobré</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="361"/>
         <source>No, don&apos;t have time for that</source>
-        <translation type="unfinished">Nie, nemám na to čas</translation>
+        <translation>Nie, nemám na to čas</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="368"/>
         <source>Erase Database</source>
-        <translation type="unfinished">Vymazať databázu</translation>
+        <translation>Vymazať databázu</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="369"/>
         <source>Do you really want to ERASE the entire database?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="369"/>
         <source>This removes every single item in the database! This step should never really be necessarily. After that, every thumbnail has to be newly re-created.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="369"/>
         <source>This step cannot be reversed!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="370"/>
         <source>Yes, get rid of it all</source>
-        <translation type="unfinished">Áno, zbav sa toho všetkého</translation>
+        <translation>Áno, zbav sa toho všetkého</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="371"/>
         <source>Nooo, I want to keep it</source>
-        <translation type="unfinished">Nieee, chcem si to nechať</translation>
+        <translation>Nieee, chcem si to nechať</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="378"/>
         <source>Set Default Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="379"/>
         <source>Are you sure you want to reset the shortcuts to the default set?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="380"/>
         <source>Yes, please</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="381"/>
         <source>Nah, don&apos;t</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1105,132 +1116,132 @@
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="86"/>
         <source>Start a Slideshow</source>
-        <translation type="unfinished">Spustiť slideshow</translation>
+        <translation>Spustiť slideshow</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Slideshow.qml" line="96"/>
+        <location filename="../qml/fadein/Slideshow.qml" line="97"/>
         <source>There are several settings that can be adjusted for a slideshow, like the time between the image, if and how long the transition between the images should be, and also a music file can be specified that is played in the background.</source>
-        <translation type="unfinished">Pre slideshow je možné nastaviť niekoľko parametrov, ako je čas medzi obrazmi, či a ako dlho zaberie prechod medzi obrazmi, a tiež výber hudobného súbora, ktorý pobeži na pozadí.</translation>
+        <translation>Pre slideshow je možné nastaviť niekoľko parametrov, ako je čas medzi obrazmi, či a ako dlho zaberie prechod medzi obrazmi, a tiež výber hudobného súbora, ktorý pobeži na pozadí.</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Slideshow.qml" line="102"/>
+        <location filename="../qml/fadein/Slideshow.qml" line="104"/>
         <source>Once you have set the desired options, you can also start a slideshow the next time via &apos;Quickstart&apos;, i.e. skipping this settings window.</source>
-        <translation type="unfinished">Ak už raz máte nastavené Vaše želané nastavenia, môžete začať slideshow tiež pomocou &quot;Quickstart&quot;, to znamená bez okna s nastaveniami.</translation>
+        <translation>Ak už raz máte nastavené Vaše želané nastavenia, môžete začať slideshow tiež pomocou &quot;Quickstart&quot;, to znamená bez okna s nastaveniami.</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Slideshow.qml" line="112"/>
+        <location filename="../qml/fadein/Slideshow.qml" line="114"/>
         <source>Time in between</source>
-        <translation type="unfinished">Čas medzi</translation>
+        <translation>Čas medzi</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Slideshow.qml" line="118"/>
+        <location filename="../qml/fadein/Slideshow.qml" line="121"/>
         <source>Adjust the time between the images. The time specified here is the amount of time the image will be completely visible, i.e. the transitioning (if set) is not part of this time.</source>
-        <translation type="unfinished">Upraviť čas medzi obrazmi. Uvedený čas je čas, za ktorý bude obraz kompletne viditeľný, to znamená, že prechod nie je súčasťou tohto času.</translation>
+        <translation>Upraviť čas medzi obrazmi. Uvedený čas je čas, za ktorý bude obraz kompletne viditeľný, to znamená, že prechod nie je súčasťou tohto času.</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Slideshow.qml" line="158"/>
+        <location filename="../qml/fadein/Slideshow.qml" line="161"/>
         <source>Smooth Transition</source>
-        <translation type="unfinished">Jemný prechod</translation>
+        <translation>Jemný prechod</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Slideshow.qml" line="164"/>
+        <location filename="../qml/fadein/Slideshow.qml" line="168"/>
         <source>Here you can set, if you want the images to fade into each other, and how fast they are to do that.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Slideshow.qml" line="177"/>
+        <location filename="../qml/fadein/Slideshow.qml" line="182"/>
         <source>No Transition</source>
-        <translation type="unfinished">Bez prechodu</translation>
+        <translation>Bez prechodu</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Slideshow.qml" line="192"/>
+        <location filename="../qml/fadein/Slideshow.qml" line="198"/>
         <source>Long Transition</source>
-        <translation type="unfinished">Dlhý prechod</translation>
-    </message>
-    <message>
-        <location filename="../qml/fadein/Slideshow.qml" line="204"/>
-        <source>Shuffle and Loop</source>
-        <translation type="unfinished"></translation>
+        <translation>Dlhý prechod</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="210"/>
+        <source>Shuffle and Loop</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/fadein/Slideshow.qml" line="217"/>
         <source>If you want PhotoQt to loop over all images (i.e., once it shows the last image it starts from the beginning), or if you want PhotoQt to load your images in random order, you can check either or both boxes below. Note, that no image will be shown twice before every image has been shown once.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Slideshow.qml" line="216"/>
+        <location filename="../qml/fadein/Slideshow.qml" line="223"/>
         <source>Loop over images</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Slideshow.qml" line="222"/>
+        <location filename="../qml/fadein/Slideshow.qml" line="229"/>
         <source>Shuffle images</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/fadein/Slideshow.qml" line="234"/>
-        <source>Hide Quickinfo</source>
-        <translation type="unfinished">Skryť Quickinfo</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="241"/>
+        <source>Hide Quickinfo</source>
+        <translation>Skryť Quickinfo</translation>
+    </message>
+    <message>
+        <location filename="../qml/fadein/Slideshow.qml" line="249"/>
         <source>Depending on your setup, PhotoQt displays some information at the top edge, like position in current directory or file path/name. Here you can disable them temporarily for the slideshow.</source>
-        <translation type="unfinished">V závislosti na nastavení, PhotoQt zobrazuje informácie na hornom okraji ako pozíciu v aktuálnom priečinku, alebo názov súboru/cestu k súboru. Tu ich viete dočasne pre slideshow deaktivovať</translation>
+        <translation>V závislosti na nastavení, PhotoQt zobrazuje informácie na hornom okraji ako pozíciu v aktuálnom priečinku, alebo názov súboru/cestu k súboru. Tu ich viete dočasne pre slideshow deaktivovať.</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Slideshow.qml" line="246"/>
+        <location filename="../qml/fadein/Slideshow.qml" line="254"/>
         <source>Hide Quickinfos</source>
-        <translation type="unfinished">Skryť Quickinfos</translation>
+        <translation>Skryť Quickinfos</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Slideshow.qml" line="258"/>
+        <location filename="../qml/fadein/Slideshow.qml" line="266"/>
         <source>Background Music</source>
-        <translation type="unfinished">Hudba na pozadí</translation>
+        <translation>Hudba na pozadí</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Slideshow.qml" line="264"/>
+        <location filename="../qml/fadein/Slideshow.qml" line="273"/>
         <source>Some might like to listen to some music while the slideshow is running. Here you can select a music file you want to be played in the background.</source>
-        <translation type="unfinished">Niekto má rád keď hrá počas slideshow hudba. Tu môžete vybrať hudobný súbor.</translation>
+        <translation>Niekto má rád keď hrá počas slideshow hudba. Tu môžete vybrať hudobný súbor.</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Slideshow.qml" line="271"/>
+        <location filename="../qml/fadein/Slideshow.qml" line="280"/>
         <source>Enable Music</source>
-        <translation type="unfinished">Aktivovať hudbu</translation>
+        <translation>Aktivovať hudbu</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Slideshow.qml" line="299"/>
+        <location filename="../qml/fadein/Slideshow.qml" line="310"/>
         <source>Click here to select music file...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Slideshow.qml" line="333"/>
+        <location filename="../qml/fadein/Slideshow.qml" line="344"/>
         <source>Okay, lets start</source>
-        <translation type="unfinished">OK, začnime</translation>
+        <translation>OK, začnime</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Slideshow.qml" line="337"/>
+        <location filename="../qml/fadein/Slideshow.qml" line="348"/>
         <source>Wait, maybe later</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Slideshow.qml" line="341"/>
+        <location filename="../qml/fadein/Slideshow.qml" line="352"/>
         <source>Save changes, but don&apos;t start just yet</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Slideshow.qml" line="354"/>
+        <location filename="../qml/fadein/Slideshow.qml" line="366"/>
         <source>Select music file...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Slideshow.qml" line="354"/>
+        <location filename="../qml/fadein/Slideshow.qml" line="366"/>
         <source>Music Files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Slideshow.qml" line="354"/>
+        <location filename="../qml/fadein/Slideshow.qml" line="366"/>
         <source>All Files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1238,22 +1249,22 @@
     <message>
         <location filename="../qml/slidein/SlideshowBar.qml" line="34"/>
         <source>Play Slideshow</source>
-        <translation type="unfinished">Spustiť slideshow</translation>
+        <translation>Spustiť slideshow</translation>
     </message>
     <message>
         <location filename="../qml/slidein/SlideshowBar.qml" line="34"/>
         <source>Pause Slideshow</source>
-        <translation type="unfinished">Pozastaviť slideshow</translation>
+        <translation>Pozastaviť slideshow</translation>
     </message>
     <message>
         <location filename="../qml/slidein/SlideshowBar.qml" line="49"/>
         <source>Music Volume:</source>
-        <translation type="unfinished">Hlasitosť hudby</translation>
+        <translation>Hlasitosť hudby:</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/SlideshowBar.qml" line="75"/>
+        <location filename="../qml/slidein/SlideshowBar.qml" line="77"/>
         <source>Exit Slideshow</source>
-        <translation type="unfinished">Ukončiť slideshow</translation>
+        <translation>Ukončiť slideshow</translation>
     </message>
 </context>
 <context>
@@ -1261,117 +1272,113 @@
     <message>
         <location filename="../qml/fadein/Startup.qml" line="74"/>
         <source>PhotoQt was successfully installed</source>
-        <translation type="unfinished">PhotoQt bolo úspešne nainštalované</translation>
+        <translation>PhotoQt bolo úspešne nainštalované</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="74"/>
         <source>PhotoQt was successfully updated</source>
-        <translation type="unfinished">PhotoQt bolo úspešne aktualizované</translation>
+        <translation>PhotoQt bolo úspešne aktualizované</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="91"/>
         <source>Welcome to PhotoQt. PhotoQt is an image viewer, aimed at being fast and reliable, highly customisable and good looking.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="91"/>
         <source>This app started out more than three and a half years ago, and it has developed quite a bit since then. It has become very efficient, reliable, and highly flexible (check out the settings). I&apos;m convinced it can hold up to the more &apos;traditional&apos; image viewers out there in every way.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/fadein/Startup.qml" line="91"/>
-        <source>Here below you find a short overview of what PhotoQt has to offer, but feel free to skip it and just get started.</source>
-        <translation type="unfinished">Nižšie nájdete krátky prehľad toho čo ponúka PhotoQt, no kľudne môžete túto časť preskočiť a rovno začať PhotoQt používať.</translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="92"/>
         <source>Welcome back to PhotoQt. It hasn&apos;t been that long since the last release of PhotoQt. Yet, it changed pretty much entirely, as it now is based on QtQuick rather than QWidgets. A large quantity of the code had to be re-written, while some chunks could be re-used. Thus, it is now more reliable than ever before and overall simply feels well rounded.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Startup.qml" line="92"/>
-        <source>Below you find a short overview over the features of PhotoQt. But feel free to skip it and just get started.</source>
-        <translation type="unfinished">Nižšie nájdete krátky prehľad funkcií aplikácie PhotoQt. Alebo prehľad preskočte a začnite s používaním.</translation>
-    </message>
-    <message>
-        <location filename="../qml/fadein/Startup.qml" line="122"/>
+        <location filename="../qml/fadein/Startup.qml" line="123"/>
         <source>Many File Formats</source>
-        <translation type="unfinished">Množstvo súborových typov</translation>
+        <translation>Množstvo súborových typov</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Startup.qml" line="122"/>
+        <location filename="../qml/fadein/Startup.qml" line="123"/>
         <source>PhotoQt can make use of GraphicsMagick, an image library, to display many different image formats. Currently, there are up to 72 different file formats supported (exact number depends on your system)! You can find a list of it in the settings (Tab &apos;Other&apos;). There you can en-/disable different ones and also add custom file endings.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Startup.qml" line="147"/>
+        <location filename="../qml/fadein/Startup.qml" line="160"/>
         <source>Make PhotoQt your own</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Startup.qml" line="147"/>
-        <source>PhotoQt has an extensive settings area. By default you can call it with the shortcut &apos;e&apos; or through the dropdown menu at the top edge towards the top right corner. You can adjust almost everything in PhotoQt, and it&apos;s certainly worth having a look there. Each setting usually comes with a little explanation text.</source>
-        <translation type="unfinished"></translation>
+        <location filename="../qml/fadein/Startup.qml" line="160"/>
+        <source>PhotoQt has an extensive settings area. By default you can call it with the shortcut &apos;e&apos; or through the dropdown menu at the top edge towards the top right corner. You can adjust almost everything in PhotoQt, and it&apos;s certainly worth having a look there. Each setting usually comes with a little explanation text. Some of the most often used settings can also be conveniently adjusted in a slide-in widget, hidden behind the right screen edge.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Startup.qml" line="185"/>
+        <location filename="../qml/fadein/Startup.qml" line="262"/>
+        <source>Most images store some additional information within the file&apos;s metadata. PhotoQt can read and display a selection of this data. You can find this information in the slide-in window hidden behind the left edge of PhotoQt.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/fadein/Startup.qml" line="299"/>
+        <source>PhotoQt also brings a slideshow feature. When you start a slideshow, it starts at the currently displayed image. There are a couple of settings that can be set, like transition, speed, loop, and shuffle. Plus, you can set a music file that is played in the background. When the slideshow takes longer than the music file, then PhotoQt starts the music file all over from the beginning. At anytime during the slideshow, you can move the mouse cursor to the top edge of the screen to get a little bar, where you can pause/exit the slideshow and adjust the music volume.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/fadein/Startup.qml" line="198"/>
         <source>Thumbnails</source>
-        <translation type="unfinished">Náhľady</translation>
+        <translation>Náhľady</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Startup.qml" line="185"/>
+        <location filename="../qml/fadein/Startup.qml" line="91"/>
+        <location filename="../qml/fadein/Startup.qml" line="92"/>
+        <source>Here below you find a short overview of a selection of a few things PhotoQt has to offer, but feel free to skip it and just get started.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/fadein/Startup.qml" line="198"/>
         <source>What would be an image viewer without thumbnails support? It would only be half as good. Whenever you load an image, PhotoQt loads the other images in the directory in the background (by default, it tries to be smart about it and only loads the ones that are needed). It lines them up in a row at the bottom edge (move your mouse there to see them). There are many settings just for the thumbnails, like, e.g., size, liftup, en-/disabled, type, filename, permanently shown/hidden, etc. PhotoQt&apos;s quite flexible with that.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Startup.qml" line="210"/>
+        <location filename="../qml/fadein/Startup.qml" line="223"/>
         <source>Shortcuts</source>
-        <translation type="unfinished">Skratky</translation>
+        <translation>Skratky</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Startup.qml" line="210"/>
+        <location filename="../qml/fadein/Startup.qml" line="223"/>
         <source>One of the many strengths of PhotoQt is the ability to easily set a shortcut for almost anything. Even mouse shortcuts are possible! You can choose from a huge number of internal functions, or you can run any custom script or command.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Startup.qml" line="248"/>
+        <location filename="../qml/fadein/Startup.qml" line="262"/>
         <source>Image Information (Exif/IPTC)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Startup.qml" line="248"/>
-        <source>Most images store some information about the image in the file. PhotoQt can read and display a selection of Exif and IPTC tags. You can find this information in the slide-in window hidden behind the left edge of PhotoQt.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/fadein/Startup.qml" line="273"/>
+        <location filename="../qml/fadein/Startup.qml" line="299"/>
         <source>Slideshow</source>
-        <translation type="unfinished">Slideshow</translation>
+        <translation>Slideshow</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Startup.qml" line="273"/>
-        <source>PhotoQt also brings a slideshow feature. When you start a slideshow, it starts at the currently displayed image. There are a couple settings like transition, speed, loop, and shuffle. Plus, you can set a music file that is played in the background. When the slideshow takes longer than the music file, then PhotoQt starts the music file all over from the beginning. At anytime during the slideshow, you can move the mouse cursor to the top edge of the screen to get a little bar, where you can pause/exit the slideshow and adjust the music volume.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/fadein/Startup.qml" line="311"/>
+        <location filename="../qml/fadein/Startup.qml" line="337"/>
         <source>Localisation</source>
-        <translation type="unfinished">Lokalizácie</translation>
+        <translation>Lokalizácie</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Startup.qml" line="311"/>
+        <location filename="../qml/fadein/Startup.qml" line="337"/>
         <source>PhotoQt comes with a number of translations. Many have taken some of their time to create/update one of them (Thank you!). Not all of them are complete... do you want to help?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Startup.qml" line="329"/>
+        <location filename="../qml/fadein/Startup.qml" line="355"/>
         <source>There are many many more features. Best is, you just give it a go. Don&apos;t forget to check out the settings to make PhotoQt YOUR image viewer. Enjoy :-)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Startup.qml" line="361"/>
+        <location filename="../qml/fadein/Startup.qml" line="387"/>
         <source>Okay, I got enough now. Lets start!</source>
-        <translation type="unfinished">Dobre, už mám dosť. Začnime!</translation>
+        <translation>Dobre, už mám dosť. Začnime!</translation>
     </message>
 </context>
 <context>
@@ -1379,177 +1386,177 @@
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="55"/>
         <source>Image Metadata</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="74"/>
         <source>PhotoQt can display different information of and about each image. The widget for this information is on the left outside the screen and slides in when mouse gets close to it and/or when the set shortcut (default Ctrl+E) is triggered. On demand, the triggering by mouse movement can be disabled by checking the box below.</source>
-        <translation type="unfinished">PhotoQt dokáže zobraziť rôzne informácie o obrázku. Widget pre tieto informácie je na ľavej strane obrazovky skrytý do momentu keď sa priblížite s myšou k okraju alebo kým nepoužijete skratku na to určenú (defaultne Ctrl+E). Zobrazenie priblížením kurzora myši je možno zakázať zaškrtnutím políčka dole.</translation>
+        <translation>PhotoQt dokáže zobraziť rôzne informácie o obrázku. Widget pre tieto informácie je na ľavej strane obrazovky skrytý do momentu keď sa priblížite s myšou k okraju alebo kým nepoužijete skratku na to určenú (defaultne Ctrl+E). Zobrazenie priblížením kurzora myši je možno zakázať zaškrtnutím políčka dole.</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="92"/>
+        <location filename="../qml/settings/TabDetails.qml" line="109"/>
         <source>Trigger Widget on Mouse Hovering</source>
-        <translation type="unfinished">Zakázať zobrazenie priblížením kurzora myši</translation>
+        <translation>Zakázať zobrazenie priblížením kurzora myši</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="92"/>
+        <location filename="../qml/settings/TabDetails.qml" line="109"/>
         <source>Per default the info widget can be shown two ways: Moving the mouse cursor to the left screen edge to fade it in temporarily (as long as the mouse is hovering it), or permanently by clicking the checkbox (checkbox only stored per session, can&apos;t be saved permanently!). Alternatively the widget can also be triggered by shortcut. On demand the mouse triggering can be disabled, so that the widget would only show on shortcut. This can come in handy, if you get annoyed by accidentally opening the widget occasionally.</source>
-        <translation type="unfinished">Defaultne je info widget možné zobraziť dvoma spôsobmi: Presunutím kurzora myši k ľavému okraju obrazovky (widget tam ostane tak dlho ako kurzor) alebo natrvalo zaškrtnutím checkboxu (checkbox platí len do vypnutia). Alternatívne sa tento widget dá zavolať klávesovou skratkou. Na požiadanie sa spustenie myšou dá vypnúť, takže widget sa dá zavolať len skratkou. Toto je veľmi praktické ak Vás otravuje náhodné a neželané zobrazenie widgetu.</translation>
+        <translation>Defaultne je info widget možné zobraziť dvoma spôsobmi: Presunutím kurzora myši k ľavému okraju obrazovky (widget tam ostane tak dlho ako kurzor) alebo natrvalo zaškrtnutím checkboxu (checkbox platí len do vypnutia). Alternatívne sa tento widget dá zavolať klávesovou skratkou. Na požiadanie sa spustenie myšou dá vypnúť, takže widget sa dá zavolať len skratkou. Toto je veľmi praktické ak Vás otravuje náhodné a neželané zobrazenie widgetu.</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="101"/>
+        <location filename="../qml/settings/TabDetails.qml" line="118"/>
         <source>Turn mouse triggering OFF</source>
-        <translation type="unfinished">Vypnúť spúšťanie myšou</translation>
+        <translation>Vypnúť spúšťanie myšou</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="114"/>
+        <location filename="../qml/settings/TabDetails.qml" line="131"/>
         <source>Which items are shown?</source>
-        <translation type="unfinished">Ktoré položky sú zobrazené?</translation>
+        <translation>Ktoré položky sú zobrazené?</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="114"/>
+        <location filename="../qml/settings/TabDetails.qml" line="131"/>
         <source>PhotoQt can display a number of information about the image (often called &apos;Exif data&apos;&apos;). However, you might not be interested in all of them, hence you can choose to disable some of them here.</source>
-        <translation type="unfinished">PhotoQt dokáže zobraziť mnoho informácií p obrázku (často nazývané ako &apos;Exif data&apos;&apos;). Ale nemusia Vás všetky zaujímať, z toho dôvodu máte možnosť niektoré z nich deaktivovať.</translation>
+        <translation>PhotoQt dokáže zobraziť mnoho informácií p obrázku (často nazývané ako &apos;Exif data&apos;&apos;). Ale nemusia Vás všetky zaujímať, z toho dôvodu máte možnosť niektoré z nich deaktivovať.</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="132"/>
+        <location filename="../qml/settings/TabDetails.qml" line="149"/>
         <source>Enable ALL</source>
-        <translation type="unfinished">Aktivovať VŠETKO</translation>
+        <translation>Aktivovať VŠETKO</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="137"/>
+        <location filename="../qml/settings/TabDetails.qml" line="155"/>
         <source>Disable ALL</source>
-        <translation type="unfinished">Deaktivovať VŠETKO</translation>
+        <translation>Deaktivovať VŠETKO</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="160"/>
+        <location filename="../qml/settings/TabDetails.qml" line="179"/>
         <source>Filesize</source>
-        <translation type="unfinished">Veľkosť súboru</translation>
+        <translation>Veľkosť súboru</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="161"/>
+        <location filename="../qml/settings/TabDetails.qml" line="180"/>
         <source>Dimensions</source>
-        <translation type="unfinished">Rozmery</translation>
+        <translation>Rozmery</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="162"/>
+        <location filename="../qml/settings/TabDetails.qml" line="181"/>
         <source>Make</source>
-        <translation type="unfinished">Výrobca</translation>
+        <translation>Výrobca</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="163"/>
+        <location filename="../qml/settings/TabDetails.qml" line="182"/>
         <source>Model</source>
-        <translation type="unfinished">Model</translation>
+        <translation>Model</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="164"/>
+        <location filename="../qml/settings/TabDetails.qml" line="183"/>
         <source>Software</source>
-        <translation type="unfinished">Softvér</translation>
+        <translation>Softvér</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="165"/>
+        <location filename="../qml/settings/TabDetails.qml" line="184"/>
         <source>Time Photo was Taken</source>
-        <translation type="unfinished">Čas fotenia</translation>
+        <translation>Čas fotenia</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="166"/>
+        <location filename="../qml/settings/TabDetails.qml" line="185"/>
         <source>Exposure Time</source>
-        <translation type="unfinished">Čas expozície</translation>
+        <translation>Čas expozície</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="167"/>
+        <location filename="../qml/settings/TabDetails.qml" line="186"/>
         <source>Flash</source>
-        <translation type="unfinished">Režim blesku</translation>
+        <translation>Režim blesku</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="168"/>
+        <location filename="../qml/settings/TabDetails.qml" line="187"/>
         <source>ISO</source>
-        <translation type="unfinished">ISO</translation>
+        <translation>ISO</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="169"/>
+        <location filename="../qml/settings/TabDetails.qml" line="188"/>
         <source>Scene Type</source>
-        <translation type="unfinished">Typ scény</translation>
+        <translation>Typ scény</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="170"/>
+        <location filename="../qml/settings/TabDetails.qml" line="189"/>
         <source>Focal Length</source>
-        <translation type="unfinished">Ohnisková vzdialenosť</translation>
+        <translation>Ohnisková vzdialenosť</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="171"/>
+        <location filename="../qml/settings/TabDetails.qml" line="190"/>
         <source>F-Number</source>
-        <translation type="unfinished">Clonové čislo</translation>
+        <translation>Clonové čislo</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="172"/>
+        <location filename="../qml/settings/TabDetails.qml" line="191"/>
         <source>Light Source</source>
-        <translation type="unfinished">Svetelný zdroj</translation>
+        <translation>Svetelný zdroj</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="173"/>
+        <location filename="../qml/settings/TabDetails.qml" line="192"/>
         <source>Keywords</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="174"/>
+        <location filename="../qml/settings/TabDetails.qml" line="193"/>
         <source>Location</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="175"/>
+        <location filename="../qml/settings/TabDetails.qml" line="194"/>
         <source>Copyright</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="176"/>
+        <location filename="../qml/settings/TabDetails.qml" line="195"/>
         <source>GPS Position</source>
-        <translation type="unfinished">GPS pozícia</translation>
+        <translation>GPS pozícia</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="191"/>
+        <location filename="../qml/settings/TabDetails.qml" line="210"/>
         <source>Adjusting Font Size</source>
-        <translation type="unfinished">Nastavenie veľkosti písma</translation>
+        <translation>Nastavenie veľkosti písma</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="191"/>
+        <location filename="../qml/settings/TabDetails.qml" line="210"/>
         <source>Computers can have very different resolutions. On some of them, it might be nice to increase the font size of the labels to have them easier readable. Often, a size of 8 or 9 should be working quite well...</source>
-        <translation type="unfinished">Počítače môžu mať rozličné rozlíšenie obrazovky. Na niektorých môže dopomôcť zväčšenie veľkosti písma k lepšej čitateľnosti popisiek. Častokrát ale stačí veľkosť písma 8 alebo 9...</translation>
+        <translation>Počítače môžu mať rozličné rozlíšenie obrazovky. Na niektorých môže dopomôcť zväčšenie veľkosti písma k lepšej čitateľnosti popisiek. Častokrát ale stačí veľkosť písma 8 alebo 9...</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="251"/>
+        <location filename="../qml/settings/TabDetails.qml" line="271"/>
         <source>Rotating/Flipping Image according to Exif Data</source>
-        <translation type="unfinished">Otáčanie/Prevrátenie obrázka vzhľadom na Exif Data</translation>
+        <translation>Otáčanie/Prevrátenie obrázka vzhľadom na Exif Data</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="251"/>
+        <location filename="../qml/settings/TabDetails.qml" line="271"/>
         <source>Some cameras can detect - while taking the photo - whether the camera was turned and might store this information in the image exif data. If PhotoQt finds this information, it can rotate the image accordingly. When asking PhotoQt to always rotate images automatically without asking, it already does so at image load (including thumbnails).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="272"/>
+        <location filename="../qml/settings/TabDetails.qml" line="294"/>
         <source>Never rotate/flip images</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="278"/>
+        <location filename="../qml/settings/TabDetails.qml" line="300"/>
         <source>Always rotate/flip images</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="283"/>
+        <location filename="../qml/settings/TabDetails.qml" line="305"/>
         <source>Always ask</source>
-        <translation type="unfinished">Vždy sa opýtať</translation>
+        <translation>Vždy sa opýtať</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="299"/>
+        <location filename="../qml/settings/TabDetails.qml" line="323"/>
         <source>Online map for GPS</source>
-        <translation type="unfinished">Online mapy pre GPS</translation>
+        <translation>Online mapy pre GPS</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabDetails.qml" line="299"/>
+        <location filename="../qml/settings/TabDetails.qml" line="323"/>
         <source>If you&apos;re image includes a GPS location, then a click on the location text will load this location in an online map using your default external browser. Here you can choose which online service to use (suggestions for other online maps always welcome).</source>
-        <translation type="unfinished">Ak Vaša snímka obsahuje GPS súradníce, jednoduchým kliknutím na text sa Vám otvorí online mapa vo Vašom prednastavenom prehliadači. Môžete si vybrať, ktorú službu si prajete použiť (návrhy pre iné služby online máp sú vítané)</translation>
+        <translation>Ak Vaša snímka obsahuje GPS súradníce, jednoduchým kliknutím na text sa Vám otvorí online mapa vo Vašom prednastavenom prehliadači. Môžete si vybrať, ktorú službu si prajete použiť (návrhy pre iné služby online máp sú vítané).</translation>
     </message>
 </context>
 <context>
@@ -1557,110 +1564,110 @@
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="55"/>
         <source>Filetypes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabFiletypes.qml" line="69"/>
+        <location filename="../qml/settings/TabFiletypes.qml" line="79"/>
         <source>File Types - Qt</source>
-        <translation type="unfinished">Súborové typy - Qt</translation>
+        <translation>Súborové typy - Qt</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabFiletypes.qml" line="69"/>
+        <location filename="../qml/settings/TabFiletypes.qml" line="79"/>
         <source>These are the file types natively supported by Qt. Make sure, that you&apos;ll have the required libraries installed (e.g., qt5-imageformats), otherwise some of them might not work on your system.&lt;br&gt;If a file ending for one of the formats is missing, you can add it below, formatted like &apos;*.ending&apos; (without single quotation marks), multiple entries seperated by commas.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabFiletypes.qml" line="92"/>
+        <location filename="../qml/settings/TabFiletypes.qml" line="102"/>
         <source>Extra File Types:</source>
-        <translation type="unfinished">Extra typy súborov:</translation>
+        <translation>Extra typy súborov:</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabFiletypes.qml" line="108"/>
-        <location filename="../qml/settings/TabFiletypes.qml" line="152"/>
-        <location filename="../qml/settings/TabFiletypes.qml" line="195"/>
-        <location filename="../qml/settings/TabFiletypes.qml" line="311"/>
+        <location filename="../qml/settings/TabFiletypes.qml" line="117"/>
+        <location filename="../qml/settings/TabFiletypes.qml" line="166"/>
+        <location filename="../qml/settings/TabFiletypes.qml" line="214"/>
+        <location filename="../qml/settings/TabFiletypes.qml" line="337"/>
         <source>Mark None</source>
-        <translation type="unfinished">Označ žiadne</translation>
+        <translation>Označ žiadne</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabFiletypes.qml" line="114"/>
-        <location filename="../qml/settings/TabFiletypes.qml" line="158"/>
-        <location filename="../qml/settings/TabFiletypes.qml" line="201"/>
-        <location filename="../qml/settings/TabFiletypes.qml" line="317"/>
+        <location filename="../qml/settings/TabFiletypes.qml" line="123"/>
+        <location filename="../qml/settings/TabFiletypes.qml" line="172"/>
+        <location filename="../qml/settings/TabFiletypes.qml" line="220"/>
+        <location filename="../qml/settings/TabFiletypes.qml" line="343"/>
         <source>Mark All</source>
-        <translation type="unfinished">Označ všetky</translation>
+        <translation>Označ všetky</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabFiletypes.qml" line="132"/>
+        <location filename="../qml/settings/TabFiletypes.qml" line="143"/>
         <source>File Types - GraphicsMagick</source>
-        <translation type="unfinished">Súborové typy - GraphicsMagick</translation>
+        <translation>Súborové typy - GraphicsMagick</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabFiletypes.qml" line="132"/>
+        <location filename="../qml/settings/TabFiletypes.qml" line="143"/>
         <source>PhotoQt makes use of GraphicsMagick for support of many different image formats. The list below are all those formats, that were successfully displayed using test images. If you prefer not to have one or the other enabled in PhotoQt, you can simply disable individual formats below.&lt;br&gt;There are a few formats, that were not tested in PhotoQt (due to lack of a test image). You can find those in the &apos;Untested&apos; category below.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabFiletypes.qml" line="175"/>
+        <location filename="../qml/settings/TabFiletypes.qml" line="191"/>
         <source>File Types - GraphicsMagick (requires Ghostscript)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabFiletypes.qml" line="175"/>
+        <location filename="../qml/settings/TabFiletypes.qml" line="191"/>
         <source>The following file types are supported by GraphicsMagick, and they have been tested and work. However, they require Ghostscript to be installed on the system.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabFiletypes.qml" line="219"/>
+        <location filename="../qml/settings/TabFiletypes.qml" line="238"/>
         <source>File Types - Other tools required</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabFiletypes.qml" line="219"/>
+        <location filename="../qml/settings/TabFiletypes.qml" line="238"/>
         <source>The following filetypes are supported by means of other third party tools. You first need to install them before you can use them.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabFiletypes.qml" line="219"/>
+        <location filename="../qml/settings/TabFiletypes.qml" line="238"/>
         <source>Note</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabFiletypes.qml" line="219"/>
+        <location filename="../qml/settings/TabFiletypes.qml" line="238"/>
         <source>If an image format is also provided by GraphicsMagick/Qt, then PhotoQt first chooses the external tool (if enabled).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabFiletypes.qml" line="250"/>
+        <location filename="../qml/settings/TabFiletypes.qml" line="270"/>
         <source>Gimp&apos;s XCF file format.</source>
-        <extracomment>&apos;Makes use of&apos; is in connection with an external tool (i.e., it &apos;makes use of&apos; tool abc)</extracomment>
-        <translation type="unfinished"></translation>
+        <extracomment>'Makes use of' is in connection with an external tool (i.e., it 'makes use of' tool abc)</extracomment>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabFiletypes.qml" line="250"/>
-        <location filename="../qml/settings/TabFiletypes.qml" line="271"/>
+        <location filename="../qml/settings/TabFiletypes.qml" line="270"/>
+        <location filename="../qml/settings/TabFiletypes.qml" line="292"/>
         <source>Makes use of</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabFiletypes.qml" line="271"/>
+        <location filename="../qml/settings/TabFiletypes.qml" line="292"/>
         <source>Adobe Photoshop PSD and PSB.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabFiletypes.qml" line="291"/>
+        <location filename="../qml/settings/TabFiletypes.qml" line="314"/>
         <source>File Types - GraphicsMagick (Untested)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabFiletypes.qml" line="291"/>
+        <location filename="../qml/settings/TabFiletypes.qml" line="314"/>
         <source>The following file types are generally supported by GraphicsMagick, but I wasn&apos;t able to test them in PhotoQt (due to lack of test images). They might very well be working, but I simply can&apos;t say. If you decide to enable some of the, the worst that could happen ist, that you see an error image instead of the actual image.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabFiletypes.qml" line="291"/>
+        <location filename="../qml/settings/TabFiletypes.qml" line="314"/>
         <source>If you happen to have an image in one of those formats and don&apos;t mind sending it to me, that&apos;d be really cool...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1668,257 +1675,257 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="54"/>
         <source>Advanced Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="67"/>
         <source>Background of PhotoQt</source>
-        <translation type="unfinished">Pozadie PhotoQt</translation>
+        <translation>Pozadie PhotoQt</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="67"/>
         <source>The background of PhotoQt is the part, that is not covered by an image. It can be made either real (half-)transparent (using a compositor), or faked transparent (instead of the actual desktop a screenshot of it is shown), or a custom background image can be set, or none of the above.&lt;br&gt;Note: Fake transparency currently only really works when PhotoQt is run in fullscreen/maximised!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="91"/>
         <source>Use (half-)transparent background</source>
-        <translation type="unfinished">Použiť (polo-) priehľadné pozadie</translation>
+        <translation>Použiť (polo-) priehľadné pozadie</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="97"/>
         <source>Use faked transparency</source>
-        <translation type="unfinished">Použiť falošnú priehľadnosť</translation>
+        <translation>Použiť falošnú priehľadnosť</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="102"/>
         <source>Use custom background image</source>
-        <translation type="unfinished">Použiť vlastný obrázok ako pozadie</translation>
+        <translation>Použiť vlastný obrázok ako pozadie</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="107"/>
         <source>Use one-coloured, non-transparent background</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="163"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="164"/>
         <source>No image selected</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="187"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="188"/>
         <source>Scale to fit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="193"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="194"/>
         <source>Scale and Crop to fit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="198"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="199"/>
         <source>Stretch to fit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="203"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="204"/>
         <source>Center image</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="208"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="209"/>
         <source>Tile image</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="227"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="228"/>
         <source>Background/Overlay Color</source>
-        <translation type="unfinished">Farba pozadia</translation>
+        <translation>Farba pozadia</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="227"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="228"/>
         <source>Here you can adjust the background colour of PhotoQt (of the part not covered by an image). When using compositing or a background image, then you can also specify an alpha value, i.e. the transparency of the coloured overlay layer. When neither compositing is enabled nor a background image is set, then this colour will be the non-transparent background of PhotoQt.</source>
-        <translation type="unfinished">Tu je možné nastaviť farbu pozadia PhotoQt (časti nezakrytej obrázkom). Pri použití kompozície, alebo obrázka ako pozadie táto farba slúži ako alfa hodnota, napr. priehľadnosť zafarbenej vrstvy. Ak nie je použitá kompozícia ani obrázok ako pozadie, potom je táto farba použitá na zafarbenie pozadia aplikácie PhotoQt.</translation>
+        <translation>Tu je možné nastaviť farbu pozadia PhotoQt (časti nezakrytej obrázkom). Pri použití kompozície, alebo obrázka ako pozadie táto farba slúži ako alfa hodnota, napr. priehľadnosť zafarbenej vrstvy. Ak nie je použitá kompozícia ani obrázok ako pozadie, potom je táto farba použitá na zafarbenie pozadia aplikácie PhotoQt.</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="257"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="259"/>
         <source>Red:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="278"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="281"/>
         <source>Green:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="299"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="303"/>
         <source>Blue:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="320"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="325"/>
         <source>Alpha:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="380"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="387"/>
         <source>Preview colour</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="403"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="410"/>
         <source>Border Around Image</source>
-        <translation type="unfinished">Okraj okolo obrázka</translation>
+        <translation>Okraj okolo obrázka</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="403"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="410"/>
         <source>Whenever you load an image, the image is per default not shown completely in fullscreen, i.e. it&apos;s not stretching from screen edge to screen edge. Instead there is a small margin around the image of a couple pixels (looks better). Here you can adjust the width of this margin (set to 0 to disable it).</source>
-        <translation type="unfinished">Vždy keď sa načíta obrázok, nezobrazí sa úplne na celú obrazovku. To znamená, že nie je roztiahnutý od okraja obrazovky po okraj. Namiesto toho je na okraji malá medzera o veľkosti pár pixelov (lepšie to vyzerá). Tu si môžete nastaviť veľkosť medzery (nastavením na 0 ju vypnete).</translation>
+        <translation>Vždy keď sa načíta obrázok, nezobrazí sa úplne na celú obrazovku. To znamená, že nie je roztiahnutý od okraja obrazovky po okraj. Namiesto toho je na okraji malá medzera o veľkosti pár pixelov (lepšie to vyzerá). Tu si môžete nastaviť veľkosť medzery (nastavením na 0 ju vypnete).</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="462"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="469"/>
         <source>Close on Click in empty area</source>
-        <translation type="unfinished">Zatvoriť Photo kliknutím na prázdne miesto</translation>
+        <translation>Zatvoriť Photo kliknutím na prázdne miesto</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="462"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="469"/>
         <source>This option makes PhotoQt behave a bit like the JavaScript image viewers you find on many websites. A click outside of the image on the empty background will close the application. It can be a nice feature, PhotoQt will feel even more like a &quot;floating layer&quot;. However, you might at times close PhotoQt accidentally.</source>
-        <translation type="unfinished">Táto funkcia je spravená na štýl mnohých javaskriptových prehliadačov obrázkov, presne ako to poznáte z webstránok. Kliknutím mimo obrázka na prázdne pozadie ukončíte aplikáciu. Je to fajn funkcia, PhotoQt sa takto ešte viac podobá na akúsi &quot;plávajúcu vrstvu&quot;. Bohužiaľ takto môžete náhodne vypnúť Photoqt aj keď to práve nechcete.</translation>
+        <translation>Táto funkcia je spravená na štýl mnohých javaskriptových prehliadačov obrázkov, presne ako to poznáte z webstránok. Kliknutím mimo obrázka na prázdne pozadie ukončíte aplikáciu. Je to fajn funkcia, PhotoQt sa takto ešte viac podobá na akúsi &quot;plávajúcu vrstvu&quot;. Bohužiaľ takto môžete náhodne vypnúť Photoqt aj keď to práve nechcete.</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="462"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="469"/>
         <source>Note: If you use a mouse click for a shortcut already, then this option wont have any effect!</source>
-        <translation type="unfinished">Poznámka: Ak používate kliknutie myšou ako skratku, táto funkcia ostane bez efektu!</translation>
+        <translation>Poznámka: Ak používate kliknutie myšou ako skratku, táto funkcia ostane bez efektu!</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="468"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="475"/>
         <source>Close on click in empty area</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="481"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="488"/>
         <source>Looping Through Folder</source>
-        <translation type="unfinished">Zreťazenie obrázkov v priečinku</translation>
+        <translation>Zreťazenie obrázkov v priečinku</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="481"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="488"/>
         <source>When you load the last image in a directory and select &apos;Next&apos;, PhotoQt automatically jumps to the first image (and vice versa: if you select &apos;Previous&apos; while having the first image loaded, PhotoQt jumps to the last image). Disabling this option makes PhotoQt stop at the first/last image (i.e. selecting &apos;Next&apos;/&apos;Previous&apos; will have no effect in these two special cases).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="487"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="494"/>
         <source>Loop through folder</source>
-        <translation type="unfinished">Zreťaz obrázky v priečinku</translation>
+        <translation>Zreťaz obrázky v priečinku</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="500"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="507"/>
         <source>Smooth Transition</source>
-        <translation type="unfinished">Jemný prechod</translation>
+        <translation>Jemný prechod</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="500"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="507"/>
         <source>Switching between images can be done smoothly, the new image can be set to fade into the old image. &apos;No transition&apos; means, that the previous image is simply replaced by the new image.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="519"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="526"/>
         <source>No Transition</source>
-        <translation type="unfinished">Bez prechodu</translation>
+        <translation>Bez prechodu</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="538"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="546"/>
         <source>Long Transition</source>
-        <translation type="unfinished">Dlhý prechod</translation>
+        <translation>Dlhý prechod</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="555"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="564"/>
         <source>Menu Sensitivity</source>
-        <translation type="unfinished">Citlivosť zobrazenia menu</translation>
+        <translation>Citlivosť zobrazenia menu</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="555"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="564"/>
         <source>Here you can adjust the sensitivity of the drop-down menu. The menu opens when your mouse cursor gets close to the right side of the upper edge. Here you can adjust how close you need to get for it to open.</source>
-        <translation type="unfinished">Tu môžete nastaviť citlivosť vysúvacieho menu. Menu sa vysunie, ak sa kurzor dostane do blízkosti pravého horného rohu. Tu si môžete nastaviť ako blízko sa potrebuje kurzor dostať, aby sa menu vysunulo.</translation>
+        <translation>Tu môžete nastaviť citlivosť vysúvacieho menu. Menu sa vysunie, ak sa kurzor dostane do blízkosti pravého horného rohu. Tu si môžete nastaviť ako blízko sa potrebuje kurzor dostať, aby sa menu vysunulo.</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="574"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="583"/>
         <source>Low Sensitivity</source>
-        <translation type="unfinished">Nízka citlivosť</translation>
+        <translation>Nízka citlivosť</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="593"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="603"/>
         <source>High Sensitivity</source>
-        <translation type="unfinished">Vysoká citlivosť</translation>
+        <translation>Vysoká citlivosť</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="610"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="621"/>
         <source>Mouse Wheel Sensitivity</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="610"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="621"/>
         <source>Here you can adjust the sensitivity of the mouse wheel. For example, if you have set the mouse wheel up/down for switching back and forth between images, then a lower sensitivity means that you will have to scroll further for triggering a shortcut. Per default it is set to the highest sensitivity, i.e. every single wheel movement is evaluated.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="629"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="640"/>
         <source>Very sensitive</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="648"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="660"/>
         <source>Not at all sensitive</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="665"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="678"/>
         <source>Remember per session</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="665"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="678"/>
         <source>If you would like PhotoQt to remember the rotation/flipping and/or zoom level per session (not permanent), then you can enable it here. If not set, then every time a new image is displayed, it is displayed neither zoomed nor rotated nor flipped (one could say, it is displayed &apos;normal&apos;).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="684"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="697"/>
         <source>Remember Rotation/Flip</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="689"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="702"/>
         <source>Remember Zoom Level</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="706"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
         <source>Animation and Window Geometry</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="706"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
         <source>There are two things that can be adjusted here:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="706"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
         <source>Animation of fade-in widgets (like, e.g., Settings or About Widget)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="706"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
         <source>Save and restore of Window Geometry: On quitting PhotoQt, it stores the size and position of the window and can restore it the next time started.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="725"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="738"/>
         <source>Animate all fade-in elements</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="730"/>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="743"/>
         <source>Save and restore window geometry</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1926,177 +1933,177 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="52"/>
         <source>Basic Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="65"/>
         <source>Sort Images</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="65"/>
         <source>Here you can adjust, how the images in a folder are supposed to be sorted. You can sort them by Filename, Natural Name (e.g., file10.jpg comes after file9.jpg and not after file1.jpg), File Size, and Date. Also, you can reverse the sorting order from ascending to descending if wanted.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="65"/>
         <source>Hint: You can also change this setting very quickly from the &apos;Quick Settings&apos; window, hidden behind the right screen edge.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="90"/>
         <source>Sort by:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="97"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="98"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="97"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="98"/>
         <source>Natural Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="97"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="98"/>
         <source>Date</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="97"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="98"/>
         <source>Filesize</source>
-        <translation type="unfinished">Veľkosť súboru</translation>
+        <translation>Veľkosť súboru</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="104"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="105"/>
         <source>Ascending</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="112"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="113"/>
         <source>Descending</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="129"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="130"/>
         <source>Window Mode</source>
-        <translation type="unfinished">Mód v okne</translation>
+        <translation>Mód v okne</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="129"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="130"/>
         <source>PhotoQt is designed with the space of a fullscreen app in mind. That&apos;s why it by default runs as fullscreen. However, some might prefer to have it as a normal window, e.g. so that they can see the panel.</source>
-        <translation type="unfinished">PhotoQt bolo dizajnované ako predstava fullscreen aplikácie. Preto v základnom nastavení beží na celú obrazovku. Každopádne, niekto preferuje obyčajné okno, tak aby videl panel.</translation>
+        <translation>PhotoQt bolo dizajnované ako predstava fullscreen aplikácie. Preto v základnom nastavení beží na celú obrazovku. Každopádne, niekto preferuje obyčajné okno, tak aby videl panel.</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="150"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="151"/>
         <source>Run PhotoQt in Window Mode</source>
-        <translation type="unfinished">Spusitť PhotoQt v okne</translation>
+        <translation>Spusitť PhotoQt v okne</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="158"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="159"/>
         <source>Show Window Decoration</source>
-        <translation type="unfinished">Zobrazovať dekorácie okna</translation>
+        <translation>Zobrazovať dekorácie okna</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="173"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="174"/>
         <source>Hide to Tray Icon</source>
-        <translation type="unfinished">Skryť do systémového panelu</translation>
+        <translation>Skryť do systémového panelu</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="173"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="174"/>
         <source>When started PhotoQt creates a tray icon in the system tray. If desired, you can set PhotoQt to minimise to the tray instead of quitting. This causes PhotoQt to be almost instantaneously available when an image is opened.&lt;br&gt;It is also possible to start PhotoQt already minimised to the tray (e.g. at system startup) when called with &quot;--start-in-tray&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="181"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="182"/>
         <source>No tray icon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="181"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="182"/>
         <source>Hide to tray icon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="181"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="182"/>
         <source>Show tray icon, but don&apos;t hide to it</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="192"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="193"/>
         <source>Closing &apos;X&apos; (top right)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="192"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="193"/>
         <source>There are two looks for the closing &apos;x&apos; at the top right: a normal &apos;x&apos;, or a slightly more fancy &apos;x&apos;. Here you can switch back and forth between both of them, and also change their size. If you prefer not to have a closing &apos;x&apos; at all, see below for an option to hide it.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="215"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="216"/>
         <source>Normal Look</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="222"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="223"/>
         <source>Fancy Look</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="248"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="249"/>
         <source>Small Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="263"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="264"/>
         <source>Large Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="279"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="280"/>
         <source>Fit Image in Window</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="279"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="280"/>
         <source>If the image dimensions are smaller than the screen dimensions, PhotoQt can zoom those images to make them fir into the window. However, keep in mind, that such images will look pixelated to a certain degree (depending on each image).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="286"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="287"/>
         <source>Fit Images in Window</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="299"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="300"/>
         <source>Hide Quickinfo (Text Labels)</source>
-        <translation type="unfinished">Skryť Quickinfo (textové popisky)</translation>
+        <translation>Skryť Quickinfo (textové popisky)</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="299"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="300"/>
         <source>Here you can hide the text labels shown in the main area: The Counter in the top left corner, the file path/name following the counter, and the &quot;X&quot; displayed in the top right corner. The labels can also be hidden by simply right-clicking on them and selecting &quot;Hide&quot;.</source>
-        <translation type="unfinished">Tu môžete skryť textové popisky objavujúce sa v hlavnej oblasti: Počítadlo v hornom ľavom rohu, cesta k súboru/názov súboru za počítadlom, a &quot;X&quot; zobrazené v hornom pravom rohu. Tieto popisky, je tiež možné  skryť pravým kliknutím na samotné popisky a stlačením na &quot;Skryť&quot;.</translation>
+        <translation>Tu môžete skryť textové popisky objavujúce sa v hlavnej oblasti: Počítadlo v hornom ľavom rohu, cesta k súboru/názov súboru za počítadlom, a &quot;X&quot; zobrazené v hornom pravom rohu. Tieto popisky, je tiež možné  skryť pravým kliknutím na samotné popisky a stlačením na &quot;Skryť&quot;.</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="320"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="321"/>
         <source>Hide Counter</source>
-        <translation type="unfinished">Skryť počitadlo</translation>
+        <translation>Skryť počitadlo</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="325"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="326"/>
         <source>Hide Filepath (Shows only file name)</source>
-        <translation type="unfinished">Skryť cestu k súboru (ukázať len názov súboru)</translation>
+        <translation>Skryť cestu k súboru (ukázať len názov súboru)</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="330"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="331"/>
         <source>Hide Filename (Including file path)</source>
-        <translation type="unfinished">Skryť názov súboru (vrátane cesty k súboru)</translation>
+        <translation>Skryť názov súboru (vrátane cesty k súboru)</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="335"/>
+        <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="336"/>
         <source>Hide &quot;X&quot; (Closing)</source>
-        <translation type="unfinished">Skryť &quot;X&quot; (Ukončenie)</translation>
+        <translation>Skryť &quot;X&quot; (Ukončenie)</translation>
     </message>
 </context>
 <context>
@@ -2104,62 +2111,62 @@
     <message>
         <location filename="../qml/settings/TabOther.qml" line="55"/>
         <source>Other Settings</source>
-        <translation type="unfinished">Ostatné nastavenia</translation>
+        <translation>Ostatné nastavenia</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabOther.qml" line="69"/>
         <source>Choose Language</source>
-        <translation type="unfinished">Výber jazyka</translation>
+        <translation>Výber jazyka</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabOther.qml" line="69"/>
         <source>There are a good few different languages available. Thanks to everybody who took the time to translate PhotoQt!</source>
-        <translation type="unfinished">K dispozícii sú rôzne jazyky. Vďaka všetkým, ktorí venovali svoj čas prekladu PhotoQt!</translation>
+        <translation>K dispozícii sú rôzne jazyky. Vďaka všetkým, ktorí venovali svoj čas prekladu PhotoQt!</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabOther.qml" line="119"/>
         <source>Quick Settings</source>
-        <translation type="unfinished">Rýchle nastavenia</translation>
+        <translation>Rýchle nastavenia</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabOther.qml" line="119"/>
         <source>The &apos;Quick Settings&apos; is a widget hidden on the right side of the screen. When you move the cursor there, it shows up, and you can adjust a few simple settings on the spot without having to go through this settings dialog. Of course, only a small subset of settings is available (the ones needed most often). Here you can disable the dialog so that it doesn&apos;t show on mouse movement anymore.</source>
-        <translation type="unfinished">&quot;Rýchle nastavenia&quot; je widget skrytý v pravom okraji obrazovky. Zobrazí sa, keď sa kurzor dostatočne priblíži k okraju. Môžete v ňom z fleku zmeniť veci bez toho, aby ste museli ísť do hlavného menu. K dispozícií je ich ale len pár (tie najpoužívanejšie). Tu je možné vypnúť tento widget, takže sa už pri priblížení kurzoru nezobrazí.</translation>
+        <translation>&quot;Rýchle nastavenia&quot; je widget skrytý v pravom okraji obrazovky. Zobrazí sa, keď sa kurzor dostatočne priblíži k okraju. Môžete v ňom z fleku zmeniť veci bez toho, aby ste museli ísť do hlavného menu. K dispozícií je ich ale len pár (tie najpoužívanejšie). Tu je možné vypnúť tento widget, takže sa už pri priblížení kurzoru nezobrazí.</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabOther.qml" line="129"/>
         <source>Show &apos;Quick Settings&apos; on mouse hovering</source>
-        <translation type="unfinished">Zobraziť &quot;Rýchle nastavenia&quot; pri prechode myšou</translation>
+        <translation>Zobraziť &quot;Rýchle nastavenia&quot; pri prechode myšou</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabOther.qml" line="142"/>
         <source>Adjust Context Menu</source>
-        <translation type="unfinished">Nastavenia kontextového menu</translation>
+        <translation>Nastavenia kontextového menu</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabOther.qml" line="142"/>
         <source>Here you can adjust the context menu. You can simply drag and drop the entries, edit them, add a new one and remove an existing one.</source>
-        <translation type="unfinished">Tu si môžete nastaviť kontextové menu. Môžete jednoducho preniesť položky, upraviť ich, pridať novú položku alebo odstrániť už existujúcu.</translation>
+        <translation>Tu si môžete nastaviť kontextové menu. Môžete jednoducho preniesť položky, upraviť ich, pridať novú položku alebo odstrániť už existujúcu.</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="181"/>
+        <location filename="../qml/settings/TabOther.qml" line="183"/>
         <source>Executable</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="195"/>
+        <location filename="../qml/settings/TabOther.qml" line="199"/>
         <source>Menu Text</source>
-        <translation type="unfinished">Text Menu</translation>
+        <translation>Text Menu</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="219"/>
+        <location filename="../qml/settings/TabOther.qml" line="223"/>
         <source>Add new context menu entry</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="227"/>
+        <location filename="../qml/settings/TabOther.qml" line="231"/>
         <source>(Re-)set automatically</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2167,12 +2174,12 @@
     <message>
         <location filename="../qml/settings/TabOtherContext.qml" line="116"/>
         <source>Click here to drag</source>
-        <translation type="unfinished">Klikne sem pre presun</translation>
+        <translation>Klikne sem pre presun</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOtherContext.qml" line="184"/>
+        <location filename="../qml/settings/TabOtherContext.qml" line="186"/>
         <source>quit</source>
-        <translation type="unfinished">ukončiť</translation>
+        <translation>ukončiť</translation>
     </message>
 </context>
 <context>
@@ -2180,188 +2187,203 @@
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="54"/>
         <source>Shortcuts</source>
-        <translation type="unfinished">Skratky</translation>
+        <translation>Skratky</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="73"/>
         <source>Here you can adjust the shortcuts, add new or remove existing ones, or change a key combination. The shortcuts are grouped into 4 different categories for internal commands plus a category for external commands. The boxes on the right side contain all the possible commands. To add a shortcut for one of the available function you can either double click on the tile or click the &quot;+&quot; button. This automatically opens another widget where you can set a key combination.</source>
-        <translation type="unfinished">Tu môžete upraviť skratky, pridať nové alebo odstrániť už existujúce, prípadne meniť klávesové kombinácie. Skratky sú rozdelené do 4 kategórií pre interné príkazy plus jedna kategória pre externé príkazy. Bloky na pravej strane obsahujú všetky dostupné príkazy. Pridať skratku je možné dvojklikom, alebo tlačidlom &quot;+&quot;. Otvorí sa Vám ponuka, kde si môžete nastaviť kombináciu kláves.</translation>
+        <translation>Tu môžete upraviť skratky, pridať nové alebo odstrániť už existujúce, prípadne meniť klávesové kombinácie. Skratky sú rozdelené do 4 kategórií pre interné príkazy plus jedna kategória pre externé príkazy. Bloky na pravej strane obsahujú všetky dostupné príkazy. Pridať skratku je možné dvojklikom, alebo tlačidlom &quot;+&quot;. Otvorí sa Vám ponuka, kde si môžete nastaviť kombináciu kláves.</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="89"/>
         <source>Set default shortcuts</source>
-        <translation type="unfinished">Nastaviť prednastavené skratky</translation>
+        <translation>Nastaviť prednastavené skratky</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="96"/>
         <source>Navigation</source>
-        <translation type="unfinished">Navigácia</translation>
+        <translation>Navigácia</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="99"/>
         <source>Open New File</source>
-        <translation type="unfinished">Otvoriť nový súbor</translation>
+        <translation>Otvoriť nový súbor</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="99"/>
         <source>Filter Images in Folder</source>
-        <translation type="unfinished">Filtrovať obrázky v priečinku</translation>
+        <translation>Filtrovať obrázky v priečinku</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="99"/>
         <source>Next Image</source>
-        <translation type="unfinished">Nasledujúci obrázok</translation>
+        <translation>Nasledujúci obrázok</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="99"/>
         <source>Previous Image</source>
-        <translation type="unfinished">Predchádzajúci obrázok</translation>
+        <translation>Predchádzajúci obrázok</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="99"/>
         <source>Go to first Image</source>
-        <translation type="unfinished">Choď na prvý obrázok</translation>
+        <translation>Choď na prvý obrázok</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="99"/>
         <source>Go to last Image</source>
-        <translation type="unfinished">Choď na posledný obrázok</translation>
+        <translation>Choď na posledný obrázok</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="99"/>
         <source>Hide to System Tray</source>
-        <translation type="unfinished">Skryť do systémového panelu</translation>
+        <translation>Skryť do systémového panelu</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="99"/>
         <source>Quit PhotoQt</source>
-        <translation type="unfinished">Ukončiť PhotoQt</translation>
+        <translation>Ukončiť PhotoQt</translation>
+    </message>
+    <message>
+        <location filename="../qml/settings/TabShortcuts.qml" line="104"/>
+        <source>Image</source>
+        <translation>Obrázok</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="107"/>
         <source>Zoom In</source>
-        <translation type="unfinished">Priblížiť</translation>
+        <translation>Priblížiť</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="107"/>
         <source>Zoom Out</source>
-        <translation type="unfinished">Oddialiť</translation>
+        <translation>Oddialiť</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="107"/>
         <source>Zoom to Actual Size</source>
-        <translation type="unfinished">Zresetovať na aktuálnu veľkosť</translation>
+        <translation>Zresetovať na aktuálnu veľkosť</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="107"/>
         <source>Reset Zoom</source>
-        <translation type="unfinished">Zresetovať priblíženie</translation>
+        <translation>Zresetovať priblíženie</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="107"/>
         <source>Rotate Right</source>
-        <translation type="unfinished">Otočiť vpravo</translation>
+        <translation>Otočiť vpravo</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="107"/>
         <source>Rotate Left</source>
-        <translation type="unfinished">Otočiť vľavo</translation>
+        <translation>Otočiť vľavo</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="107"/>
         <source>Reset Rotation</source>
-        <translation type="unfinished">Vynulovať otočenie</translation>
+        <translation>Vynulovať otočenie</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="107"/>
         <source>Flip Horizontally</source>
-        <translation type="unfinished">Horizontálne prevrátenie</translation>
+        <translation>Horizontálne prevrátenie</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="107"/>
         <source>Flip Vertically</source>
-        <translation type="unfinished">Vertikálne prevrátenie</translation>
+        <translation>Vertikálne prevrátenie</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="107"/>
         <source>Scale Image</source>
-        <translation type="unfinished">Prevzorkovať obrázok</translation>
+        <translation>Prevzorkovať obrázok</translation>
+    </message>
+    <message>
+        <location filename="../qml/settings/TabShortcuts.qml" line="112"/>
+        <source>File</source>
+        <translation>Súbor</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="115"/>
         <source>Rename File</source>
-        <translation type="unfinished">Premenovať súbor</translation>
+        <translation>Premenovať súbor</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="115"/>
         <source>Delete File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="115"/>
         <source>Copy File to a New Location</source>
-        <translation type="unfinished">Kopírovať na nové miesto</translation>
+        <translation>Kopírovať na nové miesto</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="115"/>
         <source>Move File to a New Location</source>
-        <translation type="unfinished">Presunúť na nové miesto</translation>
+        <translation>Presunúť na nové miesto</translation>
+    </message>
+    <message>
+        <location filename="../qml/settings/TabShortcuts.qml" line="120"/>
+        <source>Other</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="123"/>
         <source>Interrupt Thumbnail Creation</source>
-        <translation type="unfinished">Prerušiť tvorbu náhľadov</translation>
+        <translation>Prerušiť tvorbu náhľadov</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="123"/>
         <source>Reload Thumbnails</source>
-        <translation type="unfinished">Znovu načítať náhľady</translation>
+        <translation>Znovu načítať náhľady</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="123"/>
         <source>Hide/Show Exif Info</source>
-        <translation type="unfinished">Skryť/Ukázať Exif informácie</translation>
+        <translation>Skryť/Ukázať Exif informácie</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="123"/>
         <source>Show Context Menu</source>
-        <translation type="unfinished">Zobraziť kontextové menu</translation>
+        <translation>Zobraziť kontextové menu</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="123"/>
         <source>Show Settings</source>
-        <translation type="unfinished">Ukázať nastavenia</translation>
+        <translation>Ukázať nastavenia</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="123"/>
         <source>Start Slideshow</source>
-        <translation type="unfinished">Spustiť Slideshow</translation>
+        <translation>Spustiť Slideshow</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="123"/>
         <source>Start Slideshow (Quickstart)</source>
-        <translation type="unfinished">Spustiť Slideshow (rýchle spustenie)</translation>
+        <translation>Spustiť Slideshow (rýchle spustenie)</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="123"/>
         <source>About PhotoQt</source>
-        <translation type="unfinished">O aplikácii PhotoQt</translation>
+        <translation>O aplikácii PhotoQt</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="123"/>
         <source>Set as Wallpaper</source>
-        <translation type="unfinished">Použiť ako tapetu</translation>
+        <translation>Použiť ako tapetu</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="128"/>
         <source>Extern</source>
-        <translation type="unfinished">Externý</translation>
+        <translation>Externý</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="132"/>
         <source>EXTERN</source>
         <extracomment>Is the shortcut tile text for EXTERNal shortcuts</extracomment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2369,7 +2391,7 @@
     <message>
         <location filename="../qml/settings/TabShortcutsCategories.qml" line="32"/>
         <source>Category:</source>
-        <translation type="unfinished">Kategória:</translation>
+        <translation>Kategória:</translation>
     </message>
 </context>
 <context>
@@ -2378,13 +2400,13 @@
         <location filename="../qml/settings/TabShortcutsTilesAvail.qml" line="98"/>
         <source>key</source>
         <extracomment>tile text for KEY shortcut. If multiple translations possible, please try to stick to a short one..</extracomment>
-        <translation type="unfinished">klávesa</translation>
+        <translation>klávesa</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcutsTilesAvail.qml" line="154"/>
         <source>mouse</source>
         <extracomment>tile text for MOUSE shortcut. If multiple translations possible, please try to stick to a short one..</extracomment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2392,167 +2414,142 @@
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="52"/>
         <source>Advanced Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="65"/>
         <source>Change Thumbnail Position</source>
-        <translation type="unfinished">Zmena pozície náhľadov</translation>
+        <translation>Zmena pozície náhľadov</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="65"/>
         <source>Per default the bar with the thumbnails is shown at the lower edge. However, some might find it nice and handy to have the thumbnail bar at the upper edge, so that&apos;s what can be changed here.</source>
-        <translation type="unfinished">Defaultne je panel s náhľadmi zobrazený na dolnom okraji. Možno Vám ale príde krajšie a praktickejšie mať panel náhľadov na hornom okraji a to môžete zmeniť tu.</translation>
+        <translation>Defaultne je panel s náhľadmi zobrazený na dolnom okraji. Možno Vám ale príde krajšie a praktickejšie mať panel náhľadov na hornom okraji a to môžete zmeniť tu.</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="86"/>
         <source>Show at lower edge</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="93"/>
         <source>Show at upper edge</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="110"/>
         <source>Filename? Dimension? Or both?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="132"/>
+        <source>Write Filename</source>
+        <translation>Písať názov súboru</translation>
+    </message>
+    <message>
+        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="207"/>
+        <source>Use file-name-only Thumbnails</source>
+        <translation>Použiť ako náhľady len názvy</translation>
+    </message>
+    <message>
+        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="207"/>
+        <source>If you don&apos;t want PhotoQt to always load the actual image thumbnail in the background, but you still want to have something for better navigating, then you can set a file-name-only thumbnail, i.e. PhotoQt wont load any thumbnail images but simply puts the file name into the box. You can also adjust the font size of this text.</source>
+        <translation>Ak nechcete, aby aplikácia PhotoQt spracovávala aktuálne náhľady na pozadí, ale zároveň chcete niečo na lepšiu navigáciu, môžete použiť ako náhľady samotné názvy obrázkov. To znamená, že PhotoQt nevytvorí náhľady ako miniatúrne obrázky, ale jednoducho vloží názov súboru do boxu. Taktiež je možné upraviť veľkosť písma tohto textu.</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="110"/>
-        <source>When thumbnails are displayed at the top/bottom, PhotoQt usually writes the filename on them. But also the dimension of the image can be written on it. Or also both or none. You can use the slider below to adjust the font size.</source>
-        <translation type="unfinished"></translation>
+        <source>When thumbnails are displayed at the top/bottom, PhotoQt usually writes the filename on them (if not disabled). You can also use the slider below to adjust the font size.</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="131"/>
-        <source>Write Filename</source>
-        <translation type="unfinished">Písať názov súboru</translation>
+        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="213"/>
+        <source>Use filename-only thumbnail</source>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="136"/>
-        <source>Write Dimension</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="203"/>
-        <source>Use file-name-only Thumbnails</source>
-        <translation type="unfinished">Použiť ako náhľady len názvy</translation>
-    </message>
-    <message>
-        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="203"/>
-        <source>If you don&apos;t want PhotoQt to always load the actual image thumbnail in the background, but you still want to have something for better navigating, then you can set a file-name-only thumbnail, i.e. PhotoQt wont load any thumbnail images but simply puts the file name into the box. You can also adjust the font size of this text.</source>
-        <translation type="unfinished">Ak nechcete, aby aplikácia PhotoQt spracovávala aktuálne náhľady na pozadí, ale zároveň chcete niečo na lepšiu navigáciu, môžete použiť ako náhľady samotné názvy obrázkov. To znamená, že PhotoQt nevytvorí náhľady ako miniatúrne obrázky, ale jednoducho vloží názov súboru do boxu. Taktiež je možné upraviť veľkosť písma tohto textu.</translation>
-    </message>
-    <message>
-        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="274"/>
-        <source>Preloading</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="274"/>
-        <source>Here you can adjust, how many images AT MOST will be preloaded. For example, if the directory contains 800 images, a limit of 400 (default value) means, that starting from the opened image, 200 images to the left and 200 to the right are preloaded.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="274"/>
-        <source>If you don&apos;t want to limit PhotoQt to any number, you can simply enable the option to always preload the full directory. WARNING: This is perfectly fine for directories with a small number of images (usually anything less than 1000, depending on your computer), but can lead to performance and memory issues for larger directories. Make sure you know what you&apos;re doing before enabling this!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="320"/>
-        <source>images</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="333"/>
-        <source>Preload Full Directory</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="349"/>
+        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="279"/>
         <source>Disable Thumbnails</source>
-        <translation type="unfinished">Úplne vypnutie náhľadov</translation>
+        <translation>Úplne vypnutie náhľadov</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="349"/>
+        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="279"/>
         <source>If you just don&apos;t need or don&apos;t want any thumbnails whatsoever, then you can disable them here completely. This option can also be toggled remotely via command line (run &apos;photoqt --help&apos; for more information on that). This might increase the speed of PhotoQt a good bit, however, navigating through a folder might be a little harder without thumbnails.</source>
-        <translation type="unfinished">Ak jednoducho nechcete žiadne náhľady, tu ich môžete vypnúť úplne. Táto možnosť je tiež dostupná pomocou príkazového riadku (spustite  &apos;photo --help&apos; pre viac informácií). Toto môže celkom slušne zrýchliť PhotoQt, ale orientácia v priečinku môže byť bez náhľadov ťažšia.</translation>
+        <translation>Ak jednoducho nechcete žiadne náhľady, tu ich môžete vypnúť úplne. Táto možnosť je tiež dostupná pomocou príkazového riadku (spustite  &apos;photo --help&apos; pre viac informácií). Toto môže celkom slušne zrýchliť PhotoQt, ale orientácia v priečinku môže byť bez náhľadov ťažšia.</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="357"/>
+        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="287"/>
         <source>Disable Thumbnails altogether</source>
-        <translation type="unfinished">Vypnúť náhľady úplne</translation>
+        <translation>Vypnúť náhľady úplne</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="372"/>
+        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="302"/>
         <source>Thumbnail Cache</source>
-        <translation type="unfinished">Pamäť náhľadov</translation>
+        <translation>Pamäť náhľadov</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="372"/>
+        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="302"/>
         <source>Thumbnails can be cached in two different ways:&lt;br&gt;1) File Caching (following the freedesktop.org standard) or&lt;br&gt;2) Database Caching (better performance and management, default option).</source>
-        <translation type="unfinished">Náhľady môžu byť ukladané do pamäti dvoma spôsobmi:&lt;br&gt;1) Súborové ukladanie (podľa freedesktop.org štandardu) alebo&lt;br&gt;2) Databázové ukladanie (lepší výkon a správa pamäti, prednastavený spôsob).</translation>
+        <translation>Náhľady môžu byť ukladané do pamäti dvoma spôsobmi:&lt;br&gt;1) Súborové ukladanie (podľa freedesktop.org štandardu) alebo&lt;br&gt;2) Databázové ukladanie (lepší výkon a správa pamäti, prednastavený spôsob).</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="372"/>
+        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="302"/>
         <source>Both ways have their advantages and disadvantages:</source>
-        <translation type="unfinished">Oba spôsoby majú svoje prednosti a nedostatky:</translation>
+        <translation>Oba spôsoby majú svoje prednosti a nedostatky:</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="372"/>
+        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="302"/>
         <source>File Caching is done according to the freedesktop.org standard and thus different applications can share the same thumbnail for the same image file. However, it&apos;s not possible to check for obsolete thumbnails (thus this may lead to many unneeded thumbnail files).</source>
-        <translation type="unfinished">Súborové ukladanie je spravené podľa štandardu freedesktop.org takže rôzne aplikácie môžu zdieľať ten istý náhľad obrázka. Avšak nie je možné kontrolovať zastaralé náhľady (toto môže viesť k mnohým neželaným náhľadom obrázkov).</translation>
+        <translation>Súborové ukladanie je spravené podľa štandardu freedesktop.org takže rôzne aplikácie môžu zdieľať ten istý náhľad obrázka. Avšak nie je možné kontrolovať zastaralé náhľady (toto môže viesť k mnohým neželaným náhľadom obrázkov).</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="372"/>
+        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="302"/>
         <source>Database Caching doesn&apos;t have the advantage of sharing thumbnails with other applications (and thus every thumbnails has to be newly created for PhotoQt), but it brings a slightly better performance, and it allows a better handling of existing thumbnails (e.g. deleting obsolete thumbnails).</source>
-        <translation type="unfinished">Databázové ukladanie nemá prednosti zdieľania náhľadov s ostatnými aplikáciami (preto sa každý náhľad musí vytvoriť osobitne pre PhotoQt), ale prináša o niečo lepší výkon, a umožňuje lepšie nakladanie s už existujúcimi náhľadmi (napríklad odstraňovanie zastaralých náhľadov).</translation>
+        <translation>Databázové ukladanie nemá prednosti zdieľania náhľadov s ostatnými aplikáciami (preto sa každý náhľad musí vytvoriť osobitne pre PhotoQt), ale prináša o niečo lepší výkon, a umožňuje lepšie nakladanie s už existujúcimi náhľadmi (napríklad odstraňovanie zastaralých náhľadov).</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="372"/>
+        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="302"/>
         <source>PhotoQt works with either option, though the second way is set as default.</source>
-        <translation type="unfinished">PhotoQt dokáže fungovať oboma spôsobmi, avšak druhý spôsob je v základe prednastavený.</translation>
+        <translation>PhotoQt dokáže fungovať oboma spôsobmi, avšak druhý spôsob je v základe prednastavený.</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="372"/>
+        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="302"/>
         <source>Although everybody is encouraged to use at least one of the two options, caching can be completely disabled altogether. However, that does affect the performance and usability of PhotoQt, since thumbnails have to be newly re-created every time they are needed.</source>
-        <translation type="unfinished">Hoci by bolo vhodné, aby každý používal niektorý zo spôsobov, ukladanie náhľadov môže byť vypnuté úplne. Toto ale dosť vplýva na výkon a použiteľnosť aplikácie PhotoQt, pretože náhľady musia byť vytvorené vždy nanovo.</translation>
+        <translation>Hoci by bolo vhodné, aby každý používal niektorý zo spôsobov, ukladanie náhľadov môže byť vypnuté úplne. Toto ale dosť vplýva na výkon a použiteľnosť aplikácie PhotoQt, pretože náhľady musia byť vytvorené vždy nanovo.</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="397"/>
+        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="327"/>
         <source>Enable Thumbnail Cache</source>
-        <translation type="unfinished">Aktivovať ukladanie náhľadov</translation>
+        <translation>Aktivovať ukladanie náhľadov</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="418"/>
+        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="348"/>
         <source>File Caching</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="424"/>
+        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="354"/>
         <source>Database Caching</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="448"/>
+        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="379"/>
         <source>Current database filesize:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="472"/>
+        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="405"/>
         <source>Entries in database:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="492"/>
+        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="426"/>
         <source>CLEAN UP database</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="504"/>
+        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="438"/>
         <source>ERASE database</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2560,113 +2557,113 @@
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="52"/>
         <source>Basic Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="65"/>
         <source>Thumbnail Size</source>
-        <translation type="unfinished">Veľkosť náhľadov</translation>
+        <translation>Veľkosť náhľadov</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="65"/>
         <source>Here you can adjust the thumbnail size. You can set it to any size between 20 and 256 pixel. Per default it is set to 80 pixel, but with different screen resolutions it might be nice to have them larger/smaller.</source>
-        <translation type="unfinished">Tu je možné nastaviť veľkosť náhľadov. Je možné nastaviť akúkoľvek veľkosť od 20 do 256 pixelov. Defaultne sú nastavené na 80 pixelov, ale pri rôznych rozlíšeniach možno budú vhodnejšie väčšie/menšie náhľady.</translation>
+        <translation>Tu je možné nastaviť veľkosť náhľadov. Je možné nastaviť akúkoľvek veľkosť od 20 do 256 pixelov. Defaultne sú nastavené na 80 pixelov, ale pri rôznych rozlíšeniach možno budú vhodnejšie väčšie/menšie náhľady.</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="126"/>
         <source>Spacing Between Thumbnail Images</source>
-        <translation type="unfinished">Medzery medzi náhľadmi</translation>
+        <translation>Medzery medzi náhľadmi</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="126"/>
         <source>The thumbnails are shown in a row at the lower or upper edge (depending on your setup). They are lined up side by side. Per default, there&apos;s no empty space between them, however exactly that can be changed here.</source>
-        <translation type="unfinished">Náhľady sú zobrazované v rade na jednom z okrajov obrazovky (v závislosti na Vašom nastavení). Sú zoradené bok po boku. V základnom nastavení nie je medzi nimi žiadne miesto, presne toto ale môžete zmeniť práve tu.</translation>
+        <translation>Náhľady sú zobrazované v rade na jednom z okrajov obrazovky (v závislosti na Vašom nastavení). Sú zoradené bok po boku. V základnom nastavení nie je medzi nimi žiadne miesto, presne toto ale môžete zmeniť práve tu.</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="189"/>
         <source>Lift-up of Thumbnail Images on Hovering</source>
-        <translation type="unfinished">Vyvýšenie náhľadov</translation>
+        <translation>Vyvýšenie náhľadov</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="189"/>
         <source>When a thumbnail is hovered, it is lifted up some pixels (default 10). Here you can increase/decrease this value according to your personal preference.</source>
-        <translation type="unfinished">Aktuálne zobrazený náhľad je vyvýšený o niekoľko pixelov (defaultne 10). Tu môžete upraviť túto hodnotu vzhľadom na Vaše preferencie.</translation>
+        <translation>Aktuálne zobrazený náhľad je vyvýšený o niekoľko pixelov (defaultne 10). Tu môžete upraviť túto hodnotu vzhľadom na Vaše preferencie.</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="251"/>
         <source>Keep Thumbnails Visible</source>
-        <translation type="unfinished">Nechať náhľady viditeľné</translation>
+        <translation>Nechať náhľady viditeľné</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="251"/>
         <source>Per default the Thumbnails slide out over the edge of the screen. Here you can force them to stay visible. The big image is shrunk to fit into the empty space. Note, that the thumbnails will be hidden (and only shown on mouse hovering) once you zoomed the image in/out. Resetting the zoom restores the original visibility of the thumbnails.</source>
-        <translation type="unfinished">Defaultne sa náhľady vysunú z okraja obrazovky. Tu môžete nastaviť, aby ostali vždy viditeľné. Veľký obrázok sa scvrkne tak aby sa zmestil na prázdne miesto. Majte na pamäti, že náhľady sa skryjú (a objavia opäť pri prejdení myšou) vždy keď použijete na obrázok priblíženie/oddialenie. Vrátením obrázka na pôvodné priblíženie tiež obnoví pôvodnú viditeľnosť náhľadov.</translation>
+        <translation>Defaultne sa náhľady vysunú z okraja obrazovky. Tu môžete nastaviť, aby ostali vždy viditeľné. Veľký obrázok sa scvrkne tak aby sa zmestil na prázdne miesto. Majte na pamäti, že náhľady sa skryjú (a objavia opäť pri prejdení myšou) vždy keď použijete na obrázok priblíženie/oddialenie. Vrátením obrázka na pôvodné priblíženie tiež obnoví pôvodnú viditeľnosť náhľadov.</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="259"/>
         <source>Keep Thumnails Visible</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="274"/>
         <source>Dynamic Thumbnail Creation</source>
-        <translation type="unfinished">Dynamické vytváranie náhľadov</translation>
+        <translation>Dynamické vytváranie náhľadov</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="274"/>
         <source>Dynamic thumbnail creation means, that PhotoQt only sets up those thumbnail images that are actually needed, i.e. it stops once it reaches the end of the visible area and sits idle until you scroll left/right.</source>
-        <translation type="unfinished">Dynamické vytváranie náhľadov znamená to, že PhotoQt vytvorí náhľady len tých obrázkov, ktoré práve potrebuje, resp. prestane vytvárať náhľady ak dosiahne okraj a čaká kým scrollnete doľava/doprava.</translation>
+        <translation>Dynamické vytváranie náhľadov znamená to, že PhotoQt vytvorí náhľady len tých obrázkov, ktoré práve potrebuje, resp. prestane vytvárať náhľady ak dosiahne okraj a čaká kým scrollnete doľava/doprava.</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="274"/>
         <source>Smart thumbnails are similar in nature. However, they make use of the fast, that once a thumbnail has been created, it can be loaded very quickly and efficiently. It also first loads all of the currently visible thumbnails, but it doesn&apos;t stop there: Any thumbnails (even if invisible at the moment) that once have been created are loaded. This is a nice compromise between efficiency and usability.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="274"/>
         <source>Enabling either the smart or dynamic option is recommended, as it increases the performance of PhotoQt significantly, while preserving the usability.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="295"/>
         <source>Normal Thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="301"/>
         <source>Dynamic Thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="307"/>
         <source>Smart Thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="325"/>
         <source>Always center on Active Thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="325"/>
         <source>If this option is set, then the active thumbnail (i.e., the thumbnail of the currently displayed image) will always be kept in the center of the thumbnail bar (if possible). If this option is not set, then the active thumbnail will simply be kept visible, but not necessarily in the center.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="333"/>
         <source>Center on Active Thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
     <name>Wallpaper</name>
     <message>
-        <location filename="../qml/fadein/Wallpaper.qml" line="796"/>
+        <location filename="../qml/fadein/Wallpaper.qml" line="799"/>
         <source>Okay, do it!</source>
         <translation>Dobre, sprav to!</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Wallpaper.qml" line="801"/>
+        <location filename="../qml/fadein/Wallpaper.qml" line="804"/>
         <source>Nooo, don&apos;t!</source>
         <translation>Nieee, nerob to!</translation>
     </message>
@@ -2676,103 +2673,103 @@
         <translation>Správca okien</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Wallpaper.qml" line="257"/>
-        <location filename="../qml/fadein/Wallpaper.qml" line="398"/>
+        <location filename="../qml/fadein/Wallpaper.qml" line="260"/>
+        <location filename="../qml/fadein/Wallpaper.qml" line="401"/>
         <source>There are several picture options that can be set for the wallpaper image.</source>
         <translation>K dispozícii je niekoľko možnosti nastavení pre taperu.</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="86"/>
         <source>Set as Wallpaper:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="114"/>
         <source>PhotoQt tries to detect your window manager according to the environment variables set by your system. If it still got it wrong, you can change the window manager manually.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Wallpaper.qml" line="190"/>
+        <location filename="../qml/fadein/Wallpaper.qml" line="192"/>
         <source>Sorry, KDE4 doesn&apos;t offer the feature to change the wallpaper except from their own system settings. Unfortunately there&apos;s nothing I can do about that.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Wallpaper.qml" line="216"/>
+        <location filename="../qml/fadein/Wallpaper.qml" line="219"/>
         <source>Sorry, Plasma 5 doesn&apos;t yet offer the feature to change the wallpaper except from their own system settings. Hopefully this will change soon, but until then there&apos;s nothing I can do about that.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Wallpaper.qml" line="247"/>
+        <location filename="../qml/fadein/Wallpaper.qml" line="250"/>
         <source>Warning: &apos;gsettings&apos; doesn&apos;t seem to be available! Are you sure Gnome/Unity is installed?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Wallpaper.qml" line="334"/>
+        <location filename="../qml/fadein/Wallpaper.qml" line="337"/>
         <source>Warning: &apos;xfconf-query&apos; doesn&apos;t seem to be available! Are you sure XFCE4 is installed?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Wallpaper.qml" line="347"/>
-        <location filename="../qml/fadein/Wallpaper.qml" line="502"/>
+        <location filename="../qml/fadein/Wallpaper.qml" line="350"/>
+        <location filename="../qml/fadein/Wallpaper.qml" line="505"/>
         <source>The wallpaper can be set to either of the available monitors (or any combination).</source>
         <translation>Tapeta môže byť nastavená na každom z monitorov (alebo kombinácie).</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Wallpaper.qml" line="363"/>
-        <location filename="../qml/fadein/Wallpaper.qml" line="518"/>
+        <location filename="../qml/fadein/Wallpaper.qml" line="366"/>
+        <location filename="../qml/fadein/Wallpaper.qml" line="521"/>
         <source>Screen #</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Wallpaper.qml" line="480"/>
+        <location filename="../qml/fadein/Wallpaper.qml" line="483"/>
         <source>Warning: It seems that the &apos;msgbus&apos; (DBUS) module is not activated! It can be activated in the settings console &gt; Add-ons &gt; Modules &gt; System.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Wallpaper.qml" line="491"/>
+        <location filename="../qml/fadein/Wallpaper.qml" line="494"/>
         <source>Warning: &apos;enlightenment_remote&apos; doesn&apos;t seem to be available! Are you sure Enlightenment is installed?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Wallpaper.qml" line="553"/>
+        <location filename="../qml/fadein/Wallpaper.qml" line="556"/>
         <source>You can set the wallpaper to any sub-selection of workspaces</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Wallpaper.qml" line="573"/>
-        <location filename="../qml/fadein/Wallpaper.qml" line="575"/>
         <location filename="../qml/fadein/Wallpaper.qml" line="576"/>
+        <location filename="../qml/fadein/Wallpaper.qml" line="578"/>
+        <location filename="../qml/fadein/Wallpaper.qml" line="579"/>
         <source>Workspace #</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Wallpaper.qml" line="633"/>
+        <location filename="../qml/fadein/Wallpaper.qml" line="636"/>
         <source>Warning: &apos;feh&apos; doesn&apos;t seem to be installed!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Wallpaper.qml" line="644"/>
+        <location filename="../qml/fadein/Wallpaper.qml" line="647"/>
         <source>Warning: &apos;nitrogen&apos; doesn&apos;t seem to be installed!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Wallpaper.qml" line="655"/>
+        <location filename="../qml/fadein/Wallpaper.qml" line="658"/>
         <source>Warning: Both &apos;feh&apos; and &apos;nitrogen&apos; don&apos;t seem to be installed!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Wallpaper.qml" line="666"/>
+        <location filename="../qml/fadein/Wallpaper.qml" line="669"/>
         <source>PhotoQt can use &apos;feh&apos; or &apos;nitrogen&apos; to change the background of the desktop.&lt;br&gt;This is intended particularly for window managers that don&apos;t natively support wallpapers (e.g., like Openbox).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Wallpaper.qml" line="682"/>
+        <location filename="../qml/fadein/Wallpaper.qml" line="685"/>
         <source>Use &apos;feh&apos;</source>
         <extracomment>feh is an application, do not translate</extracomment>
         <translation>Použiť &apos;feh&apos;</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Wallpaper.qml" line="689"/>
+        <location filename="../qml/fadein/Wallpaper.qml" line="692"/>
         <source>Use &apos;nitrogen&apos;</source>
         <extracomment>nitrogen is an application, do not translate</extracomment>
         <translation>Použi &apos;nitrogen&apos;</translation>
