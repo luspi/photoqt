@@ -110,3 +110,7 @@ bool GetAndDoStuffOther::isGraphicsMagickSupportEnabled() {
 #endif
 	return false;
 }
+
+QString GetAndDoStuffOther::getVersionString() {
+	return VERSION;
+}

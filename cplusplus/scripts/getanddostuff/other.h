@@ -36,6 +36,7 @@ public:
 	QString getHomeDir();
 	bool isExivSupportEnabled();
 	bool isGraphicsMagickSupportEnabled();
+	QString getVersionString();
 
 private:
 	QImageReader reader;

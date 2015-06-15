@@ -81,6 +81,7 @@ public:
 	Q_INVOKABLE QString getHomeDir() { return other->getHomeDir(); }
 	Q_INVOKABLE bool isExivSupportEnabled() { return other->isExivSupportEnabled(); }
 	Q_INVOKABLE bool isGraphicsMagickSupportEnabled() { return other->isGraphicsMagickSupportEnabled(); }
+	Q_INVOKABLE QString getVersionString() { return other->getVersionString(); }
 
 	// SHORTCUTS
 	Q_INVOKABLE QVariantMap getShortcuts() { return shortcuts->getShortcuts(); }

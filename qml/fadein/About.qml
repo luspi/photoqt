@@ -65,7 +65,7 @@ Rectangle {
 					id: license
 					color: colour.text
 					font.pointSize: 10
-					text: "PhotoQt QML, Lukas Spies, 2015 (Lukas@photoqt.org) - " + qsTr("website:") + " photoqt.org - " + qsTr("Licensed under GPLv2 or later, without any guarantee")
+					text: "PhotoQt v" + getanddostuff.getVersionString() + ", Lukas Spies, 2015 (Lukas@photoqt.org) - " + qsTr("website:") + " photoqt.org - " + qsTr("Licensed under GPLv2 or later, without any guarantee")
 				}
 
 				// Main text (scrollable)
