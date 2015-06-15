@@ -708,15 +708,15 @@ Rectangle {
 
 
 
-			/************************
-			* REMEMBER PER SESSION *
-			************************/
+			/*********************
+			* TECHNICAL SETTINGS *
+			**********************/
 
 			SettingsText {
 
 				width: flickable.width
 
-				text: "<h2>" + qsTr("Animation and Window Geometry") + "</h2><br>" + qsTr("There are two things that can be adjusted here:") + "<ol><li>" + qsTr("Animation of fade-in widgets (like, e.g., Settings or About Widget)") + "</li><li>" + qsTr("Save and restore of Window Geometry: On quitting PhotoQt, it stores the size and position of the window and can restore it the next time started.") + "</li></ol>"
+				text: "<h2>" + qsTr("Animation and Window Geometry") + "</h2><br>" + qsTr("There are three things that can be adjusted here:") + "<ol><li>" + qsTr("Animation of fade-in widgets (like, e.g., Settings or About Widget)") + "</li><li>" + qsTr("Save and restore of Window Geometry: On quitting PhotoQt, it stores the size and position of the window and can restore it the next time started.") + "</li><li>" + qsTr("Keep PhotoQt above all other windows at all time") + "</li></ol>"
 
 			}
 
@@ -741,6 +741,11 @@ Rectangle {
 					CustomCheckBox {
 						id: save_restore_geometry
 						text: qsTr("Save and restore window geometry")
+					}
+
+					CustomCheckBox {
+						id: keep_on_top
+						text: qsTr("Keep above other windows")
 					}
 
 
@@ -790,6 +795,7 @@ Rectangle {
 
 		settings.myWidgetAnimated = animate_elements.checkedButton
 		settings.saveWindowGeometry = save_restore_geometry.checkedButton
+		settings.keepOnTop = keep_on_top.checkedButton
 
 	}
 
@@ -832,6 +838,7 @@ Rectangle {
 
 		animate_elements.checkedButton = settings.myWidgetAnimated
 		save_restore_geometry.checkedButton = settings.saveWindowGeometry
+		keep_on_top.checkedButton = settings.keepOnTop
 
 	}
 
