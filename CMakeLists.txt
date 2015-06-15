@@ -127,8 +127,24 @@ IF(WIN32)
 ELSEIF(NOT WIN32)
 	ADD_EXECUTABLE(photoqt ${photoqt_SOURCES} ${photoqt_HEADERS_MOC} ${RESOURCES})
 ENDIF(WIN32)
+QT5_USE_MODULES(photoqt Quick Widgets Sql Svg Core)
 
-qt5_use_modules(photoqt Quick Widgets Sql Svg Core)
+#Depending on setup, we copy one of the desktop files to photoqt.desktop
+IF(GM)
+	ADD_CUSTOM_COMMAND(TARGET photoqt POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/for_photoqt_desktop_FULL ${CMAKE_CURRENT_SOURCE_DIR}/photoqt.desktop)
+ELSEIF(NOT GM)
+	ADD_CUSTOM_COMMAND(TARGET photoqt POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/for_photoqt_desktop_QT ${CMAKE_CURRENT_SOURCE_DIR}/photoqt.desktop)
+ENDIF(GM)
+
+
+MESSAGE("")
+
+
+########################
+#### CUSTOM OPTIONS ####
+########################
 
 IF(EXIV2)
 	IF(NOT ${EXIV2_FOUND})
