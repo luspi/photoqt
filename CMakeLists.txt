@@ -173,4 +173,57 @@ ELSEIF(NOT GM)
 ENDIF(GM)
 
 
+#######################
+#### INSTALL FILES ####
+#######################
+
+IF(UNIX)
+
+	# Set the install prefix to /usr/
+	SET(PRODUCT_INSTALL_PREFIX /usr)
+
+	# Install executeable
+	INSTALL(
+		TARGETS photoqt
+		DESTINATION bin/
+	)
+
+	# Install desktop file
+	INSTALL(
+		FILES photoqt.desktop
+		DESTINATION share/applications
+	)
+
+	# And install all the icons
+	INSTALL(
+		FILES icons/16x16/apps/photoqt.png
+		DESTINATION share/icons/hicolor/16x16/apps/
+	)
+	INSTALL(
+		FILES icons/32x32/apps/photoqt.png
+		DESTINATION share/icons/hicolor/32x32/apps/
+	)
+	INSTALL(
+		FILES icons/48x48/apps/photoqt.png
+		DESTINATION share/icons/hicolor/48x48/apps/
+	)
+	INSTALL(
+		FILES icons/64x64/apps/photoqt.png
+		DESTINATION share/icons/hicolor/64x64/apps/
+	)
+	INSTALL(
+		FILES icons/128x128/apps/photoqt.png
+		DESTINATION share/icons/hicolor/128x128/apps/
+	)
+ENDIF(UNIX)
+
+
+
+##########################
+#### UNINSTALL TARGET ####
+##########################
+
+CONFIGURE_FILE("${CMAKE_CURRENT_SOURCE_DIR}/CMake/cmake_uninstall.cmake.in" "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake" IMMEDIATE @ONLY)
+ADD_CUSTOM_TARGET(uninstall COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
+
 
