@@ -1,13 +1,10 @@
 #include <QApplication>
 #include "mainwindow.h"
-#include <QQmlDebuggingEnabler>
 #include <QSignalMapper>
 #include "singleinstance/singleinstance.h"
 #include "logger.h"
 
 int main(int argc, char *argv[]) {
-
-	QQmlDebuggingEnabler enabler;
 
 	// Set app name (needed later-on)
 	QApplication::setApplicationName("photoqt");
