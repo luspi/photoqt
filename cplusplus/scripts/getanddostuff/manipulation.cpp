@@ -109,6 +109,8 @@ bool GetAndDoStuffManipulation::scaleImage(QString filename, int width, int heig
 
 void GetAndDoStuffManipulation::deleteImage(QString filename, bool trash) {
 
+	filename = QByteArray::fromPercentEncoding(filename.toLatin1());
+
 #ifdef Q_OS_LINUX
 
 	if(trash) {
