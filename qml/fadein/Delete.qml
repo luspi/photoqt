@@ -129,7 +129,7 @@ Rectangle {
 								verboseMessage("Delete","move to trash")
 								hideDelete()
 								getanddostuff.deleteImage(thumbnailBar.currentFile,getanddostuff.amIOnLinux())
-								reloadDirectory(thumbnailBar.getNewFilenameAfterDeletion())
+								reloadDirectory(thumbnailBar.getNewFilenameAfterDeletion(), currentfilter)
 							}
 						}
 
@@ -155,7 +155,7 @@ Rectangle {
 						verboseMessage("Delete","delete permanently")
 						hideDelete()
 						getanddostuff.deleteImage(thumbnailBar.currentFile,false)
-						reloadDirectory(thumbnailBar.getNewFilenameAfterDeletion())
+						reloadDirectory(thumbnailBar.getNewFilenameAfterDeletion(), currentfilter)
 					}
 				}
 
@@ -184,13 +184,13 @@ Rectangle {
 		verboseMessage("Delete::simulateEnter()","")
 		hideDelete()
 		getanddostuff.deleteImage(thumbnailBar.currentFile,getanddostuff.amIOnLinux())
-		reloadDirectory(thumbnailBar.getNewFilenameAfterDeletion())
+		reloadDirectory(thumbnailBar.getNewFilenameAfterDeletion(), currentfilter)
 	}
 	function simulateShiftEnter() {
 		verboseMessage("Delete::simulateShiftEnter()","")
 		hideDelete()
 		getanddostuff.deleteImage(thumbnailBar.currentFile,false)
-		reloadDirectory(thumbnailBar.getNewFilenameAfterDeletion())
+		reloadDirectory(thumbnailBar.getNewFilenameAfterDeletion(), currentfilter)
 	}
 
 	function showDelete() {
