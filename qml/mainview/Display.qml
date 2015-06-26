@@ -358,10 +358,11 @@ Item {
 		if(zoomin) {
 
 			// If first zoom in step, load fullsized image
-			if((Math.abs(w-background.width) < norm.width*scaleSpeed
+			if(((Math.abs(w-background.width) < norm.width*scaleSpeed
 						&& h <= background.height)
 					|| (Math.abs(h-background.height) < norm.height*scaleSpeed
-						&& w <= background.width)) {
+						&& w <= background.width))
+					&& !fullsizeImageLoaded) {
 				fullsizeImageLoaded = true
 				setSourceSize(imageSize.width, imageSize.height)
 				if(imageSize.width >= item.width && imageSize.height >= item.height)
@@ -377,7 +378,8 @@ Item {
 
 			// When returned to screen size, we re-set the scaled down version
 			if((Math.abs((w-imageSize.width*scaleSpeed)-background.width) < norm.width*scaleSpeed)
-					&& (Math.abs(h-imageSize.height*scaleSpeed-background.height) < norm.height*scaleSpeed)) {
+					&& (Math.abs(h-imageSize.height*scaleSpeed-background.height) < norm.height*scaleSpeed)
+					&& fullsizeImageLoaded) {
 				fullsizeImageLoaded = false
 				setSourceSize(item.width,item.height)
 				if(imageSize.width >= item.width && imageSize.height >= item.height)
