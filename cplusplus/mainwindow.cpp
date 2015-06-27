@@ -574,13 +574,28 @@ void MainWindow::hideTrayIcon() {
 void MainWindow::remoteAction(QString cmd) {
 
 	if(variables->verbose)
-		LOG << DATE << "remoteAction(): " << cmd << std::endl;
+		LOG << DATE << "remoteAction(): " << cmd.toStdString() << std::endl;
 
 	if(cmd == "open") {
 
 		if(variables->verbose)
 			LOG << DATE << "remoteAction(): Open file" << std::endl;
-		openNewFile();
+		if(!this->isVisible()) {
+			// Get screenshots
+			for(int i = 0; i < QGuiApplication::screens().count(); ++i) {
+				QScreen *screen = QGuiApplication::screens().at(i);
+				QRect r = screen->geometry();
+				QPixmap pix = screen->grabWindow(0,r.x(),r.y(),r.width(),r.height());
+				pix.save(QDir::tempPath() + QString("/photoqt_screenshot_%1.jpg").arg(i));
+			}
+			updateWindowGeometry();
+			this->raise();
+		}
+
+		if(!variables->fileDialogOpened) {
+			std::this_thread::sleep_for(std::chrono::milliseconds(100));
+			openNewFile();
+		}
 
 	} else if(cmd == "nothumbs") {
 
@@ -600,6 +615,7 @@ void MainWindow::remoteAction(QString cmd) {
 			LOG << DATE << "remoteAction(): Hiding" << std::endl;
 		if(settingsPermanent->trayicon != 1)
 			settingsPermanent->setTrayicon(1);
+		filedialog->close();
 		this->hide();
 
 	} else if(cmd.startsWith("show") || (cmd == "toggle" && !this->isVisible())) {
@@ -627,6 +643,7 @@ void MainWindow::remoteAction(QString cmd) {
 
 		if(variables->verbose)
 			LOG << DATE << "remoteAction(): Opening passed-on file" << std::endl;
+		filedialog->close();
 		openNewFile(cmd.remove(0,8));
 
 	}
