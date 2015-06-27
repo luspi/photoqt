@@ -88,7 +88,7 @@ bool LoadDir::sort_name_desc(const QFileInfo &s1fileinfo, const QFileInfo &s2fil
 	return(s2fileinfo.fileName().compare(s1fileinfo.fileName(), Qt::CaseInsensitive) <= 0);
 }
 bool LoadDir::sort_date(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo) {
-	return(s1fileinfo.created().secsTo(s2fileinfo.created()) >= 0);
+	return(s1fileinfo.created().secsTo(s2fileinfo.created()) > 0);
 }
 bool LoadDir::sort_date_desc(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo) {
 	return(s1fileinfo.created().secsTo(s2fileinfo.created()) < 0);
