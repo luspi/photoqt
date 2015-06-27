@@ -574,7 +574,7 @@ void MainWindow::hideTrayIcon() {
 void MainWindow::remoteAction(QString cmd) {
 
 	if(variables->verbose)
-		LOG << DATE << "remoteAction()" << std::endl;
+		LOG << DATE << "remoteAction(): " << cmd << std::endl;
 
 	if(cmd == "open") {
 
