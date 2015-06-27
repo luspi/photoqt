@@ -156,7 +156,7 @@ Rectangle {
 					target:  quicksettings
 					property: ((softblocked == 0 && quicksettings.x > background.width) ? "x" : "")
 					from: background.width
-					onStarted: { quicksettings.setData(); }
+					onStarted: { if(softblocked == 0 && quicksettings.x > background.width) quicksettings.setData(); }
 					to: (settings.quickSettings ? (background.width-quicksettings.width+quicksettings.radius) : background.width)
 					duration: settings.myWidgetAnimated ? 250 : 0
 				}

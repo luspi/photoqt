@@ -104,9 +104,9 @@ Rectangle {
 					icon: "qrc:/img/settings/sortascending.png"
 					y: (sortby.height-height)/2
 					exclusiveGroup: radiobuttons_sorting
-					onClicked: {
+					onCheckedChanged: {
 						verboseMessage("QuickSettings","Sort in ascending order: " + sortby_asc.checked)
-						settings.sortbyAscending = sortby_asc.checked
+						settings.sortbyAscending = true
 					}
 				}
 				CustomRadioButton {
@@ -114,9 +114,9 @@ Rectangle {
 					icon: "qrc:/img/settings/sortdescending.png"
 					y: (sortby.height-height)/2
 					exclusiveGroup: radiobuttons_sorting
-					onClicked: {
+					onCheckedChanged: {
 						verboseMessage("QuickSettings","Sort in ascending order: " + sortby_asc.checked)
-						settings.sortbyAscending = sortby_asc.checked
+						settings.sortbyAscending = false
 					}
 				}
 			}
