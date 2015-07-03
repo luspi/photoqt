@@ -44,6 +44,8 @@ Item {
 	property string currentfilter: ""
 	property int windowx: 0
 	property int windowy: 0
+	property int windowx_currentscreen: 0
+	property int windowy_currentscreen: 0
 	property bool windowshown: true
 	onWindowshownChanged: if(windowshown) background.reloadScreenshot()
 	onWindowxChanged: if(windowshown) background.reloadScreenshot()

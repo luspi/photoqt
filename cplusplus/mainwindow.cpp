@@ -74,6 +74,11 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 
 	showTrayIcon();
 
+	// We need to call this with a little delay, as the automatic restoration of the window geometry at startup when window mode
+	// is enabled doesn't update the actualy window x/y (and thus PhotoQt might be detected on the wrong screen which messes up
+	// calculations involving local cursor coordinates (e.g., for 'close on click on grey'))
+	QTimer::singleShot(100,this, SLOT(updateWindowXandY()));
+
 }
 
 // Open a new file
@@ -701,6 +706,12 @@ void MainWindow::updateWindowXandY() {
 
 	object->setProperty("windowx",this->x());
 	object->setProperty("windowy",this->y());
+
+	QRect rect = this->screen()->geometry();
+	int x_cur = this->x()-rect.x();
+	int y_cur = this->y()-rect.y();
+	object->setProperty("windowx_currentscreen",x_cur < 0 ? this->x() : x_cur);
+	object->setProperty("windowy_currentscreen",y_cur < 0 ? this->y() : x_cur);
 
 }
 
