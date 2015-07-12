@@ -176,9 +176,7 @@ Item {
 				background.hideMetadata()
 			}
 		} else if(cmd === "__showContext") {
-			var pos = getanddostuff.getCursorPos()
-			pos.x = pos.x-windowx
-			pos.y = pos.y-windowy
+			var pos = getCursorPos()
 			contextmenu.popup(pos)
 		} else if(cmd === "__gotoFirstThb")
 			thumbnailBar.gotoFirstImage()
@@ -210,9 +208,7 @@ Item {
 			return
 
 		if((sh === "Right Button" || sh === "Left Button") && contextmenu.visible) {
-			var pos = getanddostuff.getCursorPos()
-			pos.x = (pos.x-windowx_currentscreen < 0 ? pos.x : pos.x-windowx_currentscreen);
-			pos.y = (pos.y-windowy_currentscreen < 0 ? pos.y : pos.y-windowy_currentscreen);
+			var pos = getCursorPos()
 			if(contextmenu.x < pos.x && contextmenu.x+contextmenu.width > pos.x
 					&& contextmenu.y < pos.y && contextmenu.y+contextmenu.height > pos.y) return
 			softblocked = 0
@@ -233,9 +229,7 @@ Item {
 		if(blocked) return
 
 		// We need to ignore mouseclicks on slidein widgets like mainmenu, etc.
-		var cursorpos = getanddostuff.getCursorPos()
-		cursorpos.x = (cursorpos.x-windowx_currentscreen < 0 ? cursorpos.x : cursorpos.x-windowx_currentscreen);
-		cursorpos.y = (cursorpos.y-windowy_currentscreen < 0 ? cursorpos.y : cursorpos.y-windowy_currentscreen);
+		var cursorpos = getCursorPos()
 
 		// Close on Click on empty area around image
 		if(sh === "Left Button" && settings.closeongrey) {

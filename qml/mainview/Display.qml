@@ -302,7 +302,7 @@ Item {
 					prevScale = Math.min(scale, 1);
 				}
 				onScaleChanged: {
-					var cursorpos = getanddostuff.getCursorPos()
+					var cursorpos = getCursorPos()
 					var x_ratio = (zoomTowardsCenter ? flickarea.width/2 : cursorpos.x);
 					var y_ratio = (zoomTowardsCenter ? flickarea.height/2 : cursorpos.y);
 					if ((width * scale) > flickarea.width) {

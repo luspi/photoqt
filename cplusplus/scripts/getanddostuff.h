@@ -71,7 +71,6 @@ public:
 	// OTHER
 	Q_INVOKABLE bool isImageAnimated(QString path) { return other->isImageAnimated(path); }
 	Q_INVOKABLE QSize getImageSize(QString path) { return other->getImageSize(path); }
-	Q_INVOKABLE QPoint getCursorPos() { return other->getCursorPos(); }
 	Q_INVOKABLE QPoint getGlobalCursorPos() { return other->getGlobalCursorPos(); }
 	Q_INVOKABLE QColor addAlphaToColor(QString col, int alpha) { return other->addAlphaToColor(col, alpha); }
 	Q_INVOKABLE bool amIOnLinux() { return other->amIOnLinux(); }

@@ -357,7 +357,7 @@ Rectangle {
 				// Load thumbnail as main image (timer when pressed to NOT do anything if thumbnails dragged (i.e. mouse position changed))
 				onPressed: {
 					if(clickedIndex != hoveredIndex) {
-						clickpos = getanddostuff.getCursorPos()
+						clickpos = getCursorPos()
 						displaytimer.start()
 					}
 				}
@@ -373,7 +373,7 @@ Rectangle {
 					running: false
 					repeat: false
 					onTriggered: {
-						var p = getanddostuff.getCursorPos()
+						var p = getCursorPos()
 						if(Math.abs(clickpos.x-p.x) < 10 && Math.abs(clickpos.y-p.y) < 10)
 							displayImage(hoveredIndex)
 					}

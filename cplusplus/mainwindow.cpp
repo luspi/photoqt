@@ -405,6 +405,8 @@ void MainWindow::mouseMoveEvent(QMouseEvent *e) {
 	mouseDx += abs(mouseOrigPoint.x()-e->pos().x());
 	mouseDy += abs(mouseOrigPoint.y()-e->pos().y());
 
+	object->setProperty("localcursorpos",this->mapFromGlobal(QCursor::pos()));
+
 	QQuickView::mouseMoveEvent(e);
 
 }

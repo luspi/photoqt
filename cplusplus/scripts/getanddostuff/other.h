@@ -26,7 +26,6 @@ public:
 
 	bool isImageAnimated(QString path);
 	QSize getImageSize(QString path);
-	QPoint getCursorPos();
 	QPoint getGlobalCursorPos();
 	QColor addAlphaToColor(QString col, int alpha);
 	bool amIOnLinux();

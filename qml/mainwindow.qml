@@ -46,6 +46,7 @@ Item {
 	property int windowy: 0
 	property int windowx_currentscreen: 0
 	property int windowy_currentscreen: 0
+	property point localcursorpos: Qt.point(0,0);
 	property bool windowshown: true
 	onWindowshownChanged: if(windowshown) background.reloadScreenshot()
 	onWindowxChanged: if(windowshown) background.reloadScreenshot()
@@ -150,6 +151,8 @@ Item {
 	function closeContextMenuWhenOpen() { softblocked = 0; contextmenu.hide(); }
 
 	function showStartup(type) { startup.showStartup(type); }
+
+	function getCursorPos() { return localcursorpos; }
 
 	function noResultsFromFilter() {
 		verboseMessage("MainWindow::noResultsFromFilter()","Displaying 'no results found' message")
