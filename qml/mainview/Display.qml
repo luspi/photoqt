@@ -15,7 +15,7 @@ Item {
 	height: (settings.thumbnailKeepVisible ? background.height-thumbnailBar.height+thumbnailbarheight_addon/2 : background.height)-2*settings.borderAroundImg
 
 	// How fast do we zoom in/out
-	property real scaleSpeed: 0.1
+	property real scaleSpeed: 0.05
 
 	// Keep track of where we are in zooming
 	property bool zoomTowardsCenter: false
@@ -356,12 +356,8 @@ Item {
 
 		// We take the content size of the flickarea, except if image is zoomed out
 		// (as then the flickarea contentsize remains at item.size, though the actual image is smaller)
-		var w = flickarea.contentWidth
-		var h = flickarea.contentHeight
-		if(!fullsizeImageLoaded) {
-			w = norm.width*norm.scale
-			h = norm.height*norm.scale
-		}
+		var w = norm.getCurrentlyDisplayedImageSize().width
+		var h = norm.getCurrentlyDisplayedImageSize().height
 
 		if(zoomin) {
 
@@ -382,22 +378,31 @@ Item {
 
 		} else if(!zoomin && imageSize.width*norm.scale > item.width*scaleSpeed) {
 
-			norm.scale -= scaleSpeed  // has to come BEFORE setting source size!
+			var slowdownfactor = 1
+			if(h/background.height < 0.4)
+				slowdownfactor = 5
+			else if(h/background.height < 0.5)
+				slowdownfactor = 4
+			else if(h/background.height < 0.6)
+				slowdownfactor = 3
+			else if(h/background.height < 0.7)
+				slowdownfactor = 2
+
+			norm.scale -= (scaleSpeed/slowdownfactor)  // has to come BEFORE setting source size!
 
 			// When returned to screen size, we re-set the scaled down version
-			if((Math.abs((w-imageSize.width*scaleSpeed)-background.width) < norm.width*scaleSpeed)
-					&& (Math.abs(h-imageSize.height*scaleSpeed-background.height) < norm.height*scaleSpeed)
+			if((Math.abs((w-imageSize.width*scaleSpeed)-background.width) < norm.width*scaleSpeed/2)
+					&& (Math.abs(h-imageSize.height*scaleSpeed-background.height) < norm.height*scaleSpeed/2)
 					&& fullsizeImageLoaded) {
-				fullsizeImageLoaded = false
-				setSourceSize(item.width,item.height)
-				if(imageSize.width >= item.width && imageSize.height >= item.height)
-					norm.scale = Math.min(flickarea.width / norm.width, flickarea.height / norm.height);
-				zoomedDirection = "out"
+				resetZoom()
+				zoomedDirection = "-out"
 			}
 
 			// when zooming out right after loading image, this variable would stay unset (even though the image is zoomed out)
 			if(zoomedDirection == "")
 				zoomedDirection = "out"
+			else if(zoomedDirection == "-out")
+				zoomedDirection = ""
 
 		}
 

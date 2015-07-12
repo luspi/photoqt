@@ -22,6 +22,17 @@ Rectangle {
 	// so that after removing the filter, the image is faded in again
 	property bool resetSourceToEmptyAfterFadeOut: false
 
+	function getCurrentlyDisplayedImageSize() {
+		if(currentone == "one")
+			return Qt.size(one.width*norm.scale,one.height*norm.scale)
+		else if(currentone == "two")
+			return Qt.size(two.width*norm.scale,two.height*norm.scale)
+		else if(currentone == "three")
+			return Qt.size(three.width*norm.scale,three.height*norm.scale)
+		else if(currentone == "four")
+			return Qt.size(four.width*norm.scale,four.height*norm.scale)
+	}
+
 	// The image source has changed
 	onSourceChanged: {
 
