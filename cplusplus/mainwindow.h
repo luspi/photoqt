@@ -42,7 +42,7 @@ public:
 	void showStartup(QString type);
 
 public slots:
-	void openNewFile(QString usethis = "", QVariant filter = QVariant());
+	void openNewFile();
 	void openNewFile(QVariant usethis, QVariant filter = QVariant());
 
 	// This is used by main.cpp (see there (at the end of file) for details)
@@ -84,6 +84,8 @@ private:
 	QFileDialog *filedialog;
 
 private slots:
+
+	void handleOpenFileEvent(QString usethis = "");
 
 	void handleThumbnails(QVariant centerPos);
 	void loadMoreThumbnails();

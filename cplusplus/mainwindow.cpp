@@ -41,10 +41,12 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 	// Filedialog to open new files
 	// We HAVE TO use it this way (and NOT using, e.g., the static method getOpenFileName())
 	// as otherwise the window might be displayed BEHIND the main app window without any way to interact with it.
-	// Settings setModal() to false and calling it with .exec() later-on seems to does the trick...
 	filedialog = new QFileDialog;
 	filedialog->setModal(false);
+	filedialog->setWindowFlags(Qt::Dialog | Qt::WindowStaysOnTopHint);
 	filedialog->setWindowTitle(tr("Open image file"));
+	connect(filedialog, SIGNAL(accepted()), this, SLOT(handleOpenFileEvent()));
+	connect(filedialog, SIGNAL(rejected()), this, SLOT(handleOpenFileEvent()));
 
 	// Scrolled view
 	connect(object, SIGNAL(thumbScrolled(QVariant)), this, SLOT(handleThumbnails(QVariant)));
@@ -82,11 +84,7 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 }
 
 // Open a new file
-void MainWindow::openNewFile(QVariant usethis, QVariant filter) { openNewFile(usethis.toString(), filter); }
-void MainWindow::openNewFile(QString usethis, QVariant filter) {
-
-	if(variables->verbose)
-		LOG << DATE << "openNewFile(): Request to open new file" << std::endl;
+void MainWindow::openNewFile(QVariant usethis, QVariant filter) {
 
 	// Only possibly set at start-up, filename passed via command line
 	if(startup_filename != "") {
@@ -94,60 +92,92 @@ void MainWindow::openNewFile(QString usethis, QVariant filter) {
 		startup_filename = "";
 	}
 
+	variables->openfileFilter = filter;
+
+	if(usethis.toString().trimmed() != "")
+		handleOpenFileEvent(usethis.toString());
+	else
+		openNewFile();
+
+}
+
+void MainWindow::openNewFile() {
+
+	if(variables->verbose)
+		LOG << DATE << "openNewFile(): Request to open new file" << std::endl;
+
+	if(variables->fileDialogOpened)
+		return;
+
 	// Get new filename
 	QString opendir = QDir::homePath();
 	if(variables->currentDir != "")
 		opendir = variables->currentDir;
 
-	QByteArray file = usethis.toUtf8();
+	if(variables->verbose)
+		LOG << DATE << "openNewFile(): No filename passed -> requesting new one" << std::endl;
 
+	QMetaObject::invokeMethod(object, "alsoIgnoreSystemShortcuts",
+				  Q_ARG(QVariant, true));
+
+	variables->fileDialogOpened = true;
+
+	// Get new filename
+	QString knownQT = fileformats->formatsQtEnabled.join(" ") + " " + fileformats->formatsQtEnabledExtras.join(" ");
+	QString knownGM = fileformats->formatsGmEnabled.join(" ");
+	QString known = knownQT + " " + knownGM + " " + fileformats->formatsExtrasEnabled.join(" ");
+
+	// Set filedialog options
+	filedialog->setDirectory(opendir);
+	filedialog->setNameFilter(tr("Images") + " (" + known.trimmed() + ");;"
+									+ tr("Images") + " (Qt)" + " (" + knownQT.trimmed() + ");;"
+					 #ifdef GM
+									+ tr("Images") + " (GraphicsMagick)" + " (" + knownGM.trimmed() + ");;"
+					 #endif
+									+ tr("All Files") + " (*)");
+
+	filedialog->show();
+
+}
+
+void MainWindow::handleOpenFileEvent(QString usethis) {
+
+	if(variables->verbose)
+		LOG << DATE << "handleOpenFileEvent(): Handle response to request to open new file" << std::endl;
+
+	// Only possibly set at start-up, filename passed via command line
+	if(startup_filename != "") {
+		usethis = startup_filename;
+		startup_filename = "";
+	}
+
+	QByteArray file = "";
+
+	// Check return file
 	if(usethis == "") {
 
-		if(variables->verbose)
-			LOG << DATE << "openNewFile(): No filename passed -> requesting new one" << std::endl;
-
-		QMetaObject::invokeMethod(object, "alsoIgnoreSystemShortcuts",
-					  Q_ARG(QVariant, true));
-
-		variables->fileDialogOpened = true;
-
-		// Get new filename
-		QString knownQT = fileformats->formatsQtEnabled.join(" ") + " " + fileformats->formatsQtEnabledExtras.join(" ");
-		QString knownGM = fileformats->formatsGmEnabled.join(" ");
-		QString known = knownQT + " " + knownGM + " " + fileformats->formatsExtrasEnabled.join(" ");
-
-		// Set filedialog options
-		filedialog->setDirectory(opendir);
-		filedialog->setNameFilter(tr("Images") + " (" + known.trimmed() + ");;"
-										+ tr("Images") + " (Qt)" + " (" + knownQT.trimmed() + ");;"
-						 #ifdef GM
-										+ tr("Images") + " (GraphicsMagick)" + " (" + knownGM.trimmed() + ");;"
-						 #endif
-										+ tr("All Files") + " (*)");
-		filedialog->exec();
-
-		// Check return file
-		if(filedialog->selectedFiles().length() == 0)
+		if(filedialog->result() == QDialog::Rejected || filedialog->selectedFiles().length() == 0)
 			file = "";
 		else
 			file = filedialog->selectedFiles().first().toUtf8();
 
-		variables->fileDialogOpened = false;
+	} else
+		file = usethis.toUtf8();
 
-		QMetaObject::invokeMethod(object, "alsoIgnoreSystemShortcuts",
-					  Q_ARG(QVariant, false));
-	}
+	variables->fileDialogOpened = false;
+	QMetaObject::invokeMethod(object, "alsoIgnoreSystemShortcuts",
+				  Q_ARG(QVariant, false));
 
 	if(file.trimmed() == "") return;
 
-    // Save current directory
-    variables->currentDir = QFileInfo(file).absolutePath();
+	// Save current directory
+	variables->currentDir = QFileInfo(file).absolutePath();
 
 	// Clear loaded thumbnails
 	variables->loadedThumbnails.clear();
 
 	// Load direcgtory
-	QFileInfoList l = loadDir->loadDir(file,filter.toString());
+	QFileInfoList l = loadDir->loadDir(file,variables->openfileFilter.toString());
 	if(l.isEmpty()) {
 		QMetaObject::invokeMethod(object, "noResultsFromFilter");
 		return;
@@ -419,6 +449,9 @@ bool MainWindow::event(QEvent *e) {
 			LOG << DATE << "keyPressEvent()" << std::endl;
 		detectedKeyCombo(shortcuts->handleKeyPress((QKeyEvent*)e));
 
+		if(filedialog->isVisible() && ((QKeyEvent*)e)->key() == Qt::Key_Escape)
+			filedialog->reject();
+
 	} else if(e->type() == QEvent::KeyRelease) {
 
 		if(variables->verbose)
@@ -599,10 +632,7 @@ void MainWindow::remoteAction(QString cmd) {
 			this->raise();
 		}
 
-		if(!variables->fileDialogOpened) {
-			std::this_thread::sleep_for(std::chrono::milliseconds(100));
-			openNewFile();
-		}
+		openNewFile();
 
 	} else if(cmd == "nothumbs") {
 

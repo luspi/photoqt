@@ -3,6 +3,7 @@
 
 #include <QList>
 #include <QRect>
+#include <QVariant>
 
 class Variables {
 
@@ -18,6 +19,7 @@ public:
 		trayiconVisible = false;
 		hiddenToTrayIcon = false;
 		wheelcounter = 0;
+		openfileFilter = QVariant();
 	}
 
 public:
@@ -32,6 +34,8 @@ public:
 	bool trayiconSetup;
 	bool trayiconVisible;
 	bool hiddenToTrayIcon;
+
+	QVariant openfileFilter;
 
 	int wheelcounter;
 
