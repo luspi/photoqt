@@ -184,6 +184,7 @@ Rectangle {
 			onCheckedButtonChanged: {
 				verboseMessage("QuickSettings","Window Mode: " + windowmode.checkedButton)
 				settings.windowmode = windowmode.checkedButton
+				windowdeco.enabled = windowmode.checkedButton
 			}
 		}
 
