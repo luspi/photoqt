@@ -717,6 +717,17 @@ void MainWindow::updateWindowXandY() {
 
 }
 
+void MainWindow::resizeEvent(QResizeEvent *e) {
+
+	QVariant isZoomed = true;
+	QMetaObject::invokeMethod(object, "isZoomed", Q_RETURN_ARG(QVariant, isZoomed));
+	if(!isZoomed.toBool())
+		QMetaObject::invokeMethod(object, "resetZoom");
+
+	QQuickWindow::resizeEvent(e);
+
+}
+
 void MainWindow::showStartup(QString type) {
 
 	if(variables->verbose)

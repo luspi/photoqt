@@ -144,6 +144,7 @@ Item {
 	function previousImage() { thumbnailBar.previousImage(); }
 	function getCenterPos() { console.log("center pos"); return thumbnailBar.getCenterPos(); }
 	function resetZoom() { image.resetZoom(); }
+	function isZoomed() { return (image.zoomedDirection != ""); }
 
 	function detectedKeyCombo(combo) { sh.detectedKeyCombo(combo); settingsitem.detectedKeyCombo(combo); }
 	function keysReleased(combo) { settingsitem.keysReleased(); sh.releasedKeys(combo); }
