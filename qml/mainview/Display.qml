@@ -48,8 +48,13 @@ Item {
 
 			if(settings.rememberZoom && zoomedDirection != "")
 				storeZoom[norm.source] = [norm.scale,zoomedDirection,flickarea.contentX,flickarea.contentY]
+			else
+				storeZoom[norm.source] = []
+
 			if(settings.rememberRotation)
 				storeRotation[norm.source] = norm.rotation
+			else
+				storeRotation[norm.source] = 0
 
 		}
 
@@ -86,7 +91,7 @@ Item {
 		metaData.setData(getmetadata.getExiv2(path))
 
 		// Restore rotation/zoom if saved
-		if(Object.keys(storeRotation).indexOf(path) != -1 || Object.keys(storeZoom).indexOf(path) != -1) {
+		if((Object.keys(storeRotation).indexOf(path) != -1 && storeRotation[path].length > 1) || (Object.keys(storeZoom).indexOf(path) != -1 && storeZoom[path].length != 0)) {
 
 			if((Object.keys(storeRotation).indexOf(path) != -1) && storeRotation[path] !== 0 && settings.rememberRotation) {
 				norm.rotation = storeRotation[path]
@@ -104,11 +109,13 @@ Item {
 					setSourceSize(imageSize.width, imageSize.height)
 					if(imageSize.width >= item.width && imageSize.height >= item.height)
 						norm.scale = Math.min(item.width / imageSize.width, item.height / imageSize.height);
+					zoomedDirection = "in"
 				} else if(storeZoom[path][1] == "out") {
 					fullsizeImageLoaded = false
 					setSourceSize(item.width,item.height)
 					if(imageSize.width >= item.width && imageSize.height >= item.height)
 						norm.scale = Math.min(flickarea.width / norm.width, flickarea.height / norm.height);
+					zoomedDirection = "out"
 				}
 
 				norm.scale = storeZoom[path][0]
@@ -182,6 +189,7 @@ Item {
 		// reset the previous offset ratio (in effect this yields a 'zoom to center until actual size')
 		flickarea.contentX = (flickarea.contentWidth)*x_ratio-flickarea.width/2
 		flickarea.contentY = (flickarea.contentHeight)*y_ratio-flickarea.height/2
+		zoomedDirection = "in"
 	}
 
 	function rotateRight() {
