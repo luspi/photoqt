@@ -231,16 +231,6 @@ Item {
 		// We need to ignore mouseclicks on slidein widgets like mainmenu, etc.
 		var cursorpos = getCursorPos()
 
-		// Close on Click on empty area around image
-		if(sh === "Left Button" && settings.closeongrey) {
-			var r = image.getImageRect()
-			if(cursorpos.x < r[0] || cursorpos.y < r[1] || r[0]+r[2] < cursorpos.x || r[1]+r[3] < cursorpos.y) {
-				hideToSystemTray()
-				return
-			}
-		}
-
-
 		// Check for mainmenu
 		if(mainmenu.x < cursorpos.x && (mainmenu.x+mainmenu.width) > cursorpos.x && (mainmenu.y+mainmenu.height) > cursorpos.y) return
 		// Check for thumbnailbar
@@ -253,6 +243,15 @@ Item {
 		if(image.getClosingX_x() < cursorpos.x && image.getClosingX_height() > cursorpos.y) return
 		// Check for quicksettings
 		if(quicksettings.x < cursorpos.x && quicksettings.y < cursorpos.y && (quicksettings.y+quicksettings.height) > cursorpos.y) return
+
+		// Close on Click on empty area around image
+		if(sh === "Left Button" && settings.closeongrey) {
+			var r = image.getImageRect()
+			if(cursorpos.x < r[0] || cursorpos.y < r[1] || r[0]+r[2] < cursorpos.x || r[1]+r[3] < cursorpos.y) {
+				hideToSystemTray()
+				return
+			}
+		}
 
 		// Sometimes there's a "leftover" key combo (in particular when 'open file' shortcut was triggered) - here we filter it out
 		var mods = ["Ctrl","Alt","Shift"]
