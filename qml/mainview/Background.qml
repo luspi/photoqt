@@ -154,7 +154,7 @@ Rectangle {
 				onEntered:
 				PropertyAnimation {
 					target:  quicksettings
-					property: ((softblocked == 0 && quicksettings.x > background.width) ? "x" : "")
+					property: ((softblocked == 0 && quicksettings.x > background.width && background.height > quicksettings.height) ? "x" : "")
 					from: background.width
 					onStarted: { if(softblocked == 0 && quicksettings.x > background.width) quicksettings.setData(); }
 					to: (settings.quickSettings ? (background.width-quicksettings.width+quicksettings.radius) : background.width)

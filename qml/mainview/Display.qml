@@ -535,7 +535,7 @@ Item {
 	// Arrow pointing to quicksettings widget
 	Image {
 		id: quicksettingsarrow
-		visible: settings.quickSettings
+		visible: settings.quickSettings && background.height > quicksettings.height
 		x: background.width-width-5
 		y: quicksettings.y+quicksettings.height/2-height/2
 		source: "qrc:/img/mainview/arrowright.png"
