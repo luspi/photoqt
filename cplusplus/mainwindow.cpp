@@ -90,7 +90,8 @@ void MainWindow::openNewFile(QVariant usethis, QVariant filter) {
 	if(startup_filename != "") {
 		usethis = startup_filename;
 		startup_filename = "";
-	}
+	} else
+		usethis = QByteArray::fromPercentEncoding(usethis.toString().toLatin1());
 
 	variables->openfileFilter = filter;
 
