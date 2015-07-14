@@ -22,7 +22,7 @@
 
 	; Name and file
 	Name "PhotoQt"
-	OutFile "photoqt-1.2-full.exe"
+	OutFile "photoqt-1.3-full.exe"
 
 	; Default installation folder
 	InstallDir "$PROGRAMFILES\PhotoQt"
@@ -39,13 +39,41 @@
 	!define MUI_ABORTWARNING
 	!define MUI_ICON "icon_install.ico"
 
+	;Show all languages, despite user's codepage
+	!define MUI_LANGDLL_ALLLANGUAGES
+
+	;Remember the installer language
+	!define MUI_LANGDLL_REGISTRY_ROOT "HKCU"
+	!define MUI_LANGDLL_REGISTRY_KEY "Software\PhotoQt"
+	!define MUI_LANGDLL_REGISTRY_VALUENAME "Installer Language"
+
+;--------------------------------
+; LOCALISATION
+
+	!insertmacro MUI_LANGUAGE "English"
+	;@INSERT_TRANSLATIONS@
+
+	LangString	WelcomePage_Title				${LANG_English} "Welcome to PhotoQt Setup"
+	LangString	WelcomePage_Text_part1			${LANG_English} "This installer will guide you through the installation of the PhotoQt."
+	LangString	WelcomePage_Text_part2			${LANG_English} "PhotoQt is a simple image viewer, designed to be good looking and highly configurable, yet easy to use and fast."
+	LangString	FinishPage_Title				${LANG_English} "Finishing up"
+	LangString	FinishPage_Subtitle				${LANG_English} "Just a few final steps"
+	LangString	FinishPage_Description			${LANG_English} "We're almost done! Here you can tell PhotoQt to register as default application for (1) none, (2) some or (3) all image formats:"
+	LangString	FinishPage_RegisterNone			${LANG_English} "Register for NO image formats"
+	LangString	FinishPage_RegisterMostCommon	${LANG_English} "Register for the MOST COMMON image formats"
+	LangString	FinishPage_RegisterAll			${LANG_English} "Register for ALL SUPPORTED image formats (including slightly more exotic ones)"
+	LangString	FinishPage_RegisterPdfPs		${LANG_English} "Include PDF and PS"
+	LangString	FinishPage_RegisterPsdXcf		${LANG_English} "Include PSD and XCF"
+	LangString	FinishPage_DesktopIcon			${LANG_English} "Create Desktop Icon"
+	LangString	FinishPage_StartMenu			${LANG_English} "Create Start menu entry"
+
+
 ;--------------------------------
 ; PAGES
 
-
 	; Welcome text
 	!define MUI_WELCOMEPAGE_TITLE $(WelcomePage_Title)
-	!define MUI_WELCOMEPAGE_TEXT $(WelcomePage_Text)
+	!define MUI_WELCOMEPAGE_TEXT $(WelcomePage_Text_part1)$\r$\n$\r$\n$(WelcomePage_Text_part2)
 
 	; Installer pages
 	!insertmacro MUI_PAGE_WELCOME
@@ -60,13 +88,13 @@
 	!insertmacro MUI_UNPAGE_INSTFILES
 
 ;--------------------------------
-; LANGUAGES
+;Reserve Files
 
-	!insertmacro MUI_LANGUAGE "English"
-;	!insertmacro MUI_LANGUAGE "German"
+  ;If you are using solid compression, files that are required before
+  ;the actual installation should be stored first in the data block,
+  ;because this will make your installer start faster.
 
-	!insertmacro LANGFILE_INCLUDE "translations\english.nsh"
-;	!insertmacro LANGFILE_INCLUDE "translations\german.nsh"
+  !insertmacro MUI_RESERVEFILE_LANGDLL
 
 ;--------------------------------
 ; INSTALLER SECTIONS
@@ -94,7 +122,6 @@ Section "PhotoQt" SecDummy
 		File "app64_full\libharfbuzz-0.dll"
 		File "app64_full\libiconv-2.dll"
 		File "app64_full\libintl-8.dll"
-		File "app64_full\libjpeg-8.dll"
 		File "app64_full\libjpeg-62.dll"
 		File "app64_full\libpcre-1.dll"
 		File "app64_full\libpcre16-0.dll"
@@ -131,7 +158,6 @@ Section "PhotoQt" SecDummy
 		File "app32_full\libharfbuzz-0.dll"
 		File "app32_full\libiconv-2.dll"
 		File "app32_full\libintl-8.dll"
-		File "app32_full\libjpeg-8.dll"
 		File "app32_full\libjpeg-62.dll"
 		File "app32_full\libpcre-1.dll"
 		File "app32_full\libpcre16-0.dll"
@@ -213,7 +239,7 @@ SectionEnd
 ; INSTALLER FUNTIONS
 
 Function .onInit
-;!insertmacro MUI_LANGDLL_DISPLAY
+	!insertmacro MUI_LANGDLL_DISPLAY
 FunctionEnd
 
 
@@ -497,7 +523,6 @@ Section "Uninstall"
 	Delete "$INSTDIR\libGraphicsMagick-3.dll"
 	Delete "$INSTDIR\libGraphicsMagick++-3.dll"
 	Delete "$INSTDIR\libiconv-2.dll"
-	Delete "$INSTDIR\libjpeg-8.dll"
 	Delete "$INSTDIR\libjpeg-62.dll"
 	Delete "$INSTDIR\libpcre16-0.dll"
 	Delete "$INSTDIR\libpng16-16.dll"
@@ -685,3 +710,10 @@ Section "Uninstall"
 
 
 SectionEnd
+
+;--------------------------------
+;Uninstaller Functions
+
+Function un.onInit
+  !insertmacro MUI_UNGETLANGUAGE
+FunctionEnd
