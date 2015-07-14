@@ -86,23 +86,26 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 // Open a new file
 void MainWindow::openNewFile(QVariant usethis, QVariant filter) {
 
-	// Only possibly set at start-up, filename passed via command line
-	if(startup_filename != "") {
-		usethis = startup_filename;
-		startup_filename = "";
-	} else
-		usethis = QByteArray::fromPercentEncoding(usethis.toString().toLatin1());
+	QString filename = QByteArray::fromPercentEncoding(usethis.toString().trimmed().toLatin1());
 
 	variables->openfileFilter = filter;
 
-	if(usethis.toString().trimmed() != "")
-		handleOpenFileEvent(usethis.toString());
+	if(filename.trimmed() != "")
+		handleOpenFileEvent(filename);
 	else
 		openNewFile();
 
 }
 
 void MainWindow::openNewFile() {
+\
+	// We need to catch a filename passed via command line here (this function is called via timer from main.cpp)
+	if(startup_filename != "") {
+		if(variables->verbose)
+			LOG << DATE << "openNewFile(): Caught passed-on filename: " << startup_filename.toStdString() << std::endl;
+		openNewFile(startup_filename);
+		return;
+	}
 
 	if(variables->verbose)
 		LOG << DATE << "openNewFile(): Request to open new file" << std::endl;
