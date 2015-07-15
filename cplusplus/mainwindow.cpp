@@ -43,7 +43,7 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 	// as otherwise the window might be displayed BEHIND the main app window without any way to interact with it.
 	filedialog = new QFileDialog;
 	filedialog->setModal(false);
-	filedialog->setWindowFlags(Qt::Dialog | Qt::WindowStaysOnTopHint);
+	filedialog->setWindowFlags(Qt::Dialog | Qt::WindowStaysOnTopHint | Qt::Popup);
 	filedialog->setWindowTitle(tr("Open image file"));
 	connect(filedialog, SIGNAL(accepted()), this, SLOT(handleOpenFileEvent()));
 	connect(filedialog, SIGNAL(rejected()), this, SLOT(handleOpenFileEvent()));
@@ -141,6 +141,8 @@ void MainWindow::openNewFile() {
 									+ tr("All Files") + " (*)");
 
 	filedialog->show();
+	filedialog->raise();
+	filedialog->activateWindow();
 
 }
 
@@ -634,6 +636,7 @@ void MainWindow::remoteAction(QString cmd) {
 			}
 			updateWindowGeometry();
 			this->raise();
+			this->requestActivate();
 		}
 
 		openNewFile();
@@ -674,8 +677,9 @@ void MainWindow::remoteAction(QString cmd) {
 				pix.save(QDir::tempPath() + QString("/photoqt_screenshot_%1.jpg").arg(i));
 			}
 			updateWindowGeometry();
-			this->raise();
 		}
+		this->raise();
+		this->requestActivate();
 
 		if(variables->currentDir == "" && cmd != "show_noopen")
 			openNewFile();
