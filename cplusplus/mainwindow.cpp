@@ -733,6 +733,12 @@ void MainWindow::updateWindowGeometry() {
 		QString(getenv("DESKTOP")).startsWith("Enlightenment") ? this->showMaximized() : this->showFullScreen();
 	}
 
+	if(variables->fileDialogOpened) {
+		filedialog->show();
+		filedialog->raise();
+		filedialog->activateWindow();
+	}
+
 }
 
 void MainWindow::resetWindowGeometry() {
