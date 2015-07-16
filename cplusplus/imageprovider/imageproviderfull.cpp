@@ -262,110 +262,70 @@ QImage ImageProviderFull::readImage_GM(QString filename) {
 
 #ifdef GM
 
+	// We first read the image into memory
 	QFile file(filename);
 	file.open(QIODevice::ReadOnly);
 	char *data = new char[file.size()];
 	qint64 s = file.read(data, file.size());
-	if (s < file.size()) {
+
+	// A return value of -1 means error
+	if (s == -1) {
 		delete[] data;
 		if(verbose) LOG << DATE << "reader gm - ERROR reading image file data" << std::endl;
 		return QImage();
 	}
-
+	// Read image into blob
 	Magick::Blob blob(data, file.size());
 	try {
-		Magick::Image image;
 
+		// Prepare Magick
 		QString suf = QFileInfo(filename).suffix().toLower();
+		Magick::Image image;
+		image = imagemagick.setImageMagick(image,suf);
 
-		if(suf == "x" || suf == "avs")
-
-			image.magick("AVS");
-
-		else if(suf == "cals" || suf == "cal" || suf == "dcl"  || suf == "ras")
-
-			image.magick("CALS");
-
-		else if(suf == "cgm")
-
-			image.magick("CGM");
-
-		else if(suf == "cut")
-
-			image.magick("CUT");
-
-		else if(suf == "cur")
-
-			image.magick("CUR");
-
-		else if(suf == "acr" || suf == "dcm" || suf == "dicom" || suf == "dic")
-
-			image.magick("DCM");
-
-		else if(suf == "fax")
-
-			image.magick("FAX");
-
-		else if(suf == "ico")
-
-			image.magick("ICO");
-
-		else if(suf == "mono") {
-
-			image.magick("MONO");
-			image.size(Magick::Geometry(4000,3000));
-
-		} else if(suf == "mtv")
-
-			image.magick("MTV");
-
-		else if(suf == "otb")
-
-			image.magick("OTB");
-
-		else if(suf == "palm")
-
-			image.magick("PALM");
-
-		else if(suf == "pfb")
-
-			image.magick("PFB");
-
-		else if(suf == "pict" || suf == "pct" || suf == "pic")
-
-			image.magick("PICT");
-
-		else if(suf == "pix"
-			|| suf == "pal")
-
-			image.magick("PIX");
-
-		else if(suf == "tga")
-
-			image.magick("TGA");
-
-		else if(suf == "ttf")
-
-			image.magick("TTF");
-
-		else if(suf == "txt")
-
-			image.magick("TXT");
-
-		else if(suf == "wbm"
-			|| suf == "wbmp")
-
-			image.magick("WBMP");
-
-
+		// Read image into Magick
 		image.read(blob);
+
+		// Scale image if necessary
+		if(maxSize.width() != -1) {
+
+			int dispWidth = image.columns();
+			int dispHeight = image.rows();
+
+			double q;
+
+			if(dispWidth > maxSize.width()) {
+					q = maxSize.width()/(dispWidth*1.0);
+					dispWidth *= q;
+					dispHeight *= q;
+			}
+			if(dispHeight > maxSize.height()) {
+				q = maxSize.height()/(dispHeight*1.0);
+				dispWidth *= q;
+				dispHeight *= q;
+			}
+
+			// For small images we can use the faster algorithm, as the quality is good enough for that
+			if(dispWidth < 300 && dispHeight < 300)
+				image.thumbnail(Magick::Geometry(dispWidth,dispHeight));
+			else
+				image.scale(Magick::Geometry(dispWidth,dispHeight));
+
+		}
+
+		// Write Magick as PNG to memory
 		Magick::Blob ob;
 		image.type(Magick::TrueColorMatteType);
 		image.magick("PNG");
 		image.write(&ob);
+
+		// And load PNG from memory into QImage
 		const QByteArray imgData((char*)(ob.data()),ob.length());
 		QImage img((maxSize.width() > -1 ? maxSize : QSize(4000,3000)), QImage::Format_ARGB32);	// zoomed or not?
 		img.loadFromData(imgData);
+
+		// And we're done!
+		delete[] data;
 		return img;
 
 	} catch(Magick::Exception &error_) {

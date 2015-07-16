@@ -22,7 +22,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/settings/settings.h cplusplus/s
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/scripts/getanddostuff/context.cpp cplusplus/scripts/getanddostuff/external.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/scripts/getanddostuff/manipulation.cpp cplusplus/scripts/getanddostuff/file.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/scripts/getanddostuff/other.cpp cplusplus/scripts/getanddostuff/shortcuts.cpp)
-SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/scripts/getanddostuff/wallpaper.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/scripts/getanddostuff/wallpaper.cpp cplusplus/scripts/gmimagemagick.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/singleinstance/singleinstance.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/mainwindow.qml qml/Shortcuts.qml qml/Colour.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/slidein/ThumbnailBar.qml qml/slidein/MetaData.qml qml/slidein/MainMenu.qml)
@@ -55,7 +55,7 @@ SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/scripts/thumbnailsmanagement.h 
 SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/scripts/getanddostuff/context.h cplusplus/scripts/getanddostuff/external.h)
 SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/scripts/getanddostuff/manipulation.h cplusplus/scripts/getanddostuff/file.h)
 SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/scripts/getanddostuff/other.h cplusplus/scripts/getanddostuff/shortcuts.h)
-SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/scripts/getanddostuff/wallpaper.h)
+SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/scripts/getanddostuff/wallpaper.h cplusplus/scripts/gmimagemagick.h)
 SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/singleinstance/singleinstance.h)
 SET(photoqt_HEADERS ${photoqt_HEADERS} cplusplus/settings/settings.h cplusplus/settings/settingssession.h cplusplus/settings/fileformats.h)
 

@@ -10,6 +10,7 @@
 
 #ifdef GM
 #include <GraphicsMagick/Magick++/Image.h>
+#include "../scripts/gmimagemagick.h"
 #endif
 
 #ifdef EXIV2
@@ -44,6 +45,10 @@ private:
 	QImage readImage_XCF(QString filename);
 
 	QString whatDoIUse(QString filename);
+
+#ifdef GM
+	GmImageMagick imagemagick;
+#endif
 
 };
 

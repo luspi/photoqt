@@ -11,9 +11,11 @@
 #include <QScreen>
 #include <QColor>
 #include <QDir>
+#include "../../logger.h"
 
 #ifdef GM
 #include <GraphicsMagick/Magick++.h>
+#include "../gmimagemagick.h"
 #endif
 
 class GetAndDoStuffOther : public QObject {
@@ -39,6 +41,9 @@ public:
 
 private:
 	QImageReader reader;
+#ifdef GM
+	GmImageMagick imagemagick;
+#endif
 
 };
 

@@ -20,13 +20,33 @@ QSize GetAndDoStuffOther::getImageSize(QString path) {
 	} else {
 
 #ifdef GM
-		Magick::Image image;
-		image.read(path.toStdString());
-		Magick::Geometry geo = image.size();
-		QSize s = QSize(geo.width(),geo.height());
-		if(s.width() < 2 && s.height() < 2)
+		QFile file(path);
+		file.open(QIODevice::ReadOnly);
+		char *data = new char[file.size()];
+		qint64 s = file.read(data, file.size());
+		if (s == -1) {
+			delete[] data;
+			LOG << DATE << "reader gm - ERROR reading image file data" << std::endl;
 			return QSize(1024,768);
-		return s;
+		}
+		Magick::Blob blob(data, file.size());
+		try {
+			Magick::Image image;
+			image = imagemagick.setImageMagick(image, QFileInfo(path).suffix().toLower());
+			image.ping(blob);
+			Magick::Geometry geo = image.size();
+			QSize s = QSize(geo.width(),geo.height());
+			std::cout << "SIZE: " << s.width() << "x" << s.height() << std::endl;
+			if(s.width() < 2 && s.height() < 2)
+				return QSize(1024,768);
+			return s;
+		} catch(Magick::Exception &error_) {
+			delete[] data;
+			LOG << DATE << "getanddostuff > getImageSize GM - Error: " << error_.what() << std::endl;
+			reader.setFileName(QDir::tempPath() + "/photoqt_tmp.png");
+			return reader.size();
+		}
+
 #else
 		return QSize();
 #endif
