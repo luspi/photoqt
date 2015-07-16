@@ -2,11 +2,11 @@
 #define IMAGEPROVIDERFULL_H
 
 #include <QQuickImageProvider>
-#include <iostream>
 #include <QFileInfo>
 #include <QtSvg/QtSvg>
 #include "../settings/fileformats.h"
 #include "../settings/settings.h"
+#include "../logger.h"
 
 #ifdef GM
 #include <GraphicsMagick/Magick++/Image.h>

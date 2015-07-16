@@ -77,7 +77,7 @@ QImage ImageProviderFull::readImage_QT(QString filename) {
 
 		// Invalid vector graphic
 		if(!svg.isValid()) {
-			std::cerr << "[reader svg] Error: invalid svg file" << std::endl;
+			LOG << DATE << "reader svg - Error: invalid svg file" << std::endl;
 			QPixmap pix(":/img/plainerrorimg.png");
 			QPainter paint(&pix);
 			QTextDocument txt;
@@ -110,7 +110,7 @@ QImage ImageProviderFull::readImage_QT(QString filename) {
 		// Sometimes the size returned by reader.size() is <= 0 (observed for, e.g., .jp2 files)
 		// -> then we need to load the actual image to get dimensions
 		if(origSize.width() <= 0 || origSize.height() <= 0) {
-			std::cerr << "[imagereader qt] failed to read origsize" << std::endl;
+			LOG << DATE << "imagereader qt - Error: failed to read origsize" << std::endl;
 			QImageReader r;
 			r.setFileName(filename);
 			origSize = r.read().size();
@@ -239,8 +239,8 @@ QImage ImageProviderFull::readImage_QT(QString filename) {
 		// If an error occured
 		if(img.isNull()) {
 			QString err = reader.errorString();
-			std::cerr << "[reader qt] Error: file failed to load: " << err.toStdString() << std::endl;
-			std::cerr << "Filename: " << filename.toStdString() << std::endl;
+			LOG << DATE << "reader qt - Error: file failed to load: " << err.toStdString() << std::endl;
+			LOG << DATE << "Filename: " << filename.toStdString() << std::endl;
 			QPixmap pix(":/img/plainerrorimg.png");
 			QPainter paint(&pix);
 			QTextDocument txt;
@@ -268,7 +268,7 @@ QImage ImageProviderFull::readImage_GM(QString filename) {
 	qint64 s = file.read(data, file.size());
 	if (s < file.size()) {
 		delete[] data;
-		if(verbose) std::cerr << "[reader gm] ERROR reading image file data" << std::endl;
+		if(verbose) LOG << DATE << "reader gm - ERROR reading image file data" << std::endl;
 		return QImage();
 	}
 
@@ -370,7 +370,7 @@ QImage ImageProviderFull::readImage_GM(QString filename) {
 
 	} catch(Magick::Exception &error_) {
 		delete[] data;
-		std::cerr << "[reader gm] Error: " << error_.what() << std::endl;
+		LOG << DATE << "reader gm Error: " << error_.what() << std::endl;
 		QPixmap pix(":/img/plainerrorimg.png");
 		QPainter paint(&pix);
 		QTextDocument txt;
@@ -405,7 +405,7 @@ QImage ImageProviderFull::readImage_XCF(QString filename) {
 	which.waitForFinished();
 	// If it isn't -> display error
 	if(which.exitCode()) {
-		std::cerr << "[reader xcf] Error: xcftools not found" << std::endl;
+		LOG << DATE << "reader xcf - Error: xcftools not found" << std::endl;
 		QPixmap pix(":/img/plainerrorimg.png");
 		QPainter paint(&pix);
 		QTextDocument txt;
