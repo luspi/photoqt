@@ -459,7 +459,7 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
 
 	for(int i = 0; i < qtFiles.length(); ++i) {
 		// We need to remove the first character of qtfiles.at(i), since that is a "*"
-		if(filename.toLower().endsWith(QString(qtFiles.at(i)).remove(0,1)))
+		if(filename.toLower().endsWith(QString(qtFiles.at(i)).remove(0,1)) && QString(qtFiles.at(i)).trimmed() != "")
 			usegm = false;
 	}
 	if(extrasfiles.trimmed() != "") {
@@ -468,7 +468,7 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
 		QStringList extrasFiles = extrasfiles.split(",");
 		for(int i = 0; i < extrasFiles.length(); ++i) {
 			// We need to remove the first character of qtfiles.at(i), since that is a "*"
-			if(filename.toLower().endsWith(QString(extrasFiles.at(i)).remove(0,2)))
+			if(filename.toLower().endsWith(QString(extrasFiles.at(i)).remove(0,2)) && QString(extrasFiles.at(i)).trimmed() != "")
 				usegm = false;
 		}
 	}
