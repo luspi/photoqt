@@ -36,7 +36,6 @@ QSize GetAndDoStuffOther::getImageSize(QString path) {
 			image.ping(blob);
 			Magick::Geometry geo = image.size();
 			QSize s = QSize(geo.width(),geo.height());
-			std::cout << "SIZE: " << s.width() << "x" << s.height() << std::endl;
 			if(s.width() < 2 && s.height() < 2)
 				return QSize(1024,768);
 			return s;
