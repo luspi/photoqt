@@ -41,6 +41,8 @@ Item {
 	// Set image
 	function setImage(path, animated) {
 
+		setOverrideCursor()
+
 		verboseMessage("Display::setImage()", animated + " - " + path)
 
 		// Store rotation/zoom
@@ -130,6 +132,8 @@ Item {
 		}
 
 		imageRotatedAndRescaled = 1;
+
+		restoreOverrideCursor()
 
 	}
 

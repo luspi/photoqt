@@ -58,6 +58,8 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 	connect(object, SIGNAL(reloadDirectory(QVariant,QVariant)), this, SLOT(openNewFile(QVariant,QVariant)));
 	connect(object, SIGNAL(loadMoreThumbnails()), this, SLOT(loadMoreThumbnails()));
 	connect(object, SIGNAL(didntLoadThisThumbnail(QVariant)), this, SLOT(didntLoadThisThumbnail(QVariant)));
+	connect(object, SIGNAL(setOverrideCursor()), this, SLOT(setOverrideCursor()));
+	connect(object, SIGNAL(restoreOverrideCursor()), this, SLOT(restoreOverrideCursor()));
 
 	connect(object, SIGNAL(verboseMessage(QVariant,QVariant)), this, SLOT(qmlVerboseMessage(QVariant,QVariant)));
 

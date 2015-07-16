@@ -108,6 +108,9 @@ private slots:
 
 	void qmlVerboseMessage(QVariant loc, QVariant msg);
 
+	void setOverrideCursor() { qApp->setOverrideCursor(Qt::WaitCursor); }
+	void restoreOverrideCursor() { qApp->restoreOverrideCursor(); }
+
 protected:
 	bool event(QEvent *e);
 	void wheelEvent(QWheelEvent *e);

@@ -33,6 +33,8 @@ Item {
 	signal quitPhotoQt();
 	signal reloadDirectory(var filename, var filter);
 	signal verboseMessage(var loc, var msg);
+	signal setOverrideCursor();
+	signal restoreOverrideCursor();
 
 	// Interface blocked? System Shortcuts blocked?
 	property bool blocked: false
