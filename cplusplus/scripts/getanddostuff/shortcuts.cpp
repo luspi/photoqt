@@ -72,6 +72,7 @@ QVariantMap GetAndDoStuffShortcuts::getDefaultShortcuts() {
 	ret.insert("+",QStringList() << "0" << "__zoomIn");
 	ret.insert("=",QStringList() << "0" << "__zoomIn");
 	ret.insert("Ctrl++",QStringList() << "0" << "__zoomIn");
+	ret.insert("Ctrl+=",QStringList() << "0" << "__zoomIn");
 	ret.insert("-",QStringList() << "0" << "__zoomOut");
 	ret.insert("Ctrl+-",QStringList() << "0" << "__zoomOut");
 	ret.insert("0",QStringList() << "0" << "__zoomReset");
