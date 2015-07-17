@@ -256,7 +256,7 @@ Rectangle {
 
 				id: keepvisible
 
-				text: qsTr("Keep Thumnails Visible")
+				text: qsTr("Keep Thumbnails Visible")
 
 				x: (flickable.width-width)/2
 
@@ -304,7 +304,7 @@ Rectangle {
 
 					CustomRadioButton {
 						id: smart
-						text: qsTr("Smart Thumbnail")
+						text: qsTr("Smart Thumbnails")
 						exclusiveGroup: dynamicgroup
 						checked: true
 					}
