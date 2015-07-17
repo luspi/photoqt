@@ -70,6 +70,7 @@ QVariantMap GetAndDoStuffShortcuts::getDefaultShortcuts() {
 	ret.insert("Backspace",QStringList() << "0" << "__prev");
 
 	ret.insert("+",QStringList() << "0" << "__zoomIn");
+	ret.insert("=",QStringList() << "0" << "__zoomIn");
 	ret.insert("Ctrl++",QStringList() << "0" << "__zoomIn");
 	ret.insert("-",QStringList() << "0" << "__zoomOut");
 	ret.insert("Ctrl+-",QStringList() << "0" << "__zoomOut");
