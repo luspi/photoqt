@@ -10,6 +10,9 @@ Item {
 
 	property var shortcutfile: getanddostuff.getShortcuts()
 
+	// If the user scrolls and it's not part of a shortcut, we pass the event on to the main image if it occured there (i.e. we don't block it there in that case)
+	property bool takeWheelEventAsShortcut: false
+
 	// This is a "trick" of sorts. The notifierChanged signal is triggered in getanddostuff.h whenever the shortcuts file was modified,
 	// which in turns reloads the shortcuts file.
 	property int notifier: getanddostuff.shortcutNotifier
@@ -201,6 +204,8 @@ Item {
 
 	function gotMouseShortcut(sh) {
 
+		takeWheelEventAsShortcut = true;
+
 		verboseMessage("Shortcuts::gotMouseShortcut()", sh + " - " + blocked + "/" + blockedSystem + "/" + softblocked)
 
 		// Ignore Wheel events when, e.g., a context menu is open
@@ -267,6 +272,8 @@ Item {
 
 		if(!blockedSystem && shortcut  in shortcutfile)
 				execute(shortcutfile[shortcut][1]);
+		else
+			takeWheelEventAsShortcut = false
 
 	}
 

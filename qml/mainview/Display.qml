@@ -340,7 +340,7 @@ Item {
 		MouseArea {
 			anchors.fill: parent
 			propagateComposedEvents: true
-			onWheel: wheel.accepted = true	// ignore mouse wheel
+			onWheel: wheel.accepted = sh.takeWheelEventAsShortcut	// ignore mouse wheel if it's used for a shortcut
 			onPressed: mouse.accepted = false
 			onReleased: mouse.accepted = false
 			onMouseXChanged: mouse.accepted = false
