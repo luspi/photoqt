@@ -36,7 +36,6 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
 
 	help += "\n   Enjoy PhotoQt :-)\n\n\n";
 
-
 	// Composing all command line arguments in stringlist (except first one, that's the app name)
 	QStringList allArgs;
 	for(int i = 1; i < argc; ++i)
@@ -95,7 +94,7 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
 		else {
 			QString filename = allArgs.at(i);
 			message += ":-:-:";
-			message += QByteArray("::file::") + QFileInfo(filename).absoluteFilePath().toLatin1();
+			message += QByteArray("::file::") + QFileInfo(filename).absoluteFilePath();
 		}
 	}
 

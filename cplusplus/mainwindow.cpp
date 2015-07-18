@@ -88,7 +88,10 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 // Open a new file
 void MainWindow::openNewFile(QVariant usethis, QVariant filter) {
 
-	QString filename = QByteArray::fromPercentEncoding(usethis.toString().trimmed().toLatin1());
+	if(!usethis.isNull())
+		startup_filename = "";
+
+	QByteArray filename = QByteArray::fromPercentEncoding(usethis.toString().trimmed().toUtf8());
 
 	variables->openfileFilter = filter;
 
