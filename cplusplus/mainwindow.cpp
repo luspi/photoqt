@@ -162,7 +162,7 @@ void MainWindow::handleOpenFileEvent(QString usethis) {
 		startup_filename = "";
 	}
 
-	QByteArray file = "";
+	QString file = "";
 
 	// Check return file
 	if(usethis == "") {
@@ -170,10 +170,10 @@ void MainWindow::handleOpenFileEvent(QString usethis) {
 		if(filedialog->result() == QDialog::Rejected || filedialog->selectedFiles().length() == 0)
 			file = "";
 		else
-			file = filedialog->selectedFiles().first().toUtf8();
+			file = filedialog->selectedFiles().first();
 
 	} else
-		file = usethis.toUtf8();
+		file = usethis;
 
 	variables->fileDialogOpened = false;
 	QMetaObject::invokeMethod(object, "alsoIgnoreSystemShortcuts",
@@ -194,7 +194,7 @@ void MainWindow::handleOpenFileEvent(QString usethis) {
 		return;
 	}
 	if(!l.contains(QFileInfo(file)))
-		file = l.at(0).filePath().toLatin1();
+		file = l.at(0).filePath();
 
 	// Get and store length
 	int l_length = l.length();
@@ -203,7 +203,7 @@ void MainWindow::handleOpenFileEvent(QString usethis) {
 	// Convert QFileInfoList into QStringList and store it
 	QStringList ll;
 	for(int i = 0; i < l_length; ++i)
-		ll.append(l.at(i).absoluteFilePath().toUtf8().toPercentEncoding("/ "));
+		ll.append(l.at(i).absoluteFilePath());
 	settingsPerSession->setValue("allFileList",ll);
 
 	// Get and store current position

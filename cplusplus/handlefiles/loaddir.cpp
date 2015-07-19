@@ -11,7 +11,7 @@ LoadDir::~LoadDir() {
 	delete fileformats;
 }
 
-QFileInfoList LoadDir::loadDir(QByteArray filepath, QString filter) {
+QFileInfoList LoadDir::loadDir(QString filepath, QString filter) {
 
 	if(verbose)
 		LOG << DATE << "LoadDir::loadDir(): Loading filepath '" << filepath.toStdString() << "'" << std::endl;
@@ -44,7 +44,7 @@ QFileInfoList LoadDir::loadDir(QByteArray filepath, QString filter) {
 		if(filter.trimmed() == "")
 			allImgsInfo.append(QFileInfo(filepath));
 		else if(allImgsInfo.length() > 0)
-			filepath = allImgsInfo.at(0).filePath().toLatin1();
+			filepath = allImgsInfo.at(0).filePath();
 		else
 			return QFileInfoList();
 	}

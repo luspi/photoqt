@@ -21,7 +21,7 @@ public:
 	explicit LoadDir(bool verbose);
 	~LoadDir();
 
-	QFileInfoList loadDir(QByteArray filepath, QString filter);
+	QFileInfoList loadDir(QString filepath, QString filter);
 
 private:
 
