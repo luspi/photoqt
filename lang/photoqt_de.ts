@@ -174,7 +174,7 @@
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="11"/>
         <source>Confirm me?</source>
-        <translation type="unfinished"/>
+        <translation>Bestätigen?</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="12"/>
@@ -184,12 +184,12 @@
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="13"/>
         <source>Yes, do it</source>
-        <translation type="unfinished"/>
+        <translation>Ja, mach es</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="14"/>
         <source>No, don&apos;t</source>
-        <translation type="unfinished"/>
+        <translation>Nein, nicht</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="110"/>
@@ -350,12 +350,12 @@
     <message>
         <location filename="../qml/mainview/Display.qml" line="584"/>
         <source>Yes, do it</source>
-        <translation type="unfinished"/>
+        <translation>Ja, mach es</translation>
     </message>
     <message>
         <location filename="../qml/mainview/Display.qml" line="585"/>
         <source>No, don&apos;t</source>
-        <translation type="unfinished"/>
+        <translation>Nein, nicht</translation>
     </message>
 </context>
 <context>
@@ -449,12 +449,12 @@
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="341"/>
         <source>Daylight fluorescent</source>
-        <translation type="unfinished"/>
+        <translation>Fluoreszierendes Tageslicht</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="344"/>
         <source>Day white fluorescent</source>
-        <translation type="unfinished"/>
+        <translation>Fluoreszierendes Tagesweiß</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="347"/>
@@ -933,7 +933,7 @@
     <message>
         <location filename="../qml/fadein/Scale.qml" line="112"/>
         <source>Error! Something went wrong, unable to save new dimension...</source>
-        <translation type="unfinished"/>
+        <translation>Fehler! Etwas ist schiefgelaufen, die neue Auflösung kann nicht gespeichert werden...</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Scale.qml" line="136"/>
@@ -953,12 +953,12 @@
     <message>
         <location filename="../qml/fadein/Scale.qml" line="298"/>
         <source>Scale into new file</source>
-        <translation type="unfinished"/>
+        <translation>Größe ändern in neuer Datei</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Scale.qml" line="315"/>
         <source>Don&apos;t scale</source>
-        <translation type="unfinished"/>
+        <translation>Größe nicht ändern</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Scale.qml" line="217"/>
@@ -976,7 +976,7 @@
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="59"/>
         <source>Look and Feel</source>
-        <translation type="unfinished"/>
+        <translation>Aussehen und Verhalten</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="72"/>
@@ -1226,7 +1226,7 @@
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="352"/>
         <source>Save changes, but don&apos;t start just yet</source>
-        <translation type="unfinished"/>
+        <translation>Änderungen speichern, aber noch nicht anfangen</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="366"/>
@@ -1292,7 +1292,7 @@
     <message>
         <location filename="../qml/fadein/Startup.qml" line="92"/>
         <source>Welcome back to PhotoQt. It hasn&apos;t been that long since the last release of PhotoQt. Yet, it changed pretty much entirely, as it now is based on QtQuick rather than QWidgets. A large quantity of the code had to be re-written, while some chunks could be re-used. Thus, it is now more reliable than ever before and overall simply feels well rounded.</source>
-        <translation type="unfinished"/>
+        <translation>Willkommen zurück zu PhotoQt. Seit der letzten Veröffentlichung von PhotoQt ist noch nicht viel Zeit vergangen. Trotz allem hat sich so ziemlich alles geändert, da es nun auf QtQuick anstelle von QWidgets basiert. Ein Großteil des Quelltextes musste neugeschrieben werden, wobei einzelne Teile wiederverwendet werden konnten. Daher ist PhotoQt nun noch zuverlässiger als je zuvor, und fühlt sich im Großen und Ganzen einfach gut an.</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="123"/>
@@ -1647,7 +1647,7 @@
         <location filename="../qml/settings/TabFiletypes.qml" line="270"/>
         <location filename="../qml/settings/TabFiletypes.qml" line="292"/>
         <source>Makes use of</source>
-        <translation type="unfinished"/>
+        <translation>Benutze</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="292"/>
@@ -1715,17 +1715,17 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="188"/>
         <source>Scale to fit</source>
-        <translation type="unfinished"/>
+        <translation>Skalieren</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="194"/>
         <source>Scale and Crop to fit</source>
-        <translation type="unfinished"/>
+        <translation>Skalieren und beschneiden</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="199"/>
         <source>Stretch to fit</source>
-        <translation type="unfinished"/>
+        <translation>Strecken</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="204"/>
@@ -1920,7 +1920,7 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
         <source>There are three things that can be adjusted here:</source>
-        <translation type="unfinished"/>
+        <translation>Es gibt drei Dinge, die hier angepasst werden können:</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
@@ -2176,7 +2176,7 @@
     <message>
         <location filename="../qml/settings/TabOther.qml" line="231"/>
         <source>(Re-)set automatically</source>
-        <translation type="unfinished"/>
+        <translation>Automatisch setzen</translation>
     </message>
 </context>
 <context>
@@ -2697,12 +2697,12 @@
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="192"/>
         <source>Sorry, KDE4 doesn&apos;t offer the feature to change the wallpaper except from their own system settings. Unfortunately there&apos;s nothing I can do about that.</source>
-        <translation type="unfinished"/>
+        <translation>Das tut mir leid, aber KDE4 bietet nicht die Möglichkeit ein Hintergrundbild zu setzen, außer über deren eigene Systemeinstellungen. Daran kann ich leider nichts ändern.</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="219"/>
         <source>Sorry, Plasma 5 doesn&apos;t yet offer the feature to change the wallpaper except from their own system settings. Hopefully this will change soon, but until then there&apos;s nothing I can do about that.</source>
-        <translation type="unfinished"/>
+        <translation>Tut mir leid, Plasma 5 bietet (noch) nicht die Möglichkeit ein Hintergrundbild zu setzen, außer über deren eigene Systemeinstellungen. Hoffentlich wird sich das irgendwann ändern, doch bis dahin kann leider nichts machen.</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="250"/>
@@ -2734,19 +2734,19 @@
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="494"/>
         <source>Warning: &apos;enlightenment_remote&apos; doesn&apos;t seem to be available! Are you sure Enlightenment is installed?</source>
-        <translation type="unfinished"/>
+        <translation>Warnung: &apos;enlightenment_remote&apos; scheint nicht verfügbar zu sein! Bist du dir sicher, dass Enlightenment installiert ist?</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="556"/>
         <source>You can set the wallpaper to any sub-selection of workspaces</source>
-        <translation type="unfinished"/>
+        <translation>Du kannst ein Hintergrundbild zu einer beliebigen Auswahl an Arbeitsflächen setzen</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="576"/>
         <location filename="../qml/fadein/Wallpaper.qml" line="578"/>
         <location filename="../qml/fadein/Wallpaper.qml" line="579"/>
         <source>Workspace #</source>
-        <translation type="unfinished"/>
+        <translation>Arbeitsfläche #</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="636"/>
