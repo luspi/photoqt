@@ -510,8 +510,13 @@ public:
 		sortby = "name";
 		sortbyAscending = true;
 
+#ifdef Q_OS_WIN32
+		windowmode = true;
+		windowDecoration = false;
+#else
 		windowmode = false;
 		windowDecoration = false;
+#endif
 		myWidgetAnimated = true;
 		saveWindowGeometry = true;
 		keepOnTop = true;
