@@ -91,11 +91,14 @@ Rectangle {
 					TabOtherLanguageTiles { objectName: "cs"; text: "Čeština"; exclusiveGroup: languagegroup; }
 					TabOtherLanguageTiles { objectName: "de"; text: "Deutsch"; exclusiveGroup: languagegroup; }
 					TabOtherLanguageTiles { objectName: "el"; text: "Ελληνικά"; exclusiveGroup: languagegroup; }
-					TabOtherLanguageTiles { objectName: "es_ES"; text: "Español"; exclusiveGroup: languagegroup; }
+					TabOtherLanguageTiles { objectName: "es_ES"; text: "Español (España)"; exclusiveGroup: languagegroup; }
+					TabOtherLanguageTiles { objectName: "es_CR"; text: "Español (Costa Rica)"; exclusiveGroup: languagegroup; }
 					TabOtherLanguageTiles { objectName: "fi"; text: "Suomen kieli"; exclusiveGroup: languagegroup; }
 					TabOtherLanguageTiles { objectName: "fr"; text: "Français"; exclusiveGroup: languagegroup; }
+					TabOtherLanguageTiles { objectName: "he"; text: "עברית"; exclusiveGroup: languagegroup; }
 					TabOtherLanguageTiles { objectName: "it"; text: "Italiano"; exclusiveGroup: languagegroup; }
 					TabOtherLanguageTiles { objectName: "ja"; text: "日本語"; exclusiveGroup: languagegroup; }
+					TabOtherLanguageTiles { objectName: "pl"; text: "Polski"; exclusiveGroup: languagegroup; }
 					TabOtherLanguageTiles { objectName: "pt_BR"; text: "Português (Brasil)"; exclusiveGroup: languagegroup; }
 					TabOtherLanguageTiles { objectName: "pt_PT"; text: "Português (Portugal)"; exclusiveGroup: languagegroup; }
 					TabOtherLanguageTiles { objectName: "sk"; text: "Slovenčina"; exclusiveGroup: languagegroup; }
