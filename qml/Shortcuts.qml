@@ -192,7 +192,6 @@ Item {
 			scaleImage.showScale()
 		else {
 			getanddostuff.executeApp(cmd,thumbnailBar.currentFile)
-			console.log("external:",close)
 			if(close !== undefined && close == true)
 				if(settings.trayicon)
 					hideToSystemTray()

@@ -82,7 +82,7 @@ Rectangle {
 	Audio {
 		id: slideshowmusic
 		volume: volumeslider.value/100.0
-		onError: console.log("AUDIO ERROR:",errorString,"-",source)
+		onError: console.error("AUDIO ERROR:",errorString,"-",source)
 	}
 
 	// Display the bar

@@ -7,8 +7,8 @@
 #include <QSettings>
 #include <QDir>
 #include <QFileSystemWatcher>
-#include <QtDebug>
 #include <QTimer>
+#include <QTextStream>
 
 // Convenience class to access and change permanent settings
 

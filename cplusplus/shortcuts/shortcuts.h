@@ -3,7 +3,6 @@
 
 #include "../logger.h"
 #include <QKeyEvent>
-#include <QtDebug>
 
 class Shortcuts {
 

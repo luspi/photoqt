@@ -8,7 +8,6 @@
 #include <QAbstractListModel>
 #include "../settings/settings.h"
 #include "../settings/fileformats.h"
-#include <QtDebug>
 #include "../logger.h"
 
 class MyCppModel;

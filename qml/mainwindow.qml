@@ -144,7 +144,7 @@ Item {
 	function displayImage(pos) { thumbnailBar.displayImage(pos) }
 	function nextImage() { thumbnailBar.nextImage(); }
 	function previousImage() { thumbnailBar.previousImage(); }
-	function getCenterPos() { console.log("center pos"); return thumbnailBar.getCenterPos(); }
+	function getCenterPos() { return thumbnailBar.getCenterPos(); }
 	function resetZoom() { image.resetZoom(); }
 	function isZoomed() { return (image.zoomedDirection != ""); }
 

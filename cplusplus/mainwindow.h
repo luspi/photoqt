@@ -9,7 +9,6 @@
 #include <QQmlContext>
 #include <QShortcut>
 #include <QSystemTrayIcon>
-#include <QtDebug>
 
 #include "logger.h"
 #include "scripts/getanddostuff.h"
