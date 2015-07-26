@@ -85,6 +85,13 @@ int main(int argc, char *argv[]) {
 				QStringList allSplit = settingsFileTxt.split("\n");
 				allSplit.removeFirst();
 				QString allFile = "Version=" + version + "\n" + allSplit.join("\n");
+
+				// ONLY FOR V1.3, ENSURE THIS AS DEFAULT
+				// We can do this change of settings, as there hasn't been a checkbox for this setting before
+				// so everybody is still on the 'default', which should be 'not on top'
+				if(allFile.contains("KeepOnTop=1"))
+					allFile = allFile.replace("KeepOnTop=1","KeepOnTop=0");
+
 				in << allFile;
 				photoQtUpdated = true;
 			}
