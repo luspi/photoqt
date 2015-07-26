@@ -319,42 +319,42 @@
 <context>
     <name>Display</name>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="436"/>
+        <location filename="../qml/mainview/Display.qml" line="498"/>
         <source>Hide</source>
         <translation>Απόκρυψη</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="462"/>
+        <location filename="../qml/mainview/Display.qml" line="524"/>
         <source>Open a file to begin</source>
         <translation>Ανοίξτε ένα αρχείο για να ξεκινήσετε</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="513"/>
+        <location filename="../qml/mainview/Display.qml" line="575"/>
         <source>No results found...</source>
         <translation>Κανένα αποτέλεσμα...</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="520"/>
+        <location filename="../qml/mainview/Display.qml" line="582"/>
         <source>Rotate Image?</source>
         <translation>Περιστροφή της εικόνας;</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="521"/>
+        <location filename="../qml/mainview/Display.qml" line="583"/>
         <source>The Exif data of this image says, that this image is supposed to be rotated.</source>
         <translation>Τα δεδομένα Exif της εικόνας αναφέρουν ότι θα πρέπει να είναι περιστραμμένη.</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="521"/>
+        <location filename="../qml/mainview/Display.qml" line="583"/>
         <source>Do you want to apply the rotation?</source>
         <translation>Επιθυμείτε την εφαρμογή της περιστροφής;</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="522"/>
+        <location filename="../qml/mainview/Display.qml" line="584"/>
         <source>Yes, do it</source>
         <translation>Ναι, κάνε το</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="523"/>
+        <location filename="../qml/mainview/Display.qml" line="585"/>
         <source>No, don&apos;t</source>
         <translation>Όχι, μην το κάνεις</translation>
     </message>
@@ -648,24 +648,24 @@
         <translation>Άνοιγμα αρχείου εικόνας</translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="116"/>
-        <location filename="../cplusplus/mainwindow.cpp" line="117"/>
-        <location filename="../cplusplus/mainwindow.cpp" line="119"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="141"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="142"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="144"/>
         <source>Images</source>
         <translation>Εικόνες</translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="121"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="146"/>
         <source>All Files</source>
         <translation>Όλα τα αρχεία</translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="532"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="583"/>
         <source>Image Viewer</source>
         <translation>Προβολέας εικόνων</translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="537"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="588"/>
         <source>Hide/Show PhotoQt</source>
         <translation>Απόκρυψη/Εμφάνιση PhotoQt</translation>
     </message>
@@ -851,38 +851,38 @@
         <translation>Λειτουργία παραθύρου </translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="192"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="193"/>
         <source>Show window decoration</source>
         <translation>Εμφάνιση της διακόσμησης του παραθύρου</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="214"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="215"/>
         <source>Close on click on background</source>
         <translation>Έξοδος με κλικ στο φόντο</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="235"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="236"/>
         <source>Keep thumbnails visible</source>
         <translation>Διατήρηση των εικόνων επισκόπησης ορατές</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="258"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="259"/>
         <source>Normal thumbnails</source>
         <translation>Τυπικές εικόνες επισκόπησης
 </translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="258"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="259"/>
         <source>Dynamic thumbnails</source>
         <translation>Δυναμικές εικόνες επισκόπησης</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="280"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="281"/>
         <source>Enable &apos;Quick Settings&apos;</source>
         <translation>Ενεργοποίηση των «Γρήγορων ρυθμίσεων»</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="258"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="259"/>
         <source>Smart thumbnails</source>
         <translation>Έξυπνες εικόνες επισκόπησης</translation>
     </message>
@@ -902,7 +902,7 @@
         <translation>Εμφάνιση του εικονιδίου συστήματος αλλά να μην γίνει απόκρυψη σε αυτό</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="305"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="306"/>
         <source>Show full settings</source>
         <translation>Εμφάνιση πλήρων ρυθμίσεων</translation>
     </message>
@@ -1228,7 +1228,7 @@
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="352"/>
         <source>Save changes, but don&apos;t start just yet</source>
-        <translation type="unfinished"/>
+        <translation>Αποθήκευση των αλλαγών χωρίς έναρξη ακόμα</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="366"/>
@@ -1294,7 +1294,7 @@
     <message>
         <location filename="../qml/fadein/Startup.qml" line="92"/>
         <source>Welcome back to PhotoQt. It hasn&apos;t been that long since the last release of PhotoQt. Yet, it changed pretty much entirely, as it now is based on QtQuick rather than QWidgets. A large quantity of the code had to be re-written, while some chunks could be re-used. Thus, it is now more reliable than ever before and overall simply feels well rounded.</source>
-        <translation type="unfinished"/>
+        <translation>Καλώς επιστρέψατε στο PhotoQt. Δεν πέρασε πολύς καιρός από την τελευταία κυκλοφορία του PhotoQt. Από τότε έχουν αλλάξει αρκετά, όπως ότι τώρα βασίζεται στην QtQuick αντί στα QWidgets. Μεγάλο τμήμα του κώδικα έχει επανεγγραφεί, ενώ μερικά τμήματα έχουν επαναχρησιμοποιηθεί. Ως εκ τούτου είναι πιο αξιόπιστο από πριν και επί του συνόλου πιο αισθητικό.</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="123"/>
@@ -1312,30 +1312,20 @@
         <translation>Κάντε το PhotoQt δικό σας</translation>
     </message>
     <message>
+        <location filename="../qml/fadein/Startup.qml" line="91"/>
+        <location filename="../qml/fadein/Startup.qml" line="92"/>
+        <source>Here below you find a short overview of a selection of a few things PhotoQt has to offer, but feel free to skip it and just get started.</source>
+        <translation>Παρακάτω θα βρείτε μια μικρή επισκόπηση μιας επιλογής χαρακτηριστικών του PhotoQt, αλλά αισθανθείτε ελεύθερα να την παραλείψετε και να ξεκινήσετε άμεσα τη χρήση της εφαρμογής.</translation>
+    </message>
+    <message>
         <location filename="../qml/fadein/Startup.qml" line="160"/>
         <source>PhotoQt has an extensive settings area. By default you can call it with the shortcut &apos;e&apos; or through the dropdown menu at the top edge towards the top right corner. You can adjust almost everything in PhotoQt, and it&apos;s certainly worth having a look there. Each setting usually comes with a little explanation text. Some of the most often used settings can also be conveniently adjusted in a slide-in widget, hidden behind the right screen edge.</source>
         <translation>Το PhotoQt διαθέτει μια εκτεταμένη διαμόρφωση ρυθμίσεων. Μπορείτε να μεταβείτε σε αυτήν μέσω της προκαθορισμένης συντόμευσης «e» ή μέσω του κυλιόμενου μενού στην κορυφή δεξιά. Στο PhotoQt μπορείτε να ρυθμίσετε σχεδόν τα πάντα, και πραγματικά αξίζει να ρίξετε μια ματιά εκεί. Επίσης, κάθε ρύθμιση συνοδεύεται με μια μικρή επεξήγηση. Μερικές από τις συχνότερα χρησιμοποιούμενες ρυθμίσεις μπορούν να ρυθμιστούν στο πλευρικό συστατικό, κρυμμένο πίσω από το άκρο της δεξιά πλευράς της οθόνης.</translation>
     </message>
     <message>
-        <location filename="../qml/fadein/Startup.qml" line="262"/>
-        <source>Most images store some additional information within the file&apos;s metadata. PhotoQt can read and display a selection of this data. You can find this information in the slide-in window hidden behind the left edge of PhotoQt.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../qml/fadein/Startup.qml" line="299"/>
-        <source>PhotoQt also brings a slideshow feature. When you start a slideshow, it starts at the currently displayed image. There are a couple of settings that can be set, like transition, speed, loop, and shuffle. Plus, you can set a music file that is played in the background. When the slideshow takes longer than the music file, then PhotoQt starts the music file all over from the beginning. At anytime during the slideshow, you can move the mouse cursor to the top edge of the screen to get a little bar, where you can pause/exit the slideshow and adjust the music volume.</source>
-        <translation>Το PhotoQt παρέχει και ένα χαρακτηριστικό προβολής διαφανειών. Όταν εκκινείτε μια προβολή διαφανειών, ξεκινά από την τρέχουσα προβαλλόμενη εικόνα. Υπάρχουν μερικές ρυθμίσεις που μπορούν να γίνουν ρυθμίσεις όπως για τη μετάβαση, την ταχύτητα, τον βρόγχο και την ανάμιξη. Επιπλέον, μπορείτε να ορίσετε ένα αρχείο μουσικής να αναπαραχθεί στο παρασκήνιο. Όταν η προβολή διαφανειών διαρκεί περισσότερο από το αρχείο μουσικής, το PhotoQt επανεκκινεί το αρχείο μουσικής από την αρχή. Οποιαδήποτε στιγμή της προβολής διαφανειών, μπορείτε να μετακινήσετε τον δρομέα του ποντικιού στην κορυφή ώστε να εμφανίσετε μια μικρή γραμμή, όπου μπορείτε μέσω των κουμπιών ελέγχου να διακόψετε/εγκαταλείψετε την προβολή διαφανειών και να ρυθμίσετε την ένταση της μουσικής.</translation>
-    </message>
-    <message>
         <location filename="../qml/fadein/Startup.qml" line="198"/>
         <source>Thumbnails</source>
         <translation>Εικόνες επισκόπησης</translation>
-    </message>
-    <message>
-        <location filename="../qml/fadein/Startup.qml" line="91"/>
-        <location filename="../qml/fadein/Startup.qml" line="92"/>
-        <source>Here below you find a short overview of a selection of a few things PhotoQt has to offer, but feel free to skip it and just get started.</source>
-        <translation>Παρακάτω θα βρείτε μια μικρή επισκόπηση μιας επιλογής χαρακτηριστικών του PhotoQt, αλλά αισθανθείτε ελεύθερα να την παραλείψετε και να ξεκινήσετε άμεσα τη χρήση της εφαρμογής.</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="198"/>
@@ -1358,6 +1348,16 @@
         <translation>Πληροφορίες εικόνας (Exif/PTC)</translation>
     </message>
     <message>
+        <location filename="../qml/fadein/Startup.qml" line="262"/>
+        <source>Most images store some additional information within the file&apos;s metadata. PhotoQt can read and display a selection of this data. You can find this information in the slide-in window hidden behind the left edge of PhotoQt.</source>
+        <translation>Οι περισσότερες εικόνες αποθηκεύουν μερικές επιπλέον πληροφορίες στα μεταδεδομένα του αρχείου. Το PhotoQt μπορεί να διαβάσει και να προβάλει μια επιλογή από αυτά τα δεδομένα. Μπορείτε να βρείτε αυτές τις πληροφορίες στο συρόμενο πλαίσιο καταχωνιασμένο στην αριστερή πλευρά του PhotoQt.</translation>
+    </message>
+    <message>
+        <location filename="../qml/fadein/Startup.qml" line="299"/>
+        <source>PhotoQt also brings a slideshow feature. When you start a slideshow, it starts at the currently displayed image. There are a couple of settings that can be set, like transition, speed, loop, and shuffle. Plus, you can set a music file that is played in the background. When the slideshow takes longer than the music file, then PhotoQt starts the music file all over from the beginning. At anytime during the slideshow, you can move the mouse cursor to the top edge of the screen to get a little bar, where you can pause/exit the slideshow and adjust the music volume.</source>
+        <translation>Το PhotoQt παρέχει και ένα χαρακτηριστικό προβολής διαφανειών. Όταν εκκινείτε μια προβολή διαφανειών, ξεκινά από την τρέχουσα προβαλλόμενη εικόνα. Υπάρχουν μερικές ρυθμίσεις που μπορούν να γίνουν ρυθμίσεις όπως για τη μετάβαση, την ταχύτητα, τον βρόγχο και την ανάμιξη. Επιπλέον, μπορείτε να ορίσετε ένα αρχείο μουσικής να αναπαραχθεί στο παρασκήνιο. Όταν η προβολή διαφανειών διαρκεί περισσότερο από το αρχείο μουσικής, το PhotoQt επανεκκινεί το αρχείο μουσικής από την αρχή. Οποιαδήποτε στιγμή της προβολής διαφανειών, μπορείτε να μετακινήσετε τον δρομέα του ποντικιού στην κορυφή ώστε να εμφανίσετε μια μικρή γραμμή, όπου μπορείτε μέσω των κουμπιών ελέγχου να διακόψετε/εγκαταλείψετε την προβολή διαφανειών και να ρυθμίσετε την ένταση της μουσικής.</translation>
+    </message>
+    <message>
         <location filename="../qml/fadein/Startup.qml" line="299"/>
         <source>Slideshow</source>
         <translation>Παρουσίαση διαφανειών</translation>
@@ -1375,7 +1375,7 @@
     <message>
         <location filename="../qml/fadein/Startup.qml" line="355"/>
         <source>There are many many more features. Best is, you just give it a go. Don&apos;t forget to check out the settings to make PhotoQt YOUR image viewer. Enjoy :-)</source>
-        <translation type="unfinished"/>
+        <translation>Υπάρχουν ακόμα πάρα πολλά χαρακτηριστικά. Για να τα γνωρίσετε όλα ο καλύτερος τρόπος είναι να το δοκιμάσετε. Μην ξεχάσετε να ανατρέξετε στις ρυθμίσεις για να κάνετε το PhotoQt ΤΟΝ προβολέα των εικόνων σας. Απολαύστε το:-)</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="387"/>
@@ -1533,17 +1533,17 @@
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="271"/>
         <source>Some cameras can detect - while taking the photo - whether the camera was turned and might store this information in the image exif data. If PhotoQt finds this information, it can rotate the image accordingly. When asking PhotoQt to always rotate images automatically without asking, it already does so at image load (including thumbnails).</source>
-        <translation type="unfinished"/>
+        <translation>Μερικές φωτογραφικές μηχανές μπορούν να εντοπίσουν ─ κατά τη λήψη μιας φωτογραφίας─ αν έχουν περιστραφεί και μπορούν να αποθηκεύσουν την πληροφορία αυτή στα δεδομένα exif της εικόνας. Αν το PhotoQt βρει αυτήν την πληροφορία, μπορεί να περιστρέψει τη φωτογραφία αναλόγως. Όταν ζητάτε από το PhotoQt να περιστρέφει πάντα τις εικόνες αυτόματα χωρίς ερώτηση, το κάνει ήδη κατά τη φόρτωση της εικόνας (συμπεριλαμβανομένου των εικόνων επισκόπησης). </translation>
     </message>
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="294"/>
         <source>Never rotate/flip images</source>
-        <translation type="unfinished"/>
+        <translation>Να μη γίνεται περιστροφή/αναστροφή των εικόνων</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="300"/>
         <source>Always rotate/flip images</source>
-        <translation type="unfinished"/>
+        <translation>Να γίνεται πάντα περιστροφή/αναστροφή των εικόνων</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="305"/>
@@ -1576,7 +1576,7 @@
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="79"/>
         <source>These are the file types natively supported by Qt. Make sure, that you&apos;ll have the required libraries installed (e.g., qt5-imageformats), otherwise some of them might not work on your system.&lt;br&gt;If a file ending for one of the formats is missing, you can add it below, formatted like &apos;*.ending&apos; (without single quotation marks), multiple entries seperated by commas.</source>
-        <translation type="unfinished"/>
+        <translation>Αυτοί είναι οι τύποι αρχείων που υποστηρίζονται εγγενώς από την Qt. Σιγουρευτείτε ότι έχετε όλες τις απαραίτητες βιβλιοθήκες εγκατεστημένες (π.χ. qt5-imageformats), διαφορετικά μερικές από αυτές μπορεί να μη λειτουργούν στο σύστημά σας.&lt;br&gt;Αν μια κατάληξη αρχείου για μια από αυτές τις μορφές λείπει, μπορείτε να την προσθέσετε παρακάτω, υπό τη μορφή «*.επίθημα» (χωρίς τα εισαγωγικά), πολλαπλές καταχωρήσεις διαχωρισμένες με κόμμα.</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="102"/>
@@ -1607,7 +1607,7 @@
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="143"/>
         <source>PhotoQt makes use of GraphicsMagick for support of many different image formats. The list below are all those formats, that were successfully displayed using test images. If you prefer not to have one or the other enabled in PhotoQt, you can simply disable individual formats below.&lt;br&gt;There are a few formats, that were not tested in PhotoQt (due to lack of a test image). You can find those in the &apos;Untested&apos; category below.</source>
-        <translation type="unfinished"/>
+        <translation>Το PhotoQt χρησιμοποιεί το GraphicsMagick για υποστήριξη διαφόρων μορφών εικόνων. Η παρακάτω λίστα περιέχει όλες αυτές τις μορφές, των οποίων έχει δοκιμαστεί η απεικόνιση επιτυχώς. Αν επιθυμείτε να αποκλείσετε κάποιες από αυτές από το PhotoQt, μπορείτε απλά να απενεργοποιήσετε μεμονωμένες μορφές παρακάτω.&lt;br&gt;Υπάρχουν μερικές μορφές που δεν έχουν δοκιμαστεί στο PhotoQt (λόγω έλλειψης μιας εικόνας δοκιμής). Αυτές θα τις βρείτε στην κατηγορία «Αδοκίμαστα» παρακάτω.</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="191"/>
@@ -1687,7 +1687,7 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="67"/>
         <source>The background of PhotoQt is the part, that is not covered by an image. It can be made either real (half-)transparent (using a compositor), or faked transparent (instead of the actual desktop a screenshot of it is shown), or a custom background image can be set, or none of the above.&lt;br&gt;Note: Fake transparency currently only really works when PhotoQt is run in fullscreen/maximised!</source>
-        <translation type="unfinished"/>
+        <translation>Το φόντο του PhotoQt είναι το τμήμα που δεν καλύπτεται από κάποια εικόνα. Μπορεί να δημιουργηθεί είτε με πραγματική (ημι-)διαφάνεια (με χρήση ενός συνθέτη), ή με ψευδή διαφάνεια (αντί του πραγματικού παρασκηνίου, ενός στιγμιότυπου αυτού), ή μπορεί να οριστεί μια εικόνα ταπετσαρίας, ή τίποτα από τα παραπάνω. &lt;br&gt;Σημείωση: η ψευδή διαφάνεια λειτουργεί όταν το PhotoQt εκτελείται μεγιστοποιημένο/πλήρη οθόνη!</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="91"/>
@@ -1707,7 +1707,7 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="107"/>
         <source>Use one-coloured, non-transparent background</source>
-        <translation type="unfinished"/>
+        <translation>Χρήση μονόχρωμου, αδιαφανούς παρασκηνίου</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="164"/>
@@ -1737,7 +1737,7 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="209"/>
         <source>Tile image</source>
-        <translation type="unfinished"/>
+        <translation>Παράθεση εικόνας</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="228"/>
@@ -1905,9 +1905,9 @@
         <translation>Εφέ και γεωμετρία παραθύρου</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
-        <source>There are two things that can be adjusted here:</source>
-        <translation>Εδώ μπορείτε να ρυθμίσετε δυο πράγματα:</translation>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="748"/>
+        <source>Keep above other windows</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
@@ -1918,6 +1918,16 @@
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
         <source>Save and restore of Window Geometry: On quitting PhotoQt, it stores the size and position of the window and can restore it the next time started.</source>
         <translation>Αποθήκευση και ανάκτηση της γεωμετρίας του παραθύρου: Εγκαταλείποντας το PhotoQt, αποθηκεύει το μέγεθος και τη θέση του παραθύρου και μπορεί να την ανακτήσει στην επόμενη φορά. </translation>
+    </message>
+    <message>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
+        <source>There are three things that can be adjusted here:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
+        <source>Keep PhotoQt above all other windows at all time</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="738"/>
@@ -2015,7 +2025,7 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="174"/>
         <source>When started PhotoQt creates a tray icon in the system tray. If desired, you can set PhotoQt to minimise to the tray instead of quitting. This causes PhotoQt to be almost instantaneously available when an image is opened.&lt;br&gt;It is also possible to start PhotoQt already minimised to the tray (e.g. at system startup) when called with &quot;--start-in-tray&quot;.</source>
-        <translation type="unfinished"/>
+        <translation>Κατά την εκκίνηση, το PhotoQt δημιουργεί ένα εικονίδιο στο πλαίσιο συστήματος. Αν το επιθυμείτε, μπορείτε να ρυθμίσετε το PhotoQt να ελαχιστοποιείται στο πλαίσιο συστήματος αντί του πλήρους κλεισίματος. Αυτό θα έχει ως αποτέλεσμα το PhotoQt να είναι διαθέσιμο στιγμιαία κατά το άνοιγμα μιας εικόνας.&lt;br&gt;Επίσης έχετε τη δυνατότητα να εκκινήσετε το PhotoQt ελαχιστοποιημένο στο πλαίσιο συστήματος (π.χ. κατά την έναρξη του συστήματος) εκτελώντας το με «--start-in-tray».</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="182"/>
@@ -2163,12 +2173,12 @@
     <message>
         <location filename="../qml/settings/TabOther.qml" line="223"/>
         <source>Add new context menu entry</source>
-        <translation type="unfinished"/>
+        <translation>Προσθήκη νέας καταχώρησης στο σχετικό μενού</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabOther.qml" line="231"/>
         <source>(Re-)set automatically</source>
-        <translation type="unfinished"/>
+        <translation>Αυτόματος (επανα)καθορισμός</translation>
     </message>
 </context>
 <context>
@@ -2379,13 +2389,13 @@
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="128"/>
         <source>Extern</source>
-        <translation>Εξωτερικό</translation>
+        <translation>Εξωτερική</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="132"/>
         <source>EXTERN</source>
         <extracomment>Is the shortcut tile text for EXTERNal shortcuts</extracomment>
-        <translation type="unfinished"/>
+        <translation>ΕΞΩΤΕΡΙΚΗ</translation>
     </message>
 </context>
 <context>
@@ -2466,7 +2476,7 @@
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="213"/>
         <source>Use filename-only thumbnail</source>
-        <translation type="unfinished"/>
+        <translation>Χρήση επισκοπήσεων με όνομα αρχείου μόνο</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="279"/>
@@ -2593,6 +2603,7 @@
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="251"/>
+        <location filename="../qml/settings/TabThumbnailsBasic.qml" line="259"/>
         <source>Keep Thumbnails Visible</source>
         <translation>Διατήρηση των εικόνων επισκόπησης ορατές</translation>
     </message>
@@ -2602,9 +2613,9 @@
         <translation>Εξ ορισμού οι εικόνες επισκόπησης «γλιστρούν» έξω από την άκρη της οθόνης. Εδώ μπορείτε να τις εξαναγκάσετε να παραμείνουν ορατές. Η μεγάλη εικόνα συρρικνώνεται ώστε να καταλάβει τον ελεύθερο χώρο. Σημειώστε ότι οι εικόνες επισκόπησης θα είναι κρυφές (και θα εμφανίζονται μόνο κατά το πέρασμα του ποντικιού) κατά τη μεγέθυνση/μείωση της εικόνας. Η επαναφορά της εστίασης επαναφέρει την αρχική ρύθμιση ορατότητας των εικόνων επισκόπησης.</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabThumbnailsBasic.qml" line="259"/>
-        <source>Keep Thumnails Visible</source>
-        <translation>Διατήρηση των εικόνων επισκόπησης ορατές</translation>
+        <location filename="../qml/settings/TabThumbnailsBasic.qml" line="307"/>
+        <source>Smart Thumbnails</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="274"/>
@@ -2637,11 +2648,6 @@
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="301"/>
         <source>Dynamic Thumbnails</source>
         <translation>Δυναμικές εικόνες επισκόπησης</translation>
-    </message>
-    <message>
-        <location filename="../qml/settings/TabThumbnailsBasic.qml" line="307"/>
-        <source>Smart Thumbnail</source>
-        <translation>Έξυπνες Εικόνα επισκόπησης</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="325"/>
@@ -2695,22 +2701,22 @@
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="192"/>
         <source>Sorry, KDE4 doesn&apos;t offer the feature to change the wallpaper except from their own system settings. Unfortunately there&apos;s nothing I can do about that.</source>
-        <translation type="unfinished"/>
+        <translation>Λυπάμαι, το KDE4 δεν υποστηρίζει το χαρακτηριστικό αλλαγής ταπετσαρίας εκτός της εγγενής ρύθμισης του συστήματος. Δυστυχώς δεν μπορώ να κάνω κάτι για αυτό.</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="219"/>
         <source>Sorry, Plasma 5 doesn&apos;t yet offer the feature to change the wallpaper except from their own system settings. Hopefully this will change soon, but until then there&apos;s nothing I can do about that.</source>
-        <translation type="unfinished"/>
+        <translation>Λυπάμαι, το Plasma 5 δεν υποστηρίζει (ακόμα) το χαρακτηριστικό αλλαγής ταπετσαρίας εκτός της εγγενής ρύθμισης του συστήματος. Ευτυχώς αυτό θα αλλάξει σύντομα, αλλά μέχρι τότε δεν μπορώ να κάνω κάτι για αυτό.</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="250"/>
         <source>Warning: &apos;gsettings&apos; doesn&apos;t seem to be available! Are you sure Gnome/Unity is installed?</source>
-        <translation type="unfinished"/>
+        <translation>Προειδοποίηση: η «gsettings» φαίνεται ότι δεν είναι διαθέσιμη! Είστε σίγουρος-η ότι το Gnome/Unity είναι εγκατεστημένο;</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="337"/>
         <source>Warning: &apos;xfconf-query&apos; doesn&apos;t seem to be available! Are you sure XFCE4 is installed?</source>
-        <translation type="unfinished"/>
+        <translation>Προειδοποίηση: η «xconf-query» φαίνεται ότι δεν είναι διαθέσιμη! Είστε σίγουρος-η ότι το XFCE4 είναι εγκατεστημένο;</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="350"/>
@@ -2727,44 +2733,44 @@
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="483"/>
         <source>Warning: It seems that the &apos;msgbus&apos; (DBUS) module is not activated! It can be activated in the settings console &gt; Add-ons &gt; Modules &gt; System.</source>
-        <translation type="unfinished"/>
+        <translation>Προειδοποίηση: Φαίνεται ότι το άρθρωμα «msgbus» (DBUS) δεν είναι ενεργοποιημένο! Μπορεί να ενεργοποιηθεί στις ρυθμίσεις &gt; Πρόσθετα &gt; Αρθρώματα &gt; Σύστημα.</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="494"/>
         <source>Warning: &apos;enlightenment_remote&apos; doesn&apos;t seem to be available! Are you sure Enlightenment is installed?</source>
-        <translation type="unfinished"/>
+        <translation>Προειδοποίηση: η «enlightenment_remote» φαίνεται ότι δεν είναι διαθέσιμη! Είστε σίγουρος-η ότι το Enlightenment είναι εγκατεστημένο;</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="556"/>
         <source>You can set the wallpaper to any sub-selection of workspaces</source>
-        <translation type="unfinished"/>
+        <translation>Μπορείτε να ορίσετε την ταπετσαρία σε οποιαδήποτε υποεπιλογή των επιφανειών εργασίας</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="576"/>
         <location filename="../qml/fadein/Wallpaper.qml" line="578"/>
         <location filename="../qml/fadein/Wallpaper.qml" line="579"/>
         <source>Workspace #</source>
-        <translation type="unfinished"/>
+        <translation>Επιφάνεια εργασίας #</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="636"/>
         <source>Warning: &apos;feh&apos; doesn&apos;t seem to be installed!</source>
-        <translation type="unfinished"/>
+        <translation>Προειδοποίηση: η «feh» φαίνεται ότι δεν είναι εγκατεστημένη!</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="647"/>
         <source>Warning: &apos;nitrogen&apos; doesn&apos;t seem to be installed!</source>
-        <translation type="unfinished"/>
+        <translation>Προειδοποίηση: η «nitrogen» φαίνεται ότι δεν είναι εγκατεστημένη!</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="658"/>
         <source>Warning: Both &apos;feh&apos; and &apos;nitrogen&apos; don&apos;t seem to be installed!</source>
-        <translation type="unfinished"/>
+        <translation>Προειδοποίηση: Και τα δυο «feh» και «nitrogen» φαίνεται ότι δεν είναι εγκατεστημένα!</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="669"/>
         <source>PhotoQt can use &apos;feh&apos; or &apos;nitrogen&apos; to change the background of the desktop.&lt;br&gt;This is intended particularly for window managers that don&apos;t natively support wallpapers (e.g., like Openbox).</source>
-        <translation type="unfinished"/>
+        <translation>Το PhotoQt χρησιμοποιεί τα «feh» ή «nitrogen» για την αλλαγή της ταπετσαρίας της επιφάνειας εργασίας.&lt;br&gt;Αυτό είναι χρήσιμο ειδικά για διαχειριστές παραθύρων οι οποίοι δεν υποστηρίζουν εγγενώς ταπετσαρίες (π.χ. το Openbox).</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="685"/>

@@ -4,7 +4,7 @@
     <message>
         <location filename="../qml/fadein/About.qml" line="113"/>
         <source>PhotoQt is a simple image viewer, designed to be good looking, highly configurable, yet easy to use and fast.</source>
-        <translation>PhotoQt 是一個簡潔的圖片查看器，設計宗旨是：好看，高度可定制，易用和快捷。</translation>
+        <translation>PhotoQt 是一个简洁的图片查看器，设计宗旨是：好看，高度可定制，易用和快捷。</translation>
     </message>
     <message>
         <location filename="../qml/fadein/About.qml" line="115"/>
@@ -19,18 +19,18 @@
     <message>
         <location filename="../qml/fadein/About.qml" line="121"/>
         <source>Don&apos;t forget to check out the website:</source>
-        <translation>不要忘了訪問我們的網站：</translation>
+        <translation>不要忘了访问我们的网站：</translation>
     </message>
     <message>
         <location filename="../qml/fadein/About.qml" line="123"/>
         <source>If you find a bug or if you have a question or suggestion, tell me. I&apos;m open to any feedback I get :)</source>
-        <translation>如果你發現 Bug，或有什么問題或建議，請告訴我。任何反饋我都會樂意接收的  :)</translation>
+        <translation>如果你发现 Bug，或有什么问题或建议，请告诉我。任何反馈我都会乐意接收的  :)</translation>
     </message>
     <message>
         <location filename="../qml/fadein/About.qml" line="174"/>
         <source>You want to join the team and do something, e.g. translating PhotoQt to another language? Drop me and email (%1), and for translations, check the project page on Transifex:</source>
         <extracomment>Don't forget to add the %1 in your translation!!</extracomment>
-        <translation type="unfinished"/>
+        <translation>你想加入团队并做点什么吗？例如翻译 PhotoQt ？请发邮件给我 (1%)，至于翻译，请到 Transifex 上查看翻译项目：</translation>
     </message>
     <message>
         <location filename="../qml/fadein/About.qml" line="119"/>
@@ -45,12 +45,12 @@
     <message>
         <location filename="../qml/fadein/About.qml" line="68"/>
         <source>website:</source>
-        <translation>網站：</translation>
+        <translation>网站：</translation>
     </message>
     <message>
         <location filename="../qml/fadein/About.qml" line="68"/>
         <source>Licensed under GPLv2 or later, without any guarantee</source>
-        <translation>使用 GPLv2 及后續版本許可，無任何保證</translation>
+        <translation>使用 GPLv2 及后续版本许可，无任何保证</translation>
     </message>
 </context>
 <context>
@@ -174,27 +174,27 @@
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="11"/>
         <source>Confirm me?</source>
-        <translation type="unfinished"/>
+        <translation>确认?</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="12"/>
         <source>Do you really want to do this?</source>
-        <translation type="unfinished"/>
+        <translation>你确定要这样做吗？</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="13"/>
         <source>Yes, do it</source>
-        <translation type="unfinished"/>
+        <translation>确定，执行</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="14"/>
         <source>No, don&apos;t</source>
-        <translation type="unfinished"/>
+        <translation>不，不要！</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="110"/>
         <source>Don&apos;t ask again</source>
-        <translation type="unfinished"/>
+        <translation>不要再询问我</translation>
     </message>
 </context>
 <context>
@@ -202,13 +202,13 @@
     <message>
         <location filename="../qml/elements/CustomDetectShortcut.qml" line="72"/>
         <source>Detect key combination</source>
-        <translation type="unfinished"/>
+        <translation>检测按键组合</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomDetectShortcut.qml" line="90"/>
         <location filename="../qml/elements/CustomDetectShortcut.qml" line="127"/>
         <source>Press keys</source>
-        <translation type="unfinished"/>
+        <translation>按键</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomDetectShortcut.qml" line="107"/>
@@ -221,22 +221,22 @@
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="71"/>
         <source>External Command</source>
-        <translation type="unfinished"/>
+        <translation>外部命令</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="86"/>
         <source>current file (with path)</source>
-        <translation type="unfinished"/>
+        <translation>当前文件(包括路径)</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="86"/>
         <source>current file (without path)</source>
-        <translation type="unfinished"/>
+        <translation>当前文件(不包含路径)</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="86"/>
         <source>current directory</source>
-        <translation type="unfinished"/>
+        <translation>当前目录</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="122"/>
@@ -246,12 +246,12 @@
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="135"/>
         <source>Save it</source>
-        <translation type="unfinished"/>
+        <translation>保存</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="159"/>
         <source>Select Executeable</source>
-        <translation type="unfinished"/>
+        <translation>选择可执行文件</translation>
     </message>
 </context>
 <context>
@@ -259,17 +259,17 @@
     <message>
         <location filename="../qml/elements/CustomMouseShortcut.qml" line="69"/>
         <source>Set Mouse Shortcut</source>
-        <translation type="unfinished"/>
+        <translation>设置鼠标快捷键</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomMouseShortcut.qml" line="114"/>
         <source>Don&apos;t set</source>
-        <translation type="unfinished"/>
+        <translation>不要设置</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomMouseShortcut.qml" line="127"/>
         <source>Set Shortcut</source>
-        <translation type="unfinished"/>
+        <translation>设置快捷键</translation>
     </message>
 </context>
 <context>
@@ -292,7 +292,7 @@
     <message>
         <location filename="../qml/fadein/Delete.qml" line="126"/>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>删除</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Delete.qml" line="137"/>
@@ -307,55 +307,55 @@
     <message>
         <location filename="../qml/fadein/Delete.qml" line="170"/>
         <source>Enter = Move to Trash, Shift+Enter = Delete permanently, Escape = Cancel</source>
-        <translation type="unfinished"/>
+        <translation>回车 = 移动到垃圾箱，Shift + 回车 = 永久删除，Esc = 取消</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Delete.qml" line="170"/>
         <source>Enter = Delete, Escape = Cancel</source>
-        <translation type="unfinished"/>
+        <translation>回车 = 删除，Esc = 取消</translation>
     </message>
 </context>
 <context>
     <name>Display</name>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="436"/>
+        <location filename="../qml/mainview/Display.qml" line="498"/>
         <source>Hide</source>
-        <translation type="unfinished"/>
+        <translation>隐藏</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="462"/>
+        <location filename="../qml/mainview/Display.qml" line="524"/>
         <source>Open a file to begin</source>
-        <translation type="unfinished"/>
+        <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="513"/>
+        <location filename="../qml/mainview/Display.qml" line="575"/>
         <source>No results found...</source>
-        <translation type="unfinished"/>
+        <translation>无结果...</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="520"/>
+        <location filename="../qml/mainview/Display.qml" line="582"/>
         <source>Rotate Image?</source>
         <translation>旋转图片？</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="521"/>
+        <location filename="../qml/mainview/Display.qml" line="583"/>
         <source>The Exif data of this image says, that this image is supposed to be rotated.</source>
         <translation>根据图片的 Exif 信息，此图片需要被旋转。</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="521"/>
+        <location filename="../qml/mainview/Display.qml" line="583"/>
         <source>Do you want to apply the rotation?</source>
         <translation>你想应用旋转？</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="522"/>
+        <location filename="../qml/mainview/Display.qml" line="584"/>
         <source>Yes, do it</source>
-        <translation type="unfinished"/>
+        <translation>确定，执行</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="523"/>
+        <location filename="../qml/mainview/Display.qml" line="585"/>
         <source>No, don&apos;t</source>
-        <translation type="unfinished"/>
+        <translation>不，不要！</translation>
     </message>
 </context>
 <context>
@@ -363,7 +363,7 @@
     <message>
         <location filename="../qml/fadein/Filter.qml" line="68"/>
         <source>Filter images in current directory</source>
-        <translation type="unfinished"/>
+        <translation>过滤当前文件夹中的图片</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Filter.qml" line="83"/>
@@ -396,12 +396,12 @@
     <message>
         <location filename="../cplusplus/scripts/getanddostuff/context.cpp" line="10"/>
         <source>Edit with</source>
-        <translation type="unfinished"/>
+        <translation>其他方式编辑</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getanddostuff/context.cpp" line="13"/>
         <source>Open in</source>
-        <translation type="unfinished"/>
+        <translation>其他方式打开</translation>
     </message>
 </context>
 <context>
@@ -449,12 +449,12 @@
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="341"/>
         <source>Daylight fluorescent</source>
-        <translation type="unfinished"/>
+        <translation>日光荧光灯</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="344"/>
         <source>Day white fluorescent</source>
-        <translation type="unfinished"/>
+        <translation>日光白光荧光灯</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="347"/>
@@ -476,7 +476,7 @@
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="371"/>
         <source>D50</source>
-        <translation type="unfinished"/>
+        <translation>D50</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="374"/>
@@ -492,7 +492,7 @@
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="380"/>
         <source>Invalid light source</source>
         <extracomment>This string refers to the light source</extracomment>
-        <translation type="unfinished"/>
+        <translation>光源不可用</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="389"/>
@@ -557,7 +557,7 @@
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="454"/>
         <source>Invalid flash</source>
-        <translation type="unfinished"/>
+        <translation>闪光不可用</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="464"/>
@@ -583,7 +583,7 @@
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="476"/>
         <source>Invalid Scene Type</source>
         <extracomment>This string refers to a type of scene</extracomment>
-        <translation type="unfinished"/>
+        <translation>保存为壁纸</translation>
     </message>
 </context>
 <context>
@@ -601,27 +601,27 @@
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="27"/>
         <source>Set as Wallpaper</source>
-        <translation type="unfinished"/>
+        <translation>设置为壁纸</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="28"/>
         <source>Start Slideshow</source>
-        <translation type="unfinished"/>
+        <translation>开始放映幻灯片</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="29"/>
         <source>Filter Images in Folder</source>
-        <translation type="unfinished"/>
+        <translation>在文件夹中过滤图片</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="30"/>
         <source>Show/Hide Metadata</source>
-        <translation type="unfinished"/>
+        <translation>显示/隐藏Metadata</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="31"/>
         <source>About PhotoQt</source>
-        <translation type="unfinished"/>
+        <translation>关于 PhotoQt </translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="32"/>
@@ -636,7 +636,7 @@
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="120"/>
         <source>Quickstart</source>
-        <translation type="unfinished"/>
+        <translation>快速开始</translation>
     </message>
 </context>
 <context>
@@ -644,29 +644,29 @@
     <message>
         <location filename="../cplusplus/mainwindow.cpp" line="47"/>
         <source>Open image file</source>
-        <translation>打開圖像文件</translation>
+        <translation>打开图像文件</translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="116"/>
-        <location filename="../cplusplus/mainwindow.cpp" line="117"/>
-        <location filename="../cplusplus/mainwindow.cpp" line="119"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="141"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="142"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="144"/>
         <source>Images</source>
-        <translation>圖片</translation>
+        <translation>图片</translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="121"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="146"/>
         <source>All Files</source>
         <translation>所有文件</translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="532"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="583"/>
         <source>Image Viewer</source>
-        <translation>圖片瀏覽器</translation>
+        <translation>图片浏览器</translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="537"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="588"/>
         <source>Hide/Show PhotoQt</source>
-        <translation>隱藏/顯示 PhotoQt</translation>
+        <translation>隐藏/显示 PhotoQt</translation>
     </message>
 </context>
 <context>
@@ -674,17 +674,17 @@
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="44"/>
         <source>No File Loaded</source>
-        <translation type="unfinished"/>
+        <translation>未加载文件</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="62"/>
         <source>File Format Not Supported</source>
-        <translation type="unfinished"/>
+        <translation>文件格式不受支持</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="80"/>
         <source>Invalid File</source>
-        <translation type="unfinished"/>
+        <translation>文件不可用</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="121"/>
@@ -710,7 +710,7 @@
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="202"/>
         <source>Model</source>
-        <translation type="unfinished"/>
+        <translation>型号</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="203"/>
@@ -740,7 +740,7 @@
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="209"/>
         <source>Scene Type</source>
-        <translation type="unfinished"/>
+        <translation>场景模式</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="210"/>
@@ -760,17 +760,17 @@
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="214"/>
         <source>Keywords</source>
-        <translation type="unfinished"/>
+        <translation>关键词</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="215"/>
         <source>Location</source>
-        <translation type="unfinished"/>
+        <translation>位置</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="216"/>
         <source>Copyright</source>
-        <translation type="unfinished"/>
+        <translation>版权</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="218"/>
@@ -793,13 +793,13 @@
     <message>
         <location filename="../qml/mainview/QuickInfo.qml" line="191"/>
         <source>Hide both, Filename and Filepath</source>
-        <translation type="unfinished"/>
+        <translation>同时隐藏文件名和文件路径</translation>
     </message>
     <message>
         <location filename="../qml/mainview/QuickInfo.qml" line="236"/>
         <source>Filter:</source>
         <extracomment>As in: FILTER images</extracomment>
-        <translation type="unfinished"/>
+        <translation>过滤：</translation>
     </message>
 </context>
 <context>
@@ -807,12 +807,12 @@
     <message>
         <location filename="../qml/slidein/QuickSettings.qml" line="46"/>
         <source>Quick Settings</source>
-        <translation>快速設置</translation>
+        <translation>快速设置</translation>
     </message>
     <message>
         <location filename="../qml/slidein/QuickSettings.qml" line="55"/>
         <source>Change settings with one click. They are saved and applied immediately. If you&apos;re unsure what a setting does, check the full settings for descriptions.</source>
-        <translation>一鍵改變設置。立即保存并生效。如果你不確定某設置的作用是什么，請查看完整設置了解其描述。</translation>
+        <translation>一键改变设置。立即保存并生效。如果你不确定某设置的作用是什么，请查看完整设置了解其描述。</translation>
     </message>
     <message>
         <location filename="../qml/slidein/QuickSettings.qml" line="77"/>
@@ -842,7 +842,7 @@
     <message>
         <location filename="../qml/slidein/QuickSettings.qml" line="161"/>
         <source>Loop through folder</source>
-        <translation>循環文件夾</translation>
+        <translation>循环文件夹</translation>
     </message>
     <message>
         <location filename="../qml/slidein/QuickSettings.qml" line="182"/>
@@ -850,59 +850,59 @@
         <translation>窗口模式</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="192"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="193"/>
         <source>Show window decoration</source>
-        <translation>顯示窗口裝飾</translation>
+        <translation>显示窗口装饰</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="214"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="215"/>
         <source>Close on click on background</source>
-        <translation>點擊空白區域退出</translation>
+        <translation>点击空白区域退出</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="235"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="236"/>
         <source>Keep thumbnails visible</source>
-        <translation>保持縮略圖可見</translation>
+        <translation>保持缩略图可见</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="258"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="259"/>
         <source>Normal thumbnails</source>
         <translation>普通缩略图</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="258"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="259"/>
         <source>Dynamic thumbnails</source>
-        <translation>動態縮略圖</translation>
+        <translation>动态缩略图</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="280"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="281"/>
         <source>Enable &apos;Quick Settings&apos;</source>
-        <translation>啟用‘快速設置’</translation>
+        <translation>启用‘快速设置’</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="258"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="259"/>
         <source>Smart thumbnails</source>
         <translation>只能缩略图</translation>
     </message>
     <message>
         <location filename="../qml/slidein/QuickSettings.qml" line="141"/>
         <source>No tray icon</source>
-        <translation type="unfinished"/>
+        <translation>关闭托盘图标</translation>
     </message>
     <message>
         <location filename="../qml/slidein/QuickSettings.qml" line="141"/>
         <source>Hide to tray icon</source>
-        <translation type="unfinished"/>
+        <translation>隐藏托盘图标</translation>
     </message>
     <message>
         <location filename="../qml/slidein/QuickSettings.qml" line="141"/>
         <source>Show tray icon, but don&apos;t hide to it</source>
-        <translation type="unfinished"/>
+        <translation>显示托盘图标，但是不隐藏</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="305"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="306"/>
         <source>Show full settings</source>
-        <translation>顯示完整設置</translation>
+        <translation>显示完整设置</translation>
     </message>
 </context>
 <context>
@@ -923,52 +923,52 @@
     <message>
         <location filename="../qml/fadein/Scale.qml" line="67"/>
         <source>Scale Image</source>
-        <translation>縮放圖片</translation>
+        <translation>缩放图片</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Scale.qml" line="83"/>
         <source>Current Size:</source>
-        <translation>當前大小：</translation>
+        <translation>当前大小：</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Scale.qml" line="112"/>
         <source>Error! Something went wrong, unable to save new dimension...</source>
-        <translation type="unfinished"/>
+        <translation>错误！无法以新尺寸保存</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Scale.qml" line="136"/>
         <source>New width:</source>
-        <translation type="unfinished"/>
+        <translation>新宽度：</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Scale.qml" line="143"/>
         <source>New height:</source>
-        <translation type="unfinished"/>
+        <translation>新高度：</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Scale.qml" line="248"/>
         <source>Quality</source>
-        <translation type="unfinished"/>
+        <translation>品质</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Scale.qml" line="298"/>
         <source>Scale into new file</source>
-        <translation type="unfinished"/>
+        <translation>缩放到新图片</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Scale.qml" line="315"/>
         <source>Don&apos;t scale</source>
-        <translation type="unfinished"/>
+        <translation>不要缩放</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Scale.qml" line="217"/>
         <source>Aspect Ratio</source>
-        <translation>寬高比</translation>
+        <translation>宽高比</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Scale.qml" line="284"/>
         <source>Scale in place</source>
-        <translation>覆蓋縮放</translation>
+        <translation>覆盖缩放</translation>
     </message>
 </context>
 <context>
@@ -976,13 +976,13 @@
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="59"/>
         <source>Look and Feel</source>
-        <translation type="unfinished"/>
+        <translation>外观</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="72"/>
         <location filename="../qml/settings/SettingsItem.qml" line="124"/>
         <source>Basic</source>
-        <translation type="unfinished"/>
+        <translation>基础</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="93"/>
@@ -998,7 +998,7 @@
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="174"/>
         <source>Metadata</source>
-        <translation type="unfinished"/>
+        <translation>元数据</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="194"/>
@@ -1008,7 +1008,7 @@
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="219"/>
         <source>Filetypes</source>
-        <translation type="unfinished"/>
+        <translation>文件类型</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="240"/>
@@ -1038,12 +1038,12 @@
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="359"/>
         <source>Do you really want to clean up the database?</source>
-        <translation type="unfinished"/>
+        <translation>你确定想清理数据库？</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="359"/>
         <source>This removes all obsolete thumbnails, thus possibly making PhotoQt a little faster.</source>
-        <translation type="unfinished"/>
+        <translation>此操作会删除所有孤立的缩略图，或许可以让 PhotoQt 运行地更快。</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="359"/>
@@ -1068,17 +1068,17 @@
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="369"/>
         <source>Do you really want to ERASE the entire database?</source>
-        <translation type="unfinished"/>
+        <translation>你确定要删除整个数据库？</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="369"/>
         <source>This removes every single item in the database! This step should never really be necessarily. After that, every thumbnail has to be newly re-created.</source>
-        <translation type="unfinished"/>
+        <translation>此操作会移除数据库中所有文件。此操作很没有必要。在执行完此操作后，每个缩略图都得重新创建。</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="369"/>
         <source>This step cannot be reversed!</source>
-        <translation type="unfinished"/>
+        <translation>此步骤不可逆！</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="370"/>
@@ -1093,22 +1093,22 @@
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="378"/>
         <source>Set Default Shortcuts</source>
-        <translation type="unfinished"/>
+        <translation>设置默认快捷键</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="379"/>
         <source>Are you sure you want to reset the shortcuts to the default set?</source>
-        <translation type="unfinished"/>
+        <translation>你确定要将所有快捷键恢复到默认？</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="380"/>
         <source>Yes, please</source>
-        <translation type="unfinished"/>
+        <translation>是的，确定</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="381"/>
         <source>Nah, don&apos;t</source>
-        <translation type="unfinished"/>
+        <translation>不要</translation>
     </message>
 </context>
 <context>
@@ -1146,7 +1146,7 @@
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="168"/>
         <source>Here you can set, if you want the images to fade into each other, and how fast they are to do that.</source>
-        <translation type="unfinished"/>
+        <translation>在这里你可以设置淡入和淡出以及动画时间。</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="182"/>
@@ -1156,7 +1156,7 @@
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="198"/>
         <source>Long Transition</source>
-        <translation type="unfinished"/>
+        <translation>慢速切换</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="210"/>
@@ -1211,7 +1211,7 @@
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="310"/>
         <source>Click here to select music file...</source>
-        <translation type="unfinished"/>
+        <translation>点击这里选择音乐文件</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="344"/>
@@ -1221,22 +1221,22 @@
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="348"/>
         <source>Wait, maybe later</source>
-        <translation type="unfinished"/>
+        <translation>稍后设置</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="352"/>
         <source>Save changes, but don&apos;t start just yet</source>
-        <translation type="unfinished"/>
+        <translation>保存变更，但不立即开始</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="366"/>
         <source>Select music file...</source>
-        <translation type="unfinished"/>
+        <translation>选择音乐文件...</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="366"/>
         <source>Music Files</source>
-        <translation type="unfinished"/>
+        <translation>音乐文件</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="366"/>
@@ -1287,12 +1287,12 @@
     <message>
         <location filename="../qml/fadein/Startup.qml" line="91"/>
         <source>This app started out more than three and a half years ago, and it has developed quite a bit since then. It has become very efficient, reliable, and highly flexible (check out the settings). I&apos;m convinced it can hold up to the more &apos;traditional&apos; image viewers out there in every way.</source>
-        <translation type="unfinished"/>
+        <translation>此应用程序从三年半前开始开发，经历风雨一路走来。现在已是一款高效，可靠且扩展性高(看看设置选项就知道了)的新型图片查看器。我很确信它能在各个方面超过更加‘传统’的图片查看器。</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="92"/>
         <source>Welcome back to PhotoQt. It hasn&apos;t been that long since the last release of PhotoQt. Yet, it changed pretty much entirely, as it now is based on QtQuick rather than QWidgets. A large quantity of the code had to be re-written, while some chunks could be re-used. Thus, it is now more reliable than ever before and overall simply feels well rounded.</source>
-        <translation type="unfinished"/>
+        <translation>欢迎来到PhotoQt。自上个版本已经有段时间了。这个期间PhotoQt已经变了很多，现在它基于QtQuick而不是QWidgets。因此很大一部分代码都需要重写。目前它比以往更加稳定，且使用体验更好。</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="123"/>
@@ -1310,30 +1310,20 @@
         <translation>个性化你的 PhotoQt </translation>
     </message>
     <message>
+        <location filename="../qml/fadein/Startup.qml" line="91"/>
+        <location filename="../qml/fadein/Startup.qml" line="92"/>
+        <source>Here below you find a short overview of a selection of a few things PhotoQt has to offer, but feel free to skip it and just get started.</source>
+        <translation>下面是一个 PhotoQt 简介，你也可以直接跳过。</translation>
+    </message>
+    <message>
         <location filename="../qml/fadein/Startup.qml" line="160"/>
         <source>PhotoQt has an extensive settings area. By default you can call it with the shortcut &apos;e&apos; or through the dropdown menu at the top edge towards the top right corner. You can adjust almost everything in PhotoQt, and it&apos;s certainly worth having a look there. Each setting usually comes with a little explanation text. Some of the most often used settings can also be conveniently adjusted in a slide-in widget, hidden behind the right screen edge.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../qml/fadein/Startup.qml" line="262"/>
-        <source>Most images store some additional information within the file&apos;s metadata. PhotoQt can read and display a selection of this data. You can find this information in the slide-in window hidden behind the left edge of PhotoQt.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../qml/fadein/Startup.qml" line="299"/>
-        <source>PhotoQt also brings a slideshow feature. When you start a slideshow, it starts at the currently displayed image. There are a couple of settings that can be set, like transition, speed, loop, and shuffle. Plus, you can set a music file that is played in the background. When the slideshow takes longer than the music file, then PhotoQt starts the music file all over from the beginning. At anytime during the slideshow, you can move the mouse cursor to the top edge of the screen to get a little bar, where you can pause/exit the slideshow and adjust the music volume.</source>
-        <translation type="unfinished"/>
+        <translation>PhotoQt 有一个扩展设置区域。默认你可以通过快捷键 &apos;e&apos; ，或是将鼠标滑到屏幕右上方边缘打开。在这里你可以调整几乎所有配置，强烈建议您看下那些设置。每项设置都会有解释信息。有些常用的设置可以在滑入窗口上进行设置(将鼠标放在屏幕右侧边缘调出)。</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="198"/>
         <source>Thumbnails</source>
         <translation>缩略图</translation>
-    </message>
-    <message>
-        <location filename="../qml/fadein/Startup.qml" line="91"/>
-        <location filename="../qml/fadein/Startup.qml" line="92"/>
-        <source>Here below you find a short overview of a selection of a few things PhotoQt has to offer, but feel free to skip it and just get started.</source>
-        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="198"/>
@@ -1353,7 +1343,17 @@
     <message>
         <location filename="../qml/fadein/Startup.qml" line="262"/>
         <source>Image Information (Exif/IPTC)</source>
-        <translation type="unfinished"/>
+        <translation>图片信息 (Exif/IPTC) </translation>
+    </message>
+    <message>
+        <location filename="../qml/fadein/Startup.qml" line="262"/>
+        <source>Most images store some additional information within the file&apos;s metadata. PhotoQt can read and display a selection of this data. You can find this information in the slide-in window hidden behind the left edge of PhotoQt.</source>
+        <translation>很多图片的文件信息中包含一些附加信息。PhotoQt 可以读取并显示一部分数据。你可以在屏幕左侧的划出窗口中看到这些信息。</translation>
+    </message>
+    <message>
+        <location filename="../qml/fadein/Startup.qml" line="299"/>
+        <source>PhotoQt also brings a slideshow feature. When you start a slideshow, it starts at the currently displayed image. There are a couple of settings that can be set, like transition, speed, loop, and shuffle. Plus, you can set a music file that is played in the background. When the slideshow takes longer than the music file, then PhotoQt starts the music file all over from the beginning. At anytime during the slideshow, you can move the mouse cursor to the top edge of the screen to get a little bar, where you can pause/exit the slideshow and adjust the music volume.</source>
+        <translation>PhotoQt 也加入了幻灯片功能。放映幻灯片时，默认会从当前图片开始播放。有几个简单的设置，例如特效，速度，循环，随机等。你也可以设置背景音乐。当幻灯片时长大于音乐长度时，音乐会循环播放。每次放映幻灯片时将鼠标滑到屏幕顶部就会出现几个迷你控制键，用来暂停/退出幻灯片以及调整音量。</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="299"/>
@@ -1373,7 +1373,7 @@
     <message>
         <location filename="../qml/fadein/Startup.qml" line="355"/>
         <source>There are many many more features. Best is, you just give it a go. Don&apos;t forget to check out the settings to make PhotoQt YOUR image viewer. Enjoy :-)</source>
-        <translation type="unfinished"/>
+        <translation>还有其他很多特性。最好的办法是，你自己去探索。不要忘了看看各种设置选项，让 PhotoQt 成为你自己的图片查看器！</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="387"/>
@@ -1386,7 +1386,7 @@
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="55"/>
         <source>Image Metadata</source>
-        <translation type="unfinished"/>
+        <translation>图片元数据</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="74"/>
@@ -1446,7 +1446,7 @@
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="182"/>
         <source>Model</source>
-        <translation type="unfinished"/>
+        <translation>型号</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="183"/>
@@ -1476,7 +1476,7 @@
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="188"/>
         <source>Scene Type</source>
-        <translation type="unfinished"/>
+        <translation>场景类型</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="189"/>
@@ -1496,17 +1496,17 @@
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="192"/>
         <source>Keywords</source>
-        <translation type="unfinished"/>
+        <translation>关键词</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="193"/>
         <source>Location</source>
-        <translation type="unfinished"/>
+        <translation>位置</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="194"/>
         <source>Copyright</source>
-        <translation type="unfinished"/>
+        <translation>版权</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="195"/>
@@ -1531,17 +1531,17 @@
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="271"/>
         <source>Some cameras can detect - while taking the photo - whether the camera was turned and might store this information in the image exif data. If PhotoQt finds this information, it can rotate the image accordingly. When asking PhotoQt to always rotate images automatically without asking, it already does so at image load (including thumbnails).</source>
-        <translation type="unfinished"/>
+        <translation>有些照相机会自动检测相机是否竖着拍摄，然后将此信息保存到图像的 Exif 数据中。如果 PhotoQt 发现此信息，便可据此旋转图片。如果设置为自动旋转且不询问，那么图片加载时就会被自动旋转(包括缩略图)。</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="294"/>
         <source>Never rotate/flip images</source>
-        <translation type="unfinished"/>
+        <translation>从不旋转/翻转图片</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="300"/>
         <source>Always rotate/flip images</source>
-        <translation type="unfinished"/>
+        <translation>始终旋转/翻转图片</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="305"/>
@@ -1564,7 +1564,7 @@
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="55"/>
         <source>Filetypes</source>
-        <translation type="unfinished"/>
+        <translation>文件类型</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="79"/>
@@ -1574,7 +1574,7 @@
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="79"/>
         <source>These are the file types natively supported by Qt. Make sure, that you&apos;ll have the required libraries installed (e.g., qt5-imageformats), otherwise some of them might not work on your system.&lt;br&gt;If a file ending for one of the formats is missing, you can add it below, formatted like &apos;*.ending&apos; (without single quotation marks), multiple entries seperated by commas.</source>
-        <translation type="unfinished"/>
+        <translation>这些是 Qt 原生支持的文件格式。请确保您已安装了必需库 (例如，qt5-imageformats)，否则其中有些格式可能无法被识别。&lt;br&gt;如果你发现缺少某些后缀名，你可以手动进行添加，以 &apos;*.后缀&apos; 结尾(不包括单引号)，多个条目以逗(英文逗号)号分开。</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="102"/>
@@ -1903,9 +1903,9 @@
         <translation>动画和窗口位置</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
-        <source>There are two things that can be adjusted here:</source>
-        <translation>这里有两个选项可以进行调整：</translation>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="748"/>
+        <source>Keep above other windows</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
@@ -1916,6 +1916,16 @@
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
         <source>Save and restore of Window Geometry: On quitting PhotoQt, it stores the size and position of the window and can restore it the next time started.</source>
         <translation>保存及恢复窗口位置：在退出 PhotoQt时，将窗口的大小和位置进行保存，在下次启动的时候恢复到此设置。</translation>
+    </message>
+    <message>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
+        <source>There are three things that can be adjusted here:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
+        <source>Keep PhotoQt above all other windows at all time</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="738"/>
@@ -2406,7 +2416,7 @@
         <location filename="../qml/settings/TabShortcutsTilesAvail.qml" line="154"/>
         <source>mouse</source>
         <extracomment>tile text for MOUSE shortcut. If multiple translations possible, please try to stick to a short one..</extracomment>
-        <translation type="unfinished"/>
+        <translation>鼠标</translation>
     </message>
 </context>
 <context>
@@ -2591,6 +2601,7 @@
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="251"/>
+        <location filename="../qml/settings/TabThumbnailsBasic.qml" line="259"/>
         <source>Keep Thumbnails Visible</source>
         <translation>保持缩略图可见</translation>
     </message>
@@ -2600,8 +2611,8 @@
         <translation>默认缩略图只有在鼠标滑动到屏幕底端时才显示出来。你可以让它们永久显示。比较大的图片会缩放显示在空白区域。注意，缩略图会在你缩放图片的时候隐藏(只有在鼠标滑动底部时才会再次显示)。重置缩放能让缩略图恢复显示。</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabThumbnailsBasic.qml" line="259"/>
-        <source>Keep Thumnails Visible</source>
+        <location filename="../qml/settings/TabThumbnailsBasic.qml" line="307"/>
+        <source>Smart Thumbnails</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2635,11 +2646,6 @@
         <translation>动态缩略图</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabThumbnailsBasic.qml" line="307"/>
-        <source>Smart Thumbnail</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="325"/>
         <source>Always center on Active Thumbnail</source>
         <translation>活动缩略图始终居中显示</translation>
@@ -2660,7 +2666,7 @@
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="799"/>
         <source>Okay, do it!</source>
-        <translation>好的，確定！</translation>
+        <translation>好的，确定！</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="804"/>
@@ -2676,7 +2682,7 @@
         <location filename="../qml/fadein/Wallpaper.qml" line="260"/>
         <location filename="../qml/fadein/Wallpaper.qml" line="401"/>
         <source>There are several picture options that can be set for the wallpaper image.</source>
-        <translation>有以下圖像伸縮類型選項</translation>
+        <translation>有以下图像伸缩类型选项</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="86"/>
@@ -2712,7 +2718,7 @@
         <location filename="../qml/fadein/Wallpaper.qml" line="350"/>
         <location filename="../qml/fadein/Wallpaper.qml" line="505"/>
         <source>The wallpaper can be set to either of the available monitors (or any combination).</source>
-        <translation>可將壁紙設置到任意可用顯示器(或任意組合)。</translation>
+        <translation>可将壁纸设置到任意可用显示器(或任意组合)。</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="366"/>

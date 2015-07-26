@@ -4,6 +4,16 @@
 <context>
     <name>About</name>
     <message>
+        <location filename="../qml/fadein/About.qml" line="68"/>
+        <source>website:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/fadein/About.qml" line="68"/>
+        <source>Licensed under GPLv2 or later, without any guarantee</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../qml/fadein/About.qml" line="113"/>
         <source>PhotoQt is a simple image viewer, designed to be good looking, highly configurable, yet easy to use and fast.</source>
         <translation type="unfinished"></translation>
@@ -19,6 +29,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../qml/fadein/About.qml" line="119"/>
+        <source>I heard a number of times people saying, that PhotoQt is a &apos;copy&apos; of Picasa&apos;s image viewer. Well, it&apos;s not. In fact, I myself have never used Picasa. I have seen it in use though by others, and I can&apos;t deny that it influenced the basic design idea a little. But I&apos;m not trying to do something &apos;like Picasa&apos;. I try to do my own thing, and to do it as good as I can.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../qml/fadein/About.qml" line="121"/>
         <source>Don&apos;t forget to check out the website:</source>
         <translation type="unfinished"></translation>
@@ -29,29 +44,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/fadein/About.qml" line="174"/>
-        <source>You want to join the team and do something, e.g. translating PhotoQt to another language? Drop me and email (%1), and for translations, check the project page on Transifex:</source>
-        <extracomment>Don&apos;t forget to add the %1 in your translation!!</extracomment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/fadein/About.qml" line="119"/>
-        <source>I heard a number of times people saying, that PhotoQt is a &apos;copy&apos; of Picasa&apos;s image viewer. Well, it&apos;s not. In fact, I myself have never used Picasa. I have seen it in use though by others, and I can&apos;t deny that it influenced the basic design idea a little. But I&apos;m not trying to do something &apos;like Picasa&apos;. I try to do my own thing, and to do it as good as I can.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../qml/fadein/About.qml" line="158"/>
         <source>Thanks to everybody who contributed to PhotoQt and/or translated PhotoQt to another language! You guys rock!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/fadein/About.qml" line="68"/>
-        <source>website:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/fadein/About.qml" line="68"/>
-        <source>Licensed under GPLv2 or later, without any guarantee</source>
+        <location filename="../qml/fadein/About.qml" line="174"/>
+        <source>You want to join the team and do something, e.g. translating PhotoQt to another language? Drop me and email (%1), and for translations, check the project page on Transifex:</source>
+        <extracomment>Don&apos;t forget to add the %1 in your translation!!</extracomment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -320,42 +320,42 @@
 <context>
     <name>Display</name>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="479"/>
+        <location filename="../qml/mainview/Display.qml" line="498"/>
         <source>Hide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="505"/>
+        <location filename="../qml/mainview/Display.qml" line="524"/>
         <source>Open a file to begin</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="556"/>
+        <location filename="../qml/mainview/Display.qml" line="575"/>
         <source>No results found...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="563"/>
+        <location filename="../qml/mainview/Display.qml" line="582"/>
         <source>Rotate Image?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="564"/>
+        <location filename="../qml/mainview/Display.qml" line="583"/>
         <source>The Exif data of this image says, that this image is supposed to be rotated.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="564"/>
+        <location filename="../qml/mainview/Display.qml" line="583"/>
         <source>Do you want to apply the rotation?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="565"/>
+        <location filename="../qml/mainview/Display.qml" line="584"/>
         <source>Yes, do it</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="566"/>
+        <location filename="../qml/mainview/Display.qml" line="585"/>
         <source>No, don&apos;t</source>
         <translation type="unfinished"></translation>
     </message>
@@ -649,24 +649,24 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="116"/>
-        <location filename="../cplusplus/mainwindow.cpp" line="117"/>
-        <location filename="../cplusplus/mainwindow.cpp" line="119"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="141"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="142"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="144"/>
         <source>Images</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="121"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="146"/>
         <source>All Files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="532"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="583"/>
         <source>Image Viewer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="537"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="588"/>
         <source>Hide/Show PhotoQt</source>
         <translation type="unfinished"></translation>
     </message>
@@ -842,51 +842,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="161"/>
-        <source>Loop through folder</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="182"/>
-        <source>Window mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="192"/>
-        <source>Show window decoration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="214"/>
-        <source>Close on click on background</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="235"/>
-        <source>Keep thumbnails visible</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="258"/>
-        <source>Normal thumbnails</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="258"/>
-        <source>Dynamic thumbnails</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="280"/>
-        <source>Enable &apos;Quick Settings&apos;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="258"/>
-        <source>Smart thumbnails</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../qml/slidein/QuickSettings.qml" line="141"/>
         <source>No tray icon</source>
         <translation type="unfinished"></translation>
@@ -902,7 +857,52 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="305"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="161"/>
+        <source>Loop through folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/slidein/QuickSettings.qml" line="182"/>
+        <source>Window mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/slidein/QuickSettings.qml" line="193"/>
+        <source>Show window decoration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/slidein/QuickSettings.qml" line="215"/>
+        <source>Close on click on background</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/slidein/QuickSettings.qml" line="236"/>
+        <source>Keep thumbnails visible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/slidein/QuickSettings.qml" line="259"/>
+        <source>Normal thumbnails</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/slidein/QuickSettings.qml" line="259"/>
+        <source>Dynamic thumbnails</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/slidein/QuickSettings.qml" line="259"/>
+        <source>Smart thumbnails</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/slidein/QuickSettings.qml" line="281"/>
+        <source>Enable &apos;Quick Settings&apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/slidein/QuickSettings.qml" line="306"/>
         <source>Show full settings</source>
         <translation type="unfinished"></translation>
     </message>
@@ -948,8 +948,18 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../qml/fadein/Scale.qml" line="217"/>
+        <source>Aspect Ratio</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../qml/fadein/Scale.qml" line="248"/>
         <source>Quality</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/fadein/Scale.qml" line="284"/>
+        <source>Scale in place</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -960,16 +970,6 @@
     <message>
         <location filename="../qml/fadein/Scale.qml" line="315"/>
         <source>Don&apos;t scale</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/fadein/Scale.qml" line="217"/>
-        <source>Aspect Ratio</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/fadein/Scale.qml" line="284"/>
-        <source>Scale in place</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1292,6 +1292,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../qml/fadein/Startup.qml" line="91"/>
+        <location filename="../qml/fadein/Startup.qml" line="92"/>
+        <source>Here below you find a short overview of a selection of a few things PhotoQt has to offer, but feel free to skip it and just get started.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../qml/fadein/Startup.qml" line="92"/>
         <source>Welcome back to PhotoQt. It hasn&apos;t been that long since the last release of PhotoQt. Yet, it changed pretty much entirely, as it now is based on QtQuick rather than QWidgets. A large quantity of the code had to be re-written, while some chunks could be re-used. Thus, it is now more reliable than ever before and overall simply feels well rounded.</source>
         <translation type="unfinished"></translation>
@@ -1309,12 +1315,6 @@
     <message>
         <location filename="../qml/fadein/Startup.qml" line="160"/>
         <source>Make PhotoQt your own</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/fadein/Startup.qml" line="91"/>
-        <location filename="../qml/fadein/Startup.qml" line="92"/>
-        <source>Here below you find a short overview of a selection of a few things PhotoQt has to offer, but feel free to skip it and just get started.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1354,12 +1354,12 @@
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="299"/>
-        <source>PhotoQt also brings a slideshow feature. When you start a slideshow, it starts at the currently displayed image. There are a couple of settings that can be set, like transition, speed, loop, and shuffle. Plus, you can set a music file that is played in the background. When the slideshow takes longer than the music file, then PhotoQt starts the music file all over from the beginning. At anytime during the slideshow, you can move the mouse cursor to the top edge of the screen to get a little bar, where you can pause/exit the slideshow and adjust the music volume.</source>
+        <source>Slideshow</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="299"/>
-        <source>Slideshow</source>
+        <source>PhotoQt also brings a slideshow feature. When you start a slideshow, it starts at the currently displayed image. There are a couple of settings that can be set, like transition, speed, loop, and shuffle. Plus, you can set a music file that is played in the background. When the slideshow takes longer than the music file, then PhotoQt starts the music file all over from the beginning. At anytime during the slideshow, you can move the mouse cursor to the top edge of the screen to get a little bar, where you can pause/exit the slideshow and adjust the music volume.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1906,7 +1906,7 @@
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
-        <source>There are two things that can be adjusted here:</source>
+        <source>There are three things that can be adjusted here:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1920,6 +1920,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
+        <source>Keep PhotoQt above all other windows at all time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="738"/>
         <source>Animate all fade-in elements</source>
         <translation type="unfinished"></translation>
@@ -1927,6 +1932,11 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="743"/>
         <source>Save and restore window geometry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="748"/>
+        <source>Keep above other windows</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2444,6 +2454,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="110"/>
+        <source>When thumbnails are displayed at the top/bottom, PhotoQt usually writes the filename on them (if not disabled). You can also use the slider below to adjust the font size.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="132"/>
         <source>Write Filename</source>
         <translation type="unfinished"></translation>
@@ -2456,11 +2471,6 @@
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="207"/>
         <source>If you don&apos;t want PhotoQt to always load the actual image thumbnail in the background, but you still want to have something for better navigating, then you can set a file-name-only thumbnail, i.e. PhotoQt wont load any thumbnail images but simply puts the file name into the box. You can also adjust the font size of this text.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="110"/>
-        <source>When thumbnails are displayed at the top/bottom, PhotoQt usually writes the filename on them (if not disabled). You can also use the slider below to adjust the font size.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2593,17 +2603,13 @@
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="251"/>
+        <location filename="../qml/settings/TabThumbnailsBasic.qml" line="259"/>
         <source>Keep Thumbnails Visible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="251"/>
         <source>Per default the Thumbnails slide out over the edge of the screen. Here you can force them to stay visible. The big image is shrunk to fit into the empty space. Note, that the thumbnails will be hidden (and only shown on mouse hovering) once you zoomed the image in/out. Resetting the zoom restores the original visibility of the thumbnails.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/settings/TabThumbnailsBasic.qml" line="259"/>
-        <source>Keep Thumnails Visible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2638,7 +2644,7 @@
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="307"/>
-        <source>Smart Thumbnail</source>
+        <source>Smart Thumbnails</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2660,29 +2666,13 @@
 <context>
     <name>Wallpaper</name>
     <message>
-        <location filename="../qml/fadein/Wallpaper.qml" line="799"/>
-        <source>Okay, do it!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/fadein/Wallpaper.qml" line="804"/>
-        <source>Nooo, don&apos;t!</source>
+        <location filename="../qml/fadein/Wallpaper.qml" line="86"/>
+        <source>Set as Wallpaper:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="106"/>
         <source>Window Manager</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/fadein/Wallpaper.qml" line="260"/>
-        <location filename="../qml/fadein/Wallpaper.qml" line="401"/>
-        <source>There are several picture options that can be set for the wallpaper image.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/fadein/Wallpaper.qml" line="86"/>
-        <source>Set as Wallpaper:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2703,6 +2693,12 @@
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="250"/>
         <source>Warning: &apos;gsettings&apos; doesn&apos;t seem to be available! Are you sure Gnome/Unity is installed?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/fadein/Wallpaper.qml" line="260"/>
+        <location filename="../qml/fadein/Wallpaper.qml" line="401"/>
+        <source>There are several picture options that can be set for the wallpaper image.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2774,6 +2770,16 @@
         <location filename="../qml/fadein/Wallpaper.qml" line="692"/>
         <source>Use &apos;nitrogen&apos;</source>
         <extracomment>nitrogen is an application, do not translate</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/fadein/Wallpaper.qml" line="799"/>
+        <source>Okay, do it!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/fadein/Wallpaper.qml" line="804"/>
+        <source>Nooo, don&apos;t!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

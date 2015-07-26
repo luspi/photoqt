@@ -4,12 +4,12 @@
     <message>
         <location filename="../qml/fadein/About.qml" line="113"/>
         <source>PhotoQt is a simple image viewer, designed to be good looking, highly configurable, yet easy to use and fast.</source>
-        <translation type="unfinished"/>
+        <translation>PhotoQt es un visor de imágenes simple, diseñado para ser elegante, muy personalizable y a la misma vez fácil y rápido de usar.</translation>
     </message>
     <message>
         <location filename="../qml/fadein/About.qml" line="115"/>
         <source>With PhotoQt I try to be different than other image viewers (after all, there are plenty of good image viewers already out there). Its interface is kept very simple, yet there is an abundance of settings to customize the look and feel to make PhotoQt YOUR image viewer.</source>
-        <translation type="unfinished"/>
+        <translation>Con PhotoQt yo trate de ser diferente a los demas visores de imagenes (despues de todo hay bastates buenos visores de imagenes ya afuera). Su interfaz se mantiene bastante simple, pero a la vez contiene abundancia en opciones para perozonalizar el look y poder hacer PhotoQt TU visor de imagenes.</translation>
     </message>
     <message>
         <location filename="../qml/fadein/About.qml" line="117"/>
@@ -19,38 +19,39 @@
     <message>
         <location filename="../qml/fadein/About.qml" line="121"/>
         <source>Don&apos;t forget to check out the website:</source>
-        <translation type="unfinished"/>
+        <translation>No olvides de visitar el sitio Web:</translation>
     </message>
     <message>
         <location filename="../qml/fadein/About.qml" line="123"/>
         <source>If you find a bug or if you have a question or suggestion, tell me. I&apos;m open to any feedback I get :)</source>
-        <translation type="unfinished"/>
+        <translation>Si encuentras un bug o tienes alguna pregunta o sugerencia, dimelo. Estoy abierto a cualquier sugerencia :)</translation>
     </message>
     <message>
         <location filename="../qml/fadein/About.qml" line="174"/>
         <source>You want to join the team and do something, e.g. translating PhotoQt to another language? Drop me and email (%1), and for translations, check the project page on Transifex:</source>
         <extracomment>Don't forget to add the %1 in your translation!!</extracomment>
-        <translation type="unfinished"/>
+        <translation>Quieres unirte a el equipo y hacer algo como traducir PhotoQt a otro lenguaje? Enviame un Email (%1), y para las traducciones, visita el proyecto en Transifex:</translation>
     </message>
     <message>
         <location filename="../qml/fadein/About.qml" line="119"/>
         <source>I heard a number of times people saying, that PhotoQt is a &apos;copy&apos; of Picasa&apos;s image viewer. Well, it&apos;s not. In fact, I myself have never used Picasa. I have seen it in use though by others, and I can&apos;t deny that it influenced the basic design idea a little. But I&apos;m not trying to do something &apos;like Picasa&apos;. I try to do my own thing, and to do it as good as I can.</source>
-        <translation type="unfinished"/>
+        <translation>He oído varias veces a las personas diciendo que PhotoQt es una &quot;copia&quot; de Picasa. Pues no lo es. De hecho, yo mismo nunca he usado Picasa. Lo he visto en uso sin embargo no puedo negar que influyó en la idea básica de diseño un poco. Pero yo no estoy tratando de hacer algo &apos;como Picasa &quot;. Trato de hacer mi propia creación, y hacerlo lo mejor que pueda.</translation>
     </message>
     <message>
         <location filename="../qml/fadein/About.qml" line="158"/>
         <source>Thanks to everybody who contributed to PhotoQt and/or translated PhotoQt to another language! You guys rock!</source>
-        <translation type="unfinished"/>
+        <translation>Gracias a todos los que contribuyeron a traducir PhotoQt a otro lenguage!
+Todos ustedes son Geniales!</translation>
     </message>
     <message>
         <location filename="../qml/fadein/About.qml" line="68"/>
         <source>website:</source>
-        <translation type="unfinished"/>
+        <translation>Pagina Web:</translation>
     </message>
     <message>
         <location filename="../qml/fadein/About.qml" line="68"/>
         <source>Licensed under GPLv2 or later, without any guarantee</source>
-        <translation type="unfinished"/>
+        <translation>Con licencia bajo la GPLv2 o posterior, sin ninguna garantía</translation>
     </message>
 </context>
 <context>
@@ -59,114 +60,114 @@
         <location filename="../qml/mainview/ContextMenu.qml" line="52"/>
         <source>Move:</source>
         <extracomment>as in: &quot;Move file...&quot;</extracomment>
-        <translation type="unfinished"/>
+        <translation>Mover:</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="62"/>
         <source>Previous</source>
         <extracomment>Go to previous file</extracomment>
-        <translation type="unfinished"/>
+        <translation>Anterior</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="68"/>
         <source>Next</source>
         <extracomment>Go to next file</extracomment>
-        <translation type="unfinished"/>
+        <translation>Siguiente</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="99"/>
         <source>Rotate:</source>
         <extracomment>As in: Rotate file</extracomment>
-        <translation type="unfinished"/>
+        <translation>Rotar:</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="104"/>
         <source>Left</source>
         <extracomment>As in: rotate LEFT</extracomment>
-        <translation type="unfinished"/>
+        <translation>Izquierda</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="111"/>
         <source>Right</source>
         <extracomment>As in: Rotate RIGHT</extracomment>
-        <translation type="unfinished"/>
+        <translation>Derecha</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="140"/>
         <source>Flip:</source>
         <extracomment>As in: Flip file</extracomment>
-        <translation type="unfinished"/>
+        <translation>Voltear:</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="145"/>
         <source>Horizontal</source>
         <extracomment>As in: Flip file HORIZONTALLY</extracomment>
-        <translation type="unfinished"/>
+        <translation>horizontal</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="152"/>
         <source>Vertical</source>
         <extracomment>As in: Flip file VERTICALLY</extracomment>
-        <translation type="unfinished"/>
+        <translation>Vertical</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="180"/>
         <source>Zoom:</source>
         <extracomment>Zoom file</extracomment>
-        <translation type="unfinished"/>
+        <translation>Agrandar:</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="185"/>
         <source>In</source>
         <extracomment>As in: Zoom IN</extracomment>
-        <translation type="unfinished"/>
+        <translation>En</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="191"/>
         <source>Out</source>
-        <translation type="unfinished"/>
+        <translation>Fuera</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="197"/>
         <source>Actual</source>
         <extracomment>As in: Zoom to ACTUAL size</extracomment>
-        <translation type="unfinished"/>
+        <translation>Actual</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="203"/>
         <source>Reset</source>
         <extracomment>As in: Reset zoom</extracomment>
-        <translation type="unfinished"/>
+        <translation>Reiniciar</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="224"/>
         <source>Scale Image</source>
-        <translation type="unfinished"/>
+        <translation>Escalar Imagen</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="234"/>
         <source>Open in default File Manager</source>
-        <translation type="unfinished"/>
+        <translation>Abrir en el administrador de archivos Predeterminado</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="266"/>
         <source>Rename File</source>
-        <translation type="unfinished"/>
+        <translation>Renombrar archivo</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="276"/>
         <source>Delete File</source>
-        <translation type="unfinished"/>
+        <translation>Eliminar archivo</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="301"/>
         <source>Copy File</source>
-        <translation type="unfinished"/>
+        <translation>Copiar archivo</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="312"/>
         <source>Move File</source>
-        <translation type="unfinished"/>
+        <translation>Mover archivo</translation>
     </message>
 </context>
 <context>
@@ -174,27 +175,27 @@
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="11"/>
         <source>Confirm me?</source>
-        <translation type="unfinished"/>
+        <translation>Confirmar?</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="12"/>
         <source>Do you really want to do this?</source>
-        <translation type="unfinished"/>
+        <translation>Deseas realizar esto?</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="13"/>
         <source>Yes, do it</source>
-        <translation type="unfinished"/>
+        <translation>Si hazlo</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="14"/>
         <source>No, don&apos;t</source>
-        <translation type="unfinished"/>
+        <translation>No, no lo hagas</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="110"/>
         <source>Don&apos;t ask again</source>
-        <translation type="unfinished"/>
+        <translation>No preguntar de nuevo</translation>
     </message>
 </context>
 <context>
@@ -202,18 +203,18 @@
     <message>
         <location filename="../qml/elements/CustomDetectShortcut.qml" line="72"/>
         <source>Detect key combination</source>
-        <translation type="unfinished"/>
+        <translation>Detectar combinacion de teclas</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomDetectShortcut.qml" line="90"/>
         <location filename="../qml/elements/CustomDetectShortcut.qml" line="127"/>
         <source>Press keys</source>
-        <translation type="unfinished"/>
+        <translation>Preciona las teclas</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomDetectShortcut.qml" line="107"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>Cancelar</translation>
     </message>
 </context>
 <context>
@@ -221,37 +222,37 @@
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="71"/>
         <source>External Command</source>
-        <translation type="unfinished"/>
+        <translation>Comando Externo</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="86"/>
         <source>current file (with path)</source>
-        <translation type="unfinished"/>
+        <translation>Archivo actual (con ruta de acceso)</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="86"/>
         <source>current file (without path)</source>
-        <translation type="unfinished"/>
+        <translation>Archivo actual (sin ruta de acceso)</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="86"/>
         <source>current directory</source>
-        <translation type="unfinished"/>
+        <translation>Directorio actual</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="122"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="135"/>
         <source>Save it</source>
-        <translation type="unfinished"/>
+        <translation>Guardar</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="159"/>
         <source>Select Executeable</source>
-        <translation type="unfinished"/>
+        <translation>Seleccionar Ejecutable</translation>
     </message>
 </context>
 <context>
@@ -259,17 +260,17 @@
     <message>
         <location filename="../qml/elements/CustomMouseShortcut.qml" line="69"/>
         <source>Set Mouse Shortcut</source>
-        <translation type="unfinished"/>
+        <translation>Establecer Acceso directo del mouse</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomMouseShortcut.qml" line="114"/>
         <source>Don&apos;t set</source>
-        <translation type="unfinished"/>
+        <translation>No establecer</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomMouseShortcut.qml" line="127"/>
         <source>Set Shortcut</source>
-        <translation type="unfinished"/>
+        <translation>Establecer Acceso directo</translation>
     </message>
 </context>
 <context>
@@ -277,85 +278,85 @@
     <message>
         <location filename="../qml/fadein/Delete.qml" line="68"/>
         <source>Delete File</source>
-        <translation type="unfinished"/>
+        <translation>Eliminar archivo</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Delete.qml" line="98"/>
         <source>Do you really want to delete this file?</source>
-        <translation type="unfinished"/>
+        <translation>De verdad deseas eliminar este archivo?</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Delete.qml" line="126"/>
         <source>Move to Trash</source>
-        <translation type="unfinished"/>
+        <translation>Mover a la Papelera</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Delete.qml" line="126"/>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Delete.qml" line="137"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Delete.qml" line="150"/>
         <source>Delete permanently</source>
-        <translation type="unfinished"/>
+        <translation>Eliminar Permanentemente</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Delete.qml" line="170"/>
         <source>Enter = Move to Trash, Shift+Enter = Delete permanently, Escape = Cancel</source>
-        <translation type="unfinished"/>
+        <translation>Enter = Mover a la Papelera, Shift+Enter = Eliminar permanentemente, Escape = Cancelar</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Delete.qml" line="170"/>
         <source>Enter = Delete, Escape = Cancel</source>
-        <translation type="unfinished"/>
+        <translation>Enter = Eliminar, Escape = Cancelar</translation>
     </message>
 </context>
 <context>
     <name>Display</name>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="436"/>
+        <location filename="../qml/mainview/Display.qml" line="498"/>
         <source>Hide</source>
-        <translation type="unfinished"/>
+        <translation>Esconder</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="462"/>
+        <location filename="../qml/mainview/Display.qml" line="524"/>
         <source>Open a file to begin</source>
-        <translation type="unfinished"/>
+        <translation>Abre un archivo para empezar</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="513"/>
+        <location filename="../qml/mainview/Display.qml" line="575"/>
         <source>No results found...</source>
-        <translation type="unfinished"/>
+        <translation>No se encontraron resultados...</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="520"/>
+        <location filename="../qml/mainview/Display.qml" line="582"/>
         <source>Rotate Image?</source>
-        <translation type="unfinished"/>
+        <translation>Rotar Imagen?</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="521"/>
+        <location filename="../qml/mainview/Display.qml" line="583"/>
         <source>The Exif data of this image says, that this image is supposed to be rotated.</source>
-        <translation type="unfinished"/>
+        <translation>La informacion Exif de esta imagen indica, que debe de ser rotada.</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="521"/>
+        <location filename="../qml/mainview/Display.qml" line="583"/>
         <source>Do you want to apply the rotation?</source>
-        <translation type="unfinished"/>
+        <translation>Deseas aplicar la rotacion?</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="522"/>
+        <location filename="../qml/mainview/Display.qml" line="584"/>
         <source>Yes, do it</source>
-        <translation type="unfinished"/>
+        <translation>Si hazlo</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="523"/>
+        <location filename="../qml/mainview/Display.qml" line="585"/>
         <source>No, don&apos;t</source>
-        <translation type="unfinished"/>
+        <translation>No, no lo hagas</translation>
     </message>
 </context>
 <context>
@@ -363,32 +364,32 @@
     <message>
         <location filename="../qml/fadein/Filter.qml" line="68"/>
         <source>Filter images in current directory</source>
-        <translation type="unfinished"/>
+        <translation>Filtrar imagenes en la ruta de acceso actual</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Filter.qml" line="83"/>
         <source>Enter here the term you want to search for. Seperate multiple terms by a space.</source>
-        <translation type="unfinished"/>
+        <translation>Inserta aquí el termino que deseas buscar. Separa multiples terminos por un espacio.</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Filter.qml" line="90"/>
         <source>If you want to limit a term to file extensions, prepend a dot &apos;.&apos; to the term.</source>
-        <translation type="unfinished"/>
+        <translation>Si quieres limitar un termino a extenciones de archivo, anteponga un punto &apos;.&apos; al término.</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Filter.qml" line="137"/>
         <source>Filter</source>
-        <translation type="unfinished"/>
+        <translation>Filtrar</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Filter.qml" line="145"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Filter.qml" line="160"/>
         <source>Remove Filter</source>
-        <translation type="unfinished"/>
+        <translation>Remover filtro</translation>
     </message>
 </context>
 <context>
@@ -396,12 +397,12 @@
     <message>
         <location filename="../cplusplus/scripts/getanddostuff/context.cpp" line="10"/>
         <source>Edit with</source>
-        <translation type="unfinished"/>
+        <translation>Editar con</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getanddostuff/context.cpp" line="13"/>
         <source>Open in</source>
-        <translation type="unfinished"/>
+        <translation>Abrir con</translation>
     </message>
 </context>
 <context>
@@ -409,74 +410,74 @@
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="317"/>
         <source>Unknown</source>
-        <translation type="unfinished"/>
+        <translation>Desconocido</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="320"/>
         <source>Daylight</source>
-        <translation type="unfinished"/>
+        <translation>Luz natural</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="323"/>
         <source>Fluorescent</source>
-        <translation type="unfinished"/>
+        <translation>Fluorescente</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="326"/>
         <source>Tungsten (incandescent light)</source>
-        <translation type="unfinished"/>
+        <translation>Tungsteno (Luz incandecente)</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="329"/>
         <source>Flash</source>
-        <translation type="unfinished"/>
+        <translation>Flash</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="332"/>
         <source>Fine weather</source>
-        <translation type="unfinished"/>
+        <translation>Buena condicion del tiempo</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="335"/>
         <source>Cloudy Weather</source>
-        <translation type="unfinished"/>
+        <translation>Tiempo nublado</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="338"/>
         <source>Shade</source>
-        <translation type="unfinished"/>
+        <translation>Sombra</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="341"/>
         <source>Daylight fluorescent</source>
-        <translation type="unfinished"/>
+        <translation>Luz natural fluorescente</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="344"/>
         <source>Day white fluorescent</source>
-        <translation type="unfinished"/>
+        <translation>Luz fluorescente blanca</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="347"/>
         <source>Cool white fluorescent</source>
-        <translation type="unfinished"/>
+        <translation>Luz blanca fluorescente fria</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="350"/>
         <source>White fluorescent</source>
-        <translation type="unfinished"/>
+        <translation>Luz blanca fluorescente</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="353"/>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="356"/>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="359"/>
         <source>Standard light</source>
-        <translation type="unfinished"/>
+        <translation>Luz estandar</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="371"/>
         <source>D50</source>
-        <translation type="unfinished"/>
+        <translation>D50</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="374"/>
@@ -486,104 +487,104 @@
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="377"/>
         <source>Other light source</source>
-        <translation type="unfinished"/>
+        <translation>Otro origen de luz</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="380"/>
         <source>Invalid light source</source>
         <extracomment>This string refers to the light source</extracomment>
-        <translation type="unfinished"/>
+        <translation>Origen de luz invalido</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="389"/>
         <source>yes</source>
         <extracomment>This string identifies that flash was fired</extracomment>
-        <translation type="unfinished"/>
+        <translation>sí</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="391"/>
         <source>no</source>
         <extracomment>This string identifies that flash wasn't fired</extracomment>
-        <translation type="unfinished"/>
+        <translation>no</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="393"/>
         <source>No flash function</source>
         <extracomment>This string refers to the absense of a flash</extracomment>
-        <translation type="unfinished"/>
+        <translation>Sin funcion de flash</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="395"/>
         <source>strobe return light not detected</source>
         <extracomment>This string refers to a flash mode</extracomment>
-        <translation type="unfinished"/>
+        <translation>Retorno de luz estroboscópica no detectada</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="397"/>
         <source>strobe return light detected</source>
         <extracomment>This string refers to a flash mode</extracomment>
-        <translation type="unfinished"/>
+        <translation>Retorno de luz estroboscópica detectada</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="399"/>
         <source>compulsory flash mode</source>
         <extracomment>This string refers to a flash mode</extracomment>
-        <translation type="unfinished"/>
+        <translation>Modo de flash obligatorio</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="401"/>
         <source>auto mode</source>
         <extracomment>This string refers to a flash mode</extracomment>
-        <translation type="unfinished"/>
+        <translation>Modo automatico</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="403"/>
         <source>red-eye reduction mode</source>
         <extracomment>This string refers to a flash mode</extracomment>
-        <translation type="unfinished"/>
+        <translation>Modo de reduccion de ojos rojos</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="405"/>
         <source>return light detected</source>
         <extracomment>This string refers to a flash mode</extracomment>
-        <translation type="unfinished"/>
+        <translation>Retorno de luz detectada</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="407"/>
         <source>return light not detected</source>
         <extracomment>This string refers to a flash mode</extracomment>
-        <translation type="unfinished"/>
+        <translation>Retorno de luz no detectada</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="454"/>
         <source>Invalid flash</source>
-        <translation type="unfinished"/>
+        <translation>Flash invalido</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="464"/>
         <source>Standard</source>
-        <translation type="unfinished"/>
+        <translation>Estandar</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="467"/>
         <source>Landscape</source>
-        <translation type="unfinished"/>
+        <translation>Panorama</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="470"/>
         <source>Portrait</source>
-        <translation type="unfinished"/>
+        <translation>Retrato</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="473"/>
         <source>Night Scene</source>
-        <translation type="unfinished"/>
+        <translation>Escena nocturna</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="476"/>
         <source>Invalid Scene Type</source>
         <extracomment>This string refers to a type of scene</extracomment>
-        <translation type="unfinished"/>
+        <translation>Tipo de escena invalido</translation>
     </message>
 </context>
 <context>
@@ -591,52 +592,52 @@
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="25"/>
         <source>Open File</source>
-        <translation type="unfinished"/>
+        <translation>Abrir archivo</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="26"/>
         <source>Settings</source>
-        <translation type="unfinished"/>
+        <translation>Opciones</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="27"/>
         <source>Set as Wallpaper</source>
-        <translation type="unfinished"/>
+        <translation>Establecer como fondo de Pantalla</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="28"/>
         <source>Start Slideshow</source>
-        <translation type="unfinished"/>
+        <translation>Iniciar Precentación</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="29"/>
         <source>Filter Images in Folder</source>
-        <translation type="unfinished"/>
+        <translation>Filtrar imagenes en la carpeta</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="30"/>
         <source>Show/Hide Metadata</source>
-        <translation type="unfinished"/>
+        <translation>Mostrar/Esconder Metadatos</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="31"/>
         <source>About PhotoQt</source>
-        <translation type="unfinished"/>
+        <translation>Acerca de PhotoQt</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="32"/>
         <source>Hide (System Tray)</source>
-        <translation type="unfinished"/>
+        <translation>Esconder (Bandeja del Sistema)</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="33"/>
         <source>Quit</source>
-        <translation type="unfinished"/>
+        <translation>Cerrar</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="120"/>
         <source>Quickstart</source>
-        <translation type="unfinished"/>
+        <translation>Inicio rapido</translation>
     </message>
 </context>
 <context>
@@ -644,29 +645,29 @@
     <message>
         <location filename="../cplusplus/mainwindow.cpp" line="47"/>
         <source>Open image file</source>
-        <translation type="unfinished"/>
+        <translation>Abrir archivo de imagen</translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="116"/>
-        <location filename="../cplusplus/mainwindow.cpp" line="117"/>
-        <location filename="../cplusplus/mainwindow.cpp" line="119"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="141"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="142"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="144"/>
         <source>Images</source>
-        <translation type="unfinished"/>
+        <translation>Imagenes</translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="121"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="146"/>
         <source>All Files</source>
-        <translation type="unfinished"/>
+        <translation>Todos los archivos</translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="532"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="583"/>
         <source>Image Viewer</source>
-        <translation type="unfinished"/>
+        <translation>Visor de imagenes</translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="537"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="588"/>
         <source>Hide/Show PhotoQt</source>
-        <translation type="unfinished"/>
+        <translation>Mostrar/Esconder PhotoQt</translation>
     </message>
 </context>
 <context>
@@ -674,108 +675,108 @@
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="44"/>
         <source>No File Loaded</source>
-        <translation type="unfinished"/>
+        <translation>Ningun archivo cargado</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="62"/>
         <source>File Format Not Supported</source>
-        <translation type="unfinished"/>
+        <translation>Formato de archivo no soportado</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="80"/>
         <source>Invalid File</source>
-        <translation type="unfinished"/>
+        <translation>Archivo invalido</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="121"/>
         <source>Keep Open</source>
-        <translation type="unfinished"/>
+        <translation>Mantener abierto</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="191"/>
         <source>Filesize</source>
-        <translation type="unfinished"/>
+        <translation>Tamaño de archivo</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="193"/>
         <location filename="../qml/slidein/MetaData.qml" line="196"/>
         <source>Dimensions</source>
-        <translation type="unfinished"/>
+        <translation>Dimenciones</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="201"/>
         <source>Make</source>
-        <translation type="unfinished"/>
+        <translation>Hacer</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="202"/>
         <source>Model</source>
-        <translation type="unfinished"/>
+        <translation>Modelo</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="203"/>
         <source>Software</source>
-        <translation type="unfinished"/>
+        <translation>Programa</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="205"/>
         <source>Time Photo was Taken</source>
-        <translation type="unfinished"/>
+        <translation>La foto se ha tomado</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="206"/>
         <source>Exposure Time</source>
-        <translation type="unfinished"/>
+        <translation>Tiempo de Exposición</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="207"/>
         <source>Flash</source>
-        <translation type="unfinished"/>
+        <translation>Flash</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="208"/>
         <source>ISO</source>
-        <translation type="unfinished"/>
+        <translation>ISO</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="209"/>
         <source>Scene Type</source>
-        <translation type="unfinished"/>
+        <translation>Tipo de escena</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="210"/>
         <source>Focal Length</source>
-        <translation type="unfinished"/>
+        <translation>Longitud focal</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="211"/>
         <source>F Number</source>
-        <translation type="unfinished"/>
+        <translation>Relación focal </translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="212"/>
         <source>Light Source</source>
-        <translation type="unfinished"/>
+        <translation>Origen de luz</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="214"/>
         <source>Keywords</source>
-        <translation type="unfinished"/>
+        <translation>Palabras clave</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="215"/>
         <source>Location</source>
-        <translation type="unfinished"/>
+        <translation>Localización</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="216"/>
         <source>Copyright</source>
-        <translation type="unfinished"/>
+        <translation>Copyright</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="218"/>
         <source>GPS Position</source>
-        <translation type="unfinished"/>
+        <translation>Posición GPS</translation>
     </message>
 </context>
 <context>
@@ -783,7 +784,7 @@
     <message>
         <location filename="../qml/mainview/QuickInfo.qml" line="116"/>
         <source>Hide Counter</source>
-        <translation type="unfinished"/>
+        <translation>Esconder Contador</translation>
     </message>
     <message>
         <location filename="../qml/mainview/QuickInfo.qml" line="183"/>
@@ -850,37 +851,37 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="192"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="193"/>
         <source>Show window decoration</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="214"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="215"/>
         <source>Close on click on background</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="235"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="236"/>
         <source>Keep thumbnails visible</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="258"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="259"/>
         <source>Normal thumbnails</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="258"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="259"/>
         <source>Dynamic thumbnails</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="280"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="281"/>
         <source>Enable &apos;Quick Settings&apos;</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="258"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="259"/>
         <source>Smart thumbnails</source>
         <translation type="unfinished"/>
     </message>
@@ -900,7 +901,7 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="305"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="306"/>
         <source>Show full settings</source>
         <translation type="unfinished"/>
     </message>
@@ -1310,29 +1311,19 @@
         <translation type="unfinished"/>
     </message>
     <message>
+        <location filename="../qml/fadein/Startup.qml" line="91"/>
+        <location filename="../qml/fadein/Startup.qml" line="92"/>
+        <source>Here below you find a short overview of a selection of a few things PhotoQt has to offer, but feel free to skip it and just get started.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../qml/fadein/Startup.qml" line="160"/>
         <source>PhotoQt has an extensive settings area. By default you can call it with the shortcut &apos;e&apos; or through the dropdown menu at the top edge towards the top right corner. You can adjust almost everything in PhotoQt, and it&apos;s certainly worth having a look there. Each setting usually comes with a little explanation text. Some of the most often used settings can also be conveniently adjusted in a slide-in widget, hidden behind the right screen edge.</source>
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/fadein/Startup.qml" line="262"/>
-        <source>Most images store some additional information within the file&apos;s metadata. PhotoQt can read and display a selection of this data. You can find this information in the slide-in window hidden behind the left edge of PhotoQt.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../qml/fadein/Startup.qml" line="299"/>
-        <source>PhotoQt also brings a slideshow feature. When you start a slideshow, it starts at the currently displayed image. There are a couple of settings that can be set, like transition, speed, loop, and shuffle. Plus, you can set a music file that is played in the background. When the slideshow takes longer than the music file, then PhotoQt starts the music file all over from the beginning. At anytime during the slideshow, you can move the mouse cursor to the top edge of the screen to get a little bar, where you can pause/exit the slideshow and adjust the music volume.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
         <location filename="../qml/fadein/Startup.qml" line="198"/>
         <source>Thumbnails</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../qml/fadein/Startup.qml" line="91"/>
-        <location filename="../qml/fadein/Startup.qml" line="92"/>
-        <source>Here below you find a short overview of a selection of a few things PhotoQt has to offer, but feel free to skip it and just get started.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1353,6 +1344,16 @@
     <message>
         <location filename="../qml/fadein/Startup.qml" line="262"/>
         <source>Image Information (Exif/IPTC)</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/fadein/Startup.qml" line="262"/>
+        <source>Most images store some additional information within the file&apos;s metadata. PhotoQt can read and display a selection of this data. You can find this information in the slide-in window hidden behind the left edge of PhotoQt.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/fadein/Startup.qml" line="299"/>
+        <source>PhotoQt also brings a slideshow feature. When you start a slideshow, it starts at the currently displayed image. There are a couple of settings that can be set, like transition, speed, loop, and shuffle. Plus, you can set a music file that is played in the background. When the slideshow takes longer than the music file, then PhotoQt starts the music file all over from the beginning. At anytime during the slideshow, you can move the mouse cursor to the top edge of the screen to get a little bar, where you can pause/exit the slideshow and adjust the music volume.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1903,8 +1904,8 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
-        <source>There are two things that can be adjusted here:</source>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="748"/>
+        <source>Keep above other windows</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1915,6 +1916,16 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
         <source>Save and restore of Window Geometry: On quitting PhotoQt, it stores the size and position of the window and can restore it the next time started.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
+        <source>There are three things that can be adjusted here:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
+        <source>Keep PhotoQt above all other windows at all time</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2591,6 +2602,7 @@
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="251"/>
+        <location filename="../qml/settings/TabThumbnailsBasic.qml" line="259"/>
         <source>Keep Thumbnails Visible</source>
         <translation type="unfinished"/>
     </message>
@@ -2600,8 +2612,8 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabThumbnailsBasic.qml" line="259"/>
-        <source>Keep Thumnails Visible</source>
+        <location filename="../qml/settings/TabThumbnailsBasic.qml" line="307"/>
+        <source>Smart Thumbnails</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2632,11 +2644,6 @@
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="301"/>
         <source>Dynamic Thumbnails</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../qml/settings/TabThumbnailsBasic.qml" line="307"/>
-        <source>Smart Thumbnail</source>
         <translation type="unfinished"/>
     </message>
     <message>

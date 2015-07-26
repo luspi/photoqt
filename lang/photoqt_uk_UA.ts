@@ -156,7 +156,7 @@
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="276"/>
         <source>Delete File</source>
-        <translation type="unfinished"/>
+        <translation>Видалити файл</translation>
     </message>
     <message>
         <location filename="../qml/mainview/ContextMenu.qml" line="301"/>
@@ -174,27 +174,27 @@
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="11"/>
         <source>Confirm me?</source>
-        <translation type="unfinished"/>
+        <translation>Підтверджуєте?</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="12"/>
         <source>Do you really want to do this?</source>
-        <translation type="unfinished"/>
+        <translation>Ви справді хочете це зробити?</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="13"/>
         <source>Yes, do it</source>
-        <translation type="unfinished"/>
+        <translation>Так, виконуй</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="14"/>
         <source>No, don&apos;t</source>
-        <translation type="unfinished"/>
+        <translation>Ні, не треба</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="110"/>
         <source>Don&apos;t ask again</source>
-        <translation type="unfinished"/>
+        <translation>Не забитувати знову</translation>
     </message>
 </context>
 <context>
@@ -202,13 +202,13 @@
     <message>
         <location filename="../qml/elements/CustomDetectShortcut.qml" line="72"/>
         <source>Detect key combination</source>
-        <translation type="unfinished"/>
+        <translation>Визначити комбінацію клавіш</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomDetectShortcut.qml" line="90"/>
         <location filename="../qml/elements/CustomDetectShortcut.qml" line="127"/>
         <source>Press keys</source>
-        <translation type="unfinished"/>
+        <translation>Натисніть клавіші</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomDetectShortcut.qml" line="107"/>
@@ -221,22 +221,22 @@
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="71"/>
         <source>External Command</source>
-        <translation type="unfinished"/>
+        <translation>Зовнішня команда</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="86"/>
         <source>current file (with path)</source>
-        <translation type="unfinished"/>
+        <translation>Поточний файл (зі шляхом)</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="86"/>
         <source>current file (without path)</source>
-        <translation type="unfinished"/>
+        <translation>поточний файл (без шляху)</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="86"/>
         <source>current directory</source>
-        <translation type="unfinished"/>
+        <translation>поточна папка</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="122"/>
@@ -246,12 +246,12 @@
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="135"/>
         <source>Save it</source>
-        <translation type="unfinished"/>
+        <translation>Зберегти це</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomExternalCommand.qml" line="159"/>
         <source>Select Executeable</source>
-        <translation type="unfinished"/>
+        <translation>Вибрати виконуваний файл</translation>
     </message>
 </context>
 <context>
@@ -259,17 +259,17 @@
     <message>
         <location filename="../qml/elements/CustomMouseShortcut.qml" line="69"/>
         <source>Set Mouse Shortcut</source>
-        <translation type="unfinished"/>
+        <translation>Встановити комбінацію клавіш мишки</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomMouseShortcut.qml" line="114"/>
         <source>Don&apos;t set</source>
-        <translation type="unfinished"/>
+        <translation>Не встановлювати</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomMouseShortcut.qml" line="127"/>
         <source>Set Shortcut</source>
-        <translation type="unfinished"/>
+        <translation>Встановити комбінацію клавіш</translation>
     </message>
 </context>
 <context>
@@ -277,7 +277,7 @@
     <message>
         <location filename="../qml/fadein/Delete.qml" line="68"/>
         <source>Delete File</source>
-        <translation type="unfinished"/>
+        <translation>Видалити файл</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Delete.qml" line="98"/>
@@ -292,7 +292,7 @@
     <message>
         <location filename="../qml/fadein/Delete.qml" line="126"/>
         <source>Delete</source>
-        <translation type="unfinished"/>
+        <translation>Видалити</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Delete.qml" line="137"/>
@@ -307,55 +307,55 @@
     <message>
         <location filename="../qml/fadein/Delete.qml" line="170"/>
         <source>Enter = Move to Trash, Shift+Enter = Delete permanently, Escape = Cancel</source>
-        <translation type="unfinished"/>
+        <translation>Enter = Перемістити до Смітника, Shift+Enter = Видалити назавжди, Escape = Відмінити</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Delete.qml" line="170"/>
         <source>Enter = Delete, Escape = Cancel</source>
-        <translation type="unfinished"/>
+        <translation>Enter = Видалити, Escape = Відмінити</translation>
     </message>
 </context>
 <context>
     <name>Display</name>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="436"/>
+        <location filename="../qml/mainview/Display.qml" line="498"/>
         <source>Hide</source>
-        <translation type="unfinished"/>
+        <translation>Приховати</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="462"/>
+        <location filename="../qml/mainview/Display.qml" line="524"/>
         <source>Open a file to begin</source>
-        <translation type="unfinished"/>
+        <translation>Відкрити файл, щоб почати.</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="513"/>
+        <location filename="../qml/mainview/Display.qml" line="575"/>
         <source>No results found...</source>
-        <translation type="unfinished"/>
+        <translation>Результатів не знайдено...</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="520"/>
+        <location filename="../qml/mainview/Display.qml" line="582"/>
         <source>Rotate Image?</source>
         <translation>Повернути зображення?</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="521"/>
+        <location filename="../qml/mainview/Display.qml" line="583"/>
         <source>The Exif data of this image says, that this image is supposed to be rotated.</source>
         <translation>Дані Exif цього зображення кажуть, що ця картинка має бути повернута.</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="521"/>
+        <location filename="../qml/mainview/Display.qml" line="583"/>
         <source>Do you want to apply the rotation?</source>
         <translation>Застосувати повертання?</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="522"/>
+        <location filename="../qml/mainview/Display.qml" line="584"/>
         <source>Yes, do it</source>
-        <translation type="unfinished"/>
+        <translation>Так, виконуй</translation>
     </message>
     <message>
-        <location filename="../qml/mainview/Display.qml" line="523"/>
+        <location filename="../qml/mainview/Display.qml" line="585"/>
         <source>No, don&apos;t</source>
-        <translation type="unfinished"/>
+        <translation>Ні, не треба</translation>
     </message>
 </context>
 <context>
@@ -363,7 +363,7 @@
     <message>
         <location filename="../qml/fadein/Filter.qml" line="68"/>
         <source>Filter images in current directory</source>
-        <translation type="unfinished"/>
+        <translation>Фільтрувати зображення в поточній папці</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Filter.qml" line="83"/>
@@ -396,12 +396,12 @@
     <message>
         <location filename="../cplusplus/scripts/getanddostuff/context.cpp" line="10"/>
         <source>Edit with</source>
-        <translation type="unfinished"/>
+        <translation>Редагувати у</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getanddostuff/context.cpp" line="13"/>
         <source>Open in</source>
-        <translation type="unfinished"/>
+        <translation>Відкрити в</translation>
     </message>
 </context>
 <context>
@@ -449,12 +449,12 @@
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="341"/>
         <source>Daylight fluorescent</source>
-        <translation type="unfinished"/>
+        <translation>Флуоресцентні лампи денного світла</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="344"/>
         <source>Day white fluorescent</source>
-        <translation type="unfinished"/>
+        <translation>Флуоресцентне денне біле</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="347"/>
@@ -476,7 +476,7 @@
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="371"/>
         <source>D50</source>
-        <translation type="unfinished"/>
+        <translation>D50</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="374"/>
@@ -492,7 +492,7 @@
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="380"/>
         <source>Invalid light source</source>
         <extracomment>This string refers to the light source</extracomment>
-        <translation type="unfinished"/>
+        <translation>Невірне джерело світла</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="389"/>
@@ -557,7 +557,7 @@
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="454"/>
         <source>Invalid flash</source>
-        <translation type="unfinished"/>
+        <translation>Невірний спалах</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="464"/>
@@ -583,7 +583,7 @@
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="476"/>
         <source>Invalid Scene Type</source>
         <extracomment>This string refers to a type of scene</extracomment>
-        <translation type="unfinished"/>
+        <translation>Неправильний тип сцени</translation>
     </message>
 </context>
 <context>
@@ -616,7 +616,7 @@
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="30"/>
         <source>Show/Hide Metadata</source>
-        <translation type="unfinished"/>
+        <translation>Показати/приховати метадані</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="31"/>
@@ -636,7 +636,7 @@
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="120"/>
         <source>Quickstart</source>
-        <translation type="unfinished"/>
+        <translation>Швидкий старт</translation>
     </message>
 </context>
 <context>
@@ -647,24 +647,24 @@
         <translation>Відкрити файл зображення</translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="116"/>
-        <location filename="../cplusplus/mainwindow.cpp" line="117"/>
-        <location filename="../cplusplus/mainwindow.cpp" line="119"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="141"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="142"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="144"/>
         <source>Images</source>
         <translation>Зображення</translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="121"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="146"/>
         <source>All Files</source>
         <translation>Всі файли</translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="532"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="583"/>
         <source>Image Viewer</source>
         <translation>Перегляд зображення</translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="537"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="588"/>
         <source>Hide/Show PhotoQt</source>
         <translation>Приховати/Показати PhotoQt</translation>
     </message>
@@ -674,17 +674,17 @@
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="44"/>
         <source>No File Loaded</source>
-        <translation type="unfinished"/>
+        <translation>Файл не завантажено</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="62"/>
         <source>File Format Not Supported</source>
-        <translation type="unfinished"/>
+        <translation>Формат файлу не підтримується</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="80"/>
         <source>Invalid File</source>
-        <translation type="unfinished"/>
+        <translation>Неправильний файл</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="121"/>
@@ -725,7 +725,7 @@
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="206"/>
         <source>Exposure Time</source>
-        <translation type="unfinished"/>
+        <translation>Час витримки</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="207"/>
@@ -755,27 +755,27 @@
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="212"/>
         <source>Light Source</source>
-        <translation type="unfinished"/>
+        <translation>Джерело світла</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="214"/>
         <source>Keywords</source>
-        <translation type="unfinished"/>
+        <translation>Ключові слова</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="215"/>
         <source>Location</source>
-        <translation type="unfinished"/>
+        <translation>Розташування</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="216"/>
         <source>Copyright</source>
-        <translation type="unfinished"/>
+        <translation>Авторське право</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="218"/>
         <source>GPS Position</source>
-        <translation type="unfinished"/>
+        <translation>Місцезнаходження за GPS</translation>
     </message>
 </context>
 <context>
@@ -793,13 +793,13 @@
     <message>
         <location filename="../qml/mainview/QuickInfo.qml" line="191"/>
         <source>Hide both, Filename and Filepath</source>
-        <translation type="unfinished"/>
+        <translation>Сховати ім’я файлу і шлях до файлу</translation>
     </message>
     <message>
         <location filename="../qml/mainview/QuickInfo.qml" line="236"/>
         <source>Filter:</source>
         <extracomment>As in: FILTER images</extracomment>
-        <translation type="unfinished"/>
+        <translation>Фільтрувати:</translation>
     </message>
 </context>
 <context>
@@ -850,57 +850,57 @@
         <translation>Віконний режим</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="192"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="193"/>
         <source>Show window decoration</source>
         <translation>Показувати декорації вікна</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="214"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="215"/>
         <source>Close on click on background</source>
         <translation>Закривати при кліку на тло</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="235"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="236"/>
         <source>Keep thumbnails visible</source>
         <translation>Утримувати мініатюри видимими</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="258"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="259"/>
         <source>Normal thumbnails</source>
         <translation>Нормальні мініатюри</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="258"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="259"/>
         <source>Dynamic thumbnails</source>
         <translation>Динамічні мініатюри</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="280"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="281"/>
         <source>Enable &apos;Quick Settings&apos;</source>
         <translation>Увімкнути &apos;Швидкі Налаштування&apos;</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="258"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="259"/>
         <source>Smart thumbnails</source>
         <translation>Розумні мініатюри</translation>
     </message>
     <message>
         <location filename="../qml/slidein/QuickSettings.qml" line="141"/>
         <source>No tray icon</source>
-        <translation type="unfinished"/>
+        <translation>Без іконки у системному лотку</translation>
     </message>
     <message>
         <location filename="../qml/slidein/QuickSettings.qml" line="141"/>
         <source>Hide to tray icon</source>
-        <translation type="unfinished"/>
+        <translation>Згорнути у Іконку системного лотка</translation>
     </message>
     <message>
         <location filename="../qml/slidein/QuickSettings.qml" line="141"/>
         <source>Show tray icon, but don&apos;t hide to it</source>
-        <translation type="unfinished"/>
+        <translation>Показати іконку в системному лотку, але не згортати до нього</translation>
     </message>
     <message>
-        <location filename="../qml/slidein/QuickSettings.qml" line="305"/>
+        <location filename="../qml/slidein/QuickSettings.qml" line="306"/>
         <source>Show full settings</source>
         <translation>Показати повні налаштування</translation>
     </message>
@@ -933,32 +933,32 @@
     <message>
         <location filename="../qml/fadein/Scale.qml" line="112"/>
         <source>Error! Something went wrong, unable to save new dimension...</source>
-        <translation type="unfinished"/>
+        <translation>Помилка! Щось пішло не так, неможливо зберегти нові розміри...</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Scale.qml" line="136"/>
         <source>New width:</source>
-        <translation type="unfinished"/>
+        <translation>Нова ширина:</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Scale.qml" line="143"/>
         <source>New height:</source>
-        <translation type="unfinished"/>
+        <translation>Нова висота:</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Scale.qml" line="248"/>
         <source>Quality</source>
-        <translation type="unfinished"/>
+        <translation>Якість:</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Scale.qml" line="298"/>
         <source>Scale into new file</source>
-        <translation type="unfinished"/>
+        <translation>Масштабувати у новий файл</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Scale.qml" line="315"/>
         <source>Don&apos;t scale</source>
-        <translation type="unfinished"/>
+        <translation>Не масштабувати</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Scale.qml" line="217"/>
@@ -976,7 +976,7 @@
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="59"/>
         <source>Look and Feel</source>
-        <translation type="unfinished"/>
+        <translation>Вигляд і сприйняття</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="72"/>
@@ -998,7 +998,7 @@
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="174"/>
         <source>Metadata</source>
-        <translation type="unfinished"/>
+        <translation>Метадані</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="194"/>
@@ -1008,7 +1008,7 @@
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="219"/>
         <source>Filetypes</source>
-        <translation type="unfinished"/>
+        <translation>Типи файлів</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="240"/>
@@ -1038,12 +1038,12 @@
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="359"/>
         <source>Do you really want to clean up the database?</source>
-        <translation type="unfinished"/>
+        <translation>Справді бажаєте очистити базу даних?</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="359"/>
         <source>This removes all obsolete thumbnails, thus possibly making PhotoQt a little faster.</source>
-        <translation type="unfinished"/>
+        <translation>Це вилучить усі застарілі ескізи, таким чином, PhotoQt може стати трохи швидше.</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="359"/>
@@ -1053,7 +1053,7 @@
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="360"/>
         <source>Yes, clean is good</source>
-        <translation type="unfinished"/>
+        <translation>Так, чиска це добре</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="361"/>
@@ -1068,12 +1068,12 @@
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="369"/>
         <source>Do you really want to ERASE the entire database?</source>
-        <translation type="unfinished"/>
+        <translation>Справді бажаєте СТЕРТИ всю базу даних?</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="369"/>
         <source>This removes every single item in the database! This step should never really be necessarily. After that, every thumbnail has to be newly re-created.</source>
-        <translation type="unfinished"/>
+        <translation>Це видалить всі елементи в базі даних! Цей крок не повинен бути дійсно обов&apos;язковий. Після цього, кожен ескіз повинен бути заново створений.</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="369"/>
@@ -1093,22 +1093,22 @@
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="378"/>
         <source>Set Default Shortcuts</source>
-        <translation type="unfinished"/>
+        <translation>Встановити типові комбінації</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="379"/>
         <source>Are you sure you want to reset the shortcuts to the default set?</source>
-        <translation type="unfinished"/>
+        <translation>Ви впевнені що хочете скинути всі комбінації до набору за замовчанням?</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="380"/>
         <source>Yes, please</source>
-        <translation type="unfinished"/>
+        <translation>Так, будь-ласка</translation>
     </message>
     <message>
         <location filename="../qml/settings/SettingsItem.qml" line="381"/>
         <source>Nah, don&apos;t</source>
-        <translation type="unfinished"/>
+        <translation>Нє, не треба</translation>
     </message>
 </context>
 <context>
@@ -1211,7 +1211,7 @@
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="310"/>
         <source>Click here to select music file...</source>
-        <translation type="unfinished"/>
+        <translation>Натисніть щоб вибрати музичний файл...</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="344"/>
@@ -1221,7 +1221,7 @@
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="348"/>
         <source>Wait, maybe later</source>
-        <translation type="unfinished"/>
+        <translation>Чекай, можливо згодом</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="352"/>
@@ -1231,12 +1231,12 @@
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="366"/>
         <source>Select music file...</source>
-        <translation type="unfinished"/>
+        <translation>Оберіть музичний файл...</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="366"/>
         <source>Music Files</source>
-        <translation type="unfinished"/>
+        <translation>Музичні файли</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Slideshow.qml" line="366"/>
@@ -1310,30 +1310,20 @@
         <translation type="unfinished"/>
     </message>
     <message>
+        <location filename="../qml/fadein/Startup.qml" line="91"/>
+        <location filename="../qml/fadein/Startup.qml" line="92"/>
+        <source>Here below you find a short overview of a selection of a few things PhotoQt has to offer, but feel free to skip it and just get started.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
         <location filename="../qml/fadein/Startup.qml" line="160"/>
         <source>PhotoQt has an extensive settings area. By default you can call it with the shortcut &apos;e&apos; or through the dropdown menu at the top edge towards the top right corner. You can adjust almost everything in PhotoQt, and it&apos;s certainly worth having a look there. Each setting usually comes with a little explanation text. Some of the most often used settings can also be conveniently adjusted in a slide-in widget, hidden behind the right screen edge.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../qml/fadein/Startup.qml" line="262"/>
-        <source>Most images store some additional information within the file&apos;s metadata. PhotoQt can read and display a selection of this data. You can find this information in the slide-in window hidden behind the left edge of PhotoQt.</source>
-        <translation type="unfinished"/>
-    </message>
-    <message>
-        <location filename="../qml/fadein/Startup.qml" line="299"/>
-        <source>PhotoQt also brings a slideshow feature. When you start a slideshow, it starts at the currently displayed image. There are a couple of settings that can be set, like transition, speed, loop, and shuffle. Plus, you can set a music file that is played in the background. When the slideshow takes longer than the music file, then PhotoQt starts the music file all over from the beginning. At anytime during the slideshow, you can move the mouse cursor to the top edge of the screen to get a little bar, where you can pause/exit the slideshow and adjust the music volume.</source>
         <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="198"/>
         <source>Thumbnails</source>
         <translation>Мініатюри</translation>
-    </message>
-    <message>
-        <location filename="../qml/fadein/Startup.qml" line="91"/>
-        <location filename="../qml/fadein/Startup.qml" line="92"/>
-        <source>Here below you find a short overview of a selection of a few things PhotoQt has to offer, but feel free to skip it and just get started.</source>
-        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="198"/>
@@ -1353,6 +1343,16 @@
     <message>
         <location filename="../qml/fadein/Startup.qml" line="262"/>
         <source>Image Information (Exif/IPTC)</source>
+        <translation>Інформація про зображення (Exif/IPTC)</translation>
+    </message>
+    <message>
+        <location filename="../qml/fadein/Startup.qml" line="262"/>
+        <source>Most images store some additional information within the file&apos;s metadata. PhotoQt can read and display a selection of this data. You can find this information in the slide-in window hidden behind the left edge of PhotoQt.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/fadein/Startup.qml" line="299"/>
+        <source>PhotoQt also brings a slideshow feature. When you start a slideshow, it starts at the currently displayed image. There are a couple of settings that can be set, like transition, speed, loop, and shuffle. Plus, you can set a music file that is played in the background. When the slideshow takes longer than the music file, then PhotoQt starts the music file all over from the beginning. At anytime during the slideshow, you can move the mouse cursor to the top edge of the screen to get a little bar, where you can pause/exit the slideshow and adjust the music volume.</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -1461,7 +1461,7 @@
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="185"/>
         <source>Exposure Time</source>
-        <translation type="unfinished"/>
+        <translation>Час витримки</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="186"/>
@@ -1491,27 +1491,27 @@
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="191"/>
         <source>Light Source</source>
-        <translation type="unfinished"/>
+        <translation>Джерело світла</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="192"/>
         <source>Keywords</source>
-        <translation type="unfinished"/>
+        <translation>Ключові слова</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="193"/>
         <source>Location</source>
-        <translation type="unfinished"/>
+        <translation>Розташування</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="194"/>
         <source>Copyright</source>
-        <translation type="unfinished"/>
+        <translation>Авторське право</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="195"/>
         <source>GPS Position</source>
-        <translation type="unfinished"/>
+        <translation>Місцезнаходження за GPS</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="210"/>
@@ -1531,7 +1531,7 @@
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="271"/>
         <source>Some cameras can detect - while taking the photo - whether the camera was turned and might store this information in the image exif data. If PhotoQt finds this information, it can rotate the image accordingly. When asking PhotoQt to always rotate images automatically without asking, it already does so at image load (including thumbnails).</source>
-        <translation type="unfinished"/>
+        <translation>Деякі фотоапарати знають, коли камера перевернута під час зйомки, і вони можуть зберігати цю інформацію в метаданих EXIF. Якщо PhotoQt знайде цю інформацію, вона може повернути зображення відповідно. Якщо попросити PhotoQt завжди повертати зображення автоматично без запитання, то вона одразу так і робитиме при завантаженні зображення (включаючи ескізи).</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="294"/>
@@ -1556,7 +1556,7 @@
     <message>
         <location filename="../qml/settings/TabDetails.qml" line="323"/>
         <source>If you&apos;re image includes a GPS location, then a click on the location text will load this location in an online map using your default external browser. Here you can choose which online service to use (suggestions for other online maps always welcome).</source>
-        <translation type="unfinished"/>
+        <translation>Якщо зображення містить GPS координати, тоді клік на місце розташування буде відкривати онлайн-карти в зовнішньому браузері. Тут Ви можете вибрати, які онлайн-карти використовувати (пропозиції завжди вітаються).</translation>
     </message>
 </context>
 <context>
@@ -1564,7 +1564,7 @@
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="55"/>
         <source>Filetypes</source>
-        <translation type="unfinished"/>
+        <translation>Типи файлів</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="79"/>
@@ -1903,9 +1903,9 @@
         <translation>Анімація і Геометрія Вікна</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
-        <source>There are two things that can be adjusted here:</source>
-        <translation>Тут можна налаштувати дві речі:</translation>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="748"/>
+        <source>Keep above other windows</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
@@ -1915,6 +1915,16 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
         <source>Save and restore of Window Geometry: On quitting PhotoQt, it stores the size and position of the window and can restore it the next time started.</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
+        <source>There are three things that can be adjusted here:</source>
+        <translation type="unfinished"/>
+    </message>
+    <message>
+        <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
+        <source>Keep PhotoQt above all other windows at all time</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2591,6 +2601,7 @@
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="251"/>
+        <location filename="../qml/settings/TabThumbnailsBasic.qml" line="259"/>
         <source>Keep Thumbnails Visible</source>
         <translation>Утримувати мініатюри видимими</translation>
     </message>
@@ -2600,8 +2611,8 @@
         <translation type="unfinished"/>
     </message>
     <message>
-        <location filename="../qml/settings/TabThumbnailsBasic.qml" line="259"/>
-        <source>Keep Thumnails Visible</source>
+        <location filename="../qml/settings/TabThumbnailsBasic.qml" line="307"/>
+        <source>Smart Thumbnails</source>
         <translation type="unfinished"/>
     </message>
     <message>
@@ -2633,11 +2644,6 @@
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="301"/>
         <source>Dynamic Thumbnails</source>
         <translation>Динамічні мініатюри</translation>
-    </message>
-    <message>
-        <location filename="../qml/settings/TabThumbnailsBasic.qml" line="307"/>
-        <source>Smart Thumbnail</source>
-        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="325"/>
