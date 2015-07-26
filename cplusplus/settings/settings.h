@@ -519,7 +519,7 @@ public:
 #endif
 		myWidgetAnimated = true;
 		saveWindowGeometry = true;
-		keepOnTop = true;
+		keepOnTop = false;
 
 		language = "";
 		bgColorRed = 0;
