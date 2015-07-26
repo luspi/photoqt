@@ -21,8 +21,11 @@ QFileInfoList LoadDir::loadDir(QString filepath, QString filter) {
 	// Set appropriate filter
 	if(filter.trimmed() == "") {
 		// These are the images known by PhotoQt
-		QStringList flt = fileformats->formatsQtEnabled+fileformats->formatsQtEnabledExtras+fileformats->formatsGmEnabled+fileformats->formatsExtrasEnabled;
-		dir.setNameFilters(flt);
+		QStringList flt1 = fileformats->formatsQtEnabled+fileformats->formatsQtEnabledExtras+fileformats->formatsGmEnabled+fileformats->formatsExtrasEnabled;
+		QStringList flt2 = flt1;
+		for(int i = 0; i < flt2.length(); ++i)
+			flt2[i] = flt2.at(i).toUpper();
+		dir.setNameFilters(flt1+flt2);
 	} else {
 		if(verbose)
 			LOG << DATE << "LoadDir::loaddir(): Filter set: '" << filter.toStdString() << "'" << std::endl;
