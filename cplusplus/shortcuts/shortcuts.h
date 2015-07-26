@@ -2,13 +2,10 @@
 #define SHORTCUTS_H
 
 #include "../logger.h"
-#include <QObject>
 #include <QKeyEvent>
 #include <QtDebug>
 
-class Shortcuts : public QObject {
-
-	Q_OBJECT
+class Shortcuts {
 
 public:
 	QString handleKeyPress(QKeyEvent *e) {
