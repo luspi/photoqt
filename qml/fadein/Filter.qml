@@ -80,7 +80,7 @@ Rectangle {
 				}
 
 				Text {
-					text: qsTr("Enter here the term you want to search for. Seperate multiple terms by a space.")
+					text: qsTr("Enter here the term you want to search for. Separate multiple terms by a space.")
 					x: (rect.width-width)/2
 					color: colour.text
 					font.pointSize: 10
