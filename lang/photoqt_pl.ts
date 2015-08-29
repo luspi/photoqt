@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="pl" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="pl">
 <context>
     <name>About</name>
     <message>
@@ -29,7 +31,7 @@
     <message>
         <location filename="../qml/fadein/About.qml" line="174"/>
         <source>You want to join the team and do something, e.g. translating PhotoQt to another language? Drop me and email (%1), and for translations, check the project page on Transifex:</source>
-        <extracomment>Don't forget to add the %1 in your translation!!</extracomment>
+        <extracomment>Don&apos;t forget to add the %1 in your translation!!</extracomment>
         <translation>Chcesz dołączyć do zespołu i zrobić coś przydatnego, np. pomóc w tłumaczeniu PhotoQt? Wyślij do mnie email (%1), a co do tłumaczeń sprawdź stronę projektu na Transifex:</translation>
     </message>
     <message>
@@ -367,8 +369,8 @@
     </message>
     <message>
         <location filename="../qml/fadein/Filter.qml" line="83"/>
-        <source>Enter here the term you want to search for. Seperate multiple terms by a space.</source>
-        <translation>Wpisz tutaj nazwę którą chcesz wyszukać. Użyj odstępu przy szukaniu kilku jednocześnie.</translation>
+        <source>Enter here the term you want to search for. Separate multiple terms by a space.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/fadein/Filter.qml" line="90"/>
@@ -503,7 +505,7 @@
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="391"/>
         <source>no</source>
-        <extracomment>This string identifies that flash wasn't fired</extracomment>
+        <extracomment>This string identifies that flash wasn&apos;t fired</extracomment>
         <translation>nie</translation>
     </message>
     <message>
@@ -659,12 +661,12 @@
         <translation>Wszystkie pliki</translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="583"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="582"/>
         <source>Image Viewer</source>
         <translation>Przeglądarka obrazów</translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="588"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="587"/>
         <source>Hide/Show PhotoQt</source>
         <translation>Ukryj/pokaż PhotoQt</translation>
     </message>
@@ -1640,7 +1642,7 @@
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="270"/>
         <source>Gimp&apos;s XCF file format.</source>
-        <extracomment>'Makes use of' is in connection with an external tool (i.e., it 'makes use of' tool abc)</extracomment>
+        <extracomment>&apos;Makes use of&apos; is in connection with an external tool (i.e., it &apos;makes use of&apos; tool abc)</extracomment>
         <translation>Formact XCF Gimpa.</translation>
     </message>
     <message>
@@ -2134,47 +2136,47 @@
         <translation>Jest całkiem sporo dostępnych języków. Dzięki wszystkim, którzy poświęcili czas na przetłumaczenie PhotoQt!</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="119"/>
+        <location filename="../qml/settings/TabOther.qml" line="122"/>
         <source>Quick Settings</source>
         <translation>Szybkie ustawienia</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="119"/>
+        <location filename="../qml/settings/TabOther.qml" line="122"/>
         <source>The &apos;Quick Settings&apos; is a widget hidden on the right side of the screen. When you move the cursor there, it shows up, and you can adjust a few simple settings on the spot without having to go through this settings dialog. Of course, only a small subset of settings is available (the ones needed most often). Here you can disable the dialog so that it doesn&apos;t show on mouse movement anymore.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="129"/>
+        <location filename="../qml/settings/TabOther.qml" line="132"/>
         <source>Show &apos;Quick Settings&apos; on mouse hovering</source>
         <translation>Pokazuj &quot;Szybkie ustawienia&quot; gdy kursor znajduje się nad nimi</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="142"/>
+        <location filename="../qml/settings/TabOther.qml" line="145"/>
         <source>Adjust Context Menu</source>
         <translation>Dostosuj menu kontekstowe</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="142"/>
+        <location filename="../qml/settings/TabOther.qml" line="145"/>
         <source>Here you can adjust the context menu. You can simply drag and drop the entries, edit them, add a new one and remove an existing one.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="183"/>
+        <location filename="../qml/settings/TabOther.qml" line="186"/>
         <source>Executable</source>
         <translation>Wykonywalne</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="199"/>
+        <location filename="../qml/settings/TabOther.qml" line="202"/>
         <source>Menu Text</source>
         <translation>Tekst w menu</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="223"/>
+        <location filename="../qml/settings/TabOther.qml" line="226"/>
         <source>Add new context menu entry</source>
         <translation>Dodaj nowy wpis menu kontekstowego</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="231"/>
+        <location filename="../qml/settings/TabOther.qml" line="234"/>
         <source>(Re-)set automatically</source>
         <translation>Automatycznie ustaw (ponownie)</translation>
     </message>
@@ -2202,7 +2204,7 @@
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="73"/>
         <source>Here you can adjust the shortcuts, add new or remove existing ones, or change a key combination. The shortcuts are grouped into 4 different categories for internal commands plus a category for external commands. The boxes on the right side contain all the possible commands. To add a shortcut for one of the available function you can either double click on the tile or click the &quot;+&quot; button. This automatically opens another widget where you can set a key combination.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="89"/>
@@ -2387,13 +2389,13 @@
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="128"/>
         <source>Extern</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="132"/>
         <source>EXTERN</source>
         <extracomment>Is the shortcut tile text for EXTERNal shortcuts</extracomment>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2434,7 +2436,7 @@
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="65"/>
         <source>Per default the bar with the thumbnails is shown at the lower edge. However, some might find it nice and handy to have the thumbnail bar at the upper edge, so that&apos;s what can be changed here.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="86"/>
@@ -2459,22 +2461,22 @@
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="207"/>
         <source>Use file-name-only Thumbnails</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="207"/>
         <source>If you don&apos;t want PhotoQt to always load the actual image thumbnail in the background, but you still want to have something for better navigating, then you can set a file-name-only thumbnail, i.e. PhotoQt wont load any thumbnail images but simply puts the file name into the box. You can also adjust the font size of this text.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="110"/>
         <source>When thumbnails are displayed at the top/bottom, PhotoQt usually writes the filename on them (if not disabled). You can also use the slider below to adjust the font size.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="213"/>
         <source>Use filename-only thumbnail</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="279"/>
@@ -2484,12 +2486,12 @@
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="279"/>
         <source>If you just don&apos;t need or don&apos;t want any thumbnails whatsoever, then you can disable them here completely. This option can also be toggled remotely via command line (run &apos;photoqt --help&apos; for more information on that). This might increase the speed of PhotoQt a good bit, however, navigating through a folder might be a little harder without thumbnails.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="287"/>
         <source>Disable Thumbnails altogether</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="302"/>
@@ -2499,32 +2501,32 @@
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="302"/>
         <source>Thumbnails can be cached in two different ways:&lt;br&gt;1) File Caching (following the freedesktop.org standard) or&lt;br&gt;2) Database Caching (better performance and management, default option).</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="302"/>
         <source>Both ways have their advantages and disadvantages:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="302"/>
         <source>File Caching is done according to the freedesktop.org standard and thus different applications can share the same thumbnail for the same image file. However, it&apos;s not possible to check for obsolete thumbnails (thus this may lead to many unneeded thumbnail files).</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="302"/>
         <source>Database Caching doesn&apos;t have the advantage of sharing thumbnails with other applications (and thus every thumbnails has to be newly created for PhotoQt), but it brings a slightly better performance, and it allows a better handling of existing thumbnails (e.g. deleting obsolete thumbnails).</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="302"/>
         <source>PhotoQt works with either option, though the second way is set as default.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="302"/>
         <source>Although everybody is encouraged to use at least one of the two options, caching can be completely disabled altogether. However, that does affect the performance and usability of PhotoQt, since thumbnails have to be newly re-created every time they are needed.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="327"/>
@@ -2534,12 +2536,12 @@
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="348"/>
         <source>File Caching</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="354"/>
         <source>Database Caching</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="379"/>
@@ -2587,17 +2589,17 @@
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="126"/>
         <source>The thumbnails are shown in a row at the lower or upper edge (depending on your setup). They are lined up side by side. Per default, there&apos;s no empty space between them, however exactly that can be changed here.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="189"/>
         <source>Lift-up of Thumbnail Images on Hovering</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="189"/>
         <source>When a thumbnail is hovered, it is lifted up some pixels (default 10). Here you can increase/decrease this value according to your personal preference.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="251"/>
@@ -2608,7 +2610,7 @@
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="251"/>
         <source>Per default the Thumbnails slide out over the edge of the screen. Here you can force them to stay visible. The big image is shrunk to fit into the empty space. Note, that the thumbnails will be hidden (and only shown on mouse hovering) once you zoomed the image in/out. Resetting the zoom restores the original visibility of the thumbnails.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="307"/>
@@ -2623,17 +2625,17 @@
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="274"/>
         <source>Dynamic thumbnail creation means, that PhotoQt only sets up those thumbnail images that are actually needed, i.e. it stops once it reaches the end of the visible area and sits idle until you scroll left/right.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="274"/>
         <source>Smart thumbnails are similar in nature. However, they make use of the fast, that once a thumbnail has been created, it can be loaded very quickly and efficiently. It also first loads all of the currently visible thumbnails, but it doesn&apos;t stop there: Any thumbnails (even if invisible at the moment) that once have been created are loaded. This is a nice compromise between efficiency and usability.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="274"/>
         <source>Enabling either the smart or dynamic option is recommended, as it increases the performance of PhotoQt significantly, while preserving the usability.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="295"/>

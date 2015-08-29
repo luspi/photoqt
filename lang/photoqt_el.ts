@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="el" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="el">
 <context>
     <name>About</name>
     <message>
@@ -30,7 +32,7 @@
     <message>
         <location filename="../qml/fadein/About.qml" line="174"/>
         <source>You want to join the team and do something, e.g. translating PhotoQt to another language? Drop me and email (%1), and for translations, check the project page on Transifex:</source>
-        <extracomment>Don't forget to add the %1 in your translation!!</extracomment>
+        <extracomment>Don&apos;t forget to add the %1 in your translation!!</extracomment>
         <translation>Θέλετε να συμμετέχετε στην ομάδα και να ασχοληθείτε με κάτι, πχ. να μεταφράσετε το PhotoQt σε μια άλλη γλώσσα; Στείλτε μου ένα μήνυμα (%1), και όσο για τις μεταφράσεις ρίξτε μια ματιά στη σελίδα του έργου στο transifex:</translation>
     </message>
     <message>
@@ -368,8 +370,8 @@
     </message>
     <message>
         <location filename="../qml/fadein/Filter.qml" line="83"/>
-        <source>Enter here the term you want to search for. Seperate multiple terms by a space.</source>
-        <translation>Εισάγετε εδώ τον όρο αναζήτησης. Διαχωρίστε τους όρους με κενό.</translation>
+        <source>Enter here the term you want to search for. Separate multiple terms by a space.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/fadein/Filter.qml" line="90"/>
@@ -504,7 +506,7 @@
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="391"/>
         <source>no</source>
-        <extracomment>This string identifies that flash wasn't fired</extracomment>
+        <extracomment>This string identifies that flash wasn&apos;t fired</extracomment>
         <translation>όχι</translation>
     </message>
     <message>
@@ -660,12 +662,12 @@
         <translation>Όλα τα αρχεία</translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="583"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="582"/>
         <source>Image Viewer</source>
         <translation>Προβολέας εικόνων</translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="588"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="587"/>
         <source>Hide/Show PhotoQt</source>
         <translation>Απόκρυψη/Εμφάνιση PhotoQt</translation>
     </message>
@@ -1642,7 +1644,7 @@
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="270"/>
         <source>Gimp&apos;s XCF file format.</source>
-        <extracomment>'Makes use of' is in connection with an external tool (i.e., it 'makes use of' tool abc)</extracomment>
+        <extracomment>&apos;Makes use of&apos; is in connection with an external tool (i.e., it &apos;makes use of&apos; tool abc)</extracomment>
         <translation>Μορφή αρχείων Gimp XCF.</translation>
     </message>
     <message>
@@ -1907,7 +1909,7 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="748"/>
         <source>Keep above other windows</source>
-        <translation type="unfinished"/>
+        <translation>Διατήρηση πάνω από τα άλλα παράθυρα</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
@@ -1922,12 +1924,12 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
         <source>There are three things that can be adjusted here:</source>
-        <translation type="unfinished"/>
+        <translation>Εδώ μπορείτε να ρυθμίσετε τρία πράγματα:</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
         <source>Keep PhotoQt above all other windows at all time</source>
-        <translation type="unfinished"/>
+        <translation>Διατήρηση του PhotoQt πάνω από τα άλλα παράθυρα συνέχεια</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="738"/>
@@ -2136,47 +2138,47 @@
         <translation>Υπάρχει ένας αρκετά καλός αριθμός διαθέσιμων μεταφράσεων. Ευχαριστίες σε όλους που βρήκαν τον χρόνο να μεταφράσουν το PhotoQt!</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="119"/>
+        <location filename="../qml/settings/TabOther.qml" line="122"/>
         <source>Quick Settings</source>
         <translation>Γρήγορες ρυθμίσεις</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="119"/>
+        <location filename="../qml/settings/TabOther.qml" line="122"/>
         <source>The &apos;Quick Settings&apos; is a widget hidden on the right side of the screen. When you move the cursor there, it shows up, and you can adjust a few simple settings on the spot without having to go through this settings dialog. Of course, only a small subset of settings is available (the ones needed most often). Here you can disable the dialog so that it doesn&apos;t show on mouse movement anymore.</source>
         <translation>Οι «Γρήγορες ρυθμίσεις» είναι ένα συστατικό στη δεξιά πλευρά της οθόνης. Εμφανίζεται όταν μετακινείτε τον δρομέα σε αυτό το σημείο, και σας δίνει τη δυνατότητα να πραγματοποιήσετε μερικές απλές ρυθμίσεις σε πραγματικό χρόνο χωρίς να χρειάζεται να ανοίξετε τον διάλογο ρυθμίσεων. Φυσικά, μόνο ένα μικρό υποσύνολο ρυθμίσεων είναι διαθέσιμο (αυτό που χρειάζονται περισσότερο). Εδώ μπορείτε να απενεργοποιήσετε τον διάλογο ώστε να μην εμφανίζεται με το πέρασμα του ποντικιού.</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="129"/>
+        <location filename="../qml/settings/TabOther.qml" line="132"/>
         <source>Show &apos;Quick Settings&apos; on mouse hovering</source>
         <translation>Εμφάνιση των «Γρήγορων ρυθμίσεων» με το πέρασμα του ποντικιού</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="142"/>
+        <location filename="../qml/settings/TabOther.qml" line="145"/>
         <source>Adjust Context Menu</source>
         <translation>Προσαρμογή του σχετικού μενού</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="142"/>
+        <location filename="../qml/settings/TabOther.qml" line="145"/>
         <source>Here you can adjust the context menu. You can simply drag and drop the entries, edit them, add a new one and remove an existing one.</source>
         <translation>Εδώ μπορείτε να προσαρμόσετε το σχετικό μενού. Μπορείτε να κάνετε μεταφορά και απόθεση των καταχωρήσεων, να τις επεξεργαστείτε, να προσθέσετε μια νέα ή να αφαιρέσετε μια υπάρχουσα.</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="183"/>
+        <location filename="../qml/settings/TabOther.qml" line="186"/>
         <source>Executable</source>
         <translation>Εκτελέσιμο</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="199"/>
+        <location filename="../qml/settings/TabOther.qml" line="202"/>
         <source>Menu Text</source>
         <translation>Κείμενο μενού</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="223"/>
+        <location filename="../qml/settings/TabOther.qml" line="226"/>
         <source>Add new context menu entry</source>
         <translation>Προσθήκη νέας καταχώρησης στο σχετικό μενού</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="231"/>
+        <location filename="../qml/settings/TabOther.qml" line="234"/>
         <source>(Re-)set automatically</source>
         <translation>Αυτόματος (επανα)καθορισμός</translation>
     </message>
@@ -2615,7 +2617,7 @@
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="307"/>
         <source>Smart Thumbnails</source>
-        <translation type="unfinished"/>
+        <translation>Έξυπνες εικόνες επισκόπησης</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="274"/>

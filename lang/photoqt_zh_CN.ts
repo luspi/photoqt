@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="zh_CN" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="zh_CN">
 <context>
     <name>About</name>
     <message>
@@ -29,7 +31,7 @@
     <message>
         <location filename="../qml/fadein/About.qml" line="174"/>
         <source>You want to join the team and do something, e.g. translating PhotoQt to another language? Drop me and email (%1), and for translations, check the project page on Transifex:</source>
-        <extracomment>Don't forget to add the %1 in your translation!!</extracomment>
+        <extracomment>Don&apos;t forget to add the %1 in your translation!!</extracomment>
         <translation>你想加入团队并做点什么吗？例如翻译 PhotoQt ？请发邮件给我 (1%)，至于翻译，请到 Transifex 上查看翻译项目：</translation>
     </message>
     <message>
@@ -367,8 +369,8 @@
     </message>
     <message>
         <location filename="../qml/fadein/Filter.qml" line="83"/>
-        <source>Enter here the term you want to search for. Seperate multiple terms by a space.</source>
-        <translation>在此输入搜索关键词，关键词间请用空格隔开</translation>
+        <source>Enter here the term you want to search for. Separate multiple terms by a space.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/fadein/Filter.qml" line="90"/>
@@ -503,7 +505,7 @@
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="391"/>
         <source>no</source>
-        <extracomment>This string identifies that flash wasn't fired</extracomment>
+        <extracomment>This string identifies that flash wasn&apos;t fired</extracomment>
         <translation>否</translation>
     </message>
     <message>
@@ -659,12 +661,12 @@
         <translation>所有文件</translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="583"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="582"/>
         <source>Image Viewer</source>
         <translation>图片浏览器</translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="588"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="587"/>
         <source>Hide/Show PhotoQt</source>
         <translation>隐藏/显示 PhotoQt</translation>
     </message>
@@ -1605,7 +1607,7 @@
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="143"/>
         <source>PhotoQt makes use of GraphicsMagick for support of many different image formats. The list below are all those formats, that were successfully displayed using test images. If you prefer not to have one or the other enabled in PhotoQt, you can simply disable individual formats below.&lt;br&gt;There are a few formats, that were not tested in PhotoQt (due to lack of a test image). You can find those in the &apos;Untested&apos; category below.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="191"/>
@@ -1640,14 +1642,14 @@
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="270"/>
         <source>Gimp&apos;s XCF file format.</source>
-        <extracomment>'Makes use of' is in connection with an external tool (i.e., it 'makes use of' tool abc)</extracomment>
+        <extracomment>&apos;Makes use of&apos; is in connection with an external tool (i.e., it &apos;makes use of&apos; tool abc)</extracomment>
         <translation>Gimps 的 xcf 文件格式。</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="270"/>
         <location filename="../qml/settings/TabFiletypes.qml" line="292"/>
         <source>Makes use of</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="292"/>
@@ -1685,7 +1687,7 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="67"/>
         <source>The background of PhotoQt is the part, that is not covered by an image. It can be made either real (half-)transparent (using a compositor), or faked transparent (instead of the actual desktop a screenshot of it is shown), or a custom background image can be set, or none of the above.&lt;br&gt;Note: Fake transparency currently only really works when PhotoQt is run in fullscreen/maximised!</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="91"/>
@@ -1705,37 +1707,37 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="107"/>
         <source>Use one-coloured, non-transparent background</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="164"/>
         <source>No image selected</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="188"/>
         <source>Scale to fit</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="194"/>
         <source>Scale and Crop to fit</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="199"/>
         <source>Stretch to fit</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="204"/>
         <source>Center image</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="209"/>
         <source>Tile image</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="228"/>
@@ -1750,27 +1752,27 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="259"/>
         <source>Red:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="281"/>
         <source>Green:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="303"/>
         <source>Blue:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="325"/>
         <source>Alpha:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="387"/>
         <source>Preview colour</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="410"/>
@@ -1800,7 +1802,7 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="475"/>
         <source>Close on click in empty area</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="488"/>
@@ -1810,7 +1812,7 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="488"/>
         <source>When you load the last image in a directory and select &apos;Next&apos;, PhotoQt automatically jumps to the first image (and vice versa: if you select &apos;Previous&apos; while having the first image loaded, PhotoQt jumps to the last image). Disabling this option makes PhotoQt stop at the first/last image (i.e. selecting &apos;Next&apos;/&apos;Previous&apos; will have no effect in these two special cases).</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="494"/>
@@ -1825,7 +1827,7 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="507"/>
         <source>Switching between images can be done smoothly, the new image can be set to fade into the old image. &apos;No transition&apos; means, that the previous image is simply replaced by the new image.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="526"/>
@@ -1835,7 +1837,7 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="546"/>
         <source>Long Transition</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">慢速切换</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="564"/>
@@ -1875,7 +1877,7 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="660"/>
         <source>Not at all sensitive</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="678"/>
@@ -1885,7 +1887,7 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="678"/>
         <source>If you would like PhotoQt to remember the rotation/flipping and/or zoom level per session (not permanent), then you can enable it here. If not set, then every time a new image is displayed, it is displayed neither zoomed nor rotated nor flipped (one could say, it is displayed &apos;normal&apos;).</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="697"/>
@@ -1905,7 +1907,7 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="748"/>
         <source>Keep above other windows</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
@@ -1920,17 +1922,17 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
         <source>There are three things that can be adjusted here:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="719"/>
         <source>Keep PhotoQt above all other windows at all time</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="738"/>
         <source>Animate all fade-in elements</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelAdvanced.qml" line="743"/>
@@ -1943,7 +1945,7 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="52"/>
         <source>Basic Settings</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="65"/>
@@ -1958,7 +1960,7 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="65"/>
         <source>Hint: You can also change this setting very quickly from the &apos;Quick Settings&apos; window, hidden behind the right screen edge.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="90"/>
@@ -1973,7 +1975,7 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="98"/>
         <source>Natural Name</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">自然排序</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="98"/>
@@ -2023,22 +2025,22 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="174"/>
         <source>When started PhotoQt creates a tray icon in the system tray. If desired, you can set PhotoQt to minimise to the tray instead of quitting. This causes PhotoQt to be almost instantaneously available when an image is opened.&lt;br&gt;It is also possible to start PhotoQt already minimised to the tray (e.g. at system startup) when called with &quot;--start-in-tray&quot;.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="182"/>
         <source>No tray icon</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">关闭托盘图标</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="182"/>
         <source>Hide to tray icon</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">隐藏托盘图标</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="182"/>
         <source>Show tray icon, but don&apos;t hide to it</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">显示托盘图标，但是不隐藏</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="193"/>
@@ -2053,22 +2055,22 @@
     <message>
         <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="216"/>
         <source>Normal Look</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="223"/>
         <source>Fancy Look</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="249"/>
         <source>Small Size</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="264"/>
         <source>Large Size</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabLookAndFeelBasic.qml" line="280"/>
@@ -2134,49 +2136,49 @@
         <translation>本软件已有多个语言版本，感谢为 PhotoQt 贡献翻译的人！</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="119"/>
+        <location filename="../qml/settings/TabOther.qml" line="122"/>
         <source>Quick Settings</source>
         <translation>快速设置</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="119"/>
+        <location filename="../qml/settings/TabOther.qml" line="122"/>
         <source>The &apos;Quick Settings&apos; is a widget hidden on the right side of the screen. When you move the cursor there, it shows up, and you can adjust a few simple settings on the spot without having to go through this settings dialog. Of course, only a small subset of settings is available (the ones needed most often). Here you can disable the dialog so that it doesn&apos;t show on mouse movement anymore.</source>
         <translation>‘快速设置’ 是一个隐藏在屏幕右侧的控件。当你鼠标移动到上面时会显示出来，然后可以简单地更改一些设置，而无需用这个复杂的设置对话框。当然只有很少的几个子选项可更改(最常用的那些)。你可以在此处禁用此控件，这样鼠标滑动到右面时便不会弹出设置框。</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="129"/>
+        <location filename="../qml/settings/TabOther.qml" line="132"/>
         <source>Show &apos;Quick Settings&apos; on mouse hovering</source>
         <translation>鼠标滑动到上面时显示‘快速设置’</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="142"/>
+        <location filename="../qml/settings/TabOther.qml" line="145"/>
         <source>Adjust Context Menu</source>
         <translation>调整菜单文本</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="142"/>
+        <location filename="../qml/settings/TabOther.qml" line="145"/>
         <source>Here you can adjust the context menu. You can simply drag and drop the entries, edit them, add a new one and remove an existing one.</source>
         <translation>在这里你可以调整菜单的文字。操作很简单，拖放条目，编辑，添加或移除～</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="183"/>
+        <location filename="../qml/settings/TabOther.qml" line="186"/>
         <source>Executable</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="199"/>
+        <location filename="../qml/settings/TabOther.qml" line="202"/>
         <source>Menu Text</source>
         <translation>菜单说明</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="223"/>
+        <location filename="../qml/settings/TabOther.qml" line="226"/>
         <source>Add new context menu entry</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="231"/>
+        <location filename="../qml/settings/TabOther.qml" line="234"/>
         <source>(Re-)set automatically</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2222,7 +2224,7 @@
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="99"/>
         <source>Filter Images in Folder</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">在文件夹中过滤图片</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="99"/>
@@ -2367,7 +2369,7 @@
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="123"/>
         <source>Start Slideshow</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">开始放映幻灯片</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="123"/>
@@ -2377,12 +2379,12 @@
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="123"/>
         <source>About PhotoQt</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">关于 PhotoQt </translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="123"/>
         <source>Set as Wallpaper</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">设置为壁纸</translation>
     </message>
     <message>
         <location filename="../qml/settings/TabShortcuts.qml" line="128"/>
@@ -2393,7 +2395,7 @@
         <location filename="../qml/settings/TabShortcuts.qml" line="132"/>
         <source>EXTERN</source>
         <extracomment>Is the shortcut tile text for EXTERNal shortcuts</extracomment>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2439,12 +2441,12 @@
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="86"/>
         <source>Show at lower edge</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="93"/>
         <source>Show at upper edge</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="110"/>
@@ -2469,12 +2471,12 @@
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="110"/>
         <source>When thumbnails are displayed at the top/bottom, PhotoQt usually writes the filename on them (if not disabled). You can also use the slider below to adjust the font size.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="213"/>
         <source>Use filename-only thumbnail</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="279"/>
@@ -2534,32 +2536,32 @@
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="348"/>
         <source>File Caching</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="354"/>
         <source>Database Caching</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="379"/>
         <source>Current database filesize:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="405"/>
         <source>Entries in database:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="426"/>
         <source>CLEAN UP database</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsAdvanced.qml" line="438"/>
         <source>ERASE database</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2567,7 +2569,7 @@
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="52"/>
         <source>Basic Settings</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="65"/>
@@ -2613,7 +2615,7 @@
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="307"/>
         <source>Smart Thumbnails</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="274"/>
@@ -2633,12 +2635,12 @@
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="274"/>
         <source>Enabling either the smart or dynamic option is recommended, as it increases the performance of PhotoQt significantly, while preserving the usability.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="295"/>
         <source>Normal Thumbnails</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/settings/TabThumbnailsBasic.qml" line="301"/>
@@ -2687,32 +2689,32 @@
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="86"/>
         <source>Set as Wallpaper:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="114"/>
         <source>PhotoQt tries to detect your window manager according to the environment variables set by your system. If it still got it wrong, you can change the window manager manually.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="192"/>
         <source>Sorry, KDE4 doesn&apos;t offer the feature to change the wallpaper except from their own system settings. Unfortunately there&apos;s nothing I can do about that.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="219"/>
         <source>Sorry, Plasma 5 doesn&apos;t yet offer the feature to change the wallpaper except from their own system settings. Hopefully this will change soon, but until then there&apos;s nothing I can do about that.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="250"/>
         <source>Warning: &apos;gsettings&apos; doesn&apos;t seem to be available! Are you sure Gnome/Unity is installed?</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="337"/>
         <source>Warning: &apos;xfconf-query&apos; doesn&apos;t seem to be available! Are you sure XFCE4 is installed?</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="350"/>
@@ -2724,49 +2726,49 @@
         <location filename="../qml/fadein/Wallpaper.qml" line="366"/>
         <location filename="../qml/fadein/Wallpaper.qml" line="521"/>
         <source>Screen #</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="483"/>
         <source>Warning: It seems that the &apos;msgbus&apos; (DBUS) module is not activated! It can be activated in the settings console &gt; Add-ons &gt; Modules &gt; System.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="494"/>
         <source>Warning: &apos;enlightenment_remote&apos; doesn&apos;t seem to be available! Are you sure Enlightenment is installed?</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="556"/>
         <source>You can set the wallpaper to any sub-selection of workspaces</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="576"/>
         <location filename="../qml/fadein/Wallpaper.qml" line="578"/>
         <location filename="../qml/fadein/Wallpaper.qml" line="579"/>
         <source>Workspace #</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="636"/>
         <source>Warning: &apos;feh&apos; doesn&apos;t seem to be installed!</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="647"/>
         <source>Warning: &apos;nitrogen&apos; doesn&apos;t seem to be installed!</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="658"/>
         <source>Warning: Both &apos;feh&apos; and &apos;nitrogen&apos; don&apos;t seem to be installed!</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="669"/>
         <source>PhotoQt can use &apos;feh&apos; or &apos;nitrogen&apos; to change the background of the desktop.&lt;br&gt;This is intended particularly for window managers that don&apos;t natively support wallpapers (e.g., like Openbox).</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="685"/>

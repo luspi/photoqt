@@ -1,4 +1,6 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="it" version="2.1">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE TS>
+<TS version="2.1" language="it">
 <context>
     <name>About</name>
     <message>
@@ -29,7 +31,7 @@
     <message>
         <location filename="../qml/fadein/About.qml" line="174"/>
         <source>You want to join the team and do something, e.g. translating PhotoQt to another language? Drop me and email (%1), and for translations, check the project page on Transifex:</source>
-        <extracomment>Don't forget to add the %1 in your translation!!</extracomment>
+        <extracomment>Don&apos;t forget to add the %1 in your translation!!</extracomment>
         <translation>Vuoi unirti al gruppo e fare qualcosa, per esempio tradurre PhotoQt in un&apos;altra lingua? Mandami un&apos;email (%1), e per le traduzioni, controlla la pagina del progetto su Transifex:</translation>
     </message>
     <message>
@@ -367,8 +369,8 @@
     </message>
     <message>
         <location filename="../qml/fadein/Filter.qml" line="83"/>
-        <source>Enter here the term you want to search for. Seperate multiple terms by a space.</source>
-        <translation>Digita qui quello che vuoi cercare. Separa le parole con uno spazio.</translation>
+        <source>Enter here the term you want to search for. Separate multiple terms by a space.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/fadein/Filter.qml" line="90"/>
@@ -503,7 +505,7 @@
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="391"/>
         <source>no</source>
-        <extracomment>This string identifies that flash wasn't fired</extracomment>
+        <extracomment>This string identifies that flash wasn&apos;t fired</extracomment>
         <translation>no</translation>
     </message>
     <message>
@@ -659,12 +661,12 @@
         <translation>Tutti i file</translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="583"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="582"/>
         <source>Image Viewer</source>
         <translation>Visualizzatore Immagini</translation>
     </message>
     <message>
-        <location filename="../cplusplus/mainwindow.cpp" line="588"/>
+        <location filename="../cplusplus/mainwindow.cpp" line="587"/>
         <source>Hide/Show PhotoQt</source>
         <translation>Nascondi/Mostra PhotoQt</translation>
     </message>
@@ -1641,7 +1643,7 @@ Alcune delle impostazioni più usate le puoi trovare anche in un widget a compar
     <message>
         <location filename="../qml/settings/TabFiletypes.qml" line="270"/>
         <source>Gimp&apos;s XCF file format.</source>
-        <extracomment>'Makes use of' is in connection with an external tool (i.e., it 'makes use of' tool abc)</extracomment>
+        <extracomment>&apos;Makes use of&apos; is in connection with an external tool (i.e., it &apos;makes use of&apos; tool abc)</extracomment>
         <translation>Formato XCF di Gimp.</translation>
     </message>
     <message>
@@ -2135,47 +2137,47 @@ Alcune delle impostazioni più usate le puoi trovare anche in un widget a compar
         <translation>Sono disponibili diverse lingue per PhotoQt. Grazie a tutti quelli che hanno usato il loro tempo per tradurlo!</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="119"/>
+        <location filename="../qml/settings/TabOther.qml" line="122"/>
         <source>Quick Settings</source>
         <translation>Impostazioni rapide</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="119"/>
+        <location filename="../qml/settings/TabOther.qml" line="122"/>
         <source>The &apos;Quick Settings&apos; is a widget hidden on the right side of the screen. When you move the cursor there, it shows up, and you can adjust a few simple settings on the spot without having to go through this settings dialog. Of course, only a small subset of settings is available (the ones needed most often). Here you can disable the dialog so that it doesn&apos;t show on mouse movement anymore.</source>
         <translation>&apos;Impostazioni rapide&apos; è un widget nascosto sul lato destro dello schermo. Viene mostrato portando sopra il cursore, e da lì puoi accedere ad alcune impostazioni senza dover andare al pannello impostazioni. Solo le impostazioni usate più spesso sono disponibili. Da qui puoi disattivare il pannello in modo che non venga più mostrato.</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="129"/>
+        <location filename="../qml/settings/TabOther.qml" line="132"/>
         <source>Show &apos;Quick Settings&apos; on mouse hovering</source>
         <translation>Mostra &apos;Impostazioni rapide&apos; al passaggio del mouse</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="142"/>
+        <location filename="../qml/settings/TabOther.qml" line="145"/>
         <source>Adjust Context Menu</source>
         <translation>Regola Menu Contestuale</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="142"/>
+        <location filename="../qml/settings/TabOther.qml" line="145"/>
         <source>Here you can adjust the context menu. You can simply drag and drop the entries, edit them, add a new one and remove an existing one.</source>
         <translation>Qui puoi modificare il menu contestuale. Puoi semplicemente trascinare le voci, aggiungerle, modificarle o rimuoverle.</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="183"/>
+        <location filename="../qml/settings/TabOther.qml" line="186"/>
         <source>Executable</source>
         <translation>Eseguibile</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="199"/>
+        <location filename="../qml/settings/TabOther.qml" line="202"/>
         <source>Menu Text</source>
         <translation>Testo Menu</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="223"/>
+        <location filename="../qml/settings/TabOther.qml" line="226"/>
         <source>Add new context menu entry</source>
         <translation>Aggungi nuova voce al menu contestuale</translation>
     </message>
     <message>
-        <location filename="../qml/settings/TabOther.qml" line="231"/>
+        <location filename="../qml/settings/TabOther.qml" line="234"/>
         <source>(Re-)set automatically</source>
         <translation>(Re)imposta automaticamente</translation>
     </message>
