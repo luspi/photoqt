@@ -117,15 +117,29 @@ Rectangle {
 			textOnRight: false
 			anchors.right: parent.right
 			anchors.rightMargin: 5
+			fsize: 8
 			textColour: getanddostuff.addAlphaToColor(colour.text,100)
 			text: qsTr("Keep Open")
-			onButtonCheckedChanged: {
+			onButtonCheckedChanged:
 				settingssession.setValue("metadatakeepopen",check.checkedButton)
-			}
+		}
+		CustomCheckBox {
+			id: check_enable
+			textOnRight: true
+			anchors.left: parent.left
+			anchors.leftMargin: meta.radius+5
+			fsize: 8
+			checkedButton: settings.exifenablemousetriggering
+			textColour: getanddostuff.addAlphaToColor(colour.text,100)
+			text: qsTr("Enable Mouse Trigger")
+			onButtonCheckedChanged:
+				settings.exifenablemousetriggering = checkedButton
 		}
 	}
 	function uncheckCheckbox() { check.checkedButton = false; }
 	function checkCheckbox() { check.checkedButton = true; }
+	function uncheckEnableMetadataCheckbox() { check_enable.checkedButton = false; }
+	function checkEnableMetadataCheckbox() { check_enable.checkedButton = true; }
 
 	Component {
 
