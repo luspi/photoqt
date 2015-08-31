@@ -222,6 +222,7 @@ void MainWindow::handleOpenFileEvent(QString usethis) {
 	QVariant centerPos = curPos;
 	if(!QMetaObject::invokeMethod(object, "getCenterPos",
 				  Q_RETURN_ARG(QVariant, centerPos)))
+		std::cerr << DATE <<  "handleOpenFileEvent(): ERROR: couldn't get center pos!" << std::endl;
 
 	// And handle the thumbnails
 	handleThumbnails(centerPos.toInt());
