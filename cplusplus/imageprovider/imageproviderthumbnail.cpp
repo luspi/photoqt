@@ -185,7 +185,7 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
 			query2.bindValue(":origh",origheight);
 			query2.exec();
 			if(query2.lastError().text().trimmed().length())
-				std::cerr << "ERROR [" << filename.toStdString() << "]: " << query2.lastError().text().trimmed().toStdString() << std::endl;
+				std::cerr << "ERROR [" << QString(filename).toStdString() << "]: " << query2.lastError().text().trimmed().toStdString() << std::endl;
 			query2.clear();
 
 		}
