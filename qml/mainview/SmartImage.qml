@@ -13,6 +13,7 @@ Rectangle {
     property double zoomduration: 150
     property double zoomstep: 0.3
     property bool fitinwindow: false
+	property bool enableanimations: true
 
     // Size and position
     x: 0
@@ -113,14 +114,14 @@ Rectangle {
                     origin.x: flick_cont.width/2
                     origin.y: flick_cont.height/2
                     NumberAnimation on angle { id: rotani;
-                        duration: 200;
+						duration: (enableanimations ? 200 : 1);
                         onStopped: { if(imgrot.angle == 0 && !fitinwindow) cont.scale = 1; }
                         onStarted: {
                             var w;
                             var h;
                             var sourcesize = _getCurrentSourceSize()
                             // If image is rotated, we need to adjust the scaling slightly to take account for different ratio
-                            if(Math.abs((imgrot.angle+90)%180) == 90) {
+							if(Math.abs((imgrot.angle+90)%180) == 90) {
                                 if(flickarea.width/flickarea.height == sourcesize.width/sourcesize.height) {
                                     flick_cont.scale = 1
                                 } else {
@@ -187,8 +188,8 @@ Rectangle {
                     onStatusChanged: {
                         if(status == Image.Ready) {
                             parent.calculateSize();
-                            rotscale.duration = 200
-                            rotscale_fix.duration = 200
+							rotscale.duration = (enableanimations ? 200 : 1)
+							rotscale_fix.duration = (enableanimations ? 200 : 1)
                         }
                     }
                 }
@@ -215,8 +216,8 @@ Rectangle {
                     onStatusChanged: {
                         if(status == Image.Ready) {
                             parent.calculateSize();
-                            rotscale.duration = 200
-                            rotscale_fix.duration = 200
+							rotscale.duration = (enableanimations ? 200 : 1)
+							rotscale_fix.duration = (enableanimations ? 200 : 1)
                         }
                     }
                 }
@@ -243,8 +244,8 @@ Rectangle {
                     onStatusChanged: {
                         if(status == Image.Ready) {
                             parent.calculateSize();
-                            rotscale.duration = 200
-                            rotscale_fix.duration = 200
+							rotscale.duration = (enableanimations ? 200 : 1)
+							rotscale_fix.duration = (enableanimations ? 200 : 1)
                         }
                     }
                 }
@@ -271,8 +272,8 @@ Rectangle {
                     onStatusChanged: {
                         if(status == Image.Ready) {
                             parent.calculateSize();
-                            rotscale.duration = 200
-                            rotscale_fix.duration = 200
+							rotscale.duration = (enableanimations ? 200 : 1)
+							rotscale_fix.duration = (enableanimations ? 200 : 1)
                         }
                     }
                 }
