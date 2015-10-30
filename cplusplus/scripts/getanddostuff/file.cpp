@@ -98,3 +98,12 @@ QString GetAndDoStuffFile::getSuffix(QString file) {
 	return QFileInfo(file).completeSuffix();
 
 }
+
+QSize GetAndDoStuffFile::getImagePixelDimensions(QString path) {
+
+	path = path.replace("image://full/","");
+	QImageReader reader;
+	reader.setFileName(path);
+	return reader.size();
+
+}

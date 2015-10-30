@@ -74,9 +74,9 @@ Rectangle {
 
 		// Load image
 		if(getanddostuff.isImageAnimated(currentFile)) {
-			image.setImage("file://" + currentFile, true)
+			mainview.loadImage("file://" + currentFile, true)
 		} else {
-			image.setImage("image://full/" + currentFile, false)
+			mainview.loadImage("image://full/" + currentFile, false)
 		}
 
 		// Ensure selected item is centered/visible
@@ -144,7 +144,7 @@ Rectangle {
 	function getNewFilenameAfterDeletion() {
 		verboseMessage("ThumbnailBar::getNewFilenameAfterDeletion()",totalNumberImages + " - " + clickedIndex + " - " + totalNumberImages)
 		if(totalNumberImages == 1) {
-			image.clear()
+			mainview.clear()
 			metaData.clear()
 			quickInfo.opacity = 0
 			return ""

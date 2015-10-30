@@ -103,7 +103,7 @@ Rectangle {
 						//: As in: rotate LEFT
 						text: qsTr("Left")
 						icon: "qrc:/img/contextmenu/rotateLeft.png"
-						onClicked: image.rotateLeft()
+						onClicked: mainview.rotateLeft()
 					}
 
 					ContextMenuEntry {
@@ -111,7 +111,7 @@ Rectangle {
 						text: qsTr("Right")
 						icon: "qrc:/img/contextmenu/rotateRight.png"
 						iconPositionLeft: false
-						onClicked: image.rotateRight()
+						onClicked: mainview.rotateRight()
 					}
 
 				}
@@ -144,14 +144,14 @@ Rectangle {
 						//: As in: Flip file HORIZONTALLY
 						text: qsTr("Horizontal")
 						icon: "qrc:/img/contextmenu/flipH.png"
-						onClicked: image.flipHorizontal()
+						onClicked: mainview.mirrorHorizontal()
 					}
 
 					ContextMenuEntry {
 						//: As in: Flip file VERTICALLY
 						text: qsTr("Vertical")
 						icon: "qrc:/img/contextmenu/flipV.png"
-						onClicked: image.flipVertical()
+						onClicked: mainview.mirrorVertical()
 					}
 
 				}
@@ -184,25 +184,25 @@ Rectangle {
 						//: As in: Zoom IN
 						text: "(+) " + qsTr("In")
 						iconEnabled: false
-						onClicked: image.zoomIn(true)
+						onClicked: mainview.zoomIn(true)
 					}
 					ContextMenuEntry {
 						// As in: Zoom OUT
 						text: "(-) " + qsTr("Out")
 						iconEnabled: false
-						onClicked: image.zoomOut(true)
+						onClicked: mainview.zoomOut()
 					}
 					ContextMenuEntry {
 						//: As in: Zoom to ACTUAL size
 						text: "(1:1) " + qsTr("Actual")
 						iconEnabled: false
-						onClicked: image.zoomActual()
+						onClicked: mainview.zoomActual()
 					}
 					ContextMenuEntry {
 						//: As in: Reset zoom
 						text: "(0) " + qsTr("Reset")
 						iconEnabled: false
-						onClicked: image.resetZoom()
+						onClicked: mainview.resetZoom()
 					}
 
 				}

@@ -5,6 +5,7 @@
 #include <QFileDialog>
 #include <QStringList>
 #include <QIcon>
+#include <QImageReader>
 
 class GetAndDoStuffFile : public QObject {
 
@@ -22,6 +23,8 @@ public:
 	QString getFilename(QString caption, QString dir, QString filter = "");
 	QString getIconPathFromTheme(QString binary);
 	QString getSaveFilename(QString caption, QString file);
+
+	QSize getImagePixelDimensions(QString path);
 
 };
 

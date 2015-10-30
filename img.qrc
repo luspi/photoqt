@@ -42,5 +42,6 @@
         <file>img/mainview/arrowleft.png</file>
         <file>img/mainview/arrowright.png</file>
         <file>img/mainview/arrowup.png</file>
+        <file>img/empty.png</file>
     </qresource>
 </RCC>

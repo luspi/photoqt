@@ -115,9 +115,12 @@ Item {
 	}
 
 	// Close is only defined for external shortcuts
-	function execute(cmd, close) {
+    function execute(cmd, close, bymouse) {
 
 		verboseMessage("Shortcuts::execute()", cmd + " - " + close)
+
+        if(bymouse === undefined)
+            bymouse = false;
 
 //		if(cmd === "__stopThb")
 		if(cmd === "__close")
@@ -145,23 +148,23 @@ Item {
 		else if(cmd === "__open" || cmd === "__openOld")
 			openFile()
 		else if(cmd === "__zoomIn")
-			image.zoomIn()
+			mainview.zoomIn(!bymouse)
 		else if(cmd === "__zoomOut")
-			image.zoomOut()
+			mainview.zoomOut(!bymouse)
 		else if(cmd === "__zoomReset")
-			image.resetZoom()
+			mainview.resetZoom()
 		else if(cmd === "__zoomActual")
-			image.zoomActual()
+			mainview.zoomActual()
 		else if(cmd === "__rotateL")
-			image.rotateLeft()
+			mainview.rotateLeft()
 		else if(cmd === "__rotateR")
-			image.rotateRight()
+			mainview.rotateRight()
 		else if(cmd === "__rotate0")
-			image.resetRotation()
+			mainview.resetRotation()
 		else if(cmd === "__flipH")
-			image.flipHorizontal()
+			mainview.mirrorHorizontal()
 		else if(cmd === "__flipV")
-			image.flipVertical()
+			mainview.mirrorVertical()
 		else if(cmd === "__rename")
 			rename.showRename()
 		else if(cmd === "__delete")
@@ -244,13 +247,13 @@ Item {
 		// Check for quickinfo
 		if(quickInfo.x < cursorpos.x && (quickInfo.x+quickInfo.getWidth()) > cursorpos.x
 				&& quickInfo.y < cursorpos.y && (quickInfo.y+quickInfo.getHeight()) > cursorpos.y) return
-		if(image.getClosingX_x() < cursorpos.x && image.getClosingX_height() > cursorpos.y) return
+		if(mainview.getClosingX_x() < cursorpos.x && mainview.getClosingX_height() > cursorpos.y) return
 		// Check for quicksettings
 		if(quicksettings.x < cursorpos.x && quicksettings.y < cursorpos.y && (quicksettings.y+quicksettings.height) > cursorpos.y) return
 
 		// Close on Click on empty area around image
 		if(sh === "Left Button" && settings.closeongrey) {
-			var r = image.getImageRect()
+			var r = mainview.getImageRect()
 			if(cursorpos.x < r[0] || cursorpos.y < r[1] || r[0]+r[2] < cursorpos.x || r[1]+r[3] < cursorpos.y) {
 				hideToSystemTray()
 				return
@@ -270,7 +273,7 @@ Item {
 		shortcut += sh
 
 		if(!blockedSystem && shortcut  in shortcutfile)
-				execute(shortcutfile[shortcut][1]);
+				execute(shortcutfile[shortcut][1],shortcutfile[shortcut][0],true);
 		else
 			takeWheelEventAsShortcut = false
 

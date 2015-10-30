@@ -124,8 +124,9 @@ Rectangle {
 		}
 
 		// Reset changes to current image
-		image.resetZoom()
-		image.resetRotation()
+		mainview.resetZoom()
+		mainview.resetRotation()
+		mainview.resetMirror()
 
 		// Setup an array with image indices
 		// Three possibilities (say, current index = 5, total number = 8)

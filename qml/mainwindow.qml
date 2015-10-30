@@ -109,7 +109,7 @@ Item {
 	Background { id: background; }
 
 	// The main displayed image
-	Display { id: image; }
+	MainView { id: mainview; }
 
 	// The thumbnail bar at the bottom
 	ThumbnailBar { id: thumbnailBar; }
@@ -145,8 +145,8 @@ Item {
 	function nextImage() { thumbnailBar.nextImage(); }
 	function previousImage() { thumbnailBar.previousImage(); }
 	function getCenterPos() { return thumbnailBar.getCenterPos(); }
-	function resetZoom() { image.resetZoom(); }
-	function isZoomed() { return (image.zoomedDirection != ""); }
+	function resetZoom() { mainview.resetZoom(); }
+	function isZoomed() { return mainview.isZoomed(); }
 
 	function detectedKeyCombo(combo) { sh.detectedKeyCombo(combo); settingsitem.detectedKeyCombo(combo); }
 	function keysReleased(combo) { settingsitem.keysReleased(); sh.releasedKeys(combo); }
