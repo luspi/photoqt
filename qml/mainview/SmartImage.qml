@@ -20,6 +20,32 @@ Rectangle {
     width: parent.width
     height: parent.height
 
+	onWidthChanged: {
+		if(!isZoomed() && !_full_image_loaded)
+			updateSourceSizeTimer.restart()
+	}
+	onHeightChanged: {
+		if(!isZoomed() && !_full_image_loaded)
+			updateSourceSizeTimer.restart()
+	}
+
+	function _updateSourceSize() {
+		if(_image_currently_in_use == "one")
+			one.sourceSize = Qt.size(width,height)
+		if(_image_currently_in_use == "two")
+			two.sourceSize = Qt.size(width,height)
+		if(_image_currently_in_use == "three")
+			three.sourceSize = Qt.size(width,height)
+		if(_image_currently_in_use == "four")
+			four.sourceSize = Qt.size(width,height)
+	}
+	Timer {
+		id: updateSourceSizeTimer
+		interval: 150
+		repeat: false
+		onTriggered: _updateSourceSize()
+	}
+
     // Hide everything outside of rectangle
     clip: true
 
@@ -443,7 +469,7 @@ Rectangle {
     // Zoom to actual size
     function zoomActual() {
         if(!_full_image_loaded) _loadFullImage()
-        cont.scale *= (_getCurrentSourceSize().width/(cont.width*cont.scale))
+		cont.scale = _getCurrentSourceSize().width/cont.width
     }
 
     // Zoom to 250%
