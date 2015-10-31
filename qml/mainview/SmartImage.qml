@@ -36,21 +36,27 @@ Rectangle {
 	}
 
 	function _updateSourceSize() {
+
+		var s = _getCurrentSourceSize()
+
+		var w = Math.min(s.width, width)
+		var h = Math.min(s.height, height)
+
 		if(_image_currently_in_use == "one")
-			one.sourceSize = Qt.size(width,height)
+			one.sourceSize = Qt.size(w,h)
 		else if(_image_currently_in_use == "two")
-			two.sourceSize = Qt.size(width,height)
+			two.sourceSize = Qt.size(w,h)
 		else if(_image_currently_in_use == "three") {
-			three.sourceSize.width = width
-			three.sourceSize.height = height
+			three.sourceSize.width = w
+			three.sourceSize.height = h
 		} else if(_image_currently_in_use == "four") {
-			four.sourceSize.width = width
-			four.sourceSize.height = height
+			four.sourceSize.width = w
+			four.sourceSize.height = h
 		}
 	}
 	Timer {
 		id: updateSourceSizeTimer
-		interval: 150
+		interval: 400
 		repeat: false
 		onTriggered: _updateSourceSize()
 	}
@@ -149,8 +155,8 @@ Rectangle {
                 // Handle scaling of container
                 property real prevScale
                 function calculateSize() {
-                    if(fitinwindow && _getCurrentlyDisplayedImageSize().width > 0 && _getCurrentlyDisplayedImageSize().height > 0)
-                        cont.scale = Math.min(flickarea.width / _getCurrentlyDisplayedImageSize().width, flickarea.height / _getCurrentlyDisplayedImageSize().height);
+					if(fitinwindow && _getCurrentlyDisplayedImageSize().width > 0 && _getCurrentlyDisplayedImageSize().height > 0)
+						cont.scale = Math.min(flickarea.width / _getCurrentlyDisplayedImageSize().width, flickarea.height / _getCurrentlyDisplayedImageSize().height);
                     prevScale = Math.min(scale, 1);
                 }
                 onScaleChanged: {
@@ -213,8 +219,8 @@ Rectangle {
 
                     x: (parent.width-width)/2
                     y: (parent.height-height)/2
-                    width:  opacity!=0 ? ((sourceSize.width<flickarea.width&&sourceSize.height<flickarea.height) ? sourceSize.width : (sourceSize.width/sourceSize.height > top.width/top.height ? top.width : sourceSize.width*(top.height/sourceSize.height))) : 0
-                    height: opacity!=0 ? ((sourceSize.width<flickarea.width&&sourceSize.height<flickarea.height) ? sourceSize.height : (sourceSize.width/sourceSize.height < top.width/top.height ? top.height : sourceSize.height*(top.width/sourceSize.width))) : 0
+					width:  ((sourceSize.width<flickarea.width&&sourceSize.height<flickarea.height) ? sourceSize.width : (sourceSize.width/sourceSize.height > top.width/top.height ? top.width : sourceSize.width*(top.height/sourceSize.height)))
+					height: ((sourceSize.width<flickarea.width&&sourceSize.height<flickarea.height) ? sourceSize.height : (sourceSize.width/sourceSize.height < top.width/top.height ? top.height : sourceSize.height*(top.width/sourceSize.width)))
 
                     onStatusChanged: {
                         if(status == Image.Ready) {
@@ -241,8 +247,8 @@ Rectangle {
 
                     x: (parent.width-width)/2
                     y: (parent.height-height)/2
-                    width:  opacity!=0 ? ((sourceSize.width<flickarea.width&&sourceSize.height<flickarea.height) ? sourceSize.width : (sourceSize.width/sourceSize.height > top.width/top.height ? top.width : sourceSize.width*(top.height/sourceSize.height))) : 0
-                    height: opacity!=0 ? ((sourceSize.width<flickarea.width&&sourceSize.height<flickarea.height) ? sourceSize.height : (sourceSize.width/sourceSize.height < top.width/top.height ? top.height : sourceSize.height*(top.width/sourceSize.width))) : 0
+					width:  ((sourceSize.width<flickarea.width&&sourceSize.height<flickarea.height) ? sourceSize.width : (sourceSize.width/sourceSize.height > top.width/top.height ? top.width : sourceSize.width*(top.height/sourceSize.height)))
+					height: ((sourceSize.width<flickarea.width&&sourceSize.height<flickarea.height) ? sourceSize.height : (sourceSize.width/sourceSize.height < top.width/top.height ? top.height : sourceSize.height*(top.width/sourceSize.width)))
 
                     onStatusChanged: {
                         if(status == Image.Ready) {
@@ -360,8 +366,6 @@ Rectangle {
         onStopped: {
             if(resetSourceToEmptyAfterFadeOut) one.source = "qrc:///img/empty.png"
             one.opacity = 0
-            flickarea.contentX = 0
-            flickarea.contentY = 0
         }
     }
     PropertyAnimation {
@@ -374,8 +378,6 @@ Rectangle {
         onStopped: {
             if(resetSourceToEmptyAfterFadeOut) two.source = "qrc:///img/empty.png"
             two.opacity = 0
-            flickarea.contentX = 0
-            flickarea.contentY = 0
         }
     }
     PropertyAnimation {
@@ -388,8 +390,6 @@ Rectangle {
         onStopped: {
             if(resetSourceToEmptyAfterFadeOut) three.source = "qrc:///img/empty.png"
             three.opacity = 0
-            flickarea.contentX = 0
-            flickarea.contentY = 0
         }
     }
     PropertyAnimation {
@@ -402,8 +402,6 @@ Rectangle {
         onStopped: {
             if(resetSourceToEmptyAfterFadeOut) four.source = "qrc:///img/empty.png"
             four.opacity = 0
-            flickarea.contentX = 0
-            flickarea.contentY = 0
         }
     }
 
@@ -424,9 +422,9 @@ Rectangle {
     }
 
     // Function to get the sourcesize of the current image
-    function _getCurrentSourceSize() {
-        if(!_full_image_loaded) {
-            return getActualSourceSize(_getCurrentlyLoadedPath())
+	function _getCurrentSourceSize(file) {
+		if(!_full_image_loaded || file !== undefined) {
+			return getActualSourceSize(file === undefined ? _getCurrentlyLoadedPath() : file)
         } else {
             if(_image_currently_in_use == "one")
                 return one.sourceSize
@@ -607,11 +605,11 @@ Rectangle {
 
     function _loadFullImage() {
 
-        _full_image_loaded = true
-        if(_image_currently_in_use == "one")
-            one.sourceSize = undefined
-        else if(_image_currently_in_use == "two")
-            two.sourceSize = undefined
+		_full_image_loaded = true
+		if(_image_currently_in_use == "one")
+			one.sourceSize = undefined
+		else if(_image_currently_in_use == "two")
+			two.sourceSize = undefined
 		else if(_image_currently_in_use == "three") {
 			three.sourceSize.width = undefined
 			three.sourceSize.height = undefined
@@ -667,6 +665,8 @@ Rectangle {
         else if(_image_currently_in_use == "four" && four.source == _source)
             return;
 
+		var s = _getCurrentSourceSize(_source);
+
         // Stop all animations
         one_fadein.stop()
         one_fadeout.stop()
@@ -687,8 +687,8 @@ Rectangle {
                 three.opacity = 1
                 four.opacity = 0
 
-				three.sourceSize.width = flickarea.width
-				three.sourceSize.height =flickarea.height
+				three.sourceSize.width = Math.min(s.width, flickarea.width)
+				three.sourceSize.height = Math.min(s.height, flickarea.height)
                 three.source = _source
 
                 // This assures, that a possible animation is always running
@@ -704,7 +704,7 @@ Rectangle {
                 three.opacity = 0;
                 four.opacity = 0;
 
-                one.sourceSize = Qt.size(flickarea.width,flickarea.height)
+				one.sourceSize = Qt.size(Math.min(s.width, flickarea.width),Math.min(s.height, flickarea.height))
                 one.source = _source
 
                 // This assures, that a possible animation is always running
@@ -723,7 +723,7 @@ Rectangle {
                 three.opacity = 0;
                 four.opacity = 0;
 
-                one.sourceSize = Qt.size(flickarea.width,flickarea.height)
+				one.sourceSize = Qt.size(Math.min(s.width, flickarea.width),Math.min(s.height, flickarea.height))
                 one.source = _source
 
                 // This assures, that a possible animation is always running
@@ -742,8 +742,8 @@ Rectangle {
                 three.opacity = 1;
                 four.opacity = 0;
 
-				three.sourceSize.width = flickarea.width
-				three.sourceSize.height =flickarea.height
+				three.sourceSize.width = Math.min(s.width, flickarea.width)
+				three.sourceSize.height = Math.min(s.height, flickarea.height)
                 three.source = _source
 
                 // This assures, that a possible animation is always running
@@ -769,8 +769,8 @@ Rectangle {
                     one.opacity = 1
                     three.opacity = 0
 
-					three.sourceSize.width = flickarea.width
-					three.sourceSize.height =flickarea.height
+					three.sourceSize.width = Math.min(s.width, flickarea.width)
+					three.sourceSize.height = Math.min(s.height, flickarea.height)
                     three.source = _source
 
                     one_fadeout.start()
@@ -787,8 +787,8 @@ Rectangle {
                     one.opacity = 1
                     two.opacity = 0
 
-                    two.sourceSize = Qt.size(top.width,top.height)
-                    two.source = _source
+					two.sourceSize = Qt.size(Math.min(s.width, flickarea.width),Math.min(s.height, flickarea.height))
+					two.source = _source
 
                     one_fadeout.start()
                     two_fadein.start()
@@ -808,8 +808,8 @@ Rectangle {
                     two.opacity = 1
                     three.opacity = 0
 
-					three.sourceSize.width = flickarea.width
-					three.sourceSize.height =flickarea.height
+					three.sourceSize.width = Math.min(s.width, flickarea.width)
+					three.sourceSize.height = Math.min(s.height, flickarea.height)
                     three.source = _source
 
                     two_fadeout.start()
@@ -826,8 +826,8 @@ Rectangle {
                     two.opacity = 1
                     one.opacity = 0
 
-                    one.sourceSize = Qt.size(flickarea.width,flickarea.height)
-                    one.source = _source
+					one.sourceSize = Qt.size(Math.min(s.width, flickarea.width),Math.min(s.height, flickarea.height))
+					one.source = _source
 
                     two_fadeout.start()
                     one_fadein.start()
@@ -847,8 +847,8 @@ Rectangle {
                     three.opacity = 1
                     four.opacity = 0
 
-					four.sourceSize.width = flickarea.width
-					four.sourceSize.height =flickarea.height
+					four.sourceSize.width = Math.min(s.width, flickarea.width)
+					four.sourceSize.height = Math.min(s.height, flickarea.height)
                     four.source = _source
 
                     three_fadeout.start()
@@ -865,7 +865,7 @@ Rectangle {
                     three.opacity = 1
                     one.opacity = 0
 
-                    one.sourceSize = Qt.size(flickarea.width,flickarea.height)
+					one.sourceSize = Qt.size(Math.min(s.width, flickarea.width),Math.min(s.height, flickarea.height))
                     one.source = _source
 
                     three_fadeout.start()
@@ -886,8 +886,8 @@ Rectangle {
                     four.opacity = 1
                     three.opacity = 0
 
-					three.sourceSize.width = flickarea.width
-					three.sourceSize.height =flickarea.height
+					three.sourceSize.width = Math.min(s.width, flickarea.width)
+					three.sourceSize.height = Math.min(s.height, flickarea.height)
                     three.source = _source
 
                     four_fadeout.start()
@@ -904,7 +904,7 @@ Rectangle {
                     four.opacity = 1
                     one.opacity = 0
 
-                    one.sourceSize = Qt.size(flickarea.width,flickarea.height)
+					one.sourceSize = Qt.size(Math.min(s.width, flickarea.width),Math.min(s.height, flickarea.height))
                     one.source = _source
 
                     four_fadeout.start()
@@ -920,23 +920,6 @@ Rectangle {
 
             }
         }
-
-        var s = _getCurrentSourceSize();
-        if(s.width < flickarea.width && s.height < flickarea.height) {
-            _full_image_loaded = true
-            if(_image_currently_in_use == "one")
-                one.sourceSize = s
-            else if(_image_currently_in_use == "two")
-                two.sourceSize = s
-			else if(_image_currently_in_use == "three") {
-				three.sourceSize.width = s.width
-				three.sourceSize.height = s.height
-			} else if(_image_currently_in_use == "four") {
-				four.sourceSize.width = s.width
-				four.sourceSize.height = s.height
-			}
-        }
-
 
 		var d = _getCurrentlyDisplayedImageSize()
 		if((interpolationNearestNeighbourUpscale && (d.width > s.width || d.height > s.height)) || s.width < interpolationNearestNeighbourThreshold && s.height < interpolationNearestNeighbourThreshold) {
