@@ -33,12 +33,15 @@ Rectangle {
 	function _updateSourceSize() {
 		if(_image_currently_in_use == "one")
 			one.sourceSize = Qt.size(width,height)
-		if(_image_currently_in_use == "two")
+		else if(_image_currently_in_use == "two")
 			two.sourceSize = Qt.size(width,height)
-		if(_image_currently_in_use == "three")
-			three.sourceSize = Qt.size(width,height)
-		if(_image_currently_in_use == "four")
-			four.sourceSize = Qt.size(width,height)
+		else if(_image_currently_in_use == "three") {
+			three.sourceSize.width = width
+			three.sourceSize.height = height
+		} else if(_image_currently_in_use == "four") {
+			four.sourceSize.width = width
+			four.sourceSize.height = height
+		}
 	}
 	Timer {
 		id: updateSourceSizeTimer
@@ -593,10 +596,13 @@ Rectangle {
             one.sourceSize = undefined
         else if(_image_currently_in_use == "two")
             two.sourceSize = undefined
-        else if(_image_currently_in_use == "three")
-            three.sourceSize = undefined
-        else if(_image_currently_in_use == "four")
-            four.sourceSize = undefined
+		else if(_image_currently_in_use == "three") {
+			three.sourceSize.width = undefined
+			three.sourceSize.height = undefined
+		} else if(_image_currently_in_use == "four") {
+			four.sourceSize.width = undefined
+			four.sourceSize.height = undefined
+		}
 
     }
 
@@ -665,7 +671,8 @@ Rectangle {
                 three.opacity = 1
                 four.opacity = 0
 
-                three.sourceSize = Qt.size(flickarea.width,flickarea.height)
+				three.sourceSize.width = flickarea.width
+				three.sourceSize.height =flickarea.height
                 three.source = _source
 
                 // This assures, that a possible animation is always running
@@ -713,7 +720,8 @@ Rectangle {
                 three.opacity = 1;
                 four.opacity = 0;
 
-                three.sourceSize = Qt.size(flickarea.width,flickarea.height)
+				three.sourceSize.width = flickarea.width
+				three.sourceSize.height =flickarea.height
                 three.source = _source
 
                 // This assures, that a possible animation is always running
@@ -737,7 +745,8 @@ Rectangle {
                     one.opacity = 1
                     three.opacity = 0
 
-                    three.sourceSize = Qt.size(flickarea.width,flickarea.height)
+					three.sourceSize.width = flickarea.width
+					three.sourceSize.height =flickarea.height
                     three.source = _source
 
                     one_fadeout.start()
@@ -775,7 +784,8 @@ Rectangle {
                     two.opacity = 1
                     three.opacity = 0
 
-                    three.sourceSize = Qt.size(flickarea.width,flickarea.height)
+					three.sourceSize.width = flickarea.width
+					three.sourceSize.height =flickarea.height
                     three.source = _source
 
                     two_fadeout.start()
@@ -813,7 +823,8 @@ Rectangle {
                     three.opacity = 1
                     four.opacity = 0
 
-                    four.sourceSize = Qt.size(flickarea.width,flickarea.height)
+					four.sourceSize.width = flickarea.width
+					four.sourceSize.height =flickarea.height
                     four.source = _source
 
                     three_fadeout.start()
@@ -851,7 +862,8 @@ Rectangle {
                     four.opacity = 1
                     three.opacity = 0
 
-                    three.sourceSize = Qt.size(flickarea.width,flickarea.height)
+					three.sourceSize.width = flickarea.width
+					three.sourceSize.height =flickarea.height
                     three.source = _source
 
                     four_fadeout.start()
@@ -892,10 +904,13 @@ Rectangle {
                 one.sourceSize = s
             else if(_image_currently_in_use == "two")
                 two.sourceSize = s
-            else if(_image_currently_in_use == "three")
-                three.sourceSize = s
-            else if(_image_currently_in_use == "four")
-                four.sourceSize = s
+			else if(_image_currently_in_use == "three") {
+				three.sourceSize.width = s.width
+				three.sourceSize.height = s.height
+			} else if(_image_currently_in_use == "four") {
+				four.sourceSize.width = s.width
+				four.sourceSize.height = s.height
+			}
         }
 
     }
