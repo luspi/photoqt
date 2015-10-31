@@ -666,6 +666,52 @@ Rectangle {
 			}
 
 
+			/***************************
+			 * INTERPOLATION ALGORITHM *
+			 ***************************/
+
+			SettingsText {
+
+				width: flickable.width
+
+				text: "<h2>" + qsTr("Mipmaps and Nearest Neighbour") + "</h2><br>" + qsTr("There are many different interpolation algorithms out there. Depending on the choice of interpolation algorithm, the image (when zoomed in) will look slightly differently. PhotoQt uses mipmaps to get the best quality for images. However, for very small images, that might lead to too much blurring causing them to look rather ugly. For those images, the 'Nearest Neighbour' algorithm tend to be a better choise. Here you can adjust the size threshold below which PhotoQt applies the 'Nearest Neighbour' algorithm.");
+
+			}
+
+			Rectangle {
+
+				color: "#00000000"
+
+				width: childrenRect.width
+				height: childrenRect.height
+
+				x: (flickable.width-width)/2
+
+				Row {
+
+					spacing: 10
+
+					CustomSpinBox {
+
+						id: interpolationthreshold
+
+						width: 100
+
+						minimumValue: 0
+						maximumValue: 99999
+
+						stepSize: 5
+
+						value: 100
+						suffix: " px"
+
+					}
+
+				}
+
+			}
+
+
 
 			/************************
 			* REMEMBER PER SESSION *
@@ -790,6 +836,8 @@ Rectangle {
 
 		settings.mouseWheelSensitivity = wheelsensitivity.value
 
+		settings.interpolationThreshold = interpolationthreshold.value
+
 		settings.rememberRotation = remember_rotation.checkedButton
 		settings.rememberZoom = remember_zoom.checkedButton
 
@@ -832,6 +880,8 @@ Rectangle {
 		menusensitivity.value = settings.menusensitivity
 
 		wheelsensitivity.value = settings.mouseWheelSensitivity
+
+		interpolationthreshold.value = settings.interpolationThreshold
 
 		remember_rotation.checkedButton = settings.rememberRotation
 		remember_zoom.checkedButton = settings.rememberZoom

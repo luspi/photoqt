@@ -15,6 +15,8 @@ Rectangle {
     property bool fitinwindow: false
 	property bool enableanimations: true
 
+	property int interpolationThreshold: 100
+
     // Size and position
     x: 0
     y: 0
@@ -161,6 +163,28 @@ Rectangle {
                         flickarea.contentY = yoff - y_ratio;
                     }
                     prevScale = scale;
+
+					var s = _getCurrentSourceSize()
+					if(s.width < interpolationThreshold && s.height < interpolationThreshold) {
+						if(_image_currently_in_use == "one")
+							one.smooth = false
+						else if(_image_currently_in_use == "two")
+							two.smooth = false
+						else if(_image_currently_in_use == "three")
+							three.smooth = false
+						else if(_image_currently_in_use == "four")
+							four.smooth = false
+					} else {
+						if(_image_currently_in_use == "one")
+							one.mipmap = true
+						else if(_image_currently_in_use == "two")
+							two.mipmap = true
+						else if(_image_currently_in_use == "three")
+							three.mipmap = true
+						else if(_image_currently_in_use == "four")
+							four.mipmap = true
+					}
+
                 }
                 // Animate scaling - velocity is changed to duration in 'onStatusChanged' below
                 // For some reason, setting duration right away here does not work
@@ -178,7 +202,7 @@ Rectangle {
                     opacity: 1
 
                     source: "qrc:///img/empty.png"
-                    mipmap: true
+					mipmap: true
                     asynchronous: false
                     fillMode: Image.PreserveAspectFit
                     transformOrigin: Item.TopLeft
@@ -206,7 +230,7 @@ Rectangle {
                     opacity: 1
 
                     source: "qrc:///img/empty.png"
-                    mipmap: true
+					mipmap: true
                     asynchronous: false
                     fillMode: Image.PreserveAspectFit
                     transformOrigin: Item.TopLeft
@@ -899,6 +923,27 @@ Rectangle {
 				four.sourceSize.height = s.height
 			}
         }
+
+
+		if(s.width < interpolationThreshold && s.height < interpolationThreshold) {
+			if(_image_currently_in_use == "one")
+				one.smooth = false
+			else if(_image_currently_in_use == "two")
+				two.smooth = false
+			else if(_image_currently_in_use == "three")
+				three.smooth = false
+			else if(_image_currently_in_use == "four")
+				four.smooth = false
+		} else {
+			if(_image_currently_in_use == "one")
+				one.mipmap = true
+			else if(_image_currently_in_use == "two")
+				two.mipmap = true
+			else if(_image_currently_in_use == "three")
+				three.mipmap = true
+			else if(_image_currently_in_use == "four")
+				four.mipmap = true
+		}
 
     }
 }
