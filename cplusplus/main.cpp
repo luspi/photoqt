@@ -286,12 +286,10 @@ int main(int argc, char *argv[]) {
 	// -> resetting zoom after 500ms to be safe
 	// After a new install/update, we first show a startup message (which, when closed, calls openFile())
 	w.startup_filename = a.filename;
-	if(photoQtUpdated || photoQtInstalled) {
+	if(photoQtUpdated || photoQtInstalled)
 		w.showStartup(photoQtInstalled ? "installed" : "updated");
-	} else {
+	else
 		QTimer::singleShot(250, &w, SLOT(openNewFile()));
-		QTimer::singleShot(500,&w,SLOT(resetZoom()));
-	}
 
 	return a.exec();
 
