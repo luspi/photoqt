@@ -129,17 +129,17 @@ Rectangle {
                             var h;
                             var sourcesize = _getCurrentSourceSize()
                             // If image is rotated, we need to adjust the scaling slightly to take account for different ratio
-							if(Math.abs((imgrot.angle+90)%180) == 90 && cont.scale == 1) {
+							if(Math.abs((imgrot.angle+90)%180) == 90 && cont.scale >= 1) {
                                 if(flickarea.width/flickarea.height == sourcesize.width/sourcesize.height) {
                                     flick_cont.scale = 1
                                 } else {
                                     h = top.height
                                     w = sourcesize.height*(h/sourcesize.width)
-                                    if(flickarea.contentWidth > flickarea.height)
-                                        flick_cont.scale = sourcesize.height/sourcesize.width;
-                                    else if (flickarea.contentWidth < flickarea.height)
-                                        flick_cont.scale = flickarea.height/flickarea.contentWidth
-                                }
+									if(flickarea.contentWidth > flickarea.height)
+										flick_cont.scale = sourcesize.height/sourcesize.width;
+									else if (flickarea.contentWidth < flickarea.height)
+										flick_cont.scale = flickarea.height/flickarea.contentWidth
+								}
                             } else
                                 flick_cont.scale = 1
                         }
@@ -518,6 +518,22 @@ Rectangle {
     // Reset zoom
     function resetZoom() {
 		cont.scale = 1
+		var sourcesize = _getCurrentSourceSize()
+		// If image is rotated, we need to adjust the scaling slightly to take account for different ratio
+		if(Math.abs(imgrot.angle%180) == 90) {
+			if(flickarea.width/flickarea.height == sourcesize.width/sourcesize.height) {
+				flick_cont.scale = 1
+			} else {
+				h = top.height
+				w = sourcesize.height*(h/sourcesize.width)
+				if(flickarea.contentWidth > flickarea.height) {
+					flick_cont.scale = sourcesize.height/sourcesize.width;
+				} else if (flickarea.contentWidth < flickarea.height) {
+					flick_cont.scale = flickarea.height/flickarea.contentWidth
+				}
+			}
+		} else
+			flick_cont.scale = 1
     }
 
     // Rotate image to the left
