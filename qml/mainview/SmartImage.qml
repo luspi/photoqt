@@ -110,8 +110,8 @@ Rectangle {
                 // Size and position
                 x: 0
 				y: 0
-				width: top.width
-				height: top.height
+				width: (_image_currently_in_use == "one" ? one.width : (_image_currently_in_use == "two" ? two.width : (_image_currently_in_use == "three" ? three.width : four.width)))
+				height: (_image_currently_in_use == "one" ? one.height : (_image_currently_in_use == "two" ? two.height : (_image_currently_in_use == "three" ? three.height : four.height)))
 
                 // Ensure full image visible in flickarea
                 transformOrigin: Item.TopLeft
@@ -459,7 +459,7 @@ Rectangle {
             use_zoomstep *= 5
 
         // Limit maximum zoom level
-        if(flickarea.contentWidth > _getCurrentSourceSize().width*5 && flickarea.contentWidth > flickarea.width*2) return;
+		if(cont.scale > Math.max(top.width/cont.width,top.height/cont.height)*25) return;
 
         if(cont.scale+use_zoomstep > 1 && !_full_image_loaded)
             _loadFullImage()
