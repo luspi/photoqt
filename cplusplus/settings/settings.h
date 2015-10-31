@@ -105,6 +105,10 @@ public:
 	bool rememberZoom;
 	// If image is too small, zoom to fit in window
 	bool fitInWindow;
+	// 'Nearest Neighbour' interpolation size threshold
+	int interpolationNearestNeighbourThreshold;
+	// 'Nearest Neighbour' interpolation for upscaling
+	bool interpolationNearestNeighbourUpscale;
 
 	// Are quickinfos hidden?
 	bool hidecounter;
@@ -228,6 +232,8 @@ public:
 	bool getRememberRotation() { return rememberRotation; }
 	bool getRememberZoom() { return rememberZoom; }
 	bool getFitInWindow() { return fitInWindow; }
+	int getInterpolationNearestNeighbourThreshold() { return interpolationNearestNeighbourThreshold; }
+	bool getInterpolationNearestNeighbourUpscale() { return interpolationNearestNeighbourUpscale; }
 
 	bool getHidecounter() { return hidecounter; }
 	bool getHidefilepathshowfilename() { return hidefilepathshowfilename; }
@@ -331,6 +337,8 @@ public:
 	void setRememberRotation(bool val) { rememberRotation = val; saveSettingsTimer->start(); }
 	void setRememberZoom(bool val) { rememberZoom = val; saveSettingsTimer->start(); }
 	void setFitInWindow(bool val) { fitInWindow = val; saveSettingsTimer->start(); }
+	void setInterpolationNearestNeighbourThreshold(int val) { interpolationNearestNeighbourThreshold = val; saveSettingsTimer->start(); }
+	void setInterpolationNearestNeighbourUpscale(bool val) { interpolationNearestNeighbourUpscale = val; saveSettingsTimer->start(); }
 
 	void setHidecounter(bool val) { hidecounter = val; saveSettingsTimer->start(); }
 	void setHidefilepathshowfilename(bool val) { hidefilepathshowfilename = val; saveSettingsTimer->start(); }
@@ -434,6 +442,8 @@ public:
 	Q_PROPERTY(bool rememberRotation READ getRememberRotation WRITE setRememberRotation NOTIFY rememberRotationChanged)
 	Q_PROPERTY(bool rememberZoom READ getRememberZoom WRITE setRememberZoom NOTIFY rememberZoomChanged)
 	Q_PROPERTY(bool fitInWindow READ getFitInWindow WRITE setFitInWindow NOTIFY fitInWindowChanged)
+	Q_PROPERTY(int interpolationNearestNeighbourThreshold READ getInterpolationNearestNeighbourThreshold WRITE setInterpolationNearestNeighbourThreshold NOTIFY interpolationNearestNeighbourThresholdChanged)
+	Q_PROPERTY(bool interpolationNearestNeighbourUpscale READ getInterpolationNearestNeighbourUpscale WRITE setInterpolationNearestNeighbourUpscale NOTIFY interpolationNearestNeighbourUpscaleChanged)
 
 	Q_PROPERTY(bool hidecounter READ getHidecounter WRITE setHidecounter NOTIFY hidecounterChanged)
 	Q_PROPERTY(bool hidefilepathshowfilename READ getHidefilepathshowfilename WRITE setHidefilepathshowfilename NOTIFY hidefilepathshowfilenameChanged)
@@ -556,6 +566,8 @@ public:
 		rememberRotation = true;
 		rememberZoom = true;
 		fitInWindow= false;
+		interpolationNearestNeighbourThreshold = 100;
+		interpolationNearestNeighbourUpscale = false;
 
 		hidecounter = false;
 		hidefilepathshowfilename = true;
@@ -682,6 +694,8 @@ public slots:
 			cont += QString("RememberRotation=%1\n").arg(int(rememberRotation));
 			cont += QString("RememberZoom=%1\n").arg(int(rememberZoom));
 			cont += QString("FitInWindow=%1\n").arg(int(fitInWindow));
+			cont += QString("InterpolationNearestNeighbourThreshold=%1\n").arg(interpolationNearestNeighbourThreshold);
+			cont += QString("InterpolationNearestNeighbourUpscale=%1\n").arg(int(interpolationNearestNeighbourUpscale));
 
 			cont += "\n[Quickinfo]\n";
 
@@ -911,6 +925,14 @@ public slots:
 				fitInWindow = true;
 			else if(all.contains("FitInWindow=0"))
 				fitInWindow = false;
+
+			if(all.contains("InterpolationNearestNeighbourThreshold="))
+				interpolationNearestNeighbourThreshold = all.split("InterpolationNearestNeighbourThreshold=").at(1).split("\n").at(0).toInt();
+
+			if(all.contains("InterpolationNearestNeighbourUpscale=1"))
+				interpolationNearestNeighbourUpscale = true;
+			else if(all.contains("InterpolationNearestNeighbourUpscale=0"))
+				interpolationNearestNeighbourUpscale = false;
 
 			if(all.contains("HideCounter=1"))
 				hidecounter = true;
@@ -1185,6 +1207,8 @@ private slots:
 		emit rememberRotationChanged(rememberRotation);
 		emit rememberZoomChanged(rememberZoom);
 		emit fitInWindowChanged(fitInWindow);
+		emit interpolationNearestNeighbourThresholdChanged(interpolationNearestNeighbourThreshold);
+		emit interpolationNearestNeighbourUpscaleChanged(interpolationNearestNeighbourUpscale);
 
 		emit hidecounterChanged(hidecounter);
 		emit hidefilepathshowfilenameChanged(hidefilepathshowfilename);
@@ -1290,6 +1314,8 @@ signals:
 	void rememberRotationChanged(bool val);
 	void rememberZoomChanged(bool val);
 	void fitInWindowChanged(bool val);
+	void interpolationNearestNeighbourThresholdChanged(int val);
+	void interpolationNearestNeighbourUpscaleChanged(bool val);
 
 	void hidecounterChanged(bool val);
 	void hidefilepathshowfilenameChanged(bool val);
