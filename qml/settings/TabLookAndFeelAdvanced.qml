@@ -687,28 +687,36 @@ Rectangle {
 
 				x: (flickable.width-width)/2
 
-				Row {
+				CustomSpinBox {
 
-					spacing: 10
+					id: interpolationthreshold
 
-					CustomSpinBox {
+					width: 100
 
-						id: interpolationthreshold
+					minimumValue: 0
+					maximumValue: 99999
 
-						width: 100
+					stepSize: 5
 
-						minimumValue: 0
-						maximumValue: 99999
-
-						stepSize: 5
-
-						value: 100
-						suffix: " px"
-
-					}
+					value: 100
+					suffix: " px"
 
 				}
 
+			}
+
+			SettingsText {
+
+				width: flickable.width
+
+				text: qsTr("Some also prefer to use the 'Nearest Neighbour' algorithm for upscaling images (i.e., when zooming in more than the actual image size).");
+
+			}
+
+			CustomCheckBox {
+				id: interpolationupscale
+				text: qsTr("Use 'Nearest Neighbour' algorithm for upscaling")
+				x: (flickable.width-width)/2
 			}
 
 
@@ -836,7 +844,8 @@ Rectangle {
 
 		settings.mouseWheelSensitivity = wheelsensitivity.value
 
-		settings.interpolationThreshold = interpolationthreshold.value
+		settings.interpolationNearestNeighbourThreshold = interpolationthreshold.value
+		settings.interpolationNearestNeighbourUpscale = interpolationupscale.checkedButton
 
 		settings.rememberRotation = remember_rotation.checkedButton
 		settings.rememberZoom = remember_zoom.checkedButton
@@ -881,7 +890,8 @@ Rectangle {
 
 		wheelsensitivity.value = settings.mouseWheelSensitivity
 
-		interpolationthreshold.value = settings.interpolationThreshold
+		interpolationthreshold.value = settings.interpolationNearestNeighbourThreshold
+		interpolationupscale.checkedButton = settings.interpolationNearestNeighbourUpscale
 
 		remember_rotation.checkedButton = settings.rememberRotation
 		remember_zoom.checkedButton = settings.rememberZoom

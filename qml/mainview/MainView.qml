@@ -57,7 +57,8 @@ Item {
         zoomduration: 150
         zoomstep: 0.3
         fitinwindow: settings.fitInWindow
-		interpolationThreshold: settings.interpolationThreshold
+		interpolationNearestNeighbourThreshold: settings.interpolationNearestNeighbourThreshold
+		interpolationNearestNeighbourUpscale: settings.interpolationNearestNeighbourUpscale
 
         // ignore wheel events (use for shortcuts, not for scrolling (scroll+zoom leads to unwanted behaviour))
         MouseArea {

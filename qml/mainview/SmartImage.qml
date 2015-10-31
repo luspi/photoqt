@@ -15,7 +15,10 @@ Rectangle {
     property bool fitinwindow: false
 	property bool enableanimations: true
 
-	property int interpolationThreshold: 100
+	// Switch to 'Nearest Neighbour' when size below ...
+	property int interpolationNearestNeighbourThreshold: 100
+	// Switch to 'Nearest Neighbour' when zoom past its actual size
+	property bool interpolationNearestNeighbourUpscale: false
 
     // Size and position
     x: 0
@@ -106,9 +109,9 @@ Rectangle {
 
                 // Size and position
                 x: 0
-                y: 0
-                width: _getCurrentlyDisplayedImageSize().width
-                height: _getCurrentlyDisplayedImageSize().height
+				y: 0
+				width: top.width
+				height: top.height
 
                 // Ensure full image visible in flickarea
                 transformOrigin: Item.TopLeft
@@ -165,7 +168,8 @@ Rectangle {
                     prevScale = scale;
 
 					var s = _getCurrentSourceSize()
-					if(s.width < interpolationThreshold && s.height < interpolationThreshold) {
+					var d = _getCurrentlyDisplayedImageSize()
+					if((interpolationNearestNeighbourUpscale && (d.width > s.width || d.height > s.height)) || s.width < interpolationNearestNeighbourThreshold && s.height < interpolationNearestNeighbourThreshold) {
 						if(_image_currently_in_use == "one")
 							one.smooth = false
 						else if(_image_currently_in_use == "two")
@@ -405,14 +409,7 @@ Rectangle {
 
     // Function to get the currently displayed size fo the current image
     function _getCurrentlyDisplayedImageSize() {
-        if(_image_currently_in_use == "one")
-            return Qt.size(one.width*one.scale,one.height*one.scale)
-        else if(_image_currently_in_use == "two")
-            return Qt.size(two.width*two.scale,two.height*two.scale)
-        else if(_image_currently_in_use == "three")
-            return Qt.size(three.width*three.scale,three.height*three.scale)
-        else if(_image_currently_in_use == "four")
-            return Qt.size(four.width*four.scale,four.height*four.scale)
+		return Qt.size(cont.width*cont.scale,cont.height*cont.scale)
     }
 
     function _getCurrentlyLoadedPath() {
@@ -925,7 +922,8 @@ Rectangle {
         }
 
 
-		if(s.width < interpolationThreshold && s.height < interpolationThreshold) {
+		var d = _getCurrentlyDisplayedImageSize()
+		if((interpolationNearestNeighbourUpscale && (d.width > s.width || d.height > s.height)) || s.width < interpolationNearestNeighbourThreshold && s.height < interpolationNearestNeighbourThreshold) {
 			if(_image_currently_in_use == "one")
 				one.smooth = false
 			else if(_image_currently_in_use == "two")
