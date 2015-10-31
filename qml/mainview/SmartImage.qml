@@ -124,7 +124,7 @@ Rectangle {
                             var h;
                             var sourcesize = _getCurrentSourceSize()
                             // If image is rotated, we need to adjust the scaling slightly to take account for different ratio
-							if(Math.abs((imgrot.angle+90)%180) == 90) {
+							if(Math.abs((imgrot.angle+90)%180) == 90 && cont.scale == 1) {
                                 if(flickarea.width/flickarea.height == sourcesize.width/sourcesize.height) {
                                     flick_cont.scale = 1
                                 } else {
@@ -496,28 +496,7 @@ Rectangle {
 
     // Reset zoom
     function resetZoom() {
-
-        var w;
-        var h;
-
-        cont.scale = 1
-        flick_cont.scale = 1
-
-        var sourcesize = _getCurrentSourceSize()
-        // If image is rotated, we need to adjust the scaling slightly to take account for different ratio
-        if(Math.abs((imgrot.angle)%180) == 90) {
-            if(flickarea.width/flickarea.height == sourcesize.width/sourcesize.height) {
-                flick_cont.scale = 1
-            } else {
-                h = top.height
-                w = sourcesize.height*(h/sourcesize.width)
-                if(flickarea.contentWidth > flickarea.height)
-                    flick_cont.scale = sourcesize.height/sourcesize.width;
-                else if (flickarea.contentWidth < flickarea.height)
-                    flick_cont.scale = flickarea.height/flickarea.contentWidth
-            }
-        }
-
+		cont.scale = 1
     }
 
     // Rotate image to the left
@@ -643,7 +622,7 @@ Rectangle {
 
         // Don't do anything if it's just the same image again
         if(_image_currently_in_use == "one" && one.source == _source)
-            return;
+			return;
         else if(_image_currently_in_use == "two" && two.source == _source)
             return;
         else if(_image_currently_in_use == "three" && three.source == _source)
@@ -664,8 +643,6 @@ Rectangle {
         // No fading between images
         if(fadeduration === 0) {
 
-//			console.log(_image_currently_in_use,animated)
-
             if(animated && (_image_currently_in_use == "one" || _image_currently_in_use == "two")) {
 
                 one.opacity = 0
@@ -684,8 +661,6 @@ Rectangle {
 				_image_currently_in_use = "three"
 
             } else if(!animated && (_image_currently_in_use == "three" || _image_currently_in_use  == "four")) {
-
-//				console.log("this case")
 
                 one.opacity = 1
                 two.opacity = 0
