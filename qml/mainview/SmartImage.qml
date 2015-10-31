@@ -664,6 +664,8 @@ Rectangle {
         // No fading between images
         if(fadeduration === 0) {
 
+//			console.log(_image_currently_in_use,animated)
+
             if(animated && (_image_currently_in_use == "one" || _image_currently_in_use == "two")) {
 
                 one.opacity = 0
@@ -679,7 +681,11 @@ Rectangle {
                 three.playing = true
                 four.playing = false
 
+				_image_currently_in_use = "three"
+
             } else if(!animated && (_image_currently_in_use == "three" || _image_currently_in_use  == "four")) {
+
+//				console.log("this case")
 
                 one.opacity = 1
                 two.opacity = 0
@@ -692,6 +698,8 @@ Rectangle {
                 // This assures, that a possible animation is always running
                 three.playing = false
                 four.playing = false
+
+				_image_currently_in_use = "one"
 
             } else if(_image_currently_in_use == "one" || _image_currently_in_use == "two") {
 
@@ -710,6 +718,8 @@ Rectangle {
                 three.playing = false
                 four.playing = false
 
+				_image_currently_in_use = "one"
+
             } else if(_image_currently_in_use == "three" || _image_currently_in_use == "four") {
 
                 if((_image_currently_in_use == "three" && three.source == _source) || (_image_currently_in_use == "four" && four.source == _source))
@@ -727,6 +737,8 @@ Rectangle {
                 // This assures, that a possible animation is always running
                 three.playing = true
                 four.playing = false
+
+				_image_currently_in_use = "three"
 
             }
 
