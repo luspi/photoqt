@@ -35,7 +35,7 @@ Rectangle {
 
 		color: colour.bg_label
 
-		visible: !imageLoaded
+		visible: !imageLoaded && !unsupportedLabel.visible && !invalidLabel.visible
 		horizontalAlignment: Qt.AlignHCenter
 		verticalAlignment: Qt.AlignVCenter
 
