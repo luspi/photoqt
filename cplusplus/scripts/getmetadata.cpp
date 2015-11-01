@@ -11,9 +11,11 @@ QVariantMap GetMetaData::getExiv2(QString path) {
 
 	// Clean path
 	if(path.startsWith("image://full/"))
-		path = path.remove(0,12);
+		path = path.remove(0,13);
+	else if(path.startsWith("file:/"))
+		path = path.remove(0,6);
 
-	path = QUrl::fromPercentEncoding(path.toLatin1());
+	path = QUrl::fromPercentEncoding(path.toUtf8());
 	QFileInfo info(path);
 
 	if(!QFile(path).exists()) {
