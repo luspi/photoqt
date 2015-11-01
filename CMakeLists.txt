@@ -91,9 +91,14 @@ SET(CMAKE_BUILD_TYPE "Debug")
 #### TRANSLATIONS AND RESOURCES ####
 ####################################
 
+# We first copy the most recent *.ts files to the build directory and then process them
+# This way, we don't have to mess with files outside of the build folder
+FILE(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/buildlang)
 FILE(GLOB files "lang/*.ts")
 FOREACH(file ${files})
-	QT5_CREATE_TRANSLATION(qm_files ${photoqt_SOURCES} ${file} OPTIONS "-no-obsolete")
+	GET_FILENAME_COMPONENT(filename ${file} NAME)
+	FILE(COPY ${CMAKE_CURRENT_SOURCE_DIR}/lang/${filename} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/buildlang)
+	QT5_CREATE_TRANSLATION(qm_files ${photoqt_SOURCES} ${CMAKE_CURRENT_BINARY_DIR}/buildlang/${filename} OPTIONS "-no-obsolete")
 ENDFOREACH()
 
 # Copy the language QRC file to the output directory, because the files listed in the
