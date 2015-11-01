@@ -176,23 +176,23 @@ Rectangle {
 					var s = _getCurrentSourceSize()
 					var d = _getCurrentlyDisplayedImageSize()
 					if((interpolationNearestNeighbourUpscale && (d.width > s.width || d.height > s.height)) || s.width < interpolationNearestNeighbourThreshold && s.height < interpolationNearestNeighbourThreshold) {
-						if(_image_currently_in_use == "one")
+						if(_image_currently_in_use == "one" && one.smooth == true)
 							one.smooth = false
-						else if(_image_currently_in_use == "two")
+						else if(_image_currently_in_use == "two" && two.smooth == true)
 							two.smooth = false
-						else if(_image_currently_in_use == "three")
+						else if(_image_currently_in_use == "three" && three.smooth == true)
 							three.smooth = false
-						else if(_image_currently_in_use == "four")
+						else if(_image_currently_in_use == "four" && four.smooth == true)
 							four.smooth = false
 					} else {
-						if(_image_currently_in_use == "one")
-							one.mipmap = true
-						else if(_image_currently_in_use == "two")
-							two.mipmap = true
-						else if(_image_currently_in_use == "three")
-							three.mipmap = true
-						else if(_image_currently_in_use == "four")
-							four.mipmap = true
+						if(_image_currently_in_use == "one" && one.smooth == false)
+							one.smooth = true
+						else if(_image_currently_in_use == "two" && two.smooth == false)
+							two.smooth = true
+						else if(_image_currently_in_use == "three" && three.smooth == false)
+							three.smooth = true
+						else if(_image_currently_in_use == "four" && four.smooth == false)
+							four.smooth = true
 					}
 
                 }
@@ -927,23 +927,23 @@ Rectangle {
 
 		var d = _getCurrentlyDisplayedImageSize()
 		if((interpolationNearestNeighbourUpscale && (d.width > s.width || d.height > s.height)) || s.width < interpolationNearestNeighbourThreshold && s.height < interpolationNearestNeighbourThreshold) {
-			if(_image_currently_in_use == "one")
+			if(_image_currently_in_use == "one" && one.smooth == true)
 				one.smooth = false
-			else if(_image_currently_in_use == "two")
+			else if(_image_currently_in_use == "two" && two.smooth == true)
 				two.smooth = false
-			else if(_image_currently_in_use == "three")
+			else if(_image_currently_in_use == "three" && three.smooth == true)
 				three.smooth = false
-			else if(_image_currently_in_use == "four")
+			else if(_image_currently_in_use == "four" && four.smooth == true)
 				four.smooth = false
 		} else {
-			if(_image_currently_in_use == "one")
-				one.mipmap = true
-			else if(_image_currently_in_use == "two")
-				two.mipmap = true
-			else if(_image_currently_in_use == "three")
-				three.mipmap = true
-			else if(_image_currently_in_use == "four")
-				four.mipmap = true
+			if(_image_currently_in_use == "one" && one.smooth == false)
+				one.smooth = true
+			else if(_image_currently_in_use == "two" && two.smooth == false)
+				two.smooth = true
+			else if(_image_currently_in_use == "three" && three.smooth == false)
+				three.smooth = true
+			else if(_image_currently_in_use == "four" && four.smooth == false)
+				four.smooth = true
 		}
 
     }
