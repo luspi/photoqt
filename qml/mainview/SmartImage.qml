@@ -479,6 +479,10 @@ Rectangle {
         if(flickarea.contentWidth/cont.width > 2)
             use_zoomstep *= Math.round(flickarea.contentWidth/cont.width)
 
+		// Very small images are sped up, too!
+		if(_getCurrentSourceSize().width < flickarea.width/5 && _getCurrentSourceSize().height < flickarea.height/5)
+			use_zoomstep *= 2
+
         // Limit minimum zoom level
         if(cont.scale < 0.1)
             return
