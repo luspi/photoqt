@@ -136,6 +136,8 @@ Item {
 	Filter { id: filter; }
 	Startup { id: startup; }
 
+//	OpenFile { id: openfile; }
+
 	SettingsItem { id: settingsitem; }
 
 	// Slots accessable by mainwindow.cpp, passed on to thumbnailbar

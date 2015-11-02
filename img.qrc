@@ -43,5 +43,11 @@
         <file>img/mainview/arrowright.png</file>
         <file>img/mainview/arrowup.png</file>
         <file>img/empty.png</file>
+        <file>img/openfile/folder.png</file>
+        <file>img/openfile/image.png</file>
+        <file>img/openfile/folder2.png</file>
+        <file>img/openfile/image2.png</file>
+        <file>img/openfile/folder3.png</file>
+        <file>img/openfile/image3.png</file>
     </qresource>
 </RCC>

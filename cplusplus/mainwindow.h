@@ -17,6 +17,7 @@
 #include "handlefiles/loaddir.h"
 #include "imageprovider/imageproviderthumbnail.h"
 #include "imageprovider/imageproviderfull.h"
+#include "imageprovider/imageprovidericon.h"
 #include "settings/settings.h"
 #include "settings/fileformats.h"
 #include "settings/settingssession.h"

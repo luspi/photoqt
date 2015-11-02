@@ -347,7 +347,7 @@ Item {
     }
 
     function getActualSourceSize(path) {
-        return getanddostuff.getImagePixelDimensions(path)
+		return getanddostuff.getImageSize(path)
     }
 
     function isZoomed() {

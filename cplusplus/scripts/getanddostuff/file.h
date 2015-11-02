@@ -24,8 +24,6 @@ public:
 	QString getIconPathFromTheme(QString binary);
 	QString getSaveFilename(QString caption, QString file);
 
-	QSize getImagePixelDimensions(QString path);
-
 };
 
 #endif // GETANDDOSTUFFFILE_H

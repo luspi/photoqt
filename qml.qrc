@@ -55,5 +55,6 @@
         <file>qml/Colour.qml</file>
         <file>qml/mainview/SmartImage.qml</file>
         <file>qml/mainview/MainView.qml</file>
+        <file>qml/mainview/OpenFile.qml</file>
     </qresource>
 </RCC>

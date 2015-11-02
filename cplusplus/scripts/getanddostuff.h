@@ -10,6 +10,7 @@
 #include "getanddostuff/other.h"
 #include "getanddostuff/shortcuts.h"
 #include "getanddostuff/wallpaper.h"
+#include "getanddostuff/openfile.h"
 
 class GetAndDoStuff : public QObject {
 
@@ -25,6 +26,7 @@ public:
 		other = new GetAndDoStuffOther;
 		shortcuts = new GetAndDoStuffShortcuts;
 		wallpaper = new GetAndDoStuffWallpaper;
+		openfile = new GetAndDoStuffOpenFile;
 
 		connect(manipulation, SIGNAL(reloadDirectory(QString,bool)), this, SIGNAL(reloadDirectory(QString,bool)));
 		connect(shortcuts, SIGNAL(shortcutFileChanged(int)), this, SLOT(setShortcutNotifier(int)));
@@ -39,6 +41,7 @@ public:
 		delete other;
 		delete shortcuts;
 		delete wallpaper;
+		delete openfile;
 	}
 
 	// CONTEXT
@@ -60,7 +63,6 @@ public:
 	Q_INVOKABLE QString getFilename(QString caption, QString dir, QString filter = "") { return file->getFilename(caption, dir, filter); }
 	Q_INVOKABLE QString getIconPathFromTheme(QString binary) { return file->getIconPathFromTheme(binary); }
 	Q_INVOKABLE QString getSaveFilename(QString caption, QString file) { return this->file->getSaveFilename(caption, file); }
-	Q_INVOKABLE QSize getImagePixelDimensions(QString path) { return this->file->getImagePixelDimensions(path); }
 
 	// MANIPULATION
 	Q_INVOKABLE bool scaleImage(QString filename, int width, int height, int quality, QString newfilename) { return manipulation->scaleImage(filename, width, height, quality, newfilename); }
@@ -97,6 +99,12 @@ public:
 	Q_INVOKABLE int checkWallpaperTool(QString wm) { return wallpaper->checkWallpaperTool(wm); }
 	Q_INVOKABLE QList<int> getEnlightenmentWorkspaceCount() { return wallpaper->getEnlightenmentWorkspaceCount(); }
 
+	// OPENFILE
+	Q_INVOKABLE int getNumberFilesInFolder(QString path) { return this->openfile->getNumberFilesInFolder(path); }
+	Q_INVOKABLE QVariantList getUserPlaces() { return this->openfile->getUserPlaces(); }
+	Q_INVOKABLE QVariantList getFilesAndFoldersIn(QString path) { return this->openfile->getFilesAndFoldersIn(path); }
+	Q_INVOKABLE bool isFolder(QString path) { return this->openfile->isFolder(path); }
+
 	int shortcutNotifier;
 	Q_PROPERTY(int shortcutNotifier READ getShortcutNotifier WRITE setShortcutNotifier NOTIFY shortcutNotifierChanged)
 	int getShortcutNotifier() { return shortcutNotifier; }
@@ -115,6 +123,7 @@ private:
 	GetAndDoStuffOther *other;
 	GetAndDoStuffShortcuts *shortcuts;
 	GetAndDoStuffWallpaper *wallpaper;
+	GetAndDoStuffOpenFile *openfile;
 
 signals:
     void reloadDirectory(QString path, bool deleted = false);
