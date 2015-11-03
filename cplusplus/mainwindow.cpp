@@ -52,9 +52,6 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 	// Scrolled view
 	connect(object, SIGNAL(thumbScrolled(QVariant)), this, SLOT(handleThumbnails(QVariant)));
 
-	// Open file
-	connect(object, SIGNAL(openFile()), this, SLOT(openNewFile()));
-
 
 	connect(object, SIGNAL(reloadDirectory(QVariant,QVariant)), this, SLOT(openNewFile(QVariant,QVariant)));
 	connect(object, SIGNAL(loadMoreThumbnails()), this, SLOT(loadMoreThumbnails()));
