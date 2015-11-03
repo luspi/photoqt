@@ -12,6 +12,7 @@ import "mainview/"
 import "slidein/"
 import "fadein/"
 import "settings/"
+import "openfile/"
 
 Item {
 
