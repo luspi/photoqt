@@ -113,42 +113,44 @@ void MainWindow::openNewFile() {
 		return;
 	}
 
-	if(variables->verbose)
-		LOG << DATE << "openNewFile(): Request to open new file" << std::endl;
+	QMetaObject::invokeMethod(object, "openFile");
 
-	if(variables->fileDialogOpened)
-		return;
+//	if(variables->verbose)
+//		LOG << DATE << "openNewFile(): Request to open new file" << std::endl;
 
-	// Get new filename
-	QString opendir = QDir::homePath();
-	if(variables->currentDir != "")
-		opendir = variables->currentDir;
+//	if(variables->fileDialogOpened)
+//		return;
 
-	if(variables->verbose)
-		LOG << DATE << "openNewFile(): No filename passed -> requesting new one" << std::endl;
+//	// Get new filename
+//	QString opendir = QDir::homePath();
+//	if(variables->currentDir != "")
+//		opendir = variables->currentDir;
 
-	QMetaObject::invokeMethod(object, "alsoIgnoreSystemShortcuts",
-				  Q_ARG(QVariant, true));
+//	if(variables->verbose)
+//		LOG << DATE << "openNewFile(): No filename passed -> requesting new one" << std::endl;
 
-	variables->fileDialogOpened = true;
+//	QMetaObject::invokeMethod(object, "alsoIgnoreSystemShortcuts",
+//				  Q_ARG(QVariant, true));
 
-	// Get new filename
-	QString knownQT = fileformats->formatsQtEnabled.join(" ") + " " + fileformats->formatsQtEnabledExtras.join(" ");
-	QString knownGM = fileformats->formatsGmEnabled.join(" ");
-	QString known = knownQT + " " + knownGM + " " + fileformats->formatsExtrasEnabled.join(" ");
+//	variables->fileDialogOpened = true;
 
-	// Set filedialog options
-	filedialog->setDirectory(opendir);
-	filedialog->setNameFilter(tr("Images") + " (" + known.trimmed() + ");;"
-									+ tr("Images") + " (Qt)" + " (" + knownQT.trimmed() + ");;"
-					 #ifdef GM
-									+ tr("Images") + " (GraphicsMagick)" + " (" + knownGM.trimmed() + ");;"
-					 #endif
-									+ tr("All Files") + " (*)");
+//	// Get new filename
+//	QString knownQT = fileformats->formatsQtEnabled.join(" ") + " " + fileformats->formatsQtEnabledExtras.join(" ");
+//	QString knownGM = fileformats->formatsGmEnabled.join(" ");
+//	QString known = knownQT + " " + knownGM + " " + fileformats->formatsExtrasEnabled.join(" ");
 
-	filedialog->show();
-	filedialog->raise();
-	filedialog->activateWindow();
+//	// Set filedialog options
+//	filedialog->setDirectory(opendir);
+//	filedialog->setNameFilter(tr("Images") + " (" + known.trimmed() + ");;"
+//									+ tr("Images") + " (Qt)" + " (" + knownQT.trimmed() + ");;"
+//					 #ifdef GM
+//									+ tr("Images") + " (GraphicsMagick)" + " (" + knownGM.trimmed() + ");;"
+//					 #endif
+//									+ tr("All Files") + " (*)");
+
+//	filedialog->show();
+//	filedialog->raise();
+//	filedialog->activateWindow();
 
 }
 

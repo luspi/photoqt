@@ -12,6 +12,7 @@ bool GetAndDoStuffOther::isImageAnimated(QString path) {
 QSize GetAndDoStuffOther::getImageSize(QString path) {
 
 	path = path.remove("image://full/");
+	path = path.remove("file://");
 	path = QUrl::fromPercentEncoding(path.toLatin1());
 
 	if(reader.supportedImageFormats().contains(QFileInfo(path).suffix().toLower().toLatin1())) {

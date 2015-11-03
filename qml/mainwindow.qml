@@ -25,7 +25,6 @@ Item {
 
 	// These signals is picked up by the mainwindow.cpp file
 	signal thumbScrolled(var filenameAtCenter)
-	signal openFile()
 	signal loadMoreThumbnails();
 	signal didntLoadThisThumbnail(var pos);
 	signal imageLoaded(var path)
@@ -136,7 +135,7 @@ Item {
 	Filter { id: filter; }
 	Startup { id: startup; }
 
-//	OpenFile { id: openfile; }
+	OpenFile { id: openfile; }
 
 	SettingsItem { id: settingsitem; }
 
@@ -156,6 +155,8 @@ Item {
 	function closeContextMenuWhenOpen() { softblocked = 0; contextmenu.hide(); }
 
 	function showStartup(type) { startup.showStartup(type); }
+
+	function openFile() { openfile.show();}
 
 	function getCursorPos() { return localcursorpos; }
 

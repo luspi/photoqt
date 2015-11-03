@@ -8,7 +8,10 @@ Rectangle {
 
 	id: top
 
-	color: "#88000000"
+	visible: false
+	opacity: 0
+
+	color: "#44000000"
 
 	anchors.fill: parent
 
@@ -18,6 +21,52 @@ Rectangle {
 	property string dir_path: "/home/luspi/Bilder"
 
 	property var hovered: []
+
+	property string cur_pre: "one"
+
+	Rectangle {
+
+		color: "#00000000"
+
+		anchors.fill: parent
+		anchors.margins: 5
+
+		Image {
+			id: preview
+			anchors.fill: parent
+
+			fillMode: Image.PreserveAspectFit
+			asynchronous: true
+
+			opacity: 0
+			Behavior on opacity { SmoothedAnimation { id: preview_load; velocity: 0.1; } }
+
+			source: ""
+			sourceSize: Qt.size(width,height)
+			onSourceChanged: {
+				var s = getanddostuff.getImageSize(source)
+				if(s.width < width && s.height < height)
+					fillMode = Image.Pad
+				else
+					fillMode = Image.PreserveAspectFit
+			}
+
+			onStatusChanged: {
+				if(status == Image.Ready) {
+						preview.opacity = 1
+				} else {
+					preview_load.duration = 0
+					preview.opacity = 0
+					preview_load.duration = 400
+				}
+			}
+		}
+
+		Rectangle {
+			anchors.fill: parent
+			color: "#88000000"
+		}
+	}
 
 	Rectangle {
 		id: breadcrumbs
@@ -254,7 +303,7 @@ Rectangle {
 							parent.color = "#22ffffff"
 						}
 						onExited: {
-							parent.color = (index%2==1 ? "#88000000" : "#44000000")
+							parent.color = (index%2==0 ? "#88000000" : "#44000000")
 						}
 						onClicked: {
 							loadCurrentDirectory(dir_path + "/" + folder)
@@ -290,6 +339,11 @@ Rectangle {
 				delegate: gridDelegate
 				highlight: Rectangle { color: "#22ffffff"; radius: 5 }
 				focus: true
+
+				onCurrentIndexChanged: {
+					preview.source = "file://" + dir_path + "/" + files[currentIndex]
+				}
+
 			}
 			Text {
 				id: nothingfound
@@ -322,42 +376,8 @@ Rectangle {
 							height: image_rect.height*0.75
 							width: image_rect.width
 							sourceSize: Qt.size(width,height)
-							source: getanddostuff.isFolder(dir_path + "/" + files[index]) ? "image://icon/folder" : "image://icon/image"
+							source: "image://icon/image"
 							fillMode: Image.PreserveAspectFit
-
-							Rectangle {
-
-								x: icon.width*0.1833333
-								y: icon.height*0.3666667
-								width: icon.width*0.6333333
-								height: icon.height*0.45
-
-								color: "#00000000"
-
-								Rectangle {
-
-									color: "#44000000"
-									radius: 3
-									width: childrenRect.width+14
-									height: childrenRect.height+6
-									x: (parent.width-width)/2
-									y: (parent.height-height)/2
-
-									visible: getanddostuff.isFolder(dir_path + "/" + files[index])
-
-									Text {
-										x: 7
-										y: 3
-										property int num_imgs: getanddostuff.getNumberFilesInFolder(dir_path + "/" + files[index])
-										color: num_imgs > 0 ? "white" : "#77ffffff"
-										font.bold: true
-										font.pointSize: grid.cellWidth/8
-										horizontalAlignment: Text.AlignHCenter
-										verticalAlignment: Text.AlignVCenter
-										text: num_imgs
-									}
-								}
-							}
 						}
 						Rectangle {
 							id: textrect
@@ -400,10 +420,8 @@ Rectangle {
 						onExited:
 							textrect.opacity = 0.4
 						onClicked: {
-							if(getanddostuff.isFolder(dir_path + "/" + files[index]))
-								loadCurrentDirectory(dir_path + "/" + files[index])
-							else
-								reloadDirectory(dir_path + "/" + files[index],"")
+							reloadDirectory(dir_path + "/" + files[index],"")
+							hideOpenAni.start()
 						}
 					}
 				}
@@ -413,6 +431,31 @@ Rectangle {
 
 		}
 	}
+
+	PropertyAnimation {
+		id: hideOpenAni
+		target: top
+		property: "opacity"
+		to: 0
+		duration: 400
+		onStopped: {
+			visible = false
+		}
+	}
+
+	PropertyAnimation {
+		id: showOpenAni
+		target: top
+		property: "opacity"
+		to: 1
+		duration: 400
+		onStarted: {
+			visible = true
+		}
+	}
+
+	function show() { showOpenAni.start(); }
+	function hide() { hideOpenAni.start(); }
 
 	Timer {
 		interval: 100
