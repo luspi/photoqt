@@ -31,41 +31,6 @@ Rectangle {
 		anchors.fill: parent
 		anchors.margins: 5
 
-		Image {
-			id: preview
-			anchors.fill: parent
-
-			fillMode: Image.PreserveAspectFit
-			asynchronous: true
-
-			opacity: 0
-			Behavior on opacity { SmoothedAnimation { id: preview_load; velocity: 0.1; } }
-
-			source: ""
-			sourceSize: Qt.size(width,height)
-			onSourceChanged: {
-				var s = getanddostuff.getImageSize(source)
-				if(s.width < width && s.height < height)
-					fillMode = Image.Pad
-				else
-					fillMode = Image.PreserveAspectFit
-			}
-
-			onStatusChanged: {
-				if(status == Image.Ready) {
-						preview.opacity = 1
-				} else {
-					preview_load.duration = 0
-					preview.opacity = 0
-					preview_load.duration = 400
-				}
-			}
-		}
-
-		Rectangle {
-			anchors.fill: parent
-			color: "#88000000"
-		}
 	}
 
 	Rectangle {
@@ -259,7 +224,7 @@ Rectangle {
 			id: folderlist
 
 			Layout.minimumWidth: 200
-			width: 300
+			width: 400
 			color: "#44000000"
 			clip: true
 
@@ -322,6 +287,58 @@ Rectangle {
 			Layout.fillWidth: true
 			color: "#44000000"
 
+
+
+
+			Rectangle {
+
+				color: "#AA000000"
+
+				anchors.fill: parent
+
+				Image {
+					id: preview
+					anchors.fill: parent
+					anchors.margins: 10
+
+					fillMode: Image.PreserveAspectFit
+					asynchronous: true
+
+					opacity: 0
+					Behavior on opacity { SmoothedAnimation { id: preview_load; velocity: 0.1; } }
+
+					source: ""
+					sourceSize: Qt.size(width,height)
+					onSourceChanged: {
+						var s = getanddostuff.getImageSize(source)
+						if(s.width < width && s.height < height)
+							fillMode = Image.Pad
+						else
+							fillMode = Image.PreserveAspectFit
+					}
+
+					onStatusChanged: {
+						if(status == Image.Ready) {
+								preview.opacity = 1
+						} else {
+							preview_load.duration = 0
+							preview.opacity = 0
+							preview_load.duration = 400
+						}
+					}
+				}
+
+				Rectangle {
+					anchors.fill: parent
+					color: "#99000000"
+				}
+			}
+
+
+
+
+
+
 			Rectangle {
 				anchors.fill: parent
 				color: "#00000000"
@@ -329,7 +346,7 @@ Rectangle {
 			GridView {
 				id: grid
 				anchors.fill: parent
-				cellWidth: 100;
+				cellWidth: 80;
 				cellHeight: cellWidth*(4/3);
 
 				property int prev_highlight: -1
@@ -341,7 +358,7 @@ Rectangle {
 				focus: true
 
 				onCurrentIndexChanged: {
-					preview.source = "file://" + dir_path + "/" + files[currentIndex]
+					preview.source = Qt.resolvedUrl("file://" + dir_path + "/" + files[currentIndex])
 				}
 
 			}
@@ -376,7 +393,7 @@ Rectangle {
 							height: image_rect.height*0.75
 							width: image_rect.width
 							sourceSize: Qt.size(width,height)
-							source: "image://icon/image"
+							source: "image://icon/image-" + getanddostuff.getSuffix(dir_path + "/" + files[index])
 							fillMode: Image.PreserveAspectFit
 						}
 						Rectangle {
@@ -440,6 +457,7 @@ Rectangle {
 		duration: 400
 		onStopped: {
 			visible = false
+			blocked = false
 		}
 	}
 
@@ -451,6 +469,7 @@ Rectangle {
 		duration: 400
 		onStarted: {
 			visible = true
+			blocked = true
 		}
 	}
 
