@@ -2,6 +2,7 @@ import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Layouts 1.0
 import Qt.labs.folderlistmodel 2.1
+import QtQuick.Controls.Styles 1.2
 
 Rectangle {
 
@@ -23,7 +24,111 @@ Rectangle {
 		anchors.top: parent.top
 		anchors.right: parent.right
 		height: 50
-		color: "yellow"
+
+		color: "#44000000"
+
+		ListView {
+
+			id: crumbsview
+
+			spacing: 0
+
+			x: 10
+			width: parent.width-20
+			height: parent.height
+
+			orientation: ListView.Horizontal
+			interactive: false
+
+			model: ListModel { id: crumbsmodel; }
+
+			property var menuitems: []
+
+			delegate: Button {
+				id: but
+				y: 7
+				height: parent.height-15
+				property bool hovered: false
+
+				style: ButtonStyle {
+					background: Rectangle {
+						id: bg
+						anchors.fill: parent
+						color: hovered ? "#44ffffff" : "#00000000"
+						radius: 5
+					}
+
+					label: Text {
+						id: txt
+						horizontalAlignment: Text.AlignHCenter
+						color: "white"
+						font.bold: true
+						font.pointSize: 15
+						text: type=="folder" ? " " + location : " >"
+					}
+
+				}
+
+				MouseArea {
+					anchors.fill: parent
+					hoverEnabled: true
+					cursorShape: type=="folder" ? Qt.PointingHandCursor : Qt.ArrowCursor
+					onClicked: {
+						if(type == "folder")
+							loadCurrentDirectory(partialpath)
+						else {
+//							m.clear()
+//							var folders = getanddostuff.getFoldersIn(partialpath)
+//							m.dir = partialpath
+//							for(var i = 0; i < folders.length; ++i) {
+//								m.addItem(folders[i])
+//							}
+//							m.popup()
+						}
+					}
+					onEntered:
+						if(type=="folder")
+							parent.hovered = true
+					onExited:
+						if(type=="folder")
+							parent.hovered = false
+				}
+
+			}
+
+		}
+
+	}
+
+//	Menu {
+//		id: m
+//		property string dir: ""
+//		style: MenuStyle {
+//			// an item text
+//			itemDelegate.label: Text {
+//				verticalAlignment: Text.AlignVCenter
+//				horizontalAlignment: Text.AlignHCenter
+//				font.pointSize: 12
+//				color: "white"
+//				text: styleData.text.split("/")[styleData.text.split("/").length-1]
+//			}
+
+//			// selection of an item
+//			itemDelegate.background: Rectangle {
+//				color: styleData.selected ? "grey" : "#222222"
+//				border.width: 1
+//				border.color: "#222222"
+//			}
+//		}
+//	}
+
+
+	Rectangle {
+		anchors.left: parent.left
+		anchors.right: parent.right
+		anchors.top: breadcrumbs.bottom
+		height: 1
+		color: "grey"
 	}
 
 	SplitView {
@@ -40,7 +145,7 @@ Rectangle {
 			width: 200
 			Layout.maximumWidth: 600
 			Layout.minimumWidth: 200
-			color: "#00000000"
+			color: "#44000000"
 			ListView {
 				id: userplaces
 				width: parent.width
@@ -91,6 +196,9 @@ Rectangle {
 							if(type != "heading")
 								parent.color = (counter%2==1 ? "#88000000" : "#44000000")
 						}
+						onClicked: {
+							loadCurrentDirectory(location)
+						}
 					}
 				}
 			}
@@ -121,16 +229,12 @@ Rectangle {
 							height: parent.height-20
 							x: 10
 							y: 10
-							property int _index: index
-//							radius: 5
-//							color: "#33000000"
 							Image {
-//								anchors.fill: parent
 								id: icon
 								height: image_rect.height*0.75
 								width: image_rect.width
-								source: getanddostuff.isFolder(dir_path + "/" + items[index]) ? "qrc:/img/openfile/folder3.png" : "qrc:/img/openfile/image3.png"
-//								source: getanddostuff.isFolder(dir_path + "/" + items[index]) ? "qrc:/img/openfile/folder2.png" : "file://" + dir_path + "/" + filename
+								sourceSize: Qt.size(width,height)
+								source: getanddostuff.isFolder(dir_path + "/" + items[index]) ? "image://icon/folder" : "image://icon/image"
 								fillMode: Image.PreserveAspectFit
 
 								Rectangle {
@@ -142,17 +246,28 @@ Rectangle {
 
 									color: "#00000000"
 
-									Text {
-										width: parent.width
-										height: parent.height
+									Rectangle {
+
+										color: "#44000000"
+										radius: 3
+										width: childrenRect.width+14
+										height: childrenRect.height+6
+										x: (parent.width-width)/2
+										y: (parent.height-height)/2
+
 										visible: getanddostuff.isFolder(dir_path + "/" + items[index])
-										property int num_imgs: getanddostuff.getNumberFilesInFolder(dir_path + "/" + items[index])
-										color: num_imgs > 0 ? "white" : "grey"
-										font.bold: true
-										font.pointSize: grid.cellWidth/8
-										horizontalAlignment: Text.AlignHCenter
-										verticalAlignment: Text.AlignVCenter
-										text: num_imgs
+
+										Text {
+											x: 7
+											y: 3
+											property int num_imgs: getanddostuff.getNumberFilesInFolder(dir_path + "/" + items[index])
+											color: num_imgs > 0 ? "white" : "#77ffffff"
+											font.bold: true
+											font.pointSize: grid.cellWidth/8
+											horizontalAlignment: Text.AlignHCenter
+											verticalAlignment: Text.AlignVCenter
+											text: num_imgs
+										}
 									}
 								}
 							}
@@ -165,7 +280,7 @@ Rectangle {
 								height: image_rect.height*0.25
 								radius: 5
 								color: "#BB000000"
-								Behavior on opacity {SmoothedAnimation { id: opacityani; velocity: 0.1; } }
+								Behavior on opacity { SmoothedAnimation { id: opacityani; velocity: 0.1; } }
 								Text {
 									x: 3
 									y: 3
@@ -209,7 +324,7 @@ Rectangle {
 				GridView {
 					id: grid
 					anchors.fill: parent
-					cellWidth: 150;
+					cellWidth: 100;
 					cellHeight: cellWidth*(4/3);
 
 					property int prev_highlight: -1
@@ -274,11 +389,31 @@ Rectangle {
 
 
 	function loadCurrentDirectory(path) {
+
 		gridmodel.clear()
 		items = getanddostuff.getFilesAndFoldersIn(path)
-		dir_path = path
-		for(var j = 0; j < items.length; ++j)
+		dir_path = getanddostuff.removePrefixFromDirectoryOrFile(path)
+		grid.contentY = 0
+		for(var j = 0; j < items.length; ++j) {
 			gridmodel.append({"filename" : items[j]})
+		}
+
+		var parts = path.split("/")
+		var partialpath = ""
+		crumbsmodel.clear()
+
+		if(path === "/")
+			crumbsmodel.append({"type" : "separator", "location" : "/", "partialpath" : "/"})
+		else {
+			for(var i = 0; i < parts.length; ++i) {
+				if(parts[i] === "") continue;
+				partialpath += "/"
+				crumbsmodel.append({"type" : "separator", "location" : parts[i], "partialpath" : partialpath})
+				partialpath += parts[i]
+				crumbsmodel.append({"type" : "folder", "location" : parts[i], "partialpath" : partialpath})
+			}
+		}
+
 	}
 
 }

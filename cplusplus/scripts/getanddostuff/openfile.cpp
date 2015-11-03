@@ -41,9 +41,13 @@ QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
 				icon = ele_icon.attributes().namedItem("name").nodeValue();
 			}
 
+			if(location.startsWith("file://"))
+				location = location.remove(0,7);
+
 			QVariantList ele = QVariantList() << "place" << title << location << icon;
 
-			sub_places.append(ele);
+			if(QDir(location).exists())
+				sub_places.append(ele);
 
 		}
 
@@ -61,11 +65,15 @@ QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
 				if(ele_icon.isNull())
 					continue;
 				icon = ele_icon.attributes().namedItem("name").nodeValue();
+
+			if(location.startsWith("file://"))
+				location = location.remove(0,7);
 			}
 
 			QVariantList ele = QVariantList() << "device" << title << location << icon;
 
-			sub_devices.append(ele);
+			if(QDir(location).exists())
+				sub_devices.append(ele);
 
 		}
 
@@ -80,10 +88,32 @@ QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
 
 QVariantList GetAndDoStuffOpenFile::getFilesAndFoldersIn(QString path) {
 
+	if(path.startsWith("file:/"))
+		path = path.remove(0,6);
+
 	QDir dir(path);
 	dir.setNameFilters(formats->formatsQtEnabled + formats->formatsQtEnabledExtras + formats->formatsGmEnabled + formats->formatsExtrasEnabled);
 	dir.setFilter(QDir::AllDirs|QDir::Files|QDir::NoDotAndDotDot);
-	dir.setSorting(QDir::DirsFirst);
+	dir.setSorting(QDir::DirsFirst|QDir::IgnoreCase);
+
+	QStringList list = dir.entryList();
+	QVariantList ret;
+	foreach(QString l, list)
+		ret.append(l);
+
+	return ret;
+
+}
+
+QVariantList GetAndDoStuffOpenFile::getFoldersIn(QString path) {
+
+	if(path.startsWith("file:/"))
+		path = path.remove(0,6);
+
+	QDir dir(path);
+	dir.setNameFilters(formats->formatsQtEnabled + formats->formatsQtEnabledExtras + formats->formatsGmEnabled + formats->formatsExtrasEnabled);
+	dir.setFilter(QDir::AllDirs|QDir::NoDotAndDotDot);
+	dir.setSorting(QDir::IgnoreCase);
 
 	QStringList list = dir.entryList();
 	QVariantList ret;
@@ -95,6 +125,17 @@ QVariantList GetAndDoStuffOpenFile::getFilesAndFoldersIn(QString path) {
 }
 
 bool GetAndDoStuffOpenFile::isFolder(QString path) {
-	return !QFileInfo(path).isFile();
+	if(path.startsWith("file:/"))
+		path = path.remove(0,6);
+	QFileInfo info(path);
+	return !info.isFile();
 }
 
+QString GetAndDoStuffOpenFile::removePrefixFromDirectoryOrFile(QString path) {
+
+	if(path.startsWith("file:/"))
+		return path.remove(0,6);
+
+	return path;
+
+}

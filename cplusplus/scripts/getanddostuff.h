@@ -104,6 +104,8 @@ public:
 	Q_INVOKABLE QVariantList getUserPlaces() { return this->openfile->getUserPlaces(); }
 	Q_INVOKABLE QVariantList getFilesAndFoldersIn(QString path) { return this->openfile->getFilesAndFoldersIn(path); }
 	Q_INVOKABLE bool isFolder(QString path) { return this->openfile->isFolder(path); }
+	Q_INVOKABLE QString removePrefixFromDirectoryOrFile(QString path) { return this->openfile->removePrefixFromDirectoryOrFile(path); }
+	Q_INVOKABLE QVariantList getFoldersIn(QString path) { return this->openfile->getFoldersIn(path); }
 
 	int shortcutNotifier;
 	Q_PROPERTY(int shortcutNotifier READ getShortcutNotifier WRITE setShortcutNotifier NOTIFY shortcutNotifierChanged)

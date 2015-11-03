@@ -7,6 +7,7 @@
 #include <QIcon>
 #include <QtDebug>
 #include <QtXml/QDomDocument>
+#include <QUrl>
 #include "../../logger.h"
 #include "../../settings/fileformats.h"
 
@@ -21,7 +22,9 @@ public:
 	int getNumberFilesInFolder(QString path);
 	QVariantList getUserPlaces();
 	QVariantList getFilesAndFoldersIn(QString path);
+	QVariantList getFoldersIn(QString path);
 	bool isFolder(QString path);
+	QString removePrefixFromDirectoryOrFile(QString path);
 
 private:
 	FileFormats *formats;
