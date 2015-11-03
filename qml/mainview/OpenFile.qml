@@ -8,11 +8,12 @@ Rectangle {
 
 	id: top
 
-	color: "#55000000"
+	color: "#88000000"
 
 	anchors.fill: parent
 
-	property var items: []
+	property var files: []
+	property var folders: []
 	property string items_path: ""
 	property string dir_path: "/home/luspi/Bilder"
 
@@ -64,7 +65,7 @@ Rectangle {
 						color: "white"
 						font.bold: true
 						font.pointSize: 15
-						text: type=="folder" ? " " + location : " >"
+						text: type=="folder" ? " " + location : " /"
 					}
 
 				}
@@ -204,6 +205,67 @@ Rectangle {
 			}
 		}
 
+		Rectangle {
+
+			id: folderlist
+
+			Layout.minimumWidth: 200
+			width: 300
+			color: "#44000000"
+			clip: true
+
+			ListView {
+
+				id: folderlistview
+				anchors.fill: parent
+
+				model: ListModel { id: folderlistmodel; }
+
+				delegate: Rectangle {
+					width: folderlist.width
+					height: folder_txt.height+10
+					color: index%2==0 ? "#88000000" : "#44000000"
+
+					Image {
+						id: folder_img
+						source: "image://icon/folder"
+						width: folder_txt.height-4
+						y: 7
+						x: 7
+						height: width
+					}
+
+					Text {
+						y: 5
+						x: 5 + folder_img.width+5
+						id: folder_txt
+						width: folderlist.width-(x+5)
+						text: "<b>" + folder + "</b>" + ((counter==0||folder=="..") ? "" : " <i>(" + counter + ")</i>")
+						color: "white"
+						font.pointSize: 12
+						elide: Text.ElideRight
+					}
+
+					MouseArea {
+						anchors.fill: parent
+						hoverEnabled: true
+						cursorShape: Qt.PointingHandCursor
+						onEntered: {
+							parent.color = "#22ffffff"
+						}
+						onExited: {
+							parent.color = (index%2==1 ? "#88000000" : "#44000000")
+						}
+						onClicked: {
+							loadCurrentDirectory(dir_path + "/" + folder)
+						}
+					}
+				}
+
+			}
+
+		}
+
 
 		Rectangle {
 			id: centerItem
@@ -214,134 +276,140 @@ Rectangle {
 			Rectangle {
 				anchors.fill: parent
 				color: "#00000000"
+			}
+			GridView {
+				id: grid
+				anchors.fill: parent
+				cellWidth: 100;
+				cellHeight: cellWidth*(4/3);
 
-				Component {
-					id: contactDelegate
+				property int prev_highlight: -1
 
-					Rectangle {
-						color: "#00000000"
-						width: grid.cellWidth;
-						height: grid.cellHeight
+				model: gridmodel
 
-						Column {
-							id: image_rect
-							width: parent.width-20
-							height: parent.height-20
-							x: 10
-							y: 10
-							Image {
-								id: icon
-								height: image_rect.height*0.75
-								width: image_rect.width
-								sourceSize: Qt.size(width,height)
-								source: getanddostuff.isFolder(dir_path + "/" + items[index]) ? "image://icon/folder" : "image://icon/image"
-								fillMode: Image.PreserveAspectFit
+				delegate: gridDelegate
+				highlight: Rectangle { color: "#22ffffff"; radius: 5 }
+				focus: true
+			}
+			Text {
+				id: nothingfound
+				visible: false
+				anchors.fill: parent
+				verticalAlignment: Text.AlignVCenter
+				horizontalAlignment: Text.AlignHCenter
+				font.pointSize: 30
+				wrapMode: Text.WordWrap
+				color: "grey"
+				text: "No images found in this folder"
+			}
+
+			Component {
+				id: gridDelegate
+
+				Rectangle {
+					color: "#00000000"
+					width: grid.cellWidth;
+					height: grid.cellHeight
+
+					Column {
+						id: image_rect
+						width: parent.width-20
+						height: parent.height-20
+						x: 10
+						y: 10
+						Image {
+							id: icon
+							height: image_rect.height*0.75
+							width: image_rect.width
+							sourceSize: Qt.size(width,height)
+							source: getanddostuff.isFolder(dir_path + "/" + files[index]) ? "image://icon/folder" : "image://icon/image"
+							fillMode: Image.PreserveAspectFit
+
+							Rectangle {
+
+								x: icon.width*0.1833333
+								y: icon.height*0.3666667
+								width: icon.width*0.6333333
+								height: icon.height*0.45
+
+								color: "#00000000"
 
 								Rectangle {
 
-									x: icon.width*0.1833333
-									y: icon.height*0.3666667
-									width: icon.width*0.6333333
-									height: icon.height*0.45
+									color: "#44000000"
+									radius: 3
+									width: childrenRect.width+14
+									height: childrenRect.height+6
+									x: (parent.width-width)/2
+									y: (parent.height-height)/2
 
-									color: "#00000000"
+									visible: getanddostuff.isFolder(dir_path + "/" + files[index])
 
-									Rectangle {
-
-										color: "#44000000"
-										radius: 3
-										width: childrenRect.width+14
-										height: childrenRect.height+6
-										x: (parent.width-width)/2
-										y: (parent.height-height)/2
-
-										visible: getanddostuff.isFolder(dir_path + "/" + items[index])
-
-										Text {
-											x: 7
-											y: 3
-											property int num_imgs: getanddostuff.getNumberFilesInFolder(dir_path + "/" + items[index])
-											color: num_imgs > 0 ? "white" : "#77ffffff"
-											font.bold: true
-											font.pointSize: grid.cellWidth/8
-											horizontalAlignment: Text.AlignHCenter
-											verticalAlignment: Text.AlignVCenter
-											text: num_imgs
-										}
+									Text {
+										x: 7
+										y: 3
+										property int num_imgs: getanddostuff.getNumberFilesInFolder(dir_path + "/" + files[index])
+										color: num_imgs > 0 ? "white" : "#77ffffff"
+										font.bold: true
+										font.pointSize: grid.cellWidth/8
+										horizontalAlignment: Text.AlignHCenter
+										verticalAlignment: Text.AlignVCenter
+										text: num_imgs
 									}
 								}
 							}
-							Rectangle {
-								id: textrect
-								opacity: 0.4
-								x: 5
-								y: image_rect.height*0.75
-								width: image_rect.width-10
-								height: image_rect.height*0.25
-								radius: 5
-								color: "#BB000000"
-								Behavior on opacity { SmoothedAnimation { id: opacityani; velocity: 0.1; } }
-								Text {
-									x: 3
-									y: 3
-									width: parent.width-6
-									height: parent.height-10
-									text: filename
-									elide: Text.ElideRight
-									wrapMode: Text.WrapAnywhere
-									clip: true
-									font.bold: true
-									color: "white"
-									horizontalAlignment: Text.AlignHCenter
-									verticalAlignment: Text.AlignVCenter
-								}
-							}
 						}
-						MouseArea {
-							width: parent.width-20
-							height: parent.height-20
-							x: 10
-							y: 10
-							hoverEnabled: true
-							cursorShape: Qt.PointingHandCursor
-							onEntered: {
-								opacityani.duration = 200
-								textrect.opacity = 1
-								grid.currentIndex = index
-							}
-							onExited:
-								textrect.opacity = 0.4
-							onClicked: {
-								if(getanddostuff.isFolder(dir_path + "/" + items[index]))
-									loadCurrentDirectory(dir_path + "/" + items[index])
-								else
-									reloadDirectory(dir_path + "/" + items[index],"")
+						Rectangle {
+							id: textrect
+							opacity: 0.4
+							x: 5
+							y: image_rect.height*0.75
+							width: image_rect.width-10
+							height: image_rect.height*0.25
+							radius: 5
+							color: "#BB000000"
+							Behavior on opacity { SmoothedAnimation { id: opacityani; velocity: 0.1; } }
+							Text {
+								x: 3
+								y: 3
+								width: parent.width-6
+								height: parent.height-10
+								text: filename
+								elide: Text.ElideRight
+								wrapMode: Text.WrapAnywhere
+								clip: true
+								font.bold: true
+								color: "white"
+								horizontalAlignment: Text.AlignHCenter
+								verticalAlignment: Text.AlignVCenter
 							}
 						}
 					}
-				}
-
-				GridView {
-					id: grid
-					anchors.fill: parent
-					cellWidth: 100;
-					cellHeight: cellWidth*(4/3);
-
-					property int prev_highlight: -1
-
-					model: gridmodel
-
-					delegate: contactDelegate
-					highlight: Rectangle { color: "#22ffffff"; radius: 5 }
-					focus: true
+					MouseArea {
+						width: parent.width-20
+						height: parent.height-20
+						x: 10
+						y: 10
+						hoverEnabled: true
+						cursorShape: Qt.PointingHandCursor
+						onEntered: {
+							opacityani.duration = 200
+							textrect.opacity = 1
+							grid.currentIndex = index
+						}
+						onExited:
+							textrect.opacity = 0.4
+						onClicked: {
+							if(getanddostuff.isFolder(dir_path + "/" + files[index]))
+								loadCurrentDirectory(dir_path + "/" + files[index])
+							else
+								reloadDirectory(dir_path + "/" + files[index],"")
+						}
+					}
 				}
 			}
 
-			ListModel {
-
-				id: gridmodel
-
-			}
+			ListModel { id: gridmodel; }
 
 		}
 	}
@@ -387,15 +455,24 @@ Rectangle {
 		}
 	}
 
-
 	function loadCurrentDirectory(path) {
 
 		gridmodel.clear()
-		items = getanddostuff.getFilesAndFoldersIn(path)
+		folderlistmodel.clear()
+		files = getanddostuff.getFilesIn(path)
+		folders = getanddostuff.getFoldersIn(path)
 		dir_path = getanddostuff.removePrefixFromDirectoryOrFile(path)
 		grid.contentY = 0
-		for(var j = 0; j < items.length; ++j) {
-			gridmodel.append({"filename" : items[j]})
+		for(var j = 0; j < files.length; ++j) {
+			gridmodel.append({"filename" : files[j]})
+		}
+		if(files.length == 0)
+			nothingfound.visible = true
+		else
+			nothingfound.visible = false
+
+		for(var j = 0; j < folders.length; ++j) {
+			folderlistmodel.append({"folder" : folders[j], "counter" : getanddostuff.getNumberFilesInFolder(dir_path + "/" + folders[j])})
 		}
 
 		var parts = path.split("/")
@@ -407,12 +484,21 @@ Rectangle {
 		else {
 			for(var i = 0; i < parts.length; ++i) {
 				if(parts[i] === "") continue;
-				partialpath += "/"
-				crumbsmodel.append({"type" : "separator", "location" : parts[i], "partialpath" : partialpath})
-				partialpath += parts[i]
-				crumbsmodel.append({"type" : "folder", "location" : parts[i], "partialpath" : partialpath})
+				if(parts[i] === "..") {
+					var l = crumbsmodel.count
+					crumbsmodel.remove(l-1)
+					crumbsmodel.remove(l-2)
+					partialpath += "/" + parts[i]
+				} else {
+					partialpath += "/"
+					crumbsmodel.append({"type" : "separator", "location" : parts[i], "partialpath" : partialpath})
+					partialpath += parts[i]
+					crumbsmodel.append({"type" : "folder", "location" : parts[i], "partialpath" : partialpath})
+				}
 			}
 		}
+
+		crumbsview.positionViewAtEnd()
 
 	}
 

@@ -112,7 +112,26 @@ QVariantList GetAndDoStuffOpenFile::getFoldersIn(QString path) {
 
 	QDir dir(path);
 	dir.setNameFilters(formats->formatsQtEnabled + formats->formatsQtEnabledExtras + formats->formatsGmEnabled + formats->formatsExtrasEnabled);
-	dir.setFilter(QDir::AllDirs|QDir::NoDotAndDotDot);
+	dir.setFilter(QDir::AllDirs|QDir::NoDot);
+	dir.setSorting(QDir::IgnoreCase);
+
+	QStringList list = dir.entryList();
+	QVariantList ret;
+	foreach(QString l, list)
+		ret.append(l);
+
+	return ret;
+
+}
+
+QVariantList GetAndDoStuffOpenFile::getFilesIn(QString path) {
+
+	if(path.startsWith("file:/"))
+		path = path.remove(0,6);
+
+	QDir dir(path);
+	dir.setNameFilters(formats->formatsQtEnabled + formats->formatsQtEnabledExtras + formats->formatsGmEnabled + formats->formatsExtrasEnabled);
+	dir.setFilter(QDir::Files);
 	dir.setSorting(QDir::IgnoreCase);
 
 	QStringList list = dir.entryList();

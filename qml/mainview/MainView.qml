@@ -30,10 +30,10 @@ Item {
         image.loadImage(path, animated)
 
         // Hide 'nothing loaded' message and arrows
-        nofileloaded.visible = false
-        metadataarrow.visible = false
-        mainmenuarrow.visible = false
-        quicksettingsarrow.visible = false
+//        nofileloaded.visible = false
+//        metadataarrow.visible = false
+//        mainmenuarrow.visible = false
+//        quicksettingsarrow.visible = false
         noresultsfound.visible = false
 
         // Update metadata
@@ -164,57 +164,57 @@ Item {
     }
 
     // This label is displayed at startup, informing the user how to start
-    Text {
+//    Text {
 
-        id: nofileloaded
+//        id: nofileloaded
 
-        anchors.fill: item
-        anchors.rightMargin: Math.max(metadataarrow.width,quicksettingsarrow.width)+25
-        anchors.leftMargin: Math.max(metadataarrow.width,quicksettingsarrow.width)+25
+//        anchors.fill: item
+//        anchors.rightMargin: Math.max(metadataarrow.width,quicksettingsarrow.width)+25
+//        anchors.leftMargin: Math.max(metadataarrow.width,quicksettingsarrow.width)+25
 
-        verticalAlignment: Qt.AlignVCenter
-        horizontalAlignment: Qt.AlignHCenter
+//        verticalAlignment: Qt.AlignVCenter
+//        horizontalAlignment: Qt.AlignHCenter
 
-        color: colour.bg_label
-        font.pointSize: 50
-        font.bold: true
-        wrapMode: Text.WordWrap
+//        color: colour.bg_label
+//        font.pointSize: 50
+//        font.bold: true
+//        wrapMode: Text.WordWrap
 
-        text: qsTr("Open a file to begin")
+//        text: qsTr("Open a file to begin")
 
-    }
+//    }
 
     // Arrow pointing to metadata widget
-    Image {
-        id: metadataarrow
-        visible: settings.exifenablemousetriggering
-        x: 0
-        y: metaData.y+metaData.height/2-height/2
-        source: "qrc:/img/mainview/arrowleft.png"
-        width: 150
-        height: 60
-    }
+//    Image {
+//        id: metadataarrow
+//        visible: settings.exifenablemousetriggering
+//        x: 0
+//        y: metaData.y+metaData.height/2-height/2
+//        source: "qrc:/img/mainview/arrowleft.png"
+//        width: 150
+//        height: 60
+//    }
 
     // Arrow pointing to quicksettings widget
-    Image {
-        id: quicksettingsarrow
-        visible: settings.quickSettings && background.height > quicksettings.height
-        x: background.width-width-5
-        y: quicksettings.y+quicksettings.height/2-height/2
-        source: "qrc:/img/mainview/arrowright.png"
-        width: 150
-        height: 60
-    }
+//    Image {
+//        id: quicksettingsarrow
+//        visible: settings.quickSettings && background.height > quicksettings.height
+//        x: background.width-width-5
+//        y: quicksettings.y+quicksettings.height/2-height/2
+//        source: "qrc:/img/mainview/arrowright.png"
+//        width: 150
+//        height: 60
+//    }
 
     // Arrow pointing to mainmenu widget
-    Image {
-        id: mainmenuarrow
-        x: mainmenu.x+(mainmenu.width-width)/2
-        y: settings.thumbnailposition == "Bottom" ? 0 : background.height-height
-        source: settings.thumbnailposition == "Bottom" ? "qrc:/img/mainview/arrowup.png" : "qrc:/img/mainview/arrowdown.png"
-        width: 72
-        height: 120
-    }
+//    Image {
+//        id: mainmenuarrow
+//        x: mainmenu.x+(mainmenu.width-width)/2
+//        y: settings.thumbnailposition == "Bottom" ? 0 : background.height-height
+//        source: settings.thumbnailposition == "Bottom" ? "qrc:/img/mainview/arrowup.png" : "qrc:/img/mainview/arrowdown.png"
+//        width: 72
+//        height: 120
+//    }
 
     Text {
 

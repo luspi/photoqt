@@ -23,6 +23,7 @@ public:
 	QVariantList getUserPlaces();
 	QVariantList getFilesAndFoldersIn(QString path);
 	QVariantList getFoldersIn(QString path);
+	QVariantList getFilesIn(QString path);
 	bool isFolder(QString path);
 	QString removePrefixFromDirectoryOrFile(QString path);
 
