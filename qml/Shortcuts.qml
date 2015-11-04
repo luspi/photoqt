@@ -86,12 +86,8 @@ Item {
 				filter.hideFilter()
 			else if(startup.opacity == 1)
 				startup.hideStartup()
-			else if(openfile.opacity == 1 && thumbnailBar.directoryLoaded)
+			else if(openfile.opacity == 1)
 				openfile.hide()
-			else if(openfile.opacity == 1 && !thumbnailBar.directoryLoaded) {
-				blocked = false
-				execute("__close",1,false)
-			}
 		} else if(keys === "Enter" || keys === "Keypad+Enter" || keys === "Return") {
 			if(deleteImage.opacity == 1)
 				deleteImage.simulateEnter()

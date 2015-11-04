@@ -4,6 +4,8 @@ import QtQuick.Layouts 1.0
 import Qt.labs.folderlistmodel 2.1
 import QtQuick.Controls.Styles 1.2
 
+import "../elements/"
+
 Rectangle {
 
 	id: top
@@ -11,7 +13,7 @@ Rectangle {
 	visible: false
 	opacity: 0
 
-	color: "#44000000"
+	color: "#88000000"
 
 	anchors.fill: parent
 
@@ -42,7 +44,7 @@ Rectangle {
 		anchors.right: parent.right
 		anchors.top: breadcrumbs.bottom
 		height: 1
-		color: "grey"
+		color: "white"
 	}
 
 
@@ -70,25 +72,72 @@ Rectangle {
 
 
 		Rectangle {
-
-			color: "#00000000"
 			Layout.minimumWidth: 200
 			Layout.fillWidth: true
+			color: "#00000000"
 
-			FilesListView {
-				id: files_list
+			Rectangle {
+
+				color: "#00000000"
+
 				anchors.fill: parent
-				opacity: 1
-				Behavior on opacity { SmoothedAnimation { id: opacitylistani; velocity: 0.1; } }
+				anchors.bottomMargin: edit_rect.height
+
+				FilesListView {
+					id: files_list
+					anchors.fill: parent
+					opacity: 1
+					Behavior on opacity { SmoothedAnimation { id: opacitylistani; velocity: 0.1; } }
+					onOpacityChanged: {
+						if(opacity == 0)
+							visible = false
+					}
+				}
+
+				FilesIconView {
+					id: files_icon
+					anchors.fill: parent
+					opacity: 0
+					Behavior on opacity { SmoothedAnimation { id: opacityiconani; velocity: 0.1; } }
+					onOpacityChanged: {
+						if(opacity == 0)
+							visible = false
+					}
+					visible: false
+				}
 			}
 
-			FilesIconView {
-				id: files_icon
-				anchors.fill: parent
-				opacity: 0
-				Behavior on opacity { SmoothedAnimation { id: opacityiconani; velocity: 0.1; } }
-				visible: false
+			Rectangle {
+				anchors.left: parent.left
+				anchors.right: parent.right
+				height: 1
+				anchors.top: edit_rect.top
+				color: "white"
 			}
+
+			EditFiles {
+
+				id: edit_rect
+				enabled: false
+				anchors.left: parent.left
+				anchors.right: parent.right
+				anchors.bottom: parent.bottom
+
+				onFilenameEdit: {
+					if(files_icon.opacity == 1)
+						files_icon.focusOnFile(filename)
+					else if(files_list.opacity == 1)
+						files_list.focusOnFile(filename)
+				}
+				onAccepted: {
+					if(files_icon.opacity == 1)
+						files_icon.loadCurrentlyHighlightedImage()
+					else if(files_list.opacity == 1)
+						files_list.loadCurrentlyHighlightedImage()
+				}
+
+			}
+
 		}
 
 	}
@@ -106,17 +155,23 @@ Rectangle {
 		anchors.right: parent.right
 		height: 50
 		onDisplayIcons: {
+			opacitylistani.duration = 0
 			opacityiconani.duration = 0
+			files_list.opacity = 1
 			files_icon.opacity = 0
 			files_icon.visible = true
 			opacityiconani.duration = 300
+			opacitylistani.duration = 300
 			files_icon.opacity = 1
 			files_list.opacity = 0
 		}
 		onDisplayList: {
 			opacitylistani.duration = 0
+			opacityiconani.duration = 0
+			files_icon.opacity = 1
 			files_list.opacity = 0
 			files_list.visible = true
+			opacityiconani.duration = 300
 			opacitylistani.duration = 300
 			files_list.opacity = 1
 			files_icon.opacity = 0
@@ -132,6 +187,7 @@ Rectangle {
 		onStopped: {
 			visible = false
 			blocked = false
+			edit_rect.enabled = false
 		}
 	}
 
@@ -144,7 +200,11 @@ Rectangle {
 		onStarted: {
 			visible = true
 			blocked = true
+			edit_rect.setEditText(getanddostuff.removePathFromFilename(thumbnailBar.currentFile))
+			edit_rect.focusOnInput()
 		}
+		onStopped:
+			edit_rect.enabled = true
 	}
 
 	function show() { showOpenAni.start(); }

@@ -9,10 +9,11 @@ Rectangle {
 
 	property var files: []
 	property string dir_path: getanddostuff.getHomeDir()
+	clip: true
 
 	Rectangle {
 
-		color: "#AA000000"
+		color: "#00000000"
 		anchors.fill: parent
 
 		Image {
@@ -196,6 +197,31 @@ Rectangle {
 		if(grid.currentIndex != -1)
 			preview.source = Qt.resolvedUrl("image://full/" + dir_path + "/" + files[grid.currentIndex])
 
+	}
+
+	function focusOnFile(filename) {
+
+		var pattern = new RegExp(escapeRegExp(filename) + ".*","i")
+		if(pattern.test(files[grid.currentIndex])) return
+		var index = -1
+		for(var i = 0; i < files.length; ++i) {
+			if(pattern.test(files[i])) {
+				index = i
+				break;
+			}
+		}
+		if(index != -1)
+			grid.currentIndex = index
+
+	}
+
+	function escapeRegExp(str) {
+		return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+	}
+
+	function loadCurrentlyHighlightedImage() {
+		reloadDirectory(dir_path + "/" + files[grid.currentIndex],"")
+		hideOpenAni.start()
 	}
 
 }

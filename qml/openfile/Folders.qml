@@ -51,7 +51,7 @@ Rectangle {
 				hoverEnabled: true
 				cursorShape: Qt.PointingHandCursor
 				onEntered: {
-					parent.color = "#22ffffff"
+					parent.color = "#DD5d5d5d"
 				}
 				onExited: {
 					parent.color = (index%2==0 ? "#88000000" : "#44000000")

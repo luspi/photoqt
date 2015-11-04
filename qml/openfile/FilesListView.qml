@@ -9,9 +9,11 @@ Rectangle {
 	property var files: []
 	property string dir_path: getanddostuff.getHomeDir()
 
+	clip: true
+
 	Rectangle {
 
-		color: "#AA000000"
+		color: "#00000000"
 		anchors.fill: parent
 
 		Image {
@@ -61,6 +63,8 @@ Rectangle {
 		focus: true
 
 		property int prev_highlight: -1
+		highlight: Rectangle { color: "#DD5d5d5d"; radius: 5 }
+		highlightMoveDuration: 200
 
 		model: gridmodel
 		delegate: gridDelegate
@@ -125,11 +129,11 @@ Rectangle {
 				hoverEnabled: true
 				cursorShape: Qt.PointingHandCursor
 				onEntered: {
-					parent.color = "#33ffffff"
+//					parent.color = "#33ffffff"
 					grid.currentIndex = index
 				}
-				onExited:
-					parent.color = (index%2==0 ? "#22ffffff" : "#11ffffff")
+//				onExited:
+//					parent.color = (index%2==0 ? "#22ffffff" : "#11ffffff")
 				onClicked: {
 					reloadDirectory(dir_path + "/" + filename,"")
 					hideOpenAni.start()
@@ -158,6 +162,31 @@ Rectangle {
 		if(grid.currentIndex != -1)
 			preview.source = Qt.resolvedUrl("image://full/" + dir_path + "/" + files[2*grid.currentIndex])
 
+	}
+
+	function focusOnFile(filename) {
+
+		var pattern = new RegExp(escapeRegExp(filename) + ".*","i")
+		if(pattern.test(files[2*grid.currentIndex])) return
+		var index = -1
+		for(var i = 0; i < files.length; i+=2) {
+			if(pattern.test(files[i])) {
+				index = i/2
+				break;
+			}
+		}
+		if(index != -1)
+			grid.currentIndex = index
+
+	}
+
+	function escapeRegExp(str) {
+		return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+	}
+
+	function loadCurrentlyHighlightedImage() {
+		reloadDirectory(dir_path + "/" + files[grid.currentIndex*2],"")
+		hideOpenAni.start()
 	}
 
 }
