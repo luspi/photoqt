@@ -57,9 +57,10 @@
         <file>qml/mainview/MainView.qml</file>
         <file>qml/openfile/OpenFile.qml</file>
         <file>qml/openfile/BreadCrumbs.qml</file>
-        <file>qml/openfile/Files.qml</file>
         <file>qml/openfile/Folders.qml</file>
         <file>qml/openfile/UserPlaces.qml</file>
-        <file>qml/openfile/Files2.qml</file>
+        <file>qml/openfile/FilesListView.qml</file>
+        <file>qml/openfile/FilesIconView.qml</file>
+        <file>qml/openfile/Tweaks.qml</file>
     </qresource>
 </RCC>

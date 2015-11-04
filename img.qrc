@@ -49,5 +49,7 @@
         <file>img/openfile/image2.png</file>
         <file>img/openfile/folder3.png</file>
         <file>img/openfile/image3.png</file>
+        <file>img/openfile/iconview.png</file>
+        <file>img/openfile/listview.png</file>
     </qresource>
 </RCC>

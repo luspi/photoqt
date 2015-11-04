@@ -30,7 +30,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} qml/slidein/ThumbnailBar.qml qml/slidein/
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/slidein/QuickSettings.qml qml/slidein/SlideshowBar.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/mainview/Background.qml qml/mainview/QuickInfo.qml qml/mainview/ContextMenu.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/openfile/OpenFile.qml qml/openfile/BreadCrumbs.qml qml/openfile/UserPlaces.qml qml/openfile/Folders.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} qml/openfile/FilesIconView.qml qml/openfile/FilesListView.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/openfile/FilesIconView.qml qml/openfile/FilesListView.qml qml/openfile/Tweaks.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/mainview/ContextMenuEntry.qml qml/mainview/SmartImage.qml qml/mainview/MainView.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/ScrollBarHorizontal.qml qml/elements/ScrollBarVertical.qml qml/elements/SettingsText.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/CustomCheckBox.qml qml/elements/CustomButton.qml qml/elements/CustomTabView.qml)

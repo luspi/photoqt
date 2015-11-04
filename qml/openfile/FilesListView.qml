@@ -4,8 +4,6 @@ import QtQuick.Layouts 1.0
 
 Rectangle {
 
-	Layout.minimumWidth: 200
-	Layout.fillWidth: true
 	color: "#44000000"
 
 	property var files: []

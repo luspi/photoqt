@@ -55,6 +55,7 @@ Rectangle {
 		anchors.right: parent.right
 		anchors.bottom: parent.bottom
 		anchors.top: breadcrumbs.bottom
+		anchors.bottomMargin: 50
 		orientation: Qt.Horizontal
 
 		// The user places at the left
@@ -68,10 +69,58 @@ Rectangle {
 		}
 
 
-		FilesListView {
-			id: files
+		Rectangle {
+
+			color: "#00000000"
+			Layout.minimumWidth: 200
+			Layout.fillWidth: true
+
+			FilesListView {
+				id: files_list
+				anchors.fill: parent
+				opacity: 1
+				Behavior on opacity { SmoothedAnimation { id: opacitylistani; velocity: 0.1; } }
+			}
+
+			FilesIconView {
+				id: files_icon
+				anchors.fill: parent
+				opacity: 0
+				Behavior on opacity { SmoothedAnimation { id: opacityiconani; velocity: 0.1; } }
+				visible: false
+			}
 		}
 
+	}
+
+	Rectangle {
+		width: parent.width
+		anchors.top: splitview.bottom
+		height: 1
+		color: "white"
+	}
+
+	Tweaks {
+		anchors.left: parent.left
+		anchors.bottom: parent.bottom
+		anchors.right: parent.right
+		height: 50
+		onDisplayIcons: {
+			opacityiconani.duration = 0
+			files_icon.opacity = 0
+			files_icon.visible = true
+			opacityiconani.duration = 300
+			files_icon.opacity = 1
+			files_list.opacity = 0
+		}
+		onDisplayList: {
+			opacitylistani.duration = 0
+			files_list.opacity = 0
+			files_list.visible = true
+			opacitylistani.duration = 300
+			files_list.opacity = 1
+			files_icon.opacity = 0
+		}
 	}
 
 	PropertyAnimation {
@@ -115,7 +164,8 @@ Rectangle {
 
 		breadcrumbs.loadDirectory(path)
 		folders.loadDirectory(path)
-		files.loadDirectory(path)
+		files_list.loadDirectory(path)
+		files_icon.loadDirectory(path)
 
 	}
 
