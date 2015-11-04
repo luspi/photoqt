@@ -7,7 +7,11 @@ GetAndDoStuffOpenFile::~GetAndDoStuffOpenFile() { }
 
 int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path) {
 
-	return QDir(path).entryList(QStringList() << "*",QDir::NoDotDot|QDir::Files).length();
+	QDir dir(path);
+	dir.setNameFilters(formats->formatsQtEnabled + formats->formatsQtEnabledExtras + formats->formatsGmEnabled + formats->formatsExtrasEnabled);
+	dir.setFilter(QDir::Files);
+
+	return dir.entryList().length();
 
 }
 
@@ -111,7 +115,6 @@ QVariantList GetAndDoStuffOpenFile::getFoldersIn(QString path) {
 		path = path.remove(0,6);
 
 	QDir dir(path);
-	dir.setNameFilters(formats->formatsQtEnabled + formats->formatsQtEnabledExtras + formats->formatsGmEnabled + formats->formatsExtrasEnabled);
 	dir.setFilter(QDir::AllDirs|QDir::NoDot);
 	dir.setSorting(QDir::IgnoreCase);
 
@@ -138,6 +141,34 @@ QVariantList GetAndDoStuffOpenFile::getFilesIn(QString path) {
 	QVariantList ret;
 	foreach(QString l, list)
 		ret.append(l);
+
+	return ret;
+
+}
+
+QVariantList GetAndDoStuffOpenFile::getFilesWithSizeIn(QString path) {
+
+	if(path.startsWith("file:/"))
+		path = path.remove(0,6);
+
+	QDir dir(path);
+	dir.setNameFilters(formats->formatsQtEnabled + formats->formatsQtEnabledExtras + formats->formatsGmEnabled + formats->formatsExtrasEnabled);
+	dir.setFilter(QDir::Files);
+	dir.setSorting(QDir::IgnoreCase);
+
+	QFileInfoList list = dir.entryInfoList();
+	QVariantList ret;
+	foreach(QFileInfo l, list) {
+		int s = l.size();
+		QString size = "";
+		if(s <= 1024)
+			size = QString::number(s) + " B";
+		else if(s <= 1024*1024)
+			size = QString::number(qRound(double(s)/1024.0)) + " KB";
+		else
+			size = QString::number(qRound(100*double(s)/(1024*1024))/100.0) + " MB";
+		ret.append(QVariantList() << l.fileName() << size);
+	}
 
 	return ret;
 

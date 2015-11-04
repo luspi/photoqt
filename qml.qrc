@@ -60,5 +60,6 @@
         <file>qml/openfile/Files.qml</file>
         <file>qml/openfile/Folders.qml</file>
         <file>qml/openfile/UserPlaces.qml</file>
+        <file>qml/openfile/Files2.qml</file>
     </qresource>
 </RCC>

@@ -107,6 +107,7 @@ public:
 	Q_INVOKABLE QString removePrefixFromDirectoryOrFile(QString path) { return this->openfile->removePrefixFromDirectoryOrFile(path); }
 	Q_INVOKABLE QVariantList getFoldersIn(QString path) { return this->openfile->getFoldersIn(path); }
 	Q_INVOKABLE QVariantList getFilesIn(QString path) { return this->openfile->getFilesIn(path); }
+	Q_INVOKABLE QVariantList getFilesWithSizeIn(QString path) { return this->openfile->getFilesWithSizeIn(path); }
 
 	int shortcutNotifier;
 	Q_PROPERTY(int shortcutNotifier READ getShortcutNotifier WRITE setShortcutNotifier NOTIFY shortcutNotifierChanged)

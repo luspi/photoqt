@@ -54,15 +54,12 @@ Rectangle {
 		}
 	}
 
-	GridView {
+	ListView {
 
 		id: grid
 
 		anchors.fill: parent
 
-		cellWidth: 80;
-		cellHeight: cellWidth*(4/3);
-		highlight: Rectangle { color: "#22ffffff"; radius: 5 }
 		focus: true
 
 		property int prev_highlight: -1
@@ -71,7 +68,7 @@ Rectangle {
 		delegate: gridDelegate
 
 		onCurrentIndexChanged: {
-			preview.source = Qt.resolvedUrl("image://full/" + dir_path + "/" + files[currentIndex])
+			preview.source = Qt.resolvedUrl("image://full/" + dir_path + "/" + files[2*currentIndex])
 		}
 
 	}
@@ -93,84 +90,50 @@ Rectangle {
 		id: gridDelegate
 
 		Rectangle {
+			width: grid.width
+			height: files_txt.height+10
+			color: index%2==0 ? "#22ffffff" : "#11ffffff"
 
-			color: "#00000000"
-			width: grid.cellWidth;
-			height: grid.cellHeight
+			Image {
+				id: files_img
+				source: "image://icon/image-" + getanddostuff.getSuffix(dir_path + "/" + files[2*index])
+				width: files_txt.height-4
+				y: 7
+				x: 7
+				height: width
+			}
 
-			Column {
-
-				id: image_rect
-
-				x: 10
-				y: 10
-				width: parent.width-20
-				height: parent.height-20
-
-				Image {
-					id: icon
-					opacity: 0.6
-					Behavior on opacity { SmoothedAnimation { id: opacityimgani; velocity: 0.1; } }
-					x: (parent.width-width)/2
-					width: image_rect.width
-					height: image_rect.height*0.6
-					source: "image://icon/image-" + getanddostuff.getSuffix(dir_path + "/" + files[index])
-					fillMode: Image.PreserveAspectFit
-				}
-
-				Rectangle {
-
-					id: textrect
-
-					x: 5
-					y: image_rect.height*0.6
-					width: image_rect.width-10
-					height: image_rect.height*0.4
-
-					radius: 5
-					color: "#BB000000"
-					opacity: 0.4
-					Behavior on opacity { SmoothedAnimation { id: opacityani; velocity: 0.1; } }
-
-					Text {
-						x: 3
-						width: parent.width-6
-						height: parent.height
-						text: filename
-						elide: Text.ElideRight
-						wrapMode: Text.WrapAnywhere
-						maximumLineCount: 2
-						lineHeight: 0.8
-						font.pointSize: 8
-						clip: true
-						font.bold: true
-						color: "white"
-						horizontalAlignment: Text.AlignHCenter
-						verticalAlignment: Text.AlignVCenter
-					}
-				}
+			Text {
+				id: files_txt
+				y: 5
+				x: 5 + files_img.width+5
+				width: grid.width-(x+5)-files_size.width
+				text: "<b>" + filename + "</b>"
+				color: "white"
+				font.pointSize: 12
+				elide: Text.ElideRight
+			}
+			Text {
+				id:files_size
+				x: (files_txt.x + files_txt.width) + 5
+				width: 100
+				text: filesize
+				color: "white"
+				font.pointSize: 12
 			}
 
 			MouseArea {
-				x: 10
-				y: 10
-				width: parent.width-20
-				height: parent.height-20
+				anchors.fill: parent
 				hoverEnabled: true
 				cursorShape: Qt.PointingHandCursor
 				onEntered: {
-					opacityani.duration = 200
-					opacityimgani.duration = 200
-					textrect.opacity = 1
-					icon.opacity = 1
+					parent.color = "#33ffffff"
 					grid.currentIndex = index
 				}
-				onExited: {
-					textrect.opacity = 0.4
-					icon.opacity = 0.6
-				}
+				onExited:
+					parent.color = (index%2==0 ? "#22ffffff" : "#11ffffff")
 				onClicked: {
-					reloadDirectory(dir_path + "/" + files[index],"")
+					reloadDirectory(dir_path + "/" + filename,"")
 					hideOpenAni.start()
 				}
 			}
@@ -182,11 +145,11 @@ Rectangle {
 	function loadDirectory(path) {
 
 		gridmodel.clear()
-		files = getanddostuff.getFilesIn(path)
+		files = getanddostuff.getFilesWithSizeIn(path)
 		dir_path = getanddostuff.removePrefixFromDirectoryOrFile(path)
 		grid.contentY = 0
-		for(var j = 0; j < files.length; ++j) {
-			gridmodel.append({"filename" : files[j]})
+		for(var j = 0; j < files.length; j+=2) {
+			gridmodel.append({"filename" : files[j], "filesize" : files[j+1]})
 		}
 
 		if(files.length == 0)
@@ -195,7 +158,7 @@ Rectangle {
 			nothingfound.visible = false
 
 		if(grid.currentIndex != -1)
-			preview.source = Qt.resolvedUrl("image://full/" + dir_path + "/" + files[grid.currentIndex])
+			preview.source = Qt.resolvedUrl("image://full/" + dir_path + "/" + files[2*grid.currentIndex])
 
 	}
 

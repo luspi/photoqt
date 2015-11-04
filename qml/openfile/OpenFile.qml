@@ -68,7 +68,7 @@ Rectangle {
 		}
 
 
-		Files {
+		Files2 {
 			id: files
 		}
 

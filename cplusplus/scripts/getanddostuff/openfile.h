@@ -24,6 +24,7 @@ public:
 	QVariantList getFilesAndFoldersIn(QString path);
 	QVariantList getFoldersIn(QString path);
 	QVariantList getFilesIn(QString path);
+	QVariantList getFilesWithSizeIn(QString path);
 	bool isFolder(QString path);
 	QString removePrefixFromDirectoryOrFile(QString path);
 
