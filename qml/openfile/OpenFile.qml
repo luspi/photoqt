@@ -68,7 +68,7 @@ Rectangle {
 		}
 
 
-		Files2 {
+		FilesListView {
 			id: files
 		}
 
