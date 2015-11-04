@@ -31,9 +31,9 @@ Item {
 
         // Hide 'nothing loaded' message and arrows
 		nofileloaded.visible = false
-//        metadataarrow.visible = false
-//        mainmenuarrow.visible = false
-//        quicksettingsarrow.visible = false
+		metadataarrow.visible = false
+		mainmenuarrow.visible = false
+		quicksettingsarrow.visible = false
         noresultsfound.visible = false
 
         // Update metadata
