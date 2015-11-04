@@ -135,6 +135,14 @@ Rectangle {
 					else if(files_list.opacity == 1)
 						files_list.loadCurrentlyHighlightedImage()
 				}
+				onFocusOnNextItem: {
+					if(files_list.opacity == 1)
+						files_list.focusOnNextItem()
+				}
+				onFocusOnPrevItem: {
+					if(files_list.opacity == 1)
+						files_list.focusOnPrevItem()
+				}
 
 			}
 

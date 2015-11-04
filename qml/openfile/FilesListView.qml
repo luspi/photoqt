@@ -189,4 +189,14 @@ Rectangle {
 		hideOpenAni.start()
 	}
 
+	function focusOnNextItem() {
+		if(grid.currentIndex+1 < grid.count)
+			grid.currentIndex += 1
+	}
+
+	function focusOnPrevItem() {
+		if(grid.currentIndex > 0)
+			grid.currentIndex -= 1
+	}
+
 }

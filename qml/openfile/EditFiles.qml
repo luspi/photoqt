@@ -11,6 +11,9 @@ Rectangle {
 	height: filename_edit.height+filename_edit.anchors.bottomMargin*2
 	color: "#99000000"
 
+	signal focusOnNextItem()
+	signal focusOnPrevItem()
+
 	CustomLineEdit {
 
 		id: filename_edit
@@ -22,6 +25,9 @@ Rectangle {
 
 		onTextEdited: filenameEdit(getText())
 		onAccepted: edit_rect.accepted()
+
+		onArrowUp: focusOnPrevItem()
+		onArrowDown: focusOnNextItem()
 
 	}
 

@@ -17,6 +17,9 @@ Rectangle {
 	signal accepted()
 	signal rejected()
 
+	signal arrowUp()
+	signal arrowDown()
+
 	TextEdit {
 
 		id: ed1
@@ -54,6 +57,14 @@ Rectangle {
 		Keys.onEnterPressed: accepted()
 		Keys.onReturnPressed: accepted()
 		Keys.onEscapePressed: rejected()
+
+		Keys.onPressed: {
+			if(event.key === Qt.Key_Up)
+				arrowUp()
+			else if(event.key === Qt.Key_Down)
+				arrowDown()
+
+		}
 
 	}
 
