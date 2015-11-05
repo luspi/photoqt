@@ -22,7 +22,8 @@ Rectangle {
 
 	property var hovered: []
 
-	property string cur_pre: "one"
+
+	property string type_preview: tweaks.getMode()
 
 	Rectangle {
 
@@ -86,7 +87,7 @@ Rectangle {
 				FilesListView {
 					id: files_list
 					anchors.fill: parent
-					opacity: 1
+					opacity: settings.openDefaultView==="list" ? 1: 0
 					Behavior on opacity { SmoothedAnimation { id: opacitylistani; velocity: 0.1; } }
 					onOpacityChanged: {
 						if(opacity == 0)
@@ -97,7 +98,7 @@ Rectangle {
 				FilesIconView {
 					id: files_icon
 					anchors.fill: parent
-					opacity: 0
+					opacity: settings.openDefaultView==="icons" ? 1: 0
 					Behavior on opacity { SmoothedAnimation { id: opacityiconani; velocity: 0.1; } }
 					onOpacityChanged: {
 						if(opacity == 0)
@@ -158,6 +159,7 @@ Rectangle {
 	}
 
 	Tweaks {
+		id: tweaks
 		anchors.left: parent.left
 		anchors.bottom: parent.bottom
 		anchors.right: parent.right
@@ -208,6 +210,10 @@ Rectangle {
 		onStarted: {
 			visible = true
 			blocked = true
+			if(settings.openDefaultView === "list")
+				tweaks.displayList()
+			else if(settings.openDefaultView === "icons")
+				tweaks.displayIcons()
 			edit_rect.setEditText(getanddostuff.removePathFromFilename(thumbnailBar.currentFile))
 			edit_rect.focusOnInput()
 		}

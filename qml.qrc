@@ -63,5 +63,7 @@
         <file>qml/openfile/FilesIconView.qml</file>
         <file>qml/openfile/Tweaks.qml</file>
         <file>qml/openfile/EditFiles.qml</file>
+        <file>qml/openfile/TweaksViewMode.qml</file>
+        <file>qml/openfile/TweaksPreview.qml</file>
     </qresource>
 </RCC>

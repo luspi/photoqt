@@ -4,11 +4,11 @@ import QtQuick.Layouts 1.0
 
 Rectangle {
 
-
 	color: "#44000000"
 
 	property var files: []
 	property string dir_path: getanddostuff.getHomeDir()
+	property string mode: tweaks.getMode()
 	clip: true
 
 	Rectangle {
@@ -28,7 +28,7 @@ Rectangle {
 			Behavior on opacity { SmoothedAnimation { id: preview_load; velocity: 0.1; } }
 
 			source: ""
-			sourceSize: Qt.size(width,height)
+			sourceSize: Qt.size((mode=="lq" ? 0.5 : 1)*width,(mode=="lq" ? 0.5 : 1)*height)
 			onSourceChanged: {
 				var s = getanddostuff.getImageSize(source)
 				if(s.width < width && s.height < height)
@@ -71,7 +71,12 @@ Rectangle {
 		delegate: gridDelegate
 
 		onCurrentIndexChanged: {
-			preview.source = Qt.resolvedUrl("image://full/" + dir_path + "/" + files[currentIndex])
+			if(type_preview == "none")
+				preview.source = ""
+			else if(files[currentIndex] === "")
+				return
+			else
+				preview.source = Qt.resolvedUrl("image://full/" + dir_path + "/" + files[currentIndex])
 		}
 
 	}
@@ -194,7 +199,7 @@ Rectangle {
 		else
 			nothingfound.visible = false
 
-		if(grid.currentIndex != -1)
+		if(grid.currentIndex != -1 && type_preview == "color")
 			preview.source = Qt.resolvedUrl("image://full/" + dir_path + "/" + files[grid.currentIndex])
 
 	}
@@ -222,6 +227,20 @@ Rectangle {
 	function loadCurrentlyHighlightedImage() {
 		reloadDirectory(dir_path + "/" + files[grid.currentIndex],"")
 		hideOpenAni.start()
+	}
+
+	function updatePreview() {
+
+		if(files[grid.currentIndex] === undefined) {
+			preview.source = ""
+			return
+		}
+
+		if(type_preview == "none")
+			preview.source = ""
+		else
+			preview.source = "image://full/" + dir_path + "/" + files[grid.currentIndex]
+
 	}
 
 }

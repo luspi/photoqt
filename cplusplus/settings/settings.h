@@ -191,6 +191,10 @@ public:
 	bool iptccopyright;
 	bool exifgps;
 
+	// 'Open File' settings
+	QString openDefaultView;
+	QString openPreviewMode;
+
 
 	/*#################################################################################################*/
 	/*#################################################################################################*/
@@ -295,6 +299,9 @@ public:
 	bool getIptclocation() { return iptclocation; }
 	bool getIptccopyright() { return iptccopyright; }
 	bool getExifgps() { return exifgps; }
+
+	QString getOpenDefaultView() { return openDefaultView; }
+	QString getOpenPreviewMode() { return openPreviewMode; }
 
 
 	/*#################################################################################################*/
@@ -401,6 +408,9 @@ public:
 	void setIptccopyright(bool val) { iptccopyright = val; saveSettingsTimer->start(); }
 	void setExifgps(bool val) { exifgps = val; saveSettingsTimer->start(); }
 
+	void setOpenDefaultView(QString val) { openDefaultView = val; saveSettingsTimer->start(); }
+	void setOpenPreviewMode(QString val) { openPreviewMode = val; saveSettingsTimer->start(); }
+
 
 	/*#################################################################################################*/
 	/*#################################################################################################*/
@@ -505,6 +515,9 @@ public:
 	Q_PROPERTY(bool iptclocation READ getIptclocation WRITE setIptclocation NOTIFY iptclocationChanged)
 	Q_PROPERTY(bool iptccopyright READ getIptccopyright WRITE setIptccopyright NOTIFY iptccopyrightChanged)
 	Q_PROPERTY(bool exifgps READ getExifgps WRITE setExifgps NOTIFY exifgpsChanged)
+
+	Q_PROPERTY(QString openDefaultView READ getOpenDefaultView WRITE setOpenDefaultView NOTIFY openDefaultViewChanged)
+	Q_PROPERTY(QString openPreviewMode READ getOpenPreviewMode WRITE setOpenPreviewMode NOTIFY openPreviewModeChanged)
 
 
 	/*#################################################################################################*/
@@ -628,6 +641,10 @@ public:
 		exifgps = true;
 		exifrotation = "Always";
 		exifgpsmapservice = "openstreetmap.org";
+
+		openDefaultView = "list";
+		openPreviewMode = "lq";
+
 	}
 
 
@@ -765,6 +782,10 @@ public slots:
 			cont += QString("IptcKeywords=%1\n").arg(int(iptckeywords));
 			cont += QString("IptcLocation=%1\n").arg(int(iptclocation));
 			cont += QString("IptcCopyright=%1\n").arg(int(iptccopyright));
+
+			cont += "\n[Open File]\n";
+			cont += QString("OpenDefaultView=%1\n").arg(openDefaultView);
+			cont += QString("OpenPreviewMode=%1\n").arg(openPreviewMode);
 
 			out << cont;
 			file.close();
@@ -1164,6 +1185,20 @@ public slots:
 			if(all.contains("ExifGPSMapService="))
 				exifgpsmapservice = all.split("ExifGPSMapService=").at(1).split("\n").at(0);
 
+
+			if(all.contains("OpenDefaultView=list"))
+				openDefaultView = "list";
+			else if(all.contains("OpenDefaultView=icons"))
+				openDefaultView = "icons";
+
+			if(all.contains("OpenPreviewMode=hq"))
+				openPreviewMode = "hq";
+			else if(all.contains("OpenPreviewMode=lq"))
+				openPreviewMode = "lq";
+			else if(all.contains("OpenPreviewMode=none"))
+				openPreviewMode = "none";
+
+
 			file.close();
 
 			emitAllSignals();
@@ -1270,6 +1305,10 @@ private slots:
 		emit iptclocationChanged(iptclocation);
 		emit iptccopyrightChanged(iptccopyright);
 		emit exifgpsChanged(exifgps);
+
+		emit openDefaultViewChanged(openDefaultView);
+		emit openPreviewModeChanged(openPreviewMode);
+
 	}
 
 private:
@@ -1378,6 +1417,8 @@ signals:
 	void iptccopyrightChanged(bool val);
 	void exifgpsChanged(bool val);
 
+	void openDefaultViewChanged(QString val);
+	void openPreviewModeChanged(QString val);
 
 };
 
