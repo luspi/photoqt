@@ -25,14 +25,6 @@ Rectangle {
 
 	property string type_preview: tweaks.getMode()
 
-	Rectangle {
-
-		color: "#00000000"
-
-		anchors.fill: parent
-		anchors.margins: 5
-
-	}
 
 	// Bread crumb navigation
 	BreadCrumbs {

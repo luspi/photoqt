@@ -141,8 +141,8 @@ Rectangle {
 //				onExited:
 //					parent.color = (index%2==0 ? "#22ffffff" : "#11ffffff")
 				onClicked: {
-					reloadDirectory(dir_path + "/" + filename,"")
 					hideOpenAni.start()
+					reloadDirectory(dir_path + "/" + filename,"")
 				}
 			}
 		}
@@ -191,8 +191,8 @@ Rectangle {
 	}
 
 	function loadCurrentlyHighlightedImage() {
-		reloadDirectory(dir_path + "/" + files[grid.currentIndex*2],"")
 		hideOpenAni.start()
+		reloadDirectory(dir_path + "/" + files[grid.currentIndex*2],"")
 	}
 
 	function focusOnNextItem() {

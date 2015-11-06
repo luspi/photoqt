@@ -213,7 +213,7 @@ Rectangle {
 
                     source: "qrc:///img/empty.png"
 					mipmap: true
-                    asynchronous: false
+					asynchronous: false
                     fillMode: Image.PreserveAspectFit
                     transformOrigin: Item.TopLeft
 
@@ -229,7 +229,7 @@ Rectangle {
 							rotscale_fix.duration = (enableanimations ? 200 : 1)
                         }
                     }
-                }
+				}
 
                 // First image
                 Image {
@@ -241,7 +241,7 @@ Rectangle {
 
                     source: "qrc:///img/empty.png"
 					mipmap: true
-                    asynchronous: false
+					asynchronous: false
                     fillMode: Image.PreserveAspectFit
                     transformOrigin: Item.TopLeft
 
@@ -313,7 +313,7 @@ Rectangle {
 							rotscale_fix.duration = (enableanimations ? 200 : 1)
                         }
                     }
-                }
+				}
 
             }
 
@@ -947,4 +947,5 @@ Rectangle {
 		}
 
     }
+
 }

@@ -175,8 +175,8 @@ Rectangle {
 					icon.opacity = 0.6
 				}
 				onClicked: {
-					reloadDirectory(dir_path + "/" + files[index],"")
 					hideOpenAni.start()
+					reloadDirectory(dir_path + "/" + files[index],"")
 				}
 			}
 		}
@@ -225,8 +225,8 @@ Rectangle {
 	}
 
 	function loadCurrentlyHighlightedImage() {
-		reloadDirectory(dir_path + "/" + files[grid.currentIndex],"")
 		hideOpenAni.start()
+		reloadDirectory(dir_path + "/" + files[grid.currentIndex],"")
 	}
 
 	function updatePreview() {

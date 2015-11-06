@@ -46,10 +46,9 @@ Item {
     function clear() {
         image.loadImage("", false)
         nofileloaded.visible = true
-    }
+	}
 
-
-    SmartImage {
+	SmartImage {
 
         id: image
 
