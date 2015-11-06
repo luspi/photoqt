@@ -16,6 +16,12 @@ Rectangle {
 	signal displayIcons();
 	signal displayList();
 
+	TweaksZoom {
+		id: zoom
+		anchors.left: parent.left
+		anchors.leftMargin: 10
+	}
+
 	TweaksPreview {
 		id: preview
 		anchors.right: viewmode.left

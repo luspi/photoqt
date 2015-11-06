@@ -5,7 +5,10 @@ import QtQuick.Controls.Styles 1.2
 Rectangle {
 	id: prev_but
 	y: 10
-	width: prev_txt.width+left_edge.width+prev_high.width+prev_low.width+prev_none.width+right_edge.width+20
+	width: prev_txt.width+prev_txt.anchors.rightMargin
+		   +left_edge.width+left_edge.anchors.rightMargin
+		   +right_edge.width+right_edge.anchors.leftMargin
+		   +prev_high.width+prev_low.width+prev_none.width+20
 	height: parent.height-20
 	color: "#00000000"
 

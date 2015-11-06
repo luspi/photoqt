@@ -65,5 +65,6 @@
         <file>qml/openfile/EditFiles.qml</file>
         <file>qml/openfile/TweaksViewMode.qml</file>
         <file>qml/openfile/TweaksPreview.qml</file>
+        <file>qml/openfile/TweaksZoom.qml</file>
     </qresource>
 </RCC>
