@@ -70,6 +70,8 @@ Rectangle {
 		model: gridmodel
 		delegate: gridDelegate
 
+		spacing: 2
+
 		onCurrentIndexChanged: {
 			if(type_preview == "none")
 				preview.source = ""
@@ -99,47 +101,44 @@ Rectangle {
 
 		Rectangle {
 			width: grid.width
-			height: files_txt.height+10
+			height: files_txt.height
 			color: index%2==0 ? "#22ffffff" : "#11ffffff"
 
 			Image {
 				id: files_img
 				source: "image://icon/image-" + getanddostuff.getSuffix(dir_path + "/" + files[2*index])
 				width: files_txt.height-4
-				y: 7
 				x: 7
+				verticalAlignment: Image.AlignVCenter
 				height: width
 			}
 
 			Text {
 				id: files_txt
-				y: 5
 				x: 5 + files_img.width+5
 				width: grid.width-(x+5)-files_size.width
 				text: "<b>" + filename + "</b>"
 				color: "white"
-				font.pointSize: 12
+				verticalAlignment: Text.AlignVCenter
+				font.pixelSize: tweaks.zoomlevel
 				elide: Text.ElideRight
 			}
 			Text {
 				id:files_size
 				x: (files_txt.x + files_txt.width) + 5
-				width: 100
+				width: Math.max(tweaks.zoomlevel*4,100)
 				text: filesize
 				color: "white"
-				font.pointSize: 12
+				verticalAlignment: Text.AlignVCenter
+				font.pixelSize: tweaks.zoomlevel
 			}
 
 			MouseArea {
 				anchors.fill: parent
 				hoverEnabled: true
 				cursorShape: Qt.PointingHandCursor
-				onEntered: {
-//					parent.color = "#33ffffff"
+				onEntered:
 					grid.currentIndex = index
-				}
-//				onExited:
-//					parent.color = (index%2==0 ? "#22ffffff" : "#11ffffff")
 				onClicked: {
 					hideOpenAni.start()
 					reloadDirectory(dir_path + "/" + filename,"")

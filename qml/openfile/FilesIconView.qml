@@ -60,7 +60,7 @@ Rectangle {
 
 		anchors.fill: parent
 
-		cellWidth: 80;
+		cellWidth: tweaks.zoomlevel*6;
 		cellHeight: cellWidth*(4/3);
 		highlight: Rectangle { color: "#22ffffff"; radius: 5 }
 		focus: true
@@ -146,7 +146,7 @@ Rectangle {
 						wrapMode: Text.WrapAnywhere
 						maximumLineCount: 2
 						lineHeight: 0.8
-						font.pointSize: 8
+						font.pixelSize: tweaks.zoomlevel
 						clip: true
 						font.bold: true
 						color: "white"

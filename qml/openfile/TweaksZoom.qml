@@ -12,6 +12,8 @@ Rectangle {
 	height: parent.height-20
 	color: "#00000000"
 
+	signal updateZoom(var level)
+
 	Text {
 		id: zoom_txt
 		color: "white"
@@ -27,10 +29,13 @@ Rectangle {
 		width: 200
 		y: (parent.height-height)/2
 		anchors.right: parent.right
-		minimumValue: 5
-		maximumValue: 20
+		minimumValue: 10
+		maximumValue: 40
 		tickmarksEnabled: true
 		stepSize: 1
 		scrollStep: 1
+		value: 15
+		onValueChanged: updateZoom(value)
 	}
+
 }

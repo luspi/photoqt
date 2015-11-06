@@ -51,7 +51,7 @@ Rectangle {
 				font.capitalization: (type == "heading" ? Font.AllUppercase : Font.MixedCase)
 				text: title
 				color: type=="heading" ? "grey" : "white"
-				font.pointSize: 10
+				font.pixelSize: tweaks.zoomlevel-2
 
 			}
 

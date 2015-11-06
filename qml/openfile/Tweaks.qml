@@ -16,10 +16,13 @@ Rectangle {
 	signal displayIcons();
 	signal displayList();
 
+	property int zoomlevel: 15
+
 	TweaksZoom {
 		id: zoom
 		anchors.left: parent.left
 		anchors.leftMargin: 10
+		onUpdateZoom: zoomlevel = level
 	}
 
 	TweaksPreview {
@@ -38,6 +41,5 @@ Rectangle {
 	function getMode() {
 		return preview.getMode()
 	}
-
 
 }
