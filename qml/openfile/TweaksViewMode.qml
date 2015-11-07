@@ -99,4 +99,8 @@ Rectangle {
 		}
 	}
 
+	function getView() {
+		return viewmode_icon.checked ? "icons" : "list"
+	}
+
 }

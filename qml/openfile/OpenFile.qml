@@ -76,28 +76,11 @@ Rectangle {
 				anchors.fill: parent
 				anchors.bottomMargin: edit_rect.height
 
-				FilesListView {
-					id: files_list
+				FilesView {
+					id: filesview
 					anchors.fill: parent
-					opacity: settings.openDefaultView==="list" ? 1: 0
-					Behavior on opacity { SmoothedAnimation { id: opacitylistani; velocity: 0.1; } }
-					onOpacityChanged: {
-						if(opacity == 0)
-							visible = false
-					}
 				}
 
-				FilesIconView {
-					id: files_icon
-					anchors.fill: parent
-					opacity: settings.openDefaultView==="icons" ? 1: 0
-					Behavior on opacity { SmoothedAnimation { id: opacityiconani; velocity: 0.1; } }
-					onOpacityChanged: {
-						if(opacity == 0)
-							visible = false
-					}
-					visible: false
-				}
 			}
 
 			Rectangle {
@@ -116,26 +99,14 @@ Rectangle {
 				anchors.right: parent.right
 				anchors.bottom: parent.bottom
 
-				onFilenameEdit: {
-					if(files_icon.opacity == 1)
-						files_icon.focusOnFile(filename)
-					else if(files_list.opacity == 1)
-						files_list.focusOnFile(filename)
-				}
-				onAccepted: {
-					if(files_icon.opacity == 1)
-						files_icon.loadCurrentlyHighlightedImage()
-					else if(files_list.opacity == 1)
-						files_list.loadCurrentlyHighlightedImage()
-				}
-				onFocusOnNextItem: {
-					if(files_list.opacity == 1)
-						files_list.focusOnNextItem()
-				}
-				onFocusOnPrevItem: {
-					if(files_list.opacity == 1)
-						files_list.focusOnPrevItem()
-				}
+				onFilenameEdit:
+					filesview.focusOnFile(filename)
+				onAccepted:
+					filesview.loadCurrentlyHighlightedImage()
+				onFocusOnNextItem:
+					filesview.focusOnNextItem()
+				onFocusOnPrevItem:
+					filesview.focusOnPrevItem()
 
 			}
 
@@ -156,28 +127,10 @@ Rectangle {
 		anchors.bottom: parent.bottom
 		anchors.right: parent.right
 		height: 50
-		onDisplayIcons: {
-			opacitylistani.duration = 0
-			opacityiconani.duration = 0
-			files_list.opacity = 1
-			files_icon.opacity = 0
-			files_icon.visible = true
-			opacityiconani.duration = 300
-			opacitylistani.duration = 300
-			files_icon.opacity = 1
-			files_list.opacity = 0
-		}
-		onDisplayList: {
-			opacitylistani.duration = 0
-			opacityiconani.duration = 0
-			files_icon.opacity = 1
-			files_list.opacity = 0
-			files_list.visible = true
-			opacityiconani.duration = 300
-			opacitylistani.duration = 300
-			files_list.opacity = 1
-			files_icon.opacity = 0
-		}
+		onDisplayIcons:
+			filesview.displayIcons()
+		onDisplayList:
+			filesview.displayList()
 	}
 
 	PropertyAnimation {
@@ -189,10 +142,7 @@ Rectangle {
 		onStarted: {
 			settings.openZoomLevel = tweaks.zoomlevel
 			settings.openPreviewMode = tweaks.getMode()
-			if(files_list.opacity == 1)
-				settings.openDefaultView = "list"
-			if(files_icon.opacity == 1)
-				settings.openDefaultView = "icons"
+			settings.openDefaultView = tweaks.getView()
 			settings.openFoldersWidth = folders.width
 			settings.openUserPlacesWidth = userplaces.width
 		}
@@ -240,8 +190,7 @@ Rectangle {
 
 		breadcrumbs.loadDirectory(path)
 		folders.loadDirectory(path)
-		files_list.loadDirectory(path)
-		files_icon.loadDirectory(path)
+		filesview.loadDirectory(path)
 
 	}
 

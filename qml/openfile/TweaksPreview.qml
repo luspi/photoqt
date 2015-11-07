@@ -31,10 +31,8 @@ Rectangle {
 	// Only one button can be checked at a time -> changing the button check causes preview reload
 	ExclusiveGroup {
 		id: prev_grp;
-		onCurrentChanged: {
-			files_list.updatePreview()
-			files_icon.updatePreview()
-		}
+		onCurrentChanged:
+			filesview.updatePreview()
 	}
 
 	// The left edge is rounded (we make it appear as is (left half hidden behind button)

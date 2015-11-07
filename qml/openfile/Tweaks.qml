@@ -42,4 +42,8 @@ Rectangle {
 		return preview.getMode()
 	}
 
+	function getView() {
+		return viewmode.getView()
+	}
+
 }
