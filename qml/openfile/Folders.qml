@@ -7,7 +7,7 @@ Rectangle {
 	id: folderlist
 
 	Layout.minimumWidth: 200
-	width: 400
+	width: settings.openFoldersWidth
 	color: "#44000000"
 	clip: true
 

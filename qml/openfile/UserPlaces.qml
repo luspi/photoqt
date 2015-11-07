@@ -6,7 +6,7 @@ import QtQuick.Controls.Styles 1.2
 
 Rectangle {
 
-	width: 200
+	width: settings.openUserPlacesWidth
 	Layout.maximumWidth: 600
 	Layout.minimumWidth: 200
 	color: "#44000000"

@@ -193,6 +193,8 @@ Rectangle {
 				settings.openDefaultView = "list"
 			if(files_icon.opacity == 1)
 				settings.openDefaultView = "icons"
+			settings.openFoldersWidth = folders.width
+			settings.openUserPlacesWidth = userplaces.width
 		}
 		onStopped: {
 			visible = false

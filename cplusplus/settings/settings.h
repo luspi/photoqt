@@ -195,6 +195,8 @@ public:
 	QString openDefaultView;
 	QString openPreviewMode;
 	int openZoomLevel;
+	int openUserPlacesWidth;
+	int openFoldersWidth;
 
 
 	/*#################################################################################################*/
@@ -304,6 +306,8 @@ public:
 	QString getOpenDefaultView() { return openDefaultView; }
 	QString getOpenPreviewMode() { return openPreviewMode; }
 	int getOpenZoomLevel() { return openZoomLevel; }
+	int getOpenUserPlacesWidth() { return openUserPlacesWidth; }
+	int getOpenFoldersWidth() { return openFoldersWidth; }
 
 
 	/*#################################################################################################*/
@@ -413,6 +417,8 @@ public:
 	void setOpenDefaultView(QString val) { openDefaultView = val; saveSettingsTimer->start(); }
 	void setOpenPreviewMode(QString val) { openPreviewMode = val; saveSettingsTimer->start(); }
 	void setOpenZoomLevel(int val) { openZoomLevel = val; saveSettingsTimer->start(); }
+	void setOpenUserPlacesWidth(int val) { openUserPlacesWidth = val; saveSettingsTimer->start(); }
+	void setOpenFoldersWidth(int val) { openFoldersWidth = val; saveSettingsTimer->start(); }
 
 
 	/*#################################################################################################*/
@@ -522,6 +528,8 @@ public:
 	Q_PROPERTY(QString openDefaultView READ getOpenDefaultView WRITE setOpenDefaultView NOTIFY openDefaultViewChanged)
 	Q_PROPERTY(QString openPreviewMode READ getOpenPreviewMode WRITE setOpenPreviewMode NOTIFY openPreviewModeChanged)
 	Q_PROPERTY(int openZoomLevel READ getOpenZoomLevel WRITE setOpenZoomLevel NOTIFY openZoomLevelChanged)
+	Q_PROPERTY(int openUserPlacesWidth READ getOpenUserPlacesWidth WRITE setOpenUserPlacesWidth NOTIFY openUserPlacesWidthChanged)
+	Q_PROPERTY(int openFoldersWidth READ getOpenFoldersWidth WRITE setOpenFoldersWidth NOTIFY openFoldersWidthChanged)
 
 
 	/*#################################################################################################*/
@@ -649,6 +657,8 @@ public:
 		openDefaultView = "list";
 		openPreviewMode = "lq";
 		openZoomLevel = 15;
+		openUserPlacesWidth = 200;
+		openFoldersWidth = 400;
 
 	}
 
@@ -792,6 +802,8 @@ public slots:
 			cont += QString("OpenDefaultView=%1\n").arg(openDefaultView);
 			cont += QString("OpenPreviewMode=%1\n").arg(openPreviewMode);
 			cont += QString("OpenZoomLevel=%1\n").arg(openZoomLevel);
+			cont += QString("OpenUserPlacesWidth=%1\n").arg(openUserPlacesWidth);
+			cont += QString("OpenFoldersWidth=%1\n").arg(openFoldersWidth);
 
 			out << cont;
 			file.close();
@@ -1207,6 +1219,13 @@ public slots:
 			if(all.contains("OpenZoomLevel="))
 				openZoomLevel = all.split("OpenZoomLevel=").at(1).split("\n").at(0).toInt();
 
+			if(all.contains("OpenUserPlacesWidth="))
+				openUserPlacesWidth = all.split("OpenUserPlacesWidth=").at(1).split("\n").at(0).toInt();
+
+			if(all.contains("OpenFoldersWidth="))
+				openFoldersWidth = all.split("OpenFoldersWidth=").at(1).split("\n").at(0).toInt();
+
+
 			file.close();
 
 			emitAllSignals();
@@ -1317,6 +1336,8 @@ private slots:
 		emit openDefaultViewChanged(openDefaultView);
 		emit openPreviewModeChanged(openPreviewMode);
 		emit openZoomLevelChanged(openZoomLevel);
+		emit openUserPlacesWidthChanged(openUserPlacesWidth);
+		emit openFoldersWidthChanged(openFoldersWidth);
 
 	}
 
@@ -1429,6 +1450,8 @@ signals:
 	void openDefaultViewChanged(QString val);
 	void openPreviewModeChanged(QString val);
 	void openZoomLevelChanged(int val);
+	void openUserPlacesWidthChanged(int val);
+	void openFoldersWidthChanged(int val);
 
 };
 
