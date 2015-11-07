@@ -186,8 +186,14 @@ Rectangle {
 		property: "opacity"
 		to: 0
 		duration: 400
-		onStarted:
+		onStarted: {
 			settings.openZoomLevel = tweaks.zoomlevel
+			settings.openPreviewMode = tweaks.getMode()
+			if(files_list.opacity == 1)
+				settings.openDefaultView = "list"
+			if(files_icon.opacity == 1)
+				settings.openDefaultView = "icons"
+		}
 		onStopped: {
 			visible = false
 			blocked = false

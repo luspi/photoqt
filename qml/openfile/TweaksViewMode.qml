@@ -56,7 +56,6 @@ Rectangle {
 				if(!viewmode_list.checked) {
 					viewmode_list.checked = true
 					displayList()
-					settings.openDefaultView = "list"
 				}
 			}
 		}
@@ -95,7 +94,6 @@ Rectangle {
 				if(!viewmode_icon.checked) {
 					viewmode_icon.checked = true
 					displayIcons()
-					settings.openDefaultView = "icons"
 				}
 			}
 		}

@@ -95,10 +95,8 @@ Rectangle {
 			propagateComposedEvents: true
 			cursorShape: Qt.PointingHandCursor
 			onClicked: {
-				if(!prev_high.checked) {
+				if(!prev_high.checked)
 					prev_high.checked = true
-					settings.openPreviewMode = "hq"
-				}
 			}
 		}
 	}
@@ -139,10 +137,8 @@ Rectangle {
 			propagateComposedEvents: true
 			cursorShape: Qt.PointingHandCursor
 			onClicked: {
-				if(!prev_low.checked) {
+				if(!prev_low.checked)
 					prev_low.checked = true
-					settings.openPreviewMode = "lq"
-				}
 			}
 		}
 	}
@@ -183,10 +179,8 @@ Rectangle {
 			propagateComposedEvents: true
 			cursorShape: Qt.PointingHandCursor
 			onClicked: {
-				if(!prev_none.checked) {
+				if(!prev_none.checked)
 					prev_none.checked = true
-					settings.openPreviewMode = "none"
-				}
 			}
 		}
 	}
