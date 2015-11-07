@@ -16,7 +16,7 @@ Rectangle {
 	signal displayIcons();
 	signal displayList();
 
-	property int zoomlevel: 15
+	property int zoomlevel: zoom.getZoomLevel()
 
 	TweaksZoom {
 		id: zoom

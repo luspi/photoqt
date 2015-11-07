@@ -32,7 +32,7 @@ Rectangle {
 			color: counter%2==1 ? "#88000000" : "#44000000"
 
 			Image {
-
+				id: userplacesimg
 				x: 5
 				y: 7
 				width: userplacestext.height
@@ -47,7 +47,8 @@ Rectangle {
 				id: userplacestext
 				x: 5 + (type == "heading" ? 0 : height) + 5
 				y: 7 + (type=="heading" ? 15 : 0)
-				width: parent.width-10
+				width: userplaces.width-userplacesimg.width-10
+				elide: Text.ElideRight
 				font.capitalization: (type == "heading" ? Font.AllUppercase : Font.MixedCase)
 				text: title
 				color: type=="heading" ? "grey" : "white"

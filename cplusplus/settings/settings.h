@@ -194,6 +194,7 @@ public:
 	// 'Open File' settings
 	QString openDefaultView;
 	QString openPreviewMode;
+	int openZoomLevel;
 
 
 	/*#################################################################################################*/
@@ -302,6 +303,7 @@ public:
 
 	QString getOpenDefaultView() { return openDefaultView; }
 	QString getOpenPreviewMode() { return openPreviewMode; }
+	int getOpenZoomLevel() { return openZoomLevel; }
 
 
 	/*#################################################################################################*/
@@ -410,6 +412,7 @@ public:
 
 	void setOpenDefaultView(QString val) { openDefaultView = val; saveSettingsTimer->start(); }
 	void setOpenPreviewMode(QString val) { openPreviewMode = val; saveSettingsTimer->start(); }
+	void setOpenZoomLevel(int val) { openZoomLevel = val; saveSettingsTimer->start(); }
 
 
 	/*#################################################################################################*/
@@ -518,6 +521,7 @@ public:
 
 	Q_PROPERTY(QString openDefaultView READ getOpenDefaultView WRITE setOpenDefaultView NOTIFY openDefaultViewChanged)
 	Q_PROPERTY(QString openPreviewMode READ getOpenPreviewMode WRITE setOpenPreviewMode NOTIFY openPreviewModeChanged)
+	Q_PROPERTY(int openZoomLevel READ getOpenZoomLevel WRITE setOpenZoomLevel NOTIFY openZoomLevelChanged)
 
 
 	/*#################################################################################################*/
@@ -644,6 +648,7 @@ public:
 
 		openDefaultView = "list";
 		openPreviewMode = "lq";
+		openZoomLevel = 15;
 
 	}
 
@@ -786,6 +791,7 @@ public slots:
 			cont += "\n[Open File]\n";
 			cont += QString("OpenDefaultView=%1\n").arg(openDefaultView);
 			cont += QString("OpenPreviewMode=%1\n").arg(openPreviewMode);
+			cont += QString("OpenZoomLevel=%1\n").arg(openZoomLevel);
 
 			out << cont;
 			file.close();
@@ -1198,6 +1204,8 @@ public slots:
 			else if(all.contains("OpenPreviewMode=none"))
 				openPreviewMode = "none";
 
+			if(all.contains("OpenZoomLevel="))
+				openZoomLevel = all.split("OpenZoomLevel=").at(1).split("\n").at(0).toInt();
 
 			file.close();
 
@@ -1308,6 +1316,7 @@ private slots:
 
 		emit openDefaultViewChanged(openDefaultView);
 		emit openPreviewModeChanged(openPreviewMode);
+		emit openZoomLevelChanged(openZoomLevel);
 
 	}
 
@@ -1419,6 +1428,7 @@ signals:
 
 	void openDefaultViewChanged(QString val);
 	void openPreviewModeChanged(QString val);
+	void openZoomLevelChanged(int val);
 
 };
 

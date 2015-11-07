@@ -12,6 +12,8 @@ Rectangle {
 
 	clip: true
 
+	property size maxpreviewsize: Qt.size(-1,-1)
+
 	Rectangle {
 
 		color: "#00000000"
@@ -29,8 +31,11 @@ Rectangle {
 			Behavior on opacity { SmoothedAnimation { id: preview_load; velocity: 0.1; } }
 
 			source: ""
-			sourceSize: Qt.size((mode=="lq" ? 0.5 : 1)*width,(mode=="lq" ? 0.5 : 1)*height)
 			onSourceChanged: {
+				if(maxpreviewsize.width < preview.sourceSize.width && maxpreviewsize.height < preview.sourceSize.height) {
+					preview.sourceSize = Qt.size((mode=="lq" ? 0.5 : 1)*width,(mode=="lq" ? 0.5 : 1)*height)
+					maxpreviewsize = preview.sourceSize
+				}
 				var s = getanddostuff.getImageSize(source)
 				if(s.width < width && s.height < height)
 					fillMode = Image.Pad
@@ -150,6 +155,8 @@ Rectangle {
 	ListModel { id: gridmodel; }
 
 	function loadDirectory(path) {
+
+		maxpreviewsize = Qt.size(-1,-1)
 
 		gridmodel.clear()
 		files = getanddostuff.getFilesWithSizeIn(path)

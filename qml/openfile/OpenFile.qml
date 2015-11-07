@@ -186,6 +186,8 @@ Rectangle {
 		property: "opacity"
 		to: 0
 		duration: 400
+		onStarted:
+			settings.openZoomLevel = tweaks.zoomlevel
 		onStopped: {
 			visible = false
 			blocked = false

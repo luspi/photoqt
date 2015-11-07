@@ -34,8 +34,13 @@ Rectangle {
 		tickmarksEnabled: true
 		stepSize: 1
 		scrollStep: 1
-		value: 15
-		onValueChanged: updateZoom(value)
+		value: settings.openZoomLevel
+		onValueChanged:
+			updateZoom(value)
+	}
+
+	function getZoomLevel() {
+		return zoom_slider.value
 	}
 
 }
