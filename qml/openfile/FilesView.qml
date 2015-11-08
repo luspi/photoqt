@@ -4,15 +4,17 @@ import QtQuick.Layouts 1.0
 
 Rectangle {
 
+	id: top
+
 	color: "#44000000"
 
 	property var files: []
 	property string dir_path: getanddostuff.getHomeDir()
-	property string mode: tweaks.getMode()
 
 	clip: true
 
-	property size maxpreviewsize: Qt.size(-1,-1)
+	property int previous_width: 0
+	property string previous_mode: ""
 
 	Rectangle {
 
@@ -28,14 +30,11 @@ Rectangle {
 			fillMode: Image.PreserveAspectFit
 			asynchronous: true
 			opacity: 0
+			cache: true
 			Behavior on opacity { SmoothedAnimation { id: preview_load; velocity: 0.1; } }
 
 			source: ""
 			onSourceChanged: {
-				if(maxpreviewsize.width < preview.sourceSize.width && maxpreviewsize.height < preview.sourceSize.height) {
-					preview.sourceSize = Qt.size((mode=="lq" ? 0.5 : 1)*width,(mode=="lq" ? 0.5 : 1)*height)
-					maxpreviewsize = preview.sourceSize
-				}
 				var s = getanddostuff.getImageSize(source)
 				if(s.width < width && s.height < height)
 					fillMode = Image.Pad
@@ -49,7 +48,7 @@ Rectangle {
 				} else {
 					preview_load.duration = 0
 					preview.opacity = 0
-					preview_load.duration = 400
+					preview_load.duration = 200
 				}
 			}
 		}
@@ -84,12 +83,20 @@ Rectangle {
 		}
 
 		onCurrentIndexChanged: {
-			if(type_preview == "none")
-				preview.source = ""
-			else if(files[2*currentIndex] === "")
-				return
+
+			if(opacity == 1)
+				gridview.currentIndex = currentIndex
 			else
+				return
+
+			if(type_preview == "none" || files[2*currentIndex] === "")
+				preview.source = ""
+			else {
+				if(previous_width != top.width || tweaks.getMode() !== previous_mode)
+					updatePreviewSourceSize()
 				preview.source = Qt.resolvedUrl("image://full/" + dir_path + "/" + files[2*currentIndex])
+			}
+
 		}
 
 	}
@@ -118,12 +125,20 @@ Rectangle {
 		delegate: gridviewDelegate
 
 		onCurrentIndexChanged: {
-			if(type_preview == "none")
-				preview.source = ""
-			else if(files[2*currentIndex] === "")
-				return
+
+			if(opacity == 1)
+				listview.currentIndex = currentIndex
 			else
+				return
+
+			if(type_preview == "none" || files[2*currentIndex] === "")
+				preview.source = ""
+			else {
+				if(previous_width != top.width || tweaks.getMode() !== previous_mode)
+					updatePreviewSourceSize()
 				preview.source = Qt.resolvedUrl("image://full/" + dir_path + "/" + files[2*currentIndex])
+			}
+
 		}
 
 	}
@@ -287,8 +302,6 @@ Rectangle {
 
 	function loadDirectory(path) {
 
-		maxpreviewsize = Qt.size(-1,-1)
-
 		listviewmodel.clear()
 		gridviewmodel.clear()
 		files = getanddostuff.getFilesWithSizeIn(path)
@@ -304,8 +317,13 @@ Rectangle {
 		else
 			nothingfound.visible = false
 
-		if(listview.currentIndex != -1 && type_preview == "color")
+		preview.source = ""
+		updatePreviewSourceSize()
+		if(listview.opacity == 1 && listview.currentIndex != -1 && type_preview != "none")
 			preview.source = Qt.resolvedUrl("image://full/" + dir_path + "/" + files[2*listview.currentIndex])
+		else if(gridview.opacity == 1 && gridview.currentIndex != -1 && type_preview != "none")
+			preview.source = Qt.resolvedUrl("image://full/" + dir_path + "/" + files[2*gridview.currentIndex])
+
 
 	}
 
@@ -351,10 +369,15 @@ Rectangle {
 			return
 		}
 
+		if(previous_width != top.width || tweaks.getMode() !== previous_mode)
+			updatePreviewSourceSize()
+
 		if(type_preview == "none")
 			preview.source = ""
-		else
+		else if(listview.opacity == 1)
 			preview.source = "image://full/" + dir_path + "/" + files[2*listview.currentIndex]
+		else if(gridview.opacity == 1)
+			preview.source = "image://full/" + dir_path + "/" + files[2*gridview.currentIndex]
 	}
 
 	function displayIcons() {
@@ -383,6 +406,13 @@ Rectangle {
 		gridview.opacity = 0
 		listview.opacity = 1
 
+	}
+
+	function updatePreviewSourceSize() {
+		var mode = tweaks.getMode()
+		preview.sourceSize = Qt.size((mode=="lq" ? 0.5 : 1)*preview.width,(mode=="lq" ? 0.5 : 1)*preview.height)
+		previous_width = top.width
+		previous_mode = tweaks.getMode()
 	}
 
 }

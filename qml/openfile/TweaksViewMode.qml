@@ -90,7 +90,6 @@ Rectangle {
 			propagateComposedEvents: true
 			cursorShape: Qt.PointingHandCursor
 			onClicked: {
-				console.log(settings.openDefaultView)
 				if(!viewmode_icon.checked) {
 					viewmode_icon.checked = true
 					displayIcons()
