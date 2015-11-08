@@ -15,6 +15,9 @@ QSize GetAndDoStuffOther::getImageSize(QString path) {
 	path = path.remove("file://");
 	path = QUrl::fromPercentEncoding(path.toLatin1());
 
+	if(path.trimmed() == "")
+		return QSize(-1,-1);
+
 	if(reader.supportedImageFormats().contains(QFileInfo(path).suffix().toLower().toLatin1())) {
 		reader.setFileName(path);
 		return reader.size();
@@ -22,12 +25,15 @@ QSize GetAndDoStuffOther::getImageSize(QString path) {
 
 #ifdef GM
 		QFile file(path);
-		file.open(QIODevice::ReadOnly);
+		if(!file.open(QIODevice::ReadOnly)) {
+			LOG << DATE << "getanddostuff > getImageSize GM - ERROR opening file, returning empty image" << std::endl;
+			return QSize(-1,-1);
+		}
 		char *data = new char[file.size()];
 		qint64 s = file.read(data, file.size());
 		if (s == -1) {
 			delete[] data;
-			LOG << DATE << "reader gm - ERROR reading image file data" << std::endl;
+			LOG << DATE << "getanddostuff > getImageSize GM - ERROR reading image file data" << std::endl;
 			return QSize(1024,768);
 		}
 		Magick::Blob blob(data, file.size());

@@ -264,7 +264,10 @@ QImage ImageProviderFull::readImage_GM(QString filename) {
 
 	// We first read the image into memory
 	QFile file(filename);
-	file.open(QIODevice::ReadOnly);
+	if(!file.open(QIODevice::ReadOnly)) {
+		if(verbose) LOG << DATE << "reader gm - ERROR opening file, returning empty image" << std::endl;
+		return QImage();
+	}
 	char *data = new char[file.size()];
 	qint64 s = file.read(data, file.size());
 
@@ -394,6 +397,8 @@ QImage ImageProviderFull::readImage_XCF(QString filename) {
 QString ImageProviderFull::whatDoIUse(QString filename) {
 
 	QString use = "qt";
+
+	if(filename.trimmed() == "") return use;
 
 	if(extrasfiles.trimmed() != "") {
 
