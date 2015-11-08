@@ -197,8 +197,11 @@ Rectangle {
 				anchors.fill: parent
 				hoverEnabled: true
 				cursorShape: Qt.PointingHandCursor
-				onEntered:
+				onEntered: {
 					listview.currentIndex = index
+					edit_rect.setEditText(getanddostuff.removePathFromFilename(preview.source, true))
+					edit_rect.focusOnInput()
+				}
 				onClicked: {
 					hideOpenAni.start()
 					reloadDirectory(dir_path + "/" + filename,"")

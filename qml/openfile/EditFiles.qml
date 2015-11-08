@@ -38,6 +38,7 @@ Rectangle {
 	}
 
 	function focusOnInput() {
+		filename_edit.forceActiveFocus()
 		filename_edit.selectAll()
 	}
 
