@@ -363,6 +363,8 @@ Rectangle {
 			listview.currentIndex += 1
 		else if(gridview.opacity == 1 && gridview.currentIndex+1 < gridview.count)
 			gridview.currentIndex += 1
+		edit_rect.setEditText(getanddostuff.removePathFromFilename(preview.source, true))
+		edit_rect.focusOnInput()
 	}
 
 	function focusOnPrevItem() {
@@ -370,6 +372,8 @@ Rectangle {
 			listview.currentIndex -= 1
 		else if(gridview.opacity == 1 && gridview.currentIndex > 0)
 			gridview.currentIndex -= 1
+		edit_rect.setEditText(getanddostuff.removePathFromFilename(preview.source, true))
+		edit_rect.focusOnInput()
 	}
 
 	function moveFocusFiveDown() {
@@ -377,6 +381,8 @@ Rectangle {
 			listview.currentIndex += 10
 		else if(gridview.opacity == 1 && gridview.currentIndex+10 < gridview.count)
 			gridview.currentIndex += 10
+		edit_rect.setEditText(getanddostuff.removePathFromFilename(preview.source, true))
+		edit_rect.focusOnInput()
 	}
 
 	function moveFocusFiveUp() {
@@ -384,6 +390,8 @@ Rectangle {
 			listview.currentIndex -= 10
 		else if(gridview.opacity == 1 && gridview.currentIndex > 9)
 			gridview.currentIndex -= 10
+		edit_rect.setEditText(getanddostuff.removePathFromFilename(preview.source, true))
+		edit_rect.focusOnInput()
 	}
 
 	function focusOnLastItem() {
@@ -391,6 +399,8 @@ Rectangle {
 			listview.currentIndex = listview.count-1
 		else if(gridview.opacity == 1 && gridview.count > 0)
 			gridview.currentIndex = gridview.count
+		edit_rect.setEditText(getanddostuff.removePathFromFilename(preview.source, true))
+		edit_rect.focusOnInput()
 	}
 
 	function focusOnFirstItem() {
@@ -398,6 +408,8 @@ Rectangle {
 			listview.currentIndex = 0
 		else if(gridview.opacity == 1 && gridview.count > 0)
 			gridview.currentIndex = 0
+		edit_rect.setEditText(getanddostuff.removePathFromFilename(preview.source, true))
+		edit_rect.focusOnInput()
 	}
 
 	function updatePreview() {
