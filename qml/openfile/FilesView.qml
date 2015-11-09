@@ -352,22 +352,30 @@ Rectangle {
 
 	function loadCurrentlyHighlightedImage() {
 		hideOpenAni.start()
-		reloadDirectory(dir_path + "/" + files[listview.currentIndex*2],"")
+		if(listview.opacity == 1)
+			reloadDirectory(dir_path + "/" + files[listview.currentIndex*2],"")
+		else if(gridview.opacity == 1)
+			reloadDirectory(dir_path + "/" + files[gridview.currentIndex*2],"")
 	}
 
 	function focusOnNextItem() {
-		if(listview.currentIndex+1 < listview.count)
+		if(listview.opacity == 1 && listview.currentIndex+1 < listview.count)
 			listview.currentIndex += 1
+		else if(gridview.opacity == 1 && gridview.currentIndex+1 < gridview.count)
+			gridview.currentIndex += 1
 	}
 
 	function focusOnPrevItem() {
-		if(listview.currentIndex > 0)
+		if(listview.opacity == 1 && listview.currentIndex > 0)
 			listview.currentIndex -= 1
+		else if(gridview.opacity == 1 && gridview.currentIndex > 0)
+			gridview.currentIndex -= 1
 	}
 
 	function updatePreview() {
 
-		if(files[2*listview.currentIndex] === undefined) {
+		if((listview.opacity == 1 && files[2*listview.currentIndex] === undefined)
+				|| (gridview.opacity == 1 && files[2*gridview.currentIndex] === undefined)) {
 			preview.source = ""
 			return
 		}
@@ -413,7 +421,7 @@ Rectangle {
 
 	function updatePreviewSourceSize() {
 		var mode = tweaks.getMode()
-		preview.sourceSize = Qt.size((mode=="lq" ? 0.5 : 1)*preview.width,(mode=="lq" ? 0.5 : 1)*preview.height)
+		preview.sourceSize = Qt.size((mode==="lq" ? 0.5 : 1)*preview.width,(mode==="lq" ? 0.5 : 1)*preview.height)
 		previous_width = top.width
 		previous_mode = tweaks.getMode()
 	}
