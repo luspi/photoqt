@@ -107,7 +107,14 @@ Rectangle {
 					filesview.focusOnNextItem()
 				onFocusOnPrevItem:
 					filesview.focusOnPrevItem()
-
+				onMoveFocusFiveUp:
+					filesview.moveFocusFiveUp()
+				onMoveFocusFiveDown:
+					filesview.moveFocusFiveDown()
+				onFocusOnFirstItem:
+					filesview.focusOnFirstItem()
+				onFocusOnLastItem:
+					filesview.focusOnLastItem()
 			}
 
 		}

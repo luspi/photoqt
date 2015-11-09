@@ -372,6 +372,34 @@ Rectangle {
 			gridview.currentIndex -= 1
 	}
 
+	function moveFocusFiveDown() {
+		if(listview.opacity == 1 && listview.currentIndex+10 < listview.count)
+			listview.currentIndex += 10
+		else if(gridview.opacity == 1 && gridview.currentIndex+10 < gridview.count)
+			gridview.currentIndex += 10
+	}
+
+	function moveFocusFiveUp() {
+		if(listview.opacity == 1 && listview.currentIndex > 9)
+			listview.currentIndex -= 10
+		else if(gridview.opacity == 1 && gridview.currentIndex > 9)
+			gridview.currentIndex -= 10
+	}
+
+	function focusOnLastItem() {
+		if(listview.opacity == 1 && listview.count > 0)
+			listview.currentIndex = listview.count-1
+		else if(gridview.opacity == 1 && gridview.count > 0)
+			gridview.currentIndex = gridview.count
+	}
+
+	function focusOnFirstItem() {
+		if(listview.opacity == 1 && listview.count > 0)
+			listview.currentIndex = 0
+		else if(gridview.opacity == 1 && gridview.count > 0)
+			gridview.currentIndex = 0
+	}
+
 	function updatePreview() {
 
 		if((listview.opacity == 1 && files[2*listview.currentIndex] === undefined)

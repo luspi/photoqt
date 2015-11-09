@@ -13,6 +13,10 @@ Rectangle {
 
 	signal focusOnNextItem()
 	signal focusOnPrevItem()
+	signal moveFocusFiveUp()
+	signal moveFocusFiveDown()
+	signal focusOnFirstItem();
+	signal focusOnLastItem();
 
 	CustomLineEdit {
 
@@ -28,6 +32,12 @@ Rectangle {
 
 		onArrowUp: focusOnPrevItem()
 		onArrowDown: focusOnNextItem()
+
+		onPageUp: moveFocusFiveUp()
+		onPageDown: moveFocusFiveDown()
+
+		onGotoHome: focusOnFirstItem()
+		onGotoEnd: focusOnLastItem()
 
 	}
 

@@ -19,6 +19,10 @@ Rectangle {
 
 	signal arrowUp()
 	signal arrowDown()
+	signal pageUp()
+	signal pageDown()
+	signal gotoHome()
+	signal gotoEnd()
 
 	TextEdit {
 
@@ -59,11 +63,24 @@ Rectangle {
 		Keys.onEscapePressed: rejected()
 
 		Keys.onPressed: {
-			if(event.key === Qt.Key_Up)
-				arrowUp()
-			else if(event.key === Qt.Key_Down)
-				arrowDown()
-
+			if(event.key === Qt.Key_Up) {
+				if(event.modifiers & Qt.ControlModifier)
+					gotoHome()
+				else
+					arrowUp()
+			} else if(event.key === Qt.Key_Down) {
+				if(event.modifiers & Qt.ControlModifier)
+					gotoEnd()
+				else
+					arrowDown()
+			} else if(event.key === Qt.Key_PageUp)
+				pageUp()
+			else if(event.key === Qt.Key_PageDown)
+				pageDown()
+			else if(event.key === Qt.Key_Home)
+				gotoHome()
+			else if(event.key === Qt.Key_End)
+				gotoEnd()
 		}
 
 	}
