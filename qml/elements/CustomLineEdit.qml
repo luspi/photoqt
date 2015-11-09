@@ -77,10 +77,6 @@ Rectangle {
 				pageUp()
 			else if(event.key === Qt.Key_PageDown)
 				pageDown()
-			else if(event.key === Qt.Key_Home)
-				gotoHome()
-			else if(event.key === Qt.Key_End)
-				gotoEnd()
 		}
 
 	}
