@@ -26,7 +26,7 @@ QSize GetAndDoStuffOther::getImageSize(QString path) {
 #ifdef GM
 		QFile file(path);
 		if(!file.open(QIODevice::ReadOnly)) {
-			LOG << DATE << "getanddostuff > getImageSize GM - ERROR opening file, returning empty image" << std::endl;
+			LOG << DATE << "getanddostuff > getImageSize GM - ERROR opening file, returning empty image (" << path.toStdString() << ")" << std::endl;
 			return QSize(-1,-1);
 		}
 		char *data = new char[file.size()];
