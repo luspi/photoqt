@@ -201,4 +201,8 @@ Rectangle {
 
 	}
 
+	function reloadUserPlaces() {
+		userplaces.loadUserPlaces()
+	}
+
 }

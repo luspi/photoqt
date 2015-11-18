@@ -29,6 +29,7 @@ public:
 		openfile = new GetAndDoStuffOpenFile;
 
 		connect(manipulation, SIGNAL(reloadDirectory(QString,bool)), this, SIGNAL(reloadDirectory(QString,bool)));
+		connect(openfile, SIGNAL(userPlacesUpdated()), this, SIGNAL(userPlacesUpdated()));
 		connect(shortcuts, SIGNAL(shortcutFileChanged(int)), this, SLOT(setShortcutNotifier(int)));
 
 	}
@@ -132,6 +133,7 @@ private:
 signals:
     void reloadDirectory(QString path, bool deleted = false);
 	void shortcutNotifierChanged(int val);
+	void userPlacesUpdated();
 
 };
 

@@ -78,6 +78,9 @@ Rectangle {
 	}
 
 	function loadUserPlaces() {
+
+		userplacesmodel.clear()
+
 		var entries = getanddostuff.getUserPlaces()
 
 		userplacesmodel.append({"type" : "heading",

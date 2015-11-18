@@ -2,6 +2,10 @@
 
 GetAndDoStuffOpenFile::GetAndDoStuffOpenFile(QObject *parent) : QObject(parent) {
 	formats = new FileFormats;
+
+	watcher = new QFileSystemWatcher;
+	watcher->addPath(QDir::homePath() + "/.local/share/user-places.xbel");
+	connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(updateUserPlaces()));
 }
 GetAndDoStuffOpenFile::~GetAndDoStuffOpenFile() { }
 

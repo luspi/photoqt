@@ -99,6 +99,9 @@ Item {
 			else
 				doReload(path)
 		}
+		onUserPlacesUpdated: {
+			openfile.reloadUserPlaces()
+		}
 	}
 	GetMetaData { id: getmetadata; }
 	ThumbnailManagement { id: thumbnailmanagement; }

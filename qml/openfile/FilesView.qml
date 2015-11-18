@@ -322,11 +322,11 @@ Rectangle {
 
 		preview.source = ""
 		updatePreviewSourceSize()
-		if(listview.opacity == 1 && listview.currentIndex != -1 && type_preview != "none")
-			preview.source = Qt.resolvedUrl("image://full/" + dir_path + "/" + files[2*listview.currentIndex])
-		else if(gridview.opacity == 1 && gridview.currentIndex != -1 && type_preview != "none")
-			preview.source = Qt.resolvedUrl("image://full/" + dir_path + "/" + files[2*gridview.currentIndex])
 
+		if(files.length > 0) {
+			preview.source = Qt.resolvedUrl("image://full/" + dir_path + "/" + files[0])
+			focusOnFirstItem()
+		}
 
 	}
 
