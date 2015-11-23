@@ -33,7 +33,6 @@ Item {
 		nofileloaded.visible = false
 		metadataarrow.visible = false
 		mainmenuarrow.visible = false
-		quicksettingsarrow.visible = false
         noresultsfound.visible = false
 
         // Update metadata
@@ -168,8 +167,8 @@ Item {
 		id: nofileloaded
 
 		anchors.fill: item
-		anchors.rightMargin: Math.max(metadataarrow.width,quicksettingsarrow.width)+25
-		anchors.leftMargin: Math.max(metadataarrow.width,quicksettingsarrow.width)+25
+		anchors.rightMargin: Math.max(metadataarrow.width,mainmenuarrow.width)+25
+		anchors.leftMargin: Math.max(metadataarrow.width,mainmenuarrow.width)+25
 
 		verticalAlignment: Qt.AlignVCenter
 		horizontalAlignment: Qt.AlignHCenter
@@ -194,26 +193,15 @@ Item {
 		height: 60
 	}
 
-	// Arrow pointing to quicksettings widget
-	Image {
-		id: quicksettingsarrow
-		visible: settings.quickSettings && background.height > quicksettings.height && openfile.opacity == 0
-		x: background.width-width-5
-		y: quicksettings.y+quicksettings.height/2-height/2
-		source: "qrc:/img/mainview/arrowright.png"
-		width: 150
-		height: 60
-	}
-
 	// Arrow pointing to mainmenu widget
 	Image {
 		id: mainmenuarrow
-		x: mainmenu.x+(mainmenu.width-width)/2
-		y: settings.thumbnailposition == "Bottom" ? 0 : background.height-height
-		source: settings.thumbnailposition == "Bottom" ? "qrc:/img/mainview/arrowup.png" : "qrc:/img/mainview/arrowdown.png"
-		visible: openfile.opacity == 0
-		width: 72
-		height: 120
+		visible: settings.quickSettings && openfile.opacity == 0
+		x: background.width-width-5
+		y: mainmenu.y+mainmenu.height/2-height/2
+		source: "qrc:/img/mainview/arrowright.png"
+		width: 150
+		height: 60
 	}
 
     Text {

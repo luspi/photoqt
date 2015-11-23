@@ -11,127 +11,175 @@ Rectangle {
 	border.color: colour.fadein_slidein_border
 
 	// Set position (we pretend that rounded corners are along the bottom edge only, that's why visible y is off screen)
-	x: background.width-width-100
-	y: settings.thumbnailposition == "Bottom" ? -height-safetyDistanceForSlidein : background.height+safetyDistanceForSlidein
+	x: (background.width-width)+1
+	y: -1
+	visible: false
 
 	// Adjust size
-	width: 350
-	height: view.contentHeight+3*radius
+	width: 300
+	height: background.height+2
 
-	// Corner radius
-	radius: global_element_radius
+	opacity: 0
 
-	// [id, icon, text]
-	property var allitems: [["open", "open", qsTr("Open File")],
-				["settings", "settings", qsTr("Settings")],
-				["wallpaper", "settings", qsTr("Set as Wallpaper")],
-				["slideshow", "slideshow", qsTr("Start Slideshow")],
-				["filter", "filter", qsTr("Filter Images in Folder")],
-				["metadata", "metadata", qsTr("Show/Hide Metadata")],
-				["about", "about", qsTr("About PhotoQt")],
-				["hide", "quit", qsTr("Hide (System Tray)")],
-				["quit", "quit", qsTr("Quit")]]
+	property var allitems: [
+		[["heading","",qsTr("General Functions")]],
+		[["open", "open", qsTr("Open File")]],
+		[["settings", "settings", qsTr("Settings")]],
+		[["wallpaper", "settings", qsTr("Set as Wallpaper")]],
+		[["slideshow","slideshow",qsTr("Slideshow")],["slideshow","",qsTr("setup")],["slideshowquickstart","",qsTr("quickstart")]],
+		[["filter", "filter", qsTr("Filter Images in Folder")]],
+		[["metadata", "metadata", qsTr("Show/Hide Metadata")]],
+		[["about", "about", qsTr("About PhotoQt")]],
+		[["hide", "hide", qsTr("Hide (System Tray)")]],
+		[["quit", "quit", qsTr("Quit")]],
 
-	// All entries in the menu
+		[["heading","",""]],
+
+		[["heading","",qsTr("Image")]],
+		[["scale","scale",qsTr("Scale Image")]],
+		[["zoom","zoom",qsTr("Zoom")],["zoomin","",qsTr("in")],["zoomout","",qsTr("out")],["zoomreset","",qsTr("reset")],["zoomactual","","1:1"]],
+		[["rotate","rotate",qsTr("Rotate")],["rotateleft","",qsTr("left")],["rotateright","",qsTr("right")]],
+		[["flip","flip",qsTr("Flip")],["flipH","",qsTr("horizontal")],["flipV","",qsTr("vertical")]],
+
+		[["heading","",""]],
+
+		[["heading","",qsTr("File")]],
+		[["rename","rename",qsTr("Rename")]],
+		[["copy","copy",qsTr("Copy")]],
+		[["move","move",qsTr("Move")]],
+		[["delete","delete",qsTr("Delete")]]
+
+	]
+
+
 	ListView {
 
-		id: view
+		id: mainview
 
-		// No scrolling/flicking!
-		boundsBehavior: ListView.StopAtBounds
-
-		// Same size as parent
-		anchors {
-			fill: parent
-			margins: mainmenu.radius
-			topMargin: 2*mainmenu.radius
-		}
-
-		// Simple model and delegate
+		anchors.fill: parent
+		anchors.bottom: helptext.top
+		anchors.margins: 10
 		model: allitems.length
-		delegate: deleg
+		delegate: maindeleg
+
+		orientation: ListView.Vertical
 
 	}
 
 	Component {
 
-		id: deleg
+		id: maindeleg
 
-		// Icon and entry text in a row
-		Row {
+		ListView {
 
-			// Icon
-			Image {
-				y: 2.5
-				width: val.height*0.5
-				height: val.height*0.5
-				sourceSize.width: width
-				sourceSize.height: height
-				source: "qrc:/img/mainmenu/" + allitems[index][1] + ".png"
-				opacity: (settings.trayicon || allitems[index][0] !== "hide") ? 1 : 0.5
-			}
+			id: subview
 
-			// Entry text
-			Text {
+			property int mainindex: index
+			height: 25
+			width: childrenRect.width
 
-				id: val;
+			orientation: Qt.Horizontal
+			spacing: 5
 
-				color: colour.text_inactive
-				lineHeight: 1.5
+			model: allitems[mainindex].length
+			delegate: Row {
 
-				opacity: enabled ? 1 : 0.5
+				spacing: 5
 
-				font.pointSize: 10
-				font.bold: true
+				Text {
+					id: sep
+					lineHeight: 1.5
 
-				enabled: (settings.trayicon || allitems[index][0] !== "hide")
+					color: colour.text_inactive
+					visible: allitems[subview.mainindex].length > 1 && index > 1
+					font.bold: true
+					text: "/"
+				}
 
-				// The spaces guarantee a bit of space betwene icon and text
-				text: "  " + allitems[index][2];
+				Image {
+					y: 2.5
+					width: ((source!="" || allitems[subview.mainindex][index][0]==="heading") ? val.height*0.5 : 0)
+					height: val.height*0.5
+					sourceSize.width: width
+					sourceSize.height: height
+					source: allitems[subview.mainindex][index][1]==="" ? "" : "qrc:/img/mainmenu/" + allitems[subview.mainindex][index][1] + ".png"
+					opacity: (settings.trayicon || allitems[subview.mainindex][index][0] !== "hide") ? 1 : 0.5
+					visible: (source!="" || allitems[subview.mainindex][index][0]==="heading")
+				}
 
-				MouseArea {
+				Text {
 
-					anchors.fill: parent
+					id: val;
 
-					hoverEnabled: true
-					cursorShape: Qt.PointingHandCursor
+					color: (allitems[subview.mainindex][index][0]==="heading") ? "white" : colour.text_inactive
+					lineHeight: 1.5
 
-					onEntered: val.color = colour.text
-					onExited: val.color = colour.text_inactive
-					onClicked: mainmenuDo(allitems[index][0])
+					font.capitalization: (allitems[subview.mainindex][index][0]==="heading") ? Font.SmallCaps : Font.MixedCase
+
+					opacity: enabled ? 1 : 0.5
+
+					font.pointSize: 10
+					font.bold: true
+
+					enabled: (settings.trayicon || (allitems[subview.mainindex][index][0] !== "hide" && allitems[subview.mainindex][index][0] !=="heading" && (allitems[subview.mainindex].length === 1 || index > 0)))
+
+					// The spaces guarantee a bit of space betwene icon and text
+					text: allitems[subview.mainindex][index][2] + ((allitems[subview.mainindex].length > 1 && index == 0) ? ":" : "")
+
+					MouseArea {
+
+						anchors.fill: parent
+
+						hoverEnabled: true
+						cursorShape: (allitems[subview.mainindex][index][0]!=="heading" && (allitems[subview.mainindex].length === 1 || index > 0)) ? Qt.PointingHandCursor : Qt.ArrowCursor
+
+						onEntered: {
+							if(allitems[subview.mainindex][index][0]!=="heading" && (allitems[subview.mainindex].length === 1 || index > 0))
+								val.color = colour.text
+						}
+						onExited: {
+							if(allitems[subview.mainindex][index][0]!=="heading" && (allitems[subview.mainindex].length === 1 || index > 0))
+								val.color = colour.text_inactive
+						}
+						onClicked: {
+							if(allitems[subview.mainindex][index][0]!=="heading" && (allitems[subview.mainindex].length === 1 || index > 0))
+								mainmenuDo(allitems[subview.mainindex][index][0])
+						}
+
+					}
 
 				}
 
 			}
 
-			// This is a second text entry - currently only used for Slideshow Quickstart entry (two in a row)
-			Text {
+		}
 
-				id: val2
+	}
 
-				visible: allitems[index][0] === "slideshow"
+	Text {
 
-				color: colour.text_inactive
-				lineHeight: 1.5
+		id: helptext
 
-				font.pointSize: 10
-				font.bold: true
+		anchors {
+			left: parent.left
+			right: parent.right
+			bottom: parent.bottom
+		}
 
-				text: " (" + qsTr("Quickstart") + ")"
+		height: 100
 
-				MouseArea {
+		horizontalAlignment: Text.AlignHCenter
+		verticalAlignment: Text.AlignVCenter
 
-					anchors.fill: parent
-					hoverEnabled: true
+		color: "grey"
+		wrapMode: Text.WordWrap
 
-					cursorShape: Qt.PointingHandCursor
-					onEntered: val2.color = colour.text
-					onExited: val2.color = colour.text_inactive
-					onClicked: mainmenuDo("slideshowquickstart")
+		text: qsTr("Click here to go to the online manual for help regarding shortcuts, settings, features, ...")
 
-				}
-			}
-
+		MouseArea {
+			anchors.fill: parent
+			cursorShape: Qt.PointingHandCursor
+			onClicked: getanddostuff.openLink("http://photoqt.org/man")
 		}
 
 	}
@@ -142,7 +190,7 @@ Rectangle {
 		verboseMessage("MainMenu::mainmenuDo()",what)
 
 		// Hide menu when an entry was clicked
-		if(what !== "metadata") hideMainmenu.start()
+//		if(what !== "metadata") hideMainmenu.start()
 
 		if(what === "open") openFile()
 
@@ -175,8 +223,27 @@ Rectangle {
 	PropertyAnimation {
 		id: hideMainmenu
 		target: mainmenu
-		property: "y"
-		to: settings.thumbnailposition == "Bottom" ? -mainmenu.height-safetyDistanceForSlidein : background.height+safetyDistanceForSlidein
+		property: "opacity"
+		to: 0
+		onStopped: {
+			if(opacity == 0 && !showMainmenu.running)
+				visible = false
+		}
+	}
+
+	PropertyAnimation {
+		id: showMainmenu
+		target:  mainmenu
+		property: "opacity"
+		to: 1
+		onStarted: visible=true
+	}
+
+	function show() {
+		showMainmenu.start()
+	}
+	function hide() {
+		hideMainmenu.start()
 	}
 
 }

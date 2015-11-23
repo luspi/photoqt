@@ -59,12 +59,11 @@
         <file>qml/openfile/BreadCrumbs.qml</file>
         <file>qml/openfile/Folders.qml</file>
         <file>qml/openfile/UserPlaces.qml</file>
-        <file>qml/openfile/FilesListView.qml</file>
-        <file>qml/openfile/FilesIconView.qml</file>
         <file>qml/openfile/Tweaks.qml</file>
         <file>qml/openfile/EditFiles.qml</file>
         <file>qml/openfile/TweaksViewMode.qml</file>
         <file>qml/openfile/TweaksPreview.qml</file>
         <file>qml/openfile/TweaksZoom.qml</file>
+        <file>qml/openfile/FilesView.qml</file>
     </qresource>
 </RCC>

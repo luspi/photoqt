@@ -103,7 +103,7 @@ FILE(GLOB files "lang/*.ts")
 FOREACH(file ${files})
 	GET_FILENAME_COMPONENT(filename ${file} NAME)
 	FILE(COPY ${CMAKE_CURRENT_SOURCE_DIR}/lang/${filename} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/buildlang)
-	QT5_CREATE_TRANSLATION(qm_files ${photoqt_SOURCES} ${CMAKE_CURRENT_BINARY_DIR}/buildlang/${filename} OPTIONS "-no-obsolete")
+#	QT5_CREATE_TRANSLATION(qm_files ${photoqt_SOURCES} ${CMAKE_CURRENT_BINARY_DIR}/buildlang/${filename} OPTIONS "-no-obsolete")
 ENDFOREACH()
 
 # Copy the language QRC file to the output directory, because the files listed in the

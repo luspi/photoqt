@@ -16,15 +16,18 @@ Rectangle {
 	border.color: colour.fadein_slidein_border
 
 	// Set position (we pretend that rounded corners are along the right edge only, that's why visible x is off screen)
-	x: background.width+safetyDistanceForSlidein
-	y: (background.height-height)/3
+	x: background.width-width+1
+	y: -1
 
 	// Adjust size
 	width: 350
-	height: childrenRect.height
+	height: parent.height+2
 
 	// Corner radius
-	radius: global_element_radius
+//	radius: global_element_radius
+	visible: false
+
+	property int paddingleft: 10
 
 	Column {
 
@@ -41,8 +44,8 @@ Rectangle {
 		Text {
 			color: colour.text
 			horizontalAlignment: Text.AlignHCenter
-			x: quicksettings.radius
-			width: quicksettings.width-3*quicksettings.radius
+			x: paddingleft
+			width: quicksettings.width-3*paddingleft
 			text: qsTr("Quick Settings")
 			font.pointSize: 15
 			font.bold: true
@@ -55,8 +58,8 @@ Rectangle {
 			text: qsTr("Change settings with one click. They are saved and applied immediately. If you're unsure what a setting does, check the full settings for descriptions.")
 			font.pointSize: 10
 			wrapMode: Text.WordWrap
-			x: quicksettings.radius
-			width: quicksettings.width-3*quicksettings.radius
+			x: paddingleft
+			width: quicksettings.width-3*paddingleft
 		}
 
 		// SORTING
@@ -64,8 +67,8 @@ Rectangle {
 		Rectangle {
 
 			color: "#00000000"
-			x: quicksettings.radius
-			width: quicksettings.width-3*quicksettings.radius
+			x: paddingleft
+			width: quicksettings.width-3*paddingleft
 			height: childrenRect.height
 
 			Row {
@@ -126,8 +129,8 @@ Rectangle {
 		/**************************************/
 
 		Rectangle {
-			x: quicksettings.radius
-			width: quicksettings.width-3*quicksettings.radius
+			x: paddingleft
+			width: quicksettings.width-3*paddingleft
 			height: 1
 			color: colour.linecolour
 		}
@@ -137,7 +140,7 @@ Rectangle {
 		CustomComboBox {
 			id: trayicon
 			width: 250
-			x: quicksettings.radius
+			x: paddingleft
 			model: [qsTr("No tray icon"),qsTr("Hide to tray icon"),qsTr("Show tray icon, but don't hide to it")]
 			onCurrentIndexChanged: {
 				verboseMessage("QuickSettings","Hide to tray Icon: " + trayicon.currentIndex)
@@ -148,8 +151,8 @@ Rectangle {
 		/**************************************/
 
 		Rectangle {
-			x: quicksettings.radius
-			width: quicksettings.width-3*quicksettings.radius
+			x: paddingleft
+			width: quicksettings.width-3*paddingleft
 			height: 1
 			color: colour.linecolour
 		}
@@ -159,7 +162,7 @@ Rectangle {
 		CustomCheckBox {
 			id: loop
 			text: qsTr("Loop through folder")
-			x: quicksettings.radius
+			x: paddingleft
 			onCheckedButtonChanged: {
 				verboseMessage("QuickSettings","Loop through folder: " + loop.checkedButton)
 				settings.loopthroughfolder = loop.checkedButton
@@ -169,8 +172,8 @@ Rectangle {
 		/**************************************/
 
 		Rectangle {
-			x: quicksettings.radius
-			width: quicksettings.width-3*quicksettings.radius
+			x: paddingleft
+			width: quicksettings.width-3*paddingleft
 			height: 1
 			color: colour.linecolour
 		}
@@ -180,7 +183,7 @@ Rectangle {
 		CustomCheckBox {
 			id: windowmode
 			text: qsTr("Window mode")
-			x: quicksettings.radius
+			x: paddingleft
 			onCheckedButtonChanged: {
 				verboseMessage("QuickSettings","Window Mode: " + windowmode.checkedButton)
 				settings.windowmode = windowmode.checkedButton
@@ -191,7 +194,7 @@ Rectangle {
 		CustomCheckBox {
 			id: windowdeco
 			text: qsTr("Show window decoration")
-			x: quicksettings.radius
+			x: paddingleft
 			enabled: windowmode.checkedButton
 			onCheckedButtonChanged: {
 				verboseMessage("QuickSettings","Window Deco: " + windowdeco.checkedButton)
@@ -202,8 +205,8 @@ Rectangle {
 		/**************************************/
 
 		Rectangle {
-			x: quicksettings.radius
-			width: quicksettings.width-3*quicksettings.radius
+			x: paddingleft
+			width: quicksettings.width-3*paddingleft
 			height: 1
 			color: colour.linecolour
 		}
@@ -213,7 +216,7 @@ Rectangle {
 		CustomCheckBox {
 			id: closeclick
 			text: qsTr("Close on click on background")
-			x: quicksettings.radius
+			x: paddingleft
 			onCheckedButtonChanged: {
 				verboseMessage("QuickSettings","Close on Click on Background: " + closeclick.checkedButton)
 				settings.closeongrey = closeclick.checkedButton
@@ -223,8 +226,8 @@ Rectangle {
 		/**************************************/
 
 		Rectangle {
-			x: quicksettings.radius
-			width: quicksettings.width-3*quicksettings.radius
+			x: paddingleft
+			width: quicksettings.width-3*paddingleft
 			height: 1
 			color: colour.linecolour
 		}
@@ -234,7 +237,7 @@ Rectangle {
 		CustomCheckBox {
 			id: keepvisible
 			text: qsTr("Keep thumbnails visible")
-			x: quicksettings.radius
+			x: paddingleft
 			onCheckedButtonChanged: {
 				verboseMessage("QuickSettings","Keep thumbnails visible: " + keepvisible.checkedButton)
 				settings.thumbnailKeepVisible = keepvisible.checkedButton
@@ -244,8 +247,8 @@ Rectangle {
 		/**************************************/
 
 		Rectangle {
-			x: quicksettings.radius
-			width: quicksettings.width-3*quicksettings.radius
+			x: paddingleft
+			width: quicksettings.width-3*paddingleft
 			height: 1
 			color: colour.linecolour
 		}
@@ -254,8 +257,8 @@ Rectangle {
 
 		CustomComboBox {
 			id: thumbmode
-			width: quicksettings.width-3*quicksettings.radius
-			x: quicksettings.radius
+			width: quicksettings.width-3*paddingleft
+			x: paddingleft
 			model: [qsTr("Normal thumbnails"), qsTr("Dynamic thumbnails"), qsTr("Smart thumbnails")]
 			onCurrentIndexChanged: settings.thumbnailDynamic = thumbmode.currentIndex
 			onPressedChanged: {
@@ -268,8 +271,8 @@ Rectangle {
 		/**************************************/
 
 		Rectangle {
-			x: quicksettings.radius
-			width: quicksettings.width-3*quicksettings.radius
+			x: paddingleft
+			width: quicksettings.width-3*paddingleft
 			height: 1
 			color: colour.linecolour
 		}
@@ -279,7 +282,7 @@ Rectangle {
 		CustomCheckBox {
 			id: quickset
 			text: qsTr("Enable 'Quick Settings'")
-			x: quicksettings.radius
+			x: paddingleft
 			onCheckedButtonChanged: {
 				verboseMessage("QuickSettings","Enable Quick Settings: " + quickset.checkedButton)
 				settings.quickSettings = quickset.checkedButton
@@ -299,8 +302,8 @@ Rectangle {
 
 		Rectangle {
 			color: "#00000000"
-			x: quicksettings.radius
-			width: quicksettings.width-3*quicksettings.radius
+			x: paddingleft
+			width: quicksettings.width-3*paddingleft
 			height: childrenRect.height
 			CustomButton {
 				text: qsTr("Show full settings")
@@ -323,10 +326,29 @@ Rectangle {
 
 	// 'Hide' animation
 	PropertyAnimation {
-		id: hideQuick
+		id: hideMe
 		target: quicksettings
-		property: (dontAnimateComboboxOpened ? "" : "x")
-		to: background.width+safetyDistanceForSlidein
+		property: "opacity"
+		to: 0
+		onStopped: {
+			if(opacity == 0 && !showMe.running)
+				visible = false
+		}
+	}
+
+	PropertyAnimation {
+		id: showMe
+		target:  quicksettings
+		property: "opacity"
+		to: 1
+		onStarted: visible=true
+	}
+
+	function show() {
+		showMe.start()
+	}
+	function hide() {
+		hideMe.start()
 	}
 
 

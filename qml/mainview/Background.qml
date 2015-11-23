@@ -119,47 +119,19 @@ Rectangle {
 
 		// MAINMENU
 		MouseArea {
-			x: mainmenu.x
-			y: settings.thumbnailposition == "Bottom" ? 0 : background.height-height
-			width: mainmenu.width
-			height: settings.thumbnailposition == "Bottom"
-					? (mainmenu.y > -mainmenu.height ? mainmenu.height : settings.menusensitivity*3)
-					: (mainmenu.y > background.height ? settings.menusensitivity*3 : mainmenu.height)
+			x: mainmenu.opacity == 0 ? background.width-settings.menusensitivity*5 : mainmenu.x
+			y: 0
+			width: mainmenu.opacity == 0 ? settings.menusensitivity*5 : mainmenu.width
+			height: background.height
+//			settings.thumbnailposition == "Bottom"
+//					? (mainmenu.y > -mainmenu.height ? mainmenu.height : settings.menusensitivity*3)
+//					: (mainmenu.y > background.height ? settings.menusensitivity*3 : mainmenu.height)
 			hoverEnabled: true
 			MouseArea {
 				anchors.fill: parent
 				hoverEnabled: true
 				onEntered:
-				PropertyAnimation {
-					target:  mainmenu
-					from: settings.thumbnailposition == "Bottom" ? -mainmenu.height : background.height
-					property: settings.thumbnailposition == "Bottom" ? ((softblocked == 0 && mainmenu.y < -mainmenu.height) ? "y" : "")
-									: ((softblocked == 0 && mainmenu.y > background.height) ? "y" : "")
-					to: settings.thumbnailposition == "Bottom" ? -mainmenu.radius : background.height-mainmenu.height+mainmenu.radius
-					duration: settings.myWidgetAnimated ? 250 : 0
-				}
-			}
-		}
-
-		// QUICKSETTINGS
-		MouseArea {
-			x: (quicksettings.x > background.width ? background.width-settings.menusensitivity*3 : background.width-quicksettings.width)
-			y: quicksettings.y
-			width: (quicksettings.x > background.width ? settings.menusensitivity*3 : quicksettings.width)
-			height: quicksettings.height
-			hoverEnabled: true
-			MouseArea {
-				anchors.fill: parent
-				hoverEnabled: true
-				onEntered:
-				PropertyAnimation {
-					target:  quicksettings
-					property: ((softblocked == 0 && quicksettings.x > background.width && background.height > quicksettings.height) ? "x" : "")
-					from: background.width
-					onStarted: { if(softblocked == 0 && quicksettings.x > background.width) quicksettings.setData(); }
-					to: (settings.quickSettings ? (background.width-quicksettings.width+quicksettings.radius) : background.width)
-					duration: settings.myWidgetAnimated ? 250 : 0
-				}
+					mainmenu.show()
 			}
 		}
 
@@ -194,9 +166,9 @@ Rectangle {
 	function hideEverything() {
 		hideThumbnailBar.start()
 		if(settingssession.value("metadatakeepopen") === false) hideMetaData.start()
-		hideMainmenu.start()
-		if(quicksettings.x < background.width)
-			hideQuicksettings.start()
+		mainmenu.hide()
+		if(mainmenu.opacity != 0)
+			mainmenu.hide()
 		slideshowbar.hideBar()
 	}
 	function hideMetadata() {
@@ -218,20 +190,6 @@ Rectangle {
 		target: metaData
 		property: "x"
 		to: -metaData.width-safetyDistanceForSlidein
-		duration: settings.myWidgetAnimated ? 250 : 0
-	}
-	PropertyAnimation {
-		id: hideMainmenu
-		target: mainmenu
-		property: "y"
-		to: settings.thumbnailposition == "Bottom" ? -mainmenu.height-safetyDistanceForSlidein : background.height+safetyDistanceForSlidein
-		duration: settings.myWidgetAnimated ? 250 : 0
-	}
-	PropertyAnimation {
-		id: hideQuicksettings
-		target: quicksettings
-		property: (quicksettings.dontAnimateComboboxOpened ? "" : "x")
-		to: background.width+safetyDistanceForSlidein
 		duration: settings.myWidgetAnimated ? 250 : 0
 	}
 

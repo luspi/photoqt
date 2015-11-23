@@ -127,8 +127,6 @@ Item {
 	// MetaData of the image (using the C++ Exiv2 library)
 	MetaData { id: metaData; }
 
-	QuickSettings { id: quicksettings; }
-
 	About { id: about; }
 	Wallpaper { id: wallpaper; }
 	Scale { id: scaleImage; }
@@ -176,10 +174,6 @@ Item {
 		verboseMessage("MainWindow::alsoIgnoreSystemShortcuts()","Setting interface and system shortcut block to '" + block + "'")
 		blocked = block;
 		blockedSystem = block;
-	}
-
-	Component.onCompleted: {
-		quicksettings.setData()
 	}
 
 	// We can't emit the signal from the subcomponent (empty error message), so we go the detour with a function emitting the signal
