@@ -27,7 +27,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/scripts/getanddostuff/wallpaper
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/singleinstance/singleinstance.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/mainwindow.qml qml/Shortcuts.qml qml/Colour.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/slidein/ThumbnailBar.qml qml/slidein/MetaData.qml qml/slidein/MainMenu.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} qml/slidein/QuickSettings.qml qml/slidein/SlideshowBar.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/slidein/SlideshowBar.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/mainview/Background.qml qml/mainview/QuickInfo.qml qml/mainview/ContextMenu.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/openfile/OpenFile.qml qml/openfile/BreadCrumbs.qml qml/openfile/UserPlaces.qml qml/openfile/Folders.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/openfile/FilesView.qml qml/openfile/EditFiles.qml qml/openfile/TweaksZoom.qml)

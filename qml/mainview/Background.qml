@@ -77,15 +77,15 @@ Rectangle {
 		// METADATA
 		MouseArea {
 			x: 0
-			y: metaData.y
-			height: metaData.height
-			width: (metaData.x <= -metaData.width ? settings.menusensitivity*3 : metaData.width)
+			y: 0
+			height: background.height
+			width: metaData.opacity == 0 ? settings.menusensitivity*5 : metaData.width
 			hoverEnabled: true
 
 			MouseArea {
 				anchors.fill: parent
 				hoverEnabled: true
-				onEntered: if(softblocked == 0 && metaData.x < -metaData.width) showMetadata()
+				onEntered: if(softblocked == 0 && metaData.opacity != 1) showMetadata()
 			}
 
 		}
@@ -106,13 +106,7 @@ Rectangle {
 				anchors.fill: parent
 				hoverEnabled: true
 				onEntered:
-				PropertyAnimation {
-					target:  thumbnailBar
-					from: settings.thumbnailposition == "Bottom" ? background.height : -thumbnailBar.height
-					property: (softblocked == 0 ? (settings.thumbnailKeepVisible == false ? "y" : "") : "")
-					to: settings.thumbnailposition == "Bottom" ? background.height-thumbnailBar.height : 0
-					duration: settings.myWidgetAnimated ? 250 : 0
-				}
+					thumbnailBar.show()
 			}
 
 		}
@@ -123,15 +117,12 @@ Rectangle {
 			y: 0
 			width: mainmenu.opacity == 0 ? settings.menusensitivity*5 : mainmenu.width
 			height: background.height
-//			settings.thumbnailposition == "Bottom"
-//					? (mainmenu.y > -mainmenu.height ? mainmenu.height : settings.menusensitivity*3)
-//					: (mainmenu.y > background.height ? settings.menusensitivity*3 : mainmenu.height)
 			hoverEnabled: true
 			MouseArea {
 				anchors.fill: parent
 				hoverEnabled: true
 				onEntered:
-					mainmenu.show()
+					if(softblocked == 0) mainmenu.show()
 			}
 		}
 
@@ -150,22 +141,15 @@ Rectangle {
 	// Show elements
 	function showMetadata(from_mainmenu) {
 		if(settings.exifenablemousetriggering || (from_mainmenu !== undefined && from_mainmenu === true))
-			metadata_show.start()
-	}
-	PropertyAnimation {
-		id: metadata_show
-		target: metaData
-		property: "x"
-		from: -metaData.width
-		to: -metaData.radius
-		duration: settings.myWidgetAnimated ? 250 : 0
+			metaData.show()
 	}
 
 	// Hide elements
 
 	function hideEverything() {
-		hideThumbnailBar.start()
-		if(settingssession.value("metadatakeepopen") === false) hideMetaData.start()
+		thumbnailBar.hide()
+		metaData.hide()
+		if(settingssession.value("metadatakeepopen") === false) metaData.hide()
 		mainmenu.hide()
 		if(mainmenu.opacity != 0)
 			mainmenu.hide()
@@ -175,22 +159,7 @@ Rectangle {
 		if(settingssession.value("metadatakeepopen") === true)
 			settingssession.setValue("metadatakeepopen",false)
 		metaData.uncheckCheckbox()
-		hideMetaData.start()
-	}
-
-	PropertyAnimation {
-		id: hideThumbnailBar
-		target:  thumbnailBar
-		property: (settings.thumbnailKeepVisible === false ? "y" : "");
-		to: settings.thumbnailposition == "Bottom" ? background.height+safetyDistanceForSlidein : -thumbnailBar.height-safetyDistanceForSlidein
-		duration: settings.myWidgetAnimated ? 250 : 0
-	}
-	PropertyAnimation {
-		id: hideMetaData
-		target: metaData
-		property: "x"
-		to: -metaData.width-safetyDistanceForSlidein
-		duration: settings.myWidgetAnimated ? 250 : 0
+		metaData.hide()
 	}
 
 }

@@ -453,4 +453,29 @@ Rectangle {
 			}
 		}
 	}
+
+	PropertyAnimation {
+		id: showThumbnailBar
+		target:  thumbnailBar
+		from: settings.thumbnailposition == "Bottom" ? background.height : -thumbnailBar.height
+		property: (softblocked == 0 ? (settings.thumbnailKeepVisible == false ? "y" : "") : "")
+		to: settings.thumbnailposition == "Bottom" ? background.height-thumbnailBar.height : 0
+		duration: settings.myWidgetAnimated ? 250 : 0
+	}
+
+	PropertyAnimation {
+		id: hideThumbnailBar
+		target:  thumbnailBar
+		property: (settings.thumbnailKeepVisible === false ? "y" : "");
+		to: settings.thumbnailposition == "Bottom" ? background.height+safetyDistanceForSlidein : -thumbnailBar.height-safetyDistanceForSlidein
+		duration: settings.myWidgetAnimated ? 250 : 0
+	}
+
+	function show() {
+		showThumbnailBar.start()
+	}
+	function hide() {
+		hideThumbnailBar.start()
+	}
+
 }

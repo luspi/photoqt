@@ -241,7 +241,7 @@ Item {
 		var cursorpos = getCursorPos()
 
 		// Check for mainmenu
-		if(mainmenu.x < cursorpos.x && (mainmenu.x+mainmenu.width) > cursorpos.x && (mainmenu.y+mainmenu.height) > cursorpos.y) return
+		if(mainmenu.x < cursorpos.x) return
 		// Check for thumbnailbar
 		if(thumbnailBar.y < cursorpos.y) return
 		// Check for image data
@@ -250,8 +250,6 @@ Item {
 		if(quickInfo.x < cursorpos.x && (quickInfo.x+quickInfo.getWidth()) > cursorpos.x
 				&& quickInfo.y < cursorpos.y && (quickInfo.y+quickInfo.getHeight()) > cursorpos.y) return
 		if(mainview.getClosingX_x() < cursorpos.x && mainview.getClosingX_height() > cursorpos.y) return
-		// Check for sidebar
-		if(sidebar.x < cursorpos.x && sidebar.y < cursorpos.y && (sidebar.y+sidebar.height) > cursorpos.y) return
 
 		// Close on Click on empty area around image
 		if(sh === "Left Button" && settings.closeongrey) {

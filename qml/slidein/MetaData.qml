@@ -18,15 +18,15 @@ Rectangle {
 	border.color: colour.fadein_slidein_border
 
 	// Set position (we pretend that rounded corners are along the right edge only, that's why visible x is off screen)
-	x: -width-safetyDistanceForSlidein
-	y: (background.height-meta.height)/3
+	x: -1
+	y: -1
 
 	// Adjust size
-	width: ((view.width+2*radius < 350) ? 350 : view.width+2*radius)
-	height: ((imageLoaded) ? (view.contentHeight > width/2 ? view.contentHeight : width/2) : width)+2*check.height+2*spacing.height
+	width: 350
+	height: parent.height+2
 
-	// Corner radius
-	radius: global_element_radius
+	opacity: 0
+	visible: false
 
 	// Label at first start-up
 	Text {
@@ -81,15 +81,27 @@ Rectangle {
 
 	}
 
+	Text {
+
+		id: heading
+		y: 20
+		x: (parent.width-width)/2
+		font.pointSize: 18
+		color: colour.text
+		font.bold: true
+		text: "Metadata"
+
+	}
+
 	ListView {
 
 		id: view
 
-		x: meta.radius+10
-		y: radius
+		x: 10
+		y: heading.height+40
 
 		width: childrenRect.width
-		height: meta.height-2*check.height-2*spacing.height
+		height: meta.height-2*check.height-2*spacing.height - 2*heading.height
 
 		visible: imageLoaded
 		model: ListModel { id: mod; }
@@ -176,6 +188,26 @@ Rectangle {
 
 		}
 
+	}
+
+	// 'Hide' animation
+	PropertyAnimation {
+		id: hideMetaData
+		target: metaData
+		property: "opacity"
+		to: 0
+		onStopped: {
+			if(opacity == 0 && !showMetaData.running)
+				visible = false
+		}
+	}
+
+	PropertyAnimation {
+		id: showMetaData
+		target:  metaData
+		property: "opacity"
+		to: 1
+		onStarted: visible=true
 	}
 
 	function setData(d) {
@@ -295,6 +327,16 @@ Rectangle {
 
 	function clear() {
 		imageLoaded = false
+	}
+
+
+
+	function hide() {
+		if(!check.checkedButton)
+			hideMetaData.start()
+	}
+	function show() {
+		showMetaData.start()
 	}
 
 }

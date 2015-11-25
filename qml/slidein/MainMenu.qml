@@ -231,7 +231,7 @@ Rectangle {
 			filter.showFilter()
 
 		} else if(what === "metadata") {
-			if(metaData.x > -2*metaData.radius) {
+			if(metaData.opacity != 0) {
 				metaData.uncheckCheckbox()
 				background.hideMetadata()
 			} else {
