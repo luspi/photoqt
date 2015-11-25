@@ -176,7 +176,7 @@ Rectangle {
 			Text {
 				id: files_txt
 				x: 5 + files_img.width+5
-				width: listview.width-5-files_size.width
+				width: listview.width-15-files_size.width
 				text: "<b>" + filename + "</b>"
 				color: "white"
 				verticalAlignment: Text.AlignVCenter

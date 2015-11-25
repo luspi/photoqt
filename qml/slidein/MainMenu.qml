@@ -38,8 +38,8 @@ Rectangle {
 		[["heading","",qsTr("Image")]],
 		[["scale","scale",qsTr("Scale Image")]],
 		[["zoom","zoom",qsTr("Zoom")],["zoomin","",qsTr("in")],["zoomout","",qsTr("out")],["zoomreset","",qsTr("reset")],["zoomactual","","1:1"]],
-		[["rotate","rotate",qsTr("Rotate")],["rotateleft","",qsTr("left")],["rotateright","",qsTr("right")]],
-		[["flip","flip",qsTr("Flip")],["flipH","",qsTr("horizontal")],["flipV","",qsTr("vertical")]],
+		[["rotate","rotate",qsTr("Rotate")],["rotateleft","",qsTr("left")],["rotateright","",qsTr("right")],["rotatereset","",qsTr("reset")]],
+		[["flip","flip",qsTr("Flip")],["flipH","",qsTr("horizontal")],["flipV","",qsTr("vertical")],["flipReset","",qsTr("reset")]],
 
 		[["heading","",""]],
 
@@ -53,8 +53,6 @@ Rectangle {
 
 
 	ListView {
-
-		id: mainview
 
 		anchors.fill: parent
 		anchors.bottom: helptext.top
@@ -192,23 +190,47 @@ Rectangle {
 		// Hide menu when an entry was clicked
 //		if(what !== "metadata") hideMainmenu.start()
 
-		if(what === "open") openFile()
+		if(what === "open") {
 
-		else if(what === "quit") quitPhotoQt()
+			hideMainmenu.start()
+			openFile()
 
-		else if(what === "about") about.showAbout()
+		} else if(what === "quit") {
 
-		else if(what === "settings") settingsitem.showSettings()
+			hideMainmenu.start()
+			quitPhotoQt()
 
-		else if(what === "wallpaper") wallpaper.showWallpaper()
+		} else if(what === "about") {
 
-		else if(what === "slideshow") slideshow.showSlideshow()
+			hideMainmenu.start()
+			about.showAbout()
 
-		else if(what === "slideshowquickstart") slideshow.quickstart()
+		} else if(what === "settings") {
 
-		else if(what === "filter") filter.showFilter()
+			hideMainmenu.start()
+			settingsitem.showSettings()
 
-		else if(what === "metadata") {
+		} else if(what === "wallpaper") {
+
+			hideMainmenu.start()
+			wallpaper.showWallpaper()
+
+		} else if(what === "slideshow") {
+
+			hideMainmenu.start()
+			slideshow.showSlideshow()
+
+		} else if(what === "slideshowquickstart") {
+
+			hideMainmenu.start()
+			slideshow.quickstart()
+
+		} else if(what === "filter") {
+
+			hideMainmenu.start()
+			filter.showFilter()
+
+		} else if(what === "metadata") {
 			if(metaData.x > -2*metaData.radius) {
 				metaData.uncheckCheckbox()
 				background.hideMetadata()
@@ -216,7 +238,81 @@ Rectangle {
 				metaData.checkCheckbox()
 				background.showMetadata(true)
 			}
+		} else if(what === "scale") {
+
+			hideMainmenu.start()
+			scaleImage.showScale()
+
+		} else if(what === "zoomin")
+
+			mainview.zoomIn(true)
+
+		else if(what === "zoomout")
+
+			mainview.zoomOut(true)
+
+		else if(what === "zoomreset")
+
+			mainview.resetZoom()
+
+		else if(what === "zoomactual")
+
+			mainview.zoomActual()
+
+		else if(what === "rotateleft")
+
+			mainview.rotateLeft()
+
+		else if(what === "rotateright")
+
+			mainview.rotateRight()
+
+		else if(what === "rotatereset")
+
+			mainview.resetRotation()
+
+		else if(what === "flipH")
+
+			mainview.mirrorHorizontal()
+
+		else if(what === "flipV")
+
+			mainview.mirrorVertical()
+
+		else if(what === "flipReset")
+
+			mainview.resetMirror()
+
+		else if(what === "rename") {
+
+			if(thumbnailBar.currentFile !== "") {
+				hideMainmenu.start()
+				rename.showRename()
+			}
+
+		} else if(what === "copy") {
+
+			if(thumbnailBar.currentFile !== "") {
+				hideMainmenu.start()
+				getanddostuff.copyImage(thumbnailBar.currentFile)
+			}
+
+		} else if(what === "move") {
+
+			if(thumbnailBar.currentFile !== "") {
+				hideMainmenu.start()
+				getanddostuff.moveImage(thumbnailBar.currentFile)
+			}
+
+		} else if(what === "delete") {
+
+			if(thumbnailBar.currentFile !== "") {
+				hideMainmenu.start()
+				deleteImage.showDelete()
+			}
+
 		}
+
 	}
 
 	// 'Hide' animation
