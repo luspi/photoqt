@@ -82,7 +82,15 @@ QVariantMap GetMetaData::getExiv2(QString path) {
 
 			// Obtain METADATA
 
-			Exiv2::Image::AutoPtr image = Exiv2::ImageFactory::open(path.toStdString());
+			Exiv2::Image::AutoPtr image;
+			try {
+				image  = Exiv2::ImageFactory::open(path.toStdString());
+			} catch (Exiv2::Error& e) {
+				LOG << DATE << "getmetadata - ERROR reading exiv data (caught exception): " << e.what() << std::endl;
+				returnMap.clear();
+				returnMap.insert("validfile","0");
+				return returnMap;
+			}
 			image->readMetadata();
 
 			/*******************
