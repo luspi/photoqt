@@ -28,6 +28,28 @@ Rectangle {
 	opacity: 0
 	visible: false
 
+	// HEADING OF RECTANGLE
+	Text {
+
+		id: heading
+		y: 20
+		x: (parent.width-width)/2
+		font.pointSize: 18
+		color: colour.text
+		font.bold: true
+		text: "Metadata"
+
+	}
+
+	Rectangle {
+		id: spacingbelowheader
+		x: 5
+		y: heading.y+heading.height+20
+		height: 1
+		width: parent.width-10
+		color: "white"
+	}
+
 	// Label at first start-up
 	Text {
 
@@ -81,27 +103,15 @@ Rectangle {
 
 	}
 
-	Text {
-
-		id: heading
-		y: 20
-		x: (parent.width-width)/2
-		font.pointSize: 18
-		color: colour.text
-		font.bold: true
-		text: "Metadata"
-
-	}
-
 	ListView {
 
 		id: view
 
 		x: 10
-		y: heading.height+40
+		y: spacingbelowheader.y + spacingbelowheader.height + 20
 
 		width: childrenRect.width
-		height: meta.height-2*check.height-2*spacing.height - 2*heading.height
+		height: parent.height - spacingbelowheader.y-spacingbelowheader.height-20 - check.height*2
 
 		visible: imageLoaded
 		model: ListModel { id: mod; }
