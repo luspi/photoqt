@@ -22,12 +22,14 @@ FIND_PATH(MAGICK++_INCLUDE_DIR Magick++.h
 	/usr/include/
 	/opt/local/include/GraphicsMagick/Magick++
 	/opt/local/include/GraphicsMagick
+	/usr/local/include/GraphicsMagick
 )
 
 FIND_LIBRARY(Magick++ GraphicsMagick++ PATHS
 	"$ENV{MAGICK_LOCATION}/.libs"
 	"$ENV{MAGICK_LOCATION}/lib"
 	/opt/local/lib
+	/usr/local/lib
 	DOC "GraphicsMagick Magick++ library"
 )
 
