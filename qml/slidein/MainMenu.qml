@@ -55,10 +55,11 @@ Rectangle {
 	ListView {
 
 		anchors.fill: parent
-		anchors.bottom: helptext.top
+		anchors.bottomMargin: helptext.height+5
 		anchors.margins: 10
 		model: allitems.length
 		delegate: maindeleg
+		clip: true
 
 		orientation: ListView.Vertical
 
@@ -151,6 +152,17 @@ Rectangle {
 			}
 
 		}
+
+	}
+
+	Rectangle {
+		anchors {
+			bottom: helptext.top
+			left: parent.left
+			right: parent.right
+		}
+		height: 1
+		color: "#22ffffff"
 
 	}
 
