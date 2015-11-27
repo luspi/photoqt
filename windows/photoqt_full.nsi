@@ -7,6 +7,9 @@
 	; Include Modern UI
 	!include MUI2.nsh
 
+	; Include Uninstall Log to keep track of installed files
+	!include "UninstallLog.nsh"
+
 	; Include stuff for nsdialog
 	!include LogicLib.nsh
 	!include nsDialogs.nsh
@@ -48,6 +51,26 @@
 	!define MUI_LANGDLL_REGISTRY_VALUENAME "Installer Language"
 
 ;--------------------------------
+; PAGES
+
+
+	; Welcome text
+	!define MUI_WELCOMEPAGE_TITLE $(WelcomePage_Title)
+	!define MUI_WELCOMEPAGE_TEXT $(WelcomePage_Text_part1)$\r$\n$\r$\n$(WelcomePage_Text_part2)
+
+	; Installer pages
+	!insertmacro MUI_PAGE_WELCOME
+	!insertmacro MUI_PAGE_LICENSE "license.txt"
+	!insertmacro MUI_PAGE_DIRECTORY
+	!insertmacro MUI_PAGE_INSTFILES
+	Page custom FinalStepsInit FinalStepsLeave
+	!insertmacro MUI_PAGE_FINISH
+
+	; UNinstaller pages
+	!insertmacro MUI_UNPAGE_CONFIRM
+	!insertmacro MUI_UNPAGE_INSTFILES
+
+;--------------------------------
 ; LOCALISATION
 
 	!insertmacro MUI_LANGUAGE "English"
@@ -67,26 +90,6 @@
 	LangString	FinishPage_DesktopIcon			${LANG_English} "Create Desktop Icon"
 	LangString	FinishPage_StartMenu			${LANG_English} "Create Start menu entry"
 
-
-;--------------------------------
-; PAGES
-
-	; Welcome text
-	!define MUI_WELCOMEPAGE_TITLE $(WelcomePage_Title)
-	!define MUI_WELCOMEPAGE_TEXT $(WelcomePage_Text_part1)$\r$\n$\r$\n$(WelcomePage_Text_part2)
-
-	; Installer pages
-	!insertmacro MUI_PAGE_WELCOME
-	!insertmacro MUI_PAGE_LICENSE "license.txt"
-	!insertmacro MUI_PAGE_DIRECTORY
-	!insertmacro MUI_PAGE_INSTFILES
-	Page custom FinalStepsInit FinalStepsLeave
-	!insertmacro MUI_PAGE_FINISH
-
-	; UNinstaller pages
-	!insertmacro MUI_UNPAGE_CONFIRM
-	!insertmacro MUI_UNPAGE_INSTFILES
-
 ;--------------------------------
 ;Reserve Files
 
@@ -95,6 +98,73 @@
   ;because this will make your installer start faster.
 
   !insertmacro MUI_RESERVEFILE_LANGDLL
+
+
+;--------------------------------
+; Prepare UninstallLog
+
+  ;Set the name of the uninstall log
+    !define UninstLog "uninstall.log"
+    Var UninstLog
+  ;The root registry to write to
+    !define REG_ROOT "HKLM"
+  ;The registry path to write to
+    !define REG_APP_PATH "SOFTWARE\appname"
+
+  ;Uninstall log file missing.
+    LangString UninstLogMissing ${LANG_ENGLISH} "${UninstLog} not found!$\r$\nUninstallation cannot proceed!"
+
+  ;AddItem macro
+    !define AddItem "!insertmacro AddItem"
+
+  ;BackupFile macro
+    !define BackupFile "!insertmacro BackupFile"
+
+  ;BackupFiles macro
+    !define BackupFiles "!insertmacro BackupFiles"
+
+  ;Copy files macro
+    !define CopyFiles "!insertmacro CopyFiles"
+
+  ;CreateDirectory macro
+    !define CreateDirectory "!insertmacro CreateDirectory"
+
+  ;CreateShortcut macro
+    !define CreateShortcut "!insertmacro CreateShortcut"
+
+  ;File macro
+    !define File "!insertmacro File"
+
+  ;Rename macro
+    !define Rename "!insertmacro Rename"
+
+  ;RestoreFile macro
+    !define RestoreFile "!insertmacro RestoreFile"
+
+  ;RestoreFiles macro
+    !define RestoreFiles "!insertmacro RestoreFiles"
+
+  ;SetOutPath macro
+    !define SetOutPath "!insertmacro SetOutPath"
+
+  ;WriteRegDWORD macro
+    !define WriteRegDWORD "!insertmacro WriteRegDWORD"
+
+  ;WriteRegStr macro
+    !define WriteRegStr "!insertmacro WriteRegStr"
+
+  ;WriteUninstaller macro
+    !define WriteUninstaller "!insertmacro WriteUninstaller"
+
+  Section -openlogfile
+    CreateDirectory "$INSTDIR"
+    IfFileExists "$INSTDIR\${UninstLog}" +3
+      FileOpen $UninstLog "$INSTDIR\${UninstLog}" w
+    Goto +4
+      SetFileAttributes "$INSTDIR\${UninstLog}" NORMAL
+      FileOpen $UninstLog "$INSTDIR\${UninstLog}" a
+      FileSeek $UninstLog 0 END
+  SectionEnd
 
 ;--------------------------------
 ; INSTALLER SECTIONS
@@ -105,132 +175,121 @@ Section "PhotoQt" SecDummy
 
 	; Install files
 
-	SetOutPath "$INSTDIR"
-	${If} ${RunningX64}
-		File "app64_full\libbz2-1.dll"
-		File "app64_full\libEGL.dll"
-		File "app64_full\libexiv2.dll"
-		File "app64_full\libexpat-1.dll"
-		File "app64_full\libfreetype-6.dll"
-		File "app64_full\libgcc_s_seh-1.dll"
-		File "app64_full\libgif-7.dll"
-		File "app64_full\libGLESv2.dll"
-		File "app64_full\libglib-2.0-0.dll"
-		File "app64_full\libgomp-1.dll"
-		File "app64_full\libGraphicsMagick-3.dll"
-		File "app64_full\libGraphicsMagick++-3.dll"
-		File "app64_full\libharfbuzz-0.dll"
-		File "app64_full\libiconv-2.dll"
-		File "app64_full\libintl-8.dll"
-		File "app64_full\libjpeg-62.dll"
-		File "app64_full\libpcre-1.dll"
-		File "app64_full\libpcre16-0.dll"
-		File "app64_full\libpng16-16.dll"
-		File "app64_full\libsqlite3-0.dll"
-		File "app64_full\libstdc++-6.dll"
-		File "app64_full\libtiff-5.dll"
-		File "app64_full\libwebp-5.dll"
-		File "app64_full\libwinpthread-1.dll"
-		File "app64_full\libxml2-2.dll"
-		File "app64_full\Qt5Core.dll"
-		File "app64_full\Qt5Gui.dll"
-		File "app64_full\Qt5Multimedia.dll"
-		File "app64_full\Qt5Network.dll"
-		File "app64_full\Qt5Svg.dll"
-		File "app64_full\Qt5Sql.dll"
-		File "app64_full\Qt5Widgets.dll"
-		File "app64_full\zlib1.dll"
+	;Write the installation path into the registry
+   ${WriteRegStr} "${REG_ROOT}" "${REG_APP_PATH}" "Install Directory" "$INSTDIR"
+ ;Write the Uninstall information into the registry
+   ${WriteRegStr} ${REG_ROOT} "${UNINSTALL_PATH}" "UninstallString" "$INSTDIR\uninstall.exe"
 
-		File "app64_full\photoqt.exe"
-	${Else}
-		File "app32_full\libbz2-1.dll"
-		File "app32_full\libEGL.dll"
-		File "app32_full\libexiv2.dll"
-		File "app32_full\libexpat-1.dll"
-		File "app32_full\libfreetype-6.dll"
-		File "app32_full\libgcc_s_sjlj-1.dll"
-		File "app32_full\libgif-7.dll"
-		File "app32_full\libGLESv2.dll"
-		File "app32_full\libglib-2.0-0.dll"
-		File "app32_full\libgomp-1.dll"
-		File "app32_full\libGraphicsMagick-3.dll"
-		File "app32_full\libGraphicsMagick++-3.dll"
-		File "app32_full\libharfbuzz-0.dll"
-		File "app32_full\libiconv-2.dll"
-		File "app32_full\libintl-8.dll"
-		File "app32_full\libjpeg-62.dll"
-		File "app32_full\libpcre-1.dll"
-		File "app32_full\libpcre16-0.dll"
-		File "app32_full\libpng16-16.dll"
-		File "app32_full\libsqlite3-0.dll"
-		File "app32_full\libstdc++-6.dll"
-		File "app32_full\libtiff-5.dll"
-		File "app32_full\libwebp-5.dll"
-		File "app32_full\libwinpthread-1.dll"
-		File "app32_full\libxml2-2.dll"
-		File "app32_full\Qt5Core.dll"
-		File "app32_full\Qt5Gui.dll"
-		File "app32_full\Qt5Multimedia.dll"
-		File "app32_full\Qt5Network.dll"
-		File "app32_full\Qt5Svg.dll"
-		File "app32_full\Qt5Sql.dll"
-		File "app32_full\Qt5Widgets.dll"
-		File "app32_full\zlib1.dll"
+	${SetOutPath} "$INSTDIR"
+	${File} "libbz2-1.dll"
+	${File} "libEGL.dll"
+	${File} "libexiv2-14.dll"
+	${File} "libfreetype-6.dll"
+	${File} "libgcc_s_sjlj-1.dll"
+	${File} "libGLESv2.dll"
+	${File} "libglib-2.0-0.dll"
+	${File} "libgomp-1.dll"
+	${File} "libGraphicsMagick-3.dll"
+	${File} "libGraphicsMagick++-11.dll"
+	${File} "libharfbuzz-0.dll"
+	${File} "libiconv-2.dll"
+	${File} "libintl-8.dll"
+	${File} "liblcms2-2.dll"
+	${File} "libltdl-7.dll"
+	${File} "libjpeg-62.dll"
+	${File} "libpcre-1.dll"
+	${File} "libpcre16-0.dll"
+	${File} "libpng16-16.dll"
+	${File} "libsqlite3-0.dll"
+	${File} "libstdc++-6.dll"
+	${File} "libwinpthread-1.dll"
+	${File} "Qt5Core.dll"
+	${File} "Qt5Gui.dll"
+	${File} "Qt5Multimedia.dll"
+	${File} "Qt5MultimediaQuick_p.dll"
+	${File} "Qt5Network.dll"
+	${File} "Qt5Qml.dll"
+	${File} "Qt5Quick.dll"
+	${File} "Qt5Svg.dll"
+	${File} "Qt5Sql.dll"
+	${File} "Qt5Widgets.dll"
+	${File} "zlib1.dll"
 
-		File "app32_full\photoqt.exe"
-	${EndIf}
+	${File} "photoqt.exe"
+	${File} "license.txt"
+	${File} "icon.ico"
 
-	File "license.txt"
-	File "icon.ico"
+	${AddItem} "$INSTDIR\sqldrivers"
+	${SetOutPath} "$INSTDIR\sqldrivers"
+	${File} "sqldrivers\qsqlite.dll"
 
-	SetOutPath "$INSTDIR\sqldrivers"
-	${If} ${RunningX64}
-		File "app64_full\sqldrivers\qsqlite.dll"
-	${Else}
-		File "app32_full\sqldrivers\qsqlite.dll"
-	${EndIf}
+	${AddItem} "$INSTDIR\platforms"
+	${SetOutPath} "$INSTDIR\platforms"
+	${File} "platforms\qwindows.dll"
 
-	SetOutPath "$INSTDIR\platforms"
-	${If} ${RunningX64}
-		File "app64_full\platforms\qwindows.dll"
-	${Else}
-		File "app32_full\platforms\qwindows.dll"
-	${EndIf}
+	${AddItem} "$INSTDIR\imageformats"
+	${SetOutPath} "$INSTDIR\imageformats"
+	${File} "imageformats\qdds.dll"
+	${File} "imageformats\qgif.dll"
+	${File} "imageformats\qicns.dll"
+	${File} "imageformats\qico.dll"
+	${File} "imageformats\qjp2.dll"
+	${File} "imageformats\qjpeg.dll"
+	${File} "imageformats\qjpg.dll"
+	${File} "imageformats\qmng.dll"
+	${File} "imageformats\qsvg.dll"
+	${File} "imageformats\qtga.dll"
+	${File} "imageformats\qtiff.dll"
+	${File} "imageformats\qwbmp.dll"
+	${File} "imageformats\qwebp.dll"
 
-	SetOutPath "$INSTDIR\imageformats"
-	${If} ${RunningX64}
-		File "app64_full\imageformats\qdds.dll"
-		File "app64_full\imageformats\qgif.dll"
-		File "app64_full\imageformats\qicns.dll"
-		File "app64_full\imageformats\qico.dll"
-		File "app64_full\imageformats\qjp2.dll"
-		File "app64_full\imageformats\qjpeg.dll"
-		File "app64_full\imageformats\qmng.dll"
-		File "app64_full\imageformats\qsvg.dll"
-		File "app64_full\imageformats\qtga.dll"
-		File "app64_full\imageformats\qtiff.dll"
-		File "app64_full\imageformats\qwbmp.dll"
-		File "app64_full\imageformats\qwebp.dll"
-	${Else}
-		File "app32_full\imageformats\qdds.dll"
-		File "app32_full\imageformats\qgif.dll"
-		File "app32_full\imageformats\qicns.dll"
-		File "app32_full\imageformats\qico.dll"
-		File "app32_full\imageformats\qjp2.dll"
-		File "app32_full\imageformats\qjpeg.dll"
-		File "app32_full\imageformats\qmng.dll"
-		File "app32_full\imageformats\qsvg.dll"
-		File "app32_full\imageformats\qtga.dll"
-		File "app32_full\imageformats\qtiff.dll"
-		File "app32_full\imageformats\qwbmp.dll"
-		File "app32_full\imageformats\qwebp.dll"
-	${EndIf}
+	${AddItem} "$INSTDIR\QtMultimedia"
+	${SetOutPath} "$INSTDIR\QtMultimedia"
+	${File} "QtMultimedia\declarative_multimedia.dll"
+	${File} "QtMultimedia\qmldir"
+
+	${AddItem} "$INSTDIR\QtQml"
+	${AddItem} "$INSTDIR\QtQml\Models.2"
+	${SetOutPath} "$INSTDIR\QtQml\Models.2"
+	${File} "QtQml\Models.2\modelsplugin.dll"
+	${File} "QtQml\models.2\qmldir"
+
+	${AddItem} "$INSTDIR\QtQuick"
+	${AddItem} "$INSTDIR\QtQuick\Controls"
+	${SetOutPath} "$INSTDIR\QtQuick\Controls"
+	${File} "QtQuick\Controls\plugins.qmltypes"
+	${File} "QtQuick\Controls\qmldir"
+	${File} "QtQuick\Controls\qtquickcontrolsplugin.dll"
+
+	${AddItem} "$INSTDIR\QtQuick\Dialogs"
+	${SetOutPath} "$INSTDIR\QtQuick\Dialogs"
+	${File} "QtQuick\Dialogs\dialogplugin.dll"
+	${File} "QtQuick\Dialogs\plugins.qmltypes"
+	${File} "QtQuick\Dialogs\qmldir"
+
+	${AddItem} "$INSTDIR\QtQuick\Layouts"
+	${SetOutPath} "$INSTDIR\QtQuick\Layouts"
+	${File} "QtQuick\Layouts\plugins.qmltypes"
+	${File} "QtQuick\Layouts\qmldir"
+	${File} "QtQuick\Layouts\qquicklayoutsplugin.dll"
+
+	${AddItem} "$INSTDIR\QtQuick\Window.2"
+	${SetOutPath} "$INSTDIR\QtQuick\Window.2"
+	${File} "QtQuick\Window.2\plugins.qmltypes"
+	${File} "QtQuick\Window.2\qmldir"
+	${File} "QtQuick\Window.2\windowplugin.dll"
+
+	${AddItem} "$INSTDIR\QtQuick.2"
+	${SetOutPath} "$INSTDIR\QtQuick.2"
+	${File} "QtQuick.2\plugins.qmltypes"
+	${File} "QtQuick.2\qmldir"
+	${File} "QtQuick.2\qtquick2plugin.dll"
 
 	; Store installation folder
-	WriteRegStr HKCU "Software\PhotoQt" "" $INSTDIR
+	${WriteRegStr} HKCU "Software\PhotoQt" "" $INSTDIR
 
 	; Create uninstaller
-	WriteUninstaller "$INSTDIR\uninstall.exe"
+	${WriteUninstaller} "$INSTDIR\uninstall.exe"
 
 SectionEnd
 
@@ -294,7 +353,7 @@ Function FinalStepsInit
 
 	${NSD_CreateRadioButton} 0 51u 100% 12u $(FinishPage_RegisterAll)
 	Pop $RadioButtonAdvanced
-	${NSD_Check} $RadioButtonAdvanced
+	${NSD_Check} $RadioButtonBasic
 	${NSD_OnClick} $RadioButtonAdvanced FinalStepsDisEnable
 
 	${NSD_CreateCheckbox} 0 64u 100% 12u $(FinishPage_RegisterPdfPs)
@@ -348,7 +407,7 @@ Function FinalStepsLeave
 	${If} $RadioButtonBasic_State == ${BST_CHECKED}
 	${OrIf} $RadioButtonAdvanced_State == ${BST_CHECKED}
 
-		WriteRegStr HKCU "Software\PhotoQt" "fileformats" "basic"
+		${WriteRegStr} HKCU "Software\PhotoQt" "fileformats" "basic"
 
 		!insertmacro RegisterExtensionCall "$INSTDIR\photoqt.exe" ".bmp" "Microsoft Windows bitmap"
 		!insertmacro RegisterExtensionCall "$INSTDIR\photoqt.exe" ".bitmap" "Microsoft Windows bitmap"
@@ -385,7 +444,7 @@ Function FinalStepsLeave
 	; Register advanced file types
 	${If} $RadioButtonAdvanced_State == ${BST_CHECKED}
 
-		WriteRegStr HKCU "Software\PhotoQt" "fileformats" "advanced"
+		${WriteRegStr} HKCU "Software\PhotoQt" "fileformats" "advanced"
 
 		!insertmacro RegisterExtensionCall "$INSTDIR\photoqt.exe" ".avs" "AVS X image"
 		!insertmacro RegisterExtensionCall "$INSTDIR\photoqt.exe" ".x" "AVS X image"
@@ -449,7 +508,7 @@ Function FinalStepsLeave
 
 		${If} $CheckboxPdfPs_State == ${BST_CHECKED}
 
-			WriteRegStr HKCU "Software\PhotoQt" "fileformats_pdfps" "registered"
+			${WriteRegStr} HKCU "Software\PhotoQt" "fileformats_pdfps" "registered"
 
 			!insertmacro RegisterExtensionCall "$INSTDIR\photoqt.exe" ".epdf" "Encapsulated PDF"
 			!insertmacro RegisterExtensionCall "$INSTDIR\photoqt.exe" ".epi" "Encapsulated PostScript Interchange format"
@@ -468,7 +527,7 @@ Function FinalStepsLeave
 
 		${If} $CheckboxPsdXcf_State == ${BST_CHECKED}
 
-			WriteRegStr HKCU "Software\PhotoQt" "fileformats_psdxcf" "registered"
+			${WriteRegStr} HKCU "Software\PhotoQt" "fileformats_psdxcf" "registered"
 
 			!insertmacro RegisterExtensionCall "$INSTDIR\photoqt.exe" ".psb" "Large Photoshop Document"
 			!insertmacro RegisterExtensionCall "$INSTDIR\photoqt.exe" ".psd" "Photoshop Document"
@@ -483,16 +542,16 @@ Function FinalStepsLeave
 	; Create desktop icon
 	${If} $CheckboxDesktop_State == ${BST_CHECKED}
 
-		CreateShortcut "$desktop\PhotoQt.lnk" "$instdir\photoqt.exe" "" "$INSTDIR\icon.ico" 0
+		${CreateShortcut} "$desktop\PhotoQt.lnk" "$instdir\photoqt.exe" "" "$INSTDIR\icon.ico" 0
 
 	${EndIf}
 
 	; Create startmenu entry
 	${If} $CheckboxStartMenu_State == ${BST_CHECKED}
 
-		CreateDirectory "$SMPROGRAMS\PhotoQt"
-		CreateShortCut "$SMPROGRAMS\PhotoQt\Uninstall.lnk" "$INSTDIR\uninstall.exe"
-		CreateShortCut "$SMPROGRAMS\PhotoQt\PhotoQt.lnk" "$INSTDIR\photoqt.exe"
+		${CreateDirectory} "$SMPROGRAMS\PhotoQt"
+		${CreateShortcut} "$SMPROGRAMS\PhotoQt\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "" 0
+		${CreateShortcut} "$SMPROGRAMS\PhotoQt\PhotoQt.lnk" "$INSTDIR\photoqt.exe" "" "" 0
 
 	${EndIf}
 
@@ -506,75 +565,12 @@ FunctionEnd
 
 Section "Uninstall"
 
+	; Can't uninstall if uninstall log is missing!
+	IfFileExists "$INSTDIR\${UninstLog}" +3
+		MessageBox MB_OK|MB_ICONSTOP "$(UninstLogMissing)"
+		Abort
+
 	SetShellVarContext all
-
-	; Delete all files and directories
-
-	Delete "$INSTDIR\libbz2-1.dll"
-	Delete "$INSTDIR\libEGL.dll"
-	Delete "$INSTDIR\libexiv2.dll"
-	Delete "$INSTDIR\libexpat-1.dll"
-	Delete "$INSTDIR\libfreetype-6.dll"
-	Delete "$INSTDIR\libgcc_s_seh-1.dll"	; 64 Bit
-	Delete "$INSTDIR\libgcc_s_sjlj-1.dll"	; 32 Bit
-	Delete "$INSTDIR\libgif-7.dll"
-	Delete "$INSTDIR\libGLESv2.dll"
-	Delete "$INSTDIR\libgomp-1.dll"
-	Delete "$INSTDIR\libGraphicsMagick-3.dll"
-	Delete "$INSTDIR\libGraphicsMagick++-3.dll"
-	Delete "$INSTDIR\libiconv-2.dll"
-	Delete "$INSTDIR\libjpeg-62.dll"
-	Delete "$INSTDIR\libpcre16-0.dll"
-	Delete "$INSTDIR\libpng16-16.dll"
-	Delete "$INSTDIR\libsqlite3-0.dll"
-	Delete "$INSTDIR\libstdc++-6.dll"
-	Delete "$INSTDIR\libtiff-5.dll"
-	Delete "$INSTDIR\libwebp-5.dll"
-	Delete "$INSTDIR\libwinpthread-1.dll"
-	Delete "$INSTDIR\libxml2-2.dll"
-	Delete "$INSTDIR\Qt5Core.dll"
-	Delete "$INSTDIR\Qt5Gui.dll"
-	Delete "$INSTDIR\Qt5Multimedia.dll"
-	Delete "$INSTDIR\Qt5Network.dll"
-	Delete "$INSTDIR\Qt5Svg.dll"
-	Delete "$INSTDIR\Qt5Sql.dll"
-	Delete "$INSTDIR\Qt5Widgets.dll"
-	Delete "$INSTDIR\zlib1.dll"
-
-	Delete "$INSTDIR\license.txt"
-	Delete "$INSTDIR\photoqt.exe"
-	Delete "$INSTDIR\icon.ico"
-
-	Delete "$INSTDIR\sqldrivers\qsqlite.dll"
-	Delete "$INSTDIR\platforms\qwindows.dll"
-
-	Delete "$INSTDIR\imageformats\qdds.dll"
-	Delete "$INSTDIR\imageformats\qgif.dll"
-	Delete "$INSTDIR\imageformats\qicns.dll"
-	Delete "$INSTDIR\imageformats\qico.dll"
-	Delete "$INSTDIR\imageformats\qjp2.dll"
-	Delete "$INSTDIR\imageformats\qjpeg.dll"
-	Delete "$INSTDIR\imageformats\qmng.dll"
-	Delete "$INSTDIR\imageformats\qtga.dll"
-	Delete "$INSTDIR\imageformats\qtiff.dll"
-	Delete "$INSTDIR\imageformats\qwbmp.dll"
-	Delete "$INSTDIR\imageformats\qwebp.dll"
-
-	Delete "$desktop\PhotoQt.lnk"
-
-	Delete "$INSTDIR\uninstall.exe"
-
-	RMDir "$INSTDIR\platforms"
-	RMDir "$INSTDIR\sqldrivers"
-	RMDir "$INSTDIR\imageformats"
-	RMDir "$INSTDIR"
-
-
-	; Delete start menu enmtries
-	Delete "$SMPROGRAMS\PhotoQt\PhotoQt.lnk"
-	Delete "$SMPROGRAMS\PhotoQt\Uninstall.lnk"
-	RMDir "$SMPROGRAMS\PhotoQt"
-
 
 	; De-register file types
 
@@ -702,12 +698,55 @@ Section "Uninstall"
 	; Update icons
 	System::Call 'shell32.dll::SHChangeNotify(i, i, i, i) v (0x08000000, 0, 0, 0)'
 
-	; Delete registry key
-	DeleteRegValue HKLM "SOFTWARE\PhotoQt" "fileformats"
-	DeleteRegValue HKLM "SOFTWARE\PhotoQt" "fileformats_pdfps"
-	DeleteRegValue HKLM "SOFTWARE\PhotoQt" "fileformats_psdxcf"
-	DeleteRegKey /ifempty HKLM "Software\PhotoQt"
 
+
+
+	Push $R0
+	Push $R1
+	Push $R2
+	SetFileAttributes "$INSTDIR\${UninstLog}" NORMAL
+	FileOpen $UninstLog "$INSTDIR\${UninstLog}" r
+	StrCpy $R1 -1
+
+	GetLineCount:
+		ClearErrors
+		FileRead $UninstLog $R0
+		IntOp $R1 $R1 + 1
+		StrCpy $R0 $R0 -2
+		Push $R0
+		IfErrors 0 GetLineCount
+
+	Pop $R0
+
+	LoopRead:
+		StrCmp $R1 0 LoopDone
+		Pop $R0
+
+		IfFileExists "$R0\*.*" 0 +3
+		RMDir $R0
+		Goto +9
+		IfFileExists $R0 0 +3
+		Delete $R0
+		Goto +6
+		StrCmp $R0 "${REG_ROOT} ${REG_APP_PATH}" 0 +3
+		DeleteRegKey ${REG_ROOT} "${REG_APP_PATH}"
+		Goto +3
+		StrCmp $R0 "${REG_ROOT} ${UNINSTALL_PATH}" 0 +2
+		DeleteRegKey ${REG_ROOT} "${UNINSTALL_PATH}"
+
+		IntOp $R1 $R1 - 1
+		Goto LoopRead
+	LoopDone:
+	FileClose $UninstLog
+	Delete "$INSTDIR\${UninstLog}"
+	RMDir "$INSTDIR"
+	Pop $R2
+	Pop $R1
+	Pop $R0
+
+  ;Remove registry keys
+    ;DeleteRegKey ${REG_ROOT} "${REG_APP_PATH}"
+    ;DeleteRegKey ${REG_ROOT} "${UNINSTALL_PATH}"
 
 SectionEnd
 
