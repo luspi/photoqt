@@ -230,7 +230,6 @@ Rectangle {
 		property int oldMouseX
 		onPressed: {
 			oldMouseX = mouseX
-			allitems = allitems_static
 		}
 
 		onPositionChanged: {
