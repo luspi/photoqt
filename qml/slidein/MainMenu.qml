@@ -21,7 +21,7 @@ Rectangle {
 
 	opacity: 0
 
-	property var allitems: [
+	property var allitems_static: [
 		[["open", "open", qsTr("Open File")]],
 		[["settings", "settings", qsTr("Settings")]],
 		[["wallpaper", "settings", qsTr("Set as Wallpaper")]],
@@ -44,9 +44,9 @@ Rectangle {
 
 		[["scale","scale",qsTr("Scale Image")]],
 		[["default","open",qsTr("Open in default file manager")]]
-
-
 	]
+	property var allitems_external: []
+	property var allitems: []
 
 
 	Text {
@@ -126,7 +126,9 @@ Rectangle {
 					height: val.height*0.5
 					sourceSize.width: width
 					sourceSize.height: height
-					source: allitems[subview.mainindex][index][1]==="" ? "" : "qrc:/img/mainmenu/" + allitems[subview.mainindex][index][1] + ".png"
+					source: allitems[subview.mainindex][index][1]===""
+							? "" : (allitems[subview.mainindex][index][0].slice(0,8)=="_:_EX_:_"
+									? getanddostuff.getIconPathFromTheme(allitems[subview.mainindex][index][1]) : "qrc:/img/mainmenu/" + allitems[subview.mainindex][index][1] + ".png")
 					opacity: (settings.trayicon || allitems[subview.mainindex][index][0] !== "hide") ? 1 : 0.5
 					visible: (source!="" || allitems[subview.mainindex][index][0]==="heading")
 				}
@@ -228,6 +230,7 @@ Rectangle {
 		property int oldMouseX
 		onPressed: {
 			oldMouseX = mouseX
+			allitems = allitems_static
 		}
 
 		onPositionChanged: {
@@ -241,13 +244,30 @@ Rectangle {
 		}
 	}
 
+	Component.onCompleted: setupExternalApps()
+
+	function setupExternalApps() {
+
+		allitems_external = [[["heading","",""]]]
+
+		var c = getanddostuff.getContextMenu()
+
+		for(var i = 0; i < c.length/3; ++i) {
+			var bin = getanddostuff.trim(c[3*i].replace("%f","").replace("%u","").replace("%d",""))
+			// The icon for Krita is called 'calligrakrita'
+			if(bin === "krita")
+				allitems_external.push([["_:_EX_:_" + c[3*i+1] + "___" + c[3*i], "calligrakrita", c[3*i+2]]])
+			else
+				allitems_external.push([["_:_EX_:_" + c[3*i+1] + "___" + c[3*i], bin, c[3*i+2]]])
+		}
+
+		allitems = allitems_static.concat(allitems_external)
+	}
+
 	// Do stuff on clicking on an entry
 	function mainmenuDo(what) {
 
 		verboseMessage("MainMenu::mainmenuDo()",what)
-
-		// Hide menu when an entry was clicked
-//		if(what !== "metadata") hideMainmenu.start()
 
 		if(what === "open") {
 
@@ -389,6 +409,22 @@ Rectangle {
 
 			if(thumbnailBar.currentFile !== "")
 				thumbnailBar.gotoLastImage()
+
+		} else if(what.slice(0,8) === "_:_EX_:_") {
+
+			var parts = (what.split("_:_EX_:_")[1]).split("___")
+			var close = parts[0];
+			var exe = parts[1];
+
+			verboseMessage("MainMenu::executeExternal()",close + " - " + exe)
+			if(thumbnailBar.currentFile !== "") {
+				getanddostuff.executeApp(exe,thumbnailBar.currentFile,close)
+				if(close*1 == 1)
+					if(settings.trayicon)
+						hideToSystemTray()
+					else
+						quitPhotoQt()
+			}
 
 		}
 
