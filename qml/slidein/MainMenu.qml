@@ -247,7 +247,7 @@ Rectangle {
 
 	function setupExternalApps() {
 
-		allitems_external = [[["heading","",""]]]
+		allitems_external = []
 
 		var c = getanddostuff.getContextMenu()
 
