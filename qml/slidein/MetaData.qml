@@ -111,7 +111,7 @@ Rectangle {
 		y: spacingbelowheader.y + spacingbelowheader.height + 10
 
 		width: childrenRect.width
-		height: parent.height - spacingbelowheader.y-spacingbelowheader.height-20 - check.height*2
+		height: parent.height - spacingbelowheader.y-spacingbelowheader.height-20 - check.height-10
 
 		visible: imageLoaded
 		model: ListModel { id: mod; }
@@ -132,7 +132,7 @@ Rectangle {
 		id: keepopen
 		color: "#00000000"
 		x: 0
-		y: view.height+view.y+spacing.height+3
+		y: view.height+view.y+spacing.height+3 + 5
 		width: meta.width
 		CustomCheckBox {
 			id: check
