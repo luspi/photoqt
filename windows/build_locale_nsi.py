@@ -176,7 +176,8 @@ for type in ["basic","full"]:
 
 	# Finally, let's write our new .nsi to the desired target file
 	NSIWorkingFile = open(options_output,"w")
-	NSIWorkingFile.writelines(NSINewLines)
+	for newline in NSINewLines:
+		NSIWorkingFile.write(newline.encode('utf-8'))
 	NSIWorkingFile.close()
 
 print("\n\nNSI Localization Operation Complete\n")
