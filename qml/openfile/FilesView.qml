@@ -69,7 +69,7 @@ Rectangle {
 
 		property int prev_highlight: -1
 		highlight: Rectangle { color: "#DD5d5d5d"; radius: 5 }
-		highlightMoveDuration: 200
+		highlightMoveDuration: 50
 
 		model: listviewmodel
 		delegate: listviewDelegate
