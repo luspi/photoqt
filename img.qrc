@@ -59,5 +59,6 @@
         <file>img/mainmenu/delete.png</file>
         <file>img/mainmenu/move.png</file>
         <file>img/mainmenu/rename.png</file>
+        <file>img/mainmenu/goto.png</file>
     </qresource>
 </RCC>

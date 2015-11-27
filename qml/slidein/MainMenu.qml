@@ -16,13 +16,12 @@ Rectangle {
 	visible: false
 
 	// Adjust size
-	width: 300
+	width: mainlistview.width+20
 	height: background.height+2
 
 	opacity: 0
 
 	property var allitems: [
-		[["heading","",qsTr("General Functions")]],
 		[["open", "open", qsTr("Open File")]],
 		[["settings", "settings", qsTr("Settings")]],
 		[["wallpaper", "settings", qsTr("Set as Wallpaper")]],
@@ -35,28 +34,49 @@ Rectangle {
 
 		[["heading","",""]],
 
-		[["heading","",qsTr("Image")]],
-		[["scale","scale",qsTr("Scale Image")]],
+		[["","goto",qsTr("Go to")],["prev","",qsTr("previous")],["next","",qsTr("next")],["first","",qsTr("first")],["last","",qsTr("last")]],
 		[["zoom","zoom",qsTr("Zoom")],["zoomin","",qsTr("in")],["zoomout","",qsTr("out")],["zoomreset","",qsTr("reset")],["zoomactual","","1:1"]],
 		[["rotate","rotate",qsTr("Rotate")],["rotateleft","",qsTr("left")],["rotateright","",qsTr("right")],["rotatereset","",qsTr("reset")]],
 		[["flip","flip",qsTr("Flip")],["flipH","",qsTr("horizontal")],["flipV","",qsTr("vertical")],["flipReset","",qsTr("reset")]],
+		[["","copy",qsTr("File")],["rename","",qsTr("rename")],["copy","",qsTr("copy")],["move","",qsTr("move")],["delete","",qsTr("delete")]],
 
 		[["heading","",""]],
 
-		[["heading","",qsTr("File")]],
-		[["rename","rename",qsTr("Rename")]],
-		[["copy","copy",qsTr("Copy")]],
-		[["move","move",qsTr("Move")]],
-		[["delete","delete",qsTr("Delete")]]
+		[["scale","scale",qsTr("Scale Image")]],
+		[["default","open",qsTr("Open in default file manager")]]
+
 
 	]
 
 
+	Text {
+
+		id: heading
+		y: 10
+		x: (parent.width-width)/2
+		font.pointSize: 15
+		color: colour.text
+		font.bold: true
+		text: "Main Menu"
+
+	}
+
+	Rectangle {
+		id: spacingbelowheader
+		x: 5
+		y: heading.y+heading.height+10
+		height: 1
+		width: parent.width-10
+		color: "#88ffffff"
+	}
+
 	ListView {
 
-		anchors.fill: parent
-		anchors.bottomMargin: helptext.height+5
-		anchors.margins: 10
+		id: mainlistview
+		x: 10
+		y: spacingbelowheader.y + spacingbelowheader.height+10
+		height: parent.height-y-(helptext.height+5)
+		width: maxw+20
 		model: allitems.length
 		delegate: maindeleg
 		clip: true
@@ -65,11 +85,16 @@ Rectangle {
 
 	}
 
+	property int maxw: 0
+
 	Component {
 
 		id: maindeleg
 
 		ListView {
+
+			Component.onCompleted:
+				if(width > maxw) maxw = width
 
 			id: subview
 
@@ -322,6 +347,26 @@ Rectangle {
 				hideMainmenu.start()
 				deleteImage.showDelete()
 			}
+
+		} else if(what === "prev") {
+
+			if(thumbnailBar.currentFile !== "")
+				thumbnailBar.previousImage()
+
+		} else if(what === "next") {
+
+			if(thumbnailBar.currentFile !== "")
+				thumbnailBar.nextImage()
+
+		} else if(what === "first") {
+
+			if(thumbnailBar.currentFile !== "")
+				thumbnailBar.gotoFirstImage()
+
+		} else if(what === "last") {
+
+			if(thumbnailBar.currentFile !== "")
+				thumbnailBar.gotoLastImage()
 
 		}
 
