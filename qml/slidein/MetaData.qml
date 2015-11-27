@@ -22,7 +22,7 @@ Rectangle {
 	y: -1
 
 	// Adjust size
-	width: 350
+	width: settings.exifMetadaWindowWidth
 	height: parent.height+2
 
 	opacity: 0
@@ -32,9 +32,9 @@ Rectangle {
 	Text {
 
 		id: heading
-		y: 20
+		y: 10
 		x: (parent.width-width)/2
-		font.pointSize: 18
+		font.pointSize: 15
 		color: colour.text
 		font.bold: true
 		text: "Metadata"
@@ -44,7 +44,7 @@ Rectangle {
 	Rectangle {
 		id: spacingbelowheader
 		x: 5
-		y: heading.y+heading.height+20
+		y: heading.y+heading.height+10
 		height: 1
 		width: parent.width-10
 		color: "white"
@@ -108,7 +108,7 @@ Rectangle {
 		id: view
 
 		x: 10
-		y: spacingbelowheader.y + spacingbelowheader.height + 20
+		y: spacingbelowheader.y + spacingbelowheader.height + 10
 
 		width: childrenRect.width
 		height: parent.height - spacingbelowheader.y-spacingbelowheader.height-20 - check.height*2
@@ -173,6 +173,7 @@ Rectangle {
 
 			color: "#00000000";
 			height: val.height;
+			width: meta.width-view.x*2
 
 			Text {
 
@@ -183,6 +184,8 @@ Rectangle {
 				font.pointSize: settings.exiffontsize
 				lineHeight: (name == "" ? 0.8 : 1.3);
 				textFormat: Text.RichText
+				width: parent.width
+				wrapMode: Text.WordWrap
 				text: name !== "" ? "<b>" + name + "</b>: " + value : ""
 
 				MouseArea {
@@ -219,6 +222,31 @@ Rectangle {
 		to: 1
 		onStarted: visible=true
 	}
+
+
+
+	MouseArea {
+		x: parent.width-8
+		width: 8
+		y: 0
+		height: parent.height
+		cursorShape: Qt.SplitHCursor
+		property int oldMouseX
+		onPressed: {
+			oldMouseX = mouseX
+		}
+
+		onPositionChanged: {
+			if (pressed) {
+				var w = parent.width + (mouseX - oldMouseX)
+				if(w >= 250 && w <= 500) {
+					parent.width = w
+					settings.exifMetadaWindowWidth = w
+				}
+			}
+		}
+	}
+
 
 	function setData(d) {
 
