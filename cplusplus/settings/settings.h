@@ -170,7 +170,6 @@ public:
 	QString exifrotation;
 	QString exifgpsmapservice;
 	int exiffontsize;
-	int exifMetadaWindowWidth;
 	// Which Exif data is shown?
 	bool exiffilename;
 	bool exiffiletype;
@@ -198,6 +197,10 @@ public:
 	int openZoomLevel;
 	int openUserPlacesWidth;
 	int openFoldersWidth;
+
+	// Settings not adjustable in settings but other places
+	int exifMetadaWindowWidth;	// changed by dragging right rectangle edge
+	int mainMenuWindowWidth;	// changed by dragging left rectangle edge
 
 
 	/*#################################################################################################*/
@@ -284,7 +287,6 @@ public:
 	QString getExifrotation() { return exifrotation; }
 	QString getExifgpsmapservice() { return exifgpsmapservice; }
 	int getExiffontsize() { return exiffontsize; }
-	int getExifMetadaWindowWidth() { return exifMetadaWindowWidth; }
 	bool getExiffilename() { return exiffilename; }
 	bool getExiffiletype() { return exiffiletype; }
 	bool getExiffilesize() { return exiffilesize; }
@@ -310,6 +312,10 @@ public:
 	int getOpenZoomLevel() { return openZoomLevel; }
 	int getOpenUserPlacesWidth() { return openUserPlacesWidth; }
 	int getOpenFoldersWidth() { return openFoldersWidth; }
+
+
+	int getExifMetadaWindowWidth() { return exifMetadaWindowWidth; }
+	int getMainMenuWindowWidth() { return mainMenuWindowWidth; }
 
 
 	/*#################################################################################################*/
@@ -396,7 +402,6 @@ public:
 	void setExifrotation(QString val) { exifrotation = val; saveSettingsTimer->start(); }
 	void setExifgpsmapservice(QString val) { exifgpsmapservice = val; saveSettingsTimer->start(); }
 	void setExiffontsize(int val) { exiffontsize = val; saveSettingsTimer->start(); }
-	void setExifMetadaWindowWidth(int val) { exifMetadaWindowWidth = val; saveSettingsTimer->start(); }
 	void setExiffilename(bool val) { exiffilename = val; saveSettingsTimer->start(); }
 	void setExiffiletype(bool val) { exiffiletype = val; saveSettingsTimer->start(); }
 	void setExiffilesize(bool val) { exiffilesize = val; saveSettingsTimer->start(); }
@@ -422,6 +427,9 @@ public:
 	void setOpenZoomLevel(int val) { openZoomLevel = val; saveSettingsTimer->start(); }
 	void setOpenUserPlacesWidth(int val) { openUserPlacesWidth = val; saveSettingsTimer->start(); }
 	void setOpenFoldersWidth(int val) { openFoldersWidth = val; saveSettingsTimer->start(); }
+
+	void setExifMetadaWindowWidth(int val) { exifMetadaWindowWidth = val; saveSettingsTimer->start(); }
+	void setMainMenuWindowWidth(int val) { mainMenuWindowWidth = val; saveSettingsTimer->start(); }
 
 
 	/*#################################################################################################*/
@@ -508,7 +516,6 @@ public:
 	Q_PROPERTY(QString exifrotation READ getExifrotation WRITE setExifrotation NOTIFY exifrotationChanged)
 	Q_PROPERTY(QString exifgpsmapservice READ getExifgpsmapservice WRITE setExifgpsmapservice NOTIFY exifgpsmapserviceChanged)
 	Q_PROPERTY(int exiffontsize READ getExiffontsize WRITE setExiffontsize NOTIFY exiffontsizeChanged)
-	Q_PROPERTY(int exifMetadaWindowWidth READ getExifMetadaWindowWidth WRITE setExifMetadaWindowWidth NOTIFY exifMetadaWindowWidthChanged)
 	Q_PROPERTY(bool exiffilename READ getExiffilename WRITE setExiffilename NOTIFY exiffilenameChanged)
 	Q_PROPERTY(bool exiffiletype READ getExiffiletype WRITE setExiffiletype NOTIFY exiffiletypeChanged)
 	Q_PROPERTY(bool exiffilesize READ getExiffilesize WRITE setExiffilesize NOTIFY exiffilesizeChanged)
@@ -534,6 +541,9 @@ public:
 	Q_PROPERTY(int openZoomLevel READ getOpenZoomLevel WRITE setOpenZoomLevel NOTIFY openZoomLevelChanged)
 	Q_PROPERTY(int openUserPlacesWidth READ getOpenUserPlacesWidth WRITE setOpenUserPlacesWidth NOTIFY openUserPlacesWidthChanged)
 	Q_PROPERTY(int openFoldersWidth READ getOpenFoldersWidth WRITE setOpenFoldersWidth NOTIFY openFoldersWidthChanged)
+
+	Q_PROPERTY(int exifMetadaWindowWidth READ getExifMetadaWindowWidth WRITE setExifMetadaWindowWidth NOTIFY exifMetadaWindowWidthChanged)
+	Q_PROPERTY(int mainMenuWindowWidth READ getMainMenuWindowWidth WRITE setMainMenuWindowWidth NOTIFY mainMenuWindowWidthChanged)
 
 
 	/*#################################################################################################*/
@@ -636,7 +646,6 @@ public:
 
 		exifenablemousetriggering = true;
 		exiffontsize = 8;
-		exifMetadaWindowWidth = 350;
 		exiffilename = true;
 		exiffiletype = true;
 		exiffilesize = true;
@@ -664,6 +673,9 @@ public:
 		openZoomLevel = 15;
 		openUserPlacesWidth = 200;
 		openFoldersWidth = 400;
+
+		exifMetadaWindowWidth = 350;
+		mainMenuWindowWidth = 350;
 
 	}
 
@@ -779,7 +791,6 @@ public slots:
 
 			cont += QString("ExifEnableMouseTriggering=%1\n").arg(int(exifenablemousetriggering));
 			cont += QString("ExifFontSize=%1\n").arg(exiffontsize);
-			cont += QString("ExifMetadaWindowWidth=%1\n").arg(exifMetadaWindowWidth);
 			cont += QString("ExifFilename=%1\n").arg(int(exiffilename));
 			cont += QString("ExifFiletype=%1\n").arg(int(exiffiletype));
 			cont += QString("ExifFilesize=%1\n").arg(int(exiffilesize));
@@ -810,6 +821,9 @@ public slots:
 			cont += QString("OpenZoomLevel=%1\n").arg(openZoomLevel);
 			cont += QString("OpenUserPlacesWidth=%1\n").arg(openUserPlacesWidth);
 			cont += QString("OpenFoldersWidth=%1\n").arg(openFoldersWidth);
+
+			cont += QString("ExifMetadaWindowWidth=%1\n").arg(exifMetadaWindowWidth);
+			cont += QString("MainMenuWindowWidth=%1\n").arg(mainMenuWindowWidth);
 
 			out << cont;
 			file.close();
@@ -1108,9 +1122,6 @@ public slots:
 			if(all.contains("ExifFontSize="))
 				exiffontsize = all.split("ExifFontSize=").at(1).split("\n").at(0).toInt();
 
-			if(all.contains("ExifMetadaWindowWidth="))
-				exifMetadaWindowWidth = all.split("ExifMetadaWindowWidth=").at(1).split("\n").at(0).toInt();
-
 			if(all.contains("ExifFilename=1"))
 				exiffilename = true;
 			else if(all.contains("ExifFilename=0"))
@@ -1235,6 +1246,13 @@ public slots:
 				openFoldersWidth = all.split("OpenFoldersWidth=").at(1).split("\n").at(0).toInt();
 
 
+			if(all.contains("ExifMetadaWindowWidth="))
+				exifMetadaWindowWidth = all.split("ExifMetadaWindowWidth=").at(1).split("\n").at(0).toInt();
+
+			if(all.contains("MainMenuWindowWidth="))
+				mainMenuWindowWidth = all.split("MainMenuWindowWidth=").at(1).split("\n").at(0).toInt();
+
+
 			file.close();
 
 			emitAllSignals();
@@ -1319,7 +1337,6 @@ private slots:
 		emit knownFileTypesQtExtrasChanged(knownFileTypesQtExtras);
 
 		emit exiffontsizeChanged(exiffontsize);
-		emit exifMetadaWindowWidthChanged(exifMetadaWindowWidth);
 		emit exifenablemousetriggeringChanged(exifenablemousetriggering);
 		emit exifrotationChanged(exifrotation);
 		emit exifgpsmapserviceChanged(exifgpsmapservice);
@@ -1348,6 +1365,9 @@ private slots:
 		emit openZoomLevelChanged(openZoomLevel);
 		emit openUserPlacesWidthChanged(openUserPlacesWidth);
 		emit openFoldersWidthChanged(openFoldersWidth);
+
+		emit exifMetadaWindowWidthChanged(exifMetadaWindowWidth);
+		emit mainMenuWindowWidthChanged(mainMenuWindowWidth);
 
 	}
 
@@ -1434,7 +1454,6 @@ signals:
 	void knownFileTypesQtExtrasChanged(QString val);
 
 	void exiffontsizeChanged(int val);
-	void exifMetadaWindowWidthChanged(int val);
 	void exifenablemousetriggeringChanged(bool val);
 	void exifrotationChanged(QString val);
 	void exifgpsmapserviceChanged(QString val);
@@ -1463,6 +1482,9 @@ signals:
 	void openZoomLevelChanged(int val);
 	void openUserPlacesWidthChanged(int val);
 	void openFoldersWidthChanged(int val);
+
+	void exifMetadaWindowWidthChanged(int val);
+	void mainMenuWindowWidthChanged(int val);
 
 };
 

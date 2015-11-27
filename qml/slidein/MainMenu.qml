@@ -16,7 +16,7 @@ Rectangle {
 	visible: false
 
 	// Adjust size
-	width: mainlistview.width+20
+	width: settings.mainMenuWindowWidth
 	height: background.height+2
 
 	opacity: 0
@@ -217,6 +217,28 @@ Rectangle {
 			onClicked: getanddostuff.openLink("http://photoqt.org/man")
 		}
 
+	}
+
+	MouseArea {
+		x: 0
+		width: 8
+		y: 0
+		height: parent.height
+		cursorShape: Qt.SplitHCursor
+		property int oldMouseX
+		onPressed: {
+			oldMouseX = mouseX
+		}
+
+		onPositionChanged: {
+			if (pressed) {
+				var w = parent.width + (oldMouseX-mouseX)
+				if(w >= 300 && w <= 600) {
+					parent.width = w
+					settings.mainMenuWindowWidth = w
+				}
+			}
+		}
 	}
 
 	// Do stuff on clicking on an entry
