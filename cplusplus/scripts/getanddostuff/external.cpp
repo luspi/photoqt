@@ -12,9 +12,9 @@ void GetAndDoStuffExternal::executeApp(QString exec, QString fname) {
 	fname = QByteArray::fromPercentEncoding(fname.toLatin1());
 
 	QProcess *p = new QProcess;
-	exec = exec.replace("%f", fname);
-	exec = exec.replace("%u", QFileInfo(fname).fileName());
-	exec = exec.replace("%d", QFileInfo(fname).absoluteDir().absolutePath());
+	exec = exec.replace("%f", "\"" + fname + "\"");
+	exec = exec.replace("%u", "\"" + QFileInfo(fname).fileName() + "\"");
+	exec = exec.replace("%d", "\"" + QFileInfo(fname).absoluteDir().absolutePath() + "\"");
 
 	p->start(exec);
 	if(p->error() == 5)
