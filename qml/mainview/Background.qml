@@ -79,7 +79,7 @@ Rectangle {
 			x: 0
 			y: 0
 			height: background.height
-			width: metaData.opacity == 0 ? settings.menusensitivity*5 : metaData.width
+			width: metaData.visible ? metaData.width : settings.menusensitivity*5
 			hoverEnabled: true
 
 			MouseArea {

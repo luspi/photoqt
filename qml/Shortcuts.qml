@@ -241,11 +241,11 @@ Item {
 		var cursorpos = getCursorPos()
 
 		// Check for mainmenu
-		if(mainmenu.x < cursorpos.x) return
+		if(mainmenu.visible && mainmenu.x < cursorpos.x) return
 		// Check for thumbnailbar
 		if(thumbnailBar.y < cursorpos.y) return
 		// Check for image data
-		if((metaData.x+metaData.width) > cursorpos.x && metaData.y < cursorpos.y && (metaData.y+metaData.height) > cursorpos.y) return
+		if(metaData.visible && (metaData.x+metaData.width) > cursorpos.x) return
 		// Check for quickinfo
 		if(quickInfo.x < cursorpos.x && (quickInfo.x+quickInfo.getWidth()) > cursorpos.x
 				&& quickInfo.y < cursorpos.y && (quickInfo.y+quickInfo.getHeight()) > cursorpos.y) return
