@@ -161,20 +161,25 @@ Rectangle {
 			text: qsTr("Keep floating")
 			onButtonCheckedChanged: {
 				settingssession.setValue("metadatafloating",floating.checkedButton)
-				mainview.disableTimer()
-				if(!checkedButton) {
+				if(!checkedButton)
 					check.checkedButton = true
-					nonFloatWidth = meta.width
-				} else {
+				else
 					check.checkedButton = false
-					nonFloatWidth = 0
-				}
-				reEnableSmartImageSizeCHangedTimer.start()
+				updateNonFloatWidth()
 			}
 		}
 	}
+	function updateNonFloatWidth() {
+		mainview.disableTimer()
+		if(!floating.checkedButton)
+			nonFloatWidth = meta.width
+		else
+			nonFloatWidth = 0
+		reEnableSmartImageSizeChangedTimer.start()
+	}
+
 	Timer {
-		id: reEnableSmartImageSizeCHangedTimer
+		id: reEnableSmartImageSizeChangedTimer
 		interval: 100
 		repeat: false
 		onTriggered: mainview.enableTimer()
@@ -255,6 +260,8 @@ Rectangle {
 		onPressed: {
 			oldMouseX = mouseX
 		}
+		onReleased:
+			updateNonFloatWidth()
 
 		onPositionChanged: {
 			if (pressed) {
