@@ -35,6 +35,13 @@ Rectangle {
 			updateSourceSizeTimer.restart()
 	}
 
+	function enableTimer() {
+		updateSourceSizeTimer.interval = 400
+	}
+	function disableTimer() {
+		updateSourceSizeTimer.interval = 0
+	}
+
 	function _updateSourceSize() {
 
 		var s = _getCurrentSourceSize()

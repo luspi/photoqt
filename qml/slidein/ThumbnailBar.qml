@@ -29,12 +29,13 @@ Rectangle {
 	// Transparent background
 	color: "#00000000"
 
-	x: 0
+	x: metaData.nonFloatWidth
 	y: settings.thumbnailposition == "Bottom"
 	   ? background.height-(settings.thumbnailKeepVisible ? settings.thumbnailsize+thumbnailbarheight_addon : -safetyDistanceForSlidein)
 	   : settings.thumbnailKeepVisible ? 0 : -height-safetyDistanceForSlidein
-	width: background.width
+	width: parent.width-metaData.nonFloatWidth
 	height: settings.thumbnailsize+thumbnailbarheight_addon
+	clip: true
 
 	function setupModel(stringlist, pos) {
 

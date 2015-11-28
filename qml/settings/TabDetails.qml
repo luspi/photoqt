@@ -417,11 +417,6 @@ Rectangle {
 		verboseMessage("Settings::TabDetails::saveData()","")
 
 		settings.exifenablemousetriggering = !triggeronmouse.checkedButton
-		if(triggeronmouse.checkedButton)
-			metaData.uncheckEnableMetadataCheckbox()
-		else
-			metaData.checkEnableMetadataCheckbox()
-
 		settings.exiffilesize = filesize.checked
 		settings.exifdimensions = dimensions.checked
 		settings.exifmake = make.checked

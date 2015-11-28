@@ -25,6 +25,8 @@ Rectangle {
 	width: settings.exifMetadaWindowWidth
 	height: parent.height+2
 
+	property int nonFloatWidth: 0
+
 	opacity: 0
 	visible: false
 
@@ -142,26 +144,44 @@ Rectangle {
 			fsize: 8
 			textColour: getanddostuff.addAlphaToColor(colour.text,100)
 			text: qsTr("Keep Open")
-			onButtonCheckedChanged:
+			onButtonCheckedChanged: {
 				settingssession.setValue("metadatakeepopen",check.checkedButton)
+				if(!checkedButton)
+					floating.checkedButton = true
+			}
 		}
 		CustomCheckBox {
-			id: check_enable
+			id: floating
 			textOnRight: true
 			anchors.left: parent.left
 			anchors.leftMargin: meta.radius+5
 			fsize: 8
 			checkedButton: settings.exifenablemousetriggering
 			textColour: getanddostuff.addAlphaToColor(colour.text,100)
-			text: qsTr("Enable Mouse Trigger")
-			onButtonCheckedChanged:
-				settings.exifenablemousetriggering = checkedButton
+			text: qsTr("Keep floating")
+			onButtonCheckedChanged: {
+				settingssession.setValue("metadatafloating",floating.checkedButton)
+				mainview.disableTimer()
+				if(!checkedButton) {
+					check.checkedButton = true
+					nonFloatWidth = meta.width
+				} else {
+					check.checkedButton = false
+					nonFloatWidth = 0
+				}
+				reEnableSmartImageSizeCHangedTimer.start()
+			}
 		}
 	}
+	Timer {
+		id: reEnableSmartImageSizeCHangedTimer
+		interval: 100
+		repeat: false
+		onTriggered: mainview.enableTimer()
+	}
+
 	function uncheckCheckbox() { check.checkedButton = false; }
 	function checkCheckbox() { check.checkedButton = true; }
-	function uncheckEnableMetadataCheckbox() { check_enable.checkedButton = false; }
-	function checkEnableMetadataCheckbox() { check_enable.checkedButton = true; }
 
 	Component {
 

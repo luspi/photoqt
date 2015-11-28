@@ -9,9 +9,9 @@ Item {
     id: item
 
     // Position item
-    x: settings.borderAroundImg
+	x: settings.borderAroundImg + metaData.nonFloatWidth
     y: (settings.thumbnailKeepVisible && settings.thumbnailposition == "Top" ? settings.borderAroundImg+thumbnailBar.height : settings.borderAroundImg)
-    width: background.width - 2*settings.borderAroundImg
+	width: background.width - 2*settings.borderAroundImg - metaData.nonFloatWidth
     height: (settings.thumbnailKeepVisible ? background.height-thumbnailBar.height+thumbnailbarheight_addon/2 : background.height)-2*settings.borderAroundImg
 
     function noFilterResultsFound() {
@@ -46,6 +46,9 @@ Item {
         image.loadImage("", false)
         nofileloaded.visible = true
 	}
+
+	function enableTimer() { image.enableTimer(); }
+	function disableTimer() { image.disableTimer(); }
 
 	SmartImage {
 
