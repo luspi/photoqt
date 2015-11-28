@@ -148,10 +148,18 @@ QImage ImageProviderFull::readImage_QT(QString filename) {
 		if(maxSize.width() != -1)
 			reader.setScaledSize(QSize(dispWidth,dispHeight));
 
+#if QT_VERSION >= 0x050500
+
+		if(settings->exifrotation == "Always")
+			reader.setAutoTransform(true);
+
+#endif
+
 		// Eventually load the image
 		img = reader.read();
 
-#ifdef EXIV2
+
+#if defined(EXIV2) && QT_VERSION < 0x050500
 
 		// If this setting is enabled, then we check at image load for the Exif rotation tag
 		// and change the image accordingly
