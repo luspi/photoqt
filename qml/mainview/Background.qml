@@ -92,7 +92,7 @@ Rectangle {
 
 		// THUMBNAILBAR
 		MouseArea {
-			x: 0
+			x: metaData.nonFloatWidth
 			y: settings.thumbnailposition == "Bottom"
 			   ? (thumbnailBar.y == background.height ? background.height-settings.menusensitivity*3 : background.height-thumbnailBar.height)
 			   : 0
