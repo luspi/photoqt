@@ -228,17 +228,18 @@ Rectangle {
 		height: parent.height
 		cursorShape: Qt.SplitHCursor
 		property int oldMouseX
-		onPressed: {
+
+		onPressed:
 			oldMouseX = mouseX
-		}
+
+		onReleased:
+			settings.mainMenuWindowWidth = w
 
 		onPositionChanged: {
 			if (pressed) {
 				var w = parent.width + (oldMouseX-mouseX)
-				if(w >= 300 && w <= 600) {
+				if(w >= 300 && w <= 600)
 					parent.width = w
-					settings.mainMenuWindowWidth = w
-				}
 			}
 		}
 	}
