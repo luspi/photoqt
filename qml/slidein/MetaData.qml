@@ -146,32 +146,13 @@ Rectangle {
 			text: qsTr("Keep Open")
 			onButtonCheckedChanged: {
 				settingssession.setValue("metadatakeepopen",check.checkedButton)
-				if(!checkedButton)
-					floating.checkedButton = true
-			}
-		}
-		CustomCheckBox {
-			id: floating
-			textOnRight: true
-			anchors.left: parent.left
-			anchors.leftMargin: meta.radius+5
-			fsize: 8
-			checkedButton: settings.exifenablemousetriggering
-			textColour: getanddostuff.addAlphaToColor(colour.text,100)
-			text: qsTr("Keep floating")
-			onButtonCheckedChanged: {
-				settingssession.setValue("metadatafloating",floating.checkedButton)
-				if(!checkedButton)
-					check.checkedButton = true
-				else
-					check.checkedButton = false
 				updateNonFloatWidth()
 			}
 		}
 	}
 	function updateNonFloatWidth() {
 		mainview.disableTimer()
-		if(!floating.checkedButton)
+		if(check.checkedButton)
 			nonFloatWidth = meta.width
 		else
 			nonFloatWidth = 0
@@ -263,7 +244,7 @@ Rectangle {
 
 		onReleased: {
 			updateNonFloatWidth()
-			settings.exifMetadaWindowWidth = w
+			settings.exifMetadaWindowWidth = parent.width
 		}
 
 		onPositionChanged: {
