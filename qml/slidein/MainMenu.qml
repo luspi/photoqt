@@ -102,6 +102,8 @@ Rectangle {
 			height: 25
 			width: childrenRect.width
 
+			interactive: false
+
 			orientation: Qt.Horizontal
 			spacing: 5
 
