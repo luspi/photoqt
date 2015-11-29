@@ -12,6 +12,7 @@ import "mainview/"
 import "slidein/"
 import "fadein/"
 import "settings/"
+import "settings2/"
 import "openfile/"
 
 Item {
@@ -139,6 +140,7 @@ Item {
 
 	OpenFile { id: openfile; }
 
+	SettingsManager { id: settingsmanager; visible: false; }
 	SettingsItem { id: settingsitem; }
 
 	// Slots accessable by mainwindow.cpp, passed on to thumbnailbar

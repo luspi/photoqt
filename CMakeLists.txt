@@ -48,6 +48,14 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/TabFiletypesTiles.qml qml/se
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/TabShortcutsTilesSet.qml qml/settings/TabShortcutsTilesAvail.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/TabThumbnailsBasic.qml qml/settings/TabThumbnailsAdvanced.qml qml/settings/TabShortcuts.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/TabDetails.qml qml/settings/TabOther.qml qml/settings/TabFiletypes.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings2/SettingsManager.qml qml/settings2/TabLookAndFeel.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings2/lookandfeel/SortBy.qml qml/settings2/lookandfeel/WindowMode.qml qml/settings2/lookandfeel/TrayIcon.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings2/lookandfeel/ClosingX.qml qml/settings2/lookandfeel/FitInWindow.qml qml/settings2/lookandfeel/OverlayColor.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings2/lookandfeel/Quickinfo.qml qml/settings2/lookandfeel/Background.qml qml/settings2/lookandfeel/BorderAroundImage.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings2/lookandfeel/CloseOnClick.qml qml/settings2/lookandfeel/Loop.qml qml/settings2/lookandfeel/Transition.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings2/lookandfeel/HotEdge.qml qml/settings2/lookandfeel/MouseWheelSensitivity.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings2/lookandfeel/Interpolation.qml qml/settings2/lookandfeel/Remember.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings2/lookandfeel/Animation.qml)
 
 #### HEADER ####
 SET(photoqt_HEADERS cplusplus/mainwindow.h cplusplus/variables.h cplusplus/logger.h)

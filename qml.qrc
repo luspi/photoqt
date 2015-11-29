@@ -64,5 +64,24 @@
         <file>qml/openfile/TweaksPreview.qml</file>
         <file>qml/openfile/TweaksZoom.qml</file>
         <file>qml/openfile/FilesView.qml</file>
+        <file>qml/settings2/SettingsManager.qml</file>
+        <file>qml/settings2/TabLookAndFeel.qml</file>
+        <file>qml/settings2/lookandfeel/SortBy.qml</file>
+        <file>qml/settings2/lookandfeel/WindowMode.qml</file>
+        <file>qml/settings2/lookandfeel/TrayIcon.qml</file>
+        <file>qml/settings2/lookandfeel/ClosingX.qml</file>
+        <file>qml/settings2/lookandfeel/FitInWindow.qml</file>
+        <file>qml/settings2/lookandfeel/Quickinfo.qml</file>
+        <file>qml/settings2/lookandfeel/Background.qml</file>
+        <file>qml/settings2/lookandfeel/OverlayColor.qml</file>
+        <file>qml/settings2/lookandfeel/BorderAroundImage.qml</file>
+        <file>qml/settings2/lookandfeel/CloseOnClick.qml</file>
+        <file>qml/settings2/lookandfeel/Loop.qml</file>
+        <file>qml/settings2/lookandfeel/Transition.qml</file>
+        <file>qml/settings2/lookandfeel/MouseWheelSensitivity.qml</file>
+        <file>qml/settings2/lookandfeel/HotEdge.qml</file>
+        <file>qml/settings2/lookandfeel/Interpolation.qml</file>
+        <file>qml/settings2/lookandfeel/Remember.qml</file>
+        <file>qml/settings2/lookandfeel/Animation.qml</file>
     </qresource>
 </RCC>
