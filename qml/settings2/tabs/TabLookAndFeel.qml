@@ -14,9 +14,6 @@ Rectangle {
 
 	anchors {
 		fill: parent
-		leftMargin: 20
-		rightMargin: 20
-		topMargin: 15
 		bottomMargin: 5
 	}
 
@@ -26,12 +23,9 @@ Rectangle {
 
 		clip: true
 
-		x: 0
-		y: 0
-		width: parent.width
-		height: parent.height
+		anchors.fill: parent
 
-		contentHeight: contentItem.childrenRect.height+50
+		contentHeight: contentItem.childrenRect.height+20
 		contentWidth: maincol.width
 
 		boundsBehavior: Flickable.StopAtBounds
@@ -39,6 +33,19 @@ Rectangle {
 		Column {
 
 			id: maincol
+
+			Rectangle { color: "transparent"; width: 1; height: 10; }
+
+			Text {
+				width: flickable.width
+				color: "white"
+				font.pointSize: 20
+				font.bold: true
+				text: "Look and Feel"
+				horizontalAlignment: Text.AlignHCenter
+			}
+
+			Rectangle { color: "transparent"; width: 1; height: 10; }
 
 			SortBy { id: sortby; }
 			WindowMode { id: windowmode; alternating: true }

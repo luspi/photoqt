@@ -12,7 +12,7 @@ Rectangle {
 	color: "transparent"
 	Row {
 		spacing: 10
-		Rectangle { color: "transparent"; width: 1; height: 1; }
+		Rectangle { color: "transparent"; width: 10; height: 1; }
 		Text {
 			y: (parent.height-height)/2
 			color: colour.text
