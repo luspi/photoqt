@@ -61,11 +61,11 @@ EntryContainer {
 	}
 
 	function setData() {
-		wheelsensitivity.value = settings.mouseWheelSensitivity
+		wheelsensitivity.value = wheelsensitivity.maximumValue-settings.mouseWheelSensitivity
 	}
 
 	function saveData() {
-		settings.mouseWheelSensitivity = wheelsensitivity.value
+		settings.mouseWheelSensitivity = wheelsensitivity.maximumValue-wheelsensitivity.value
 	}
 
 }
