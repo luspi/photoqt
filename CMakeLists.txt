@@ -48,7 +48,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/TabFiletypesTiles.qml qml/se
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/TabShortcutsTilesSet.qml qml/settings/TabShortcutsTilesAvail.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/TabThumbnailsBasic.qml qml/settings/TabThumbnailsAdvanced.qml qml/settings/TabShortcuts.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/TabDetails.qml qml/settings/TabOther.qml qml/settings/TabFiletypes.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings2/SettingsManager.qml qml/settings2/TabLookAndFeel.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings2/SettingsManager.qml qml/settings2/TabLookAndFeel.qml qml/settings2/EntryTitle.qml qml/settings2/EntrySetting.qml qml/settings2/EntryContainer.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings2/lookandfeel/SortBy.qml qml/settings2/lookandfeel/WindowMode.qml qml/settings2/lookandfeel/TrayIcon.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings2/lookandfeel/ClosingX.qml qml/settings2/lookandfeel/FitInWindow.qml qml/settings2/lookandfeel/OverlayColor.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings2/lookandfeel/Quickinfo.qml qml/settings2/lookandfeel/Background.qml qml/settings2/lookandfeel/BorderAroundImage.qml)

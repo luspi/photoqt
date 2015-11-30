@@ -9,7 +9,7 @@ import "../elements"
 
 Rectangle {
 
-	id: tab
+	id: tab_lookandfeel
 
 	color: "#00000000"
 
@@ -41,28 +41,22 @@ Rectangle {
 
 			id: maincol
 
-			property int flickablewidth: flickable.width
-
-			property int titlewidth: 100
-			property int titlespacing: 20
-			property int spacingbetween: 100
-
 			SortBy { }
-			WindowMode { color: "#06ffffff" }
+			WindowMode { alternating: true }
 			TrayIcon { }
-			ClosingX { color: "#06ffffff" }
+			ClosingX { alternating: true }
 			FitInWindow { }
-			Quickinfo { color: "#06ffffff" }
+			Quickinfo { alternating: true }
 			Background { }
-			OverlayColor { color: "#06ffffff" }
+			OverlayColor { alternating: true }
 			BorderAroundImage { }
-			CloseOnClick { color: "#06ffffff" }
+			CloseOnClick { alternating: true }
 			Loop { }
-			Transition { color: "#06ffffff" }
+			Transition { alternating: true }
 			HotEdge { }
-			MouseWheelSensitivity { color: "#06ffffff" }
+			MouseWheelSensitivity { alternating: true }
 			Interpolation { }
-			Remember { color: "#06ffffff" }
+			Remember { alternating: true }
 			Animation { }
 		}
 

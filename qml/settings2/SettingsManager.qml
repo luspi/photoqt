@@ -6,11 +6,13 @@ import "../elements"
 
 Rectangle {
 
-	id: top
+	id: settings_top
 
 	// Positioning and basic look
 	anchors.fill: background
 	color: colour.fadein_slidein_bg
+
+	property int titlewidth: 100
 
 	// Invisible at startup
 //	visible: false
@@ -41,6 +43,10 @@ Rectangle {
 	MouseArea {
 		anchors.fill: parent
 		hoverEnabled: true
+	}
+
+	Component.onCompleted: {
+		settingssession.setValue("settings_titlewidth",100)
 	}
 
 	CustomTabView {
@@ -357,7 +363,7 @@ Rectangle {
 	}
 
 	CustomConfirm {
-		fillAnchors: top
+		fillAnchors: settings_top
 		id: confirmclean
 		header: qsTr("Clean Database")
 		description: qsTr("Do you really want to clean up the database?") + "<br><br>" + qsTr("This removes all obsolete thumbnails, thus possibly making PhotoQt a little faster.") + "<bR><br>" + qsTr("This process might take a little while.")
@@ -367,7 +373,7 @@ Rectangle {
 	}
 
 	CustomConfirm {
-		fillAnchors: top
+		fillAnchors: settings_top
 		id: confirmerase
 		header: qsTr("Erase Database")
 		description: qsTr("Do you really want to ERASE the entire database?") + "<br><br>" + qsTr("This removes every single item in the database! This step should never really be necessarily. After that, every thumbnail has to be newly re-created.") + "<br>" + qsTr("This step cannot be reversed!")
@@ -377,7 +383,7 @@ Rectangle {
 	}
 
 	CustomConfirm {
-		fillAnchors: top
+		fillAnchors: settings_top
 		id: confirmdefaultshortcuts
 		header: qsTr("Set Default Shortcuts")
 		description: qsTr("Are you sure you want to reset the shortcuts to the default set?")
@@ -401,7 +407,7 @@ Rectangle {
 	}
 
 	CustomDetectShortcut {
-		fillAnchors: top
+		fillAnchors: settings_top
 		id: detectShortcut
 		onUpdateCombo: updateComboString(txt)
 		onGotKeyCombo: {
@@ -410,7 +416,7 @@ Rectangle {
 		}
 	}
 	CustomDetectShortcut {
-		fillAnchors: top
+		fillAnchors: settings_top
 		id: resetShortcut
 		onUpdateNewCombo: updateComboString(txt)
 		onGotNewKeyCombo: {
@@ -419,7 +425,7 @@ Rectangle {
 		}
 	}
 	CustomExternalCommand {
-		fillAnchors: top
+		fillAnchors: settings_top
 		id: setExternalCommand
 		onUpdateCommand: {
 			updateTheCommand(id,close,mouse,keys,cmd)
@@ -427,12 +433,12 @@ Rectangle {
 	}
 
 	CustomMouseShortcut {
-		fillAnchors: top
+		fillAnchors: settings_top
 		id: detectMouseShortcut
 		onGotMouseShortcut: newMouseShortcut(cmd, txt)
 	}
 	CustomMouseShortcut {
-		fillAnchors: top
+		fillAnchors: settings_top
 		id: resetMouseShortcut
 		onGotNewMouseShortcut: updateMouseShortcut(cmd, txt, id)
 	}
@@ -471,7 +477,7 @@ Rectangle {
 
 	PropertyAnimation {
 		id: hideSettingsAni
-		target: top
+		target: settings_top
 		property: "opacity"
 		to: 0
 		duration: settings.myWidgetAnimated ? 250 : 0
@@ -485,7 +491,7 @@ Rectangle {
 
 	PropertyAnimation {
 		id: showSettingsAni
-		target: top
+		target: settings_top
 		property: "opacity"
 		to: 1
 		duration: settings.myWidgetAnimated ? 250 : 0

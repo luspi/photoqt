@@ -83,5 +83,8 @@
         <file>qml/settings2/lookandfeel/Interpolation.qml</file>
         <file>qml/settings2/lookandfeel/Remember.qml</file>
         <file>qml/settings2/lookandfeel/Animation.qml</file>
+        <file>qml/settings2/EntrySetting.qml</file>
+        <file>qml/settings2/EntryTitle.qml</file>
+        <file>qml/settings2/EntryContainer.qml</file>
     </qresource>
 </RCC>
