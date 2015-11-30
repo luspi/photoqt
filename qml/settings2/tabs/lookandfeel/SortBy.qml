@@ -64,4 +64,26 @@ EntryContainer {
 
 	}
 
+	function setData() {
+		if(settings.sortby === "name")
+			sortimages_checkbox.currentIndex = 0
+		else if(settings.sortby === "naturalname")
+			sortimages_checkbox.currentIndex = 1
+		else if(settings.sortby === "date")
+			sortimages_checkbox.currentIndex = 2
+		else if(settings.sortby === "size")
+			sortimages_checkbox.currentIndex = 3
+	}
+
+	function saveData() {
+		if(sortimages_checkbox.currentIndex == 0)
+			settings.sortby = "name"
+		else if(sortimages_checkbox.currentIndex == 1)
+			settings.sortby = "naturalname"
+		else if(sortimages_checkbox.currentIndex == 2)
+			settings.sortby = "date"
+		else if(sortimages_checkbox.currentIndex == 3)
+			settings.sortby = "size"
+	}
+
 }

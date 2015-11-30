@@ -183,4 +183,18 @@ EntryContainer {
 
 	}
 
+	function setData() {
+		red.value = settings.bgColorRed/255
+		green.value = settings.bgColorGreen/255
+		blue.value = settings.bgColorBlue/255
+		alpha.value = settings.bgColorAlpha/255
+	}
+
+	function saveData() {
+		settings.bgColorRed = red.value*255
+		settings.bgColorGreen = green.value*255
+		settings.bgColorBlue = blue.value*255
+		settings.bgColorAlpha = alpha.value*255
+	}
+
 }

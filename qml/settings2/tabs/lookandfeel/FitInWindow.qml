@@ -21,12 +21,21 @@ EntryContainer {
 
 			CustomCheckBox {
 
+				id: fitinwindow
 				text: "Fit Smaller Images in Window"
 
 			}
 
 		}
 
+	}
+
+	function setData() {
+		fitinwindow.checkedButton = settings.fitInWindow
+	}
+
+	function saveData() {
+		settings.fitInWindow = fitinwindow.checkedButton
 	}
 
 }

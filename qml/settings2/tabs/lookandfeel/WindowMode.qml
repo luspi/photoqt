@@ -44,4 +44,15 @@ EntryContainer {
 
 	}
 
+	function setData() {
+		windowmode.checkedButton = settings.windowmode
+		windowmode_deco.enabled = windowmode.checkedButton
+		windowmode_deco.checkedButton = settings.windowDecoration
+	}
+
+	function saveData() {
+		settings.windowmode = windowmode.checkedButton
+		settings.windowDecoration = windowmode_deco.checkedButton
+	}
+
 }

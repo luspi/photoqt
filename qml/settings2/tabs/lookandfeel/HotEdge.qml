@@ -56,4 +56,12 @@ EntryContainer {
 
 	}
 
+	function setData() {
+		menusensitivity.value = settings.menusensitivity
+	}
+
+	function saveData() {
+		settings.menusensitivity = menusensitivity.value
+	}
+
 }

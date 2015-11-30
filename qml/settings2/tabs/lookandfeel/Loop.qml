@@ -21,12 +21,21 @@ EntryContainer {
 
 			CustomCheckBox {
 
+				id: loopfolder
 				text: "Loop through images in folder"
 
 			}
 
 		}
 
+	}
+
+	function setData() {
+		loopfolder.checkedButton = settings.loopthroughfolder
+	}
+
+	function saveData() {
+		settings.loopthroughfolder = loopfolder.checkedButton
 	}
 
 }

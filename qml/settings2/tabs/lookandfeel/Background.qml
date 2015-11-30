@@ -155,4 +155,37 @@ EntryContainer {
 
 	}
 
+	function setData() {
+
+		background_halftrans.checked = settings.composite
+		background_fakedtrans.checked = settings.backgroundImageScreenshot
+		background_image.checked = settings.backgroundImageUse
+		background_onecoloured.checked = (!settings.composite && !settings.backgroundImageScreenshot && !settings.backgroundImageUse)
+
+		background_image_select.source = settings.backgroundImagePath
+
+		background_image_scale.checked = settings.backgroundImageScale
+		background_image_scalecrop.checked = settings.backgroundImageScaleCrop
+		background_image_stretch.checked = settings.backgroundImageStretch
+		background_image_center.checked = settings.backgroundImageCenter
+		background_image_tile.checked = settings.backgroundImageTile
+
+	}
+
+	function saveData() {
+
+		settings.composite = background_halftrans.checked
+		settings.backgroundImageScreenshot = background_fakedtrans.checked
+		settings.backgroundImageUse = background_image.checked
+
+		settings.backgroundImagePath = background_image_select.source
+
+		settings.backgroundImageScale = background_image_scale.checked
+		settings.backgroundImageScaleCrop = background_image_scalecrop.checked
+		settings.backgroundImageStretch = background_image_stretch.checked
+		settings.backgroundImageCenter = background_image_center.checked
+		settings.backgroundImageTile = background_image_tile.checked
+
+	}
+
 }

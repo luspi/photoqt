@@ -66,6 +66,19 @@ Rectangle {
 
 			TabLookAndFeel {
 
+				Connections {
+					target: settings_top
+					onSetData:{
+						setData()
+					}
+					onSaveData:{
+						saveData()
+					}
+				}
+				Component.onCompleted: {
+					setData()
+				}
+
 			}
 
 //			CustomTabView {

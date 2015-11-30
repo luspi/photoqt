@@ -50,4 +50,16 @@ EntryContainer {
 
 	}
 
+	function setData() {
+		animate_elements.checkedButton = settings.myWidgetAnimated
+		save_restore_geometry.checkedButton = settings.saveWindowGeometry
+		keep_on_top.checkedButton = settings.keepOnTop
+	}
+
+	function saveData() {
+		settings.myWidgetAnimated = animate_elements.checkedButton
+		settings.saveWindowGeometry = save_restore_geometry.checkedButton
+		settings.keepOnTop = keep_on_top.checkedButton
+	}
+
 }

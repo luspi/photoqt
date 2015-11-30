@@ -65,4 +65,14 @@ EntryContainer {
 
 	}
 
+	function setData() {
+		interpolationthreshold.value = settings.interpolationNearestNeighbourThreshold
+		interpolationupscale.checkedButton = settings.interpolationNearestNeighbourUpscale
+	}
+
+	function saveData() {
+		settings.interpolationNearestNeighbourThreshold = interpolationthreshold.value
+		settings.interpolationNearestNeighbourUpscale = interpolationupscale.checkedButton
+	}
+
 }

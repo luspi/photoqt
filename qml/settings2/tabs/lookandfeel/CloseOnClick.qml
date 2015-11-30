@@ -30,4 +30,12 @@ EntryContainer {
 
 	}
 
+	function setData() {
+		closeongrey.checkedButton = settings.closeongrey
+	}
+
+	function saveData() {
+		settings.closeongrey = closeongrey.checkedButton
+	}
+
 }

@@ -56,4 +56,12 @@ EntryContainer {
 
 	}
 
+	function setData() {
+		transition.value = settings.transition
+	}
+
+	function saveData() {
+		settings.transition = transition.value
+	}
+
 }

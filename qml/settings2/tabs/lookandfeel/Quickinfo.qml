@@ -49,4 +49,18 @@ EntryContainer {
 
 	}
 
+	function setData() {
+		settings.hidecounter = quickinfo_counter.checkedButton
+		settings.hidefilepathshowfilename = quickinfo_filepath.checkedButton
+		settings.hidefilename = quickinfo_filename.checkedButton
+		settings.hidex = quickinfo_closingx.checkedButton
+	}
+
+	function saveData() {
+		quickinfo_counter.checkedButton = settings.hidecounter
+		quickinfo_filepath.checkedButton = settings.hidefilepathshowfilename
+		quickinfo_filename.checkedButton = settings.hidefilename
+		quickinfo_closingx.checkedButton = settings.hidex
+	}
+
 }

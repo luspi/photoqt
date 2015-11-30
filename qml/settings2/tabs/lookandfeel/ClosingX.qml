@@ -28,11 +28,13 @@ EntryContainer {
 				ExclusiveGroup { id: clo; }
 
 				CustomRadioButton {
+					id: closingx_normal
 					text: "Normal Look"
 					exclusiveGroup: clo
 					checked: true
 				}
 				CustomRadioButton {
+					id: closingx_fancy
 					text: "Fancy Look"
 					exclusiveGroup: clo
 				}
@@ -77,6 +79,16 @@ EntryContainer {
 
 		}
 
+	}
+
+	function setData() {
+		closingx_fancy.checked = settings.fancyX
+		closingx_sizeslider.value = settings.closeXsize
+	}
+
+	function saveData() {
+		settings.fancyX = closingx_fancy.checked
+		settings.closeXsize = closingx_sizeslider.value
 	}
 
 }

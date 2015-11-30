@@ -39,4 +39,14 @@ EntryContainer {
 
 	}
 
+	function setData() {
+		remember_rotation.checkedButton = settings.rememberRotation
+		remember_zoom.checkedButton = settings.rememberZoom
+	}
+
+	function saveData() {
+		settings.rememberRotation = remember_rotation.checkedButton
+		settings.rememberZoom = remember_zoom.checkedButton
+	}
+
 }

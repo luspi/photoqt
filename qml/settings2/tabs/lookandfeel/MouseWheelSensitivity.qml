@@ -60,4 +60,12 @@ EntryContainer {
 
 	}
 
+	function setData() {
+		wheelsensitivity.value = settings.mouseWheelSensitivity
+	}
+
+	function saveData() {
+		settings.mouseWheelSensitivity = wheelsensitivity.value
+	}
+
 }

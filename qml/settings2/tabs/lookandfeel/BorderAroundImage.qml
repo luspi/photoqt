@@ -61,4 +61,12 @@ EntryContainer {
 
 	}
 
+	function setData() {
+		border_sizeslider.value = settings.borderAroundImg
+	}
+
+	function saveData() {
+		settings.borderAroundImg = border_sizeslider.value
+	}
+
 }
