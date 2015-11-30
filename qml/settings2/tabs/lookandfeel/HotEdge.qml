@@ -1,7 +1,7 @@
 import QtQuick 2.3
 
-import "../../elements"
-import "../"
+import "../../../elements"
+import "../../"
 
 EntryContainer {
 
@@ -13,7 +13,7 @@ EntryContainer {
 
 		EntryTitle {
 
-			title: "Mouse Wheel Sensitivity"
+			title: "Size of 'Hot Edge'"
 
 		}
 
@@ -24,16 +24,14 @@ EntryContainer {
 				spacing: 10
 
 				Text {
-
 					color: colour.text
-					text: qsTr("Not at all sensitive")
+					text: qsTr("Small")
 					font.pointSize: 10
-
 				}
 
 				CustomSlider {
 
-					id: wheelsensitivity
+					id: menusensitivity
 
 					width: 400
 					y: (parent.height-height)/2
@@ -47,11 +45,9 @@ EntryContainer {
 				}
 
 				Text {
-
 					color: colour.text
-					text: qsTr("Very sensitive")
+					text: qsTr("Large")
 					font.pointSize: 10
-
 				}
 
 			}

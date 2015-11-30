@@ -140,7 +140,7 @@ Item {
 
 	OpenFile { id: openfile; }
 
-	SettingsManager { id: settingsmanager; visible: false; }
+	SettingsManager { id: settingsmanager; /*visible: false;*/ }
 	SettingsItem { id: settingsitem; }
 
 	// Slots accessable by mainwindow.cpp, passed on to thumbnailbar

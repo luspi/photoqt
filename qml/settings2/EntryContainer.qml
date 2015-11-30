@@ -10,6 +10,6 @@ Rectangle {
 
 	color: alternating ? "#06ffffff" : "transparent"
 	width: flickable.width
-	height: childrenRect.height+20
+	height: childrenRect.height+30
 
 }

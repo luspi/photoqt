@@ -1,7 +1,7 @@
 import QtQuick 2.3
 
-import "../../elements"
-import "../"
+import "../../../elements"
+import "../../"
 
 EntryContainer {
 

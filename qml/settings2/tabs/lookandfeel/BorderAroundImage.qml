@@ -2,8 +2,8 @@ import QtQuick 2.3
 //import QtQuick.Dialogs 1.1
 //import QtQuick.Controls 1.2
 
-import "../../elements"
-import "../"
+import "../../../elements"
+import "../../"
 
 EntryContainer {
 
