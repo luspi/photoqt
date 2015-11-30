@@ -119,6 +119,9 @@ EntryContainer {
 
 				}
 
+				// Spacing in between
+				Rectangle { color: "transparent"; width: 10; height: 1; }
+
 				/* Image, Rectangle, and Label to preview background colour */
 
 				Image {
