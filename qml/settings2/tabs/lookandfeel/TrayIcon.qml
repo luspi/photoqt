@@ -15,6 +15,7 @@ EntryContainer {
 		EntryTitle {
 
 			title: "Hide to Tray Icon"
+			helptext: qsTr("When started PhotoQt creates a tray icon in the system tray. If desired, you can set PhotoQt to minimise to the tray instead of quitting. This causes PhotoQt to be almost instantaneously available when an image is opened.<br>It is also possible to start PhotoQt already minimised to the tray (e.g. at system startup) when called with \"--start-in-tray\".")
 
 		}
 

@@ -12,7 +12,7 @@ Rectangle {
 	anchors.fill: background
 	color: colour.fadein_slidein_bg
 
-	property int titlewidth: 100
+//	property int titlewidth: 100
 
 	// Invisible at startup
 //	visible: false
@@ -59,6 +59,7 @@ Rectangle {
 		height: parent.height-butrow.height
 
 		tabCount: 5     // We currently have 5 tabs in the settings
+		currentIndex: 1
 
 		Tab {
 
@@ -81,116 +82,31 @@ Rectangle {
 
 			}
 
-//			CustomTabView {
-
-//				id: subtab1
-
-//				subtab: true   // this is a subtab
-//				tabCount: 2    // and we have 2 tabs in it
-
-
-
-//				Tab {
-
-//					title: qsTr("Basic")
-
-//					TabLookAndFeelBasic {
-//						Connections {
-//							target: top
-//							onSetData:{
-//								setData()
-//							}
-//							onSaveData:{
-//								saveData()
-//							}
-//						}
-//						Component.onCompleted: {
-//							setData()
-//						}
-//					}
-
-//				}
-
-//				Tab {
-
-//					title: qsTr("Advanced")
-
-//					TabLookAndFeelAdvanced {
-//						Connections {
-//							target: top
-//							onSetData:{
-//								setData()
-//							}
-//							onSaveData:{
-//								saveData()
-//							}
-//						}
-//						Component.onCompleted: {
-//							setData()
-//						}
-//					}
-//				}
-//			}
 		}
 
 		Tab {
 
 			title: qsTr("Thumbnails")
 
-			CustomTabView {
+			TabThumbnails {
 
-				subtab: true
-				tabCount: 2
-
-				Tab {
-
-					title: qsTr("Basic")
-
-//					TabThumbnailsBasic {
-//						Connections {
-//							target: top
-//							onSetData:{
-//								setData()
-//							}
-//							onSaveData:{
-//								saveData()
-//							}
-//						}
-//						Component.onCompleted: {
-//							setData()
-//						}
-//					}
-
+				Connections {
+					target: settings_top
+					onSetData:{
+						setData()
+					}
+					onSaveData:{
+						saveData()
+					}
 				}
-				Tab {
-					title: qsTr("Advanced")
-//					TabThumbnailsAdvanced {
-//						Connections {
-//							target: top
-//							onSetData:{
-//								setData()
-//							}
-//							onSaveData:{
-//								saveData()
-//							}
-//							onCleanDatabase: {
-//								cleanDatabase()
-//							}
-//							onEraseDatabase: {
-//								eraseDatabase()
-//							}
-//							onUpdateDatabaseInfo: {
-//								updateDatabaseInfo()
-//							}
-//						}
-
-//						Component.onCompleted: {
-//							setData()
-//						}
-//					}
+				Component.onCompleted: {
+					setData()
 				}
+
 			}
+
 		}
+
 
 		Tab {
 

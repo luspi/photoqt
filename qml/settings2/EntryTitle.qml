@@ -1,12 +1,15 @@
 import QtQuick 2.3
 
+import "../elements"
+
 Rectangle {
 
 	id: top
 
 	property string title: ""
+	property string helptext: ""
 
-	width: settings_top.titlewidth + 20
+	width: tab_top.titlewidth + 20
 	height: childrenRect.height
 	y: (item_top.height-height)/2
 	color: "transparent"
@@ -18,12 +21,19 @@ Rectangle {
 			color: colour.text
 			font.pointSize: 12
 			font.bold: true
+			textFormat: Text.RichText
 			text: top.title
 			Component.onCompleted:
-				if(width > settings_top.titlewidth)
-					settings_top.titlewidth = width
+				if(width > tab_top.titlewidth)
+					tab_top.titlewidth = width
 		}
 
+	}
+
+	ToolTip {
+		text: parent.helptext
+		cursorShape: Qt.WhatsThisCursor
+		waitbefore: 100
 	}
 
 }

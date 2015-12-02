@@ -14,6 +14,7 @@ EntryContainer {
 		EntryTitle {
 
 			title: "Smooth Transition"
+			helptext: qsTr("Switching between images can be done smoothly, the new image can be set to fade into the old image. 'No transition' means, that the previous image is simply replaced by the new image.")
 
 		}
 

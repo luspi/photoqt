@@ -14,6 +14,7 @@ EntryContainer {
 		EntryTitle {
 
 			title: "Animation and Window Geometry"
+			helptext: qsTr("There are three things that can be adjusted here:") + "<ol><li>" + qsTr("Animation of fade-in widgets (like, e.g., Settings or About Widget)") + "</li><li>" + qsTr("Save and restore of Window Geometry: On quitting PhotoQt, it stores the size and position of the window and can restore it the next time started.") + "</li><li>" + qsTr("Keep PhotoQt above all other windows at all time") + "</li></ol>"
 
 		}
 

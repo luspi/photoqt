@@ -86,5 +86,10 @@
         <file>qml/settings2/tabs/lookandfeel/Transition.qml</file>
         <file>qml/settings2/tabs/lookandfeel/TrayIcon.qml</file>
         <file>qml/settings2/tabs/lookandfeel/WindowMode.qml</file>
+        <file>qml/settings2/tabs/TabThumbnails.qml</file>
+        <file>qml/settings2/tabs/thumbnails/ThumbnailSize.qml</file>
+        <file>qml/settings2/tabs/thumbnails/Spacing.qml</file>
+        <file>qml/settings2/tabs/thumbnails/LiftUp.qml</file>
+        <file>qml/elements/ToolTip.qml</file>
     </qresource>
 </RCC>

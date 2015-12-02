@@ -15,6 +15,7 @@ EntryContainer {
 		EntryTitle {
 
 			title: "Closing 'X' (top right corner)"
+			helptext: qsTr("There are two looks for the closing 'x' at the top right: a normal 'x', or a slightly more fancy 'x'. Here you can switch back and forth between both of them, and also change their size. If you prefer not to have a closing 'x' at all, see below for an option to hide it.")
 
 		}
 

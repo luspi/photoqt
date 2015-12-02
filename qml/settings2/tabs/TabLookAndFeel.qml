@@ -8,7 +8,9 @@ import "../../elements"
 
 Rectangle {
 
-	id: tab_lookandfeel
+	id: tab_top
+
+	property int titlewidth: 100
 
 	color: "#00000000"
 
@@ -28,8 +30,6 @@ Rectangle {
 		contentHeight: contentItem.childrenRect.height+20
 		contentWidth: maincol.width
 
-		boundsBehavior: Flickable.StopAtBounds
-
 		Column {
 
 			id: maincol
@@ -45,7 +45,11 @@ Rectangle {
 				horizontalAlignment: Text.AlignHCenter
 			}
 
-			Rectangle { color: "transparent"; width: 1; height: 10; }
+			Rectangle { color: "transparent"; width: 1; height: 20; }
+
+			Rectangle { color: "#88ffffff"; width: parent.width; height: 1; }
+
+			Rectangle { color: "transparent"; width: 1; height: 20; }
 
 			SortBy { id: sortby; }
 			WindowMode { id: windowmode; alternating: true }

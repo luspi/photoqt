@@ -39,6 +39,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/CustomComboBox.qml qml/eleme
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/CustomSpinBox.qml qml/elements/CustomConfirm.qml qml/elements/CustomTextEdit.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/CustomDetectShortcut.qml qml/elements/CustomMouseShortcut.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/CustomExternalCommand.qml qml/elements/CustomLineEdit.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/elements/ToolTip.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/fadein/About.qml qml/fadein/Scale.qml qml/fadein/Rename.qml qml/fadein/Delete.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/fadein/Wallpaper.qml qml/fadein/Slideshow.qml qml/fadein/Filter.qml qml/fadein/Startup.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings/SettingsItem.qml qml/settings/TabDetailsTile.qml qml/settings/TabOtherLanguageTiles.qml)
@@ -56,6 +57,8 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings2/tabs/lookandfeel/CloseOnCli
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings2/tabs/lookandfeel/HotEdge.qml qml/settings2/tabs/lookandfeel/MouseWheelSensitivity.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings2/tabs/lookandfeel/Interpolation.qml qml/settings2/tabs/lookandfeel/Remember.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings2/tabs/lookandfeel/Animation.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings2/tabs/TabThumbnails.qml qml/settings2/tabs/thumbnails/ThumbnailSize.qml qml/settings2/tabs/thumbnails/Spacing.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} qml/settings2/tabs/thumbnails/LiftUp.qml)
 
 #### HEADER ####
 SET(photoqt_HEADERS cplusplus/mainwindow.h cplusplus/variables.h cplusplus/logger.h)
