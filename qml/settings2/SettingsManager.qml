@@ -98,6 +98,15 @@ Rectangle {
 					onSaveData:{
 						saveData()
 					}
+					onCleanDatabase: {
+						cleanDatabase()
+					}
+					onEraseDatabase: {
+						eraseDatabase()
+					}
+					onUpdateDatabaseInfo: {
+						updateDatabaseInfo()
+					}
 				}
 				Component.onCompleted: {
 					setData()
@@ -294,7 +303,7 @@ Rectangle {
 	CustomConfirm {
 		fillAnchors: settings_top
 		id: confirmclean
-		header: qsTr("Clean Database")
+		header: qsTr("Clean Database1")
 		description: qsTr("Do you really want to clean up the database?") + "<br><br>" + qsTr("This removes all obsolete thumbnails, thus possibly making PhotoQt a little faster.") + "<bR><br>" + qsTr("This process might take a little while.")
 		confirmbuttontext: qsTr("Yes, clean is good")
 		rejectbuttontext: qsTr("No, don't have time for that")
@@ -304,7 +313,7 @@ Rectangle {
 	CustomConfirm {
 		fillAnchors: settings_top
 		id: confirmerase
-		header: qsTr("Erase Database")
+		header: qsTr("Erase Database2")
 		description: qsTr("Do you really want to ERASE the entire database?") + "<br><br>" + qsTr("This removes every single item in the database! This step should never really be necessarily. After that, every thumbnail has to be newly re-created.") + "<br>" + qsTr("This step cannot be reversed!")
 		confirmbuttontext: qsTr("Yes, get rid of it all")
 		rejectbuttontext: qsTr("Nooo, I want to keep it")

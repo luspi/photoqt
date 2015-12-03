@@ -52,8 +52,17 @@ Rectangle {
 			Rectangle { color: "transparent"; width: 1; height: 20; }
 
 			ThumbnailSize { id: thumbnailsize }
-			Spacing { id: spacing }
+			Spacing { id: spacing; alternating: true }
 			LiftUp { id: liftup }
+			KeepVisible { id: keepvisible; alternating: true }
+			Dynamic { id: dynamic }
+			CenterOn { id: centeron; alternating: true }
+			TopOrBottom { id: toporbottom }
+			Label { id: label; alternating: true }
+			FilenameOnly { id: filenameonly }
+			Disable { id: disable; alternating: true }
+			Cache { id: cache }
+
 
 		}
 
@@ -63,12 +72,38 @@ Rectangle {
 		thumbnailsize.setData()
 		spacing.setData()
 		liftup.setData()
+		keepvisible.setData()
+		dynamic.setData()
+		centeron.setData()
+		toporbottom.setData()
+		label.setData()
+		filenameonly.setData()
+		disable.setData()
+		cache.setData()
 	}
 
 	function saveData() {
 		thumbnailsize.saveData()
 		spacing.saveData()
 		liftup.saveData()
+		keepvisible.saveData()
+		dynamic.saveData()
+		centeron.saveData()
+		toporbottom.saveData()
+		label.saveData()
+		filenameonly.saveData()
+		disable.saveData()
+		cache.saveData()
+	}
+
+	function eraseDatabase() {
+		thumbnailmanagement.eraseDatabase()
+		updateDatabaseInfo()
+	}
+
+	function cleanDatabase() {
+		thumbnailmanagement.cleanDatabase()
+		updateDatabaseInfo()
 	}
 
 }

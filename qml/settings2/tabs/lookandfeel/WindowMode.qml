@@ -34,8 +34,6 @@ EntryContainer {
 				CustomCheckBox {
 					id: windowmode_deco
 					enabled: false
-					opacity: enabled ? 1 : 0.3
-					Behavior on opacity { NumberAnimation { duration: 100; } }
 					text: qsTr("Show Window Decoration")
 				}
 
