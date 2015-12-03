@@ -91,5 +91,13 @@
         <file>qml/settings2/tabs/thumbnails/Spacing.qml</file>
         <file>qml/settings2/tabs/thumbnails/LiftUp.qml</file>
         <file>qml/elements/ToolTip.qml</file>
+        <file>qml/settings2/tabs/thumbnails/KeepVisible.qml</file>
+        <file>qml/settings2/tabs/thumbnails/Dynamic.qml</file>
+        <file>qml/settings2/tabs/thumbnails/CenterOn.qml</file>
+        <file>qml/settings2/tabs/thumbnails/TopOrBottom.qml</file>
+        <file>qml/settings2/tabs/thumbnails/Label.qml</file>
+        <file>qml/settings2/tabs/thumbnails/FilenameOnly.qml</file>
+        <file>qml/settings2/tabs/thumbnails/Disable.qml</file>
+        <file>qml/settings2/tabs/thumbnails/Cache.qml</file>
     </qresource>
 </RCC>
