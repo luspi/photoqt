@@ -17,6 +17,7 @@ RadioButton {
 			implicitHeight: 1.6*fontsize
 			radius: 0.9*fontsize
 			color: control.enabled ? indicatorBackgroundColourEnabled : colour.radio_check_indicator_bg_color_disabled
+			Behavior on color { ColorAnimation { duration: 150; } }
 			Rectangle {
 				anchors.fill: parent
 				visible: control.checked
@@ -43,6 +44,7 @@ RadioButton {
 				x: (icon != "") ? 1.8*fontsize : 0
 				y: 0
 				color: control.enabled ? colour.text : colour.disabled
+				Behavior on color { ColorAnimation { duration: 150; } }
 				height: 1.6*fontsize
 				font.pointSize: fontsize
 				text: control.text

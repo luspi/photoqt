@@ -19,6 +19,7 @@ Button {
 		background: Rectangle {
 			anchors.fill: parent
 			color: control.enabled ? (control.pressedDown ? colour.button_bg_pressed : (control.hovered ? colour.button_bg_hovered : colour.button_bg)) : colour.button_bg_disabled
+			Behavior on color { ColorAnimation { duration: 150; } }
 			radius: global_item_radius
 		}
 
@@ -27,6 +28,7 @@ Button {
 			verticalAlignment: Qt.AlignVCenter
 			font.pixelSize: fontsize
 			color: control.enabled ? ((control.hovered || control.pressedDown) ? colour.button_text_active : colour.button_text) : colour.button_text_disabled
+			Behavior on color { ColorAnimation { duration: 150; } }
 			text: "  " + control.text + "  "
 		}
 

@@ -60,9 +60,11 @@ Rectangle {
 				implicitHeight: fsize*2
 				radius: global_item_radius/2
 				color: control.enabled ? indicatorBackgroundColourEnabled : colour.radio_check_indicator_bg_color_disabled
+				Behavior on color { ColorAnimation { duration: 150; } }
 				Rectangle {
 					visible: rect.checkedButton
 					color: control.enabled ? indicatorColourEnabled : colour.radio_check_indicator_color_disabled
+					Behavior on color { ColorAnimation { duration: 150; } }
 					radius: global_item_radius/2
 					anchors.margins: 4
 					anchors.fill: parent
@@ -70,6 +72,7 @@ Rectangle {
 			}
 			label: Text {
 				color: control.enabled ? colour.text : colour.disabled
+				Behavior on color { ColorAnimation { duration: 150; } }
 				visible: textOnRight
 				text: textOnRight ? rect.text : ""
 				font.pointSize: fsize
