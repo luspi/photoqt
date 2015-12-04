@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/">
+        <file>../qml/fadein/About.qml</file>
+        <file>../qml/fadein/Scale.qml</file>
+        <file>../qml/fadein/Delete.qml</file>
+        <file>../qml/fadein/Rename.qml</file>
+        <file>../qml/fadein/Wallpaper.qml</file>
+        <file>../qml/fadein/Slideshow.qml</file>
+        <file>../qml/fadein/Filter.qml</file>
+        <file>../qml/fadein/Startup.qml</file>
+    </qresource>
+</RCC>

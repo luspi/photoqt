@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>../qml/mainview/Background.qml</file>
+        <file>../qml/mainview/QuickInfo.qml</file>
+        <file>../qml/mainview/ContextMenu.qml</file>
+        <file>../qml/mainview/ContextMenuEntry.qml</file>
+        <file>../qml/mainview/SmartImage.qml</file>
+        <file>../qml/mainview/MainView.qml</file>
+    </qresource>
+</RCC>

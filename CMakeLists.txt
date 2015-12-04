@@ -75,7 +75,8 @@ ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/lang.qrc
 		   DEPENDS ${qm_files})
 
 # Set resources
-SET(photoqt_RESOURCES qml.qrc img.qrc ${CMAKE_CURRENT_BINARY_DIR}/lang.qrc)
+SET(photoqt_RESOURCES)
+INCLUDE(CMake/ListFilesResources.cmake)
 QT5_ADD_RESOURCES(RESOURCES ${photoqt_RESOURCES})
 
 
