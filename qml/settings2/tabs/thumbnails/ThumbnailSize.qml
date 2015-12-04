@@ -34,6 +34,7 @@ EntryContainer {
 					id: size_slider
 
 					width: 500
+					y: (parent.height-height)/2
 
 					minimumValue: 20
 					maximumValue: 256

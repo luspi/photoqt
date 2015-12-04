@@ -56,6 +56,7 @@ EntryContainer {
 				CustomCheckBox {
 
 					id: interpolationupscale
+					y: (parent.height-height)/2
 					text: qsTr("Use 'Nearest Neighbour' algorithm for upscaling")
 
 				}

@@ -34,6 +34,7 @@ EntryContainer {
 					id: spacing_slider
 
 					width: 500
+					y: (parent.height-height)/2
 
 					minimumValue: 0
 					maximumValue: 30
