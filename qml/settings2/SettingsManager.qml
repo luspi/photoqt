@@ -59,7 +59,7 @@ Rectangle {
 		height: parent.height-butrow.height
 
 		tabCount: 5     // We currently have 5 tabs in the settings
-		currentIndex: 1
+		currentIndex: 2
 
 		Tab {
 
@@ -120,20 +120,20 @@ Rectangle {
 		Tab {
 
 			title: qsTr("Metadata")
-//			TabDetails {
-//				Connections {
-//					target: top
-//					onSetData:{
-//						setData()
-//					}
-//					onSaveData:{
-//						saveData()
-//					}
-//				}
-//				Component.onCompleted: {
-//					setData()
-//				}
-//			}
+			TabMetadata {
+				Connections {
+					target: settings_top
+					onSetData:{
+						setData()
+					}
+					onSaveData:{
+						saveData()
+					}
+				}
+				Component.onCompleted: {
+					setData()
+				}
+			}
 
 		}
 
