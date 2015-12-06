@@ -63,6 +63,7 @@ Rectangle {
 
 			MouseTrigger { id: trigger }
 			Metadata { id: metadata; alternating: true }
+			FontSize { id: fontsize }
 
 
 		}
@@ -72,11 +73,13 @@ Rectangle {
 	function setData() {
 		trigger.setData()
 		metadata.setData()
+		fontsize.setData()
 	}
 
 	function saveData() {
 		trigger.saveData()
 		metadata.saveData()
+		fontsize.saveData()
 	}
 
 }

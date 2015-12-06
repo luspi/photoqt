@@ -34,5 +34,10 @@
         <file>../qml/settings2/tabs/thumbnails/FilenameOnly.qml</file>
         <file>../qml/settings2/tabs/thumbnails/Disable.qml</file>
         <file>../qml/settings2/tabs/thumbnails/Cache.qml</file>
+        <file>../qml/settings2/tabs/TabMetadata.qml</file>
+		<file>../qml/settings2/tabs/metadata/MouseTrigger.qml</file>
+		<file>../qml/settings2/tabs/metadata/Metadata.qml</file>
+		<file>../qml/settings2/tabs/metadata/MetadataTile.qml</file>
+		<file>../qml/settings2/tabs/metadata/FontSize.qml</file>
     </qresource>
 </RCC>
