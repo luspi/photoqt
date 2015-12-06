@@ -9,7 +9,7 @@ Rectangle {
 	property string title: ""
 	property string helptext: ""
 
-	width: tab_top.titlewidth + 20
+	width: tab_top.titlewidth + 40
 	height: childrenRect.height
 	y: (item_top.height-height)/2
 	color: "transparent"
