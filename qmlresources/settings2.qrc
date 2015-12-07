@@ -41,5 +41,10 @@
 		<file>../qml/settings2/tabs/metadata/FontSize.qml</file>
 		<file>../qml/settings2/tabs/metadata/RotateFlip.qml</file>
 		<file>../qml/settings2/tabs/metadata/OnlineMap.qml</file>
+		<file>../qml/settings2/tabs/TabOther.qml</file>
+		<file>../qml/settings2/tabs/other/Language.qml</file>
+		<file>../qml/settings2/tabs/other/LanguageTile.qml</file>
+		<file>../qml/settings2/tabs/other/CustomEntries.qml</file>
+		<file>../qml/settings2/tabs/other/CustomEntriesInteractive.qml</file>
     </qresource>
 </RCC>

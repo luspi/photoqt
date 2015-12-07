@@ -59,7 +59,7 @@ Rectangle {
 		height: parent.height-butrow.height
 
 		tabCount: 5     // We currently have 5 tabs in the settings
-		currentIndex: 2
+		currentIndex: 3
 
 		Tab {
 
@@ -141,44 +141,18 @@ Rectangle {
 
 			title: qsTr("Other Settings")
 
-			CustomTabView {
-
-				subtab: true
-				tabCount: 2
-
-				Tab {
-					title: "Other"
-//					TabOther {
-//						Connections {
-//							target: top
-//							onSetData:{
-//								setData()
-//							}
-//							onSaveData:{
-//								saveData()
-//							}
-//						}
-//						Component.onCompleted: {
-//							setData()
-//						}
-//					}
+			TabOther {
+				Connections {
+					target: settings_top
+					onSetData:{
+						setData()
+					}
+					onSaveData:{
+						saveData()
+					}
 				}
-				Tab {
-					title: qsTr("Filetypes")
-//					TabFiletypes {
-//						Connections {
-//							target: top
-//							onSetData:{
-//								setData()
-//							}
-//							onSaveData:{
-////								saveData()
-//							}
-//						}
-//						Component.onCompleted: {
-//							setData()
-//						}
-//					}
+				Component.onCompleted: {
+					setData()
 				}
 			}
 		}
