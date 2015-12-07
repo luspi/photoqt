@@ -25,7 +25,7 @@ Rectangle {
 
 		x: 5
 		y: 5
-		width: parent.width-5
+		width: parent.width-10
 		height: parent.height-check.height-10
 
 		color: (checked || hovered) ? colour.tiles_text_active : colour.tiles_text_inactive
