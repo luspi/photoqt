@@ -64,6 +64,8 @@ Rectangle {
 			MouseTrigger { id: trigger }
 			Metadata { id: metadata; alternating: true }
 			FontSize { id: fontsize }
+			RotateFlip { id: rotateflip; alternating: true }
+			OnlineMap { id: onlinemap }
 
 
 		}
@@ -74,12 +76,16 @@ Rectangle {
 		trigger.setData()
 		metadata.setData()
 		fontsize.setData()
+		rotateflip.setData()
+		onlinemap.setData()
 	}
 
 	function saveData() {
 		trigger.saveData()
 		metadata.saveData()
 		fontsize.saveData()
+		rotateflip.saveData()
+		onlinemap.saveData()
 	}
 
 }

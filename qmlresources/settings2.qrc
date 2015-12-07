@@ -39,5 +39,7 @@
 		<file>../qml/settings2/tabs/metadata/Metadata.qml</file>
 		<file>../qml/settings2/tabs/metadata/MetadataTile.qml</file>
 		<file>../qml/settings2/tabs/metadata/FontSize.qml</file>
+		<file>../qml/settings2/tabs/metadata/RotateFlip.qml</file>
+		<file>../qml/settings2/tabs/metadata/OnlineMap.qml</file>
     </qresource>
 </RCC>

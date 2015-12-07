@@ -49,4 +49,5 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/ThumbnailSize.qml ${d}/Spacing.qml $
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/CenterOn.qml ${d}/TopOrBottom.qml ${d}/Label.qml ${d}/FilenameOnly.qml ${d}/Disable.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Cache.qml)
 SET(d "qml/settings2/tabs/metadata")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/MouseTrigger.qml ${d}/Metadata.qml ${d}/MetadataTile.qml ${d}/FontSize.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/MouseTrigger.qml ${d}/Metadata.qml ${d}/MetadataTile.qml ${d}/FontSize.qml ${d}/RotateFlip.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/OnlineMap.qml)
