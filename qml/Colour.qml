@@ -15,7 +15,7 @@ Item {
 	readonly property string text_selection_color_disabled: "#cccccc"
 	readonly property string text_selected: "#000000"
 	readonly property string warning: "#ff0000"
-	readonly property string disabled: "#808080"
+	readonly property string disabled: "#66707070"
 
 	// Fade-in/Slide-in elements colouring
 	readonly property string fadein_slidein_bg: "#DD000000"
@@ -92,9 +92,9 @@ Item {
 
 	// CustomRadioButton and CustomCheckBox
 	readonly property string radio_check_indicator_color: "#ffffff"
-	readonly property string radio_check_indicator_color_disabled: "#555555"
+	readonly property string radio_check_indicator_color_disabled: "#88555555"
 	readonly property string radio_check_indicator_bg_color: "#22FFFFFF"
-	readonly property string radio_check_indicator_bg_color_disabled: "#22888888"
+	readonly property string radio_check_indicator_bg_color_disabled: "#11808080"
 
 	// CustomComboBox
 	readonly property string combo_dropdown_frame: "#bb000000"
@@ -108,9 +108,9 @@ Item {
 	readonly property string button_bg: "#22DDDDDD"
 	readonly property string button_bg_hovered: "#44DDDDDD"
 	readonly property string button_bg_pressed: "#66DDDDDD"
-	readonly property string button_bg_disabled: "#11777777"
+	readonly property string button_bg_disabled: "#05777777"
 	readonly property string button_text: "#aacccccc"
 	readonly property string button_text_active: "#aacccccc"
-	readonly property string button_text_disabled: "#55cccccc"
+	readonly property string button_text_disabled: "#66707070"
 
 }
