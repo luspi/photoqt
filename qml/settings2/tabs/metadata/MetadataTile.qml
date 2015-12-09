@@ -12,32 +12,13 @@ Rectangle {
 	property bool hovered: false
 
 	// Size
-	width: 75
-	height: 75
+	width: 200
+	height: 30
 
 	// Look
-	color: enabled ? (checked || hovered) ? colour.tiles_active : colour.tiles_inactive : colour.tiles_disabled
+	color: enabled ? (checked ? colour.tiles_active : (hovered ? colour.tiles_inactive : colour.tiles_disabled)) : colour.tiles_disabled
 	Behavior on color { ColorAnimation { duration: 150; } }
 	radius: global_item_radius
-
-	// the text, which item this one is
-	Text {
-
-		x: 5
-		y: 5
-		width: parent.width-10
-		height: parent.height-check.height-10
-
-		color: (checked || hovered) ? colour.tiles_text_active : colour.tiles_text_inactive
-		Behavior on color { ColorAnimation { duration: 150; } }
-		verticalAlignment: Qt.AlignVCenter
-		horizontalAlignment: Qt.AlignHCenter
-		wrapMode: Text.WordWrap
-		font.pointSize: 8
-
-		text: rect.text
-
-	}
 
 	// And the checkbox indicator
 	CustomCheckBox {
@@ -46,13 +27,14 @@ Rectangle {
 
 		checkedButton: checked
 
-		x: (parent.width-width)/2
-		y: parent.height-height-5
+		y: (parent.height-height)/2
+		x: y
+		width: parent.width-2*x
 
 		indicatorColourEnabled: colour.tiles_indicator_col
 		indicatorBackgroundColourEnabled: colour.tiles_indicator_bg
 
-		text: ""
+		text: rect.text
 
 	}
 

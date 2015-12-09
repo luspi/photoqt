@@ -25,103 +25,33 @@ EntryContainer {
 
 			id: entry
 
-			property var metadataitems: [["make","Make"],
-										["model","Model"],
-										["software","Software"],
-										["time","Time Photo was Taken"],
-										["exposure","Exposure Time"],
-										["flash","Flash"],
-										["iso","ISO"],
-										["scenetype","Scene Type"],
-										["focal","Focal Length"],
-										["fnumber","F-Number"],
-										["light","Light Source"],
-										["keywords","Keywords"],
-										["location","Location"],
-										["copyright","Copyright"],
-										["gps","GPS Position"]]
-			property var metadachecked: {"make" : false,
-										 "model" : false,
-										 "software" : false,
-										 "time" : false,
-										 "exposure" : false,
-										 "flash" : false,
-										 "iso" : false,
-										 "scenetype" : false,
-										 "focal" : false,
-										 "fnumber" : false,
-										 "light" : false,
-										 "keywords" : false,
-										 "location" : false,
-										 "copyright" : false,
-										 "gps" : false }
+			GridView {
 
-			Row {
+				property var metadataitems: [["","",false]]
+				property var metadachecked: { "" : "" }
 
-				spacing: 10
+				id: grid
+				width: Math.floor((item_top.width-title.width-title.x-parent.parent.spacing-5)/(cellWidth)) * (cellWidth)
+				height: childrenRect.height
+				cellWidth: 200
+				cellHeight: 30 + 2*spacing
+				property int spacing: 3
 
-				Rectangle {
-					id: but
-					color: "transparent"
-					width: childrenRect.width
-					height: childrenRect.height
-					y: (parent.height-height)/2
-					Column {
-
-						spacing: 10
-
-						CustomButton {
-							id: select
-							text: "Select all"
-							onClickedButton:
-								checkAllTiles(true)
-						}
-						CustomButton {
-							id: deselect
-							text: "Deselect all"
-							onClickedButton:
-								checkAllTiles(false)
-						}
-						Component.onCompleted: {
-							var w = Math.max(select.width,deselect.width)
-							select.width = w
-							deselect.width = w
-						}
-
-					}
+				model: metadataitems.length
+				delegate: MetadataTile {
+					id: tile
+					text: grid.metadataitems[index][1]
+					checked: grid.metadataitems[index][2]
+					width: grid.cellWidth-grid.spacing*2
+					x: grid.spacing
+					height: grid.cellHeight-grid.spacing*2
+					y: grid.spacing
+					onCheckedChanged:
+						grid.metadachecked[grid.metadataitems[index][0]] = checked
+					Component.onCompleted:
+						grid.metadachecked[grid.metadataitems[index][0]] = checked
 				}
 
-				GridLayout {
-
-					id: grid
-					property int w: item_top.width-title.width-title.x-but.width
-					width: columns * (filesize.width+columnSpacing)
-					columns: ( 9*(filesize.width+columnSpacing) <= (w-10*columnSpacing)
-									? 9 : (6*(filesize.width+columnSpacing) <= (w-7*columnSpacing)
-												? 6 : 4) )
-					clip: true
-					rowSpacing: 3
-					columnSpacing: 5
-
-					MetadataTile { id: filesize; text: qsTr("Filesize"); }
-					MetadataTile { id: dimensions; text: qsTr("Dimensions"); }
-					MetadataTile { enabled: getanddostuff.isExivSupportEnabled(); id: make; text: qsTr("Make"); }
-					MetadataTile { enabled: getanddostuff.isExivSupportEnabled(); id: model; text: qsTr("Model"); }
-					MetadataTile { enabled: getanddostuff.isExivSupportEnabled(); id: software; text: qsTr("Software"); }
-					MetadataTile { enabled: getanddostuff.isExivSupportEnabled(); id: timephototaken; text: qsTr("Time Photo was Taken"); }
-					MetadataTile { enabled: getanddostuff.isExivSupportEnabled(); id: exposuretime; text: qsTr("Exposure Time"); }
-					MetadataTile { enabled: getanddostuff.isExivSupportEnabled(); id: flash; text: qsTr("Flash"); }
-					MetadataTile { enabled: getanddostuff.isExivSupportEnabled(); id: iso; text: qsTr("ISO"); }
-					MetadataTile { enabled: getanddostuff.isExivSupportEnabled(); id: scenetype; text: qsTr("Scene Type"); }
-					MetadataTile { enabled: getanddostuff.isExivSupportEnabled(); id: focallength; text: qsTr("Focal Length"); }
-					MetadataTile { enabled: getanddostuff.isExivSupportEnabled(); id: fnumber; text: qsTr("F-Number"); }
-					MetadataTile { enabled: getanddostuff.isExivSupportEnabled(); id: lightsource; text: qsTr("Light Source"); }
-					MetadataTile { enabled: getanddostuff.isExivSupportEnabled(); id: keywords; text: qsTr("Keywords"); }
-					MetadataTile { enabled: getanddostuff.isExivSupportEnabled(); id: location; text: qsTr("Location"); }
-					MetadataTile { enabled: getanddostuff.isExivSupportEnabled(); id: copyright; text: qsTr("Copyright"); }
-					MetadataTile { enabled: getanddostuff.isExivSupportEnabled(); id: gps; text: qsTr("GPS Position"); }
-
-				}
 
 			}
 
@@ -129,53 +59,49 @@ EntryContainer {
 
 	}
 
-	function checkAllTiles(checked) {
-
-		for(var i = 0; i < grid.children.length; ++i) {
-			grid.children[i].checked = checked
-		}
-
-	}
-
 	function setData() {
-		filesize.checked = settings.exiffilesize
-		dimensions.checked = settings.exifdimensions
-		make.checked = settings.exifmake
-		model.checked = settings.exifmodel
-		software.checked = settings.exifsoftware
-		timephototaken.checked = settings.exifphototaken
-		exposuretime.checked = settings.exifexposuretime
-		flash.checked = settings.exifflash
-		iso.checked = settings.exifiso
-		scenetype.checked = settings.exifscenetype
-		focallength.checked = settings.exifflength
-		fnumber.checked = settings.exiffnumber
-		lightsource.checked = settings.exiflightsource
-		keywords.checked = settings.iptckeywords
-		location.checked = settings.iptclocation
-		copyright.checked = settings.iptccopyright
-		gps.checked = settings.exifgps
+
+		var items = [["filesize","Filesize", settings.exiffilesize],
+					["dimensions","Dimensions", settings.exifdimensions],
+					["make","Make", settings.exifmake],
+					["model","Model",settings.exifmodel],
+					["software","Software",settings.exifsoftware],
+					["time","Time Photo was Taken",settings.exifphototaken],
+					["exposure","Exposure Time",settings.exifexposuretime],
+					["flash","Flash",settings.exifflash],
+					["iso","ISO",settings.exifiso],
+					["scenetype","Scene Type",settings.exifscenetype],
+					["focal","Focal Length",settings.exifflength],
+					["fnumber","F-Number",settings.exiffnumber],
+					["light","Light Source",settings.exiflightsource],
+					["keywords","Keywords",settings.iptckeywords],
+					["location","Location",settings.iptclocation],
+					["copyright","Copyright",settings.iptccopyright],
+					["gps","GPS Position",settings.exifgps]]
+
+		grid.metadataitems = items
+
 	}
 
 	function saveData() {
 
-		settings.exiffilesize = filesize.checked
-		settings.exifdimensions = dimensions.checked
-		settings.exifmake = make.checked
-		settings.exifmodel = model.checked
-		settings.exifsoftware = software.checked
-		settings.exifphototaken = timephototaken.checked
-		settings.exifexposuretime = exposuretime.checked
-		settings.exifflash = flash.checked
-		settings.exifiso = iso.checked
-		settings.exifscenetype = scenetype.checked
-		settings.exifflength = focallength.checked
-		settings.exiffnumber = fnumber.checked
-		settings.exiflightsource = lightsource.checked
-		settings.iptckeywords = keywords.checked
-		settings.iptclocation = location.checked
-		settings.iptccopyright = copyright.checked
-		settings.exifgps = gps.checked
+		settings.exiffilesize = grid.metadachecked["filesize"]
+		settings.exifdimensions = grid.metadachecked["dimensions"]
+		settings.exifmake = grid.metadachecked["make"]
+		settings.exifmodel = grid.metadachecked["model"]
+		settings.exifsoftware = grid.metadachecked["software"]
+		settings.exifphototaken = grid.metadachecked["time"]
+		settings.exifexposuretime = grid.metadachecked["exposure"]
+		settings.exifflash = grid.metadachecked["flash"]
+		settings.exifiso = grid.metadachecked["iso"]
+		settings.exifscenetype = grid.metadachecked["scenetype"]
+		settings.exifflength = grid.metadachecked["focal"]
+		settings.exiffnumber = grid.metadachecked["fnumber"]
+		settings.exiflightsource = grid.metadachecked["light"]
+		settings.iptckeywords = grid.metadachecked["keywords"]
+		settings.iptclocation = grid.metadachecked["location"]
+		settings.iptccopyright = grid.metadachecked["copyright"]
+		settings.exifgps = grid.metadachecked["gps"]
 
 	}
 
