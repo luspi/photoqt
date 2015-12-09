@@ -3,12 +3,9 @@ import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
 
 // This checkbox is a 'normal' checkbox with text either on the left or on the right (default)
-Rectangle {
+Item {
 
 	id: rect
-
-	// Container for items
-	color: "#00000000"
 
 	// Some properties that can be adjusted from parent
 	property bool checkedButton: false
@@ -24,7 +21,7 @@ Rectangle {
 
 	// Set size
 	width: childrenRect.width
-	height: childrenRect.height
+	height: Math.max(txt.height,check.height)
 
 	// 'Copy' functionality of checkedChanged of Button Item
 	signal buttonCheckedChanged()
