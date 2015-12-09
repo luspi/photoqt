@@ -46,5 +46,7 @@
 		<file>../qml/settings2/tabs/other/LanguageTile.qml</file>
 		<file>../qml/settings2/tabs/other/CustomEntries.qml</file>
 		<file>../qml/settings2/tabs/other/CustomEntriesInteractive.qml</file>
+		<file>../qml/settings2/tabs/other/FileTypesQt.qml</file>
+		<file>../qml/settings2/tabs/other/FileTypesTile.qml</file>
     </qresource>
 </RCC>

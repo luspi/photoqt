@@ -6,6 +6,7 @@
 #include <iostream>
 #include <QDir>
 #include <QFileSystemWatcher>
+#include <QTimer>
 
 class FileFormats : public QObject {
 
@@ -13,6 +14,7 @@ class FileFormats : public QObject {
 
 private:
 	QFileSystemWatcher *watcher;
+	QTimer *saveFileformatsTimer;
 
 public:
 
@@ -25,6 +27,12 @@ public:
 		watcher->addPaths(QStringList() << QDir::homePath() + "/.photoqt/settings" << QDir::homePath() + "/.photoqt/fileformats.disabled");
 		connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(getFormats(QString)));
 
+		// When saving the settings, we don't want to write the settings file hundreds of time within a few milliseconds, but use a timer to save it once after all settings are set
+		saveFileformatsTimer = new QTimer;
+		saveFileformatsTimer->setInterval(400);
+		saveFileformatsTimer->setSingleShot(true);
+		connect(saveFileformatsTimer, SIGNAL(timeout()), this, SLOT(initiateSaving()));
+
 	}
 
 	~FileFormats() { delete watcher; }
@@ -34,6 +42,19 @@ public:
 	QStringList formatsQtEnabledExtras;
 	QStringList formatsGmEnabled;
 	QStringList formatsExtrasEnabled;
+
+	QStringList getFormatsQtEnabled() { return formatsQtEnabled; }
+	QStringList getFormatsQtEnabledExtras() { return formatsQtEnabledExtras; }
+	QStringList getFormatsGmEnabled() { return formatsGmEnabled; }
+	QStringList getFormatsExtrasEnabled() { return formatsExtrasEnabled; }
+	void setFormatsQtEnabled(QStringList val) { formatsQtEnabled = val; saveFileformatsTimer->start(); }
+	void setFormatsQtEnabledExtras(QStringList val) { formatsQtEnabledExtras = val; saveFileformatsTimer->start(); }
+	void setFormatsGmEnabled(QStringList val) { formatsGmEnabled = val; saveFileformatsTimer->start(); }
+	void setFormatsExtrasEnabled(QStringList val) { formatsExtrasEnabled = val; saveFileformatsTimer->start(); }
+	Q_PROPERTY(QStringList formatsQtEnabled READ getFormatsQtEnabled WRITE setFormatsQtEnabled NOTIFY formatsQtEnabledChanged)
+	Q_PROPERTY(QStringList formatsQtEnabledExtras READ getFormatsQtEnabledExtras WRITE setFormatsQtEnabledExtras NOTIFY formatsQtEnabledExtrasChanged)
+	Q_PROPERTY(QStringList formatsGmEnabled READ getFormatsGmEnabled WRITE setFormatsGmEnabled NOTIFY formatsGmEnabledChanged)
+	Q_PROPERTY(QStringList formatsExtrasEnabled READ getFormatsExtrasEnabled WRITE setFormatsExtrasEnabled NOTIFY formatsExtrasEnabledChanged)
 
 	void setDefaultFormats() {
 
@@ -337,9 +358,18 @@ public slots:
 
 		}
 
+		emit formatsQtEnabledChanged(formatsQtEnabled);
+		emit formatsQtEnabledExtrasChanged(formatsQtEnabledExtras);
+		emit formatsGmEnabledChanged(formatsGmEnabled);
+		emit formatsExtrasEnabledChanged(formatsExtrasEnabled);
+
 	}
 
 private slots:
+
+	void initiateSaving() {
+		saveFormats(formatsQtEnabled, formatsGmEnabled, formatsExtrasEnabled);
+	}
 
 	// Save all enabled formats to file
 	void saveFormats(QStringList new_qtformats, QStringList new_gmformats, QStringList new_extrasFormats) {
@@ -387,6 +417,12 @@ private slots:
 		}
 
 	}
+
+signals:
+	void formatsQtEnabledChanged(QStringList val);
+	void formatsQtEnabledExtrasChanged(QStringList val);
+	void formatsGmEnabledChanged(QStringList val);
+	void formatsExtrasEnabledChanged(QStringList val);
 
 };
 

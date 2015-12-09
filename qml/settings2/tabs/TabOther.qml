@@ -52,7 +52,8 @@ Rectangle {
 			Rectangle { color: "transparent"; width: 1; height: 20; }
 
 			Language { id: language }
-			CustomEntries { id: customentries }
+			CustomEntries { id: customentries; alternating: true }
+			FileTypesQt { id: filetypesqt }
 
 
 		}
@@ -62,11 +63,13 @@ Rectangle {
 	function setData() {
 		language.setData()
 		customentries.setData()
+		filetypesqt.setData()
 	}
 
 	function saveData() {
 		language.saveData()
 		customentries.saveData()
+		filetypesqt.saveData()
 	}
 
 }

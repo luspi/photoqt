@@ -12,7 +12,7 @@ Rectangle {
 	id: rect
 
 	width: 600
-	height: 450
+	height: 300
 
 	clip: true
 	color: "#00000000"
@@ -32,7 +32,7 @@ Rectangle {
 		height: parent.height
 
 		orientation: ListView.Vertical
-		boundsBehavior: ListView.StopAtBounds
+//		boundsBehavior: ListView.
 		displaced: Transition { NumberAnimation { properties: "x,y"; easing.type: Easing.OutQuad } }
 
 		PropertyAnimation {
@@ -45,7 +45,7 @@ Rectangle {
 
 			from: root.contentY
 			to: bForward ? root.contentHeight-root.height : 0
-			duration: bForward ? (root.contentHeight-root.height-root.contentY)*2 : root.contentY*2
+			duration: Math.max(bForward ? (root.contentHeight-root.height-root.contentY)*2 : root.contentY*2,100)
 
 		}
 
