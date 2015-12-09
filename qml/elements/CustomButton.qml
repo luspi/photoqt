@@ -9,6 +9,7 @@ Button {
 	property bool pressedDown: false
 	property bool hovered: false
 	property int fontsize: 13
+	property int wrapMode: Text.NoWrap
 
 	implicitHeight: 2.5*fontsize
 
@@ -24,9 +25,11 @@ Button {
 		}
 
 		label: Text {
+			id: txt
 			horizontalAlignment: Qt.AlignHCenter
 			verticalAlignment: Qt.AlignVCenter
 			font.pixelSize: fontsize
+			wrapMode: but.wrapMode
 			color: control.enabled ? ((control.hovered || control.pressedDown) ? colour.button_text_active : colour.button_text) : colour.button_text_disabled
 			Behavior on color { ColorAnimation { duration: 150; } }
 			text: "  " + control.text + "  "
