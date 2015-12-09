@@ -15,7 +15,7 @@ import QtQuick.Controls.Private 1.0
 MouseArea {
 	id: _root
 	property string text: ""
-	property int waitbefore: 1000
+	property int waitbefore: 500
 
 	anchors.fill: parent
 	hoverEnabled: _root.enabled
