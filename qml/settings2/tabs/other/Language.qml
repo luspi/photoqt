@@ -27,35 +27,50 @@ EntryContainer {
 
 			ExclusiveGroup { id: languagegroup; }
 
-			GridLayout {
+			GridView {
+
+				property var languageitems: [["en","English",""],
+											["cs","Čeština",""],
+											["de","Deutsch",""],
+											["el","Ελληνικά",""],
+											["es_ES","Español (España)",""],
+											["es_CR","Español (Costa Rica)",""],
+											["fi","Suomen kieli",""],
+											["fr","Français",""],
+											["he","עברית",""],
+											["it","Italiano",""],
+											["ja","日本語",""],
+											["pl","Polski",""],
+											["pt_BR","Português (Brasil)",""],
+											["pt_PT","Português (Portugal)",""],
+											["sk","Slovenčina",""],
+											["uk_UA","Українська",""],
+											["zh_CN","Chinese",""],
+											["zh_TW","Chinese (traditional)",""]]
+
+				property string currentlySelected: ""
 
 				id: grid
-				property int w: item_top.width-title.width-title.x
-				width: item_top.width-title.width-title.x-parent.parent.spacing-20
-				columns: width/(english.width+columnSpacing)
+				width: Math.floor((item_top.width-title.width-title.x-parent.parent.spacing-5)/(cellWidth)) * (cellWidth)
+				height: childrenRect.height
+				cellWidth: 200
+				cellHeight: 30 + 2*spacing
+				property int spacing: 3
 
-				clip: true
-				rowSpacing: 3
-				columnSpacing: 5
+				model: languageitems.length
+				delegate: LanguageTile {
+					id: tile
+					objectName: grid.languageitems[index][0]
+					text: grid.languageitems[index][1]
+					author: grid.languageitems[index][2]
+					checked: (objectName===grid.currentlySelected)
+					exclusiveGroup: languagegroup
+					width: grid.cellWidth-grid.spacing*2
+					x: grid.spacing
+					height: grid.cellHeight-grid.spacing*2
+					y: grid.spacing
+				}
 
-				LanguageTile { id: english; objectName: "en"; text: "English"; exclusiveGroup: languagegroup; checked: true }
-				LanguageTile { objectName: "cs"; text: "Čeština"; exclusiveGroup: languagegroup; }
-				LanguageTile { objectName: "de"; text: "Deutsch"; exclusiveGroup: languagegroup; }
-				LanguageTile { objectName: "el"; text: "Ελληνικά"; exclusiveGroup: languagegroup; }
-				LanguageTile { objectName: "es_ES"; text: "Español (España)"; exclusiveGroup: languagegroup; }
-				LanguageTile { objectName: "es_CR"; text: "Español (Costa Rica)"; exclusiveGroup: languagegroup; }
-				LanguageTile { objectName: "fi"; text: "Suomen kieli"; exclusiveGroup: languagegroup; }
-				LanguageTile { objectName: "fr"; text: "Français"; exclusiveGroup: languagegroup; }
-				LanguageTile { objectName: "he"; text: "עברית"; exclusiveGroup: languagegroup; }
-				LanguageTile { objectName: "it"; text: "Italiano"; exclusiveGroup: languagegroup; }
-				LanguageTile { objectName: "ja"; text: "日本語"; exclusiveGroup: languagegroup; }
-				LanguageTile { objectName: "pl"; text: "Polski"; exclusiveGroup: languagegroup; }
-				LanguageTile { objectName: "pt_BR"; text: "Português (Brasil)"; exclusiveGroup: languagegroup; }
-				LanguageTile { objectName: "pt_PT"; text: "Português (Portugal)"; exclusiveGroup: languagegroup; }
-				LanguageTile { objectName: "sk"; text: "Slovenčina"; exclusiveGroup: languagegroup; }
-				LanguageTile { objectName: "uk_UA"; text: "Українська"; exclusiveGroup: languagegroup; }
-				LanguageTile { objectName: "zh_CN"; text: "Chinese"; exclusiveGroup: languagegroup; }
-				LanguageTile { objectName: "zh_TW"; text: "Chinese (traditional)"; exclusiveGroup: languagegroup; }
 
 			}
 
@@ -64,12 +79,7 @@ EntryContainer {
 	}
 
 	function setData() {
-		for(var i = 0; i < grid.children.length; ++i) {
-			if(settings.language === grid.children[i].objectName) {
-				grid.children[i].checked = true
-				break
-			}
-		}
+		grid.currentlySelected = settings.language
 	}
 
 	function saveData() {

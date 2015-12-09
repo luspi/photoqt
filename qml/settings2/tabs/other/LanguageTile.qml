@@ -8,6 +8,7 @@ Rectangle {
 	id: rect
 
 	property string text: ""
+	property string author: ""
 	property string code: ""
 
 	property bool checked: false
@@ -16,31 +17,12 @@ Rectangle {
 	property var exclusiveGroup: ExclusiveGroup
 
 	// Size
-	width: 90
-	height: 90
+	width: 200
+	height: 30
 
 	// Look
-	color: (checked || hovered) ? colour.tiles_active : colour.tiles_inactive
+	color: checked ? colour.tiles_highlight : (hovered ? colour.tiles_active : colour.tiles_disabled)
 	radius: global_item_radius
-
-	// the text, which item this one is
-	Text {
-
-		x: 5
-		y: 5
-		width: parent.width-10
-		height: parent.height-check.height-10
-
-		font.pointSize: 8
-
-		color: colour.tiles_text_active
-		verticalAlignment: Qt.AlignVCenter
-		horizontalAlignment: Qt.AlignHCenter
-		wrapMode: Text.WordWrap
-
-		text: rect.text
-
-	}
 
 	// And the checkbox indicator
 	CustomRadioButton {
@@ -53,28 +35,26 @@ Rectangle {
 
 		checked: parent.checked
 
-		x: (parent.width-width)/2
-		y: parent.height-height-5
+		y: (parent.height-height)/2
+		x: y
+		width: parent.width-2*x
 
 		indicatorColourEnabled: colour.tiles_indicator_col
 		indicatorBackgroundColourEnabled: colour.tiles_indicator_bg
 
-		text: ""
+		text: rect.text
 
 		onCheckedChanged: parent.checked = checked
 
 	}
 
-	// A mouseares governing the hover/checked look
-	MouseArea {
-
-		anchors.fill: rect
+	// The mousearea of the Tooltip governs the hover/checked look
+	ToolTip {
+		text: (rect.author != "" ? "<b>Created by:</b><br>" + rect.author : "")
 		cursorShape: Qt.PointingHandCursor
-		hoverEnabled: true
 		onEntered: hovered = true
 		onExited: hovered = false
 		onClicked: checked = !checked
-
 	}
 
 }
