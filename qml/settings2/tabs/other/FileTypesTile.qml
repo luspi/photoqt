@@ -21,7 +21,7 @@ Rectangle {
 	height: 30
 
 	// Look
-	color: (checked || hovered) ? colour.tiles_inactive : colour.tiles_disabled
+	color: checked ? colour.tiles_active : (hovered ? colour.tiles_inactive : colour.tiles_disabled)
 	Behavior on color { ColorAnimation { duration: 150 } }
 	radius: global_item_radius
 
@@ -35,7 +35,6 @@ Rectangle {
 
 	ToolTip {
 		text: "<b>File Ending(s):</b><br>" + rect.tooltip
-		waitbefore: 500
 		cursorShape: Qt.PointingHandCursor
 		onEntered:
 			hovered = true
