@@ -31,8 +31,8 @@ Item {
 	readonly property string thumbnails_filename_bg: "#88000000"
 
 	// Tiles in settings
-	readonly property string tiles_highlight: "#88cccccc"
-	readonly property string tiles_active: "#66cccccc"
+//	readonly property string tiles_highlight: "#88cccccc"
+	readonly property string tiles_active: "#77cccccc"
 	readonly property string tiles_inactive: "#55cccccc"
 	readonly property string tiles_disabled: "#44cccccc"
 	readonly property string tiles_text_active: "#000000"
