@@ -16,7 +16,7 @@ EntryContainer {
 		EntryTitle {
 
 			id: title
-			title: "File Formats:<br>&gt; Qt"
+			title: qsTr("File Formats") + ":<br>&gt; Qt"
 			helptext: qsTr("These are the file types natively supported by Qt. Make sure, that you'll have the required libraries installed (e.g., qt5-imageformats), otherwise some of them might not work on your system.<br>If a file ending for one of the formats is missing, you can add it below, formatted like '*.ending' (without single quotation marks), multiple entries seperated by commas.")
 
 		}

@@ -16,7 +16,7 @@ EntryContainer {
 		EntryTitle {
 
 			id: title
-			title: "File Formats:<br>&gt; GraphicsMagick"
+			title: qsTr("File Formats") + ":<br>&gt; GraphicsMagick"
 			helptext: qsTr("PhotoQt makes use of GraphicsMagick for support of many different image formats. The list below are all those formats, that were successfully displayed using test images. If you prefer not to have one or the other enabled in PhotoQt, you can simply disable individual formats below.<br>There are a few formats, that were not tested in PhotoQt (due to lack of a test image). You can find those in the 'Untested' category below.")
 
 		}

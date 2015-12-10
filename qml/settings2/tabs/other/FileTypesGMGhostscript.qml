@@ -16,7 +16,7 @@ EntryContainer {
 		EntryTitle {
 
 			id: title
-			title: "File Formats:<br>&gt; GraphicsMagick/Ghostscript"
+			title: qsTr("File Formats") + ":<br>&gt; GraphicsMagick/Ghostscript"
 			helptext: qsTr("The following file types are supported by GraphicsMagick, and they have been tested and work. However, they require Ghostscript to be installed on the system.")
 
 		}
