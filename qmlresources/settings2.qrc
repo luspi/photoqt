@@ -48,5 +48,9 @@
 		<file>../qml/settings2/tabs/other/CustomEntriesInteractive.qml</file>
 		<file>../qml/settings2/tabs/other/FileTypesQt.qml</file>
 		<file>../qml/settings2/tabs/other/FileTypesTile.qml</file>
+		<file>../qml/settings2/tabs/other/FileTypesGM.qml</file>
+		<file>../qml/settings2/tabs/other/FileTypesGMGhostscript.qml</file>
+		<file>../qml/settings2/tabs/other/FileTypesExtras.qml</file>
+		<file>../qml/settings2/tabs/other/FileTypesUntested.qml</file>
     </qresource>
 </RCC>

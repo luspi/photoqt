@@ -8,8 +8,8 @@ ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider
 	settings = new Settings;
 	fileformats = new FileFormats();
 
-	gmfiles = fileformats->formatsGmEnabled.join(",");
-	qtfiles = fileformats->formatsQtEnabled.join(",") + (fileformats->formatsQtEnabledExtras.length() ? "," : "") + fileformats->formatsQtEnabledExtras.join(",");
+	gmfiles = fileformats->formatsGmEnabled.join(",") + fileformats->formatsGmGhostscriptEnabled.join(",") + fileformats->formatsUntestedEnabled.join(",");
+	qtfiles = fileformats->formatsQtEnabled.join(",");
 	extrasfiles = fileformats->formatsExtrasEnabled.join(",");
 
 }

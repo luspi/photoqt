@@ -7,6 +7,7 @@
 #include <QDir>
 #include <QFileSystemWatcher>
 #include <QTimer>
+#include <QtDebug>
 
 class FileFormats : public QObject {
 
@@ -15,6 +16,12 @@ class FileFormats : public QObject {
 private:
 	QFileSystemWatcher *watcher;
 	QTimer *saveFileformatsTimer;
+
+	QStringList TMP_formatsQtEnabled;
+	QStringList TMP_formatsGmEnabled;
+	QStringList TMP_formatsGmGhostscriptEnabled;
+	QStringList TMP_formatsExtrasEnabled;
+	QStringList TMP_formatsUntestedEnabled;
 
 public:
 
@@ -39,28 +46,34 @@ public:
 
 	// Per default enabled image formats
 	QStringList formatsQtEnabled;
-	QStringList formatsQtEnabledExtras;
 	QStringList formatsGmEnabled;
+	QStringList formatsGmGhostscriptEnabled;
 	QStringList formatsExtrasEnabled;
+	QStringList formatsUntestedEnabled;
 
 	QStringList getFormatsQtEnabled() { return formatsQtEnabled; }
-	QStringList getFormatsQtEnabledExtras() { return formatsQtEnabledExtras; }
 	QStringList getFormatsGmEnabled() { return formatsGmEnabled; }
+	QStringList getFormatsGmGhostscriptEnabled() { return formatsGmGhostscriptEnabled; }
 	QStringList getFormatsExtrasEnabled() { return formatsExtrasEnabled; }
-	void setFormatsQtEnabled(QStringList val) { formatsQtEnabled = val; saveFileformatsTimer->start(); }
-	void setFormatsQtEnabledExtras(QStringList val) { formatsQtEnabledExtras = val; saveFileformatsTimer->start(); }
-	void setFormatsGmEnabled(QStringList val) { formatsGmEnabled = val; saveFileformatsTimer->start(); }
-	void setFormatsExtrasEnabled(QStringList val) { formatsExtrasEnabled = val; saveFileformatsTimer->start(); }
+	QStringList getFormatsUntestedEnabled() { return formatsUntestedEnabled; }
+	void setFormatsQtEnabled(const QStringList val) { TMP_formatsQtEnabled = val; saveFileformatsTimer->start(); }
+	void setFormatsGmEnabled(const QStringList val) { TMP_formatsGmEnabled = val; saveFileformatsTimer->start(); }
+	void setFormatsGmGhostscriptEnabled(const QStringList val) { TMP_formatsGmGhostscriptEnabled = val; saveFileformatsTimer->start(); }
+	void setFormatsExtrasEnabled(const QStringList val) { TMP_formatsExtrasEnabled = val; saveFileformatsTimer->start(); }
+	void setFormatsUntestedEnabled(const QStringList val) { TMP_formatsUntestedEnabled = val; saveFileformatsTimer->start(); }
 	Q_PROPERTY(QStringList formatsQtEnabled READ getFormatsQtEnabled WRITE setFormatsQtEnabled NOTIFY formatsQtEnabledChanged)
-	Q_PROPERTY(QStringList formatsQtEnabledExtras READ getFormatsQtEnabledExtras WRITE setFormatsQtEnabledExtras NOTIFY formatsQtEnabledExtrasChanged)
 	Q_PROPERTY(QStringList formatsGmEnabled READ getFormatsGmEnabled WRITE setFormatsGmEnabled NOTIFY formatsGmEnabledChanged)
+	Q_PROPERTY(QStringList formatsGmGhostscriptEnabled READ getFormatsGmGhostscriptEnabled WRITE setFormatsGmGhostscriptEnabled NOTIFY formatsGmGhostscriptEnabledChanged)
 	Q_PROPERTY(QStringList formatsExtrasEnabled READ getFormatsExtrasEnabled WRITE setFormatsExtrasEnabled NOTIFY formatsExtrasEnabledChanged)
+	Q_PROPERTY(QStringList formatsUntestedEnabled READ getFormatsUntestedEnabled WRITE setFormatsUntestedEnabled NOTIFY formatsUntestedEnabledChanged)
 
 	void setDefaultFormats() {
 
 		formatsQtEnabled.clear();
 		formatsGmEnabled.clear();
-		formatsQtEnabledExtras.clear();
+		formatsGmGhostscriptEnabled.clear();
+		formatsExtrasEnabled.clear();
+		formatsUntestedEnabled.clear();
 
 		/******************************
 		 ***** 14 FORMATS WORKING *****
@@ -158,23 +171,6 @@ public:
 // WORKING
 				<< "*.epdf"	// Encapsulated Portable Document Format
 
-// WORKING (Ghostscript required)
-				<< "*.epi"	// Adobe Encapsulated PostScript Interchange format
-				<< "*.epsi"
-
-// WORKING (Ghostscript required)
-				<< "*.eps"	// Adobe Encapsulated PostScript
-				<< "*.epsf"
-
-// WORKING (Ghostscript required)
-				<< "*.eps2"	// Adobe Level II Encapsulated PostScript
-
-// WORKING (Ghostscript required)
-				<< "*.eps3"	// Adobe Level III Encapsulated PostScript
-
-// WORKING (Ghostscript required)
-				<< "*.ept"	// Adobe Encapsulated PostScript Interchange format with TIFF preview
-
 // WORKING
 				<< "*.fax"	// Group 3 FAX
 
@@ -223,9 +219,6 @@ public:
 // WORKING
 				<< "*.pdb"	// Palm Database ImageViewer Format
 
-// WORKING (Ghostscript required)
-				<< "*.pdf"	// Portable Document Format
-
 // WORKING
 				<< "*.pict"	// Apple Macintosh QuickDraw /PICT file
 				<< "*.pct"
@@ -237,15 +230,6 @@ public:
 
 // WORKING
 				<< "*.pnm"	// Portable anymap
-
-// WORKING (Ghostscript required)
-				<< "*.ps"	// Adobe PostScript file
-
-// WORKING (Ghostscript required)
-				<< "*.ps2"	// Adobe Level II PostScript file
-
-// WORKING (Ghostscript required)
-				<< "*.ps3"	// Adobe Level III PostScript file
 
 // WORKING
 				<< "*.psd"	// Adobe Photoshop bitmap file
@@ -279,11 +263,41 @@ public:
 				<< "*.wpg"	// Word Perfect Graphics File
 
 // WORKING
-				<< "*.xwd"	// X Windows system window dump
+				<< "*.xwd";	// X Windows system window dump
+
+
+// WORKING (Ghostscript required)
+		formatsGmGhostscriptEnabled << "*.epi"	// Adobe Encapsulated PostScript Interchange format
+				<< "*.epsi"
+
+// WORKING (Ghostscript required)
+				<< "*.eps"	// Adobe Encapsulated PostScript
+				<< "*.epsf"
+
+// WORKING (Ghostscript required)
+				<< "*.eps2"	// Adobe Level II Encapsulated PostScript
+
+// WORKING (Ghostscript required)
+				<< "*.eps3"	// Adobe Level III Encapsulated PostScript
+
+// WORKING (Ghostscript required)
+				<< "*.ept"	// Adobe Encapsulated PostScript Interchange format with TIFF preview
+
+// WORKING (Ghostscript required)
+				<< "*.pdf"	// Portable Document Format
+
+// WORKING (Ghostscript required)
+				<< "*.ps"	// Adobe PostScript file
+
+// WORKING (Ghostscript required)
+				<< "*.ps2"	// Adobe Level II PostScript file
+
+// WORKING (Ghostscript required)
+				<< "*.ps3";	// Adobe Level III PostScript file
 
 
 // UNTESTED (no test image available)
-				<< "*.hp"	// HP-GL plotter language
+		formatsUntestedEnabled << "*.hp"	// HP-GL plotter language
 				<< "*.hpgl"
 				<< "*.jbig"	// Joint Bi-level Image experts Group file interchange format
 				<< "*.jbg"
@@ -303,32 +317,6 @@ public slots:
 
 	// Read formats from file (if available)
 	void getFormats(QString path) {
-
-		QFile file1(QDir::homePath() + "/.photoqt/settings");
-		if(!file1.open(QIODevice::ReadOnly)) {
-			std::cerr << "ERROR: Can't read extra Qt file formats" << std::endl;
-			setDefaultFormats();
-		} else {
-
-			QTextStream in(&file1);
-			QString all = in.readAll();
-			QString extra = "";
-			if(all.contains("KnownFileTypesQtExtras="))
-				extra = all.split("KnownFileTypesQtExtras=").at(1).split("\n").at(0).trimmed();
-
-			if(path == QDir::homePath() + "/.photoqt/settings") {
-				QStringList list = extra.split(",");
-				bool stophere = true;
-				foreach(QString l, list) {
-					if(l.trimmed() != "" && !formatsQtEnabledExtras.contains(l.trimmed()))
-						stophere = false;
-				}
-				if(stophere) return;
-			}
-			setDefaultFormats();
-			formatsQtEnabledExtras = extra.split(",");
-		}
-
 
 		QFile file2(QDir::homePath() + "/.photoqt/fileformats.disabled");
 
@@ -350,6 +338,10 @@ public slots:
 						formatsExtrasEnabled.removeAll(line);
 					if(line.length() != 0 && formatsGmEnabled.contains(line))
 						formatsGmEnabled.removeAll(line);
+					if(line.length() != 0 && formatsGmGhostscriptEnabled.contains(line))
+						formatsGmGhostscriptEnabled.removeAll(line);
+					if(line.length() != 0 && formatsUntestedEnabled.contains(line))
+						formatsUntestedEnabled.removeAll(line);
 
 					line = in.readLine();
 				}
@@ -359,20 +351,22 @@ public slots:
 		}
 
 		emit formatsQtEnabledChanged(formatsQtEnabled);
-		emit formatsQtEnabledExtrasChanged(formatsQtEnabledExtras);
 		emit formatsGmEnabledChanged(formatsGmEnabled);
+		emit formatsGmGhostscriptEnabledChanged(formatsGmGhostscriptEnabled);
 		emit formatsExtrasEnabledChanged(formatsExtrasEnabled);
+		emit formatsUntestedEnabledChanged(formatsUntestedEnabled);
 
 	}
 
 private slots:
 
 	void initiateSaving() {
-		saveFormats(formatsQtEnabled, formatsGmEnabled, formatsExtrasEnabled);
+		saveFormats(TMP_formatsQtEnabled, TMP_formatsGmEnabled, TMP_formatsGmGhostscriptEnabled, TMP_formatsExtrasEnabled, TMP_formatsUntestedEnabled);
 	}
 
 	// Save all enabled formats to file
-	void saveFormats(QStringList new_qtformats, QStringList new_gmformats, QStringList new_extrasFormats) {
+	void saveFormats(QStringList new_qtFormats, QStringList new_gmFormats, QStringList new_gmghostscriptFormats,
+					 QStringList new_extrasFormats, QStringList new_untestedFormats) {
 
 		setDefaultFormats();
 
@@ -380,28 +374,44 @@ private slots:
 
 		for(int i = 0; i < formatsQtEnabled.length(); ++i) {
 
-			if(!new_qtformats.contains(formatsQtEnabled.at(i)))
+			if(!new_qtFormats.contains(formatsQtEnabled.at(i)))
 				disabled.append(formatsQtEnabled.at(i));
 
 		}
 
 		for(int i = 0; i < formatsGmEnabled.length(); ++i) {
 
-			if(!new_gmformats.contains(formatsGmEnabled.at(i)))
+			if(!new_gmFormats.contains(formatsGmEnabled.at(i)))
 				disabled.append(formatsGmEnabled.at(i));
+
+		}
+
+		for(int i = 0; i < formatsGmGhostscriptEnabled.length(); ++i) {
+
+			if(!new_gmghostscriptFormats.contains(formatsGmGhostscriptEnabled.at(i)))
+				disabled.append(formatsGmGhostscriptEnabled.at(i));
 
 		}
 
 		for(int i = 0; i < formatsExtrasEnabled.length(); ++i) {
 
-			if(!new_extrasFormats.contains(formatsExtrasEnabled.at(i)))
+			if(!new_extrasFormats.contains(QString(formatsExtrasEnabled.at(i)).remove(0,1)))
 				disabled.append(formatsExtrasEnabled.at(i));
 
 		}
 
-		formatsQtEnabled = new_qtformats;
-		formatsGmEnabled = new_gmformats;
+		for(int i = 0; i < formatsUntestedEnabled.length(); ++i) {
+
+			if(!new_untestedFormats.contains(formatsUntestedEnabled.at(i)))
+				disabled.append(formatsUntestedEnabled.at(i));
+
+		}
+
+		formatsQtEnabled = new_qtFormats;
+		formatsGmEnabled = new_gmFormats;
+		formatsGmGhostscriptEnabled = new_gmghostscriptFormats;
 		formatsExtrasEnabled = new_extrasFormats;
+		formatsUntestedEnabled = new_untestedFormats;
 
 		QFile file(QDir::homePath() + "/.photoqt/fileformats.disabled");
 		if(file.exists()) {
@@ -420,9 +430,10 @@ private slots:
 
 signals:
 	void formatsQtEnabledChanged(QStringList val);
-	void formatsQtEnabledExtrasChanged(QStringList val);
 	void formatsGmEnabledChanged(QStringList val);
+	void formatsGmGhostscriptEnabledChanged(QStringList val);
 	void formatsExtrasEnabledChanged(QStringList val);
+	void formatsUntestedEnabledChanged(QStringList val);
 
 };
 

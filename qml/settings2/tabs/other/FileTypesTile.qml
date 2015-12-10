@@ -9,7 +9,8 @@ Rectangle {
 	id: rect
 
 	property string fileEnding: ""
-	property string tooltip: ""
+	property string fileType: ""
+	property string description: ""
 
 	property bool checked: false
 	property bool hovered: false
@@ -28,13 +29,16 @@ Rectangle {
 	CustomCheckBox {
 		y: (parent.height-height)/2
 		x: y
-		text: parent.fileEnding
+		fixedwidth: parent.width-2*x
+		elide: Text.ElideRight
+		text: parent.fileType
 		fsize: 9
 		checkedButton: parent.checked
 	}
 
 	ToolTip {
-		text: "<b>File Ending(s):</b><br>" + rect.tooltip
+		text: description=="" ? "<b>" + rect.fileType + ":</b><br>" + rect.fileEnding
+							  : "<b>" + rect.description + "</b><br>" + rect.fileEnding
 		cursorShape: Qt.PointingHandCursor
 		onEntered:
 			hovered = true

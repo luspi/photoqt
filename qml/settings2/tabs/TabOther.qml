@@ -54,6 +54,10 @@ Rectangle {
 			Language { id: language }
 			CustomEntries { id: customentries; alternating: true }
 			FileTypesQt { id: filetypesqt }
+			FileTypesGM { id: filetypesgm; alternating: true }
+			FileTypesGMGhostscript { id: filetypesgmghostscript }
+			FileTypesExtras { id: filetypesextras; alternating: true }
+			FileTypesUntested { id: filetypesuntested }
 
 
 		}
@@ -64,12 +68,20 @@ Rectangle {
 		language.setData()
 		customentries.setData()
 		filetypesqt.setData()
+		filetypesgm.setData()
+		filetypesgmghostscript.setData()
+		filetypesextras.setData()
+		filetypesuntested.setData()
 	}
 
 	function saveData() {
 		language.saveData()
 		customentries.saveData()
 		filetypesqt.saveData()
+		filetypesgm.saveData()
+		filetypesgmghostscript.saveData()
+		filetypesextras.saveData()
+		filetypesuntested.saveData()
 	}
 
 }

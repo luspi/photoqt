@@ -16,7 +16,7 @@ EntryContainer {
 		EntryTitle {
 
 			id: title
-			title: "File Formats:<br>&gt; Qt"
+			title: "File Formats:<br>&gt; Untested"
 			helptext: qsTr("These are the file types natively supported by Qt. Make sure, that you'll have the required libraries installed (e.g., qt5-imageformats), otherwise some of them might not work on your system.<br>If a file ending for one of the formats is missing, you can add it below, formatted like '*.ending' (without single quotation marks), multiple entries seperated by commas.")
 
 		}
@@ -26,7 +26,7 @@ EntryContainer {
 			id: entry
 
 			// the model array
-			property var types_qt: [["", "", true]]
+			property var types_untested: [["", "", true]]
 			// which item is checked
 			property var modeldata: {"" : ""}
 
@@ -39,12 +39,12 @@ EntryContainer {
 				cellHeight: 30+spacing*2
 				property int spacing: 3
 
-				model: entry.types_qt.length
+				model: entry.types_untested.length
 				delegate: FileTypesTile {
 					id: tile
-					fileType: entry.types_qt[index][0]
-					fileEnding: entry.types_qt[index][1]
-					checked: entry.types_qt[index][2]
+					fileType: entry.types_untested[index][0]
+					fileEnding: entry.types_untested[index][1]
+					checked: entry.types_untested[index][2]
 					width: grid.cellWidth-grid.spacing*2
 					x: grid.spacing
 					height: grid.cellHeight-grid.spacing*2
@@ -52,9 +52,9 @@ EntryContainer {
 
 					// Store updates
 					Component.onCompleted:
-						entry.modeldata[entry.types_qt[index][1]] = checked
+						entry.modeldata[entry.types_untested[index][1]] = tile.checked
 					onCheckedChanged:
-						entry.modeldata[entry.types_qt[index][1]] = checked
+						entry.modeldata[entry.types_untested[index][1]] = tile.checked
 				}
 
 			}
@@ -65,39 +65,26 @@ EntryContainer {
 
 	function setData() {
 
-		verboseMessage("Settings::TabFiletypes::setData()","")
-
-		// Remove data
-		entry.types_qt = []
-
 		// storing intermediate results
-		var tmp_types_qt = []
+		var tmp_types_untested = []
 
 		// Get current settings
-		var setformats = fileformats.formatsQtEnabled
+		var setformats = fileformats.formatsUntestedEnabled
 
 		// Valid fileformats
-		var qt = [["Bitmap", "*.bmp", "*.bitmap"],
-			["Direct Draw Surface", "*.dds"],
-			["Graphics Interchange Format (GIF)", "*.gif"],
-			["Microsoft Icon", "*.ico", "*.icns"],
-			["Joint Photographic Experts Group (JPEG)", "*.jpg", "*.jpeg"],
-			["JPEG-2000", "*.jpeg2000", "*.jp2", "*.jpc", "*.j2k", "*.jpf", "*.jpx", "*.jpm", "*.mj2"],
-			["Multiple-image Network Graphics", "*.mng"],
-			["Portable Network Graphics (PNG)", "*.png"],
-			["Portable bitmap", "*.pbm"],
-			["Portable graymap", "*.pgm"],
-			["Portable pixmap", "*.ppm"],
-			["Scalable Vector Graphics (SVG)", "*.svg", "*.svgz"],
-			["Tagged Image File Format (TIFF)", "*.tif", "*.tiff"],
-			["Wireless bitmap", "*.wbmp", "*.webp"],
-			["X Windows system bitmap", "*.xbm"],
-			["X Windows system pixmap", "*.xpm"]]
+		var untested = [["HP-GL plotter language","*.hp", "*.hpgl"],
+				["Joint Bi-level Image experts Group file interchange format","*.jbig", "*.jbg"],
+				["Seattle File Works multi-image file","*.pwp"],
+				["Sun Raster Image","*.rast"],
+				["Alias/Wavefront image","*.rla"],
+				["Utah Run length encoded image","*.rle"],
+				["Scitex Continuous Tone Picture","*.sct"],
+				["PSX TIM file","*.tim"]]
 
-		for(var i = 0; i < qt.length; ++i) {
+		for(var i = 0; i < untested.length; ++i) {
 
 			// the current file ending
-			var cur = qt[i]
+			var cur = untested[i]
 			// if it has been found
 			var found = true
 			// And the file endings composed in string
@@ -115,12 +102,12 @@ EntryContainer {
 			}
 
 			// Add to temporary array
-			tmp_types_qt = tmp_types_qt.concat([[cur[0],composed,found]])
+			tmp_types_untested = tmp_types_untested.concat([[cur[0],composed,found]])
 
 		}
 
 		// Set new data
-		entry.types_qt = tmp_types_qt
+		entry.types_untested = tmp_types_untested
 
 	}
 
@@ -136,7 +123,7 @@ EntryContainer {
 		}
 
 		// Update data
-		fileformats.formatsQtEnabled = tobesaved.filter(function(n){ return n !== ""; })
+		fileformats.formatsUntestedEnabled = tobesaved.filter(function(n){ return n !== ""; })
 
 	}
 

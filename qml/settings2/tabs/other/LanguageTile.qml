@@ -21,7 +21,7 @@ Rectangle {
 	height: 30
 
 	// Look
-	color: checked ? colour.tiles_highlight : (hovered ? colour.tiles_active : colour.tiles_disabled)
+	color: checked ? colour.tiles_active : (hovered ? colour.tiles_inactive : colour.tiles_disabled)
 	radius: global_item_radius
 
 	// And the checkbox indicator
