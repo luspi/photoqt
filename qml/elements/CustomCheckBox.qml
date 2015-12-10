@@ -12,6 +12,9 @@ Item {
 	property string text: ""
 	property int fsize: 10
 	property string textColour: colour.text
+	property int elide: Text.ElideNone
+
+	property int fixedwidth: -1
 
 	property string indicatorColourEnabled: colour.radio_check_indicator_color
 	property string indicatorBackgroundColourEnabled: colour.radio_check_indicator_bg_color
@@ -20,7 +23,7 @@ Item {
 	property bool textOnRight: true
 
 	// Set size
-	width: childrenRect.width
+	width: fixedwidth==-1 ? childrenRect.width : fixedwidth
 	height: Math.max(txt.height,check.height)
 
 	// 'Copy' functionality of checkedChanged of Button Item
@@ -36,6 +39,7 @@ Item {
 		color: textColour
 		text: !textOnRight ? rect.text : ""
 		font.pointSize: fsize
+		elide: rect.elide
 
 	}
 
@@ -46,6 +50,7 @@ Item {
 
 		anchors.left: txt.right
 		anchors.leftMargin: textOnRight ? 0 : 5
+		anchors.right: (fixedwidth==-1 ? undefined : rect.right)
 
 		// Checked state is tied to this global property
 		checked: rect.checkedButton
@@ -71,6 +76,7 @@ Item {
 				color: control.enabled ? colour.text : colour.disabled
 				Behavior on color { ColorAnimation { duration: 150; } }
 				visible: textOnRight
+				elide: rect.elide
 				text: textOnRight ? rect.text : ""
 				font.pointSize: fsize
 			}
