@@ -113,4 +113,8 @@ Item {
 	readonly property string button_text_active: "#aacccccc"
 	readonly property string button_text_disabled: "#66707070"
 
+	// ToolTip
+	readonly property string tooltip_bg: "#cc222222"
+	readonly property string tooltip_text: "#ccdddddd"
+
 }

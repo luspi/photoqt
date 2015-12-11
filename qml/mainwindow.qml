@@ -5,6 +5,7 @@ import SettingsSession 1.0
 import GetAndDoStuff 1.0
 import GetMetaData 1.0
 import ThumbnailManagement 1.0
+import ToolTip 1.0
 
 import QtQuick.Dialogs 1.2
 
@@ -142,6 +143,16 @@ Item {
 
 	SettingsManager { id: settingsmanager; visible: false; }
 	SettingsItem { id: settingsitem; }
+
+	ToolTip {
+		id: globaltooltip;
+		Component.onCompleted: {
+			setBackgroundColor(colour.tooltip_bg)
+			setTextColor(colour.tooltip_text)
+		}
+	}
+
+
 
 	// Slots accessable by mainwindow.cpp, passed on to thumbnailbar
 	function reloadImage(pos, smart) { thumbnailBar.reloadImage(pos, smart) }

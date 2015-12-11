@@ -27,6 +27,9 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/settings.h ${d}/settingssession.h ${
 SET(d "cplusplus/singleinstance")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/singleinstance.cpp)
 
+SET(d "cplusplus/tooltip")
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/tooltip.cpp)
+
 
 ####################
 #### C++ HEADER ####
@@ -56,3 +59,6 @@ SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/settings.h ${d}/settingssession.h ${
 
 SET(d "cplusplus/singleinstance")
 SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/singleinstance.h)
+
+SET(d "cplusplus/tooltip")
+SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/tooltip.h)

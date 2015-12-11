@@ -28,6 +28,7 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 	qmlRegisterType<GetMetaData>("GetMetaData", 1, 0, "GetMetaData");
 	qmlRegisterType<GetAndDoStuff>("GetAndDoStuff", 1, 0, "GetAndDoStuff");
 	qmlRegisterType<ThumbnailManagement>("ThumbnailManagement", 1, 0, "ThumbnailManagement");
+	qmlRegisterType<ToolTip>("ToolTip", 1, 0, "ToolTip");
 
 	// Load QML
 	this->setSource(QUrl("qrc:/qml/mainwindow.qml"));
