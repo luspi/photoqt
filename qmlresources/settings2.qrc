@@ -52,5 +52,9 @@
 		<file>../qml/settings2/tabs/other/FileTypesGMGhostscript.qml</file>
 		<file>../qml/settings2/tabs/other/FileTypesExtras.qml</file>
 		<file>../qml/settings2/tabs/other/FileTypesUntested.qml</file>
+		<file>../qml/settings2/tabs/TabShortcuts.qml</file>
+		<file>../qml/settings2/tabs/shortcuts/Available.qml</file>
+		<file>../qml/settings2/tabs/shortcuts/Set.qml</file>
+		<file>../qml/settings2/tabs/shortcuts/Navigation.qml</file>
     </qresource>
 </RCC>

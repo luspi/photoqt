@@ -15,8 +15,8 @@ Rectangle {
 //	property int titlewidth: 100
 
 	// Invisible at startup
-//	visible: false
-//	opacity: 0
+	visible: false
+	opacity: 0
 
 	// setData is only emitted when settings have been 'closed without saving'
 	// See comment above 'setData_restore()' function below
@@ -30,15 +30,8 @@ Rectangle {
 	signal eraseDatabase()
 	signal updateDatabaseInfo()
 
-	// signals needed for shortcut handling
-	signal newShortcut(var cmd, var key)
-	signal newMouseShortcut(var cmd, var key)
-
-	signal updateShortcut(var cmd, var key, var id)
-	signal updateMouseShortcut(var cmd, var key, var id)
-	signal reloadShortcuts()
-
-	signal updateTheCommand(var id, var close, var mouse, var keys, var cmd)
+	signal updateCurrentKeyCombo(var combo)
+	signal updateKeysReleased()
 
 	MouseArea {
 		anchors.fill: parent
@@ -59,7 +52,7 @@ Rectangle {
 		height: parent.height-butrow.height
 
 		tabCount: 5     // We currently have 5 tabs in the settings
-		currentIndex: 3
+		currentIndex: 4
 
 		Tab {
 
@@ -160,6 +153,28 @@ Rectangle {
 		Tab {
 
 			title: qsTr("Shortcuts")
+
+			TabShortcuts {
+				Connections {
+					target: settings_top
+					onSetData: {
+						setData()
+					}
+					onSaveData: {
+						saveData()
+					}
+					onUpdateCurrentKeyCombo: {
+						currentKeyCombo = combo
+					}
+					onUpdateKeysReleased: {
+						keysReleased = true
+					}
+				}
+				Component.onCompleted: {
+					setData()
+				}
+			}
+
 //			TabShortcuts {
 //				Connections {
 //					target: top
@@ -318,73 +333,22 @@ Rectangle {
 		}
 	}
 
-	CustomDetectShortcut {
-		fillAnchors: settings_top
-		id: detectShortcut
-		onUpdateCombo: updateComboString(txt)
-		onGotKeyCombo: {
-			gotCombo(txt)
-			newShortcut(cmd, txt)
-		}
-	}
-	CustomDetectShortcut {
-		fillAnchors: settings_top
-		id: resetShortcut
-		onUpdateNewCombo: updateComboString(txt)
-		onGotNewKeyCombo: {
-			gotCombo(txt)
-			updateShortcut(cmd, txt, id)
-		}
-	}
-	CustomExternalCommand {
-		fillAnchors: settings_top
-		id: setExternalCommand
-		onUpdateCommand: {
-			updateTheCommand(id,close,mouse,keys,cmd)
-		}
-	}
-
-	CustomMouseShortcut {
-		fillAnchors: settings_top
-		id: detectMouseShortcut
-		onGotMouseShortcut: newMouseShortcut(cmd, txt)
-	}
-	CustomMouseShortcut {
-		fillAnchors: settings_top
-		id: resetMouseShortcut
-		onGotNewMouseShortcut: updateMouseShortcut(cmd, txt, id)
-	}
-
 	function showSettings() {
 		verboseMessage("Settings::showSettings()","Showing Settings...")
 		showSettingsAni.start()
 		updateDatabaseInfo()
 	}
 	function hideSettings() {
-		verboseMessage("Settings::hideSettings()",confirmclean.visible + "/" + confirmerase.visible + "/" + confirmdefaultshortcuts.visible + "/" + detectShortcut.visible + "/" + resetShortcut.visible)
+//		verboseMessage("Settings::hideSettings()",confirmclean.visible + "/" + confirmerase.visible + "/" + confirmdefaultshortcuts.visible + "/" + detectShortcut.visible + "/" + resetShortcut.visible)
 		if(confirmclean.visible)
 			confirmclean.hide()
 		else if(confirmerase.visible)
 			confirmerase.hide()
 		else if(confirmdefaultshortcuts.visible)
 			confirmdefaultshortcuts.hide()
-		else if(!detectShortcut.visible && !resetShortcut.visible)
+		else
+//		else if(!detectShortcut.visible/* && !resetShortcut.visible*/)
 			hideSettingsAni.start()
-	}
-
-	function detectedKeyCombo(combo) {
-		verboseMessage("Settings::detectedKeyCombo()",combo)
-		if(detectShortcut.opacity == 1)
-			detectShortcut.detectedCombo(combo)
-		if(resetShortcut.opacity == 1)
-			resetShortcut.detectedCombo(combo)
-	}
-	function keysReleased() {
-		verboseMessage("Settings::keysReleased()",detectShortcut.opacity + "/" + resetShortcut.opacity)
-		if(detectShortcut.opacity == 1)
-			detectShortcut.keysReleased()
-		if(resetShortcut.opacity == 1)
-			resetShortcut.keysReleased()
 	}
 
 	PropertyAnimation {
@@ -430,6 +394,14 @@ Rectangle {
 	}
 
 	function saveSettings() { saveData(); hideSettings(); }
+
+	function setCurrentKeyCombo(combo) {
+		updateCurrentKeyCombo("")
+		updateCurrentKeyCombo(combo)
+	}
+	function keysReleased() {
+		updateKeysReleased()
+	}
 
 }
 
