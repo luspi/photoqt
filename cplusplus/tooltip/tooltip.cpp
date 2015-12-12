@@ -21,18 +21,30 @@ void ToolTip::hideText() {
 	QToolTip::hideText();
 }
 
-//void ToolTip::setBackgroundColor(int r, int g, int b, int a) {
+void ToolTip::setBackgroundColor(int r, int g, int b, int a) {
+	_setBackgroundColor(QColor(r,g,b,a));
+}
+
 void ToolTip::setBackgroundColor(QString col) {
+	_setBackgroundColor(QColor(col));
+}
+
+void ToolTip::setTextColor(int r, int g, int b, int a) {
+	_setTextColor(QColor(r,g,b,a));
+}
+
+void ToolTip::setTextColor(QString col) {
+	_setTextColor(QColor(col));
+}
+
+void ToolTip::_setTextColor(QColor col) {
 	QPalette pal = QToolTip::palette();
-//	pal.setColor(QPalette::ToolTipBase, QColor(r,g,b,a));
-	pal.setColor(QPalette::ToolTipBase, QColor(col));
+	pal.setColor(QPalette::ToolTipText, col);
 	QToolTip::setPalette(pal);
 }
 
-//void ToolTip::setTextColor(int r, int g, int b, int a) {
-void ToolTip::setTextColor(QString col) {
+void ToolTip::_setBackgroundColor(QColor col) {
 	QPalette pal = QToolTip::palette();
-//	pal.setColor(QPalette::ToolTipText, QColor(r,g,b,a));
-	pal.setColor(QPalette::ToolTipText, QColor(col));
+	pal.setColor(QPalette::ToolTipBase, col);
 	QToolTip::setPalette(pal);
 }
