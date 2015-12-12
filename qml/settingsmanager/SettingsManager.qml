@@ -173,39 +173,6 @@ Rectangle {
 				}
 			}
 
-//			TabShortcuts {
-//				Connections {
-//					target: top
-//					onSetData:{
-//						setData()
-//					}
-//					onSaveData:{
-//						saveData()
-//					}
-//					onNewShortcut: {
-//						addShortcut(cmd, key)
-//					}
-//					onUpdateShortcut: {
-//						updateExistingShortcut(cmd, key, id)
-//					}
-//					onNewMouseShortcut: {
-//						addMouseShortcut(cmd, key)
-//					}
-//					onUpdateMouseShortcut: {
-//						updateExistingMouseShortcut(cmd, key, id)
-//					}
-//					onUpdateTheCommand: {
-//						updateCommand(id, close, mouse, keys, cmd)
-//					}
-//					onReloadShortcuts: {
-//						setData()
-//					}
-//				}
-//				Component.onCompleted: {
-//					setData()
-//				}
-//			}
-
 		}
 
 	}

@@ -49,4 +49,4 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Language.qml ${d}/LanguageTile.qml $
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/FileTypesQt.qml ${d}/FileTypesTile.qml ${d}/FileTypesGM.qml ${d}/FileTypesGMGhostscript.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/FileTypesExtras.qml ${d}/FileTypesUntested.qml)
 SET(d "qml/settingsmanager/tabs/shortcuts")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Available.qml ${d}/Set.qml ${d}/Navigation.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Available.qml ${d}/Set.qml ${d}/ShortcutsContainer.qml)

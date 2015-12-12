@@ -55,6 +55,6 @@
 		<file>../qml/settingsmanager/tabs/TabShortcuts.qml</file>
 		<file>../qml/settingsmanager/tabs/shortcuts/Available.qml</file>
 		<file>../qml/settingsmanager/tabs/shortcuts/Set.qml</file>
-		<file>../qml/settingsmanager/tabs/shortcuts/Navigation.qml</file>
+		<file>../qml/settingsmanager/tabs/shortcuts/ShortcutsContainer.qml</file>
     </qresource>
 </RCC>

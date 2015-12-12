@@ -69,7 +69,56 @@ Rectangle {
 
 			Rectangle { color: "transparent"; width: 1; height: 20; }
 
-			Navigation { id: navigation }
+			ShortcutsContainer {
+				id: navigation
+				category: "Navigation"
+				allAvailableItems: [["__open",qsTr("Open New File")],
+									["__filterImages",qsTr("Filter Images in Folder")],
+									["__next",qsTr("Next Image")],
+									["__prev",qsTr("Previous Image")],
+									["__gotoFirstThb",qsTr("Go to first Image")],
+									["__gotoLastThb",qsTr("Go to last Image")],
+									["__hide",qsTr("Hide to System Tray")],
+									["__close",qsTr("Quit PhotoQt")]]
+			}
+
+			ShortcutsContainer {
+				id: image
+				category: "Image"
+				allAvailableItems: [["__zoomIn", qsTr("Zoom In")],
+									["__zoomOut", qsTr("Zoom Out")],
+									["__zoomActual", qsTr("Zoom to Actual Size")],
+									["__zoomReset", qsTr("Reset Zoom")],
+									["__rotateR", qsTr("Rotate Right")],
+									["__rotateL", qsTr("Rotate Left")],
+									["__rotate0", qsTr("Reset Rotation")],
+									["__flipH", qsTr("Flip Horizontally")],
+									["__flipV", qsTr("Flip Vertically")],
+									["__scale", qsTr("Scale Image")]]
+			}
+
+			ShortcutsContainer {
+				id: file
+				category: "File"
+				allAvailableItems: [["__rename", qsTr("Rename File")],
+									["__delete", qsTr("Delete File")],
+									["__copy", qsTr("Copy File to a New Location")],
+									["__move", qsTr("Move File to a New Location")]]
+			}
+
+			ShortcutsContainer {
+				id: other
+				category: "Other"
+				allAvailableItems: [["__stopThb", qsTr("Interrupt Thumbnail Creation")],
+									["__reloadThb", qsTr("Reload Thumbnails")],
+									["__hideMeta", qsTr("Hide/Show Exif Info")],
+									["__showContext", qsTr("Show Context Menu")],
+									["__settings", qsTr("Show Settings")],
+									["__slideshow", qsTr("Start Slideshow")],
+									["__slideshowQuick", qsTr("Start Slideshow (Quickstart)")],
+									["__about", qsTr("About PhotoQt")],
+									["__wallpaper", qsTr("Set as Wallpaper")]]
+			}
 
 		}
 
@@ -84,14 +133,21 @@ Rectangle {
 
 	function setData() {
 		navigation.setData()
+		image.setData()
+		file.setData()
+		other.setData()
 	}
 
 	function saveData() {
-	}
 
+		var dat = navigation.saveData()
+		dat = dat.concat(image.saveData())
+		dat = dat.concat(file.saveData())
+		dat = dat.concat(other.saveData())
 
-	function addShortcut() {
-		console.log("ADDING:", detectShortcut.command, detectShortcut.combo, detectShortcut.category)
+		for(var i = 0; i < dat.length; ++i)
+			console.log(dat[i])
+
 	}
 
 }

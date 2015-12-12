@@ -112,7 +112,7 @@ Rectangle {
 					Text {
 						id: sh_key_desc
 						color: colour.text
-						text: shortcuts[index][3] === "key" ? "Key: " : "Mouse: "
+						text: shortcuts[index][4] === "key" ? "Key: " : "Mouse: "
 					}
 					// The current shortcut
 					Text {
@@ -274,7 +274,7 @@ Rectangle {
 			}
 
 			function triggerDetection() {
-				if(shortcuts[index][3] === "key") {
+				if(shortcuts[index][4] === "key") {
 					grid.parent.cancelAllOtherDetection()
 					key_combo.text = "... Press keys ..."
 					key_combo.font.italic = true
