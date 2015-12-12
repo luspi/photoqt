@@ -12,8 +12,7 @@ import QtQuick.Dialogs 1.2
 import "mainview/"
 import "slidein/"
 import "fadein/"
-import "settings/"
-import "settings2/"
+import "settingsmanager/"
 import "openfile/"
 
 Item {
@@ -141,8 +140,7 @@ Item {
 
 	OpenFile { id: openfile; }
 
-	SettingsManager { id: settingsmanager; visible: false; }
-	SettingsItem { id: settingsitem; }
+	SettingsManager { id: settingsmanager; }
 
 	ToolTip {
 		id: globaltooltip;
@@ -164,8 +162,8 @@ Item {
 	function resetZoom() { mainview.resetZoom(); }
 	function isZoomed() { return mainview.isZoomed(); }
 
-	function detectedKeyCombo(combo) { sh.detectedKeyCombo(combo); settingsitem.detectedKeyCombo(combo); }
-	function keysReleased(combo) { settingsitem.keysReleased(); sh.releasedKeys(combo); }
+	function detectedKeyCombo(combo) { sh.detectedKeyCombo(combo); settingsmanager.setCurrentKeyCombo(combo) }
+	function keysReleased(combo) { settingsmanager.keysReleased(); sh.releasedKeys(combo); }
 	function mouseWheelEvent(combo) { sh.gotMouseShortcut(combo); }
 	function closeContextMenuWhenOpen() { softblocked = 0; contextmenu.hide(); }
 

@@ -5,8 +5,7 @@ SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${d}/fadein.qrc)
 SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${d}/mainview.qrc)
 SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${d}/openfile.qrc)
 SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${d}/other.qrc)
-SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${d}/settings.qrc)
-SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${d}/settings2.qrc)
+SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${d}/settingsmanager.qrc)
 SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${d}/slidein.qrc)
 
 # Add language resource file

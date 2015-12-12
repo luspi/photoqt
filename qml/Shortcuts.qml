@@ -70,8 +70,8 @@ Item {
 		if(keys === "Escape") {
 			if(about.opacity == 1)
 				about.hideAbout()
-			else if(settingsitem.opacity == 1)
-				settingsitem.hideSettings()
+			else if(settingsmanager.opacity == 1)
+				settingsmanager.hideSettings()
 			else if(scaleImage.opacity == 1)
 				scaleImage.hideScale()
 			else if(deleteImage.opacity == 1)
@@ -107,12 +107,12 @@ Item {
 		} else if(keys === "Shift+Enter" || keys === "Shift+Return" || keys === "Shift+Keypad+Enter") {
 			if(deleteImage.opacity == 1)
 				deleteImage.simulateShiftEnter()
-		} else if(keys === "Ctrl+Tab" && settingsitem.opacity == 1)
-			settingsitem.nextTab()
-		else if((keys === "Ctrl+Shift+Tab") && settingsitem.opacity == 1)
-			settingsitem.prevTab()
+		} else if(keys === "Ctrl+Tab" && settingsmanager.opacity == 1)
+			settingsmanager.nextTab()
+		else if((keys === "Ctrl+Shift+Tab") && settingsmanager.opacity == 1)
+			settingsmanager.prevTab()
 		else if(keys === "Ctrl+S")
-			settingsitem.saveSettings()
+			settingsmanager.saveSettings()
 
 	}
 
@@ -133,7 +133,7 @@ Item {
 			else
 				quitPhotoQt()
 		} else if(cmd === "__settings")
-			settingsitem.showSettings()
+			settingsmanager.showSettings()
 		else if(cmd === "__next")
 			thumbnailBar.nextImage()
 		else if(cmd === "__prev")

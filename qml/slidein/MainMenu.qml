@@ -235,7 +235,7 @@ Rectangle {
 			oldMouseX = mouseX
 
 		onReleased:
-			settings.mainMenuWindowWidth = w
+			settings.mainMenuWindowWidth = parent.width
 
 		onPositionChanged: {
 			if (pressed) {
@@ -289,7 +289,7 @@ Rectangle {
 		} else if(what === "settings") {
 
 			hideMainmenu.start()
-			settingsitem.showSettings()
+			settingsmanager.showSettings()
 
 		} else if(what === "wallpaper") {
 

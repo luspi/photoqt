@@ -1,12 +1,12 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 
-import "./"
+import "./tabs"
 import "../elements"
 
 Rectangle {
 
-	id: tabrect
+	id: settings_top
 
 	// Positioning and basic look
 	anchors.fill: background
@@ -28,19 +28,16 @@ Rectangle {
 	signal eraseDatabase()
 	signal updateDatabaseInfo()
 
-	// signals needed for shortcut handling
-	signal newShortcut(var cmd, var key)
-	signal newMouseShortcut(var cmd, var key)
-
-	signal updateShortcut(var cmd, var key, var id)
-	signal updateMouseShortcut(var cmd, var key, var id)
-	signal reloadShortcuts()
-
-	signal updateTheCommand(var id, var close, var mouse, var keys, var cmd)
+	signal updateCurrentKeyCombo(var combo)
+	signal updateKeysReleased()
 
 	MouseArea {
 		anchors.fill: parent
 		hoverEnabled: true
+	}
+
+	Component.onCompleted: {
+		settingssession.setValue("settings_titlewidth",100)
 	}
 
 	CustomTabView {
@@ -53,128 +50,70 @@ Rectangle {
 		height: parent.height-butrow.height
 
 		tabCount: 5     // We currently have 5 tabs in the settings
+//		currentIndex: 4
 
 		Tab {
 
 			title: qsTr("Look and Feel")
 
-			CustomTabView {
+			TabLookAndFeel {
 
-				id: subtab1
-
-				subtab: true   // this is a subtab
-				tabCount: 2    // and we have 2 tabs in it
-
-
-
-				Tab {
-
-					title: qsTr("Basic")
-
-					TabLookAndFeelBasic {
-						Connections {
-							target: tabrect
-							onSetData:{
-								setData()
-							}
-							onSaveData:{
-								saveData()
-							}
-						}
-						Component.onCompleted: {
-							setData()
-						}
+				Connections {
+					target: settings_top
+					onSetData:{
+						setData()
 					}
-
-				}
-
-				Tab {
-
-					title: qsTr("Advanced")
-
-					TabLookAndFeelAdvanced {
-						Connections {
-							target: tabrect
-							onSetData:{
-								setData()
-							}
-							onSaveData:{
-								saveData()
-							}
-						}
-						Component.onCompleted: {
-							setData()
-						}
+					onSaveData:{
+						saveData()
 					}
 				}
+				Component.onCompleted: {
+					setData()
+				}
+
 			}
+
 		}
 
 		Tab {
 
 			title: qsTr("Thumbnails")
 
-			CustomTabView {
+			TabThumbnails {
 
-				subtab: true
-				tabCount: 2
-
-				Tab {
-
-					title: qsTr("Basic")
-
-					TabThumbnailsBasic {
-						Connections {
-							target: tabrect
-							onSetData:{
-								setData()
-							}
-							onSaveData:{
-								saveData()
-							}
-						}
-						Component.onCompleted: {
-							setData()
-						}
+				Connections {
+					target: settings_top
+					onSetData:{
+						setData()
 					}
-
-				}
-				Tab {
-					title: qsTr("Advanced")
-					TabThumbnailsAdvanced {
-						Connections {
-							target: tabrect
-							onSetData:{
-								setData()
-							}
-							onSaveData:{
-								saveData()
-							}
-							onCleanDatabase: {
-								cleanDatabase()
-							}
-							onEraseDatabase: {
-								eraseDatabase()
-							}
-							onUpdateDatabaseInfo: {
-								updateDatabaseInfo()
-							}
-						}
-
-						Component.onCompleted: {
-							setData()
-						}
+					onSaveData:{
+						saveData()
+					}
+					onCleanDatabase: {
+						cleanDatabase()
+					}
+					onEraseDatabase: {
+						eraseDatabase()
+					}
+					onUpdateDatabaseInfo: {
+						updateDatabaseInfo()
 					}
 				}
+				Component.onCompleted: {
+					setData()
+				}
+
 			}
+
 		}
+
 
 		Tab {
 
 			title: qsTr("Metadata")
-			TabDetails {
+			TabMetadata {
 				Connections {
-					target: tabrect
+					target: settings_top
 					onSetData:{
 						setData()
 					}
@@ -193,44 +132,18 @@ Rectangle {
 
 			title: qsTr("Other Settings")
 
-			CustomTabView {
-
-				subtab: true
-				tabCount: 2
-
-				Tab {
-					title: "Other"
-					TabOther {
-						Connections {
-							target: tabrect
-							onSetData:{
-								setData()
-							}
-							onSaveData:{
-								saveData()
-							}
-						}
-						Component.onCompleted: {
-							setData()
-						}
+			TabOther {
+				Connections {
+					target: settings_top
+					onSetData:{
+						setData()
+					}
+					onSaveData:{
+						saveData()
 					}
 				}
-				Tab {
-					title: qsTr("Filetypes")
-					TabFiletypes {
-						Connections {
-							target: tabrect
-							onSetData:{
-								setData()
-							}
-							onSaveData:{
-//								saveData()
-							}
-						}
-						Component.onCompleted: {
-							setData()
-						}
-					}
+				Component.onCompleted: {
+					setData()
 				}
 			}
 		}
@@ -238,38 +151,60 @@ Rectangle {
 		Tab {
 
 			title: qsTr("Shortcuts")
+
 			TabShortcuts {
 				Connections {
-					target: tabrect
-					onSetData:{
+					target: settings_top
+					onSetData: {
 						setData()
 					}
-					onSaveData:{
+					onSaveData: {
 						saveData()
 					}
-					onNewShortcut: {
-						addShortcut(cmd, key)
+					onUpdateCurrentKeyCombo: {
+						currentKeyCombo = combo
 					}
-					onUpdateShortcut: {
-						updateExistingShortcut(cmd, key, id)
-					}
-					onNewMouseShortcut: {
-						addMouseShortcut(cmd, key)
-					}
-					onUpdateMouseShortcut: {
-						updateExistingMouseShortcut(cmd, key, id)
-					}
-					onUpdateTheCommand: {
-						updateCommand(id, close, mouse, keys, cmd)
-					}
-					onReloadShortcuts: {
-						setData()
+					onUpdateKeysReleased: {
+						keysReleased = true
 					}
 				}
 				Component.onCompleted: {
 					setData()
 				}
 			}
+
+//			TabShortcuts {
+//				Connections {
+//					target: top
+//					onSetData:{
+//						setData()
+//					}
+//					onSaveData:{
+//						saveData()
+//					}
+//					onNewShortcut: {
+//						addShortcut(cmd, key)
+//					}
+//					onUpdateShortcut: {
+//						updateExistingShortcut(cmd, key, id)
+//					}
+//					onNewMouseShortcut: {
+//						addMouseShortcut(cmd, key)
+//					}
+//					onUpdateMouseShortcut: {
+//						updateExistingMouseShortcut(cmd, key, id)
+//					}
+//					onUpdateTheCommand: {
+//						updateCommand(id, close, mouse, keys, cmd)
+//					}
+//					onReloadShortcuts: {
+//						setData()
+//					}
+//				}
+//				Component.onCompleted: {
+//					setData()
+//				}
+//			}
 
 		}
 
@@ -353,9 +288,9 @@ Rectangle {
 	}
 
 	CustomConfirm {
-		fillAnchors: tabrect
+		fillAnchors: settings_top
 		id: confirmclean
-		header: qsTr("Clean Database")
+		header: qsTr("Clean Database1")
 		description: qsTr("Do you really want to clean up the database?") + "<br><br>" + qsTr("This removes all obsolete thumbnails, thus possibly making PhotoQt a little faster.") + "<bR><br>" + qsTr("This process might take a little while.")
 		confirmbuttontext: qsTr("Yes, clean is good")
 		rejectbuttontext: qsTr("No, don't have time for that")
@@ -363,9 +298,9 @@ Rectangle {
 	}
 
 	CustomConfirm {
-		fillAnchors: tabrect
+		fillAnchors: settings_top
 		id: confirmerase
-		header: qsTr("Erase Database")
+		header: qsTr("Erase Database2")
 		description: qsTr("Do you really want to ERASE the entire database?") + "<br><br>" + qsTr("This removes every single item in the database! This step should never really be necessarily. After that, every thumbnail has to be newly re-created.") + "<br>" + qsTr("This step cannot be reversed!")
 		confirmbuttontext: qsTr("Yes, get rid of it all")
 		rejectbuttontext: qsTr("Nooo, I want to keep it")
@@ -373,7 +308,7 @@ Rectangle {
 	}
 
 	CustomConfirm {
-		fillAnchors: tabrect
+		fillAnchors: settings_top
 		id: confirmdefaultshortcuts
 		header: qsTr("Set Default Shortcuts")
 		description: qsTr("Are you sure you want to reset the shortcuts to the default set?")
@@ -396,78 +331,27 @@ Rectangle {
 		}
 	}
 
-	CustomDetectShortcut {
-		fillAnchors: tabrect
-		id: detectShortcut
-		onUpdateCombo: updateComboString(txt)
-		onGotKeyCombo: {
-			gotCombo(txt)
-			newShortcut(cmd, txt)
-		}
-	}
-	CustomDetectShortcut {
-		fillAnchors: tabrect
-		id: resetShortcut
-		onUpdateNewCombo: updateComboString(txt)
-		onGotNewKeyCombo: {
-			gotCombo(txt)
-			updateShortcut(cmd, txt, id)
-		}
-	}
-	CustomExternalCommand {
-		fillAnchors: tabrect
-		id: setExternalCommand
-		onUpdateCommand: {
-			updateTheCommand(id,close,mouse,keys,cmd)
-		}
-	}
-
-	CustomMouseShortcut {
-		fillAnchors: tabrect
-		id: detectMouseShortcut
-		onGotMouseShortcut: newMouseShortcut(cmd, txt)
-	}
-	CustomMouseShortcut {
-		fillAnchors: tabrect
-		id: resetMouseShortcut
-		onGotNewMouseShortcut: updateMouseShortcut(cmd, txt, id)
-	}
-
 	function showSettings() {
 		verboseMessage("Settings::showSettings()","Showing Settings...")
 		showSettingsAni.start()
 		updateDatabaseInfo()
 	}
 	function hideSettings() {
-		verboseMessage("Settings::hideSettings()",confirmclean.visible + "/" + confirmerase.visible + "/" + confirmdefaultshortcuts.visible + "/" + detectShortcut.visible + "/" + resetShortcut.visible)
+//		verboseMessage("Settings::hideSettings()",confirmclean.visible + "/" + confirmerase.visible + "/" + confirmdefaultshortcuts.visible + "/" + detectShortcut.visible + "/" + resetShortcut.visible)
 		if(confirmclean.visible)
 			confirmclean.hide()
 		else if(confirmerase.visible)
 			confirmerase.hide()
 		else if(confirmdefaultshortcuts.visible)
 			confirmdefaultshortcuts.hide()
-		else if(!detectShortcut.visible && !resetShortcut.visible)
+		else
+//		else if(!detectShortcut.visible/* && !resetShortcut.visible*/)
 			hideSettingsAni.start()
-	}
-
-	function detectedKeyCombo(combo) {
-		verboseMessage("Settings::detectedKeyCombo()",combo)
-		if(detectShortcut.opacity == 1)
-			detectShortcut.detectedCombo(combo)
-		if(resetShortcut.opacity == 1)
-			resetShortcut.detectedCombo(combo)
-	}
-	function keysReleased() {
-		verboseMessage("Settings::keysReleased()",detectShortcut.opacity + "/" + resetShortcut.opacity)
-		if(detectShortcut.opacity == 1)
-			detectShortcut.keysReleased()
-		if(resetShortcut.opacity == 1)
-			resetShortcut.keysReleased()
 	}
 
 	PropertyAnimation {
 		id: hideSettingsAni
-		target: tabrect
+		target: settings_top
 		property: "opacity"
 		to: 0
 		duration: settings.myWidgetAnimated ? 250 : 0
@@ -481,7 +365,7 @@ Rectangle {
 
 	PropertyAnimation {
 		id: showSettingsAni
-		target: tabrect
+		target: settings_top
 		property: "opacity"
 		to: 1
 		duration: settings.myWidgetAnimated ? 250 : 0
@@ -508,6 +392,14 @@ Rectangle {
 	}
 
 	function saveSettings() { saveData(); hideSettings(); }
+
+	function setCurrentKeyCombo(combo) {
+		updateCurrentKeyCombo("")
+		updateCurrentKeyCombo(combo)
+	}
+	function keysReleased() {
+		updateKeysReleased()
+	}
 
 }
 
