@@ -70,17 +70,16 @@ Rectangle {
 			Rectangle { color: "transparent"; width: 1; height: 20; }
 
 			Navigation { id: navigation }
-//			Language { id: language }
-//			CustomEntries { id: customentries; alternating: true }
-//			FileTypesQt { id: filetypesqt }
-//			FileTypesGM { id: filetypesgm; alternating: true }
-//			FileTypesGMGhostscript { id: filetypesgmghostscript }
-//			FileTypesExtras { id: filetypesextras; alternating: true }
-//			FileTypesUntested { id: filetypesuntested }
-
 
 		}
 
+	}
+
+	CustomMouseShortcut {
+		fillAnchors: tab_top
+		id: detectMouseShortcut
+		onGotMouseShortcut: navigation.currentMouseCombo = shortcut
+		onCanceledMouseShortcut: navigation.mouseCancelled = true
 	}
 
 	function setData() {

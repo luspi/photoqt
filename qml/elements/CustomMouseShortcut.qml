@@ -4,17 +4,12 @@ Rectangle {
 
 	id: detect
 
-	property string command: ""
-	property int posIfNew: -1
-
 	property int detectWidth: 400
 	property int detectHeight: 200
 	property Item fillAnchors: parent
 
-	signal gotMouseShortcut(var txt, var cmd)
-	signal gotNewMouseShortcut(var txt, var cmd, var id)
-
-	property string combo: ""
+	signal gotMouseShortcut(var shortcut)
+	signal canceledMouseShortcut()
 
 	anchors.fill: fillAnchors
 
@@ -32,7 +27,7 @@ Rectangle {
 		acceptedButtons: Qt.LeftButton | Qt.RightButton
 		onClicked: {
 			if(!rect.contains(Qt.point(mouse.x,mouse.y)))
-			hideDetect.start()
+			hideMe.start()
 		}
 	}
 
@@ -114,6 +109,7 @@ Rectangle {
 			text: qsTr("Don't set")
 
 			onClickedButton: {
+				canceledMouseShortcut()
 				hide()
 			}
 
@@ -128,16 +124,12 @@ Rectangle {
 
 			onClickedButton: {
 
-				var txt = ""
+				var shortcut = ""
 				if(mouseshortcut_modifier.currentIndex != 0)
-					txt += mouseshortcut_modifier.currentText + " + "
-				txt += mouseshortcut_button.currentText
+					shortcut += mouseshortcut_modifier.currentText + " + "
+				shortcut += mouseshortcut_button.currentText
 
-				if(posIfNew == -1)
-					gotMouseShortcut(txt, command)
-				else
-					gotNewMouseShortcut(txt, command, posIfNew)
-
+				gotMouseShortcut(shortcut)
 				hide()
 			}
 

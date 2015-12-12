@@ -50,7 +50,7 @@ Rectangle {
 		height: parent.height-butrow.height
 
 		tabCount: 5     // We currently have 5 tabs in the settings
-//		currentIndex: 4
+		currentIndex: 4
 
 		Tab {
 

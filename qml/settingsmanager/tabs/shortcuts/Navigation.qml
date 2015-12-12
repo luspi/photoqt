@@ -14,6 +14,10 @@ Rectangle {
 	// We don't reset this one right away, as this otherwise wouldn't trigger the children listeners
 	onKeysReleasedChanged: resetKeysReleased.running = true
 
+	property string currentMouseCombo: ""
+	property bool mouseCancelled: false
+	onMouseCancelledChanged: resetMouseCancelled.running = true
+
 	// These are the ones that this element is responsible for
 	property var allAvailableItems: [["__open",qsTr("Open New File")],
 									["__filterImages",qsTr("Filter Images in Folder")],
@@ -31,6 +35,14 @@ Rectangle {
 		repeat: false
 		running: false
 		onTriggered: parent.keysReleased = false
+	}
+	// Reset after a tiny timeout -> necessary, otherwise change isn't passed on to children
+	Timer {
+		id: resetMouseCancelled
+		interval: 10
+		repeat: false
+		running: false
+		onTriggered: parent.mouseCancelled = false
 	}
 
 	// A title above the two lists
@@ -74,6 +86,9 @@ Rectangle {
 
 				set.lastaction = "add"
 				set.shortcuts = set.shortcuts.concat([[desc, "", shortcut, keyormouse]])
+
+				if(keyormouse === "mouse")
+					detectMouseShortcut.show()
 
 			}
 

@@ -18,13 +18,22 @@ Rectangle {
 	property string currentKeyCombo: parent.parent.currentKeyCombo
 	onCurrentKeyComboChanged: newComboRightHere(currentKeyCombo)
 
+	// the current mouse combo is taken from the parent widget
+	property string currentMouseCombo: parent.parent.currentMouseCombo
+	onCurrentMouseComboChanged: newMouseComboRightHere(currentMouseCombo)
+
 	// Keys released signals an end to shortcut detection
 	property bool keysReleased: parent.parent.keysReleased
+
+	// Mouse combo change cancelled
+	property bool mouseCancelled: parent.parent.mouseCancelled
 
 	// These govern the behaviour of the children elements:
 	// A new combo was detected and each child checks if they're looking for a new
 	// shortcut, and if they do, then they take it
 	signal newComboRightHere(var combo)
+	// And this is the pendant to a mouse combo
+	signal newMouseComboRightHere(var combo)
 	// Only one child at a time can detect a shortcut -> starting a new one cancels all others
 	signal cancelAllOtherDetection()
 
@@ -196,6 +205,17 @@ Rectangle {
 
 				}
 
+				onNewMouseComboRightHere: {
+
+					if(!key_combo.ignoreAllCombos) {
+
+						key_combo.store = grid.parent.currentMouseCombo
+						key_combo.text = key_combo.store
+
+					}
+
+				}
+
 				// Keys released -> key combo possibly finished
 				onKeysReleasedChanged: {
 
@@ -206,6 +226,19 @@ Rectangle {
 						key_combo.font.italic = false
 						if(key_combo.text.charAt(key_combo.text.length-1) == "+")
 							key_combo.text = key_combo.store
+						else
+							key_combo.store = key_combo.text
+
+					}
+
+				}
+
+				onMouseCancelledChanged: {
+
+					if(!key_combo.ignoreAllCombos) {
+
+						key_combo.ignoreAllCombos = true
+						key_combo.text = key_combo.store
 
 					}
 
@@ -241,15 +274,20 @@ Rectangle {
 			}
 
 			function triggerDetection() {
-				grid.parent.cancelAllOtherDetection()
-				key_combo.text = "... Press keys ..."
-				key_combo.font.italic = true
-				key_combo.ignoreAllCombos = false
-				abortDetection.restart()
+				if(shortcuts[index][3] === "key") {
+					grid.parent.cancelAllOtherDetection()
+					key_combo.text = "... Press keys ..."
+					key_combo.font.italic = true
+					key_combo.ignoreAllCombos = false
+					abortDetection.restart()
+				} else {
+					grid.parent.cancelAllOtherDetection()
+					key_combo.ignoreAllCombos = false
+					detectMouseShortcut.show()
+				}
 			}
 
 			Component.onCompleted: {
-				console.log(key_combo.store)
 				if(index == shortcuts.length-1 && key_combo.text == "..." && lastaction == "add") {
 					grid.parent.cancelAllOtherDetection()
 					triggerDetection()
