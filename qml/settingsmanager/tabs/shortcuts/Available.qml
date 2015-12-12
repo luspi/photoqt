@@ -5,11 +5,8 @@ Rectangle {
 
 	id: top
 
-	// The width is adjusted according to the width of the parent widget (above row)
-	width: rowabove.w/2-5
-
 	// The height depends on how many elements there are
-	height: childrenRect.height
+	height: Math.max(childrenRect.height,5)
 	Behavior on height { NumberAnimation { duration: 150; } }
 
 	// The available shortcuts

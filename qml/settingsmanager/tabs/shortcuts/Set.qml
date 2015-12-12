@@ -1,5 +1,7 @@
 import QtQuick 2.3
 import ToolTip 1.0
+import QtQuick.Controls 1.3
+import QtQuick.Controls.Styles 1.3
 
 import "../../../elements"
 
@@ -7,11 +9,8 @@ Rectangle {
 
 	id: top
 
-	// The width is adjusted according to the width of the parent widget (above row)
-	width: rowabove.w/2-5
-
 	// The height adjusts dynamically depending on how many elements there are
-	height: childrenRect.height
+	height: Math.max(childrenRect.height,5)
 	Behavior on height { NumberAnimation { duration: 150; } }
 
 	// The current key combo is taken from the parent widget
@@ -27,6 +26,9 @@ Rectangle {
 
 	// Mouse combo change cancelled
 	property bool mouseCancelled: parent.parent.mouseCancelled
+
+	// An external shortcut shows a TextEdit instead of a title
+	property bool external: parent.parent.external
 
 	// These govern the behaviour of the children elements:
 	// A new combo was detected and each child checks if they're looking for a new
@@ -92,12 +94,22 @@ Rectangle {
 				y: 2
 
 				// What shortcut this is
-				Text {
+				Rectangle {
 					height: ele.height-4
 					width: ele.width/2-4
-					color: colour.text
-					elide: Text.ElideRight
-					text: shortcuts[index][0]
+					color: "transparent"
+					Text {
+						anchors.fill: parent
+						visible: !external
+						color: colour.text
+						elide: Text.ElideRight
+						text: shortcuts[index][0]
+					}
+					CustomLineEdit {
+						anchors.fill: parent
+						visible: external
+						text: "......."
+					}
 				}
 
 				// The currently set key (split into two parts)
@@ -108,6 +120,18 @@ Rectangle {
 
 					color: "transparent"
 
+					// A click triggers shortcut detection
+					ToolTip {
+
+						cursorShape: shortcuts[index][4] === "key" ? Qt.PointingHandCursor : Qt.ArrowCursor
+						text: shortcuts[index][4] === "key" ? "Click to change shortcut" : ""
+
+						onClicked: triggerDetection()
+						onEntered: ele.hovered = true
+						onExited: ele.hovered = false
+
+					}
+
 					// The prefix
 					Text {
 						id: sh_key_desc
@@ -115,35 +139,109 @@ Rectangle {
 						text: shortcuts[index][4] === "key" ? "Key: " : "Mouse: "
 					}
 					// The current shortcut
-					Text {
-
-						id: key_combo
-
-						// We store the current shortcut in seperate variable. A '...' signals that no shortcut is set (yet)
-						property string store: shortcuts[index][1] === "" ? "..." : shortcuts[index][1]
-
-						// This boolean is changed when a new shortcut is requested
-						property bool ignoreAllCombos: true
-
+					Rectangle {
+						color: "transparent"
 						anchors.left: sh_key_desc.right
-						color: colour.text
-						text: store
+						width: parent.width-sh_key_desc.width
+						height: parent.height
+						Text {
 
-						// We update the array with the new data
-						onTextChanged: shortcuts[index][1] = text
+							id: key_combo
 
-					}
+							visible: shortcuts[index][4] === "key"
 
-					// A click triggers shortcut detection
-					ToolTip {
+							// We store the current shortcut in seperate variable. A '...' signals that no shortcut is set (yet)
+							property string store: shortcuts[index][1] === "" ? "..." : shortcuts[index][1]
 
-						cursorShape: Qt.PointingHandCursor
-						text: "Click to change shortcut"
+							// This boolean is changed when a new shortcut is requested
+							property bool ignoreAllCombos: true
 
-						onClicked: triggerDetection()
-						onEntered: ele.hovered = true
-						onExited: ele.hovered = false
+							anchors.fill: parent
+							color: colour.text
+							text: store
 
+							// We update the array with the new data
+							onTextChanged: shortcuts[index][1] = text
+
+						}
+
+						Rectangle {
+
+							visible: shortcuts[index][4] === "mouse"
+
+							color: "transparent"
+							anchors.fill: parent
+
+							CustomComboBox {
+								id: mods
+								width: parent.width/2-5
+								height: parent.height
+								fontsize: 8
+								transparentBackground: true
+								anchors.left: parent.left
+								model: ["----", "Ctrl", "Alt", "Shift", "Ctrl+Alt", "Ctrl+Shift", "Alt+Shift", "Ctrl+Alt+Shift"]
+								onPressedChanged: if(pressed) triggerDetection()
+								Component.onCompleted: {
+									if(shortcuts[index][4] === "mouse") {
+										for(var i = count-1; i >= 0; --i) {
+											var txt = textAt(i)
+											if(shortcuts[index][1].slice(0,txt.length) === txt) {
+												currentIndex = i
+												break;
+											}
+										}
+									}
+								}
+								onCurrentIndexChanged:
+									updateshortcut.restart()
+							}
+
+							CustomComboBox {
+								id: but
+								width: parent.width/2-5
+								height: parent.height
+								fontsize: 8
+								transparentBackground: true
+								anchors.left: mods.right
+								anchors.leftMargin: 5
+								model: ["Left Button", "Right Button", "Middle Button", "Wheel Up", "Wheel Down"]
+								onPressedChanged: if(pressed) triggerDetection()
+								Component.onCompleted: {
+									if(shortcuts[index][4] === "mouse") {
+										for(var i = count-1; i >= 0; --i) {
+											var txt = textAt(i)
+											var but = shortcuts[index][1].split("+")
+											but = but[but.length-1]
+											if(but === txt) {
+												currentIndex = i
+												break;
+											}
+										}
+									}
+								}
+								onCurrentIndexChanged:
+									updateshortcut.restart()
+
+							}
+
+							// We only do this after 250ms, otherwise when setting it up the default one (index 0) overrides any setting
+							Timer {
+								id: updateshortcut
+								interval: 250
+								repeat: false
+								running: false
+								onTriggered: {
+									if(shortcuts[index][4] === "mouse") {
+										var composed = ""
+										if(mods.currentIndex != 0)
+											composed += mods.currentText + "+"
+										composed += but.currentText
+										shortcuts[index][1] = composed
+									}
+								}
+							}
+
+						}
 					}
 
 				}
@@ -273,18 +371,25 @@ Rectangle {
 				}
 			}
 
+			// Cancel all detection anywhere
+			Connections {
+				target: tab_top
+				onCancelDetectionEverywhere: cancelAllOtherDetection()
+			}
+
 			function triggerDetection() {
+
+				// Cancel all detection anywhere, in any category
+				tab_top.cancelDetectionEverywhere()
+
 				if(shortcuts[index][4] === "key") {
 					grid.parent.cancelAllOtherDetection()
 					key_combo.text = "... Press keys ..."
 					key_combo.font.italic = true
 					key_combo.ignoreAllCombos = false
 					abortDetection.restart()
-				} else {
-					grid.parent.cancelAllOtherDetection()
-					key_combo.ignoreAllCombos = false
-					detectMouseShortcut.show()
 				}
+
 			}
 
 			Component.onCompleted: {

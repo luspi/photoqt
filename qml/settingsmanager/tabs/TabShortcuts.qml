@@ -20,6 +20,9 @@ Rectangle {
 		keysReleased = false
 	}
 
+	// This signal ensures that only one shortcut is detected at a time in any category
+	signal cancelDetectionEverywhere()
+
 	color: "#00000000"
 
 	anchors {
@@ -120,15 +123,15 @@ Rectangle {
 									["__wallpaper", qsTr("Set as Wallpaper")]]
 			}
 
+			ShortcutsContainer {
+				id: external
+				category: "External"
+				external: true
+				allAvailableItems: [["", qsTr("External")]]
+			}
+
 		}
 
-	}
-
-	CustomMouseShortcut {
-		fillAnchors: tab_top
-		id: detectMouseShortcut
-		onGotMouseShortcut: navigation.currentMouseCombo = shortcut
-		onCanceledMouseShortcut: navigation.mouseCancelled = true
 	}
 
 	function setData() {
@@ -136,6 +139,7 @@ Rectangle {
 		image.setData()
 		file.setData()
 		other.setData()
+		external.setData()
 	}
 
 	function saveData() {

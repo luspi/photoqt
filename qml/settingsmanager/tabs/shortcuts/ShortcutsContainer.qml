@@ -14,13 +14,18 @@ Rectangle {
 	// We don't reset this one right away, as this otherwise wouldn't trigger the children listeners
 	onKeysReleasedChanged: resetKeysReleased.running = true
 
+	// these are picked up by the sub-widgets and processed there
 	property string currentMouseCombo: ""
 	property bool mouseCancelled: false
+	// We don't reset this one right away, as this otherwise wouldn't trigger the children listeners
 	onMouseCancelledChanged: resetMouseCancelled.running = true
 
 	// These are the ones that this element is responsible for
 	property var allAvailableItems: []
 	property string category: ""
+
+	// An external shortcut shows a TextEdit instead of a title to edit a custom command
+	property bool external: false
 
 	// Reset after a tiny timeout -> necessary, otherwise change isn't passed on to children
 	Timer {
@@ -60,12 +65,22 @@ Rectangle {
 		property int w: parent.width
 
 		// The set shortcuts
-		Set { id: set }
+		Set {
+
+			id: set
+
+			// The width is adjusted according to the width of the parent widget (above row)
+			width: parent.w/2-5
+
+		}
 
 		// The available shortcuts
 		Available {
 
 			id: avail
+
+			// The width is adjusted according to the width of the parent widget (above row)
+			width: parent.w/2-5
 
 			// This is set to the list by the setData() function
 			shortcuts: []
@@ -80,9 +95,6 @@ Rectangle {
 
 				set.lastaction = "add"
 				set.shortcuts = set.shortcuts.concat([[desc, "", 0, shortcut, keyormouse]])
-
-				if(keyormouse === "mouse")
-					detectMouseShortcut.show()
 
 			}
 
@@ -114,7 +126,7 @@ Rectangle {
 				var key = ele;
 				if(ele.slice(0,3) === "[M]") {
 					keyormouse = "mouse"
-					key = ele.slice(3,ele.length)
+					key = ele.slice(4,ele.length)
 				}
 
 				// Format: [desc, key, close, command, key/mouse]
