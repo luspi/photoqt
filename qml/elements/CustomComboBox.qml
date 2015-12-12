@@ -5,13 +5,14 @@ import QtQuick.Controls.Styles 1.2
 ComboBox {
 
 	property int fontsize: 10
+	property bool transparentBackground: false
 
 	style: ComboBoxStyle {
 
 		background: Rectangle {
-			color: colour.element_bg_color
+			color: transparentBackground ? "transparent" : colour.element_bg_color
 			border.width: 1
-			border.color: colour.element_border_color
+			border.color: transparentBackground ? colour.element_border_color_disabled : colour.element_border_color
 			implicitWidth: 100
 		}
 		label: Text {
