@@ -108,7 +108,8 @@ Rectangle {
 					CustomLineEdit {
 						anchors.fill: parent
 						visible: external
-						text: "......."
+						text: ""
+						emptyMessage: "The command goes here"
 					}
 				}
 
