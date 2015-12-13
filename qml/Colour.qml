@@ -75,6 +75,9 @@ Item {
 	readonly property string subtab_line_top: "#969696"
 	readonly property string subtab_line_bottom: "#969696"
 
+	// CustomLineEdit specifics
+	readonly property string textedit_empty_message: "#aacccccc"
+
 	// CustomElements background/border (SpinBox)
 	readonly property string element_bg_color: "#88000000"
 	readonly property string element_bg_color_disabled: "#55000000"

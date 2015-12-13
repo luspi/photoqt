@@ -13,6 +13,9 @@ Rectangle {
 	property string text: ed1.text
 	property int fontsize: 10
 
+	// This message is displayed in the background when the TextEdit is empty
+	property string emptyMessage: ""
+
 	signal textEdited()
 	signal accepted()
 	signal rejected()
@@ -79,6 +82,13 @@ Rectangle {
 				pageDown()
 		}
 
+	}
+
+	Text {
+		anchors.fill: ed1
+		visible: ed1.text==""
+		color: colour.textedit_empty_message
+		text: parent.emptyMessage
 	}
 
 	function selectAll() {
