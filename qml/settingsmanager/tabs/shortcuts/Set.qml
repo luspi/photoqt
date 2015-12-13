@@ -90,13 +90,13 @@ Rectangle {
 
 			Row {
 
-				x: 2
+				x: 4
 				y: 2
 
 				// What shortcut this is
 				Rectangle {
 					height: ele.height-4
-					width: ele.width/2-4
+					width: ele.width/2-6
 					color: "transparent"
 					Text {
 						anchors.fill: parent

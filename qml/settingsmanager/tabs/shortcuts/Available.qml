@@ -62,6 +62,7 @@ Rectangle {
 
 					anchors.fill: parent
 					anchors.margins: 2
+					anchors.leftMargin: 4
 					color: colour.text
 					text: shortcuts[index][1]
 
