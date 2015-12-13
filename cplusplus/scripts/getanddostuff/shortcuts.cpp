@@ -124,8 +124,8 @@ void GetAndDoStuffShortcuts::saveShortcuts(QVariantList l) {
 	foreach(QVariant s, l) {
 		QVariantList s_l = s.toList();
 		QString cl = QString::number(s_l.at(0).toInt());
-		QString sh = (s_l.at(1).toBool() ? "[M] " : "") + s_l.at(2).toString().trimmed();
-		QByteArray ds = s_l.at(3).toString().toUtf8().toPercentEncoding();
+		QString sh = s_l.at(1).toString();
+		QByteArray ds = s_l.at(2).toString().toUtf8().toPercentEncoding();
 		if(s_l.at(1).toBool())
 			mouse += QString("%1::%2::%3\n").arg(cl).arg(sh).arg(QString(ds));
 		else

@@ -135,11 +135,12 @@ Rectangle {
 	}
 
 	function setData() {
-		navigation.setData()
-		image.setData()
-		file.setData()
-		other.setData()
-		external.setData()
+		var _shortcuts = getanddostuff.getShortcuts()
+		navigation.setData(_shortcuts)
+		image.setData(_shortcuts)
+		file.setData(_shortcuts)
+		other.setData(_shortcuts)
+		external.setData(_shortcuts)
 	}
 
 	function saveData() {
@@ -149,8 +150,19 @@ Rectangle {
 		dat = dat.concat(file.saveData())
 		dat = dat.concat(other.saveData())
 
-		for(var i = 0; i < dat.length; ++i)
-			console.log(dat[i])
+		var tosave = []
+
+		for(var i = 0; i < dat.length; ++i) {
+
+			var cur = dat[i];
+
+			tosave = tosave.concat([[cur[0], cur[2], cur[3]]])
+
+		}
+
+		getanddostuff.saveShortcuts(tosave)
+
+//			console.log(dat[i])
 
 	}
 

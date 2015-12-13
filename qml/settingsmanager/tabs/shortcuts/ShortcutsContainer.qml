@@ -24,6 +24,9 @@ Rectangle {
 	property var allAvailableItems: []
 	property string category: ""
 
+	// This array is filled in the setData() function containing all commands of allAvailableItems
+	property var allAvailableCommands: []
+
 	// An external shortcut shows a TextEdit instead of a title to edit a custom command
 	property bool external: false
 
@@ -102,16 +105,20 @@ Rectangle {
 
 	}
 
-	// Set the data
-	function setData() {
+	Component.onCompleted: {
 
-		// Filter out the keys
-		var keys = []
+		// Filter out the keys for setData/saveData
+		allAvailableCommands = []
 		for(var k = 0; k < allAvailableItems.length; ++k)
-			keys[keys.length] = allAvailableItems[k][0]
+			allAvailableCommands[allAvailableCommands.length] = allAvailableItems[k][0]
 
-		// Get all set shortcuts
-		var shortcuts = getanddostuff.getShortcuts()
+		// load the available shortcuts
+		avail.shortcuts = allAvailableItems
+
+	}
+
+	// Set the data
+	function setData(shortcuts) {
 
 		// The ones important for this element
 		var setshortcuts = []
@@ -119,7 +126,8 @@ Rectangle {
 		// Loop over all shortcuts and filter out the ones we're interested in
 		for(var ele in shortcuts) {
 
-			var ind = keys.indexOf(shortcuts[ele][1])
+			var ind = allAvailableCommands.indexOf(shortcuts[ele][1])
+
 			if(ind !== -1) {
 
 				var keyormouse = "key"
@@ -137,17 +145,10 @@ Rectangle {
 
 		// Update arrays
 		set.shortcuts = setshortcuts
-		avail.shortcuts = allAvailableItems
 
 	}
 
 	function saveData() {
-
-		// Filter out the keys
-		var keys = []
-		for(var k = 0; k < allAvailableItems.length; ++k)
-			keys[keys.length] = allAvailableItems[k][0]
-
 
 		var ret = []
 
