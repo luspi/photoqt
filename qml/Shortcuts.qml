@@ -26,10 +26,8 @@ Item {
 		if(softblocked != 0 && combo === "Escape") {
 			if(slideshowRunning)
 				slideshowbar.stopSlideshow()
-			else {
+			else
 				softblocked = 0
-				if(contextmenu.visible) contextmenu.hide()
-			}
 		} else if(softblocked != 0 && !slideshowRunning)
 			return
 		else if(!blockedSystem) {
@@ -43,11 +41,8 @@ Item {
 
 	function releasedKeys(combo) {
 		verboseMessage("Shortcuts::releasedKeys()", combo + " - " + softblocked)
-		if(softblocked != 0 && combo === "Escape") {
+		if(softblocked != 0 && combo === "Escape")
 			softblocked = 0
-			if(contextmenu.visible)
-				contextmenu.hide()
-		}
 		keys = "";
 	}
 
@@ -185,9 +180,6 @@ Item {
 				metaData.uncheckCheckbox()
 				background.hideMetadata()
 			}
-		} else if(cmd === "__showContext") {
-			var pos = getCursorPos()
-			contextmenu.popup(pos)
 		} else if(cmd === "__gotoFirstThb")
 			thumbnailBar.gotoFirstImage()
 		else if(cmd === "__gotoLastThb")
@@ -217,15 +209,6 @@ Item {
 		// Ignore Wheel events when, e.g., a context menu is open
 		if(softblocked != 0 && sh !== "Right Button" && sh !== "Left Button")
 			return
-
-		if((sh === "Right Button" || sh === "Left Button") && contextmenu.visible) {
-			var pos = getCursorPos()
-			if(contextmenu.x < pos.x && contextmenu.x+contextmenu.width > pos.x
-					&& contextmenu.y < pos.y && contextmenu.y+contextmenu.height > pos.y) return
-			softblocked = 0
-			contextmenu.hide()
-			return
-		}
 
 		// This means, e.g., a context menu is open and the user clicked somewhere else (closes context menu, doesn't do anything else)
 		if(softblocked == 1) {

@@ -121,8 +121,6 @@ Item {
 	// The quickinfo (position in folder, filename)
 	QuickInfo { id: quickInfo; }
 
-	ContextMenu { id: contextmenu; }
-
 	MainMenu { id: mainmenu; }
 
 	// MetaData of the image (using the C++ Exiv2 library)
@@ -165,7 +163,6 @@ Item {
 	function detectedKeyCombo(combo) { sh.detectedKeyCombo(combo); settingsmanager.setCurrentKeyCombo(combo) }
 	function keysReleased(combo) { settingsmanager.keysReleased(); sh.releasedKeys(combo); }
 	function mouseWheelEvent(combo) { sh.gotMouseShortcut(combo); }
-	function closeContextMenuWhenOpen() { softblocked = 0; contextmenu.hide(); }
 
 	function showStartup(type) { startup.showStartup(type); }
 
