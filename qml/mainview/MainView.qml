@@ -22,7 +22,7 @@ Item {
     // Set image
     function loadImage(path, animated) {
 
-        setOverrideCursor()
+		setOverrideCursor()
 
         verboseMessage("Display::setImage()", path)
 
@@ -38,7 +38,7 @@ Item {
         // Update metadata
         metaData.setData(getmetadata.getExiv2(path))
 
-        restoreOverrideCursor()
+		restoreOverrideCursor()
 
     }
 
