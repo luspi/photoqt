@@ -107,23 +107,22 @@ Rectangle {
 
 	}
 
-	Component.onCompleted: {
-
-		// Filter out the keys for setData/saveData
-		allAvailableCommands = []
-		for(var k = 0; k < allAvailableItems.length; ++k)
-			allAvailableCommands[allAvailableCommands.length] = allAvailableItems[k][0]
-
-		if(external)
-			avail.shortcuts = [["", qsTr("External")]]
-		else
-			// load the available shortcuts
-			avail.shortcuts = allAvailableItems
-
-	}
-
 	// Set the data
 	function setData(shortcuts) {
+
+		// Load available shortcuts if not loaded yet
+		if(allAvailableCommands.length == 0) {
+
+			// Filter out the keys for setData/saveData
+			for(var k = 0; k < allAvailableItems.length; ++k)
+				allAvailableCommands[allAvailableCommands.length] = allAvailableItems[k][0]
+
+			if(external)
+				avail.shortcuts = [["", qsTr("External")]]
+			else
+				// load the available shortcuts
+				avail.shortcuts = allAvailableItems
+		}
 
 		// We use a temporary array because we'll sort the shortcuts according to their command first
 		var tmp = {}
