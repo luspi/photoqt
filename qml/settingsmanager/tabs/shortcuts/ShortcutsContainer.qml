@@ -120,8 +120,9 @@ Rectangle {
 	// Set the data
 	function setData(shortcuts) {
 
-		// The ones important for this element
-		var setshortcuts = []
+		// We use a temporary array because we'll sort the shortcuts according to their command first
+		var tmp = {}
+		var tmp_keys = []
 
 		// Loop over all shortcuts and filter out the ones we're interested in
 		for(var ele in shortcuts) {
@@ -137,10 +138,26 @@ Rectangle {
 					key = ele.slice(4,ele.length)
 				}
 
+				var cmd = shortcuts[ele][1]
 				// Format: [desc, key, close, command, key/mouse]
-				setshortcuts = setshortcuts.concat([[allAvailableItems[ind][1],key,shortcuts[ele][0], shortcuts[ele][1], keyormouse]])
+				if(!(cmd in tmp)) {
+					tmp[cmd] = []
+					tmp_keys = tmp_keys.concat(cmd)
+				}
+				tmp[cmd].push([allAvailableItems[ind][1],key,shortcuts[ele][0], cmd, keyormouse])
 			}
 
+		}
+
+		tmp_keys.sort()
+
+		// The ones important for this element
+		var setshortcuts = []
+
+		for(var k in tmp_keys) {
+			var cur_key = tmp_keys[k];
+			for(var l = 0; l <tmp[cur_key].length; ++l)
+				setshortcuts = setshortcuts.concat([tmp[cur_key][l]])
 		}
 
 		// Update arrays
@@ -152,10 +169,9 @@ Rectangle {
 
 		var ret = []
 
-		for(var i = 0; i < set.shortcuts.length; ++i) {
+		for(var i = 0; i < set.shortcuts.length; ++i)
 			// Format of data: [close, mouse, keys, command]
 			ret = ret.concat([[set.shortcuts[i][2], (set.shortcuts[i][4] === "key" ? false : true), set.shortcuts[i][1], set.shortcuts[i][3]]])
-		}
 
 		return ret;
 

@@ -237,7 +237,7 @@ Rectangle {
 										if(mods.currentIndex != 0)
 											composed += mods.currentText + "+"
 										composed += but.currentText
-										shortcuts[index][1] = "[M] " + composed
+										shortcuts[index][1] = composed
 									}
 								}
 							}
