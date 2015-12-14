@@ -550,7 +550,7 @@ public:
 	/*#################################################################################################*/
 
 	// Set the default settings
-	void setDefault() {
+	Q_INVOKABLE void setDefault() {
 
 		version = QString::fromStdString(VERSION);
 
