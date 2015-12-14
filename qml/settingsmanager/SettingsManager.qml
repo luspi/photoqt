@@ -309,19 +309,6 @@ Rectangle {
 		onAccepted: {
 			verboseMessage("Settings","Setting default shortcuts...")
 			shortcutsLoadDefaults()
-//			var m = getanddostuff.getDefaultShortcuts()
-//			// We need to change the format for the save function (from Map to List)
-//			var keys = Object.keys(m)
-//			var l = []
-//			for(var i = 0; i < keys.length; ++i) {
-//				console.log(keys[i])
-//				l[i] = [m[keys[i]][0],
-//							(keys[i].slice(0,3) === "[M]"),
-//							(keys[i].slice(0,3) === "[M]") ? getanddostuff.trim(keys[i].slice(3)) : keys[i],
-//							m[keys[i]][1]]
-//			}
-//			getanddostuff.saveShortcuts(l)
-//			reloadShortcuts()
 		}
 	}
 
@@ -338,6 +325,8 @@ Rectangle {
 			confirmerase.hide()
 		else if(confirmdefaultshortcuts.visible)
 			confirmdefaultshortcuts.hide()
+		else if(confirmdefaultssettings.visible)
+			confirmdefaultssettings.hide()
 		else if(!wait_amDetectingANewShortcut)
 			hideSettingsAni.start()
 	}
