@@ -156,7 +156,7 @@ Rectangle {
 
 			var cur = dat[i];
 
-			tosave = tosave.concat([[cur[0], cur[2], cur[3]]])
+			tosave = tosave.concat([[cur[0], cur[1], cur[2], cur[3]]])
 
 		}
 
