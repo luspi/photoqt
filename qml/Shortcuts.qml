@@ -107,12 +107,14 @@ Item {
 		} else if(keys === "Shift+Enter" || keys === "Shift+Return" || keys === "Shift+Keypad+Enter") {
 			if(deleteImage.opacity == 1)
 				deleteImage.simulateShiftEnter()
-		} else if(keys === "Ctrl+Tab" && settingsmanager.opacity == 1)
-			settingsmanager.nextTab()
-		else if((keys === "Ctrl+Shift+Tab") && settingsmanager.opacity == 1)
-			settingsmanager.prevTab()
-		else if(keys === "Ctrl+S")
-			settingsmanager.saveSettings()
+		} else if(!settingsmanager.wait_amDetectingANewShortcut && settingsmanager.opacity == 1) {
+			if(keys === "Ctrl+Tab")
+				settingsmanager.nextTab()
+			else if(keys === "Ctrl+Shift+Tab")
+				settingsmanager.prevTab()
+			else if(keys === "Ctrl+S")
+				settingsmanager.saveSettings()
+		}
 
 	}
 
