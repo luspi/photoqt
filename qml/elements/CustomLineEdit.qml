@@ -27,6 +27,8 @@ Rectangle {
 	signal gotoHome()
 	signal gotoEnd()
 
+	signal clicked()
+
 	TextEdit {
 
 		id: ed1
@@ -54,6 +56,7 @@ Rectangle {
 			cursorShape: Qt.IBeamCursor
 
 			// We use these to re-implement selecting text by mouse (otherwise it'll be overwritten by dragging feature)
+			onClicked: parent.parent.clicked()
 			onDoubleClicked: parent.selectAll()
 			onPressed: { held = true; ed1.cursorPosition = ed1.positionAt(mouse.x,mouse.y); parent.forceActiveFocus() }
 			onReleased: held = false
