@@ -31,6 +31,9 @@ Rectangle {
 	signal updateCurrentKeyCombo(var combo)
 	signal updateKeysReleased()
 
+	// tell TabShortcuts to load set of default shortcuts
+	signal shortcutsLoadDefaults()
+
 	MouseArea {
 		anchors.fill: parent
 		hoverEnabled: true
@@ -171,6 +174,8 @@ Rectangle {
 					onUpdateKeysReleased: {
 						keysReleased = true
 					}
+					onShortcutsLoadDefaults:
+						loadDefault()
 				}
 				Component.onCompleted: {
 					setData()
@@ -217,6 +222,8 @@ Rectangle {
 			height: parent.height-10
 
 			text: qsTr("Restore Default Settings")
+
+			onClickedButton: confirmdefaultssettings.show()
 
 		}
 
@@ -280,6 +287,19 @@ Rectangle {
 
 	CustomConfirm {
 		fillAnchors: settings_top
+		id: confirmdefaultssettings
+		header: qsTr("Restore Default Setting")
+		description: qsTr("Are you sure you want to revert back to the default settings?") + "<br><br>" + qsTr("This change is not permanent until you click on 'Save'.")
+		confirmbuttontext: qsTr("Yup, go ahead")
+		rejectbuttontext: qsTr("No, thanks")
+		onAccepted: {
+			settings.setDefault()
+			setData()
+		}
+	}
+
+	CustomConfirm {
+		fillAnchors: settings_top
 		id: confirmdefaultshortcuts
 		header: qsTr("Set Default Shortcuts")
 		description: qsTr("Are you sure you want to reset the shortcuts to the default set?")
@@ -288,17 +308,20 @@ Rectangle {
 		maxwidth: 400
 		onAccepted: {
 			verboseMessage("Settings","Setting default shortcuts...")
-			var m = getanddostuff.getDefaultShortcuts()
-			// We need to change the format for the save function (from Map to List)
-			var keys = Object.keys(m)
-			var l = []
-			for(var i = 0; i < keys.length; ++i)
-				l[i] = [m[keys[i]][0],
-							(keys[i].slice(0,3) === "[M]"),
-							(keys[i].slice(0,3) === "[M]") ? getanddostuff.trim(keys[i].slice(3)) : keys[i],
-							m[keys[i]][1]]
-			getanddostuff.saveShortcuts(l)
-			reloadShortcuts()
+			shortcutsLoadDefaults()
+//			var m = getanddostuff.getDefaultShortcuts()
+//			// We need to change the format for the save function (from Map to List)
+//			var keys = Object.keys(m)
+//			var l = []
+//			for(var i = 0; i < keys.length; ++i) {
+//				console.log(keys[i])
+//				l[i] = [m[keys[i]][0],
+//							(keys[i].slice(0,3) === "[M]"),
+//							(keys[i].slice(0,3) === "[M]") ? getanddostuff.trim(keys[i].slice(3)) : keys[i],
+//							m[keys[i]][1]]
+//			}
+//			getanddostuff.saveShortcuts(l)
+//			reloadShortcuts()
 		}
 	}
 

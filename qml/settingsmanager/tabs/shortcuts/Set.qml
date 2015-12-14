@@ -114,6 +114,8 @@ Rectangle {
 						emptyMessage: "The command goes here"
 						onTextEdited:
 							updateExternalString.restart()
+						onClicked:
+							tab_top.cancelDetectionEverywhere()
 					}
 					Timer {
 						id: updateExternalString
@@ -263,7 +265,7 @@ Rectangle {
 						cursorShape: Qt.PointingHandCursor
 						text: "Delete shortcut"
 						onClicked: {
-							key_combo.ignoreAllCombos = true
+							tab_top.cancelDetectionEverywhere()
 							deleteElement.start()
 						}
 						onEntered: parent.color = colour.warning

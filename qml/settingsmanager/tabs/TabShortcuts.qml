@@ -84,6 +84,14 @@ Rectangle {
 
 			Rectangle { color: "transparent"; width: 1; height: 20; }
 
+			CustomButton {
+				x: (parent.width-width)/2
+				text: qsTr("Set default shortcuts")
+				onClickedButton: confirmdefaultshortcuts.show()
+			}
+
+			Rectangle { color: "transparent"; width: 1; height: 20; }
+
 			ShortcutsContainer {
 				id: navigation
 				category: "Navigation"
@@ -127,7 +135,6 @@ Rectangle {
 				allAvailableItems: [["__stopThb", qsTr("Interrupt Thumbnail Creation")],
 									["__reloadThb", qsTr("Reload Thumbnails")],
 									["__hideMeta", qsTr("Hide/Show Exif Info")],
-									["__showContext", qsTr("Show Context Menu")],
 									["__settings", qsTr("Show Settings")],
 									["__slideshow", qsTr("Start Slideshow")],
 									["__slideshowQuick", qsTr("Start Slideshow (Quickstart)")],
@@ -144,6 +151,15 @@ Rectangle {
 
 		}
 
+	}
+
+	function loadDefault() {
+		var _shortcuts = getanddostuff.getDefaultShortcuts()
+		navigation.setData(_shortcuts)
+		image.setData(_shortcuts)
+		file.setData(_shortcuts)
+		other.setData(_shortcuts)
+		external.setData(_shortcuts)
 	}
 
 	function setData() {
