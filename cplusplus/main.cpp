@@ -147,10 +147,12 @@ int main(int argc, char *argv[]) {
 	if(a.verbose) LOG << DATE << "Checking for translation" << std::endl;
 	QString code1 = "";
 	QString code2 = "";
+	bool noLanguageSet = false;
 	if(settingsFileTxt.contains("Language=") && !settingsFileTxt.contains("Language=en") && !settingsFileTxt.contains("Language=\n")) {
 		code1 = settingsFileTxt.split("Language=").at(1).split("\n").at(0).trimmed();
 		code2 = code1;
 	} else if(!settingsFileTxt.contains("Language=en")) {
+		noLanguageSet = true;
 		code1 = QLocale::system().name();
 		code2 = QLocale::system().name().split("_").at(0);
 	}
@@ -165,6 +167,29 @@ int main(int argc, char *argv[]) {
 		trans.load(":/photoqt_" + code2);
 		a.installTranslator(&trans);
 		code1 = code2;
+	}
+	// Store translation in settings file
+	if(noLanguageSet) {
+		QFile file(QDir::homePath() + "/.photoqt/settings");
+		if(!file.open(QIODevice::ReadWrite))
+			LOG << DATE << "ERROR: Cannot open settings file to store detected localisation: " << file.errorString().trimmed().toStdString() << std::endl;
+		else {
+			QTextStream in(&file);
+			QString all = in.readAll();
+			file.close();
+			if(all.contains("Language=\n"))
+				all = all.replace("Language=\n",QString("Language=%1\n").arg(code1));
+			else
+				all += QString("\nLanguage=%1").arg(code1);
+			QFile file_new(QDir::homePath() + "/.photoqt/settings");
+			if(!file_new.open(QIODevice::WriteOnly | QIODevice::Truncate))
+				LOG << DATE << "ERROR: Reopening settings file in 'Truncate' mode for stroing detected localisation failed: " << file_new.errorString().trimmed().toStdString() << std::endl;
+			else {
+				QTextStream out(&file_new);
+				out << all;
+				file_new.close();
+			}
+		}
 	}
 
 	// Check if thumbnail database exists. If not, create it
