@@ -81,8 +81,8 @@ Rectangle {
 
 			// Click on title triggers shortcut detection
 			ToolTip {
-				cursorShape: Qt.PointingHandCursor
-				text: "Click to change shortcut"
+				cursorShape: shortcuts[index][4] === "key" ? Qt.PointingHandCursor : Qt.ArrowCursor
+				text: shortcuts[index][4] === "key" ? "Click to change shortcut" : ""
 				onClicked: triggerDetection()
 				onEntered: ele.hovered = true
 				onExited: ele.hovered = false
@@ -120,18 +120,6 @@ Rectangle {
 					height: ele.height-4
 
 					color: "transparent"
-
-					// A click triggers shortcut detection
-					ToolTip {
-
-						cursorShape: shortcuts[index][4] === "key" ? Qt.PointingHandCursor : Qt.ArrowCursor
-						text: shortcuts[index][4] === "key" ? "Click to change shortcut" : ""
-
-						onClicked: triggerDetection()
-						onEntered: ele.hovered = true
-						onExited: ele.hovered = false
-
-					}
 
 					// The prefix
 					Text {
@@ -261,6 +249,7 @@ Rectangle {
 						cursorShape: Qt.PointingHandCursor
 						text: "Delete shortcut"
 						onClicked: {
+							key_combo.ignoreAllCombos = true
 							deleteElement.start()
 						}
 					}
