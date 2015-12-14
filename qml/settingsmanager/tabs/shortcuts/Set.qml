@@ -254,6 +254,7 @@ Rectangle {
 					id: sh_delete
 					height: ele.height-4
 					color: colour.text
+					Behavior on color { ColorAnimation { duration: 150; } }
 					elide: Text.ElideRight
 					text: "x"
 					horizontalAlignment: Text.AlignHCenter
@@ -265,6 +266,8 @@ Rectangle {
 							key_combo.ignoreAllCombos = true
 							deleteElement.start()
 						}
+						onEntered: parent.color = colour.warning
+						onExited: parent.color = colour.text
 					}
 				}
 
