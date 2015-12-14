@@ -114,8 +114,11 @@ Rectangle {
 		for(var k = 0; k < allAvailableItems.length; ++k)
 			allAvailableCommands[allAvailableCommands.length] = allAvailableItems[k][0]
 
-		// load the available shortcuts
-		avail.shortcuts = allAvailableItems
+		if(external)
+			avail.shortcuts = [["", qsTr("External")]]
+		else
+			// load the available shortcuts
+			avail.shortcuts = allAvailableItems
 
 	}
 
@@ -131,7 +134,7 @@ Rectangle {
 
 			var ind = allAvailableCommands.indexOf(shortcuts[ele][1])
 
-			if(ind !== -1) {
+			if(ind !== -1 || (external && shortcuts[ele][1].slice(0,2) !== "__")) {
 
 				var keyormouse = "key"
 				var key = ele;
@@ -146,7 +149,11 @@ Rectangle {
 					tmp[cmd] = []
 					tmp_keys = tmp_keys.concat(cmd)
 				}
-				tmp[cmd].push([allAvailableItems[ind][1],key,shortcuts[ele][0], cmd, keyormouse])
+
+				if(external)
+					tmp[cmd].push([cmd,key,shortcuts[ele][0], cmd, keyormouse])
+				else
+					tmp[cmd].push([allAvailableItems[ind][1],key,shortcuts[ele][0], cmd, keyormouse])
 			}
 
 		}
@@ -171,9 +178,11 @@ Rectangle {
 
 		var ret = []
 
-		for(var i = 0; i < set.shortcuts.length; ++i)
-			// Format of data: [close, mouse, keys, command]
-			ret = ret.concat([[set.shortcuts[i][2], (set.shortcuts[i][4] === "key" ? false : true), set.shortcuts[i][1], set.shortcuts[i][3]]])
+		for(var i = 0; i < set.shortcuts.length; ++i) {
+			// Format of input data: [desc, keys, close, command, keyormouse]
+			// Format of output data: [close, mouse, keys, command]
+			ret = ret.concat([[set.shortcuts[i][2], (set.shortcuts[i][4] === "key" ? false : true), set.shortcuts[i][1], (external ? set.shortcuts[i][0] : set.shortcuts[i][3])]])
+		}
 
 		return ret;
 

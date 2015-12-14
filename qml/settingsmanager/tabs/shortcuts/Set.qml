@@ -99,6 +99,7 @@ Rectangle {
 					width: ele.width/2-6
 					color: "transparent"
 					Text {
+						id: thetitle
 						anchors.fill: parent
 						visible: !external
 						color: colour.text
@@ -106,10 +107,22 @@ Rectangle {
 						text: shortcuts[index][0]
 					}
 					CustomLineEdit {
+						id: externalCommand
 						anchors.fill: parent
 						visible: external
-						text: ""
+						text: shortcuts[index][0]
 						emptyMessage: "The command goes here"
+						onTextEdited:
+							updateExternalString.restart()
+					}
+					Timer {
+						id: updateExternalString
+						interval: 500
+						running: false
+						repeat: false
+						onTriggered: {
+							shortcuts[index][0] = externalCommand.getText()
+						}
 					}
 				}
 
@@ -379,6 +392,7 @@ Rectangle {
 					key_combo.text = "... Press keys ..."
 					key_combo.font.italic = true
 					key_combo.ignoreAllCombos = false
+					key_combo.forceActiveFocus()
 					abortDetection.restart()
 				}
 

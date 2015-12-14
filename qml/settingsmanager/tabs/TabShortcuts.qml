@@ -12,11 +12,21 @@ Rectangle {
 
 	property int titlewidth: 100
 	property string currentKeyCombo: ""
-	onCurrentKeyComboChanged: navigation.currentKeyCombo = currentKeyCombo
+	onCurrentKeyComboChanged: {
+		navigation.currentKeyCombo = currentKeyCombo
+		image.currentKeyCombo = currentKeyCombo
+		file.currentKeyCombo = currentKeyCombo
+		other.currentKeyCombo = currentKeyCombo
+		external.currentKeyCombo = currentKeyCombo
+	}
 
 	property bool keysReleased: false
 	onKeysReleasedChanged: {
 		navigation.keysReleased = true
+		image.keysReleased = true
+		file.keysReleased = true
+		other.keysReleased = true
+		external.keysReleased = true
 		keysReleased = false
 	}
 
@@ -129,7 +139,7 @@ Rectangle {
 				id: external
 				category: "External"
 				external: true
-				allAvailableItems: [["", qsTr("External")]]
+				allAvailableItems: [["", qsTr("")]]
 			}
 
 		}
@@ -151,15 +161,13 @@ Rectangle {
 		dat = dat.concat(image.saveData())
 		dat = dat.concat(file.saveData())
 		dat = dat.concat(other.saveData())
+		dat = dat.concat(external.saveData())
 
 		var tosave = []
 
 		for(var i = 0; i < dat.length; ++i) {
-
 			var cur = dat[i];
-
 			tosave = tosave.concat([[cur[0], cur[1], cur[2], cur[3]]])
-
 		}
 
 		getanddostuff.saveShortcuts(tosave)
