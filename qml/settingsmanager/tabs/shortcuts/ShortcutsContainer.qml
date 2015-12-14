@@ -96,6 +96,8 @@ Rectangle {
 					if(allAvailableItems[k][0] === shortcut)
 						desc = allAvailableItems[k][1]
 
+				set.cancelAllOtherDetection()
+
 				set.lastaction = "add"
 				set.shortcuts = set.shortcuts.concat([[desc, "", 0, shortcut, keyormouse]])
 

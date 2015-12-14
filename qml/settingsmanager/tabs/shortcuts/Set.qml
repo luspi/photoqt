@@ -156,6 +156,8 @@ Rectangle {
 
 							// This boolean is changed when a new shortcut is requested
 							property bool ignoreAllCombos: true
+							onIgnoreAllCombosChanged:
+								amDetectingANewShortcut = !ignoreAllCombos
 
 							anchors.fill: parent
 							color: colour.text
@@ -394,10 +396,8 @@ Rectangle {
 			}
 
 			Component.onCompleted: {
-				if(index == shortcuts.length-1 && key_combo.text == "..." && lastaction == "add") {
-					grid.parent.cancelAllOtherDetection()
+				if(index == shortcuts.length-1 && key_combo.text == "..." && lastaction == "add")
 					triggerDetection()
-				}
 			}
 
 		}

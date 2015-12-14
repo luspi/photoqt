@@ -20,6 +20,8 @@ Rectangle {
 		keysReleased = false
 	}
 
+	property bool amDetectingANewShortcut: false
+
 	// This signal ensures that only one shortcut is detected at a time in any category
 	signal cancelDetectionEverywhere()
 

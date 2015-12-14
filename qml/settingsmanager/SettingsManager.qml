@@ -40,6 +40,9 @@ Rectangle {
 		settingssession.setValue("settings_titlewidth",100)
 	}
 
+	// Don't close settings manager while a new key combo is being detected
+	property bool wait_amDetectingANewShortcut: false
+
 	CustomTabView {
 
 		id: view
@@ -153,6 +156,8 @@ Rectangle {
 			title: qsTr("Shortcuts")
 
 			TabShortcuts {
+				onAmDetectingANewShortcutChanged:
+					settings_top.wait_amDetectingANewShortcut = amDetectingANewShortcut
 				Connections {
 					target: settings_top
 					onSetData: {
@@ -311,8 +316,7 @@ Rectangle {
 			confirmerase.hide()
 		else if(confirmdefaultshortcuts.visible)
 			confirmdefaultshortcuts.hide()
-		else
-//		else if(!detectShortcut.visible/* && !resetShortcut.visible*/)
+		else if(!wait_amDetectingANewShortcut)
 			hideSettingsAni.start()
 	}
 
