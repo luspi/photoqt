@@ -19,7 +19,7 @@ Item {
 
 	// Fade-in/Slide-in elements colouring
 	readonly property string fadein_slidein_bg: "#DD000000"
-	readonly property string fadein_slidein_block_bg: "#55000000"
+	readonly property string fadein_slidein_block_bg: "#88000000"
 	readonly property string fadein_slidein_border: "#55bbbbbb"
 
 	// Line colour used for seperating things in elements (e.g. bottom of settings)

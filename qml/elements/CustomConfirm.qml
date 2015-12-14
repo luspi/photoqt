@@ -48,8 +48,8 @@ Rectangle {
 		y: (parent.height-height)/2
 
 		// Set size
-		width: maxwidth
-		height: col.height+5
+		width: children_container.width+40
+		height: children_container.height+40
 
 		// Adjust colour and look
 		color: colour.fadein_slidein_bg
@@ -64,104 +64,115 @@ Rectangle {
 			onClicked: {}
 		}
 
-		Column {
+		Rectangle {
 
-			id: col
-			spacing: 5
+			id: children_container
+			color: "transparent"
+			width: maxwidth-20
+			height: childrenRect.height
+			x: 20
+			y: 20
 
-			Text {
-				id: head
-				x: 5
-				width: rect.width-10
-				color: colour.text
-				font.pointSize: 10
-				wrapMode: Text.WordWrap
-				text: "<h1>" + header + "</h1>"
-				horizontalAlignment: Text.AlignHCenter
-			}
+			Column {
 
-			// Confirmation text
-			Text {
+				id: col
+				spacing: 5
 
-				id: txt
+				Text {
+					id: head
+					x: 5
+					width: children_container.width-10
+					color: colour.text
+					font.pointSize: 10
+					wrapMode: Text.WordWrap
+					text: "<h1>" + header + "</h1>"
+					horizontalAlignment: Text.AlignHCenter
+				}
 
-				x: 5
-				width: rect.width-10
+				// Confirmation text
+				Text {
 
-				color: colour.text
-				font.pointSize: 10
-				wrapMode: Text.WordWrap
+					id: txt
 
-				text: description
+					x: 5
+					width: children_container.width-10
 
-				horizontalAlignment: Qt.AlignHCenter
+					color: colour.text
+					font.pointSize: 10
+					wrapMode: Text.WordWrap
 
-			}
+					text: description
 
-			Rectangle {
-				color: "#00000000"
-				width: 1
-				height: 10
-			}
+					horizontalAlignment: Qt.AlignHCenter
 
-			CustomCheckBox {
-				id: ask
-				x: (parent.width-width)/2
-				text: qsTr("Don't ask again")
-				visible: showDontAskAgain
-			}
+				}
 
-			Rectangle {
-				color: "#00000000"
-				width: 1
-				height: 10
-			}
+				Rectangle {
+					color: "#00000000"
+					width: 1
+					height: 10
+				}
 
-			// Buttons for accepting/rejecting
-			Rectangle {
+				CustomCheckBox {
+					id: ask
+					x: (parent.width-width)/2
+					text: qsTr("Don't ask again")
+					visible: showDontAskAgain
+				}
 
-				id: butrect
+				Rectangle {
+					color: "#00000000"
+					width: 1
+					height: 10
+				}
 
-				x: 5
-				width: rect.width-10
-				height: childrenRect.height
+				// Buttons for accepting/rejecting
+				Rectangle {
 
-				color: "#00000000"
+					id: butrect
 
-				Row {
+					x: 5
+					width: children_container.width-10
+					height: childrenRect.height
 
-					id: butrow
-					spacing: 5
+					color: "#00000000"
 
-					CustomButton {
+					Row {
 
-						width: (butrect.width-butrow.spacing)/2
-						text: confirmbuttontext
+						id: butrow
+						spacing: 5
 
-						onClickedButton: {
-							alwaysDoThis = ask.checkedButton
-							accepted()
-							hide()
+						CustomButton {
+
+							width: (butrect.width-butrow.spacing)/2
+							text: confirmbuttontext
+
+							onClickedButton: {
+								alwaysDoThis = ask.checkedButton
+								accepted()
+								hide()
+							}
+
 						}
 
-					}
+						CustomButton {
 
-					CustomButton {
+							width: (butrect.width-butrow.spacing)/2
+							text: rejectbuttontext
 
-						width: (butrect.width-butrow.spacing)/2
-						text: rejectbuttontext
+							onClickedButton: {
+								alwaysDoThis = ask.checkedButton
+								rejected()
+								hide()
+							}
 
-						onClickedButton: {
-							alwaysDoThis = ask.checkedButton
-							rejected()
-							hide()
 						}
-
 					}
 				}
-			}
 
-		} // END Column
+			} // END Column
+
+		}
 
 	}
 
