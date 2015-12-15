@@ -16,6 +16,9 @@ Rectangle {
 	property bool alwaysDoThis: false
 	property bool showDontAskAgain: false
 
+	// Only show a 'cancel' option in that case
+	property bool actAsErrorMessage: false
+
 	signal accepted()
 	signal rejected()
 
@@ -142,10 +145,22 @@ Rectangle {
 						id: butrow
 						spacing: 5
 
+						// When this CustomConfirm is supposed to act as error message box, then the two rectangles ensure the button is centered
+						// Otherwise they simply remain hidden
+
+						Rectangle {
+							color: "transparent"
+							width: (butrect.width-butrow.spacing)/4
+							height: 1
+							visible: actAsErrorMessage
+						}
+
 						CustomButton {
 
 							width: (butrect.width-butrow.spacing)/2
 							text: confirmbuttontext
+
+							visible: !actAsErrorMessage
 
 							onClickedButton: {
 								alwaysDoThis = ask.checkedButton
@@ -167,6 +182,14 @@ Rectangle {
 							}
 
 						}
+
+						Rectangle {
+							color: "transparent"
+							width: (butrect.width-butrow.spacing)/4
+							height: 1
+							visible: actAsErrorMessage
+						}
+
 					}
 				}
 
