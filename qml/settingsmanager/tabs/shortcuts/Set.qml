@@ -34,8 +34,6 @@ Rectangle {
 	// A new combo was detected and each child checks if they're looking for a new
 	// shortcut, and if they do, then they take it
 	signal newComboRightHere(var combo)
-	// And this is the pendant to a mouse combo
-	signal newMouseComboRightHere(var combo)
 	// Only one child at a time can detect a shortcut -> starting a new one cancels all others
 	signal cancelAllOtherDetection()
 
@@ -191,6 +189,7 @@ Rectangle {
 								fontsize: 8
 								transparentBackground: true
 								anchors.left: parent.left
+								displayAsError: ele.error_doubleShortcut
 								model: ["----", "Ctrl", "Alt", "Shift", "Ctrl+Alt", "Ctrl+Shift", "Alt+Shift", "Ctrl+Alt+Shift"]
 								onPressedChanged: if(pressed) triggerDetection()
 								Component.onCompleted: {
@@ -216,6 +215,7 @@ Rectangle {
 								transparentBackground: true
 								anchors.left: mods.right
 								anchors.leftMargin: 5
+								displayAsError: ele.error_doubleShortcut
 								model: ["Left Button", "Right Button", "Middle Button", "Wheel Up", "Wheel Down"]
 								onPressedChanged: if(pressed) triggerDetection()
 								Component.onCompleted: {
@@ -239,16 +239,39 @@ Rectangle {
 							// We only do this after 250ms, otherwise when setting it up the default one (index 0) overrides any setting
 							Timer {
 								id: updateshortcut
-								interval: 250
+								interval: 100
 								repeat: false
 								running: false
 								onTriggered: {
 									if(shortcuts[index][4] === "mouse") {
+
 										var composed = ""
 										if(mods.currentIndex != 0)
 											composed += mods.currentText + "+"
 										composed += but.currentText
-										shortcuts[index][1] = composed
+
+										// if it was a valid shortcut, we remove it from the list
+										if(!ele.error_doubleShortcut)
+											deleteAKeyCombo("[M] " + key_combo.store)
+
+										// check if the new key combo already exists
+										var found = false;
+										for(var i = 0; i < tab_top.usedUpKeyCombos.length; ++i) {
+											if(tab_top.usedUpKeyCombos[i] === "[M] " + composed) {
+												found = true
+												break;
+											}
+										}
+
+										// if it does, display error
+										if(found)
+											ele.error_doubleShortcut = true
+										// if not, add to the list of set combos
+										else {
+											ele.error_doubleShortcut = false
+											addAKeyCombo("[M] " + composed)
+											shortcuts[index][1] = composed
+										}
 									}
 								}
 							}
@@ -336,19 +359,7 @@ Rectangle {
 						abortDetection.stop()
 						key_combo.font.italic = true
 						key_combo.text = grid.parent.currentKeyCombo
-						key_combo.store = grid.parent.currentKeyCombo
 
-
-					}
-
-				}
-
-				onNewMouseComboRightHere: {
-
-					if(!key_combo.ignoreAllCombos) {
-
-						key_combo.store = grid.parent.currentMouseCombo
-						key_combo.text = key_combo.store
 
 					}
 
