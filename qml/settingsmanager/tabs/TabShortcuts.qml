@@ -208,8 +208,6 @@ Rectangle {
 
 		getanddostuff.saveShortcuts(tosave)
 
-//			console.log(dat[i])
-
 	}
 
 }

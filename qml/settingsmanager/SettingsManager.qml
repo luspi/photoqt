@@ -34,6 +34,9 @@ Rectangle {
 	// tell TabShortcuts to load set of default shortcuts
 	signal shortcutsLoadDefaults()
 
+	// If this one is non-zero, then there is a problem with the shortcuts
+	property int invalidShortcutsSettings: 0
+
 	MouseArea {
 		anchors.fill: parent
 		hoverEnabled: true
@@ -257,8 +260,7 @@ Rectangle {
 			text: qsTr("Save Changes and Exit")
 
 			onClickedButton: {
-				saveData()
-				hideSettings()
+				saveSettings()
 			}
 
 		}
@@ -302,7 +304,7 @@ Rectangle {
 		fillAnchors: settings_top
 		id: confirmdefaultshortcuts
 		header: qsTr("Set Default Shortcuts")
-		description: qsTr("Are you sure you want to reset the shortcuts to the default set?")
+		description: qsTr("Are you sure you want to reset the shortcuts to the default set?") + "<br><br>" + qsTr("This change is not permanent until you click on 'Save'.")
 		confirmbuttontext: qsTr("Yes, please")
 		rejectbuttontext: qsTr("Nah, don't")
 		maxwidth: 400
@@ -310,6 +312,16 @@ Rectangle {
 			verboseMessage("Settings","Setting default shortcuts...")
 			shortcutsLoadDefaults()
 		}
+	}
+
+	CustomConfirm {
+		fillAnchors: settings_top
+		id: invalidshortcuts
+		header: qsTr("Invalid Shortcuts Settings")
+		description: qsTr("There is a problem with the shortcuts setup you've created. You seem to have used a key/mouse combination more than once. Please go back and fix that before I can save your changes...")
+		rejectbuttontext: qsTr("Go back")
+		actAsErrorMessage: true
+		onRejected: gotoTab(4)
 	}
 
 	function showSettings() {
@@ -372,8 +384,18 @@ Rectangle {
 	function prevTab() {
 		view.prevTab()
 	}
+	function gotoTab(num) {
+		view.currentIndex = num
+	}
 
-	function saveSettings() { saveData(); hideSettings(); }
+	function saveSettings() {
+		if(invalidShortcutsSettings != 0)
+			invalidshortcuts.show()
+		else {
+			saveData();
+			hideSettings();
+		}
+	}
 
 	function setCurrentKeyCombo(combo) {
 		updateCurrentKeyCombo("")

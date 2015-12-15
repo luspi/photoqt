@@ -78,6 +78,12 @@ Rectangle {
 			Behavior on color { ColorAnimation { duration: 150; } }
 
 			property bool error_doubleShortcut: false
+			onError_doubleShortcutChanged: {
+				if(error_doubleShortcut)
+					settings_top.invalidShortcutsSettings += 1
+				else
+					settings_top.invalidShortcutsSettings -= 1
+			}
 
 			// Click on title triggers shortcut detection
 			ToolTip {
