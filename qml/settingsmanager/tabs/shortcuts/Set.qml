@@ -79,6 +79,8 @@ Rectangle {
 			color: hovered ? colour.tiles_inactive : colour.tiles_disabled
 			Behavior on color { ColorAnimation { duration: 150; } }
 
+			property bool error_doubleShortcut: false
+
 			// Click on title triggers shortcut detection
 			ToolTip {
 				cursorShape: shortcuts[index][4] === "key" ? Qt.PointingHandCursor : Qt.ArrowCursor
@@ -163,11 +165,15 @@ Rectangle {
 								amDetectingANewShortcut = !ignoreAllCombos
 
 							anchors.fill: parent
-							color: colour.text
+							color: ele.error_doubleShortcut ? colour.shortcut_double_error : colour.text
+							font.bold: ele.error_doubleShortcut
 							text: store
 
 							// We update the array with the new data
-							onTextChanged: shortcuts[index][1] = text
+							onTextChanged: {
+								if(!ele.error_doubleShortcut)
+									shortcuts[index][1] = text
+							}
 
 						}
 
@@ -305,9 +311,33 @@ Rectangle {
 
 					if(!key_combo.ignoreAllCombos) {
 
+						// if it was a valid shortcut, we remove it from the list
+						if(!ele.error_doubleShortcut)
+							deleteAKeyCombo(key_combo.store)
+
+						// check if the new key combo already exists
+						var found = false;
+						for(var i = 0; i < tab_top.usedUpKeyCombos.length; ++i) {
+							if(tab_top.usedUpKeyCombos[i] === grid.parent.currentKeyCombo) {
+								found = true
+								break;
+							}
+						}
+
+						// if it does, display error
+						if(found)
+							ele.error_doubleShortcut = true
+						// if not, add to the list of set combos
+						else {
+							ele.error_doubleShortcut = false
+							addAKeyCombo(grid.parent.currentKeyCombo)
+						}
+
 						abortDetection.stop()
 						key_combo.font.italic = true
 						key_combo.text = grid.parent.currentKeyCombo
+						key_combo.store = grid.parent.currentKeyCombo
+
 
 					}
 

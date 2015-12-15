@@ -120,4 +120,7 @@ Item {
 	readonly property string tooltip_bg: "#dd222222"
 	readonly property string tooltip_text: "#dddddddd"
 
+	// Shortcuts
+	readonly property string shortcut_double_error: "#ff2200"
+
 }

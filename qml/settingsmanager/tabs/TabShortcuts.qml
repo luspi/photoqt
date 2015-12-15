@@ -31,6 +31,7 @@ Rectangle {
 	}
 
 	property bool amDetectingANewShortcut: false
+	property var usedUpKeyCombos: []
 
 	// This signal ensures that only one shortcut is detected at a time in any category
 	signal cancelDetectionEverywhere()
@@ -169,6 +170,25 @@ Rectangle {
 		file.setData(_shortcuts)
 		other.setData(_shortcuts)
 		external.setData(_shortcuts)
+
+		// extract all set key combos
+		for(var ele in _shortcuts)
+			usedUpKeyCombos.push(ele)
+
+	}
+
+	function addAKeyCombo(combo) {
+		usedUpKeyCombos.push(combo)
+	}
+
+	function deleteAKeyCombo(combo) {
+		// there's probably a better way to do this -> look up with internet
+		var tmp= []
+		for(var ele in usedUpKeyCombos){
+			if(usedUpKeyCombos[ele] !== combo)
+				tmp.push(usedUpKeyCombos[ele])
+		}
+		usedUpKeyCombos = tmp
 	}
 
 	function saveData() {
