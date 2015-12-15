@@ -6,6 +6,7 @@ ComboBox {
 
 	property int fontsize: 10
 	property bool transparentBackground: false
+	property bool displayAsError: false
 
 	style: ComboBoxStyle {
 
@@ -19,7 +20,8 @@ ComboBox {
 			id: txt
 			font.pointSize: fontsize
 			text: control.currentText
-			color: colour.text
+			font.bold: displayAsError
+			color: displayAsError ? colour.warning : colour.text
 		}
 
 		// Undocumented and unofficial way to style dropdown menu
