@@ -11,6 +11,8 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 
 	variables->verbose = verbose;
 
+	overrideCursorHowOftenSet = 0;
+
 	// Set only by main.cpp at start-up, contains filename passed via command line
 	startup_filename = "";
 

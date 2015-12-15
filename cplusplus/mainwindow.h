@@ -84,6 +84,8 @@ private:
 
 	QFileDialog *filedialog;
 
+	int overrideCursorHowOftenSet;
+
 private slots:
 
 	void handleOpenFileEvent(QString usethis = "");
@@ -109,8 +111,8 @@ private slots:
 
 	void qmlVerboseMessage(QVariant loc, QVariant msg);
 
-	void setOverrideCursor() { qApp->setOverrideCursor(Qt::WaitCursor); }
-	void restoreOverrideCursor() { qApp->restoreOverrideCursor(); }
+	void setOverrideCursor() { ++overrideCursorHowOftenSet; qApp->setOverrideCursor(Qt::WaitCursor); }
+	void restoreOverrideCursor() { for(int i = 0; i < overrideCursorHowOftenSet; ++i) qApp->restoreOverrideCursor(); overrideCursorHowOftenSet = 0; }
 
 protected:
 	bool event(QEvent *e);
