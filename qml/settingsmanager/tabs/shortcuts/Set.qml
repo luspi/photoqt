@@ -262,7 +262,7 @@ Rectangle {
 
 										// check if the new key combo already exists
 										var found = false;
-										for(var i = 0; i < tab_top.usedUpKeyCombos.length; ++i) {
+										for(var i in tab_top.usedUpKeyCombos) {
 											if(tab_top.usedUpKeyCombos[i] === "[M] " + composed) {
 												found = true
 												break;
@@ -335,37 +335,14 @@ Rectangle {
 
 				target: grid.parent
 
-				// New key combo
+				// New key combo (unfinished detection)
 				onNewComboRightHere: {
 
 					if(!key_combo.ignoreAllCombos) {
 
-						// if it was a valid shortcut, we remove it from the list
-						if(!ele.error_doubleShortcut)
-							deleteAKeyCombo(key_combo.store)
-
-						// check if the new key combo already exists
-						var found = false;
-						for(var i = 0; i < tab_top.usedUpKeyCombos.length; ++i) {
-							if(tab_top.usedUpKeyCombos[i] === grid.parent.currentKeyCombo) {
-								found = true
-								break;
-							}
-						}
-
-						// if it does, display error
-						if(found)
-							ele.error_doubleShortcut = true
-						// if not, add to the list of set combos
-						else {
-							ele.error_doubleShortcut = false
-							addAKeyCombo(grid.parent.currentKeyCombo)
-						}
-
 						abortDetection.stop()
 						key_combo.font.italic = true
 						key_combo.text = grid.parent.currentKeyCombo
-
 
 					}
 
@@ -381,8 +358,12 @@ Rectangle {
 						key_combo.font.italic = false
 						if(key_combo.text.charAt(key_combo.text.length-1) == "+")
 							key_combo.text = key_combo.store
-						else
+						else {
+							// We delete->change->update the key combo for proper double detection
+							deleteAKeyCombo(key_combo.store)
 							key_combo.store = key_combo.text
+							addAKeyCombo(key_combo.store)
+						}
 
 					}
 
@@ -431,7 +412,15 @@ Rectangle {
 			// Cancel all detection anywhere
 			Connections {
 				target: tab_top
-				onCancelDetectionEverywhere: cancelAllOtherDetection()
+
+				onCancelDetectionEverywhere:
+					cancelAllOtherDetection()
+
+				onRecheckKeyCombo: {
+					ele.error_doubleShortcut = (combos[key_combo.store] > 1)
+				}
+
+
 			}
 
 			function triggerDetection() {

@@ -30,8 +30,15 @@ Rectangle {
 		keysReleased = false
 	}
 
+	// If this is true, then all key presses are passed on to sub elements and doesn't trigger any shortcuts
 	property bool amDetectingANewShortcut: false
-	property var usedUpKeyCombos: []
+
+	// This list holds all the currently set shortcuts to detect double shortcuts
+	property var usedUpKeyCombos: ({})
+	onUsedUpKeyCombosChanged: recheckKeyCombo(usedUpKeyCombos)
+
+	// Re-check to see if key combo is set more than once
+	signal recheckKeyCombo(var combos)
 
 	// This signal ensures that only one shortcut is detected at a time in any category
 	signal cancelDetectionEverywhere()
@@ -172,22 +179,27 @@ Rectangle {
 		external.setData(_shortcuts)
 
 		// extract all set key combos
-		for(var ele in _shortcuts)
-			usedUpKeyCombos.push(ele)
+		for(var ele in _shortcuts) {
+			if(ele in usedUpKeyCombos)
+				usedUpKeyCombos[ele] += 1
+			else
+				usedUpKeyCombos[ele] = 1
+		}
 
 	}
 
 	function addAKeyCombo(combo) {
-		usedUpKeyCombos.push(combo)
+		var tmp = usedUpKeyCombos
+		if(combo in tmp)
+			tmp[combo] += 1
+		else
+			tmp[combo] = 1
+		usedUpKeyCombos = tmp
 	}
 
 	function deleteAKeyCombo(combo) {
-		// there's probably a better way to do this -> look up with internet
-		var tmp= []
-		for(var ele in usedUpKeyCombos){
-			if(usedUpKeyCombos[ele] !== combo)
-				tmp.push(usedUpKeyCombos[ele])
-		}
+		var tmp = usedUpKeyCombos
+		tmp[combo] -= 1
 		usedUpKeyCombos = tmp
 	}
 
