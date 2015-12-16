@@ -129,20 +129,13 @@ Rectangle {
 		var tmp_keys = []
 
 		// Loop over all shortcuts and filter out the ones we're interested in
-		for(var ele in shortcuts) {
+		for(var key in shortcuts) {
 
-			var ind = allAvailableCommands.indexOf(shortcuts[ele][1])
+			var ind = allAvailableCommands.indexOf(shortcuts[key][1])
 
-			if(ind !== -1 || (external && shortcuts[ele][1].slice(0,2) !== "__")) {
+			if(ind !== -1 || (external && shortcuts[key][1].slice(0,2) !== "__")) {
 
-				var keyormouse = "key"
-				var key = ele;
-				if(ele.slice(0,3) === "[M]") {
-					keyormouse = "mouse"
-					key = ele.slice(4,ele.length)
-				}
-
-				var cmd = shortcuts[ele][1]
+				var cmd = shortcuts[key][1]
 				// Format: [desc, key, close, command, key/mouse]
 				if(!(cmd in tmp)) {
 					tmp[cmd] = []
@@ -150,9 +143,9 @@ Rectangle {
 				}
 
 				if(external)
-					tmp[cmd].push([cmd,key,shortcuts[ele][0], cmd, keyormouse])
+					tmp[cmd].push([cmd,key,shortcuts[key][0], cmd, keyormouse])
 				else
-					tmp[cmd].push([allAvailableItems[ind][1],key,shortcuts[ele][0], cmd, keyormouse])
+					tmp[cmd].push([allAvailableItems[ind][1],key,shortcuts[key][0], cmd, shortcuts[key][2]])
 			}
 
 		}

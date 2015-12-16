@@ -253,7 +253,7 @@ Item {
 			if(k[i] !== "" && mods.indexOf(k[i]) == -1)
 				gotmod = false
 
-		var shortcut = "[M] "
+		var shortcut = ""
 		if(gotmod) shortcut += getanddostuff.trim(keys.substr(0,keys.length-1)) + "+"
 		shortcut += sh
 

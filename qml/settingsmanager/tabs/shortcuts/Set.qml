@@ -245,23 +245,23 @@ Rectangle {
 							// We only do this after 250ms, otherwise when setting it up the default one (index 0) overrides any setting
 							Timer {
 								id: updateshortcut
-								interval: 100
+								interval: 250
 								repeat: false
 								running: false
 								onTriggered: {
 									if(shortcuts[index][4] === "mouse") {
 
-										var composed = "[M] "
+										var composed = ""
 										if(mods.currentIndex != 0)
 											composed += mods.currentText + "+"
 										composed += but.currentText
 
 										// if it was a valid shortcut, we remove it from the list
-										var tmp = key_combo.store
-										deleteAKeyCombo((tmp.slice(0,3)=="[M]" ? "" : "[M] ") + tmp)
+										deleteAKeyCombo(key_combo.store)
 
 										key_combo.store = composed
 										addAKeyCombo(composed)
+
 									}
 								}
 							}
