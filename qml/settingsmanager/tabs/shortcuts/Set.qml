@@ -251,33 +251,17 @@ Rectangle {
 								onTriggered: {
 									if(shortcuts[index][4] === "mouse") {
 
-										var composed = ""
+										var composed = "[M] "
 										if(mods.currentIndex != 0)
 											composed += mods.currentText + "+"
 										composed += but.currentText
 
 										// if it was a valid shortcut, we remove it from the list
-										if(!ele.error_doubleShortcut)
-											deleteAKeyCombo("[M] " + key_combo.store)
+										var tmp = key_combo.store
+										deleteAKeyCombo((tmp.slice(0,3)=="[M]" ? "" : "[M] ") + tmp)
 
-										// check if the new key combo already exists
-										var found = false;
-										for(var i in tab_top.usedUpKeyCombos) {
-											if(tab_top.usedUpKeyCombos[i] === "[M] " + composed) {
-												found = true
-												break;
-											}
-										}
-
-										// if it does, display error
-										if(found)
-											ele.error_doubleShortcut = true
-										// if not, add to the list of set combos
-										else {
-											ele.error_doubleShortcut = false
-											addAKeyCombo("[M] " + composed)
-											shortcuts[index][1] = composed
-										}
+										key_combo.store = composed
+										addAKeyCombo(composed)
 									}
 								}
 							}
