@@ -181,6 +181,8 @@ Item {
 		font.bold: true
 		wrapMode: Text.WordWrap
 
+		visible: false	// Set to true from function below trigegred by onComplete in mainwindow.qml
+
 		text: qsTr("Open a file to begin")
 
 	}
@@ -188,7 +190,7 @@ Item {
     // Arrow pointing to metadata widget
 	Image {
 		id: metadataarrow
-		visible: settings.exifenablemousetriggering && openfile.opacity == 0
+		visible: false	// Set to true from function below trigegred by onComplete in mainwindow.qml
 		x: 0
 		y: metaData.y+metaData.height/2-height/2
 		source: "qrc:/img/mainview/arrowleft.png"
@@ -199,7 +201,7 @@ Item {
 	// Arrow pointing to mainmenu widget
 	Image {
 		id: mainmenuarrow
-		visible: settings.quickSettings && openfile.opacity == 0
+		visible: false	// Set to true from function below trigegred by onComplete in mainwindow.qml
 		x: background.width-width-5
 		y: mainmenu.y+mainmenu.height/2-height/2
 		source: "qrc:/img/mainview/arrowright.png"
@@ -272,6 +274,12 @@ Item {
                 settings.exifrotation = "Never"
         }
     }
+
+	function displayIdleAndNothingLoadedMessage() {
+		nofileloaded.visible = true
+		metadataarrow.visible = true
+		mainmenuarrow.visible = true
+	}
 
     function zoomIn(towardsCenter) {
         image.zoomIn(towardsCenter)

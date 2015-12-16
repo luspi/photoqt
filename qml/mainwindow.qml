@@ -148,7 +148,10 @@ Item {
 		}
 	}
 
-
+	// We don't show them at startup right away, as that can lead to small graphical glitches
+	// This way, we simply avoid that altogether
+	Component.onCompleted:
+		mainview.displayIdleAndNothingLoadedMessage()
 
 	// Slots accessable by mainwindow.cpp, passed on to thumbnailbar
 	function reloadImage(pos, smart) { thumbnailBar.reloadImage(pos, smart) }
