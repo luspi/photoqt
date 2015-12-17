@@ -169,7 +169,8 @@ Item {
 
 	function showStartup(type) { startup.showStartup(type); }
 
-	function openFile() { openfile.show();}
+	function openFile() { openfile.show(); }
+	function hideOpenFile() { openfile.hide(); }
 
 	function getCursorPos() { return localcursorpos; }
 
