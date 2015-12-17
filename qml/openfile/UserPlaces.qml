@@ -16,6 +16,9 @@ Rectangle {
 		width: parent.width
 		height: parent.height
 
+		highlight: Rectangle { color: "#DD5d5d5d"; radius: 5 }
+		highlightMoveDuration: 50
+
 		model: ListModel { id: userplacesmodel; }
 
 		delegate: userplacesdelegate
@@ -70,7 +73,10 @@ Rectangle {
 						parent.color = (counter%2==1 ? "#88000000" : "#44000000")
 				}
 				onClicked: {
-					loadCurrentDirectory(location)
+					if(type !== "heading") {
+						userplaces.currentIndex = index
+						loadCurrentDirectory(location)
+					}
 				}
 
 			}

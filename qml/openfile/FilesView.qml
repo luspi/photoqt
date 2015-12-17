@@ -204,7 +204,7 @@ Rectangle {
 				}
 				onClicked: {
 					hideOpenAni.start()
-					reloadDirectory(dir_path + "/" + filename,"")
+					reloadDirectory(dir_path + "/" + files[2*(index+1)],"")
 				}
 			}
 		}
@@ -294,7 +294,7 @@ Rectangle {
 				}
 				onClicked: {
 					hideOpenAni.start()
-					reloadDirectory(dir_path + "/" + files[2*index],"")
+					reloadDirectory(dir_path + "/" + files[2*(index+1)],"")
 				}
 			}
 		}
