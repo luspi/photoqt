@@ -81,6 +81,8 @@ void MainWindow::handleOpenFileEvent(QVariant filename, QVariant filter) {
 		return;
 	}
 
+	setOverrideCursor();
+
 	if(variables->verbose)
 		LOG << DATE << "handleOpenFileEvent(): Handle response to request to open new file" << std::endl;
 
@@ -109,6 +111,7 @@ void MainWindow::handleOpenFileEvent(QVariant filename, QVariant filter) {
 	QFileInfoList l = loadDir->loadDir(file,variables->openfileFilter.toString());
 	if(l.isEmpty()) {
 		QMetaObject::invokeMethod(object, "noResultsFromFilter");
+		restoreOverrideCursor();
 		return;
 	}
 	if(!l.contains(QFileInfo(file)))
@@ -144,6 +147,8 @@ void MainWindow::handleOpenFileEvent(QVariant filename, QVariant filter) {
 
 	// And handle the thumbnails
 	handleThumbnails(centerPos.toInt());
+
+	restoreOverrideCursor();
 
 }
 
