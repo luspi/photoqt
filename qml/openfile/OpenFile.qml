@@ -61,6 +61,8 @@ Rectangle {
 
 		Folders {
 			id: folders
+			onFocusOnFilesView:
+				edit_rect.focusOnInput()
 		}
 
 
@@ -115,6 +117,9 @@ Rectangle {
 					filesview.focusOnFirstItem()
 				onFocusOnLastItem:
 					filesview.focusOnLastItem()
+
+				onFocusOnFolderView:
+					folders.forceActiveFocus()
 			}
 
 		}

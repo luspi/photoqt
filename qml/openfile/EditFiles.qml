@@ -15,8 +15,9 @@ Rectangle {
 	signal focusOnPrevItem()
 	signal moveFocusFiveUp()
 	signal moveFocusFiveDown()
-	signal focusOnFirstItem();
-	signal focusOnLastItem();
+	signal focusOnFirstItem()
+	signal focusOnLastItem()
+	signal focusOnFolderView()
 
 	CustomLineEdit {
 
@@ -38,6 +39,9 @@ Rectangle {
 
 		onGotoHome: focusOnFirstItem()
 		onGotoEnd: focusOnLastItem()
+
+		onAltLeft: focusOnFolderView()
+		onAltRight: focusOnFolderView()
 
 	}
 

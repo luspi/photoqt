@@ -323,10 +323,8 @@ Rectangle {
 		preview.source = ""
 		updatePreviewSourceSize()
 
-		if(files.length > 0) {
+		if(files.length > 0)
 			preview.source = Qt.resolvedUrl("image://full/" + dir_path + "/" + files[0])
-			focusOnFirstItem()
-		}
 
 	}
 
@@ -377,19 +375,19 @@ Rectangle {
 	}
 
 	function moveFocusFiveDown() {
-		if(listview.opacity == 1 && listview.currentIndex+10 < listview.count)
-			listview.currentIndex += 10
-		else if(gridview.opacity == 1 && gridview.currentIndex+10 < gridview.count)
-			gridview.currentIndex += 10
+		if(listview.opacity == 1 && listview.currentIndex+5 < listview.count)
+			listview.currentIndex += 5
+		else if(gridview.opacity == 1 && gridview.currentIndex+5 < gridview.count)
+			gridview.currentIndex += 5
 		edit_rect.setEditText(getanddostuff.removePathFromFilename(preview.source, true))
 		edit_rect.focusOnInput()
 	}
 
 	function moveFocusFiveUp() {
-		if(listview.opacity == 1 && listview.currentIndex > 9)
-			listview.currentIndex -= 10
-		else if(gridview.opacity == 1 && gridview.currentIndex > 9)
-			gridview.currentIndex -= 10
+		if(listview.opacity == 1 && listview.currentIndex > 4)
+			listview.currentIndex -= 5
+		else if(gridview.opacity == 1 && gridview.currentIndex > 4)
+			gridview.currentIndex -= 5
 		edit_rect.setEditText(getanddostuff.removePathFromFilename(preview.source, true))
 		edit_rect.focusOnInput()
 	}
