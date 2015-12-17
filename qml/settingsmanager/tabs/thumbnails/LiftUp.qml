@@ -75,12 +75,12 @@ EntryContainer {
 	}
 
 	function setData() {
-		liftup_slider.value = settings.thumbnailsize
+		liftup_slider.value = settings.thumbnailLiftUp
 		entry.val = liftup_slider.value
 	}
 
 	function saveData() {
-		settings.thumbnailsize = liftup_spinbox.value
+		settings.thumbnailLiftUp = liftup_spinbox.value
 	}
 
 }
