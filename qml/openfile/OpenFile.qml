@@ -185,18 +185,13 @@ Rectangle {
 			edit_rect.enabled = true
 	}
 
+	Component.onCompleted: {
+		userplaces.loadUserPlaces()
+		loadCurrentDirectory(dir_path)
+	}
+
 	function show() { showOpenAni.start(); }
 	function hide() { hideOpenAni.start(); }
-
-	Timer {
-		interval: 100
-		repeat: false
-		running: true
-		onTriggered: {
-			userplaces.loadUserPlaces()
-			loadCurrentDirectory(dir_path)
-		}
-	}
 
 	function loadCurrentDirectory(path) {
 
