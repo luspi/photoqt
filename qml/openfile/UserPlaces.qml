@@ -22,6 +22,11 @@ Rectangle {
 		model: ListModel { id: userplacesmodel; }
 
 		delegate: userplacesdelegate
+
+		// Don't highlight anything of UserPlaces at startup
+		// Otherwise, a heading might be highlighted, that shouldn't happen
+		Component.onCompleted:
+			userplaces.currentIndex = -1
 	}
 
 	Component {
