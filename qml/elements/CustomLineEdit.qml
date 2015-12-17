@@ -27,6 +27,9 @@ Rectangle {
 	signal gotoHome()
 	signal gotoEnd()
 
+	signal altLeft()
+	signal altRight()
+
 	signal clicked()
 
 	TextEdit {
@@ -64,25 +67,50 @@ Rectangle {
 
 		}
 
-		Keys.onEnterPressed: accepted()
-		Keys.onReturnPressed: accepted()
-		Keys.onEscapePressed: rejected()
-
 		Keys.onPressed: {
-			if(event.key === Qt.Key_Up) {
+
+			if(event.key === Qt.Key_Enter || event.key === Qt.Key_Return)
+
+				accepted()
+
+			else if(event.key === Qt.Key_Escape)
+
+				rejected()
+
+			else if(event.key === Qt.Key_Up) {
+
 				if(event.modifiers & Qt.ControlModifier)
 					gotoHome()
 				else
 					arrowUp()
+
 			} else if(event.key === Qt.Key_Down) {
+
 				if(event.modifiers & Qt.ControlModifier)
 					gotoEnd()
 				else
 					arrowDown()
+
 			} else if(event.key === Qt.Key_PageUp)
+
 				pageUp()
+
 			else if(event.key === Qt.Key_PageDown)
+
 				pageDown()
+
+			else if(event.key === Qt.Key_Left) {
+
+				if(event.modifiers & Qt.AltModifier)
+					altLeft()
+
+			} else if(event.key === Qt.Key_Right) {
+
+				if(event.modifiers & Qt.AltModifier)
+					altRight()
+
+			}
+
 		}
 
 	}
