@@ -12,7 +12,6 @@ public:
 		verbose = false;
 		loadedThumbnails.clear();
 		currentDir = "";
-        fileDialogOpened = false;
         geometryWhenHiding = QRect();
         skipSystemTrayAndQuit = false;
 		trayiconSetup = false;
@@ -28,7 +27,6 @@ public:
 	QList<int> loadedThumbnails;
 	QString currentDir;
 
-    bool fileDialogOpened;
     QRect geometryWhenHiding;
     bool skipSystemTrayAndQuit;
 	bool trayiconSetup;

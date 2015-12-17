@@ -147,12 +147,11 @@ int main(int argc, char *argv[]) {
 	if(a.verbose) LOG << DATE << "Checking for translation" << std::endl;
 	QString code1 = "";
 	QString code2 = "";
-	bool noLanguageSet = false;
+	bool noLanguageWasSet = false;
 	if(settingsFileTxt.contains("Language=") && !settingsFileTxt.contains("Language=en") && !settingsFileTxt.contains("Language=\n")) {
 		code1 = settingsFileTxt.split("Language=").at(1).split("\n").at(0).trimmed();
 		code2 = code1;
 	} else if(!settingsFileTxt.contains("Language=en")) {
-		noLanguageSet = true;
 		code1 = QLocale::system().name();
 		code2 = QLocale::system().name().split("_").at(0);
 	}
@@ -162,14 +161,16 @@ int main(int argc, char *argv[]) {
 		trans.load(":/photoqt_" + code1);
 		a.installTranslator(&trans);
 		code2 = code1;
+		noLanguageWasSet = true;
 	} else if(QFile(":/photoqt_" + code2 + ".qm").exists()) {
 		LOG << DATE << "Loading Translation:" << code2.toStdString() << std::endl;
 		trans.load(":/photoqt_" + code2);
 		a.installTranslator(&trans);
 		code1 = code2;
+		noLanguageWasSet = true;
 	}
 	// Store translation in settings file
-	if(noLanguageSet) {
+	if(noLanguageWasSet) {
 		QFile file(QDir::homePath() + "/.photoqt/settings");
 		if(!file.open(QIODevice::ReadWrite))
 			LOG << DATE << "ERROR: Cannot open settings file to store detected localisation: " << file.errorString().trimmed().toStdString() << std::endl;
@@ -307,14 +308,11 @@ int main(int argc, char *argv[]) {
 		w.disableThumbnails();
 	}
 
-	// Set startup filename, call openNewFile after 250ms - if window wasn't yet finished setting up, then the image is displayed 'weirdly'
-	// -> resetting zoom after 500ms to be safe
 	// After a new install/update, we first show a startup message (which, when closed, calls openFile())
-	w.startup_filename = a.filename;
 	if(photoQtUpdated || photoQtInstalled)
 		w.showStartup(photoQtInstalled ? "installed" : "updated");
 	else
-		QTimer::singleShot(250, &w, SLOT(openNewFile()));
+		w.handleOpenFileEvent(a.filename);
 
 	return a.exec();
 

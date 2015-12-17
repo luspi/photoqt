@@ -13,9 +13,6 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 
 	overrideCursorHowOftenSet = 0;
 
-	// Set only by main.cpp at start-up, contains filename passed via command line
-	startup_filename = "";
-
 	this->setMinimumSize(QSize(600,400));
 
 	// Add image providers
@@ -42,21 +39,11 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 	// Class to load a new directory
 	loadDir = new LoadDir(verbose);
 
-	// Filedialog to open new files
-	// We HAVE TO use it this way (and NOT using, e.g., the static method getOpenFileName())
-	// as otherwise the window might be displayed BEHIND the main app window without any way to interact with it.
-	filedialog = new QFileDialog;
-	filedialog->setModal(false);
-	filedialog->setWindowFlags(Qt::Dialog | Qt::WindowStaysOnTopHint | Qt::Popup);
-	filedialog->setWindowTitle(tr("Open image file"));
-	connect(filedialog, SIGNAL(accepted()), this, SLOT(handleOpenFileEvent()));
-	connect(filedialog, SIGNAL(rejected()), this, SLOT(handleOpenFileEvent()));
-
 	// Scrolled view
 	connect(object, SIGNAL(thumbScrolled(QVariant)), this, SLOT(handleThumbnails(QVariant)));
 
 
-	connect(object, SIGNAL(reloadDirectory(QVariant,QVariant)), this, SLOT(openNewFile(QVariant,QVariant)));
+	connect(object, SIGNAL(reloadDirectory(QVariant,QVariant)), this, SLOT(handleOpenFileEvent(QVariant,QVariant)));
 	connect(object, SIGNAL(loadMoreThumbnails()), this, SLOT(loadMoreThumbnails()));
 	connect(object, SIGNAL(didntLoadThisThumbnail(QVariant)), this, SLOT(didntLoadThisThumbnail(QVariant)));
 	connect(object, SIGNAL(setOverrideCursor()), this, SLOT(setOverrideCursor()));
@@ -87,102 +74,30 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 }
 
 // Open a new file
-void MainWindow::openNewFile(QVariant usethis, QVariant filter) {
+void MainWindow::handleOpenFileEvent(QVariant filename, QVariant filter) {
 
-	if(!usethis.isNull())
-		startup_filename = "";
-
-	QByteArray filename = QByteArray::fromPercentEncoding(usethis.toString().trimmed().toUtf8());
-
-	variables->openfileFilter = filter;
-
-	if(filename.trimmed() != "")
-		handleOpenFileEvent(filename);
-	else
-		openNewFile();
-
-}
-
-void MainWindow::openNewFile() {
-\
-	// We need to catch a filename passed via command line here (this function is called via timer from main.cpp)
-	if(startup_filename != "") {
-		if(variables->verbose)
-			LOG << DATE << "openNewFile(): Caught passed-on filename: " << startup_filename.toStdString() << std::endl;
-		openNewFile(startup_filename);
+	if(filename.toString().trimmed() == "") {
+		QMetaObject::invokeMethod(object, "openFile");
 		return;
 	}
-
-	QMetaObject::invokeMethod(object, "openFile");
-
-//	if(variables->verbose)
-//		LOG << DATE << "openNewFile(): Request to open new file" << std::endl;
-
-//	if(variables->fileDialogOpened)
-//		return;
-
-//	// Get new filename
-//	QString opendir = QDir::homePath();
-//	if(variables->currentDir != "")
-//		opendir = variables->currentDir;
-
-//	if(variables->verbose)
-//		LOG << DATE << "openNewFile(): No filename passed -> requesting new one" << std::endl;
-
-//	QMetaObject::invokeMethod(object, "alsoIgnoreSystemShortcuts",
-//				  Q_ARG(QVariant, true));
-
-//	variables->fileDialogOpened = true;
-
-//	// Get new filename
-//	QString knownQT = fileformats->formatsQtEnabled.join(" ") + " " + fileformats->formatsQtEnabledExtras.join(" ");
-//	QString knownGM = fileformats->formatsGmEnabled.join(" ");
-//	QString known = knownQT + " " + knownGM + " " + fileformats->formatsExtrasEnabled.join(" ");
-
-//	// Set filedialog options
-//	filedialog->setDirectory(opendir);
-//	filedialog->setNameFilter(tr("Images") + " (" + known.trimmed() + ");;"
-//									+ tr("Images") + " (Qt)" + " (" + knownQT.trimmed() + ");;"
-//					 #ifdef GM
-//									+ tr("Images") + " (GraphicsMagick)" + " (" + knownGM.trimmed() + ");;"
-//					 #endif
-//									+ tr("All Files") + " (*)");
-
-//	filedialog->show();
-//	filedialog->raise();
-//	filedialog->activateWindow();
-
-}
-
-void MainWindow::handleOpenFileEvent(QString usethis) {
 
 	if(variables->verbose)
 		LOG << DATE << "handleOpenFileEvent(): Handle response to request to open new file" << std::endl;
 
-	// Only possibly set at start-up, filename passed via command line
-	if(startup_filename != "") {
-		usethis = startup_filename;
-		startup_filename = "";
-	}
+	// Decode filename
+	QByteArray usethis = QByteArray::fromPercentEncoding(filename.toString().trimmed().toUtf8());
+
+	// Store filter
+	variables->openfileFilter = filter;
+
 
 	QString file = "";
 
 	// Check return file
-	if(usethis == "") {
+	file = usethis;
 
-		if(filedialog->result() == QDialog::Rejected || filedialog->selectedFiles().length() == 0)
-			file = "";
-		else
-			file = filedialog->selectedFiles().first();
-
-	} else
-		file = usethis;
-
-	variables->fileDialogOpened = false;
 	QMetaObject::invokeMethod(object, "alsoIgnoreSystemShortcuts",
 				  Q_ARG(QVariant, false));
-
-	if(file.trimmed() == "") return;
 
 	// Save current directory
 	variables->currentDir = QFileInfo(file).absolutePath();
@@ -460,9 +375,6 @@ bool MainWindow::event(QEvent *e) {
 			LOG << DATE << "keyPressEvent()" << std::endl;
 		detectedKeyCombo(shortcuts->handleKeyPress((QKeyEvent*)e));
 
-		if(filedialog->isVisible() && ((QKeyEvent*)e)->key() == Qt::Key_Escape)
-			filedialog->reject();
-
 	} else if(e->type() == QEvent::KeyRelease) {
 
 		if(variables->verbose)
@@ -526,12 +438,10 @@ void MainWindow::trayAction(QSystemTrayIcon::ActivationReason reason) {
     if(reason == QSystemTrayIcon::Trigger) {
 
 		if(!variables->hiddenToTrayIcon) {
-            if(!variables->fileDialogOpened) {
-                variables->geometryWhenHiding = this->geometry();
-				if(variables->verbose)
-					LOG << DATE << "trayAction(): Hiding to tray" << std::endl;
-                this->hide();
-            }
+			variables->geometryWhenHiding = this->geometry();
+			if(variables->verbose)
+				LOG << DATE << "trayAction(): Hiding to tray" << std::endl;
+			this->hide();
         } else {
 
 			if(variables->verbose)
@@ -551,7 +461,8 @@ void MainWindow::trayAction(QSystemTrayIcon::ActivationReason reason) {
 
 			updateWindowGeometry();
 
-            if(variables->currentDir == "") openNewFile();
+			if(variables->currentDir == "")
+				QMetaObject::invokeMethod(object, "openFile");
         }
 
 	}
@@ -644,7 +555,7 @@ void MainWindow::remoteAction(QString cmd) {
 			this->requestActivate();
 		}
 
-		openNewFile();
+		QMetaObject::invokeMethod(object, "openFile");
 
 	} else if(cmd == "nothumbs") {
 
@@ -664,7 +575,7 @@ void MainWindow::remoteAction(QString cmd) {
 			LOG << DATE << "remoteAction(): Hiding" << std::endl;
 		if(settingsPermanent->trayicon != 1)
 			settingsPermanent->setTrayicon(1);
-		filedialog->close();
+		QMetaObject::invokeMethod(object, "hideOpenFile");
 		this->hide();
 
 	} else if(cmd.startsWith("show") || (cmd == "toggle" && !this->isVisible())) {
@@ -687,14 +598,14 @@ void MainWindow::remoteAction(QString cmd) {
 		this->requestActivate();
 
 		if(variables->currentDir == "" && cmd != "show_noopen")
-			openNewFile();
+			QMetaObject::invokeMethod(object, "openFile");
 
 	} else if(cmd.startsWith("::file::")) {
 
 		if(variables->verbose)
 			LOG << DATE << "remoteAction(): Opening passed-on file" << std::endl;
-		filedialog->close();
-		openNewFile(cmd.remove(0,8));
+		QMetaObject::invokeMethod(object, "hideOpenFile");
+		handleOpenFileEvent(cmd.remove(0,8));
 
 	}
 
@@ -708,12 +619,10 @@ void MainWindow::updateWindowGeometry() {
 
 	if(settingsPermanent->windowmode) {
 		if(settingsPermanent->keepOnTop) {
-			filedialog->setWindowFlags(filedialog->windowFlags() | Qt::WindowStaysOnTopHint);
 			settingsPermanent->windowDecoration
 					  ? this->setFlags(Qt::Window | Qt::WindowStaysOnTopHint)
 					  : this->setFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
 		} else {
-			filedialog->setWindowFlags(filedialog->windowFlags() & ~Qt::WindowStaysOnTopHint);
 			settingsPermanent->windowDecoration
 					  ? this->setFlags(Qt::Window)
 					  : this->setFlags(Qt::Window | Qt::FramelessWindowHint);
@@ -727,21 +636,12 @@ void MainWindow::updateWindowGeometry() {
 			this->showMaximized();
 	} else {
 
-		if(settingsPermanent->keepOnTop) {
+		if(settingsPermanent->keepOnTop)
 			this->setFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
-			filedialog->setWindowFlags(filedialog->windowFlags() | Qt::WindowStaysOnTopHint);
-		} else {
+		else
 			this->setFlags(Qt::FramelessWindowHint);
-			filedialog->setWindowFlags(filedialog->windowFlags() & ~Qt::WindowStaysOnTopHint);
-		}
 
 		QString(getenv("DESKTOP")).startsWith("Enlightenment") ? this->showMaximized() : this->showFullScreen();
-	}
-
-	if(variables->fileDialogOpened) {
-		filedialog->show();
-		filedialog->raise();
-		filedialog->activateWindow();
 	}
 
 }
@@ -802,5 +702,4 @@ MainWindow::~MainWindow() {
 	delete variables;
 	delete shortcuts;
 	delete loadDir;
-	delete filedialog;
 }

@@ -37,14 +37,11 @@ public:
 	void disableThumbnails() { settingsPermanent->thumbnailDisable = true; }
 	void setDefaultFileFormats() { fileformats->getFormats(""); }
 
-	// Set only by main.cpp at start-up, contains filename passed via command line
-	QString startup_filename;
-
 	void showStartup(QString type);
 
 public slots:
-	void openNewFile();
-	void openNewFile(QVariant usethis, QVariant filter = QVariant());
+	void handleOpenFileEvent(QVariant filename, QVariant filter = QVariant());
+	void handleOpenFileEvent(QString filename) { handleOpenFileEvent(QVariant::fromValue(filename), QVariant()); }
 
 	// This is used by main.cpp (see there (at the end of file) for details)
 	void resetZoom() { QMetaObject::invokeMethod(object,"resetZoom"); }
@@ -82,13 +79,9 @@ private:
 
 	QSystemTrayIcon *trayIcon;
 
-	QFileDialog *filedialog;
-
 	int overrideCursorHowOftenSet;
 
 private slots:
-
-	void handleOpenFileEvent(QString usethis = "");
 
 	void handleThumbnails(QVariant centerPos);
 	void loadMoreThumbnails();
