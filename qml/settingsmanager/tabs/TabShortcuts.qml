@@ -168,6 +168,16 @@ Rectangle {
 		file.setData(_shortcuts)
 		other.setData(_shortcuts)
 		external.setData(_shortcuts)
+
+		usedUpKeyCombos = []
+		// extract all set key combos
+		for(var ele in _shortcuts) {
+			if(ele in usedUpKeyCombos)
+				usedUpKeyCombos[ele] += 1
+			else
+				usedUpKeyCombos[ele] = 1
+		}
+
 	}
 
 	function setData() {
@@ -178,6 +188,7 @@ Rectangle {
 		other.setData(_shortcuts)
 		external.setData(_shortcuts)
 
+		usedUpKeyCombos = []
 		// extract all set key combos
 		for(var ele in _shortcuts) {
 			if(ele in usedUpKeyCombos)

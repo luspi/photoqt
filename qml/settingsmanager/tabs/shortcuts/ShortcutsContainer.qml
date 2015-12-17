@@ -162,6 +162,7 @@ Rectangle {
 		}
 
 		// Update arrays
+		set.shortcuts = []
 		set.shortcuts = setshortcuts
 
 	}
