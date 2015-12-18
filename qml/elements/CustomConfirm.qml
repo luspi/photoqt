@@ -21,6 +21,8 @@ Rectangle {
 
 	// Only show a 'cancel' option in that case
 	property bool actAsErrorMessage: false
+	// Only show a 'confirm' option in this case
+	property bool actAsInfoMessage: false
 
 	signal accepted()
 	signal rejected()
@@ -157,7 +159,7 @@ Rectangle {
 							color: "transparent"
 							width: (butrect.width-butrow.spacing)/4
 							height: 1
-							visible: actAsErrorMessage
+							visible: actAsErrorMessage||actAsInfoMessage
 						}
 
 						CustomButton {
@@ -165,7 +167,7 @@ Rectangle {
 							width: (butrect.width-butrow.spacing)/2
 							text: confirmbuttontext
 
-							visible: !actAsErrorMessage
+							visible: !actAsErrorMessage || actAsInfoMessage
 
 							onClickedButton: {
 								alwaysDoThis = ask.checkedButton
@@ -180,6 +182,8 @@ Rectangle {
 							width: (butrect.width-butrow.spacing)/2
 							text: rejectbuttontext
 
+							visible: !actAsInfoMessage || actAsErrorMessage
+
 							onClickedButton: {
 								alwaysDoThis = ask.checkedButton
 								rejected()
@@ -192,7 +196,7 @@ Rectangle {
 							color: "transparent"
 							width: (butrect.width-butrow.spacing)/4
 							height: 1
-							visible: actAsErrorMessage
+							visible: actAsErrorMessage || actAsInfoMessage
 						}
 
 					}
