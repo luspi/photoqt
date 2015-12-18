@@ -194,8 +194,8 @@ Rectangle {
 		}
 		onStopped: {
 			edit_rect.enabled = true
-			openshortcuts.display()
 			openshortcuts.forceActiveFocus()
+			openshortcuts.display()
 		}
 	}
 
@@ -208,10 +208,12 @@ Rectangle {
 					 "Page Up/Down" : "Move 5 entries up/down",
 					 "Ctrl+Up/Down" : "Move to the first/last entry",
 					 "Alt+Up" : "Go one folder level up",
-					 "Enter/Return" : "Load the currently highlighted item"}
+					 "Enter/Return" : "Load the currently highlighted item",
+					 "Escape" : "Cancel" }
 
-		onClosed:
+		onClosed: {
 			edit_rect.focusOnInput()
+		}
 
 	}
 
