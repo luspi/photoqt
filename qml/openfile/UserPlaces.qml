@@ -9,7 +9,12 @@ Rectangle {
 	width: settings.openUserPlacesWidth
 	Layout.maximumWidth: 600
 	Layout.minimumWidth: 200
-	color: "#44000000"
+	color: activeFocus ? "#44000055" : "#44000000"
+
+	signal focusOnFolders()
+	signal focusOnFilesView()
+
+	signal moveOneLevelUp()
 
 	ListView {
 		id: userplaces
@@ -70,12 +75,8 @@ Rectangle {
 				hoverEnabled: true
 				cursorShape: type=="heading" ? Qt.ArrowCursor : Qt.PointingHandCursor
 				onEntered: {
-					if(type != "heading")
-						parent.color = "#22ffffff"
-				}
-				onExited: {
-					if(type != "heading")
-						parent.color = (counter%2==1 ? "#88000000" : "#44000000")
+					if(type !="heading")
+						userplaces.currentIndex = index
 				}
 				onClicked: {
 					if(type !== "heading") {
@@ -86,6 +87,34 @@ Rectangle {
 
 			}
 		}
+	}
+
+	Keys.onPressed: {
+
+		if(event.key === Qt.Key_Left) {
+
+			if(event.modifiers & Qt.AltModifier)
+				focusOnFilesView()
+
+		} else if(event.key === Qt.Key_Right) {
+
+			if(event.modifiers & Qt.AltModifier)
+				focusOnFolders()
+
+		} else if(event.key === Qt.Key_Up) {
+			if(event.modifiers & Qt.AltModifier)
+				moveOneLevelUp()
+			else
+				focusOnPrevItem()
+		} else if(event.key === Qt.Key_Down)
+			focusOnNextItem()
+		else if(event.key === Qt.Key_Enter || event.key === Qt.Key_Return)
+			loadCurrentlyHighlightedFolder()
+		else if(event.key === Qt.Key_PageDown)
+			moveFocusFiveDown()
+		else if(event.key === Qt.Key_PageUp)
+			moveFocusFiveUp()
+
 	}
 
 	function loadUserPlaces() {
@@ -120,6 +149,56 @@ Rectangle {
 									   "counter" : counter})
 			++counter
 		}
+	}
+
+	function loadCurrentlyHighlightedFolder() {
+
+		loadCurrentDirectory(userplacesmodel.get(userplaces.currentIndex).location)
+
+	}
+
+	function focusOnNextItem() {
+
+		if(userplaces.currentIndex+1 < userplaces.count)
+			userplaces.currentIndex += 1
+
+		while(userplacesmodel.get(userplaces.currentIndex).type === "heading" && userplaces.currentIndex < userplaces.count-1)
+			userplaces.currentIndex += 1
+
+	}
+
+	function focusOnPrevItem() {
+
+		if(userplaces.currentIndex > 0)
+			userplaces.currentIndex -= 1
+
+		while(userplacesmodel.get(userplaces.currentIndex).type === "heading" && userplaces.currentIndex > 0)
+			userplaces.currentIndex -= 1
+
+	}
+
+	function moveFocusFiveDown() {
+
+		if(userplaces.currentIndex+5 < userplaces.count)
+			userplaces.currentIndex += 5
+		else
+			userplaces.currentIndex = userplaces.count-1
+
+		while(userplacesmodel.get(userplaces.currentIndex).type === "heading" && userplaces.currentIndex < userplaces.count-1)
+			userplaces.currentIndex += 1
+
+	}
+
+	function moveFocusFiveUp() {
+
+		if(userplaces.currentIndex > 4)
+			userplaces.currentIndex -= 5
+		else
+			userplaces.currentIndex  = 0
+
+		while(userplacesmodel.get(userplaces.currentIndex).type === "heading" && userplaces.currentIndex > 0)
+			userplaces.currentIndex -= 1
+
 	}
 
 }

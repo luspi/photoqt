@@ -56,6 +56,12 @@ Rectangle {
 		// The user places at the left
 		UserPlaces {
 			id: userplaces
+			onFocusOnFolders:
+				folders.forceActiveFocus()
+			onFocusOnFilesView:
+				edit_rect.focusOnInput()
+			onMoveOneLevelUp:
+				folders.moveOneLevelUp()
 		}
 
 
@@ -63,6 +69,8 @@ Rectangle {
 			id: folders
 			onFocusOnFilesView:
 				edit_rect.focusOnInput()
+			onFocusOnUserPlaces:
+				userplaces.forceActiveFocus()
 		}
 
 
@@ -121,6 +129,8 @@ Rectangle {
 					folders.moveOneLevelUp()
 				onFocusOnFolderView:
 					folders.forceActiveFocus()
+				onFocusOnUserPlaces:
+					userplaces.forceActiveFocus()
 			}
 
 		}

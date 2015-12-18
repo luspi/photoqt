@@ -6,7 +6,7 @@ Rectangle {
 
 	id: top
 
-	color: !folders.activeFocus ? "#44000055" : "#44000000"
+	color: (!folders.activeFocus && !userplaces.activeFocus) ? "#44000055" : "#44000000"
 
 	property var files: []
 	property string dir_path: getanddostuff.getHomeDir()
@@ -16,7 +16,7 @@ Rectangle {
 	property int previous_width: 0
 	property string previous_mode: ""
 
-	border.color: !folders.activeFocus ? "#55ccdd" : "transparent"
+	border.color: (!folders.activeFocus && !userplaces.activeFocus) ? "#55ccdd" : "transparent"
 	border.width: 1
 
 	Rectangle {

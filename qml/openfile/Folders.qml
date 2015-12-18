@@ -18,6 +18,7 @@ Rectangle {
 	property var folders: []
 
 	signal focusOnFilesView()
+	signal focusOnUserPlaces()
 
 	ListView {
 
@@ -71,7 +72,12 @@ Rectangle {
 
 	Keys.onPressed: {
 
-		if(event.key === Qt.Key_Left || event.key === Qt.Key_Right) {
+		if(event.key === Qt.Key_Left) {
+
+			if(event.modifiers & Qt.AltModifier)
+				focusOnUserPlaces()
+
+		} else if(event.key === Qt.Key_Right) {
 
 			if(event.modifiers & Qt.AltModifier)
 				focusOnFilesView()

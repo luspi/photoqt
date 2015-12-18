@@ -18,6 +18,7 @@ Rectangle {
 	signal focusOnFirstItem()
 	signal focusOnLastItem()
 	signal focusOnFolderView()
+	signal focusOnUserPlaces()
 	signal moveOneLevelUp()
 
 	property bool inCurrentFocus: filename_edit.activeFocus
@@ -44,7 +45,7 @@ Rectangle {
 		onGotoEnd: focusOnLastItem()
 
 		onAltLeft: focusOnFolderView()
-		onAltRight: focusOnFolderView()
+		onAltRight: focusOnUserPlaces()
 		onAltUp: moveOneLevelUp()
 
 	}
