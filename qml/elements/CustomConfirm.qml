@@ -16,6 +16,9 @@ Rectangle {
 	property bool alwaysDoThis: false
 	property bool showDontAskAgain: false
 
+	property string customisedDontAskAgainMessage: ""
+	property bool dontAskAgainChecked: false
+
 	// Only show a 'cancel' option in that case
 	property bool actAsErrorMessage: false
 
@@ -103,6 +106,7 @@ Rectangle {
 					color: colour.text
 					font.pointSize: 10
 					wrapMode: Text.WordWrap
+					textFormat: Text.RichText
 
 					text: description
 
@@ -119,8 +123,9 @@ Rectangle {
 				CustomCheckBox {
 					id: ask
 					x: (parent.width-width)/2
-					text: qsTr("Don't ask again")
+					text: customisedDontAskAgainMessage=="" ? qsTr("Don't ask again") : customisedDontAskAgainMessage
 					visible: showDontAskAgain
+					checkedButton: dontAskAgainChecked
 				}
 
 				Rectangle {
@@ -165,7 +170,7 @@ Rectangle {
 							onClickedButton: {
 								alwaysDoThis = ask.checkedButton
 								accepted()
-								hide()
+								_hide()
 							}
 
 						}
@@ -178,7 +183,7 @@ Rectangle {
 							onClickedButton: {
 								alwaysDoThis = ask.checkedButton
 								rejected()
-								hide()
+								_hide()
 							}
 
 						}
@@ -199,11 +204,23 @@ Rectangle {
 
 	}
 
+
+
 	function show() {
-		ask.checkedButton = false
+		ask.checkedButton = dontAskAgainChecked
 		showConfirm.start()
 	}
-	function hide() {
+	function reject() {
+		alwaysDoThis = ask.checkedButton
+		rejected()
+		_hide()
+	}
+	function accept() {
+		alwaysDoThis = ask.checkedButton
+		accepted()
+		_hide()
+	}
+	function _hide() {
 		hideConfirm.start()
 	}
 
