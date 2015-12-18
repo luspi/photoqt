@@ -29,6 +29,7 @@ Rectangle {
 
 	signal altLeft()
 	signal altRight()
+	signal altUp()
 
 	signal clicked()
 
@@ -81,6 +82,8 @@ Rectangle {
 
 				if(event.modifiers & Qt.ControlModifier)
 					gotoHome()
+				else if(event.modifiers & Qt.AltModifier)
+					altUp()
 				else
 					arrowUp()
 
