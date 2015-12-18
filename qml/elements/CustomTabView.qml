@@ -82,10 +82,14 @@ TabView {
 	function nextTab() {
 		if(view.currentIndex < view.count-1)
 			++view.currentIndex
+		else
+			view.currentIndex = 0
 	}
 	function prevTab() {
 		if(view.currentIndex > 0)
 			--view.currentIndex
+		else
+			view.currentIndex = view.count-1
 	}
 
 }

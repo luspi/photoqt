@@ -109,6 +109,16 @@ Item {
 				settingsmanager.prevTab()
 			else if(keys === "Ctrl+S")
 				settingsmanager.saveSettings()
+			else if(keys === "Alt+1")
+				settingsmanager.gotoTab(0)
+			else if(keys === "Alt+2")
+				settingsmanager.gotoTab(1)
+			else if(keys === "Alt+3")
+				settingsmanager.gotoTab(2)
+			else if(keys === "Alt+4")
+				settingsmanager.gotoTab(3)
+			else if(keys === "Alt+5")
+				settingsmanager.gotoTab(4)
 		}
 
 	}
