@@ -6,6 +6,7 @@ import GetAndDoStuff 1.0
 import GetMetaData 1.0
 import ThumbnailManagement 1.0
 import ToolTip 1.0
+import ShortcutsNotifier 1.0
 
 import QtQuick.Dialogs 1.2
 
@@ -108,6 +109,7 @@ Item {
 	ThumbnailManagement { id: thumbnailmanagement; }
 
 	Shortcuts { id: sh; }
+	ShortcutsNotifier { id: sh_notifier; }
 
 	// Application background
 	Background { id: background; }

@@ -12,7 +12,7 @@ SET(d "cplusplus/imageprovider")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/imageproviderfull.cpp ${d}/imageproviderthumbnail.cpp ${d}/imageprovidericon.h)
 
 SET(d "cplusplus/shortcuts")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/shortcuts.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/shortcuts.h ${d}/shortcutsnotifier.h)
 
 SET(d "cplusplus/scripts")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/getanddostuff.h ${d}/getmetadata.cpp ${d}/runprocess.h ${d}/thumbnailsmanagement.cpp)
@@ -45,7 +45,7 @@ SET(d "cplusplus/imageprovider")
 SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/imageproviderthumbnail.h ${d}/imageproviderfull.h ${d}/imageprovidericon.h)
 
 SET(d "cplusplus/shortcuts")
-SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/shortcuts.h)
+SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/shortcuts.h ${d}/shortcutsnotifier.h)
 
 SET(d "cplusplus/scripts")
 SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/getanddostuff.h ${d}/getmetadata.h ${d}/runprocess.h ${d}/thumbnailsmanagement.h)

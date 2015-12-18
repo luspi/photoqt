@@ -16,9 +16,6 @@ Rectangle {
 	property int previous_width: 0
 	property string previous_mode: ""
 
-	border.color: (!folders.activeFocus && !userplaces.activeFocus) ? "#55ccdd" : "transparent"
-	border.width: 1
-
 	Rectangle {
 
 		color: "#00000000"

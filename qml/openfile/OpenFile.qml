@@ -191,11 +191,33 @@ Rectangle {
 				tweaks.displayIcons()
 			if(thumbnailBar.currentFile != "")
 				edit_rect.setEditText(getanddostuff.removePathFromFilename(thumbnailBar.currentFile))
-			edit_rect.focusOnInput()
 		}
-		onStopped:
+		onStopped: {
 			edit_rect.enabled = true
+			if(sh_notifier.isShown("openfile")) {
+				openshortcuts.show()
+				openshortcuts.forceActiveFocus()
+			} else
+				edit_rect.focusOnInput()
+		}
 	}
+
+
+	ShortcutNotifier {
+		id: openshortcuts
+		area: "openfile"
+		shortcuts: { "Alt+Left/Right" : "Move focus between Places/Folders/Fileview",
+					 "Up/Down" : "Go up/down an entry",
+					 "Page Up/Down" : "Move 5 entries up/down",
+					 "Ctrl+Up/Down" : "Move to the first/last entry",
+					 "Alt+Up" : "Go one folder level up",
+					 "Enter/Return" : "Load the currently highlighted item"}
+
+		onClosed:
+			edit_rect.focusOnInput()
+
+	}
+
 
 	Component.onCompleted: {
 		userplaces.loadUserPlaces()
@@ -203,7 +225,15 @@ Rectangle {
 	}
 
 	function show() { showOpenAni.start(); }
-	function hide() { hideOpenAni.start(); }
+
+	function hide() {
+
+		if(openshortcuts.visible)
+			openshortcuts.accept()
+		else
+			hideOpenAni.start();
+
+	}
 
 	function loadCurrentDirectory(path) {
 

@@ -11,9 +11,6 @@ Rectangle {
 	color: activeFocus ? "#44000055" : "#44000000"
 	clip: true
 
-	border.color: activeFocus ? "#55ccdd" : "transparent"
-	border.width: 1
-
 	property string dir_path: getanddostuff.getHomeDir()
 	property var folders: []
 

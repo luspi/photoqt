@@ -23,6 +23,7 @@
 #include "settings/settingssession.h"
 #include "variables.h"
 #include "shortcuts/shortcuts.h"
+#include "shortcuts/shortcutsnotifier.h"
 #include "tooltip/tooltip.h"
 
 class MainWindow : public QQuickView {
