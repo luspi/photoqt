@@ -14,7 +14,7 @@ class ShortcutsNotifier : public QObject {
 public:
 	explicit ShortcutsNotifier(QObject *parent = 0) : QObject(parent) {
 		hiddenareas.clear();
-		file.setFileName(QDir::homePath()+ "/.photoqt/shortcutsstates");
+		file.setFileName(QDir::homePath()+ "/.photoqt/shortcutsnotifier");
 		if(file.exists()) {
 			if(file.open(QIODevice::ReadOnly)){
 				QTextStream in(&file);
@@ -31,7 +31,7 @@ public:
 		return !hiddenareas.contains(area);
 	}
 	Q_INVOKABLE void setHidden(QString area) {
-		if(file.open(QIODevice::WriteOnly)) {
+		if(file.open(QIODevice::WriteOnly | QIODevice::Append)) {
 			QTextStream out(&file);
 			out << (area+"\n");
 			file.close();

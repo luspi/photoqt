@@ -194,11 +194,8 @@ Rectangle {
 		}
 		onStopped: {
 			edit_rect.enabled = true
-			if(sh_notifier.isShown("openfile")) {
-				openshortcuts.show()
-				openshortcuts.forceActiveFocus()
-			} else
-				edit_rect.focusOnInput()
+			openshortcuts.display()
+			openshortcuts.forceActiveFocus()
 		}
 	}
 
@@ -229,7 +226,7 @@ Rectangle {
 	function hide() {
 
 		if(openshortcuts.visible)
-			openshortcuts.accept()
+			openshortcuts.reject()
 		else
 			hideOpenAni.start();
 

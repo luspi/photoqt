@@ -13,8 +13,8 @@ CustomConfirm {
 	property var shortcuts: ({})
 	property string area: ""
 
-	actAsErrorMessage: true
-	rejectbuttontext: "Got it!"
+	actAsInfoMessage: true
+	confirmbuttontext: "Got it!"
 	showDontAskAgain: true
 	customisedDontAskAgainMessage: "Don't show again"
 	dontAskAgainChecked: true
@@ -36,7 +36,15 @@ CustomConfirm {
 			accept()
 
 	onAccepted: storeState()
-	onRejected: storeState()
+	onRejected: closed()
+
+	function display() {
+
+		if(sh_notifier.isShown(area))
+			show()
+		else
+			closed()
+	}
 
 	function storeState() {
 

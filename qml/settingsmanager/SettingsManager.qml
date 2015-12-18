@@ -324,6 +324,19 @@ Rectangle {
 		onRejected: gotoTab(4)
 	}
 
+	ShortcutNotifier {
+		id: settingsmanagershortcuts
+		area: "settingsmanager"
+		shortcuts: { "(Shift+)Ctrl+Tab" : "Move back and forth between tabs",
+					 "Alt+1..5" : "Switch to tab 1 to 5",
+					 "Ctrl+S" : "Save settings",
+					 "Escape" : "Discard settings"}
+
+		onClosed:
+			settings_top.forceActiveFocus()
+
+	}
+
 	function showSettings() {
 		verboseMessage("Settings::showSettings()","Showing Settings...")
 		showSettingsAni.start()
@@ -339,6 +352,8 @@ Rectangle {
 			confirmdefaultshortcuts.hide()
 		else if(confirmdefaultssettings.visible)
 			confirmdefaultssettings.hide()
+		else if(settingsmanagershortcuts.visible)
+			settingsmanagershortcuts.reject()
 		else if(!wait_amDetectingANewShortcut)
 			hideSettingsAni.start()
 	}
@@ -368,6 +383,7 @@ Rectangle {
 			blocked = true
 			setData()	// We DO need to call setData() here, as otherwise - once set up - a tab would not be updated (e.g. with changes from quicksettings)
 		}
+		onStopped: settingsmanagershortcuts.display()
 	}
 
 
