@@ -6,7 +6,7 @@ Rectangle {
 
 	id: top
 
-	color: "#44000000"
+	color: !folders.activeFocus ? "#44000055" : "#44000000"
 
 	property var files: []
 	property string dir_path: getanddostuff.getHomeDir()
@@ -15,6 +15,9 @@ Rectangle {
 
 	property int previous_width: 0
 	property string previous_mode: ""
+
+	border.color: !folders.activeFocus ? "#55ccdd" : "transparent"
+	border.width: 1
 
 	Rectangle {
 
@@ -89,7 +92,7 @@ Rectangle {
 			else
 				return
 
-			if(type_preview == "none" || files[2*currentIndex] === "")
+			if(currentIndex == -1 || type_preview == "none" || files[2*currentIndex] === "")
 				preview.source = ""
 			else {
 				if(previous_width != top.width || tweaks.getMode() !== previous_mode)
@@ -131,7 +134,7 @@ Rectangle {
 			else
 				return
 
-			if(type_preview == "none" || files[2*currentIndex] === "")
+			if(currentIndex == -1 || type_preview == "none" || files[2*currentIndex] === "")
 				preview.source = ""
 			else {
 				if(previous_width != top.width || tweaks.getMode() !== previous_mode)
@@ -305,6 +308,7 @@ Rectangle {
 
 	function loadDirectory(path) {
 
+
 		listviewmodel.clear()
 		gridviewmodel.clear()
 		files = getanddostuff.getFilesWithSizeIn(path)
@@ -377,8 +381,12 @@ Rectangle {
 	function moveFocusFiveDown() {
 		if(listview.opacity == 1 && listview.currentIndex+5 < listview.count)
 			listview.currentIndex += 5
+		else if(listview.opacity == 1 && listview.count > 0)
+			listview.currentIndex = listview.count-1
 		else if(gridview.opacity == 1 && gridview.currentIndex+5 < gridview.count)
 			gridview.currentIndex += 5
+		else if(gridview.opacity == 1 && gridview.count > 0)
+			gridview.currentIndex = gridview.count-1
 		edit_rect.setEditText(getanddostuff.removePathFromFilename(preview.source, true))
 		edit_rect.focusOnInput()
 	}
@@ -386,8 +394,12 @@ Rectangle {
 	function moveFocusFiveUp() {
 		if(listview.opacity == 1 && listview.currentIndex > 4)
 			listview.currentIndex -= 5
+		else if(listview.opacity == 1 && listview.count > 0)
+			listview.currentIndex = 0
 		else if(gridview.opacity == 1 && gridview.currentIndex > 4)
 			gridview.currentIndex -= 5
+		else if(gridview.opacity == 1 && gridview.count > 0)
+			gridview.currentIndex = 0
 		edit_rect.setEditText(getanddostuff.removePathFromFilename(preview.source, true))
 		edit_rect.focusOnInput()
 	}

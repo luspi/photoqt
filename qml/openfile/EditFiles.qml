@@ -18,6 +18,9 @@ Rectangle {
 	signal focusOnFirstItem()
 	signal focusOnLastItem()
 	signal focusOnFolderView()
+	signal moveOneLevelUp()
+
+	property bool inCurrentFocus: filename_edit.activeFocus
 
 	CustomLineEdit {
 
@@ -42,6 +45,7 @@ Rectangle {
 
 		onAltLeft: focusOnFolderView()
 		onAltRight: focusOnFolderView()
+		onAltUp: moveOneLevelUp()
 
 	}
 

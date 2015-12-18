@@ -8,8 +8,11 @@ Rectangle {
 
 	Layout.minimumWidth: 200
 	width: settings.openFoldersWidth
-	color: "#44000000"
+	color: activeFocus ? "#44000055" : "#44000000"
 	clip: true
+
+	border.color: activeFocus ? "#55ccdd" : "transparent"
+	border.width: 1
 
 	property string dir_path: getanddostuff.getHomeDir()
 	property var folders: []
@@ -73,20 +76,24 @@ Rectangle {
 			if(event.modifiers & Qt.AltModifier)
 				focusOnFilesView()
 
-		} else if(event.key === Qt.Key_Up)
-			focusOnPrevItem()
-		else if(event.key === Qt.Key_Down)
-			focusOnNextItem()
-		else if(event.key === Qt.Key_Enter || event.key === Qt.Key_Return)
+		} else if(event.key === Qt.Key_Up) {
+			if(event.modifiers & Qt.ControlModifier)
+				focusOnFirstItem()
+			else if(event.modifiers & Qt.AltModifier)
+				moveOneLevelUp()
+			else
+				focusOnPrevItem()
+		} else if(event.key === Qt.Key_Down) {
+			if(event.modifiers & Qt.ControlModifier)
+				focusOnLastItem()
+			else
+				focusOnNextItem()
+		} else if(event.key === Qt.Key_Enter || event.key === Qt.Key_Return)
 			loadCurrentlyHighlightedFolder()
 		else if(event.key === Qt.Key_PageDown)
 			moveFocusFiveDown()
 		else if(event.key === Qt.Key_PageUp)
 			moveFocusFiveUp()
-		else if(event.key === Qt.Key_Home)
-			focusOnFirstItem()
-		else if(event.key === Qt.Key_End)
-			focusOnLastItem()
 
 	}
 
@@ -118,11 +125,15 @@ Rectangle {
 	function moveFocusFiveDown() {
 		if(folderlistview.currentIndex+5 < folderlistview.count)
 			folderlistview.currentIndex += 5
+		else
+			folderlistview.currentIndex = folderlistview.count-1
 	}
 
 	function moveFocusFiveUp() {
 		if(folderlistview.currentIndex > 4)
 			folderlistview.currentIndex -= 5
+		else
+			folderlistview.currentIndex  = 0
 	}
 
 	function focusOnLastItem() {
@@ -133,6 +144,22 @@ Rectangle {
 	function focusOnFirstItem() {
 		if(folderlistview.count > 0)
 			folderlistview.currentIndex = 0
+	}
+
+	function moveOneLevelUp() {
+
+		var parts = dir_path.split("/")
+
+		var moveup = 0
+		for(var i = 0; i < parts.length; ++i) {
+			if(parts[i] === "..")
+				--moveup
+			else
+				++moveup
+		}
+
+		if(moveup > 1)
+			loadCurrentDirectory(dir_path + "/..")
 	}
 
 }

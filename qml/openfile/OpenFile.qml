@@ -117,7 +117,8 @@ Rectangle {
 					filesview.focusOnFirstItem()
 				onFocusOnLastItem:
 					filesview.focusOnLastItem()
-
+				onMoveOneLevelUp:
+					folders.moveOneLevelUp()
 				onFocusOnFolderView:
 					folders.forceActiveFocus()
 			}
@@ -178,7 +179,8 @@ Rectangle {
 				tweaks.displayList()
 			else if(settings.openDefaultView === "icons")
 				tweaks.displayIcons()
-			edit_rect.setEditText(getanddostuff.removePathFromFilename(thumbnailBar.currentFile))
+			if(thumbnailBar.currentFile != "")
+				edit_rect.setEditText(getanddostuff.removePathFromFilename(thumbnailBar.currentFile))
 			edit_rect.focusOnInput()
 		}
 		onStopped:
@@ -195,9 +197,13 @@ Rectangle {
 
 	function loadCurrentDirectory(path) {
 
+		setOverrideCursor()
+
 		breadcrumbs.loadDirectory(path)
 		folders.loadDirectory(path)
 		filesview.loadDirectory(path)
+
+		restoreOverrideCursor()
 
 	}
 

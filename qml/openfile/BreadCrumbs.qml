@@ -131,6 +131,9 @@ Rectangle {
 			}
 		}
 
+		if(crumbsmodel.count == 0)
+			crumbsmodel.append({"type" : "separator", "location" : "/", "partialpath" : "/"})
+
 		crumbsview.positionViewAtEnd()
 
 	}
