@@ -30,6 +30,115 @@ Rectangle {
 		keysReleased = false
 	}
 
+									 //: Refers to a keyboard modifier
+	property var key_translations: { "Alt" : str_keys.alt,
+									 //: Refers to a keyboard modifier
+									 "Ctrl" : str_keys.ctrl,
+									 //: Refers to a keyboard modifier
+									 "Shift" : str_keys.shift,
+									 //: Refers to a keyboard special key
+									 "Page Up" : str_keys.pageUp,
+									 //: Refers to a keyboard special key
+									 "Page Down" : str_keys.pageDown,
+									 //: Refers to a keyboard special key
+									 "Meta" : str_keys.meta,
+									 //: Refers to a keyboard special key
+									 "Keypad" : str_keys.keypad,
+									 //: Refers to a keyboard special key
+									 "Escape" : str_keys.esc,
+									 //: Refers to a keyboard arrow key
+									 "Right" : str_keys.arrow_right,
+									 //: Refers to a keyboard arrow key
+									 "Left" : str_keys.arrow_left,
+									 //: Refers to a keyboard arrow key
+									 "Up" : str_keys.arrow_up,
+									 //: Refers to a keyboard arrow key
+									 "Down" : str_keys.arrow_down,
+									 //: Refers to a keyboard special key
+									 "Space" : str_keys.space,
+									 //: Refers to a keyboard special key
+									 "Delete" : str_keys.del,
+									 //: Refers to a keyboard special key
+									 "Home" : str_keys.home,
+									 //: Refers to a keyboard special key
+									 "End" : str_keys.end,
+									 //: Refers to a keyboard special key
+									 "Insert" : str_keys.insert,
+									 //: Refers to a keyboard special key
+									 "Tab" : str_keys.tab,
+									 //: Refers to a keyboard special key
+									 "Return" : str_keys.ret,
+									 //: Refers to a keyboard special key
+									 "Enter" : str_keys.enter,
+									 //: Refers to a mouse button
+									 "Left Button" : str_mouse.leftButton,
+									 //: Refers to a mouse button
+									 "Right Button" : str_mouse.rightButton,
+									 //: Refers to a mouse button
+									 "Middle Button" : str_mouse.middleButton,
+									 //: Refers to a mouse wheel event
+									 "Wheel Up" : str_mouse.wheelUp,
+									 //: Refers to a mouse wheel event
+									 "Wheel Down" : str_mouse.wheelDown}
+	function getKeyTranslation(key) {
+
+		if(key.indexOf("+") !== -1) {
+
+			var parts = key.split("+")
+			var ret = ""
+			for(var ele in parts) {
+				var cur = parts[ele]
+				if(ret != "") ret += "+"
+				if(cur in key_translations)
+					ret += key_translations[cur]
+				else
+					ret += cur
+			}
+
+			return ret
+
+		} else {
+			if(key in key_translations)
+				return key_translations[key]
+			return key
+		}
+	}
+
+	function getOriginalKeyText(trans) {
+
+		if(trans.indexOf("+") !== -1) {
+
+			var parts = trans.split("+")
+			var ret = ""
+			for(var ele in parts) {
+				var cur = parts[ele]
+				if(ret != "") ret += "+"
+				var foundThisOne = ""
+				for(var t in key_translations) {
+					if(cur === key_translations[t])
+						foundThisOne = t;
+				}
+				ret += foundThisOne
+				if(foundThisOne == "")
+					ret += cur
+
+			}
+
+			return ret
+
+		} else {
+
+			for(var ele in key_translations){
+				if(key_translations[ele] === trans)
+					return ele
+			}
+			return trans
+
+		}
+
+	}
+
+
 	// If this is true, then all key presses are passed on to sub elements and doesn't trigger any shortcuts
 	property bool amDetectingANewShortcut: false
 

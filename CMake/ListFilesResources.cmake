@@ -7,6 +7,7 @@ SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${d}/openfile.qrc)
 SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${d}/other.qrc)
 SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${d}/settingsmanager.qrc)
 SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${d}/slidein.qrc)
+SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${d}/globalstrings.qrc)
 
 # Add language resource file
 SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${CMAKE_CURRENT_BINARY_DIR}/lang.qrc)

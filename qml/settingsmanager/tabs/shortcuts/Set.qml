@@ -171,12 +171,12 @@ Rectangle {
 							anchors.fill: parent
 							color: ele.error_doubleShortcut ? colour.shortcut_double_error : colour.text
 							font.bold: ele.error_doubleShortcut
-							text: store
+							text: getKeyTranslation(store)
 
 							// We update the array with the new data
 							onTextChanged: {
 								if(!ele.error_doubleShortcut)
-									shortcuts[index][1] = text
+									shortcuts[index][1] = getOriginalKeyText(text)
 							}
 
 						}
@@ -196,12 +196,12 @@ Rectangle {
 								transparentBackground: true
 								anchors.left: parent.left
 								displayAsError: ele.error_doubleShortcut
-								model: ["----", "Ctrl", "Alt", "Shift", "Ctrl+Alt", "Ctrl+Shift", "Alt+Shift", "Ctrl+Alt+Shift"]
+								model: ["----", getKeyTranslation("Ctrl"), getKeyTranslation("Alt"), getKeyTranslation("Shift"), getKeyTranslation("Ctrl+Alt"), getKeyTranslation("Ctrl+Shift"), getKeyTranslation("Alt+Shift"), getKeyTranslation("Ctrl+Alt+Shift")]
 								onPressedChanged: if(pressed) triggerDetection()
 								Component.onCompleted: {
 									if(shortcuts[index][4] === "mouse") {
 										for(var i = count-1; i >= 0; --i) {
-											var txt = textAt(i)
+											var txt = getOriginalKeyText(textAt(i))
 											if(shortcuts[index][1].slice(0,txt.length) === txt) {
 												currentIndex = i
 												break;
@@ -222,12 +222,12 @@ Rectangle {
 								anchors.left: mods.right
 								anchors.leftMargin: 5
 								displayAsError: ele.error_doubleShortcut
-								model: ["Left Button", "Right Button", "Middle Button", "Wheel Up", "Wheel Down"]
+								model: [getKeyTranslation("Left Button"), getKeyTranslation("Right Button"), getKeyTranslation("Middle Button"), getKeyTranslation("Wheel Up"), getKeyTranslation("Wheel Down")]
 								onPressedChanged: if(pressed) triggerDetection()
 								Component.onCompleted: {
 									if(shortcuts[index][4] === "mouse") {
 										for(var i = count-1; i >= 0; --i) {
-											var txt = textAt(i)
+											var txt = getOriginalKeyText(textAt(i))
 											var but = shortcuts[index][1].split("+")
 											but = but[but.length-1]
 											if(but === txt) {
@@ -253,8 +253,8 @@ Rectangle {
 
 										var composed = ""
 										if(mods.currentIndex != 0)
-											composed += mods.currentText + "+"
-										composed += but.currentText
+											composed += getOriginalKeyText(mods.currentText) + "+"
+										composed += getOriginalKeyText(but.currentText)
 
 										// if it was a valid shortcut, we remove it from the list
 										deleteAKeyCombo(key_combo.store)
@@ -326,7 +326,7 @@ Rectangle {
 
 						abortDetection.stop()
 						key_combo.font.italic = true
-						key_combo.text = grid.parent.currentKeyCombo
+						key_combo.text = getKeyTranslation(grid.parent.currentKeyCombo)
 
 					}
 
@@ -341,11 +341,11 @@ Rectangle {
 						abortDetection.stop()
 						key_combo.font.italic = false
 						if(key_combo.text.charAt(key_combo.text.length-1) == "+")
-							key_combo.text = key_combo.store
+							key_combo.text = getKeyTranslation(key_combo.store)
 						else {
 							// We delete->change->update the key combo for proper double detection
 							deleteAKeyCombo(key_combo.store)
-							key_combo.store = key_combo.text
+							key_combo.store = getOriginalKeyText(key_combo.text)
 							addAKeyCombo(key_combo.store)
 						}
 
@@ -358,7 +358,7 @@ Rectangle {
 					if(!key_combo.ignoreAllCombos) {
 
 						key_combo.ignoreAllCombos = true
-						key_combo.text = key_combo.store
+						key_combo.text = getKeyTranslation(key_combo.store)
 
 					}
 
@@ -370,7 +370,7 @@ Rectangle {
 					if(!key_combo.ignoreAllCombos) {
 
 						key_combo.ignoreAllCombos = true
-						key_combo.text = key_combo.store
+						key_combo.text = getKeyTranslation(key_combo.store)
 						key_combo.font.italic = false
 
 					}
@@ -414,7 +414,7 @@ Rectangle {
 
 				if(shortcuts[index][4] === "key") {
 					grid.parent.cancelAllOtherDetection()
-					key_combo.text = "... Press keys ..."
+					key_combo.text = "... " + qsTr("Press keys") + " ..."
 					key_combo.font.italic = true
 					key_combo.ignoreAllCombos = false
 					key_combo.forceActiveFocus()

@@ -49,3 +49,6 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/FileTypesQt.qml ${d}/FileTypesTile.q
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/FileTypesExtras.qml ${d}/FileTypesUntested.qml)
 SET(d "qml/settingsmanager/tabs/shortcuts")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Available.qml ${d}/Set.qml ${d}/ShortcutsContainer.qml)
+
+SET(d "qml/globalstrings")
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Keys.qml ${d}/Mouse.qml)

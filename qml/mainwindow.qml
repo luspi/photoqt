@@ -16,6 +16,8 @@ import "fadein/"
 import "settingsmanager/"
 import "openfile/"
 
+import "globalstrings/" as Strings
+
 Item {
 
 	id: toplevel
@@ -149,6 +151,9 @@ Item {
 			setTextColor(colour.tooltip_text)
 		}
 	}
+
+	Strings.Keys { id: str_keys }
+	Strings.Mouse { id: str_mouse }
 
 	// We don't show them at startup right away, as that can lead to small graphical glitches
 	// This way, we simply avoid that altogether
