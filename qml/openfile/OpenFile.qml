@@ -189,11 +189,14 @@ Rectangle {
 				tweaks.displayList()
 			else if(settings.openDefaultView === "icons")
 				tweaks.displayIcons()
-			if(thumbnailBar.currentFile != "")
+			if(thumbnailBar.currentFile != "") {
 				edit_rect.setEditText(getanddostuff.removePathFromFilename(thumbnailBar.currentFile))
+				loadCurrentDirectory(getanddostuff.removeFilenameFromPath(thumbnailBar.currentFile))
+			}
 		}
 		onStopped: {
 			edit_rect.enabled = true
+			filesview.focusOnFile(getanddostuff.removePathFromFilename(thumbnailBar.currentFile))
 			openshortcuts.forceActiveFocus()
 			openshortcuts.display()
 		}
