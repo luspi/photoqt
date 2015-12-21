@@ -210,13 +210,6 @@ Rectangle {
 	ShortcutNotifier {
 		id: openshortcuts
 		area: "openfile"
-		shortcuts: { "Alt+Left/Right" : "Move focus between Places/Folders/Fileview",
-					 "Up/Down" : "Go up/down an entry",
-					 "Page Up/Down" : "Move 5 entries up/down",
-					 "Ctrl+Up/Down" : "Move to the first/last entry",
-					 "Alt+Up" : "Go one folder level up",
-					 "Enter/Return" : "Load the currently highlighted item",
-					 "Escape" : "Cancel" }
 
 		onClosed: {
 			edit_rect.focusOnInput()
@@ -226,6 +219,17 @@ Rectangle {
 
 
 	Component.onCompleted: {
+
+		// We needto do that here, as it seems to be not possible to compose a string in the dict definition
+		// (i.e., when defining the property, inside the {})
+		openshortcuts.shortcuts[str_keys.alt + " + " + str_keys.arrow_left + "/" + str_keys.arrow_right] = qsTr("Move focus between Places/Folders/Fileview")
+		openshortcuts.shortcuts[str_keys.arrow_up + "/" + str_keys.arrow_down] = qsTr("Go up/down an entry")
+		openshortcuts.shortcuts[str_keys.pageUp + "/" +str_keys.pageDown] = qsTr("Move 5 entries up/down")
+		openshortcuts.shortcuts[str_keys.ctrl + " + " + str_keys.arrow_up + "/" + str_keys.arrow_down] = qsTr("Move to the first/last entry")
+		openshortcuts.shortcuts[str_keys.alt + " + " + str_keys.arrow_up] = qsTr("Go one folder level up")
+		openshortcuts.shortcuts[str_keys.enter + "/" + str_keys.ret] = qsTr("Load the currently highlighted item")
+		openshortcuts.shortcuts[str_keys.esc] = "Cancel"
+
 		userplaces.loadUserPlaces()
 		loadCurrentDirectory(dir_path)
 	}

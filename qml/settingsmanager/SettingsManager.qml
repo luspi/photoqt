@@ -42,10 +42,6 @@ Rectangle {
 		hoverEnabled: true
 	}
 
-	Component.onCompleted: {
-		settingssession.setValue("settings_titlewidth",100)
-	}
-
 	// Don't close settings manager while a new key combo is being detected
 	property bool wait_amDetectingANewShortcut: false
 
@@ -327,14 +323,21 @@ Rectangle {
 	ShortcutNotifier {
 		id: settingsmanagershortcuts
 		area: "settingsmanager"
-		shortcuts: { "(Shift+)Ctrl+Tab" : "Move back and forth between tabs",
-					 "Alt+1..5" : "Switch to tab 1 to 5",
-					 "Ctrl+S" : "Save settings",
-					 "Escape" : "Discard settings"}
 
 		onClosed:
 			settings_top.forceActiveFocus()
 
+	}
+
+	Component.onCompleted: {
+
+		settingsmanagershortcuts.shortcuts[str_keys.ctrl + " + " + str_keys.tab] = qsTr("Go to the next tab")
+		settingsmanagershortcuts.shortcuts[str_keys.ctrl + " + " + str_keys.shift + " + " + str_keys.tab] = qsTr("Go to the previous tab")
+		settingsmanagershortcuts.shortcuts[str_keys.alt + "+1 " + qsTr("to") + " " + str_keys.alt + "+5"] = qsTr("Switch to tab 1 to 5")
+		settingsmanagershortcuts.shortcuts[str_keys.ctrl + "+S"] = qsTr("Save settings")
+		settingsmanagershortcuts.shortcuts[str_keys.esc] = qsTr("Discard settings")
+
+		settingssession.setValue("settings_titlewidth",100)
 	}
 
 	function showSettings() {
