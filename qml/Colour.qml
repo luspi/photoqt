@@ -18,7 +18,7 @@ Item {
 	readonly property string disabled: "#66707070"
 
 	// Fade-in/Slide-in elements colouring
-	readonly property string fadein_slidein_bg: "#DD000000"
+	readonly property string fadein_slidein_bg: "#dd000000"
 	readonly property string fadein_slidein_block_bg: "#88000000"
 	readonly property string fadein_slidein_border: "#55bbbbbb"
 
@@ -27,7 +27,7 @@ Item {
 
 	// Thumbnail elements colouring
 	readonly property string thumbnails_bg: "#88000000"
-	readonly property string thumbnails_border: "#BB000000"
+	readonly property string thumbnails_border: "#bb000000"
 	readonly property string thumbnails_filename_bg: "#88000000"
 
 	// Tiles in settings
@@ -49,10 +49,9 @@ Item {
 
 	// Rightclick menus (NOT including main Contextmenu!!)
 	readonly property string menu_frame: "#0f0f0f"
-	readonly property string menu_bg: "#0F0F0F"
+	readonly property string menu_bg: "#0f0f0f"
 	readonly property string menu_bg_highlight: "#4f4f4f"
 	readonly property string menu_text: "#ffffff"
-	readonly property string menu_text_highlight: ""
 
 	// Contextmenu (on main view)
 	readonly property string contextmenu_text_active: "#ffffff"
@@ -96,7 +95,7 @@ Item {
 	// CustomRadioButton and CustomCheckBox
 	readonly property string radio_check_indicator_color: "#ffffff"
 	readonly property string radio_check_indicator_color_disabled: "#88555555"
-	readonly property string radio_check_indicator_bg_color: "#22FFFFFF"
+	readonly property string radio_check_indicator_bg_color: "#22ffffff"
 	readonly property string radio_check_indicator_bg_color_disabled: "#11808080"
 
 	// CustomComboBox
@@ -108,9 +107,9 @@ Item {
 	readonly property string combo_dropdown_background_highlight: "#ffffff"
 
 	// CustomButton
-	readonly property string button_bg: "#22DDDDDD"
-	readonly property string button_bg_hovered: "#44DDDDDD"
-	readonly property string button_bg_pressed: "#66DDDDDD"
+	readonly property string button_bg: "#22dddddd"
+	readonly property string button_bg_hovered: "#44dddddd"
+	readonly property string button_bg_pressed: "#66dddddd"
 	readonly property string button_bg_disabled: "#05777777"
 	readonly property string button_text: "#aacccccc"
 	readonly property string button_text_active: "#aacccccc"
