@@ -25,6 +25,8 @@ Rectangle {
 
 	property string type_preview: tweaks.getMode()
 
+	property string currentlyLoadedDir: ""
+
 
 	// Bread crumb navigation
 	BreadCrumbs {
@@ -189,9 +191,11 @@ Rectangle {
 				tweaks.displayList()
 			else if(settings.openDefaultView === "icons")
 				tweaks.displayIcons()
-			if(thumbnailBar.currentFile != "") {
+			if(thumbnailBar.currentFile !== "") {
 				edit_rect.setEditText(getanddostuff.removePathFromFilename(thumbnailBar.currentFile))
-				loadCurrentDirectory(getanddostuff.removeFilenameFromPath(thumbnailBar.currentFile))
+				var path = getanddostuff.removeFilenameFromPath(thumbnailBar.currentFile)
+				if(path !== currentlyLoadedDir)
+					loadCurrentDirectory(path)
 			}
 		}
 		onStopped: {
@@ -240,6 +244,8 @@ Rectangle {
 	function loadCurrentDirectory(path) {
 
 		setOverrideCursor()
+
+		currentlyLoadedDir = path
 
 		breadcrumbs.loadDirectory(path)
 		folders.loadDirectory(path)
