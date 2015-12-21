@@ -69,14 +69,19 @@ QPoint GetAndDoStuffOther::getGlobalCursorPos() {
 
 QColor GetAndDoStuffOther::addAlphaToColor(QString col, int alpha) {
 
-	col = col.remove(0,1);
+	if(col.length() == 7) {
 
-	bool ok;
-	int red = (QString(col.at(0)) + QString(col.at(1))).toUInt(&ok,16);
-	int green = (QString(col.at(2)) + QString(col.at(3))).toUInt(&ok,16);
-	int blue = (QString(col.at(4)) + QString(col.at(5))).toUInt(&ok,16);
+		col = col.remove(0,1);
 
-	return QColor(red, green, blue, alpha);
+		bool ok;
+		int red = (QString(col.at(0)) + QString(col.at(1))).toUInt(&ok,16);
+		int green = (QString(col.at(2)) + QString(col.at(3))).toUInt(&ok,16);
+		int blue = (QString(col.at(4)) + QString(col.at(5))).toUInt(&ok,16);
+
+		return QColor(red, green, blue, alpha);
+
+	} else
+		return QColor(col);
 
 }
 
