@@ -10,6 +10,7 @@ RadioButton {
 	property string indicatorColourEnabled: colour.radio_check_indicator_color
 	property string indicatorBackgroundColourEnabled: colour.radio_check_indicator_bg_color
 	property int fontsize: 10
+	property string textColour: colour.text
 
 	style: RadioButtonStyle {
 		indicator: Rectangle {
@@ -43,7 +44,7 @@ RadioButton {
 				id: txt
 				x: (icon != "") ? 1.8*fontsize : 0
 				y: 0
-				color: control.enabled ? colour.text : colour.disabled
+				color: textColour
 				Behavior on color { ColorAnimation { duration: 150; } }
 				height: 1.6*fontsize
 				font.pointSize: fontsize

@@ -184,7 +184,7 @@ Rectangle {
 
 								width: rect.width*0.75
 								x: (rect.width-width)/2
-								color: colour.warning
+								color: colour.text_warning
 								font.bold: true
 								font.pointSize: 10
 								wrapMode: Text.WordWrap
@@ -211,7 +211,7 @@ Rectangle {
 
 								width: rect.width*0.75
 								x: (rect.width-width)/2
-								color: colour.warning
+								color: colour.text_warning
 								font.bold: true
 								font.pointSize: 10
 								wrapMode: Text.WordWrap
@@ -242,7 +242,7 @@ Rectangle {
 								Text {
 									id: gnome_unity_error
 									visible: false
-									color: colour.warning
+									color: colour.text_warning
 									font.pointSize: 10
 									width: rect.width
 									wrapMode: Text.WordWrap
@@ -329,7 +329,7 @@ Rectangle {
 								Text {
 									id: xfce4_error
 									visible: false
-									color: colour.warning
+									color: colour.text_warning
 									font.pointSize: 10
 									width: rect.width
 									wrapMode: Text.WordWrap
@@ -475,7 +475,7 @@ Rectangle {
 								Text {
 									id: enlightenment_error_msgbus
 									visible: false
-									color: colour.warning
+									color: colour.text_warning
 									font.pointSize: 10
 									width: rect.width
 									wrapMode: Text.WordWrap
@@ -486,7 +486,7 @@ Rectangle {
 								Text {
 									id: enlightenment_error_exitence
 									visible: false
-									color: colour.warning
+									color: colour.text_warning
 									font.pointSize: 10
 									width: rect.width
 									wrapMode: Text.WordWrap
@@ -628,7 +628,7 @@ Rectangle {
 								Text {
 									id: other_error_feh
 									visible: false
-									color: colour.warning
+									color: colour.text_warning
 									font.pointSize: 10
 									width: rect.width
 									wrapMode: Text.WordWrap
@@ -639,7 +639,7 @@ Rectangle {
 								Text {
 									id: other_error_nitrogen
 									visible: false
-									color: colour.warning
+									color: colour.text_warning
 									font.pointSize: 10
 									width: rect.width
 									wrapMode: Text.WordWrap
@@ -650,7 +650,7 @@ Rectangle {
 								Text {
 									id: other_error_feh_nitrogen
 									visible: false
-									color: colour.warning
+									color: colour.text_warning
 									font.pointSize: 10
 									width: rect.width
 									wrapMode: Text.WordWrap

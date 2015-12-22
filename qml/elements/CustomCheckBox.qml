@@ -37,6 +37,8 @@ Item {
 		visible: !textOnRight
 
 		color: textColour
+		Behavior on color { ColorAnimation { duration: 150; } }
+
 		text: !textOnRight ? rect.text : ""
 		font.pointSize: fsize
 		elide: rect.elide
@@ -73,7 +75,7 @@ Item {
 				}
 			}
 			label: Text {
-				color: control.enabled ? colour.text : colour.disabled
+				color: textColour
 				Behavior on color { ColorAnimation { duration: 150; } }
 				visible: textOnRight
 				elide: rect.elide

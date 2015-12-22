@@ -21,7 +21,7 @@ ComboBox {
 			font.pointSize: fontsize
 			text: control.currentText
 			font.bold: displayAsError
-			color: displayAsError ? colour.warning : colour.text
+			color: displayAsError ? colour.text_warning : colour.text
 		}
 
 		// Undocumented and unofficial way to style dropdown menu

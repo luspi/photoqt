@@ -3,7 +3,7 @@
 #####################
 
 SET(d "qml")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/mainwindow.qml ${d}/Shortcuts.qml ${d}/Colour.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/mainwindow.qml ${d}/Shortcuts.qml)
 
 SET(d "qml/slidein")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/ThumbnailBar.qml ${d}/MetaData.qml ${d}/MainMenu.qml ${d}/SlideshowBar.qml)

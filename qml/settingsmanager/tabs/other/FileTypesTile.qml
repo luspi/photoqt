@@ -32,6 +32,9 @@ Rectangle {
 		fixedwidth: parent.width-2*x
 		elide: Text.ElideRight
 		text: parent.fileType
+		textColour: (hovered || checked) ? colour.tiles_text_active : colour.tiles_text_inactive
+		indicatorColourEnabled: colour.tiles_indicator_col
+		indicatorBackgroundColourEnabled: colour.tiles_indicator_bg
 		fsize: 9
 		checkedButton: parent.checked
 	}

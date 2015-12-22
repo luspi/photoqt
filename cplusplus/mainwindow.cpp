@@ -29,6 +29,7 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 	qmlRegisterType<ThumbnailManagement>("ThumbnailManagement", 1, 0, "ThumbnailManagement");
 	qmlRegisterType<ToolTip>("ToolTip", 1, 0, "ToolTip");
 	qmlRegisterType<ShortcutsNotifier>("ShortcutsNotifier", 1, 0, "ShortcutsNotifier");
+	qmlRegisterType<Colour>("Colour", 1, 0, "Colour");
 
 	// Load QML
 	this->setSource(QUrl("qrc:/qml/mainwindow.qml"));

@@ -49,7 +49,7 @@ Rectangle {
 				text: qsTr("Music Volume:")
 				font.pointSize: 10
 				y: (volumerect.height-height)/2
-				color: settings.slideShowMusicFile == "" ? colour.disabled : colour.text
+				color: settings.slideShowMusicFile == "" ? colour.text_disabled : colour.text
 			}
 			CustomSlider {
 				id: volumeslider
@@ -65,7 +65,7 @@ Rectangle {
 				text: "" + volumeslider.value + "%"
 				font.pointSize: 10
 				y: (volumerect.height-height)/2
-				color: settings.slideShowMusicFile == "" ? colour.disabled : colour.text
+				color: settings.slideShowMusicFile == "" ? colour.text_disabled : colour.text
 			}
 		}
 	}

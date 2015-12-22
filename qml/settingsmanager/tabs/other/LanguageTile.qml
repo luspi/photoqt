@@ -43,6 +43,7 @@ Rectangle {
 		indicatorBackgroundColourEnabled: colour.tiles_indicator_bg
 
 		text: rect.text
+		textColour: (hovered || checked) ? colour.tiles_text_active : colour.tiles_text_inactive
 
 		onCheckedChanged: parent.checked = checked
 

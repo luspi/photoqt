@@ -114,7 +114,7 @@ Rectangle {
 
 				Text {
 					id: gm
-					color: getanddostuff.isGraphicsMagickSupportEnabled() ? colour.text : colour.disabled
+					color: getanddostuff.isGraphicsMagickSupportEnabled() ? colour.text : colour.text_disabled
 					font.pointSize: 10
 					wrapMode: Text.WordWrap
 					x: fileformats_img.width+25
@@ -126,7 +126,7 @@ Rectangle {
 				Text {
 					id: gmunavailable
 					visible: !getanddostuff.isGraphicsMagickSupportEnabled()
-					color: colour.warning
+					color: colour.text_warning
 					wrapMode: Text.WordWrap
 					x: fileformats_img.width+25
 					y: gm.y+gm.height+10
@@ -253,7 +253,7 @@ Rectangle {
 
 				Text {
 					id: exiv
-					color: getanddostuff.isExivSupportEnabled() ? colour.text : colour.disabled
+					color: getanddostuff.isExivSupportEnabled() ? colour.text : colour.text_disabled
 					font.pointSize: 10
 					wrapMode: Text.WordWrap
 					x: exif_img.width+25
@@ -265,7 +265,7 @@ Rectangle {
 				Text {
 					id: exivunavailable
 					visible: !getanddostuff.isExivSupportEnabled()
-					color: colour.warning
+					color: colour.text_warning
 					wrapMode: Text.WordWrap
 					x: exif_img.width+25
 					y: exiv.y+exiv.height+10

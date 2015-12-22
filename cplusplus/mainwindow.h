@@ -21,6 +21,7 @@
 #include "settings/settings.h"
 #include "settings/fileformats.h"
 #include "settings/settingssession.h"
+#include "settings/colour.h"
 #include "variables.h"
 #include "shortcuts/shortcuts.h"
 #include "shortcuts/shortcutsnotifier.h"

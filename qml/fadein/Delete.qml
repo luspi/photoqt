@@ -83,7 +83,7 @@ Rectangle {
 				Text {
 					id: filename
 					text: ""
-					color: colour.disabled
+					color: colour.text_disabled
 					font.pointSize: 10*2
 					x: (rect.width-width)/2
 				}

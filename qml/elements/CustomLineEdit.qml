@@ -121,7 +121,7 @@ Rectangle {
 	Text {
 		anchors.fill: ed1
 		visible: ed1.text==""
-		color: colour.textedit_empty_message
+		color: colour.text_inactive
 		text: parent.emptyMessage
 	}
 

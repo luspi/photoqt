@@ -66,8 +66,8 @@ Rectangle {
 			HotEdge { id: hotedge }
 			MouseWheelSensitivity { id: mousewheel; alternating: true }
 			Interpolation { id: interpolation }
-			Remember { id: remember; alternating: true }
-			Animation { id: animation }
+			Remember { id: remember }
+			Animation { id: animation; alternating: true }
 		}
 
 	}

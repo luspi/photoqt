@@ -92,14 +92,14 @@ EntryContainer {
 							spacing: 5
 							Text {
 								font.pointSize: 10
-								color: cache.checkedButton ? colour.text : colour.disabled
+								color: cache.checkedButton ? colour.text : colour.text_disabled
 								Behavior on color { ColorAnimation { duration: 150; } }
 								text: qsTr("Current database filesize:")
 							}
 							Text {
 								font.pointSize: 10
 								id: db_filesize
-								color: cache.checkedButton ? colour.text : colour.disabled
+								color: cache.checkedButton ? colour.text : colour.text_disabled
 								Behavior on color { ColorAnimation { duration: 150; } }
 								text: "0 KB"
 							}
@@ -119,14 +119,14 @@ EntryContainer {
 							spacing: 5
 							Text {
 								font.pointSize: 10
-								color: cache.checkedButton ? colour.text : colour.disabled
+								color: cache.checkedButton ? colour.text : colour.text_disabled
 								Behavior on color { ColorAnimation { duration: 150; } }
 								text: qsTr("Entries in database:")
 							}
 							Text {
 								font.pointSize: 10
 								id: db_entries
-								color: cache.checkedButton ? colour.text : colour.disabled
+								color: cache.checkedButton ? colour.text : colour.text_disabled
 								Behavior on color { ColorAnimation { duration: 150; } }
 								text: "0"
 							}

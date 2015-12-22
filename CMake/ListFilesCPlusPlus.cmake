@@ -22,7 +22,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/context.cpp ${d}/external.cpp ${d}/m
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/shortcuts.cpp ${d}/wallpaper.cpp ${d}/openfile.cpp)
 
 SET(d "cplusplus/settings")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/settings.h ${d}/settingssession.h ${d}/fileformats.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/settings.h ${d}/settingssession.h ${d}/fileformats.h ${d}/colour.h)
 
 SET(d "cplusplus/singleinstance")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/singleinstance.cpp)
@@ -55,7 +55,7 @@ SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/openfile.h ${d}/context.h ${d}/exter
 SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/shortcuts.h ${d}/wallpaper.h)
 
 SET(d "cplusplus/settings")
-SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/settings.h ${d}/settingssession.h ${d}/fileformats.h)
+SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/settings.h ${d}/settingssession.h ${d}/fileformats.h ${d}/colour.h)
 
 SET(d "cplusplus/singleinstance")
 SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/singleinstance.h)

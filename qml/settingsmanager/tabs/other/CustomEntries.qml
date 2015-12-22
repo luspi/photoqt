@@ -46,7 +46,7 @@ EntryContainer {
 
 						id: headContext
 
-						color: colour.context_header_bg
+						color: colour.tiles_active
 
 						width: parent.width-10
 						height: 30
@@ -63,7 +63,7 @@ EntryContainer {
 
 							font.bold: true
 							font.pointSize: 10
-							color: colour.context_header_text
+							color: colour.tiles_text_active
 							verticalAlignment: Qt.AlignVCenter
 							horizontalAlignment: Qt.AlignHCenter
 
@@ -79,7 +79,7 @@ EntryContainer {
 
 							font.bold: true
 							font.pointSize: 10
-							color: colour.context_header_text
+							color: colour.tiles_text_active
 							verticalAlignment: Qt.AlignVCenter
 							horizontalAlignment: Qt.AlignHCenter
 

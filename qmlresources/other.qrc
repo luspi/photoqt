@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>../qml/mainwindow.qml</file>
-        <file>../qml/Shortcuts.qml</file>
-        <file>../qml/Colour.qml</file>
+		<file>../qml/Shortcuts.qml</file>
     </qresource>
 </RCC>

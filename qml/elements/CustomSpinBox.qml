@@ -14,7 +14,7 @@ SpinBox {
 			Behavior on border.color { ColorAnimation { duration: 150; } }
 			radius: global_item_radius
 		}
-		textColor: control.enabled ? colour.text : colour.disabled
+		textColor: control.enabled ? colour.text : colour.text_disabled
 		Behavior on textColor { ColorAnimation { duration: 150; } }
 
 		selectionColor: control.enabled ? colour.text_selection_color : colour.text_selection_color_disabled
@@ -22,7 +22,7 @@ SpinBox {
 
 		selectedTextColor: colour.text_selected
 		decrementControl: Text {
-			color: control.enabled ? colour.text : colour.disabled
+			color: control.enabled ? colour.text : colour.text_disabled
 			Behavior on color { ColorAnimation { duration: 150; } }
 			y: -height/3
 			x: -2
@@ -30,7 +30,7 @@ SpinBox {
 			text: "-"
 		}
 		incrementControl: Text {
-			color: control.enabled ? colour.text : colour.disabled
+			color: control.enabled ? colour.text : colour.text_disabled
 			Behavior on color { ColorAnimation { duration: 150; } }
 			y: -height/3
 			x: -2

@@ -7,7 +7,7 @@ import GetMetaData 1.0
 import ThumbnailManagement 1.0
 import ToolTip 1.0
 import ShortcutsNotifier 1.0
-
+import Colour 1.0
 import QtQuick.Dialogs 1.2
 
 import "mainview/"

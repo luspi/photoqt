@@ -281,13 +281,13 @@ Rectangle {
 						}
 						// Area displaying music file path and option to change it
 						Rectangle {
-							color: enabled ? getanddostuff.addAlphaToColor(colour.disabled,20) : getanddostuff.addAlphaToColor(colour.text,20)
+							color: enabled ? getanddostuff.addAlphaToColor(colour.text_disabled,20) : getanddostuff.addAlphaToColor(colour.text,20)
 							width: rect.width/2
 							enabled: musiccheckbox.checkedButton
 							x: rect.width/4
 							height: musictxt.height+20
 							radius: global_item_radius
-							border.color: colour.bordercolor
+							border.color: colour.fadein_slidein_border
 							Text {
 								id: musictxt
 								x: 15
@@ -296,7 +296,7 @@ Rectangle {
 								width: parent.width-30
 								font.pointSize: 10
 								y: (parent.height-height)/2
-								color: parent.enabled ? colour.text : colour.disabled
+								color: parent.enabled ? colour.text : colour.text_disabled
 								text: settings.slideShowMusicFile
 							}
 							Text {
@@ -306,7 +306,7 @@ Rectangle {
 								width: parent.width-30
 								y: (parent.height-height)/2
 								font.pointSize: 10
-								color: colour.disabled
+								color: colour.text_disabled
 								text: qsTr("Click here to select music file...")
 							}
 							// Click on area offers option to select new file

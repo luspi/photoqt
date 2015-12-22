@@ -107,7 +107,7 @@ Rectangle {
 				Text {
 					id: error
 					x: (parent.width-width)/2
-					color: colour.warning
+					color: colour.text_warning
 					font.pointSize: 10
 					text: qsTr("Error! Something went wrong, unable to save new dimension...")
 				}

@@ -108,7 +108,7 @@ Rectangle {
 						id: thetitle
 						anchors.fill: parent
 						visible: !external
-						color: colour.text
+						color: colour.tiles_text_active
 						elide: Text.ElideRight
 						text: shortcuts[index][0]
 					}
@@ -145,7 +145,7 @@ Rectangle {
 					// The prefix
 					Text {
 						id: sh_key_desc
-						color: colour.text
+						color: colour.tiles_text_active
 						text: shortcuts[index][4] === "key" ? "Key: " : "Mouse: "
 					}
 					// The current shortcut
@@ -169,7 +169,7 @@ Rectangle {
 								amDetectingANewShortcut = !ignoreAllCombos
 
 							anchors.fill: parent
-							color: ele.error_doubleShortcut ? colour.shortcut_double_error : colour.text
+							color: ele.error_doubleShortcut ? colour.shortcut_double_error : colour.tiles_text_active
 							font.bold: ele.error_doubleShortcut
 							text: getKeyTranslation(store)
 
@@ -274,7 +274,7 @@ Rectangle {
 				Text {
 					id: sh_delete
 					height: ele.height-4
-					color: colour.text
+					color: colour.tiles_text_active
 					Behavior on color { ColorAnimation { duration: 150; } }
 					elide: Text.ElideRight
 					text: "x"
@@ -287,8 +287,8 @@ Rectangle {
 							tab_top.cancelDetectionEverywhere()
 							deleteElement.start()
 						}
-						onEntered: parent.color = colour.warning
-						onExited: parent.color = colour.text
+						onEntered: parent.color = colour.shortcut_double_error
+						onExited: parent.color = colour.tiles_text_active
 					}
 				}
 
