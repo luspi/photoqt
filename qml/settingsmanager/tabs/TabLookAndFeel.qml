@@ -58,14 +58,14 @@ Rectangle {
 			FitInWindow { id: fitin }
 			Quickinfo { id: quickinfo; alternating: true }
 			Background { id: background }
-			OverlayColor { id: overlay; alternating: true }
-			BorderAroundImage { id: border }
-			CloseOnClick { id: closeonclick; alternating: true }
-			Loop { id: loop }
-			Transition { id: transition; alternating: true }
-			HotEdge { id: hotedge }
-			MouseWheelSensitivity { id: mousewheel; alternating: true }
-			Interpolation { id: interpolation }
+//			OverlayColor { id: overlay; alternating: true }
+			BorderAroundImage { id: border; alternating: true }
+			CloseOnClick { id: closeonclick }
+			Loop { id: loop; alternating: true }
+			Transition { id: transition }
+			HotEdge { id: hotedge; alternating: true }
+			MouseWheelSensitivity { id: mousewheel }
+			Interpolation { id: interpolation; alternating: true }
 			Remember { id: remember }
 			Animation { id: animation; alternating: true }
 		}
