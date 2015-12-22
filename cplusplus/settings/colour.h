@@ -419,6 +419,10 @@ public slots:
 		setDefault();
 
 		QFile file(QDir::homePath() + "/.photoqt/colors");
+
+		if(!file.exists())
+			return;
+
 		if(!file.open(QIODevice::ReadOnly)) {
 			LOG << DATE << "ERROR! Unable to open and load colors from file: " << file.errorString().trimmed().toStdString() << std::endl;
 			return;
