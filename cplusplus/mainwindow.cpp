@@ -160,8 +160,8 @@ void MainWindow::handleThumbnails(QVariant centerPos) {
 		LOG << DATE << "handleThumbnails(): New thumbnail center pos: " << centerPos.toInt() << std::endl;
 
 	// Get some settings for later use
-	int thumbSize = settingsPermanent->getThumbnailsize();
-	int thumbSpacing = settingsPermanent->getThumbnailSpacingBetween();
+	int thumbSize = settingsPermanent->thumbnailsize;
+	int thumbSpacing = settingsPermanent->thumbnailSpacingBetween;
 	int dynamicSmartNormal = settingsPermanent->thumbnailDynamic;
 
 	// Get total and center pos
@@ -567,20 +567,24 @@ void MainWindow::remoteAction(QString cmd) {
 
 		if(variables->verbose)
 			LOG << DATE << "remoteAction(): Disable thumbnails" << std::endl;
-		settingsPermanent->setThumbnailDisable(true);
+		settingsPermanent->thumbnailDisable = true;
+		settingsPermanent->thumbnailDisableChanged(settingsPermanent->thumbnailDisable);
 
 	} else if(cmd == "thumbs") {
 
 		if(variables->verbose)
 			LOG << DATE << "remoteAction(): Enable thumbnails" << std::endl;
-		settingsPermanent->setThumbnailDisable(false);
+		settingsPermanent->thumbnailDisable = true;
+		settingsPermanent->thumbnailDisableChanged(settingsPermanent->thumbnailDisable);
 
 	} else if(cmd == "hide" || (cmd == "toggle" && this->isVisible())) {
 
 		if(variables->verbose)
 			LOG << DATE << "remoteAction(): Hiding" << std::endl;
-		if(settingsPermanent->trayicon != 1)
-			settingsPermanent->setTrayicon(1);
+		if(settingsPermanent->trayicon != 1) {
+			settingsPermanent->trayicon = 1;
+			settingsPermanent->trayiconChanged(settingsPermanent->trayicon);
+		}
 		QMetaObject::invokeMethod(object, "hideOpenFile");
 		this->hide();
 
