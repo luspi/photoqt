@@ -652,6 +652,18 @@ void MainWindow::updateWindowGeometry() {
 		else
 			this->setFlags(Qt::FramelessWindowHint);
 
+
+/***************************************/
+// Patch provided by John Morris
+
+#ifdef Q_OS_MAC
+		// If on a Mac, show fullscreen on monitor containing the mouse pointer.
+		int screenNum = qApp->desktop()->screenNumber(QCursor::pos());
+		this->setScreen(qApp->screens()[screenNum]);
+#endif
+
+/***************************************/
+
 		QString(getenv("DESKTOP")).startsWith("Enlightenment") ? this->showMaximized() : this->showFullScreen();
 	}
 
