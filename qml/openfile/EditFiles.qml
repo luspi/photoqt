@@ -20,6 +20,8 @@ Rectangle {
 	signal focusOnFolderView()
 	signal focusOnUserPlaces()
 	signal moveOneLevelUp()
+	signal goBackHistory()
+	signal goForwardsHistory()
 
 	property bool inCurrentFocus: filename_edit.activeFocus
 
@@ -47,6 +49,9 @@ Rectangle {
 		onAltLeft: focusOnFolderView()
 		onAltRight: focusOnUserPlaces()
 		onAltUp: moveOneLevelUp()
+
+		onHistoryBack: goBackHistory()
+		onHistoryForwards: goForwardsHistory()
 
 	}
 

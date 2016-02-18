@@ -6,6 +6,8 @@ import QtQuick.Controls.Styles 1.2
 
 Rectangle {
 
+	id: uplaces
+
 	width: settings.openUserPlacesWidth
 	Layout.maximumWidth: 600
 	Layout.minimumWidth: 200
@@ -27,6 +29,10 @@ Rectangle {
 		model: ListModel { id: userplacesmodel; }
 
 		delegate: userplacesdelegate
+
+		onCurrentIndexChanged:
+			if(!activeFocus)
+				uplaces.forceActiveFocus()
 
 		// Don't highlight anything of UserPlaces at startup
 		// Otherwise, a heading might be highlighted, that shouldn't happen
@@ -84,7 +90,6 @@ Rectangle {
 						loadCurrentDirectory(location)
 					}
 				}
-
 			}
 		}
 	}
@@ -95,6 +100,8 @@ Rectangle {
 
 			if(event.modifiers & Qt.AltModifier)
 				focusOnFilesView()
+			else if(event.modifiers & Qt.MetaModifier)
+				breadcrumbs.goBackInHistory()
 
 		} else if(event.key === Qt.Key_Right) {
 
@@ -114,6 +121,14 @@ Rectangle {
 			moveFocusFiveDown()
 		else if(event.key === Qt.Key_PageUp)
 			moveFocusFiveUp()
+		else if(event.key === Qt.Key_F) {
+			if(event.modifiers & Qt.ControlModifier)
+				breadcrumbs.goForwardsInHistory()
+		} else if(event.key === Qt.Key_B) {
+			if(event.modifiers & Qt.ControlModifier)
+				breadcrumbs.goBackInHistory()
+		}
+		console.log(event.key)
 
 	}
 

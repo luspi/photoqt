@@ -29,6 +29,11 @@ Rectangle {
 
 		model: ListModel { id: folderlistmodel; }
 
+		onCurrentIndexChanged:{
+			if(!activeFocus)
+				folderlist.forceActiveFocus()
+		}
+
 		delegate: Rectangle {
 			width: folderlist.width
 			height: folder_txt.height+10
@@ -97,6 +102,13 @@ Rectangle {
 			moveFocusFiveDown()
 		else if(event.key === Qt.Key_PageUp)
 			moveFocusFiveUp()
+		else if(event.key === Qt.Key_F) {
+			if(event.modifiers & Qt.ControlModifier)
+				breadcrumbs.goForwardsInHistory()
+		} else if(event.key === Qt.Key_B) {
+			if(event.modifiers & Qt.ControlModifier)
+				breadcrumbs.goBackInHistory()
+		}
 
 	}
 

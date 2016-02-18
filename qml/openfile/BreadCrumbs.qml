@@ -2,6 +2,8 @@ import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
 
+import "../elements"
+
 Rectangle {
 
 	anchors.left: parent.left
@@ -9,7 +11,68 @@ Rectangle {
 	anchors.right: parent.right
 	height: 50
 
+	property int historypos: -1
+	property var history: []
+	property bool loadedFromHistory: false
+
 	color: "#44000000"
+
+	// Two buttons to go backwards/forwards in history
+	Rectangle {
+
+		id: hist_but
+
+		// Positioning and styling
+		color: "transparent"
+		anchors.left: parent.left
+		anchors.leftMargin: 10
+		anchors.top: parent.top
+		anchors.bottom: parent.bottom
+		width: toleft.width+toright.width
+
+		// Backwards
+		CustomButton {
+
+			id: toleft
+
+			anchors.left: parent.left
+			anchors.top: parent.top
+			anchors.bottom: parent.bottom
+			width: 40
+
+			text: "<"
+			fontsize: 30
+			overrideFontColor: "white"
+			overrideBackgroundColor: "transparent"
+
+			tooltip: "Go backwards in history"
+
+			onClickedButton: goBackInHistory()
+
+		}
+
+		// Forwards
+		CustomButton {
+
+			id: toright
+
+			anchors.right: parent.right
+			anchors.top: parent.top
+			anchors.bottom: parent.bottom
+			width: 40
+
+			text: ">"
+			fontsize: 30
+			overrideFontColor: "white"
+			overrideBackgroundColor: "transparent"
+
+			tooltip: "Go forwards in history"
+
+			onClickedButton: goForwardsInHistory()
+
+		}
+
+	}
 
 	ListView {
 
@@ -17,7 +80,7 @@ Rectangle {
 
 		spacing: 0
 
-		x: 10
+		x: 20+hist_but.width
 		width: parent.width-20
 		height: parent.height
 
@@ -106,6 +169,11 @@ Rectangle {
 
 	function loadDirectory(path) {
 
+		// If current directory is not loaded from history -> adjust history
+		if(loadedFromHistory)
+			loadedFromHistory = false
+		else
+			addToHistory(path)
 
 		var parts = path.split("/")
 		var partialpath = ""
@@ -136,6 +204,39 @@ Rectangle {
 
 		crumbsview.positionViewAtEnd()
 
+	}
+
+	// Add to history
+	function addToHistory(path) {
+
+		// If current position is not the end of history -> cut off end part
+		if(historypos != history.length-1)
+			history = history.slice(0,historypos+1);
+
+		// Add path
+		history.push(path)
+		++historypos;
+
+		console.log(history)
+
+	}
+
+	// Go back in history, if we're not already at the beginning
+	function goBackInHistory() {
+		if(historypos > 0) {
+			--historypos
+			loadedFromHistory = true
+			loadCurrentDirectory(history[historypos])
+		}
+	}
+
+	// Go forwards in history, if we're not already at the end
+	function goForwardsInHistory() {
+		if(historypos < history.length-1) {
+			++historypos
+			loadedFromHistory = true
+			loadCurrentDirectory(history[historypos])
+		}
 	}
 
 }

@@ -133,6 +133,10 @@ Rectangle {
 					folders.forceActiveFocus()
 				onFocusOnUserPlaces:
 					userplaces.forceActiveFocus()
+				onGoBackHistory:
+					breadcrumbs.goBackInHistory()
+				onGoForwardsHistory:
+					breadcrumbs.goForwardsInHistory()
 			}
 
 		}
@@ -227,11 +231,15 @@ Rectangle {
 		openshortcuts.shortcuts[str_keys.pageUp + "/" +str_keys.pageDown] = qsTr("Move 5 entries up/down")
 		openshortcuts.shortcuts[str_keys.ctrl + " + " + str_keys.arrow_up + "/" + str_keys.arrow_down] = qsTr("Move to the first/last entry")
 		openshortcuts.shortcuts[str_keys.alt + " + " + str_keys.arrow_up] = qsTr("Go one folder level up")
+		openshortcuts.shortcuts[str_keys.ctrl + " + B/F"] = qsTr("Go backwards/forwards in history");
 		openshortcuts.shortcuts[str_keys.enter + "/" + str_keys.ret] = qsTr("Load the currently highlighted item")
 		openshortcuts.shortcuts[str_keys.esc] = "Cancel"
 
 		userplaces.loadUserPlaces()
 		loadCurrentDirectory(dir_path)
+
+		edit_rect.focusOnInput()
+
 	}
 
 	function show() { showOpenAni.start(); }

@@ -33,6 +33,9 @@ Rectangle {
 
 	signal clicked()
 
+	signal historyBack()
+	signal historyForwards()
+
 	TextEdit {
 
 		id: ed1
@@ -112,6 +115,12 @@ Rectangle {
 				if(event.modifiers & Qt.AltModifier)
 					altRight()
 
+			} else if(event.key === Qt.Key_F) {
+				if(event.modifiers & Qt.ControlModifier)
+					historyForwards()
+			} else if(event.key === Qt.Key_B) {
+				if(event.modifiers & Qt.ControlModifier)
+					historyBack()
 			}
 
 		}
