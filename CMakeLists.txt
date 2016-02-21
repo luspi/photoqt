@@ -38,7 +38,7 @@ OPTION(QTONLY "ONLY USE QT-ONLY FEATURES" OFF)
 #### ENABLE C++11 FEATURES ####
 ###############################
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3")
 
 
 ################################
