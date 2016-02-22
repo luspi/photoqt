@@ -11,6 +11,9 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/loaddir.cpp)
 SET(d "cplusplus/imageprovider")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/imageproviderfull.cpp ${d}/imageproviderthumbnail.cpp ${d}/imageprovidericon.h)
 
+SET(d "cplusplus/imageprovider/loader")
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/loadimage_qt.h ${d}/loadimage_gm.h ${d}/loadimage_xcf.h)
+
 SET(d "cplusplus/shortcuts")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/shortcuts.h ${d}/shortcutsnotifier.h)
 
@@ -43,6 +46,9 @@ SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/loaddir.h)
 
 SET(d "cplusplus/imageprovider")
 SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/imageproviderthumbnail.h ${d}/imageproviderfull.h ${d}/imageprovidericon.h)
+
+SET(d "cplusplus/imageprovider/loader")
+SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/loadimage_qt.h ${d}/loadimage_gm.h ${d}/loadimage_xcf.h)
 
 SET(d "cplusplus/shortcuts")
 SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/shortcuts.h ${d}/shortcutsnotifier.h)

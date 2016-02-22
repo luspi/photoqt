@@ -1,0 +1,75 @@
+#ifndef LOADIMAGE_XCF_H
+#define LOADIMAGE_XCF_H
+
+#include <QProcess>
+#include <QDir>
+#include <QSize>
+#include <QString>
+#include <QImageReader>
+#include "../../logger.h"
+
+class LoadImageXCF {
+
+public:
+
+	static QImage load(QString filename, QSize maxSize) {
+
+		QSize origSize;
+
+		// We first check if xcftools is actually installed
+		QProcess which;
+		which.setStandardOutputFile(QProcess::nullDevice());
+		which.start("which xcf2png");
+		which.waitForFinished();
+		// If it isn't -> display error
+		if(which.exitCode()) {
+			LOG << DATE << "reader xcf - Error: xcftools not found" << std::endl;
+			QPixmap pix(":/img/plainerrorimg.png");
+			QPainter paint(&pix);
+			QTextDocument txt;
+			txt.setHtml("<center><div style=\"text-align: center; font-size: 12pt; font-wight: bold; color: white; background: none;\">ERROR LOADING IMAGE<br><br><bR>PhotoQt relies on 'xcftools'' to display XCF images, but it wasn't found!</div></center>");
+			paint.translate(100,150);
+			txt.setTextWidth(440);
+			txt.drawContents(&paint);
+			paint.end();
+			origSize = pix.size();
+			return pix.toImage();
+		}
+
+		// Convert xcf to png using xcf2png (part of xcftools)
+		QProcess p;
+		p.execute(QString("xcf2png \"%1\" -o %2").arg(filename).arg(QDir::tempPath() + "/photoqt_tmp.png"));
+
+		// And load it
+		QImageReader reader(QDir::tempPath() + "/photoqt_tmp.png");
+
+		origSize = reader.size();
+
+		int dispWidth = origSize.width();
+		int dispHeight = origSize.height();
+
+		double q;
+
+		if(dispWidth > maxSize.width()) {
+				q = maxSize.width()/(dispWidth*1.0);
+				dispWidth *= q;
+				dispHeight *= q;
+		}
+
+		// If thumbnails are kept visible, then we need to subtract their height from the absolute height otherwise they overlap with the main image
+		if(dispHeight > maxSize.height()) {
+			q = maxSize.height()/(dispHeight*1.0);
+			dispWidth *= q;
+			dispHeight *= q;
+		}
+
+		reader.setScaledSize(QSize(dispWidth,dispHeight));
+
+		return reader.read();
+
+	}
+
+};
+
+
+#endif // LOADIMAGE_XCF_H

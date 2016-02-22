@@ -8,6 +8,10 @@
 #include "../settings/settings.h"
 #include "../logger.h"
 
+#include "loader/loadimage_qt.h"
+#include "loader/loadimage_gm.h"
+#include "loader/loadimage_xcf.h"
+
 #ifdef GM
 #include <GraphicsMagick/Magick++/Image.h>
 #include "../scripts/gmimagemagick.h"
@@ -39,10 +43,6 @@ private:
 	QString qtfiles;
 	QString gmfiles;
 	QString extrasfiles;
-
-	QImage readImage_QT(QString filename);
-	QImage readImage_GM(QString filename);
-	QImage readImage_XCF(QString filename);
 
 	QString whatDoIUse(QString filename);
 
