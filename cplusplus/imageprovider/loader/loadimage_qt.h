@@ -6,6 +6,7 @@
 #include <QtSvg>
 
 #include "../../logger.h"
+#include "errorimage.h"
 
 #ifdef EXIV2
 #include <exiv2/image.hpp>
@@ -41,16 +42,7 @@ public:
 			// Invalid vector graphic
 			if(!svg.isValid()) {
 				LOG << DATE << "reader svg - Error: invalid svg file" << std::endl;
-				QPixmap pix(":/img/plainerrorimg.png");
-				QPainter paint(&pix);
-				QTextDocument txt;
-				txt.setHtml("<center><div style=\"text-align: center; font-size: 12pt; font-wight: bold; color: white; background: none;\">ERROR LOADING IMAGE<br><br><bR>The file doesn't contain valid a vector graphic</div></center>");
-				paint.translate(100,150);
-				txt.setTextWidth(440);
-				txt.drawContents(&paint);
-				paint.end();
-				origSize = pix.size();
-				return pix.toImage();
+				return ErrorImage::load("The file doesn't contain a valid vector graphic");
 			}
 
 			// Render SVG into pixmap
@@ -217,15 +209,7 @@ public:
 				QString err = reader.errorString();
 				LOG << DATE << "reader qt - Error: file failed to load: " << err.toStdString() << std::endl;
 				LOG << DATE << "Filename: " << filename.toStdString() << std::endl;
-				QPixmap pix(":/img/plainerrorimg.png");
-				QPainter paint(&pix);
-				QTextDocument txt;
-				txt.setHtml(QString("<center><div style=\"text-align: center; font-size: 12pt; font-wight: bold; color: white; background: none;\"><b>ERROR LOADING IMAGE</b><br><br><bR>%1</div></center>").arg(err));
-				paint.translate(100,150);
-				txt.setTextWidth(440);
-				txt.drawContents(&paint);
-				paint.end();
-				return pix.toImage();
+				return ErrorImage::load(err);
 			}
 
 		}

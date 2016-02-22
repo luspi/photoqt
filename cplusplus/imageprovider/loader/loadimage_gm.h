@@ -4,6 +4,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include "../../logger.h"
+#include "errorimage.h"
 
 #ifdef GM
 #include <GraphicsMagick/Magick++/Image.h>
@@ -93,21 +94,7 @@ public:
 			} catch(Magick::Exception &error_) {
 				delete[] data;
 				LOG << DATE << "reader gm Error: " << error_.what() << std::endl;
-				QPixmap pix(":/img/plainerrorimg.png");
-				QPainter paint(&pix);
-				QTextDocument txt;
-				txt.setHtml("<center><div style=\"text-align: center; font-size: 12pt; font-wight: bold; color: white; background: none;\">ERROR LOADING IMAGE<br><br><bR>" + QString(error_.what()) + "</div></center>");
-				paint.translate(100,150);
-				txt.setTextWidth(440);
-				txt.drawContents(&paint);
-				paint.end();
-				pix.save(QDir::tempPath() + "/photoqt_tmp.png");
-		//		fileformat = "";
-				origSize = pix.size();
-		//		scaleImg1 = -1;
-		//		scaleImg2 = -1;
-		//		animatedImg = false;
-				return pix.toImage();
+				return ErrorImage::load(QString(error_.what()));
 			}
 
 		#endif

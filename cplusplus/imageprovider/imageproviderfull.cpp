@@ -37,21 +37,17 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *s
 			  << (whatToUse=="gm" ? "GraphicsMagick" : (whatToUse=="qt" ? "ImageReader" : "External Tool"))
 			  << " [" << whatToUse.toStdString() << "]" << std::endl;
 
-	QImage ret;
-
 	// Try to use XCFtools for XCF (if enabled)
 	if(QFileInfo(filename).suffix().toLower() == "xcf" && whatToUse == "extra")
-			ret = LoadImageXCF::load(filename,maxSize);
+			return LoadImageXCF::load(filename,maxSize);
 
 	// Try to use GraphicsMagick (if available)
 	else if(whatToUse == "gm")
-		ret = LoadImageGM::load(filename, maxSize);
+		return LoadImageGM::load(filename, maxSize);
 
 	// Try to use Qt
 	else
-		ret = LoadImageQt::load(filename,maxSize,settings->exifrotation);
-
-	return ret;
+		return LoadImageQt::load(filename,maxSize,settings->exifrotation);
 
 }
 

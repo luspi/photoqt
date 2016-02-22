@@ -7,6 +7,7 @@
 #include <QString>
 #include <QImageReader>
 #include "../../logger.h"
+#include "errorimage.h"
 
 class LoadImageXCF {
 
@@ -24,16 +25,7 @@ public:
 		// If it isn't -> display error
 		if(which.exitCode()) {
 			LOG << DATE << "reader xcf - Error: xcftools not found" << std::endl;
-			QPixmap pix(":/img/plainerrorimg.png");
-			QPainter paint(&pix);
-			QTextDocument txt;
-			txt.setHtml("<center><div style=\"text-align: center; font-size: 12pt; font-wight: bold; color: white; background: none;\">ERROR LOADING IMAGE<br><br><bR>PhotoQt relies on 'xcftools'' to display XCF images, but it wasn't found!</div></center>");
-			paint.translate(100,150);
-			txt.setTextWidth(440);
-			txt.drawContents(&paint);
-			paint.end();
-			origSize = pix.size();
-			return pix.toImage();
+			return ErrorImage::load("PhotoQt relies on 'xcftools'' to display XCF images, but it wasn't found!");
 		}
 
 		// Convert xcf to png using xcf2png (part of xcftools)
