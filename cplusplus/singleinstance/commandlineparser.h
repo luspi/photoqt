@@ -19,8 +19,6 @@ public:
 
 		// Add custom PhotoQt options (C++11 way)
 		this->addOptions({
-				{{"v", "verbose"},
-				 tr("Enable debug messages (at start-up only)")},
 				{{"o","open"},
 				 tr("Make PhotoQt ask for a new File")},
 				{{"t","toggle"},
@@ -34,7 +32,9 @@ public:
 				{"thumbs",
 				 tr("Enable thumbnails")},
 				{"start-in-tray",
-				 tr("Start PhotoQt hidden to the system tray (at start-up only)")}
+				 tr("Start PhotoQt hidden to the system tray (at start-up only)")},
+				{"verbose",
+				 tr("Enable debug messages (at start-up only)")}
 
 		 });
 
