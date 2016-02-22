@@ -58,7 +58,7 @@ Rectangle {
 			FitInWindow { id: fitin }
 			Quickinfo { id: quickinfo; alternating: true }
 			Background { id: background }
-//			OverlayColor { id: overlay; alternating: true }
+			OverlayColor { id: overlay; alternating: true }
 			BorderAroundImage { id: border; alternating: true }
 			CloseOnClick { id: closeonclick }
 			Loop { id: loop; alternating: true }
