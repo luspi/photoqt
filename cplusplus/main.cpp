@@ -6,11 +6,12 @@
 
 int main(int argc, char *argv[]) {
 
-	// Set app name (needed later-on)
-	QApplication::setApplicationName("photoqt");
-
 	// We store this as a QString, as this way we don't have to explicitely cast VERSION to a QString below
 	QString version = VERSION;
+
+	// Set app name (needed later-on)
+	QApplication::setApplicationName("PhotoQt");
+	QApplication::setApplicationVersion(version);
 
 	// Create a new instance (includes handling of argc/argv)
 	// This class ensures, that only one instance is running. If one is already running, we pass the commands to the main process and exit.
