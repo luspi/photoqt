@@ -210,7 +210,7 @@ int main(int argc, char *argv[]) {
 		query.clear();
 
 
-	} else {
+	} else if(photoQtInstalled || photoQtUpdated) {
 
 		if(a.verbose) LOG << DATE << "Opening Thumbnail Database" << std::endl;
 
@@ -243,7 +243,6 @@ int main(int argc, char *argv[]) {
 	/***************************
 	 ***************************/
 	// The Window has to be initialised *AFTER* the checks above to ensure that the settings exist and are updated and can be loaded
-//		MainWindow w(0,verbose);
 	MainWindow w(a.verbose,0);
 	/***************************
 	 ***************************/
