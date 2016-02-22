@@ -53,6 +53,7 @@
 		<file>../qml/settingsmanager/tabs/other/FileTypesGMGhostscript.qml</file>
 		<file>../qml/settingsmanager/tabs/other/FileTypesExtras.qml</file>
 		<file>../qml/settingsmanager/tabs/other/FileTypesUntested.qml</file>
+		<file>../qml/settingsmanager/tabs/other/FileTypesRaw.qml</file>
 		<file>../qml/settingsmanager/tabs/TabShortcuts.qml</file>
 		<file>../qml/settingsmanager/tabs/shortcuts/Available.qml</file>
 		<file>../qml/settingsmanager/tabs/shortcuts/Set.qml</file>

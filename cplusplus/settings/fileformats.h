@@ -22,6 +22,7 @@ private:
 	QStringList TMP_formatsGmGhostscriptEnabled;
 	QStringList TMP_formatsExtrasEnabled;
 	QStringList TMP_formatsUntestedEnabled;
+	QStringList TMP_formatsRawEnabled;
 
 public:
 
@@ -40,6 +41,13 @@ public:
 		saveFileformatsTimer->setSingleShot(true);
 		connect(saveFileformatsTimer, SIGNAL(timeout()), this, SLOT(initiateSaving()));
 
+		connect(this, SIGNAL(formatsQtEnabledChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
+		connect(this, SIGNAL(formatsGmEnabledChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
+		connect(this, SIGNAL(formatsGmGhostscriptEnabledChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
+		connect(this, SIGNAL(formatsExtrasEnabledChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
+		connect(this, SIGNAL(formatsUntestedEnabledChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
+		connect(this, SIGNAL(formatsRawEnabledChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
+
 	}
 
 	~FileFormats() { delete watcher; }
@@ -50,22 +58,14 @@ public:
 	QStringList formatsGmGhostscriptEnabled;
 	QStringList formatsExtrasEnabled;
 	QStringList formatsUntestedEnabled;
+	QStringList formatsRawEnabled;
 
-	QStringList getFormatsQtEnabled() { return formatsQtEnabled; }
-	QStringList getFormatsGmEnabled() { return formatsGmEnabled; }
-	QStringList getFormatsGmGhostscriptEnabled() { return formatsGmGhostscriptEnabled; }
-	QStringList getFormatsExtrasEnabled() { return formatsExtrasEnabled; }
-	QStringList getFormatsUntestedEnabled() { return formatsUntestedEnabled; }
-	void setFormatsQtEnabled(const QStringList val) { TMP_formatsQtEnabled = val; saveFileformatsTimer->start(); }
-	void setFormatsGmEnabled(const QStringList val) { TMP_formatsGmEnabled = val; saveFileformatsTimer->start(); }
-	void setFormatsGmGhostscriptEnabled(const QStringList val) { TMP_formatsGmGhostscriptEnabled = val; saveFileformatsTimer->start(); }
-	void setFormatsExtrasEnabled(const QStringList val) { TMP_formatsExtrasEnabled = val; saveFileformatsTimer->start(); }
-	void setFormatsUntestedEnabled(const QStringList val) { TMP_formatsUntestedEnabled = val; saveFileformatsTimer->start(); }
-	Q_PROPERTY(QStringList formatsQtEnabled READ getFormatsQtEnabled WRITE setFormatsQtEnabled NOTIFY formatsQtEnabledChanged)
-	Q_PROPERTY(QStringList formatsGmEnabled READ getFormatsGmEnabled WRITE setFormatsGmEnabled NOTIFY formatsGmEnabledChanged)
-	Q_PROPERTY(QStringList formatsGmGhostscriptEnabled READ getFormatsGmGhostscriptEnabled WRITE setFormatsGmGhostscriptEnabled NOTIFY formatsGmGhostscriptEnabledChanged)
-	Q_PROPERTY(QStringList formatsExtrasEnabled READ getFormatsExtrasEnabled WRITE setFormatsExtrasEnabled NOTIFY formatsExtrasEnabledChanged)
-	Q_PROPERTY(QStringList formatsUntestedEnabled READ getFormatsUntestedEnabled WRITE setFormatsUntestedEnabled NOTIFY formatsUntestedEnabledChanged)
+	Q_PROPERTY(QStringList formatsQtEnabled MEMBER formatsQtEnabled NOTIFY formatsQtEnabledChanged)
+	Q_PROPERTY(QStringList formatsGmEnabled MEMBER formatsGmEnabled NOTIFY formatsGmEnabledChanged)
+	Q_PROPERTY(QStringList formatsGmGhostscriptEnabled MEMBER formatsGmGhostscriptEnabled NOTIFY formatsGmGhostscriptEnabledChanged)
+	Q_PROPERTY(QStringList formatsExtrasEnabled MEMBER formatsExtrasEnabled NOTIFY formatsExtrasEnabledChanged)
+	Q_PROPERTY(QStringList formatsUntestedEnabled MEMBER formatsUntestedEnabled NOTIFY formatsUntestedEnabledChanged)
+	Q_PROPERTY(QStringList formatsRawEnabled MEMBER formatsRawEnabled NOTIFY formatsRawEnabledChanged)
 
 	void setDefaultFormats() {
 
@@ -74,6 +74,7 @@ public:
 		formatsGmGhostscriptEnabled.clear();
 		formatsExtrasEnabled.clear();
 		formatsUntestedEnabled.clear();
+		formatsRawEnabled.clear();
 
 		/******************************
 		 ***** 14 FORMATS WORKING *****
@@ -310,6 +311,33 @@ public:
 
 #endif
 
+		formatsRawEnabled << "*.3fr"				// Hasselblad
+				<< "*.ari"							// ARRIFLEX
+				<< "*.arw" << "*.srf" << "*.sr2"	// Sony
+				<< "*.bay"							// Casio
+				<< "*.crw" << "*.crr"				// Canon
+				<< "*.cap" << "*.liq" << "*.eip"	// Phase_one
+				<< "*.dcs" << "*.dcr" << "*.drf"
+						<< "*.k25" << "*.kdc"		// Kodak
+				<< "*.dng"							// Adobe
+				<< "*.erf"							// Epson
+				<< "*.fff"							// Imacon/Hasselblad raw
+				<< "*.mef"							// Mamiya
+				<< "*.mdc"							// Minolta, Agfa
+				<< "*.mos"							// Leaf
+				<< "*.mrw"							// Minolta, Konica Minolta
+				<< "*.nef" << "*.nrw"				// Nikon
+				<< "*.orf"							// Olympus
+				<< "*.pef" << "*.ptx"				// Pentax
+				<< "*.pxn"							// Logitech
+				<< "*.r3d"							// RED Digital Cinema
+				<< "*.raf"							// Fuji
+				<< "*.raw" << "*.rw2"				// Panasonic
+				<< "*.raw" << "*.rwl" << "*.dng"	// Leica
+				<< "*.rwz"							// Rawzor
+				<< "*.srw"							// Samsung
+				<< "*.x3f";							// Sigma
+
 	}
 
 
@@ -342,6 +370,8 @@ public slots:
 						formatsGmGhostscriptEnabled.removeAll(line);
 					if(line.length() != 0 && formatsUntestedEnabled.contains(line))
 						formatsUntestedEnabled.removeAll(line);
+					if(line.length() != 0 && formatsRawEnabled.contains(line))
+						formatsRawEnabled.removeAll(line);
 
 					line = in.readLine();
 				}
@@ -355,18 +385,19 @@ public slots:
 		emit formatsGmGhostscriptEnabledChanged(formatsGmGhostscriptEnabled);
 		emit formatsExtrasEnabledChanged(formatsExtrasEnabled);
 		emit formatsUntestedEnabledChanged(formatsUntestedEnabled);
+		emit formatsRawEnabledChanged(formatsRawEnabled);
 
 	}
 
 private slots:
 
 	void initiateSaving() {
-		saveFormats(TMP_formatsQtEnabled, TMP_formatsGmEnabled, TMP_formatsGmGhostscriptEnabled, TMP_formatsExtrasEnabled, TMP_formatsUntestedEnabled);
+		saveFormats(TMP_formatsQtEnabled, TMP_formatsGmEnabled, TMP_formatsGmGhostscriptEnabled, TMP_formatsExtrasEnabled, TMP_formatsUntestedEnabled, TMP_formatsRawEnabled);
 	}
 
 	// Save all enabled formats to file
 	void saveFormats(QStringList new_qtFormats, QStringList new_gmFormats, QStringList new_gmghostscriptFormats,
-					 QStringList new_extrasFormats, QStringList new_untestedFormats) {
+					 QStringList new_extrasFormats, QStringList new_untestedFormats, QStringList new_rawFormats) {
 
 		setDefaultFormats();
 
@@ -407,11 +438,19 @@ private slots:
 
 		}
 
+		for(int i = 0; i < formatsRawEnabled.length(); ++i) {
+
+			if(!new_rawFormats.contains(formatsRawEnabled.at(i)))
+				disabled.append(formatsRawEnabled.at(i));
+
+		}
+
 		formatsQtEnabled = new_qtFormats;
 		formatsGmEnabled = new_gmFormats;
 		formatsGmGhostscriptEnabled = new_gmghostscriptFormats;
 		formatsExtrasEnabled = new_extrasFormats;
 		formatsUntestedEnabled = new_untestedFormats;
+		formatsRawEnabled = new_rawFormats;
 
 		QFile file(QDir::homePath() + "/.photoqt/fileformats.disabled");
 		if(file.exists()) {
@@ -434,6 +473,7 @@ signals:
 	void formatsGmGhostscriptEnabledChanged(QStringList val);
 	void formatsExtrasEnabledChanged(QStringList val);
 	void formatsUntestedEnabledChanged(QStringList val);
+	void formatsRawEnabledChanged(QStringList val);
 
 };
 

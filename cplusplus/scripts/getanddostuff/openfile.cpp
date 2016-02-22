@@ -137,7 +137,7 @@ QVariantList GetAndDoStuffOpenFile::getFilesIn(QString path) {
 		path = path.remove(0,6);
 
 	QDir dir(path);
-	dir.setNameFilters(formats->formatsQtEnabled + formats->formatsGmEnabled + formats->formatsGmGhostscriptEnabled + formats->formatsExtrasEnabled + formats->formatsUntestedEnabled);
+	dir.setNameFilters(formats->formatsQtEnabled + formats->formatsGmEnabled + formats->formatsGmGhostscriptEnabled + formats->formatsExtrasEnabled + formats->formatsUntestedEnabled + formats->formatsRawEnabled);
 	dir.setFilter(QDir::Files);
 	dir.setSorting(QDir::IgnoreCase);
 
@@ -156,7 +156,7 @@ QVariantList GetAndDoStuffOpenFile::getFilesWithSizeIn(QString path) {
 		path = path.remove(0,6);
 
 	QDir dir(path);
-	dir.setNameFilters(formats->formatsQtEnabled + formats->formatsGmEnabled + formats->formatsGmGhostscriptEnabled + formats->formatsExtrasEnabled + formats->formatsUntestedEnabled);
+	dir.setNameFilters(formats->formatsQtEnabled + formats->formatsGmEnabled + formats->formatsGmGhostscriptEnabled + formats->formatsExtrasEnabled + formats->formatsUntestedEnabled + formats->formatsRawEnabled);
 	dir.setFilter(QDir::Files);
 	dir.setSorting(QDir::IgnoreCase);
 
