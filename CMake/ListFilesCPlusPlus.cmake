@@ -25,7 +25,7 @@ SET(d "cplusplus/settings")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/settings.h ${d}/settingssession.h ${d}/fileformats.h ${d}/colour.h)
 
 SET(d "cplusplus/singleinstance")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/singleinstance.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/singleinstance.cpp ${d}/commandlineparser.h)
 
 SET(d "cplusplus/tooltip")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/tooltip.cpp)
@@ -58,7 +58,7 @@ SET(d "cplusplus/settings")
 SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/settings.h ${d}/settingssession.h ${d}/fileformats.h ${d}/colour.h)
 
 SET(d "cplusplus/singleinstance")
-SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/singleinstance.h)
+SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/singleinstance.h ${d}/commandlineparser.h)
 
 SET(d "cplusplus/tooltip")
 SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/tooltip.h)

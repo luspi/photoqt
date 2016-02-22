@@ -10,6 +10,7 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QDate>
+#include "commandlineparser.h"
 
 // Makes sure only one instance of PhotoQt is running, and enables remote communication
 class SingleInstance : public QApplication {
