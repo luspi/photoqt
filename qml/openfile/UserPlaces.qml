@@ -56,7 +56,7 @@ Rectangle {
 				y: 7
 				width: userplacestext.height
 				height: width
-				source: type=="heading" ? "" : "image://icon/" + icon
+				source: (type=="heading" || icon=="") ? "" : "image://icon/" + icon
 				sourceSize: Qt.size(width,height)
 
 			}
