@@ -13,7 +13,7 @@ Rectangle {
 	property string orientation: ""
 
 	// Background/Border color
-	color: colour.fadein_slidein_bg
+	color: getanddostuff.addAlphaToColor(colour.fadein_slidein_bg,settings.exifopacity)
 	border.width: 1
 	border.color: colour.fadein_slidein_border
 

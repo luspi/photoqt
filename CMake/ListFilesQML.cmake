@@ -42,7 +42,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/CenterOn.qml ${d}/TopOrBottom.qml ${
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Cache.qml)
 SET(d "qml/settingsmanager/tabs/metadata")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/MouseTrigger.qml ${d}/Metadata.qml ${d}/MetadataTile.qml ${d}/FontSize.qml ${d}/RotateFlip.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/OnlineMap.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/OnlineMap.qml ${d}/Opacity.qml)
 SET(d "qml/settingsmanager/tabs/other")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Language.qml ${d}/LanguageTile.qml ${d}/CustomEntries.qml ${d}/CustomEntriesInteractive.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/FileTypesQt.qml ${d}/FileTypesTile.qml ${d}/FileTypesGM.qml ${d}/FileTypesGMGhostscript.qml)

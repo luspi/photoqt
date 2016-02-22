@@ -116,6 +116,7 @@ public:
 		connect(this, SIGNAL(knownFileTypesQtExtrasChanged(QString)), saveSettingsTimer, SLOT(start()));
 
 		connect(this, SIGNAL(exiffontsizeChanged(int)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(exifopacityChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(exifenablemousetriggeringChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(exifrotationChanged(QString)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(exifgpsmapserviceChanged(QString)), saveSettingsTimer, SLOT(start()));
@@ -284,6 +285,7 @@ public:
 	QString exifrotation;
 	QString exifgpsmapservice;
 	int exiffontsize;
+	int exifopacity;
 	// Which Exif data is shown?
 	bool exiffilename;
 	bool exiffiletype;
@@ -401,6 +403,7 @@ public:
 	Q_PROPERTY(QString exifrotation MEMBER exifrotation NOTIFY exifrotationChanged)
 	Q_PROPERTY(QString exifgpsmapservice MEMBER exifgpsmapservice NOTIFY exifgpsmapserviceChanged)
 	Q_PROPERTY(int exiffontsize MEMBER exiffontsize NOTIFY exiffontsizeChanged)
+	Q_PROPERTY(int exifopacity MEMBER exifopacity NOTIFY exifopacityChanged)
 	Q_PROPERTY(bool exiffilename MEMBER exiffilename NOTIFY exiffilenameChanged)
 	Q_PROPERTY(bool exiffiletype MEMBER exiffiletype NOTIFY exiffiletypeChanged)
 	Q_PROPERTY(bool exiffilesize MEMBER exiffilesize NOTIFY exiffilesizeChanged)
@@ -531,6 +534,7 @@ public:
 
 		exifenablemousetriggering = true;
 		exiffontsize = 8;
+		exifopacity = 200;
 		exiffilename = true;
 		exiffiletype = true;
 		exiffilesize = true;
@@ -676,6 +680,7 @@ public slots:
 
 			cont += QString("ExifEnableMouseTriggering=%1\n").arg(int(exifenablemousetriggering));
 			cont += QString("ExifFontSize=%1\n").arg(exiffontsize);
+			cont += QString("ExifOpacity=%1\n").arg(exifopacity);
 			cont += QString("ExifFilename=%1\n").arg(int(exiffilename));
 			cont += QString("ExifFiletype=%1\n").arg(int(exiffiletype));
 			cont += QString("ExifFilesize=%1\n").arg(int(exiffilesize));
@@ -1007,6 +1012,9 @@ public slots:
 			if(all.contains("ExifFontSize="))
 				exiffontsize = all.split("ExifFontSize=").at(1).split("\n").at(0).toInt();
 
+			if(all.contains("ExifOpacity="))
+				exifopacity = all.split("ExifOpacity=").at(1).split("\n").at(0).toInt();
+
 			if(all.contains("ExifFilename=1"))
 				exiffilename = true;
 			else if(all.contains("ExifFilename=0"))
@@ -1227,6 +1235,7 @@ signals:
 	void knownFileTypesQtExtrasChanged(QString val);
 
 	void exiffontsizeChanged(int val);
+	void exifopacityChanged(int val);
 	void exifenablemousetriggeringChanged(bool val);
 	void exifrotationChanged(QString val);
 	void exifgpsmapserviceChanged(QString val);

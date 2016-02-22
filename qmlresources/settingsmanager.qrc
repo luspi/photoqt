@@ -39,6 +39,7 @@
 		<file>../qml/settingsmanager/tabs/metadata/Metadata.qml</file>
 		<file>../qml/settingsmanager/tabs/metadata/MetadataTile.qml</file>
 		<file>../qml/settingsmanager/tabs/metadata/FontSize.qml</file>
+		<file>../qml/settingsmanager/tabs/metadata/Opacity.qml</file>
 		<file>../qml/settingsmanager/tabs/metadata/RotateFlip.qml</file>
 		<file>../qml/settingsmanager/tabs/metadata/OnlineMap.qml</file>
 		<file>../qml/settingsmanager/tabs/TabOther.qml</file>

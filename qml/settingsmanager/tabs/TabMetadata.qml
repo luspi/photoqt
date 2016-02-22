@@ -64,8 +64,9 @@ Rectangle {
 			MouseTrigger { id: trigger }
 			Metadata { id: metadata; alternating: true }
 			FontSize { id: fontsize }
-			RotateFlip { id: rotateflip; alternating: true }
-			OnlineMap { id: onlinemap }
+			Opacity { id: op; alternating: true }
+			RotateFlip { id: rotateflip }
+			OnlineMap { id: onlinemap; alternating: true }
 
 
 		}
@@ -76,6 +77,7 @@ Rectangle {
 		trigger.setData()
 		metadata.setData()
 		fontsize.setData()
+		op.setData()
 		rotateflip.setData()
 		onlinemap.setData()
 	}
@@ -84,6 +86,7 @@ Rectangle {
 		trigger.saveData()
 		metadata.saveData()
 		fontsize.saveData()
+		op.saveData()
 		rotateflip.saveData()
 		onlinemap.saveData()
 	}
