@@ -17,7 +17,7 @@ public:
 		std::stringstream str;
 		str << v;
 		if(str.str() == "[[[DATE]]]")
-			std::clog << "[" << QDateTime::currentDateTime().toString("dd/MM/yyyy HH:mm:ss").toStdString() << "] ";
+			std::clog << "[" << QDateTime::currentDateTime().toString("dd/MM/yyyy HH:mm:ss:zzz").toStdString() << "] ";
 		else
 			std::clog << v;
 		return *this;
