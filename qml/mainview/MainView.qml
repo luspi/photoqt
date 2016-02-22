@@ -47,6 +47,14 @@ Item {
         nofileloaded.visible = true
 	}
 
+	function getImageRect() {
+		var w = image.width*image.scale
+		var h = image.height*image.scale
+		var x = (background.width-w)/2
+		var y = (background.height-h)/2
+		return [x,y,w,h]
+	}
+
 	function enableTimer() { image.enableTimer(); }
 	function disableTimer() { image.disableTimer(); }
 
