@@ -49,7 +49,7 @@ EntryContainer {
 					}
 					CustomRadioButton {
 						id: background_onecoloured
-						text: qsTr("Solid, non-transparent background")
+						text: qsTr("Monochrome, non-transparent background")
 						exclusiveGroup: radiobuttons_background
 					}
 				}

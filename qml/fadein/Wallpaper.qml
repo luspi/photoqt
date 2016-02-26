@@ -666,7 +666,7 @@ Rectangle {
 									width: rect.width
 									wrapMode: Text.WordWrap
 									horizontalAlignment: Text.AlignHCenter
-									text: qsTr("PhotoQt can use 'feh' or 'nitrogen' to change the background of the desktop.<br>This is intended particularly for window managers that don't natively support wallpapers (e.g., like Openbox).")
+									text: qsTr("PhotoQt can use 'feh' or 'nitrogen' to change the background of the desktop.<br>This is intended particularly for window managers that don't natively support wallpapers (like Blackbox, Fluxbox, or Openbox).")
 								}
 
 								// SWITCH BETWEEN feh AND nitrogen

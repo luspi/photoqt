@@ -277,7 +277,7 @@ Rectangle {
 		fillAnchors: settings_top
 		id: confirmerase
 		header: qsTr("Erase Database2")
-		description: qsTr("Do you really want to ERASE the entire database?") + "<br><br>" + qsTr("This removes every single item in the database! This step should never really be necessarily. After that, every thumbnail has to be newly re-created.") + "<br>" + qsTr("This step cannot be reversed!")
+		description: qsTr("Do you really want to ERASE the entire database?") + "<br><br>" + qsTr("This removes every single item from the database! This step is never really necessary, and generally should not be used. After that, every thumbnail has to be re-created.") + "<br>" + qsTr("This step cannot be reversed!")
 		confirmbuttontext: qsTr("Yes, get rid of it all")
 		rejectbuttontext: qsTr("Nooo, I want to keep it")
 		onAccepted: eraseDatabase()
