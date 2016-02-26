@@ -43,6 +43,7 @@ private:
 	QString qtfiles;
 	QString gmfiles;
 	QString extrasfiles;
+	QString rawfiles;
 
 	QString whatDoIUse(QString filename);
 

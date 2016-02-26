@@ -30,6 +30,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/shortcuts.cpp ${d}/wallpaper.cpp ${d
 
 SET(d "cplusplus/settings")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/settings.h ${d}/settingssession.h ${d}/fileformats.h ${d}/colour.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/fileformatsavailable.h ${d}/fileformatsdefaultenabled.h)
 
 SET(d "cplusplus/singleinstance")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/singleinstance.cpp ${d}/commandlineparser.h)
@@ -70,6 +71,7 @@ SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/shortcuts.h ${d}/wallpaper.h)
 
 SET(d "cplusplus/settings")
 SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/settings.h ${d}/settingssession.h ${d}/fileformats.h ${d}/colour.h)
+SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/fileformatsavailable.h ${d}/fileformatsdefaultenabled.h)
 
 SET(d "cplusplus/singleinstance")
 SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/singleinstance.h ${d}/commandlineparser.h)

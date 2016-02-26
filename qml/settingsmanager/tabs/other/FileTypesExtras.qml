@@ -70,7 +70,7 @@ EntryContainer {
 		var tmp_types_extras = []
 
 		// Get current settings
-		var setformats = fileformats.formatsExtrasEnabled
+		var setformats = fileformats.formats_extras
 
 		var extras = [["Gimp's XCF file format","*.xcf","Uses 'xcftools'"],
 					  ["Adobe Photoshop PSD and PSB","*.psb", "*.psd","Uses 'libqpsd'"]]
@@ -117,7 +117,7 @@ EntryContainer {
 		}
 
 		// Update data
-		fileformats.formatsExtrasEnabled = tobesaved.filter(function(n){ return n !== ""; })
+		fileformats.formats_extras = tobesaved.filter(function(n){ return n !== ""; })
 
 	}
 

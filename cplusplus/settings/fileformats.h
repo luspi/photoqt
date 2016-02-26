@@ -9,6 +9,10 @@
 #include <QTimer>
 #include <QtDebug>
 
+#include "fileformatsavailable.h"
+#include "fileformatsdefaultenabled.h"
+#include "../logger.h"
+
 class FileFormats : public QObject {
 
 	Q_OBJECT
@@ -16,465 +20,233 @@ class FileFormats : public QObject {
 private:
 	QFileSystemWatcher *watcher;
 	QTimer *saveFileformatsTimer;
-
-	QStringList TMP_formatsQtEnabled;
-	QStringList TMP_formatsGmEnabled;
-	QStringList TMP_formatsGmGhostscriptEnabled;
-	QStringList TMP_formatsExtrasEnabled;
-	QStringList TMP_formatsUntestedEnabled;
-	QStringList TMP_formatsRawEnabled;
+	bool verbose;
 
 public:
 
-	FileFormats(QObject *parent = 0) : QObject(parent) {
+	FileFormats(bool verbose = false, QObject *parent = 0) : QObject(parent) {
 
-		setDefaultFormats();
-		getFormats("");
+		this->verbose = verbose;
 
 		watcher = new QFileSystemWatcher;
 		watcher->addPaths(QStringList() << QDir::homePath() + "/.photoqt/settings" << QDir::homePath() + "/.photoqt/fileformats.disabled");
-		connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(getFormats(QString)));
+		connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(loadFormats()));
 
 		// When saving the settings, we don't want to write the settings file hundreds of time within a few milliseconds, but use a timer to save it once after all settings are set
 		saveFileformatsTimer = new QTimer;
 		saveFileformatsTimer->setInterval(400);
 		saveFileformatsTimer->setSingleShot(true);
-		connect(saveFileformatsTimer, SIGNAL(timeout()), this, SLOT(initiateSaving()));
+		connect(saveFileformatsTimer, SIGNAL(timeout()), this, SLOT(saveFormats()));
 
-		connect(this, SIGNAL(formatsQtEnabledChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
-		connect(this, SIGNAL(formatsGmEnabledChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
-		connect(this, SIGNAL(formatsGmGhostscriptEnabledChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
-		connect(this, SIGNAL(formatsExtrasEnabledChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
-		connect(this, SIGNAL(formatsUntestedEnabledChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
-		connect(this, SIGNAL(formatsRawEnabledChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
+		connect(this, SIGNAL(formats_qtChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
+		connect(this, SIGNAL(formats_gmChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
+		connect(this, SIGNAL(formats_gm_ghostscriptChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
+		connect(this, SIGNAL(formats_extrasChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
+		connect(this, SIGNAL(formats_untestedChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
+		connect(this, SIGNAL(formats_rawChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
+
+		loadFormats();
 
 	}
 
 	~FileFormats() { delete watcher; }
 
 	// Per default enabled image formats
-	QStringList formatsQtEnabled;
-	QStringList formatsGmEnabled;
-	QStringList formatsGmGhostscriptEnabled;
-	QStringList formatsExtrasEnabled;
-	QStringList formatsUntestedEnabled;
-	QStringList formatsRawEnabled;
+	QStringList formats_qt;
+	QStringList formats_gm;
+	QStringList formats_gm_ghostscript;
+	QStringList formats_extras;
+	QStringList formats_untested;
+	QStringList formats_raw;
 
-	Q_PROPERTY(QStringList formatsQtEnabled MEMBER formatsQtEnabled NOTIFY formatsQtEnabledChanged)
-	Q_PROPERTY(QStringList formatsGmEnabled MEMBER formatsGmEnabled NOTIFY formatsGmEnabledChanged)
-	Q_PROPERTY(QStringList formatsGmGhostscriptEnabled MEMBER formatsGmGhostscriptEnabled NOTIFY formatsGmGhostscriptEnabledChanged)
-	Q_PROPERTY(QStringList formatsExtrasEnabled MEMBER formatsExtrasEnabled NOTIFY formatsExtrasEnabledChanged)
-	Q_PROPERTY(QStringList formatsUntestedEnabled MEMBER formatsUntestedEnabled NOTIFY formatsUntestedEnabledChanged)
-	Q_PROPERTY(QStringList formatsRawEnabled MEMBER formatsRawEnabled NOTIFY formatsRawEnabledChanged)
+	Q_PROPERTY(QStringList formats_qt MEMBER formats_qt NOTIFY formats_qtChanged)
+	Q_PROPERTY(QStringList formats_gm MEMBER formats_gm NOTIFY formats_gmChanged)
+	Q_PROPERTY(QStringList formats_gm_ghostscript MEMBER formats_gm_ghostscript NOTIFY formats_gm_ghostscriptChanged)
+	Q_PROPERTY(QStringList formats_extras MEMBER formats_extras NOTIFY formats_extrasChanged)
+	Q_PROPERTY(QStringList formats_untested MEMBER formats_untested NOTIFY formats_untestedChanged)
+	Q_PROPERTY(QStringList formats_raw MEMBER formats_raw NOTIFY formats_rawChanged)
+
+	void setAvailableFormats() {
+
+		if(verbose) LOG << DATE << "Setting available file formats" << std::endl;
+
+		formats_qt = FileFormatsHandler::AvailableFormats::getListForQt();
+		formats_gm = FileFormatsHandler::AvailableFormats::getListForGm();
+		formats_gm_ghostscript = FileFormatsHandler::AvailableFormats::getListForGmGhostscript();
+		formats_extras = FileFormatsHandler::AvailableFormats::getListForExtras();
+		formats_untested = FileFormatsHandler::AvailableFormats::getListForUntested();
+		formats_raw = FileFormatsHandler::AvailableFormats::getListForRaw();
+
+	}
 
 	void setDefaultFormats() {
 
-		formatsQtEnabled.clear();
-		formatsGmEnabled.clear();
-		formatsGmGhostscriptEnabled.clear();
-		formatsExtrasEnabled.clear();
-		formatsUntestedEnabled.clear();
-		formatsRawEnabled.clear();
-
-		/******************************
-		 ***** 14 FORMATS WORKING *****
-		 ******************************/
-
-		formatsQtEnabled << "*.bmp"	// Microsoft Windows bitmap
-				 << "*.bitmap"
-
-				 << "*.dds"	// Direct Draw Surface
-
-				 << "*.gif"	// CompuServe Graphics Interchange Format
-
-				 << "*.tif"	// Tagged Image File Format
-				 << "*.tiff"
-
-				 << "*.jpeg2000"	// JPEG-2000 Code Stream Syntax
-				 << "*.jp2"
-				 << "*.jpc"
-				 << "*.j2k"
-				 << "*.jpf"
-				 << "*.jpx"
-				 << "*.jpm"
-				 << "*.mj2"
-
-				 << "*.mng"	// Multiple-image Network Graphics
-
-				 << "*.ico"	// Microsoft icon
-				 << "*.icns"
-
-				 << "*.jpeg"	// Joint Photographic Experts Group JFIF format
-				 << "*.jpg"
-
-				 << "*.png"	// Portable Network Graphics
-
-				 << "*.pbm"	// Portable bitmap format (black and white)
-
-				 << "*.pgm"	// Portable graymap format (gray scale)
-
-				 << "*.ppm"	// Portable pixmap format (color)
-
-				 << "*.svg"	// Scalable Vector Graphics
-				 << "*.svgz"
-
-				 << "*.wbmp"	// Wireless bitmap
-				 << "*.webp"
-
-				 << "*.xbm"	// X Windows system bitmap, black and white only
-
-				 << "*.xpm";	// X Windows system pixmap
-
-
-
-		formatsExtrasEnabled << "**.psb"
-							 << "**.psd"
-							 << "**.xcf";
-
-#ifdef GM
-
-
-		/**************************************
-		 ***** 49 FORMATS PASSED THE TEST *****
-		 **************************************/
-
-// WORKING
-		formatsGmEnabled << "*.avs"	//AVS X image
-				<< "*.x"
-
-// WORKING
-				<< "*.cals"	// Continuous Acquisition and Life-cycle Support Type 1 image
-				<< "*.cal"
-				<< "*.dcl"
-				<< "*.ras"
-
-// WORKING
-				<< "*.cin"	// Kodak Cineon
-
-// WORKING
-				<< "*.cut"	// DR Halo
-
-// WORKING
-				<< "*.acr"	// Digital Imaging and Communications in Medicine (DICOM) image
-				<< "*.dcm"
-				<< "*.dicom"
-				<< "*.dic"
-
-// WORKING
-				<< "*.dcx"	// ZSoft IBM PC multi-page Paintbrush image
-
-// WORKING
-				<< "*.dib"	// Microsoft Windows Device Independent Bitmap
-
-// WORKING
-				<< "*.dpx"	// Digital Moving Picture Exchange
-
-// WORKING
-				<< "*.epdf"	// Encapsulated Portable Document Format
-
-// WORKING
-				<< "*.fax"	// Group 3 FAX
-
-// WORKING
-				<< "*.fits"	// Flexible Image Transport System
-				<< "*.fts"
-				<< "*.fit"
-
-// WORKING
-				<< "*.fpx"	// FlashPix Format
-
-// WORKING
-				<< "*.jng"	// JPEG Network Graphics
-
-// WORKING
-				<< "*.mat"	// MATLAB image format
-
-// WORKING
-				<< "*.miff"	// Magick image file format
-
-// WORKING
-				<< "*.mono"	// Bi-level bitmap in least-significant-byte first order
-
-// WORKING
-				<< "*.mtv"	// MTV Raytracing image format
-
-// WORKING
-				<< "*.otb"	// On-the-air Bitmap
-
-// WORKING
-				<< "*.p7"	// Xv's Visual Schnauzer thumbnail format
-
-// WORKING
-				<< "*.palm"	// Palm pixmap
-
-// WORKING
-				<< "*.pam"	// Portable Arbitrary Map format
-
-// WORKING
-				<< "*.pcd"	// Photo CD
-				<< "*.pcds"
-
-// WORKING
-				<< "*.pcx"	// ZSoft IBM PC Paintbrush file
-
-// WORKING
-				<< "*.pdb"	// Palm Database ImageViewer Format
-
-// WORKING
-				<< "*.pict"	// Apple Macintosh QuickDraw /PICT file
-				<< "*.pct"
-				<< "*.pic"
-
-// WORKING
-				<< "*.pix"	// Alias/Wavefront RLE image format
-				<< "*.pal"
-
-// WORKING
-				<< "*.pnm"	// Portable anymap
-
-// WORKING
-				<< "*.psd"	// Adobe Photoshop bitmap file
-
-// WORKING
-				<< "*.ptif"	// Pyramid encoded TIFF
-				<< "*.ptiff"
-
-// WORKING
-				<< "*.sfw"	// Seattle File Works image
-
-// WORKING
-				<< "*.sgi"	// Irix RGB image
-
-// WORKING
-				<< "*.sun"	// SUN Rasterfile
-
-// WORKING
-				<< "*.tga"	// Truevision Targa image
-
-// WORKING
-				<< "*.txt"	// Text files
-
-// WORKING
-				<< "*.vicar"	// VICAR rasterfile format
-
-// WORKING
-				<< "*.viff"	// Khoros Visualization Image File Format
-
-// WORKING
-				<< "*.wpg"	// Word Perfect Graphics File
-
-// WORKING
-				<< "*.xwd";	// X Windows system window dump
-
-
-// WORKING (Ghostscript required)
-		formatsGmGhostscriptEnabled << "*.epi"	// Adobe Encapsulated PostScript Interchange format
-				<< "*.epsi"
-
-// WORKING (Ghostscript required)
-				<< "*.eps"	// Adobe Encapsulated PostScript
-				<< "*.epsf"
-
-// WORKING (Ghostscript required)
-				<< "*.eps2"	// Adobe Level II Encapsulated PostScript
-
-// WORKING (Ghostscript required)
-				<< "*.eps3"	// Adobe Level III Encapsulated PostScript
-
-// WORKING (Ghostscript required)
-				<< "*.ept"	// Adobe Encapsulated PostScript Interchange format with TIFF preview
-
-// WORKING (Ghostscript required)
-				<< "*.pdf"	// Portable Document Format
-
-// WORKING (Ghostscript required)
-				<< "*.ps"	// Adobe PostScript file
-
-// WORKING (Ghostscript required)
-				<< "*.ps2"	// Adobe Level II PostScript file
-
-// WORKING (Ghostscript required)
-				<< "*.ps3";	// Adobe Level III PostScript file
-
-
-// UNTESTED (no test image available)
-		formatsUntestedEnabled << "*.hp"	// HP-GL plotter language
-				<< "*.hpgl"
-				<< "*.jbig"	// Joint Bi-level Image experts Group file interchange format
-				<< "*.jbg"
-				<< "*.pwp"	// Seattle File Works multi-image file
-				<< "*.rast"	// Sun Raster Image
-				<< "*.rla"	// Alias/Wavefront image file
-				<< "*.rle"	// Utah Run length encoded image file
-				<< "*.sct"	// Scitex Continuous Tone Picture
-				<< "*.tim";	// PSX TIM file
-
-#endif
-
-		formatsRawEnabled << "*.3fr"				// Hasselblad
-				<< "*.ari"							// ARRIFLEX
-				<< "*.arw" << "*.srf" << "*.sr2"	// Sony
-				<< "*.bay"							// Casio
-				<< "*.crw" << "*.crr"				// Canon
-				<< "*.cap" << "*.liq" << "*.eip"	// Phase_one
-				<< "*.dcs" << "*.dcr" << "*.drf"
-						<< "*.k25" << "*.kdc"		// Kodak
-				<< "*.dng"							// Adobe
-				<< "*.erf"							// Epson
-				<< "*.fff"							// Imacon/Hasselblad raw
-				<< "*.mef"							// Mamiya
-				<< "*.mdc"							// Minolta, Agfa
-				<< "*.mos"							// Leaf
-				<< "*.mrw"							// Minolta, Konica Minolta
-				<< "*.nef" << "*.nrw"				// Nikon
-				<< "*.orf"							// Olympus
-				<< "*.pef" << "*.ptx"				// Pentax
-				<< "*.pxn"							// Logitech
-				<< "*.r3d"							// RED Digital Cinema
-				<< "*.raf"							// Fuji
-				<< "*.raw" << "*.rw2"				// Panasonic
-				<< "*.raw" << "*.rwl" << "*.dng"	// Leica
-				<< "*.rwz"							// Rawzor
-				<< "*.srw"							// Samsung
-				<< "*.x3f";							// Sigma
+		setAvailableFormats();
+
+		if(verbose) LOG << DATE << "Filtering out default file formats" << std::endl;
+
+		QStringList defaultEnabled = FileFormatsHandler::DefaultFormats::getList();
+
+		QStringList tmp;
+		foreach(QString f, formats_qt)
+			if(defaultEnabled.contains(f))
+				tmp.append(f);
+		formats_qt = tmp;
+
+		tmp.clear();
+		foreach(QString f, formats_gm)
+			if(defaultEnabled.contains(f))
+				tmp.append(f);
+		formats_gm = tmp;
+
+		tmp.clear();
+		foreach(QString f, formats_gm_ghostscript)
+			if(defaultEnabled.contains(f))
+				tmp.append(f);
+		formats_gm_ghostscript = tmp;
+
+		tmp.clear();
+		foreach(QString f, formats_extras)
+			if(defaultEnabled.contains(f))
+				tmp.append(f);
+		formats_extras = tmp;
+
+		tmp.clear();
+		foreach(QString f, formats_untested)
+			if(defaultEnabled.contains(f))
+				tmp.append(f);
+		formats_untested = tmp;
+
+		tmp.clear();
+		foreach(QString f, formats_raw)
+			if(defaultEnabled.contains(f))
+				tmp.append(f);
+		formats_raw = tmp;
 
 	}
-
 
 public slots:
 
-	// Read formats from file (if available)
-	void getFormats(QString path) {
+	void loadFormats() {
 
-		QFile file2(QDir::homePath() + "/.photoqt/fileformats.disabled");
+		if(verbose) LOG << DATE << "Loading disabled file formats from file" << std::endl;
 
-		if(file2.exists()) {
+		QFile file(QDir::homePath() + "/.photoqt/fileformats.disabled");
 
-			if(!file2.open(QIODevice::ReadOnly))
-				std::cerr << "ERROR: Can't open disabled image formats file" << std::endl;
-			else {
-
-				QTextStream in(&file2);
-
-				QString line = in.readLine();
-				while (!line.isNull()) {
-					line = line.trimmed();
-
-					if(line.length() != 0 && formatsQtEnabled.contains(line))
-						formatsQtEnabled.removeAll(line);
-					if(line.length() != 0 && formatsExtrasEnabled.contains(line))
-						formatsExtrasEnabled.removeAll(line);
-					if(line.length() != 0 && formatsGmEnabled.contains(line))
-						formatsGmEnabled.removeAll(line);
-					if(line.length() != 0 && formatsGmGhostscriptEnabled.contains(line))
-						formatsGmGhostscriptEnabled.removeAll(line);
-					if(line.length() != 0 && formatsUntestedEnabled.contains(line))
-						formatsUntestedEnabled.removeAll(line);
-					if(line.length() != 0 && formatsRawEnabled.contains(line))
-						formatsRawEnabled.removeAll(line);
-
-					line = in.readLine();
-				}
-
-			}
-
+		// At first startup, this file might not (yet) exist, but we can simply set the
+		// default formats as they are currently in the process of being set anyways
+		if(!file.exists()) {
+			setDefaultFormats();
+			return;
 		}
 
-		emit formatsQtEnabledChanged(formatsQtEnabled);
-		emit formatsGmEnabledChanged(formatsGmEnabled);
-		emit formatsGmGhostscriptEnabledChanged(formatsGmGhostscriptEnabled);
-		emit formatsExtrasEnabledChanged(formatsExtrasEnabled);
-		emit formatsUntestedEnabledChanged(formatsUntestedEnabled);
-		emit formatsRawEnabledChanged(formatsRawEnabled);
+		if(!file.open(QIODevice::ReadOnly)) {
+			LOG << DATE << "ERROR! Unable to open file to load disabled fileformats. Using default settings..." << std::endl;
+			setDefaultFormats();
+			return;
+		}
+
+		QTextStream in(&file);
+		QStringList disabled = in.readAll().split("\n",QString::SkipEmptyParts);
+
+		setAvailableFormats();
+
+		QStringList tmp;
+		foreach(QString f, formats_qt)
+			if(!disabled.contains(f))
+				tmp.append(f);
+		formats_qt = tmp;
+
+		tmp.clear();
+		foreach(QString f, formats_gm)
+			if(!disabled.contains(f))
+				tmp.append(f);
+		formats_gm = tmp;
+
+		tmp.clear();
+		foreach(QString f, formats_gm_ghostscript)
+			if(!disabled.contains(f))
+				tmp.append(f);
+		formats_gm_ghostscript = tmp;
+
+		tmp.clear();
+		foreach(QString f, formats_extras)
+			if(!disabled.contains(f))
+				tmp.append(f);
+		formats_extras = tmp;
+
+		tmp.clear();
+		foreach(QString f, formats_untested)
+			if(!disabled.contains(f))
+				tmp.append(f);
+		formats_untested = tmp;
+
+		tmp.clear();
+		foreach(QString f, formats_raw)
+			if(!disabled.contains(f))
+				tmp.append(f);
+		formats_raw = tmp;
 
 	}
 
-private slots:
+	void saveFormats() {
 
-	void initiateSaving() {
-		saveFormats(TMP_formatsQtEnabled, TMP_formatsGmEnabled, TMP_formatsGmGhostscriptEnabled, TMP_formatsExtrasEnabled, TMP_formatsUntestedEnabled, TMP_formatsRawEnabled);
-	}
+		if(verbose) LOG << DATE << "Saving disabled file formats to file" << std::endl;
 
-	// Save all enabled formats to file
-	void saveFormats(QStringList new_qtFormats, QStringList new_gmFormats, QStringList new_gmghostscriptFormats,
-					 QStringList new_extrasFormats, QStringList new_untestedFormats, QStringList new_rawFormats) {
-
-		setDefaultFormats();
+		QStringList current_qt = formats_qt;
+		QStringList current_gm = formats_gm;
+		QStringList current_gm_ghostscript = formats_gm_ghostscript;
+		QStringList current_extras = formats_extras;
+		QStringList current_untested = formats_untested;
+		QStringList current_raw = formats_raw;
 
 		QStringList disabled;
 
-		for(int i = 0; i < formatsQtEnabled.length(); ++i) {
+		setAvailableFormats();
 
-			if(!new_qtFormats.contains(formatsQtEnabled.at(i)))
-				disabled.append(formatsQtEnabled.at(i));
+		foreach(QString f, formats_qt)
+			if(!current_qt.contains(f))
+				disabled.append(f);
 
-		}
+		foreach(QString f, formats_gm)
+			if(!current_gm.contains(f))
+				disabled.append(f);
 
-		for(int i = 0; i < formatsGmEnabled.length(); ++i) {
+		foreach(QString f, formats_gm_ghostscript)
+			if(!current_gm_ghostscript.contains(f))
+				disabled.append(f);
 
-			if(!new_gmFormats.contains(formatsGmEnabled.at(i)))
-				disabled.append(formatsGmEnabled.at(i));
+		foreach(QString f, formats_extras)
+			if(!current_extras.contains(f))
+				disabled.append(f);
 
-		}
+		foreach(QString f, formats_untested)
+			if(!current_untested.contains(f))
+				disabled.append(f);
 
-		for(int i = 0; i < formatsGmGhostscriptEnabled.length(); ++i) {
-
-			if(!new_gmghostscriptFormats.contains(formatsGmGhostscriptEnabled.at(i)))
-				disabled.append(formatsGmGhostscriptEnabled.at(i));
-
-		}
-
-		for(int i = 0; i < formatsExtrasEnabled.length(); ++i) {
-
-			if(!new_extrasFormats.contains(QString(formatsExtrasEnabled.at(i)).remove(0,1)))
-				disabled.append(formatsExtrasEnabled.at(i));
-
-		}
-
-		for(int i = 0; i < formatsUntestedEnabled.length(); ++i) {
-
-			if(!new_untestedFormats.contains(formatsUntestedEnabled.at(i)))
-				disabled.append(formatsUntestedEnabled.at(i));
-
-		}
-
-		for(int i = 0; i < formatsRawEnabled.length(); ++i) {
-
-			if(!new_rawFormats.contains(formatsRawEnabled.at(i)))
-				disabled.append(formatsRawEnabled.at(i));
-
-		}
-
-		formatsQtEnabled = new_qtFormats;
-		formatsGmEnabled = new_gmFormats;
-		formatsGmGhostscriptEnabled = new_gmghostscriptFormats;
-		formatsExtrasEnabled = new_extrasFormats;
-		formatsUntestedEnabled = new_untestedFormats;
-		formatsRawEnabled = new_rawFormats;
+		foreach(QString f, formats_raw)
+			if(!current_raw.contains(f))
+				disabled.append(f);
 
 		QFile file(QDir::homePath() + "/.photoqt/fileformats.disabled");
-		if(file.exists()) {
-			if(!file.remove())
-				std::cerr << "ERROR: Cannot replace disabled image formats file" << std::endl;
+		if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+			LOG << DATE << "ERROR! Unable to save update fileformats..." << std::endl;
+			return;
 		}
-		if(!file.open(QIODevice::WriteOnly))
-			std::cerr << "ERROR: Cannot write to disabled image formats file" << std::endl;
-		else {
-			QTextStream out(&file);
-			out << disabled.join("\n");
-			file.close();
-		}
+
+		QTextStream out(&file);
+		out << disabled.join("\n");
 
 	}
 
 signals:
-	void formatsQtEnabledChanged(QStringList val);
-	void formatsGmEnabledChanged(QStringList val);
-	void formatsGmGhostscriptEnabledChanged(QStringList val);
-	void formatsExtrasEnabledChanged(QStringList val);
-	void formatsUntestedEnabledChanged(QStringList val);
-	void formatsRawEnabledChanged(QStringList val);
+	void formats_qtChanged(QStringList val);
+	void formats_gmChanged(QStringList val);
+	void formats_gm_ghostscriptChanged(QStringList val);
+	void formats_extrasChanged(QStringList val);
+	void formats_untestedChanged(QStringList val);
+	void formats_rawChanged(QStringList val);
 
 };
 
-#endif // FILEFORMATS_H
+#endif

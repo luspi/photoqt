@@ -69,7 +69,7 @@ EntryContainer {
 		var tmp_types_gm = []
 
 		// Get current settings
-		var setformats = fileformats.formatsGmGhostscriptEnabled
+		var setformats = fileformats.formats_gm_ghostscript
 
 		// Valid fileformats
 		var gm = [["Encapsulated PostScript","*.eps", "*.epsf"],
@@ -123,7 +123,7 @@ EntryContainer {
 		}
 
 		// Update data
-		fileformats.formatsGmGhostscriptEnabled = tobesaved.filter(function(n){ return n !== ""; })
+		fileformats.formats_gm_ghostscript = tobesaved.filter(function(n){ return n !== ""; })
 
 	}
 

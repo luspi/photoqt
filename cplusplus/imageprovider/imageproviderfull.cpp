@@ -6,11 +6,12 @@ ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider
 
 	settingsPerSession = new QSettings("photoqt_session");
 	settings = new Settings;
-	fileformats = new FileFormats();
+	fileformats = new FileFormats(verbose);
 
-	gmfiles = fileformats->formatsGmEnabled.join(",") + fileformats->formatsGmGhostscriptEnabled.join(",") + fileformats->formatsUntestedEnabled.join(",");
-	qtfiles = fileformats->formatsQtEnabled.join(",");
-	extrasfiles = fileformats->formatsExtrasEnabled.join(",");
+	gmfiles = fileformats->formats_gm.join(",") + fileformats->formats_gm_ghostscript.join(",") + fileformats->formats_untested.join(",");
+	qtfiles = fileformats->formats_qt.join(",");
+	extrasfiles = fileformats->formats_extras.join(",");
+	rawfiles = fileformats->formats_raw.join(",");
 
 }
 
@@ -67,6 +68,21 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
 			// We need to remove the first character of qtfiles.at(i), since that is a "*"
 			if(filename.toLower().endsWith(QString(extrasFiles.at(i)).remove(0,2)))  {
 				use = "extra";
+				break;
+			}
+		}
+
+	}
+
+	if(rawfiles.trimmed() != "") {
+
+		QStringList rawFiles = rawfiles.split(",");
+
+		// Check for raw
+		for(int i = 0; i < rawFiles.length(); ++i) {
+			// We need to remove the first character of qtfiles.at(i), since that is a "*"
+			if(filename.toLower().endsWith(QString(rawFiles.at(i)).remove(0,1)))  {
+				use = "raw";
 				break;
 			}
 		}

@@ -74,7 +74,7 @@ EntryContainer {
 		var tmp_types_raw = []
 
 		// Get current settings
-		var setformats = fileformats.formatsRawEnabled
+		var setformats = fileformats.formats_raw
 
 		// Valid fileformats
 		var raw = [["Hasselblad", "*.3fr"],
@@ -146,7 +146,7 @@ EntryContainer {
 		}
 
 		// Update data
-		fileformats.formatsRawEnabled = tobesaved.filter(function(n){ return n !== ""; })
+		fileformats.formats_raw = tobesaved.filter(function(n){ return n !== ""; })
 
 	}
 

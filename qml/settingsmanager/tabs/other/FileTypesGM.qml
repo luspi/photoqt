@@ -69,7 +69,7 @@ EntryContainer {
 		var tmp_types_gm = []
 
 		// Get current settings
-		var setformats = fileformats.formatsGmEnabled
+		var setformats = fileformats.formats_gm
 
 		// Valid fileformats
 		var gm = [["AVS X image", "*.avs", "*.x"],
@@ -153,7 +153,7 @@ EntryContainer {
 		}
 
 		// Update data
-		fileformats.formatsGmEnabled = tobesaved.filter(function(n){ return n !== ""; })
+		fileformats.formats_gm = tobesaved.filter(function(n){ return n !== ""; })
 
 	}
 

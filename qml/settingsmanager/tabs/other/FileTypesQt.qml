@@ -74,7 +74,7 @@ EntryContainer {
 		var tmp_types_qt = []
 
 		// Get current settings
-		var setformats = fileformats.formatsQtEnabled
+		var setformats = fileformats.formats_qt
 
 		// Valid fileformats
 		var qt = [["Bitmap", "*.bmp", "*.bitmap"],
@@ -136,7 +136,7 @@ EntryContainer {
 		}
 
 		// Update data
-		fileformats.formatsQtEnabled = tobesaved.filter(function(n){ return n !== ""; })
+		fileformats.formats_qt = tobesaved.filter(function(n){ return n !== ""; })
 
 	}
 

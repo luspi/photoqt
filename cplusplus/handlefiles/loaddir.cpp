@@ -3,7 +3,7 @@
 LoadDir::LoadDir(bool verbose) : QObject() {
 	this->verbose = verbose;
 	settings = new Settings;
-	fileformats = new FileFormats;
+	fileformats = new FileFormats(verbose);
 }
 
 LoadDir::~LoadDir() {
@@ -21,7 +21,8 @@ QFileInfoList LoadDir::loadDir(QString filepath, QString filter) {
 	// Set appropriate filter
 	if(filter.trimmed() == "") {
 		// These are the images known by PhotoQt
-		QStringList flt1 = fileformats->formatsQtEnabled+fileformats->formatsGmEnabled+fileformats->formatsGmGhostscriptEnabled+fileformats->formatsExtrasEnabled+fileformats->formatsUntestedEnabled;
+		QStringList flt1 = fileformats->formats_qt+fileformats->formats_gm+fileformats->formats_gm_ghostscript
+				+fileformats->formats_extras+fileformats->formats_untested+fileformats->formats_raw;
 		QStringList flt2 = flt1;
 		for(int i = 0; i < flt2.length(); ++i)
 			flt2[i] = flt2.at(i).toUpper();

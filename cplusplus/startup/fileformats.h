@@ -14,49 +14,12 @@ namespace StartupCheck {
 
 			if(verbose) LOG << DATE << "StartupCheck::FileFormats" << std::endl;
 
-			// We moved from old way of handling image formats to new way
-			// We can't do it before here, since we need access to global settings
+			// At this point, we only check if the file exists. If it doesn't, then the return value 'true'
+			// is passed on to the MainWindow class later-on for setting the default fileformats
+
 			QFile fileformatsFile(QDir::homePath() + "/.photoqt/fileformats.disabled");
-
-			if(!fileformatsFile.exists()) {
-
-				// File content of disabled fileformats
-				QString fileformatsDisabled = "*.epi\n";
-				fileformatsDisabled += "*.epsi\n";
-				fileformatsDisabled += "*.eps\n";
-				fileformatsDisabled += "*.epsf\n";
-				fileformatsDisabled += "*.eps2\n";
-				fileformatsDisabled += "*.eps3\n";
-				fileformatsDisabled += "*.ept\n";
-				fileformatsDisabled += "*.pdf\n";
-				fileformatsDisabled += "*.ps\n";
-				fileformatsDisabled += "*.ps2\n";
-				fileformatsDisabled += "*.ps3\n";
-				fileformatsDisabled += "*.hp\n";
-				fileformatsDisabled += "*.hpgl\n";
-				fileformatsDisabled += "*.jbig\n";
-				fileformatsDisabled += "*.jbg\n";
-				fileformatsDisabled += "*.pwp\n";
-				fileformatsDisabled += "*.rast\n";
-				fileformatsDisabled += "*.rla\n";
-				fileformatsDisabled += "*.rle\n";
-				fileformatsDisabled += "*.sct\n";
-				fileformatsDisabled += "*.tim\n";
-				fileformatsDisabled += "**.psb\n";
-				fileformatsDisabled += "**.psd\n";
-				fileformatsDisabled += "**.xcf\n";
-
-				// Write 'disabled filetypes' file
-				if(fileformatsFile.open(QIODevice::WriteOnly)) {
-					QTextStream out(&fileformatsFile);
-					out << fileformatsDisabled;
-					fileformatsFile.close();
-				} else
-					LOG << DATE << "ERROR: Can't write default disabled fileformats file" << std::endl;
-
+			if(!fileformatsFile.exists())
 				return true;
-
-			}
 
 			return false;
 

@@ -69,7 +69,7 @@ EntryContainer {
 		var tmp_types_untested = []
 
 		// Get current settings
-		var setformats = fileformats.formatsUntestedEnabled
+		var setformats = fileformats.formats_untested
 
 		// Valid fileformats
 		var untested = [["HP-GL plotter language","*.hp", "*.hpgl"],
@@ -123,7 +123,7 @@ EntryContainer {
 		}
 
 		// Update data
-		fileformats.formatsUntestedEnabled = tobesaved.filter(function(n){ return n !== ""; })
+		fileformats.formats_untested = tobesaved.filter(function(n){ return n !== ""; })
 
 	}
 

@@ -5,7 +5,7 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 	// Settings and variables
 	settingsPerSession = new SettingsSession;
 	settingsPermanent = new Settings;
-	fileformats = new FileFormats;
+	fileformats = new FileFormats(verbose);
 	variables = new Variables;
 	shortcuts = new Shortcuts;
 
