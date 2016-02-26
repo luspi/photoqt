@@ -37,7 +37,8 @@ public:
 
 	// These are used by main.cpp when thumbnails are disabled at startup, or to set default fileformats
 	void disableThumbnails() { settingsPermanent->thumbnailDisable = true; }
-	void setDefaultFileFormats() { fileformats->getFormats(""); }
+	void setDefaultFileFormats() { fileformats->setDefaultFormats(); fileformats->getFormats(""); fileformats->initiateSaving(); }
+	void setDefaultSettings() { settingsPermanent->saveSettings(); }
 
 	void showStartup(QString type);
 

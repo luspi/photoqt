@@ -1,0 +1,60 @@
+#ifndef STARTUPUPDATECHECK_H
+#define STARTUPUPDATECHECK_H
+
+#include <QString>
+#include <QFile>
+#include <QTextStream>
+#include "../logger.h"
+
+namespace StartupCheck {
+
+	namespace UpdateCheck {
+
+		// 0 = nothing, 1 = update, 2 = install
+		static inline int checkForUpdateInstall(bool verbose, QString *settingsText) {
+
+			if(verbose) LOG << DATE << "StartupCheck::UpdateCheck|" << std::endl;
+
+			QString version = VERSION;
+
+			if(*settingsText == "") {
+				if(verbose) LOG << DATE << "PhotoQt newly installed! Creating empty settings file" << std::endl;
+				*settingsText = "Version=" + version + "\n";
+				return 2;
+			}
+
+			if(verbose) LOG << DATE << "Checking if first run of new version" << std::endl;
+
+			// If it doesn't contain current version (some previous version)
+			if(!settingsText->contains("Version=" + version)) {
+
+				if(verbose) LOG << DATE << "PhotoQt updated" << std::endl;
+
+				if(!settingsText->contains("Version=")) {
+					*settingsText = "Version=" + version + "\n" + *settingsText;
+					return 1;
+				}
+
+				QStringList splitAtVersion = settingsText->split("Version=");
+				QStringList splitAfterVersion = splitAtVersion.at(1).split("\n");
+				splitAfterVersion.removeFirst();
+
+				QString newtext = "Version=" + version + "\n";
+				newtext += splitAtVersion.at(0);
+				newtext += splitAfterVersion.join("\n");
+
+				*settingsText = newtext;
+
+				return 1;
+
+			}
+
+			return 0;
+
+		}
+
+	}
+
+}
+
+#endif // STARTUPUPDATECHECK_H

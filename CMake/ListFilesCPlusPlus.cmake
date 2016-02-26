@@ -5,6 +5,10 @@
 SET(d "cplusplus")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/main.cpp ${d}/mainwindow.cpp ${d}/variables.h ${d}/logger.h)
 
+SET(d "cplusplus/startup")
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/migration.h ${d}/updatecheck.h ${d}/startintray.h ${d}/localisation.h ${d}/thumbnails.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/fileformats.h ${d}/configfolder.h ${d}/screenshots.h)
+
 SET(d "cplusplus/handlefiles")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/loaddir.cpp)
 
@@ -40,6 +44,10 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/tooltip.cpp)
 
 SET(d "cplusplus")
 SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/mainwindow.h ${d}/variables.h ${d}/logger.h)
+
+SET(d "cplusplus/startup")
+SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/migration.h ${d}/updatecheck.h ${d}/startintray.h ${d}/localisation.h ${d}/thumbnails.h)
+SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/fileformats.h ${d}/configfolder.h ${d}/screenshots.h)
 
 SET(d "cplusplus/handlefiles")
 SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/loaddir.h)
