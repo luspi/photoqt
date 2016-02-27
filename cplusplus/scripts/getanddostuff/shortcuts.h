@@ -10,6 +10,7 @@
 #include <QTextStream>
 #include <QTime>
 #include <QFileSystemWatcher>
+#include <QTimer>
 
 class GetAndDoStuffShortcuts : public QObject {
 
@@ -30,6 +31,7 @@ private:
 
 private slots:
 	void fileChanged();
+	void setFilesToWatcher();
 
 signals:
 	void shortcutFileChanged(int);

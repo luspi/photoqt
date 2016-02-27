@@ -29,7 +29,7 @@ public:
 		this->verbose = verbose;
 
 		watcher = new QFileSystemWatcher;
-		watcher->addPaths(QStringList() << QDir::homePath() + "/.photoqt/settings" << QDir::homePath() + "/.photoqt/fileformats.disabled");
+		setFilesToWatcher();
 		connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(loadFormats()));
 
 		// When saving the settings, we don't want to write the settings file hundreds of time within a few milliseconds, but use a timer to save it once after all settings are set
@@ -126,6 +126,15 @@ public:
 	}
 
 public slots:
+
+	void setFilesToWatcher() {
+		if(!QFile(QDir::homePath() + "/.photoqt/settings").exists()
+				|| !QFile(QDir::homePath() + "/.photoqt/fileformats.disabled").exists())
+			QTimer::singleShot(250, this, SLOT(setFilesToWatcher()));
+		else
+			watcher->addPaths(QStringList() << QDir::homePath() + "/.photoqt/settings"
+							  << QDir::homePath() + "/.photoqt/fileformats.disabled");
+	}
 
 	void loadFormats() {
 

@@ -4,12 +4,19 @@ GetAndDoStuffShortcuts::GetAndDoStuffShortcuts(QObject *parent) : QObject(parent
 
 	// We watch the shortcuts file and inform the ui if it changed (in order to reload the shortcuts)
 	watcher = new QFileSystemWatcher;
-	watcher->addPath(QDir::homePath() + "/.photoqt/shortcuts");
+	setFilesToWatcher();
 	connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(fileChanged()));
 
 }
 
 GetAndDoStuffShortcuts::~GetAndDoStuffShortcuts() { }
+
+void GetAndDoStuffShortcuts::setFilesToWatcher() {
+	if(!QFile(QDir::homePath() + "/.photoqt/shortcuts").exists())
+		QTimer::singleShot(250, this, SLOT(setFilesToWatcher()));
+	else
+		watcher->addPath(QDir::homePath() + "/.photoqt/shortcuts");
+}
 
 // The shortcutfile has changed
 void GetAndDoStuffShortcuts::fileChanged() {
@@ -17,12 +24,8 @@ void GetAndDoStuffShortcuts::fileChanged() {
 	// Inform ui. We use an actual int, as he value has to change for the on__Changed signal to get triggered
 	emit shortcutFileChanged(QTime::currentTime().msecsSinceStartOfDay());
 
-	// Re-add file to watcher (for more details see watcher in setting.h)
-	QFileInfo checkFile(QDir::homePath() + "/.photoqt/shortcuts");
-	while(!checkFile.exists())
-		std::this_thread::sleep_for(std::chrono::milliseconds(10));
-
-	watcher->addPath(QDir::homePath() + "/.photoqt/shortcuts");
+	// Re-add file to watcher
+	setFilesToWatcher();
 
 }
 

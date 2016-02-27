@@ -22,7 +22,7 @@ public:
 
 		// Watch the settings file (this needs to come BEFORE readSettings() as there's a bug in it (see readSettings() function)
 		watcher = new QFileSystemWatcher;
-		watcher->addPath(QDir::homePath() + "/.photoqt/settings");
+		setFilesToWatcher();
 		connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(readSettings()));
 
 		// Read settings initially
@@ -573,6 +573,14 @@ public:
 	/*#################################################################################################*/
 
 public slots:
+
+	void setFilesToWatcher() {
+		if(!QFile(QDir::homePath() + "/.photoqt/settings").exists())
+			QTimer::singleShot(250, this, SLOT(setFilesToWatcher()));
+		else
+			watcher->addPath(QDir::homePath() + "/.photoqt/settings");
+	}
+
 	// Save settings
 	void saveSettings() {
 
@@ -731,11 +739,7 @@ public slots:
 		// QFileSystemWatcher always thinks that a file was deleted, even if it was only modified.
 		// Thus, we need to re-add it to its list of watched files. Since the file might not yet be completely written, we
 		// check if the file exists and wait for that (needs C++11 features)
-		QFileInfo checkFile(QDir::homePath() + "/.photoqt/settings");
-		while(!checkFile.exists())
-			std::this_thread::sleep_for(std::chrono::milliseconds(10));
-
-		watcher->addPath(QDir::homePath() + "/.photoqt/settings");
+		setFilesToWatcher();
 
 		// Set default values to start out with
 		setDefault();
