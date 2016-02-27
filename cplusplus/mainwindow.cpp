@@ -394,43 +394,30 @@ bool MainWindow::event(QEvent *e) {
 		if(variables->verbose)
 			LOG << DATE << "closeEvent()" << std::endl;
 
-		// If a widget (like settings or about) is open, then this close event only closes this widget (like escape)
-		if(object->property("blocked").toBool()) {
+		// Hide to system tray (except if a 'quit' was requested)
+		if(settingsPermanent->trayicon == 1 && !variables->skipSystemTrayAndQuit) {
 
-			if(variables->verbose)
-				LOG << DATE << "closeEvent(): Ignoring event, sending 'Escape' shortcut" << std::endl;
-
+			trayAction(QSystemTrayIcon::Trigger);
+			if(variables->verbose) LOG << DATE << "closeEvent(): Hiding to System Tray." << std::endl;
 			e->ignore();
 
-			detectedKeyCombo("Escape");
-
+		// Quit
 		} else {
 
-            // Hide to system tray (except if a 'quit' was requested)
-			if(settingsPermanent->trayicon == 1 && !variables->skipSystemTrayAndQuit) {
+			// Save current geometry
+			QSettings settings("photoqt","photoqt");
+			settings.setValue("mainWindowGeometry", geometry());
 
-                trayAction(QSystemTrayIcon::Trigger);
-				if(variables->verbose) LOG << DATE << "closeEvent(): Hiding to System Tray." << std::endl;
-				e->ignore();
+			e->accept();
 
-			// Quit
-			} else {
+			if(variables->verbose)
+				LOG << DATE;
+			LOG << "Goodbye!" << std::endl;
 
-				// Save current geometry
-				QSettings settings("photoqt","photoqt");
-				settings.setValue("mainWindowGeometry", geometry());
-
-				e->accept();
-
-				if(variables->verbose)
-					LOG << DATE;
-				LOG << "Goodbye!" << std::endl;
-
-				qApp->quit();
-
-			}
+			qApp->quit();
 
 		}
+
 	}
 
 	return QQuickWindow::event(e);
