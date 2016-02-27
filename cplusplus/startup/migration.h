@@ -1,5 +1,5 @@
-#ifndef STARTUPMIGRATION_H
-#define STARTUPMIGRATION_H
+#ifndef STARTUPCHECK_STARTUPMIGRATION_H
+#define STARTUPCHECK_STARTUPMIGRATION_H
 
 #include "../logger.h"
 
@@ -20,4 +20,4 @@ namespace StartupCheck {
 
 }
 
-#endif // STARTUPMIGRATION_H
+#endif // STARTUPCHECK_STARTUPMIGRATION_H

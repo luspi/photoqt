@@ -1,5 +1,5 @@
-#ifndef SCREENSHOTS_H
-#define SCREENSHOTS_H
+#ifndef STARTUPCHECK_SCREENSHOTS_H
+#define STARTUPCHECK_SCREENSHOTS_H
 
 #include <QScreen>
 #include <QDir>
@@ -30,4 +30,4 @@ namespace StartupCheck {
 
 }
 
-#endif // SCREENSHOTS_H
+#endif // STARTUPCHECK_SCREENSHOTS_H

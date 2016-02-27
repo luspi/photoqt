@@ -1,5 +1,5 @@
-#ifndef CONFIGFOLDER_H
-#define CONFIGFOLDER_H
+#ifndef STARTUPCHECK_CONFIGFOLDER_H
+#define STARTUPCHECK_CONFIGFOLDER_H
 
 #include <QDir>
 #include "../logger.h"
@@ -26,4 +26,4 @@ namespace StartupCheck {
 
 }
 
-#endif // CONFIGFOLDER_H
+#endif // STARTUPCHECK_CONFIGFOLDER_H

@@ -1,5 +1,5 @@
-#ifndef STARTUPTHUMBNAILS_H
-#define STARTUPTHUMBNAILS_H
+#ifndef STARTUPCHECK_STARTUPTHUMBNAILS_H
+#define STARTUPCHECK_STARTUPTHUMBNAILS_H
 
 #include <QFile>
 #include <QtSql>
@@ -79,4 +79,4 @@ namespace StartupCheck {
 
 }
 
-#endif // STARTUPTHUMBNAILS_H
+#endif // STARTUPCHECK_STARTUPTHUMBNAILS_H

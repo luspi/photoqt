@@ -1,5 +1,5 @@
-#ifndef STARTINTRAY_H
-#define STARTINTRAY_H
+#ifndef STARTUPCHECK_STARTINTRAY_H
+#define STARTUPCHECK_STARTINTRAY_H
 
 #include <QScreen>
 #include <QDir>
@@ -41,4 +41,4 @@ namespace StartupCheck {
 
 }
 
-#endif // STARTINTRAY_H
+#endif // STARTUPCHECK_STARTINTRAY_H
