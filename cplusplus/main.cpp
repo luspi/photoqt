@@ -47,8 +47,8 @@ int main(int argc, char *argv[]) {
 	StartupCheck::Screenshots::getAndStore(a.verbose);
 	StartupCheck::StartInTray::makeSureSettingsReflectTrayStartupSetting(a.verbose,a.startintray,&settingsText);
 	StartupCheck::Localisation::loadTranslation(a.verbose, &settingsText);
-	StartupCheck::Thumbnails::checkThumbnailsDatabase(update, a.verbose);
-	bool setDefaultFileformats = StartupCheck::FileFormats::checkForDefaultSettingsFileAndReturnWhetherDefaultsAreToBeSet(a.verbose);
+	StartupCheck::Thumbnails::checkThumbnailsDatabase(update, a.nothumbs, &settingsText, a.verbose);
+	StartupCheck::FileFormats::checkForDefaultSettingsFileAndReturnWhetherDefaultsAreToBeSet(a.verbose);
 
 	// Store the (updated) settings text
 	QFile writesettings(QDir::homePath() + "/.photoqt/settings");
@@ -86,22 +86,12 @@ int main(int argc, char *argv[]) {
 	// A remote action passed on via command line triggers the 'interaction' signal, so we pass it on to the MainWindow
 	QObject::connect(&a, SIGNAL(interaction(QString)), &w, SLOT(remoteAction(QString)));
 
-	// If during the startup checks the need to set the default fileformats was detected, then we do so now
-	if(setDefaultFileformats) w.setDefaultFileFormats();
-	if(update == 2) w.setDefaultSettings();
-
 	// DISPLAY MAINWINDOW
 	if(!a.startintray) {
 		// There's no need to have the code to show the window twice (it used to be here AND in the mainwindow.cpp)
 		w.updateWindowGeometry();
 	} else
 		w.hide();
-
-	// Possibly disable thumbnails
-	if(a.nothumbs) {
-		if(a.verbose) LOG << DATE << "Disabling Thumbnails" << std::endl;
-		w.disableThumbnails();
-	}
 
 	// After a new install/update, we first show a startup message (which, when closed, calls openFile())
 	if(update != 0)

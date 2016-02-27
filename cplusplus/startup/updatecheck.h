@@ -5,6 +5,7 @@
 #include <QFile>
 #include <QTextStream>
 #include "../logger.h"
+#include "../settings/settings.h"
 
 namespace StartupCheck {
 
@@ -20,6 +21,14 @@ namespace StartupCheck {
 			if(*settingsText == "") {
 				if(verbose) LOG << DATE << "PhotoQt newly installed! Creating empty settings file" << std::endl;
 				*settingsText = "Version=" + version + "\n";
+				Settings set;
+				set.saveSettings();
+				QFile file(QDir::homePath() + "/.photoqt/settings");
+				if(file.open(QIODevice::ReadOnly)) {
+					QTextStream in(&file);
+					*settingsText = in.readAll();
+					file.close();
+				}
 				return 2;
 			}
 

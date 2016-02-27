@@ -746,11 +746,11 @@ public slots:
 
 		QFile file(QDir::homePath() + "/.photoqt/settings");
 
-		if(!file.open(QIODevice::ReadOnly))
+		if(file.exists() && !file.open(QIODevice::ReadOnly))
 
 			std::cerr << "ERROR reading settings:" << file.errorString().trimmed().toStdString() << std::endl;
 
-		else {
+		else if(file.exists() && file.isOpen()) {
 
 			if(verbose) std::cerr << "Read Settings from File" << std::endl;
 

@@ -5,12 +5,13 @@
 #include <QFile>
 #include <QTextStream>
 #include "../logger.h"
+#include "../settings/fileformats.h"
 
 namespace StartupCheck {
 
 	namespace FileFormats {
 
-		static inline bool checkForDefaultSettingsFileAndReturnWhetherDefaultsAreToBeSet(bool verbose) {
+		static inline void checkForDefaultSettingsFileAndReturnWhetherDefaultsAreToBeSet(bool verbose) {
 
 			if(verbose) LOG << DATE << "StartupCheck::FileFormats" << std::endl;
 
@@ -18,10 +19,11 @@ namespace StartupCheck {
 			// is passed on to the MainWindow class later-on for setting the default fileformats
 
 			QFile fileformatsFile(QDir::homePath() + "/.photoqt/fileformats.disabled");
-			if(!fileformatsFile.exists())
-				return true;
-
-			return false;
+			if(!fileformatsFile.exists()) {
+				::FileFormats formats(false);
+				formats.setDefaultFormats();
+				formats.saveFormats();
+			}
 
 		}
 
