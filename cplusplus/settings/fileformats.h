@@ -49,7 +49,7 @@ public:
 
 	}
 
-	~FileFormats() { delete watcher; }
+	~FileFormats() { delete watcher; delete saveFileformatsTimer; }
 
 	// Per default enabled image formats
 	QStringList formats_qt;
@@ -245,6 +245,8 @@ public slots:
 
 		QTextStream out(&file);
 		out << disabled.join("\n");
+
+		file.close();
 
 	}
 
