@@ -58,7 +58,7 @@ Rectangle {
 		cellWidth: parent.width
 		cellHeight: 30
 
-		model: shortcuts.length
+		model: ListModel { id: gridmodel }
 
 		delegate: Rectangle {
 
@@ -81,8 +81,8 @@ Rectangle {
 
 			// Click on title triggers shortcut detection
 			ToolTip {
-				cursorShape: shortcuts[index][4] === "key" ? Qt.PointingHandCursor : Qt.ArrowCursor
-				text: shortcuts[index][4] === "key" ? "Click to change shortcut" : ""
+				cursorShape: keymouse === "key" ? Qt.PointingHandCursor : Qt.ArrowCursor
+				text: keymouse === "key" ? "Click to change shortcut" : ""
 				onClicked: triggerDetection()
 				onEntered: ele.hovered = true
 				onExited: ele.hovered = false
@@ -104,13 +104,13 @@ Rectangle {
 						visible: !external
 						color: colour.tiles_text_active
 						elide: Text.ElideRight
-						text: shortcuts[index][0]
+						text: desc
 					}
 					CustomLineEdit {
 						id: externalCommand
 						anchors.fill: parent
 						visible: external
-						text: shortcuts[index][0]
+						text: desc
 						emptyMessage: "The command goes here"
 						onTextEdited:
 							updateExternalString.restart()
@@ -123,7 +123,7 @@ Rectangle {
 						running: false
 						repeat: false
 						onTriggered: {
-							shortcuts[index][0] = externalCommand.getText()
+							gridmodel.set(index,{"desc" : externalCommand.getText()})
 						}
 					}
 				}
@@ -140,7 +140,7 @@ Rectangle {
 					Text {
 						id: sh_key_desc
 						color: colour.tiles_text_active
-						text: shortcuts[index][4] === "key" ? "Key: " : "Mouse: "
+						text: keymouse === "key" ? "Key: " : "Mouse: "
 					}
 					// The current shortcut
 					Rectangle {
@@ -152,10 +152,10 @@ Rectangle {
 
 							id: key_combo
 
-							visible: shortcuts[index][4] === "key"
+							visible: keymouse === "key"
 
 							// We store the current shortcut in seperate variable. A '...' signals that no shortcut is set (yet)
-							property string store: shortcuts[index][1] === "" ? "..." : shortcuts[index][1]
+							property string store: sh === "" ? "..." : sh
 
 							// This boolean is changed when a new shortcut is requested
 							property bool ignoreAllCombos: true
@@ -167,17 +167,11 @@ Rectangle {
 							font.bold: ele.error_doubleShortcut
 							text: getKeyTranslation(store)
 
-							// We update the array with the new data
-							onTextChanged: {
-								if(!ele.error_doubleShortcut)
-									shortcuts[index][1] = getOriginalKeyText(text)
-							}
-
 						}
 
 						Rectangle {
 
-							visible: shortcuts[index][4] === "mouse"
+							visible: keymouse === "mouse"
 
 							color: "transparent"
 							anchors.fill: parent
@@ -193,10 +187,10 @@ Rectangle {
 								model: ["----", getKeyTranslation("Ctrl"), getKeyTranslation("Alt"), getKeyTranslation("Shift"), getKeyTranslation("Ctrl+Alt"), getKeyTranslation("Ctrl+Shift"), getKeyTranslation("Alt+Shift"), getKeyTranslation("Ctrl+Alt+Shift")]
 								onPressedChanged: if(pressed) triggerDetection()
 								Component.onCompleted: {
-									if(shortcuts[index][4] === "mouse") {
+									if(keymouse === "mouse") {
 										for(var i = count-1; i >= 0; --i) {
 											var txt = getOriginalKeyText(textAt(i))
-											if(shortcuts[index][1].slice(0,txt.length) === txt) {
+											if(sh.slice(0,txt.length) === txt) {
 												currentIndex = i
 												break;
 											}
@@ -219,10 +213,10 @@ Rectangle {
 								model: [getKeyTranslation("Left Button"), getKeyTranslation("Right Button"), getKeyTranslation("Middle Button"), getKeyTranslation("Wheel Up"), getKeyTranslation("Wheel Down")]
 								onPressedChanged: if(pressed) triggerDetection()
 								Component.onCompleted: {
-									if(shortcuts[index][4] === "mouse") {
+									if(keymouse === "mouse") {
 										for(var i = count-1; i >= 0; --i) {
 											var txt = getOriginalKeyText(textAt(i))
-											var but = shortcuts[index][1].split("+")
+											var but = sh.split("+")
 											but = but[but.length-1]
 											if(but === txt) {
 												currentIndex = i
@@ -243,7 +237,7 @@ Rectangle {
 								repeat: false
 								running: false
 								onTriggered: {
-									if(shortcuts[index][4] === "mouse") {
+									if(keymouse === "mouse") {
 
 										var composed = ""
 										if(mods.currentIndex != 0)
@@ -253,7 +247,7 @@ Rectangle {
 										// if it was a valid shortcut, we remove it from the list
 										deleteAKeyCombo(key_combo.store)
 
-										key_combo.store = composed
+										gridmodel.set(index,{"sh" : composed })
 										addAKeyCombo(composed)
 
 									}
@@ -334,12 +328,12 @@ Rectangle {
 						key_combo.ignoreAllCombos = true
 						abortDetection.stop()
 						key_combo.font.italic = false
-						if(key_combo.text.charAt(key_combo.text.length-1) == "+")
+						if(key_combo.text.charAt(key_combo.text.length-1) == "+") {
 							key_combo.text = getKeyTranslation(key_combo.store)
-						else {
+						} else {
 							// We delete->change->update the key combo for proper double detection
 							deleteAKeyCombo(key_combo.store)
-							key_combo.store = getOriginalKeyText(key_combo.text)
+							gridmodel.set(index,{"sh" : key_combo.text })
 							addAKeyCombo(key_combo.store)
 						}
 
@@ -408,7 +402,7 @@ Rectangle {
 				// Cancel all detection anywhere, in any category
 				tab_top.cancelDetectionEverywhere()
 
-				if(shortcuts[index][4] === "key") {
+				if(keymouse === "key") {
 					grid.parent.cancelAllOtherDetection()
 					key_combo.text = "... " + qsTr("Press keys") + " ..."
 					key_combo.font.italic = true
@@ -425,6 +419,40 @@ Rectangle {
 			}
 
 		}
+
+	}
+
+	function addShortcut(l) {
+		var c = grid.count
+		shortcuts = shortcuts.concat([l])
+		gridmodel.append({"index" : c, "desc" : l[0], "sh" : l[1], "close" : l[2], "cmd" : l[3], "keymouse" : l[4] })
+	}
+
+	function setData(d) {
+
+		gridmodel.clear()
+
+		shortcuts = d;
+
+		var i = 0
+
+		for(var sh in shortcuts) {
+			gridmodel.append({"index" : i, "desc" : shortcuts[i][0], "sh" : shortcuts[i][1], "close" : shortcuts[i][2]+"", "cmd" : shortcuts[i][3], "keymouse" : shortcuts[i][4] });
+			++i
+		}
+
+	}
+
+	function getAllData() {
+
+		var ret = {}
+
+		for(var i = 0; i < grid.count; ++i) {
+			var item = gridmodel.get(i)
+			ret[item.sh] = [item.close+"", item.cmd, item.desc, item.keymouse]
+		}
+
+		return ret
 
 	}
 

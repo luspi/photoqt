@@ -101,7 +101,7 @@ Rectangle {
 				set.cancelAllOtherDetection()
 
 				set.lastaction = "add"
-				set.shortcuts = set.shortcuts.concat([[desc, "", 0, shortcut, keyormouse]])
+				set.addShortcut([desc, "", "0", shortcut, keyormouse])
 
 			}
 
@@ -164,19 +164,20 @@ Rectangle {
 		}
 
 		// Update arrays
-		set.shortcuts = []
-		set.shortcuts = setshortcuts
+		set.setData(setshortcuts)
 
 	}
 
 	function saveData() {
 
+		var dat = set.getAllData()
+
 		var ret = {}
 
-		for(var i = 0; i < set.shortcuts.length; ++i) {
+		for(var sh in dat) {
 			// Format of input data: [desc, keys, close, command, keyormouse]
-			// Format of output data: [close, mouse, keys, command]
-			ret[set.shortcuts[i][1]] = [set.shortcuts[i][2], (external ? set.shortcuts[i][0] : set.shortcuts[i][3]), set.shortcuts[i][4]]
+			// Format of output data: sh => [close, command, keyormouse]
+			ret[sh] = [dat[sh][0], (external ? dat[sh][2] : dat[sh][1]), dat[sh][3]]
 		}
 
 		return ret;

@@ -281,14 +281,15 @@ Rectangle {
 		other.setData(_shortcuts)
 		external.setData(_shortcuts)
 
-		usedUpKeyCombos = []
+		var tmp = []
 		// extract all set key combos
 		for(var ele in _shortcuts) {
-			if(ele in usedUpKeyCombos)
-				usedUpKeyCombos[ele] += 1
+			if(ele in tmp)
+				tmp[ele] += 1
 			else
-				usedUpKeyCombos[ele] = 1
+				tmp[ele] = 1
 		}
+		usedUpKeyCombos = tmp;
 
 	}
 
@@ -300,14 +301,15 @@ Rectangle {
 		other.setData(_shortcuts)
 		external.setData(_shortcuts)
 
-		usedUpKeyCombos = []
+		var tmp = []
 		// extract all set key combos
 		for(var ele in _shortcuts) {
-			if(ele in usedUpKeyCombos)
-				usedUpKeyCombos[ele] += 1
+			if(ele in tmp)
+				tmp[ele] += 1
 			else
-				usedUpKeyCombos[ele] = 1
+				tmp[ele] = 1
 		}
+		usedUpKeyCombos = tmp;
 
 	}
 
