@@ -98,9 +98,6 @@ Rectangle {
 					if(allAvailableItems[k][0] === shortcut)
 						desc = allAvailableItems[k][1]
 
-				set.cancelAllOtherDetection()
-
-				set.lastaction = "add"
 				set.addShortcut([desc, "", "0", shortcut, keyormouse])
 
 			}

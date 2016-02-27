@@ -37,6 +37,11 @@ Rectangle {
 	// Only one child at a time can detect a shortcut -> starting a new one cancels all others
 	signal cancelAllOtherDetection()
 
+	// This signal is emitted with the currently deleted item index (actually, its position in the list)
+	// This is needed, since when an item with a lower index has been deleted, then we need to adjust
+	// the positions of the following items
+	signal itemDeleted(var itemIndex)
+
 	color: "transparent"
 	radius: 4
 	clip: true
@@ -53,7 +58,7 @@ Rectangle {
 		x: 3
 		y: 3
 		width: parent.width-6
-		height: shortcuts.length*cellHeight
+		height: count*cellHeight
 
 		cellWidth: parent.width
 		cellHeight: 30
@@ -78,6 +83,8 @@ Rectangle {
 			Behavior on color { ColorAnimation { duration: 150; } }
 
 			property bool error_doubleShortcut: false
+
+			property int posInList: index
 
 			// Click on title triggers shortcut detection
 			ToolTip {
@@ -365,6 +372,11 @@ Rectangle {
 
 				}
 
+				onItemDeleted: {
+					if(itemIndex < ele.posInList)
+						ele.posInList -= 1
+				}
+
 			}
 
 			PropertyAnimation {
@@ -376,10 +388,7 @@ Rectangle {
 				onStarted:
 					usedUpKeyCombos[key_combo.store] -= 1
 				onStopped: {
-					var tmp = shortcuts
-					tmp.splice(index,1)
-					lastaction = "del"
-					shortcuts = tmp
+					deleteShortcut(ele.posInList,sh)
 				}
 			}
 
@@ -414,7 +423,7 @@ Rectangle {
 			}
 
 			Component.onCompleted: {
-				if(index == shortcuts.length-1 && key_combo.text == "..." && lastaction == "add")
+				if(index == gridmodel.count-1 && key_combo.text == "..." && lastaction == "add")
 					triggerDetection()
 			}
 
@@ -422,7 +431,18 @@ Rectangle {
 
 	}
 
+	function deleteShortcut(index, sh) {
+		gridmodel.remove(index)
+		deleteAKeyCombo(sh)
+		itemDeleted(index)
+		lastaction = "del"
+	}
+
 	function addShortcut(l) {
+
+		cancelAllOtherDetection()
+		lastaction = "add"
+
 		var c = grid.count
 		shortcuts = shortcuts.concat([l])
 		gridmodel.append({"index" : c, "desc" : l[0], "sh" : l[1], "close" : l[2], "cmd" : l[3], "keymouse" : l[4] })
