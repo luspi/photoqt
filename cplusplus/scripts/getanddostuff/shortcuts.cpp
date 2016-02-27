@@ -123,29 +123,29 @@ QVariantMap GetAndDoStuffShortcuts::getDefaultShortcuts() {
 
 }
 
-void GetAndDoStuffShortcuts::saveShortcuts(QVariantList l) {
+void GetAndDoStuffShortcuts::saveShortcuts(QVariantMap l) {
 
 	QString header = "Version=" + QString::fromStdString(VERSION) + "\n";
 	QString keys = "";
 	QString mouse = "";
-	foreach(QVariant s, l) {
-		QVariantList s_l = s.toList();
-		QString cl = QString::number(s_l.at(0).toInt());
-		QString sh = s_l.at(2).toString();
-		QByteArray ds = s_l.at(3).toString().toUtf8().toPercentEncoding();
-		if(s_l.at(1).toBool())
+
+	foreach(QString key, l.keys()) {
+
+		QStringList vals = l[key].toStringList();
+
+		QString cl = QString::number(vals.at(0).toInt());
+		QString sh = key;
+		QByteArray ds = vals.at(1).toUtf8().toPercentEncoding();
+
+		if(vals.at(2) == "mouse")
 			mouse += QString("%1::[M] %2::%3\n").arg(cl).arg(sh).arg(QString(ds));
 		else
 			keys += QString("%1::%2::%3\n").arg(cl).arg(sh).arg(QString(ds));
+
 	}
 
 	QFile file(QDir::homePath() + "/.photoqt/shortcuts");
-	if(file.exists() && !file.remove()) {
-		std::cerr << "ERROR: Unable to remove old shortcuts file" << std::endl;
-		return;
-	}
-
-	if(!file.open(QIODevice::WriteOnly)) {
+	if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
 		std::cerr << "ERROR: Unable to open shortcuts file for writing/saving" << std::endl;
 		return;
 	}

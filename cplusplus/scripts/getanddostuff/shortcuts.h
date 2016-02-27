@@ -20,7 +20,7 @@ public:
 	~GetAndDoStuffShortcuts();
 
 	QVariantMap getShortcuts();
-	void saveShortcuts(QVariantList l);
+	void saveShortcuts(QVariantMap l);
 	QVariantMap getDefaultShortcuts();
 	QString getShortcutFile();
 	QString filterOutShortcutCommand(QString combo, QString file);

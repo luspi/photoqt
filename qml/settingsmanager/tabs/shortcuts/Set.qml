@@ -14,7 +14,7 @@ Rectangle {
 	Behavior on height { NumberAnimation { duration: 150; } }
 
 	// The current key combo is taken from the parent widget
-	property string currentKeyCombo: parent.parent.currentKeyCombo
+	property string currentKeyCombo: shortcutscontainer.currentKeyCombo
 	onCurrentKeyComboChanged: newComboRightHere(currentKeyCombo)
 
 	// the current mouse combo is taken from the parent widget
@@ -78,12 +78,6 @@ Rectangle {
 			Behavior on color { ColorAnimation { duration: 150; } }
 
 			property bool error_doubleShortcut: false
-			onError_doubleShortcutChanged: {
-				if(error_doubleShortcut)
-					settings_top.invalidShortcutsSettings += 1
-				else
-					settings_top.invalidShortcutsSettings -= 1
-			}
 
 			// Click on title triggers shortcut detection
 			ToolTip {
@@ -385,6 +379,8 @@ Rectangle {
 				property: "x"
 				to: -1.1*ele.width
 				duration: 200
+				onStarted:
+					usedUpKeyCombos[key_combo.store] -= 1
 				onStopped: {
 					var tmp = shortcuts
 					tmp.splice(index,1)

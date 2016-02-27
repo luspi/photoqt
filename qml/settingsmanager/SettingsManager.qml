@@ -35,7 +35,7 @@ Rectangle {
 	signal shortcutsLoadDefaults()
 
 	// If this one is non-zero, then there is a problem with the shortcuts
-	property int invalidShortcutsSettings: 0
+	property var usedUpKeyCombos: ({})
 
 	MouseArea {
 		anchors.fill: parent
@@ -408,7 +408,15 @@ Rectangle {
 	}
 
 	function saveSettings() {
-		if(invalidShortcutsSettings != 0)
+
+		var valid = true
+		for(var k in usedUpKeyCombos)
+			if(usedUpKeyCombos[k] > 1) {
+				valid = false
+				break;
+			}
+
+		if(!valid)
 			invalidshortcuts.show()
 		else {
 			saveData();

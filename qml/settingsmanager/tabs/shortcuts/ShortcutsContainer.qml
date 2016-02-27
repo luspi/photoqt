@@ -2,6 +2,8 @@ import QtQuick 2.3
 
 Rectangle {
 
+	id: shortcutscontainer
+
 	color: "transparent"
 
 	x: 5
@@ -157,7 +159,7 @@ Rectangle {
 
 		for(var k in tmp_keys) {
 			var cur_key = tmp_keys[k];
-			for(var l = 0; l <tmp[cur_key].length; ++l)
+			for(var l = 0; l < tmp[cur_key].length; ++l)
 				setshortcuts = setshortcuts.concat([tmp[cur_key][l]])
 		}
 
@@ -169,12 +171,12 @@ Rectangle {
 
 	function saveData() {
 
-		var ret = []
+		var ret = {}
 
 		for(var i = 0; i < set.shortcuts.length; ++i) {
 			// Format of input data: [desc, keys, close, command, keyormouse]
 			// Format of output data: [close, mouse, keys, command]
-			ret = ret.concat([[set.shortcuts[i][2], (set.shortcuts[i][4] === "key" ? false : true), set.shortcuts[i][1], (external ? set.shortcuts[i][0] : set.shortcuts[i][3])]])
+			ret[set.shortcuts[i][1]] = [set.shortcuts[i][2], (external ? set.shortcuts[i][0] : set.shortcuts[i][3]), set.shortcuts[i][4]]
 		}
 
 		return ret;

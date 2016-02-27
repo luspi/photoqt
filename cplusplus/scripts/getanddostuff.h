@@ -88,7 +88,7 @@ public:
 
 	// SHORTCUTS
 	Q_INVOKABLE QVariantMap getShortcuts() { return shortcuts->getShortcuts(); }
-	Q_INVOKABLE void saveShortcuts(QVariantList l) { shortcuts->saveShortcuts(l); }
+	Q_INVOKABLE void saveShortcuts(QVariantMap l) { shortcuts->saveShortcuts(l); }
 	Q_INVOKABLE QVariantMap getDefaultShortcuts() { return shortcuts->getDefaultShortcuts(); }
 	Q_INVOKABLE QString getShortcutFile() { return shortcuts->getShortcutFile(); }
 	Q_INVOKABLE QString filterOutShortcutCommand(QString combo, QString file) { return shortcuts->filterOutShortcutCommand(combo, file); }

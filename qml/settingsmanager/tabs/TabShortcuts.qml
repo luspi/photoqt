@@ -144,7 +144,10 @@ Rectangle {
 
 	// This list holds all the currently set shortcuts to detect double shortcuts
 	property var usedUpKeyCombos: ({})
-	onUsedUpKeyCombosChanged: recheckKeyCombo(usedUpKeyCombos)
+	onUsedUpKeyCombosChanged: {
+		recheckKeyCombo(usedUpKeyCombos)
+		settings_top.usedUpKeyCombos = usedUpKeyCombos
+	}
 
 	// Re-check to see if key combo is set more than once
 	signal recheckKeyCombo(var combos)
@@ -310,9 +313,9 @@ Rectangle {
 
 	function addAKeyCombo(combo) {
 		var tmp = usedUpKeyCombos
-		if(combo in tmp)
+		if(combo in tmp) {
 			tmp[combo] += 1
-		else
+		} else
 			tmp[combo] = 1
 		usedUpKeyCombos = tmp
 	}
@@ -325,21 +328,24 @@ Rectangle {
 
 	function saveData() {
 
-		var dat = navigation.saveData()
-		dat = dat.concat(image.saveData())
-		dat = dat.concat(file.saveData())
-		dat = dat.concat(other.saveData())
-		dat = dat.concat(external.saveData())
-
-		var tosave = []
-
-		for(var i = 0; i < dat.length; ++i) {
-			var cur = dat[i];
-			tosave = tosave.concat([[cur[0], cur[1], cur[2], cur[3]]])
-		}
+		var tosave = {}
+		tosave = merge_options(tosave, navigation.saveData())
+		tosave = merge_options(tosave, image.saveData())
+		tosave = merge_options(tosave, file.saveData())
+		tosave = merge_options(tosave, other.saveData())
+		tosave = merge_options(tosave, external.saveData())
 
 		getanddostuff.saveShortcuts(tosave)
 
+	}
+
+	function merge_options(obj1,obj2){
+		var obj3 = {};
+		for (var attrname in obj1)
+			obj3[attrname] = obj1[attrname];
+		for (attrname in obj2)
+			obj3[attrname] = obj2[attrname];
+		return obj3;
 	}
 
 }
