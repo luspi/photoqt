@@ -128,7 +128,6 @@ Rectangle {
 			if(event.modifiers & Qt.ControlModifier)
 				breadcrumbs.goBackInHistory()
 		}
-		console.log(event.key)
 
 	}
 

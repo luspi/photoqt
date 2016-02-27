@@ -217,8 +217,6 @@ Rectangle {
 		history.push(path)
 		++historypos;
 
-		console.log(history)
-
 	}
 
 	// Go back in history, if we're not already at the beginning
