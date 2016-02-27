@@ -127,7 +127,7 @@ Rectangle {
 						running: false
 						repeat: false
 						onTriggered: {
-							gridmodel.set(index,{"desc" : externalCommand.getText()})
+							gridmodel.set(ele.posInList,{"desc" : externalCommand.getText()})
 						}
 					}
 				}
@@ -251,7 +251,7 @@ Rectangle {
 										// if it was a valid shortcut, we remove it from the list
 										deleteAKeyCombo(key_combo.store)
 
-										gridmodel.set(index,{"sh" : composed })
+										gridmodel.set(ele.posInList,{"sh" : composed })
 										addAKeyCombo(composed)
 
 									}
@@ -337,7 +337,7 @@ Rectangle {
 						} else {
 							// We delete->change->update the key combo for proper double detection
 							deleteAKeyCombo(key_combo.store)
-							gridmodel.set(index,{"sh" : key_combo.text })
+							gridmodel.set(ele.posInList,{"sh" : key_combo.text })
 							addAKeyCombo(key_combo.store)
 						}
 
