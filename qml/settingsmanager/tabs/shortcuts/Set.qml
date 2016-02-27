@@ -46,9 +46,6 @@ Rectangle {
 	radius: 4
 	clip: true
 
-	// The currently set shortcuts
-	property var shortcuts: []
-
 	property string lastaction: ""
 
 	GridView {
@@ -444,7 +441,6 @@ Rectangle {
 		lastaction = "add"
 
 		var c = grid.count
-		shortcuts = shortcuts.concat([l])
 		gridmodel.append({"index" : c, "desc" : l[0], "sh" : l[1], "close" : l[2], "cmd" : l[3], "keymouse" : l[4] })
 	}
 
@@ -452,12 +448,10 @@ Rectangle {
 
 		gridmodel.clear()
 
-		shortcuts = d;
-
 		var i = 0
 
-		for(var sh in shortcuts) {
-			gridmodel.append({"index" : i, "desc" : shortcuts[i][0], "sh" : shortcuts[i][1], "close" : shortcuts[i][2]+"", "cmd" : shortcuts[i][3], "keymouse" : shortcuts[i][4] });
+		for(var sh in d) {
+			gridmodel.append({"index" : i, "desc" : d[i][0], "sh" : d[i][1], "close" : d[i][2]+"", "cmd" : d[i][3], "keymouse" : d[i][4] });
 			++i
 		}
 
