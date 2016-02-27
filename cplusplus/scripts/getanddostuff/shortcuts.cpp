@@ -1,6 +1,11 @@
 #include "shortcuts.h"
 
-GetAndDoStuffShortcuts::GetAndDoStuffShortcuts(QObject *parent) : QObject(parent) {
+GetAndDoStuffShortcuts::GetAndDoStuffShortcuts(bool usedAtStartup, QObject *parent) : QObject(parent) {
+
+	if(usedAtStartup) {
+		watcher = nullptr;
+		return;
+	}
 
 	// We watch the shortcuts file and inform the ui if it changed (in order to reload the shortcuts)
 	watcher = new QFileSystemWatcher;

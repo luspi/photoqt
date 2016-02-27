@@ -17,8 +17,18 @@ class Settings : public QObject {
 	Q_OBJECT
 
 public:
-	explicit Settings(QObject *parent = 0) : QObject(parent) {
+	explicit Settings(bool usedAtStartup = false, QObject *parent = 0) : QObject(parent) {
+
 		verbose = false;
+
+		// This class is used during startup checks if the default settings have to be set
+		// It only lives for a moment, and doesn't need many of the functions
+		if(usedAtStartup) {
+			setDefault();
+			watcher = nullptr;
+			saveSettingsTimer = nullptr;
+			return;
+		}
 
 		// Watch the settings file (this needs to come BEFORE readSettings() as there's a bug in it (see readSettings() function)
 		watcher = new QFileSystemWatcher;

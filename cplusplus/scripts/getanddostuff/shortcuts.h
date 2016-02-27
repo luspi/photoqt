@@ -17,7 +17,7 @@ class GetAndDoStuffShortcuts : public QObject {
 	Q_OBJECT
 
 public:
-	explicit GetAndDoStuffShortcuts(QObject *parent = 0);
+	explicit GetAndDoStuffShortcuts(bool usedAtStartup = false, QObject *parent = 0);
 	~GetAndDoStuffShortcuts();
 
 	QVariantMap getShortcuts();

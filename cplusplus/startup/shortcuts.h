@@ -16,7 +16,7 @@ namespace StartupCheck {
 
 			QFileInfo file(QDir::homePath() + "/.photoqt/shortcuts");
 			if(!file.exists()) {
-				GetAndDoStuffShortcuts sh;
+				GetAndDoStuffShortcuts sh(true);
 				sh.saveShortcuts(sh.getDefaultShortcuts());
 			}
 

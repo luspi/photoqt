@@ -24,9 +24,17 @@ private:
 
 public:
 
-	FileFormats(bool verbose = false, QObject *parent = 0) : QObject(parent) {
+	FileFormats(bool verbose = false, bool usedAtStartupOnly = false, QObject *parent = 0) : QObject(parent) {
 
 		this->verbose = verbose;
+
+		// This class is used during startup checks if the default formats have to be set
+		// It only lives for a moment, and doesn't need many of the functions
+		if(usedAtStartupOnly) {
+			watcher = nullptr;
+			saveFileformatsTimer = nullptr;
+			return;
+		}
 
 		watcher = new QFileSystemWatcher;
 		setFilesToWatcher();

@@ -21,7 +21,7 @@ namespace StartupCheck {
 			if(*settingsText == "") {
 				if(verbose) LOG << DATE << "PhotoQt newly installed! Creating empty settings file" << std::endl;
 				*settingsText = "Version=" + version + "\n";
-				Settings set;
+				Settings set(true);
 				set.saveSettings();
 				QFile file(QDir::homePath() + "/.photoqt/settings");
 				if(file.open(QIODevice::ReadOnly)) {

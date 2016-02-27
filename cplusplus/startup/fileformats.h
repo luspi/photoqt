@@ -20,7 +20,7 @@ namespace StartupCheck {
 
 			QFile fileformatsFile(QDir::homePath() + "/.photoqt/fileformats.disabled");
 			if(!fileformatsFile.exists()) {
-				::FileFormats formats(false);
+				::FileFormats formats(false,true);
 				formats.setDefaultFormats();
 				formats.saveFormats();
 			}
