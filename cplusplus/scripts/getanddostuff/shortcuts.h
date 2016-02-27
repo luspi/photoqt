@@ -1,5 +1,5 @@
 #ifndef GETANDDOSTUFFSHORTCUTS_H
-#define GETANDDOSTUFF_H
+#define GETANDDOSTUFFSHORTCUTS_H
 
 #include <iostream>
 #include <thread>
@@ -38,4 +38,4 @@ signals:
 
 };
 
-#endif // GETANDDOSTUFF_H
+#endif // GETANDDOSTUFFSHORTCUTS_H

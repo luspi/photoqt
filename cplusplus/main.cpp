@@ -12,6 +12,7 @@
 #include "startup/localisation.h"
 #include "startup/thumbnails.h"
 #include "startup/fileformats.h"
+#include "startup/shortcuts.h"
 
 int main(int argc, char *argv[]) {
 
@@ -49,6 +50,7 @@ int main(int argc, char *argv[]) {
 	StartupCheck::Localisation::loadTranslation(a.verbose, &settingsText);
 	StartupCheck::Thumbnails::checkThumbnailsDatabase(update, a.nothumbs, &settingsText, a.verbose);
 	StartupCheck::FileFormats::checkForDefaultSettingsFileAndReturnWhetherDefaultsAreToBeSet(a.verbose);
+	StartupCheck::Shortcuts::makeSureShortcutsFileExists(a.verbose);
 
 	// Store the (updated) settings text
 	QFile writesettings(QDir::homePath() + "/.photoqt/settings");
