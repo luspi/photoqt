@@ -405,7 +405,7 @@ bool MainWindow::event(QEvent *e) {
 		} else {
 
 			// Save current geometry
-			QFile geo(QString(CONFIG_DIR) + "/geometry.conf");
+			QFile geo(CFG_MAINWINDOW_GEOMETRY_FILE);
 			if(geo.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
 				QTextStream out(&geo);
 				QRect rect = geometry();
@@ -632,7 +632,7 @@ void MainWindow::updateWindowGeometry() {
 					  ? this->setFlags(Qt::Window)
 					  : this->setFlags(Qt::Window | Qt::FramelessWindowHint);
 		}
-		QSettings settings(QString(CONFIG_DIR) + "/geometry.conf");
+		QSettings settings(CFG_MAINWINDOW_GEOMETRY_FILE);
 		if(settings.allKeys().contains("mainWindowGeometry") && settingsPermanent->saveWindowGeometry) {
 			this->show();
 			this->setGeometry(settings.value("mainWindowGeometry").toRect());
