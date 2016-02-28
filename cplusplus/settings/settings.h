@@ -585,16 +585,16 @@ public:
 public slots:
 
 	void setFilesToWatcher() {
-		if(!QFile(QDir::homePath() + "/.photoqt/settings").exists())
+		if(!QFile(CFG_SETTINGS_FILE).exists())
 			QTimer::singleShot(250, this, SLOT(setFilesToWatcher()));
 		else
-			watcher->addPath(QDir::homePath() + "/.photoqt/settings");
+			watcher->addPath(CFG_SETTINGS_FILE);
 	}
 
 	// Save settings
 	void saveSettings() {
 
-		QFile file(QDir::homePath() + "/.photoqt/settings");
+		QFile file(CFG_SETTINGS_FILE);
 
 		if(!file.open(QIODevice::ReadWrite))
 
@@ -754,7 +754,7 @@ public slots:
 		// Set default values to start out with
 		setDefault();
 
-		QFile file(QDir::homePath() + "/.photoqt/settings");
+		QFile file(CFG_SETTINGS_FILE);
 
 		if(file.exists() && !file.open(QIODevice::ReadOnly))
 

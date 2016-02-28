@@ -9,7 +9,28 @@ PROJECT(photoqt)
 ##################################################################
 ####  GLOBAL VERSION STRING FOR ALL FILES (INCLUDING CPP/QML) ####
 ##################################################################
-ADD_DEFINITIONS(-DVERSION="1.3")
+ADD_DEFINITIONS(-DVERSION="devel")
+
+
+###########################################
+####  LOCATIONS OF CONFIGURATION/DATA  ####
+###########################################
+
+SET(CONFIG_DIR "$ENV{HOME}/.config/PhotoQt")
+SET(DATA_DIR "$ENV{HOME}/.local/share/PhotoQt/")
+SET(CACHE_DIR "$ENV{HOME}/.cache/PhotoQt/")
+ADD_DEFINITIONS(-DCONFIG_DIR="${CONFIG_DIR}")
+ADD_DEFINITIONS(-DDATA_DIR="${DATA_DIR}")
+ADD_DEFINITIONS(-DCACHE_DIR="${CACHE_DIR}")
+
+ADD_DEFINITIONS(-DCFG_SETTINGS_FILE="${CONFIG_DIR}/settings")
+ADD_DEFINITIONS(-DCFG_CONTEXTMENU_FILE="${CONFIG_DIR}/contextmenu")
+ADD_DEFINITIONS(-DCFG_FILEFORMATS_FILE="${CONFIG_DIR}/fileformats.disabled")
+ADD_DEFINITIONS(-DCFG_SHORTCUTS_FILE="${CONFIG_DIR}/shortcuts")
+ADD_DEFINITIONS(-DCFG_SHORTCUTSNOTIFIER_FILE="${CONFIG_DIR}/shortcutsnotifier")
+ADD_DEFINITIONS(-DCFG_THUMBNAILS_DB="${CACHE_DIR}/thumbnails")
+ADD_DEFINITIONS(-DCFG_SEETINGS_SESSION_FILE="${CONFIG_DIR}/settings_session")
+ADD_DEFINITIONS(-DCFG_MAINWINDOW_GEOMETRY_FILE="${CONFIG_DIR}/geometry")
 
 
 #############################

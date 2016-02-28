@@ -4,7 +4,7 @@ ImageProviderThumbnail::ImageProviderThumbnail() : QQuickImageProvider(QQuickIma
 
 	// Setup database
 	db = QSqlDatabase::addDatabase("QSQLITE","thumbDB" + QString::number(rand()));
-	db.setDatabaseName(QDir::homePath() + "/.photoqt/thumbnails");
+	db.setDatabaseName(CFG_THUMBNAILS_DB);
 	db.open();
 
 	// Get permanent and temporary settings
@@ -127,7 +127,7 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
 		if(typeCache == "files" && cacheEnabled) {
 
 			// If the file itself wasn't read from the thumbnails folder, is not a temporary file, and if the original file isn't at thumbnail size itself
-			if(filename.startsWith((QDir::homePath() + "/.thumbnails/").toLatin1())
+			if(filename.startsWith(QString(CFG_THUMBNAILS_DB).toLatin1())
 					&& !filename.startsWith(QDir::tempPath().toLatin1())
 					&& (p.height() > ts || p.width() > ts)) {
 
@@ -141,10 +141,10 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
 				writer.write(p);
 
 				// If the file still doesn't exist, copy it to the right location (>> protection from concurrency)
-				if(QFile(QDir::homePath() + "/.thumbnails/large/" + md5 + ".png").exists())
-					QFile(QDir::homePath() + "/.thumbnails/large/" + md5 + ".png").remove();
+				if(QFile(QDir::homePath() + "/cache/.thumbnails/large/" + md5 + ".png").exists())
+					QFile(QDir::homePath() + "/cache/.thumbnails/large/" + md5 + ".png").remove();
 
-				if(!QFile(QDir::tempPath() + "/" + md5 + "__photo.png").copy(QDir::homePath() + "/.thumbnails/large/" + md5 + ".png"))
+				if(!QFile(QDir::tempPath() + "/" + md5 + "__photo.png").copy(QDir::homePath() + "/cache/.thumbnails/large/" + md5 + ".png"))
 					std::cerr << "ERROR creating new thumbnail file!" << std::endl;
 				// Delete temporary file
 				QFile(QDir::tempPath() + "/" + md5 + "__photo.png").remove();

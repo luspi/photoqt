@@ -41,7 +41,7 @@ QStringList GetAndDoStuffContext::setDefaultContextMenuEntries() {
 
 QStringList GetAndDoStuffContext::getContextMenu() {
 
-	QFile file(QDir::homePath() + "/.photoqt/contextmenu");
+	QFile file(CFG_CONTEXTMENU_FILE);
 
 	if(!file.exists()) return setDefaultContextMenuEntries();
 
@@ -84,7 +84,7 @@ bool GetAndDoStuffContext::checkIfBinaryExists(QString exec) {
 
 
 qint64 GetAndDoStuffContext::getContextMenuFileModifiedTime() {
-	QFileInfo info(QDir::homePath() + "/.photoqt/contextmenu");
+	QFileInfo info(CFG_CONTEXTMENU_FILE);
 	return info.lastModified().toMSecsSinceEpoch();
 }
 
@@ -101,7 +101,7 @@ void GetAndDoStuffContext::saveContextMenu(QVariantList l) {
 	}
 
 	// Open file
-	QFile file(QDir::homePath() + "/.photoqt/contextmenu");
+	QFile file(CFG_CONTEXTMENU_FILE);
 
 	if(file.exists() && !file.remove()) {
 		std::cerr << "ERROR: Failed to remove old contextmenu file" << std::endl;

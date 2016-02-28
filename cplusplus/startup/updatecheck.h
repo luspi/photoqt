@@ -23,7 +23,7 @@ namespace StartupCheck {
 				*settingsText = "Version=" + version + "\n";
 				Settings set(true);
 				set.saveSettings();
-				QFile file(QDir::homePath() + "/.photoqt/settings");
+				QFile file(CFG_SETTINGS_FILE);
 				if(file.open(QIODevice::ReadOnly)) {
 					QTextStream in(&file);
 					*settingsText = in.readAll();

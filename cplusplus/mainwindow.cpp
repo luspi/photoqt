@@ -405,8 +405,15 @@ bool MainWindow::event(QEvent *e) {
 		} else {
 
 			// Save current geometry
-			QSettings settings("photoqt","photoqt");
-			settings.setValue("mainWindowGeometry", geometry());
+			QFile geo(QString(CONFIG_DIR) + "/geometry.conf");
+			if(geo.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+				QTextStream out(&geo);
+				QRect rect = geometry();
+				QString txt = "[General]\n";
+				txt += QString("mainWindowGeometry=@Rect(%1 %2 %3 %4)\n").arg(rect.x()).arg(rect.y()).arg(rect.width()).arg(rect.height());
+				out << txt;
+				geo.close();
+			}
 
 			e->accept();
 
@@ -625,7 +632,7 @@ void MainWindow::updateWindowGeometry() {
 					  ? this->setFlags(Qt::Window)
 					  : this->setFlags(Qt::Window | Qt::FramelessWindowHint);
 		}
-		QSettings settings("photoqt","photoqt");
+		QSettings settings(QString(CONFIG_DIR) + "/geometry.conf");
 		if(settings.allKeys().contains("mainWindowGeometry") && settingsPermanent->saveWindowGeometry) {
 			this->show();
 			this->setGeometry(settings.value("mainWindowGeometry").toRect());
@@ -705,6 +712,8 @@ void MainWindow::qmlVerboseMessage(QVariant loc, QVariant msg) {
 }
 
 MainWindow::~MainWindow() {
+	QFile file(CFG_SEETINGS_SESSION_FILE);
+	file.remove();
 	delete settingsPerSession;
 	delete settingsPermanent;
 	delete fileformats;

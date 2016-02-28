@@ -136,19 +136,19 @@ public:
 public slots:
 
 	void setFilesToWatcher() {
-		if(!QFile(QDir::homePath() + "/.photoqt/settings").exists()
-				|| !QFile(QDir::homePath() + "/.photoqt/fileformats.disabled").exists())
-			QTimer::singleShot(250, this, SLOT(setFilesToWatcher()));
+		if(!QFile(CFG_SETTINGS_FILE).exists()
+				|| !QFile(CFG_FILEFORMATS_FILE).exists())
+			QTimer::singleShot(500, this, SLOT(setFilesToWatcher()));
 		else
-			watcher->addPaths(QStringList() << QDir::homePath() + "/.photoqt/settings"
-							  << QDir::homePath() + "/.photoqt/fileformats.disabled");
+			watcher->addPaths(QStringList() << CFG_SETTINGS_FILE
+							  << CFG_FILEFORMATS_FILE);
 	}
 
 	void loadFormats() {
 
 		if(verbose) LOG << DATE << "Loading disabled file formats from file" << std::endl;
 
-		QFile file(QDir::homePath() + "/.photoqt/fileformats.disabled");
+		QFile file(CFG_FILEFORMATS_FILE);
 
 		// At first startup, this file might not (yet) exist, but we can simply set the
 		// default formats as they are currently in the process of being set anyways
@@ -245,7 +245,7 @@ public slots:
 			if(!current_raw.contains(f))
 				disabled.append(f);
 
-		QFile file(QDir::homePath() + "/.photoqt/fileformats.disabled");
+		QFile file(CFG_FILEFORMATS_FILE);
 		if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
 			LOG << DATE << "ERROR! Unable to save update fileformats..." << std::endl;
 			return;

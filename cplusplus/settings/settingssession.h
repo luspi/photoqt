@@ -12,7 +12,7 @@ class SettingsSession : public QObject {
 
 public:
 	explicit SettingsSession(QObject *parent = 0) : QObject(parent) {
-		settings_ = new QSettings("photoqt_session");
+		settings_ = new QSettings(CFG_SEETINGS_SESSION_FILE);
 		setValue("metadatakeepopen",false);
 	}
 	~SettingsSession() { delete settings_; }

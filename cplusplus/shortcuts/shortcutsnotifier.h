@@ -14,7 +14,7 @@ class ShortcutsNotifier : public QObject {
 public:
 	explicit ShortcutsNotifier(QObject *parent = 0) : QObject(parent) {
 		hiddenareas.clear();
-		file.setFileName(QDir::homePath()+ "/.photoqt/shortcutsnotifier");
+		file.setFileName(CFG_SHORTCUTSNOTIFIER_FILE);
 		if(file.exists()) {
 			if(file.open(QIODevice::ReadOnly)){
 				QTextStream in(&file);

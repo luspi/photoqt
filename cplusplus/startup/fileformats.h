@@ -18,7 +18,7 @@ namespace StartupCheck {
 			// At this point, we only check if the file exists. If it doesn't, then the return value 'true'
 			// is passed on to the MainWindow class later-on for setting the default fileformats
 
-			QFile fileformatsFile(QDir::homePath() + "/.photoqt/fileformats.disabled");
+			QFile fileformatsFile(QString(CFG_FILEFORMATS_FILE));
 			if(!fileformatsFile.exists()) {
 				::FileFormats formats(false,true);
 				formats.setDefaultFormats();

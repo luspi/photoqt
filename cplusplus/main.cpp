@@ -4,7 +4,6 @@
 #include "singleinstance/singleinstance.h"
 #include "logger.h"
 
-#include "startup/configfolder.h"
 #include "startup/updatecheck.h"
 #include "startup/screenshots.h"
 #include "startup/migration.h"
@@ -33,8 +32,12 @@ int main(int argc, char *argv[]) {
 
 	// SOME START-UP CHECKS
 
+	// First, we migrate the configuration to the new system used (freedesktop.org standard)
+	// Even if no migration is necessary, this ensures that all config folders are created
+	StartupCheck::Migration::migrateIfNecessary(a.verbose);
+
 	// We get the settings text once, and modify the string only during the checks and write the settings to file once afterwards
-	QFile settingsfile(QDir::homePath() + "/.photoqt/settings");
+	QFile settingsfile(CFG_SETTINGS_FILE);
 	QString settingsText = "";
 	if(settingsfile.exists() && settingsfile.open(QIODevice::ReadOnly)) {
 		QTextStream in(&settingsfile);
@@ -43,7 +46,6 @@ int main(int argc, char *argv[]) {
 	}
 
 	// A few checks
-	StartupCheck::ConfigFolder::ensureItExists(a.verbose);
 	int update = StartupCheck::UpdateCheck::checkForUpdateInstall(a.verbose, &settingsText);
 	StartupCheck::Screenshots::getAndStore(a.verbose);
 	StartupCheck::StartInTray::makeSureSettingsReflectTrayStartupSetting(a.verbose,a.startintray,&settingsText);
@@ -53,7 +55,7 @@ int main(int argc, char *argv[]) {
 	StartupCheck::Shortcuts::makeSureShortcutsFileExists(a.verbose);
 
 	// Store the (updated) settings text
-	QFile writesettings(QDir::homePath() + "/.photoqt/settings");
+	QFile writesettings(CFG_SETTINGS_FILE);
 	if(!writesettings.open(QIODevice::WriteOnly | QIODevice::Truncate))
 		LOG << DATE << "ERROR! Unable to update settings file at startup" << std::endl;
 	else {

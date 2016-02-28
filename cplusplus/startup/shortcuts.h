@@ -14,7 +14,7 @@ namespace StartupCheck {
 
 			if(verbose) LOG << DATE << "StartupCheck::Shortcuts" << std::endl;
 
-			QFileInfo file(QDir::homePath() + "/.photoqt/shortcuts");
+			QFileInfo file(CFG_SHORTCUTS_FILE);
 			if(!file.exists()) {
 				GetAndDoStuffShortcuts sh(true);
 				sh.saveShortcuts(sh.getDefaultShortcuts());

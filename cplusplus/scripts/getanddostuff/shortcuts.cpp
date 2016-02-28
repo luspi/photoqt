@@ -17,10 +17,10 @@ GetAndDoStuffShortcuts::GetAndDoStuffShortcuts(bool usedAtStartup, QObject *pare
 GetAndDoStuffShortcuts::~GetAndDoStuffShortcuts() { }
 
 void GetAndDoStuffShortcuts::setFilesToWatcher() {
-	if(!QFile(QDir::homePath() + "/.photoqt/shortcuts").exists())
+	if(!QFile(CFG_SHORTCUTS_FILE).exists())
 		QTimer::singleShot(250, this, SLOT(setFilesToWatcher()));
 	else
-		watcher->addPath(QDir::homePath() + "/.photoqt/shortcuts");
+		watcher->addPath(CFG_SHORTCUTS_FILE);
 }
 
 // The shortcutfile has changed
@@ -38,7 +38,7 @@ QVariantMap GetAndDoStuffShortcuts::getShortcuts() {
 
 	QVariantMap ret;
 
-	QFile file(QDir::homePath() + "/.photoqt/shortcuts");
+	QFile file(CFG_SHORTCUTS_FILE);
 
 	if(!file.exists()) {
 		// Set-up Map of default shortcuts;
@@ -152,7 +152,7 @@ void GetAndDoStuffShortcuts::saveShortcuts(QVariantMap l) {
 
 	}
 
-	QFile file(QDir::homePath() + "/.photoqt/shortcuts");
+	QFile file(CFG_SHORTCUTS_FILE);
 	if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
 		std::cerr << "ERROR: Unable to open shortcuts file for writing/saving" << std::endl;
 		return;
@@ -167,7 +167,7 @@ void GetAndDoStuffShortcuts::saveShortcuts(QVariantMap l) {
 
 QString GetAndDoStuffShortcuts::getShortcutFile() {
 
-	QFile file(QDir::homePath() + "/.photoqt/shortcuts");
+	QFile file(CFG_SHORTCUTS_FILE);
 	if(!file.open(QIODevice::ReadOnly)) {
 		std::cerr << "ERROR: Unable to read shortcuts file" << std::endl;
 		return "";

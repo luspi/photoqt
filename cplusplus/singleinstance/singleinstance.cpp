@@ -85,7 +85,7 @@ void SingleInstance::handleResponse(QString msg) {
 	hide = (msg.contains("::hide::") && !msg.contains("::toggle::") && !msg.contains("::start-in-tray::"));
 
 	// These ones only play a role on startup and are ignored otherwise
-	verbose = (msg.contains("::verbose::") || QFile(QDir::homePath() + "/.photoqt/verbose").exists());
+	verbose = (msg.contains("::verbose::") || QFile(QString(CACHE_DIR) + "/verbose").exists());
 	startintray = (msg.contains("::start-in-tray::"));
 
 	// DEVELOPMENT ONLY
