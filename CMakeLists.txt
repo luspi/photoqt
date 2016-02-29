@@ -133,6 +133,8 @@ ENDIF(GM)
 
 MESSAGE("")
 
+TARGET_LINK_LIBRARIES(photoqt "raw")
+
 
 ########################
 #### CUSTOM OPTIONS ####

@@ -35,7 +35,7 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *s
 
 	if(verbose)
 		std::clog << "Using Graphicsengine: "
-			  << (whatToUse=="gm" ? "GraphicsMagick" : (whatToUse=="qt" ? "ImageReader" : "External Tool"))
+			  << (whatToUse=="gm" ? "GraphicsMagick" : (whatToUse=="qt" ? "ImageReader" : (whatToUse=="raw" ? "LibRaw" : "External Tool")))
 			  << " [" << whatToUse.toStdString() << "]" << std::endl;
 
 	// Try to use XCFtools for XCF (if enabled)
@@ -45,6 +45,9 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *s
 	// Try to use GraphicsMagick (if available)
 	else if(whatToUse == "gm")
 		return LoadImageGM::load(filename, maxSize);
+
+	else if(whatToUse == "raw")
+		return LoadImageRaw::load(filename, maxSize);
 
 	// Try to use Qt
 	else
@@ -110,6 +113,17 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
 				usegm = false;
 		}
 	}
+
+	if(rawfiles.trimmed() != "") {
+		QStringList rawFiles = rawfiles.split(",");
+		// Check for raw
+		for(int i = 0; i < rawFiles.length(); ++i) {
+			// We need to remove the first character of qtfiles.at(i), since that is a "*"
+			if(filename.toLower().endsWith(QString(rawFiles.at(i)).remove(0,1)) && QString(rawFiles.at(i)).trimmed() != "")
+				usegm = false;
+		}
+	}
+
 
 	if(usegm) use = "gm";
 #endif

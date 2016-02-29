@@ -11,6 +11,7 @@
 #include "loader/loadimage_qt.h"
 #include "loader/loadimage_gm.h"
 #include "loader/loadimage_xcf.h"
+#include "loader/loadimage_raw.h"
 
 #ifdef GM
 #include <GraphicsMagick/Magick++/Image.h>
