@@ -11,8 +11,8 @@ public:
 
 	static QImage load(QString filename, QSize maxSize) {
 
-		bool thumb = (maxSize.width() <= 256 && maxSize.height() <= 256);
-		bool half = (maxSize.width() <= 1000 && maxSize.height() <= 1000 && !thumb);
+		bool thumb = (maxSize.width() <= 256 && maxSize.height() <= 256 && maxSize.width() > 0 && maxSize.height() > 0);
+		bool half = (maxSize.width() <= 512 && maxSize.height() <= 512 && maxSize.width() > 0 && maxSize.height() > 0 && !thumb);
 
 		LibRaw raw;
 		QByteArray imgData;
