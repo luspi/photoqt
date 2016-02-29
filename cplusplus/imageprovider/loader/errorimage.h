@@ -2,6 +2,8 @@
 #define LOADIMAGE_ERROR_H
 
 #include <QImage>
+#include <QPainter>
+#include <QPixmap>
 #include <QTextDocument>
 #include "../../logger.h"
 

@@ -1,4 +1,5 @@
 #include "other.h"
+#include <QtDebug>
 
 GetAndDoStuffOther::GetAndDoStuffOther(QObject *parent) : QObject(parent) { }
 GetAndDoStuffOther::~GetAndDoStuffOther() { }
@@ -13,51 +14,29 @@ QSize GetAndDoStuffOther::getImageSize(QString path) {
 
 	path = path.remove("image://full/");
 	path = path.remove("file://");
-	path = QUrl::fromPercentEncoding(path.toLatin1());
 
-	if(path.trimmed() == "")
-		return QSize(-1,-1);
-
-	if(reader.supportedImageFormats().contains(QFileInfo(path).suffix().toLower().toLatin1())) {
-		reader.setFileName(path);
-		return reader.size();
-	} else {
-
-#ifdef GM
-		QFile file(path);
-		if(!file.open(QIODevice::ReadOnly)) {
-			LOG << DATE << "getanddostuff > getImageSize GM - ERROR opening file, returning empty image (" << path.toStdString() << ")" << std::endl;
-			return QSize(-1,-1);
-		}
-		char *data = new char[file.size()];
-		qint64 s = file.read(data, file.size());
-		if (s == -1) {
-			delete[] data;
-			LOG << DATE << "getanddostuff > getImageSize GM - ERROR reading image file data" << std::endl;
-			return QSize(1024,768);
-		}
-		Magick::Blob blob(data, file.size());
-		try {
-			Magick::Image image;
-			image = imagemagick.setImageMagick(image, QFileInfo(path).suffix().toLower());
-			image.ping(blob);
-			Magick::Geometry geo = image.size();
-			QSize s = QSize(geo.width(),geo.height());
-			if(s.width() < 2 && s.height() < 2)
-				return QSize(1024,768);
-			return s;
-		} catch(Magick::Exception &error_) {
-			delete[] data;
-			LOG << DATE << "getanddostuff > getImageSize GM - Error: " << error_.what() << std::endl;
-			reader.setFileName(QDir::tempPath() + "/photoqt_tmp.png");
-			return reader.size();
-		}
-
-#else
+	if(path.trimmed() == "") {
+		std::cout << "empty...";
 		return QSize();
-#endif
+	}
+
+	QFile file(QString(CACHE_DIR) + "/imagesizes");
+	if(file.open(QIODevice::ReadOnly)) {
+
+		QTextStream in(&file);
+		QString all = in.readAll();
+
+		if(all.contains(path + "=")) {
+			QStringList s = all.split(path + "=").at(1).split("\n").at(0).split("x");
+			qDebug() << s;
+			return QSize(s.at(0).toInt(), s.at(1).toInt());
+		}
+
+		return QSize();
 
 	}
+
+	return QSize();
 
 }
 

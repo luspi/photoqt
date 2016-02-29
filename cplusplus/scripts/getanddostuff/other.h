@@ -11,6 +11,7 @@
 #include <QScreen>
 #include <QColor>
 #include <QDir>
+#include <QTextStream>
 #include "../../logger.h"
 
 #ifdef GM

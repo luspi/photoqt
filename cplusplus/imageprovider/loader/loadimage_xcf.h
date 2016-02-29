@@ -5,6 +5,7 @@
 #include <QDir>
 #include <QSize>
 #include <QString>
+#include <QTextStream>
 #include <QImageReader>
 #include "../../logger.h"
 #include "errorimage.h"
@@ -36,6 +37,21 @@ public:
 		QImageReader reader(QDir::tempPath() + "/photoqt_tmp.png");
 
 		origSize = reader.size();
+
+		// Store origSize in file for later detection
+		QFile sizes(QString(CACHE_DIR) + "/imagesizes");
+		if(sizes.open(QIODevice::ReadWrite)) {
+			QTextStream in(&sizes);
+			QString cont = in.readAll();
+			sizes.close();
+			if(!cont.contains(filename + "=")) {
+				if(sizes.open(QIODevice::WriteOnly | QIODevice::Append)) {
+					QTextStream out(&sizes);
+					out << QString("%1=%2x%3\n").arg(QString(filename)).arg(origSize.width()).arg(origSize.height());
+					sizes.close();
+				}
+			}
+		}
 
 		int dispWidth = origSize.width();
 		int dispHeight = origSize.height();
