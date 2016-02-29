@@ -80,11 +80,26 @@ public:
 			return QImage();
 		}
 
-		QImage image/*(width, height, QImage::Format_ARGB32)*/;
+		QImage image;
 
 		if(!image.loadFromData(imgData)) {
 			qDebug() << "Failed to load PPM data from LibRaw!";
 			return QImage();
+		}
+
+		// Store origSize in file for later detection
+		QFile sizes(QString(CACHE_DIR) + "/imagesizes");
+		if(sizes.open(QIODevice::ReadWrite)) {
+			QTextStream in(&sizes);
+			QString cont = in.readAll();
+			sizes.close();
+			if(!cont.contains(filename + "=")) {
+				if(sizes.open(QIODevice::WriteOnly | QIODevice::Append)) {
+					QTextStream out(&sizes);
+					out << QString("%1=%2x%3\n").arg(QString(filename)).arg(image.width()).arg(image.height());
+					sizes.close();
+				}
+			}
 		}
 
 		return image;
