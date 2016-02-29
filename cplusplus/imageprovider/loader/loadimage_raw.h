@@ -4,14 +4,19 @@
 #include <QFile>
 #include <QImage>
 #include <QtDebug>
-#include <libraw/libraw.h>
 #include "errorimage.h"
+
+#ifdef RAW
+#include <libraw/libraw.h>
+#endif
 
 class LoadImageRaw {
 
 public:
 
 	static QImage load(QString filename, QSize maxSize) {
+
+#ifdef RAW
 
 		// Later we decide according to thumbnail/image size whether to load thumbnail or half/full image
 		bool thumb = false;
@@ -26,6 +31,8 @@ public:
 		// them, we can optimise for speed
 		raw.imgdata.params.user_qual = 1;
 		raw.imgdata.params.use_rawspeed = 1;
+		raw.imgdata.params.use_camera_wb = 1;
+		raw.imgdata.params.use_auto_wb = 1;
 
 		// Open the RAW image
 		int ret = raw.open_file((const char*)(QFile::encodeName(filename)).constData());
@@ -120,6 +127,10 @@ public:
 		raw.recycle();
 
 		return image;
+
+#endif
+
+		return ErrorImage::load("ERROR! PhotoQt was compiled without LibRaw support!");
 
 	}
 

@@ -50,6 +50,7 @@ INCLUDE(CMake/ListFilesQML.cmake)
 #### OPTIONS THAT CAN BE SET BY THE USER ####
 #############################################
 
+OPTION(RAW "Use libraw library" ON)
 OPTION(EXIV2 "Use exiv2 library" ON)
 OPTION(GM "Use graphicsmagick library" ON)
 OPTION(QTONLY "ONLY USE QT-ONLY FEATURES" OFF)
@@ -70,6 +71,7 @@ FIND_PACKAGE(Qt5 COMPONENTS LinguistTools Quick Widgets Core Svg REQUIRED)
 SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
 FIND_PACKAGE(Magick)
 FIND_PACKAGE(Exiv2)
+FIND_PACKAGE(LibRaw)
 
 SET(CMAKE_BUILD_TYPE "Debug")
 
@@ -133,12 +135,23 @@ ENDIF(GM)
 
 MESSAGE("")
 
-TARGET_LINK_LIBRARIES(photoqt "raw")
-
 
 ########################
 #### CUSTOM OPTIONS ####
 ########################
+
+IF(RAW)
+	IF(NOT ${LIBRAW_FOUND})
+		MESSAGE(FATAL_ERROR "** Unable to locate LibRaw... is it installed?")
+	ELSEIF(${LIBRAW_FOUND})
+		INCLUDE_DIRECTORIES(${LIBRAW_INCLUDE_DIR})
+		TARGET_LINK_LIBRARIES(photoqt "raw")
+		MESSAGE("** LibRaw enabled")
+		ADD_DEFINITIONS(-DRAW)
+		ENDIF(NOT ${LIBRAW_FOUND})
+ELSEIF(NOT RAW)
+	MESSAGE("** LibRaw DISABLED")
+ENDIF(RAW)
 
 IF(EXIV2)
 	IF(NOT ${EXIV2_FOUND})

@@ -291,6 +291,8 @@ namespace FileFormatsHandler {
 
 			QStringList ret;
 
+#ifdef RAW
+
 			ret << "*.3fr"							// Hasselblad
 				<< "*.ari"							// ARRIFLEX
 				<< "*.arw" << "*.srf" << "*.sr2"	// Sony
@@ -317,6 +319,8 @@ namespace FileFormatsHandler {
 				<< "*.rwz"							// Rawzor
 				<< "*.srw"							// Samsung
 				<< "*.x3f";							// Sigma
+
+#endif
 
 			return ret;
 

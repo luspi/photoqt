@@ -77,6 +77,8 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
 
 	}
 
+#ifdef RAW
+
 	if(rawfiles.trimmed() != "") {
 
 		QStringList rawFiles = rawfiles.split(",");
@@ -91,6 +93,8 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
 		}
 
 	}
+
+#endif
 
 #ifdef GM
 
@@ -114,6 +118,8 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
 		}
 	}
 
+#ifdef RAW
+
 	if(rawfiles.trimmed() != "") {
 		QStringList rawFiles = rawfiles.split(",");
 		// Check for raw
@@ -123,6 +129,8 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
 				usegm = false;
 		}
 	}
+
+#endif
 
 
 	if(usegm) use = "gm";
