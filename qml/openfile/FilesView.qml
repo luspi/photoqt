@@ -461,7 +461,7 @@ Rectangle {
 
 	function updatePreviewSourceSize() {
 		var mode = tweaks.getMode()
-		preview.sourceSize = Qt.size((mode==="lq" ? 0.5 : 1)*preview.width,(mode==="lq" ? 0.5 : 1)*preview.height)
+		preview.sourceSize = Qt.size((mode==="lq" ? 0.3 : 0.6)*preview.width,(mode==="lq" ? 0.3 : 0.6)*preview.height)
 		previous_width = top.width
 		previous_mode = tweaks.getMode()
 	}
