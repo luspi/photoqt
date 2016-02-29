@@ -34,13 +34,6 @@ Rectangle {
 			Behavior on opacity { SmoothedAnimation { id: preview_load; velocity: 0.1; } }
 
 			source: ""
-			onSourceChanged: {
-				var s = getanddostuff.getImageSize(source)
-				if(s.width < width && s.height < height)
-					fillMode = Image.Pad
-				else
-					fillMode = Image.PreserveAspectFit
-			}
 
 			onStatusChanged: {
 				if(status == Image.Ready) {
