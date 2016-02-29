@@ -224,9 +224,9 @@ namespace FileFormatsHandler {
 
 		static inline QStringList getListForGmGhostscript() {
 
-#ifdef GM
-
 			QStringList ret;
+
+#ifdef GM
 
 	// WORKING (Ghostscript required)
 			ret << "*.epi"	// Adobe Encapsulated PostScript Interchange format
