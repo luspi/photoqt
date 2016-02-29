@@ -12,13 +12,13 @@ public:
 	static QImage load(QString filename, QSize maxSize) {
 
 		bool thumb = (maxSize.width() <= 256 && maxSize.height() <= 256 && maxSize.width() > 0 && maxSize.height() > 0);
-		bool half = (maxSize.width() <= 512 && maxSize.height() <= 512 && maxSize.width() > 0 && maxSize.height() > 0 && !thumb);
+		bool half = false;
 
 		LibRaw raw;
 		QByteArray imgData;
 
-		if(half)
-			raw.imgdata.params.half_size = 1;
+		raw.imgdata.params.user_qual = 1;
+		raw.imgdata.params.use_rawspeed = 1;
 
 		int ret = raw.open_file((const char*)(QFile::encodeName(filename)).constData());
 
@@ -32,6 +32,11 @@ public:
 		// If an embedded thumbnail is not available -> work around by loading half-size image
 		if(thumb && raw.imgdata.thumbnail.tformat == LIBRAW_THUMBNAIL_UNKNOWN) {
 			thumb = false;
+			half = true;
+			raw.imgdata.params.half_size = 1;
+		}
+
+		if(!thumb && raw.imgdata.sizes.iwidth >= maxSize.width()*2 && raw.imgdata.sizes.iheight >= maxSize.height()) {
 			half = true;
 			raw.imgdata.params.half_size = 1;
 		}
@@ -76,7 +81,7 @@ public:
 		imgData.append(QByteArray((const char*)img->data, (int)img->data_size));
 
 		if(imgData.isEmpty()) {
-			qDebug() << "Failed to load half preview from LibRaw!";
+			qDebug() << "Failed to load " << (half ? "half preview" : (thumb ? "thumbnail" : "image")) << " from LibRaw!";
 			return QImage();
 		}
 
