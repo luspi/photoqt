@@ -10,8 +10,8 @@
 SET(EXIV2_FOUND "NO")
 
 FIND_PATH(EXIV2_INCLUDE_DIR exiv2/image.hpp
-	"$ENV{EXIV2_LOCATION}"
-	"$ENV{EXIV2_LOCATION}/include"
+	"${EXIV2_LOCATION}"
+	"${EXIV2_LOCATION}/include"
 	/usr/include
 	/usr/include/Exiv2
 	/opt/local/include/Exiv2

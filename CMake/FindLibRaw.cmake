@@ -10,8 +10,8 @@
 SET(LIBRAW_FOUND "NO")
 
 FIND_PATH(LIBRAW_INCLUDE_DIR libraw/libraw.h
-	"$ENV{LIBRAW_LOCATION}"
-	"$ENV{LIBRAW_LOCATION}/include"
+	"${LIBRAW_LOCATION}"
+	"${LIBRAW_LOCATION}/include"
 	/usr/include
 	/usr/include/libraw
 	/opt/local/include
