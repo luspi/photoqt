@@ -41,6 +41,8 @@ Rectangle {
 			else
 				globaltooltip.setTextColor(colour.tooltip_text)
 		}
+		onExited:
+			globaltooltip.setTextColor(colour.tooltip_text)
 	}
 
 }
