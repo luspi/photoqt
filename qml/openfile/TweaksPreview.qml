@@ -13,7 +13,7 @@ Rectangle {
 	color: "#00000000"
 
 	function getMode() {
-		return prev_high.checked ? "hq" : (prev_low.checked ? "lq" : "none")
+		return prev_high.checked ? "hq" : (prev_low.checked ? "lq" : (prev_none.checked ? "none" : undefined))
 	}
 
 	// Starting text explaining the following buttons

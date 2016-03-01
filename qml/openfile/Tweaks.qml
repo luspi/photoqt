@@ -39,7 +39,13 @@ Rectangle {
 	}
 
 	function getMode() {
-		return preview.getMode()
+
+		var mode = preview.getMode()
+		if(mode === undefined)
+			mode = settings.openPreviewMode
+
+		return mode
+
 	}
 
 	function getView() {

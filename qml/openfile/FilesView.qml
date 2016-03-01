@@ -35,6 +35,13 @@ Rectangle {
 
 			source: ""
 
+			sourceSize: Qt.size((settings.openPreviewMode==="lq" ? 0.3 : 0.6)*preview.width,(settings.openPreviewMode==="lq" ? 0.3 : 0.6)*preview.height)
+
+			onWidthChanged:
+				setSourceSizeAtStart()
+			onHeightChanged:
+				setSourceSizeAtStart()
+
 			onStatusChanged: {
 				if(status == Image.Ready) {
 						preview.opacity = 1
@@ -44,6 +51,15 @@ Rectangle {
 					preview_load.duration = 200
 				}
 			}
+
+			function setSourceSizeAtStart() {
+				console.log("setSourceSizeAtStart")
+				if(sourceSize.height <= 5 || sourceSize.width <= 5) {
+					console.log("-> setting",width,height)
+					sourceSize = Qt.size((settings.openPreviewMode==="lq" ? 0.3 : 0.6)*width,(settings.openPreviewMode==="lq" ? 0.3 : 0.6)*height)
+				}
+			}
+
 		}
 
 		Rectangle {
