@@ -7,7 +7,7 @@
 #include "errorimage.h"
 
 #ifdef GM
-#include <GraphicsMagick/Magick++/Image.h>
+#include <GraphicsMagick/Magick++.h>
 #include "../../scripts/gmimagemagick.h"
 #endif
 
