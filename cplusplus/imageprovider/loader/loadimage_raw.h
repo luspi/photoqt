@@ -98,7 +98,18 @@ public:
 					.arg(img->height)
 					.arg((1 << img->bits)-1);
 			imgData.append(header.toLatin1());
-			imgData.append(QByteArray((const char*)img->data, (int)img->data_size));
+
+			if(img->colors == 3)
+				imgData.append(QByteArray((const char*)img->data, (int)img->data_size));
+			else {
+				QByteArray imgData_tmp;
+			   // img->colors == 1 (Grayscale) : convert to RGB
+				for(unsigned int i = 0 ; i < (int)img->data_size ; ++i) {
+					for(unsigned int j = 0 ; j < 3 ; ++j)
+						imgData_tmp.append(img->data[i]);
+				}
+				imgData.append(imgData_tmp);
+			}
 
 			if(imgData.isEmpty()) {
 				raw.recycle();
