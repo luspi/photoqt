@@ -12,17 +12,20 @@
 
 SET(MAGICK++_FOUND "NO" )
 
-FIND_PATH(MAGICK++_INCLUDE_DIR GraphicsMagick/Magick++.h
+FIND_PATH(MAGICK++_INCLUDE_DIR Magick++.h
 	"$ENV{MAGICK_LOCATION}/Magick++"
-	"$ENV{MAGICK_LOCATION}/include/Magick++"
+	"$ENV{MAGICK_LOCATION}/GraphicsMagick"
 	"$ENV{MAGICK_LOCATION}/include/"
-	"$ENV{MAGICK_LOCATION}"
-	/usr/include/Magick++
+	"$ENV{MAGICK_LOCATION}/include/Magick++"
+	"$ENV{MAGICK_LOCATION}/include/GraphicsMagick"
 	/usr/include/
+	/usr/include/Magick++
 	/usr/include/GraphicsMagick
-	/opt/local/include/GraphicsMagick
 	/opt/local/include/
+	/opt/local/include/Magick++
+	/opt/local/include/GraphicsMagick
 	/usr/local/include
+	/usr/local/include/Magick++
 	/usr/local/include/GraphicsMagick
 )
 
