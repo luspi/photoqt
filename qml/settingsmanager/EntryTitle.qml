@@ -8,6 +8,7 @@ Rectangle {
 
 	property string title: ""
 	property string helptext: ""
+	property bool helptext_warning: false
 
 	width: tab_top.titlewidth + 40
 	height: childrenRect.height
@@ -34,6 +35,12 @@ Rectangle {
 		text: parent.helptext
 		cursorShape: Qt.WhatsThisCursor
 		waitbefore: 100
+		onEntered: {
+			if(parent.helptext_warning)
+				globaltooltip.setTextColor(colour.tooltip_warning)
+			else
+				globaltooltip.setTextColor(colour.tooltip_text)
+		}
 	}
 
 }

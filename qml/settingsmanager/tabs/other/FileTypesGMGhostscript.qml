@@ -17,13 +17,20 @@ EntryContainer {
 
 			id: title
 			title: qsTr("File Formats") + ":<br>&gt; GraphicsMagick/Ghostscript"
-			helptext: qsTr("The following file types are supported by GraphicsMagick, and they have been tested and work. However, they require Ghostscript to be installed on the system.")
+				   + (helptext_warning ? "<br><br><font color=\"red\"><i>&gt; " + qsTr("disabled") + "!</i></font>" : "")
+			helptext: entry.enabled
+					  ? qsTr("The following file types are supported by GraphicsMagick, and they have been tested and work. However, they require Ghostscript to be installed on the system.")
+					  : qsTr("PhotoQt was built without GraphicsMagick support!")
+
+			helptext_warning: !entry.enabled
 
 		}
 
 		EntrySetting {
 
 			id: entry
+
+			enabled: getanddostuff.isGraphicsMagickSupportEnabled()
 
 			// the model array
 			property var types_gm: [["", "", true]]

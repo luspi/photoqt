@@ -17,13 +17,20 @@ EntryContainer {
 
 			id: title
 			title: qsTr("File Formats") + ":<br>&gt; Raw"
-			helptext: qsTr("PhotoQt can open and display most (if not all) raw image formats. Here you can adjust the list of fileformats known to PhotoQt.")
+				   + (helptext_warning ? "<br><br><font color=\"red\"><i>&gt; " + qsTr("disabled") + "!</i></font>" : "")
+			helptext: entry.enabled
+					   ? qsTr("PhotoQt can open and display most (if not all) raw image formats. Here you can adjust the list of fileformats known to PhotoQt.")
+			: qsTr("<div color='red'>PhotoQt was built without LibRaw support!</div>")
+
+			helptext_warning: !entry.enabled
 
 		}
 
 		EntrySetting {
 
 			id: entry
+
+			enabled: getanddostuff.isLibRawSupportEnabled()
 
 			// the model array
 			property var types_raw: [["", "", true]]

@@ -38,6 +38,7 @@ public:
 	QString getHomeDir();
 	bool isExivSupportEnabled();
 	bool isGraphicsMagickSupportEnabled();
+	bool isLibRawSupportEnabled();
 	QString getVersionString();
 
 private:

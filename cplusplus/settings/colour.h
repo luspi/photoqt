@@ -101,6 +101,7 @@ public:
 
 	Q_PROPERTY(QString tooltip_bg MEMBER tooltip_bg NOTIFY tooltip_bgChanged)
 	Q_PROPERTY(QString tooltip_text MEMBER tooltip_text NOTIFY tooltip_textChanged)
+	Q_PROPERTY(QString tooltip_warning MEMBER tooltip_warning NOTIFY tooltip_warningChanged)
 
 	Q_PROPERTY(QString shortcut_double_error MEMBER shortcut_double_error NOTIFY shortcut_double_errorChanged)
 
@@ -202,6 +203,7 @@ public:
 	// ToolTip
 	QString tooltip_bg;
 	QString tooltip_text;
+	QString tooltip_warning;
 
 	// Shortcuts
 	QString shortcut_double_error;
@@ -307,6 +309,7 @@ public slots:
 		// ToolTip
 		tooltip_bg = "#dd222222";
 		tooltip_text = "#dddddddd";
+		tooltip_warning = "#ddff0000";
 
 		// Shortcuts
 		shortcut_double_error = "#ff2200";
@@ -405,6 +408,7 @@ public slots:
 
 		txt += QString("tooltip_bg=%1\n").arg(tooltip_bg);
 		txt += QString("tooltip_text=%1\n\n").arg(tooltip_text);
+		txt += QString("tooltip_warning=%1\n\n").arg(tooltip_warning);
 
 		txt += QString("shortcut_double_error=%1\n").arg(shortcut_double_error);
 
@@ -588,6 +592,8 @@ public slots:
 					tooltip_bg = color;
 				else if(property == "tooltip_text")
 					tooltip_text = color;
+				else if(property == "tooltip_warning")
+					tooltip_warning = color;
 
 				else if(property == "shortcut_double_error")
 					shortcut_double_error = color;
@@ -667,6 +673,7 @@ signals:
 	void button_text_disabledChanged(QString val);
 	void tooltip_bgChanged(QString val);
 	void tooltip_textChanged(QString val);
+	void tooltip_warningChanged(QString val);
 	void shortcut_double_errorChanged(QString val);
 
 };

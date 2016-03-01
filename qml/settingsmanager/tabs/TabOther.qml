@@ -54,9 +54,9 @@ Rectangle {
 			Language { id: language }
 			CustomEntries { id: customentries; alternating: true }
 			FileTypesQt { id: filetypesqt }
-			FileTypesGM { id: filetypesgm; alternating: true }
-			FileTypesGMGhostscript { id: filetypesgmghostscript }
 			FileTypesExtras { id: filetypesextras; alternating: true }
+			FileTypesGM { id: filetypesgm }
+			FileTypesGMGhostscript { id: filetypesgmghostscript; alternating: true }
 			FileTypesRaw { id: filetypesraw }
 			FileTypesUntested { id: filetypesuntested; alternating: true }
 

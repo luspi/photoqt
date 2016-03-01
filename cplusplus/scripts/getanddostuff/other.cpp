@@ -113,6 +113,13 @@ bool GetAndDoStuffOther::isGraphicsMagickSupportEnabled() {
 	return false;
 }
 
+bool GetAndDoStuffOther::isLibRawSupportEnabled() {
+#ifdef RAW
+	return true;
+#endif
+	return false;
+}
+
 QString GetAndDoStuffOther::getVersionString() {
 	return VERSION;
 }
