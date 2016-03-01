@@ -202,9 +202,6 @@ namespace FileFormatsHandler {
 				<< "*.tga"	// Truevision Targa image
 
 	// WORKING
-				<< "*.txt"	// Text files
-
-	// WORKING
 				<< "*.vicar"	// VICAR rasterfile format
 
 	// WORKING

@@ -105,7 +105,6 @@ EntryContainer {
 			["Irix RGB image", "*.sgi"],
 			["SUN Rasterfile", "*.sun"],
 			["Truevision Targa image", "*.tga"],
-			["Text files", "*.txt"],
 			["VICAR rasterfile format", "*.vicar"],
 			["Khoros Visualization Image File Format", "*.viff"],
 			["Word Perfect Graphics File", "*.wpg"],
