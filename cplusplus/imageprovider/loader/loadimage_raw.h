@@ -79,9 +79,15 @@ public:
 
 		QImage image;
 
+		// This means, that the structure contains an in-memory image of JPEG file.
+		// Only type, data_size and data fields are valid (and nonzero).
 		if(img->type == LIBRAW_IMAGE_JPEG) {
 
-			image.loadFromData(img->data, img->data_size, "JPEG");
+			// The return image is loaded from the QByteArray above
+			if(!image.loadFromData(img->data, img->data_size, "JPEG")) {
+				raw.recycle();
+				return ErrorImage::load("Failed to load JPEG data from LibRaw!");
+			}
 
 		} else {
 
