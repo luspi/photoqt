@@ -53,11 +53,8 @@ Rectangle {
 			}
 
 			function setSourceSizeAtStart() {
-				console.log("setSourceSizeAtStart")
-				if(sourceSize.height <= 5 || sourceSize.width <= 5) {
-					console.log("-> setting",width,height)
+				if(sourceSize.height <= 5 || sourceSize.width <= 5)
 					sourceSize = Qt.size((settings.openPreviewMode==="lq" ? 0.3 : 0.6)*width,(settings.openPreviewMode==="lq" ? 0.3 : 0.6)*height)
-				}
 			}
 
 		}
