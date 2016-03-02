@@ -28,7 +28,6 @@ QSize GetAndDoStuffOther::getImageSize(QString path) {
 
 		if(all.contains(path + "=")) {
 			QStringList s = all.split(path + "=").at(1).split("\n").at(0).split("x");
-			qDebug() << s;
 			return QSize(s.at(0).toInt(), s.at(1).toInt());
 		}
 
