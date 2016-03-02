@@ -512,7 +512,7 @@ public:
 		hidex = false;
 
 		closeXsize = 10;
-		fancyX = false;
+		fancyX = true;
 
 		thumbnailsize = 80;
 		thumbnailposition = "Bottom";
