@@ -74,18 +74,41 @@ Rectangle {
 
 	}
 
+	// This button closes the OpenFile dialog -> it is displayed to the RIGHT of the ListView below, in the top right corner
+	Image {
+
+		id: closeopenfile
+
+		anchors.right: parent.right
+		anchors.top: parent.top
+		anchors.bottom: parent.bottom
+
+		source: "qrc:/img/closingx.png"
+		sourceSize: Qt.size(height, height)
+
+		ToolTip {
+			anchors.fill: parent
+			hoverEnabled: true
+			cursorShape: Qt.PointingHandCursor
+			onClicked: openfile.hide()
+			text: qsTr("Close 'OpenFile' dialog")
+		}
+
+	}
+
 	ListView {
 
 		id: crumbsview
 
 		spacing: 0
 
-		x: 20+hist_but.width
-		width: parent.width-20
+		anchors.left: hist_but.right
+		anchors.right: closeopenfile.left
 		height: parent.height
 
 		orientation: ListView.Horizontal
 		interactive: false
+		clip: true
 
 		model: ListModel { id: crumbsmodel; }
 
