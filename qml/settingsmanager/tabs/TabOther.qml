@@ -45,6 +45,16 @@ Rectangle {
 				horizontalAlignment: Text.AlignHCenter
 			}
 
+			Rectangle { color: "transparent"; width: 1; height: 20; }
+
+			Text {
+				width: flickable.width
+				color: "white"
+				font.pointSize: 10
+				text: qsTr("Move your mouse cursor over the different settings titles to see more information.")
+				horizontalAlignment: Text.AlignHCenter
+			}
+
 			Rectangle { color: "transparent"; width: 1; height: 30; }
 
 			Rectangle { color: "#88ffffff"; width: parent.width; height: 1; }

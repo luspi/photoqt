@@ -48,6 +48,16 @@ Rectangle {
 			Rectangle { color: "transparent"; width: 1; height: 20; }
 
 			Text {
+				width: flickable.width
+				color: "white"
+				font.pointSize: 10
+				text: qsTr("Move your mouse cursor over the different settings titles to see more information.")
+				horizontalAlignment: Text.AlignHCenter
+			}
+
+			Rectangle { color: "transparent"; width: 1; height: 20; }
+
+			Text {
 				color: "white"
 				width: flickable.width-20
 				x: 10
