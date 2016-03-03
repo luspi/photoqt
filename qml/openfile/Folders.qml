@@ -1,5 +1,6 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
+import QtQuick.Controls.Styles 1.2
 import QtQuick.Layouts 1.0
 
 Rectangle {
@@ -63,13 +64,48 @@ Rectangle {
 				anchors.fill: parent
 				hoverEnabled: true
 				cursorShape: Qt.PointingHandCursor
+				acceptedButtons: Qt.LeftButton | Qt.RightButton
 				onEntered:
 					folderlistview.currentIndex = index
-				onClicked:
-					loadCurrentDirectory(dir_path + "/" + folder)
+				onClicked: {
+					if (mouse.button == Qt.RightButton)
+						contextmenu.popup()
+					else
+						loadCurrentDirectory(dir_path + "/" + folder)
+				}
+			}
+
+			Menu {
+				id: contextmenu
+				MenuItem {
+					text: "<font color=\"" + colour.menu_text + "\">" + qsTr("Add to Favourites") + "</font>"
+					onTriggered: getanddostuff.addToUserPlaces(dir_path + "/" + folder)
+				}
+
+				MenuItem {
+					text: "<font color=\"" + colour.menu_text + "\">" + qsTr("Load directory") + "</font>"
+					onTriggered: loadCurrentDirectory(dir_path + "/" + folder)
+				}
+				style: MenuStyle {
+					frame: menuFrame
+					itemDelegate.background: menuHighlight
+				}
 			}
 		}
 
+	}
+
+	Component {
+		id: menuFrame
+		Rectangle {
+			color: colour.menu_frame
+		}
+	}
+	Component {
+		id: menuHighlight
+		Rectangle {
+			color: (styleData.selected ? colour.menu_bg_highlight : colour.menu_bg)
+		}
 	}
 
 	Keys.onPressed: {

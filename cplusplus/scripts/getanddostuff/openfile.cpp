@@ -1,6 +1,7 @@
 #include "openfile.h"
 
 GetAndDoStuffOpenFile::GetAndDoStuffOpenFile(QObject *parent) : QObject(parent) {
+
 	formats = new FileFormats;
 
 	watcher = new QFileSystemWatcher;
@@ -61,33 +62,26 @@ QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
 
 		}
 
-		QDomNodeList separator = doc.elementsByTagName("separator");
-		for(int i = 0; i < separator.size(); i++) {
-			QDomNode n = separator.item(i);
-
-			QString icon = "";
-			QString location = n.attributes().namedItem("href").nodeValue();
-			QString title = n.firstChildElement("title").text();
-
-			QDomNodeList info = n.firstChildElement("info").childNodes();
-			for(int j = 0; j < info.size(); ++j) {
-				QDomNode ele_icon = info.item(j).firstChildElement("bookmark:icon");
-				if(ele_icon.isNull())
-					continue;
-				icon = ele_icon.attributes().namedItem("name").nodeValue();
-
-			if(location.startsWith("file://"))
-				location = location.remove(0,7);
-			}
-
-			QVariantList ele = QVariantList() << "device" << title << location << icon;
-
-			if(QDir(location).exists())
-				sub_devices.append(ele);
-
-		}
-
 		file.close();
+
+		for(auto storage : QStorageInfo::mountedVolumes()) {
+			if(storage.isValid()) {
+
+				qint64 size = storage.bytesTotal()/1024/1024/102.4;
+
+				if(size > 0) {
+
+					QVariantList ele = QVariantList() << "device"
+													  << QString("%1 GB Volume (%2)")
+														 .arg(size/10.0)
+														 .arg(QString(storage.fileSystemType()))
+													  << storage.rootPath()
+													  << "folder";
+					sub_devices.append(ele);
+
+				}
+			}
+		}
 
 	}
 
@@ -193,5 +187,54 @@ QString GetAndDoStuffOpenFile::removePrefixFromDirectoryOrFile(QString path) {
 		return path.remove(0,6);
 
 	return path;
+
+}
+
+void GetAndDoStuffOpenFile::addToUserPlaces(QString path) {
+
+	QFile file(QDir::homePath() + "/.local/share/user-places.xbel");
+	if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+		LOG << DATE << "Can't open ~/.local/share/user-places.xbel file" << std::endl;
+		return;
+	}
+
+	QDomDocument doc;
+	doc.setContent(&file);
+
+	QDomElement root = doc.documentElement();
+
+	QDomElement bookmark = doc.createElement("bookmark");
+	bookmark.setAttribute("href",path);
+
+	QDomElement title = doc.createElement("title");
+	QDomText titleText = doc.createTextNode(QFileInfo(path).fileName());
+	title.appendChild(titleText);
+	bookmark.appendChild(title);
+
+	QDomElement info = doc.createElement("info");
+
+	QDomElement metadata = doc.createElement("metadata");
+	metadata.setAttribute("owner","http://freedesktop.org");
+
+	QDomElement icon = doc.createElement("bookmark:icon");
+	icon.setAttribute("name","inode-directory");
+
+	metadata.appendChild(icon);
+	info.appendChild(metadata);
+	bookmark.appendChild(info);
+
+	root.appendChild(bookmark);
+
+	file.close();
+
+	if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+		LOG << DATE << "Can't open ~/.local/share/user-places.xbel file" << std::endl;
+		return;
+	}
+
+	QTextStream out(&file);
+	root.save(out,2);
+
+	file.close();
 
 }

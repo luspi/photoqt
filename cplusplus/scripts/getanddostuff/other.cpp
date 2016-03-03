@@ -100,6 +100,10 @@ QString GetAndDoStuffOther::getHomeDir() {
 	return QDir::homePath();
 }
 
+QString GetAndDoStuffOther::getRootDir() {
+	return QDir::rootPath();
+}
+
 bool GetAndDoStuffOther::isExivSupportEnabled() {
 #ifdef EXIV2
 	return true;

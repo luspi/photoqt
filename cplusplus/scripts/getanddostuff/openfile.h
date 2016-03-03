@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QDir>
 #include <QFile>
+#include <QStorageInfo>
 #include <QIcon>
 #include <QtDebug>
 #include <QtXml/QDomDocument>
@@ -28,6 +29,7 @@ public:
 	QVariantList getFilesWithSizeIn(QString path);
 	bool isFolder(QString path);
 	QString removePrefixFromDirectoryOrFile(QString path);
+	void addToUserPlaces(QString path);
 
 signals:
 	void userPlacesUpdated();

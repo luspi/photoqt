@@ -36,6 +36,7 @@ public:
 	int getCurrentScreen(int x, int y);
 	QString getTempDir();
 	QString getHomeDir();
+	QString getRootDir();
 	bool isExivSupportEnabled();
 	bool isGraphicsMagickSupportEnabled();
 	bool isLibRawSupportEnabled();

@@ -82,6 +82,7 @@ public:
 	Q_INVOKABLE int getCurrentScreen(int x, int y) { return other->getCurrentScreen(x,y); }
 	Q_INVOKABLE QString getTempDir() { return other->getTempDir(); }
 	Q_INVOKABLE QString getHomeDir() { return other->getHomeDir(); }
+	Q_INVOKABLE QString getRootDir() { return other->getRootDir(); }
 	Q_INVOKABLE bool isExivSupportEnabled() { return other->isExivSupportEnabled(); }
 	Q_INVOKABLE bool isGraphicsMagickSupportEnabled() { return other->isGraphicsMagickSupportEnabled(); }
 	Q_INVOKABLE bool isLibRawSupportEnabled() { return other->isLibRawSupportEnabled(); }
@@ -110,6 +111,7 @@ public:
 	Q_INVOKABLE QVariantList getFoldersIn(QString path) { return this->openfile->getFoldersIn(path); }
 	Q_INVOKABLE QVariantList getFilesIn(QString path) { return this->openfile->getFilesIn(path); }
 	Q_INVOKABLE QVariantList getFilesWithSizeIn(QString path) { return this->openfile->getFilesWithSizeIn(path); }
+	Q_INVOKABLE void addToUserPlaces(QString path) { this->openfile->addToUserPlaces(path); }
 
 	int shortcutNotifier;
 	Q_PROPERTY(int shortcutNotifier READ getShortcutNotifier WRITE setShortcutNotifier NOTIFY shortcutNotifierChanged)
@@ -132,7 +134,7 @@ private:
 	GetAndDoStuffOpenFile *openfile;
 
 signals:
-    void reloadDirectory(QString path, bool deleted = false);
+	void reloadDirectory(QString path, bool deleted = false);
 	void shortcutNotifierChanged(int val);
 	void userPlacesUpdated();
 

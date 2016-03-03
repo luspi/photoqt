@@ -133,9 +133,31 @@ Rectangle {
 
 	function loadUserPlaces() {
 
+		// We store the current index in a variable to re-set it afterwards
+		// If the userplaces file got changed during runtime, then this ensures the highlighted index remains the same
+		var index = userplaces.currentIndex
+
 		userplacesmodel.clear()
 
 		var entries = getanddostuff.getUserPlaces()
+
+		var useritems = [
+					["Home", getanddostuff.getHomeDir(), "user-home"],
+					["Root", getanddostuff.getRootDir(), "folder-red"],
+				]
+
+		userplacesmodel.append({"type" : "heading",
+								   "title" : "User",
+								   "location" : "",
+								   "icon" : "",
+								   "counter" : 0})
+
+		for(var u = 0; u < useritems.length; ++u)
+			userplacesmodel.append({"type" : "place_user",
+									   "title" : useritems[u][0],
+									   "location" : useritems[u][1],
+									   "icon" : useritems[u][2],
+									   "counter" : u+1})
 
 		userplacesmodel.append({"type" : "heading",
 								   "title" : "Places",
@@ -163,6 +185,9 @@ Rectangle {
 									   "counter" : counter})
 			++counter
 		}
+
+		userplaces.currentIndex = index;
+
 	}
 
 	function loadCurrentlyHighlightedFolder() {
