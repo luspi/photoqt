@@ -81,11 +81,9 @@ Rectangle {
 
 		anchors.right: parent.right
 		anchors.top: parent.top
-		anchors.bottom: parent.bottom
-		anchors.bottomMargin: 10
 
 		source: "qrc:/img/closingx.png"
-		sourceSize: Qt.size(height, height)
+		sourceSize: Qt.size(3*settings.closeXsize,3*settings.closeXsize)
 
 		ToolTip {
 			anchors.fill: parent
