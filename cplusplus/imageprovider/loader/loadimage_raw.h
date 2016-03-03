@@ -104,8 +104,8 @@ public:
 			else {
 				QByteArray imgData_tmp;
 			   // img->colors == 1 (Grayscale) : convert to RGB
-				for(unsigned int i = 0 ; i < (int)img->data_size ; ++i) {
-					for(unsigned int j = 0 ; j < 3 ; ++j)
+				for(int i = 0 ; i < (int)img->data_size ; ++i) {
+					for(int j = 0 ; j < 3 ; ++j)
 						imgData_tmp.append(img->data[i]);
 				}
 				imgData.append(imgData_tmp);

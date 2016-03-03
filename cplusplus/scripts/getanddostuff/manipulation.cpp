@@ -268,10 +268,10 @@ void GetAndDoStuffManipulation::copyImage(QString path) {
 
 	// And copy file
 	QFile file(path);
-	if(file.copy(newpath))
+	if(file.copy(newpath)) {
 		if(QFileInfo(newpath).absolutePath() == QFileInfo(path).absolutePath())
 			emit reloadDirectory(newpath);
-	else
+	} else
 		std::clog << "ERROR: Couldn't copy file" << std::endl;
 
 }

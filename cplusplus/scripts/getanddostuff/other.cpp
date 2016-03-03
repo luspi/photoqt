@@ -88,6 +88,8 @@ int GetAndDoStuffOther::getCurrentScreen(int x, int y) {
 		if(QGuiApplication::screens().at(i)->geometry().contains(x,y))
 			return i;
 
+	return 0;
+
 }
 
 QString GetAndDoStuffOther::getTempDir() {

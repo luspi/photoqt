@@ -224,4 +224,5 @@ int GetAndDoStuffWallpaper::checkWallpaperTool(QString wm) {
 			return 1;   // feh not available
 		return 0;
 	}
+	return -1;
 }
