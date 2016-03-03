@@ -27,6 +27,11 @@ Rectangle {
 
 	property string currentlyLoadedDir: ""
 
+	MouseArea {
+		anchors.fill: parent
+		hoverEnabled: true
+	}
+
 
 	// Bread crumb navigation
 	BreadCrumbs {
