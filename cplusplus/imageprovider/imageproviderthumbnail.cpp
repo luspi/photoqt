@@ -2,6 +2,8 @@
 
 ImageProviderThumbnail::ImageProviderThumbnail() : QQuickImageProvider(QQuickImageProvider::Image) {
 
+	imageproviderfull = new ImageProviderFull;
+
 	// Setup database
 	db = QSqlDatabase::addDatabase("QSQLITE","thumbDB" + QString::number(rand()));
 	db.setDatabaseName(CFG_THUMBNAILS_DB);
@@ -118,11 +120,13 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
 
 	if(!wasoncecreated && !dontCreateThumbnailNew) {
 
-		ImageProviderFull image;
-		p = image.requestImage(filename.toPercentEncoding(),new QSize(ts,ts),QSize(ts,ts));
+		// We create a temporary pointer, so that we can delete it properly afterwards
+		QSize *tmp = new QSize(ts,ts);
+		p = imageproviderfull->requestImage(filename.toPercentEncoding(),tmp,QSize(ts,ts));
+		delete tmp;
 
-		origwidth = image.origSize.width();
-		origheight = image.origSize.height();
+		origwidth = imageproviderfull->origSize.width();
+		origheight = imageproviderfull->origSize.height();
 
 		if(typeCache == "files" && cacheEnabled) {
 
@@ -200,5 +204,6 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
 ImageProviderThumbnail::~ImageProviderThumbnail() {
 	if(dbTransactionStarted) if(!db.commit()) qDebug() << "[imageprovider thumbs ~] ERROR: CAN'T commit DB TRANSACTION!";
 	db.close();
+	delete imageproviderfull;
 	delete settings;
 }

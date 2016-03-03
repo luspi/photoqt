@@ -24,6 +24,8 @@ private:
 	QSqlDatabase db;
 	Settings *settings;
 
+	ImageProviderFull *imageproviderfull;
+
 	QImage getThumbnailImage(QByteArray filename);
 
 	bool dbTransactionStarted;

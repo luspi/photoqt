@@ -14,7 +14,9 @@ GetAndDoStuffShortcuts::GetAndDoStuffShortcuts(bool usedAtStartup, QObject *pare
 
 }
 
-GetAndDoStuffShortcuts::~GetAndDoStuffShortcuts() { }
+GetAndDoStuffShortcuts::~GetAndDoStuffShortcuts() {
+	delete watcher;
+}
 
 void GetAndDoStuffShortcuts::setFilesToWatcher() {
 	if(!QFile(CFG_SHORTCUTS_FILE).exists())

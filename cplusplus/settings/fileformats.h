@@ -57,7 +57,7 @@ public:
 
 	}
 
-	~FileFormats() { delete watcher; delete saveFileformatsTimer; }
+	~FileFormats() { delete watcher; saveFileformatsTimer->stop(); delete saveFileformatsTimer; }
 
 	// Per default enabled image formats
 	QStringList formats_qt;

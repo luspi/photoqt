@@ -7,7 +7,9 @@ GetAndDoStuffOpenFile::GetAndDoStuffOpenFile(QObject *parent) : QObject(parent) 
 	watcher->addPath(QDir::homePath() + "/.local/share/user-places.xbel");
 	connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(updateUserPlaces()));
 }
-GetAndDoStuffOpenFile::~GetAndDoStuffOpenFile() { }
+GetAndDoStuffOpenFile::~GetAndDoStuffOpenFile() {
+	delete watcher;
+}
 
 int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path) {
 

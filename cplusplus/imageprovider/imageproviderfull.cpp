@@ -17,6 +17,7 @@ ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider
 
 ImageProviderFull::~ImageProviderFull() {
 	delete settingsPerSession;
+	delete settings;
 	delete fileformats;
 }
 
