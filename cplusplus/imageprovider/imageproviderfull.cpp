@@ -58,9 +58,7 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *s
 
 QString ImageProviderFull::whatDoIUse(QString filename) {
 
-	QString use = "qt";
-
-	if(filename.trimmed() == "") return use;
+	if(filename.trimmed() == "") return "qt";
 
 	if(extrasfiles.trimmed() != "") {
 
@@ -70,10 +68,8 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
 		// Check for extra
 		for(int i = 0; i < extrasFiles.length(); ++i) {
 			// We need to remove the first character of qtfiles.at(i), since that is a "*"
-			if(filename.toLower().endsWith(QString(extrasFiles.at(i)).remove(0,2)))  {
-				use = "extra";
-				break;
-			}
+			if(filename.toLower().endsWith(QString(extrasFiles.at(i)).remove(0,2)))
+				return "extra";
 		}
 
 	}
@@ -87,10 +83,8 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
 		// Check for raw
 		for(int i = 0; i < rawFiles.length(); ++i) {
 			// We need to remove the first character of qtfiles.at(i), since that is a "*"
-			if(filename.toLower().endsWith(QString(rawFiles.at(i)).remove(0,1)))  {
-				use = "raw";
-				break;
-			}
+			if(filename.toLower().endsWith(QString(rawFiles.at(i)).remove(0,1)))
+				return "raw";
 		}
 
 	}
@@ -134,9 +128,9 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
 #endif
 
 
-	if(usegm) use = "gm";
+	if(usegm) return "gm";
 #endif
 
-	return use;
+	return "qt";
 
 }
