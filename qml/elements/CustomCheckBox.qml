@@ -22,6 +22,8 @@ Item {
 	// Per default the text in on the right
 	property bool textOnRight: true
 
+	property int wrapMode: Text.NoWrap
+
 	// Set size
 	width: fixedwidth==-1 ? childrenRect.width : fixedwidth
 	height: Math.max(txt.height,check.height)
@@ -42,6 +44,7 @@ Item {
 		text: !textOnRight ? rect.text : ""
 		font.pointSize: fsize
 		elide: rect.elide
+		wrapMode: rect.wrapMode
 
 	}
 
@@ -79,6 +82,7 @@ Item {
 				Behavior on color { ColorAnimation { duration: 150; } }
 				visible: textOnRight
 				elide: rect.elide
+				wrapMode: rect.wrapMode
 				text: textOnRight ? rect.text : ""
 				font.pointSize: fsize
 			}
