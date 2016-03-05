@@ -632,11 +632,22 @@ void MainWindow::updateWindowGeometry() {
 					  ? this->setFlags(Qt::Window)
 					  : this->setFlags(Qt::Window | Qt::FramelessWindowHint);
 		}
-		QSettings settings(CFG_MAINWINDOW_GEOMETRY_FILE);
-		if(settings.allKeys().contains("mainWindowGeometry") && settingsPermanent->saveWindowGeometry) {
-			this->show();
-			this->setGeometry(settings.value("mainWindowGeometry").toRect());
-			QTimer::singleShot(200,this, SLOT(resetWindowGeometry()));
+		if(settingsPermanent->saveWindowGeometry) {
+			QFile geo(CFG_MAINWINDOW_GEOMETRY_FILE);
+			if(geo.open(QIODevice::ReadOnly)) {
+				QTextStream in(&geo);
+				QString all = in.readAll();
+				if(all.contains("mainWindowGeometry=@Rect(")) {
+					QStringList vars = all.split("mainWindowGeometry=@Rect(").at(1).split(")\n").at(0).split(" ");
+					if(vars.length() == 4) {
+						this->show();
+						this->setGeometry(QRect(vars.at(0).toInt(),vars.at(1).toInt(),vars.at(2).toInt(),vars.at(3).toInt()));
+					} else
+						this->showMaximized();
+				} else
+					this->showMaximized();
+			} else
+				this->showMaximized();
 		} else
 			this->showMaximized();
 	} else {
