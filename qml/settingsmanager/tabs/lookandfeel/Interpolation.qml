@@ -13,6 +13,8 @@ EntryContainer {
 
 		EntryTitle {
 
+			id: entrytitle
+
 			title: "Interpolation"
 			helptext: qsTr("There are many different interpolation algorithms out there. Depending on the choice of interpolation algorithm, the image (when zoomed in) will look slightly differently. PhotoQt uses mipmaps to get the best quality for images. However, for very small images, that might lead to too much blurring causing them to look rather ugly. For those images, the 'Nearest Neighbour' algorithm tend to be a better choise. Here you can adjust the size threshold below which PhotoQt applies the 'Nearest Neighbour' algorithm.");
 
@@ -26,6 +28,7 @@ EntryContainer {
 
 				Text {
 
+					id: txt_label
 					color: colour.text
 					text: qsTr("Threshold:")
 					font.pointSize: 10
@@ -57,6 +60,8 @@ EntryContainer {
 
 					id: interpolationupscale
 					y: (parent.height-height)/2
+					wrapMode: Text.WordWrap
+					fixedwidth: settings_top.width-entrytitle.width-txt_label.width-interpolationthreshold.width-90
 					text: qsTr("Use 'Nearest Neighbour' algorithm for upscaling")
 
 				}

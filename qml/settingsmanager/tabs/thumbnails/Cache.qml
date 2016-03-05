@@ -31,7 +31,7 @@ EntryContainer {
 
 					id: cache
 					y: (parent.height-height)/2
-					text: qsTr("Enable Thumbnail Cache")
+					text: qsTr("Enable Cache")
 
 				}
 
@@ -94,7 +94,7 @@ EntryContainer {
 								font.pointSize: 10
 								color: cache.checkedButton ? colour.text : colour.text_disabled
 								Behavior on color { ColorAnimation { duration: 150; } }
-								text: qsTr("Current database filesize:")
+								text: qsTr("Database filesize:")
 							}
 							Text {
 								font.pointSize: 10
@@ -147,7 +147,7 @@ EntryContainer {
 					id: cleanup
 					height: 35
 					y: (parent.height-height)/2
-					text: qsTr("CLEAN UP database")
+					text: qsTr("CLEAN UP")
 
 					enabled: cache.checkedButton
 
@@ -160,7 +160,7 @@ EntryContainer {
 					id: erase
 					height: 35
 					y: (parent.height-height)/2
-					text: qsTr("ERASE database")
+					text: qsTr("ERASE")
 
 					enabled: cache.checkedButton
 

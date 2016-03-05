@@ -13,7 +13,7 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 
 	overrideCursorHowOftenSet = 0;
 
-	this->setMinimumSize(QSize(600,400));
+	this->setMinimumSize(QSize(800,600));
 
 	// Add image providers
 	this->engine()->addImageProvider("thumb",new ImageProviderThumbnail);
@@ -53,9 +53,9 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 
 	connect(object, SIGNAL(verboseMessage(QVariant,QVariant)), this, SLOT(qmlVerboseMessage(QVariant,QVariant)));
 
-    // Hide/Quit window
-    connect(object, SIGNAL(hideToSystemTray()), this, SLOT(hideToSystemTray()));
-    connect(object, SIGNAL(quitPhotoQt()), this, SLOT(quitPhotoQt()));
+	// Hide/Quit window
+	connect(object, SIGNAL(hideToSystemTray()), this, SLOT(hideToSystemTray()));
+	connect(object, SIGNAL(quitPhotoQt()), this, SLOT(quitPhotoQt()));
 
 	// React to some settings...
 	connect(settingsPermanent, SIGNAL(trayiconChanged(int)), this, SLOT(showTrayIcon()));
@@ -436,14 +436,14 @@ void MainWindow::trayAction(QSystemTrayIcon::ActivationReason reason) {
 	if(variables->verbose)
 		LOG << DATE << "trayAction()" << std::endl;
 
-    if(reason == QSystemTrayIcon::Trigger) {
+	if(reason == QSystemTrayIcon::Trigger) {
 
 		if(!variables->hiddenToTrayIcon) {
 			variables->geometryWhenHiding = this->geometry();
 			if(variables->verbose)
 				LOG << DATE << "trayAction(): Hiding to tray" << std::endl;
 			this->hide();
-        } else {
+		} else {
 
 			if(variables->verbose)
 				LOG << DATE << "trayAction(): Updating screenshots" << std::endl;
@@ -464,7 +464,7 @@ void MainWindow::trayAction(QSystemTrayIcon::ActivationReason reason) {
 
 			if(variables->currentDir == "")
 				QMetaObject::invokeMethod(object, "openFile");
-        }
+		}
 
 	}
 
@@ -474,8 +474,8 @@ void MainWindow::hideToSystemTray() {
 		this->close();
 }
 void MainWindow::quitPhotoQt() {
-    variables->skipSystemTrayAndQuit = true;
-    this->close();
+	variables->skipSystemTrayAndQuit = true;
+	this->close();
 }
 
 void MainWindow::showTrayIcon() {

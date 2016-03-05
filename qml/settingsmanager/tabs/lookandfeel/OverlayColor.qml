@@ -36,7 +36,7 @@ EntryContainer {
 						Row {
 							spacing: 5
 							Text {
-								width: 60
+								width: 50
 								horizontalAlignment: Qt.AlignRight
 								color: colour.text
 								font.pointSize: 10
@@ -58,7 +58,7 @@ EntryContainer {
 						Row {
 							spacing: 5
 							Text {
-								width: 60
+								width: 50
 								horizontalAlignment: Qt.AlignRight
 								color: colour.text
 								font.pointSize: 10
@@ -80,7 +80,7 @@ EntryContainer {
 						Row {
 							spacing: 5
 							Text {
-								width: 60
+								width: 50
 								horizontalAlignment: Qt.AlignRight
 								color: colour.text
 								font.pointSize: 10
@@ -102,7 +102,7 @@ EntryContainer {
 						Row {
 							spacing: 5
 							Text {
-								width: 60
+								width: 50
 								horizontalAlignment: Qt.AlignRight
 								color: colour.text
 								font.pointSize: 10
@@ -129,7 +129,7 @@ EntryContainer {
 
 					id: background_colour
 
-					width: 200
+					width: 150
 					height: slider_column.height
 
 					source: "qrc:/img/transparent.png"
@@ -171,7 +171,7 @@ EntryContainer {
 								verticalAlignment: Qt.AlignVCenter
 
 								color: "white"
-								text: qsTr("Preview colour")
+								text: qsTr("Preview")
 
 							}
 

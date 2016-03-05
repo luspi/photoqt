@@ -13,6 +13,8 @@ EntryContainer {
 
 		EntryTitle {
 
+			id: entrytitle
+
 			title: "Size of 'Hot Edge'"
 			helptext: qsTr("Here you can adjust the sensitivity of the drop-down menu. The menu opens when your mouse cursor gets close to the right side of the upper edge. Here you can adjust how close you need to get for it to open.")
 
@@ -25,6 +27,7 @@ EntryContainer {
 				spacing: 10
 
 				Text {
+					id: txt_small
 					color: colour.text
 					text: qsTr("Small")
 					font.pointSize: 10
@@ -34,7 +37,7 @@ EntryContainer {
 
 					id: menusensitivity
 
-					width: 400
+					width: Math.min(400, settings_top.width-entrytitle.width-txt_small.width-txt_large.width-60)
 					y: (parent.height-height)/2
 
 					minimumValue: 1
@@ -46,6 +49,7 @@ EntryContainer {
 				}
 
 				Text {
+					id: txt_large
 					color: colour.text
 					text: qsTr("Large")
 					font.pointSize: 10

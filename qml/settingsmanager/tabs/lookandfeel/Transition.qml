@@ -13,6 +13,8 @@ EntryContainer {
 
 		EntryTitle {
 
+			id: entrytitle
+
 			title: "Smooth Transition"
 			helptext: qsTr("Switching between images can be done smoothly, the new image can be set to fade into the old image. 'No transition' means, that the previous image is simply replaced by the new image.")
 
@@ -25,6 +27,7 @@ EntryContainer {
 				spacing: 10
 
 				Text {
+					id: txt_no
 					color: colour.text
 					text: qsTr("No Transition")
 					font.pointSize: 10
@@ -34,7 +37,7 @@ EntryContainer {
 
 					id: transition
 
-					width: 400
+					width: Math.min(400, settings_top.width-entrytitle.width-txt_no.width-txt_long.width-60)
 					y: (parent.height-height)/2
 
 					minimumValue: 0
@@ -46,6 +49,7 @@ EntryContainer {
 				}
 
 				Text {
+					id: txt_long
 					color: colour.text
 					text: qsTr("Long Transition")
 					font.pointSize: 10

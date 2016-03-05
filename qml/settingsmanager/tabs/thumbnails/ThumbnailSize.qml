@@ -13,6 +13,8 @@ EntryContainer {
 
 		EntryTitle {
 
+			id: entrytitle
+
 			title: "Thumbnail Size"
 			helptext: "Here you can adjust the thumbnail size. You can set it to any size between 20 and 256 pixel. Per default it is set to 80 pixel, but with different screen resolutions it might be nice to have them larger/smaller."
 
@@ -33,7 +35,7 @@ EntryContainer {
 
 					id: size_slider
 
-					width: 500
+					width: Math.min(400, settings_top.width-entrytitle.width-size_spinbox.width-50)
 					y: (parent.height-height)/2
 
 					minimumValue: 20

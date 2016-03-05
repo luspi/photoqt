@@ -13,7 +13,9 @@ EntryContainer {
 
 		EntryTitle {
 
-			title: "Spacing Between Thumbnails"
+			id: entrytitle
+
+			title: "Spacing Between Thumbnails dfdfdwf dfsdgffsd ghdfghdf"
 			helptext: "The thumbnails are shown in a row at the lower or upper edge (depending on your setup). They are lined up side by side. Per default, there's no empty space between them, however exactly that can be changed here."
 
 		}
@@ -33,7 +35,7 @@ EntryContainer {
 
 					id: spacing_slider
 
-					width: 500
+					width: Math.min(400, settings_top.width-entrytitle.width-spacing_spinbox.width-50)
 					y: (parent.height-height)/2
 
 					minimumValue: 0

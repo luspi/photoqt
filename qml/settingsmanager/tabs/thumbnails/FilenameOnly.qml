@@ -14,6 +14,8 @@ EntryContainer {
 
 		EntryTitle {
 
+			id: entrytitle
+
 			title: "Filename Thumbnail"
 			helptext: qsTr("If you don't want PhotoQt to always load the actual image thumbnail in the background, but you still want to have something for better navigating, then you can set a file-name-only thumbnail, i.e. PhotoQt wont load any thumbnail images but simply puts the file name into the box. You can also adjust the font size of this text.")
 
@@ -35,6 +37,7 @@ EntryContainer {
 				Rectangle { color: "transparent"; width: 10; height: 1; }
 
 				Text {
+					id: txt_fontsize
 					color: enabled ? colour.text : colour.text_inactive
 					Behavior on color { ColorAnimation { duration: 150; } }
 					y: (parent.height-height)/2
@@ -47,7 +50,7 @@ EntryContainer {
 
 					id: filenameonly_fontsize_slider
 
-					width: 400
+					width: Math.min(400, Math.max(50,settings_top.width-entrytitle.width-filenameonly.width-txt_fontsize.width-filenameonly_fontsize_spinbox.width-80))
 					y: (parent.height-height)/2
 
 					minimumValue: 5

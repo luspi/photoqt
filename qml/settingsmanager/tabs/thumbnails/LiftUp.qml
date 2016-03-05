@@ -14,6 +14,8 @@ EntryContainer {
 
 		EntryTitle {
 
+			id: entrytitle
+
 			title: "Lift-Up of Thumbnails"
 			helptext: "When a thumbnail is hovered, it is lifted up some pixels (default 10). Here you can increase/decrease this value according to your personal preference."
 
@@ -34,7 +36,7 @@ EntryContainer {
 
 					id: liftup_slider
 
-					width: 500
+					width: Math.min(400, settings_top.width-entrytitle.width-liftup_spinbox.width-50)
 					y: (parent.height-height)/2
 
 					minimumValue: 0

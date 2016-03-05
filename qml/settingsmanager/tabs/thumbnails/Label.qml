@@ -14,6 +14,8 @@ EntryContainer {
 
 		EntryTitle {
 
+			id: entrytitle
+
 			title: "Label on Thumbnails"
 			helptext:  qsTr("When thumbnails are displayed at the top/bottom, PhotoQt usually writes the filename on them (if not disabled). You can also use the slider below to adjust the font size.")
 
@@ -36,6 +38,7 @@ EntryContainer {
 				Rectangle { color: "transparent"; width: 10; height: 1; }
 
 				Text {
+					id: txt_fontsize
 					color: enabled ? colour.text : colour.text_inactive
 					Behavior on color { ColorAnimation { duration: 150; } }
 					y: (parent.height-height)/2
@@ -48,7 +51,7 @@ EntryContainer {
 
 					id: fontsize_slider
 
-					width: 400
+					width: Math.min(400, Math.max(50,settings_top.width-entrytitle.width-writefilename.width-txt_fontsize.width-fontsize_spinbox.width-80))
 					y: (parent.height-height)/2
 
 					minimumValue: 5

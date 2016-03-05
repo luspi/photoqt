@@ -13,6 +13,8 @@ EntryContainer {
 
 		EntryTitle {
 
+			id: entrytitle
+
 			title: "Mouse Wheel Sensitivity"
 			helptext: qsTr("Here you can adjust the sensitivity of the mouse wheel. For example, if you have set the mouse wheel up/down for switching back and forth between images, then a lower sensitivity means that you will have to scroll further for triggering a shortcut. Per default it is set to the highest sensitivity, i.e. every single wheel movement is evaluated.")
 
@@ -26,6 +28,7 @@ EntryContainer {
 
 				Text {
 
+					id: txt_no
 					color: colour.text
 					text: qsTr("Not at all sensitive")
 					font.pointSize: 10
@@ -36,7 +39,7 @@ EntryContainer {
 
 					id: wheelsensitivity
 
-					width: 400
+					width: Math.min(400, settings_top.width-entrytitle.width-txt_no.width-txt_very.width-60)
 					y: (parent.height-height)/2
 
 					minimumValue: 1
@@ -49,6 +52,7 @@ EntryContainer {
 
 				Text {
 
+					id: txt_very
 					color: colour.text
 					text: qsTr("Very sensitive")
 					font.pointSize: 10
