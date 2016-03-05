@@ -64,6 +64,8 @@ QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
 
 		file.close();
 
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+
 		for(auto storage : QStorageInfo::mountedVolumes()) {
 			if(storage.isValid()) {
 
@@ -82,6 +84,8 @@ QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
 				}
 			}
 		}
+
+#endif
 
 	}
 

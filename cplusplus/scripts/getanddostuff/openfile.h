@@ -4,7 +4,6 @@
 #include <QObject>
 #include <QDir>
 #include <QFile>
-#include <QStorageInfo>
 #include <QIcon>
 #include <QtDebug>
 #include <QtXml/QDomDocument>
@@ -12,6 +11,10 @@
 #include <thread>
 #include "../../logger.h"
 #include "../../settings/fileformats.h"
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+#include <QStorageInfo>
+#endif
 
 class GetAndDoStuffOpenFile : public QObject {
 
