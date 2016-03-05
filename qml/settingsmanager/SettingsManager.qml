@@ -367,6 +367,7 @@ Rectangle {
 		property: "opacity"
 		to: 0
 		duration: settings.myWidgetAnimated ? 250 : 0
+		onStarted: unblurAllBackgroundElements()
 		onStopped: {
 			visible = false
 			blocked = false
@@ -382,6 +383,7 @@ Rectangle {
 		to: 1
 		duration: settings.myWidgetAnimated ? 250 : 0
 		onStarted: {
+			blurAllBackgroundElements()
 			visible = true
 			blocked = true
 			setData()	// We DO need to call setData() here, as otherwise - once set up - a tab would not be updated (e.g. with changes from quicksettings)

@@ -87,6 +87,7 @@ public:
 		connect(this, SIGNAL(fitInWindowChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(interpolationNearestNeighbourThresholdChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(interpolationNearestNeighbourUpscaleChanged(bool)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(blurIntensityChanged(int)), saveSettingsTimer, SLOT(start()));
 
 		connect(this, SIGNAL(hidecounterChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(hidefilepathshowfilenameChanged(bool)), saveSettingsTimer, SLOT(start()));
@@ -234,6 +235,8 @@ public:
 	int interpolationNearestNeighbourThreshold;
 	// 'Nearest Neighbour' interpolation for upscaling
 	bool interpolationNearestNeighbourUpscale;
+	// Intensity of blur of background elements when widget is open
+	int blurIntensity;
 
 	// Are quickinfos hidden?
 	bool hidecounter;
@@ -371,6 +374,7 @@ public:
 	Q_PROPERTY(bool fitInWindow MEMBER fitInWindow NOTIFY fitInWindowChanged)
 	Q_PROPERTY(int interpolationNearestNeighbourThreshold MEMBER interpolationNearestNeighbourThreshold NOTIFY interpolationNearestNeighbourThresholdChanged)
 	Q_PROPERTY(bool interpolationNearestNeighbourUpscale MEMBER interpolationNearestNeighbourUpscale NOTIFY interpolationNearestNeighbourUpscaleChanged)
+	Q_PROPERTY(int blurIntensity MEMBER blurIntensity NOTIFY blurIntensityChanged)
 
 	Q_PROPERTY(bool hidecounter MEMBER hidecounter NOTIFY hidecounterChanged)
 	Q_PROPERTY(bool hidefilepathshowfilename MEMBER hidefilepathshowfilename NOTIFY hidefilepathshowfilenameChanged)
@@ -505,6 +509,7 @@ public:
 		fitInWindow= false;
 		interpolationNearestNeighbourThreshold = 100;
 		interpolationNearestNeighbourUpscale = false;
+		blurIntensity = 5;
 
 		hidecounter = false;
 		hidefilepathshowfilename = true;
@@ -543,7 +548,7 @@ public:
 
 
 		exifenablemousetriggering = true;
-		exiffontsize = 8;
+		exiffontsize = 10;
 		exifopacity = 200;
 		exiffilename = true;
 		exiffiletype = true;
@@ -652,6 +657,7 @@ public slots:
 			cont += QString("FitInWindow=%1\n").arg(int(fitInWindow));
 			cont += QString("InterpolationNearestNeighbourThreshold=%1\n").arg(interpolationNearestNeighbourThreshold);
 			cont += QString("InterpolationNearestNeighbourUpscale=%1\n").arg(int(interpolationNearestNeighbourUpscale));
+			cont += QString("BlurIntensity=%1\n").arg(blurIntensity);
 
 			cont += "\n[Quickinfo]\n";
 
@@ -896,6 +902,9 @@ public slots:
 				interpolationNearestNeighbourUpscale = true;
 			else if(all.contains("InterpolationNearestNeighbourUpscale=0"))
 				interpolationNearestNeighbourUpscale = false;
+
+			if(all.contains("BlurIntensity="))
+				blurIntensity = all.split("BlurIntensity=").at(1).split("\n").at(0).toInt();
 
 			if(all.contains("HideCounter=1"))
 				hidecounter = true;
@@ -1210,6 +1219,7 @@ signals:
 	void fitInWindowChanged(bool val);
 	void interpolationNearestNeighbourThresholdChanged(int val);
 	void interpolationNearestNeighbourUpscaleChanged(bool val);
+	void blurIntensityChanged(int val);
 
 	void hidecounterChanged(bool val);
 	void hidefilepathshowfilenameChanged(bool val);

@@ -172,13 +172,14 @@ Rectangle {
 		target: top
 		property: "opacity"
 		to: 0
-		duration: 400
+		duration: settings.myWidgetAnimated ? 250 : 0
 		onStarted: {
 			settings.openZoomLevel = tweaks.zoomlevel
 			settings.openPreviewMode = tweaks.getMode()
 			settings.openDefaultView = tweaks.getView()
 			settings.openFoldersWidth = folders.width
 			settings.openUserPlacesWidth = userplaces.width
+			unblurAllBackgroundElements()
 		}
 		onStopped: {
 			visible = false
@@ -192,10 +193,11 @@ Rectangle {
 		target: top
 		property: "opacity"
 		to: 1
-		duration: 400
+		duration: settings.myWidgetAnimated ? 250 : 0
 		onStarted: {
 			visible = true
 			blocked = true
+			blurAllBackgroundElements()
 			if(settings.openDefaultView === "list")
 				tweaks.displayList()
 			else if(settings.openDefaultView === "icons")

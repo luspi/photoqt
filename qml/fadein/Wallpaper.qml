@@ -922,6 +922,7 @@ Rectangle {
 		to: 0
 		duration: settings.myWidgetAnimated ? 250 : 0
 		onStopped: {
+			onStarted: unblurAllBackgroundElements()
 			visible = false
 			blocked = false
 		}
@@ -934,6 +935,7 @@ Rectangle {
 		to: 1
 		duration: settings.myWidgetAnimated ? 250 : 0
 		onStarted: {
+			blurAllBackgroundElements()
 			visible = true
 			blocked = true
 		}

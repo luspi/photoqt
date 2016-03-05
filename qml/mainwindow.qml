@@ -9,6 +9,7 @@ import ToolTip 1.0
 import ShortcutsNotifier 1.0
 import Colour 1.0
 import QtQuick.Dialogs 1.2
+import QtGraphicalEffects 1.0
 
 import "mainview/"
 import "slidein/"
@@ -118,17 +119,73 @@ Item {
 
 	// The main displayed image
 	MainView { id: mainview; }
+	GaussianBlur {
+		id: blur_mainview
+		anchors.fill: mainview
+		visible: opacity != 0
+		opacity: 0
+		samples: settings.blurIntensity*3
+		Behavior on opacity { NumberAnimation { duration: 250 } }
+		radius: settings.blurIntensity*4
+	}
+	ShaderEffectSource {
+		id: blur_mainview_src
+		sourceItem: mainview
+		sourceRect: Qt.rect(0, 0, blur_mainview_src.width, blur_mainview_src.height)
+	}
 
 	// The thumbnail bar at the bottom
 	ThumbnailBar { id: thumbnailBar; }
+	GaussianBlur {
+		id: blur_thumbnailBar
+		anchors.fill: thumbnailBar
+		visible: opacity != 0 && thumbnailBar.y > 0 && thumbnailBar.y < parent.height
+		opacity: 0
+		samples: settings.blurIntensity*3
+		Behavior on opacity { NumberAnimation { duration: 250 } }
+		radius: settings.blurIntensity*4
+	}
+	ShaderEffectSource {
+		id: blur_thumbnailBar_src
+		sourceItem: thumbnailBar
+		sourceRect: Qt.rect(0, 0, blur_thumbnailBar.width, blur_thumbnailBar.height)
+	}
 
 	// The quickinfo (position in folder, filename)
 	QuickInfo { id: quickInfo; }
 
 	MainMenu { id: mainmenu; }
+	GaussianBlur {
+		id: blur_mainmenu
+		anchors.fill: mainmenu
+		visible: opacity != 0 && mainmenu.opacity == 1
+		opacity: 0
+		samples: settings.blurIntensity*1.5
+		Behavior on opacity { NumberAnimation { duration: 250 } }
+		radius: settings.blurIntensity*4
+	}
+	ShaderEffectSource {
+		id: blur_mainmenu_src
+		sourceItem: mainmenu
+		sourceRect: Qt.rect(0, 0, blur_mainmenu.width, blur_mainmenu.height)
+	}
 
 	// MetaData of the image (using the C++ Exiv2 library)
 	MetaData { id: metaData; }
+	GaussianBlur {
+		id: blur_metadata
+		anchors.fill: metaData
+		visible: opacity != 0 && metaData.opacity == 1
+		opacity: 0
+		samples: settings.blurIntensity*1.5
+		Behavior on opacity { NumberAnimation { duration: 250 } }
+		radius: settings.blurIntensity*4
+	}
+	ShaderEffectSource {
+		id: blur_metadata_src
+		sourceItem: metaData
+		sourceRect: Qt.rect(0, 0, blur_metadata.width, blur_metadata.height)
+	}
 
 	About { id: about; }
 	Wallpaper { id: wallpaper; }
@@ -200,4 +257,34 @@ Item {
 		verboseMessage("MainWindow::doReload()","Reloading directory '" + path + "'")
 		reloadDirectory(path,currentfilter)
 	}
+
+	// For blurring, we animate by using a NumberAnimation on opacity
+	// Thus, besides updating the source, this is the only thing we need to adjust.
+	function blurAllBackgroundElements() {
+
+		blur_mainview.source = undefined
+		blur_metadata.source = undefined
+		blur_mainmenu.source = undefined
+		blur_thumbnailBar.source = undefined
+
+		blur_mainview.source = blur_mainview_src
+		blur_metadata.source = blur_metadata_src
+		blur_mainmenu.source = blur_mainmenu_src
+		blur_thumbnailBar.source = blur_thumbnailBar_src
+
+		blur_mainview.opacity = 1
+		blur_metadata.opacity = 1
+		blur_mainmenu.opacity = 1
+		blur_thumbnailBar.opacity = 1
+
+	}
+	function unblurAllBackgroundElements() {
+
+		blur_mainview.opacity = 0
+		blur_metadata.opacity = 0
+		blur_mainmenu.opacity = 0
+		blur_thumbnailBar.opacity = 0
+
+	}
+
 }

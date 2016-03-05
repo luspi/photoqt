@@ -69,6 +69,7 @@ Rectangle {
 			Quickinfo { id: quickinfo; alternating: true }
 			Background { id: background }
 			OverlayColor { id: overlay; alternating: true }
+			Blur { id: blur }
 			BorderAroundImage { id: border; alternating: true }
 			CloseOnClick { id: closeonclick }
 			Loop { id: loop; alternating: true }
@@ -92,6 +93,7 @@ Rectangle {
 		quickinfo.setData()
 		background.setData()
 		overlay.setData()
+		blur.setData()
 		border.setData()
 		closeonclick.setData()
 		loop.setData()
@@ -114,6 +116,7 @@ Rectangle {
 		quickinfo.saveData()
 		background.saveData()
 		overlay.saveData()
+		blur.saveData()
 		border.saveData()
 		closeonclick.saveData()
 		loop.saveData()
