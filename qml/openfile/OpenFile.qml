@@ -173,14 +173,8 @@ Rectangle {
 		property: "opacity"
 		to: 0
 		duration: settings.myWidgetAnimated ? 250 : 0
-		onStarted: {
-			settings.openZoomLevel = tweaks.zoomlevel
-			settings.openPreviewMode = tweaks.getMode()
-			settings.openDefaultView = tweaks.getView()
-			settings.openFoldersWidth = folders.width
-			settings.openUserPlacesWidth = userplaces.width
+		onStarted:
 			unblurAllBackgroundElements()
-		}
 		onStopped: {
 			visible = false
 			blocked = false

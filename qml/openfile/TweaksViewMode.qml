@@ -22,7 +22,11 @@ Rectangle {
 		verticalAlignment: Text.AlignVCenter
 	}
 
-	ExclusiveGroup { id: view_grp }
+	ExclusiveGroup {
+		id: view_grp;
+		onCurrentChanged:
+			settings.openDefaultView = getView()
+	}
 
 	Button {
 		id: viewmode_list

@@ -9,8 +9,20 @@ Rectangle {
 
 	Layout.minimumWidth: 200
 	width: settings.openFoldersWidth
+	onWidthChanged:
+		saveFolderWidth.start()
+
 	color: activeFocus ? "#44000055" : "#44000000"
 	clip: true
+
+	Timer {
+		id: saveFolderWidth
+		interval: 250
+		repeat: false
+		running: false
+		onTriggered:
+			settings.openFoldersWidth = width
+	}
 
 	property string dir_path: getanddostuff.getHomeDir()
 	property var folders: []

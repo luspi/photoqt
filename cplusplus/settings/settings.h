@@ -156,6 +156,7 @@ public:
 		connect(this, SIGNAL(openZoomLevelChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(openUserPlacesWidthChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(openFoldersWidthChanged(int)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(openThumbnailsChanged(bool)), saveSettingsTimer, SLOT(start()));
 
 		connect(this, SIGNAL(exifMetadaWindowWidthChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(mainMenuWindowWidthChanged(int)), saveSettingsTimer, SLOT(start()));
@@ -326,6 +327,7 @@ public:
 	int openZoomLevel;
 	int openUserPlacesWidth;
 	int openFoldersWidth;
+	bool openThumbnails;
 
 	// Settings not adjustable in settings but other places
 	int exifMetadaWindowWidth;	// changed by dragging right rectangle edge
@@ -443,6 +445,7 @@ public:
 	Q_PROPERTY(int openZoomLevel MEMBER openZoomLevel NOTIFY openZoomLevelChanged)
 	Q_PROPERTY(int openUserPlacesWidth MEMBER openUserPlacesWidth NOTIFY openUserPlacesWidthChanged)
 	Q_PROPERTY(int openFoldersWidth MEMBER openFoldersWidth NOTIFY openFoldersWidthChanged)
+	Q_PROPERTY(bool openThumbnails MEMBER openThumbnails NOTIFY openThumbnailsChanged)
 
 	Q_PROPERTY(int exifMetadaWindowWidth MEMBER exifMetadaWindowWidth NOTIFY exifMetadaWindowWidthChanged)
 	Q_PROPERTY(int mainMenuWindowWidth MEMBER mainMenuWindowWidth NOTIFY mainMenuWindowWidthChanged)
@@ -577,6 +580,7 @@ public:
 		openZoomLevel = 15;
 		openUserPlacesWidth = 200;
 		openFoldersWidth = 400;
+		openThumbnails = false;
 
 		exifMetadaWindowWidth = 350;
 		mainMenuWindowWidth = 350;
@@ -735,6 +739,7 @@ public slots:
 			cont += QString("OpenZoomLevel=%1\n").arg(openZoomLevel);
 			cont += QString("OpenUserPlacesWidth=%1\n").arg(openUserPlacesWidth);
 			cont += QString("OpenFoldersWidth=%1\n").arg(openFoldersWidth);
+			cont += QString("OpenThumbnails=%1\n").arg(int(openThumbnails));
 
 			cont += QString("ExifMetadaWindowWidth=%1\n").arg(exifMetadaWindowWidth);
 			cont += QString("MainMenuWindowWidth=%1\n").arg(mainMenuWindowWidth);
@@ -1161,6 +1166,11 @@ public slots:
 			if(all.contains("OpenFoldersWidth="))
 				openFoldersWidth = all.split("OpenFoldersWidth=").at(1).split("\n").at(0).toInt();
 
+			if(all.contains("OpenThumbnails=1"))
+				openThumbnails = true;
+			else if(all.contains("OpenThumbnails=0"))
+				openThumbnails = false;
+
 
 			if(all.contains("ExifMetadaWindowWidth="))
 				exifMetadaWindowWidth = all.split("ExifMetadaWindowWidth=").at(1).split("\n").at(0).toInt();
@@ -1288,6 +1298,7 @@ signals:
 	void openZoomLevelChanged(int val);
 	void openUserPlacesWidthChanged(int val);
 	void openFoldersWidthChanged(int val);
+	void openThumbnailsChanged(bool val);
 
 	void exifMetadaWindowWidthChanged(int val);
 	void mainMenuWindowWidthChanged(int val);

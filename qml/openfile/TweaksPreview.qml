@@ -1,6 +1,7 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
+import "../elements"
 
 Rectangle {
 	id: prev_but
@@ -22,17 +23,23 @@ Rectangle {
 		anchors.right: left_edge.left
 		anchors.rightMargin: 3
 		color: "white"
-		text: "Preview images: "
+		text: "Hover Preview: "
 		font.bold: true
 		height: parent.height
 		verticalAlignment: Text.AlignVCenter
+		ToolTip {
+			cursorShape: Qt.WhatsThisCursor
+			text: "This is the large preview image that is shown behind all files when you hover an image with your mouse cursor."
+		}
 	}
 
 	// Only one button can be checked at a time -> changing the button check causes preview reload
 	ExclusiveGroup {
 		id: prev_grp;
-		onCurrentChanged:
+		onCurrentChanged: {
 			filesview.updatePreview()
+			settings.openPreviewMode = getMode()	// save setting
+		}
 	}
 
 	// The left edge is rounded (we make it appear as is (left half hidden behind button)

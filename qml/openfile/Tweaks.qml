@@ -6,11 +6,6 @@ Rectangle {
 
 	id: statusbar
 
-//	anchors.left: parent.left
-//	anchors.bottom: parent.bottom
-//	anchors.right: parent.right
-//	height: 50
-
 	color: "#44000000"
 
 	signal displayIcons();
@@ -27,8 +22,14 @@ Rectangle {
 
 	TweaksPreview {
 		id: preview
+		anchors.right: thumbnail.left
+		anchors.rightMargin: 40
+	}
+
+	TweaksThumbnail {
+		id: thumbnail
 		anchors.right: viewmode.left
-		anchors.rightMargin: 30
+		anchors.rightMargin: 10
 	}
 
 
@@ -50,6 +51,13 @@ Rectangle {
 
 	function getView() {
 		return viewmode.getView()
+	}
+
+	function getThumbnailEnabled() {
+		return thumbnail.getThumbnailEnabled()
+	}
+	function setThumbnailChecked(s) {
+		thumbnail.setThumbnailChecked(s)
 	}
 
 }

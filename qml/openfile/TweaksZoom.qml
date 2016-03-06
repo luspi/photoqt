@@ -24,6 +24,15 @@ Rectangle {
 		anchors.rightMargin: 5
 	}
 
+	// We save it after a short delay, as the user might drag it over a little range
+	Timer {
+		id: saveZoomLevel
+		interval: 250
+		repeat: false
+		running: false
+		onTriggered: settings.openZoomLevel = zoom_slider.value
+	}
+
 	CustomSlider {
 		id: zoom_slider
 		width: 200
@@ -35,8 +44,10 @@ Rectangle {
 		stepSize: 1
 		scrollStep: 1
 		value: settings.openZoomLevel
-		onValueChanged:
+		onValueChanged: {
+			saveZoomLevel.start()
 			updateZoom(value)
+		}
 	}
 
 	function getZoomLevel() {

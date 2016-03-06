@@ -9,6 +9,18 @@ Rectangle {
 	id: uplaces
 
 	width: settings.openUserPlacesWidth
+	onWidthChanged:
+		saveUserPlacesWidth.start()
+
+	Timer {
+		id: saveUserPlacesWidth
+		interval: 250
+		repeat: false
+		running: false
+		onTriggered:
+			settings.openUserPlacesWidth = width
+	}
+
 	Layout.maximumWidth: 600
 	Layout.minimumWidth: 200
 	color: activeFocus ? "#44000055" : "#44000000"
