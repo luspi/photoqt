@@ -225,7 +225,7 @@ public slots:
 		text_disabled = "#66707070";
 
 		// Fade-in/Slide-in elements colouring
-		fadein_slidein_bg = "#dd000000";
+		fadein_slidein_bg = "#bb000000";
 		fadein_slidein_block_bg = "#88000000";
 		fadein_slidein_border = "#55bbbbbb";
 
