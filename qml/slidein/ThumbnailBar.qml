@@ -45,9 +45,14 @@ Rectangle {
 
 		// remove previous index
 		clickedIndex = -1
+		view.currentIndex = -1
 
 		// Clear model of all thumbnails
 		imageModel.clear()
+
+		// THIS IS IMPORTANT!!!
+		// Without this, centering on the current item when displaying a new image takes FOREVER (well, up to something like 10 seconds)
+		view.contentX = 0
 
 		// Store total number of images
 		totalNumberImages = stringlist.length
@@ -58,9 +63,6 @@ Rectangle {
 
 		// (Re-)set model
 		view.model = imageModel
-
-		// Adjust gridView width
-		view.width = stringlist.length*settings.thumbnailsize
 
 	}
 
