@@ -210,7 +210,7 @@ Item {
 	GaussianBlur {
 		id: blur_BELOW_metadata
 		anchors.fill: metaData
-		visible: opacity != 0 && settingssession.value("metadatakeepopen")==="false"
+		visible: opacity != 0 && metaData.nonFloatWidth==0
 		opacity: 0
 		samples: settings.blurIntensity*2
 		radius: settings.blurIntensity*4
