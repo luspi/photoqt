@@ -438,6 +438,7 @@ Rectangle {
 		target: mainmenu
 		property: "opacity"
 		to: 0
+		onStarted: unblurForMainMenu()
 		onStopped: {
 			if(opacity == 0 && !showMainmenu.running)
 				visible = false
@@ -449,7 +450,10 @@ Rectangle {
 		target:  mainmenu
 		property: "opacity"
 		to: 1
-		onStarted: visible=true
+		onStarted: {
+			blurForMainMenu()
+			visible=true
+		}
 	}
 
 	function show() {

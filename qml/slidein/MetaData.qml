@@ -215,6 +215,7 @@ Rectangle {
 		target: metaData
 		property: "opacity"
 		to: 0
+		onStarted: unblurForMetaData()
 		onStopped: {
 			if(opacity == 0 && !showMetaData.running)
 				visible = false
@@ -226,7 +227,10 @@ Rectangle {
 		target:  metaData
 		property: "opacity"
 		to: 1
-		onStarted: visible=true
+		onStarted: {
+			blurForMetaData()
+			visible=true
+		}
 	}
 
 

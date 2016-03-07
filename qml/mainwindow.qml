@@ -82,6 +82,15 @@ Item {
 	// (and also at startup)
 	readonly property int safetyDistanceForSlidein: 500
 
+
+
+	/////////////////////////////////////////////////
+	// THE FOLLOWING ITEMS DO NOT HAVE A VISUAL    //
+	// REPRESENTATION! THEY HAVE MERELY FUNCTIONAL //
+	// PURPOSE                                     //
+	/////////////////////////////////////////////////
+
+
 	// Access to the permanent settings file (~/.photoqt/settings)
 	Settings {
 		id: settings;
@@ -92,7 +101,6 @@ Item {
 	}
 	FileFormats { id: fileformats; }
 	SettingsSession { id: settingssession; }
-
 	Colour { id: colour; }
 	GetAndDoStuff {
 		id: getanddostuff;
@@ -110,12 +118,25 @@ Item {
 	}
 	GetMetaData { id: getmetadata; }
 	ThumbnailManagement { id: thumbnailmanagement; }
-
 	Shortcuts { id: sh; }
 	ShortcutsNotifier { id: sh_notifier; }
 
+	Strings.Keys { id: str_keys }
+	Strings.Mouse { id: str_mouse }
+
+	/////////////////////////////////////////////////
+
+
+	//////////////////////////////////////////////////////
+	// THE FOLLOWING ITEMS REPRESENT THE MAIN ELEMENTS  //
+	// OF PHOTOQT THAT ARE ALWAYS NEEDED AND ARE ALWAYS //
+	// VISIBLE (WELL KINDA)                             //
+	//////////////////////////////////////////////////////
+
 	// Application background
 	Background { id: background; }
+
+	////////////////////////////
 
 	// The main displayed image
 	MainView { id: mainview; }
@@ -127,12 +148,19 @@ Item {
 		samples: settings.blurIntensity*3
 		Behavior on opacity { NumberAnimation { duration: 250 } }
 		radius: settings.blurIntensity*4
+		source: ShaderEffectSource {
+			sourceItem: mainview
+			// The small decrease in width prevents a narrow margin on the right with no blur (as it borders transparency)
+			sourceRect: Qt.rect(0, 0, blur_mainview.width-settings.blurIntensity, blur_mainview.height)
+		}
 	}
-	ShaderEffectSource {
-		id: blur_mainview_src
-		sourceItem: mainview
-		sourceRect: Qt.rect(0, 0, blur_mainview_src.width, blur_mainview_src.height)
-	}
+
+	////////////////////////////
+
+	// The quickinfo (position in folder, filename)
+	QuickInfo { id: quickInfo; }
+
+	////////////////////////////
 
 	// The thumbnail bar at the bottom
 	ThumbnailBar { id: thumbnailBar; }
@@ -144,16 +172,26 @@ Item {
 		samples: settings.blurIntensity*3
 		Behavior on opacity { NumberAnimation { duration: 250 } }
 		radius: settings.blurIntensity*4
-	}
-	ShaderEffectSource {
-		id: blur_thumbnailBar_src
-		sourceItem: thumbnailBar
-		sourceRect: Qt.rect(0, 0, blur_thumbnailBar.width, blur_thumbnailBar.height)
+		source: thumbnailBar
 	}
 
-	// The quickinfo (position in folder, filename)
-	QuickInfo { id: quickInfo; }
+	////////////////////////////
 
+
+	GaussianBlur {
+		id: blur_BELOW_mainmenu
+		anchors.fill: mainmenu
+		visible: opacity != 0
+		opacity: 0
+		samples: settings.blurIntensity*2
+		radius: settings.blurIntensity*4
+		Behavior on opacity { NumberAnimation { duration: 250 } }
+		source: ShaderEffectSource {
+			sourceItem: mainview
+			// The small decrease in width prevents a narrow margin on the right with no blur (as it borders transparency)
+			sourceRect: Qt.rect(mainmenu.x, 0, blur_BELOW_mainmenu.width-settings.blurIntensity, blur_BELOW_mainmenu.height)
+		}
+	}
 	MainMenu { id: mainmenu; }
 	GaussianBlur {
 		id: blur_mainmenu
@@ -163,14 +201,25 @@ Item {
 		samples: settings.blurIntensity*2
 		Behavior on opacity { NumberAnimation { duration: 250 } }
 		radius: settings.blurIntensity*4
-	}
-	ShaderEffectSource {
-		id: blur_mainmenu_src
-		sourceItem: mainmenu
-		sourceRect: Qt.rect(0, 0, blur_mainmenu.width, blur_mainmenu.height)
+		source: mainmenu
 	}
 
+	////////////////////////////
+
 	// MetaData of the image (using the C++ Exiv2 library)
+	GaussianBlur {
+		id: blur_BELOW_metadata
+		anchors.fill: metaData
+		visible: opacity != 0 && settingssession.value("metadatakeepopen")==="false"
+		opacity: 0
+		samples: settings.blurIntensity*2
+		radius: settings.blurIntensity*4
+		Behavior on opacity { NumberAnimation { duration: 250 } }
+		source: ShaderEffectSource {
+			sourceItem: mainview
+			sourceRect: Qt.rect(0, 0, blur_BELOW_metadata.width, blur_BELOW_metadata.height)
+		}
+	}
 	MetaData { id: metaData; }
 	GaussianBlur {
 		id: blur_metadata
@@ -180,12 +229,16 @@ Item {
 		samples: settings.blurIntensity*2
 		Behavior on opacity { NumberAnimation { duration: 250 } }
 		radius: settings.blurIntensity*4
+		source: metaData
 	}
-	ShaderEffectSource {
-		id: blur_metadata_src
-		sourceItem: metaData
-		sourceRect: Qt.rect(0, 0, blur_metadata.width, blur_metadata.height)
-	}
+
+	//////////////////////////////////////////////////////
+
+
+	////////////////////////////////////////////
+	// THESE ARE ALL THE WIDGETS THAT FADE IN //
+	// THEY ARE ALWAYS IN THE FOREGROUND      //
+	////////////////////////////////////////////
 
 	About { id: about; }
 	Wallpaper { id: wallpaper; }
@@ -196,10 +249,16 @@ Item {
 	SlideshowBar { id: slideshowbar; }
 	Filter { id: filter; }
 	Startup { id: startup; }
-
 	OpenFile { id: openfile; }
-
 	SettingsManager { id: settingsmanager; }
+
+	////////////////////////////////////////////
+
+	//////////////////////////////////////////////
+	// THE TOOLTIP HAS A SPECIAL ROLE: IT'S NOT //
+	// DIRECTLY A VISUAL ITEM BUT RELAYS BACK   //
+	// TO A QWIDGETS BASED QTOOLTIP
+	//////////////////////////////////////////////
 
 	ToolTip {
 		id: globaltooltip;
@@ -209,8 +268,7 @@ Item {
 		}
 	}
 
-	Strings.Keys { id: str_keys }
-	Strings.Mouse { id: str_mouse }
+	//////////////////////////////////////////////
 
 	// We don't show them at startup right away, as that can lead to small graphical glitches
 	// This way, we simply avoid that altogether
@@ -262,16 +320,6 @@ Item {
 	// Thus, besides updating the source, this is the only thing we need to adjust.
 	function blurAllBackgroundElements() {
 
-		blur_mainview.source = undefined
-		blur_metadata.source = undefined
-		blur_mainmenu.source = undefined
-		blur_thumbnailBar.source = undefined
-
-		blur_mainview.source = blur_mainview_src
-		blur_metadata.source = blur_metadata_src
-		blur_mainmenu.source = blur_mainmenu_src
-		blur_thumbnailBar.source = blur_thumbnailBar_src
-
 		blur_mainview.opacity = 1
 		blur_metadata.opacity = 1
 		blur_mainmenu.opacity = 1
@@ -286,5 +334,20 @@ Item {
 		blur_thumbnailBar.opacity = 0
 
 	}
+
+	function blurForMainMenu() {
+		blur_BELOW_mainmenu.opacity = 1
+	}
+	function blurForMetaData() {
+		blur_BELOW_metadata.opacity = 1
+	}
+
+	function unblurForMainMenu() {
+		blur_BELOW_mainmenu.opacity = 0
+	}
+	function unblurForMetaData() {
+		blur_BELOW_metadata.opacity = 0
+	}
+
 
 }
