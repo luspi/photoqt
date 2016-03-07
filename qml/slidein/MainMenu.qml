@@ -240,7 +240,7 @@ Rectangle {
 		onPositionChanged: {
 			if (pressed) {
 				var w = parent.width + (oldMouseX-mouseX)
-				if(w >= 300 && w <= 600)
+				if(w >= 300 && w <= background.width/2)
 					parent.width = w
 			}
 		}
