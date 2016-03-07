@@ -160,7 +160,7 @@ Item {
 		anchors.fill: mainmenu
 		visible: opacity != 0 && mainmenu.opacity == 1
 		opacity: 0
-		samples: settings.blurIntensity*1.5
+		samples: settings.blurIntensity*2
 		Behavior on opacity { NumberAnimation { duration: 250 } }
 		radius: settings.blurIntensity*4
 	}
@@ -177,7 +177,7 @@ Item {
 		anchors.fill: metaData
 		visible: opacity != 0 && metaData.opacity == 1
 		opacity: 0
-		samples: settings.blurIntensity*1.5
+		samples: settings.blurIntensity*2
 		Behavior on opacity { NumberAnimation { duration: 250 } }
 		radius: settings.blurIntensity*4
 	}
