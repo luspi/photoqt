@@ -30,7 +30,6 @@ Rectangle {
 	TweaksThumbnail {
 		id: thumbnail
 		anchors.right: viewmode.left
-		anchors.rightMargin: 10
 	}
 
 

@@ -1,6 +1,7 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
+import "../elements"
 
 Rectangle {
 
@@ -8,19 +9,9 @@ Rectangle {
 
 	color: "#00000000"
 
-	width: 60 + viewmode_txt.width
+	width: 60
 	y: 10
 	height: parent.height-20
-
-	Text {
-		id: viewmode_txt
-		anchors.right: viewmode_list.left
-		color: "white"
-		text: qsTr("View mode") + ": "
-		font.bold: true
-		height: parent.height
-		verticalAlignment: Text.AlignVCenter
-	}
 
 	ExclusiveGroup {
 		id: view_grp;
@@ -33,7 +24,7 @@ Rectangle {
 		anchors.right: viewmode_icon.left
 		anchors.top: parent.top
 		anchors.bottom: parent.bottom
-		width: (parent.width-viewmode_txt.width)/2
+		width: parent.width/2
 		checkable: true
 		exclusiveGroup: view_grp
 		checked: settings.openDefaultView === "list"
@@ -52,10 +43,11 @@ Rectangle {
 				}
 			}
 		}
-		MouseArea {
+		ToolTip {
 			anchors.fill: parent
 			propagateComposedEvents: true
 			cursorShape: Qt.PointingHandCursor
+			text: "Show files in list"
 			onClicked: {
 				if(!viewmode_list.checked) {
 					viewmode_list.checked = true
@@ -70,7 +62,7 @@ Rectangle {
 		anchors.right: parent.right
 		anchors.top: parent.top
 		anchors.bottom: parent.bottom
-		width: (parent.width-viewmode_txt.width)/2
+		width: parent.width/2
 		checkable: true
 		exclusiveGroup: view_grp
 		checked: settings.openDefaultView === "icons"
@@ -89,10 +81,11 @@ Rectangle {
 				}
 			}
 		}
-		MouseArea {
+		ToolTip {
 			anchors.fill: parent
 			propagateComposedEvents: true
 			cursorShape: Qt.PointingHandCursor
+			text: "Show files in grid"
 			onClicked: {
 				if(!viewmode_icon.checked) {
 					viewmode_icon.checked = true
