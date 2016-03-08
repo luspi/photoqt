@@ -208,7 +208,7 @@ void GetAndDoStuffOpenFile::addToUserPlaces(QString path) {
 	QDomElement root = doc.documentElement();
 
 	QDomElement bookmark = doc.createElement("bookmark");
-	bookmark.setAttribute("href",path);
+	bookmark.setAttribute("href","file://" + path);
 
 	QDomElement title = doc.createElement("title");
 	QDomText titleText = doc.createTextNode(QFileInfo(path).fileName());
