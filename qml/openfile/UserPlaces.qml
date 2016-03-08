@@ -154,14 +154,14 @@ Rectangle {
 		var entries = getanddostuff.getUserPlaces()
 
 		var useritems = [
-					["Home", getanddostuff.getHomeDir(), "user-home"],
-					["Desktop", getanddostuff.getDesktopDir(), "user-desktop"],
-					["Pictures", getanddostuff.getPicturesDir(), "folder-image"],
-					["Downloads", getanddostuff.getDownloadsDir(), "folder-download"]
+					[qsTr("Home"), getanddostuff.getHomeDir(), "user-home"],
+					[qsTr("Desktop"), getanddostuff.getDesktopDir(), "user-desktop"],
+					[qsTr("Pictures"), getanddostuff.getPicturesDir(), "folder-image"],
+					[qsTr("Downloads"), getanddostuff.getDownloadsDir(), "folder-download"]
 				]
 
 		userplacesmodel.append({"type" : "heading",
-								   "title" : "User",
+								   "title" : qsTr("User"),
 								   "location" : "",
 								   "icon" : "",
 								   "counter" : 0})
@@ -177,7 +177,7 @@ Rectangle {
 		}
 
 		userplacesmodel.append({"type" : "heading",
-								   "title" : "Places",
+								   "title" : qsTr("Places"),
 								   "location" : "",
 								   "icon" : "",
 								   "counter" : 0})
@@ -187,7 +187,7 @@ Rectangle {
 		for(var i = 0; i < entries.length; i+=4) {
 			if(entries[i] === "device" && reached_devcies == false) {
 				userplacesmodel.append({"type" : "heading",
-										   "title" : "Devices",
+										   "title" : qsTr("Volumes"),
 										   "location" : "",
 										   "icon" : "",
 										   "counter" : 0})

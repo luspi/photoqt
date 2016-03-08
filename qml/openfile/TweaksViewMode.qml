@@ -16,7 +16,7 @@ Rectangle {
 		id: viewmode_txt
 		anchors.right: viewmode_list.left
 		color: "white"
-		text: "View mode: "
+		text: qsTr("View mode") + ": "
 		font.bold: true
 		height: parent.height
 		verticalAlignment: Text.AlignVCenter
