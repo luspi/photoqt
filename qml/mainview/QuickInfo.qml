@@ -1,6 +1,7 @@
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
 import QtQuick 2.3
+import "../elements"
 
 Item {
 
@@ -105,12 +106,9 @@ Item {
 			}
 
 			// The context menu
-			Menu {
+			ContextMenu {
+
 				id: contextmenuCounter
-				style: MenuStyle {
-					frame: menuFrame
-					itemDelegate.background: menuHighlight
-				}
 
 				MenuItem {
 					text: "<font color=\"" + colour.menu_text + "\">" + qsTr("Hide Counter") + "</font>"
@@ -172,12 +170,9 @@ Item {
 			}
 
 			// The actual context menu
-			Menu {
+			ContextMenu {
+
 				id: contextmenuFilename
-				style: MenuStyle {
-					frame: menuFrame
-					itemDelegate.background: menuHighlight
-				}
 
 				MenuItem {
 					text: "<font color=\"" + colour.menu_text + "\">" + qsTr("Hide Filepath, leave Filename") + "</font>"
@@ -239,20 +234,6 @@ Item {
 			}
 		}
 
-	}
-
-	// Some menu styling
-	Component {
-		id: menuFrame
-		Rectangle {
-			color: colour.menu_frame
-		}
-	}
-	Component {
-		id: menuHighlight
-		Rectangle {
-			color: (styleData.selected ? colour.menu_bg_highlight : colour.menu_bg)
-		}
 	}
 
 }

@@ -155,12 +155,9 @@ Item {
 		}
 
 		// The actual context menu
-		Menu {
+		ContextMenu {
+
 			id: contextmenuClosingX
-			style: MenuStyle {
-			frame: Rectangle { color: colour.menu_frame; }
-			itemDelegate.background: Rectangle { color: (styleData.selected ? colour.menu_bg_highlight : colour.menu_bg); }
-			}
 
 			MenuItem {
 				text: "<font color=\"" + colour.menu_text + "\">" + qsTr("Hide") + " 'x'</font>"
