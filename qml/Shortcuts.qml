@@ -124,12 +124,12 @@ Item {
 	}
 
 	// Close is only defined for external shortcuts
-    function execute(cmd, close, bymouse) {
+	function execute(cmd, close, bymouse) {
 
 		verboseMessage("Shortcuts::execute()", cmd + " - " + close)
 
-        if(bymouse === undefined)
-            bymouse = false;
+		if(bymouse === undefined)
+			bymouse = false;
 
 //		if(cmd === "__stopThb")
 		if(cmd === "__close")

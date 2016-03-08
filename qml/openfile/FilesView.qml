@@ -33,9 +33,21 @@ Rectangle {
 			cache: true
 			Behavior on opacity { SmoothedAnimation { id: preview_load; velocity: 0.1; } }
 
+			property bool fromTweaks_IsHoverEnabled: tweaks.isHoverPreviewEnabled
+			onFromTweaks_IsHoverEnabledChanged: {
+				if(fromTweaks_IsHoverEnabled) {
+					type_preview = true
+					updatePreview()
+					opacity = 1
+				} else {
+					type_preview = false
+					opacity = 0
+				}
+			}
+
 			source: ""
 
-			sourceSize: Qt.size((settings.openPreviewMode==="lq" ? 0.5 : 0.8)*preview.width,(settings.openPreviewMode==="lq" ? 0.5 : 0.8)*preview.height)
+			sourceSize: Qt.size((settings.openPreview ? 0.75 : 0)*preview.width,(settings.openPreview ? 0.75 : 0)*preview.height)
 
 			onWidthChanged:
 				setSourceSizeAtStart()
@@ -54,7 +66,7 @@ Rectangle {
 
 			function setSourceSizeAtStart() {
 				if(sourceSize.height <= 5 || sourceSize.width <= 5)
-					sourceSize = Qt.size((settings.openPreviewMode==="lq" ? 0.5 : 0.8)*width,(settings.openPreviewMode==="lq" ? 0.5 : 0.8)*height)
+					sourceSize = Qt.size((settings.openPreview ? 0.75 : 0)*width,(settings.openPreview ? 0.75 : 0)*height)
 			}
 
 		}
@@ -193,10 +205,10 @@ Rectangle {
 			return
 		}
 
-		if(previous_width != top.width || tweaks.getMode() !== previous_mode)
+		if(previous_width != top.width || tweaks.isHoverPreviewEnabled !== previous_mode)
 			updatePreviewSourceSize()
 
-		if(type_preview == "none")
+		if(!type_preview)
 			preview.source = ""
 		else if(listview.opacity == 1)
 			preview.source = "image://full/" + dir_path + "/" + files[2*listview.currentIndex]
@@ -219,10 +231,10 @@ Rectangle {
 	}
 
 	function updatePreviewSourceSize() {
-		var mode = tweaks.getMode()
-		preview.sourceSize = Qt.size((mode==="lq" ? 0.5 : 0.8)*preview.width,(mode==="lq" ? 0.5 : 0.8)*preview.height)
+		var mode = tweaks.isHoverPreviewEnabled
+		preview.sourceSize = Qt.size((mode ? 0.75 : 0)*preview.width,(mode ? 0.75 : 0)*preview.height)
 		previous_width = top.width
-		previous_mode = tweaks.getMode()
+		previous_mode = tweaks.isHoverPreviewEnabled
 	}
 
 }

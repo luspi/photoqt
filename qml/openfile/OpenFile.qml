@@ -8,7 +8,7 @@ import "../elements/"
 
 Rectangle {
 
-	id: top
+	id: openfile_top
 
 	visible: false
 	opacity: 0
@@ -23,7 +23,7 @@ Rectangle {
 	property var hovered: []
 
 
-	property string type_preview: tweaks.getMode()
+	property bool type_preview: tweaks.isHoverPreviewEnabled
 
 	property string currentlyLoadedDir: ""
 
@@ -169,7 +169,7 @@ Rectangle {
 
 	PropertyAnimation {
 		id: hideOpenAni
-		target: top
+		target: openfile_top
 		property: "opacity"
 		to: 0
 		duration: settings.myWidgetAnimated ? 250 : 0
@@ -184,7 +184,7 @@ Rectangle {
 
 	PropertyAnimation {
 		id: showOpenAni
-		target: top
+		target: openfile_top
 		property: "opacity"
 		to: 1
 		duration: settings.myWidgetAnimated ? 250 : 0

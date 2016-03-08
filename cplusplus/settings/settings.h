@@ -152,7 +152,7 @@ public:
 		connect(this, SIGNAL(exifgpsChanged(bool)), saveSettingsTimer, SLOT(start()));
 
 		connect(this, SIGNAL(openDefaultViewChanged(QString)), saveSettingsTimer, SLOT(start()));
-		connect(this, SIGNAL(openPreviewModeChanged(QString)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(openPreviewChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(openZoomLevelChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(openUserPlacesWidthChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(openFoldersWidthChanged(int)), saveSettingsTimer, SLOT(start()));
@@ -323,7 +323,7 @@ public:
 
 	// 'Open File' settings
 	QString openDefaultView;
-	QString openPreviewMode;
+	bool openPreview;
 	int openZoomLevel;
 	int openUserPlacesWidth;
 	int openFoldersWidth;
@@ -441,7 +441,7 @@ public:
 	Q_PROPERTY(bool exifgps MEMBER exifgps NOTIFY exifgpsChanged)
 
 	Q_PROPERTY(QString openDefaultView MEMBER openDefaultView NOTIFY openDefaultViewChanged)
-	Q_PROPERTY(QString openPreviewMode MEMBER openPreviewMode NOTIFY openPreviewModeChanged)
+	Q_PROPERTY(bool openPreview MEMBER openPreview NOTIFY openPreviewChanged)
 	Q_PROPERTY(int openZoomLevel MEMBER openZoomLevel NOTIFY openZoomLevelChanged)
 	Q_PROPERTY(int openUserPlacesWidth MEMBER openUserPlacesWidth NOTIFY openUserPlacesWidthChanged)
 	Q_PROPERTY(int openFoldersWidth MEMBER openFoldersWidth NOTIFY openFoldersWidthChanged)
@@ -576,7 +576,7 @@ public:
 		exifgpsmapservice = "openstreetmap.org";
 
 		openDefaultView = "list";
-		openPreviewMode = "lq";
+		openPreview = true;
 		openZoomLevel = 15;
 		openUserPlacesWidth = 200;
 		openFoldersWidth = 400;
@@ -735,7 +735,7 @@ public slots:
 
 			cont += "\n[Open File]\n";
 			cont += QString("OpenDefaultView=%1\n").arg(openDefaultView);
-			cont += QString("OpenPreviewMode=%1\n").arg(openPreviewMode);
+			cont += QString("OpenPreview=%1\n").arg(int(openPreview));
 			cont += QString("OpenZoomLevel=%1\n").arg(openZoomLevel);
 			cont += QString("OpenUserPlacesWidth=%1\n").arg(openUserPlacesWidth);
 			cont += QString("OpenFoldersWidth=%1\n").arg(openFoldersWidth);
@@ -1150,12 +1150,10 @@ public slots:
 			else if(all.contains("OpenDefaultView=icons"))
 				openDefaultView = "icons";
 
-			if(all.contains("OpenPreviewMode=hq"))
-				openPreviewMode = "hq";
-			else if(all.contains("OpenPreviewMode=lq"))
-				openPreviewMode = "lq";
-			else if(all.contains("OpenPreviewMode=none"))
-				openPreviewMode = "none";
+			if(all.contains("OpenPreview=1"))
+				openPreview = true;
+			else if(all.contains("OpenPreview=0"))
+				openPreview = false;
 
 			if(all.contains("OpenZoomLevel="))
 				openZoomLevel = all.split("OpenZoomLevel=").at(1).split("\n").at(0).toInt();
@@ -1294,7 +1292,7 @@ signals:
 	void exifgpsChanged(bool val);
 
 	void openDefaultViewChanged(QString val);
-	void openPreviewModeChanged(QString val);
+	void openPreviewChanged(bool val);
 	void openZoomLevelChanged(int val);
 	void openUserPlacesWidthChanged(int val);
 	void openFoldersWidthChanged(int val);

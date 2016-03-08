@@ -12,6 +12,7 @@ Rectangle {
 	signal displayList();
 
 	property int zoomlevel: zoom.getZoomLevel()
+	property bool isHoverPreviewEnabled: preview.isHoverEnabled
 
 	TweaksZoom {
 		id: zoom
@@ -23,7 +24,7 @@ Rectangle {
 	TweaksPreview {
 		id: preview
 		anchors.right: thumbnail.left
-		anchors.rightMargin: 40
+		anchors.rightMargin: 10
 	}
 
 	TweaksThumbnail {
@@ -37,16 +38,6 @@ Rectangle {
 		id: viewmode
 		anchors.right: parent.right
 		anchors.rightMargin: 10
-	}
-
-	function getMode() {
-
-		var mode = preview.getMode()
-		if(mode === undefined)
-			mode = settings.openPreviewMode
-
-		return mode
-
 	}
 
 	function getView() {

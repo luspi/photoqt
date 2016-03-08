@@ -13,13 +13,13 @@ Rectangle {
 	// A button to set high quality preview images
 	Button {
 		id: thumbs
-		anchors.top: parent.top
-		anchors.bottom: parent.bottom
 		checkable: true
 		checked: settings.openThumbnails
 		onCheckedChanged:
 			settings.openThumbnails = checked
-		text: "Thumbnails"
+		iconSource: "qrc:/img/openfile/thumbnail.png"
+		width: height
+		height: parent.height
 		style: ButtonStyle {
 			background: Rectangle {
 				implicitHeight: thumb_but.height
@@ -35,18 +35,18 @@ Rectangle {
 				}
 
 			}
-			label: Text {
-				color: "white"
-				font.bold: true
+			label: Image {
 				anchors.fill: parent
 				horizontalAlignment: Text.AlignHCenter
 				verticalAlignment: Text.AlignVCenter
-				text: control.text
+				source: control.iconSource
+				sourceSize: Qt.size(control.width, control.height)
 			}
 		}
-		MouseArea {
+		ToolTip {
 			anchors.fill: parent
 			cursorShape: Qt.PointingHandCursor
+			text: "En-/Disable image thumbnails"
 			onClicked: {
 				thumbs.checked = !thumbs.checked
 			}

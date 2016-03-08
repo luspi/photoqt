@@ -60,5 +60,7 @@
         <file>img/mainmenu/move.png</file>
         <file>img/mainmenu/rename.png</file>
         <file>img/mainmenu/goto.png</file>
+        <file>img/openfile/thumbnail.png</file>
+        <file>img/openfile/hoverpreview.png</file>
     </qresource>
 </RCC>
