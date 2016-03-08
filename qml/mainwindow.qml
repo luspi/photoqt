@@ -178,20 +178,20 @@ Item {
 	////////////////////////////
 
 
-	GaussianBlur {
-		id: blur_BELOW_mainmenu
-		anchors.fill: mainmenu
-		visible: opacity != 0
-		opacity: 0
-		samples: settings.blurIntensity*2
-		radius: settings.blurIntensity*4
-		Behavior on opacity { NumberAnimation { duration: 250 } }
-		source: ShaderEffectSource {
-			sourceItem: mainview
-			// The small decrease in width prevents a narrow margin on the right with no blur (as it borders transparency)
-			sourceRect: Qt.rect(mainmenu.x, 0, blur_BELOW_mainmenu.width-settings.blurIntensity, blur_BELOW_mainmenu.height)
-		}
-	}
+//	GaussianBlur {
+//		id: blur_BELOW_mainmenu
+//		anchors.fill: mainmenu
+//		visible: opacity != 0
+//		opacity: 0
+//		samples: settings.blurIntensity*2
+//		radius: settings.blurIntensity*4
+//		Behavior on opacity { NumberAnimation { duration: 250 } }
+//		source: ShaderEffectSource {
+//			sourceItem: mainview
+//			// The small decrease in width prevents a narrow margin on the right with no blur (as it borders transparency)
+//			sourceRect: Qt.rect(mainmenu.x, 0, blur_BELOW_mainmenu.width-settings.blurIntensity, blur_BELOW_mainmenu.height)
+//		}
+//	}
 	MainMenu { id: mainmenu; }
 	GaussianBlur {
 		id: blur_mainmenu
@@ -207,19 +207,19 @@ Item {
 	////////////////////////////
 
 	// MetaData of the image (using the C++ Exiv2 library)
-	GaussianBlur {
-		id: blur_BELOW_metadata
-		anchors.fill: metaData
-		visible: opacity != 0 && metaData.nonFloatWidth==0
-		opacity: 0
-		samples: settings.blurIntensity*2
-		radius: settings.blurIntensity*4
-		Behavior on opacity { NumberAnimation { duration: 250 } }
-		source: ShaderEffectSource {
-			sourceItem: mainview
-			sourceRect: Qt.rect(0, 0, blur_BELOW_metadata.width, blur_BELOW_metadata.height)
-		}
-	}
+//	GaussianBlur {
+//		id: blur_BELOW_metadata
+//		anchors.fill: metaData
+//		visible: opacity != 0 && metaData.nonFloatWidth==0
+//		opacity: 0
+//		samples: settings.blurIntensity*2
+//		radius: settings.blurIntensity*4
+//		Behavior on opacity { NumberAnimation { duration: 250 } }
+//		source: ShaderEffectSource {
+//			sourceItem: mainview
+//			sourceRect: Qt.rect(0, 0, blur_BELOW_metadata.width, blur_BELOW_metadata.height)
+//		}
+//	}
 	MetaData { id: metaData; }
 	GaussianBlur {
 		id: blur_metadata
@@ -334,20 +334,4 @@ Item {
 		blur_thumbnailBar.opacity = 0
 
 	}
-
-	function blurForMainMenu() {
-		blur_BELOW_mainmenu.opacity = 1
-	}
-	function blurForMetaData() {
-		blur_BELOW_metadata.opacity = 1
-	}
-
-	function unblurForMainMenu() {
-		blur_BELOW_mainmenu.opacity = 0
-	}
-	function unblurForMetaData() {
-		blur_BELOW_metadata.opacity = 0
-	}
-
-
 }
