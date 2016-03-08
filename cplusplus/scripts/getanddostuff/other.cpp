@@ -100,6 +100,27 @@ QString GetAndDoStuffOther::getHomeDir() {
 	return QDir::homePath();
 }
 
+QString GetAndDoStuffOther::getDesktopDir() {
+	QStringList loc = QStandardPaths::standardLocations(QStandardPaths::DesktopLocation);
+	if(loc.length() == 0)
+		return "";
+	return loc.first();
+}
+
+QString GetAndDoStuffOther::getPicturesDir() {
+	QStringList loc = QStandardPaths::standardLocations(QStandardPaths::PicturesLocation);
+	if(loc.length() == 0)
+		return "";
+	return loc.first();
+}
+
+QString GetAndDoStuffOther::getDownloadsDir() {
+	QStringList loc = QStandardPaths::standardLocations(QStandardPaths::DownloadLocation);
+	if(loc.length() == 0)
+		return "";
+	return loc.first();
+}
+
 QString GetAndDoStuffOther::getRootDir() {
 	return QDir::rootPath();
 }

@@ -12,6 +12,7 @@
 #include <QColor>
 #include <QDir>
 #include <QTextStream>
+#include <QStandardPaths>
 #include "../../logger.h"
 
 #ifdef GM
@@ -36,7 +37,10 @@ public:
 	int getCurrentScreen(int x, int y);
 	QString getTempDir();
 	QString getHomeDir();
+	QString getDesktopDir();
 	QString getRootDir();
+	QString getPicturesDir();
+	QString getDownloadsDir();
 	bool isExivSupportEnabled();
 	bool isGraphicsMagickSupportEnabled();
 	bool isLibRawSupportEnabled();

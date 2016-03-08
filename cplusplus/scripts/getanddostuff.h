@@ -82,7 +82,10 @@ public:
 	Q_INVOKABLE int getCurrentScreen(int x, int y) { return other->getCurrentScreen(x,y); }
 	Q_INVOKABLE QString getTempDir() { return other->getTempDir(); }
 	Q_INVOKABLE QString getHomeDir() { return other->getHomeDir(); }
+	Q_INVOKABLE QString getDesktopDir() { return other->getDesktopDir(); }
 	Q_INVOKABLE QString getRootDir() { return other->getRootDir(); }
+	Q_INVOKABLE QString getPicturesDir() { return other->getPicturesDir(); }
+	Q_INVOKABLE QString getDownloadsDir() { return other->getDownloadsDir(); }
 	Q_INVOKABLE bool isExivSupportEnabled() { return other->isExivSupportEnabled(); }
 	Q_INVOKABLE bool isGraphicsMagickSupportEnabled() { return other->isGraphicsMagickSupportEnabled(); }
 	Q_INVOKABLE bool isLibRawSupportEnabled() { return other->isLibRawSupportEnabled(); }

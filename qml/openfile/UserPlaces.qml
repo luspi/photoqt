@@ -155,7 +155,9 @@ Rectangle {
 
 		var useritems = [
 					["Home", getanddostuff.getHomeDir(), "user-home"],
-					["Root", getanddostuff.getRootDir(), "folder-red"],
+					["Desktop", getanddostuff.getDesktopDir(), "user-desktop"],
+					["Pictures", getanddostuff.getPicturesDir(), "folder-image"],
+					["Downloads", getanddostuff.getDownloadsDir(), "folder-download"]
 				]
 
 		userplacesmodel.append({"type" : "heading",
@@ -164,12 +166,15 @@ Rectangle {
 								   "icon" : "",
 								   "counter" : 0})
 
-		for(var u = 0; u < useritems.length; ++u)
-			userplacesmodel.append({"type" : "place_user",
-									   "title" : useritems[u][0],
-									   "location" : useritems[u][1],
-									   "icon" : useritems[u][2],
-									   "counter" : u+1})
+		for(var u = 0; u < useritems.length; ++u) {
+			if(useritems[u][1] !== "") {
+				userplacesmodel.append({"type" : "place_user",
+										"title" : useritems[u][0],
+										"location" : useritems[u][1],
+										"icon" : useritems[u][2],
+										"counter" : u+1})
+			}
+		}
 
 		userplacesmodel.append({"type" : "heading",
 								   "title" : "Places",
@@ -191,10 +196,11 @@ Rectangle {
 			}
 
 			userplacesmodel.append({"type" : entries[i],
-									   "title" : entries[i+1],
-									   "location" : entries[i+2],
-									   "icon" : entries[i+3],
-									   "counter" : counter})
+									"title" : entries[i+1],
+									"location" : entries[i+2],
+									"icon" : entries[i+3],
+									"counter" : counter})
+
 			++counter
 		}
 
