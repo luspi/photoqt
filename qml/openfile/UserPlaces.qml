@@ -72,15 +72,16 @@ Rectangle {
 		Rectangle {
 
 			width: userplaces.width
-			height: visible ? userplacestext.height+14 + (type=="heading" ? 20 : 0) : 0
+			height: opacity==1 ? userplacestext.height+14 + (type=="heading" ? 20 : 0) : 0
 			color: counter%2==1 ? "#88000000" : "#44000000"
 
 			Behavior on height { SmoothedAnimation { duration: 200 } }
+			Behavior on opacity { NumberAnimation { duration: 200 } }
 
 			// Groups can be hidden via contextmenu
-			visible: (group == "user" && visibleuser.checked)
+			opacity: ((group == "user" && visibleuser.checked)
 					 || (group == "standard" && visiblestandard.checked)
-					 || (group == "volumes" && visiblevolumes.checked)
+					 || (group == "volumes" && visiblevolumes.checked)) ? 1 : 0
 
 			Image {
 				id: userplacesimg
