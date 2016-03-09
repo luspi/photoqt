@@ -81,7 +81,7 @@ QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
 													 .arg(size/10.0)
 													 .arg(QString(storage.fileSystemType()))
 												  << storage.rootPath()
-												  << "folder";
+												  << "drive-harddisk";
 				sub_devices.append(ele);
 
 			}
