@@ -2,6 +2,10 @@
 
 MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 
+#ifdef Q_OS_WIN
+	QtWin::enableBlurBehindWindow(this);
+#endif
+
 	// Settings and variables
 	settingsPerSession = new SettingsSession;
 	settingsPermanent = new Settings;
