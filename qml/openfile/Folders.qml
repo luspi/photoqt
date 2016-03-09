@@ -70,7 +70,7 @@ Rectangle {
 				width: folderlist.width-(x+5)
 				text: "<b>" + folder + "</b>" + ((counter==0||folder=="..") ? "" : " <i>(" + counter + ")</i>")
 				color: "white"
-				font.pixelSize: tweaks.zoomlevel
+				font.pointSize: 11
 				elide: Text.ElideRight
 			}
 

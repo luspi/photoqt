@@ -39,7 +39,7 @@ Rectangle {
 		y: (parent.height-height)/2
 		anchors.right: parent.right
 		minimumValue: 10
-		maximumValue: 40
+		maximumValue: 50
 		tickmarksEnabled: true
 		stepSize: 1
 		scrollStep: 1
