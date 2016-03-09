@@ -229,7 +229,7 @@ Rectangle {
 		var useritems = [
 					[qsTr("Home"), getanddostuff.getHomeDir(), "user-home"],
 					[qsTr("Desktop"), getanddostuff.getDesktopDir(), "user-desktop"],
-					[qsTr("Pictures"), getanddostuff.getPicturesDir(), "folder-image"],
+					[qsTr("Pictures"), getanddostuff.getPicturesDir(), "folder-pictures"],
 					[qsTr("Downloads"), getanddostuff.getDownloadsDir(), "folder-download"]
 				]
 
