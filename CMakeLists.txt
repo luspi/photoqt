@@ -15,10 +15,16 @@ ADD_DEFINITIONS(-DVERSION="devel")
 ###########################################
 ####  LOCATIONS OF CONFIGURATION/DATA  ####
 ###########################################
+IF(WIN32)
+    SET(HOME "$ENV{HOMEPATH}")
+    STRING(REGEX REPLACE "\\\\" "/" HOME ${HOME})
+ELSEIF(NOT WIN32)
+    SET(HOME "$ENV{HOME}")
+ENDIF(WIN32)
 
-SET(CONFIG_DIR "$ENV{HOME}/.config/PhotoQt")
-SET(DATA_DIR "$ENV{HOME}/.local/share/PhotoQt/")
-SET(CACHE_DIR "$ENV{HOME}/.cache/PhotoQt/")
+SET(CONFIG_DIR "${HOME}/.config/PhotoQt")
+SET(DATA_DIR "${HOME}/.local/share/PhotoQt/")
+SET(CACHE_DIR "${HOME}/.cache/PhotoQt/")
 ADD_DEFINITIONS(-DCONFIG_DIR="${CONFIG_DIR}")
 ADD_DEFINITIONS(-DDATA_DIR="${DATA_DIR}")
 ADD_DEFINITIONS(-DCACHE_DIR="${CACHE_DIR}")
