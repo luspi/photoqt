@@ -82,6 +82,14 @@ bool GetAndDoStuffOther::amIOnLinux() {
 #endif
 }
 
+bool GetAndDoStuffOther::amIOnWindows() {
+#ifdef Q_OS_WIN
+	return true;
+#else
+	return false;
+#endif
+}
+
 int GetAndDoStuffOther::getCurrentScreen(int x, int y) {
 
 	for(int i = 0; i < QGuiApplication::screens().count(); ++i)
