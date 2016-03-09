@@ -111,7 +111,7 @@ Item {
 				id: contextmenuCounter
 
 				MenuItem {
-					text: "<font color=\"" + colour.menu_text + "\">" + qsTr("Hide Counter") + "</font>"
+					text: qsTr("Hide Counter")
 					onTriggered: {
 					counter.text = ""
 					counter.visible = false
@@ -175,7 +175,7 @@ Item {
 				id: contextmenuFilename
 
 				MenuItem {
-					text: "<font color=\"" + colour.menu_text + "\">" + qsTr("Hide Filepath, leave Filename") + "</font>"
+					text: qsTr("Hide Filepath, leave Filename")
 					onTriggered: {
 						filename.text = getanddostuff.removePathFromFilename(filename.text)
 						settings.hidefilepathshowfilename = true;

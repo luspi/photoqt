@@ -7,20 +7,8 @@ Menu {
 	id: contextmenu
 
 	style: MenuStyle {
-		frame: menuFrame
-		itemDelegate.background: menuHighlight
-	}
-
-	Component {
-		id: menuFrame
-		Rectangle {
-			color: colour.menu_frame
-		}
-	}
-	Component {
-		id: menuHighlight
-		Rectangle {
-			color: (styleData.selected ? colour.menu_bg_highlight : colour.menu_bg)
-		}
+		frame: Rectangle { color: colour.menu_frame }
+		itemDelegate.background: Rectangle { color: (styleData.selected ? colour.menu_bg_highlight : colour.menu_bg) }
+		itemDelegate.label: Text { color: colour.menu_text; text: styleData.text }
 	}
 }

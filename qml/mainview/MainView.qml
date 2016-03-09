@@ -160,7 +160,7 @@ Item {
 			id: contextmenuClosingX
 
 			MenuItem {
-				text: "<font color=\"" + colour.menu_text + "\">" + qsTr("Hide") + " 'x'</font>"
+				text: qsTr("Hide") + " 'x'"
 				onTriggered: {
 					settings.hidex = true;
 					rect.visible = false;

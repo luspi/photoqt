@@ -94,12 +94,12 @@ Rectangle {
 				id: contextmenu
 
 				MenuItem {
-					text: "<font color=\"" + colour.menu_text + "\">" + qsTr("Add to Favourites") + "</font>"
+					text: qsTr("Add to Favourites")
 					onTriggered: getanddostuff.addToUserPlaces(dir_path + "/" + folder)
 				}
 
 				MenuItem {
-					text: "<font color=\"" + colour.menu_text + "\">" + qsTr("Load directory") + "</font>"
+					text: qsTr("Load directory")
 					onTriggered: loadCurrentDirectory(dir_path + "/" + folder)
 				}
 			}
