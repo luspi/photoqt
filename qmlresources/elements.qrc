@@ -1,22 +1,23 @@
 <RCC>
     <qresource prefix="/">
-        <file>../qml/elements/ScrollBarHorizontal.qml</file>
-        <file>../qml/elements/ScrollBarVertical.qml</file>
-        <file>../qml/elements/CustomCheckBox.qml</file>
-        <file>../qml/elements/CustomButton.qml</file>
-        <file>../qml/elements/CustomTabView.qml</file>
-        <file>../qml/elements/SettingsText.qml</file>
-        <file>../qml/elements/CustomComboBox.qml</file>
-        <file>../qml/elements/CustomRadioButton.qml</file>
-        <file>../qml/elements/CustomSlider.qml</file>
-        <file>../qml/elements/CustomSpinBox.qml</file>
-        <file>../qml/elements/CustomConfirm.qml</file>
-        <file>../qml/elements/CustomTextEdit.qml</file>
-        <file>../qml/elements/CustomMouseShortcut.qml</file>
-        <file>../qml/elements/CustomExternalCommand.qml</file>
-        <file>../qml/elements/CustomLineEdit.qml</file>
-		<file>../qml/elements/CustomFileSystemBrowser.qml</file>
-		<file>../qml/elements/ToolTip.qml</file>
-		<file>../qml/elements/ShortcutNotifier.qml</file>
+	<file>../qml/elements/ScrollBarHorizontal.qml</file>
+	<file>../qml/elements/ScrollBarVertical.qml</file>
+	<file>../qml/elements/CustomCheckBox.qml</file>
+	<file>../qml/elements/CustomButton.qml</file>
+	<file>../qml/elements/CustomTabView.qml</file>
+	<file>../qml/elements/SettingsText.qml</file>
+	<file>../qml/elements/CustomComboBox.qml</file>
+	<file>../qml/elements/CustomRadioButton.qml</file>
+	<file>../qml/elements/CustomSlider.qml</file>
+	<file>../qml/elements/CustomSpinBox.qml</file>
+	<file>../qml/elements/CustomConfirm.qml</file>
+	<file>../qml/elements/CustomTextEdit.qml</file>
+	<file>../qml/elements/CustomMouseShortcut.qml</file>
+	<file>../qml/elements/CustomExternalCommand.qml</file>
+	<file>../qml/elements/CustomLineEdit.qml</file>
+	<file>../qml/elements/CustomFileSystemBrowser.qml</file>
+	<file>../qml/elements/ToolTip.qml</file>
+	<file>../qml/elements/ShortcutNotifier.qml</file>
+	<file>../qml/elements/ContextMenu.qml</file>
     </qresource>
 </RCC>

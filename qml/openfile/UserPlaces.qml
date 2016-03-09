@@ -4,6 +4,8 @@ import QtQuick.Layouts 1.0
 import Qt.labs.folderlistmodel 2.1
 import QtQuick.Controls.Styles 1.2
 
+import "../elements"
+
 Rectangle {
 
 	id: uplaces
@@ -29,6 +31,17 @@ Rectangle {
 	signal focusOnFilesView()
 
 	signal moveOneLevelUp()
+
+	// MouseArea for the background to make it possible to show sections if they're hidden
+	MouseArea {
+		anchors.fill: parent
+		hoverEnabled: true
+		acceptedButtons: Qt.LeftButton | Qt.RightButton
+		onClicked: {
+			if(mouse.button == Qt.RightButton)
+				headingmenu.popup()
+		}
+	}
 
 	ListView {
 		id: userplaces
@@ -59,8 +72,15 @@ Rectangle {
 		Rectangle {
 
 			width: userplaces.width
-			height: userplacestext.height+14 + (type=="heading" ? 20 : 0)
+			height: visible ? userplacestext.height+14 + (type=="heading" ? 20 : 0) : 0
 			color: counter%2==1 ? "#88000000" : "#44000000"
+
+			Behavior on height { SmoothedAnimation { duration: 200 } }
+
+			// Groups can be hidden via contextmenu
+			visible: (group == "user" && visibleuser.checked)
+					 || (group == "standard" && visiblestandard.checked)
+					 || (group == "volumes" && visiblevolumes.checked)
 
 			Image {
 				id: userplacesimg
@@ -92,18 +112,45 @@ Rectangle {
 				anchors.fill: parent
 				hoverEnabled: true
 				cursorShape: type=="heading" ? Qt.ArrowCursor : Qt.PointingHandCursor
+				acceptedButtons: Qt.LeftButton | Qt.RightButton
 				onEntered: {
 					if(type !="heading")
 						userplaces.currentIndex = index
 				}
 				onClicked: {
-					if(type !== "heading") {
+					if(type !== "heading" && mouse.button == Qt.LeftButton) {
 						userplaces.currentIndex = index
 						loadCurrentDirectory(location)
-					}
+					} else if(type === "heading" && mouse.button == Qt.RightButton)
+						headingmenu.popup()
 				}
 			}
 		}
+	}
+
+	ContextMenu {
+
+		id: headingmenu
+
+		MenuItem {
+			id: visiblestandard
+			checkable: true
+			checked: true
+			text: qsTr("Show standard locations")
+		}
+		MenuItem {
+			id: visibleuser
+			checkable: true
+			checked: true
+			text: qsTr("Show user locations")
+		}
+		MenuItem {
+			id: visiblevolumes
+			checkable: true
+			checked: true
+			text: qsTr("Show volumes")
+		}
+
 	}
 
 	Keys.onPressed: {
@@ -161,10 +208,11 @@ Rectangle {
 				]
 
 		userplacesmodel.append({"type" : "heading",
-								   "title" : qsTr("User"),
+								   "title" : qsTr("Standard"),
 								   "location" : "",
 								   "icon" : "",
-								   "counter" : 0})
+								   "counter" : 0,
+								   "group" : "standard"})
 
 		for(var u = 0; u < useritems.length; ++u) {
 			if(useritems[u][1] !== "") {
@@ -172,7 +220,8 @@ Rectangle {
 										"title" : useritems[u][0],
 										"location" : useritems[u][1],
 										"icon" : useritems[u][2],
-										"counter" : u+1})
+										"counter" : u+1,
+										"group" : "standard"})
 			}
 		}
 
@@ -180,17 +229,19 @@ Rectangle {
 								   "title" : qsTr("Places"),
 								   "location" : "",
 								   "icon" : "",
-								   "counter" : 0})
+								   "counter" : 0,
+								   "group" : "user"})
 
 		var reached_devcies = false;
 		var counter = 1
 		for(var i = 0; i < entries.length; i+=4) {
-			if(entries[i] === "device" && reached_devcies == false) {
+			if(entries[i] === "volumes" && reached_devcies == false) {
 				userplacesmodel.append({"type" : "heading",
 										   "title" : qsTr("Volumes"),
 										   "location" : "",
 										   "icon" : "",
-										   "counter" : 0})
+										   "counter" : 0,
+										   "group" : "volumes"})
 				counter = 1
 				reached_devcies = true
 			}
@@ -199,7 +250,8 @@ Rectangle {
 									"title" : entries[i+1],
 									"location" : entries[i+2],
 									"icon" : entries[i+3],
-									"counter" : counter})
+									"counter" : counter,
+									"group" : entries[i]})
 
 			++counter
 		}

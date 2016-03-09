@@ -157,6 +157,9 @@ public:
 		connect(this, SIGNAL(openUserPlacesWidthChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(openFoldersWidthChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(openThumbnailsChanged(bool)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(openUserPlacesStandardChanged(bool)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(openUserPlacesUserChanged(bool)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(openUserPlacesVolumesChanged(bool)), saveSettingsTimer, SLOT(start()));
 
 		connect(this, SIGNAL(exifMetadaWindowWidthChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(mainMenuWindowWidthChanged(int)), saveSettingsTimer, SLOT(start()));
@@ -328,6 +331,9 @@ public:
 	int openUserPlacesWidth;
 	int openFoldersWidth;
 	bool openThumbnails;
+	bool openUserPlacesStandard;
+	bool openUserPlacesUser;
+	bool openUserPlacesVolumes;
 
 	// Settings not adjustable in settings but other places
 	int exifMetadaWindowWidth;	// changed by dragging right rectangle edge
@@ -446,6 +452,9 @@ public:
 	Q_PROPERTY(int openUserPlacesWidth MEMBER openUserPlacesWidth NOTIFY openUserPlacesWidthChanged)
 	Q_PROPERTY(int openFoldersWidth MEMBER openFoldersWidth NOTIFY openFoldersWidthChanged)
 	Q_PROPERTY(bool openThumbnails MEMBER openThumbnails NOTIFY openThumbnailsChanged)
+	Q_PROPERTY(bool openUserPlacesStandard MEMBER openUserPlacesStandard NOTIFY openUserPlacesStandardChanged)
+	Q_PROPERTY(bool openUserPlacesUser MEMBER openUserPlacesUser NOTIFY openUserPlacesUserChanged)
+	Q_PROPERTY(bool openUserPlacesVolumes MEMBER openUserPlacesVolumes NOTIFY openUserPlacesVolumesChanged)
 
 	Q_PROPERTY(int exifMetadaWindowWidth MEMBER exifMetadaWindowWidth NOTIFY exifMetadaWindowWidthChanged)
 	Q_PROPERTY(int mainMenuWindowWidth MEMBER mainMenuWindowWidth NOTIFY mainMenuWindowWidthChanged)
@@ -581,6 +590,9 @@ public:
 		openUserPlacesWidth = 200;
 		openFoldersWidth = 400;
 		openThumbnails = false;
+		openUserPlacesStandard = true;
+		openUserPlacesUser = true;
+		openUserPlacesVolumes = true;
 
 		exifMetadaWindowWidth = 350;
 		mainMenuWindowWidth = 350;
@@ -740,6 +752,9 @@ public slots:
 			cont += QString("OpenUserPlacesWidth=%1\n").arg(openUserPlacesWidth);
 			cont += QString("OpenFoldersWidth=%1\n").arg(openFoldersWidth);
 			cont += QString("OpenThumbnails=%1\n").arg(int(openThumbnails));
+			cont += QString("OpenUserPlacesStandard=%1\n").arg(int(openUserPlacesStandard));
+			cont += QString("OpenUserPlacesUser=%1\n").arg(int(openUserPlacesUser));
+			cont += QString("OpenUserPlacesVolumes=%1\n").arg(int(openUserPlacesVolumes));
 
 			cont += QString("ExifMetadaWindowWidth=%1\n").arg(exifMetadaWindowWidth);
 			cont += QString("MainMenuWindowWidth=%1\n").arg(mainMenuWindowWidth);
@@ -1169,6 +1184,21 @@ public slots:
 			else if(all.contains("OpenThumbnails=0"))
 				openThumbnails = false;
 
+			if(all.contains("OpenUserPlacesStandard=1"))
+				openUserPlacesStandard = true;
+			else if(all.contains("OpenUserPlacesStandard=0"))
+				openUserPlacesStandard = false;
+
+			if(all.contains("OpenUserPlacesUser=1"))
+				openUserPlacesUser = true;
+			else if(all.contains("OpenUserPlacesUser=0"))
+				openUserPlacesUser = false;
+
+			if(all.contains("OpenUserPlacesVolumes=1"))
+				openUserPlacesVolumes = true;
+			else if(all.contains("OpenUserPlacesVolumes=0"))
+				openUserPlacesVolumes = false;
+
 
 			if(all.contains("ExifMetadaWindowWidth="))
 				exifMetadaWindowWidth = all.split("ExifMetadaWindowWidth=").at(1).split("\n").at(0).toInt();
@@ -1297,6 +1327,9 @@ signals:
 	void openUserPlacesWidthChanged(int val);
 	void openFoldersWidthChanged(int val);
 	void openThumbnailsChanged(bool val);
+	void openUserPlacesStandardChanged(bool val);
+	void openUserPlacesUserChanged(bool val);
+	void openUserPlacesVolumesChanged(bool val);
 
 	void exifMetadaWindowWidthChanged(int val);
 	void mainMenuWindowWidthChanged(int val);

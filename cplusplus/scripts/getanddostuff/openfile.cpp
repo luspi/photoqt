@@ -55,7 +55,7 @@ QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
 			if(location.startsWith("file://"))
 				location = location.remove(0,7);
 
-			QVariantList ele = QVariantList() << "place" << title << location << icon;
+			QVariantList ele = QVariantList() << "user" << title << location << icon;
 
 			if(QDir(location).exists())
 				sub_places.append(ele);
@@ -73,7 +73,7 @@ QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
 
 				if(size > 0) {
 
-					QVariantList ele = QVariantList() << "device"
+					QVariantList ele = QVariantList() << "volumes"
 													  << QString("%1 GB Volume (%2)")
 														 .arg(size/10.0)
 														 .arg(QString(storage.fileSystemType()))
