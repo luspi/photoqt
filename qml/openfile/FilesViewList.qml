@@ -32,7 +32,7 @@ ListView {
 		else
 			return
 
-		if(currentIndex == -1 || type_preview == "none" || files[2*currentIndex] === "")
+		if(currentIndex == -1 || !type_preview || files[2*currentIndex] === "")
 			preview.source = ""
 		else {
 			if(previous_width != top.width || tweaks.getMode() !== previous_mode)
