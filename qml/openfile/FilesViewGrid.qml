@@ -87,9 +87,12 @@ GridView {
 
 					Image {
 						id: icon
-						opacity: 0.6
-						Behavior on opacity { SmoothedAnimation { id: opacityimgani; velocity: 0.1; } }
+						property bool hovered: false
 						anchors.fill: parent
+						opacity: hovered ? 1 : 0.8
+						Behavior on opacity { NumberAnimation { duration: 100 } }
+						scale: hovered ? 1 : 0.95
+						Behavior on scale { NumberAnimation { duration: 100 } }
 						asynchronous: true
 						cache: false
 						source: files[2*index]===undefined||gridview.opacity==0 || (!tweaks.getThumbnailEnabled()) || gridview.opacity == 0
@@ -118,8 +121,8 @@ GridView {
 
 					radius: 5
 					color: "#BB000000"
-					opacity: 0.4
-					Behavior on opacity { SmoothedAnimation { id: opacityani; velocity: 0.1; } }
+					opacity: icon.hovered ? 0.8 : 0.4
+					Behavior on opacity { NumberAnimation { id: opacityani; duration: 100; } }
 
 					Text {
 						x: 3
@@ -148,16 +151,11 @@ GridView {
 				hoverEnabled: true
 				cursorShape: Qt.PointingHandCursor
 				onEntered: {
-					opacityani.duration = 200
-					opacityimgani.duration = 200
-					textrect.opacity = 1
-					icon.opacity = 1
+					icon.hovered = true
 					gridview.currentIndex = index
 				}
-				onExited: {
-					textrect.opacity = 0.4
-					icon.opacity = 0.6
-				}
+				onExited:
+					icon.hovered = false
 				onClicked: {
 					hideOpenAni.start()
 					reloadDirectory(dir_path + "/" + files[2*index],"")
