@@ -5,7 +5,7 @@ GetAndDoStuffContext::~GetAndDoStuffContext() { }
 
 QStringList GetAndDoStuffContext::setDefaultContextMenuEntries() {
 
-#ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN
 	return QStringList();
 #endif
 
@@ -45,7 +45,7 @@ QStringList GetAndDoStuffContext::setDefaultContextMenuEntries() {
 
 QStringList GetAndDoStuffContext::getContextMenu() {
 
-#ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN
 	return QStringList();
 #endif
 
@@ -82,7 +82,7 @@ QStringList GetAndDoStuffContext::getContextMenu() {
 
 bool GetAndDoStuffContext::checkIfBinaryExists(QString exec) {
 
-#ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN
 	return false;
 #endif
 
@@ -103,7 +103,7 @@ qint64 GetAndDoStuffContext::getContextMenuFileModifiedTime() {
 
 void GetAndDoStuffContext::saveContextMenu(QVariantList l) {
 
-#ifdef Q_OS_WIN32
+#ifdef Q_OS_WIN
 	return;
 #endif
 
