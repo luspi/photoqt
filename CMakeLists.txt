@@ -124,10 +124,12 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 # And add the executeable (on windows we add application icons...)
 IF(WIN32)
 	ADD_EXECUTABLE(photoqt WIN32 ${photoqt_SOURCES} ${photoqt_HEADERS_MOC} ${RESOURCES} windowsicons.rc)
+        QT5_USE_MODULES(photoqt Quick Widgets Sql Svg Core Xml WinExtras)
 ELSEIF(NOT WIN32)
 	ADD_EXECUTABLE(photoqt ${photoqt_SOURCES} ${photoqt_HEADERS_MOC} ${RESOURCES})
+        QT5_USE_MODULES(photoqt Quick Widgets Sql Svg Core Xml)
 ENDIF(WIN32)
-QT5_USE_MODULES(photoqt Quick Widgets Sql Svg Core Xml)
+
 
 #Depending on setup, we copy one of the desktop files to photoqt.desktop
 IF(GM)
