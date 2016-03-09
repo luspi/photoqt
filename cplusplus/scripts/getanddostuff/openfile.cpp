@@ -5,7 +5,8 @@ GetAndDoStuffOpenFile::GetAndDoStuffOpenFile(QObject *parent) : QObject(parent) 
 	formats = new FileFormats;
 
 	watcher = new QFileSystemWatcher;
-	watcher->addPath(QString(DATA_DIR) + "/user-places.xbel");
+	userPlacesFileDoesntExist = !QFile(QString(DATA_DIR) + "/../user-places.xbel").exists();
+	recheckFile();
 	connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(updateUserPlaces()));
 }
 GetAndDoStuffOpenFile::~GetAndDoStuffOpenFile() {
@@ -27,11 +28,11 @@ QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
 	QVariantList sub_places;
 	QVariantList sub_devices;
 
-	QFile file(QString(DATA_DIR) + "/user-places.xbel");
-	if(!file.open(QIODevice::ReadOnly)) {
+	QFile file(QString(DATA_DIR) + "/../user-places.xbel");
+	if(file.exists() && !file.open(QIODevice::ReadOnly)) {
 		LOG << DATE << "Can't open ~/.local/share/user-places.xbel file" << std::endl;
 		return QVariantList();
-	} else {
+	} else if(file.exists()) {
 
 		QDomDocument doc;
 		doc.setContent(&file);
@@ -64,30 +65,30 @@ QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
 
 		file.close();
 
+	}
+
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
 
-		for(auto storage : QStorageInfo::mountedVolumes()) {
-			if(storage.isValid()) {
+	for(auto storage : QStorageInfo::mountedVolumes()) {
+		if(storage.isValid()) {
 
-				qint64 size = storage.bytesTotal()/1024/1024/102.4;
+			qint64 size = storage.bytesTotal()/1024/1024/102.4;
 
-				if(size > 0) {
+			if(size > 0) {
 
-					QVariantList ele = QVariantList() << "volumes"
-													  << QString("%1 GB Volume (%2)")
-														 .arg(size/10.0)
-														 .arg(QString(storage.fileSystemType()))
-													  << storage.rootPath()
-													  << "folder";
-					sub_devices.append(ele);
+				QVariantList ele = QVariantList() << "volumes"
+												  << QString("%1 GB Volume (%2)")
+													 .arg(size/10.0)
+													 .arg(QString(storage.fileSystemType()))
+												  << storage.rootPath()
+												  << "folder";
+				sub_devices.append(ele);
 
-				}
 			}
 		}
+	}
 
 #endif
-
-	}
 
 
 	return sub_places+sub_devices;
@@ -196,14 +197,17 @@ QString GetAndDoStuffOpenFile::removePrefixFromDirectoryOrFile(QString path) {
 
 void GetAndDoStuffOpenFile::addToUserPlaces(QString path) {
 
-	QFile file(QString(DATA_DIR) + "/user-places.xbel");
-	if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+	QFile file(QString(DATA_DIR) + "/../user-places.xbel");
+	if(file.exists() && !file.open(QIODevice::ReadOnly | QIODevice::Text)) {
 		LOG << DATE << "Can't open ~/.local/share/user-places.xbel file" << std::endl;
 		return;
 	}
 
 	QDomDocument doc;
-	doc.setContent(&file);
+	if(file.exists())
+		doc.setContent(&file);
+	else
+		doc.setContent(QString("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<xbel xmlns:mime=\"http://www.freedesktop.org/standards/shared-mime-info\" xmlns:kdepriv=\"http://www.kde.org/kdepriv\" xmlns:bookmark=\"http://www.freedesktop.org/standards/desktop-bookmarks\">\n</xbel>\n"));
 
 	QDomElement root = doc.documentElement();
 

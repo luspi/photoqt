@@ -40,6 +40,7 @@ signals:
 private:
 	FileFormats *formats;
 	QFileSystemWatcher *watcher;
+	bool userPlacesFileDoesntExist;
 
 private slots:
 	void updateUserPlaces() {
@@ -47,9 +48,13 @@ private slots:
 		recheckFile();
 	}
 	void recheckFile() {
-		if(QFile(QString(DATA_DIR) + "/user-places.xbel").exists())
-			watcher->addPath(QString(DATA_DIR) + "/user-places.xbel");
-		else
+		if(QFile(QString(DATA_DIR) + "/../user-places.xbel").exists()) {
+			watcher->addPath(QString(DATA_DIR) + "/../user-places.xbel");
+			if(userPlacesFileDoesntExist) {
+				userPlacesFileDoesntExist = true;
+				emit userPlacesUpdated();
+			}
+		} else
 			QTimer::singleShot(1000,this,SLOT(recheckFile()));
 	}
 
