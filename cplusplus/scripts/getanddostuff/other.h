@@ -33,6 +33,7 @@ public:
 	QPoint getGlobalCursorPos();
 	QColor addAlphaToColor(QString col, int alpha);
 	bool amIOnLinux();
+	bool amIOnWindows();
 	QString trim(QString s) { return s.trimmed(); }
 	int getCurrentScreen(int x, int y);
 	QString getTempDir();

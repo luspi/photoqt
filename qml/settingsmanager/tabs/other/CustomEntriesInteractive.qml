@@ -285,7 +285,8 @@ Rectangle {
 			opacity: (contextmodel.count == 0 ? 1 : 0)
 			Behavior on opacity { NumberAnimation { duration: 150 } }
 			color: colour.text_inactive
-			text: "You haven't added anything yet"
+			text: getanddostuff.amIOnWindows() ? "Unavailable on Windows"
+							   : "You haven't added anything yet"
 			font.bold: true
 			font.pointSize: 20
 			verticalAlignment: Text.AlignVCenter

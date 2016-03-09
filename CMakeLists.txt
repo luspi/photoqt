@@ -15,10 +15,16 @@ ADD_DEFINITIONS(-DVERSION="devel")
 ###########################################
 ####  LOCATIONS OF CONFIGURATION/DATA  ####
 ###########################################
+IF(WIN32)
+    SET(HOME "$ENV{HOMEPATH}")
+    STRING(REGEX REPLACE "\\\\" "/" HOME ${HOME})
+ELSEIF(NOT WIN32)
+    SET(HOME "$ENV{HOME}")
+ENDIF(WIN32)
 
-SET(CONFIG_DIR "$ENV{HOME}/.config/PhotoQt")
-SET(DATA_DIR "$ENV{HOME}/.local/share/PhotoQt/")
-SET(CACHE_DIR "$ENV{HOME}/.cache/PhotoQt/")
+SET(CONFIG_DIR "${HOME}/.config/PhotoQt")
+SET(DATA_DIR "${HOME}/.local/share/PhotoQt/")
+SET(CACHE_DIR "${HOME}/.cache/PhotoQt/")
 ADD_DEFINITIONS(-DCONFIG_DIR="${CONFIG_DIR}")
 ADD_DEFINITIONS(-DDATA_DIR="${DATA_DIR}")
 ADD_DEFINITIONS(-DCACHE_DIR="${CACHE_DIR}")
@@ -118,10 +124,12 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 # And add the executeable (on windows we add application icons...)
 IF(WIN32)
 	ADD_EXECUTABLE(photoqt WIN32 ${photoqt_SOURCES} ${photoqt_HEADERS_MOC} ${RESOURCES} windowsicons.rc)
+        QT5_USE_MODULES(photoqt Quick Widgets Sql Svg Core Xml WinExtras)
 ELSEIF(NOT WIN32)
 	ADD_EXECUTABLE(photoqt ${photoqt_SOURCES} ${photoqt_HEADERS_MOC} ${RESOURCES})
+        QT5_USE_MODULES(photoqt Quick Widgets Sql Svg Core Xml)
 ENDIF(WIN32)
-QT5_USE_MODULES(photoqt Quick Widgets Sql Svg Core Xml)
+
 
 #Depending on setup, we copy one of the desktop files to photoqt.desktop
 IF(GM)

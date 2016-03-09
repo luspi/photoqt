@@ -5,6 +5,10 @@ GetAndDoStuffContext::~GetAndDoStuffContext() { }
 
 QStringList GetAndDoStuffContext::setDefaultContextMenuEntries() {
 
+#ifdef Q_OS_WIN
+	return QStringList();
+#endif
+
 	// These are the possible entries
 	QStringList m;
 	m << tr("Edit with") + " Gimp" << "gimp %f"
@@ -41,6 +45,10 @@ QStringList GetAndDoStuffContext::setDefaultContextMenuEntries() {
 
 QStringList GetAndDoStuffContext::getContextMenu() {
 
+#ifdef Q_OS_WIN
+	return QStringList();
+#endif
+
 	QFile file(CFG_CONTEXTMENU_FILE);
 
 	if(!file.exists()) return setDefaultContextMenuEntries();
@@ -73,6 +81,11 @@ QStringList GetAndDoStuffContext::getContextMenu() {
 }
 
 bool GetAndDoStuffContext::checkIfBinaryExists(QString exec) {
+
+#ifdef Q_OS_WIN
+	return false;
+#endif
+
 	QProcess p;
 #if QT_VERSION >= 0x050200
 	p.setStandardOutputFile(QProcess::nullDevice());
@@ -89,6 +102,10 @@ qint64 GetAndDoStuffContext::getContextMenuFileModifiedTime() {
 }
 
 void GetAndDoStuffContext::saveContextMenu(QVariantList l) {
+
+#ifdef Q_OS_WIN
+	return;
+#endif
 
 	QMap<int,QVariantList> adj;
 

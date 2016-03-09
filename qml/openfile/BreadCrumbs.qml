@@ -202,7 +202,8 @@ Rectangle {
 
 		crumbsmodel.clear()
 
-		if(path === "/")
+		// On Windows, the root directory is the drive letter, not a seperator
+		if(path === "/" && !getanddostuff.amIOnWindows())
 			crumbsmodel.append({"type" : "separator", "location" : "/", "partialpath" : "/"})
 		else {
 			for(var i = 0; i < parts.length; ++i) {
@@ -213,10 +214,18 @@ Rectangle {
 					crumbsmodel.remove(l-2)
 					partialpath += "/" + parts[i]
 				} else {
-					partialpath += "/"
-					crumbsmodel.append({"type" : "separator", "location" : parts[i], "partialpath" : partialpath})
+					// On Windows, the path starts with the drive letter, not a seperator
+					if(!getanddostuff.amIOnWindows() || i != 0) {
+						partialpath += "/"
+						crumbsmodel.append({"type" : "separator", "location" : parts[i], "partialpath" : partialpath})
+					}
 					partialpath += parts[i]
-					crumbsmodel.append({"type" : "folder", "location" : parts[i], "partialpath" : partialpath})
+					crumbsmodel.append({"type" : "folder", "location" : parts[i], "partialpath" : partialpath + "/"})
+					// On Windows, if the path consists only of the drive letter, we add a slash behind (looks better)
+					if(parts.length === 2 && getanddostuff.amIOnWindows()) {
+						partialpath += "/"
+						crumbsmodel.append({"type" : "separator", "location" : parts[i], "partialpath" : partialpath})
+					}
 				}
 			}
 		}

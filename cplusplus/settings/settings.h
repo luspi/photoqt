@@ -9,6 +9,9 @@
 #include <QFileSystemWatcher>
 #include <QTimer>
 #include <QTextStream>
+#ifdef Q_OS_WIN
+#include <QtWinExtras/QtWin>
+#endif
 
 // Convenience class to access and change permanent settings
 
@@ -473,13 +476,9 @@ public:
 		sortby = "name";
 		sortbyAscending = true;
 
-#ifdef Q_OS_WIN32
-		windowmode = true;
-		windowDecoration = false;
-#else
 		windowmode = false;
 		windowDecoration = false;
-#endif
+
 		myWidgetAnimated = true;
 		saveWindowGeometry = true;
 		keepOnTop = false;
@@ -490,11 +489,11 @@ public:
 		bgColorBlue = 0;
 		bgColorAlpha = 190;
 
-//#ifdef Q_OS_WIN32
-//		backgroundImageScreenshot = (QtWin::isCompositionEnabled() ? false : true);
-//#else
+#ifdef Q_OS_WIN
+		backgroundImageScreenshot = (QtWin::isCompositionEnabled() ? false : true);
+#else
 		backgroundImageScreenshot = false;
-//#endif
+#endif
 		backgroundImageUse = false;
 		backgroundImagePath = "";
 		backgroundImageScale = true;
@@ -503,11 +502,11 @@ public:
 		backgroundImageCenter = false;
 		backgroundImageTile = false;
 
-//#ifdef Q_OS_WIN32
-//		composite = (QtWin::isCompositionEnabled() ? true : false);
-//#else
+#ifdef Q_OS_WIN
+		composite = (QtWin::isCompositionEnabled() ? true : false);
+#else
 		composite = true;
-//#endif
+#endif
 		trayicon = 0;
 		transition = 0;
 		loopthroughfolder = true;
