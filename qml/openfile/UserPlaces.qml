@@ -105,6 +105,7 @@ Rectangle {
 				text: title
 				color: type=="heading" ? "grey" : "white"
 				font.pointSize: 11
+				font.bold: true
 
 			}
 
