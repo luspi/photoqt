@@ -62,7 +62,7 @@ Rectangle {
 			Rectangle { color: "transparent"; width: 1; height: 20; }
 
 			Language { id: language }
-			CustomEntries { id: customentries; alternating: true }
+			CustomEntries { id: customentries; alternating: true; enabled: !getanddostuff.amIOnWindows() }
 			FileTypesQt { id: filetypesqt }
 			FileTypesExtras { id: filetypesextras; alternating: true }
 			FileTypesGM { id: filetypesgm }
