@@ -5,7 +5,7 @@ GetAndDoStuffOpenFile::GetAndDoStuffOpenFile(QObject *parent) : QObject(parent) 
 	formats = new FileFormats;
 
 	watcher = new QFileSystemWatcher;
-	watcher->addPath(QDir::homePath() + "/.local/share/user-places.xbel");
+	watcher->addPath(QString(DATA_DIR) + "/user-places.xbel");
 	connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(updateUserPlaces()));
 }
 GetAndDoStuffOpenFile::~GetAndDoStuffOpenFile() {
@@ -27,7 +27,7 @@ QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
 	QVariantList sub_places;
 	QVariantList sub_devices;
 
-	QFile file(QDir::homePath() + "/.local/share/user-places.xbel");
+	QFile file(QString(DATA_DIR) + "/user-places.xbel");
 	if(!file.open(QIODevice::ReadOnly)) {
 		LOG << DATE << "Can't open ~/.local/share/user-places.xbel file" << std::endl;
 		return QVariantList();
@@ -196,7 +196,7 @@ QString GetAndDoStuffOpenFile::removePrefixFromDirectoryOrFile(QString path) {
 
 void GetAndDoStuffOpenFile::addToUserPlaces(QString path) {
 
-	QFile file(QDir::homePath() + "/.local/share/user-places.xbel");
+	QFile file(QString(DATA_DIR) + "/user-places.xbel");
 	if(!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
 		LOG << DATE << "Can't open ~/.local/share/user-places.xbel file" << std::endl;
 		return;

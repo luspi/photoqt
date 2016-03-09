@@ -44,7 +44,7 @@ private:
 private slots:
 	void updateUserPlaces() {
 		emit userPlacesUpdated();
-		QFileInfo checkFile(QDir::homePath() + "/.local/share/user-places.xbel");
+		QFileInfo checkFile(QString(DATA_DIR) + "/user-places.xbel");
 		while(!checkFile.exists())
 			std::this_thread::sleep_for(std::chrono::milliseconds(10));
 		watcher->addPath(QDir::homePath() + "/.local/share/user-places.xbel");
