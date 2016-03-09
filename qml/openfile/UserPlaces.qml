@@ -135,19 +135,25 @@ Rectangle {
 		MenuItem {
 			id: visiblestandard
 			checkable: true
-			checked: true
+			checked: settings.openUserPlacesStandard
+			onCheckedChanged:
+				settings.openUserPlacesStandard = checked
 			text: qsTr("Show standard locations")
 		}
 		MenuItem {
 			id: visibleuser
 			checkable: true
-			checked: true
+			checked: settings.openUserPlacesUser
+			onCheckedChanged:
+				settings.openUserPlacesUser = checked
 			text: qsTr("Show user locations")
 		}
 		MenuItem {
 			id: visiblevolumes
 			checkable: true
-			checked: true
+			checked: settings.openUserPlacesVolumes
+			onCheckedChanged:
+				settings.openUserPlacesVolumes = checked
 			text: qsTr("Show volumes")
 		}
 
