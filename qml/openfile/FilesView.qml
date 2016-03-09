@@ -113,7 +113,7 @@ Rectangle {
 		preview.source = ""
 		updatePreviewSourceSize()
 
-		if(files.length > 0)
+		if(files.length > 0 && tweaks.isHoverPreviewEnabled)
 			preview.source = Qt.resolvedUrl("image://full/" + dir_path + "/" + files[0])
 
 	}
