@@ -33,6 +33,7 @@ public:
 	bool isFolder(QString path);
 	QString removePrefixFromDirectoryOrFile(QString path);
 	void addToUserPlaces(QString path);
+	void saveUserPlaces(QVariantList enabled);
 
 signals:
 	void userPlacesUpdated();

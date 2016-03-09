@@ -116,6 +116,7 @@ public:
 	Q_INVOKABLE QVariantList getFilesIn(QString path) { return this->openfile->getFilesIn(path); }
 	Q_INVOKABLE QVariantList getFilesWithSizeIn(QString path) { return this->openfile->getFilesWithSizeIn(path); }
 	Q_INVOKABLE void addToUserPlaces(QString path) { this->openfile->addToUserPlaces(path); }
+	Q_INVOKABLE void saveUserPlaces(QVariantList enabled) { return this->openfile->saveUserPlaces(enabled); }
 
 	int shortcutNotifier;
 	Q_PROPERTY(int shortcutNotifier READ getShortcutNotifier WRITE setShortcutNotifier NOTIFY shortcutNotifierChanged)

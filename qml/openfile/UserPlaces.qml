@@ -117,6 +117,8 @@ Rectangle {
 				onEntered: {
 					if(type !="heading")
 						userplaces.currentIndex = index
+					else
+						userplaces.currentIndex = -1
 				}
 				onClicked: {
 					if(type !== "heading" && mouse.button == Qt.LeftButton) {
@@ -124,6 +126,8 @@ Rectangle {
 						loadCurrentDirectory(location)
 					} else if(type === "heading" && mouse.button == Qt.RightButton)
 						headingmenu.popup()
+					else if(type !== "heading" && group == "user" && mouse.button == Qt.RightButton)
+						usermenu.popup()
 				}
 			}
 		}
@@ -156,6 +160,21 @@ Rectangle {
 			onCheckedChanged:
 				settings.openUserPlacesVolumes = checked
 			text: qsTr("Show volumes")
+		}
+
+	}
+
+	ContextMenu {
+
+		id: usermenu
+
+		MenuItem {
+			text: "Remove from favourites"
+			onTriggered: saveUserPlacesExceptCurrentlyHighlighted()
+		}
+		MenuItem {
+			text: "Load folder"
+			onTriggered: loadCurrentlyHighlightedFolder()
 		}
 
 	}
@@ -264,6 +283,20 @@ Rectangle {
 		}
 
 		userplaces.currentIndex = index;
+
+	}
+
+	function saveUserPlacesExceptCurrentlyHighlighted() {
+
+		var ret = [[]]
+
+		for(var i = 0; i < userplaces.count; ++i) {
+			if(userplacesmodel.get(i).group === "user" && userplacesmodel.get(i).type !== "heading" && i != userplaces.currentIndex) {
+				ret.push(["user",userplacesmodel.get(i).title,userplacesmodel.get(i).location,userplacesmodel.get(i).icon])
+			}
+		}
+
+		getanddostuff.saveUserPlaces(ret);
 
 	}
 

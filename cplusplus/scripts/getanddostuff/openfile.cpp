@@ -246,3 +246,52 @@ void GetAndDoStuffOpenFile::addToUserPlaces(QString path) {
 	file.close();
 
 }
+
+void GetAndDoStuffOpenFile::saveUserPlaces(QVariantList enabled) {
+
+	QDomDocument doc;
+	doc.setContent(QString("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<xbel xmlns:mime=\"http://www.freedesktop.org/standards/shared-mime-info\" xmlns:kdepriv=\"http://www.kde.org/kdepriv\" xmlns:bookmark=\"http://www.freedesktop.org/standards/desktop-bookmarks\">\n</xbel>\n"));
+
+	QDomElement root = doc.documentElement();
+
+	foreach(QVariant l, enabled) {
+		QVariantList cur = l.toList();
+		if(cur.length() == 4) {
+
+			QDomElement bookmark = doc.createElement("bookmark");
+			bookmark.setAttribute("href","file://" + cur.at(2).toString());
+
+			QDomElement title = doc.createElement("title");
+			QDomText titleText = doc.createTextNode(QFileInfo(cur.at(1).toString()).fileName());
+			title.appendChild(titleText);
+			bookmark.appendChild(title);
+
+			QDomElement info = doc.createElement("info");
+
+			QDomElement metadata = doc.createElement("metadata");
+			metadata.setAttribute("owner","http://freedesktop.org");
+
+			QDomElement icon = doc.createElement("bookmark:icon");
+			icon.setAttribute("name",cur.at(3).toString());
+
+			metadata.appendChild(icon);
+			info.appendChild(metadata);
+			bookmark.appendChild(info);
+
+			root.appendChild(bookmark);
+
+		}
+	}
+
+	QFile file(QString(DATA_DIR) + "/../user-places.xbel");
+	if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+		LOG << DATE << "Can't open ~/.local/share/user-places.xbel file" << std::endl;
+		return;
+	}
+
+	QTextStream out(&file);
+	root.save(out,2);
+
+	file.close();
+
+}
