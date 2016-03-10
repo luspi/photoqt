@@ -65,8 +65,9 @@ ListView {
 
 			Image {
 				id: icon
-				opacity: 0.6
-				Behavior on opacity { SmoothedAnimation { id: opacityimgani; velocity: 0.1; } }
+				property bool hovered: false
+				opacity: hovered ? 1 : 0.8
+				Behavior on opacity { NumberAnimation { duration: 100 } }
 				width: files_txt.height-4
 				x: 7
 				verticalAlignment: Image.AlignVCenter
@@ -112,12 +113,11 @@ ListView {
 				cursorShape: Qt.PointingHandCursor
 				acceptedButtons: Qt.LeftButton | Qt.RightButton
 				onEntered: {
-					opacityimgani.duration = 200
-					icon.opacity = 1
+					icon.hovered = true
 					currentIndex = index
 				}
 				onExited: {
-					icon.opacity = 0.6
+					icon.hovered = false
 				}
 				onClicked: {
 					if(mouse.button == Qt.LeftButton) {

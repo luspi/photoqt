@@ -122,7 +122,7 @@ GridView {
 					radius: 5
 					color: "#BB000000"
 					opacity: icon.hovered ? 0.8 : 0.4
-					Behavior on opacity { NumberAnimation { id: opacityani; duration: 100; } }
+					Behavior on opacity { NumberAnimation { duration: 100; } }
 
 					Text {
 						x: 3
