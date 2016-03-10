@@ -150,6 +150,7 @@ GridView {
 				height: parent.height-20
 				hoverEnabled: true
 				cursorShape: Qt.PointingHandCursor
+				acceptedButtons: Qt.RightButton | Qt.LeftButton
 				onEntered: {
 					icon.hovered = true
 					gridview.currentIndex = index
@@ -157,8 +158,11 @@ GridView {
 				onExited:
 					icon.hovered = false
 				onClicked: {
-					hideOpenAni.start()
-					reloadDirectory(dir_path + "/" + files[2*index],"")
+					if(mouse.button == Qt.LeftButton) {
+						hideOpenAni.start()
+						reloadDirectory(dir_path + "/" + files[2*index],"")
+					} else
+						edit_rect.setEditText(files[2*index])
 				}
 			}
 

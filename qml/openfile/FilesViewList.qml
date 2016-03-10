@@ -110,19 +110,21 @@ ListView {
 				anchors.fill: parent
 				hoverEnabled: true
 				cursorShape: Qt.PointingHandCursor
+				acceptedButtons: Qt.LeftButton | Qt.RightButton
 				onEntered: {
 					opacityimgani.duration = 200
 					icon.opacity = 1
 					currentIndex = index
-					edit_rect.setEditText(getanddostuff.removePathFromFilename(preview.source, true))
-					edit_rect.focusOnInput()
 				}
 				onExited: {
 					icon.opacity = 0.6
 				}
 				onClicked: {
-					hideOpenAni.start()
-					reloadDirectory(dir_path + "/" + files[2*index],"")
+					if(mouse.button == Qt.LeftButton) {
+						hideOpenAni.start()
+						reloadDirectory(dir_path + "/" + files[2*index],"")
+					} else
+						edit_rect.setEditText(files[2*index])
 				}
 			}
 		}
