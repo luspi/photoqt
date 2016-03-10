@@ -82,9 +82,10 @@ Rectangle {
 				onEntered:
 					folderlistview.currentIndex = index
 				onClicked: {
-					if (mouse.button == Qt.RightButton)
+					// Context Menu, except on top entry ('go up a level' item)
+					if (mouse.button == Qt.RightButton && folder != "..")
 						contextmenu.popup()
-					else
+					else if(mouse.button == Qt.LeftButton)
 						loadCurrentDirectory(dir_path + "/" + folder)
 				}
 			}
