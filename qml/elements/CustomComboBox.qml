@@ -6,13 +6,19 @@ ComboBox {
 
 	property int fontsize: 10
 	property bool transparentBackground: false
+	property string backgroundColor: ""
 	property bool displayAsError: false
+	property bool showBorder: true
+	property string tooltip: ""
+	property int radius: 0
 
 	style: ComboBoxStyle {
 
 		background: Rectangle {
-			color: transparentBackground ? "transparent" : colour.element_bg_color
-			border.width: 1
+			clip: true
+			radius: control.radius
+			color: transparentBackground ? "transparent" : (backgroundColor=="" ? colour.element_bg_color : backgroundColor)
+			border.width: showBorder ? 1 : 0
 			border.color: transparentBackground ? colour.element_border_color_disabled : colour.element_border_color
 			implicitWidth: 100
 		}
@@ -21,6 +27,7 @@ ComboBox {
 			font.pointSize: fontsize
 			text: control.currentText
 			font.bold: displayAsError
+			elide: Text.ElideRight
 			color: displayAsError ? colour.text_warning : colour.text
 		}
 
@@ -58,6 +65,16 @@ ComboBox {
 
 		}
 
+	}
+
+	ToolTip {
+		anchors.fill: parent
+		text: parent.tooltip
+		cursorShape: Qt.PointingHandCursor
+		propagateComposedEvents: true
+		onClicked: mouse.accepted = false
+		onPressed: mouse.accepted = false
+		onPressAndHold: mouse.accepted = false
 	}
 
 }

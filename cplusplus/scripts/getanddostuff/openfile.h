@@ -24,12 +24,12 @@ public:
 	explicit GetAndDoStuffOpenFile(QObject *parent = 0);
 	~GetAndDoStuffOpenFile();
 
-	int getNumberFilesInFolder(QString path);
+	int getNumberFilesInFolder(QString path, int selectionFileTypes);
 	QVariantList getUserPlaces();
 	QVariantList getFilesAndFoldersIn(QString path);
 	QVariantList getFoldersIn(QString path);
 	QVariantList getFilesIn(QString path);
-	QVariantList getFilesWithSizeIn(QString path);
+	QVariantList getFilesWithSizeIn(QString path, int selectionFileTypes);
 	bool isFolder(QString path);
 	QString removePrefixFromDirectoryOrFile(QString path);
 	void addToUserPlaces(QString path);

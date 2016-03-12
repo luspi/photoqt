@@ -155,7 +155,7 @@ Rectangle {
 		dir_path = getanddostuff.removePrefixFromDirectoryOrFile(path)
 
 		for(var j = 0; j < folders.length; ++j)
-			folderlistmodel.append({"folder" : folders[j], "counter" : getanddostuff.getNumberFilesInFolder(dir_path + "/" + folders[j])})
+			folderlistmodel.append({"folder" : folders[j], "counter" : getanddostuff.getNumberFilesInFolder(dir_path + "/" + folders[j], tweaks.getFileTypeSelection())})
 
 	}
 

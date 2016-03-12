@@ -21,6 +21,12 @@ Rectangle {
 		onUpdateZoom: zoomlevel = level
 	}
 
+	TweaksFileTypeSelection {
+		id: select
+		anchors.right: preview.left
+		anchors.rightMargin: 10
+	}
+
 	TweaksPreview {
 		id: preview
 		anchors.right: thumbnail.left
@@ -48,6 +54,10 @@ Rectangle {
 	}
 	function setThumbnailChecked(s) {
 		thumbnail.setThumbnailChecked(s)
+	}
+
+	function getFileTypeSelection() {
+		return select.getFileTypeSelection()
 	}
 
 }

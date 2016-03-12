@@ -107,14 +107,14 @@ public:
 	Q_INVOKABLE QList<int> getEnlightenmentWorkspaceCount() { return wallpaper->getEnlightenmentWorkspaceCount(); }
 
 	// OPENFILE
-	Q_INVOKABLE int getNumberFilesInFolder(QString path) { return this->openfile->getNumberFilesInFolder(path); }
+	Q_INVOKABLE int getNumberFilesInFolder(QString path, int selectionFileTypes) { return this->openfile->getNumberFilesInFolder(path, selectionFileTypes); }
 	Q_INVOKABLE QVariantList getUserPlaces() { return this->openfile->getUserPlaces(); }
 	Q_INVOKABLE QVariantList getFilesAndFoldersIn(QString path) { return this->openfile->getFilesAndFoldersIn(path); }
 	Q_INVOKABLE bool isFolder(QString path) { return this->openfile->isFolder(path); }
 	Q_INVOKABLE QString removePrefixFromDirectoryOrFile(QString path) { return this->openfile->removePrefixFromDirectoryOrFile(path); }
 	Q_INVOKABLE QVariantList getFoldersIn(QString path) { return this->openfile->getFoldersIn(path); }
 	Q_INVOKABLE QVariantList getFilesIn(QString path) { return this->openfile->getFilesIn(path); }
-	Q_INVOKABLE QVariantList getFilesWithSizeIn(QString path) { return this->openfile->getFilesWithSizeIn(path); }
+	Q_INVOKABLE QVariantList getFilesWithSizeIn(QString path, int selectionFileTypes) { return this->openfile->getFilesWithSizeIn(path,selectionFileTypes); }
 	Q_INVOKABLE void addToUserPlaces(QString path) { this->openfile->addToUserPlaces(path); }
 	Q_INVOKABLE void saveUserPlaces(QVariantList enabled) { return this->openfile->saveUserPlaces(enabled); }
 

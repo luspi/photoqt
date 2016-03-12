@@ -99,7 +99,7 @@ Rectangle {
 
 	function loadDirectory(path) {
 
-		files = getanddostuff.getFilesWithSizeIn(path)
+		files = getanddostuff.getFilesWithSizeIn(path, tweaks.getFileTypeSelection())
 		dir_path = getanddostuff.removePrefixFromDirectoryOrFile(path)
 
 		listview.loadFiles(files)

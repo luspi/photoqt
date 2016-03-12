@@ -13,10 +13,19 @@ GetAndDoStuffOpenFile::~GetAndDoStuffOpenFile() {
 	delete watcher;
 }
 
-int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path) {
+int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path, int selectionFileTypes) {
 
 	QDir dir(path);
-	dir.setNameFilters(formats->formats_qt+ formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw);
+	if(selectionFileTypes == 0)
+		dir.setNameFilters(formats->formats_qt + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw);
+	else if(selectionFileTypes == 1)
+		dir.setNameFilters(formats->formats_qt);
+	else if(selectionFileTypes == 2)
+		dir.setNameFilters(formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_untested);
+	else if(selectionFileTypes == 3)
+		dir.setNameFilters(formats->formats_raw);
+	else if(selectionFileTypes == 4)
+		dir.setNameFilters(QStringList() << "*.*");
 	dir.setFilter(QDir::Files);
 
 	return dir.entryList().length();
@@ -151,13 +160,23 @@ QVariantList GetAndDoStuffOpenFile::getFilesIn(QString path) {
 
 }
 
-QVariantList GetAndDoStuffOpenFile::getFilesWithSizeIn(QString path) {
+QVariantList GetAndDoStuffOpenFile::getFilesWithSizeIn(QString path, int selectionFileTypes) {
 
 	if(path.startsWith("file:/"))
 		path = path.remove(0,6);
 
 	QDir dir(path);
-	dir.setNameFilters(formats->formats_qt + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw);
+	if(selectionFileTypes == 0)
+		dir.setNameFilters(formats->formats_qt + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw);
+	else if(selectionFileTypes == 1)
+		dir.setNameFilters(formats->formats_qt);
+	else if(selectionFileTypes == 2)
+		dir.setNameFilters(formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_untested);
+	else if(selectionFileTypes == 3)
+		dir.setNameFilters(formats->formats_raw);
+	else if(selectionFileTypes == 4)
+		dir.setNameFilters(QStringList() << "*.*");
+
 	dir.setFilter(QDir::Files);
 	dir.setSorting(QDir::IgnoreCase);
 

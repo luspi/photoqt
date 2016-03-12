@@ -14,7 +14,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Background.qml ${d}/QuickInfo.qml ${
 SET(d "qml/openfile")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/OpenFile.qml ${d}/BreadCrumbs.qml ${d}/UserPlaces.qml ${d}/Folders.qml ${d}/FilesView.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/EditFiles.qml ${d}/TweaksZoom.qml ${d}/Tweaks.qml ${d}/TweaksViewMode.qml ${d}/TweaksPreview.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/TweaksThumbnail.qml ${d}/FilesViewGrid.qml ${d}/FilesViewList.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/TweaksThumbnail.qml ${d}/FilesViewGrid.qml ${d}/FilesViewList.qml ${d}/TweaksFileTypeSelection.qml)
 
 SET(d "qml/elements")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/ScrollBarHorizontal.qml ${d}/ScrollBarVertical.qml ${d}/SettingsText.qml)
