@@ -412,6 +412,11 @@ Rectangle {
 			if(thumbnailBar.currentFile !== "")
 				thumbnailBar.gotoLastImage()
 
+		} else if(what === "default") {
+
+			if(thumbnailBar.currentFile !== "")
+				getanddostuff.openInDefaultFileManager(thumbnailBar.currentFile)
+
 		} else if(what.slice(0,8) === "_:_EX_:_") {
 
 			var parts = (what.split("_:_EX_:_")[1]).split("___")
