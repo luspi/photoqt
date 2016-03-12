@@ -1,4 +1,4 @@
- PhotoQt 1.3 - Copyright (C) 2015, Lukas Spies (Lukas@photoqt.org),
+ PhotoQt devel - Copyright (C) 2016, Lukas Spies (Lukas@photoqt.org),
  License: GPLv2 (or later) -- Website: http://photoqt.org
 --------------------------------------------------------------------
 
@@ -11,13 +11,16 @@
 - Qt >= 5.3
 - CMake (needed for building PhotoQt)
 
-> Make sure that you have the needed Qt modules installed: image formats,
-  multimedia, svg.
+> Make sure that you have the needed Qt modules installed:
+  QtQuick, QtQuick.Controls, QtQuick.Controls.Styles,
+  QtQuick.Dialogs, QtQuick.Layouts, QtQuick.Window, QtQml.Models,
+  Qt.labs.folderlistmodel, QtGraphicalEffects, QtMultimedia
 
 > Dependencies, that are needed by default, but can be disabled via CMake
    (see INSTALL section):
 - Exiv2
 - GraphicsMagick
+- LibRaw
 
 > NOTE
   On some systems you also need the *-dev package for compiling (e.g.
@@ -51,13 +54,13 @@
 
      cmake -DCMAKE_INSTALL_PREFIX=/usr ..
 
-     # PhotoQt makes use of the libraries Exiv2 and GraphicsMagick ("gm").
+     # PhotoQt makes use of the libraries Exiv2, GraphicsMagick ("gm") and LibRaw.
      # You can en-/disable them with the following options:
      # (if you don't specify anything, it asumes a default value of ON)
 
      -DEXIV2=OFF
-
      -DGM=OFF
+     -DRAW=OFF
 
      # You can combine them in any way you want.
      # The following option equates to setting the two above options to OFF
@@ -65,11 +68,12 @@
      -DQTONLY=ON
 
      # If CMake aborts with the error that it can't find Exiv2 and/or GraphicsMagick,
-     # but you're certain that the header files are available, then you can specify
-     # their location via the following environment variables:
+     # and/or LibRaw, but you're certain that the header files are available, then
+     # you can pass their locations to CMake:
 
-     MAGICK_LOCATION
-     EXIV2_LOCATION
+     -DMAGICK_LOCATION=/path/to/graphicsmagick
+     -DEXIV2_LOCATION=/path/to/exiv2
+     -DLIBRAW_LOCATION=/path/to/libraw
 
 3) make  # This creates an executeable photoqt binary located in the ./build/ folder
 
