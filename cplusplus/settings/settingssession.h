@@ -23,6 +23,10 @@ public:
 
 	Q_INVOKABLE QVariant value(const QString &key, const QVariant &defaultValue = QVariant()) const {
 		return settings_->value(key, defaultValue);
+
+	}
+	Q_INVOKABLE QVariant hasKey(const QString &key) const {
+		return settings_->allKeys().contains(key);
 	}
 
 private:

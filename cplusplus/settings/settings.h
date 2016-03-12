@@ -755,6 +755,8 @@ public slots:
 			cont += QString("OpenUserPlacesUser=%1\n").arg(int(openUserPlacesUser));
 			cont += QString("OpenUserPlacesVolumes=%1\n").arg(int(openUserPlacesVolumes));
 
+			cont += "\n[Other]\n";
+
 			cont += QString("ExifMetadaWindowWidth=%1\n").arg(exifMetadaWindowWidth);
 			cont += QString("MainMenuWindowWidth=%1\n").arg(mainMenuWindowWidth);
 
