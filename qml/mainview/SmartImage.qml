@@ -667,6 +667,11 @@ Rectangle {
 		_preload_src = src
 		_preload_ani = animated
 
+		if(_preload_src === "") {
+			setImage()
+			return
+		}
+
 		preload_normal.source = ""
 		preload_ani.source = ""
 

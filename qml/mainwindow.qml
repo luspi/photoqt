@@ -298,7 +298,7 @@ Item {
 
 	function noResultsFromFilter() {
 		verboseMessage("MainWindow::noResultsFromFilter()","Displaying 'no results found' message")
-		image.noFilterResultsFound()
+		mainview.noFilterResultsFound()
 		thumbnailBar.setupModel([],0)
 		metaData.clear()
 		quickInfo.updateQuickInfo(-1,0,"")
