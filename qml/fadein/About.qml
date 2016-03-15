@@ -14,7 +14,7 @@ FadeInGeneric {
 		// Main text
 		Text {
 			id: txt
-			width: about.width-2*margin
+			width: about.contentWidth
 			color: colour.text
 			font.pointSize: 12
 			wrapMode: Text.WordWrap
@@ -49,13 +49,13 @@ FadeInGeneric {
 		// Big text thanking supporters and contributors
 		Rectangle {
 
-			width: about.width-2*margin
+			width: about.contentWidth
 			height: childrenRect.height
 			color: "#00000000"
 
 			Text {
 				x: (parent.width-width)/2
-				width: (about.width-2*margin)/2
+				width: (about.contentWidth)/2
 
 				horizontalAlignment: Qt.AlignHCenter
 				color: colour.text
@@ -73,7 +73,7 @@ FadeInGeneric {
 		// Finish up, invitation to join the team
 		Text {
 
-			width: about.width-2*margin
+			width: about.contentWidth
 
 			color: colour.text
 

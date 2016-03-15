@@ -2,15 +2,12 @@ import QtQuick 2.3
 import QtQuick.Controls 1.2
 
 import "../elements"
-import "./wallpaper"
 
 FadeInGeneric {
 
 	id: slideshow_top
 
 	heading: "Slideshow Setup"
-
-	property int currentlySelectedWm: 0
 
 	content: [
 
@@ -19,14 +16,14 @@ FadeInGeneric {
 		// DESCRIPTION
 		Text {
 			color: colour.text
-			width: slideshow_top.width
+			width: slideshow_top.contentWidth
 			wrapMode: Text.WordWrap
 			font.pointSize: 10
 			text: qsTr("There are several settings that can be adjusted for a slideshow, like the time between the image, if and how long the transition between the images should be, and also a music file can be specified that is played in the background.")
 		},
 		Text {
 			color: colour.text
-			width: slideshow_top.width
+			width: slideshow_top.contentWidth
 			wrapMode: Text.WordWrap
 			font.pointSize: 10
 			text: qsTr("Once you have set the desired options, you can also start a slideshow the next time via 'Quickstart', i.e. skipping this settings window.")
@@ -35,7 +32,7 @@ FadeInGeneric {
 		// TIME BETWEEN IMAGES
 		Text {
 			color: colour.text
-			width: slideshow_top.width
+			width: slideshow_top.contentWidth
 			wrapMode: Text.WordWrap
 			font.pointSize: 15
 			font.bold: true
@@ -43,7 +40,7 @@ FadeInGeneric {
 		},
 		Text {
 			color: colour.text
-			width: slideshow_top.width
+			width: slideshow_top.contentWidth
 			wrapMode: Text.WordWrap
 			font.pointSize: 10
 			text: qsTr("Adjust the time between the images. The time specified here is the amount of time the image will be completely visible, i.e. the transitioning (if set) is not part of this time.")
@@ -52,15 +49,15 @@ FadeInGeneric {
 		// Adjust the time in between (slider/spinbox)
 		Rectangle {
 			color: "#00000000"
-			x: (slideshow_top.width-width)/2
+			x: (slideshow_top.contentWidth-width)/2
 			width: childrenRect.width
 			height: childrenRect.height
 			Row {
 				spacing: 5
 				CustomSlider {
 					id: timeslider
-					x: (slideshow_top.width-width)/2
-					width: slideshow_top.width/3
+					x: (slideshow_top.contentWidth-width)/2
+					width: slideshow_top.contentWidth/3
 					minimumValue: 1
 					maximumValue: 300
 					scrollStep: 1
@@ -82,7 +79,7 @@ FadeInGeneric {
 		// SMOOTH TRANSITION OF IMAGES
 		Text {
 			color: colour.text
-			width: slideshow_top.width
+			width: slideshow_top.contentWidth
 			wrapMode: Text.WordWrap
 			font.pointSize: 15
 			font.bold: true
@@ -90,7 +87,7 @@ FadeInGeneric {
 		},
 		Text {
 			color: colour.text
-			width: slideshow_top.width
+			width: slideshow_top.contentWidth
 			wrapMode: Text.WordWrap
 			font.pointSize: 10
 			text: qsTr("Here you can set, if you want the images to fade into each other, and how fast they are to do that.")
@@ -99,7 +96,7 @@ FadeInGeneric {
 		// Slider to adjust transition time
 		Rectangle {
 			color: "#00000000"
-			x: (slideshow_top.width-width)/2
+			x: (slideshow_top.contentWidth-width)/2
 			width: childrenRect.width
 			height: childrenRect.height
 			Row {
@@ -111,8 +108,8 @@ FadeInGeneric {
 				}
 				CustomSlider {
 					id: transitionslider
-					x: (slideshow_top.width-width)/2
-					width: slideshow_top.width/3
+					x: (slideshow_top.contentWidth-width)/2
+					width: slideshow_top.contentWidth/3
 					minimumValue: 0
 					maximumValue: 15
 					scrollStep: 1
@@ -131,7 +128,7 @@ FadeInGeneric {
 		// SHUFFLE AND LOOP
 		Text {
 			color: colour.text
-			width: slideshow_top.width
+			width: slideshow_top.contentWidth
 			wrapMode: Text.WordWrap
 			font.pointSize: 15
 			font.bold: true
@@ -139,7 +136,7 @@ FadeInGeneric {
 		},
 		Text {
 			color: colour.text
-			width: slideshow_top.width
+			width: slideshow_top.contentWidth
 			wrapMode: Text.WordWrap
 			font.pointSize: 10
 			text: qsTr("If you want PhotoQt to loop over all images (i.e., once it shows the last image it starts from the beginning), or if you want PhotoQt to load your images in random order, you can check either or both boxes below. Note, that no image will be shown twice before every image has been shown once.")
@@ -150,19 +147,19 @@ FadeInGeneric {
 			id: loop
 			text: qsTr("Loop over images")
 			checkedButton: settings.slideShowLoop
-			x: (slideshow_top.width-width)/2
+			x: (slideshow_top.contentWidth-width)/2
 		},
 		CustomCheckBox {
 			id: shuffle
 			text: qsTr("Shuffle images")
 			checkedButton: settings.slideShowShuffle
-			x: (slideshow_top.width-width)/2
+			x: (slideshow_top.contentWidth-width)/2
 		},
 
 		// HIDE QUICKINFOS
 		Text {
 			color: colour.text
-			width: slideshow_top.width
+			width: slideshow_top.contentWidth
 			wrapMode: Text.WordWrap
 			font.pointSize: 15
 			font.bold: true
@@ -171,7 +168,7 @@ FadeInGeneric {
 
 		Text {
 			color: colour.text
-			width: slideshow_top.width
+			width: slideshow_top.contentWidth
 			wrapMode: Text.WordWrap
 			font.pointSize: 10
 			text: qsTr("Depending on your setup, PhotoQt displays some information at the top edge, like position in current directory or file path/name. Here you can disable them temporarily for the slideshow.")
@@ -181,13 +178,13 @@ FadeInGeneric {
 			id: quickinfo
 			text: qsTr("Hide Quickinfos")
 			checkedButton: settings.slideShowHideQuickinfo
-			x: (slideshow_top.width-width)/2
+			x: (slideshow_top.contentWidth-width)/2
 		},
 
 		// BACKGROUND MUSIC
 		Text {
 			color: colour.text
-			width: slideshow_top.width
+			width: slideshow_top.contentWidth
 			wrapMode: Text.WordWrap
 			font.pointSize: 15
 			font.bold: true
@@ -195,7 +192,7 @@ FadeInGeneric {
 		},
 		Text {
 			color: colour.text
-			width: slideshow_top.width
+			width: slideshow_top.contentWidth
 			wrapMode: Text.WordWrap
 			font.pointSize: 10
 			text: qsTr("Some might like to listen to some music while the slideshow is running. Here you can select a music file you want to be played in the background.")
@@ -203,16 +200,16 @@ FadeInGeneric {
 		// Checkbox to enable music
 		CustomCheckBox {
 			id: musiccheckbox
-			x: (slideshow_top.width-width)/2
+			x: (slideshow_top.contentWidth-width)/2
 			checkedButton: (settings.slideShowMusicFile != "")
 			text: qsTr("Enable Music")
 		},
 		// Area displaying music file path and option to change it
 		Rectangle {
 			color: enabled ? getanddostuff.addAlphaToColor(colour.text_disabled,20) : getanddostuff.addAlphaToColor(colour.text,20)
-			width: slideshow_top.width/2
+			width: slideshow_top.contentWidth/2
 			enabled: musiccheckbox.checkedButton
-			x: slideshow_top.width/4
+			x: slideshow_top.contentWidth/4
 			height: musictxt.height+20
 			radius: global_item_radius
 			border.color: colour.fadein_slidein_border
