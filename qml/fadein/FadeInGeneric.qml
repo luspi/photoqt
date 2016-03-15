@@ -13,12 +13,20 @@ Rectangle {
 	opacity: 0
 	visible: false
 
-	property int margin: 50
+	property int marginLeftRight: 50
+	property int marginTopBottom: 50
+
+	property int contentWidth: fadein_top.width-2*marginLeftRight
+	property int contentHeight: fadein_top.height-2*marginTopBottom
+
+	property bool showSeperators: true
 
 	// These are used to insert the elements
 	property string heading: ""
 	property alias content: content_placeholder.children
 	property alias buttons: button_placeholder.children
+
+	property bool clipContent: true
 
 	// Click on margin outside elements closes element
 	MouseArea {
@@ -32,9 +40,9 @@ Rectangle {
 	Text {
 
 		id: title
-		x: margin*1.5
-		y: margin
-		width: fadein_top.width-2*margin
+		x: marginLeftRight*1.5
+		y: marginTopBottom
+		width: fadein_top.width-2*marginLeftRight
 		text: heading
 
 		font.pointSize: 40
@@ -46,10 +54,11 @@ Rectangle {
 	Rectangle {
 		id: sep1
 		width: content_placeholder.width
-		x: margin
+		x: marginLeftRight
 		anchors.top: title.bottom
 		anchors.topMargin: 5
 		height: 1
+		visible: showSeperators
 		color: colour.linecolour
 	}
 
@@ -58,9 +67,9 @@ Rectangle {
 
 		id: item
 
-		contentHeight: content_placeholder.height
-		contentWidth: fadein_top.width-2*margin
-		clip: true
+		contentHeight: content_placeholder.childrenRect.height
+		contentWidth: fadein_top.width-2*marginLeftRight
+		clip: clipContent
 
 		// Set size
 		anchors {
@@ -68,8 +77,8 @@ Rectangle {
 			right: parent.right
 			top: sep1.bottom
 			bottom: sep2.top
-			leftMargin: margin
-			rightMargin: margin
+			leftMargin: marginLeftRight
+			rightMargin: marginLeftRight
 			bottomMargin: 5
 			topMargin: 5
 		}
@@ -94,11 +103,12 @@ Rectangle {
 	// Horizontal line
 	Rectangle {
 		id: sep2
-		x: margin
+		x: marginLeftRight
 		anchors.bottom: button_placeholder.top
 		anchors.bottomMargin: 10
 		width: content_placeholder.width
 		height: 1
+		visible: showSeperators
 		color: colour.linecolour
 	}
 
@@ -108,11 +118,11 @@ Rectangle {
 
 		id: button_placeholder
 
-		x: margin
+		x: marginLeftRight
 		width: content_placeholder.width
 		height: childrenRect.height+10
 		anchors.bottom: parent.bottom
-		anchors.bottomMargin: margin
+		anchors.bottomMargin: marginTopBottom
 
 		color: "#00000000"
 
