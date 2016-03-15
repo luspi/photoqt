@@ -10,7 +10,7 @@ FadeInTemplate {
 	heading: ""
 	showSeperators: false
 
-	marginTopBottom: (background.height-400)/2
+	marginTopBottom: (background.height-500)/2
 	clipContent: false
 
 	content: [
