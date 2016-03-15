@@ -25,7 +25,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/CustomMouseShortcut.qml ${d}/Shortcu
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/CustomExternalCommand.qml ${d}/CustomLineEdit.qml ${d}/ToolTip.qml)
 
 SET(d "qml/fadein")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/FadeInGeneric.qml ${d}/About.qml ${d}/Scale.qml ${d}/Rename.qml ${d}/Delete.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/FadeInTemplate.qml ${d}/About.qml ${d}/Scale.qml ${d}/Rename.qml ${d}/Delete.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Wallpaper.qml ${d}/Slideshow.qml ${d}/Filter.qml ${d}/Startup.qml)
 
 SET(d "qml/fadein/wallpaper")

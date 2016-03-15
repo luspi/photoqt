@@ -4,7 +4,7 @@ import QtQuick.Controls 1.2
 import "../elements"
 import "./wallpaper"
 
-FadeInGeneric {
+FadeInTemplate {
 
 	id: wallpaper_top
 

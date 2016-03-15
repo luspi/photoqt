@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-	<file>../qml/fadein/FadeInGeneric.qml</file>
+	<file>../qml/fadein/FadeInTemplate.qml</file>
 	<file>../qml/fadein/About.qml</file>
 	<file>../qml/fadein/Scale.qml</file>
 	<file>../qml/fadein/Delete.qml</file>

@@ -3,7 +3,7 @@ import QtQuick.Controls 1.2
 
 import "../elements"
 
-FadeInGeneric {
+FadeInTemplate {
 
 	id: slideshow_top
 
