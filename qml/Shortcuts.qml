@@ -69,6 +69,8 @@ Item {
 				settingsmanager.hideSettings()
 			else if(scaleImage.opacity == 1)
 				scaleImage.hideScale()
+			else if(scaleImageUnsupported.opacity == 1)
+				scaleImageUnsupported.hideScaledUnsupported()
 			else if(deleteImage.opacity == 1)
 				deleteImage.hideDelete()
 			else if(rename.opacity == 1)

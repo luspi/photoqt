@@ -10,7 +10,7 @@ FadeInTemplate {
 	heading: ""
 	showSeperators: false
 
-	marginTopBottom: (background.height-400)/2
+	marginTopBottom: (background.height-500)/2
 	clipContent: false
 
 	property string lastClicked: "w"
@@ -21,7 +21,7 @@ FadeInTemplate {
 		Text {
 			text: qsTr("Scale Image")
 			color: colour.text
-			font.pointSize: 18
+			font.pointSize: 18*2
 			font.bold: true
 			x: (scale_top.contentWidth-width)/2
 		},
@@ -36,35 +36,48 @@ FadeInTemplate {
 				spacing: 5
 				Text {
 					text: qsTr("Current Size:")
-					font.pointSize: 10
+					font.pointSize: 13
 					color: colour.text
 				}
 				Text {
 					id: currentwidth
 					text: "4000"
-					font.pointSize: 10
+					font.pointSize: 13
 					color: colour.text
 				}
 				Text {
 					text: "x"
-					font.pointSize: 10
+					font.pointSize: 13
 					color: colour.text
 				}
 				Text {
 					id: currentheight
 					text: "3000"
-					font.pointSize: 10
+					font.pointSize: 13
 					color: colour.text
 				}
 			}
+		},
+
+		Rectangle {
+			color: "transparent"
+			width: parent.width
+			height: 1
 		},
 
 		Text {
 			id: error
 			x: (scale_top.contentWidth-width)/2
 			color: colour.text_warning
-			font.pointSize: 10
+			font.pointSize: 13
+			font.bold: true
 			text: qsTr("Error! Something went wrong, unable to save new dimension...")
+		},
+
+		Rectangle {
+			color: "transparent"
+			width: parent.width
+			height: 1
 		},
 
 		// New settings
@@ -89,14 +102,14 @@ FadeInTemplate {
 					Text {
 						color: colour.text
 						text: qsTr("New width:")
-						font.pointSize: 10
+						font.pointSize: 15
 						horizontalAlignment: Text.AlignRight
 						y: (newwidth.height-height)/2+5
 					}
 					Text {
 						color: colour.text
 						text: qsTr("New height:")
-						font.pointSize: 10
+						font.pointSize: 15
 						horizontalAlignment: Text.AlignRight
 						y: newwidth.height+10+(newheight.height-height)/2
 					}
@@ -111,7 +124,8 @@ FadeInTemplate {
 					// new width
 					CustomSpinBox {
 						id: newwidth
-						width: 75
+						width: 100
+						height: 35
 						value: 4000
 						maximumValue: 99999
 						minimumValue: 1
@@ -127,7 +141,8 @@ FadeInTemplate {
 					// new height
 					CustomSpinBox {
 						id: newheight
-						width: 75
+						width: 100
+						height: 35
 						value: 3000
 						maximumValue: 99999
 						minimumValue: 1
@@ -170,7 +185,7 @@ FadeInTemplate {
 					color: colour.text
 					opacity: aspect_image.keepaspectratio ? 1 : 0.3
 					text: qsTr("Aspect Ratio")
-					font.pointSize: 10
+					font.pointSize: 15
 					font.strikeout: !aspect_image.keepaspectratio
 					y: (rowedits.height-height)/2+5
 					// Click triggers keeping of aspect ratio
@@ -189,6 +204,12 @@ FadeInTemplate {
 			}
 		},
 
+		Rectangle {
+			color: "transparent"
+			width: parent.width
+			height: 1
+		},
+
 		// Quality setting
 		Rectangle {
 			color: "#00000000"
@@ -199,13 +220,14 @@ FadeInTemplate {
 				spacing: 5
 				Text {
 					color: colour.text
-					font.pointSize: 10
+					font.pointSize: 13
 					text: qsTr("Quality")
 				}
 				CustomSlider {
 					id: quality_slider
 					minimumValue: 1
 					maximumValue: 100
+					width: 250
 					value: 90
 					stepSize: 1
 
@@ -214,11 +236,17 @@ FadeInTemplate {
 				// Display quality percentage
 				Text {
 					id: quality_text
-					font.pointSize: 10
+					font.pointSize: 13
 					color: colour.text
 					text: quality_slider.value.toString()
 				}
 			}
+		},
+
+		Rectangle {
+			color: "transparent"
+			width: parent.width
+			height: 10
 		},
 
 		// The three buttons
@@ -237,6 +265,7 @@ FadeInTemplate {
 				CustomButton {
 					id: scale_inplace
 					text: qsTr("Scale in place")
+					fontsize: 15
 					onClickedButton: {
 						verboseMessage("Scale","Scale in place")
 						if(getanddostuff.scaleImage(thumbnailBar.currentFile, newwidth.value, newheight.value,
@@ -251,6 +280,7 @@ FadeInTemplate {
 				CustomButton {
 					id: scale_innewfile
 					text: qsTr("Scale into new file")
+					fontsize: 15
 					onClickedButton: {
 						var fname = getanddostuff.getSaveFilename("Save file as...",thumbnailBar.currentFile);
 						verboseMessage("Scale","Scale into new file: " + fname)
@@ -268,6 +298,7 @@ FadeInTemplate {
 				CustomButton {
 					id: scale_dont
 					text: qsTr("Don't scale")
+					fontsize: 15
 					onClickedButton: hideScale()
 				}
 			}
@@ -290,8 +321,17 @@ FadeInTemplate {
 	}
 
 	function showScale() {
+
 		verboseMessage("Scale::showScale()",thumbnailBar.currentFile)
-		if(thumbnailBar.currentFile == "") return
+
+		if(thumbnailBar.currentFile == "")
+			return
+
+		if(!getanddostuff.canBeScaled(thumbnailBar.currentFile)) {
+			scaleImageUnsupported.showScaledUnsupported()
+			return;
+		}
+
 		var s = getanddostuff.getImageSize(thumbnailBar.currentFile)
 		currentheight.text = s.height
 		newheight.value = s.height

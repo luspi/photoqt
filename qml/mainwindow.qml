@@ -243,6 +243,7 @@ Item {
 	About { id: about; }
 	Wallpaper { id: wallpaper; }
 	Scale { id: scaleImage; }
+	ScaleUnsupported { id: scaleImageUnsupported; }
 	Delete { id: deleteImage; }
 	Rename { id: rename; }
 	Slideshow { id: slideshow; }
