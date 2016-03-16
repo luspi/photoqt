@@ -26,7 +26,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/CustomExternalCommand.qml ${d}/Custo
 
 SET(d "qml/fadein")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/FadeInTemplate.qml ${d}/About.qml ${d}/Scale.qml ${d}/Rename.qml ${d}/Delete.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Wallpaper.qml ${d}/Slideshow.qml ${d}/Filter.qml ${d}/Startup.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Wallpaper.qml ${d}/Slideshow.qml ${d}/Filter.qml ${d}/Startup.qml ${d}/ScaleUnsupported.qml)
 
 SET(d "qml/fadein/wallpaper")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/KDE4.qml ${d}/Plasma5.qml ${d}/GnomeUnity.qml ${d}/XFCE4.qml ${d}/Enlightenment.qml)
