@@ -20,7 +20,7 @@ FadeInTemplate {
 			text: qsTr("Filter images in current directory")
 			color: colour.text
 			font.bold: true
-			font.pointSize: 18
+			font.pointSize: 30
 			x: (filter_top.contentWidth-width)/2
 		},
 
@@ -35,14 +35,14 @@ FadeInTemplate {
 			text: qsTr("Enter here the term you want to search for. Separate multiple terms by a space.")
 			x: (filter_top.contentWidth-width)/2
 			color: colour.text
-			font.pointSize: 10
+			font.pointSize: 12
 		},
 
 		Text {
 			text: qsTr("If you want to limit a term to file extensions, prepend a dot '.' to the term.")
 			x: (filter_top.contentWidth-width)/2
 			color: colour.text
-			font.pointSize: 10
+			font.pointSize: 12
 		},
 
 		Rectangle {
@@ -54,7 +54,8 @@ FadeInTemplate {
 		CustomLineEdit {
 
 			id: term
-			width: 400
+			width: Math.min(filter_top.contentWidth/2,500)
+			height: 35
 			x: (filter_top.contentWidth-width)/2
 
 		},
@@ -87,6 +88,7 @@ FadeInTemplate {
 				CustomButton {
 					id: enter
 					text: qsTr("Filter")
+					fontsize: 15
 					onClickedButton: {
 						verboseMessage("Filter","Accept filter")
 						simulateEnter()
@@ -95,6 +97,7 @@ FadeInTemplate {
 
 				CustomButton {
 					text: qsTr("Cancel")
+					fontsize: 15
 					onClickedButton: {
 						verboseMessage("Filter","Cancel filter")
 						hideFilter()
@@ -110,7 +113,7 @@ FadeInTemplate {
 				CustomButton {
 					id: remove
 					text: qsTr("Remove Filter")
-					fontsize: 10
+					fontsize: 13
 					enabled: currentfilter != ""
 					y: (parent.height-height)/2
 					onClickedButton: {
