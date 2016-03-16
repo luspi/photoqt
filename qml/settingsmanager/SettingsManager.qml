@@ -263,6 +263,27 @@ Rectangle {
 
 	}
 
+	// This button closes the SettingsManager dialog -> it is displayed to the RIGHT of the tabbar, in the top right corner
+	Image {
+
+		id: closeopenfile
+
+		anchors.right: parent.right
+		anchors.top: parent.top
+
+		source: "qrc:/img/closingx.png"
+		sourceSize: Qt.size(3*settings.closeXsize,3*settings.closeXsize)
+
+		ToolTip {
+			anchors.fill: parent
+			hoverEnabled: true
+			cursorShape: Qt.PointingHandCursor
+			onClicked: hideSettings()
+			text: qsTr("Close SettingsManager")
+		}
+
+	}
+
 	CustomConfirm {
 		fillAnchors: settings_top
 		id: confirmclean
