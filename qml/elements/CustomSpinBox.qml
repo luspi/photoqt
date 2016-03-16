@@ -4,6 +4,8 @@ import QtQuick.Controls.Styles 1.2
 
 SpinBox {
 
+	font.pixelSize: height/2
+
 	style: SpinBoxStyle{
 		background: Rectangle {
 			implicitWidth: 50
@@ -33,7 +35,7 @@ SpinBox {
 			color: control.enabled ? colour.text : colour.text_disabled
 			Behavior on color { ColorAnimation { duration: 150; } }
 			y: -height/3
-			x: -2
+			x: width/25
 			font.pixelSize: control.height*2/3
 			text: "+"
 		}
