@@ -3,6 +3,33 @@
 GetAndDoStuffManipulation::GetAndDoStuffManipulation(QObject *parent) : QObject(parent) { }
 GetAndDoStuffManipulation::~GetAndDoStuffManipulation() { }
 
+bool GetAndDoStuffManipulation::canBeScaled(QString filename) {
+
+	// These image formats known by exiv2 are also supported by PhotoQt
+	QStringList formats;
+	formats << "jpeg"
+		<< "jpg"
+		<< "tif"
+		<< "tiff"
+		<< "png"
+		<< "psd"
+		<< "jpeg2000"
+		<< "jp2"
+		<< "jpc"
+		<< "j2k"
+		<< "jpf"
+		<< "jpx"
+		<< "jpm"
+		<< "mj2"
+		<< "bmp"
+		<< "bitmap"
+		<< "gif"
+		<< "tga";
+
+	return formats.contains(QFileInfo(filename).suffix().toLower());
+
+}
+
 bool GetAndDoStuffManipulation::scaleImage(QString filename, int width, int height, int quality, QString newfilename) {
 
 	// These image formats known by exiv2 are also supported by PhotoQt

@@ -26,6 +26,7 @@ public:
 	explicit GetAndDoStuffManipulation(QObject *parent = 0);
 	~GetAndDoStuffManipulation();
 
+	bool canBeScaled(QString filename);
 	bool scaleImage(QString filename, int width, int height, int quality, QString newfilename);
 	void deleteImage(QString filename, bool trash);
 	bool renameImage(QString oldfilename, QString newfilename);
