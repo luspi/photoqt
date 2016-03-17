@@ -9,7 +9,7 @@ ComboBox {
 	property string backgroundColor: ""
 	property bool displayAsError: false
 	property bool showBorder: true
-	property string tooltip: ""
+	property string tooltip: currentText
 	property int radius: 0
 
 	style: ComboBoxStyle {

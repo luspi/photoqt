@@ -13,6 +13,8 @@ Rectangle {
 	property string text: ed1.text
 	property int fontsize: 10
 
+	property string tooltip: ""
+
 	// This message is displayed in the background when the TextEdit is empty
 	property string emptyMessage: ""
 
@@ -55,7 +57,9 @@ Rectangle {
 
 		onTextChanged: parent.textEdited()
 
-		MouseArea {
+		ToolTip {
+
+			text: parent.parent.tooltip
 
 			property bool held: false
 

@@ -6,6 +6,8 @@ Slider {
 
 	property int scrollStep: 3
 
+	property string tooltip: ""
+
 	style: SliderStyle {
 		groove: Rectangle {
 			implicitWidth: 200
@@ -28,7 +30,9 @@ Slider {
 		}
 	}
 
-	MouseArea {
+	ToolTip {
+		id: tooltip
+		text: parent.tooltip
 		anchors.fill: parent
 		cursorShape: (parent.pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor)
 		propagateComposedEvents: true

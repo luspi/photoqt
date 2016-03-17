@@ -7,6 +7,7 @@ Rectangle {
 	id: rect
 
 	property string text: ""
+	property string tooltip: text
 
 	property bool checked: false
 	property bool hovered: false
@@ -40,8 +41,9 @@ Rectangle {
 	}
 
 	// A mouseares governing the hover/checked look
-	MouseArea {
+	ToolTip {
 
+		text: parent.tooltip
 		anchors.fill: rect
 		cursorShape: Qt.PointingHandCursor
 		hoverEnabled: true

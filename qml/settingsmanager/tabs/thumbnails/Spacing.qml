@@ -15,7 +15,7 @@ EntryContainer {
 
 			id: entrytitle
 
-			title: "Spacing Between Thumbnails dfdfdwf dfsdgffsd ghdfghdf"
+			title: "Spacing Between Thumbnails"
 			helptext: "The thumbnails are shown in a row at the lower or upper edge (depending on your setup). They are lined up side by side. Per default, there's no empty space between them, however exactly that can be changed here."
 
 		}

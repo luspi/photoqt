@@ -10,8 +10,9 @@ Item {
 	// Some properties that can be adjusted from parent
 	property bool checkedButton: false
 	property string text: ""
+	property string tooltip: text
 	property int fsize: 10
-	property string textColour: colour.text
+	property string textColour: (enabled ? colour.text : colour.text_disabled)
 	property int elide: Text.ElideNone
 
 	property int fixedwidth: -1
@@ -94,7 +95,8 @@ Item {
 	}
 
 	// Change cursor and catch click on whole container
-	MouseArea {
+	ToolTip {
+		text: parent.tooltip
 		anchors.fill: parent
 		cursorShape: Qt.PointingHandCursor
 		onClicked: checkedButton = !checkedButton

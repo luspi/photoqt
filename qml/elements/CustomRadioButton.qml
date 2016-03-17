@@ -11,6 +11,7 @@ RadioButton {
 	property string indicatorBackgroundColourEnabled: colour.radio_check_indicator_bg_color
 	property int fontsize: 10
 	property string textColour: colour.text
+	property string tooltip: text
 
 	style: RadioButtonStyle {
 		indicator: Rectangle {
@@ -53,7 +54,8 @@ RadioButton {
 		}
 	}
 
-	MouseArea {
+	ToolTip {
+		text: parent.tooltip
 		anchors.fill: parent
 		cursorShape: Qt.PointingHandCursor
 		onClicked: parent.checked = true

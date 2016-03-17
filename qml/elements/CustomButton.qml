@@ -12,6 +12,7 @@ Button {
 	property string overrideFontColor: ""
 	property string overrideBackgroundColor: ""
 	property int wrapMode: Text.NoWrap
+	property string tooltip: text
 
 	height: 2.5*fontsize
 

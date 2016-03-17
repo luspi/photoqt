@@ -14,6 +14,8 @@ Rectangle {
 
 	property string text: ed1.text
 
+	property string tooltip: ""
+
 	signal textEdited()
 
 	TextEdit {
@@ -32,7 +34,9 @@ Rectangle {
 
 		onTextChanged: parent.textEdited()
 
-		MouseArea {
+		ToolTip {
+
+			text: parent.parent.tooltip
 
 			property bool held: false
 
