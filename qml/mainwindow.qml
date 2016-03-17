@@ -63,19 +63,6 @@ Item {
 	readonly property int global_element_radius: 10
 	readonly property int global_item_radius: 5
 
-	// GLOBAL FONT SIZE SETTINGS
-	// An attempt to use global variables for font-sizes failed
-	// as this resulted in numerous mysterious and unexplainable
-	// 'QFont::setPointSizeF: Point size <= 0 (0.000000), must be greater than 0'
-	// that I have no idea where they came from...
-	// SO, BECAUSE OF THIS
-	// Use these font point sizes directly in the code:
-	// tiles = 8
-	// normal = 10
-	// large = 13
-	// header = 15
-	// title = 18
-
 
 	// When the slidein widgets are not visible, then they are moved away a safety distance,
 	// otherwise they might be visible for a fraction of a second when resizing the windowChanged
@@ -177,21 +164,7 @@ Item {
 
 	////////////////////////////
 
-
-//	GaussianBlur {
-//		id: blur_BELOW_mainmenu
-//		anchors.fill: mainmenu
-//		visible: opacity != 0
-//		opacity: 0
-//		samples: settings.blurIntensity*2
-//		radius: settings.blurIntensity*4
-//		Behavior on opacity { NumberAnimation { duration: 250 } }
-//		source: ShaderEffectSource {
-//			sourceItem: mainview
-//			// The small decrease in width prevents a narrow margin on the right with no blur (as it borders transparency)
-//			sourceRect: Qt.rect(mainmenu.x, 0, blur_BELOW_mainmenu.width-settings.blurIntensity, blur_BELOW_mainmenu.height)
-//		}
-//	}
+	// The mainmenu bar on the right
 	MainMenu { id: mainmenu; }
 	GaussianBlur {
 		id: blur_mainmenu
@@ -207,19 +180,6 @@ Item {
 	////////////////////////////
 
 	// MetaData of the image (using the C++ Exiv2 library)
-//	GaussianBlur {
-//		id: blur_BELOW_metadata
-//		anchors.fill: metaData
-//		visible: opacity != 0 && metaData.nonFloatWidth==0
-//		opacity: 0
-//		samples: settings.blurIntensity*2
-//		radius: settings.blurIntensity*4
-//		Behavior on opacity { NumberAnimation { duration: 250 } }
-//		source: ShaderEffectSource {
-//			sourceItem: mainview
-//			sourceRect: Qt.rect(0, 0, blur_BELOW_metadata.width, blur_BELOW_metadata.height)
-//		}
-//	}
 	MetaData { id: metaData; }
 	GaussianBlur {
 		id: blur_metadata
