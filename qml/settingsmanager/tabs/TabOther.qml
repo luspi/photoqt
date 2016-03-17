@@ -50,7 +50,7 @@ Rectangle {
 			Text {
 				width: flickable.width
 				color: "white"
-				font.pointSize: 10
+				font.pointSize: 9
 				text: qsTr("Move your mouse cursor over the different settings titles to see more information.")
 				horizontalAlignment: Text.AlignHCenter
 			}
