@@ -61,23 +61,31 @@ EntryContainer {
 
 	function setData() {
 
-		var items = [["filesize","Filesize", settings.exiffilesize],
-					["dimensions","Dimensions", settings.exifdimensions],
-					["make","Make", settings.exifmake],
-					["model","Model",settings.exifmodel],
-					["software","Software",settings.exifsoftware],
-					["time","Time Photo was Taken",settings.exifphototaken],
-					["exposure","Exposure Time",settings.exifexposuretime],
-					["flash","Flash",settings.exifflash],
-					["iso","ISO",settings.exifiso],
-					["scenetype","Scene Type",settings.exifscenetype],
-					["focal","Focal Length",settings.exifflength],
-					["fnumber","F-Number",settings.exiffnumber],
-					["light","Light Source",settings.exiflightsource],
-					["keywords","Keywords",settings.iptckeywords],
-					["location","Location",settings.iptclocation],
-					["copyright","Copyright",settings.iptccopyright],
-					["gps","GPS Position",settings.exifgps]]
+		var items;
+
+		if(getanddostuff.isExivSupportEnabled())
+
+			items = [["filesize","Filesize", settings.exiffilesize],
+						["dimensions","Dimensions", settings.exifdimensions],
+						["make","Make", settings.exifmake],
+						["model","Model",settings.exifmodel],
+						["software","Software",settings.exifsoftware],
+						["time","Time Photo was Taken",settings.exifphototaken],
+						["exposure","Exposure Time",settings.exifexposuretime],
+						["flash","Flash",settings.exifflash],
+						["iso","ISO",settings.exifiso],
+						["scenetype","Scene Type",settings.exifscenetype],
+						["focal","Focal Length",settings.exifflength],
+						["fnumber","F-Number",settings.exiffnumber],
+						["light","Light Source",settings.exiflightsource],
+						["keywords","Keywords",settings.iptckeywords],
+						["location","Location",settings.iptclocation],
+						["copyright","Copyright",settings.iptccopyright],
+						["gps","GPS Position",settings.exifgps]]
+
+		else
+			items = [["filesize","Filesize", settings.exiffilesize],
+						["dimensions","Dimensions", settings.exifdimensions]]
 
 		grid.metadataitems = items
 
@@ -87,21 +95,41 @@ EntryContainer {
 
 		settings.exiffilesize = grid.metadachecked["filesize"]
 		settings.exifdimensions = grid.metadachecked["dimensions"]
-		settings.exifmake = grid.metadachecked["make"]
-		settings.exifmodel = grid.metadachecked["model"]
-		settings.exifsoftware = grid.metadachecked["software"]
-		settings.exifphototaken = grid.metadachecked["time"]
-		settings.exifexposuretime = grid.metadachecked["exposure"]
-		settings.exifflash = grid.metadachecked["flash"]
-		settings.exifiso = grid.metadachecked["iso"]
-		settings.exifscenetype = grid.metadachecked["scenetype"]
-		settings.exifflength = grid.metadachecked["focal"]
-		settings.exiffnumber = grid.metadachecked["fnumber"]
-		settings.exiflightsource = grid.metadachecked["light"]
-		settings.iptckeywords = grid.metadachecked["keywords"]
-		settings.iptclocation = grid.metadachecked["location"]
-		settings.iptccopyright = grid.metadachecked["copyright"]
-		settings.exifgps = grid.metadachecked["gps"]
+		if(getanddostuff.isExivSupportEnabled()) {
+			settings.exifmake = grid.metadachecked["make"]
+			settings.exifmodel = grid.metadachecked["model"]
+			settings.exifsoftware = grid.metadachecked["software"]
+			settings.exifphototaken = grid.metadachecked["time"]
+			settings.exifexposuretime = grid.metadachecked["exposure"]
+			settings.exifflash = grid.metadachecked["flash"]
+			settings.exifiso = grid.metadachecked["iso"]
+			settings.exifscenetype = grid.metadachecked["scenetype"]
+			settings.exifflength = grid.metadachecked["focal"]
+			settings.exiffnumber = grid.metadachecked["fnumber"]
+			settings.exiflightsource = grid.metadachecked["light"]
+			settings.iptckeywords = grid.metadachecked["keywords"]
+			settings.iptclocation = grid.metadachecked["location"]
+			settings.iptccopyright = grid.metadachecked["copyright"]
+			settings.exifgps = grid.metadachecked["gps"]
+		} else {
+			// If PhotoQt was compiled WITHOUT Exiv2 support, we set the setting values to true,
+			// so that if a version is installed/compiled WITH support, they are enabled by default
+			settings.exifmake = true
+			settings.exifmodel = true
+			settings.exifsoftware = true
+			settings.exifphototaken = true
+			settings.exifexposuretime = true
+			settings.exifflash = true
+			settings.exifiso = true
+			settings.exifscenetype = true
+			settings.exifflength = true
+			settings.exiffnumber = true
+			settings.exiflightsource = true
+			settings.iptckeywords = true
+			settings.iptclocation = true
+			settings.iptccopyright = true
+			settings.exifgps = true
+		}
 
 	}
 
