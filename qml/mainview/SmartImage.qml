@@ -1007,4 +1007,8 @@ Rectangle {
 
 	}
 
+	function setInteractiveMode(enabled) {
+		flickarea.interactive = enabled
+	}
+
 }

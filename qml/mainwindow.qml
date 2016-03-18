@@ -77,7 +77,6 @@ Item {
 	// PURPOSE                                     //
 	/////////////////////////////////////////////////
 
-
 	// Access to the permanent settings file (~/.photoqt/settings)
 	Settings {
 		id: settings;
@@ -249,6 +248,9 @@ Item {
 	function detectedKeyCombo(combo) { sh.detectedKeyCombo(combo); settingsmanager.setCurrentKeyCombo(combo) }
 	function keysReleased(combo) { settingsmanager.keysReleased(); sh.releasedKeys(combo); }
 	function mouseWheelEvent(combo) { sh.gotMouseShortcut(combo); }
+
+	function setImageInteractiveMode(enabled) { mainview.setInteractiveMode(enabled) }
+	function touchEvent(startPoint, endPoint, duration, numFingers, gesture) { sh.gotTouchGesture(startPoint,endPoint,duration,numFingers,gesture) }
 
 	function showStartup(type) { startup.showStartup(type); }
 

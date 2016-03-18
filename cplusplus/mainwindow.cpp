@@ -12,6 +12,7 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 	fileformats = new FileFormats(verbose);
 	variables = new Variables;
 	shortcuts = new Shortcuts;
+	touch = new TouchHandler;
 
 	variables->verbose = verbose;
 
@@ -69,6 +70,10 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 
 	connect(this, SIGNAL(xChanged(int)), this, SLOT(updateWindowXandY()));
 	connect(this, SIGNAL(yChanged(int)), this, SLOT(updateWindowXandY()));
+
+	// Pass on touchevent
+	connect(touch, SIGNAL(receivedTouchEvent(QPointF,QPointF,qint64,int,QStringList)), this, SLOT(passOnTouchEvent(QPointF,QPointF,qint64,int,QStringList)));
+	connect(touch, SIGNAL(setImageInteractiveMode(bool)), this, SLOT(setImageInteractiveMode(bool)));
 
 	showTrayIcon();
 
@@ -429,7 +434,9 @@ bool MainWindow::event(QEvent *e) {
 
 		}
 
-	}
+	} else if(e->type() == QEvent::TouchBegin || e->type() == QEvent::TouchUpdate || e->type() == QEvent::TouchEnd)
+		touch->handle(e);
+
 
 	return QQuickWindow::event(e);
 

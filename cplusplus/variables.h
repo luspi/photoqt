@@ -12,8 +12,8 @@ public:
 		verbose = false;
 		loadedThumbnails.clear();
 		currentDir = "";
-        geometryWhenHiding = QRect();
-        skipSystemTrayAndQuit = false;
+		geometryWhenHiding = QRect();
+		skipSystemTrayAndQuit = false;
 		trayiconSetup = false;
 		trayiconVisible = false;
 		hiddenToTrayIcon = false;
@@ -27,8 +27,8 @@ public:
 	QList<int> loadedThumbnails;
 	QString currentDir;
 
-    QRect geometryWhenHiding;
-    bool skipSystemTrayAndQuit;
+	QRect geometryWhenHiding;
+	bool skipSystemTrayAndQuit;
 	bool trayiconSetup;
 	bool trayiconVisible;
 	bool hiddenToTrayIcon;

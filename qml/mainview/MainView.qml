@@ -358,4 +358,8 @@ Item {
 		return image.isZoomed()
 	}
 
+	function setInteractiveMode(enabled) {
+		image.setInteractiveMode(enabled)
+	}
+
 }

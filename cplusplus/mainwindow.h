@@ -11,6 +11,7 @@
 #include <QSystemTrayIcon>
 
 #include "logger.h"
+#include "touchhandler.h"
 #include "scripts/getanddostuff.h"
 #include "scripts/getmetadata.h"
 #include "scripts/thumbnailsmanagement.h"
@@ -79,6 +80,10 @@ private:
 
 	int overrideCursorHowOftenSet;
 
+
+	TouchHandler *touch;
+
+
 private slots:
 
 	void handleThumbnails(QVariant centerPos);
@@ -90,9 +95,9 @@ private slots:
 	void showTrayIcon();
 	void hideTrayIcon();
 
-    void hideToSystemTray();
-    void quitPhotoQt();
-    void trayAction(QSystemTrayIcon::ActivationReason reason);
+	void hideToSystemTray();
+	void quitPhotoQt();
+	void trayAction(QSystemTrayIcon::ActivationReason reason);
 
 	void remoteAction(QString cmd);
 
@@ -104,6 +109,11 @@ private slots:
 
 	void setOverrideCursor() { ++overrideCursorHowOftenSet; qApp->setOverrideCursor(Qt::WaitCursor); }
 	void restoreOverrideCursor() { for(int i = 0; i < overrideCursorHowOftenSet; ++i) qApp->restoreOverrideCursor(); overrideCursorHowOftenSet = 0; }
+
+	void passOnTouchEvent(QPointF startPoint, QPointF endPoint, qint64 duration, int numFingers, QStringList gesture) {
+		QMetaObject::invokeMethod(object, "touchEvent", Q_ARG(QVariant, startPoint), Q_ARG(QVariant, endPoint), Q_ARG(QVariant, duration), Q_ARG(QVariant, numFingers), Q_ARG(QVariant, gesture));
+	}
+	void setImageInteractiveMode(bool enabled) { QMetaObject::invokeMethod(object, "setImageInteractiveMode", Q_ARG(QVariant, enabled)); }
 
 protected:
 	bool event(QEvent *e);

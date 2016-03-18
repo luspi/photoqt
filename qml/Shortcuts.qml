@@ -214,6 +214,8 @@ Item {
 
 	function gotMouseShortcut(sh) {
 
+		background.hideEverything()
+
 		takeWheelEventAsShortcut = true;
 
 		verboseMessage("Shortcuts::gotMouseShortcut()", sh + " - " + blocked + "/" + blockedSystem + "/" + softblocked)
@@ -273,6 +275,36 @@ Item {
 				execute(shortcutfile[shortcut][1],shortcutfile[shortcut][0],true);
 		else
 			takeWheelEventAsShortcut = false
+
+	}
+
+	function gotTouchGesture(startPoint, endPoint, duration, numFingers, gesture) {
+
+		var dx = endPoint.x-startPoint.x
+		var dy = endPoint.y-startPoint.y
+
+		if(gesture.length === 1 && numFingers === 1) {
+			if(startPoint.x > background.width-100 && gesture[0] === "W") {
+				mainmenu.show()
+				return
+			} else if(startPoint.x < 100 && gesture[0] === "E") {
+				metaData.show()
+				return
+			} else if(startPoint.y > background.height-100 && gesture[0] === "N") {
+				thumbnailBar.show()
+				return
+			}
+		}
+
+		if(gesture.length === 1 && numFingers === 1 && duration < 300 && thumbnailBar.currentFile != "") {
+			if(gesture[0] === "E") {
+				nextImage()
+				return
+			} else if(gesture[0] === "W") {
+				previousImage()
+				return
+			}
+		}
 
 	}
 
