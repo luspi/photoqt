@@ -13,7 +13,7 @@ EntryContainer {
 
 		EntryTitle {
 
-			title: "Show Quickinfo (Text Labels)"
+			title: qsTr("Show Quickinfo (Text Labels)")
 			helptext: qsTr("Here you can hide the text labels shown in the main area: The Counter in the top left corner, the file path/name following the counter, and the \"X\" displayed in the top right corner. The labels can also be hidden by simply right-clicking on them and selecting \"Hide\".")
 
 		}

@@ -57,7 +57,7 @@ Rectangle {
 		font.pointSize: 15
 		color: colour.text
 		font.bold: true
-		text: "Main Menu"
+		text: qsTr("Main Menu")
 
 	}
 

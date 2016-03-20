@@ -16,7 +16,7 @@ EntryContainer {
 		EntryTitle {
 
 			id: title
-			title: "Language"
+			title: qsTr("Language")
 			helptext: qsTr("There are a good few different languages available. Thanks to everybody who took the time to translate PhotoQt!")
 
 		}

@@ -15,7 +15,7 @@ EntryContainer {
 
 			id: entrytitle
 
-			title: "Size of 'Hot Edge'"
+			title: qsTr("Size of 'Hot Edge'")
 			helptext: qsTr("Here you can adjust the sensitivity of the drop-down menu. The menu opens when your mouse cursor gets close to the right side of the upper edge. Here you can adjust how close you need to get for it to open.")
 
 		}

@@ -16,7 +16,7 @@ EntryContainer {
 		EntryTitle {
 
 			id: title
-			title: "What Information"
+			title: qsTr("Meta Information")
 			helptext: qsTr("PhotoQt can display a number of information about the image (often called 'Exif data'). However, you might not be interested in all of them, hence you can choose to disable some of them here.")
 
 		}
@@ -65,27 +65,27 @@ EntryContainer {
 
 		if(getanddostuff.isExivSupportEnabled())
 
-			items = [["filesize","Filesize", settings.exiffilesize],
-						["dimensions","Dimensions", settings.exifdimensions],
-						["make","Make", settings.exifmake],
-						["model","Model",settings.exifmodel],
-						["software","Software",settings.exifsoftware],
-						["time","Time Photo was Taken",settings.exifphototaken],
-						["exposure","Exposure Time",settings.exifexposuretime],
-						["flash","Flash",settings.exifflash],
+			items = [["filesize",qsTr("Filesize"), settings.exiffilesize],
+						["dimensions",qsTr("Dimensions"), settings.exifdimensions],
+						["make",qsTr("Make"), settings.exifmake],
+						["model",qsTr("Model"),settings.exifmodel],
+						["software",qsTr("Software"),settings.exifsoftware],
+						["time",qsTr("Time Photo was Taken"),settings.exifphototaken],
+						["exposure",qsTr("Exposure Time"),settings.exifexposuretime],
+						["flash",qsTr("Flash"),settings.exifflash],
 						["iso","ISO",settings.exifiso],
-						["scenetype","Scene Type",settings.exifscenetype],
-						["focal","Focal Length",settings.exifflength],
-						["fnumber","F-Number",settings.exiffnumber],
-						["light","Light Source",settings.exiflightsource],
-						["keywords","Keywords",settings.iptckeywords],
-						["location","Location",settings.iptclocation],
-						["copyright","Copyright",settings.iptccopyright],
-						["gps","GPS Position",settings.exifgps]]
+						["scenetype",qsTr("Scene Type"),settings.exifscenetype],
+						["focal",qsTr("Focal Length"),settings.exifflength],
+						["fnumber",qsTr("F-Number"),settings.exiffnumber],
+						["light",qsTr("Light Source"),settings.exiflightsource],
+						["keywords",qsTr("Keywords"),settings.iptckeywords],
+						["location",qsTr("Location"),settings.iptclocation],
+						["copyright",qsTr("Copyright"),settings.iptccopyright],
+						["gps",qsTr("GPS Position"),settings.exifgps]]
 
 		else
-			items = [["filesize","Filesize", settings.exiffilesize],
-						["dimensions","Dimensions", settings.exifdimensions]]
+			items = [["filesize",qsTr("Filesize"), settings.exiffilesize],
+						["dimensions",qsTr("Dimensions"), settings.exifdimensions]]
 
 		grid.metadataitems = items
 

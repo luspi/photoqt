@@ -41,7 +41,7 @@ Rectangle {
 				color: "white"
 				font.pointSize: 20
 				font.bold: true
-				text: "Thumbnails"
+				text: qsTr("Thumbnails")
 				horizontalAlignment: Text.AlignHCenter
 			}
 

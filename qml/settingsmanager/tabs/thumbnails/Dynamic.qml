@@ -14,7 +14,7 @@ EntryContainer {
 
 		EntryTitle {
 
-			title: "Dynamic Thumbnails"
+			title: qsTr("Dynamic Thumbnails")
 			helptext: qsTr("Dynamic thumbnail creation means, that PhotoQt only sets up those thumbnail images that are actually needed, i.e. it stops once it reaches the end of the visible area and sits idle until you scroll left/right.") + "<br>" +qsTr("Smart thumbnails are similar in nature. However, they make use of the fast, that once a thumbnail has been created, it can be loaded very quickly and efficiently. It also first loads all of the currently visible thumbnails, but it doesn't stop there: Any thumbnails (even if invisible at the moment) that once have been created are loaded. This is a nice compromise between efficiency and usability.") + "<br><br>" + qsTr("Enabling either the smart or dynamic option is recommended, as it increases the performance of PhotoQt significantly, while preserving the usability.")
 
 		}

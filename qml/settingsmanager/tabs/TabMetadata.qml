@@ -41,7 +41,7 @@ Rectangle {
 				color: "white"
 				font.pointSize: 20
 				font.bold: true
-				text: "Image Metadata"
+				text: qsTr("Image Metadata")
 				horizontalAlignment: Text.AlignHCenter
 			}
 

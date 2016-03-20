@@ -28,7 +28,7 @@ FadeInTemplate {
 				wrapMode: Text.WordWrap
 				width: Math.min(background.width/2,500)
 				lineHeight: 1.1
-				text: qsTr("Sorry, this fileformat can currently not be scaled with PhotoQt!")
+				text: qsTr("Sorry, this fileformat cannot be scaled with PhotoQt yet!")
 			}
 		},
 

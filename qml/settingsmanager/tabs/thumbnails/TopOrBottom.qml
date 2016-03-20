@@ -14,7 +14,7 @@ EntryContainer {
 
 		EntryTitle {
 
-			title: "Top or Bottom"
+			title: qsTr("Top or Bottom")
 			helptext: qsTr("Per default the bar with the thumbnails is shown at the lower edge. However, some might find it nice and handy to have the thumbnail bar at the upper edge, so that's what can be changed here.")
 
 		}

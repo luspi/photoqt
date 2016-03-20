@@ -13,7 +13,7 @@ EntryContainer {
 
 		EntryTitle {
 
-			title: "Click on Empty Area"
+			title: qsTr("Click on Empty Area")
 			helptext: qsTr("This option makes PhotoQt behave a bit like the JavaScript image viewers you find on many websites. A click outside of the image on the empty background will close the application. It can be a nice feature, PhotoQt will feel even more like a \"floating layer\". However, you might at times close PhotoQt accidentally.") + "<br><br>" + qsTr("Note: If you use a mouse click for a shortcut already, then this option wont have any effect!")
 
 		}

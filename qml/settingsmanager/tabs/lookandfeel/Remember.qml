@@ -13,7 +13,7 @@ EntryContainer {
 
 		EntryTitle {
 
-			title: "Remember per session"
+			title: qsTr("Remember per session")
 			helptext: qsTr("If you would like PhotoQt to remember the rotation/flipping and/or zoom level per session (not permanent), then you can enable it here. If not set, then every time a new image is displayed, it is displayed neither zoomed nor rotated nor flipped (one could say, it is displayed 'normal').")
 
 		}

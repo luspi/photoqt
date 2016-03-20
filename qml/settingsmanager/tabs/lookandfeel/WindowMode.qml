@@ -13,7 +13,7 @@ EntryContainer {
 
 		EntryTitle {
 
-			title: "Window Mode"
+			title: qsTr("Window Mode")
 			helptext: qsTr("PhotoQt is designed with the space of a fullscreen app in mind. That's why it by default runs as fullscreen. However, some might prefer to have it as a normal window, e.g. so that they can see the panel.")
 
 		}

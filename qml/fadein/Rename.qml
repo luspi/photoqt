@@ -84,7 +84,7 @@ FadeInTemplate {
 			Row {
 				spacing: 5
 				CustomButton {
-					text: "Save"
+					text: qsTr("Save")
 					fontsize: 18
 					enabled: newfilename.getText() !== ""
 					onClickedButton: {

@@ -16,7 +16,7 @@ EntryContainer {
 
 			id: entrytitle
 
-			title: "Closing 'X' (top right corner)"
+			title: qsTr("Closing 'X' (top right corner)")
 			helptext: qsTr("There are two looks for the closing 'x' at the top right: a plain 'x', or a slightly more fancy 'x'. Here you can switch back and forth between both of them, and also change their size. If you prefer not to have a closing 'x' at all, see further down for an option to hide it completely.")
 
 		}
@@ -32,12 +32,12 @@ EntryContainer {
 
 				CustomRadioButton {
 					id: closingx_fancy
-					text: "Normal"
+					text: qsTr("Normal")
 					exclusiveGroup: clo
 				}
 				CustomRadioButton {
 					id: closingx_normal
-					text: "Plain"
+					text: qsTr("Plain")
 					exclusiveGroup: clo
 					checked: true
 				}

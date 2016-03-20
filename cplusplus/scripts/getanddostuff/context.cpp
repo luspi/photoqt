@@ -12,13 +12,13 @@ QStringList GetAndDoStuffContext::setDefaultContextMenuEntries() {
 	// These are the possible entries
 	QStringList m;
 	m << tr("Edit with") + " Gimp" << "gimp %f"
-		<< "Edit with Krita" << "krita %f"
-		<< "Edit with KolourPaint" << "kolourpaint %f"
+		<< tr("Edit with") + " Krita" << "krita %f"
+		<< tr("Edit with") + " KolourPaint" << "kolourpaint %f"
 		<< tr("Open in") + " GwenView" << "gwenview %f"
-		<< "Open in showFoto" << "showfoto %f"
-		<< "Open in Shotwell" << "shotwell %f"
-		<< "Open in GThumb" << "gthumb %f"
-		<< "Open in Eye of Gnome" << "eog %f";
+		<< tr("Open in") + " showFoto" << "showfoto %f"
+		<< tr("Open in") + " Shotwell" << "shotwell %f"
+		<< tr("Open in") + " GThumb" << "gthumb %f"
+		<< tr("Open in") + " Eye of Gnome" << "eog %f";
 
 	QStringList ret;
 	QVariantList forsaving;

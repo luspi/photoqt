@@ -14,7 +14,7 @@ EntryContainer {
 
 		EntryTitle {
 
-			title: "Opacity"
+			title: qsTr("Opacity")
 			helptext: qsTr("By default, the metadata widget is overlapping the main image, thus you might prefer a different alpha value for opacity to increase/decrease readability. Values can be in the range of 0-255.")
 
 		}

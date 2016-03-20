@@ -66,7 +66,7 @@ Rectangle {
 				spacing: 5
 				height: childrenRect.height
 				delegate: CustomCheckBox {
-					text: qsTr("Screen #") + index
+					text: qsTr("Screen") + " #" + index
 					checkedButton: true
 					fsize: 10
 					Component.onCompleted: {
@@ -121,10 +121,10 @@ Rectangle {
 				delegate: CustomCheckBox {
 					text: {
 						if(row == -1)
-							return qsTr("Workspace #") + column
+							return qsTr("Workspace") + " #" + column
 						if(column == -1)
-							return qsTr("Workspace #") + row
-						return qsTr("Workspace #") + row + "-" + column
+							return qsTr("Workspace") + " #" + row
+						return qsTr("Workspace") + " #" + row + "-" + column
 					}
 					checkedButton: true
 					fsize: 10

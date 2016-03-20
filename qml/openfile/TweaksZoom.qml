@@ -43,6 +43,7 @@ Rectangle {
 		tickmarksEnabled: true
 		stepSize: 1
 		scrollStep: 1
+		tooltip: qsTr("Move slider to adjust the size of the files")
 		value: settings.openZoomLevel
 		onValueChanged: {
 			saveZoomLevel.start()

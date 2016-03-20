@@ -16,7 +16,7 @@ EntryContainer {
 		EntryTitle {
 
 			id: title
-			title: qsTr("File Formats") + ":<br>&gt; Extras"
+			title: qsTr("File Formats") + ":<br>&gt; " + qsTr("Extras")
 			helptext: qsTr("The following filetypes are supported by means of other third party tools. You first need to install them before you can use them.") + "<br><br><b>" + qsTr("Note") + "</b>: " + qsTr("If an image format is also provided by GraphicsMagick/Qt, then PhotoQt first chooses the external tool (if enabled).")
 
 		}
@@ -72,8 +72,8 @@ EntryContainer {
 		// Get current settings
 		var setformats = fileformats.formats_extras
 
-		var extras = [["Gimp's XCF file format","*.xcf","Uses 'xcftools'"],
-					  ["Adobe Photoshop PSD and PSB","*.psb", "*.psd","Uses 'libqpsd'"]]
+		var extras = [[qsTr("Gimp's XCF file format"),"*.xcf",qsTr("Uses") + " 'xcftools'"],
+					  [qsTr("Adobe Photoshop PSD and PSB"),"*.psb", "*.psd",qsTr("Uses") + " 'libqpsd'"]]
 
 		for(var i = 0; i < extras.length; ++i) {
 

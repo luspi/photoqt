@@ -39,7 +39,7 @@ Rectangle {
 		font.pointSize: 15
 		color: colour.text
 		font.bold: true
-		text: "Metadata"
+		text: qsTr("Metadata")
 
 	}
 

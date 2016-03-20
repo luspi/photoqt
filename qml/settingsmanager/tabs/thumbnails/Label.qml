@@ -16,7 +16,7 @@ EntryContainer {
 
 			id: entrytitle
 
-			title: "Label on Thumbnails"
+			title: qsTr("Label on Thumbnails")
 			helptext:  qsTr("When thumbnails are displayed at the top/bottom, PhotoQt usually writes the filename on them (if not disabled). You can also use the slider below to adjust the font size.")
 
 		}
@@ -44,7 +44,7 @@ EntryContainer {
 					y: (parent.height-height)/2
 					enabled: writefilename.checkedButton
 					opacity: enabled ? 1 : 0.5
-					text: "Fontsize:"
+					text: qsTr("Fontsize") + ":"
 				}
 
 				CustomSlider {

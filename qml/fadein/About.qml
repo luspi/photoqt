@@ -7,7 +7,7 @@ FadeInTemplate {
 
 	id: about
 
-	heading: "About PhotoQt"
+	heading: qsTr("About PhotoQt")
 
 	content: [
 
@@ -106,7 +106,7 @@ FadeInTemplate {
 			y: 5
 			height: 30
 
-			text: "Okay I got enough of that"
+			text: qsTr("Okay I got enough of that")
 			onClickedButton: hideAbout()
 
 		}

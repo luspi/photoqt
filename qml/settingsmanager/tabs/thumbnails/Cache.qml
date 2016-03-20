@@ -14,7 +14,7 @@ EntryContainer {
 
 		EntryTitle {
 
-			title: "Thumbnail Cache"
+			title: qsTr("Thumbnail Cache")
 			helptext: qsTr("Thumbnails can be cached in two different ways:<br>1) File Caching (following the freedesktop.org standard) or<br>2) Database Caching (better performance and management, default option).") + "<br><br>" + qsTr("Both ways have their advantages and disadvantages:") + "<br>" + qsTr("File Caching is done according to the freedesktop.org standard and thus different applications can share the same thumbnail for the same image file. However, it's not possible to check for obsolete thumbnails (thus this may lead to many unneeded thumbnail files).") + "<br>" + qsTr("Database Caching doesn't have the advantage of sharing thumbnails with other applications (and thus every thumbnails has to be newly created for PhotoQt), but it brings a slightly better performance, and it allows a better handling of existing thumbnails (e.g. deleting obsolete thumbnails).") + "<br><br>" + qsTr("PhotoQt works with either option, though the second way is set as default.") + "<br><br>" + qsTr("Although everybody is encouraged to use at least one of the two options, caching can be completely disabled altogether. However, that does affect the performance and usability of PhotoQt, since thumbnails have to be newly re-created every time they are needed.")
 
 		}

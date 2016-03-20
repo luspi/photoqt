@@ -17,7 +17,7 @@ EntryContainer {
 		EntryTitle {
 
 			id: title
-			title: "Custom Menu Entries"
+			title: qsTr("Custom Menu Entries")
 			helptext: qsTr("Here you can adjust the context menu. You can simply drag and drop the entries, edit them, add a new one and remove an existing one.")
 
 		}

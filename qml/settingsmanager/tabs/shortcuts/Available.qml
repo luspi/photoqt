@@ -112,7 +112,7 @@ Rectangle {
 						width: parent.parent.width/2-2
 						height: parent.parent.height
 
-						text: "Key"
+						text: qsTr("Key")
 
 						onHoveredChanged:
 							sh_title.hovered = hovered
@@ -125,7 +125,7 @@ Rectangle {
 						width: parent.parent.width/2-2
 						height: parent.parent.height
 
-						text: "Mouse"
+						text: qsTr("Mouse")
 
 						onClickedButton:
 							addShortcut(shortcuts[index][0], "mouse")

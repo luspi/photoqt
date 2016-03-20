@@ -59,6 +59,8 @@ Rectangle {
 									 //: Refers to a keyboard special key
 									 "Delete" : str_keys.del,
 									 //: Refers to a keyboard special key
+									 "Backspace" : str_keys.backspace,
+									 //: Refers to a keyboard special key
 									 "Home" : str_keys.home,
 									 //: Refers to a keyboard special key
 									 "End" : str_keys.end,
@@ -184,7 +186,7 @@ Rectangle {
 				color: "white"
 				font.pointSize: 20
 				font.bold: true
-				text: "Shortcuts"
+				text: qsTr("Shortcuts")
 				horizontalAlignment: Text.AlignHCenter
 			}
 
@@ -214,7 +216,7 @@ Rectangle {
 
 			ShortcutsContainer {
 				id: navigation
-				category: "Navigation"
+				category: qsTr("Navigation")
 				allAvailableItems: [["__open",qsTr("Open New File")],
 									["__filterImages",qsTr("Filter Images in Folder")],
 									["__next",qsTr("Next Image")],
@@ -227,7 +229,7 @@ Rectangle {
 
 			ShortcutsContainer {
 				id: image
-				category: "Image"
+				category: qsTr("Image")
 				allAvailableItems: [["__zoomIn", qsTr("Zoom In")],
 									["__zoomOut", qsTr("Zoom Out")],
 									["__zoomActual", qsTr("Zoom to Actual Size")],
@@ -242,7 +244,7 @@ Rectangle {
 
 			ShortcutsContainer {
 				id: file
-				category: "File"
+				category: qsTr("File")
 				allAvailableItems: [["__rename", qsTr("Rename File")],
 									["__delete", qsTr("Delete File")],
 									["__copy", qsTr("Copy File to a New Location")],
@@ -251,7 +253,7 @@ Rectangle {
 
 			ShortcutsContainer {
 				id: other
-				category: "Other"
+				category: qsTr("Other")
 				allAvailableItems: [["__stopThb", qsTr("Interrupt Thumbnail Creation")],
 									["__reloadThb", qsTr("Reload Thumbnails")],
 									["__hideMeta", qsTr("Hide/Show Exif Info")],
@@ -264,7 +266,7 @@ Rectangle {
 
 			ShortcutsContainer {
 				id: external
-				category: "External"
+				category: qsTr("External")
 				external: true
 				allAvailableItems: [["", qsTr("")]]
 			}

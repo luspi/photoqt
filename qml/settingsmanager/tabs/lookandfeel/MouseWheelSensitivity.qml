@@ -15,7 +15,7 @@ EntryContainer {
 
 			id: entrytitle
 
-			title: "Mouse Wheel Sensitivity"
+			title: qsTr("Mouse Wheel Sensitivity")
 			helptext: qsTr("Here you can adjust the sensitivity of the mouse wheel. For example, if you have set the mouse wheel up/down for switching back and forth between images, then a lower sensitivity means that you will have to scroll further for triggering a shortcut. Per default it is set to the highest sensitivity, i.e. every single wheel movement is evaluated.")
 
 		}

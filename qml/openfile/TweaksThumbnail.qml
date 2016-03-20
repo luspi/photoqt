@@ -46,7 +46,7 @@ Rectangle {
 		ToolTip {
 			anchors.fill: parent
 			cursorShape: Qt.PointingHandCursor
-			text: "En-/Disable image thumbnails"
+			text: qsTr("En-/Disable image thumbnails")
 			onClicked: {
 				thumbs.checked = !thumbs.checked
 			}

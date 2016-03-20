@@ -17,7 +17,7 @@ EntryContainer {
 
 			id: entrytitle
 
-			title: "Border Around Image"
+			title: qsTr("Border Around Image")
 			helptext: qsTr("Whenever you load an image, the image is per default not shown completely in fullscreen, i.e. it's not stretching from screen edge to screen edge. Instead there is a small margin around the image of a couple pixels (looks better). Here you can adjust the width of this margin (set to 0 to disable it).")
 
 		}

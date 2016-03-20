@@ -31,6 +31,8 @@ Item {
 	//: Refers to one of the keys on the keyboard
 	readonly property string del: qsTr("Delete")
 	//: Refers to one of the keys on the keyboard
+	readonly property string backspace: qsTr("Backspace")
+	//: Refers to one of the keys on the keyboard
 	readonly property string home: qsTr("Home")
 	//: Refers to one of the keys on the keyboard
 	readonly property string end: qsTr("End")

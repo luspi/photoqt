@@ -58,7 +58,7 @@ Rectangle {
 				height: childrenRect.height-10
 				contentHeight: childrenRect.height
 				delegate: CustomCheckBox {
-					text: qsTr("Screen #") + index
+					text: qsTr("Screen") + " #" + index
 					checkedButton: true
 					fsize: 10
 					Component.onCompleted: {
@@ -108,32 +108,38 @@ Rectangle {
 			Column {
 				spacing: 10
 				CustomRadioButton {
-					text: "Automatic"
+					//: This string refers to the scaling property of an image when setting as wallpaper
+					text: qsTr("Automatic")
 					fontsize: 10
 					exclusiveGroup: wallpaperoptions_xfce
 				}
 				CustomRadioButton {
-					text: "Centered"
+					//: This string refers to the scaling property of an image when setting as wallpaper
+					text: qsTr("Centered")
 					fontsize: 10
 					exclusiveGroup: wallpaperoptions_xfce
 				}
 				CustomRadioButton {
-					text: "Tiled"
+					//: This string refers to the scaling property of an image when setting as wallpaper
+					text: qsTr("Tiled")
 					fontsize: 10
 					exclusiveGroup: wallpaperoptions_xfce
 				}
 				CustomRadioButton {
-					text: "Stretched"
+					//: This string refers to the scaling property of an image when setting as wallpaper
+					text: qsTr("Stretched")
 					fontsize: 10
 					exclusiveGroup: wallpaperoptions_xfce
 				}
 				CustomRadioButton {
-					text: "Scaled"
+					//: This string refers to the scaling property of an image when setting as wallpaper
+					text: qsTr("Scaled")
 					fontsize: 10
 					exclusiveGroup: wallpaperoptions_xfce
 				}
 				CustomRadioButton {
-					text: "Zoomed"
+					//: This string refers to the scaling property of an image when setting as wallpaper
+					text: qsTr("Zoomed")
 					fontsize: 10
 					exclusiveGroup: wallpaperoptions_xfce
 					checked: true

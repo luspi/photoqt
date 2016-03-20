@@ -48,7 +48,7 @@ Rectangle {
 		ToolTip {
 			anchors.fill: parent
 			cursorShape: Qt.PointingHandCursor
-			text: "En-/Disable hover preview"
+			text: qsTr("En-/Disable hover preview")
 			onClicked: {
 				hovprev.checked = !hovprev.checked
 			}

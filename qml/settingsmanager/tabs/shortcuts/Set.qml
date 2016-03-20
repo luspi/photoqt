@@ -86,7 +86,7 @@ Rectangle {
 			// Click on title triggers shortcut detection
 			ToolTip {
 				cursorShape: keymouse === "key" ? Qt.PointingHandCursor : Qt.ArrowCursor
-				text: keymouse === "key" ? "Click to change shortcut" : ""
+				text: keymouse === "key" ? qsTr("Click to change shortcut") : ""
 				onClicked: triggerDetection()
 				onEntered: ele.hovered = true
 				onExited: ele.hovered = false
@@ -115,7 +115,7 @@ Rectangle {
 						anchors.fill: parent
 						visible: external
 						text: desc
-						emptyMessage: "The command goes here"
+						emptyMessage: qsTr("The command goes here")
 						onTextEdited:
 							updateExternalString.restart()
 						onClicked:
@@ -144,7 +144,7 @@ Rectangle {
 					Text {
 						id: sh_key_desc
 						color: colour.tiles_text_active
-						text: keymouse === "key" ? "Key: " : "Mouse: "
+						text: (keymouse === "key" ? qsTr("Key") : qsTr("Mouse")) + ": "
 					}
 					// The current shortcut
 					Rectangle {
@@ -274,7 +274,7 @@ Rectangle {
 					width: 20
 					ToolTip {
 						cursorShape: Qt.PointingHandCursor
-						text: "Delete shortcut"
+						text: qsTr("Delete shortcut")
 						onClicked: {
 							tab_top.cancelDetectionEverywhere()
 							deleteElement.start()

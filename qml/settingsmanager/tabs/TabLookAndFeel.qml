@@ -41,7 +41,7 @@ Rectangle {
 				color: "white"
 				font.pointSize: 20
 				font.bold: true
-				text: "Look and Feel"
+				text: qsTr("Look and Feel")
 				horizontalAlignment: Text.AlignHCenter
 			}
 
