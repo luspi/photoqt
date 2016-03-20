@@ -45,11 +45,14 @@ int main(int argc, char *argv[]) {
 		settingsfile.close();
 	}
 
+	// The translator has to exist out here (not only in the startup class) as it has to live until the end
+	QTranslator trans;
+
 	// A few checks
 	int update = StartupCheck::UpdateCheck::checkForUpdateInstall(a.verbose, &settingsText);
 	StartupCheck::Screenshots::getAndStore(a.verbose);
 	StartupCheck::StartInTray::makeSureSettingsReflectTrayStartupSetting(a.verbose,a.startintray,&settingsText);
-	StartupCheck::Localisation::loadTranslation(a.verbose, &settingsText);
+	StartupCheck::Localisation::loadTranslation(a.verbose, &settingsText, &trans);
 	StartupCheck::Thumbnails::checkThumbnailsDatabase(update, a.nothumbs, &settingsText, a.verbose);
 	StartupCheck::FileFormats::checkForDefaultSettingsFileAndReturnWhetherDefaultsAreToBeSet(a.verbose);
 	StartupCheck::Shortcuts::makeSureShortcutsFileExists(a.verbose);

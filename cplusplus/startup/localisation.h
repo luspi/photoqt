@@ -8,16 +8,15 @@
 #include <QTextStream>
 #include "../logger.h"
 
+class SingleInstance;
+
 namespace StartupCheck {
 
 	namespace Localisation {
 
-		static inline void loadTranslation(bool verbose, QString *settingsText) {
+		static inline void loadTranslation(bool verbose, QString *settingsText, QTranslator *trans) {
 
 			if(verbose) LOG << DATE << "StartupCheck::Localisation" << std::endl;
-
-			// LOAD THE TRANSLATOR
-			QTranslator trans;
 
 			// We use two strings, since the system locale usually is of the form e.g. "de_DE"
 			// and some translations only come with the first part, i.e. "de",
@@ -36,14 +35,14 @@ namespace StartupCheck {
 			if(verbose) LOG << DATE << "Found following language: " << code1.toStdString()  << "/" << code2.toStdString() << std::endl;
 			if(QFile(":/photoqt_" + code1 + ".qm").exists()) {
 				LOG << DATE << "Loading Translation:" << code1.toStdString() << std::endl;
-				trans.load(":/photoqt_" + code1);
-				qApp->installTranslator(&trans);
+				trans->load(":/photoqt_" + code1);
+				qApp->installTranslator(trans);
 				code2 = code1;
 				noLanguageWasSet = true;
 			} else if(QFile(":/photoqt_" + code2 + ".qm").exists()) {
 				LOG << DATE << "Loading Translation:" << code2.toStdString() << std::endl;
-				trans.load(":/photoqt_" + code2);
-				qApp->installTranslator(&trans);
+				trans->load(":/photoqt_" + code2);
+				qApp->installTranslator(trans);
 				code1 = code2;
 				noLanguageWasSet = true;
 			}
