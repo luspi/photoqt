@@ -3,22 +3,26 @@
 
 #include <QCommandLineParser>
 
-class CommandLineParser : public QCommandLineParser {
+class CommandLineParser : public QObject {
+
+	Q_OBJECT
 
 public:
 
-	explicit CommandLineParser(QCoreApplication *app) : QCommandLineParser() {
+	QCommandLineParser parser;
+
+	explicit CommandLineParser(QCoreApplication *app) : QObject() {
 
 		// We use only long options
-		this->setSingleDashWordOptionMode(QCommandLineParser::ParseAsLongOptions);
+		parser.setSingleDashWordOptionMode(QCommandLineParser::ParseAsLongOptions);
 
 		// Set some standard options
-		this->setApplicationDescription("PhotoQt Image Viewer");
-		this->addHelpOption();
-		this->addVersionOption();
+		parser.setApplicationDescription("PhotoQt Image Viewer");
+		parser.addHelpOption();
+		parser.addVersionOption();
 
 		// Add custom PhotoQt options (C++11 way)
-		this->addOptions({
+		parser.addOptions({
 				{{"o","open"},
 				 tr("Make PhotoQt ask for a new File")},
 				{{"t","toggle"},
@@ -39,10 +43,10 @@ public:
 		 });
 
 		// Add optional argument 'filename'
-		this->addPositionalArgument("filename",tr("File to open with PhotoQt"), "[filename]");
+		parser.addPositionalArgument("filename",tr("File to open with PhotoQt"), "[filename]");
 
 		// And process the command line
-		this->process(*app);
+		parser.process(*app);
 
 	}
 

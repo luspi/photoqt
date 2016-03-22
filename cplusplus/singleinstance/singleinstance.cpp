@@ -3,18 +3,18 @@
 SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, argv) {
 
 	// Parse the command line arguments
-	CommandLineParser parser(this);
+	CommandLineParser handler(this);
 
 	// This is the message string that we send to a running instance (if it exists
 	QByteArray message = "";
 
 	// Check for filenames
-	QStringList positional = parser.positionalArguments();
+	QStringList positional = handler.parser.positionalArguments();
 	if(positional.length() > 0)
 		message += ":-:-:" + QByteArray("::file::") + QFileInfo(positional.at(0)).absoluteFilePath();
 
 	// Check for any other set option
-	QStringList options = parser.optionNames();
+	QStringList options = handler.parser.optionNames();
 	foreach(QString opt, options)
 		message += ":-:-:::" + opt.toLatin1() + "::";
 
@@ -29,7 +29,7 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
 	QString server_str = qApp->applicationName();
 
 	// Connect to a Local Server (if available)
-    socket = new QLocalSocket();
+	socket = new QLocalSocket();
 	socket->connectToServer(server_str);
 
 	// If this is successfull, then an instance is already running
@@ -54,21 +54,21 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
 	} else {
 
 		// Create a new local server
-        server = new QLocalServer();
+		server = new QLocalServer();
 		server->removeServer(server_str);
 		server->listen(server_str);
 		connect(server, SIGNAL(newConnection()), this, SLOT(newConnection()));
 
 		handleResponse(message);
 
-    }
+	}
 }
 
 void SingleInstance::newConnection() {
-    QLocalSocket *socket = server->nextPendingConnection();
+	QLocalSocket *socket = server->nextPendingConnection();
 	if(socket->waitForReadyRead(2000))
 		handleResponse(socket->readAll());
-    socket->close();
+	socket->close();
 	delete socket;
 }
 
