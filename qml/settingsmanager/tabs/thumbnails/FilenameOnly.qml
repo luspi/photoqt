@@ -43,7 +43,7 @@ EntryContainer {
 					y: (parent.height-height)/2
 					enabled: filenameonly.checkedButton
 					opacity: enabled ? 1 : 0.5
-					text: "Fontsize:"
+					text: qsTr("Fontsize") + ":"
 				}
 
 				CustomSlider {

@@ -7,7 +7,7 @@ FadeInTemplate {
 
 	id: slideshow_top
 
-	heading: "Slideshow Setup"
+	heading: qsTr("Slideshow Setup")
 
 	content: [
 

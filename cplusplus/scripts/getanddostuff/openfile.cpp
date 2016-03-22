@@ -86,7 +86,7 @@ QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
 			if(size > 0) {
 
 				QVariantList ele = QVariantList() << "volumes"
-												  << QString("%1 GB Volume (%2)")
+												  << QString("%1 GB " + tr("Volume") + " (%2)")
 													 .arg(size/10.0)
 													 .arg(QString(storage.fileSystemType()))
 												  << storage.rootPath()
