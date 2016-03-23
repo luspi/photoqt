@@ -77,8 +77,9 @@ Rectangle {
 			HotEdge { id: hotedge; alternating: true }
 			MouseWheelSensitivity { id: mousewheel }
 			Interpolation { id: interpolation; alternating: true }
-			Remember { id: remember }
-			Animation { id: animation; alternating: true }
+			TouchScreen { id: touchscreen }
+			Remember { id: remember; alternating: true }
+			Animation { id: animation }
 		}
 
 	}
@@ -101,6 +102,7 @@ Rectangle {
 		hotedge.setData()
 		mousewheel.setData()
 		interpolation.setData()
+		touchscreen.setData()
 		remember.setData()
 		animation.setData()
 
@@ -124,6 +126,7 @@ Rectangle {
 		hotedge.saveData()
 		mousewheel.saveData()
 		interpolation.saveData()
+		touchscreen.saveData()
 		remember.saveData()
 		animation.saveData()
 

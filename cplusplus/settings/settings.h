@@ -91,6 +91,7 @@ public:
 		connect(this, SIGNAL(interpolationNearestNeighbourThresholdChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(interpolationNearestNeighbourUpscaleChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(blurIntensityChanged(int)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(experimentalTouchscreenSupportChanged(bool)), saveSettingsTimer, SLOT(start()));
 
 		connect(this, SIGNAL(hidecounterChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(hidefilepathshowfilenameChanged(bool)), saveSettingsTimer, SLOT(start()));
@@ -244,6 +245,8 @@ public:
 	bool interpolationNearestNeighbourUpscale;
 	// Intensity of blur of background elements when widget is open
 	int blurIntensity;
+	// Option to enable experimental support for touchscreen gestures
+	bool experimentalTouchscreenSupport;
 
 	// Are quickinfos hidden?
 	bool hidecounter;
@@ -386,6 +389,7 @@ public:
 	Q_PROPERTY(int interpolationNearestNeighbourThreshold MEMBER interpolationNearestNeighbourThreshold NOTIFY interpolationNearestNeighbourThresholdChanged)
 	Q_PROPERTY(bool interpolationNearestNeighbourUpscale MEMBER interpolationNearestNeighbourUpscale NOTIFY interpolationNearestNeighbourUpscaleChanged)
 	Q_PROPERTY(int blurIntensity MEMBER blurIntensity NOTIFY blurIntensityChanged)
+	Q_PROPERTY(bool experimentalTouchscreenSupport MEMBER experimentalTouchscreenSupport NOTIFY experimentalTouchscreenSupportChanged)
 
 	Q_PROPERTY(bool hidecounter MEMBER hidecounter NOTIFY hidecounterChanged)
 	Q_PROPERTY(bool hidefilepathshowfilename MEMBER hidefilepathshowfilename NOTIFY hidefilepathshowfilenameChanged)
@@ -521,6 +525,7 @@ public:
 		interpolationNearestNeighbourThreshold = 100;
 		interpolationNearestNeighbourUpscale = false;
 		blurIntensity = 5;
+		experimentalTouchscreenSupport = false;
 
 		hidecounter = false;
 		hidefilepathshowfilename = true;
@@ -673,6 +678,7 @@ public slots:
 			cont += QString("InterpolationNearestNeighbourThreshold=%1\n").arg(interpolationNearestNeighbourThreshold);
 			cont += QString("InterpolationNearestNeighbourUpscale=%1\n").arg(int(interpolationNearestNeighbourUpscale));
 			cont += QString("BlurIntensity=%1\n").arg(blurIntensity);
+			cont += QString("ExperimentalTouchscreenSupport=%1\n").arg(int(experimentalTouchscreenSupport));
 
 			cont += "\n[Quickinfo]\n";
 
@@ -926,6 +932,11 @@ public slots:
 
 			if(all.contains("BlurIntensity="))
 				blurIntensity = all.split("BlurIntensity=").at(1).split("\n").at(0).toInt();
+
+			if(all.contains("ExperimentalTouchscreenSupport=1"))
+				experimentalTouchscreenSupport = true;
+			else if(all.contains("ExperimentalTouchscreenSupport=0"))
+				experimentalTouchscreenSupport = false;
 
 			if(all.contains("HideCounter=1"))
 				hidecounter = true;
@@ -1259,6 +1270,7 @@ signals:
 	void interpolationNearestNeighbourThresholdChanged(int val);
 	void interpolationNearestNeighbourUpscaleChanged(bool val);
 	void blurIntensityChanged(int val);
+	void experimentalTouchscreenSupportChanged(bool val);
 
 	void hidecounterChanged(bool val);
 	void hidefilepathshowfilenameChanged(bool val);

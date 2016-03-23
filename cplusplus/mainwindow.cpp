@@ -435,7 +435,8 @@ bool MainWindow::event(QEvent *e) {
 		}
 
 	} else if(e->type() == QEvent::TouchBegin || e->type() == QEvent::TouchUpdate || e->type() == QEvent::TouchEnd)
-		touch->handle(e);
+		if(settingsPermanent->experimentalTouchscreenSupport)
+			touch->handle(e);
 
 
 	return QQuickWindow::event(e);
