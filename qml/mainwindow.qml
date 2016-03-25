@@ -144,7 +144,10 @@ Item {
 	////////////////////////////
 
 	// The quickinfo (position in folder, filename)
-	QuickInfo { id: quickInfo; }
+	QuickInfo {
+		id: quickInfo;
+		Behavior on opacity { NumberAnimation { duration: 250 } }
+	}
 
 	////////////////////////////
 
@@ -287,6 +290,7 @@ Item {
 		blur_metadata.opacity = 1
 		blur_mainmenu.opacity = 1
 		blur_thumbnailBar.opacity = 1
+		quickInfo.opacity = 0.2
 
 	}
 	function unblurAllBackgroundElements() {
@@ -295,6 +299,7 @@ Item {
 		blur_metadata.opacity = 0
 		blur_mainmenu.opacity = 0
 		blur_thumbnailBar.opacity = 0
+		quickInfo.opacity = 1
 
 	}
 }
