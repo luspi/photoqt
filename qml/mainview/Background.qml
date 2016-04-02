@@ -78,14 +78,17 @@ Rectangle {
 		MouseArea {
 			x: 0
 			y: 0
-			height: background.height
+			height: background.height-(thumbnailBar.y<background.height ? thumbnailBar.height : settings.menusensitivity*3)
 			width: metaData.visible ? metaData.width : settings.menusensitivity*5
 			hoverEnabled: true
 
 			MouseArea {
 				anchors.fill: parent
 				hoverEnabled: true
-				onEntered: if(softblocked == 0 && metaData.opacity != 1) showMetadata()
+				onEntered: if(softblocked == 0 && metaData.opacity != 1 && !thumbnailBar.contains(Qt.point(localcursorpos.x,localcursorpos.y-thumbnailBar.y))) {
+							   hideEverything()
+							   showMetadata()
+						   }
 			}
 
 		}
@@ -94,19 +97,21 @@ Rectangle {
 		MouseArea {
 			x: metaData.nonFloatWidth
 			y: settings.thumbnailposition == "Bottom"
-			   ? (thumbnailBar.y == background.height ? background.height-settings.menusensitivity*3 : background.height-thumbnailBar.height)
+			   ? (thumbnailBar.y >= background.height ? background.height-settings.menusensitivity*3 : background.height-thumbnailBar.height)
 			   : 0
 			width: thumbnailBar.width
 			height: settings.thumbnailposition == "Bottom"
-					? (thumbnailBar.y == background.height ? settings.menusensitivity*3 : thumbnailBar.height)
+					? (thumbnailBar.y >= background.height ? settings.menusensitivity*3 : thumbnailBar.height)
 					: (thumbnailBar.y == 0 ? thumbnailBar.height : settings.menusensitivity*3)
 			hoverEnabled: true
 
 			MouseArea {
 				anchors.fill: parent
 				hoverEnabled: true
-				onEntered:
+				onEntered: {
+					hideEverything()
 					thumbnailBar.show()
+				}
 			}
 
 		}
@@ -122,7 +127,10 @@ Rectangle {
 				anchors.fill: parent
 				hoverEnabled: true
 				onEntered:
-					if(softblocked == 0) mainmenu.show()
+					if(softblocked == 0 && !thumbnailBar.contains(Qt.point(localcursorpos.x,localcursorpos.y-thumbnailBar.y))) {
+						hideEverything()
+						mainmenu.show()
+					}
 			}
 		}
 
@@ -147,13 +155,17 @@ Rectangle {
 	// Hide elements
 
 	function hideEverything() {
-		thumbnailBar.hide()
-		metaData.hide()
-		if(settingssession.value("metadatakeepopen") === false) metaData.hide()
-		mainmenu.hide()
-		if(mainmenu.opacity != 0)
+
+		var thumbPos = Qt.point(localcursorpos.x,localcursorpos.y-thumbnailBar.y)
+
+		if(!thumbnailBar.contains(thumbPos))
+			thumbnailBar.hide()
+		if((!metaData.contains(localcursorpos) && settingssession.value("metadatakeepopen") === false) || thumbnailBar.contains(thumbPos))
+			metaData.hide()
+		if(!mainmenu.contains(localcursorpos) || thumbnailBar.contains(thumbPos))
 			mainmenu.hide()
-		slideshowbar.hideBar()
+		if(!slideshowbar.contains(localcursorpos))
+			slideshowbar.hideBar()
 	}
 	function hideMetadata() {
 		if(settingssession.value("metadatakeepopen") === true)
