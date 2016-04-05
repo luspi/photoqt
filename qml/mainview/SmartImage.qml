@@ -365,7 +365,7 @@ Rectangle {
 				four.smooth = true
 		}
 
-		if(_image_current_source in storeZoom) {
+		if(_image_current_source in storeZoom && settings.rememberZoom) {
 
 			_zoomSetFromStorage = true
 
@@ -387,12 +387,13 @@ Rectangle {
 		} else
 			resetZoom()
 
-		if(_image_current_source in storeRotation) {
+		if(_image_current_source in storeRotation && settings.rememberRotation) {
 
 			_rotationSetFromStorage = true
 
 			var r = storeRotation[_image_current_source]%360
 
+			_executeRotation(0)
 			_executeRotation(r)
 
 		} else
@@ -594,7 +595,21 @@ Rectangle {
 		_executeRotation(imgrot.angle + 180)
 	}
 
+
+	Timer {
+		id: callExecRotation
+		running:false
+		interval: 50
+		property int angle: 0
+		onTriggered: _executeRotation(angle)
+	}
 	function _executeRotation(angle) {
+
+		if(rotani.running) {
+			callExecRotation.angle = angle
+			callExecRotation.restart()
+			return
+		}
 
 		_rotaniToSet = angle
 		rotani.to = angle
