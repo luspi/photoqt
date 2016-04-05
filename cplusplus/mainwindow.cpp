@@ -748,4 +748,5 @@ MainWindow::~MainWindow() {
 	delete variables;
 	delete shortcuts;
 	delete loadDir;
+	delete touch;
 }
