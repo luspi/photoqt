@@ -34,8 +34,11 @@ Rectangle {
 	property bool _zoomTowardsCenter: false
 	property bool _zoomSetFromStorage: false
 	property var _zoomSetFromStorageContentPos: []
+	property bool _rotationSetFromStorage: false
+	property int _rotaniToSet: 0
 
 	property var storeZoom: { "":[] }
+	property var storeRotation: { "":0 }
 
 	Flickable {
 
@@ -51,8 +54,8 @@ Rectangle {
 		}
 
 		// Set content size -> if not done, no scrolling possible
-		contentHeight: Math.max((Math.abs(imgrot.angle%180) == 90 ? _getCurrentlyDisplayedImageSize().width : _getCurrentlyDisplayedImageSize().height)*flickarea.contentItem.scale,smartimage_top.height)
-		contentWidth: Math.max((Math.abs(imgrot.angle%180) == 90 ? _getCurrentlyDisplayedImageSize().height : _getCurrentlyDisplayedImageSize().width)*flickarea.contentItem.scale,smartimage_top.width)
+		contentHeight: Math.max((getCurrentOrientation() == 90 ? _getCurrentlyDisplayedImageSize().width : _getCurrentlyDisplayedImageSize().height)*flickarea.contentItem.scale,smartimage_top.height)
+		contentWidth: Math.max((getCurrentOrientation() == 90 ? _getCurrentlyDisplayedImageSize().height : _getCurrentlyDisplayedImageSize().width)*flickarea.contentItem.scale,smartimage_top.width)
 
 		onContentXChanged: {
 			if(_image_current_source in storeZoom)
@@ -76,20 +79,20 @@ Rectangle {
 			width: smartimage_top.width
 			height: smartimage_top.height
 
-			x: (Math.abs(imgrot.angle%180) == 90) ? Math.max(0,(_getCurrentlyDisplayedImageSize().height-smartimage_top.width)/2) :  Math.max(0,(_getCurrentlyDisplayedImageSize().width-smartimage_top.width)/2)
-			y: (Math.abs(imgrot.angle%180) == 90) ? Math.max(0,(_getCurrentlyDisplayedImageSize().width-smartimage_top.height)/2): Math.max(0,(_getCurrentlyDisplayedImageSize().height-smartimage_top.height)/2)
+			x: (getCurrentOrientation() == 90) ? Math.max(0,(_getCurrentlyDisplayedImageSize().height-smartimage_top.width)/2) :  Math.max(0,(_getCurrentlyDisplayedImageSize().width-smartimage_top.width)/2)
+			y: (getCurrentOrientation() == 90) ? Math.max(0,(_getCurrentlyDisplayedImageSize().width-smartimage_top.height)/2): Math.max(0,(_getCurrentlyDisplayedImageSize().height-smartimage_top.height)/2)
 
 			// Animate rotation
 			transform: Rotation {
 				id: imgrot;
 				origin.x: manip.width/2
 				origin.y: manip.height/2
-				NumberAnimation on angle { id: rotani; duration: (enableanimations ? zoomduration : 1); }
+				SmoothedAnimation on angle { id: rotani; duration: (enableanimations ? zoomduration : 1); }
 			}
 
 			// Animate scaling - velocity is changed to duration in 'onStatusChanged' below
 			// For some reason, setting duration right away here does not work
-			Behavior on scale { NumberAnimation { id: scaleani; duration: zoomduration; } }
+			Behavior on scale { NumberAnimation { id: scaleani; duration: zoomduration } }
 
 			onScaleChanged: {
 
@@ -103,9 +106,11 @@ Rectangle {
 				var w = s.width
 				var h = s.height
 
-				if(imgrot.angle%180 == 0) {
+				if(getCurrentOrientation() != 90) {
+
 					flickarea.contentHeight = Math.max(flickarea.height, h)
 					flickarea.contentWidth = Math.max(flickarea.width,w)
+
 					if(!_zoomSetFromStorage && (w >= manip.width || h >= manip.height)) {
 						if (w > manip.width) {
 							xoff = (x_ratio + flickarea.contentX) * scale / flickarea.prevScale;
@@ -118,6 +123,7 @@ Rectangle {
 					}
 
 				} else {
+
 					flickarea.contentHeight = Math.max(flickarea.height, w)
 					flickarea.contentWidth = Math.max(flickarea.width,h)
 
@@ -241,27 +247,55 @@ Rectangle {
 
 		_image_current_source = src
 
+		// IMPORTANT: For the checks below, we HAVE to use double == and NOT triple!!!
+
 		if(!animated) {
 
-			if(_image_currently_in_use == "one")
-				two.source = src;
-			else if(_image_currently_in_use == "two")
-				one.source = src;
-			else if(_image_currently_in_use == "three")
-				one.source = src;
-			else if(_image_currently_in_use == "four")
-				one.source = src;
+			if(_image_currently_in_use == "one") {
+				if(two.source == src)
+					makeImageVisible(2)
+				else
+					two.source = src;
+			} else if(_image_currently_in_use == "two") {
+				if(one.source == src)
+					makeImageVisible(1)
+				else
+					one.source = src;
+			} else if(_image_currently_in_use == "three") {
+				if(one.source == src)
+					makeImageVisible(1)
+				else
+					one.source = src;
+			} else if(_image_currently_in_use == "four") {
+				if(one.source == src)
+					makeImageVisible(1)
+				else
+					one.source = src;
+			}
 
 		} else {
 
-			if(_image_currently_in_use == "one")
-				three.source = src;
-			else if(_image_currently_in_use == "two")
-				three.source = src;
-			else if(_image_currently_in_use == "three")
-				four.source = src;
-			else if(_image_currently_in_use == "four")
-				three.source = src;
+			if(_image_currently_in_use == "one") {
+				if(three.source == src)
+					makeImageVisible(3)
+				else
+					three.source = src;
+			} else if(_image_currently_in_use == "two") {
+				if(three.source == src)
+					makeImageVisible(3)
+				else
+					three.source = src;
+			} else if(_image_currently_in_use == "three") {
+				if(four.source == src)
+					makeImageVisible(4)
+				else
+					four.source = src;
+			} else if(_image_currently_in_use == "four") {
+				if(three.source == src)
+					makeImageVisible(3)
+				else
+					three.source = src;
+			}
 
 		}
 
@@ -353,8 +387,18 @@ Rectangle {
 		} else
 			resetZoom()
 
+		if(_image_current_source in storeRotation) {
+
+			_rotationSetFromStorage = true
+
+			var r = storeRotation[_image_current_source]%360
+
+			_executeRotation(r)
+
+		} else
+			resetRotation()
+
 		resetMirror()
-		resetRotation()
 
 	}
 
@@ -368,10 +412,18 @@ Rectangle {
 		if(ss.width < manip.width && ss.height < manip.height)
 			factor = manip.scale*flickarea.contentItem.scale
 		else {
-			factor = flickarea.width/w
+			var w_factor = flickarea.width/w
+			var h_factor = flickarea.height/h
 
-			if(h*factor > flickarea.height)
-				factor = flickarea.height/h
+			if(w_factor >= h_factor) {
+				factor = w_factor
+				if(h*factor > flickarea.height)
+					factor = h_factor
+			} else {
+				factor = h_factor
+				if(w*factor > flickarea.width)
+					factor = w_factor
+			}
 
 			factor *= manip.scale*flickarea.contentItem.scale
 
@@ -497,6 +549,7 @@ Rectangle {
 	function resetZoom() {
 		manip.scale = 1
 		storeZoom[_image_current_source] = [1,flickarea.contentX, flickarea.contentY]
+		flickarea.returnToBounds()
 	}
 
 	// We need to use timers when calling a rotation function again before the animation has finished
@@ -512,7 +565,7 @@ Rectangle {
 			callRotateLeft.restart()
 			return
 		}
-		_executeRotation(-1)
+		_executeRotation(imgrot.angle - 90)
 	}
 	Timer {
 		id: callRotateRight
@@ -525,13 +578,34 @@ Rectangle {
 			callRotateRight.restart()
 			return
 		}
-		_executeRotation(1)
+		_executeRotation(imgrot.angle + 90)
 	}
-	function _executeRotation(leftright) {
-		rotani.to = imgrot.angle + leftright*90
+	Timer {
+		id: callRotate180
+		running:false
+		interval: 50
+		onTriggered: rotate180()
+	}
+	function rotate180() {
+		if(rotani.running) {
+			callRotate180.restart()
+			return
+		}
+		_executeRotation(imgrot.angle + 180)
+	}
+
+	function _executeRotation(angle) {
+
+		_rotaniToSet = angle
+		rotani.to = angle
+
+		if(!_rotationSetFromStorage)
+			storeRotation[_image_current_source] = angle
+		_rotationSetFromStorage = false
+
 		rotani.start()
 		if(manip.scale == 1) {
-			if(imgrot.angle%180 == 0 && _getCurrentlyDisplayedImageSize().width > smartimage_top.height)
+			if(Math.abs(angle%180) == 90 && _getCurrentlyDisplayedImageSize().width > smartimage_top.height)
 				flickarea.contentItem.scale = smartimage_top.height/_getCurrentlyDisplayedImageSize().width
 			else {
 				flickarea.contentItem.scale = 1
@@ -552,8 +626,24 @@ Rectangle {
 			rotateto = imgrot.angle-(imgrot.angle%360);
 
 		rotani.to = rotateto
+		_rotaniToSet = rotateto
 		rotani.start()
 		flickarea.contentItem.scale = 1
+
+		storeRotation[_image_current_source] = 0
+
+		var s = _getCurrentlyDisplayedImageSize()
+		var w = s.width
+		var h = s.height
+
+		if(getCurrentOrientation() == 0) {
+			flickarea.contentHeight = Math.max(flickarea.height, h)
+			flickarea.contentWidth = Math.max(flickarea.width,w)
+		} else {
+			flickarea.contentHeight = Math.max(flickarea.height, w)
+			flickarea.contentWidth = Math.max(flickarea.width,h)
+		}
+
 	}
 
 	function mirrorHorizontal() {
@@ -594,6 +684,13 @@ Rectangle {
 
 	function isZoomed() {
 		return manip.scale!=-1
+	}
+
+	function getCurrentOrientation() {
+
+		var tmp = rotani.running ? _rotaniToSet : imgrot.angle
+		return Math.abs(tmp%180)
+
 	}
 
 }
