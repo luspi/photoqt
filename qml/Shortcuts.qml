@@ -306,6 +306,20 @@ Item {
 			}
 		}
 
+		if(gesture.length === 3 && numFingers === 1 && duration < 1500) {
+			if(gesture[0] === "S" && gesture[1] === "E" && gesture[2] === "S") {
+				quitPhotoQt()
+				return
+			}
+		}
+
+		if(gesture.length === 2 && numFingers === 1 && duration < 750) {
+			if(gesture[0] === "S" && gesture[1] === "N") {
+				openFile()
+				return
+			}
+		}
+
 	}
 
 }
