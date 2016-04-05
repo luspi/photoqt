@@ -151,19 +151,10 @@ Rectangle {
 		}
 	}
 	function updateNonFloatWidth() {
-		mainview.disableTimer()
 		if(check.checkedButton)
 			nonFloatWidth = meta.width
 		else
 			nonFloatWidth = 0
-		reEnableSmartImageSizeChangedTimer.start()
-	}
-
-	Timer {
-		id: reEnableSmartImageSizeChangedTimer
-		interval: 100
-		repeat: false
-		onTriggered: mainview.enableTimer()
 	}
 
 	function uncheckCheckbox() { check.checkedButton = false; }

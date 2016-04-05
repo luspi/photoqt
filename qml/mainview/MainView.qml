@@ -55,9 +55,6 @@ Item {
 		return [x,y,w,h]
 	}
 
-	function enableTimer() { image.enableTimer(); }
-	function disableTimer() { image.disableTimer(); }
-
 	SmartImage {
 
 		id: image
