@@ -185,7 +185,9 @@ Rectangle {
 				wrapMode: Text.WordWrap
 				text: name !== "" ? "<b>" + name + "</b>: " + value : ""
 
-				MouseArea {
+				ToolTip {
+					text: prop=="Exif.GPSInfo.GPSLongitudeRef" ? qsTr("Click to open GPS position with online map")
+									: (name !== "" ? "<b>" + name + "</b><br>" + value : "")
 					anchors.fill: parent
 					cursorShape: prop == "Exif.GPSInfo.GPSLongitudeRef" ? Qt.PointingHandCursor : Qt.ArrowCursor
 					onClicked: {
