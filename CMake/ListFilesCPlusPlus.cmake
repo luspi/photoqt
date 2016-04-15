@@ -14,6 +14,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/loaddir.cpp)
 
 SET(d "cplusplus/imageprovider")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/imageproviderfull.cpp ${d}/imageproviderthumbnail.cpp ${d}/imageprovidericon.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pixmapcache.h)
 
 SET(d "cplusplus/imageprovider/loader")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/loadimage_qt.h ${d}/loadimage_gm.h ${d}/loadimage_xcf.h ${d}/loadimage_raw.h)
@@ -56,6 +57,7 @@ SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/loaddir.h)
 
 SET(d "cplusplus/imageprovider")
 SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/imageproviderthumbnail.h ${d}/imageproviderfull.h ${d}/imageprovidericon.h)
+SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/pixmapcache.h)
 
 SET(d "cplusplus/imageprovider/loader")
 SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/loadimage_qt.h ${d}/loadimage_gm.h ${d}/loadimage_xcf.h ${d}/loadimage_raw.h)

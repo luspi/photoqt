@@ -91,6 +91,7 @@ public:
 		connect(this, SIGNAL(interpolationNearestNeighbourThresholdChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(interpolationNearestNeighbourUpscaleChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(blurIntensityChanged(int)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(pixmapCacheChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(experimentalTouchscreenSupportChanged(bool)), saveSettingsTimer, SLOT(start()));
 
 		connect(this, SIGNAL(hidecounterChanged(bool)), saveSettingsTimer, SLOT(start()));
@@ -245,6 +246,8 @@ public:
 	bool interpolationNearestNeighbourUpscale;
 	// Intensity of blur of background elements when widget is open
 	int blurIntensity;
+	// Size (in MB) of pixmap cache
+	int pixmapCache;
 	// Option to enable experimental support for touchscreen gestures
 	bool experimentalTouchscreenSupport;
 
@@ -389,6 +392,7 @@ public:
 	Q_PROPERTY(int interpolationNearestNeighbourThreshold MEMBER interpolationNearestNeighbourThreshold NOTIFY interpolationNearestNeighbourThresholdChanged)
 	Q_PROPERTY(bool interpolationNearestNeighbourUpscale MEMBER interpolationNearestNeighbourUpscale NOTIFY interpolationNearestNeighbourUpscaleChanged)
 	Q_PROPERTY(int blurIntensity MEMBER blurIntensity NOTIFY blurIntensityChanged)
+	Q_PROPERTY(int pixmapCache MEMBER pixmapCache NOTIFY pixmapCacheChanged)
 	Q_PROPERTY(bool experimentalTouchscreenSupport MEMBER experimentalTouchscreenSupport NOTIFY experimentalTouchscreenSupportChanged)
 
 	Q_PROPERTY(bool hidecounter MEMBER hidecounter NOTIFY hidecounterChanged)
@@ -519,12 +523,13 @@ public:
 		borderAroundImg = 5;
 		quickSettings = true;
 		mouseWheelSensitivity = 1;
-		rememberRotation = true;
-		rememberZoom = true;
+		rememberRotation = false;
+		rememberZoom = false;
 		fitInWindow= false;
 		interpolationNearestNeighbourThreshold = 100;
 		interpolationNearestNeighbourUpscale = false;
 		blurIntensity = 5;
+		pixmapCache = 25;
 		experimentalTouchscreenSupport = false;
 
 		hidecounter = false;
@@ -678,6 +683,7 @@ public slots:
 			cont += QString("InterpolationNearestNeighbourThreshold=%1\n").arg(interpolationNearestNeighbourThreshold);
 			cont += QString("InterpolationNearestNeighbourUpscale=%1\n").arg(int(interpolationNearestNeighbourUpscale));
 			cont += QString("BlurIntensity=%1\n").arg(blurIntensity);
+			cont += QString("PixmapCache=%1\n").arg(pixmapCache);
 			cont += QString("ExperimentalTouchscreenSupport=%1\n").arg(int(experimentalTouchscreenSupport));
 
 			cont += "\n[Quickinfo]\n";
@@ -932,6 +938,9 @@ public slots:
 
 			if(all.contains("BlurIntensity="))
 				blurIntensity = all.split("BlurIntensity=").at(1).split("\n").at(0).toInt();
+
+			if(all.contains("PixmapCache="))
+				pixmapCache = all.split("PixmapCache=").at(1).split("\n").at(0).toInt();
 
 			if(all.contains("ExperimentalTouchscreenSupport=1"))
 				experimentalTouchscreenSupport = true;
@@ -1270,6 +1279,7 @@ signals:
 	void interpolationNearestNeighbourThresholdChanged(int val);
 	void interpolationNearestNeighbourUpscaleChanged(bool val);
 	void blurIntensityChanged(int val);
+	void pixmapCacheChanged(int val);
 	void experimentalTouchscreenSupportChanged(bool val);
 
 	void hidecounterChanged(bool val);

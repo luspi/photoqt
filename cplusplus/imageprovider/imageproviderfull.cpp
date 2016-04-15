@@ -13,6 +13,9 @@ ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider
 	extrasfiles = fileformats->formats_extras.join(",");
 	rawfiles = fileformats->formats_raw.join(",");
 
+	pixmapcache = new QCache<qint64, QPixmap>;
+	pixmapcache->setMaxCost(1024*settings->pixmapCache);
+
 }
 
 ImageProviderFull::~ImageProviderFull() {
@@ -39,20 +42,38 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *s
 			  << (whatToUse=="gm" ? "GraphicsMagick" : (whatToUse=="qt" ? "ImageReader" : (whatToUse=="raw" ? "LibRaw" : "External Tool")))
 			  << " [" << whatToUse.toStdString() << "]" << std::endl;
 
+
+	QImage ret;
+	qint64 cachekey = QFileInfo(filename).lastModified().toMSecsSinceEpoch();
+
+	if(pixmapcache->contains(cachekey)) {
+		QPixmap *pix = pixmapcache->take(cachekey);
+		if(!pix->isNull())
+			return pix->toImage();
+	}
+
 	// Try to use XCFtools for XCF (if enabled)
 	if(QFileInfo(filename).suffix().toLower() == "xcf" && whatToUse == "extra")
-			return LoadImageXCF::load(filename,maxSize);
+			ret = LoadImageXCF::load(filename,maxSize);
 
 	// Try to use GraphicsMagick (if available)
 	else if(whatToUse == "gm")
-		return LoadImageGM::load(filename, maxSize);
+		ret = LoadImageGM::load(filename, maxSize);
 
 	else if(whatToUse == "raw")
-		return LoadImageRaw::load(filename, maxSize);
+		ret = LoadImageRaw::load(filename, maxSize);
 
 	// Try to use Qt
 	else
-		return LoadImageQt::load(filename,maxSize,settings->exifrotation);
+		ret = LoadImageQt::load(filename,maxSize,settings->exifrotation);
+
+
+	QPixmap *newpixPt = new QPixmap(ret.width(), ret.height());
+	*newpixPt = QPixmap::fromImage(ret);
+	if(!newpixPt->isNull())
+		pixmapcache->insert(cachekey, newpixPt, newpixPt->width()*newpixPt->height()*newpixPt->depth()/(8*1024));
+
+	return ret;
 
 }
 

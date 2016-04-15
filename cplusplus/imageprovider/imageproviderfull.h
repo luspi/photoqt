@@ -4,6 +4,7 @@
 #include <QQuickImageProvider>
 #include <QFileInfo>
 #include <QtSvg/QtSvg>
+#include "pixmapcache.h"
 #include "../settings/fileformats.h"
 #include "../settings/settings.h"
 #include "../logger.h"
@@ -45,6 +46,9 @@ private:
 	QString gmfiles;
 	QString extrasfiles;
 	QString rawfiles;
+
+	QCache<qint64,QPixmap> *pixmapcache;
+
 
 	QString whatDoIUse(QString filename);
 
