@@ -75,5 +75,6 @@
 	<file>img/openfile/backupicons/user-home.svg</file>
 	<file>img/openfile/backupicons/user-desktop.svg</file>
 	<file>img/openfile/backupicons/drive-harddisk.svg</file>
+	<file>img/loading.gif</file>
     </qresource>
 </RCC>

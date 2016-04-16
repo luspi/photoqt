@@ -202,7 +202,9 @@ Rectangle {
 								height = sourceSize.height
 							}
 							makeImageVisible(1)
-						}
+							hideLoader()
+						} else
+							showLoader()
 					}
 
 				}
@@ -243,7 +245,9 @@ Rectangle {
 								height = sourceSize.height
 							}
 							makeImageVisible(2)
-						}
+							hideLoader()
+						} else
+							showLoader()
 					}
 
 				}
@@ -287,7 +291,9 @@ Rectangle {
 								height = h
 							}
 							makeImageVisible(3)
-						}
+							hideLoader()
+						} else
+							showLoader()
 					}
 
 				}
@@ -331,7 +337,9 @@ Rectangle {
 								height = h
 							}
 							makeImageVisible(4)
-						}
+							hideLoader()
+						} else
+							showLoader()
 					}
 
 				}
@@ -340,6 +348,40 @@ Rectangle {
 
 		}
 
+	}
+
+	Rectangle {
+		id: loading
+		anchors.fill: parent
+		color: "#77000000"
+		property bool show: false
+		opacity: 0
+		Behavior on opacity { SmoothedAnimation { duration: 100 } }
+		AnimatedImage {
+			anchors.horizontalCenter: parent.horizontalCenter
+			anchors.verticalCenter: parent.verticalCenter
+			fillMode: Image.Pad
+			asynchronous: true
+			cache: false
+			source: "qrc:/img/loading.gif"
+			paused: parent.opacity==0
+		}
+	}
+	Timer {
+		id: loaderTimer
+		interval: 500
+		repeat: false
+		running: false
+		onTriggered: loading.opacity = 1
+	}
+
+	function showLoader() {
+		if(_image_current_source != "")
+			loaderTimer.restart()
+	}
+	function hideLoader() {
+		loaderTimer.stop()
+		loading.opacity = 0
 	}
 
 	// Load a new image
