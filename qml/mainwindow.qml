@@ -134,11 +134,7 @@ Item {
 		samples: settings.blurIntensity*3
 		Behavior on opacity { NumberAnimation { duration: 250 } }
 		radius: settings.blurIntensity*4
-		source: ShaderEffectSource {
-			sourceItem: mainview
-			// The small decrease in width prevents a narrow margin on the right with no blur (as it borders transparency)
-			sourceRect: Qt.rect(0, 0, blur_mainview.width-settings.blurIntensity, blur_mainview.height)
-		}
+		source: mainview
 	}
 
 	////////////////////////////
