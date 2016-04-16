@@ -108,7 +108,7 @@ Rectangle {
 					rotation = forrotation
 					flickarea.contentX = flickarea.contentWidth*ver
 					flickarea.contentY = flickarea.contentHeight*hor
-					if(image.scale == 1 && (_getCurrentSourceSize().width > smartimage_top.width || _getCurrentSourceSize().height > smartimage_top.height)) {
+					if(image.scale == 1 && (getCurrentSourceSize().width > smartimage_top.width || getCurrentSourceSize().height > smartimage_top.height)) {
 						if(Math.abs(forrotation%180) == 90) {
 							var w = imagecontainer.width
 							if(_image_currently_in_use == "one")
@@ -470,7 +470,7 @@ Rectangle {
 
 
 
-		var s = _getCurrentSourceSize()
+		var s = getCurrentSourceSize()
 		if((interpolationNearestNeighbourUpscale && (imagecontainer.width > s.width || imagecontainer.height > s.height)) || (s.width < interpolationNearestNeighbourThreshold && s.height < interpolationNearestNeighbourThreshold)) {
 			if(_image_currently_in_use == "one" && one.smooth == true)
 				one.smooth = false
@@ -511,7 +511,7 @@ Rectangle {
 
 		var use_zoomstep = zoomstep
 
-		var ss = _getCurrentSourceSize()
+		var ss = getCurrentSourceSize()
 
 		// We increase the zoomstep the more the image is zoomed in. Otherwise it will seem to get incredibly slow very fast
 		var frac = Math.max(flickarea.contentWidth/smartimage_top.width, flickarea.contentHeight/smartimage_top.height)
@@ -562,7 +562,7 @@ Rectangle {
 	function zoomActual() {
 		_zoomSetFromStorage = false
 		_zoomTowardsCenter = true
-		image.scale = Math.max(_getCurrentSourceSize().width/smartimage_top.width,_getCurrentSourceSize().height/smartimage_top.height)
+		image.scale = Math.max(getCurrentSourceSize().width/smartimage_top.width,getCurrentSourceSize().height/smartimage_top.height)
 	}
 
 	// Zoom to 250%
@@ -640,7 +640,7 @@ Rectangle {
 	}
 
 	// Function to get the sourcesize of the current image
-	function _getCurrentSourceSize() {
+	function getCurrentSourceSize() {
 		if(_image_currently_in_use == "one")
 			return one.sourceSize
 		else if(_image_currently_in_use == "two")

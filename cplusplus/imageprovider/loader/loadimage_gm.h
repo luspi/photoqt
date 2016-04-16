@@ -55,25 +55,6 @@ public:
 					int dispWidth = image.columns();
 					int dispHeight = image.rows();
 
-					// Store origSize in file for later detection
-					QFile sizes(QString(CACHE_DIR) + "/imagesizes");
-					if(sizes.open(QIODevice::ReadOnly) || !sizes.exists()) {
-						QString cont = "";
-						if(sizes.exists()) {
-							QTextStream in(&sizes);
-							cont = in.readAll();
-							sizes.close();
-						}
-						if(!cont.contains(filename + "=")) {
-							QFile outsizes(QString(CACHE_DIR) + "/imagesizes");
-							if(outsizes.open(QIODevice::WriteOnly | QIODevice::Append)) {
-								QTextStream out(&outsizes);
-								out << QString("%1=%2x%3\n").arg(QString(filename)).arg(dispWidth).arg(dispHeight);
-								outsizes.close();
-							}
-						}
-					}
-
 					double q;
 
 					if(dispWidth > maxSize.width()) {

@@ -332,7 +332,7 @@ FadeInTemplate {
 			return;
 		}
 
-		var s = getanddostuff.getImageSize(thumbnailBar.currentFile)
+		var s = mainview.getSourceSize()
 		currentheight.text = s.height
 		newheight.value = s.height
 		currentwidth.text = s.width

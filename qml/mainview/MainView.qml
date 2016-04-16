@@ -347,8 +347,8 @@ Item {
 		image.resetMirror()
 	}
 
-	function getActualSourceSize(path) {
-		return getanddostuff.getImageSize(path)
+	function getSourceSize() {
+		return image.getCurrentSourceSize()
 	}
 
 	function isZoomed() {

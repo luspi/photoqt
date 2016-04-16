@@ -29,7 +29,6 @@ public:
 	~GetAndDoStuffOther();
 
 	bool isImageAnimated(QString path);
-	QSize getImageSize(QString path);
 	QSize getAnimatedImageSize(QString path);
 	QPoint getGlobalCursorPos();
 	QColor addAlphaToColor(QString col, int alpha);

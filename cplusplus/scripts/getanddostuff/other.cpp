@@ -10,33 +10,6 @@ bool GetAndDoStuffOther::isImageAnimated(QString path) {
 
 }
 
-QSize GetAndDoStuffOther::getImageSize(QString path) {
-
-	path = path.remove("image://full/");
-	path = path.remove("file://");
-
-	if(path.trimmed() == "")
-		return QSize();
-
-	QFile file(QString(CACHE_DIR) + "/imagesizes");
-	if(file.open(QIODevice::ReadOnly)) {
-
-		QTextStream in(&file);
-		QString all = in.readAll();
-
-		if(all.contains(path + "=")) {
-			QStringList s = all.split(path + "=").last().split("\n").at(0).split("x");
-			return QSize(s.at(0).toInt(), s.at(1).toInt());
-		}
-
-		return QSize();
-
-	}
-
-	return QSize();
-
-}
-
 QSize GetAndDoStuffOther::getAnimatedImageSize(QString path) {
 
 	path = path.remove("image://full/");
