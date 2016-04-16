@@ -15,10 +15,8 @@ QSize GetAndDoStuffOther::getImageSize(QString path) {
 	path = path.remove("image://full/");
 	path = path.remove("file://");
 
-	if(path.trimmed() == "") {
-		std::cout << "empty...";
+	if(path.trimmed() == "")
 		return QSize();
-	}
 
 	QFile file(QString(CACHE_DIR) + "/imagesizes");
 	if(file.open(QIODevice::ReadOnly)) {
@@ -27,7 +25,7 @@ QSize GetAndDoStuffOther::getImageSize(QString path) {
 		QString all = in.readAll();
 
 		if(all.contains(path + "=")) {
-			QStringList s = all.split(path + "=").at(1).split("\n").at(0).split("x");
+			QStringList s = all.split(path + "=").last().split("\n").at(0).split("x");
 			return QSize(s.at(0).toInt(), s.at(1).toInt());
 		}
 
@@ -36,6 +34,21 @@ QSize GetAndDoStuffOther::getImageSize(QString path) {
 	}
 
 	return QSize();
+
+}
+
+QSize GetAndDoStuffOther::getAnimatedImageSize(QString path) {
+
+	path = path.remove("image://full/");
+	path = path.remove("file://");
+
+	if(path.trimmed() == "") {
+		std::cout << "empty...";
+		return QSize();
+	}
+
+	QImageReader reader(path);
+	return reader.size();
 
 }
 

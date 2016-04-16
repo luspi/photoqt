@@ -264,7 +264,7 @@ Rectangle {
 					anchors.verticalCenter: parent.verticalCenter
 
 					asynchronous: true
-					cache: false
+					cache: true
 					opacity: 0
 
 					Behavior on opacity { NumberAnimation { duration: fadeduration } }
@@ -275,8 +275,9 @@ Rectangle {
 
 					onStatusChanged: {
 						if(status == Image.Ready) {
-							var w = Math.max(smartimage_top.width,sourceSize.width)
-							var h = Math.max(smartimage_top.height,sourceSize.height)
+							var sz = getanddostuff.getAnimatedImageSize(three.source)
+							var w = sz.width
+							var h = sz.height
 							if(w > smartimage_top.width || h > smartimage_top.height) {
 								var factor = Math.min(smartimage_top.height/h, smartimage_top.width/w)
 								width = w*factor
@@ -307,7 +308,7 @@ Rectangle {
 					anchors.verticalCenter: parent.verticalCenter
 
 					asynchronous: true
-					cache: false
+					cache: true
 					opacity: 0
 
 					Behavior on opacity { NumberAnimation { duration: fadeduration } }
@@ -318,8 +319,9 @@ Rectangle {
 
 					onStatusChanged: {
 						if(status == Image.Ready) {
-							var w = Math.max(smartimage_top.width,sourceSize.width)
-							var h = Math.max(smartimage_top.height,sourceSize.height)
+							var sz = getanddostuff.getAnimatedImageSize(four.source)
+							var w = sz.width
+							var h = sz.height
 							if(w > smartimage_top.width || h > smartimage_top.height) {
 								var factor = Math.min(smartimage_top.height/h, smartimage_top.width/w)
 								width = w*factor
@@ -342,6 +344,9 @@ Rectangle {
 
 	// Load a new image
 	function loadImage(src, animated) {
+
+		if(_image_current_source == src)
+			return
 
 		_image_current_source = src
 
@@ -411,29 +416,31 @@ Rectangle {
 		else if(_image_currently_in_use == "four")
 			four.opacity = 0
 
-		if(id === 1) {
+		if(id == 1) {
 			if((one.sourceSize.width < smartimage_top.width && one.sourceSize.height < smartimage_top.height) && !fitinwindow)
 				one.fillMode = Image.Pad
 			else
 				one.fillMode = Image.PreserveAspectFit
 			one.opacity = 1
 			_image_currently_in_use = "one"
-		} else if(id === 2) {
+		} else if(id == 2) {
 			if((two.sourceSize.width < smartimage_top.width && two.sourceSize.height < smartimage_top.height) && !fitinwindow)
 				two.fillMode = Image.Pad
 			else
 				two.fillMode = Image.PreserveAspectFit
 			two.opacity = 1
 			_image_currently_in_use = "two"
-		} else if(id === 3) {
-			if((three.sourceSize.width < smartimage_top.width && three.sourceSize.height < smartimage_top.height) && !fitinwindow)
+		} else if(id == 3) {
+			var sz = getanddostuff.getAnimatedImageSize(three.source)
+			if((sz.width < smartimage_top.width && sz.height < smartimage_top.height) && !fitinwindow)
 				three.fillMode = Image.Pad
 			else
 				three.fillMode = Image.PreserveAspectFit
 			three.opacity = 1
 			_image_currently_in_use = "three"
-		} else if(id === 4) {
-			if((four.sourceSize.width < smartimage_top.width && four.sourceSize.height < smartimage_top.height) && !fitinwindow)
+		} else if(id == 4) {
+			var sz = getanddostuff.getAnimatedImageSize(four.source)
+			if((sz.width < smartimage_top.width && sz.height < smartimage_top.height) && !fitinwindow)
 				four.fillMode = Image.Pad
 			else
 				four.fillMode = Image.PreserveAspectFit
@@ -639,9 +646,11 @@ Rectangle {
 		else if(_image_currently_in_use == "two")
 			return two.sourceSize
 		else if(_image_currently_in_use == "three")
-			return three.sourceSize
+			return getanddostuff.getAnimatedImageSize(three.source)
 		else if(_image_currently_in_use == "four")
-			return four.sourceSize
+			return getanddostuff.getAnimatedImageSize(four.source)
+		else
+			return Qt.size(0,0)
 	}
 
 	function setInteractiveMode(enabled) {
