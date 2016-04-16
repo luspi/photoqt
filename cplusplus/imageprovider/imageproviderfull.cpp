@@ -13,7 +13,7 @@ ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider
 	extrasfiles = fileformats->formats_extras.join(",");
 	rawfiles = fileformats->formats_raw.join(",");
 
-	pixmapcache = new QCache<qint64, QPixmap>;
+	pixmapcache = new QCache<QByteArray, QPixmap>;
 	pixmapcache->setMaxCost(1024*settings->pixmapCache);
 
 }
@@ -22,6 +22,7 @@ ImageProviderFull::~ImageProviderFull() {
 	delete settingsPerSession;
 	delete settings;
 	delete fileformats;
+	delete pixmapcache;
 }
 
 QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *size, const QSize &requestedSize) {
@@ -44,7 +45,8 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *s
 
 
 	QImage ret;
-	qint64 cachekey = QFileInfo(filename).lastModified().toMSecsSinceEpoch();
+
+	QByteArray cachekey = getUniqueCacheKey(filename);
 
 	if(pixmapcache->contains(cachekey)) {
 		QPixmap *pix = pixmapcache->take(cachekey);
@@ -154,4 +156,12 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
 
 	return "qt";
 
+}
+
+QByteArray ImageProviderFull::getUniqueCacheKey(QString path) {
+	path = path.remove("image://full/");
+	path = path.remove("file://");
+	QFileInfo info(path);
+	QString fn = QString("%1%2").arg(path).arg(info.lastModified().toMSecsSinceEpoch());
+	return QCryptographicHash::hash(fn.toLatin1(),QCryptographicHash::Md5).toHex();
 }

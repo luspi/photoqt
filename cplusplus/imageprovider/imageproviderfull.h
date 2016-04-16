@@ -47,7 +47,7 @@ private:
 	QString extrasfiles;
 	QString rawfiles;
 
-	QCache<qint64,QPixmap> *pixmapcache;
+	QCache<QByteArray,QPixmap> *pixmapcache;
 
 
 	QString whatDoIUse(QString filename);
@@ -55,6 +55,8 @@ private:
 #ifdef GM
 	GmImageMagick imagemagick;
 #endif
+
+	QByteArray getUniqueCacheKey(QString path);
 
 };
 
