@@ -62,6 +62,7 @@ Item {
 		fadeduration: settings.transition*150
 		zoomduration: 150
 		zoomstep: 0.3
+		clip: true
 		fitinwindow: settings.fitInWindow
 		interpolationNearestNeighbourThreshold: settings.interpolationNearestNeighbourThreshold
 		interpolationNearestNeighbourUpscale: settings.interpolationNearestNeighbourUpscale
