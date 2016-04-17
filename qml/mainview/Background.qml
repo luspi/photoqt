@@ -156,12 +156,12 @@ Rectangle {
 
 	function hideEverything() {
 
-		var thumbPos = Qt.point(localcursorpos.x,localcursorpos.y-thumbnailBar.y)
+		var thumbPos = Qt.point(localcursorpos.x-thumbnailBar.x,localcursorpos.y-thumbnailBar.y)
 		var mainmenuPos = Qt.point(localcursorpos.x-mainmenu.x, localcursorpos.y)
 
 		if(!thumbnailBar.contains(thumbPos))
 			thumbnailBar.hide()
-		if((!metaData.contains(mainmenuPos) && settingssession.value("metadatakeepopen") === false) || thumbnailBar.contains(thumbPos))
+		if((!metaData.contains(localcursorpos) && settingssession.value("metadatakeepopen") === false) || thumbnailBar.contains(thumbPos))
 			metaData.hide()
 		if(!mainmenu.contains(mainmenuPos) || thumbnailBar.contains(thumbPos))
 			mainmenu.hide()
