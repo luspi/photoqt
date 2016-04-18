@@ -2,6 +2,8 @@ import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Layouts 1.0
 
+import "../elements"
+
 Rectangle {
 
 	id: top
@@ -84,6 +86,16 @@ Rectangle {
 	FilesViewGrid {
 		id: gridview
 	}
+
+	ScrollBarVertical {
+		id: listview_scrollbar
+		flk: listview
+	}
+	ScrollBarVertical {
+		id: gridview_scrollbar
+		flk: gridview
+	}
+
 
 	Text {
 		id: nothingfound

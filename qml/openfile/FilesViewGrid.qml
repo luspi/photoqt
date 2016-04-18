@@ -2,11 +2,14 @@ import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Layouts 1.0
 
+import "../elements"
+
 GridView {
 
 	id: gridview
 
 	anchors.fill: parent
+	anchors.rightMargin: gridview_scrollbar.width
 
 	property var visibleItems: []
 	contentItem.onVisibleChildrenChanged: {
@@ -34,6 +37,8 @@ GridView {
 	delegate: gridviewDelegate
 
 	onCurrentIndexChanged: {
+
+		edit_rect.focusOnInput()
 
 		if(opacity == 1)
 			listview.currentIndex = currentIndex
@@ -143,12 +148,13 @@ GridView {
 				}
 			}
 
-			MouseArea {
+			ToolTip {
 				x: 10
 				y: 10
 				width: parent.width-20
 				height: parent.height-20
 				hoverEnabled: true
+				text: (files.length > 2*index && files[2*index] !== undefined) ? files[2*index] : ""
 				cursorShape: Qt.PointingHandCursor
 				acceptedButtons: Qt.RightButton | Qt.LeftButton
 				onEntered: {

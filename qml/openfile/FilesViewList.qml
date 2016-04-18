@@ -2,6 +2,8 @@ import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Layouts 1.0
 
+import "../elements"
+
 ListView {
 
 	id: listview
@@ -27,6 +29,8 @@ ListView {
 
 	onCurrentIndexChanged: {
 
+		edit_rect.focusOnInput()
+
 		if(opacity == 1)
 			gridview.currentIndex = currentIndex
 		else
@@ -47,7 +51,7 @@ ListView {
 		id: listviewDelegate
 
 		Rectangle {
-			width: listview.width
+			width: listview.width-listview_scrollbar.width
 			height: files_txt.height
 			color: index%2==0 ? "#22ffffff" : "#11ffffff"
 
@@ -90,7 +94,7 @@ ListView {
 			Text {
 				id: files_txt
 				x: 5 + files_img.width+5
-				width: listview.width-15-files_size.width
+				width: listview.width-15-files_size.width-icon.width
 				text: "<b>" + filename + "</b>"
 				color: "white"
 				verticalAlignment: Text.AlignVCenter
@@ -99,17 +103,20 @@ ListView {
 			}
 			Text {
 				id:files_size
-				x: (files_txt.x + files_txt.width) + 5
-				width: Math.max(tweaks.zoomlevel*4,100)
+				x: (files_txt.x + files_txt.width)
+				anchors.right: parent.right
+				anchors.rightMargin: 5
 				text: filesize
 				color: "white"
+				horizontalAlignment: Text.AlignRight
 				verticalAlignment: Text.AlignVCenter
 				font.pixelSize: tweaks.zoomlevel
 			}
 
-			MouseArea {
+			ToolTip {
 				anchors.fill: parent
 				hoverEnabled: true
+				text: (files.length > 2*index && files[2*index] !== undefined) ? files[2*index] : ""
 				cursorShape: Qt.PointingHandCursor
 				acceptedButtons: Qt.LeftButton | Qt.RightButton
 				onEntered: {
