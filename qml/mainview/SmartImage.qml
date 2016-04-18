@@ -356,7 +356,7 @@ Rectangle {
 		color: "#77000000"
 		property bool show: false
 		opacity: 0
-		Behavior on opacity { SmoothedAnimation { duration: 100 } }
+		Behavior on opacity { NumberAnimation { duration: 100 } }
 		AnimatedImage {
 			anchors.horizontalCenter: parent.horizontalCenter
 			anchors.verticalCenter: parent.verticalCenter
