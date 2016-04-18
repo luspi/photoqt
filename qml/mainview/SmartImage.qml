@@ -169,15 +169,6 @@ Rectangle {
 
 					id: one
 
-					width: smartimage_top.width
-					height: smartimage_top.height
-
-					Connections {
-						target: smartimage_top
-						onWidthChanged: one.width = smartimage_top.width
-						onHeightChanged: one.height = smartimage_top.height
-					}
-
 					anchors.horizontalCenter: parent.horizontalCenter
 					anchors.verticalCenter: parent.verticalCenter
 
@@ -212,15 +203,6 @@ Rectangle {
 
 					id: two
 
-					width: smartimage_top.width
-					height: smartimage_top.height
-
-					Connections {
-						target: smartimage_top
-						onWidthChanged: two.width = smartimage_top.width
-						onHeightChanged: two.height = smartimage_top.height
-					}
-
 					anchors.horizontalCenter: parent.horizontalCenter
 					anchors.verticalCenter: parent.verticalCenter
 
@@ -254,15 +236,6 @@ Rectangle {
 				AnimatedImage {
 
 					id: three
-
-					width: smartimage_top.width
-					height: smartimage_top.height
-
-					Connections {
-						target: smartimage_top
-						onWidthChanged: one.width = smartimage_top.width
-						onHeightChanged: one.height = smartimage_top.height
-					}
 
 					anchors.horizontalCenter: parent.horizontalCenter
 					anchors.verticalCenter: parent.verticalCenter
@@ -300,15 +273,6 @@ Rectangle {
 				AnimatedImage {
 
 					id: four
-
-					width: smartimage_top.width
-					height: smartimage_top.height
-
-					Connections {
-						target: smartimage_top
-						onWidthChanged: one.width = smartimage_top.width
-						onHeightChanged: one.height = smartimage_top.height
-					}
 
 					anchors.horizontalCenter: parent.horizontalCenter
 					anchors.verticalCenter: parent.verticalCenter

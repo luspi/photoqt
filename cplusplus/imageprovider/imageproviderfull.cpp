@@ -29,10 +29,10 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *s
 
 	QString filename = QByteArray::fromPercentEncoding(filename_encoded.toUtf8());
 
-	if(requestedSize.width() > 20 || requestedSize.height() > 20)
+	// This means that we're looking for a thumbnail only
+	if(requestedSize.width() <= 256 || requestedSize.height() <= 256)
 		maxSize = requestedSize;
 	else
-		// This indicates that the image has been zoomed -> no scaling!
 		maxSize = QSize(-1,-1);
 
 	// Which GraphicsEngine should we use?
