@@ -1,105 +1,69 @@
-import QtQuick 2.3;
+import QtQuick 2.3
 
-Item {
+Rectangle {
 
-	id: scrollbar;
+	id: scrollbar
 
-	width: (handleSize + 2 * (backScrollbar.border.width +1));
-	visible: (flickable.visibleArea.heightRatio < 1.0);
+	property Flickable flk : undefined
+	color: scrl.visible ? "#22ffffff" : "transparent"
 
-	anchors {
-		top: flickable.top;
-		right: flickable.right;
-		bottom: flickable.bottom;
-		margins: 1;
+	width: scrl.visible ? 10 : 0
+	anchors{
+		right: flk.right;
+		top: flk.top
+		bottom: flk.bottom
 	}
 
-	property Flickable flickable: null;
-	property int handleSize: 8;
-
-	property real opacityVisible: 0.8
-	property real opacityHidden: 0.1
-
-	signal scrollFinished();
-
-	Binding {
-		target: handle;
-		property: "x";
-		value: (flickable.contentY * clicker.drag.maximumY / (flickable.contentHeight - flickable.height));
-		when: (!clicker.drag.active);
-	}
-
-	Binding {
-		target: flickable;
-		property: "contentY";
-		value: (handle.y * (flickable.contentHeight - flickable.height) / clicker.drag.maximumY);
-		when: (clicker.drag.active || clicker.pressed);
-	}
+	clip: true
+	visible: flk.visible
+	z:1
 
 	Rectangle {
-		id: backScrollbar;
-		antialiasing: true;
-		color: Qt.rgba(0, 0, 0, 0.2);
-		anchors.fill: parent;
-	}
-
-	Item {
-
-		id: groove;
-		clip: true;
-
+		id: scrl
+		clip: true
 		anchors {
-			fill: parent;
-			topMargin: (backScrollbar.border.width +1);
-			leftMargin: (backScrollbar.border.width +1);
-			rightMargin: (backScrollbar.border.width +1);
-			bottomMargin: (backScrollbar.border.width +1);
+			left: parent.left
+			right: parent.right
+		}
+		height: Math.max(20,flk.visibleArea.heightRatio * flk.height)
+		visible: flk.visibleArea.heightRatio < 1.0
+		radius: 10
+		color: "black"
+
+		border.width: 1
+		border.color: "white"
+
+		opacity: ma.pressed ? 1 : ma.containsMouse ? 0.8 : 0.6
+		Behavior on opacity {NumberAnimation{duration: 150}}
+
+		Binding {
+			target: scrl
+			property: "y"
+			value: !isNaN(flk.visibleArea.heightRatio) ? (ma.drag.maximumY * flk.contentY) / (flk.contentHeight * (1 - flk.visibleArea.heightRatio)) : 0
+			when: !ma.drag.active
+		}
+
+		Binding {
+			target: flk
+			property: "contentY"
+			value: ((flk.contentHeight * (1 - flk.visibleArea.heightRatio)) * scrl.y) / ma.drag.maximumY
+			when: ma.drag.active && flk !== undefined
 		}
 
 		MouseArea {
-
-			id: clicker;
-
-			anchors.fill: parent;
-			cursorShape: (pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor)
+			id: ma
+			anchors.fill: parent
 			hoverEnabled: true
-
+			cursorShape: Qt.OpenHandCursor
+			onPressed: cursorShape = Qt.ClosedHandCursor
+			onReleased: cursorShape = Qt.OpenHandCursor
 			drag {
-				target: handle;
-				minimumY: 0;
-				maximumY: (groove.height - handle.height);
-				axis: Drag.YAxis;
+				target: parent
+				axis: Drag.YAxis
+				minimumY: 0
+				maximumY: flk.height - scrl.height
 			}
-
-			onClicked: flickable.contentY = (mouse.y / groove.height * (flickable.contentHeight - flickable.height));
-			onReleased: scrollFinished();
-
-		}
-
-		Item {
-
-			id: handle;
-
-			width: Math.max (20, (flickable.visibleArea.heightRatio * groove.height));
-
-			anchors {
-				left: parent.left;
-				right: parent.right;
-			}
-
-			Rectangle {
-
-				id: backHandle;
-
-				anchors.fill: parent;
-				color: ((clicker.containsMouse || clicker.pressed) ? "black" : "black");
-				border.color: "white"
-				border.width: 1
-				opacity: ((clicker.containsMouse || clicker.pressed) ? opacityVisible : opacityHidden);
-
-				Behavior on opacity { NumberAnimation { duration: 50; } }
-
-			}
+			preventStealing: true
 		}
 	}
 }
