@@ -115,6 +115,12 @@ private slots:
 	}
 	void setImageInteractiveMode(bool enabled) { QMetaObject::invokeMethod(object, "setImageInteractiveMode", Q_ARG(QVariant, enabled)); }
 
+	void loadStatus(QQuickView::Status status) {
+		if(status == QQuickView::Error)
+			for(int i = 0; i < this->errors().length(); ++i)
+				LOG << DATE << "QQuickView QML LOADING ERROR: " << this->errors().at(i).toString().toStdString() << std::endl;
+	}
+
 protected:
 	bool event(QEvent *e);
 	void wheelEvent(QWheelEvent *e);
