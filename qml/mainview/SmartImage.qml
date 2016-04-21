@@ -90,14 +90,12 @@ Rectangle {
 				width: (_image_currently_in_use == "one" ? one.width*one.scale
 							: (_image_currently_in_use == "two" ? two.width*two.scale
 									: (_image_currently_in_use == "three" ? three.width*three.scale
-											: (_image_currently_in_use == "four" ? four.width*four.scale
-													: smartimage_top.width))))
+											: four.width*four.scale)))
 
 				height: (_image_currently_in_use == "one" ? one.height*one.scale
 							: (_image_currently_in_use == "two" ? two.height*two.scale
 									: (_image_currently_in_use == "three" ? three.height*three.scale
-											: (_image_currently_in_use == "four" ? four.height*four.scale
-													: smartimage_top.height))))
+											: four.height*four.scale)))
 
 				anchors.horizontalCenter: parent.horizontalCenter
 				anchors.verticalCenter: parent.verticalCenter
