@@ -9,7 +9,7 @@ CustomConfirm {
 	fillAnchors: parent
 
 	header: "Shortcuts"
-	property string intro: "You can use the following shortcuts for navigation:"
+	property string intro: qsTr("You can use the following shortcuts for navigation") + ":"
 	property var shortcuts: ({})
 	property string area: ""
 
