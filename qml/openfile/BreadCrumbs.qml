@@ -40,12 +40,16 @@ Rectangle {
 			anchors.bottom: parent.bottom
 			width: 40
 
+			enabled: (historypos > 0 && history.length > 1)
+
 			text: "<"
 			fontsize: 30
 			overrideFontColor: "white"
 			overrideBackgroundColor: "transparent"
 
-			tooltip: "Go backwards in history"
+			opacity: enabled ? 1 : 0.4
+
+			tooltip: qsTr("Go backwards in history")
 
 			onClickedButton: goBackInHistory()
 
@@ -61,12 +65,16 @@ Rectangle {
 			anchors.bottom: parent.bottom
 			width: 40
 
+			enabled: (historypos < history.length-1 && historypos > 0)
+
 			text: ">"
 			fontsize: 30
 			overrideFontColor: "white"
 			overrideBackgroundColor: "transparent"
 
-			tooltip: "Go forwards in history"
+			opacity: enabled ? 1 : 0.4
+
+			tooltip: qsTr("Go forwards in history")
 
 			onClickedButton: goForwardsInHistory()
 
