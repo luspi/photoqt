@@ -170,11 +170,11 @@ Rectangle {
 		id: usermenu
 
 		MenuItem {
-			text: "Remove from favourites"
+			text: qsTr("Remove from favourites")
 			onTriggered: saveUserPlacesExceptCurrentlyHighlighted()
 		}
 		MenuItem {
-			text: "Load folder"
+			text: qsTr("Load folder")
 			onTriggered: loadCurrentlyHighlightedFolder()
 		}
 
