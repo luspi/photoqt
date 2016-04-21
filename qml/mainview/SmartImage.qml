@@ -8,6 +8,7 @@ Rectangle {
 	color: "#00000000"
 	anchors.fill: parent
 
+
 	// These properties can change the zoom and fade behaviour
 	property int fadeduration: 400
 	property double zoomduration: 150
@@ -89,11 +90,14 @@ Rectangle {
 				width: (_image_currently_in_use == "one" ? one.width*one.scale
 							: (_image_currently_in_use == "two" ? two.width*two.scale
 									: (_image_currently_in_use == "three" ? three.width*three.scale
-											: four.width*four.scale)))
+											: (_image_currently_in_use == "four" ? four.width*four.scale
+													: smartimage_top.width))))
+
 				height: (_image_currently_in_use == "one" ? one.height*one.scale
 							: (_image_currently_in_use == "two" ? two.height*two.scale
 									: (_image_currently_in_use == "three" ? three.height*three.scale
-											: four.height*four.scale)))
+											: (_image_currently_in_use == "four" ? four.height*four.scale
+													: smartimage_top.height))))
 
 				anchors.horizontalCenter: parent.horizontalCenter
 				anchors.verticalCenter: parent.verticalCenter
@@ -172,11 +176,15 @@ Rectangle {
 					anchors.horizontalCenter: parent.horizontalCenter
 					anchors.verticalCenter: parent.verticalCenter
 
+					property real factor: 1
+					width: sourceSize.width*factor
+					height: sourceSize.height*factor
+
 					asynchronous: true
 					cache: false
 					opacity: 0
 
-					Behavior on opacity { NumberAnimation { duration: fadeduration } }
+					Behavior on opacity { SmoothedAnimation { duration: fadeduration } }
 					Behavior on scale { SmoothedAnimation { id: aniScaleOne; duration: zoomduration } }
 
 					mipmap: true
@@ -184,14 +192,10 @@ Rectangle {
 
 					onStatusChanged: {
 						if(status == Image.Ready) {
-							if(sourceSize.width > smartimage_top.width || sourceSize.height > smartimage_top.height) {
-								var factor = Math.min(smartimage_top.height/sourceSize.height, smartimage_top.width/sourceSize.width)
-								width = sourceSize.width*factor
-								height = sourceSize.height*factor
-							} else {
-								width = sourceSize.width
-								height = sourceSize.height
-							}
+							if(sourceSize.width > smartimage_top.width || sourceSize.height > smartimage_top.height)
+								factor = Math.min(smartimage_top.height/sourceSize.height, smartimage_top.width/sourceSize.width)
+							else
+								factor = 1
 							makeImageVisible(1)
 							hideLoader()
 						} else
@@ -206,6 +210,10 @@ Rectangle {
 					anchors.horizontalCenter: parent.horizontalCenter
 					anchors.verticalCenter: parent.verticalCenter
 
+					property real factor: 1
+					width: sourceSize.width*factor
+					height: sourceSize.height*factor
+
 					asynchronous: true
 					cache: false
 					opacity: 0
@@ -218,14 +226,10 @@ Rectangle {
 
 					onStatusChanged: {
 						if(status == Image.Ready) {
-							if(sourceSize.width > smartimage_top.width || sourceSize.height > smartimage_top.height) {
-								var factor = Math.min(smartimage_top.height/sourceSize.height, smartimage_top.width/sourceSize.width)
-								width = sourceSize.width*factor
-								height = sourceSize.height*factor
-							} else {
-								width = sourceSize.width
-								height = sourceSize.height
-							}
+							if(sourceSize.width > smartimage_top.width || sourceSize.height > smartimage_top.height)
+								factor = Math.min(smartimage_top.height/sourceSize.height, smartimage_top.width/sourceSize.width)
+							else
+								factor = 1
 							makeImageVisible(2)
 							hideLoader()
 						} else
@@ -244,7 +248,7 @@ Rectangle {
 					cache: true
 					opacity: 0
 
-					Behavior on opacity { NumberAnimation { duration: fadeduration } }
+					Behavior on opacity { SmoothedAnimation { duration: fadeduration } }
 					Behavior on scale { SmoothedAnimation { id: aniScaleThree; duration: zoomduration } }
 
 					mipmap: true
@@ -348,11 +352,32 @@ Rectangle {
 		loading.opacity = 0
 	}
 
+	// Calling loadImage() function hoping the window has been shown fully by then
+	Timer {
+		id: loadimage_delay
+		property string src: ""
+		property bool animated: false
+		running: false
+		repeat: false
+		interval: 200
+		onTriggered:
+			loadImage(src,animated)
+	}
+
 	// Load a new image
 	function loadImage(src, animated) {
 
 		if(_image_current_source == src)
 			return
+
+		// When opening an image at startup, we have to ensure that the window has actually been displayed properly
+		// Otherwise it will seem like it has a width/height of 0
+		if(smartimage_top.width < 25 || smartimage_top.height < 25) {
+			loadimage_delay.src = src
+			loadimage_delay.animated = animated
+			loadimage_delay.restart()
+			return
+		}
 
 		_image_current_source = src
 
