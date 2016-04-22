@@ -380,4 +380,8 @@ Rectangle {
 		showMetaData.start()
 	}
 
+	function clickInMetaData(pos) {
+		return meta.contains(meta.mapFromItem(toplevel,pos.x,pos.y))
+	}
+
 }

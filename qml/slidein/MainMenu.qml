@@ -465,4 +465,8 @@ Rectangle {
 		hideMainmenu.start()
 	}
 
+	function clickInMainMenu(pos) {
+		return mainmenu.contains(mainmenu.mapFromItem(toplevel,pos.x,pos.y))
+	}
+
 }

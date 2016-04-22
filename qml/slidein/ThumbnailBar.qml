@@ -481,4 +481,8 @@ Rectangle {
 		hideThumbnailBar.start()
 	}
 
+	function clickOnThumbnailBar(pos) {
+		return thumbnailBar.contains(thumbnailBar.mapFromItem(toplevel,pos.x,pos.y))
+	}
+
 }
