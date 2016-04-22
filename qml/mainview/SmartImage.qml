@@ -654,6 +654,8 @@ Rectangle {
 		image.forrotation -= 90
 	}
 	function resetMirror() {
+		if(_vertical_mirrored)
+			image.forrotation += 90
 		if(_image_currently_in_use == "one")
 			one.mirror = false
 		else if(_image_currently_in_use == "two")
@@ -663,7 +665,7 @@ Rectangle {
 		else if(_image_currently_in_use == "four")
 			four.mirror = false
 		if(_vertical_mirrored) {
-			imgrot.angle -= 180
+			image.forrotation += 90
 			_vertical_mirrored = false
 		}
 	}
