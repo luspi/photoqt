@@ -125,7 +125,17 @@ Item {
 	////////////////////////////
 
 	// The main displayed image
-	MainView { id: mainview; }
+	MainView {
+		id: mainview;
+		MouseArea {
+			anchors.fill: parent
+			propagateComposedEvents: true
+			onPressed: {
+				mainview.analyseClick(Qt.point(mouse.x,mouse.y))
+				mouse.accepted = false
+			}
+		}
+	}
 	GaussianBlur {
 		id: blur_mainview
 		anchors.fill: mainview

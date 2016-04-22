@@ -692,4 +692,15 @@ Rectangle {
 		return image.scale!=-1
 	}
 
+	function clickInsideImage(pos) {
+		if(_image_currently_in_use == "one")
+			return one.contains(one.mapFromItem(toplevel,pos.x,pos.y))
+		else if(_image_currently_in_use == "two")
+			return two.contains(two.mapFromItem(toplevel,pos.x,pos.y))
+		else if(_image_currently_in_use == "three")
+			return three.contains(three.mapFromItem(toplevel,pos.x,pos.y))
+		else if(_image_currently_in_use == "four")
+			return four.contains(four.mapFromItem(toplevel,pos.x,pos.y))
+	}
+
 }

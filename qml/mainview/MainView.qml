@@ -67,16 +67,6 @@ Item {
 		interpolationNearestNeighbourThreshold: settings.interpolationNearestNeighbourThreshold
 		interpolationNearestNeighbourUpscale: settings.interpolationNearestNeighbourUpscale
 
-		// ignore wheel events (use for shortcuts, not for scrolling (scroll+zoom leads to unwanted behaviour))
-		MouseArea {
-			anchors.fill: parent
-			propagateComposedEvents: true
-			onWheel: wheel.accepted = sh.takeWheelEventAsShortcut	// ignore mouse wheel if it's used for a shortcut
-			onPressed: mouse.accepted = false
-			onReleased: mouse.accepted = false
-			onMouseXChanged: mouse.accepted = false
-			onMouseYChanged: mouse.accepted = false
-		}
 	}
 
 	function getClosingX_x() { return rect.x; }
@@ -358,6 +348,11 @@ Item {
 
 	function setInteractiveMode(enabled) {
 		image.setInteractiveMode(enabled)
+	}
+
+	function analyseClick(pos) {
+		if(!image.clickInsideImage(pos) && settings.closeongrey)
+			quitPhotoQt()
 	}
 
 }
