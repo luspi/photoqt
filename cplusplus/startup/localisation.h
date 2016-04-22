@@ -16,12 +16,12 @@ namespace StartupCheck {
 
 		static inline void loadTranslation(bool verbose, QString *settingsText, QTranslator *trans) {
 
-			if(verbose) LOG << DATE << "StartupCheck::Localisation" << std::endl;
+			if(verbose) LOG << DATE << "StartupCheck::Localisation" << NL;
 
 			// We use two strings, since the system locale usually is of the form e.g. "de_DE"
 			// and some translations only come with the first part, i.e. "de",
 			// and some with the full string. We need to be able to find both!
-			if(verbose) LOG << DATE << "Checking for translation" << std::endl;
+			if(verbose) LOG << DATE << "Checking for translation" << NL;
 			QString code1 = "";
 			QString code2 = "";
 			bool noLanguageWasSet = false;
@@ -32,15 +32,15 @@ namespace StartupCheck {
 				code1 = QLocale::system().name();
 				code2 = QLocale::system().name().split("_").at(0);
 			}
-			if(verbose) LOG << DATE << "Found following language: " << code1.toStdString()  << "/" << code2.toStdString() << std::endl;
+			if(verbose) LOG << DATE << "Found following language: " << code1.toStdString()  << "/" << code2.toStdString() << NL;
 			if(QFile(":/photoqt_" + code1 + ".qm").exists()) {
-				LOG << DATE << "Loading Translation:" << code1.toStdString() << std::endl;
+				LOG << DATE << "Loading Translation:" << code1.toStdString() << NL;
 				trans->load(":/photoqt_" + code1);
 				qApp->installTranslator(trans);
 				code2 = code1;
 				noLanguageWasSet = true;
 			} else if(QFile(":/photoqt_" + code2 + ".qm").exists()) {
-				LOG << DATE << "Loading Translation:" << code2.toStdString() << std::endl;
+				LOG << DATE << "Loading Translation:" << code2.toStdString() << NL;
 				trans->load(":/photoqt_" + code2);
 				qApp->installTranslator(trans);
 				code1 = code2;

@@ -44,12 +44,12 @@ QVariantMap GetAndDoStuffShortcuts::getShortcuts() {
 
 	if(!file.exists()) {
 		// Set-up Map of default shortcuts;
-		std::cout << "INFO: Using default shortcuts set" << std::endl;
+		LOG << DATE << "GetAndDoStuffShortcuts: INFO: Using default shortcuts set" << NL;
 		return getDefaultShortcuts();
 	}
 
 	if(!file.open(QIODevice::ReadOnly)) {
-		std::cerr << "ERROR: failed to read shortcuts file" << std::endl;
+		LOG << DATE << "GetAndDoStuffShortcuts: ERROR: failed to read shortcuts file" << NL;
 		return QVariantMap();
 	}
 
@@ -59,7 +59,7 @@ QVariantMap GetAndDoStuffShortcuts::getShortcuts() {
 		if(line.startsWith("Version") || line.trimmed() == "") continue;
 		QStringList parts = line.split("::");
 		if(parts.length() != 3) {
-			std::cerr << "ERROR: invalid shortcuts data: " << line.toStdString() << std::endl;
+			LOG << DATE << "GetAndDoStuffShortcuts: ERROR: invalid shortcuts data: " << line.toStdString() << NL;
 			continue;
 		}
 
@@ -156,7 +156,7 @@ void GetAndDoStuffShortcuts::saveShortcuts(QVariantMap l) {
 
 	QFile file(CFG_SHORTCUTS_FILE);
 	if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-		std::cerr << "ERROR: Unable to open shortcuts file for writing/saving" << std::endl;
+		LOG << DATE << "GetAndDoStuffShortcuts: ERROR: Unable to open shortcuts file for writing/saving" << NL;
 		return;
 	}
 
@@ -171,7 +171,7 @@ QString GetAndDoStuffShortcuts::getShortcutFile() {
 
 	QFile file(CFG_SHORTCUTS_FILE);
 	if(!file.open(QIODevice::ReadOnly)) {
-		std::cerr << "ERROR: Unable to read shortcuts file" << std::endl;
+		LOG << DATE << "GetAndDoStuffShortcuts: ERROR: Unable to read shortcuts file" << NL;
 		return "";
 	}
 	QTextStream in(&file);

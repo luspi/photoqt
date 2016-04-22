@@ -86,7 +86,7 @@ QVariantMap GetMetaData::getExiv2(QString path) {
 			try {
 				image  = Exiv2::ImageFactory::open(path.toStdString());
 			} catch (Exiv2::Error& e) {
-				LOG << DATE << "getmetadata - ERROR reading exiv data (caught exception): " << e.what() << std::endl;
+				LOG << DATE << "getmetadata - ERROR reading exiv data (caught exception): " << e.what() << NL;
 				returnMap.clear();
 				returnMap.insert("validfile","0");
 				return returnMap;
@@ -240,12 +240,12 @@ QString GetMetaData::exifFNumberFLength(QString value) {
 // Format time the photo was taken
 QString GetMetaData::exifPhotoTaken(QString value) {
 
-       QStringList split = value.split(" ");
-       QStringList split2 = split.at(0).split(":");
-       if(split.length() > 1 && split2.length() > 2)
-	       value = split2.at(2) + "/" + split2.at(1) + "/" + split2.at(0) + ", " + split.at(1);
+	QStringList split = value.split(" ");
+	QStringList split2 = split.at(0).split(":");
+	if(split.length() > 1 && split2.length() > 2)
+		value = split2.at(2) + "/" + split2.at(1) + "/" + split2.at(0) + ", " + split.at(1);
 
-       return value;
+	return value;
 
 }
 

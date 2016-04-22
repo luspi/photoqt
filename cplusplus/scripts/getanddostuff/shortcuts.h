@@ -11,6 +11,7 @@
 #include <QTime>
 #include <QFileSystemWatcher>
 #include <QTimer>
+#include "../../logger.h"
 
 class GetAndDoStuffShortcuts : public QObject {
 

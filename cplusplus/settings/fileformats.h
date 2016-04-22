@@ -76,7 +76,7 @@ public:
 
 	void setAvailableFormats() {
 
-		if(verbose) LOG << DATE << "Setting available file formats" << std::endl;
+		if(verbose) LOG << DATE << "Setting available file formats" << NL;
 
 		formats_qt = FileFormatsHandler::AvailableFormats::getListForQt();
 		formats_gm = FileFormatsHandler::AvailableFormats::getListForGm();
@@ -91,7 +91,7 @@ public:
 
 		setAvailableFormats();
 
-		if(verbose) LOG << DATE << "Filtering out default file formats" << std::endl;
+		if(verbose) LOG << DATE << "Filtering out default file formats" << NL;
 
 		QStringList defaultEnabled = FileFormatsHandler::DefaultFormats::getList();
 
@@ -146,7 +146,7 @@ public slots:
 
 	void loadFormats() {
 
-		if(verbose) LOG << DATE << "Loading disabled file formats from file" << std::endl;
+		if(verbose) LOG << DATE << "Loading disabled file formats from file" << NL;
 
 		QFile file(CFG_FILEFORMATS_FILE);
 
@@ -158,7 +158,7 @@ public slots:
 		}
 
 		if(!file.open(QIODevice::ReadOnly)) {
-			LOG << DATE << "ERROR! Unable to open file to load disabled fileformats. Using default settings..." << std::endl;
+			LOG << DATE << "ERROR! Unable to open file to load disabled fileformats. Using default settings..." << NL;
 			setDefaultFormats();
 			return;
 		}
@@ -208,7 +208,7 @@ public slots:
 
 	void saveFormats() {
 
-		if(verbose) LOG << DATE << "Saving disabled file formats to file" << std::endl;
+		if(verbose) LOG << DATE << "Saving disabled file formats to file" << NL;
 
 		QStringList current_qt = formats_qt;
 		QStringList current_gm = formats_gm;
@@ -247,7 +247,7 @@ public slots:
 
 		QFile file(CFG_FILEFORMATS_FILE);
 		if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-			LOG << DATE << "ERROR! Unable to save update fileformats..." << std::endl;
+			LOG << DATE << "ERROR! Unable to save update fileformats..." << NL;
 			return;
 		}
 

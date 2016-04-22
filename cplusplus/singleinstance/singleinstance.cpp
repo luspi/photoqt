@@ -44,7 +44,7 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
 		socket->flush();
 
 		// Inform user
-		LOG << DATE << "Running instance of PhotoQt detected..." << std::endl;
+		LOG << DATE << "Running instance of PhotoQt detected..." << NL;
 
 		// Exit the code (need to use stdlib exit function to ensure an immediate exit)
 		// We wait 100ms as otherwise this instance might return as a crash (even though it doesn't really)
@@ -85,7 +85,7 @@ void SingleInstance::handleResponse(QString msg) {
 	hide = (msg.contains("::hide::") && !msg.contains("::toggle::") && !msg.contains("::start-in-tray::"));
 
 	// These ones only play a role on startup and are ignored otherwise
-	verbose = (msg.contains("::verbose::") || QFile(QString(CACHE_DIR) + "/verbose").exists());
+	verbose = (msg.contains("::verbose::") || QFile(QString(CONFIG_DIR) + "/verbose").exists() || QFile(QString(CONFIG_DIR) + "/verboselog").exists());
 	startintray = (msg.contains("::start-in-tray::"));
 
 	// DEVELOPMENT ONLY

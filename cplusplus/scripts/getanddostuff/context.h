@@ -1,6 +1,7 @@
 #ifndef GETANDDOSTUFFCONTEXT_H
 #define GETANDDOSTUFFCONTEXT_H
 
+#include "../../logger.h"
 #include <iostream>
 #include <QObject>
 #include <QStringList>

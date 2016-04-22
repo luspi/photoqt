@@ -23,7 +23,7 @@ public:
 					hiddenareas.append(line.trimmed());
 				file.close();
 			} else
-				LOG << DATE << "ERROR: Unable to retrieve initial states of shortcuts notifiers: " << file.errorString().trimmed().toStdString() << std::endl;
+				LOG << DATE << "ERROR: Unable to retrieve initial states of shortcuts notifiers: " << file.errorString().trimmed().toStdString() << NL;
 		}
 	}
 
@@ -36,7 +36,7 @@ public:
 			out << (area+"\n");
 			file.close();
 		} else
-			LOG << DATE << "ERROR: Unable to save state of shortcuts notifier of area '" << area.toStdString() << "': " << file.errorString().trimmed().toStdString() << std::endl;
+			LOG << DATE << "ERROR: Unable to save state of shortcuts notifier of area '" << area.toStdString() << "': " << file.errorString().trimmed().toStdString() << NL;
 		hiddenareas.append(area);
 	}
 

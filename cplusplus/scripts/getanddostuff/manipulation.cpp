@@ -61,7 +61,7 @@ bool GetAndDoStuffManipulation::scaleImage(QString filename, int width, int heig
 
 	if(formats.contains(QFileInfo(filename).suffix().toLower()) && formats.contains(QFileInfo(newfilename).suffix().toLower())) {
 
-//        if(verbose) std::clog << "scale: image format supported by exiv2" << std::endl;
+//        if(verbose) std::clog << "scale: image format supported by exiv2" << NL;
 
 		try {
 
@@ -86,11 +86,11 @@ bool GetAndDoStuffManipulation::scaleImage(QString filename, int width, int heig
 		}
 
 		catch (Exiv2::Error& e) {
-			std::cerr << "ERROR [scale]: reading exif data (caught exception): " << e.what() << std::endl;
+			std::cerr << "ERROR [scale]: reading exif data (caught exception): " << e.what() << NL;
 		}
 
 	} else {
-		std::cerr << "ERROR [scale]: image format NOT supported by exiv2" << std::endl;
+		std::cerr << "ERROR [scale]: image format NOT supported by exiv2" << NL;
 		return false;
 	}
 
@@ -122,7 +122,7 @@ bool GetAndDoStuffManipulation::scaleImage(QString filename, int width, int heig
 		}
 
 		catch (Exiv2::Error& e) {
-			std::cerr << "ERROR [scale]: writing exif data (caught exception): " << e.what() << std::endl;
+			std::cerr << "ERROR [scale]: writing exif data (caught exception): " << e.what() << NL;
 		}
 
 	}
@@ -142,7 +142,7 @@ void GetAndDoStuffManipulation::deleteImage(QString filename, bool trash) {
 
 	if(trash) {
 
-//        if(verbose) std::clog << "fhd: Move to trash" << std::endl;
+//        if(verbose) std::clog << "fhd: Move to trash" << NL;
 
 		// The file to delete
 		QFile f(filename);
@@ -200,7 +200,7 @@ void GetAndDoStuffManipulation::deleteImage(QString filename, bool trash) {
 
 				// And remove the old file
 				if(!f.remove())
-					std::cerr << "ERROR: Old file couldn't be removed!" << std::endl;
+					LOG << DATE << "GetAndDoStuffManipulation: ERROR: Old file couldn't be removed!" << NL;
 
 				// Write the .trashinfo file
 				QFile i(baseTrash + "info/" + QFileInfo(trashFile).fileName() + ".trashinfo");
@@ -209,17 +209,17 @@ void GetAndDoStuffManipulation::deleteImage(QString filename, bool trash) {
 					out << info;
 					i.close();
 				} else
-					std::cerr << "ERROR: *.trashinfo file couldn't be created!" << std::endl;
+					LOG << DATE << "GetAndDoStuffManipulation: ERROR: *.trashinfo file couldn't be created!" << NL;
 
 			} else
-				std::cerr << "ERROR: File couldn't be deleted (moving file failed)" << std::endl;
+				LOG << DATE << "GetAndDoStuffManipulation: ERROR: File couldn't be deleted (moving file failed)" << NL;
 
 		} else
-			std::cerr << "ERROR: File '" << filename.toStdString() << "' doesn't exist...?" << std::endl;
+			LOG << DATE << "GetAndDoStuffManipulation: ERROR: File '" << filename.toStdString() << "' doesn't exist...?" << NL;
 
 	} else {
 
-//        if(verbose) std::clog << "fhd: Hard delete file" << std::endl;
+//        if(verbose) LOG << DATE << "GetAndDoStuffManipulation: fhd: Hard delete file" << NL;
 
 		// current file
 		QFile file(filename);
@@ -230,14 +230,14 @@ void GetAndDoStuffManipulation::deleteImage(QString filename, bool trash) {
 			file.remove();
 
 		} else {
-			std::cerr << "ERROR! File '" << filename.toStdString() << "' doesn't exist...?" << std::endl;
+			LOG << DATE << "GetAndDoStuffManipulation: ERROR! File '" << filename.toStdString() << "' doesn't exist...?" << NL;
 		}
 
 	}
 
 #else
 
-//    if(verbose) std::clog << "fhd: Delete file" << std::endl;
+//    if(verbose) LOG << DATE << "GetAndDoStuffManipulation: fhd: Delete file" << NL;
 
 	// current file
 	QFile file(filename);
@@ -248,7 +248,7 @@ void GetAndDoStuffManipulation::deleteImage(QString filename, bool trash) {
 		file.remove();
 
 	} else {
-		std::cerr << "ERROR! File doesn't exist...?" << std::endl;
+		LOG << DATE << "GetAndDoStuffManipulation: ERROR! File doesn't exist...?" << NL;
 	}
 
 
@@ -264,17 +264,17 @@ bool GetAndDoStuffManipulation::renameImage(QString oldfilename, QString newfile
 	// The new filename including full path
 	QString newfile = QFileInfo(oldfilename).absolutePath() + "/" + newfilename;
 
-//	if(verbose) std::clog << "fhd: Rename: " << currentfile.toStdString() << " -> " << newfile.toStdString() << std::endl;
+//	if(verbose) LOG << DATE << "GetAndDoStuffManipulation: fhd: Rename: " << currentfile.toStdString() << " -> " << newfile.toStdString() << NL;
 
 	// Do renaming (this first check of existence shouldn't be needed but just to be on the safe side)
 	if(!QFile(newfile).exists()) {
 		if(file.copy(newfile)) {
 			if(!file.remove()) {
-				std::cerr << "ERROR! Couldn't remove the old filename" << std::endl;
+				LOG << DATE << "GetAndDoStuffManipulation: ERROR! Couldn't remove the old filename" << NL;
 				return false;
 			}
 		} else {
-			std::cerr << "ERROR! Couldn't rename file" << std::endl;
+			std::cerr << "ERROR! Couldn't rename file" << NL;
 			return false;
 		}
 
@@ -299,7 +299,7 @@ void GetAndDoStuffManipulation::copyImage(QString path) {
 		if(QFileInfo(newpath).absolutePath() == QFileInfo(path).absolutePath())
 			emit reloadDirectory(newpath);
 	} else
-		std::clog << "ERROR: Couldn't copy file" << std::endl;
+		LOG << DATE << "GetAndDoStuffManipulation: ERROR: Couldn't copy file" << NL;
 
 }
 
@@ -320,7 +320,7 @@ void GetAndDoStuffManipulation::moveImage(QString path) {
 	QFile file(path);
 	if(file.copy(newpath)) {
 		if(!file.remove()) {
-			std::cerr << "ERROR: Couldn't remove old file" << std::endl;
+			LOG << DATE << "GetAndDoStuffManipulation: ERROR: Couldn't remove old file" << NL;
 			if(QFileInfo(newpath).absolutePath() == QFileInfo(path).absolutePath())
 				emit reloadDirectory(newpath);
 		} else {
@@ -332,6 +332,6 @@ void GetAndDoStuffManipulation::moveImage(QString path) {
 		}
 
 	} else
-		std::cerr << "ERROR: Couldn't move file" << std::endl;
+		LOG << DATE << "GetAndDoStuffManipulation: ERROR: Couldn't move file" << NL;
 
 }

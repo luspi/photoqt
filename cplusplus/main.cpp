@@ -15,6 +15,9 @@
 
 int main(int argc, char *argv[]) {
 
+	QFile f(QDir::tempPath() + "/photoqt.log");
+	f.remove();
+
 	// We store this as a QString, as this way we don't have to explicitely cast VERSION to a QString below
 	QString version = VERSION;
 
@@ -27,7 +30,7 @@ int main(int argc, char *argv[]) {
 	// If no process is running yet, we create a LocalServer and continue below
 	SingleInstance a(argc, argv);
 
-	if(a.verbose) LOG << DATE << "Starting PhotoQt..." << std::endl;
+	if(a.verbose) LOG << DATE << "Starting PhotoQt..." << NL;
 
 
 	// SOME START-UP CHECKS
@@ -60,7 +63,7 @@ int main(int argc, char *argv[]) {
 	// Store the (updated) settings text
 	QFile writesettings(CFG_SETTINGS_FILE);
 	if(!writesettings.open(QIODevice::WriteOnly | QIODevice::Truncate))
-		LOG << DATE << "ERROR! Unable to update settings file at startup" << std::endl;
+		LOG << DATE << "ERROR! Unable to update settings file at startup" << NL;
 	else {
 		QTextStream out(&writesettings);
 		out << settingsText;
@@ -69,13 +72,13 @@ int main(int argc, char *argv[]) {
 
 // Opt-in to High DPI usage of Pixmaps for larger screens with larger font DPI
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
-	if(a.verbose) LOG << DATE << "Enabling use of High DPI pixmaps" << std::endl;
+	if(a.verbose) LOG << DATE << "Enabling use of High DPI pixmaps" << NL;
 	a.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
 #endif
 
 // Initialise GraphicsMagick library (required only once)
 #ifdef GM
-	if(a.verbose) LOG << DATE << "Initialising GraphicsMagick" << std::endl;
+	if(a.verbose) LOG << DATE << "Initialising GraphicsMagick" << NL;
 	Magick::InitializeMagick(*argv);
 #endif
 

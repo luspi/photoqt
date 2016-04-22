@@ -12,6 +12,7 @@
 #include <QDir>
 #include <QTextStream>
 #include <QFileDialog>
+#include "../../logger.h"
 
 #ifdef EXIV2
 #include <exiv2/image.hpp>

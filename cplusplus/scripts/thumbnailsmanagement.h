@@ -1,6 +1,7 @@
 #ifndef THUMBNAILSMANAGEMENT_H
 #define THUMBNAILSMANAGEMENT_H
 
+#include "../logger.h"
 #include <QObject>
 #include <QFileInfo>
 #include <QDir>

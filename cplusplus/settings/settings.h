@@ -1,6 +1,8 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
+#include "../logger.h"
+
 #include <iostream>
 #include <thread>
 #include <QObject>
@@ -628,11 +630,11 @@ public slots:
 
 		if(!file.open(QIODevice::ReadWrite))
 
-			std::cerr << "ERROR saving settings" << std::endl;
+			LOG << DATE << "ERROR saving settings" << NL;
 
 		else {
 
-			if(verbose) std::cout << "Save Settings" << std::endl;
+			if(verbose) LOG << DATE << "Save Settings" << NL;
 
 			file.close();
 			file.remove();
@@ -797,11 +799,11 @@ public slots:
 
 		if(file.exists() && !file.open(QIODevice::ReadOnly))
 
-			std::cerr << "ERROR reading settings:" << file.errorString().trimmed().toStdString() << std::endl;
+			LOG << DATE  << "ERROR reading settings:" << file.errorString().trimmed().toStdString() << NL;
 
 		else if(file.exists() && file.isOpen()) {
 
-			if(verbose) std::cerr << "Read Settings from File" << std::endl;
+			if(verbose) LOG << DATE << "Read Settings from File" << NL;
 
 			// Read file
 			QTextStream in(&file);

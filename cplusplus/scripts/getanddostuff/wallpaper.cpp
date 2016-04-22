@@ -28,7 +28,7 @@ void GetAndDoStuffWallpaper::setWallpaper(QString wm, QVariantMap options, QStri
 		QProcess proc;
 		int ret = proc.execute(QString("gsettings set org.gnome.desktop.background picture-options %1").arg(options.value("option").toString()));
 		if(ret != 0)
-			std::cerr << "ERROR [wallpaper]: gsettings failed with exit code " << ret << " - are you sure Gnome/Unity is installed?" << std::endl;
+			LOG << DATE << "GetAndDoStuffWallpaper: ERROR [wallpaper]: gsettings failed with exit code " << ret << " - are you sure Gnome/Unity is installed?" << NL;
 		else
 			proc.execute(QString("gsettings set org.gnome.desktop.background picture-uri file://%1").arg(file));
 
@@ -44,7 +44,7 @@ void GetAndDoStuffWallpaper::setWallpaper(QString wm, QVariantMap options, QStri
 		proc.start("xfconf-query -c xfce4-desktop -lv");
 		while(proc.waitForOutput()) {}
 		if(proc.gotError()) {
-			std::cerr << "ERROR (code: " << proc.getErrorCode() << "): Failed to start xfconf-query! Is XFCE4 installed?" << std::endl;
+			LOG << DATE << "GetAndDoStuffWallpaper: ERROR (code: " << proc.getErrorCode() << "): Failed to start xfconf-query! Is XFCE4 installed?" << NL;
 			return;
 		}
 
@@ -100,11 +100,11 @@ void GetAndDoStuffWallpaper::setWallpaper(QString wm, QVariantMap options, QStri
 		proc.start("enlightenment_remote -module-list");
 		while(proc.waitForOutput()) {}
 		if(proc.gotError()) {
-			std::cerr << "ERROR (code: " << proc.getErrorCode() << "): Failed to start enlightenment_remote! Is Enlightenment installed?" << std::endl;
+			LOG << DATE << "GetAndDoStuffWallpaper: ERROR (code: " << proc.getErrorCode() << "): Failed to start enlightenment_remote! Is Enlightenment installed?" << NL;
 			return;
 		}
 		if(!proc.getOutput().contains("msgbus -- Enabled")) {
-			std::cerr << "ERROR: Enlightenment module 'msgbus' doesn't seem to be loaded! Please check that..." << std::endl;
+			LOG << DATE << "GetAndDoStuffWallpaper: ERROR: Enlightenment module 'msgbus' doesn't seem to be loaded! Please check that..." << NL;
 			return;
 		}
 
@@ -137,11 +137,11 @@ void GetAndDoStuffWallpaper::setWallpaper(QString wm, QVariantMap options, QStri
 		if(app == "feh") {
 			int ret = QProcess::execute(QString("feh %1 %2").arg(options.value("feh_option").toString()).arg(file));
 			if(ret != 0)
-				std::cerr << "ERROR [wallpaper]: feh exited with error code " << ret << " - are you sure it is installed?" << std::endl;
+				LOG << DATE << "GetAndDoStuffWallpaper: ERROR [wallpaper]: feh exited with error code " << ret << " - are you sure it is installed?" << NL;
 		} else {
 			int ret = QProcess::execute(QString("nitrogen %1 %2").arg(options.value("nitrogen_option").toString()).arg(file));
 			if(ret != 0)
-				std::cerr << "ERROR [wallpaper]: nitrogen exited with error code " << ret << " - are you sure it is installed?" << std::endl;
+				LOG << DATE << "GetAndDoStuffWallpaper: ERROR [wallpaper]: nitrogen exited with error code " << ret << " - are you sure it is installed?" << NL;
 		}
 
 	}
@@ -161,14 +161,14 @@ QList<int> GetAndDoStuffWallpaper::getEnlightenmentWorkspaceCount() {
 	proc.start("enlightenment_remote -desktops-get");
 	while(proc.waitForOutput()) {}
 	if(proc.gotError()) {
-		std::cerr << "ERROR (code: " << proc.getErrorCode() << "): Failed to start enlightenment_remote! Is Enlightenment installed and the DBUS module activated?" << std::endl;
+		LOG << DATE << "GetAndDoStuffWallpaper: ERROR (code: " << proc.getErrorCode() << "): Failed to start enlightenment_remote! Is Enlightenment installed and the DBUS module activated?" << NL;
 		return QList<int>() << 1 << 1;
 	}
 
 	QStringList parts = proc.getOutput().trimmed().split(" ");
 	if(parts.length() != 2) {
 		if(checkWallpaperTool("enlightenment") != 2)
-			std::cerr << "ERROR: Failed to get proper workspace count! Falling back to default (1x1)" << std::endl;
+			LOG << DATE << "GetAndDoStuffWallpaper: ERROR: Failed to get proper workspace count! Falling back to default (1x1)" << NL;
 		return QList<int>() << 1 << 1;
 	}
 	// Enlightenment returns columns before rows

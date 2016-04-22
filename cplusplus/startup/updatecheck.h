@@ -14,12 +14,12 @@ namespace StartupCheck {
 		// 0 = nothing, 1 = update, 2 = install
 		static inline int checkForUpdateInstall(bool verbose, QString *settingsText) {
 
-			if(verbose) LOG << DATE << "StartupCheck::UpdateCheck|" << std::endl;
+			if(verbose) LOG << DATE << "StartupCheck::UpdateCheck|" << NL;
 
 			QString version = VERSION;
 
 			if(*settingsText == "") {
-				if(verbose) LOG << DATE << "PhotoQt newly installed! Creating empty settings file" << std::endl;
+				if(verbose) LOG << DATE << "PhotoQt newly installed! Creating empty settings file" << NL;
 				*settingsText = "Version=" + version + "\n";
 				Settings set(true);
 				set.saveSettings();
@@ -32,12 +32,12 @@ namespace StartupCheck {
 				return 2;
 			}
 
-			if(verbose) LOG << DATE << "Checking if first run of new version" << std::endl;
+			if(verbose) LOG << DATE << "Checking if first run of new version" << NL;
 
 			// If it doesn't contain current version (some previous version)
 			if(!settingsText->contains("Version=" + version)) {
 
-				if(verbose) LOG << DATE << "PhotoQt updated" << std::endl;
+				if(verbose) LOG << DATE << "PhotoQt updated" << NL;
 
 				if(!settingsText->contains("Version=")) {
 					*settingsText = "Version=" + version + "\n" + *settingsText;

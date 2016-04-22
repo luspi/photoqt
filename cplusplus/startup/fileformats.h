@@ -13,7 +13,7 @@ namespace StartupCheck {
 
 		static inline void checkForDefaultSettingsFileAndReturnWhetherDefaultsAreToBeSet(bool verbose) {
 
-			if(verbose) LOG << DATE << "StartupCheck::FileFormats" << std::endl;
+			if(verbose) LOG << DATE << "StartupCheck::FileFormats" << NL;
 
 			// At this point, we only check if the file exists. If it doesn't, then the return value 'true'
 			// is passed on to the MainWindow class later-on for setting the default fileformats

@@ -12,7 +12,7 @@ namespace StartupCheck {
 
 		static inline void migrateIfNecessary(bool verbose) {
 
-			if(verbose) LOG << DATE << "StartupCheck::Migration" << std::endl;
+			if(verbose) LOG << DATE << "StartupCheck::Migration" << NL;
 
 			// If this is true, then the new config folders have been created
 			bool migrated = false;
@@ -22,7 +22,7 @@ namespace StartupCheck {
 			// Check for configuration folder
 			if(!QDir(CONFIG_DIR).exists()) {
 				if(!dir.mkpath(CONFIG_DIR)) {
-					LOG << DATE << "StartupCheck::Migration: ERROR! Unable to create configuration directory '" << CONFIG_DIR << "'" << std::endl;
+					LOG << DATE << "StartupCheck::Migration: ERROR! Unable to create configuration directory '" << CONFIG_DIR << "'" << NL;
 					std::exit(1);
 				} else
 					migrated = true;
@@ -31,7 +31,7 @@ namespace StartupCheck {
 			// Check for data folder
 			if(!QDir(DATA_DIR).exists()) {
 				if(!dir.mkpath(DATA_DIR)) {
-					LOG << DATE << "StartupCheck::Migration: ERROR! Unable to create data directory '" << DATA_DIR << "'" << std::endl;
+					LOG << DATE << "StartupCheck::Migration: ERROR! Unable to create data directory '" << DATA_DIR << "'" << NL;
 					std::exit(1);
 				} else
 					migrated = true;
@@ -40,7 +40,7 @@ namespace StartupCheck {
 			// Check for cache folder
 			if(!QDir(CACHE_DIR).exists()) {
 				if(!dir.mkpath(CACHE_DIR)) {
-					LOG << DATE << "StartupCheck::Migration: ERROR! Unable to create data directory '" << CACHE_DIR << "'" << std::endl;
+					LOG << DATE << "StartupCheck::Migration: ERROR! Unable to create data directory '" << CACHE_DIR << "'" << NL;
 					std::exit(1);
 				} else
 					migrated = true;
@@ -58,13 +58,13 @@ namespace StartupCheck {
 
 					LOG << DATE
 						<< "Migrating old settings file from '" << oldpath.toStdString() << "' to '" << CONFIG_DIR << "'"
-						<< std::endl;
+						<< NL;
 
 					if(!file.rename(CFG_SETTINGS_FILE))
 
 						LOG << DATE
 							<< "StartupCheck::Migration: ERROR! Unable to move settings file to new location! Default settings will be used."
-							<< std::endl;
+							<< NL;
 
 				}
 
@@ -74,13 +74,13 @@ namespace StartupCheck {
 
 					LOG << DATE
 						<< "Migrating old shortcuts file from '" << oldpath.toStdString() << "' to '" << CONFIG_DIR << "'"
-						<< std::endl;
+						<< NL;
 
 					if(!file.rename(CFG_SHORTCUTS_FILE))
 
 						LOG << DATE
 							<< "StartupCheck::Migration: ERROR! Unable to move shortcuts file to new location! Default shortcuts will be used."
-							<< std::endl;
+							<< NL;
 
 				}
 
@@ -90,13 +90,13 @@ namespace StartupCheck {
 
 					LOG << DATE
 						<< "Migrating old contextmenu file from '" << oldpath.toStdString() << "' to '" << CONFIG_DIR << "'"
-						<< std::endl;
+						<< NL;
 
 					if(!file.rename(CFG_CONTEXTMENU_FILE))
 
 						LOG << DATE
 							<< "StartupCheck::Migration: ERROR! Unable to move contextmenu file to new location! Default entries will be set."
-							<< std::endl;
+							<< NL;
 
 				}
 
@@ -106,13 +106,13 @@ namespace StartupCheck {
 
 					LOG << DATE
 						<< "Migrating old fileformats.disabled file from '" << oldpath.toStdString() << "' to '" << CONFIG_DIR << "'"
-						<< std::endl;
+						<< NL;
 
 					if(!file.rename(CFG_FILEFORMATS_FILE))
 
 						LOG << DATE
 							<< "StartupCheck::Migration: ERROR! Unable to move fileformats.disabled file to new location! Default fileformats will be set."
-							<< std::endl;
+							<< NL;
 
 				}
 
@@ -122,13 +122,13 @@ namespace StartupCheck {
 
 					LOG << DATE
 						<< "Migrating old thumbnails database from '" << oldpath.toStdString() << "' to '" << CACHE_DIR << "'"
-						<< std::endl;
+						<< NL;
 
 					if(!file.rename(CFG_THUMBNAILS_DB))
 
 						LOG << DATE
 							<< "StartupCheck::Migration: ERROR! Unable to move thumbnails database to new location!"
-							<< std::endl;
+							<< NL;
 
 				}
 
@@ -147,7 +147,7 @@ namespace StartupCheck {
 
 							LOG << DATE
 								<< "StartupCheck::Migration: ERROR! Unable to move mainwindow geometry file to new location!"
-								<< std::endl;
+								<< NL;
 						else
 							file.remove();
 
@@ -165,11 +165,11 @@ namespace StartupCheck {
 					if(!dir.rmdir(oldpath))
 						LOG << DATE
 							<< "StartupCheck::Migration: ERROR! Unable to remove old config folder '" << oldpath.toStdString() << "'"
-							<< std::endl;
+							<< NL;
 				} else {
 					LOG << DATE
 						<< "StartupCheck::Migration: Unable to remove old config folder '" << oldpath.toStdString() << "', not empty!"
-						<< std::endl;
+						<< NL;
 				}
 
 			}

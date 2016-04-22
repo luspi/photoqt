@@ -39,9 +39,9 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *s
 	QString whatToUse = whatDoIUse(filename);
 
 	if(verbose)
-		std::clog << "Using Graphicsengine: "
+		LOG << DATE << "ImageProviderFull: Using Graphicsengine: "
 			  << (whatToUse=="gm" ? "GraphicsMagick" : (whatToUse=="qt" ? "ImageReader" : (whatToUse=="raw" ? "LibRaw" : "External Tool")))
-			  << " [" << whatToUse.toStdString() << "]" << std::endl;
+			  << " [" << whatToUse.toStdString() << "]" << NL;
 
 
 	QImage ret;

@@ -7,6 +7,7 @@
 #include <QProcess>
 
 #include "../runprocess.h"
+#include "../../logger.h"
 
 class GetAndDoStuffWallpaper : public QObject {
 

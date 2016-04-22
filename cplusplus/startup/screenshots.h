@@ -12,7 +12,7 @@ namespace StartupCheck {
 
 		static inline void getAndStore(bool verbose) {
 
-			if(verbose) LOG << DATE << "StartupCheck::Screenshots" << std::endl;
+			if(verbose) LOG << DATE << "StartupCheck::Screenshots" << NL;
 
 			// Get screenshots for fake transparency
 			for(int i = 0; i < QGuiApplication::screens().count(); ++i) {

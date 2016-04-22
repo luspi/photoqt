@@ -42,7 +42,7 @@ public:
 
 			// Invalid vector graphic
 			if(!svg.isValid()) {
-				LOG << DATE << "reader svg - Error: invalid svg file" << std::endl;
+				LOG << DATE << "LoadImageQt: reader svg - Error: invalid svg file" << NL;
 				return ErrorImage::load("The file doesn't contain a valid vector graphic");
 			}
 
@@ -66,7 +66,7 @@ public:
 			// Sometimes the size returned by reader.size() is <= 0 (observed for, e.g., .jp2 files)
 			// -> then we need to load the actual image to get dimensions
 			if(origSize.width() <= 0 || origSize.height() <= 0) {
-				LOG << DATE << "imagereader qt - Error: failed to read origsize" << std::endl;
+				LOG << DATE << "LoadImageQt: imagereader qt - Error: failed to read origsize" << NL;
 				QImageReader r;
 				r.setFileName(filename);
 				origSize = r.read().size();
@@ -196,7 +196,7 @@ public:
 
 						}
 					} catch (Exiv2::Error& e) {
-						LOG << DATE << "reader qt - ERROR reading exiv data (caught exception): " << e.what() << std::endl;
+						LOG << DATE << "LoadImageQt: reader qt - ERROR reading exiv data (caught exception): " << e.what() << NL;
 					}
 
 				}
@@ -208,8 +208,8 @@ public:
 			// If an error occured
 			if(img.isNull()) {
 				QString err = reader.errorString();
-				LOG << DATE << "reader qt - Error: file failed to load: " << err.toStdString() << std::endl;
-				LOG << DATE << "Filename: " << filename.toStdString() << std::endl;
+				LOG << DATE << "LoadImageQt: reader qt - Error: file failed to load: " << err.toStdString() << NL;
+				LOG << DATE << "LoadImageQt: Filename: " << filename.toStdString() << NL;
 				return ErrorImage::load(err);
 			}
 
