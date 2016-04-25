@@ -490,7 +490,7 @@ public:
 		windowDecoration = false;
 
 		myWidgetAnimated = true;
-		saveWindowGeometry = true;
+		saveWindowGeometry = false;
 		keepOnTop = false;
 
 		language = "";
