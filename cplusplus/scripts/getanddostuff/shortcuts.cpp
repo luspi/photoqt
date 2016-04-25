@@ -85,6 +85,7 @@ QVariantMap GetAndDoStuffShortcuts::getDefaultShortcuts() {
 	ret.insert("Space",QStringList() << "0" << "__next" << "key");
 	ret.insert("Left",QStringList() << "0" << "__prev" << "key");
 	ret.insert("Backspace",QStringList() << "0" << "__prev" << "key");
+	ret.insert("Ctrl+F", QStringList() << "0" << "__filterImages" << "key");
 
 	ret.insert("+",QStringList() << "0" << "__zoomIn" << "key");
 	ret.insert("=",QStringList() << "0" << "__zoomIn" << "key");
@@ -115,8 +116,6 @@ QVariantMap GetAndDoStuffShortcuts::getDefaultShortcuts() {
 	ret.insert("Ctrl+M",QStringList() << "0" << "__move" << "key");
 	ret.insert("Delete",QStringList() << "0" << "__delete" << "key");
 
-	ret.insert("S",QStringList() << "0" << "__stopThb" << "key");
-	ret.insert("Ctrl+R",QStringList() << "0" << "__reloadThb" << "key");
 	ret.insert("Escape",QStringList() << "0" << "__hide" << "key");
 	ret.insert("Q",QStringList() << "0" << "__close" << "key");
 	ret.insert("Ctrl+Q",QStringList() << "0" << "__close" << "key");
@@ -127,7 +126,6 @@ QVariantMap GetAndDoStuffShortcuts::getDefaultShortcuts() {
 	ret.insert("Ctrl+Wheel Down",QStringList() << "0" << "__zoomOut" << "mouse");
 	ret.insert("Ctrl+Wheel Up",QStringList() << "0" << "__zoomIn" << "mouse");
 	ret.insert("Ctrl+Middle Button",QStringList() << "0" << "__zoomReset" << "mouse");
-	ret.insert("Right Button",QStringList() << "0" << "__showContext" << "mouse");
 
 	return ret;
 
