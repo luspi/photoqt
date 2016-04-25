@@ -15,7 +15,7 @@ EntryContainer {
 		EntryTitle {
 
 			title: qsTr("Sort Images")
-			helptext: qsTr("Sort Images") + "</h2><br>" + qsTr("Here you can adjust, how the images in a folder are supposed to be sorted. You can sort them by Filename, Natural Name (e.g., file10.jpg comes after file9.jpg and not after file1.jpg), File Size, and Date. Also, you can reverse the sorting order from ascending to descending if wanted.") + "<br><br><b>" + qsTr("Hint: You can also change this setting very quickly from the 'Quick Settings' window, hidden behind the right screen edge.") + "</b>"
+			helptext: qsTr("Here you can adjust, how the images in a folder are supposed to be sorted. You can sort them by Filename, Natural Name (e.g., file10.jpg comes after file9.jpg and not after file1.jpg), File Size, and Date. Also, you can reverse the sorting order from ascending to descending if wanted.")
 
 		}
 
