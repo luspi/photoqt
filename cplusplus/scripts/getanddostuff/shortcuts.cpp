@@ -110,6 +110,8 @@ QVariantMap GetAndDoStuffShortcuts::getDefaultShortcuts() {
 	ret.insert("M",QStringList() << "0" << "__slideshow" << "key");
 	ret.insert("Shift+M",QStringList() << "0" << "__slideshowQuick" << "key");
 	ret.insert("W",QStringList() << "0" << "__wallpaper" << "key");
+	ret.insert("S", QStringList() << "0" << "__stopThb" << "key");
+	ret.insert("Ctrl+R", QStringList() << "0" << "__reloadThb" << "key");
 
 	ret.insert("F2",QStringList() << "0" << "__rename" << "key");
 	ret.insert("Ctrl+C",QStringList() << "0" << "__copy" << "key");
