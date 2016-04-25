@@ -40,6 +40,8 @@ Item {
 	signal verboseMessage(var loc, var msg);
 	signal setOverrideCursor();
 	signal restoreOverrideCursor();
+	signal stopThumbnails();
+	signal reloadThumbnails();
 
 	// Interface blocked? System Shortcuts blocked?
 	property bool blocked: false

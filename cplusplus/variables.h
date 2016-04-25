@@ -19,6 +19,7 @@ public:
 		hiddenToTrayIcon = false;
 		wheelcounter = 0;
 		openfileFilter = QVariant();
+		keepLoadingThumbnails = false;
 	}
 
 public:
@@ -36,6 +37,8 @@ public:
 	QVariant openfileFilter;
 
 	int wheelcounter;
+
+	bool keepLoadingThumbnails;
 
 };
 

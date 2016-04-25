@@ -133,7 +133,8 @@ Item {
 		if(bymouse === undefined)
 			bymouse = false;
 
-//		if(cmd === "__stopThb")
+		if(cmd === "__stopThb")
+			stopThumbnails()
 		if(cmd === "__close")
 			quitPhotoQt()
 		else if(cmd === "__hide") {
@@ -147,7 +148,8 @@ Item {
 			thumbnailBar.nextImage()
 		else if(cmd === "__prev")
 			thumbnailBar.previousImage()
-//		if(cmd === "__reloadThb")
+		if(cmd === "__reloadThb")
+			reloadThumbnails()
 		else if(cmd === "__about")
 			about.showAbout()
 		else if(cmd === "__slideshow")

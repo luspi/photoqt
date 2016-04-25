@@ -121,6 +121,14 @@ private slots:
 				LOG << DATE << "QQuickView QML LOADING ERROR: " << this->errors().at(i).toString().toStdString() << NL;
 	}
 
+	void stopThumbnails() {
+		variables->keepLoadingThumbnails = false;
+	}
+	void reloadThumbnails() {
+		variables->keepLoadingThumbnails = true;
+		loadMoreThumbnails();
+	}
+
 protected:
 	bool event(QEvent *e);
 	void wheelEvent(QWheelEvent *e);

@@ -57,6 +57,8 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 	connect(object, SIGNAL(didntLoadThisThumbnail(QVariant)), this, SLOT(didntLoadThisThumbnail(QVariant)));
 	connect(object, SIGNAL(setOverrideCursor()), this, SLOT(setOverrideCursor()));
 	connect(object, SIGNAL(restoreOverrideCursor()), this, SLOT(restoreOverrideCursor()));
+	connect(object, SIGNAL(stopThumbnails()), this, SLOT(stopThumbnails()));
+	connect(object, SIGNAL(reloadThumbnails()), this, SLOT(reloadThumbnails()));
 
 	connect(object, SIGNAL(verboseMessage(QVariant,QVariant)), this, SLOT(qmlVerboseMessage(QVariant,QVariant)));
 
@@ -93,6 +95,8 @@ void MainWindow::handleOpenFileEvent(QVariant filename, QVariant filter) {
 		QMetaObject::invokeMethod(object, "openFile");
 		return;
 	}
+
+	variables->keepLoadingThumbnails = true;
 
 	setOverrideCursor();
 
@@ -217,7 +221,7 @@ void MainWindow::loadMoreThumbnails() {
 	if(variables->verbose)
 		LOG << DATE << "loadMoreThumbnails(): Continue loading thumbnails?" << NL;
 
-	if(settingsPermanent->thumbnailFilenameInstead) return;
+	if(settingsPermanent->thumbnailFilenameInstead || !variables->keepLoadingThumbnails) return;
 
 	if(loadThumbnailsInThisOrder.length() == 0 && smartLoadThumbnailsInThisOrder.length() == 0) return;
 
