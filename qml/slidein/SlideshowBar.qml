@@ -128,6 +128,8 @@ Rectangle {
 		mainview.resetRotation()
 		mainview.resetMirror()
 
+		setImageInteractiveMode(false)
+
 		// Setup an array with image indices
 		// Three possibilities (say, current index = 5, total number = 8)
 		// 1) not shuffled, not looped: array = [5,6,7]
@@ -219,6 +221,8 @@ Rectangle {
 		blocked = false
 		softblocked = 0
 
+		setImageInteractiveMode(true)
+
 		// Update quickinfo state
 		quickInfo.updateQuickInfo(quickInfo._pos,thumbnailBar.totalNumberImages,thumbnailBar.currentFile)
 
@@ -226,6 +230,12 @@ Rectangle {
 
 	// Load a new image
 	function switchImage() {
+
+		if(!slideshowRunning) {
+			imageswitcher.stop()
+			setImageInteractiveMode(true)
+			return
+		}
 
 		verboseMessage("SlideshowBar::switchImage()",current + "/" + images.length + " - " + settings.slideShowLoop + " - " + settings.slideShowShuffle)
 

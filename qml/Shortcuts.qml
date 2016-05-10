@@ -28,7 +28,7 @@ Item {
 				slideshowbar.stopSlideshow()
 			else
 				softblocked = 0
-		} else if(softblocked != 0 && !slideshowRunning)
+		} else if((softblocked != 0 && !slideshowRunning) || slideshowRunning)
 			return
 		else if(!blockedSystem) {
 			if(blocked)

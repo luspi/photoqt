@@ -454,8 +454,14 @@ Rectangle {
 		target:  mainmenu
 		property: "opacity"
 		to: 1
-		onStarted:
+		onStarted: {
+			if(softblocked != 0 || slideshowRunning) {
+				showMainmenu.stop()
+				hideMainmenu.start()
+				return
+			}
 			visible=true
+		}
 	}
 
 	function show() {

@@ -85,7 +85,7 @@ Rectangle {
 			MouseArea {
 				anchors.fill: parent
 				hoverEnabled: true
-				onEntered: if(softblocked == 0 && metaData.opacity != 1 && !thumbnailBar.contains(Qt.point(localcursorpos.x,localcursorpos.y-thumbnailBar.y))) {
+				onEntered: if((softblocked == 0 || slideshowRunning) && metaData.opacity != 1 && !thumbnailBar.contains(Qt.point(localcursorpos.x,localcursorpos.y-thumbnailBar.y))) {
 							   hideEverything()
 							   showMetadata()
 						   }

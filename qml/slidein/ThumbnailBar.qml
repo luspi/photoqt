@@ -464,6 +464,13 @@ Rectangle {
 		property: (softblocked == 0 ? (settings.thumbnailKeepVisible == false ? "y" : "") : "")
 		to: settings.thumbnailposition == "Bottom" ? background.height-thumbnailBar.height : 0
 		duration: settings.myWidgetAnimated ? 250 : 0
+		onStarted: {
+			if(softblocked != 0 || slideshowRunning) {
+				showThumbnailBar.stop()
+				hideThumbnailBar.start()
+				return
+			}
+		}
 	}
 
 	PropertyAnimation {
