@@ -58,7 +58,7 @@ private:
 };
 
 #define LOG Logger()
-#define DATE "[[[DATE]]]"
-#define NL "\n"
+const std::string CURDATE = "[[[DATE]]]";
+const std::string NL = "\n";
 
 #endif // LOGGER_H

@@ -25,7 +25,7 @@ public:
 			// We first read the image into memory
 			QFile file(filename);
 			if(!file.open(QIODevice::ReadOnly)) {
-				LOG << DATE << "LoadImageGM: reader gm - ERROR opening file, returning empty image" << NL;
+				LOG << CURDATE << "LoadImageGM: reader gm - ERROR opening file, returning empty image" << NL;
 				return QImage();
 			}
 			char *data = new char[file.size()];
@@ -34,7 +34,7 @@ public:
 			// A return value of -1 means error
 			if (s == -1) {
 				delete[] data;
-				LOG << DATE << "LoadImageGM: reader gm - ERROR reading image file data" << NL;
+				LOG << CURDATE << "LoadImageGM: reader gm - ERROR reading image file data" << NL;
 				return QImage();
 			}
 			// Read image into blob
@@ -93,7 +93,7 @@ public:
 
 			} catch(Magick::Exception &error_) {
 				delete[] data;
-				LOG << DATE << "LoadImageGM: reader gm Error: " << error_.what() << NL;
+				LOG << CURDATE << "LoadImageGM: reader gm Error: " << error_.what() << NL;
 				return ErrorImage::load(QString(error_.what()));
 			}
 

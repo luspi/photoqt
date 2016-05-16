@@ -12,7 +12,7 @@ namespace StartupCheck {
 
 		static inline void makeSureShortcutsFileExists(bool verbose) {
 
-			if(verbose) LOG << DATE << "StartupCheck::Shortcuts" << NL;
+			if(verbose) LOG << CURDATE << "StartupCheck::Shortcuts" << NL;
 
 			QFileInfo file(CFG_SHORTCUTS_FILE);
 			if(!file.exists()) {

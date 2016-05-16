@@ -39,7 +39,7 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *s
 	QString whatToUse = whatDoIUse(filename);
 
 	if(verbose)
-		LOG << DATE << "ImageProviderFull: Using Graphicsengine: "
+		LOG << CURDATE << "ImageProviderFull: Using Graphicsengine: "
 			  << (whatToUse=="gm" ? "GraphicsMagick" : (whatToUse=="qt" ? "ImageReader" : (whatToUse=="raw" ? "LibRaw" : "External Tool")))
 			  << " [" << whatToUse.toStdString() << "]" << NL;
 

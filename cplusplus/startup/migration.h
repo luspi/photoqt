@@ -12,7 +12,7 @@ namespace StartupCheck {
 
 		static inline void migrateIfNecessary(bool verbose) {
 
-			if(verbose) LOG << DATE << "StartupCheck::Migration" << NL;
+			if(verbose) LOG << CURDATE << "StartupCheck::Migration" << NL;
 
 			// If this is true, then the new config folders have been created
 			bool migrated = false;
@@ -22,7 +22,7 @@ namespace StartupCheck {
 			// Check for configuration folder
 			if(!QDir(CONFIG_DIR).exists()) {
 				if(!dir.mkpath(CONFIG_DIR)) {
-					LOG << DATE << "StartupCheck::Migration: ERROR! Unable to create configuration directory '" << CONFIG_DIR << "'" << NL;
+					LOG << CURDATE << "StartupCheck::Migration: ERROR! Unable to create configuration directory '" << CONFIG_DIR << "'" << NL;
 					std::exit(1);
 				} else
 					migrated = true;
@@ -31,7 +31,7 @@ namespace StartupCheck {
 			// Check for data folder
 			if(!QDir(DATA_DIR).exists()) {
 				if(!dir.mkpath(DATA_DIR)) {
-					LOG << DATE << "StartupCheck::Migration: ERROR! Unable to create data directory '" << DATA_DIR << "'" << NL;
+					LOG << CURDATE << "StartupCheck::Migration: ERROR! Unable to create data directory '" << DATA_DIR << "'" << NL;
 					std::exit(1);
 				} else
 					migrated = true;
@@ -40,7 +40,7 @@ namespace StartupCheck {
 			// Check for cache folder
 			if(!QDir(CACHE_DIR).exists()) {
 				if(!dir.mkpath(CACHE_DIR)) {
-					LOG << DATE << "StartupCheck::Migration: ERROR! Unable to create data directory '" << CACHE_DIR << "'" << NL;
+					LOG << CURDATE << "StartupCheck::Migration: ERROR! Unable to create data directory '" << CACHE_DIR << "'" << NL;
 					std::exit(1);
 				} else
 					migrated = true;
@@ -56,13 +56,13 @@ namespace StartupCheck {
 				QFile file(oldpath + "/settings");
 				if(file.exists()) {
 
-					LOG << DATE
+					LOG << CURDATE
 						<< "Migrating old settings file from '" << oldpath.toStdString() << "' to '" << CONFIG_DIR << "'"
 						<< NL;
 
 					if(!file.rename(CFG_SETTINGS_FILE))
 
-						LOG << DATE
+						LOG << CURDATE
 							<< "StartupCheck::Migration: ERROR! Unable to move settings file to new location! Default settings will be used."
 							<< NL;
 
@@ -72,13 +72,13 @@ namespace StartupCheck {
 				file.setFileName(oldpath + "/shortcuts");
 				if(file.exists()) {
 
-					LOG << DATE
+					LOG << CURDATE
 						<< "Migrating old shortcuts file from '" << oldpath.toStdString() << "' to '" << CONFIG_DIR << "'"
 						<< NL;
 
 					if(!file.rename(CFG_SHORTCUTS_FILE))
 
-						LOG << DATE
+						LOG << CURDATE
 							<< "StartupCheck::Migration: ERROR! Unable to move shortcuts file to new location! Default shortcuts will be used."
 							<< NL;
 
@@ -88,13 +88,13 @@ namespace StartupCheck {
 				file.setFileName(oldpath + "/contextmenu");
 				if(file.exists()) {
 
-					LOG << DATE
+					LOG << CURDATE
 						<< "Migrating old contextmenu file from '" << oldpath.toStdString() << "' to '" << CONFIG_DIR << "'"
 						<< NL;
 
 					if(!file.rename(CFG_CONTEXTMENU_FILE))
 
-						LOG << DATE
+						LOG << CURDATE
 							<< "StartupCheck::Migration: ERROR! Unable to move contextmenu file to new location! Default entries will be set."
 							<< NL;
 
@@ -104,13 +104,13 @@ namespace StartupCheck {
 				file.setFileName(oldpath + "/fileformats.disabled");
 				if(file.exists()) {
 
-					LOG << DATE
+					LOG << CURDATE
 						<< "Migrating old fileformats.disabled file from '" << oldpath.toStdString() << "' to '" << CONFIG_DIR << "'"
 						<< NL;
 
 					if(!file.rename(CFG_FILEFORMATS_FILE))
 
-						LOG << DATE
+						LOG << CURDATE
 							<< "StartupCheck::Migration: ERROR! Unable to move fileformats.disabled file to new location! Default fileformats will be set."
 							<< NL;
 
@@ -120,13 +120,13 @@ namespace StartupCheck {
 				file.setFileName(oldpath + "/thumbnails");
 				if(file.exists()) {
 
-					LOG << DATE
+					LOG << CURDATE
 						<< "Migrating old thumbnails database from '" << oldpath.toStdString() << "' to '" << CACHE_DIR << "'"
 						<< NL;
 
 					if(!file.rename(CFG_THUMBNAILS_DB))
 
-						LOG << DATE
+						LOG << CURDATE
 							<< "StartupCheck::Migration: ERROR! Unable to move thumbnails database to new location!"
 							<< NL;
 
@@ -145,7 +145,7 @@ namespace StartupCheck {
 					if(all.trimmed() != "") {
 						if(!file.rename(CFG_MAINWINDOW_GEOMETRY_FILE))
 
-							LOG << DATE
+							LOG << CURDATE
 								<< "StartupCheck::Migration: ERROR! Unable to move mainwindow geometry file to new location!"
 								<< NL;
 						else
@@ -163,11 +163,11 @@ namespace StartupCheck {
 				dir.setPath(oldpath);
 				if(dir.entryList(QDir::NoDotAndDotDot).length() == 0) {
 					if(!dir.rmdir(oldpath))
-						LOG << DATE
+						LOG << CURDATE
 							<< "StartupCheck::Migration: ERROR! Unable to remove old config folder '" << oldpath.toStdString() << "'"
 							<< NL;
 				} else {
-					LOG << DATE
+					LOG << CURDATE
 						<< "StartupCheck::Migration: Unable to remove old config folder '" << oldpath.toStdString() << "', not empty!"
 						<< NL;
 				}

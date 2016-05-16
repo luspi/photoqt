@@ -12,11 +12,11 @@ namespace StartupCheck {
 
 		static inline void makeSureSettingsReflectTrayStartupSetting(bool verbose, int startintray, QString *settingsText) {
 
-			if(verbose) LOG << DATE << "StartupCheck::StartInTray" << NL;
+			if(verbose) LOG << CURDATE << "StartupCheck::StartInTray" << NL;
 
 			if(startintray) {
 
-				if(verbose) LOG << DATE << "Starting minimised to tray" << NL;
+				if(verbose) LOG << CURDATE << "Starting minimised to tray" << NL;
 
 				// If the option "Use Tray Icon" in the settings is not set, we set it
 

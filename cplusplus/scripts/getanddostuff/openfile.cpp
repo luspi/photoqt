@@ -39,7 +39,7 @@ QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
 
 	QFile file(QString(DATA_DIR) + "/../user-places.xbel");
 	if(file.exists() && !file.open(QIODevice::ReadOnly)) {
-		LOG << DATE << "GetAndDoStuffOpenFile: Can't open ~/.local/share/user-places.xbel file" << NL;
+		LOG << CURDATE << "GetAndDoStuffOpenFile: Can't open ~/.local/share/user-places.xbel file" << NL;
 		return QVariantList();
 	} else if(file.exists()) {
 
@@ -218,7 +218,7 @@ void GetAndDoStuffOpenFile::addToUserPlaces(QString path) {
 
 	QFile file(QString(DATA_DIR) + "/../user-places.xbel");
 	if(file.exists() && !file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-		LOG << DATE << "GetAndDoStuffOpenFile: Can't open ~/.local/share/user-places.xbel file" << NL;
+		LOG << CURDATE << "GetAndDoStuffOpenFile: Can't open ~/.local/share/user-places.xbel file" << NL;
 		return;
 	}
 
@@ -255,7 +255,7 @@ void GetAndDoStuffOpenFile::addToUserPlaces(QString path) {
 	file.close();
 
 	if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-		LOG << DATE << "GetAndDoStuffOpenFile: Can't open ~/.local/share/user-places.xbel file" << NL;
+		LOG << CURDATE << "GetAndDoStuffOpenFile: Can't open ~/.local/share/user-places.xbel file" << NL;
 		return;
 	}
 
@@ -304,7 +304,7 @@ void GetAndDoStuffOpenFile::saveUserPlaces(QVariantList enabled) {
 
 	QFile file(QString(DATA_DIR) + "/../user-places.xbel");
 	if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-		LOG << DATE << "GetAndDoStuffOpenFile: Can't open ~/.local/share/user-places.xbel file" << NL;
+		LOG << CURDATE << "GetAndDoStuffOpenFile: Can't open ~/.local/share/user-places.xbel file" << NL;
 		return;
 	}
 

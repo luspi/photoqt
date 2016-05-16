@@ -75,7 +75,7 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
 		// If there exists a thumbnail of the current file already
 		if(QFile(QDir::homePath() + "/.thumbnails/large/" + md5 + ".png").exists() && cacheEnabled) {
 
-//			if(verbose) LOG << DATE << "ImageProviderThumbnail: thread: Loading existing thumb from file: " << createThisOne << NL;
+//			if(verbose) LOG << CURDATE << "ImageProviderThumbnail: thread: Loading existing thumb from file: " << createThisOne << NL;
 
 			p.load(QDir::homePath() + "/.thumbnails/large/" + md5 + ".png");
 			uint mtime = p.text("Thumb").remove("MTime:").trimmed().toInt();
@@ -100,7 +100,7 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
 		if(query.next()) {
 
 			if(query.value(query.record().indexOf("filelastmod")).toUInt() == QFileInfo(filename).lastModified().toTime_t()) {
-//				if(verbose) LOG << DATE << "ImageProviderThumbnail: thread: Loading existing thumb from db: " << createThisOne << NL;
+//				if(verbose) LOG << CURDATE << "ImageProviderThumbnail: thread: Loading existing thumb from db: " << createThisOne << NL;
 				QByteArray b;
 				b = query.value(query.record().indexOf("thumbnail")).toByteArray();
 				p.loadFromData(b);
@@ -149,7 +149,7 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
 					QFile(QDir::homePath() + "/cache/.thumbnails/large/" + md5 + ".png").remove();
 
 				if(!QFile(QDir::tempPath() + "/" + md5 + "__photo.png").copy(QDir::homePath() + "/cache/.thumbnails/large/" + md5 + ".png"))
-					LOG << DATE << "ImageProviderThumbnail: ERROR creating new thumbnail file!" << NL;
+					LOG << CURDATE << "ImageProviderThumbnail: ERROR creating new thumbnail file!" << NL;
 				// Delete temporary file
 				QFile(QDir::tempPath() + "/" + md5 + "__photo.png").remove();
 
@@ -189,7 +189,7 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
 			query2.bindValue(":origh",origheight);
 			query2.exec();
 			if(query2.lastError().text().trimmed().length())
-				LOG << DATE << "ImageProviderThumbnail: ERROR [" << QString(filename).toStdString() << "]: " << query2.lastError().text().trimmed().toStdString() << NL;
+				LOG << CURDATE << "ImageProviderThumbnail: ERROR [" << QString(filename).toStdString() << "]: " << query2.lastError().text().trimmed().toStdString() << NL;
 			query2.clear();
 
 		}

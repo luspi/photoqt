@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
 	// If no process is running yet, we create a LocalServer and continue below
 	SingleInstance a(argc, argv);
 
-	if(a.verbose) LOG << DATE << "Starting PhotoQt..." << NL;
+	if(a.verbose) LOG << CURDATE << "Starting PhotoQt..." << NL;
 
 
 	// SOME START-UP CHECKS
@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
 	// Store the (updated) settings text
 	QFile writesettings(CFG_SETTINGS_FILE);
 	if(!writesettings.open(QIODevice::WriteOnly | QIODevice::Truncate))
-		LOG << DATE << "ERROR! Unable to update settings file at startup" << NL;
+		LOG << CURDATE << "ERROR! Unable to update settings file at startup" << NL;
 	else {
 		QTextStream out(&writesettings);
 		out << settingsText;
@@ -72,13 +72,13 @@ int main(int argc, char *argv[]) {
 
 // Opt-in to High DPI usage of Pixmaps for larger screens with larger font DPI
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
-	if(a.verbose) LOG << DATE << "Enabling use of High DPI pixmaps" << NL;
+	if(a.verbose) LOG << CURDATE << "Enabling use of High DPI pixmaps" << NL;
 	a.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
 #endif
 
 // Initialise GraphicsMagick library (required only once)
 #ifdef GM
-	if(a.verbose) LOG << DATE << "Initialising GraphicsMagick" << NL;
+	if(a.verbose) LOG << CURDATE << "Initialising GraphicsMagick" << NL;
 	Magick::InitializeMagick(*argv);
 #endif
 

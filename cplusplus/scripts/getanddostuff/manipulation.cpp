@@ -200,7 +200,7 @@ void GetAndDoStuffManipulation::deleteImage(QString filename, bool trash) {
 
 				// And remove the old file
 				if(!f.remove())
-					LOG << DATE << "GetAndDoStuffManipulation: ERROR: Old file couldn't be removed!" << NL;
+					LOG << CURDATE << "GetAndDoStuffManipulation: ERROR: Old file couldn't be removed!" << NL;
 
 				// Write the .trashinfo file
 				QFile i(baseTrash + "info/" + QFileInfo(trashFile).fileName() + ".trashinfo");
@@ -209,17 +209,17 @@ void GetAndDoStuffManipulation::deleteImage(QString filename, bool trash) {
 					out << info;
 					i.close();
 				} else
-					LOG << DATE << "GetAndDoStuffManipulation: ERROR: *.trashinfo file couldn't be created!" << NL;
+					LOG << CURDATE << "GetAndDoStuffManipulation: ERROR: *.trashinfo file couldn't be created!" << NL;
 
 			} else
-				LOG << DATE << "GetAndDoStuffManipulation: ERROR: File couldn't be deleted (moving file failed)" << NL;
+				LOG << CURDATE << "GetAndDoStuffManipulation: ERROR: File couldn't be deleted (moving file failed)" << NL;
 
 		} else
-			LOG << DATE << "GetAndDoStuffManipulation: ERROR: File '" << filename.toStdString() << "' doesn't exist...?" << NL;
+			LOG << CURDATE << "GetAndDoStuffManipulation: ERROR: File '" << filename.toStdString() << "' doesn't exist...?" << NL;
 
 	} else {
 
-//        if(verbose) LOG << DATE << "GetAndDoStuffManipulation: fhd: Hard delete file" << NL;
+//        if(verbose) LOG << CURDATE << "GetAndDoStuffManipulation: fhd: Hard delete file" << NL;
 
 		// current file
 		QFile file(filename);
@@ -230,14 +230,14 @@ void GetAndDoStuffManipulation::deleteImage(QString filename, bool trash) {
 			file.remove();
 
 		} else {
-			LOG << DATE << "GetAndDoStuffManipulation: ERROR! File '" << filename.toStdString() << "' doesn't exist...?" << NL;
+			LOG << CURDATE << "GetAndDoStuffManipulation: ERROR! File '" << filename.toStdString() << "' doesn't exist...?" << NL;
 		}
 
 	}
 
 #else
 
-//    if(verbose) LOG << DATE << "GetAndDoStuffManipulation: fhd: Delete file" << NL;
+//    if(verbose) LOG << CURDATE << "GetAndDoStuffManipulation: fhd: Delete file" << NL;
 
 	// current file
 	QFile file(filename);
@@ -248,7 +248,7 @@ void GetAndDoStuffManipulation::deleteImage(QString filename, bool trash) {
 		file.remove();
 
 	} else {
-		LOG << DATE << "GetAndDoStuffManipulation: ERROR! File doesn't exist...?" << NL;
+		LOG << CURDATE << "GetAndDoStuffManipulation: ERROR! File doesn't exist...?" << NL;
 	}
 
 
@@ -264,13 +264,13 @@ bool GetAndDoStuffManipulation::renameImage(QString oldfilename, QString newfile
 	// The new filename including full path
 	QString newfile = QFileInfo(oldfilename).absolutePath() + "/" + newfilename;
 
-//	if(verbose) LOG << DATE << "GetAndDoStuffManipulation: fhd: Rename: " << currentfile.toStdString() << " -> " << newfile.toStdString() << NL;
+//	if(verbose) LOG << CURDATE << "GetAndDoStuffManipulation: fhd: Rename: " << currentfile.toStdString() << " -> " << newfile.toStdString() << NL;
 
 	// Do renaming (this first check of existence shouldn't be needed but just to be on the safe side)
 	if(!QFile(newfile).exists()) {
 		if(file.copy(newfile)) {
 			if(!file.remove()) {
-				LOG << DATE << "GetAndDoStuffManipulation: ERROR! Couldn't remove the old filename" << NL;
+				LOG << CURDATE << "GetAndDoStuffManipulation: ERROR! Couldn't remove the old filename" << NL;
 				return false;
 			}
 		} else {
@@ -299,7 +299,7 @@ void GetAndDoStuffManipulation::copyImage(QString path) {
 		if(QFileInfo(newpath).absolutePath() == QFileInfo(path).absolutePath())
 			emit reloadDirectory(newpath);
 	} else
-		LOG << DATE << "GetAndDoStuffManipulation: ERROR: Couldn't copy file" << NL;
+		LOG << CURDATE << "GetAndDoStuffManipulation: ERROR: Couldn't copy file" << NL;
 
 }
 
@@ -320,7 +320,7 @@ void GetAndDoStuffManipulation::moveImage(QString path) {
 	QFile file(path);
 	if(file.copy(newpath)) {
 		if(!file.remove()) {
-			LOG << DATE << "GetAndDoStuffManipulation: ERROR: Couldn't remove old file" << NL;
+			LOG << CURDATE << "GetAndDoStuffManipulation: ERROR: Couldn't remove old file" << NL;
 			if(QFileInfo(newpath).absolutePath() == QFileInfo(path).absolutePath())
 				emit reloadDirectory(newpath);
 		} else {
@@ -332,6 +332,6 @@ void GetAndDoStuffManipulation::moveImage(QString path) {
 		}
 
 	} else
-		LOG << DATE << "GetAndDoStuffManipulation: ERROR: Couldn't move file" << NL;
+		LOG << CURDATE << "GetAndDoStuffManipulation: ERROR: Couldn't move file" << NL;
 
 }

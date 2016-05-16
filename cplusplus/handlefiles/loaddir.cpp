@@ -14,7 +14,7 @@ LoadDir::~LoadDir() {
 QFileInfoList LoadDir::loadDir(QString filepath, QString filter) {
 
 	if(verbose)
-		LOG << DATE << "LoadDir::loadDir(): Loading filepath '" << filepath.toStdString() << "'" << NL;
+		LOG << CURDATE << "LoadDir::loadDir(): Loading filepath '" << filepath.toStdString() << "'" << NL;
 
 	QDir dir(QFileInfo(filepath).absolutePath());
 
@@ -29,7 +29,7 @@ QFileInfoList LoadDir::loadDir(QString filepath, QString filter) {
 		dir.setNameFilters(flt1+flt2);
 	} else {
 		if(verbose)
-			LOG << DATE << "LoadDir::loaddir(): Filter set: '" << filter.toStdString() << "'" << NL;
+			LOG << CURDATE << "LoadDir::loaddir(): Filter set: '" << filter.toStdString() << "'" << NL;
 		QStringList new_flt;
 		foreach(QString f, filter.split(" ")) {
 			if(f.startsWith("."))
@@ -58,22 +58,22 @@ QFileInfoList LoadDir::loadDir(QString filepath, QString filter) {
 	QString sortby = settings->sortby;
 	if(sortby == "name") {
 		if(verbose)
-			LOG << DATE << "LoadDir::loaddir(): Sorting by name" << NL;
+			LOG << CURDATE << "LoadDir::loaddir(): Sorting by name" << NL;
 		std::sort(allImgsInfo.begin(),allImgsInfo.end(),(asc ? sort_name : sort_name_desc));
 	}
 	if(sortby == "naturalname") {
 		if(verbose)
-			LOG << DATE << "LoadDir::loaddir(): Sorting by natural name" << NL;
+			LOG << CURDATE << "LoadDir::loaddir(): Sorting by natural name" << NL;
 		std::sort(allImgsInfo.begin(),allImgsInfo.end(),(asc ? sort_naturalname : sort_naturalname_desc));
 	}
 	if(sortby == "date") {
 		if(verbose)
-			LOG << DATE << "LoadDir::loaddir(): Sorting by date" << NL;
+			LOG << CURDATE << "LoadDir::loaddir(): Sorting by date" << NL;
 		std::sort(allImgsInfo.begin(),allImgsInfo.end(),(asc ? sort_date : sort_date_desc));
 	}
 	if(sortby == "size") {
 		if(verbose)
-			LOG << DATE << "LoadDir::loaddir(): Sorting by size" << NL;
+			LOG << CURDATE << "LoadDir::loaddir(): Sorting by size" << NL;
 		std::sort(allImgsInfo.begin(),allImgsInfo.end(),(asc ? sort_size : sort_size_desc));
 	}
 

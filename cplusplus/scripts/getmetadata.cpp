@@ -86,7 +86,7 @@ QVariantMap GetMetaData::getExiv2(QString path) {
 			try {
 				image  = Exiv2::ImageFactory::open(path.toStdString());
 			} catch (Exiv2::Error& e) {
-				LOG << DATE << "getmetadata - ERROR reading exiv data (caught exception): " << e.what() << NL;
+				LOG << CURDATE << "getmetadata - ERROR reading exiv data (caught exception): " << e.what() << NL;
 				returnMap.clear();
 				returnMap.insert("validfile","0");
 				return returnMap;

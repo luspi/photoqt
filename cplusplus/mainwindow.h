@@ -118,7 +118,7 @@ private slots:
 	void loadStatus(QQuickView::Status status) {
 		if(status == QQuickView::Error)
 			for(int i = 0; i < this->errors().length(); ++i)
-				LOG << DATE << "QQuickView QML LOADING ERROR: " << this->errors().at(i).toString().toStdString() << NL;
+				LOG << CURDATE << "QQuickView QML LOADING ERROR: " << this->errors().at(i).toString().toStdString() << NL;
 	}
 
 	void stopThumbnails() {

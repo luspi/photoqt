@@ -630,11 +630,11 @@ public slots:
 
 		if(!file.open(QIODevice::ReadWrite))
 
-			LOG << DATE << "ERROR saving settings" << NL;
+			LOG << CURDATE << "ERROR saving settings" << NL;
 
 		else {
 
-			if(verbose) LOG << DATE << "Save Settings" << NL;
+			if(verbose) LOG << CURDATE << "Save Settings" << NL;
 
 			file.close();
 			file.remove();
@@ -799,11 +799,11 @@ public slots:
 
 		if(file.exists() && !file.open(QIODevice::ReadOnly))
 
-			LOG << DATE  << "ERROR reading settings:" << file.errorString().trimmed().toStdString() << NL;
+			LOG << CURDATE  << "ERROR reading settings:" << file.errorString().trimmed().toStdString() << NL;
 
 		else if(file.exists() && file.isOpen()) {
 
-			if(verbose) LOG << DATE << "Read Settings from File" << NL;
+			if(verbose) LOG << CURDATE << "Read Settings from File" << NL;
 
 			// Read file
 			QTextStream in(&file);

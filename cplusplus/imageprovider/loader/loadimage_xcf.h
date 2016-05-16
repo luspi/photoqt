@@ -25,7 +25,7 @@ public:
 		which.waitForFinished();
 		// If it isn't -> display error
 		if(which.exitCode()) {
-			LOG << DATE << "LoadImageXCF: reader xcf - Error: xcftools not found" << NL;
+			LOG << CURDATE << "LoadImageXCF: reader xcf - Error: xcftools not found" << NL;
 			return ErrorImage::load("PhotoQt relies on 'xcftools'' to display XCF images, but it wasn't found!");
 		}
 

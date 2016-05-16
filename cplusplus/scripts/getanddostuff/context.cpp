@@ -54,7 +54,7 @@ QStringList GetAndDoStuffContext::getContextMenu() {
 	if(!file.exists()) return setDefaultContextMenuEntries();
 
 	if(!file.open(QIODevice::ReadOnly)) {
-		LOG << DATE << "GetAndDoStuffContext: ERROR: Can't open contextmenu file" << NL;
+		LOG << CURDATE << "GetAndDoStuffContext: ERROR: Can't open contextmenu file" << NL;
 		return QStringList();
 	}
 
@@ -121,12 +121,12 @@ void GetAndDoStuffContext::saveContextMenu(QVariantList l) {
 	QFile file(CFG_CONTEXTMENU_FILE);
 
 	if(file.exists() && !file.remove()) {
-		LOG << DATE << "GetAndDoStuffContext: ERROR: Failed to remove old contextmenu file" << NL;
+		LOG << CURDATE << "GetAndDoStuffContext: ERROR: Failed to remove old contextmenu file" << NL;
 		return;
 	}
 
 	if(!file.open(QIODevice::WriteOnly)) {
-		LOG << DATE << "GetAndDoStuffContext: ERROR: Failed to write to contextmenu file" << NL;
+		LOG << CURDATE << "GetAndDoStuffContext: ERROR: Failed to write to contextmenu file" << NL;
 		return;
 	}
 

@@ -320,7 +320,7 @@ public slots:
 		QFile file(QDir::homePath() + "/.photoqt/colors");
 
 		if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-			LOG << DATE << "ERROR! Unable to open 'colors' file for saving: " << file.errorString().trimmed().toStdString() << NL;
+			LOG << CURDATE << "ERROR! Unable to open 'colors' file for saving: " << file.errorString().trimmed().toStdString() << NL;
 			return;
 		}
 
@@ -428,7 +428,7 @@ public slots:
 			return;
 
 		if(!file.open(QIODevice::ReadOnly)) {
-			LOG << DATE << "ERROR! Unable to open and load colors from file: " << file.errorString().trimmed().toStdString() << NL;
+			LOG << CURDATE << "ERROR! Unable to open and load colors from file: " << file.errorString().trimmed().toStdString() << NL;
 			return;
 		}
 
