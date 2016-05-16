@@ -434,7 +434,9 @@ public slots:
 
 		QTextStream in(&file);
 		QString line;
-		while(in.readLineInto(&line)) {
+		do {
+
+			line = in.readLine();
 
 			if(line.contains("=") && !line.startsWith("#")) {
 
@@ -600,7 +602,7 @@ public slots:
 
 			}
 
-		}
+		} while(!line.isNull());
 
 	}
 

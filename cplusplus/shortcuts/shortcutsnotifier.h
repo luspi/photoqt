@@ -19,8 +19,10 @@ public:
 			if(file.open(QIODevice::ReadOnly)){
 				QTextStream in(&file);
 				QString line;
-				while(in.readLineInto(&line))
+				do {
+					line = in.readLine();
 					hiddenareas.append(line.trimmed());
+				} while(!line.isNull());
 				file.close();
 			} else
 				LOG << DATE << "ERROR: Unable to retrieve initial states of shortcuts notifiers: " << file.errorString().trimmed().toStdString() << NL;
