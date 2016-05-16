@@ -30,14 +30,13 @@ Item {
 	readonly property int thumbnailbarheight_addon: 50
 
 	// These signals is picked up by the mainwindow.cpp file
-	signal thumbScrolled(var filenameAtCenter)
+	signal thumbScrolled(int filenameAtCenter)
 	signal loadMoreThumbnails();
-	signal didntLoadThisThumbnail(var pos);
-	signal imageLoaded(var path)
+	signal didntLoadThisThumbnail(int pos);
 	signal hideToSystemTray();
 	signal quitPhotoQt();
-	signal reloadDirectory(var filename, var filter);
-	signal verboseMessage(var loc, var msg);
+	signal reloadDirectory(string filename, string filter);
+	signal verboseMessage(string loc, string msg);
 	signal setOverrideCursor();
 	signal restoreOverrideCursor();
 	signal stopThumbnails();

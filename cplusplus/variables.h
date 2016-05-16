@@ -18,7 +18,7 @@ public:
 		trayiconVisible = false;
 		hiddenToTrayIcon = false;
 		wheelcounter = 0;
-		openfileFilter = QVariant();
+		openfileFilter = "";
 		keepLoadingThumbnails = false;
 	}
 
@@ -34,7 +34,7 @@ public:
 	bool trayiconVisible;
 	bool hiddenToTrayIcon;
 
-	QVariant openfileFilter;
+	QString openfileFilter;
 
 	int wheelcounter;
 

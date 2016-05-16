@@ -39,8 +39,7 @@ public:
 	void showStartup(QString type);
 
 public slots:
-	void handleOpenFileEvent(QVariant filename, QVariant filter = QVariant());
-	void handleOpenFileEvent(QString filename) { handleOpenFileEvent(QVariant::fromValue(filename), QVariant()); }
+	void handleOpenFileEvent(QString filename, QString filter = "");
 
 	// This is used by main.cpp (see there (at the end of file) for details)
 	void resetZoom() { QMetaObject::invokeMethod(object,"resetZoom"); }
@@ -86,9 +85,9 @@ private:
 
 private slots:
 
-	void handleThumbnails(QVariant centerPos);
+	void handleThumbnails(int centerPos);
 	void loadMoreThumbnails();
-	void didntLoadThisThumbnail(QVariant pos);
+	void didntLoadThisThumbnail(int pos);
 
 	void detectedKeyCombo(QString combo);
 
@@ -105,7 +104,7 @@ private slots:
 
 	void resetWindowGeometry();
 
-	void qmlVerboseMessage(QVariant loc, QVariant msg);
+	void qmlVerboseMessage(QString loc, QString msg);
 
 	void setOverrideCursor() { ++overrideCursorHowOftenSet; qApp->setOverrideCursor(Qt::WaitCursor); }
 	void restoreOverrideCursor() { for(int i = 0; i < overrideCursorHowOftenSet; ++i) qApp->restoreOverrideCursor(); overrideCursorHowOftenSet = 0; }

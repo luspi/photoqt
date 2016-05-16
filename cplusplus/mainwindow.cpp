@@ -49,18 +49,18 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 	loadDir = new LoadDir(verbose);
 
 	// Scrolled view
-	connect(object, SIGNAL(thumbScrolled(QVariant)), this, SLOT(handleThumbnails(QVariant)));
+	connect(object, SIGNAL(thumbScrolled(int)), this, SLOT(handleThumbnails(int)));
 
 
-	connect(object, SIGNAL(reloadDirectory(QVariant,QVariant)), this, SLOT(handleOpenFileEvent(QVariant,QVariant)));
+	connect(object, SIGNAL(reloadDirectory(QString,QString)), this, SLOT(handleOpenFileEvent(QString,QString)));
 	connect(object, SIGNAL(loadMoreThumbnails()), this, SLOT(loadMoreThumbnails()));
-	connect(object, SIGNAL(didntLoadThisThumbnail(QVariant)), this, SLOT(didntLoadThisThumbnail(QVariant)));
+	connect(object, SIGNAL(didntLoadThisThumbnail(int)), this, SLOT(didntLoadThisThumbnail(int)));
 	connect(object, SIGNAL(setOverrideCursor()), this, SLOT(setOverrideCursor()));
 	connect(object, SIGNAL(restoreOverrideCursor()), this, SLOT(restoreOverrideCursor()));
 	connect(object, SIGNAL(stopThumbnails()), this, SLOT(stopThumbnails()));
 	connect(object, SIGNAL(reloadThumbnails()), this, SLOT(reloadThumbnails()));
 
-	connect(object, SIGNAL(verboseMessage(QVariant,QVariant)), this, SLOT(qmlVerboseMessage(QVariant,QVariant)));
+	connect(object, SIGNAL(verboseMessage(QString,QString)), this, SLOT(qmlVerboseMessage(QString,QString)));
 
 	// Hide/Quit window
 	connect(object, SIGNAL(hideToSystemTray()), this, SLOT(hideToSystemTray()));
@@ -89,9 +89,9 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 }
 
 // Open a new file
-void MainWindow::handleOpenFileEvent(QVariant filename, QVariant filter) {
+void MainWindow::handleOpenFileEvent(QString filename, QString filter) {
 
-	if(filename.toString().trimmed() == "") {
+	if(filename.trimmed() == "") {
 		QMetaObject::invokeMethod(object, "openFile");
 		return;
 	}
@@ -104,7 +104,7 @@ void MainWindow::handleOpenFileEvent(QVariant filename, QVariant filter) {
 		LOG << CURDATE << "handleOpenFileEvent(): Handle response to request to open new file" << NL;
 
 	// Decode filename
-	QByteArray usethis = QByteArray::fromPercentEncoding(filename.toString().trimmed().toUtf8());
+	QByteArray usethis = QByteArray::fromPercentEncoding(filename.trimmed().toUtf8());
 
 	// Store filter
 	variables->openfileFilter = filter;
@@ -125,7 +125,7 @@ void MainWindow::handleOpenFileEvent(QVariant filename, QVariant filter) {
 	variables->loadedThumbnails.clear();
 
 	// Load direcgtory
-	QFileInfoList l = loadDir->loadDir(file,variables->openfileFilter.toString());
+	QFileInfoList l = loadDir->loadDir(file,variables->openfileFilter);
 	if(l.isEmpty()) {
 		QMetaObject::invokeMethod(object, "noResultsFromFilter");
 		restoreOverrideCursor();
@@ -170,10 +170,10 @@ void MainWindow::handleOpenFileEvent(QVariant filename, QVariant filter) {
 }
 
 // Thumbnail handling (centerPos is image currently displayed in the visible center of thumbnail bar)
-void MainWindow::handleThumbnails(QVariant centerPos) {
+void MainWindow::handleThumbnails(int centerPos) {
 
 	if(variables->verbose)
-		LOG << CURDATE << "handleThumbnails(): New thumbnail center pos: " << centerPos.toInt() << NL;
+		LOG << CURDATE << "handleThumbnails(): New thumbnail center pos: " << centerPos << NL;
 
 	// Get some settings for later use
 	int thumbSize = settingsPermanent->thumbnailsize;
@@ -182,7 +182,7 @@ void MainWindow::handleThumbnails(QVariant centerPos) {
 
 	// Get total and center pos
 	int countTot = settingsPerSession->value("countTot").toInt();
-	currentCenter = centerPos.toInt();
+	currentCenter = centerPos;
 
 	// Generate how many to each side
 	int numberToOneSide = (this->width()/(thumbSize+thumbSpacing))/2;
@@ -267,10 +267,10 @@ void MainWindow::loadMoreThumbnails() {
 }
 
 // This one was tried to be preloaded smartly, but didn't exist yet -> nothing done
-void MainWindow::didntLoadThisThumbnail(QVariant pos) {
+void MainWindow::didntLoadThisThumbnail(int pos) {
 	if(variables->verbose)
-		LOG << CURDATE << "didntLoadThisThumbnail(): Thumbnail #" << pos.toInt() << " not loaded smartly..." << NL;
-	variables->loadedThumbnails.removeAt(variables->loadedThumbnails.indexOf(pos.toInt()));
+		LOG << CURDATE << "didntLoadThisThumbnail(): Thumbnail #" << pos << " not loaded smartly..." << NL;
+	variables->loadedThumbnails.removeAt(variables->loadedThumbnails.indexOf(pos));
 }
 
 // These are used to communicate key combos to the qml interface (for shortcuts, lineedits, etc.)
@@ -735,10 +735,10 @@ void MainWindow::showStartup(QString type) {
 
 }
 
-void MainWindow::qmlVerboseMessage(QVariant loc, QVariant msg) {
+void MainWindow::qmlVerboseMessage(QString loc, QString msg) {
 	if(variables->verbose) {
-		LOG << CURDATE << "[QML] " << loc.toString().toStdString();
-		if(msg.toString().trimmed() != "") LOG << ": " << msg.toString().toStdString() << NL;
+		LOG << CURDATE << "[QML] " << loc.toStdString();
+		if(msg.trimmed() != "") LOG << ": " << msg.toStdString() << NL;
 	}
 }
 
