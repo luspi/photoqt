@@ -25,7 +25,7 @@
 
 	; Name and file
 	Name "PhotoQt"
-	OutFile "photoqt-1.3-basic.exe"
+	OutFile "photoqt-1.4.exe"
 
 	; Default installation folder
 	InstallDir "$PROGRAMFILES\PhotoQt"
@@ -89,7 +89,6 @@
 	LangString	FinishPage_RegisterPsdXcf		${LANG_English} "Include PSD and XCF"
 	LangString	FinishPage_DesktopIcon			${LANG_English} "Create Desktop Icon"
 	LangString	FinishPage_StartMenu			${LANG_English} "Create Start menu entry"
-
 
 ;--------------------------------
 ;Reserve Files
@@ -176,100 +175,115 @@ Section "PhotoQt" SecDummy
 
 	; Install files
 
-	${SetOutPath} "$INSTDIR"
-	${File} "app\libEGL.dll"
-	${File} "app\libfreetype-6.dll"
-	${File} "app\libgcc_s_sjlj-1.dll"
-	${File} "app\libGLESv2.dll"
-	${File} "app\libglib-2.0-0.dll"
-	${File} "app\libharfbuzz-0.dll"
-	${File} "app\libiconv-2.dll"
-	${File} "app\libintl-8.dll"
-	${File} "app\libjpeg-62.dll"
-	${File} "app\libpcre-1.dll"
-	${File} "app\libpcre16-0.dll"
-	${File} "app\libpng16-16.dll"
-	${File} "app\libsqlite3-0.dll"
-	${File} "app\libstdc++-6.dll"
-	${File} "app\libwinpthread-1.dll"
-	${File} "app\Qt5Core.dll"
-	${File} "app\Qt5Gui.dll"
-	${File} "app\Qt5Multimedia.dll"
-	${File} "app\Qt5MultimediaQuick_p.dll"
-	${File} "app\Qt5Network.dll"
-	${File} "app\Qt5Qml.dll"
-	${File} "app\Qt5Quick.dll"
-	${File} "app\Qt5Svg.dll"
-	${File} "app\Qt5Sql.dll"
-	${File} "app\Qt5Widgets.dll"
-	${File} "app\zlib1.dll"
+	;Write the installation path into the registry
+   ${WriteRegStr} "${REG_ROOT}" "${REG_APP_PATH}" "Install Directory" "$INSTDIR"
+ ;Write the Uninstall information into the registry
+   ${WriteRegStr} ${REG_ROOT} "${UNINSTALL_PATH}" "UninstallString" "$INSTDIR\uninstall.exe"
 
-	${File} "app\photoqt.exe"
+	${SetOutPath} "$INSTDIR"
+	${File} "libbz2-1.dll"
+	${File} "libEGL.dll"
+	${File} "libexiv2-14.dll"
+	${File} "libfreetype-6.dll"
+	${File} "libgcc_s_sjlj-1.dll"
+	${File} "libGLESv2.dll"
+	${File} "libglib-2.0-0.dll"
+	${File} "libgomp-1.dll"
+	${File} "libGraphicsMagick-3.dll"
+	${File} "libGraphicsMagick++-11.dll"
+	${File} "libharfbuzz-0.dll"
+	${File} "libiconv-2.dll"
+	${File} "libintl-8.dll"
+	${File} "liblcms2-2.dll"
+	${File} "libltdl-7.dll"
+	${File} "libjpeg-62.dll"
+	${File} "libpcre-1.dll"
+	${File} "libpcre16-0.dll"
+	${File} "libpng16-16.dll"
+	${File} "libsqlite3-0.dll"
+	${File} "libstdc++-6.dll"
+	${File} "libwinpthread-1.dll"
+	${File} "Qt5Core.dll"
+	${File} "Qt5Gui.dll"
+	${File} "Qt5Multimedia.dll"
+	${File} "Qt5MultimediaQuick_p.dll"
+	${File} "Qt5Network.dll"
+	${File} "Qt5Qml.dll"
+	${File} "Qt5Quick.dll"
+	${File} "Qt5Svg.dll"
+	${File} "Qt5Sql.dll"
+	${File} "Qt5Widgets.dll"
+	${File} "zlib1.dll"
+
+	${File} "photoqt.exe"
 	${File} "license.txt"
 	${File} "icon.ico"
 
 	${AddItem} "$INSTDIR\sqldrivers"
 	${SetOutPath} "$INSTDIR\sqldrivers"
-	${File} "app\sqldrivers\qsqlite.dll"
+	${File} "sqldrivers\qsqlite.dll"
 
 	${AddItem} "$INSTDIR\platforms"
 	${SetOutPath} "$INSTDIR\platforms"
-	${File} "app\platforms\qwindows.dll"
+	${File} "platforms\qwindows.dll"
 
 	${AddItem} "$INSTDIR\imageformats"
 	${SetOutPath} "$INSTDIR\imageformats"
-	${File} "app\imageformats\qdds.dll"
-	${File} "app\imageformats\qgif.dll"
-	${File} "app\imageformats\qicns.dll"
-	${File} "app\imageformats\qico.dll"
-	${File} "app\imageformats\qjp2.dll"
-	${File} "app\imageformats\qjpeg.dll"
-	${File} "app\imageformats\qmng.dll"
-	${File} "app\imageformats\qsvg.dll"
-	${File} "app\imageformats\qtga.dll"
-	${File} "app\imageformats\qtiff.dll"
-	${File} "app\imageformats\qwbmp.dll"
-	${File} "app\imageformats\qwebp.dll"
+	${File} "imageformats\qdds.dll"
+	${File} "imageformats\qgif.dll"
+	${File} "imageformats\qicns.dll"
+	${File} "imageformats\qico.dll"
+	${File} "imageformats\qjp2.dll"
+	${File} "imageformats\qjpeg.dll"
+	${File} "imageformats\qjpg.dll"
+	${File} "imageformats\qmng.dll"
+	${File} "imageformats\qsvg.dll"
+	${File} "imageformats\qtga.dll"
+	${File} "imageformats\qtiff.dll"
+	${File} "imageformats\qwbmp.dll"
+	${File} "imageformats\qwebp.dll"
 
 	${AddItem} "$INSTDIR\QtMultimedia"
 	${SetOutPath} "$INSTDIR\QtMultimedia"
-	${File} "app\QtMultimedia\declarative_multimedia.dll"
-	${File} "app\QtMultimedia\qmldir"
+	${File} "QtMultimedia\declarative_multimedia.dll"
+	${File} "QtMultimedia\qmldir"
 
+	${AddItem} "$INSTDIR\QtQml"
 	${AddItem} "$INSTDIR\QtQml\Models.2"
 	${SetOutPath} "$INSTDIR\QtQml\Models.2"
-	${File} "app\QtQml\Models.2\modelsplugin.dll"
-	${File} "app\QtQml\models.2\qmldir"
+	${File} "QtQml\Models.2\modelsplugin.dll"
+	${File} "QtQml\models.2\qmldir"
 
+	${AddItem} "$INSTDIR\QtQuick"
 	${AddItem} "$INSTDIR\QtQuick\Controls"
 	${SetOutPath} "$INSTDIR\QtQuick\Controls"
-	${File} "app\QtQuick\Controls\plugins.qmltypes"
-	${File} "app\QtQuick\Controls\qmldir"
-	${File} "app\QtQuick\Controls\qtquickcontrolsplugin.dll"
+	${File} "QtQuick\Controls\plugins.qmltypes"
+	${File} "QtQuick\Controls\qmldir"
+	${File} "QtQuick\Controls\qtquickcontrolsplugin.dll"
 
 	${AddItem} "$INSTDIR\QtQuick\Dialogs"
 	${SetOutPath} "$INSTDIR\QtQuick\Dialogs"
-	${File} "app\QtQuick\Dialogs\dialogplugin.dll"
-	${File} "app\QtQuick\Dialogs\plugins.qmltypes"
-	${File} "app\QtQuick\Dialogs\qmldir"
+	${File} "QtQuick\Dialogs\dialogplugin.dll"
+	${File} "QtQuick\Dialogs\plugins.qmltypes"
+	${File} "QtQuick\Dialogs\qmldir"
 
 	${AddItem} "$INSTDIR\QtQuick\Layouts"
 	${SetOutPath} "$INSTDIR\QtQuick\Layouts"
-	${File} "app\QtQuick\Layouts\plugins.qmltypes"
-	${File} "app\QtQuick\Layouts\qmldir"
-	${File} "app\QtQuick\Layouts\qquicklayoutsplugin.dll"
+	${File} "QtQuick\Layouts\plugins.qmltypes"
+	${File} "QtQuick\Layouts\qmldir"
+	${File} "QtQuick\Layouts\qquicklayoutsplugin.dll"
 
 	${AddItem} "$INSTDIR\QtQuick\Window.2"
 	${SetOutPath} "$INSTDIR\QtQuick\Window.2"
-	${File} "app\QtQuick\Window.2\plugins.qmltypes"
-	${File} "app\QtQuick\Window.2\qmldir"
-	${File} "app\QtQuick\Window.2\windowplugin.dll"
+	${File} "QtQuick\Window.2\plugins.qmltypes"
+	${File} "QtQuick\Window.2\qmldir"
+	${File} "QtQuick\Window.2\windowplugin.dll"
 
 	${AddItem} "$INSTDIR\QtQuick.2"
 	${SetOutPath} "$INSTDIR\QtQuick.2"
-	${File} "app\QtQuick.2\plugins.qmltypes"
-	${File} "app\QtQuick.2\qmldir"
-	${File} "app\QtQuick.2\qtquick2plugin.dll"
+	${File} "QtQuick.2\plugins.qmltypes"
+	${File} "QtQuick.2\qmldir"
+	${File} "QtQuick.2\qtquick2plugin.dll"
 
 	; Store installation folder
 	${WriteRegStr} HKCU "Software\PhotoQt" "" $INSTDIR
@@ -553,7 +567,7 @@ Section "Uninstall"
 
 	; Can't uninstall if uninstall log is missing!
 	IfFileExists "$INSTDIR\${UninstLog}" +3
-		MessageBox MB_OK|MB_ICONSTOP "Oh, that's weird: The Uninstall Log is missing! Sorry, don't know what files to remove... :-("
+		MessageBox MB_OK|MB_ICONSTOP "$(UninstLogMissing)"
 		Abort
 
 	SetShellVarContext all
@@ -709,16 +723,16 @@ Section "Uninstall"
 		Pop $R0
 
 		IfFileExists "$R0\*.*" 0 +3
-		RMDir $R0  #is dir
+		RMDir $R0
 		Goto +9
 		IfFileExists $R0 0 +3
-		Delete $R0 #is file
+		Delete $R0
 		Goto +6
 		StrCmp $R0 "${REG_ROOT} ${REG_APP_PATH}" 0 +3
-		DeleteRegKey ${REG_ROOT} "${REG_APP_PATH}" #is Reg Element
+		DeleteRegKey ${REG_ROOT} "${REG_APP_PATH}"
 		Goto +3
 		StrCmp $R0 "${REG_ROOT} ${UNINSTALL_PATH}" 0 +2
-		DeleteRegKey ${REG_ROOT} "${UNINSTALL_PATH}" #is Reg Element
+		DeleteRegKey ${REG_ROOT} "${UNINSTALL_PATH}"
 
 		IntOp $R1 $R1 - 1
 		Goto LoopRead
