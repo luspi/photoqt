@@ -22,7 +22,8 @@ namespace StartupCheck {
 			// Check for configuration folder
 			if(!QDir(CONFIG_DIR).exists()) {
 				if(!dir.mkpath(CONFIG_DIR)) {
-					LOG << CURDATE << "StartupCheck::Migration: ERROR! Unable to create configuration directory '" << CONFIG_DIR << "'" << NL;
+					LOG << CURDATE << "StartupCheck::Migration: ERROR! Unable to create configuration directory '"
+						<< CONFIG_DIR.toStdString() << "'" << NL;
 					std::exit(1);
 				} else
 					migrated = true;
@@ -31,7 +32,8 @@ namespace StartupCheck {
 			// Check for data folder
 			if(!QDir(DATA_DIR).exists()) {
 				if(!dir.mkpath(DATA_DIR)) {
-					LOG << CURDATE << "StartupCheck::Migration: ERROR! Unable to create data directory '" << DATA_DIR << "'" << NL;
+					LOG << CURDATE << "StartupCheck::Migration: ERROR! Unable to create data directory '"
+						<< DATA_DIR.toStdString() << "'" << NL;
 					std::exit(1);
 				} else
 					migrated = true;
@@ -40,7 +42,8 @@ namespace StartupCheck {
 			// Check for cache folder
 			if(!QDir(CACHE_DIR).exists()) {
 				if(!dir.mkpath(CACHE_DIR)) {
-					LOG << CURDATE << "StartupCheck::Migration: ERROR! Unable to create data directory '" << CACHE_DIR << "'" << NL;
+					LOG << CURDATE << "StartupCheck::Migration: ERROR! Unable to create data directory '"
+						<< CACHE_DIR.toStdString() << "'" << NL;
 					std::exit(1);
 				} else
 					migrated = true;
@@ -57,7 +60,8 @@ namespace StartupCheck {
 				if(file.exists()) {
 
 					LOG << CURDATE
-						<< "Migrating old settings file from '" << oldpath.toStdString() << "' to '" << CONFIG_DIR << "'"
+						<< "Migrating old settings file from '" << oldpath.toStdString() << "' to '"
+						<< CONFIG_DIR.toStdString() << "'"
 						<< NL;
 
 					if(!file.rename(CFG_SETTINGS_FILE))
@@ -73,7 +77,8 @@ namespace StartupCheck {
 				if(file.exists()) {
 
 					LOG << CURDATE
-						<< "Migrating old shortcuts file from '" << oldpath.toStdString() << "' to '" << CONFIG_DIR << "'"
+						<< "Migrating old shortcuts file from '" << oldpath.toStdString() << "' to '"
+						<< CONFIG_DIR.toStdString() << "'"
 						<< NL;
 
 					if(!file.rename(CFG_SHORTCUTS_FILE))
@@ -89,7 +94,8 @@ namespace StartupCheck {
 				if(file.exists()) {
 
 					LOG << CURDATE
-						<< "Migrating old contextmenu file from '" << oldpath.toStdString() << "' to '" << CONFIG_DIR << "'"
+						<< "Migrating old contextmenu file from '" << oldpath.toStdString() << "' to '"
+						<< CONFIG_DIR.toStdString() << "'"
 						<< NL;
 
 					if(!file.rename(CFG_CONTEXTMENU_FILE))
@@ -105,7 +111,8 @@ namespace StartupCheck {
 				if(file.exists()) {
 
 					LOG << CURDATE
-						<< "Migrating old fileformats.disabled file from '" << oldpath.toStdString() << "' to '" << CONFIG_DIR << "'"
+						<< "Migrating old fileformats.disabled file from '" << oldpath.toStdString() << "' to '"
+						<< CONFIG_DIR.toStdString() << "'"
 						<< NL;
 
 					if(!file.rename(CFG_FILEFORMATS_FILE))
@@ -121,7 +128,8 @@ namespace StartupCheck {
 				if(file.exists()) {
 
 					LOG << CURDATE
-						<< "Migrating old thumbnails database from '" << oldpath.toStdString() << "' to '" << CACHE_DIR << "'"
+						<< "Migrating old thumbnails database from '" << oldpath.toStdString() << "' to '"
+						<< CACHE_DIR.toStdString() << "'"
 						<< NL;
 
 					if(!file.rename(CFG_THUMBNAILS_DB))

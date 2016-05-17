@@ -752,10 +752,8 @@ void MainWindow::qmlVerboseMessage(QString loc, QString msg) {
 }
 
 MainWindow::~MainWindow() {
-	QFile file(CFG_SEETINGS_SESSION_FILE);
+	QFile file(CFG_SETTINGS_SESSION_FILE);
 	file.remove();
-	QFile sizes(QString(CACHE_DIR) + "/imagesizes");
-	sizes.remove();
 	delete settingsPerSession;
 	delete settingsPermanent;
 	delete fileformats;

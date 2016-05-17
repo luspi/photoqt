@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QSettings>
 #include <QDir>
+#include "../logger.h"
 
 // Convenience class to access and change permanent settings
 class SettingsSession : public QObject {
@@ -12,7 +13,7 @@ class SettingsSession : public QObject {
 
 public:
 	explicit SettingsSession(QObject *parent = 0) : QObject(parent) {
-		settings_ = new QSettings(CFG_SEETINGS_SESSION_FILE);
+		settings_ = new QSettings(CFG_SETTINGS_SESSION_FILE);
 		setValue("metadatakeepopen",false);
 	}
 	~SettingsSession() { delete settings_; }
