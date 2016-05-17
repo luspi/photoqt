@@ -159,6 +159,7 @@ Rectangle {
 
 	function uncheckCheckbox() { check.checkedButton = false; }
 	function checkCheckbox() { check.checkedButton = true; }
+	function getButtonState() { return check.checkedButton; }
 
 	Component {
 

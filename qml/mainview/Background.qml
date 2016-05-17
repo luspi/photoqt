@@ -161,7 +161,7 @@ Rectangle {
 
 		if(!thumbnailBar.contains(thumbPos))
 			thumbnailBar.hide()
-		if((!metaData.contains(localcursorpos) && settingssession.value("metadatakeepopen") === false) || thumbnailBar.contains(thumbPos))
+		if((!metaData.contains(localcursorpos) && !metaData.getButtonState()) || thumbnailBar.contains(thumbPos))
 			metaData.hide()
 		if(!mainmenu.contains(mainmenuPos) || thumbnailBar.contains(thumbPos))
 			mainmenu.hide()
