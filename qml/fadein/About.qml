@@ -7,7 +7,7 @@ FadeInTemplate {
 
 	id: about
 
-	heading: qsTr("About PhotoQt")
+	heading: qsTr("About PhotoQt") + " v" + getanddostuff.getVersionString()
 
 	content: [
 
