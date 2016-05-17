@@ -6,7 +6,7 @@ FileDialog {
 	id: fileDialog
 
 	title: "Select an image file"
-	folder: shortcuts.home
+	folder: getanddostuff.getHomeDir()
 
 	onAccepted:
 		reloadDirectory(fileDialog.fileUrl,"")
@@ -16,7 +16,7 @@ FileDialog {
 		if(thumbnailBar.currentFile != "")
 			folder = getanddostuff.removeFilenameFromPath(thumbnailBar.currentFile)
 		else
-			folder = shortcuts.home
+			folder = getanddostuff.getHomeDir()
 		visible = true
 	}
 
