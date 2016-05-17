@@ -192,6 +192,7 @@ Rectangle {
 				id: navigation
 				category: qsTr("Navigation")
 				allAvailableItems: [["__open",qsTr("Open New File")],
+									["__openOld",qsTr("Open New File") + " (Old)"],
 									["__filterImages",qsTr("Filter Images in Folder")],
 									["__next",qsTr("Next Image")],
 									["__prev",qsTr("Previous Image")],

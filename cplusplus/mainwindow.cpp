@@ -91,6 +91,9 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 // Open a new file
 void MainWindow::handleOpenFileEvent(QString filename, QString filter) {
 
+	if(filename.startsWith("file://"))
+		filename = filename.remove(0,7);
+
 	if(filename.trimmed() == "") {
 		QMetaObject::invokeMethod(object, "openFile");
 		return;
