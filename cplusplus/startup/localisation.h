@@ -25,10 +25,10 @@ namespace StartupCheck {
 			QString code1 = "";
 			QString code2 = "";
 			bool noLanguageWasSet = false;
-			if(settingsText->contains("Language=") && !settingsText->contains("Language=en") && !settingsText->contains("Language=\n")) {
+			if(settingsText->contains("Language=") && !settingsText->contains("Language=\n")) {
 				code1 = settingsText->split("Language=").at(1).split("\n").at(0).trimmed();
 				code2 = code1;
-			} else if(!settingsText->contains("Language=en")) {
+			} else {
 				code1 = QLocale::system().name();
 				code2 = QLocale::system().name().split("_").at(0);
 			}

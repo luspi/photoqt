@@ -30,6 +30,7 @@ EntryContainer {
 			GridView {
 
 				property var languageitems: [["en","English",""],
+											["ar","عربي ,عربى",""],
 											["cs","Čeština",""],
 											["de","Deutsch",""],
 											["el","Ελληνικά",""],
@@ -40,10 +41,13 @@ EntryContainer {
 											["he","עברית",""],
 											["it","Italiano",""],
 											["ja","日本語",""],
+											["lt","lietuvių kalba",""],
 											["pl","Polski",""],
 											["pt_BR","Português (Brasil)",""],
 											["pt_PT","Português (Portugal)",""],
+											["ru_RU","русский язык",""],
 											["sk","Slovenčina",""],
+											["tr","Türkçe",""],
 											["uk_UA","Українська",""],
 											["zh_CN","Chinese",""],
 											["zh_TW","Chinese (traditional)",""]]

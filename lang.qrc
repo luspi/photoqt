@@ -4,6 +4,7 @@
         <file>photoqt_cs.qm</file>
         <file>photoqt_de.qm</file>
         <file>photoqt_el.qm</file>
+        <file>photoqt_en.qm</file>
         <file>photoqt_es_CR.qm</file>
         <file>photoqt_es_ES.qm</file>
         <file>photoqt_fi.qm</file>
@@ -14,8 +15,6 @@
         <file>photoqt_ja.qm</file>
         <file>photoqt_ku_IQ.qm</file>
         <file>photoqt_lt.qm</file>
-        <file>photoqt_nb_NO.qm</file>
-        <file>photoqt_nn_NO.qm</file>
         <file>photoqt_pl.qm</file>
         <file>photoqt_pt_BR.qm</file>
         <file>photoqt_pt_PT.qm</file>
@@ -24,7 +23,6 @@
         <file>photoqt_sr_RS.qm</file>
         <file>photoqt_tr.qm</file>
         <file>photoqt_uk_UA.qm</file>
-        <file>photoqt_vi.qm</file>
         <file>photoqt_zh_CN.qm</file>
         <file>photoqt_zh_HK.qm</file>
         <file>photoqt_zh_TW.qm</file>
