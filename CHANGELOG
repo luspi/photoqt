@@ -1,5 +1,41 @@
-Changelog PhotoQt v1.3  - Copyright (C) 2015, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
+Changelog PhotoQt v1.4  - Copyright (C) 2016, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
+
+
+Release 1.4 - 17/05/2016
+----------------------------
+- Re-designed main interface
+- Re-design settings manager, streamlining interface
+- Re-written shortcuts management (I know, it's part of the settings manager mentioned above, but it's a huge improvement)
+- Re-written image engine
+- Improvement: Custom* elements have been extended for higher customisability
+- Improvement: Enable optimisations when compiling
+- Improvement: Better startup-checks (seperate namespace and files)
+- Add: Improved key navigation for elements
+- Add: Support for most RAW image formats (using Libraw)
+- Add: Custom element for opening files
+- Add: Additional metadata information
+- Add: Width of mainmenu and metadata element can be adjusted by click-and-drag
+- Add: Autotransform is used (for Qt >= 5.5) if enabled for better performance/quality
+- Add: Animate rotation/zooming
+- Add: Tooltips all over the place
+- Add: Shortcut notifier informing user of what shortcut navigation is possible
+- Add: Blur of background image (NOT desktop background) when element is open
+- Add: 'Loading' gif when image takes more than 500ms to load
+- Add: Experimental support for touchscreens
+- Add: Custom cache of displayed images, fully adjustable
+- Change: Turn metadata element into full-height bar on left edge
+- Change: Faulty/Unexpected metadata cannot cause a crash anymore (try/catch)
+- Change: Metadata non-floatable, i.e., permanently shown, resizes main image element
+- Change: Combine mainmenu and context-menu into full-height on right edge (removing Quicksettings)
+- Change: Use Qt's QCommandLineParse class for simple handling of command line (and common look with other Qt apps)
+- Change: Use proper XDG folders for configuration/data (auto migration at first startup)
+- Change of behaviour: Closing PhotoQt using window manager now immediately quits PhotoQt (and not first 'only' closes any possibly opened element)
+- Fix: Spaces in filenames are handled properly now when passing to external app
+- Fix (for Mac): current screen follows mouse pointer
+- Fix: many, many bugs
+- Windows: Several small fixes specifically for Windows systems
+
 
 Release 1.3 - 27/07/2015
 ----------------------------

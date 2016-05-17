@@ -9,9 +9,7 @@ PROJECT(photoqt)
 ##################################################################
 ####  GLOBAL VERSION STRING FOR ALL FILES (INCLUDING CPP/QML) ####
 ##################################################################
-ADD_DEFINITIONS(-DVERSION="devel")
-
-
+ADD_DEFINITIONS(-DVERSION="1.4")
 
 
 #############################
@@ -53,8 +51,6 @@ SET(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
 FIND_PACKAGE(Magick)
 FIND_PACKAGE(Exiv2)
 FIND_PACKAGE(LibRaw)
-
-SET(CMAKE_BUILD_TYPE "Debug")
 
 
 ####################################
@@ -99,10 +95,10 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 # And add the executeable (on windows we add application icons...)
 IF(WIN32)
 	ADD_EXECUTABLE(photoqt WIN32 ${photoqt_SOURCES} ${photoqt_HEADERS_MOC} ${RESOURCES} windowsicons.rc)
-        QT5_USE_MODULES(photoqt Quick Widgets Sql Svg Core Xml WinExtras)
+	QT5_USE_MODULES(photoqt Quick Widgets Sql Svg Core Xml WinExtras)
 ELSEIF(NOT WIN32)
 	ADD_EXECUTABLE(photoqt ${photoqt_SOURCES} ${photoqt_HEADERS_MOC} ${RESOURCES})
-        QT5_USE_MODULES(photoqt Quick Widgets Sql Svg Core Xml)
+	QT5_USE_MODULES(photoqt Quick Widgets Sql Svg Core Xml)
 ENDIF(WIN32)
 
 
