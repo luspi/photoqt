@@ -69,7 +69,7 @@ QVariantMap GetAndDoStuffShortcuts::getShortcuts() {
 			mouse = true;
 			combo = combo.remove(0,4).trimmed();
 		}
-		ret.insert(combo,QStringList() << parts[0] << QByteArray::fromPercentEncoding(parts[2].toUtf8()) << (mouse ? "mouse" : "key"));
+		ret.insert(combo,QStringList() << parts[0] << parts[2] << (mouse ? "mouse" : "key"));
 	}
 
 	return ret;
@@ -145,12 +145,13 @@ void GetAndDoStuffShortcuts::saveShortcuts(QVariantMap l) {
 
 		QString cl = QString::number(vals.at(0).toInt());
 		QString sh = key;
-		QByteArray ds = vals.at(1).toUtf8().toPercentEncoding();
+
+		QString ds = vals.at(1);
 
 		if(vals.at(2) == "mouse")
-			mouse += QString("%1::[M] %2::%3\n").arg(cl).arg(sh).arg(QString(ds));
+			mouse += QString("%1::[M] %2::%3\n").arg(cl).arg(sh).arg(ds);
 		else
-			keys += QString("%1::%2::%3\n").arg(cl).arg(sh).arg(QString(ds));
+			keys += QString("%1::%2::%3\n").arg(cl).arg(sh).arg(ds);
 
 	}
 

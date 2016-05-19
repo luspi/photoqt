@@ -123,7 +123,7 @@ Rectangle {
 					}
 					Timer {
 						id: updateExternalString
-						interval: 500
+						interval: 250
 						running: false
 						repeat: false
 						onTriggered: {
@@ -337,7 +337,7 @@ Rectangle {
 						} else {
 							// We delete->change->update the key combo for proper double detection
 							deleteAKeyCombo(key_combo.store)
-							gridmodel.set(ele.posInList,{"sh" : key_combo.text })
+							gridmodel.set(ele.posInList,{"sh" : getOriginalKeyText(key_combo.text) })
 							addAKeyCombo(key_combo.store)
 						}
 
