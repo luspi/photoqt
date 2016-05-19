@@ -56,7 +56,7 @@
 
 	; Welcome text
 	!define MUI_WELCOMEPAGE_TITLE $(WelcomePage_Title)
-	!define MUI_WELCOMEPAGE_TEXT $(WelcomePage_Text_part1)$\r$\n$\r$\n$(WelcomePage_Text_part2)
+	!define MUI_WELCOMEPAGE_TEXT $(WelcomePage_Text_part1)$\r$\n$\r$\n$(WelcomePage_Text_part2)$\r$\n$\r$\n"PLEASE MAKE SURE TO FIRST UNINSTALL ALL PREVIOUS VERSIONS OF PHOTOQT!"
 
 	; Installer pages
 	!insertmacro MUI_PAGE_WELCOME
@@ -103,68 +103,68 @@
 ;--------------------------------
 ; Prepare UninstallLog
 
-  ;Set the name of the uninstall log
-    !define UninstLog "uninstall.log"
-    Var UninstLog
-  ;The root registry to write to
-    !define REG_ROOT "HKLM"
-  ;The registry path to write to
-    !define REG_APP_PATH "SOFTWARE\appname"
+	;Set the name of the uninstall log
+	!define UninstLog "uninstall.log"
+	Var UninstLog
+	;The root registry to write to
+	!define REG_ROOT "HKLM"
+	;The registry path to write to
+	!define REG_APP_PATH "SOFTWARE\appname"
 
-  ;Uninstall log file missing.
-    LangString UninstLogMissing ${LANG_ENGLISH} "${UninstLog} not found!$\r$\nUninstallation cannot proceed!"
+	;Uninstall log file missing.
+	LangString UninstLogMissing ${LANG_ENGLISH} "${UninstLog} not found!$\r$\nUninstallation cannot proceed!"
 
-  ;AddItem macro
-    !define AddItem "!insertmacro AddItem"
+	;AddItem macro
+	!define AddItem "!insertmacro AddItem"
 
-  ;BackupFile macro
-    !define BackupFile "!insertmacro BackupFile"
+	;BackupFile macro
+	!define BackupFile "!insertmacro BackupFile"
 
-  ;BackupFiles macro
-    !define BackupFiles "!insertmacro BackupFiles"
+	;BackupFiles macro
+	!define BackupFiles "!insertmacro BackupFiles"
 
-  ;Copy files macro
-    !define CopyFiles "!insertmacro CopyFiles"
+	;Copy files macro
+	!define CopyFiles "!insertmacro CopyFiles"
 
-  ;CreateDirectory macro
-    !define CreateDirectory "!insertmacro CreateDirectory"
+	;CreateDirectory macro
+	!define CreateDirectory "!insertmacro CreateDirectory"
 
-  ;CreateShortcut macro
-    !define CreateShortcut "!insertmacro CreateShortcut"
+	;CreateShortcut macro
+	!define CreateShortcut "!insertmacro CreateShortcut"
 
-  ;File macro
-    !define File "!insertmacro File"
+	;File macro
+	!define File "!insertmacro File"
 
-  ;Rename macro
-    !define Rename "!insertmacro Rename"
+	;Rename macro
+	!define Rename "!insertmacro Rename"
 
-  ;RestoreFile macro
-    !define RestoreFile "!insertmacro RestoreFile"
+	;RestoreFile macro
+	!define RestoreFile "!insertmacro RestoreFile"
 
-  ;RestoreFiles macro
-    !define RestoreFiles "!insertmacro RestoreFiles"
+	;RestoreFiles macro
+	!define RestoreFiles "!insertmacro RestoreFiles"
 
-  ;SetOutPath macro
-    !define SetOutPath "!insertmacro SetOutPath"
+	;SetOutPath macro
+	!define SetOutPath "!insertmacro SetOutPath"
 
-  ;WriteRegDWORD macro
-    !define WriteRegDWORD "!insertmacro WriteRegDWORD"
+	;WriteRegDWORD macro
+	!define WriteRegDWORD "!insertmacro WriteRegDWORD"
 
-  ;WriteRegStr macro
-    !define WriteRegStr "!insertmacro WriteRegStr"
+	;WriteRegStr macro
+	!define WriteRegStr "!insertmacro WriteRegStr"
 
-  ;WriteUninstaller macro
-    !define WriteUninstaller "!insertmacro WriteUninstaller"
+	;WriteUninstaller macro
+	!define WriteUninstaller "!insertmacro WriteUninstaller"
 
-  Section -openlogfile
-    CreateDirectory "$INSTDIR"
-    IfFileExists "$INSTDIR\${UninstLog}" +3
-      FileOpen $UninstLog "$INSTDIR\${UninstLog}" w
-    Goto +4
-      SetFileAttributes "$INSTDIR\${UninstLog}" NORMAL
-      FileOpen $UninstLog "$INSTDIR\${UninstLog}" a
-      FileSeek $UninstLog 0 END
-  SectionEnd
+	Section -openlogfile
+		CreateDirectory "$INSTDIR"
+		IfFileExists "$INSTDIR\${UninstLog}" +3
+			FileOpen $UninstLog "$INSTDIR\${UninstLog}" w
+		Goto +4
+			SetFileAttributes "$INSTDIR\${UninstLog}" NORMAL
+			FileOpen $UninstLog "$INSTDIR\${UninstLog}" a
+			FileSeek $UninstLog 0 END
+	SectionEnd
 
 ;--------------------------------
 ; INSTALLER SECTIONS
@@ -176,114 +176,274 @@ Section "PhotoQt" SecDummy
 	; Install files
 
 	;Write the installation path into the registry
-   ${WriteRegStr} "${REG_ROOT}" "${REG_APP_PATH}" "Install Directory" "$INSTDIR"
- ;Write the Uninstall information into the registry
-   ${WriteRegStr} ${REG_ROOT} "${UNINSTALL_PATH}" "UninstallString" "$INSTDIR\uninstall.exe"
+	${WriteRegStr} "${REG_ROOT}" "${REG_APP_PATH}" "Install Directory" "$INSTDIR"
+	;Write the Uninstall information into the registry
+	${WriteRegStr} ${REG_ROOT} "${UNINSTALL_PATH}" "UninstallString" "$INSTDIR\uninstall.exe"
 
-	${SetOutPath} "$INSTDIR"
-	${File} "libbz2-1.dll"
-	${File} "libEGL.dll"
-	${File} "libexiv2-14.dll"
-	${File} "libfreetype-6.dll"
-	${File} "libgcc_s_sjlj-1.dll"
-	${File} "libGLESv2.dll"
-	${File} "libglib-2.0-0.dll"
-	${File} "libgomp-1.dll"
-	${File} "libGraphicsMagick-3.dll"
-	${File} "libGraphicsMagick++-11.dll"
-	${File} "libharfbuzz-0.dll"
-	${File} "libiconv-2.dll"
-	${File} "libintl-8.dll"
-	${File} "liblcms2-2.dll"
-	${File} "libltdl-7.dll"
-	${File} "libjpeg-62.dll"
-	${File} "libpcre-1.dll"
-	${File} "libpcre16-0.dll"
-	${File} "libpng16-16.dll"
-	${File} "libsqlite3-0.dll"
-	${File} "libstdc++-6.dll"
-	${File} "libwinpthread-1.dll"
-	${File} "Qt5Core.dll"
-	${File} "Qt5Gui.dll"
-	${File} "Qt5Multimedia.dll"
-	${File} "Qt5MultimediaQuick_p.dll"
-	${File} "Qt5Network.dll"
-	${File} "Qt5Qml.dll"
-	${File} "Qt5Quick.dll"
-	${File} "Qt5Svg.dll"
-	${File} "Qt5Sql.dll"
-	${File} "Qt5Widgets.dll"
-	${File} "zlib1.dll"
+	${If} ${RunningX64}
 
-	${File} "photoqt.exe"
+		${SetOutPath} "$INSTDIR"
+		${File} "app64\libbz2-1.dll"
+		${File} "app64\libexpat-1.dll"
+		${File} "app64\libfreetype-6.dll"
+		${File} "app64\libgcc_s_seh-1.dll"
+		${File} "app64\libglib-2.0-0.dll"
+		${File} "app64\libgomp-1.dll"
+		${File} "app64\libGraphicsMagick-3.dll"
+		${File} "app64\libGraphicsMagick++-12.dll"
+		${File} "app64\libharfbuzz-0.dll"
+		${File} "app64\libiconv-2.dll"
+		${File} "app64\libintl-8.dll"
+		${File} "app64\libjpeg-8.dll"
+		${File} "app64\liblcms2-2.dll"
+		${File} "app64\liblzma-5.dll"
+		${File} "app64\libpcre-1.dll"
+		${File} "app64\libpcre16-0.dll"
+		${File} "app64\libpng16-16.dll"
+		${File} "app64\libsqlite3-0.dll"
+		${File} "app64\libstdc++-6.dll"
+		${File} "app64\libtiff-5.dll"
+		${File} "app64\libwinpthread-1.dll"
+		${File} "app64\Qt5Core.dll"
+		${File} "app64\Qt5Gui.dll"
+		${File} "app64\Qt5Multimedia.dll"
+		${File} "app64\Qt5MultimediaQuick_p.dll"
+		${File} "app64\Qt5Network.dll"
+		${File} "app64\Qt5Qml.dll"
+		${File} "app64\Qt5Quick.dll"
+		${File} "app64\Qt5Svg.dll"
+		${File} "app64\Qt5Sql.dll"
+		${File} "app64\Qt5Widgets.dll"
+		${File} "app64\Qt5WinExtras.dll"
+		${File} "app64\Qt5Xml.dll"
+		${File} "app64\zlib1.dll"
+
+		${File} "app64\photoqt.exe"
+
+		${AddItem} "$INSTDIR\imageformats"
+		${SetOutPath} "$INSTDIR\imageformats"
+		${File} "app64\imageformats\qdds.dll"
+		${File} "app64\imageformats\qgif.dll"
+		${File} "app64\imageformats\qicns.dll"
+		${File} "app64\imageformats\qico.dll"
+		${File} "app64\imageformats\qjp2.dll"
+		${File} "app64\imageformats\qjpeg.dll"
+		${File} "app64\imageformats\qmng.dll"
+		${File} "app64\imageformats\qsvg.dll"
+		${File} "app64\imageformats\qtga.dll"
+		${File} "app64\imageformats\qtiff.dll"
+		${File} "app64\imageformats\qwbmp.dll"
+		${File} "app64\imageformats\qwebp.dll"
+
+		${AddItem} "$INSTDIR\platforms"
+		${SetOutPath} "$INSTDIR\platforms"
+		${File} "app64\platforms\qwindows.dll"
+
+		${AddItem} "$INSTDIR\Qt"
+		${AddItem} "$INSTDIR\Qt\labs"
+		${AddItem} "$INSTDIR\Qt\labs\folderlistmodel"
+		${SetOutPath} "$INSTDIR\Qt\labs\folderlistmodel"
+		${File} "app64\Qt\labs\folderlistmodel\qmldir"
+		${File} "app64\Qt\labs\folderlistmodel\qmlfolderlistmodelplugin.dll"
+
+		${AddItem} "$INSTDIR\Qt\labs\settings"
+		${SetOutPath} "$INSTDIR\Qt\labs\settings"
+		${File} "app64\Qt\labs\settings\qmldir"
+		${File} "app64\Qt\labs\settings\qmlsettingsplugin.dll"
+
+		${AddItem} "$INSTDIR\QtGraphicalEffects"
+		${SetOutPath} "$INSTDIR\QtGraphicalEffects"
+		${File} "app64\GaussianBlur.qml"
+		${File} "app64\qmldir"
+		${File} "app64\RecursiveBlur.qml"
+		${AddItem} "$INSTDIR\QtGraphicalEffects\private"
+		${SetOutPath} "$INSTDIR\QtGraphicalEffects\private"
+		${File} "app64\GaussianDirectionalBlur.qml"
+		${File} "app64\GaussianGlow.qml"
+		${File} "app64\GaussianInnerShadow.qml"
+		${File} "app64\GaussianMaskedBlur.qml"
+		${File} "app64\SourceProxy.qml"
+
+		${AddItem} "$INSTDIR\QtMultimedia"
+		${SetOutPath} "$INSTDIR\QtMultimedia"
+		${File} "app64\declarative_multimedia.dll"
+		${File} "app64\qmldir"
+
+		${AddItem} "$INSTDIR\QtQml"
+		${AddItem} "$INSTDIR\QtQml\Models.2"
+		${SetOutPath} "$INSTDIR\QtQml\Models.2"
+		${File} "app64\modelsplugin.dll"
+		${File} "app64\qmldir"
+
+		${AddItem} "$INSTDIR\QtQuick"
+		${AddItem} "$INSTDIR\QtQuick\Controls"
+		${SetOutPath} "$INSTDIR\QtQuick\Controls"
+		${File} "app64\qmldir"
+		${File} "app64\qtquickcontrolsplugin.dll"
+
+		${AddItem} "$INSTDIR\QtQuick\Dialogs"
+		${SetOutPath} "$INSTDIR\QtQuick\Dialogs"
+		${File} "app64\dialogplugin.dll"
+		${File} "app64\qmldir"
+
+		${AddItem} "$INSTDIR\QtQuick\Dialogs\Private"
+		${SetOutPath} "$INSTDIR\QtQuick\Dialogs\Private"
+		${File} "app64\dialogsprivateplugin.dll"
+		${File} "app64\qmldir"
+
+		${AddItem} "$INSTDIR\QtQuick\Layouts"
+		${SetOutPath} "$INSTDIR\QtQuick\Layouts"
+		${File} "app64\qmldir"
+		${File} "app64\qquicklayoutsplugin.dll"
+
+		${AddItem} "$INSTDIR\QtQuick\Window.2"
+		${SetOutPath} "$INSTDIR\QtQuick\Window.2"
+		${File} "app64\qmldir"
+		${File} "app64\windowplugin.dll"
+
+		${AddItem} "$INSTDIR\QtQuick.2"
+		${SetOutPath} "$INSTDIR\QtQuick.2"
+		${File} "app64\qmldir"
+		${File} "app64\qtquick2plugin.dll"
+
+		${AddItem} "$INSTDIR\sqldrivers"
+		${SetOutPath} "$INSTDIR\sqldrivers"
+		${File} "app64\qsqlite.dll"
+
+	${Else}
+
+		${SetOutPath} "$INSTDIR"
+		${File} "app32\libbz2-1.dll"
+		${File} "app32\libexpat-1.dll"
+		${File} "app32\libfreetype-6.dll"
+		${File} "app32\libgcc_s_sjlj-1.dll"
+		${File} "app32\libglib-2.0-0.dll"
+		${File} "app32\libgomp-1.dll"
+		${File} "app32\libGraphicsMagick-3.dll"
+		${File} "app32\libGraphicsMagick++-12.dll"
+		${File} "app32\libharfbuzz-0.dll"
+		${File} "app32\libiconv-2.dll"
+		${File} "app32\libintl-8.dll"
+		${File} "app32\libjpeg-8.dll"
+		${File} "app32\liblcms2-2.dll"
+		${File} "app32\liblzma-5.dll"
+		${File} "app32\libpcre-1.dll"
+		${File} "app32\libpcre16-0.dll"
+		${File} "app32\libpng16-16.dll"
+		${File} "app32\libsqlite3-0.dll"
+		${File} "app32\libstdc++-6.dll"
+		${File} "app32\libtiff-5.dll"
+		${File} "app32\libwinpthread-1.dll"
+		${File} "app32\Qt5Core.dll"
+		${File} "app32\Qt5Gui.dll"
+		${File} "app32\Qt5Multimedia.dll"
+		${File} "app32\Qt5MultimediaQuick_p.dll"
+		${File} "app32\Qt5Network.dll"
+		${File} "app32\Qt5Qml.dll"
+		${File} "app32\Qt5Quick.dll"
+		${File} "app32\Qt5Svg.dll"
+		${File} "app32\Qt5Sql.dll"
+		${File} "app32\Qt5Widgets.dll"
+		${File} "app32\Qt5WinExtras.dll"
+		${File} "app32\Qt5Xml.dll"
+		${File} "app32\zlib1.dll"
+
+		${File} "app32\photoqt.exe"
+
+		${AddItem} "$INSTDIR\imageformats"
+		${SetOutPath} "$INSTDIR\imageformats"
+		${File} "app32\imageformats\qdds.dll"
+		${File} "app32\imageformats\qgif.dll"
+		${File} "app32\imageformats\qicns.dll"
+		${File} "app32\imageformats\qico.dll"
+		${File} "app32\imageformats\qjp2.dll"
+		${File} "app32\imageformats\qjpeg.dll"
+		${File} "app32\imageformats\qmng.dll"
+		${File} "app32\imageformats\qsvg.dll"
+		${File} "app32\imageformats\qtga.dll"
+		${File} "app32\imageformats\qtiff.dll"
+		${File} "app32\imageformats\qwbmp.dll"
+		${File} "app32\imageformats\qwebp.dll"
+
+		${AddItem} "$INSTDIR\platforms"
+		${SetOutPath} "$INSTDIR\platforms"
+		${File} "app32\platforms\qwindows.dll"
+
+		${AddItem} "$INSTDIR\Qt"
+		${AddItem} "$INSTDIR\Qt\labs"
+		${AddItem} "$INSTDIR\Qt\labs\folderlistmodel"
+		${SetOutPath} "$INSTDIR\Qt\labs\folderlistmodel"
+		${File} "app32\Qt\labs\folderlistmodel\qmldir"
+		${File} "app32\Qt\labs\folderlistmodel\qmlfolderlistmodelplugin.dll"
+
+		${AddItem} "$INSTDIR\Qt\labs\settings"
+		${SetOutPath} "$INSTDIR\Qt\labs\settings"
+		${File} "app32\Qt\labs\settings\qmldir"
+		${File} "app32\Qt\labs\settings\qmlsettingsplugin.dll"
+
+		${AddItem} "$INSTDIR\QtGraphicalEffects"
+		${SetOutPath} "$INSTDIR\QtGraphicalEffects"
+		${File} "app32\GaussianBlur.qml"
+		${File} "app32\qmldir"
+		${File} "app32\RecursiveBlur.qml"
+		${AddItem} "$INSTDIR\QtGraphicalEffects\private"
+		${SetOutPath} "$INSTDIR\QtGraphicalEffects\private"
+		${File} "app32\GaussianDirectionalBlur.qml"
+		${File} "app32\GaussianGlow.qml"
+		${File} "app32\GaussianInnerShadow.qml"
+		${File} "app32\GaussianMaskedBlur.qml"
+		${File} "app32\SourceProxy.qml"
+
+		${AddItem} "$INSTDIR\QtMultimedia"
+		${SetOutPath} "$INSTDIR\QtMultimedia"
+		${File} "app32\declarative_multimedia.dll"
+		${File} "app32\qmldir"
+
+		${AddItem} "$INSTDIR\QtQml"
+		${AddItem} "$INSTDIR\QtQml\Models.2"
+		${SetOutPath} "$INSTDIR\QtQml\Models.2"
+		${File} "app32\modelsplugin.dll"
+		${File} "app32\qmldir"
+
+		${AddItem} "$INSTDIR\QtQuick"
+		${AddItem} "$INSTDIR\QtQuick\Controls"
+		${SetOutPath} "$INSTDIR\QtQuick\Controls"
+		${File} "app32\qmldir"
+		${File} "app32\qtquickcontrolsplugin.dll"
+
+		${AddItem} "$INSTDIR\QtQuick\Dialogs"
+		${SetOutPath} "$INSTDIR\QtQuick\Dialogs"
+		${File} "app32\dialogplugin.dll"
+		${File} "app32\qmldir"
+
+		${AddItem} "$INSTDIR\QtQuick\Dialogs\Private"
+		${SetOutPath} "$INSTDIR\QtQuick\Dialogs\Private"
+		${File} "app32\dialogsprivateplugin.dll"
+		${File} "app32\qmldir"
+
+		${AddItem} "$INSTDIR\QtQuick\Layouts"
+		${SetOutPath} "$INSTDIR\QtQuick\Layouts"
+		${File} "app32\qmldir"
+		${File} "app32\qquicklayoutsplugin.dll"
+
+		${AddItem} "$INSTDIR\QtQuick\Window.2"
+		${SetOutPath} "$INSTDIR\QtQuick\Window.2"
+		${File} "app32\qmldir"
+		${File} "app32\windowplugin.dll"
+
+		${AddItem} "$INSTDIR\QtQuick.2"
+		${SetOutPath} "$INSTDIR\QtQuick.2"
+		${File} "app32\qmldir"
+		${File} "app32\qtquick2plugin.dll"
+
+		${AddItem} "$INSTDIR\sqldrivers"
+		${SetOutPath} "$INSTDIR\sqldrivers"
+		${File} "app32\qsqlite.dll"
+
+	${EndIf}
+
 	${File} "license.txt"
 	${File} "icon.ico"
-
-	${AddItem} "$INSTDIR\sqldrivers"
-	${SetOutPath} "$INSTDIR\sqldrivers"
-	${File} "sqldrivers\qsqlite.dll"
-
-	${AddItem} "$INSTDIR\platforms"
-	${SetOutPath} "$INSTDIR\platforms"
-	${File} "platforms\qwindows.dll"
-
-	${AddItem} "$INSTDIR\imageformats"
-	${SetOutPath} "$INSTDIR\imageformats"
-	${File} "imageformats\qdds.dll"
-	${File} "imageformats\qgif.dll"
-	${File} "imageformats\qicns.dll"
-	${File} "imageformats\qico.dll"
-	${File} "imageformats\qjp2.dll"
-	${File} "imageformats\qjpeg.dll"
-	${File} "imageformats\qjpg.dll"
-	${File} "imageformats\qmng.dll"
-	${File} "imageformats\qsvg.dll"
-	${File} "imageformats\qtga.dll"
-	${File} "imageformats\qtiff.dll"
-	${File} "imageformats\qwbmp.dll"
-	${File} "imageformats\qwebp.dll"
-
-	${AddItem} "$INSTDIR\QtMultimedia"
-	${SetOutPath} "$INSTDIR\QtMultimedia"
-	${File} "QtMultimedia\declarative_multimedia.dll"
-	${File} "QtMultimedia\qmldir"
-
-	${AddItem} "$INSTDIR\QtQml"
-	${AddItem} "$INSTDIR\QtQml\Models.2"
-	${SetOutPath} "$INSTDIR\QtQml\Models.2"
-	${File} "QtQml\Models.2\modelsplugin.dll"
-	${File} "QtQml\models.2\qmldir"
-
-	${AddItem} "$INSTDIR\QtQuick"
-	${AddItem} "$INSTDIR\QtQuick\Controls"
-	${SetOutPath} "$INSTDIR\QtQuick\Controls"
-	${File} "QtQuick\Controls\plugins.qmltypes"
-	${File} "QtQuick\Controls\qmldir"
-	${File} "QtQuick\Controls\qtquickcontrolsplugin.dll"
-
-	${AddItem} "$INSTDIR\QtQuick\Dialogs"
-	${SetOutPath} "$INSTDIR\QtQuick\Dialogs"
-	${File} "QtQuick\Dialogs\dialogplugin.dll"
-	${File} "QtQuick\Dialogs\plugins.qmltypes"
-	${File} "QtQuick\Dialogs\qmldir"
-
-	${AddItem} "$INSTDIR\QtQuick\Layouts"
-	${SetOutPath} "$INSTDIR\QtQuick\Layouts"
-	${File} "QtQuick\Layouts\plugins.qmltypes"
-	${File} "QtQuick\Layouts\qmldir"
-	${File} "QtQuick\Layouts\qquicklayoutsplugin.dll"
-
-	${AddItem} "$INSTDIR\QtQuick\Window.2"
-	${SetOutPath} "$INSTDIR\QtQuick\Window.2"
-	${File} "QtQuick\Window.2\plugins.qmltypes"
-	${File} "QtQuick\Window.2\qmldir"
-	${File} "QtQuick\Window.2\windowplugin.dll"
-
-	${AddItem} "$INSTDIR\QtQuick.2"
-	${SetOutPath} "$INSTDIR\QtQuick.2"
-	${File} "QtQuick.2\plugins.qmltypes"
-	${File} "QtQuick.2\qmldir"
-	${File} "QtQuick.2\qtquick2plugin.dll"
 
 	; Store installation folder
 	${WriteRegStr} HKCU "Software\PhotoQt" "" $INSTDIR
