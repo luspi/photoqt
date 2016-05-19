@@ -184,6 +184,8 @@ Item {
 			rename.showRename()
 		else if(cmd === "__delete")
 			deleteImage.showDelete()
+		else if(cmd === "__deletePermanent")
+			deleteImage.doDirectPermanentDelete()
 		else if(cmd === "__copy")
 			getanddostuff.copyImage(thumbnailBar.currentFile)
 		else if(cmd === "__move")

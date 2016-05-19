@@ -145,6 +145,11 @@ FadeInTemplate {
 		filename.text = getanddostuff.removePathFromFilename(thumbnailBar.currentFile)
 		show()
 	}
+
+	function doDirectPermanentDelete() {
+		simulateShiftEnter()
+	}
+
 	function hideDelete() {
 		hide()
 	}

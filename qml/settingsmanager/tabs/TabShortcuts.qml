@@ -222,6 +222,7 @@ Rectangle {
 				category: qsTr("File")
 				allAvailableItems: [["__rename", qsTr("Rename File")],
 									["__delete", qsTr("Delete File")],
+									["__deletePermanent", qsTr("Delete File (without confirmation)")],
 									["__copy", qsTr("Copy File to a New Location")],
 									["__move", qsTr("Move File to a New Location")]]
 			}
