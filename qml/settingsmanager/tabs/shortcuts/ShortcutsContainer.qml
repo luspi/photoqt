@@ -142,7 +142,7 @@ Rectangle {
 				}
 
 				if(external)
-					tmp[cmd].push([cmd,key,shortcuts[key][0], cmd, keyormouse])
+					tmp[cmd].push([cmd,key,shortcuts[key][0], cmd, shortcuts[key][2]])
 				else
 					tmp[cmd].push([allAvailableItems[ind][1],key,shortcuts[key][0], cmd, shortcuts[key][2]])
 			}
