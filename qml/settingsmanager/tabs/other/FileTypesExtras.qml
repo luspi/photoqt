@@ -26,7 +26,7 @@ EntryContainer {
 			id: entry
 
 			// the model array
-			property var types_untested: [["", "", "", true]]
+			property var types_extras: [["", "", "", true]]
 			// which item is checked
 			property var modeldata: {"" : ""}
 
@@ -39,13 +39,13 @@ EntryContainer {
 				cellHeight: 30+spacing*2
 				property int spacing: 3
 
-				model: entry.types_untested.length
+				model: entry.types_extras.length
 				delegate: FileTypesTile {
 					id: tile
-					fileType: entry.types_untested[index][0]
-					fileEnding: entry.types_untested[index][1]
-					description: entry.types_untested[index][2]
-					checked: entry.types_untested[index][3]
+					fileType: entry.types_extras[index][0]
+					fileEnding: entry.types_extras[index][1]
+					description: entry.types_extras[index][2]
+					checked: entry.types_extras[index][3]
 					width: grid.cellWidth-grid.spacing*2
 					x: grid.spacing
 					height: grid.cellHeight-grid.spacing*2
@@ -53,9 +53,9 @@ EntryContainer {
 
 					// Store updates
 					Component.onCompleted:
-						entry.modeldata[entry.types_untested[index][1]] = tile.checked
+						entry.modeldata[entry.types_extras[index][1]] = tile.checked
 					onCheckedChanged:
-						entry.modeldata[entry.types_untested[index][1]] = tile.checked
+						entry.modeldata[entry.types_extras[index][1]] = tile.checked
 				}
 
 			}
@@ -101,7 +101,7 @@ EntryContainer {
 		}
 
 		// Set new data
-		entry.types_untested = tmp_types_extras
+		entry.types_extras = tmp_types_extras
 
 	}
 
@@ -112,9 +112,15 @@ EntryContainer {
 
 		// Loop over all data and store checked elements
 		for(var ele in entry.modeldata) {
+			console.log(ele, entry.modeldata[ele])
 			if(entry.modeldata[ele])
 				tobesaved = tobesaved.concat(ele.split(", "))
 		}
+
+		var tmp = []
+		for(var ele in tobesaved)
+			tmp[tmp.length] = "*" + tobesaved[ele]
+		tobesaved = tmp
 
 		// Update data
 		fileformats.formats_extras = tobesaved.filter(function(n){ return n !== ""; })
