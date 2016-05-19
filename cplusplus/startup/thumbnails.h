@@ -23,9 +23,6 @@ namespace StartupCheck {
 					*settingsText = settingsText->replace("ThumbnailDisable=0","ThumbnailDisable=1");
 				else if(!settingsText->contains("ThumbnailDisable="))
 					*settingsText += "ThumbnailDisable=1\n";
-			} else {
-				if(settingsText->contains("ThumbnailDisable=1"))
-					*settingsText = settingsText->replace("ThumbnailDisable=1","ThumbnailDisable=0");
 			}
 
 			// --> (2)
