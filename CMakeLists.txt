@@ -210,6 +210,10 @@ IF(UNIX)
 		FILES icons/128x128/apps/photoqt.png
 		DESTINATION share/icons/hicolor/128x128/apps/
 	)
+	INSTALL(
+		FILES photoqt.appdata.xml
+		DESTINATION share/appdata/
+	)
 ENDIF(UNIX)
 
 
