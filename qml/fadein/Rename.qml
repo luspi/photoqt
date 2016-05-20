@@ -114,7 +114,7 @@ FadeInTemplate {
 		verboseMessage("Rename::simulateEnter()","")
 		if(newfilename.getText() !== "") {
 			getanddostuff.renameImage(thumbnailBar.currentFile,newfilename.getText() + suffix.text)
-			reloadDirectory(getanddostuff.removeFilenameFromPath(thumbnailBar.currentFile) + "/" + newfilename.getText() + suffix.text)
+			reloadDirectory(getanddostuff.removeFilenameFromPath(thumbnailBar.currentFile) + "/" + newfilename.getText() + suffix.text,currentfilter)
 			hideRename()
 		}
 	}
