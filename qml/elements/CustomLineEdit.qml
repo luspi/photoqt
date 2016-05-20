@@ -38,7 +38,7 @@ Rectangle {
 	signal historyBack()
 	signal historyForwards()
 
-	TextEdit {
+	TextInput {
 
 		id: ed1
 
