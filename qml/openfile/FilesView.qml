@@ -145,6 +145,10 @@ Rectangle {
 			reloadDirectory(dir_path + "/" + files[listview.currentIndex*2],"")
 		else if(gridview.opacity == 1)
 			reloadDirectory(dir_path + "/" + files[gridview.currentIndex*2],"")
+
+		if(settings.openKeepLastLocation)
+			getanddostuff.setOpenFileLastLocation(dir_path)
+
 	}
 
 	function focusOnNextItem() {
