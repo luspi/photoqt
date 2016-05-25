@@ -58,7 +58,7 @@ Rectangle {
 									 "Wheel Down" : str_mouse.wheelDown}
 	function getKeyTranslation(key) {
 
-		if(key.indexOf("+") !== -1) {
+		if(key.indexOf("+") !== -1 && key != "+") {
 
 			var parts = key.split("+")
 			var ret = ""
@@ -82,7 +82,7 @@ Rectangle {
 
 	function getOriginalKeyText(trans) {
 
-		if(trans.indexOf("+") !== -1) {
+		if(trans.indexOf("+") !== -1 && trans != "+") {
 
 			var parts = trans.split("+")
 			var ret = ""

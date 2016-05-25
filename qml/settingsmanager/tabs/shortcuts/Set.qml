@@ -332,7 +332,7 @@ Rectangle {
 						key_combo.ignoreAllCombos = true
 						abortDetection.stop()
 						key_combo.font.italic = false
-						if(key_combo.text.charAt(key_combo.text.length-1) == "+") {
+						if(key_combo.text.charAt(key_combo.text.length-1) == "+" && key_combo.text.charAt(key_combo.text.length-2) != "+" && key_combo.text != "+") {
 							key_combo.text = getKeyTranslation(key_combo.store)
 						} else {
 							// We delete->change->update the key combo for proper double detection
