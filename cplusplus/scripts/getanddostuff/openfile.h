@@ -34,6 +34,8 @@ public:
 	QString removePrefixFromDirectoryOrFile(QString path);
 	void addToUserPlaces(QString path);
 	void saveUserPlaces(QVariantList enabled);
+	QString getOpenFileLastLocation();
+	void setOpenFileLastLocation(QString path);
 
 signals:
 	void userPlacesUpdated();

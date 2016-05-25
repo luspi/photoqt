@@ -167,6 +167,7 @@ public:
 		connect(this, SIGNAL(openUserPlacesStandardChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(openUserPlacesUserChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(openUserPlacesVolumesChanged(bool)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(openKeepLastLocationChanged(bool)), saveSettingsTimer, SLOT(start()));
 
 		connect(this, SIGNAL(exifMetadaWindowWidthChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(mainMenuWindowWidthChanged(int)), saveSettingsTimer, SLOT(start()));
@@ -345,6 +346,7 @@ public:
 	bool openUserPlacesStandard;
 	bool openUserPlacesUser;
 	bool openUserPlacesVolumes;
+	bool openKeepLastLocation;
 
 	// Settings not adjustable in settings but other places
 	int exifMetadaWindowWidth;	// changed by dragging right rectangle edge
@@ -468,6 +470,7 @@ public:
 	Q_PROPERTY(bool openUserPlacesStandard MEMBER openUserPlacesStandard NOTIFY openUserPlacesStandardChanged)
 	Q_PROPERTY(bool openUserPlacesUser MEMBER openUserPlacesUser NOTIFY openUserPlacesUserChanged)
 	Q_PROPERTY(bool openUserPlacesVolumes MEMBER openUserPlacesVolumes NOTIFY openUserPlacesVolumesChanged)
+	Q_PROPERTY(bool openKeepLastLocation MEMBER openKeepLastLocation NOTIFY openKeepLastLocationChanged)
 
 	Q_PROPERTY(int exifMetadaWindowWidth MEMBER exifMetadaWindowWidth NOTIFY exifMetadaWindowWidthChanged)
 	Q_PROPERTY(int mainMenuWindowWidth MEMBER mainMenuWindowWidth NOTIFY mainMenuWindowWidthChanged)
@@ -604,6 +607,7 @@ public:
 		openUserPlacesStandard = true;
 		openUserPlacesUser = true;
 		openUserPlacesVolumes = true;
+		openKeepLastLocation = false;
 
 		exifMetadaWindowWidth = 350;
 		mainMenuWindowWidth = 350;
@@ -768,6 +772,7 @@ public slots:
 			cont += QString("OpenUserPlacesStandard=%1\n").arg(int(openUserPlacesStandard));
 			cont += QString("OpenUserPlacesUser=%1\n").arg(int(openUserPlacesUser));
 			cont += QString("OpenUserPlacesVolumes=%1\n").arg(int(openUserPlacesVolumes));
+			cont += QString("OpenKeepLastLocation=%1\n").arg(int(openKeepLastLocation));
 
 			cont += "\n[Other]\n";
 
@@ -1222,6 +1227,11 @@ public slots:
 			else if(all.contains("OpenUserPlacesVolumes=0"))
 				openUserPlacesVolumes = false;
 
+			if(all.contains("OpenKeepLastLocation=1"))
+				openKeepLastLocation = true;
+			else if(all.contains("OpenKeepLastLocation=0"))
+				openKeepLastLocation = false;
+
 
 			if(all.contains("ExifMetadaWindowWidth="))
 				exifMetadaWindowWidth = all.split("ExifMetadaWindowWidth=").at(1).split("\n").at(0).toInt();
@@ -1355,6 +1365,7 @@ signals:
 	void openUserPlacesStandardChanged(bool val);
 	void openUserPlacesUserChanged(bool val);
 	void openUserPlacesVolumesChanged(bool val);
+	void openKeepLastLocationChanged(bool val);
 
 	void exifMetadaWindowWidthChanged(int val);
 	void mainMenuWindowWidthChanged(int val);

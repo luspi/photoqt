@@ -314,3 +314,28 @@ void GetAndDoStuffOpenFile::saveUserPlaces(QVariantList enabled) {
 	file.close();
 
 }
+
+void GetAndDoStuffOpenFile::setOpenFileLastLocation(QString path) {
+
+	QFile file(CFG_OPENFILE_LAST_LOCATION);
+	if(file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+		QTextStream out(&file);
+		out << path;
+		file.close();
+	} else
+		LOG << CURDATE << " GetAndDoStuffOpenFile::setLastLocation(): Unable to open file for writing: " << file.errorString().toStdString() << NL;
+
+}
+
+QString GetAndDoStuffOpenFile::getOpenFileLastLocation() {
+
+	QString ret = QDir::homePath();
+	QFile file(CFG_OPENFILE_LAST_LOCATION);
+	if(file.exists() && file.open(QIODevice::ReadOnly)) {
+		QTextStream in(&file);
+		ret = in.readAll().trimmed();
+		file.close();
+	}
+	return ret;
+
+}

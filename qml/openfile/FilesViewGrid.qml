@@ -167,6 +167,8 @@ GridView {
 					if(mouse.button == Qt.LeftButton) {
 						hideOpenAni.start()
 						reloadDirectory(dir_path + "/" + files[2*index],"")
+						if(settings.openKeepLastLocation)
+							getanddostuff.setOpenFileLastLocation(dir_path)
 					} else
 						edit_rect.setEditText(files[2*index])
 				}

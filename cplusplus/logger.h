@@ -19,6 +19,7 @@ const QString CFG_SHORTCUTSNOTIFIER_FILE = QString("%1/shortcutsnotifier").arg(C
 const QString CFG_THUMBNAILS_DB = QString("%1/thumbnails").arg(CACHE_DIR);
 const QString CFG_SETTINGS_SESSION_FILE = QString("%1/settings_session").arg(CACHE_DIR);
 const QString CFG_MAINWINDOW_GEOMETRY_FILE = QString("%1/geometry").arg(CONFIG_DIR);
+const QString CFG_OPENFILE_LAST_LOCATION = QString("%1/openfilelastlocation").arg(CACHE_DIR);
 
 
 class Logger {
