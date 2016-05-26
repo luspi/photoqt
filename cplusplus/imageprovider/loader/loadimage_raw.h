@@ -29,10 +29,9 @@ public:
 		// Some settings to improve speed
 		// Since we don't care about manipulating RAW images but only want to display
 		// them, we can optimise for speed
-		raw.imgdata.params.user_qual = 1;
+		raw.imgdata.params.user_qual = 2;
 		raw.imgdata.params.use_rawspeed = 1;
 		raw.imgdata.params.use_camera_wb = 1;
-		raw.imgdata.params.use_auto_wb = 1;
 
 		// Open the RAW image
 		int ret = raw.open_file((const char*)(QFile::encodeName(filename)).constData());
@@ -41,13 +40,18 @@ public:
 			return ErrorImage::load(QString("LibRaw: failed to run open_file: %1").arg(libraw_strerror(ret)));
 		}
 
-		// Depending on the RAW image anf the requested image size, we can opt for the thumbnail or half size if that's enough
-		if(raw.imgdata.thumbnail.twidth >= maxSize.width() && raw.imgdata.thumbnail.theight >= maxSize.height()
-				&& raw.imgdata.thumbnail.tformat != LIBRAW_THUMBNAIL_UNKNOWN)
-			thumb = true;
-		else if(raw.imgdata.sizes.iwidth >= maxSize.width()*2 && raw.imgdata.sizes.iheight >= maxSize.height()) {
-			half = true;
-			raw.imgdata.params.half_size = 1;
+		// If either dimension is set to 0 (or actually -1), then the full image is supposed to be loaded
+		if(maxSize.width() > 0 && maxSize.height() > 0) {
+
+			// Depending on the RAW image anf the requested image size, we can opt for the thumbnail or half size if that's enough
+			if(raw.imgdata.thumbnail.twidth >= maxSize.width() && raw.imgdata.thumbnail.theight >= maxSize.height()
+					&& raw.imgdata.thumbnail.tformat != LIBRAW_THUMBNAIL_UNKNOWN)
+				thumb = true;
+			else if(raw.imgdata.sizes.iwidth >= maxSize.width()*2 && raw.imgdata.sizes.iheight >= maxSize.height()) {
+				half = true;
+				raw.imgdata.params.half_size = 1;
+			}
+
 		}
 
 		// Unpack the RAW image/thumbnail
