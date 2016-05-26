@@ -29,7 +29,7 @@ QVariantMap GetMetaData::getExiv2(QString path) {
 		returnMap.insert("filesize",QString("%1").arg(info.size()/1024) + " KB");
 
 		// Obtain dimensions (if supported by ImageReader)
-		if(QImageReader::supportedImageFormats().contains(info.suffix().toLower().toLatin1())) {
+		if(QImageReader::supportedImageFormats().contains(info.suffix().toLower().toUtf8())) {
 			QSize s = QImageReader(path).size();
 			if(s.width() > 0 && s.height() > 0)
 				returnMap.insert("dimensions",QString("%1x%2").arg(s.width()).arg(s.height()));

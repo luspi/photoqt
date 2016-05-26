@@ -163,5 +163,5 @@ QByteArray ImageProviderFull::getUniqueCacheKey(QString path) {
 	path = path.remove("file://");
 	QFileInfo info(path);
 	QString fn = QString("%1%2").arg(path).arg(info.lastModified().toMSecsSinceEpoch());
-	return QCryptographicHash::hash(fn.toLatin1(),QCryptographicHash::Md5).toHex();
+	return QCryptographicHash::hash(fn.toUtf8(),QCryptographicHash::Md5).toHex();
 }

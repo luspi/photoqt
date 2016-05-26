@@ -9,7 +9,7 @@ void GetAndDoStuffExternal::openLink(QString url) {
 
 void GetAndDoStuffExternal::executeApp(QString exec, QString fname) {
 
-	fname = QByteArray::fromPercentEncoding(fname.toLatin1());
+	fname = QByteArray::fromPercentEncoding(fname.toUtf8());
 
 	QProcess *p = new QProcess;
 	exec = exec.replace("%f", "\"" + fname + "\"");

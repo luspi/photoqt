@@ -6,7 +6,7 @@ GetAndDoStuffOther::~GetAndDoStuffOther() { }
 
 bool GetAndDoStuffOther::isImageAnimated(QString path) {
 
-	return QMovie::supportedFormats().contains(QFileInfo(path).suffix().toLower().toLatin1());
+	return QMovie::supportedFormats().contains(QFileInfo(path).suffix().toLower().toUtf8());
 
 }
 

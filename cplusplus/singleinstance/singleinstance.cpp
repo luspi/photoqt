@@ -16,7 +16,7 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
 	// Check for any other set option
 	QStringList options = handler.parser.optionNames();
 	foreach(QString opt, options)
-		message += ":-:-:::" + opt.toLatin1() + "::";
+		message += ":-:-:::" + opt.toUtf8() + "::";
 
 
 

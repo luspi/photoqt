@@ -131,8 +131,8 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
 		if(typeCache == "files" && cacheEnabled) {
 
 			// If the file itself wasn't read from the thumbnails folder, is not a temporary file, and if the original file isn't at thumbnail size itself
-			if(filename.startsWith(QString(CFG_THUMBNAILS_DB).toLatin1())
-					&& !filename.startsWith(QDir::tempPath().toLatin1())
+			if(filename.startsWith(QString(CFG_THUMBNAILS_DB).toUtf8())
+					&& !filename.startsWith(QDir::tempPath().toUtf8())
 					&& (p.height() > ts || p.width() > ts)) {
 
 				// We use a QImageWriter (faster, metainfo support) - the path is a temporary path (for reason, see below)
