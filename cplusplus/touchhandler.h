@@ -129,7 +129,7 @@ private:
 	}
 
 	// A gesture has been finished
-	void touchEnded(QTouchEvent *e) {
+	void touchEnded(QTouchEvent *) {
 		emit setImageInteractiveMode(true);
 		qint64 endTime = QDateTime::currentMSecsSinceEpoch();
 		emit receivedTouchEvent(touchPathPts.first().pos(), touchPathPts.last().pos(), endTime-startTime, numFingers, touchPath);

@@ -25,7 +25,7 @@ ImageProviderFull::~ImageProviderFull() {
 	delete pixmapcache;
 }
 
-QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *size, const QSize &requestedSize) {
+QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *, const QSize &requestedSize) {
 
 	QString filename = QByteArray::fromPercentEncoding(filename_encoded.toUtf8());
 

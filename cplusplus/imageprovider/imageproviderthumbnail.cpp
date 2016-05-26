@@ -17,7 +17,7 @@ ImageProviderThumbnail::ImageProviderThumbnail() : QQuickImageProvider(QQuickIma
 
 }
 
-QImage ImageProviderThumbnail::requestImage(const QString &filename_encoded, QSize *size, const QSize &requestedSize) {
+QImage ImageProviderThumbnail::requestImage(const QString &filename_encoded, QSize *, const QSize &requestedSize) {
 
 	QByteArray filename = QByteArray::fromPercentEncoding(filename_encoded.toUtf8());
 
