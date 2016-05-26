@@ -264,6 +264,7 @@ Item {
 	function touchEvent(startPoint, endPoint, duration, numFingers, gesture) { sh.gotTouchGesture(startPoint,endPoint,duration,numFingers,gesture) }
 
 	function showStartup(type) { startup.showStartup(type); }
+	function windowResized() { mainview.windowHasBeenResized(); if(!isZoomed()) resetZoom() }
 
 	function openFile() { openfile.show(); }
 	function openFileOLD() { oldopenfile.show(); }

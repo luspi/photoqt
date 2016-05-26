@@ -167,6 +167,25 @@ Rectangle {
 
 				}
 
+				function recalculateFactor() {
+					if(one.sourceSize.width > smartimage_top.width || one.sourceSize.height > smartimage_top.height)
+						one.factor = Math.min(smartimage_top.height/one.sourceSize.height, smartimage_top.width/one.sourceSize.width)
+					else
+						one.factor = 1
+					if(two.sourceSize.width > smartimage_top.width || two.sourceSize.height > smartimage_top.height)
+						two.factor = Math.min(smartimage_top.height/two.sourceSize.height, smartimage_top.width/two.sourceSize.width)
+					else
+						two.factor = 1
+					if(three.sourceSize.width > smartimage_top.width || three.sourceSize.height > smartimage_top.height)
+						three.factor = Math.min(smartimage_top.height/three.sourceSize.height, smartimage_top.width/three.sourceSize.width)
+					else
+						three.factor = 1
+					if(four.sourceSize.width > smartimage_top.width || four.sourceSize.height > smartimage_top.height)
+						four.factor = Math.min(smartimage_top.height/four.sourceSize.height, smartimage_top.width/four.sourceSize.width)
+					else
+						four.factor = 1
+				}
+
 				Image {
 
 					id: one
@@ -242,6 +261,10 @@ Rectangle {
 					anchors.horizontalCenter: parent.horizontalCenter
 					anchors.verticalCenter: parent.verticalCenter
 
+					property real factor: 1
+					width: sourceSize.width*factor
+					height: sourceSize.height*factor
+
 					asynchronous: true
 					cache: true
 					opacity: 0
@@ -257,14 +280,10 @@ Rectangle {
 							var sz = getanddostuff.getAnimatedImageSize(three.source)
 							var w = sz.width
 							var h = sz.height
-							if(w > smartimage_top.width || h > smartimage_top.height) {
-								var factor = Math.min(smartimage_top.height/h, smartimage_top.width/w)
-								width = w*factor
-								height = h*factor
-							} else {
-								width = w
-								height = h
-							}
+							if(w > smartimage_top.width || h > smartimage_top.height)
+								factor = Math.min(smartimage_top.height/h, smartimage_top.width/w)
+							else
+								factor = 1
 							makeImageVisible(3)
 							hideLoader()
 						} else
@@ -278,6 +297,10 @@ Rectangle {
 
 					anchors.horizontalCenter: parent.horizontalCenter
 					anchors.verticalCenter: parent.verticalCenter
+
+					property real factor: 1
+					width: sourceSize.width*factor
+					height: sourceSize.height*factor
 
 					asynchronous: true
 					cache: true
@@ -294,14 +317,10 @@ Rectangle {
 							var sz = getanddostuff.getAnimatedImageSize(four.source)
 							var w = sz.width
 							var h = sz.height
-							if(w > smartimage_top.width || h > smartimage_top.height) {
-								var factor = Math.min(smartimage_top.height/h, smartimage_top.width/w)
-								width = w*factor
-								height = h*factor
-							} else {
-								width = w
-								height = h
-							}
+							if(w > smartimage_top.width || h > smartimage_top.height)
+								factor = Math.min(smartimage_top.height/h, smartimage_top.width/w)
+							else
+								factor = 1
 							makeImageVisible(4)
 							hideLoader()
 						} else
@@ -689,7 +708,23 @@ Rectangle {
 	}
 
 	function isZoomed() {
-		return image.scale!=-1
+		return image.scale!=1
+	}
+
+
+	Timer {
+		id: windowHasBeenResizedTimer
+		interval: 300
+		running: false
+		repeat: false
+		onTriggered: _intern_windowHasBeenResized()
+	}
+	function windowHasBeenResized() {
+		windowHasBeenResizedTimer.restart()
+	}
+	function _intern_windowHasBeenResized() {
+		image.recalculateFactor()
+		imagecontainer.adjustXY()
 	}
 
 	function clickInsideImage(pos) {

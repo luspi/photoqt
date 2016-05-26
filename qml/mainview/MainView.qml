@@ -338,6 +338,10 @@ Item {
 		image.resetMirror()
 	}
 
+	function windowHasBeenResized() {
+		image.windowHasBeenResized()
+	}
+
 	function getSourceSize() {
 		return image.getCurrentSourceSize()
 	}
