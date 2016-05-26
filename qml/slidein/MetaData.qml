@@ -155,6 +155,7 @@ Rectangle {
 			nonFloatWidth = meta.width
 		else
 			nonFloatWidth = 0
+		mainview.windowHasBeenResized()
 	}
 
 	function uncheckCheckbox() { check.checkedButton = false; }
