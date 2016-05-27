@@ -65,6 +65,7 @@ Rectangle {
 
 		font.bold: true
 		font.pointSize: 18
+		wrapMode: Text.WordWrap
 		text: qsTr("No File Loaded")
 
 	}
@@ -83,6 +84,7 @@ Rectangle {
 
 		font.bold: true
 		font.pointSize: 18
+		wrapMode: Text.WordWrap
 		text: qsTr("File Format Not Supported")
 
 	}
@@ -101,6 +103,7 @@ Rectangle {
 
 		font.bold: true
 		font.pointSize: 18
+		wrapMode: Text.WordWrap
 		text: qsTr("Invalid File")
 
 	}
