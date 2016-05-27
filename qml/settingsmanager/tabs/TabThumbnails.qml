@@ -116,4 +116,8 @@ Rectangle {
 		updateDatabaseInfo()
 	}
 
+	function updateDatabaseInfo() {
+		cache.updateDatabaseInfo()
+	}
+
 }
