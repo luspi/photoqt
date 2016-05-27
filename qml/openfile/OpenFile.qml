@@ -18,7 +18,7 @@ Rectangle {
 	anchors.fill: parent
 
 	property string items_path: ""
-	property string dir_path: getanddostuff.getOpenFileLastLocation()
+	property string dir_path: settings.openKeepLastLocation ? getanddostuff.getOpenFileLastLocation() : getanddostuff.getHomeDir()
 
 	property var hovered: []
 
