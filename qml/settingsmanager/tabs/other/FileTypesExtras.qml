@@ -111,11 +111,9 @@ EntryContainer {
 		var tobesaved = []
 
 		// Loop over all data and store checked elements
-		for(var ele in entry.modeldata) {
-			console.log(ele, entry.modeldata[ele])
+		for(var ele in entry.modeldata)
 			if(entry.modeldata[ele])
 				tobesaved = tobesaved.concat(ele.split(", "))
-		}
 
 		var tmp = []
 		for(var ele in tobesaved)
