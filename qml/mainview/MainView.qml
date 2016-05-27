@@ -6,6 +6,11 @@ import "../elements"
 
 Item {
 
+	// This property is set to true in the displayImage() function in the ThumbnailBar element and ensures that PhotoQT first loads
+	// the main image before loading the thumbnails (they are blocked in the meantime using a Timer)
+	// This property is set to 'false' again once the main image was loaded
+	property bool amLoadingImage: false
+
 	id: item
 
 	// Position item
@@ -66,6 +71,8 @@ Item {
 		fitinwindow: settings.fitInWindow
 		interpolationNearestNeighbourThreshold: settings.interpolationNearestNeighbourThreshold
 		interpolationNearestNeighbourUpscale: settings.interpolationNearestNeighbourUpscale
+
+		onImageIsReady: amLoadingImage = false
 
 	}
 

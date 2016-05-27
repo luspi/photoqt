@@ -32,6 +32,8 @@ Rectangle {
 	// Switch to 'Nearest Neighbour' when zoom past its actual size
 	property bool interpolationNearestNeighbourUpscale: false
 
+	signal imageIsReady()
+
 	Flickable {
 
 		id: flickarea
@@ -454,6 +456,8 @@ Rectangle {
 
 	// Once an image finished loading, we make it visible
 	function makeImageVisible(id) {
+
+		imageIsReady()
 
 		if(_image_currently_in_use == "one")
 			one.opacity = 0
