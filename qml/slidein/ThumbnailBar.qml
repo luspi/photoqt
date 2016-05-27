@@ -64,6 +64,8 @@ Rectangle {
 		// (Re-)set model
 		view.model = imageModel
 
+		scrollTimer.start()
+
 	}
 
 	function displayImage(pos) {
