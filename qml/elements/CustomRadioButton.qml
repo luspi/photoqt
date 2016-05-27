@@ -8,7 +8,9 @@ RadioButton {
 	property string icon: ""
 
 	property string indicatorColourEnabled: colour.radio_check_indicator_color
+	property string indicatorColourDisabled: colour.radio_check_indicator_color_disabled
 	property string indicatorBackgroundColourEnabled: colour.radio_check_indicator_bg_color
+	property string indicatorBackgroundColourDisabled: colour.radio_check_indicator_bg_color_disabled
 	property int fontsize: 10
 	property string textColour: colour.text
 	property string tooltip: text
@@ -18,12 +20,12 @@ RadioButton {
 			implicitWidth: 1.6*fontsize
 			implicitHeight: 1.6*fontsize
 			radius: 0.9*fontsize
-			color: control.enabled ? indicatorBackgroundColourEnabled : colour.radio_check_indicator_bg_color_disabled
+			color: control.enabled ? indicatorBackgroundColourEnabled : indicatorBackgroundColourDisabled
 			Behavior on color { ColorAnimation { duration: 150; } }
 			Rectangle {
 				anchors.fill: parent
 				visible: control.checked
-				color: indicatorColourEnabled
+				color: control.enabled ? indicatorColourEnabled : indicatorColourDisabled
 				radius: 0.9*fontsize
 				anchors.margins: 0.4*fontsize
 			}
@@ -45,7 +47,7 @@ RadioButton {
 				id: txt
 				x: (icon != "") ? 1.8*fontsize : 0
 				y: 0
-				color: textColour
+				color: control.enabled ? textColour : colour.text_disabled
 				Behavior on color { ColorAnimation { duration: 150; } }
 				height: 1.6*fontsize
 				font.pointSize: fontsize
