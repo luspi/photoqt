@@ -74,6 +74,8 @@ Rectangle {
 
 		if(!directoryLoaded) return
 
+		mainview.amLoadingImage = true
+
 		// Store some values
 		currentFile = imageModel.get(pos).imageUrl;
 
