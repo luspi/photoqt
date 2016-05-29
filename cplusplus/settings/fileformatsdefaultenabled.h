@@ -125,7 +125,35 @@ namespace FileFormatsHandler {
 
 					 << "*.wpg"	// Word Perfect Graphics File
 
-					 << "*.xwd";	// X Windows system window dump
+					 << "*.xwd"	// X Windows system window dump
+
+
+					 << "*.3fr"							// Hasselblad
+					 << "*.ari"							// ARRIFLEX
+					 << "*.arw" << "*.srf" << "*.sr2"	// Sony
+					 << "*.bay"							// Casio
+					 << "*.crw" << "*.crr"				// Canon
+					 << "*.cap" << "*.liq" << "*.eip"	// Phase_one
+					 << "*.dcs" << "*.dcr" << "*.drf"	// Kodak
+								<< "*.k25" << "*.kdc"
+					 << "*.dng"							// Adobe
+					 << "*.erf"							// Epson
+					 << "*.fff"							// Imacon/Hasselblad raw
+					 << "*.mef"							// Mamiya
+					 << "*.mdc"							// Minolta, Agfa
+					 << "*.mos"							// Leaf
+					 << "*.mrw"							// Minolta, Konica Minolta
+					 << "*.nef" << "*.nrw"				// Nikon
+					 << "*.orf"							// Olympus
+					 << "*.pef" << "*.ptx"				// Pentax
+					 << "*.pxn"							// Logitech
+					 << "*.r3d"							// RED Digital Cinema
+					 << "*.raf"							// Fuji
+					 << "*.raw" << "*.rw2"				// Panasonic
+					 << "*.raw" << "*.rwl" << "*.dng"	// Leica
+					 << "*.rwz"							// Rawzor
+					 << "*.srw"							// Samsung
+					 << "*.x3f";						// Sigma
 
 			return ret;
 
