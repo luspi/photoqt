@@ -11,6 +11,18 @@ FadeInTemplate {
 
 	content: [
 
+		Rectangle {
+			color: "transparent"
+			width: 1
+			height: 5
+		},
+
+		Image {
+			source: "qrc:/img/logo.png"
+			sourceSize.width: 400
+			x: (parent.width-width)/2
+		},
+
 		// Main text
 		Text {
 			id: txt
