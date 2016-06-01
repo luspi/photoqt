@@ -2,6 +2,29 @@ Changelog PhotoQt v1.4  - Copyright (C) 2016, Lukas Spies (Lukas@photoqt.org), L
 ----------------------------------------------------------------------------------------------------------
 
 
+Release 1.4.1 - 01/06/2016
+----------------------------
+- Fix: External Shortcuts aren't working
+- Fix: Detecting a key combination for a shortcut didn't work when a language other than English was set
+- Fix: Disabling of thumbnails wasn't preserved across sessions
+- Fix: Not possible to change setting for Extras filetypes (xcf and psd/psb)
+- Fix: Deleting images that had non-Latin characters in their filepath/filename didn't work
+- Fix: Pressing the 'Enter' key in a CustomLineEdit went to a second line
+- Fix: Renaming a file didn't reload the directory or hide the 'Rename' element
+- Fix: Add 'missing' photoqt.appdata.xml file to source tree
+- Fix: Impossible to use '+' (normal and keypad) for shortcuts
+- Fix: Resizing PhotoQt in window mode didn't adjust the width/height of the image container properly
+- Fix: Triggering 'floatable' mode of MetaData element didn't adjust width/height of image container
+- Fix: RAW: PhotoQt would always load at most a half-sized image instead of the full one
+- Fix: Handling of non-Latin characters faulty in certain cases
+- Fix: PhotoQt sometimes would load the thumbnails with a higher priority than the main image
+- Fix: Database info in settings manager didn't update automatically after cleaning/emptying database
+- Fix: When loading a folder, thumbnails sometimes wouldn't start loading automatically
+- Fix: RAW fileformats are not enabled by default (when compiled with LibRaw support)
+- Add: Shortcut to hard-delete a file directly, by-passing the confirmation element
+- Updated some languages
+
+
 Release 1.4 - 17/05/2016
 ----------------------------
 - Re-designed main interface

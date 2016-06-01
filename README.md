@@ -1,4 +1,4 @@
-# PhotoQt v1.4
+# PhotoQt v1.4.1
 __Copyright (C) 2016, Lukas Spies (Lukas@photoqt.org)
 License: GPLv2 (or later)
 Website: http://photoqt.org__
@@ -8,7 +8,6 @@ PhotoQt is a fast and highly configurable image viewer with a simple and nice in
 ***************
 
 ## DEPENDENCIES
-<br>
 
 - Qt >= 5.3
 - CMake (needed for building PhotoQt)
@@ -30,7 +29,6 @@ On some systems you also need the *-dev package for compiling (e.g. exiv2-dev - 
 Even though GraphicsMagick initially started as a fork of ImageMagick (in 2002), trying to build PhotoQt with ImageMagick wont work!
 
 ## OPTIONAL DEPENDENCIES
-<br>
 
 - XCFtools - https://github.com/j-jorge/xcftools
 - libqpsd - https://github.com/Code-ReaQtor/libqpsd
@@ -38,7 +36,6 @@ Even though GraphicsMagick initially started as a fork of ImageMagick (in 2002),
 These dependencies are not needed for compiling PhotoQt. However, if they are installed, you can set PhotoQt (via settings) to make use of them for improved XCF/PSD support.
 
 ## INSTALL
-<br>
 
 1. _cd build/_
 
@@ -81,6 +78,5 @@ These dependencies are not needed for compiling PhotoQt. However, if they are in
 	 3. moves the binary to bin/
 
 ## UNINSTALL
-<br>
 
 If you want to uninstall PhotoQt, simply run __make uninstall__ as root. This removes the desktop file (via _xdg-desktop-menu uninstall_), the icons and the binary file. Alternatively you can simply remove all the files manually, that should yield the same result.
