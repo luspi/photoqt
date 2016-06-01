@@ -4,7 +4,7 @@
     <message>
         <location filename="../../qml/fadein/About.qml" line="10"/>
         <source>About PhotoQt</source>
-        <translation type="unfinished"/>
+        <translation>Informazioni su </translation>
     </message>
     <message>
         <location filename="../../qml/fadein/About.qml" line="24"/>
@@ -50,7 +50,7 @@
     <message>
         <location filename="../../qml/fadein/About.qml" line="109"/>
         <source>Okay I got enough of that</source>
-        <translation type="unfinished"/>
+        <translation>Ok, ne ho abbastanza di questo</translation>
     </message>
 </context>
 <context>
@@ -58,42 +58,42 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="18"/>
         <source>Animation and Window Geometry</source>
-        <translation type="unfinished"/>
+        <translation>Animazione e Geometria della Finestra</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="19"/>
         <source>There are three things that can be adjusted here:</source>
-        <translation type="unfinished"/>
+        <translation>Ci sono tre cose che possono essere regolate qui:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="19"/>
         <source>Animation of fade-in widgets (like, e.g., Settings or About Widget)</source>
-        <translation type="unfinished"/>
+        <translation>Animazione  fade-in  degli widget (come, ad esempio, Impostazioni o Informazioni su Widget)</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="19"/>
         <source>Save and restore of Window Geometry: On quitting PhotoQt, it stores the size and position of the window and can restore it the next time started.</source>
-        <translation type="unfinished"/>
+        <translation>Salvataggio e ripristino della Geometria della Finestra : In chiusura PhotoQt, memorizza la dimensione e la posizione della finestra e può ripristinarla al successivo avvio.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="19"/>
         <source>Keep PhotoQt above all other windows at all time</source>
-        <translation type="unfinished"/>
+        <translation>Tenere PhotoQt sopra le altre finestre di tutto&apos;l tempo</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="32"/>
         <source>Animate all fade-in elements</source>
-        <translation type="unfinished"/>
+        <translation>Animare tutti elementi di fade-in</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="39"/>
         <source>Save and restore window geometry</source>
-        <translation type="unfinished"/>
+        <translation>Salvare e ripristinare la geometria della finestra</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="48"/>
         <source>Keep above other windows</source>
-        <translation type="unfinished"/>
+        <translation>Tenere sopra altre finestre</translation>
     </message>
 </context>
 <context>
@@ -101,12 +101,12 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/shortcuts/Available.qml" line="115"/>
         <source>Key</source>
-        <translation type="unfinished"/>
+        <translation>Chiave</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/shortcuts/Available.qml" line="128"/>
         <source>Mouse</source>
-        <translation type="unfinished"/>
+        <translation>Mouse</translation>
     </message>
 </context>
 <context>
@@ -114,62 +114,62 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="17"/>
         <source>Background</source>
-        <translation type="unfinished"/>
+        <translation>Sfondo</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="18"/>
         <source>The background of PhotoQt is the part, that is not covered by an image. It can be made either real (half-)transparent (using a compositor), or faked transparent (instead of the actual desktop a screenshot of it is shown), or a custom background image can be set, or none of the above.&lt;br&gt;Note: Fake transparency currently only really works when PhotoQt is run in fullscreen/maximised!</source>
-        <translation type="unfinished"/>
+        <translation>Lo sfondo di PhotoQt è la parte, che non è coperta da un&apos;immagine. Può essere fatto sia trasparente, (o parzialmente trasparente), (utilizzando un compositor), o finto trasparente (invece del desktop effettivo, viene mostrato uno screenshot di esso), o può essere impostata un&apos;immagine di sfondo personalizzata , o nessuna delle precedenti.&lt;br&gt;Nota: falsa trasparenza attualmente funziona veramente solo quando PhotoQt viene eseguito in fullscreen e/o massimizzato!</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="36"/>
         <source>(Half-)Transparent background</source>
-        <translation type="unfinished"/>
+        <translation>Sfondo trasparente (parzialmente trasparente)</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="42"/>
         <source>Faked transparency</source>
-        <translation type="unfinished"/>
+        <translation>Falsa trasparenza</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="47"/>
         <source>Custom background image</source>
-        <translation type="unfinished"/>
+        <translation>Immagine di sfondo personalizzata</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="52"/>
         <source>Monochrome, non-transparent background</source>
-        <translation type="unfinished"/>
+        <translation>Sfondo bianco e nero, non trasparente</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="98"/>
         <source>No image selected</source>
-        <translation type="unfinished"/>
+        <translation>Nessuna immagine selezionata</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="122"/>
         <source>Scale to fit</source>
-        <translation type="unfinished"/>
+        <translation>Scala per adattare</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="128"/>
         <source>Scale and Crop to fit</source>
-        <translation type="unfinished"/>
+        <translation>Scala e Taglia per adattare</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="133"/>
         <source>Stretch to fit</source>
-        <translation type="unfinished"/>
+        <translation>Estendi per adattare</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="138"/>
         <source>Center image</source>
-        <translation type="unfinished"/>
+        <translation>Centra immagine</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="143"/>
         <source>Tile image</source>
-        <translation type="unfinished"/>
+        <translation>Piastrella immagine</translation>
     </message>
 </context>
 <context>
@@ -177,32 +177,32 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Blur.qml" line="16"/>
         <source>Blur Intensity</source>
-        <translation type="unfinished"/>
+        <translation>Intensità di sfocatura</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Blur.qml" line="17"/>
         <source>The background elements are blurred out, when a widget like the Settings Manager or the About widget is opened. Here you can adjust the intensity of the blur.</source>
-        <translation type="unfinished"/>
+        <translation>Gli elementi di sfondo sono sfocati, quando un widget come Gestione Impostazioni o il widget Informazioni è aperto. Qui è possibile regolare l&apos;intensità della sfocatura.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Blur.qml" line="17"/>
         <source>Note</source>
-        <translation type="unfinished"/>
+        <translation>Nota</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Blur.qml" line="17"/>
         <source>This does NOT affect the blur of the desktop BEHIND PhotoQt (when transparency is enabled).</source>
-        <translation type="unfinished"/>
+        <translation>Questo NON influisce sulla sfocatura del desktop SOTTO PhotoQt (quando è attivata la trasparenza).</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Blur.qml" line="30"/>
         <source>No Blur</source>
-        <translation type="unfinished"/>
+        <translation>Senza Sfocatura</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Blur.qml" line="51"/>
         <source>Crazy Blur</source>
-        <translation type="unfinished"/>
+        <translation>Sfocatura Estrema</translation>
     </message>
 </context>
 <context>
@@ -210,12 +210,12 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/BorderAroundImage.qml" line="20"/>
         <source>Border Around Image</source>
-        <translation type="unfinished"/>
+        <translation>Bordo Intorno all&apos;Immagine</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/BorderAroundImage.qml" line="21"/>
         <source>Whenever you load an image, the image is per default not shown completely in fullscreen, i.e. it&apos;s not stretching from screen edge to screen edge. Instead there is a small margin around the image of a couple pixels (looks better). Here you can adjust the width of this margin (set to 0 to disable it).</source>
-        <translation type="unfinished"/>
+        <translation>Ogni volta che si carica un&apos;immagine, l&apos;impostazione predefinita non la mostra completamente a schermo intero, cioè non si estende da un bordo al altro dello schermo. Invece c&apos;è un piccolo margine attorno all&apos;immagine di un paio di pixel (sembra meglio). Qui è possibile regolare la larghezza di questa margine (impostata su 0 per disabilitarla).</translation>
     </message>
 </context>
 <context>
@@ -223,17 +223,17 @@
     <message>
         <location filename="../../qml/openfile/BreadCrumbs.qml" line="52"/>
         <source>Go backwards in history</source>
-        <translation type="unfinished"/>
+        <translation>Andare a ritroso nella storia</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/BreadCrumbs.qml" line="77"/>
         <source>Go forwards in history</source>
-        <translation type="unfinished"/>
+        <translation>Andare avanti nella storia</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/BreadCrumbs.qml" line="101"/>
         <source>Close &apos;OpenFile&apos; dialog</source>
-        <translation type="unfinished"/>
+        <translation>Chiudere finestra di dialogo &apos;ApriFile&apos;</translation>
     </message>
 </context>
 <context>
@@ -241,72 +241,72 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="17"/>
         <source>Thumbnail Cache</source>
-        <translation type="unfinished"/>
+        <translation>Cache Miniature</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="18"/>
         <source>Thumbnails can be cached in two different ways:&lt;br&gt;1) File Caching (following the freedesktop.org standard) or&lt;br&gt;2) Database Caching (better performance and management, default option).</source>
-        <translation type="unfinished"/>
+        <translation>Le Miniature possono essere memorizzate in due modi differenti:&lt;br&gt;1) Caching su file (rispettando lo standard di freedesktop.org) o&lt;br&gt;2)Caching in database (gestione e prestazioni migliori , opzione predefinita).</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="18"/>
         <source>Both ways have their advantages and disadvantages:</source>
-        <translation type="unfinished"/>
+        <translation>Entrambi i metodi hanno i loro vantaggi e svantaggi:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="18"/>
         <source>File Caching is done according to the freedesktop.org standard and thus different applications can share the same thumbnail for the same image file. However, it&apos;s not possible to check for obsolete thumbnails (thus this may lead to many unneeded thumbnail files).</source>
-        <translation type="unfinished"/>
+        <translation>Il caching su file viene usato secondo gli standard di freedesktop.org e quindi diverse applicazioni possono condividere la miniatura per la stessa immagine. Tuttavia, non è possibile fare un controllo per miniature obsolete (e questo potrebbe causare la presenza di molte miniature inutili).</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="18"/>
         <source>Database Caching doesn&apos;t have the advantage of sharing thumbnails with other applications (and thus every thumbnails has to be newly created for PhotoQt), but it brings a slightly better performance, and it allows a better handling of existing thumbnails (e.g. deleting obsolete thumbnails).</source>
-        <translation type="unfinished"/>
+        <translation>Il Caching su Database non ha il vantaggio di mettere a disposizione le miniature ad altri programmi (e viceversa le miniature create da altri programmi devono essere ricreate da PhotoQt), ma offre maggiori prestazioni e permette una migliore gestione delle miniature esistenti (per esempio eliminando quelle obsolete).</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="18"/>
         <source>PhotoQt works with either option, though the second way is set as default.</source>
-        <translation type="unfinished"/>
+        <translation>PhotoQt può lavorare con entrambe le opzioni, comunque seconda è quella predefinita.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="18"/>
         <source>Although everybody is encouraged to use at least one of the two options, caching can be completely disabled altogether. However, that does affect the performance and usability of PhotoQt, since thumbnails have to be newly re-created every time they are needed.</source>
-        <translation type="unfinished"/>
+        <translation>Anche se conviene usare almeno una delle due opzioni, il caching delle miniature può essere anche completamente disabilitato. Tuttavia, questo avrà effetto sulle performance e sull&apos;usabilità di PhotoQt (le miniature dovranno essere create nuovamente ).</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="34"/>
         <source>Enable Cache</source>
-        <translation type="unfinished"/>
+        <translation>Abilita la Cache </translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="62"/>
         <source>File Caching</source>
-        <translation type="unfinished"/>
+        <translation>Cache su File</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="68"/>
         <source>Database Caching</source>
-        <translation type="unfinished"/>
+        <translation>Cache su Database</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="97"/>
         <source>Database filesize:</source>
-        <translation type="unfinished"/>
+        <translation>Dimensione file database:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="124"/>
         <source>Entries in database:</source>
-        <translation type="unfinished"/>
+        <translation>Elementi nel database:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="150"/>
         <source>CLEAN UP</source>
-        <translation type="unfinished"/>
+        <translation>PULIZIA</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="163"/>
         <source>ERASE</source>
-        <translation type="unfinished"/>
+        <translation>CANCELLARE</translation>
     </message>
 </context>
 <context>
@@ -314,17 +314,17 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/CenterOn.qml" line="17"/>
         <source>Keep in Center</source>
-        <translation type="unfinished"/>
+        <translation>Mantenere al Centro</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/CenterOn.qml" line="18"/>
         <source>If this option is set, then the active thumbnail (i.e., the thumbnail of the currently displayed image) will always be kept in the center of the thumbnail bar (if possible). If this option is not set, then the active thumbnail will simply be kept visible, but not necessarily in the center.</source>
-        <translation type="unfinished"/>
+        <translation>Se questa opzione è attivata, la miniatura attiva (quella corrispondente all&apos;immagine visualizzata) sarà sempre tenuta al centro della barra delle miniature (se possibile). Se è disabilitata, la miniatura attiva verrà semplicemente tenuta visibile, non necessariamente al centro.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/CenterOn.qml" line="28"/>
         <source>Center on Active Thumbnails</source>
-        <translation type="unfinished"/>
+        <translation>Centra la Miniatura Attiva</translation>
     </message>
 </context>
 <context>
@@ -332,22 +332,22 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/CloseOnClick.qml" line="16"/>
         <source>Click on Empty Area</source>
-        <translation type="unfinished"/>
+        <translation>Clic sull&apos;Area Vuota</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/CloseOnClick.qml" line="17"/>
         <source>This option makes PhotoQt behave a bit like the JavaScript image viewers you find on many websites. A click outside of the image on the empty background will close the application. It can be a nice feature, PhotoQt will feel even more like a &quot;floating layer&quot;. However, you might at times close PhotoQt accidentally.</source>
-        <translation type="unfinished"/>
+        <translation>Questa opzione rende PhotoQt simile ai visualizzatori di immagini JavaScript che si trovano su molti siti web. Un click al di fuori dell&apos;immagine, sullo sfondo vuoto, chiuderà l&apos;applicazione. Può essere una funzione interessante, PhotoQt sarà ancora più simile ad un &quot;livello fluttuante&quot;. Tuttavia, potrebbe capitare che l&apos;utente chiuda PhotoQt accidentalmente.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/CloseOnClick.qml" line="17"/>
         <source>Note: If you use a mouse click for a shortcut already, then this option wont have any effect!</source>
-        <translation type="unfinished"/>
+        <translation>Nota: Se si usa già il click del mouse come , questa opzione non avrà nessun effetto!</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/CloseOnClick.qml" line="26"/>
         <source>Close on click in empty area</source>
-        <translation type="unfinished"/>
+        <translation>Chiudere al click su un&apos;area vuota</translation>
     </message>
 </context>
 <context>
@@ -355,32 +355,32 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/ClosingX.qml" line="19"/>
         <source>Closing &apos;X&apos; (top right corner)</source>
-        <translation type="unfinished"/>
+        <translation>Chiudere dalla  &apos;X&apos; (angolo in alto a destra)</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/ClosingX.qml" line="20"/>
         <source>There are two looks for the closing &apos;x&apos; at the top right: a plain &apos;x&apos;, or a slightly more fancy &apos;x&apos;. Here you can switch back and forth between both of them, and also change their size. If you prefer not to have a closing &apos;x&apos; at all, see further down for an option to hide it completely.</source>
-        <translation type="unfinished"/>
+        <translation>Ci sono due look per la chiusura da &apos;x&apos; nella parte superiore destra: semplicemente &apos;x&apos; o una &apos;x&apos; un po&apos; più fantasiosa. Qui è possibile passare avanti e indietro tra i due e anche modificarne la dimensione. Se si preferisce di non avere una chiusura &apos;x&apos; , vedere più in basso per l&apos;opzione di nasconderla completamente.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/ClosingX.qml" line="35"/>
         <source>Normal</source>
-        <translation type="unfinished"/>
+        <translation>Normale</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/ClosingX.qml" line="40"/>
         <source>Plain</source>
-        <translation type="unfinished"/>
+        <translation>Semplice</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/ClosingX.qml" line="56"/>
         <source>Small Size</source>
-        <translation type="unfinished"/>
+        <translation>Piccola</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/ClosingX.qml" line="79"/>
         <source>Large Size</source>
-        <translation type="unfinished"/>
+        <translation>Grande</translation>
     </message>
 </context>
 <context>
@@ -388,47 +388,47 @@
     <message>
         <location filename="../../cplusplus/singleinstance/commandlineparser.h" line="27"/>
         <source>Make PhotoQt ask for a new File</source>
-        <translation type="unfinished"/>
+        <translation>Settare PhotoQt  di chiedere un nuovo File</translation>
     </message>
     <message>
         <location filename="../../cplusplus/singleinstance/commandlineparser.h" line="29"/>
         <source>Toggle PhotoQt - hides PhotoQt if visible, shows if hidden</source>
-        <translation type="unfinished"/>
+        <translation>Toggle PhotoQt - nasconde la PhotoQt se è visibile, mostra se nascosto</translation>
     </message>
     <message>
         <location filename="../../cplusplus/singleinstance/commandlineparser.h" line="31"/>
         <source>Shows PhotoQt (does nothing if already shown)</source>
-        <translation type="unfinished"/>
+        <translation>Mostra PhotoQt (nessuna azione se già mostrato)</translation>
     </message>
     <message>
         <location filename="../../cplusplus/singleinstance/commandlineparser.h" line="33"/>
         <source>Hides PhotoQt (does nothing if already hidden)</source>
-        <translation type="unfinished"/>
+        <translation>Nasconde PhotoQt (nessuna azione se già nascosto)</translation>
     </message>
     <message>
         <location filename="../../cplusplus/singleinstance/commandlineparser.h" line="35"/>
         <source>Disable thumbnails</source>
-        <translation type="unfinished"/>
+        <translation>Disabilita Miniature</translation>
     </message>
     <message>
         <location filename="../../cplusplus/singleinstance/commandlineparser.h" line="37"/>
         <source>Enable thumbnails</source>
-        <translation type="unfinished"/>
+        <translation>Attiva le Miniature</translation>
     </message>
     <message>
         <location filename="../../cplusplus/singleinstance/commandlineparser.h" line="39"/>
         <source>Start PhotoQt hidden to the system tray (at start-up only)</source>
-        <translation type="unfinished"/>
+        <translation>Avvia PhotoQt nascosto nel vassoio del sistema (solo all&apos;avvio)</translation>
     </message>
     <message>
         <location filename="../../cplusplus/singleinstance/commandlineparser.h" line="41"/>
         <source>Enable debug messages (at start-up only)</source>
-        <translation type="unfinished"/>
+        <translation>Attivare i messaggi di debug (solo all&apos;avvio)</translation>
     </message>
     <message>
         <location filename="../../cplusplus/singleinstance/commandlineparser.h" line="46"/>
         <source>File to open with PhotoQt</source>
-        <translation type="unfinished"/>
+        <translation>File da aprire con PhotoQt</translation>
     </message>
 </context>
 <context>
@@ -464,32 +464,32 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/CustomEntries.qml" line="20"/>
         <source>Custom Menu Entries</source>
-        <translation type="unfinished"/>
+        <translation>Voci di Menu personalizzate</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/CustomEntries.qml" line="21"/>
         <source>Here you can adjust the context menu. You can simply drag and drop the entries, edit them, add a new one and remove an existing one.</source>
-        <translation type="unfinished"/>
+        <translation>Qui è possibile regolare il menu di scelta rapida. Può semplicemente trascinare e rilasciare le voci, modificarli, aggiungerne uno nuovo e rimuoverne uno esistente.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/CustomEntries.qml" line="70"/>
         <source>Executable</source>
-        <translation type="unfinished"/>
+        <translation>File eseguibile</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/CustomEntries.qml" line="86"/>
         <source>Menu Text</source>
-        <translation type="unfinished"/>
+        <translation>Testo del menu</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/CustomEntries.qml" line="117"/>
         <source>Add new entry</source>
-        <translation type="unfinished"/>
+        <translation>Aggiungi nuova voce</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/CustomEntries.qml" line="124"/>
         <source>Set default</source>
-        <translation type="unfinished"/>
+        <translation>Imposta predefinito</translation>
     </message>
 </context>
 <context>
@@ -497,12 +497,12 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/CustomEntriesInteractive.qml" line="116"/>
         <source>Click here to drag</source>
-        <translation type="unfinished"/>
+        <translation>Cliccare qui per trascinare</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/CustomEntriesInteractive.qml" line="186"/>
         <source>quit</source>
-        <translation type="unfinished"/>
+        <translation>esci</translation>
     </message>
 </context>
 <context>
@@ -609,17 +609,17 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Disable.qml" line="17"/>
         <source>Disable thumbnails</source>
-        <translation type="unfinished"/>
+        <translation>Disabilitare le miniature</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Disable.qml" line="18"/>
         <source>If you just don&apos;t need or don&apos;t want any thumbnails whatsoever, then you can disable them here completely. This option can also be toggled remotely via command line (run &apos;photoqt --help&apos; for more information on that). This might increase the speed of PhotoQt a good bit, however, navigating through a folder might be a little harder without thumbnails.</source>
-        <translation type="unfinished"/>
+        <translation>Se solo non si desidera  o non si vuole affatto le miniature di qualsiasi tipo, allora è possibile disattivarli qui completamente. Questa opzione può essere attivata anche in remoto tramite linea di comando (esecuzione &apos;photoqt - help&apos; per ulteriori informazioni). Questo potrebbe aumentare la velocità di PhotoQt un bel po &apos;, tuttavia, potrebbe essere un po&apos; più difficile navigazione senza miniature nella cartella.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Disable.qml" line="29"/>
         <source>Disable Thumbnails altogether</source>
-        <translation type="unfinished"/>
+        <translation>Disabilitare completamente le miniature</translation>
     </message>
 </context>
 <context>
@@ -628,32 +628,32 @@
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Dynamic.qml" line="17"/>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Dynamic.qml" line="40"/>
         <source>Dynamic Thumbnails</source>
-        <translation type="unfinished"/>
+        <translation>Miniature dinamiche</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Dynamic.qml" line="18"/>
         <source>Dynamic thumbnail creation means, that PhotoQt only sets up those thumbnail images that are actually needed, i.e. it stops once it reaches the end of the visible area and sits idle until you scroll left/right.</source>
-        <translation type="unfinished"/>
+        <translation>Creazione anteprima dinamica significa che PhotoQt imposta solo quelle immagini in miniatura che sono effettivamente necessari, cioè si ferma una volta raggiunta la fine dell&apos;area visibile e rimane inattivo fino a quando si scorre sinistra/destra.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Dynamic.qml" line="18"/>
         <source>Smart thumbnails are similar in nature. However, they make use of the fast, that once a thumbnail has been created, it can be loaded very quickly and efficiently. It also first loads all of the currently visible thumbnails, but it doesn&apos;t stop there: Any thumbnails (even if invisible at the moment) that once have been created are loaded. This is a nice compromise between efficiency and usability.</source>
-        <translation type="unfinished"/>
+        <translation>Miniature intelligente sono simili in natura. Tuttavia, esse fanno uso del fatto, che una volta una miniatura è stata creata, può essere caricata molto rapidamente e in modo efficiente. Per prima carica tutte le miniature attualmente visibile, ma non si ferma qui: qualsiasi miniatura (anche se invisibile al momento), una volta sono create vengono caricate. Questo è un buon compromesso tra efficienza e usabilità.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Dynamic.qml" line="18"/>
         <source>Enabling either the smart or dynamic option is recommended, as it increases the performance of PhotoQt significantly, while preserving the usability.</source>
-        <translation type="unfinished"/>
+        <translation>È consigliabile abilitare sia l&apos;opzione smart o dinamico, in quanto aumenta le prestazioni del PhotoQt notevolmente, pur mantenendo l&apos;usabilità.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Dynamic.qml" line="34"/>
         <source>Normal Thumbnails</source>
-        <translation type="unfinished"/>
+        <translation>Miniature normali</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Dynamic.qml" line="46"/>
         <source>Smart Thumbnails</source>
-        <translation type="unfinished"/>
+        <translation>Miniature intelligente</translation>
     </message>
 </context>
 <context>
@@ -661,34 +661,34 @@
     <message>
         <location filename="../../qml/fadein/wallpaper/Enlightenment.qml" line="31"/>
         <source>Warning: It seems that the &apos;msgbus&apos; (DBUS) module is not activated! It can be activated in the settings console &gt; Add-ons &gt; Modules &gt; System.</source>
-        <translation type="unfinished"/>
+        <translation>Attenzione: Sembra che il modulo di &apos;msgbus&apos; (DBUS) non è attivato! Può essere attivato nella console Impostazioni &gt; Componenti aggiuntivi &gt; Moduli &gt; Sistema.</translation>
     </message>
     <message>
         <location filename="../../qml/fadein/wallpaper/Enlightenment.qml" line="42"/>
         <source>Warning: &apos;enlightenment_remote&apos; doesn&apos;t seem to be available! Are you sure Enlightenment is installed?</source>
-        <translation type="unfinished"/>
+        <translation>Avviso: &apos;enlightenment_remote&apos; non sembra essere disponibile! Sie sicuri che  Enlightenment è installato?</translation>
     </message>
     <message>
         <location filename="../../qml/fadein/wallpaper/Enlightenment.qml" line="53"/>
         <source>The wallpaper can be set to either of the available monitors (or any combination).</source>
-        <translation type="unfinished"/>
+        <translation>Lo sfondo può essere impostato su tuttii monitor disponibili (o qualsiasi combinazione).</translation>
     </message>
     <message>
         <location filename="../../qml/fadein/wallpaper/Enlightenment.qml" line="69"/>
         <source>Screen</source>
-        <translation type="unfinished"/>
+        <translation>Schermo</translation>
     </message>
     <message>
         <location filename="../../qml/fadein/wallpaper/Enlightenment.qml" line="104"/>
         <source>You can set the wallpaper to any sub-selection of workspaces</source>
-        <translation type="unfinished"/>
+        <translation>È possibile impostare lo sfondo su qualsiasi sotto-selezione delle aree di lavoro</translation>
     </message>
     <message>
         <location filename="../../qml/fadein/wallpaper/Enlightenment.qml" line="124"/>
         <location filename="../../qml/fadein/wallpaper/Enlightenment.qml" line="126"/>
         <location filename="../../qml/fadein/wallpaper/Enlightenment.qml" line="127"/>
         <source>Workspace</source>
-        <translation type="unfinished"/>
+        <translation>Area di lavoro</translation>
     </message>
 </context>
 <context>
@@ -696,43 +696,43 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesExtras.qml" line="19"/>
         <source>File Formats</source>
-        <translation type="unfinished"/>
+        <translation>Formati file</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesExtras.qml" line="19"/>
         <source>Extras</source>
-        <translation type="unfinished"/>
+        <translation>Extra</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesExtras.qml" line="20"/>
         <source>The following filetypes are supported by means of other third party tools. You first need to install them before you can use them.</source>
-        <translation type="unfinished"/>
+        <translation>I seguenti tipi di file sono supportati tramite altri strumenti di terze parti. Prima è necessario installarli prima di utilizzarli.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesExtras.qml" line="20"/>
         <source>Note</source>
-        <translation type="unfinished"/>
+        <translation>Nota</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesExtras.qml" line="20"/>
         <source>If an image format is also provided by GraphicsMagick/Qt, then PhotoQt first chooses the external tool (if enabled).</source>
-        <translation type="unfinished"/>
+        <translation>Se un formato di immagine è fornito anche da GraphicsMagick/Qt, quindi PhotoQt prima sceglie lo strumento esterno (se abilitato).</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesExtras.qml" line="75"/>
         <source>Gimp&apos;s XCF file format</source>
-        <translation type="unfinished"/>
+        <translation>Formato di GIMP XCF </translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesExtras.qml" line="75"/>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesExtras.qml" line="76"/>
         <source>Uses</source>
-        <translation type="unfinished"/>
+        <translation>Utilizzi</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesExtras.qml" line="76"/>
         <source>Adobe Photoshop PSD and PSB</source>
-        <translation type="unfinished"/>
+        <translation>Adobe Photoshop PSD e PSB</translation>
     </message>
 </context>
 <context>
@@ -740,22 +740,22 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesGM.qml" line="19"/>
         <source>File Formats</source>
-        <translation type="unfinished"/>
+        <translation>Formati file</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesGM.qml" line="20"/>
         <source>disabled</source>
-        <translation type="unfinished"/>
+        <translation>disabilitato</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesGM.qml" line="22"/>
         <source>PhotoQt makes use of GraphicsMagick for support of many different image formats. The list below are all those formats, that were successfully displayed using test images. If you prefer not to have one or the other enabled in PhotoQt, you can simply disable individual formats below.&lt;br&gt;There are a few formats, that were not tested in PhotoQt (due to lack of a test image). You can find those in the &apos;Untested&apos; category below.</source>
-        <translation type="unfinished"/>
+        <translation>PhotoQt si avvale di GraphicsMagick per il supporto di molti formati di immagine. L&apos;elenco qui sotto include tutti quei formati, che sono stati visualizzati con successo utilizzando le immagini di prova. Se non si preferisce avere uno o l&apos;altro abilitato in PhotoQt, è possibile semplicemente disattivare singoli formati qui sotto. &lt;br&gt;Ci sono alcuni formati, che non sono stati testati in PhotoQt (causa della mancanza di un&apos;immagine di prova). È possibile trovare quelli appartenenti alla categoria &apos;&apos; qui sotto.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesGM.qml" line="23"/>
         <source>PhotoQt was built without GraphicsMagick support!</source>
-        <translation type="unfinished"/>
+        <translation>PhotoQt è stato compilato senza supporto GraphicsMagick!</translation>
     </message>
 </context>
 <context>
@@ -763,22 +763,22 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesGMGhostscript.qml" line="19"/>
         <source>File Formats</source>
-        <translation type="unfinished"/>
+        <translation>Formati file</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesGMGhostscript.qml" line="20"/>
         <source>disabled</source>
-        <translation type="unfinished"/>
+        <translation>disabilitato</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesGMGhostscript.qml" line="22"/>
         <source>The following file types are supported by GraphicsMagick, and they have been tested and work. However, they require Ghostscript to be installed on the system.</source>
-        <translation type="unfinished"/>
+        <translation>I seguenti tipi di file sono supportati da GraphicsMagick, e sono stati testati e funzionano. Tuttavia, essi richiedono Ghostscript  installato sul sistema.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesGMGhostscript.qml" line="23"/>
         <source>PhotoQt was built without GraphicsMagick support!</source>
-        <translation type="unfinished"/>
+        <translation>PhotoQt è stato compilato senza supporto GraphicsMagick!</translation>
     </message>
 </context>
 <context>
@@ -786,12 +786,12 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesQt.qml" line="19"/>
         <source>File Formats</source>
-        <translation type="unfinished"/>
+        <translation>Formati file</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesQt.qml" line="20"/>
         <source>These are the file types natively supported by Qt. Make sure, that you&apos;ll have the required libraries installed (e.g., qt5-imageformats), otherwise some of them might not work on your system.&lt;br&gt;If a file ending for one of the formats is missing, you can add it below, formatted like &apos;*.ending&apos; (without single quotation marks), multiple entries seperated by commas.</source>
-        <translation type="unfinished"/>
+        <translation>Questi sono i tipi di file supportati nativamente da QT. Assicuratevi, che avrete installate le librerie richieste (ad es., qt5-imageformats), in caso contrario alcuni di essi potrebbero non funzionare sul vostro sistema. &lt;br&gt;Se manca un&apos;estensione per uno dei formati, è possibile aggiungerlo qui sotto, formattato come &apos;*.estensione&apos; (senza virgolette), più voci vanno separate da virgole.</translation>
     </message>
 </context>
 <context>
@@ -799,22 +799,22 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesRaw.qml" line="19"/>
         <source>File Formats</source>
-        <translation type="unfinished"/>
+        <translation>Formati file</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesRaw.qml" line="20"/>
         <source>disabled</source>
-        <translation type="unfinished"/>
+        <translation>disabilitato</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesRaw.qml" line="22"/>
         <source>PhotoQt can open and display most (if not all) raw image formats. Here you can adjust the list of fileformats known to PhotoQt.</source>
-        <translation type="unfinished"/>
+        <translation>PhotoQt può aprire e visualizzare la maggior parte (se non tutte) le immagini in formati raw . Qui è possibile modificare l&apos;elenco dei formati di file conosciuti da PhotoQt.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesRaw.qml" line="23"/>
         <source>&lt;div color=&apos;red&apos;&gt;PhotoQt was built without LibRaw support!&lt;/div&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;div color=&apos;red&apos;&gt;PhotoQt è stato costruito senza supporto LibRaw!&lt;/div&gt;</translation>
     </message>
 </context>
 <context>
@@ -822,27 +822,27 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesUntested.qml" line="19"/>
         <source>File Formats</source>
-        <translation type="unfinished"/>
+        <translation>Formati file</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesUntested.qml" line="19"/>
         <source>Untested</source>
-        <translation type="unfinished"/>
+        <translation>Non testato</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesUntested.qml" line="20"/>
         <source>disabled</source>
-        <translation type="unfinished"/>
+        <translation>disabilitato</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesUntested.qml" line="22"/>
         <source>These are the file types natively supported by Qt. Make sure, that you&apos;ll have the required libraries installed (e.g., qt5-imageformats), otherwise some of them might not work on your system.&lt;br&gt;If a file ending for one of the formats is missing, you can add it below, formatted like &apos;*.ending&apos; (without single quotation marks), multiple entries seperated by commas.</source>
-        <translation type="unfinished"/>
+        <translation>Questi sono i formati supportati nativamente da Qt. Accertati di avere le librerie richieste installate (ad esempio qt5-imageformats), altrimenti alcuni formati potrebbero non funzionare.&lt;br&gt;Se manca un&apos;estensione del file o un formato, puoi aggiungerla qui sotto, inserendo &apos;*.estensione&apos; (senza le virgolette), con gli elementi separati da una virgola.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesUntested.qml" line="23"/>
         <source>PhotoQt was built without GraphicsMagick support!</source>
-        <translation type="unfinished"/>
+        <translation>PhotoQt è stato compilato senza supporto GraphicsMagick!</translation>
     </message>
 </context>
 <context>
@@ -850,22 +850,22 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/FilenameOnly.qml" line="19"/>
         <source>Filename Thumbnail</source>
-        <translation type="unfinished"/>
+        <translation>Nome del file Thumbnail</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/FilenameOnly.qml" line="20"/>
         <source>If you don&apos;t want PhotoQt to always load the actual image thumbnail in the background, but you still want to have something for better navigating, then you can set a file-name-only thumbnail, i.e. PhotoQt wont load any thumbnail images but simply puts the file name into the box. You can also adjust the font size of this text.</source>
-        <translation type="unfinished"/>
+        <translation>Se non si desidera che PhotoQt carichi sempre in background le immagini per le miniature, ma si desidera comunque avere un modo per muoversi agevolmente all&apos;interno delle cartelle, si può  impostare le miniature con i soli nomi dei file, senza che vengano create immagini per le miniature.È anche possibile regolare la dimensione del carattere di questo testo.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/FilenameOnly.qml" line="34"/>
         <source>Use filename-only thumbnail</source>
-        <translation type="unfinished"/>
+        <translation>Usa miniatura di solo-filename</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/FilenameOnly.qml" line="46"/>
         <source>Fontsize</source>
-        <translation type="unfinished"/>
+        <translation>Dimensione del carattere</translation>
     </message>
 </context>
 <context>
@@ -878,7 +878,7 @@
     <message>
         <location filename="../../qml/fadein/Filter.qml" line="35"/>
         <source>Enter here the term you want to search for. Separate multiple terms by a space.</source>
-        <translation type="unfinished"/>
+        <translation>Inserire qui il termine che si desidera cercare. Separare più termini da spazio.</translation>
     </message>
     <message>
         <location filename="../../qml/fadein/Filter.qml" line="42"/>
@@ -906,17 +906,17 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/FitInWindow.qml" line="16"/>
         <source>Fit in Window</source>
-        <translation type="unfinished"/>
+        <translation>Adatta alla finestra</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/FitInWindow.qml" line="17"/>
         <source>If the image dimensions are smaller than the screen dimensions, PhotoQt can zoom those images to make them fir into the window. However, keep in mind, that such images will look pixelated to a certain degree (depending on each image).</source>
-        <translation type="unfinished"/>
+        <translation>Se le dimensioni dell&apos;immagine sono inferiori alle dimensioni dello schermo, PhotoQt può ingrandire quelle immagini per farli stare nella finestra. Tuttavia, tenere a mente, che tali immagini sembreranno pixelate ,in una certa misura, (a seconda dell&apos;immagine).</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/FitInWindow.qml" line="26"/>
         <source>Fit Smaller Images in Window</source>
-        <translation type="unfinished"/>
+        <translation>Adatta le Immagini più Piccole alla Finestra</translation>
     </message>
 </context>
 <context>
@@ -924,12 +924,12 @@
     <message>
         <location filename="../../qml/openfile/Folders.qml" line="98"/>
         <source>Add to Favourites</source>
-        <translation type="unfinished"/>
+        <translation>Aggiungere ai Preferiti</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/Folders.qml" line="103"/>
         <source>Load directory</source>
-        <translation type="unfinished"/>
+        <translation>Caricare directory</translation>
     </message>
 </context>
 <context>
@@ -937,12 +937,12 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/FontSize.qml" line="17"/>
         <source>Font Size</source>
-        <translation type="unfinished"/>
+        <translation>Dimensione del carattere</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/FontSize.qml" line="18"/>
         <source>Computers can have very different resolutions. On some of them, it might be nice to increase the font size of the labels to have them easier readable. Often, a size of 8 or 9 should be working quite well...</source>
-        <translation type="unfinished"/>
+        <translation>I computer possono avere risoluzioni molto diverse. Su alcuni potrebbe essere meglio aumentare le dimensioni delle etichette in modo che risultino meglio leggibili. Di solito, dimensioni di 8 o 9 dovrebbero andar bene...</translation>
     </message>
 </context>
 <context>
@@ -969,7 +969,7 @@
     <message>
         <location filename="../../cplusplus/scripts/getanddostuff/openfile.cpp" line="89"/>
         <source>Volume</source>
-        <translation type="unfinished"/>
+        <translation>Partizione</translation>
     </message>
 </context>
 <context>
@@ -1159,12 +1159,12 @@
     <message>
         <location filename="../../qml/fadein/wallpaper/GnomeUnity.qml" line="29"/>
         <source>Warning: &apos;gsettings&apos; doesn&apos;t seem to be available! Are you sure Gnome/Unity is installed?</source>
-        <translation type="unfinished"/>
+        <translation>Avviso: &apos;gsettings&apos; non sembra essere disponibile! Sei sicuro che Gnome/Unity è installato?</translation>
     </message>
     <message>
         <location filename="../../qml/fadein/wallpaper/GnomeUnity.qml" line="39"/>
         <source>There are several picture options that can be set for the wallpaper image.</source>
-        <translation type="unfinished"/>
+        <translation>Ci sono diverse opzioni che possono essere scelte per l&apos;immagine di sfondo.</translation>
     </message>
 </context>
 <context>
@@ -1172,22 +1172,22 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/HotEdge.qml" line="18"/>
         <source>Size of &apos;Hot Edge&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Dimensione del &apos;Hot Edge&apos;</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/HotEdge.qml" line="19"/>
         <source>Here you can adjust the sensitivity of the drop-down menu. The menu opens when your mouse cursor gets close to the right side of the upper edge. Here you can adjust how close you need to get for it to open.</source>
-        <translation type="unfinished"/>
+        <translation>Qui si può regolare la sensibilità del menu a discesa. Il menu si apre quando il cursore si avvicina alla parte destra del bordo superiore dello schermo. Qui si può impostare quanto ci si deve avvicinare perché esso si apra.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/HotEdge.qml" line="32"/>
         <source>Small</source>
-        <translation type="unfinished"/>
+        <translation>Piccolo/a</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/HotEdge.qml" line="54"/>
         <source>Large</source>
-        <translation type="unfinished"/>
+        <translation>Grande</translation>
     </message>
 </context>
 <context>
@@ -1195,22 +1195,22 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Interpolation.qml" line="18"/>
         <source>Interpolation</source>
-        <translation type="unfinished"/>
+        <translation>Interpolazione</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Interpolation.qml" line="19"/>
         <source>There are many different interpolation algorithms out there. Depending on the choice of interpolation algorithm, the image (when zoomed in) will look slightly differently. PhotoQt uses mipmaps to get the best quality for images. However, for very small images, that might lead to too much blurring causing them to look rather ugly. For those images, the &apos;Nearest Neighbour&apos; algorithm tend to be a better choise. Here you can adjust the size threshold below which PhotoQt applies the &apos;Nearest Neighbour&apos; algorithm.</source>
-        <translation type="unfinished"/>
+        <translation>Esistono molti algoritmi di interpolazione . A seconda della scelta dell&apos;algoritmo di interpolazione, l&apos;immagine (quando ingrandita) apparirà in modo leggermente diverso. PhotoQt utilizza le mipmap per ottenere la migliore qualità per le immagini. Tuttavia, per le immagini molto piccole, che potrebbe portare a trppa sfocatura causando una riproduzione piuttosto brutta. Per quelle immagini, l&apos;algoritmo  &apos;Nearest Neighbour&apos;  sembra essere una scelta migliore. Qui è possibile regolare la soglia delle dimensioni sotto la quale PhotoQt applica l&apos;algoritmo &apos;Nearest Neighbour&apos; .</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Interpolation.qml" line="33"/>
         <source>Threshold:</source>
-        <translation type="unfinished"/>
+        <translation>Soglia:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Interpolation.qml" line="65"/>
         <source>Use &apos;Nearest Neighbour&apos; algorithm for upscaling</source>
-        <translation type="unfinished"/>
+        <translation>Utilizzare algoritmo &apos;Nearest Neighbour&apos; per upscaling</translation>
     </message>
 </context>
 <context>
@@ -1218,7 +1218,7 @@
     <message>
         <location filename="../../qml/fadein/wallpaper/KDE4.qml" line="22"/>
         <source>Sorry, KDE4 doesn&apos;t offer the feature to change the wallpaper except from their own system settings. Unfortunately there&apos;s nothing I can do about that.</source>
-        <translation type="unfinished"/>
+        <translation>Spiacente, KDE4 non offre la funzionalità per modificare lo sfondo all&apos;infuori delle proprie impostazioni di sistema. Purtroppo non c&apos;è niente che posso fare al riguardo.</translation>
     </message>
 </context>
 <context>
@@ -1226,17 +1226,17 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/KeepVisible.qml" line="16"/>
         <source>Visibility</source>
-        <translation type="unfinished"/>
+        <translation>Visibilità</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/KeepVisible.qml" line="17"/>
         <source>Per default the Thumbnails slide out over the edge of the screen. Here you can force them to stay visible. The big image is shrunk to fit into the empty space. Note, that the thumbnails will be hidden (and only shown on mouse hovering) once you zoomed the image in/out. Resetting the zoom restores the original visibility of the thumbnails.</source>
-        <translation type="unfinished"/>
+        <translation>Come  le miniature scorrono a partire dal bordo dello schermo quando richiamate. Qui si può forzarle a restare visibili. L&apos;immagine principale verrà ridimensionata per adattarsi allo spazio rimasto. Da notare che le miniature verranno nascoste (e mostrate solo tramite il passaggio del mouse) quando si ingrandirà l&apos;immagine. Riportare l&apos;immagine all&apos;ingrandimento originario farà tornare le miniature permanenti.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/KeepVisible.qml" line="29"/>
         <source>Keep thumbnails visible, don&apos;t hide them past screen edge</source>
-        <translation type="unfinished"/>
+        <translation>Mantenere le miniature visibili, non nasconderle oltre il bordo dello schermo</translation>
     </message>
 </context>
 <context>
@@ -1245,127 +1245,127 @@
         <location filename="../../qml/globalstrings/Keys.qml" line="6"/>
         <source>Alt</source>
         <extracomment>Refers to a keyboard modifier</extracomment>
-        <translation type="unfinished"/>
+        <translation>Alt</translation>
     </message>
     <message>
         <location filename="../../qml/globalstrings/Keys.qml" line="8"/>
         <source>Ctrl</source>
         <extracomment>Refers to a keyboard modifier</extracomment>
-        <translation type="unfinished"/>
+        <translation>Ctrl</translation>
     </message>
     <message>
         <location filename="../../qml/globalstrings/Keys.qml" line="10"/>
         <source>Shift</source>
         <extracomment>Refers to a keyboard modifier</extracomment>
-        <translation type="unfinished"/>
+        <translation>Maiusc</translation>
     </message>
     <message>
         <location filename="../../qml/globalstrings/Keys.qml" line="12"/>
         <source>Page Up</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation type="unfinished"/>
+        <translation>PGSU</translation>
     </message>
     <message>
         <location filename="../../qml/globalstrings/Keys.qml" line="14"/>
         <source>Page Down</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation type="unfinished"/>
+        <translation>PGGiù</translation>
     </message>
     <message>
         <location filename="../../qml/globalstrings/Keys.qml" line="16"/>
         <source>Meta</source>
         <extracomment>Refers to the key that usually has the 'Windows' symbol on it</extracomment>
-        <translation type="unfinished"/>
+        <translation>Meta</translation>
     </message>
     <message>
         <location filename="../../qml/globalstrings/Keys.qml" line="18"/>
         <source>Keypad</source>
         <extracomment>Refers to the key that triggers the number block on keyboards</extracomment>
-        <translation type="unfinished"/>
+        <translation>Tastiera</translation>
     </message>
     <message>
         <location filename="../../qml/globalstrings/Keys.qml" line="20"/>
         <source>Escape</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation type="unfinished"/>
+        <translation>Esc</translation>
     </message>
     <message>
         <location filename="../../qml/globalstrings/Keys.qml" line="22"/>
         <source>Right</source>
         <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
-        <translation type="unfinished"/>
+        <translation>Destra</translation>
     </message>
     <message>
         <location filename="../../qml/globalstrings/Keys.qml" line="24"/>
         <source>Left</source>
         <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
-        <translation type="unfinished"/>
+        <translation>Sinistra</translation>
     </message>
     <message>
         <location filename="../../qml/globalstrings/Keys.qml" line="26"/>
         <source>Up</source>
         <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
-        <translation type="unfinished"/>
+        <translation>SU</translation>
     </message>
     <message>
         <location filename="../../qml/globalstrings/Keys.qml" line="28"/>
         <source>Down</source>
         <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
-        <translation type="unfinished"/>
+        <translation>Giù</translation>
     </message>
     <message>
         <location filename="../../qml/globalstrings/Keys.qml" line="30"/>
         <source>Space</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation type="unfinished"/>
+        <translation>Barra spaziatrice</translation>
     </message>
     <message>
         <location filename="../../qml/globalstrings/Keys.qml" line="32"/>
         <source>Delete</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation type="unfinished"/>
+        <translation>Canc</translation>
     </message>
     <message>
         <location filename="../../qml/globalstrings/Keys.qml" line="34"/>
         <source>Backspace</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation type="unfinished"/>
+        <translation>Backspace</translation>
     </message>
     <message>
         <location filename="../../qml/globalstrings/Keys.qml" line="36"/>
         <source>Home</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation type="unfinished"/>
+        <translation>Home</translation>
     </message>
     <message>
         <location filename="../../qml/globalstrings/Keys.qml" line="38"/>
         <source>End</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation type="unfinished"/>
+        <translation>Fine</translation>
     </message>
     <message>
         <location filename="../../qml/globalstrings/Keys.qml" line="40"/>
         <source>Insert</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation type="unfinished"/>
+        <translation>Ins</translation>
     </message>
     <message>
         <location filename="../../qml/globalstrings/Keys.qml" line="42"/>
         <source>Tab</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation type="unfinished"/>
+        <translation>Tab</translation>
     </message>
     <message>
         <location filename="../../qml/globalstrings/Keys.qml" line="44"/>
         <source>Return</source>
         <extracomment>'Return' refers to the enter key of the number block - please try to make the translations of 'Return' and 'Enter' different!</extracomment>
-        <translation type="unfinished"/>
+        <translation>Invio</translation>
     </message>
     <message>
         <location filename="../../qml/globalstrings/Keys.qml" line="46"/>
         <source>Enter</source>
         <extracomment>'Enter' refers to the big enter key - please try to make the translations of 'Return' and 'Enter' different!</extracomment>
-        <translation type="unfinished"/>
+        <translation>Invio</translation>
     </message>
 </context>
 <context>
@@ -1373,22 +1373,22 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Label.qml" line="19"/>
         <source>Label on Thumbnails</source>
-        <translation type="unfinished"/>
+        <translation>Etichetta sulle miniature</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Label.qml" line="20"/>
         <source>When thumbnails are displayed at the top/bottom, PhotoQt usually writes the filename on them (if not disabled). You can also use the slider below to adjust the font size.</source>
-        <translation type="unfinished"/>
+        <translation>Quando le miniature sono visualizzate sul bordo superiore/inferiore, PhotoQt di solito mostra il nome del file su di esse (se non è disattivato).Si può anche usare il cursore qui sotto per regolare la grandezza dei caratteri.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Label.qml" line="35"/>
         <source>Write Filename</source>
-        <translation type="unfinished"/>
+        <translation>Scrivere Nome File</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Label.qml" line="47"/>
         <source>Fontsize</source>
-        <translation type="unfinished"/>
+        <translation>Dimensione del carattere</translation>
     </message>
 </context>
 <context>
@@ -1396,12 +1396,12 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/Language.qml" line="19"/>
         <source>Language</source>
-        <translation type="unfinished"/>
+        <translation>Lingua</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/Language.qml" line="20"/>
         <source>There are a good few different languages available. Thanks to everybody who took the time to translate PhotoQt!</source>
-        <translation type="unfinished"/>
+        <translation>Sono disponibili diverse lingue per PhotoQt. Grazie a tutti coloro che hanno usato il loro tempo per tradurlo!</translation>
     </message>
 </context>
 <context>
@@ -1409,7 +1409,7 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/LanguageTile.qml" line="54"/>
         <source>Created by</source>
-        <translation type="unfinished"/>
+        <translation>Creato da</translation>
     </message>
 </context>
 <context>
@@ -1417,12 +1417,12 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/LiftUp.qml" line="19"/>
         <source>Lift-Up of Thumbnails</source>
-        <translation type="unfinished"/>
+        <translation>Sollevamento delle miniature</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/LiftUp.qml" line="20"/>
         <source>When a thumbnail is hovered, it is lifted up some pixels (default 10). Here you can increase/decrease this value according to your personal preference.</source>
-        <translation type="unfinished"/>
+        <translation>Quando il cursore passa sopra una miniatura, questa si alza di alcuni pixel (10 valore predefinito). Qui si può aumentare/diminuire questo valore in base alle preferenze.</translation>
     </message>
 </context>
 <context>
@@ -1430,17 +1430,17 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Loop.qml" line="16"/>
         <source>Looping</source>
-        <translation type="unfinished"/>
+        <translation>Looping</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Loop.qml" line="17"/>
         <source>When you load the last image in a directory and select &apos;Next&apos;, PhotoQt automatically jumps to the first image (and vice versa: if you select &apos;Previous&apos; while having the first image loaded, PhotoQt jumps to the last image). Disabling this option makes PhotoQt stop at the first/last image (i.e. selecting &apos;Next&apos;/&apos;Previous&apos; will have no effect in these two special cases).</source>
-        <translation type="unfinished"/>
+        <translation>Quando viene caricata l&apos;ultima immagine di una cartella e si seleziona &quot;Successiva&quot;, PhotoQt automaticamente tornerà alla prima immagine (e, viceversa, se si seleziona &quot;Precedente&quot; posizionandosi sulla prima immagine, PhotoQt tornerà all&apos;ultima). Disabilitando questa opzione, PhotoQt si fermerà alla prima/ultima immagine (usando &quot;Successiva&quot;/&quot;Precedente&quot; non ci sarà alcun effetto).</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Loop.qml" line="26"/>
         <source>Loop through images in folder</source>
-        <translation type="unfinished"/>
+        <translation>Loop immagini nella cartella</translation>
     </message>
 </context>
 <context>
@@ -1463,17 +1463,17 @@
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="28"/>
         <source>Slideshow</source>
-        <translation type="unfinished"/>
+        <translation>Presentazione</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="28"/>
         <source>setup</source>
-        <translation type="unfinished"/>
+        <translation>configurazione</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="28"/>
         <source>quickstart</source>
-        <translation type="unfinished"/>
+        <translation>guida introduttiva</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="29"/>
@@ -1503,124 +1503,124 @@
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="37"/>
         <source>Go to</source>
-        <translation type="unfinished"/>
+        <translation>Vai a</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="37"/>
         <source>previous</source>
-        <translation type="unfinished"/>
+        <translation>precedente</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="37"/>
         <source>next</source>
-        <translation type="unfinished"/>
+        <translation>successiva</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="37"/>
         <source>first</source>
-        <translation type="unfinished"/>
+        <translation>prima</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="37"/>
         <source>last</source>
-        <translation type="unfinished"/>
+        <translation>ultima</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="38"/>
         <source>Zoom</source>
-        <translation type="unfinished"/>
+        <translation>Zoom</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="38"/>
         <source>in</source>
-        <translation type="unfinished"/>
+        <translation>in</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="38"/>
         <source>out</source>
-        <translation type="unfinished"/>
+        <translation>out</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="38"/>
         <location filename="../../qml/slidein/MainMenu.qml" line="39"/>
         <location filename="../../qml/slidein/MainMenu.qml" line="40"/>
         <source>reset</source>
-        <translation type="unfinished"/>
+        <translation>reset</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="39"/>
         <source>Rotate</source>
-        <translation type="unfinished"/>
+        <translation>Ruotare</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="39"/>
         <source>left</source>
-        <translation type="unfinished"/>
+        <translation>sinistra</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="39"/>
         <source>right</source>
-        <translation type="unfinished"/>
+        <translation>destra</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="40"/>
         <source>Flip</source>
-        <translation type="unfinished"/>
+        <translation>Capovolgere</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="40"/>
         <source>horizontal</source>
-        <translation type="unfinished"/>
+        <translation>orizzontale</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="40"/>
         <source>vertical</source>
-        <translation type="unfinished"/>
+        <translation>verticale</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="41"/>
         <source>File</source>
-        <translation type="unfinished"/>
+        <translation>File</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="41"/>
         <source>rename</source>
-        <translation type="unfinished"/>
+        <translation>rinominare</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="41"/>
         <source>copy</source>
-        <translation type="unfinished"/>
+        <translation>copiare</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="41"/>
         <source>move</source>
-        <translation type="unfinished"/>
+        <translation>spostare</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="41"/>
         <source>delete</source>
-        <translation type="unfinished"/>
+        <translation>cancellare</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="45"/>
         <source>Scale Image</source>
-        <translation type="unfinished"/>
+        <translation>Scalare immagine</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="46"/>
         <source>Open in default file manager</source>
-        <translation type="unfinished"/>
+        <translation>Aprire con il gestore di file predefinito</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="60"/>
         <source>Main Menu</source>
-        <translation type="unfinished"/>
+        <translation>Menu Principale</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MainMenu.qml" line="216"/>
         <source>Click here to go to the online manual for help regarding shortcuts, settings, features, ...</source>
-        <translation type="unfinished"/>
+        <translation>Cliccare qui per consultare il manuale online per aiuto riguardando i collegamenti, impostazioni, caratteristiche, ...</translation>
     </message>
 </context>
 <context>
@@ -1628,42 +1628,42 @@
     <message>
         <location filename="../../qml/mainview/MainView.qml" line="161"/>
         <source>Hide</source>
-        <translation type="unfinished"/>
+        <translation>Nascondere</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainView.qml" line="189"/>
         <source>Open a file to begin</source>
-        <translation type="unfinished"/>
+        <translation>Aprire un file per iniziare</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainView.qml" line="230"/>
         <source>No results found...</source>
-        <translation type="unfinished"/>
+        <translation>Nessun risultato trovato...</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainView.qml" line="237"/>
         <source>Rotate Image?</source>
-        <translation type="unfinished"/>
+        <translation>Ruotare l&apos;Immagine?</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainView.qml" line="238"/>
         <source>The Exif data of this image says, that this image is supposed to be rotated.</source>
-        <translation type="unfinished"/>
+        <translation>Dagli dati Exif di questa immagine risulta, che questa immagine dovrebbe essere ruotata.</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainView.qml" line="238"/>
         <source>Do you want to apply the rotation?</source>
-        <translation type="unfinished"/>
+        <translation>Si desidera procedere con la rotazione?</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainView.qml" line="239"/>
         <source>Yes, do it</source>
-        <translation type="unfinished"/>
+        <translation>Sì, farlo</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainView.qml" line="240"/>
         <source>No, don&apos;t</source>
-        <translation type="unfinished"/>
+        <translation>No, non farlo</translation>
     </message>
 </context>
 <context>
@@ -1684,7 +1684,7 @@
     <message>
         <location filename="../../qml/slidein/MetaData.qml" line="42"/>
         <source>Metadata</source>
-        <translation type="unfinished"/>
+        <translation>Metadati</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MetaData.qml" line="68"/>
@@ -1709,7 +1709,7 @@
     <message>
         <location filename="../../qml/slidein/MetaData.qml" line="189"/>
         <source>Click to open GPS position with online map</source>
-        <translation type="unfinished"/>
+        <translation>Fare clic per aprire la posizione GPS con la mappa online</translation>
     </message>
     <message>
         <location filename="../../qml/slidein/MetaData.qml" line="278"/>
@@ -1803,94 +1803,94 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/Metadata.qml" line="19"/>
         <source>Meta Information</source>
-        <translation type="unfinished"/>
+        <translation>Informazioni Metadati</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/Metadata.qml" line="20"/>
         <source>PhotoQt can display a number of information about the image (often called &apos;Exif data&apos;). However, you might not be interested in all of them, hence you can choose to disable some of them here.</source>
-        <translation type="unfinished"/>
+        <translation>PhotoQt può visualizzare un numero di informazioni sull&apos;immagine (spesso chiamato &apos;Dati Exif&apos;). Tuttavia, potrebbe non essere interessante, quindi è possibile scegliere di disattivare alcuni di loro qui.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/Metadata.qml" line="68"/>
         <location filename="../../qml/settingsmanager/tabs/metadata/Metadata.qml" line="87"/>
         <source>Filesize</source>
-        <translation type="unfinished"/>
+        <translation>Dimensione del file</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/Metadata.qml" line="69"/>
         <location filename="../../qml/settingsmanager/tabs/metadata/Metadata.qml" line="88"/>
         <source>Dimensions</source>
-        <translation type="unfinished"/>
+        <translation>Dimensioni</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/Metadata.qml" line="70"/>
         <source>Make</source>
-        <translation type="unfinished"/>
+        <translation>Creare</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/Metadata.qml" line="71"/>
         <source>Model</source>
-        <translation type="unfinished"/>
+        <translation>Modello</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/Metadata.qml" line="72"/>
         <source>Software</source>
-        <translation type="unfinished"/>
+        <translation>Software</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/Metadata.qml" line="73"/>
         <source>Time Photo was Taken</source>
-        <translation type="unfinished"/>
+        <translation>Data/ora del Scatto della Foto</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/Metadata.qml" line="74"/>
         <source>Exposure Time</source>
-        <translation type="unfinished"/>
+        <translation>Tempo di Esposizione</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/Metadata.qml" line="75"/>
         <source>Flash</source>
-        <translation type="unfinished"/>
+        <translation>Flash</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/Metadata.qml" line="77"/>
         <source>Scene Type</source>
-        <translation type="unfinished"/>
+        <translation>Tipo di Scena</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/Metadata.qml" line="78"/>
         <source>Focal Length</source>
-        <translation type="unfinished"/>
+        <translation>Lunghezza Focale</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/Metadata.qml" line="79"/>
         <source>F-Number</source>
-        <translation type="unfinished"/>
+        <translation>F-Number</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/Metadata.qml" line="80"/>
         <source>Light Source</source>
-        <translation type="unfinished"/>
+        <translation>Sorgente Luce</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/Metadata.qml" line="81"/>
         <source>Keywords</source>
-        <translation type="unfinished"/>
+        <translation>Parole chiavi</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/Metadata.qml" line="82"/>
         <source>Location</source>
-        <translation type="unfinished"/>
+        <translation>Posizione</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/Metadata.qml" line="83"/>
         <source>Copyright</source>
-        <translation type="unfinished"/>
+        <translation>Copyright</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/Metadata.qml" line="84"/>
         <source>GPS Position</source>
-        <translation type="unfinished"/>
+        <translation>Posizione GPS</translation>
     </message>
 </context>
 <context>
@@ -1899,31 +1899,31 @@
         <location filename="../../qml/globalstrings/Mouse.qml" line="6"/>
         <source>Left Button</source>
         <extracomment>Refers to a mouse button</extracomment>
-        <translation type="unfinished"/>
+        <translation>Pulsante Sinistro</translation>
     </message>
     <message>
         <location filename="../../qml/globalstrings/Mouse.qml" line="8"/>
         <source>Right Button</source>
         <extracomment>Refers to a mouse button</extracomment>
-        <translation type="unfinished"/>
+        <translation>Pulsante Destro</translation>
     </message>
     <message>
         <location filename="../../qml/globalstrings/Mouse.qml" line="10"/>
         <source>Middle Button</source>
         <extracomment>Refers to a mouse button</extracomment>
-        <translation type="unfinished"/>
+        <translation>Pulsante Centrale</translation>
     </message>
     <message>
         <location filename="../../qml/globalstrings/Mouse.qml" line="12"/>
         <source>Wheel Up</source>
         <extracomment>Refers to the mouse wheel</extracomment>
-        <translation type="unfinished"/>
+        <translation>Rotellina verso l&apos;alto</translation>
     </message>
     <message>
         <location filename="../../qml/globalstrings/Mouse.qml" line="14"/>
         <source>Wheel Down</source>
         <extracomment>Refers to the mouse wheel</extracomment>
-        <translation type="unfinished"/>
+        <translation>Rotellina verso&apos;l Basso</translation>
     </message>
 </context>
 <context>
@@ -1931,17 +1931,17 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MouseTrigger.qml" line="17"/>
         <source>Enable &apos;Hot Edge&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Abilitare &apos;Bordi Hot&apos;</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MouseTrigger.qml" line="18"/>
         <source>Per default the info widget can be shown two ways: Moving the mouse cursor to the left screen edge to fade it in temporarily (as long as the mouse is hovering it), or permanently by clicking the checkbox (checkbox only stored per session, can&apos;t be saved permanently!). Alternatively the widget can also be triggered by shortcut or main menu item. On demand the mouse triggering can be disabled, so that the widget would only show on shortcut/menu item.</source>
-        <translation type="unfinished"/>
+        <translation>Per impostazione predefinita il widget di informazioni può essere visualizzato in due modi: spostando il cursore del mouse sul bordo sinistro dello schermo per adissolvenza temporanea (fino a quando il mouse si trova sopra di esso), o permanentemente facendo clic sulla casella (casella di controllo -salva solo per questa sessione-, non può essere memorizzato in modo permanente!). In alternativa il widget può essere richiamato anche dal collegamento o dalla voce del menu principale. Su richiesta l&apos;attivazione tramite mouse può essere disabilitata, affinché il widget si trovi solo nella voce del menu di scelta rapida.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MouseTrigger.qml" line="29"/>
         <source>DISable Hot Edge</source>
-        <translation type="unfinished"/>
+        <translation>Disabilitare Bordi Hot</translation>
     </message>
 </context>
 <context>
@@ -1949,7 +1949,7 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/MouseWheelSensitivity.qml" line="18"/>
         <source>Mouse Wheel Sensitivity</source>
-        <translation type="unfinished"/>
+        <translation>Sensibilità della Ruotelina del Mouse</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/MouseWheelSensitivity.qml" line="19"/>

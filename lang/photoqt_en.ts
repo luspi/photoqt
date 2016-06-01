@@ -911,7 +911,7 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/FitInWindow.qml" line="17"/>
         <source>If the image dimensions are smaller than the screen dimensions, PhotoQt can zoom those images to make them fir into the window. However, keep in mind, that such images will look pixelated to a certain degree (depending on each image).</source>
-        <translation type="unfinished"/>
+        <translation>If the image dimensions are smaller than the screen dimensions, PhotoQt can zoom those images to make them fit into the window. However, keep in mind, that such images will look pixelated to a certain degree (depending on each image).</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/FitInWindow.qml" line="26"/>

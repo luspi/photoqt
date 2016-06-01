@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="fr">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="fr" version="2.1">
 <context>
     <name>About</name>
     <message>
@@ -46,7 +44,7 @@
     <message>
         <location filename="../../qml/fadein/About.qml" line="86"/>
         <source>You want to join the team and do something, e.g. translating PhotoQt to another language? Drop me and email (%1), and for translations, check the project page on Transifex:</source>
-        <extracomment>Don&apos;t forget to add the %1 in your translation!!</extracomment>
+        <extracomment>Don't forget to add the %1 in your translation!!</extracomment>
         <translation>Vous voulez rejoindre l&apos;équipe et faire quelque chose, comme par exemple traduire PhotoQt dans une autre langue? Envoyez-moi un courriel (%1), et pour les traductions, vérifiez la page du projet sur Transifex:</translation>
     </message>
     <message>
@@ -973,7 +971,7 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../cplusplus/scripts/getanddostuff/openfile.cpp" line="89"/>
         <source>Volume</source>
-        <translation></translation>
+        <translation>Volume</translation>
     </message>
 </context>
 <context>
@@ -1075,7 +1073,7 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="401"/>
         <source>no</source>
-        <extracomment>This string identifies that flash wasn&apos;t fired</extracomment>
+        <extracomment>This string identifies that flash wasn't fired</extracomment>
         <translation>non</translation>
     </message>
     <message>
@@ -1176,7 +1174,7 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/HotEdge.qml" line="18"/>
         <source>Size of &apos;Hot Edge&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/HotEdge.qml" line="19"/>
@@ -1278,7 +1276,7 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/globalstrings/Keys.qml" line="16"/>
         <source>Meta</source>
-        <extracomment>Refers to the key that usually has the &apos;Windows&apos; symbol on it</extracomment>
+        <extracomment>Refers to the key that usually has the 'Windows' symbol on it</extracomment>
         <translation>Meta</translation>
     </message>
     <message>
@@ -1362,13 +1360,13 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/globalstrings/Keys.qml" line="44"/>
         <source>Return</source>
-        <extracomment>&apos;Return&apos; refers to the enter key of the number block - please try to make the translations of &apos;Return&apos; and &apos;Enter&apos; different!</extracomment>
+        <extracomment>'Return' refers to the enter key of the number block - please try to make the translations of 'Return' and 'Enter' different!</extracomment>
         <translation>Retour</translation>
     </message>
     <message>
         <location filename="../../qml/globalstrings/Keys.qml" line="46"/>
         <source>Enter</source>
-        <extracomment>&apos;Enter&apos; refers to the big enter key - please try to make the translations of &apos;Return&apos; and &apos;Enter&apos; different!</extracomment>
+        <extracomment>'Enter' refers to the big enter key - please try to make the translations of 'Return' and 'Enter' different!</extracomment>
         <translation>Entrer</translation>
     </message>
 </context>
@@ -1935,7 +1933,7 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MouseTrigger.qml" line="17"/>
         <source>Enable &apos;Hot Edge&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MouseTrigger.qml" line="18"/>
@@ -1945,7 +1943,7 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MouseTrigger.qml" line="29"/>
         <source>DISable Hot Edge</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2247,12 +2245,12 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/RotateFlip.qml" line="34"/>
         <source>Never rotate/flip images</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/RotateFlip.qml" line="40"/>
         <source>Always rotate/flip images</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/RotateFlip.qml" line="45"/>
@@ -2336,7 +2334,7 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/settingsmanager/tabs/shortcuts/Set.qml" line="118"/>
         <source>The command goes here</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/shortcuts/Set.qml" line="147"/>
@@ -2434,7 +2432,7 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="293"/>
         <source>No, don&apos;t have time for that</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="300"/>
@@ -2444,7 +2442,7 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="301"/>
         <source>Do you really want to ERASE the entire database?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="301"/>
@@ -2454,17 +2452,17 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="301"/>
         <source>This step cannot be reversed!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="302"/>
         <source>Yes, get rid of it all</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="303"/>
         <source>Nooo, I want to keep it</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="310"/>
@@ -2474,18 +2472,18 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="311"/>
         <source>Are you sure you want to revert back to the default settings?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="311"/>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="324"/>
         <source>This change is not permanent until you click on &apos;Save&apos;.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="312"/>
         <source>Yup, go ahead</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="313"/>
@@ -2500,62 +2498,62 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="324"/>
         <source>Are you sure you want to reset the shortcuts to the default set?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="325"/>
         <source>Yes, please</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="326"/>
         <source>Nah, don&apos;t</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="337"/>
         <source>Invalid Shortcuts Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="338"/>
         <source>There is a problem with the shortcuts setup you&apos;ve created. You seem to have used a key/mouse combination more than once. Please go back and fix that before I can save your changes...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="339"/>
         <source>Go back</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="355"/>
         <source>Go to the next tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="356"/>
         <source>Go to the previous tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="357"/>
         <source>to</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="357"/>
         <source>Switch to tab 1 to 5</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="358"/>
         <source>Save settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="359"/>
         <source>Discard settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2563,7 +2561,7 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/elements/ShortcutNotifier.qml" line="12"/>
         <source>You can use the following shortcuts for navigation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2571,7 +2569,7 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/settingsmanager/tabs/shortcuts/ShortcutsContainer.qml" line="120"/>
         <source>External</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2579,7 +2577,7 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/fadein/Slideshow.qml" line="10"/>
         <source>Slideshow Setup</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/fadein/Slideshow.qml" line="22"/>
@@ -2629,7 +2627,7 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/fadein/Slideshow.qml" line="142"/>
         <source>If you want PhotoQt to loop over all images (i.e., once it shows the last image it starts from the beginning), or if you want PhotoQt to load your images in random order, you can check either or both boxes below. Note, that no image will be shown twice before every image has been shown once.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/fadein/Slideshow.qml" line="148"/>
@@ -2736,52 +2734,52 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="17"/>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="18"/>
         <source>Sort Images</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="18"/>
         <source>Here you can adjust, how the images in a folder are supposed to be sorted. You can sort them by Filename, Natural Name (e.g., file10.jpg comes after file9.jpg and not after file1.jpg), File Size, and Date. Also, you can reverse the sorting order from ascending to descending if wanted.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="18"/>
         <source>Hint: You can also change this setting very quickly from the &apos;Quick Settings&apos; window, hidden behind the right screen edge.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="32"/>
         <source>Sort by:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="40"/>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="40"/>
         <source>Natural Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="40"/>
         <source>Date</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="40"/>
         <source>Filesize</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="49"/>
         <source>Ascending</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="57"/>
         <source>Descending</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2789,12 +2787,12 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Spacing.qml" line="18"/>
         <source>Spacing Between Thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Spacing.qml" line="19"/>
         <source>The thumbnails are shown in a row at the lower or upper edge (depending on your setup). They are lined up side by side. Per default, there&apos;s no empty space between them, however exactly that can be changed here.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2802,22 +2800,22 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/fadein/Startup.qml" line="70"/>
         <source>Welcome to PhotoQt</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/fadein/Startup.qml" line="85"/>
         <source>PhotoQt was successfully installed!&lt;br&gt;An image viewer packed with features and adjustable in every detail awaits you... Go, enjoy :-)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/fadein/Startup.qml" line="85"/>
         <source>PhotoQt was successfully updated!&lt;br&gt;Many new features and bug fixes await you... Go, enjoy :-)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/fadein/Startup.qml" line="95"/>
         <source>Lets get started!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2825,12 +2823,12 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabLookAndFeel.qml" line="44"/>
         <source>Look and Feel</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabLookAndFeel.qml" line="54"/>
         <source>Move your mouse cursor over the different settings titles to see more information.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2838,17 +2836,17 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabMetadata.qml" line="44"/>
         <source>Image Metadata</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabMetadata.qml" line="54"/>
         <source>Move your mouse cursor over the different settings titles to see more information.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabMetadata.qml" line="65"/>
         <source>PhotoQt can display different information of and about each image. The widget for this information is on the left outside the screen and slides in when mouse gets close to it and/or when the set shortcut (default Ctrl+E) is triggered. On demand, the triggering by mouse movement can be disabled by checking the box below.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2861,7 +2859,7 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabOther.qml" line="54"/>
         <source>Move your mouse cursor over the different settings titles to see more information.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3029,12 +3027,12 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="243"/>
         <source>External</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="245"/>
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="234"/>
@@ -3067,12 +3065,12 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabThumbnails.qml" line="44"/>
         <source>Thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabThumbnails.qml" line="54"/>
         <source>Move your mouse cursor over the different settings titles to see more information.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3080,12 +3078,12 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/ThumbnailSize.qml" line="18"/>
         <source>Thumbnail Size</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/ThumbnailSize.qml" line="19"/>
         <source>Here you can adjust the thumbnail size. You can set it to any size between 20 and 256 pixel. Per default it is set to 80 pixel, but with different screen resolutions it might be nice to have them larger/smaller.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3093,22 +3091,22 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/TopOrBottom.qml" line="17"/>
         <source>Top or Bottom</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/TopOrBottom.qml" line="18"/>
         <source>Per default the bar with the thumbnails is shown at the lower edge. However, some might find it nice and handy to have the thumbnail bar at the upper edge, so that&apos;s what can be changed here.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/TopOrBottom.qml" line="34"/>
         <source>Show at lower edge</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/TopOrBottom.qml" line="41"/>
         <source>Show at upper edge</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3116,17 +3114,17 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/TouchScreen.qml" line="16"/>
         <source>Touchscreen Gestures</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/TouchScreen.qml" line="17"/>
         <source>PhotoQt has some very basic support for touchscreen gestures. This feature is currently still in an experimental state. As of right now, it isn&apos;t possible to adjust the gestures. In the near future, support for touchscreen gestures will be extended.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/TouchScreen.qml" line="26"/>
         <source>Enable experimental support for touchscreen gestures</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3134,22 +3132,22 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Transition.qml" line="18"/>
         <source>Smooth Transition</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Transition.qml" line="19"/>
         <source>Switching between images can be done smoothly, the new image can be set to fade into the old image. &apos;No transition&apos; means, that the previous image is simply replaced by the new image.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Transition.qml" line="32"/>
         <source>No Transition</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Transition.qml" line="54"/>
         <source>Long Transition</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3157,27 +3155,27 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/TrayIcon.qml" line="17"/>
         <source>Hide to Tray Icon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/TrayIcon.qml" line="18"/>
         <source>When started PhotoQt creates a tray icon in the system tray. If desired, you can set PhotoQt to minimise to the tray instead of quitting. This causes PhotoQt to be almost instantaneously available when an image is opened.&lt;br&gt;It is also possible to start PhotoQt already minimised to the tray (e.g. at system startup) when called with &quot;--start-in-tray&quot;.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/TrayIcon.qml" line="32"/>
         <source>No tray icon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/TrayIcon.qml" line="38"/>
         <source>Hide to tray icon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/TrayIcon.qml" line="43"/>
         <source>Show tray icon, but don&apos;t hide to it</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3185,12 +3183,12 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/openfile/TweaksFileTypeSelection.qml" line="26"/>
         <source>All Supported images</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/openfile/TweaksFileTypeSelection.qml" line="26"/>
         <source>images</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3198,7 +3196,7 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/openfile/TweaksPreview.qml" line="51"/>
         <source>En-/Disable hover preview</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3206,7 +3204,7 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/openfile/TweaksThumbnail.qml" line="49"/>
         <source>En-/Disable image thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3214,12 +3212,12 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/openfile/TweaksViewMode.qml" line="50"/>
         <source>Show files in list</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/openfile/TweaksViewMode.qml" line="88"/>
         <source>Show files in grid</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3227,12 +3225,12 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/openfile/TweaksZoom.qml" line="22"/>
         <source>Zoom</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/openfile/TweaksZoom.qml" line="46"/>
         <source>Move slider to adjust the size of the files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3240,62 +3238,62 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/openfile/UserPlaces.qml" line="147"/>
         <source>Show standard locations</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/openfile/UserPlaces.qml" line="155"/>
         <source>Show user locations</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/openfile/UserPlaces.qml" line="163"/>
         <source>Show volumes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/openfile/UserPlaces.qml" line="173"/>
         <source>Remove from favourites</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/openfile/UserPlaces.qml" line="177"/>
         <source>Load folder</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/openfile/UserPlaces.qml" line="231"/>
         <source>Home</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/openfile/UserPlaces.qml" line="232"/>
         <source>Desktop</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/openfile/UserPlaces.qml" line="233"/>
         <source>Pictures</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/openfile/UserPlaces.qml" line="234"/>
         <source>Downloads</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/openfile/UserPlaces.qml" line="238"/>
         <source>Standard</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/openfile/UserPlaces.qml" line="256"/>
         <source>Places</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/openfile/UserPlaces.qml" line="267"/>
         <source>Volumes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3303,7 +3301,7 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/fadein/Wallpaper.qml" line="11"/>
         <source>Set as Wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/fadein/Wallpaper.qml" line="29"/>
@@ -3313,12 +3311,12 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/fadein/Wallpaper.qml" line="37"/>
         <source>PhotoQt tries to detect your window manager according to the environment variables set by your system. If it still got it wrong, you can change the window manager manually.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/fadein/Wallpaper.qml" line="45"/>
         <source>Other</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/fadein/Wallpaper.qml" line="165"/>
@@ -3336,22 +3334,22 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/WindowMode.qml" line="16"/>
         <source>Window Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/WindowMode.qml" line="17"/>
         <source>PhotoQt is designed with the space of a fullscreen app in mind. That&apos;s why it by default runs as fullscreen. However, some might prefer to have it as a normal window, e.g. so that they can see the panel.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/WindowMode.qml" line="29"/>
         <source>Run PhotoQt in Window Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/WindowMode.qml" line="37"/>
         <source>Show Window Decoration</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3359,58 +3357,58 @@ Si une extension manque pour l&apos;un des formats, vous pouvez l&apos;éditer i
     <message>
         <location filename="../../qml/fadein/wallpaper/XFCE4.qml" line="31"/>
         <source>Warning: &apos;xfconf-query&apos; doesn&apos;t seem to be available! Are you sure XFCE4 is installed?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/fadein/wallpaper/XFCE4.qml" line="44"/>
         <source>The wallpaper can be set to either of the available monitors (or any combination).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/fadein/wallpaper/XFCE4.qml" line="61"/>
         <source>Screen</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/fadein/wallpaper/XFCE4.qml" line="96"/>
         <source>There are several picture options that can be set for the wallpaper image.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/fadein/wallpaper/XFCE4.qml" line="112"/>
         <source>Automatic</source>
         <extracomment>This string refers to the scaling property of an image when setting as wallpaper</extracomment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/fadein/wallpaper/XFCE4.qml" line="118"/>
         <source>Centered</source>
         <extracomment>This string refers to the scaling property of an image when setting as wallpaper</extracomment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/fadein/wallpaper/XFCE4.qml" line="124"/>
         <source>Tiled</source>
         <extracomment>This string refers to the scaling property of an image when setting as wallpaper</extracomment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/fadein/wallpaper/XFCE4.qml" line="130"/>
         <source>Stretched</source>
         <extracomment>This string refers to the scaling property of an image when setting as wallpaper</extracomment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/fadein/wallpaper/XFCE4.qml" line="136"/>
         <source>Scaled</source>
         <extracomment>This string refers to the scaling property of an image when setting as wallpaper</extracomment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/fadein/wallpaper/XFCE4.qml" line="142"/>
         <source>Zoomed</source>
         <extracomment>This string refers to the scaling property of an image when setting as wallpaper</extracomment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 </TS>

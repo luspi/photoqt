@@ -4,7 +4,7 @@
     <message>
         <location filename="../../qml/fadein/About.qml" line="10"/>
         <source>About PhotoQt</source>
-        <translation type="unfinished"/>
+        <translation>关于 PhotoQt</translation>
     </message>
     <message>
         <location filename="../../qml/fadein/About.qml" line="24"/>
@@ -50,7 +50,7 @@
     <message>
         <location filename="../../qml/fadein/About.qml" line="109"/>
         <source>Okay I got enough of that</source>
-        <translation type="unfinished"/>
+        <translation>好了，别再提示我了</translation>
     </message>
 </context>
 <context>
@@ -58,17 +58,17 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="18"/>
         <source>Animation and Window Geometry</source>
-        <translation type="unfinished"/>
+        <translation>动画和窗口位置</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="19"/>
         <source>There are three things that can be adjusted here:</source>
-        <translation type="unfinished"/>
+        <translation>这里有三个选项可以进行调整：</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="19"/>
         <source>Animation of fade-in widgets (like, e.g., Settings or About Widget)</source>
-        <translation type="unfinished"/>
+        <translation>淡入控件的动画(例如“设置框”，“关于”对话框)</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="19"/>

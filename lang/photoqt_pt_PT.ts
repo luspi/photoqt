@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS>
-<TS version="2.0" language="pt_PT">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="pt_PT" version="2.1">
 <context>
     <name>About</name>
     <message>
@@ -46,7 +44,7 @@
     <message>
         <location filename="../../qml/fadein/About.qml" line="86"/>
         <source>You want to join the team and do something, e.g. translating PhotoQt to another language? Drop me and email (%1), and for translations, check the project page on Transifex:</source>
-        <extracomment>Don&apos;t forget to add the %1 in your translation!!</extracomment>
+        <extracomment>Don't forget to add the %1 in your translation!!</extracomment>
         <translation>Gostaria de integrar a equipa de desenvolvimento ou ajudar a traduzir o PhotoQt? Escreva-me uma mensagem (%1) ou consulte a nossa página de traduções no Transifex:</translation>
     </message>
     <message>
@@ -811,7 +809,7 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesRaw.qml" line="22"/>
         <source>PhotoQt can open and display most (if not all) raw image formats. Here you can adjust the list of fileformats known to PhotoQt.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/FileTypesRaw.qml" line="23"/>
@@ -971,7 +969,7 @@
     <message>
         <location filename="../../cplusplus/scripts/getanddostuff/openfile.cpp" line="89"/>
         <source>Volume</source>
-        <translation></translation>
+        <translation>Unidade</translation>
     </message>
 </context>
 <context>
@@ -1073,7 +1071,7 @@
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="401"/>
         <source>no</source>
-        <extracomment>This string identifies that flash wasn&apos;t fired</extracomment>
+        <extracomment>This string identifies that flash wasn't fired</extracomment>
         <translation>não</translation>
     </message>
     <message>
@@ -1174,12 +1172,12 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/HotEdge.qml" line="18"/>
         <source>Size of &apos;Hot Edge&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/HotEdge.qml" line="19"/>
         <source>Here you can adjust the sensitivity of the drop-down menu. The menu opens when your mouse cursor gets close to the right side of the upper edge. Here you can adjust how close you need to get for it to open.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/HotEdge.qml" line="32"/>
@@ -1202,7 +1200,7 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Interpolation.qml" line="19"/>
         <source>There are many different interpolation algorithms out there. Depending on the choice of interpolation algorithm, the image (when zoomed in) will look slightly differently. PhotoQt uses mipmaps to get the best quality for images. However, for very small images, that might lead to too much blurring causing them to look rather ugly. For those images, the &apos;Nearest Neighbour&apos; algorithm tend to be a better choise. Here you can adjust the size threshold below which PhotoQt applies the &apos;Nearest Neighbour&apos; algorithm.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Interpolation.qml" line="33"/>
@@ -1212,7 +1210,7 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Interpolation.qml" line="65"/>
         <source>Use &apos;Nearest Neighbour&apos; algorithm for upscaling</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1238,7 +1236,7 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/KeepVisible.qml" line="29"/>
         <source>Keep thumbnails visible, don&apos;t hide them past screen edge</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1276,7 +1274,7 @@
     <message>
         <location filename="../../qml/globalstrings/Keys.qml" line="16"/>
         <source>Meta</source>
-        <extracomment>Refers to the key that usually has the &apos;Windows&apos; symbol on it</extracomment>
+        <extracomment>Refers to the key that usually has the 'Windows' symbol on it</extracomment>
         <translation>Meta</translation>
     </message>
     <message>
@@ -1360,13 +1358,13 @@
     <message>
         <location filename="../../qml/globalstrings/Keys.qml" line="44"/>
         <source>Return</source>
-        <extracomment>&apos;Return&apos; refers to the enter key of the number block - please try to make the translations of &apos;Return&apos; and &apos;Enter&apos; different!</extracomment>
+        <extracomment>'Return' refers to the enter key of the number block - please try to make the translations of 'Return' and 'Enter' different!</extracomment>
         <translation>Return</translation>
     </message>
     <message>
         <location filename="../../qml/globalstrings/Keys.qml" line="46"/>
         <source>Enter</source>
-        <extracomment>&apos;Enter&apos; refers to the big enter key - please try to make the translations of &apos;Return&apos; and &apos;Enter&apos; different!</extracomment>
+        <extracomment>'Enter' refers to the big enter key - please try to make the translations of 'Return' and 'Enter' different!</extracomment>
         <translation>Enter</translation>
     </message>
 </context>
@@ -1933,7 +1931,7 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MouseTrigger.qml" line="17"/>
         <source>Enable &apos;Hot Edge&apos;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MouseTrigger.qml" line="18"/>
@@ -1943,7 +1941,7 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MouseTrigger.qml" line="29"/>
         <source>DISable Hot Edge</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -1992,7 +1990,7 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/Opacity.qml" line="18"/>
         <source>By default, the metadata widget is overlapping the main image, thus you might prefer a different alpha value for opacity to increase/decrease readability. Values can be in the range of 0-255.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2000,7 +1998,7 @@
     <message>
         <location filename="../../qml/openfile/OpenFile.qml" line="230"/>
         <source>Move focus between Places/Folders/Fileview</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/openfile/OpenFile.qml" line="231"/>
@@ -2116,7 +2114,7 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/PixmapCache.qml" line="19"/>
         <source>Here you can adjust the size of the pixmap cache. This cache holds the loaded image elements that have been displayed. This doesn&apos;t help when first displaying an image, but can speed up its second display significantly. On the other hand, it does increase the memory in use, up to the limit set here. If you disable the cache altogether (value of 0), then each time an image is displayed, it is loaded fresh from the harddrive.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/PixmapCache.qml" line="19"/>
@@ -3031,8 +3029,8 @@
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="245"/>
-        <source></source>
-        <translation type="unfinished"></translation>
+        <source/>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="234"/>
@@ -3248,7 +3246,7 @@
     <message>
         <location filename="../../qml/openfile/UserPlaces.qml" line="163"/>
         <source>Show volumes</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar volumes</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/UserPlaces.qml" line="173"/>
@@ -3293,7 +3291,7 @@
     <message>
         <location filename="../../qml/openfile/UserPlaces.qml" line="267"/>
         <source>Volumes</source>
-        <translation type="unfinished"></translation>
+        <translation>Volumes</translation>
     </message>
 </context>
 <context>
