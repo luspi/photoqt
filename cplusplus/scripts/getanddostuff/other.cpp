@@ -13,7 +13,7 @@ bool GetAndDoStuffOther::isImageAnimated(QString path) {
 QSize GetAndDoStuffOther::getAnimatedImageSize(QString path) {
 
 	path = path.remove("image://full/");
-	path = path.remove("file://");
+	path = path.remove("file:/");
 
 	if(path.trimmed() == "") {
 		std::cout << "empty...";

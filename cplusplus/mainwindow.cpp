@@ -91,14 +91,8 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 // Open a new file
 void MainWindow::handleOpenFileEvent(QString filename, QString filter) {
 
-// On Windows, we have to remove all three '/' after 'file:', on Linux, we need to leave one of them
-#ifdef Q_OS_WIN
-	if(filename.startsWith("file:///"))
-		filename = filename.remove(0,8);
-#else
-	if(filename.startsWith("file://"))
-		filename = filename.remove(0,7);
-#endif
+	if(filename.startsWith("file:/"))
+		filename = filename.remove(0,6);
 
 	if(filename.trimmed() == "") {
 		QMetaObject::invokeMethod(object, "openFile");

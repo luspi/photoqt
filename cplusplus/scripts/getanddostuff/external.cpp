@@ -23,5 +23,5 @@ void GetAndDoStuffExternal::executeApp(QString exec, QString fname) {
 }
 
 void GetAndDoStuffExternal::openInDefaultFileManager(QString file) {
-	QDesktopServices::openUrl(QUrl("file://" + QFileInfo(file).absolutePath()));
+	QDesktopServices::openUrl(QUrl("file:/" + QFileInfo(file).absolutePath()));
 }

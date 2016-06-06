@@ -81,7 +81,7 @@ Rectangle {
 
 		// Load image
 		if(getanddostuff.isImageAnimated(currentFile)) {
-			mainview.loadImage("file://" + currentFile, true)
+			mainview.loadImage("file:/" + currentFile, true)
 		} else {
 			mainview.loadImage("image://full/" + currentFile, false)
 		}

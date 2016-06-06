@@ -12,7 +12,7 @@ ListView {
 		showFiles: false
 		showDotAndDotDot: true
 
-		folder: "file:///home/luspi/"
+		folder: "file://home/luspi/"
 
 
 	}

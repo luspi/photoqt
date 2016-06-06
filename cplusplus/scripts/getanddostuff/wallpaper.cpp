@@ -30,7 +30,7 @@ void GetAndDoStuffWallpaper::setWallpaper(QString wm, QVariantMap options, QStri
 		if(ret != 0)
 			LOG << CURDATE << "GetAndDoStuffWallpaper: ERROR [wallpaper]: gsettings failed with exit code " << ret << " - are you sure Gnome/Unity is installed?" << NL;
 		else
-			proc.execute(QString("gsettings set org.gnome.desktop.background picture-uri file://%1").arg(file));
+			proc.execute(QString("gsettings set org.gnome.desktop.background picture-uri file:/%1").arg(file));
 
 	}
 
