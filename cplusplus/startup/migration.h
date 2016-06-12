@@ -81,7 +81,7 @@ namespace StartupCheck {
 						<< CONFIG_DIR.toStdString() << "'"
 						<< NL;
 
-					if(!file.rename(CFG_SHORTCUTS_FILE))
+					if(!file.rename(CFG_KEY_SHORTCUTS_FILE))
 
 						LOG << CURDATE
 							<< "StartupCheck::Migration: ERROR! Unable to move shortcuts file to new location! Default shortcuts will be used."

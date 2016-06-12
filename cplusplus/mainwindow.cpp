@@ -13,8 +13,9 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 	settingsPermanent = new Settings;
 	fileformats = new FileFormats(verbose);
 	variables = new Variables;
-	shortcuts = new Shortcuts;
-	touch = new TouchHandler;
+	touchHandler = new TouchHandler;
+	mouseHandler = new MouseHandler;
+	keyHandler = new KeyHandler;
 
 	variables->verbose = verbose;
 
@@ -75,9 +76,17 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 	connect(this, SIGNAL(xChanged(int)), this, SLOT(updateWindowXandY()));
 	connect(this, SIGNAL(yChanged(int)), this, SLOT(updateWindowXandY()));
 
-	// Pass on touchevent
-	connect(touch, SIGNAL(receivedTouchEvent(QPointF,QPointF,qint64,int,QStringList)), this, SLOT(passOnTouchEvent(QPointF,QPointF,qint64,int,QStringList)));
-	connect(touch, SIGNAL(setImageInteractiveMode(bool)), this, SLOT(setImageInteractiveMode(bool)));
+	// Pass on shortcuts events
+	connect(keyHandler, SIGNAL(receivedKeyEvent(QString)),
+			this, SLOT(passOnKeyEvent(QString)));
+	connect(touchHandler, SIGNAL(receivedTouchEvent(QPointF,QPointF,qint64,int,QStringList)),
+			this, SLOT(passOnTouchEvent(QPointF,QPointF,qint64,int,QStringList)));
+	connect(touchHandler, SIGNAL(setImageInteractiveMode(bool)),
+			this, SLOT(setImageInteractiveMode(bool)));
+	connect(mouseHandler, SIGNAL(finishedMouseEvent(QPoint,QPoint,qint64,QString,QStringList,int,QString)),
+			this, SLOT(passOnFinishedMouseEvent(QPoint,QPoint,qint64,QString,QStringList,int,QString)));
+	connect(mouseHandler, SIGNAL(updatedMouseEvent(QString,QStringList,QString)),
+			this, SLOT(passOnUpdatedMouseEvent(QString,QStringList,QString)));
 
 	showTrayIcon();
 
@@ -276,20 +285,12 @@ void MainWindow::didntLoadThisThumbnail(int pos) {
 	variables->loadedThumbnails.removeAt(variables->loadedThumbnails.indexOf(pos));
 }
 
-// These are used to communicate key combos to the qml interface (for shortcuts, lineedits, etc.)
-void MainWindow::detectedKeyCombo(QString combo) {
-	if(variables->verbose)
-		LOG << CURDATE << "detectedKeyCombo(): " << combo.toStdString() << NL;
-	QMetaObject::invokeMethod(object, "detectedKeyCombo",
-				  Q_ARG(QVariant, combo));
-}
-
 // Catch wheel events
-void MainWindow::wheelEvent(QWheelEvent *e) {
+//void MainWindow::wheelEvent(QWheelEvent *e) {
 
-	if(variables->verbose)
-		LOG << CURDATE << "wheelEvent()" << NL;
-
+//	if(variables->verbose)
+//		LOG << CURDATE << "wheelEvent()" << NL;
+/*
 	if(e->angleDelta().y() < 0) {
 
 		if(!object->property("blocked").toBool()) {
@@ -312,8 +313,8 @@ void MainWindow::wheelEvent(QWheelEvent *e) {
 		if(variables->verbose)
 			LOG << CURDATE << "wheelEvent(): Wheel down" << NL;
 
-		QMetaObject::invokeMethod(object,"mouseWheelEvent",
-								  Q_ARG(QVariant, "Wheel Down"));
+//		QMetaObject::invokeMethod(object,"mouseWheelEvent",
+//								  Q_ARG(QVariant, "Wheel Down"));
 
 	} else if(e->angleDelta().y() > 0) {
 
@@ -337,77 +338,32 @@ void MainWindow::wheelEvent(QWheelEvent *e) {
 		if(variables->verbose)
 			LOG << CURDATE << "wheelEvent(): Wheel up" << NL;
 
-		QMetaObject::invokeMethod(object,"mouseWheelEvent",
-								  Q_ARG(QVariant, "Wheel Up"));
+//		QMetaObject::invokeMethod(object,"mouseWheelEvent",
+//								  Q_ARG(QVariant, "Wheel Up"));
 
 	}
+*/
+//	QQuickView::wheelEvent(e);
 
-	QQuickView::wheelEvent(e);
-
-}
-
-// Catch mouse events (ignored when mouse moved when button pressed)
-void MainWindow::mousePressEvent(QMouseEvent *e) {
-
-	if(variables->verbose)
-		LOG << CURDATE << "mousePressEvent()" << NL;
-
-	mouseCombo = "";
-	mouseOrigPoint = e->pos();
-	mouseDx = 0;
-	mouseDy = 0;
-
-	if(e->button() == Qt::RightButton)
-		mouseCombo = "Right Button";
-	else if(e->button() == Qt::MiddleButton)
-		mouseCombo = "Middle Button";
-	else if(e->button() == Qt::LeftButton)
-		mouseCombo = "Left Button";
-
-	if(variables->verbose)
-		LOG << CURDATE << "mousePressEvent(): mouseCombo = " << mouseCombo.toStdString() << NL;
-
-	QQuickView::mousePressEvent(e);
-
-}
-void MainWindow::mouseReleaseEvent(QMouseEvent *e) {
-
-	if(variables->verbose)
-		LOG << CURDATE << "mouseReleaseEvent()" << NL;
-
-	QQuickView::mouseReleaseEvent(e);
-
-	QMetaObject::invokeMethod(object,"mouseWheelEvent",
-							  Q_ARG(QVariant, mouseCombo));
-
-}
-void MainWindow::mouseMoveEvent(QMouseEvent *e) {
-
-	mouseDx += abs(mouseOrigPoint.x()-e->pos().x());
-	mouseDy += abs(mouseOrigPoint.y()-e->pos().y());
-
-	object->setProperty("localcursorpos",this->mapFromGlobal(QCursor::pos()));
-
-	QQuickView::mouseMoveEvent(e);
-
-}
+//}
 
 bool MainWindow::event(QEvent *e) {
 
-	if(e->type() == QEvent::KeyPress) {
+	// detect shortcuts
+	keyHandler->handle(e);
+	mouseHandler->handle(e);
+	if(settingsPermanent->experimentalTouchscreenSupport)
+		touchHandler->handle(e);
 
-		if(variables->verbose)
-			LOG << CURDATE << "keyPressEvent()" << NL;
-		detectedKeyCombo(shortcuts->handleKeyPress((QKeyEvent*)e));
+	// update local cursor position
+	if(e->type() == QEvent::MouseMove) {
+		QPoint pos = ((QMouseEvent*)e)->pos();
+		mouseDx += abs(mouseOrigPoint.x()-pos.x());
+		mouseDy += abs(mouseOrigPoint.y()-pos.y());
+		object->setProperty("localcursorpos",this->mapFromGlobal(QCursor::pos()));
+	}
 
-	} else if(e->type() == QEvent::KeyRelease) {
-
-		if(variables->verbose)
-			LOG << CURDATE << "keyReleaseEvent()" << NL;
-		QMetaObject::invokeMethod(object, "keysReleased",
-								  Q_ARG(QVariant,shortcuts->handleKeyPress((QKeyEvent*)e)));
-
-	} else if (e->type() == QEvent::Close) {
+	if (e->type() == QEvent::Close) {
 
 		if(variables->verbose)
 			LOG << CURDATE << "closeEvent()" << NL;
@@ -443,10 +399,7 @@ bool MainWindow::event(QEvent *e) {
 
 		}
 
-	} else if(e->type() == QEvent::TouchBegin || e->type() == QEvent::TouchUpdate || e->type() == QEvent::TouchEnd)
-		if(settingsPermanent->experimentalTouchscreenSupport)
-			touch->handle(e);
-
+	}
 
 	return QQuickWindow::event(e);
 
@@ -750,7 +703,7 @@ MainWindow::~MainWindow() {
 	delete fileformats;
 	if(variables->trayiconSetup) delete trayIcon;
 	delete variables;
-	delete shortcuts;
+	delete keyHandler;
 	delete loadDir;
-	delete touch;
+	delete touchHandler;
 }

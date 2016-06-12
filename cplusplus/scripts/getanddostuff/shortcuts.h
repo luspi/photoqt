@@ -21,21 +21,24 @@ public:
 	explicit GetAndDoStuffShortcuts(bool usedAtStartup = false, QObject *parent = 0);
 	~GetAndDoStuffShortcuts();
 
-	QVariantMap getShortcuts();
-	void saveShortcuts(QVariantMap l);
-	QVariantMap getDefaultShortcuts();
-	QString getShortcutFile();
+	QVariantMap getKeyShortcuts();
+	QVariantMap getMouseShortcuts();
+	void saveKeyShortcuts(QVariantMap l);
+	QVariantMap getDefaultKeyShortcuts();
+	QVariantMap getDefaultMouseShortcuts();
+	QString getKeyShortcutFile();
 	QString filterOutShortcutCommand(QString combo, QString file);
 
 private:
 	QFileSystemWatcher *watcher;
 
 private slots:
-	void fileChanged();
+	void fileChanged(QString filename);
 	void setFilesToWatcher();
 
 signals:
-	void shortcutFileChanged(int);
+	void keyShortcutFileChanged(int);
+	void mouseShortcutFileChanged(int);
 
 };
 

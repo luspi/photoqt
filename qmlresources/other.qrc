@@ -1,6 +1,8 @@
 <RCC>
     <qresource prefix="/">
-        <file>../qml/mainwindow.qml</file>
-		<file>../qml/Shortcuts.qml</file>
+	<file>../qml/mainwindow.qml</file>
+	<file>../qml/shortcuts/Shortcuts.qml</file>
+	<file>../qml/shortcuts/mouseshortcuts.js</file>
+	<file>../qml/shortcuts/keyshortcuts.js</file>
     </qresource>
 </RCC>

@@ -30,7 +30,8 @@ public:
 
 		connect(manipulation, SIGNAL(reloadDirectory(QString,bool)), this, SIGNAL(reloadDirectory(QString,bool)));
 		connect(openfile, SIGNAL(userPlacesUpdated()), this, SIGNAL(userPlacesUpdated()));
-		connect(shortcuts, SIGNAL(shortcutFileChanged(int)), this, SLOT(setShortcutNotifier(int)));
+		connect(shortcuts, SIGNAL(keyShortcutFileChanged(int)), this, SLOT(setKeyShortcutNotifier(int)));
+		connect(shortcuts, SIGNAL(mouseShortcutFileChanged(int)), this, SLOT(setMouseShortcutNotifier(int)));
 
 	}
 
@@ -94,10 +95,12 @@ public:
 	Q_INVOKABLE QString getVersionString() { return other->getVersionString(); }
 
 	// SHORTCUTS
-	Q_INVOKABLE QVariantMap getShortcuts() { return shortcuts->getShortcuts(); }
-	Q_INVOKABLE void saveShortcuts(QVariantMap l) { shortcuts->saveShortcuts(l); }
-	Q_INVOKABLE QVariantMap getDefaultShortcuts() { return shortcuts->getDefaultShortcuts(); }
-	Q_INVOKABLE QString getShortcutFile() { return shortcuts->getShortcutFile(); }
+	Q_INVOKABLE QVariantMap getKeyShortcuts() { return shortcuts->getKeyShortcuts(); }
+	Q_INVOKABLE QVariantMap getMouseShortcuts() { return shortcuts->getMouseShortcuts(); }
+	Q_INVOKABLE void saveKeyShortcuts(QVariantMap l) { shortcuts->saveKeyShortcuts(l); }
+	Q_INVOKABLE QVariantMap getDefaultKeyShortcuts() { return shortcuts->getDefaultKeyShortcuts(); }
+	Q_INVOKABLE QVariantMap getDefaultMouseShortcuts() { return shortcuts->getDefaultMouseShortcuts(); }
+	Q_INVOKABLE QString getKeyShortcutFile() { return shortcuts->getKeyShortcutFile(); }
 	Q_INVOKABLE QString filterOutShortcutCommand(QString combo, QString file) { return shortcuts->filterOutShortcutCommand(combo, file); }
 
 	// WALLPAPER
@@ -121,14 +124,19 @@ public:
 	Q_INVOKABLE QString getOpenFileLastLocation() {  return this->openfile->getOpenFileLastLocation(); }
 	Q_INVOKABLE void setOpenFileLastLocation(QString path) { openfile->setOpenFileLastLocation(path); }
 
-	int shortcutNotifier;
-	Q_PROPERTY(int shortcutNotifier READ getShortcutNotifier WRITE setShortcutNotifier NOTIFY shortcutNotifierChanged)
-	int getShortcutNotifier() { return shortcutNotifier; }
+	int keyShortcutNotifier;
+	int mouseShortcutNotifier;
+	Q_PROPERTY(int keyShortcutNotifier MEMBER keyShortcutNotifier NOTIFY keyShortcutNotifierChanged)
+	Q_PROPERTY(int mouseShortcutNotifier MEMBER mouseShortcutNotifier NOTIFY mouseShortcutNotifierChanged)
 
 public slots:
-	void setShortcutNotifier(int val) {
-		shortcutNotifier = val;
-		emit shortcutNotifierChanged(val);
+	void setKeyShortcutNotifier(int val) {
+		keyShortcutNotifier = val;
+		emit keyShortcutNotifierChanged(val);
+	}
+	void setMouseShortcutNotifier(int val) {
+		mouseShortcutNotifier = val;
+		emit mouseShortcutNotifierChanged(val);
 	}
 
 private:
@@ -143,7 +151,8 @@ private:
 
 signals:
 	void reloadDirectory(QString path, bool deleted = false);
-	void shortcutNotifierChanged(int val);
+	void keyShortcutNotifierChanged(int val);
+	void mouseShortcutNotifierChanged(int val);
 	void userPlacesUpdated();
 
 };

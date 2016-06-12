@@ -59,6 +59,7 @@ int main(int argc, char *argv[]) {
 	StartupCheck::Thumbnails::checkThumbnailsDatabase(update, a.nothumbs, &settingsText, a.verbose);
 	StartupCheck::FileFormats::checkForDefaultSettingsFileAndReturnWhetherDefaultsAreToBeSet(a.verbose);
 	StartupCheck::Shortcuts::makeSureShortcutsFileExists(a.verbose);
+	StartupCheck::Shortcuts::migrateMouseShortcuts(a.verbose);
 
 	// Store the (updated) settings text
 	QFile writesettings(CFG_SETTINGS_FILE);

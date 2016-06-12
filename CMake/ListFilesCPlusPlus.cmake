@@ -3,7 +3,7 @@
 #####################
 
 SET(d "cplusplus")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/main.cpp ${d}/mainwindow.cpp ${d}/variables.h ${d}/logger.h ${d}/touchhandler.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/main.cpp ${d}/mainwindow.cpp ${d}/variables.h ${d}/logger.h)
 
 SET(d "cplusplus/startup")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/migration.h ${d}/updatecheck.h ${d}/startintray.h ${d}/localisation.h ${d}/thumbnails.h)
@@ -21,7 +21,8 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/loadimage_qt.h ${d}/loadimage_gm.h $
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/errorimage.h)
 
 SET(d "cplusplus/shortcuts")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/shortcuts.h ${d}/shortcutsnotifier.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/shortcutsnotifier.h ${d}/keyhandler.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/mousehandler.h ${d}/touchhandler.h ${d}/keymodifier.h)
 
 SET(d "cplusplus/scripts")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/getanddostuff.h ${d}/getmetadata.cpp ${d}/runprocess.h ${d}/thumbnailsmanagement.cpp)
@@ -46,7 +47,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/tooltip.cpp)
 ####################
 
 SET(d "cplusplus")
-SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/mainwindow.h ${d}/variables.h ${d}/logger.h ${d}/touchhandler.h)
+SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/mainwindow.h ${d}/variables.h ${d}/logger.h)
 
 SET(d "cplusplus/startup")
 SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/migration.h ${d}/updatecheck.h ${d}/startintray.h ${d}/localisation.h ${d}/thumbnails.h)
@@ -64,7 +65,8 @@ SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/loadimage_qt.h ${d}/loadimage_gm.h $
 SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/errorimage.h)
 
 SET(d "cplusplus/shortcuts")
-SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/shortcuts.h ${d}/shortcutsnotifier.h)
+SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/shortcutsnotifier.h ${d}/keyhandler.h)
+SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/touchhandler.h ${d}/mousehandler.h ${d}/keymodifier.h)
 
 SET(d "cplusplus/scripts")
 SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/getanddostuff.h ${d}/getmetadata.h ${d}/runprocess.h ${d}/thumbnailsmanagement.h)

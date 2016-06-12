@@ -361,10 +361,18 @@ Rectangle {
 		settingssession.setValue("settings_titlewidth",100)
 	}
 
+	DetectGesture {
+
+		id: detectgesture
+		visible: true
+
+	}
+
 	function showSettings() {
 		verboseMessage("Settings::showSettings()","Showing Settings...")
 		showSettingsAni.start()
 		updateDatabaseInfo()
+		detectgesture.show()
 	}
 	function hideSettings() {
 //		verboseMessage("Settings::hideSettings()",confirmclean.visible + "/" + confirmerase.visible + "/" + confirmdefaultshortcuts.visible + "/" + detectShortcut.visible + "/" + resetShortcut.visible)

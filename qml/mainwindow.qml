@@ -16,6 +16,7 @@ import "slidein/"
 import "fadein/"
 import "settingsmanager/"
 import "openfile/"
+import "shortcuts/"
 
 import "globalstrings/" as Strings
 
@@ -107,6 +108,7 @@ Item {
 	ThumbnailManagement { id: thumbnailmanagement; }
 	Shortcuts { id: sh; }
 	ShortcutsNotifier { id: sh_notifier; }
+	Shortcuts { id: shortcuts; }
 
 	Strings.Keys { id: str_keys }
 	Strings.Mouse { id: str_mouse }
@@ -256,12 +258,19 @@ Item {
 	function resetZoom() { mainview.resetZoom(); }
 	function isZoomed() { return mainview.isZoomed(); }
 
-	function detectedKeyCombo(combo) { sh.detectedKeyCombo(combo); settingsmanager.setCurrentKeyCombo(combo) }
-	function keysReleased(combo) { settingsmanager.keysReleased(); sh.releasedKeys(combo); }
-	function mouseWheelEvent(combo) { sh.gotMouseShortcut(combo); }
+	function updateKeyCombo(combo) { shortcuts.updateKeyCombo(combo); }
+	function finishedKeyCombo(combo) {  shortcuts.finishedKeyCombo(combo); }
 
 	function setImageInteractiveMode(enabled) { mainview.setInteractiveMode(enabled) }
-	function touchEvent(startPoint, endPoint, duration, numFingers, gesture) { sh.gotTouchGesture(startPoint,endPoint,duration,numFingers,gesture) }
+	function touchEvent(startPoint, endPoint, duration, numFingers, gesture) {
+		sh.gotTouchGesture(startPoint,endPoint,duration,numFingers,gesture)
+	}
+	function updatedMouseEvent(button, gesture, modifiers) {
+		shortcuts.gotUpdatedMouseGesture(button, gesture, modifiers);
+	}
+	function finishedMouseEvent(startPoint, endPoint, duration, button, gesture, wheelAngleDelta, modifiers) {
+		shortcuts.gotFinishedMouseGesture(startPoint, endPoint, duration, button, gesture, wheelAngleDelta, modifiers);
+	}
 
 	function showStartup(type) { startup.showStartup(type); }
 	function windowResized() { mainview.windowHasBeenResized(); if(!isZoomed()) resetZoom() }

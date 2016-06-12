@@ -8,57 +8,57 @@ Item {
 
 	id: top
 
-	property var shortcutfile: getanddostuff.getShortcuts()
+//	property var shortcutfile: getanddostuff.getShortcuts()
 
 	// If the user scrolls and it's not part of a shortcut, we pass the event on to the main image if it occured there (i.e. we don't block it there in that case)
-	property bool takeWheelEventAsShortcut: false
+//	property bool takeWheelEventAsShortcut: false
 
 	// This is a "trick" of sorts. The notifierChanged signal is triggered in getanddostuff.h whenever the shortcuts file was modified,
 	// which in turns reloads the shortcuts file.
-	property int notifier: getanddostuff.shortcutNotifier
-	onNotifierChanged: shortcutfile = getanddostuff.getShortcuts()
+//	property int notifier: getanddostuff.shortcutNotifier
+//	onNotifierChanged: shortcutfile = getanddostuff.getShortcuts()
 
-	property string keys: ""
+//	property string keys: ""
 
 	// Connected via mainwindow to shortcuts.cpp file
-	function detectedKeyCombo(combo) {
-		verboseMessage("Shortcuts::detectKeyCombo()",combo + " - " + blocked + "/" + blockedSystem + "/" + softblocked + "/" + slideshowRunning)
-		if(softblocked != 0 && combo === "Escape") {
-			if(slideshowRunning)
-				slideshowbar.stopSlideshow()
-			else
-				softblocked = 0
-		} else if((softblocked != 0 && !slideshowRunning) || slideshowRunning)
-			return
-		else if(!blockedSystem) {
-			if(blocked)
-				checkForSystemShortcut(combo)
-			else if(combo in shortcutfile)
-				execute(shortcutfile[combo][1],shortcutfile[combo][0]);
-		}
-		keys = combo
-	}
+//	function detectedKeyCombo(combo) {
+//		verboseMessage("Shortcuts::detectKeyCombo()",combo + " - " + blocked + "/" + blockedSystem + "/" + softblocked + "/" + slideshowRunning)
+//		if(softblocked != 0 && combo === "Escape") {
+//			if(slideshowRunning)
+//				slideshowbar.stopSlideshow()
+//			else
+//				softblocked = 0
+//		} else if((softblocked != 0 && !slideshowRunning) || slideshowRunning)
+//			return
+//		else if(!blockedSystem) {
+//			if(blocked)
+//				checkForSystemShortcut(combo)
+//			else if(combo in shortcutfile)
+//				execute(shortcutfile[combo][1],shortcutfile[combo][0]);
+//		}
+//		keys = combo
+//	}
 
-	function releasedKeys(combo) {
-		verboseMessage("Shortcuts::releasedKeys()", combo + " - " + softblocked)
-		if(softblocked != 0 && combo === "Escape")
-			softblocked = 0
-		keys = "";
-	}
+//	function releasedKeys(combo) {
+//		verboseMessage("Shortcuts::releasedKeys()", combo + " - " + softblocked)
+//		if(softblocked != 0 && combo === "Escape")
+//			softblocked = 0
+//		keys = "";
+//	}
 
-	function simulateShortcut(keys) {
-		verboseMessage("Shortcuts::simulateShortcut()", keys + " - " + blocked + "/" + blockedSystem + "/" + softblocked)
-		if(softblocked != 0 && combo === "Escape")
-			softblocked = 0
-		else if(softblocked != 0)
-			return
-		else if(!blockedSystem) {
-			if(blocked)
-				checkForSystemShortcut(keys)
-			else if(keys in shortcutfile)
-				execute(shortcutfile[keys][1]);
-		}
-	}
+//	function simulateShortcut(keys) {
+//		verboseMessage("Shortcuts::simulateShortcut()", keys + " - " + blocked + "/" + blockedSystem + "/" + softblocked)
+//		if(softblocked != 0 && combo === "Escape")
+//			softblocked = 0
+//		else if(softblocked != 0)
+//			return
+//		else if(!blockedSystem) {
+//			if(blocked)
+//				checkForSystemShortcut(keys)
+//			else if(keys in shortcutfile)
+//				execute(shortcutfile[keys][1]);
+//		}
+//	}
 
 	function checkForSystemShortcut(keys) {
 		verboseMessage("Shortcuts::checkForSystemShortcut()", keys)
@@ -218,11 +218,11 @@ Item {
 
 	}
 
-	function gotMouseShortcut(sh) {
+/*	function gotMouseShortcut(sh) {
 
 		background.hideEverything()
 
-		takeWheelEventAsShortcut = true;
+//		takeWheelEventAsShortcut = true;
 
 		verboseMessage("Shortcuts::gotMouseShortcut()", sh + " - " + blocked + "/" + blockedSystem + "/" + softblocked)
 
@@ -279,10 +279,12 @@ Item {
 
 		if(!blockedSystem && shortcut  in shortcutfile)
 				execute(shortcutfile[shortcut][1],shortcutfile[shortcut][0],true);
-		else
-			takeWheelEventAsShortcut = false
+//		else
+//			takeWheelEventAsShortcut = false
 
-	}
+	}*/
+
+
 
 	function gotTouchGesture(startPoint, endPoint, duration, numFingers, gesture) {
 

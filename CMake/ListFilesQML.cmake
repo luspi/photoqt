@@ -3,7 +3,7 @@
 #####################
 
 SET(d "qml")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/mainwindow.qml ${d}/Shortcuts.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/mainwindow.qml)
 
 SET(d "qml/slidein")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/ThumbnailBar.qml ${d}/MetaData.qml ${d}/MainMenu.qml ${d}/SlideshowBar.qml)
@@ -34,6 +34,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Other.qml)
 
 SET(d "qml/settingsmanager")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/SettingsManager.qml ${d}/EntryTitle.qml ${d}/EntrySetting.qml ${d}/EntryContainer.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/DetectGesture.qml)
 SET(d "qml/settingsmanager/tabs")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/TabLookAndFeel.qml ${d}/TabThumbnails.qml ${d}/TabMetadata.qml ${d}/TabOther.qml ${d}/TabShortcuts.qml)
 SET(d "qml/settingsmanager/tabs/lookandfeel")
@@ -58,3 +59,6 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Available.qml ${d}/Set.qml ${d}/Shor
 
 SET(d "qml/globalstrings")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Keys.qml ${d}/Mouse.qml)
+
+SET(d "qml/shortcuts")
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Shortcuts.qml ${d}/mouseshortcuts.js ${d}/keyshortcuts.js)

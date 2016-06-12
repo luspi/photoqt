@@ -11,7 +11,9 @@
 #include <QSystemTrayIcon>
 
 #include "logger.h"
-#include "touchhandler.h"
+#include "shortcuts/touchhandler.h"
+#include "shortcuts/mousehandler.h"
+#include "shortcuts/keyhandler.h"
 #include "scripts/getanddostuff.h"
 #include "scripts/getmetadata.h"
 #include "scripts/thumbnailsmanagement.h"
@@ -24,7 +26,6 @@
 #include "settings/settingssession.h"
 #include "settings/colour.h"
 #include "variables.h"
-#include "shortcuts/shortcuts.h"
 #include "shortcuts/shortcutsnotifier.h"
 #include "tooltip/tooltip.h"
 
@@ -63,9 +64,6 @@ private:
 	FileFormats *fileformats;
 	Variables *variables;
 
-	Shortcuts *shortcuts;
-
-
 	int currentCenter;
 	QList<int> loadThumbnailsInThisOrder;
 	QList<int> smartLoadThumbnailsInThisOrder;
@@ -80,7 +78,9 @@ private:
 	int overrideCursorHowOftenSet;
 
 
-	TouchHandler *touch;
+	TouchHandler *touchHandler;
+	MouseHandler *mouseHandler;
+	KeyHandler *keyHandler;
 
 
 private slots:
@@ -88,8 +88,6 @@ private slots:
 	void handleThumbnails(int centerPos);
 	void loadMoreThumbnails();
 	void didntLoadThisThumbnail(int pos);
-
-	void detectedKeyCombo(QString combo);
 
 	void showTrayIcon();
 	void hideTrayIcon();
@@ -109,10 +107,35 @@ private slots:
 	void setOverrideCursor() { ++overrideCursorHowOftenSet; qApp->setOverrideCursor(Qt::WaitCursor); }
 	void restoreOverrideCursor() { for(int i = 0; i < overrideCursorHowOftenSet; ++i) qApp->restoreOverrideCursor(); overrideCursorHowOftenSet = 0; }
 
-	void passOnTouchEvent(QPointF startPoint, QPointF endPoint, qint64 duration, int numFingers, QStringList gesture) {
-		QMetaObject::invokeMethod(object, "touchEvent", Q_ARG(QVariant, startPoint), Q_ARG(QVariant, endPoint), Q_ARG(QVariant, duration), Q_ARG(QVariant, numFingers), Q_ARG(QVariant, gesture));
+	void passOnKeyEvent(QString combo) {
+		QMetaObject::invokeMethod(object, "updateKeyCombo",
+					  Q_ARG(QVariant, combo));
+	}
+	void passOnFinishedKeyEvent(QString combo) {
+		QMetaObject::invokeMethod(object, "finishedKeyCombo",
+					  Q_ARG(QVariant, combo));
+	}
+
+	void passOnTouchEvent(QPointF startPoint, QPointF endPoint,
+						  qint64 duration, int numFingers, QStringList gesture) {
+		QMetaObject::invokeMethod(object, "touchEvent", Q_ARG(QVariant, startPoint),
+								  Q_ARG(QVariant, endPoint), Q_ARG(QVariant, duration),
+								  Q_ARG(QVariant, numFingers), Q_ARG(QVariant, gesture));
 	}
 	void setImageInteractiveMode(bool enabled) { QMetaObject::invokeMethod(object, "setImageInteractiveMode", Q_ARG(QVariant, enabled)); }
+
+
+	void passOnFinishedMouseEvent(QPoint start, QPoint end, qint64 duration,
+						  QString button, QStringList gesture, int wheelAngleDelta, QString modifiers) {
+		QMetaObject::invokeMethod(object, "finishedMouseEvent", Q_ARG(QVariant, start),
+								  Q_ARG(QVariant, end), Q_ARG(QVariant, duration),
+								  Q_ARG(QVariant, button), Q_ARG(QVariant, gesture),
+								  Q_ARG(QVariant, wheelAngleDelta), Q_ARG(QVariant, modifiers));
+	}
+	void passOnUpdatedMouseEvent(QString button, QStringList gesture, QString modifiers) {
+		QMetaObject::invokeMethod(object, "updatedMouseEvent",Q_ARG(QVariant, button), Q_ARG(QVariant, gesture),
+								  Q_ARG(QVariant, modifiers));
+	}
 
 	void loadStatus(QQuickView::Status status) {
 		if(status == QQuickView::Error)
@@ -130,10 +153,7 @@ private slots:
 
 protected:
 	bool event(QEvent *e);
-	void wheelEvent(QWheelEvent *e);
-	void mousePressEvent(QMouseEvent *e);
-	void mouseReleaseEvent(QMouseEvent *e);
-	void mouseMoveEvent(QMouseEvent *e);
+
 	void resizeEvent(QResizeEvent *e);
 
 signals:
