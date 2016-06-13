@@ -51,6 +51,9 @@ function gotFinishedMouseGesture(startPoint, endPoint, duration, button, gesture
 
 	// Execute shortcut IF one is set
 	if(combo in mouseshortcutfile)
-		execute(mouseshortcutfile[key][1],mouseshortcutfile[key][0],true)
+		execute(mouseshortcutfile[combo][1],mouseshortcutfile[combo][0],true)
+
+	// do something with combo
+	console.log(combo)
 
 }

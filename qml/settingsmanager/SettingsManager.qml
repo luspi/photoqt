@@ -364,7 +364,7 @@ Rectangle {
 	DetectGesture {
 
 		id: detectgesture
-		visible: true
+		visible: false
 
 	}
 

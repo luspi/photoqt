@@ -18,6 +18,7 @@ public:
 		detecting = false;
 		angleDelta = 0;
 		button = "";
+		numButtonClicked = 0;
 	}
 	~MouseHandler() {}
 
@@ -32,7 +33,14 @@ public:
 				&& e->type() != QEvent::MouseMove)
 			return;
 
-		if((e->type() == QEvent::MouseMove && !detecting) || (e->type() == QEvent::Wheel && detecting))
+		if(e->type() == QEvent::MouseButtonPress)
+			++numButtonClicked;
+		else if(e->type() == QEvent::MouseButtonRelease)
+			--numButtonClicked;
+
+		if((e->type() == QEvent::MouseMove && !detecting)
+				|| ((e->type() == QEvent::Wheel || e->type() == QEvent::MouseButtonDblClick) && detecting)
+				|| (e->type() == QEvent::MouseButtonRelease && numButtonClicked > 0))
 			return;
 
 		if(e->type() == QEvent::Wheel) {
@@ -70,6 +78,8 @@ private:
 	int angleDelta;
 
 	bool detecting;
+
+	int numButtonClicked;
 
 	void gestureStarted(QMouseEvent *e) {
 
@@ -171,7 +181,6 @@ private:
 		default:
 			button = "Unknown Button...?";
 		}
-
 
 	}
 
