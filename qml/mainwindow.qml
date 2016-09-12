@@ -265,11 +265,11 @@ Item {
 	function touchEvent(startPoint, endPoint, duration, numFingers, gesture) {
 		sh.gotTouchGesture(startPoint,endPoint,duration,numFingers,gesture)
 	}
-	function updatedMouseEvent(button, gesture, modifiers) {
-		shortcuts.gotUpdatedMouseGesture(button, gesture, modifiers);
+	function updatedMouseEvent(button, gesture, modifiers, touch) {
+		shortcuts.gotUpdatedMouseGesture(button, gesture, modifiers, touch);
 	}
-	function finishedMouseEvent(startPoint, endPoint, duration, button, gesture, wheelAngleDelta, modifiers) {
-		shortcuts.gotFinishedMouseGesture(startPoint, endPoint, duration, button, gesture, wheelAngleDelta, modifiers);
+	function finishedMouseEvent(startPoint, endPoint, duration, button, gesture, wheelAngleDelta, modifiers, touch) {
+		shortcuts.gotFinishedMouseGesture(startPoint, endPoint, duration, button, gesture, wheelAngleDelta, modifiers, touch);
 	}
 
 	function showStartup(type) { startup.showStartup(type); }

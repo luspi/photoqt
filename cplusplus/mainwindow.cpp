@@ -14,6 +14,7 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 	fileformats = new FileFormats(verbose);
 	variables = new Variables;
 	touchHandler = new TouchHandler;
+	touchEventInProgress = false;
 	mouseHandler = new MouseHandler;
 	keyHandler = new KeyHandler;
 
@@ -83,10 +84,10 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 			this, SLOT(passOnTouchEvent(QPointF,QPointF,qint64,int,QStringList)));
 	connect(touchHandler, SIGNAL(setImageInteractiveMode(bool)),
 			this, SLOT(setImageInteractiveMode(bool)));
-	connect(mouseHandler, SIGNAL(finishedMouseEvent(QPoint,QPoint,qint64,QString,QStringList,int,QString)),
-			this, SLOT(passOnFinishedMouseEvent(QPoint,QPoint,qint64,QString,QStringList,int,QString)));
-	connect(mouseHandler, SIGNAL(updatedMouseEvent(QString,QStringList,QString)),
-			this, SLOT(passOnUpdatedMouseEvent(QString,QStringList,QString)));
+	connect(mouseHandler, SIGNAL(finishedMouseEvent(QPoint,QPoint,qint64,QString,QStringList,int,QString,bool)),
+			this, SLOT(passOnFinishedMouseEvent(QPoint,QPoint,qint64,QString,QStringList,int,QString,bool)));
+	connect(mouseHandler, SIGNAL(updatedMouseEvent(QString,QStringList,QString,bool)),
+			this, SLOT(passOnUpdatedMouseEvent(QString,QStringList,QString,bool)));
 
 	showTrayIcon();
 
@@ -285,75 +286,10 @@ void MainWindow::didntLoadThisThumbnail(int pos) {
 	variables->loadedThumbnails.removeAt(variables->loadedThumbnails.indexOf(pos));
 }
 
-// Catch wheel events
-//void MainWindow::wheelEvent(QWheelEvent *e) {
-
-//	if(variables->verbose)
-//		LOG << CURDATE << "wheelEvent()" << NL;
-/*
-	if(e->angleDelta().y() < 0) {
-
-		if(!object->property("blocked").toBool()) {
-
-			// Wheel direction changed -> start counting at beginning
-			if(variables->wheelcounter >= 0 && settingsPermanent->mouseWheelSensitivity > 1) {
-				variables->wheelcounter = -1;
-				return;
-			// Same direction, but haven't reached counter yet
-			} else if(variables->wheelcounter*-1 < settingsPermanent->mouseWheelSensitivity-1 && settingsPermanent->mouseWheelSensitivity > 1) {
-				--variables->wheelcounter;
-				return;
-			}
-
-		}
-
-		// We got here? Great, so reset counter (i.e., next event starts at beginning again)
-		variables->wheelcounter = 0;
-
-		if(variables->verbose)
-			LOG << CURDATE << "wheelEvent(): Wheel down" << NL;
-
-//		QMetaObject::invokeMethod(object,"mouseWheelEvent",
-//								  Q_ARG(QVariant, "Wheel Down"));
-
-	} else if(e->angleDelta().y() > 0) {
-
-		if(!object->property("blocked").toBool()) {
-
-			// Wheel direction changed -> start counting at beginning
-			if(variables->wheelcounter <= 0 && settingsPermanent->mouseWheelSensitivity > 1) {
-				variables->wheelcounter = 1;
-				return;
-			// Same direction, but haven't reached counter yet
-			} else if(variables->wheelcounter < settingsPermanent->mouseWheelSensitivity-1 && settingsPermanent->mouseWheelSensitivity > 1) {
-				++variables->wheelcounter;
-				return;
-			}
-
-		}
-
-		// We got here? Great, so reset counter (i.e., next event starts at beginning again)
-		variables->wheelcounter = 0;
-
-		if(variables->verbose)
-			LOG << CURDATE << "wheelEvent(): Wheel up" << NL;
-
-//		QMetaObject::invokeMethod(object,"mouseWheelEvent",
-//								  Q_ARG(QVariant, "Wheel Up"));
-
-	}
-*/
-//	QQuickView::wheelEvent(e);
-
-//}
-
 bool MainWindow::event(QEvent *e) {
 
-	// detect shortcuts
-	keyHandler->handle(e);
-	mouseHandler->handle(e);
-	if(settingsPermanent->experimentalTouchscreenSupport)
-		touchHandler->handle(e);
+	if(!mouseHandler->handle(e))
+		keyHandler->handle(e);
 
 	// update local cursor position
 	if(e->type() == QEvent::MouseMove) {

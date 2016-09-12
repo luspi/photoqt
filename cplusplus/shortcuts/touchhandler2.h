@@ -1,60 +1,41 @@
-#ifndef TOUCHHANDLER_H
-#define TOUCHHANDLER_H
+#ifndef TOUCHHANDLER2_H
+#define TOUCHHANDLER2_H
 
 #include <QtDebug>
 #include <QTouchEvent>
 #include <QTime>
-#include <cmath>
-#include <QTimer>
 
-class TouchHandler : public QObject {
+class TouchHandler2 : public QObject {
 
 	Q_OBJECT
 
 public:
-	explicit TouchHandler(QObject *parent = 0) : QObject(parent) {
+	explicit TouchHandler2(QObject *parent = 0) : QObject(parent) {
 		touchPath.clear();
-		touchPathCenterPoints.clear();
-		touchPathAverageRadius.clear();
+		touchPathPts.clear();
 		threshold = 100;
 		numFingers = 0;
-		amDetecting = false;
 	}
-	~TouchHandler() {}
+	~TouchHandler2() {}
 
 	// Handle touch event -> call respective handler function
-	bool handle(QEvent *e) {
-		if(e->type() == QEvent::TouchBegin) {
-			amDetecting = true;
+	void handle(QEvent *e) {
+		if(e->type() == QEvent::TouchBegin)
 			touchStarted((QTouchEvent*)e);
-			return true;
-		} else if(e->type() == QEvent::TouchUpdate) {
+		else if(e->type() == QEvent::TouchUpdate)
 			touchUpdated((QTouchEvent*)e);
-			return true;
-		} else if(e->type() == QEvent::TouchEnd) {
+		else if(e->type() == QEvent::TouchEnd)
 			touchEnded((QTouchEvent*)e);
-//			amDetecting = false;
-			QTimer::singleShot(100, this, SLOT(setDetectingVarToFalse()));
-			return true;
-		}
-		return amDetecting;
 	}
-
-	bool amDetectingTouchScreenEvent() { return amDetecting; }
-
-private slots:
-	void setDetectingVarToFalse() { amDetecting = false; }
 
 private:
 
 	// Some variables handling the movement
 	QStringList touchPath;
-	QList<QPoint> touchPathCenterPoints;
-	QList<int> touchPathAverageRadius;
+	QList<QTouchEvent::TouchPoint> touchPathPts;
 	int threshold;
 	int numFingers;
 	qint64 startTime;
-	bool amDetecting;
 
 	// A touch has been started -> reset variables
 	void touchStarted(QTouchEvent *e) {
@@ -64,35 +45,18 @@ private:
 		// Reset variables
 		numFingers = e->touchPoints().count();
 		touchPath.clear();
-		touchPathCenterPoints.clear();
-		touchPathAverageRadius.clear();
+		touchPathPts.clear();
 
-		// Calculate average center point
-		qreal sum_x = 0;
-		qreal sum_y = 0;
-		bool passedFirst = false;
-		QPointF firstPt = e->touchPoints().first().pos();
-		double sum_radius = 0;
-		foreach(QTouchEvent::TouchPoint pt, e->touchPoints()) {
-			sum_x += pt.pos().x();
-			sum_y += pt.pos().y();
-			if(passedFirst)
-				sum_radius += std::sqrt(std::pow(pt.pos().x()-firstPt.x(),2) + std::pow(pt.pos().y()-firstPt.y(),2));
-			passedFirst = true;
-		}
-		int len = e->touchPoints().length();
-		touchPathCenterPoints.append(QPoint(sum_x/(double)len, sum_y/(double)len));
-		touchPathAverageRadius.append(len > 1 ? sum_radius/(double)(len-1) : 0);
+		// We only consider ONE finger and track its movement across
+		touchPathPts.append(e->touchPoints().first());
 
 		startTime = QDateTime::currentMSecsSinceEpoch();
-
-		qDebug() << "touch started:" << touchPathCenterPoints.last() << " - " <<touchPathAverageRadius.last();
 
 	}
 
 	// Update to touch
 	void touchUpdated(QTouchEvent *e) {
-/*
+
 		// Get current touch points
 		QList<QTouchEvent::TouchPoint> cur = e->touchPoints();
 
@@ -161,14 +125,14 @@ private:
 		// When releasing fingers, Qt might claim fewer fingers are used (as usually not all finger
 		// are released at EXACTLY the same time), so we stick to the largest value
 		numFingers = qMax(numFingers,cur.count());
-*/
+
 	}
 
 	// A gesture has been finished
 	void touchEnded(QTouchEvent *) {
-/*		emit setImageInteractiveMode(true);
+		emit setImageInteractiveMode(true);
 		qint64 endTime = QDateTime::currentMSecsSinceEpoch();
-		emit receivedTouchEvent(touchPathPts.first().pos(), touchPathPts.last().pos(), endTime-startTime, numFingers, touchPath);*/
+		emit receivedTouchEvent(touchPathPts.first().pos(), touchPathPts.last().pos(), endTime-startTime, numFingers, touchPath);
 	}
 
 signals:
@@ -177,4 +141,4 @@ signals:
 
 };
 
-#endif // TOUCHHANDLER_H
+#endif // TOUCHHANDLER2_H

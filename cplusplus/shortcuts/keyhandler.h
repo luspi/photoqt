@@ -15,12 +15,17 @@ public:
 		combo = "";
 	}
 
-	void handle(QEvent *e) {
+	bool handle(QEvent *e) {
 
-		if(e->type() == QEvent::KeyPress)
+		if(e->type() == QEvent::KeyPress) {
 			updateCombo((QKeyEvent*)e);
-		else if(e->type() == QEvent::KeyRelease)
+			return true;
+		} else if(e->type() == QEvent::KeyRelease) {
 			finishedCombo();
+			return true;
+		}
+
+		return false;
 
 	}
 

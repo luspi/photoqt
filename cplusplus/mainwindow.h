@@ -82,6 +82,8 @@ private:
 	MouseHandler *mouseHandler;
 	KeyHandler *keyHandler;
 
+	bool touchEventInProgress;
+
 
 private slots:
 
@@ -126,15 +128,16 @@ private slots:
 
 
 	void passOnFinishedMouseEvent(QPoint start, QPoint end, qint64 duration,
-						  QString button, QStringList gesture, int wheelAngleDelta, QString modifiers) {
-		QMetaObject::invokeMethod(object, "finishedMouseEvent", Q_ARG(QVariant, start),
-								  Q_ARG(QVariant, end), Q_ARG(QVariant, duration),
-								  Q_ARG(QVariant, button), Q_ARG(QVariant, gesture),
-								  Q_ARG(QVariant, wheelAngleDelta), Q_ARG(QVariant, modifiers));
+						  QString button, QStringList gesture, int wheelAngleDelta, QString modifiers, bool touch) {
+		if(!touchEventInProgress)
+			QMetaObject::invokeMethod(object, "finishedMouseEvent", Q_ARG(QVariant, start),
+									  Q_ARG(QVariant, end), Q_ARG(QVariant, duration),
+									  Q_ARG(QVariant, button), Q_ARG(QVariant, gesture),
+									  Q_ARG(QVariant, wheelAngleDelta), Q_ARG(QVariant, modifiers), Q_ARG(QVariant, touch));
 	}
-	void passOnUpdatedMouseEvent(QString button, QStringList gesture, QString modifiers) {
+	void passOnUpdatedMouseEvent(QString button, QStringList gesture, QString modifiers, bool touch) {
 		QMetaObject::invokeMethod(object, "updatedMouseEvent",Q_ARG(QVariant, button), Q_ARG(QVariant, gesture),
-								  Q_ARG(QVariant, modifiers));
+								  Q_ARG(QVariant, modifiers), Q_ARG(QVariant, touch));
 	}
 
 	void loadStatus(QQuickView::Status status) {

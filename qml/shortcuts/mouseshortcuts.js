@@ -1,5 +1,5 @@
 // An update to the gesture; not yet finished gesture!
-function gotUpdatedMouseGesture(button, gesture, modifiers) {
+function gotUpdatedMouseGesture(button, gesture, modifiers, touch) {
 
 	verboseMessage("Shortcuts::gotUpdatedMouseGesture()", button + " / " + gesture + " / " + modifiers)
 
@@ -11,7 +11,10 @@ function gotUpdatedMouseGesture(button, gesture, modifiers) {
 		combo = modifiers + "+";
 
 	// Set button
-	combo += button
+	if(touch)
+		combo += "TOUCH"
+	else
+		combo += button
 
 	// If there's a gesture, add to combo
 	if(gesture.length > 0)

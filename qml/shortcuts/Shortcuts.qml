@@ -22,11 +22,11 @@ Item {
 		mouseshortcutfile = getanddostuff.getMouseShortcuts()
 
 
-	function gotFinishedMouseGesture(startPoint, endPoint, duration, button, gesture, wheelAngleDelta, modifiers) {
-		Mouse.gotFinishedMouseGesture(startPoint, endPoint, duration, button, gesture, wheelAngleDelta, modifiers)
+	function gotFinishedMouseGesture(startPoint, endPoint, duration, button, gesture, wheelAngleDelta, modifiers,touch) {
+		Mouse.gotFinishedMouseGesture(startPoint, endPoint, duration, button, gesture, wheelAngleDelta, modifiers,touch)
 	}
-	function gotUpdatedMouseGesture(button, gesture, modifiers) {
-		Mouse.gotUpdatedMouseGesture(button, gesture, modifiers)
+	function gotUpdatedMouseGesture(button, gesture, modifiers,touch) {
+		Mouse.gotUpdatedMouseGesture(button, gesture, modifiers,touch)
 	}
 
 	function updateKeyCombo(combo) { Key.updateKeyCombo(combo) }

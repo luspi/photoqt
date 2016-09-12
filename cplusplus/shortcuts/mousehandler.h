@@ -19,31 +19,49 @@ public:
 		angleDelta = 0;
 		button = "";
 		numButtonClicked = 0;
+		timeOfLastGesture = 0;
+		touchgesture = false;
 	}
 	~MouseHandler() {}
 
 	// Handle touch event -> call respective handler function
-	void handle(QEvent *e) {
+	bool handle(QEvent *e) {
+
+		QEvent::Type type = e->type();
 
 		// Filter out right events
-		if(e->type() != QEvent::Wheel
-				&& e->type() != QEvent::MouseButtonPress
-				&& e->type() != QEvent::MouseButtonDblClick
-				&& e->type() != QEvent::MouseButtonRelease
-				&& e->type() != QEvent::MouseMove)
-			return;
+		if(type != QEvent::Wheel
+				&& type != QEvent::MouseButtonPress
+				&& type != QEvent::MouseButtonDblClick
+				&& type != QEvent::MouseButtonRelease
+				&& type != QEvent::MouseMove
+				&& type != QEvent::TouchEnd
+				&& type != QEvent::TouchUpdate
+				&& type != QEvent::TouchBegin)
+			return false;
 
-		if(e->type() == QEvent::MouseButtonPress)
+		if(type == QEvent::TouchEnd) {
+			type = QEvent::MouseButtonRelease;
+			touchgesture = true;
+		} else if(type == QEvent::TouchUpdate) {
+			touchgesture = true;
+			return true;
+		} else if(type == QEvent::TouchBegin) {
+			touchgesture = true;
+			return true;
+		} else if(!detecting)
+			touchgesture = false;
+
+		if(type == QEvent::MouseButtonPress)
 			++numButtonClicked;
-		else if(e->type() == QEvent::MouseButtonRelease)
+		else if(type == QEvent::MouseButtonRelease)
 			--numButtonClicked;
 
-		if((e->type() == QEvent::MouseMove && !detecting)
-				|| ((e->type() == QEvent::Wheel || e->type() == QEvent::MouseButtonDblClick) && detecting)
-				|| (e->type() == QEvent::MouseButtonRelease && numButtonClicked > 0))
-			return;
+		if((type == QEvent::MouseMove && !detecting)
+				|| (type == QEvent::MouseButtonRelease && numButtonClicked > 0))
+			return false;
 
-		if(e->type() == QEvent::Wheel) {
+		if(type == QEvent::Wheel) {
 			QWheelEvent *ev = (QWheelEvent*)e;
 			gesturePath.clear();
 			gesturePathPts.clear();
@@ -55,15 +73,17 @@ public:
 			else
 				button = "Wheel Down";
 			gestureEnded(e);
-			return;
+			return true;
 		}
 
 		if(!detecting)
 			gestureStarted((QMouseEvent*)e);
-		else if(e->type() == QEvent::MouseButtonRelease)
+		else if(type == QEvent::MouseButtonRelease || type == QEvent::TouchEnd)
 			gestureEnded(e);
 		else
 			gestureUpdated((QMouseEvent*)e);
+
+		return true;
 	}
 
 private:
@@ -81,7 +101,17 @@ private:
 
 	int numButtonClicked;
 
+	bool touchgesture;
+
+	qint64 timeOfLastGesture;
+
 	void gestureStarted(QMouseEvent *e) {
+
+		qint64 current = QDateTime::currentMSecsSinceEpoch();
+		if(abs(current-timeOfLastGesture) < 200)
+			return;
+
+		timeOfLastGesture = current;
 
 		detecting = true;
 
@@ -235,7 +265,7 @@ private:
 		if(upd)
 			gesturePathPts.append(e->pos());
 
-		updatedMouseEvent(button, gesturePath, KeyModifier::extract((QKeyEvent*)e));
+		updatedMouseEvent(button, gesturePath, KeyModifier::extract((QKeyEvent*)e), touchgesture);
 
 	}
 
@@ -253,7 +283,7 @@ private:
 	}
 
 signals:
-	void updatedMouseEvent(QString button, QStringList gesture, QString modifiers);
+	void updatedMouseEvent(QString button, QStringList gesture, QString modifiers, bool touch);
 	void finishedMouseEvent(QPoint start, QPoint end, qint64 duration, QString button, QStringList gesture, int wheelAngleDelta, QString modifiers);
 
 };
