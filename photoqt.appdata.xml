@@ -1,42 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright 2016 Lukas Spies <Lukas_at_photoqt.org> -->
 <component type="desktop">
-	<id>photoqt.desktop</id>
-	<metadata_license>CC0-1.0</metadata_license>
-	<project_license>GPL-2.0+</project_license>
-	<name>PhotoQt Image Viewer</name>
-	<summary>View and manage images</summary>
-	<description>
-	<p>
+  <id>photoqt.desktop</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0+</project_license>
+  <name>PhotoQt Image Viewer</name>
+  <summary>View and manage images</summary>
+  <description>
+    <p>
 		PhotoQt is a fast and simple, good looking, yet powerfull and highly
 		configureable image viewer.
 	</p>
-	<p>
+    <p>
 		It provides an uncluttered interface and can be extensively tweaked
 		to fit your needs perfectly. It is possible to set key or mouse shortcuts
 		for almost any one of the features, plus for any external script/command
 		you want to run.
 	</p>
-	<p>
+    <p>
 		The many features provided include: thumbnails, slideshow, zooming, rotating,
 		flipping, displaying metadata (selection of Exif and IPTC), set-as-wallpaper, simple
 		file management, scaling and more...
 	</p>
-	</description>
-	<screenshots>
-		<screenshot type="default">
-			<image>http://photoqt.org/screenshots/appdataxml1.jpg</image>
-			<caption>The main window showing PhotoQt in action</caption>
-		</screenshot>
-		<screenshot>
-			<image>http://photoqt.org/screenshots/appdataxml2.jpg</image>
-			<caption>Setting up of a Slideshow</caption>
-		</screenshot>
-		<screenshot>
-			<image>http://photoqt.org/screenshots/appdataxml3.jpg</image>
-			<caption>The shortcuts management (part of settings)</caption>
-		</screenshot>
-	</screenshots>
-	<url type="homepage">http://photoqt.org</url>
-	<update_contact>Lukas_at_photoqt.org</update_contact>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>http://photoqt.org/screenshots/appdataxml1.jpg</image>
+      <caption>The main window showing PhotoQt in action</caption>
+    </screenshot>
+    <screenshot>
+      <image>http://photoqt.org/screenshots/appdataxml2.jpg</image>
+      <caption>Setting up of a Slideshow</caption>
+    </screenshot>
+    <screenshot>
+      <image>http://photoqt.org/screenshots/appdataxml3.jpg</image>
+      <caption>The shortcuts management (part of settings)</caption>
+    </screenshot>
+  </screenshots>
+  <url type="homepage">http://photoqt.org</url>
+  <url type="translate">http://www.transifex.com/lukas91/photo</url>
+  <update_contact>Lukas_at_photoqt.org</update_contact>
+  <developer_name>Lukas Spies</developer_name>
+  <url type="bugtracker">https://gitlab.com/luspi/photoqt/issues</url>
+  <url type="donation">http://photoqt.org/about#donate</url>
+  <url type="help">https://gitlab.com/luspi/photoqt/issues</url>
+  <keywords>
+    <keyword>image</keyword>
+	<keyword>photo</keyword>
+	<keyword>viewing</keyword>
+	<keyword>slideshow</keyword>
+	<keyword>thumbnails</keyword>
+	<keyword>lightbox</keyword>
+	<keyword>picasa</keyword>
+  </keywords>
 </component>
