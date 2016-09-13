@@ -24,8 +24,6 @@ bool TouchHandler::handle(QEvent *e) {
 
 bool TouchHandler::touchStarted(QTouchEvent *e) {
 
-	qDebug() << "touch started";
-
 	// Reset variables
 	touchPath.clear();
 	touchPathPts.clear();
@@ -54,8 +52,6 @@ bool TouchHandler::touchUpdated(QTouchEvent *e) {
 	if(numFingers < e->touchPoints().count())
 		return touchStarted(e);
 
-	qDebug() << "touch updated";
-
 	for(unsigned int f = 0; f < e->touchPoints().count(); ++f) {
 
 		// Get current touch points
@@ -63,51 +59,42 @@ bool TouchHandler::touchUpdated(QTouchEvent *e) {
 
 		int dx = cur.pos().x()-touchPathPts.at(f).last().pos().x();
 		int dy = cur.pos().y()-touchPathPts.at(f).last().pos().y();
+		double distance = std::sqrt(std::pow(dx,2)+std::pow(dy,2));
 
-		// Each one has to be counted to fingers detected
-		// -> only if all fingers are still 'threshold' away
-		// from 'master' finger
-		bool detectedRight = false;
-		bool detectedLeft = false;
-		bool detectedUp = false;
-		bool detectedDown = false;
+		int angle = ((std::atan2(dy,dx)/M_PI)*180);
+		angle = (angle+360)%360;
 
-		if(dx > threshold)
-			detectedRight = true;
-		else if(dx < -threshold)
-			detectedLeft = true;
+		if(distance > threshold) {
 
-		if(dy > threshold)
-			detectedDown = true;
-		else if(dy < -threshold)
-			detectedUp = true;
+			bool upd = false;
 
-		bool upd = false;
+			// moved right
+			if(angle <= 45 || angle > 315) {
+				upd = true;
+				if(touchPath.at(f).length() == 0 || touchPath.at(f).last() != "E")
+					touchPath[f].append("E");
+			// moved up
+			} else if(angle > 45 && angle <= 135) {
+				upd = true;
+				if(touchPath.at(f).length() == 0 || touchPath.at(f).last() != "S")
+					touchPath[f].append("S");
+			// moved left
+			} else if(angle > 135 && angle <= 225) {
+				upd = true;
+				if(touchPath.at(f).length() == 0 || touchPath.at(f).last() != "W")
+					touchPath[f].append("W");
+			// moved down
+			} else if(angle > 225 && angle <= 315) {
+				upd = true;
+				if(touchPath.at(f).length() == 0 || touchPath.at(f).last() != "N")
+					touchPath[f].append("N");
+			}
 
-		if(detectedRight) {
-			upd = true;
-			if(touchPath.at(f).length() == 0 || touchPath.at(f).last() != "E")
-				touchPath[f].append("E");
+			// Store new touch point
+			if(upd)
+				touchPathPts[f].append(cur);
+
 		}
-		if(detectedLeft) {
-			upd = true;
-			if(touchPath.at(f).length() == 0 || touchPath.at(f).last() != "W")
-				touchPath[f].append("W");
-		}
-		if(detectedDown) {
-			upd = true;
-			if(touchPath.at(f).length() == 0 || touchPath.at(f).last() != "S")
-				touchPath[f].append("S");
-		}
-		if(detectedUp) {
-			upd = true;
-			if(touchPath.at(f).length() == 0 || touchPath.at(f).last() != "N")
-				touchPath[f].append("N");
-		}
-
-		// Store new touch point
-		if(upd)
-			touchPathPts[f].append(cur);
 
 	}
 
