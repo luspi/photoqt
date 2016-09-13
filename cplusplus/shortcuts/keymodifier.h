@@ -4,9 +4,8 @@
 #include "../logger.h"
 #include <QKeyEvent>
 
-class KeyModifier {
+namespace KeyModifier {
 
-public:
 	static QString extract(QKeyEvent *e) {
 
 		QStringList mods;
@@ -37,7 +36,7 @@ public:
 
 	}
 
-};
+}
 
 
 #endif // KEYMODIFIER_H

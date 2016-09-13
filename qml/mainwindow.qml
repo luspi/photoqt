@@ -79,6 +79,7 @@ Item {
 	// PURPOSE                                     //
 	/////////////////////////////////////////////////
 
+
 	// Access to the permanent settings file (~/.photoqt/settings)
 	Settings {
 		id: settings;
@@ -106,7 +107,6 @@ Item {
 	}
 	GetMetaData { id: getmetadata; }
 	ThumbnailManagement { id: thumbnailmanagement; }
-	Shortcuts { id: sh; }
 	ShortcutsNotifier { id: sh_notifier; }
 	Shortcuts { id: shortcuts; }
 
@@ -262,14 +262,14 @@ Item {
 	function finishedKeyCombo(combo) {  shortcuts.finishedKeyCombo(combo); }
 
 	function setImageInteractiveMode(enabled) { mainview.setInteractiveMode(enabled) }
-	function touchEvent(startPoint, endPoint, duration, numFingers, gesture) {
-		sh.gotTouchGesture(startPoint,endPoint,duration,numFingers,gesture)
+	function touchEvent(startPoint, endPoint, duration, gesture) {
+		shortcuts.gotTouchGesture(startPoint,endPoint,duration,1,gesture)
 	}
-	function updatedMouseEvent(button, gesture, modifiers, touch) {
-		shortcuts.gotUpdatedMouseGesture(button, gesture, modifiers, touch);
+	function updatedMouseEvent(button, gesture, modifiers) {
+		shortcuts.gotUpdatedMouseGesture(button, gesture, modifiers);
 	}
-	function finishedMouseEvent(startPoint, endPoint, duration, button, gesture, wheelAngleDelta, modifiers, touch) {
-		shortcuts.gotFinishedMouseGesture(startPoint, endPoint, duration, button, gesture, wheelAngleDelta, modifiers, touch);
+	function finishedMouseEvent(startPoint, endPoint, duration, button, gesture, wheelAngleDelta, modifiers) {
+		shortcuts.gotFinishedMouseGesture(startPoint, endPoint, duration, button, gesture, wheelAngleDelta, modifiers);
 	}
 
 	function showStartup(type) { startup.showStartup(type); }

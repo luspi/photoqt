@@ -119,25 +119,25 @@ private slots:
 	}
 
 	void passOnTouchEvent(QPointF startPoint, QPointF endPoint,
-						  qint64 duration, int numFingers, QStringList gesture) {
+						  qint64 duration, QStringList gesture) {
 		QMetaObject::invokeMethod(object, "touchEvent", Q_ARG(QVariant, startPoint),
 								  Q_ARG(QVariant, endPoint), Q_ARG(QVariant, duration),
-								  Q_ARG(QVariant, numFingers), Q_ARG(QVariant, gesture));
+								  Q_ARG(QVariant, gesture));
 	}
 	void setImageInteractiveMode(bool enabled) { QMetaObject::invokeMethod(object, "setImageInteractiveMode", Q_ARG(QVariant, enabled)); }
 
 
 	void passOnFinishedMouseEvent(QPoint start, QPoint end, qint64 duration,
-						  QString button, QStringList gesture, int wheelAngleDelta, QString modifiers, bool touch) {
+						  QString button, QStringList gesture, int wheelAngleDelta, QString modifiers) {
 		if(!touchEventInProgress)
 			QMetaObject::invokeMethod(object, "finishedMouseEvent", Q_ARG(QVariant, start),
 									  Q_ARG(QVariant, end), Q_ARG(QVariant, duration),
 									  Q_ARG(QVariant, button), Q_ARG(QVariant, gesture),
-									  Q_ARG(QVariant, wheelAngleDelta), Q_ARG(QVariant, modifiers), Q_ARG(QVariant, touch));
+									  Q_ARG(QVariant, wheelAngleDelta), Q_ARG(QVariant, modifiers));
 	}
-	void passOnUpdatedMouseEvent(QString button, QStringList gesture, QString modifiers, bool touch) {
+	void passOnUpdatedMouseEvent(QString button, QStringList gesture, QString modifiers) {
 		QMetaObject::invokeMethod(object, "updatedMouseEvent",Q_ARG(QVariant, button), Q_ARG(QVariant, gesture),
-								  Q_ARG(QVariant, modifiers), Q_ARG(QVariant, touch));
+								  Q_ARG(QVariant, modifiers));
 	}
 
 	void loadStatus(QQuickView::Status status) {

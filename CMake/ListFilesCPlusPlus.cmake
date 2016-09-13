@@ -21,8 +21,8 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/loadimage_qt.h ${d}/loadimage_gm.h $
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/errorimage.h)
 
 SET(d "cplusplus/shortcuts")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/shortcutsnotifier.h ${d}/keyhandler.h ${d}/touchhandler2.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/mousehandler.h ${d}/touchhandler.h ${d}/keymodifier.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/shortcutsnotifier.h ${d}/keyhandler.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/mousehandler.cpp ${d}/touchhandler.cpp ${d}/keymodifier.h)
 
 SET(d "cplusplus/scripts")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/getanddostuff.h ${d}/getmetadata.cpp ${d}/runprocess.h ${d}/thumbnailsmanagement.cpp)
@@ -65,7 +65,7 @@ SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/loadimage_qt.h ${d}/loadimage_gm.h $
 SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/errorimage.h)
 
 SET(d "cplusplus/shortcuts")
-SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/shortcutsnotifier.h ${d}/keyhandler.h ${d}/touchhandler2.h)
+SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/shortcutsnotifier.h ${d}/keyhandler.h)
 SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/touchhandler.h ${d}/mousehandler.h ${d}/keymodifier.h)
 
 SET(d "cplusplus/scripts")

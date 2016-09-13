@@ -80,14 +80,14 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 	// Pass on shortcuts events
 	connect(keyHandler, SIGNAL(receivedKeyEvent(QString)),
 			this, SLOT(passOnKeyEvent(QString)));
-	connect(touchHandler, SIGNAL(receivedTouchEvent(QPointF,QPointF,qint64,int,QStringList)),
-			this, SLOT(passOnTouchEvent(QPointF,QPointF,qint64,int,QStringList)));
+	connect(touchHandler, SIGNAL(receivedTouchEvent(QPointF,QPointF,qint64,QStringList)),
+			this, SLOT(passOnTouchEvent(QPointF,QPointF,qint64,QStringList)));
 	connect(touchHandler, SIGNAL(setImageInteractiveMode(bool)),
 			this, SLOT(setImageInteractiveMode(bool)));
-	connect(mouseHandler, SIGNAL(finishedMouseEvent(QPoint,QPoint,qint64,QString,QStringList,int,QString,bool)),
-			this, SLOT(passOnFinishedMouseEvent(QPoint,QPoint,qint64,QString,QStringList,int,QString,bool)));
-	connect(mouseHandler, SIGNAL(updatedMouseEvent(QString,QStringList,QString,bool)),
-			this, SLOT(passOnUpdatedMouseEvent(QString,QStringList,QString,bool)));
+	connect(mouseHandler, SIGNAL(finishedMouseEvent(QPoint,QPoint,qint64,QString,QStringList,int,QString)),
+			this, SLOT(passOnFinishedMouseEvent(QPoint,QPoint,qint64,QString,QStringList,int,QString)));
+	connect(mouseHandler, SIGNAL(updatedMouseEvent(QString,QStringList,QString)),
+			this, SLOT(passOnUpdatedMouseEvent(QString,QStringList,QString)));
 
 	showTrayIcon();
 
@@ -288,8 +288,11 @@ void MainWindow::didntLoadThisThumbnail(int pos) {
 
 bool MainWindow::event(QEvent *e) {
 
-	if(!mouseHandler->handle(e))
-		keyHandler->handle(e);
+	if(!touchHandler->handle(e) && !touchHandler->isTouchGestureDetecting())
+		if(!mouseHandler->handle(e) && !mouseHandler->isDetecting())
+			keyHandler->handle(e);
+	else
+		mouseHandler->abort();
 
 	// update local cursor position
 	if(e->type() == QEvent::MouseMove) {
