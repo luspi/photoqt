@@ -119,10 +119,12 @@ private slots:
 	}
 
 	void passOnTouchEvent(QPointF startPoint, QPointF endPoint,
-						  qint64 duration, QStringList gesture) {
+						  QString type, unsigned int numFingers,
+						  qint64 duration, QStringList path) {
 		QMetaObject::invokeMethod(object, "touchEvent", Q_ARG(QVariant, startPoint),
-								  Q_ARG(QVariant, endPoint), Q_ARG(QVariant, duration),
-								  Q_ARG(QVariant, gesture));
+								  Q_ARG(QVariant, endPoint), Q_ARG(QVariant, type),
+								  Q_ARG(QVariant, numFingers), Q_ARG(QVariant, duration),
+								  Q_ARG(QVariant, path));
 	}
 	void setImageInteractiveMode(bool enabled) { QMetaObject::invokeMethod(object, "setImageInteractiveMode", Q_ARG(QVariant, enabled)); }
 

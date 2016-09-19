@@ -29,17 +29,25 @@ private:
 	bool amDetecting;
 	int numFingers;
 
+	int gestureTimeoutMs;
+
+	QPointF gestureCenterPointStart;
+	QPointF gestureCenterPointEnd;
+
 	// A touch has been started -> reset variables
-	bool touchStarted(QTouchEvent *e);
+	void touchStarted(QTouchEvent *e);
 
 	// Update to touch
-	bool touchUpdated(QTouchEvent *e);
+	void touchUpdated(QTouchEvent *e);
 
 	// A gesture has been finished
-	bool touchEnded(QTouchEvent *);
+	void touchEnded(QTouchEvent *);
+
+	// A gesture has been cancelled
+	void touchCancelled();
 
 signals:
-	void receivedTouchEvent(QPointF start, QPointF end, qint64 duration, QStringList gesture);
+	void receivedTouchEvent(QPointF start, QPointF end, QString type, unsigned int numFingers, qint64 duration, QStringList path);
 	void setImageInteractiveMode(bool enabled);
 
 };

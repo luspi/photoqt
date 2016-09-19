@@ -262,9 +262,10 @@ Item {
 	function finishedKeyCombo(combo) {  shortcuts.finishedKeyCombo(combo); }
 
 	function setImageInteractiveMode(enabled) { mainview.setInteractiveMode(enabled) }
-	function touchEvent(startPoint, endPoint, duration, gesture) {
-		shortcuts.gotTouchGesture(startPoint,endPoint,duration,1,gesture)
+	function touchEvent(startPoint, endPoint, type, numFingers, duration, path) {
+		shortcuts.gotTouchGesture(startPoint, endPoint, type, numFingers,duration, path)
 	}
+
 	function updatedMouseEvent(button, gesture, modifiers) {
 		shortcuts.gotUpdatedMouseGesture(button, gesture, modifiers);
 	}
