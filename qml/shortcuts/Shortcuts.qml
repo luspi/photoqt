@@ -191,9 +191,33 @@ Item {
 
 	}
 
+	function gotTouchGestureUpdate(startPoint, endPoint, type, numFingers, duration, path) {
+
+		console.log("***********************************")
+		console.log("RECEIVED UPDATED TOUCH EVENT")
+		console.log("start point:",startPoint)
+		console.log("end point:",endPoint)
+		console.log("type:",type)
+		console.log("# fingers:", numFingers)
+		console.log("duration:",duration)
+		console.log("gesture path:",path)
+		console.log("***********************************")
+		console.log()
+
+	}
+
 	function gotTouchGesture(startPoint, endPoint, type, numFingers, duration, path) {
 
-		console.log(startPoint, endPoint, type, numFingers, duration, path)
+		console.log("***********************************")
+		console.log("RECEIVED FINISHED TOUCH EVENT")
+		console.log("start point:",startPoint)
+		console.log("end point:",endPoint)
+		console.log("type:",type)
+		console.log("# fingers:", numFingers)
+		console.log("duration:",duration)
+		console.log("gesture path:",path)
+		console.log("***********************************")
+		console.log()
 
 //		var dx = endPoint.x-startPoint.x
 //		var dy = endPoint.y-startPoint.y

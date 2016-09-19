@@ -46,7 +46,10 @@ private:
 	// A gesture has been cancelled
 	void touchCancelled();
 
+	QVariantList analyseGestureUpToNow();
+
 signals:
+	void updatedTouchEvent(QPointF start, QPointF end, QString type, unsigned int numFingers, qint64 duration, QStringList path);
 	void receivedTouchEvent(QPointF start, QPointF end, QString type, unsigned int numFingers, qint64 duration, QStringList path);
 	void setImageInteractiveMode(bool enabled);
 

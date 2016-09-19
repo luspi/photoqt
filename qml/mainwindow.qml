@@ -265,6 +265,9 @@ Item {
 	function touchEvent(startPoint, endPoint, type, numFingers, duration, path) {
 		shortcuts.gotTouchGesture(startPoint, endPoint, type, numFingers,duration, path)
 	}
+	function touchEventUpdate(startPoint, endPoint, type, numFingers, duration, path) {
+		shortcuts.gotTouchGestureUpdate(startPoint, endPoint, type, numFingers,duration, path)
+	}
 
 	function updatedMouseEvent(button, gesture, modifiers) {
 		shortcuts.gotUpdatedMouseGesture(button, gesture, modifiers);

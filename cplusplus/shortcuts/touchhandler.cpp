@@ -81,6 +81,9 @@ void TouchHandler::touchUpdated(QTouchEvent *e) {
 	else if(numFingers > e->touchPoints().count())
 		return;
 
+	// If the current gesture has been updated, we pass on an event to the interface
+	bool signalUpdateToTouchGesture = false;
+
 	// Loop over all touch points
 	for(unsigned int f = 0; f < e->touchPoints().count(); ++f) {
 
@@ -101,20 +104,28 @@ void TouchHandler::touchUpdated(QTouchEvent *e) {
 
 			// moved right
 			if(angle <= 45 || angle > 315) {
-				if(touchPath.at(f).length() == 0 || touchPath.at(f).last() != "E")
+				if(touchPath.at(f).length() == 0 || touchPath.at(f).last() != "E") {
 					touchPath[f].append("E");
+					signalUpdateToTouchGesture = true;
+				}
 			// moved up
 			} else if(angle > 45 && angle <= 135) {
-				if(touchPath.at(f).length() == 0 || touchPath.at(f).last() != "S")
+				if(touchPath.at(f).length() == 0 || touchPath.at(f).last() != "S") {
 					touchPath[f].append("S");
+					signalUpdateToTouchGesture = true;
+				}
 			// moved left
 			} else if(angle > 135 && angle <= 225) {
-				if(touchPath.at(f).length() == 0 || touchPath.at(f).last() != "W")
+				if(touchPath.at(f).length() == 0 || touchPath.at(f).last() != "W") {
 					touchPath[f].append("W");
+					signalUpdateToTouchGesture = true;
+				}
 			// moved down
 			} else if(angle > 225 && angle <= 315) {
-				if(touchPath.at(f).length() == 0 || touchPath.at(f).last() != "N")
+				if(touchPath.at(f).length() == 0 || touchPath.at(f).last() != "N") {
 					touchPath[f].append("N");
+					signalUpdateToTouchGesture = true;
+				}
 			}
 
 			// Store new touch point
@@ -123,6 +134,23 @@ void TouchHandler::touchUpdated(QTouchEvent *e) {
 		}
 
 	}
+
+	// no change -> we can stop here
+	if(!signalUpdateToTouchGesture) return;
+
+	// current time to calculate duration of gesture so far
+	qint64 curTime = QDateTime::currentMSecsSinceEpoch();
+
+	// Analyse the gesture up to now
+	QVariantList analysed = analyseGestureUpToNow();
+
+	// Emit the right signal values
+	if(analysed.at(0).toString() == "tap")
+		emit updatedTouchEvent(gestureCenterPointStart, gestureCenterPointEnd, "tap", numFingers, curTime-startTime, QStringList());
+	else if(analysed.at(0).toString() == "swipe")
+		emit updatedTouchEvent(gestureCenterPointStart, gestureCenterPointEnd, "swipe", numFingers, curTime-startTime, analysed.at(1).toStringList());
+	else if(analysed.at(0).toString().startsWith("pinch"))
+		emit updatedTouchEvent(gestureCenterPointStart, gestureCenterPointEnd, analysed.at(0).toString(), analysed.at(1).toInt(), curTime-startTime, QStringList());
 
 }
 
@@ -138,6 +166,44 @@ void TouchHandler::touchEnded(QTouchEvent *) {
 	// If the touch took too long -> do nothing
 	if(endTime-startTime > gestureTimeoutMs)
 		return;
+
+	// Analyse the final gesture
+	QVariantList analysed = analyseGestureUpToNow();
+
+	// Emit the right signal values
+	if(analysed.at(0).toString() == "tap")
+		emit receivedTouchEvent(gestureCenterPointStart, gestureCenterPointEnd, "tap", numFingers, endTime-startTime, QStringList());
+	else if(analysed.at(0).toString() == "swipe")
+		emit receivedTouchEvent(gestureCenterPointStart, gestureCenterPointEnd, "swipe", numFingers, endTime-startTime, analysed.at(1).toStringList());
+	else if(analysed.at(0).toString().startsWith("pinch"))
+		emit receivedTouchEvent(gestureCenterPointStart, gestureCenterPointEnd, analysed.at(0).toString(), analysed.at(1).toInt(), endTime-startTime, QStringList());
+
+}
+
+// Whenever a touch has been cancelled (seperate QEvent type)
+void TouchHandler::touchCancelled() {
+
+	// Reset all variables...
+
+	amDetecting = false;
+
+	touchPath.clear();
+	touchPathPts.clear();
+	numFingers = 0;
+
+	gestureCenterPointStart = QPointF();
+	gestureCenterPointEnd = QPointF();
+
+}
+
+// This function evaluates the current state of the gesture and returns a QVariantList out of the following five possibilities:
+// 1) ["tap"]
+// 2) ["swipe", path]
+// 3) ["pinchIN", pinchNumFingers]
+// 4) ["pinchOUT", pinchNumFingers]
+// 5) ["???"]
+// This function DOES NOT return any global variables (obviously)!
+QVariantList TouchHandler::analyseGestureUpToNow() {
 
 	// Calculate final center point of all touch points
 	double x = 0, y = 0;
@@ -156,12 +222,11 @@ void TouchHandler::touchEnded(QTouchEvent *) {
 	}
 
 	// if fingers haven't been moved -> TAP
-	if(maxlength == 0) {
-		emit receivedTouchEvent(gestureCenterPointStart, gestureCenterPointEnd, "tap", numFingers, endTime-startTime, QStringList());
-		return;
+	if(maxlength == 0)
+		return QVariantList() << "tap";
 
 	// If fingers have been moved -> further processing
-	} else if(minlength > 0) {
+	else if(minlength > 0) {
 
 		// first check if all fingers were moved along the same path
 		bool allAlongSamePath = true;
@@ -188,7 +253,7 @@ void TouchHandler::touchEnded(QTouchEvent *) {
 		// Confirmed: All along the same path
 		if(allAlongSamePath)
 
-			emit receivedTouchEvent(gestureCenterPointStart, gestureCenterPointEnd, "swipe", numFingers, endTime-startTime, combinedPath);
+			return QVariantList() << "swipe" << combinedPath;
 
 		// Check for 2/3/4 fingers pinch
 		else {
@@ -251,7 +316,7 @@ void TouchHandler::touchEnded(QTouchEvent *) {
 						type = "pinchIN";
 
 					// Yay, we successfully detected a pinch touch event!!
-					emit receivedTouchEvent(gestureCenterPointStart, gestureCenterPointEnd, type, pinchNumFingers, endTime-startTime, QStringList());
+					return QVariantList() << type << pinchNumFingers;
 
 				}
 
@@ -261,20 +326,7 @@ void TouchHandler::touchEnded(QTouchEvent *) {
 
 	}
 
-}
-
-// Whenever a touch has been cancelled (seperate QEvent type)
-void TouchHandler::touchCancelled() {
-
-	// Reset all variables...
-
-	amDetecting = false;
-
-	touchPath.clear();
-	touchPathPts.clear();
-	numFingers = 0;
-
-	gestureCenterPointStart = QPointF();
-	gestureCenterPointEnd = QPointF();
+	// Unable to understand touch event... What on earth did the user do??
+	return QVariantList() << "???";
 
 }

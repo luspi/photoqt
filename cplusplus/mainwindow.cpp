@@ -80,6 +80,8 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 	// Pass on shortcuts events
 	connect(keyHandler, SIGNAL(receivedKeyEvent(QString)),
 			this, SLOT(passOnKeyEvent(QString)));
+	connect(touchHandler, SIGNAL(updatedTouchEvent(QPointF,QPointF,QString,uint,qint64,QStringList)),
+			this, SLOT(passOnTouchEventUpdate(QPointF,QPointF,QString,uint,qint64,QStringList)));
 	connect(touchHandler, SIGNAL(receivedTouchEvent(QPointF,QPointF,QString,uint,qint64,QStringList)),
 			this, SLOT(passOnTouchEvent(QPointF,QPointF,QString,uint,qint64,QStringList)));
 	connect(touchHandler, SIGNAL(setImageInteractiveMode(bool)),

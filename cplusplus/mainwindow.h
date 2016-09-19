@@ -118,6 +118,15 @@ private slots:
 					  Q_ARG(QVariant, combo));
 	}
 
+	void passOnTouchEventUpdate(QPointF startPoint, QPointF endPoint,
+								QString type, unsigned int numFingers,
+								qint64 duration, QStringList path) {
+		QMetaObject::invokeMethod(object, "touchEventUpdate", Q_ARG(QVariant, startPoint),
+								  Q_ARG(QVariant, endPoint), Q_ARG(QVariant, type),
+								  Q_ARG(QVariant, numFingers), Q_ARG(QVariant, duration),
+								  Q_ARG(QVariant, path));
+	}
+
 	void passOnTouchEvent(QPointF startPoint, QPointF endPoint,
 						  QString type, unsigned int numFingers,
 						  qint64 duration, QStringList path) {
