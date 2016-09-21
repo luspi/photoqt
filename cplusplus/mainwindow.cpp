@@ -81,9 +81,9 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 	connect(keyHandler, SIGNAL(receivedKeyEvent(QString)),
 			this, SLOT(passOnKeyEvent(QString)));
 	connect(touchHandler, SIGNAL(updatedTouchEvent(QPointF,QPointF,QString,uint,qint64,QStringList)),
-			this, SLOT(passOnTouchEventUpdate(QPointF,QPointF,QString,uint,qint64,QStringList)));
+			this, SLOT(passOnUpdatedTouchEvent(QPointF,QPointF,QString,uint,qint64,QStringList)));
 	connect(touchHandler, SIGNAL(receivedTouchEvent(QPointF,QPointF,QString,uint,qint64,QStringList)),
-			this, SLOT(passOnTouchEvent(QPointF,QPointF,QString,uint,qint64,QStringList)));
+			this, SLOT(passOnFinishedTouchEvent(QPointF,QPointF,QString,uint,qint64,QStringList)));
 	connect(touchHandler, SIGNAL(setImageInteractiveMode(bool)),
 			this, SLOT(setImageInteractiveMode(bool)));
 	connect(mouseHandler, SIGNAL(finishedMouseEvent(QPoint,QPoint,qint64,QString,QStringList,int,QString)),
@@ -293,7 +293,7 @@ bool MainWindow::event(QEvent *e) {
 	if(!touchHandler->handle(e) && !touchHandler->isTouchGestureDetecting())
 		if(!mouseHandler->handle(e) && !mouseHandler->isDetecting())
 			keyHandler->handle(e);
-	else
+	else if(touchHandler->isTouchGestureDetecting())
 		mouseHandler->abort();
 
 	// update local cursor position

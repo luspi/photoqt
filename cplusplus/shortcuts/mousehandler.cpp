@@ -71,148 +71,62 @@ void MouseHandler::gestureStarted(QMouseEvent *e) {
 
 	startTime = QDateTime::currentMSecsSinceEpoch();
 
-	switch(e->button()) {
-
-	case Qt::RightButton:
-		button = "Right Button";
-		break;
-	case Qt::LeftButton:
-		button = "Left Button";
-		break;
-	case Qt::MiddleButton:
-		button = "Middle Button";
-		break;
-	case Qt::BackButton:
-		button = "Back Button";
-		break;
-	case Qt::ForwardButton:
-		button = "Forward Button";
-		break;
-	case Qt::TaskButton:
-		button = "Task Button";
-		break;
-	case Qt::ExtraButton4:
-		button = "Button #4";
-		break;
-	case Qt::ExtraButton5:
-		button = "Button #5";
-		break;
-	case Qt::ExtraButton6:
-		button = "Button #6";
-		break;
-	case Qt::ExtraButton7:
-		button = "Button #7";
-		break;
-	case Qt::ExtraButton8:
-		button = "Button #8";
-		break;
-	case Qt::ExtraButton9:
-		button = "Button #9";
-		break;
-	case Qt::ExtraButton10:
-		button = "Button #10";
-		break;
-	case Qt::ExtraButton11:
-		button = "Button #11";
-		break;
-	case Qt::ExtraButton12:
-		button = "Button #12";
-		break;
-	case Qt::ExtraButton13:
-		button = "Button #13";
-		break;
-	case Qt::ExtraButton14:
-		button = "Button #14";
-		break;
-	case Qt::ExtraButton15:
-		button = "Button #15";
-		break;
-	case Qt::ExtraButton16:
-		button = "Button #16";
-		break;
-	case Qt::ExtraButton17:
-		button = "Button #17";
-		break;
-	case Qt::ExtraButton18:
-		button = "Button #18";
-		break;
-	case Qt::ExtraButton19:
-		button = "Button #19";
-		break;
-	case Qt::ExtraButton20:
-		button = "Button #20";
-		break;
-	case Qt::ExtraButton21:
-		button = "Button #21";
-		break;
-	case Qt::ExtraButton22:
-		button = "Button #22";
-		break;
-	case Qt::ExtraButton23:
-		button = "Button #23";
-		break;
-	case Qt::ExtraButton24:
-		button = "Button #24";
-		break;
-
-	default:
-		button = "Unknown Button...?";
-	}
+	button = MouseButton::extract(e);
 
 }
 
 void MouseHandler::gestureUpdated(QMouseEvent *e) {
 
-	// Get current event point
+	// Calculate the distance moved since last event
 	int dx = e->pos().x()-gesturePathPts.last().x();
 	int dy = e->pos().y()-gesturePathPts.last().y();
+	double distance = std::sqrt(std::pow(dx,2)+std::pow(dy,2));
 
-	// Each one has to be counted to fingers detected
-	// -> only if all fingers are still 'threshold' away
-	// from 'master' finger
-	bool detectedRight = false;
-	bool detectedLeft = false;
-	bool detectedUp = false;
-	bool detectedDown = false;
+	// Get the angle of the current resulting mouse direction
+	int angle = ((std::atan2(dy,dx)/M_PI)*180);
+	angle = (angle+360)%360;
 
-	if(dx > threshold)
-		detectedRight = true;
-	else if(dx < -threshold)
-		detectedLeft = true;
+	bool movedAtLeastThresholdDistance = false;
+	bool signalUpdateToMouseGesture = false;
 
-	if(dy > threshold)
-		detectedDown = true;
-	else if(dy < -threshold)
-		detectedUp = true;
+	// If mouse was moved far enough
+	if(distance > threshold) {
 
-	bool upd = false;
+		// moved right
+		if(angle <= 45 || angle > 315) {
+			if(gesturePath.length() == 0 || gesturePath.last() != "E") {
+				gesturePath.append("E");
+				signalUpdateToMouseGesture = true;
+			}
+		// moved up
+		} else if(angle > 45 && angle <= 135) {
+			if(gesturePath.length() == 0 || gesturePath.last() != "S") {
+				gesturePath.append("S");
+				signalUpdateToMouseGesture = true;
+			}
+		// moved left
+		} else if(angle > 135 && angle <= 225) {
+			if(gesturePath.length() == 0 || gesturePath.last() != "W") {
+				gesturePath.append("W");
+				signalUpdateToMouseGesture = true;
+			}
+		// moved down
+		} else if(angle > 225 && angle <= 315) {
+			if(gesturePath.length() == 0 || gesturePath.last() != "N") {
+				gesturePath.append("N");
+				signalUpdateToMouseGesture = true;
+			}
+		}
 
-	if(detectedRight) {
-		upd = true;
-		if(gesturePath.length() == 0 || gesturePath.last() != "E")
-			gesturePath.append("E");
-	}
-	if(detectedLeft) {
-		upd = true;
-		if(gesturePath.length() == 0 || gesturePath.last() != "W")
-			gesturePath.append("W");
-	}
-	if(detectedDown) {
-		upd = true;
-		if(gesturePath.length() == 0 || gesturePath.last() != "S")
-			gesturePath.append("S");
-	}
-	if(detectedUp) {
-		upd = true;
-		if(gesturePath.length() == 0 || gesturePath.last() != "N")
-			gesturePath.append("N");
-	}
+		movedAtLeastThresholdDistance = true;
 
-	// Store new touch point
-	if(upd)
+		// Store new touch point
 		gesturePathPts.append(e->pos());
 
-	emit updatedMouseEvent(button, gesturePath, KeyModifier::extract((QKeyEvent*)e));
+	}
+
+	if(signalUpdateToMouseGesture || (movedAtLeastThresholdDistance && gesturePath.length() == 1))
+		emit updatedMouseEvent(button, gesturePath, KeyModifier::extract((QKeyEvent*)e));
 
 }
 

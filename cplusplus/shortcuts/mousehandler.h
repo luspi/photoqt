@@ -4,7 +4,9 @@
 #include <QtDebug>
 #include <QMouseEvent>
 #include <QTime>
+#include <cmath>
 #include "keymodifier.h"
+#include "mousebutton.h"
 
 class MouseHandler : public QObject {
 

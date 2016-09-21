@@ -4,5 +4,6 @@
 	<file>../qml/shortcuts/Shortcuts.qml</file>
 	<file>../qml/shortcuts/mouseshortcuts.js</file>
 	<file>../qml/shortcuts/keyshortcuts.js</file>
+	<file>../qml/shortcuts/touchshortcuts.js</file>
     </qresource>
 </RCC>

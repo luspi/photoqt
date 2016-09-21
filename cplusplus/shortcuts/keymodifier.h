@@ -1,7 +1,6 @@
 #ifndef KEYMODIFIER_H
 #define KEYMODIFIER_H
 
-#include "../logger.h"
 #include <QKeyEvent>
 
 namespace KeyModifier {

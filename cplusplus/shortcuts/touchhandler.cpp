@@ -84,6 +84,9 @@ void TouchHandler::touchUpdated(QTouchEvent *e) {
 	// If the current gesture has been updated, we pass on an event to the interface
 	bool signalUpdateToTouchGesture = false;
 
+	// If the fingers have been moved at least the threshold distance, we record that as during a pinch this will also signal an update
+	bool movedAtLeastThresholdDistance = false;
+
 	// Loop over all touch points
 	for(unsigned int f = 0; f < e->touchPoints().count(); ++f) {
 
@@ -128,6 +131,8 @@ void TouchHandler::touchUpdated(QTouchEvent *e) {
 				}
 			}
 
+			movedAtLeastThresholdDistance = true;
+
 			// Store new touch point
 			touchPathPts[f].append(cur);
 
@@ -135,22 +140,25 @@ void TouchHandler::touchUpdated(QTouchEvent *e) {
 
 	}
 
-	// no change -> we can stop here
-	if(!signalUpdateToTouchGesture) return;
-
-	// current time to calculate duration of gesture so far
-	qint64 curTime = QDateTime::currentMSecsSinceEpoch();
-
 	// Analyse the gesture up to now
 	QVariantList analysed = analyseGestureUpToNow();
 
-	// Emit the right signal values
-	if(analysed.at(0).toString() == "tap")
-		emit updatedTouchEvent(gestureCenterPointStart, gestureCenterPointEnd, "tap", numFingers, curTime-startTime, QStringList());
-	else if(analysed.at(0).toString() == "swipe")
-		emit updatedTouchEvent(gestureCenterPointStart, gestureCenterPointEnd, "swipe", numFingers, curTime-startTime, analysed.at(1).toStringList());
-	else if(analysed.at(0).toString().startsWith("pinch"))
-		emit updatedTouchEvent(gestureCenterPointStart, gestureCenterPointEnd, analysed.at(0).toString(), analysed.at(1).toInt(), curTime-startTime, QStringList());
+	if(signalUpdateToTouchGesture
+			|| (analysed.at(0).toString().startsWith("pinch") && movedAtLeastThresholdDistance)
+			|| (analysed.at(0).toString() == "swipe" && analysed.at(1).toString().length() == 1 && movedAtLeastThresholdDistance)) {
+
+		// current time to calculate duration of gesture so far
+		qint64 curTime = QDateTime::currentMSecsSinceEpoch();
+
+		// Emit the right signal values
+		if(analysed.at(0).toString() == "tap")
+			emit updatedTouchEvent(gestureCenterPointStart, gestureCenterPointEnd, "tap", numFingers, curTime-startTime, QStringList());
+		else if(analysed.at(0).toString() == "swipe")
+			emit updatedTouchEvent(gestureCenterPointStart, gestureCenterPointEnd, "swipe", numFingers, curTime-startTime, analysed.at(1).toStringList());
+		else if(analysed.at(0).toString().startsWith("pinch"))
+			emit updatedTouchEvent(gestureCenterPointStart, gestureCenterPointEnd, analysed.at(0).toString(), analysed.at(1).toInt(), curTime-startTime, QStringList());
+
+	}
 
 }
 

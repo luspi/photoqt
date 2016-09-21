@@ -20,7 +20,7 @@ function gotUpdatedMouseGesture(button, gesture, modifiers) {
 		combo += gesture[k]
 
 	// do something with combo
-//	console.log(combo)
+	console.log(combo)
 
 }
 

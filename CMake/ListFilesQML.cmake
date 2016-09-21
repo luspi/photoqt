@@ -61,4 +61,4 @@ SET(d "qml/globalstrings")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Keys.qml ${d}/Mouse.qml)
 
 SET(d "qml/shortcuts")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Shortcuts.qml ${d}/mouseshortcuts.js ${d}/keyshortcuts.js)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Shortcuts.qml ${d}/mouseshortcuts.js ${d}/keyshortcuts.js ${d}/touchshortcuts.js)
