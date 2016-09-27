@@ -24,14 +24,20 @@ bool MouseHandler::handle(QEvent *e) {
 			&& type != QEvent::MouseMove)
 		return false;
 
+	if(((type == QEvent::MouseButtonRelease) && numButtonClicked > 1)) {
+		--numButtonClicked;
+		return false;
+	}
+
+	if((type == QEvent::MouseMove) && (!detecting || numButtonClicked == 0))
+		return false;
+
+	qDebug() << numButtonClicked << "-" << type;
+
 	if(type == QEvent::MouseButtonPress)
 		++numButtonClicked;
 	else if(type == QEvent::MouseButtonRelease)
 		--numButtonClicked;
-
-	if(((type == QEvent::MouseMove) && !detecting)
-			|| ((type == QEvent::MouseButtonRelease) && numButtonClicked > 0))
-		return false;
 
 	if(type == QEvent::Wheel) {
 		QWheelEvent *ev = (QWheelEvent*)e;
@@ -126,7 +132,7 @@ void MouseHandler::gestureUpdated(QMouseEvent *e) {
 	}
 
 	if(signalUpdateToMouseGesture || (movedAtLeastThresholdDistance && gesturePath.length() == 1))
-		emit updatedMouseEvent(button, gesturePath, KeyModifier::extract((QKeyEvent*)e));
+		emit updatedMouseEvent(button, gesturePath, KeyModifier::extract(e));
 
 }
 
@@ -136,7 +142,7 @@ void MouseHandler::gestureEnded(QEvent *e) {
 
 	emit finishedMouseEvent(gesturePathPts.first(), gesturePathPts.last(),
 							endTime-startTime, button, gesturePath,
-							angleDelta, KeyModifier::extract((QKeyEvent*)e));
+							angleDelta, KeyModifier::extract(e));
 
 	detecting = false;
 	angleDelta = 0;
@@ -144,7 +150,10 @@ void MouseHandler::gestureEnded(QEvent *e) {
 }
 
 void MouseHandler::gestureCancelled() {
-	detecting = false;
-	gesturePathPts.clear();
 	gesturePath.clear();
+	gesturePathPts.clear();
+	detecting = false;
+	angleDelta = 0;
+	button = "";
+	numButtonClicked = 0;
 }

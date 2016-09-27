@@ -113,14 +113,11 @@ private slots:
 		QMetaObject::invokeMethod(object, "updateKeyCombo",
 					  Q_ARG(QVariant, combo));
 	}
-	void passOnFinishedKeyEvent(QString combo) {
-		QMetaObject::invokeMethod(object, "finishedKeyCombo",
-					  Q_ARG(QVariant, combo));
-	}
 
 	void passOnUpdatedTouchEvent(QPointF startPoint, QPointF endPoint,
-								QString type, unsigned int numFingers,
-								qint64 duration, QStringList path) {
+								 QString type, unsigned int numFingers,
+								 qint64 duration, QStringList path) {
+		mouseHandler->abort();
 		QMetaObject::invokeMethod(object, "updatedTouchEvent", Q_ARG(QVariant, startPoint),
 								  Q_ARG(QVariant, endPoint), Q_ARG(QVariant, type),
 								  Q_ARG(QVariant, numFingers), Q_ARG(QVariant, duration),
@@ -128,8 +125,9 @@ private slots:
 	}
 
 	void passOnFinishedTouchEvent(QPointF startPoint, QPointF endPoint,
-						  QString type, unsigned int numFingers,
-						  qint64 duration, QStringList path) {
+								  QString type, unsigned int numFingers,
+								  qint64 duration, QStringList path) {
+		mouseHandler->abort();
 		QMetaObject::invokeMethod(object, "finishedTouchEvent", Q_ARG(QVariant, startPoint),
 								  Q_ARG(QVariant, endPoint), Q_ARG(QVariant, type),
 								  Q_ARG(QVariant, numFingers), Q_ARG(QVariant, duration),

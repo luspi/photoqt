@@ -259,14 +259,13 @@ Item {
 	function isZoomed() { return mainview.isZoomed(); }
 
 	function updateKeyCombo(combo) { shortcuts.updateKeyCombo(combo); }
-	function finishedKeyCombo(combo) {  shortcuts.finishedKeyCombo(combo); }
 
 	function setImageInteractiveMode(enabled) { mainview.setInteractiveMode(enabled) }
 	function finishedTouchEvent(startPoint, endPoint, type, numFingers, duration, path) {
-		shortcuts.gotFinishedTouchGesture(startPoint, endPoint, type, numFingers,duration, path)
+		shortcuts.gotFinishedTouchGesture(startPoint, endPoint, type, numFingers, duration, path)
 	}
 	function updatedTouchEvent(startPoint, endPoint, type, numFingers, duration, path) {
-		shortcuts.gotUpdatedTouchGesture(startPoint, endPoint, type, numFingers,duration, path)
+		shortcuts.gotUpdatedTouchGesture(startPoint, endPoint, type, numFingers, duration, path)
 	}
 
 	function updatedMouseEvent(button, gesture, modifiers) {

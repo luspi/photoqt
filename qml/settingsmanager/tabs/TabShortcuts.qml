@@ -183,7 +183,8 @@ Rectangle {
 			CustomButton {
 				x: (parent.width-width)/2
 				text: qsTr("Set default shortcuts")
-				onClickedButton: confirmdefaultshortcuts.show()
+//				onClickedButton: confirmdefaultshortcuts.show()
+				onClickedButton: detectshortcut.show()
 			}
 
 			Rectangle { color: "transparent"; width: 1; height: 20; }
@@ -272,6 +273,7 @@ Rectangle {
 	}
 
 	function setData() {
+		return
 		var _shortcuts = getanddostuff.getShortcuts()
 		navigation.setData(_shortcuts)
 		image.setData(_shortcuts)

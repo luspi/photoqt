@@ -15,14 +15,12 @@ public:
 
 	bool handle(QEvent *e);
 	void updateCombo(QKeyEvent *e);
-	void finishedCombo();
 
 private:
 	QString combo;
 
 signals:
 	void receivedKeyEvent(QString combo);
-	void receivedFinishedCombo(QString combo);
 
 };
 

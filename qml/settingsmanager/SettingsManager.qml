@@ -49,6 +49,8 @@ Rectangle {
 
 		id: view
 
+		enabled: detectshortcut.opacity!=1
+
 		x: 0
 		y: 0
 		width: parent.width
@@ -361,18 +363,14 @@ Rectangle {
 		settingssession.setValue("settings_titlewidth",100)
 	}
 
-	DetectGesture {
-
-		id: detectgesture
-		visible: true
-
+	DetectShortcut {
+		id: detectshortcut
 	}
 
 	function showSettings() {
 		verboseMessage("Settings::showSettings()","Showing Settings...")
 		showSettingsAni.start()
 		updateDatabaseInfo()
-		detectgesture.show()
 	}
 	function hideSettings() {
 //		verboseMessage("Settings::hideSettings()",confirmclean.visible + "/" + confirmerase.visible + "/" + confirmdefaultshortcuts.visible + "/" + detectShortcut.visible + "/" + resetShortcut.visible)
@@ -386,6 +384,8 @@ Rectangle {
 			confirmdefaultssettings.hide()
 		else if(settingsmanagershortcuts.visible)
 			settingsmanagershortcuts.reject()
+		else if(detectshortcut.opacity == 1)
+			detectshortcut.hide()
 		else if(!wait_amDetectingANewShortcut)
 			hideSettingsAni.start()
 	}
@@ -455,12 +455,22 @@ Rectangle {
 		}
 	}
 
-	function setCurrentKeyCombo(combo) {
+	function updateKeyShortcut(combo) {
 		updateCurrentKeyCombo("")
 		updateCurrentKeyCombo(combo)
+		detectshortcut.updateKeyShortcut(combo)
 	}
-	function keysReleased() {
-		updateKeysReleased()
+	function updatedMouseGesture(button, gesture, modifiers) {
+		detectshortcut.updateMouseGesture(button, gesture, modifiers)
+	}
+	function finishedMouseGesture(button, gesture, modifiers) {
+		detectshortcut.finishedMouseGesture(button, gesture, modifiers)
+	}
+	function updateTouchGesture(fingers, type, path) {
+		detectshortcut.updateTouchGesture(fingers, type, path)
+	}
+	function finishedTouchGesture(fingers, type, path) {
+		detectshortcut.finishedTouchGesture(fingers, type, path)
 	}
 
 }

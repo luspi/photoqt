@@ -9,10 +9,8 @@ bool KeyHandler::handle(QEvent *e) {
 	if(e->type() == QEvent::KeyPress) {
 		updateCombo((QKeyEvent*)e);
 		return true;
-	} else if(e->type() == QEvent::KeyRelease) {
-		finishedCombo();
+	} else if(e->type() == QEvent::KeyRelease)
 		return true;
-	}
 
 	return false;
 
@@ -82,8 +80,4 @@ void KeyHandler::updateCombo(QKeyEvent *e) {
 
 	emit receivedKeyEvent(isvalid ? combo : "");
 
-}
-
-void KeyHandler::finishedCombo() {
-	emit receivedFinishedCombo(combo);
 }

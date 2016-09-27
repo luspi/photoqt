@@ -19,20 +19,8 @@ function updateKeyCombo(combo) {
 	}
 	keys = combo
 
-	settingsmanager.setCurrentKeyCombo(combo)
+	settingsmanager.updateKeyShortcut(combo)
 
-}
-
-// finished key combo -> important for shortcut manager in settings
-function finishedKeyCombo(combo) {
-
-	verboseMessage("Shortcuts::releasedKeys()", combo + " - " + softblocked)
-
-	settingsmanager.keysReleased();
-
-	if(softblocked != 0 && combo === "Escape")
-		softblocked = 0
-	keys = "";
 }
 
 // simulate a shortcut event

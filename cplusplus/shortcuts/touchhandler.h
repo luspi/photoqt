@@ -29,6 +29,8 @@ private:
 	bool amDetecting;
 	int numFingers;
 
+	bool touchFinished;
+
 	int gestureTimeoutMs;
 
 	QPointF gestureCenterPointStart;
@@ -47,6 +49,9 @@ private:
 	void touchCancelled();
 
 	QVariantList analyseGestureUpToNow();
+
+private slots:
+	void resetAmDetectingVariable();
 
 signals:
 	void updatedTouchEvent(QPointF start, QPointF end, QString type, unsigned int numFingers, qint64 duration, QStringList path);

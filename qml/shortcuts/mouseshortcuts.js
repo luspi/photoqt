@@ -19,8 +19,7 @@ function gotUpdatedMouseGesture(button, gesture, modifiers) {
 	for(var k in gesture)
 		combo += gesture[k]
 
-	// do something with combo
-	console.log(combo)
+	settingsmanager.updatedMouseGesture(button, gesture, modifiers)
 
 }
 
@@ -49,11 +48,13 @@ function gotFinishedMouseGesture(startPoint, endPoint, duration, button, gesture
 	for(var k in gesture)
 		combo += gesture[k]
 
-	// Execute shortcut IF one is set
-	if(combo in mouseshortcutfile)
-		execute(mouseshortcutfile[combo][1],mouseshortcutfile[combo][0],true)
+	if(!blockedSystem) {
+		if(blocked) {
+			checkForSystemShortcut(combo)
+		} else if(combo in mouseshortcutfile)
+			execute(mouseshortcutfile[combo][1],mouseshortcutfile[combo][0],true)
+	}
 
-	// do something with combo
-	console.log(combo)
+	settingsmanager.finishedMouseGesture(button, gesture, modifiers)
 
 }

@@ -291,10 +291,8 @@ void MainWindow::didntLoadThisThumbnail(int pos) {
 bool MainWindow::event(QEvent *e) {
 
 	if(!touchHandler->handle(e) && !touchHandler->isTouchGestureDetecting())
-		if(!mouseHandler->handle(e) && !mouseHandler->isDetecting())
+		if(!mouseHandler->handle(e))
 			keyHandler->handle(e);
-	else if(touchHandler->isTouchGestureDetecting())
-		mouseHandler->abort();
 
 	// update local cursor position
 	if(e->type() == QEvent::MouseMove) {

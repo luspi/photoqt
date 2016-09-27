@@ -4,6 +4,7 @@ TouchHandler::TouchHandler(QObject *parent) : QObject(parent) {
 	touchPath.clear();
 	threshold = 50;
 	amDetecting = false;
+	touchFinished = false;
 	numFingers = 0;
 	gestureTimeoutMs = 5000;
 }
@@ -156,7 +157,7 @@ void TouchHandler::touchUpdated(QTouchEvent *e) {
 		else if(analysed.at(0).toString() == "swipe")
 			emit updatedTouchEvent(gestureCenterPointStart, gestureCenterPointEnd, "swipe", numFingers, curTime-startTime, analysed.at(1).toStringList());
 		else if(analysed.at(0).toString().startsWith("pinch"))
-			emit updatedTouchEvent(gestureCenterPointStart, gestureCenterPointEnd, analysed.at(0).toString(), analysed.at(1).toInt(), curTime-startTime, QStringList());
+			emit updatedTouchEvent(gestureCenterPointStart, gestureCenterPointEnd, analysed.at(0).toString(), numFingers, curTime-startTime, QStringList());
 
 	}
 
@@ -165,8 +166,9 @@ void TouchHandler::touchUpdated(QTouchEvent *e) {
 // A gesture has been finished
 void TouchHandler::touchEnded(QTouchEvent *) {
 
-	amDetecting = false;
 	emit setImageInteractiveMode(true);
+
+	amDetecting = false;
 
 	// current time to calculate duration of gesture
 	qint64 endTime = QDateTime::currentMSecsSinceEpoch();
@@ -184,7 +186,7 @@ void TouchHandler::touchEnded(QTouchEvent *) {
 	else if(analysed.at(0).toString() == "swipe")
 		emit receivedTouchEvent(gestureCenterPointStart, gestureCenterPointEnd, "swipe", numFingers, endTime-startTime, analysed.at(1).toStringList());
 	else if(analysed.at(0).toString().startsWith("pinch"))
-		emit receivedTouchEvent(gestureCenterPointStart, gestureCenterPointEnd, analysed.at(0).toString(), analysed.at(1).toInt(), endTime-startTime, QStringList());
+		emit receivedTouchEvent(gestureCenterPointStart, gestureCenterPointEnd, analysed.at(0).toString(), numFingers, endTime-startTime, QStringList());
 
 }
 
@@ -337,4 +339,8 @@ QVariantList TouchHandler::analyseGestureUpToNow() {
 	// Unable to understand touch event... What on earth did the user do??
 	return QVariantList() << "???";
 
+}
+
+void TouchHandler::resetAmDetectingVariable() {
+	amDetecting = false;
 }

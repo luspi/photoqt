@@ -38,9 +38,6 @@ Item {
 	function updateKeyCombo(combo) {
 		Key.updateKeyCombo(combo)
 	}
-	function finishedKeyCombo(combo) {
-		Key.finishedKeyCombo(combo)
-	}
 	function simulateShortcut(keys) {
 		Key.simulateShortcut(keys)
 	}

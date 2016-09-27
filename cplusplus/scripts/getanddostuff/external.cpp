@@ -16,9 +16,11 @@ void GetAndDoStuffExternal::executeApp(QString exec, QString fname) {
 	exec = exec.replace("%u", "\"" + QFileInfo(fname).fileName() + "\"");
 	exec = exec.replace("%d", "\"" + QFileInfo(fname).absoluteDir().absolutePath() + "\"");
 
-	p->start(exec);
+	p->startDetached(exec);
 	if(p->error() == 5)
 		p->waitForStarted(2000);
+
+	delete p;
 
 }
 
