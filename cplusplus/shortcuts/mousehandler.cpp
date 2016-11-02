@@ -32,8 +32,6 @@ bool MouseHandler::handle(QEvent *e) {
 	if((type == QEvent::MouseMove) && (!detecting || numButtonClicked == 0))
 		return false;
 
-	qDebug() << numButtonClicked << "-" << type;
-
 	if(type == QEvent::MouseButtonPress)
 		++numButtonClicked;
 	else if(type == QEvent::MouseButtonRelease)

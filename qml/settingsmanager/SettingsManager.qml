@@ -28,14 +28,14 @@ Rectangle {
 	signal eraseDatabase()
 	signal updateDatabaseInfo()
 
-	signal updateCurrentKeyCombo(var combo)
-	signal updateKeysReleased()
+//	signal updateCurrentKeyCombo(var combo)
+//	signal updateKeysReleased()
 
 	// tell TabShortcuts to load set of default shortcuts
-	signal shortcutsLoadDefaults()
+//	signal shortcutsLoadDefaults()
 
 	// If this one is non-zero, then there is a problem with the shortcuts
-	property var usedUpKeyCombos: ({})
+//	property var usedUpKeyCombos: ({})
 
 	MouseArea {
 		anchors.fill: parent
@@ -43,7 +43,7 @@ Rectangle {
 	}
 
 	// Don't close settings manager while a new key combo is being detected
-	property bool wait_amDetectingANewShortcut: false
+//	property bool wait_amDetectingANewShortcut: false
 
 	CustomTabView {
 
@@ -159,8 +159,6 @@ Rectangle {
 			title: qsTr("Shortcuts")
 
 			TabShortcuts {
-				onAmDetectingANewShortcutChanged:
-					settings_top.wait_amDetectingANewShortcut = amDetectingANewShortcut
 				Connections {
 					target: settings_top
 					onSetData: {
@@ -169,20 +167,26 @@ Rectangle {
 					onSaveData: {
 						saveData()
 					}
-					onUpdateCurrentKeyCombo: {
-						currentKeyCombo = combo
-					}
-					onUpdateKeysReleased: {
-						keysReleased = true
-					}
-					onShortcutsLoadDefaults:
-						loadDefault()
+//					onUpdateCurrentKeyCombo: {
+//						currentKeyCombo = combo
+//					}
+//					onUpdateKeysReleased: {
+//						keysReleased = true
+//					}
+//					onShortcutsLoadDefaults:
+//						loadDefault()
 				}
+//				Connections {
+//					target: detectshortcut
+//					onSuccess: {
+//						updateShortcut(cat, args)
+//					}
+//				}
+
 				Component.onCompleted: {
 					setData()
 				}
 			}
-
 		}
 
 	}
@@ -386,7 +390,7 @@ Rectangle {
 			settingsmanagershortcuts.reject()
 		else if(detectshortcut.opacity == 1)
 			detectshortcut.hide()
-		else if(!wait_amDetectingANewShortcut)
+		else /*if(!wait_amDetectingANewShortcut)*/
 			hideSettingsAni.start()
 	}
 
@@ -440,24 +444,24 @@ Rectangle {
 
 	function saveSettings() {
 
-		var valid = true
-		for(var k in usedUpKeyCombos)
-			if(usedUpKeyCombos[k] > 1) {
-				valid = false
-				break;
-			}
+//		var valid = true
+//		for(var k in usedUpKeyCombos)
+//			if(usedUpKeyCombos[k] > 1) {
+//				valid = false
+//				break;
+//			}
 
-		if(!valid)
-			invalidshortcuts.show()
-		else {
+//		if(!valid)
+//			invalidshortcuts.show()
+//		else {
 			saveData();
 			hideSettings();
-		}
+//		}
 	}
 
 	function updateKeyShortcut(combo) {
-		updateCurrentKeyCombo("")
-		updateCurrentKeyCombo(combo)
+//		updateCurrentKeyCombo("")
+//		updateCurrentKeyCombo(combo)
 		detectshortcut.updateKeyShortcut(combo)
 	}
 	function updatedMouseGesture(button, gesture, modifiers) {

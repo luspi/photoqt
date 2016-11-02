@@ -28,6 +28,9 @@ Rectangle {
 	signal success(var cat, var args)
 	signal cancel()
 
+	property var checkAllShortcuts: ({})
+	signal takenShortcutsUpdated()
+
 	// Animate element by controlling opacity
 	Behavior on opacity { NumberAnimation { duration: 300; } }
 	onOpacityChanged: {
@@ -327,7 +330,11 @@ Rectangle {
 				x: 30
 				y: (parent.height-height)/2
 				fontsize: 15
-				onClickedButton: hide()
+				onClickedButton: {
+					countdowntimer.stop()
+					countdownlabel.text = "0"
+					checkResult()
+				}
 			}
 
 			// Seperator
@@ -393,21 +400,7 @@ Rectangle {
 					repeat: true
 					onTriggered: {
 						countdownlabel.text = countdownlabel.text*1-1
-						if(countdownlabel.text == "0") {
-							hide()
-							if(successful) {
-								if(category == "touch")
-									success("touch", [touch_fingers,touch_action,touch_path])
-								else if(category == "mouse")
-									success("mouse",[mouse_mods,mouse_button,mouse_path])
-								else if(category == "key")
-									success("key",[key_combo])
-								else
-									cancel()
-							} else
-								cancel()
-
-						}
+						checkResult()
 					}
 				}
 
@@ -418,6 +411,24 @@ Rectangle {
 			}
 		}
 
+	}
+
+	function checkResult() {
+		if(countdownlabel.text == "0") {
+			hide()
+			if(successful) {
+				if(category == "touch")
+					success("touch", [touch_fingers,touch_action,touch_path])
+				else if(category == "mouse")
+					success("mouse",[mouse_mods,mouse_button,mouse_path])
+				else if(category == "key")
+					success("key",[key_combo])
+				else
+					cancel()
+			} else
+				cancel()
+
+		}
 	}
 
 	// Show element
@@ -434,6 +445,7 @@ Rectangle {
 	// Reset interface and show empty message
 	function resetInterface() {
 		switchTo("empty")
+		successful = false
 		countdown.reset()
 	}
 
@@ -459,6 +471,8 @@ Rectangle {
 		info_mouse_button.text = button
 		info_mouse_modifier.text = (modifiers == "" ? "-" : modifiers)
 		info_mouse_path.text = (gesture.length == 0 ? "-" : gesture.join(" - "))
+
+		successful = false
 
 		mouse_mods = modifiers
 		mouse_button = button
@@ -497,6 +511,8 @@ Rectangle {
 		info_touch_action.text = (type === "pinchIN" ? "pinch inwards" : (type === "pinchOUT" ? "pinch outwards" : type))
 		info_touch_path.text = (path.length == 0 ? "-" : path.join(" - "))
 
+		successful = false
+
 		touch_fingers = fingers
 		touch_action = type
 		touch_path = path
@@ -534,9 +550,46 @@ Rectangle {
 		if(combo !== "" && combo.slice(-1) !== "+") {
 			successful = true
 			countdownlabel.text = "1"
-		} else
+		} else {
+			successful = false
 			countdown.reset()
+		}
 
+	}
+
+
+	function setTakenShortcuts(key_shortcuts, mouse_shortcuts, _touch_shortcuts) {
+
+		checkAllShortcuts = {}
+
+		for(var i in key_shortcuts)
+			checkAllShortcuts[i] = 1
+		for(var j in mouse_shortcuts)
+			checkAllShortcuts[j] = 1
+		for(var k in _touch_shortcuts)
+			checkAllShortcuts[k] = 1
+
+	}
+
+	function updateTakenShortcut(old_shortcut, new_shortcut) {
+
+		checkAllShortcuts[old_shortcut] -= 1;
+
+		if(new_shortcut != "") {
+
+			if(new_shortcut in checkAllShortcuts)
+				checkAllShortcuts[new_shortcut] += 1;
+			else
+				checkAllShortcuts[new_shortcut] = 1;
+
+		}
+
+		takenShortcutsUpdated()
+
+	}
+
+	function checkIfShortcutTaken(sh) {
+		return checkAllShortcuts[sh]*1 !== 1
 	}
 
 }

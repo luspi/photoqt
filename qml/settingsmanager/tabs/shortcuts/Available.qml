@@ -16,7 +16,7 @@ Rectangle {
 	clip: true
 
 	// A new shortcut is to be added
-	signal addShortcut(var shortcut, var keyormouse)
+	signal addShortcut(var shortcut)
 
 	GridView {
 
@@ -34,13 +34,19 @@ Rectangle {
 
 		delegate: Rectangle {
 
+			id: deleg_top
+
 			x: 3
 			y: 3
 			width: grid.cellWidth-6
 			height: grid.cellHeight-6
 
-			color: "transparent"
-			radius: 3
+			radius: 8
+
+			// Color changes when hovered
+			property bool hovered: false
+			color: hovered ? colour.tiles_inactive : colour.tiles_disabled
+			Behavior on color { ColorAnimation { duration: 150; } }
 
 
 			Rectangle {
@@ -50,12 +56,7 @@ Rectangle {
 				width: parent.width/2
 				height: parent.height
 
-				// Color changes when hovered
-				property bool hovered: false
-				color: hovered ? colour.tiles_inactive : colour.tiles_disabled
-				Behavior on color { ColorAnimation { duration: 150; } }
-
-				radius: 4
+				color: "transparent"
 
 				// Which shortcut this is
 				Text {
@@ -65,27 +66,6 @@ Rectangle {
 					anchors.leftMargin: 4
 					color: colour.tiles_text_active
 					text: shortcuts[index][1]
-
-				}
-
-				// When hovered, change color of this element AND of 'key' button
-				// A click adds a new shortcut
-				MouseArea {
-
-					anchors.fill: parent
-					hoverEnabled: true
-					cursorShape: Qt.PointingHandCursor
-
-					onEntered: {
-						sh_title.hovered = true
-						keybutton.hovered = true
-					}
-					onExited: {
-						sh_title.hovered = false
-						keybutton.hovered = false
-					}
-					onClicked:
-						addShortcut(shortcuts[index][0], "key")
 
 				}
 
@@ -101,38 +81,31 @@ Rectangle {
 
 				color: "transparent"
 
-				Row {
-
-					spacing: 4
-
-					CustomButton {
-
-						id: keybutton
-
-						width: parent.parent.width/2-2
-						height: parent.parent.height
-
-						text: qsTr("Key")
-
-						onHoveredChanged:
-							sh_title.hovered = hovered
-						onClickedButton:
-							addShortcut(shortcuts[index][0], "key")
-
-					}
-					CustomButton {
-
-						width: parent.parent.width/2-2
-						height: parent.parent.height
-
-						text: qsTr("Mouse")
-
-						onClickedButton:
-							addShortcut(shortcuts[index][0], "mouse")
-
-					}
-
+				Text {
+					anchors.fill: parent
+					anchors.margins: 2
+					anchors.leftMargin: 4
+					horizontalAlignment: Text.AlignHCenter
+					color: "grey"
+					text: "Click to add shortcut"
 				}
+
+			}
+
+			// When hovered, change color of this element AND of 'key' button
+			// A click adds a new shortcut
+			MouseArea {
+
+				anchors.fill: parent
+				hoverEnabled: true
+				cursorShape: Qt.PointingHandCursor
+
+				onEntered:
+					deleg_top.hovered = true
+				onExited:
+					deleg_top.hovered = false
+				onClicked:
+					set.addShortcut(shortcuts[index])
 
 			}
 

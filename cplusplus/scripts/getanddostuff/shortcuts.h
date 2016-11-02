@@ -23,9 +23,12 @@ public:
 
 	QVariantMap getKeyShortcuts();
 	QVariantMap getMouseShortcuts();
+	QVariantMap getTouchShortcuts();
+	QVariantMap getAllShortcuts();
 	void saveKeyShortcuts(QVariantMap l);
 	QVariantMap getDefaultKeyShortcuts();
 	QVariantMap getDefaultMouseShortcuts();
+	QVariantMap getDefaultTouchShortcuts();
 	QString getKeyShortcutFile();
 	QString filterOutShortcutCommand(QString combo, QString file);
 

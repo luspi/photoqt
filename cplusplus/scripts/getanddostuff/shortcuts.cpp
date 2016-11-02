@@ -107,6 +107,49 @@ QVariantMap GetAndDoStuffShortcuts::getMouseShortcuts() {
 
 }
 
+QVariantMap GetAndDoStuffShortcuts::getTouchShortcuts() {
+
+	QVariantMap ret;
+
+	QFile file(CFG_TOUCH_SHORTCUTS_FILE);
+
+	if(!file.exists()) {
+		// Set-up Map of default shortcuts;
+		LOG << CURDATE << "GetAndDoStuff::TouchShortcuts: INFO: Using default touch shortcuts set" << NL;
+		return getDefaultTouchShortcuts();
+	}
+
+	if(!file.open(QIODevice::ReadOnly)) {
+		LOG << CURDATE << "GetAndDoStuff::TouchShortcuts: ERROR: failed to read touch shortcuts file" << NL;
+		return QVariantMap();
+	}
+
+	QTextStream in(&file);
+	QStringList all = in.readAll().split("\n");
+	foreach(QString line, all) {
+		if(line.startsWith("Version") || line.trimmed() == "") continue;
+		QStringList parts = line.split("::");
+		if(parts.length() != 5) {
+			LOG << CURDATE << "GetAndDoStuff::TouchShortcuts: ERROR: invalid touch shortcuts data: " << line.toStdString() << NL;
+			continue;
+		}
+
+		ret.insert(QString("%1::%2::%3").arg(parts[1]).arg(parts[2]).arg(parts[3]),QStringList() << parts[0] << parts[4]);
+
+	}
+
+	return ret;
+
+}
+
+QVariantMap GetAndDoStuffShortcuts::getAllShortcuts() {
+
+	QVariantMap ret;
+
+//	ret.co
+
+}
+
 QVariantMap GetAndDoStuffShortcuts::getDefaultKeyShortcuts() {
 
 	QVariantMap ret;
@@ -162,9 +205,17 @@ QVariantMap GetAndDoStuffShortcuts::getDefaultKeyShortcuts() {
 
 QVariantMap GetAndDoStuffShortcuts::getDefaultMouseShortcuts() {
 	QVariantMap ret;
-	ret.insert("Ctrl-Wheel Down",QStringList() << "0" << "__zoomIn");
-	ret.insert("Ctrl-Wheel Up",QStringList() << "0" << "__zoomOut");
-	ret.insert("Ctrl-Middle Button",QStringList() << "0" << "__zoomReset");
+	ret.insert("Ctrl+Wheel Down",QStringList() << "0" << "__zoomIn");
+	ret.insert("Ctrl+Wheel Up",QStringList() << "0" << "__zoomOut");
+	ret.insert("Ctrl+Middle Button",QStringList() << "0" << "__zoomReset");
+	ret.insert("Right Button+SES",QStringList() << "0" << "__zoomReset");
+}
+
+QVariantMap GetAndDoStuffShortcuts::getDefaultTouchShortcuts() {
+	QVariantMap ret;
+	ret.insert("2::swipe::E", QStringList() << "0" << "__next");
+	ret.insert("2::swipe::W", QStringList() << "0" << "__prev");
+	return ret;
 }
 
 void GetAndDoStuffShortcuts::saveKeyShortcuts(QVariantMap l) {

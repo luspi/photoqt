@@ -97,9 +97,11 @@ public:
 	// SHORTCUTS
 	Q_INVOKABLE QVariantMap getKeyShortcuts() { return shortcuts->getKeyShortcuts(); }
 	Q_INVOKABLE QVariantMap getMouseShortcuts() { return shortcuts->getMouseShortcuts(); }
+	Q_INVOKABLE QVariantMap getTouchShortcuts() { return shortcuts->getTouchShortcuts(); }
 	Q_INVOKABLE void saveKeyShortcuts(QVariantMap l) { shortcuts->saveKeyShortcuts(l); }
 	Q_INVOKABLE QVariantMap getDefaultKeyShortcuts() { return shortcuts->getDefaultKeyShortcuts(); }
 	Q_INVOKABLE QVariantMap getDefaultMouseShortcuts() { return shortcuts->getDefaultMouseShortcuts(); }
+	Q_INVOKABLE QVariantMap getDefaultTouchShortcuts() { return shortcuts->getDefaultTouchShortcuts(); }
 	Q_INVOKABLE QString getKeyShortcutFile() { return shortcuts->getKeyShortcutFile(); }
 	Q_INVOKABLE QString filterOutShortcutCommand(QString combo, QString file) { return shortcuts->filterOutShortcutCommand(combo, file); }
 

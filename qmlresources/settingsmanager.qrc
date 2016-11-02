@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-		<file>../qml/settingsmanager/SettingsManager.qml</file>
+                <file>../qml/settingsmanager/SettingsManager.qml</file>
 		<file>../qml/settingsmanager/EntrySetting.qml</file>
 		<file>../qml/settingsmanager/EntryTitle.qml</file>
 		<file>../qml/settingsmanager/EntryContainer.qml</file>
