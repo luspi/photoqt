@@ -64,8 +64,7 @@ Rectangle {
 			CustomButton {
 				x: (parent.width-width)/2
 				text: qsTr("Set default shortcuts")
-//				onClickedButton: confirmdefaultshortcuts.show()
-//				onClickedButton: detectshortcut.show()
+				onClickedButton: confirmdefaultshortcuts.show()
 			}
 
 			Rectangle { color: "transparent"; width: 1; height: 20; }
@@ -145,6 +144,18 @@ Rectangle {
 		external.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
 	}
 
+	function loadDefault() {
+		var _key_shortcuts = getanddostuff.getDefaultKeyShortcuts()
+		var _mouse_shortcuts = getanddostuff.getDefaultMouseShortcuts()
+		var _touch_shortcuts = getanddostuff.getDefaultTouchShortcuts()
+		detectshortcut.setTakenShortcuts(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
+		navigation.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
+		image.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
+		file.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
+		other.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
+		external.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
+	}
+
 	function saveData() {
 	}
 
@@ -156,9 +167,5 @@ Rectangle {
 			obj3[attrname] = obj2[attrname];
 		return obj3;
 	}
-
-//	function updateShortcut(type, args) {
-//		console.log("TabShortcuts2", type, args)
-//	}
 
 }

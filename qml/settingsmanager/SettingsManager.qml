@@ -29,7 +29,7 @@ Rectangle {
 	signal updateDatabaseInfo()
 
 	// tell TabShortcuts to load set of default shortcuts
-//	signal shortcutsLoadDefaults()
+	signal shortcutsLoadDefaults()
 
 	property int countErrorsInShortcuts: 0
 
@@ -163,14 +163,8 @@ Rectangle {
 					onSaveData: {
 						saveData()
 					}
-//					onUpdateCurrentKeyCombo: {
-//						currentKeyCombo = combo
-//					}
-//					onUpdateKeysReleased: {
-//						keysReleased = true
-//					}
-//					onShortcutsLoadDefaults:
-//						loadDefault()
+					onShortcutsLoadDefaults:
+						loadDefault()
 				}
 //				Connections {
 //					target: detectshortcut
