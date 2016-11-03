@@ -223,7 +223,14 @@ Rectangle {
 					ele.amDetectingNewShortcut = false
 				}
 				onTakenShortcutsUpdated: {
-					error_doubleShortcut = detectshortcut.checkIfShortcutTaken(internalShortcut)
+					var tmp = detectshortcut.checkIfShortcutTaken(internalShortcut)
+
+					if(tmp != error_doubleShortcut) {
+						if(tmp) ++settings_top.countErrorsInShortcuts
+						else --settings_top.countErrorsInShortcuts
+					}
+
+					error_doubleShortcut = tmp
 				}
 			}
 

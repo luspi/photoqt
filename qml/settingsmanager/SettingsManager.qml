@@ -28,14 +28,10 @@ Rectangle {
 	signal eraseDatabase()
 	signal updateDatabaseInfo()
 
-//	signal updateCurrentKeyCombo(var combo)
-//	signal updateKeysReleased()
-
 	// tell TabShortcuts to load set of default shortcuts
 //	signal shortcutsLoadDefaults()
 
-	// If this one is non-zero, then there is a problem with the shortcuts
-//	property var usedUpKeyCombos: ({})
+	property int countErrorsInShortcuts: 0
 
 	MouseArea {
 		anchors.fill: parent
@@ -444,24 +440,15 @@ Rectangle {
 
 	function saveSettings() {
 
-//		var valid = true
-//		for(var k in usedUpKeyCombos)
-//			if(usedUpKeyCombos[k] > 1) {
-//				valid = false
-//				break;
-//			}
-
-//		if(!valid)
-//			invalidshortcuts.show()
-//		else {
+		if(countErrorsInShortcuts > 0)
+			invalidshortcuts.show()
+		else {
 			saveData();
 			hideSettings();
-//		}
+		}
 	}
 
 	function updateKeyShortcut(combo) {
-//		updateCurrentKeyCombo("")
-//		updateCurrentKeyCombo(combo)
 		detectshortcut.updateKeyShortcut(combo)
 	}
 	function updatedMouseGesture(button, gesture, modifiers) {
