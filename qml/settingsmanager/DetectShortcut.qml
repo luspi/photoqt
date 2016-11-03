@@ -32,7 +32,7 @@ Rectangle {
 	signal takenShortcutsUpdated()
 
 	// Animate element by controlling opacity
-	Behavior on opacity { NumberAnimation { duration: 300; } }
+	Behavior on opacity { NumberAnimation { duration: 100; } }
 	onOpacityChanged: {
 		visible = (opacity == 0 ? false : true)
 		if(opacity == 1)
