@@ -366,6 +366,9 @@ Rectangle {
 	DetectShortcut {
 		id: detectshortcut
 	}
+	function isDetectShortcutShown() {
+		return detectshortcut.opacity==1
+	}
 
 	function showSettings() {
 		verboseMessage("Settings::showSettings()","Showing Settings...")

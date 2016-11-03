@@ -4,6 +4,12 @@ var keys = "";
 // Updated key combo -> check if equal to some shortcut -> execute
 function updateKeyCombo(combo) {
 	verboseMessage("Shortcuts::detectKeyCombo()",combo + " - " + blocked + "/" + blockedSystem + "/" + softblocked + "/" + slideshowRunning)
+
+	if(settingsmanager.isDetectShortcutShown()) {
+		settingsmanager.updateKeyShortcut(combo)
+		return
+	}
+
 	if(softblocked != 0 && combo === "Escape") {
 		if(slideshowRunning)
 			slideshowbar.stopSlideshow()
@@ -18,8 +24,6 @@ function updateKeyCombo(combo) {
 			execute(keyshortcutfile[combo][1],keyshortcutfile[combo][0]);
 	}
 	keys = combo
-
-	settingsmanager.updateKeyShortcut(combo)
 
 }
 
