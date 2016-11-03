@@ -209,6 +209,7 @@ QVariantMap GetAndDoStuffShortcuts::getDefaultMouseShortcuts() {
 	ret.insert("Ctrl+Wheel Up",QStringList() << "0" << "__zoomOut");
 	ret.insert("Ctrl+Middle Button",QStringList() << "0" << "__zoomReset");
 	ret.insert("Right Button+SES",QStringList() << "0" << "__zoomReset");
+	return ret;
 }
 
 QVariantMap GetAndDoStuffShortcuts::getDefaultTouchShortcuts() {
