@@ -12,6 +12,7 @@
 #include <QFileSystemWatcher>
 #include <QTimer>
 #include "../../logger.h"
+#include <QtDebug>
 
 class GetAndDoStuffShortcuts : public QObject {
 
@@ -25,12 +26,16 @@ public:
 	QVariantMap getMouseShortcuts();
 	QVariantMap getTouchShortcuts();
 	QVariantMap getAllShortcuts();
-	void saveKeyShortcuts(QVariantMap l);
+	void saveShortcuts(QVariantMap l);
 	QVariantMap getDefaultKeyShortcuts();
 	QVariantMap getDefaultMouseShortcuts();
 	QVariantMap getDefaultTouchShortcuts();
 	QString getKeyShortcutFile();
 	QString filterOutShortcutCommand(QString combo, QString file);
+
+	void _saveKeyShortcuts(QString shortcut, bool close, QString command, QString type);
+	void _saveMouseShortcuts(QString shortcut, bool close, QString command, QString type);
+	void _saveTouchShortcuts(QString shortcut, bool close, QString command, QString type);
 
 private:
 	QFileSystemWatcher *watcher;

@@ -64,8 +64,6 @@ Rectangle {
 
 			property bool amDetectingNewShortcut: false
 
-			property string internalShortcut: ""
-
 			// Click on title triggers shortcut detection
 			ToolTip {
 				cursorShape: Qt.PointingHandCursor
@@ -250,7 +248,7 @@ Rectangle {
 		lastaction = "add"
 
 		var c = grid.count
-		gridmodel.append({"index" : c, "desc" : l[1], "sh" : "...", "close" : "0", "cmd" : "", "type" : "" })
+		gridmodel.append({"index" : c, "desc" : l[1], "sh" : "...", "close" : "0", "cmd" : "", "type" : "", "internalShortcut" : "" })
 	}
 
 	function setData(d) {
@@ -260,7 +258,7 @@ Rectangle {
 		var i = 0
 
 		for(var sh in d) {
-			gridmodel.append({"index" : i, "desc" : d[i][0], "sh" : d[i][1], "close" : d[i][2]+"", "cmd" : d[i][3], "type" : d[i][4] });
+			gridmodel.append({"index" : i, "desc" : d[i][0], "sh" : d[i][1], "close" : d[i][2]+"", "cmd" : d[i][3], "type" : d[i][4], "internalShortcut" : "" });
 			++i
 		}
 
@@ -268,7 +266,13 @@ Rectangle {
 
 	function getAllData() {
 
-		// TODO
+		var ret = {};
+		for(var i = 0; i < gridmodel.count; ++i) {
+			var item = gridmodel.get(i)
+			ret[item.internalShortcut] = [item.close, item.cmd, item.type]
+		}
+
+		return ret;
 
 	}
 

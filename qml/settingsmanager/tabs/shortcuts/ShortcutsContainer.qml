@@ -194,7 +194,7 @@ Rectangle {
 
 	function saveData() {
 
-		// TODO
+		return set.getAllData()
 
 	}
 

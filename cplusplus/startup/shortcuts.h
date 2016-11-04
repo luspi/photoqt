@@ -17,7 +17,7 @@ namespace StartupCheck {
 			QFileInfo file(CFG_KEY_SHORTCUTS_FILE);
 			if(!file.exists()) {
 				GetAndDoStuffShortcuts sh(true);
-				sh.saveKeyShortcuts(sh.getDefaultKeyShortcuts());
+				sh.saveShortcuts(sh.getDefaultKeyShortcuts());
 			}
 
 		}

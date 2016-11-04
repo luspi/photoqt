@@ -219,8 +219,18 @@ QVariantMap GetAndDoStuffShortcuts::getDefaultTouchShortcuts() {
 	return ret;
 }
 
-void GetAndDoStuffShortcuts::saveKeyShortcuts(QVariantMap l) {
+void GetAndDoStuffShortcuts::saveShortcuts(QVariantMap l) {
 
+	QVariantMap::const_iterator i = l.constBegin();
+	while(i != l.constEnd()) {
+		qDebug() << i.key() << ": " << i.value();
+		++i;
+	}
+
+}
+
+void GetAndDoStuffShortcuts::_saveKeyShortcuts(QString shortcut, bool close, QString command, QString type) {
+/*
 	QString header = "Version=" + QString::fromStdString(VERSION) + "\n";
 	QString keys = "";
 
@@ -247,6 +257,14 @@ void GetAndDoStuffShortcuts::saveKeyShortcuts(QVariantMap l) {
 	out << header << keys;
 
 	file.close();
+*/
+}
+
+void GetAndDoStuffShortcuts::_saveMouseShortcuts(QString shortcut, bool close, QString command, QString type) {
+
+}
+
+void GetAndDoStuffShortcuts::_saveTouchShortcuts(QString shortcut, bool close, QString command, QString type) {
 
 }
 

@@ -157,6 +157,13 @@ Rectangle {
 	}
 
 	function saveData() {
+		var ret = {};
+		ret = merge_options(ret, navigation.saveData())
+		ret = merge_options(ret, image.saveData())
+		ret = merge_options(ret, file.saveData())
+		ret = merge_options(ret, other.saveData())
+		ret = merge_options(ret, external.saveData())
+		getanddostuff.saveShortcuts(ret)
 	}
 
 	function merge_options(obj1,obj2){
