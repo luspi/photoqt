@@ -33,10 +33,6 @@ public:
 	QString getKeyShortcutFile();
 	QString filterOutShortcutCommand(QString combo, QString file);
 
-	void _saveKeyShortcuts(QString shortcut, bool close, QString command, QString type);
-	void _saveMouseShortcuts(QString shortcut, bool close, QString command, QString type);
-	void _saveTouchShortcuts(QString shortcut, bool close, QString command, QString type);
-
 private:
 	QFileSystemWatcher *watcher;
 

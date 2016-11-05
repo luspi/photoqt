@@ -146,7 +146,27 @@ QVariantMap GetAndDoStuffShortcuts::getAllShortcuts() {
 
 	QVariantMap ret;
 
-//	ret.co
+	QVariantMap keys = getKeyShortcuts();
+	QVariantMap mouse = getMouseShortcuts();
+	QVariantMap touch = getTouchShortcuts();
+
+	QVariantMap::const_iterator i = keys.constBegin();
+	while(i != keys.constEnd()) {
+		ret.insert(i.key(),i.value());
+		++i;
+	}
+	i = mouse.constBegin();
+	while(i != mouse.constEnd()) {
+		ret.insert(i.key(),i.value());
+		++i;
+	}
+	i = touch.constBegin();
+	while(i != touch.constEnd()) {
+		ret.insert(i.key(),i.value());
+		++i;
+	}
+
+	return ret;
 
 }
 
@@ -221,50 +241,45 @@ QVariantMap GetAndDoStuffShortcuts::getDefaultTouchShortcuts() {
 
 void GetAndDoStuffShortcuts::saveShortcuts(QVariantMap l) {
 
+	QString keys_cont = "Version=" + QString::fromStdString(VERSION) + "\n";
+	QString mouse_cont = "Version=" + QString::fromStdString(VERSION) + "\n";
+	QString touch_cont = "Version=" + QString::fromStdString(VERSION) + "\n";
+
 	QVariantMap::const_iterator i = l.constBegin();
 	while(i != l.constEnd()) {
-		qDebug() << i.key() << ": " << i.value();
+
+		QString sh = i.key();
+		bool close = (i.value().toList().at(0).toString()=="1");
+		QString cmd = i.value().toList().at(1).toString();
+		QString type = i.value().toList().at(2).toString();
+
+		if(type == "key")
+			keys_cont += QString("%1::%2::%3\n").arg((int)close).arg(sh).arg(cmd);
+		else if(type == "mouse")
+			mouse_cont += QString("%1::%2::%3\n").arg((int)close).arg(sh).arg(cmd);
+		else if(type == "touch")
+			touch_cont += QString("%1::%2::%3\n").arg((int)close).arg(sh).arg(cmd);
+
 		++i;
 	}
 
-}
+	QString type[3]{"key","mouse","touch"};
 
-void GetAndDoStuffShortcuts::_saveKeyShortcuts(QString shortcut, bool close, QString command, QString type) {
-/*
-	QString header = "Version=" + QString::fromStdString(VERSION) + "\n";
-	QString keys = "";
+	for(unsigned int i = 0; i < 3; ++i) {
 
-	foreach(QString key, l.keys()) {
+		QFile file;
+		file.setFileName(type[i] == "key" ? CFG_KEY_SHORTCUTS_FILE : (type[i] == "mouse" ? CFG_MOUSE_SHORTCUTS_FILE : CFG_TOUCH_SHORTCUTS_FILE));
+		if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+			LOG << CURDATE << "GetAndDoStuffShortcuts: ERROR: Unable to open " << type[i].toStdString() << " shortcuts file for writing/saving" << NL;
+			return;
+		}
 
-		QStringList vals = l[key].toStringList();
+		QTextStream out(&file);
+		out << (type[i] == "key" ? keys_cont : (type[i] == "mouse" ? mouse_cont : touch_cont));
 
-		QString cl = QString::number(vals.at(0).toInt());
-		QString sh = key;
-
-		QString ds = vals.at(1);
-
-		keys += QString("%1::%2::%3\n").arg(cl).arg(sh).arg(ds);
+		file.close();
 
 	}
-
-	QFile file(CFG_KEY_SHORTCUTS_FILE);
-	if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-		LOG << CURDATE << "GetAndDoStuffShortcuts: ERROR: Unable to open shortcuts file for writing/saving" << NL;
-		return;
-	}
-
-	QTextStream out(&file);
-	out << header << keys;
-
-	file.close();
-*/
-}
-
-void GetAndDoStuffShortcuts::_saveMouseShortcuts(QString shortcut, bool close, QString command, QString type) {
-
-}
-
-void GetAndDoStuffShortcuts::_saveTouchShortcuts(QString shortcut, bool close, QString command, QString type) {
 
 }
 
