@@ -333,6 +333,7 @@ Rectangle {
 				onClickedButton: {
 					countdowntimer.stop()
 					countdownlabel.text = "0"
+					successful = false
 					checkResult()
 				}
 			}
