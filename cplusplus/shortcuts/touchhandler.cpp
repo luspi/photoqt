@@ -7,9 +7,12 @@ TouchHandler::TouchHandler(QObject *parent) : QObject(parent) {
 	touchFinished = false;
 	numFingers = 0;
 	gestureTimeoutMs = 5000;
+	settings = new Settings;
 }
 
-TouchHandler::~TouchHandler() { }
+TouchHandler::~TouchHandler() {
+	delete settings;
+}
 
 // This handles any touch event
 bool TouchHandler::handle(QEvent *e) {
@@ -39,8 +42,6 @@ bool TouchHandler::handle(QEvent *e) {
 // Start a new touch
 void TouchHandler::touchStarted(QTouchEvent *e) {
 
-	emit setImageInteractiveMode(false);
-
 	// In the middle of touc gesture -> ignore mouseevent duplicates
 	amDetecting = true;
 
@@ -48,6 +49,11 @@ void TouchHandler::touchStarted(QTouchEvent *e) {
 	touchPath.clear();
 	touchPathPts.clear();
 	numFingers = e->touchPoints().count();
+
+	if(!settings->singleFingerTouchPressAndMove || numFingers > 1)
+		emit setImageInteractiveMode(false);
+	else
+		emit setImageInteractiveMode(true);
 
 	// Get initial touch points
 	for(unsigned int f = 0; f < numFingers; ++f) {

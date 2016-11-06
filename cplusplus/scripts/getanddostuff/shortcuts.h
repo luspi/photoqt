@@ -13,6 +13,7 @@
 #include <QTimer>
 #include "../../logger.h"
 #include <QtDebug>
+#include <QTouchDevice>
 
 class GetAndDoStuffShortcuts : public QObject {
 
@@ -32,6 +33,7 @@ public:
 	QVariantMap getDefaultTouchShortcuts();
 	QString getKeyShortcutFile();
 	QString filterOutShortcutCommand(QString combo, QString file);
+	bool isTouchScreenAvailable();
 
 private:
 	QFileSystemWatcher *watcher;

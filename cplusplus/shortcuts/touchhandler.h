@@ -6,6 +6,7 @@
 #include <QTime>
 #include <cmath>
 #include <QTimer>
+#include "../settings/settings.h"
 
 class TouchHandler : public QObject {
 
@@ -49,6 +50,8 @@ private:
 	void touchCancelled();
 
 	QVariantList analyseGestureUpToNow();
+
+	Settings *settings;
 
 private slots:
 	void resetAmDetectingVariable();

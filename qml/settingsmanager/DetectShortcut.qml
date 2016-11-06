@@ -31,6 +31,11 @@ Rectangle {
 	property var checkAllShortcuts: ({})
 	signal takenShortcutsUpdated()
 
+	property bool leftButtonMouseClickAndMove: true
+	onLeftButtonMouseClickAndMoveChanged: takenShortcutsUpdated()
+	property bool singleFingerTouchPressAndMove: true
+	onSingleFingerTouchPressAndMoveChanged: takenShortcutsUpdated()
+
 	// Animate element by controlling opacity
 	Behavior on opacity { NumberAnimation { duration: 100; } }
 	onOpacityChanged: {
@@ -574,9 +579,11 @@ Rectangle {
 
 	function updateTakenShortcut(old_shortcut, new_shortcut) {
 
+		console.log(old_shortcut, checkAllShortcuts[old_shortcut])
+
 		checkAllShortcuts[old_shortcut] -= 1;
 
-		if(new_shortcut != "") {
+		if(new_shortcut !== "") {
 
 			if(new_shortcut in checkAllShortcuts)
 				checkAllShortcuts[new_shortcut] += 1;
@@ -589,7 +596,34 @@ Rectangle {
 
 	}
 
+	function checkForShortcutErrors() {
+
+		var err = false
+
+		for(var ele in checkAllShortcuts) {
+			if(checkAllShortcuts[ele] > 1
+					|| (checkAllShortcuts[ele] !== 0 && leftButtonMouseClickAndMove && ele.slice(0,12) === "Left Button+")
+					|| (checkAllShortcuts[ele] !== 0 && singleFingerTouchPressAndMove && ele.slice(0,9) === "1::swipe")) {
+				err = true
+				break;
+			}
+		}
+
+		return err
+
+	}
+
 	function checkIfShortcutTaken(sh) {
+
+		if(leftButtonMouseClickAndMove) {
+			if(sh.slice(0,12) === "Left Button+")
+				return true
+		}
+		if(singleFingerTouchPressAndMove) {
+			if(sh.slice(0,9) === "1::swipe")
+				return true
+		}
+
 		return checkAllShortcuts[sh]*1 !== 1
 	}
 

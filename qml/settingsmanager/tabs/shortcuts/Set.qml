@@ -215,6 +215,7 @@ Rectangle {
 				}
 				lastaction = ""
 				closeitem.checked = (close == "1")
+				detectshortcut.takenShortcutsUpdated()
 			}
 
 			Connections {
@@ -246,15 +247,9 @@ Rectangle {
 					ele.amDetectingNewShortcut = false
 				}
 				onTakenShortcutsUpdated: {
-					var tmp = detectshortcut.checkIfShortcutTaken(internalShortcut)
-
-					if(tmp != error_doubleShortcut) {
-						if(tmp) ++settings_top.countErrorsInShortcuts
-						else --settings_top.countErrorsInShortcuts
-					}
-
-					error_doubleShortcut = tmp
+					error_doubleShortcut = detectshortcut.checkIfShortcutTaken(internalShortcut)
 				}
+
 			}
 
 		}

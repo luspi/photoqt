@@ -8,9 +8,12 @@ MouseHandler::MouseHandler(QObject *parent) : QObject(parent) {
 	angleDelta = 0;
 	button = "";
 	numButtonClicked = 0;
+	settings = new Settings;
 }
 
-MouseHandler::~MouseHandler() { }
+MouseHandler::~MouseHandler() {
+	delete settings;
+}
 
 bool MouseHandler::handle(QEvent *e) {
 
@@ -51,6 +54,11 @@ bool MouseHandler::handle(QEvent *e) {
 		gestureEnded(e);
 		return true;
 	}
+
+	if(!settings->leftButtonMouseClickAndMove)
+		emit setImageInteractiveMode(false);
+	else
+		emit setImageInteractiveMode(true);
 
 	if(!detecting)
 		gestureStarted((QMouseEvent*)e);
@@ -136,6 +144,8 @@ void MouseHandler::gestureUpdated(QMouseEvent *e) {
 
 void MouseHandler::gestureEnded(QEvent *e) {
 
+	emit setImageInteractiveMode(true);
+
 	qint64 endTime = QDateTime::currentMSecsSinceEpoch();
 
 	emit finishedMouseEvent(gesturePathPts.first(), gesturePathPts.last(),
@@ -148,6 +158,7 @@ void MouseHandler::gestureEnded(QEvent *e) {
 }
 
 void MouseHandler::gestureCancelled() {
+	emit setImageInteractiveMode(true);
 	gesturePath.clear();
 	gesturePathPts.clear();
 	detecting = false;

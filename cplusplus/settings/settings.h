@@ -96,6 +96,9 @@ public:
 		connect(this, SIGNAL(pixmapCacheChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(experimentalTouchscreenSupportChanged(bool)), saveSettingsTimer, SLOT(start()));
 
+		connect(this, SIGNAL(leftButtonMouseClickAndMoveChanged(bool)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(singleFingerTouchPressAndMoveChanged(bool)), saveSettingsTimer, SLOT(start()));
+
 		connect(this, SIGNAL(hidecounterChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(hidefilepathshowfilenameChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(hidefilenameChanged(bool)), saveSettingsTimer, SLOT(start()));
@@ -254,6 +257,9 @@ public:
 	// Option to enable experimental support for touchscreen gestures
 	bool experimentalTouchscreenSupport;
 
+	bool leftButtonMouseClickAndMove;
+	bool singleFingerTouchPressAndMove;
+
 	// Are quickinfos hidden?
 	bool hidecounter;
 	bool hidefilepathshowfilename;
@@ -398,6 +404,8 @@ public:
 	Q_PROPERTY(int blurIntensity MEMBER blurIntensity NOTIFY blurIntensityChanged)
 	Q_PROPERTY(int pixmapCache MEMBER pixmapCache NOTIFY pixmapCacheChanged)
 	Q_PROPERTY(bool experimentalTouchscreenSupport MEMBER experimentalTouchscreenSupport NOTIFY experimentalTouchscreenSupportChanged)
+	Q_PROPERTY(bool leftButtonMouseClickAndMove MEMBER leftButtonMouseClickAndMove NOTIFY leftButtonMouseClickAndMoveChanged)
+	Q_PROPERTY(bool singleFingerTouchPressAndMove MEMBER singleFingerTouchPressAndMove NOTIFY singleFingerTouchPressAndMoveChanged)
 
 	Q_PROPERTY(bool hidecounter MEMBER hidecounter NOTIFY hidecounterChanged)
 	Q_PROPERTY(bool hidefilepathshowfilename MEMBER hidefilepathshowfilename NOTIFY hidefilepathshowfilenameChanged)
@@ -536,6 +544,8 @@ public:
 		blurIntensity = 5;
 		pixmapCache = 25;
 		experimentalTouchscreenSupport = false;
+		leftButtonMouseClickAndMove = true;
+		singleFingerTouchPressAndMove = true;
 
 		hidecounter = false;
 		hidefilepathshowfilename = true;
@@ -691,6 +701,8 @@ public slots:
 			cont += QString("BlurIntensity=%1\n").arg(blurIntensity);
 			cont += QString("PixmapCache=%1\n").arg(pixmapCache);
 			cont += QString("ExperimentalTouchscreenSupport=%1\n").arg(int(experimentalTouchscreenSupport));
+			cont += QString("LeftButtonMouseClickAndMove=%1\n").arg(int(leftButtonMouseClickAndMove));
+			cont += QString("SingleFingerTouchPressAndMove=%1\n").arg(int(singleFingerTouchPressAndMove));
 
 			cont += "\n[Quickinfo]\n";
 
@@ -953,6 +965,16 @@ public slots:
 				experimentalTouchscreenSupport = true;
 			else if(all.contains("ExperimentalTouchscreenSupport=0"))
 				experimentalTouchscreenSupport = false;
+
+			if(all.contains("LeftButtonMouseClickAndMove=1"))
+				leftButtonMouseClickAndMove = true;
+			else if(all.contains("LeftButtonMouseClickAndMove=0"))
+				leftButtonMouseClickAndMove = false;
+
+			if(all.contains("SingleFingerTouchPressAndMove=1"))
+				singleFingerTouchPressAndMove = true;
+			else if(all.contains("SingleFingerTouchPressAndMove=0"))
+				singleFingerTouchPressAndMove = false;
 
 			if(all.contains("HideCounter=1"))
 				hidecounter = true;
@@ -1293,6 +1315,8 @@ signals:
 	void blurIntensityChanged(int val);
 	void pixmapCacheChanged(int val);
 	void experimentalTouchscreenSupportChanged(bool val);
+	void leftButtonMouseClickAndMoveChanged(bool val);
+	void singleFingerTouchPressAndMoveChanged(bool val);
 
 	void hidecounterChanged(bool val);
 	void hidefilepathshowfilenameChanged(bool val);

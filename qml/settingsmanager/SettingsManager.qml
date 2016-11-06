@@ -31,8 +31,6 @@ Rectangle {
 	// tell TabShortcuts to load set of default shortcuts
 	signal shortcutsLoadDefaults()
 
-	property int countErrorsInShortcuts: 0
-
 	MouseArea {
 		anchors.fill: parent
 		hoverEnabled: true
@@ -437,7 +435,7 @@ Rectangle {
 
 	function saveSettings() {
 
-		if(countErrorsInShortcuts > 0)
+		if(detectshortcut.checkForShortcutErrors())
 			invalidshortcuts.show()
 		else {
 			saveData();

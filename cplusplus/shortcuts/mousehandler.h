@@ -7,6 +7,7 @@
 #include <cmath>
 #include "keymodifier.h"
 #include "mousebutton.h"
+#include "../settings/settings.h"
 
 class MouseHandler : public QObject {
 
@@ -42,9 +43,12 @@ private:
 	void gestureEnded(QEvent *e);
 	void gestureCancelled();
 
+	Settings *settings;
+
 signals:
 	void updatedMouseEvent(QString button, QStringList gesture, QString modifiers);
 	void finishedMouseEvent(QPoint start, QPoint end, qint64 duration, QString button, QStringList gesture, int wheelAngleDelta, QString modifiers);
+	void setImageInteractiveMode(bool enabled);
 
 };
 

@@ -90,6 +90,8 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 			this, SLOT(passOnFinishedMouseEvent(QPoint,QPoint,qint64,QString,QStringList,int,QString)));
 	connect(mouseHandler, SIGNAL(updatedMouseEvent(QString,QStringList,QString)),
 			this, SLOT(passOnUpdatedMouseEvent(QString,QStringList,QString)));
+	connect(mouseHandler, SIGNAL(setImageInteractiveMode(bool)),
+			this, SLOT(setImageInteractiveMode(bool)));
 
 	showTrayIcon();
 

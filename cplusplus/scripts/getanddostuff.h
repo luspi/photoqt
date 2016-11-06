@@ -104,6 +104,7 @@ public:
 	Q_INVOKABLE QVariantMap getDefaultTouchShortcuts() { return shortcuts->getDefaultTouchShortcuts(); }
 	Q_INVOKABLE QString getKeyShortcutFile() { return shortcuts->getKeyShortcutFile(); }
 	Q_INVOKABLE QString filterOutShortcutCommand(QString combo, QString file) { return shortcuts->filterOutShortcutCommand(combo, file); }
+	Q_INVOKABLE bool isTouchScreenAvailable() { return shortcuts->isTouchScreenAvailable(); };
 
 	// WALLPAPER
 	Q_INVOKABLE QString detectWindowManager() { return wallpaper->detectWindowManager(); }

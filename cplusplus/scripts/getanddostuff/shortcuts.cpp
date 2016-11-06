@@ -305,3 +305,15 @@ QString GetAndDoStuffShortcuts::filterOutShortcutCommand(QString combo, QString 
 	return file.split("::" + combo + "::").at(1).split("\n").at(0).trimmed();
 
 }
+
+bool GetAndDoStuffShortcuts::isTouchScreenAvailable() {
+
+	unsigned int counter = 0;
+	for(unsigned int i = 0; i < QTouchDevice::devices().length(); ++i) {
+		if(QTouchDevice::devices().at(i)->type() == QTouchDevice::TouchScreen)
+			++counter;
+	}
+
+	return (counter > 0);
+
+}
