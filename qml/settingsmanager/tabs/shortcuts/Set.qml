@@ -78,10 +78,34 @@ Rectangle {
 				x: 4
 				y: 2
 
+				Rectangle {
+					id: closeitem
+					color: "transparent"
+					width: childrenRect.width
+					height: ele.height-4
+					property bool checked: false
+					onCheckedChanged:
+						gridmodel.set(ele.posInList,{"close" : checked ? "1" : "0"})
+					visible: external
+					Text{
+						id: theclose
+						anchors.left: parent.left
+						anchors.top: parent.top
+						anchors.bottom: parent.bottom
+						text: qsTr("quit") + "  "
+						color: parent.checked ? "white" : "grey"
+					}
+					ToolTip {
+						cursorShape: Qt.PointingHandCursor
+						text: parent.checked ? qsTr("Quit PhotoQt when executing shortcut") : qsTr("Keep PhotoQt running when executing shortcut")
+						onClicked: parent.checked = !parent.checked
+					}
+				}
+
 				// What shortcut this is
 				Rectangle {
 					height: ele.height-4
-					width: ele.width/2-6
+					width: ele.width/2-6-closeitem.width-4
 					color: "transparent"
 					Text {
 						id: thetitle
@@ -99,8 +123,6 @@ Rectangle {
 						emptyMessage: qsTr("The command goes here")
 						onTextEdited:
 							updateExternalString.restart()
-						onClicked:
-							tab_top.cancelDetectionEverywhere()
 					}
 					Timer {
 						id: updateExternalString
@@ -108,7 +130,8 @@ Rectangle {
 						running: false
 						repeat: false
 						onTriggered: {
-							gridmodel.set(ele.posInList,{"desc" : externalCommand.getText()})
+							if(external)
+								gridmodel.set(ele.posInList,{"cmd" : externalCommand.getText()})
 						}
 					}
 				}
@@ -190,6 +213,8 @@ Rectangle {
 					} else
 						internalShortcut = sh;
 				}
+				lastaction = ""
+				closeitem.checked = (close == "1")
 			}
 
 			Connections {
@@ -248,7 +273,7 @@ Rectangle {
 		lastaction = "add"
 
 		var c = grid.count
-		gridmodel.append({"index" : c, "desc" : l[1], "sh" : "...", "close" : "0", "cmd" : "", "type" : "", "internalShortcut" : "" })
+		gridmodel.append({"index" : c, "desc" : l[1], "sh" : "...", "close" : "0", "cmd" : l[0], "type" : "", "internalShortcut" : "" })
 	}
 
 	function setData(d) {
