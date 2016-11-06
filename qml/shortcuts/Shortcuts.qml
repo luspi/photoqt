@@ -12,6 +12,7 @@ Item {
 	// Get the current shortcuts
 	property var keyshortcutfile: getanddostuff.getKeyShortcuts()
 	property var mouseshortcutfile: getanddostuff.getMouseShortcuts()
+	property var touchshortcutfile : getanddostuff.getTouchShortcuts()
 
 	// This is a "trick" of sorts. The notifierChanged signal is triggered in getanddostuff.h
 	// whenever the shortcuts files were modified, which in turns reloads the shortcuts files.
