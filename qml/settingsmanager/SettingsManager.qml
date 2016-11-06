@@ -368,7 +368,7 @@ Rectangle {
 		updateDatabaseInfo()
 	}
 	function hideSettings() {
-//		verboseMessage("Settings::hideSettings()",confirmclean.visible + "/" + confirmerase.visible + "/" + confirmdefaultshortcuts.visible + "/" + detectShortcut.visible + "/" + resetShortcut.visible)
+		verboseMessage("Settings::hideSettings()",confirmclean.visible + "/" + confirmerase.visible + "/" + confirmdefaultshortcuts.visible + "/" + confirmdefaultssettings.visible + "/" + settingsmanagershortcuts.visible + "/" + detectshortcut.visible + "/" + invalidshortcuts.visible)
 		if(confirmclean.visible)
 			confirmclean.hide()
 		else if(confirmerase.visible)
@@ -381,7 +381,9 @@ Rectangle {
 			settingsmanagershortcuts.reject()
 		else if(detectshortcut.opacity == 1)
 			detectshortcut.hide()
-		else /*if(!wait_amDetectingANewShortcut)*/
+		else if(invalidshortcuts.opacity == 1)
+			invalidshortcuts.accept()
+		else
 			hideSettingsAni.start()
 	}
 
