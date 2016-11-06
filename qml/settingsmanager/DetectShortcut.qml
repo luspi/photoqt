@@ -615,6 +615,9 @@ Rectangle {
 
 	function checkIfShortcutTaken(sh) {
 
+		if(sh === undefined || sh === "")
+			return false
+
 		if(leftButtonMouseClickAndMove) {
 			if(sh.slice(0,12) === "Left Button+")
 				return true
