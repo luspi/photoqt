@@ -603,7 +603,7 @@ Rectangle {
 		for(var ele in checkAllShortcuts) {
 			if(checkAllShortcuts[ele] > 1
 					|| (checkAllShortcuts[ele] !== 0 && leftButtonMouseClickAndMove && ele.slice(0,12) === "Left Button+")
-					|| (checkAllShortcuts[ele] !== 0 && singleFingerTouchPressAndMove && ele.slice(0,9) === "1::swipe")) {
+					|| (checkAllShortcuts[ele] !== 0 && singleFingerTouchPressAndMove && ele.slice(0,8) === "1::swipe")) {
 				err = true
 				break;
 			}
@@ -620,7 +620,7 @@ Rectangle {
 				return true
 		}
 		if(singleFingerTouchPressAndMove) {
-			if(sh.slice(0,9) === "1::swipe")
+			if(sh.slice(0,8) === "1::swipe")
 				return true
 		}
 
