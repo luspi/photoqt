@@ -39,6 +39,8 @@ bool TouchHandler::handle(QEvent *e) {
 // Start a new touch
 void TouchHandler::touchStarted(QTouchEvent *e) {
 
+	emit setImageInteractiveMode(false);
+
 	// In the middle of touc gesture -> ignore mouseevent duplicates
 	amDetecting = true;
 
@@ -194,6 +196,8 @@ void TouchHandler::touchEnded(QTouchEvent *) {
 void TouchHandler::touchCancelled() {
 
 	// Reset all variables...
+
+	emit setImageInteractiveMode(true);
 
 	amDetecting = false;
 
