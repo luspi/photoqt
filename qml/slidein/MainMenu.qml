@@ -28,6 +28,7 @@ Rectangle {
 		[["slideshow","slideshow",qsTr("Slideshow")],["slideshow","",qsTr("setup")],["slideshowquickstart","",qsTr("quickstart")]],
 		[["filter", "filter", qsTr("Filter Images in Folder")]],
 		[["metadata", "metadata", qsTr("Show/Hide Metadata")]],
+		[["histogram", "histogram", qsTr("Show/Hide Histogram")]],
 		[["about", "about", qsTr("About PhotoQt")]],
 		[["hide", "hide", qsTr("Hide (System Tray)")]],
 		[["quit", "quit", qsTr("Quit")]],
@@ -319,6 +320,14 @@ Rectangle {
 				metaData.checkCheckbox()
 				background.showMetadata(true)
 			}
+
+		} else if(what == "histogram") {
+
+			if(settings.histogram == false)
+				settings.histogram = true
+			else
+				settings.histogram = false
+
 		} else if(what === "scale") {
 
 			hideMainmenu.start()

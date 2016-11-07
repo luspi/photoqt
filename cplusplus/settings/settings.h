@@ -94,6 +94,8 @@ public:
 		connect(this, SIGNAL(interpolationNearestNeighbourUpscaleChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(blurIntensityChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(pixmapCacheChanged(int)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(histogramChanged(bool)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(histogramVersionChanged(QString)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(experimentalTouchscreenSupportChanged(bool)), saveSettingsTimer, SLOT(start()));
 
 		connect(this, SIGNAL(leftButtonMouseClickAndMoveChanged(bool)), saveSettingsTimer, SLOT(start()));
@@ -257,6 +259,9 @@ public:
 	// Option to enable experimental support for touchscreen gestures
 	bool experimentalTouchscreenSupport;
 
+	bool histogram;
+	QString histogramVersion;
+
 	bool leftButtonMouseClickAndMove;
 	bool singleFingerTouchPressAndMove;
 
@@ -406,6 +411,8 @@ public:
 	Q_PROPERTY(bool experimentalTouchscreenSupport MEMBER experimentalTouchscreenSupport NOTIFY experimentalTouchscreenSupportChanged)
 	Q_PROPERTY(bool leftButtonMouseClickAndMove MEMBER leftButtonMouseClickAndMove NOTIFY leftButtonMouseClickAndMoveChanged)
 	Q_PROPERTY(bool singleFingerTouchPressAndMove MEMBER singleFingerTouchPressAndMove NOTIFY singleFingerTouchPressAndMoveChanged)
+	Q_PROPERTY(bool histogram MEMBER histogram NOTIFY histogramChanged)
+	Q_PROPERTY(QString histogramVersion MEMBER histogramVersion NOTIFY histogramVersionChanged)
 
 	Q_PROPERTY(bool hidecounter MEMBER hidecounter NOTIFY hidecounterChanged)
 	Q_PROPERTY(bool hidefilepathshowfilename MEMBER hidefilepathshowfilename NOTIFY hidefilepathshowfilenameChanged)
@@ -546,6 +553,8 @@ public:
 		experimentalTouchscreenSupport = false;
 		leftButtonMouseClickAndMove = true;
 		singleFingerTouchPressAndMove = true;
+		histogram = false;
+		histogramVersion = "color";
 
 		hidecounter = false;
 		hidefilepathshowfilename = true;
@@ -703,6 +712,8 @@ public slots:
 			cont += QString("ExperimentalTouchscreenSupport=%1\n").arg(int(experimentalTouchscreenSupport));
 			cont += QString("LeftButtonMouseClickAndMove=%1\n").arg(int(leftButtonMouseClickAndMove));
 			cont += QString("SingleFingerTouchPressAndMove=%1\n").arg(int(singleFingerTouchPressAndMove));
+			cont += QString("Histogram=%1\n").arg(int(histogram));
+			cont += QString("HistogramVersion=%1\n").arg(histogramVersion);
 
 			cont += "\n[Quickinfo]\n";
 
@@ -975,6 +986,14 @@ public slots:
 				singleFingerTouchPressAndMove = true;
 			else if(all.contains("SingleFingerTouchPressAndMove=0"))
 				singleFingerTouchPressAndMove = false;
+
+			if(all.contains("Histogram=1"))
+				histogram = true;
+			else if(all.contains("Histogram=0"))
+				histogram = false;
+
+			if(all.contains("HistogramVersion="))
+				histogramVersion = all.split("HistogramVersion=").at(1).split("\n").at(0);
 
 			if(all.contains("HideCounter=1"))
 				hidecounter = true;
@@ -1317,6 +1336,8 @@ signals:
 	void experimentalTouchscreenSupportChanged(bool val);
 	void leftButtonMouseClickAndMoveChanged(bool val);
 	void singleFingerTouchPressAndMoveChanged(bool val);
+	void histogramChanged(bool val);
+	void histogramVersionChanged(QString val);
 
 	void hidecounterChanged(bool val);
 	void hidefilepathshowfilenameChanged(bool val);

@@ -7,7 +7,8 @@ Rectangle {
 
 	color: "transparent"
 
-	property string curversion: "color"
+	opacity: (thumbnailBar.currentFile!="" && settings.histogram) ? 1 : 0
+	Behavior on opacity { NumberAnimation { duration: 300; } }
 
 	// half transparent black background
 	Rectangle {
@@ -123,7 +124,12 @@ Rectangle {
 			repeat: false
 			running: false
 			interval: 500
-			onTriggered: chart.color_histogram()
+			onTriggered: {
+				if(settings.histogramVersion == "color")
+					chart.color_histogram()
+				else
+					chart.grey_histogram()
+			}
 		}
 
 		// Load greyscale histogram
@@ -131,7 +137,7 @@ Rectangle {
 
 			if(thumbnailBar.currentFile == "") return
 
-			parent.curversion = "grey"
+			settings.histogramVersion = "grey"
 
 			// clear previous data
 			series_r.clear()
@@ -159,7 +165,7 @@ Rectangle {
 
 			if(thumbnailBar.currentFile == "") return
 
-			parent.curversion = "color"
+			settings.histogramVersion = "color"
 
 			// clear previous data
 			series_r.clear()
@@ -211,7 +217,7 @@ Rectangle {
 				startMouseX = localcursorpos.x
 				startMouseY = localcursorpos.y
 			} else {
-				if(curversion == "color")
+				if(settings.histogramVersion == "color")
 					chart.grey_histogram()
 				else
 					chart.color_histogram()
@@ -275,6 +281,36 @@ Rectangle {
 
 		onReleased: resizing = false
 
+	}
+
+	// 'x' to hide histogram
+	Rectangle {
+		color: "transparent"
+		x: parent.width-15
+		y: -15
+		width: 30
+		height: 30
+		opacity: 0.05
+		Behavior on opacity { NumberAnimation { duration:200; } }
+		radius: 5
+		Text {
+			anchors.fill: parent
+			color: "red"
+			text: "x"
+			font.bold: true
+			font.pixelSize: 25
+			horizontalAlignment: Text.AlignHCenter
+			verticalAlignment: Text.AlignVCenter
+		}
+
+		MouseArea {
+			anchors.fill: parent
+			hoverEnabled: true
+			cursorShape: Qt.PointingHandCursor
+			onEntered: parent.opacity = 0.75
+			onExited: parent.opacity = 0.05
+			onClicked: settings.histogram = false
+		}
 	}
 
 }
