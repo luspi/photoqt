@@ -79,5 +79,6 @@
         <file>img/settings/shortcuts/categorykeyboard.png</file>
         <file>img/settings/shortcuts/categorymouse.png</file>
         <file>img/settings/shortcuts/categorytouch.png</file>
+        <file>img/mainmenu/histogram.png</file>
     </qresource>
 </RCC>

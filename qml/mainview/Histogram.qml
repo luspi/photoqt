@@ -13,7 +13,7 @@ Rectangle {
 	color: "transparent"
 
 	opacity: (thumbnailBar.currentFile!="" && settings.histogram) ? 1 : 0
-	Behavior on opacity { NumberAnimation { duration: 300; } }
+	Behavior on opacity { NumberAnimation { duration: 200; } }
 
 	// half transparent black background
 	Rectangle {
