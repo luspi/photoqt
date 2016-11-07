@@ -619,13 +619,13 @@ void MainWindow::resizeEvent(QResizeEvent *e) {
 
 }
 
-void MainWindow::showStartup(QString type) {
+void MainWindow::showStartup(QString type, QString filename) {
 
 	if(variables->verbose)
 		LOG << CURDATE << "showStartup(): " << type.toStdString() << NL;
 
 	QMetaObject::invokeMethod(object,"showStartup",
-							  Q_ARG(QVariant, type));
+							  Q_ARG(QVariant, type), Q_ARG(QVariant, filename));
 
 }
 

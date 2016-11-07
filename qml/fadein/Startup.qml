@@ -18,6 +18,8 @@ Rectangle {
 
 	property string type: ""
 
+	property string openFileAfter: ""
+
 	// Catch mouse events
 	MouseArea {
 		anchors.fill: parent
@@ -102,9 +104,10 @@ Rectangle {
 
 	} // END Flickable
 
-	function showStartup(t) {
+	function showStartup(t, filenameAfter) {
 
 		type = t;
+		openFileAfter = filenameAfter
 
 		showStartupAni.start()
 
@@ -123,7 +126,10 @@ Rectangle {
 		onStopped: {
 			visible = false
 			blocked = false
-			openFile()
+			if(openFileAfter == "")
+				openFile()
+			else
+				reloadDirectory(openFileAfter,"")
 		}
 	}
 

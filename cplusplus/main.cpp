@@ -106,7 +106,7 @@ int main(int argc, char *argv[]) {
 
 	// After a new install/update, we first show a startup message (which, when closed, calls openFile())
 	if(update != 0)
-		w.showStartup(update == 2 ? "installed" : "updated");
+		w.showStartup(update == 2 ? "installed" : "updated", a.filename);
 	else
 		w.handleOpenFileEvent(a.filename);
 

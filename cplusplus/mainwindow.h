@@ -37,7 +37,7 @@ public:
 	explicit MainWindow(bool verbose, QWindow *parent = 0);
 	~MainWindow();
 
-	void showStartup(QString type);
+	void showStartup(QString type, QString filename);
 
 public slots:
 	void handleOpenFileEvent(QString filename, QString filter = "");

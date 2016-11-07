@@ -275,7 +275,7 @@ Item {
 		shortcuts.gotFinishedMouseGesture(startPoint, endPoint, duration, button, gesture, wheelAngleDelta, modifiers);
 	}
 
-	function showStartup(type) { startup.showStartup(type); }
+	function showStartup(type, filename) { startup.showStartup(type, filename); }
 	function windowResized() { mainview.windowHasBeenResized(); if(!isZoomed()) resetZoom() }
 
 	function openFile() { openfile.show(); }
