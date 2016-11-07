@@ -7,6 +7,8 @@ Rectangle {
 
 	color: "transparent"
 
+	property string curversion: "color"
+
 	// half transparent black background
 	Rectangle {
 
@@ -66,8 +68,9 @@ Rectangle {
 
 		// greyscale histogram series
 		AreaSeries {
-			color: "black"
+			color: "grey"
 			borderWidth: 2
+			borderColor: "black"
 			axisX: xValueAxis
 			axisY: yValueAxis
 			upperSeries: series_grey
@@ -77,6 +80,7 @@ Rectangle {
 		AreaSeries {
 			color: "red"
 			borderWidth: 2
+			borderColor: "black"
 			axisX: xValueAxis
 			axisY: yValueAxis
 			upperSeries: series_r
@@ -86,6 +90,7 @@ Rectangle {
 		AreaSeries {
 			color: "green"
 			borderWidth: 2
+			borderColor: "black"
 			axisX: xValueAxis
 			axisY: yValueAxis
 			upperSeries: series_g
@@ -95,6 +100,7 @@ Rectangle {
 		AreaSeries {
 			color: "blue"
 			borderWidth: 2
+			borderColor: "black"
 			axisX: xValueAxis
 			axisY: yValueAxis
 			upperSeries: series_b
@@ -105,19 +111,6 @@ Rectangle {
 		LineSeries { id: series_r; style: Qt.red; }
 		LineSeries { id: series_g; style: Qt.green; }
 		LineSeries { id: series_b; style: Qt.blue; }
-
-		// load either version of histogram
-		MouseArea {
-			anchors.fill: parent
-			acceptedButtons: Qt.LeftButton | Qt.RightButton
-			onClicked:  {
-				if(mouse.button == Qt.LeftButton)
-					parent.color_histogram(thumbnailBar.currentFile)
-				else
-					parent.grey_histogram(thumbnailBar.currentFile)
-			}
-
-		}
 
 		Connections {
 			target: thumbnailBar
@@ -130,13 +123,15 @@ Rectangle {
 			repeat: false
 			running: false
 			interval: 500
-			onTriggered: chart.color_histogram(thumbnailBar.currentFile)
+			onTriggered: chart.color_histogram()
 		}
 
 		// Load greyscale histogram
-		function grey_histogram(fname) {
+		function grey_histogram() {
 
-			if(fname == "") return
+			if(thumbnailBar.currentFile == "") return
+
+			parent.curversion = "grey"
 
 			// clear previous data
 			series_r.clear()
@@ -145,7 +140,7 @@ Rectangle {
 			series_grey.clear()
 
 			// get greyscale values
-			var val = getanddostuff.getGreyscaleHistogramValues(fname)
+			var val = getanddostuff.getGreyscaleHistogramValues(thumbnailBar.currentFile)
 
 			// Figure out max value for normalising data set
 			var g = 0;
@@ -160,7 +155,11 @@ Rectangle {
 		}
 
 		// Load color histogram
-		function color_histogram(fname) {
+		function color_histogram() {
+
+			if(thumbnailBar.currentFile == "") return
+
+			parent.curversion = "color"
 
 			// clear previous data
 			series_r.clear()
@@ -169,7 +168,7 @@ Rectangle {
 			series_grey.clear()
 
 			// get color values
-			var val = getanddostuff.getColorHistogramValues(fname)
+			var val = getanddostuff.getColorHistogramValues(thumbnailBar.currentFile)
 
 			// Figure out max value for normalising data set
 			var j = 0;
@@ -186,6 +185,95 @@ Rectangle {
 				series_b.append(s,100*(val[2*256+s]/j))
 
 		}
+
+	}
+
+	// move histogram around
+	MouseArea {
+
+		property bool resizing: false
+		property int startMouseX: 0
+		property int startMouseY: 0
+
+		property int startX: 0
+		property int startY: 0
+
+		acceptedButtons: Qt.LeftButton | Qt.RightButton
+
+		anchors.fill: parent
+
+		onPressed: {
+			if(mouse.button == Qt.LeftButton) {
+				cursorShape = Qt.SizeAllCursor
+				resizing = true
+				startX = parent.x
+				startY = parent.y
+				startMouseX = localcursorpos.x
+				startMouseY = localcursorpos.y
+			} else {
+				if(curversion == "color")
+					chart.grey_histogram()
+				else
+					chart.color_histogram()
+			}
+
+		}
+
+		onMouseXChanged: if(resizing) parent.x = startX + (localcursorpos.x-startMouseX)
+
+		onMouseYChanged: if(resizing) parent.y = startY + (localcursorpos.y-startMouseY)
+
+		onReleased: {
+			cursorShape = Qt.ArrowCursor
+			resizing = false
+		}
+
+	}
+
+	// resize histogram
+	MouseArea {
+
+		property bool resizing: false
+		property int startMouseX: 0
+		property int startMouseY: 0
+
+		property int startW: 0
+		property int startH: 0
+		property int startX: 0
+		property int startY: 0
+
+		x: parent.width-30
+		y: parent.height-30
+		width: 30
+		height: 30
+		hoverEnabled: true
+		cursorShape: Qt.SizeFDiagCursor
+
+		onPressed: {
+			resizing = true
+			startW = parent.width
+			startH = parent.height
+			startX = parent.x
+			startY = parent.y
+			startMouseX = localcursorpos.x
+			startMouseY = localcursorpos.y
+		}
+
+		onMouseXChanged: {
+			if(resizing) {
+				var newW = startW + (localcursorpos.x-startMouseX);
+				if(newW > 200) parent.width = newW
+			}
+		}
+
+		onMouseYChanged: {
+			if(resizing) {
+				var newH = startH + (localcursorpos.y-startMouseY)
+				if(newH > 150) parent.height = newH
+			}
+		}
+
+		onReleased: resizing = false
 
 	}
 
