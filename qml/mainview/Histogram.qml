@@ -5,6 +5,11 @@ Rectangle {
 
 	id: rect_top
 
+	x: settings.histogramPosition.x
+	y: settings.histogramPosition.y
+	width: settings.histogramSize.width
+	height: settings.histogramSize.height
+
 	color: "transparent"
 
 	opacity: (thumbnailBar.currentFile!="" && settings.histogram) ? 1 : 0
@@ -207,6 +212,7 @@ Rectangle {
 		acceptedButtons: Qt.LeftButton | Qt.RightButton
 
 		anchors.fill: parent
+		hoverEnabled: true
 
 		onPressed: {
 			if(mouse.button == Qt.LeftButton) {
@@ -225,11 +231,15 @@ Rectangle {
 
 		}
 
+		onEntered: closex.show()
+		onExited: closex.hide()
+
 		onMouseXChanged: if(resizing) parent.x = startX + (localcursorpos.x-startMouseX)
 
 		onMouseYChanged: if(resizing) parent.y = startY + (localcursorpos.y-startMouseY)
 
 		onReleased: {
+			settings.histogramPosition = Qt.point(rect_top.x, rect_top.y)
 			cursorShape = Qt.ArrowCursor
 			resizing = false
 		}
@@ -279,18 +289,21 @@ Rectangle {
 			}
 		}
 
-		onReleased: resizing = false
+		onReleased: {
+			resizing = false
+			settings.histogramSize = Qt.size(rect_top.width, rect_top.height)
+		}
 
 	}
 
 	// 'x' to hide histogram
 	Rectangle {
+		id: closex
 		color: "transparent"
 		x: parent.width-15
 		y: -15
 		width: 30
 		height: 30
-		opacity: 0.05
 		Behavior on opacity { NumberAnimation { duration:200; } }
 		radius: 5
 		Text {
@@ -307,10 +320,17 @@ Rectangle {
 			anchors.fill: parent
 			hoverEnabled: true
 			cursorShape: Qt.PointingHandCursor
-			onEntered: parent.opacity = 0.75
-			onExited: parent.opacity = 0.05
+			onEntered: parent.show()
+			onExited: parent.hide()
 			onClicked: settings.histogram = false
 		}
+		function show() {
+			closex.opacity = 0.75
+		}
+		function hide() {
+			closex.opacity = 0.05
+		}
+		Component.onCompleted: hide()
 	}
 
 }

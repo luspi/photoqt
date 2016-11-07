@@ -160,10 +160,6 @@ Item {
 
 	Histogram {
 		id: histogram;
-		x: 100
-		y: 50
-		width: 400;
-		height: 300;
 	}
 
 	////////////////////////////

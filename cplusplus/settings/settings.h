@@ -11,6 +11,8 @@
 #include <QFileSystemWatcher>
 #include <QTimer>
 #include <QTextStream>
+#include <QPoint>
+#include <QSize>
 #ifdef Q_OS_WIN
 #include <QtWinExtras/QtWin>
 #endif
@@ -94,8 +96,6 @@ public:
 		connect(this, SIGNAL(interpolationNearestNeighbourUpscaleChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(blurIntensityChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(pixmapCacheChanged(int)), saveSettingsTimer, SLOT(start()));
-		connect(this, SIGNAL(histogramChanged(bool)), saveSettingsTimer, SLOT(start()));
-		connect(this, SIGNAL(histogramVersionChanged(QString)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(experimentalTouchscreenSupportChanged(bool)), saveSettingsTimer, SLOT(start()));
 
 		connect(this, SIGNAL(leftButtonMouseClickAndMoveChanged(bool)), saveSettingsTimer, SLOT(start()));
@@ -176,6 +176,11 @@ public:
 
 		connect(this, SIGNAL(exifMetadaWindowWidthChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(mainMenuWindowWidthChanged(int)), saveSettingsTimer, SLOT(start()));
+
+		connect(this, SIGNAL(histogramPositionChanged(QPoint)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(histogramSizeChanged(QSize)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(histogramChanged(bool)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(histogramVersionChanged(QString)), saveSettingsTimer, SLOT(start()));
 
 	}
 
@@ -258,9 +263,6 @@ public:
 	int pixmapCache;
 	// Option to enable experimental support for touchscreen gestures
 	bool experimentalTouchscreenSupport;
-
-	bool histogram;
-	QString histogramVersion;
 
 	bool leftButtonMouseClickAndMove;
 	bool singleFingerTouchPressAndMove;
@@ -363,6 +365,11 @@ public:
 	int exifMetadaWindowWidth;	// changed by dragging right rectangle edge
 	int mainMenuWindowWidth;	// changed by dragging left rectangle edge
 
+	bool histogram;
+	QPoint histogramPosition;
+	QSize histogramSize;
+	QString histogramVersion;
+
 
 	/*#################################################################################################*/
 	/*#################################################################################################*/
@@ -411,8 +418,6 @@ public:
 	Q_PROPERTY(bool experimentalTouchscreenSupport MEMBER experimentalTouchscreenSupport NOTIFY experimentalTouchscreenSupportChanged)
 	Q_PROPERTY(bool leftButtonMouseClickAndMove MEMBER leftButtonMouseClickAndMove NOTIFY leftButtonMouseClickAndMoveChanged)
 	Q_PROPERTY(bool singleFingerTouchPressAndMove MEMBER singleFingerTouchPressAndMove NOTIFY singleFingerTouchPressAndMoveChanged)
-	Q_PROPERTY(bool histogram MEMBER histogram NOTIFY histogramChanged)
-	Q_PROPERTY(QString histogramVersion MEMBER histogramVersion NOTIFY histogramVersionChanged)
 
 	Q_PROPERTY(bool hidecounter MEMBER hidecounter NOTIFY hidecounterChanged)
 	Q_PROPERTY(bool hidefilepathshowfilename MEMBER hidefilepathshowfilename NOTIFY hidefilepathshowfilenameChanged)
@@ -490,6 +495,11 @@ public:
 	Q_PROPERTY(int exifMetadaWindowWidth MEMBER exifMetadaWindowWidth NOTIFY exifMetadaWindowWidthChanged)
 	Q_PROPERTY(int mainMenuWindowWidth MEMBER mainMenuWindowWidth NOTIFY mainMenuWindowWidthChanged)
 
+	Q_PROPERTY(QPoint histogramPosition MEMBER histogramPosition NOTIFY histogramPositionChanged)
+	Q_PROPERTY(QSize histogramSize MEMBER histogramSize NOTIFY histogramSizeChanged)
+	Q_PROPERTY(bool histogram MEMBER histogram NOTIFY histogramChanged)
+	Q_PROPERTY(QString histogramVersion MEMBER histogramVersion NOTIFY histogramVersionChanged)
+
 
 	/*#################################################################################################*/
 	/*#################################################################################################*/
@@ -553,8 +563,6 @@ public:
 		experimentalTouchscreenSupport = false;
 		leftButtonMouseClickAndMove = true;
 		singleFingerTouchPressAndMove = true;
-		histogram = false;
-		histogramVersion = "color";
 
 		hidecounter = false;
 		hidefilepathshowfilename = true;
@@ -630,6 +638,11 @@ public:
 
 		exifMetadaWindowWidth = 350;
 		mainMenuWindowWidth = 350;
+
+		histogram = false;
+		histogramVersion = "color";
+		histogramPosition = QPoint(100,100);
+		histogramSize = QSize(300,200);
 
 	}
 
@@ -712,8 +725,6 @@ public slots:
 			cont += QString("ExperimentalTouchscreenSupport=%1\n").arg(int(experimentalTouchscreenSupport));
 			cont += QString("LeftButtonMouseClickAndMove=%1\n").arg(int(leftButtonMouseClickAndMove));
 			cont += QString("SingleFingerTouchPressAndMove=%1\n").arg(int(singleFingerTouchPressAndMove));
-			cont += QString("Histogram=%1\n").arg(int(histogram));
-			cont += QString("HistogramVersion=%1\n").arg(histogramVersion);
 
 			cont += "\n[Quickinfo]\n";
 
@@ -796,6 +807,13 @@ public slots:
 			cont += QString("OpenUserPlacesUser=%1\n").arg(int(openUserPlacesUser));
 			cont += QString("OpenUserPlacesVolumes=%1\n").arg(int(openUserPlacesVolumes));
 			cont += QString("OpenKeepLastLocation=%1\n").arg(int(openKeepLastLocation));
+
+			cont += "\n[Histogram]\n";
+
+			cont += QString("Histogram=%1\n").arg(int(histogram));
+			cont += QString("HistogramVersion=%1\n").arg(histogramVersion);
+			cont += QString("HistogramPosition=%1,%2\n").arg(histogramPosition.x()).arg(histogramPosition.y());
+			cont += QString("HistogramSize=%1,%2\n").arg(histogramSize.width()).arg(histogramSize.height());
 
 			cont += "\n[Other]\n";
 
@@ -986,14 +1004,6 @@ public slots:
 				singleFingerTouchPressAndMove = true;
 			else if(all.contains("SingleFingerTouchPressAndMove=0"))
 				singleFingerTouchPressAndMove = false;
-
-			if(all.contains("Histogram=1"))
-				histogram = true;
-			else if(all.contains("Histogram=0"))
-				histogram = false;
-
-			if(all.contains("HistogramVersion="))
-				histogramVersion = all.split("HistogramVersion=").at(1).split("\n").at(0);
 
 			if(all.contains("HideCounter=1"))
 				hidecounter = true;
@@ -1280,6 +1290,23 @@ public slots:
 			if(all.contains("MainMenuWindowWidth="))
 				mainMenuWindowWidth = all.split("MainMenuWindowWidth=").at(1).split("\n").at(0).toInt();
 
+			if(all.contains("Histogram=1"))
+				histogram = true;
+			else if(all.contains("Histogram=0"))
+				histogram = false;
+
+			if(all.contains("HistogramVersion="))
+				histogramVersion = all.split("HistogramVersion=").at(1).split("\n").at(0);
+
+			if(all.contains("HistogramPosition=")) {
+				QStringList parts = all.split("HistogramPosition=").at(1).split("\n").at(0).split(",");
+				histogramPosition = QPoint(parts.at(0).toInt(), parts.at(1).toInt());
+			}
+
+			if(all.contains("HistogramSize=")) {
+				QStringList parts = all.split("HistogramSize=").at(1).split("\n").at(0).split(",");
+				histogramSize = QSize(parts.at(0).toInt(), parts.at(1).toInt());
+			}
 
 			file.close();
 
@@ -1336,8 +1363,6 @@ signals:
 	void experimentalTouchscreenSupportChanged(bool val);
 	void leftButtonMouseClickAndMoveChanged(bool val);
 	void singleFingerTouchPressAndMoveChanged(bool val);
-	void histogramChanged(bool val);
-	void histogramVersionChanged(QString val);
 
 	void hidecounterChanged(bool val);
 	void hidefilepathshowfilenameChanged(bool val);
@@ -1414,6 +1439,11 @@ signals:
 
 	void exifMetadaWindowWidthChanged(int val);
 	void mainMenuWindowWidthChanged(int val);
+
+	void histogramChanged(bool val);
+	void histogramVersionChanged(QString val);
+	void histogramPositionChanged(QPoint val);
+	void histogramSizeChanged(QSize val);
 
 };
 
