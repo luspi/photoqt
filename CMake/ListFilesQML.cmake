@@ -9,7 +9,7 @@ SET(d "qml/slidein")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/ThumbnailBar.qml ${d}/MetaData.qml ${d}/MainMenu.qml ${d}/SlideshowBar.qml)
 
 SET(d "qml/mainview")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Background.qml ${d}/QuickInfo.qml ${d}/SmartImage.qml ${d}/MainView.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Background.qml ${d}/QuickInfo.qml ${d}/SmartImage.qml ${d}/MainView.qml ${d}/Histogram.qml)
 
 SET(d "qml/openfile")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/OpenFile.qml ${d}/OldOpenFile.qml ${d}/BreadCrumbs.qml ${d}/UserPlaces.qml ${d}/Folders.qml ${d}/FilesView.qml)

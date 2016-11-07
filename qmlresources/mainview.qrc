@@ -1,8 +1,9 @@
 <RCC>
     <qresource prefix="/">
         <file>../qml/mainview/Background.qml</file>
-		<file>../qml/mainview/QuickInfo.qml</file>
-        <file>../qml/mainview/SmartImage.qml</file>
-        <file>../qml/mainview/MainView.qml</file>
+	<file>../qml/mainview/QuickInfo.qml</file>
+	<file>../qml/mainview/SmartImage.qml</file>
+	<file>../qml/mainview/MainView.qml</file>
+	<file>../qml/mainview/Histogram.qml</file>
     </qresource>
 </RCC>

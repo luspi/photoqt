@@ -29,7 +29,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/getanddostuff.h ${d}/getmetadata.cpp
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/gmimagemagick.h)
 SET(d "cplusplus/scripts/getanddostuff")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/context.cpp ${d}/external.cpp ${d}/manipulation.cpp ${d}/file.cpp ${d}/other.cpp)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/shortcuts.cpp ${d}/wallpaper.cpp ${d}/openfile.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/shortcuts.cpp ${d}/wallpaper.cpp ${d}/openfile.cpp ${d}/imageinfo.cpp)
 
 SET(d "cplusplus/settings")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/settings.h ${d}/settingssession.h ${d}/fileformats.h ${d}/colour.h)
@@ -73,7 +73,7 @@ SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/getanddostuff.h ${d}/getmetadata.h $
 SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/gmimagemagick.h)
 SET(d "cplusplus/scripts/getanddostuff")
 SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/openfile.h ${d}/context.h ${d}/external.h ${d}/manipulation.h ${d}/file.h ${d}/other.h)
-SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/shortcuts.h ${d}/wallpaper.h)
+SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/shortcuts.h ${d}/wallpaper.h ${d}/imageinfo.h)
 
 SET(d "cplusplus/settings")
 SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/settings.h ${d}/settingssession.h ${d}/fileformats.h ${d}/colour.h)

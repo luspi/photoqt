@@ -158,6 +158,14 @@ Item {
 		Behavior on opacity { NumberAnimation { duration: 250 } }
 	}
 
+	Histogram {
+		id: histogram;
+		x: 100
+		y: 50
+		width: 400;
+		height: 300;
+	}
+
 	////////////////////////////
 
 	// The thumbnail bar at the bottom

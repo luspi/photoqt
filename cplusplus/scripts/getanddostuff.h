@@ -11,6 +11,7 @@
 #include "getanddostuff/shortcuts.h"
 #include "getanddostuff/wallpaper.h"
 #include "getanddostuff/openfile.h"
+#include "getanddostuff/imageinfo.h"
 
 class GetAndDoStuff : public QObject {
 
@@ -27,6 +28,7 @@ public:
 		shortcuts = new GetAndDoStuffShortcuts;
 		wallpaper = new GetAndDoStuffWallpaper;
 		openfile = new GetAndDoStuffOpenFile;
+		imageinfo = new GetAndDoStuffImageInfo;
 
 		connect(manipulation, SIGNAL(reloadDirectory(QString,bool)), this, SIGNAL(reloadDirectory(QString,bool)));
 		connect(openfile, SIGNAL(userPlacesUpdated()), this, SIGNAL(userPlacesUpdated()));
@@ -44,6 +46,7 @@ public:
 		delete shortcuts;
 		delete wallpaper;
 		delete openfile;
+		delete imageinfo;
 	}
 
 	// CONTEXT
@@ -127,6 +130,10 @@ public:
 	Q_INVOKABLE QString getOpenFileLastLocation() {  return this->openfile->getOpenFileLastLocation(); }
 	Q_INVOKABLE void setOpenFileLastLocation(QString path) { openfile->setOpenFileLastLocation(path); }
 
+	// IMAGE INFO
+	Q_INVOKABLE QList<int> getGreyscaleHistogramValues(QString filename) { return imageinfo->getGreyscaleHistogramValues(filename); }
+	Q_INVOKABLE QList<int> getColorHistogramValues(QString filename) { return imageinfo->getColorHistogramValues(filename); }
+
 	int keyShortcutNotifier;
 	int mouseShortcutNotifier;
 	Q_PROPERTY(int keyShortcutNotifier MEMBER keyShortcutNotifier NOTIFY keyShortcutNotifierChanged)
@@ -151,6 +158,7 @@ private:
 	GetAndDoStuffShortcuts *shortcuts;
 	GetAndDoStuffWallpaper *wallpaper;
 	GetAndDoStuffOpenFile *openfile;
+	GetAndDoStuffImageInfo *imageinfo;
 
 signals:
 	void reloadDirectory(QString path, bool deleted = false);
