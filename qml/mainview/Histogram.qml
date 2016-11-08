@@ -22,8 +22,11 @@ Rectangle {
 	// half transparent black background
 	Rectangle {
 
+		id: bg_rect
+
 		color: "black"
 		opacity: 0.3
+		Behavior on opacity { NumberAnimation { duration: 200 } }
 		anchors.fill: parent
 
 	}
@@ -209,6 +212,32 @@ Rectangle {
 
 	}
 
+	Rectangle {
+		id: infolabel
+		opacity: 0.5
+		Behavior on opacity { NumberAnimation { duration: 200 } }
+
+		visible: (series_r.count == 0 && series_grey.count == 0)
+		anchors.fill: parent
+		color: "transparent"
+		Rectangle {
+			width: childrenRect.width+50
+			height: childrenRect.height+30
+			x: (parent.width-width)/2
+			y: (parent.height-height)/2
+			radius: 10
+			color: "#88000000"
+			Text {
+				x: 25
+				y: 15
+				text: "Histogram"
+				color: "white"
+				font.pixelSize: 18
+				font.bold: true
+			}
+		}
+	}
+
 	// move histogram around
 	MouseArea {
 
@@ -241,8 +270,14 @@ Rectangle {
 
 		}
 
-		onEntered: closex.show()
-		onExited: closex.hide()
+		onEntered: {
+			bg_rect.opacity = 0.6
+			infolabel.opacity = 1
+		}
+		onExited: {
+			bg_rect.opacity = 0.3
+			infolabel.opacity = 0.5
+		}
 
 		onMouseXChanged: if(resizing) parent.x = startX + (localcursorpos.x-startMouseX)
 
