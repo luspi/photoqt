@@ -79,12 +79,13 @@ Rectangle {
 		// Store some values
 		currentFile = imageModel.get(pos).imageUrl;
 
+		imagewatch.watchFolder(currentFile)
+
 		// Load image
-		if(getanddostuff.isImageAnimated(currentFile)) {
+		if(getanddostuff.isImageAnimated(currentFile))
 			mainview.loadImage("file:/" + currentFile, true)
-		} else {
+		else
 			mainview.loadImage("image://full/" + currentFile, false)
-		}
 
 		// Ensure selected item is centered/visible
 		if(totalNumberImages*(settings.thumbnailsize+settings.thumbnailSpacingBetween) > thumbnailBar.width) {

@@ -386,7 +386,7 @@ Rectangle {
 	// Load a new image
 	function loadImage(src, animated) {
 
-		if(_image_current_source == src)
+		if(_image_current_source == src && !directoryFileReloaded)
 			return
 
 		// When opening an image at startup, we have to ensure that the window has actually been displayed properly
@@ -399,6 +399,15 @@ Rectangle {
 		}
 
 		_image_current_source = src
+
+		// if directory was reloaded, we ensure that the current image is reset properly
+		if(directoryFileReloaded) {
+			one.source = "qrc:/img/empty.png"
+			two.source = "qrc:/img/empty.png"
+			three.source = "qrc:/img/empty.png"
+			four.source = "qrc:/img/empty.png"
+			directoryFileReloaded = false
+		}
 
 		// IMPORTANT: For the checks below, we HAVE to use double == and NOT triple!!!
 

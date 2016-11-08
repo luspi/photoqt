@@ -17,6 +17,7 @@
 #include "scripts/getanddostuff.h"
 #include "scripts/getmetadata.h"
 #include "scripts/thumbnailsmanagement.h"
+#include "scripts/imagewatch.h"
 #include "handlefiles/loaddir.h"
 #include "imageprovider/imageproviderthumbnail.h"
 #include "imageprovider/imageproviderfull.h"
@@ -83,7 +84,6 @@ private:
 	KeyHandler *keyHandler;
 
 	bool touchEventInProgress;
-
 
 private slots:
 

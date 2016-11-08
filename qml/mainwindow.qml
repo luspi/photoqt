@@ -10,6 +10,7 @@ import ShortcutsNotifier 1.0
 import Colour 1.0
 import QtQuick.Dialogs 1.2
 import QtGraphicalEffects 1.0
+import ImageWatch 1.0
 
 import "mainview/"
 import "slidein/"
@@ -43,6 +44,8 @@ Item {
 	signal stopThumbnails();
 	signal reloadThumbnails();
 
+	signal registerFilenameToWatch(string filename)
+
 	// Interface blocked? System Shortcuts blocked?
 	property bool blocked: false
 	property bool blockedSystem: false
@@ -59,6 +62,8 @@ Item {
 	property bool windowshown: true
 	onWindowshownChanged: if(windowshown) background.reloadScreenshot()
 	onWindowxChanged: if(windowshown) background.reloadScreenshot()
+
+	property bool directoryFileReloaded: false
 
 	// Element radius is the radius of "windows" (e.g., About or Quicksettings)
 	// Item radius is the radius of smaller items (e.g., spinbox)
@@ -109,6 +114,11 @@ Item {
 	ThumbnailManagement { id: thumbnailmanagement; }
 	ShortcutsNotifier { id: sh_notifier; }
 	Shortcuts { id: shortcuts; }
+	ImageWatch {
+		id: imagewatch
+		onReloadDirectory:
+			doReload(thumbnailBar.currentFile)
+	}
 
 	Strings.Keys { id: str_keys }
 	Strings.Mouse { id: str_mouse }
@@ -304,6 +314,7 @@ Item {
 
 	// We can't emit the signal from the subcomponent (empty error message), so we go the detour with a function emitting the signal
 	function doReload(path) {
+		directoryFileReloaded = true
 		verboseMessage("MainWindow::doReload()","Reloading directory '" + path + "'")
 		reloadDirectory(path,currentfilter)
 	}
