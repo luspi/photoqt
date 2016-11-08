@@ -12,7 +12,7 @@ Rectangle {
 
 	color: "transparent"
 
-	opacity: (thumbnailBar.currentFile!="" && settings.histogram) ? 1 : 0
+	opacity: settings.histogram ? 1 : 0
 	Behavior on opacity { NumberAnimation { duration: 200; } }
 
 	property string settingsHistogramVersion: settings.histogramVersion
@@ -34,9 +34,13 @@ Rectangle {
 		id: chart
 
 		// same size as parent
-		anchors.fill: parent
-		anchors.leftMargin: -20
-		anchors.bottomMargin: -10
+		anchors {
+			fill: parent
+			leftMargin: -35
+			bottomMargin: -20
+			rightMargin: -15
+			topMargin: -10
+		}
 
 		// enable antialiasing for better look
 		antialiasing: true
