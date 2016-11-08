@@ -51,7 +51,7 @@ EntryContainer {
 
 	function saveData() {
 		settings.histogram = (gr.checkedButton || col.checkedButton)
-		settings.histogramVersion = (gr.checkedButton ? "grey" : "color")
+		settings.histogramVersion = (gr.checkedButton ? "grey" : (col.checkedButton ? "color" : settings.histogramVersion))
 	}
 
 }

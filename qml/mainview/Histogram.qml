@@ -137,9 +137,9 @@ Rectangle {
 		}
 
 		function updateHistogram() {
-			if(settings.histogramVersion == "color")
+			if(settings.histogramVersion === "color")
 				chart.color_histogram()
-			else
+			else if(settings.histogramVersion === "grey")
 				chart.grey_histogram()
 		}
 
