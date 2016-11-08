@@ -26,6 +26,7 @@ Rectangle {
 
 		color: "black"
 		opacity: 0.3
+		radius: 10
 		Behavior on opacity { NumberAnimation { duration: 200 } }
 		anchors.fill: parent
 
