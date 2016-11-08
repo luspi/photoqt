@@ -42,7 +42,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/SortBy.qml ${d}/WindowMode.qml ${d}/
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/OverlayColor.qml ${d}/Quickinfo.qml ${d}/Background.qml ${d}/BorderAroundImage.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/CloseOnClick.qml ${d}/Loop.qml ${d}/Transition.qml ${d}/HotEdge.qml ${d}/Blur.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/MouseWheelSensitivity.qml ${d}/Interpolation.qml ${d}/Remember.qml ${d}/Animation.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/TouchScreen.qml ${d}/PixmapCache.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/TouchScreen.qml ${d}/PixmapCache.qml ${d}/Histogram.qml)
 SET(d "qml/settingsmanager/tabs/thumbnails")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/ThumbnailSize.qml ${d}/Spacing.qml ${d}/LiftUp.qml ${d}/KeepVisible.qml ${d}/Dynamic.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/CenterOn.qml ${d}/TopOrBottom.qml ${d}/Label.qml ${d}/FilenameOnly.qml ${d}/Disable.qml)

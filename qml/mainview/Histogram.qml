@@ -15,11 +15,15 @@ Rectangle {
 	opacity: (thumbnailBar.currentFile!="" && settings.histogram) ? 1 : 0
 	Behavior on opacity { NumberAnimation { duration: 200; } }
 
+	property string settingsHistogramVersion: settings.histogramVersion
+	onSettingsHistogramVersionChanged: chart.updateHistogram()
+
+
 	// half transparent black background
 	Rectangle {
 
 		color: "black"
-		opacity: 0.5
+		opacity: 0.3
 		anchors.fill: parent
 
 	}
@@ -41,7 +45,7 @@ Rectangle {
 		backgroundColor: "transparent"
 
 		// slightly transparent child elements
-		opacity: 0.8
+		opacity: 0.6
 
 		// no legends please
 		legend.visible: false
@@ -129,12 +133,14 @@ Rectangle {
 			repeat: false
 			running: false
 			interval: 500
-			onTriggered: {
-				if(settings.histogramVersion == "color")
-					chart.color_histogram()
-				else
-					chart.grey_histogram()
-			}
+			onTriggered: chart.updateHistogram()
+		}
+
+		function updateHistogram() {
+			if(settings.histogramVersion == "color")
+				chart.color_histogram()
+			else
+				chart.grey_histogram()
 		}
 
 		// Load greyscale histogram

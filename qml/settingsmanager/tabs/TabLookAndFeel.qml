@@ -72,15 +72,16 @@ Rectangle {
 			Blur { id: blur }
 			BorderAroundImage { id: border; alternating: true }
 			CloseOnClick { id: closeonclick }
-			Loop { id: loop; alternating: true }
-			Transition { id: transition }
-			HotEdge { id: hotedge; alternating: true }
-			MouseWheelSensitivity { id: mousewheel }
-			Interpolation { id: interpolation; alternating: true }
-			PixmapCache { id: pixmapcache }
-			TouchScreen { id: touchscreen; alternating: true }
-			Remember { id: remember }
-			Animation { id: animation; alternating: true }
+			Histogram { id: histogram; alternating: true }
+			Loop { id: loop }
+			Transition { id: transition; alternating: true }
+			HotEdge { id: hotedge }
+			MouseWheelSensitivity { id: mousewheel; alternating: true }
+			Interpolation { id: interpolation }
+			PixmapCache { id: pixmapcache; alternating: true }
+			TouchScreen { id: touchscreen }
+			Remember { id: remember; alternating: true }
+			Animation { id: animation }
 		}
 
 	}
@@ -98,6 +99,7 @@ Rectangle {
 		blur.setData()
 		border.setData()
 		closeonclick.setData()
+		histogram.setData()
 		loop.setData()
 		transition.setData()
 		hotedge.setData()
@@ -123,6 +125,7 @@ Rectangle {
 		blur.saveData()
 		border.saveData()
 		closeonclick.saveData()
+		histogram.saveData()
 		loop.saveData()
 		transition.saveData()
 		hotedge.saveData()
