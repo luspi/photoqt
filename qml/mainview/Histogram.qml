@@ -36,8 +36,11 @@ Rectangle {
 		function show() {
 			opacity = 0.6
 		}
+		function showMove() {
+			opacity = 0.7
+		}
 		function hide() {
-			opacity = 0.3
+			opacity = 0.5
 		}
 
 	}
@@ -287,6 +290,7 @@ Rectangle {
 				startY = parent.y
 				startMouseX = localcursorpos.x
 				startMouseY = localcursorpos.y
+				bg_rect.showMove()
 			} else {
 				if(settings.histogramVersion == "color")
 					chart.grey_histogram()
@@ -313,6 +317,7 @@ Rectangle {
 			settings.histogramPosition = Qt.point(rect_top.x, rect_top.y)
 			cursorShape = Qt.ArrowCursor
 			resizing = false
+			bg_rect.show()
 		}
 
 	}
