@@ -15,6 +15,7 @@ Rectangle {
 	opacity: settings.histogram ? 1 : 0
 	Behavior on opacity { NumberAnimation { duration: 200; } }
 
+	onOpacityChanged: if(opacity == 1) chart.updateHistogram()
 	property string settingsHistogramVersion: settings.histogramVersion
 	onSettingsHistogramVersionChanged: chart.updateHistogram()
 
@@ -145,10 +146,15 @@ Rectangle {
 		}
 
 		function updateHistogram() {
+
+			// Don't calculate histogram if disabled
+			if(!settings.histogram) return;
+
 			if(settings.histogramVersion === "color")
 				chart.color_histogram()
 			else if(settings.histogramVersion === "grey")
 				chart.grey_histogram()
+
 		}
 
 		// Load greyscale histogram
