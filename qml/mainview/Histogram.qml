@@ -1,6 +1,8 @@
 import QtQuick 2.3
 import QtCharts 2.1
 
+import "../elements"
+
 Rectangle {
 
 	id: rect_top
@@ -30,6 +32,13 @@ Rectangle {
 		radius: 10
 		Behavior on opacity { NumberAnimation { duration: 200 } }
 		anchors.fill: parent
+
+		function show() {
+			opacity = 0.6
+		}
+		function hide() {
+			opacity = 0.3
+		}
 
 	}
 
@@ -219,21 +228,27 @@ Rectangle {
 
 	}
 
+	// a simple text label identifying this element as the histogram as long as no image is loaded
 	Rectangle {
+
 		id: infolabel
+
 		opacity: 0.5
 		Behavior on opacity { NumberAnimation { duration: 200 } }
 
 		visible: (series_r.count == 0 && series_grey.count == 0)
 		anchors.fill: parent
 		color: "transparent"
+
 		Rectangle {
+
 			width: childrenRect.width+50
 			height: childrenRect.height+30
 			x: (parent.width-width)/2
 			y: (parent.height-height)/2
 			radius: 10
 			color: "#88000000"
+
 			Text {
 				x: 25
 				y: 15
@@ -242,11 +257,15 @@ Rectangle {
 				font.pixelSize: 18
 				font.bold: true
 			}
+
 		}
+
 	}
 
 	// move histogram around
-	MouseArea {
+	ToolTip {
+
+		text: "Click-and-drag to move. Left click to switch version."
 
 		property bool resizing: false
 		property int startMouseX: 0
@@ -278,11 +297,11 @@ Rectangle {
 		}
 
 		onEntered: {
-			bg_rect.opacity = 0.6
+			bg_rect.show()
 			infolabel.opacity = 1
 		}
 		onExited: {
-			bg_rect.opacity = 0.3
+			bg_rect.hide()
 			infolabel.opacity = 0.5
 		}
 
@@ -348,16 +367,58 @@ Rectangle {
 
 	}
 
+	Rectangle {
+		id: switchVersion
+		color: "transparent"
+		x: -5
+		y: -5
+		width: 25
+		height: 25
+		Behavior on opacity { NumberAnimation { duration:200; } }
+		Image {
+			anchors.fill: parent
+			source: "qrc:/img/switchHistogramVersion.png"
+			sourceSize.width: parent.width
+			sourceSize.height: parent.height
+		}
+		ToolTip {
+			text: qsTr("Click to switch between coloured and greyscale histogram. You can also switch by doing a left-click onto the histogram.")
+			anchors.fill: parent
+			hoverEnabled: true
+			cursorShape: Qt.PointingHandCursor
+			onEntered: {
+				bg_rect.show()
+				parent.show()
+			}
+			onExited: {
+				bg_rect.hide()
+				parent.hide()
+			}
+			onClicked: {
+				if(settings.histogramVersion == "color")
+					settings.histogramVersion = "grey"
+				else
+					settings.histogramVersion = "color"
+			}
+		}
+		function show() {
+			switchVersion.opacity = 0.75
+		}
+		function hide() {
+			switchVersion.opacity = 0.05
+		}
+		Component.onCompleted: hide()
+	}
+
 	// 'x' to hide histogram
 	Rectangle {
 		id: closex
 		color: "transparent"
-		x: parent.width-15
+		x: parent.width-20
 		y: -15
 		width: 30
 		height: 30
 		Behavior on opacity { NumberAnimation { duration:200; } }
-		radius: 5
 		Text {
 			anchors.fill: parent
 			color: "red"
@@ -368,12 +429,19 @@ Rectangle {
 			verticalAlignment: Text.AlignVCenter
 		}
 
-		MouseArea {
+		ToolTip {
+			text: qsTr("Click to hide histogram. It can always be shown again from the mainmenu.")
 			anchors.fill: parent
 			hoverEnabled: true
 			cursorShape: Qt.PointingHandCursor
-			onEntered: parent.show()
-			onExited: parent.hide()
+			onEntered: {
+				bg_rect.show()
+				parent.show()
+			}
+			onExited: {
+				bg_rect.hide()
+				parent.hide()
+			}
 			onClicked: settings.histogram = false
 		}
 		function show() {

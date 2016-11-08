@@ -25,7 +25,6 @@
 		<file>../qml/settingsmanager/tabs/lookandfeel/Blur.qml</file>
 		<file>../qml/settingsmanager/tabs/lookandfeel/PixmapCache.qml</file>
 		<file>../qml/settingsmanager/tabs/lookandfeel/TouchScreen.qml</file>
-		<file>../qml/settingsmanager/tabs/lookandfeel/Histogram.qml</file>
 		<file>../qml/settingsmanager/tabs/TabThumbnails.qml</file>
 		<file>../qml/settingsmanager/tabs/thumbnails/ThumbnailSize.qml</file>
 		<file>../qml/settingsmanager/tabs/thumbnails/Spacing.qml</file>
