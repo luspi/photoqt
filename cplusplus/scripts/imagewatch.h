@@ -24,7 +24,9 @@ public:
 
 	Q_INVOKABLE void watchFolder(QString filename) {
 		if(watcher->files().length() > 0) watcher->removePaths(watcher->files());
+		if(watcher->directories().length() > 0) watcher->removePaths(watcher->directories());
 		watcher->addPath(filename);
+		watcher->addPath(QFileInfo(filename).absolutePath());
 	}
 
 private:
