@@ -221,6 +221,33 @@ Rectangle {
 							showLoader()
 					}
 
+					// This one overlays the actual image and contains a scaled version for better downscaling
+					Image {
+						anchors.fill: parent
+						property string _source: parent.source
+						on_SourceChanged: {
+							source = ""
+							one_timer.start()
+						}
+						source: parent.source
+						mipmap: parent.mipmap
+						fillMode: Image.PreserveAspectFit
+						sourceSize: Qt.size(smartimage_top.width, smartimage_top.height)
+						visible: (!isZoomed() || image.scale <= 1) && parent.visible
+						Timer {
+							id: one_timer
+							repeat: true
+							interval: 100
+							running: false
+							onTriggered: {
+								if(one.status == Image.Ready) {
+									parent.source = parent._source
+									running = false
+								}
+							}
+						}
+					}
+
 				}
 				Image {
 
@@ -253,6 +280,33 @@ Rectangle {
 							hideLoader()
 						} else
 							showLoader()
+					}
+
+					// This one overlays the actual image and contains a scaled version for better downscaling
+					Image {
+						anchors.fill: parent
+						property string _source: parent.source
+						on_SourceChanged: {
+							source = ""
+							two_timer.start()
+						}
+						source: parent.source
+						mipmap: parent.mipmap
+						fillMode: Image.PreserveAspectFit
+						sourceSize: Qt.size(smartimage_top.width, smartimage_top.height)
+						visible: (!isZoomed() || image.scale <= 1) && parent.visible
+						Timer {
+							id: two_timer
+							repeat: true
+							interval: 100
+							running: false
+							onTriggered: {
+								if(two.status == Image.Ready) {
+									parent.source = parent._source
+									running = false
+								}
+							}
+						}
 					}
 
 				}

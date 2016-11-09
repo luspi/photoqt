@@ -50,8 +50,11 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
 
 	if(pixmapcache->contains(cachekey)) {
 		QPixmap *pix = pixmapcache->take(cachekey);
-		if(!pix->isNull())
+		if(!pix->isNull()) {
+			if(requestedSize.width() > 2 && requestedSize.height() > 2 && ret.width() > requestedSize.width() && ret.height() > requestedSize.height())
+				return pix->scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation).toImage();
 			return pix->toImage();
+		}
 	}
 
 	// Try to use XCFtools for XCF (if enabled)
@@ -72,8 +75,12 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
 
 	QPixmap *newpixPt = new QPixmap(ret.width(), ret.height());
 	*newpixPt = QPixmap::fromImage(ret);
-	if(!newpixPt->isNull())
+	if(!newpixPt->isNull()) {
 		pixmapcache->insert(cachekey, newpixPt, newpixPt->width()*newpixPt->height()*newpixPt->depth()/(8*1024));
+	}
+
+	if(requestedSize.width() > 2 && requestedSize.height() > 2 && ret.width() > requestedSize.width() && ret.height() > requestedSize.height())
+		ret = ret.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
 	return ret;
 
