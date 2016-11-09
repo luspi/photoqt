@@ -559,7 +559,7 @@ public:
 		interpolationNearestNeighbourThreshold = 100;
 		interpolationNearestNeighbourUpscale = false;
 		blurIntensity = 5;
-		pixmapCache = 25;
+		pixmapCache = 128;
 		experimentalTouchscreenSupport = false;
 		leftButtonMouseClickAndMove = true;
 		singleFingerTouchPressAndMove = true;
