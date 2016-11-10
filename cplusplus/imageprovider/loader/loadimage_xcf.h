@@ -14,7 +14,12 @@ class LoadImageXCF {
 
 public:
 
-	static QImage load(QString filename, QSize maxSize) {
+	LoadImageXCF() { }
+
+	QImage load(QString filename, QSize maxSize, int angle) {
+
+		QTransform trans;
+		trans.rotate(angle);
 
 		QSize origSize;
 
@@ -58,7 +63,7 @@ public:
 
 		reader.setScaledSize(QSize(dispWidth,dispHeight));
 
-		return reader.read();
+		return reader.read().transformed(trans);
 
 	}
 

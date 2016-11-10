@@ -74,18 +74,13 @@ Rectangle {
 
 		if(!directoryLoaded) return
 
-		mainview.amLoadingImage = true
-
 		// Store some values
 		currentFile = imageModel.get(pos).imageUrl;
 
 		imagewatch.watchFolder(currentFile)
 
 		// Load image
-		if(getanddostuff.isImageAnimated(currentFile))
-			mainview.loadImage("file:/" + currentFile, true)
-		else
-			mainview.loadImage("image://full/" + currentFile, false)
+		mainview.loadImage("image://full/" + currentFile)
 
 		// Ensure selected item is centered/visible
 		if(totalNumberImages*(settings.thumbnailsize+settings.thumbnailSpacingBetween) > thumbnailBar.width) {
@@ -171,24 +166,7 @@ Rectangle {
 		displayImage(totalNumberImages-1);
 	}
 
-	// Load proper thumbnail at position 'pos' (smart == true means: ONLY IF IT EXISTS)
-	Timer {
-		id: waitUntilMainImageIsDisplayed
-		running: false
-		interval: 200
-		repeat: false
-		property int pos: -1
-		property bool smart: false
-		onTriggered: reloadImage(pos, smart)
-	}
-
 	function reloadImage(pos, smart) {
-		if(mainview.amLoadingImage) {
-			waitUntilMainImageIsDisplayed.pos = pos
-			waitUntilMainImageIsDisplayed.smart = smart
-			waitUntilMainImageIsDisplayed.start()
-			return
-		}
 		verboseMessage("ThumbnailBar::reloadImage()",pos + " - " + smart)
 		if(pos < 0 || pos >= totalNumberImages) return
 		var imageUrl = imageModel.get(pos).imageUrl;

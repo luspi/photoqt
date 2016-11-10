@@ -2,6 +2,7 @@
 #define GETANDDOSTUFFIMAGEINFO_H
 
 #include <QObject>
+#include <QMovie>
 #include "../../imageprovider/imageproviderfull.h"
 
 class GetAndDoStuffImageInfo : public QObject {
@@ -14,6 +15,7 @@ public:
 
 	QList<int> getGreyscaleHistogramValues(QString filename);
 	QList<int> getColorHistogramValues(QString filename);
+	QList<int> getNumFramesAndDuration(QString filename);
 
 private:
 	ImageProviderFull *provider;

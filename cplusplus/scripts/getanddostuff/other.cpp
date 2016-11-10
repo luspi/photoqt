@@ -6,6 +6,11 @@ GetAndDoStuffOther::~GetAndDoStuffOther() { }
 
 bool GetAndDoStuffOther::isImageAnimated(QString path) {
 
+	if(path.startsWith("image://full/"))
+		path = path.remove(0,13);
+	if(path.contains("::photoqt::"))
+		path = path.split("::photoqt::").at(0);
+
 	return QMovie::supportedFormats().contains(QFileInfo(path).suffix().toLower().toUtf8());
 
 }

@@ -612,14 +612,6 @@ void MainWindow::updateWindowXandY() {
 
 }
 
-void MainWindow::resizeEvent(QResizeEvent *e) {
-
-	QMetaObject::invokeMethod(object, "windowResized");
-
-	QQuickWindow::resizeEvent(e);
-
-}
-
 void MainWindow::showStartup(QString type, QString filename) {
 
 	if(variables->verbose)

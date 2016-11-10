@@ -290,7 +290,6 @@ Item {
 	}
 
 	function showStartup(type, filename) { startup.showStartup(type, filename); }
-	function windowResized() { mainview.windowHasBeenResized(); if(!isZoomed()) resetZoom() }
 
 	function openFile() { openfile.show(); }
 	function openFileOLD() { oldopenfile.show(); }

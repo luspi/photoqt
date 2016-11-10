@@ -47,6 +47,11 @@ private:
 	QString extrasfiles;
 	QString rawfiles;
 
+	LoadImageGM *loaderGM;
+	LoadImageQt *loaderQT;
+	LoadImageRaw *loaderRAW;
+	LoadImageRaw *loaderXCF;
+
 	QCache<QByteArray,QPixmap> *pixmapcache;
 
 

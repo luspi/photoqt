@@ -166,8 +166,6 @@ private slots:
 protected:
 	bool event(QEvent *e);
 
-	void resizeEvent(QResizeEvent *e);
-
 signals:
 	void doSetupModel();
 

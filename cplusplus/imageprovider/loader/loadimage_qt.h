@@ -17,8 +17,12 @@
 class LoadImageQt {
 
 public:
+	LoadImageQt() { mov = new QMovie; }
 
-	static QImage load(QString filename, QSize maxSize, QString exifrotation) {
+	QImage load(QString filename, QSize maxSize, QString exifrotation, int angle) {
+
+		QTransform trans;
+		trans.rotate(angle);
 
 		// For reading SVG files
 		QSvgRenderer svg;
@@ -111,15 +115,31 @@ public:
 
 	#endif
 
-			// Eventually load the image
-			img = reader.read();
+			if(reader.supportsAnimation()) {
+
+				if(mov == nullptr || mov->fileName() != filename) {
+					mov = new QMovie(filename);
+					mov->start();
+					mov->setPaused(true);
+				} else
+					if(!mov->jumpToNextFrame())
+						LOG << "[LoadImageQt] Error loading next frame of animated image, QMovie::jumpToNextFrame()" << NL;
+
+				img = mov->currentImage();
+
+			} else {
+
+				// Eventually load the image
+				img = reader.read();
+
+			}
 
 
 	#if defined(EXIV2) && QT_VERSION < 0x050500
 
 			// If this setting is enabled, then we check at image load for the Exif rotation tag
 			// and change the image accordingly
-			if(exifrotation == "Always") {
+			if(exifrotation == "Always" && angle == 0) {
 
 				// Known formats by Exiv2
 				QStringList formats;
@@ -215,9 +235,12 @@ public:
 
 		}
 
-		return img;
+		return img.transformed(trans);
 
 	}
+
+private:
+	QMovie *mov;
 
 };
 

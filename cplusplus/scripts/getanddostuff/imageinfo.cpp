@@ -95,3 +95,27 @@ QList<int> GetAndDoStuffImageInfo::getColorHistogramValues(QString filename) {
 	return levels;
 
 }
+
+QList<int> GetAndDoStuffImageInfo::getNumFramesAndDuration(QString filename) {
+
+	if(filename.startsWith("image://full/"))
+		filename = filename.remove(0,13);
+
+	if(filename.contains("::photoqt::"))
+		filename = filename.split("::photoqt::").at(0);
+
+	QList<int> ret = QList<int>() << 1 << 0;
+
+	QMovie mov(filename);
+	// the movie needs to be running to get the right value for nextFrameDelay()
+	mov.start();
+	if(mov.frameCount() > 1) {
+		ret[0] = mov.frameCount();
+		ret[1] = std::max(mov.nextFrameDelay(),100);
+		mov.stop();
+		return ret;
+	}
+
+	return ret;
+
+}

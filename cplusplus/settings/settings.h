@@ -546,7 +546,7 @@ public:
 		composite = true;
 #endif
 		trayicon = 0;
-		transition = 0;
+		transition = 1;
 		loopthroughfolder = true;
 		menusensitivity = 4;
 		closeongrey = false;

@@ -14,7 +14,12 @@ class LoadImageRaw {
 
 public:
 
-	static QImage load(QString filename, QSize maxSize) {
+	LoadImageRaw() { }
+
+	QImage load(QString filename, QSize maxSize, int angle) {
+
+		QTransform trans;
+		trans.rotate(angle);
 
 #ifdef RAW
 
@@ -136,7 +141,7 @@ public:
 				&& (image.width() > maxSize.width() || image.height() > maxSize.height()))
 			image = image.scaled(maxSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
-		return image;
+		return image.transformed(trans);
 
 #endif
 
