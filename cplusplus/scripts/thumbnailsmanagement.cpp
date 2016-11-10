@@ -50,14 +50,16 @@ void ThumbnailManagement::cleanDatabase() {
 	query.exec();
 
 	// First we create a list of items that are to be deleted
-	QList<QStringList> toDel;
+	QVector<QVector<QString> > toDel;
+	if(query.size() != -1) toDel.reserve(query.size());
 	while(query.next()) {
 		QString path = query.value(query.record().indexOf("filepath")).toString();
 		int mtime = query.value(query.record().indexOf("filelastmod")).toInt();
 
 		if(!QFile(path).exists() || mtime != int(QFileInfo(path).lastModified().toTime_t())) {
 
-			QStringList l;
+			QVector<QString> l;
+			l.reserve(2);
 			l << path << QString("%1").arg(mtime);
 			toDel << l;
 
@@ -67,7 +69,7 @@ void ThumbnailManagement::cleanDatabase() {
 	query.clear();
 
 	// Then we actually delete all the items
-	for(int i = 0; i < toDel.length(); ++i) {
+	for(int i = 0; i < toDel.size(); ++i) {
 
 		QSqlQuery query2(db);
 		query2.prepare("DELETE FROM Thumbnails WHERE filepath=:path AND filelastmod=:mod");

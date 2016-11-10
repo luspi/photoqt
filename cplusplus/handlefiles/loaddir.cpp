@@ -11,7 +11,7 @@ LoadDir::~LoadDir() {
 	delete fileformats;
 }
 
-QFileInfoList LoadDir::loadDir(QString filepath, QString filter) {
+QVector<QFileInfo> LoadDir::loadDir(QString filepath, QString filter) {
 
 	if(verbose)
 		LOG << CURDATE << "LoadDir::loadDir(): Loading filepath '" << filepath.toStdString() << "'" << NL;
@@ -41,7 +41,8 @@ QFileInfoList LoadDir::loadDir(QString filepath, QString filter) {
 	}
 
 	// Store a QFileInfoList and a QStringList with the filenames
-	allImgsInfo = dir.entryInfoList(QDir::Files,QDir::IgnoreCase);
+	allImgsInfo.clear();
+	allImgsInfo = dir.entryInfoList(QDir::Files,QDir::IgnoreCase).toVector();
 
 	// When opening an unknown file (i.e., one that doesn't match any set format), then we need to manually add it to the list of loaded images
 	if(!allImgsInfo.contains(QFileInfo(filepath))) {
@@ -50,7 +51,7 @@ QFileInfoList LoadDir::loadDir(QString filepath, QString filter) {
 		else if(allImgsInfo.length() > 0)
 			filepath = allImgsInfo.at(0).filePath();
 		else
-			return QFileInfoList();
+			return QVector<QFileInfo>();
 	}
 
 	// Sort images...

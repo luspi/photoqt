@@ -66,8 +66,8 @@ private:
 	Variables *variables;
 
 	int currentCenter;
-	QList<int> loadThumbnailsInThisOrder;
-	QList<int> smartLoadThumbnailsInThisOrder;
+	QVector<int> loadThumbnailsInThisOrder;
+	QVector<int> smartLoadThumbnailsInThisOrder;
 
 	QString mouseCombo;
 	QPoint mouseOrigPoint;
@@ -168,7 +168,6 @@ protected:
 
 signals:
 	void doSetupModel();
-
 
 };
 

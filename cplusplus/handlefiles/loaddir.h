@@ -20,7 +20,7 @@ public:
 	explicit LoadDir(bool verbose);
 	~LoadDir();
 
-	QFileInfoList loadDir(QString filepath, QString filter);
+	QVector<QFileInfo> loadDir(QString filepath, QString filter);
 
 private:
 
@@ -31,7 +31,7 @@ private:
 
 	QStringList imageFilter;
 
-	QFileInfoList allImgsInfo;
+	QVector<QFileInfo> allImgsInfo;
 
 	static bool sort_name(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
 	static bool sort_name_desc(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);

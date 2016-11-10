@@ -143,7 +143,7 @@ void MainWindow::handleOpenFileEvent(QString filename, QString filter) {
 	variables->loadedThumbnails.clear();
 
 	// Load direcgtory
-	QFileInfoList l = loadDir->loadDir(file,variables->openfileFilter);
+	QVector<QFileInfo> l = loadDir->loadDir(file,variables->openfileFilter);
 	if(l.isEmpty()) {
 		QMetaObject::invokeMethod(object, "noResultsFromFilter");
 		restoreOverrideCursor();
@@ -160,7 +160,7 @@ void MainWindow::handleOpenFileEvent(QString filename, QString filter) {
 	QStringList ll;
 	for(int i = 0; i < l_length; ++i)
 		ll.append(l.at(i).absoluteFilePath());
-	settingsPerSession->setValue("allFileList",ll);
+	settingsPerSession->setValue("allFileList", ll);
 
 	// Get and store current position
 	int curPos = l.indexOf(QFileInfo(file));
@@ -213,7 +213,10 @@ void MainWindow::handleThumbnails(int centerPos) {
 	loadThumbnailsInThisOrder.clear();
 	smartLoadThumbnailsInThisOrder.clear();
 
-	if(!variables->loadedThumbnails.contains(currentCenter)) loadThumbnailsInThisOrder.append(currentCenter);
+	loadThumbnailsInThisOrder.reserve(2*(numberToOneSide+3)+2);
+	smartLoadThumbnailsInThisOrder.reserve(qMin(countTot, 2*(maxLoad+3)+2));
+
+	loadThumbnailsInThisOrder.append(currentCenter);
 
 	// Load thumbnails in this order
 	for(int i = 1; i <= maxLoad+3; ++i) {
