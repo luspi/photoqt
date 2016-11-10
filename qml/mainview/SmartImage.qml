@@ -16,6 +16,9 @@ Rectangle {
 	property int fadeduration: 100
 	property int zoomduration: 100
 
+
+	property int _fadeDurationNextImage: fadeduration
+
 	// this one is used internally to distinguish zoom by keys and mouse
 	property bool zoomTowardsCenter: true
 
@@ -147,7 +150,8 @@ Rectangle {
 
 						// smooth opacity handling
 						opacity: 1
-						Behavior on opacity { NumberAnimation { duration: fadeduration; } }
+						Behavior on opacity { NumberAnimation { duration: _fadeDurationNextImage; } }
+						onOpacityChanged: if(opacity == 1) _fadeDurationNextImage = fadeduration
 
 						// no source at start
 						source: ""
@@ -234,7 +238,8 @@ Rectangle {
 
 						// smooth opacity handling
 						opacity: 0
-						Behavior on opacity { NumberAnimation { duration: fadeduration; } }
+						Behavior on opacity { NumberAnimation { duration: _fadeDurationNextImage; } }
+						onOpacityChanged: if(opacity == 1) _fadeDurationNextImage = fadeduration
 
 						// no source at start
 						source: ""
@@ -363,6 +368,9 @@ Rectangle {
 		if(angle == undefined)
 			angle = 0;
 
+		if(angle != imgrect._rotation)
+			imgrect._rotation = angle
+
 		// Add on angle to filename
 		filename += "::photoqt::" + angle
 
@@ -454,19 +462,23 @@ Rectangle {
 
 	// Rotate image to the left
 	function rotateLeft() {
+		_fadeDurationNextImage = (fadeduration==0 ? 200 : fadeduration)
 		imgrect._rotation -= 90
 	}
 	// Rotate image to the right
 	function rotateRight() {
+		_fadeDurationNextImage = (fadeduration==0 ? 200 : fadeduration)
 		imgrect._rotation += 90
 	}
 	// Rotate image by 180 degrees
 	function rotate180() {
+		_fadeDurationNextImage = (fadeduration==0 ? 200 : fadeduration)
 		imgrect._rotation += 180
 	}
 
 	// Reset rotation value to zero
 	function resetRotation() {
+		_fadeDurationNextImage = (fadeduration==0 ? 200 : fadeduration)
 		imgrect._rotation = 0
 	}
 
