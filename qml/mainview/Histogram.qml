@@ -17,7 +17,13 @@ Rectangle {
 	opacity: settings.histogram ? 1 : 0
 	Behavior on opacity { NumberAnimation { duration: 200; } }
 
-	onOpacityChanged: if(opacity == 1) chart.updateHistogram()
+	onOpacityChanged: {
+		if(opacity == 0)
+			visible = false
+		else
+			visible = true
+		if(opacity == 1) chart.updateHistogram()
+	}
 	property string settingsHistogramVersion: settings.histogramVersion
 	onSettingsHistogramVersionChanged: chart.updateHistogram()
 
