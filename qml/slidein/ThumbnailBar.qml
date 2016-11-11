@@ -353,11 +353,13 @@ Rectangle {
 				}
 			}
 
-			MouseArea {
+			ToolTip {
 
 				cursorShape: Qt.PointingHandCursor
 				anchors.fill: parent
 				hoverEnabled: true
+
+				text: getanddostuff.removePathFromFilename(imageUrl, false)
 
 				// Lift item up on hover
 				onPositionChanged: {
