@@ -134,6 +134,7 @@ public:
 	Q_INVOKABLE QList<int> getGreyscaleHistogramValues(QString filename) { return imageinfo->getGreyscaleHistogramValues(filename); }
 	Q_INVOKABLE QList<int> getColorHistogramValues(QString filename) { return imageinfo->getColorHistogramValues(filename); }
 	Q_INVOKABLE QList<int> getNumFramesAndDuration(QString filename) { return imageinfo->getNumFramesAndDuration(filename); }
+	Q_INVOKABLE QString getLastModified(QString filename) { return imageinfo->getLastModified(filename); }
 
 	int keyShortcutNotifier;
 	int mouseShortcutNotifier;

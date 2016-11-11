@@ -119,3 +119,11 @@ QList<int> GetAndDoStuffImageInfo::getNumFramesAndDuration(QString filename) {
 	return ret;
 
 }
+
+QString GetAndDoStuffImageInfo::getLastModified(QString filename) {
+	if(filename.startsWith("image://full/"))
+		filename = filename.remove(0,13);
+	if(filename.contains("::photoqt::"))
+		filename = filename.split("::photoqt::").at(0);
+	return QFileInfo(filename).lastModified().toString("HHmmsszzz");
+}

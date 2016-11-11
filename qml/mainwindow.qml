@@ -63,8 +63,6 @@ Item {
 	onWindowshownChanged: if(windowshown) background.reloadScreenshot()
 	onWindowxChanged: if(windowshown) background.reloadScreenshot()
 
-	property bool directoryFileReloaded: false
-
 	// Element radius is the radius of "windows" (e.g., About or Quicksettings)
 	// Item radius is the radius of smaller items (e.g., spinbox)
 	readonly property int global_element_radius: 10
@@ -313,7 +311,6 @@ Item {
 
 	// We can't emit the signal from the subcomponent (empty error message), so we go the detour with a function emitting the signal
 	function doReload(path) {
-		directoryFileReloaded = true
 		verboseMessage("MainWindow::doReload()","Reloading directory '" + path + "'")
 		reloadDirectory(path,currentfilter)
 	}

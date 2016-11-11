@@ -23,6 +23,9 @@ Image {
 	// no source at start
 	source: ""
 
+	// store last modification time in the format 'Hmsz'
+	property string lastModified: ""
+
 	// the status has changed, show image and start/stop some timers
 	onStatusChanged: {
 		if(status == Image.Ready) {
@@ -36,6 +39,7 @@ Image {
 				one_mask_timer.start()
 			}
 			loading_rect.hideLoader()
+			lastModified = getanddostuff.getLastModified(source)
 		} else
 			loading_rect.showLoader()
 	}

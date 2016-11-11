@@ -201,6 +201,9 @@ Rectangle {
 		// Add on angle to filename
 		filename += "::photoqt::" + angle
 
+		// this value is checked later, if a source was set to the same item before but has been modified, we reload it from scratch again
+		var mod = getanddostuff.getLastModified(filename)
+
 		// check if image is animated
 		var animated = getanddostuff.isImageAnimated(filename)
 
@@ -210,19 +213,10 @@ Rectangle {
 			var anidat = getanddostuff.getNumFramesAndDuration(filename)
 		}
 
-		// if directory was reloaded, we ensure that the current image is reset properly
-		if(directoryFileReloaded) {
-			one.source = "qrc:/img/empty.png"
-			two.source = "qrc:/img/empty.png"
-			three.source = "qrc:/img/empty.png"
-			four.source = "qrc:/img/empty.png"
-			directoryFileReloaded = false
-		}
-
 		// If 'one' is visible...
 		if(one.opacity != 0) {
 			// If it's the exact same file as 'two' showed before, simply make it visible again
-			if(two.source == filename)
+			if(two.source == filename && mod == two.lastModified)
 				makeImageVisible("two")
 			else {
 				// we set whether image is animated or not
@@ -236,7 +230,7 @@ Rectangle {
 		// If 'two' is visible...
 		} else if(two.opacity != 0) {
 			// If it's the exact same file as 'one' showed before, simply make it visible again
-			if(three.source == filename)
+			if(three.source == filename && mod == three.lastModified)
 				makeImageVisible("three")
 			else {
 				// we set whether image is animated or not
@@ -250,7 +244,7 @@ Rectangle {
 		// If 'three' is visible...
 		} else if(three.opacity != 0) {
 			// If it's the exact same file as 'one' showed before, simply make it visible again
-			if(four.source == filename)
+			if(four.source == filename && mod == four.lastModified)
 				makeImageVisible("four")
 			else {
 				// we set whether image is animated or not
@@ -264,7 +258,7 @@ Rectangle {
 		// If 'four' is visible...
 		} else if(four.opacity != 0) {
 			// If it's the exact same file as 'one' showed before, simply make it visible again
-			if(one.source == filename)
+			if(one.source == filename && mod == one.lastModified)
 				makeImageVisible("one")
 			else {
 				// we set whether image is animated or not

@@ -16,6 +16,7 @@ public:
 	QList<int> getGreyscaleHistogramValues(QString filename);
 	QList<int> getColorHistogramValues(QString filename);
 	QList<int> getNumFramesAndDuration(QString filename);
+	QString getLastModified(QString filename);
 
 private:
 	ImageProviderFull *provider;
