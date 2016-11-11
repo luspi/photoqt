@@ -70,6 +70,8 @@ Rectangle {
 
 	function displayImage(pos) {
 
+		mainview.imageLoading = true
+
 		verboseMessage("ThumbnailBar::displayImage()",pos)
 
 		if(!directoryLoaded) return
@@ -166,7 +168,24 @@ Rectangle {
 		displayImage(totalNumberImages-1);
 	}
 
+	// Load proper thumbnail at position 'pos' (smart == true means: ONLY IF IT EXISTS)
+	Timer {
+		id: waitUntilMainImageIsDisplayed
+		running: false
+		interval: 200
+		repeat: false
+		property int pos: -1
+		property bool smart: false
+		onTriggered: reloadImage(pos, smart)
+	}
+
 	function reloadImage(pos, smart) {
+		if(mainview.imageLoading) {
+			waitUntilMainImageIsDisplayed.pos = pos
+			waitUntilMainImageIsDisplayed.smart = smart
+			waitUntilMainImageIsDisplayed.start()
+			return
+		}
 		verboseMessage("ThumbnailBar::reloadImage()",pos + " - " + smart)
 		if(pos < 0 || pos >= totalNumberImages) return
 		var imageUrl = imageModel.get(pos).imageUrl;
