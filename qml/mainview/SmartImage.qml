@@ -90,11 +90,7 @@ Rectangle {
 				on_RotationChanged: {
 					// which angle?
 					var angle = _rotation%360;
-					var s = "";
-					if(one.opacity != 0)
-						s = one.source + ""
-					else if(two.opacity != 0)
-						s = two.source + ""
+					var s = getCurrentSource()
 					var path = s.split("::photoqt")[0]
 					// load image rotated
 					loadImage(path, angle)
@@ -138,6 +134,8 @@ Rectangle {
 					// The two image items. 'name' has to match the id
 					ImageItem { id: one; name: "one" }
 					ImageItem { id: two; name: "two" }
+					ImageItem { id: three; name: "three" }
+					ImageItem { id: four; name: "four" }
 
 					// An overlay image, displaying a 'loading' bar when the image takes a little longer to load
 					Rectangle {
@@ -190,6 +188,8 @@ Rectangle {
 		// stop any possibly started animation
 		one.stopAnimation()
 		two.stopAnimation()
+		three.stopAnimation()
+		four.stopAnimation()
 
 		// if the function was called without an angle, we set it to 0
 		if(angle == undefined)
@@ -214,6 +214,8 @@ Rectangle {
 		if(directoryFileReloaded) {
 			one.source = "qrc:/img/empty.png"
 			two.source = "qrc:/img/empty.png"
+			three.source = "qrc:/img/empty.png"
+			four.source = "qrc:/img/empty.png"
 			directoryFileReloaded = false
 		}
 
@@ -233,6 +235,34 @@ Rectangle {
 			}
 		// If 'two' is visible...
 		} else if(two.opacity != 0) {
+			// If it's the exact same file as 'one' showed before, simply make it visible again
+			if(three.source == filename)
+				makeImageVisible("three")
+			else {
+				// we set whether image is animated or not
+				if(animated)
+					three.setAnimated(anidat[0], anidat[1])
+				else
+					three.setAnimated(1,0)
+				// set filename
+				three.source = filename
+			}
+		// If 'three' is visible...
+		} else if(three.opacity != 0) {
+			// If it's the exact same file as 'one' showed before, simply make it visible again
+			if(four.source == filename)
+				makeImageVisible("four")
+			else {
+				// we set whether image is animated or not
+				if(animated)
+					four.setAnimated(anidat[0], anidat[1])
+				else
+					four.setAnimated(1,0)
+				// set filename
+				four.source = filename
+			}
+		// If 'four' is visible...
+		} else if(four.opacity != 0) {
 			// If it's the exact same file as 'one' showed before, simply make it visible again
 			if(one.source == filename)
 				makeImageVisible("one")
@@ -257,9 +287,23 @@ Rectangle {
 		if(imgid === "one") {
 			one.opacity = 1
 			two.opacity = 0
+			three.opacity = 0
+			four.opacity = 0
 		} else if(imgid === "two") {
 			one.opacity = 0
 			two.opacity = 1
+			three.opacity = 0
+			four.opacity = 0
+		} else if(imgid === "three") {
+			one.opacity = 0
+			two.opacity = 0
+			three.opacity = 1
+			four.opacity = 0
+		} else if(imgid === "four") {
+			one.opacity = 0
+			two.opacity = 0
+			three.opacity = 0
+			four.opacity = 1
 		}
 
 		// update fillmode
@@ -282,6 +326,16 @@ Rectangle {
 			two.fillMode = Image.Pad
 		else
 			two.fillMode = Image.PreserveAspectFit
+
+		if(three.sourceSize.width < imgrect.width && three.sourceSize.height < imgrect.height && !fitInWindow)
+			three.fillMode = Image.Pad
+		else
+			three.fillMode = Image.PreserveAspectFit
+
+		if(four.sourceSize.width < imgrect.width && four.sourceSize.height < imgrect.height && !fitInWindow)
+			four.fillMode = Image.Pad
+		else
+			four.fillMode = Image.PreserveAspectFit
 
 	}
 
@@ -356,6 +410,8 @@ Rectangle {
 	function mirrorHorizontal() {
 		one.mirror = !one.mirror
 		two.mirror = !two.mirror
+		three.mirror = !three.mirror
+		four.mirror = !four.mirror
 	}
 
 	function mirrorVertical() {
@@ -363,18 +419,26 @@ Rectangle {
 
 		one.rotation += 90
 		two.rotation += 90
+		three.rotation += 90
+		four.rotation += 90
 		mirrorHorizontal()
 		one.rotation += 90
 		two.rotation += 90
+		three.rotation += 90
+		four.rotation += 90
 	}
 
 	function resetMirror() {
 		if(imgrect._vertically_mirrored) {
 			one.rotation = 0
 			two.rotation = 0
+			three.rotation = 0
+			four.rotation = 0
 		}
 		one.mirror = false
 		two.mirror = false
+		three.mirror = false
+		four.mirror = false
 		imgrect._vertically_mirrored = false
 	}
 
@@ -390,6 +454,10 @@ Rectangle {
 			return one.sourceSize
 		else if(two.opacity != 0)
 			return two.sourceSize
+		else if(three.opacity != 0)
+			return three.sourceSize
+		else if(four.opacity != 0)
+			return four.sourceSize
 		return Qt.size(0,0)
 	}
 
@@ -399,6 +467,10 @@ Rectangle {
 			return one.source
 		else if(two.opacity != 0)
 			return two.source
+		else if(three.opacity != 0)
+			return three.source
+		else if(four.opacity != 0)
+			return four.source
 		return ""
 	}
 
@@ -420,6 +492,16 @@ Rectangle {
 			conty = (two.height-two.paintedHeight)/2
 			mapped = two.mapFromItem(toplevel,pos.x,pos.y)
 			return (contx <= mapped.x && contx+two.paintedWidth >= mapped.x && conty <= mapped.y && conty+two.paintedHeight >= mapped.y)
+		} else if(three.opacity != 0) {
+			contx = (three.width-three.paintedWidth)/2
+			conty = (three.height-three.paintedHeight)/2
+			mapped = three.mapFromItem(toplevel,pos.x,pos.y)
+			return (contx <= mapped.x && contx+three.paintedWidth >= mapped.x && conty <= mapped.y && conty+three.paintedHeight >= mapped.y)
+		} else if(four.opacity != 0) {
+			contx = (four.width-four.paintedWidth)/2
+			conty = (four.height-four.paintedHeight)/2
+			mapped = four.mapFromItem(toplevel,pos.x,pos.y)
+			return (contx <= mapped.x && contx+four.paintedWidth >= mapped.x && conty <= mapped.y && conty+four.paintedHeight >= mapped.y)
 		}
 	}
 
