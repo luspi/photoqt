@@ -7,7 +7,7 @@ Item {
 
 	id: item
 
-	x:5
+	x: metaData.nonFloatWidth + 5
 	y:5
 
 	function getWidth() { return counterRect.width; }
