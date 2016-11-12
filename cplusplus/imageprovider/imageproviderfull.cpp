@@ -39,7 +39,12 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
 	if(filename.contains("::photoqt::")) {
 		QStringList p = filename.split("::photoqt::");
 		filename = p.at(0);
-		angle = p.at(1).split("::photoqtani::").at(0).toInt();
+		if(p.at(1).contains("::photoqtani::"))
+			angle = p.at(1).split("::photoqtani::").at(0).toInt();
+		else if(p.at(1).contains("::photoqtmod::"))
+			angle = p.at(1).split("::photoqtmod::").at(0).toInt();
+		else
+			angle = p.at(1).toInt();
 	}
 
 	QTransform trans;
