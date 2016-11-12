@@ -340,12 +340,18 @@ Rectangle {
 	// Rotate image to the left
 	function rotateLeft() {
 		_fadeDurationNextImage = 200
-		imgrect._rotation -= 90
+		if(imgrect._vertically_mirrored)
+			imgrect._rotation += 90
+		else
+			imgrect._rotation -= 90
 	}
 	// Rotate image to the right
 	function rotateRight() {
 		_fadeDurationNextImage = 200
-		imgrect._rotation += 90
+		if(imgrect._vertically_mirrored)
+			imgrect._rotation -= 90
+		else
+			imgrect._rotation += 90
 	}
 	// Rotate image by 180 degrees
 	function rotate180() {
