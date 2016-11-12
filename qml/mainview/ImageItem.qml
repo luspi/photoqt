@@ -40,6 +40,7 @@ Image {
 
 	// the status has changed, show image and start/stop some timers
 	onStatusChanged: {
+		if(source == "") return
 		if(status == Image.Ready) {
 			makeImageVisible(name)
 			// if it's an animation, start the animation timer
