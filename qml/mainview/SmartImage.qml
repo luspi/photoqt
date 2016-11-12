@@ -204,6 +204,8 @@ Rectangle {
 		// this value is checked later, if a source was set to the same item before but has been modified, we reload it from scratch again
 		var mod = getanddostuff.getLastModified(filename)
 
+		filename += "::photoqtmod::" + mod
+
 		// check if image is animated
 		var animated = getanddostuff.isImageAnimated(filename)
 
@@ -216,7 +218,7 @@ Rectangle {
 		// If 'one' is visible...
 		if(one.opacity != 0) {
 			// If it's the exact same file as 'two' showed before, simply make it visible again
-			if(two.source == filename && mod == two.lastModified)
+			if(two.source == filename)
 				makeImageVisible("two")
 			else {
 				// we set whether image is animated or not
@@ -225,12 +227,12 @@ Rectangle {
 				else
 					two.setAnimated(1,0)
 				// set filename
-				two.source = filename;
+				two.source = filename
 			}
 		// If 'two' is visible...
 		} else if(two.opacity != 0) {
 			// If it's the exact same file as 'one' showed before, simply make it visible again
-			if(three.source == filename && mod == three.lastModified)
+			if(three.source == filename)
 				makeImageVisible("three")
 			else {
 				// we set whether image is animated or not
@@ -244,7 +246,7 @@ Rectangle {
 		// If 'three' is visible...
 		} else if(three.opacity != 0) {
 			// If it's the exact same file as 'one' showed before, simply make it visible again
-			if(four.source == filename && mod == four.lastModified)
+			if(four.source == filename)
 				makeImageVisible("four")
 			else {
 				// we set whether image is animated or not
@@ -258,7 +260,7 @@ Rectangle {
 		// If 'four' is visible...
 		} else if(four.opacity != 0) {
 			// If it's the exact same file as 'one' showed before, simply make it visible again
-			if(one.source == filename && mod == one.lastModified)
+			if(one.source == filename)
 				makeImageVisible("one")
 			else {
 				// we set whether image is animated or not
@@ -464,13 +466,13 @@ Rectangle {
 	// get the source filename of the currently displayed image
 	function getCurrentSource() {
 		if(one.opacity != 0)
-			return one.source
+			return one.source+""
 		else if(two.opacity != 0)
-			return two.source
+			return two.source+""
 		else if(three.opacity != 0)
-			return three.source
+			return three.source+""
 		else if(four.opacity != 0)
-			return four.source
+			return four.source+""
 		return ""
 	}
 
