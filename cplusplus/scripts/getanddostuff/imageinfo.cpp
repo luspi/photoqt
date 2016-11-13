@@ -111,7 +111,7 @@ QList<int> GetAndDoStuffImageInfo::getNumFramesAndDuration(QString filename) {
 	mov.start();
 	if(mov.frameCount() > 1) {
 		ret[0] = mov.frameCount();
-		ret[1] = std::max(mov.nextFrameDelay(),100);
+		ret[1] = qMax(mov.nextFrameDelay(), 75);
 		mov.stop();
 		return ret;
 	}
