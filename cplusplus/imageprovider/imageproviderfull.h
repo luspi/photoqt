@@ -50,7 +50,7 @@ private:
 	LoadImageGM *loaderGM;
 	LoadImageQt *loaderQT;
 	LoadImageRaw *loaderRAW;
-	LoadImageRaw *loaderXCF;
+	LoadImageXCF *loaderXCF;
 
 	QCache<QByteArray,QPixmap> *pixmapcache;
 

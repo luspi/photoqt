@@ -186,10 +186,7 @@ Rectangle {
 	function loadImage(filename, angle) {
 
 		// stop any possibly started animation
-		one.stopAnimation()
-		two.stopAnimation()
-		three.stopAnimation()
-		four.stopAnimation()
+		stopAllAnimations()
 
 		// if the function was called without an angle, we set it to 0
 		if(angle == undefined)
@@ -449,6 +446,13 @@ Rectangle {
 	////////////////////////////
 	////////////////////////////
 
+
+	function stopAllAnimations() {
+		one.stopAnimation()
+		two.stopAnimation()
+		three.stopAnimation()
+		four.stopAnimation()
+	}
 
 	// get the sourcesize of the currently displayed image
 	function getCurrentSourceSize() {

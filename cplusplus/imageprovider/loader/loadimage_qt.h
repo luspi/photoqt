@@ -19,10 +19,7 @@ class LoadImageQt {
 public:
 	LoadImageQt() { mov = new QMovie; }
 
-	QImage load(QString filename, QSize maxSize, QString exifrotation, int angle) {
-
-		QTransform trans;
-		trans.rotate(angle);
+	QImage load(QString filename, QSize maxSize, QString exifrotation) {
 
 		// For reading SVG files
 		QSvgRenderer svg;
@@ -235,7 +232,7 @@ public:
 
 		}
 
-		return img.transformed(trans);
+		return img;
 
 	}
 

@@ -17,10 +17,7 @@ public:
 
 	LoadImageGM() { }
 
-	QImage load(QString filename, QSize maxSize, int angle) {
-
-		QTransform trans;
-		trans.rotate(angle);
+	QImage load(QString filename, QSize maxSize) {
 
 		#ifdef GM
 
@@ -94,7 +91,7 @@ public:
 
 				// And we're done!
 				delete[] data;
-				return img.transformed(trans);
+				return img;
 
 			} catch(Magick::Exception &error_) {
 				delete[] data;

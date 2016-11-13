@@ -19,7 +19,7 @@ ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider
 	loaderGM = new LoadImageGM;
 	loaderQT = new LoadImageQt;
 	loaderRAW = new LoadImageRaw;
-	loaderXCF = new LoadImageRaw;
+	loaderXCF = new LoadImageXCF;
 
 }
 
@@ -39,10 +39,10 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
 	if(filename.contains("::photoqt::")) {
 		QStringList p = filename.split("::photoqt::");
 		filename = p.at(0);
-		if(p.at(1).contains("::photoqtani::"))
-			angle = p.at(1).split("::photoqtani::").at(0).toInt();
-		else if(p.at(1).contains("::photoqtmod::"))
+		if(p.at(1).contains("::photoqtmod::"))
 			angle = p.at(1).split("::photoqtmod::").at(0).toInt();
+		else if(p.at(1).contains("::photoqtani::"))
+			angle = p.at(1).split("::photoqtani::").at(0).toInt();
 		else
 			angle = p.at(1).toInt();
 	}
@@ -78,29 +78,29 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
 		QPixmap *pix = pixmapcache->object(cachekey);
 		if(!pix->isNull()) {
 
-			ret = pix->transformed(trans).toImage();
+			ret = pix->toImage();
 
 			if(requestedSize.width() > 2 && requestedSize.height() > 2 && ret.width() > requestedSize.width() && ret.height() > requestedSize.height())
-				return ret.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+				return ret.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation).transformed(trans);
 
-			return ret;
+			return ret.transformed(trans);
 		}
 	}
 
 	// Try to use XCFtools for XCF (if enabled)
 	if(QFileInfo(filename).suffix().toLower() == "xcf" && whatToUse == "extra")
-			ret = loaderXCF->load(filename,maxSize, angle);
+			ret = loaderXCF->load(filename,maxSize);
 
 	// Try to use GraphicsMagick (if available)
 	else if(whatToUse == "gm")
-		ret = loaderGM->load(filename, maxSize, angle);
+		ret = loaderGM->load(filename, maxSize);
 
 	else if(whatToUse == "raw")
-		ret = loaderRAW->load(filename, maxSize, angle);
+		ret = loaderRAW->load(filename, maxSize);
 
 	// Try to use Qt
 	else
-		ret = loaderQT->load(filename,maxSize,settings->exifrotation, angle);
+		ret = loaderQT->load(filename,maxSize,settings->exifrotation);
 
 	QPixmap *newpixPt = new QPixmap(ret.width(), ret.height());
 	*newpixPt = QPixmap::fromImage(ret);

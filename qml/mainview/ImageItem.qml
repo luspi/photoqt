@@ -19,21 +19,27 @@ Image {
 	opacity: 1
 	Behavior on opacity { NumberAnimation { duration: _fadeDurationNextImage; } }
 	onOpacityChanged: {
-		if(opacity == 1)
+		if(opacity == 1) {
 			_fadeDurationNextImage = fadeduration
-		if(opacity != 0) {
 			if(_numFrames > 1 && !ani_timer.running)
 				ani_timer.start()
 			else if(_numFrames == 1) {
 				ani_timer.stop()
 				mask_timer.start()
 			}
+		} else if(opacity == 0) {
+			preload.source = ""
+			ani_timer.stop()
+			mask_timer.stop()
 		}
 	}
 
 	// no source at start
 	source: ""
-	onSourceChanged: img_mask.source = ""
+	onSourceChanged: {
+		img_mask.source = ""
+		preload.source = ""
+	}
 
 	// store last modification time in the format 'Hmsz'
 	property string lastModified: ""
@@ -66,6 +72,7 @@ Image {
 	}
 	function stopAnimation() {
 		ani_timer.stop()
+		preload.source = ""
 	}
 	function restartAnimation() {
 		if(_numFrames > 1 && opacity == 1 && !ani_timer.running)
@@ -121,7 +128,7 @@ Image {
 		cache: true
 		asynchronous: true
 		onStatusChanged:
-			if(status == Image.Ready) {
+			if(status == Image.Ready && source != "" && parent.opacity != 0) {
 				parent.source = source
 				source = ""
 			}
