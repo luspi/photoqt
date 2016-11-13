@@ -25,12 +25,12 @@ Image {
 				ani_timer.start()
 			else if(_numFrames == 1) {
 				ani_timer.stop()
-				mask_timer.start()
+				img_mask.showMaskImage()
 			}
 		} else if(opacity == 0) {
 			preload.source = ""
 			ani_timer.stop()
-			mask_timer.stop()
+			img_mask.hideMaskImage()
 		}
 	}
 
@@ -55,7 +55,7 @@ Image {
 			// if it's not an animation, make sure the animation timer is stopped, but the masking timer is started
 			else if(_numFrames == 1) {
 				ani_timer.stop()
-				mask_timer.start()
+				img_mask.showMaskImage()
 			}
 			loading_rect.hideLoader()
 			lastModified = getanddostuff.getLastModified(source)
@@ -110,14 +110,13 @@ Image {
 		onOpacityChanged: if(opacity == 0) source = ""
 		// this line is important, setting the sourceSize
 		sourceSize: Qt.size(rect_top.width, rect_top.height)
-		visible: imgrect.scale <= 1 /*&& parent._numFrames == 1*/
+		visible: imgrect.scale <= 1 && source != ""
 		// There is a short delay for showing the masking image, probably not needed...
-		Timer {
-			id: mask_timer
-			interval: _fadeDurationNextImage
-			repeat: false
-			running: false
-			onTriggered: parent.source = img.source
+		function showMaskImage() {
+			source = img.source
+		}
+		function hideMaskImage() {
+			source = ""
 		}
 	}
 
