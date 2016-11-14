@@ -22,6 +22,17 @@ Rectangle {
 	// this one is used internally to distinguish zoom by keys and mouse
 	property bool zoomTowardsCenter: true
 
+	// store zoom/rotation properties per session
+	property var storeContentPos: ({})
+	property var storeZoom: ({})
+	property var storeRotation: ({})
+
+	// the currently set image source
+	property string _activeImageSource: ""
+	// the loading right now is happening for a newly loaded image
+	property bool _newImageSet: false
+
+	// clip contents past element boundary
 	clip: true
 
 	// we update the fill mode of the image when the element size has changed
@@ -50,6 +61,9 @@ Rectangle {
 			// adjust content dimensions
 			contentWidth: getPaintedImageSize().width*imgrect.scale
 			contentHeight: getPaintedImageSize().height*imgrect.scale
+
+			onContentXChanged: doStoreZoomAndPos()
+			onContentYChanged: doStoreZoomAndPos()
 
 			// when content dimensions changed, adjust x/y of the flickarea
 			onContentWidthChanged:
@@ -95,6 +109,7 @@ Rectangle {
 					var path = s.split("::photoqt")[0]
 					// load image rotated
 					loadImage(path, angle)
+					doStoreRotation()
 				}
 
 				// Handle scrolling, keep x/y of content as wanted
@@ -119,10 +134,12 @@ Rectangle {
 					}
 
 					prevScale = scale
-				}
 
+					doStoreZoomAndPos()
+
+				}
 				// scaling is happening smoothly
-				Behavior on scale { NumberAnimation { duration: zoomduration; } }
+				Behavior on scale { NumberAnimation { id: scaleani; duration: zoomduration } }
 
 				// Inside rectangle holding the two Image instances
 				Rectangle {
@@ -187,12 +204,22 @@ Rectangle {
 		// stop any possibly started animation
 		stopAllAnimations()
 
+		// we enter some default values
+		if(!(filename in storeZoom)) {
+			storeZoom[filename] = 1
+			storeContentPos[filename] = [0,0]
+		}
+		if(!(filename in storeRotation))
+			storeRotation[filename] = 0
+
 		// if the function was called without an angle, we set it to 0
 		if(angle == undefined)
 			angle = 0;
 
-		if(angle != imgrect._rotation)
-			imgrect._rotation = angle
+		// check whether it's a new image, and store active image source
+		if(filename != _activeImageSource)
+			_newImageSet = true
+		_activeImageSource = filename
 
 		// Add on angle to filename
 		filename += "::photoqt::" + angle
@@ -257,6 +284,10 @@ Rectangle {
 
 		// update fillmode
 		checkFillMode()
+
+		// if the image is new, restore saved properties (if enabled)
+		if(_newImageSet)
+			restoreProperties()
 
 	}
 
@@ -374,6 +405,60 @@ Rectangle {
 		one.setMirror(false)
 		two.setMirror(false)
 		imgrect._vertically_mirrored = false
+	}
+
+	////////////////////////////
+	////////////////////////////
+	//// STORE PROPERTIES
+
+	// store zoom and content position
+	function doStoreZoomAndPos() {
+		if(!settings.rememberZoom || _newImageSet) return
+		var filename = getCurrentSource()
+		filename = filename.split("::photoqt::")[0]
+		storeZoom[filename] = imgrect.scale
+		storeContentPos[filename] = [flick.contentX, flick.contentY];
+	}
+
+	// store rotation property
+	function doStoreRotation() {
+		if(!settings.rememberRotation || _newImageSet) return
+		var filename = getCurrentSource()
+		filename = filename.split("::photoqt::")[0]
+		storeRotation[filename] = imgrect._rotation
+	}
+
+	// restore stored properties (if enabled)
+	function restoreProperties() {
+
+		// get slightly stripped down filename
+		var filename = getCurrentSource()
+		filename = filename.split("::photoqt::")[0]
+
+		// scaling is happening without animation
+		scaleani.duration = 0
+
+		// restore rotation
+		if(settings.rememberRotation && filename in storeRotation)
+			if(imgrect._rotation != storeRotation[filename])
+				imgrect._rotation = storeRotation[filename]
+
+		// restore zoom and position (if one is set, the other is also always set)
+		if(settings.rememberZoom && filename in storeZoom) {
+			if(imgrect.scale != storeZoom[filename])
+				imgrect.scale = storeZoom[filename]
+			if(flick.contentX != storeContentPos[filename][0])
+				flick.contentX = storeContentPos[filename][0]
+			if(flick.contentY != storeContentPos[filename][1])
+				flick.contentY = storeContentPos[filename][1]
+		}
+
+		// restore scaling animation duration
+		scaleani.duration = zoomduration
+
+		// reset 'new image' property
+		_newImageSet = false
+
 	}
 
 	////////////////////////////
