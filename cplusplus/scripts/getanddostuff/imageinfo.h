@@ -21,6 +21,8 @@ public:
 private:
 	ImageProviderFull *provider;
 
+	QMovie *mov;
+
 };
 
 #endif // GETANDDOSTUFFIMAGEINFO_H

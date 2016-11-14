@@ -2,6 +2,7 @@
 
 GetAndDoStuffImageInfo::GetAndDoStuffImageInfo(QObject *parent) : QObject(parent) {
 	provider = new ImageProviderFull();
+	mov = new QMovie;
 }
 GetAndDoStuffImageInfo::~GetAndDoStuffImageInfo() { }
 
@@ -106,13 +107,20 @@ QList<int> GetAndDoStuffImageInfo::getNumFramesAndDuration(QString filename) {
 
 	QList<int> ret = QList<int>() << 1 << 0;
 
-	QMovie mov(filename);
-	// the movie needs to be running to get the right value for nextFrameDelay()
-	mov.start();
-	if(mov.frameCount() > 1) {
-		ret[0] = mov.frameCount();
-		ret[1] = qMax(mov.nextFrameDelay(), 75);
-		mov.stop();
+	if(!QImageReader(filename).supportsAnimation()) {
+		mov->stop();
+		return ret;
+	}
+
+	if(mov->fileName() != filename) {
+		delete mov;
+		mov = new QMovie(filename);
+		// the movie needs to be running to get the right value for nextFrameDelay()
+		mov->start();
+	}
+	if(mov->frameCount() > 1) {
+		ret[0] = mov->frameCount();
+		ret[1] = mov->nextFrameDelay();
 		return ret;
 	}
 
