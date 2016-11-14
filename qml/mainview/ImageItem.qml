@@ -1,52 +1,26 @@
 import QtQuick 2.3
-// First image instance
-Image {
 
-	id: img
+Rectangle {
 
+	id: rect;
+
+	// some general settings
+	anchors.fill: parent
+	color: "transparent"
+
+	// this will be set to the id in SmartImage.qml
 	property string name: ""
 
-	// size is same as parent rectangle
-	anchors.fill: parent
+	// the source of the image currently set to this item
+	property string source: ""
+	onSourceChanged: handleNewSource()
 
-	// some settings
-	cache: true
-	mipmap: true
-	fillMode: Image.PreserveAspectFit
-	asynchronous: true
-
-	// smooth opacity handling
-	opacity: 1
-	Behavior on opacity { NumberAnimation { duration: _fadeDurationNextImage; } }
-	onOpacityChanged: {
-		if(opacity == 1) {
-			_fadeDurationNextImage = fadeduration
-			if(_numFrames > 1 && !ani_timer.running)
-				ani_timer.start()
-			else if(_numFrames == 1) {
-				ani_timer.stop()
-				img_mask.showMaskImage()
-			}
-		} else if(opacity == 0) {
-			preload.source = ""
-			ani_timer.stop()
-			img_mask.hideMaskImage()
-		}
-	}
-
-	// no source at start
-	source: ""
-	onSourceChanged: {
-		img_mask.source = ""
-		preload.source = ""
-	}
-
-	// store last modification time in the format 'Hmsz'
-	property string lastModified: ""
-
-	// the status has changed, show image and start/stop some timers
+	// Simulate the image status property
+	property int status: Image.Null
 	onStatusChanged: {
+
 		if(source == "") return
+
 		if(status == Image.Ready) {
 			makeImageVisible(name)
 			// if it's an animation, start the animation timer
@@ -61,77 +35,178 @@ Image {
 			lastModified = getanddostuff.getLastModified(source)
 		} else
 			loading_rect.showLoader()
+
 	}
 
-	// animation properties
+	// the time the current image was last modified
+	property string lastModified: ""
+
+	// if an animation is set, then these store the animation properties
 	property int _numFrames: 1
 	property int _interval: 0
-	function setAnimated(numFrames, interval) {
-		_numFrames = numFrames
-		_interval = interval
+
+	// The opacity property
+	opacity: 1
+	Behavior on opacity { NumberAnimation { duration: _fadeDurationNextImage; } }
+	onOpacityChanged: {
+		if(opacity == 1) {
+			_fadeDurationNextImage = fadeduration
+			if(_numFrames > 1 && !ani_timer.running)
+				ani_timer.start()
+			else if(_numFrames == 1) {
+				ani_timer.stop()
+				img_mask.showMaskImage()
+			}
+		} else if(opacity == 0) {
+			ani_timer.stop()
+			img_mask.hideMaskImage()
+		}
 	}
-	function stopAnimation() {
-		ani_timer.stop()
-		preload.source = ""
+
+	// This is the main image, used most of the time!
+	Image {
+		id: main_img
+		anchors.fill: parent
+		cache: false
+		mipmap: true
+		fillMode: Image.PreserveAspectFit
+		asynchronous: true
+		visible: true
+		mirror: false
+		onStatusChanged: {
+			rect.status = status
+			if(status == Image.Ready) {
+				main_img.visible = true
+				submain_img.visible = false
+			}
+		}
 	}
-	function restartAnimation() {
-		if(_numFrames > 1 && opacity == 1 && !ani_timer.running)
-			ani_timer.start()
+
+	// only used when animation present. With each frame, PhotoQt swaps image item back and forth to ensure no flickering
+	Image {
+		id: submain_img
+		anchors.fill: parent
+		cache: false
+		mipmap: true
+		fillMode: Image.PreserveAspectFit
+		asynchronous: true
+		mirror: false
+		visible: false
+		onStatusChanged: {
+			rect.status = status
+			if(status == Image.Ready) {
+				main_img.visible = false
+				submain_img.visible = true
+			}
+		}
 	}
-	// After pre-set timeout...
+
+	// Animation: After pre-set timeout...
 	Timer {
 		id: ani_timer
 		interval: parent._interval
 		repeat: true
 		running: false
-		onTriggered: img.nextFrame()
+		onTriggered: nextFrame()
 	}
-	// ... load next frame of animated image
+
+	// Load next frame
 	function nextFrame() {
-		var s = img.source+""
+		var s = (main_img.visible ? main_img.source : submain_img.source)+""
 		var p = s.split("::photoqtani::")
 		var next = p[1]*1+1
 		if(next >= _numFrames) next = 0;
-		preload.source = p[0] + "::photoqtani::" + next
+		var recheck = getanddostuff.getNumFramesAndDuration(source);
+		_interval = recheck[1];
+		if(main_img.visible)
+			submain_img.source = p[0] + "::photoqtani::" + next
+		else
+			main_img.source = p[0] + "::photoqtani::" + next
 	}
 
-	// This element overlays the main Image element and is only visibled if image is not scaled.
-	// It shows a scaled-to-screen-size version of the image for better display quality
+	// set animation properties
+	function setAnimated(numFrames, interval) {
+		_numFrames = numFrames
+		_interval = interval
+		main_img.visible = true
+		submain_img.visible = false
+	}
+
+	// Stop animation timer
+	function stopAnimation() {
+		ani_timer.stop()
+	}
+	// restart animation timer, if animation is present
+	function restartAnimation() {
+		if(_numFrames > 1 && opacity == 1 && !ani_timer.running)
+			ani_timer.start()
+	}
+
+	// This item is only displayed if the image is not scaled but biger than the screen.
+	// It shows a scaled-to-screen-size version of the image for better display quality.
 	Image {
 		id: img_mask
 		anchors.fill: parent
-		mipmap: parent.mipmap
-		cache: parent.cache
-		opacity: parent.opacity
-		mirror: parent.mirror
-		asynchronous: false
-		fillMode: parent.fillMode
+		mipmap: true
+		cache: false
+		mirror: false
+		asynchronous: true
+		fillMode: Image.PreserveAspectFit
+		opacity: 1
 		// we need to remove image if element is hidden, otherwise there will be an artefact when switching images
-		onOpacityChanged: if(opacity == 0) source = ""
+		onOpacityChanged: if(opacity == 0) hideMaskImage()
 		// this line is important, setting the sourceSize
 		sourceSize: Qt.size(rect_top.width, rect_top.height)
-		visible: imgrect.scale <= 1 && source != ""
-		// There is a short delay for showing the masking image, probably not needed...
+		visible: imgrect.scale <= 1 && source != "" && (getSourceSize().width > flick.width || getSourceSize().height > flick.height)
 		function showMaskImage() {
-			source = img.source
+			source = parent.source
 		}
 		function hideMaskImage() {
 			source = ""
 		}
 	}
 
-	Image {
-		id: preload
-		opacity: 0
-		source: ""
-		cache: true
-		asynchronous: true
-		onStatusChanged:
-			if(status == Image.Ready && source != "" && parent.opacity != 0) {
-				parent.source = source
-				source = ""
-			}
+	// handle new source filename
+	function handleNewSource() {
+		submain_img.source = ""
+		main_img.source = source
 	}
+
+	// return the image source size
+	function getSourceSize() {
+		return main_img.sourceSize
+	}
+
+	// set a fillmode to the images here
+	function setFillMode(mode) {
+		main_img.fillMode = mode
+		submain_img.fillMode = mode
+		img_mask.fillMode = mode
+	}
+
+	// set the mirror property
+	function setMirror(mirr) {
+		main_img.mirror = mirr
+		submain_img.mirror = mirr
+		img_mask.mirror = mirr
+	}
+
+	// get the mirror property (same on all three elements)
+	function getMirror() {
+		return main_img.mirror
+	}
+
+	// get the dimensions of the image actually displayed
+	function getActualPaintedImageSize() {
+		return Qt.size(main_img.paintedWidth, main_img.paintedHeight)
+	}
+
+	//////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////
+	//
+	// When an element is shown on top of the mainview, we interrupt an animation while they are visible
+	//
 
 	Connections {
 		target: openfile

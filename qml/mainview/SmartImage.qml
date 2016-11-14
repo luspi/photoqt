@@ -16,6 +16,7 @@ Rectangle {
 	property int fadeduration: 100
 	property int zoomduration: 100
 
+	// This most of the time is equal to the fadeduration variable. However, there is a fixed value for rotating images (always slightly animated)
 	property int _fadeDurationNextImage: fadeduration
 
 	// this one is used internally to distinguish zoom by keys and mouse
@@ -47,8 +48,8 @@ Rectangle {
 			anchors.verticalCenter: parent.verticalCenter
 
 			// adjust content dimensions
-			contentWidth: imgrect.width*imgrect.scale
-			contentHeight: imgrect.height*imgrect.scale
+			contentWidth: getPaintedImageSize().width*imgrect.scale
+			contentHeight: getPaintedImageSize().height*imgrect.scale
 
 			// when content dimensions changed, adjust x/y of the flickarea
 			onContentWidthChanged:
@@ -134,8 +135,6 @@ Rectangle {
 					// The two image items. 'name' has to match the id
 					ImageItem { id: one; name: "one" }
 					ImageItem { id: two; name: "two" }
-					ImageItem { id: three; name: "three" }
-					ImageItem { id: four; name: "four" }
 
 					// An overlay image, displaying a 'loading' bar when the image takes a little longer to load
 					Rectangle {
@@ -207,9 +206,10 @@ Rectangle {
 		var animated = getanddostuff.isImageAnimated(filename)
 
 		// if it is, make filename of current frame unique (forcec reload) and get metadata about animation ([framecount, interval])
+		var anidat = [1, 0];
 		if(animated) {
 			filename += "::photoqtani::0"
-			var anidat = getanddostuff.getNumFramesAndDuration(filename)
+			anidat = getanddostuff.getNumFramesAndDuration(filename)
 		}
 
 		// If 'one' is visible...
@@ -229,34 +229,6 @@ Rectangle {
 		// If 'two' is visible...
 		} else if(two.opacity != 0) {
 			// If it's the exact same file as 'one' showed before, simply make it visible again
-			if(three.source == filename)
-				makeImageVisible("three")
-			else {
-				// we set whether image is animated or not
-				if(animated)
-					three.setAnimated(anidat[0], anidat[1])
-				else
-					three.setAnimated(1,0)
-				// set filename
-				three.source = filename
-			}
-		// If 'three' is visible...
-		} else if(three.opacity != 0) {
-			// If it's the exact same file as 'one' showed before, simply make it visible again
-			if(four.source == filename)
-				makeImageVisible("four")
-			else {
-				// we set whether image is animated or not
-				if(animated)
-					four.setAnimated(anidat[0], anidat[1])
-				else
-					four.setAnimated(1,0)
-				// set filename
-				four.source = filename
-			}
-		// If 'four' is visible...
-		} else if(four.opacity != 0) {
-			// If it's the exact same file as 'one' showed before, simply make it visible again
 			if(one.source == filename)
 				makeImageVisible("one")
 			else {
@@ -275,28 +247,12 @@ Rectangle {
 	// make image element visible
 	function makeImageVisible(imgid) {
 
-		mainview.imageLoading = false
-
 		if(imgid === "one") {
 			one.opacity = 1
 			two.opacity = 0
-			three.opacity = 0
-			four.opacity = 0
 		} else if(imgid === "two") {
 			one.opacity = 0
 			two.opacity = 1
-			three.opacity = 0
-			four.opacity = 0
-		} else if(imgid === "three") {
-			one.opacity = 0
-			two.opacity = 0
-			three.opacity = 1
-			four.opacity = 0
-		} else if(imgid === "four") {
-			one.opacity = 0
-			two.opacity = 0
-			three.opacity = 0
-			four.opacity = 1
 		}
 
 		// update fillmode
@@ -310,25 +266,15 @@ Rectangle {
 		// don't touch fillmode when image is scaled in
 		if(imgrect.scale > 1) return
 
-		if(one.sourceSize.width < imgrect.width && one.sourceSize.height < imgrect.height && !fitInWindow)
-			one.fillMode = Image.Pad
+		if(one.getSourceSize().width < imgrect.width && one.getSourceSize().height < imgrect.height && !fitInWindow)
+			one.setFillMode(Image.Pad)
 		else
-			one.fillMode = Image.PreserveAspectFit
+			one.setFillMode(Image.PreserveAspectFit)
 
-		if(two.sourceSize.width < imgrect.width && two.sourceSize.height < imgrect.height && !fitInWindow)
-			two.fillMode = Image.Pad
+		if(two.getSourceSize().width < imgrect.width && two.getSourceSize().height < imgrect.height && !fitInWindow)
+			two.setFillMode(Image.Pad)
 		else
-			two.fillMode = Image.PreserveAspectFit
-
-		if(three.sourceSize.width < imgrect.width && three.sourceSize.height < imgrect.height && !fitInWindow)
-			three.fillMode = Image.Pad
-		else
-			three.fillMode = Image.PreserveAspectFit
-
-		if(four.sourceSize.width < imgrect.width && four.sourceSize.height < imgrect.height && !fitInWindow)
-			four.fillMode = Image.Pad
-		else
-			four.fillMode = Image.PreserveAspectFit
+			two.setFillMode(Image.PreserveAspectFit)
 
 	}
 
@@ -407,37 +353,26 @@ Rectangle {
 	//// MIRROR/FLIP
 
 	function mirrorHorizontal() {
-		one.mirror = !one.mirror
-		two.mirror = !two.mirror
-		three.mirror = !three.mirror
-		four.mirror = !four.mirror
+		one.setMirror(!one.getMirror())
+		two.setMirror(!two.getMirror())
 	}
 
 	function mirrorVertical() {
 		imgrect._vertically_mirrored = !imgrect._vertically_mirrored
-
 		one.rotation += 90
 		two.rotation += 90
-		three.rotation += 90
-		four.rotation += 90
 		mirrorHorizontal()
 		one.rotation += 90
 		two.rotation += 90
-		three.rotation += 90
-		four.rotation += 90
 	}
 
 	function resetMirror() {
 		if(imgrect._vertically_mirrored) {
 			one.rotation = 0
 			two.rotation = 0
-			three.rotation = 0
-			four.rotation = 0
 		}
-		one.mirror = false
-		two.mirror = false
-		three.mirror = false
-		four.mirror = false
+		one.setMirror(false)
+		two.setMirror(false)
 		imgrect._vertically_mirrored = false
 	}
 
@@ -447,11 +382,20 @@ Rectangle {
 	////////////////////////////
 
 
+	function getPaintedImageSize() {
+
+		if(one.opacity != 0)
+			return one.getActualPaintedImageSize()
+		else if(two.opacity != 0)
+			return two.getActualPaintedImageSize()
+		else
+			return Qt.size(rect_top.width/2, rect_top.height/2)
+
+	}
+
 	function stopAllAnimations() {
 		one.stopAnimation()
 		two.stopAnimation()
-		three.stopAnimation()
-		four.stopAnimation()
 	}
 
 	// get the sourcesize of the currently displayed image
@@ -460,10 +404,6 @@ Rectangle {
 			return one.sourceSize
 		else if(two.opacity != 0)
 			return two.sourceSize
-		else if(three.opacity != 0)
-			return three.sourceSize
-		else if(four.opacity != 0)
-			return four.sourceSize
 		return Qt.size(0,0)
 	}
 
@@ -473,10 +413,6 @@ Rectangle {
 			return one.source+""
 		else if(two.opacity != 0)
 			return two.source+""
-		else if(three.opacity != 0)
-			return three.source+""
-		else if(four.opacity != 0)
-			return four.source+""
 		return ""
 	}
 
@@ -487,27 +423,19 @@ Rectangle {
 
 	// check if a click is inside the painted area of the image
 	function clickInsideImage(pos) {
-		var contx, conty, mapped
+		var contx, conty, mapped, painted
 		if(one.opacity != 0) {
-			contx = (one.width-one.paintedWidth)/2
-			conty = (one.height-one.paintedHeight)/2
+			painted = one.getActualPaintedImageSize()
+			contx = (one.width-painted.width)/2
+			conty = (one.height-painted.height)/2
 			mapped = one.mapFromItem(toplevel,pos.x,pos.y)
-			return (contx <= mapped.x && contx+one.paintedWidth >= mapped.x && conty <= mapped.y && conty+one.paintedHeight >= mapped.y)
+			return (contx <= mapped.x && contx+painted.width >= mapped.x && conty <= mapped.y && conty+painted.height >= mapped.y)
 		} else if(two.opacity != 0) {
-			contx = (two.width-two.paintedWidth)/2
-			conty = (two.height-two.paintedHeight)/2
+			painted = two.getActualPaintedImageSize()
+			contx = (two.width-painted.width)/2
+			conty = (two.height-painted.height)/2
 			mapped = two.mapFromItem(toplevel,pos.x,pos.y)
-			return (contx <= mapped.x && contx+two.paintedWidth >= mapped.x && conty <= mapped.y && conty+two.paintedHeight >= mapped.y)
-		} else if(three.opacity != 0) {
-			contx = (three.width-three.paintedWidth)/2
-			conty = (three.height-three.paintedHeight)/2
-			mapped = three.mapFromItem(toplevel,pos.x,pos.y)
-			return (contx <= mapped.x && contx+three.paintedWidth >= mapped.x && conty <= mapped.y && conty+three.paintedHeight >= mapped.y)
-		} else if(four.opacity != 0) {
-			contx = (four.width-four.paintedWidth)/2
-			conty = (four.height-four.paintedHeight)/2
-			mapped = four.mapFromItem(toplevel,pos.x,pos.y)
-			return (contx <= mapped.x && contx+four.paintedWidth >= mapped.x && conty <= mapped.y && conty+four.paintedHeight >= mapped.y)
+			return (contx <= mapped.x && contx+painted.width >= mapped.x && conty <= mapped.y && conty+painted.height >= mapped.y)
 		}
 	}
 
