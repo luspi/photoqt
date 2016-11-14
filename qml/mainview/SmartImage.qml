@@ -401,9 +401,9 @@ Rectangle {
 	// get the sourcesize of the currently displayed image
 	function getCurrentSourceSize() {
 		if(one.opacity != 0)
-			return one.sourceSize
+			return one.getSourceSize()
 		else if(two.opacity != 0)
-			return two.sourceSize
+			return two.getSourceSize()
 		return Qt.size(0,0)
 	}
 
