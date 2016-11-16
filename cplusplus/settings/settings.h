@@ -146,6 +146,7 @@ public:
 		connect(this, SIGNAL(exiffilenameChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(exiffiletypeChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(exiffilesizeChanged(bool)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(exifimagenumberChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(exifdimensionsChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(exifmakeChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(exifmodelChanged(bool)), saveSettingsTimer, SLOT(start()));
@@ -332,6 +333,7 @@ public:
 	bool exiffilename;
 	bool exiffiletype;
 	bool exiffilesize;
+	bool exifimagenumber;
 	bool exifdimensions;
 	bool exifmake;
 	bool exifmodel;
@@ -464,6 +466,7 @@ public:
 	Q_PROPERTY(bool exiffilename MEMBER exiffilename NOTIFY exiffilenameChanged)
 	Q_PROPERTY(bool exiffiletype MEMBER exiffiletype NOTIFY exiffiletypeChanged)
 	Q_PROPERTY(bool exiffilesize MEMBER exiffilesize NOTIFY exiffilesizeChanged)
+	Q_PROPERTY(bool exifimagenumber MEMBER exifimagenumber NOTIFY exifimagenumberChanged)
 	Q_PROPERTY(bool exifdimensions MEMBER exifdimensions NOTIFY exifdimensionsChanged)
 	Q_PROPERTY(bool exifmake MEMBER exifmake NOTIFY exifmakeChanged)
 	Q_PROPERTY(bool exifmodel MEMBER exifmodel NOTIFY exifmodelChanged)
@@ -606,6 +609,7 @@ public:
 		exiffilename = true;
 		exiffiletype = true;
 		exiffilesize = true;
+		exifimagenumber = true;
 		exifdimensions = true;
 		exifmake = true;
 		exifmodel = true;
@@ -775,6 +779,7 @@ public slots:
 			cont += QString("ExifFilename=%1\n").arg(int(exiffilename));
 			cont += QString("ExifFiletype=%1\n").arg(int(exiffiletype));
 			cont += QString("ExifFilesize=%1\n").arg(int(exiffilesize));
+			cont += QString("ExifImageNumber=%1\n").arg(int(exifimagenumber));
 			cont += QString("ExifDimensions=%1\n").arg(int(exifdimensions));
 			cont += QString("ExifMake=%1\n").arg(int(exifmake));
 			cont += QString("ExifModel=%1\n").arg(int(exifmodel));
@@ -1152,6 +1157,11 @@ public slots:
 			else if(all.contains("ExifFilesize=0"))
 				exiffilesize = false;
 
+			if(all.contains("ExifImageNumber=1"))
+				exifimagenumber = true;
+			else if(all.contains("ExifImageNumber=0"))
+				exifimagenumber = false;
+
 			if(all.contains("ExifDimensions=1"))
 				exifdimensions = true;
 			else if(all.contains("ExifDimensions=0"))
@@ -1409,6 +1419,7 @@ signals:
 	void exiffilenameChanged(bool val);
 	void exiffiletypeChanged(bool val);
 	void exiffilesizeChanged(bool val);
+	void exifimagenumberChanged(bool val);
 	void exifdimensionsChanged(bool val);
 	void exifmakeChanged(bool val);
 	void exifmodelChanged(bool val);

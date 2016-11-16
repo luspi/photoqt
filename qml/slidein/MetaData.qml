@@ -279,12 +279,26 @@ Rectangle {
 
 				mod.clear()
 
-				mod.append({"name" : qsTr("Filesize"), "prop" : "", "value" : d["filesize"], "tooltip" : d["filesize"]})
-				if("dimensions" in d)
-					mod.append({"name" : qsTr("Dimensions"), "prop" : "", "value" : d["dimensions"], "tooltip" : d["dimensions"]})
-				else if("Exif.Photo.PixelXDimension" in d && "Exif.Photo.PixelYDimension" in d) {
-					var dim = d["Exif.Photo.PixelXDimension"] + "x" + d["Exif.Photo.PixelYDimension"]
-					mod.append({"name" : qsTr("Dimensions"), "prop" : "", "value" : dim, "tooltip" : dim})
+				if(settings.exiffilename) {
+					var fname = getanddostuff.removePathFromFilename(thumbnailBar.currentFile, false)
+					mod.append({"name" : qsTr("Filename"), "prop" : "", "value" : fname, "tooltip" : fname })
+				}
+
+				if(settings.exiffilesize)
+					mod.append({"name" : qsTr("Filesize"), "prop" : "", "value" : d["filesize"], "tooltip" : d["filesize"]})
+
+				if(settings.exifimagenumber) {
+					var pos = (thumbnailBar.currentPos+1) + "/" + thumbnailBar.totalNumberImages
+					mod.append({"name" : qsTr("Image") + " #/#", "prop" : "", "value" : pos, "tooltip" : pos })
+				}
+
+				if(settings.exifdimensions) {
+					if("dimensions" in d)
+						mod.append({"name" : qsTr("Dimensions"), "prop" : "", "value" : d["dimensions"], "tooltip" : d["dimensions"]})
+					else if("Exif.Photo.PixelXDimension" in d && "Exif.Photo.PixelYDimension" in d) {
+						var dim = d["Exif.Photo.PixelXDimension"] + "x" + d["Exif.Photo.PixelYDimension"]
+						mod.append({"name" : qsTr("Dimensions"), "prop" : "", "value" : dim, "tooltip" : dim})
+					}
 				}
 
 				mod.append({"name" : "", "prop" : "", "value" : ""})

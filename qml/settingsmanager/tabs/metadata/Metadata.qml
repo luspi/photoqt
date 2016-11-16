@@ -65,7 +65,9 @@ EntryContainer {
 
 		if(getanddostuff.isExivSupportEnabled())
 
-			items = [["filesize",qsTr("Filesize"), settings.exiffilesize],
+			items = [["filename",qsTr("Filename"), settings.exiffilename],
+						["filesize",qsTr("Filesize"), settings.exiffilesize],
+						["imagenumber",qsTr("Image") + " #/#", settings.exifimagenumber],
 						["dimensions",qsTr("Dimensions"), settings.exifdimensions],
 						["make",qsTr("Make"), settings.exifmake],
 						["model",qsTr("Model"),settings.exifmodel],
@@ -84,7 +86,9 @@ EntryContainer {
 						["gps",qsTr("GPS Position"),settings.exifgps]]
 
 		else
-			items = [["filesize",qsTr("Filesize"), settings.exiffilesize],
+			items = [["filename",qsTr("Filename"), settings.exiffilename],
+						["filesize",qsTr("Filesize"), settings.exiffilesize],
+						["imagenumber",qsTr("Image #/#"), settings.exifimagenumber],
 						["dimensions",qsTr("Dimensions"), settings.exifdimensions]]
 
 		grid.metadataitems = items
@@ -93,6 +97,8 @@ EntryContainer {
 
 	function saveData() {
 
+		settings.exiffilename = grid.metadachecked["filename"]
+		settings.exifimagenumber = grid.metadachecked["imagenumber"]
 		settings.exiffilesize = grid.metadachecked["filesize"]
 		settings.exifdimensions = grid.metadachecked["dimensions"]
 		if(getanddostuff.isExivSupportEnabled()) {

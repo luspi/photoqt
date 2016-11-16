@@ -18,6 +18,7 @@ Rectangle {
 	property int hoveredIndex: -1
 
 	property string currentFile: ""
+	property int currentPos: 0
 
 	property point clickpos: Qt.point(0,0)
 
@@ -78,6 +79,7 @@ Rectangle {
 
 		// Store some values
 		currentFile = imageModel.get(pos).imageUrl;
+		currentPos = pos;
 
 		imagewatch.watchFolder(currentFile)
 
