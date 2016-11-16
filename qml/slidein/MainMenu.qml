@@ -1,6 +1,8 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 
+import "../elements"
+
 Rectangle {
 
 	id: mainmenu
@@ -48,6 +50,51 @@ Rectangle {
 	]
 	property var allitems_external: []
 	property var allitems: []
+
+	// An 'x' to close photoqt
+	Rectangle {
+
+		// Position it
+		anchors.right: parent.right
+		anchors.top: parent.top
+		anchors.rightMargin: 1
+		anchors.topMargin: 1
+
+		// Width depends on type of 'x'
+		width: 3*settings.closeXsize
+		height: 3*settings.closeXsize
+
+		// Invisible rectangle
+		color: "#00000000"
+
+		// Fancy 'x'
+		Image {
+
+			id: img_x
+
+			anchors.right: parent.right
+			anchors.top: parent.top
+
+			source: "qrc:/img/closingx.png"
+			sourceSize: Qt.size(3*settings.closeXsize,3*settings.closeXsize)
+
+		}
+
+		// Click on it
+		ToolTip {
+			anchors.fill: parent
+			cursorShape: Qt.PointingHandCursor
+			acceptedButtons: Qt.LeftButton | Qt.RightButton
+			text: qsTr("Close PhotoQt")
+			onClicked: {
+				if(settings.trayicon)
+					hideToSystemTray()
+				else
+					quitPhotoQt()
+			}
+		}
+
+	}
 
 
 	Text {
