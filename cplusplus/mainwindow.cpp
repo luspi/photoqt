@@ -28,6 +28,7 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 	this->engine()->addImageProvider("thumb",new ImageProviderThumbnail);
 	this->engine()->addImageProvider("full",new ImageProviderFull);
 	this->engine()->addImageProvider("icon",new ImageProviderIcon);
+	this->engine()->addImageProvider("empty", new ImageProviderEmpty);
 
 	// Add settings access to QML
 	qmlRegisterType<Settings>("Settings", 1, 0, "Settings");

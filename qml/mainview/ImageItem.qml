@@ -46,7 +46,7 @@ Rectangle {
 	property int _interval: 0
 
 	// The opacity property
-	opacity: 1
+	opacity: 0
 	Behavior on opacity { NumberAnimation { duration: _fadeDurationNextImage; } }
 	onOpacityChanged: {
 		if(opacity == 1) {
@@ -69,6 +69,7 @@ Rectangle {
 		anchors.fill: parent
 		cache: false
 		mipmap: true
+		source: "image://empty/" + rect_top.width + "x" + rect_top.height
 		fillMode: Image.PreserveAspectFit
 		asynchronous: true
 		visible: true
@@ -88,6 +89,7 @@ Rectangle {
 		anchors.fill: parent
 		cache: false
 		mipmap: true
+		source: "image://empty/" + rect_top.width + "x" + rect_top.height
 		fillMode: Image.PreserveAspectFit
 		asynchronous: true
 		mirror: false

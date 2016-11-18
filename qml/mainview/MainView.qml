@@ -29,7 +29,7 @@ Item {
 		verboseMessage("Display::setImage()", path)
 
 		// LOAD IMAGE
-		image.loadImage(path, 0)
+		image.loadImage(path)
 
 		// Hide 'nothing loaded' message and arrows
 		nofileloaded.visible = false
@@ -66,6 +66,7 @@ Item {
 		fitInWindow: settings.fitInWindow
 		interpolationNearestNeighbourThreshold: settings.interpolationNearestNeighbourThreshold
 		interpolationNearestNeighbourUpscale: settings.interpolationNearestNeighbourUpscale
+		resetZoomRotationMirrorForNewImage: !settings.keepZoomRotationMirror
 
 	}
 

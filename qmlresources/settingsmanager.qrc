@@ -17,7 +17,7 @@
 		<file>../qml/settingsmanager/tabs/lookandfeel/MouseWheelSensitivity.qml</file>
 		<file>../qml/settingsmanager/tabs/lookandfeel/OverlayColor.qml</file>
 		<file>../qml/settingsmanager/tabs/lookandfeel/Quickinfo.qml</file>
-		<file>../qml/settingsmanager/tabs/lookandfeel/Remember.qml</file>
+		<file>../qml/settingsmanager/tabs/lookandfeel/Keep.qml</file>
 		<file>../qml/settingsmanager/tabs/lookandfeel/SortBy.qml</file>
 		<file>../qml/settingsmanager/tabs/lookandfeel/Transition.qml</file>
 		<file>../qml/settingsmanager/tabs/lookandfeel/TrayIcon.qml</file>

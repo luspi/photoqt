@@ -79,7 +79,7 @@ Rectangle {
 			Interpolation { id: interpolation; alternating: true }
 			PixmapCache { id: pixmapcache }
 			TouchScreen { id: touchscreen; alternating: true }
-			Remember { id: remember }
+			Keep { id: remember }
 			Animation { id: animation; alternating: true }
 		}
 

@@ -89,8 +89,7 @@ public:
 		connect(this, SIGNAL(sortbyChanged(QString)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(sortbyAscendingChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(mouseWheelSensitivityChanged(int)), saveSettingsTimer, SLOT(start()));
-		connect(this, SIGNAL(rememberRotationChanged(bool)), saveSettingsTimer, SLOT(start()));
-		connect(this, SIGNAL(rememberZoomChanged(bool)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(keepZoomRotationMirrorChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(fitInWindowChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(interpolationNearestNeighbourThresholdChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(interpolationNearestNeighbourUpscaleChanged(bool)), saveSettingsTimer, SLOT(start()));
@@ -249,9 +248,8 @@ public:
 	bool sortbyAscending;
 	// Mouse Wheel sensitivity
 	int mouseWheelSensitivity;
-	// Remember per session
-	bool rememberRotation;
-	bool rememberZoom;
+	// Keep for new image
+	bool keepZoomRotationMirror;
 	// If image is too small, zoom to fit in window
 	bool fitInWindow;
 	// 'Nearest Neighbour' interpolation size threshold
@@ -410,8 +408,7 @@ public:
 	Q_PROPERTY(QString sortby MEMBER sortby NOTIFY sortbyChanged)
 	Q_PROPERTY(bool sortbyAscending MEMBER sortbyAscending NOTIFY sortbyAscendingChanged)
 	Q_PROPERTY(int mouseWheelSensitivity MEMBER mouseWheelSensitivity NOTIFY mouseWheelSensitivityChanged)
-	Q_PROPERTY(bool rememberRotation MEMBER rememberRotation NOTIFY rememberRotationChanged)
-	Q_PROPERTY(bool rememberZoom MEMBER rememberZoom NOTIFY rememberZoomChanged)
+	Q_PROPERTY(bool keepZoomRotationMirror MEMBER keepZoomRotationMirror NOTIFY keepZoomRotationMirrorChanged)
 	Q_PROPERTY(bool fitInWindow MEMBER fitInWindow NOTIFY fitInWindowChanged)
 	Q_PROPERTY(int interpolationNearestNeighbourThreshold MEMBER interpolationNearestNeighbourThreshold NOTIFY interpolationNearestNeighbourThresholdChanged)
 	Q_PROPERTY(bool interpolationNearestNeighbourUpscale MEMBER interpolationNearestNeighbourUpscale NOTIFY interpolationNearestNeighbourUpscaleChanged)
@@ -556,8 +553,7 @@ public:
 		borderAroundImg = 5;
 		quickSettings = true;
 		mouseWheelSensitivity = 1;
-		rememberRotation = false;
-		rememberZoom = false;
+		keepZoomRotationMirror = false;
 		fitInWindow= false;
 		interpolationNearestNeighbourThreshold = 100;
 		interpolationNearestNeighbourUpscale = false;
@@ -719,8 +715,7 @@ public slots:
 			cont += QString("SortImagesBy=%1\n").arg(sortby);
 			cont += QString("SortImagesAscending=%1\n").arg(int(sortbyAscending));
 			cont += QString("MouseWheelSensitivity=%1\n").arg(mouseWheelSensitivity);
-			cont += QString("RememberRotation=%1\n").arg(int(rememberRotation));
-			cont += QString("RememberZoom=%1\n").arg(int(rememberZoom));
+			cont += QString("KeepZoomRotationMirror=%1\n").arg(int(keepZoomRotationMirror));
 			cont += QString("FitInWindow=%1\n").arg(int(fitInWindow));
 			cont += QString("InterpolationNearestNeighbourThreshold=%1\n").arg(interpolationNearestNeighbourThreshold);
 			cont += QString("InterpolationNearestNeighbourUpscale=%1\n").arg(int(interpolationNearestNeighbourUpscale));
@@ -966,15 +961,10 @@ public slots:
 				if(mouseWheelSensitivity < 1) mouseWheelSensitivity = 1;
 			}
 
-			if(all.contains("RememberRotation=1"))
-				rememberRotation = true;
-			else if(all.contains("RememberRotation=0"))
-				rememberRotation = false;
-
-			if(all.contains("RememberZoom=1"))
-				rememberZoom = true;
-			else if(all.contains("RememberZoom=0"))
-				rememberZoom = false;
+			if(all.contains("KeepZoomRotationMirror=1"))
+				keepZoomRotationMirror = true;
+			else if(all.contains("KeepZoomRotationMirror=0"))
+				keepZoomRotationMirror = false;
 
 			if(all.contains("FitInWindow=1"))
 				fitInWindow = true;
@@ -1363,8 +1353,7 @@ signals:
 	void sortbyChanged(QString val);
 	void sortbyAscendingChanged(bool val);
 	void mouseWheelSensitivityChanged(int val);
-	void rememberRotationChanged(bool val);
-	void rememberZoomChanged(bool val);
+	void keepZoomRotationMirrorChanged(bool val);
 	void fitInWindowChanged(bool val);
 	void interpolationNearestNeighbourThresholdChanged(int val);
 	void interpolationNearestNeighbourUpscaleChanged(bool val);

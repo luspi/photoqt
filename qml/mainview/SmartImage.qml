@@ -15,6 +15,7 @@ Rectangle {
 	property int interpolationNearestNeighbourThreshold: 200
 	property int fadeduration: 100
 	property int zoomduration: 100
+	property bool resetZoomRotationMirrorForNewImage: false
 
 	// This most of the time is equal to the fadeduration variable. However, there is a fixed value for rotating images (always slightly animated)
 	property int _fadeDurationNextImage: fadeduration
@@ -22,15 +23,12 @@ Rectangle {
 	// this one is used internally to distinguish zoom by keys and mouse
 	property bool zoomTowardsCenter: true
 
-	// store zoom/rotation properties per session
-	property var storeContentPos: ({})
-	property var storeZoom: ({})
-	property var storeRotation: ({})
-
 	// the currently set image source
 	property string _activeImageSource: ""
+	property string _activeImageItem: "one"
 	// the loading right now is happening for a newly loaded image
 	property bool _newImageSet: false
+
 
 	// clip contents past element boundary
 	clip: true
@@ -61,9 +59,6 @@ Rectangle {
 			// adjust content dimensions
 			contentWidth: getPaintedImageSize().width*imgrect.scale
 			contentHeight: getPaintedImageSize().height*imgrect.scale
-
-			onContentXChanged: doStoreZoomAndPos()
-			onContentYChanged: doStoreZoomAndPos()
 
 			// when content dimensions changed, adjust x/y of the flickarea
 			onContentWidthChanged:
@@ -109,7 +104,6 @@ Rectangle {
 					var path = s.split("::photoqt")[0]
 					// load image rotated
 					loadImage(path, angle)
-					doStoreRotation()
 				}
 
 				// Handle scrolling, keep x/y of content as wanted
@@ -119,6 +113,7 @@ Rectangle {
 
 					var x_ratio = (zoomTowardsCenter ? flick.width/2 : localcursorpos.x);
 					var y_ratio = (zoomTowardsCenter ? flick.height/2 : localcursorpos.y);
+
 					var w = imgrect.width*imgrect.scale
 					var h = imgrect.height*imgrect.scale
 
@@ -134,8 +129,6 @@ Rectangle {
 					}
 
 					prevScale = scale
-
-					doStoreZoomAndPos()
 
 				}
 				// scaling is happening smoothly
@@ -204,17 +197,12 @@ Rectangle {
 		// stop any possibly started animation
 		stopAllAnimations()
 
-		// we enter some default values
-		if(!(filename in storeZoom)) {
-			storeZoom[filename] = 1
-			storeContentPos[filename] = [0,0]
-		}
-		if(!(filename in storeRotation))
-			storeRotation[filename] = 0
-
-		// if the function was called without an angle, we set it to 0
+		// if the function was called without an angle, we keep the currently set rotation angle
+		// otherwise we update the currently set rotation angle to the desired one
 		if(angle == undefined)
-			angle = 0;
+			angle = imgrect._rotation;
+		else
+			imgrect._rotation = angle
 
 		// check whether it's a new image, and store active image source
 		if(filename != _activeImageSource)
@@ -240,7 +228,7 @@ Rectangle {
 		}
 
 		// If 'one' is visible...
-		if(one.opacity != 0) {
+		if(_activeImageItem == "one") {
 			// If it's the exact same file as 'two' showed before, simply make it visible again
 			if(two.source == filename)
 				makeImageVisible("two")
@@ -254,7 +242,7 @@ Rectangle {
 				two.source = filename
 			}
 		// If 'two' is visible...
-		} else if(two.opacity != 0) {
+		} else if(_activeImageItem == "two") {
 			// If it's the exact same file as 'one' showed before, simply make it visible again
 			if(one.source == filename)
 				makeImageVisible("one")
@@ -274,6 +262,8 @@ Rectangle {
 	// make image element visible
 	function makeImageVisible(imgid) {
 
+		_activeImageItem = imgid
+
 		if(imgid === "one") {
 			one.opacity = 1
 			two.opacity = 0
@@ -285,9 +275,13 @@ Rectangle {
 		// update fillmode
 		checkFillMode()
 
-		// if the image is new, restore saved properties (if enabled)
-		if(_newImageSet)
-			restoreProperties()
+		if(_newImageSet && resetZoomRotationMirrorForNewImage) {
+			if(imgrect.scale != 1) resetZoom()
+			if(imgrect._rotation != 0) resetRotation(0)
+			if(imgrect._vertically_mirrored || one.getMirror()) resetMirror()
+		}
+
+		_newImageSet = false
 
 	}
 
@@ -336,8 +330,8 @@ Rectangle {
 	}
 
 	// Reset rotation value to zero
-	function resetRotation() {
-		_fadeDurationNextImage = 200
+	function resetRotation(forceDuration) {
+		_fadeDurationNextImage = (forceDuration != undefined ? forceDuration : 200)
 		imgrect._rotation = 0
 	}
 
@@ -407,59 +401,6 @@ Rectangle {
 		imgrect._vertically_mirrored = false
 	}
 
-	////////////////////////////
-	////////////////////////////
-	//// STORE PROPERTIES
-
-	// store zoom and content position
-	function doStoreZoomAndPos() {
-		if(!settings.rememberZoom || _newImageSet) return
-		var filename = getCurrentSource()
-		filename = filename.split("::photoqt::")[0]
-		storeZoom[filename] = imgrect.scale
-		storeContentPos[filename] = [flick.contentX, flick.contentY];
-	}
-
-	// store rotation property
-	function doStoreRotation() {
-		if(!settings.rememberRotation || _newImageSet) return
-		var filename = getCurrentSource()
-		filename = filename.split("::photoqt::")[0]
-		storeRotation[filename] = imgrect._rotation
-	}
-
-	// restore stored properties (if enabled)
-	function restoreProperties() {
-
-		// get slightly stripped down filename
-		var filename = getCurrentSource()
-		filename = filename.split("::photoqt::")[0]
-
-		// scaling is happening without animation
-		scaleani.duration = 0
-
-		// restore rotation
-		if(settings.rememberRotation && filename in storeRotation)
-			if(imgrect._rotation != storeRotation[filename])
-				imgrect._rotation = storeRotation[filename]
-
-		// restore zoom and position (if one is set, the other is also always set)
-		if(settings.rememberZoom && filename in storeZoom) {
-			if(imgrect.scale != storeZoom[filename])
-				imgrect.scale = storeZoom[filename]
-			if(flick.contentX != storeContentPos[filename][0])
-				flick.contentX = storeContentPos[filename][0]
-			if(flick.contentY != storeContentPos[filename][1])
-				flick.contentY = storeContentPos[filename][1]
-		}
-
-		// restore scaling animation duration
-		scaleani.duration = zoomduration
-
-		// reset 'new image' property
-		_newImageSet = false
-
-	}
 
 	////////////////////////////
 	////////////////////////////
@@ -469,9 +410,9 @@ Rectangle {
 
 	function getPaintedImageSize() {
 
-		if(one.opacity != 0)
+		if(_activeImageItem == "one")
 			return one.getActualPaintedImageSize()
-		else if(two.opacity != 0)
+		else if(_activeImageItem == "two")
 			return two.getActualPaintedImageSize()
 		else
 			return Qt.size(rect_top.width/2, rect_top.height/2)
@@ -485,18 +426,18 @@ Rectangle {
 
 	// get the sourcesize of the currently displayed image
 	function getCurrentSourceSize() {
-		if(one.opacity != 0)
+		if(_activeImageItem == "one")
 			return one.getSourceSize()
-		else if(two.opacity != 0)
+		else if(_activeImageItem == "two")
 			return two.getSourceSize()
 		return Qt.size(0,0)
 	}
 
 	// get the source filename of the currently displayed image
 	function getCurrentSource() {
-		if(one.opacity != 0)
+		if(_activeImageItem == "one")
 			return one.source+""
-		else if(two.opacity != 0)
+		else if(_activeImageItem == "two")
 			return two.source+""
 		return ""
 	}
@@ -509,13 +450,13 @@ Rectangle {
 	// check if a click is inside the painted area of the image
 	function clickInsideImage(pos) {
 		var contx, conty, mapped, painted
-		if(one.opacity != 0) {
+		if(_activeImageItem == "one") {
 			painted = one.getActualPaintedImageSize()
 			contx = (one.width-painted.width)/2
 			conty = (one.height-painted.height)/2
 			mapped = one.mapFromItem(toplevel,pos.x,pos.y)
 			return (contx <= mapped.x && contx+painted.width >= mapped.x && conty <= mapped.y && conty+painted.height >= mapped.y)
-		} else if(two.opacity != 0) {
+		} else if(_activeImageItem == "two") {
 			painted = two.getActualPaintedImageSize()
 			contx = (two.width-painted.width)/2
 			conty = (two.height-painted.height)/2
