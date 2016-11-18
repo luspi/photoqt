@@ -78,9 +78,8 @@ Rectangle {
 			MouseWheelSensitivity { id: mousewheel }
 			Interpolation { id: interpolation; alternating: true }
 			PixmapCache { id: pixmapcache }
-			TouchScreen { id: touchscreen; alternating: true }
-			Keep { id: remember }
-			Animation { id: animation; alternating: true }
+			Keep { id: remember; alternating: true }
+			Animation { id: animation }
 		}
 
 	}
@@ -104,7 +103,6 @@ Rectangle {
 		mousewheel.setData()
 		interpolation.setData()
 		pixmapcache.setData()
-		touchscreen.setData()
 		remember.setData()
 		animation.setData()
 
@@ -129,7 +127,6 @@ Rectangle {
 		mousewheel.saveData()
 		interpolation.saveData()
 		pixmapcache.saveData()
-		touchscreen.saveData()
 		remember.saveData()
 		animation.saveData()
 
