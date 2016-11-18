@@ -95,7 +95,6 @@ public:
 		connect(this, SIGNAL(interpolationNearestNeighbourUpscaleChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(blurIntensityChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(pixmapCacheChanged(int)), saveSettingsTimer, SLOT(start()));
-		connect(this, SIGNAL(experimentalTouchscreenSupportChanged(bool)), saveSettingsTimer, SLOT(start()));
 
 		connect(this, SIGNAL(leftButtonMouseClickAndMoveChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(singleFingerTouchPressAndMoveChanged(bool)), saveSettingsTimer, SLOT(start()));
@@ -260,8 +259,6 @@ public:
 	int blurIntensity;
 	// Size (in MB) of pixmap cache
 	int pixmapCache;
-	// Option to enable experimental support for touchscreen gestures
-	bool experimentalTouchscreenSupport;
 
 	bool leftButtonMouseClickAndMove;
 	bool singleFingerTouchPressAndMove;
@@ -414,7 +411,6 @@ public:
 	Q_PROPERTY(bool interpolationNearestNeighbourUpscale MEMBER interpolationNearestNeighbourUpscale NOTIFY interpolationNearestNeighbourUpscaleChanged)
 	Q_PROPERTY(int blurIntensity MEMBER blurIntensity NOTIFY blurIntensityChanged)
 	Q_PROPERTY(int pixmapCache MEMBER pixmapCache NOTIFY pixmapCacheChanged)
-	Q_PROPERTY(bool experimentalTouchscreenSupport MEMBER experimentalTouchscreenSupport NOTIFY experimentalTouchscreenSupportChanged)
 	Q_PROPERTY(bool leftButtonMouseClickAndMove MEMBER leftButtonMouseClickAndMove NOTIFY leftButtonMouseClickAndMoveChanged)
 	Q_PROPERTY(bool singleFingerTouchPressAndMove MEMBER singleFingerTouchPressAndMove NOTIFY singleFingerTouchPressAndMoveChanged)
 
@@ -559,7 +555,6 @@ public:
 		interpolationNearestNeighbourUpscale = false;
 		blurIntensity = 5;
 		pixmapCache = 128;
-		experimentalTouchscreenSupport = false;
 		leftButtonMouseClickAndMove = true;
 		singleFingerTouchPressAndMove = true;
 
@@ -721,7 +716,6 @@ public slots:
 			cont += QString("InterpolationNearestNeighbourUpscale=%1\n").arg(int(interpolationNearestNeighbourUpscale));
 			cont += QString("BlurIntensity=%1\n").arg(blurIntensity);
 			cont += QString("PixmapCache=%1\n").arg(pixmapCache);
-			cont += QString("ExperimentalTouchscreenSupport=%1\n").arg(int(experimentalTouchscreenSupport));
 			cont += QString("LeftButtonMouseClickAndMove=%1\n").arg(int(leftButtonMouseClickAndMove));
 			cont += QString("SingleFingerTouchPressAndMove=%1\n").arg(int(singleFingerTouchPressAndMove));
 
@@ -984,11 +978,6 @@ public slots:
 
 			if(all.contains("PixmapCache="))
 				pixmapCache = all.split("PixmapCache=").at(1).split("\n").at(0).toInt();
-
-			if(all.contains("ExperimentalTouchscreenSupport=1"))
-				experimentalTouchscreenSupport = true;
-			else if(all.contains("ExperimentalTouchscreenSupport=0"))
-				experimentalTouchscreenSupport = false;
 
 			if(all.contains("LeftButtonMouseClickAndMove=1"))
 				leftButtonMouseClickAndMove = true;
@@ -1359,7 +1348,6 @@ signals:
 	void interpolationNearestNeighbourUpscaleChanged(bool val);
 	void blurIntensityChanged(int val);
 	void pixmapCacheChanged(int val);
-	void experimentalTouchscreenSupportChanged(bool val);
 	void leftButtonMouseClickAndMoveChanged(bool val);
 	void singleFingerTouchPressAndMoveChanged(bool val);
 
