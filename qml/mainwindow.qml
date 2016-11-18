@@ -335,4 +335,5 @@ Item {
 		quickInfo.opacity = 1
 
 	}
+
 }

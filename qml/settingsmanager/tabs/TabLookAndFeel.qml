@@ -78,8 +78,9 @@ Rectangle {
 			MouseWheelSensitivity { id: mousewheel }
 			Interpolation { id: interpolation; alternating: true }
 			PixmapCache { id: pixmapcache }
-			Keep { id: remember; alternating: true }
-			Animation { id: animation }
+			ReOpenFile { id: reopenfile; alternating: true }
+			Keep { id: remember }
+			Animation { id: animation; alternating: true }
 		}
 
 	}
@@ -103,6 +104,7 @@ Rectangle {
 		mousewheel.setData()
 		interpolation.setData()
 		pixmapcache.setData()
+		reopenfile.setData()
 		remember.setData()
 		animation.setData()
 
@@ -127,6 +129,7 @@ Rectangle {
 		mousewheel.saveData()
 		interpolation.saveData()
 		pixmapcache.saveData()
+		reopenfile.saveData()
 		remember.saveData()
 		animation.saveData()
 

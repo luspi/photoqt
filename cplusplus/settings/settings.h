@@ -64,6 +64,8 @@ public:
 		connect(this, SIGNAL(saveWindowGeometryChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(keepOnTopChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(compositeChanged(bool)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(startupLoadLastLoadedImageChanged(bool)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(startupLoadLastLoadedImageStringChanged(QString)), saveSettingsTimer, SLOT(start()));
 
 		connect(this, SIGNAL(bgColorRedChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(bgColorGreenChanged(int)), saveSettingsTimer, SLOT(start()));
@@ -211,6 +213,8 @@ public:
 	bool keepOnTop;
 	// Is composite enabled?
 	bool composite;
+	bool startupLoadLastLoadedImage;
+	QString startupLoadLastLoadedImageString;
 
 	// Set the background color
 	int bgColorRed;
@@ -380,6 +384,8 @@ public:
 	Q_PROPERTY(bool saveWindowGeometry MEMBER saveWindowGeometry NOTIFY saveWindowGeometryChanged)
 	Q_PROPERTY(bool keepOnTop MEMBER keepOnTop NOTIFY keepOnTopChanged)
 	Q_PROPERTY(bool composite MEMBER composite NOTIFY compositeChanged)
+	Q_PROPERTY(bool startupLoadLastLoadedImage MEMBER startupLoadLastLoadedImage NOTIFY startupLoadLastLoadedImageChanged)
+	Q_PROPERTY(QString startupLoadLastLoadedImageString MEMBER startupLoadLastLoadedImageString NOTIFY startupLoadLastLoadedImageStringChanged)
 
 	Q_PROPERTY(int bgColorRed MEMBER bgColorRed NOTIFY bgColorRedChanged)
 	Q_PROPERTY(int bgColorGreen MEMBER bgColorGreen NOTIFY bgColorGreenChanged)
@@ -557,6 +563,8 @@ public:
 		pixmapCache = 128;
 		leftButtonMouseClickAndMove = true;
 		singleFingerTouchPressAndMove = true;
+		startupLoadLastLoadedImage = false;
+		startupLoadLastLoadedImageString = "";
 
 		hidecounter = false;
 		hidefilepathshowfilename = true;
@@ -681,6 +689,8 @@ public slots:
 			cont += QString("SaveWindowGeometry=%1\n").arg(int(saveWindowGeometry));
 			cont += QString("KeepOnTop=%1\n").arg(int(keepOnTop));
 			cont += QString("KnownFileTypesQtExtras=%1\n").arg(knownFileTypesQtExtras);
+			cont += QString("StartupLoadLastLoadedImage=%1\n").arg(int(startupLoadLastLoadedImage));
+			cont += QString("StartupLoadLastLoadedImageString=%1\n").arg(startupLoadLastLoadedImageString);
 
 			cont += "\n[Look]\n";
 
@@ -892,6 +902,14 @@ public slots:
 				composite = true;
 			else if(all.contains("Composite=0"))
 				composite = false;
+
+			if(all.contains("StartupLoadLastLoadedImage=1"))
+				startupLoadLastLoadedImage = true;
+			else if(all.contains("StartupLoadLastLoadedImage=0"))
+				startupLoadLastLoadedImage = false;
+
+			if(all.contains("StartupLoadLastLoadedImageString="))
+				startupLoadLastLoadedImageString = all.split("StartupLoadLastLoadedImageString=").at(1).split("\n").at(0);
 
 
 			if(all.contains("QuickSettings=1"))
@@ -1317,6 +1335,8 @@ signals:
 	void saveWindowGeometryChanged(bool val);
 	void keepOnTopChanged(bool val);
 	void compositeChanged(bool val);
+	void startupLoadLastLoadedImageChanged(bool val);
+	void startupLoadLastLoadedImageStringChanged(QString val);
 
 	void bgColorRedChanged(int val);
 	void bgColorGreenChanged(int val);

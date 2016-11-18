@@ -38,8 +38,7 @@ class MainWindow : public QQuickView {
 public:
 	explicit MainWindow(bool verbose, QWindow *parent = 0);
 	~MainWindow();
-
-	void showStartup(QString type, QString filename);
+	void handleStartup(int upd, QString filename);
 
 public slots:
 	void handleOpenFileEvent(QString filename, QString filter = "");
@@ -102,6 +101,8 @@ private slots:
 	void remoteAction(QString cmd);
 
 	void updateWindowXandY();
+
+	void showStartup(QString type, QString filename);
 
 	void resetWindowGeometry();
 

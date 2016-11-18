@@ -104,11 +104,26 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 
 }
 
+void MainWindow::handleStartup(int upd, QString filename) {
+
+	if(upd != 0)
+		showStartup(upd == 2 ? "installed" : "updated", filename);
+	else {
+		if(settingsPermanent->startupLoadLastLoadedImage && filename == "")
+			handleOpenFileEvent(settingsPermanent->startupLoadLastLoadedImageString, "");
+		else
+			handleOpenFileEvent(filename, "");
+	}
+
+}
+
 // Open a new file
 void MainWindow::handleOpenFileEvent(QString filename, QString filter) {
 
 	if(filename.startsWith("file:/"))
 		filename = filename.remove(0,6);
+	if(filename.startsWith("image://full/"))
+		filename = filename.remove(0,13);
 
 	if(filename.trimmed() == "") {
 		QMetaObject::invokeMethod(object, "openFile");

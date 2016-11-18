@@ -194,6 +194,8 @@ Rectangle {
 	// load a new image at a certain angle
 	function loadImage(filename, angle) {
 
+		settings.startupLoadLastLoadedImageString = filename
+
 		// stop any possibly started animation
 		stopAllAnimations()
 

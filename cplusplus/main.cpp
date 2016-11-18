@@ -105,10 +105,8 @@ int main(int argc, char *argv[]) {
 		w.hide();
 
 	// After a new install/update, we first show a startup message (which, when closed, calls openFile())
-	if(update != 0)
-		w.showStartup(update == 2 ? "installed" : "updated", a.filename);
-	else
-		w.handleOpenFileEvent(a.filename);
+	// otherwise, we either load the last used image or request a new file (depending on settings)
+	w.handleStartup(update, a.filename);
 
 	return a.exec();
 
