@@ -50,12 +50,6 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
 	QTransform trans;
 	trans.rotate(angle);
 
-	// This means that we're looking for a thumbnail only
-	if(requestedSize.width() <= 256 || requestedSize.height() <= 256)
-		maxSize = requestedSize;
-	else
-		maxSize = QSize(-1,-1);
-
 	// Which GraphicsEngine should we use?
 	QString whatToUse = whatDoIUse(filename);
 
