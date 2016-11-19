@@ -554,6 +554,30 @@ void MainWindow::remoteAction(QString cmd) {
 
 void MainWindow::updateWindowGeometry() {
 
+	// Open PhotoQt on pre-selected screen (if enabled)
+	// NOTE: setScreen() currently doesn't seem to work on Linux!!
+	if(settingsPermanent->openOnScreen) {
+		QList<QScreen *> sc = qApp->screens();
+		for(unsigned int i = 0; i < sc.length(); ++i) {
+			if(sc.at(i)->name() == settingsPermanent->openOnScreenName) {
+				this->setScreen(qApp->screens()[1]);
+				i = sc.length();
+			}
+		}
+	}
+
+/***************************************/
+// Patch provided by John Morris
+
+#ifdef Q_OS_MAC
+	// If on a Mac, show fullscreen on monitor containing the mouse pointer.
+	int screenNum = qApp->desktop()->screenNumber(QCursor::pos());
+	this->setScreen(qApp->screens()[screenNum]);
+#endif
+
+/***************************************/
+
+
 	if(variables->verbose)
 		LOG << CURDATE << "updateWindowGeometry()" << NL;
 
@@ -593,18 +617,6 @@ void MainWindow::updateWindowGeometry() {
 			this->setFlags(Qt::WindowStaysOnTopHint | Qt::FramelessWindowHint);
 		else
 			this->setFlags(Qt::FramelessWindowHint);
-
-
-/***************************************/
-// Patch provided by John Morris
-
-#ifdef Q_OS_MAC
-		// If on a Mac, show fullscreen on monitor containing the mouse pointer.
-		int screenNum = qApp->desktop()->screenNumber(QCursor::pos());
-		this->setScreen(qApp->screens()[screenNum]);
-#endif
-
-/***************************************/
 
 		QString(getenv("DESKTOP")).startsWith("Enlightenment") ? this->showMaximized() : this->showFullScreen();
 	}

@@ -64,6 +64,8 @@ public:
 		connect(this, SIGNAL(saveWindowGeometryChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(keepOnTopChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(compositeChanged(bool)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(openOnScreenChanged(bool)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(openOnScreenNameChanged(QString)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(startupLoadLastLoadedImageChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(startupLoadLastLoadedImageStringChanged(QString)), saveSettingsTimer, SLOT(start()));
 
@@ -213,6 +215,8 @@ public:
 	bool keepOnTop;
 	// Is composite enabled?
 	bool composite;
+	bool openOnScreen;
+	QString openOnScreenName;
 	bool startupLoadLastLoadedImage;
 	QString startupLoadLastLoadedImageString;
 
@@ -384,6 +388,8 @@ public:
 	Q_PROPERTY(bool saveWindowGeometry MEMBER saveWindowGeometry NOTIFY saveWindowGeometryChanged)
 	Q_PROPERTY(bool keepOnTop MEMBER keepOnTop NOTIFY keepOnTopChanged)
 	Q_PROPERTY(bool composite MEMBER composite NOTIFY compositeChanged)
+	Q_PROPERTY(bool openOnScreen MEMBER openOnScreen NOTIFY openOnScreenChanged)
+	Q_PROPERTY(QString openOnScreenName MEMBER openOnScreenName NOTIFY openOnScreenNameChanged)
 	Q_PROPERTY(bool startupLoadLastLoadedImage MEMBER startupLoadLastLoadedImage NOTIFY startupLoadLastLoadedImageChanged)
 	Q_PROPERTY(QString startupLoadLastLoadedImageString MEMBER startupLoadLastLoadedImageString NOTIFY startupLoadLastLoadedImageStringChanged)
 
@@ -522,6 +528,8 @@ public:
 		myWidgetAnimated = true;
 		saveWindowGeometry = false;
 		keepOnTop = false;
+		openOnScreen = false;
+		openOnScreenName = "";
 
 		language = "";
 		bgColorRed = 0;
@@ -689,6 +697,8 @@ public slots:
 			cont += QString("SaveWindowGeometry=%1\n").arg(int(saveWindowGeometry));
 			cont += QString("KeepOnTop=%1\n").arg(int(keepOnTop));
 			cont += QString("KnownFileTypesQtExtras=%1\n").arg(knownFileTypesQtExtras);
+			cont += QString("OpenOnScreen=%1\n").arg(int(openOnScreen));
+			cont += QString("OpenOnScreenName=%1\n").arg(openOnScreenName);
 			cont += QString("StartupLoadLastLoadedImage=%1\n").arg(int(startupLoadLastLoadedImage));
 			cont += QString("StartupLoadLastLoadedImageString=%1\n").arg(startupLoadLastLoadedImageString);
 
@@ -902,6 +912,14 @@ public slots:
 				composite = true;
 			else if(all.contains("Composite=0"))
 				composite = false;
+
+			if(all.contains("OpenOnScreen=1"))
+				openOnScreen = true;
+			else if(all.contains("OpenOnScreen=0"))
+				openOnScreen = false;
+
+			if(all.contains("OpenOnScreenName="))
+				openOnScreenName = all.split("OpenOnScreenName=").at(1).split("\n").at(0);
 
 			if(all.contains("StartupLoadLastLoadedImage=1"))
 				startupLoadLastLoadedImage = true;
@@ -1335,6 +1353,8 @@ signals:
 	void saveWindowGeometryChanged(bool val);
 	void keepOnTopChanged(bool val);
 	void compositeChanged(bool val);
+	void openOnScreenChanged(bool val);
+	void openOnScreenNameChanged(QString val);
 	void startupLoadLastLoadedImageChanged(bool val);
 	void startupLoadLastLoadedImageStringChanged(QString val);
 

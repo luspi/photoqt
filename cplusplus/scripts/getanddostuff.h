@@ -96,6 +96,7 @@ public:
 	Q_INVOKABLE bool isGraphicsMagickSupportEnabled() { return other->isGraphicsMagickSupportEnabled(); }
 	Q_INVOKABLE bool isLibRawSupportEnabled() { return other->isLibRawSupportEnabled(); }
 	Q_INVOKABLE QString getVersionString() { return other->getVersionString(); }
+	Q_INVOKABLE QList<QString> getScreenNames() { return other->getScreenNames(); }
 
 	// SHORTCUTS
 	Q_INVOKABLE QVariantMap getKeyShortcuts() { return shortcuts->getKeyShortcuts(); }

@@ -37,6 +37,8 @@ EntryContainer {
 
 					id: save_restore_geometry
 					text: qsTr("Save and restore window geometry")
+					onCheckedButtonChanged:
+						if(checkedButton) screenCheck.checkedButton = false
 
 				}
 
@@ -44,9 +46,31 @@ EntryContainer {
 
 					id: keep_on_top
 					wrapMode: Text.WordWrap
-					fixedwidth: settings_top.width-entrytitle.width-animate_elements.width-save_restore_geometry.width-60
 					text: qsTr("Keep above other windows")
 
+				}
+
+				Rectangle {
+					color: "transparent"
+					width: childrenRect.width
+					height: childrenRect.height
+					Row {
+						property string ttip: "Make PhotoQt appear on Screen #" + (screenCombo.currentIndex+1) + ": " + screenCombo.currentText
+						CustomCheckBox {
+							id: screenCheck
+							text: "Make PhotoQt appear on: "
+							tooltip: parent.ttip
+							onCheckedButtonChanged:
+								if(checkedButton) save_restore_geometry.checkedButton = false
+						}
+						CustomComboBox {
+							id: screenCombo
+							model: []
+							enabled: screenCheck.checkedButton
+							disabledOpacity: 0.3
+							tooltip: parent.ttip
+						}
+					}
 				}
 
 			}
@@ -56,15 +80,31 @@ EntryContainer {
 	}
 
 	function setData() {
+
 		animate_elements.checkedButton = settings.myWidgetAnimated
 		save_restore_geometry.checkedButton = settings.saveWindowGeometry
 		keep_on_top.checkedButton = settings.keepOnTop
+
+		var allScreens = getanddostuff.getScreenNames()
+		var model = []
+		for(var i = 0; i < allScreens.length; ++i)
+			model[i] = allScreens[i]
+		screenCombo.model = model
+
+		screenCheck.checkedButton = settings.openOnScreen
+		for(var i = 0; i < allScreens.length; ++i)
+			if(screenCombo.model[i] == settings.openOnScreenName)
+				screenCombo.currentIndex = i
+
 	}
 
 	function saveData() {
 		settings.myWidgetAnimated = animate_elements.checkedButton
 		settings.saveWindowGeometry = save_restore_geometry.checkedButton
 		settings.keepOnTop = keep_on_top.checkedButton
+
+		settings.openOnScreen = screenCheck.checkedButton
+		settings.openOnScreenName = screenCombo.currentText
 	}
 
 }

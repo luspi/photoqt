@@ -148,3 +148,15 @@ bool GetAndDoStuffOther::isLibRawSupportEnabled() {
 QString GetAndDoStuffOther::getVersionString() {
 	return VERSION;
 }
+
+QList<QString> GetAndDoStuffOther::getScreenNames() {
+
+	QList<QString> ret;
+
+	unsigned int count = QGuiApplication::screens().count();
+	for(unsigned int i = 0; i < count; ++i)
+		ret.append(QGuiApplication::screens().at(i)->name());
+
+	return ret;
+
+}
