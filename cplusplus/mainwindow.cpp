@@ -564,18 +564,20 @@ void MainWindow::updateWindowGeometry() {
 				i = sc.length();
 			}
 		}
+	} else {
+
+		/***************************************/
+		// Patch provided by John Morris
+
+		#ifdef Q_OS_MAC
+			// If on a Mac, show fullscreen on monitor containing the mouse pointer.
+			int screenNum = qApp->desktop()->screenNumber(QCursor::pos());
+			this->setScreen(qApp->screens()[screenNum]);
+		#endif
+
+		/***************************************/
+
 	}
-
-/***************************************/
-// Patch provided by John Morris
-
-#ifdef Q_OS_MAC
-	// If on a Mac, show fullscreen on monitor containing the mouse pointer.
-	int screenNum = qApp->desktop()->screenNumber(QCursor::pos());
-	this->setScreen(qApp->screens()[screenNum]);
-#endif
-
-/***************************************/
 
 
 	if(variables->verbose)
