@@ -124,12 +124,12 @@ Item {
 				id: backHandle;
 
 				anchors.fill: parent;
-				color: ((clicker.containsMouse || clicker.pressed) ? "black" : "black");
-				border.color: "white"
+				color: "black"
+				border.color: "#bbbbbb"
 				border.width: 1
 				opacity: ((clicker.containsMouse || clicker.pressed) ? opacityVisible : opacityHidden);
 
-				Behavior on opacity { NumberAnimation { duration: 50; } }
+				Behavior on opacity { NumberAnimation { duration: 200; } }
 
 			}
 		}
