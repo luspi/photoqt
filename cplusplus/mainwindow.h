@@ -87,10 +87,6 @@ private:
 
 private slots:
 
-	void handleThumbnails(int centerPos);
-	void loadMoreThumbnails();
-	void didntLoadThisThumbnail(int pos);
-
 	void showTrayIcon();
 	void hideTrayIcon();
 
@@ -155,14 +151,6 @@ private slots:
 		if(status == QQuickView::Error)
 			for(int i = 0; i < this->errors().length(); ++i)
 				LOG << CURDATE << "QQuickView QML LOADING ERROR: " << this->errors().at(i).toString().toStdString() << NL;
-	}
-
-	void stopThumbnails() {
-		variables->keepLoadingThumbnails = false;
-	}
-	void reloadThumbnails() {
-		variables->keepLoadingThumbnails = true;
-		loadMoreThumbnails();
 	}
 
 protected:

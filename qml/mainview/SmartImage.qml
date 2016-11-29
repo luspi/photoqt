@@ -29,6 +29,8 @@ Rectangle {
 	// the loading right now is happening for a newly loaded image
 	property bool _newImageSet: false
 
+	property string _loadedImageSource: ""
+
 
 	// clip contents past element boundary
 	clip: true
@@ -273,6 +275,8 @@ Rectangle {
 			one.opacity = 0
 			two.opacity = 1
 		}
+
+		_loadedImageSource = thumbnailBar.currentFile
 
 		// update fillmode
 		checkFillMode()

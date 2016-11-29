@@ -5,7 +5,7 @@ import "../elements/"
 
 Rectangle {
 
-	id: thumbnailBar
+	id: thumbnailBar2
 
 	// Stores the total number of images for later use
 	property int totalNumberImages: 0
@@ -22,21 +22,38 @@ Rectangle {
 
 	property point clickpos: Qt.point(0,0)
 
-	property int normalYPosition: thumbnailbarheight_addon-12
+	property int normalYPosition: (settings.thumbnailposition == "Top" ? scrollbar.height+2 : thumbnailbarheight_addon-scrollbar.height-2)
 
 	// Is a directory loaded?
 	property bool directoryLoaded: false
 
+	property var allFileNames: []
+
 	// Transparent background
 	color: "#00000000"
 
+	opacity: 0
+	visible: false
+
+	onOpacityChanged: {
+		if(opacity == 0) visible = false
+		else visible = true
+	}
+
 	x: metaData.nonFloatWidth
 	y: settings.thumbnailposition == "Bottom"
-	   ? background.height-(settings.thumbnailKeepVisible ? settings.thumbnailsize+thumbnailbarheight_addon : -safetyDistanceForSlidein)
-	   : settings.thumbnailKeepVisible ? 0 : -height-safetyDistanceForSlidein
+	   ? background.height-(settings.thumbnailsize+thumbnailbarheight_addon)
+	   : 0
 	width: parent.width-metaData.nonFloatWidth
 	height: settings.thumbnailsize+thumbnailbarheight_addon
 	clip: true
+
+	Behavior on opacity { NumberAnimation { duration: 200 } }
+
+	property bool stopLoadingThumbnails: false
+	function stopThumbnails() {
+		stopLoadingThumbnails = true
+	}
 
 	function setupModel(stringlist, pos) {
 
@@ -44,12 +61,16 @@ Rectangle {
 
 		directoryLoaded = true
 
+		allFileNames = stringlist
+
 		// remove previous index
 		clickedIndex = -1
 		view.currentIndex = -1
 
 		// Clear model of all thumbnails
 		imageModel.clear()
+
+		stopLoadingThumbnails = false
 
 		// THIS IS IMPORTANT!!!
 		// Without this, centering on the current item when displaying a new image takes FOREVER (well, up to something like 10 seconds)
@@ -60,13 +81,18 @@ Rectangle {
 
 		// Add elements to model
 		for(var j = 0; j < totalNumberImages; ++j)
-			imageModel.append({"imageUrl" : stringlist[j], "counter" : j, "pre" : true, "smart" : false})
+			imageModel.append({"imageUrl" : stringlist[j], "counter" : j, "loaded" : false})
 
 		// (Re-)set model
 		view.model = imageModel
 
-		scrollTimer.start()
+		// Ensure selected item is centered/visible
+		_ensureCurrentItemVisible()
 
+	}
+
+	function reloadThumbnails() {
+		setupModel(allFileNames, currentPos)
 	}
 
 	function displayImage(pos) {
@@ -87,19 +113,7 @@ Rectangle {
 		mainview.loadImage("image://full/" + currentFile)
 
 		// Ensure selected item is centered/visible
-		if(totalNumberImages*(settings.thumbnailsize+settings.thumbnailSpacingBetween) > thumbnailBar.width) {
-
-			// Newly loaded dir => center item
-			if(clickedIndex == -1 || settings.thumbnailCenterActive) {
-				verboseMessage("ThumbnailBar::displayImage()","Show thumbnail centered")
-				view.positionViewAtIndex(pos,ListView.Center)
-			} else {
-				verboseMessage("ThumbnailBar::displayImage()","Keep thumbnail visible")
-				view.positionViewAtIndex(pos-1,ListView.Contain)
-				view.positionViewAtIndex(pos+1,ListView.Contain)
-				scrollTimer.restart()
-			}
-		}
+		_ensureCurrentItemVisible()
 
 		// Ensure old item is not lifted up anymore
 		if(clickedIndex !== pos && clickedIndex != -1)
@@ -121,17 +135,49 @@ Rectangle {
 
 	}
 
-	function getCenterPos() {
-		verboseMessage("ThumbnailBar::getCenterPos()","Getting position of thumbnail in the center of view")
-		return (view.contentX+(view.width/2))/(settings.thumbnailsize)
+	// Ensure selected item is centered/visible
+	function _ensureCurrentItemVisible() {
+
+		if(totalNumberImages*(settings.thumbnailsize+settings.thumbnailSpacingBetween) > thumbnailBar.width) {
+
+			// Newly loaded dir => center item
+			if(clickedIndex == -1 || settings.thumbnailCenterActive) {
+				verboseMessage("ThumbnailBar::displayImage()","Show thumbnail centered")
+				positionViewAtIndex(currentPos,ListView.Center)
+			} else {
+				verboseMessage("ThumbnailBar::displayImage()","Keep thumbnail visible")
+				positionViewAtIndex(currentPos,ListView.Contain)
+			}
+		}
+
 	}
+
+	// Animate auto-scrolling of view
+	function positionViewAtIndex(index, loc) {
+		autoScrollAnim.running = false
+		var pos = view.contentX;
+		var destPos;
+		view.positionViewAtIndex(index, loc);
+		destPos = view.contentX;
+		if(loc == ListView.Contain) {
+			// Make sure there is a little margin past the thumbnail kept visible
+			if(destPos > pos) destPos += settings.thumbnailsize/2
+			else if(destPos < pos) destPos -= settings.thumbnailsize/2
+			// but ensure that we don't go beyond the view area
+			if(destPos < 0) destPos = 0
+			if(destPos > view.contentWidth-view.width) destPos = view.contentWidth-view.width
+		}
+		autoScrollAnim.from = pos;
+		autoScrollAnim.to = destPos;
+		autoScrollAnim.running = true;
+	}
+	NumberAnimation { id: autoScrollAnim; target: view; property: "contentX"; duration: 150 }
 
 	// Load next image
 	function nextImage() {
 		verboseMessage("ThumbnailBar::nextImage()", clickedIndex + " - " + totalNumberImages + " - " + settings.loopthroughfolder)
 		if(clickedIndex+1 < totalNumberImages) {
 			displayImage(clickedIndex+1);
-			scrollTimer.restart()
 		} else if(settings.loopthroughfolder) {
 			displayImage(0);
 		}
@@ -142,7 +188,6 @@ Rectangle {
 		verboseMessage("ThumbnailBar::previousImage()", clickedIndex + " - " + settings.loopthroughfolder)
 		if(clickedIndex-1 >= 0) {
 			displayImage(clickedIndex-1)
-			scrollTimer.restart()
 		} else if(settings.loopthroughfolder) {
 			displayImage(totalNumberImages-1);
 		}
@@ -170,80 +215,30 @@ Rectangle {
 		displayImage(totalNumberImages-1);
 	}
 
-	// Load proper thumbnail at position 'pos' (smart == true means: ONLY IF IT EXISTS)
-	Timer {
-		id: waitUntilMainImageIsDisplayed
-		running: false
-		interval: 200
-		repeat: false
-		property int pos: -1
-		property bool smart: false
-		onTriggered: reloadImage(pos, smart)
-	}
-
-	function reloadImage(pos, smart) {
-		if(mainview.imageLoading) {
-			waitUntilMainImageIsDisplayed.pos = pos
-			waitUntilMainImageIsDisplayed.smart = smart
-			waitUntilMainImageIsDisplayed.start()
-			return
-		}
-		verboseMessage("ThumbnailBar::reloadImage()",pos + " - " + smart)
-		if(pos < 0 || pos >= totalNumberImages) return
-		var imageUrl = imageModel.get(pos).imageUrl;
-		imageModel.set(pos,{"imageUrl" : imageUrl, "counter" : pos, "pre" : false, "smart" : smart})
-	}
-
-	/**********************************************************/
-	// This image (and timer below) takes care of 'commit'ing the thumbnail database images
-	Image {
-		id: hiddenImageCommitDatabase
-		visible: false
-		source: ""
-		cache: false
-	}
-	Timer {
-		id: timerhiddenImageCommitDatabase
-		interval: 1000
-		running: false
-		repeat: false
-		onTriggered: {
-			hiddenImageCommitDatabase.source = "image://thumb/__**__" + Math.random()
-		}
-	}
-	/**********************************************************/
-
-	// If the view was scrolled/moved, this timer is set off
-	Timer {
-		id: scrollTimer
-		interval: 300
-		running: false
-		repeat: false
-		onTriggered: {
-			verboseMessage("ThumbnailBar","View scrolled (timer)")
-			// Item in the center of the screen
-			var centerpos = (view.contentX+view.width/2)/(settings.thumbnailsize)
-			// Emit 'scrolled' signal
-			toplevel.thumbScrolled(centerpos)
-		}
-	}
-
-	// Enable moving of flick with mouse wheel
+	// Enable moving of flickable with mouse wheel (i.e., translate vertical to horizontal scroll)
 	MouseArea {
 		anchors.fill: parent
 		hoverEnabled: true
 		onWheel: {
-			if(wheel.angleDelta.y >= 0 && view.contentX-50 >= 0)
-				view.contentX = view.contentX-50
-			else if(wheel.angleDelta.y < 0 && view.contentWidth >= (view.contentX+view.width+50))
-				view.contentX = view.contentX+50
-			scrollTimer.restart()
-
+			var deltaY = wheel.angleDelta.y
+			if(deltaY >= 0) {
+				if(view.contentX-deltaY >= 0)
+					view.contentX = view.contentX-deltaY
+				else
+					view.contentX = 0
+			} else if(deltaY < 0) {
+				if(view.contentWidth >= (view.contentX+view.width-deltaY))
+					view.contentX = view.contentX-deltaY
+				else
+					view.contentX = view.contentWidth-view.width
+			}
 		}
 	}
 
 	// This item make sure, that the thumbnails are displayed centered when their combined width is less than the width of the screen
 	Item {
+
+		id: viewcontainer
 
 		anchors.top: parent.top
 		anchors.bottom: parent.bottom
@@ -271,22 +266,13 @@ Rectangle {
 			// Turn it horizontal
 			orientation: ListView.Horizontal
 
-			// When flicking finished
-			onMovementEnded: {
-				verboseMessage("ThumbnailBar","View scrolled (moved)")
-				// Item in center of flickable
-				var centerpos = getCenterPos()
-				// Emit 'scrolled' signal
-				toplevel.thumbScrolled(centerpos)
-			}
-
 		}
 
 		ScrollBarHorizontal {
-			visible: !settings.thumbnailDisable
+			id: scrollbar
+			visible: !settings.thumbnailDisable && (view.contentWidth > view.width)
 			flickable: view;
 			displayAtBottomEdge: settings.thumbnailposition == "Bottom"
-			onScrollFinished: scrollTimer.restart()
 		}
 
 	}
@@ -304,6 +290,7 @@ Rectangle {
 
 			x: 0
 			y: normalYPosition
+			Behavior on y { NumberAnimation { duration: 100 } }
 
 			width: settings.thumbnailsize
 			height: settings.thumbnailsize
@@ -312,26 +299,17 @@ Rectangle {
 
 			color: colour.thumbnails_bg
 
-			border.color: colour.thumbnails_border
-			border.width: 1
-
 			Image {
 
-				id: img
+				property point p: getCursorPos()
+				property point loc: toplevel.mapToItem(view,p.x, p.y)
+				source: (((mainview.loadedImageSource != thumbnailBar.currentFile && !loaded) || settings.thumbnailDisable
+						  || settings.thumbnailFilenameInstead || (!loaded && stopLoadingThumbnails) || imageUrl==undefined)
+								? ""
+								: "image://thumb/" + imageUrl)
 
-				// DO NOT SET SOURCESIZE - THIS WOULD BREAK 'SMART THUMBNAILS'
-				// sourceSize: Qt.size(settings.thumbnailsize,settings.thumbnailsize)
-
-				// Set image source (preload or normal) and displayed source dimension
-				source: (settings.thumbnailDisable ? "" : (pre ? "qrc:/img/emptythumb.png" : "image://thumb/" + (smart ? "__**__smart" : "") + imageUrl))
-
-				visible: !pre && !settings.thumbnailDisable
-
-				// Set position
 				x: settings.thumbnailSpacingBetween/2
 				y: settings.thumbnailSpacingBetween/2
-
-				// Adjust size
 				width: parent.width-settings.thumbnailSpacingBetween
 				height: parent.height-settings.thumbnailSpacingBetween
 
@@ -339,70 +317,57 @@ Rectangle {
 				cache: false
 				asynchronous: true
 
-				// Catch 'loading completed' of thumbnail
+				sourceSize: Qt.size(width, height)
+
 				onStatusChanged: {
-					// If image is ready and it's not a preload image
-					if(img.status == Image.Ready) {
-						if(img.sourceSize == Qt.size(1,1)) {
-							didntLoadThisThumbnail(counter);
-							imageModel.set(counter,{"imageUrl" : imageUrl, "counter" : counter, "pre" : true, "smart" : false})
-						} else if(pre == false) {
-							// Start timer to commit thumbnail database
-							timerhiddenImageCommitDatabase.restart()
-							loadMoreThumbnails();
-						}
-					}
+					if(status == Image.Ready && source != "")
+						loaded = true
 				}
+
+				Image {
+					source: "qrc:/img/emptythumb.png"
+					anchors.fill: parent
+					cache: false
+					sourceSize: Qt.size(width, height)
+					visible: !loaded
+				}
+
 			}
 
 			ToolTip {
-
-				cursorShape: Qt.PointingHandCursor
 				anchors.fill: parent
 				hoverEnabled: true
+				cursorShape: Qt.PointingHandCursor
 
-				text: getanddostuff.removePathFromFilename(imageUrl, false)
+				text: getanddostuff.removePathFromFilename(imageUrl)
 
-				// Lift item up on hover
 				onPositionChanged: {
-					if(imgrect.y == normalYPosition)
-						imgrect.y = normalYPosition-settings.thumbnailLiftUp
+					imgrect.y = normalYPosition + settings.thumbnailLiftUp*(settings.thumbnailposition == "Top" ? 1 : -1)
 					hoveredIndex = imgrect.count
 				}
 				onEntered: {
-					if(imgrect.y == normalYPosition)
-						imgrect.y = normalYPosition-settings.thumbnailLiftUp
+					imgrect.y = normalYPosition + settings.thumbnailLiftUp*(settings.thumbnailposition == "Top" ? 1 : -1)
 					hoveredIndex = imgrect.count
 				}
-				// Remove item lift when leaving it
 				onExited: {
 					if(clickedIndex != imgrect.count && hoveredIndex == imgrect.count)
 						imgrect.y = normalYPosition
 				}
 				// Load thumbnail as main image (timer when pressed to NOT do anything if thumbnails dragged (i.e. mouse position changed))
 				onPressed: {
-					if(clickedIndex != hoveredIndex) {
+					if(clickedIndex != hoveredIndex)
 						clickpos = getCursorPos()
-						displaytimer.start()
-					}
 				}
 				// On released, i.e. a normal click, we stop the timer and load the image right away
 				onReleased: {
-					displaytimer.stop()
-					displayImage(hoveredIndex)
+					var p = getCursorPos()
+					var loc = toplevel.mapToItem(view,p.x, p.y)
+					if(Math.abs(clickpos.x-p.x) < 10 && Math.abs(clickpos.y-p.y) < 10)
+						displayImage(hoveredIndex)
+					else if(imageUrl != imageModel.get(loc/settings.thumbnailsize).imageUrl && currentFile != imageUrl)
+						imgrect.y = normalYPosition
 				}
-				// Load image (see two comments above for more details)
-				Timer {
-					id: displaytimer
-					interval: 150
-					running: false
-					repeat: false
-					onTriggered: {
-						var p = getCursorPos()
-						if(Math.abs(clickpos.x-p.x) < 10 && Math.abs(clickpos.y-p.y) < 10)
-							displayImage(hoveredIndex)
-					}
-				}
+
 			}
 
 			// Filename label (when filename-only NOT enabled)
@@ -437,8 +402,7 @@ Rectangle {
 					maximumLineCount: 1
 					elide: Text.ElideRight
 
-					property var p: imageUrl.split("/")
-					text: p[p.length-1]
+					text: getanddostuff.removePathFromFilename(imageUrl)
 
 				}
 			}
@@ -472,46 +436,23 @@ Rectangle {
 					font.pointSize: settings.thumbnailFilenameInsteadFontSize
 					font.bold: true
 
-					property var p: imageUrl.split("/")
-					text: p[p.length-1]
+					text: getanddostuff.removePathFromFilename(imageUrl)
 				}
 			}
-		}
-	}
 
-	PropertyAnimation {
-		id: showThumbnailBar
-		target:  thumbnailBar
-		from: settings.thumbnailposition == "Bottom" ? background.height : -thumbnailBar.height
-		property: (softblocked == 0 ? (settings.thumbnailKeepVisible == false ? "y" : "") : "")
-		to: settings.thumbnailposition == "Bottom" ? background.height-thumbnailBar.height : 0
-		duration: settings.myWidgetAnimated ? 250 : 0
-		onStarted: {
-			if(softblocked != 0 || slideshowRunning) {
-				showThumbnailBar.stop()
-				hideThumbnailBar.start()
-				return
-			}
 		}
-	}
 
-	PropertyAnimation {
-		id: hideThumbnailBar
-		target:  thumbnailBar
-		property: (settings.thumbnailKeepVisible === false ? "y" : "");
-		to: settings.thumbnailposition == "Bottom" ? background.height+safetyDistanceForSlidein : -thumbnailBar.height-safetyDistanceForSlidein
-		duration: settings.myWidgetAnimated ? 250 : 0
 	}
 
 	function show() {
-		showThumbnailBar.start()
+		opacity = 1
 	}
 	function hide() {
-		hideThumbnailBar.start()
+		opacity = 0
 	}
 
 	function clickOnThumbnailBar(pos) {
-		return thumbnailBar.contains(thumbnailBar.mapFromItem(toplevel,pos.x,pos.y))
+		return contains(thumbnailBar2.mapFromItem(toplevel,pos.x,pos.y))
 	}
 
 }

@@ -32,17 +32,12 @@ Item {
 	readonly property int thumbnailbarheight_addon: 50
 
 	// These signals is picked up by the mainwindow.cpp file
-	signal thumbScrolled(int filenameAtCenter)
-	signal loadMoreThumbnails();
-	signal didntLoadThisThumbnail(int pos);
 	signal hideToSystemTray();
 	signal quitPhotoQt();
 	signal reloadDirectory(string filename, string filter);
 	signal verboseMessage(string loc, string msg);
 	signal setOverrideCursor();
 	signal restoreOverrideCursor();
-	signal stopThumbnails();
-	signal reloadThumbnails();
 
 	signal registerFilenameToWatch(string filename)
 
@@ -261,12 +256,10 @@ Item {
 		mainview.displayIdleAndNothingLoadedMessage()
 
 	// Slots accessable by mainwindow.cpp, passed on to thumbnailbar
-	function reloadImage(pos, smart) { thumbnailBar.reloadImage(pos, smart) }
-	function setupModel(stringlist, pos) { thumbnailBar.setupModel(stringlist, pos) }
+	function setupModel(stringlist, pos) { thumbnailBar.setupModel(stringlist, pos); thumbnailBar.setupModel(stringlist, pos) }
 	function displayImage(pos) { thumbnailBar.displayImage(pos) }
 	function nextImage() { thumbnailBar.nextImage(); }
 	function previousImage() { thumbnailBar.previousImage(); }
-	function getCenterPos() { return thumbnailBar.getCenterPos(); }
 	function resetZoom() { mainview.resetZoom(); }
 	function isZoomed() { return mainview.isZoomed(); }
 

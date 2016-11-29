@@ -97,21 +97,15 @@ Rectangle {
 		MouseArea {
 			x: metaData.nonFloatWidth
 			y: settings.thumbnailposition == "Bottom"
-			   ? (thumbnailBar.y >= background.height ? background.height-settings.menusensitivity*3 : background.height-thumbnailBar.height)
+			   ? (thumbnailBar.opacity == 0 ? background.height-settings.menusensitivity*5 : background.height-thumbnailBar.height)
 			   : 0
-			width: thumbnailBar.width
-			height: settings.thumbnailposition == "Bottom"
-					? (thumbnailBar.y >= background.height ? settings.menusensitivity*3 : thumbnailBar.height)
-					: (thumbnailBar.y == 0 ? thumbnailBar.height : settings.menusensitivity*3)
+			width: background.width
+			height: (thumbnailBar.opacity != 0 ? thumbnailBar.height : settings.menusensitivity*5)
 			hoverEnabled: true
 
-			MouseArea {
-				anchors.fill: parent
-				hoverEnabled: true
-				onEntered: {
-					hideEverything()
-					thumbnailBar.show()
-				}
+			onEntered: {
+				hideEverything()
+				thumbnailBar.show()
 			}
 
 		}

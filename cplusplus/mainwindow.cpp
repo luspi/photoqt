@@ -52,17 +52,10 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 	// Class to load a new directory
 	loadDir = new LoadDir(verbose);
 
-	// Scrolled view
-	connect(object, SIGNAL(thumbScrolled(int)), this, SLOT(handleThumbnails(int)));
-
 
 	connect(object, SIGNAL(reloadDirectory(QString,QString)), this, SLOT(handleOpenFileEvent(QString,QString)));
-	connect(object, SIGNAL(loadMoreThumbnails()), this, SLOT(loadMoreThumbnails()));
-	connect(object, SIGNAL(didntLoadThisThumbnail(int)), this, SLOT(didntLoadThisThumbnail(int)));
 	connect(object, SIGNAL(setOverrideCursor()), this, SLOT(setOverrideCursor()));
 	connect(object, SIGNAL(restoreOverrideCursor()), this, SLOT(restoreOverrideCursor()));
-	connect(object, SIGNAL(stopThumbnails()), this, SLOT(stopThumbnails()));
-	connect(object, SIGNAL(reloadThumbnails()), this, SLOT(reloadThumbnails()));
 
 	connect(object, SIGNAL(verboseMessage(QString,QString)), this, SLOT(qmlVerboseMessage(QString,QString)));
 
@@ -191,123 +184,8 @@ void MainWindow::handleOpenFileEvent(QString filename, QString filter) {
 	QMetaObject::invokeMethod(object, "displayImage",
 				  Q_ARG(QVariant, curPos));
 
-	QVariant centerPos = curPos;
-	if(!QMetaObject::invokeMethod(object, "getCenterPos",
-				  Q_RETURN_ARG(QVariant, centerPos)))
-		std::cerr << CURDATE <<  "handleOpenFileEvent(): ERROR: couldn't get center pos!" << NL;
-
-	// And handle the thumbnails
-	handleThumbnails(centerPos.toInt());
-
 	restoreOverrideCursor();
 
-}
-
-// Thumbnail handling (centerPos is image currently displayed in the visible center of thumbnail bar)
-void MainWindow::handleThumbnails(int centerPos) {
-
-	if(variables->verbose)
-		LOG << CURDATE << "handleThumbnails(): New thumbnail center pos: " << centerPos << NL;
-
-	// Get some settings for later use
-	int thumbSize = settingsPermanent->thumbnailsize;
-	int thumbSpacing = settingsPermanent->thumbnailSpacingBetween;
-	int dynamicSmartNormal = settingsPermanent->thumbnailDynamic;
-
-	// Get total and center pos
-	int countTot = settingsPerSession->value("countTot").toInt();
-	currentCenter = centerPos;
-
-	// Generate how many to each side
-	int numberToOneSide = (this->width()/(thumbSize+thumbSpacing))/2;
-
-	// Load full directory
-	if(dynamicSmartNormal == 0) numberToOneSide = qMax(currentCenter,countTot-currentCenter);
-	int maxLoad = numberToOneSide;
-	if(dynamicSmartNormal == 2) maxLoad = qMax(currentCenter,countTot-currentCenter);
-
-	loadThumbnailsInThisOrder.clear();
-	smartLoadThumbnailsInThisOrder.clear();
-
-	loadThumbnailsInThisOrder.reserve(2*(numberToOneSide+3)+2);
-	smartLoadThumbnailsInThisOrder.reserve(qMin(countTot, 2*(maxLoad+3)+2));
-
-	loadThumbnailsInThisOrder.append(currentCenter);
-
-	// Load thumbnails in this order
-	for(int i = 1; i <= maxLoad+3; ++i) {
-		if(i <= numberToOneSide+3) {
-			if((currentCenter-i) >= 0 && !variables->loadedThumbnails.contains(currentCenter-i))
-				loadThumbnailsInThisOrder.append(currentCenter-i);
-			if(currentCenter+i < countTot && !variables->loadedThumbnails.contains(currentCenter+i))
-				loadThumbnailsInThisOrder.append(currentCenter+i);
-		} else {
-			if((currentCenter-i) >= 0 && !variables->loadedThumbnails.contains(currentCenter-i))
-				smartLoadThumbnailsInThisOrder.append(currentCenter-i);
-			if(currentCenter+i < countTot && !variables->loadedThumbnails.contains(currentCenter+i))
-				smartLoadThumbnailsInThisOrder.append(currentCenter+i);
-		}
-	}
-
-	loadMoreThumbnails();
-
-}
-
-void MainWindow::loadMoreThumbnails() {
-
-	if(variables->verbose)
-		LOG << CURDATE << "loadMoreThumbnails(): Continue loading thumbnails?" << NL;
-
-	if(settingsPermanent->thumbnailFilenameInstead || !variables->keepLoadingThumbnails) return;
-
-	if(loadThumbnailsInThisOrder.length() == 0 && smartLoadThumbnailsInThisOrder.length() == 0) return;
-
-	if(loadThumbnailsInThisOrder.length() != 0) {
-
-		int load = loadThumbnailsInThisOrder.first();
-
-		if(variables->loadedThumbnails.contains(load)) {
-			loadThumbnailsInThisOrder.removeFirst();
-			return loadMoreThumbnails();
-		}
-
-		if(variables->verbose)
-			LOG << CURDATE << "loadMoreThumbnails(): Yes, please (visible)! Load #" << load << NL;
-
-		loadThumbnailsInThisOrder.removeFirst();
-
-		QMetaObject::invokeMethod(object, "reloadImage",
-					  Q_ARG(QVariant, load),
-					  Q_ARG(QVariant, false));
-		variables->loadedThumbnails.append(load);
-
-	} else {
-
-		int load = smartLoadThumbnailsInThisOrder.first();
-
-		if(variables->loadedThumbnails.contains(load)) {
-			smartLoadThumbnailsInThisOrder.removeFirst();
-			return loadMoreThumbnails();
-		}
-
-		if(variables->verbose)
-			LOG << CURDATE << "loadMoreThumbnails(): Yes, please (invisible, smart)! Load #" << load << NL;
-
-		smartLoadThumbnailsInThisOrder.removeFirst();
-
-		QMetaObject::invokeMethod(object, "reloadImage",
-					  Q_ARG(QVariant, load),
-					  Q_ARG(QVariant, true));
-		variables->loadedThumbnails.append(load);
-	}
-
-}
-
-// This one was tried to be preloaded smartly, but didn't exist yet -> nothing done
-void MainWindow::didntLoadThisThumbnail(int pos) {
-	if(variables->verbose)
-		LOG << CURDATE << "didntLoadThisThumbnail(): Thumbnail #" << pos << " not loaded smartly..." << NL;
-	variables->loadedThumbnails.removeAt(variables->loadedThumbnails.indexOf(pos));
 }
 
 bool MainWindow::event(QEvent *e) {

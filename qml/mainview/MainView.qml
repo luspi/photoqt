@@ -15,6 +15,7 @@ Item {
 	height: (settings.thumbnailKeepVisible ? background.height-thumbnailBar.height+thumbnailbarheight_addon/2 : background.height)-2*settings.borderAroundImg
 
 	property bool imageLoading: false
+	property string loadedImageSource: image._loadedImageSource
 
 	function noFilterResultsFound() {
 		noresultsfound.visible = true;
