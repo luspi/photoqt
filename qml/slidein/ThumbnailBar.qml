@@ -444,6 +444,11 @@ Rectangle {
 				}
 			}
 
+			Component.onCompleted: {
+				if(count == currentPos)
+					imgrect.y = normalYPosition + settings.thumbnailLiftUp*(settings.thumbnailposition == "Top" ? 1 : -1)
+			}
+
 		}
 
 	}
