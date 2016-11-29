@@ -86,6 +86,10 @@ Rectangle {
 		// (Re-)set model
 		view.model = imageModel
 
+		clickedIndex = pos
+		view.currentIndex = pos
+		clickedItem = view.currentItem
+
 		// Ensure selected item is centered/visible
 		_ensureCurrentItemVisible()
 
