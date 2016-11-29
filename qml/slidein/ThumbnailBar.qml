@@ -464,4 +464,11 @@ Rectangle {
 		return contains(thumbnailBar2.mapFromItem(toplevel,pos.x,pos.y))
 	}
 
+	Connections {
+		target: settings
+		onThumbnailpositionChanged: {
+			reloadThumbnails()
+		}
+	}
+
 }
