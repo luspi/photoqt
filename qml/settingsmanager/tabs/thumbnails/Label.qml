@@ -90,10 +90,12 @@ EntryContainer {
 
 	function setData() {
 		writefilename.checkedButton = settings.thumbnailWriteFilename
+		fontsize_slider.value = settings.thumbnailFontSize
 	}
 
 	function saveData() {
 		settings.thumbnailWriteFilename = writefilename.checkedButton
+		settings.thumbnailFontSize = fontsize_slider.value
 	}
 
 }
