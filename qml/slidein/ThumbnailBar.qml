@@ -481,6 +481,12 @@ Rectangle {
 		onThumbnailsizeChanged: {
 			reloadThumbnails()
 		}
+		onThumbnailKeepVisibleChanged: {
+			if(settings.thumbnailKeepVisible)
+				show()
+			else
+				hide()
+		}
 	}
 
 }
