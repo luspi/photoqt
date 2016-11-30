@@ -457,7 +457,13 @@ Rectangle {
 		opacity = 1
 	}
 	function hide() {
-		opacity = 0
+		if(!settings.thumbnailKeepVisible)
+			opacity = 0
+	}
+
+	Component.onCompleted: {
+		if(settings.thumbnailKeepVisible)
+			opacity = 1
 	}
 
 	function clickOnThumbnailBar(pos) {
@@ -467,6 +473,12 @@ Rectangle {
 	Connections {
 		target: settings
 		onThumbnailpositionChanged: {
+			reloadThumbnails()
+		}
+		onThumbnailLiftUpChanged: {
+			reloadThumbnails()
+		}
+		onThumbnailsizeChanged: {
 			reloadThumbnails()
 		}
 	}
