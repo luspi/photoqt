@@ -14,8 +14,20 @@ EntryContainer {
 
 		EntryTitle {
 
+			//: Settings title: Cache loaded thumbnails
 			title: qsTr("Thumbnail Cache")
-			helptext: qsTr("Thumbnails can be cached in two different ways:<br>1) File Caching (following the freedesktop.org standard) or<br>2) Database Caching (better performance and management, default option).") + "<br><br>" + qsTr("Both ways have their advantages and disadvantages:") + "<br>" + qsTr("File Caching is done according to the freedesktop.org standard and thus different applications can share the same thumbnail for the same image file. However, it's not possible to check for obsolete thumbnails (thus this may lead to many unneeded thumbnail files).") + "<br>" + qsTr("Database Caching doesn't have the advantage of sharing thumbnails with other applications (and thus every thumbnails has to be newly created for PhotoQt), but it brings a slightly better performance, and it allows a better handling of existing thumbnails (e.g. deleting obsolete thumbnails).") + "<br><br>" + qsTr("PhotoQt works with either option, though the second way is set as default.") + "<br><br>" + qsTr("Although everybody is encouraged to use at least one of the two options, caching can be completely disabled altogether. However, that does affect the performance and usability of PhotoQt, since thumbnails have to be newly re-created every time they are needed.")
+			//: Settings: Used in description of 'thumbnail cache' option
+			helptext: qsTr("Thumbnails can be cached in two different ways:<br>1) File Caching (following the freedesktop.org standard) or<br>2) Database Caching (better performance and management, default option).") + "<br><br>" +
+					  //: Settings: Used in description of 'thumbnail cache' option
+					  qsTr("Both ways have their advantages and disadvantages:") + "<br>" +
+					  //: Settings: Used in description of 'thumbnail cache' option
+					  qsTr("File Caching is done according to the freedesktop.org standard and thus different applications can share the same thumbnail for the same image file. However, it's not possible to check for obsolete thumbnails (thus this may lead to many unneeded thumbnail files).") + "<br>" +
+					  //: Settings: Used in description of 'thumbnail cache' option
+					  qsTr("Database Caching doesn't have the advantage of sharing thumbnails with other applications (and thus every thumbnails has to be newly created for PhotoQt), but it brings a slightly better performance, and it allows a better handling of existing thumbnails (e.g. deleting obsolete thumbnails).") + "<br><br>" +
+					  //: Settings: Used in description of 'thumbnail cache' option
+					  qsTr("PhotoQt works with either option, though the second way is set as default.") + "<br><br>" +
+					  //: Settings: Used in description of 'thumbnail cache' option
+					  qsTr("Although everybody is encouraged to use at least one of the two options, caching can be completely disabled altogether. However, that does affect the performance and usability of PhotoQt, since thumbnails have to be newly re-created every time they are needed.")
 
 		}
 
@@ -31,6 +43,7 @@ EntryContainer {
 
 					id: cache
 					y: (parent.height-height)/2
+					//: Settings: The cache referred to here is the thumbnail cache
 					text: qsTr("Enable Cache")
 
 				}
@@ -59,12 +72,14 @@ EntryContainer {
 
 							CustomRadioButton {
 								id: cache_file
+								//: Settings: The cache referred to here is the thumbnail cache
 								text: qsTr("File Caching")
 								enabled: cache.checkedButton
 								exclusiveGroup: cachegroup
 							}
 							CustomRadioButton {
 								id: cache_db
+								//: Settings: The cache referred to here is the thumbnail cache
 								text: qsTr("Database Caching")
 								enabled: cache.checkedButton
 								exclusiveGroup: cachegroup
@@ -94,6 +109,7 @@ EntryContainer {
 								font.pointSize: 10
 								color: cache.checkedButton ? colour.text : colour.text_disabled
 								Behavior on color { ColorAnimation { duration: 150; } }
+								//: Settings: The database referred to here is the thumbnail database
 								text: qsTr("Database filesize:")
 							}
 							Text {
@@ -121,6 +137,7 @@ EntryContainer {
 								font.pointSize: 10
 								color: cache.checkedButton ? colour.text : colour.text_disabled
 								Behavior on color { ColorAnimation { duration: 150; } }
+								//: Settings: The database referred to here is the thumbnail database
 								text: qsTr("Entries in database:")
 							}
 							Text {
@@ -147,6 +164,7 @@ EntryContainer {
 					id: cleanup
 					height: 35
 					y: (parent.height-height)/2
+					//: Settings: written on button for cleaning up thumbnail database
 					text: qsTr("CLEAN UP")
 
 					enabled: cache.checkedButton
@@ -160,6 +178,7 @@ EntryContainer {
 					id: erase
 					height: 35
 					y: (parent.height-height)/2
+					//: Settings: written on button for erasing thumbnail database
 					text: qsTr("ERASE")
 
 					enabled: cache.checkedButton

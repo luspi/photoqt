@@ -93,6 +93,7 @@ Rectangle {
 						anchors.left: parent.left
 						anchors.top: parent.top
 						anchors.bottom: parent.bottom
+						//: Shortcuts: KEEP THIS STRING SHORT! It is displayed for external shortcuts as an option to quit PhotoQt after executing shortcut
 						text: qsTr("quit") + "  "
 						color: parent.checked ? "white" : "grey"
 					}
@@ -121,6 +122,7 @@ Rectangle {
 						anchors.fill: parent
 						visible: external
 						text: desc
+						//: Shortcuts: This is the command to be executed (external shortcut)
 						emptyMessage: qsTr("The command goes here")
 						onTextEdited:
 							updateExternalString.restart()

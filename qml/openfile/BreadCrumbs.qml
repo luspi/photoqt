@@ -98,7 +98,7 @@ Rectangle {
 			hoverEnabled: true
 			cursorShape: Qt.PointingHandCursor
 			onClicked: openfile.hide()
-			text: qsTr("Close 'OpenFile' dialog")
+			text: qsTr("Close 'Open File' element")
 		}
 
 	}

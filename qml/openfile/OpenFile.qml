@@ -240,7 +240,7 @@ Rectangle {
 		//: This is used in the context of the 'Open File' element
 		openshortcuts.shortcuts[str_keys.get("ctrl") + " + B/F"] = qsTr("Go backwards/forwards in history");
 		//: This is used in the context of the 'Open File' element
-		openshortcuts.shortcuts[str_keys.get("enter") + "/" + str_keys.get("ret")] = qsTr("Load the currently highlighted item")
+		openshortcuts.shortcuts[str_keys.get("enter") + "/" + str_keys.get("return")] = qsTr("Load the currently highlighted item")
 		//: This is used in the context of the 'Open File' element
 		openshortcuts.shortcuts[str_keys.get("escape")] = qsTr("Cancel")
 

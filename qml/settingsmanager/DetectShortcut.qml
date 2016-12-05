@@ -210,6 +210,7 @@ Rectangle {
 						spacing: 20
 
 						Text {
+							//: Refers to the number of fingers used when performing a touchscreen gesture
 							text: qsTr("Number of Fingers") + ":"
 							color: "white"
 							font.pointSize: 25
@@ -520,7 +521,11 @@ Rectangle {
 		if(opacity != 1) return
 		switchTo("touch")
 		info_touch_fingers.text = fingers
-		info_touch_action.text = (type === "pinchIN" ? "pinch inwards" : (type === "pinchOUT" ? "pinch outwards" : type))
+		//: A 'pinch inwards' refers to two fingers on a touchscreen that are dragged towards each other
+		info_touch_action.text = (type === "pinchIN" ? qsTr("pinch inwards")
+								//: A 'pinch outwards' refers to two fingers on a touchscreen that are dragged awwar from each other
+													 : (type === "pinchOUT" ? qsTr("pinch outwards")
+																			: type))
 		info_touch_path.text = (path.length == 0 ? "-" : path.join(" - "))
 
 		successful = false
@@ -538,7 +543,11 @@ Rectangle {
 		if(opacity != 1) return
 		switchTo("touch")
 		info_touch_fingers.text = fingers
-		info_touch_action.text = (type === "pinchIN" ? "pinch inwards" : (type === "pinchOUT" ? "pinch outwards" : type))
+		//: A 'pinch inwards' refers to two fingers on a touchscreen that are dragged towards each other
+		info_touch_action.text = (type === "pinchIN" ? qsTr("pinch inwards")
+								//: A 'pinch outwards' refers to two fingers on a touchscreen that are dragged awwar from each other
+													 : (type === "pinchOUT" ? qsTr("pinch outwards")
+																			: type))
 		info_touch_path.text = (path.length == 0 ? "-" : path.join(" - "))
 
 		touch_fingers = fingers
