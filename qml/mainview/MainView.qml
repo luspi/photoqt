@@ -150,7 +150,7 @@ Item {
 			id: contextmenuClosingX
 
 			MenuItem {
-				text: qsTr("Hide") + " 'x'"
+				text: qsTr("Hide 'x'")
 				onTriggered: {
 					settings.hidex = true;
 					rect.visible = false;

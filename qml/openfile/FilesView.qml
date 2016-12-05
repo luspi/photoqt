@@ -106,7 +106,7 @@ Rectangle {
 		font.pointSize: 30
 		wrapMode: Text.WordWrap
 		color: "grey"
-		text: "No images found in this folder"
+		text: qsTr("No images found in this folder")
 	}
 
 	function loadDirectory(path) {

@@ -111,6 +111,7 @@ Item {
 				id: contextmenuCounter
 
 				MenuItem {
+					//: This is the image counter in the top left corner (part of the quickinfo labels)
 					text: qsTr("Hide Counter")
 					onTriggered: {
 					counter.text = ""
@@ -175,6 +176,7 @@ Item {
 				id: contextmenuFilename
 
 				MenuItem {
+					//: This hides part of the quickinfo labels in the top left corner
 					text: qsTr("Hide Filepath, leave Filename")
 					onTriggered: {
 						filename.text = getanddostuff.removePathFromFilename(filename.text)

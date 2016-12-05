@@ -35,6 +35,7 @@ FadeInTemplate {
 			Row {
 				spacing: 5
 				Text {
+					//: 'Size" here refers to the numbers of pixel, expressed here as 'width x height'
 					text: qsTr("Current Size:")
 					font.pointSize: 13
 					color: colour.text
@@ -184,6 +185,7 @@ FadeInTemplate {
 					id: aspect_text
 					color: colour.text
 					opacity: aspect_image.keepaspectratio ? 1 : 0.3
+					//: This is the ratio of the image, width/height
 					text: qsTr("Aspect Ratio")
 					font.pointSize: 15
 					font.strikeout: !aspect_image.keepaspectratio
@@ -221,6 +223,7 @@ FadeInTemplate {
 				Text {
 					color: colour.text
 					font.pointSize: 13
+					//: The quality of scaling image
 					text: qsTr("Quality")
 				}
 				CustomSlider {

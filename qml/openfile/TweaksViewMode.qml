@@ -47,7 +47,7 @@ Rectangle {
 			anchors.fill: parent
 			propagateComposedEvents: true
 			cursorShape: Qt.PointingHandCursor
-			text: qsTr("Show files in list")
+			text: qsTr("Show files as list")
 			onClicked: {
 				if(!viewmode_list.checked) {
 					viewmode_list.checked = true
@@ -85,7 +85,7 @@ Rectangle {
 			anchors.fill: parent
 			propagateComposedEvents: true
 			cursorShape: Qt.PointingHandCursor
-			text: qsTr("Show files in grid")
+			text: qsTr("Show files as grid")
 			onClicked: {
 				if(!viewmode_icon.checked) {
 					viewmode_icon.checked = true

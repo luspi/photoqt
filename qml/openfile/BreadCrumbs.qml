@@ -49,6 +49,7 @@ Rectangle {
 
 			opacity: enabled ? 1 : 0.4
 
+			//: The history here is the list of past visited folders in the 'Open File' element
 			tooltip: qsTr("Go backwards in history")
 
 			onClickedButton: goBackInHistory()
@@ -74,6 +75,7 @@ Rectangle {
 
 			opacity: enabled ? 1 : 0.4
 
+			//: The history here is the list of past visited folders in the 'Open File' element
 			tooltip: qsTr("Go forwards in history")
 
 			onClickedButton: goForwardsInHistory()

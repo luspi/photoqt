@@ -84,7 +84,8 @@ Rectangle {
 				wrapMode: Text.WordWrap
 				horizontalAlignment: Text.AlignHCenter
 				anchors.horizontalCenter: parent.horizontalCenter
-				text: type=="installed" ? qsTr("PhotoQt was successfully installed!<br>An image viewer packed with features and adjustable in every detail awaits you... Go, enjoy :-)") : qsTr("PhotoQt was successfully updated!<br>Many new features and bug fixes await you... Go, enjoy :-)")
+				text: type=="installed" ? qsTr("PhotoQt was successfully installed!") + "<br>" + qsTr("An image viewer packed with features and adjustable in every detail awaits you... Go, enjoy :-)")
+										: qsTr("PhotoQt was successfully updated!") + "<br>" + qsTr("Many new features and bug fixes await you... Go, enjoy :-)")
 			}
 
 			Rectangle {

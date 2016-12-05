@@ -261,7 +261,7 @@ Rectangle {
 			Text {
 				x: 25
 				y: 15
-				text: "Histogram"
+				text: qsTr("Histogram")
 				color: "white"
 				font.pixelSize: 18
 				font.bold: true

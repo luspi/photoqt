@@ -19,7 +19,7 @@ Rectangle {
 		color: "white"
 		font.bold: true
 		y: (parent.height-height)/2
-		text: qsTr("Zoom") + ":"
+		text: qsTr("Zoom:")
 		anchors.right: zoom_slider.left
 		anchors.rightMargin: 5
 	}

@@ -38,8 +38,8 @@
 		<file>../qml/settingsmanager/tabs/thumbnails/Cache.qml</file>
 		<file>../qml/settingsmanager/tabs/TabMetadata.qml</file>
 		<file>../qml/settingsmanager/tabs/metadata/MouseTrigger.qml</file>
-		<file>../qml/settingsmanager/tabs/metadata/Metadata.qml</file>
-		<file>../qml/settingsmanager/tabs/metadata/MetadataTile.qml</file>
+		<file>../qml/settingsmanager/tabs/metadata/MetaData.qml</file>
+		<file>../qml/settingsmanager/tabs/metadata/MetaDataTile.qml</file>
 		<file>../qml/settingsmanager/tabs/metadata/FontSize.qml</file>
 		<file>../qml/settingsmanager/tabs/metadata/Opacity.qml</file>
 		<file>../qml/settingsmanager/tabs/metadata/RotateFlip.qml</file>

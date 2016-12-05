@@ -144,6 +144,7 @@ Rectangle {
 			checked: settings.openUserPlacesStandard
 			onCheckedChanged:
 				settings.openUserPlacesStandard = checked
+			//: OpenFile: This refers to standard folders for pictures, etc.
 			text: qsTr("Show standard locations")
 		}
 		MenuItem {
@@ -152,6 +153,7 @@ Rectangle {
 			checked: settings.openUserPlacesUser
 			onCheckedChanged:
 				settings.openUserPlacesUser = checked
+			//: OpenFile: This refers to the user-set folders
 			text: qsTr("Show user locations")
 		}
 		MenuItem {
@@ -160,7 +162,8 @@ Rectangle {
 			checked: settings.openUserPlacesVolumes
 			onCheckedChanged:
 				settings.openUserPlacesVolumes = checked
-			text: qsTr("Show volumes")
+			//: OpenFile: This refers to connected devices (harddrives, partitions, etc.)
+			text: qsTr("Show devices")
 		}
 
 	}
@@ -170,6 +173,7 @@ Rectangle {
 		id: usermenu
 
 		MenuItem {
+			//: OpenFile: Remove from user-set folders (favourites)
 			text: qsTr("Remove from favourites")
 			onTriggered: saveUserPlacesExceptCurrentlyHighlighted()
 		}
@@ -228,13 +232,18 @@ Rectangle {
 		var entries = getanddostuff.getUserPlaces()
 
 		var useritems = [
+					//: OpenFile: This refers to the home folder
 					[qsTr("Home"), getanddostuff.getHomeDir(), "user-home"],
+					//: OpenFile: This refers to the desktop folder
 					[qsTr("Desktop"), getanddostuff.getDesktopDir(), "user-desktop"],
+					//: OpenFile: This refers to the pictures folder
 					[qsTr("Pictures"), getanddostuff.getPicturesDir(), "folder-pictures"],
+					//: OpenFile: This refers to the downloads folder
 					[qsTr("Downloads"), getanddostuff.getDownloadsDir(), "folder-download"]
 				]
 
 		userplacesmodel.append({"type" : "heading",
+								   //: OpenFile: 'Standard' is the title for the standard folders (home, desktop, pictures, downloads)
 								   "title" : qsTr("Standard"),
 								   "location" : "",
 								   "icon" : "",
@@ -253,6 +262,7 @@ Rectangle {
 		}
 
 		userplacesmodel.append({"type" : "heading",
+								   //: OpenFile: 'Places' is the title for the user-set folders (favourites)
 								   "title" : qsTr("Places"),
 								   "location" : "",
 								   "icon" : "",
@@ -264,7 +274,8 @@ Rectangle {
 		for(var i = 0; i < entries.length; i+=4) {
 			if(entries[i] === "volumes" && reached_devcies == false) {
 				userplacesmodel.append({"type" : "heading",
-										   "title" : qsTr("Volumes"),
+										   //: OpenFile: 'Devices' is the title for connected harddrives, partitions, ...
+										   "title" : qsTr("Devices"),
 										   "location" : "",
 										   "icon" : "",
 										   "counter" : 0,
