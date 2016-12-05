@@ -74,7 +74,7 @@ Rectangle {
 		id: exit
 		x: bar.width-width-10
 		y: 10
-		text: qsTr("Exit Slideshow")
+		text: qsTr("Quit Slideshow")
 		onClickedButton: stopSlideshow()
 	}
 
