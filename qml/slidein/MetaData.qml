@@ -303,33 +303,39 @@ Rectangle {
 
 				mod.append({"name" : "", "prop" : "", "value" : ""})
 
+				//: The next string refers to Exif image metadata
 				var labels = ["Exif.Image.Make", qsTr("Make"), "",
+				//: The next string refers to Exif image metadata
 						"Exif.Image.Model", qsTr("Model"), "",
+				//: The next string refers to Exif image metadata
 						"Exif.Image.Software", qsTr("Software"), "",
 						"","", "",
+				//: The next string refers to Exif image metadata
 						"Exif.Photo.DateTimeOriginal", qsTr("Time Photo was Taken"), "",
+				//: The next string refers to Exif image metadata
 						"Exif.Photo.ExposureTime", qsTr("Exposure Time"), "",
+				//: The next string refers to Exif image metadata
 						"Exif.Photo.Flash", qsTr("Flash"), "",
 						"Exif.Photo.ISOSpeedRatings", qsTr("ISO"), "",
+				//: The next string refers to Exif image metadata
 						"Exif.Photo.SceneCaptureType", qsTr("Scene Type"), "",
+				//: The next string refers to Exif image metadata
+				//: The next string refers to Exif image metadata
 						"Exif.Photo.FocalLength", qsTr("Focal Length"), "",
 						"Exif.Photo.FNumber", qsTr("F Number"), "",
+				//: The next string refers to Exif image metadata
 						"Exif.Photo.LightSource", qsTr("Light Source"), "",
 						"","", "",
+				//: The next string refers to Exif image metadata
 						"Iptc.Application2.Keywords", qsTr("Keywords"), "",
+				//: The next string refers to Exif image metadata
 						"Iptc.Application2.City", qsTr("Location"), "",
+				//: The next string refers to Exif image metadata
 						"Iptc.Application2.Copyright", qsTr("Copyright"), "",
 						"","", "",
+				//: The next string refers to Exif image metadata
 						"Exif.GPSInfo.GPSLongitudeRef", qsTr("GPS Position"), "Exif.GPSInfo.GPSLatitudeRef",
 						"","",""]
-
-
-				/*
-
-				Exif.Image.Orientation
-
-
-				*/
 
 				var oneEmpty = false;
 
