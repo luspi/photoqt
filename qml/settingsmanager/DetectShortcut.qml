@@ -139,33 +139,35 @@ Rectangle {
 						spacing: 20
 
 						Text {
-							text: "Modifier:"
+							//: This string refers to a key modifier like Ctrl or Alt
+							text: qsTr("Modifier") + ":"
 							color: "white"
 							font.pointSize: 25
 							font.bold: true
 						}
 						Text {
 							id: info_mouse_modifier
-							text: "Ctrl"
+							text: str_keys.get("ctrl")
 							color: "white"
 							font.pointSize: 25
 							font.bold: true
 						}
 						Text {
-							text: "Mouse Button:"
+							text: qsTr("Mouse Button") + ":"
 							color: "white"
 							font.pointSize: 25
 							font.bold: true
 						}
 						Text {
 							id: info_mouse_button
-							text: "Right Button"
+							text: str_mouse.get("left button")
 							color: "white"
 							font.pointSize: 25
 							font.bold: true
 						}
 						Text {
-							text: "Gesture path:"
+							//: This refers to a gesture done with the mouse or a touchscreen finger
+							text: qsTr("Gesture path") + ":"
 							color: "white"
 							font.pointSize: 25
 							font.bold: true
@@ -208,7 +210,7 @@ Rectangle {
 						spacing: 20
 
 						Text {
-							text: "Number of Fingers:"
+							text: qsTr("Number of Fingers") + ":"
 							color: "white"
 							font.pointSize: 25
 							font.bold: true
@@ -221,20 +223,23 @@ Rectangle {
 							font.bold: true
 						}
 						Text {
-							text: "Action:"
+							//: This refers to an action executed by a shortcut command
+							text: qsTr("Action") + ":"
 							color: "white"
 							font.pointSize: 25
 							font.bold: true
 						}
 						Text {
 							id: info_touch_action
-							text: "Tap"
+							//: This refers to a simple tap with a finger on a touchscreen
+							text: qsTr("Tap")
 							color: "white"
 							font.pointSize: 25
 							font.bold: true
 						}
 						Text {
-							text: "Gesture path:"
+							//: This refers to a gesture done with the mouse or a touchscreen finger
+							text: qsTr("Gesture path") + ":"
 							color: "white"
 							font.pointSize: 25
 							font.bold: true
@@ -273,7 +278,7 @@ Rectangle {
 
 					Text {
 						id: info_key_combo
-						text: "Ctrl+O"
+						text: str_keys.get("ctrl") + "+O"
 						color: "white"
 						font.pointSize: 25
 						font.bold: true
@@ -331,7 +336,7 @@ Rectangle {
 			// Cancel detection
 			CustomButton {
 				id: cancelbutton
-				text: "Cancel"
+				text: qsTr("Cancel")
 				x: 30
 				y: (parent.height-height)/2
 				fontsize: 15
@@ -362,7 +367,7 @@ Rectangle {
 				width: parent.width-countdown.width-cancelbutton.width-60
 				Text {
 					anchors.fill: parent
-					text: "Perform any touch gesture, mouse action or press any key combination."
+					text: qsTr("Perform any touch gesture, mouse action or press any key combination.")
 					verticalAlignment: Text.AlignVCenter
 					horizontalAlignment: Text.AlignHCenter
 					color: "white"
@@ -474,8 +479,8 @@ Rectangle {
 			return
 		if(opacity != 1) return
 		switchTo("mouse")
-		info_mouse_button.text = button
-		info_mouse_modifier.text = (modifiers == "" ? "-" : modifiers)
+		info_mouse_button.text = str_mouse.get(button)
+		info_mouse_modifier.text = (modifiers == "" ? "-" : str_keys.translateKeyCombo(modifiers))
 		info_mouse_path.text = (gesture.length == 0 ? "-" : gesture.join(" - "))
 
 		successful = false
@@ -496,8 +501,8 @@ Rectangle {
 			return
 		if(opacity != 1) return
 		switchTo("mouse")
-		info_mouse_button.text = button
-		info_mouse_modifier.text = (modifiers == "" ? "-" : modifiers)
+		info_mouse_button.text = str_mouse.get(button)
+		info_mouse_modifier.text = (modifiers == "" ? "-" : str_keys.translateKeyCombo(modifiers))
 		info_mouse_path.text = (gesture.length == 0 ? "-" : gesture.join(" - "))
 
 		mouse_mods = modifiers
@@ -549,7 +554,7 @@ Rectangle {
 	function updateKeyShortcut(combo) {
 		if(opacity != 1) return
 		switchTo("key")
-		info_key_combo.text = combo
+		info_key_combo.text = str_keys.translateKeyCombo(combo)
 
 		key_combo = combo
 
@@ -578,8 +583,6 @@ Rectangle {
 	}
 
 	function updateTakenShortcut(old_shortcut, new_shortcut) {
-
-		console.log(old_shortcut, checkAllShortcuts[old_shortcut])
 
 		checkAllShortcuts[old_shortcut] -= 1;
 

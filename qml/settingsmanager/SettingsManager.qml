@@ -164,13 +164,6 @@ Rectangle {
 					onShortcutsLoadDefaults:
 						loadDefault()
 				}
-//				Connections {
-//					target: detectshortcut
-//					onSuccess: {
-//						updateShortcut(cat, args)
-//					}
-//				}
-
 				Component.onCompleted: {
 					setData()
 				}
@@ -346,11 +339,11 @@ Rectangle {
 
 	Component.onCompleted: {
 
-		settingsmanagershortcuts.shortcuts[str_keys.ctrl + " + " + str_keys.tab] = qsTr("Go to the next tab")
-		settingsmanagershortcuts.shortcuts[str_keys.ctrl + " + " + str_keys.shift + " + " + str_keys.tab] = qsTr("Go to the previous tab")
-		settingsmanagershortcuts.shortcuts[str_keys.alt + "+1 " + qsTr("to") + " " + str_keys.alt + "+5"] = qsTr("Switch to tab 1 to 5")
-		settingsmanagershortcuts.shortcuts[str_keys.ctrl + "+S"] = qsTr("Save settings")
-		settingsmanagershortcuts.shortcuts[str_keys.esc] = qsTr("Discard settings")
+		settingsmanagershortcuts.shortcuts[str_keys.get("ctrl") + " + " + str_keys.get("tab")] = qsTr("Go to the next tab")
+		settingsmanagershortcuts.shortcuts[str_keys.get("ctrl") + " + " + str_keys.get("shift") + " + " + str_keys.get("tab")] = qsTr("Go to the previous tab")
+		settingsmanagershortcuts.shortcuts[str_keys.get("alt") + "+1 " + qsTr("to") + " " + str_keys.get("alt") + "+5"] = qsTr("Switch to tab 1 to 5")
+		settingsmanagershortcuts.shortcuts[str_keys.get("ctrl") + "+S"] = qsTr("Save settings")
+		settingsmanagershortcuts.shortcuts[str_keys.get("escape")] = qsTr("Discard settings")
 
 		settingssession.setValue("settings_titlewidth",100)
 	}

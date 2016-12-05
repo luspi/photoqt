@@ -147,8 +147,10 @@ Rectangle {
 					Text {
 						color: ele.error_doubleShortcut ? colour.shortcut_double_error : colour.tiles_text_active
 						font.bold: ele.error_doubleShortcut
-						text: "<b>" + (type === "key" ? qsTr("Key") : (type === "mouse" ? qsTr("Mouse") : "Touch")) + "</b>: "
-							  + sh
+						text: "<b>" +
+								(type === "key" ? qsTr("Key") + "</b>: " + str_keys.translateKeyCombo(sh) :
+												  (type === "mouse" ? qsTr("Mouse") + "</b>: " + str_mouse.translateMouseCombo(sh) :
+																	  qsTr("Touch") + "</b>: " + sh))
 					}
 
 
