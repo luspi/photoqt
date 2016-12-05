@@ -51,7 +51,7 @@ Rectangle {
 
 	// The mousearea of the Tooltip governs the hover/checked look
 	ToolTip {
-		text: (rect.author != "" ? "<b>" + qsTr("Created by") + ":</b><br>" + rect.author : "")
+		text: rect.text
 		cursorShape: Qt.PointingHandCursor
 		onEntered: hovered = true
 		onExited: hovered = false
