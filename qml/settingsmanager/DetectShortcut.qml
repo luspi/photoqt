@@ -336,9 +336,10 @@ Rectangle {
 			// Cancel detection
 			CustomButton {
 				id: cancelbutton
-				text: qsTr("Cancel")
-				x: 30
-				y: (parent.height-height)/2
+				text: "  " + qsTr("Cancel") + "  "
+				x: 5
+				y: 5
+				height: parent.height-10
 				fontsize: 15
 				onClickedButton: {
 					countdowntimer.stop()
@@ -353,7 +354,7 @@ Rectangle {
 				color: "#44ffffff"
 				width: 1
 				height: parent.height
-				x: cancelbutton.x+cancelbutton.width+30
+				x: cancelbutton.x+cancelbutton.width+5
 				y: 0
 			}
 
