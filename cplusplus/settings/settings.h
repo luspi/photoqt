@@ -127,7 +127,6 @@ public:
 		connect(this, SIGNAL(thumbnailLiftUpChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(thumbnailKeepVisibleChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(thumbnailFontSizeChanged(int)), saveSettingsTimer, SLOT(start()));
-		connect(this, SIGNAL(thumbnailDynamicChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(thumbnailCenterActiveChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(thumbnailpositionChanged(QString)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(thumbnailFilenameInsteadChanged(bool)), saveSettingsTimer, SLOT(start()));
@@ -306,8 +305,6 @@ public:
 	int thumbnailLiftUp;
 	// Are the thumbnails fading out or always visible?
 	bool thumbnailKeepVisible;
-	// Enable dynamic thumbnail creation (1 = dynamic, 2 = smart)
-	int thumbnailDynamic;
 	// Always center on active thumbnails
 	bool thumbnailCenterActive;
 	// Don't load actual thumbnail but just display the filename
@@ -450,7 +447,6 @@ public:
 	Q_PROPERTY(int thumbnailSpacingBetween MEMBER thumbnailSpacingBetween NOTIFY thumbnailSpacingBetweenChanged)
 	Q_PROPERTY(int thumbnailLiftUp MEMBER thumbnailLiftUp NOTIFY thumbnailLiftUpChanged)
 	Q_PROPERTY(bool thumbnailKeepVisible MEMBER thumbnailKeepVisible NOTIFY thumbnailKeepVisibleChanged)
-	Q_PROPERTY(int thumbnailDynamic MEMBER thumbnailDynamic NOTIFY thumbnailDynamicChanged)
 	Q_PROPERTY(bool thumbnailCenterActive MEMBER thumbnailCenterActive NOTIFY thumbnailCenterActiveChanged)
 	Q_PROPERTY(bool thumbnailFilenameInstead MEMBER thumbnailFilenameInstead NOTIFY thumbnailFilenameInsteadChanged)
 	Q_PROPERTY(int thumbnailFilenameInsteadFontSize MEMBER thumbnailFilenameInsteadFontSize NOTIFY thumbnailFilenameInsteadFontSizeChanged)
@@ -589,7 +585,6 @@ public:
 		thumbnailSpacingBetween = 0;
 		thumbnailLiftUp = 6;
 		thumbnailKeepVisible = false;
-		thumbnailDynamic = 2;
 		thumbnailCenterActive = false;
 		thumbnailDisable = false;
 		thumbnailWriteFilename = true;
@@ -757,7 +752,6 @@ public slots:
 			cont += QString("ThumbnailSpacingBetween=%1\n").arg(thumbnailSpacingBetween);
 			cont += QString("ThumbnailLiftUp=%1\n").arg(thumbnailLiftUp);
 			cont += QString("ThumbnailKeepVisible=%1\n").arg(thumbnailKeepVisible);
-			cont += QString("ThumbnailDynamic=%1\n").arg(thumbnailDynamic);
 			cont += QString("ThumbnailCenterActive=%1\n").arg(int(thumbnailCenterActive));
 			cont += QString("ThumbnailFilenameInstead=%1\n").arg(int(thumbnailFilenameInstead));
 			cont += QString("ThumbnailFilenameInsteadFontSize=%1\n").arg(thumbnailFilenameInsteadFontSize);
@@ -1082,9 +1076,6 @@ public slots:
 				thumbnailKeepVisible = true;
 			else if(all.contains("ThumbnailKeepVisible=0"))
 				thumbnailKeepVisible = false;
-
-			if(all.contains("ThumbnailDynamic="))
-				thumbnailDynamic = all.split("ThumbnailDynamic=").at(1).split("\n").at(0).toInt();
 
 			if(all.contains("ThumbnailCenterActive=1"))
 				thumbnailCenterActive = true;
@@ -1415,7 +1406,6 @@ signals:
 	void thumbnailLiftUpChanged(int val);
 	void thumbnailKeepVisibleChanged(bool val);
 	void thumbnailFontSizeChanged(int val);
-	void thumbnailDynamicChanged(int val);
 	void thumbnailCenterActiveChanged(bool val);
 	void thumbnailpositionChanged(QString val);
 	void thumbnailFilenameInsteadChanged(bool val);

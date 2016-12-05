@@ -30,7 +30,6 @@
 		<file>../qml/settingsmanager/tabs/thumbnails/Spacing.qml</file>
 		<file>../qml/settingsmanager/tabs/thumbnails/LiftUp.qml</file>
 		<file>../qml/settingsmanager/tabs/thumbnails/KeepVisible.qml</file>
-		<file>../qml/settingsmanager/tabs/thumbnails/Dynamic.qml</file>
 		<file>../qml/settingsmanager/tabs/thumbnails/CenterOn.qml</file>
 		<file>../qml/settingsmanager/tabs/thumbnails/TopOrBottom.qml</file>
 		<file>../qml/settingsmanager/tabs/thumbnails/Label.qml</file>

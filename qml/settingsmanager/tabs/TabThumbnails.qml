@@ -65,13 +65,12 @@ Rectangle {
 			Spacing { id: spacing; alternating: true }
 			LiftUp { id: liftup }
 			KeepVisible { id: keepvisible; alternating: true }
-			Dynamic { id: dynamic }
-			CenterOn { id: centeron; alternating: true }
-			TopOrBottom { id: toporbottom }
-			Label { id: label; alternating: true }
-			FilenameOnly { id: filenameonly }
-			Disable { id: disable; alternating: true }
-			Cache { id: cache }
+			CenterOn { id: centeron }
+			TopOrBottom { id: toporbottom; alternating: true }
+			Label { id: label }
+			FilenameOnly { id: filenameonly; alternating: true }
+			Disable { id: disable }
+			Cache { id: cache; alternating: true }
 
 
 		}
