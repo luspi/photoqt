@@ -41,7 +41,7 @@ EntryContainer {
 
 				CustomCheckBox {
 					id: quickinfo_closingx
-					text: qsTr("Closing \"X\"")
+					text: qsTr("Exit button ('x' in top right corner)")
 				}
 
 			}

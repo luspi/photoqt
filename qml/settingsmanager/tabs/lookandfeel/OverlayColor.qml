@@ -106,6 +106,7 @@ EntryContainer {
 								horizontalAlignment: Qt.AlignRight
 								color: colour.text
 								font.pointSize: 10
+								//: This refers to the alpha value of a color (i.e., how opaque/transparent the colour is)
 								text: qsTr("Alpha:")
 							}
 

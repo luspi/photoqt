@@ -15,6 +15,7 @@ EntryContainer {
 
 			id: entrytitle
 
+			//: The hot edge refers to the left and right screen edge. When the mouse cursor enters the hot edge area, then the main menu/metadata element is shown
 			title: qsTr("Size of 'Hot Edge'")
 			helptext: qsTr("Here you can adjust the sensitivity of the drop-down menu. The menu opens when your mouse cursor gets close to the right side of the upper edge. Here you can adjust how close you need to get for it to open.")
 
