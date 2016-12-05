@@ -38,7 +38,7 @@ EntryContainer {
 				property int spacing: 3
 
 				model: metadataitems.length
-				delegate: MetadataTile {
+				delegate: MetaDataTile {
 					id: tile
 					text: grid.metadataitems[index][1]
 					checked: grid.metadataitems[index][2]

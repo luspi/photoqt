@@ -73,7 +73,7 @@ Rectangle {
 			Rectangle { color: "transparent"; width: 1; height: 20; }
 
 			MouseTrigger { id: trigger }
-			Metadata { id: metadata; alternating: true }
+			MetaData { id: metadata; alternating: true }
 			FontSize { id: fontsize }
 			Opacity { id: op; alternating: true }
 			RotateFlip { id: rotateflip }

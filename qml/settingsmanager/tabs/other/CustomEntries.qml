@@ -17,7 +17,7 @@ EntryContainer {
 		EntryTitle {
 
 			id: title
-			title: qsTr("Custom Menu Entries")
+			title: qsTr("Custom Entries in Main Menu")
 			helptext: qsTr("Here you can adjust the custom entries in the main menu. You can simply drag and drop the entries, edit them, add a new one and remove an existing one.")
 
 		}
@@ -67,6 +67,7 @@ EntryContainer {
 							verticalAlignment: Qt.AlignVCenter
 							horizontalAlignment: Qt.AlignHCenter
 
+							//: The executable to be run when clicking on a custom entry in the main menu
 							text: qsTr("Executable")
 
 						}
@@ -83,6 +84,7 @@ EntryContainer {
 							verticalAlignment: Qt.AlignVCenter
 							horizontalAlignment: Qt.AlignHCenter
 
+							//: The text to be displayed for the custom entry in the main menu
 							text: qsTr("Menu Text")
 
 						}
@@ -114,6 +116,7 @@ EntryContainer {
 							id: contextadd
 							width: 150
 							wrapMode: Text.WordWrap
+							//: New entry for the custom entries in the main menu
 							text: qsTr("Add new entry")
 							onClickedButton: context.addNewItem()
 						}
@@ -121,6 +124,7 @@ EntryContainer {
 
 						CustomButton {
 							id: contextreset
+							//: Settings: Custom entries in main menu: Detect what known tools are installed and create an entry for all available ones
 							text: qsTr("Set default")
 							width: 150
 							onClickedButton: {

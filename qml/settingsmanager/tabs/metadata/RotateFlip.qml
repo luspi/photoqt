@@ -14,6 +14,7 @@ EntryContainer {
 
 		EntryTitle {
 
+			//: Settings title: Rotate/flip image automatically according to its metadata
 			title: qsTr("Automatic Rotate/Flip")
 			helptext: qsTr("Some cameras can detect - while taking the photo - whether the camera was turned and might store this information in the image exif data. If PhotoQt finds this information, it can rotate the image accordingly. When asking PhotoQt to always rotate images automatically without asking, it already does so at image load (including thumbnails).")
 
@@ -42,6 +43,7 @@ EntryContainer {
 				}
 				CustomRadioButton {
 					id: alwaysask
+					//: Used as in 'Always ask whether to rotate/flip an image according to its metadata'
 					text: qsTr("Always ask")
 					exclusiveGroup: rotateflipgroup
 				}
