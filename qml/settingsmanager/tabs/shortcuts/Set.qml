@@ -68,7 +68,8 @@ Rectangle {
 			ToolTip {
 				cursorShape: Qt.PointingHandCursor
 				text: qsTr("Click to change shortcut")
-				onClicked: triggerDetection()
+				// When a rectangle is clicked, then the lastaction is not anymore 'del' or 'add'
+				onClicked: { lastaction = ""; triggerDetection() }
 				onEntered: ele.hovered = true
 				onExited: ele.hovered = false
 			}
@@ -215,7 +216,6 @@ Rectangle {
 					} else
 						internalShortcut = sh;
 				}
-				lastaction = ""
 				closeitem.checked = (close == "1")
 				detectshortcut.takenShortcutsUpdated()
 			}
@@ -242,10 +242,8 @@ Rectangle {
 					ele.amDetectingNewShortcut = false
 				}
 				onCancel: {
-					if(lastaction == "add" && ele.amDetectingNewShortcut) {
-						console.log("removing shortcut again...", index)
+					if(lastaction == "add" && ele.amDetectingNewShortcut)
 						deleteShortcut(index, internalShortcut)
-					}
 					ele.amDetectingNewShortcut = false
 				}
 				onTakenShortcutsUpdated: {
