@@ -151,6 +151,7 @@ ListView {
 	}
 
 	function loadFiles(files) {
+		verboseMessage("FilesViewList::loadFiles()", files.length)
 		listviewmodel.clear()
 		contentY = 0
 		for(var j = 0; j < files.length; j+=2)
