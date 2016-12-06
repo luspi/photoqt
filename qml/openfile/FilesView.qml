@@ -111,6 +111,8 @@ Rectangle {
 
 	function loadDirectory(path) {
 
+		verboseMessage("FilesView::loadDirectory()",path)
+
 		files = getanddostuff.getFilesWithSizeIn(path, tweaks.getFileTypeSelection())
 		dir_path = getanddostuff.removePrefixFromDirectoryOrFile(path)
 
@@ -131,6 +133,7 @@ Rectangle {
 	}
 
 	function focusOnFile(filename) {
+		verboseMessage("FilesView::focusOnFile()",filename)
 		listview.focusOnFile(filename)
 		gridview.focusOnFile(filename)
 	}
@@ -140,6 +143,7 @@ Rectangle {
 	}
 
 	function loadCurrentlyHighlightedImage() {
+		verboseMessage("FilesView::loadCurrentlyHighlightedImage()",listview.opacity + " - " + gridview.opacity + " - " + listview.currentIndex + " - " + gridview.currentIndex)
 		hideOpenAni.start()
 		if(listview.opacity == 1)
 			reloadDirectory(dir_path + "/" + files[listview.currentIndex*2],"")
@@ -152,6 +156,7 @@ Rectangle {
 	}
 
 	function focusOnNextItem() {
+		verboseMessage("FilesView::focusOnNextItem()",listview.opacity + " - " + gridview.opacity + " - " + listview.currentIndex + " - " + gridview.currentIndex + " - " + listview.count + " - " + gridview.count)
 		if(listview.opacity == 1 && listview.currentIndex+1 < listview.count)
 			listview.currentIndex += 1
 		else if(gridview.opacity == 1 && gridview.currentIndex+1 < gridview.count)
@@ -161,6 +166,7 @@ Rectangle {
 	}
 
 	function focusOnPrevItem() {
+		verboseMessage("FilesView::focusOnPrevItem()",listview.opacity + " - " + gridview.opacity + " - " + listview.currentIndex + " - " + gridview.currentIndex)
 		if(listview.opacity == 1 && listview.currentIndex > 0)
 			listview.currentIndex -= 1
 		else if(gridview.opacity == 1 && gridview.currentIndex > 0)
@@ -170,6 +176,7 @@ Rectangle {
 	}
 
 	function moveFocusFiveDown() {
+		verboseMessage("FilesView::moveFocusFiveDown()",listview.opacity + " - " + gridview.opacity + " - " + listview.currentIndex + " - " + gridview.currentIndex + " - " + listview.count + " - " + gridview.count)
 		if(listview.opacity == 1 && listview.currentIndex+5 < listview.count)
 			listview.currentIndex += 5
 		else if(listview.opacity == 1 && listview.count > 0)
@@ -183,6 +190,7 @@ Rectangle {
 	}
 
 	function moveFocusFiveUp() {
+		verboseMessage("FilesView::moveFocusFiveUp()",listview.opacity + " - " + gridview.opacity + " - " + listview.currentIndex + " - " + gridview.currentIndex + " - " + listview.count + " - " + gridview.count)
 		if(listview.opacity == 1 && listview.currentIndex > 4)
 			listview.currentIndex -= 5
 		else if(listview.opacity == 1 && listview.count > 0)
@@ -196,6 +204,7 @@ Rectangle {
 	}
 
 	function focusOnLastItem() {
+		verboseMessage("FilesView::focusOnLastItem()",listview.opacity + " - " + gridview.opacity + " - " + listview.count + " - " + gridview.count)
 		if(listview.opacity == 1 && listview.count > 0)
 			listview.currentIndex = listview.count-1
 		else if(gridview.opacity == 1 && gridview.count > 0)
@@ -205,6 +214,7 @@ Rectangle {
 	}
 
 	function focusOnFirstItem() {
+		verboseMessage("FilesView::focusOnFirstItem()",listview.opacity + " - " + gridview.opacity + " - " + listview.count + " - " + gridview.count)
 		if(listview.opacity == 1 && listview.count > 0)
 			listview.currentIndex = 0
 		else if(gridview.opacity == 1 && gridview.count > 0)
@@ -214,6 +224,8 @@ Rectangle {
 	}
 
 	function updatePreview() {
+
+		verboseMessage("FilesView::updatePreview()",dir_path + " - " + listview.opacity + " - " + gridview.opacity)
 
 		if((listview.opacity == 1 && files[2*listview.currentIndex] === undefined)
 				|| (gridview.opacity == 1 && files[2*gridview.currentIndex] === undefined)) {
@@ -234,6 +246,8 @@ Rectangle {
 
 	function displayIcons() {
 
+		verboseMessage("FilesView::displayIcons()","")
+
 		listview.displayIcons()
 		gridview.displayIcons()
 
@@ -241,12 +255,15 @@ Rectangle {
 
 	function displayList() {
 
+		verboseMessage("FilesView::displayList()","")
+
 		listview.displayList()
 		gridview.displayList()
 
 	}
 
 	function updatePreviewSourceSize() {
+		verboseMessage("FilesView::updatePreviewSourceSize()","")
 		var mode = tweaks.isHoverPreviewEnabled
 		preview.sourceSize = Qt.size((mode ? 0.75 : 0)*preview.width,(mode ? 0.75 : 0)*preview.height)
 		previous_width = top.width

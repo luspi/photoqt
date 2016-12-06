@@ -96,14 +96,15 @@ Rectangle {
 	}
 
 	function reloadThumbnails() {
+		verboseMessage("ThumbnailBar::reloadThumbnails()", currentPos)
 		setupModel(allFileNames, currentPos)
 	}
 
 	function displayImage(pos) {
 
-		mainview.imageLoading = true
-
 		verboseMessage("ThumbnailBar::displayImage()",pos)
+
+		mainview.imageLoading = true
 
 		if(!directoryLoaded) return
 
@@ -158,6 +159,7 @@ Rectangle {
 
 	// Animate auto-scrolling of view
 	function positionViewAtIndex(index, loc) {
+		verboseMessage("ThumbnailBar::positionViewAtIndex()", index + " - " + loc)
 		autoScrollAnim.running = false
 		var pos = view.contentX;
 		var destPos;
@@ -211,11 +213,11 @@ Rectangle {
 	}
 
 	function gotoFirstImage() {
-		verboseMessage("ThumbnailBar::gotoFirstImage()","Start")
+		verboseMessage("ThumbnailBar::gotoFirstImage()",0)
 		displayImage(0);
 	}
 	function gotoLastImage() {
-		verboseMessage("ThumbnailBar::gotoLastImage()","End")
+		verboseMessage("ThumbnailBar::gotoLastImage()",totalNumberImages-1)
 		displayImage(totalNumberImages-1);
 	}
 
@@ -224,6 +226,7 @@ Rectangle {
 		anchors.fill: parent
 		hoverEnabled: true
 		onWheel: {
+			verboseMessage("ThumbnailBar.MouseArea::onWheel", wheel.angleDelta)
 			var deltaY = wheel.angleDelta.y
 			if(deltaY >= 0) {
 				if(view.contentX-deltaY >= 0)
@@ -324,8 +327,10 @@ Rectangle {
 				sourceSize: Qt.size(width, height)
 
 				onStatusChanged: {
-					if(status == Image.Ready && source != "")
+					if(status == Image.Ready && source != "") {
+						verboseMessage("ThumbnailBar.ImageDelegate", "thumbnail #" + count + " finished loading")
 						loaded = true
+					}
 				}
 
 				Image {
@@ -454,11 +459,14 @@ Rectangle {
 	}
 
 	function show() {
+		if(opacity != 1) verboseMessage("ThumbnailBar::show()", opacity + " to 1")
 		opacity = 1
 	}
 	function hide() {
-		if(!settings.thumbnailKeepVisible)
+		if(!settings.thumbnailKeepVisible) {
+			if(opacity != 0) verboseMessage("ThumbnailBar::hide()", opacity + " to 0")
 			opacity = 0
+		}
 	}
 
 	Component.onCompleted: {
@@ -467,7 +475,9 @@ Rectangle {
 	}
 
 	function clickOnThumbnailBar(pos) {
-		return contains(thumbnailBar2.mapFromItem(toplevel,pos.x,pos.y))
+		var ret = contains(thumbnailBar2.mapFromItem(toplevel,pos.x,pos.y))
+		verboseMessage("ThumbnailBar::clickOnThumbnailBar()", "thumbnail #" + count + " - mouse pos " + pos + " - " + ret)
+		return ret
 	}
 
 	Connections {

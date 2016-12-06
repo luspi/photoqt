@@ -156,6 +156,7 @@ Rectangle {
 		}
 	}
 	function updateNonFloatWidth() {
+		verboseMessage("MetaData::updateNonFloatWidth()",check.checkedButton + " - " + nonFloatWidth + " - " + meta.width)
 		if(check.checkedButton)
 			nonFloatWidth = meta.width
 		else
@@ -367,7 +368,7 @@ Rectangle {
 
 	function gpsClick(value) {
 
-		verboseMessage("MetaData::gpsClick()",value)
+		verboseMessage("MetaData::gpsClick()",value + " - " + settings.exifgpsmapservice)
 
 		if(settings.exifgpsmapservice == "bing.com/maps")
 			Qt.openUrlExternally("http://www.bing.com/maps/?sty=r&q=" + value + "&obox=1")
@@ -399,15 +400,20 @@ Rectangle {
 
 
 	function hide() {
-		if(!check.checkedButton)
+		if(!check.checkedButton) {
+			if(opacity != 0) verboseMessage("MetaData::hide()", opacity + " to 0")
 			hideMetaData.start()
+		}
 	}
 	function show() {
+		if(opacity != 1) verboseMessage("MetaData::show()", opacity + " to 1")
 		showMetaData.start()
 	}
 
 	function clickInMetaData(pos) {
-		return meta.contains(meta.mapFromItem(toplevel,pos.x,pos.y))
+		var ret = meta.contains(meta.mapFromItem(toplevel,pos.x,pos.y))
+		verboseMessage("MetaData::clickInMetaData()", pos)
+		return ret
 	}
 
 }

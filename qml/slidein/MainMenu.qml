@@ -580,14 +580,18 @@ Rectangle {
 	}
 
 	function show() {
+		if(opacity != 1) verboseMessage("MainMenu::show()", opacity + " to 1")
 		showMainmenu.start()
 	}
 	function hide() {
+		if(opacity != 0) verboseMessage("MainMenu::hide()", opacity + " to 0")
 		hideMainmenu.start()
 	}
 
 	function clickInMainMenu(pos) {
-		return mainmenu.contains(mainmenu.mapFromItem(toplevel,pos.x,pos.y))
+		var ret = mainmenu.contains(mainmenu.mapFromItem(toplevel,pos.x,pos.y))
+		verboseMessage("MainMenu::clickInMainMenu()", pos)
+		return ret
 	}
 
 }

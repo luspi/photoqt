@@ -196,6 +196,8 @@ Rectangle {
 	// load a new image at a certain angle
 	function loadImage(filename, angle) {
 
+		verboseMessage("SmartImage::loadImage()",filename + " - " + angle)
+
 		settings.startupLoadLastLoadedImageString = filename
 
 		// stop any possibly started animation
@@ -266,6 +268,8 @@ Rectangle {
 	// make image element visible
 	function makeImageVisible(imgid) {
 
+		verboseMessage("SmartImage::makeImageVisible()",imgid)
+
 		_activeImageItem = imgid
 
 		if(imgid === "one") {
@@ -294,6 +298,8 @@ Rectangle {
 	// update fillmode
 	function checkFillMode() {
 
+		verboseMessage("SmartImage::checkFillMode()","")
+
 		// don't touch fillmode when image is scaled in
 		if(imgrect.scale > 1) return
 
@@ -315,6 +321,7 @@ Rectangle {
 
 	// Rotate image to the left
 	function rotateLeft() {
+		verboseMessage("SmartImage::rotateLeft()","")
 		_fadeDurationNextImage = 200
 		if(imgrect._vertically_mirrored)
 			imgrect._rotation += 90
@@ -323,6 +330,7 @@ Rectangle {
 	}
 	// Rotate image to the right
 	function rotateRight() {
+		verboseMessage("SmartImage::rotateRight()","")
 		_fadeDurationNextImage = 200
 		if(imgrect._vertically_mirrored)
 			imgrect._rotation -= 90
@@ -331,12 +339,14 @@ Rectangle {
 	}
 	// Rotate image by 180 degrees
 	function rotate180() {
+		verboseMessage("SmartImage::rotate180()","")
 		_fadeDurationNextImage = 200
 		imgrect._rotation += 180
 	}
 
 	// Reset rotation value to zero
 	function resetRotation(forceDuration) {
+		verboseMessage("SmartImage::resetRotation()",forceDuration)
 		_fadeDurationNextImage = (forceDuration != undefined ? forceDuration : 200)
 		imgrect._rotation = 0
 	}
@@ -346,36 +356,43 @@ Rectangle {
 	//// ZOOM
 
 	function zoomIn(towardsCenter) {
+		verboseMessage("SmartImage::zoomIn()",towardsCenter)
 		if(towardsCenter == undefined) towardsCenter = true
 		zoomTowardsCenter = towardsCenter
 		imgrect.scale += (imgrect.scale < 1 ? Math.min(0.5,imgrect.scale/2) : Math.max(0.5,imgrect.scale/2))
 	}
 	function zoomOut(towardsCenter) {
+		verboseMessage("SmartImage::zoomOut()",towardsCenter)
 		if(towardsCenter == undefined) towardsCenter = true
 		zoomTowardsCenter = towardsCenter
 		imgrect.scale -= (imgrect.scale < 1 ? Math.min(0.5,imgrect.scale/2) : Math.max(0.5,imgrect.scale/2))
 	}
 	function zoomActual() {
+		verboseMessage("SmartImage::zoomActual()","")
 		var s = getCurrentSourceSize();
 		if(s.width > rect_top.width || s.height > rect_top.height)
 			imgrect.scale = Math.max(s.width/rect_top.width,s.height/rect_top.height)
 	}
 	// Zoom to 250%
 	function zoom250() {
+		verboseMessage("SmartImage::zoom250()","")
 		zoomTowardsCenter = true
 		imgrect.scale = 2.5
 	}
 	// Zoom to 500%
 	function zoom500() {
+		verboseMessage("SmartImage::zoom500()","")
 		zoomTowardsCenter = true
 		imgrect.scale = 5
 	}
 	// Zoom to 1000%
 	function zoom1000() {
+		verboseMessage("SmartImage::zoom1000()","")
 		zoomTowardsCenter = true
 		imgrect.scale = 10
 	}
 	function resetZoom() {
+		verboseMessage("SmartImage::resetZoom()","")
 		imgrect.scale = 1
 	}
 
@@ -384,11 +401,13 @@ Rectangle {
 	//// MIRROR/FLIP
 
 	function mirrorHorizontal() {
+		verboseMessage("SmartImage::mirrorHorizontal()","")
 		one.setMirror(!one.getMirror())
 		two.setMirror(!two.getMirror())
 	}
 
 	function mirrorVertical() {
+		verboseMessage("SmartImage::mirrorVertical()","")
 		imgrect._vertically_mirrored = !imgrect._vertically_mirrored
 		one.rotation += 90
 		two.rotation += 90
@@ -398,6 +417,7 @@ Rectangle {
 	}
 
 	function resetMirror() {
+		verboseMessage("SmartImage::resetMirror()","")
 		if(imgrect._vertically_mirrored) {
 			one.rotation = 0
 			two.rotation = 0
@@ -416,6 +436,8 @@ Rectangle {
 
 	function getPaintedImageSize() {
 
+		verboseMessage("SmartImage::getPaintedImageSize()","")
+
 		if(_activeImageItem == "one")
 			return one.getActualPaintedImageSize()
 		else if(_activeImageItem == "two")
@@ -426,12 +448,14 @@ Rectangle {
 	}
 
 	function stopAllAnimations() {
+		verboseMessage("SmartImage::stopAllAnimations()","")
 		one.stopAnimation()
 		two.stopAnimation()
 	}
 
 	// get the sourcesize of the currently displayed image
 	function getCurrentSourceSize() {
+		verboseMessage("SmartImage::getCurrentSourceSize()","")
 		if(_activeImageItem == "one")
 			return one.getSourceSize()
 		else if(_activeImageItem == "two")
@@ -441,6 +465,7 @@ Rectangle {
 
 	// get the source filename of the currently displayed image
 	function getCurrentSource() {
+		verboseMessage("SmartImage::getCurrentSource()","")
 		if(_activeImageItem == "one")
 			return one.source+""
 		else if(_activeImageItem == "two")
@@ -450,11 +475,13 @@ Rectangle {
 
 	// update interactive mode (disabled, e.g., when touch event is detected)
 	function setInteractiveMode(enabled) {
+		verboseMessage("SmartImage::setInteractiveMode()",enabled)
 		flick.interactive = enabled
 	}
 
 	// check if a click is inside the painted area of the image
 	function clickInsideImage(pos) {
+		verboseMessage("SmartImage::clickInsideImage()",pos)
 		var contx, conty, mapped, painted
 		if(_activeImageItem == "one") {
 			painted = one.getActualPaintedImageSize()

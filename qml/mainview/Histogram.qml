@@ -168,6 +168,8 @@ Rectangle {
 			// Don't calculate histogram if disabled
 			if(!settings.histogram) return;
 
+			verboseMessage("Histogram::updateHistogram()",settings.histogramVersion)
+
 			if(settings.histogramVersion === "color")
 				chart.color_histogram()
 			else if(settings.histogramVersion === "grey")
@@ -179,6 +181,8 @@ Rectangle {
 		function grey_histogram() {
 
 			if(thumbnailBar.currentFile == "") return
+
+			verboseMessage("Histogram::grey_histogram()","")
 
 			settings.histogramVersion = "grey"
 
@@ -207,6 +211,8 @@ Rectangle {
 		function color_histogram() {
 
 			if(thumbnailBar.currentFile == "") return
+
+			verboseMessage("Histogram::color_histogram()","")
 
 			settings.histogramVersion = "color"
 

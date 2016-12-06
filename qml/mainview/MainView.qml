@@ -27,7 +27,7 @@ Item {
 
 		setOverrideCursor()
 
-		verboseMessage("Display::setImage()", path)
+		verboseMessage("Display::loadImage()", path)
 
 		// LOAD IMAGE
 		image.loadImage(path)

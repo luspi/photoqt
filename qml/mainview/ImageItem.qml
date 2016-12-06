@@ -120,6 +120,7 @@ Rectangle {
 		if(next >= _numFrames) next = 0;
 		var recheck = getanddostuff.getNumFramesAndDuration(source);
 		_interval = recheck[1];
+		verboseMessage("ImageItem::nextFrame()", _interval + " - " + next)
 		if(main_img.visible)
 			submain_img.source = p[0] + "::photoqtani::" + next
 		else
@@ -128,6 +129,7 @@ Rectangle {
 
 	// set animation properties
 	function setAnimated(numFrames, interval) {
+		verboseMessage("ImageItem::setAnimated()", numFrames + " - " + interval)
 		_numFrames = numFrames
 		_interval = interval
 		main_img.visible = true

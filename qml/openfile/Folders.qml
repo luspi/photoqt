@@ -110,6 +110,8 @@ Rectangle {
 
 	Keys.onPressed: {
 
+		verboseMessage("Folders.Keys::onPressed", event.modifiers + " - " + event.key)
+
 		if(event.key === Qt.Key_Left) {
 
 			if(event.modifiers & Qt.AltModifier)
@@ -150,6 +152,8 @@ Rectangle {
 
 	function loadDirectory(path) {
 
+		verboseMessage("Folders::loadDirectory()", path)
+
 		folderlistmodel.clear()
 		folders = getanddostuff.getFoldersIn(path)
 		dir_path = getanddostuff.removePrefixFromDirectoryOrFile(path)
@@ -160,20 +164,24 @@ Rectangle {
 	}
 
 	function loadCurrentlyHighlightedFolder() {
+		verboseMessage("Folders::loadCurrentlyHighlightedFolder()", dir_path + "/" + folders[folderlistview.currentIndex])
 		loadCurrentDirectory(dir_path + "/" + folders[folderlistview.currentIndex])
 	}
 
 	function focusOnNextItem() {
+		verboseMessage("Folders::focusOnNextItem()", folderlistview.currentIndex + " - " + folderlistview.count)
 		if(folderlistview.currentIndex+1 < folderlistview.count)
 			folderlistview.currentIndex += 1
 	}
 
 	function focusOnPrevItem() {
+		verboseMessage("Folders::focusOnPrevItem()", folderlistview.currentIndex)
 		if(folderlistview.currentIndex > 0)
 			folderlistview.currentIndex -= 1
 	}
 
 	function moveFocusFiveDown() {
+		verboseMessage("Folders::moveFocusFiveDown()", folderlistview.currentIndex + " - " + folderlistview.count)
 		if(folderlistview.currentIndex+5 < folderlistview.count)
 			folderlistview.currentIndex += 5
 		else
@@ -181,6 +189,7 @@ Rectangle {
 	}
 
 	function moveFocusFiveUp() {
+		verboseMessage("Folders::moveFocusFiveUp()", folderlistview.currentIndex)
 		if(folderlistview.currentIndex > 4)
 			folderlistview.currentIndex -= 5
 		else
@@ -188,16 +197,20 @@ Rectangle {
 	}
 
 	function focusOnLastItem() {
+		verboseMessage("Folders::focusOnLastItem()", folderlistview.currentIndex + " - " + folderlistview.count)
 		if(folderlistview.count > 0)
 			folderlistview.currentIndex = folderlistview.count-1
 	}
 
 	function focusOnFirstItem() {
+		verboseMessage("Folders::focusOnFirstItem()", folderlistview.currentIndex + " - " + folderlistview.count)
 		if(folderlistview.count > 0)
 			folderlistview.currentIndex = 0
 	}
 
 	function moveOneLevelUp() {
+
+		verboseMessage("Folders::moveOneLevelUp()", "")
 
 		var parts = dir_path.split("/")
 

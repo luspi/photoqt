@@ -186,6 +186,8 @@ Rectangle {
 
 	Keys.onPressed: {
 
+		verboseMessage("UserPlaces.Keys::onPressed", event.modifiers + " - " + event.key)
+
 		if(event.key === Qt.Key_Left) {
 
 			if(event.modifiers & Qt.AltModifier)
@@ -222,6 +224,8 @@ Rectangle {
 	}
 
 	function loadUserPlaces() {
+
+		verboseMessage("UserPlaces::loadUserPlaces()", "")
 
 		// We store the current index in a variable to re-set it afterwards
 		// If the userplaces file got changed during runtime, then this ensures the highlighted index remains the same
@@ -300,6 +304,8 @@ Rectangle {
 
 	function saveUserPlacesExceptCurrentlyHighlighted() {
 
+		verboseMessage("UserPlaces::saveUserPlacesExceptCurrentlyHighlighted()", "")
+
 		var ret = [[]]
 
 		for(var i = 0; i < userplaces.count; ++i) {
@@ -314,11 +320,15 @@ Rectangle {
 
 	function loadCurrentlyHighlightedFolder() {
 
+		verboseMessage("UserPlaces::loadCurrentlyHighlightedFolder()", "")
+
 		loadCurrentDirectory(userplacesmodel.get(userplaces.currentIndex).location)
 
 	}
 
 	function focusOnNextItem() {
+
+		verboseMessage("UserPlaces::focusOnNextItem()", userplaces.currentIndex + " - " + userplaces.count)
 
 		if(userplaces.currentIndex+1 < userplaces.count)
 			userplaces.currentIndex += 1
@@ -330,6 +340,8 @@ Rectangle {
 
 	function focusOnPrevItem() {
 
+		verboseMessage("UserPlaces::focusOnPrevItem()", userplaces.currentIndex + " - " + userplaces.count)
+
 		if(userplaces.currentIndex > 0)
 			userplaces.currentIndex -= 1
 
@@ -339,6 +351,8 @@ Rectangle {
 	}
 
 	function moveFocusFiveDown() {
+
+		verboseMessage("UserPlaces::moveFocusFiveDown()", userplaces.currentIndex + " - " + userplaces.count)
 
 		if(userplaces.currentIndex+5 < userplaces.count)
 			userplaces.currentIndex += 5
@@ -351,6 +365,8 @@ Rectangle {
 	}
 
 	function moveFocusFiveUp() {
+
+		verboseMessage("UserPlaces::moveFocusFiveUp()", userplaces.currentIndex + " - " + userplaces.count)
 
 		if(userplaces.currentIndex > 4)
 			userplaces.currentIndex -= 5

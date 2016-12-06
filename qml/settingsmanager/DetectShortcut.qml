@@ -427,6 +427,7 @@ Rectangle {
 	}
 
 	function checkResult() {
+		verboseMessage("DetectShortcut::checkResult()", countdownlabel.text + " - " + successful + " - " + category)
 		if(countdownlabel.text == "0") {
 			hide()
 			if(successful) {
@@ -446,17 +447,20 @@ Rectangle {
 
 	// Show element
 	function show() {
+		verboseMessage("DetectShortcut::show()", opacity + " to 1")
 		opacity = 1
 		resetInterface()
 	}
 	// Hide element
 	function hide() {
+		verboseMessage("DetectShortcut::hide()", opacity + " to 0")
 		opacity = 0
 		countdowntimer.stop()
 	}
 
 	// Reset interface and show empty message
 	function resetInterface() {
+		verboseMessage("DetectShortcut::resetInterface()","")
 		switchTo("empty")
 		successful = false
 		countdown.reset()
@@ -464,6 +468,7 @@ Rectangle {
 
 	// Switch to a different category
 	function switchTo(cat) {
+		verboseMessage("DetectShortcut::switchTo()",cat)
 		// Unfinished gesture (if finished, this boolean will be set to true later in the finished*() function
 		successful = false
 		category = cat
@@ -475,11 +480,12 @@ Rectangle {
 
 	// Update to mouse gesture
 	function updateMouseGesture(button, gesture, modifiers) {
+		if(opacity != 1) return
+		verboseMessage("DetectShortcut::updateMouseGesture()",button + " - " + gesture + " - " + modifiers)
 		if(bottom.x+cancelbutton.x <= localcursorpos.x && bottom.y+cancelbutton.y <= localcursorpos.y
 			&& bottom.x+cancelbutton.x+cancelbutton.width >= localcursorpos.x
 				&& bottom.y+cancelbutton.y+cancelbutton.height >= localcursorpos.y)
 			return
-		if(opacity != 1) return
 		switchTo("mouse")
 		info_mouse_button.text = str_mouse.get(button)
 		info_mouse_modifier.text = (modifiers == "" ? "-" : str_keys.translateKeyCombo(modifiers))
@@ -497,11 +503,12 @@ Rectangle {
 
 	// Completed mouse gesture
 	function finishedMouseGesture(button, gesture, modifiers) {
+		if(opacity != 1) return
+		verboseMessage("DetectShortcut::finishedMouseGesture()",button + " - " + gesture + " - " + modifiers)
 		if(bottom.x+cancelbutton.x <= localcursorpos.x && bottom.y+cancelbutton.y <= localcursorpos.y
 			&& bottom.x+cancelbutton.x+cancelbutton.width >= localcursorpos.x
 				&& bottom.y+cancelbutton.y+cancelbutton.height >= localcursorpos.y)
 			return
-		if(opacity != 1) return
 		switchTo("mouse")
 		info_mouse_button.text = str_mouse.get(button)
 		info_mouse_modifier.text = (modifiers == "" ? "-" : str_keys.translateKeyCombo(modifiers))
@@ -519,6 +526,7 @@ Rectangle {
 	// Update to touch gesture
 	function updateTouchGesture(fingers, type, path) {
 		if(opacity != 1) return
+		verboseMessage("DetectShortcut::finishedMouseGesture()",fingers + " - " + type + " - " + path)
 		switchTo("touch")
 		info_touch_fingers.text = fingers
 		//: A 'pinch inwards' refers to two fingers on a touchscreen that are dragged towards each other
@@ -541,6 +549,7 @@ Rectangle {
 	// Completed touch gesture
 	function finishedTouchGesture(fingers, type, path) {
 		if(opacity != 1) return
+		verboseMessage("DetectShortcut::finishedMouseGesture()",fingers + " - " + type + " - " + path)
 		switchTo("touch")
 		info_touch_fingers.text = fingers
 		//: A 'pinch inwards' refers to two fingers on a touchscreen that are dragged towards each other
@@ -563,6 +572,7 @@ Rectangle {
 	// Update to key shortcut
 	function updateKeyShortcut(combo) {
 		if(opacity != 1) return
+		verboseMessage("DetectShortcut::updateKeyShortcut()",combo)
 		switchTo("key")
 		info_key_combo.text = str_keys.translateKeyCombo(combo)
 
@@ -581,6 +591,8 @@ Rectangle {
 
 	function setTakenShortcuts(key_shortcuts, mouse_shortcuts, _touch_shortcuts) {
 
+		verboseMessage("DetectShortcut::setTakenShortcuts()","")
+
 		checkAllShortcuts = {}
 
 		for(var i in key_shortcuts)
@@ -593,6 +605,8 @@ Rectangle {
 	}
 
 	function updateTakenShortcut(old_shortcut, new_shortcut) {
+
+		verboseMessage("DetectShortcut::setTakenShortcuts()",old_shortcut + " - " + new_shortcut)
 
 		checkAllShortcuts[old_shortcut] -= 1;
 
@@ -611,6 +625,8 @@ Rectangle {
 
 	function checkForShortcutErrors() {
 
+		verboseMessage("DetectShortcut::checkForShortcutErrors()","")
+
 		var err = false
 
 		for(var ele in checkAllShortcuts) {
@@ -627,6 +643,8 @@ Rectangle {
 	}
 
 	function checkIfShortcutTaken(sh) {
+
+		verboseMessage("DetectShortcut::checkIfShortcutTaken()",sh)
 
 		if(sh === undefined || sh === "")
 			return false

@@ -474,6 +474,8 @@ Rectangle {
 
 	function saveSettings() {
 
+		verboseMessage("Settings::saveSettings()",detectshortcut.checkForShortcutErrors())
+
 		if(detectshortcut.checkForShortcutErrors())
 			invalidshortcuts.show()
 		else {

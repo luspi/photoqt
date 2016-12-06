@@ -181,6 +181,7 @@ GridView {
 	}
 
 	function loadFiles(files) {
+		verboseMessage("FilesViewGrid::loadFiles()", files.length)
 		gridviewmodel.clear()
 		contentY = 0
 		for(var j = 0; j < files.length; j+=2)
@@ -189,6 +190,8 @@ GridView {
 	}
 
 	function focusOnFile(filename) {
+
+		verboseMessage("FilesViewGrid::focusOnFile()", filename)
 
 		var pattern = new RegExp(escapeRegExp(filename) + ".*","i")
 		if(pattern.test(files[2*currentIndex])) return

@@ -251,18 +251,25 @@ Rectangle {
 
 	}
 
-	function show() { showOpenAni.start(); }
+	function show() {
+		verboseMessage("OpenFile::show()", opacity + " to 1")
+		showOpenAni.start();
+	}
 
 	function hide() {
 
 		if(openshortcuts.visible)
 			openshortcuts.reject()
-		else
+		else {
+			verboseMessage("OpenFile::hide()", opacity + " to 0")
 			hideOpenAni.start();
+		}
 
 	}
 
 	function loadCurrentDirectory(path) {
+
+		verboseMessage("OpenFile::loadCurrentDirectory()", path)
 
 		setOverrideCursor()
 
@@ -277,6 +284,7 @@ Rectangle {
 	}
 
 	function reloadUserPlaces() {
+		verboseMessage("OpenFile::reloadUserPlaces()", "")
 		userplaces.loadUserPlaces()
 	}
 
