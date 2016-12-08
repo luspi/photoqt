@@ -155,7 +155,7 @@ Rectangle {
 
 		if(!thumbnailBar.contains(thumbPos))
 			thumbnailBar.hide()
-		if((!metaData.contains(localcursorpos) && !metaData.getButtonState()) || thumbnailBar.contains(thumbPos))
+		if(!metaData.contains(localcursorpos) && !metaData.getButtonState())
 			metaData.hide()
 		if(!mainmenu.contains(mainmenuPos) || thumbnailBar.contains(thumbPos))
 			mainmenu.hide()
