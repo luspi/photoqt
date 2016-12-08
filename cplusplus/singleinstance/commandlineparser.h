@@ -36,7 +36,7 @@ public:
 		parser.addOption(opt_thumbs);
 		QCommandLineOption opt_startintray("start-in-tray", tr("Start PhotoQt hidden to the system tray (at start-up only)"));
 		parser.addOption(opt_startintray);
-		QCommandLineOption opt_verbose("verbose", tr("Enable debug messages (at start-up only)"));
+		QCommandLineOption opt_verbose(QStringList() << "debug" << "verbose", tr("Enable debug messages (at start-up only)"));
 		parser.addOption(opt_verbose);
 
 		// Add optional argument 'filename'
