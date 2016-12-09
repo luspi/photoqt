@@ -107,7 +107,7 @@ Rectangle {
 				// What shortcut this is
 				Rectangle {
 					height: ele.height-4
-					width: ele.width/2-6-closeitem.width-4
+					width: ele.width/2-6-(closeitem.visible ? closeitem.width : 0)-4
 					color: "transparent"
 					Text {
 						id: thetitle
