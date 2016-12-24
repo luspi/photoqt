@@ -436,7 +436,7 @@ void MainWindow::updateWindowGeometry() {
 	// NOTE: setScreen() currently doesn't seem to work on Linux!!
 	if(settingsPermanent->openOnScreen) {
 		QList<QScreen *> sc = qApp->screens();
-		for(unsigned int i = 0; i < sc.length(); ++i) {
+		for(int i = 0; i < sc.length(); ++i) {
 			if(sc.at(i)->name() == settingsPermanent->openOnScreenName) {
 				this->setScreen(qApp->screens()[1]);
 				i = sc.length();

@@ -5,7 +5,7 @@
 
 namespace MouseButton {
 
-	static QString extract(QMouseEvent *e) {
+	inline QString extract(QMouseEvent *e) {
 
 		switch(e->button()) {
 

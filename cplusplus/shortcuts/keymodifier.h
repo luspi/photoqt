@@ -5,7 +5,7 @@
 
 namespace KeyModifier {
 
-	static QString extract_(Qt::KeyboardModifiers keymods) {
+	inline QString extract_(Qt::KeyboardModifiers keymods) {
 
 		QStringList mods;
 		bool isvalid = false;
@@ -35,16 +35,16 @@ namespace KeyModifier {
 
 	}
 
-	static QString extract(QKeyEvent *e) {
+	inline QString extract(QKeyEvent *e) {
 		return extract_(e->modifiers());
 	}
-	static QString extract(QTouchEvent *e) {
+	inline QString extract(QTouchEvent *e) {
 		return extract_(e->modifiers());
 	}
-	static QString extract(QMouseEvent *e) {
+	inline QString extract(QMouseEvent *e) {
 		return extract_(e->modifiers());
 	}
-	static QString extract(QEvent *e) {
+	inline QString extract(QEvent *e) {
 		return extract_(((QKeyEvent*)e)->modifiers());
 	}
 

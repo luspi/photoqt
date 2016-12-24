@@ -309,7 +309,7 @@ QString GetAndDoStuffShortcuts::filterOutShortcutCommand(QString combo, QString 
 bool GetAndDoStuffShortcuts::isTouchScreenAvailable() {
 
 	unsigned int counter = 0;
-	for(unsigned int i = 0; i < QTouchDevice::devices().length(); ++i) {
+	for(int i = 0; i < QTouchDevice::devices().length(); ++i) {
 		if(QTouchDevice::devices().at(i)->type() == QTouchDevice::TouchScreen)
 			++counter;
 	}

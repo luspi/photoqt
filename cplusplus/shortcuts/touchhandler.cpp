@@ -56,7 +56,7 @@ void TouchHandler::touchStarted(QTouchEvent *e) {
 		emit setImageInteractiveMode(true);
 
 	// Get initial touch points
-	for(unsigned int f = 0; f < numFingers; ++f) {
+	for(int f = 0; f < numFingers; ++f) {
 		touchPathPts.append(QList<QTouchEvent::TouchPoint>());
 		touchPathPts[f].append(e->touchPoints().at(f));
 		touchPath.append(QStringList());
@@ -64,7 +64,7 @@ void TouchHandler::touchStarted(QTouchEvent *e) {
 
 	// Calculate initial center point of all touch points
 	double x = 0, y = 0;
-	for(unsigned int f = 0; f < numFingers; ++f) {
+	for(int f = 0; f < numFingers; ++f) {
 		x += e->touchPoints().at(f).pos().x();
 		y += e->touchPoints().at(f).pos().y();
 	}
@@ -97,7 +97,7 @@ void TouchHandler::touchUpdated(QTouchEvent *e) {
 	bool movedAtLeastThresholdDistance = false;
 
 	// Loop over all touch points
-	for(unsigned int f = 0; f < e->touchPoints().count(); ++f) {
+	for(int f = 0; f < e->touchPoints().count(); ++f) {
 
 		// Get current touch points
 		QTouchEvent::TouchPoint cur = e->touchPoints().at(f);
@@ -227,7 +227,7 @@ QVariantList TouchHandler::analyseGestureUpToNow() {
 
 	// Calculate final center point of all touch points
 	double x = 0, y = 0;
-	for(unsigned int f = 0; f < numFingers; ++f) {
+	for(int f = 0; f < numFingers; ++f) {
 		x += touchPathPts[f].last().pos().x();
 		y += touchPathPts[f].last().pos().y();
 	}
@@ -236,7 +236,7 @@ QVariantList TouchHandler::analyseGestureUpToNow() {
 	// Figure the max/min of points for all fingers combined
 	int maxlength = 0;
 	int minlength = std::numeric_limits<int>::max();
-	for(unsigned int f = 0; f < numFingers; ++f) {
+	for(int f = 0; f < numFingers; ++f) {
 		maxlength = qMax(maxlength,touchPath[f].count());
 		minlength = qMin(minlength, touchPath[f].count());
 	}
@@ -253,10 +253,10 @@ QVariantList TouchHandler::analyseGestureUpToNow() {
 		QStringList combinedPath;
 
 		// analyse to retrieve combined path
-		for(unsigned int i = 0; i < minlength; ++i) {
+		for(int i = 0; i < minlength; ++i) {
 			bool same = true;
 			QString cur = touchPath[0][i];
-			for(unsigned int f = 0; f < numFingers; ++f) {
+			for(int f = 0; f < numFingers; ++f) {
 				if(touchPath[f][i] != cur)
 					same = false;
 			}
@@ -291,7 +291,7 @@ QVariantList TouchHandler::analyseGestureUpToNow() {
 				bool west = false;
 
 				// Check which directions are in use
-				for(unsigned int i = 0; i < numFingers; ++i) {
+				for(int i = 0; i < numFingers; ++i) {
 					if(touchPath[i][0] == "N")
 						north = true;
 					else if(touchPath[i][0] == "E")
