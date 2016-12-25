@@ -62,8 +62,10 @@ QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
 				icon = ele_icon.attributes().namedItem("name").nodeValue();
 			}
 
-			if(location.startsWith("file:/"))
+			if(location.startsWith("file:///"))
 				location = location.remove(0,7);
+			else if(location.startsWith("file://"))
+				location = location.remove(0,6);
 
 			QVariantList ele = QVariantList() << "user" << title << location << icon;
 
