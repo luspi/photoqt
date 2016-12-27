@@ -28,8 +28,6 @@ public:
 	explicit GetAndDoStuffOther(QObject *parent = 0);
 	~GetAndDoStuffOther();
 
-	bool isImageAnimated(QString path);
-	QSize getAnimatedImageSize(QString path);
 	QPoint getGlobalCursorPos();
 	QColor addAlphaToColor(QString col, int alpha);
 	bool amIOnLinux();
@@ -47,12 +45,6 @@ public:
 	bool isLibRawSupportEnabled();
 	QString getVersionString();
 	QList<QString> getScreenNames();
-
-private:
-	QImageReader reader;
-#ifdef GM
-	GmImageMagick imagemagick;
-#endif
 
 };
 

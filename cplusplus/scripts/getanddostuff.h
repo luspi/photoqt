@@ -78,8 +78,6 @@ public:
 	Q_INVOKABLE void moveImage(QString path) { manipulation->moveImage(path); }
 
 	// OTHER
-	Q_INVOKABLE bool isImageAnimated(QString path) { return other->isImageAnimated(path); }
-	Q_INVOKABLE QSize getAnimatedImageSize(QString path) { return other->getAnimatedImageSize(path); }
 	Q_INVOKABLE QPoint getGlobalCursorPos() { return other->getGlobalCursorPos(); }
 	Q_INVOKABLE QColor addAlphaToColor(QString col, int alpha) { return other->addAlphaToColor(col, alpha); }
 	Q_INVOKABLE bool amIOnLinux() { return other->amIOnLinux(); }
@@ -132,6 +130,8 @@ public:
 	Q_INVOKABLE void setOpenFileLastLocation(QString path) { openfile->setOpenFileLastLocation(path); }
 
 	// IMAGE INFO
+	Q_INVOKABLE bool isImageAnimated(QString path) { return imageinfo->isImageAnimated(path); }
+	Q_INVOKABLE QSize getAnimatedImageSize(QString path) { return imageinfo->getAnimatedImageSize(path); }
 	Q_INVOKABLE QList<int> getGreyscaleHistogramValues(QString filename) { return imageinfo->getGreyscaleHistogramValues(filename); }
 	Q_INVOKABLE QList<int> getColorHistogramValues(QString filename) { return imageinfo->getColorHistogramValues(filename); }
 	Q_INVOKABLE QList<int> getNumFramesAndDuration(QString filename) { return imageinfo->getNumFramesAndDuration(filename); }

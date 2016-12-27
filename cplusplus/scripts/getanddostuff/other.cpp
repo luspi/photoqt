@@ -4,32 +4,6 @@
 GetAndDoStuffOther::GetAndDoStuffOther(QObject *parent) : QObject(parent) { }
 GetAndDoStuffOther::~GetAndDoStuffOther() { }
 
-bool GetAndDoStuffOther::isImageAnimated(QString path) {
-
-	if(path.startsWith("image://full/"))
-		path = path.remove(0,13);
-	if(path.contains("::photoqt::"))
-		path = path.split("::photoqt::").at(0);
-
-	return QMovie::supportedFormats().contains(QFileInfo(path).suffix().toLower().toUtf8());
-
-}
-
-QSize GetAndDoStuffOther::getAnimatedImageSize(QString path) {
-
-	path = path.remove("image://full/");
-	path = path.remove("file:/");
-
-	if(path.trimmed() == "") {
-		std::cout << "empty...";
-		return QSize();
-	}
-
-	QImageReader reader(path);
-	return reader.size();
-
-}
-
 QPoint GetAndDoStuffOther::getGlobalCursorPos() {
 
 	return QCursor::pos();

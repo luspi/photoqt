@@ -6,6 +6,32 @@ GetAndDoStuffImageInfo::GetAndDoStuffImageInfo(QObject *parent) : QObject(parent
 }
 GetAndDoStuffImageInfo::~GetAndDoStuffImageInfo() { }
 
+bool GetAndDoStuffImageInfo::isImageAnimated(QString path) {
+
+	if(path.startsWith("image://full/"))
+		path = path.remove(0,13);
+	if(path.contains("::photoqt::"))
+		path = path.split("::photoqt::").at(0);
+
+	return QMovie::supportedFormats().contains(QFileInfo(path).suffix().toLower().toUtf8());
+
+}
+
+QSize GetAndDoStuffImageInfo::getAnimatedImageSize(QString path) {
+
+	path = path.remove("image://full/");
+	path = path.remove("file:/");
+
+	if(path.trimmed() == "") {
+		std::cout << "empty...";
+		return QSize();
+	}
+
+	QImageReader reader(path);
+	return reader.size();
+
+}
+
 QList<int> GetAndDoStuffImageInfo::getGreyscaleHistogramValues(QString filename) {
 
 	QSize *tmp = new QSize();
