@@ -4,7 +4,6 @@ ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider
 
 	verbose = false;
 
-	settingsPerSession = new QSettings("photoqt_session");
 	settings = new Settings;
 	fileformats = new FileFormats(verbose);
 
@@ -24,7 +23,6 @@ ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider
 }
 
 ImageProviderFull::~ImageProviderFull() {
-	delete settingsPerSession;
 	delete settings;
 	delete fileformats;
 	delete pixmapcache;

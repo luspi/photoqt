@@ -163,8 +163,6 @@ Rectangle {
 			slideshowbar.hideBar()
 	}
 	function hideMetadata() {
-		if(settingssession.value("metadatakeepopen") === true)
-			settingssession.setValue("metadatakeepopen",false)
 		metaData.uncheckCheckbox()
 		metaData.hide()
 	}

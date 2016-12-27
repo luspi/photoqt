@@ -18,9 +18,8 @@ Rectangle {
 		backgroundColor: "#313131"
 		radius: 5
 		showBorder: false
-		currentIndex: settingssession.value("OpenFileTypesDisplayed",0)
+		currentIndex: 0
 		onCurrentIndexChanged: {
-			settingssession.setValue("OpenFileTypesDisplayed",currentIndex)
 			openfile_top.loadCurrentDirectory(openfile_top.currentlyLoadedDir)
 		}
 		model: [qsTr("All supported images"), "Qt " +

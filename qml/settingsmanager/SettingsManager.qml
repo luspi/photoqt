@@ -388,8 +388,6 @@ Rectangle {
 		settingsmanagershortcuts.shortcuts[str_keys.get("ctrl") + "+S"] = qsTr("Save settings")
 		//: Inform the user of a possible shortcut action in the settings manager
 		settingsmanagershortcuts.shortcuts[str_keys.get("escape")] = qsTr("Discard settings")
-
-		settingssession.setValue("settings_titlewidth",100)
 	}
 
 	DetectShortcut {

@@ -149,10 +149,8 @@ Rectangle {
 			fsize: 8
 			textColour: getanddostuff.addAlphaToColor(colour.text,100)
 			text: qsTr("Keep Open")
-			onButtonCheckedChanged: {
-				settingssession.setValue("metadatakeepopen",check.checkedButton)
+			onButtonCheckedChanged:
 				updateNonFloatWidth()
-			}
 		}
 	}
 	function updateNonFloatWidth() {

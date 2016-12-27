@@ -54,7 +54,6 @@ private:
 	bool verbose;
 
 	QSize maxSize;
-	QSettings *settingsPerSession;
 	Settings *settings;
 	FileFormats *fileformats;
 

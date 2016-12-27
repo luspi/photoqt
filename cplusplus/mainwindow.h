@@ -41,7 +41,6 @@
 #include "imageprovider/imageprovidericon.h"
 #include "settings/settings.h"
 #include "settings/fileformats.h"
-#include "settings/settingssession.h"
 #include "settings/colour.h"
 #include "variables.h"
 #include "shortcuts/shortcutsnotifier.h"
@@ -76,7 +75,6 @@ private:
 	QObject *object;
 	LoadDir *loadDir;
 
-	SettingsSession *settingsPerSession;
 	Settings *settingsPermanent;
 	FileFormats *fileformats;
 	Variables *variables;

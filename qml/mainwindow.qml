@@ -1,7 +1,6 @@
 import QtQuick 2.3
 import Settings 1.0
 import FileFormats 1.0
-import SettingsSession 1.0
 import GetAndDoStuff 1.0
 import GetMetaData 1.0
 import ThumbnailManagement 1.0
@@ -70,7 +69,6 @@ Item {
 	readonly property int safetyDistanceForSlidein: 500
 
 
-
 	/////////////////////////////////////////////////
 	// THE FOLLOWING ITEMS DO NOT HAVE A VISUAL    //
 	// REPRESENTATION! THEY HAVE MERELY FUNCTIONAL //
@@ -87,7 +85,6 @@ Item {
 		onHidexChanged: quickInfo.updateQuickInfo(quickInfo._pos, thumbnailBar.totalNumberImages, thumbnailBar.currentFile)
 	}
 	FileFormats { id: fileformats; }
-	SettingsSession { id: settingssession; }
 	Colour { id: colour; }
 	GetAndDoStuff {
 		id: getanddostuff;

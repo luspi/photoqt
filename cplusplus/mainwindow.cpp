@@ -9,7 +9,6 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 #endif
 
 	// Settings and variables
-	settingsPerSession = new SettingsSession;
 	settingsPermanent = new Settings;
 	fileformats = new FileFormats(verbose);
 	variables = new Variables;
@@ -33,7 +32,6 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 	// Add settings access to QML
 	qmlRegisterType<Settings>("Settings", 1, 0, "Settings");
 	qmlRegisterType<FileFormats>("FileFormats", 1, 0, "FileFormats");
-	qmlRegisterType<SettingsSession>("SettingsSession", 1, 0, "SettingsSession");
 	qmlRegisterType<GetMetaData>("GetMetaData", 1, 0, "GetMetaData");
 	qmlRegisterType<GetAndDoStuff>("GetAndDoStuff", 1, 0, "GetAndDoStuff");
 	qmlRegisterType<ThumbnailManagement>("ThumbnailManagement", 1, 0, "ThumbnailManagement");
@@ -163,17 +161,14 @@ void MainWindow::handleOpenFileEvent(QString filename, QString filter) {
 
 	// Get and store length
 	int l_length = l.length();
-	settingsPerSession->setValue("countTot",l_length);
 
 	// Convert QFileInfoList into QStringList and store it
 	QStringList ll;
 	for(int i = 0; i < l_length; ++i)
 		ll.append(l.at(i).absoluteFilePath());
-	settingsPerSession->setValue("allFileList", ll);
 
 	// Get and store current position
 	int curPos = l.indexOf(QFileInfo(file));
-	settingsPerSession->setValue("curPos",curPos);
 
 	// Setiup thumbnail model
 	QMetaObject::invokeMethod(object, "setupModel",
@@ -543,7 +538,6 @@ void MainWindow::qmlVerboseMessage(QString loc, QString msg) {
 MainWindow::~MainWindow() {
 	QFile file(CFG_SETTINGS_SESSION_FILE);
 	file.remove();
-	delete settingsPerSession;
 	delete settingsPermanent;
 	delete fileformats;
 	if(variables->trayiconSetup) delete trayIcon;
