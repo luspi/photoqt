@@ -233,7 +233,7 @@ void GetAndDoStuffOpenFile::addToUserPlaces(QString path) {
 	QDomElement root = doc.documentElement();
 
 	QDomElement bookmark = doc.createElement("bookmark");
-	bookmark.setAttribute("href","file:/" + path);
+	bookmark.setAttribute("href","file://" + path);
 
 	QDomElement title = doc.createElement("title");
 	QDomText titleText = doc.createTextNode(QFileInfo(path).fileName());
@@ -280,7 +280,7 @@ void GetAndDoStuffOpenFile::saveUserPlaces(QVariantList enabled) {
 		if(cur.length() == 4) {
 
 			QDomElement bookmark = doc.createElement("bookmark");
-			bookmark.setAttribute("href","file:/" + cur.at(2).toString());
+			bookmark.setAttribute("href","file://" + cur.at(2).toString());
 
 			QDomElement title = doc.createElement("title");
 			QDomText titleText = doc.createTextNode(QFileInfo(cur.at(1).toString()).fileName());
