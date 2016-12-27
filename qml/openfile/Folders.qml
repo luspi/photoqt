@@ -152,6 +152,8 @@ Rectangle {
 
 	function loadDirectory(path) {
 
+		if(path == "") return
+
 		verboseMessage("Folders::loadDirectory()", path)
 
 		folderlistmodel.clear()

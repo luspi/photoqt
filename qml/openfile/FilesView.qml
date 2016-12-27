@@ -111,6 +111,8 @@ Rectangle {
 
 	function loadDirectory(path) {
 
+		if(path == "") return
+
 		verboseMessage("FilesView::loadDirectory()",path)
 
 		files = getanddostuff.getFilesWithSizeIn(path, tweaks.getFileTypeSelection())
