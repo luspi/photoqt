@@ -1,5 +1,5 @@
-# PhotoQt v1.4.1
-__Copyright (C) 2016, Lukas Spies (Lukas@photoqt.org)
+# PhotoQt v1.5
+__Copyright (C) 2012-2017, Lukas Spies (Lukas@photoqt.org)
 License: GPLv2 (or later)
 Website: http://photoqt.org__
 
@@ -13,7 +13,7 @@ PhotoQt is a fast and highly configurable image viewer with a simple and nice in
 - CMake (needed for building PhotoQt)
 
 Make sure that you have the needed Qt modules installed:  
-QtQuick, QtQuick.Controls, QtQuick.Controls.Styles, QtQuick.Dialogs, QtQuick.Layouts, QtQuick.Window, QtQml.Models, Qt.labs.folderlistmodel, QtGraphicalEffects, QtMultimedia.  
+QtQuick, QtQuick.Controls, QtQuick.Controls.Styles, QtQuick.Dialogs, QtQuick.Layouts, QtQuick.Window, QtQml.Models, Qt.labs.folderlistmodel, Qt.labs.settings, QtGraphicalEffects, QtMultimedia.  
 Dependencies, that are needed by default, but can be disabled via CMake
 
 - Exiv2
@@ -26,7 +26,7 @@ On some systems you also need the *-dev package for compiling (e.g. exiv2-dev - 
 
 #### NOTE
 
-Even though GraphicsMagick initially started as a fork of ImageMagick (in 2002), trying to build PhotoQt with ImageMagick wont work!
+Even though GraphicsMagick initially started as a fork of ImageMagick (back in 2002), trying to build PhotoQt with ImageMagick wont work!
 
 ## OPTIONAL DEPENDENCIES
 
@@ -55,7 +55,7 @@ These dependencies are not needed for compiling PhotoQt. However, if they are in
 	 _-DRAW=OFF_
 
 	 \# You can combine them in any way you want.  
-	 \# The following option equates to setting the two above options to OFF
+	 \# The following option equates to setting the three above options to OFF
 
 	 _-DQTONLY=ON_
 
