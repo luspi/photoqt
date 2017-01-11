@@ -41,6 +41,7 @@ Rectangle {
 				color: "white"
 				font.pointSize: 20
 				font.bold: true
+				//: Used as heading of tab in the settings manager
 				text: qsTr("Look and Feel")
 				horizontalAlignment: Text.AlignHCenter
 			}
@@ -51,7 +52,7 @@ Rectangle {
 				width: flickable.width
 				color: "white"
 				font.pointSize: 9
-				text: qsTr("Move your mouse cursor over the different settings titles to see more information.")
+				text: qsTranslate("SettingsManager", "Move your mouse cursor over the different settings titles to see more information.")
 				horizontalAlignment: Text.AlignHCenter
 			}
 
@@ -78,8 +79,8 @@ Rectangle {
 			MouseWheelSensitivity { id: mousewheel }
 			Interpolation { id: interpolation; alternating: true }
 			PixmapCache { id: pixmapcache }
-			TouchScreen { id: touchscreen; alternating: true }
-			Remember { id: remember }
+			ReOpenFile { id: reopenfile; alternating: true }
+			Keep { id: remember }
 			Animation { id: animation; alternating: true }
 		}
 
@@ -104,7 +105,7 @@ Rectangle {
 		mousewheel.setData()
 		interpolation.setData()
 		pixmapcache.setData()
-		touchscreen.setData()
+		reopenfile.setData()
 		remember.setData()
 		animation.setData()
 
@@ -129,7 +130,7 @@ Rectangle {
 		mousewheel.saveData()
 		interpolation.saveData()
 		pixmapcache.saveData()
-		touchscreen.saveData()
+		reopenfile.saveData()
 		remember.saveData()
 		animation.saveData()
 

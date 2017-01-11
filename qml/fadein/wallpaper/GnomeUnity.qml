@@ -26,6 +26,7 @@ Rectangle {
 			width: wallpaper_top.width
 			wrapMode: Text.WordWrap
 			horizontalAlignment: Text.AlignHCenter
+			//: Wallpaper: Gnome/Unity warning
 			text: qsTr("Warning: 'gsettings' doesn't seem to be available! Are you sure Gnome/Unity is installed?");
 		}
 

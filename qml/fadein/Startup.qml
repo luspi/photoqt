@@ -18,6 +18,8 @@ Rectangle {
 
 	property string type: ""
 
+	property string openFileAfter: ""
+
 	// Catch mouse events
 	MouseArea {
 		anchors.fill: parent
@@ -82,7 +84,8 @@ Rectangle {
 				wrapMode: Text.WordWrap
 				horizontalAlignment: Text.AlignHCenter
 				anchors.horizontalCenter: parent.horizontalCenter
-				text: type=="installed" ? qsTr("PhotoQt was successfully installed!<br>An image viewer packed with features and adjustable in every detail awaits you... Go, enjoy :-)") : qsTr("PhotoQt was successfully updated!<br>Many new features and bug fixes await you... Go, enjoy :-)")
+				text: type=="installed" ? qsTr("PhotoQt was successfully installed!") + "<br>" + qsTr("An image viewer packed with features and adjustable in every detail awaits you... Go, enjoy :-)")
+										: qsTr("PhotoQt was successfully updated!") + "<br>" + qsTr("Many new features and bug fixes await you... Go, enjoy :-)")
 			}
 
 			Rectangle {
@@ -102,9 +105,10 @@ Rectangle {
 
 	} // END Flickable
 
-	function showStartup(t) {
+	function showStartup(t, filenameAfter) {
 
 		type = t;
+		openFileAfter = filenameAfter
 
 		showStartupAni.start()
 
@@ -123,7 +127,10 @@ Rectangle {
 		onStopped: {
 			visible = false
 			blocked = false
-			openFile()
+			if(openFileAfter == "")
+				openFile()
+			else
+				reloadDirectory(openFileAfter,"")
 		}
 	}
 

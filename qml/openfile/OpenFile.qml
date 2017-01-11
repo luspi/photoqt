@@ -227,14 +227,22 @@ Rectangle {
 
 		// We needto do that here, as it seems to be not possible to compose a string in the dict definition
 		// (i.e., when defining the property, inside the {})
-		openshortcuts.shortcuts[str_keys.alt + " + " + str_keys.arrow_left + "/" + str_keys.arrow_right] = qsTr("Move focus between Places/Folders/Fileview")
-		openshortcuts.shortcuts[str_keys.arrow_up + "/" + str_keys.arrow_down] = qsTr("Go up/down an entry")
-		openshortcuts.shortcuts[str_keys.pageUp + "/" +str_keys.pageDown] = qsTr("Move 5 entries up/down")
-		openshortcuts.shortcuts[str_keys.ctrl + " + " + str_keys.arrow_up + "/" + str_keys.arrow_down] = qsTr("Move to the first/last entry")
-		openshortcuts.shortcuts[str_keys.alt + " + " + str_keys.arrow_up] = qsTr("Go one folder level up")
-		openshortcuts.shortcuts[str_keys.ctrl + " + B/F"] = qsTr("Go backwards/forwards in history");
-		openshortcuts.shortcuts[str_keys.enter + "/" + str_keys.ret] = qsTr("Load the currently highlighted item")
-		openshortcuts.shortcuts[str_keys.esc] = "Cancel"
+		//: This is used in the context of the 'Open File' element with its three panes
+		openshortcuts.shortcuts[str_keys.get("alt") + " + " + str_keys.get("left") + "/" + str_keys.get("right")] = qsTr("Move focus between Places/Folders/Fileview")
+		//: This is used in the context of the 'Open File' element
+		openshortcuts.shortcuts[str_keys.get("up") + "/" + str_keys.get("down")] = qsTr("Go up/down an entry")
+		//: This is used in the context of the 'Open File' element
+		openshortcuts.shortcuts[str_keys.get("page up") + "/" +str_keys.get("page down")] = qsTr("Move 5 entries up/down")
+		//: This is used in the context of the 'Open File' element
+		openshortcuts.shortcuts[str_keys.get("ctrl") + " + " + str_keys.get("up") + "/" + str_keys.get("down")] = qsTr("Move to the first/last entry")
+		//: This is used in the context of the 'Open File' element
+		openshortcuts.shortcuts[str_keys.get("alt") + " + " + str_keys.get("up")] = qsTr("Go one folder level up")
+		//: This is used in the context of the 'Open File' element
+		openshortcuts.shortcuts[str_keys.get("ctrl") + " + B/F"] = qsTr("Go backwards/forwards in history");
+		//: This is used in the context of the 'Open File' element
+		openshortcuts.shortcuts[str_keys.get("enter") + "/" + str_keys.get("return")] = qsTr("Load the currently highlighted item")
+		//: This is used in the context of the 'Open File' element
+		openshortcuts.shortcuts[str_keys.get("escape")] = qsTr("Cancel")
 
 		userplaces.loadUserPlaces()
 		loadCurrentDirectory(dir_path)
@@ -243,18 +251,25 @@ Rectangle {
 
 	}
 
-	function show() { showOpenAni.start(); }
+	function show() {
+		verboseMessage("OpenFile::show()", opacity + " to 1")
+		showOpenAni.start();
+	}
 
 	function hide() {
 
 		if(openshortcuts.visible)
 			openshortcuts.reject()
-		else
+		else {
+			verboseMessage("OpenFile::hide()", opacity + " to 0")
 			hideOpenAni.start();
+		}
 
 	}
 
 	function loadCurrentDirectory(path) {
+
+		verboseMessage("OpenFile::loadCurrentDirectory()", path)
 
 		setOverrideCursor()
 
@@ -269,6 +284,7 @@ Rectangle {
 	}
 
 	function reloadUserPlaces() {
+		verboseMessage("OpenFile::reloadUserPlaces()", "")
 		userplaces.loadUserPlaces()
 	}
 

@@ -15,8 +15,9 @@ EntryContainer {
 
 			id: entrytitle
 
+			//: Settings title: How many pixels to leave empty between neighbouring thumbnails
 			title: qsTr("Spacing Between Thumbnails")
-			helptext: qsTr("The thumbnails are shown in a row at the lower or upper edge (depending on your setup). They are lined up side by side. Per default, there's no empty space between them, however exactly that can be changed here.")
+			helptext: qsTr("The thumbnails are shown in a row at the lower or upper edge (depending on your setup). They are lined up side by side. Per default, there's no empty space between them, however, exactly that can be changed here.")
 
 		}
 

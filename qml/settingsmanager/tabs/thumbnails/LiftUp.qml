@@ -16,6 +16,7 @@ EntryContainer {
 
 			id: entrytitle
 
+			//: Settings title: How many pixels to lift up/down the thumbnails when hovering them with the mouse
 			title: qsTr("Lift-Up of Thumbnails")
 			helptext: qsTr("When a thumbnail is hovered, it is lifted up some pixels (default 10). Here you can increase/decrease this value according to your personal preference.")
 

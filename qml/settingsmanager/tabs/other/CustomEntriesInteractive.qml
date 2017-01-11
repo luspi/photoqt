@@ -113,6 +113,7 @@ Rectangle {
 
 							height: icon.height
 							verticalAlignment: Qt.AlignVCenter
+							//: Settings: Element for editing custom entires, drag an item up or down in list
 							text: qsTr("Click here to drag")
 
 							font.pointSize: 10
@@ -285,8 +286,8 @@ Rectangle {
 			opacity: (contextmodel.count == 0 ? 1 : 0)
 			Behavior on opacity { NumberAnimation { duration: 150 } }
 			color: colour.text_inactive
-			text: getanddostuff.amIOnWindows() ? "Unavailable on Windows"
-							   : "You haven't added anything yet"
+			text: getanddostuff.amIOnWindows() ? qsTr("Unavailable on Windows")
+							   : qsTr("There isn't anything here yet")
 			font.bold: true
 			font.pointSize: 20
 			verticalAlignment: Text.AlignVCenter

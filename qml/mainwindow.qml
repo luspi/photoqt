@@ -1,7 +1,6 @@
 import QtQuick 2.3
 import Settings 1.0
 import FileFormats 1.0
-import SettingsSession 1.0
 import GetAndDoStuff 1.0
 import GetMetaData 1.0
 import ThumbnailManagement 1.0
@@ -10,12 +9,14 @@ import ShortcutsNotifier 1.0
 import Colour 1.0
 import QtQuick.Dialogs 1.2
 import QtGraphicalEffects 1.0
+import ImageWatch 1.0
 
 import "mainview/"
 import "slidein/"
 import "fadein/"
 import "settingsmanager/"
 import "openfile/"
+import "shortcuts/"
 
 import "globalstrings/" as Strings
 
@@ -30,17 +31,14 @@ Item {
 	readonly property int thumbnailbarheight_addon: 50
 
 	// These signals is picked up by the mainwindow.cpp file
-	signal thumbScrolled(int filenameAtCenter)
-	signal loadMoreThumbnails();
-	signal didntLoadThisThumbnail(int pos);
 	signal hideToSystemTray();
 	signal quitPhotoQt();
 	signal reloadDirectory(string filename, string filter);
 	signal verboseMessage(string loc, string msg);
 	signal setOverrideCursor();
 	signal restoreOverrideCursor();
-	signal stopThumbnails();
-	signal reloadThumbnails();
+
+	signal registerFilenameToWatch(string filename)
 
 	// Interface blocked? System Shortcuts blocked?
 	property bool blocked: false
@@ -71,12 +69,12 @@ Item {
 	readonly property int safetyDistanceForSlidein: 500
 
 
-
 	/////////////////////////////////////////////////
 	// THE FOLLOWING ITEMS DO NOT HAVE A VISUAL    //
 	// REPRESENTATION! THEY HAVE MERELY FUNCTIONAL //
 	// PURPOSE                                     //
 	/////////////////////////////////////////////////
+
 
 	// Access to the permanent settings file (~/.photoqt/settings)
 	Settings {
@@ -87,7 +85,6 @@ Item {
 		onHidexChanged: quickInfo.updateQuickInfo(quickInfo._pos, thumbnailBar.totalNumberImages, thumbnailBar.currentFile)
 	}
 	FileFormats { id: fileformats; }
-	SettingsSession { id: settingssession; }
 	Colour { id: colour; }
 	GetAndDoStuff {
 		id: getanddostuff;
@@ -105,8 +102,13 @@ Item {
 	}
 	GetMetaData { id: getmetadata; }
 	ThumbnailManagement { id: thumbnailmanagement; }
-	Shortcuts { id: sh; }
 	ShortcutsNotifier { id: sh_notifier; }
+	Shortcuts { id: shortcuts; }
+	ImageWatch {
+		id: imagewatch
+		onReloadDirectory:
+			doReload(thumbnailBar.currentFile)
+	}
 
 	Strings.Keys { id: str_keys }
 	Strings.Mouse { id: str_mouse }
@@ -154,6 +156,10 @@ Item {
 	QuickInfo {
 		id: quickInfo;
 		Behavior on opacity { NumberAnimation { duration: 250 } }
+	}
+
+	Histogram {
+		id: histogram;
 	}
 
 	////////////////////////////
@@ -247,24 +253,31 @@ Item {
 		mainview.displayIdleAndNothingLoadedMessage()
 
 	// Slots accessable by mainwindow.cpp, passed on to thumbnailbar
-	function reloadImage(pos, smart) { thumbnailBar.reloadImage(pos, smart) }
-	function setupModel(stringlist, pos) { thumbnailBar.setupModel(stringlist, pos) }
+	function setupModel(stringlist, pos) { thumbnailBar.setupModel(stringlist, pos); thumbnailBar.setupModel(stringlist, pos) }
 	function displayImage(pos) { thumbnailBar.displayImage(pos) }
 	function nextImage() { thumbnailBar.nextImage(); }
 	function previousImage() { thumbnailBar.previousImage(); }
-	function getCenterPos() { return thumbnailBar.getCenterPos(); }
 	function resetZoom() { mainview.resetZoom(); }
 	function isZoomed() { return mainview.isZoomed(); }
 
-	function detectedKeyCombo(combo) { sh.detectedKeyCombo(combo); settingsmanager.setCurrentKeyCombo(combo) }
-	function keysReleased(combo) { settingsmanager.keysReleased(); sh.releasedKeys(combo); }
-	function mouseWheelEvent(combo) { sh.gotMouseShortcut(combo); }
+	function updateKeyCombo(combo) { shortcuts.updateKeyCombo(combo); }
 
 	function setImageInteractiveMode(enabled) { mainview.setInteractiveMode(enabled) }
-	function touchEvent(startPoint, endPoint, duration, numFingers, gesture) { sh.gotTouchGesture(startPoint,endPoint,duration,numFingers,gesture) }
+	function finishedTouchEvent(startPoint, endPoint, type, numFingers, duration, path) {
+		shortcuts.gotFinishedTouchGesture(startPoint, endPoint, type, numFingers, duration, path)
+	}
+	function updatedTouchEvent(startPoint, endPoint, type, numFingers, duration, path) {
+		shortcuts.gotUpdatedTouchGesture(startPoint, endPoint, type, numFingers, duration, path)
+	}
 
-	function showStartup(type) { startup.showStartup(type); }
-	function windowResized() { mainview.windowHasBeenResized(); if(!isZoomed()) resetZoom() }
+	function updatedMouseEvent(button, gesture, modifiers) {
+		shortcuts.gotUpdatedMouseGesture(button, gesture, modifiers);
+	}
+	function finishedMouseEvent(startPoint, endPoint, duration, button, gesture, wheelAngleDelta, modifiers) {
+		shortcuts.gotFinishedMouseGesture(startPoint, endPoint, duration, button, gesture, wheelAngleDelta, modifiers);
+	}
+
+	function showStartup(type, filename) { startup.showStartup(type, filename); }
 
 	function openFile() { openfile.show(); }
 	function openFileOLD() { oldopenfile.show(); }
@@ -312,4 +325,5 @@ Item {
 		quickInfo.opacity = 1
 
 	}
+
 }

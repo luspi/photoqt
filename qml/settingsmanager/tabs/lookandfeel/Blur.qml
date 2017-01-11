@@ -14,7 +14,7 @@ EntryContainer {
 		EntryTitle {
 
 			title: qsTr("Blur Intensity")
-			helptext: qsTr("The background elements are blurred out, when a widget like the Settings Manager or the About widget is opened. Here you can adjust the intensity of the blur.") + "<br><br><b> " + qsTr("Note") + "</b>: " + qsTr("This does NOT affect the blur of the desktop BEHIND PhotoQt (when transparency is enabled).")
+			helptext: qsTr("The background elements are blurred out, when a widget like the Settings Manager or the About widget is opened. Here you can adjust the intensity of the blur.") + "<br><br><b> " + qsTr("Please note") + "</b>: " + qsTr("This does NOT affect the blur of the desktop BEHIND PhotoQt (when transparency is enabled).")
 
 		}
 

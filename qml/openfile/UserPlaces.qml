@@ -144,6 +144,7 @@ Rectangle {
 			checked: settings.openUserPlacesStandard
 			onCheckedChanged:
 				settings.openUserPlacesStandard = checked
+			//: OpenFile: This refers to standard folders for pictures, etc.
 			text: qsTr("Show standard locations")
 		}
 		MenuItem {
@@ -152,6 +153,7 @@ Rectangle {
 			checked: settings.openUserPlacesUser
 			onCheckedChanged:
 				settings.openUserPlacesUser = checked
+			//: OpenFile: This refers to the user-set folders
 			text: qsTr("Show user locations")
 		}
 		MenuItem {
@@ -160,7 +162,8 @@ Rectangle {
 			checked: settings.openUserPlacesVolumes
 			onCheckedChanged:
 				settings.openUserPlacesVolumes = checked
-			text: qsTr("Show volumes")
+			//: OpenFile: This refers to connected devices (harddrives, partitions, etc.)
+			text: qsTr("Show devices")
 		}
 
 	}
@@ -170,6 +173,7 @@ Rectangle {
 		id: usermenu
 
 		MenuItem {
+			//: OpenFile: Remove from user-set folders (favourites)
 			text: qsTr("Remove from favourites")
 			onTriggered: saveUserPlacesExceptCurrentlyHighlighted()
 		}
@@ -181,6 +185,8 @@ Rectangle {
 	}
 
 	Keys.onPressed: {
+
+		verboseMessage("UserPlaces.Keys::onPressed", event.modifiers + " - " + event.key)
 
 		if(event.key === Qt.Key_Left) {
 
@@ -219,6 +225,8 @@ Rectangle {
 
 	function loadUserPlaces() {
 
+		verboseMessage("UserPlaces::loadUserPlaces()", "")
+
 		// We store the current index in a variable to re-set it afterwards
 		// If the userplaces file got changed during runtime, then this ensures the highlighted index remains the same
 		var index = userplaces.currentIndex
@@ -228,13 +236,18 @@ Rectangle {
 		var entries = getanddostuff.getUserPlaces()
 
 		var useritems = [
+					//: OpenFile: This refers to the home folder
 					[qsTr("Home"), getanddostuff.getHomeDir(), "user-home"],
+					//: OpenFile: This refers to the desktop folder
 					[qsTr("Desktop"), getanddostuff.getDesktopDir(), "user-desktop"],
+					//: OpenFile: This refers to the pictures folder
 					[qsTr("Pictures"), getanddostuff.getPicturesDir(), "folder-pictures"],
+					//: OpenFile: This refers to the downloads folder
 					[qsTr("Downloads"), getanddostuff.getDownloadsDir(), "folder-download"]
 				]
 
 		userplacesmodel.append({"type" : "heading",
+								   //: OpenFile: 'Standard' is the title for the standard folders (home, desktop, pictures, downloads)
 								   "title" : qsTr("Standard"),
 								   "location" : "",
 								   "icon" : "",
@@ -253,6 +266,7 @@ Rectangle {
 		}
 
 		userplacesmodel.append({"type" : "heading",
+								   //: OpenFile: 'Places' is the title for the user-set folders (favourites)
 								   "title" : qsTr("Places"),
 								   "location" : "",
 								   "icon" : "",
@@ -264,7 +278,8 @@ Rectangle {
 		for(var i = 0; i < entries.length; i+=4) {
 			if(entries[i] === "volumes" && reached_devcies == false) {
 				userplacesmodel.append({"type" : "heading",
-										   "title" : qsTr("Volumes"),
+										   //: OpenFile: 'Devices' is the title for connected harddrives, partitions, ...
+										   "title" : qsTr("Devices"),
 										   "location" : "",
 										   "icon" : "",
 										   "counter" : 0,
@@ -289,6 +304,8 @@ Rectangle {
 
 	function saveUserPlacesExceptCurrentlyHighlighted() {
 
+		verboseMessage("UserPlaces::saveUserPlacesExceptCurrentlyHighlighted()", "")
+
 		var ret = [[]]
 
 		for(var i = 0; i < userplaces.count; ++i) {
@@ -303,11 +320,15 @@ Rectangle {
 
 	function loadCurrentlyHighlightedFolder() {
 
+		verboseMessage("UserPlaces::loadCurrentlyHighlightedFolder()", "")
+
 		loadCurrentDirectory(userplacesmodel.get(userplaces.currentIndex).location)
 
 	}
 
 	function focusOnNextItem() {
+
+		verboseMessage("UserPlaces::focusOnNextItem()", userplaces.currentIndex + " - " + userplaces.count)
 
 		if(userplaces.currentIndex+1 < userplaces.count)
 			userplaces.currentIndex += 1
@@ -319,6 +340,8 @@ Rectangle {
 
 	function focusOnPrevItem() {
 
+		verboseMessage("UserPlaces::focusOnPrevItem()", userplaces.currentIndex + " - " + userplaces.count)
+
 		if(userplaces.currentIndex > 0)
 			userplaces.currentIndex -= 1
 
@@ -328,6 +351,8 @@ Rectangle {
 	}
 
 	function moveFocusFiveDown() {
+
+		verboseMessage("UserPlaces::moveFocusFiveDown()", userplaces.currentIndex + " - " + userplaces.count)
 
 		if(userplaces.currentIndex+5 < userplaces.count)
 			userplaces.currentIndex += 5
@@ -340,6 +365,8 @@ Rectangle {
 	}
 
 	function moveFocusFiveUp() {
+
+		verboseMessage("UserPlaces::moveFocusFiveUp()", userplaces.currentIndex + " - " + userplaces.count)
 
 		if(userplaces.currentIndex > 4)
 			userplaces.currentIndex -= 5

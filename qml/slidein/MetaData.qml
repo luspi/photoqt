@@ -66,6 +66,7 @@ Rectangle {
 		font.bold: true
 		font.pointSize: 18
 		wrapMode: Text.WordWrap
+		//: This is used in the metadata element on the left
 		text: qsTr("No File Loaded")
 
 	}
@@ -85,6 +86,7 @@ Rectangle {
 		font.bold: true
 		font.pointSize: 18
 		wrapMode: Text.WordWrap
+		//: This is used in the metadata element on the left
 		text: qsTr("File Format Not Supported")
 
 	}
@@ -147,18 +149,16 @@ Rectangle {
 			fsize: 8
 			textColour: getanddostuff.addAlphaToColor(colour.text,100)
 			text: qsTr("Keep Open")
-			onButtonCheckedChanged: {
-				settingssession.setValue("metadatakeepopen",check.checkedButton)
+			onButtonCheckedChanged:
 				updateNonFloatWidth()
-			}
 		}
 	}
 	function updateNonFloatWidth() {
+		verboseMessage("MetaData::updateNonFloatWidth()",check.checkedButton + " - " + nonFloatWidth + " - " + meta.width)
 		if(check.checkedButton)
 			nonFloatWidth = meta.width
 		else
 			nonFloatWidth = 0
-		mainview.windowHasBeenResized()
 	}
 
 	function uncheckCheckbox() { check.checkedButton = false; }
@@ -280,43 +280,63 @@ Rectangle {
 
 				mod.clear()
 
-				mod.append({"name" : qsTr("Filesize"), "prop" : "", "value" : d["filesize"], "tooltip" : d["filesize"]})
-				if("dimensions" in d)
-					mod.append({"name" : qsTr("Dimensions"), "prop" : "", "value" : d["dimensions"], "tooltip" : d["dimensions"]})
-				else if("Exif.Photo.PixelXDimension" in d && "Exif.Photo.PixelYDimension" in d) {
-					var dim = d["Exif.Photo.PixelXDimension"] + "x" + d["Exif.Photo.PixelYDimension"]
-					mod.append({"name" : qsTr("Dimensions"), "prop" : "", "value" : dim, "tooltip" : dim})
+				if(settings.exiffilename) {
+					var fname = getanddostuff.removePathFromFilename(thumbnailBar.currentFile, false)
+					mod.append({"name" : qsTr("Filename"), "prop" : "", "value" : fname, "tooltip" : fname })
+				}
+
+				if(settings.exiffilesize)
+					mod.append({"name" : qsTr("Filesize"), "prop" : "", "value" : d["filesize"], "tooltip" : d["filesize"]})
+
+				if(settings.exifimagenumber) {
+					var pos = (thumbnailBar.currentPos+1) + "/" + thumbnailBar.totalNumberImages
+					mod.append({"name" : qsTr("Image") + " #/#", "prop" : "", "value" : pos, "tooltip" : pos })
+				}
+
+				if(settings.exifdimensions) {
+					if("dimensions" in d)
+						mod.append({"name" : qsTr("Dimensions"), "prop" : "", "value" : d["dimensions"], "tooltip" : d["dimensions"]})
+					else if("Exif.Photo.PixelXDimension" in d && "Exif.Photo.PixelYDimension" in d) {
+						var dim = d["Exif.Photo.PixelXDimension"] + "x" + d["Exif.Photo.PixelYDimension"]
+						mod.append({"name" : qsTr("Dimensions"), "prop" : "", "value" : dim, "tooltip" : dim})
+					}
 				}
 
 				mod.append({"name" : "", "prop" : "", "value" : ""})
 
+				//: The next string refers to Exif image metadata
 				var labels = ["Exif.Image.Make", qsTr("Make"), "",
+						//: The next string refers to Exif image metadata
 						"Exif.Image.Model", qsTr("Model"), "",
+						//: The next string refers to Exif image metadata
 						"Exif.Image.Software", qsTr("Software"), "",
 						"","", "",
+						//: The next string refers to Exif image metadata
 						"Exif.Photo.DateTimeOriginal", qsTr("Time Photo was Taken"), "",
+						//: The next string refers to Exif image metadata
 						"Exif.Photo.ExposureTime", qsTr("Exposure Time"), "",
+						//: The next string refers to Exif image metadata
 						"Exif.Photo.Flash", qsTr("Flash"), "",
 						"Exif.Photo.ISOSpeedRatings", qsTr("ISO"), "",
+						//: The next string refers to Exif image metadata
 						"Exif.Photo.SceneCaptureType", qsTr("Scene Type"), "",
+						//: The next string refers to Exif image metadata
+						//: The next string refers to Exif image metadata
 						"Exif.Photo.FocalLength", qsTr("Focal Length"), "",
 						"Exif.Photo.FNumber", qsTr("F Number"), "",
+						//: The next string refers to Exif image metadata
 						"Exif.Photo.LightSource", qsTr("Light Source"), "",
 						"","", "",
+						//: The next string refers to Exif image metadata
 						"Iptc.Application2.Keywords", qsTr("Keywords"), "",
+						//: The next string refers to Exif image metadata
 						"Iptc.Application2.City", qsTr("Location"), "",
+						//: The next string refers to Exif image metadata
 						"Iptc.Application2.Copyright", qsTr("Copyright"), "",
 						"","", "",
+						//: The next string refers to Exif image metadata
 						"Exif.GPSInfo.GPSLongitudeRef", qsTr("GPS Position"), "Exif.GPSInfo.GPSLatitudeRef",
 						"","",""]
-
-
-				/*
-
-				Exif.Image.Orientation
-
-
-				*/
 
 				var oneEmpty = false;
 
@@ -346,7 +366,7 @@ Rectangle {
 
 	function gpsClick(value) {
 
-		verboseMessage("MetaData::gpsClick()",value)
+		verboseMessage("MetaData::gpsClick()",value + " - " + settings.exifgpsmapservice)
 
 		if(settings.exifgpsmapservice == "bing.com/maps")
 			Qt.openUrlExternally("http://www.bing.com/maps/?sty=r&q=" + value + "&obox=1")
@@ -378,15 +398,20 @@ Rectangle {
 
 
 	function hide() {
-		if(!check.checkedButton)
+		if(!check.checkedButton) {
+			if(opacity != 0) verboseMessage("MetaData::hide()", opacity + " to 0")
 			hideMetaData.start()
+		}
 	}
 	function show() {
+		if(opacity != 1) verboseMessage("MetaData::show()", opacity + " to 1")
 		showMetaData.start()
 	}
 
 	function clickInMetaData(pos) {
-		return meta.contains(meta.mapFromItem(toplevel,pos.x,pos.y))
+		var ret = meta.contains(meta.mapFromItem(toplevel,pos.x,pos.y))
+		verboseMessage("MetaData::clickInMetaData()", pos)
+		return ret
 	}
 
 }

@@ -1,3 +1,19 @@
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
+
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
@@ -11,20 +27,22 @@
 #include <QSystemTrayIcon>
 
 #include "logger.h"
-#include "touchhandler.h"
+#include "shortcuts/touchhandler.h"
+#include "shortcuts/mousehandler.h"
+#include "shortcuts/keyhandler.h"
 #include "scripts/getanddostuff.h"
 #include "scripts/getmetadata.h"
 #include "scripts/thumbnailsmanagement.h"
+#include "scripts/imagewatch.h"
 #include "handlefiles/loaddir.h"
 #include "imageprovider/imageproviderthumbnail.h"
 #include "imageprovider/imageproviderfull.h"
+#include "imageprovider/imageproviderempty.h"
 #include "imageprovider/imageprovidericon.h"
 #include "settings/settings.h"
 #include "settings/fileformats.h"
-#include "settings/settingssession.h"
 #include "settings/colour.h"
 #include "variables.h"
-#include "shortcuts/shortcuts.h"
 #include "shortcuts/shortcutsnotifier.h"
 #include "tooltip/tooltip.h"
 
@@ -35,8 +53,7 @@ class MainWindow : public QQuickView {
 public:
 	explicit MainWindow(bool verbose, QWindow *parent = 0);
 	~MainWindow();
-
-	void showStartup(QString type);
+	void handleStartup(int upd, QString filename);
 
 public slots:
 	void handleOpenFileEvent(QString filename, QString filter = "");
@@ -58,17 +75,13 @@ private:
 	QObject *object;
 	LoadDir *loadDir;
 
-	SettingsSession *settingsPerSession;
 	Settings *settingsPermanent;
 	FileFormats *fileformats;
 	Variables *variables;
 
-	Shortcuts *shortcuts;
-
-
 	int currentCenter;
-	QList<int> loadThumbnailsInThisOrder;
-	QList<int> smartLoadThumbnailsInThisOrder;
+	QVector<int> loadThumbnailsInThisOrder;
+	QVector<int> smartLoadThumbnailsInThisOrder;
 
 	QString mouseCombo;
 	QPoint mouseOrigPoint;
@@ -80,16 +93,13 @@ private:
 	int overrideCursorHowOftenSet;
 
 
-	TouchHandler *touch;
+	TouchHandler *touchHandler;
+	MouseHandler *mouseHandler;
+	KeyHandler *keyHandler;
 
+	bool touchEventInProgress;
 
 private slots:
-
-	void handleThumbnails(int centerPos);
-	void loadMoreThumbnails();
-	void didntLoadThisThumbnail(int pos);
-
-	void detectedKeyCombo(QString combo);
 
 	void showTrayIcon();
 	void hideTrayIcon();
@@ -102,6 +112,8 @@ private slots:
 
 	void updateWindowXandY();
 
+	void showStartup(QString type, QString filename);
+
 	void resetWindowGeometry();
 
 	void qmlVerboseMessage(QString loc, QString msg);
@@ -109,10 +121,45 @@ private slots:
 	void setOverrideCursor() { ++overrideCursorHowOftenSet; qApp->setOverrideCursor(Qt::WaitCursor); }
 	void restoreOverrideCursor() { for(int i = 0; i < overrideCursorHowOftenSet; ++i) qApp->restoreOverrideCursor(); overrideCursorHowOftenSet = 0; }
 
-	void passOnTouchEvent(QPointF startPoint, QPointF endPoint, qint64 duration, int numFingers, QStringList gesture) {
-		QMetaObject::invokeMethod(object, "touchEvent", Q_ARG(QVariant, startPoint), Q_ARG(QVariant, endPoint), Q_ARG(QVariant, duration), Q_ARG(QVariant, numFingers), Q_ARG(QVariant, gesture));
+	void passOnKeyEvent(QString combo) {
+		QMetaObject::invokeMethod(object, "updateKeyCombo",
+					  Q_ARG(QVariant, combo));
+	}
+
+	void passOnUpdatedTouchEvent(QPointF startPoint, QPointF endPoint,
+								 QString type, unsigned int numFingers,
+								 qint64 duration, QStringList path) {
+		mouseHandler->abort();
+		QMetaObject::invokeMethod(object, "updatedTouchEvent", Q_ARG(QVariant, startPoint),
+								  Q_ARG(QVariant, endPoint), Q_ARG(QVariant, type),
+								  Q_ARG(QVariant, numFingers), Q_ARG(QVariant, duration),
+								  Q_ARG(QVariant, path));
+	}
+
+	void passOnFinishedTouchEvent(QPointF startPoint, QPointF endPoint,
+								  QString type, unsigned int numFingers,
+								  qint64 duration, QStringList path) {
+		mouseHandler->abort();
+		QMetaObject::invokeMethod(object, "finishedTouchEvent", Q_ARG(QVariant, startPoint),
+								  Q_ARG(QVariant, endPoint), Q_ARG(QVariant, type),
+								  Q_ARG(QVariant, numFingers), Q_ARG(QVariant, duration),
+								  Q_ARG(QVariant, path));
 	}
 	void setImageInteractiveMode(bool enabled) { QMetaObject::invokeMethod(object, "setImageInteractiveMode", Q_ARG(QVariant, enabled)); }
+
+
+	void passOnFinishedMouseEvent(QPoint start, QPoint end, qint64 duration,
+						  QString button, QStringList gesture, int wheelAngleDelta, QString modifiers) {
+		if(!touchEventInProgress)
+			QMetaObject::invokeMethod(object, "finishedMouseEvent", Q_ARG(QVariant, start),
+									  Q_ARG(QVariant, end), Q_ARG(QVariant, duration),
+									  Q_ARG(QVariant, button), Q_ARG(QVariant, gesture),
+									  Q_ARG(QVariant, wheelAngleDelta), Q_ARG(QVariant, modifiers));
+	}
+	void passOnUpdatedMouseEvent(QString button, QStringList gesture, QString modifiers) {
+		QMetaObject::invokeMethod(object, "updatedMouseEvent",Q_ARG(QVariant, button), Q_ARG(QVariant, gesture),
+								  Q_ARG(QVariant, modifiers));
+	}
 
 	void loadStatus(QQuickView::Status status) {
 		if(status == QQuickView::Error)
@@ -120,25 +167,11 @@ private slots:
 				LOG << CURDATE << "QQuickView QML LOADING ERROR: " << this->errors().at(i).toString().toStdString() << NL;
 	}
 
-	void stopThumbnails() {
-		variables->keepLoadingThumbnails = false;
-	}
-	void reloadThumbnails() {
-		variables->keepLoadingThumbnails = true;
-		loadMoreThumbnails();
-	}
-
 protected:
 	bool event(QEvent *e);
-	void wheelEvent(QWheelEvent *e);
-	void mousePressEvent(QMouseEvent *e);
-	void mouseReleaseEvent(QMouseEvent *e);
-	void mouseMoveEvent(QMouseEvent *e);
-	void resizeEvent(QResizeEvent *e);
 
 signals:
 	void doSetupModel();
-
 
 };
 

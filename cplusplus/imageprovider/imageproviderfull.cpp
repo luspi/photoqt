@@ -4,7 +4,6 @@ ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider
 
 	verbose = false;
 
-	settingsPerSession = new QSettings("photoqt_session");
 	settings = new Settings;
 	fileformats = new FileFormats(verbose);
 
@@ -16,10 +15,14 @@ ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider
 	pixmapcache = new QCache<QByteArray, QPixmap>;
 	pixmapcache->setMaxCost(1024*settings->pixmapCache);
 
+	loaderGM = new LoadImageGM;
+	loaderQT = new LoadImageQt;
+	loaderRAW = new LoadImageRaw;
+	loaderXCF = new LoadImageXCF;
+
 }
 
 ImageProviderFull::~ImageProviderFull() {
-	delete settingsPerSession;
 	delete settings;
 	delete fileformats;
 	delete pixmapcache;
@@ -27,13 +30,23 @@ ImageProviderFull::~ImageProviderFull() {
 
 QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *, const QSize &requestedSize) {
 
-	QString filename = QByteArray::fromPercentEncoding(filename_encoded.toUtf8());
+	QString full_filename = QByteArray::fromPercentEncoding(filename_encoded.toUtf8());
+	QString filename = full_filename;
+	int angle = 0;
 
-	// This means that we're looking for a thumbnail only
-	if(requestedSize.width() <= 256 || requestedSize.height() <= 256)
-		maxSize = requestedSize;
-	else
-		maxSize = QSize(-1,-1);
+	if(filename.contains("::photoqt::")) {
+		QStringList p = filename.split("::photoqt::");
+		filename = p.at(0);
+		if(p.at(1).contains("::photoqtmod::"))
+			angle = p.at(1).split("::photoqtmod::").at(0).toInt();
+		else if(p.at(1).contains("::photoqtani::"))
+			angle = p.at(1).split("::photoqtani::").at(0).toInt();
+		else
+			angle = p.at(1).toInt();
+	}
+
+	QTransform trans;
+	trans.rotate(angle);
 
 	// Which GraphicsEngine should we use?
 	QString whatToUse = whatDoIUse(filename);
@@ -48,34 +61,49 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
 
 	QByteArray cachekey = getUniqueCacheKey(filename);
 
+	// For animated images, we add the current frame to the cachekey in order to distinguish different frames in the cache
+	if(full_filename.contains("::photoqtani::"))
+		cachekey = cachekey + full_filename.split("::photoqtani::").at(1).toUtf8();
+
+
 	if(pixmapcache->contains(cachekey)) {
-		QPixmap *pix = pixmapcache->take(cachekey);
-		if(!pix->isNull())
-			return pix->toImage();
+		QPixmap *pix = pixmapcache->object(cachekey);
+		if(!pix->isNull()) {
+
+			ret = pix->toImage();
+
+			if(requestedSize.width() > 2 && requestedSize.height() > 2 && ret.width() > requestedSize.width() && ret.height() > requestedSize.height())
+				return ret.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation).transformed(trans);
+
+			return ret.transformed(trans);
+		}
 	}
 
 	// Try to use XCFtools for XCF (if enabled)
 	if(QFileInfo(filename).suffix().toLower() == "xcf" && whatToUse == "extra")
-			ret = LoadImageXCF::load(filename,maxSize);
+			ret = loaderXCF->load(filename,maxSize);
 
 	// Try to use GraphicsMagick (if available)
 	else if(whatToUse == "gm")
-		ret = LoadImageGM::load(filename, maxSize);
+		ret = loaderGM->load(filename, maxSize);
 
 	else if(whatToUse == "raw")
-		ret = LoadImageRaw::load(filename, maxSize);
+		ret = loaderRAW->load(filename, maxSize);
 
 	// Try to use Qt
 	else
-		ret = LoadImageQt::load(filename,maxSize,settings->exifrotation);
-
+		ret = loaderQT->load(filename,maxSize,settings->exifrotation);
 
 	QPixmap *newpixPt = new QPixmap(ret.width(), ret.height());
 	*newpixPt = QPixmap::fromImage(ret);
-	if(!newpixPt->isNull())
+	if(!newpixPt->isNull()) {
 		pixmapcache->insert(cachekey, newpixPt, newpixPt->width()*newpixPt->height()*newpixPt->depth()/(8*1024));
+	}
 
-	return ret;
+	if(requestedSize.width() > 2 && requestedSize.height() > 2 && ret.width() > requestedSize.width() && ret.height() > requestedSize.height())
+		ret = ret.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+	return ret.transformed(trans);
 
 }
 
@@ -160,7 +188,7 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
 
 QByteArray ImageProviderFull::getUniqueCacheKey(QString path) {
 	path = path.remove("image://full/");
-	path = path.remove("file://");
+	path = path.remove("file:/");
 	QFileInfo info(path);
 	QString fn = QString("%1%2").arg(path).arg(info.lastModified().toMSecsSinceEpoch());
 	return QCryptographicHash::hash(fn.toUtf8(),QCryptographicHash::Md5).toHex();

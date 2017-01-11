@@ -124,14 +124,25 @@ Item {
 				id: backHandle;
 
 				anchors.fill: parent;
-				color: ((clicker.containsMouse || clicker.pressed) ? "black" : "black");
-				border.color: "white"
+				color: "black"
+				border.color: "#bbbbbb"
 				border.width: 1
-				opacity: ((clicker.containsMouse || clicker.pressed) ? opacityVisible : opacityHidden);
+				opacity: ((clicker.containsMouse || clicker.pressed || parent.moving) ? opacityVisible : opacityHidden);
 
-				Behavior on opacity { NumberAnimation { duration: 50; } }
+				Behavior on opacity { NumberAnimation { duration: 200; } }
 
 			}
+
+			property bool moving: false
+			onXChanged: { moving = true; moving_reset.restart(); }
+			Timer {
+				id: moving_reset
+				interval: 500
+				repeat: false
+				running: false
+				onTriggered: parent.moving = false
+			}
+
 		}
 	}
 }

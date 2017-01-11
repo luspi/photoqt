@@ -6,11 +6,6 @@ import "../elements"
 
 Item {
 
-	// This property is set to true in the displayImage() function in the ThumbnailBar element and ensures that PhotoQT first loads
-	// the main image before loading the thumbnails (they are blocked in the meantime using a Timer)
-	// This property is set to 'false' again once the main image was loaded
-	property bool amLoadingImage: false
-
 	id: item
 
 	// Position item
@@ -19,20 +14,23 @@ Item {
 	width: background.width - 2*settings.borderAroundImg - metaData.nonFloatWidth
 	height: (settings.thumbnailKeepVisible ? background.height-thumbnailBar.height+thumbnailbarheight_addon/2 : background.height)-2*settings.borderAroundImg
 
+	property bool imageLoading: false
+	property string loadedImageSource: image._loadedImageSource
+
 	function noFilterResultsFound() {
 		noresultsfound.visible = true;
-		image.loadImage("", false)
+		image.loadImage("", 0)
 	}
 
 	// Set image
-	function loadImage(path, animated) {
+	function loadImage(path) {
 
 		setOverrideCursor()
 
-		verboseMessage("Display::setImage()", path)
+		verboseMessage("Display::loadImage()", path)
 
 		// LOAD IMAGE
-		image.loadImage(path, animated)
+		image.loadImage(path)
 
 		// Hide 'nothing loaded' message and arrows
 		nofileloaded.visible = false
@@ -48,7 +46,7 @@ Item {
 	}
 
 	function clear() {
-		image.loadImage("", false)
+		image.loadImage("", 0)
 		nofileloaded.visible = true
 	}
 
@@ -66,13 +64,10 @@ Item {
 
 		fadeduration: settings.transition*150
 		zoomduration: 150
-		zoomstep: 0.3
-		clip: true
-		fitinwindow: settings.fitInWindow
+		fitInWindow: settings.fitInWindow
 		interpolationNearestNeighbourThreshold: settings.interpolationNearestNeighbourThreshold
 		interpolationNearestNeighbourUpscale: settings.interpolationNearestNeighbourUpscale
-
-		onImageIsReady: amLoadingImage = false
+		resetZoomRotationMirrorForNewImage: !settings.keepZoomRotationMirror
 
 	}
 
@@ -155,7 +150,7 @@ Item {
 			id: contextmenuClosingX
 
 			MenuItem {
-				text: qsTr("Hide") + " 'x'"
+				text: qsTr("Hide 'x'")
 				onTriggered: {
 					settings.hidex = true;
 					rect.visible = false;
@@ -343,10 +338,6 @@ Item {
 	// Reset mirroring
 	function resetMirror() {
 		image.resetMirror()
-	}
-
-	function windowHasBeenResized() {
-		image.windowHasBeenResized()
 	}
 
 	function getSourceSize() {

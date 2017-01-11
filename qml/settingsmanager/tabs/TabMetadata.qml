@@ -41,6 +41,7 @@ Rectangle {
 				color: "white"
 				font.pointSize: 20
 				font.bold: true
+				//: Used as heading of tab in the settings manager
 				text: qsTr("Image Metadata")
 				horizontalAlignment: Text.AlignHCenter
 			}
@@ -51,7 +52,7 @@ Rectangle {
 				width: flickable.width
 				color: "white"
 				font.pointSize: 9
-				text: qsTr("Move your mouse cursor over the different settings titles to see more information.")
+				text: qsTranslate("SettingsManager", "Move your mouse cursor over the different settings titles to see more information.")
 				horizontalAlignment: Text.AlignHCenter
 			}
 
@@ -72,7 +73,7 @@ Rectangle {
 			Rectangle { color: "transparent"; width: 1; height: 20; }
 
 			MouseTrigger { id: trigger }
-			Metadata { id: metadata; alternating: true }
+			MetaData { id: metadata; alternating: true }
 			FontSize { id: fontsize }
 			Opacity { id: op; alternating: true }
 			RotateFlip { id: rotateflip }

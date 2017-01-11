@@ -16,6 +16,7 @@ EntryContainer {
 		EntryTitle {
 
 			id: title
+			//: Settings: This refers to the Exif and IPTC metadata possibly stored in an image file
 			title: qsTr("Meta Information")
 			helptext: qsTr("PhotoQt can display a number of information about the image (often called 'Exif data'). However, you might not be interested in all of them, hence you can choose to disable some of them here.")
 
@@ -38,7 +39,7 @@ EntryContainer {
 				property int spacing: 3
 
 				model: metadataitems.length
-				delegate: MetadataTile {
+				delegate: MetaDataTile {
 					id: tile
 					text: grid.metadataitems[index][1]
 					checked: grid.metadataitems[index][2]
@@ -65,26 +66,45 @@ EntryContainer {
 
 		if(getanddostuff.isExivSupportEnabled())
 
-			items = [["filesize",qsTr("Filesize"), settings.exiffilesize],
+			items = [["filename",qsTr("Filename"), settings.exiffilename],
+						["filesize",qsTr("Filesize"), settings.exiffilesize],
+						["imagenumber",qsTr("Image") + " #/#", settings.exifimagenumber],
 						["dimensions",qsTr("Dimensions"), settings.exifdimensions],
+						//: The next string refers to Exif image metadata
 						["make",qsTr("Make"), settings.exifmake],
+						//: The next string refers to Exif image metadata
 						["model",qsTr("Model"),settings.exifmodel],
+						//: The next string refers to Exif image metadata
 						["software",qsTr("Software"),settings.exifsoftware],
+						//: The next string refers to Exif image metadata
 						["time",qsTr("Time Photo was Taken"),settings.exifphototaken],
+						//: The next string refers to Exif image metadata
 						["exposure",qsTr("Exposure Time"),settings.exifexposuretime],
+						//: The next string refers to Exif image metadata
 						["flash",qsTr("Flash"),settings.exifflash],
+						//: The next string refers to Exif image metadata
 						["iso","ISO",settings.exifiso],
+						//: The next string refers to Exif image metadata
 						["scenetype",qsTr("Scene Type"),settings.exifscenetype],
+						//: The next string refers to Exif image metadata
 						["focal",qsTr("Focal Length"),settings.exifflength],
+						//: The next string refers to Exif image metadata
 						["fnumber",qsTr("F-Number"),settings.exiffnumber],
+						//: The next string refers to Exif image metadata
 						["light",qsTr("Light Source"),settings.exiflightsource],
+						//: The next string refers to Exif image metadata
 						["keywords",qsTr("Keywords"),settings.iptckeywords],
+						//: The next string refers to Exif image metadata
 						["location",qsTr("Location"),settings.iptclocation],
+						//: The next string refers to Exif image metadata
 						["copyright",qsTr("Copyright"),settings.iptccopyright],
+						//: The next string refers to Exif image metadata
 						["gps",qsTr("GPS Position"),settings.exifgps]]
 
 		else
-			items = [["filesize",qsTr("Filesize"), settings.exiffilesize],
+			items = [["filename",qsTr("Filename"), settings.exiffilename],
+						["filesize",qsTr("Filesize"), settings.exiffilesize],
+						["imagenumber",qsTr("Image") + " #/#", settings.exifimagenumber],
 						["dimensions",qsTr("Dimensions"), settings.exifdimensions]]
 
 		grid.metadataitems = items
@@ -93,6 +113,8 @@ EntryContainer {
 
 	function saveData() {
 
+		settings.exiffilename = grid.metadachecked["filename"]
+		settings.exifimagenumber = grid.metadachecked["imagenumber"]
 		settings.exiffilesize = grid.metadachecked["filesize"]
 		settings.exifdimensions = grid.metadachecked["dimensions"]
 		if(getanddostuff.isExivSupportEnabled()) {

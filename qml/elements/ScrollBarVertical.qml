@@ -31,7 +31,7 @@ Rectangle {
 		color: "black"
 
 		border.width: 1
-		border.color: "white"
+		border.color: "#bbbbbb"
 
 		opacity: ma.pressed ? 1 : ma.containsMouse ? 0.8 : 0.6
 		Behavior on opacity {NumberAnimation{duration: 150}}

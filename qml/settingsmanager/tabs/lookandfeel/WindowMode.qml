@@ -27,7 +27,7 @@ EntryContainer {
 				CustomCheckBox {
 					id: windowmode
 					text: qsTr("Run PhotoQt in Window Mode")
-					onButtonCheckedChanged:     // 'Window Decoration' checkbox is only enabled when the 'Window ModeÄ checkbox is checked
+					onButtonCheckedChanged:     // 'Window Decoration' checkbox is only enabled when the 'Window Mode' checkbox is checked
 					windowmode_deco.enabled = checkedButton
 				}
 

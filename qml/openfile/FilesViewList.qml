@@ -151,6 +151,7 @@ ListView {
 	}
 
 	function loadFiles(files) {
+		verboseMessage("FilesViewList::loadFiles()", files.length)
 		listviewmodel.clear()
 		contentY = 0
 		for(var j = 0; j < files.length; j+=2)
@@ -159,6 +160,8 @@ ListView {
 	}
 
 	function focusOnFile(filename) {
+
+		verboseMessage("FilesViewList::focusOnFile()", filename)
 
 		var pattern = new RegExp(escapeRegExp(filename) + ".*","i")
 		if(pattern.test(files[2*currentIndex])) return

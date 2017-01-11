@@ -20,7 +20,7 @@ EntryContainer {
 				   + (helptext_warning ? "<br><br><font color=\"red\"><i>&gt; " + qsTr("disabled") + "!</i></font>" : "")
 			helptext: entry.enabled
 					  ? qsTr("The following file types are supported by GraphicsMagick, and they have been tested and work. However, they require Ghostscript to be installed on the system.")
-					  : qsTr("PhotoQt was built without GraphicsMagick support!")
+					  : "<div color='red'>" + qsTr("PhotoQt was built without GraphicsMagick support!") + "</div>"
 
 			helptext_warning: !entry.enabled
 

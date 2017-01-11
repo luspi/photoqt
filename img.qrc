@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-	<file>img/emptythumb.png</file>
+        <file>img/emptythumb.png</file>
 	<file>img/nothumb.png</file>
 	<file>img/closingx.png</file>
 	<file>img/mainmenu/about.png</file>
@@ -43,6 +43,7 @@
 	<file>img/mainview/arrowright.png</file>
 	<file>img/mainview/arrowup.png</file>
 	<file>img/empty.png</file>
+	<file>img/bigempty.png</file>
 	<file>img/openfile/folder.png</file>
 	<file>img/openfile/image.png</file>
 	<file>img/openfile/iconview.png</file>
@@ -76,5 +77,10 @@
 	<file>img/openfile/backupicons/user-desktop.svg</file>
 	<file>img/openfile/backupicons/drive-harddisk.svg</file>
 	<file>img/loading.gif</file>
+	<file>img/settings/shortcuts/categorykeyboard.png</file>
+	<file>img/settings/shortcuts/categorymouse.png</file>
+	<file>img/settings/shortcuts/categorytouch.png</file>
+	<file>img/mainmenu/histogram.png</file>
+	<file>img/switchHistogramVersion.png</file>
     </qresource>
 </RCC>

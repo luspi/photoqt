@@ -16,8 +16,8 @@ EntryContainer {
 
 			id: entrytitle
 
-			title: qsTr("Closing 'X' (top right corner)")
-			helptext: qsTr("There are two looks for the closing 'x' at the top right: a plain 'x', or a slightly more fancy 'x'. Here you can switch back and forth between both of them, and also change their size. If you prefer not to have a closing 'x' at all, see further down for an option to hide it completely.")
+			title: qsTr("Exit button ('x' in top right corner)")
+			helptext: qsTr("There are two looks for the exit button: a plain 'x', or a slightly more fancy 'x'. Here you can switch back and forth between both of them, and also change their size. If you prefer not to have a closing 'x' at all, see further down for an option to hide it completely.")
 
 		}
 

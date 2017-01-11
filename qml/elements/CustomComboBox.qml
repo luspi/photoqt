@@ -11,6 +11,10 @@ ComboBox {
 	property bool showBorder: true
 	property string tooltip: currentText
 	property int radius: 0
+	property real disabledOpacity: 0.5
+
+	opacity: enabled ? 1 : disabledOpacity
+	Behavior on opacity { NumberAnimation { duration: 200 } }
 
 	style: ComboBoxStyle {
 

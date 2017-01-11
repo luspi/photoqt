@@ -1,3 +1,19 @@
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
+
 #ifndef LOADIMAGE_QT_H
 #define LOADIMAGE_QT_H
 
@@ -17,8 +33,9 @@
 class LoadImageQt {
 
 public:
+	LoadImageQt() { mov = new QMovie; }
 
-	static QImage load(QString filename, QSize maxSize, QString exifrotation) {
+	QImage load(QString filename, QSize maxSize, QString exifrotation) {
 
 		// For reading SVG files
 		QSvgRenderer svg;
@@ -111,15 +128,31 @@ public:
 
 	#endif
 
-			// Eventually load the image
-			img = reader.read();
+			if(reader.supportsAnimation()) {
+
+				if(mov == nullptr || mov->fileName() != filename) {
+					mov = new QMovie(filename);
+					mov->start();
+					mov->setPaused(true);
+				} else
+					if(!mov->jumpToNextFrame())
+						LOG << "[LoadImageQt] Error loading next frame of animated image, QMovie::jumpToNextFrame()" << NL;
+
+				img = mov->currentImage();
+
+			} else {
+
+				// Eventually load the image
+				img = reader.read();
+
+			}
 
 
 	#if defined(EXIV2) && QT_VERSION < 0x050500
 
 			// If this setting is enabled, then we check at image load for the Exif rotation tag
 			// and change the image accordingly
-			if(exifrotation == "Always") {
+			if(exifrotation == "Always" && angle == 0) {
 
 				// Known formats by Exiv2
 				QStringList formats;
@@ -218,6 +251,9 @@ public:
 		return img;
 
 	}
+
+private:
+	QMovie *mov;
 
 };
 

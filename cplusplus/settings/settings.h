@@ -1,3 +1,19 @@
+/*
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
+
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
@@ -11,6 +27,8 @@
 #include <QFileSystemWatcher>
 #include <QTimer>
 #include <QTextStream>
+#include <QPoint>
+#include <QSize>
 #ifdef Q_OS_WIN
 #include <QtWinExtras/QtWin>
 #endif
@@ -62,6 +80,9 @@ public:
 		connect(this, SIGNAL(saveWindowGeometryChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(keepOnTopChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(compositeChanged(bool)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(openOnScreenChanged(bool)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(openOnScreenNameChanged(QString)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(startupLoadLastLoadedImageChanged(bool)), saveSettingsTimer, SLOT(start()));
 
 		connect(this, SIGNAL(bgColorRedChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(bgColorGreenChanged(int)), saveSettingsTimer, SLOT(start()));
@@ -87,14 +108,15 @@ public:
 		connect(this, SIGNAL(sortbyChanged(QString)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(sortbyAscendingChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(mouseWheelSensitivityChanged(int)), saveSettingsTimer, SLOT(start()));
-		connect(this, SIGNAL(rememberRotationChanged(bool)), saveSettingsTimer, SLOT(start()));
-		connect(this, SIGNAL(rememberZoomChanged(bool)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(keepZoomRotationMirrorChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(fitInWindowChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(interpolationNearestNeighbourThresholdChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(interpolationNearestNeighbourUpscaleChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(blurIntensityChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(pixmapCacheChanged(int)), saveSettingsTimer, SLOT(start()));
-		connect(this, SIGNAL(experimentalTouchscreenSupportChanged(bool)), saveSettingsTimer, SLOT(start()));
+
+		connect(this, SIGNAL(leftButtonMouseClickAndMoveChanged(bool)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(singleFingerTouchPressAndMoveChanged(bool)), saveSettingsTimer, SLOT(start()));
 
 		connect(this, SIGNAL(hidecounterChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(hidefilepathshowfilenameChanged(bool)), saveSettingsTimer, SLOT(start()));
@@ -120,7 +142,6 @@ public:
 		connect(this, SIGNAL(thumbnailLiftUpChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(thumbnailKeepVisibleChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(thumbnailFontSizeChanged(int)), saveSettingsTimer, SLOT(start()));
-		connect(this, SIGNAL(thumbnailDynamicChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(thumbnailCenterActiveChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(thumbnailpositionChanged(QString)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(thumbnailFilenameInsteadChanged(bool)), saveSettingsTimer, SLOT(start()));
@@ -141,6 +162,7 @@ public:
 		connect(this, SIGNAL(exiffilenameChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(exiffiletypeChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(exiffilesizeChanged(bool)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(exifimagenumberChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(exifdimensionsChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(exifmakeChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(exifmodelChanged(bool)), saveSettingsTimer, SLOT(start()));
@@ -172,6 +194,11 @@ public:
 		connect(this, SIGNAL(exifMetadaWindowWidthChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(mainMenuWindowWidthChanged(int)), saveSettingsTimer, SLOT(start()));
 
+		connect(this, SIGNAL(histogramPositionChanged(QPoint)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(histogramSizeChanged(QSize)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(histogramChanged(bool)), saveSettingsTimer, SLOT(start()));
+		connect(this, SIGNAL(histogramVersionChanged(QString)), saveSettingsTimer, SLOT(start()));
+
 	}
 
 	// CLean-up
@@ -202,6 +229,9 @@ public:
 	bool keepOnTop;
 	// Is composite enabled?
 	bool composite;
+	bool openOnScreen;
+	QString openOnScreenName;
+	bool startupLoadLastLoadedImage;
 
 	// Set the background color
 	int bgColorRed;
@@ -238,9 +268,8 @@ public:
 	bool sortbyAscending;
 	// Mouse Wheel sensitivity
 	int mouseWheelSensitivity;
-	// Remember per session
-	bool rememberRotation;
-	bool rememberZoom;
+	// Keep for new image
+	bool keepZoomRotationMirror;
 	// If image is too small, zoom to fit in window
 	bool fitInWindow;
 	// 'Nearest Neighbour' interpolation size threshold
@@ -251,8 +280,9 @@ public:
 	int blurIntensity;
 	// Size (in MB) of pixmap cache
 	int pixmapCache;
-	// Option to enable experimental support for touchscreen gestures
-	bool experimentalTouchscreenSupport;
+
+	bool leftButtonMouseClickAndMove;
+	bool singleFingerTouchPressAndMove;
 
 	// Are quickinfos hidden?
 	bool hidecounter;
@@ -289,8 +319,6 @@ public:
 	int thumbnailLiftUp;
 	// Are the thumbnails fading out or always visible?
 	bool thumbnailKeepVisible;
-	// Enable dynamic thumbnail creation (1 = dynamic, 2 = smart)
-	int thumbnailDynamic;
 	// Always center on active thumbnails
 	bool thumbnailCenterActive;
 	// Don't load actual thumbnail but just display the filename
@@ -319,6 +347,7 @@ public:
 	bool exiffilename;
 	bool exiffiletype;
 	bool exiffilesize;
+	bool exifimagenumber;
 	bool exifdimensions;
 	bool exifmake;
 	bool exifmodel;
@@ -352,6 +381,11 @@ public:
 	int exifMetadaWindowWidth;	// changed by dragging right rectangle edge
 	int mainMenuWindowWidth;	// changed by dragging left rectangle edge
 
+	bool histogram;
+	QPoint histogramPosition;
+	QSize histogramSize;
+	QString histogramVersion;
+
 
 	/*#################################################################################################*/
 	/*#################################################################################################*/
@@ -365,6 +399,9 @@ public:
 	Q_PROPERTY(bool saveWindowGeometry MEMBER saveWindowGeometry NOTIFY saveWindowGeometryChanged)
 	Q_PROPERTY(bool keepOnTop MEMBER keepOnTop NOTIFY keepOnTopChanged)
 	Q_PROPERTY(bool composite MEMBER composite NOTIFY compositeChanged)
+	Q_PROPERTY(bool openOnScreen MEMBER openOnScreen NOTIFY openOnScreenChanged)
+	Q_PROPERTY(QString openOnScreenName MEMBER openOnScreenName NOTIFY openOnScreenNameChanged)
+	Q_PROPERTY(bool startupLoadLastLoadedImage MEMBER startupLoadLastLoadedImage NOTIFY startupLoadLastLoadedImageChanged)
 
 	Q_PROPERTY(int bgColorRed MEMBER bgColorRed NOTIFY bgColorRedChanged)
 	Q_PROPERTY(int bgColorGreen MEMBER bgColorGreen NOTIFY bgColorGreenChanged)
@@ -390,14 +427,14 @@ public:
 	Q_PROPERTY(QString sortby MEMBER sortby NOTIFY sortbyChanged)
 	Q_PROPERTY(bool sortbyAscending MEMBER sortbyAscending NOTIFY sortbyAscendingChanged)
 	Q_PROPERTY(int mouseWheelSensitivity MEMBER mouseWheelSensitivity NOTIFY mouseWheelSensitivityChanged)
-	Q_PROPERTY(bool rememberRotation MEMBER rememberRotation NOTIFY rememberRotationChanged)
-	Q_PROPERTY(bool rememberZoom MEMBER rememberZoom NOTIFY rememberZoomChanged)
+	Q_PROPERTY(bool keepZoomRotationMirror MEMBER keepZoomRotationMirror NOTIFY keepZoomRotationMirrorChanged)
 	Q_PROPERTY(bool fitInWindow MEMBER fitInWindow NOTIFY fitInWindowChanged)
 	Q_PROPERTY(int interpolationNearestNeighbourThreshold MEMBER interpolationNearestNeighbourThreshold NOTIFY interpolationNearestNeighbourThresholdChanged)
 	Q_PROPERTY(bool interpolationNearestNeighbourUpscale MEMBER interpolationNearestNeighbourUpscale NOTIFY interpolationNearestNeighbourUpscaleChanged)
 	Q_PROPERTY(int blurIntensity MEMBER blurIntensity NOTIFY blurIntensityChanged)
 	Q_PROPERTY(int pixmapCache MEMBER pixmapCache NOTIFY pixmapCacheChanged)
-	Q_PROPERTY(bool experimentalTouchscreenSupport MEMBER experimentalTouchscreenSupport NOTIFY experimentalTouchscreenSupportChanged)
+	Q_PROPERTY(bool leftButtonMouseClickAndMove MEMBER leftButtonMouseClickAndMove NOTIFY leftButtonMouseClickAndMoveChanged)
+	Q_PROPERTY(bool singleFingerTouchPressAndMove MEMBER singleFingerTouchPressAndMove NOTIFY singleFingerTouchPressAndMoveChanged)
 
 	Q_PROPERTY(bool hidecounter MEMBER hidecounter NOTIFY hidecounterChanged)
 	Q_PROPERTY(bool hidefilepathshowfilename MEMBER hidefilepathshowfilename NOTIFY hidefilepathshowfilenameChanged)
@@ -423,7 +460,6 @@ public:
 	Q_PROPERTY(int thumbnailSpacingBetween MEMBER thumbnailSpacingBetween NOTIFY thumbnailSpacingBetweenChanged)
 	Q_PROPERTY(int thumbnailLiftUp MEMBER thumbnailLiftUp NOTIFY thumbnailLiftUpChanged)
 	Q_PROPERTY(bool thumbnailKeepVisible MEMBER thumbnailKeepVisible NOTIFY thumbnailKeepVisibleChanged)
-	Q_PROPERTY(int thumbnailDynamic MEMBER thumbnailDynamic NOTIFY thumbnailDynamicChanged)
 	Q_PROPERTY(bool thumbnailCenterActive MEMBER thumbnailCenterActive NOTIFY thumbnailCenterActiveChanged)
 	Q_PROPERTY(bool thumbnailFilenameInstead MEMBER thumbnailFilenameInstead NOTIFY thumbnailFilenameInsteadChanged)
 	Q_PROPERTY(int thumbnailFilenameInsteadFontSize MEMBER thumbnailFilenameInsteadFontSize NOTIFY thumbnailFilenameInsteadFontSizeChanged)
@@ -444,6 +480,7 @@ public:
 	Q_PROPERTY(bool exiffilename MEMBER exiffilename NOTIFY exiffilenameChanged)
 	Q_PROPERTY(bool exiffiletype MEMBER exiffiletype NOTIFY exiffiletypeChanged)
 	Q_PROPERTY(bool exiffilesize MEMBER exiffilesize NOTIFY exiffilesizeChanged)
+	Q_PROPERTY(bool exifimagenumber MEMBER exifimagenumber NOTIFY exifimagenumberChanged)
 	Q_PROPERTY(bool exifdimensions MEMBER exifdimensions NOTIFY exifdimensionsChanged)
 	Q_PROPERTY(bool exifmake MEMBER exifmake NOTIFY exifmakeChanged)
 	Q_PROPERTY(bool exifmodel MEMBER exifmodel NOTIFY exifmodelChanged)
@@ -475,6 +512,11 @@ public:
 	Q_PROPERTY(int exifMetadaWindowWidth MEMBER exifMetadaWindowWidth NOTIFY exifMetadaWindowWidthChanged)
 	Q_PROPERTY(int mainMenuWindowWidth MEMBER mainMenuWindowWidth NOTIFY mainMenuWindowWidthChanged)
 
+	Q_PROPERTY(QPoint histogramPosition MEMBER histogramPosition NOTIFY histogramPositionChanged)
+	Q_PROPERTY(QSize histogramSize MEMBER histogramSize NOTIFY histogramSizeChanged)
+	Q_PROPERTY(bool histogram MEMBER histogram NOTIFY histogramChanged)
+	Q_PROPERTY(QString histogramVersion MEMBER histogramVersion NOTIFY histogramVersionChanged)
+
 
 	/*#################################################################################################*/
 	/*#################################################################################################*/
@@ -495,6 +537,8 @@ public:
 		myWidgetAnimated = true;
 		saveWindowGeometry = false;
 		keepOnTop = false;
+		openOnScreen = false;
+		openOnScreenName = "";
 
 		language = "";
 		bgColorRed = 0;
@@ -521,21 +565,22 @@ public:
 		composite = true;
 #endif
 		trayicon = 0;
-		transition = 0;
+		transition = 1;
 		loopthroughfolder = true;
 		menusensitivity = 4;
 		closeongrey = false;
 		borderAroundImg = 5;
 		quickSettings = true;
 		mouseWheelSensitivity = 1;
-		rememberRotation = false;
-		rememberZoom = false;
+		keepZoomRotationMirror = false;
 		fitInWindow= false;
 		interpolationNearestNeighbourThreshold = 100;
 		interpolationNearestNeighbourUpscale = false;
 		blurIntensity = 5;
-		pixmapCache = 25;
-		experimentalTouchscreenSupport = false;
+		pixmapCache = 128;
+		leftButtonMouseClickAndMove = true;
+		singleFingerTouchPressAndMove = true;
+		startupLoadLastLoadedImage = false;
 
 		hidecounter = false;
 		hidefilepathshowfilename = true;
@@ -552,7 +597,6 @@ public:
 		thumbnailSpacingBetween = 0;
 		thumbnailLiftUp = 6;
 		thumbnailKeepVisible = false;
-		thumbnailDynamic = 2;
 		thumbnailCenterActive = false;
 		thumbnailDisable = false;
 		thumbnailWriteFilename = true;
@@ -579,6 +623,7 @@ public:
 		exiffilename = true;
 		exiffiletype = true;
 		exiffilesize = true;
+		exifimagenumber = true;
 		exifdimensions = true;
 		exifmake = true;
 		exifmodel = true;
@@ -611,6 +656,11 @@ public:
 
 		exifMetadaWindowWidth = 350;
 		mainMenuWindowWidth = 350;
+
+		histogram = false;
+		histogramVersion = "color";
+		histogramPosition = QPoint(100,100);
+		histogramSize = QSize(300,200);
 
 	}
 
@@ -654,6 +704,9 @@ public slots:
 			cont += QString("SaveWindowGeometry=%1\n").arg(int(saveWindowGeometry));
 			cont += QString("KeepOnTop=%1\n").arg(int(keepOnTop));
 			cont += QString("KnownFileTypesQtExtras=%1\n").arg(knownFileTypesQtExtras);
+			cont += QString("OpenOnScreen=%1\n").arg(int(openOnScreen));
+			cont += QString("OpenOnScreenName=%1\n").arg(openOnScreenName);
+			cont += QString("StartupLoadLastLoadedImage=%1\n").arg(int(startupLoadLastLoadedImage));
 
 			cont += "\n[Look]\n";
 
@@ -683,14 +736,14 @@ public slots:
 			cont += QString("SortImagesBy=%1\n").arg(sortby);
 			cont += QString("SortImagesAscending=%1\n").arg(int(sortbyAscending));
 			cont += QString("MouseWheelSensitivity=%1\n").arg(mouseWheelSensitivity);
-			cont += QString("RememberRotation=%1\n").arg(int(rememberRotation));
-			cont += QString("RememberZoom=%1\n").arg(int(rememberZoom));
+			cont += QString("KeepZoomRotationMirror=%1\n").arg(int(keepZoomRotationMirror));
 			cont += QString("FitInWindow=%1\n").arg(int(fitInWindow));
 			cont += QString("InterpolationNearestNeighbourThreshold=%1\n").arg(interpolationNearestNeighbourThreshold);
 			cont += QString("InterpolationNearestNeighbourUpscale=%1\n").arg(int(interpolationNearestNeighbourUpscale));
 			cont += QString("BlurIntensity=%1\n").arg(blurIntensity);
 			cont += QString("PixmapCache=%1\n").arg(pixmapCache);
-			cont += QString("ExperimentalTouchscreenSupport=%1\n").arg(int(experimentalTouchscreenSupport));
+			cont += QString("LeftButtonMouseClickAndMove=%1\n").arg(int(leftButtonMouseClickAndMove));
+			cont += QString("SingleFingerTouchPressAndMove=%1\n").arg(int(singleFingerTouchPressAndMove));
 
 			cont += "\n[Quickinfo]\n";
 
@@ -710,7 +763,6 @@ public slots:
 			cont += QString("ThumbnailSpacingBetween=%1\n").arg(thumbnailSpacingBetween);
 			cont += QString("ThumbnailLiftUp=%1\n").arg(thumbnailLiftUp);
 			cont += QString("ThumbnailKeepVisible=%1\n").arg(thumbnailKeepVisible);
-			cont += QString("ThumbnailDynamic=%1\n").arg(thumbnailDynamic);
 			cont += QString("ThumbnailCenterActive=%1\n").arg(int(thumbnailCenterActive));
 			cont += QString("ThumbnailFilenameInstead=%1\n").arg(int(thumbnailFilenameInstead));
 			cont += QString("ThumbnailFilenameInsteadFontSize=%1\n").arg(thumbnailFilenameInsteadFontSize);
@@ -741,6 +793,7 @@ public slots:
 			cont += QString("ExifFilename=%1\n").arg(int(exiffilename));
 			cont += QString("ExifFiletype=%1\n").arg(int(exiffiletype));
 			cont += QString("ExifFilesize=%1\n").arg(int(exiffilesize));
+			cont += QString("ExifImageNumber=%1\n").arg(int(exifimagenumber));
 			cont += QString("ExifDimensions=%1\n").arg(int(exifdimensions));
 			cont += QString("ExifMake=%1\n").arg(int(exifmake));
 			cont += QString("ExifModel=%1\n").arg(int(exifmodel));
@@ -773,6 +826,13 @@ public slots:
 			cont += QString("OpenUserPlacesUser=%1\n").arg(int(openUserPlacesUser));
 			cont += QString("OpenUserPlacesVolumes=%1\n").arg(int(openUserPlacesVolumes));
 			cont += QString("OpenKeepLastLocation=%1\n").arg(int(openKeepLastLocation));
+
+			cont += "\n[Histogram]\n";
+
+			cont += QString("Histogram=%1\n").arg(int(histogram));
+			cont += QString("HistogramVersion=%1\n").arg(histogramVersion);
+			cont += QString("HistogramPosition=%1,%2\n").arg(histogramPosition.x()).arg(histogramPosition.y());
+			cont += QString("HistogramSize=%1,%2\n").arg(histogramSize.width()).arg(histogramSize.height());
 
 			cont += "\n[Other]\n";
 
@@ -858,6 +918,19 @@ public slots:
 			else if(all.contains("Composite=0"))
 				composite = false;
 
+			if(all.contains("OpenOnScreen=1"))
+				openOnScreen = true;
+			else if(all.contains("OpenOnScreen=0"))
+				openOnScreen = false;
+
+			if(all.contains("OpenOnScreenName="))
+				openOnScreenName = all.split("OpenOnScreenName=").at(1).split("\n").at(0);
+
+			if(all.contains("StartupLoadLastLoadedImage=1"))
+				startupLoadLastLoadedImage = true;
+			else if(all.contains("StartupLoadLastLoadedImage=0"))
+				startupLoadLastLoadedImage = false;
+
 
 			if(all.contains("QuickSettings=1"))
 				quickSettings = true;
@@ -920,15 +993,10 @@ public slots:
 				if(mouseWheelSensitivity < 1) mouseWheelSensitivity = 1;
 			}
 
-			if(all.contains("RememberRotation=1"))
-				rememberRotation = true;
-			else if(all.contains("RememberRotation=0"))
-				rememberRotation = false;
-
-			if(all.contains("RememberZoom=1"))
-				rememberZoom = true;
-			else if(all.contains("RememberZoom=0"))
-				rememberZoom = false;
+			if(all.contains("KeepZoomRotationMirror=1"))
+				keepZoomRotationMirror = true;
+			else if(all.contains("KeepZoomRotationMirror=0"))
+				keepZoomRotationMirror = false;
 
 			if(all.contains("FitInWindow=1"))
 				fitInWindow = true;
@@ -949,10 +1017,15 @@ public slots:
 			if(all.contains("PixmapCache="))
 				pixmapCache = all.split("PixmapCache=").at(1).split("\n").at(0).toInt();
 
-			if(all.contains("ExperimentalTouchscreenSupport=1"))
-				experimentalTouchscreenSupport = true;
-			else if(all.contains("ExperimentalTouchscreenSupport=0"))
-				experimentalTouchscreenSupport = false;
+			if(all.contains("LeftButtonMouseClickAndMove=1"))
+				leftButtonMouseClickAndMove = true;
+			else if(all.contains("LeftButtonMouseClickAndMove=0"))
+				leftButtonMouseClickAndMove = false;
+
+			if(all.contains("SingleFingerTouchPressAndMove=1"))
+				singleFingerTouchPressAndMove = true;
+			else if(all.contains("SingleFingerTouchPressAndMove=0"))
+				singleFingerTouchPressAndMove = false;
 
 			if(all.contains("HideCounter=1"))
 				hidecounter = true;
@@ -1011,9 +1084,6 @@ public slots:
 				thumbnailKeepVisible = true;
 			else if(all.contains("ThumbnailKeepVisible=0"))
 				thumbnailKeepVisible = false;
-
-			if(all.contains("ThumbnailDynamic="))
-				thumbnailDynamic = all.split("ThumbnailDynamic=").at(1).split("\n").at(0).toInt();
 
 			if(all.contains("ThumbnailCenterActive=1"))
 				thumbnailCenterActive = true;
@@ -1100,6 +1170,11 @@ public slots:
 				exiffilesize = true;
 			else if(all.contains("ExifFilesize=0"))
 				exiffilesize = false;
+
+			if(all.contains("ExifImageNumber=1"))
+				exifimagenumber = true;
+			else if(all.contains("ExifImageNumber=0"))
+				exifimagenumber = false;
 
 			if(all.contains("ExifDimensions=1"))
 				exifdimensions = true;
@@ -1239,6 +1314,23 @@ public slots:
 			if(all.contains("MainMenuWindowWidth="))
 				mainMenuWindowWidth = all.split("MainMenuWindowWidth=").at(1).split("\n").at(0).toInt();
 
+			if(all.contains("Histogram=1"))
+				histogram = true;
+			else if(all.contains("Histogram=0"))
+				histogram = false;
+
+			if(all.contains("HistogramVersion="))
+				histogramVersion = all.split("HistogramVersion=").at(1).split("\n").at(0);
+
+			if(all.contains("HistogramPosition=")) {
+				QStringList parts = all.split("HistogramPosition=").at(1).split("\n").at(0).split(",");
+				histogramPosition = QPoint(parts.at(0).toInt(), parts.at(1).toInt());
+			}
+
+			if(all.contains("HistogramSize=")) {
+				QStringList parts = all.split("HistogramSize=").at(1).split("\n").at(0).split(",");
+				histogramSize = QSize(parts.at(0).toInt(), parts.at(1).toInt());
+			}
 
 			file.close();
 
@@ -1260,6 +1352,9 @@ signals:
 	void saveWindowGeometryChanged(bool val);
 	void keepOnTopChanged(bool val);
 	void compositeChanged(bool val);
+	void openOnScreenChanged(bool val);
+	void openOnScreenNameChanged(QString val);
+	void startupLoadLastLoadedImageChanged(bool val);
 
 	void bgColorRedChanged(int val);
 	void bgColorGreenChanged(int val);
@@ -1285,14 +1380,14 @@ signals:
 	void sortbyChanged(QString val);
 	void sortbyAscendingChanged(bool val);
 	void mouseWheelSensitivityChanged(int val);
-	void rememberRotationChanged(bool val);
-	void rememberZoomChanged(bool val);
+	void keepZoomRotationMirrorChanged(bool val);
 	void fitInWindowChanged(bool val);
 	void interpolationNearestNeighbourThresholdChanged(int val);
 	void interpolationNearestNeighbourUpscaleChanged(bool val);
 	void blurIntensityChanged(int val);
 	void pixmapCacheChanged(int val);
-	void experimentalTouchscreenSupportChanged(bool val);
+	void leftButtonMouseClickAndMoveChanged(bool val);
+	void singleFingerTouchPressAndMoveChanged(bool val);
 
 	void hidecounterChanged(bool val);
 	void hidefilepathshowfilenameChanged(bool val);
@@ -1318,7 +1413,6 @@ signals:
 	void thumbnailLiftUpChanged(int val);
 	void thumbnailKeepVisibleChanged(bool val);
 	void thumbnailFontSizeChanged(int val);
-	void thumbnailDynamicChanged(int val);
 	void thumbnailCenterActiveChanged(bool val);
 	void thumbnailpositionChanged(QString val);
 	void thumbnailFilenameInsteadChanged(bool val);
@@ -1339,6 +1433,7 @@ signals:
 	void exiffilenameChanged(bool val);
 	void exiffiletypeChanged(bool val);
 	void exiffilesizeChanged(bool val);
+	void exifimagenumberChanged(bool val);
 	void exifdimensionsChanged(bool val);
 	void exifmakeChanged(bool val);
 	void exifmodelChanged(bool val);
@@ -1369,6 +1464,11 @@ signals:
 
 	void exifMetadaWindowWidthChanged(int val);
 	void mainMenuWindowWidthChanged(int val);
+
+	void histogramChanged(bool val);
+	void histogramVersionChanged(QString val);
+	void histogramPositionChanged(QPoint val);
+	void histogramSizeChanged(QSize val);
 
 };
 

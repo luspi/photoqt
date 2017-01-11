@@ -1,6 +1,8 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 
+import "../elements"
+
 Rectangle {
 
 	id: mainmenu
@@ -22,31 +24,134 @@ Rectangle {
 	opacity: 0
 
 	property var allitems_static: [
+		//: This is an entry in the mainmenu on the right
 		[["open", "open", qsTr("Open File")]],
+		//: This is an entry in the mainmenu on the right
 		[["settings", "settings", qsTr("Settings")]],
+		//: This is an entry in the mainmenu on the right
 		[["wallpaper", "settings", qsTr("Set as Wallpaper")]],
-		[["slideshow","slideshow",qsTr("Slideshow")],["slideshow","",qsTr("setup")],["slideshowquickstart","",qsTr("quickstart")]],
+		//: This is an entry in the mainmenu on the right
+		[["slideshow","slideshow",qsTr("Slideshow")],
+				//: This is an entry in the mainmenu on the right, used as 'setting up a slideshow'
+				["slideshow","",qsTr("setup")],
+				//: This is an entry in the mainmenu on the right, used as in 'quickstarting a slideshow'
+				["slideshowquickstart","",qsTr("quickstart")]],
+		//: This is an entry in the mainmenu on the right
 		[["filter", "filter", qsTr("Filter Images in Folder")]],
+		//: This is an entry in the mainmenu on the right
 		[["metadata", "metadata", qsTr("Show/Hide Metadata")]],
+		//: This is an entry in the mainmenu on the right
+		[["histogram", "histogram", qsTr("Show/Hide Histogram")]],
+		//: This is an entry in the mainmenu on the right
 		[["about", "about", qsTr("About PhotoQt")]],
+		//: This is an entry in the mainmenu on the right
 		[["hide", "hide", qsTr("Hide (System Tray)")]],
+		//: This is an entry in the mainmenu on the right
 		[["quit", "quit", qsTr("Quit")]],
 
 		[["heading","",""]],
 
-		[["","goto",qsTr("Go to")],["prev","",qsTr("previous")],["next","",qsTr("next")],["first","",qsTr("first")],["last","",qsTr("last")]],
-		[["zoom","zoom",qsTr("Zoom")],["zoomin","",qsTr("in")],["zoomout","",qsTr("out")],["zoomreset","",qsTr("reset")],["zoomactual","","1:1"]],
-		[["rotate","rotate",qsTr("Rotate")],["rotateleft","",qsTr("left")],["rotateright","",qsTr("right")],["rotatereset","",qsTr("reset")]],
-		[["flip","flip",qsTr("Flip")],["flipH","",qsTr("horizontal")],["flipV","",qsTr("vertical")],["flipReset","",qsTr("reset")]],
-		[["","copy",qsTr("File")],["rename","",qsTr("rename")],["copy","",qsTr("copy")],["move","",qsTr("move")],["delete","",qsTr("delete")]],
+		//: This is an entry in the mainmenu on the right, used as in 'Go To some image'
+		[["","goto",qsTr("Go to")],
+				//: This is an entry in the mainmenu on the right, used as in 'go to previous image'
+				["prev","",qsTr("previous")],
+				//: This is an entry in the mainmenu on the right, used as in 'go to next image'
+				["next","",qsTr("next")],
+				//: This is an entry in the mainmenu on the right, used as in 'go to first image'
+				["first","",qsTr("first")],
+				//: This is an entry in the mainmenu on the right, used as in 'go to last image'
+				["last","",qsTr("last")]],
+		//: This is an entry in the mainmenu on the right, used as in 'Zoom image'
+		[["zoom","zoom",qsTr("Zoom")],
+				//: This is an entry in the mainmenu on the right, used as in 'Zoom in on image'
+				["zoomin","",qsTr("in")],
+				//: This is an entry in the mainmenu on the right, used as in 'Zoom out of image'
+				["zoomout","",qsTr("out")],
+				//: This is an entry in the mainmenu on the right, used as in 'Reset zoom of image'
+				["zoomreset","",qsTr("reset")],
+				//: This is an entry in the mainmenu on the right, used as in 'Zoom image to actual size (1:1, one-to-one)'
+				["zoomactual","","1:1"]],
+		//: This is an entry in the mainmenu on the right, used as in 'Rotate image'
+		[["rotate","rotate",qsTr("Rotate")],
+				//: This is an entry in the mainmenu on the right, used as in 'Rotate image left'
+				["rotateleft","",qsTr("left")],
+				//: This is an entry in the mainmenu on the right, used as in 'Rotate image right'
+				["rotateright","",qsTr("right")],
+				//: This is an entry in the mainmenu on the right, used as in 'Reset rotation of image'
+				["rotatereset","",qsTr("reset")]],
+		//: This is an entry in the mainmenu on the right, used as in 'Flip/Mirror image'
+		[["flip","flip",qsTr("Flip")],
+				//: This is an entry in the mainmenu on the right, used as in 'Flip/Mirror image horizontally'
+				["flipH","",qsTr("horizontal")],
+				//: This is an entry in the mainmenu on the right, used as in 'Flip/Mirror image vertically'
+				["flipV","",qsTr("vertical")],
+				//: This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of image'
+				["flipReset","",qsTr("reset")]],
+		//: This is an entry in the mainmenu on the right, used to refer to the current file (specifically the file, not directly the image)
+		[["","copy",qsTr("File")],
+				//: This is an entry in the mainmenu on the right, used as in 'rename file'
+				["rename","",qsTr("rename")],
+				//: This is an entry in the mainmenu on the right, used as in 'copy file'
+				["copy","",qsTr("copy")],
+				//: This is an entry in the mainmenu on the right, used as in 'move file'
+				["move","",qsTr("move")],
+				//: This is an entry in the mainmenu on the right, used as in 'delete file'
+				["delete","",qsTr("delete")]],
 
 		[["heading","",""]],
 
+		//: This is an entry in the mainmenu on the right
 		[["scale","scale",qsTr("Scale Image")]],
+		//: This is an entry in the mainmenu on the right
 		[["default","open",qsTr("Open in default file manager")]]
 	]
 	property var allitems_external: []
 	property var allitems: []
+
+	// An 'x' to close photoqt
+	Rectangle {
+
+		// Position it
+		anchors.right: parent.right
+		anchors.top: parent.top
+		anchors.rightMargin: 1
+		anchors.topMargin: 1
+
+		// Width depends on type of 'x'
+		width: 3*settings.closeXsize
+		height: 3*settings.closeXsize
+
+		// Invisible rectangle
+		color: "#00000000"
+
+		// Fancy 'x'
+		Image {
+
+			id: img_x
+
+			anchors.right: parent.right
+			anchors.top: parent.top
+
+			source: "qrc:/img/closingx.png"
+			sourceSize: Qt.size(3*settings.closeXsize,3*settings.closeXsize)
+
+		}
+
+		// Click on it
+		ToolTip {
+			anchors.fill: parent
+			cursorShape: Qt.PointingHandCursor
+			acceptedButtons: Qt.LeftButton | Qt.RightButton
+			text: qsTr("Close PhotoQt")
+			onClicked: {
+				if(settings.trayicon)
+					hideToSystemTray()
+				else
+					quitPhotoQt()
+			}
+		}
+
+	}
 
 
 	Text {
@@ -213,10 +318,12 @@ Rectangle {
 		color: "grey"
 		wrapMode: Text.WordWrap
 
+		//: This message is shown at the bottom of the mainmenu
 		text: qsTr("Click here to go to the online manual for help regarding shortcuts, settings, features, ...")
 
-		MouseArea {
+		ToolTip {
 			anchors.fill: parent
+			text: "http://photoqt.org/man"
 			cursorShape: Qt.PointingHandCursor
 			onClicked: getanddostuff.openLink("http://photoqt.org/man")
 		}
@@ -319,6 +426,14 @@ Rectangle {
 				metaData.checkCheckbox()
 				background.showMetadata(true)
 			}
+
+		} else if(what == "histogram") {
+
+			if(settings.histogram == false)
+				settings.histogram = true
+			else
+				settings.histogram = false
+
 		} else if(what === "scale") {
 
 			hideMainmenu.start()
@@ -465,14 +580,18 @@ Rectangle {
 	}
 
 	function show() {
+		if(opacity != 1) verboseMessage("MainMenu::show()", opacity + " to 1")
 		showMainmenu.start()
 	}
 	function hide() {
+		if(opacity != 0) verboseMessage("MainMenu::hide()", opacity + " to 0")
 		hideMainmenu.start()
 	}
 
 	function clickInMainMenu(pos) {
-		return mainmenu.contains(mainmenu.mapFromItem(toplevel,pos.x,pos.y))
+		var ret = mainmenu.contains(mainmenu.mapFromItem(toplevel,pos.x,pos.y))
+		verboseMessage("MainMenu::clickInMainMenu()", pos)
+		return ret
 	}
 
 }

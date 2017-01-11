@@ -18,12 +18,17 @@ Rectangle {
 		backgroundColor: "#313131"
 		radius: 5
 		showBorder: false
-		currentIndex: settingssession.value("OpenFileTypesDisplayed",0)
+		currentIndex: 0
 		onCurrentIndexChanged: {
-			settingssession.setValue("OpenFileTypesDisplayed",currentIndex)
 			openfile_top.loadCurrentDirectory(openfile_top.currentlyLoadedDir)
 		}
-		model: [qsTr("All Supported images"), "Qt " + qsTr("images"), "GraphicsMagick " + qsTr("images"), "LibRaw " + qsTr("images")]
+		model: [qsTr("All supported images"), "Qt " +
+			//: 'images' as in the term 'something images'
+			qsTr("images"), "GraphicsMagick " +
+			//: 'images' as in the term 'something images'
+			qsTr("images"), "LibRaw " +
+			//: 'images' as in the term 'something images'
+			qsTr("images")]
 	}
 
 	function getFileTypeSelection() {

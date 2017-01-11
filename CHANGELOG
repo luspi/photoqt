@@ -1,5 +1,25 @@
-Changelog PhotoQt v1.4.1.1  - Copyright (C) 2016, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
+Changelog PhotoQt v1.5  - Copyright (C) 2012-2017, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
+
+
+Release 1.5 - 11/01/2017
+----------------------------
+- Add: new shortcuts handling, including mouse/touch gestures
+- Add: histogram (colour and greyscale)
+- Add: Watch images/directory for changes and update if one is detected
+- Add: option to keep zoom/rotation/mirror when switching images
+- Add: filename and image position to metadata element
+- Add: exit button to mainmenu element
+- Add: re-open last used image on startup
+- Fix: starting new version of photoqt with image passed on remembers and opens image after welcome message
+- Fix: prevent possible exiv2 crash
+- Fix: quickinfo labels move to the right when metadata is set to non-floating
+- Fix: image scaling bug when window size is small
+- Fix/improve: display properly scaled down version when not zoomed -> better display quality
+- Fix/improve: image engine
+- Removed/Replaced: option to remember zoom/rotation/mirror on a per image basis
+- Remake: new thumbnailbar, letting qml handle more of it, better performance but fewer options
+- Fix: many bugs, small and large...
 
 
 Release 1.4.1.1 - 11/09/2016

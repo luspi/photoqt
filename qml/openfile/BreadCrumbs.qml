@@ -49,6 +49,7 @@ Rectangle {
 
 			opacity: enabled ? 1 : 0.4
 
+			//: The history here is the list of past visited folders in the 'Open File' element
 			tooltip: qsTr("Go backwards in history")
 
 			onClickedButton: goBackInHistory()
@@ -74,6 +75,7 @@ Rectangle {
 
 			opacity: enabled ? 1 : 0.4
 
+			//: The history here is the list of past visited folders in the 'Open File' element
 			tooltip: qsTr("Go forwards in history")
 
 			onClickedButton: goForwardsInHistory()
@@ -98,7 +100,7 @@ Rectangle {
 			hoverEnabled: true
 			cursorShape: Qt.PointingHandCursor
 			onClicked: openfile.hide()
-			text: qsTr("Close 'OpenFile' dialog")
+			text: qsTr("Close 'Open File' element")
 		}
 
 	}
@@ -199,6 +201,8 @@ Rectangle {
 
 	function loadDirectory(path) {
 
+		verboseMessage("BreadCrumbs::loadDirectory()",path)
+
 		// If current directory is not loaded from history -> adjust history
 		if(loadedFromHistory)
 			loadedFromHistory = false
@@ -248,6 +252,8 @@ Rectangle {
 	// Add to history
 	function addToHistory(path) {
 
+		verboseMessage("BreadCrumbs::addToHistory()",path + " - " + historypos + " - " + history.length)
+
 		// If current position is not the end of history -> cut off end part
 		if(historypos != history.length-1)
 			history = history.slice(0,historypos+1);
@@ -260,6 +266,7 @@ Rectangle {
 
 	// Go back in history, if we're not already at the beginning
 	function goBackInHistory() {
+		verboseMessage("BreadCrumbs::goBackInHistory()",historypos + " - " + history.length)
 		if(historypos > 0) {
 			--historypos
 			loadedFromHistory = true
@@ -269,6 +276,7 @@ Rectangle {
 
 	// Go forwards in history, if we're not already at the end
 	function goForwardsInHistory() {
+		verboseMessage("BreadCrumbs::goForwardsInHistory()",historypos + " - " + history.length)
 		if(historypos < history.length-1) {
 			++historypos
 			loadedFromHistory = true

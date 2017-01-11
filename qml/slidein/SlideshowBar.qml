@@ -74,7 +74,7 @@ Rectangle {
 		id: exit
 		x: bar.width-width-10
 		y: 10
-		text: qsTr("Exit Slideshow")
+		text: qsTr("Quit Slideshow")
 		onClickedButton: stopSlideshow()
 	}
 
@@ -119,7 +119,7 @@ Rectangle {
 
 		// Set music file
 		if(settings.slideShowMusicFile != "") {
-			slideshowmusic.source = "file://" + settings.slideShowMusicFile
+			slideshowmusic.source = "file:/" + settings.slideShowMusicFile
 			slideshowmusic.play()
 		}
 

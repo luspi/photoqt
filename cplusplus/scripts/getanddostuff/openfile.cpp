@@ -62,8 +62,10 @@ QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
 				icon = ele_icon.attributes().namedItem("name").nodeValue();
 			}
 
-			if(location.startsWith("file://"))
+			if(location.startsWith("file:///"))
 				location = location.remove(0,7);
+			else if(location.startsWith("file://"))
+				location = location.remove(0,6);
 
 			QVariantList ele = QVariantList() << "user" << title << location << icon;
 
@@ -337,5 +339,17 @@ QString GetAndDoStuffOpenFile::getOpenFileLastLocation() {
 		file.close();
 	}
 	return ret;
+
+}
+
+void GetAndDoStuffOpenFile::saveLastOpenedImage(QString path) {
+
+	QFile file(CFG_LASTOPENEDIMAGE_FILE);
+	if(file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+		QTextStream out(&file);
+		out << path;
+		file.close();
+	} else
+		LOG << CURDATE << "ERROR: Unable to store path of last opened image. Error: " << file.errorString().trimmed().toStdString() << NL;
 
 }

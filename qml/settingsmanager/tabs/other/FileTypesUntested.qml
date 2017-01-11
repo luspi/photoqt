@@ -20,7 +20,7 @@ EntryContainer {
 				   + (helptext_warning ? "<br><br><font color=\"red\"><i>&gt; " + qsTr("disabled") + "!</i></font>" : "")
 			helptext: entry.enabled
 					   ? qsTr("These are the file types natively supported by Qt. Make sure, that you'll have the required libraries installed (e.g., qt5-imageformats), otherwise some of them might not work on your system.<br>If a file ending for one of the formats is missing, you can add it below, formatted like '*.ending' (without single quotation marks), multiple entries seperated by commas.")
-					   : qsTr("PhotoQt was built without GraphicsMagick support!")
+					   : "<div color='red'>" + qsTr("PhotoQt was built without GraphicsMagick support!") + "</div>"
 
 			helptext_warning: !entry.enabled
 

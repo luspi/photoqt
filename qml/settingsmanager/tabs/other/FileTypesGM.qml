@@ -20,7 +20,7 @@ EntryContainer {
 				   + (helptext_warning ? "<br><br><font color=\"red\"><i>&gt; " + qsTr("disabled") + "!</i></font>" : "")
 			helptext: entry.enabled
 						? qsTr("PhotoQt makes use of GraphicsMagick for support of many different image formats. The list below are all those formats, that were successfully displayed using test images. If you prefer not to have one or the other enabled in PhotoQt, you can simply disable individual formats below.<br>There are a few formats, that were not tested in PhotoQt (due to lack of a test image). You can find those in the 'Untested' category below.")
-						: qsTr("PhotoQt was built without GraphicsMagick support!")
+						: "<div color='red'>" + qsTr("PhotoQt was built without GraphicsMagick support!") + "</div>"
 
 			helptext_warning: !entry.enabled
 

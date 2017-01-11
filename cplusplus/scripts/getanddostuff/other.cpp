@@ -4,27 +4,6 @@
 GetAndDoStuffOther::GetAndDoStuffOther(QObject *parent) : QObject(parent) { }
 GetAndDoStuffOther::~GetAndDoStuffOther() { }
 
-bool GetAndDoStuffOther::isImageAnimated(QString path) {
-
-	return QMovie::supportedFormats().contains(QFileInfo(path).suffix().toLower().toUtf8());
-
-}
-
-QSize GetAndDoStuffOther::getAnimatedImageSize(QString path) {
-
-	path = path.remove("image://full/");
-	path = path.remove("file://");
-
-	if(path.trimmed() == "") {
-		std::cout << "empty...";
-		return QSize();
-	}
-
-	QImageReader reader(path);
-	return reader.size();
-
-}
-
 QPoint GetAndDoStuffOther::getGlobalCursorPos() {
 
 	return QCursor::pos();
@@ -142,4 +121,16 @@ bool GetAndDoStuffOther::isLibRawSupportEnabled() {
 
 QString GetAndDoStuffOther::getVersionString() {
 	return VERSION;
+}
+
+QList<QString> GetAndDoStuffOther::getScreenNames() {
+
+	QList<QString> ret;
+
+	unsigned int count = QGuiApplication::screens().count();
+	for(unsigned int i = 0; i < count; ++i)
+		ret.append(QGuiApplication::screens().at(i)->name());
+
+	return ret;
+
 }

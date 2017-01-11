@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-		<file>../qml/settingsmanager/SettingsManager.qml</file>
+                <file>../qml/settingsmanager/SettingsManager.qml</file>
 		<file>../qml/settingsmanager/EntrySetting.qml</file>
 		<file>../qml/settingsmanager/EntryTitle.qml</file>
 		<file>../qml/settingsmanager/EntryContainer.qml</file>
@@ -17,20 +17,19 @@
 		<file>../qml/settingsmanager/tabs/lookandfeel/MouseWheelSensitivity.qml</file>
 		<file>../qml/settingsmanager/tabs/lookandfeel/OverlayColor.qml</file>
 		<file>../qml/settingsmanager/tabs/lookandfeel/Quickinfo.qml</file>
-		<file>../qml/settingsmanager/tabs/lookandfeel/Remember.qml</file>
+		<file>../qml/settingsmanager/tabs/lookandfeel/Keep.qml</file>
 		<file>../qml/settingsmanager/tabs/lookandfeel/SortBy.qml</file>
 		<file>../qml/settingsmanager/tabs/lookandfeel/Transition.qml</file>
 		<file>../qml/settingsmanager/tabs/lookandfeel/TrayIcon.qml</file>
 		<file>../qml/settingsmanager/tabs/lookandfeel/WindowMode.qml</file>
 		<file>../qml/settingsmanager/tabs/lookandfeel/Blur.qml</file>
 		<file>../qml/settingsmanager/tabs/lookandfeel/PixmapCache.qml</file>
-		<file>../qml/settingsmanager/tabs/lookandfeel/TouchScreen.qml</file>
+		<file>../qml/settingsmanager/tabs/lookandfeel/ReOpenFile.qml</file>
 		<file>../qml/settingsmanager/tabs/TabThumbnails.qml</file>
 		<file>../qml/settingsmanager/tabs/thumbnails/ThumbnailSize.qml</file>
 		<file>../qml/settingsmanager/tabs/thumbnails/Spacing.qml</file>
 		<file>../qml/settingsmanager/tabs/thumbnails/LiftUp.qml</file>
 		<file>../qml/settingsmanager/tabs/thumbnails/KeepVisible.qml</file>
-		<file>../qml/settingsmanager/tabs/thumbnails/Dynamic.qml</file>
 		<file>../qml/settingsmanager/tabs/thumbnails/CenterOn.qml</file>
 		<file>../qml/settingsmanager/tabs/thumbnails/TopOrBottom.qml</file>
 		<file>../qml/settingsmanager/tabs/thumbnails/Label.qml</file>
@@ -39,8 +38,8 @@
 		<file>../qml/settingsmanager/tabs/thumbnails/Cache.qml</file>
 		<file>../qml/settingsmanager/tabs/TabMetadata.qml</file>
 		<file>../qml/settingsmanager/tabs/metadata/MouseTrigger.qml</file>
-		<file>../qml/settingsmanager/tabs/metadata/Metadata.qml</file>
-		<file>../qml/settingsmanager/tabs/metadata/MetadataTile.qml</file>
+		<file>../qml/settingsmanager/tabs/metadata/MetaData.qml</file>
+		<file>../qml/settingsmanager/tabs/metadata/MetaDataTile.qml</file>
 		<file>../qml/settingsmanager/tabs/metadata/FontSize.qml</file>
 		<file>../qml/settingsmanager/tabs/metadata/Opacity.qml</file>
 		<file>../qml/settingsmanager/tabs/metadata/RotateFlip.qml</file>
@@ -61,5 +60,6 @@
 		<file>../qml/settingsmanager/tabs/shortcuts/Available.qml</file>
 		<file>../qml/settingsmanager/tabs/shortcuts/Set.qml</file>
 		<file>../qml/settingsmanager/tabs/shortcuts/ShortcutsContainer.qml</file>
+		<file>../qml/settingsmanager/DetectShortcut.qml</file>
     </qresource>
 </RCC>

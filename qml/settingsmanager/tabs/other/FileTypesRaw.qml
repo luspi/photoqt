@@ -20,7 +20,7 @@ EntryContainer {
 				   + (helptext_warning ? "<br><br><font color=\"red\"><i>&gt; " + qsTr("disabled") + "!</i></font>" : "")
 			helptext: entry.enabled
 					   ? qsTr("PhotoQt can open and display most (if not all) raw image formats. Here you can adjust the list of fileformats known to PhotoQt.")
-			: qsTr("<div color='red'>PhotoQt was built without LibRaw support!</div>")
+			: "<div color='red'>" + qsTr("PhotoQt was built without LibRaw support!") + "</div>"
 
 			helptext_warning: !entry.enabled
 

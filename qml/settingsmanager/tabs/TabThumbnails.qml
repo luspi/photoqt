@@ -41,6 +41,7 @@ Rectangle {
 				color: "white"
 				font.pointSize: 20
 				font.bold: true
+				//: Used as heading of tab in the settings manager
 				text: qsTr("Thumbnails")
 				horizontalAlignment: Text.AlignHCenter
 			}
@@ -51,7 +52,7 @@ Rectangle {
 				width: flickable.width
 				color: "white"
 				font.pointSize: 9
-				text: qsTr("Move your mouse cursor over the different settings titles to see more information.")
+				text: qsTranslate("SettingsManager", "Move your mouse cursor over the different settings titles to see more information.")
 				horizontalAlignment: Text.AlignHCenter
 			}
 
@@ -65,13 +66,12 @@ Rectangle {
 			Spacing { id: spacing; alternating: true }
 			LiftUp { id: liftup }
 			KeepVisible { id: keepvisible; alternating: true }
-			Dynamic { id: dynamic }
-			CenterOn { id: centeron; alternating: true }
-			TopOrBottom { id: toporbottom }
-			Label { id: label; alternating: true }
-			FilenameOnly { id: filenameonly }
-			Disable { id: disable; alternating: true }
-			Cache { id: cache }
+			CenterOn { id: centeron }
+			TopOrBottom { id: toporbottom; alternating: true }
+			Label { id: label }
+			FilenameOnly { id: filenameonly; alternating: true }
+			Disable { id: disable }
+			Cache { id: cache; alternating: true }
 
 
 		}
@@ -83,7 +83,6 @@ Rectangle {
 		spacing.setData()
 		liftup.setData()
 		keepvisible.setData()
-		dynamic.setData()
 		centeron.setData()
 		toporbottom.setData()
 		label.setData()
@@ -97,7 +96,6 @@ Rectangle {
 		spacing.saveData()
 		liftup.saveData()
 		keepvisible.saveData()
-		dynamic.saveData()
 		centeron.saveData()
 		toporbottom.saveData()
 		label.saveData()

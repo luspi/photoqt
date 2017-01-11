@@ -41,7 +41,7 @@ Rectangle {
 			width: wallpaper_top.width
 			wrapMode: Text.WordWrap
 			horizontalAlignment: Text.AlignHCenter
-			text: qsTr("The wallpaper can be set to either of the available monitors (or any combination).")
+			text: qsTr("The wallpaper can be set to any of the available monitors (one or any combination).")
 		}
 
 		// MONITOR SELECTION

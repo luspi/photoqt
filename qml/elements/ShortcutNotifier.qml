@@ -14,9 +14,10 @@ CustomConfirm {
 	property string area: ""
 
 	actAsInfoMessage: true
-	confirmbuttontext: "Got it!"
+	//: In the sense of 'I understand it'
+	confirmbuttontext: qsTr("Got it!")
 	showDontAskAgain: true
-	customisedDontAskAgainMessage: "Don't show again"
+	customisedDontAskAgainMessage: qsTr("Don't show again")
 	dontAskAgainChecked: true
 
 	Component.onCompleted: {

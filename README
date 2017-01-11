@@ -1,4 +1,4 @@
- PhotoQt v1.4.1.1 - Copyright (C) 2016, Lukas Spies (Lukas@photoqt.org),
+ PhotoQt v1.5 - Copyright (C) 2012-2017, Lukas Spies (Lukas@photoqt.org),
  License: GPLv2 (or later) -- Website: http://photoqt.org
 --------------------------------------------------------------------
 
@@ -14,7 +14,7 @@
 > Make sure that you have the needed Qt modules installed:
   QtQuick, QtQuick.Controls, QtQuick.Controls.Styles,
   QtQuick.Dialogs, QtQuick.Layouts, QtQuick.Window, QtQml.Models,
-  Qt.labs.folderlistmodel, QtGraphicalEffects, QtMultimedia
+  Qt.labs.folderlistmodel, Qt.labs.settings, QtGraphicalEffects, QtMultimedia
 
 > Dependencies, that are needed by default, but can be disabled via CMake
    (see INSTALL section):
@@ -28,8 +28,8 @@
   files usually can be uninstalled again after compilation is done.
 
 > NOTE
-  Even though GraphicsMagick initially started as a fork of ImageMagick (in 2002),
-  trying to build PhotoQt with ImageMagick wont work!
+  Even though GraphicsMagick initially started as a fork of ImageMagick (back in
+  2002), trying to build PhotoQt with ImageMagick wont work!
 
 
  OPTIONAL DEPENDENCIES
@@ -63,7 +63,7 @@
      -DRAW=OFF
 
      # You can combine them in any way you want.
-     # The following option equates to setting the two above options to OFF
+     # The following option equates to setting the three above options to OFF
 
      -DQTONLY=ON
 

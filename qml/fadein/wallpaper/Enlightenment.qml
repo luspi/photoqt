@@ -28,6 +28,7 @@ Rectangle {
 			width: wallpaper_top.width
 			wrapMode: Text.WordWrap
 			horizontalAlignment: Text.AlignHCenter
+			//: Wallpaper: Enlightenment warning
 			text: qsTr("Warning: It seems that the 'msgbus' (DBUS) module is not activated! It can be activated in the settings console > Add-ons > Modules > System.");
 		}
 		// NOTE (tool not existing)
@@ -39,6 +40,7 @@ Rectangle {
 			width: wallpaper_top.width
 			wrapMode: Text.WordWrap
 			horizontalAlignment: Text.AlignHCenter
+			//: Wallpaper: Enlightenment warning
 			text: qsTr("Warning: 'enlightenment_remote' doesn't seem to be available! Are you sure Enlightenment is installed?");
 		}
 
@@ -50,7 +52,7 @@ Rectangle {
 			width: wallpaper_top.width
 			wrapMode: Text.WordWrap
 			horizontalAlignment: Text.AlignHCenter
-			text: qsTr("The wallpaper can be set to either of the available monitors (or any combination).")
+			text: qsTr("The wallpaper can be set to any of the available monitors (one or any combination).")
 		}
 
 		// MONITOR SELECTION
