@@ -83,7 +83,6 @@ public:
 		connect(this, SIGNAL(openOnScreenChanged(bool)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(openOnScreenNameChanged(QString)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(startupLoadLastLoadedImageChanged(bool)), saveSettingsTimer, SLOT(start()));
-		connect(this, SIGNAL(startupLoadLastLoadedImageStringChanged(QString)), saveSettingsTimer, SLOT(start()));
 
 		connect(this, SIGNAL(bgColorRedChanged(int)), saveSettingsTimer, SLOT(start()));
 		connect(this, SIGNAL(bgColorGreenChanged(int)), saveSettingsTimer, SLOT(start()));
@@ -233,7 +232,6 @@ public:
 	bool openOnScreen;
 	QString openOnScreenName;
 	bool startupLoadLastLoadedImage;
-	QString startupLoadLastLoadedImageString;
 
 	// Set the background color
 	int bgColorRed;
@@ -404,7 +402,6 @@ public:
 	Q_PROPERTY(bool openOnScreen MEMBER openOnScreen NOTIFY openOnScreenChanged)
 	Q_PROPERTY(QString openOnScreenName MEMBER openOnScreenName NOTIFY openOnScreenNameChanged)
 	Q_PROPERTY(bool startupLoadLastLoadedImage MEMBER startupLoadLastLoadedImage NOTIFY startupLoadLastLoadedImageChanged)
-	Q_PROPERTY(QString startupLoadLastLoadedImageString MEMBER startupLoadLastLoadedImageString NOTIFY startupLoadLastLoadedImageStringChanged)
 
 	Q_PROPERTY(int bgColorRed MEMBER bgColorRed NOTIFY bgColorRedChanged)
 	Q_PROPERTY(int bgColorGreen MEMBER bgColorGreen NOTIFY bgColorGreenChanged)
@@ -584,7 +581,6 @@ public:
 		leftButtonMouseClickAndMove = true;
 		singleFingerTouchPressAndMove = true;
 		startupLoadLastLoadedImage = false;
-		startupLoadLastLoadedImageString = "";
 
 		hidecounter = false;
 		hidefilepathshowfilename = true;
@@ -711,7 +707,6 @@ public slots:
 			cont += QString("OpenOnScreen=%1\n").arg(int(openOnScreen));
 			cont += QString("OpenOnScreenName=%1\n").arg(openOnScreenName);
 			cont += QString("StartupLoadLastLoadedImage=%1\n").arg(int(startupLoadLastLoadedImage));
-			cont += QString("StartupLoadLastLoadedImageString=%1\n").arg(startupLoadLastLoadedImageString);
 
 			cont += "\n[Look]\n";
 
@@ -935,9 +930,6 @@ public slots:
 				startupLoadLastLoadedImage = true;
 			else if(all.contains("StartupLoadLastLoadedImage=0"))
 				startupLoadLastLoadedImage = false;
-
-			if(all.contains("StartupLoadLastLoadedImageString="))
-				startupLoadLastLoadedImageString = all.split("StartupLoadLastLoadedImageString=").at(1).split("\n").at(0);
 
 
 			if(all.contains("QuickSettings=1"))
@@ -1363,7 +1355,6 @@ signals:
 	void openOnScreenChanged(bool val);
 	void openOnScreenNameChanged(QString val);
 	void startupLoadLastLoadedImageChanged(bool val);
-	void startupLoadLastLoadedImageStringChanged(QString val);
 
 	void bgColorRedChanged(int val);
 	void bgColorGreenChanged(int val);

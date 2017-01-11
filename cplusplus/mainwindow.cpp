@@ -100,10 +100,15 @@ void MainWindow::handleStartup(int upd, QString filename) {
 	if(upd != 0)
 		showStartup(upd == 2 ? "installed" : "updated", filename);
 	else {
-		if(settingsPermanent->startupLoadLastLoadedImage && filename == "")
-			handleOpenFileEvent(settingsPermanent->startupLoadLastLoadedImageString, "");
-		else
-			handleOpenFileEvent(filename, "");
+		if(settingsPermanent->startupLoadLastLoadedImage && filename == "") {
+			QFile file(CFG_LASTOPENEDIMAGE_FILE);
+			if(file.open(QIODevice::ReadOnly)) {
+				QTextStream in(&file);
+				filename = in.readAll().trimmed();
+			}
+			file.close();
+		}
+		handleOpenFileEvent(filename, "");
 	}
 
 }

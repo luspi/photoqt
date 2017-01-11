@@ -144,6 +144,7 @@ public:
 	Q_INVOKABLE void saveUserPlaces(QVariantList enabled) { return this->openfile->saveUserPlaces(enabled); }
 	Q_INVOKABLE QString getOpenFileLastLocation() {  return this->openfile->getOpenFileLastLocation(); }
 	Q_INVOKABLE void setOpenFileLastLocation(QString path) { openfile->setOpenFileLastLocation(path); }
+	Q_INVOKABLE void saveLastOpenedImage(QString path) { openfile->saveLastOpenedImage(path); }
 
 	// IMAGE INFO
 	Q_INVOKABLE bool isImageAnimated(QString path) { return imageinfo->isImageAnimated(path); }

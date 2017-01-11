@@ -52,6 +52,7 @@ public:
 	void saveUserPlaces(QVariantList enabled);
 	QString getOpenFileLastLocation();
 	void setOpenFileLastLocation(QString path);
+	void saveLastOpenedImage(QString path);
 
 signals:
 	void userPlacesUpdated();

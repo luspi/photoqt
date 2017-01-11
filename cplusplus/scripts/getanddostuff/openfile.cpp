@@ -341,3 +341,15 @@ QString GetAndDoStuffOpenFile::getOpenFileLastLocation() {
 	return ret;
 
 }
+
+void GetAndDoStuffOpenFile::saveLastOpenedImage(QString path) {
+
+	QFile file(CFG_LASTOPENEDIMAGE_FILE);
+	if(file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+		QTextStream out(&file);
+		out << path;
+		file.close();
+	} else
+		LOG << CURDATE << "ERROR: Unable to store path of last opened image. Error: " << file.errorString().trimmed().toStdString() << NL;
+
+}

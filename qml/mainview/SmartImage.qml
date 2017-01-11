@@ -198,7 +198,7 @@ Rectangle {
 
 		verboseMessage("SmartImage::loadImage()",filename + " - " + angle)
 
-		settings.startupLoadLastLoadedImageString = filename
+		getanddostuff.saveLastOpenedImage(filename)
 
 		// stop any possibly started animation
 		stopAllAnimations()
