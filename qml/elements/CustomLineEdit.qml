@@ -2,6 +2,8 @@ import QtQuick 2.3
 
 Rectangle {
 
+	id: ele_top
+
 	width: 200
 	height: 30
 
@@ -79,52 +81,52 @@ Rectangle {
 
 			if(event.key === Qt.Key_Enter || event.key === Qt.Key_Return)
 
-				accepted()
+				ele_top.accepted()
 
 			else if(event.key === Qt.Key_Escape)
 
-				rejected()
+				ele_top.rejected()
 
 			else if(event.key === Qt.Key_Up) {
 
 				if(event.modifiers & Qt.ControlModifier)
-					gotoHome()
+					ele_top.gotoHome()
 				else if(event.modifiers & Qt.AltModifier)
-					altUp()
+					ele_top.altUp()
 				else
-					arrowUp()
+					ele_top.arrowUp()
 
 			} else if(event.key === Qt.Key_Down) {
 
 				if(event.modifiers & Qt.ControlModifier)
-					gotoEnd()
+					ele_top.gotoEnd()
 				else
-					arrowDown()
+					ele_top.arrowDown()
 
 			} else if(event.key === Qt.Key_PageUp)
 
-				pageUp()
+				ele_top.pageUp()
 
 			else if(event.key === Qt.Key_PageDown)
 
-				pageDown()
+				ele_top.pageDown()
 
 			else if(event.key === Qt.Key_Left) {
 
 				if(event.modifiers & Qt.AltModifier)
-					altLeft()
+					ele_top.altLeft()
 
 			} else if(event.key === Qt.Key_Right) {
 
 				if(event.modifiers & Qt.AltModifier)
-					altRight()
+					ele_top.altRight()
 
 			} else if(event.key === Qt.Key_F) {
 				if(event.modifiers & Qt.ControlModifier)
-					historyForwards()
+					ele_top.historyForwards()
 			} else if(event.key === Qt.Key_B) {
 				if(event.modifiers & Qt.ControlModifier)
-					historyBack()
+					ele_top.historyBack()
 			}
 
 		}
