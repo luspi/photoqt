@@ -173,51 +173,51 @@ QVariantMap GetAndDoStuffShortcuts::getAllShortcuts() {
 QVariantMap GetAndDoStuffShortcuts::getDefaultKeyShortcuts() {
 
 	QVariantMap ret;
-	ret.insert("O",QStringList() << "0" << "__open");
-	ret.insert("Ctrl+O",QStringList() << "0" << "__open");
-	ret.insert("Right",QStringList() << "0" << "__next");
-	ret.insert("Space",QStringList() << "0" << "__next");
-	ret.insert("Left",QStringList() << "0" << "__prev");
-	ret.insert("Backspace",QStringList() << "0" << "__prev");
-	ret.insert("Ctrl+F", QStringList() << "0" << "__filterImages");
+	ret.insert("O",QStringList() << "0" << "__open" << "key");
+	ret.insert("Ctrl+O",QStringList() << "0" << "__open" << "key");
+	ret.insert("Right",QStringList() << "0" << "__next" << "key");
+	ret.insert("Space",QStringList() << "0" << "__next" << "key");
+	ret.insert("Left",QStringList() << "0" << "__prev" << "key");
+	ret.insert("Backspace",QStringList() << "0" << "__prev" << "key");
+	ret.insert("Ctrl+F", QStringList() << "0" << "__filterImages" << "key");
 
-	ret.insert("+",QStringList() << "0" << "__zoomIn");
-	ret.insert("=",QStringList() << "0" << "__zoomIn");
-	ret.insert("Ctrl++",QStringList() << "0" << "__zoomIn");
-	ret.insert("Ctrl+=",QStringList() << "0" << "__zoomIn");
-	ret.insert("-",QStringList() << "0" << "__zoomOut");
-	ret.insert("Ctrl+-",QStringList() << "0" << "__zoomOut");
-	ret.insert("0",QStringList() << "0" << "__zoomReset");
-	ret.insert("1",QStringList() << "0" << "__zoomActual");
-	ret.insert("Ctrl+1",QStringList() << "0" << "__zoomActual");
+	ret.insert("+",QStringList() << "0" << "__zoomIn" << "key");
+	ret.insert("=",QStringList() << "0" << "__zoomIn" << "key");
+	ret.insert("Ctrl++",QStringList() << "0" << "__zoomIn" << "key");
+	ret.insert("Ctrl+=",QStringList() << "0" << "__zoomIn" << "key");
+	ret.insert("-",QStringList() << "0" << "__zoomOut" << "key");
+	ret.insert("Ctrl+-",QStringList() << "0" << "__zoomOut" << "key");
+	ret.insert("0",QStringList() << "0" << "__zoomReset" << "key");
+	ret.insert("1",QStringList() << "0" << "__zoomActual" << "key");
+	ret.insert("Ctrl+1",QStringList() << "0" << "__zoomActual" << "key");
 
-	ret.insert("R",QStringList() << "0" << "__rotateR");
-	ret.insert("L",QStringList() << "0" << "__rotateL");
-	ret.insert("Ctrl+0",QStringList() << "0" << "__rotate0");
-	ret.insert("Ctrl+H",QStringList() << "0" << "__flipH");
-	ret.insert("Ctrl+V",QStringList() << "0" << "__flipV");
+	ret.insert("R",QStringList() << "0" << "__rotateR" << "key");
+	ret.insert("L",QStringList() << "0" << "__rotateL" << "key");
+	ret.insert("Ctrl+0",QStringList() << "0" << "__rotate0" << "key");
+	ret.insert("Ctrl+H",QStringList() << "0" << "__flipH" << "key");
+	ret.insert("Ctrl+V",QStringList() << "0" << "__flipV" << "key");
 
-	ret.insert("Ctrl+X",QStringList() << "0" << "__scale");
-	ret.insert("Ctrl+E",QStringList() << "0" << "__hideMeta");
-	ret.insert("E",QStringList() << "0" << "__settings");
-	ret.insert("I",QStringList() << "0" << "__about");
-	ret.insert("M",QStringList() << "0" << "__slideshow");
-	ret.insert("Shift+M",QStringList() << "0" << "__slideshowQuick");
-	ret.insert("W",QStringList() << "0" << "__wallpaper");
-	ret.insert("S", QStringList() << "0" << "__stopThb");
-	ret.insert("Ctrl+R", QStringList() << "0" << "__reloadThb");
+	ret.insert("Ctrl+X",QStringList() << "0" << "__scale" << "key");
+	ret.insert("Ctrl+E",QStringList() << "0" << "__hideMeta" << "key");
+	ret.insert("E",QStringList() << "0" << "__settings" << "key");
+	ret.insert("I",QStringList() << "0" << "__about" << "key");
+	ret.insert("M",QStringList() << "0" << "__slideshow" << "key");
+	ret.insert("Shift+M",QStringList() << "0" << "__slideshowQuick" << "key");
+	ret.insert("W",QStringList() << "0" << "__wallpaper" << "key");
+	ret.insert("S", QStringList() << "0" << "__stopThb" << "key");
+	ret.insert("Ctrl+R", QStringList() << "0" << "__reloadThb" << "key");
 
-	ret.insert("F2",QStringList() << "0" << "__rename");
-	ret.insert("Ctrl+C",QStringList() << "0" << "__copy");
-	ret.insert("Ctrl+M",QStringList() << "0" << "__move");
-	ret.insert("Delete",QStringList() << "0" << "__delete");
+	ret.insert("F2",QStringList() << "0" << "__rename" << "key");
+	ret.insert("Ctrl+C",QStringList() << "0" << "__copy" << "key");
+	ret.insert("Ctrl+M",QStringList() << "0" << "__move" << "key");
+	ret.insert("Delete",QStringList() << "0" << "__delete" << "key");
 
-	ret.insert("Escape",QStringList() << "0" << "__hide");
-	ret.insert("Q",QStringList() << "0" << "__close");
-	ret.insert("Ctrl+Q",QStringList() << "0" << "__close");
+	ret.insert("Escape",QStringList() << "0" << "__hide" << "key");
+	ret.insert("Q",QStringList() << "0" << "__close" << "key");
+	ret.insert("Ctrl+Q",QStringList() << "0" << "__close" << "key");
 
-	ret.insert("Home",QStringList() << "0" << "__gotoFirstThb");
-	ret.insert("End",QStringList() << "0" << "__gotoLastThb");
+	ret.insert("Home",QStringList() << "0" << "__gotoFirstThb" << "key");
+	ret.insert("End",QStringList() << "0" << "__gotoLastThb" << "key");
 
 	return ret;
 
@@ -225,17 +225,17 @@ QVariantMap GetAndDoStuffShortcuts::getDefaultKeyShortcuts() {
 
 QVariantMap GetAndDoStuffShortcuts::getDefaultMouseShortcuts() {
 	QVariantMap ret;
-	ret.insert("Ctrl+Wheel Down",QStringList() << "0" << "__zoomIn");
-	ret.insert("Ctrl+Wheel Up",QStringList() << "0" << "__zoomOut");
-	ret.insert("Ctrl+Middle Button",QStringList() << "0" << "__zoomReset");
-	ret.insert("Right Button+SES",QStringList() << "0" << "__zoomReset");
+	ret.insert("Ctrl+Wheel Down",QStringList() << "0" << "__zoomIn" << "mouse");
+	ret.insert("Ctrl+Wheel Up",QStringList() << "0" << "__zoomOut" << "mouse");
+	ret.insert("Ctrl+Middle Button",QStringList() << "0" << "__zoomReset" << "mouse");
+	ret.insert("Right Button+SES",QStringList() << "0" << "__zoomReset" << "mouse");
 	return ret;
 }
 
 QVariantMap GetAndDoStuffShortcuts::getDefaultTouchShortcuts() {
 	QVariantMap ret;
-	ret.insert("2::swipe::E", QStringList() << "0" << "__next");
-	ret.insert("2::swipe::W", QStringList() << "0" << "__prev");
+	ret.insert("2::swipe::E", QStringList() << "0" << "__next" << "touch");
+	ret.insert("2::swipe::W", QStringList() << "0" << "__prev" << "touch");
 	return ret;
 }
 
