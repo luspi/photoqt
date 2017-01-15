@@ -13,7 +13,7 @@ PhotoQt is a fast and highly configurable image viewer with a simple and nice in
 - CMake (needed for building PhotoQt)
 
 Make sure that you have the needed Qt modules installed:  
-QtQuick, QtQuick.Controls, QtQuick.Controls.Styles, QtQuick.Dialogs, QtQuick.Layouts, QtQuick.Window, QtQml.Models, Qt.labs.folderlistmodel, Qt.labs.settings, QtGraphicalEffects, QtMultimedia.  
+QtQuick, QtQuick.Controls, QtQuick.Controls.Styles, QtQuick.Dialogs, QtQuick.Layouts, QtQuick.Window, QtQml.Models, Qt.labs.folderlistmodel, Qt.labs.settings, QtGraphicalEffects, QtMultimedia, QtCharts.  
 Dependencies, that are needed by default, but can be disabled via CMake
 
 - Exiv2
