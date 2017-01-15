@@ -15,6 +15,7 @@
   QtQuick, QtQuick.Controls, QtQuick.Controls.Styles,
   QtQuick.Dialogs, QtQuick.Layouts, QtQuick.Window, QtQml.Models,
   Qt.labs.folderlistmodel, Qt.labs.settings, QtGraphicalEffects, QtMultimedia
+  QtCharts
 
 > Dependencies, that are needed by default, but can be disabled via CMake
    (see INSTALL section):
