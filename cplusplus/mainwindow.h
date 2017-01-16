@@ -39,6 +39,7 @@
 #include "imageprovider/imageproviderfull.h"
 #include "imageprovider/imageproviderempty.h"
 #include "imageprovider/imageprovidericon.h"
+#include "imageprovider/imageproviderhistogram.h"
 #include "settings/settings.h"
 #include "settings/fileformats.h"
 #include "settings/colour.h"

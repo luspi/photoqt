@@ -149,8 +149,6 @@ public:
 	// IMAGE INFO
 	Q_INVOKABLE bool isImageAnimated(QString path) { return imageinfo->isImageAnimated(path); }
 	Q_INVOKABLE QSize getAnimatedImageSize(QString path) { return imageinfo->getAnimatedImageSize(path); }
-	Q_INVOKABLE QList<int> getGreyscaleHistogramValues(QString filename) { return imageinfo->getGreyscaleHistogramValues(filename); }
-	Q_INVOKABLE QList<int> getColorHistogramValues(QString filename) { return imageinfo->getColorHistogramValues(filename); }
 	Q_INVOKABLE QList<int> getNumFramesAndDuration(QString filename) { return imageinfo->getNumFramesAndDuration(filename); }
 	Q_INVOKABLE QString getLastModified(QString filename) { return imageinfo->getLastModified(filename); }
 
