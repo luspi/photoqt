@@ -225,7 +225,6 @@ Item {
 	Filter { id: filter; }
 	Startup { id: startup; }
 	OpenFile { id: openfile; }
-	OldOpenFile { id: oldopenfile; }
 	SettingsManager { id: settingsmanager; }
 
 	////////////////////////////////////////////
@@ -279,7 +278,7 @@ Item {
 	function showStartup(type, filename) { startup.showStartup(type, filename); }
 
 	function openFile() { openfile.show(); }
-	function openFileOLD() { oldopenfile.show(); }
+	function openFileOLD() { openfile.show(); }
 	function hideOpenFile() { openfile.hide(); }
 
 	function getCursorPos() { return localcursorpos; }

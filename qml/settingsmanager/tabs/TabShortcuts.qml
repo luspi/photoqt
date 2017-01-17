@@ -117,8 +117,6 @@ Rectangle {
 				//: This is a shortcut description
 				allAvailableItems: [["__open",qsTr("Open New File")],
 									//: This is a shortcut description
-									["__openOld",qsTr("Open New File") + " (Old)"],
-									//: This is a shortcut description
 									["__filterImages",qsTr("Filter Images in Folder")],
 									//: This is a shortcut description
 									["__next",qsTr("Next Image")],
