@@ -1,5 +1,4 @@
 import QtQuick 2.3
-import QtQuick.Dialogs 1.1
 import QtQuick.Controls 1.2
 
 import "../../elements"
@@ -117,8 +116,6 @@ Rectangle {
 				category: qsTr("Navigation")
 				//: This is a shortcut description
 				allAvailableItems: [["__open",qsTr("Open New File")],
-									//: This is a shortcut description
-									["__openOld",qsTr("Open New File") + " (Old)"],
 									//: This is a shortcut description
 									["__filterImages",qsTr("Filter Images in Folder")],
 									//: This is a shortcut description

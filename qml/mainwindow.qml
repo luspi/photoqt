@@ -7,7 +7,6 @@ import ThumbnailManagement 1.0
 import ToolTip 1.0
 import ShortcutsNotifier 1.0
 import Colour 1.0
-import QtQuick.Dialogs 1.2
 import QtGraphicalEffects 1.0
 import ImageWatch 1.0
 
@@ -226,7 +225,6 @@ Item {
 	Filter { id: filter; }
 	Startup { id: startup; }
 	OpenFile { id: openfile; }
-	OldOpenFile { id: oldopenfile; }
 	SettingsManager { id: settingsmanager; }
 
 	////////////////////////////////////////////
@@ -280,7 +278,7 @@ Item {
 	function showStartup(type, filename) { startup.showStartup(type, filename); }
 
 	function openFile() { openfile.show(); }
-	function openFileOLD() { oldopenfile.show(); }
+	function openFileOLD() { openfile.show(); }
 	function hideOpenFile() { openfile.hide(); }
 
 	function getCursorPos() { return localcursorpos; }

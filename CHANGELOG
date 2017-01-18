@@ -1,5 +1,11 @@
-Changelog PhotoQt v1.5  - Copyright (C) 2012-2017, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
+Changelog PhotoQt v1.5.1  - Copyright (C) 2011-2017, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
+
+
+Release 1.5.1 - 17/01/2017
+----------------------------
+- Replace: Custom histogram drawing implementation (removal of QtCharts dependency)
+- Remove: QtQuick.Window and QtQuick.Dialogs dependencies
 
 
 Release 1.5 - 11/01/2017

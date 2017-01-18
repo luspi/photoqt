@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
-	<file>../qml/openfile/OpenFile.qml</file>
-	<file>../qml/openfile/OldOpenFile.qml</file>
+        <file>../qml/openfile/OpenFile.qml</file>
 	<file>../qml/openfile/BreadCrumbs.qml</file>
 	<file>../qml/openfile/Folders.qml</file>
 	<file>../qml/openfile/UserPlaces.qml</file>

@@ -1,5 +1,5 @@
-# PhotoQt v1.5
-__Copyright (C) 2012-2017, Lukas Spies (Lukas@photoqt.org)
+# PhotoQt v1.5.1
+__Copyright (C) 2011-2017, Lukas Spies (Lukas@photoqt.org)
 License: GPLv2 (or later)
 Website: http://photoqt.org__
 
@@ -12,8 +12,8 @@ PhotoQt is a fast and highly configurable image viewer with a simple and nice in
 - Qt >= 5.3
 - CMake (needed for building PhotoQt)
 
-Make sure that you have the needed Qt modules installed:  
-QtQuick, QtQuick.Controls, QtQuick.Controls.Styles, QtQuick.Dialogs, QtQuick.Layouts, QtQuick.Window, QtQml.Models, Qt.labs.folderlistmodel, Qt.labs.settings, QtGraphicalEffects, QtMultimedia, QtCharts.  
+Make sure that you have the required Qt modules installed:  
+QtQuick, QtQuick.Controls, QtQuick.Controls.Styles, QtQuick.Layouts, QtQml.Models, Qt.labs.folderlistmodel, Qt.labs.settings, QtGraphicalEffects, QtMultimedia.  
 Dependencies, that are needed by default, but can be disabled via CMake
 
 - Exiv2
