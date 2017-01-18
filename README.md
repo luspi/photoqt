@@ -1,5 +1,5 @@
-# PhotoQt v1.5
-__Copyright (C) 2012-2017, Lukas Spies (Lukas@photoqt.org)
+# PhotoQt v1.5.1
+__Copyright (C) 2011-2017, Lukas Spies (Lukas@photoqt.org)
 License: GPLv2 (or later)
 Website: http://photoqt.org__
 
