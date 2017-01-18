@@ -476,7 +476,7 @@ Rectangle {
 
 	function clickOnThumbnailBar(pos) {
 		var ret = contains(thumbnailBar2.mapFromItem(toplevel,pos.x,pos.y))
-		verboseMessage("ThumbnailBar::clickOnThumbnailBar()", "thumbnail #" + count + " - mouse pos " + pos + " - " + ret)
+		verboseMessage("ThumbnailBar::clickOnThumbnailBar()", "mouse pos " + pos + " - " + ret)
 		return ret
 	}
 
