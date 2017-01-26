@@ -468,7 +468,6 @@ void MainWindow::updateWindowGeometry() {
 					  ? this->setFlags(Qt::Window)
 					  : this->setFlags(Qt::Window | Qt::FramelessWindowHint);
 		}
-#ifndef Q_OS_WIN
 		if(settingsPermanent->saveWindowGeometry) {
 			QFile geo(CFG_MAINWINDOW_GEOMETRY_FILE);
 			if(geo.open(QIODevice::ReadOnly)) {
@@ -486,7 +485,6 @@ void MainWindow::updateWindowGeometry() {
 			} else
 				this->showMaximized();
 		} else
-#endif
 			this->showMaximized();
 	} else {
 
