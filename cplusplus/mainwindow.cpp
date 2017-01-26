@@ -4,10 +4,6 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
 
 	connect(this, SIGNAL(statusChanged(QQuickView::Status)), this, SLOT(loadStatus(QQuickView::Status)));
 
-#ifdef Q_OS_WIN
-	QtWin::enableBlurBehindWindow(this);
-#endif
-
 	// Settings and variables
 	settingsPermanent = new Settings;
 	fileformats = new FileFormats(verbose);
