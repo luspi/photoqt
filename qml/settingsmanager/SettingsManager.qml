@@ -50,7 +50,7 @@ Rectangle {
 		width: parent.width
 		height: parent.height-butrow.height
 
-		tabCount: 5     // We currently have 5 tabs in the settings
+		tabCount: 6     // We currently have 5 tabs in the settings
 
 		Tab {
 
@@ -115,6 +115,28 @@ Rectangle {
 			//: This is used as a title for one of the tabs in the settings manager
 			title: qsTr("Metadata")
 			TabMetadata {
+				Connections {
+					target: settings_top
+					onSetData:{
+						setData()
+					}
+					onSaveData:{
+						saveData()
+					}
+				}
+				Component.onCompleted: {
+					setData()
+				}
+			}
+
+		}
+
+		Tab {
+
+			//: This is used as a title for one of the tabs in the settings manager
+			title: qsTr("Fileformats")
+
+			TabFileformats {
 				Connections {
 					target: settings_top
 					onSetData:{

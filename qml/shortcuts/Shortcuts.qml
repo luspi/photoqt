@@ -104,6 +104,8 @@ Item {
 				settingsmanager.gotoTab(3)
 			else if(keys === "Alt+5")
 				settingsmanager.gotoTab(4)
+			else if(keys === "Alt+6")
+				settingsmanager.gotoTab(5)
 		}
 
 	}

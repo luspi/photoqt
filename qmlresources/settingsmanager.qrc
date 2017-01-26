@@ -44,18 +44,19 @@
 		<file>../qml/settingsmanager/tabs/metadata/Opacity.qml</file>
 		<file>../qml/settingsmanager/tabs/metadata/RotateFlip.qml</file>
 		<file>../qml/settingsmanager/tabs/metadata/OnlineMap.qml</file>
+		<file>../qml/settingsmanager/tabs/TabFileformats.qml</file>
+		<file>../qml/settingsmanager/tabs/fileformats/FileTypesQt.qml</file>
+		<file>../qml/settingsmanager/tabs/fileformats/FileTypesTile.qml</file>
+		<file>../qml/settingsmanager/tabs/fileformats/FileTypesGM.qml</file>
+		<file>../qml/settingsmanager/tabs/fileformats/FileTypesGMGhostscript.qml</file>
+		<file>../qml/settingsmanager/tabs/fileformats/FileTypesExtras.qml</file>
+		<file>../qml/settingsmanager/tabs/fileformats/FileTypesUntested.qml</file>
+		<file>../qml/settingsmanager/tabs/fileformats/FileTypesRaw.qml</file>
 		<file>../qml/settingsmanager/tabs/TabOther.qml</file>
 		<file>../qml/settingsmanager/tabs/other/Language.qml</file>
 		<file>../qml/settingsmanager/tabs/other/LanguageTile.qml</file>
 		<file>../qml/settingsmanager/tabs/other/CustomEntries.qml</file>
 		<file>../qml/settingsmanager/tabs/other/CustomEntriesInteractive.qml</file>
-		<file>../qml/settingsmanager/tabs/other/FileTypesQt.qml</file>
-		<file>../qml/settingsmanager/tabs/other/FileTypesTile.qml</file>
-		<file>../qml/settingsmanager/tabs/other/FileTypesGM.qml</file>
-		<file>../qml/settingsmanager/tabs/other/FileTypesGMGhostscript.qml</file>
-		<file>../qml/settingsmanager/tabs/other/FileTypesExtras.qml</file>
-		<file>../qml/settingsmanager/tabs/other/FileTypesUntested.qml</file>
-		<file>../qml/settingsmanager/tabs/other/FileTypesRaw.qml</file>
 		<file>../qml/settingsmanager/tabs/TabShortcuts.qml</file>
 		<file>../qml/settingsmanager/tabs/shortcuts/Available.qml</file>
 		<file>../qml/settingsmanager/tabs/shortcuts/Set.qml</file>

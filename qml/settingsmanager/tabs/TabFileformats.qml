@@ -1,7 +1,7 @@
 import QtQuick 2.3
 import QtQuick.Controls 1.2
 
-import "./other"
+import "./fileformats"
 import "../../elements"
 
 
@@ -41,7 +41,7 @@ Rectangle {
 				font.pointSize: 20
 				font.bold: true
 				//: Used as heading of tab in the settings manager
-				text: qsTr("Other Settings")
+				text: qsTr("Fileformats")
 				horizontalAlignment: Text.AlignHCenter
 			}
 
@@ -61,21 +61,34 @@ Rectangle {
 
 			Rectangle { color: "transparent"; width: 1; height: 20; }
 
-			Language { id: language }
-			CustomEntries { id: customentries; alternating: true; enabled: !getanddostuff.amIOnWindows() }
+			FileTypesQt { id: filetypesqt }
+			FileTypesExtras { id: filetypesextras; alternating: true }
+			FileTypesGM { id: filetypesgm }
+			FileTypesGMGhostscript { id: filetypesgmghostscript; alternating: true }
+			FileTypesRaw { id: filetypesraw }
+			FileTypesUntested { id: filetypesuntested; alternating: true }
+
 
 		}
 
 	}
 
 	function setData() {
-		language.setData()
-		customentries.setData()
+		filetypesqt.setData()
+		filetypesgm.setData()
+		filetypesgmghostscript.setData()
+		filetypesextras.setData()
+		filetypesuntested.setData()
+		filetypesraw.setData()
 	}
 
 	function saveData() {
-		language.saveData()
-		customentries.saveData()
+		filetypesqt.saveData()
+		filetypesgm.saveData()
+		filetypesgmghostscript.saveData()
+		filetypesextras.saveData()
+		filetypesuntested.saveData()
+		filetypesraw.saveData()
 	}
 
 }
