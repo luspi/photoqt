@@ -155,7 +155,9 @@ Rectangle {
 									//: This is a shortcut description
 									["__flipV", qsTr("Flip Vertically")],
 									//: This is a shortcut description
-									["__scale", qsTr("Scale Image")]]
+									["__scale", qsTr("Scale Image")],
+									//: This is a shortcut description
+									["__playPauseAni", qsTr("Play/Pause image animation")]]
 			}
 
 			ShortcutsContainer {

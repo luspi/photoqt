@@ -192,6 +192,8 @@ Item {
 			wallpaper.showWallpaper()
 		else if(cmd === "__scale")
 			scaleImage.showScale()
+		else if(cmd === "__playPauseAni")
+			mainview.playPauseAnimation()
 		else {
 			getanddostuff.executeApp(cmd,thumbnailBar.currentFile)
 			if(close !== undefined && close == true)

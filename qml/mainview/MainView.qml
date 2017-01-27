@@ -361,4 +361,8 @@ Item {
 			quitPhotoQt()
 	}
 
+	function playPauseAnimation() {
+		image.playPauseAnimation()
+	}
+
 }

@@ -498,4 +498,11 @@ Rectangle {
 		}
 	}
 
+	function playPauseAnimation() {
+		if(_activeImageItem == "one")
+			one.playPauseAnimation()
+		else
+			two.playPauseAnimation()
+	}
+
 }
