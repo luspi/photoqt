@@ -12,10 +12,13 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
 	QStringList positional = handler.parser.positionalArguments();
 	if(positional.length() > 0) {
 		QString pos = positional.at(0);
+		// If PhotoQt has been restarted (from importing config file)
+		// -> wait for a little bit to make sure the previous instance of PhotoQt is properly closed
 		if(pos.startsWith("RESTARTRESTARTRESTART")) {
 			std::this_thread::sleep_for(std::chrono::seconds(1));
 			pos = pos.remove(0,21);
 		}
+
 		if(pos.trimmed() != "")
 			message += ":-:-:" + QByteArray("::file::") + QFileInfo(pos).absoluteFilePath();
 	}
