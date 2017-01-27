@@ -22,7 +22,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/CustomCheckBox.qml ${d}/CustomButton
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/CustomComboBox.qml ${d}/CustomRadioButton.qml ${d}/CustomSlider.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/CustomSpinBox.qml ${d}/CustomConfirm.qml ${d}/CustomTextEdit.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/ShortcutNotifier.qml ${d}/ContextMenu.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/CustomLineEdit.qml ${d}/ToolTip.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/CustomLineEdit.qml ${d}/ToolTip.qml ${d}/CustomFileSelect.qml)
 
 SET(d "qml/fadein")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/FadeInTemplate.qml ${d}/About.qml ${d}/Scale.qml ${d}/Rename.qml ${d}/Delete.qml)
