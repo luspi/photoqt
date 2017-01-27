@@ -577,6 +577,7 @@ void ZipReaderPrivate::scanFiles()
 	device->read((char *)tmp, 4);
 	if (readUInt(tmp) != 0x04034b50) {
 		qWarning("QZip: not a zip file!");
+		status = ZipReader::FileNotAZipError;
 		return;
 	}
 

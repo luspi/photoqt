@@ -77,7 +77,7 @@ public:
 	struct FileInfo
 	{
 		FileInfo() Q_DECL_NOTHROW
-			: isDir(false), isFile(false), isSymLink(false), crc(0), size(0)
+		        : isDir(false), isFile(false), isSymLink(false), crc(0), size(0)
 		{}
 
 		bool isValid() const Q_DECL_NOTHROW { return isDir || isFile || isSymLink; }
@@ -104,7 +104,8 @@ public:
 		FileReadError,
 		FileOpenError,
 		FilePermissionsError,
-		FileError
+		FileError,
+		FileNotAZipError
 	};
 
 	Status status() const;

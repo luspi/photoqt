@@ -91,8 +91,15 @@ QString GetAndDoStuffExternal::importConfig(QString filename) {
 
 	// Start zip reader
 	ZipReader reader(filename);
+
 	// and iterate over all files in the zip file
 	foreach(ZipReader::FileInfo item, reader.fileInfoList()) {
+
+		if(!allfiles.keys().contains(item.filePath)) {
+			QString err = "ERROR: Not a valid PhotoQt config file!";
+			LOG << "[[[DATE]]] " << err.toStdString() << NL;
+			return err;
+		}
 
 		// start file with file path to be written to
 		QFile file(allfiles[item.filePath]);
@@ -109,6 +116,12 @@ QString GetAndDoStuffExternal::importConfig(QString filename) {
 
 		file.close();
 
+	}
+
+	if(reader.status() == ZipReader::FileNotAZipError) {
+		QString err = "ERROR: This is not a valid zip file!";
+		LOG << "[[[DATE]]] " << err.toStdString() << NL;
+		return err;
 	}
 
 	// finish reader

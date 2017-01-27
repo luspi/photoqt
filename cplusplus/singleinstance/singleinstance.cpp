@@ -18,7 +18,6 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
 			std::this_thread::sleep_for(std::chrono::seconds(1));
 			pos = pos.remove(0,21);
 		}
-
 		if(pos.trimmed() != "")
 			message += ":-:-:" + QByteArray("::file::") + QFileInfo(pos).absoluteFilePath();
 	}
