@@ -100,7 +100,9 @@ Rectangle {
 						// execute export, return value is error message
 						var ret = getanddostuff.exportConfig()
 						// if there's an error message, display it
-						if(ret != "") {
+						if(ret == "-") {
+							// do nothing, QFileDialog cancelled by user
+						} else if(ret != "") {
 							errormsg.error = ret
 							errormsg.exp = true
 							errormsg.show()

@@ -28,6 +28,24 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
 		message += ":-:-:::" + opt.toUtf8() + "::";
 
 
+	// This is treated specially: We export the config file and then quit without continuing
+	exportAndQuitNow = false;
+	if(message.contains("::export::")) {
+		exportAndQuitNow = true;
+		// we need to 'new' the following two otherwise it will crash in the destructor
+		socket = new QLocalSocket();
+		server = new QLocalServer();
+		return;
+	 }
+	importAndQuitNow = "";
+	if(message.contains("::import::")) {
+		importAndQuitNow = handler.parser.value("import");
+		// we need to 'new' the following two otherwise it will crash in the destructor
+		socket = new QLocalSocket();
+		server = new QLocalServer();
+		return;
+	}
+
 
 	/*****************/
 	/* Server/Socket */

@@ -54,6 +54,10 @@ public:
 		parser.addOption(opt_startintray);
 		QCommandLineOption opt_verbose(QStringList() << "debug" << "verbose", tr("Enable debug messages (at start-up only)"));
 		parser.addOption(opt_verbose);
+		QCommandLineOption opt_export("export", tr("Export configuration file"));
+		parser.addOption(opt_export);
+		QCommandLineOption opt_import("import", tr("Import configuration file with given filename"), "filename");
+		parser.addOption(opt_import);
 
 		// Add optional argument 'filename'
 		parser.addPositionalArgument("filename",tr("File to open with PhotoQt"), "[filename]");

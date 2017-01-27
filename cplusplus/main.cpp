@@ -12,6 +12,7 @@
 #include "startup/thumbnails.h"
 #include "startup/fileformats.h"
 #include "startup/shortcuts.h"
+#include "startup/exportimport.h"
 
 int main(int argc, char *argv[]) {
 
@@ -29,6 +30,10 @@ int main(int argc, char *argv[]) {
 	// This class ensures, that only one instance is running. If one is already running, we pass the commands to the main process and exit.
 	// If no process is running yet, we create a LocalServer and continue below
 	SingleInstance a(argc, argv);
+
+	// This means, that, e.g., --export or --import was passed along -> we will simply quit (preparation for that is done in the handleExportImport() function)
+	if(StartupCheck::ExportImport::handleExportImport(&a) != -1) return 0;
+
 
 	if(a.verbose) LOG << CURDATE << "Starting PhotoQt..." << NL;
 

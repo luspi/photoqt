@@ -49,6 +49,10 @@ public:
 	bool update;
 	bool install;
 
+	// dont start photoqt but quit now (e.g., after exporting config)
+	bool exportAndQuitNow;
+	QString importAndQuitNow;
+
 signals:
 	// Interact with application
 	void interaction(QString exec);
