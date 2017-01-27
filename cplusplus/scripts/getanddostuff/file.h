@@ -22,6 +22,7 @@
 #include <QStringList>
 #include <QIcon>
 #include <QImageReader>
+#include <QtDebug>
 
 class GetAndDoStuffFile : public QObject {
 

@@ -11,10 +11,6 @@ QString GetAndDoStuffFile::getFilenameQtImage() {
 
 QString GetAndDoStuffFile::getFilename(QString caption, QString dir, QString filter) {
 
-	dir = dir.replace("\\ ","\\---");
-	dir = dir.split(" ").at(0);
-	dir = dir.replace("\\---","\\ ");
-
 	return QFileDialog::getOpenFileName(0, caption, dir, filter);
 
 }
@@ -65,10 +61,6 @@ QString GetAndDoStuffFile::getIconPathFromTheme(QString binary) {
 }
 
 QString GetAndDoStuffFile::getSaveFilename(QString caption, QString file) {
-
-	file = file.replace("\\ ","\\---");
-	file = file.split(" ").at(0);
-	file = file.replace("\\---","\\ ");
 
 	return QFileDialog::getSaveFileName(0, caption, file);
 

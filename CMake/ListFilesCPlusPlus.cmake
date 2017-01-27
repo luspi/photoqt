@@ -41,6 +41,9 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/singleinstance.cpp ${d}/commandlinep
 SET(d "cplusplus/tooltip")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/tooltip.cpp)
 
+SET(d "cplusplus/zip")
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/zip.cpp)
+
 
 ####################
 #### C++ HEADER ####
@@ -84,3 +87,6 @@ SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/singleinstance.h ${d}/commandlinepar
 
 SET(d "cplusplus/tooltip")
 SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/tooltip.h)
+
+SET(d "cplusplus/zip")
+SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/zipreader.h ${d}/zipwriter.h)

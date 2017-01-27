@@ -10,8 +10,15 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
 
 	// Check for filenames
 	QStringList positional = handler.parser.positionalArguments();
-	if(positional.length() > 0)
-		message += ":-:-:" + QByteArray("::file::") + QFileInfo(positional.at(0)).absoluteFilePath();
+	if(positional.length() > 0) {
+		QString pos = positional.at(0);
+		if(pos.startsWith("RESTARTRESTARTRESTART")) {
+			std::this_thread::sleep_for(std::chrono::seconds(1));
+			pos = pos.remove(0,21);
+		}
+		if(pos.trimmed() != "")
+			message += ":-:-:" + QByteArray("::file::") + QFileInfo(pos).absoluteFilePath();
+	}
 
 	// Check for any other set option
 	QStringList options = handler.parser.optionNames();

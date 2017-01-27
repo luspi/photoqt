@@ -23,6 +23,15 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QUrl>
+#include <QFileDialog>
+#include <sstream>
+#include <QApplication>
+#include <QTimer>
+#include <QtDebug>
+#include "../../logger.h"
+
+#include "../../zip/zipreader.h"
+#include "../../zip/zipwriter.h"
 
 class GetAndDoStuffExternal : public QObject {
 
@@ -35,6 +44,9 @@ public:
 	void executeApp(QString exec, QString fname);
 	void openLink(QString url);
 	void openInDefaultFileManager(QString file);
+	QString exportConfig();
+	QString importConfig(QString filename);
+	void restartPhotoQt(QString loadThisFileAfter);
 
 };
 

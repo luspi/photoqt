@@ -102,6 +102,9 @@ ELSEIF(NOT WIN32)
 ENDIF(WIN32)
 
 
+# We need to link to zlib for zip support
+TARGET_LINK_LIBRARIES(photoqt "z")
+
 #Depending on setup, we copy one of the desktop files to photoqt.desktop
 IF(GM)
         ADD_CUSTOM_COMMAND(TARGET photoqt POST_BUILD

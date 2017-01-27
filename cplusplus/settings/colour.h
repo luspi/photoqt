@@ -285,8 +285,8 @@ public slots:
 		subtab_line_bottom = "#969696";
 
 		// CustomElements background/border (ComboBox/LineEdit//Spinbox)
-		element_bg_color = "#88000000";
-		element_bg_color_disabled = "#55000000";
+		element_bg_color = "#aa000000";
+		element_bg_color_disabled = "#66000000";
 		element_border_color = "#99969696";
 		element_border_color_disabled = "#44969696";
 
@@ -314,9 +314,9 @@ public slots:
 		combo_dropdown_background_highlight = "#ffffff";
 
 		// CustomButton
-		button_bg = "#22dddddd";
-		button_bg_hovered = "#44dddddd";
-		button_bg_pressed = "#66dddddd";
+		button_bg = "#99333333";
+		button_bg_hovered = "#aa333333";
+		button_bg_pressed = "#bb333333";
 		button_bg_disabled = "#05777777";
 		button_text = "#aacccccc";
 		button_text_active = "#aacccccc";

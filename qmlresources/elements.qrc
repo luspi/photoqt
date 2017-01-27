@@ -17,5 +17,6 @@
 	<file>../qml/elements/ToolTip.qml</file>
 	<file>../qml/elements/ShortcutNotifier.qml</file>
 	<file>../qml/elements/ContextMenu.qml</file>
+	<file>../qml/elements/CustomFileSelect.qml</file>
     </qresource>
 </RCC>

@@ -34,7 +34,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Other.qml)
 
 SET(d "qml/settingsmanager")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/SettingsManager.qml ${d}/EntryTitle.qml ${d}/EntrySetting.qml ${d}/EntryContainer.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/DetectShortcut.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/DetectShortcut.qml ${d}/ExportImport.qml)
 SET(d "qml/settingsmanager/tabs")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/TabLookAndFeel.qml ${d}/TabThumbnails.qml ${d}/TabMetadata.qml ${d}/TabOther.qml ${d}/TabShortcuts.qml ${d}/TabFileformats.qml)
 SET(d "qml/settingsmanager/tabs/lookandfeel")

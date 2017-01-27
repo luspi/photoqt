@@ -75,6 +75,9 @@ public:
 	Q_INVOKABLE void executeApp(QString exec, QString fname) { external->executeApp(exec, fname); }
 	Q_INVOKABLE void openLink(QString url) { external->openLink(url); }
 	Q_INVOKABLE void openInDefaultFileManager(QString file) { external->openInDefaultFileManager(file); }
+	Q_INVOKABLE QString exportConfig() { return external->exportConfig(); }
+	Q_INVOKABLE QString importConfig(QString filename) { return external->importConfig(filename); }
+	Q_INVOKABLE void restartPhotoQt(QString loadThisFileAfter) { external->restartPhotoQt(loadThisFileAfter); }
 
 	// FILE
 	Q_INVOKABLE QString removePathFromFilename(QString path, bool removeSuffix = false) { return file->removePathFromFilename(path, removeSuffix); }

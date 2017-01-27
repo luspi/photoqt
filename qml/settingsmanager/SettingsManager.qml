@@ -213,7 +213,7 @@ Rectangle {
 
 	}
 
-	// A rectangle holding the three buttons at the bottom
+	// A rectangle holding the buttons at the bottom
 	Rectangle {
 
 		id: butrow
@@ -239,6 +239,16 @@ Rectangle {
 
 			onClickedButton: confirmdefaultssettings.show()
 
+		}
+
+		CustomButton {
+			id: exportimportbutton
+			text: "Export/Import"
+			x: restoredefault.x+restoredefault.width+10
+			y: 5
+			onClickedButton: {
+				exportimport.show()
+			}
 		}
 
 		// Button to exit without saving - bottom right
@@ -399,6 +409,11 @@ Rectangle {
 
 	}
 
+	ExportImport {
+		id: exportimport
+		anchors.fill: parent
+	}
+
 	Component.onCompleted: {
 		//: Inform the user of a possible shortcut action in the settings manager
 		settingsmanagershortcuts.shortcuts[str_keys.get("ctrl") + " + " + str_keys.get("tab")] = qsTr("Go to the next tab")
@@ -440,6 +455,8 @@ Rectangle {
 			detectshortcut.hide()
 		else if(invalidshortcuts.opacity == 1)
 			invalidshortcuts.accept()
+		else if(exportimport.opacity == 1)
+			exportimport.hide()
 		else
 			hideSettingsAni.start()
 	}
