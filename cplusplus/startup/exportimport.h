@@ -33,7 +33,7 @@ namespace StartupCheck {
 				if(ret == "-")
 					LOG << CURDATE << "Exporting was aborted by user... I will quit now!" << NL;
 				else if(ret != "")
-					LOG << CURDATE << "Exporting configuration failed with error message: " << ret.toStdString() << NL;
+					LOG << CURDATE << "Exporting configuration failed!" << NL;
 				else
 					LOG << CURDATE << "Configuration successfully exported... I will quit now!" << NL;
 				QMetaObject::invokeMethod(qApp, "quit", Qt::QueuedConnection);
@@ -43,7 +43,7 @@ namespace StartupCheck {
 				GetAndDoStuffExternal external;
 				QString ret = external.importConfig(a->importAndQuitNow);
 				if(ret != "")
-					LOG << CURDATE << "Importing configuration failed with error message: " << ret.toStdString() << NL;
+					LOG << CURDATE << "Importing configuration failed!" << NL;
 				else
 					LOG << CURDATE << "Configuration successfully imported... I will quit now!" << NL;
 				QMetaObject::invokeMethod(qApp, "quit", Qt::QueuedConnection);
