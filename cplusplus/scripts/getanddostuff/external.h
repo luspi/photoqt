@@ -44,7 +44,7 @@ public:
 	void executeApp(QString exec, QString fname);
 	void openLink(QString url);
 	void openInDefaultFileManager(QString file);
-	QString exportConfig();
+	QString exportConfig(QString useThisFilename = "");
 	QString importConfig(QString filename);
 	void restartPhotoQt(QString loadThisFileAfter);
 

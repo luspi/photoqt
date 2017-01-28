@@ -28,12 +28,16 @@ void GetAndDoStuffExternal::openInDefaultFileManager(QString file) {
 	QDesktopServices::openUrl(QUrl("file:/" + QFileInfo(file).absolutePath()));
 }
 
-QString GetAndDoStuffExternal::exportConfig() {
+QString GetAndDoStuffExternal::exportConfig(QString useThisFilename) {
 
-	// Obtain a filename from the user
-	QString zipFile = QFileDialog::getSaveFileName(0, "Select Location", QDir::homePath() + "/photoqtconfig.pqt", "PhotoQt Config File (*.pqt);;All Files (*.*)");
-	if(zipFile.trimmed() == "")
-		return "-";
+	// Obtain a filename from the user or used passed on filename
+	QString zipFile;
+	if(useThisFilename == "") {
+		zipFile = QFileDialog::getSaveFileName(0, "Select Location", QDir::homePath() + "/photoqtconfig.pqt", "PhotoQt Config File (*.pqt);;All Files (*.*)");
+		if(zipFile.trimmed() == "")
+			return "-";
+	} else
+		zipFile = useThisFilename;
 
 	// if no suffix, append the pqt suffix
 	if(QFileInfo(zipFile).suffix() == "")
@@ -50,15 +54,6 @@ QString GetAndDoStuffExternal::exportConfig() {
 
 	// Start a writer for the zip file
 	ZipWriter writer(zipFile);
-
-	// shouldn't be necessary, but just in case...
-	if(!writer.exists()) {
-		std::stringstream ss;
-		ss << "ERROR: File '" << zipFile.toStdString() << "' does not exist!";
-		LOG << CURDATE << ss.str() << NL;
-		// on error, return error string
-		return QString::fromStdString(ss.str());
-	}
 
 	// Iterate over filenames to be exported
 	QHash<QString, QString>::const_iterator i = allfiles.constBegin();

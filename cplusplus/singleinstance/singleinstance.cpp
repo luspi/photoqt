@@ -29,9 +29,9 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
 
 
 	// This is treated specially: We export the config file and then quit without continuing
-	exportAndQuitNow = false;
+	exportAndQuitNow = "";
 	if(message.contains("::export::")) {
-		exportAndQuitNow = true;
+		exportAndQuitNow = handler.parser.value("export");;
 		// we need to 'new' the following two otherwise it will crash in the destructor
 		socket = new QLocalSocket();
 		server = new QLocalServer();

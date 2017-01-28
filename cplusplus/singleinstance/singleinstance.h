@@ -50,7 +50,7 @@ public:
 	bool install;
 
 	// dont start photoqt but quit now (e.g., after exporting config)
-	bool exportAndQuitNow;
+	QString exportAndQuitNow;
 	QString importAndQuitNow;
 
 signals:

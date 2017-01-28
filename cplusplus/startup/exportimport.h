@@ -27,9 +27,9 @@ namespace StartupCheck {
 
 		static inline int handleExportImport(SingleInstance *a) {
 
-			if(a->exportAndQuitNow) {
+			if(a->exportAndQuitNow != "") {
 				GetAndDoStuffExternal external;
-				QString ret = external.exportConfig();
+				QString ret = external.exportConfig(a->exportAndQuitNow);
 				if(ret == "-")
 					LOG << CURDATE << "Exporting was aborted by user... I will quit now!" << NL;
 				else if(ret != "")
