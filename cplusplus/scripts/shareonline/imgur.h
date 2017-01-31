@@ -25,6 +25,7 @@
 #include <QDesktopServices>
 #include <thread>
 #include <QEventLoop>
+#include "../../simplecrypt/simplecrypt.h"
 
 namespace ShareOnline {
 
@@ -63,6 +64,9 @@ private:
 
 	// Location where to store local file containing access_/refresh_token
 	QString imgurLocalConfigFilename;
+
+	// Encrypt locally stored access_token and refresh_token
+	SimpleCrypt simpleCrypt;
 
 private slots:
 	// functions to connect to an account. the *_request function sets the whole thing in motion

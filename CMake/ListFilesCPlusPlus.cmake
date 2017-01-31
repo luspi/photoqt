@@ -46,6 +46,9 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/tooltip.cpp)
 SET(d "cplusplus/zip")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/zip.cpp ${d}/zipreader.h ${d}/zipwriter.h)
 
+SET(d "cplusplus/simplecrypt")
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/simplecrypt.cpp)
+
 
 ####################
 #### C++ HEADER ####
@@ -94,3 +97,6 @@ SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/tooltip.h)
 
 SET(d "cplusplus/zip")
 SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/zipreader.h ${d}/zipwriter.h)
+
+SET(d "cplusplus/simplecrypt")
+SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/simplecrypt.h)

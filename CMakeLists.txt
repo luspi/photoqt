@@ -83,6 +83,18 @@ INCLUDE(CMake/ListFilesResources.cmake)
 QT5_ADD_RESOURCES(RESOURCES ${photoqt_RESOURCES})
 
 
+##################################################################
+#### GENERATE RANDOM CRYPT KEY FOR SIMPLE ENCRYPTION          ####
+#### THIS IS ONLY SET THE FIRST CMAKE RUN AND KEPT AFTERWARDS ####
+##################################################################
+
+IF(NOT DEFINED CRYPTKEY)
+        STRING(RANDOM LENGTH 5 ALPHABET "0123456789" tmp_CRYPTKEY)
+	SET(CRYPTKEY ${tmp_CRYPTKEY} CACHE STRING "Seed for SimpleCrypt" FORCE)
+ENDIF()
+ADD_DEFINITIONS(-DSIMPLECRYPTKEY="${CRYPTKEY}")
+
+
 ######################
 #### FINISHING UP ####
 ######################

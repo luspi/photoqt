@@ -12,6 +12,8 @@ ShareOnline::Imgur::Imgur(QString localConfigFile, QObject *parent) : QObject(pa
 	// Location of local file containing acces_/refresh_token
 	imgurLocalConfigFilename = localConfigFile;
 
+	simpleCrypt = SimpleCrypt(QString(SIMPLECRYPTKEY).toInt());
+
 }
 
 // Open a webbrowser to request a new pin
@@ -98,7 +100,7 @@ bool ShareOnline::Imgur::saveAccessRefreshToken(QString filename) {
 
 	// Write data to file
 	QTextStream out(&file);
-	out << txt;
+	out << simpleCrypt.encryptToString(txt);
 
 	// Close file
 	file.close();
@@ -189,7 +191,7 @@ bool ShareOnline::Imgur::connectAccount() {
 		// Read contents of file
 		QString cont = "";
 		QTextStream in(&file);
-		cont = in.readAll();
+		cont = simpleCrypt.decryptToString(in.readAll());
 
 		// Obtain access_token
 		if(!cont.contains("access_token=")) {
