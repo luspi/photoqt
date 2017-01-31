@@ -61,7 +61,7 @@ QT_BEGIN_NAMESPACE
 
 class ZipReaderPrivate;
 
-class Q_GUI_EXPORT ZipReader
+class ZipReader
 {
 public:
 	explicit ZipReader(const QString &fileName, QIODevice::OpenMode mode = QIODevice::ReadOnly );
@@ -77,7 +77,7 @@ public:
 	struct FileInfo
 	{
 		FileInfo() Q_DECL_NOTHROW
-		        : isDir(false), isFile(false), isSymLink(false), crc(0), size(0)
+				: isDir(false), isFile(false), isSymLink(false), crc(0), size(0)
 		{}
 
 		bool isValid() const Q_DECL_NOTHROW { return isDir || isFile || isSymLink; }

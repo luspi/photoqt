@@ -60,7 +60,7 @@ QT_BEGIN_NAMESPACE
 class ZipWriterPrivate;
 
 
-class Q_GUI_EXPORT ZipWriter
+class ZipWriter
 {
 public:
 	explicit ZipWriter(const QString &fileName, QIODevice::OpenMode mode = (QIODevice::WriteOnly | QIODevice::Truncate) );
