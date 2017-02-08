@@ -354,9 +354,9 @@ Item {
 
 	function analyseClick(pos) {
 		if(!image.clickInsideImage(pos) && settings.closeongrey
-				&& (!thumbnailBar.clickOnThumbnailBar(pos) || thumbnailBar.y < 0 || thumbnailBar.y > background.height)
-				&& (!mainmenu.clickInMainMenu(pos) || mainmenu.opacity != 1)
-				&& (!metaData.clickInMetaData(pos) || metaData.opacity != 1)
+				&& (!thumbnailBar.clickOnThumbnailBar(pos) || (thumbnailBar.clickOnThumbnailBar(pos) && thumbnailBar.opacity != 1))
+				&& (!mainmenu.clickInMainMenu(pos) || (mainmenu.clickInMainMenu(pos) && mainmenu.opacity != 1))
+				&& (!metaData.clickInMetaData(pos) || (metaData.clickInMetaData(pos) && metaData.opacity != 1))
 				&& !blocked)
 			quitPhotoQt()
 	}
