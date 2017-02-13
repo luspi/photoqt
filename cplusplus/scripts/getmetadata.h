@@ -33,23 +33,23 @@
 
 class GetMetaData : public QObject {
 
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	explicit GetMetaData(QObject *parent = 0);
+    explicit GetMetaData(QObject *parent = 0);
 
-	Q_INVOKABLE QVariantMap getExiv2(QString path);
+    Q_INVOKABLE QVariantMap getExiv2(QString path);
 
 private:
-	QString exifExposureTime(QString value);
-	QString exifFNumberFLength(QString value);
-	QString exifPhotoTaken(QString value);
+    QString exifExposureTime(QString value);
+    QString exifFNumberFLength(QString value);
+    QString exifPhotoTaken(QString value);
 
-	QString exifLightSource(QString value);
-	QString exifFlash(QString value);
-	QString exifSceneType(QString value);
+    QString exifLightSource(QString value);
+    QString exifFlash(QString value);
+    QString exifSceneType(QString value);
 
-	QStringList exifGps(QString gpsLonRef, QString gpsLon, QString gpsLatRef, QString gpsLat);
+    QStringList exifGps(QString gpsLonRef, QString gpsLon, QString gpsLatRef, QString gpsLat);
 
 };
 

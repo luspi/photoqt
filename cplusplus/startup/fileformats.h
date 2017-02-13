@@ -25,25 +25,25 @@
 
 namespace StartupCheck {
 
-	namespace FileFormats {
+    namespace FileFormats {
 
-		static inline void checkForDefaultSettingsFileAndReturnWhetherDefaultsAreToBeSet(bool verbose) {
+        static inline void checkForDefaultSettingsFileAndReturnWhetherDefaultsAreToBeSet(bool verbose) {
 
-			if(verbose) LOG << CURDATE << "StartupCheck::FileFormats" << NL;
+            if(verbose) LOG << CURDATE << "StartupCheck::FileFormats" << NL;
 
-			// At this point, we only check if the file exists. If it doesn't, then the return value 'true'
-			// is passed on to the MainWindow class later-on for setting the default fileformats
+            // At this point, we only check if the file exists. If it doesn't, then the return value 'true'
+            // is passed on to the MainWindow class later-on for setting the default fileformats
 
-			QFile fileformatsFile(CFG_FILEFORMATS_FILE);
-			if(!fileformatsFile.exists()) {
-				::FileFormats formats(false,true);
-				formats.setDefaultFormats();
-				formats.saveFormats();
-			}
+            QFile fileformatsFile(CFG_FILEFORMATS_FILE);
+            if(!fileformatsFile.exists()) {
+                ::FileFormats formats(false,true);
+                formats.setDefaultFormats();
+                formats.saveFormats();
+            }
 
-		}
+        }
 
-	}
+    }
 
 }
 

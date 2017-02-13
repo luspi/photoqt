@@ -63,50 +63,50 @@ class ZipWriterPrivate;
 class ZipWriter
 {
 public:
-	explicit ZipWriter(const QString &fileName, QIODevice::OpenMode mode = (QIODevice::WriteOnly | QIODevice::Truncate) );
+    explicit ZipWriter(const QString &fileName, QIODevice::OpenMode mode = (QIODevice::WriteOnly | QIODevice::Truncate) );
 
-	explicit ZipWriter(QIODevice *device);
-	~ZipWriter();
+    explicit ZipWriter(QIODevice *device);
+    ~ZipWriter();
 
-	QIODevice* device() const;
+    QIODevice* device() const;
 
-	bool isWritable() const;
-	bool exists() const;
+    bool isWritable() const;
+    bool exists() const;
 
-	enum Status {
-		NoError,
-		FileWriteError,
-		FileOpenError,
-		FilePermissionsError,
-		FileError
-	};
+    enum Status {
+        NoError,
+        FileWriteError,
+        FileOpenError,
+        FilePermissionsError,
+        FileError
+    };
 
-	Status status() const;
+    Status status() const;
 
-	enum CompressionPolicy {
-		AlwaysCompress,
-		NeverCompress,
-		AutoCompress
-	};
+    enum CompressionPolicy {
+        AlwaysCompress,
+        NeverCompress,
+        AutoCompress
+    };
 
-	void setCompressionPolicy(CompressionPolicy policy);
-	CompressionPolicy compressionPolicy() const;
+    void setCompressionPolicy(CompressionPolicy policy);
+    CompressionPolicy compressionPolicy() const;
 
-	void setCreationPermissions(QFile::Permissions permissions);
-	QFile::Permissions creationPermissions() const;
+    void setCreationPermissions(QFile::Permissions permissions);
+    QFile::Permissions creationPermissions() const;
 
-	void addFile(const QString &fileName, const QByteArray &data);
+    void addFile(const QString &fileName, const QByteArray &data);
 
-	void addFile(const QString &fileName, QIODevice *device);
+    void addFile(const QString &fileName, QIODevice *device);
 
-	void addDirectory(const QString &dirName);
+    void addDirectory(const QString &dirName);
 
-	void addSymLink(const QString &fileName, const QString &destination);
+    void addSymLink(const QString &fileName, const QString &destination);
 
-	void close();
+    void close();
 private:
-	ZipWriterPrivate *d;
-	Q_DISABLE_COPY(ZipWriter)
+    ZipWriterPrivate *d;
+    Q_DISABLE_COPY(ZipWriter)
 };
 
 QT_END_NAMESPACE

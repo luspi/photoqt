@@ -26,56 +26,56 @@
 
 class TouchHandler : public QObject {
 
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	explicit TouchHandler(QObject *parent = 0);
-	~TouchHandler();
+    explicit TouchHandler(QObject *parent = 0);
+    ~TouchHandler();
 
-	// Handle touch event -> call respective handler function
-	bool handle(QEvent *e);
-	bool isTouchGestureDetecting() { return amDetecting; }
+    // Handle touch event -> call respective handler function
+    bool handle(QEvent *e);
+    bool isTouchGestureDetecting() { return amDetecting; }
 
 private:
 
-	// Some variables handling the movement
-	QList<QStringList> touchPath;
-	QList<QList<QTouchEvent::TouchPoint> > touchPathPts;
-	int threshold;
-	qint64 startTime;
-	bool amDetecting;
-	int numFingers;
+    // Some variables handling the movement
+    QList<QStringList> touchPath;
+    QList<QList<QTouchEvent::TouchPoint> > touchPathPts;
+    int threshold;
+    qint64 startTime;
+    bool amDetecting;
+    int numFingers;
 
-	bool touchFinished;
+    bool touchFinished;
 
-	int gestureTimeoutMs;
+    int gestureTimeoutMs;
 
-	QPointF gestureCenterPointStart;
-	QPointF gestureCenterPointEnd;
+    QPointF gestureCenterPointStart;
+    QPointF gestureCenterPointEnd;
 
-	// A touch has been started -> reset variables
-	void touchStarted(QTouchEvent *e);
+    // A touch has been started -> reset variables
+    void touchStarted(QTouchEvent *e);
 
-	// Update to touch
-	void touchUpdated(QTouchEvent *e);
+    // Update to touch
+    void touchUpdated(QTouchEvent *e);
 
-	// A gesture has been finished
-	void touchEnded(QTouchEvent *);
+    // A gesture has been finished
+    void touchEnded(QTouchEvent *);
 
-	// A gesture has been cancelled
-	void touchCancelled();
+    // A gesture has been cancelled
+    void touchCancelled();
 
-	QVariantList analyseGestureUpToNow();
+    QVariantList analyseGestureUpToNow();
 
-	Settings *settings;
+    Settings *settings;
 
 private slots:
-	void resetAmDetectingVariable();
+    void resetAmDetectingVariable();
 
 signals:
-	void updatedTouchEvent(QPointF start, QPointF end, QString type, unsigned int numFingers, qint64 duration, QStringList path);
-	void receivedTouchEvent(QPointF start, QPointF end, QString type, unsigned int numFingers, qint64 duration, QStringList path);
-	void setImageInteractiveMode(bool enabled);
+    void updatedTouchEvent(QPointF start, QPointF end, QString type, unsigned int numFingers, qint64 duration, QStringList path);
+    void receivedTouchEvent(QPointF start, QPointF end, QString type, unsigned int numFingers, qint64 duration, QStringList path);
+    void setImageInteractiveMode(bool enabled);
 
 };
 

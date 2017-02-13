@@ -38,29 +38,29 @@
 
 class GetAndDoStuffOther : public QObject {
 
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	explicit GetAndDoStuffOther(QObject *parent = 0);
-	~GetAndDoStuffOther();
+    explicit GetAndDoStuffOther(QObject *parent = 0);
+    ~GetAndDoStuffOther();
 
-	QPoint getGlobalCursorPos();
-	QColor addAlphaToColor(QString col, int alpha);
-	bool amIOnLinux();
-	bool amIOnWindows();
-	QString trim(QString s) { return s.trimmed(); }
-	int getCurrentScreen(int x, int y);
-	QString getTempDir();
-	QString getHomeDir();
-	QString getDesktopDir();
-	QString getRootDir();
-	QString getPicturesDir();
-	QString getDownloadsDir();
-	bool isExivSupportEnabled();
-	bool isGraphicsMagickSupportEnabled();
-	bool isLibRawSupportEnabled();
-	QString getVersionString();
-	QList<QString> getScreenNames();
+    QPoint getGlobalCursorPos();
+    QColor addAlphaToColor(QString col, int alpha);
+    bool amIOnLinux();
+    bool amIOnWindows();
+    QString trim(QString s) { return s.trimmed(); }
+    int getCurrentScreen(int x, int y);
+    QString getTempDir();
+    QString getHomeDir();
+    QString getDesktopDir();
+    QString getRootDir();
+    QString getPicturesDir();
+    QString getDownloadsDir();
+    bool isExivSupportEnabled();
+    bool isGraphicsMagickSupportEnabled();
+    bool isLibRawSupportEnabled();
+    QString getVersionString();
+    QList<QString> getScreenNames();
 
 };
 

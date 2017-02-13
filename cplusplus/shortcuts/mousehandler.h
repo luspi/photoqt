@@ -27,44 +27,44 @@
 
 class MouseHandler : public QObject {
 
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	explicit MouseHandler(QObject *parent = 0);
-	~MouseHandler();
+    explicit MouseHandler(QObject *parent = 0);
+    ~MouseHandler();
 
-	// Handle touch event -> call respective handler function
-	bool handle(QEvent *e);
+    // Handle touch event -> call respective handler function
+    bool handle(QEvent *e);
 
-	bool isDetecting() { return detecting; }
-	void abort() { gestureCancelled(); }
+    bool isDetecting() { return detecting; }
+    void abort() { gestureCancelled(); }
 
 private:
 
-	// Some variables handling the movement
-	QStringList gesturePath;
-	QList<QPoint> gesturePathPts;
-	int threshold;
-	qint64 startTime;
+    // Some variables handling the movement
+    QStringList gesturePath;
+    QList<QPoint> gesturePathPts;
+    int threshold;
+    qint64 startTime;
 
-	QString button;
-	int angleDelta;
+    QString button;
+    int angleDelta;
 
-	bool detecting;
+    bool detecting;
 
-	int numButtonClicked;
+    int numButtonClicked;
 
-	void gestureStarted(QMouseEvent *e);
-	void gestureUpdated(QMouseEvent *e);
-	void gestureEnded(QEvent *e);
-	void gestureCancelled();
+    void gestureStarted(QMouseEvent *e);
+    void gestureUpdated(QMouseEvent *e);
+    void gestureEnded(QEvent *e);
+    void gestureCancelled();
 
-	Settings *settings;
+    Settings *settings;
 
 signals:
-	void updatedMouseEvent(QString button, QStringList gesture, QString modifiers);
-	void finishedMouseEvent(QPoint start, QPoint end, qint64 duration, QString button, QStringList gesture, int wheelAngleDelta, QString modifiers);
-	void setImageInteractiveMode(bool enabled);
+    void updatedMouseEvent(QString button, QStringList gesture, QString modifiers);
+    void finishedMouseEvent(QPoint start, QPoint end, qint64 duration, QString button, QStringList gesture, int wheelAngleDelta, QString modifiers);
+    void setImageInteractiveMode(bool enabled);
 
 };
 

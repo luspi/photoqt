@@ -28,21 +28,21 @@
 
 class ToolTip : public QObject {
 
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	ToolTip(QObject *parent = 0);
+    ToolTip(QObject *parent = 0);
 
-	Q_INVOKABLE void showText(QQuickItem *item, const QPointF &pos, const QString &text);
-	Q_INVOKABLE void hideText();
-	Q_INVOKABLE void setBackgroundColor(int r, int g, int b, int a = 255);
-	Q_INVOKABLE void setBackgroundColor(QString col);
-	Q_INVOKABLE void setTextColor(int r, int g, int b, int a = 255);
-	Q_INVOKABLE void setTextColor(QString col);
+    Q_INVOKABLE void showText(QQuickItem *item, const QPointF &pos, const QString &text);
+    Q_INVOKABLE void hideText();
+    Q_INVOKABLE void setBackgroundColor(int r, int g, int b, int a = 255);
+    Q_INVOKABLE void setBackgroundColor(QString col);
+    Q_INVOKABLE void setTextColor(int r, int g, int b, int a = 255);
+    Q_INVOKABLE void setTextColor(QString col);
 
 private:
-	void _setTextColor(QColor col);
-	void _setBackgroundColor(QColor col);
+    void _setTextColor(QColor col);
+    void _setBackgroundColor(QColor col);
 
 };
 

@@ -37,21 +37,21 @@
 
 class GetAndDoStuffManipulation : public QObject {
 
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	explicit GetAndDoStuffManipulation(QObject *parent = 0);
-	~GetAndDoStuffManipulation();
+    explicit GetAndDoStuffManipulation(QObject *parent = 0);
+    ~GetAndDoStuffManipulation();
 
-	bool canBeScaled(QString filename);
-	bool scaleImage(QString filename, int width, int height, int quality, QString newfilename);
-	void deleteImage(QString filename, bool trash);
-	bool renameImage(QString oldfilename, QString newfilename);
-	void copyImage(QString path);
-	void moveImage(QString path);
+    bool canBeScaled(QString filename);
+    bool scaleImage(QString filename, int width, int height, int quality, QString newfilename);
+    void deleteImage(QString filename, bool trash);
+    bool renameImage(QString oldfilename, QString newfilename);
+    void copyImage(QString path);
+    void moveImage(QString path);
 
 signals:
-	void reloadDirectory(QString path, bool deleted = false);
+    void reloadDirectory(QString path, bool deleted = false);
 
 };
 

@@ -44,50 +44,50 @@ const QString CFG_LASTOPENEDIMAGE_FILE = QString("%1/lastimageloaded").arg(CONFI
 class Logger {
 
 public:
-	Logger() {
-		if(QFile(CONFIG_DIR + QString("/verboselog")).exists()) {
-			logFile.setFileName(QDir::tempPath() + "/photoqt.log");
-			writeToFile = true;
-		} else
-			writeToFile = false;
-	}
+    Logger() {
+        if(QFile(CONFIG_DIR + QString("/verboselog")).exists()) {
+            logFile.setFileName(QDir::tempPath() + "/photoqt.log");
+            writeToFile = true;
+        } else
+            writeToFile = false;
+    }
 
-	template <class T>
+    template <class T>
 
-	Logger &operator<<(const T &v) {
+    Logger &operator<<(const T &v) {
 
-		std::stringstream str;
-		str << v;
+        std::stringstream str;
+        str << v;
 
-		if(str.str() == "[[[DATE]]]")
-			std::clog << "[" << QDateTime::currentDateTime().toString("dd/MM/yyyy HH:mm:ss:zzz").toStdString() << "] ";
-		else
-			std::clog << v;
+        if(str.str() == "[[[DATE]]]")
+            std::clog << "[" << QDateTime::currentDateTime().toString("dd/MM/yyyy HH:mm:ss:zzz").toStdString() << "] ";
+        else
+            std::clog << v;
 
-		if(writeToFile) {
+        if(writeToFile) {
 
-			QTextStream out(&logFile);
-			logFile.open(QIODevice::WriteOnly | QIODevice::Append);
-			if(str.str() == "[[[DATE]]]")
-				out << "[" << QDateTime::currentDateTime().toString("dd/MM/yyyy HH:mm:ss:zzz") << "] ";
-			else
-				out << QString::fromStdString(str.str());
+            QTextStream out(&logFile);
+            logFile.open(QIODevice::WriteOnly | QIODevice::Append);
+            if(str.str() == "[[[DATE]]]")
+                out << "[" << QDateTime::currentDateTime().toString("dd/MM/yyyy HH:mm:ss:zzz") << "] ";
+            else
+                out << QString::fromStdString(str.str());
 
-			logFile.close();
-		}
+            logFile.close();
+        }
 
-		return *this;
+        return *this;
 
-	}
+    }
 
-	Logger &operator<<(std::ostream&(*f)(std::ostream&)) {
-		std::clog << f;
-		return *this;
-	}
+    Logger &operator<<(std::ostream&(*f)(std::ostream&)) {
+        std::clog << f;
+        return *this;
+    }
 
 private:
-	QFile logFile;
-	bool writeToFile;
+    QFile logFile;
+    bool writeToFile;
 
 };
 

@@ -49,130 +49,130 @@
 
 class MainWindow : public QQuickView {
 
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	explicit MainWindow(bool verbose, QWindow *parent = 0);
-	~MainWindow();
-	void handleStartup(int upd, QString filename);
+    explicit MainWindow(bool verbose, QWindow *parent = 0);
+    ~MainWindow();
+    void handleStartup(int upd, QString filename);
 
 public slots:
-	void handleOpenFileEvent(QString filename, QString filter = "");
+    void handleOpenFileEvent(QString filename, QString filter = "");
 
-	// This is used by main.cpp (see there (at the end of file) for details)
-	void resetZoom() { QMetaObject::invokeMethod(object,"resetZoom"); }
+    // This is used by main.cpp (see there (at the end of file) for details)
+    void resetZoom() { QMetaObject::invokeMethod(object,"resetZoom"); }
 
-	// This is used by main.cpp to set the window geometry (we do NOT call 'open file' yet, this is handled in main.cpp (with timers))
-	void updateWindowGeometry();
+    // This is used by main.cpp to set the window geometry (we do NOT call 'open file' yet, this is handled in main.cpp (with timers))
+    void updateWindowGeometry();
 
-	// Re-implement show/hide functions to update properties
-	void show() { variables->hiddenToTrayIcon = false; object->setProperty("windowshown",true); QQuickView::show(); }
-	void showMaximized() { variables->hiddenToTrayIcon = false; object->setProperty("windowshown",true); QQuickView::showMaximized(); }
-	void showFullScreen() { variables->hiddenToTrayIcon = false; object->setProperty("windowshown",true); QQuickView::showFullScreen(); }
-	void hide() { variables->hiddenToTrayIcon = true; object->setProperty("windowshown",false); QQuickView::hide(); }
+    // Re-implement show/hide functions to update properties
+    void show() { variables->hiddenToTrayIcon = false; object->setProperty("windowshown",true); QQuickView::show(); }
+    void showMaximized() { variables->hiddenToTrayIcon = false; object->setProperty("windowshown",true); QQuickView::showMaximized(); }
+    void showFullScreen() { variables->hiddenToTrayIcon = false; object->setProperty("windowshown",true); QQuickView::showFullScreen(); }
+    void hide() { variables->hiddenToTrayIcon = true; object->setProperty("windowshown",false); QQuickView::hide(); }
 
 private:
-	QQuickItem *item;
-	QObject *object;
-	LoadDir *loadDir;
+    QQuickItem *item;
+    QObject *object;
+    LoadDir *loadDir;
 
-	Settings *settingsPermanent;
-	FileFormats *fileformats;
-	Variables *variables;
+    Settings *settingsPermanent;
+    FileFormats *fileformats;
+    Variables *variables;
 
-	int currentCenter;
-	QVector<int> loadThumbnailsInThisOrder;
-	QVector<int> smartLoadThumbnailsInThisOrder;
+    int currentCenter;
+    QVector<int> loadThumbnailsInThisOrder;
+    QVector<int> smartLoadThumbnailsInThisOrder;
 
-	QString mouseCombo;
-	QPoint mouseOrigPoint;
-	int mouseDx;
-	int mouseDy;
+    QString mouseCombo;
+    QPoint mouseOrigPoint;
+    int mouseDx;
+    int mouseDy;
 
-	QSystemTrayIcon *trayIcon;
+    QSystemTrayIcon *trayIcon;
 
-	int overrideCursorHowOftenSet;
+    int overrideCursorHowOftenSet;
 
 
-	TouchHandler *touchHandler;
-	MouseHandler *mouseHandler;
-	KeyHandler *keyHandler;
+    TouchHandler *touchHandler;
+    MouseHandler *mouseHandler;
+    KeyHandler *keyHandler;
 
-	bool touchEventInProgress;
+    bool touchEventInProgress;
 
 private slots:
 
-	void showTrayIcon();
-	void hideTrayIcon();
+    void showTrayIcon();
+    void hideTrayIcon();
 
-	void hideToSystemTray();
-	void quitPhotoQt();
-	void trayAction(QSystemTrayIcon::ActivationReason reason);
+    void hideToSystemTray();
+    void quitPhotoQt();
+    void trayAction(QSystemTrayIcon::ActivationReason reason);
 
-	void remoteAction(QString cmd);
+    void remoteAction(QString cmd);
 
-	void updateWindowXandY();
+    void updateWindowXandY();
 
-	void showStartup(QString type, QString filename);
+    void showStartup(QString type, QString filename);
 
-	void resetWindowGeometry();
+    void resetWindowGeometry();
 
-	void qmlVerboseMessage(QString loc, QString msg);
+    void qmlVerboseMessage(QString loc, QString msg);
 
-	void setOverrideCursor() { ++overrideCursorHowOftenSet; qApp->setOverrideCursor(Qt::WaitCursor); }
-	void restoreOverrideCursor() { for(int i = 0; i < overrideCursorHowOftenSet; ++i) qApp->restoreOverrideCursor(); overrideCursorHowOftenSet = 0; }
+    void setOverrideCursor() { ++overrideCursorHowOftenSet; qApp->setOverrideCursor(Qt::WaitCursor); }
+    void restoreOverrideCursor() { for(int i = 0; i < overrideCursorHowOftenSet; ++i) qApp->restoreOverrideCursor(); overrideCursorHowOftenSet = 0; }
 
-	void passOnKeyEvent(QString combo) {
-		QMetaObject::invokeMethod(object, "updateKeyCombo",
-					  Q_ARG(QVariant, combo));
-	}
+    void passOnKeyEvent(QString combo) {
+        QMetaObject::invokeMethod(object, "updateKeyCombo",
+                      Q_ARG(QVariant, combo));
+    }
 
-	void passOnUpdatedTouchEvent(QPointF startPoint, QPointF endPoint,
-								 QString type, unsigned int numFingers,
-								 qint64 duration, QStringList path) {
-		mouseHandler->abort();
-		QMetaObject::invokeMethod(object, "updatedTouchEvent", Q_ARG(QVariant, startPoint),
-								  Q_ARG(QVariant, endPoint), Q_ARG(QVariant, type),
-								  Q_ARG(QVariant, numFingers), Q_ARG(QVariant, duration),
-								  Q_ARG(QVariant, path));
-	}
+    void passOnUpdatedTouchEvent(QPointF startPoint, QPointF endPoint,
+                                 QString type, unsigned int numFingers,
+                                 qint64 duration, QStringList path) {
+        mouseHandler->abort();
+        QMetaObject::invokeMethod(object, "updatedTouchEvent", Q_ARG(QVariant, startPoint),
+                                  Q_ARG(QVariant, endPoint), Q_ARG(QVariant, type),
+                                  Q_ARG(QVariant, numFingers), Q_ARG(QVariant, duration),
+                                  Q_ARG(QVariant, path));
+    }
 
-	void passOnFinishedTouchEvent(QPointF startPoint, QPointF endPoint,
-								  QString type, unsigned int numFingers,
-								  qint64 duration, QStringList path) {
-		mouseHandler->abort();
-		QMetaObject::invokeMethod(object, "finishedTouchEvent", Q_ARG(QVariant, startPoint),
-								  Q_ARG(QVariant, endPoint), Q_ARG(QVariant, type),
-								  Q_ARG(QVariant, numFingers), Q_ARG(QVariant, duration),
-								  Q_ARG(QVariant, path));
-	}
-	void setImageInteractiveMode(bool enabled) { QMetaObject::invokeMethod(object, "setImageInteractiveMode", Q_ARG(QVariant, enabled)); }
+    void passOnFinishedTouchEvent(QPointF startPoint, QPointF endPoint,
+                                  QString type, unsigned int numFingers,
+                                  qint64 duration, QStringList path) {
+        mouseHandler->abort();
+        QMetaObject::invokeMethod(object, "finishedTouchEvent", Q_ARG(QVariant, startPoint),
+                                  Q_ARG(QVariant, endPoint), Q_ARG(QVariant, type),
+                                  Q_ARG(QVariant, numFingers), Q_ARG(QVariant, duration),
+                                  Q_ARG(QVariant, path));
+    }
+    void setImageInteractiveMode(bool enabled) { QMetaObject::invokeMethod(object, "setImageInteractiveMode", Q_ARG(QVariant, enabled)); }
 
 
-	void passOnFinishedMouseEvent(QPoint start, QPoint end, qint64 duration,
-						  QString button, QStringList gesture, int wheelAngleDelta, QString modifiers) {
-		if(!touchEventInProgress)
-			QMetaObject::invokeMethod(object, "finishedMouseEvent", Q_ARG(QVariant, start),
-									  Q_ARG(QVariant, end), Q_ARG(QVariant, duration),
-									  Q_ARG(QVariant, button), Q_ARG(QVariant, gesture),
-									  Q_ARG(QVariant, wheelAngleDelta), Q_ARG(QVariant, modifiers));
-	}
-	void passOnUpdatedMouseEvent(QString button, QStringList gesture, QString modifiers) {
-		QMetaObject::invokeMethod(object, "updatedMouseEvent",Q_ARG(QVariant, button), Q_ARG(QVariant, gesture),
-								  Q_ARG(QVariant, modifiers));
-	}
+    void passOnFinishedMouseEvent(QPoint start, QPoint end, qint64 duration,
+                                  QString button, QStringList gesture, int wheelAngleDelta, QString modifiers) {
+        if(!touchEventInProgress)
+            QMetaObject::invokeMethod(object, "finishedMouseEvent", Q_ARG(QVariant, start),
+                                      Q_ARG(QVariant, end), Q_ARG(QVariant, duration),
+                                      Q_ARG(QVariant, button), Q_ARG(QVariant, gesture),
+                                      Q_ARG(QVariant, wheelAngleDelta), Q_ARG(QVariant, modifiers));
+    }
+    void passOnUpdatedMouseEvent(QString button, QStringList gesture, QString modifiers) {
+        QMetaObject::invokeMethod(object, "updatedMouseEvent",Q_ARG(QVariant, button), Q_ARG(QVariant, gesture),
+                                  Q_ARG(QVariant, modifiers));
+    }
 
-	void loadStatus(QQuickView::Status status) {
-		if(status == QQuickView::Error)
-			for(int i = 0; i < this->errors().length(); ++i)
-				LOG << CURDATE << "QQuickView QML LOADING ERROR: " << this->errors().at(i).toString().toStdString() << NL;
-	}
+    void loadStatus(QQuickView::Status status) {
+        if(status == QQuickView::Error)
+            for(int i = 0; i < this->errors().length(); ++i)
+                LOG << CURDATE << "QQuickView QML LOADING ERROR: " << this->errors().at(i).toString().toStdString() << NL;
+    }
 
 protected:
-	bool event(QEvent *e);
+    bool event(QEvent *e);
 
 signals:
-	void doSetupModel();
+    void doSetupModel();
 
 };
 

@@ -5,84 +5,84 @@ import "../../"
 
 EntryContainer {
 
-	id: item_top
+    id: item_top
 
-	Row {
+    Row {
 
-		spacing: 20
+        spacing: 20
 
-		EntryTitle {
+        EntryTitle {
 
-			id: entrytitle
+            id: entrytitle
 
-			//: Settings title: How many pixels to leave empty between neighbouring thumbnails
-			title: qsTr("Spacing Between Thumbnails")
-			helptext: qsTr("The thumbnails are shown in a row at the lower or upper edge (depending on your setup). They are lined up side by side. Per default, there's no empty space between them, however, exactly that can be changed here.")
+            //: Settings title: How many pixels to leave empty between neighbouring thumbnails
+            title: qsTr("Spacing Between Thumbnails")
+            helptext: qsTr("The thumbnails are shown in a row at the lower or upper edge (depending on your setup). They are lined up side by side. Per default, there's no empty space between them, however, exactly that can be changed here.")
 
-		}
+        }
 
-		EntrySetting {
+        EntrySetting {
 
-			id: entry
+            id: entry
 
-			// This variable is needed to avoid a binding loop of slider<->spinbox
-			property int val: 20
+            // This variable is needed to avoid a binding loop of slider<->spinbox
+            property int val: 20
 
-			Row {
+            Row {
 
-				spacing: 10
+                spacing: 10
 
-				CustomSlider {
+                CustomSlider {
 
-					id: spacing_slider
+                    id: spacing_slider
 
-					width: Math.min(400, settings_top.width-entrytitle.width-spacing_spinbox.width-50)
-					y: (parent.height-height)/2
+                    width: Math.min(400, settings_top.width-entrytitle.width-spacing_spinbox.width-50)
+                    y: (parent.height-height)/2
 
-					minimumValue: 0
-					maximumValue: 30
+                    minimumValue: 0
+                    maximumValue: 30
 
-					tickmarksEnabled: true
-					stepSize: 1
+                    tickmarksEnabled: true
+                    stepSize: 1
 
-					onValueChanged:
-						entry.val = value
+                    onValueChanged:
+                        entry.val = value
 
-				}
+                }
 
-				CustomSpinBox {
+                CustomSpinBox {
 
-					id: spacing_spinbox
+                    id: spacing_spinbox
 
-					width: 75
+                    width: 75
 
-					minimumValue: 0
-					maximumValue: 30
+                    minimumValue: 0
+                    maximumValue: 30
 
-					suffix: " px"
+                    suffix: " px"
 
-					value: entry.val
+                    value: entry.val
 
-					onValueChanged: {
-						if(value%5 == 0)
-							spacing_slider.value = value
-					}
+                    onValueChanged: {
+                        if(value%5 == 0)
+                            spacing_slider.value = value
+                    }
 
-				}
+                }
 
-			}
+            }
 
-		}
+        }
 
-	}
+    }
 
-	function setData() {
-		spacing_slider.value = settings.thumbnailSpacingBetween
-		entry.val = spacing_slider.value
-	}
+    function setData() {
+        spacing_slider.value = settings.thumbnailSpacingBetween
+        entry.val = spacing_slider.value
+    }
 
-	function saveData() {
-		settings.thumbnailSpacingBetween = spacing_spinbox.value
-	}
+    function saveData() {
+        settings.thumbnailSpacingBetween = spacing_spinbox.value
+    }
 
 }

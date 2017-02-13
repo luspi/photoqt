@@ -6,98 +6,98 @@ import "../../"
 
 EntryContainer {
 
-	id: item_top
+    id: item_top
 
-	Row {
+    Row {
 
-		spacing: 20
+        spacing: 20
 
-		EntryTitle {
+        EntryTitle {
 
-			id: entrytitle
+            id: entrytitle
 
-			//: Settings title: Show/Hide filename label on thumbnails
-			title: qsTr("Label on Thumbnails")
-			helptext:  qsTr("When thumbnails are displayed at the top/bottom, PhotoQt usually writes the filename on them (if not disabled). You can also use the slider below to adjust the font size.")
+            //: Settings title: Show/Hide filename label on thumbnails
+            title: qsTr("Label on Thumbnails")
+            helptext:  qsTr("When thumbnails are displayed at the top/bottom, PhotoQt usually writes the filename on them (if not disabled). You can also use the slider below to adjust the font size.")
 
-		}
+        }
 
-		EntrySetting {
+        EntrySetting {
 
-			id: entry
+            id: entry
 
-			Row {
+            Row {
 
-				spacing: 10
+                spacing: 10
 
-				CustomCheckBox {
-					id: writefilename
-					y: (parent.height-height)/2
-					//: Settings: Write the filename on a thumbnail
-					text: qsTr("Write Filename")
-				}
+                CustomCheckBox {
+                    id: writefilename
+                    y: (parent.height-height)/2
+                    //: Settings: Write the filename on a thumbnail
+                    text: qsTr("Write Filename")
+                }
 
-				Rectangle { color: "transparent"; width: 10; height: 1; }
+                Rectangle { color: "transparent"; width: 10; height: 1; }
 
-				Text {
-					id: txt_fontsize
-					color: enabled ? colour.text : colour.text_inactive
-					Behavior on color { ColorAnimation { duration: 150; } }
-					y: (parent.height-height)/2
-					enabled: writefilename.checkedButton
-					opacity: enabled ? 1 : 0.5
-					text: qsTr("Fontsize") + ":"
-				}
+                Text {
+                    id: txt_fontsize
+                    color: enabled ? colour.text : colour.text_inactive
+                    Behavior on color { ColorAnimation { duration: 150; } }
+                    y: (parent.height-height)/2
+                    enabled: writefilename.checkedButton
+                    opacity: enabled ? 1 : 0.5
+                    text: qsTr("Fontsize") + ":"
+                }
 
-				CustomSlider {
+                CustomSlider {
 
-					id: fontsize_slider
+                    id: fontsize_slider
 
-					width: Math.min(400, Math.max(50,settings_top.width-entrytitle.width-writefilename.width-txt_fontsize.width-fontsize_spinbox.width-80))
-					y: (parent.height-height)/2
+                    width: Math.min(400, Math.max(50,settings_top.width-entrytitle.width-writefilename.width-txt_fontsize.width-fontsize_spinbox.width-80))
+                    y: (parent.height-height)/2
 
-					minimumValue: 5
-					maximumValue: 20
+                    minimumValue: 5
+                    maximumValue: 20
 
-					value: fontsize_spinbox.value
-					stepSize: 1
-					scrollStep: 1
-					tickmarksEnabled: true
+                    value: fontsize_spinbox.value
+                    stepSize: 1
+                    scrollStep: 1
+                    tickmarksEnabled: true
 
-					enabled: writefilename.checkedButton
+                    enabled: writefilename.checkedButton
 
-				}
+                }
 
-				CustomSpinBox {
+                CustomSpinBox {
 
-					id: fontsize_spinbox
-					y: (parent.height-height)/2
+                    id: fontsize_spinbox
+                    y: (parent.height-height)/2
 
-					width: 75
+                    width: 75
 
-					minimumValue: 5
-					maximumValue: 20
+                    minimumValue: 5
+                    maximumValue: 20
 
-					value: fontsize_slider.value
+                    value: fontsize_slider.value
 
-					enabled: writefilename.checkedButton
+                    enabled: writefilename.checkedButton
 
-				}
+                }
 
-			}
+            }
 
-		}
+        }
 
-	}
+    }
 
-	function setData() {
-		writefilename.checkedButton = settings.thumbnailWriteFilename
-		fontsize_slider.value = settings.thumbnailFontSize
-	}
+    function setData() {
+        writefilename.checkedButton = settings.thumbnailWriteFilename
+        fontsize_slider.value = settings.thumbnailFontSize
+    }
 
-	function saveData() {
-		settings.thumbnailWriteFilename = writefilename.checkedButton
-		settings.thumbnailFontSize = fontsize_slider.value
-	}
+    function saveData() {
+        settings.thumbnailWriteFilename = writefilename.checkedButton
+        settings.thumbnailFontSize = fontsize_slider.value
+    }
 
 }

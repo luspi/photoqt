@@ -31,26 +31,26 @@
 class ImageProviderThumbnail : public QQuickImageProvider {
 
 public:
-	explicit ImageProviderThumbnail();
-	~ImageProviderThumbnail();
+    explicit ImageProviderThumbnail();
+    ~ImageProviderThumbnail();
 
-	QImage requestImage(const QString &filename_encoded, QSize *size, const QSize &requestedSize);
+    QImage requestImage(const QString &filename_encoded, QSize *size, const QSize &requestedSize);
 
 private:
-	QSqlDatabase db;
-	Settings *settings;
+    QSqlDatabase db;
+    Settings *settings;
 
-	ImageProviderFull *imageproviderfull;
+    ImageProviderFull *imageproviderfull;
 
-	QImage getThumbnailImage(QByteArray filename);
+    QImage getThumbnailImage(QByteArray filename);
 
-	bool dbTransactionStarted;
-	bool dontCreateThumbnailNew;
+    bool dbTransactionStarted;
+    bool dontCreateThumbnailNew;
 
-	QHash<QString,QSize> allSizes;
+    QHash<QString,QSize> allSizes;
 
-	int origwidth;
-	int origheight;
+    int origwidth;
+    int origheight;
 
 };
 

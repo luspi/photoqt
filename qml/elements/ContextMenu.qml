@@ -4,29 +4,29 @@ import QtQuick.Controls.Styles 1.2
 //import QtQuick.Layouts 1.0
 
 Menu {
-	id: contextmenu
+    id: contextmenu
 
-	style: MenuStyle {
+    style: MenuStyle {
 
-		frame: Rectangle { color: colour.menu_frame }
-		itemDelegate.background: Rectangle { color: (styleData.selected ? colour.menu_bg_highlight : colour.menu_bg) }
-		itemDelegate.label: Text { color: colour.menu_text; text: styleData.text }
+        frame: Rectangle { color: colour.menu_frame }
+        itemDelegate.background: Rectangle { color: (styleData.selected ? colour.menu_bg_highlight : colour.menu_bg) }
+        itemDelegate.label: Text { color: colour.menu_text; text: styleData.text }
 
-		itemDelegate.checkmarkIndicator: Rectangle {
-				implicitWidth: 10
-				implicitHeight: 10
-				radius: global_item_radius/2
-				color: control.enabled ? colour.radio_check_indicator_bg_color : colour.radio_check_indicator_bg_color_disabled
-				Behavior on color { ColorAnimation { duration: 150; } }
-				Rectangle {
-					visible: styleData.checked
-					color: control.enabled ? colour.radio_check_indicator_color : colour.radio_check_indicator_color_disabled
-					Behavior on color { ColorAnimation { duration: 150; } }
-					radius: global_item_radius/2
-					anchors.margins: 2
-					anchors.fill: parent
-				}
-			}
+        itemDelegate.checkmarkIndicator: Rectangle {
+                implicitWidth: 10
+                implicitHeight: 10
+                radius: global_item_radius/2
+                color: control.enabled ? colour.radio_check_indicator_bg_color : colour.radio_check_indicator_bg_color_disabled
+                Behavior on color { ColorAnimation { duration: 150; } }
+                Rectangle {
+                    visible: styleData.checked
+                    color: control.enabled ? colour.radio_check_indicator_color : colour.radio_check_indicator_color_disabled
+                    Behavior on color { ColorAnimation { duration: 150; } }
+                    radius: global_item_radius/2
+                    anchors.margins: 2
+                    anchors.fill: parent
+                }
+            }
 
-	}
+    }
 }

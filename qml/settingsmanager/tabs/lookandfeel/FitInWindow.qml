@@ -5,38 +5,38 @@ import "../../"
 
 EntryContainer {
 
-	id: item_top
+    id: item_top
 
-	Row {
+    Row {
 
-		spacing: 20
+        spacing: 20
 
-		EntryTitle {
+        EntryTitle {
 
-			title: qsTr("Fit in Window")
-			helptext: qsTr("If the image dimensions are smaller than the screen dimensions, PhotoQt can zoom those images to make them fit into the window. However, keep in mind, that such images will look pixelated to a certain degree (depending on each image).")
+            title: qsTr("Fit in Window")
+            helptext: qsTr("If the image dimensions are smaller than the screen dimensions, PhotoQt can zoom those images to make them fit into the window. However, keep in mind, that such images will look pixelated to a certain degree (depending on each image).")
 
-		}
+        }
 
-		EntrySetting {
+        EntrySetting {
 
-			CustomCheckBox {
+            CustomCheckBox {
 
-				id: fitinwindow
-				text: qsTr("Fit Smaller Images in Window")
+                id: fitinwindow
+                text: qsTr("Fit Smaller Images in Window")
 
-			}
+            }
 
-		}
+        }
 
-	}
+    }
 
-	function setData() {
-		fitinwindow.checkedButton = settings.fitInWindow
-	}
+    function setData() {
+        fitinwindow.checkedButton = settings.fitInWindow
+    }
 
-	function saveData() {
-		settings.fitInWindow = fitinwindow.checkedButton
-	}
+    function saveData() {
+        settings.fitInWindow = fitinwindow.checkedButton
+    }
 
 }

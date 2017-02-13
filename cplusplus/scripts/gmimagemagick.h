@@ -34,104 +34,104 @@ class GmImageMagick {
 
 public:
 
-	explicit GmImageMagick() {}
+    explicit GmImageMagick() {}
 
-	Magick::Image setImageMagick(Magick::Image image, QString suf) {
+    Magick::Image setImageMagick(Magick::Image image, QString suf) {
 
-		std::string magick = getImageMagickString(suf);
+        std::string magick = getImageMagickString(suf);
 
-		if(magick != "")
-			image.magick(magick);
+        if(magick != "")
+            image.magick(magick);
 
-		if(suf == "mono")
-			image.size(Magick::Geometry(4000,3000));
+        if(suf == "mono")
+            image.size(Magick::Geometry(4000,3000));
 
-		return image;
+        return image;
 
-	}
+    }
 
-	std::string getImageMagickString(QString suf) {
+    std::string getImageMagickString(QString suf) {
 
-		if(suf == "x" || suf == "avs")
+        if(suf == "x" || suf == "avs")
 
-			return "AVS";
+            return "AVS";
 
-		else if(suf == "cals" || suf == "cal" || suf == "dcl"  || suf == "ras")
+        else if(suf == "cals" || suf == "cal" || suf == "dcl"  || suf == "ras")
 
-			return "CALS";
+            return "CALS";
 
-		else if(suf == "cgm")
+        else if(suf == "cgm")
 
-			return "CGM";
+            return "CGM";
 
-		else if(suf == "cut")
+        else if(suf == "cut")
 
-			return "CUT";
+            return "CUT";
 
-		else if(suf == "cur")
+        else if(suf == "cur")
 
-			return "CUR";
+            return "CUR";
 
-		else if(suf == "acr" || suf == "dcm" || suf == "dicom" || suf == "dic")
+        else if(suf == "acr" || suf == "dcm" || suf == "dicom" || suf == "dic")
 
-			return "DCM";
+            return "DCM";
 
-		else if(suf == "fax")
+        else if(suf == "fax")
 
-			return "FAX";
+            return "FAX";
 
-		else if(suf == "ico")
+        else if(suf == "ico")
 
-			return "ICO";
+            return "ICO";
 
-		else if(suf == "mono")
+        else if(suf == "mono")
 
-			return "MONO";
+            return "MONO";
 
-		else if(suf == "mtv")
+        else if(suf == "mtv")
 
-			return "MTV";
+            return "MTV";
 
-		else if(suf == "otb")
+        else if(suf == "otb")
 
-			return "OTB";
+            return "OTB";
 
-		else if(suf == "palm")
+        else if(suf == "palm")
 
-			return "PALM";
+            return "PALM";
 
-		else if(suf == "pfb")
+        else if(suf == "pfb")
 
-			return "PFB";
+            return "PFB";
 
-		else if(suf == "pict" || suf == "pct" || suf == "pic")
+        else if(suf == "pict" || suf == "pct" || suf == "pic")
 
-			return "PICT";
+            return "PICT";
 
-		else if(suf == "pix"
-			|| suf == "pal")
+        else if(suf == "pix"
+            || suf == "pal")
 
-			return "PIX";
+            return "PIX";
 
-		else if(suf == "tga")
+        else if(suf == "tga")
 
-			return "TGA";
+            return "TGA";
 
-		else if(suf == "ttf")
+        else if(suf == "ttf")
 
-			return "TTF";
+            return "TTF";
 
-		else if(suf == "txt")
+        else if(suf == "txt")
 
-			return "TXT";
+            return "TXT";
 
-		else if(suf == "wbm"
-			|| suf == "wbmp")
+        else if(suf == "wbm"
+            || suf == "wbmp")
 
-			return "WBMP";
+            return "WBMP";
 
-		return "";
-	}
+        return "";
+    }
 };
 
 #endif // GMIMAGEMAGICK_H

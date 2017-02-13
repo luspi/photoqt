@@ -25,32 +25,32 @@
 
 class ImageWatch : public QObject {
 
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	explicit ImageWatch(QObject *parent = 0) : QObject(parent) {
-		watcher = new QFileSystemWatcher;
-		send = new QTimer;
-		send->setSingleShot(true);
-		send->setInterval(1000);
-		connect(send, SIGNAL(timeout()), this, SIGNAL(reloadDirectory()));
-		connect(watcher, SIGNAL(directoryChanged(QString)), send, SLOT(start()));
-		connect(watcher, SIGNAL(fileChanged(QString)), send, SLOT(start()));
-	}
+    explicit ImageWatch(QObject *parent = 0) : QObject(parent) {
+        watcher = new QFileSystemWatcher;
+        send = new QTimer;
+        send->setSingleShot(true);
+        send->setInterval(1000);
+        connect(send, SIGNAL(timeout()), this, SIGNAL(reloadDirectory()));
+        connect(watcher, SIGNAL(directoryChanged(QString)), send, SLOT(start()));
+        connect(watcher, SIGNAL(fileChanged(QString)), send, SLOT(start()));
+    }
 
-	Q_INVOKABLE void watchFolder(QString filename) {
-		if(watcher->files().length() > 0) watcher->removePaths(watcher->files());
-		if(watcher->directories().length() > 0) watcher->removePaths(watcher->directories());
-		watcher->addPath(filename);
-		watcher->addPath(QFileInfo(filename).absolutePath());
-	}
+    Q_INVOKABLE void watchFolder(QString filename) {
+        if(watcher->files().length() > 0) watcher->removePaths(watcher->files());
+        if(watcher->directories().length() > 0) watcher->removePaths(watcher->directories());
+        watcher->addPath(filename);
+        watcher->addPath(QFileInfo(filename).absolutePath());
+    }
 
 private:
-	QFileSystemWatcher *watcher;
-	QTimer *send;
+    QFileSystemWatcher *watcher;
+    QTimer *send;
 
 signals:
-	void reloadDirectory();
+    void reloadDirectory();
 
 };
 

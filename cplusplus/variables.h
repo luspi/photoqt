@@ -24,37 +24,37 @@
 class Variables {
 
 public:
-	Variables() {
-		verbose = false;
-		loadedThumbnails.clear();
-		currentDir = "";
-		geometryWhenHiding = QRect();
-		skipSystemTrayAndQuit = false;
-		trayiconSetup = false;
-		trayiconVisible = false;
-		hiddenToTrayIcon = false;
-		wheelcounter = 0;
-		openfileFilter = "";
-		keepLoadingThumbnails = false;
-	}
+    Variables() {
+        verbose = false;
+        loadedThumbnails.clear();
+        currentDir = "";
+        geometryWhenHiding = QRect();
+        skipSystemTrayAndQuit = false;
+        trayiconSetup = false;
+        trayiconVisible = false;
+        hiddenToTrayIcon = false;
+        wheelcounter = 0;
+        openfileFilter = "";
+        keepLoadingThumbnails = false;
+    }
 
 public:
-	bool verbose;
+    bool verbose;
 
-	QList<int> loadedThumbnails;
-	QString currentDir;
+    QList<int> loadedThumbnails;
+    QString currentDir;
 
-	QRect geometryWhenHiding;
-	bool skipSystemTrayAndQuit;
-	bool trayiconSetup;
-	bool trayiconVisible;
-	bool hiddenToTrayIcon;
+    QRect geometryWhenHiding;
+    bool skipSystemTrayAndQuit;
+    bool trayiconSetup;
+    bool trayiconVisible;
+    bool hiddenToTrayIcon;
 
-	QString openfileFilter;
+    QString openfileFilter;
 
-	int wheelcounter;
+    int wheelcounter;
 
-	bool keepLoadingThumbnails;
+    bool keepLoadingThumbnails;
 
 };
 

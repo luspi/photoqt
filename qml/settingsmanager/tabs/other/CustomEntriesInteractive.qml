@@ -9,342 +9,342 @@ import "../../../elements"
 
 Rectangle {
 
-	id: rect
+    id: rect
 
-	width: 600
-	height: 300
+    width: 600
+    height: 300
 
-	clip: true
-	color: "#00000000"
+    clip: true
+    color: "#00000000"
 
-	property int binaryX: 0
-	property int descriptionX: 0
-	property int textEditWidth: 0
+    property int binaryX: 0
+    property int descriptionX: 0
+    property int textEditWidth: 0
 
-	property var modelData: []
-	signal requestUpdateModelData()
+    property var modelData: []
+    signal requestUpdateModelData()
 
-	ListView {
+    ListView {
 
-		id: root
+        id: root
 
-		width: parent.width
-		height: parent.height
+        width: parent.width
+        height: parent.height
 
-		orientation: ListView.Vertical
+        orientation: ListView.Vertical
 //		boundsBehavior: ListView.
-		displaced: Transition { NumberAnimation { properties: "x,y"; easing.type: Easing.OutQuad } }
+        displaced: Transition { NumberAnimation { properties: "x,y"; easing.type: Easing.OutQuad } }
 
-		PropertyAnimation {
+        PropertyAnimation {
 
-			id: ani
+            id: ani
 
-			property bool bForward: false
-			target: root
-			property: "contentY"
+            property bool bForward: false
+            target: root
+            property: "contentY"
 
-			from: root.contentY
-			to: bForward ? root.contentHeight-root.height : 0
-			duration: Math.max(bForward ? (root.contentHeight-root.height-root.contentY)*2 : root.contentY*2,100)
+            from: root.contentY
+            to: bForward ? root.contentHeight-root.height : 0
+            duration: Math.max(bForward ? (root.contentHeight-root.height-root.contentY)*2 : root.contentY*2,100)
 
-		}
+        }
 
-		cacheBuffer: model.count*1000
-		spacing: 10
+        cacheBuffer: model.count*1000
+        spacing: 10
 
-		property bool forward: false
-		property bool dragActive: false
+        property bool forward: false
+        property bool dragActive: false
 
-		model: DelegateModel {
+        model: DelegateModel {
 
-			id: visualModel
+            id: visualModel
 
-			model: ListModel { id: contextmodel; }
+            model: ListModel { id: contextmodel; }
 
-			delegate: MouseArea {
+            delegate: MouseArea {
 
-				id: delegateRoot
+                id: delegateRoot
 
-				x: 5
+                x: 5
 
-				width: root.width-10
-				height: 30
+                width: root.width-10
+                height: 30
 
-				property int posInList: _posInList
+                property int posInList: _posInList
 
-				property int visualIndex: DelegateModel.itemsIndex
-				drag.target: icon
+                property int visualIndex: DelegateModel.itemsIndex
+                drag.target: icon
 
 
-				// Containing rectangle
-				Rectangle {
+                // Containing rectangle
+                Rectangle {
 
-					id: icon
+                    id: icon
 
-					width: root.width-10
-					height: 30
+                    width: root.width-10
+                    height: 30
 
-					radius: global_item_radius
-					color: colour.element_bg_color
+                    radius: global_item_radius
+                    color: colour.element_bg_color
 
-					// These are needed, otherwise the rectangle wont "snap back" into its spot, but stays exactly were it is left
-					anchors {
-						horizontalCenter: parent.horizontalCenter;
-						verticalCenter: parent.verticalCenter
-					}
+                    // These are needed, otherwise the rectangle wont "snap back" into its spot, but stays exactly were it is left
+                    anchors {
+                        horizontalCenter: parent.horizontalCenter;
+                        verticalCenter: parent.verticalCenter
+                    }
 
-					// Before saving all data, we request them to update us with their current setting
-					Connections {
-						target: rect
-						onRequestUpdateModelData: updateModelData(delegateRoot.posInList,delegateRoot.visualIndex, binary.getText(),description.getText(),quit.checkedButton)
-					}
+                    // Before saving all data, we request them to update us with their current setting
+                    Connections {
+                        target: rect
+                        onRequestUpdateModelData: updateModelData(delegateRoot.posInList,delegateRoot.visualIndex, binary.getText(),description.getText(),quit.checkedButton)
+                    }
 
-					Row {
+                    Row {
 
-						spacing: 5
+                        spacing: 5
 
-						// Just some spacing at the beginning
-						Rectangle { width: 1; height: 1; color: "#00000000" }
+                        // Just some spacing at the beginning
+                        Rectangle { width: 1; height: 1; color: "#00000000" }
 
-						// A label for dragging the rectangle
-						Text {
+                        // A label for dragging the rectangle
+                        Text {
 
-							id: dragger
+                            id: dragger
 
-							height: icon.height
-							verticalAlignment: Qt.AlignVCenter
-							//: Settings: Element for editing custom entires, drag an item up or down in list
-							text: qsTr("Click here to drag")
+                            height: icon.height
+                            verticalAlignment: Qt.AlignVCenter
+                            //: Settings: Element for editing custom entires, drag an item up or down in list
+                            text: qsTr("Click here to drag")
 
-							font.pointSize: 10
+                            font.pointSize: 10
 
-							color: colour.text
+                            color: colour.text
 
-							MouseArea {
-								anchors.fill: parent
-								cursorShape: Qt.SizeAllCursor
-								acceptedButtons: Qt.NoButton
-							}
-						}
+                            MouseArea {
+                                anchors.fill: parent
+                                cursorShape: Qt.SizeAllCursor
+                                acceptedButtons: Qt.NoButton
+                            }
+                        }
 
-						// Seperate from rest by thin white line
-						Rectangle {
+                        // Seperate from rest by thin white line
+                        Rectangle {
 
-							id: seperator1
+                            id: seperator1
 
-							color: colour.text
-							height: parent.height-4
-							y: 2
-							width: 1
-						}
+                            color: colour.text
+                            height: parent.height-4
+                            y: 2
+                            width: 1
+                        }
 
-						// Another sub-element for editing the executable
-						CustomLineEdit {
+                        // Another sub-element for editing the executable
+                        CustomLineEdit {
 
-							id: binary
+                            id: binary
 
-							y: 3
-							width: (root.width-(dragger.width+seperator1.width+quit.width+seperator2.width+del.width+10*parent.spacing))/2
-							height: parent.height-6
+                            y: 3
+                            width: (root.width-(dragger.width+seperator1.width+quit.width+seperator2.width+del.width+10*parent.spacing))/2
+                            height: parent.height-6
 
-							text: _binary
+                            text: _binary
 
-							// We use this in order to position the header labels in the upper class (file: TabOther.qml)
-							onXChanged: binaryX = binary.x
-							onWidthChanged: textEditWidth = binary.width
+                            // We use this in order to position the header labels in the upper class (file: TabOther.qml)
+                            onXChanged: binaryX = binary.x
+                            onWidthChanged: textEditWidth = binary.width
 
-							onAccepted: sh.simulateShortcut("Enter")
-							onRejected: sh.simulateShortcut("Escape")
+                            onAccepted: sh.simulateShortcut("Enter")
+                            onRejected: sh.simulateShortcut("Escape")
 
-						}
+                        }
 
-						// Another sub-element for editing the menu text
-						CustomLineEdit {
+                        // Another sub-element for editing the menu text
+                        CustomLineEdit {
 
-							id: description
+                            id: description
 
-							y: 3
-							width: (root.width-(dragger.width+seperator1.width+quit.width+seperator2.width+del.width+10*parent.spacing))/2
-							height: parent.height-6
+                            y: 3
+                            width: (root.width-(dragger.width+seperator1.width+quit.width+seperator2.width+del.width+10*parent.spacing))/2
+                            height: parent.height-6
 
-							text: _description
+                            text: _description
 
-							// As the width of both textedits is the same, we don't need to check for it here
-							onXChanged: descriptionX = description.x
+                            // As the width of both textedits is the same, we don't need to check for it here
+                            onXChanged: descriptionX = description.x
 
-							onAccepted: sh.simulateShortcut("Enter")
-							onRejected: sh.simulateShortcut("Escape")
+                            onAccepted: sh.simulateShortcut("Enter")
+                            onRejected: sh.simulateShortcut("Escape")
 
-						}
+                        }
 
-						// Quit after executing shortcut?
-						CustomCheckBox {
+                        // Quit after executing shortcut?
+                        CustomCheckBox {
 
-							id: quit
+                            id: quit
 
-							y: (parent.height-height)/2
+                            y: (parent.height-height)/2
 
-							text: qsTr("quit")
+                            text: qsTr("quit")
 
-							checkedButton: _quit
+                            checkedButton: _quit
 
-						}
+                        }
 
-						// Another small seperator
-						Rectangle {
+                        // Another small seperator
+                        Rectangle {
 
-							id: seperator2
+                            id: seperator2
 
-							color: colour.text
-							height: parent.height-4
-							y: 2
-							width: 1
-						}
+                            color: colour.text
+                            height: parent.height-4
+                            y: 2
+                            width: 1
+                        }
 
-						// And a label for deleting the current item
-						Text {
+                        // And a label for deleting the current item
+                        Text {
 
-							id: del
+                            id: del
 
-							y: (parent.height-height)/2
+                            y: (parent.height-height)/2
 
-							color: colour.text
-							text: "x"
+                            color: colour.text
+                            text: "x"
 
-							font.pointSize: 10
+                            font.pointSize: 10
 
-							MouseArea {
-								anchors.fill: parent
-								cursorShape: Qt.PointingHandCursor
-								onClicked: deleteItem(visualIndex, posInList)
-							}
+                            MouseArea {
+                                anchors.fill: parent
+                                cursorShape: Qt.PointingHandCursor
+                                onClicked: deleteItem(visualIndex, posInList)
+                            }
 
-						}
-					}
+                        }
+                    }
 
 
-					Drag.active: delegateRoot.drag.active
-					Drag.source: delegateRoot
-					Drag.hotSpot.x: width/2
-					Drag.hotSpot.y: height/2
+                    Drag.active: delegateRoot.drag.active
+                    Drag.source: delegateRoot
+                    Drag.hotSpot.x: width/2
+                    Drag.hotSpot.y: height/2
 
-					states: [
-						State {
-							when: icon.Drag.active
-							ParentChange {
-								target: icon
-								parent: root
-							}
+                    states: [
+                        State {
+                            when: icon.Drag.active
+                            ParentChange {
+                                target: icon
+                                parent: root
+                            }
 
-							AnchorChanges {
-								target: icon;
-								anchors.horizontalCenter: undefined;
-								anchors.verticalCenter: undefined
-							}
-						}
-					]
-				}
+                            AnchorChanges {
+                                target: icon;
+                                anchors.horizontalCenter: undefined;
+                                anchors.verticalCenter: undefined
+                            }
+                        }
+                    ]
+                }
 
-				DropArea {
-					id:dropArea
-					anchors { fill: parent; margins: 5 }
-					onEntered: visualModel.items.move(drag.source.visualIndex, delegateRoot.visualIndex)
-				}
-
-				onReleased: {
-					visualIndex = DelegateModel.itemsIndex
-					ani.stop()
-				}
-
-				onMouseYChanged: {
-
-					root.dragActive = true
-
-					if(mapToItem(root, mouseX, mouseY).y > root.height-5) {
-
-						if(!root.atYEnd) {
-							ani.bForward = true
-							ani.start()
-						}
-
-					} else if(mapToItem(root, mouseX, mouseY).y < 5) {
-
-						if(!root.atYBeginning) {
-							ani.bForward = false
-							ani.start()
-						}
-
-					} else if (mapToItem(root, mouseX, mouseY).y >= 5 && mapToItem(root, mouseX, mouseY).y <= root.height-5)
-						ani.stop()
-
-				}
-			}
-		}
-
-		Text {
-			anchors.fill: parent
-			opacity: (contextmodel.count == 0 ? 1 : 0)
-			Behavior on opacity { NumberAnimation { duration: 150 } }
-			color: colour.text_inactive
-			text: getanddostuff.amIOnWindows() ? qsTr("Unavailable on Windows")
-							   : qsTr("There isn't anything here yet")
-			font.bold: true
-			font.pointSize: 20
-			verticalAlignment: Text.AlignVCenter
-			horizontalAlignment: Text.AlignHCenter
-		}
-	}
-
-	// Update the model data (requested right before saving the data)
-	function updateModelData(pos, posView, bin, desc, q) {
-		modelData[pos] = {"posInList" : pos , "posInView" : posView , "binary" : bin, "description" : desc, "quit" : q }
-	}
-
-	// Delete an item
-	function deleteItem(modelIndex, listIndex) {
-		verboseMessage("Settings::TabOtherContext::deleteItem()",modelIndex + " - " + listIndex)
-		contextmodel.remove(listIndex)
-		modelData = []
-		requestUpdateModelData()
-	}
-
-	// Add an item
-	function addItem(bin, desc, q) {
-		var pos = contextmodel.count
-		modelData[pos] = {"posInList" : pos , "posInView" : pos , "binary" : bin, "description" : desc, "quit" : q }
-		contextmodel.append({_posInList : pos, _binary: bin, _description: desc, _quit: q })
-	}
-
-	// Add an empty item
-	function addNewItem() {
-		verboseMessage("Settings::TabOtherContext::addNewItem()","")
-		addItem("executeable","menu text",0)
-	}
-
-
-	// Load current items
-	function setData() {
-		verboseMessage("Settings::TabOtherContext::setData()","")
-		contextmodel.clear()
-		var con = getanddostuff.getContextMenu()
-		for(var j = 0; j < con.length; j+=3)
-			addItem(con[j],con[j+2],con[j+1]*1)
-
-		// This is a little tweak to ensure that at startup the heading sizes are set` properly
-		// Without this, some variables remain set to zero messing up the layout of the heading
-		// The heading can be found in the file CustomEntries.qml
-		if(con.length === 0) {
-			addNewItem()
-			contextmodel.clear()
-		}
-	}
-
-	// Save current items
-	function saveData() {
-		verboseMessage("Settings::TabOtherContext::saveData()","")
-		modelData = []
-		requestUpdateModelData()
-		getanddostuff.saveContextMenu(modelData)
-	}
+                DropArea {
+                    id:dropArea
+                    anchors { fill: parent; margins: 5 }
+                    onEntered: visualModel.items.move(drag.source.visualIndex, delegateRoot.visualIndex)
+                }
+
+                onReleased: {
+                    visualIndex = DelegateModel.itemsIndex
+                    ani.stop()
+                }
+
+                onMouseYChanged: {
+
+                    root.dragActive = true
+
+                    if(mapToItem(root, mouseX, mouseY).y > root.height-5) {
+
+                        if(!root.atYEnd) {
+                            ani.bForward = true
+                            ani.start()
+                        }
+
+                    } else if(mapToItem(root, mouseX, mouseY).y < 5) {
+
+                        if(!root.atYBeginning) {
+                            ani.bForward = false
+                            ani.start()
+                        }
+
+                    } else if (mapToItem(root, mouseX, mouseY).y >= 5 && mapToItem(root, mouseX, mouseY).y <= root.height-5)
+                        ani.stop()
+
+                }
+            }
+        }
+
+        Text {
+            anchors.fill: parent
+            opacity: (contextmodel.count == 0 ? 1 : 0)
+            Behavior on opacity { NumberAnimation { duration: 150 } }
+            color: colour.text_inactive
+            text: getanddostuff.amIOnWindows() ? qsTr("Unavailable on Windows")
+                               : qsTr("There isn't anything here yet")
+            font.bold: true
+            font.pointSize: 20
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+        }
+    }
+
+    // Update the model data (requested right before saving the data)
+    function updateModelData(pos, posView, bin, desc, q) {
+        modelData[pos] = {"posInList" : pos , "posInView" : posView , "binary" : bin, "description" : desc, "quit" : q }
+    }
+
+    // Delete an item
+    function deleteItem(modelIndex, listIndex) {
+        verboseMessage("Settings::TabOtherContext::deleteItem()",modelIndex + " - " + listIndex)
+        contextmodel.remove(listIndex)
+        modelData = []
+        requestUpdateModelData()
+    }
+
+    // Add an item
+    function addItem(bin, desc, q) {
+        var pos = contextmodel.count
+        modelData[pos] = {"posInList" : pos , "posInView" : pos , "binary" : bin, "description" : desc, "quit" : q }
+        contextmodel.append({_posInList : pos, _binary: bin, _description: desc, _quit: q })
+    }
+
+    // Add an empty item
+    function addNewItem() {
+        verboseMessage("Settings::TabOtherContext::addNewItem()","")
+        addItem("executeable","menu text",0)
+    }
+
+
+    // Load current items
+    function setData() {
+        verboseMessage("Settings::TabOtherContext::setData()","")
+        contextmodel.clear()
+        var con = getanddostuff.getContextMenu()
+        for(var j = 0; j < con.length; j+=3)
+            addItem(con[j],con[j+2],con[j+1]*1)
+
+        // This is a little tweak to ensure that at startup the heading sizes are set` properly
+        // Without this, some variables remain set to zero messing up the layout of the heading
+        // The heading can be found in the file CustomEntries.qml
+        if(con.length === 0) {
+            addNewItem()
+            contextmodel.clear()
+        }
+    }
+
+    // Save current items
+    function saveData() {
+        verboseMessage("Settings::TabOtherContext::saveData()","")
+        modelData = []
+        requestUpdateModelData()
+        getanddostuff.saveContextMenu(modelData)
+    }
 
 }

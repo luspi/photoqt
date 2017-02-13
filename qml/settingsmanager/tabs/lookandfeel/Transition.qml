@@ -5,68 +5,68 @@ import "../../"
 
 EntryContainer {
 
-	id: item_top
+    id: item_top
 
-	Row {
+    Row {
 
-		spacing: 20
+        spacing: 20
 
-		EntryTitle {
+        EntryTitle {
 
-			id: entrytitle
+            id: entrytitle
 
-			title: qsTr("Smooth Transition")
-			helptext: qsTr("Switching between images can be done smoothly, the new image can be set to fade into the old image. 'No transition' means, that the previous image is simply replaced by the new image.")
+            title: qsTr("Smooth Transition")
+            helptext: qsTr("Switching between images can be done smoothly, the new image can be set to fade into the old image. 'No transition' means, that the previous image is simply replaced by the new image.")
 
-		}
+        }
 
-		EntrySetting {
+        EntrySetting {
 
-			Row {
+            Row {
 
-				spacing: 10
+                spacing: 10
 
-				Text {
-					id: txt_no
-					color: colour.text
-					text: qsTr("No Transition")
-					font.pointSize: 10
-				}
+                Text {
+                    id: txt_no
+                    color: colour.text
+                    text: qsTr("No Transition")
+                    font.pointSize: 10
+                }
 
-				CustomSlider {
+                CustomSlider {
 
-					id: transition
+                    id: transition
 
-					width: Math.min(400, settings_top.width-entrytitle.width-txt_no.width-txt_long.width-60)
-					y: (parent.height-height)/2
+                    width: Math.min(400, settings_top.width-entrytitle.width-txt_no.width-txt_long.width-60)
+                    y: (parent.height-height)/2
 
-					minimumValue: 0
-					maximumValue: 10
+                    minimumValue: 0
+                    maximumValue: 10
 
-					tickmarksEnabled: true
-					stepSize: 1
+                    tickmarksEnabled: true
+                    stepSize: 1
 
-				}
+                }
 
-				Text {
-					id: txt_long
-					color: colour.text
-					text: qsTr("Long Transition")
-					font.pointSize: 10
-				}
+                Text {
+                    id: txt_long
+                    color: colour.text
+                    text: qsTr("Long Transition")
+                    font.pointSize: 10
+                }
 
-			}
+            }
 
-		}
+        }
 
-	}
+    }
 
-	function setData() {
-		transition.value = settings.transition
-	}
+    function setData() {
+        transition.value = settings.transition
+    }
 
-	function saveData() {
-		settings.transition = transition.value
-	}
+    function saveData() {
+        settings.transition = transition.value
+    }
 
 }

@@ -31,17 +31,17 @@
 
 class GetAndDoStuffContext : public QObject {
 
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	explicit GetAndDoStuffContext(QObject *parent = 0);
-	~GetAndDoStuffContext();
+    explicit GetAndDoStuffContext(QObject *parent = 0);
+    ~GetAndDoStuffContext();
 
-	QStringList setDefaultContextMenuEntries();
-	QStringList getContextMenu();
-	qint64 getContextMenuFileModifiedTime();
-	void saveContextMenu(QVariantList m);
-	bool checkIfBinaryExists(QString exec);
+    QStringList setDefaultContextMenuEntries();
+    QStringList getContextMenu();
+    qint64 getContextMenuFileModifiedTime();
+    void saveContextMenu(QVariantList m);
+    bool checkIfBinaryExists(QString exec);
 
 };
 

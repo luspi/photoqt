@@ -5,42 +5,42 @@ import "../../"
 
 EntryContainer {
 
-	id: item_top
+    id: item_top
 
-	Row {
+    Row {
 
-		spacing: 20
+        spacing: 20
 
-		EntryTitle {
+        EntryTitle {
 
-			title: qsTr("Keep between images")
-			helptext: qsTr("If you would like PhotoQt to keep the set rotation, flipping and zoom level when switching images, then you can enable that here. If not set, then every time a new image is displayed, it is displayed neither zoomed nor rotated nor flipped.")
+            title: qsTr("Keep between images")
+            helptext: qsTr("If you would like PhotoQt to keep the set rotation, flipping and zoom level when switching images, then you can enable that here. If not set, then every time a new image is displayed, it is displayed neither zoomed nor rotated nor flipped.")
 
-		}
+        }
 
-		EntrySetting {
+        EntrySetting {
 
-			Row {
+            Row {
 
-				spacing: 10
+                spacing: 10
 
-				CustomCheckBox {
-					id: keep_box
-					text: qsTr("Keep Zoom, Rotation, Flip")
-				}
+                CustomCheckBox {
+                    id: keep_box
+                    text: qsTr("Keep Zoom, Rotation, Flip")
+                }
 
-			}
+            }
 
-		}
+        }
 
-	}
+    }
 
-	function setData() {
-		keep_box.checkedButton = settings.keepZoomRotationMirror
-	}
+    function setData() {
+        keep_box.checkedButton = settings.keepZoomRotationMirror
+    }
 
-	function saveData() {
-		settings.keepZoomRotationMirror = keep_box.checkedButton
-	}
+    function saveData() {
+        settings.keepZoomRotationMirror = keep_box.checkedButton
+    }
 
 }

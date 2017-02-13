@@ -64,57 +64,57 @@ class ZipReaderPrivate;
 class ZipReader
 {
 public:
-	explicit ZipReader(const QString &fileName, QIODevice::OpenMode mode = QIODevice::ReadOnly );
+    explicit ZipReader(const QString &fileName, QIODevice::OpenMode mode = QIODevice::ReadOnly );
 
-	explicit ZipReader(QIODevice *device);
-	~ZipReader();
+    explicit ZipReader(QIODevice *device);
+    ~ZipReader();
 
-	QIODevice* device() const;
+    QIODevice* device() const;
 
-	bool isReadable() const;
-	bool exists() const;
+    bool isReadable() const;
+    bool exists() const;
 
-	struct FileInfo
-	{
-		FileInfo() Q_DECL_NOTHROW
-				: isDir(false), isFile(false), isSymLink(false), crc(0), size(0)
-		{}
+    struct FileInfo
+    {
+        FileInfo() Q_DECL_NOTHROW
+                : isDir(false), isFile(false), isSymLink(false), crc(0), size(0)
+        {}
 
-		bool isValid() const Q_DECL_NOTHROW { return isDir || isFile || isSymLink; }
+        bool isValid() const Q_DECL_NOTHROW { return isDir || isFile || isSymLink; }
 
-		QString filePath;
-		uint isDir : 1;
-		uint isFile : 1;
-		uint isSymLink : 1;
-		QFile::Permissions permissions;
-		uint crc;
-		qint64 size;
-		QDateTime lastModified;
-	};
+        QString filePath;
+        uint isDir : 1;
+        uint isFile : 1;
+        uint isSymLink : 1;
+        QFile::Permissions permissions;
+        uint crc;
+        qint64 size;
+        QDateTime lastModified;
+    };
 
-	QVector<FileInfo> fileInfoList() const;
-	int count() const;
+    QVector<FileInfo> fileInfoList() const;
+    int count() const;
 
-	FileInfo entryInfoAt(int index) const;
-	QByteArray fileData(const QString &fileName) const;
-	bool extractAll(const QString &destinationDir) const;
+    FileInfo entryInfoAt(int index) const;
+    QByteArray fileData(const QString &fileName) const;
+    bool extractAll(const QString &destinationDir) const;
 
-	enum Status {
-		NoError,
-		FileReadError,
-		FileOpenError,
-		FilePermissionsError,
-		FileError,
-		FileNotAZipError
-	};
+    enum Status {
+        NoError,
+        FileReadError,
+        FileOpenError,
+        FilePermissionsError,
+        FileError,
+        FileNotAZipError
+    };
 
-	Status status() const;
+    Status status() const;
 
-	void close();
+    void close();
 
 private:
-	ZipReaderPrivate *d;
-	Q_DISABLE_COPY(ZipReader)
+    ZipReaderPrivate *d;
+    Q_DISABLE_COPY(ZipReader)
 };
 Q_DECLARE_TYPEINFO(ZipReader::FileInfo, Q_MOVABLE_TYPE);
 Q_DECLARE_TYPEINFO(ZipReader::Status, Q_PRIMITIVE_TYPE);

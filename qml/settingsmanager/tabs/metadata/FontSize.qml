@@ -6,78 +6,78 @@ import "../../"
 
 EntryContainer {
 
-	id: item_top
+    id: item_top
 
-	Row {
+    Row {
 
-		spacing: 20
+        spacing: 20
 
-		EntryTitle {
+        EntryTitle {
 
-			title: qsTr("Font Size")
-			helptext: qsTr("Computers can have very different resolutions. On some of them, it might be nice to increase the font size of the labels to have them easier readable. Often, a size of 8 or 9 should be working quite well...")
+            title: qsTr("Font Size")
+            helptext: qsTr("Computers can have very different resolutions. On some of them, it might be nice to increase the font size of the labels to have them easier readable. Often, a size of 8 or 9 should be working quite well...")
 
-		}
+        }
 
-		EntrySetting {
+        EntrySetting {
 
-			id: entry
+            id: entry
 
-			// This variable is needed to avoid a binding loop of slider<->spinbox
-			property int val: 20
+            // This variable is needed to avoid a binding loop of slider<->spinbox
+            property int val: 20
 
-			Row {
+            Row {
 
-				spacing: 10
+                spacing: 10
 
-				CustomSlider {
+                CustomSlider {
 
-					id: fontsize_slider
+                    id: fontsize_slider
 
-					width: 400
-					y: (parent.height-height)/2
+                    width: 400
+                    y: (parent.height-height)/2
 
-					minimumValue: 5
-					maximumValue: 20
+                    minimumValue: 5
+                    maximumValue: 20
 
-					tickmarksEnabled: true
-					stepSize: 1
+                    tickmarksEnabled: true
+                    stepSize: 1
 
-					onValueChanged:
-						entry.val = value
+                    onValueChanged:
+                        entry.val = value
 
-				}
+                }
 
-				CustomSpinBox {
+                CustomSpinBox {
 
-					id: fontsize_spinbox
+                    id: fontsize_spinbox
 
-					width: 75
+                    width: 75
 
-					minimumValue: 5
-					maximumValue: 20
+                    minimumValue: 5
+                    maximumValue: 20
 
-					suffix: " pt"
+                    suffix: " pt"
 
-					value: entry.val
+                    value: entry.val
 
-					onValueChanged:
-						fontsize_slider.value = value
+                    onValueChanged:
+                        fontsize_slider.value = value
 
-				}
+                }
 
-			}
+            }
 
-		}
+        }
 
-	}
+    }
 
-	function setData() {
-		fontsize_slider.value = settings.exiffontsize
-	}
+    function setData() {
+        fontsize_slider.value = settings.exiffontsize
+    }
 
-	function saveData() {
-		settings.exiffontsize = fontsize_slider.value
-	}
+    function saveData() {
+        settings.exiffontsize = fontsize_slider.value
+    }
 
 }

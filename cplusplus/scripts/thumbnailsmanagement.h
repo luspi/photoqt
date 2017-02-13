@@ -26,20 +26,20 @@
 
 class ThumbnailManagement : public QObject {
 
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	ThumbnailManagement(QObject *parent = 0);
+    ThumbnailManagement(QObject *parent = 0);
 
-	Q_INVOKABLE qint64 getDatabaseFilesize();
+    Q_INVOKABLE qint64 getDatabaseFilesize();
 
-	Q_INVOKABLE int getNumberDatabaseEntries();
+    Q_INVOKABLE int getNumberDatabaseEntries();
 
-	Q_INVOKABLE void cleanDatabase();
-	Q_INVOKABLE void eraseDatabase();
+    Q_INVOKABLE void cleanDatabase();
+    Q_INVOKABLE void eraseDatabase();
 
 private:
-	QSqlDatabase db;
+    QSqlDatabase db;
 
 };
 

@@ -23,20 +23,20 @@
 
 class KeyHandler : public QObject {
 
-	Q_OBJECT
+    Q_OBJECT
 
 public:
 
-	explicit KeyHandler(QObject *parent = 0);
+    explicit KeyHandler(QObject *parent = 0);
 
-	bool handle(QEvent *e);
-	void updateCombo(QKeyEvent *e);
+    bool handle(QEvent *e);
+    void updateCombo(QKeyEvent *e);
 
 private:
-	QString combo;
+    QString combo;
 
 signals:
-	void receivedKeyEvent(QString combo);
+    void receivedKeyEvent(QString combo);
 
 };
 

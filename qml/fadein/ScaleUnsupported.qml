@@ -5,53 +5,53 @@ import "../elements"
 
 FadeInTemplate {
 
-	id: scaleUnsupported_top
+    id: scaleUnsupported_top
 
-	heading: ""
-	showSeperators: false
+    heading: ""
+    showSeperators: false
 
-	marginTopBottom: (background.height-300)/2
-	clipContent: false
+    marginTopBottom: (background.height-300)/2
+    clipContent: false
 
-	content: [
+    content: [
 
-		Rectangle {
-			color: "transparent"
-			width: childrenRect.width
-			height: childrenRect.height
-			x: (scaleUnsupported_top.contentWidth-width)/2
-			Text {
-				color: colour.text
-				font.pointSize: 20
+        Rectangle {
+            color: "transparent"
+            width: childrenRect.width
+            height: childrenRect.height
+            x: (scaleUnsupported_top.contentWidth-width)/2
+            Text {
+                color: colour.text
+                font.pointSize: 20
 //				font.bold: true
-				horizontalAlignment: Text.AlignHCenter
-				wrapMode: Text.WordWrap
-				width: Math.min(background.width/2,500)
-				lineHeight: 1.1
-				text: qsTr("Sorry, this fileformat cannot be scaled with PhotoQt yet!")
-			}
-		},
+                horizontalAlignment: Text.AlignHCenter
+                wrapMode: Text.WordWrap
+                width: Math.min(background.width/2,500)
+                lineHeight: 1.1
+                text: qsTr("Sorry, this fileformat cannot be scaled with PhotoQt yet!")
+            }
+        },
 
-		Rectangle {
-			color: "transparent"
-			width: scaleUnsupported_top.contentWidth
-			height: 1
-		},
+        Rectangle {
+            color: "transparent"
+            width: scaleUnsupported_top.contentWidth
+            height: 1
+        },
 
-		CustomButton {
-			text: qsTr("Okay, I understand")
-			fontsize: 15
-			x: (scaleUnsupported_top.contentWidth-width)/2
-			onClickedButton: hideScaledUnsupported()
-		}
+        CustomButton {
+            text: qsTr("Okay, I understand")
+            fontsize: 15
+            x: (scaleUnsupported_top.contentWidth-width)/2
+            onClickedButton: hideScaledUnsupported()
+        }
 
-	]
+    ]
 
-	function showScaledUnsupported() {
-		show()
-	}
-	function hideScaledUnsupported() {
-		hide()
-	}
+    function showScaledUnsupported() {
+        show()
+    }
+    function hideScaledUnsupported() {
+        hide()
+    }
 
 }

@@ -43,40 +43,40 @@
 class ImageProviderFull : public QQuickImageProvider {
 
 public:
-	explicit ImageProviderFull();
-	~ImageProviderFull();
+    explicit ImageProviderFull();
+    ~ImageProviderFull();
 
-	QImage requestImage(const QString &filename_encoded, QSize *size, const QSize &requestedSize);
+    QImage requestImage(const QString &filename_encoded, QSize *size, const QSize &requestedSize);
 
-	QSize origSize;
+    QSize origSize;
 
 private:
-	bool verbose;
+    bool verbose;
 
-	QSize maxSize;
-	Settings *settings;
-	FileFormats *fileformats;
+    QSize maxSize;
+    Settings *settings;
+    FileFormats *fileformats;
 
-	QString qtfiles;
-	QString gmfiles;
-	QString extrasfiles;
-	QString rawfiles;
+    QString qtfiles;
+    QString gmfiles;
+    QString extrasfiles;
+    QString rawfiles;
 
-	LoadImageGM *loaderGM;
-	LoadImageQt *loaderQT;
-	LoadImageRaw *loaderRAW;
-	LoadImageXCF *loaderXCF;
+    LoadImageGM *loaderGM;
+    LoadImageQt *loaderQT;
+    LoadImageRaw *loaderRAW;
+    LoadImageXCF *loaderXCF;
 
-	QCache<QByteArray,QPixmap> *pixmapcache;
+    QCache<QByteArray,QPixmap> *pixmapcache;
 
 
-	QString whatDoIUse(QString filename);
+    QString whatDoIUse(QString filename);
 
 #ifdef GM
-	GmImageMagick imagemagick;
+    GmImageMagick imagemagick;
 #endif
 
-	QByteArray getUniqueCacheKey(QString path);
+    QByteArray getUniqueCacheKey(QString path);
 
 };
 

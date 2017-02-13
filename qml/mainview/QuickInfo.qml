@@ -5,237 +5,237 @@ import "../elements"
 
 Item {
 
-	id: item
+    id: item
 
-	x: metaData.nonFloatWidth + 5
-	y:5
+    x: metaData.nonFloatWidth + 5
+    y:5
 
-	function getWidth() { return counterRect.width; }
-	function getHeight() { return counterRect.height; }
+    function getWidth() { return counterRect.width; }
+    function getHeight() { return counterRect.height; }
 
-	opacity: 0
+    opacity: 0
 
-	property bool somethingLoaded: false
+    property bool somethingLoaded: false
 
-	property int _pos: -1
+    property int _pos: -1
 
-	// Set data
-	function updateQuickInfo(pos, totalNumberImages, filepath) {
+    // Set data
+    function updateQuickInfo(pos, totalNumberImages, filepath) {
 
-		verboseMessage("QuickInfo::updateQuickInfo()",pos + "/" + totalNumberImages + " - " + filepath)
+        verboseMessage("QuickInfo::updateQuickInfo()",pos + "/" + totalNumberImages + " - " + filepath)
 
-		_pos = pos
+        _pos = pos
 
-		somethingLoaded = true
+        somethingLoaded = true
 
-		if(settings.hidecounter || totalNumberImages === 0) {
-			counter.text = ""
-			counter.visible = false
-			spacing.visible = false
-		} else {
-			counter.text = (pos+1).toString() + "/" + totalNumberImages.toString()
-			counter.visible = true
-		}
+        if(settings.hidecounter || totalNumberImages === 0) {
+            counter.text = ""
+            counter.visible = false
+            spacing.visible = false
+        } else {
+            counter.text = (pos+1).toString() + "/" + totalNumberImages.toString()
+            counter.visible = true
+        }
 
-		if(settings.hidefilename || totalNumberImages === 0) {
-			filename.text = ""
-			filename.visible = false
-			spacing.visible = false
-		} else if(settings.hidefilepathshowfilename) {
-			filename.text = getanddostuff.removePathFromFilename(filepath)
-			filename.visible = true
-		} else {
-			filename.text = filepath
-			filename.visible = true
-		}
+        if(settings.hidefilename || totalNumberImages === 0) {
+            filename.text = ""
+            filename.visible = false
+            spacing.visible = false
+        } else if(settings.hidefilepathshowfilename) {
+            filename.text = getanddostuff.removePathFromFilename(filepath)
+            filename.visible = true
+        } else {
+            filename.text = filepath
+            filename.visible = true
+        }
 
-		spacing.visible = (counter.visible && filename.visible && totalNumberImages !== 0)
-		spacing.width = (spacing.visible ? 10 : 0)
+        spacing.visible = (counter.visible && filename.visible && totalNumberImages !== 0)
+        spacing.width = (spacing.visible ? 10 : 0)
 
-		if(((!counter.visible && !filename.visible) || (slideshowRunning && settings.slideShowHideQuickinfo)) && currentfilter == "") {
-			opacity = 0
-		} else
-			opacity = 1
+        if(((!counter.visible && !filename.visible) || (slideshowRunning && settings.slideShowHideQuickinfo)) && currentfilter == "") {
+            opacity = 0
+        } else
+            opacity = 1
 
-	}
+    }
 
-	// Rectangle holding all the items
-	Rectangle {
+    // Rectangle holding all the items
+    Rectangle {
 
-		id: counterRect
+        id: counterRect
 
-		x: 0
-		y: settings.thumbnailposition == "Bottom" ? 0 : background.height-height-6
+        x: 0
+        y: settings.thumbnailposition == "Bottom" ? 0 : background.height-height-6
 
-		// it is always as big as the item it contains
-		width: childrenRect.width+6
-		height: childrenRect.height+6
+        // it is always as big as the item it contains
+        width: childrenRect.width+6
+        height: childrenRect.height+6
 
-		// Some styling
-		color: colour.quickinfo_bg
-		radius: global_item_radius
+        // Some styling
+        color: colour.quickinfo_bg
+        radius: global_item_radius
 
-		// COUNTER
-		Text {
+        // COUNTER
+        Text {
 
-			id: counter
+            id: counter
 
-			x:3
-			y:3
+            x:3
+            y:3
 
-			text: ""
+            text: ""
 
-			color: colour.quickinfo_text
-			font.bold: true
-			font.pointSize: 10
+            color: colour.quickinfo_text
+            font.bold: true
+            font.pointSize: 10
 
-			// Show context menu on right click
-			MouseArea {
-				anchors.fill: parent
-				acceptedButtons: Qt.LeftButton | Qt.RightButton
-				onClicked: {
-					if (mouse.button == Qt.RightButton && somethingLoaded) {
-						if(softblocked != 0)
-							softblocked = 0
-						else {
-							softblocked = 1
-							contextmenuCounter.popup()
-						}
-					}
-				}
-			}
+            // Show context menu on right click
+            MouseArea {
+                anchors.fill: parent
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                onClicked: {
+                    if (mouse.button == Qt.RightButton && somethingLoaded) {
+                        if(softblocked != 0)
+                            softblocked = 0
+                        else {
+                            softblocked = 1
+                            contextmenuCounter.popup()
+                        }
+                    }
+                }
+            }
 
-			// The context menu
-			ContextMenu {
+            // The context menu
+            ContextMenu {
 
-				id: contextmenuCounter
+                id: contextmenuCounter
 
-				MenuItem {
-					//: This is the image counter in the top left corner (part of the quickinfo labels)
-					text: qsTr("Hide Counter")
-					onTriggered: {
-					counter.text = ""
-					counter.visible = false
-					spacing.visible = false
-					spacing.width = 0
-					settings.hidecounter = true;
-					if(filename.visible == false) item.opacity = 0
-					}
-				}
+                MenuItem {
+                    //: This is the image counter in the top left corner (part of the quickinfo labels)
+                    text: qsTr("Hide Counter")
+                    onTriggered: {
+                    counter.text = ""
+                    counter.visible = false
+                    spacing.visible = false
+                    spacing.width = 0
+                    settings.hidecounter = true;
+                    if(filename.visible == false) item.opacity = 0
+                    }
+                }
 
-			}
+            }
 
-		}
+        }
 
-		// SPACING - it does nothing but seperate counter from filename
-		Text {
-			id: spacing
+        // SPACING - it does nothing but seperate counter from filename
+        Text {
+            id: spacing
 
-			visible: !settings.hidecounter && !settings.hidefilepathshowfilename && !settings.hidefilename
+            visible: !settings.hidecounter && !settings.hidefilepathshowfilename && !settings.hidefilename
 
-			y: 3
-			width: 10
-			anchors.left: counter.right
+            y: 3
+            width: 10
+            anchors.left: counter.right
 
-			text: ""
+            text: ""
 
-		}
+        }
 
-		// FILENAME
-		Text {
+        // FILENAME
+        Text {
 
-			id: filename
+            id: filename
 
-			y: 3
-			anchors.left: spacing.right
+            y: 3
+            anchors.left: spacing.right
 
-			text: ""
-			color: colour.quickinfo_text
-			font.bold: true
-			font.pointSize: 10
+            text: ""
+            color: colour.quickinfo_text
+            font.bold: true
+            font.pointSize: 10
 
-			// Show context menu
-			MouseArea {
-				anchors.fill: parent
-				acceptedButtons: Qt.LeftButton | Qt.RightButton
-				onClicked: {
-					if (mouse.button == Qt.RightButton && somethingLoaded) {
-						if(softblocked != 0)
-							softblocked = 0
-						else {
-							softblocked = 1
-							contextmenuFilename.popup()
-						}
-					}
-				}
-			}
+            // Show context menu
+            MouseArea {
+                anchors.fill: parent
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                onClicked: {
+                    if (mouse.button == Qt.RightButton && somethingLoaded) {
+                        if(softblocked != 0)
+                            softblocked = 0
+                        else {
+                            softblocked = 1
+                            contextmenuFilename.popup()
+                        }
+                    }
+                }
+            }
 
-			// The actual context menu
-			ContextMenu {
+            // The actual context menu
+            ContextMenu {
 
-				id: contextmenuFilename
+                id: contextmenuFilename
 
-				MenuItem {
-					//: This hides part of the quickinfo labels in the top left corner
-					text: qsTr("Hide Filepath, leave Filename")
-					onTriggered: {
-						filename.text = getanddostuff.removePathFromFilename(filename.text)
-						settings.hidefilepathshowfilename = true;
-					}
-				}
+                MenuItem {
+                    //: This hides part of the quickinfo labels in the top left corner
+                    text: qsTr("Hide Filepath, leave Filename")
+                    onTriggered: {
+                        filename.text = getanddostuff.removePathFromFilename(filename.text)
+                        settings.hidefilepathshowfilename = true;
+                    }
+                }
 
-				MenuItem {
-					text: "<font color=\"" + colour.menu_text + "\">" + qsTr("Hide both, Filename and Filepath") + "</font>"
-					onTriggered: {
-						filename.text = ""
-						spacing.visible = false
-						spacing.width = 0
-						settings.hidefilename = true;
-						if(counter.visible == false) item.opacity = 0
-					}
-				}
+                MenuItem {
+                    text: "<font color=\"" + colour.menu_text + "\">" + qsTr("Hide both, Filename and Filepath") + "</font>"
+                    onTriggered: {
+                        filename.text = ""
+                        spacing.visible = false
+                        spacing.width = 0
+                        settings.hidefilename = true;
+                        if(counter.visible == false) item.opacity = 0
+                    }
+                }
 
-			}
-		}
+            }
+        }
 
-		// Filter label
-		Rectangle {
-			id: filterLabel
-			visible: (currentfilter != "")
-			x: (_pos == -1 ? 5 : filename.x-filter_delete.width-filterrow.spacing)
-			y: (_pos == -1 ? (filename.height-height/2)/2 : filename.y+filename.height+2)
-			width: childrenRect.width
-			height: childrenRect.height
-			color: "#00000000"
-			Row {
-				id: filterrow
-				spacing: 5
-				Text {
-					id: filter_delete
-					color: colour.quickinfo_text
-					visible: (currentfilter != "")
-					text: "x"
-					font.pointSize: 10
-					y: (parent.height-height)/2
-					MouseArea {
-						anchors.fill: parent
-						cursorShape: Qt.PointingHandCursor
-						onClicked: {
-							currentfilter = ""
-							doReload(thumbnailBar.currentFile)
-						}
-					}
-				}
-				Text {
-					color: colour.quickinfo_text
-					font.pointSize: 10
-					//: As in: FILTER images
-					text: qsTr("Filter:") + " " + currentfilter
-					visible: (currentfilter != "")
-				}
-			}
-		}
+        // Filter label
+        Rectangle {
+            id: filterLabel
+            visible: (currentfilter != "")
+            x: (_pos == -1 ? 5 : filename.x-filter_delete.width-filterrow.spacing)
+            y: (_pos == -1 ? (filename.height-height/2)/2 : filename.y+filename.height+2)
+            width: childrenRect.width
+            height: childrenRect.height
+            color: "#00000000"
+            Row {
+                id: filterrow
+                spacing: 5
+                Text {
+                    id: filter_delete
+                    color: colour.quickinfo_text
+                    visible: (currentfilter != "")
+                    text: "x"
+                    font.pointSize: 10
+                    y: (parent.height-height)/2
+                    MouseArea {
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: {
+                            currentfilter = ""
+                            doReload(thumbnailBar.currentFile)
+                        }
+                    }
+                }
+                Text {
+                    color: colour.quickinfo_text
+                    font.pointSize: 10
+                    //: As in: FILTER images
+                    text: qsTr("Filter:") + " " + currentfilter
+                    visible: (currentfilter != "")
+                }
+            }
+        }
 
-	}
+    }
 
 }

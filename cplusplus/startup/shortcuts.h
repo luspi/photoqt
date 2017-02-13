@@ -24,68 +24,68 @@
 
 namespace StartupCheck {
 
-	namespace Shortcuts {
+    namespace Shortcuts {
 
-		static inline void makeSureShortcutsFileExists(bool verbose) {
+        static inline void makeSureShortcutsFileExists(bool verbose) {
 
-			if(verbose) LOG << CURDATE << "StartupCheck::Shortcuts::makeSureShortcutsFileExists" << NL;
+            if(verbose) LOG << CURDATE << "StartupCheck::Shortcuts::makeSureShortcutsFileExists" << NL;
 
-			QFileInfo file(CFG_KEY_SHORTCUTS_FILE);
-			if(!file.exists()) {
-				GetAndDoStuffShortcuts sh(true);
-				sh.saveShortcuts(sh.getDefaultKeyShortcuts());
-			}
+            QFileInfo file(CFG_KEY_SHORTCUTS_FILE);
+            if(!file.exists()) {
+                GetAndDoStuffShortcuts sh(true);
+                sh.saveShortcuts(sh.getDefaultKeyShortcuts());
+            }
 
-		}
+        }
 
-		static inline void migrateMouseShortcuts(bool verbose) {
+        static inline void migrateMouseShortcuts(bool verbose) {
 
-			if(verbose) LOG << CURDATE << "StartupCheck::Shortcuts::migrateMouseShortcuts" << NL;
+            if(verbose) LOG << CURDATE << "StartupCheck::Shortcuts::migrateMouseShortcuts" << NL;
 
-			QFile mousefile(CFG_MOUSE_SHORTCUTS_FILE);
-			QFile keyfile(CFG_KEY_SHORTCUTS_FILE);
+            QFile mousefile(CFG_MOUSE_SHORTCUTS_FILE);
+            QFile keyfile(CFG_KEY_SHORTCUTS_FILE);
 
-			if(!mousefile.exists()) {
+            if(!mousefile.exists()) {
 
-				if(mousefile.open(QIODevice::WriteOnly)) {
+                if(mousefile.open(QIODevice::WriteOnly)) {
 
-					if(keyfile.open(QIODevice::ReadOnly)) {
+                    if(keyfile.open(QIODevice::ReadOnly)) {
 
-						QTextStream keyin(&keyfile);
-						QTextStream mouseout(&mousefile);
+                        QTextStream keyin(&keyfile);
+                        QTextStream mouseout(&mousefile);
 
-						QString newKeyFileContent = "";
-						QString newMouseFileContent = QString("Version=%1\n").arg(VERSION);
+                        QString newKeyFileContent = "";
+                        QString newMouseFileContent = QString("Version=%1\n").arg(VERSION);
 
-						QStringList allKeys = keyin.readAll().split("\n");
-						foreach(QString k, allKeys) {
-							if(k.contains("::[M]"))
-								newMouseFileContent += k.replace("[M] ","") + "\n";
-							else
-								newKeyFileContent += k + "\n";
-						}
+                        QStringList allKeys = keyin.readAll().split("\n");
+                        foreach(QString k, allKeys) {
+                            if(k.contains("::[M]"))
+                                newMouseFileContent += k.replace("[M] ","") + "\n";
+                            else
+                                newKeyFileContent += k + "\n";
+                        }
 
-						mouseout << newMouseFileContent;
+                        mouseout << newMouseFileContent;
 
-						keyfile.close();
-						keyfile.open(QIODevice::WriteOnly);
-						QTextStream keyout(&keyfile);
-						keyout << newKeyFileContent;
-						keyfile.close();
+                        keyfile.close();
+                        keyfile.open(QIODevice::WriteOnly);
+                        QTextStream keyout(&keyfile);
+                        keyout << newKeyFileContent;
+                        keyfile.close();
 
-					} else
-						LOG << CURDATE << "StartupCheck::Shortcuts - ERROR: Unable to open key shortcuts file" << NL;
+                    } else
+                        LOG << CURDATE << "StartupCheck::Shortcuts - ERROR: Unable to open key shortcuts file" << NL;
 
-					mousefile.close();
+                    mousefile.close();
 
-				} else
-					LOG << CURDATE << "StartupCheck::Shortcuts - ERROR: Unable to open mouse shortcuts file" << NL;
+                } else
+                    LOG << CURDATE << "StartupCheck::Shortcuts - ERROR: Unable to open mouse shortcuts file" << NL;
 
-			}
+            }
 
-		}
+        }
 
-	}
+    }
 
 }
 

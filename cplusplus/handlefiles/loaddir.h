@@ -30,33 +30,33 @@ class MyCppModel;
 
 class LoadDir : public QObject {
 
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	explicit LoadDir(bool verbose);
-	~LoadDir();
+    explicit LoadDir(bool verbose);
+    ~LoadDir();
 
-	QVector<QFileInfo> loadDir(QString filepath, QString filter);
+    QVector<QFileInfo> loadDir(QString filepath, QString filter);
 
 private:
 
-	bool verbose;
+    bool verbose;
 
-	Settings *settings;
-	FileFormats *fileformats;
+    Settings *settings;
+    FileFormats *fileformats;
 
-	QStringList imageFilter;
+    QStringList imageFilter;
 
-	QVector<QFileInfo> allImgsInfo;
+    QVector<QFileInfo> allImgsInfo;
 
-	static bool sort_name(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
-	static bool sort_name_desc(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
-	static bool sort_naturalname(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
-	static bool sort_naturalname_desc(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
-	static bool sort_date(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
-	static bool sort_date_desc(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
-	static bool sort_size(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
-	static bool sort_size_desc(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
+    static bool sort_name(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
+    static bool sort_name_desc(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
+    static bool sort_naturalname(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
+    static bool sort_naturalname_desc(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
+    static bool sort_date(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
+    static bool sort_date_desc(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
+    static bool sort_size(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
+    static bool sort_size_desc(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
 
 };
 

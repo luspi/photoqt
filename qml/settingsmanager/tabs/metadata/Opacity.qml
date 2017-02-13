@@ -6,77 +6,77 @@ import "../../"
 
 EntryContainer {
 
-	id: item_top
+    id: item_top
 
-	Row {
+    Row {
 
-		spacing: 20
+        spacing: 20
 
-		EntryTitle {
+        EntryTitle {
 
-			//: Settings title: Opacity of main menu and metadata element
-			title: qsTr("Opacity")
-			helptext: qsTr("By default, the metadata widget is overlapping the main image, thus you might prefer a different alpha value for opacity to increase/decrease readability. Values can be in the range of 0-255.")
+            //: Settings title: Opacity of main menu and metadata element
+            title: qsTr("Opacity")
+            helptext: qsTr("By default, the metadata widget is overlapping the main image, thus you might prefer a different alpha value for opacity to increase/decrease readability. Values can be in the range of 0-255.")
 
-		}
+        }
 
-		EntrySetting {
+        EntrySetting {
 
-			id: entry
+            id: entry
 
-			// This variable is needed to avoid a binding loop of slider<->spinbox
-			property int val: 20
+            // This variable is needed to avoid a binding loop of slider<->spinbox
+            property int val: 20
 
-			Row {
+            Row {
 
-				spacing: 10
+                spacing: 10
 
-				CustomSlider {
+                CustomSlider {
 
-					id: opacity_slider
+                    id: opacity_slider
 
-					width: 400
-					y: (parent.height-height)/2
+                    width: 400
+                    y: (parent.height-height)/2
 
-					minimumValue: 0
-					maximumValue: 255
+                    minimumValue: 0
+                    maximumValue: 255
 
-					stepSize: 5
-					scrollStep: 5
+                    stepSize: 5
+                    scrollStep: 5
 
-					onValueChanged:
-						entry.val = value
+                    onValueChanged:
+                        entry.val = value
 
-				}
+                }
 
-				CustomSpinBox {
+                CustomSpinBox {
 
-					id: opacity_spinbox
+                    id: opacity_spinbox
 
-					width: 75
+                    width: 75
 
-					minimumValue: 0
-					maximumValue: 255
+                    minimumValue: 0
+                    maximumValue: 255
 
-					value: entry.val
+                    value: entry.val
 
-					onValueChanged:
-						opacity_slider.value = value
+                    onValueChanged:
+                        opacity_slider.value = value
 
-				}
+                }
 
-			}
+            }
 
-		}
+        }
 
-	}
+    }
 
-	function setData() {
-		opacity_slider.value = settings.exifopacity
-	}
+    function setData() {
+        opacity_slider.value = settings.exifopacity
+    }
 
-	function saveData() {
-		settings.exifopacity = opacity_slider.value
-	}
+    function saveData() {
+        settings.exifopacity = opacity_slider.value
+    }
 
 }

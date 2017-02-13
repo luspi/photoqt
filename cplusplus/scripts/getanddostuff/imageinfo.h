@@ -23,21 +23,21 @@
 
 class GetAndDoStuffImageInfo : public QObject {
 
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	explicit GetAndDoStuffImageInfo(QObject *parent = 0);
-	~GetAndDoStuffImageInfo();
+    explicit GetAndDoStuffImageInfo(QObject *parent = 0);
+    ~GetAndDoStuffImageInfo();
 
-	bool isImageAnimated(QString path);
-	QSize getAnimatedImageSize(QString path);
-	QList<int> getNumFramesAndDuration(QString filename);
-	QString getLastModified(QString filename);
+    bool isImageAnimated(QString path);
+    QSize getAnimatedImageSize(QString path);
+    QList<int> getNumFramesAndDuration(QString filename);
+    QString getLastModified(QString filename);
 
 private:
-	ImageProviderFull *provider;
+    ImageProviderFull *provider;
 
-	QMovie *mov;
+    QMovie *mov;
 
 };
 

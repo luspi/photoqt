@@ -7,75 +7,75 @@ import "../../elements"
 
 Rectangle {
 
-	id: tab_top
+    id: tab_top
 
-	property int titlewidth: 100
+    property int titlewidth: 100
 
-	color: "#00000000"
+    color: "#00000000"
 
-	anchors {
-		fill: parent
-		bottomMargin: 5
-	}
+    anchors {
+        fill: parent
+        bottomMargin: 5
+    }
 
-	Flickable {
+    Flickable {
 
-		id: flickable
+        id: flickable
 
-		clip: true
+        clip: true
 
-		anchors.fill: parent
+        anchors.fill: parent
 
-		contentHeight: contentItem.childrenRect.height+20
-		contentWidth: maincol.width
+        contentHeight: contentItem.childrenRect.height+20
+        contentWidth: maincol.width
 
-		Column {
+        Column {
 
-			id: maincol
+            id: maincol
 
-			Rectangle { color: "transparent"; width: 1; height: 10; }
+            Rectangle { color: "transparent"; width: 1; height: 10; }
 
-			Text {
-				width: flickable.width
-				color: "white"
-				font.pointSize: 20
-				font.bold: true
-				//: Used as heading of tab in the settings manager
-				text: qsTr("Other Settings")
-				horizontalAlignment: Text.AlignHCenter
-			}
+            Text {
+                width: flickable.width
+                color: "white"
+                font.pointSize: 20
+                font.bold: true
+                //: Used as heading of tab in the settings manager
+                text: qsTr("Other Settings")
+                horizontalAlignment: Text.AlignHCenter
+            }
 
-			Rectangle { color: "transparent"; width: 1; height: 20; }
+            Rectangle { color: "transparent"; width: 1; height: 20; }
 
-			Text {
-				width: flickable.width
-				color: "white"
-				font.pointSize: 9
-				text: qsTranslate("SettingsManager", "Move your mouse cursor over the different settings titles to see more information.")
-				horizontalAlignment: Text.AlignHCenter
-			}
+            Text {
+                width: flickable.width
+                color: "white"
+                font.pointSize: 9
+                text: qsTranslate("SettingsManager", "Move your mouse cursor over the different settings titles to see more information.")
+                horizontalAlignment: Text.AlignHCenter
+            }
 
-			Rectangle { color: "transparent"; width: 1; height: 30; }
+            Rectangle { color: "transparent"; width: 1; height: 30; }
 
-			Rectangle { color: "#88ffffff"; width: parent.width; height: 1; }
+            Rectangle { color: "#88ffffff"; width: parent.width; height: 1; }
 
-			Rectangle { color: "transparent"; width: 1; height: 20; }
+            Rectangle { color: "transparent"; width: 1; height: 20; }
 
-			Language { id: language }
-			CustomEntries { id: customentries; alternating: true; enabled: !getanddostuff.amIOnWindows() }
+            Language { id: language }
+            CustomEntries { id: customentries; alternating: true; enabled: !getanddostuff.amIOnWindows() }
 
-		}
+        }
 
-	}
+    }
 
-	function setData() {
-		language.setData()
-		customentries.setData()
-	}
+    function setData() {
+        language.setData()
+        customentries.setData()
+    }
 
-	function saveData() {
-		language.saveData()
-		customentries.saveData()
-	}
+    function saveData() {
+        language.saveData()
+        customentries.saveData()
+    }
 
 }

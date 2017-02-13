@@ -7,137 +7,137 @@ import "../../"
 
 EntryContainer {
 
-	id: item_top
+    id: item_top
 
-	Row {
+    Row {
 
-		spacing: 20
+        spacing: 20
 
-		EntryTitle {
+        EntryTitle {
 
-			id: title
-			title: qsTr("File Formats") + ":<br>&gt; Qt"
-			helptext: qsTr("These are the file types natively supported by Qt. Make sure, that you'll have the required libraries installed (e.g., qt5-imageformats), otherwise some of them might not work on your system.")
+            id: title
+            title: qsTr("File Formats") + ":<br>&gt; Qt"
+            helptext: qsTr("These are the file types natively supported by Qt. Make sure, that you'll have the required libraries installed (e.g., qt5-imageformats), otherwise some of them might not work on your system.")
 
-		}
+        }
 
-		EntrySetting {
+        EntrySetting {
 
-			id: entry
+            id: entry
 
-			// the model array
-			property var types_qt: [["", "", true]]
-			// which item is checked
-			property var modeldata: {"" : ""}
+            // the model array
+            property var types_qt: [["", "", true]]
+            // which item is checked
+            property var modeldata: {"" : ""}
 
-			GridView {
+            GridView {
 
-				id: grid
-				width: item_top.width-title.x-title.width
-				height: childrenRect.height
-				cellWidth: 300
-				cellHeight: 30+spacing*2
-				property int spacing: 3
+                id: grid
+                width: item_top.width-title.x-title.width
+                height: childrenRect.height
+                cellWidth: 300
+                cellHeight: 30+spacing*2
+                property int spacing: 3
 
-				model: entry.types_qt.length
-				delegate: FileTypesTile {
-					id: tile
-					fileType: entry.types_qt[index][0]
-					fileEnding: entry.types_qt[index][1]
-					checked: entry.types_qt[index][2]
-					width: grid.cellWidth-grid.spacing*2
-					x: grid.spacing
-					height: grid.cellHeight-grid.spacing*2
-					y: grid.spacing
+                model: entry.types_qt.length
+                delegate: FileTypesTile {
+                    id: tile
+                    fileType: entry.types_qt[index][0]
+                    fileEnding: entry.types_qt[index][1]
+                    checked: entry.types_qt[index][2]
+                    width: grid.cellWidth-grid.spacing*2
+                    x: grid.spacing
+                    height: grid.cellHeight-grid.spacing*2
+                    y: grid.spacing
 
-					// Store updates
-					Component.onCompleted:
-						entry.modeldata[entry.types_qt[index][1]] = checked
-					onCheckedChanged:
-						entry.modeldata[entry.types_qt[index][1]] = checked
-				}
+                    // Store updates
+                    Component.onCompleted:
+                        entry.modeldata[entry.types_qt[index][1]] = checked
+                    onCheckedChanged:
+                        entry.modeldata[entry.types_qt[index][1]] = checked
+                }
 
-			}
+            }
 
-		}
+        }
 
-	}
+    }
 
-	function setData() {
+    function setData() {
 
-		verboseMessage("Settings::TabFiletypes::setData()","")
+        verboseMessage("Settings::TabFiletypes::setData()","")
 
-		// Remove data
-		entry.types_qt = []
+        // Remove data
+        entry.types_qt = []
 
-		// storing intermediate results
-		var tmp_types_qt = []
+        // storing intermediate results
+        var tmp_types_qt = []
 
-		// Get current settings
-		var setformats = fileformats.formats_qt
+        // Get current settings
+        var setformats = fileformats.formats_qt
 
-		// Valid fileformats
-		var qt = [["Bitmap", "*.bmp", "*.bitmap"],
-			["Direct Draw Surface", "*.dds"],
-			["Graphics Interchange Format (GIF)", "*.gif"],
-			["Microsoft Icon", "*.ico", "*.icns"],
-			["Joint Photographic Experts Group (JPEG)", "*.jpg", "*.jpeg"],
-			["JPEG-2000", "*.jpeg2000", "*.jp2", "*.jpc", "*.j2k", "*.jpf", "*.jpx", "*.jpm", "*.mj2"],
-			["Multiple-image Network Graphics", "*.mng"],
-			["Portable Network Graphics (PNG)", "*.png"],
-			["Portable bitmap", "*.pbm"],
-			["Portable graymap", "*.pgm"],
-			["Portable pixmap", "*.ppm"],
-			["Scalable Vector Graphics (SVG)", "*.svg", "*.svgz"],
-			["Tagged Image File Format (TIFF)", "*.tif", "*.tiff"],
-			["Wireless bitmap", "*.wbmp", "*.webp"],
-			["X Windows system bitmap", "*.xbm"],
-			["X Windows system pixmap", "*.xpm"]]
+        // Valid fileformats
+        var qt = [["Bitmap", "*.bmp", "*.bitmap"],
+            ["Direct Draw Surface", "*.dds"],
+            ["Graphics Interchange Format (GIF)", "*.gif"],
+            ["Microsoft Icon", "*.ico", "*.icns"],
+            ["Joint Photographic Experts Group (JPEG)", "*.jpg", "*.jpeg"],
+            ["JPEG-2000", "*.jpeg2000", "*.jp2", "*.jpc", "*.j2k", "*.jpf", "*.jpx", "*.jpm", "*.mj2"],
+            ["Multiple-image Network Graphics", "*.mng"],
+            ["Portable Network Graphics (PNG)", "*.png"],
+            ["Portable bitmap", "*.pbm"],
+            ["Portable graymap", "*.pgm"],
+            ["Portable pixmap", "*.ppm"],
+            ["Scalable Vector Graphics (SVG)", "*.svg", "*.svgz"],
+            ["Tagged Image File Format (TIFF)", "*.tif", "*.tiff"],
+            ["Wireless bitmap", "*.wbmp", "*.webp"],
+            ["X Windows system bitmap", "*.xbm"],
+            ["X Windows system pixmap", "*.xpm"]]
 
-		for(var i = 0; i < qt.length; ++i) {
+        for(var i = 0; i < qt.length; ++i) {
 
-			// the current file ending
-			var cur = qt[i]
-			// if it has been found
-			var found = true
-			// And the file endings composed in string
-			var composed = ""
+            // the current file ending
+            var cur = qt[i]
+            // if it has been found
+            var found = true
+            // And the file endings composed in string
+            var composed = ""
 
-			for(var j = 1; j < cur.length; ++j) {
+            for(var j = 1; j < cur.length; ++j) {
 
-				// If found, then the current file format is ENabled, if not then it is DISabled
-				if(setformats.indexOf(cur[j]) === -1)
-					found = false
+                // If found, then the current file format is ENabled, if not then it is DISabled
+                if(setformats.indexOf(cur[j]) === -1)
+                    found = false
 
-				// The space aftet eh comma is very important! It is needed when saving data
-				if(composed != "") composed += ", "
-				composed += cur[j]
-			}
+                // The space aftet eh comma is very important! It is needed when saving data
+                if(composed != "") composed += ", "
+                composed += cur[j]
+            }
 
-			// Add to temporary array
-			tmp_types_qt = tmp_types_qt.concat([[cur[0],composed,found]])
+            // Add to temporary array
+            tmp_types_qt = tmp_types_qt.concat([[cur[0],composed,found]])
 
-		}
+        }
 
-		// Set new data
-		entry.types_qt = tmp_types_qt
+        // Set new data
+        entry.types_qt = tmp_types_qt
 
-	}
+    }
 
-	function saveData() {
+    function saveData() {
 
-		// Storing valid elements
-		var tobesaved = []
+        // Storing valid elements
+        var tobesaved = []
 
-		// Loop over all data and store checked elements
-		for(var ele in entry.modeldata) {
-			if(entry.modeldata[ele])
-				tobesaved = tobesaved.concat(ele.split(", "))
-		}
+        // Loop over all data and store checked elements
+        for(var ele in entry.modeldata) {
+            if(entry.modeldata[ele])
+                tobesaved = tobesaved.concat(ele.split(", "))
+        }
 
-		// Update data
-		fileformats.formats_qt = tobesaved.filter(function(n){ return n !== ""; })
+        // Update data
+        fileformats.formats_qt = tobesaved.filter(function(n){ return n !== ""; })
 
-	}
+    }
 
 }

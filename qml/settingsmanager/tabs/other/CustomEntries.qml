@@ -8,147 +8,147 @@ import "./"
 
 EntryContainer {
 
-	id: item_top
+    id: item_top
 
-	Row {
+    Row {
 
-		spacing: 20
+        spacing: 20
 
-		EntryTitle {
+        EntryTitle {
 
-			id: title
-			title: qsTr("Custom Entries in Main Menu")
-			helptext: qsTr("Here you can adjust the custom entries in the main menu. You can simply drag and drop the entries, edit them, add a new one and remove an existing one.")
+            id: title
+            title: qsTr("Custom Entries in Main Menu")
+            helptext: qsTr("Here you can adjust the custom entries in the main menu. You can simply drag and drop the entries, edit them, add a new one and remove an existing one.")
 
-		}
+        }
 
-		EntrySetting {
+        EntrySetting {
 
-			id: entry
+            id: entry
 
-			Row {
+            Row {
 
-				spacing: 15
+                spacing: 15
 
-				Rectangle {
+                Rectangle {
 
-					id: contextrect
+                    id: contextrect
 
-					width: 650
-					height: 200
-	//				x: (parent.width-width)/2
+                    width: 650
+                    height: 200
+    //				x: (parent.width-width)/2
 
-					radius: global_item_radius
+                    radius: global_item_radius
 
-					color: colour.tiles_inactive
+                    color: colour.tiles_inactive
 
-					Rectangle {
+                    Rectangle {
 
-						id: headContext
+                        id: headContext
 
-						color: colour.tiles_active
+                        color: colour.tiles_active
 
-						width: parent.width-10
-						height: 30
+                        width: parent.width-10
+                        height: 30
 
-						x: 5
-						y: 5
-						radius: global_item_radius
+                        x: 5
+                        y: 5
+                        radius: global_item_radius
 
-						Text {
+                        Text {
 
-							x: context.binaryX
-							y: (parent.height-height)/2
-							width: context.textEditWidth
+                            x: context.binaryX
+                            y: (parent.height-height)/2
+                            width: context.textEditWidth
 
-							font.bold: true
-							font.pointSize: 10
-							color: colour.tiles_text_active
-							verticalAlignment: Qt.AlignVCenter
-							horizontalAlignment: Qt.AlignHCenter
+                            font.bold: true
+                            font.pointSize: 10
+                            color: colour.tiles_text_active
+                            verticalAlignment: Qt.AlignVCenter
+                            horizontalAlignment: Qt.AlignHCenter
 
-							//: The executable to be run when clicking on a custom entry in the main menu
-							text: qsTr("Executable")
+                            //: The executable to be run when clicking on a custom entry in the main menu
+                            text: qsTr("Executable")
 
-						}
+                        }
 
-						Text {
+                        Text {
 
-							x: context.descriptionX
-							y: (parent.height-height)/2
-							width: context.textEditWidth
+                            x: context.descriptionX
+                            y: (parent.height-height)/2
+                            width: context.textEditWidth
 
-							font.bold: true
-							font.pointSize: 10
-							color: colour.tiles_text_active
-							verticalAlignment: Qt.AlignVCenter
-							horizontalAlignment: Qt.AlignHCenter
+                            font.bold: true
+                            font.pointSize: 10
+                            color: colour.tiles_text_active
+                            verticalAlignment: Qt.AlignVCenter
+                            horizontalAlignment: Qt.AlignHCenter
 
-							//: The text to be displayed for the custom entry in the main menu
-							text: qsTr("Menu Text")
+                            //: The text to be displayed for the custom entry in the main menu
+                            text: qsTr("Menu Text")
 
-						}
+                        }
 
-					}
+                    }
 
-					CustomEntriesInteractive {
-						id: context
-						x: 5
-						y: headContext.height+10
-						width: parent.width-10
-						height: parent.height-headContext.height-20
-					}
+                    CustomEntriesInteractive {
+                        id: context
+                        x: 5
+                        y: headContext.height+10
+                        width: parent.width-10
+                        height: parent.height-headContext.height-20
+                    }
 
-				}
+                }
 
-				Rectangle {
+                Rectangle {
 
-					color: "transparent"
-					width: childrenRect.width
-					height: childrenRect.height
-					y: (parent.height-height)/2
+                    color: "transparent"
+                    width: childrenRect.width
+                    height: childrenRect.height
+                    y: (parent.height-height)/2
 
-					Column {
+                    Column {
 
-						spacing: 20
+                        spacing: 20
 
-						CustomButton {
-							id: contextadd
-							width: 150
-							wrapMode: Text.WordWrap
-							//: New entry for the custom entries in the main menu
-							text: qsTr("Add new entry")
-							onClickedButton: context.addNewItem()
-						}
+                        CustomButton {
+                            id: contextadd
+                            width: 150
+                            wrapMode: Text.WordWrap
+                            //: New entry for the custom entries in the main menu
+                            text: qsTr("Add new entry")
+                            onClickedButton: context.addNewItem()
+                        }
 
 
-						CustomButton {
-							id: contextreset
-							//: Settings: Custom entries in main menu: Detect what known tools are installed and create an entry for all available ones
-							text: qsTr("Set default")
-							width: 150
-							onClickedButton: {
-								getanddostuff.setDefaultContextMenuEntries()
-								context.setData()
-							}
-						}
+                        CustomButton {
+                            id: contextreset
+                            //: Settings: Custom entries in main menu: Detect what known tools are installed and create an entry for all available ones
+                            text: qsTr("Set default")
+                            width: 150
+                            onClickedButton: {
+                                getanddostuff.setDefaultContextMenuEntries()
+                                context.setData()
+                            }
+                        }
 
-					}
+                    }
 
-				}
+                }
 
-			}
+            }
 
-		}
+        }
 
-	}
+    }
 
-	function setData() {
-		context.setData()
-	}
+    function setData() {
+        context.setData()
+    }
 
-	function saveData() {
-		context.saveData()
-	}
+    function saveData() {
+        context.saveData()
+    }
 
 }

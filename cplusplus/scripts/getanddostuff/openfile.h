@@ -34,49 +34,49 @@
 
 class GetAndDoStuffOpenFile : public QObject {
 
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	explicit GetAndDoStuffOpenFile(QObject *parent = 0);
-	~GetAndDoStuffOpenFile();
+    explicit GetAndDoStuffOpenFile(QObject *parent = 0);
+    ~GetAndDoStuffOpenFile();
 
-	int getNumberFilesInFolder(QString path, int selectionFileTypes);
-	QVariantList getUserPlaces();
-	QVariantList getFilesAndFoldersIn(QString path);
-	QVariantList getFoldersIn(QString path);
-	QVariantList getFilesIn(QString path);
-	QVariantList getFilesWithSizeIn(QString path, int selectionFileTypes);
-	bool isFolder(QString path);
-	QString removePrefixFromDirectoryOrFile(QString path);
-	void addToUserPlaces(QString path);
-	void saveUserPlaces(QVariantList enabled);
-	QString getOpenFileLastLocation();
-	void setOpenFileLastLocation(QString path);
-	void saveLastOpenedImage(QString path);
+    int getNumberFilesInFolder(QString path, int selectionFileTypes);
+    QVariantList getUserPlaces();
+    QVariantList getFilesAndFoldersIn(QString path);
+    QVariantList getFoldersIn(QString path);
+    QVariantList getFilesIn(QString path);
+    QVariantList getFilesWithSizeIn(QString path, int selectionFileTypes);
+    bool isFolder(QString path);
+    QString removePrefixFromDirectoryOrFile(QString path);
+    void addToUserPlaces(QString path);
+    void saveUserPlaces(QVariantList enabled);
+    QString getOpenFileLastLocation();
+    void setOpenFileLastLocation(QString path);
+    void saveLastOpenedImage(QString path);
 
 signals:
-	void userPlacesUpdated();
+    void userPlacesUpdated();
 
 private:
-	FileFormats *formats;
-	QFileSystemWatcher *watcher;
-	bool userPlacesFileDoesntExist;
+    FileFormats *formats;
+    QFileSystemWatcher *watcher;
+    bool userPlacesFileDoesntExist;
 
 private slots:
-	void updateUserPlaces() {
-		emit userPlacesUpdated();
-		recheckFile();
-	}
-	void recheckFile() {
-		if(QFile(QString(DATA_DIR) + "/../user-places.xbel").exists()) {
-			watcher->addPath(QString(DATA_DIR) + "/../user-places.xbel");
-			if(userPlacesFileDoesntExist) {
-				userPlacesFileDoesntExist = true;
-				emit userPlacesUpdated();
-			}
-		} else
-			QTimer::singleShot(1000,this,SLOT(recheckFile()));
-	}
+    void updateUserPlaces() {
+        emit userPlacesUpdated();
+        recheckFile();
+    }
+    void recheckFile() {
+        if(QFile(QString(DATA_DIR) + "/../user-places.xbel").exists()) {
+            watcher->addPath(QString(DATA_DIR) + "/../user-places.xbel");
+            if(userPlacesFileDoesntExist) {
+                userPlacesFileDoesntExist = true;
+                emit userPlacesUpdated();
+            }
+        } else
+            QTimer::singleShot(1000,this,SLOT(recheckFile()));
+    }
 
 };
 

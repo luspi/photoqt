@@ -5,96 +5,96 @@ import "../../elements"
 
 Rectangle {
 
-	property bool currentlySelected: false
+    property bool currentlySelected: false
 
-	visible: currentlySelected
+    visible: currentlySelected
 
-	color: "#00000000"
-	width: childrenRect.width
-	height: (currentlySelected ? childrenRect.height : 10)
+    color: "#00000000"
+    width: childrenRect.width
+    height: (currentlySelected ? childrenRect.height : 10)
 
-	Column {
+    Column {
 
-		spacing: 5
+        spacing: 5
 
-		// NOTE (tool not existing)
-		Text {
-			id: gnome_unity_error
-			visible: false
-			color: colour.text_warning
-			font.pointSize: 10
-			width: wallpaper_top.width
-			wrapMode: Text.WordWrap
-			horizontalAlignment: Text.AlignHCenter
-			//: Wallpaper: Gnome/Unity warning
-			text: qsTr("Warning: 'gsettings' doesn't seem to be available! Are you sure Gnome/Unity is installed?");
-		}
+        // NOTE (tool not existing)
+        Text {
+            id: gnome_unity_error
+            visible: false
+            color: colour.text_warning
+            font.pointSize: 10
+            width: wallpaper_top.width
+            wrapMode: Text.WordWrap
+            horizontalAlignment: Text.AlignHCenter
+            //: Wallpaper: Gnome/Unity warning
+            text: qsTr("Warning: 'gsettings' doesn't seem to be available! Are you sure Gnome/Unity is installed?");
+        }
 
-		// PICTURE OPTIONS HEADING
-		Text {
-			color: colour.text
-			font.pointSize: 10
-			width: wallpaper_top.width
-			wrapMode: Text.WordWrap
-			horizontalAlignment: Text.AlignHCenter
-			text: qsTr("There are several picture options that can be set for the wallpaper image.")
-		}
+        // PICTURE OPTIONS HEADING
+        Text {
+            color: colour.text
+            font.pointSize: 10
+            width: wallpaper_top.width
+            wrapMode: Text.WordWrap
+            horizontalAlignment: Text.AlignHCenter
+            text: qsTr("There are several picture options that can be set for the wallpaper image.")
+        }
 
-		Rectangle { color: "#00000000"; width: 1; height: 1; }
+        Rectangle { color: "#00000000"; width: 1; height: 1; }
 
-		ExclusiveGroup { id: wallpaperoptions_gnomeunity; }
-		Rectangle {
+        ExclusiveGroup { id: wallpaperoptions_gnomeunity; }
+        Rectangle {
 
-			color: "#00000000"
-			width: childrenRect.width
-			height: childrenRect.height
-			x: (wallpaper_top.width-width)/2
+            color: "#00000000"
+            width: childrenRect.width
+            height: childrenRect.height
+            x: (wallpaper_top.width-width)/2
 
-			Column {
+            Column {
 
-				spacing: 10
+                spacing: 10
 
-				CustomRadioButton {
-					text: "wallpaper"
-					fontsize: 10
-					exclusiveGroup: wallpaperoptions_gnomeunity
-					checked: true
-				}
-				CustomRadioButton {
-					text: "centered"
-					fontsize: 10
-					exclusiveGroup: wallpaperoptions_gnomeunity
-				}
-				CustomRadioButton {
-					text: "scaled"
-					fontsize: 10
-					exclusiveGroup: wallpaperoptions_gnomeunity
-				}
-				CustomRadioButton {
-					text: "zoom"
-					fontsize: 10
-					exclusiveGroup: wallpaperoptions_gnomeunity
-				}
-				CustomRadioButton {
-					text: "spanned"
-					fontsize: 10
-					exclusiveGroup: wallpaperoptions_gnomeunity
-				}
+                CustomRadioButton {
+                    text: "wallpaper"
+                    fontsize: 10
+                    exclusiveGroup: wallpaperoptions_gnomeunity
+                    checked: true
+                }
+                CustomRadioButton {
+                    text: "centered"
+                    fontsize: 10
+                    exclusiveGroup: wallpaperoptions_gnomeunity
+                }
+                CustomRadioButton {
+                    text: "scaled"
+                    fontsize: 10
+                    exclusiveGroup: wallpaperoptions_gnomeunity
+                }
+                CustomRadioButton {
+                    text: "zoom"
+                    fontsize: 10
+                    exclusiveGroup: wallpaperoptions_gnomeunity
+                }
+                CustomRadioButton {
+                    text: "spanned"
+                    fontsize: 10
+                    exclusiveGroup: wallpaperoptions_gnomeunity
+                }
 
-			}
+            }
 
-		}
+        }
 
-	}
+    }
 
-	function loadGnomeUnity() {
+    function loadGnomeUnity() {
 
-		var ret = getanddostuff.checkWallpaperTool("gnome_unity")
-		gnome_unity_error.visible = (ret == 1)
-	}
+        var ret = getanddostuff.checkWallpaperTool("gnome_unity")
+        gnome_unity_error.visible = (ret == 1)
+    }
 
-	function getCurrentText() {
-		return wallpaperoptions_gnomeunity.current.text
-	}
+    function getCurrentText() {
+        return wallpaperoptions_gnomeunity.current.text
+    }
 
 }
