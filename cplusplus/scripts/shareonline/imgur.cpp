@@ -132,52 +132,33 @@ int ShareOnline::Imgur::obtainClientIdSecret() {
     if(imgurClientID != "" && imgurClientSecret != "")
         return NOERROR;
 
-    // If client_id and client_secret were set to something specific
-    if(CLIENT_ID != "" && CLIENT_SECRET != "") {
+    // Request text file from server
+    QNetworkRequest req(QUrl("http://photoqt.org/oauth2/imgur.php"));
+    req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    QNetworkReply *reply =  networkManager->get(req);
 
-        imgurClientID = CLIENT_ID;
-        imgurClientSecret = CLIENT_SECRET;
+    // Synchronous connect
+    QEventLoop loop;
+    QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec();
 
-        return NOERROR;
+    // Read reply data
+    QString dat = reply->readAll();
+    reply->deleteLater();
 
-    } else if(CLIENT_ID_SECRET_URL != "") {
-
-        // Or else if a URL was specified to read client_id and client_secret
-        // The return text from the URL has to be composed of the following two lines:
-        //
-        // client_id=[the_id]
-        // client_secret=[the_secret]
-        //
-
-        // Request text file from server
-        QNetworkRequest req(QUrl(CLIENT_ID_SECRET_URL.toLatin1()));
-        req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-        QNetworkReply *reply =  networkManager->get(req);
-
-        // Synchronous connect
-        QEventLoop loop;
-        QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
-        loop.exec();
-
-        // Read reply data
-        QString dat = reply->readAll();
-        reply->deleteLater();
-
-        // If response invalid
-        if(!dat.contains("client_id=") || !dat.contains("client_secret=")) {
-            if(debug)
-                std::cout << "Network reply data: " << dat.toStdString() << std::endl;
-            return NETWORK_REPLY_ERROR;
-        }
-
-        // Split client id and secret out of reply data
-        imgurClientID = dat.split("client_id=").at(1).split("\n").at(0).trimmed();
-        imgurClientSecret = dat.split("client_secret=").at(1).split("\n").at(0).trimmed();
-
-        // success
-        return NOERROR;
-
+    // If response invalid
+    if(!dat.contains("client_id=") || !dat.contains("client_secret=")) {
+        if(debug)
+            std::cout << "Network reply data: " << dat.toStdString() << std::endl;
+        return NETWORK_REPLY_ERROR;
     }
+
+    // Split client id and secret out of reply data
+    imgurClientID = dat.split("client_id=").at(1).split("\n").at(0).trimmed();
+    imgurClientSecret = dat.split("client_secret=").at(1).split("\n").at(0).trimmed();
+
+    // success
+    return NOERROR;
 
     // Else probably not all the information was specified
     if(debug)

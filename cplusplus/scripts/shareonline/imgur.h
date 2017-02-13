@@ -26,8 +26,7 @@
 #include <QTimer>
 #include <iostream>
 
-#include "config.h"
-#include "simplecrypt.h"
+#include "../../simplecrypt/simplecrypt.h"
 
 namespace ShareOnline {
 
