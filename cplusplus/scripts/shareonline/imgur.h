@@ -14,77 +14,103 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef SHAREONLINEIMGUR_H
-#define SHAREONLINEIMGUR_H
+#ifndef GETANDDOSTUFFIMGUR_H
+#define GETANDDOSTUFFIMGUR_H
 
 #include <QObject>
 #include <QFileInfo>
-#include <sstream>
+#include <QDir>
 #include <QNetworkReply>
-#include <iostream>
-#include <QDesktopServices>
 #include <thread>
 #include <QEventLoop>
-#include "../../simplecrypt/simplecrypt.h"
+#include <QTimer>
+#include <iostream>
+
+#include "config.h"
+#include "simplecrypt.h"
 
 namespace ShareOnline {
 
+enum { NOERROR = 0,
+       FILENAME_ERROR = 1,
+       FILE_OPEN_ERROR = 2,
+       FILE_REMOVE_ERROR = 3,
+       DECRYPTION_ERROR = 4,
+       NETWORK_TIMEOUT = 5,
+       NETWORK_REPLY_ERROR = 6,
+       ACCESS_TOKEN_ERROR = 7,
+       CLIENT_ID_SECRET_ERROR = 8,
+       DELETION_ERROR = 9,
+       OTHER_ERROR = 10};
+
 class Imgur : public QObject {
 
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	explicit Imgur(QString localConfigFile, QObject *parent = 0);
+    explicit Imgur(QString localConfigFile, bool debug = false, QObject *parent = 0);
 
-	// two public upload function
-	void upload(QString filename);
-	void anonymousUpload(QString filename);
+    // three public upload function
+    int upload(QString filename);
+    int anonymousUpload(QString filename);
+    int deleteImage(QString hash);
 
-	bool connectAccount();
-	bool forgetAccount();
+    // Authenticate with an account or forget existing authentication
+    int authAccount();
+    int forgetAccount();
 
-	void authorizeRequestNewPin();
-	bool authorizeHandlePin(QByteArray pin);
+    // The following function return the URL for obtaining a pin code
+    QString authorizeUrlForPin();
+
+    // The following function takes a pin and exchanges it for an access_token and refresh_token
+    int authorizeHandlePin(QByteArray pin);
+
+    // Abort all network operations
+    void abort();
 
 private:
-	// NetworkManager handling requests
-	QNetworkAccessManager *networkManager;
+    // NetworkManager handling requests
+    QNetworkAccessManager *networkManager;
 
-	// Store the access stuff
-	QString access_token;
-	QString refresh_token;
-	int expires_in;
+    // Store the access stuff
+    QString access_token;
+    QString refresh_token;
 
-	// This data is read in from the server, not stored locally!
-	QString imgurClientID;
-	QString imgurClientSecret;
+    // This data is read in from the server, not stored locally!
+    QString imgurClientID;
+    QString imgurClientSecret;
 
-	// Request the client id/secret from user
-	void requestClientIdSecretFromServer();
+    // Request the client id/secret from user
+    int obtainClientIdSecret();
 
-	// Location where to store local file containing access_/refresh_token
-	QString imgurLocalConfigFilename;
+    // Location where to store local file containing access_/refresh_token
+    QString imgurLocalConfigFilename;
 
-	// Encrypt locally stored access_token and refresh_token
-	SimpleCrypt simpleCrypt;
+    // An encryption handler
+    SimpleCrypt crypt;
+
+    bool debug;
 
 private slots:
-	// functions to connect to an account. the *_request function sets the whole thing in motion
-	bool saveAccessRefreshToken(QString filename);
+    // functions to connect to an account. the *_request function sets the whole thing in motion
+    int saveAccessRefreshToken(QString filename);
 
-	// receive feedback from the upload/connecting handler
-	void uploadProgress(qint64 bytesSent, qint64 bytesTotal);
-	void uploadError(QNetworkReply::NetworkError err);
-	void uploadFinished();
+    // receive feedback from the upload/connecting handler
+    void uploadProgress(qint64 bytesSent, qint64 bytesTotal);
+    void uploadError(QNetworkReply::NetworkError err);
+    void uploadFinished();
 
 signals:
-	// signal percentage of upload completed
-	void imgurUploadProgress(double perc);
-	void imgurImageUrl(QString url);
-	void errorOccured(QString err);
+    // signal percentage of upload completed
+    void imgurUploadProgress(double perc);
+    void imgurImageUrl(QString url);
+    void imgurDeleteHash(QString url);
+    void imgurUploadError(QNetworkReply::NetworkError err);
+    void abortAllRequests();
+    void finished();
 
 };
 
 }
 
-#endif // SHAREONLINEIMGUR_H
+#endif // GETANDDOSTUFFIMGUR_H

@@ -1,347 +1,469 @@
 #include "imgur.h"
 
-ShareOnline::Imgur::Imgur(QString localConfigFile, QObject *parent) : QObject(parent) {
+ShareOnline::Imgur::Imgur(QString localConfigFile, bool debug, QObject *parent) : QObject(parent) {
 
-	// set up network access manager, used in various locations below
-	networkManager = new QNetworkAccessManager;
+    // set up network access manager, used in various locations below
+    networkManager = new QNetworkAccessManager;
 
-	// Initialise client config to empty
-	imgurClientID = "";
-	imgurClientSecret = "";
+    // Store debug value
+    this->debug = debug;
 
-	// Location of local file containing acces_/refresh_token
-	imgurLocalConfigFilename = localConfigFile;
+    // Initialise client config to empty strings
+    imgurClientID = "";
+    imgurClientSecret = "";
 
-	simpleCrypt = SimpleCrypt(QString(SIMPLECRYPTKEY).toInt());
+    // Initialise user config to empty strings
+    access_token = "";
+    refresh_token = "";
+
+    // Location of local file containing acces_/refresh_token
+    imgurLocalConfigFilename = localConfigFile;
+
+    // This ensures the path actually exists
+    QFileInfo info(localConfigFile);
+    QDir dir;
+    dir.mkpath(info.absolutePath());
+
+    // An encryption handler to encrypt sensitive user data. If the macro SIMPLECRYPTKEY doesn't exist, we use simply use a random pre-defined number
+    int key = QString(SIMPLECRYPTKEY).toInt();
+    if(key == 0) key = 63871234;
+    crypt = SimpleCrypt(key);
+
+    // Read client_id/_secret either from config or load from url
+    obtainClientIdSecret();
 
 }
 
-// Open a webbrowser to request a new pin
-void ShareOnline::Imgur::authorizeRequestNewPin() {
-	requestClientIdSecretFromServer();
-	QDesktopServices::openUrl(QUrl(QString("https://api.imgur.com/oauth2/authorize?client_id=%1&response_type=pin&state=requestaccess").arg(imgurClientID)));
+// Return the web address to obtain a new pin
+QString ShareOnline::Imgur::authorizeUrlForPin() {
+
+    // return authorisation url
+    return QString("https://api.imgur.com/oauth2/authorize?client_id=%1&response_type=pin&state=requestaccess").arg(imgurClientID);
+
 }
 
-// Handle a new PIN (either passed on or request via cin)
-bool ShareOnline::Imgur::authorizeHandlePin(QByteArray pin) {
+// Handle a new PIN passed on by the user
+int ShareOnline::Imgur::authorizeHandlePin(QByteArray pin) {
 
-	// Read client id and secret from server
-	requestClientIdSecretFromServer();
+    // Compose data to send as post message
+    QByteArray postData;
+    postData.append("client_id=");
+    postData.append(imgurClientID);
+    postData.append("&client_secret=");
+    postData.append(imgurClientSecret);
+    postData.append("&grant_type=pin&pin=");
+    postData.append(pin);
 
-	// Compose data to send as post message
-	QByteArray postData;
-	postData.append("client_id=");
-	postData.append(imgurClientID);
-	postData.append("&client_secret=");
-	postData.append(imgurClientSecret);
-	postData.append("&grant_type=pin&pin=");
-	postData.append(pin);
+    // Send network request
+    QNetworkRequest req(QUrl(QString("https://api.imgur.com/oauth2/token.xml")));
+    req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    QNetworkReply *reply = networkManager->post(req, postData);
 
-	// Send network request
-	QNetworkRequest req(QUrl(QString("https://api.imgur.com/oauth2/token.xml")));
-	req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-	QNetworkReply *reply = networkManager->post(req, postData);
+    // Synchronous connect
+    QEventLoop loop;
+    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec();
 
-	// Synchronous connect
-	QEventLoop loop;
-	connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
-	loop.exec();
+    // Read reply
+    QString resp = reply->readAll();
 
-	// Read reply
-	QString resp = reply->readAll();
+    // Reset variables
+    access_token = "";
+    refresh_token = "";
 
-	// Reset variables
-	access_token = "";
-	refresh_token = "";
+    // If not successful
+    if(resp.contains("success=\"0\"")) {
+        if(debug) {
+            QString status = resp.split("status=\"").at(1).split("\"").at(0);
+            QString errorMsg = resp.split("<error>").at(1).split("</error>").at(0);
+            std::cout << "Status: " << status.toStdString() << " -  Error: " << errorMsg.toStdString() << std::endl;
+        }
+        return NETWORK_REPLY_ERROR;
+    }
 
-	// If not successful
-	if(resp.contains("success=\\\"0\\\"")) {
-		QString status = resp.split("status=\\\"").at(1).split("\\\"").at(0);
-		QString errorMsg = resp.split("<error>").at(1).split("</error>").at(0);
-		std::stringstream ss;
-		ss << "ERROR: Status: " << status.toInt() << " - Error message: " << errorMsg.toStdString();
-		std::cout << ss.str() << std::endl;
-		emit errorOccured(QString::fromStdString(ss.str()));
-		return false;
-	}
+    // Read access_token
+    if(resp.contains("<access_token>"))
+        access_token = resp.split("<access_token>").at(1).split("</access_token>").at(0);
+    else {
+        if(debug)
+            std::cout << "ERROR! No access_token as part of response... Unable to proceed!" << std::endl;
+        return NETWORK_REPLY_ERROR;
+    }
+    // Read refresh_token
+    if(resp.contains("<refresh_token>"))
+        refresh_token = resp.split("<refresh_token>").at(1).split("</refresh_token>").at(0);
 
-	// Read access_token
-	if(resp.contains("<access_token>"))
-		access_token = resp.split("<access_token>").at(1).split("</access_token>").at(0);
-	else {
-		QString ret = "ERROR! No access_token as part of response... Unable to proceed!";
-		std::cout << ret.toStdString() << std::endl;
-		emit errorOccured(ret);
-		return false;
-	}
-	// Read refresh_token
-	if(resp.contains("<refresh_token>"))
-		refresh_token = resp.split("<refresh_token>").at(1).split("</refresh_token>").at(0);
-
-	// Save data to file
-	return saveAccessRefreshToken(imgurLocalConfigFilename);
+    // Save data to file
+    return saveAccessRefreshToken(imgurLocalConfigFilename);
 
 }
 
 // Save access stuff to file
-bool ShareOnline::Imgur::saveAccessRefreshToken(QString filename) {
+int ShareOnline::Imgur::saveAccessRefreshToken(QString filename) {
 
-	// Compose text file content
-	QString txt = QString("access_token=%1\nrefresh_token=%2\n").arg(access_token).arg(refresh_token);
+    // Compose text file content
+    QString txt = QString("%1\n%2\n").arg(access_token).arg(refresh_token);
 
-	// Initiate and open file
-	QFile file(filename);
-	if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-		QString ret = "ERROR: Unable to write access_token and refresh_token to file...";
-		std::cout << ret.toStdString() << std::endl;
-		emit errorOccured(ret);
-		return false;
-	}
+    // Initiate and open file
+    QFile file(filename);
+    if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        if(debug)
+            std::cout << "ERROR: Unable to write access_token and refresh_token to file..." << std::endl;
+        return FILE_OPEN_ERROR;
+    }
 
-	// Write data to file
-	QTextStream out(&file);
-	out << simpleCrypt.encryptToString(txt);
 
-	// Close file
-	file.close();
+    // Write encrypted data to file
+    QTextStream out(&file);
+    out << crypt.encryptToString(txt);
 
-	// And successfully finished
-	return true;
+    // Close file
+    file.close();
+
+    // And successfully finished
+    return NOERROR;
 
 }
 
 // Read client id and secret from server
-void ShareOnline::Imgur::requestClientIdSecretFromServer() {
+int ShareOnline::Imgur::obtainClientIdSecret() {
 
-	// If we have done it already, no need to do it again
-	if(imgurClientID != "" && imgurClientSecret != "")
-		return;
+    // If we have done it already, no need to do it again
+    if(imgurClientID != "" && imgurClientSecret != "")
+        return NOERROR;
 
-	// Request text file from server
-	QNetworkRequest req(QUrl("http://photoqt.org/oauth2/imgur.php"));
-	req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-	QNetworkReply *reply = networkManager->get(req);
+    // If client_id and client_secret were set to something specific
+    if(CLIENT_ID != "" && CLIENT_SECRET != "") {
 
-	// Synchronous connect
-	QEventLoop loop;
-	connect(reply, SIGNAL(finished()), &loop, SLOT(quit()));
-	loop.exec();
+        imgurClientID = CLIENT_ID;
+        imgurClientSecret = CLIENT_SECRET;
 
-	// Read reply data
-	QString dat = reply->readAll();
+        return NOERROR;
 
-	// If response invalid
-	if(!dat.contains("client_id=") || !dat.contains("client_secret=")) {
-		std::stringstream ss;
-		ss << "ERROR: Unable to obtain client_id/client_secret from server! Reply data invalid: " << dat.toStdString();
-		std::cout << ss.str() << std::endl;
-		emit errorOccured(QString::fromStdString(ss.str()));
-		return;
-	}
+    } else if(CLIENT_ID_SECRET_URL != "") {
 
-	// Split client id and secret out of reply data
-	imgurClientID = dat.split("client_id=").at(1).split("\n").at(0).trimmed();
-	imgurClientSecret = dat.split("client_secret=").at(1).split("\n").at(0).trimmed();
+        // Or else if a URL was specified to read client_id and client_secret
+        // The return text from the URL has to be composed of the following two lines:
+        //
+        // client_id=[the_id]
+        // client_secret=[the_secret]
+        //
+
+        // Request text file from server
+        QNetworkRequest req(QUrl(CLIENT_ID_SECRET_URL.toLatin1()));
+        req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+        QNetworkReply *reply =  networkManager->get(req);
+
+        // Synchronous connect
+        QEventLoop loop;
+        QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+        loop.exec();
+
+        // Read reply data
+        QString dat = reply->readAll();
+        reply->deleteLater();
+
+        // If response invalid
+        if(!dat.contains("client_id=") || !dat.contains("client_secret=")) {
+            if(debug)
+                std::cout << "Network reply data: " << dat.toStdString() << std::endl;
+            return NETWORK_REPLY_ERROR;
+        }
+
+        // Split client id and secret out of reply data
+        imgurClientID = dat.split("client_id=").at(1).split("\n").at(0).trimmed();
+        imgurClientSecret = dat.split("client_secret=").at(1).split("\n").at(0).trimmed();
+
+        // success
+        return NOERROR;
+
+    }
+
+    // Else probably not all the information was specified
+    if(debug)
+        std::cout << "ERROR! Did you forget to specify the client_id/cient_secret or a web URL to find this info?" << std::endl;
+
+    emit abortAllRequests();
+
+    return CLIENT_ID_SECRET_ERROR;
 
 }
 
 // Forget the currently connected account
-bool ShareOnline::Imgur::forgetAccount() {
+int ShareOnline::Imgur::forgetAccount() {
 
-	// Delete file
-	QFile file(imgurLocalConfigFilename);
-	if(file.exists() && !file.remove()) {
-		std::stringstream ss;
-		ss << "ERROR: Can't forget previous account. File deletion failed with error message: " << file.errorString().trimmed().toStdString();
-		std::cout << ss.str() << std::endl;
-		emit errorOccured(QString::fromStdString(ss.str()));
-		return false;
-	}
+    // Delete file
+    QFile file(imgurLocalConfigFilename);
+    if(file.exists() && !file.remove()) {
+        if(debug)
+            std::cout << "file.remove() error: " << file.errorString().trimmed().toStdString() << std::endl;
+        return FILE_REMOVE_ERROR;
+    }
 
-	// Make sure the file is gone
-	int counter = 0;
-	while(file.exists() && counter < 100) {
-		std::this_thread::sleep_for(std::chrono::milliseconds(10));
-		++counter;
-	}
+    // Make sure the file is gone
+    int counter = 0;
+    while(file.exists() && counter < 100) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        ++counter;
+    }
 
-	return true;
+    // Successfully forgot about account
+    return NOERROR;
 
 }
 
 // Connect to saved account and return success
-bool ShareOnline::Imgur::connectAccount() {
+int ShareOnline::Imgur::authAccount() {
 
-	// If data is stored
-	if(QFile(imgurLocalConfigFilename).exists()) {
+    // If data is stored
+    if(QFile(imgurLocalConfigFilename).exists()) {
 
-		// reset access/refresh tokens
-		access_token = "";
-		refresh_token = "";
+        // reset access/refresh tokens
+        access_token = "";
+        refresh_token = "";
 
-		// Initiate and open config file
-		QFile file(imgurLocalConfigFilename);
-		if(!file.open(QIODevice::ReadOnly)) {
-			QString ret = "ERROR: Unable to read saved access_token... Requesting new one!";
-			std::cout << ret.toStdString() << std::endl;
-			emit errorOccured(ret);
-			return false;
-		}
+        // Initiate and open config file
+        QFile file(imgurLocalConfigFilename);
+        if(!file.open(QIODevice::ReadOnly)) {
+            if(debug)
+                std::cout << "ERROR: Unable to read saved access_token... Requesting new one!" << std::endl;
+            return FILE_OPEN_ERROR;
+        }
 
-		// Read contents of file
-		QString cont = "";
-		QTextStream in(&file);
-		cont = simpleCrypt.decryptToString(in.readAll());
+        // Read contents of file
+        QString cont = "";
+        QTextStream in(&file);
+        cont = crypt.decryptToString(in.readAll());
 
-		// Obtain access_token
-		if(!cont.contains("access_token=")) {
-			QString ret = "ERROR: access_token missing from file.";
-			std::cout << ret.toStdString() << std::endl;
-			emit errorOccured(ret);
-			return false;
-		}
-		access_token = cont.split("access_token=").at(1).split("\n").at(0);
+        // Check for general file format
+        if(!cont.contains("\n")) {
+            if(debug)
+                std::cout << "ERROR: Can't read file with access_token, invalid file format... Maybe the cryptkey has changed?" << std::endl;
+            return DECRYPTION_ERROR;
+        }
 
-		// Obtain refresh_token
-		if(!cont.contains("refresh_token=")) {
-			QString ret = "ERROR: refresh_token missing from file.";
-			std::cout << ret.toStdString() << std::endl;
-			emit errorOccured(ret);
-			return false;
-		}
-		refresh_token = cont.split("refresh_token=").at(1).split("\n").at(0);
+        // Obtain user config
+        access_token = cont.split("\n").at(0);
+        refresh_token = cont.split("\n").at(1).split("\n").at(0);
 
-		// Close file and report success
-		file.close();
-		return true;
-	}
+        // Close file and report success
+        file.close();
 
-	// No stored config data found
-	return false;
+        // Yay!! Success!!
+        return NOERROR;
+    }
+
+    // No stored config data found
+    return FILENAME_ERROR;
 
 }
 
 // Upload a file to a connected account
-void ShareOnline::Imgur::upload(QString filename) {
+int ShareOnline::Imgur::upload(QString filename) {
 
-	// Ensure that filename is not empty and that the file exists
-	if(filename.trimmed() == "" || !QFileInfo(filename).exists()) {
-		std::stringstream ss;
-		ss << "ERROR! Filename '" << filename.toStdString() << "' for uploading to imgur.com is invalid";
-		std::cout << ss.str() << std::endl;
-		emit errorOccured(QString::fromStdString(ss.str()));
-		return;
-	}
+    // Ensure an access token is set
+    if(access_token == "") {
+        if(debug)
+            std::cout << "ERROR! Unable to upload image, no access_token set... Did you connect to an account?" << std::endl;
+        return ACCESS_TOKEN_ERROR;
+    }
 
-	// Initiate file and open for reading
-	QFile file(filename);
-	if(!file.open(QIODevice::ReadOnly)) {
-		std::stringstream ss;
-		ss << "ERROR! Can't open file '" << filename.toStdString() << "' for reading to upload to imgur.com";
-		std::cout << ss.str() << std::endl;
-		emit errorOccured(QString::fromStdString(ss.str()));
-		return;
-	}
+    // Ensure that filename is not empty and that the file exists
+    if(filename.trimmed() == "" || !QFileInfo(filename).exists()) {
+        if(debug)
+            std::cout << QString("ERROR! Filename '%1' for uploading to imgur.com is invalid").arg(filename).toStdString() << std::endl;
+        return FILENAME_ERROR;
+    }
 
-	// Read binary data of file to bytearray
-	QByteArray byteArray = file.readAll();
-	file.close();
+    // Initiate file and open for reading
+    QFile file(filename);
+    if(!file.open(QIODevice::ReadOnly)) {
+        if(debug)
+            std::cout << QString("ERROR! Can't open file '%1' for reading to upload to imgur.com").arg(filename).toStdString() << std::endl;
+        return FILE_OPEN_ERROR;
+    }
 
-	// Setup network request, use XML format
-	QNetworkRequest req(QUrl("https://api.imgur.com/3/image.xml"));
-	// the following is not necessary (it's the default), but avoids an error message on std::cout
-	req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-	// Set access_token to prove authorisation to connect to account
-	req.setRawHeader("Authorization", QByteArray("Bearer ") + access_token.toLatin1());
+    // Read binary data of file to bytearray
+    QByteArray byteArray = file.readAll();
+    file.close();
 
-	// Send upload request and connect to feedback signals
-	QNetworkReply *reply = networkManager->post(req, byteArray);
-	connect(reply, SIGNAL(finished()), this, SLOT(uploadFinished()));
-	connect(reply, SIGNAL(uploadProgress(qint64,qint64)), this, SLOT(uploadProgress(qint64,qint64)));
-	connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(uploadError(QNetworkReply::NetworkError)));
+    // Setup network request, use XML format
+    QNetworkRequest req(QUrl("https://api.imgur.com/3/image.xml"));
+    // the following is not necessary (it's the default), but avoids an error message on std::cout
+    req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    // Set access_token to prove authorisation to connect to account
+    req.setRawHeader("Authorization", QByteArray("Bearer ") + access_token.toLatin1());
 
-	// Phew, no error occured!
+    // Send upload request and connect to feedback signals
+    QNetworkReply *reply = networkManager->post(req, byteArray);
+    connect(reply, &QNetworkReply::finished, this, &ShareOnline::Imgur::uploadFinished);
+    connect(reply, &QNetworkReply::uploadProgress, this, &ShareOnline::Imgur::uploadProgress);
+    // The following has to use the old syntax, as there is also a accessor member (not a signal) to access the error with the same name
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(uploadError(QNetworkReply::NetworkError)));
+    connect(this, &ShareOnline::Imgur::abortAllRequests, reply, &QNetworkReply::abort);
 
-}
-
-void ShareOnline::Imgur::anonymousUpload(QString filename) {
-
-	// Ensure that filename is not empty and that the file exists
-	if(filename.trimmed() == "" || !QFileInfo(filename).exists()) {
-		std::stringstream ss;
-		ss << "ERROR! Filename '" << filename.toStdString() << "' for uploading to imgur.com is invalid";
-		std::cout << ss.str() << std::endl;
-		emit errorOccured(QString::fromStdString(ss.str()));
-		return;
-	}
-
-	// Initiate file and open for reading
-	QFile file(filename);
-	if(!file.open(QIODevice::ReadOnly)) {
-		std::stringstream ss;
-		ss << "ERROR! Can't open file '" << filename.toStdString() << "' for reading to upload to imgur.com";
-		std::cout << ss.str() << std::endl;
-		emit errorOccured(QString::fromStdString(ss.str()));
-		return;
-	}
-
-	// Read binary data of file to bytearray
-	QByteArray byteArray = file.readAll();
-
-	// Read client id and secret from server
-	requestClientIdSecretFromServer();
-
-	// Setup network request (XML format)
-	QNetworkRequest request(QUrl("https://api.imgur.com/3/image.xml"));
-	request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-	request.setRawHeader("Authorization", QString("Client-ID " + imgurClientID).toLatin1());
-
-	// Send upload request and connect to feedback signals
-	QNetworkReply *reply = networkManager->post(request, byteArray);
-	connect(reply, SIGNAL(finished()), this, SLOT(uploadFinished()));
-	connect(reply, SIGNAL(uploadProgress(qint64,qint64)), this, SLOT(uploadProgress(qint64,qint64)));
-	connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(uploadError(QNetworkReply::NetworkError)));
-
-	// Phew, no error occured!
+    // Phew, no error occured!
+    return NOERROR;
 
 }
 
+int ShareOnline::Imgur::anonymousUpload(QString filename) {
+
+    // Ensure that filename is not empty and that the file exists
+    if(filename.trimmed() == "" || !QFileInfo(filename).exists()) {
+        if(debug)
+            std::cout << QString("ERROR! Filename '%1' for uploading to imgur.com is invalid").arg(filename).toStdString() << std::endl;
+        return FILENAME_ERROR;
+    }
+
+    // Initiate file and open for reading
+    QFile file(filename);
+    if(!file.open(QIODevice::ReadOnly)) {
+        if(debug)
+            std::cout << QString("ERROR! Can't open file '%1' for reading to upload to imgur.com").arg(filename).toStdString() << std::endl;
+        return FILE_OPEN_ERROR;
+    }
+
+    // Read binary data of file to bytearray
+    QByteArray byteArray = file.readAll();
+
+    // Setup network request (XML format)
+    QNetworkRequest request(QUrl("https://api.imgur.com/3/image.xml"));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    request.setRawHeader("Authorization", QString("Client-ID " + imgurClientID).toLatin1());
+
+    // Send upload request and connect to feedback signals
+    QNetworkReply *reply = networkManager->post(request, byteArray);
+    connect(reply, &QNetworkReply::finished, this, &ShareOnline::Imgur::uploadFinished);
+    connect(reply, &QNetworkReply::uploadProgress, this, &ShareOnline::Imgur::uploadProgress);
+    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(uploadError(QNetworkReply::NetworkError)));
+    connect(this, &ShareOnline::Imgur::abortAllRequests, reply, &QNetworkReply::abort);
+
+    // Phew, no error occured!
+    return NOERROR;
+
+}
+
+// Delete an image, identified by delete_hash
+int ShareOnline::Imgur::deleteImage(QString hash) {
+
+    // Set up the network request
+    QNetworkRequest request(QUrl(QString("https://api.imgur.com/3/image/%1").arg(hash)));
+    request.setRawHeader("Authorization", QByteArray("Bearer ") + access_token.toLatin1());
+
+    // Send the deletion request
+    QNetworkReply *reply = networkManager->deleteResource(request);
+
+    // Wait for it to finish
+    QEventLoop loop;
+    QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    loop.exec();
+
+    // Get return value
+    QString ret = reply->readAll();
+
+    // Success!
+    if(ret.contains("\"success\":true"))
+        return NOERROR;
+
+    // Error...
+    if(ret.contains("\"success\":false")) {
+        if(ret.contains("\"error\":\"")) {
+            if(debug) {
+                QString err = ret.split("\"error\":\"").at(1).split("\"").at(0);
+                std::cout << "Deletion error: " << err.toStdString() << std::endl;
+            }
+            return DELETION_ERROR;
+        } else
+            return OTHER_ERROR;
+    }
+
+    // Not sure what happened
+    return OTHER_ERROR;
+
+}
+
+// Handle upload progress
 void ShareOnline::Imgur::uploadProgress(qint64 bytesSent, qint64 bytesTotal) {
 
-	if(bytesTotal == 0)
-		return;
+    // Avoid division by zero
+    if(bytesTotal == 0)
+        return;
 
-	double progress = (double)bytesSent/(double)bytesTotal;
-	emit imgurUploadProgress(progress);
+    // Compute and emit progress, between 0 and 1
+    double progress = (double)bytesSent/(double)bytesTotal;
+    emit imgurUploadProgress(progress);
 
 }
 
+// An error occured
 void ShareOnline::Imgur::uploadError(QNetworkReply::NetworkError err) {
 
-	std::stringstream ss;
-	ss << "ERROR! An error occured while uploading image: " << err;
-	std::cout << ss.str() << std::endl;
-	emit errorOccured(QString::fromStdString(ss.str()));
+    // Access sender object and delete it
+    QNetworkReply *reply = (QNetworkReply*)(sender());
+    reply->deleteLater();
+
+    // This is an error, but caused by the user (by calling abort())
+    if(err == QNetworkReply::OperationCanceledError)
+        return;
+
+    // Compose, output, and emit error message
+    if(debug)
+        std::cout << QString("ERROR! An error occured while uploading image: %1").arg(err).toStdString() << std::endl;
+    emit imgurUploadError(err);
 
 }
 
+// Finished uploading an image
 void ShareOnline::Imgur::uploadFinished() {
 
-	QNetworkReply *reply = (QNetworkReply*)(sender());
+    // The sending network reply
+    QNetworkReply *reply = (QNetworkReply*)(sender());
 
-	QString resp = reply->readAll();
+    // The reply is not open when operation was aborted
+    if(!reply->isOpen()) {
+        emit imgurImageUrl("");
+        emit finished();
+        return;
+    }
 
-	if(resp.contains("success=\\\"0\\\"")) {
-		QString errorMsg = resp.split("<error>").at(1).split("</error>").at(0);
-		std::stringstream ss;
-		ss << "ERROR! An error occured. Error message: " << errorMsg.toStdString();
-		std::cout << ss.str() << std::endl;
-		emit errorOccured(QString::fromStdString(ss.str()));
-		return;
-	}
+    // Read output from finished network reply
+    QString resp = reply->readAll();
 
-	QString link = resp.split("<link>").at(1).split("</link>").at(0);
+    // Delete sender object
+    reply->deleteLater();
 
-	emit imgurImageUrl(link);
+    // If there has been an error...
+    if(resp.contains("success=\"0\"")) {
+        if(debug) {
+            QString errorMsg = resp.split("<error>").at(1).split("</error>").at(0);
+            std::cout << QString("ERROR! An error occured. Error message: %1").arg(errorMsg).toStdString() << std::endl;
+        }
+        emit finished();
+        return;
+    }
 
+    // If data doesn't contain a valid link, something went wrong
+    if(!resp.contains("<link>") || !resp.contains("<deletehash>")) {
+        if(debug)
+            std::cout << QString("ERROR! Invalid return data received: %1").arg(resp).toStdString() << std::endl;
+        emit finished();
+        return;
+    }
+
+    // Read out the link
+    QString imgLink = resp.split("<link>").at(1).split("</link>").at(0);
+    QString delHash = resp.split("<deletehash>").at(1).split("</deletehash>").at(0);
+    // and tell the user
+    emit imgurImageUrl(imgLink);
+    emit imgurDeleteHash(delHash);
+    emit finished();
+
+}
+
+// Abort all network requests and stop
+void ShareOnline::Imgur::abort() {
+    // We do it twice spaced out, in case we were just before a networkrequest to really cancel everything
+    emit abortAllRequests();
+    QTimer::singleShot(500, this, &ShareOnline::Imgur::abortAllRequests);
 }
