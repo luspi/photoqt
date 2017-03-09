@@ -63,6 +63,7 @@ Rectangle {
 
             Language { id: language }
             CustomEntries { id: customentries; alternating: true; enabled: !getanddostuff.amIOnWindows() }
+            Imgur { id: imgur; }
 
         }
 
@@ -71,11 +72,13 @@ Rectangle {
     function setData() {
         language.setData()
         customentries.setData()
+        imgur.setData()
     }
 
     function saveData() {
         language.saveData()
         customentries.saveData()
+        imgur.saveData()
     }
 
 }

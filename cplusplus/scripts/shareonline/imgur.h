@@ -27,45 +27,53 @@
 #include <iostream>
 
 #include "../../simplecrypt/simplecrypt.h"
+#include "../../logger.h"
 
 namespace ShareOnline {
-
-enum { NOERROR = 0,
-       FILENAME_ERROR = 1,
-       FILE_OPEN_ERROR = 2,
-       FILE_REMOVE_ERROR = 3,
-       DECRYPTION_ERROR = 4,
-       NETWORK_TIMEOUT = 5,
-       NETWORK_REPLY_ERROR = 6,
-       ACCESS_TOKEN_ERROR = 7,
-       CLIENT_ID_SECRET_ERROR = 8,
-       DELETION_ERROR = 9,
-       OTHER_ERROR = 10};
 
 class Imgur : public QObject {
 
     Q_OBJECT
+    Q_ENUMS(Code)
 
 public:
-    explicit Imgur(QString localConfigFile, bool debug = false, QObject *parent = 0);
+
+    enum Code {
+           NOERROR = 0,
+           FILENAME_ERROR,
+           FILE_OPEN_ERROR,
+           FILE_REMOVE_ERROR,
+           DECRYPTION_ERROR,
+           NETWORK_TIMEOUT,
+           NETWORK_REPLY_ERROR,
+           ACCESS_TOKEN_ERROR,
+           CLIENT_ID_SECRET_ERROR,
+           DELETION_ERROR,
+           OTHER_ERROR};
+
+    explicit Imgur(QObject *parent = 0);
 
     // three public upload function
-    int upload(QString filename);
-    int anonymousUpload(QString filename);
-    int deleteImage(QString hash);
+    Q_INVOKABLE int upload(QString filename);
+    Q_INVOKABLE int anonymousUpload(QString filename);
+    Q_INVOKABLE int deleteImage(QString hash);
 
     // Authenticate with an account or forget existing authentication
-    int authAccount();
-    int forgetAccount();
+    Q_INVOKABLE int authAccount();
+    Q_INVOKABLE int forgetAccount();
+    Q_INVOKABLE QString getAccountUsername() { return account_name; }
+    Q_INVOKABLE bool isAuthenticated() { return account_name!=""; }
+
+    Q_INVOKABLE QString getAuthDateTime();
 
     // The following function return the URL for obtaining a pin code
-    QString authorizeUrlForPin();
+    Q_INVOKABLE QString authorizeUrlForPin();
 
     // The following function takes a pin and exchanges it for an access_token and refresh_token
-    int authorizeHandlePin(QByteArray pin);
+    Q_INVOKABLE int authorizeHandlePin(QByteArray pin);
 
     // Abort all network operations
-    void abort();
+    Q_INVOKABLE void abort();
 
 private:
     // NetworkManager handling requests
@@ -74,6 +82,7 @@ private:
     // Store the access stuff
     QString access_token;
     QString refresh_token;
+    QString account_name;
 
     // This data is read in from the server, not stored locally!
     QString imgurClientID;
@@ -92,7 +101,7 @@ private:
 
 private slots:
     // functions to connect to an account. the *_request function sets the whole thing in motion
-    int saveAccessRefreshToken(QString filename);
+    int saveAccessRefreshTokenUserName(QString filename);
 
     // receive feedback from the upload/connecting handler
     void uploadProgress(qint64 bytesSent, qint64 bytesTotal);

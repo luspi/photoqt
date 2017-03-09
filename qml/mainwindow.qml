@@ -9,6 +9,7 @@ import ShortcutsNotifier 1.0
 import Colour 1.0
 import QtGraphicalEffects 1.0
 import ImageWatch 1.0
+import Imgur 1.0
 
 import "mainview/"
 import "slidein/"
@@ -107,6 +108,25 @@ Item {
         id: imagewatch
         onReloadDirectory:
             doReload(thumbnailBar.currentFile)
+    }
+    Imgur {
+        id: shareonline_imgur;
+        onImgurUploadProgress: {
+
+        }
+        onImgurImageUrl: {
+
+        }
+        onImgurDeleteHash: {
+
+        }
+        onImgurUploadError: {
+
+        }
+        onFinished: {
+
+        }
+
     }
 
     Strings.Keys { id: str_keys }

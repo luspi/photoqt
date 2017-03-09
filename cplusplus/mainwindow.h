@@ -34,6 +34,7 @@
 #include "scripts/getmetadata.h"
 #include "scripts/thumbnailsmanagement.h"
 #include "scripts/imagewatch.h"
+#include "scripts/shareonline/imgur.h"
 #include "handlefiles/loaddir.h"
 #include "imageprovider/imageproviderthumbnail.h"
 #include "imageprovider/imageproviderfull.h"

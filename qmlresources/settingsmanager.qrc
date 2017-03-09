@@ -5,6 +5,7 @@
         <file>../qml/settingsmanager/EntryTitle.qml</file>
         <file>../qml/settingsmanager/EntryContainer.qml</file>
         <file>../qml/settingsmanager/ExportImport.qml</file>
+        <file>../qml/settingsmanager/ImgurWebView.qml</file>
         <file>../qml/settingsmanager/tabs/TabLookAndFeel.qml</file>
         <file>../qml/settingsmanager/tabs/lookandfeel/Animation.qml</file>
         <file>../qml/settingsmanager/tabs/lookandfeel/Background.qml</file>
@@ -58,6 +59,7 @@
         <file>../qml/settingsmanager/tabs/other/LanguageTile.qml</file>
         <file>../qml/settingsmanager/tabs/other/CustomEntries.qml</file>
         <file>../qml/settingsmanager/tabs/other/CustomEntriesInteractive.qml</file>
+        <file>../qml/settingsmanager/tabs/other/Imgur.qml</file>
         <file>../qml/settingsmanager/tabs/TabShortcuts.qml</file>
         <file>../qml/settingsmanager/tabs/shortcuts/Available.qml</file>
         <file>../qml/settingsmanager/tabs/shortcuts/Set.qml</file>

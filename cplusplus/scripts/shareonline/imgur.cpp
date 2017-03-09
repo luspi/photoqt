@@ -1,12 +1,12 @@
 #include "imgur.h"
 
-ShareOnline::Imgur::Imgur(QString localConfigFile, bool debug, QObject *parent) : QObject(parent) {
+ShareOnline::Imgur::Imgur(QObject *parent) : QObject(parent) {
 
     // set up network access manager, used in various locations below
     networkManager = new QNetworkAccessManager;
 
     // Store debug value
-    this->debug = debug;
+    this->debug = false;
 
     // Initialise client config to empty strings
     imgurClientID = "";
@@ -17,10 +17,10 @@ ShareOnline::Imgur::Imgur(QString localConfigFile, bool debug, QObject *parent) 
     refresh_token = "";
 
     // Location of local file containing acces_/refresh_token
-    imgurLocalConfigFilename = localConfigFile;
+    imgurLocalConfigFilename = CFG_SHAREONLINE_IMGUR_FILE;
 
     // This ensures the path actually exists
-    QFileInfo info(localConfigFile);
+    QFileInfo info(imgurLocalConfigFilename);
     QDir dir;
     dir.mkpath(info.absolutePath());
 
@@ -92,17 +92,25 @@ int ShareOnline::Imgur::authorizeHandlePin(QByteArray pin) {
     // Read refresh_token
     if(resp.contains("<refresh_token>"))
         refresh_token = resp.split("<refresh_token>").at(1).split("</refresh_token>").at(0);
+    // Read access_token
+    if(resp.contains("<account_username>"))
+        account_name = resp.split("<account_username>").at(1).split("</account_username>").at(0);
+    else {
+        if(debug)
+            std::cout << "ERROR! No account_username as part of response... Unable to proceed!" << std::endl;
+        return NETWORK_REPLY_ERROR;
+    }
 
     // Save data to file
-    return saveAccessRefreshToken(imgurLocalConfigFilename);
+    return saveAccessRefreshTokenUserName(imgurLocalConfigFilename);
 
 }
 
 // Save access stuff to file
-int ShareOnline::Imgur::saveAccessRefreshToken(QString filename) {
+int ShareOnline::Imgur::saveAccessRefreshTokenUserName(QString filename) {
 
     // Compose text file content
-    QString txt = QString("%1\n%2\n").arg(access_token).arg(refresh_token);
+    QString txt = QString("%1\n%2\n%3\n").arg(access_token).arg(refresh_token).arg(account_name);
 
     // Initiate and open file
     QFile file(filename);
@@ -160,14 +168,6 @@ int ShareOnline::Imgur::obtainClientIdSecret() {
     // success
     return NOERROR;
 
-    // Else probably not all the information was specified
-    if(debug)
-        std::cout << "ERROR! Did you forget to specify the client_id/cient_secret or a web URL to find this info?" << std::endl;
-
-    emit abortAllRequests();
-
-    return CLIENT_ID_SECRET_ERROR;
-
 }
 
 // Forget the currently connected account
@@ -187,6 +187,10 @@ int ShareOnline::Imgur::forgetAccount() {
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
         ++counter;
     }
+
+    access_token = "";
+    refresh_token = "";
+    account_name = "";
 
     // Successfully forgot about account
     return NOERROR;
@@ -225,7 +229,8 @@ int ShareOnline::Imgur::authAccount() {
 
         // Obtain user config
         access_token = cont.split("\n").at(0);
-        refresh_token = cont.split("\n").at(1).split("\n").at(0);
+        refresh_token = cont.split("\n").at(1);
+        account_name = cont.split("\n").at(2);
 
         // Close file and report success
         file.close();
@@ -439,6 +444,16 @@ void ShareOnline::Imgur::uploadFinished() {
     emit imgurImageUrl(imgLink);
     emit imgurDeleteHash(delHash);
     emit finished();
+
+}
+
+QString ShareOnline::Imgur::getAuthDateTime() {
+
+    QFileInfo info(CFG_SHAREONLINE_IMGUR_FILE);
+    if(info.exists())
+        return info.lastModified().toString("yyyy-MM-dd, hh:mm:ss");
+    else
+        return "???";
 
 }
 
