@@ -195,7 +195,9 @@ Rectangle {
                                     //: This is a shortcut description
                                     ["__about", qsTr("About PhotoQt")],
                                     //: This is a shortcut description
-                                    ["__wallpaper", qsTr("Set as Wallpaper")]
+                                    ["__wallpaper", qsTr("Set as Wallpaper")],
+                                    //: This is a shortcut description
+                                    ["__imgurAnonym", qsTr("Upload to imgur.com (anonymously)")],
                                     //: This is a shortcut description,
                                     ["__imgur", qsTr("Upload to imgur.com")]]
             }

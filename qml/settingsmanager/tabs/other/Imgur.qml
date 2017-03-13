@@ -75,9 +75,11 @@ EntryContainer {
 
                 Row {
 
+                    spacing: 10
+
                     CustomButton {
                         //: Text on button to connect PhotoQt with an imgur.com user account
-                        text: qsTr("Connect to Account")
+                        text: (authenticatedwith.text=="" ? qsTr("Connect to Account") : qsTr("Connect to New Account"))
                         onClickedButton: {
                             imgurwebview.show()
                             imgurwebview.setUrl(shareonline_imgur.authorizeUrlForPin())

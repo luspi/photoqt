@@ -10,6 +10,7 @@
         <file>../qml/fadein/Slideshow.qml</file>
         <file>../qml/fadein/Filter.qml</file>
         <file>../qml/fadein/Startup.qml</file>
+        <file>../qml/fadein/ImgurFeedback.qml</file>
         <file>../qml/fadein/wallpaper/KDE4.qml</file>
         <file>../qml/fadein/wallpaper/Plasma5.qml</file>
         <file>../qml/fadein/wallpaper/GnomeUnity.qml</file>

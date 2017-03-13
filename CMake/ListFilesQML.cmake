@@ -21,11 +21,11 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/ScrollBarHorizontal.qml ${d}/ScrollB
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/CustomCheckBox.qml ${d}/CustomButton.qml ${d}/CustomTabView.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/CustomComboBox.qml ${d}/CustomRadioButton.qml ${d}/CustomSlider.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/CustomSpinBox.qml ${d}/CustomConfirm.qml ${d}/CustomTextEdit.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/ShortcutNotifier.qml ${d}/ContextMenu.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/ShortcutNotifier.qml ${d}/ContextMenu.qml ${d}/CustomProgressBar.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/CustomLineEdit.qml ${d}/ToolTip.qml ${d}/CustomFileSelect.qml)
 
 SET(d "qml/fadein")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/FadeInTemplate.qml ${d}/About.qml ${d}/Scale.qml ${d}/Rename.qml ${d}/Delete.qml)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/FadeInTemplate.qml ${d}/About.qml ${d}/Scale.qml ${d}/Rename.qml ${d}/Delete.qml ${d}/ImgurFeedback.qml)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Wallpaper.qml ${d}/Slideshow.qml ${d}/Filter.qml ${d}/Startup.qml ${d}/ScaleUnsupported.qml)
 
 SET(d "qml/fadein/wallpaper")

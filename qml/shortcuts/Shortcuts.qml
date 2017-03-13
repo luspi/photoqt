@@ -68,6 +68,8 @@ Item {
                 startup.hideStartup()
             else if(openfile.opacity == 1)
                 openfile.hide()
+            else if(imgurfeedback.opacity == 1)
+                imgurfeedback.hide()
         } else if(keys === "Enter" || keys === "Keypad+Enter" || keys === "Return") {
             if(deleteImage.opacity == 1)
                 deleteImage.simulateEnter()
@@ -194,6 +196,10 @@ Item {
             scaleImage.showScale()
         else if(cmd === "__playPauseAni")
             mainview.playPauseAnimation()
+        else if(cmd === "__imgur")
+            imgurfeedback.show(false)
+        else if(cmd === "__imgurAnonym")
+            imgurfeedback.show(true)
         else {
             getanddostuff.executeApp(cmd,thumbnailBar.currentFile)
             if(close !== undefined && close == true)

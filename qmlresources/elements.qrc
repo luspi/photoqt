@@ -18,5 +18,6 @@
         <file>../qml/elements/ShortcutNotifier.qml</file>
         <file>../qml/elements/ContextMenu.qml</file>
         <file>../qml/elements/CustomFileSelect.qml</file>
+        <file>../qml/elements/CustomProgressBar.qml</file>
     </qresource>
 </RCC>

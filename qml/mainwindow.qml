@@ -111,22 +111,6 @@ Item {
     }
     Imgur {
         id: shareonline_imgur;
-        onImgurUploadProgress: {
-
-        }
-        onImgurImageUrl: {
-
-        }
-        onImgurDeleteHash: {
-
-        }
-        onImgurUploadError: {
-
-        }
-        onFinished: {
-
-        }
-
     }
 
     Strings.Keys { id: str_keys }
@@ -246,6 +230,7 @@ Item {
     Startup { id: startup; }
     OpenFile { id: openfile; }
     SettingsManager { id: settingsmanager; }
+    ImgurFeedback { id: imgurfeedback; }
 
     ////////////////////////////////////////////
 
