@@ -22,7 +22,7 @@
 #include <QDateTime>
 #include <QDir>
 #include <QTextStream>
-#include <QStandardPaths.h>
+#include <QStandardPaths>
 
 
 const QString CONFIG_DIR = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
