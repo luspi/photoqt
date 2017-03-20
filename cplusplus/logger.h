@@ -22,12 +22,21 @@
 #include <QDateTime>
 #include <QDir>
 #include <QTextStream>
-#include <QStandardPaths>
 
+#if defined(Q_OS_WIN)
+const QString CONFIG_DIR = QString("%1/AppData/Local/PhotoQt/").arg(QDir::homePath());
+const QString DATA_DIR = QString("%1/AppData/Local/PhotoQt/").arg(QDir::homePath());
+const QString CACHE_DIR = QString("%1/AppData/Local/PhotoQt/cache").arg(QDir::homePath());
+#elif defined(Q_OS_MACOS)
+const QString CONFIG_DIR = QString("%1/Library/Preferences/PhotoQt/").arg(QDir::homePath());
+const QString DATA_DIR = QString("%1/Library/Application Support/PhotoQt/").arg(QDir::homePath());
+const QString CACHE_DIR = QString("%1/Library/Caches/PhotoQt/").arg(QDir::homePath());
+#else
+const QString CONFIG_DIR = QString("%1/.config/PhotoQt/").arg(QDir::homePath());
+const QString DATA_DIR = QString("%1/.local/share/PhotoQt/").arg(QDir::homePath());
+const QString CACHE_DIR = QString("%1/.cache/PhotoQt/").arg(QDir::homePath());
+#endif
 
-const QString CONFIG_DIR = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
-const QString DATA_DIR = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
-const QString CACHE_DIR = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
 const QString CFG_SETTINGS_FILE = QString("%1/settings").arg(CONFIG_DIR);
 const QString CFG_CONTEXTMENU_FILE = QString("%1/contextmenu").arg(CONFIG_DIR);
 const QString CFG_FILEFORMATS_FILE = QString("%1/fileformats.disabled").arg(CONFIG_DIR);
