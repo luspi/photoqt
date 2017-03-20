@@ -12,6 +12,8 @@ Rectangle {
 
     border.color: colour.element_border_color
 
+    property bool readOnly: false
+
     property string text: ed1.text
     property int fontsize: 10
 
@@ -36,6 +38,7 @@ Rectangle {
     signal altUp()
 
     signal clicked()
+    signal doubleClicked()
 
     signal historyBack()
     signal historyForwards()
@@ -55,6 +58,8 @@ Rectangle {
         text: parent.text
         font.pointSize: parent.fontsize
 
+        readOnly: parent.readOnly
+
         clip: true
 
         onTextChanged: parent.textEdited()
@@ -70,7 +75,10 @@ Rectangle {
 
             // We use these to re-implement selecting text by mouse (otherwise it'll be overwritten by dragging feature)
             onClicked: parent.parent.clicked()
-            onDoubleClicked: parent.selectAll()
+            onDoubleClicked: {
+                parent.selectAll()
+                parent.parent.doubleClicked()
+            }
             onPressed: { held = true; ed1.cursorPosition = ed1.positionAt(mouse.x,mouse.y); parent.forceActiveFocus() }
             onReleased: held = false
             onPositionChanged: {if(held) ed1.moveCursorSelection(ed1.positionAt(mouse.x,mouse.y)) }
