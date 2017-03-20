@@ -11,7 +11,7 @@ Rectangle {
     anchors.fill: parent
     color: "#ee000000"
 
-    opacity: 0
+    opacity: 1
     visible: opacity!=0
     // Animate element by controlling opacity
     Behavior on opacity { NumberAnimation { duration: 200; } }
@@ -24,6 +24,113 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
         onClicked: hide()
+    }
+
+    Rectangle {
+
+        // Click on content does nothing (overrides big MouseArea above)
+        MouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+        }
+
+        id: external
+        width: Math.min(1200, parent.width-200)
+        height: externalcol.height
+        x: (parent.width-width)/2
+        y: (parent.height-height)/2
+
+        opacity: 1
+        visible: parent.opacity!=0&&viewwebscroll.opacity==0
+
+        color: "transparent"
+
+        Column {
+
+            id: externalcol
+
+            spacing: 25
+
+            Text {
+                color: "white"
+                width: external.width-100
+                x: 50
+                font.pointSize: 40
+                font.bold: true
+                text: "Authenticate with imgur.com user account"
+                wrapMode: Text.WordWrap
+                horizontalAlignment: Text.AlignHCenter
+            }
+            Text {
+                color: "white"
+                font.pointSize: 20
+                x: (external.width-width)/2
+                width: external.width
+                wrapMode: Text.WordWrap
+                text: "Open this url in a webbrowser, log in and paste the displayed PIN in the box below:"
+            }
+            Rectangle {
+
+                color: "transparent"
+
+                height: childrenRect.height
+                width: childrenRect.width
+                x: (external.width-width)/2
+
+                Row {
+
+                    spacing: 10
+
+                    CustomLineEdit {
+                        id: externallineedit
+                        fontsize: 15
+                        width: external.width-externallineeditbutton.width-20
+                        x: (external.width-width)/2
+                        text: shareonline_imgur.authorizeUrlForPin()
+                        readOnly: true
+                        Component.onCompleted: selectAll()
+                    }
+
+                    CustomButton {
+                        id: externallineeditbutton
+                        fontsize: 12
+                        text: "visit link"
+                        onClickedButton: getanddostuff.openLink(externallineedit.text)
+                    }
+
+                }
+
+            }
+            Rectangle {
+
+                color: "transparent"
+
+                height: childrenRect.height
+                width: childrenRect.width
+                x: (external.width-width)/2
+
+                Row {
+
+                    spacing: 10
+
+                    Text {
+                        color: "white"
+                        font.pointSize: 15
+                        font.bold: true
+                        text: "PIN:"
+                    }
+
+                    CustomLineEdit {
+                        fontsize: 15
+                        width: 300
+                    }
+
+                }
+
+            }
+
+        }
+
     }
 
     ScrollView {
@@ -39,7 +146,8 @@ Rectangle {
         height: Math.min(800, parent.height-200)
         x: (parent.width-width)/2
         y: (parent.height-height)/2
-        visible: parent.opacity!=0
+        opacity: 0
+        visible: parent.opacity!=0&&external.opacity==0
         WebView {
             id: webview
             url: ""
@@ -113,6 +221,7 @@ Rectangle {
         verboseMessage("WebView::show()", opacity + " to 1")
         webview.url = ""
         opacity = 1
+        viewwebscroll.opacity = 1
     }
     // Hide element
     function hide() {
