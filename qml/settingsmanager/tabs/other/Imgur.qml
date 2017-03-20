@@ -81,8 +81,8 @@ EntryContainer {
                         //: Text on button to connect PhotoQt with an imgur.com user account
                         text: (authenticatedwith.text=="" ? qsTr("Connect to Account") : qsTr("Connect to New Account"))
                         onClickedButton: {
-                            imgurwebview.show()
-                            imgurwebview.setUrl(shareonline_imgur.authorizeUrlForPin())
+//                            imgurwebview.show()
+//                            imgurwebview.setUrl(shareonline_imgur.authorizeUrlForPin())
                         }
                     }
                     CustomButton {
@@ -101,20 +101,6 @@ EntryContainer {
             }
 
         }
-
-    }
-
-    Connections {
-        target: imgurwebview
-        onObtainedPin: {
-            var ret = shareonline_imgur.authorizeHandlePin(pin)
-            if(ret == Imgur.NOERROR) {
-                authenticatedwith.text = shareonline_imgur.getAccountUsername()
-                authenticationDateTime.datetime = shareonline_imgur.getAuthDateTime()
-            }
-        }
-        onErrorEncountered:
-            console.error("An error occured authenticating with imgur.com:", msg)
 
     }
 

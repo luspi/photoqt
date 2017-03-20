@@ -414,11 +414,6 @@ Rectangle {
         anchors.fill: parent
     }
 
-    ImgurWebView {
-        id: imgurwebview
-        anchors.fill: parent
-    }
-
     Component.onCompleted: {
         //: Inform the user of a possible shortcut action in the settings manager
         settingsmanagershortcuts.shortcuts[str_keys.get("ctrl") + " + " + str_keys.get("tab")] = qsTr("Go to the next tab")
