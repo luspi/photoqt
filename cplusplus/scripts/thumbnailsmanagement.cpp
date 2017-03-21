@@ -4,7 +4,7 @@ ThumbnailManagement::ThumbnailManagement(QObject *parent) : QObject(parent) {
 
     // Opening the thumbnail database
     db = QSqlDatabase::addDatabase("QSQLITE", "thumbDB");
-    db.setDatabaseName(CFG_THUMBNAILS_DB);
+    db.setDatabaseName(ConfigFiles::THUMBNAILS_DB());
     if(!db.open())
         LOG << CURDATE << "ThumbnailManagement: ERROR: Can't open thumbnail database: " << db.lastError().text().trimmed().toStdString() << NL;
 
@@ -12,7 +12,7 @@ ThumbnailManagement::ThumbnailManagement(QObject *parent) : QObject(parent) {
 
 qint64 ThumbnailManagement::getDatabaseFilesize() {
 
-    return QFileInfo(CFG_THUMBNAILS_DB).size()/1024;
+    return QFileInfo(ConfigFiles::THUMBNAILS_DB()).size()/1024;
 
 }
 

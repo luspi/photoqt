@@ -49,7 +49,7 @@ QStringList GetAndDoStuffContext::getContextMenu() {
     return QStringList();
 #endif
 
-    QFile file(CFG_CONTEXTMENU_FILE);
+    QFile file(ConfigFiles::CONTEXTMENU_FILE());
 
     if(!file.exists()) return setDefaultContextMenuEntries();
 
@@ -97,7 +97,7 @@ bool GetAndDoStuffContext::checkIfBinaryExists(QString exec) {
 
 
 qint64 GetAndDoStuffContext::getContextMenuFileModifiedTime() {
-    QFileInfo info(CFG_CONTEXTMENU_FILE);
+    QFileInfo info(ConfigFiles::CONTEXTMENU_FILE());
     return info.lastModified().toMSecsSinceEpoch();
 }
 
@@ -118,7 +118,7 @@ void GetAndDoStuffContext::saveContextMenu(QVariantList l) {
     }
 
     // Open file
-    QFile file(CFG_CONTEXTMENU_FILE);
+    QFile file(ConfigFiles::CONTEXTMENU_FILE());
 
     if(file.exists() && !file.remove()) {
         LOG << CURDATE << "GetAndDoStuffContext: ERROR: Failed to remove old contextmenu file" << NL;

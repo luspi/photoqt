@@ -22,41 +22,13 @@
 #include <QDateTime>
 #include <QDir>
 #include <QTextStream>
-
-#if defined(Q_OS_WIN)
-const QString CONFIG_DIR = QString("%1/AppData/Local/PhotoQt/").arg(QDir::homePath());
-const QString DATA_DIR = QString("%1/AppData/Local/PhotoQt/").arg(QDir::homePath());
-const QString CACHE_DIR = QString("%1/AppData/Local/PhotoQt/cache").arg(QDir::homePath());
-#elif defined(Q_OS_MACOS)
-const QString CONFIG_DIR = QString("%1/Library/Preferences/PhotoQt/").arg(QDir::homePath());
-const QString DATA_DIR = QString("%1/Library/Application Support/PhotoQt/").arg(QDir::homePath());
-const QString CACHE_DIR = QString("%1/Library/Caches/PhotoQt/").arg(QDir::homePath());
-#else
-const QString CONFIG_DIR = QString("%1/.config/PhotoQt/").arg(QDir::homePath());
-const QString DATA_DIR = QString("%1/.local/share/PhotoQt/").arg(QDir::homePath());
-const QString CACHE_DIR = QString("%1/.cache/PhotoQt/").arg(QDir::homePath());
-#endif
-
-const QString CFG_SETTINGS_FILE = QString("%1/settings").arg(CONFIG_DIR);
-const QString CFG_CONTEXTMENU_FILE = QString("%1/contextmenu").arg(CONFIG_DIR);
-const QString CFG_FILEFORMATS_FILE = QString("%1/fileformats.disabled").arg(CONFIG_DIR);
-const QString CFG_KEY_SHORTCUTS_FILE = QString("%1/shortcuts").arg(CONFIG_DIR);
-const QString CFG_TOUCH_SHORTCUTS_FILE = QString("%1/touchshortcuts").arg(CONFIG_DIR);
-const QString CFG_MOUSE_SHORTCUTS_FILE = QString("%1/mouseshortcuts").arg(CONFIG_DIR);
-const QString CFG_SHORTCUTSNOTIFIER_FILE = QString("%1/shortcutsnotifier").arg(CONFIG_DIR);
-const QString CFG_THUMBNAILS_DB = QString("%1/thumbnails").arg(CACHE_DIR);
-const QString CFG_SETTINGS_SESSION_FILE = QString("%1/settings_session").arg(CACHE_DIR);
-const QString CFG_MAINWINDOW_GEOMETRY_FILE = QString("%1/geometry").arg(CONFIG_DIR);
-const QString CFG_OPENFILE_LAST_LOCATION = QString("%1/openfilelastlocation").arg(CACHE_DIR);
-const QString CFG_LASTOPENEDIMAGE_FILE = QString("%1/lastimageloaded").arg(CONFIG_DIR);
-const QString CFG_SHAREONLINE_IMGUR_FILE = QString("%1/imgurconfig").arg(CONFIG_DIR);
-
+#include "configfiles.h"
 
 class Logger {
 
 public:
     Logger() {
-        if(QFile(CONFIG_DIR + QString("/verboselog")).exists()) {
+        if(QFile(ConfigFiles::CONFIG_DIR() + QString("/verboselog")).exists()) {
             logFile.setFileName(QDir::tempPath() + "/photoqt.log");
             writeToFile = true;
         } else
@@ -64,7 +36,6 @@ public:
     }
 
     template <class T>
-
     Logger &operator<<(const T &v) {
 
         std::stringstream str;

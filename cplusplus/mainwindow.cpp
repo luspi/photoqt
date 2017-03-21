@@ -99,7 +99,7 @@ void MainWindow::handleStartup(int upd, QString filename) {
         showStartup(upd == 2 ? "installed" : "updated", filename);
     else {
         if(settingsPermanent->startupLoadLastLoadedImage && filename == "") {
-            QFile file(CFG_LASTOPENEDIMAGE_FILE);
+            QFile file(ConfigFiles::LASTOPENEDIMAGE_FILE());
             if(file.open(QIODevice::ReadOnly)) {
                 QTextStream in(&file);
                 filename = in.readAll().trimmed();
@@ -216,7 +216,7 @@ bool MainWindow::event(QEvent *e) {
         } else {
 
             // Save current geometry
-            QFile geo(CFG_MAINWINDOW_GEOMETRY_FILE);
+            QFile geo(ConfigFiles::MAINWINDOW_GEOMETRY_FILE());
             if(geo.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
                 QTextStream out(&geo);
                 QRect rect = geometry();
@@ -470,7 +470,7 @@ void MainWindow::updateWindowGeometry() {
                       : this->setFlags(Qt::Window | Qt::FramelessWindowHint);
         }
         if(settingsPermanent->saveWindowGeometry) {
-            QFile geo(CFG_MAINWINDOW_GEOMETRY_FILE);
+            QFile geo(ConfigFiles::MAINWINDOW_GEOMETRY_FILE());
             if(geo.open(QIODevice::ReadOnly)) {
                 QTextStream in(&geo);
                 QString all = in.readAll();
@@ -537,7 +537,7 @@ void MainWindow::qmlVerboseMessage(QString loc, QString msg) {
 }
 
 MainWindow::~MainWindow() {
-    QFile file(CFG_SETTINGS_SESSION_FILE);
+    QFile file(ConfigFiles::SETTINGS_SESSION_FILE());
     file.remove();
     delete settingsPermanent;
     delete fileformats;

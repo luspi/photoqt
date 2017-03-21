@@ -5,7 +5,7 @@ GetAndDoStuffOpenFile::GetAndDoStuffOpenFile(QObject *parent) : QObject(parent) 
     formats = new FileFormats;
 
     watcher = new QFileSystemWatcher;
-    userPlacesFileDoesntExist = !QFile(QString(DATA_DIR) + "/../user-places.xbel").exists();
+    userPlacesFileDoesntExist = !QFile(QString(ConfigFiles::DATA_DIR()) + "/../user-places.xbel").exists();
     recheckFile();
     connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(updateUserPlaces()));
 }
@@ -37,7 +37,7 @@ QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
     QVariantList sub_places;
     QVariantList sub_devices;
 
-    QFile file(QString(DATA_DIR) + "/../user-places.xbel");
+    QFile file(QString(ConfigFiles::DATA_DIR()) + "/../user-places.xbel");
     if(file.exists() && !file.open(QIODevice::ReadOnly)) {
         LOG << CURDATE << "GetAndDoStuffOpenFile: Can't open ~/.local/share/user-places.xbel file" << NL;
         return QVariantList();
@@ -218,7 +218,7 @@ QString GetAndDoStuffOpenFile::removePrefixFromDirectoryOrFile(QString path) {
 
 void GetAndDoStuffOpenFile::addToUserPlaces(QString path) {
 
-    QFile file(QString(DATA_DIR) + "/../user-places.xbel");
+    QFile file(QString(ConfigFiles::DATA_DIR()) + "/../user-places.xbel");
     if(file.exists() && !file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         LOG << CURDATE << "GetAndDoStuffOpenFile: Can't open ~/.local/share/user-places.xbel file" << NL;
         return;
@@ -304,7 +304,7 @@ void GetAndDoStuffOpenFile::saveUserPlaces(QVariantList enabled) {
         }
     }
 
-    QFile file(QString(DATA_DIR) + "/../user-places.xbel");
+    QFile file(QString(ConfigFiles::DATA_DIR()) + "/../user-places.xbel");
     if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
         LOG << CURDATE << "GetAndDoStuffOpenFile: Can't open ~/.local/share/user-places.xbel file" << NL;
         return;
@@ -319,7 +319,7 @@ void GetAndDoStuffOpenFile::saveUserPlaces(QVariantList enabled) {
 
 void GetAndDoStuffOpenFile::setOpenFileLastLocation(QString path) {
 
-    QFile file(CFG_OPENFILE_LAST_LOCATION);
+    QFile file(ConfigFiles::OPENFILE_LAST_LOCATION());
     if(file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
         QTextStream out(&file);
         out << path;
@@ -332,7 +332,7 @@ void GetAndDoStuffOpenFile::setOpenFileLastLocation(QString path) {
 QString GetAndDoStuffOpenFile::getOpenFileLastLocation() {
 
     QString ret = QDir::homePath();
-    QFile file(CFG_OPENFILE_LAST_LOCATION);
+    QFile file(ConfigFiles::OPENFILE_LAST_LOCATION());
     if(file.exists() && file.open(QIODevice::ReadOnly)) {
         QTextStream in(&file);
         ret = in.readAll().trimmed();
@@ -344,7 +344,7 @@ QString GetAndDoStuffOpenFile::getOpenFileLastLocation() {
 
 void GetAndDoStuffOpenFile::saveLastOpenedImage(QString path) {
 
-    QFile file(CFG_LASTOPENEDIMAGE_FILE);
+    QFile file(ConfigFiles::LASTOPENEDIMAGE_FILE());
     if(file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
         QTextStream out(&file);
         out << path;

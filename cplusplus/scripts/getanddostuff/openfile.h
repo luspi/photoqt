@@ -68,8 +68,8 @@ private slots:
         recheckFile();
     }
     void recheckFile() {
-        if(QFile(QString(DATA_DIR) + "/../user-places.xbel").exists()) {
-            watcher->addPath(QString(DATA_DIR) + "/../user-places.xbel");
+        if(QFile(QString(ConfigFiles::DATA_DIR()) + "/../user-places.xbel").exists()) {
+            watcher->addPath(QString(ConfigFiles::DATA_DIR()) + "/../user-places.xbel");
             if(userPlacesFileDoesntExist) {
                 userPlacesFileDoesntExist = true;
                 emit userPlacesUpdated();

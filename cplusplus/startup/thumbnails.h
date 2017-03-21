@@ -43,13 +43,13 @@ namespace StartupCheck {
 
             // --> (2)
             // Check if thumbnail database exists. If not, create it
-            QFile database(CFG_THUMBNAILS_DB);
+            QFile database(ConfigFiles::THUMBNAILS_DB());
             if(!database.exists()) {
 
                 if(verbose) LOG << CURDATE << "Create Thumbnail Database" << NL;
 
                 QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", "thumbDB1");
-                db.setDatabaseName(CFG_THUMBNAILS_DB);
+                db.setDatabaseName(ConfigFiles::THUMBNAILS_DB());
                 if(!db.open()) LOG << CURDATE << "ERROR: Couldn't open thumbnail database:" << db.lastError().text().trimmed().toStdString() << NL;
                 QSqlQuery query(db);
                 query.prepare("CREATE TABLE Thumbnails (filepath TEXT,thumbnail BLOB, filelastmod INT, thumbcreated INT, origwidth INT, origheight INT)");
@@ -64,7 +64,7 @@ namespace StartupCheck {
 
                 // Opening the thumbnail database
                 QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE","thumbDB2");
-                db.setDatabaseName(CFG_THUMBNAILS_DB);
+                db.setDatabaseName(ConfigFiles::THUMBNAILS_DB());
                 if(!db.open()) LOG << CURDATE << "ERROR: Couldn't open thumbnail database:" << db.lastError().text().trimmed().toStdString() << NL;
 
                 QSqlQuery query_check(db);

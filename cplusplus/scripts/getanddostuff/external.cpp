@@ -45,12 +45,12 @@ QString GetAndDoStuffExternal::exportConfig(QString useThisFilename) {
 
     // All the config files to be exported
     QHash<QString,QString> allfiles;
-    allfiles["CFG_SETTINGS_FILE"] = CFG_SETTINGS_FILE;
-    allfiles["CFG_FILEFORMATS_FILE"] = CFG_FILEFORMATS_FILE;
-    allfiles["CFG_CONTEXTMENU_FILE"] = CFG_CONTEXTMENU_FILE;
-    allfiles["CFG_KEY_SHORTCUTS_FILE"] = CFG_KEY_SHORTCUTS_FILE;
-    allfiles["CFG_MOUSE_SHORTCUTS_FILE"] = CFG_MOUSE_SHORTCUTS_FILE;
-    allfiles["CFG_TOUCH_SHORTCUTS_FILE"] = CFG_TOUCH_SHORTCUTS_FILE;
+    allfiles["CFG_SETTINGS_FILE"] = ConfigFiles::SETTINGS_FILE();
+    allfiles["CFG_FILEFORMATS_FILE"] = ConfigFiles::FILEFORMATS_FILE();
+    allfiles["CFG_CONTEXTMENU_FILE"] = ConfigFiles::CONTEXTMENU_FILE();
+    allfiles["CFG_KEY_SHORTCUTS_FILE"] = ConfigFiles::KEY_SHORTCUTS_FILE();
+    allfiles["CFG_MOUSE_SHORTCUTS_FILE"] = ConfigFiles::MOUSE_SHORTCUTS_FILE();
+    allfiles["CFG_TOUCH_SHORTCUTS_FILE"] = ConfigFiles::TOUCH_SHORTCUTS_FILE();
 
     // Start a writer for the zip file
     ZipWriter writer(zipFile);
@@ -88,12 +88,12 @@ QString GetAndDoStuffExternal::importConfig(QString filename) {
 
     // All the config files to be imported
     QHash<QString,QString> allfiles;
-    allfiles["CFG_SETTINGS_FILE"] = CFG_SETTINGS_FILE;
-    allfiles["CFG_FILEFORMATS_FILE"] = CFG_FILEFORMATS_FILE;
-    allfiles["CFG_CONTEXTMENU_FILE"] = CFG_CONTEXTMENU_FILE;
-    allfiles["CFG_KEY_SHORTCUTS_FILE"] = CFG_KEY_SHORTCUTS_FILE;
-    allfiles["CFG_MOUSE_SHORTCUTS_FILE"] = CFG_MOUSE_SHORTCUTS_FILE;
-    allfiles["CFG_TOUCH_SHORTCUTS_FILE"] = CFG_TOUCH_SHORTCUTS_FILE;
+    allfiles["CFG_SETTINGS_FILE"] = ConfigFiles::SETTINGS_FILE();
+    allfiles["CFG_FILEFORMATS_FILE"] = ConfigFiles::FILEFORMATS_FILE();
+    allfiles["CFG_CONTEXTMENU_FILE"] = ConfigFiles::CONTEXTMENU_FILE();
+    allfiles["CFG_KEY_SHORTCUTS_FILE"] = ConfigFiles::KEY_SHORTCUTS_FILE();
+    allfiles["CFG_MOUSE_SHORTCUTS_FILE"] = ConfigFiles::MOUSE_SHORTCUTS_FILE();
+    allfiles["CFG_TOUCH_SHORTCUTS_FILE"] = ConfigFiles::TOUCH_SHORTCUTS_FILE();
 
     // Start zip reader
     ZipReader reader(filename);

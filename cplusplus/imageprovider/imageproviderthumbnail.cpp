@@ -6,7 +6,7 @@ ImageProviderThumbnail::ImageProviderThumbnail() : QQuickImageProvider(QQuickIma
 
     // Setup database
     db = QSqlDatabase::addDatabase("QSQLITE","thumbDB" + QString::number(rand()));
-    db.setDatabaseName(CFG_THUMBNAILS_DB);
+    db.setDatabaseName(ConfigFiles::THUMBNAILS_DB());
     db.open();
 
     // Get permanent and temporary settings
@@ -131,7 +131,7 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
         if(typeCache == "files" && cacheEnabled) {
 
             // If the file itself wasn't read from the thumbnails folder, is not a temporary file, and if the original file isn't at thumbnail size itself
-            if(filename.startsWith(QString(CFG_THUMBNAILS_DB).toUtf8())
+            if(filename.startsWith(QString(ConfigFiles::THUMBNAILS_DB()).toUtf8())
                     && !filename.startsWith(QDir::tempPath().toUtf8())
                     && (p.height() > ts || p.width() > ts)) {
 

@@ -36,30 +36,30 @@ namespace StartupCheck {
             QDir dir;
 
             // Check for configuration folder
-            if(!QDir(CONFIG_DIR).exists()) {
-                if(!dir.mkpath(CONFIG_DIR)) {
+            if(!QDir(ConfigFiles::CONFIG_DIR()).exists()) {
+                if(!dir.mkpath(ConfigFiles::CONFIG_DIR())) {
                     LOG << CURDATE << "StartupCheck::Migration: ERROR! Unable to create configuration directory '"
-                        << CONFIG_DIR.toStdString() << "'" << NL;
+                        << ConfigFiles::CONFIG_DIR().toStdString() << "'" << NL;
                     std::exit(1);
                 } else
                     migrated = true;
             }
 
             // Check for data folder
-            if(!QDir(DATA_DIR).exists()) {
-                if(!dir.mkpath(DATA_DIR)) {
+            if(!QDir(ConfigFiles::DATA_DIR()).exists()) {
+                if(!dir.mkpath(ConfigFiles::DATA_DIR())) {
                     LOG << CURDATE << "StartupCheck::Migration: ERROR! Unable to create data directory '"
-                        << DATA_DIR.toStdString() << "'" << NL;
+                        << ConfigFiles::DATA_DIR().toStdString() << "'" << NL;
                     std::exit(1);
                 } else
                     migrated = true;
             }
 
             // Check for cache folder
-            if(!QDir(CACHE_DIR).exists()) {
-                if(!dir.mkpath(CACHE_DIR)) {
+            if(!QDir(ConfigFiles::CACHE_DIR()).exists()) {
+                if(!dir.mkpath(ConfigFiles::CACHE_DIR())) {
                     LOG << CURDATE << "StartupCheck::Migration: ERROR! Unable to create data directory '"
-                        << CACHE_DIR.toStdString() << "'" << NL;
+                        << ConfigFiles::CACHE_DIR().toStdString() << "'" << NL;
                     std::exit(1);
                 } else
                     migrated = true;
@@ -86,10 +86,10 @@ namespace StartupCheck {
 
                         LOG << CURDATE
                             << "Migrating old settings file from '" << oldpath.toStdString() << "' to '"
-                            << CONFIG_DIR.toStdString() << "'"
+                            << ConfigFiles::CONFIG_DIR().toStdString() << "'"
                             << NL;
 
-                        if(!file.rename(CFG_SETTINGS_FILE))
+                        if(!file.rename(ConfigFiles::SETTINGS_FILE()))
 
                             LOG << CURDATE
                                 << "StartupCheck::Migration: ERROR! Unable to move settings file to new location! Default settings will be used."
@@ -103,10 +103,10 @@ namespace StartupCheck {
 
                         LOG << CURDATE
                             << "Migrating old shortcuts file from '" << oldpath.toStdString() << "' to '"
-                            << CONFIG_DIR.toStdString() << "'"
+                            << ConfigFiles::CONFIG_DIR().toStdString() << "'"
                             << NL;
 
-                        if(!file.rename(CFG_KEY_SHORTCUTS_FILE))
+                        if(!file.rename(ConfigFiles::KEY_SHORTCUTS_FILE()))
 
                             LOG << CURDATE
                                 << "StartupCheck::Migration: ERROR! Unable to move shortcuts file to new location! Default shortcuts will be used."
@@ -120,10 +120,10 @@ namespace StartupCheck {
 
                         LOG << CURDATE
                             << "Migrating old contextmenu file from '" << oldpath.toStdString() << "' to '"
-                            << CONFIG_DIR.toStdString() << "'"
+                            << ConfigFiles::CONFIG_DIR().toStdString() << "'"
                             << NL;
 
-                        if(!file.rename(CFG_CONTEXTMENU_FILE))
+                        if(!file.rename(ConfigFiles::CONTEXTMENU_FILE()))
 
                             LOG << CURDATE
                                 << "StartupCheck::Migration: ERROR! Unable to move contextmenu file to new location! Default entries will be set."
@@ -137,10 +137,10 @@ namespace StartupCheck {
 
                         LOG << CURDATE
                             << "Migrating old fileformats.disabled file from '" << oldpath.toStdString() << "' to '"
-                            << CONFIG_DIR.toStdString() << "'"
+                            << ConfigFiles::CONFIG_DIR().toStdString() << "'"
                             << NL;
 
-                        if(!file.rename(CFG_FILEFORMATS_FILE))
+                        if(!file.rename(ConfigFiles::FILEFORMATS_FILE()))
 
                             LOG << CURDATE
                                 << "StartupCheck::Migration: ERROR! Unable to move fileformats.disabled file to new location! Default fileformats will be set."
@@ -154,10 +154,10 @@ namespace StartupCheck {
 
                         LOG << CURDATE
                             << "Migrating old thumbnails database from '" << oldpath.toStdString() << "' to '"
-                            << CACHE_DIR.toStdString() << "'"
+                            << ConfigFiles::CACHE_DIR().toStdString() << "'"
                             << NL;
 
-                        if(!file.rename(CFG_THUMBNAILS_DB))
+                        if(!file.rename(ConfigFiles::THUMBNAILS_DB()))
 
                             LOG << CURDATE
                                 << "StartupCheck::Migration: ERROR! Unable to move thumbnails database to new location!"

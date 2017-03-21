@@ -17,7 +17,7 @@ ShareOnline::Imgur::Imgur(QObject *parent) : QObject(parent) {
     refresh_token = "";
 
     // Location of local file containing acces_/refresh_token
-    imgurLocalConfigFilename = CFG_SHAREONLINE_IMGUR_FILE;
+    imgurLocalConfigFilename = ConfigFiles::SHAREONLINE_IMGUR_FILE();
 
     // This ensures the path actually exists
     QFileInfo info(imgurLocalConfigFilename);
@@ -449,7 +449,7 @@ void ShareOnline::Imgur::uploadFinished() {
 
 QString ShareOnline::Imgur::getAuthDateTime() {
 
-    QFileInfo info(CFG_SHAREONLINE_IMGUR_FILE);
+    QFileInfo info(ConfigFiles::SHAREONLINE_IMGUR_FILE());
     if(info.exists())
         return info.lastModified().toString("yyyy-MM-dd, hh:mm:ss");
     else

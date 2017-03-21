@@ -30,7 +30,7 @@ namespace StartupCheck {
 
             if(verbose) LOG << CURDATE << "StartupCheck::Shortcuts::makeSureShortcutsFileExists" << NL;
 
-            QFileInfo file(CFG_KEY_SHORTCUTS_FILE);
+            QFileInfo file(ConfigFiles::KEY_SHORTCUTS_FILE());
             if(!file.exists()) {
                 GetAndDoStuffShortcuts sh(true);
                 sh.saveShortcuts(sh.getDefaultKeyShortcuts());
@@ -42,8 +42,8 @@ namespace StartupCheck {
 
             if(verbose) LOG << CURDATE << "StartupCheck::Shortcuts::migrateMouseShortcuts" << NL;
 
-            QFile mousefile(CFG_MOUSE_SHORTCUTS_FILE);
-            QFile keyfile(CFG_KEY_SHORTCUTS_FILE);
+            QFile mousefile(ConfigFiles::MOUSE_SHORTCUTS_FILE());
+            QFile keyfile(ConfigFiles::KEY_SHORTCUTS_FILE());
 
             if(!mousefile.exists()) {
 

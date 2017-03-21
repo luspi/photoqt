@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
     StartupCheck::Migration::migrateIfNecessary(a.verbose);
 
     // We get the settings text once, and modify the string only during the checks and write the settings to file once afterwards
-    QFile settingsfile(CFG_SETTINGS_FILE);
+    QFile settingsfile(ConfigFiles::SETTINGS_FILE());
     QString settingsText = "";
     if(settingsfile.exists() && settingsfile.open(QIODevice::ReadOnly)) {
         QTextStream in(&settingsfile);
@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
     StartupCheck::Shortcuts::migrateMouseShortcuts(a.verbose);
 
     // Store the (updated) settings text
-    QFile writesettings(CFG_SETTINGS_FILE);
+    QFile writesettings(ConfigFiles::SETTINGS_FILE());
     if(!writesettings.open(QIODevice::WriteOnly | QIODevice::Truncate))
         LOG << CURDATE << "ERROR! Unable to update settings file at startup" << NL;
     else {

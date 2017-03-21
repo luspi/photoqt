@@ -112,7 +112,7 @@ void SingleInstance::handleResponse(QString msg) {
     hide = (msg.contains("::hide::") && !msg.contains("::toggle::") && !msg.contains("::start-in-tray::"));
 
     // These ones only play a role on startup and are ignored otherwise
-    verbose = (msg.contains("::verbose::") || msg.contains("::debug::") || QFile(QString(CONFIG_DIR) + "/verbose").exists() || QFile(QString(CONFIG_DIR) + "/verboselog").exists());
+    verbose = (msg.contains("::verbose::") || msg.contains("::debug::") || QFile(QString(ConfigFiles::CONFIG_DIR()) + "/verbose").exists() || QFile(QString(ConfigFiles::CONFIG_DIR()) + "/verboselog").exists());
     startintray = (msg.contains("::start-in-tray::"));
 
     // DEVELOPMENT ONLY

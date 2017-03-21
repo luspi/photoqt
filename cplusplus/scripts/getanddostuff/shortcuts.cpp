@@ -19,19 +19,19 @@ GetAndDoStuffShortcuts::~GetAndDoStuffShortcuts() {
 }
 
 void GetAndDoStuffShortcuts::setFilesToWatcher() {
-    if(!QFile(CFG_KEY_SHORTCUTS_FILE).exists() || !QFile(CFG_MOUSE_SHORTCUTS_FILE).exists())
+    if(!QFile(ConfigFiles::KEY_SHORTCUTS_FILE()).exists() || !QFile(ConfigFiles::MOUSE_SHORTCUTS_FILE()).exists())
         QTimer::singleShot(250, this, SLOT(setFilesToWatcher()));
     else
-        watcher->addPaths(QStringList() << CFG_KEY_SHORTCUTS_FILE << CFG_MOUSE_SHORTCUTS_FILE);
+        watcher->addPaths(QStringList() << ConfigFiles::KEY_SHORTCUTS_FILE() << ConfigFiles::MOUSE_SHORTCUTS_FILE());
 }
 
 // The shortcutfile has changed
 void GetAndDoStuffShortcuts::fileChanged(QString filename) {
 
     // Inform ui. We use an actual int, as he value has to change for the on__Changed signal to get triggered
-    if(filename == CFG_KEY_SHORTCUTS_FILE)
+    if(filename == ConfigFiles::KEY_SHORTCUTS_FILE())
         emit keyShortcutFileChanged(QTime::currentTime().msecsSinceStartOfDay());
-    else if(filename == CFG_MOUSE_SHORTCUTS_FILE)
+    else if(filename == ConfigFiles::MOUSE_SHORTCUTS_FILE())
         emit mouseShortcutFileChanged(QTime::currentTime().msecsSinceStartOfDay());
 
     // Re-add file to watcher
@@ -43,7 +43,7 @@ QVariantMap GetAndDoStuffShortcuts::getKeyShortcuts() {
 
     QVariantMap ret;
 
-    QFile file(CFG_KEY_SHORTCUTS_FILE);
+    QFile file(ConfigFiles::KEY_SHORTCUTS_FILE());
 
     if(!file.exists()) {
         // Set-up Map of default shortcuts;
@@ -77,7 +77,7 @@ QVariantMap GetAndDoStuffShortcuts::getMouseShortcuts() {
 
     QVariantMap ret;
 
-    QFile file(CFG_MOUSE_SHORTCUTS_FILE);
+    QFile file(ConfigFiles::MOUSE_SHORTCUTS_FILE());
 
     if(!file.exists()) {
         // Set-up Map of default shortcuts;
@@ -111,7 +111,7 @@ QVariantMap GetAndDoStuffShortcuts::getTouchShortcuts() {
 
     QVariantMap ret;
 
-    QFile file(CFG_TOUCH_SHORTCUTS_FILE);
+    QFile file(ConfigFiles::TOUCH_SHORTCUTS_FILE());
 
     if(!file.exists()) {
         // Set-up Map of default shortcuts;
@@ -268,7 +268,7 @@ void GetAndDoStuffShortcuts::saveShortcuts(QVariantMap l) {
     for(unsigned int i = 0; i < 3; ++i) {
 
         QFile file;
-        file.setFileName(type[i] == "key" ? CFG_KEY_SHORTCUTS_FILE : (type[i] == "mouse" ? CFG_MOUSE_SHORTCUTS_FILE : CFG_TOUCH_SHORTCUTS_FILE));
+        file.setFileName(type[i] == "key" ? ConfigFiles::KEY_SHORTCUTS_FILE() : (type[i] == "mouse" ? ConfigFiles::MOUSE_SHORTCUTS_FILE() : ConfigFiles::TOUCH_SHORTCUTS_FILE()));
         if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
             LOG << CURDATE << "GetAndDoStuffShortcuts: ERROR: Unable to open " << type[i].toStdString() << " shortcuts file for writing/saving" << NL;
             return;
@@ -285,7 +285,7 @@ void GetAndDoStuffShortcuts::saveShortcuts(QVariantMap l) {
 
 QString GetAndDoStuffShortcuts::getKeyShortcutFile() {
 
-    QFile file(CFG_KEY_SHORTCUTS_FILE);
+    QFile file(ConfigFiles::KEY_SHORTCUTS_FILE());
     if(!file.open(QIODevice::ReadOnly)) {
         LOG << CURDATE << "GetAndDoStuffShortcuts: ERROR: Unable to read shortcuts file" << NL;
         return "";

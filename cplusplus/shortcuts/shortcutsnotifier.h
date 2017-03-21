@@ -30,7 +30,7 @@ class ShortcutsNotifier : public QObject {
 public:
     explicit ShortcutsNotifier(QObject *parent = 0) : QObject(parent) {
         hiddenareas.clear();
-        file.setFileName(CFG_SHORTCUTSNOTIFIER_FILE);
+        file.setFileName(ConfigFiles::SHORTCUTSNOTIFIER_FILE());
         if(file.exists()) {
             if(file.open(QIODevice::ReadOnly)){
                 QTextStream in(&file);

@@ -29,7 +29,7 @@ class SettingsSession : public QObject {
 
 public:
     explicit SettingsSession(QObject *parent = 0) : QObject(parent) {
-        settings_ = new QSettings(CFG_SETTINGS_SESSION_FILE);
+        settings_ = new QSettings(ConfigFiles::SETTINGS_SESSION_FILE());
         setValue("metadatakeepopen",false);
     }
     ~SettingsSession() { delete settings_; }

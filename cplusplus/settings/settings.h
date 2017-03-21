@@ -671,16 +671,16 @@ public:
 public slots:
 
     void setFilesToWatcher() {
-        if(!QFile(CFG_SETTINGS_FILE).exists())
+        if(!QFile(ConfigFiles::SETTINGS_FILE()).exists())
             QTimer::singleShot(250, this, SLOT(setFilesToWatcher()));
         else
-            watcher->addPath(CFG_SETTINGS_FILE);
+            watcher->addPath(ConfigFiles::SETTINGS_FILE());
     }
 
     // Save settings
     void saveSettings() {
 
-        QFile file(CFG_SETTINGS_FILE);
+        QFile file(ConfigFiles::SETTINGS_FILE());
 
         if(!file.open(QIODevice::ReadWrite))
 
@@ -860,7 +860,7 @@ public slots:
         // Set default values to start out with
         setDefault();
 
-        QFile file(CFG_SETTINGS_FILE);
+        QFile file(ConfigFiles::SETTINGS_FILE());
 
         if(file.exists() && !file.open(QIODevice::ReadOnly))
 

@@ -152,18 +152,18 @@ public:
 public slots:
 
     void setFilesToWatcher() {
-        if(!QFile(CFG_SETTINGS_FILE).exists() || !QFile(CFG_FILEFORMATS_FILE).exists())
+        if(!QFile(ConfigFiles::SETTINGS_FILE()).exists() || !QFile(ConfigFiles::FILEFORMATS_FILE()).exists())
             QTimer::singleShot(500, this, SLOT(setFilesToWatcher()));
         else
-            watcher->addPaths(QStringList() << CFG_SETTINGS_FILE
-                              << CFG_FILEFORMATS_FILE);
+            watcher->addPaths(QStringList() << ConfigFiles::SETTINGS_FILE()
+                              << ConfigFiles::FILEFORMATS_FILE());
     }
 
     void loadFormats() {
 
         if(verbose) LOG << CURDATE << "Loading disabled file formats from file" << NL;
 
-        QFile file(CFG_FILEFORMATS_FILE);
+        QFile file(ConfigFiles::FILEFORMATS_FILE());
 
         // At first startup, this file might not (yet) exist, but we can simply set the
         // default formats as they are currently in the process of being set anyways
@@ -260,7 +260,7 @@ public slots:
             if(!current_raw.contains(f))
                 disabled.append(f);
 
-        QFile file(CFG_FILEFORMATS_FILE);
+        QFile file(ConfigFiles::FILEFORMATS_FILE());
         if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
             LOG << CURDATE << "ERROR! Unable to save update fileformats..." << NL;
             return;

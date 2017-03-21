@@ -3,7 +3,7 @@
 #####################
 
 SET(d "cplusplus")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/main.cpp ${d}/mainwindow.cpp ${d}/variables.h ${d}/logger.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/main.cpp ${d}/mainwindow.cpp ${d}/variables.h ${d}/logger.h ${d}/configfiles.h)
 
 SET(d "cplusplus/startup")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/migration.h ${d}/updatecheck.h ${d}/startintray.h ${d}/localisation.h ${d}/thumbnails.h)
@@ -55,7 +55,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/simplecrypt.cpp)
 ####################
 
 SET(d "cplusplus")
-SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/mainwindow.h ${d}/variables.h ${d}/logger.h)
+SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/mainwindow.h ${d}/variables.h ${d}/logger.h ${d}/configfiles.h)
 
 SET(d "cplusplus/startup")
 SET(photoqt_HEADERS ${photoqt_HEADERS} ${d}/migration.h ${d}/updatecheck.h ${d}/startintray.h ${d}/localisation.h ${d}/thumbnails.h)
