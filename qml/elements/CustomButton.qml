@@ -17,6 +17,7 @@ Button {
     height: 2.5*fontsize
 
     signal clickedButton()
+    signal rightClickedButton()
 
     style: ButtonStyle {
 
@@ -46,12 +47,18 @@ Button {
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
 
         onPressed: but.pressedDown = true
         onReleased: but.pressedDown = false
         onEntered: but.hovered = true
         onExited: but.hovered = false
-        onClicked: clickedButton()
+        onClicked: {
+            if(mouse.button == Qt.LeftButton)
+                clickedButton()
+            else
+                rightClickedButton()
+        }
 
     }
 
