@@ -273,7 +273,7 @@ public slots:
         menu_bg = "#0f0f0f";
         menu_bg_highlight = "#4f4f4f";
         menu_text = "#ffffff";
-        menu_text_disabled = "#66707070";
+        menu_text_disabled = "#88808080";
 
         // TabView colouring
         tab_bg_color = "#33000000";
