@@ -151,9 +151,23 @@ Rectangle {
         ContextMenu {
             id: contextmenu
             MenuItem {
-                text: "Select all"
+                text: "Undo"
+                enabled: ed1.canUndo
                 onTriggered:
-                    ele_top.selectAll()
+                    ed1.undo()
+            }
+            MenuItem {
+                text: "Redo"
+                enabled: ed1.canRedo
+                onTriggered:
+                    ed1.redo()
+            }
+            MenuSeparator { }
+            MenuItem {
+                text: "Cut selection"
+                enabled: !ele_top.readOnly && ed1.selectedText!=""
+                onTriggered:
+                    ed1.cut()
             }
             MenuItem {
                 text: "Copy selection to clipboard"
@@ -162,17 +176,31 @@ Rectangle {
                     ed1.copy()
             }
             MenuItem {
+                text: "Paste clipboard content"
+                enabled: !ele_top.readOnly && ed1.canPaste
+                onTriggered:
+                    ed1.paste()
+            }
+            MenuItem {
+                text: "Delete content"
+                enabled: !ele_top.readOnly && ed1.selectedText!=""
+                onTriggered:
+                    ed1.text = ""
+            }
+            MenuSeparator { }
+            MenuItem {
+                text: "Select all"
+                enabled: ed1.text!=""
+                onTriggered:
+                    ele_top.selectAll()
+            }
+            MenuItem {
                 text: "Select all and copy"
+                enabled: ed1.text!=""
                 onTriggered: {
                     ele_top.selectAll()
                     ed1.copy()
                 }
-            }
-            MenuItem {
-                text: "Paste clipboard content"
-                enabled: !ele_top.readOnly
-                onTriggered:
-                    ed1.paste()
             }
         }
 
