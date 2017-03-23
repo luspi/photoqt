@@ -1,4 +1,6 @@
 import QtQuick 2.3
+import QtQuick.Controls 1.2
+import "./"
 
 Rectangle {
 
@@ -52,9 +54,9 @@ Rectangle {
 
         width: parent.width-6
 
-        color: colour.text
+        color: enabled ? colour.text : colour.text_disabled
         selectedTextColor: colour.text_selected
-        selectionColor: colour.text_selection_color
+        selectionColor: enabled ? colour.text_selection_color : colour.text_selection_color_disabled
         text: parent.text
         font.pointSize: parent.fontsize
 
@@ -71,16 +73,23 @@ Rectangle {
             property bool held: false
 
             anchors.fill: parent
+            acceptedButtons: Qt.LeftButton|Qt.RightButton
             cursorShape: Qt.IBeamCursor
 
             // We use these to re-implement selecting text by mouse (otherwise it'll be overwritten by dragging feature)
-            onClicked: parent.parent.clicked()
+            onClicked: {
+                if(mouse.button == Qt.LeftButton)
+                    parent.parent.clicked()
+                else
+                    contextmenu.popup()
+
+            }
             onDoubleClicked: {
                 parent.selectAll()
                 parent.parent.doubleClicked()
             }
-            onPressed: { held = true; ed1.cursorPosition = ed1.positionAt(mouse.x,mouse.y); parent.forceActiveFocus() }
-            onReleased: held = false
+            onPressed: { if(mouse.button == Qt.LeftButton) { held = true; ed1.cursorPosition = ed1.positionAt(mouse.x,mouse.y); } parent.forceActiveFocus() }
+            onReleased: { if(mouse.button == Qt.LeftButton) held = false }
             onPositionChanged: {if(held) ed1.moveCursorSelection(ed1.positionAt(mouse.x,mouse.y)) }
 
         }
@@ -137,6 +146,34 @@ Rectangle {
                     ele_top.historyBack()
             }
 
+        }
+
+        ContextMenu {
+            id: contextmenu
+            MenuItem {
+                text: "Select all"
+                onTriggered:
+                    ele_top.selectAll()
+            }
+            MenuItem {
+                text: "Copy selection to clipboard"
+                enabled: ed1.selectedText!=""
+                onTriggered:
+                    ed1.copy()
+            }
+            MenuItem {
+                text: "Select all and copy"
+                onTriggered: {
+                    ele_top.selectAll()
+                    ed1.copy()
+                }
+            }
+            MenuItem {
+                text: "Paste clipboard content"
+                enabled: !ele_top.readOnly
+                onTriggered:
+                    ed1.paste()
+            }
         }
 
     }
