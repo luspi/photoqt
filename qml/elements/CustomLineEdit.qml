@@ -157,4 +157,8 @@ Rectangle {
         return ed1.text
     }
 
+    function clear() {
+        ed1.text = ""
+    }
+
 }
