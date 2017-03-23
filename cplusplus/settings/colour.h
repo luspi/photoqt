@@ -333,7 +333,7 @@ public slots:
 
     void saveColors() {
 
-        QFile file(QDir::homePath() + "/.photoqt/colors");
+        QFile file(ConfigFiles::COLOR_FILE());
 
         if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
             LOG << CURDATE << "ERROR! Unable to open 'colors' file for saving: " << file.errorString().trimmed().toStdString() << NL;
@@ -438,7 +438,7 @@ public slots:
 
         setDefault();
 
-        QFile file(QDir::homePath() + "/.photoqt/colors");
+        QFile file(ConfigFiles::COLOR_FILE());
 
         if(!file.exists())
             return;

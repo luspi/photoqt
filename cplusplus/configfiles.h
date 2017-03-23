@@ -73,6 +73,9 @@ public:
         return QString("%1/imgurconfig").arg(CONFIG_DIR());
 
     }
+    static const QString COLOR_FILE() {
+        return QString("%1/colors").arg(CONFIG_DIR());
+    }
 
 };
 
