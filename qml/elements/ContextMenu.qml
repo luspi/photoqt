@@ -8,7 +8,7 @@ Menu {
 
     style: MenuStyle {
 
-        frame: Rectangle { color: colour.menu_frame }
+        frame: Rectangle { color: colour.menu_frame; border.width: 1; border.color: "#a0a0a0" }
         itemDelegate.background: Rectangle { color: (styleData.selected ? (enabled ? colour.menu_bg_highlight : colour.menu_bg_highlight_disabled) : colour.menu_bg) }
         itemDelegate.label: Text { color: (enabled ? colour.menu_text : colour.menu_text_disabled); text: styleData.text }
 
