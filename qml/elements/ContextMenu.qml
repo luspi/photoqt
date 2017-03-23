@@ -10,7 +10,7 @@ Menu {
 
         frame: Rectangle { color: colour.menu_frame }
         itemDelegate.background: Rectangle { color: (styleData.selected ? colour.menu_bg_highlight : colour.menu_bg) }
-        itemDelegate.label: Text { color: colour.menu_text; text: styleData.text }
+        itemDelegate.label: Text { color: (enabled ? colour.menu_text : colour.menu_text_disabled); text: styleData.text }
 
         itemDelegate.checkmarkIndicator: Rectangle {
                 implicitWidth: 10
