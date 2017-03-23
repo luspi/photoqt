@@ -7,7 +7,7 @@ Rectangle {
 
     id: feedback_top
     anchors.fill: parent
-    color: "#88000000"
+    color: "#dd000000"
 
     property bool someerror: false
 
@@ -36,6 +36,8 @@ Rectangle {
     }
 
     Rectangle {
+
+        id: uploading
 
         opacity: (error.visible||report.visible||obtainingImageUrlDeleteHash.visible) ? 0 : 1
         Behavior on opacity { NumberAnimation { duration: 300; } }
@@ -404,10 +406,10 @@ Rectangle {
             accountname = ""
             shareonline_imgur.anonymousUpload(thumbnailBar.currentFile)
         }
+
         opacity = 1
 
     }
-
 
     function hide() {
         error.opacity = 0

@@ -80,10 +80,8 @@ EntryContainer {
                     CustomButton {
                         //: Text on button to connect PhotoQt with an imgur.com user account
                         text: (authenticatedwith.text=="" ? qsTr("Connect to Account") : qsTr("Connect to New Account"))
-                        onClickedButton: {
-//                            imgurwebview.show()
-//                            imgurwebview.setUrl(shareonline_imgur.authorizeUrlForPin())
-                        }
+                        onClickedButton:
+                            authbox.show()
                     }
                     CustomButton {
                         //: Text on button to forget PhotoQt's connection with an imgur.com user account
@@ -98,10 +96,90 @@ EntryContainer {
 
                 }
 
+                Rectangle {
+                    color: "transparent"
+                    width: 1
+                    height: 1
+                }
+
+
+                Rectangle {
+
+                    id: authbox
+
+                    color: "transparent"
+
+                    width: childrenRect.width
+                    height: 0
+                    clip: true
+                    property int h: childrenRect.height
+                    Behavior on height { NumberAnimation { duration: 200 } }
+                    visible: (height!=0)
+
+                    function show() { authbox.enabled = true; authpin.clear(); height = h; }
+                    function hide() { height = 0; }
+
+                    Row {
+
+                        spacing: 10
+
+                        Text {
+                            color: enabled ? colour.text : colour.text_disabled
+                            y: (parent.height-height)/2
+                            text: "Go to this URL:"
+                        }
+                        CustomLineEdit {
+                            width: 500
+                            readOnly: true
+                            text: shareonline_imgur.authorizeUrlForPin()
+                        }
+                        CustomButton {
+                            text: "open link"
+                            onClickedButton: getanddostuff.openLink(shareonline_imgur.authorizeUrlForPin())
+                        }
+                        Text {
+                            color: enabled ? colour.text : colour.text_disabled
+                            y: (parent.height-height)/2
+                            text: "Paste PIN here:"
+                        }
+                        CustomLineEdit {
+                            id: authpin
+                            width: 100
+                        }
+                        CustomButton {
+                            text: "Connect"
+                            onClickedButton: authenticate()
+                        }
+                        Rectangle {
+                            color: "transparent"
+                            width: 1
+                        }
+                        CustomButton {
+                            text: "Cancel"
+                            onClickedButton:
+                                authbox.hide()
+                        }
+
+                    }
+
+                }
+
             }
 
         }
 
+    }
+
+    function authenticate() {
+        authbox.enabled = false
+        var ret = shareonline_imgur.authorizeHandlePin(authpin.getText())
+        if(ret == Imgur.NOERROR) {
+            authbox.hide()
+            setData()
+        } else {
+            authbox.enabled = true
+            verboseMessage("SettingsManager/Imgur/authenticate", "authenticate() error return value:",ret)
+        }
     }
 
     function setData() {
