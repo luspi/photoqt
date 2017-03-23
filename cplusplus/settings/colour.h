@@ -70,6 +70,7 @@ public:
     Q_PROPERTY(QString menu_bg MEMBER menu_bg NOTIFY menu_bgChanged)
     Q_PROPERTY(QString menu_bg_highlight MEMBER menu_bg_highlight NOTIFY menu_bg_highlightChanged)
     Q_PROPERTY(QString menu_text MEMBER menu_text NOTIFY menu_textChanged)
+    Q_PROPERTY(QString menu_text_disabled MEMBER menu_text_disabled NOTIFY menu_text_disabledChanged)
 
     Q_PROPERTY(QString tab_bg_color MEMBER tab_bg_color NOTIFY tab_bg_colorChanged)
     Q_PROPERTY(QString tab_color_active MEMBER tab_color_active NOTIFY tab_color_activeChanged)
@@ -165,6 +166,7 @@ public:
     QString menu_bg;
     QString menu_bg_highlight;
     QString menu_text;
+    QString menu_text_disabled;
 
     // TabView colouring
     QString tab_bg_color;
@@ -271,6 +273,7 @@ public slots:
         menu_bg = "#0f0f0f";
         menu_bg_highlight = "#4f4f4f";
         menu_text = "#ffffff";
+        menu_text_disabled = "#66707070";
 
         // TabView colouring
         tab_bg_color = "#33000000";
@@ -376,7 +379,8 @@ public slots:
         txt += QString("menu_frame=%1\n").arg(menu_frame);
         txt += QString("menu_bg=%1\n").arg(menu_bg);
         txt += QString("menu_bg_highlight=%1\n").arg(menu_bg_highlight);
-        txt += QString("menu_text=%1\n\n").arg(menu_text);
+        txt += QString("menu_text=%1\n").arg(menu_text);
+        txt += QString("menu_text_disabled=%1\n\n").arg(menu_text_disabled);
 
         txt += QString("tab_bg_color=%1\n").arg(tab_bg_color);
         txt += QString("tab_color_active=%1\n").arg(tab_color_active);
@@ -523,6 +527,8 @@ public slots:
                     menu_bg_highlight = color;
                 else if(property == "menu_text")
                     menu_text = color;
+                else if(property == "menu_text_disabled")
+                    menu_text_disabled = color;
 
                 else if(property == "tab_bg_color")
                     tab_bg_color = color;
@@ -651,6 +657,7 @@ signals:
     void menu_bgChanged(QString val);
     void menu_bg_highlightChanged(QString val);
     void menu_textChanged(QString val);
+    void menu_text_disabledChanged(QString val);
     void tab_bg_colorChanged(QString val);
     void tab_color_activeChanged(QString val);
     void tab_color_inactiveChanged(QString val);
