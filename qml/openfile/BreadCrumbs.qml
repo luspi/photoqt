@@ -53,6 +53,20 @@ Rectangle {
             tooltip: qsTr("Go backwards in history")
 
             onClickedButton: goBackInHistory()
+            onRightClickedButton: toleftcontext.popup()
+
+            ContextMenu {
+                id: toleftcontext
+                MenuItem {
+                    text: "Go backwards in history"
+                    onTriggered: goBackInHistory()
+                }
+                MenuItem {
+                    text: "Go forwards in history"
+                    onTriggered: goForwardsInHistory()
+                }
+
+            }
 
         }
 
@@ -79,6 +93,20 @@ Rectangle {
             tooltip: qsTr("Go forwards in history")
 
             onClickedButton: goForwardsInHistory()
+            onRightClickedButton: torightcontext.popup()
+
+            ContextMenu {
+                id: torightcontext
+                MenuItem {
+                    text: "Go backwards in history"
+                    onTriggered: goBackInHistory()
+                }
+                MenuItem {
+                    text: "Go forwards in history"
+                    onTriggered: goForwardsInHistory()
+                }
+
+            }
 
         }
 
