@@ -15,6 +15,8 @@ Rectangle {
     property var history: []
     property bool loadedFromHistory: false
 
+    property int contextMenuCurrentIndex: -1
+
     color: "#44000000"
 
     // Two buttons to go backwards/forwards in history
@@ -152,15 +154,24 @@ Rectangle {
         property var menuitems: []
 
         delegate: Button {
+            id: delegButton
             y: 7
             height: parent.height-15
             property bool hovered: false
+
+            property bool clicked: false
+
+            Connections {
+                target: contextmenu
+                onOpenedChanged:
+                    delegButton.clicked = (contextmenu.opened&&index==contextmenu.parentIndex)
+            }
 
             style: ButtonStyle {
                 background: Rectangle {
                     id: bg
                     anchors.fill: parent
-                    color: hovered ? "#44ffffff" : "#00000000"
+                    color: (hovered||delegButton.clicked) ? "#44ffffff" : "#00000000"
                     radius: 5
                 }
 
@@ -170,7 +181,7 @@ Rectangle {
                     color: "white"
                     font.bold: true
                     font.pointSize: 15
-                    text: type=="folder" ? " " + location : " /"
+                    text: type=="folder" ? " " + location + " " : " / "
                 }
 
             }
@@ -178,53 +189,47 @@ Rectangle {
             MouseArea {
                 anchors.fill: parent
                 hoverEnabled: true
-                cursorShape: type=="folder" ? Qt.PointingHandCursor : Qt.ArrowCursor
+                cursorShape: Qt.PointingHandCursor
                 onClicked: {
                     if(type == "folder")
                         loadCurrentDirectory(partialpath)
                     else {
-//							m.clear()
-//							var folders = getanddostuff.getFoldersIn(partialpath)
-//							m.dir = partialpath
-//							for(var i = 0; i < folders.length; ++i) {
-//								m.addItem(folders[i])
-//							}
-//							m.popup()
+                        delegButton.clicked = true
+                        contextmenu.clear()
+                        var head = contextmenu.addItem("Go directly to subfolder of '" + getanddostuff.getDirectoryDirName(partialpath) + "'")
+                        head.enabled = false
+                        var folders = getanddostuff.getFoldersIn(partialpath, false)
+                        for(var i = 0; i < folders.length; ++i) {
+                            var item = contextmenu.addItem(folders[i])
+                            item.triggered.connect(loadDir)
+                        }
+                        function loadDir() {
+                            loadCurrentDirectory(partialpath + folders[contextMenuCurrentIndex-1])
+                        }
+                        contextmenu.parentIndex = index
+                        contextmenu.__popup(Qt.rect(parent.x, parent.y, parent.width, parent.height))
                     }
                 }
                 onEntered:
-                    if(type=="folder")
+                    if(!contextmenu.opened)
                         parent.hovered = true
                 onExited:
-                    if(type=="folder")
-                        parent.hovered = false
+                    parent.hovered = false
             }
 
         }
 
     }
 
-    //	Menu {
-    //		id: m
-    //		property string dir: ""
-    //		style: MenuStyle {
-    //			// an item text
-    //			itemDelegate.label: Text {
-    //				verticalAlignment: Text.AlignVCenter
-    //				horizontalAlignment: Text.AlignHCenter
-    //				font.pointSize: 12
-    //				color: "white"
-    //				text: styleData.text.split("/")[styleData.text.split("/").length-1]
-    //			}
-
-    //			// selection of an item
-    //			itemDelegate.background: Rectangle {
-    //				color: styleData.selected ? "grey" : "#222222"
-    //				border.width: 1
-    //				border.color: "#222222"
-    //			}
-    //		}
-    //	}
+    ContextMenu {
+        title: "Folders"
+        id: contextmenu
+        property int parentIndex: -1
+        on__CurrentIndexChanged: {
+            if(__currentIndex != -1)
+                contextMenuCurrentIndex = __currentIndex
+        }
+    }
 
 
     function loadDirectory(path) {
