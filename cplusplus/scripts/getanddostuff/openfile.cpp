@@ -356,3 +356,9 @@ void GetAndDoStuffOpenFile::saveLastOpenedImage(QString path) {
         LOG << CURDATE << "ERROR: Unable to store path of last opened image. Error: " << file.errorString().trimmed().toStdString() << NL;
 
 }
+
+QString GetAndDoStuffOpenFile::getDirectoryDirName(QString path) {
+
+    return QDir(path).dirName();
+
+}
