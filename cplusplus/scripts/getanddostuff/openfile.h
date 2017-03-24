@@ -43,7 +43,7 @@ public:
     int getNumberFilesInFolder(QString path, int selectionFileTypes);
     QVariantList getUserPlaces();
     QVariantList getFilesAndFoldersIn(QString path);
-    QVariantList getFoldersIn(QString path);
+    QVariantList getFoldersIn(QString path, bool getDotDot = true);
     QVariantList getFilesIn(QString path);
     QVariantList getFilesWithSizeIn(QString path, int selectionFileTypes);
     bool isFolder(QString path);

@@ -140,7 +140,7 @@ public:
     Q_INVOKABLE QVariantList getFilesAndFoldersIn(QString path) { return this->openfile->getFilesAndFoldersIn(path); }
     Q_INVOKABLE bool isFolder(QString path) { return this->openfile->isFolder(path); }
     Q_INVOKABLE QString removePrefixFromDirectoryOrFile(QString path) { return this->openfile->removePrefixFromDirectoryOrFile(path); }
-    Q_INVOKABLE QVariantList getFoldersIn(QString path) { return this->openfile->getFoldersIn(path); }
+    Q_INVOKABLE QVariantList getFoldersIn(QString path, bool getDotDot = true) { return this->openfile->getFoldersIn(path, getDotDot); }
     Q_INVOKABLE QVariantList getFilesIn(QString path) { return this->openfile->getFilesIn(path); }
     Q_INVOKABLE QVariantList getFilesWithSizeIn(QString path, int selectionFileTypes) { return this->openfile->getFilesWithSizeIn(path,selectionFileTypes); }
     Q_INVOKABLE void addToUserPlaces(QString path) { this->openfile->addToUserPlaces(path); }
