@@ -6,6 +6,8 @@ import QtQuick.Controls.Styles 1.2
 Menu {
     id: contextmenu
 
+    property bool opened: false
+
     style: MenuStyle {
 
         frame: Rectangle { color: colour.menu_frame; border.width: 1; border.color: "#a0a0a0" }
@@ -29,4 +31,8 @@ Menu {
             }
 
     }
+
+    onAboutToShow: opened = true
+    onAboutToHide: opened = false
+
 }
