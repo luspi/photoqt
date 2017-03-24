@@ -132,7 +132,7 @@ Rectangle {
     // move histogram around
     ToolTip {
 
-        text: "Click-and-drag to move. Left click to switch version."
+        text: qsTr("Click-and-drag to move. Right click to switch version.")
 
         property bool resizing: false
         property int startMouseX: 0
@@ -251,7 +251,7 @@ Rectangle {
             sourceSize.height: parent.height
         }
         ToolTip {
-            text: qsTr("Click to switch between coloured and greyscale histogram. You can also switch by doing a left-click onto the histogram.")
+            text: qsTr("Click to switch between coloured and greyscale histogram. You can also switch by doing a right-click onto the histogram.")
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
