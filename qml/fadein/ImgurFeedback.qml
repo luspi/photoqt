@@ -39,7 +39,7 @@ Rectangle {
 
         id: uploading
 
-        opacity: (error.visible||report.visible||obtainingImageUrlDeleteHash.visible) ? 0 : 1
+        opacity: (error.visible||report.visible||obtainingImageUrlDeleteHash.visible||nointerneterror.visible) ? 0 : 1
         Behavior on opacity { NumberAnimation { duration: 300; } }
         visible: opacity!=0
 
@@ -223,6 +223,51 @@ Rectangle {
                 }
 
                 CustomButton {
+                    x: (feedback_top.width-width)/2
+                    text: "Oh, man... Well, go back!"
+                    fontsize: 30
+                    onClickedButton:
+                        hide()
+                }
+            }
+        }
+    }
+
+    Rectangle {
+
+        id: nointerneterror
+
+        opacity: 0
+        Behavior on opacity { NumberAnimation { duration: 300; } }
+        visible: opacity!=0
+
+        color: "#00000000"
+        anchors.fill: parent
+
+        Rectangle {
+
+            color: "transparent"
+            width: parent.width
+            height: childrenRect.height
+            y: (parent.height-height)/2
+
+            Column {
+
+                spacing: 40
+
+                Text {
+                    x: 50
+                    width: feedback_top.width-100
+                    color: "red"
+                    font.pointSize: 40
+                    font.bold: true
+                    wrapMode: Text.WordWrap
+                    text: "You don't seem to be able to be connected to the internet... Unable to upload!"
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                CustomButton {
                     x: (parent.width-width)/2
                     text: "Oh, man... Well, go back!"
                     fontsize: 30
@@ -354,12 +399,14 @@ Rectangle {
             progressbar.setProgress(perc*100)
             error.opacity = 0
             report.opacity = 0
+            nointerneterror.opacity = 0
             obtainingImageUrlDeleteHash.opacity = 0
             if(perc == 1)
                 obtainingImageUrlDeleteHash.opacity = 1
         }
         onFinished: {
             error.opacity = 0
+            nointerneterror.opacity = 0
             report.opacity = (feedback_top.someerror ? 0 : 1)
             obtainingImageUrlDeleteHash.opacity = 0
         }
@@ -367,17 +414,19 @@ Rectangle {
             error.code = err
             error.opacity = 1
             report.opacity = 0
+            nointerneterror.opacity = 0
             obtainingImageUrlDeleteHash.opacity = 0
             feedback_top.someerror = true
         }
-
         onImgurImageUrl: {
+            console.log(url)
             imageurl.text = url
             imageurl.selectAll()
             verboseMessage("ImgurFeedback::onImgurImageUrl", url)
         }
 
         onImgurDeleteHash: {
+            console.log("http://imgur.com/delete/" + url)
             deleteurl.text = "http://imgur.com/delete/" + url
             verboseMessage("ImgurFeedback::onImgurDeleteHash", url)
         }
@@ -392,6 +441,13 @@ Rectangle {
         obtainingImageUrlDeleteHash.opacity = 0
         feedback_top.someerror = false
         progressbar.setProgress(0)
+
+        if(!getanddostuff.checkIfConnectedToInternet()) {
+            nointerneterror.opacity = 1
+            opacity = 1
+            return;
+        }
+        nointerneterror.opacity = 0
 
         if(!anonymous) {
             var ret = shareonline_imgur.authAccount()
@@ -414,6 +470,7 @@ Rectangle {
     function hide() {
         error.opacity = 0
         report.opacity = 0
+        nointerneterror.opacity = 0
         obtainingImageUrlDeleteHash.opacity = 0
         shareonline_imgur.abort()
         opacity = 0
