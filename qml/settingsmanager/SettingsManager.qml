@@ -414,6 +414,10 @@ Rectangle {
         anchors.fill: parent
     }
 
+    SettingInfoOverlay {
+        id: settingsinfooverlay
+    }
+
     Component.onCompleted: {
         //: Inform the user of a possible shortcut action in the settings manager
         settingsmanagershortcuts.shortcuts[str_keys.get("ctrl") + " + " + str_keys.get("tab")] = qsTr("Go to the next tab")
@@ -457,6 +461,8 @@ Rectangle {
             invalidshortcuts.accept()
         else if(exportimport.opacity == 1)
             exportimport.hide()
+        else if(settingsinfooverlay.opacity == 1)
+            settingsinfooverlay.hide()
         else
             hideSettingsAni.start()
     }

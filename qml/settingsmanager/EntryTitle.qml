@@ -43,6 +43,8 @@ Rectangle {
         }
         onExited:
             globaltooltip.setTextColor(colour.tooltip_text)
+        onClicked:
+            settingsinfooverlay.show(title, helptext)
     }
 
 }
