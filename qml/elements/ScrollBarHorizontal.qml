@@ -1,6 +1,6 @@
 import QtQuick 2.3;
 
-Item {
+Rectangle {
 
     id: scrollbar;
 
@@ -13,6 +13,9 @@ Item {
         bottom: flickable.bottom;
         margins: 1;
     }
+
+    color: (clicker.containsMouse || clicker.pressed || parent.moving) ? "#22ffffff" : "transparent"
+    Behavior on color { ColorAnimation { duration: 200; } }
 
     property Flickable flickable: null;
     property int handleSize: 8;
