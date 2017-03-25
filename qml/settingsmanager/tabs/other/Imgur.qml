@@ -116,7 +116,13 @@ EntryContainer {
                     Behavior on height { NumberAnimation { duration: 200 } }
                     visible: (height!=0)
 
-                    function show() { authbox.enabled = true; authpin.clear(); height = h; }
+                    function show() {
+                        authbox.enabled = getanddostuff.checkIfConnectedToInternet();
+                        inetconnected.visible = !getanddostuff.checkIfConnectedToInternet();
+                        authpin.clear();
+                        height = h;
+                        lineeditAuthorizeUrl.text = shareonline_imgur.authorizeUrlForPin()
+                    }
                     function hide() { height = 0; }
 
                     Row {
@@ -124,14 +130,22 @@ EntryContainer {
                         spacing: 10
 
                         Text {
+                            id: inetconnected
+                            color: colour.text_warning
+                            y: (parent.height-height)/2
+                            text: "Not connected to internet"
+                        }
+                        Text {
                             color: enabled ? colour.text : colour.text_disabled
                             y: (parent.height-height)/2
                             text: "Go to this URL:"
                         }
                         CustomLineEdit {
+                            id: lineeditAuthorizeUrl
                             width: 500
                             readOnly: true
-                            text: shareonline_imgur.authorizeUrlForPin()
+                            text: ""
+                            emptyMessage: "loading..."
                         }
                         CustomButton {
                             text: "open link"
