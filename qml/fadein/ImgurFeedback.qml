@@ -456,14 +456,14 @@ Rectangle {
                 hide()
                 return
             }
+            opacity = 1
             accountname = shareonline_imgur.getAccountUsername()
             shareonline_imgur.upload(thumbnailBar.currentFile)
         } else {
+            opacity = 1
             accountname = ""
             shareonline_imgur.anonymousUpload(thumbnailBar.currentFile)
         }
-
-        opacity = 1
 
     }
 
