@@ -28,6 +28,8 @@
 #include <QApplication>
 #include <QTimer>
 #include <QtDebug>
+#include <QNetworkInterface>
+#include <QRegExpValidator>
 #include "../../logger.h"
 
 #include "../../zip/zipreader.h"
@@ -47,6 +49,7 @@ public:
     QString exportConfig(QString useThisFilename = "");
     QString importConfig(QString filename);
     void restartPhotoQt(QString loadThisFileAfter);
+    bool checkIfConnectedToInternet();
 
 };
 

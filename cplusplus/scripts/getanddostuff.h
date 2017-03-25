@@ -78,6 +78,7 @@ public:
     Q_INVOKABLE QString exportConfig() { return external->exportConfig(); }
     Q_INVOKABLE QString importConfig(QString filename) { return external->importConfig(filename); }
     Q_INVOKABLE void restartPhotoQt(QString loadThisFileAfter) { external->restartPhotoQt(loadThisFileAfter); }
+    Q_INVOKABLE bool checkIfConnectedToInternet() { return external->checkIfConnectedToInternet(); }
 
     // FILE
     Q_INVOKABLE QString removePathFromFilename(QString path, bool removeSuffix = false) { return file->removePathFromFilename(path, removeSuffix); }
