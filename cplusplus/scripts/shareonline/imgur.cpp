@@ -29,13 +29,20 @@ ShareOnline::Imgur::Imgur(QObject *parent) : QObject(parent) {
     if(key == 0) key = 63871234;
     crypt = SimpleCrypt(key);
 
-    // Read client_id/_secret either from config or load from url
-    obtainClientIdSecret();
+}
 
+ShareOnline::Imgur::~Imgur() {
+    delete networkManager;
 }
 
 // Return the web address to obtain a new pin
 QString ShareOnline::Imgur::authorizeUrlForPin() {
+
+    if(imgurClientID == "" || imgurClientSecret == "") {
+        int ret = obtainClientIdSecret();
+        if(ret != NOERROR)
+            return "failed to obtain URL";
+    }
 
     // return authorisation url
     return QString("https://api.imgur.com/oauth2/authorize?client_id=%1&response_type=pin&state=requestaccess").arg(imgurClientID);
@@ -44,6 +51,12 @@ QString ShareOnline::Imgur::authorizeUrlForPin() {
 
 // Handle a new PIN passed on by the user
 int ShareOnline::Imgur::authorizeHandlePin(QByteArray pin) {
+
+    if(imgurClientID == "" || imgurClientSecret == "") {
+        int ret = obtainClientIdSecret();
+        if(ret != NOERROR)
+            return ret;
+    }
 
     // Compose data to send as post message
     QByteArray postData;
@@ -58,6 +71,7 @@ int ShareOnline::Imgur::authorizeHandlePin(QByteArray pin) {
     QNetworkRequest req(QUrl(QString("https://api.imgur.com/oauth2/token.xml")));
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     QNetworkReply *reply = networkManager->post(req, postData);
+    ReplyTimeout::set(reply, 5000);
 
     // Synchronous connect
     QEventLoop loop;
@@ -144,10 +158,11 @@ int ShareOnline::Imgur::obtainClientIdSecret() {
     QNetworkRequest req(QUrl("http://photoqt.org/oauth2/imgur.php"));
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     QNetworkReply *reply =  networkManager->get(req);
+    ReplyTimeout::set(reply, 2500);
 
     // Synchronous connect
     QEventLoop loop;
-    QObject::connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
+    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
     loop.exec();
 
     // Read reply data
@@ -155,7 +170,9 @@ int ShareOnline::Imgur::obtainClientIdSecret() {
     reply->deleteLater();
 
     // If response invalid
-    if(!dat.contains("client_id=") || !dat.contains("client_secret=")) {
+    if(dat.trimmed() == "")
+        return NOT_CONNECTED_TO_INET;
+    else if(!dat.contains("client_id=") || !dat.contains("client_secret=")) {
         if(debug)
             std::cout << "Network reply data: " << dat.toStdString() << std::endl;
         return NETWORK_REPLY_ERROR;
@@ -247,6 +264,15 @@ int ShareOnline::Imgur::authAccount() {
 // Upload a file to a connected account
 int ShareOnline::Imgur::upload(QString filename) {
 
+    if(imgurClientID == "" || imgurClientSecret == "") {
+        int ret = obtainClientIdSecret();
+        if(ret != NOERROR) {
+            emit abortAllRequests();
+            emit uploadError(QNetworkReply::UnknownServerError);
+            return ret;
+        }
+    }
+
     // Ensure an access token is set
     if(access_token == "") {
         if(debug)
@@ -295,6 +321,14 @@ int ShareOnline::Imgur::upload(QString filename) {
 
 int ShareOnline::Imgur::anonymousUpload(QString filename) {
 
+    if(imgurClientID == "" || imgurClientSecret == "") {
+        int ret = obtainClientIdSecret();
+        if(ret != NOERROR) {
+            emit uploadError(QNetworkReply::NetworkSessionFailedError);
+            return ret;
+        }
+    }
+
     // Ensure that filename is not empty and that the file exists
     if(filename.trimmed() == "" || !QFileInfo(filename).exists()) {
         if(debug)
@@ -339,6 +373,7 @@ int ShareOnline::Imgur::deleteImage(QString hash) {
 
     // Send the deletion request
     QNetworkReply *reply = networkManager->deleteResource(request);
+    ReplyTimeout::set(reply, 2500);
 
     // Wait for it to finish
     QEventLoop loop;

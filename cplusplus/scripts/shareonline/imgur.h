@@ -25,9 +25,13 @@
 #include <QEventLoop>
 #include <QTimer>
 #include <iostream>
+#include <QNetworkInterface>
+#include <QRegExpValidator>
 
 #include "../../simplecrypt/simplecrypt.h"
 #include "../../logger.h"
+#include "../getanddostuff/external.h"
+#include "replytimeout.h"
 
 namespace ShareOnline {
 
@@ -49,9 +53,11 @@ public:
            ACCESS_TOKEN_ERROR,
            CLIENT_ID_SECRET_ERROR,
            DELETION_ERROR,
+           NOT_CONNECTED_TO_INET,
            OTHER_ERROR};
 
     explicit Imgur(QObject *parent = 0);
+    ~Imgur();
 
     // three public upload function
     Q_INVOKABLE int upload(QString filename);
