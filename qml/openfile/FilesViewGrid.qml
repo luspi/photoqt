@@ -9,7 +9,6 @@ GridView {
     id: gridview
 
     anchors.fill: parent
-    anchors.rightMargin: gridview_scrollbar.width
 
     property var visibleItems: []
     contentItem.onVisibleChildrenChanged: {

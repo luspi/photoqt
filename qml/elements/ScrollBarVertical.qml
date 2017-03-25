@@ -1,69 +1,120 @@
-import QtQuick 2.3
+import QtQuick 2.3;
 
 Rectangle {
 
-    id: scrollbar
+    id: scrollbar;
 
-    property Flickable flk : undefined
-    color: scrl.visible ? "#22ffffff" : "transparent"
+    width: (handleSize + 2 * (backScrollbar.border.width +1));
+    visible: (flickable.visibleArea.heightRatio < 1.0 && flickable.visible);
 
-    width: scrl.visible ? 10 : 0
-    anchors{
-        right: flk.right;
-        top: flk.top
-        bottom: flk.bottom
+    anchors {
+        top: flickable.top;
+        bottom: flickable.bottom;
+        right: flickable.right;
+        margins: 1;
     }
 
-    clip: true
-    visible: flk.visible
-    z:1
+    property Flickable flickable: null;
+    property int handleSize: 8;
+
+    property real opacityVisible: 0.8
+    property real opacityHidden: 0.1
+
+    signal scrollFinished();
+
+    color: (clicker.containsMouse || clicker.pressed || parent.moving) ? "#22ffffff" : "transparent"
+    Behavior on color { ColorAnimation { duration: 200; } }
+
+    Binding {
+        target: handle;
+        property: "y";
+        value: (flickable.contentY * clicker.drag.maximumY / (flickable.contentHeight - flickable.height));
+        when: (!clicker.drag.active);
+    }
+
+    Binding {
+        target: flickable;
+        property: "contentY";
+        value: (handle.y * (flickable.contentHeight - flickable.height) / clicker.drag.maximumY);
+        when: (clicker.drag.active || clicker.pressed);
+    }
 
     Rectangle {
-        id: scrl
-        clip: true
+        id: backScrollbar;
+        antialiasing: true;
+        color: Qt.rgba(0, 0, 0, 0.2);
+        anchors.fill: parent;
+    }
+
+    Item {
+
+        id: groove;
+        clip: true;
+
         anchors {
-            left: parent.left
-            right: parent.right
-        }
-        height: Math.max(20,flk.visibleArea.heightRatio * flk.height)
-        visible: flk.visibleArea.heightRatio < 1.0
-        radius: 10
-        color: "black"
-
-        border.width: 1
-        border.color: "#bbbbbb"
-
-        opacity: ma.pressed ? 1 : ma.containsMouse ? 0.8 : 0.6
-        Behavior on opacity {NumberAnimation{duration: 150}}
-
-        Binding {
-            target: scrl
-            property: "y"
-            value: !isNaN(flk.visibleArea.heightRatio) ? (ma.drag.maximumY * flk.contentY) / (flk.contentHeight * (1 - flk.visibleArea.heightRatio)) : 0
-            when: !ma.drag.active
-        }
-
-        Binding {
-            target: flk
-            property: "contentY"
-            value: ((flk.contentHeight * (1 - flk.visibleArea.heightRatio)) * scrl.y) / ma.drag.maximumY
-            when: ma.drag.active && flk !== undefined
+            fill: parent;
+            topMargin: (backScrollbar.border.width +1);
+            leftMargin: (backScrollbar.border.width +1);
+            rightMargin: (backScrollbar.border.width +1);
+            bottomMargin: (backScrollbar.border.width +1);
         }
 
         MouseArea {
-            id: ma
-            anchors.fill: parent
+
+            id: clicker;
+
+            anchors.fill: parent;
+            cursorShape: (pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor)
             hoverEnabled: true
-            cursorShape: Qt.OpenHandCursor
-            onPressed: cursorShape = Qt.ClosedHandCursor
-            onReleased: cursorShape = Qt.OpenHandCursor
+
             drag {
-                target: parent
-                axis: Drag.YAxis
-                minimumY: 0
-                maximumY: flk.height - scrl.height
+                target: handle;
+                minimumY: 0;
+                maximumY: (groove.height - handle.height);
+                axis: Drag.YAxis;
             }
-            preventStealing: true
+
+            onClicked: flickable.contentY = (mouse.y / groove.height * (flickable.contentHeight - flickable.height));
+            onReleased: scrollFinished();
+
+        }
+
+        Item {
+
+            id: handle;
+
+            height: Math.max (20, (flickable.visibleArea.heightRatio * groove.height));
+
+            anchors {
+                left: parent.left;
+                right: parent.right;
+            }
+
+            Rectangle {
+
+                id: backHandle;
+
+                anchors.fill: parent;
+                color: "black"
+                border.color: "#bbbbbb"
+                radius: 5
+                border.width: 1
+                opacity: ((clicker.containsMouse || clicker.pressed || parent.moving) ? opacityVisible : opacityHidden);
+
+                Behavior on opacity { NumberAnimation { duration: 200; } }
+
+            }
+
+            property bool moving: false
+            onYChanged: { moving = true; moving_reset.restart(); }
+            Timer {
+                id: moving_reset
+                interval: 500
+                repeat: false
+                running: false
+                onTriggered: parent.moving = false
+            }
+
         }
     }
 }

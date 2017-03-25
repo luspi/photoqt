@@ -89,11 +89,11 @@ Rectangle {
 
     ScrollBarVertical {
         id: listview_scrollbar
-        flk: listview
+        flickable: listview
     }
     ScrollBarVertical {
         id: gridview_scrollbar
-        flk: gridview
+        flickable: gridview
     }
 
 
