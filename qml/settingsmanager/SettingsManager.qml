@@ -13,8 +13,13 @@ Rectangle {
     color: colour.fadein_slidein_bg
 
     // Invisible at startup
-    visible: false
     opacity: 0
+    visible: opacity!=0
+    Behavior on opacity { NumberAnimation { duration: settings.myWidgetAnimated ? 250 : 0 } }
+    onVisibleChanged: {
+        if(!visible && thumbnailBar.currentFile == "")
+            openFile()
+    }
 
     // setData is only emitted when settings have been 'closed without saving'
     // See comment above 'setData_restore()' function below
@@ -437,7 +442,10 @@ Rectangle {
 
     function showSettings() {
         verboseMessage("Settings::showSettings()","Showing Settings...")
-        showSettingsAni.start()
+        opacity = 1
+        blurAllBackgroundElements()
+        blocked = true
+        setData()	// We DO need to call setData() here, as otherwise - once set up - a tab would not be updated (e.g. with changes from quicksettings)
         updateDatabaseInfo()
     }
     function hideSettings() {
@@ -460,40 +468,11 @@ Rectangle {
             exportimport.hide()
         else if(settingsinfooverlay.opacity == 1)
             settingsinfooverlay.hide()
-        else
-            hideSettingsAni.start()
-    }
-
-    PropertyAnimation {
-        id: hideSettingsAni
-        target: settings_top
-        property: "opacity"
-        to: 0
-        duration: settings.myWidgetAnimated ? 250 : 0
-        onStarted: unblurAllBackgroundElements()
-        onStopped: {
-            visible = false
+        else {
+            opacity = 0
             blocked = false
-            if(thumbnailBar.currentFile == "")
-                openFile()
         }
     }
-
-    PropertyAnimation {
-        id: showSettingsAni
-        target: settings_top
-        property: "opacity"
-        to: 1
-        duration: settings.myWidgetAnimated ? 250 : 0
-        onStarted: {
-            blurAllBackgroundElements()
-            visible = true
-            blocked = true
-            setData()	// We DO need to call setData() here, as otherwise - once set up - a tab would not be updated (e.g. with changes from quicksettings)
-        }
-        onStopped: settingsmanagershortcuts.display()
-    }
-
 
     // This function is only called, when settings have been opened and "closed without saving"
     // In any other case, the actual tabs are ONLY SET UP WHEN OPENED (i.e., as needed) and use
