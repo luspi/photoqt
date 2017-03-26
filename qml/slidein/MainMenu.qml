@@ -15,13 +15,14 @@ Rectangle {
     // Set position (we pretend that rounded corners are along the bottom edge only, that's why visible y is off screen)
     x: (background.width-width)+1
     y: -1
-    visible: false
 
     // Adjust size
     width: settings.mainMenuWindowWidth
     height: background.height+2
 
     opacity: 0
+    visible: opacity != 0
+    Behavior on opacity { NumberAnimation { duration: 250; } }
 
     property var allitems_static: [
         //: This is an entry in the mainmenu on the right
@@ -552,40 +553,13 @@ Rectangle {
 
     }
 
-    // 'Hide' animation
-    PropertyAnimation {
-        id: hideMainmenu
-        target: mainmenu
-        property: "opacity"
-        to: 0
-        onStopped: {
-            if(opacity == 0 && !showMainmenu.running)
-                visible = false
-        }
-    }
-
-    PropertyAnimation {
-        id: showMainmenu
-        target:  mainmenu
-        property: "opacity"
-        to: 1
-        onStarted: {
-            if(softblocked != 0 || slideshowRunning) {
-                showMainmenu.stop()
-                hideMainmenu.start()
-                return
-            }
-            visible=true
-        }
-    }
-
     function show() {
         if(opacity != 1) verboseMessage("MainMenu::show()", opacity + " to 1")
-        showMainmenu.start()
+        opacity = 1
     }
     function hide() {
         if(opacity != 0) verboseMessage("MainMenu::hide()", opacity + " to 0")
-        hideMainmenu.start()
+        opacity = 0
     }
 
     function clickInMainMenu(pos) {
