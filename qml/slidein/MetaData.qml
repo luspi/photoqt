@@ -28,7 +28,8 @@ Rectangle {
     property int nonFloatWidth: 0
 
     opacity: 0
-    visible: false
+    visible: opacity!=0
+    Behavior on opacity { NumberAnimation { duration: 250; } }
 
     // HEADING OF RECTANGLE
     Text {
@@ -207,29 +208,6 @@ Rectangle {
 
     }
 
-    // 'Hide' animation
-    PropertyAnimation {
-        id: hideMetaData
-        target: metaData
-        property: "opacity"
-        to: 0
-        onStopped: {
-            if(opacity == 0 && !showMetaData.running)
-                visible = false
-        }
-    }
-
-    PropertyAnimation {
-        id: showMetaData
-        target:  metaData
-        property: "opacity"
-        to: 1
-        onStarted:
-            visible=true
-    }
-
-
-
     MouseArea {
         x: parent.width-8
         width: 8
@@ -400,12 +378,12 @@ Rectangle {
     function hide() {
         if(!check.checkedButton) {
             if(opacity != 0) verboseMessage("MetaData::hide()", opacity + " to 0")
-            hideMetaData.start()
+            opacity = 0
         }
     }
     function show() {
         if(opacity != 1) verboseMessage("MetaData::show()", opacity + " to 1")
-        showMetaData.start()
+        opacity = 1
     }
 
     function clickInMetaData(pos) {
