@@ -33,12 +33,8 @@ Rectangle {
     color: "#00000000"
 
     opacity: 0
-    visible: false
-
-    onOpacityChanged: {
-        if(opacity == 0) visible = false
-        else visible = true
-    }
+    visible: opacity!=0
+    Behavior on opacity { NumberAnimation { duration: 200 } }
 
     x: metaData.nonFloatWidth
     y: settings.thumbnailposition == "Bottom"
@@ -48,7 +44,6 @@ Rectangle {
     height: settings.thumbnailsize+thumbnailbarheight_addon
     clip: true
 
-    Behavior on opacity { NumberAnimation { duration: 200 } }
 
     property bool stopLoadingThumbnails: false
     function stopThumbnails() {
