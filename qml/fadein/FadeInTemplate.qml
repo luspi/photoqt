@@ -11,7 +11,12 @@ Rectangle {
     color: colour.fadein_slidein_bg
 
     opacity: 0
-    visible: false
+    Behavior on opacity { NumberAnimation { duration: settings.myWidgetAnimated ? 250 : 0; } }
+    visible: opacity!=0
+    onVisibleChanged: {
+        if(!visible && thumbnailBar.currentFile == "")
+            openFile()
+    }
 
     property int marginLeftRight: 50
     property int marginTopBottom: 50
@@ -129,38 +134,14 @@ Rectangle {
     }
 
     function show() {
-        showAni.start()
+        opacity = 1
+        blurAllBackgroundElements()
+        blocked = true
     }
     function hide() {
-        hideAni.start()
-    }
-
-    PropertyAnimation {
-        id: hideAni
-        target:  fadein_top
-        property: "opacity"
-        to: 0
-        duration: settings.myWidgetAnimated ? 250 : 0
-        onStarted: unblurAllBackgroundElements()
-        onStopped: {
-            visible = false
-            blocked = false
-            if(thumbnailBar.currentFile == "")
-            openFile()
-        }
-    }
-
-    PropertyAnimation {
-        id: showAni
-        target:  fadein_top
-        property: "opacity"
-        to: 1
-        duration: settings.myWidgetAnimated ? 250 : 0
-        onStarted: {
-            blurAllBackgroundElements()
-            visible = true
-            blocked = true
-        }
+        opacity = 0
+        unblurAllBackgroundElements()
+        blocked = false
     }
 
 }
