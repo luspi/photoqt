@@ -13,6 +13,7 @@ Item {
     property string tooltip: text
     property int fsize: 10
     property string textColour: (enabled ? colour.text : colour.text_disabled)
+    Behavior on textColour { ColorAnimation { duration: 150; } }
     property int elide: Text.ElideNone
 
     property int fixedwidth: -1
@@ -68,7 +69,7 @@ Item {
                 implicitHeight: fsize*2
                 radius: global_item_radius/2
                 color: control.enabled ? indicatorBackgroundColourEnabled : colour.radio_check_indicator_bg_color_disabled
-                Behavior on color { ColorAnimation { duration: 150; } }
+                Behavior on color { ColorAnimation { duration: 250; } }
                 Rectangle {
                     visible: rect.checkedButton
                     color: control.enabled ? indicatorColourEnabled : colour.radio_check_indicator_color_disabled

@@ -26,6 +26,7 @@ RadioButton {
                 anchors.fill: parent
                 visible: control.checked
                 color: control.enabled ? indicatorColourEnabled : indicatorColourDisabled
+                Behavior on color { ColorAnimation { duration: 150; } }
                 radius: 0.9*fontsize
                 anchors.margins: 0.4*fontsize
             }

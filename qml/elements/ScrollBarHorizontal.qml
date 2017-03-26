@@ -15,7 +15,7 @@ Rectangle {
     }
 
     color: (clicker.containsMouse || clicker.pressed || parent.moving) ? "#22ffffff" : "transparent"
-    Behavior on color { ColorAnimation { duration: 200; } }
+    Behavior on color { ColorAnimation { duration: 50; } }
 
     property Flickable flickable: null;
     property int handleSize: 8;

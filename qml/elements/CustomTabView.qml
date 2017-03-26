@@ -38,6 +38,7 @@ TabView {
 
             // The color depending on state
             color: (styleData.selected || styleData.pressed) ? colour.tab_color_selected : (styleData.hovered ? colour.tab_color_active : colour.tab_color_inactive)
+            Behavior on color { ColorAnimation { duration: 150; } }
 
             // Width and Height
             implicitWidth: (subtab ? view.width*2/5 : view.width)/tabCount
@@ -46,6 +47,7 @@ TabView {
             // The tab text
             Text {
                 color: (styleData.selected || styleData.pressed) ? colour.tab_text_selected : (styleData.hovered ? colour.tab_text_active : colour.tab_text_inactive)
+                Behavior on color { ColorAnimation { duration: 150; } }
                 font.bold: true
                 font.pointSize: 10
                 anchors.centerIn: parent

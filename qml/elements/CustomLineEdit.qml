@@ -57,6 +57,7 @@ Rectangle {
         color: enabled ? colour.text : colour.text_disabled
         selectedTextColor: colour.text_selected
         selectionColor: enabled ? colour.text_selection_color : colour.text_selection_color_disabled
+        Behavior on selectionColor { ColorAnimation { duration: 150; } }
         text: parent.text
         font.pointSize: parent.fontsize
 
