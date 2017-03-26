@@ -13,8 +13,15 @@ Rectangle {
     color: colour.fadein_slidein_bg
 
     // Invisible at startup
-    visible: false
     opacity: 0
+    visible: opacity!=0
+    Behavior on opacity { NumberAnimation { duration: settings.myWidgetAnimated ? 250 : 0 } }
+    onVisibleChanged: {
+        if(!visible && openFileAfter == "")
+            openFile()
+        else if(!visible)
+            reloadDirectory(openFileAfter,"")
+    }
 
     property string type: ""
 
@@ -110,41 +117,16 @@ Rectangle {
         type = t;
         openFileAfter = filenameAfter
 
-        showStartupAni.start()
+        opacity = 1
+        blocked = true
 
     }
 
     function hideStartup() {
-        hideStartupAni.start()
-    }
 
-    PropertyAnimation {
-        id: hideStartupAni
-        target: rect
-        property: "opacity"
-        to: 0
-        duration: settings.myWidgetAnimated ? 250 : 0
-        onStopped: {
-            visible = false
-            blocked = false
-            if(openFileAfter == "")
-                openFile()
-            else
-                reloadDirectory(openFileAfter,"")
-        }
-    }
+        opacity = 0
+        blocked = false
 
-    PropertyAnimation {
-        id: showStartupAni
-        target: rect
-        property: "opacity"
-        to: 1
-        duration: settings.myWidgetAnimated ? 250 : 0
-        onStarted: {
-            visible = true
-            blocked = true
-        }
     }
-
 
 }
