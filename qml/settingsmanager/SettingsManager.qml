@@ -36,9 +36,6 @@ Rectangle {
         hoverEnabled: true
     }
 
-    // Don't close settings manager while a new key combo is being detected
-//	property bool wait_amDetectingANewShortcut: false
-
     CustomTabView {
 
         id: view
