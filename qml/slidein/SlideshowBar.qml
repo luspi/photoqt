@@ -16,6 +16,8 @@ Rectangle {
     // Set position (we pretend that rounded corners are along the bottom edge only, that's why visible y is off screen)
     x: -1
     y: -height
+    Behavior on y { NumberAnimation { duration: 250 } }
+    visible: y!=-height
 
     // Adjust size
     width: background.width+2
@@ -89,12 +91,12 @@ Rectangle {
     function showBar() {
         verboseMessage("SlideshowBar::showBar()",bar.y + "/" + bar.height + " (" + slideshowRunning + ")")
         if(bar.y <= -bar.height && slideshowRunning)
-            showBarAni.start()
+            y = 0
     }
     // Hide the bar
     function hideBar() {
         if(!paused)
-            hideBarAni.start()
+            y = -height
     }
 
     // Show and hide the bar shortly after again (used at start and end of slideshow)
@@ -265,22 +267,6 @@ Rectangle {
         // Display new image and increment counter
         thumbnailBar.displayImage(images[current])
         ++current
-    }
-
-    PropertyAnimation {
-        id: hideBarAni
-        target: bar
-        property: "y"
-        to: -bar.height
-        onStopped: bar.y = -bar.height-safetyDistanceForSlidein
-    }
-    PropertyAnimation {
-        id: showBarAni
-        target: bar
-        property: "y"
-        from: -bar.height
-        to: -1
-        onStarted: hideBarAni.stop()
     }
 
 
