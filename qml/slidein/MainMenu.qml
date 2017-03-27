@@ -381,42 +381,42 @@ Rectangle {
 
         if(what === "open") {
 
-            hideMainmenu.start()
+            hide()
             openFile()
 
         } else if(what === "quit") {
 
-            hideMainmenu.start()
+            hide()
             quitPhotoQt()
 
         } else if(what === "about") {
 
-            hideMainmenu.start()
+            hide()
             about.showAbout()
 
         } else if(what === "settings") {
 
-            hideMainmenu.start()
+            hide()
             settingsmanager.showSettings()
 
         } else if(what === "wallpaper") {
 
-            hideMainmenu.start()
+            hide()
             wallpaper.showWallpaper()
 
         } else if(what === "slideshow") {
 
-            hideMainmenu.start()
+            hide()
             slideshow.showSlideshow()
 
         } else if(what === "slideshowquickstart") {
 
-            hideMainmenu.start()
+            hide()
             slideshow.quickstart()
 
         } else if(what === "filter") {
 
-            hideMainmenu.start()
+            hide()
             filter.showFilter()
 
         } else if(what === "metadata") {
@@ -437,7 +437,7 @@ Rectangle {
 
         } else if(what === "scale") {
 
-            hideMainmenu.start()
+            hide()
             scaleImage.showScale()
 
         } else if(what === "zoomin")
@@ -483,28 +483,28 @@ Rectangle {
         else if(what === "rename") {
 
             if(thumbnailBar.currentFile !== "") {
-                hideMainmenu.start()
+                hide()
                 rename.showRename()
             }
 
         } else if(what === "copy") {
 
             if(thumbnailBar.currentFile !== "") {
-                hideMainmenu.start()
+                hide()
                 getanddostuff.copyImage(thumbnailBar.currentFile)
             }
 
         } else if(what === "move") {
 
             if(thumbnailBar.currentFile !== "") {
-                hideMainmenu.start()
+                hide()
                 getanddostuff.moveImage(thumbnailBar.currentFile)
             }
 
         } else if(what === "delete") {
 
             if(thumbnailBar.currentFile !== "") {
-                hideMainmenu.start()
+                hide()
                 deleteImage.showDelete()
             }
 
