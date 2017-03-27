@@ -30,7 +30,8 @@ Rectangle {
     anchors.fill: fillAnchors
 
     opacity: 0
-    visible: false
+    Behavior on opacity { NumberAnimation { duration: 250 } }
+    visible: opacity!=0
 
     color: colour.fadein_slidein_block_bg
 
@@ -212,7 +213,7 @@ Rectangle {
 
     function show() {
         ask.checkedButton = dontAskAgainChecked
-        showConfirm.start()
+        opacity = 1
     }
     function reject() {
         alwaysDoThis = ask.checkedButton
@@ -225,26 +226,7 @@ Rectangle {
         _hide()
     }
     function _hide() {
-        hideConfirm.start()
-    }
-
-    PropertyAnimation {
-        id: hideConfirm
-        target: confirm
-        property: "opacity"
-        to: 0
-        onStopped: {
-            visible = false
-        }
-    }
-    PropertyAnimation {
-        id: showConfirm
-        target: confirm
-        property: "opacity"
-        to: 1
-        onStarted: {
-            visible = true
-        }
+        opacity = 0
     }
 
 }
