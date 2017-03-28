@@ -271,7 +271,7 @@ FadeInTemplate {
 
     function selectNewMusicFile() {
         verboseMessage("Slideshow::selectNewMusicFile()","")
-        var ret = getanddostuff.getFilename(qsTr("Select music file..."),getanddostuff.getHomeDir(),qsTr("Music Files") + " (*.mp3 *.flac *.ogg *.wav);;" + qsTr("All Files") + " (*.*)")
+        var ret = getanddostuff.getFilename(qsTr("Select music file..."),musictxt.text==""?getanddostuff.getHomeDir():musictxt.text,qsTr("Music Files") + " (*.mp3 *.flac *.ogg *.wav);;" + qsTr("All Files") + " (*.*)")
         if(ret !== "")
             musictxt.text = ret
     }
