@@ -121,7 +121,7 @@ Rectangle {
 
         // Set music file
         if(settings.slideShowMusicFile != "") {
-            slideshowmusic.source = "file:/" + settings.slideShowMusicFile
+            slideshowmusic.source = "file://" + settings.slideShowMusicFile
             slideshowmusic.play()
         }
 
