@@ -447,6 +447,7 @@ Rectangle {
         blocked = true
         setData()	// We DO need to call setData() here, as otherwise - once set up - a tab would not be updated (e.g. with changes from quicksettings)
         updateDatabaseInfo()
+        settingsmanagershortcuts.display()
     }
     function hideSettings() {
         verboseMessage("Settings::hideSettings()",confirmclean.visible + "/" + confirmerase.visible + "/" + confirmdefaultshortcuts.visible + "/" + confirmdefaultssettings.visible + "/" + settingsmanagershortcuts.visible + "/" + detectshortcut.visible + "/" + invalidshortcuts.visible)
@@ -471,6 +472,7 @@ Rectangle {
         else {
             opacity = 0
             blocked = false
+            unblurAllBackgroundElements()
         }
     }
 
