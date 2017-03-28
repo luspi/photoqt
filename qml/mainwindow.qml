@@ -313,9 +313,12 @@ Item {
     function blurAllBackgroundElements() {
 
         blur_mainview.opacity = 1
-        blur_metadata.opacity = 1
-        blur_mainmenu.opacity = 1
-        blur_thumbnailBar.opacity = 1
+        if(metaData.visible)
+            blur_metadata.opacity = 1
+        if(mainmenu.visible)
+            blur_mainmenu.opacity = 1
+        if(thumbnailBar.visible)
+            blur_thumbnailBar.opacity = 1
         quickInfo.opacity = 0.2
 
     }
