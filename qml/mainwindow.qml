@@ -147,7 +147,7 @@ Item {
         anchors.fill: mainview
         visible: opacity != 0
         opacity: 0
-        samples: settings.blurIntensity*3
+        samples: opacity==0?0:settings.blurIntensity*3
         Behavior on opacity { NumberAnimation { duration: 250 } }
         radius: settings.blurIntensity*4
         source: mainview
@@ -174,7 +174,7 @@ Item {
         anchors.fill: thumbnailBar
         visible: opacity != 0 && thumbnailBar.y > 0 && thumbnailBar.y < parent.height
         opacity: 0
-        samples: settings.blurIntensity*3
+        samples: opacity==0?0:settings.blurIntensity*3
         Behavior on opacity { NumberAnimation { duration: 250 } }
         radius: settings.blurIntensity*4
         source: thumbnailBar
@@ -189,7 +189,7 @@ Item {
         anchors.fill: mainmenu
         visible: opacity != 0 && mainmenu.opacity == 1
         opacity: 0
-        samples: settings.blurIntensity*2
+        samples: opacity==0?0:settings.blurIntensity*2
         Behavior on opacity { NumberAnimation { duration: 250 } }
         radius: settings.blurIntensity*4
         source: mainmenu
@@ -204,7 +204,7 @@ Item {
         anchors.fill: metaData
         visible: opacity != 0 && metaData.opacity == 1
         opacity: 0
-        samples: settings.blurIntensity*2
+        samples: opacity==0?0:settings.blurIntensity*2
         Behavior on opacity { NumberAnimation { duration: 250 } }
         radius: settings.blurIntensity*4
         source: metaData
