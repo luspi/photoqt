@@ -10,14 +10,14 @@ Rectangle {
 
     // Background/Border color
     color: colour.fadein_slidein_bg
-    border.width: 1
-    border.color: colour.fadein_slidein_border
 
     // Set position (we pretend that rounded corners are along the bottom edge only, that's why visible y is off screen)
-    x: -1
-    y: -height
-    Behavior on y { NumberAnimation { duration: 250 } }
-    visible: y!=-height
+    x: 0
+    y: 0
+
+    opacity: 0
+    Behavior on opacity { NumberAnimation { duration: 250 } }
+    visible: opacity!=0
 
     // Adjust size
     width: background.width+2
@@ -90,13 +90,13 @@ Rectangle {
     // Display the bar
     function showBar() {
         verboseMessage("SlideshowBar::showBar()",bar.y + "/" + bar.height + " (" + slideshowRunning + ")")
-        if(bar.y <= -bar.height && slideshowRunning)
-            y = 0
+        if(slideshowRunning)
+            opacity = 1
     }
     // Hide the bar
     function hideBar() {
         if(!paused)
-            y = -height
+            opacity = 0
     }
 
     // Show and hide the bar shortly after again (used at start and end of slideshow)
