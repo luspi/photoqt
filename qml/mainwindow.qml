@@ -283,6 +283,7 @@ Item {
     function showStartup(type, filename) { startup.showStartup(type, filename); }
 
     function openFile() { openfile.show(); }
+    function openFileAtDir(directory) { openfile.loadThisDirAfterOpen = directory; openfile.show(); }
     function openFileOLD() { openfile.show(); }
     function hideOpenFile() { openfile.hide(); }
 

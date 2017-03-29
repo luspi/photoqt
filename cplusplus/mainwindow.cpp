@@ -124,6 +124,12 @@ void MainWindow::handleOpenFileEvent(QString filename, QString filter) {
         return;
     }
 
+    if(QFileInfo(filename).isDir()) {
+        QMetaObject::invokeMethod(object, "openFileAtDir",
+                                  Q_ARG(QVariant, filename));
+        return;
+    }
+
     variables->keepLoadingThumbnails = true;
 
     setOverrideCursor();

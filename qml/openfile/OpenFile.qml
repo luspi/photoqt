@@ -12,6 +12,12 @@ Rectangle {
 
     visible: false
     opacity: 0
+    onOpacityChanged: {
+        if(opacity > 0 && loadThisDirAfterOpen != "") {
+            loadCurrentDirectory(loadThisDirAfterOpen)
+            loadThisDirAfterOpen = ""
+        }
+    }
 
     color: "#88000000"
 
@@ -24,6 +30,8 @@ Rectangle {
 
 
     property bool type_preview: tweaks.isHoverPreviewEnabled
+
+    property string loadThisDirAfterOpen: ""
 
     property string currentlyLoadedDir: ""
 
@@ -196,7 +204,7 @@ Rectangle {
                 tweaks.displayList()
             else if(settings.openDefaultView === "icons")
                 tweaks.displayIcons()
-            if(thumbnailBar.currentFile !== "") {
+            if(thumbnailBar.currentFile !== "" && loadThisDirAfterOpen != "") {
                 edit_rect.setEditText(getanddostuff.removePathFromFilename(thumbnailBar.currentFile))
                 var path = getanddostuff.removeFilenameFromPath(thumbnailBar.currentFile)
                 if(path !== currentlyLoadedDir)
