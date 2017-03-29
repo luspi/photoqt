@@ -1,4 +1,4 @@
-import QtQuick 2.3
+import QtQuick 2.4
 import "mouseshortcuts.js" as Mouse
 import "keyshortcuts.js" as Key
 import "touchshortcuts.js" as Touch

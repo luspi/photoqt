@@ -9,7 +9,7 @@ PhotoQt is a fast and highly configurable image viewer with a simple and nice in
 
 ## DEPENDENCIES
 
-- Qt >= 5.3
+- Qt >= 5.4
 - CMake (needed for building PhotoQt)
 
 Make sure that you have the required Qt modules installed:  

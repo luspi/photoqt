@@ -1,4 +1,4 @@
-import QtQuick 2.3
+import QtQuick 2.4
 import Settings 1.0
 import FileFormats 1.0
 import GetAndDoStuff 1.0
