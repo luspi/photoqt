@@ -5,6 +5,7 @@ import QtQuick.Controls.Styles 1.3
 SpinBox {
 
     font.pixelSize: height/2
+    menu: null
 
     style: SpinBoxStyle{
         background: Rectangle {
