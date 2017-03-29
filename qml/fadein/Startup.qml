@@ -15,12 +15,15 @@ Rectangle {
     // Invisible at startup
     opacity: 0
     visible: opacity!=0
+
     Behavior on opacity { NumberAnimation { duration: settings.myWidgetAnimated ? 250 : 0 } }
-    onVisibleChanged: {
-        if(!visible && openFileAfter == "")
+    property real lastOpacityValue: 0
+    onOpacityChanged: {
+        if(openFileAfter == "" && opacity > 0.1 && opacity < lastOpacityValue)
             openFile()
         else if(!visible)
             reloadDirectory(openFileAfter,"")
+        lastOpacityValue = opacity
     }
 
     property string type: ""

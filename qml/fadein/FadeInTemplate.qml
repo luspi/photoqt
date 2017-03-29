@@ -13,9 +13,11 @@ Rectangle {
     opacity: 0
     Behavior on opacity { NumberAnimation { duration: settings.myWidgetAnimated ? 250 : 0; } }
     visible: opacity!=0
-    onVisibleChanged: {
-        if(!visible && thumbnailBar.currentFile == "")
+    property real lastOpacityValue: 0
+    onOpacityChanged: {
+        if(thumbnailBar.currentFile == "" && opacity > 0.1 && opacity < lastOpacityValue)
             openFile()
+        lastOpacityValue = opacity
     }
 
     property int marginLeftRight: 50

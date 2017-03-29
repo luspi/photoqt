@@ -10,7 +10,7 @@ Rectangle {
 
     id: openfile_top
 
-    visible: false
+    visible: opacity!=0
     opacity: 0
     onOpacityChanged: {
         if(opacity > 0 && loadThisDirAfterOpen != "") {
@@ -184,7 +184,6 @@ Rectangle {
         onStarted:
             unblurAllBackgroundElements()
         onStopped: {
-            visible = false
             blocked = false
             edit_rect.enabled = false
         }
@@ -197,7 +196,6 @@ Rectangle {
         to: 1
         duration: settings.myWidgetAnimated ? 250 : 0
         onStarted: {
-            visible = true
             blocked = true
             blurAllBackgroundElements()
             if(settings.openDefaultView === "list")
