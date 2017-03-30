@@ -57,7 +57,7 @@ Rectangle {
                 horizontalAlignment: Text.AlignHCenter
                 width: feedback_top.width
                 wrapMode: Text.WordWrap
-                text: "Uploading image to imgur.com" + (anonymous ? " anonymously" : " account '" + accountname + "'")
+                text: (anonymous ? qsTr("Uploading image to imgur.com anonymously") : qsTr("Uploading image to imgur.com account") + " '" + accountname + "'")
                 color: "white"
                 font.pointSize: 40
                 font.bold: true
@@ -87,7 +87,7 @@ Rectangle {
 
             CustomButton {
                 x: (parent.width-width)/2
-                text: "Cancel upload"
+                text: qsTr("Cancel upload")
                 fontsize: 30
                 onClickedButton:
                     hide()
@@ -126,7 +126,7 @@ Rectangle {
                     id: obtaintext1
                     width: feedback_top.width-200
                     horizontalAlignment: Text.AlignHCenter
-                    text: "Obtaining image url"
+                    text: qsTr("Obtaining image url")
                     color: "white"
                     font.pointSize: 40
                     font.bold: true
@@ -160,7 +160,7 @@ Rectangle {
                     id: obtaintext2
                     width: feedback_top.width-200
                     horizontalAlignment: Text.AlignHCenter
-                    text: "Please wait!"
+                    text: qsTr("Please wait!")
                     color: "white"
                     font.pointSize: 40
                     font.bold: true
@@ -174,7 +174,7 @@ Rectangle {
 
                 CustomButton {
                     x: (parent.width-width)/2
-                    text: "I don't want to know it!"
+                    text: qsTr("I don't want to know it!")
                     fontsize: 25
                     onClickedButton:
                         hide()
@@ -217,14 +217,14 @@ Rectangle {
                     font.pointSize: 40
                     font.bold: true
                     wrapMode: Text.WordWrap
-                    text: "An Error occured while uploading image!" + "\n" + "Error code: " + error.code
+                    text: qsTr("An Error occured while uploading image!") + "\n" + qsTr("Error code") + ": " + error.code
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                 }
 
                 CustomButton {
                     x: (feedback_top.width-width)/2
-                    text: "Oh, man... Well, go back!"
+                    text: qsTr("Oh, man... Well, go back!")
                     fontsize: 30
                     onClickedButton:
                         hide()

@@ -42,7 +42,7 @@ EntryContainer {
                     spacing: 10
 
                     SettingsText {
-                        text: qsTr("Authenticated with account:")
+                        text: qsTr("Authenticated with account") + ":"
                         font.pointSize: 13
                     }
                     SettingsText {
@@ -60,7 +60,7 @@ EntryContainer {
                     SettingsText {
                         id: authenticationDateTime
                         property string datetime: "1991-07-23, 13:31"
-                        text: "(" + qsTr("authenticated on:") + " " + datetime + ")"
+                        text: "(" + qsTr("authenticated on") + ": " + datetime + ")"
                         visible: authenticatedwith.text!=""
                         font.pointSize: 11
                     }
@@ -133,35 +133,35 @@ EntryContainer {
                             id: inetconnected
                             color: colour.text_warning
                             y: (parent.height-height)/2
-                            text: "Not connected to internet"
+                            text: qsTr("Not connected to internet")
                         }
                         Text {
                             color: enabled ? colour.text : colour.text_disabled
                             y: (parent.height-height)/2
-                            text: "Go to this URL:"
+                            text: qsTr("Go to this URL") + ":"
                         }
                         CustomLineEdit {
                             id: lineeditAuthorizeUrl
                             width: 500
                             readOnly: true
                             text: ""
-                            emptyMessage: "loading..."
+                            emptyMessage: qsTr("loading...")
                         }
                         CustomButton {
-                            text: "open link"
+                            text: qsTr("open link")
                             onClickedButton: getanddostuff.openLink(shareonline_imgur.authorizeUrlForPin())
                         }
                         Text {
                             color: enabled ? colour.text : colour.text_disabled
                             y: (parent.height-height)/2
-                            text: "Paste PIN here:"
+                            text: qsTr("Paste PIN here") + ":"
                         }
                         CustomLineEdit {
                             id: authpin
                             width: 100
                         }
                         CustomButton {
-                            text: "Connect"
+                            text: qsTr("Connect")
                             onClickedButton: authenticate()
                         }
                         Rectangle {
@@ -169,7 +169,7 @@ EntryContainer {
                             width: 1
                         }
                         CustomButton {
-                            text: "Cancel"
+                            text: qsTr("Cancel")
                             onClickedButton:
                                 authbox.hide()
                         }
