@@ -78,5 +78,8 @@ Rectangle {
     function zoomSmaller() {
         zoom.zoomSmaller()
     }
+    function toggleHiddenFolders() {
+        hiddenfolders.toggleHiddenFolders()
+    }
 
 }

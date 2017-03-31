@@ -48,6 +48,9 @@ Rectangle {
     signal ctrlPlus()
     signal ctrlMinus()
 
+    signal ctrlH()
+    signal altPeriod()
+
     TextInput {
 
         id: ed1
@@ -156,6 +159,16 @@ Rectangle {
             } else if(event.key === Qt.Key_Minus) {
                 if(event.modifiers & Qt.ControlModifier) {
                     ele_top.ctrlMinus()
+                    event.accepted = true
+                }
+            } else if(event.key === Qt.Key_H) {
+                if(event.modifiers & Qt.ControlModifier) {
+                    ele_top.ctrlH()
+                    event.accepted = true
+                }
+            } else if(event.key === Qt.Key_Period) {
+                if(event.modifiers & Qt.AltModifier) {
+                    ele_top.altPeriod()
                     event.accepted = true
                 }
             }

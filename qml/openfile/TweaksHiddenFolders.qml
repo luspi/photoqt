@@ -25,5 +25,9 @@ Rectangle {
     function getHiddenFolders() {
         return hiddencheck.checkedButton
     }
+    function toggleHiddenFolders() {
+        var check = hiddencheck.checkedButton
+        hiddencheck.checkedButton = !check
+    }
 
 }

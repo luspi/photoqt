@@ -56,6 +56,9 @@ Rectangle {
         onCtrlPlus: tweaks.zoomLarger()
         onCtrlMinus: tweaks.zoomSmaller()
 
+        onAltPeriod: tweaks.toggleHiddenFolders()
+        onCtrlH: tweaks.toggleHiddenFolders()
+
     }
 
     function setEditText(txt) {

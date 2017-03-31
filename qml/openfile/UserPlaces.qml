@@ -225,6 +225,12 @@ Rectangle {
         } else if(event.key === Qt.Key_Minus) {
             if(event.modifiers & Qt.ControlModifier)
                 tweaks.zoomSmaller()
+        } else if(event.key === Qt.Key_Period) {
+            if(event.modifiers & Qt.AltModifier)
+                tweaks.toggleHiddenFolders()
+        } else if(event.key === Qt.Key_H) {
+            if(event.modifiers & Qt.ControlModifier)
+                tweaks.toggleHiddenFolders()
         }
 
     }

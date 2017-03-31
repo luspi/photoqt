@@ -252,6 +252,8 @@ Rectangle {
         //: This is used in the context of the 'Open File' element
         openshortcuts.shortcuts[str_keys.get("ctrl") + " + +/-"] = qsTr("Zoom files in/out")
         //: This is used in the context of the 'Open File' element
+        openshortcuts.shortcuts[str_keys.get("ctrl") + " + H " + qsTr("or") + " " + str_keys.get("alt") + " + ."] = qsTr("Show/Hide hidden files/folders")
+        //: This is used in the context of the 'Open File' element
         openshortcuts.shortcuts[str_keys.get("escape")] = qsTr("Cancel")
 
         userplaces.loadUserPlaces()
