@@ -146,6 +146,12 @@ Rectangle {
         } else if(event.key === Qt.Key_B) {
             if(event.modifiers & Qt.ControlModifier)
                 breadcrumbs.goBackInHistory()
+        } else if(event.key === Qt.Key_Plus || event.key === Qt.Key_Equal) {
+            if(event.modifiers & Qt.ControlModifier)
+                tweaks.zoomLarger()
+        } else if(event.key === Qt.Key_Minus) {
+            if(event.modifiers & Qt.ControlModifier)
+                tweaks.zoomSmaller()
         }
 
     }

@@ -45,6 +45,9 @@ Rectangle {
     signal historyBack()
     signal historyForwards()
 
+    signal ctrlPlus()
+    signal ctrlMinus()
+
     TextInput {
 
         id: ed1
@@ -145,6 +148,16 @@ Rectangle {
             } else if(event.key === Qt.Key_B) {
                 if(event.modifiers & Qt.ControlModifier)
                     ele_top.historyBack()
+            } else if(event.key === Qt.Key_Plus || event.key === Qt.Key_Equal) {
+                if(event.modifiers & Qt.ControlModifier) {
+                    ele_top.ctrlPlus()
+                    event.accepted = true
+                }
+            } else if(event.key === Qt.Key_Minus) {
+                if(event.modifiers & Qt.ControlModifier) {
+                    ele_top.ctrlMinus()
+                    event.accepted = true
+                }
             }
 
         }

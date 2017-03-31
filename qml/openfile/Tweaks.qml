@@ -72,4 +72,11 @@ Rectangle {
         return hiddenfolders.getHiddenFolders()
     }
 
+    function zoomLarger() {
+        zoom.zoomLarger()
+    }
+    function zoomSmaller() {
+        zoom.zoomSmaller()
+    }
+
 }

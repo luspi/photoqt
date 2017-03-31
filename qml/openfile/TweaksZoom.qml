@@ -45,6 +45,7 @@ Rectangle {
         scrollStep: 1
         tooltip: qsTr("Move slider to adjust the size of the files")
         value: settings.openZoomLevel
+        Behavior on value { NumberAnimation { duration: 200 } }
         onValueChanged: {
             saveZoomLevel.start()
             updateZoom(value)
@@ -53,6 +54,12 @@ Rectangle {
 
     function getZoomLevel() {
         return zoom_slider.value
+    }
+    function zoomLarger() {
+        zoom_slider.value = (zoom_slider.value+3 <= zoom_slider.maximumValue ? zoom_slider.value+3 : zoom_slider.maximumValue)
+    }
+    function zoomSmaller() {
+        zoom_slider.value = (zoom_slider.value-3 >= zoom_slider.minimumValue ? zoom_slider.value-3 : zoom_slider.minimumValue)
     }
 
 }

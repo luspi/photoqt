@@ -53,6 +53,9 @@ Rectangle {
         onHistoryBack: goBackHistory()
         onHistoryForwards: goForwardsHistory()
 
+        onCtrlPlus: tweaks.zoomLarger()
+        onCtrlMinus: tweaks.zoomSmaller()
+
     }
 
     function setEditText(txt) {
