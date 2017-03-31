@@ -127,6 +127,7 @@ public:
     Q_INVOKABLE QString getKeyShortcutFile() { return shortcuts->getKeyShortcutFile(); }
     Q_INVOKABLE QString filterOutShortcutCommand(QString combo, QString file) { return shortcuts->filterOutShortcutCommand(combo, file); }
     Q_INVOKABLE bool isTouchScreenAvailable() { return shortcuts->isTouchScreenAvailable(); };
+    Q_INVOKABLE QString convertQKeyToQString(int keycode) { return shortcuts->convertQKeyToQString(keycode); }
 
     // WALLPAPER
     Q_INVOKABLE QString detectWindowManager() { return wallpaper->detectWindowManager(); }

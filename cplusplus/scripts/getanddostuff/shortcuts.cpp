@@ -317,3 +317,9 @@ bool GetAndDoStuffShortcuts::isTouchScreenAvailable() {
     return (counter > 0);
 
 }
+
+QString GetAndDoStuffShortcuts::convertQKeyToQString(int keycode) {
+
+    return QKeySequence(keycode).toString();
+
+}

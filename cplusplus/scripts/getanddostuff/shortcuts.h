@@ -30,6 +30,7 @@
 #include "../../logger.h"
 #include <QtDebug>
 #include <QTouchDevice>
+#include <QKeySequence>
 
 class GetAndDoStuffShortcuts : public QObject {
 
@@ -50,6 +51,7 @@ public:
     QString getKeyShortcutFile();
     QString filterOutShortcutCommand(QString combo, QString file);
     bool isTouchScreenAvailable();
+    QString convertQKeyToQString(int keycode);
 
 private:
     QFileSystemWatcher *watcher;
