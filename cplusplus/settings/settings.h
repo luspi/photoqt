@@ -190,6 +190,7 @@ public:
         connect(this, SIGNAL(openUserPlacesUserChanged(bool)), saveSettingsTimer, SLOT(start()));
         connect(this, SIGNAL(openUserPlacesVolumesChanged(bool)), saveSettingsTimer, SLOT(start()));
         connect(this, SIGNAL(openKeepLastLocationChanged(bool)), saveSettingsTimer, SLOT(start()));
+        connect(this, SIGNAL(openShowHiddenFilesFoldersChanged(bool)), saveSettingsTimer, SLOT(start()));
 
         connect(this, SIGNAL(exifMetadaWindowWidthChanged(int)), saveSettingsTimer, SLOT(start()));
         connect(this, SIGNAL(mainMenuWindowWidthChanged(int)), saveSettingsTimer, SLOT(start()));
@@ -376,6 +377,7 @@ public:
     bool openUserPlacesUser;
     bool openUserPlacesVolumes;
     bool openKeepLastLocation;
+    bool openShowHiddenFilesFolders;
 
     // Settings not adjustable in settings but other places
     int exifMetadaWindowWidth;	// changed by dragging right rectangle edge
@@ -508,6 +510,7 @@ public:
     Q_PROPERTY(bool openUserPlacesUser MEMBER openUserPlacesUser NOTIFY openUserPlacesUserChanged)
     Q_PROPERTY(bool openUserPlacesVolumes MEMBER openUserPlacesVolumes NOTIFY openUserPlacesVolumesChanged)
     Q_PROPERTY(bool openKeepLastLocation MEMBER openKeepLastLocation NOTIFY openKeepLastLocationChanged)
+    Q_PROPERTY(bool openShowHiddenFilesFolders MEMBER openShowHiddenFilesFolders NOTIFY openShowHiddenFilesFoldersChanged)
 
     Q_PROPERTY(int exifMetadaWindowWidth MEMBER exifMetadaWindowWidth NOTIFY exifMetadaWindowWidthChanged)
     Q_PROPERTY(int mainMenuWindowWidth MEMBER mainMenuWindowWidth NOTIFY mainMenuWindowWidthChanged)
@@ -653,6 +656,7 @@ public:
         openUserPlacesUser = true;
         openUserPlacesVolumes = true;
         openKeepLastLocation = false;
+        openShowHiddenFilesFolders = false;
 
         exifMetadaWindowWidth = 350;
         mainMenuWindowWidth = 350;
@@ -826,6 +830,7 @@ public slots:
             cont += QString("OpenUserPlacesUser=%1\n").arg(int(openUserPlacesUser));
             cont += QString("OpenUserPlacesVolumes=%1\n").arg(int(openUserPlacesVolumes));
             cont += QString("OpenKeepLastLocation=%1\n").arg(int(openKeepLastLocation));
+            cont += QString("OpenShowHiddenFilesFolders=%1\n").arg(int(openShowHiddenFilesFolders));
 
             cont += "\n[Histogram]\n";
 
@@ -1307,6 +1312,11 @@ public slots:
             else if(all.contains("OpenKeepLastLocation=0"))
                 openKeepLastLocation = false;
 
+            if(all.contains("OpenShowHiddenFilesFolders=1"))
+                openShowHiddenFilesFolders = true;
+            else if(all.contains("OpenShowHiddenFilesFolders=0"))
+                openShowHiddenFilesFolders = false;
+
 
             if(all.contains("ExifMetadaWindowWidth="))
                 exifMetadaWindowWidth = all.split("ExifMetadaWindowWidth=").at(1).split("\n").at(0).toInt();
@@ -1461,6 +1471,7 @@ signals:
     void openUserPlacesUserChanged(bool val);
     void openUserPlacesVolumesChanged(bool val);
     void openKeepLastLocationChanged(bool val);
+    void openShowHiddenFilesFoldersChanged(bool val);
 
     void exifMetadaWindowWidthChanged(int val);
     void mainMenuWindowWidthChanged(int val);

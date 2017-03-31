@@ -15,8 +15,11 @@ Rectangle {
         id: hiddencheck
         fsize: 9
         text: qsTr("Show hidden files/folders")
-        onCheckedButtonChanged:
+        checkedButton: settings.openShowHiddenFilesFolders
+        onCheckedButtonChanged: {
             updateHidden()
+            settings.openShowHiddenFilesFolders = checkedButton
+        }
     }
 
     function getHiddenFolders() {
