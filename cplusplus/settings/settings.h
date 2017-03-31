@@ -534,7 +534,7 @@ public:
         sortby = "name";
         sortbyAscending = true;
 
-        windowmode = false;
+        windowmode = true;
         windowDecoration = false;
 
         myWidgetAnimated = true;
