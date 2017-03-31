@@ -115,7 +115,7 @@ Rectangle {
 
         verboseMessage("FilesView::loadDirectory()",path)
 
-        files = getanddostuff.getFilesWithSizeIn(path, tweaks.getFileTypeSelection())
+        files = getanddostuff.getFilesWithSizeIn(path, tweaks.getFileTypeSelection(), tweaks.getHiddenFolders())
         dir_path = getanddostuff.removePrefixFromDirectoryOrFile(path)
 
         listview.loadFiles(files)

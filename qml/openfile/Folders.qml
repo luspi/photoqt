@@ -157,7 +157,7 @@ Rectangle {
         verboseMessage("Folders::loadDirectory()", path)
 
         folderlistmodel.clear()
-        folders = getanddostuff.getFoldersIn(path)
+        folders = getanddostuff.getFoldersIn(path, true, tweaks.getHiddenFolders())
         dir_path = getanddostuff.removePrefixFromDirectoryOrFile(path)
 
         for(var j = 0; j < folders.length; ++j)

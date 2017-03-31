@@ -10,6 +10,7 @@ Rectangle {
 
     signal displayIcons();
     signal displayList();
+    signal updateShowHidden()
 
     property int zoomlevel: zoom.getZoomLevel()
     property bool isHoverPreviewEnabled: preview.isHoverEnabled
@@ -19,6 +20,13 @@ Rectangle {
         anchors.left: parent.left
         anchors.leftMargin: 10
         onUpdateZoom: zoomlevel = level
+    }
+
+    TweaksHiddenFolders {
+        id: hiddenfolders
+        anchors.right: select.left
+        anchors.rightMargin: 20
+        onUpdateHidden: updateShowHidden()
     }
 
     TweaksFileTypeSelection {
@@ -58,6 +66,10 @@ Rectangle {
 
     function getFileTypeSelection() {
         return select.getFileTypeSelection()
+    }
+
+    function getHiddenFolders() {
+        return hiddenfolders.getHiddenFolders()
     }
 
 }

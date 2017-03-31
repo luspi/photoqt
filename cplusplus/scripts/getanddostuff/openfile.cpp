@@ -125,16 +125,16 @@ QVariantList GetAndDoStuffOpenFile::getFilesAndFoldersIn(QString path) {
 
 }
 
-QVariantList GetAndDoStuffOpenFile::getFoldersIn(QString path, bool getDotDot) {
+QVariantList GetAndDoStuffOpenFile::getFoldersIn(QString path, bool getDotDot, bool showHidden) {
 
     if(path.startsWith("file:/"))
         path = path.remove(0,6);
 
     QDir dir(path);
-    if(getDotDot)
-        dir.setFilter(QDir::AllDirs|QDir::NoDot);
+    if(showHidden)
+        dir.setFilter(QDir::AllDirs|(getDotDot ? QDir::NoDot : QDir::NoDotAndDotDot)|QDir::Hidden);
     else
-        dir.setFilter(QDir::AllDirs|QDir::NoDotAndDotDot);
+        dir.setFilter(QDir::AllDirs|(getDotDot ? QDir::NoDot : QDir::NoDotAndDotDot));
     dir.setSorting(QDir::IgnoreCase);
 
     QStringList list = dir.entryList();
@@ -165,7 +165,7 @@ QVariantList GetAndDoStuffOpenFile::getFilesIn(QString path) {
 
 }
 
-QVariantList GetAndDoStuffOpenFile::getFilesWithSizeIn(QString path, int selectionFileTypes) {
+QVariantList GetAndDoStuffOpenFile::getFilesWithSizeIn(QString path, int selectionFileTypes, bool showHidden) {
 
     if(path.startsWith("file:/"))
         path = path.remove(0,6);
@@ -182,7 +182,10 @@ QVariantList GetAndDoStuffOpenFile::getFilesWithSizeIn(QString path, int selecti
     else if(selectionFileTypes == 4)
         dir.setNameFilters(QStringList() << "*.*");
 
-    dir.setFilter(QDir::Files);
+    if(showHidden)
+        dir.setFilter(QDir::Files|QDir::Hidden);
+    else
+        dir.setFilter(QDir::Files);
     dir.setSorting(QDir::IgnoreCase);
 
     QFileInfoList list = dir.entryInfoList();

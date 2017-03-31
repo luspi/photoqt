@@ -173,6 +173,8 @@ Rectangle {
             filesview.displayIcons()
         onDisplayList:
             filesview.displayList()
+        onUpdateShowHidden:
+            openfile_top.loadCurrentDirectory(openfile_top.currentlyLoadedDir)
     }
 
     PropertyAnimation {

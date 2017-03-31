@@ -198,7 +198,7 @@ Rectangle {
                         contextmenu.clear()
                         var head = contextmenu.addItem("Go directly to subfolder of '" + getanddostuff.getDirectoryDirName(partialpath) + "'")
                         head.enabled = false
-                        var folders = getanddostuff.getFoldersIn(partialpath, false)
+                        var folders = getanddostuff.getFoldersIn(partialpath, false, tweaks.getHiddenFolders())
                         for(var i = 0; i < folders.length; ++i) {
                             var item = contextmenu.addItem(folders[i])
                             item.triggered.connect(loadDir)

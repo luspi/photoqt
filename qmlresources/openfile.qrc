@@ -14,5 +14,6 @@
         <file>../qml/openfile/FilesViewGrid.qml</file>
         <file>../qml/openfile/FilesViewList.qml</file>
         <file>../qml/openfile/TweaksFileTypeSelection.qml</file>
+        <file>../qml/openfile/TweaksHiddenFolders.qml</file>
     </qresource>
 </RCC>
