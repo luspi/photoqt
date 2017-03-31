@@ -190,47 +190,69 @@ Rectangle {
 
         if(event.key === Qt.Key_Left) {
 
-            if(event.modifiers & Qt.AltModifier)
+            if(event.modifiers & Qt.AltModifier) {
                 focusOnFilesView()
-            else if(event.modifiers & Qt.MetaModifier)
+                event.accepted = true
+            } else if(event.modifiers & Qt.MetaModifier) {
                 breadcrumbs.goBackInHistory()
+                event.accepted = true
+            }
 
         } else if(event.key === Qt.Key_Right) {
 
-            if(event.modifiers & Qt.AltModifier)
+            if(event.modifiers & Qt.AltModifier) {
                 focusOnFolders()
+                event.accepted = true
+            }
 
         } else if(event.key === Qt.Key_Up) {
             if(event.modifiers & Qt.AltModifier)
                 moveOneLevelUp()
             else
                 focusOnPrevItem()
-        } else if(event.key === Qt.Key_Down)
+            event.accepted = true
+        } else if(event.key === Qt.Key_Down) {
             focusOnNextItem()
-        else if(event.key === Qt.Key_Enter || event.key === Qt.Key_Return)
+            event.accepted = true
+        } else if(event.key === Qt.Key_Enter || event.key === Qt.Key_Return) {
             loadCurrentlyHighlightedFolder()
-        else if(event.key === Qt.Key_PageDown)
+            event.accepted = true
+        } else if(event.key === Qt.Key_PageDown) {
             moveFocusFiveDown()
-        else if(event.key === Qt.Key_PageUp)
+            event.accepted = true
+        } else if(event.key === Qt.Key_PageUp) {
             moveFocusFiveUp()
-        else if(event.key === Qt.Key_F) {
-            if(event.modifiers & Qt.ControlModifier)
+            event.accepted = true
+        } else if(event.key === Qt.Key_F) {
+            if(event.modifiers & Qt.ControlModifier) {
                 breadcrumbs.goForwardsInHistory()
+                event.accepted = true
+            }
         } else if(event.key === Qt.Key_B) {
-            if(event.modifiers & Qt.ControlModifier)
+            if(event.modifiers & Qt.ControlModifier) {
                 breadcrumbs.goBackInHistory()
+                event.accepted = true
+            }
         } else if(event.key === Qt.Key_Plus || event.key === Qt.Key_Equal ) {
-            if(event.modifiers & Qt.ControlModifier)
+            if(event.modifiers & Qt.ControlModifier) {
                 tweaks.zoomLarger()
+                event.accepted = true
+            }
         } else if(event.key === Qt.Key_Minus) {
-            if(event.modifiers & Qt.ControlModifier)
+            if(event.modifiers & Qt.ControlModifier) {
                 tweaks.zoomSmaller()
+                event.accepted = true
+            }
         } else if(event.key === Qt.Key_Period) {
-            if(event.modifiers & Qt.AltModifier)
+            if(event.modifiers & Qt.AltModifier) {
                 tweaks.toggleHiddenFolders()
+                event.accepted = true
+            }
         } else if(event.key === Qt.Key_H) {
-            if(event.modifiers & Qt.ControlModifier)
+            if(event.modifiers & Qt.ControlModifier) {
                 tweaks.toggleHiddenFolders()
+                event.accepted = true
+            }
         }
 
     }

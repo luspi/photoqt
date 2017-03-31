@@ -103,15 +103,17 @@ Rectangle {
 
         Keys.onPressed: {
 
-            if(event.key === Qt.Key_Enter || event.key === Qt.Key_Return)
+            if(event.key === Qt.Key_Enter || event.key === Qt.Key_Return) {
 
                 ele_top.accepted()
+                event.accepted = true
 
-            else if(event.key === Qt.Key_Escape)
+            } else if(event.key === Qt.Key_Escape) {
 
                 ele_top.rejected()
+                event.accepted = true
 
-            else if(event.key === Qt.Key_Up) {
+            } else if(event.key === Qt.Key_Up) {
 
                 if(event.modifiers & Qt.ControlModifier)
                     ele_top.gotoHome()
@@ -120,6 +122,8 @@ Rectangle {
                 else
                     ele_top.arrowUp()
 
+                event.accepted = true
+
             } else if(event.key === Qt.Key_Down) {
 
                 if(event.modifiers & Qt.ControlModifier)
@@ -127,30 +131,42 @@ Rectangle {
                 else
                     ele_top.arrowDown()
 
-            } else if(event.key === Qt.Key_PageUp)
+                event.accepted = true
+
+            } else if(event.key === Qt.Key_PageUp) {
 
                 ele_top.pageUp()
+                event.accepted = true
 
-            else if(event.key === Qt.Key_PageDown)
+            } else if(event.key === Qt.Key_PageDown) {
 
                 ele_top.pageDown()
+                event.accepted = true
 
-            else if(event.key === Qt.Key_Left) {
+            } else if(event.key === Qt.Key_Left) {
 
-                if(event.modifiers & Qt.AltModifier)
+                if(event.modifiers & Qt.AltModifier) {
                     ele_top.altLeft()
+                    event.accepted = true
+                }
 
             } else if(event.key === Qt.Key_Right) {
 
-                if(event.modifiers & Qt.AltModifier)
+                if(event.modifiers & Qt.AltModifier) {
                     ele_top.altRight()
+                    event.accepted = true
+                }
 
             } else if(event.key === Qt.Key_F) {
-                if(event.modifiers & Qt.ControlModifier)
+                if(event.modifiers & Qt.ControlModifier) {
                     ele_top.historyForwards()
+                    event.accepted = true
+                }
             } else if(event.key === Qt.Key_B) {
-                if(event.modifiers & Qt.ControlModifier)
+                if(event.modifiers & Qt.ControlModifier) {
                     ele_top.historyBack()
+                    event.accepted = true
+                }
             } else if(event.key === Qt.Key_Plus || event.key === Qt.Key_Equal) {
                 if(event.modifiers & Qt.ControlModifier) {
                     ele_top.ctrlPlus()
