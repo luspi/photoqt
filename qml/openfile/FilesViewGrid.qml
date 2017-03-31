@@ -20,6 +20,7 @@ GridView {
 
     cellWidth: tweaks.zoomlevel*5;
     cellHeight: cellWidth*(4/3);
+    Behavior on cellWidth { NumberAnimation { duration: 200 } }
     highlight: Rectangle { color: "#22ffffff"; radius: 5 }
     focus: true
 
