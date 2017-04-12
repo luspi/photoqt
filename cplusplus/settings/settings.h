@@ -75,130 +75,130 @@ public:
          * A PROPERTY CHANGE TRIGGERS THE TIME *
          ***************************************/
 
-        connect(this, SIGNAL(languageChanged(QString)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(myWidgetAnimatedChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(saveWindowGeometryChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(keepOnTopChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(compositeChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(openOnScreenChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(openOnScreenNameChanged(QString)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(startupLoadLastLoadedImageChanged(bool)), saveSettingsTimer, SLOT(start()));
+        connect(this, &Settings::languageChanged,                       &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::myWidgetAnimatedChanged,               &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::saveWindowGeometryChanged,             &Settings::saveSettingsTimerStart);;
+        connect(this, &Settings::keepOnTopChanged,                      &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::compositeChanged,                      &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::openOnScreenChanged,                   &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::openOnScreenNameChanged,               &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::startupLoadLastLoadedImageChanged,     &Settings::saveSettingsTimerStart);
 
-        connect(this, SIGNAL(bgColorRedChanged(int)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(bgColorGreenChanged(int)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(bgColorBlueChanged(int)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(bgColorAlphaChanged(int)), saveSettingsTimer, SLOT(start()));
+        connect(this, &Settings::bgColorRedChanged,                     &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::bgColorGreenChanged,                   &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::bgColorBlueChanged,                    &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::bgColorAlphaChanged,                   &Settings::saveSettingsTimerStart);
 
-        connect(this, SIGNAL(backgroundImageScreenshotChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(backgroundImageUseChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(backgroundImagePathChanged(QString)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(backgroundImageScaleChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(backgroundImageScaleCropChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(backgroundImageStretchChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(backgroundImageCenterChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(backgroundImageTileChanged(bool)), saveSettingsTimer, SLOT(start()));
+        connect(this, &Settings::backgroundImageScreenshotChanged,      &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::backgroundImageUseChanged,             &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::backgroundImagePathChanged,            &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::backgroundImageScaleChanged,           &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::backgroundImageScaleCropChanged,       &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::backgroundImageStretchChanged,         &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::backgroundImageCenterChanged,          &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::backgroundImageTileChanged,            &Settings::saveSettingsTimerStart);
 
-        connect(this, SIGNAL(trayiconChanged(int)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(transitionChanged(int)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(loopthroughfolderChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(menusensitivityChanged(int)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(closeongreyChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(borderAroundImgChanged(int)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(quickSettingsChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(sortbyChanged(QString)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(sortbyAscendingChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(mouseWheelSensitivityChanged(int)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(keepZoomRotationMirrorChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(fitInWindowChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(interpolationNearestNeighbourThresholdChanged(int)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(interpolationNearestNeighbourUpscaleChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(blurIntensityChanged(int)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(pixmapCacheChanged(int)), saveSettingsTimer, SLOT(start()));
+        connect(this, &Settings::trayiconChanged,                       &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::transitionChanged,                     &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::loopthroughfolderChanged,              &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::menusensitivityChanged,                &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::closeongreyChanged,                    &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::borderAroundImgChanged,                &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::quickSettingsChanged,                  &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::sortbyChanged,                         &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::sortbyAscendingChanged,                &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::mouseWheelSensitivityChanged,          &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::keepZoomRotationMirrorChanged,         &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::fitInWindowChanged,                            &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::interpolationNearestNeighbourThresholdChanged, &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::interpolationNearestNeighbourUpscaleChanged,   &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::blurIntensityChanged,                          &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::pixmapCacheChanged,                    &Settings::saveSettingsTimerStart);
 
-        connect(this, SIGNAL(leftButtonMouseClickAndMoveChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(singleFingerTouchPressAndMoveChanged(bool)), saveSettingsTimer, SLOT(start()));
+        connect(this, &Settings::leftButtonMouseClickAndMoveChanged,    &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::singleFingerTouchPressAndMoveChanged,  &Settings::saveSettingsTimerStart);
 
-        connect(this, SIGNAL(hidecounterChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(hidefilepathshowfilenameChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(hidefilenameChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(hidexChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(closeXsizeChanged(int)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(fancyXChanged(bool)), saveSettingsTimer, SLOT(start()));
+        connect(this, &Settings::hidecounterChanged,                    &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::hidefilepathshowfilenameChanged,       &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::hidefilenameChanged,                   &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::hidexChanged,                          &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::closeXsizeChanged,                     &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::fancyXChanged,                         &Settings::saveSettingsTimerStart);
 
-        connect(this, SIGNAL(slideShowTimeChanged(int)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(slideShowMusicFileChanged(QString)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(slideShowShuffleChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(slideShowLoopChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(slideShowTransitionChanged(int)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(slideShowHideQuickinfoChanged(bool)), saveSettingsTimer, SLOT(start()));
+        connect(this, &Settings::slideShowTimeChanged,                  &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::slideShowMusicFileChanged,             &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::slideShowShuffleChanged,               &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::slideShowLoopChanged,                  &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::slideShowTransitionChanged,            &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::slideShowHideQuickinfoChanged,         &Settings::saveSettingsTimerStart);
 
-        connect(this, SIGNAL(wallpaperAlignmentChanged(QString)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(wallpaperScaleChanged(QString)), saveSettingsTimer, SLOT(start()));
+        connect(this, &Settings::wallpaperAlignmentChanged,             &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::wallpaperScaleChanged,                 &Settings::saveSettingsTimerStart);
 
-        connect(this, SIGNAL(thumbnailsizeChanged(int)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(thumbnailcacheChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(thbcachefileChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(thumbnailSpacingBetweenChanged(int)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(thumbnailLiftUpChanged(int)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(thumbnailKeepVisibleChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(thumbnailFontSizeChanged(int)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(thumbnailCenterActiveChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(thumbnailpositionChanged(QString)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(thumbnailFilenameInsteadChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(thumbnailFilenameInsteadFontSizeChanged(int)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(thumbnailDisableChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(thumbnailWriteFilenameChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(thumbnailWriteResolutionChanged(bool)), saveSettingsTimer, SLOT(start()));
+        connect(this, &Settings::thumbnailsizeChanged,                  &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::thumbnailcacheChanged,                 &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::thbcachefileChanged,                   &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::thumbnailSpacingBetweenChanged,        &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::thumbnailLiftUpChanged,                &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::thumbnailKeepVisibleChanged,           &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::thumbnailFontSizeChanged,              &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::thumbnailCenterActiveChanged,          &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::thumbnailpositionChanged,              &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::thumbnailFilenameInsteadChanged,           &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::thumbnailFilenameInsteadFontSizeChanged,   &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::thumbnailDisableChanged,                   &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::thumbnailWriteFilenameChanged,         &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::thumbnailWriteResolutionChanged,       &Settings::saveSettingsTimerStart);
 
-        connect(this, SIGNAL(windowmodeChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(windowDecorationChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(knownFileTypesQtExtrasChanged(QString)), saveSettingsTimer, SLOT(start()));
+        connect(this, &Settings::windowmodeChanged,                     &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::windowDecorationChanged,               &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::knownFileTypesQtExtrasChanged,         &Settings::saveSettingsTimerStart);
 
-        connect(this, SIGNAL(exiffontsizeChanged(int)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(exifopacityChanged(int)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(exifenablemousetriggeringChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(exifrotationChanged(QString)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(exifgpsmapserviceChanged(QString)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(exiffilenameChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(exiffiletypeChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(exiffilesizeChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(exifimagenumberChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(exifdimensionsChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(exifmakeChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(exifmodelChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(exifsoftwareChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(exifphototakenChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(exifexposuretimeChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(exifflashChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(exifisoChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(exifscenetypeChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(exifflengthChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(exiffnumberChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(exiflightsourceChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(iptckeywordsChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(iptclocationChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(iptccopyrightChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(exifgpsChanged(bool)), saveSettingsTimer, SLOT(start()));
+        connect(this, &Settings::exiffontsizeChanged,                   &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::exifopacityChanged,                    &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::exifenablemousetriggeringChanged,      &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::exifrotationChanged,                   &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::exifgpsmapserviceChanged,              &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::exiffilenameChanged,                   &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::exiffiletypeChanged,                   &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::exiffilesizeChanged,                   &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::exifimagenumberChanged,                &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::exifdimensionsChanged,                 &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::exifmakeChanged,                       &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::exifmodelChanged,                      &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::exifsoftwareChanged,                   &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::exifphototakenChanged,                 &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::exifexposuretimeChanged,               &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::exifflashChanged,                      &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::exifisoChanged,                        &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::exifscenetypeChanged,                  &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::exifflengthChanged,                    &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::exiffnumberChanged,                    &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::exiflightsourceChanged,                &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::iptckeywordsChanged,                   &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::iptclocationChanged,                   &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::iptccopyrightChanged,                  &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::exifgpsChanged,                        &Settings::saveSettingsTimerStart);
 
-        connect(this, SIGNAL(openDefaultViewChanged(QString)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(openPreviewChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(openZoomLevelChanged(int)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(openUserPlacesWidthChanged(int)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(openFoldersWidthChanged(int)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(openThumbnailsChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(openUserPlacesStandardChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(openUserPlacesUserChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(openUserPlacesVolumesChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(openKeepLastLocationChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(openShowHiddenFilesFoldersChanged(bool)), saveSettingsTimer, SLOT(start()));
+        connect(this, &Settings::openDefaultViewChanged,                &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::openPreviewChanged,                    &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::openZoomLevelChanged,                  &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::openUserPlacesWidthChanged,            &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::openFoldersWidthChanged,               &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::openThumbnailsChanged,                 &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::openUserPlacesStandardChanged,         &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::openUserPlacesUserChanged,             &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::openUserPlacesVolumesChanged,          &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::openKeepLastLocationChanged,           &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::openShowHiddenFilesFoldersChanged,     &Settings::saveSettingsTimerStart);
 
-        connect(this, SIGNAL(exifMetadaWindowWidthChanged(int)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(mainMenuWindowWidthChanged(int)), saveSettingsTimer, SLOT(start()));
+        connect(this, &Settings::exifMetadaWindowWidthChanged,          &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::mainMenuWindowWidthChanged,            &Settings::saveSettingsTimerStart);
 
-        connect(this, SIGNAL(histogramPositionChanged(QPoint)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(histogramSizeChanged(QSize)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(histogramChanged(bool)), saveSettingsTimer, SLOT(start()));
-        connect(this, SIGNAL(histogramVersionChanged(QString)), saveSettingsTimer, SLOT(start()));
+        connect(this, &Settings::histogramPositionChanged,              &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::histogramSizeChanged,                  &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::histogramChanged,                      &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::histogramVersionChanged,               &Settings::saveSettingsTimerStart);
 
     }
 
@@ -1351,6 +1351,9 @@ public slots:
 private:
     QFileSystemWatcher *watcher;
     QTimer *saveSettingsTimer;
+
+private slots:
+    void saveSettingsTimerStart(QVariant) { saveSettingsTimer->start(); }
 
 
     /*#################################################################################################*/
