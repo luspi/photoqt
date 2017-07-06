@@ -88,7 +88,7 @@ EntryContainer {
                   ["ARRIFLEX","*.ari"],
                   ["Sony","*.arw","*.srf","*.sr2"],
                   ["Casio","*.bay"],
-                  ["Canon","*.crw","*.crr"],
+                  ["Canon","*.crw","*.crr","*.cr2"],
                   ["Phase_one","*.cap","*.liq","*.eip"],
                   ["Kodak","*.dcs","*.dcr","*.drf","*.k25","*.kdc"],
                   ["Adobe","*.dng"],

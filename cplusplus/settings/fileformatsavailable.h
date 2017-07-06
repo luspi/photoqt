@@ -310,7 +310,7 @@ namespace FileFormatsHandler {
                 << "*.ari"							// ARRIFLEX
                 << "*.arw" << "*.srf" << "*.sr2"	// Sony
                 << "*.bay"							// Casio
-                << "*.crw" << "*.crr"				// Canon
+                << "*.crw" << "*.crr" << "*.cr2"	// Canon
                 << "*.cap" << "*.liq" << "*.eip"	// Phase_one
                 << "*.dcs" << "*.dcr" << "*.drf"	// Kodak
                             << "*.k25" << "*.kdc"
