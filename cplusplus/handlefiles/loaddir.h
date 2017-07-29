@@ -38,6 +38,15 @@ public:
 
     QVector<QFileInfo> loadDir(QString filepath, QString filter);
 
+    static bool sort_name(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
+    static bool sort_name_desc(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
+    static bool sort_naturalname(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
+    static bool sort_naturalname_desc(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
+    static bool sort_date(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
+    static bool sort_date_desc(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
+    static bool sort_size(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
+    static bool sort_size_desc(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
+
 private:
 
     bool verbose;
@@ -48,15 +57,6 @@ private:
     QStringList imageFilter;
 
     QVector<QFileInfo> allImgsInfo;
-
-    static bool sort_name(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
-    static bool sort_name_desc(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
-    static bool sort_naturalname(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
-    static bool sort_naturalname_desc(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
-    static bool sort_date(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
-    static bool sort_date_desc(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
-    static bool sort_size(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
-    static bool sort_size_desc(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
 
 };
 
