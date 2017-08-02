@@ -1,4 +1,5 @@
 #include "openfile.h"
+#include "../../handlefiles/loaddir.h"
 
 GetAndDoStuffOpenFile::GetAndDoStuffOpenFile(QObject *parent) : QObject(parent) {
 
@@ -8,9 +9,12 @@ GetAndDoStuffOpenFile::GetAndDoStuffOpenFile(QObject *parent) : QObject(parent) 
     userPlacesFileDoesntExist = !QFile(QString(ConfigFiles::DATA_DIR()) + "/../user-places.xbel").exists();
     recheckFile();
     connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(updateUserPlaces()));
+
+    settings = new Settings;
 }
 GetAndDoStuffOpenFile::~GetAndDoStuffOpenFile() {
     delete watcher;
+    delete settings;
 }
 
 int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path, int selectionFileTypes) {
@@ -189,6 +193,23 @@ QVariantList GetAndDoStuffOpenFile::getFilesWithSizeIn(QString path, int selecti
     dir.setSorting(QDir::IgnoreCase);
 
     QFileInfoList list = dir.entryInfoList();
+
+    // Sort images...
+    bool asc = settings->sortbyAscending;
+    QString sortby = settings->sortby;
+    if(sortby == "name") {
+        std::sort(list.begin(),list.end(),(asc ? LoadDir::sort_name : LoadDir::sort_name_desc));
+    }
+    if(sortby == "naturalname") {
+        std::sort(list.begin(),list.end(),(asc ? LoadDir::sort_naturalname : LoadDir::sort_naturalname_desc));
+    }
+    if(sortby == "date") {
+        std::sort(list.begin(),list.end(),(asc ? LoadDir::sort_date : LoadDir::sort_date_desc));
+    }
+    if(sortby == "size") {
+        std::sort(list.begin(),list.end(),(asc ? LoadDir::sort_size : LoadDir::sort_size_desc));
+    }
+
     QVariantList ret;
     foreach(QFileInfo l, list) {
         int s = l.size();
