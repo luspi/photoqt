@@ -48,7 +48,7 @@ EntryContainer {
                 Text {
                     color: colour.text
                     font.pointSize: 10
-                    text: qsTr("Crazy Blur")
+                    text: qsTr("Extreme Blur")
                 }
 
             }
