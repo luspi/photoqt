@@ -45,8 +45,6 @@ OPTION(QTONLY "ONLY USE QT-ONLY FEATURES" OFF)
 ################################################
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3 -Wall")
-set(CMAKE_BUILD_TYPE "Debug")
-set(QT_QML_DEBUG "1")
 
 
 ################################
