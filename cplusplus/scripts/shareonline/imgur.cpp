@@ -40,7 +40,7 @@ QString ShareOnline::Imgur::authorizeUrlForPin() {
 
     if(imgurClientID == "" || imgurClientSecret == "") {
         int ret = obtainClientIdSecret();
-        if(ret != NOERROR)
+        if(ret != IMGUR_NOERROR)
             return "failed to obtain URL";
     }
 
@@ -54,7 +54,7 @@ int ShareOnline::Imgur::authorizeHandlePin(QByteArray pin) {
 
     if(imgurClientID == "" || imgurClientSecret == "") {
         int ret = obtainClientIdSecret();
-        if(ret != NOERROR)
+        if(ret != IMGUR_NOERROR)
             return ret;
     }
 
@@ -92,7 +92,7 @@ int ShareOnline::Imgur::authorizeHandlePin(QByteArray pin) {
             QString errorMsg = resp.split("<error>").at(1).split("</error>").at(0);
             std::cout << "Status: " << status.toStdString() << " -  Error: " << errorMsg.toStdString() << std::endl;
         }
-        return NETWORK_REPLY_ERROR;
+        return IMGUR_NETWORK_REPLY_ERROR;
     }
 
     // Read access_token
@@ -101,7 +101,7 @@ int ShareOnline::Imgur::authorizeHandlePin(QByteArray pin) {
     else {
         if(debug)
             std::cout << "ERROR! No access_token as part of response... Unable to proceed!" << std::endl;
-        return NETWORK_REPLY_ERROR;
+        return IMGUR_NETWORK_REPLY_ERROR;
     }
     // Read refresh_token
     if(resp.contains("<refresh_token>"))
@@ -112,7 +112,7 @@ int ShareOnline::Imgur::authorizeHandlePin(QByteArray pin) {
     else {
         if(debug)
             std::cout << "ERROR! No account_username as part of response... Unable to proceed!" << std::endl;
-        return NETWORK_REPLY_ERROR;
+        return IMGUR_NETWORK_REPLY_ERROR;
     }
 
     // Save data to file
@@ -131,7 +131,7 @@ int ShareOnline::Imgur::saveAccessRefreshTokenUserName(QString filename) {
     if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
         if(debug)
             std::cout << "ERROR: Unable to write access_token and refresh_token to file..." << std::endl;
-        return FILE_OPEN_ERROR;
+        return IMGUR_FILE_OPEN_ERROR;
     }
 
 
@@ -143,7 +143,7 @@ int ShareOnline::Imgur::saveAccessRefreshTokenUserName(QString filename) {
     file.close();
 
     // And successfully finished
-    return NOERROR;
+    return IMGUR_NOERROR;
 
 }
 
@@ -152,7 +152,7 @@ int ShareOnline::Imgur::obtainClientIdSecret() {
 
     // If we have done it already, no need to do it again
     if(imgurClientID != "" && imgurClientSecret != "")
-        return NOERROR;
+        return IMGUR_NOERROR;
 
     // Request text file from server
     QNetworkRequest req(QUrl("http://photoqt.org/oauth2/imgur.php"));
@@ -171,11 +171,11 @@ int ShareOnline::Imgur::obtainClientIdSecret() {
 
     // If response invalid
     if(dat.trimmed() == "")
-        return NOT_CONNECTED_TO_INET;
+        return IMGUR_NOT_CONNECTED_TO_INET;
     else if(!dat.contains("client_id=") || !dat.contains("client_secret=")) {
         if(debug)
             std::cout << "Network reply data: " << dat.toStdString() << std::endl;
-        return NETWORK_REPLY_ERROR;
+        return IMGUR_NETWORK_REPLY_ERROR;
     }
 
     // Split client id and secret out of reply data
@@ -183,7 +183,7 @@ int ShareOnline::Imgur::obtainClientIdSecret() {
     imgurClientSecret = dat.split("client_secret=").at(1).split("\n").at(0).trimmed();
 
     // success
-    return NOERROR;
+    return IMGUR_NOERROR;
 
 }
 
@@ -195,7 +195,7 @@ int ShareOnline::Imgur::forgetAccount() {
     if(file.exists() && !file.remove()) {
         if(debug)
             std::cout << "file.remove() error: " << file.errorString().trimmed().toStdString() << std::endl;
-        return FILE_REMOVE_ERROR;
+        return IMGUR_FILE_REMOVE_ERROR;
     }
 
     // Make sure the file is gone
@@ -210,7 +210,7 @@ int ShareOnline::Imgur::forgetAccount() {
     account_name = "";
 
     // Successfully forgot about account
-    return NOERROR;
+    return IMGUR_NOERROR;
 
 }
 
@@ -229,7 +229,7 @@ int ShareOnline::Imgur::authAccount() {
         if(!file.open(QIODevice::ReadOnly)) {
             if(debug)
                 std::cout << "ERROR: Unable to read saved access_token... Requesting new one!" << std::endl;
-            return FILE_OPEN_ERROR;
+            return IMGUR_FILE_OPEN_ERROR;
         }
 
         // Read contents of file
@@ -241,7 +241,7 @@ int ShareOnline::Imgur::authAccount() {
         if(!cont.contains("\n")) {
             if(debug)
                 std::cout << "ERROR: Can't read file with access_token, invalid file format... Maybe the cryptkey has changed?" << std::endl;
-            return DECRYPTION_ERROR;
+            return IMGUR_DECRYPTION_ERROR;
         }
 
         // Obtain user config
@@ -253,11 +253,11 @@ int ShareOnline::Imgur::authAccount() {
         file.close();
 
         // Yay!! Success!!
-        return NOERROR;
+        return IMGUR_NOERROR;
     }
 
     // No stored config data found
-    return FILENAME_ERROR;
+    return IMGUR_FILENAME_ERROR;
 
 }
 
@@ -266,7 +266,7 @@ int ShareOnline::Imgur::upload(QString filename) {
 
     if(imgurClientID == "" || imgurClientSecret == "") {
         int ret = obtainClientIdSecret();
-        if(ret != NOERROR) {
+        if(ret != IMGUR_NOERROR) {
             emit abortAllRequests();
             emit uploadError(QNetworkReply::UnknownServerError);
             return ret;
@@ -277,14 +277,14 @@ int ShareOnline::Imgur::upload(QString filename) {
     if(access_token == "") {
         if(debug)
             std::cout << "ERROR! Unable to upload image, no access_token set... Did you connect to an account?" << std::endl;
-        return ACCESS_TOKEN_ERROR;
+        return IMGUR_ACCESS_TOKEN_ERROR;
     }
 
     // Ensure that filename is not empty and that the file exists
     if(filename.trimmed() == "" || !QFileInfo(filename).exists()) {
         if(debug)
             std::cout << QString("ERROR! Filename '%1' for uploading to imgur.com is invalid").arg(filename).toStdString() << std::endl;
-        return FILENAME_ERROR;
+        return IMGUR_FILENAME_ERROR;
     }
 
     // Initiate file and open for reading
@@ -292,7 +292,7 @@ int ShareOnline::Imgur::upload(QString filename) {
     if(!file.open(QIODevice::ReadOnly)) {
         if(debug)
             std::cout << QString("ERROR! Can't open file '%1' for reading to upload to imgur.com").arg(filename).toStdString() << std::endl;
-        return FILE_OPEN_ERROR;
+        return IMGUR_FILE_OPEN_ERROR;
     }
 
     // Read binary data of file to bytearray
@@ -315,7 +315,7 @@ int ShareOnline::Imgur::upload(QString filename) {
     connect(this, &ShareOnline::Imgur::abortAllRequests, reply, &QNetworkReply::abort);
 
     // Phew, no error occured!
-    return NOERROR;
+    return IMGUR_NOERROR;
 
 }
 
@@ -323,7 +323,7 @@ int ShareOnline::Imgur::anonymousUpload(QString filename) {
 
     if(imgurClientID == "" || imgurClientSecret == "") {
         int ret = obtainClientIdSecret();
-        if(ret != NOERROR) {
+        if(ret != IMGUR_NOERROR) {
             emit uploadError(QNetworkReply::NetworkSessionFailedError);
             return ret;
         }
@@ -333,7 +333,7 @@ int ShareOnline::Imgur::anonymousUpload(QString filename) {
     if(filename.trimmed() == "" || !QFileInfo(filename).exists()) {
         if(debug)
             std::cout << QString("ERROR! Filename '%1' for uploading to imgur.com is invalid").arg(filename).toStdString() << std::endl;
-        return FILENAME_ERROR;
+        return IMGUR_FILENAME_ERROR;
     }
 
     // Initiate file and open for reading
@@ -341,7 +341,7 @@ int ShareOnline::Imgur::anonymousUpload(QString filename) {
     if(!file.open(QIODevice::ReadOnly)) {
         if(debug)
             std::cout << QString("ERROR! Can't open file '%1' for reading to upload to imgur.com").arg(filename).toStdString() << std::endl;
-        return FILE_OPEN_ERROR;
+        return IMGUR_FILE_OPEN_ERROR;
     }
 
     // Read binary data of file to bytearray
@@ -360,7 +360,7 @@ int ShareOnline::Imgur::anonymousUpload(QString filename) {
     connect(this, &ShareOnline::Imgur::abortAllRequests, reply, &QNetworkReply::abort);
 
     // Phew, no error occured!
-    return NOERROR;
+    return IMGUR_NOERROR;
 
 }
 
@@ -385,7 +385,7 @@ int ShareOnline::Imgur::deleteImage(QString hash) {
 
     // Success!
     if(ret.contains("\"success\":true"))
-        return NOERROR;
+        return IMGUR_NOERROR;
 
     // Error...
     if(ret.contains("\"success\":false")) {
@@ -394,13 +394,13 @@ int ShareOnline::Imgur::deleteImage(QString hash) {
                 QString err = ret.split("\"error\":\"").at(1).split("\"").at(0);
                 std::cout << "Deletion error: " << err.toStdString() << std::endl;
             }
-            return DELETION_ERROR;
+            return IMGUR_DELETION_ERROR;
         } else
-            return OTHER_ERROR;
+            return IMGUR_OTHER_ERROR;
     }
 
     // Not sure what happened
-    return OTHER_ERROR;
+    return IMGUR_OTHER_ERROR;
 
 }
 

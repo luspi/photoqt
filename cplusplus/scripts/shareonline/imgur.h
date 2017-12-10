@@ -43,18 +43,18 @@ class Imgur : public QObject {
 public:
 
     enum Code {
-           NOERROR = 0,
-           FILENAME_ERROR,
-           FILE_OPEN_ERROR,
-           FILE_REMOVE_ERROR,
-           DECRYPTION_ERROR,
-           NETWORK_TIMEOUT,
-           NETWORK_REPLY_ERROR,
-           ACCESS_TOKEN_ERROR,
-           CLIENT_ID_SECRET_ERROR,
-           DELETION_ERROR,
-           NOT_CONNECTED_TO_INET,
-           OTHER_ERROR};
+           IMGUR_NOERROR = 0,
+           IMGUR_FILENAME_ERROR,
+           IMGUR_FILE_OPEN_ERROR,
+           IMGUR_FILE_REMOVE_ERROR,
+           IMGUR_DECRYPTION_ERROR,
+           IMGUR_NETWORK_TIMEOUT,
+           IMGUR_NETWORK_REPLY_ERROR,
+           IMGUR_ACCESS_TOKEN_ERROR,
+           IMGUR_CLIENT_ID_SECRET_ERROR,
+           IMGUR_DELETION_ERROR,
+           IMGUR_NOT_CONNECTED_TO_INET,
+           IMGUR_OTHER_ERROR};
 
     explicit Imgur(QObject *parent = 0);
     ~Imgur();
