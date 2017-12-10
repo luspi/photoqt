@@ -17,8 +17,8 @@ import os
 import polib
 from optparse import OptionParser
 
-options_input = "photoqt.nsi"
-options_output = "photoqt_multilang.nsi"
+options_input = "photoqt-32bit.nsi"
+options_output = "photoqt_multilang-32bit.nsi"
 options_podir = "" + os.getcwd() + "/lang/" + ""
 options_lang = "English"
 
