@@ -196,6 +196,19 @@ Rectangle {
     // load a new image at a certain angle
     function loadImage(filename, angle) {
 
+        // check if image is animated
+        var animated = getanddostuff.isImageAnimated(filename)
+
+        console.log(filename.replace("image://full/","").replace("file:/",""), "->", angle, "/" << imgrect._rotation)
+
+        if(animated && filename.replace("image://full/","").replace("file:/","") === _activeImageSource.replace("image://full/","").replace("file:/","")) {
+            if(_activeImageItem == "one")
+                one.setRotation(angle)
+            else if(_activeImageItem == "two")
+                two.setRotation(angle)
+            return
+        }
+
         verboseMessage("SmartImage::loadImage()",filename + " - " + angle)
 
         getanddostuff.saveLastOpenedImage(filename)
@@ -223,41 +236,30 @@ Rectangle {
 
         filename += "::photoqtmod::" + mod
 
-        // check if image is animated
-        var animated = getanddostuff.isImageAnimated(filename)
-
         // if it is, make filename of current frame unique (forcec reload) and get metadata about animation ([framecount, interval])
-        var anidat = [1, 0];
-        if(animated) {
-            filename += "::photoqtani::0"
-            anidat = getanddostuff.getNumFramesAndDuration(filename)
-        }
+//        var anidat = [1, 0];
+//        if(animated) {
+//            filename += "::photoqtani::0"
+//            anidat = getanddostuff.getNumFramesAndDuration(filename)
+//        }
 
         // If 'one' is visible...
         if(_activeImageItem == "one") {
+//            two.setRotation(angle)
             // If it's the exact same file as 'two' showed before, simply make it visible again
             if(two.source == filename)
                 makeImageVisible("two")
             else {
-                // we set whether image is animated or not
-                if(animated)
-                    two.setAnimated(anidat[0], anidat[1])
-                else
-                    two.setAnimated(1,0)
                 // set filename
                 two.source = filename
             }
         // If 'two' is visible...
         } else if(_activeImageItem == "two") {
+//            one.setRotation(angle)
             // If it's the exact same file as 'one' showed before, simply make it visible again
             if(one.source == filename)
                 makeImageVisible("one")
             else {
-                // we set whether image is animated or not
-                if(animated)
-                    one.setAnimated(anidat[0], anidat[1])
-                else
-                    one.setAnimated(1,0)
                 // set filename
                 one.source = filename
             }
