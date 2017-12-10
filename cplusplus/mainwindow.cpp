@@ -37,6 +37,7 @@ MainWindow::MainWindow(bool verbose, QWindow *parent) : QQuickView(parent) {
     qmlRegisterType<Colour>("Colour", 1, 0, "Colour");
     qmlRegisterType<ImageWatch>("ImageWatch", 1, 0, "ImageWatch");
     qmlRegisterType<ShareOnline::Imgur>("Imgur", 1, 0, "Imgur");
+    qmlRegisterType<Clipboard>("Clipboard", 1, 0, "Clipboard");
 
     // Load QML
     this->setSource(QUrl("qrc:/qml/mainwindow.qml"));

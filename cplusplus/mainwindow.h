@@ -47,6 +47,7 @@
 #include "variables.h"
 #include "shortcuts/shortcutsnotifier.h"
 #include "tooltip/tooltip.h"
+#include "clipboard/clipboard.h"
 
 class MainWindow : public QQuickView {
 

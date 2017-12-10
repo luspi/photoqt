@@ -10,6 +10,7 @@ import Colour 1.0
 import QtGraphicalEffects 1.0
 import ImageWatch 1.0
 import Imgur 1.0
+import Clipboard 1.0
 
 import "mainview/"
 import "slidein/"
@@ -109,9 +110,8 @@ Item {
         onReloadDirectory:
             doReload(thumbnailBar.currentFile)
     }
-    Imgur {
-        id: shareonline_imgur;
-    }
+    Imgur { id: shareonline_imgur; }
+    Clipboard { id: clipboard; }
 
     Strings.Keys { id: str_keys }
     Strings.Mouse { id: str_mouse }
