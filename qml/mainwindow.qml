@@ -9,12 +9,7 @@ Window {
     id: mainwindow
 
     property int currentSample: 0
-    property var samples: ["file:///home/luspi/Multimedia/Bilder/2017/June/18.06.-24.06. - Hiking along Superior Hiking Trail, Lake Superior, MN/P1100953.JPG",
-                           "file:///home/luspi/Multimedia/Bilder/2017/June/18.06.-24.06. - Hiking along Superior Hiking Trail, Lake Superior, MN/P1100954.JPG",
-                           "file:///home/luspi/Multimedia/Bilder/2017/June/18.06.-24.06. - Hiking along Superior Hiking Trail, Lake Superior, MN/P1100955.JPG",
-                           "file:///home/luspi/Multimedia/Bilder/miscellaneous/Apple Computer Compatibility.jpg",
-                           "file:///home/luspi/Multimedia/Bilder/2017/June/18.06.-24.06. - Hiking along Superior Hiking Trail, Lake Superior, MN/P1100956.JPG",
-                           "file:///home/luspi/Multimedia/Bilder/miscellaneous/cant hear someone.jpg"]
+    property var samples: ["file:///home..."]
 
     visible: true
 
