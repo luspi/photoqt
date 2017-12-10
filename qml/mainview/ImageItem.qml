@@ -15,6 +15,8 @@ Rectangle {
     property string source: ""
     onSourceChanged: handleNewSource()
 
+    property bool animated: false
+
     // Simulate the image status property
     property int status: Image.Null
     onStatusChanged: {
@@ -24,13 +26,8 @@ Rectangle {
         if(status == Image.Ready) {
             makeImageVisible(name)
             // if it's an animation, start the animation timer
-            if(_numFrames > 1 && !ani_timer.running)
-                ani_timer.start()
-            // if it's not an animation, make sure the animation timer is stopped, but the masking timer is started
-            else if(_numFrames == 1) {
-                ani_timer.stop()
+            if(!animated)
                 img_mask.showMaskImage()
-            }
             loading_rect.hideLoader()
             lastModified = getanddostuff.getLastModified(source)
         } else
@@ -41,33 +38,24 @@ Rectangle {
     // the time the current image was last modified
     property string lastModified: ""
 
-    // if an animation is set, then these store the animation properties
-    property int _numFrames: 1
-    property int _interval: 0
-
     // The opacity property
     opacity: 0
     Behavior on opacity { NumberAnimation { duration: _fadeDurationNextImage; } }
     onOpacityChanged: {
         if(opacity == 1) {
             _fadeDurationNextImage = fadeduration
-            if(_numFrames > 1 && !ani_timer.running)
-                ani_timer.start()
-            else if(_numFrames == 1) {
-                ani_timer.stop()
+            if(!animated)
                 img_mask.showMaskImage()
-            }
         } else if(opacity == 0) {
-            ani_timer.stop()
             img_mask.hideMaskImage()
         }
     }
 
     // This is the main image, used most of the time!
     Image {
-        id: main_img
+        id: normalimg
         anchors.fill: parent
-        cache: false
+        cache: true
         mipmap: true
         source: "image://empty/" + rect_top.width + "x" + rect_top.height
         fillMode: Image.PreserveAspectFit
@@ -77,19 +65,19 @@ Rectangle {
         onStatusChanged: {
             rect.status = status
             if(status == Image.Ready) {
-                main_img.visible = true
-                submain_img.visible = false
+                normalimg.visible = true
+                animimg.visible = false
             }
         }
     }
 
     // only used when animation present. With each frame, PhotoQt swaps image item back and forth to ensure no flickering
-    Image {
-        id: submain_img
+    AnimatedImage {
+        id: animimg
         anchors.fill: parent
-        cache: false
+        cache: true
         mipmap: true
-        source: "image://empty/" + rect_top.width + "x" + rect_top.height
+        source: "qrc://img/empty.png"
         fillMode: Image.PreserveAspectFit
         asynchronous: true
         mirror: false
@@ -97,53 +85,20 @@ Rectangle {
         onStatusChanged: {
             rect.status = status
             if(status == Image.Ready) {
-                main_img.visible = false
-                submain_img.visible = true
+                normalimg.visible = false
+                animimg.visible = true
             }
         }
     }
 
-    // Animation: After pre-set timeout...
-    Timer {
-        id: ani_timer
-        interval: parent._interval
-        repeat: true
-        running: false
-        onTriggered: nextFrame()
-    }
-
-    // Load next frame
-    function nextFrame() {
-        var s = (main_img.visible ? main_img.source : submain_img.source)+""
-        var p = s.split("::photoqtani::")
-        var next = p[1]*1+1
-        if(next >= _numFrames) next = 0;
-        var recheck = getanddostuff.getNumFramesAndDuration(source);
-        _interval = recheck[1];
-        verboseMessage("ImageItem::nextFrame()", _interval + " - " + next)
-        if(main_img.visible)
-            submain_img.source = p[0] + "::photoqtani::" + next
-        else
-            main_img.source = p[0] + "::photoqtani::" + next
-    }
-
-    // set animation properties
-    function setAnimated(numFrames, interval) {
-        verboseMessage("ImageItem::setAnimated()", numFrames + " - " + interval)
-        _numFrames = numFrames
-        _interval = interval
-        main_img.visible = true
-        submain_img.visible = false
-    }
-
     // Stop animation timer
     function stopAnimation() {
-        ani_timer.stop()
+        animimg.paused = true
     }
     // restart animation timer, if animation is present
     function restartAnimation() {
-        if(_numFrames > 1 && opacity == 1 && !ani_timer.running)
-            ani_timer.start()
+        if(animated)
+            animimg.paused = false
     }
 
     // This item is only displayed if the image is not scaled but biger than the screen.
@@ -172,44 +127,67 @@ Rectangle {
 
     // handle new source filename
     function handleNewSource() {
-        submain_img.source = ""
-        main_img.source = source
+        animimg.source = ""
+        animimg.paused = false
+        animated = getanddostuff.isImageAnimated(source)
+        if(!animated) {
+            normalimg.source = source
+            animimg.source = ""
+        } else {
+            var angle = 0
+            if(source.indexOf("::photoqt::") != -1) {
+                angle = source.split("::photoqt::")[1].split("::")[0];
+                source = source.split("::photoqt")[0]
+            }
+            if(source.indexOf("image://full/") != -1)
+                source = "file:/" + source.split("image://full/")[1]
+
+            normalimg.source = ""
+            animimg.rotation = angle
+            animimg.source = source
+        }
     }
 
     // return the image source size
     function getSourceSize() {
-        return main_img.sourceSize
+        if(!animated)
+            return normalimg.sourceSize
+        return animimg.sourceSize
     }
 
     // set a fillmode to the images here
     function setFillMode(mode) {
-        main_img.fillMode = mode
-        submain_img.fillMode = mode
+        normalimg.fillMode = mode
+        animimg.fillMode = mode
         img_mask.fillMode = mode
     }
 
     // set the mirror property
     function setMirror(mirr) {
-        main_img.mirror = mirr
-        submain_img.mirror = mirr
+        normalimg.mirror = mirr
+        animimg.mirror = mirr
         img_mask.mirror = mirr
     }
 
     // get the mirror property (same on all three elements)
     function getMirror() {
-        return main_img.mirror
+        return normalimg.mirror
     }
 
     // get the dimensions of the image actually displayed
     function getActualPaintedImageSize() {
-        return Qt.size(main_img.paintedWidth, main_img.paintedHeight)
+        if(!animated)
+            return Qt.size(normalimg.paintedWidth, normalimg.paintedHeight)
+        return /*animimg.rotation%180==90 ? Qt.size(animimg.paintedHeight, animimg.paintedWidth) : */Qt.size(animimg.paintedWidth, animimg.paintedHeight)
     }
 
     function playPauseAnimation() {
-        if(ani_timer.running)
-            ani_timer.stop()
-        else
-            ani_timer.start()
+        var cur = animimg.paused
+        animimg.paused = !cur
+    }
+
+    function setRotation(angle) {
+        animimg.rotation = angle
     }
 
     //////////////////////////////////////////////////////////////
