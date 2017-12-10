@@ -1,6 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>../qml/globalstrings/Keys.qml</file>
-        <file>../qml/globalstrings/Mouse.qml</file>
-    </qresource>
-</RCC>
