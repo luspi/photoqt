@@ -69,6 +69,7 @@ Rectangle {
             if(status == Image.Ready) {
                 setAsCurrentId()
                 resetPosition(false)
+                imageContainer.rotation = 0
                 opacity = 1
                 resetScale()
                 hideOther()
