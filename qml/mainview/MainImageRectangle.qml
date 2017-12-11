@@ -1,6 +1,6 @@
 import QtQuick 2.6
 
-Rectangle {
+Item {
 
     id: imageContainer
 
@@ -9,43 +9,49 @@ Rectangle {
 
     visible: (image.opacity!=0)
 
-    color: "transparent"
-
     property real scaleMultiplier: 1
-    scale: ((fitImageInWindow || (image.sourceSize.width > parent.width && image.sourceSize.height > parent.height))
-            ? scaleMultiplier*Math.min( defaultWidth / image.sourceSize.width, defaultHeight / image.sourceSize.height )
+    scale: ((fitImageInWindow || (image.sourceSize.width > defaultWidth && image.sourceSize.height > defaultHeight))
+            ? scaleMultiplier * Math.min( defaultWidth / image.sourceSize.width,
+                                          defaultHeight / image.sourceSize.height )
             : scaleMultiplier)
 
-    function resetScale() {
-        scaleMultiplier = 1
-    }
+    Behavior on scale { NumberAnimation { id: scaleAni; duration: scaleDuration; onStopped: duration = scaleDuration } }
 
     function hideMe() {
         image.opacity = 0
     }
 
-    function resetPosition(withAnimation) {
-        if(withAnimation == undefined || withAnimation == true) {
-            posXAni.duration = positionDuration
-            posYAni.duration = positionDuration
-        } else {
-            posXAni.duration = 0
-            posYAni.duration = 0
-        }
-        x = ( parent.width - width ) / 2
-        y = ( parent.height - height ) / 2
+    function resetPosition() {
+        posXAni.duration = positionDuration
+        posYAni.duration = positionDuration
+        x = ( defaultWidth - width ) / 2 + defaultMargin/2
+        y = ( defaultHeight - height ) / 2 + defaultMargin/2
+    }
+
+    function resetPositionWithoutAnimation() {
+        posXAni.duration = 0
+        posYAni.duration = 0
+        x = ( defaultWidth - width ) / 2 + defaultMargin/2
+        y = ( defaultHeight - height ) / 2 + defaultMargin/2
     }
 
     property int positionDuration: 200
     property int transitionDuration: 200
+    property int scaleDuration: 200
+    property int rotationDuration: 200
 
-    x: ( parent.width - width ) / 2
-    y: ( parent.height - height ) / 2
+    x: ( defaultWidth - width ) / 2 + defaultMargin/2
+    y: ( defaultHeight - height ) / 2 + defaultMargin/2
 
     Behavior on x { NumberAnimation { id: posXAni; duration: 0; onStopped: duration = 0 } }
     Behavior on y { NumberAnimation { id: posYAni; duration: 0; onStopped: duration = 0 } }
 
     rotation: 0
+    Behavior on rotation { NumberAnimation { id: rotationAni; duration: 0; onStopped: duration = 0 } }
+    onRotationChanged: {
+        if(scaleMultiplier > image.sourceSize.height/image.sourceSize.width-0.01 && scaleMultiplier < 1.1)
+            resetZoom()
+    }
 
     smooth: true
     antialiasing: true
@@ -69,10 +75,11 @@ Rectangle {
         onStatusChanged: {
             if(status == Image.Ready) {
                 setAsCurrentId()
-                resetPosition(false)
+                resetPositionWithoutAnimation()
+                resetZoomWithoutAnimation()
+                resetRotationWithoutAnimation()
                 imageContainer.rotation = 0
                 opacity = 1
-                resetScale()
                 hideOther()
             }
         }
@@ -81,11 +88,11 @@ Rectangle {
             antialiasing: true
             mipmap: true
             anchors.fill: parent
-            visible: scaleMultiplier <= 1
+            visible: scaleMultiplier <= 1 && image.sourceSize.width < defaultWidth && image.sourceSize.height < defaultHeight
             onVisibleChanged: console.log("masking available", visible)
             fillMode: Image.PreserveAspectFit
             source: parent.source
-            sourceSize: Qt.size(imageContainer.parent.width, imageContainer.parent.height)
+            sourceSize: Qt.size(defaultWidth, defaultHeight)
         }
     }
 
@@ -133,4 +140,76 @@ Rectangle {
             }
         }
     }
+
+    function zoomIn() {
+        scaleAni.duration = scaleDuration
+        imageContainer.scaleMultiplier *= 1.1
+    }
+
+    function zoomOut() {
+        scaleAni.duration = scaleDuration
+        imageContainer.scaleMultiplier /= 1.1
+    }
+
+    function resetZoom() {
+        scaleAni.duration = scaleDuration
+        if((imageContainer.rotation%180 +180)%180 == 90)
+            scaleMultiplier = image.sourceSize.height/image.sourceSize.width
+        else
+            scaleMultiplier = 1
+    }
+    function resetZoomWithoutAnimation() {
+        scaleAni.duration = 0
+        scaleMultiplier = 1
+    }
+
+    function rotateLeft45() {
+        rotationAni.duration = rotationDuration
+        imageContainer.rotation -= 45
+    }
+    function rotateLeft90() {
+        rotationAni.duration = rotationDuration
+        imageContainer.rotation -= 90
+    }
+
+    function rotateRight45() {
+        rotationAni.duration = rotationDuration
+        imageContainer.rotation += 45
+    }
+    function rotateRight90() {
+        rotationAni.duration = rotationDuration
+        imageContainer.rotation += 90
+    }
+
+    function rotate180() {
+        rotationAni.duration = rotationDuration
+        imageContainer.rotation += 180
+    }
+
+    function resetRotation() {
+
+        rotationAni.duration = rotationDuration
+
+        var angle = (imageContainer.rotation%360 +360)%360
+
+        if(angle <= 180)
+            imageContainer.rotation -= angle
+        else
+            imageContainer.rotation += (360-angle)
+
+    }
+
+    function resetRotationWithoutAnimation() {
+
+        rotationAni.duration = 0
+
+        var angle = (imageContainer.rotation%360 +360)%360
+
+        if(angle <= 180)
+            imageContainer.rotation -= angle
+        else
+            imageContainer.rotation += (360-angle)
+
+    }
+
 }
