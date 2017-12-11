@@ -65,6 +65,7 @@ Rectangle {
         source: imageContainer.source
         antialiasing: true
         smooth: true
+        mipmap: true
         onStatusChanged: {
             if(status == Image.Ready) {
                 setAsCurrentId()
@@ -74,6 +75,17 @@ Rectangle {
                 resetScale()
                 hideOther()
             }
+        }
+        Image {
+            smooth: true
+            antialiasing: true
+            mipmap: true
+            anchors.fill: parent
+            visible: scaleMultiplier <= 1
+            onVisibleChanged: console.log("masking available", visible)
+            fillMode: Image.PreserveAspectFit
+            source: parent.source
+            sourceSize: Qt.size(imageContainer.parent.width, imageContainer.parent.height)
         }
     }
 

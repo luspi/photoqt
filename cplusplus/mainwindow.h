@@ -5,6 +5,16 @@
 #include <QQmlApplicationEngine>
 #include <iostream>
 
+#include "settings/colour.h"
+#include "settings/fileformats.h"
+#include "settings/settings.h"
+
+#include "imageprovider/imageproviderempty.h"
+#include "imageprovider/imageproviderfull.h"
+#include "imageprovider/imageproviderhistogram.h"
+#include "imageprovider/imageprovidericon.h"
+#include "imageprovider/imageproviderthumbnail.h"
+
 class MainWindow : public QObject {
 
     Q_OBJECT
