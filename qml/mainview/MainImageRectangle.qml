@@ -7,25 +7,31 @@ Rectangle {
     width: image.width
     height: image.height
 
+    visible: (image.opacity!=0)
+
     color: "transparent"
 
-    scale: (fitImageInWindow || (image.sourceSize.width > parent.width && image.sourceSize.height > parent.height))
-           ? Math.min( defaultWidth / image.sourceSize.width, defaultHeight / image.sourceSize.height )
-           : 1
+    property real scaleMultiplier: 1
+    scale: ((fitImageInWindow || (image.sourceSize.width > parent.width && image.sourceSize.height > parent.height))
+            ? scaleMultiplier*Math.min( defaultWidth / image.sourceSize.width, defaultHeight / image.sourceSize.height )
+            : scaleMultiplier)
 
     function resetScale() {
-        scale = (fitImageInWindow || (image.sourceSize.width > parent.width && image.sourceSize.height > parent.height))
-                ? Math.min( defaultWidth / image.sourceSize.width, defaultHeight / image.sourceSize.height )
-                : 1
+        scaleMultiplier = 1
     }
 
     function hideMe() {
         image.opacity = 0
     }
 
-    function resetPosition() {
-        posXAni.duration = positionDuration
-        posYAni.duration = positionDuration
+    function resetPosition(withAnimation) {
+        if(withAnimation == undefined || withAnimation == true) {
+            posXAni.duration = positionDuration
+            posYAni.duration = positionDuration
+        } else {
+            posXAni.duration = 0
+            posYAni.duration = 0
+        }
         x = ( parent.width - width ) / 2
         y = ( parent.height - height ) / 2
     }
@@ -62,6 +68,7 @@ Rectangle {
         onStatusChanged: {
             if(status == Image.Ready) {
                 setAsCurrentId()
+                resetPosition(false)
                 opacity = 1
                 resetScale()
                 hideOther()
@@ -81,12 +88,12 @@ Rectangle {
         onSmartZoom: {
             if (pinch.scale > 0) {
                 imageContainer.rotation = 0;
-                imageContainer.scale = Math.min(top.width, top.height) / Math.max(image.sourceSize.width, image.sourceSize.height) * 0.85
+                imageContainer.scaleMultiplier = Math.min(top.width, top.height) / Math.max(image.sourceSize.width, image.sourceSize.height) * 0.85
                 imageContainer.x = flick.contentX + (flick.width - imageContainer.width) / 2
                 imageContainer.y = flick.contentY + (flick.height - imageContainer.height) / 2
             } else {
                 imageContainer.rotation = pinch.previousAngle
-                imageContainer.scale = pinch.previousScale
+                imageContainer.scaleMultiplier = pinch.previousScale
                 imageContainer.x = pinch.previousCenter.x - imageContainer.width / 2
                 imageContainer.y = pinch.previousCenter.y - imageContainer.height / 2
             }
@@ -107,8 +114,8 @@ Rectangle {
                     imageContainer.rotation += wheel.angleDelta.x / 120;
                     if (Math.abs(imageContainer.rotation) < 0.6)
                         imageContainer.rotation = 0;
-                    var scaleBefore = imageContainer.scale;
-                    imageContainer.scale += imageContainer.scale * wheel.angleDelta.y / 120 / 10;
+                    var scaleBefore = imageContainer.scaleMultiplier;
+                    imageContainer.scaleMultiplier += imageContainer.scaleMultiplier * wheel.angleDelta.y / 120 / 10;
                 }
             }
         }
