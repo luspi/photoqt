@@ -8,6 +8,12 @@
 #include "settings/colour.h"
 #include "settings/fileformats.h"
 #include "settings/settings.h"
+#include "scripts/getanddostuff.h"
+#include "scripts/getmetadata.h"
+#include "scripts/shareonline/imgur.h"
+#include "tooltip/tooltip.h"
+#include "scripts/imagewatch.h"
+#include "clipboard/clipboard.h"
 
 #include "imageprovider/imageproviderempty.h"
 #include "imageprovider/imageproviderfull.h"
