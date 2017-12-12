@@ -31,6 +31,8 @@
 #include <QStandardPaths>
 #include "../../logger.h"
 
+#include <QWindow>
+
 #ifdef GM
 #include <GraphicsMagick/Magick++.h>
 #include "../gmimagemagick.h"
@@ -61,6 +63,7 @@ public:
     bool isLibRawSupportEnabled();
     QString getVersionString();
     QList<QString> getScreenNames();
+    QRect getStoredGeometry();
 
 };
 

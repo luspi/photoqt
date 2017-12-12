@@ -134,3 +134,19 @@ QList<QString> GetAndDoStuffOther::getScreenNames() {
     return ret;
 
 }
+
+QRect GetAndDoStuffOther::getStoredGeometry() {
+    QFile geo(ConfigFiles::MAINWINDOW_GEOMETRY_FILE());
+    if(geo.open(QIODevice::ReadOnly)) {
+        QTextStream in(&geo);
+        QString all = in.readAll();
+        if(all.contains("mainWindowGeometry=@Rect(")) {
+            QStringList vars = all.split("mainWindowGeometry=@Rect(").at(1).split(")\n").at(0).split(" ");
+            if(vars.length() == 4)
+                return QRect(vars.at(0).toInt(),vars.at(1).toInt(),vars.at(2).toInt(),vars.at(3).toInt());
+            return QRect();
+        } else
+            return QRect();
+    } else
+        return QRect();
+}

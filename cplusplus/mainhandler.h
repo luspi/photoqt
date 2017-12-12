@@ -3,7 +3,10 @@
 
 #include <QObject>
 #include <QQmlApplicationEngine>
+#include <QQmlProperty>
 #include <iostream>
+
+#include "variables.h"
 
 #include "settings/colour.h"
 #include "settings/fileformats.h"
@@ -26,13 +29,21 @@ class MainHandler : public QObject {
     Q_OBJECT
 
 public:
+
     MainHandler(QObject *parent = 0);
-    void setEngine(QQmlApplicationEngine *engine) { this->engine = engine; }
+
+    void setEngine(QQmlApplicationEngine *engine);
+
     void registerQmlTypes();
     void addImageProvider();
 
 private:
     QQmlApplicationEngine *engine;
+    QObject *object;
+    Variables *variables;
+
+private slots:
+    void qmlVerboseMessage(QString loc, QString msg);
 
 };
 

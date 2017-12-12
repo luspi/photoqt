@@ -1,6 +1,19 @@
 #include "mainhandler.h"
 
-MainHandler::MainHandler(QObject *parent) : QObject(parent) {}
+MainHandler::MainHandler(QObject *parent) : QObject(parent) {
+
+    variables = new Variables;
+
+}
+
+void MainHandler::setEngine(QQmlApplicationEngine *engine) {
+
+    this->engine = engine;
+    this->object = engine->rootObjects()[0];
+
+    connect(object, SIGNAL(verboseMessage(QString,QString)), this, SLOT(qmlVerboseMessage(QString,QString)));
+
+}
 
 // Add settings/scripts access to QML
 void MainHandler::registerQmlTypes() {
@@ -22,4 +35,9 @@ void MainHandler::addImageProvider() {
     this->engine->addImageProvider("icon",new ImageProviderIcon);
     this->engine->addImageProvider("empty", new ImageProviderEmpty);
     this->engine->addImageProvider("hist", new ImageProviderHistogram);
+}
+
+void MainHandler::qmlVerboseMessage(QString loc, QString msg) {
+    if(variables->verbose)
+        LOG << CURDATE << "[QML] " << loc.toStdString() << ": " << msg.toStdString() << NL;
 }

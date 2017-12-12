@@ -110,6 +110,7 @@ public:
     Q_INVOKABLE bool isLibRawSupportEnabled() { return other->isLibRawSupportEnabled(); }
     Q_INVOKABLE QString getVersionString() { return other->getVersionString(); }
     Q_INVOKABLE QList<QString> getScreenNames() { return other->getScreenNames(); }
+    Q_INVOKABLE QRect getStoredGeometry() { return other->getStoredGeometry(); }
 
     // WALLPAPER
     Q_INVOKABLE QString detectWindowManager() { return wallpaper->detectWindowManager(); }
