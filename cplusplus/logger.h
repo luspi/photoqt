@@ -28,11 +28,9 @@ class Logger {
 
 public:
     Logger() {
-        if(QFile(ConfigFiles::CONFIG_DIR() + QString("/verboselog")).exists()) {
-            logFile.setFileName(QDir::tempPath() + "/photoqt.log");
-            writeToFile = true;
-        } else
-            writeToFile = false;
+#ifdef PHOTOQTDEBUG
+        logFile.setFileName(QDir::tempPath() + "/photoqt.log");
+#endif
     }
 
     template <class T>
@@ -46,17 +44,16 @@ public:
         else
             std::clog << v;
 
-        if(writeToFile) {
+#ifdef PHOTOQTDEBUG
+        QTextStream out(&logFile);
+        logFile.open(QIODevice::WriteOnly | QIODevice::Append);
+        if(str.str() == "[[[DATE]]]")
+            out << "[" << QDateTime::currentDateTime().toString("dd/MM/yyyy HH:mm:ss:zzz") << "] ";
+        else
+            out << QString::fromStdString(str.str());
 
-            QTextStream out(&logFile);
-            logFile.open(QIODevice::WriteOnly | QIODevice::Append);
-            if(str.str() == "[[[DATE]]]")
-                out << "[" << QDateTime::currentDateTime().toString("dd/MM/yyyy HH:mm:ss:zzz") << "] ";
-            else
-                out << QString::fromStdString(str.str());
-
-            logFile.close();
-        }
+        logFile.close();
+#endif
 
         return *this;
 
@@ -68,8 +65,9 @@ public:
     }
 
 private:
+#ifdef PHOTOQTDEBUG
     QFile logFile;
-    bool writeToFile;
+#endif
 
 };
 
