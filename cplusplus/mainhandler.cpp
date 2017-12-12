@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+#include "mainhandler.h"
 
 MainWindow::MainWindow(QObject *parent) : QObject(parent) {}
 
