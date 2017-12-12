@@ -166,7 +166,8 @@ Window {
                     mainwindow.width = rect.width
                     mainwindow.height = rect.height
                 }
-            }
+            } else
+                mainwindow.showMaximized()
         } else {
 
             if(settings.keepOnTop)
