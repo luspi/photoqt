@@ -49,7 +49,8 @@ Item {
     rotation: 0
     Behavior on rotation { NumberAnimation { id: rotationAni; duration: 0; onStopped: duration = 0 } }
     onRotationChanged: {
-        if(scaleMultiplier > image.sourceSize.height/image.sourceSize.width-0.01 && scaleMultiplier < 1.1)
+        if(scaleMultiplier > image.sourceSize.height/image.sourceSize.width-0.01 && scaleMultiplier < 1.1
+                && Math.abs(x-((defaultWidth-width)/2+defaultMargin/2)) < 100 && Math.abs(y-((defaultHeight-height)/2+defaultMargin/2)) < 100)
             resetZoom()
     }
 
