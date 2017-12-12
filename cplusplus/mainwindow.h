@@ -26,7 +26,10 @@ class MainWindow : public QObject {
     Q_OBJECT
 
 public:
-    MainWindow(QQmlApplicationEngine *engine, QObject *parent = 0);
+    MainWindow(QObject *parent = 0);
+    void setEngine(QQmlApplicationEngine *engine) { this->engine = engine; }
+    void registerQmlTypes();
+    void addImageProvider();
 
 private:
     QQmlApplicationEngine *engine;

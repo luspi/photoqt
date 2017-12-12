@@ -1,18 +1,21 @@
-#include <QGuiApplication>
+#include <QApplication>
 #include "mainwindow.h"
 
 int main(int argc, char *argv[]) {
 
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
 
-    QQmlApplicationEngine *engine = new QQmlApplicationEngine;
-    engine->load(QUrl(QStringLiteral("qrc:/qml/mainwindow.qml")));
+    MainWindow w;
 
-    MainWindow w(engine);
+    w.registerQmlTypes();
 
-    int ret = app.exec();
+    QQmlApplicationEngine engine;
+    engine.load(QUrl("qrc:/qml/mainwindow.qml"));
 
-    delete engine;
+    w.setEngine(&engine);
 
-    return ret;
+    w.addImageProvider();
+
+    return app.exec();
+
 }

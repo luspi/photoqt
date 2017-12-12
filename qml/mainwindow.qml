@@ -1,6 +1,17 @@
 import QtQuick 2.6
 import QtQuick.Window 2.2
 
+import PSettings 1.0
+import PFileFormats 1.0
+import PGetAndDoStuff 1.0
+import PGetMetaData 1.0
+import PToolTip 1.0
+import PColour 1.0
+import QtGraphicalEffects 1.0
+import PImageWatch 1.0
+import PImgur 1.0
+import PClipboard 1.0
+
 import "./mainview"
 import "./shortcuts"
 
@@ -34,6 +45,17 @@ Window {
 
     // The item for displaying the main image
     MainImage { id: imageitem }
+
+    PSettings { id: settings }
+
+    PFileFormats { id: fileformats; }
+    PColour { id: colour; }
+    PGetAndDoStuff { id: getanddostuff; }
+
+    PGetMetaData { id: getmetadata; }
+    PImageWatch { id: imagewatch }
+    PImgur { id: shareonline_imgur; }
+    PClipboard { id: clipboard; }
 
     // The shortcuts engine
     Shortcuts {
