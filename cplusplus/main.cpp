@@ -5,16 +5,16 @@ int main(int argc, char *argv[]) {
 
     QApplication app(argc, argv);
 
-    MainWindow w;
+    MainHandler handle;
 
-    w.registerQmlTypes();
+    handle.registerQmlTypes();
 
     QQmlApplicationEngine engine;
     engine.load(QUrl("qrc:/qml/mainwindow.qml"));
 
-    w.setEngine(&engine);
+    handle.setEngine(&engine);
 
-    w.addImageProvider();
+    handle.addImageProvider();
 
     return app.exec();
 

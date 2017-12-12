@@ -1,9 +1,9 @@
 #include "mainhandler.h"
 
-MainWindow::MainWindow(QObject *parent) : QObject(parent) {}
+MainHandler::MainHandler(QObject *parent) : QObject(parent) {}
 
 // Add settings/scripts access to QML
-void MainWindow::registerQmlTypes() {
+void MainHandler::registerQmlTypes() {
     qmlRegisterType<Settings>("PSettings", 1, 0, "PSettings");
     qmlRegisterType<FileFormats>("PFileFormats", 1, 0, "PFileFormats");
     qmlRegisterType<GetMetaData>("PGetMetaData", 1, 0, "PGetMetaData");
@@ -16,7 +16,7 @@ void MainWindow::registerQmlTypes() {
 }
 
 // Add image providers to QML
-void MainWindow::addImageProvider() {
+void MainHandler::addImageProvider() {
     this->engine->addImageProvider("thumb",new ImageProviderThumbnail);
     this->engine->addImageProvider("full",new ImageProviderFull);
     this->engine->addImageProvider("icon",new ImageProviderIcon);

@@ -21,12 +21,12 @@
 #include "imageprovider/imageprovidericon.h"
 #include "imageprovider/imageproviderthumbnail.h"
 
-class MainWindow : public QObject {
+class MainHandler : public QObject {
 
     Q_OBJECT
 
 public:
-    MainWindow(QObject *parent = 0);
+    MainHandler(QObject *parent = 0);
     void setEngine(QQmlApplicationEngine *engine) { this->engine = engine; }
     void registerQmlTypes();
     void addImageProvider();
