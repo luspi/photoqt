@@ -10,7 +10,7 @@ Item {
     visible: (image.opacity!=0)
 
     property real scaleMultiplier: 1
-    scale: ((fitImageInWindow || (image.sourceSize.width > defaultWidth && image.sourceSize.height > defaultHeight))
+    scale: ((fitImageInWindow || image.sourceSize.width > defaultWidth || image.sourceSize.height > defaultHeight)
             ? scaleMultiplier * Math.min( defaultWidth / image.sourceSize.width,
                                           defaultHeight / image.sourceSize.height )
             : scaleMultiplier)
