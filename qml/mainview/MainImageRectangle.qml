@@ -24,15 +24,15 @@ Item {
     function resetPosition() {
         posXAni.duration = positionDuration
         posYAni.duration = positionDuration
-        x = ( defaultWidth - width ) / 2 + defaultMargin/2
-        y = ( defaultHeight - height ) / 2 + defaultMargin/2
+        x = Qt.binding(function() { return ( defaultWidth - width ) / 2 + defaultMargin/2 })
+        y = Qt.binding(function() { return ( defaultHeight - height ) / 2 + defaultMargin/2 })
     }
 
     function resetPositionWithoutAnimation() {
         posXAni.duration = 0
         posYAni.duration = 0
-        x = ( defaultWidth - width ) / 2 + defaultMargin/2
-        y = ( defaultHeight - height ) / 2 + defaultMargin/2
+        x = Qt.binding(function() { return ( defaultWidth - width ) / 2 + defaultMargin/2 })
+        y = Qt.binding(function() { return ( defaultHeight - height ) / 2 + defaultMargin/2 })
     }
 
     property int positionDuration: 200
