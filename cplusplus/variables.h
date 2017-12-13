@@ -26,10 +26,14 @@ class Variables {
 public:
     Variables() {
         verbose = false;
+        nothumbs = false;
+        startintray = false;
     }
 
 public:
     bool verbose;
+    bool nothumbs;
+    bool startintray;
 
 };
 

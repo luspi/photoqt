@@ -1,10 +1,29 @@
 #include "mainhandler.h"
 
-MainHandler::MainHandler(QObject *parent) : QObject(parent) {
+MainHandler::MainHandler(bool verbose, QObject *parent) : QObject(parent) {
 
     // holding some variables of the current session
     variables = new Variables;
+    variables->verbose = verbose;
+    permanentSettings = new Settings;
 
+}
+
+int MainHandler::performSomeStartupChecks() {
+
+    StartupCheck::Migration::migrateIfNecessary(variables->verbose);
+    int update = StartupCheck::UpdateCheck::checkForUpdateInstall(variables->verbose, permanentSettings);
+    StartupCheck::Screenshots::getAndStore(variables->verbose);
+    StartupCheck::StartInTray::makeSureSettingsReflectTrayStartupSetting(variables->verbose, variables->startintray, permanentSettings);
+    StartupCheck::Thumbnails::checkThumbnailsDatabase(update, variables->nothumbs, permanentSettings, variables->verbose);
+    StartupCheck::FileFormats::checkForDefaultSettingsFileAndReturnWhetherDefaultsAreToBeSet(variables->verbose);
+
+    return update;
+
+}
+
+void MainHandler::loadTranslation() {
+    StartupCheck::Localisation::loadTranslation(variables->verbose, permanentSettings, &trans);
 }
 
 void MainHandler::setEngine(QQmlApplicationEngine *engine) {
@@ -44,4 +63,88 @@ void MainHandler::addImageProvider() {
 void MainHandler::qmlVerboseMessage(QString loc, QString msg) {
     if(variables->verbose)
         LOG << CURDATE << "[QML] " << loc.toStdString() << ": " << msg.toStdString() << NL;
+}
+
+// Remote controlling
+void MainHandler::remoteAction(QString cmd) {
+
+    if(variables->verbose)
+        LOG << CURDATE << "remoteAction(): " << cmd.toStdString() << NL;
+
+    if(cmd == "open") {
+
+//        if(variables->verbose)
+//            LOG << CURDATE << "remoteAction(): Open file" << NL;
+//        if(!this->isVisible()) {
+//            // Get screenshots
+//            for(int i = 0; i < QGuiApplication::screens().count(); ++i) {
+//                QScreen *screen = QGuiApplication::screens().at(i);
+//                QRect r = screen->geometry();
+//                QPixmap pix = screen->grabWindow(0,r.x(),r.y(),r.width(),r.height());
+//                pix.save(QDir::tempPath() + QString("/photoqt_screenshot_%1.jpg").arg(i));
+//            }
+//            updateWindowGeometry();
+//            this->raise();
+//            this->requestActivate();
+//        }
+
+//        QMetaObject::invokeMethod(object, "openFile");
+
+    } else if(cmd == "nothumbs") {
+
+//        if(variables->verbose)
+//            LOG << CURDATE << "remoteAction(): Disable thumbnails" << NL;
+//        settingsPermanent->thumbnailDisable = true;
+//        settingsPermanent->thumbnailDisableChanged(settingsPermanent->thumbnailDisable);
+
+    } else if(cmd == "thumbs") {
+
+//        if(variables->verbose)
+//            LOG << CURDATE << "remoteAction(): Enable thumbnails" << NL;
+//        settingsPermanent->thumbnailDisable = true;
+//        settingsPermanent->thumbnailDisableChanged(settingsPermanent->thumbnailDisable);
+
+    } else if(cmd == "hide" || (cmd == "toggle"/* && this->isVisible()*/)) {
+
+//        if(variables->verbose)
+//            LOG << CURDATE << "remoteAction(): Hiding" << NL;
+//        if(settingsPermanent->trayicon != 1) {
+//            settingsPermanent->trayicon = 1;
+//            settingsPermanent->trayiconChanged(settingsPermanent->trayicon);
+//        }
+//        QMetaObject::invokeMethod(object, "hideOpenFile");
+//        this->hide();
+
+    } else if(cmd.startsWith("show") || (cmd == "toggle"/* && !this->isVisible()*/)) {
+
+//        if(variables->verbose)
+//            LOG << CURDATE << "remoteAction(): Showing" << NL;
+
+//        // The same code can be found at the end of main.cpp
+//        if(!this->isVisible()) {
+//            // Get screenshots
+//            for(int i = 0; i < QGuiApplication::screens().count(); ++i) {
+//                QScreen *screen = QGuiApplication::screens().at(i);
+//                QRect r = screen->geometry();
+//                QPixmap pix = screen->grabWindow(0,r.x(),r.y(),r.width(),r.height());
+//                pix.save(QDir::tempPath() + QString("/photoqt_screenshot_%1.jpg").arg(i));
+//            }
+//            updateWindowGeometry();
+//        }
+//        this->raise();
+//        this->requestActivate();
+
+//        if(variables->currentDir == "" && cmd != "show_noopen")
+//            QMetaObject::invokeMethod(object, "openFile");
+
+    } else if(cmd.startsWith("::file::")) {
+
+//        if(variables->verbose)
+//            LOG << CURDATE << "remoteAction(): Opening passed-on file" << NL;
+//        QMetaObject::invokeMethod(object, "hideOpenFile");
+//        handleOpenFileEvent(cmd.remove(0,8));
+
+    }
+
+
 }

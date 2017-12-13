@@ -220,6 +220,7 @@ public:
 
     // The current version
     QString version;
+    QString versionInTextFile;  // differs from 'version' only when PhotoQt has been updated
     // The language selected and available languages
     QString language;
     // Possibility to en-/disable animated fade-in
@@ -528,6 +529,7 @@ public:
     Q_INVOKABLE void setDefault() {
 
         version = QString::fromStdString(VERSION);
+        versionInTextFile = "";
 
         knownFileTypesQtExtras = "";
 
@@ -543,7 +545,7 @@ public:
         openOnScreen = false;
         openOnScreenName = "";
 
-        language = "";
+        language = QLocale::system().name();
         bgColorRed = 0;
         bgColorGreen = 0;
         bgColorBlue = 0;
@@ -881,6 +883,9 @@ public slots:
 
             if(all.contains("Language="))
                 language = all.split("Language=").at(1).split("\n").at(0);
+
+            if(all.contains("Version="))
+                versionInTextFile = all.split("Version=").at(1).split("\n").at(0);
 
             if(all.contains("KnownFileTypesQtExtras="))
                 knownFileTypesQtExtras = all.split("KnownFileTypesQtExtras=").at(1).split("\n").at(0);

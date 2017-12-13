@@ -133,6 +133,8 @@ void SingleInstance::handleResponse(QString msg) {
     if(show) emit interaction("show");
     if(hide) emit interaction("hide");
 
+    verbose = true;
+
 }
 
 SingleInstance::~SingleInstance() {

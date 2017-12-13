@@ -24,23 +24,39 @@
 #include "imageprovider/imageprovidericon.h"
 #include "imageprovider/imageproviderthumbnail.h"
 
+#include "startup/exportimport.h"
+#include "startup/fileformats.h"
+#include "startup/localisation.h"
+#include "startup/migration.h"
+#include "startup/screenshots.h"
+#include "startup/startintray.h"
+#include "startup/thumbnails.h"
+#include "startup/updatecheck.h"
+
 class MainHandler : public QObject {
 
     Q_OBJECT
 
 public:
 
-    MainHandler(QObject *parent = 0);
+    MainHandler(bool verbose, QObject *parent = 0);
 
     void setEngine(QQmlApplicationEngine *engine);
 
+    int performSomeStartupChecks();
+    void loadTranslation();
     void registerQmlTypes();
     void addImageProvider();
+
+public slots:
+    void remoteAction(QString cmd);
 
 private:
     QQmlApplicationEngine *engine;
     QObject *object;
     Variables *variables;
+    Settings *permanentSettings;
+    QTranslator trans;
 
 private slots:
     void qmlVerboseMessage(QString loc, QString msg);
