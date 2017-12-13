@@ -2,103 +2,135 @@ import QtQuick 2.6
 
 Item {
 
+    // There are two of these created to allow for animated transitions
+
     id: imageContainer
 
+    // Dimension always follows the image
     width: image.width
     height: image.height
 
+    // When image is hidden, hide element (allow elements below to be accesible)
     visible: (image.opacity!=0)
 
-    property real scaleMultiplier: 1
-    scale: ((fitImageInWindow || image.sourceSize.width > defaultWidth || image.sourceSize.height > defaultHeight)
-            ? scaleMultiplier * Math.min( defaultWidth / image.sourceSize.width,
-                                          defaultHeight / image.sourceSize.height )
-            : scaleMultiplier)
-
-    Behavior on scale { NumberAnimation { id: scaleAni; duration: scaleDuration; onStopped: duration = scaleDuration } }
-
-    function hideMe() {
-        image.opacity = 0
-    }
-
-    function resetPosition() {
-        posXAni.duration = positionDuration
-        posYAni.duration = positionDuration
-        x = Qt.binding(function() { return ( defaultWidth - width ) / 2 + defaultMargin/2 })
-        y = Qt.binding(function() { return ( defaultHeight - height ) / 2 + defaultMargin/2 })
-    }
-
-    function resetPositionWithoutAnimation() {
-        posXAni.duration = 0
-        posYAni.duration = 0
-        x = Qt.binding(function() { return ( defaultWidth - width ) / 2 + defaultMargin/2 })
-        y = Qt.binding(function() { return ( defaultHeight - height ) / 2 + defaultMargin/2 })
-    }
-
+    // manipulate the timings of the animations
     property int positionDuration: 200
     property int transitionDuration: 200
     property int scaleDuration: 200
     property int rotationDuration: 200
 
-    x: ( defaultWidth - width ) / 2 + defaultMargin/2
-    y: ( defaultHeight - height ) / 2 + defaultMargin/2
+    // The default maximum width/height of the image
+    property int defaultWidth: 600
+    property int defaultHeight: 400
+    property int imageMargin: 5
 
+    // fit image into the window irrespective of its actual dimensions
+    property bool fitImageInWindow: false
+
+    // the source of the current image
+    property string source: ""
+
+    // The scaleMultiplier takes care of the zooming to keep the binding for scale as is
+    property real scaleMultiplier: 1
+    // The scale depends on the actual image and the fitInWindow property
+    scale: ((fitImageInWindow || image.sourceSize.width > defaultWidth || image.sourceSize.height > defaultHeight)
+            ? scaleMultiplier * Math.min( defaultWidth / image.sourceSize.width,
+                                          defaultHeight / image.sourceSize.height )
+            : scaleMultiplier)
+    // Animate the scale property. We reset the duration after it is done as it is sometimes set to zero (e.g. for loading a new image)
+    Behavior on scale { NumberAnimation { id: scaleAni; duration: scaleDuration; onStopped: duration = scaleDuration } }
+
+    // The x and y positions depend on the image
+    x: ( defaultWidth - width ) / 2 + imageMargin/2
+    y: ( defaultHeight - height ) / 2 + imageMargin/2
+    // Animate the x/y properties
     Behavior on x { NumberAnimation { id: posXAni; duration: 0; onStopped: duration = 0 } }
     Behavior on y { NumberAnimation { id: posYAni; duration: 0; onStopped: duration = 0 } }
 
+    // The rotation of the current image
     rotation: 0
-    Behavior on rotation { NumberAnimation { id: rotationAni; duration: 0; onStopped: duration = 0 } }
+    // ... animated
+    Behavior on rotation { NumberAnimation { id: rotationAni; duration: rotationDuration; onStopped: duration = rotationDuration } }
+    // When rotating by 90/270 degrees and with the image essentially not moved/zoomed we reset the zoom to show the whole image
     onRotationChanged: {
         if(scaleMultiplier > image.sourceSize.height/image.sourceSize.width-0.01 && scaleMultiplier < 1.1
-                && Math.abs(x-((defaultWidth-width)/2+defaultMargin/2)) < 10 && Math.abs(y-((defaultHeight-height)/2+defaultMargin/2)) < 10)
+                && Math.abs(x-((defaultWidth-width)/2+imageMargin/2)) < 10 && Math.abs(y-((defaultHeight-height)/2+imageMargin/2)) < 10)
             resetZoom()
     }
 
-    smooth: true
-    antialiasing: true
-
-    property string source: ""
-
+    // Signal that the other image element is supposed to be hidden
     signal hideOther()
+
+    // After successfully loading an image set it as current image and show it
     signal setAsCurrentId()
 
+    // The main image
     Image {
+
         id: image
-        anchors.centerIn: parent
-        visible: (opacity!=0)
-        opacity: 0
-        Behavior on opacity { NumberAnimation { duration: transitionDuration } }
-        fillMode: Image.PreserveAspectFit
+
+        // source is tied to imageContainer property
         source: imageContainer.source
+
+        // Center item in parent
+        anchors.centerIn: parent
+
+        // High quality
         antialiasing: true
         smooth: true
         mipmap: true
+
+        // set fill mode
+        fillMode: Image.PreserveAspectFit
+
+        // visibility depends on opacity which is animated
+        visible: (opacity!=0)
+        opacity: 0
+        Behavior on opacity { NumberAnimation { duration: transitionDuration } }
+
+        // When imae is loaded, show image and hid the other
         onStatusChanged: {
             if(status == Image.Ready) {
                 setAsCurrentId()
                 resetPositionWithoutAnimation()
                 resetZoomWithoutAnimation()
                 resetRotationWithoutAnimation()
-                imageContainer.rotation = 0
                 opacity = 1
                 hideOther()
             }
         }
+
+        // This is a masking image for when the image is not zoomed. It loads a scaled down version for better quality when not zoomed (or zoomed out)
         Image {
-            smooth: true
-            antialiasing: true
-            mipmap: true
+
             anchors.fill: parent
-            visible: scaleMultiplier <= 1 && image.sourceSize.width < defaultWidth && image.sourceSize.height < defaultHeight
-            onVisibleChanged: console.log("masking available", visible)
-            fillMode: Image.PreserveAspectFit
+
+            // same source as main image
             source: parent.source
+
+            // this image is loaded scaled down
             sourceSize: Qt.size(defaultWidth, defaultHeight)
+
+            // set fill mode
+            fillMode: Image.PreserveAspectFit
+
+            // high quality
+            antialiasing: true
+            smooth: true
+            mipmap: true
+
+            // only visible when image not zoomed or zoomed out
+            visible: scaleMultiplier <= 1 && image.sourceSize.width < defaultWidth && image.sourceSize.height < defaultHeight
+
         }
+
     }
 
+    // The pinch area makes the image manipulatable by a touch screen
     PinchArea {
+
         anchors.fill: parent
+
         pinch.target: imageContainer
         pinch.minimumRotation: -360
         pinch.maximumRotation: 360
@@ -106,6 +138,7 @@ Item {
         pinch.maximumScale: 10
         pinch.dragAxis: Pinch.XAndYAxis
         onPinchStarted: setFrameColor();
+
         onSmartZoom: {
             if (pinch.scale > 0) {
                 imageContainer.rotation = 0;
@@ -120,6 +153,7 @@ Item {
             }
         }
 
+        // This mouse area does the same as the pinch area but for the mouse
         MouseArea {
             id: dragArea
             hoverEnabled: true
@@ -142,6 +176,36 @@ Item {
         }
     }
 
+    /***************************************************************/
+    /***************************************************************/
+    // Some system functions
+
+    // hide this element. Currently only transition available is fading out
+    function hideMe() {
+        image.opacity = 0
+    }
+
+    // Reset position to center image on screen, animated.
+    function resetPosition() {
+        posXAni.duration = positionDuration
+        posYAni.duration = positionDuration
+        x = Qt.binding(function() { return ( defaultWidth - width ) / 2 + imageMargin/2 })
+        y = Qt.binding(function() { return ( defaultHeight - height ) / 2 + imageMargin/2 })
+    }
+
+    // Reset position to center image on screen, not animated.
+    function resetPositionWithoutAnimation() {
+        posXAni.duration = 0
+        posYAni.duration = 0
+        x = Qt.binding(function() { return ( defaultWidth - width ) / 2 + imageMargin/2 })
+        y = Qt.binding(function() { return ( defaultHeight - height ) / 2 + imageMargin/2 })
+    }
+
+
+    /***************************************************************/
+    /***************************************************************/
+    // API functions for manipulating display of images
+
     function zoomIn() {
         scaleAni.duration = scaleDuration
         imageContainer.scaleMultiplier *= 1.1
@@ -161,7 +225,10 @@ Item {
     }
     function resetZoomWithoutAnimation() {
         scaleAni.duration = 0
-        scaleMultiplier = 1
+        if((imageContainer.rotation%180 +180)%180 == 90)
+            scaleMultiplier = image.sourceSize.height/image.sourceSize.width
+        else
+            scaleMultiplier = 1
     }
 
     function rotateLeft45() {

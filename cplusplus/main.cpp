@@ -10,6 +10,7 @@ int main(int argc, char *argv[]) {
     QApplication::setApplicationName("PhotoQt");
     QApplication::setApplicationVersion(version);
 
+    // The application instance
     QApplication app(argc, argv);
 
     // Create a handler to manage the qml files

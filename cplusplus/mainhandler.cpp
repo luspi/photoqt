@@ -2,15 +2,18 @@
 
 MainHandler::MainHandler(QObject *parent) : QObject(parent) {
 
+    // holding some variables of the current session
     variables = new Variables;
 
 }
 
 void MainHandler::setEngine(QQmlApplicationEngine *engine) {
 
+    // store the engine and the connected object
     this->engine = engine;
     this->object = engine->rootObjects()[0];
 
+    // set up the signals for the object
     connect(object, SIGNAL(verboseMessage(QString,QString)), this, SLOT(qmlVerboseMessage(QString,QString)));
 
 }
@@ -37,6 +40,7 @@ void MainHandler::addImageProvider() {
     this->engine->addImageProvider("hist", new ImageProviderHistogram);
 }
 
+// Output any QML debug messages if verbose mode is enabled
 void MainHandler::qmlVerboseMessage(QString loc, QString msg) {
     if(variables->verbose)
         LOG << CURDATE << "[QML] " << loc.toStdString() << ": " << msg.toStdString() << NL;

@@ -1,20 +1,13 @@
 import QtQuick 2.6
 
-Rectangle {
+Item {
 
     id: top
 
-    color: "transparent"
+    // fill out main element
     anchors.fill: parent
 
-    property int defaultMargin: 10
-    property real defaultWidth: width-defaultMargin
-    property real defaultHeight: height-defaultMargin
-    property var currentFrame: undefined
-    property bool fitImageInWindow: false
-    property int transitionDuration: 200
-
-    property var currentId: undefined
+    // the source of the current image
     property string source: ""
     onSourceChanged: {
         if(currentId == image1) {
@@ -26,27 +19,73 @@ Rectangle {
         }
     }
 
+    // the currentId holds which one of the two image elements is currently visible
+    property var currentId: undefined
+
+    // This flickable keeps the image element movable
     Flickable {
+
         id: flick
+
         anchors.fill: parent
+
+        // The content is the same size as the flickable. The moving is handled by the image elements themselves
         contentWidth: width
         contentHeight: height
 
+        // The first image
         MainImageRectangle {
+
             id: image1
+
+            // Pass on some settings
+
+            fitImageInWindow: settings.fitInWindow
+            imageMargin: settings.borderAroundImg
+
+            positionDuration: settings.transition*150
+            transitionDuration: settings.transition*150
+            scaleDuration: settings.transition*150
+            rotationDuration: settings.transition*150
+
+            defaultHeight: top.height-settings.borderAroundImg
+            defaultWidth: top.width-settings.borderAroundImg
+
+            // Connect to some signals, set this as current or hide the other image
             onHideOther: image2.hideMe()
             onSetAsCurrentId: currentId = image1
-            transitionDuration: top.transitionDuration
+
         }
 
+        // The second image
         MainImageRectangle {
+
             id: image2
+
+            // Pass on some settings
+
+            fitImageInWindow: settings.fitInWindow
+            imageMargin: settings.borderAroundImg
+
+            positionDuration: settings.transition*150
+            transitionDuration: settings.transition*150
+            scaleDuration: settings.transition*150
+            rotationDuration: settings.transition*150
+
+            defaultHeight: top.height-settings.borderAroundImg
+            defaultWidth: top.width-settings.borderAroundImg
+
+            // Connect to some signals, set this as current or hide the other image
             onHideOther: image1.hideMe()
             onSetAsCurrentId: currentId = image2
-            transitionDuration: top.transitionDuration
+
         }
 
     }
+
+    /****************************************************/
+    /****************************************************/
+    // All the API functions
 
     function loadImage(filename) {
         source = filename
