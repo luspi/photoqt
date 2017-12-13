@@ -23,27 +23,23 @@ int main(int argc, char *argv[]) {
     // Shouldn't be an issue, but set just in case
     qApp->setQuitOnLastWindowClosed(true);
 
-    // Create a handler to manage the qml files
+    // Create a handler to manage the qml files and do some preliminary stuff (e.g., startup checks)
     MainHandler handle(app.verbose);
-
-    // Perform some startup checks/tasks
-    handle.performSomeStartupChecks();
-
-    // Find and load the right translation file
-    handle.loadTranslation();
-
-    // Register the qml types. This need to happen BEFORE creating the QQmlApplicationEngine!.
-    handle.registerQmlTypes();
 
     // The qml engine. This needs to be created AFTER registering the qml types.
     QQmlApplicationEngine engine;
-    engine.load(QUrl("qrc:/qml/mainwindow.qml"));
 
     // Pass the engine to the handler
     handle.setEngine(&engine);
 
     // Register the image providers
     handle.addImageProvider();
+
+    // Load the qml file
+    engine.load(QUrl("qrc:/qml/mainwindow.qml"));
+
+    // Create a handle to the engine's object and connect to its signals
+    handle.setObjectAndConnect();
 
     // A remote action passed on via command line triggers the 'interaction' signal, so we pass it on to the MainWindow
     QObject::connect(&app, SIGNAL(interaction(QString)), &handle, SLOT(remoteAction(QString)));

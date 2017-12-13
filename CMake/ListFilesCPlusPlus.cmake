@@ -44,3 +44,6 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/exportimport.h ${d}/fileformats.h ${
 
 SET(d "cplusplus/singleinstance")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/commandlineparser.h ${d}/singleinstance.cpp)
+
+SET(d "cplusplus/shortcuts")
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/shortcutsnotifier.h)

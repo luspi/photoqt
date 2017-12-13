@@ -17,6 +17,7 @@
 #include "tooltip/tooltip.h"
 #include "scripts/imagewatch.h"
 #include "clipboard/clipboard.h"
+#include "shortcuts/shortcutsnotifier.h"
 
 #include "imageprovider/imageproviderempty.h"
 #include "imageprovider/imageproviderfull.h"
@@ -42,7 +43,7 @@ public:
     MainHandler(bool verbose, QObject *parent = 0);
 
     void setEngine(QQmlApplicationEngine *engine);
-
+    void setObjectAndConnect();
     int performSomeStartupChecks();
     void loadTranslation();
     void registerQmlTypes();
@@ -50,6 +51,8 @@ public:
 
 public slots:
     void remoteAction(QString cmd);
+    void setOverrideCursor() { if(overrideCursorSet) return; qApp->setOverrideCursor(Qt::WaitCursor); }
+    void restoreOverrideCursor() { qApp->restoreOverrideCursor(); }
 
 private:
     QQmlApplicationEngine *engine;
@@ -57,6 +60,8 @@ private:
     Variables *variables;
     Settings *permanentSettings;
     QTranslator trans;
+
+    bool overrideCursorSet;
 
 private slots:
     void qmlVerboseMessage(QString loc, QString msg);

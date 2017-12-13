@@ -7,8 +7,20 @@ MainHandler::MainHandler(bool verbose, QObject *parent) : QObject(parent) {
     variables->verbose = verbose;
     permanentSettings = new Settings;
 
+    overrideCursorSet = false;
+
+    // Perform some startup checks/tasks
+    performSomeStartupChecks();
+
+    // Find and load the right translation file
+    loadTranslation();
+
+    // Register the qml types. This need to happen BEFORE creating the QQmlApplicationEngine!.
+    registerQmlTypes();
+
 }
 
+// Performs some initial startup checks to make sure everything is in order
 int MainHandler::performSomeStartupChecks() {
 
     StartupCheck::Migration::migrateIfNecessary(variables->verbose);
@@ -22,18 +34,28 @@ int MainHandler::performSomeStartupChecks() {
 
 }
 
+// Load the right translation file
 void MainHandler::loadTranslation() {
+
     StartupCheck::Localisation::loadTranslation(variables->verbose, permanentSettings, &trans);
+
 }
 
+// store the engine and the connected object
 void MainHandler::setEngine(QQmlApplicationEngine *engine) {
 
-    // store the engine and the connected object
     this->engine = engine;
+
+}
+
+// Create a handler to the engine's object and connect to its signals
+void MainHandler::setObjectAndConnect() {
+
     this->object = engine->rootObjects()[0];
 
-    // set up the signals for the object
     connect(object, SIGNAL(verboseMessage(QString,QString)), this, SLOT(qmlVerboseMessage(QString,QString)));
+    connect(object, SIGNAL(setOverrideCursor()), this, SLOT(setOverrideCursor()));
+    connect(object, SIGNAL(restoreOverrideCursor()), this, SLOT(restoreOverrideCursor()));
 
 }
 
@@ -48,6 +70,7 @@ void MainHandler::registerQmlTypes() {
     qmlRegisterType<ImageWatch>("PImageWatch", 1, 0, "PImageWatch");
     qmlRegisterType<ShareOnline::Imgur>("PImgur", 1, 0, "PImgur");
     qmlRegisterType<Clipboard>("PClipboard", 1, 0, "PClipboard");
+    qmlRegisterType<ShortcutsNotifier>("PShortcutsNotifier", 1, 0, "PShortcutsNotifier");
 }
 
 // Add image providers to QML

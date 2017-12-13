@@ -1,9 +1,7 @@
 <RCC>
     <qresource prefix="/">
-    <file>../qml/mainwindow.qml</file>
     <file>../qml/mainview/Background.qml</file>
     <file>../qml/mainview/MainImage.qml</file>
     <file>../qml/mainview/MainImageRectangle.qml</file>
-    <file>../qml/shortcuts/Shortcuts.qml</file>
     </qresource>
 </RCC>

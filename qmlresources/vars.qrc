@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+    <file>../qml/vars/Variables.qml</file>
+    <file>../qml/vars/StringsKeys.qml</file>
+    <file>../qml/vars/StringsMouse.qml</file>
+    </qresource>
+</RCC>

@@ -1,5 +1,24 @@
 <RCC>
     <qresource prefix="/">
+        <file>img/closingx.png</file>
+        <file>img/openfile/folder.png</file>
+        <file>img/openfile/hoverpreview.png</file>
+        <file>img/openfile/iconview.png</file>
+        <file>img/openfile/image.png</file>
+        <file>img/openfile/listview.png</file>
+        <file>img/openfile/thumbnail.png</file>
+        <file>img/openfile/backupicons/drive-harddisk.svg</file>
+        <file>img/openfile/backupicons/folder-pictures.svg</file>
+        <file>img/openfile/backupicons/folder-red.svg</file>
+        <file>img/openfile/backupicons/folder.svg</file>
+        <file>img/openfile/backupicons/image-bmp.svg</file>
+        <file>img/openfile/backupicons/image-gif.svg</file>
+        <file>img/openfile/backupicons/image-jpeg.svg</file>
+        <file>img/openfile/backupicons/image-png.svg</file>
+        <file>img/openfile/backupicons/image-tiff.svg</file>
+        <file>img/openfile/backupicons/image.svg</file>
+        <file>img/openfile/backupicons/unknown.svg</file>
+        <file>img/openfile/backupicons/user-desktop.svg</file>
+        <file>img/openfile/backupicons/user-home.svg</file>
     </qresource>
 </RCC>
-
