@@ -38,3 +38,6 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/clipboard.cpp)
 
 SET(d "cplusplus/tooltip")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/tooltip.cpp)
+
+SET(d "cplusplus/singleinstance")
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/commandlineparser.h ${d}/singleinstance.cpp)

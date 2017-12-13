@@ -1,5 +1,6 @@
 #include <QApplication>
 #include "mainhandler.h"
+#include "singleinstance/singleinstance.h"
 
 int main(int argc, char *argv[]) {
 
@@ -10,8 +11,10 @@ int main(int argc, char *argv[]) {
     QApplication::setApplicationName("PhotoQt");
     QApplication::setApplicationVersion(version);
 
-    // The application instance
-    QApplication app(argc, argv);
+    // Create a new instance (includes handling of argc/argv)
+    // This class ensures, that only one instance is running. If one is already running, we pass the commands to the main process and exit.
+    // If no process is running yet, we create a LocalServer and continue below
+    SingleInstance app(argc, argv);
 
     // Create a handler to manage the qml files
     MainHandler handle;
