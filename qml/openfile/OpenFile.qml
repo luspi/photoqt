@@ -21,7 +21,8 @@ Rectangle {
 
     color: "#88000000"
 
-    anchors.fill: parent
+    width: mainwindow.width
+    height: mainwindow.height
 
     property string items_path: ""
     property string dir_path: settings.openKeepLastLocation ? getanddostuff.getOpenFileLastLocation() : getanddostuff.getHomeDir()
@@ -230,6 +231,15 @@ Rectangle {
 
     }
 
+    // Connect to show/hide signals to take appropriate actions
+    Connections {
+        target: call
+        onOpenfileShow:
+            show();
+        onOpenfileHide:
+            hide()
+    }
+
 
     Component.onCompleted: {
 
@@ -274,6 +284,7 @@ Rectangle {
             openshortcuts.reject()
         else {
             verboseMessage("OpenFile::hide()", opacity + " to 0")
+            console.log("hideOpenAni.start()")
             hideOpenAni.start();
         }
 

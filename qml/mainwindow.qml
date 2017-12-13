@@ -131,6 +131,8 @@ Window {
                 imageitem.rotate180()
             else if(combo == "6")
                 imageitem.resetRotation()
+            else if(combo == "o")
+                call.show("openfile")
         }
     }
 
@@ -140,6 +142,9 @@ Window {
     // Some strings for keys and mouse shortcuts
     StringsKeys { id: str_keys }
     StringsMouse { id: str_mouse }
+
+    // Used to show and hide elements that are loaded when needed
+    Caller { id: call }
 
 
     /************************************
@@ -154,8 +159,8 @@ Window {
     // The item for displaying the main image
     MainImage { id: imageitem }
 
-    // An element for browsing and opening files
-    OpenFile { id: openfile }
+    // An element for browsing and opening files (loaded as needed)
+    Loader { id: openfile }
 
     PShortcutsNotifier { id: sh_notifier; }
 
@@ -224,7 +229,7 @@ Window {
 
     function manageStartup() {
 
-        openfile.show()
+        call.show("openfile")
 
     }
 

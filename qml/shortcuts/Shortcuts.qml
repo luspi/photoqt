@@ -74,6 +74,10 @@ Item {
             console.log("6")
             shortcutReceived("6")
             break
+        case Qt.Key_O:
+            console.log("o")
+            shortcutReceived("o")
+            break
         default:
             console.log(event.key)
             shortcutReceived(event.key)
