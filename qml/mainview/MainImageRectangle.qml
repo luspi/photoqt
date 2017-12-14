@@ -69,6 +69,9 @@ Item {
 
         id: image
 
+        // Currently, this has to be set to false, otherwise the thumbnails will likely be loaded first
+//        asynchronous: true
+
         // source is tied to imageContainer property
         source: imageContainer.source
 
@@ -104,6 +107,9 @@ Item {
         Image {
 
             anchors.fill: parent
+
+            // Currently, this has to be set to false, otherwise the thumbnails will likely be loaded first
+//            asynchronous: true
 
             // same source as main image
             source: parent.source
