@@ -13,7 +13,7 @@ ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider
     rawfiles = fileformats->formats_raw.join(",");
 
     pixmapcache = new QCache<QByteArray, QPixmap>;
-    pixmapcache->setMaxCost(1024*settings->pixmapCache);
+    pixmapcache->setMaxCost(8*1024*settings->pixmapCache);
 
     loaderGM = new LoadImageGM;
     loaderQT = new LoadImageQt;
