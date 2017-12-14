@@ -23,11 +23,6 @@ Window {
 
     id: mainwindow
 
-    // just a temporary solution for loading images. Will be replaced by OpenFile dialog
-    property int currentSample: 0
-    property var samples: ["file:///home..."]
-
-    visible: true
     // Some signals for communicating back to the C++ code base
     signal verboseMessage(string loc, string msg)
     signal setOverrideCursor()
@@ -104,13 +99,9 @@ Window {
         // Temporary solution for initial development
         onShortcutReceived: {
             if(combo == "Left") {
-                --currentSample
-                if(currentSample < 0) currentSample = samples.length-1
-                imageitem.loadImage(samples[currentSample])
+                call.load("loadprev")
             } else if(combo == "Right") {
-                ++currentSample
-                if(currentSample >= samples.length) currentSample = 0
-                imageitem.loadImage(samples[currentSample])
+                call.load("loadnext")
             } else if(combo == "R")
                 imageitem.resetPosition()
             else if(combo == "+")
@@ -159,9 +150,34 @@ Window {
     // The item for displaying the main image
     MainImage { id: imageitem }
 
+    /**************************/
+    // ITEMS THAT FADE IN/OUT
+
+    // This mousearea sits below fadeable events to show/hide them appropriately
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        propagateComposedEvents: true
+        onPositionChanged: {
+            mainwindow.handleMousePositionChange(mouse.x, mouse.y)
+        }
+        // We pass those on to below, to keep the main image movable
+        onClicked: mouse.accepted = false
+        onPressed: mouse.accepted = false
+        onReleased: mouse.accepted = false
+        onPressAndHold: mouse.accepted = false
+    }
+
+    // The thumbnail bar
+    Loader { id: thumbnails }
+
+
+
+
     // An element for browsing and opening files (loaded as needed)
     Loader { id: openfile }
 
+    // The shortcut notifier element
     PShortcutsNotifier { id: sh_notifier; }
 
 
@@ -172,6 +188,7 @@ Window {
     Component.onCompleted: {
         setWindowFlags()
         manageStartup()
+        call.show("thumbnails")
     }
 
 
@@ -224,6 +241,15 @@ Window {
                 showFullScreen()
 
         }
+
+    }
+
+    function handleMousePositionChange(xPos, yPos) {
+
+        if(yPos > mainwindow.height-20)
+            call.show("thumbnails")
+        else
+            call.hide("thumbnails")
 
     }
 

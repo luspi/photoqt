@@ -318,6 +318,8 @@ Rectangle {
 
         imageitem.loadImage("image://full/" + filename)
 
+        call.load("thumbnailLoadDirectory")
+
     }
 
 }

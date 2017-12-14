@@ -23,20 +23,6 @@ QImage ImageProviderThumbnail::requestImage(const QString &filename_encoded, QSi
 
     dontCreateThumbnailNew = false;
 
-    // Do some special action
-    if(filename.startsWith("__**__")) {
-        // Smartly preload this thumbnail
-        if(filename.startsWith("__**__smart")) {
-            filename = filename.remove(0,11);
-            dontCreateThumbnailNew = true;
-        // Commit database and exit
-        } else {
-            if(dbTransactionStarted) if(!db.commit()) qDebug() << "[imageprovider thumbs] ERROR: CAN'T commit DB TRANSACTION!";
-            dbTransactionStarted = false;
-            return QImage(1,1,QImage::Format_ARGB32);
-        }
-    }
-
     // Some general settings that are needed multiple times later-on
     int width = requestedSize.width();
     if(width == -1) width = settings->thumbnailsize;

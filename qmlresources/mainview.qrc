@@ -3,5 +3,6 @@
     <file>../qml/mainview/Background.qml</file>
     <file>../qml/mainview/MainImage.qml</file>
     <file>../qml/mainview/MainImageRectangle.qml</file>
+    <file>../qml/mainview/Thumbnails.qml</file>
     </qresource>
 </RCC>
