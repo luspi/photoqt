@@ -185,9 +185,6 @@ endif(GM)
 
 if(UNIX)
 
-    # Set the install prefix to /usr/
-    set(PRODUCT_INSTALL_PREFIX /usr)
-
     # Install executeable
     install(
         TARGETS photoqt
