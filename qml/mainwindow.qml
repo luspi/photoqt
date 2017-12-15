@@ -29,6 +29,7 @@ Window {
     signal verboseMessage(string loc, string msg)
     signal setOverrideCursor()
     signal restoreOverrideCursor()
+    signal quitPhotoQt()
 
     // The minimum size of the window
     minimumWidth: 640

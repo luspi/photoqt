@@ -56,6 +56,7 @@ void MainHandler::setObjectAndConnect() {
     connect(object, SIGNAL(verboseMessage(QString,QString)), this, SLOT(qmlVerboseMessage(QString,QString)));
     connect(object, SIGNAL(setOverrideCursor()), this, SLOT(setOverrideCursor()));
     connect(object, SIGNAL(restoreOverrideCursor()), this, SLOT(restoreOverrideCursor()));
+    connect(object, SIGNAL(quitPhotoQt()), qApp, SLOT(quit()));
 
 }
 

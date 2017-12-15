@@ -113,15 +113,14 @@ Item {
 
 //        if(cmd === "__stopThb")
 //            thumbnailBar.stopThumbnails()
-//        if(cmd === "__close")
-//            quitPhotoQt()
-//        else if(cmd === "__hide") {
+        if(cmd === "__close")
+            mainwindow.quitPhotoQt()
+        else if(cmd === "__hide") {
 //            if(settings.trayicon)
 //                hideToSystemTray()
 //            else
-//                quitPhotoQt()
-//        } else
-            if(cmd === "__settings")
+                mainwindow.quitPhotoQt()
+        } else if(cmd === "__settings")
                 call.show("settingsmanager")
         else if(cmd === "__next")
                 call.load("loadnext")
