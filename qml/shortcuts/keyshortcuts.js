@@ -1,14 +1,7 @@
 
 function analyseEvent(event) {
 
-    var combostring = ""
-
-    var mods = getModifiers(event)
-
-    for(var m in mods) {
-        combostring += mods[m]
-        combostring += "+"
-    }
+    var combostring = getModifiers(event)
 
     if(event.key == Qt.Key_Escape)
         combostring += "Escape"
@@ -49,19 +42,19 @@ function analyseEvent(event) {
 
 function getModifiers(event) {
 
-    var mods = []
+    var modstring = ""
 
-    if(event.modifiers & Qt.ShiftModifier)
-        mods.push("Shift")
     if(event.modifiers & Qt.ControlModifier)
-        mods.push("Ctrl")
+        modstring += "Ctrl+"
     if(event.modifiers & Qt.AltModifier)
-        mods.push("Alt")
+        modstring += "Alt+"
+    if(event.modifiers & Qt.ShiftModifier)
+        modstring += "Shift+"
     if(event.modifiers & Qt.MetaModifier)
-        mods.push("Meta")
+        modstring += "Meta+"
     if(event.modifiers & Qt.KeypadModifier)
-        mods.push("Keypad")
+        modstring += "Keypad+"
 
-    return mods
+    return modstring
 
 }
