@@ -12,6 +12,8 @@ Item {
     signal thumbnailsLoadDirectory(var filename, var filter)
     signal loadNext()
     signal loadPrev()
+    signal settingsmanagerShow()
+    signal settingsmanagerHide()
 
     property var whatisshown: ({"thumbnails" : false,
                                "openfile" : false})
@@ -33,6 +35,13 @@ Item {
             }
             thumbnailsShow()
             whatisshown["thumbnails"] = true
+        } else if(component == "settingsmanager") {
+            if(elementssetup.indexOf(component) < 0) {
+                settingsmanager.source = "settingsmanager/SettingsManager.qml"
+                elementssetup.push(component)
+            }
+            settingsmanagerShow()
+            whatisshown["settingsmanager"] = true
         }
 
     }
@@ -45,6 +54,9 @@ Item {
         } else if(component == "thumbnails") {
             thumbnailsHide()
             whatisshown["thumbnails"] = false
+        } else if(component == "settingsmanager") {
+            settingsmanagerHide()
+            whatisshown["settingsmanager"] = false
         }
     }
 

@@ -18,6 +18,7 @@
 #include "scripts/imagewatch.h"
 #include "clipboard/clipboard.h"
 #include "shortcuts/shortcutsnotifier.h"
+#include "scripts/thumbnailsmanagement.h"
 
 #include "imageprovider/imageproviderempty.h"
 #include "imageprovider/imageproviderfull.h"

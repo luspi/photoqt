@@ -12,6 +12,7 @@ import PImageWatch 1.0
 import PImgur 1.0
 import PClipboard 1.0
 import PShortcutsNotifier 1.0
+import PThumbnailManagement 1.0
 
 import "./mainview"
 import "./shortcuts"
@@ -72,6 +73,8 @@ Window {
     // Interact with the clipboard
     PClipboard { id: clipboard; }
 
+    PThumbnailManagement { id: thumbnailmanagement; }
+
     //////////////////////////////////////////////
     // THE TOOLTIP HAS A SPECIAL ROLE: IT'S NOT //
     // DIRECTLY A VISUAL ITEM BUT RELAYS BACK   //
@@ -124,6 +127,8 @@ Window {
                 imageitem.resetRotation()
             else if(combo == "o")
                 call.show("openfile")
+            else if(combo == "e")
+                call.show("settingsmanager")
         }
     }
 
@@ -176,6 +181,8 @@ Window {
 
     // An element for browsing and opening files (loaded as needed)
     Loader { id: openfile }
+
+    Loader { id: settingsmanager }
 
     // The shortcut notifier element
     PShortcutsNotifier { id: sh_notifier; }

@@ -71,6 +71,7 @@ void MainHandler::registerQmlTypes() {
     qmlRegisterType<ShareOnline::Imgur>("PImgur", 1, 0, "PImgur");
     qmlRegisterType<Clipboard>("PClipboard", 1, 0, "PClipboard");
     qmlRegisterType<ShortcutsNotifier>("PShortcutsNotifier", 1, 0, "PShortcutsNotifier");
+    qmlRegisterType<ThumbnailManagement>("PThumbnailManagement", 1, 0, "PThumbnailManagement");
 }
 
 // Add image providers to QML

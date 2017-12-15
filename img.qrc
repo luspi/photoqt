@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>img/closingx.png</file>
+        <file>img/transparent.png</file>
         <file>img/openfile/folder.png</file>
         <file>img/openfile/hoverpreview.png</file>
         <file>img/openfile/iconview.png</file>
@@ -20,5 +21,12 @@
         <file>img/openfile/backupicons/unknown.svg</file>
         <file>img/openfile/backupicons/user-desktop.svg</file>
         <file>img/openfile/backupicons/user-home.svg</file>
+        <file>img/settings/addshortcut.png</file>
+        <file>img/settings/emptybackground.png</file>
+        <file>img/settings/sortascending.png</file>
+        <file>img/settings/sortdescending.png</file>
+        <file>img/settings/shortcuts/categorykeyboard.png</file>
+        <file>img/settings/shortcuts/categorymouse.png</file>
+        <file>img/settings/shortcuts/categorytouch.png</file>
     </qresource>
 </RCC>

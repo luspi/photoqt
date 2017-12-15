@@ -15,7 +15,7 @@ SpinBox {
             Behavior on color { ColorAnimation { duration: 150; } }
             border.color: control.enabled ? colour.element_border_color : colour.element_border_color_disabled
             Behavior on border.color { ColorAnimation { duration: 150; } }
-            radius: global_item_radius
+            radius: variables.global_item_radius
         }
         textColor: control.enabled ? colour.text : colour.text_disabled
         Behavior on textColor { ColorAnimation { duration: 150; } }
