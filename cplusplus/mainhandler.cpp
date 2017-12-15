@@ -171,3 +171,9 @@ void MainHandler::remoteAction(QString cmd) {
 
 
 }
+
+void MainHandler::manageStartupFilename(QString filename) {
+
+    QMetaObject::invokeMethod(object, "manageStartup", Q_ARG(QVariant, filename));
+
+}

@@ -48,6 +48,7 @@ public:
     void loadTranslation();
     void registerQmlTypes();
     void addImageProvider();
+    void manageStartupFilename(QString filename);
 
 public slots:
     void remoteAction(QString cmd);

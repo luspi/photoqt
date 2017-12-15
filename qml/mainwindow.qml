@@ -187,7 +187,6 @@ Window {
     // Set up the window in the right way
     Component.onCompleted: {
         setWindowFlags()
-        manageStartup()
         call.show("thumbnails")
     }
 
@@ -253,9 +252,16 @@ Window {
 
     }
 
-    function manageStartup() {
+    function manageStartup(filename) {
 
-        call.show("openfile")
+        if(filename == "")
+            call.show("openfile")
+        else {
+            variables.currentFile = filename
+            variables.filter = ""
+            imageitem.loadImage("image://full/" + filename)
+            call.load("thumbnailLoadDirectory")
+        }
 
     }
 
