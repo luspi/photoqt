@@ -7,13 +7,19 @@ Item {
     // The loaded elements connect to these signals to show/hide
     signal openfileShow()
     signal openfileHide()
+
     signal thumbnailsShow()
     signal thumbnailsHide()
     signal thumbnailsLoadDirectory(var filename, var filter)
     signal loadNext()
     signal loadPrev()
+
     signal settingsmanagerShow()
     signal settingsmanagerHide()
+    signal settingsmanagerSave()
+    signal settingsmanagerNextTab()
+    signal settingsmanagerPrevTab()
+    signal settingsmanagerGoToTab(var index)
 
     property var whatisshown: ({"thumbnails" : false,
                                "openfile" : false})
@@ -69,6 +75,26 @@ Item {
             loadNext()
         else if(func == "loadprev")
             loadPrev()
+        else if(func == "settingsmanagerSave")
+            settingsmanagerSave()
+        else if(func == "settingsmanagerNextTab")
+            settingsmanagerNextTab()
+        else if(func == "settingsmanagerPrevTab")
+            settingsmanagerPrevTab()
+        else if(func == "settingsmanagerPrevTab")
+            settingsmanagerPrevTab()
+        else if(func == "settingsmanagerGoToTab1")
+            settingsmanagerGoToTab(0)
+        else if(func == "settingsmanagerGoToTab2")
+            settingsmanagerGoToTab(1)
+        else if(func == "settingsmanagerGoToTab3")
+            settingsmanagerGoToTab(2)
+        else if(func == "settingsmanagerGoToTab4")
+            settingsmanagerGoToTab(3)
+        else if(func == "settingsmanagerGoToTab5")
+            settingsmanagerGoToTab(4)
+        else if(func == "settingsmanagerGoToTab6")
+            settingsmanagerGoToTab(5)
 
     }
 

@@ -19,6 +19,7 @@
 #include "clipboard/clipboard.h"
 #include "shortcuts/shortcutsnotifier.h"
 #include "scripts/thumbnailsmanagement.h"
+#include "shortcuts/shortcuts.h"
 
 #include "imageprovider/imageproviderempty.h"
 #include "imageprovider/imageproviderfull.h"

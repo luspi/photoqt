@@ -13,6 +13,7 @@ import PImgur 1.0
 import PClipboard 1.0
 import PShortcutsNotifier 1.0
 import PThumbnailManagement 1.0
+import PShortcutsHandler 1.0
 
 import "./mainview"
 import "./shortcuts"
@@ -94,6 +95,8 @@ Window {
      * SOME INVISIBLE ELEMENTS FOR QML CLASSES *
      *                                         *
      *******************************************/
+
+    PShortcutsHandler { id: shortcutshandler }
 
     // The shortcuts engine
     Shortcuts {

@@ -444,6 +444,14 @@ Rectangle {
             showSettings()
         onSettingsmanagerHide:
             hideSettings()
+        onSettingsmanagerSave:
+            saveSettings()
+        onSettingsmanagerNextTab:
+            nextTab()
+        onSettingsmanagerPrevTab:
+            prevTab()
+        onSettingsmanagerGoToTab:
+            gotoTab(index)
     }
 
     DetectShortcut {

@@ -47,4 +47,4 @@ SET(d "cplusplus/singleinstance")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/commandlineparser.h ${d}/singleinstance.cpp)
 
 SET(d "cplusplus/shortcuts")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/shortcutsnotifier.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/shortcutsnotifier.h ${d}/shortcuts.cpp)

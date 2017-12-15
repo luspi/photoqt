@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>../qml/shortcuts/Shortcuts.qml</file>
+        <file>../qml/shortcuts/keyshortcuts.js</file>
     </qresource>
 </RCC>

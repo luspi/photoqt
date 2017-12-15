@@ -72,6 +72,7 @@ void MainHandler::registerQmlTypes() {
     qmlRegisterType<Clipboard>("PClipboard", 1, 0, "PClipboard");
     qmlRegisterType<ShortcutsNotifier>("PShortcutsNotifier", 1, 0, "PShortcutsNotifier");
     qmlRegisterType<ThumbnailManagement>("PThumbnailManagement", 1, 0, "PThumbnailManagement");
+    qmlRegisterType<Shortcuts>("PShortcutsHandler", 1, 0, "PShortcutsHandler");
 }
 
 // Add image providers to QML
