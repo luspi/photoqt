@@ -140,20 +140,20 @@ Item {
             call.show("openfile")
         else if(cmd === "__openOld")
             call.show("openfile")
-//        else if(cmd === "__zoomIn")
-//            mainview.zoomIn(!bymouse)
-//        else if(cmd === "__zoomOut")
-//            mainview.zoomOut(!bymouse)
-//        else if(cmd === "__zoomReset")
-//            mainview.resetZoom()
+        else if(cmd === "__zoomIn")
+            imageitem.zoomIn()
+        else if(cmd === "__zoomOut")
+            imageitem.zoomOut()
+        else if(cmd === "__zoomReset")
+            imageitem.resetZoom()
 //        else if(cmd === "__zoomActual")
 //            mainview.zoomActual()
-//        else if(cmd === "__rotateL")
-//            mainview.rotateLeft()
-//        else if(cmd === "__rotateR")
-//            mainview.rotateRight()
-//        else if(cmd === "__rotate0")
-//            mainview.resetRotation()
+        else if(cmd === "__rotateL")
+            imageitem.rotateImage(-90)
+        else if(cmd === "__rotateR")
+            imageitem.rotateImage(90)
+        else if(cmd === "__rotate0")
+            imageitem.resetRotation()
 //        else if(cmd === "__flipH")
 //            mainview.mirrorHorizontal()
 //        else if(cmd === "__flipV")
@@ -168,15 +168,16 @@ Item {
 //            getanddostuff.copyImage(thumbnailBar.currentFile)
 //        else if(cmd === "__move")
 //            getanddostuff.moveImage(thumbnailBar.currentFile)
-//        else if(cmd === "__hideMeta") {
-//            if(metaData.x < -40) {
-//                metaData.checkCheckbox()
-//                background.showMetadata()
-//            } else {
-//                metaData.uncheckCheckbox()
-//                background.hideMetadata()
-//            }
-//        } else if(cmd === "__gotoFirstThb")
+        else if(cmd === "__hideMeta") {
+            if(metadata.opacity > 0) {
+                metadata.uncheckCheckbox()
+                metadata.hide()
+            } else {
+                metadata.checkCheckbox()
+                metadata.show()
+            }
+        }
+//        else if(cmd === "__gotoFirstThb")
 //            thumbnailBar.gotoFirstImage()
 //        else if(cmd === "__gotoLastThb")
 //            thumbnailBar.gotoLastImage()
@@ -191,13 +192,15 @@ Item {
 //            imgurfeedback.show(false)
 //        else if(cmd === "__imgurAnonym")
 //            imgurfeedback.show(true)
-//        else {
-//            getanddostuff.executeApp(cmd,thumbnailBar.currentFile)
-//            if(close !== undefined && close == true)
-//                if(settings.trayicon)
-//                    hideToSystemTray()
-//                else
-//                    quitPhotoQt()
+        else {
+            getanddostuff.executeApp(cmd,variables.currentFile)
+            if(close !== undefined && close == true)
+                if(settings.trayicon)
+                    hidePhotoQt()
+                else
+                    quitPhotoQt()
+        }
+
         }
 
     }
