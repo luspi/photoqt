@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
     // A remote action passed on via command line triggers the 'interaction' signal, so we pass it on to the MainWindow
     QObject::connect(&app, SIGNAL(interaction(QString)), &handle, SLOT(remoteAction(QString)));
 
-    handle.manageStartupFilename(app.filename);
+    handle.manageStartupFilename(app.startintray, app.filename);
 
     // And execute
     return app.exec();

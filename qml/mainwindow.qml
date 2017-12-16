@@ -29,6 +29,7 @@ Window {
     signal verboseMessage(string loc, string msg)
     signal setOverrideCursor()
     signal restoreOverrideCursor()
+    signal hidePhotoQt()
     signal quitPhotoQt()
 
     // The minimum size of the window
@@ -260,6 +261,13 @@ Window {
 
         }
 
+    }
+
+    function toggleWindow() {
+        if(mainwindow.visible)
+            mainwindow.hide()
+        else
+            mainwindow.show()
     }
 
     function handleMousePositionChange(xPos, yPos) {

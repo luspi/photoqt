@@ -2,6 +2,7 @@
     <qresource prefix="/">
         <file>img/closingx.png</file>
         <file>img/transparent.png</file>
+        <file>img/icon.png</file>
         <file>img/openfile/folder.png</file>
         <file>img/openfile/hoverpreview.png</file>
         <file>img/openfile/iconview.png</file>

@@ -50,7 +50,7 @@ public:
     void loadTranslation();
     void registerQmlTypes();
     void addImageProvider();
-    void manageStartupFilename(QString filename);
+    void manageStartupFilename(bool startInTray, QString filename);
 
 public slots:
     void remoteAction(QString cmd);
@@ -64,10 +64,15 @@ private:
     Settings *permanentSettings;
     QTranslator trans;
 
+    void showTrayIcon();
+    QSystemTrayIcon *trayIcon;
+
     bool overrideCursorSet;
 
 private slots:
     void qmlVerboseMessage(QString loc, QString msg);
+    void trayAction(QSystemTrayIcon::ActivationReason reason);
+    void toggleWindow();
 
 };
 

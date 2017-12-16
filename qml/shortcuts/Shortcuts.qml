@@ -118,9 +118,9 @@ Item {
         if(cmd === "__close")
             mainwindow.quitPhotoQt()
         else if(cmd === "__hide") {
-//            if(settings.trayicon)
-//                hideToSystemTray()
-//            else
+            if(settings.trayicon)
+                mainwindow.hidePhotoQt()
+            else
                 mainwindow.quitPhotoQt()
         } else if(cmd === "__settings")
                 call.show("settingsmanager")

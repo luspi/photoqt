@@ -18,6 +18,8 @@ MainHandler::MainHandler(bool verbose, QObject *parent) : QObject(parent) {
     // Register the qml types. This need to happen BEFORE creating the QQmlApplicationEngine!.
     registerQmlTypes();
 
+    showTrayIcon();
+
 }
 
 // Performs some initial startup checks to make sure everything is in order
@@ -57,6 +59,7 @@ void MainHandler::setObjectAndConnect() {
     connect(object, SIGNAL(setOverrideCursor()), this, SLOT(setOverrideCursor()));
     connect(object, SIGNAL(restoreOverrideCursor()), this, SLOT(restoreOverrideCursor()));
     connect(object, SIGNAL(quitPhotoQt()), qApp, SLOT(quit()));
+    connect(object, SIGNAL(hidePhotoQt()), this, SLOT(toggleWindow()));
 
 }
 
@@ -175,8 +178,61 @@ void MainHandler::remoteAction(QString cmd) {
 
 }
 
-void MainHandler::manageStartupFilename(QString filename) {
+void MainHandler::manageStartupFilename(bool startInTray, QString filename) {
 
-    QMetaObject::invokeMethod(object, "manageStartup", Q_ARG(QVariant, filename));
+    if(startInTray)
+        toggleWindow();
+    else
+        QMetaObject::invokeMethod(object, "manageStartup", Q_ARG(QVariant, filename));
+
+}
+
+void MainHandler::showTrayIcon() {
+
+    if(variables->verbose)
+        LOG << CURDATE << "showTrayIcon()" << NL;
+
+    if(permanentSettings->trayicon != 0) {
+
+        if(variables->verbose)
+            LOG << CURDATE << "showTrayIcon(): Setting up" << NL;
+
+        trayIcon = new QSystemTrayIcon(this);
+        trayIcon->setIcon(QIcon(":/img/icon.png"));
+        trayIcon->setToolTip("PhotoQt " + tr("Image Viewer"));
+
+        // A context menu for the tray icon
+        QMenu *trayIconMenu = new QMenu;
+        trayIconMenu->setStyleSheet("background-color: rgb(67,67,67); color: white; border-radius: 5px;");
+        QAction *trayAcToggle = new QAction(QIcon(":/img/logo.png"),tr("Hide/Show PhotoQt"),this);
+        trayIconMenu->addAction(trayAcToggle);
+        QAction *trayAcQuit = new QAction(QIcon(":/img/logo.png"),tr("Quit PhotoQt"),this);
+        trayIconMenu->addAction(trayAcQuit);
+        connect(trayAcToggle, &QAction::triggered, this, &MainHandler::toggleWindow);
+        connect(trayAcQuit, &QAction::triggered, qApp, &QApplication::quit);
+
+        // Set the menu to the tray icon
+        trayIcon->setContextMenu(trayIconMenu);
+        connect(trayIcon, &QSystemTrayIcon::activated, this, &MainHandler::trayAction);
+
+        if(variables->verbose)
+            LOG << CURDATE << "showTrayIcon(): Setting icon to visible" << NL;
+
+        trayIcon->show();
+
+    }
+
+}
+
+void MainHandler::trayAction(QSystemTrayIcon::ActivationReason reason) {
+
+    if(reason == QSystemTrayIcon::Trigger)
+        toggleWindow();
+
+}
+
+void MainHandler::toggleWindow() {
+
+    QMetaObject::invokeMethod(object, "toggleWindow");
 
 }
