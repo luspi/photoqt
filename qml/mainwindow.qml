@@ -52,7 +52,13 @@ Window {
      **************************************************************/
 
     // All the permanent settings
-    PSettings { id: settings }
+    PSettings {
+        id: settings
+        onHidecounterChanged: quickinfo.updateQuickInfo(quickinfo._pos, variables.totalNumberImagesCurrentFolder, variables.currentFile)
+        onHidefilenameChanged: quickinfo.updateQuickInfo(quickinfo._pos, variables.totalNumberImagesCurrentFolder, variables.currentFile)
+        onHidefilepathshowfilenameChanged: quickinfo.updateQuickInfo(quickinfo._pos, variables.totalNumberImagesCurrentFolder, variables.currentFile)
+        onHidexChanged: quickinfo.updateQuickInfo(quickinfo._pos, variables.totalNumberImagesCurrentFolder, variables.currentFile)
+    }
 
     // The fileformats known to PhotoQt
     PFileFormats { id: fileformats; }
@@ -158,6 +164,9 @@ Window {
 
     // The item for displaying the main image
     MainImage { id: imageitem }
+
+    QuickInfo { id: quickinfo }
+    ClosingX { id: closingx }
 
     /**************************/
     // ITEMS THAT FADE IN/OUT

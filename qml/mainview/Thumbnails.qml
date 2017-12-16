@@ -19,14 +19,15 @@ Item {
     // Some properties about the current folder
     property string path: ""
     property var allFiles: []
-    property int totalNumberImagesInFolder: 0
 
     // The index of the currently displayed image
     property int currentPos: 0
     onCurrentPosChanged: {
         // Update the view to make sure the current image is visible
-        if(safeToUsePosWithoutCrash)
+        if(safeToUsePosWithoutCrash) {
             _ensureCurrentItemVisible()
+        }
+        quickinfo.updateQuickInfo(currentPos, variables.totalNumberImagesCurrentFolder, variables.currentFile)
     }
 
     // If we call _ensureCurrentItemVisible() immediately, then PhotoQt is likely to crash as the ListView hasn't finished setting up yet.
@@ -277,7 +278,7 @@ Item {
     // Ensure selected item is centered/visible
     function _ensureCurrentItemVisible() {
 
-        if(totalNumberImagesInFolder*settings.thumbnailsize > top.width) {
+        if(variables.totalNumberImagesCurrentFolder*settings.thumbnailsize > top.width) {
 
             // Newly loaded dir => center item
             if(settings.thumbnailCenterActive) {
@@ -327,17 +328,17 @@ Item {
         // Get the properties of the current folder
         path = getanddostuff.removeFilenameFromPath(filename)
         allFiles = getanddostuff.getFilesIn(path)
-        totalNumberImagesInFolder = allFiles.length
+        variables.totalNumberImagesCurrentFolder = allFiles.length
 
         // Set the starting position
         currentPos = allFiles.indexOf(getanddostuff.removePathFromFilename(filename))
 
         // Load the image (based on the current filter). If no filter is set, we can avoid the expensive if-statement inside the loop
         if(filter == "") {
-            for(var i = 0; i < totalNumberImagesInFolder; ++i)
+            for(var i = 0; i < variables.totalNumberImagesCurrentFolder; ++i)
                     imageModel.append({"imagePath" : path + "/" + allFiles[i]})
         } else {
-            for(var i = 0; i < totalNumberImagesInFolder; ++i) {
+            for(var i = 0; i < variables.totalNumberImagesCurrentFolder; ++i) {
                 if(allFiles[i].indexOf(filter) >= 0)
                     imageModel.append({"imagePath" : path + "/" + allFiles[i]})
             }

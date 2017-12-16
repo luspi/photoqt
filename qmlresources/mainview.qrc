@@ -4,5 +4,7 @@
     <file>../qml/mainview/MainImage.qml</file>
     <file>../qml/mainview/MainImageRectangle.qml</file>
     <file>../qml/mainview/Thumbnails.qml</file>
+    <file>../qml/mainview/QuickInfo.qml</file>
+    <file>../qml/mainview/ClosingX.qml</file>
     </qresource>
 </RCC>

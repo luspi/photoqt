@@ -30,12 +30,12 @@ EntryContainer {
                 }
 
                 CustomCheckBox {
-                    id: quickinfo_filepath
+                    id: quickinfo_filename
                     text: qsTr("Filename")
                 }
 
                 CustomCheckBox {
-                    id: quickinfo_filename
+                    id: quickinfo_filepath
                     text: qsTr("Filepath and Filename")
                 }
 
