@@ -8,5 +8,6 @@
     <file>../qml/mainview/ClosingX.qml</file>
     <file>../qml/mainview/MainMenu.qml</file>
     <file>../qml/mainview/HandleMouseMovements.qml</file>
+    <file>../qml/mainview/MetaData.qml</file>
     </qresource>
 </RCC>

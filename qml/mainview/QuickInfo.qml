@@ -14,14 +14,11 @@ Item {
 
     property bool somethingLoaded: false
 
-    property int _pos: -1
 
     // Set data
-    function updateQuickInfo(pos, totalNumberImages, filepath) {
+    function updateQuickInfo(totalNumberImages, filepath) {
 
-        verboseMessage("QuickInfo::updateQuickInfo()",pos + "/" + totalNumberImages + " - " + filepath)
-
-        _pos = pos
+        verboseMessage("QuickInfo::updateQuickInfo()",variables.currentFilePos + "/" + totalNumberImages + " - " + filepath)
 
         somethingLoaded = true
 
@@ -30,7 +27,7 @@ Item {
             counter.visible = false
             spacing.visible = false
         } else {
-            counter.text = (pos+1).toString() + "/" + totalNumberImages.toString()
+            counter.text = (variables.currentFilePos+1).toString() + "/" + totalNumberImages.toString()
             counter.visible = true
         }
 

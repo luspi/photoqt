@@ -20,14 +20,15 @@ Item {
     property string path: ""
     property var allFiles: []
 
-    // The index of the currently displayed image
-    property int currentPos: 0
-    onCurrentPosChanged: {
-        // Update the view to make sure the current image is visible
-        if(safeToUsePosWithoutCrash) {
-            _ensureCurrentItemVisible()
+    // The index of the currently displayed image is handled in Variables
+    Connections {
+        target: variables
+        onCurrentFilePosChanged: {
+            if(safeToUsePosWithoutCrash) {
+                _ensureCurrentItemVisible()
+            }
+            quickinfo.updateQuickInfo(variables.totalNumberImagesCurrentFolder, variables.currentFile)
         }
-        quickinfo.updateQuickInfo(currentPos, variables.totalNumberImagesCurrentFolder, variables.currentFile)
     }
 
     // If we call _ensureCurrentItemVisible() immediately, then PhotoQt is likely to crash as the ListView hasn't finished setting up yet.
@@ -151,9 +152,9 @@ Item {
                             ? -rect.thumbnailExtraMargin/2
                             : settings.thumbnailLiftUp)+rect.thumbnailExtraMargin/3
 
-            // Make sure the currentPos int always follows the loaded image
+            // Make sure the variables.currentFilePos int always follows the loaded image
             onLoadedChanged:
-                if(loaded) currentPos = index
+                if(loaded) variables.currentFilePos = index
 
 
             // The thumbnail image
@@ -283,10 +284,10 @@ Item {
             // Newly loaded dir => center item
             if(settings.thumbnailCenterActive) {
                 verboseMessage("ThumbnailBar::displayImage()","Show thumbnail centered")
-                positionViewAtIndex(currentPos,ListView.Center)
+                positionViewAtIndex(variables.currentFilePos,ListView.Center)
             } else {
                 verboseMessage("ThumbnailBar::displayImage()","Keep thumbnail visible")
-                positionViewAtIndex(currentPos,ListView.Contain)
+                positionViewAtIndex(variables.currentFilePos,ListView.Contain)
             }
         }
 
@@ -331,7 +332,7 @@ Item {
         variables.totalNumberImagesCurrentFolder = allFiles.length
 
         // Set the starting position
-        currentPos = allFiles.indexOf(getanddostuff.removePathFromFilename(filename))
+        variables.currentFilePos = allFiles.indexOf(getanddostuff.removePathFromFilename(filename))
 
         // Load the image (based on the current filter). If no filter is set, we can avoid the expensive if-statement inside the loop
         if(filter == "") {
@@ -362,27 +363,27 @@ Item {
     // Load the next image in the folder
     function nextImage() {
         // We need to use a temp variable, otherwise wrapping the end of the images around to the beginning wont work!
-        var loadpos = currentPos
+        var loadpos = variables.currentFilePos
         if(loadpos == allFiles.length-1)
             loadpos = 0
         else
             loadpos += 1
         variables.currentFile = path + "/" + allFiles[loadpos]
         imageitem.loadImage("image://full/" + variables.currentFile)
-        currentPos = loadpos
+        variables.currentFilePos = loadpos
     }
 
     // Load the previous image in the folder
     function prevImage() {
         // We need to use a temp variable, otherwise wrapping the beginning of the images around to the end wont work!
-        var loadpos = currentPos
+        var loadpos = variables.currentFilePos
         if(loadpos <= 0)
             loadpos = allFiles.length-1
         else
             loadpos -= 1
         variables.currentFile = path + "/" + allFiles[loadpos]
-        imageitem.loadImage("image://full/" + path + "/" + allFiles[currentPos])
-        currentPos = loadpos
+        imageitem.loadImage("image://full/" + path + "/" + allFiles[variables.currentFilePos])
+        variables.currentFilePos = loadpos
     }
 
 }

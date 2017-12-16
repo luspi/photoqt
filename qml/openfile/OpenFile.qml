@@ -320,6 +320,9 @@ Rectangle {
 
         call.load("thumbnailLoadDirectory")
 
+
+        metadata.setData(getmetadata.getExiv2(variables.currentFile))
+
     }
 
 }

@@ -24,6 +24,11 @@ MouseArea {
         else
             mainmenu.hide()
 
+        if(xPos < 20)
+            metadata.show()
+        else
+            metadata.hide()
+
         if(yPos > mainwindow.height-20)
             call.show("thumbnails")
         else

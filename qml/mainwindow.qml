@@ -144,6 +144,7 @@ Window {
     Loader { id: thumbnails }
 
     MainMenu { id: mainmenu }
+    MetaData { id: metadata }
 
 
 

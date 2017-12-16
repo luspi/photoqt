@@ -10,6 +10,7 @@ Item {
     property bool guiBlocked: false
 
     property int totalNumberImagesCurrentFolder: 0
+    property int currentFilePos: -1
     property string currentFile: ""
     property string filter: ""
 
