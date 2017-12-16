@@ -24,8 +24,10 @@ Item {
 
         var combostring = AnalyseKeys.analyseEvent(event)
 
-        checkForSystemShortcut(combostring)
-        if(!variables.guiBlocked)
+        // We need to check for guiBlocked before doing any of the below checks that might change its value.
+        if(variables.guiBlocked)
+            checkForSystemShortcut(combostring)
+        else
             analyseKeyCombo(combostring)
 
     }
