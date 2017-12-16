@@ -19,12 +19,7 @@ Rectangle {
     opacity: 0
     visible: opacity!=0
     Behavior on opacity { NumberAnimation { duration: settings.myWidgetAnimated ? 250 : 0 } }
-    property real lastOpacityValue: 0
-    onOpacityChanged: {
-        if(variables.currentFile == "" && opacity > 0.1 && opacity < lastOpacityValue)
-            call.show("openfile")
-        lastOpacityValue = opacity
-    }
+
 
     // setData is only emitted when settings have been 'closed without saving'
     // See comment above 'setData_restore()' function below
@@ -492,7 +487,10 @@ Rectangle {
             settingsinfooverlay.hide()
         else {
             opacity = 0
-            variables.guiBlocked = false
+            if(variables.currentFile == "" )
+                call.show("openfile")
+            else
+                variables.guiBlocked = false
 //            unblurAllBackgroundElements()
         }
     }
