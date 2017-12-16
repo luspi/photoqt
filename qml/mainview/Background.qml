@@ -55,4 +55,39 @@ Rectangle {
         visible: !settings.composite && !settings.backgroundImageScreenshot && !settings.backgroundImageUse
     }
 
+    Text {
+
+        anchors.fill: parent
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        font.pointSize: 50
+        color: colour.bg_label
+        wrapMode: Text.WordWrap
+        font.bold: true
+        text: qsTr("Open a file to begin")
+
+    }
+
+    // Arrow pointing to metadata widget
+    Image {
+        id: metadataarrow
+        x: 0
+//        y: metaData.y+metaData.height/2-height/2
+        y: parent.height/2
+        source: "qrc:/img/arrowleft.png"
+        width: 150
+        height: 60
+    }
+
+    // Arrow pointing to mainmenu widget
+    Image {
+        id: mainmenuarrow
+        x: background.width-width-5
+//        y: mainmenu.y+mainmenu.height/2-height/2
+        y: parent.height/2
+        source: "qrc:/img/arrowright.png"
+        width: 150
+        height: 60
+    }
+
 }
