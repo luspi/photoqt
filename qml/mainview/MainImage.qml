@@ -114,37 +114,11 @@ Item {
             image2.zoomOut()
     }
 
-    function rotateLeft45() {
+    function rotateImage(angle) {
         if(currentId == image1)
-            image1.rotateLeft45()
+            image1.rotateImage(angle)
         else if(currentId == image2)
-            image2.rotateLeft45()
-    }
-    function rotateLeft90() {
-        if(currentId == image1)
-            image1.rotateLeft90()
-        else if(currentId == image2)
-            image2.rotateLeft90()
-    }
-
-    function rotateRight45() {
-        if(currentId == image1)
-            image1.rotateRight45()
-        else if(currentId == image2)
-            image2.rotateRight45()
-    }
-    function rotateRight90() {
-        if(currentId == image1)
-            image1.rotateRight90()
-        else if(currentId == image2)
-            image2.rotateRight90()
-    }
-
-    function rotate180() {
-        if(currentId == image1)
-            image1.rotate180()
-        else if(currentId == image2)
-            image2.rotate180()
+            image2.rotateImage(angle)
     }
 
     function resetRotation() {

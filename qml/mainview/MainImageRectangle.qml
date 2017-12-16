@@ -237,27 +237,9 @@ Item {
             scaleMultiplier = 1
     }
 
-    function rotateLeft45() {
+    function rotateImage(angle) {
         rotationAni.duration = rotationDuration
-        imageContainer.rotation -= 45
-    }
-    function rotateLeft90() {
-        rotationAni.duration = rotationDuration
-        imageContainer.rotation -= 90
-    }
-
-    function rotateRight45() {
-        rotationAni.duration = rotationDuration
-        imageContainer.rotation += 45
-    }
-    function rotateRight90() {
-        rotationAni.duration = rotationDuration
-        imageContainer.rotation += 90
-    }
-
-    function rotate180() {
-        rotationAni.duration = rotationDuration
-        imageContainer.rotation += 180
+        imageContainer.rotation += angle
     }
 
     function resetRotation() {
