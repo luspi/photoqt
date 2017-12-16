@@ -106,41 +106,7 @@ Window {
     PShortcutsHandler { id: shortcutshandler }
 
     // The shortcuts engine
-    Shortcuts {
-        id: shortcuts;
-
-        // Temporary solution for initial development
-        onShortcutReceived: {
-            if(combo == "Left") {
-                call.load("loadprev")
-            } else if(combo == "Right") {
-                call.load("loadnext")
-            } else if(combo == "R")
-                imageitem.resetPosition()
-            else if(combo == "+")
-                imageitem.zoomIn()
-            else if(combo == "-")
-                imageitem.zoomOut()
-            else if(combo == "0")
-                imageitem.resetZoom()
-            else if(combo == "1")
-                imageitem.rotateLeft45()
-            else if(combo == "2")
-                imageitem.rotateLeft90()
-            else if(combo == "3")
-                imageitem.rotateRight45()
-            else if(combo == "4")
-                imageitem.rotateRight90()
-            else if(combo == "5")
-                imageitem.rotate180()
-            else if(combo == "6")
-                imageitem.resetRotation()
-            else if(combo == "o")
-                call.show("openfile")
-            else if(combo == "e")
-                call.show("settingsmanager")
-        }
-    }
+    Shortcuts { id: shortcuts }
 
     // Some of the variables used in various places
     Variables { id: variables }

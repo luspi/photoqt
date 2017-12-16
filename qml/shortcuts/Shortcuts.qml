@@ -18,8 +18,6 @@ Item {
 
     }
 
-    signal shortcutReceived(var combo)
-
     Keys.onPressed: {
 
         var combostring = AnalyseKeys.analyseEvent(event)
