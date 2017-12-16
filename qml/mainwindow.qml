@@ -57,7 +57,6 @@ Window {
         onHidecounterChanged: quickinfo.updateQuickInfo(quickinfo._pos, variables.totalNumberImagesCurrentFolder, variables.currentFile)
         onHidefilenameChanged: quickinfo.updateQuickInfo(quickinfo._pos, variables.totalNumberImagesCurrentFolder, variables.currentFile)
         onHidefilepathshowfilenameChanged: quickinfo.updateQuickInfo(quickinfo._pos, variables.totalNumberImagesCurrentFolder, variables.currentFile)
-        onHidexChanged: quickinfo.updateQuickInfo(quickinfo._pos, variables.totalNumberImagesCurrentFolder, variables.currentFile)
     }
 
     // The fileformats known to PhotoQt
@@ -165,9 +164,6 @@ Window {
     // The item for displaying the main image
     MainImage { id: imageitem }
 
-    QuickInfo { id: quickinfo }
-    ClosingX { id: closingx }
-
     /**************************/
     // ITEMS THAT FADE IN/OUT
 
@@ -185,6 +181,9 @@ Window {
         onReleased: mouse.accepted = false
         onPressAndHold: mouse.accepted = false
     }
+
+    QuickInfo { id: quickinfo }
+    ClosingX { id: closingx }
 
     // The thumbnail bar
     Loader { id: thumbnails }
