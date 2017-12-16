@@ -10,6 +10,7 @@ SET(photoqt_QML ${photoqt_QML} ${d}/Variables.qml ${d}/StringsKeys.qml ${d}/Stri
 
 SET(d "qml/mainview")
 SET(photoqt_QML ${photoqt_QML} ${d}/Background.qml ${d}/MainImage.qml ${d}/MainImageRectangle.qml ${d}/Thumbnails.qml ${d}/QuickInfo.qml ${d}/ClosingX.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/HandleMouseMovements.qml)
 
 SET(d "qml/shortcuts")
 SET(photoqt_QML ${photoqt_QML} ${d}/Shortcuts.qml ${d}/keyshortcuts.js)
