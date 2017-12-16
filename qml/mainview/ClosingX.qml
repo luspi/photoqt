@@ -58,10 +58,9 @@ Item {
         cursorShape: Qt.PointingHandCursor
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         onClicked: {
-            if (mouse.button == Qt.RightButton) {
-//                softblocked = 1
+            if (mouse.button == Qt.RightButton)
                 contextmenuClosingX.popup()
-            } else {
+            else {
 //                if(settings.trayicon)
 //                    hideToSystemTray()
 //                else

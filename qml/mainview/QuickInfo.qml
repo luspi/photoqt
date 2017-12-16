@@ -91,14 +91,8 @@ Item {
                 anchors.fill: parent
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onClicked: {
-                    if (mouse.button == Qt.RightButton && somethingLoaded) {
-//                        if(softblocked != 0)
-//                            softblocked = 0
-//                        else {
-//                            softblocked = 1
-                            contextmenuCounter.popup()
-//                        }
-                    }
+                    if (mouse.button == Qt.RightButton && somethingLoaded)
+                        contextmenuCounter.popup()
                 }
             }
 
@@ -156,14 +150,8 @@ Item {
                 anchors.fill: parent
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onClicked: {
-                    if (mouse.button == Qt.RightButton && somethingLoaded) {
-//                        if(softblocked != 0)
-//                            softblocked = 0
-//                        else {
-//                            softblocked = 1
-                            contextmenuFilename.popup()
-//                        }
-                    }
+                    if (mouse.button == Qt.RightButton && somethingLoaded)
+                        contextmenuFilename.popup()
                 }
             }
 
