@@ -143,6 +143,8 @@ Window {
     // The thumbnail bar
     Loader { id: thumbnails }
 
+    MainMenu { id: mainmenu }
+
 
 
 

@@ -31,5 +31,25 @@
         <file>img/settings/shortcuts/categorykeyboard.png</file>
         <file>img/settings/shortcuts/categorymouse.png</file>
         <file>img/settings/shortcuts/categorytouch.png</file>
+        <file>img/mainmenu/about.png</file>
+        <file>img/mainmenu/copy.png</file>
+        <file>img/mainmenu/delete.png</file>
+        <file>img/mainmenu/filter.png</file>
+        <file>img/mainmenu/flip.png</file>
+        <file>img/mainmenu/goto.png</file>
+        <file>img/mainmenu/hide.png</file>
+        <file>img/mainmenu/histogram.png</file>
+        <file>img/mainmenu/metadata.png</file>
+        <file>img/mainmenu/move.png</file>
+        <file>img/mainmenu/open.png</file>
+        <file>img/mainmenu/quit.png</file>
+        <file>img/mainmenu/rename.png</file>
+        <file>img/mainmenu/rotate.png</file>
+        <file>img/mainmenu/scale.png</file>
+        <file>img/mainmenu/settings.png</file>
+        <file>img/mainmenu/slideshow.png</file>
+        <file>img/mainmenu/zoom.png</file>
+        <file>img/mainmenu/zoomin.png</file>
+        <file>img/mainmenu/zoomout.png</file>
     </qresource>
 </RCC>

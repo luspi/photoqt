@@ -6,6 +6,7 @@
     <file>../qml/mainview/Thumbnails.qml</file>
     <file>../qml/mainview/QuickInfo.qml</file>
     <file>../qml/mainview/ClosingX.qml</file>
+    <file>../qml/mainview/MainMenu.qml</file>
     <file>../qml/mainview/HandleMouseMovements.qml</file>
     </qresource>
 </RCC>
