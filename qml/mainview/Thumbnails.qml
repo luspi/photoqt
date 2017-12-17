@@ -124,13 +124,13 @@ Item {
             property bool activated: false
 
             // loaded is the image currently loaded
-            property bool loaded: imagePath==variables.currentFile
+            property bool loaded: false
 
             // React to change in current file to see if this image is the loaded one
             Connections {
                 target: variables
                 onCurrentFileChanged:
-                    loaded = (imagePath==variables.currentFile)
+                    loaded = (getanddostuff.removePathFromFilename(imagePath)==variables.currentFile)
             }
 
             // The color behind the thumbnail
@@ -198,7 +198,7 @@ Item {
 
                 // Load the selected thumbnail as main image
                 onClicked: {
-                    variables.currentFile = imagePath
+                    variables.currentFile = getanddostuff.removePathFromFilename(imagePath)
                     imageitem.loadImage("image://full/" + imagePath)
                 }
             }

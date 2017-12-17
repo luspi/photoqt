@@ -235,13 +235,13 @@ Window {
 
     function manageStartup(filename) {
 
+        if(!settings.thumbnailDisable)
+            call.show("thumbnails")
+
         if(filename == "")
             call.show("openfile")
-        else {
+        else
             Load.loadFile()
-            if(!settings.thumbnailDisable)
-                call.show("thumbnails")
-        }
 
     }
 

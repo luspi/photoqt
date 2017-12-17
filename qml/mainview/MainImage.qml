@@ -21,9 +21,6 @@ Item {
 
     // the currentId holds which one of the two image elements is currently visible
     property var currentId: undefined
-    onCurrentIdChanged: {
-        metadata.setData(getmetadata.getExiv2(variables.currentFile))
-    }
 
     // This flickable keeps the image element movable
     Flickable {

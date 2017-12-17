@@ -11,6 +11,8 @@ function loadFile(filename, filter) {
             variables.totalNumberImagesCurrentFolder = variables.allFilesCurrentDir.length
             variables.currentDir = pathonly
             variables.currentFile = filenameonly
+            if(!settings.thumbnailDisable)
+                call.load("thumbnailLoadDirectory")
         } else
             variables.currentFile = filenameonly
 
@@ -18,6 +20,7 @@ function loadFile(filename, filter) {
         variables.currentFile = filename
 
     imageitem.loadImage("image://full/" + variables.currentDir + "/" + variables.currentFile)
+    metadata.setData(getmetadata.getExiv2(variables.currentDir + "/" + variables.currentFile))
 
 }
 

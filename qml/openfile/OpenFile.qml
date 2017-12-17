@@ -316,8 +316,6 @@ Rectangle {
 
         Load.loadFile(filename, filter)
 
-        metadata.setData(getmetadata.getExiv2(variables.currentFile))
-
     }
 
 }
