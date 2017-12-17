@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.1
 import Qt.labs.folderlistmodel 2.1
 
 import "../elements/"
+import "../loadfile.js" as Load
 
 Rectangle {
 
@@ -313,13 +314,7 @@ Rectangle {
 
     function openFile(filename, filter) {
 
-        variables.currentFile = filename
-        variables.filter = filter
-
-        imageitem.loadImage("image://full/" + filename)
-
-        call.load("thumbnailLoadDirectory")
-
+        Load.loadFile(filename, filter)
 
         metadata.setData(getmetadata.getExiv2(variables.currentFile))
 

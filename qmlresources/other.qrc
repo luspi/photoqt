@@ -2,5 +2,6 @@
     <qresource prefix="/">
     <file>../qml/mainwindow.qml</file>
     <file>../qml/Caller.qml</file>
+    <file>../qml/loadfile.js</file>
     </qresource>
 </RCC>

@@ -11,8 +11,6 @@ Item {
     signal thumbnailsShow()
     signal thumbnailsHide()
     signal thumbnailsLoadDirectory(var filename, var filter)
-    signal loadNext()
-    signal loadPrev()
 
     signal settingsmanagerShow()
     signal settingsmanagerHide()
@@ -85,10 +83,6 @@ Item {
 
         if(func == "thumbnailLoadDirectory")
             thumbnailsLoadDirectory(variables.currentFile, variables.filter)
-        else if(func == "loadnext")
-            loadNext()
-        else if(func == "loadprev")
-            loadPrev()
         else if(func == "settingsmanagerSave")
             settingsmanagerSave()
         else if(func == "settingsmanagerNextTab")

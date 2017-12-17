@@ -3,7 +3,7 @@
 #####################
 
 SET(d "qml")
-SET(photoqt_QML ${photoqt_QML} ${d}/mainwindow.qml ${d}/Caller.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/mainwindow.qml ${d}/Caller.qml ${d}/loadfile.js)
 
 SET(d "qml/vars")
 SET(photoqt_QML ${photoqt_QML} ${d}/Variables.qml ${d}/StringsKeys.qml ${d}/StringsMouse.qml)

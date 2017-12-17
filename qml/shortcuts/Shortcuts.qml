@@ -1,5 +1,6 @@
 import QtQuick 2.6
 import "./keyshortcuts.js" as AnalyseKeys
+import "../loadfile.js" as Load
 
 Item {
 
@@ -121,9 +122,9 @@ Item {
         } else if(cmd === "__settings")
                 call.show("settingsmanager")
         else if(cmd === "__next")
-                call.load("loadnext")
+            Load.loadNext()
         else if(cmd === "__prev")
-                call.load("loadprev")
+            Load.loadPrev()
 //        if(cmd === "__reloadThb")
 //            thumbnailBar.reloadThumbnails()
 //        else if(cmd === "__about")

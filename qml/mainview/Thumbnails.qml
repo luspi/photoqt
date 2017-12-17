@@ -1,5 +1,6 @@
 import QtQuick 2.6
 import "../elements"
+import "../loadfile.js" as Load
 
 Item {
 
@@ -260,10 +261,6 @@ Item {
             hide()
         onThumbnailsLoadDirectory:
             loadDirectory(filename, filter)
-        onLoadNext:
-            nextImage()
-        onLoadPrev:
-            prevImage()
     }
 
 
@@ -317,11 +314,6 @@ Item {
         // Clear the current image model
         imageModel.clear()
 
-        // Get the properties of the current folder
-        variables.currentDir = getanddostuff.removeFilenameFromPath(filename)
-        variables.allFilesCurrentDir = getanddostuff.getFilesIn(variables.currentDir)
-        variables.totalNumberImagesCurrentFolder = variables.allFilesCurrentDir.length
-
         // Load the image (based on the current filter). If no filter is set, we can avoid the expensive if-statement inside the loop
         if(filter == "") {
             for(var i = 0; i < variables.totalNumberImagesCurrentFolder; ++i)
@@ -346,30 +338,6 @@ Item {
     // Hide the thumbnail bar
     function hide() {
         opacity = 0
-    }
-
-    // Load the next image in the folder
-    function nextImage() {
-        // We need to use a temp variable, otherwise wrapping the end of the images around to the beginning wont work!
-        var loadpos = variables.currentFilePos
-        if(loadpos == variables.allFilesCurrentDir.length-1)
-            loadpos = 0
-        else
-            loadpos += 1
-        variables.currentFile = variables.currentDir + "/" + variables.allFilesCurrentDir[loadpos]
-        imageitem.loadImage("image://full/" + variables.currentFile)
-    }
-
-    // Load the previous image in the folder
-    function prevImage() {
-        // We need to use a temp variable, otherwise wrapping the beginning of the images around to the end wont work!
-        var loadpos = variables.currentFilePos
-        if(loadpos <= 0)
-            loadpos = variables.allFilesCurrentDir.length-1
-        else
-            loadpos -= 1
-        variables.currentFile = variables.currentDir + "/" + variables.allFilesCurrentDir[loadpos]
-        imageitem.loadImage("image://full/" + variables.currentDir + "/" + variables.allFilesCurrentDir[variables.currentFilePos])
     }
 
 }

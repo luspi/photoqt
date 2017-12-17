@@ -2,6 +2,7 @@ import QtQuick 2.4
 import QtQuick.Controls 1.3
 
 import "../elements"
+import "../loadfile.js" as Load
 
 Rectangle {
 
@@ -514,12 +515,12 @@ Rectangle {
         } else if(what === "prev") {
 
             if(variables.currentFile !== "")
-                call.load("loadprev")
+                Load.loadPrev()
 
         } else if(what === "next") {
 
             if(variables.currentFile !== "")
-                call.load("loadnext")
+                Load.loadNext()
 
         } else if(what === "first") {
 

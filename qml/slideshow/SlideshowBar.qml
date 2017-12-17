@@ -4,6 +4,8 @@ import QtMultimedia 5.6
 
 import "../elements"
 
+import "../loadfile.js" as Load
+
 Rectangle {
 
     id: bar
@@ -278,8 +280,7 @@ Rectangle {
         }
 
         // Display new image and increment counter
-        variables.currentFile = variables.allFilesCurrentDir[images[current]]
-        imageitem.loadImage("image://full//" + variables.currentDir + "/" + variables.allFilesCurrentDir[images[current]])
+        Load.loadFile(variables.allFilesCurrentDir[images[current]], variables.filter)
         ++current
     }
 

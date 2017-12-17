@@ -21,6 +21,8 @@ import "./openfile"
 import "./vars"
 import "./elements"
 
+import "./loadfile.js" as Load
+
 Window {
 
     id: mainwindow
@@ -169,7 +171,6 @@ Window {
     // Set up the window in the right way
     Component.onCompleted: {
         setWindowFlags()
-        call.show("thumbnails")
     }
 
 
@@ -237,10 +238,9 @@ Window {
         if(filename == "")
             call.show("openfile")
         else {
-            variables.currentFile = filename
-            variables.filter = ""
-            imageitem.loadImage("image://full/" + filename)
-            call.load("thumbnailLoadDirectory")
+            Load.loadFile()
+            if(!settings.thumbnailDisable)
+                call.show("thumbnails")
         }
 
     }
