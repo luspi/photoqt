@@ -71,9 +71,9 @@ Rectangle {
     // Arrow pointing to metadata widget
     Image {
         id: metadataarrow
+        visible: variables.currentFile==""
         x: 0
-//        y: metaData.y+metaData.height/2-height/2
-        y: parent.height/2
+        y: metadata.y+metadata.height/2-height/2
         source: "qrc:/img/arrowleft.png"
         width: 150
         height: 60
@@ -82,9 +82,9 @@ Rectangle {
     // Arrow pointing to mainmenu widget
     Image {
         id: mainmenuarrow
+        visible: variables.currentFile==""
         x: background.width-width-5
-//        y: mainmenu.y+mainmenu.height/2-height/2
-        y: parent.height/2
+        y: mainmenu.y+mainmenu.height/2-height/2
         source: "qrc:/img/arrowright.png"
         width: 150
         height: 60
