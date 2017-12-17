@@ -58,6 +58,7 @@ Rectangle {
     Text {
 
         anchors.fill: parent
+        visible: variables.currentFile==""
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         font.pointSize: 50

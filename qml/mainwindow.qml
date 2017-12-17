@@ -154,6 +154,11 @@ Window {
 
     Loader { id: settingsmanager }
 
+    Loader { id: slideshowsettings }
+
+    Loader { id: slideshowbar }
+
+
     // The shortcut notifier element
     PShortcutsNotifier { id: sh_notifier; }
 

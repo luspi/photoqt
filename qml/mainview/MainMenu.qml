@@ -410,12 +410,12 @@ Rectangle {
         } else if(what === "slideshow") {
 
             hide()
-//            slideshow.showSlideshow()
+            call.show("slideshowsettings")
 
         } else if(what === "slideshowquickstart") {
 
             hide()
-//            slideshow.quickstart()
+            call.load("slideshowQuickStart")
 
         } else if(what === "filter") {
 

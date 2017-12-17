@@ -9,9 +9,22 @@ Item {
 
     property bool guiBlocked: false
 
+    property bool slideshowRunning: false
+
     property int totalNumberImagesCurrentFolder: 0
     property int currentFilePos: -1
     property string currentFile: ""
+    onCurrentFileChanged: updateCurrentFilePos()
+
     property string filter: ""
+    property string currentDir: ""
+    property var allFilesCurrentDir: []
+    onAllFilesCurrentDirChanged: updateCurrentFilePos()
+
+    function updateCurrentFilePos() {
+        var onlyfile = getanddostuff.removePathFromFilename(currentFile)
+        if(allFilesCurrentDir.indexOf(onlyfile) >= 0)
+            currentFilePos = allFilesCurrentDir.indexOf(onlyfile)
+    }
 
 }

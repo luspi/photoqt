@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+    <file>../qml/slideshow/SlideshowBar.qml</file>
+    <file>../qml/slideshow/SlideshowSettings.qml</file>
+    <file>../qml/slideshow/slideshow.js</file>
+    </qresource>
+</RCC>

@@ -36,6 +36,11 @@ MouseArea {
         else
             call.hide("thumbnails")
 
+        if(yPos < w)
+            call.show("slideshowbar")
+        else
+            call.hide("slideshowbar")
+
     }
 
 }

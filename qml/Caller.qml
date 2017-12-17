@@ -21,33 +21,41 @@ Item {
     signal settingsmanagerPrevTab()
     signal settingsmanagerGoToTab(var index)
 
+    signal slideshowSettingsShow()
+    signal slideshowSettingsHide()
+    signal slideshowBarShow()
+    signal slideshowBarHide()
+    signal slideshowStart()
+    signal slideshowStop()
+    signal slideshowQuickStart()
+    signal slideshowPause()
+
     property var whatisshown: ({"thumbnails" : false,
-                               "openfile" : false})
+                                   "openfile" : false,
+                                   "settingsmanager" : false,
+                                   "slideshowsettings" : false,
+                                   "slideshowbar" : false})
 
     // Load and show a component
     function show(component) {
 
+        ensureElementSetup(component)
+
         if(component == "openfile") {
-            if(elementssetup.indexOf(component) < 0) {
-                openfile.source = "openfile/OpenFile.qml"
-                elementssetup.push(component)
-            }
             openfileShow()
-            whatisshown["openfile"] = true
+            whatisshown[component] = true
         } else if(component == "thumbnails") {
-            if(elementssetup.indexOf(component) < 0) {
-                thumbnails.source = "mainview/Thumbnails.qml"
-                elementssetup.push(component)
-            }
             thumbnailsShow()
-            whatisshown["thumbnails"] = true
+            whatisshown[component] = true
         } else if(component == "settingsmanager") {
-            if(elementssetup.indexOf(component) < 0) {
-                settingsmanager.source = "settingsmanager/SettingsManager.qml"
-                elementssetup.push(component)
-            }
             settingsmanagerShow()
-            whatisshown["settingsmanager"] = true
+            whatisshown[component] = true
+        } else if(component == "slideshowsettings") {
+            slideshowSettingsShow()
+            whatisshown[component] = true
+        } else if(component == "slideshowbar") {
+            slideshowBarShow()
+            whatisshown[component] = true
         }
 
     }
@@ -56,13 +64,19 @@ Item {
     function hide(component) {
         if(component == "openfile") {
             openfileHide()
-            whatisshown["openfile"] = false
+            whatisshown[component] = false
         } else if(component == "thumbnails") {
             thumbnailsHide()
-            whatisshown["thumbnails"] = false
+            whatisshown[component] = false
         } else if(component == "settingsmanager") {
             settingsmanagerHide()
-            whatisshown["settingsmanager"] = false
+            whatisshown[component] = false
+        } else if(component == "slideshowsettings") {
+            slideshowSettingsHide()
+            whatisshown[component] = false
+        } else if(component == "slideshowbar") {
+            slideshowBarHide()
+            whatisshown[component] = false
         }
     }
 
@@ -95,6 +109,42 @@ Item {
             settingsmanagerGoToTab(4)
         else if(func == "settingsmanagerGoToTab6")
             settingsmanagerGoToTab(5)
+        else if(func == "slideshowStart")
+            slideshowStart()
+        else if(func == "slideshowStop")
+            slideshowStop()
+        else if(func == "slideshowQuickStart") {
+            ensureElementSetup("slideshowsettings")
+            slideshowQuickStart()
+        } else if(func == "slideshowPause")
+            slideshowPause()
+
+    }
+
+    function ensureElementSetup(component) {
+
+        if(elementssetup.indexOf(component) < 0) {
+            if(component == "openfile") {
+                openfile.source = "openfile/OpenFile.qml"
+                elementssetup.push(component)
+            } else if(component == "thumbnails") {
+                thumbnails.source = "mainview/Thumbnails.qml"
+                elementssetup.push(component)
+            } else if(component == "settingsmanager") {
+                settingsmanager.source = "settingsmanager/SettingsManager.qml"
+                elementssetup.push(component)
+            } else if(component == "slideshowsettings") {
+                slideshowsettings.source = "slideshow/SlideshowSettings.qml"
+                slideshowbar.source = "slideshow/SlideshowBar.qml"
+                elementssetup.push(component)
+                elementssetup.push("slideshowbar")
+            } else if(component == "slideshowbar") {
+                slideshowsettings.source = "slideshow/SlideshowSettings.qml"
+                slideshowbar.source = "slideshow/SlideshowBar.qml"
+                elementssetup.push("slideshowsettings")
+                elementssetup.push(component)
+            }
+        }
 
     }
 

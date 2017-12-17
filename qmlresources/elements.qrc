@@ -20,5 +20,7 @@
     <file>../qml/elements/SettingsText.qml</file>
     <file>../qml/elements/ShortcutNotifier.qml</file>
     <file>../qml/elements/ToolTip.qml</file>
+
+    <file>../qml/elements/FadeInTemplate.qml</file>
     </qresource>
 </RCC>

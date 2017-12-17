@@ -16,10 +16,6 @@ Item {
     visible: (opacity!=0)
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
-    // Some properties about the current folder
-    property string path: ""
-    property var allFiles: []
-
     // The index of the currently displayed image is handled in Variables
     Connections {
         target: variables
@@ -74,8 +70,8 @@ Item {
         // Centered!
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        x: (allFiles.length*settings.thumbnailsize > parent.width ? 0 : (parent.width-allFiles.length*settings.thumbnailsize)/2)
-        width: (allFiles.length*settings.thumbnailsize > parent.width ? parent.width : allFiles.length*settings.thumbnailsize)
+        x: (variables.allFilesCurrentDir.length*settings.thumbnailsize > parent.width ? 0 : (parent.width-variables.allFilesCurrentDir.length*settings.thumbnailsize)/2)
+        width: (variables.allFilesCurrentDir.length*settings.thumbnailsize > parent.width ? parent.width : variables.allFilesCurrentDir.length*settings.thumbnailsize)
 
         ListView {
 
@@ -151,11 +147,6 @@ Item {
                     : (settings.thumbnailposition=="Top"
                             ? -rect.thumbnailExtraMargin/2
                             : settings.thumbnailLiftUp)+rect.thumbnailExtraMargin/3
-
-            // Make sure the variables.currentFilePos int always follows the loaded image
-            onLoadedChanged:
-                if(loaded) variables.currentFilePos = index
-
 
             // The thumbnail image
             Image {
@@ -327,21 +318,18 @@ Item {
         imageModel.clear()
 
         // Get the properties of the current folder
-        path = getanddostuff.removeFilenameFromPath(filename)
-        allFiles = getanddostuff.getFilesIn(path)
-        variables.totalNumberImagesCurrentFolder = allFiles.length
-
-        // Set the starting position
-        variables.currentFilePos = allFiles.indexOf(getanddostuff.removePathFromFilename(filename))
+        variables.currentDir = getanddostuff.removeFilenameFromPath(filename)
+        variables.allFilesCurrentDir = getanddostuff.getFilesIn(variables.currentDir)
+        variables.totalNumberImagesCurrentFolder = variables.allFilesCurrentDir.length
 
         // Load the image (based on the current filter). If no filter is set, we can avoid the expensive if-statement inside the loop
         if(filter == "") {
             for(var i = 0; i < variables.totalNumberImagesCurrentFolder; ++i)
-                    imageModel.append({"imagePath" : path + "/" + allFiles[i]})
+                    imageModel.append({"imagePath" : variables.currentDir + "/" + variables.allFilesCurrentDir[i]})
         } else {
             for(var i = 0; i < variables.totalNumberImagesCurrentFolder; ++i) {
-                if(allFiles[i].indexOf(filter) >= 0)
-                    imageModel.append({"imagePath" : path + "/" + allFiles[i]})
+                if(variables.allFilesCurrentDir[i].indexOf(filter) >= 0)
+                    imageModel.append({"imagePath" : variables.currentDir + "/" + variables.allFilesCurrentDir[i]})
             }
         }
 
@@ -364,13 +352,12 @@ Item {
     function nextImage() {
         // We need to use a temp variable, otherwise wrapping the end of the images around to the beginning wont work!
         var loadpos = variables.currentFilePos
-        if(loadpos == allFiles.length-1)
+        if(loadpos == variables.allFilesCurrentDir.length-1)
             loadpos = 0
         else
             loadpos += 1
-        variables.currentFile = path + "/" + allFiles[loadpos]
+        variables.currentFile = variables.currentDir + "/" + variables.allFilesCurrentDir[loadpos]
         imageitem.loadImage("image://full/" + variables.currentFile)
-        variables.currentFilePos = loadpos
     }
 
     // Load the previous image in the folder
@@ -378,12 +365,11 @@ Item {
         // We need to use a temp variable, otherwise wrapping the beginning of the images around to the end wont work!
         var loadpos = variables.currentFilePos
         if(loadpos <= 0)
-            loadpos = allFiles.length-1
+            loadpos = variables.allFilesCurrentDir.length-1
         else
             loadpos -= 1
-        variables.currentFile = path + "/" + allFiles[loadpos]
-        imageitem.loadImage("image://full/" + path + "/" + allFiles[variables.currentFilePos])
-        variables.currentFilePos = loadpos
+        variables.currentFile = variables.currentDir + "/" + variables.allFilesCurrentDir[loadpos]
+        imageitem.loadImage("image://full/" + variables.currentDir + "/" + variables.allFilesCurrentDir[variables.currentFilePos])
     }
 
 }

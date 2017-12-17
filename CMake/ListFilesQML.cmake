@@ -19,7 +19,7 @@ SET(d "qml/openfile")
 SET(photoqt_QML ${photoqt_QML} ${d}/BreadCrumbs.qml ${d}/EditFiles.qml ${d}/FilesView.qml ${d}/FilesViewGrid.qml ${d}/FilesViewList.qml ${d}/Folders.qml ${d}/OpenFile.qml ${d}/Tweaks.qml ${d}/TweaksFileTypeSelection.qml ${d}/TweaksHiddenFolders.qml ${d}/TweaksPreview.qml ${d}/TweaksThumbnail.qml ${d}/TweaksViewMode.qml ${d}/TweaksZoom.qml ${d}/UserPlaces.qml)
 
 SET(d "qml/elements")
-SET(photoqt_QML ${photoqt_QML} ${d}/ContextMenu.qml ${d}/CustomButton.qml ${d}/CustomCheckBox.qml ${d}/CustomComboBox.qml ${d}/CustomConfirm.qml ${d}/CustomFileSelect.qml ${d}/CustomLineEdit.qml ${d}/CustomProgressBar.qml ${d}/CustomRadioButton.qml ${d}/CustomSlider.qml ${d}/CustomSpinBox.qml ${d}/CustomTabView.qml ${d}/CustomTextEdit.qml ${d}/ScrollBarHorizontal.qml ${d}/ScrollBarVertical.qml ${d}/SettingsText.qml ${d}/ShortcutNotifier.qml ${d}/ToolTip.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/ContextMenu.qml ${d}/CustomButton.qml ${d}/CustomCheckBox.qml ${d}/CustomComboBox.qml ${d}/CustomConfirm.qml ${d}/CustomFileSelect.qml ${d}/CustomLineEdit.qml ${d}/CustomProgressBar.qml ${d}/CustomRadioButton.qml ${d}/CustomSlider.qml ${d}/CustomSpinBox.qml ${d}/CustomTabView.qml ${d}/CustomTextEdit.qml ${d}/ScrollBarHorizontal.qml ${d}/ScrollBarVertical.qml ${d}/SettingsText.qml ${d}/ShortcutNotifier.qml ${d}/ToolTip.qml ${d}/FadeInTemplate.qml)
 
 SET(d "qml/settingsmanager")
 SET(photoqt_QML ${photoqt_QML} ${d}/DetectShortcut.qml ${d}/EntryContainer.qml ${d}/EntrySetting.qml ${d}/EntryTitle.qml ${d}/ExportImport.qml ${d}/SettingInfoOverlay.qml ${d}/SettingsManager.qml)
@@ -44,3 +44,6 @@ SET(photoqt_QML ${photoqt_QML} ${d}/Available.qml ${d}/Set.qml ${d}/ShortcutsCon
 
 SET(d "qml/settingsmanager/tabs/thumbnails")
 SET(photoqt_QML ${photoqt_QML} ${d}/Cache.qml ${d}/CenterOn.qml ${d}/Disable.qml ${d}/FilenameOnly.qml ${d}/KeepVisible.qml ${d}/Label.qml ${d}/LiftUp.qml ${d}/Spacing.qml ${d}/ThumbnailSize.qml ${d}/TopOrBottom.qml)
+
+SET(d "qml/slideshow")
+SET(photoqt_QML ${photoqt_QML} ${d}/SlideshowBar.qml ${d}/SlideshowSettings.qml ${d}/slideshow.js)
