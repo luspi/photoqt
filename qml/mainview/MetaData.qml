@@ -239,6 +239,9 @@ Rectangle {
 
     function setData(d) {
 
+        if(variables.currentFile == "")
+            return
+
         invalidLabel.visible = false
         unsupportedLabel.visible = false
         view.visible = false
