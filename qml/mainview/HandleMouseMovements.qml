@@ -19,17 +19,19 @@ MouseArea {
 
     function handleMousePositionChange(xPos, yPos) {
 
-        if(xPos > mainwindow.width-20)
+        var w = settings.menusensitivity*5
+
+        if(xPos > mainwindow.width-w)
             mainmenu.show()
         else
             mainmenu.hide()
 
-        if(xPos < 20)
+        if(xPos < w)
             metadata.show()
         else
             metadata.hide()
 
-        if(yPos > mainwindow.height-20)
+        if(yPos > mainwindow.height-w)
             call.show("thumbnails")
         else
             call.hide("thumbnails")
