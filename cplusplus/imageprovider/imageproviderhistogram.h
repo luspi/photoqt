@@ -21,6 +21,7 @@
 #include <QIcon>
 #include <QFile>
 #include <QPainter>
+#include <algorithm>
 #include "imageproviderfull.h"
 #include "../logger.h"
 
@@ -84,18 +85,10 @@ public:
             int hei = histimg.height();
 
             // Prepare the lists for the levels
-            levels_grey.clear();
-            levels_red.clear();
-            levels_green.clear();
-            levels_blue.clear();
-            for(int i = 0; i < 256; ++i)
-                levels_grey.push_back(0);
-            for(int i = 0; i < 256; ++i)
-                levels_red.push_back(0);
-            for(int i = 0; i < 256; ++i)
-                levels_green.push_back(0);
-            for(int i = 0; i < 256; ++i)
-                levels_blue.push_back(0);
+            levels_grey = new int[256]{};
+            levels_red = new int[256]{};
+            levels_green = new int[256]{};
+            levels_blue = new int[256]{};
 
             // Loop over all rows of the image
             for(int i = 0; i < hei; ++i) {
@@ -131,20 +124,14 @@ public:
 
             // Figure out the greatest value for normalisation
             greatestvalue = 0;
-            if(!colorversion) {
-                for(int i = 0; i < 256; ++i)
-                    if(levels_grey[i] > greatestvalue)
-                        greatestvalue = levels_grey[i];
-            } else {
-                for(int i = 0; i < 256; ++i)
-                    if(levels_red[i] > greatestvalue)
-                        greatestvalue = levels_red[i];
-                for(int i = 0; i < 256; ++i)
-                    if(levels_green[i] > greatestvalue)
-                        greatestvalue = levels_green[i];
-                for(int i = 0; i < 256; ++i)
-                    if(levels_blue[i] > greatestvalue)
-                        greatestvalue = levels_blue[i];
+            if(!colorversion)
+                greatestvalue = *std::max_element(levels_grey, levels_grey+256);
+            else {
+                int allgreat[3];
+                allgreat[0] = *std::max_element(levels_red, levels_red+256);
+                allgreat[1] = *std::max_element(levels_green, levels_green+256);
+                allgreat[2] = *std::max_element(levels_blue, levels_blue+256);
+                greatestvalue = *std::max_element(allgreat, allgreat+3);
             }
 
         }
@@ -173,6 +160,16 @@ public:
             for(int i = 0; i < 256; ++i)
                 polyBLUE << QPoint(i*interval,h*(1-((double)levels_blue[i]/(double)greatestvalue)));
             polyBLUE << QPoint(w,h);
+        }
+
+        if(recalcvalues_filepath || recalcvalues_color) {
+            if(!colorversion)
+                delete[] levels_grey;
+            else {
+                delete[] levels_red;
+                delete[] levels_green;
+                delete[] levels_blue;
+            }
         }
 
         // Create pixmap...
@@ -239,10 +236,10 @@ public:
     }
 
 private:
-    QList<int> levels_grey;
-    QList<int> levels_red;
-    QList<int> levels_green;
-    QList<int> levels_blue;
+    int *levels_grey;
+    int *levels_red;
+    int *levels_green;
+    int *levels_blue;
     QPolygon polyGREY;
     QPolygon polyRED;
     QPolygon polyGREEN;
