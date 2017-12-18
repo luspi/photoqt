@@ -246,7 +246,7 @@ Window {
         if(filename == "")
             call.show("openfile")
         else
-            Load.loadFile()
+            Load.loadFile(filename)
 
     }
 

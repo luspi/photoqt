@@ -1,6 +1,9 @@
 
 function loadFile(filename, filter) {
 
+    if(filename === undefined || filename == "")
+        return
+
     if(filename.substring(0,1) == "/") {
 
         var filenameonly = getanddostuff.removePathFromFilename(filename)
