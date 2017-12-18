@@ -28,11 +28,15 @@ Item {
     signal slideshowQuickStart()
     signal slideshowPause()
 
+    signal histogramShow()
+    signal histogramHide()
+
     property var whatisshown: ({"thumbnails" : false,
                                    "openfile" : false,
                                    "settingsmanager" : false,
                                    "slideshowsettings" : false,
-                                   "slideshowbar" : false})
+                                   "slideshowbar" : false,
+                                   "histogram" : false})
 
     // Load and show a component
     function show(component) {
@@ -54,6 +58,9 @@ Item {
         } else if(component == "slideshowbar") {
             slideshowBarShow()
             whatisshown[component] = true
+        } else if(component == "histogram") {
+            histogramShow()
+            whatisshown[component] = true
         }
 
     }
@@ -74,6 +81,9 @@ Item {
             whatisshown[component] = false
         } else if(component == "slideshowbar") {
             slideshowBarHide()
+            whatisshown[component] = false
+        } else if(component == "histogram") {
+            histogramHide()
             whatisshown[component] = false
         }
     }
@@ -136,6 +146,9 @@ Item {
                 slideshowsettings.source = "slideshow/SlideshowSettings.qml"
                 slideshowbar.source = "slideshow/SlideshowBar.qml"
                 elementssetup.push("slideshowsettings")
+                elementssetup.push(component)
+            } else if(component == "histogram") {
+                histogram.source = "mainview/Histogram.qml"
                 elementssetup.push(component)
             }
         }

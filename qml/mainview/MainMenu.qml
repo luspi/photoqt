@@ -434,10 +434,10 @@ Rectangle {
 
         } else if(what == "histogram") {
 
-//            if(settings.histogram == false)
-//                settings.histogram = true
-//            else
-//                settings.histogram = false
+            if(call.whatisshown["histogram"])
+                call.hide("histogram")
+            else
+                call.show("histogram")
 
         } else if(what === "scale") {
 

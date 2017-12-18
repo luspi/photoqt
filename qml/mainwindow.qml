@@ -148,6 +148,8 @@ Window {
     MainMenu { id: mainmenu }
     MetaData { id: metadata }
 
+    Loader { id: histogram }
+
 
 
 
@@ -237,6 +239,9 @@ Window {
 
         if(!settings.thumbnailDisable)
             call.show("thumbnails")
+
+        if(settings.histogram)
+            call.show("histogram")
 
         if(filename == "")
             call.show("openfile")
