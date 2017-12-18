@@ -424,13 +424,14 @@ Rectangle {
 //            filter.showFilter()
 
         } else if(what === "metadata") {
-//            if(metaData.opacity != 0) {
-//                metaData.uncheckCheckbox()
-//                background.hideMetadata()
-//            } else {
-//                metaData.checkCheckbox()
-//                background.showMetadata(true)
-//            }
+
+            if(metadata.opacity > 0) {
+                metadata.uncheckCheckbox()
+                metadata.hide()
+            } else {
+                metadata.checkCheckbox()
+                metadata.show()
+            }
 
         } else if(what == "histogram") {
 
