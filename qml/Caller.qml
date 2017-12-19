@@ -31,6 +31,9 @@ Item {
     signal histogramShow()
     signal histogramHide()
 
+    signal filemanagementShow()
+    signal filemanagementHide()
+
     property var whatisshown: ({"thumbnails" : false,
                                    "openfile" : false,
                                    "settingsmanager" : false,
@@ -61,6 +64,9 @@ Item {
         } else if(component == "histogram") {
             histogramShow()
             whatisshown[component] = true
+        } else if(component == "filemanagement") {
+            filemanagementShow()
+            whatisshown[component] = true
         }
 
     }
@@ -84,6 +90,9 @@ Item {
             whatisshown[component] = false
         } else if(component == "histogram") {
             histogramHide()
+            whatisshown[component] = false
+        } else if(component == "filemanagement") {
+            filemanagementHide()
             whatisshown[component] = false
         }
     }
@@ -149,6 +158,9 @@ Item {
                 elementssetup.push(component)
             } else if(component == "histogram") {
                 histogram.source = "mainview/Histogram.qml"
+                elementssetup.push(component)
+            } else if(component == "filemanagement") {
+                filemanagement.source = "filemanagement/Management.qml"
                 elementssetup.push(component)
             }
         }

@@ -47,3 +47,6 @@ SET(photoqt_QML ${photoqt_QML} ${d}/Cache.qml ${d}/CenterOn.qml ${d}/Disable.qml
 
 SET(d "qml/slideshow")
 SET(photoqt_QML ${photoqt_QML} ${d}/SlideshowBar.qml ${d}/SlideshowSettings.qml ${d}/slideshow.js)
+
+SET(d "qml/filemanagement")
+SET(photoqt_QML ${photoqt_QML} ${d}/Copy.qml ${d}/Delete.qml ${d}/Management.qml ${d}/Move.qml ${d}/Rename.qml ${d}/ManagementNavigation.qml ${d}/ManagementContainer.qml)
