@@ -153,8 +153,8 @@ Rectangle {
                             onXChanged: binaryX = binary.x
                             onWidthChanged: textEditWidth = binary.width
 
-                            onAccepted: sh.simulateShortcut("Enter")
-                            onRejected: sh.simulateShortcut("Escape")
+                            onAccepted: shortcuts.processString("Enter")
+                            onRejected: shortcuts.processString("Escape")
 
                         }
 

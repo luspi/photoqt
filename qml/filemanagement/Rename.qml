@@ -58,9 +58,12 @@ Item {
             spacing: 5
             CustomLineEdit {
                 id: newfilename
+                enabled: management_top.opacity==1
                 text: ""
                 fontsize: 13
                 width: rename_top.width/2
+                onAccepted: shortcuts.processString("Enter")
+                onRejected: shortcuts.processString("Escape")
             }
             Text {
                 id: suffix

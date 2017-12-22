@@ -23,6 +23,12 @@ Item {
 
         var combostring = AnalyseKeys.analyseEvent(event)
 
+        processString(combostring)
+
+    }
+
+    function processString(combostring) {
+
         // We need to check for guiBlocked before doing any of the below checks that might change its value.
         if(variables.guiBlocked)
             checkForSystemShortcut(combostring)
@@ -206,7 +212,16 @@ Item {
 
     }
 
-    onActiveFocusChanged:
-        top.forceActiveFocus()
+    onActiveFocusChanged: {
+        if(!variables.textEntryRequired)
+            top.forceActiveFocus()
+    }
+    Connections {
+        target: variables
+        onTextEntryRequiredChanged: {
+            if(!variables.textEntryRequired)
+                top.forceActiveFocus()
+        }
+    }
 
 }

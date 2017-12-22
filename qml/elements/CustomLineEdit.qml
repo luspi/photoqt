@@ -51,6 +51,17 @@ Rectangle {
     signal ctrlH()
     signal altPeriod()
 
+    onActiveFocusChanged: {
+        if(!activeFocus)
+            variables.textEntryRequired = false
+        else
+            variables.textEntryRequired = false
+    }
+    onEnabledChanged: {
+        if(!enabled)
+            variables.textEntryRequired = false
+    }
+
     TextInput {
 
         id: ed1
@@ -95,7 +106,7 @@ Rectangle {
                 parent.selectAll()
                 parent.parent.doubleClicked()
             }
-            onPressed: { if(mouse.button == Qt.LeftButton) { held = true; ed1.cursorPosition = ed1.positionAt(mouse.x,mouse.y); } parent.forceActiveFocus() }
+            onPressed: { if(mouse.button == Qt.LeftButton) { variables.textEntryRequired = true; held = true; ed1.cursorPosition = ed1.positionAt(mouse.x,mouse.y); } parent.forceActiveFocus() }
             onReleased: { if(mouse.button == Qt.LeftButton) held = false }
             onPositionChanged: {if(held) ed1.moveCursorSelection(ed1.positionAt(mouse.x,mouse.y)) }
 

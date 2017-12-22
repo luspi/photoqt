@@ -180,7 +180,7 @@ Rectangle {
                 event.accepted = true
             }
         } else {
-            var key = getanddostuff.convertQKeyToQString(event.key)
+            var key = shortcutshandler.convertKeycodeToString(event.key)
             for(var i = 0; i < folderlistmodel.count; ++i) {
                 if(folderlistmodel.get(i).folder[0].toLowerCase() == key.toLowerCase()) {
                     folderlistview.currentIndex = i

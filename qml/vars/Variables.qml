@@ -11,6 +11,8 @@ Item {
 
     property bool slideshowRunning: false
 
+    property bool textEntryRequired: false
+
     property int totalNumberImagesCurrentFolder: 0
     property int currentFilePos: -1
     property string currentFile: ""
