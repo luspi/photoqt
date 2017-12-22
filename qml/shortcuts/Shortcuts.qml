@@ -42,6 +42,8 @@ Item {
 //            else
             if(call.whatisshown["settingsmanager"])
                 call.hide("settingsmanager")
+            else if(call.whatisshown["filemanagement"])
+                call.hide("filemanagement")
 //            else if(scaleImage.opacity == 1)
 //                scaleImage.hideScale()
 //            else if(scaleImageUnsupported.opacity == 1)

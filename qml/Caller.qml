@@ -31,7 +31,7 @@ Item {
     signal histogramShow()
     signal histogramHide()
 
-    signal filemanagementShow()
+    signal filemanagementShow(var category)
     signal filemanagementHide()
 
     property var whatisshown: ({"thumbnails" : false,
@@ -39,7 +39,8 @@ Item {
                                    "settingsmanager" : false,
                                    "slideshowsettings" : false,
                                    "slideshowbar" : false,
-                                   "histogram" : false})
+                                   "histogram" : false,
+                                   "filemanagement" : false})
 
     // Load and show a component
     function show(component) {
@@ -63,9 +64,6 @@ Item {
             whatisshown[component] = true
         } else if(component == "histogram") {
             histogramShow()
-            whatisshown[component] = true
-        } else if(component == "filemanagement") {
-            filemanagementShow()
             whatisshown[component] = true
         }
 
@@ -131,6 +129,23 @@ Item {
             slideshowQuickStart()
         } else if(func == "slideshowPause")
             slideshowPause()
+        else if(func == "filemanagementCopyShow") {
+            ensureElementSetup("filemanagement")
+            filemanagementShow("cp")
+            whatisshown["filemanagement"] = true
+        } else if(func == "filemanagementDeleteShow") {
+            ensureElementSetup("filemanagement")
+            filemanagementShow("del")
+            whatisshown["filemanagement"] = true
+        } else if(func == "filemanagementMoveShow") {
+            ensureElementSetup("filemanagement")
+            filemanagementShow("mv")
+            whatisshown["filemanagement"] = true
+        } else if(func == "filemanagementRenameShow") {
+            ensureElementSetup("filemanagement")
+            filemanagementShow("rn")
+            whatisshown["filemanagement"] = true
+        }
 
     }
 

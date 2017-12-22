@@ -487,31 +487,31 @@ Rectangle {
 
         else if(what === "rename") {
 
-//            if(thumbnailBar.currentFile !== "") {
-//                hide()
-//                rename.showRename()
-//            }
+            if(variables.currentFile !== "") {
+                hide()
+                call.load("filemanagementRenameShow")
+            }
 
         } else if(what === "copy") {
 
-//            if(thumbnailBar.currentFile !== "") {
-//                hide()
-//                getanddostuff.copyImage(thumbnailBar.currentFile)
-//            }
+            if(variables.currentFile !== "") {
+                hide()
+                call.load("filemanagementCopyShow")
+            }
 
         } else if(what === "move") {
 
-//            if(thumbnailBar.currentFile !== "") {
-//                hide()
-//                getanddostuff.moveImage(thumbnailBar.currentFile)
-//            }
+            if(variables.currentFile !== "") {
+                hide()
+                call.load("filemanagementMoveShow")
+            }
 
         } else if(what === "delete") {
 
-//            if(thumbnailBar.currentFile !== "") {
-//                hide()
-//                deleteImage.showDelete()
-//            }
+            if(variables.currentFile !== "") {
+                hide()
+                call.load("filemanagementDeleteShow")
+            }
 
         } else if(what === "prev") {
 

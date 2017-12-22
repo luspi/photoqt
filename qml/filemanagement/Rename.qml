@@ -12,6 +12,16 @@ Item {
     width: container.width-110
     height: Math.min(container.height, childrenRect.height)
 
+    Connections {
+        target: container
+        onItemShown: {
+            filename.text = variables.currentFile
+            newfilename.text = getanddostuff.removePathFromFilename(variables.currentFile, true)
+            newfilename.forceActiveFocus()
+            newfilename.selectAll()
+        }
+    }
+
     // Heading
     Text {
         id: headingtext

@@ -284,54 +284,60 @@ bool GetAndDoStuffManipulation::renameImage(QString oldfilename, QString newfile
 
 }
 
-void GetAndDoStuffManipulation::copyImage(QString path) {
+void GetAndDoStuffManipulation::copyImage(QString imagePath, QString destinationPath) {
 
-    // Get new filepath
-    QString newpath = QFileDialog::getSaveFileName(0,"Copy Image to...",path,"Image (*." + QFileInfo(path).completeSuffix() + ")");
+    if(destinationPath.startsWith("file://"))
+        destinationPath = destinationPath.remove(0,7);
 
     // Don't do anything here
-    if(newpath.trimmed() == "") return;
-    if(newpath == path) return;
+    if(destinationPath.trimmed() == "") return;
+    if(destinationPath == imagePath) return;
 
     // And copy file
-    QFile file(path);
-    if(file.copy(newpath)) {
-        if(QFileInfo(newpath).absolutePath() == QFileInfo(path).absolutePath())
-            emit reloadDirectory(newpath);
+    QFile file(imagePath);
+    if(file.copy(destinationPath)) {
+        if(QFileInfo(destinationPath).absolutePath() == QFileInfo(imagePath).absolutePath())
+            emit reloadDirectory(destinationPath);
     } else
         LOG << CURDATE << "GetAndDoStuffManipulation: ERROR: Couldn't copy file" << NL;
 
 }
 
-void GetAndDoStuffManipulation::moveImage(QString path) {
+void GetAndDoStuffManipulation::moveImage(QString imagePath, QString destinationPath) {
 
-    // Get new filepath
-    QString newpath = QFileDialog::getSaveFileName(0,"Move Image to...",path,"Image (*." + QFileInfo(path).completeSuffix() + ")");
+    if(destinationPath.startsWith("file://"))
+        destinationPath = destinationPath.remove(0,7);
 
     // Don't do anything here
-    if(newpath.trimmed() == "") return;
-    if(newpath == path) return;
+    if(destinationPath.trimmed() == "") return;
+    if(destinationPath == imagePath) return;
 
     // Make sure, that the right suffix is there...
-    if(QFileInfo(newpath).completeSuffix().toLower() != QFileInfo(path).completeSuffix().toLower())
-        newpath += QFileInfo(newpath).completeSuffix();
+    if(QFileInfo(destinationPath).completeSuffix().toLower() != QFileInfo(imagePath).completeSuffix().toLower())
+        destinationPath += QFileInfo(imagePath).completeSuffix();
 
     // And move file
-    QFile file(path);
-    if(file.copy(newpath)) {
+    QFile file(imagePath);
+    if(file.copy(destinationPath)) {
         if(!file.remove()) {
             LOG << CURDATE << "GetAndDoStuffManipulation: ERROR: Couldn't remove old file" << NL;
-            if(QFileInfo(newpath).absolutePath() == QFileInfo(path).absolutePath())
-                emit reloadDirectory(newpath);
+            if(QFileInfo(destinationPath).absolutePath() == QFileInfo(imagePath).absolutePath())
+                emit reloadDirectory(destinationPath);
         } else {
-            if(QFileInfo(newpath).absolutePath() == QFileInfo(path).absolutePath())
-                emit reloadDirectory(newpath);
+            if(QFileInfo(destinationPath).absolutePath() == QFileInfo(imagePath).absolutePath())
+                emit reloadDirectory(destinationPath);
             else
                 // A value of true signals, that the file has been moved to a different directory (i.e. "deleted" from current directory)
-                reloadDirectory(path,true);
+                reloadDirectory(imagePath,true);
         }
 
     } else
         LOG << CURDATE << "GetAndDoStuffManipulation: ERROR: Couldn't move file" << NL;
+
+}
+
+QString GetAndDoStuffManipulation::getImageSuffix(QString imagePath) {
+
+    return QFileInfo(imagePath).completeSuffix();
 
 }

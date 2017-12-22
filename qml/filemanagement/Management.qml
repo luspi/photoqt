@@ -16,7 +16,9 @@ FadeInTemplate {
 
     showSeperators: false
 
-    property string current: "cp"
+    property string current: "mv"
+
+    signal hideAllItems()
 
     content: [
 
@@ -69,22 +71,18 @@ FadeInTemplate {
 
                 ManagementContainer {
                     category: "cp"
-                    color: "red"
                     itemSource: "Copy.qml"
                 }
                 ManagementContainer {
                     category: "del"
-                    color: "transparent"
                     itemSource: "Delete.qml"
                 }
                 ManagementContainer {
                     category: "mv"
-                    color: "green"
                     itemSource: "Move.qml"
                 }
                 ManagementContainer {
                     category: "rn"
-                    color: "transparent"
                     itemSource: "Rename.qml"
                 }
 
@@ -96,10 +94,14 @@ FadeInTemplate {
 
     Connections {
         target: call
-        onFilemanagementShow:
+        onFilemanagementShow: {
+            management_top.current = category
             show()
-        onFilemanagementHide:
+        }
+        onFilemanagementHide: {
+            management_top.current = ""
             hide()
+        }
     }
 
 }
