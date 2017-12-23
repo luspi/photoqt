@@ -153,11 +153,6 @@ Rectangle {
                             onXChanged: binaryX = binary.x
                             onWidthChanged: textEditWidth = binary.width
 
-                            onAccepted: shortcuts.processString("Enter")
-                            onRejected: shortcuts.processString("Escape")
-                            onCtrlTab: shortcuts.processString("Ctrl+Tab")
-                            onCtrlShiftTab: shortcuts.processString("Ctrl+Shift+Tab")
-
                         }
 
                         // Another sub-element for editing the menu text
@@ -173,11 +168,6 @@ Rectangle {
 
                             // As the width of both textedits is the same, we don't need to check for it here
                             onXChanged: descriptionX = description.x
-
-                            onAccepted: sh.simulateShortcut("Enter")
-                            onRejected: sh.simulateShortcut("Escape")
-                            onCtrlTab: shortcuts.processString("Ctrl+Tab")
-                            onCtrlShiftTab: shortcuts.processString("Ctrl+Shift+Tab")
 
                         }
 
@@ -230,8 +220,6 @@ Rectangle {
                             onVisibleChanged: {
                                 binary.enabled = visible
                                 description.enabled = visible
-                                if(!visible)
-                                    variables.textEntryRequired = false
                             }
                         }
                     }

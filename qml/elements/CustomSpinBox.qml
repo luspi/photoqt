@@ -4,8 +4,17 @@ import QtQuick.Controls.Styles 1.3
 
 SpinBox {
 
+    id: ele_top
+
+    signal ctrlTab()
+    signal ctrlShiftTab()
+
+    signal accepted()
+    signal rejected()
+
     font.pixelSize: height/2
     menu: null
+    enabled: visible
 
     style: SpinBoxStyle{
         background: Rectangle {
@@ -39,6 +48,49 @@ SpinBox {
             x: width/25
             font.pixelSize: control.height*2/3
             text: "+"
+        }
+
+    }
+
+    ToolTip {
+        hoverEnabled: true
+        text: parent.value + "" + parent.suffix
+        cursorShape: Qt.IBeamCursor
+        propagateComposedEvents: true
+        onPressed: {
+            mouse.accepted = false
+            variables.textEntryRequired = true
+        }
+        onReleased: mouse.accepted = false
+    }
+
+    onVisibleChanged: {
+        if(variables.textEntryRequired && !visible)
+            variables.textEntryRequired = false;
+    }
+
+    Keys.onPressed: {
+
+        shortcuts.analyseKeyEvent(event)
+
+        if(event.key == Qt.Key_Tab || event.key == Qt.Key_Backtab) {
+            if(event.key === Qt.Key_Enter || event.key === Qt.Key_Return) {
+
+                ele_top.accepted()
+                event.accepted = true
+
+            } else if(event.key === Qt.Key_Escape) {
+
+                ele_top.rejected()
+                event.accepted = true
+
+            } else if(event.modifiers & Qt.ControlModifier && event.modifiers & Qt.ShiftModifier) {
+                ele_top.ctrlShiftTab()
+                event.accepted = true
+            } else if(event.modifiers & Qt.ControlModifier) {
+                ele_top.ctrlTab()
+                event.accepted = true
+            }
         }
 
     }

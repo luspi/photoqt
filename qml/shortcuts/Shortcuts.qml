@@ -19,7 +19,9 @@ Item {
 
     }
 
-    Keys.onPressed: {
+    Keys.onPressed: analyseKeyEvent(event)
+
+    function analyseKeyEvent(event) {
 
         var combostring = AnalyseKeys.analyseEvent(event)
 

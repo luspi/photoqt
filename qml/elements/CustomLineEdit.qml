@@ -60,9 +60,10 @@ Rectangle {
         else
             variables.textEntryRequired = false
     }
-    onEnabledChanged: {
-        if(!enabled)
-            variables.textEntryRequired = false
+
+    onVisibleChanged: {
+        if(variables.textEntryRequired && !visible)
+            variables.textEntryRequired = false;
     }
 
     TextInput {
@@ -71,6 +72,8 @@ Rectangle {
 
         x: 3
         y: (parent.height-height)/2
+
+        enabled: ele_top.visible
 
         width: parent.width-6
 
@@ -116,6 +119,8 @@ Rectangle {
         }
 
         Keys.onPressed: {
+
+            shortcuts.analyseKeyEvent(event)
 
             if(event.key === Qt.Key_Enter || event.key === Qt.Key_Return) {
 
