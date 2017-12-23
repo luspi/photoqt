@@ -155,6 +155,8 @@ Rectangle {
 
                             onAccepted: shortcuts.processString("Enter")
                             onRejected: shortcuts.processString("Escape")
+                            onCtrlTab: shortcuts.processString("Ctrl+Tab")
+                            onCtrlShiftTab: shortcuts.processString("Ctrl+Shift+Tab")
 
                         }
 
@@ -174,6 +176,8 @@ Rectangle {
 
                             onAccepted: sh.simulateShortcut("Enter")
                             onRejected: sh.simulateShortcut("Escape")
+                            onCtrlTab: shortcuts.processString("Ctrl+Tab")
+                            onCtrlShiftTab: shortcuts.processString("Ctrl+Shift+Tab")
 
                         }
 
@@ -219,6 +223,16 @@ Rectangle {
                                 onClicked: deleteItem(visualIndex, posInList)
                             }
 
+                        }
+
+                        Connections {
+                            target: rect
+                            onVisibleChanged: {
+                                binary.enabled = visible
+                                description.enabled = visible
+                                if(!visible)
+                                    variables.textEntryRequired = false
+                            }
                         }
                     }
 

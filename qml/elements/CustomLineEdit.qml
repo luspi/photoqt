@@ -39,6 +39,9 @@ Rectangle {
     signal altRight()
     signal altUp()
 
+    signal ctrlTab()
+    signal ctrlShiftTab()
+
     signal clicked()
     signal doubleClicked()
 
@@ -196,6 +199,14 @@ Rectangle {
             } else if(event.key === Qt.Key_Period) {
                 if(event.modifiers & Qt.AltModifier) {
                     ele_top.altPeriod()
+                    event.accepted = true
+                }
+            } else if(event.key == Qt.Key_Tab || event.key == Qt.Key_Backtab) {
+                if(event.modifiers & Qt.ControlModifier && event.modifiers & Qt.ShiftModifier) {
+                    ele_top.ctrlShiftTab()
+                    event.accepted = true
+                } else if(event.modifiers & Qt.ControlModifier) {
+                    ele_top.ctrlTab()
                     event.accepted = true
                 }
             }
