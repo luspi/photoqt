@@ -546,7 +546,7 @@ Rectangle {
 
             verboseMessage("MainMenu::executeExternal()",close + " - " + exe)
             if(variables.currentFile !== "") {
-                getanddostuff.executeApp(exe,variables.currentFile,close)
+                getanddostuff.executeApp(exe,variables.currentDir + "/" + variables.currentFile,close)
                 if(close*1 == 1)
                     if(settings.trayicon)
                         hidePhotoQt()

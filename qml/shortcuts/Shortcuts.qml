@@ -202,7 +202,7 @@ Item {
 //        else if(cmd === "__imgurAnonym")
 //            imgurfeedback.show(true)
         else {
-            getanddostuff.executeApp(cmd,variables.currentFile)
+            getanddostuff.executeApp(cmd, variables.currentDir + "/" + variables.currentFile)
             if(close !== undefined && close == true)
                 if(settings.trayicon)
                     hidePhotoQt()
