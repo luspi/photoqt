@@ -25,7 +25,7 @@ Rectangle {
     width: settings.exifMetadaWindowWidth
     height: parent.height+2
 
-    property int nonFloatWidth: 0
+    property int nonFloatWidth: getButtonState() ? width : 0
 
     opacity: 0
     visible: opacity!=0

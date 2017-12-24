@@ -7,7 +7,7 @@ Item {
 
     id: item
 
-    x: 5
+    x: 5+metadata.nonFloatWidth
     y: 5
 
     opacity: 0
