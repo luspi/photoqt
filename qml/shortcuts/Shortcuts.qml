@@ -14,10 +14,8 @@ Item {
 
         var keys = shortcutshandler.load()
 
-        for(var i = 0; i < keys.length; i+=3) {
+        for(var i = 0; i < keys.length; i+=3)
             setKeyShortcuts[keys[i]] = [keys[i+1], keys[i+2]]
-            console.log(keys[i], keys[i+1], keys[i+2])
-        }
 
     }
 
