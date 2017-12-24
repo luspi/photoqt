@@ -380,9 +380,8 @@ Rectangle {
             var bin = getanddostuff.trim(c[3*i].replace("%f","").replace("%u","").replace("%d",""))
             // The icon for Krita is called 'calligrakrita'
             if(bin === "krita")
-                allitems_external.push([["_:_EX_:_" + c[3*i+1] + "___" + c[3*i], "calligrakrita", c[3*i+2]]])
-            else
-                allitems_external.push([["_:_EX_:_" + c[3*i+1] + "___" + c[3*i], bin, c[3*i+2]]])
+                bin = "calligrakrita"
+            allitems_external.push([["_:_EX_:_" + c[3*i+1] + "___" + c[3*i], bin, c[3*i+2], "donthide"]])
         }
 
         allitems = allitems_static.concat(allitems_external)
