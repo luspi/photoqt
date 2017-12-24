@@ -453,15 +453,16 @@ Rectangle {
 
             imageitem.zoomOut()
 
-        else if(what === "zoomreset")
+        else if(what === "zoomreset") {
 
+            imageitem.resetPosition()
             imageitem.resetZoom()
 
 //        else if(what === "zoomactual")
 
 //            mainview.zoomActual()
 
-        else if(what === "rotateleft")
+        } else if(what === "rotateleft")
 
             imageitem.rotateImage(-90)
 

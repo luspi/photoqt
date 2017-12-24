@@ -171,7 +171,8 @@ Item {
             imageitem.zoomIn()
         else if(cmd === "__zoomOut")
             imageitem.zoomOut()
-        else if(cmd === "__zoomReset")
+        else if(cmd === "__zoomReset") {
+            imageitem.resetPosition()
             imageitem.resetZoom()
         } else if(cmd === "__zoomActual")
             imageitem.zoomActual()
