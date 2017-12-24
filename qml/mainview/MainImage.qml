@@ -119,6 +119,12 @@ Item {
         else if(currentId == image2)
             image2.zoomOut()
     }
+    function zoomActual() {
+        if(currentId == image1)
+            image1.zoomActual()
+        else if(currentId == image2)
+            image2.zoomActual()
+    }
 
     function rotateImage(angle) {
         if(currentId == image1)

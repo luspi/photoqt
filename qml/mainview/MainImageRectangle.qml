@@ -204,6 +204,13 @@ Item {
         imageContainer.scaleMultiplier /= 1.1
     }
 
+    function zoomActual() {
+        if(image.sourceSize.width < defaultWidth && image.sourceSize.height < defaultHeight)
+            return
+        scaleAni.duration = scaleDuration
+        scaleMultiplier = 1/Math.min( defaultWidth / image.sourceSize.width, defaultHeight / image.sourceSize.height)
+    }
+
     function resetZoom() {
         scaleAni.duration = scaleDuration
         if((imageContainer.rotation%180 +180)%180 == 90)
