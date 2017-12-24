@@ -5,7 +5,13 @@ Item {
     id: top
 
     // fill out main element
-    anchors.fill: parent
+    anchors {
+        fill: parent
+        leftMargin: settings.borderAroundImg+metadata.nonFloatWidth
+        rightMargin: settings.borderAroundImg
+        topMargin: settings.borderAroundImg
+        bottomMargin: settings.borderAroundImg
+    }
 
     // the source of the current image
     property string source: ""
