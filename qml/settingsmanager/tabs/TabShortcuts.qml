@@ -226,8 +226,8 @@ Rectangle {
 //        other.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
 //        external.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
 
-//        mouseleftbutton.checkedButton = settings.leftButtonMouseClickAndMove
-//        touchsinglefinger.checkedButton = settings.singleFingerTouchPressAndMove
+        mouseleftbutton.checkedButton = settings.leftButtonMouseClickAndMove
+        touchsinglefinger.checkedButton = settings.singleFingerTouchPressAndMove
 
     }
 
@@ -253,8 +253,8 @@ Rectangle {
 //        ret = merge_options(ret, external.saveData())
 //        getanddostuff.saveShortcuts(ret)
 
-//        settings.leftButtonMouseClickAndMove = mouseleftbutton.checkedButton
-//        settings.singleFingerTouchPressAndMove = touchsinglefinger.checkedButton
+        settings.leftButtonMouseClickAndMove = mouseleftbutton.checkedButton
+        settings.singleFingerTouchPressAndMove = touchsinglefinger.checkedButton
 
     }
 

@@ -5,17 +5,19 @@ MouseArea {
     anchors.fill: parent
 
     hoverEnabled: true
-    propagateComposedEvents: true
 
-    onPositionChanged: {
-        handleMousePositionChange(mouse.x, mouse.y)
-    }
+    property point pressedPos: Qt.point(-1,-1)
 
-    // We pass those on to below, to keep the main image movable
-    onClicked: mouse.accepted = false
-    onPressed: mouse.accepted = false
-    onReleased: mouse.accepted = false
-    onPressAndHold: mouse.accepted = false
+    acceptedButtons: Qt.LeftButton|Qt.MiddleButton|Qt.RightButton
+
+    onPositionChanged: handleMousePositionChange(mouse.x, mouse.y)
+
+    drag.target: settings.leftButtonMouseClickAndMove ? imageitem.returnImageContainer() : undefined
+
+    onPressed: pressedPos = Qt.point(mouse.x, mouse.y)
+    onReleased: shortcuts.analyseMouseEvent(pressedPos, mouse)
+
+    onWheel: shortcuts.analyseWheelEvent(wheel)
 
     function handleMousePositionChange(xPos, yPos) {
 

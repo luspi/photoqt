@@ -240,7 +240,7 @@ Window {
     function manageStartup(filename) {
 
         if(!settings.thumbnailDisable)
-            call.show("thumbnails")
+            call.ensureElementSetup("thumbnails")
 
         if(settings.histogram)
             call.show("histogram")

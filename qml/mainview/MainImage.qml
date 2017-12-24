@@ -128,4 +128,11 @@ Item {
             image2.resetRotation()
     }
 
+    function returnImageContainer() {
+        if(currentId == image1)
+            return image1.returnImageContainer()
+        return image2.returnImageContainer()
+
+    }
+
 }

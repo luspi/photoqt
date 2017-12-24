@@ -158,28 +158,10 @@ Item {
                 imageContainer.y = pinch.previousCenter.y - imageContainer.height / 2
             }
         }
+    }
 
-        // This mouse area does the same as the pinch area but for the mouse
-        MouseArea {
-            id: dragArea
-            hoverEnabled: true
-            anchors.fill: parent
-            drag.target: imageContainer
-            scrollGestureEnabled: false  // 2-finger-flick gesture should pass through to the Flickable
-            onWheel: {
-                if (wheel.modifiers & Qt.ControlModifier) {
-                    imageContainer.rotation += wheel.angleDelta.y / 120 * 5;
-                    if (Math.abs(imageContainer.rotation) < 4)
-                        imageContainer.rotation = 0;
-                } else {
-                    imageContainer.rotation += wheel.angleDelta.x / 120;
-                    if (Math.abs(imageContainer.rotation) < 0.6)
-                        imageContainer.rotation = 0;
-                    var scaleBefore = imageContainer.scaleMultiplier;
-                    imageContainer.scaleMultiplier += imageContainer.scaleMultiplier * wheel.angleDelta.y / 120 / 10;
-                }
-            }
-        }
+    function returnImageContainer() {
+        return imageContainer
     }
 
     /***************************************************************/
