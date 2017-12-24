@@ -136,6 +136,14 @@ Item {
             var close = setKeyShortcuts[combo][0]
             var cmd = setKeyShortcuts[combo][1]
 
+            executeShortcut(cmd, close)
+
+        }
+
+    }
+
+    function executeShortcut(cmd, close) {
+
 //        if(cmd === "__stopThb")
 //            thumbnailBar.stopThumbnails()
         if(cmd === "__close")
@@ -184,6 +192,8 @@ Item {
 //            mainview.mirrorHorizontal()
 //        else if(cmd === "__flipV")
 //            mainview.mirrorVertical()
+//        else if(cmd === "__flipReset")
+//            mainview.mirrorReset()
 //        else if(cmd === "__rename")
 //            rename.showRename()
 //        else if(cmd === "__delete")
@@ -218,15 +228,20 @@ Item {
 //            imgurfeedback.show(false)
 //        else if(cmd === "__imgurAnonym")
 //            imgurfeedback.show(true)
-        else {
+//        else if(cmd === "__defaultFileManager")
+//            getanddostuff.openInDefaultFileManager(thumbnailBar.currentFile)
+        else if(cmd === "__histogram") {
+            if(call.whatisshown["histogram"])
+                call.hide("histogram")
+            else
+                call.show("histogram")
+        } else {
             getanddostuff.executeApp(cmd, variables.currentDir + "/" + variables.currentFile)
             if(close !== undefined && close == true)
                 if(settings.trayicon)
                     hidePhotoQt()
                 else
                     quitPhotoQt()
-        }
-
         }
 
     }

@@ -30,85 +30,85 @@ Rectangle {
 
     property var allitems_static: [
         //: This is an entry in the mainmenu on the right
-        [["open", "open", qsTr("Open File")]],
+        [["__open", "open", qsTr("Open File"), "hide"]],
         //: This is an entry in the mainmenu on the right
-        [["settings", "settings", qsTr("Settings")]],
+        [["__settings", "settings", qsTr("Settings"), "hide"]],
         //: This is an entry in the mainmenu on the right
-        [["wallpaper", "settings", qsTr("Set as Wallpaper")]],
+        [["__wallpaper", "settings", qsTr("Set as Wallpaper"), "hide"]],
         //: This is an entry in the mainmenu on the right
         [["slideshow","slideshow",qsTr("Slideshow")],
                 //: This is an entry in the mainmenu on the right, used as 'setting up a slideshow'
-                ["slideshow","",qsTr("setup")],
+                ["__slideshow","",qsTr("setup"), "hide"],
                 //: This is an entry in the mainmenu on the right, used as in 'quickstarting a slideshow'
-                ["slideshowquickstart","",qsTr("quickstart")]],
+                ["__slideshowQuick","",qsTr("quickstart"), "hide"]],
         //: This is an entry in the mainmenu on the right
-        [["filter", "filter", qsTr("Filter Images in Folder")]],
+        [["__filterImages", "filter", qsTr("Filter Images in Folder"), "hide"]],
         //: This is an entry in the mainmenu on the right
-        [["metadata", "metadata", qsTr("Show/Hide Metadata")]],
+        [["__hideMeta", "metadata", qsTr("Show/Hide Metadata"), "donthide"]],
         //: This is an entry in the mainmenu on the right
-        [["histogram", "histogram", qsTr("Show/Hide Histogram")]],
+        [["__histogram", "histogram", qsTr("Show/Hide Histogram"), "donthide"]],
         //: This is an entry in the mainmenu on the right
-        [["about", "about", qsTr("About PhotoQt")]],
+        [["__about", "about", qsTr("About PhotoQt"), "hide"]],
         //: This is an entry in the mainmenu on the right
-        [["hide", "hide", qsTr("Hide (System Tray)")]],
+        [["__hide", "hide", qsTr("Hide (System Tray)"), "hide"]],
         //: This is an entry in the mainmenu on the right
-        [["quit", "quit", qsTr("Quit")]],
+        [["__close", "quit", qsTr("Quit"), "hide"]],
 
         [["heading","",""]],
 
         //: This is an entry in the mainmenu on the right, used as in 'Go To some image'
         [["","goto",qsTr("Go to")],
                 //: This is an entry in the mainmenu on the right, used as in 'go to previous image'
-                ["prev","",qsTr("previous")],
+                ["__prev","",qsTr("previous"), "donthide"],
                 //: This is an entry in the mainmenu on the right, used as in 'go to next image'
-                ["next","",qsTr("next")],
+                ["__next","",qsTr("next"), "donthide"],
                 //: This is an entry in the mainmenu on the right, used as in 'go to first image'
-                ["first","",qsTr("first")],
+                ["__gotoFirstThb","",qsTr("first"), "donthide"],
                 //: This is an entry in the mainmenu on the right, used as in 'go to last image'
-                ["last","",qsTr("last")]],
+                ["__gotoLastThb","",qsTr("last"), "donthide"]],
         //: This is an entry in the mainmenu on the right, used as in 'Zoom image'
         [["zoom","zoom",qsTr("Zoom")],
                 //: This is an entry in the mainmenu on the right, used as in 'Zoom in on image'
-                ["zoomin","",qsTr("in")],
+                ["__zoomIn","",qsTr("in"), "donthide"],
                 //: This is an entry in the mainmenu on the right, used as in 'Zoom out of image'
-                ["zoomout","",qsTr("out")],
+                ["__zoomOut","",qsTr("out"), "donthide"],
                 //: This is an entry in the mainmenu on the right, used as in 'Reset zoom of image'
-                ["zoomreset","",qsTr("reset")],
+                ["__zoomReset","",qsTr("reset"), "donthide"],
                 //: This is an entry in the mainmenu on the right, used as in 'Zoom image to actual size (1:1, one-to-one)'
-                ["zoomactual","","1:1"]],
+                ["__zoomActual","","1:1", "donthide"]],
         //: This is an entry in the mainmenu on the right, used as in 'Rotate image'
         [["rotate","rotate",qsTr("Rotate")],
                 //: This is an entry in the mainmenu on the right, used as in 'Rotate image left'
-                ["rotateleft","",qsTr("left")],
+                ["__rotateL","",qsTr("left"), "donthide"],
                 //: This is an entry in the mainmenu on the right, used as in 'Rotate image right'
-                ["rotateright","",qsTr("right")],
+                ["__rotateR","",qsTr("right"), "donthide"],
                 //: This is an entry in the mainmenu on the right, used as in 'Reset rotation of image'
-                ["rotatereset","",qsTr("reset")]],
+                ["__rotate0","",qsTr("reset"), "donthide"]],
         //: This is an entry in the mainmenu on the right, used as in 'Flip/Mirror image'
         [["flip","flip",qsTr("Flip")],
                 //: This is an entry in the mainmenu on the right, used as in 'Flip/Mirror image horizontally'
-                ["flipH","",qsTr("horizontal")],
+                ["__flipH","",qsTr("horizontal"), "donthide"],
                 //: This is an entry in the mainmenu on the right, used as in 'Flip/Mirror image vertically'
-                ["flipV","",qsTr("vertical")],
+                ["__flipV","",qsTr("vertical"), "donthide"],
                 //: This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of image'
-                ["flipReset","",qsTr("reset")]],
+                ["__flipReset","",qsTr("reset"), "donthide"]],
         //: This is an entry in the mainmenu on the right, used to refer to the current file (specifically the file, not directly the image)
         [["","copy",qsTr("File")],
                 //: This is an entry in the mainmenu on the right, used as in 'rename file'
-                ["rename","",qsTr("rename")],
+                ["__rename","",qsTr("rename"), "hide"],
                 //: This is an entry in the mainmenu on the right, used as in 'copy file'
-                ["copy","",qsTr("copy")],
+                ["__copy","",qsTr("copy"), "hide"],
                 //: This is an entry in the mainmenu on the right, used as in 'move file'
-                ["move","",qsTr("move")],
+                ["__move","",qsTr("move"), "hide"],
                 //: This is an entry in the mainmenu on the right, used as in 'delete file'
-                ["delete","",qsTr("delete")]],
+                ["__delete","",qsTr("delete"), "hide"]],
 
         [["heading","",""]],
 
         //: This is an entry in the mainmenu on the right
-        [["scale","scale",qsTr("Scale Image")]],
+        [["__scale","scale",qsTr("Scale Image"), "hide"]],
         //: This is an entry in the mainmenu on the right
-        [["default","open",qsTr("Open in default file manager")]]
+        [["__defaultFileManager","open",qsTr("Open in default file manager"), "donthide"]]
     ]
     property var allitems_external: []
     property var allitems: []
@@ -280,8 +280,18 @@ Rectangle {
                                 val.color = colour.text_inactive
                         }
                         onClicked: {
-                            if(allitems[subview.mainindex][index][0]!=="heading" && (allitems[subview.mainindex].length === 1 || index > 0))
-                                mainmenuDo(allitems[subview.mainindex][index][0])
+                            if(allitems[subview.mainindex][index][0]!=="heading" && (allitems[subview.mainindex].length === 1 || index > 0)) {
+                                if(allitems[subview.mainindex][index][3] === "hide")
+                                    hide()
+                                var cmd = allitems[subview.mainindex][index][0]
+                                var close = 0
+                                if(cmd.slice(0,8) === "_:_EX_:_") {
+                                    var parts = (cmd.split("_:_EX_:_")[1]).split("___")
+                                    close = parts[0];
+                                    cmd = parts[1];
+                                }
+                                shortcuts.executeShortcut(cmd, close)
+                            }
                         }
 
                     }
