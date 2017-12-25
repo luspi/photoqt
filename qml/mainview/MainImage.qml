@@ -261,4 +261,37 @@ Item {
 
     }
 
+    function mirrorHorizontal() {
+        if(currentId == image1)
+            image1.mirrorHorizontal()
+        else if(currentId == image2)
+            image2.mirrorHorizontal()
+        else if(currentId == imageANIM1)
+            imageANIM1.mirrorHorizontal()
+        else if(currentId == imageANIM2)
+            imageANIM2.mirrorHorizontal()
+    }
+
+    function mirrorVertical() {
+        if(currentId == image1)
+            image1.mirrorVertical()
+        else if(currentId == image2)
+            image2.mirrorVertical()
+        else if(currentId == imageANIM1)
+            imageANIM1.mirrorVertical()
+        else if(currentId == imageANIM2)
+            imageANIM2.mirrorVertical()
+    }
+
+    function resetMirror() {
+        if(currentId == image1)
+            image1.resetMirror()
+        else if(currentId == image2)
+            image2.resetMirror()
+        else if(currentId == imageANIM1)
+            imageANIM1.resetMirror()
+        else if(currentId == imageANIM2)
+            imageANIM2.resetMirror()
+    }
+
 }

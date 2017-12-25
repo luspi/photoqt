@@ -245,4 +245,19 @@ Item {
 
     }
 
+    function mirrorHorizontal() {
+        image.mirror = !image.mirror
+    }
+
+    function mirrorVertical() {
+        rotationAni.duration = 0
+        imageContainer.rotation += 180
+        image.mirror = !image.mirror
+    }
+
+    function resetMirror() {
+        resetRotationWithoutAnimation()
+        image.mirror = false
+    }
+
 }
