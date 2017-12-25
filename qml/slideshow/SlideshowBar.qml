@@ -39,6 +39,8 @@ Rectangle {
             stopSlideshow()
         onSlideshowBarShow:
             showBar()
+        onSlideshowBarHide:
+            hideBar()
         onSlideshowPause:
             pauseSlideshow()
     }
@@ -116,7 +118,7 @@ Rectangle {
     // Show and hide the bar shortly after again (used at start and end of slideshow)
     function showAndHideBar() {
         verboseMessage("SlideshowBar::showAndHideBar()","Show and Hide")
-        showBar()
+        call.show("slideshowbar")
         hidebarsoon.start()
     }
 
@@ -203,7 +205,7 @@ Rectangle {
             paused = true
             imageswitcher.stop()
             // The bar remains shown when slideshow paused
-            showBar()
+            call.show("slideshowbar")
         // Play
         } else {
             // Play music (if set)
@@ -211,7 +213,7 @@ Rectangle {
                 slideshowmusic.play()
             paused = false
             imageswitcher.start()
-            hideBar()
+            call.hide("slideshowbar")
         }
     }
 
@@ -290,7 +292,7 @@ Rectangle {
         interval: 500
         repeat: false
         running: false
-        onTriggered: hideBar()
+        onTriggered: call.hide("slideshowbar")
     }
 
     Timer {

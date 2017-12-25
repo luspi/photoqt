@@ -23,6 +23,8 @@ Item {
     property var allFilesCurrentDir: []
     onAllFilesCurrentDirChanged: updateCurrentFilePos()
 
+    property string filemanagementCurrentCategory: ""
+
     function updateCurrentFilePos() {
         var onlyfile = getanddostuff.removePathFromFilename(currentFile)
         if(allFilesCurrentDir.indexOf(onlyfile) >= 0)

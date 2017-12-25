@@ -13,8 +13,12 @@ FadeInTemplate {
         target: call
         onSlideshowSettingsShow:
             show()
+        onSlideshowSettingsHide:
+            hide()
         onSlideshowQuickStart:
             quickstart()
+        onSlideshowStartFromSettings:
+            simulateEnter()
     }
 
     content: [
@@ -312,12 +316,12 @@ FadeInTemplate {
 
     function hideSlideshow() {
         verboseMessage("Slideshow::hideSlideshow()","")
-        hide()
+        call.hide("slideshowsettings")
     }
     function hideSlideshowAndRememberSettings() {
         verboseMessage("Slideshow::hideSlideshowAndRememberSettings()","")
         saveSettings()
-        hide()
+        call.hide("slideshowsettings")
     }
 
     function saveSettings() {

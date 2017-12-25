@@ -145,13 +145,18 @@ Item {
     }
 
     function hideDelete() {
-        management_top.hide()
+        call.hide("filemanagement")
     }
 
     Connections {
         target: management_top
         onPermanentDeleteFile:
             doDirectPermanentDelete()
+    }
+
+    Connections {
+        target: call
+        onFilemanagementDeleteImage: simulateEnter()
     }
 
 }

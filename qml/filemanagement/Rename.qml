@@ -131,7 +131,12 @@ Item {
         show()
     }
     function hideRename() {
-        management_top.hide()
+        call.hide("filemanagement")
+    }
+
+    Connections {
+        target: call
+        onFilemanagementPerformRename: simulateEnter()
     }
 
 }

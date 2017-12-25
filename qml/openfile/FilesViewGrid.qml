@@ -165,7 +165,7 @@ GridView {
                     icon.hovered = false
                 onClicked: {
                     if(mouse.button == Qt.LeftButton) {
-                        hideOpenAni.start()
+                        call.hide("openfile")
                         openFile(dir_path + "/" + files[2*index],"")
                         if(settings.openKeepLastLocation)
                             getanddostuff.setOpenFileLastLocation(dir_path)

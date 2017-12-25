@@ -23,6 +23,7 @@ Item {
     signal slideshowSettingsHide()
     signal slideshowBarShow()
     signal slideshowBarHide()
+    signal slideshowStartFromSettings()
     signal slideshowStart()
     signal slideshowStop()
     signal slideshowQuickStart()
@@ -34,6 +35,8 @@ Item {
     signal filemanagementShow(var category)
     signal filemanagementHide()
     signal permanentDeleteFile()
+    signal filemanagementPerformRename()
+    signal filemanagementDeleteImage()
 
     signal aboutShow()
     signal aboutHide()
@@ -149,6 +152,8 @@ Item {
             slideshowStart()
         else if(func == "slideshowStop")
             slideshowStop()
+        else if(func == "slideshowStartFromSettings")
+            slideshowStartFromSettings()
         else if(func == "slideshowQuickStart") {
             ensureElementSetup("slideshowsettings")
             slideshowQuickStart()
@@ -173,8 +178,10 @@ Item {
         } else if(func == "permanentDeleteFile") {
             ensureElementSetup("filemanagement")
             permanentDeleteFile()
-        }
-
+        } else if(func == "filemanagementPerformRename")
+            filemanagementPerformRename()
+        else if(func == "filemanagementDeleteImage")
+            filemanagementDeleteImage()
     }
 
     function ensureElementSetup(component) {

@@ -74,14 +74,8 @@ Rectangle {
 
     Connections {
         target: call
-        onHistogramShow: {
-            opacity = 1
-            settings.histogram = true
-        }
-        onHistogramHide: {
-            opacity = 0
-            settings.histogram = false
-        }
+        onHistogramShow: showHistogram()
+        onHistogramHide: hideHistogram()
     }
 
     Connections {
@@ -342,10 +336,7 @@ Rectangle {
                 bg_rect.hide()
                 parent.hide()
             }
-            onClicked: {
-                rect_top.opacity = 0
-                settings.histogram = false
-            }
+            onClicked: call.hide("histogram")
         }
         function show() {
             closex.opacity = 0.75
@@ -354,6 +345,15 @@ Rectangle {
             closex.opacity = 0.05
         }
         Component.onCompleted: hide()
+    }
+
+    function showHistogram() {
+        opacity = 1
+        settings.histogram = true
+    }
+    function hideHistogram() {
+        opacity = 0
+        settings.histogram = false
     }
 
 }

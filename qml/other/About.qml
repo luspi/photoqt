@@ -131,10 +131,10 @@ FadeInTemplate {
     ]
 
     function showAbout() {
-        show()
+        call.show("about")
     }
     function hideAbout() {
-        hide()
+        call.hide("about")
     }
 
 }

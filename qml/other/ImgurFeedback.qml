@@ -93,7 +93,7 @@ Rectangle {
                 text: qsTr("Cancel upload")
                 fontsize: 30
                 onClickedButton:
-                    hide()
+                    call.hide("imgurfeedback")
             }
 
         }
@@ -200,7 +200,7 @@ Rectangle {
                     text: qsTr("I don't want to know it!")
                     fontsize: 25
                     onClickedButton:
-                        hide()
+                        call.hide("imgurfeedback")
                 }
 
             }
@@ -250,7 +250,7 @@ Rectangle {
                     text: qsTr("Oh, man... Well, go back!")
                     fontsize: 30
                     onClickedButton:
-                        hide()
+                        call.hide("imgurfeedback")
                 }
             }
         }
@@ -295,7 +295,7 @@ Rectangle {
                     text: "Oh, man... Well, go back!"
                     fontsize: 30
                     onClickedButton:
-                        hide()
+                        call.hide("imgurfeedback")
                 }
             }
         }
@@ -410,7 +410,7 @@ Rectangle {
                     text: "Got it!"
                     fontsize: 30
                     onClickedButton:
-                        hide()
+                        call.hide("imgurfeedback")
                 }
             }
         }
@@ -459,16 +459,6 @@ Rectangle {
 
     }
 
-//    Connections {
-//        target: obtainingImageUrlDeleteHash
-//        onVisibleChanged: {
-//            if(visible && !longtime_timer.running)
-//                longtime_timer.restart()
-//            else if(!visible)
-//                longtime_timer.stop()
-//        }
-//    }
-
     Connections {
         target: call
         onImgurfeedbackShow:
@@ -499,7 +489,7 @@ Rectangle {
             var ret = shareonline_imgur.authAccount()
             if(ret !== 0) {
                 console.log("Imgur authentication failed!!")
-                hide()
+                call.hide("imgurfeedback")
                 return
             }
             opacity = 1

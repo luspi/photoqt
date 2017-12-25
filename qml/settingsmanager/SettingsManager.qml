@@ -267,7 +267,7 @@ Rectangle {
 
             onClickedButton: {
                 setData_restore()
-                hideSettings()
+                call.hide("settingsmanager")
             }
 
         }
@@ -307,7 +307,7 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            onClicked: hideSettings()
+            onClicked: call.hide("settingsmanager")
             //: This is the tooltip of the exit button (little 'x' top right corner)
             text: qsTr("Close settings manager")
         }
@@ -520,7 +520,7 @@ Rectangle {
             invalidshortcuts.show()
         else {
             saveData();
-            hideSettings();
+            call.hide("settingsmanager")
         }
     }
 
