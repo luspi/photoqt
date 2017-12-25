@@ -130,6 +130,13 @@ Item {
 
         }
 
+        Image {
+            anchors.fill: parent
+            fillMode: Image.Tile
+            source: "qrc:/img/transparent.png"
+            z: -1
+        }
+
     }
 
     // The pinch area makes the image manipulatable by a touch screen
