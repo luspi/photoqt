@@ -213,11 +213,10 @@ Item {
                 metadata.show()
             }
         }
-//        else if(cmd === "__gotoFirstThb")
-//            thumbnailBar.gotoFirstImage()
-//        else if(cmd === "__gotoLastThb")
-//            thumbnailBar.gotoLastImage()
-
+        else if(cmd === "__gotoFirstThb")
+            Load.loadFirst()
+        else if(cmd === "__gotoLastThb")
+            Load.loadLast()
 //        else if(cmd === "__wallpaper")
 //            wallpaper.showWallpaper()
 //        else if(cmd === "__scale")
@@ -231,7 +230,6 @@ Item {
 //            imgurfeedback.show(true)
         else if(cmd === "__defaultFileManager")
             getanddostuff.openInDefaultFileManager(variables.currentDir + "/" + variables.currentFile)
-//            getanddostuff.openInDefaultFileManager(thumbnailBar.currentFile)
         else if(cmd === "__histogram") {
             if(call.whatisshown["histogram"])
                 call.hide("histogram")

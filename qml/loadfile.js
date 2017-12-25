@@ -50,3 +50,11 @@ function loadPrev() {
         loadpos -= 1
     loadFile(variables.allFilesCurrentDir[loadpos], variables.filter)
 }
+
+function loadFirst() {
+    loadFile(variables.allFilesCurrentDir[0], variables.filter)
+}
+
+function loadLast() {
+    loadFile(variables.allFilesCurrentDir[variables.allFilesCurrentDir.length -1], variables.filter)
+}
