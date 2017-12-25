@@ -20,6 +20,7 @@
 #include "shortcuts/shortcutsnotifier.h"
 #include "scripts/thumbnailsmanagement.h"
 #include "shortcuts/shortcuts.h"
+#include "scripts/filedialog.h"
 
 #include "imageprovider/imageproviderempty.h"
 #include "imageprovider/imageproviderfull.h"
