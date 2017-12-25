@@ -92,6 +92,8 @@ FadeInTemplate {
 
     ]
 
+    signal permanentDeleteFile()
+
     Connections {
         target: call
         onFilemanagementShow: {
@@ -101,6 +103,10 @@ FadeInTemplate {
         onFilemanagementHide: {
             management_top.current = ""
             hide()
+        }
+        onPermanentDeleteFile: {
+            management_top.current = "del"
+            permanentDeleteFile()
         }
     }
 

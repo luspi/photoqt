@@ -71,9 +71,7 @@ Item {
                 fontsize: 18
                 onClickedButton: {
                     verboseMessage("Delete","move to trash")
-                    hideDelete()
-                    getanddostuff.deleteImage(variables.currentFile,getanddostuff.amIOnLinux())
-                    reloadDirectory(thumbnailBar.getNewFilenameAfterDeletion(), currentfilter)
+                    simulateEnter()
                 }
             }
 
@@ -104,9 +102,7 @@ Item {
         visible: getanddostuff.amIOnLinux()
         onClickedButton: {
             verboseMessage("Delete","delete permanently")
-            hideDelete()
-            getanddostuff.deleteImage(variables.currentFile,false)
-            reloadDirectory(thumbnailBar.getNewFilenameAfterDeletion(), currentfilter)
+            simulateShiftEnter()
         }
     }
 
@@ -150,6 +146,12 @@ Item {
 
     function hideDelete() {
         management_top.hide()
+    }
+
+    Connections {
+        target: management_top
+        onPermanentDeleteFile:
+            doDirectPermanentDelete()
     }
 
 }

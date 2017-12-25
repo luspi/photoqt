@@ -17,12 +17,6 @@ Item {
 
     property bool categorySetUp: false
 
-    onVisibleChanged: {
-        if(!categorySetUp && visible) {
-            item.source = itemSource
-            categorySetUp = true
-        }
-    }
     onOpacityChanged: {
         if(opacity == 1)
            itemShown()
@@ -33,9 +27,13 @@ Item {
     Connections {
         target: management_top
         onCurrentChanged: {
-            if(management_top.current == container.category)
+            if(management_top.current == container.category) {
                 container.opacity = 1
-            else
+                if(!categorySetUp) {
+                    item.source = itemSource
+                    categorySetUp = true
+                }
+            } else
                 container.opacity = 0
         }
     }

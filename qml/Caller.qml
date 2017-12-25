@@ -33,6 +33,7 @@ Item {
 
     signal filemanagementShow(var category)
     signal filemanagementHide()
+    signal permanentDeleteFile()
 
     signal aboutShow()
     signal aboutHide()
@@ -155,6 +156,9 @@ Item {
             ensureElementSetup("filemanagement")
             filemanagementShow("rn")
             whatisshown["filemanagement"] = true
+        } else if(func == "permanentDeleteFile") {
+            ensureElementSetup("filemanagement")
+            permanentDeleteFile()
         }
 
     }
