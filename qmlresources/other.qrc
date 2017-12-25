@@ -4,5 +4,6 @@
     <file>../qml/Caller.qml</file>
     <file>../qml/loadfile.js</file>
     <file>../qml/other/About.qml</file>
+    <file>../qml/other/ImgurFeedback.qml</file>
     </qresource>
 </RCC>

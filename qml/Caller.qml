@@ -38,6 +38,10 @@ Item {
     signal aboutShow()
     signal aboutHide()
 
+    signal imgurfeedbackShow()
+    signal imgurfeedbackAnonymShow()
+    signal imgurfeedbackHide()
+
     property var whatisshown: ({"thumbnails" : false,
                                    "openfile" : false,
                                    "settingsmanager" : false,
@@ -45,7 +49,8 @@ Item {
                                    "slideshowbar" : false,
                                    "histogram" : false,
                                    "filemanagement" : false,
-                                   "about" : false})
+                                   "about" : false,
+                                   "imgurfeedback" : false})
 
     // Load and show a component
     function show(component) {
@@ -73,6 +78,12 @@ Item {
         } else if(component == "about") {
             aboutShow()
             whatisshown[component] = true
+        } else if(component == "imgurfeedback") {
+            imgurfeedbackShow()
+            whatisshown[component] = true
+        } else if(component == "imgurfeedbackanonym") {
+            imgurfeedbackAnonymShow()
+            whatisshown["imgurfeedback"] = true
         }
 
     }
@@ -102,6 +113,9 @@ Item {
             whatisshown[component] = false
         } else if(component == "about") {
             aboutHide()
+            whatisshown[component] = false
+        } else if(component == "imgurfeedback") {
+            imgurfeedbackHide()
             whatisshown[component] = false
         }
     }
@@ -194,6 +208,9 @@ Item {
             } else if(component == "about") {
                 about.source = "other/About.qml"
                 elementssetup.push(component)
+            } else if(component == "imgurfeedback" || component == "imgurfeedbackanonym") {
+                imgurfeedback.source = "other/ImgurFeedback.qml"
+                elementssetup.push("imgurfeedback")
             }
         }
 

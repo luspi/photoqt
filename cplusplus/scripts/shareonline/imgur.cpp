@@ -155,7 +155,7 @@ int ShareOnline::Imgur::obtainClientIdSecret() {
         return IMGUR_NOERROR;
 
     // Request text file from server
-    QNetworkRequest req(QUrl("http://photoqt.org/oauth2/imgur.php"));
+    QNetworkRequest req(QUrl("https://photoqt.org/oauth2/imgur.php"));
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
     QNetworkReply *reply =  networkManager->get(req);
     ReplyTimeout::set(reply, 2500);

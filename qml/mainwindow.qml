@@ -166,6 +166,8 @@ Window {
 
     Loader { id: about }
 
+    Loader { id: imgurfeedback }
+
 
     // The shortcut notifier element
     PShortcutsNotifier { id: sh_notifier; }
