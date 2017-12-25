@@ -110,6 +110,7 @@ Item {
         Image {
             anchors.fill: parent
             fillMode: Image.Tile
+            visible: settings.showTransparencyMarkerBackground
             source: "qrc:/img/transparent.png"
             z: -1
         }

@@ -282,6 +282,8 @@ public:
     int blurIntensity;
     // Size (in MB) of pixmap cache
     int pixmapCache;
+    // Show 'transparent' marker image behind images that have transparent areas
+    bool showTransparencyMarkerBackground;
 
     bool leftButtonMouseClickAndMove;
     bool singleFingerTouchPressAndMove;
@@ -436,6 +438,7 @@ public:
     Q_PROPERTY(bool interpolationNearestNeighbourUpscale MEMBER interpolationNearestNeighbourUpscale NOTIFY interpolationNearestNeighbourUpscaleChanged)
     Q_PROPERTY(int blurIntensity MEMBER blurIntensity NOTIFY blurIntensityChanged)
     Q_PROPERTY(int pixmapCache MEMBER pixmapCache NOTIFY pixmapCacheChanged)
+    Q_PROPERTY(bool showTransparencyMarkerBackground MEMBER showTransparencyMarkerBackground NOTIFY showTransparencyMarkerBackgroundChanged)
     Q_PROPERTY(bool leftButtonMouseClickAndMove MEMBER leftButtonMouseClickAndMove NOTIFY leftButtonMouseClickAndMoveChanged)
     Q_PROPERTY(bool singleFingerTouchPressAndMove MEMBER singleFingerTouchPressAndMove NOTIFY singleFingerTouchPressAndMoveChanged)
 
@@ -584,6 +587,7 @@ public:
         blurIntensity = 5;
         pixmapCache = 128;
         leftButtonMouseClickAndMove = true;
+        showTransparencyMarkerBackground = true;
         singleFingerTouchPressAndMove = true;
         startupLoadLastLoadedImage = false;
 
@@ -748,6 +752,7 @@ public slots:
             cont += QString("InterpolationNearestNeighbourUpscale=%1\n").arg(int(interpolationNearestNeighbourUpscale));
             cont += QString("BlurIntensity=%1\n").arg(blurIntensity);
             cont += QString("PixmapCache=%1\n").arg(pixmapCache);
+            cont += QString("ShowTransparencyMarkerBackground=%1\n").arg(int(showTransparencyMarkerBackground));
             cont += QString("LeftButtonMouseClickAndMove=%1\n").arg(int(leftButtonMouseClickAndMove));
             cont += QString("SingleFingerTouchPressAndMove=%1\n").arg(int(singleFingerTouchPressAndMove));
 
@@ -1026,6 +1031,9 @@ public slots:
 
             if(all.contains("PixmapCache="))
                 pixmapCache = all.split("PixmapCache=").at(1).split("\n").at(0).toInt();
+
+            if(all.contains("ShowTransparencyMarkerBackground="))
+                showTransparencyMarkerBackground = all.split("ShowTransparencyMarkerBackground=").at(1).split("\n").at(0).toInt();
 
             if(all.contains("LeftButtonMouseClickAndMove=1"))
                 leftButtonMouseClickAndMove = true;
@@ -1404,6 +1412,7 @@ signals:
     void interpolationNearestNeighbourUpscaleChanged(bool val);
     void blurIntensityChanged(int val);
     void pixmapCacheChanged(int val);
+    void showTransparencyMarkerBackgroundChanged(bool val);
     void leftButtonMouseClickAndMoveChanged(bool val);
     void singleFingerTouchPressAndMoveChanged(bool val);
 
