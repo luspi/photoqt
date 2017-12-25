@@ -19,9 +19,11 @@ Item {
     onSourceChanged: {
         if(animated) {
             if(currentId == imageANIM1) {
+                imageANIM2.paused = false
                 imageANIM2.source = ""
                 imageANIM2.source = source
             } else {
+                imageANIM1.paused = false
                 imageANIM1.source = ""
                 imageANIM1.source = source
             }
@@ -238,6 +240,13 @@ Item {
             imageANIM1.resetRotation()
         else if(currentId == imageANIM2)
             imageANIM2.resetRotation()
+    }
+
+    function playPauseAnimation() {
+        if(currentId == imageANIM1)
+            imageANIM1.paused = !imageANIM1.paused
+        else if(currentId == imageANIM2)
+            imageANIM2.paused = !imageANIM2.paused
     }
 
     function returnImageContainer() {

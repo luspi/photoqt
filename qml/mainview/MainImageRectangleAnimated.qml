@@ -30,6 +30,8 @@ Item {
     // the source of the current image
     property string source: ""
 
+    property bool paused: false
+
     // The scaleMultiplier takes care of the zooming to keep the binding for scale as is
     property real scaleMultiplier: 1
     // The scale depends on the actual image and the fitInWindow property
@@ -74,6 +76,8 @@ Item {
 
         // source is tied to imageContainer property
         source: imageContainer.source
+
+        paused: (parent.paused || !parent.visible)
 
         // Center item in parent
         anchors.centerIn: parent
