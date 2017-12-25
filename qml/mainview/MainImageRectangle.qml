@@ -236,7 +236,10 @@ Item {
 
     function rotateImage(angle) {
         rotationAni.duration = rotationDuration
-        imageContainer.rotation += angle
+        if(rotationAni.running)
+            imageContainer.rotation = rotationAni.to+angle
+        else
+            imageContainer.rotation += angle
     }
 
     function resetRotation() {
