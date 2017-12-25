@@ -14,14 +14,25 @@ Item {
     }
 
     // the source of the current image
+    property bool animated: false
     property string source: ""
     onSourceChanged: {
-        if(currentId == image1) {
-            image2.source = ""
-            image2.source = source
+        if(animated) {
+            if(currentId == imageANIM1) {
+                imageANIM2.source = ""
+                imageANIM2.source = source
+            } else {
+                imageANIM1.source = ""
+                imageANIM1.source = source
+            }
         } else {
-            image1.source = ""
-            image1.source = source
+            if(currentId == image1) {
+                image2.source = ""
+                image2.source = source
+            } else {
+                image1.source = ""
+                image1.source = source
+            }
         }
     }
 
@@ -58,7 +69,11 @@ Item {
             defaultWidth: top.width-settings.borderAroundImg
 
             // Connect to some signals, set this as current or hide the other image
-            onHideOther: image2.hideMe()
+            onHideOther: {
+                image2.hideMe()
+                imageANIM1.hideMe()
+                imageANIM2.hideMe()
+            }
             onSetAsCurrentId: currentId = image1
 
         }
@@ -82,8 +97,68 @@ Item {
             defaultWidth: top.width-settings.borderAroundImg
 
             // Connect to some signals, set this as current or hide the other image
-            onHideOther: image1.hideMe()
+            onHideOther: {
+                image1.hideMe()
+                imageANIM1.hideMe()
+                imageANIM2.hideMe()
+            }
             onSetAsCurrentId: currentId = image2
+
+        }
+
+        // The first image
+        MainImageRectangleAnimated {
+
+            id: imageANIM1
+
+            // Pass on some settings
+
+            fitImageInWindow: settings.fitInWindow
+            imageMargin: settings.borderAroundImg
+
+            positionDuration: settings.transition*150
+            transitionDuration: settings.transition*150
+            scaleDuration: settings.transition*150
+            rotationDuration: settings.transition*150
+
+            defaultHeight: top.height-settings.borderAroundImg
+            defaultWidth: top.width-settings.borderAroundImg
+
+            // Connect to some signals, set this as current or hide the other image
+            onHideOther: {
+                image1.hideMe()
+                image2.hideMe()
+                imageANIM2.hideMe()
+            }
+            onSetAsCurrentId: currentId = imageANIM1
+
+        }
+
+        // The second image
+        MainImageRectangleAnimated {
+
+            id: imageANIM2
+
+            // Pass on some settings
+
+            fitImageInWindow: settings.fitInWindow
+            imageMargin: settings.borderAroundImg
+
+            positionDuration: settings.transition*150
+            transitionDuration: settings.transition*150
+            scaleDuration: settings.transition*150
+            rotationDuration: settings.transition*150
+
+            defaultHeight: top.height-settings.borderAroundImg
+            defaultWidth: top.width-settings.borderAroundImg
+
+            // Connect to some signals, set this as current or hide the other image
+            onHideOther: {
+                image1.hideMe()
+                image2.hideMe()
+                imageANIM1.hideMe()
+            }
+            onSetAsCurrentId: currentId = imageANIM2
 
         }
 
@@ -93,18 +168,23 @@ Item {
     /****************************************************/
     // All the API functions
 
-    function loadImage(filename) {
-        source = filename
+    function loadImage(filename, animated) {
+        top.animated = animated
+        top.source = filename
     }
 
     function resetPosition() {
         image1.resetPosition()
         image2.resetPosition()
+        imageANIM1.resetPosition()
+        imageANIM2.resetPosition()
     }
 
     function resetZoom() {
         image1.resetZoom()
         image2.resetZoom()
+        imageANIM1.resetZoom()
+        imageANIM2.resetZoom()
     }
 
     function zoomIn() {
@@ -112,18 +192,30 @@ Item {
             image1.zoomIn()
         else if(currentId == image2)
             image2.zoomIn()
+        else if(currentId == imageANIM1)
+            imageANIM1.zoomIn()
+        else if(currentId == imageANIM2)
+            imageANIM2.zoomIn()
     }
     function zoomOut() {
         if(currentId == image1)
             image1.zoomOut()
         else if(currentId == image2)
             image2.zoomOut()
+        else if(currentId == imageANIM1)
+            imageANIM1.zoomOut()
+        else if(currentId == imageANIM2)
+            imageANIM2.zoomOut()
     }
     function zoomActual() {
         if(currentId == image1)
             image1.zoomActual()
         else if(currentId == image2)
             image2.zoomActual()
+        else if(currentId == imageANIM1)
+            imageANIM1.zoomActual()
+        else if(currentId == imageANIM2)
+            imageANIM2.zoomActual()
     }
 
     function rotateImage(angle) {
@@ -131,6 +223,10 @@ Item {
             image1.rotateImage(angle)
         else if(currentId == image2)
             image2.rotateImage(angle)
+        else if(currentId == imageANIM1)
+            imageANIM1.rotateImage(angle)
+        else if(currentId == imageANIM2)
+            imageANIM2.rotateImage(angle)
     }
 
     function resetRotation() {
@@ -138,12 +234,21 @@ Item {
             image1.resetRotation()
         else if(currentId == image2)
             image2.resetRotation()
+        else if(currentId == imageANIM1)
+            imageANIM1.resetRotation()
+        else if(currentId == imageANIM2)
+            imageANIM2.resetRotation()
     }
 
     function returnImageContainer() {
         if(currentId == image1)
             return image1.returnImageContainer()
-        return image2.returnImageContainer()
+        else if(currentId == image2)
+            return image2.returnImageContainer()
+        else if(currentId == imageANIM1)
+            return imageANIM1.returnImageContainer()
+        else if(currentId == imageANIM2)
+            return imageANIM2.returnImageContainer()
 
     }
 

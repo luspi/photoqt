@@ -22,8 +22,12 @@ function loadFile(filename, filter) {
     } else
         variables.currentFile = filename
 
-    imageitem.loadImage("image://full/" + variables.currentDir + "/" + variables.currentFile)
-    metadata.setData(getmetadata.getExiv2(variables.currentDir + "/" + variables.currentFile))
+
+    var src = variables.currentDir + "/" + variables.currentFile
+    var anim = getanddostuff.isImageAnimated(src)
+    var prefix = (anim ? "file://" : "image://full/")
+    imageitem.loadImage(prefix + src, anim)
+    metadata.setData(getmetadata.getExiv2(src))
 
 }
 

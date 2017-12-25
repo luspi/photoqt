@@ -199,7 +199,9 @@ Item {
                 // Load the selected thumbnail as main image
                 onClicked: {
                     variables.currentFile = getanddostuff.removePathFromFilename(imagePath)
-                    imageitem.loadImage("image://full/" + imagePath)
+                    var anim = getanddostuff.isImageAnimated(imagePath)
+                    var prefix = (anim ? "file://" : "image://full/")
+                    imageitem.loadImage(prefix + imagePath, anim)
                 }
             }
 
