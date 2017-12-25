@@ -34,13 +34,17 @@ Item {
     signal filemanagementShow(var category)
     signal filemanagementHide()
 
+    signal aboutShow()
+    signal aboutHide()
+
     property var whatisshown: ({"thumbnails" : false,
                                    "openfile" : false,
                                    "settingsmanager" : false,
                                    "slideshowsettings" : false,
                                    "slideshowbar" : false,
                                    "histogram" : false,
-                                   "filemanagement" : false})
+                                   "filemanagement" : false,
+                                   "about" : false})
 
     // Load and show a component
     function show(component) {
@@ -64,6 +68,9 @@ Item {
             whatisshown[component] = true
         } else if(component == "histogram") {
             histogramShow()
+            whatisshown[component] = true
+        } else if(component == "about") {
+            aboutShow()
             whatisshown[component] = true
         }
 
@@ -91,6 +98,9 @@ Item {
             whatisshown[component] = false
         } else if(component == "filemanagement") {
             filemanagementHide()
+            whatisshown[component] = false
+        } else if(component == "about") {
+            aboutHide()
             whatisshown[component] = false
         }
     }
@@ -176,6 +186,9 @@ Item {
                 elementssetup.push(component)
             } else if(component == "filemanagement") {
                 filemanagement.source = "filemanagement/Management.qml"
+                elementssetup.push(component)
+            } else if(component == "about") {
+                about.source = "other/About.qml"
                 elementssetup.push(component)
             }
         }

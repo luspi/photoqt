@@ -3,5 +3,6 @@
     <file>../qml/mainwindow.qml</file>
     <file>../qml/Caller.qml</file>
     <file>../qml/loadfile.js</file>
+    <file>../qml/other/About.qml</file>
     </qresource>
 </RCC>

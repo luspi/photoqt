@@ -164,6 +164,8 @@ Window {
 
     Loader { id: filemanagement }
 
+    Loader { id: about }
+
 
     // The shortcut notifier element
     PShortcutsNotifier { id: sh_notifier; }
