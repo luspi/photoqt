@@ -126,7 +126,7 @@ Item {
             mipmap: true
 
             // only visible when image not zoomed or zoomed out
-            visible: scaleMultiplier <= 1 && image.sourceSize.width < defaultWidth && image.sourceSize.height < defaultHeight
+            visible: scaleMultiplier <= 1 && image.sourceSize.width > defaultWidth && image.sourceSize.height > defaultHeight
 
         }
 
