@@ -38,12 +38,11 @@ Rectangle {
 
     property bool clipContent: true
 
-    // Click on margin outside elements closes element
+    // catch mousevent, don't pass them through
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton | Qt.RightButton
-        onClicked: hide()
     }
 
     // Display heading at top
@@ -91,12 +90,6 @@ Rectangle {
             rightMargin: marginLeftRight
             bottomMargin: 5
             topMargin: 5
-        }
-
-        // Clicks INSIDE element don't close it
-        MouseArea {
-            anchors.fill: parent
-            acceptedButtons: Qt.LeftButton | Qt.RightButton
         }
 
         Column {
