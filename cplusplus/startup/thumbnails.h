@@ -26,19 +26,10 @@ namespace StartupCheck {
 
     namespace Thumbnails {
 
-        static inline void checkThumbnailsDatabase(int update, bool nothumbs, Settings *settings, bool verbose) {
+        static inline void checkThumbnailsDatabase(int update, Settings *settings, bool verbose) {
 
             if(verbose) LOG << CURDATE << "StartupCheck::Thumbnails" << NL;
 
-            // We do two checks here:
-            // 1) if 'thumbs'/'no-thumbs' option passed -> double check settings
-            // 2) check database state
-
-            // --> (1)
-            if(nothumbs)
-                settings->thumbnailDisable = true;
-
-            // --> (2)
             // Check if thumbnail database exists. If not, create it
             QFile database(ConfigFiles::THUMBNAILS_DB());
             if(!database.exists()) {

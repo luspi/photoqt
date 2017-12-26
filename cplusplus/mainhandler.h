@@ -56,22 +56,24 @@ public:
 
 public slots:
     void remoteAction(QString cmd);
-    void setOverrideCursor() { if(overrideCursorSet) return; qApp->setOverrideCursor(Qt::WaitCursor); }
-    void restoreOverrideCursor() { qApp->restoreOverrideCursor(); }
+    void setOverrideCursor() { if(overrideCursorSet) return; qApp->setOverrideCursor(Qt::WaitCursor); overrideCursorSet = true; }
+    void restoreOverrideCursor() { qApp->restoreOverrideCursor(); overrideCursorSet = false; }
 
 private:
+
     QQmlApplicationEngine *engine;
     QObject *object;
-    Variables *variables;
-    Settings *permanentSettings;
-    QTranslator trans;
 
-    void showTrayIcon();
+    QTranslator trans;
     QSystemTrayIcon *trayIcon;
 
-    bool overrideCursorSet;
+    Variables *variables;
+    Settings *permanentSettings;
 
+    bool overrideCursorSet;
     int update;
+
+    void showTrayIcon();
 
 private slots:
     void qmlVerboseMessage(QString loc, QString msg);
@@ -79,7 +81,5 @@ private slots:
     void toggleWindow();
 
 };
-
-
 
 #endif // MAINWINDOW_H

@@ -2,9 +2,10 @@ import QtQuick 2.6
 
 Item {
 
-    property var elementssetup: []
+    /***********************************************************/
+    /***********************************************************/
+    // These signals are used to interact with loaded elements.
 
-    // The loaded elements connect to these signals to show/hide
     signal openfileShow()
     signal openfileHide()
 
@@ -60,6 +61,12 @@ Item {
 
     signal startupShow(var type, var filename)
     signal startupHide()
+
+    /***********************************************************/
+    /***********************************************************/
+
+    // A list of all elements that have already been set up
+    property var elementssetup: []
 
     // This is written to by the individual elements to keep track of which one is shown/hidden.
     // We have to let the elements handle it as a call to hide does not always result in the element being hidden...

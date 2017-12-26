@@ -7,6 +7,7 @@ MainHandler::MainHandler(bool verbose, QObject *parent) : QObject(parent) {
     variables->verbose = verbose;
     permanentSettings = new Settings;
 
+    // Ensures we only once call setOverrideCursor in order to be able to properly restore it
     overrideCursorSet = false;
 
     // Perform some startup checks/tasks
@@ -18,6 +19,7 @@ MainHandler::MainHandler(bool verbose, QObject *parent) : QObject(parent) {
     // Register the qml types. This need to happen BEFORE creating the QQmlApplicationEngine!.
     registerQmlTypes();
 
+    // Show tray icon (if enabled, checked by function)
     showTrayIcon();
 
 }
@@ -25,15 +27,28 @@ MainHandler::MainHandler(bool verbose, QObject *parent) : QObject(parent) {
 // Performs some initial startup checks to make sure everything is in order
 int MainHandler::performSomeStartupChecks() {
 
+    // Since version 1.4, PhotoQt uses proper standard folders for storing its config files. The configuration of older versions needs to be migrated.
     StartupCheck::Migration::migrateIfNecessary(variables->verbose);
-    int update = StartupCheck::UpdateCheck::checkForUpdateInstall(variables->verbose, permanentSettings);
-    StartupCheck::Screenshots::getAndStore(variables->verbose);
-    StartupCheck::StartInTray::makeSureSettingsReflectTrayStartupSetting(variables->verbose, variables->startintray, permanentSettings);
-    StartupCheck::Thumbnails::checkThumbnailsDatabase(update, variables->nothumbs, permanentSettings, variables->verbose);
-    StartupCheck::FileFormats::checkForDefaultSettingsFileAndReturnWhetherDefaultsAreToBeSet(variables->verbose);
-    if(update > 0)
-        StartupCheck::Shortcuts::combineKeyMouseShortcutsSingleFile(variables->verbose);
 
+    // Using the settings file (and the stored version therein) check if PhotoQt was updated or installed (if settings file not present)
+    int update = StartupCheck::UpdateCheck::checkForUpdateInstall(variables->verbose, permanentSettings);
+
+    // Before the window is shown we create screenshots and store them in the temporary folder
+    StartupCheck::Screenshots::getAndStore(variables->verbose);
+
+    // If we start PhotoQt in system tray, we need to make sure the tray is properly enabled
+    StartupCheck::StartInTray::makeSureSettingsReflectTrayStartupSetting(variables->verbose, variables->startintray, permanentSettings);
+
+    // Check whether everything is alright with the thumbnails database
+    StartupCheck::Thumbnails::checkThumbnailsDatabase(update, permanentSettings, variables->verbose);
+
+    // Ensure PhotoQt knows about all the required file formats
+    StartupCheck::FileFormats::checkForDefaultSettingsFileAndReturnWhetherDefaultsAreToBeSet(variables->verbose);
+
+    // Only on update do we need to (potentially) combine mouse and key shortcuts in single file
+    if(update == 1) StartupCheck::Shortcuts::combineKeyMouseShortcutsSingleFile(variables->verbose);
+
+    // Return the code whether PhotoQt was updated (1), installed (2), or none of the above (0)
     return update;
 
 }
@@ -57,6 +72,7 @@ void MainHandler::setObjectAndConnect() {
 
     this->object = engine->rootObjects()[0];
 
+    // Connect to some signals of the qml code that require handling by c++ code
     connect(object, SIGNAL(verboseMessage(QString,QString)), this, SLOT(qmlVerboseMessage(QString,QString)));
     connect(object, SIGNAL(setOverrideCursor()), this, SLOT(setOverrideCursor()));
     connect(object, SIGNAL(restoreOverrideCursor()), this, SLOT(restoreOverrideCursor()));
@@ -64,7 +80,7 @@ void MainHandler::setObjectAndConnect() {
 
 }
 
-// Add settings/scripts access to QML
+// Add settings/scripts/... access to QML
 void MainHandler::registerQmlTypes() {
     qmlRegisterType<Settings>("PSettings", 1, 0, "PSettings");
     qmlRegisterType<FileFormats>("PFileFormats", 1, 0, "PFileFormats");
@@ -106,6 +122,7 @@ void MainHandler::remoteAction(QString cmd) {
     QMetaObject::invokeMethod(object, "isWindowVisible", Q_RETURN_ARG(QVariant, vis_));
     bool vis = vis_.toBool();
 
+    // Open a new file (and show PhotoQt if necessary)
     if(cmd == "open") {
 
         if(variables->verbose)
@@ -117,6 +134,7 @@ void MainHandler::remoteAction(QString cmd) {
         QMetaObject::invokeMethod(object, "openfileShow");
         QMetaObject::invokeMethod(object, "requestActivate");
 
+    // Disable thumbnails
     } else if(cmd == "nothumbs") {
 
         if(variables->verbose)
@@ -124,12 +142,14 @@ void MainHandler::remoteAction(QString cmd) {
         permanentSettings->thumbnailDisable = true;
         permanentSettings->thumbnailDisableChanged(true);
 
+    // (Re-)enable thumbnails
     } else if(cmd == "thumbs") {
 
         if(variables->verbose)
             LOG << CURDATE << "remoteAction(): Enable thumbnails" << NL;
         permanentSettings->thumbnailDisable = true;
 
+    // Hide the window to system tray
     } else if(cmd == "hide" || (cmd == "toggle" && vis)) {
 
         if(variables->verbose)
@@ -141,6 +161,7 @@ void MainHandler::remoteAction(QString cmd) {
         QMetaObject::invokeMethod(object, "closeAnyElement");
         QMetaObject::invokeMethod(object, "hide");
 
+    // Show the window again (after being hidden to system tray)
     } else if(cmd.startsWith("show") || (cmd == "toggle" && !vis)) {
 
         if(variables->verbose)
@@ -159,6 +180,7 @@ void MainHandler::remoteAction(QString cmd) {
         if(curfile.toString() == "" && cmd != "show_noopen")
             QMetaObject::invokeMethod(object, "openfileShow");
 
+    // Load the specified file in PhotoQt
     } else if(cmd.startsWith("::file::")) {
 
         if(variables->verbose)
@@ -171,6 +193,7 @@ void MainHandler::remoteAction(QString cmd) {
 
 }
 
+// What to do exactly at startup: Load/Open file or minimise to system tray?
 void MainHandler::manageStartupFilename(bool startInTray, QString filename) {
 
     if(startInTray) {
@@ -186,6 +209,7 @@ void MainHandler::manageStartupFilename(bool startInTray, QString filename) {
 
 }
 
+// Show the tray icon (if enabled)
 void MainHandler::showTrayIcon() {
 
     if(variables->verbose)
@@ -223,6 +247,7 @@ void MainHandler::showTrayIcon() {
 
 }
 
+// What happens when clicked on tray icon
 void MainHandler::trayAction(QSystemTrayIcon::ActivationReason reason) {
 
     if(reason == QSystemTrayIcon::Trigger)
@@ -230,6 +255,7 @@ void MainHandler::trayAction(QSystemTrayIcon::ActivationReason reason) {
 
 }
 
+// Toggle the window (called from tray icon)
 void MainHandler::toggleWindow() {
 
     QMetaObject::invokeMethod(object, "toggleWindow");

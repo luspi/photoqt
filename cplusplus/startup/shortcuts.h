@@ -29,30 +29,39 @@ namespace StartupCheck {
 
             if(verbose) LOG << CURDATE << "StartupCheck::StartInTray" << NL;
 
+            // All shortcuts are stored in this single file
             QFile allshortcuts(ConfigFiles::SHORTCUTS_FILE());
 
+            // Potential mouse shortcuts from previous versions
             QFile mouseshortcuts(QString("%1/mouseshortcuts").arg(ConfigFiles::CONFIG_DIR()));
 
+            // If mouse shortcuts exist in the wrong place, migrate!
             if(mouseshortcuts.exists()) {
 
+                // Open for reading only
                 if(!mouseshortcuts.open(QIODevice::ReadOnly)) {
                     LOG << CURDATE << "StartupCheck::Shortcuts::combineKeyMouseShortcutsSingleFile() unable to open mouseshortcuts for reading..." << NL;
                     return;
                 }
 
+                // Open for appending only
                 if(!allshortcuts.open(QIODevice::WriteOnly|QIODevice::Append)) {
                     LOG << CURDATE << "StartupCheck::Shortcuts::combineKeyMouseShortcutsSingleFile() unable to open shortcuts for writing..." << NL;
                     return;
                 }
 
+                // stream to both files
                 QTextStream in(&mouseshortcuts);
                 QTextStream out(&allshortcuts);
 
+                // Add a linebreak, just to be save, before adding the mouse shortcuts to allshortcuts file
                 out << "\n" << in.readAll();
 
+                // close both files
                 mouseshortcuts.close();
                 allshortcuts.close();
 
+                // and remove old mouse shortcuts file (not needed anymore)
                 if(!mouseshortcuts.remove())
                     LOG << CURDATE << "ERROR: Unable to remove redundant mouse_shortcuts file!" << NL;
 
