@@ -1,5 +1,6 @@
 import QtQuick 2.6
 import QtQuick.Dialogs 1.3
+import PFileDialog 1.0
 
 Item {
 
@@ -21,27 +22,20 @@ Item {
 
     Connections {
         target: container
-        onItemShown: {
-            if(!filedialog.visible) {
-                filedialog.folder = "file://" + variables.currentDir
-                filedialog.open()
-            }
-        }
+        onItemShown:
+            filedialog.getFilename("Move Image to...", variables.currentDir + "/" +  variables.currentFile)
         onItemHidden:
             filedialog.close()
     }
 
-    FileDialog {
+    PFileDialog {
         id: filedialog
-        title: qsTr("Select destination")
-        nameFilters: [ "Image (*." + getanddostuff.getImageSuffix(variables.currentPath + "/" + variables.currentFile) + ")" ]
-        modality: Qt.NonModal
         onAccepted: {
-            getanddostuff.copyImage(variables.currentDir + "/" + variables.currentFile, filedialog.fileUrl)
-        }
-        onRejected: {
+            getanddostuff.moveImage(variables.currentDir + "/" + variables.currentFile, file)
             call.hide("filemanagement")
         }
+        onRejected:
+            call.hide("filemanagement")
     }
 
 }

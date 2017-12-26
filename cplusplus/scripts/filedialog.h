@@ -13,26 +13,27 @@ public:
         filedialog = nullptr;
     }
 
-    Q_INVOKABLE void getCopyFilename(QString currentDir, QString currentFile, QString suffix) {
+    Q_INVOKABLE void getFilename(QString windowTitle, QString startFile) {
 
         // Delete old filedialog when one already exists. Otherwise the accepted signal will be fired for each once created filedialog
         if(filedialog != nullptr)
             delete filedialog;
 
         // store suffix to make sure new file has the same suffix
-        this->suffix = suffix;
+        this->suffix = QFileInfo(startFile).suffix();
 
         // Create and open the filedialog (not modal_
         filedialog = new QFileDialog;
-        filedialog->setWindowTitle("Copy Image to...");
-        filedialog->selectFile(currentDir + "/" + currentFile);
+        filedialog->setWindowTitle(windowTitle);
+        filedialog->selectFile(startFile);
         filedialog->setModal(false);
-        filedialog->setNameFilter(suffix);
+        filedialog->setNameFilter("*." + suffix);
         filedialog->open();
 
         // We pass the rejected signal right on, but intercept the accepted one for checking the returned filename
         connect(filedialog, &QFileDialog::rejected, this, &FileDialog::rejected);
         connect(filedialog, &QFileDialog::accepted, this, &FileDialog::diagAccepted);
+
     }
 
     Q_INVOKABLE void close() {
