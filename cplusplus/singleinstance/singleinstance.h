@@ -45,10 +45,6 @@ public:
     bool startintray;
     QString filename;
 
-    // DEVELOPMENT ONLY
-    bool update;
-    bool install;
-
     // dont start photoqt but quit now (e.g., after exporting config)
     QString exportAndQuitNow;
     QString importAndQuitNow;

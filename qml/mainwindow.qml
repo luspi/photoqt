@@ -175,6 +175,8 @@ Window {
     Loader { id: scaleimage }
     Loader { id: scaleimageunsupported }
 
+    Loader { id: startup }
+
 
     // The shortcut notifier element
     PShortcutsNotifier { id: sh_notifier; }
@@ -248,7 +250,7 @@ Window {
             mainwindow.show()
     }
 
-    function manageStartup(filename) {
+    function manageStartup(filename, update) {
 
         if(!settings.thumbnailDisable)
             call.ensureElementSetup("thumbnails")
@@ -256,10 +258,16 @@ Window {
         if(settings.histogram)
             call.show("histogram")
 
-        if(filename == "")
-            call.show("openfile")
-        else
-            Load.loadFile(filename)
+        if(update != 0) {
+            variables.startupUpdateStatus = update
+            variables.startupFilenameAfter = filename
+            call.show("startup")
+        } else {
+            if(filename == "")
+                call.show("openfile")
+            else
+                Load.loadFile(filename)
+        }
 
     }
 

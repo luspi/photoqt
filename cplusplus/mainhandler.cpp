@@ -10,7 +10,7 @@ MainHandler::MainHandler(bool verbose, QObject *parent) : QObject(parent) {
     overrideCursorSet = false;
 
     // Perform some startup checks/tasks
-    performSomeStartupChecks();
+    update = performSomeStartupChecks();
 
     // Find and load the right translation file
     loadTranslation();
@@ -184,7 +184,7 @@ void MainHandler::manageStartupFilename(bool startInTray, QString filename) {
     if(startInTray)
         toggleWindow();
     else
-        QMetaObject::invokeMethod(object, "manageStartup", Q_ARG(QVariant, filename));
+        QMetaObject::invokeMethod(object, "manageStartup", Q_ARG(QVariant, filename), Q_ARG(QVariant, update));
 
 }
 

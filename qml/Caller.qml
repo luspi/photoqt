@@ -58,6 +58,9 @@ Item {
     signal scaleunsupportedShow()
     signal scaleunsupportedHide()
 
+    signal startupShow(var type, var filename)
+    signal startupHide()
+
     property var whatisshown: ({"thumbnails" : false,
                                    "openfile" : false,
                                    "settingsmanager" : false,
@@ -70,7 +73,8 @@ Item {
                                    "filter" : false,
                                    "wallpaper" : false,
                                    "scale" : false,
-                                   "scaleunsupported" : false})
+                                   "scaleunsupported" : false,
+                                   "startup" : false})
 
     // Load and show a component
     function show(component) {
@@ -116,6 +120,9 @@ Item {
         } else if(component == "scaleunsupported") {
             scaleunsupportedShow()
             whatisshown[component] = true
+        } else if(component == "startup") {
+            startupShow(variables.startupUpdateStatus, variables.startupFilenameAfter)
+            whatisshown[component] = true
         }
     }
 
@@ -159,6 +166,9 @@ Item {
             whatisshown[component] = false
         } else if(component == "scaleunsupported") {
             scaleunsupportedHide()
+            whatisshown[component] = false
+        } else if(component == "startup") {
+            startupHide()
             whatisshown[component] = false
         }
     }
@@ -274,6 +284,9 @@ Item {
                 elementssetup.push(component)
             } else if(component == "scaleunsupported") {
                 scaleimageunsupported.source = "other/ScaleUnsupported.qml"
+                elementssetup.push(component)
+            } else if(component == "startup") {
+                startup.source = "other/Startup.qml"
                 elementssetup.push(component)
             }
         }

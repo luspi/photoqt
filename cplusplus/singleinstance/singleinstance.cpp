@@ -115,10 +115,6 @@ void SingleInstance::handleResponse(QString msg) {
     verbose = (msg.contains("::verbose::") || msg.contains("::debug::") || QFile(QString(ConfigFiles::CONFIG_DIR()) + "/verbose").exists() || QFile(QString(ConfigFiles::CONFIG_DIR()) + "/verboselog").exists());
     startintray = (msg.contains("::start-in-tray::"));
 
-    // DEVELOPMENT ONLY
-    update = (msg.contains("::update::"));
-    install = (msg.contains("::install::"));
-
     // Check for passed on filename (we check in mainwindow.cpp if it's an actually valid file)
     if(msg.contains("::file::"))
         filename = msg.split("::file::").at(1).split(":-:-:").at(0);

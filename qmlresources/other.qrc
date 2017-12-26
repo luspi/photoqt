@@ -8,5 +8,6 @@
     <file>../qml/other/Filter.qml</file>
     <file>../qml/other/Scale.qml</file>
     <file>../qml/other/ScaleUnsupported.qml</file>
+    <file>../qml/other/Startup.qml</file>
     </qresource>
 </RCC>

@@ -70,6 +70,8 @@ private:
 
     bool overrideCursorSet;
 
+    int update;
+
 private slots:
     void qmlVerboseMessage(QString loc, QString msg);
     void trayAction(QSystemTrayIcon::ActivationReason reason);
