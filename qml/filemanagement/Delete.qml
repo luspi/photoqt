@@ -126,13 +126,23 @@ Item {
         verboseMessage("Delete::simulateEnter()","")
         hideDelete()
         getanddostuff.deleteImage(variables.currentDir + "/" + variables.currentFile,getanddostuff.amIOnLinux())
-        Load.loadFile(variables.currentDir + "/" + Load.getNewFilenameAfterDeletion(), variables.filter, true)
+        var newfilename = Load.getNewFilenameAfterDeletion()
+        if(newfilename == "") {
+            variables.deleteNothingLeft = true
+            quickinfo.updateQuickInfo()
+        } else
+            Load.loadFile(variables.currentDir + "/" + newfilename, variables.filter, true)
     }
     function simulateShiftEnter() {
         verboseMessage("Delete::simulateShiftEnter()","")
         hideDelete()
         getanddostuff.deleteImage(variables.currentDir + "/" + variables.currentFile,false)
-        Load.loadFile(variables.currentDir + "/" + Load.getNewFilenameAfterDeletion(), variables.filter, true)
+        var newfilename = Load.getNewFilenameAfterDeletion()
+        if(newfilename == "") {
+            variables.deleteNothingLeft = true
+            quickinfo.updateQuickInfo()
+        } else
+            Load.loadFile(variables.currentDir + "/" + newfilename, variables.filter, true)
     }
 
     function showDelete() {

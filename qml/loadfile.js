@@ -36,10 +36,8 @@ function loadFile(filename, filter, forceReloadDirectory) {
 
 function getNewFilenameAfterDeletion() {
     verboseMessage("ThumbnailBar::getNewFilenameAfterDeletion()",variables.totalNumberImagesCurrentFolder, variables.currentFilePos)
-    if(variables.totalNumberImagesCurrentFolder == 1) {
-        // SET VIEW TO EMPTY
+    if(variables.totalNumberImagesCurrentFolder == 1)
         return ""
-    }
     if(variables.currentFilePos < variables.totalNumberImagesCurrentFolder-1)
         return variables.allFilesCurrentDir[variables.currentFilePos +1]
     return variables.allFilesCurrentDir[variables.currentFilePos -1]
