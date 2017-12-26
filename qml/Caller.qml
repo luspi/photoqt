@@ -65,9 +65,6 @@ Item {
     /***********************************************************/
     /***********************************************************/
 
-    // A list of all elements that have already been set up
-    property var elementssetup: []
-
     // This is written to by the individual elements to keep track of which one is shown/hidden.
     // We have to let the elements handle it as a call to hide does not always result in the element being hidden...
     property alias whatisshown: whatisshown_
@@ -219,56 +216,36 @@ Item {
 
     function ensureElementSetup(component) {
 
-        if(elementssetup.indexOf(component) < 0) {
-            if(component == "openfile") {
-                openfile.source = "openfile/OpenFile.qml"
-                elementssetup.push(component)
-            } else if(component == "thumbnails") {
-                thumbnails.source = "mainview/Thumbnails.qml"
-                elementssetup.push(component)
-            } else if(component == "settingsmanager") {
-                settingsmanager.source = "settingsmanager/SettingsManager.qml"
-                elementssetup.push(component)
-            } else if(component == "slideshowsettings") {
-                slideshowsettings.source = "slideshow/SlideshowSettings.qml"
-                slideshowbar.source = "slideshow/SlideshowBar.qml"
-                elementssetup.push(component)
-                elementssetup.push("slideshowbar")
-            } else if(component == "slideshowbar") {
-                slideshowsettings.source = "slideshow/SlideshowSettings.qml"
-                slideshowbar.source = "slideshow/SlideshowBar.qml"
-                elementssetup.push("slideshowsettings")
-                elementssetup.push(component)
-            } else if(component == "histogram") {
-                histogram.source = "mainview/Histogram.qml"
-                elementssetup.push(component)
-            } else if(component == "filemanagement") {
-                filemanagement.source = "filemanagement/Management.qml"
-                elementssetup.push(component)
-            } else if(component == "about") {
-                about.source = "other/About.qml"
-                elementssetup.push(component)
-            } else if(component == "imgurfeedback" || component == "imgurfeedbackanonym") {
-                imgurfeedback.source = "other/ImgurFeedback.qml"
-                elementssetup.push("imgurfeedback")
-                elementssetup.push("imgurfeedbackanonym")
-            } else if(component == "filter") {
-                filter.source = "other/Filter.qml"
-                elementssetup.push(component)
-            } else if(component == "wallpaper") {
-                wallpaper.source = "wallpaper/Wallpaper.qml"
-                elementssetup.push(component)
-            } else if(component == "scale") {
-                scaleimage.source = "other/Scale.qml"
-                elementssetup.push(component)
-            } else if(component == "scaleunsupported") {
-                scaleimageunsupported.source = "other/ScaleUnsupported.qml"
-                elementssetup.push(component)
-            } else if(component == "startup") {
-                startup.source = "other/Startup.qml"
-                elementssetup.push(component)
-            }
-        }
+        if(component == "openfile" && openfile.status == Loader.Null)
+            openfile.source = "openfile/OpenFile.qml"
+        else if(component == "thumbnails" && thumbnails.status == Loader.Null)
+            thumbnails.source = "mainview/Thumbnails.qml"
+        else if(component == "settingsmanager" && settingsmanager.status == Loader.Null)
+            settingsmanager.source = "settingsmanager/SettingsManager.qml"
+        else if(component == "slideshowsettings" && slideshowsettings.status == Loader.Null && slideshowbar.status == Loader.Null) {
+            slideshowsettings.source = "slideshow/SlideshowSettings.qml"
+            slideshowbar.source = "slideshow/SlideshowBar.qml"
+        } else if(component == "slideshowbar" && slideshowsettings.status == Loader.Null && slideshowbar.status == Loader.Null) {
+            slideshowsettings.source = "slideshow/SlideshowSettings.qml"
+            slideshowbar.source = "slideshow/SlideshowBar.qml"
+        } else if(component == "histogram" && histogram.status == Loader.Null)
+            histogram.source = "mainview/Histogram.qml"
+        else if(component == "filemanagement" && filemanagement.status == Loader.Null)
+            filemanagement.source = "filemanagement/Management.qml"
+        else if(component == "about" && about.status == Loader.Null)
+            about.source = "other/About.qml"
+        else if((component == "imgurfeedback" || component == "imgurfeedbackanonym") && imgurfeedback.status == Loader.Null)
+            imgurfeedback.source = "other/ImgurFeedback.qml"
+        else if(component == "filter" && filter.status == Loader.Null)
+            filter.source = "other/Filter.qml"
+        else if(component == "wallpaper" && wallpaper.status == Loader.Null)
+            wallpaper.source = "wallpaper/Wallpaper.qml"
+        else if(component == "scale" && scaleimage.status == Loader.Null)
+            scaleimage.source = "other/Scale.qml"
+        else if(component == "scaleunsupported" && scaleimageunsupported.status == Loader.Null)
+            scaleimageunsupported.source = "other/ScaleUnsupported.qml"
+        else if(component == "startup" && startup.status == Loader.Null)
+            startup.source = "other/Startup.qml"
 
     }
 
