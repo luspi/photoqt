@@ -186,12 +186,13 @@ void GetAndDoStuffManipulation::deleteImage(QString filename, bool trash) {
 
             // that's the new trash file
             QString trashFile = baseTrash + "files/" + QUrl::toPercentEncoding(QFileInfo(f).fileName(),""," ");
+            QString backupTrashFile = trashFile;
 
             // If there exists already a file with that name, we simply append the next higher number (sarting at 1)
             QFile ensure(trashFile);
             int j = 1;
             while(ensure.exists()) {
-                trashFile = QFileInfo(trashFile).absolutePath() + "/" + QFileInfo(trashFile).baseName() + QString(" %1.").arg(j) + QFileInfo(trashFile).completeSuffix();
+                trashFile = backupTrashFile + QString(" (%1)").arg(j++);
                 ensure.setFileName(trashFile);
             }
 

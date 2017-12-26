@@ -2,6 +2,7 @@ import QtQuick 2.6
 import QtQuick.Layouts 1.3
 
 import "../elements"
+import "../loadfile.js" as Load
 
 Item {
 
@@ -124,19 +125,19 @@ Item {
     function simulateEnter() {
         verboseMessage("Delete::simulateEnter()","")
         hideDelete()
-        getanddostuff.deleteImage(variables.currentFile,getanddostuff.amIOnLinux())
-        reloadDirectory(thumbnailBar.getNewFilenameAfterDeletion(), currentfilter)
+        getanddostuff.deleteImage(variables.currentDir + "/" + variables.currentFile,getanddostuff.amIOnLinux())
+        Load.loadFile(variables.currentDir + "/" + Load.getNewFilenameAfterDeletion(), variables.filter, true)
     }
     function simulateShiftEnter() {
         verboseMessage("Delete::simulateShiftEnter()","")
         hideDelete()
-        getanddostuff.deleteImage(variables.currentFile,false)
-        reloadDirectory(thumbnailBar.getNewFilenameAfterDeletion(), variables.filter)
+        getanddostuff.deleteImage(variables.currentDir + "/" + variables.currentFile,false)
+        Load.loadFile(variables.currentDir + "/" + Load.getNewFilenameAfterDeletion(), variables.filter, true)
     }
 
     function showDelete() {
         if(variables.currentFile == "") return
-        filename.text = getanddostuff.removePathFromFilename(variables.currentFile)
+        filename.text = variables.currentFile
         show()
     }
 
