@@ -36,7 +36,6 @@ Item {
             if(getanddostuff.removeFilenameFromPath(file) == variables.currentDir) {
                 Load.loadFile(file, variables.filter, true)
             }
-
             call.hide("filemanagement")
         }
         onRejected:
