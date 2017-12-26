@@ -53,3 +53,9 @@ SET(photoqt_QML ${photoqt_QML} ${d}/Copy.qml ${d}/Delete.qml ${d}/Management.qml
 
 SET(d "qml/other")
 SET(photoqt_QML ${photoqt_QML} ${d}/About.qml ${d}/ImgurFeedback.qml ${d}/Filter.qml)
+
+SET(d "qml/wallpaper")
+SET(photoqt_QML ${photoqt_QML} ${d}/Wallpaper.qml)
+
+SET(d "qml/wallpaper/modules")
+SET(photoqt_QML ${photoqt_QML} ${d}/Enlightenment.qml ${d}/GnomeUnity.qml ${d}/KDE4.qml ${d}/Other.qml ${d}/Plasma5.qml ${d}/XFCE4.qml)

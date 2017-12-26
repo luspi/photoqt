@@ -170,6 +170,8 @@ Window {
 
     Loader { id: filter }
 
+    Loader { id: wallpaper }
+
 
     // The shortcut notifier element
     PShortcutsNotifier { id: sh_notifier; }

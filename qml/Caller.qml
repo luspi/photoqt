@@ -49,6 +49,10 @@ Item {
     signal filterHide()
     signal filterAccept()
 
+    signal wallpaperShow()
+    signal wallpaperHide()
+    signal wallpaperAccept()
+
     property var whatisshown: ({"thumbnails" : false,
                                    "openfile" : false,
                                    "settingsmanager" : false,
@@ -58,7 +62,8 @@ Item {
                                    "filemanagement" : false,
                                    "about" : false,
                                    "imgurfeedback" : false,
-                                   "filter" : false})
+                                   "filter" : false,
+                                   "wallpaper" : false})
 
     // Load and show a component
     function show(component) {
@@ -95,6 +100,9 @@ Item {
         } else if(component == "filter") {
             filterShow()
             whatisshown[component] = true
+        } else if(component == "wallpaper") {
+            wallpaperShow()
+            whatisshown[component] = true
         }
 
     }
@@ -130,6 +138,9 @@ Item {
             whatisshown[component] = false
         } else if(component == "filter") {
             filterHide()
+            whatisshown[component] = false
+        } else if(component == "wallpaper") {
+            wallpaperHide()
             whatisshown[component] = false
         }
     }
@@ -195,6 +206,8 @@ Item {
             filemanagementDeleteImage()
         else if(func == "filterAccept")
             filterAccept()
+        else if(func == "wallpaperAccept")
+            wallpaperAccept()
     }
 
     function ensureElementSetup(component) {
@@ -233,6 +246,9 @@ Item {
                 elementssetup.push("imgurfeedback")
             } else if(component == "filter") {
                 filter.source = "other/Filter.qml"
+                elementssetup.push(component)
+            } else if(component == "wallpaper") {
+                wallpaper.source = "wallpaper/Wallpaper.qml"
                 elementssetup.push(component)
             }
         }
