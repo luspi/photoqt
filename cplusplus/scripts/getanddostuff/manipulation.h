@@ -46,7 +46,6 @@ public:
     bool canBeScaled(QString filename);
     bool scaleImage(QString filename, int width, int height, int quality, QString newfilename);
     void deleteImage(QString filename, bool trash);
-    bool renameImage(QString oldfilename, QString newfilename);
     void copyImage(QString imagePath, QString destinationPath);
     void moveImage(QString imagePath, QString destinationPath);
     QString getImageSuffix(QString imagePath);

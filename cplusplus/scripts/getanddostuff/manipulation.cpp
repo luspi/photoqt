@@ -257,34 +257,6 @@ void GetAndDoStuffManipulation::deleteImage(QString filename, bool trash) {
 
 }
 
-bool GetAndDoStuffManipulation::renameImage(QString oldfilename, QString newfilename) {
-
-    // The old file
-    QFile file(oldfilename);
-
-    // The new filename including full path
-    QString newfile = QFileInfo(oldfilename).absolutePath() + "/" + newfilename;
-
-//	if(verbose) LOG << CURDATE << "GetAndDoStuffManipulation: fhd: Rename: " << currentfile.toStdString() << " -> " << newfile.toStdString() << NL;
-
-    // Do renaming (this first check of existence shouldn't be needed but just to be on the safe side)
-    if(!QFile(newfile).exists()) {
-        if(file.copy(newfile)) {
-            if(!file.remove()) {
-                LOG << CURDATE << "GetAndDoStuffManipulation: ERROR! Couldn't remove the old filename" << NL;
-                return false;
-            }
-        } else {
-            std::cerr << "ERROR! Couldn't rename file" << NL;
-            return false;
-        }
-
-    }
-
-    return true;
-
-}
-
 void GetAndDoStuffManipulation::copyImage(QString imagePath, QString destinationPath) {
 
     if(destinationPath.startsWith("file://"))

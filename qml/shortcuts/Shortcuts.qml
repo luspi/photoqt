@@ -191,9 +191,9 @@ Item {
             imageitem.mirrorVertical()
         else if(cmd === "__flipReset")
             imageitem.resetMirror()
-        else if(cmd === "__rename")
-             call.load("filemanagementRenameShow")
-        else if(cmd === "__delete")
+        else if(cmd === "__rename") {
+            call.load("filemanagementRenameShow")
+        } else if(cmd === "__delete")
             call.load("filemanagementDeleteShow")
         else if(cmd === "__deletePermanent")
             call.load("permanentDeleteFile")

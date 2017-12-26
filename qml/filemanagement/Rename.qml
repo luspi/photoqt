@@ -2,6 +2,7 @@ import QtQuick 2.4
 import QtQuick.Controls 1.3
 
 import "../elements"
+import "../loadfile.js" as Load
 
 Item {
 
@@ -90,11 +91,8 @@ Item {
                 enabled: newfilename.getText() !== ""
                 onClickedButton: {
                     verboseMessage("Rename","Save")
-                    if(newfilename.getText() !== "") {
-                        getanddostuff.renameImage(thumbnailBar.currentFile,newfilename.getText() + suffix.text)
-                        reloadDirectory(getanddostuff.removeFilenameFromPath(thumbnailBar.currentFile) + "/" + newfilename.getText() + suffix.text)
-                        hideRename()
-                    }
+                    if(newfilename.getText() !== "")
+                        simulateEnter()
                 }
             }
             CustomButton {
@@ -112,8 +110,9 @@ Item {
     function simulateEnter() {
         verboseMessage("Rename::simulateEnter()","")
         if(newfilename.getText() !== "") {
-            getanddostuff.renameImage(thumbnailBar.currentFile,newfilename.getText() + suffix.text)
-            reloadDirectory(getanddostuff.removeFilenameFromPath(thumbnailBar.currentFile) + "/" + newfilename.getText() + suffix.text,currentfilter)
+            // a rename is the same as a move into the same directory
+            getanddostuff.moveImage(variables.currentDir + "/" + variables.currentFile, variables.currentDir + "/" + newfilename.getText() + suffix.text)
+            Load.loadFile(variables.currentDir + "/" + newfilename.getText() + suffix.text, variables.filter, true)
             hideRename()
         }
     }

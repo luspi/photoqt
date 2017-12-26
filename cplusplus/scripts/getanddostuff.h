@@ -88,7 +88,6 @@ public:
     Q_INVOKABLE bool canBeScaled(QString filename) { return manipulation->canBeScaled(filename); }
     Q_INVOKABLE bool scaleImage(QString filename, int width, int height, int quality, QString newfilename) { return manipulation->scaleImage(filename, width, height, quality, newfilename); }
     Q_INVOKABLE void deleteImage(QString filename, bool trash) { manipulation->deleteImage(filename, trash); }
-    Q_INVOKABLE bool renameImage(QString oldfilename, QString newfilename) { return manipulation->renameImage(oldfilename, newfilename); }
     Q_INVOKABLE void copyImage(QString imagePath, QString destinationPath) { manipulation->copyImage(imagePath, destinationPath); }
     Q_INVOKABLE void moveImage(QString imagePath, QString destinationPath) { manipulation->moveImage(imagePath, destinationPath); }
     Q_INVOKABLE QString getImageSuffix(QString imagePath) { return manipulation->getImageSuffix(imagePath); }
