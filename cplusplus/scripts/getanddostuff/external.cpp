@@ -49,7 +49,6 @@ QString GetAndDoStuffExternal::exportConfig(QString useThisFilename) {
     allfiles["CFG_FILEFORMATS_FILE"] = ConfigFiles::FILEFORMATS_FILE();
     allfiles["CFG_CONTEXTMENU_FILE"] = ConfigFiles::CONTEXTMENU_FILE();
     allfiles["CFG_SHORTCUTS_FILE"] = ConfigFiles::SHORTCUTS_FILE();
-    allfiles["CFG_TOUCH_SHORTCUTS_FILE"] = ConfigFiles::TOUCH_SHORTCUTS_FILE();
 
     // Start a writer for the zip file
     ZipWriter writer(zipFile);
@@ -91,7 +90,6 @@ QString GetAndDoStuffExternal::importConfig(QString filename) {
     allfiles["CFG_FILEFORMATS_FILE"] = ConfigFiles::FILEFORMATS_FILE();
     allfiles["CFG_CONTEXTMENU_FILE"] = ConfigFiles::CONTEXTMENU_FILE();
     allfiles["CFG_SHORTCUTS_FILE"] = ConfigFiles::SHORTCUTS_FILE();
-    allfiles["CFG_TOUCH_SHORTCUTS_FILE"] = ConfigFiles::TOUCH_SHORTCUTS_FILE();
 
     // Start zip reader
     ZipReader reader(filename);

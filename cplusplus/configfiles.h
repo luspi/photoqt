@@ -37,10 +37,6 @@ public:
         return QString("%1/shortcuts").arg(CONFIG_DIR());
     }
 
-    static const QString TOUCH_SHORTCUTS_FILE() {
-        return QString("%1/touchshortcuts").arg(CONFIG_DIR());
-    }
-
     static const QString SHORTCUTSNOTIFIER_FILE() {
         return QString("%1/shortcutsnotifier").arg(CONFIG_DIR());
     }
