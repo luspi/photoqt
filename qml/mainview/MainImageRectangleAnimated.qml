@@ -1,4 +1,5 @@
 import QtQuick 2.6
+import QtGraphicalEffects 1.0
 
 Item {
 
@@ -115,6 +116,13 @@ Item {
             z: -1
         }
 
+    }
+
+    FastBlur {
+        visible: variables.guiBlocked
+        anchors.fill: image
+        source: image
+        radius: variables.guiBlocked ? 64 : 0
     }
 
     // The pinch area makes the image manipulatable by a touch screen

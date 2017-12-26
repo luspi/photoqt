@@ -185,12 +185,10 @@ Rectangle {
         property: "opacity"
         to: 0
         duration: settings.myWidgetAnimated ? 250 : 0
-//        onStarted:
-//            unblurAllBackgroundElements()
-        onStopped: {
+        onStarted:
             variables.guiBlocked = false
+        onStopped:
             edit_rect.enabled = false
-        }
     }
 
     PropertyAnimation {
@@ -201,7 +199,6 @@ Rectangle {
         duration: settings.myWidgetAnimated ? 250 : 0
         onStarted: {
             variables.guiBlocked = true
-//            blurAllBackgroundElements()
             if(settings.openDefaultView === "list")
                 tweaks.displayList()
             else if(settings.openDefaultView === "icons")

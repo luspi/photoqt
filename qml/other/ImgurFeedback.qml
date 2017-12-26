@@ -17,15 +17,8 @@ Rectangle {
     visible: opacity!=0
     opacity: 0
     Behavior on opacity { NumberAnimation { duration: 300; } }
-    onOpacityChanged: {
-        if(opacity == 1) {
-//            blurAllBackgroundElements()
-            variables.guiBlocked = true
-        } else {
-//            unblurAllBackgroundElements()
-            variables.guiBlocked = false
-        }
-    }
+    onOpacityChanged:
+        variables.guiBlocked = (opacity==1)
 
     property int progress: 0
     property bool anonymous: false

@@ -1,4 +1,5 @@
 import QtQuick 2.6
+import QtGraphicalEffects 1.0
 import "../elements"
 import "../loadfile.js" as Load
 
@@ -25,6 +26,12 @@ Item {
                 _ensureCurrentItemVisible()
             }
             quickinfo.updateQuickInfo()
+        }
+        onGuiBlockedChanged: {
+            if(variables.guiBlocked && top.opacity == 1)
+                top.opacity = 0.2
+            else if(!variables.guiBlocked && top.opacity == 0.2)
+                top.opacity = 1
         }
     }
 

@@ -133,12 +133,10 @@ Rectangle {
 
     function show() {
         opacity = 1
-//        blurAllBackgroundElements()
         variables.guiBlocked = true
     }
     function hide() {
         opacity = 0
-//        unblurAllBackgroundElements()
         variables.guiBlocked = false
     }
 

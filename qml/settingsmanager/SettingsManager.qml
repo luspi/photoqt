@@ -492,7 +492,6 @@ Rectangle {
                 call.show("openfile")
             else
                 variables.guiBlocked = false
-//            unblurAllBackgroundElements()
         }
     }
 

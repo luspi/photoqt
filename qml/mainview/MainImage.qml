@@ -80,6 +80,7 @@ Item {
             }
             onSetAsCurrentId: currentId = image1
 
+
         }
 
         // The second image

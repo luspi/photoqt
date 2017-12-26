@@ -244,6 +244,12 @@ Rectangle {
         onDeleteNothingLeftChanged:
             if(variables.deleteNothingLeft)
                 clear()
+        onGuiBlockedChanged: {
+            if(variables.guiBlocked && meta.opacity == 1)
+                meta.opacity = 0.2
+            else if(!variables.guiBlocked && meta.opacity == 0.2)
+                meta.opacity = 1
+        }
     }
 
     function setData(d) {

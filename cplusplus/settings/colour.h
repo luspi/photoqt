@@ -65,6 +65,7 @@ public:
 
     Q_PROPERTY(QString quickinfo_bg MEMBER quickinfo_bg NOTIFY quickinfo_bgChanged)
     Q_PROPERTY(QString quickinfo_text MEMBER quickinfo_text NOTIFY quickinfo_textChanged)
+    Q_PROPERTY(QString quickinfo_text_disabled MEMBER quickinfo_text_disabled NOTIFY quickinfo_text_disabledChanged)
 
     Q_PROPERTY(QString menu_frame MEMBER menu_frame NOTIFY menu_frameChanged)
     Q_PROPERTY(QString menu_bg MEMBER menu_bg NOTIFY menu_bgChanged)
@@ -161,6 +162,7 @@ public:
     // Quickinfo
     QString quickinfo_bg;
     QString quickinfo_text;
+    QString quickinfo_text_disabled;
 
     // Rightclick menus
     QString menu_frame;
@@ -269,6 +271,7 @@ public slots:
         // Quickinfo
         quickinfo_bg = "#55000000";
         quickinfo_text = "#ffffff";
+        quickinfo_text_disabled = "#66707070";
 
         // Rightclick menus
         menu_frame = "#0f0f0f";
@@ -378,6 +381,7 @@ public slots:
 
         txt += QString("quickinfo_bg=%1\n").arg(quickinfo_bg);
         txt += QString("quickinfo_text=%1\n\n").arg(quickinfo_text);
+        txt += QString("quickinfo_text_disabled=%1\n\n").arg(quickinfo_text_disabled);
 
         txt += QString("menu_frame=%1\n").arg(menu_frame);
         txt += QString("menu_bg=%1\n").arg(menu_bg);
@@ -522,6 +526,8 @@ public slots:
                     quickinfo_bg = color;
                 else if(property == "quickinfo_text")
                     quickinfo_text = color;
+                else if(property == "quickinfo_text_disabled")
+                    quickinfo_text_disabled = color;
 
                 else if(property == "menu_frame")
                     menu_frame = color;
@@ -659,6 +665,7 @@ signals:
     void tiles_indicator_bgChanged(QString val);
     void quickinfo_bgChanged(QString val);
     void quickinfo_textChanged(QString val);
+    void quickinfo_text_disabledChanged(QString val);
     void menu_frameChanged(QString val);
     void menu_bgChanged(QString val);
     void menu_bg_highlightChanged(QString val);

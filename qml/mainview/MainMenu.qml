@@ -402,4 +402,14 @@ Rectangle {
         return ret
     }
 
+    Connections {
+        target: variables
+        onGuiBlockedChanged: {
+            if(variables.guiBlocked && mainmenu.opacity == 1)
+                mainmenu.opacity = 0.2
+            else if(!variables.guiBlocked && mainmenu.opacity == 0.2)
+                mainmenu.opacity = 1
+        }
+    }
+
 }

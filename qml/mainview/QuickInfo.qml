@@ -83,7 +83,7 @@ Item {
 
             text: ""
 
-            color: colour.quickinfo_text
+            color: variables.guiBlocked ? colour.quickinfo_text_disabled : colour.quickinfo_text
             font.bold: true
             font.pointSize: 10
 
@@ -142,7 +142,7 @@ Item {
             anchors.left: spacing.right
 
             text: ""
-            color: colour.quickinfo_text
+            color: variables.guiBlocked ? colour.quickinfo_text_disabled : colour.quickinfo_text
             font.bold: true
             font.pointSize: 10
 
@@ -198,7 +198,7 @@ Item {
                 spacing: 5
                 Text {
                     id: filter_delete
-                    color: colour.quickinfo_text
+                    color: variables.guiBlocked ? colour.quickinfo_text_disabled : colour.quickinfo_text
                     visible: (variables.filter != "")
                     text: "x"
                     font.pointSize: 10
@@ -213,7 +213,7 @@ Item {
                     }
                 }
                 Text {
-                    color: colour.quickinfo_text
+                    color: variables.guiBlocked ? colour.quickinfo_text_disabled : colour.quickinfo_text
                     font.pointSize: 10
                     //: As in: FILTER images
                     text: qsTr("Filter:") + " " + variables.filter
