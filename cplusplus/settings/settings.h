@@ -66,6 +66,7 @@ public:
          * A PROPERTY CHANGE TRIGGERS THE TIME *
          ***************************************/
 
+        connect(this, &Settings::versionChanged,                        &Settings::saveSettingsTimerStart);
         connect(this, &Settings::languageChanged,                       &Settings::saveSettingsTimerStart);
         connect(this, &Settings::myWidgetAnimatedChanged,               &Settings::saveSettingsTimerStart);
         connect(this, &Settings::saveWindowGeometryChanged,             &Settings::saveSettingsTimerStart);;
@@ -390,6 +391,7 @@ public:
      * Q_PROPERTY methods *
      **********************/
 
+    Q_PROPERTY(QString version MEMBER version NOTIFY versionChanged)
     Q_PROPERTY(QString language MEMBER language NOTIFY languageChanged)
     Q_PROPERTY(bool myWidgetAnimated MEMBER myWidgetAnimated NOTIFY myWidgetAnimatedChanged)
     Q_PROPERTY(bool saveWindowGeometry MEMBER saveWindowGeometry NOTIFY saveWindowGeometryChanged)
@@ -1364,6 +1366,7 @@ private slots:
     /*#################################################################################################*/
 
 signals:
+    void versionChanged(QString val);
     void languageChanged(QString val);
     void myWidgetAnimatedChanged(bool val);
     void saveWindowGeometryChanged(bool val);

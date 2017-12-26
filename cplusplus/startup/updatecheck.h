@@ -34,6 +34,8 @@ namespace StartupCheck {
 
             if(settings->versionInTextFile == "") {
                 if(verbose) LOG << CURDATE << "PhotoQt newly installed!" << NL;
+                settings->version = VERSION;
+                settings->versionChanged(VERSION);
                 return 2;
             }
 
@@ -43,6 +45,9 @@ namespace StartupCheck {
             if(settings->version != settings->versionInTextFile) {
 
                 if(verbose) LOG << CURDATE << "PhotoQt updated" << NL;
+
+                settings->version = VERSION;
+                settings->versionChanged(VERSION);
 
                 return 1;
 

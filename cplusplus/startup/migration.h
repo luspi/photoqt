@@ -106,7 +106,7 @@ namespace StartupCheck {
                             << ConfigFiles::CONFIG_DIR().toStdString() << "'"
                             << NL;
 
-                        if(!file.rename(ConfigFiles::KEY_SHORTCUTS_FILE()))
+                        if(!file.rename(ConfigFiles::SHORTCUTS_FILE()))
 
                             LOG << CURDATE
                                 << "StartupCheck::Migration: ERROR! Unable to move shortcuts file to new location! Default shortcuts will be used."

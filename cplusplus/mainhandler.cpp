@@ -31,6 +31,8 @@ int MainHandler::performSomeStartupChecks() {
     StartupCheck::StartInTray::makeSureSettingsReflectTrayStartupSetting(variables->verbose, variables->startintray, permanentSettings);
     StartupCheck::Thumbnails::checkThumbnailsDatabase(update, variables->nothumbs, permanentSettings, variables->verbose);
     StartupCheck::FileFormats::checkForDefaultSettingsFileAndReturnWhetherDefaultsAreToBeSet(variables->verbose);
+    if(update > 0)
+        StartupCheck::Shortcuts::combineKeyMouseShortcutsSingleFile(variables->verbose);
 
     return update;
 

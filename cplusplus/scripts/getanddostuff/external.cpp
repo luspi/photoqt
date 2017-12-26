@@ -48,8 +48,7 @@ QString GetAndDoStuffExternal::exportConfig(QString useThisFilename) {
     allfiles["CFG_SETTINGS_FILE"] = ConfigFiles::SETTINGS_FILE();
     allfiles["CFG_FILEFORMATS_FILE"] = ConfigFiles::FILEFORMATS_FILE();
     allfiles["CFG_CONTEXTMENU_FILE"] = ConfigFiles::CONTEXTMENU_FILE();
-    allfiles["CFG_KEY_SHORTCUTS_FILE"] = ConfigFiles::KEY_SHORTCUTS_FILE();
-    allfiles["CFG_MOUSE_SHORTCUTS_FILE"] = ConfigFiles::MOUSE_SHORTCUTS_FILE();
+    allfiles["CFG_SHORTCUTS_FILE"] = ConfigFiles::SHORTCUTS_FILE();
     allfiles["CFG_TOUCH_SHORTCUTS_FILE"] = ConfigFiles::TOUCH_SHORTCUTS_FILE();
 
     // Start a writer for the zip file
@@ -91,8 +90,7 @@ QString GetAndDoStuffExternal::importConfig(QString filename) {
     allfiles["CFG_SETTINGS_FILE"] = ConfigFiles::SETTINGS_FILE();
     allfiles["CFG_FILEFORMATS_FILE"] = ConfigFiles::FILEFORMATS_FILE();
     allfiles["CFG_CONTEXTMENU_FILE"] = ConfigFiles::CONTEXTMENU_FILE();
-    allfiles["CFG_KEY_SHORTCUTS_FILE"] = ConfigFiles::KEY_SHORTCUTS_FILE();
-    allfiles["CFG_MOUSE_SHORTCUTS_FILE"] = ConfigFiles::MOUSE_SHORTCUTS_FILE();
+    allfiles["CFG_SHORTCUTS_FILE"] = ConfigFiles::SHORTCUTS_FILE();
     allfiles["CFG_TOUCH_SHORTCUTS_FILE"] = ConfigFiles::TOUCH_SHORTCUTS_FILE();
 
     // Start zip reader
