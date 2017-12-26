@@ -33,6 +33,30 @@ function analyseKeyEvent(event) {
         combostring += "Return"
     else if(event.key == Qt.Key_Enter)
         combostring += "Enter"
+    else if(event.key == Qt.Key_F1)
+        combostring += "F1"
+    else if(event.key == Qt.Key_F2)
+        combostring += "F2"
+    else if(event.key == Qt.Key_F3)
+        combostring += "F3"
+    else if(event.key == Qt.Key_F4)
+        combostring += "F4"
+    else if(event.key == Qt.Key_F5)
+        combostring += "F5"
+    else if(event.key == Qt.Key_F6)
+        combostring += "F6"
+    else if(event.key == Qt.Key_F7)
+        combostring += "F7"
+    else if(event.key == Qt.Key_F8)
+        combostring += "F8"
+    else if(event.key == Qt.Key_F9)
+        combostring += "F9"
+    else if(event.key == Qt.Key_F10)
+        combostring += "F10"
+    else if(event.key == Qt.Key_F11)
+        combostring += "F11"
+    else if(event.key == Qt.Key_F12)
+        combostring += "F12"
     else if(event.key < 10000000)
         combostring += shortcutshandler.convertKeycodeToString(event.key)
 
