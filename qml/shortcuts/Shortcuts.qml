@@ -146,8 +146,8 @@ Item {
         if(cmd === "__close")
             mainwindow.quitPhotoQt()
         else if(cmd === "__hide") {
-            if(settings.trayicon)
-                mainwindow.hidePhotoQt()
+            if(settings.trayicon == 1)
+                mainwindow.hideWindow()
             else
                 mainwindow.quitPhotoQt()
         } else if(cmd === "__settings")

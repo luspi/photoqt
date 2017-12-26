@@ -59,7 +59,6 @@ void MainHandler::setObjectAndConnect() {
     connect(object, SIGNAL(setOverrideCursor()), this, SLOT(setOverrideCursor()));
     connect(object, SIGNAL(restoreOverrideCursor()), this, SLOT(restoreOverrideCursor()));
     connect(object, SIGNAL(quitPhotoQt()), qApp, SLOT(quit()));
-    connect(object, SIGNAL(hidePhotoQt()), this, SLOT(toggleWindow()));
 
 }
 
@@ -101,78 +100,69 @@ void MainHandler::remoteAction(QString cmd) {
     if(variables->verbose)
         LOG << CURDATE << "remoteAction(): " << cmd.toStdString() << NL;
 
+    QVariant vis_;
+    QMetaObject::invokeMethod(object, "isWindowVisible", Q_RETURN_ARG(QVariant, vis_));
+    bool vis = vis_.toBool();
+
     if(cmd == "open") {
 
-//        if(variables->verbose)
-//            LOG << CURDATE << "remoteAction(): Open file" << NL;
-//        if(!this->isVisible()) {
-//            // Get screenshots
-//            for(int i = 0; i < QGuiApplication::screens().count(); ++i) {
-//                QScreen *screen = QGuiApplication::screens().at(i);
-//                QRect r = screen->geometry();
-//                QPixmap pix = screen->grabWindow(0,r.x(),r.y(),r.width(),r.height());
-//                pix.save(QDir::tempPath() + QString("/photoqt_screenshot_%1.jpg").arg(i));
-//            }
-//            updateWindowGeometry();
-//            this->raise();
-//            this->requestActivate();
-//        }
-
-//        QMetaObject::invokeMethod(object, "openFile");
+        if(variables->verbose)
+            LOG << CURDATE << "remoteAction(): Open file" << NL;
+        if(!vis) {
+            StartupCheck::Screenshots::getAndStore(variables->verbose);
+            QMetaObject::invokeMethod(object, "setWindowFlags");
+        }
+        QMetaObject::invokeMethod(object, "openfileShow");
+        QMetaObject::invokeMethod(object, "requestActivate");
 
     } else if(cmd == "nothumbs") {
 
-//        if(variables->verbose)
-//            LOG << CURDATE << "remoteAction(): Disable thumbnails" << NL;
-//        settingsPermanent->thumbnailDisable = true;
-//        settingsPermanent->thumbnailDisableChanged(settingsPermanent->thumbnailDisable);
+        if(variables->verbose)
+            LOG << CURDATE << "remoteAction(): Disable thumbnails" << NL;
+        permanentSettings->thumbnailDisable = true;
+        permanentSettings->thumbnailDisableChanged(true);
 
     } else if(cmd == "thumbs") {
 
-//        if(variables->verbose)
-//            LOG << CURDATE << "remoteAction(): Enable thumbnails" << NL;
-//        settingsPermanent->thumbnailDisable = true;
-//        settingsPermanent->thumbnailDisableChanged(settingsPermanent->thumbnailDisable);
+        if(variables->verbose)
+            LOG << CURDATE << "remoteAction(): Enable thumbnails" << NL;
+        permanentSettings->thumbnailDisable = true;
 
-    } else if(cmd == "hide" || (cmd == "toggle"/* && this->isVisible()*/)) {
+    } else if(cmd == "hide" || (cmd == "toggle" && vis)) {
 
-//        if(variables->verbose)
-//            LOG << CURDATE << "remoteAction(): Hiding" << NL;
-//        if(settingsPermanent->trayicon != 1) {
-//            settingsPermanent->trayicon = 1;
-//            settingsPermanent->trayiconChanged(settingsPermanent->trayicon);
-//        }
-//        QMetaObject::invokeMethod(object, "hideOpenFile");
-//        this->hide();
+        if(variables->verbose)
+            LOG << CURDATE << "remoteAction(): Hiding" << NL;
+        if(permanentSettings->trayicon != 1) {
+            permanentSettings->trayicon = 1;
+            permanentSettings->trayiconChanged(1);
+        }
+        QMetaObject::invokeMethod(object, "closeAnyElement");
+        QMetaObject::invokeMethod(object, "hide");
 
-    } else if(cmd.startsWith("show") || (cmd == "toggle"/* && !this->isVisible()*/)) {
+    } else if(cmd.startsWith("show") || (cmd == "toggle" && !vis)) {
 
-//        if(variables->verbose)
-//            LOG << CURDATE << "remoteAction(): Showing" << NL;
+        if(variables->verbose)
+            LOG << CURDATE << "remoteAction(): Showing" << NL;
 
-//        // The same code can be found at the end of main.cpp
-//        if(!this->isVisible()) {
-//            // Get screenshots
-//            for(int i = 0; i < QGuiApplication::screens().count(); ++i) {
-//                QScreen *screen = QGuiApplication::screens().at(i);
-//                QRect r = screen->geometry();
-//                QPixmap pix = screen->grabWindow(0,r.x(),r.y(),r.width(),r.height());
-//                pix.save(QDir::tempPath() + QString("/photoqt_screenshot_%1.jpg").arg(i));
-//            }
-//            updateWindowGeometry();
-//        }
-//        this->raise();
-//        this->requestActivate();
+        // The same code can be found at the end of main.cpp
+        if(!vis) {
+            StartupCheck::Screenshots::getAndStore(variables->verbose);
+            QMetaObject::invokeMethod(object, "setWindowFlags");
+        }
 
-//        if(variables->currentDir == "" && cmd != "show_noopen")
-//            QMetaObject::invokeMethod(object, "openFile");
+        QMetaObject::invokeMethod(object, "requestActivate");
+
+        QVariant curfile;
+        QMetaObject::invokeMethod(object, "getCurrentFile", Q_RETURN_ARG(QVariant, curfile));
+        if(curfile.toString() == "" && cmd != "show_noopen")
+            QMetaObject::invokeMethod(object, "openfileShow");
 
     } else if(cmd.startsWith("::file::")) {
 
-//        if(variables->verbose)
-//            LOG << CURDATE << "remoteAction(): Opening passed-on file" << NL;
-//        QMetaObject::invokeMethod(object, "hideOpenFile");
-//        handleOpenFileEvent(cmd.remove(0,8));
+        if(variables->verbose)
+            LOG << CURDATE << "remoteAction(): Opening passed-on file" << NL;
+        QMetaObject::invokeMethod(object, "closeAnyElement");
+        QMetaObject::invokeMethod(object, "loadFile", Q_ARG(QVariant, cmd.remove(0,8)));
 
     }
 
@@ -181,9 +171,15 @@ void MainHandler::remoteAction(QString cmd) {
 
 void MainHandler::manageStartupFilename(bool startInTray, QString filename) {
 
-    if(startInTray)
-        toggleWindow();
-    else
+    if(startInTray) {
+        if(permanentSettings->trayicon != 1) {
+            if(permanentSettings->trayicon == 0)
+                showTrayIcon();
+            permanentSettings->trayicon = 1;
+            permanentSettings->trayiconChanged(1);
+        }
+        QMetaObject::invokeMethod(object, "hideWindow");
+    } else
         QMetaObject::invokeMethod(object, "manageStartup", Q_ARG(QVariant, filename), Q_ARG(QVariant, update));
 
 }

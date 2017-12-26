@@ -31,7 +31,6 @@ Window {
     signal verboseMessage(string loc, string msg)
     signal setOverrideCursor()
     signal restoreOverrideCursor()
-    signal hidePhotoQt()
     signal quitPhotoQt()
 
     // The minimum size of the window
@@ -243,11 +242,50 @@ Window {
 
     }
 
+    function isWindowVisible() {
+        return visible
+    }
+
+    function openfileShow() {
+        call.show("openfile")
+    }
+
+    function loadFile(filename) {
+        variables.filter = ""
+        Load.loadFile(filename, "", false)
+    }
+
+    function getCurrentFile() {
+        return variables.currentFile
+    }
+
+    function closeAnyElement() {
+        if(variables.guiBlocked) {
+            shortcuts.processString("Escape")
+            repressEscape.restart()
+        }
+    }
+    Timer {
+        id: repressEscape
+        interval: 100
+        repeat: false
+        running: false
+        onTriggered: closeAnyElement()
+    }
+
     function toggleWindow() {
         if(mainwindow.visible)
-            mainwindow.hide()
+            hideWindow()
         else
-            mainwindow.show()
+            showWindow()
+    }
+
+    function hideWindow() {
+        mainwindow.hide()
+    }
+
+    function showWindow() {
+        mainwindow.show()
     }
 
     function manageStartup(filename, update) {

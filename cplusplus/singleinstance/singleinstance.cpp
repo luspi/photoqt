@@ -27,7 +27,6 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
     foreach(QString opt, options)
         message += ":-:-:::" + opt.toUtf8() + "::";
 
-
     // This is treated specially: We export the config file and then quit without continuing
     exportAndQuitNow = "";
     if(message.contains("::export::")) {
@@ -104,11 +103,12 @@ void SingleInstance::handleResponse(QString msg) {
     // Analyse what action(s) to take
 
     // These ones are passed on to the main process
-    open = (msg.contains("::open::") && !msg.contains("::file::"));
+    open = ((msg.contains("::open::") || msg.contains("::o::")) && !msg.contains("::file::"));
     nothumbs = (msg.contains("::no-thumbs::") && !msg.contains("::thumbs::"));
     thumbs = msg.contains("::thumbs::");
-    toggle = msg.contains("::toggle::") && !msg.contains("::start-in-tray::");
-    show = ((msg.contains("::show::") || !msg.contains("::hide::")) && !msg.contains("::toggle::") && !msg.contains("::start-in-tray::"));
+    toggle = (msg.contains("::toggle::") || msg.contains("::t::")) && !msg.contains("::start-in-tray::");
+    show = ((msg.contains("::show::") || msg.contains("::s::"))
+            && !msg.contains("::toggle::") && !msg.contains("::t::") && !msg.contains("::start-in-tray::"));
     hide = (msg.contains("::hide::") && !msg.contains("::toggle::") && !msg.contains("::start-in-tray::"));
 
     // These ones only play a role on startup and are ignored otherwise
