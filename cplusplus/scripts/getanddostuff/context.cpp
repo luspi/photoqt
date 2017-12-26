@@ -133,7 +133,7 @@ void GetAndDoStuffContext::saveContextMenu(QVariantList l) {
     QTextStream out(&file);
 
     QList<int> keys = adj.keys();
-    qSort(keys.begin(),keys.end());
+    std::sort(keys.begin(),keys.end());
 
     // And save data
     for(int i = 0; i < keys.length(); ++i) {
