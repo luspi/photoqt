@@ -24,7 +24,7 @@ Item {
             if(safeToUsePosWithoutCrash) {
                 _ensureCurrentItemVisible()
             }
-            quickinfo.updateQuickInfo(variables.totalNumberImagesCurrentFolder, variables.currentFile)
+            quickinfo.updateQuickInfo()
         }
     }
 

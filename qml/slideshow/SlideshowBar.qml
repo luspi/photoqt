@@ -132,7 +132,7 @@ Rectangle {
         variables.guiBlocked = true
 
         // Update the quickinfo (i.e., hide if requested)
-        quickinfo.updateQuickInfo(variables.totalNumberImagesCurrentFolder,variables.currentFile)
+        quickinfo.updateQuickInfo()
 
         // Set music file
         if(settings.slideShowMusicFile != "") {
@@ -242,7 +242,7 @@ Rectangle {
 //        setImageInteractiveMode(true)
 
         // Update quickinfo state
-        quickinfo.updateQuickInfo(variables.totalNumberImagesCurrentFolder,variables.currentFile)
+        quickinfo.updateQuickInfo()
 
     }
 

@@ -16,34 +16,34 @@ Item {
 
 
     // Set data
-    function updateQuickInfo(totalNumberImages, filepath) {
+    function updateQuickInfo() {
 
-        verboseMessage("QuickInfo::updateQuickInfo()",variables.currentFilePos + "/" + totalNumberImages + " - " + filepath)
+        verboseMessage("QuickInfo::updateQuickInfo()",variables.currentFilePos + "/" + variables.totalNumberImagesCurrentFolder + " - " + variables.currentDir + "/" + variables.currentFile)
 
         somethingLoaded = true
 
-        if(settings.hidecounter || totalNumberImages === 0) {
+        if(settings.hidecounter || variables.totalNumberImagesCurrentFolder === 0) {
             counter.text = ""
             counter.visible = false
             spacing.visible = false
         } else {
-            counter.text = (variables.currentFilePos+1).toString() + "/" + totalNumberImages.toString()
+            counter.text = (variables.currentFilePos+1).toString() + "/" + variables.totalNumberImagesCurrentFolder.toString()
             counter.visible = true
         }
 
-        if(settings.hidefilename || totalNumberImages === 0) {
+        if(settings.hidefilename || variables.totalNumberImagesCurrentFolder === 0) {
             filename.text = ""
             filename.visible = false
             spacing.visible = false
         } else if(settings.hidefilepathshowfilename) {
-            filename.text = getanddostuff.removePathFromFilename(filepath)
+            filename.text = variables.currentFile
             filename.visible = true
         } else {
-            filename.text = filepath
+            filename.text = variables.currentDir + "/" + variables.currentFile
             filename.visible = true
         }
 
-        spacing.visible = (counter.visible && filename.visible && totalNumberImages !== 0)
+        spacing.visible = (counter.visible && filename.visible && variables.totalNumberImagesCurrentFolder !== 0)
         spacing.width = (spacing.visible ? 10 : 0)
 
 //        if(((!counter.visible && !filename.visible) || (slideshowRunning && settings.slideShowHideQuickinfo)) && currentfilter == "") {

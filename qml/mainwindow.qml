@@ -57,9 +57,9 @@ Window {
     // All the permanent settings
     PSettings {
         id: settings
-        onHidecounterChanged: quickinfo.updateQuickInfo(quickinfo._pos, variables.totalNumberImagesCurrentFolder, variables.currentFile)
-        onHidefilenameChanged: quickinfo.updateQuickInfo(quickinfo._pos, variables.totalNumberImagesCurrentFolder, variables.currentFile)
-        onHidefilepathshowfilenameChanged: quickinfo.updateQuickInfo(quickinfo._pos, variables.totalNumberImagesCurrentFolder, variables.currentFile)
+        onHidecounterChanged: quickinfo.updateQuickInfo()
+        onHidefilenameChanged: quickinfo.updateQuickInfo()
+        onHidefilepathshowfilenameChanged: quickinfo.updateQuickInfo()
     }
 
     // The fileformats known to PhotoQt
