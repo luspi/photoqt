@@ -260,4 +260,8 @@ Item {
         image.mirror = false
     }
 
+    function getCurrentSourceSize() {
+        return image.sourceSize
+    }
+
 }

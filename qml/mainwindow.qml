@@ -172,6 +172,9 @@ Window {
 
     Loader { id: wallpaper }
 
+    Loader { id: scaleimage }
+    Loader { id: scaleimageunsupported }
+
 
     // The shortcut notifier element
     PShortcutsNotifier { id: sh_notifier; }

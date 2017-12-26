@@ -6,5 +6,7 @@
     <file>../qml/other/About.qml</file>
     <file>../qml/other/ImgurFeedback.qml</file>
     <file>../qml/other/Filter.qml</file>
+    <file>../qml/other/Scale.qml</file>
+    <file>../qml/other/ScaleUnsupported.qml</file>
     </qresource>
 </RCC>

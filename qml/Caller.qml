@@ -53,6 +53,11 @@ Item {
     signal wallpaperHide()
     signal wallpaperAccept()
 
+    signal scaleShow()
+    signal scaleHide()
+    signal scaleunsupportedShow()
+    signal scaleunsupportedHide()
+
     property var whatisshown: ({"thumbnails" : false,
                                    "openfile" : false,
                                    "settingsmanager" : false,
@@ -63,7 +68,9 @@ Item {
                                    "about" : false,
                                    "imgurfeedback" : false,
                                    "filter" : false,
-                                   "wallpaper" : false})
+                                   "wallpaper" : false,
+                                   "scale" : false,
+                                   "scaleunsupported" : false})
 
     // Load and show a component
     function show(component) {
@@ -103,8 +110,13 @@ Item {
         } else if(component == "wallpaper") {
             wallpaperShow()
             whatisshown[component] = true
+        } else if(component == "scale") {
+            scaleShow()
+            whatisshown[component] = true
+        } else if(component == "scaleunsupported") {
+            scaleunsupportedShow()
+            whatisshown[component] = true
         }
-
     }
 
     // Hide a component
@@ -141,6 +153,12 @@ Item {
             whatisshown[component] = false
         } else if(component == "wallpaper") {
             wallpaperHide()
+            whatisshown[component] = false
+        } else if(component == "scale") {
+            scaleHide()
+            whatisshown[component] = false
+        } else if(component == "scaleunsupported") {
+            scaleunsupportedHide()
             whatisshown[component] = false
         }
     }
@@ -244,11 +262,18 @@ Item {
             } else if(component == "imgurfeedback" || component == "imgurfeedbackanonym") {
                 imgurfeedback.source = "other/ImgurFeedback.qml"
                 elementssetup.push("imgurfeedback")
+                elementssetup.push("imgurfeedbackanonym")
             } else if(component == "filter") {
                 filter.source = "other/Filter.qml"
                 elementssetup.push(component)
             } else if(component == "wallpaper") {
                 wallpaper.source = "wallpaper/Wallpaper.qml"
+                elementssetup.push(component)
+            } else if(component == "scale") {
+                scaleimage.source = "other/Scale.qml"
+                elementssetup.push(component)
+            } else if(component == "scaleunsupported") {
+                scaleimageunsupported.source = "other/ScaleUnsupported.qml"
                 elementssetup.push(component)
             }
         }

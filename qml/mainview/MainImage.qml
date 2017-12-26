@@ -296,4 +296,15 @@ Item {
             imageANIM2.resetMirror()
     }
 
+    function getCurrentSourceSize() {
+        if(currentId == image1)
+            return image1
+        else if(currentId == image2)
+            return image2
+        else if(currentId == imageANIM1)
+            return imageANIM1
+        else if(currentId == imageANIM2)
+            return imageANIM2
+    }
+
 }
