@@ -45,7 +45,7 @@ public:
     QVariantList getUserPlaces();
     QVariantList getFilesAndFoldersIn(QString path);
     QVariantList getFoldersIn(QString path, bool getDotDot = true, bool showHidden = false);
-    QVariantList getFilesIn(QString path);
+    QVariantList getFilesIn(QString path, QString filter = "");
     QVariantList getFilesWithSizeIn(QString path, int selectionFileTypes, bool showHidden = false);
     bool isFolder(QString path);
     QString removePrefixFromDirectoryOrFile(QString path);

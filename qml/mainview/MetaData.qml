@@ -236,6 +236,15 @@ Rectangle {
         }
     }
 
+    Connections {
+        target: variables
+        onFilterNoMatchChanged:
+            if(variables.filterNoMatch)
+                clear()
+        onDeleteNothingLeftChanged:
+            if(variables.deleteNothingLeft)
+                clear()
+    }
 
     function setData(d) {
 

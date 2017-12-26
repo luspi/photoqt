@@ -316,16 +316,9 @@ Item {
         // Clear the current image model
         imageModel.clear()
 
-        // Load the image (based on the current filter). If no filter is set, we can avoid the expensive if-statement inside the loop
-        if(filter == "") {
-            for(var i = 0; i < variables.totalNumberImagesCurrentFolder; ++i)
-                    imageModel.append({"imagePath" : variables.currentDir + "/" + variables.allFilesCurrentDir[i]})
-        } else {
-            for(var i = 0; i < variables.totalNumberImagesCurrentFolder; ++i) {
-                if(variables.allFilesCurrentDir[i].indexOf(filter) >= 0)
-                    imageModel.append({"imagePath" : variables.currentDir + "/" + variables.allFilesCurrentDir[i]})
-            }
-        }
+        // Load the images
+        for(var i = 0; i < variables.totalNumberImagesCurrentFolder; ++i)
+                imageModel.append({"imagePath" : variables.currentDir + "/" + variables.allFilesCurrentDir[i]})
 
         // Start the timer after which it is assumed to be saved to call positionViewAtIndex
         safeToUsePosWithoutCrash_TIMER.running = true
@@ -334,6 +327,7 @@ Item {
 
     // Show the thumbnail bar
     function show() {
+        if(variables.filterNoMatch || variables.deleteNothingLeft) return
         opacity = 1
     }
 

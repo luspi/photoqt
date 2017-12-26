@@ -58,7 +58,7 @@ Rectangle {
     Text {
 
         anchors.fill: parent
-        visible: variables.currentFile==""
+        visible: variables.currentFile=="" && !variables.deleteNothingLeft && !variables.filterNoMatch
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         font.pointSize: 50
@@ -69,10 +69,38 @@ Rectangle {
 
     }
 
+    Text {
+
+        anchors.fill: parent
+        visible: variables.deleteNothingLeft
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        font.pointSize: 50
+        color: colour.bg_label
+        wrapMode: Text.WordWrap
+        font.bold: true
+        text: qsTr("Folter is now empty")
+
+    }
+
+    Text {
+
+        anchors.fill: parent
+        visible: variables.filterNoMatch
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        font.pointSize: 50
+        color: colour.bg_label
+        wrapMode: Text.WordWrap
+        font.bold: true
+        text: qsTr("No image matches selected filter")
+
+    }
+
     // Arrow pointing to metadata widget
     Image {
         id: metadataarrow
-        visible: variables.currentFile==""
+        visible: variables.currentFile=="" && !variables.deleteNothingLeft && !variables.filterNoMatch
         x: 0
         y: metadata.y+metadata.height/2-height/2
         source: "qrc:/img/arrowleft.png"
@@ -83,7 +111,7 @@ Rectangle {
     // Arrow pointing to mainmenu widget
     Image {
         id: mainmenuarrow
-        visible: variables.currentFile==""
+        visible: variables.currentFile=="" && !variables.deleteNothingLeft && !variables.filterNoMatch
         x: background.width-width-5
         y: mainmenu.y+mainmenu.height/2-height/2
         source: "qrc:/img/arrowright.png"

@@ -52,4 +52,4 @@ SET(d "qml/filemanagement")
 SET(photoqt_QML ${photoqt_QML} ${d}/Copy.qml ${d}/Delete.qml ${d}/Management.qml ${d}/Move.qml ${d}/Rename.qml ${d}/ManagementNavigation.qml ${d}/ManagementContainer.qml)
 
 SET(d "qml/other")
-SET(photoqt_QML ${photoqt_QML} ${d}/About.qml ${d}/ImgurFeedback.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/About.qml ${d}/ImgurFeedback.qml ${d}/Filter.qml)

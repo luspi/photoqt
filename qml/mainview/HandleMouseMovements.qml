@@ -28,9 +28,10 @@ MouseArea {
         else
             mainmenu.hide()
 
-        if(xPos < w)
-            metadata.show()
-        else
+        if(xPos < w) {
+            if((variables.filter != "" && yPos > quickinfo.x+quickinfo.height+25) || variables.filter == "")
+                metadata.show()
+        } else
             metadata.hide()
 
         if(yPos > mainwindow.height-w)

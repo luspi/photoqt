@@ -2,6 +2,7 @@ import QtQuick 2.4
 import QtQuick.Controls 1.3
 import QtQuick.Controls.Styles 1.3
 import "../elements"
+import "../loadfile.js" as Load
 
 Item {
 
@@ -9,6 +10,9 @@ Item {
 
     x: 5+metadata.nonFloatWidth
     y: 5
+
+    width: childrenRect.width
+    height: childrenRect.height
 
     opacity: 0
 
@@ -22,7 +26,7 @@ Item {
 
         somethingLoaded = true
 
-        if(settings.hidecounter || variables.totalNumberImagesCurrentFolder === 0) {
+        if(settings.hidecounter || variables.totalNumberImagesCurrentFolder === 0 || variables.deleteNothingLeft || variables.filterNoMatch) {
             counter.text = ""
             counter.visible = false
             spacing.visible = false
@@ -31,7 +35,7 @@ Item {
             counter.visible = true
         }
 
-        if(settings.hidefilename || variables.totalNumberImagesCurrentFolder === 0) {
+        if(settings.hidefilename || variables.totalNumberImagesCurrentFolder === 0 || variables.deleteNothingLeft || variables.filterNoMatch) {
             filename.text = ""
             filename.visible = false
             spacing.visible = false
@@ -46,9 +50,9 @@ Item {
         spacing.visible = (counter.visible && filename.visible && variables.totalNumberImagesCurrentFolder !== 0)
         spacing.width = (spacing.visible ? 10 : 0)
 
-//        if(((!counter.visible && !filename.visible) || (slideshowRunning && settings.slideShowHideQuickinfo)) && currentfilter == "") {
-//            opacity = 0
-//        } else
+        if(((!counter.visible && !filename.visible) || (variables.slideshowRunning && settings.slideShowHideQuickinfo)) && variables.filter == "") {
+            opacity = 0
+        } else
             opacity = 1
 
     }
@@ -181,42 +185,42 @@ Item {
         }
 
         // Filter label
-//        Rectangle {
-//            id: filterLabel
-//            visible: (currentfilter != "")
-//            x: (_pos == -1 ? 5 : filename.x-filter_delete.width-filterrow.spacing)
-//            y: (_pos == -1 ? (filename.height-height/2)/2 : filename.y+filename.height+2)
-//            width: childrenRect.width
-//            height: childrenRect.height
-//            color: "#00000000"
-//            Row {
-//                id: filterrow
-//                spacing: 5
-//                Text {
-//                    id: filter_delete
-//                    color: colour.quickinfo_text
-//                    visible: (currentfilter != "")
-//                    text: "x"
-//                    font.pointSize: 10
-//                    y: (parent.height-height)/2
-//                    MouseArea {
-//                        anchors.fill: parent
-//                        cursorShape: Qt.PointingHandCursor
-//                        onClicked: {
-//                            currentfilter = ""
-//                            doReload(thumbnailBar.currentFile)
-//                        }
-//                    }
-//                }
-//                Text {
-//                    color: colour.quickinfo_text
-//                    font.pointSize: 10
-//                    //: As in: FILTER images
-//                    text: qsTr("Filter:") + " " + currentfilter
-//                    visible: (currentfilter != "")
-//                }
-//            }
-//        }
+        Rectangle {
+            id: filterLabel
+            visible: (variables.filter != "")
+            x: ((!filename.visible && !counter.visible) ? 5 : filename.x-filter_delete.width-filterrow.spacing)
+            y: ((!filename.visible && !counter.visible) ? (filename.height-height/2)/2 : filename.y+filename.height+2)
+            width: childrenRect.width
+            height: childrenRect.height
+            color: "#00000000"
+            Row {
+                id: filterrow
+                spacing: 5
+                Text {
+                    id: filter_delete
+                    color: colour.quickinfo_text
+                    visible: (variables.filter != "")
+                    text: "x"
+                    font.pointSize: 10
+                    y: (parent.height-height)/2
+                    MouseArea {
+                        anchors.fill: parent
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: {
+                            variables.filter = ""
+                            Load.loadFile(variables.currentDir+"/"+variables.currentFile, "", true)
+                        }
+                    }
+                }
+                Text {
+                    color: colour.quickinfo_text
+                    font.pointSize: 10
+                    //: As in: FILTER images
+                    text: qsTr("Filter:") + " " + variables.filter
+                    visible: (variables.filter != "")
+                }
+            }
+        }
 
     }
 

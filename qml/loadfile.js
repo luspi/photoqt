@@ -10,7 +10,7 @@ function loadFile(filename, filter, forceReloadDirectory) {
         var pathonly = getanddostuff.removeFilenameFromPath(filename)
 
         if(pathonly != variables.currentDir || (forceReloadDirectory !== undefined && forceReloadDirectory)) {
-            variables.allFilesCurrentDir = getanddostuff.getFilesIn(pathonly)
+            variables.allFilesCurrentDir = getanddostuff.getFilesIn(pathonly, filter)
             variables.totalNumberImagesCurrentFolder = variables.allFilesCurrentDir.length
             variables.currentDir = pathonly
             variables.currentFile = filenameonly
@@ -22,6 +22,8 @@ function loadFile(filename, filter, forceReloadDirectory) {
     } else
         variables.currentFile = filename
 
+    variables.deleteNothingLeft = false
+    variables.filterNoMatch = false
 
     var src = variables.currentDir + "/" + variables.currentFile
     var anim = getanddostuff.isImageAnimated(src)
@@ -43,7 +45,31 @@ function getNewFilenameAfterDeletion() {
     return variables.allFilesCurrentDir[variables.currentFilePos -1]
 }
 
+function getFilenameMatchingFilter(filter) {
+    if((filter.charAt(0) == "." && variables.currentFile.indexOf(filter) == variables.currentFile.length-filter.length)
+            || (filter.charAt(0) != "." && variables.currentFile.indexOf(filter) >= 0)) {
+        return variables.currentFile
+    } else {
+        if(filter.charAt(0) == ".") {
+            for(var i = 0; i < variables.totalNumberImagesCurrentFolder; ++i) {
+                if(variables.allFilesCurrentDir[i].indexOf(filter) == variables.allFilesCurrentDir[i].length-filter.length) {
+                    return variables.allFilesCurrentDir[i]
+                }
+            }
+        } else {
+            for(var i = 0; i < variables.totalNumberImagesCurrentFolder; ++i) {
+                if(variables.allFilesCurrentDir[i].indexOf(filter) >= 0) {
+                    return variables.allFilesCurrentDir[i]
+                }
+            }
+        }
+
+        return ""
+    }
+}
+
 function loadNext() {
+    if(variables.filterNoMatch || variables.deleteNothingLeft) return
     // We need to use a temp variable, otherwise wrapping the end of the images around to the beginning wont work!
     var loadpos = variables.currentFilePos
     if(loadpos == variables.allFilesCurrentDir.length-1)
@@ -54,6 +80,7 @@ function loadNext() {
 }
 
 function loadPrev() {
+    if(variables.filterNoMatch || variables.deleteNothingLeft) return
     // We need to use a temp variable, otherwise wrapping the beginning of the images around to the end wont work!
     var loadpos = variables.currentFilePos
     if(loadpos <= 0)
@@ -64,9 +91,11 @@ function loadPrev() {
 }
 
 function loadFirst() {
+    if(variables.filterNoMatch || variables.deleteNothingLeft) return
     loadFile(variables.allFilesCurrentDir[0], variables.filter)
 }
 
 function loadLast() {
+    if(variables.filterNoMatch || variables.deleteNothingLeft) return
     loadFile(variables.allFilesCurrentDir[variables.allFilesCurrentDir.length -1], variables.filter)
 }

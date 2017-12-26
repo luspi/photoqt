@@ -150,7 +150,7 @@ QVariantList GetAndDoStuffOpenFile::getFoldersIn(QString path, bool getDotDot, b
 
 }
 
-QVariantList GetAndDoStuffOpenFile::getFilesIn(QString path) {
+QVariantList GetAndDoStuffOpenFile::getFilesIn(QString path, QString filter) {
 
     if(path.startsWith("file:/"))
         path = path.remove(0,6);
@@ -162,8 +162,16 @@ QVariantList GetAndDoStuffOpenFile::getFilesIn(QString path) {
 
     QStringList list = dir.entryList();
     QVariantList ret;
-    foreach(QString l, list)
-        ret.append(l);
+    if(filter.startsWith("."))
+        foreach(QString l, list) {
+            if(l.endsWith(filter))
+                ret.append(l);
+        }
+    else
+        foreach(QString l, list) {
+            if(l.contains(filter))
+                ret.append(l);
+        }
 
     return ret;
 

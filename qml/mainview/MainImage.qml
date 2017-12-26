@@ -4,6 +4,8 @@ Item {
 
     id: top
 
+    visible: !variables.deleteNothingLeft && !variables.filterNoMatch
+
     // fill out main element
     anchors {
         fill: parent

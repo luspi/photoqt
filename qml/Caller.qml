@@ -45,6 +45,10 @@ Item {
     signal imgurfeedbackAnonymShow()
     signal imgurfeedbackHide()
 
+    signal filterShow()
+    signal filterHide()
+    signal filterAccept()
+
     property var whatisshown: ({"thumbnails" : false,
                                    "openfile" : false,
                                    "settingsmanager" : false,
@@ -53,7 +57,8 @@ Item {
                                    "histogram" : false,
                                    "filemanagement" : false,
                                    "about" : false,
-                                   "imgurfeedback" : false})
+                                   "imgurfeedback" : false,
+                                   "filter" : false})
 
     // Load and show a component
     function show(component) {
@@ -87,6 +92,9 @@ Item {
         } else if(component == "imgurfeedbackanonym") {
             imgurfeedbackAnonymShow()
             whatisshown["imgurfeedback"] = true
+        } else if(component == "filter") {
+            filterShow()
+            whatisshown[component] = true
         }
 
     }
@@ -119,6 +127,9 @@ Item {
             whatisshown[component] = false
         } else if(component == "imgurfeedback") {
             imgurfeedbackHide()
+            whatisshown[component] = false
+        } else if(component == "filter") {
+            filterHide()
             whatisshown[component] = false
         }
     }
@@ -182,6 +193,8 @@ Item {
             filemanagementPerformRename()
         else if(func == "filemanagementDeleteImage")
             filemanagementDeleteImage()
+        else if(func == "filterAccept")
+            filterAccept()
     }
 
     function ensureElementSetup(component) {
@@ -218,6 +231,9 @@ Item {
             } else if(component == "imgurfeedback" || component == "imgurfeedbackanonym") {
                 imgurfeedback.source = "other/ImgurFeedback.qml"
                 elementssetup.push("imgurfeedback")
+            } else if(component == "filter") {
+                filter.source = "other/Filter.qml"
+                elementssetup.push(component)
             }
         }
 

@@ -23,6 +23,9 @@ Item {
     property var allFilesCurrentDir: []
     onAllFilesCurrentDirChanged: updateCurrentFilePos()
 
+    property bool deleteNothingLeft: false
+    property bool filterNoMatch: false
+
     property string filemanagementCurrentCategory: ""
 
     function updateCurrentFilePos() {
