@@ -11,8 +11,14 @@ FadeInTemplate {
 
     Connections {
         target: call
-        onAboutShow: show()
-        onAboutHide: hide()
+        onAboutShow: {
+            call.whatisshown.about = true
+            show()
+        }
+        onAboutHide: {
+            call.whatisshown.about = false
+            hide()
+        }
     }
 
     content: [

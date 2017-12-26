@@ -329,11 +329,13 @@ Item {
     function show() {
         if(variables.filterNoMatch || variables.deleteNothingLeft) return
         opacity = 1
+        call.whatisshown.thumbnails = true
     }
 
     // Hide the thumbnail bar
     function hide() {
         opacity = 0
+        call.whatisshown.thumbnails = false
     }
 
 }

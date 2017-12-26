@@ -350,10 +350,12 @@ Rectangle {
     function showHistogram() {
         opacity = 1
         settings.histogram = true
+        call.whatisshown.histogram = true
     }
     function hideHistogram() {
         opacity = 0
         settings.histogram = false
+        call.whatisshown.histogram = false
     }
 
 }

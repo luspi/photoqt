@@ -106,13 +106,17 @@ Rectangle {
     // Display the bar
     function showBar() {
         verboseMessage("SlideshowBar::showBar()",bar.y + "/" + bar.height + " (" + variables.slideshowRunning + ")")
-        if(variables.slideshowRunning)
+        if(variables.slideshowRunning) {
             opacity = 1
+            call.whatisshown.slideshowbar = true
+        }
     }
     // Hide the bar
     function hideBar() {
-        if(!paused)
+        if(!paused) {
             opacity = 0
+            call.whatisshown.slideshowbar = false
+        }
     }
 
     // Show and hide the bar shortly after again (used at start and end of slideshow)

@@ -158,9 +158,11 @@ FadeInTemplate {
         term.forceActiveFocus()
         term.selectAll()
         show()
+        call.whatisshown.filter = true
     }
     function hideFilter() {
         hide()
+        call.whatisshown.filter = false
     }
 
 }

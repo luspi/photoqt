@@ -481,6 +481,7 @@ Rectangle {
         if(!getanddostuff.checkIfConnectedToInternet()) {
             nointerneterror.opacity = 1
             opacity = 1
+            call.whatisshown.imgurfeedback = true
             return;
         }
         nointerneterror.opacity = 0
@@ -493,10 +494,12 @@ Rectangle {
                 return
             }
             opacity = 1
+            call.whatisshown.imgurfeedback = true
             accountname = shareonline_imgur.getAccountUsername()
             shareonline_imgur.upload(variables.currentDir + "/" + variables.currentFile)
         } else {
             opacity = 1
+            call.whatisshown.imgurfeedback = true
             accountname = ""
             shareonline_imgur.anonymousUpload(variables.currentDir + "/" + variables.currentFile)
         }
@@ -510,6 +513,7 @@ Rectangle {
         obtainingImageUrlDeleteHash.opacity = 0
         shareonline_imgur.abort()
         opacity = 0
+        call.whatisshown.imgurfeedback = false
     }
 
 }

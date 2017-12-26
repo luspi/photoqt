@@ -61,116 +61,92 @@ Item {
     signal startupShow(var type, var filename)
     signal startupHide()
 
-    property var whatisshown: ({"thumbnails" : false,
-                                   "openfile" : false,
-                                   "settingsmanager" : false,
-                                   "slideshowsettings" : false,
-                                   "slideshowbar" : false,
-                                   "histogram" : false,
-                                   "filemanagement" : false,
-                                   "about" : false,
-                                   "imgurfeedback" : false,
-                                   "filter" : false,
-                                   "wallpaper" : false,
-                                   "scale" : false,
-                                   "scaleunsupported" : false,
-                                   "startup" : false})
+    // This is written to by the individual elements to keep track of which one is shown/hidden.
+    // We have to let the elements handle it as a call to hide does not always result in the element being hidden...
+    property alias whatisshown: whatisshown_
+    Item {
+        id: whatisshown_
+        property bool thumbnails: false
+        property bool openfile: false
+        property bool settingsmanager: false
+        property bool slideshowsettings: false
+        property bool slideshowbar: false
+        property bool histogram: false
+        property bool filemanagement: false
+        property bool about: false
+        property bool imgurfeedback: false
+        property bool filter: false
+        property bool wallpaper: false
+        property bool scale: false
+        property bool scaleunsupported: false
+        property bool startup: false
+    }
 
     // Load and show a component
     function show(component) {
 
         ensureElementSetup(component)
 
-        if(component == "openfile") {
+        if(component == "openfile")
             openfileShow()
-            whatisshown[component] = true
-        } else if(component == "thumbnails") {
+        else if(component == "thumbnails")
             thumbnailsShow()
-            whatisshown[component] = true
-        } else if(component == "settingsmanager") {
+        else if(component == "settingsmanager")
             settingsmanagerShow()
-            whatisshown[component] = true
-        } else if(component == "slideshowsettings") {
+        else if(component == "slideshowsettings")
             slideshowSettingsShow()
-            whatisshown[component] = true
-        } else if(component == "slideshowbar") {
+        else if(component == "slideshowbar")
             slideshowBarShow()
-            whatisshown[component] = true
-        } else if(component == "histogram") {
+        else if(component == "histogram")
             histogramShow()
-            whatisshown[component] = true
-        } else if(component == "about") {
+        else if(component == "about")
             aboutShow()
-            whatisshown[component] = true
-        } else if(component == "imgurfeedback") {
+        else if(component == "imgurfeedback")
             imgurfeedbackShow()
-            whatisshown[component] = true
-        } else if(component == "imgurfeedbackanonym") {
+        else if(component == "imgurfeedbackanonym")
             imgurfeedbackAnonymShow()
-            whatisshown["imgurfeedback"] = true
-        } else if(component == "filter") {
+        else if(component == "filter")
             filterShow()
-            whatisshown[component] = true
-        } else if(component == "wallpaper") {
+        else if(component == "wallpaper")
             wallpaperShow()
-            whatisshown[component] = true
-        } else if(component == "scale") {
+        else if(component == "scale")
             scaleShow()
-            whatisshown[component] = true
-        } else if(component == "scaleunsupported") {
+        else if(component == "scaleunsupported")
             scaleunsupportedShow()
-            whatisshown[component] = true
-        } else if(component == "startup") {
+        else if(component == "startup")
             startupShow(variables.startupUpdateStatus, variables.startupFilenameAfter)
-            whatisshown[component] = true
-        }
     }
 
     // Hide a component
     function hide(component) {
-        if(component == "openfile") {
+        if(component == "openfile")
             openfileHide()
-            whatisshown[component] = false
-        } else if(component == "thumbnails") {
+        else if(component == "thumbnails")
             thumbnailsHide()
-            whatisshown[component] = false
-        } else if(component == "settingsmanager") {
+        else if(component == "settingsmanager")
             settingsmanagerHide()
-            whatisshown[component] = false
-        } else if(component == "slideshowsettings") {
+        else if(component == "slideshowsettings")
             slideshowSettingsHide()
-            whatisshown[component] = false
-        } else if(component == "slideshowbar") {
+        else if(component == "slideshowbar")
             slideshowBarHide()
-            whatisshown[component] = false
-        } else if(component == "histogram") {
+        else if(component == "histogram")
             histogramHide()
-            whatisshown[component] = false
-        } else if(component == "filemanagement") {
+        else if(component == "filemanagement")
             filemanagementHide()
-            whatisshown[component] = false
-        } else if(component == "about") {
+        else if(component == "about")
             aboutHide()
-            whatisshown[component] = false
-        } else if(component == "imgurfeedback") {
+        else if(component == "imgurfeedback")
             imgurfeedbackHide()
-            whatisshown[component] = false
-        } else if(component == "filter") {
+        else if(component == "filter")
             filterHide()
-            whatisshown[component] = false
-        } else if(component == "wallpaper") {
+        else if(component == "wallpaper")
             wallpaperHide()
-            whatisshown[component] = false
-        } else if(component == "scale") {
+        else if(component == "scale")
             scaleHide()
-            whatisshown[component] = false
-        } else if(component == "scaleunsupported") {
+        else if(component == "scaleunsupported")
             scaleunsupportedHide()
-            whatisshown[component] = false
-        } else if(component == "startup") {
+        else if(component == "startup")
             startupHide()
-            whatisshown[component] = false
-        }
     }
 
     // Load some function
@@ -212,19 +188,15 @@ Item {
         else if(func == "filemanagementCopyShow") {
             ensureElementSetup("filemanagement")
             filemanagementShow("cp")
-            whatisshown["filemanagement"] = true
         } else if(func == "filemanagementDeleteShow") {
             ensureElementSetup("filemanagement")
             filemanagementShow("del")
-            whatisshown["filemanagement"] = true
         } else if(func == "filemanagementMoveShow") {
             ensureElementSetup("filemanagement")
             filemanagementShow("mv")
-            whatisshown["filemanagement"] = true
         } else if(func == "filemanagementRenameShow") {
             ensureElementSetup("filemanagement")
             filemanagementShow("rn")
-            whatisshown["filemanagement"] = true
         } else if(func == "permanentDeleteFile") {
             ensureElementSetup("filemanagement")
             permanentDeleteFile()

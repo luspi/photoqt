@@ -277,6 +277,7 @@ Rectangle {
     function show() {
         verboseMessage("OpenFile::show()", opacity + " to 1")
         showOpenAni.start();
+        call.whatisshown.openfile = true
     }
 
     function hide() {
@@ -285,8 +286,8 @@ Rectangle {
             openshortcuts.reject()
         else {
             verboseMessage("OpenFile::hide()", opacity + " to 0")
-            console.log("hideOpenAni.start()")
             hideOpenAni.start();
+            call.whatisshown.openfile = false
         }
 
     }

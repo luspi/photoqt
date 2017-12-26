@@ -312,11 +312,13 @@ FadeInTemplate {
         if(variables.currentFile == "") return;
         loadSettings()
         show()
+        call.whatisshown.slideshowsettings = true
     }
 
     function hideSlideshow() {
         verboseMessage("Slideshow::hideSlideshow()","")
         call.hide("slideshowsettings")
+        call.whatisshown.slideshowsettings = false
     }
     function hideSlideshowAndRememberSettings() {
         verboseMessage("Slideshow::hideSlideshowAndRememberSettings()","")

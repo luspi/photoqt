@@ -100,10 +100,12 @@ FadeInTemplate {
         onFilemanagementShow: {
             management_top.current = category
             show()
+            call.whatisshown.filemanagement = true
         }
         onFilemanagementHide: {
             management_top.current = ""
             hide()
+            call.whatisshown.filemanagement = false
         }
         onPermanentDeleteFile: {
             management_top.current = "del"

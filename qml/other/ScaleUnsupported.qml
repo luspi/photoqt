@@ -49,9 +49,11 @@ FadeInTemplate {
 
     function showScaledUnsupported() {
         show()
+        call.whatisshown.scaleunsupported = true
     }
     function hideScaledUnsupported() {
         hide()
+        call.whatisshown.scaleunsupported = false
     }
 
     Connections {

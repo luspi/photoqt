@@ -125,6 +125,7 @@ Rectangle {
 
         opacity = 1
         variables.guiBlocked = true
+        call.whatisshown.startup = true
 
     }
 
@@ -132,6 +133,7 @@ Rectangle {
 
         opacity = 0
         variables.guiBlocked = false
+        call.whatisshown.startup = false
 
     }
 

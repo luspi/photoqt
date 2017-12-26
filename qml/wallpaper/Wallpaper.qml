@@ -235,10 +235,13 @@ FadeInTemplate {
         other.loadOther()
 
         show()
+        call.whatisshown.wallpaper = true
+
     }
 
     function hideWallpaper() {
         hide()
+        call.whatisshown.wallpaper = false
     }
 
     Connections {

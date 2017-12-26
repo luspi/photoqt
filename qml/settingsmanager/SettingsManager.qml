@@ -459,7 +459,7 @@ Rectangle {
     function showSettings() {
         verboseMessage("Settings::showSettings()","Showing Settings...")
         opacity = 1
-//        blurAllBackgroundElements()
+        call.whatisshown.settingsmanager = true
         variables.guiBlocked = true
         setData()	// We DO need to call setData() here, as otherwise - once set up - a tab would not be updated (e.g. with changes from quicksettings)
         updateDatabaseInfo()
@@ -487,6 +487,7 @@ Rectangle {
             settingsinfooverlay.hide()
         else {
             opacity = 0
+            call.whatisshown.settingsmanager = false
             if(variables.currentFile == "" )
                 call.show("openfile")
             else

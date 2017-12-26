@@ -347,9 +347,11 @@ FadeInTemplate {
         newwidth.value = s.width
         error.visible = false
         show()
+        call.whatisshown.scale = true
     }
     function hideScale() {
         hide()
+        call.whatisshown.scale = false
     }
 
     Connections {
