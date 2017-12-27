@@ -33,13 +33,12 @@ function loadFile(filename, filter, forceReloadDirectory) {
     variables.deleteNothingLeft = false
     variables.filterNoMatch = false
 
-    // Set the image, load the metadata and update the quickinfo
+    // Set the image and load the metadata
     var src = variables.currentDir + "/" + variables.currentFile
     var anim = getanddostuff.isImageAnimated(src)
     var prefix = (anim ? "file://" : "image://full/")
     imageitem.loadImage(prefix + src, anim)
     metadata.setData(getmetadata.getExiv2(src))
-    quickinfo.updateQuickInfo()
 
 }
 

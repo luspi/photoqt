@@ -57,12 +57,7 @@ ApplicationWindow {
          **************************************************************/
 
         // All the permanent settings
-        PSettings {
-            id: settings
-            onHidecounterChanged: quickinfo.updateQuickInfo()
-            onHidefilenameChanged: quickinfo.updateQuickInfo()
-            onHidefilepathshowfilenameChanged: quickinfo.updateQuickInfo()
-        }
+        PSettings { id: settings }
 
         // The fileformats known to PhotoQt
         PFileFormats { id: fileformats; }

@@ -127,10 +127,9 @@ Item {
         hideDelete()
         getanddostuff.deleteImage(variables.currentDir + "/" + variables.currentFile,getanddostuff.amIOnLinux())
         var newfilename = Load.getNewFilenameAfterDeletion()
-        if(newfilename == "") {
+        if(newfilename == "")
             variables.deleteNothingLeft = true
-            quickinfo.updateQuickInfo()
-        } else
+        else
             Load.loadFile(variables.currentDir + "/" + newfilename, variables.filter, true)
     }
     function simulateShiftEnter() {
@@ -138,10 +137,9 @@ Item {
         hideDelete()
         getanddostuff.deleteImage(variables.currentDir + "/" + variables.currentFile,false)
         var newfilename = Load.getNewFilenameAfterDeletion()
-        if(newfilename == "") {
+        if(newfilename == "")
             variables.deleteNothingLeft = true
-            quickinfo.updateQuickInfo()
-        } else
+        else
             Load.loadFile(variables.currentDir + "/" + newfilename, variables.filter, true)
     }
 

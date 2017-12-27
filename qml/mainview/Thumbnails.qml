@@ -25,7 +25,6 @@ Item {
             if(safeToUsePosWithoutCrash) {
                 _ensureCurrentItemVisible()
             }
-            quickinfo.updateQuickInfo()
         }
         onGuiBlockedChanged: {
             if(variables.guiBlocked && top.opacity == 1)

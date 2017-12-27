@@ -144,10 +144,9 @@ FadeInTemplate {
         verboseMessage("Filter::simulateEnter()","")
         variables.filter = term.getText()
         var newfilename = Load.getFilenameMatchingFilter(term.getText())
-        if(newfilename == "") {
+        if(newfilename == "")
             variables.filterNoMatch = true
-            quickinfo.updateQuickInfo()
-        } else
+        else
             Load.loadFile(variables.currentDir+"/"+newfilename, term.getText(), true)
         call.hide("filter")
     }

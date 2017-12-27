@@ -135,9 +135,6 @@ Rectangle {
         variables.slideshowRunning = true
         variables.guiBlocked = true
 
-        // Update the quickinfo (i.e., hide if requested)
-        quickinfo.updateQuickInfo()
-
         // Set music file
         if(settings.slideShowMusicFile != "") {
             slideshowmusic.source = "file://" + settings.slideShowMusicFile
@@ -246,7 +243,6 @@ Rectangle {
 //        setImageInteractiveMode(true)
 
         // Update quickinfo state
-        quickinfo.updateQuickInfo()
 
     }
 

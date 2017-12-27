@@ -14,50 +14,10 @@ Item {
     width: childrenRect.width
     height: childrenRect.height
 
-    opacity: 0
+    visible: variables.currentFile!=""&&!variables.slideshowRunning
+    opacity: variables.guiBlocked ? 0.2 : 1
+    Behavior on opacity { NumberAnimation { duration: 200 } }
 
-    property bool somethingLoaded: false
-
-
-    // Set data
-    function updateQuickInfo() {
-
-        verboseMessage("QuickInfo::updateQuickInfo()",variables.currentFilePos + "/" + variables.totalNumberImagesCurrentFolder + " - " + variables.currentDir + "/" + variables.currentFile)
-
-        somethingLoaded = true
-
-        if(settings.hidecounter || variables.totalNumberImagesCurrentFolder === 0 || variables.deleteNothingLeft || variables.filterNoMatch) {
-            counter.text = ""
-            counter.visible = false
-            spacing.visible = false
-        } else {
-            counter.text = (variables.currentFilePos+1).toString() + "/" + variables.totalNumberImagesCurrentFolder.toString()
-            counter.visible = true
-        }
-
-        if(settings.hidefilename || variables.totalNumberImagesCurrentFolder === 0 || variables.deleteNothingLeft || variables.filterNoMatch) {
-            filename.text = ""
-            filename.visible = false
-            spacing.visible = false
-        } else if(settings.hidefilepathshowfilename) {
-            filename.text = variables.currentFile
-            filename.visible = true
-        } else {
-            filename.text = variables.currentDir + "/" + variables.currentFile
-            filename.visible = true
-        }
-
-        spacing.visible = (counter.visible && filename.visible && variables.totalNumberImagesCurrentFolder !== 0)
-        spacing.width = (spacing.visible ? 10 : 0)
-
-        if(((!counter.visible && !filename.visible) || (variables.slideshowRunning && settings.slideShowHideQuickinfo)) && variables.filter == "") {
-            opacity = 0
-        } else
-            opacity = 1
-
-    }
-
-    // Rectangle holding all the items
     Rectangle {
 
         id: counterRect
@@ -81,9 +41,11 @@ Item {
             x:3
             y:3
 
-            text: ""
+            text: (variables.currentFilePos+1).toString() + "/" + variables.totalNumberImagesCurrentFolder.toString()
 
-            color: variables.guiBlocked ? colour.quickinfo_text_disabled : colour.quickinfo_text
+            visible: !settings.hidecounter
+
+            color: colour.quickinfo_text
             font.bold: true
             font.pointSize: 10
 
@@ -105,31 +67,10 @@ Item {
                 MenuItem {
                     //: This is the image counter in the top left corner (part of the quickinfo labels)
                     text: qsTr("Hide Counter")
-                    onTriggered: {
-                    counter.text = ""
-                    counter.visible = false
-                    spacing.visible = false
-                    spacing.width = 0
-                    settings.hidecounter = true;
-                    if(filename.visible == false) item.opacity = 0
-                    }
+                    onTriggered: settings.hidecounter = true;
                 }
 
             }
-
-        }
-
-        // SPACING - it does nothing but seperate counter from filename
-        Text {
-            id: spacing
-
-            visible: !settings.hidecounter && !settings.hidefilepathshowfilename && !settings.hidefilename
-
-            y: 3
-            width: 10
-            anchors.left: counter.right
-
-            text: ""
 
         }
 
@@ -139,12 +80,14 @@ Item {
             id: filename
 
             y: 3
-            anchors.left: spacing.right
+            anchors.left: counter.right
+            anchors.leftMargin: counter.visible ? 10 : 0
 
-            text: ""
-            color: variables.guiBlocked ? colour.quickinfo_text_disabled : colour.quickinfo_text
+            text: settings.hidefilepathshowfilename ? variables.currentFile : (settings.hidefilename ? "" : variables.currentDir+"/"+variables.currentFile)
+            color: colour.quickinfo_text
             font.bold: true
             font.pointSize: 10
+            visible: text!=""
 
             // Show context menu
             MouseArea {
@@ -164,21 +107,13 @@ Item {
                 MenuItem {
                     //: This hides part of the quickinfo labels in the top left corner
                     text: qsTr("Hide Filepath, leave Filename")
-                    onTriggered: {
-                        filename.text = getanddostuff.removePathFromFilename(filename.text)
+                    onTriggered:
                         settings.hidefilepathshowfilename = true;
-                    }
                 }
 
                 MenuItem {
                     text: "<font color=\"" + colour.menu_text + "\">" + qsTr("Hide both, Filename and Filepath") + "</font>"
-                    onTriggered: {
-                        filename.text = ""
-                        spacing.visible = false
-                        spacing.width = 0
-                        settings.hidefilename = true;
-                        if(counter.visible == false) item.opacity = 0
-                    }
+                    onTriggered: settings.hidefilename = true;
                 }
 
             }
@@ -198,7 +133,7 @@ Item {
                 spacing: 5
                 Text {
                     id: filter_delete
-                    color: variables.guiBlocked ? colour.quickinfo_text_disabled : colour.quickinfo_text
+                    color: colour.quickinfo_text
                     visible: (variables.filter != "")
                     text: "x"
                     font.pointSize: 10
@@ -213,7 +148,7 @@ Item {
                     }
                 }
                 Text {
-                    color: variables.guiBlocked ? colour.quickinfo_text_disabled : colour.quickinfo_text
+                    color: colour.quickinfo_text
                     font.pointSize: 10
                     //: As in: FILTER images
                     text: qsTr("Filter:") + " " + variables.filter
@@ -221,6 +156,7 @@ Item {
                 }
             }
         }
+
 
     }
 
