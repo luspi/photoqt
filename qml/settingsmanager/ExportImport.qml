@@ -142,7 +142,7 @@ Rectangle {
                             errormsg.show()
                         // else restart PhotoQt
                         } else
-                            getanddostuff.restartPhotoQt(thumbnailBar.currentFile)
+                            getanddostuff.restartPhotoQt(variables.currentDir + "/" + variables.currentFile)
                     }
                 }
 

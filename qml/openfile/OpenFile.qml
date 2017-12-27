@@ -204,10 +204,9 @@ Rectangle {
             else if(settings.openDefaultView === "icons")
                 tweaks.displayIcons()
             if(variables.currentFile !== "" && loadThisDirAfterOpen != "") {
-                edit_rect.setEditText(getanddostuff.removePathFromFilename(thumbnailBar.currentFile))
-                var path = getanddostuff.removeFilenameFromPath(thumbnailBar.currentFile)
-                if(path !== currentlyLoadedDir)
-                    loadCurrentDirectory(path)
+                edit_rect.setEditText(variables.currentFile)
+                if(variables.currentDir !== currentlyLoadedDir)
+                    loadCurrentDirectory(variables.currentDir)
             }
         }
         onStopped: {
