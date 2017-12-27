@@ -24,7 +24,7 @@ Item {
     Connections {
         target: container
         onItemShown:
-            filedialog.getFilename("Copy Image to...", variables.currentDir + "/" +  variables.currentFile)
+            filedialog.getFilename(qsTr("Copy Image to..."), variables.currentDir + "/" +  variables.currentFile)
         onItemHidden:
             filedialog.close()
     }

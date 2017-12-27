@@ -24,7 +24,7 @@ Item {
     Connections {
         target: container
         onItemShown:
-            filedialog.getFilename("Move Image to...", variables.currentDir + "/" +  variables.currentFile)
+            filedialog.getFilename(qsTr("Move Image to..."), variables.currentDir + "/" +  variables.currentFile)
         onItemHidden:
             filedialog.close()
     }
