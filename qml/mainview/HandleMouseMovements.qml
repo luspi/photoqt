@@ -12,7 +12,7 @@ MouseArea {
 
     onPositionChanged: handleMousePositionChange(mouse.x, mouse.y)
 
-    drag.target: settings.leftButtonMouseClickAndMove ? imageitem.returnImageContainer() : undefined
+    drag.target: (settings.leftButtonMouseClickAndMove&&!variables.imageItemBlocked) ? imageitem.returnImageContainer() : undefined
 
     onPressed: pressedPos = Qt.point(mouse.x, mouse.y)
     onReleased: shortcuts.analyseMouseEvent(pressedPos, mouse)
@@ -23,18 +23,18 @@ MouseArea {
 
         var w = settings.menusensitivity*5
 
-        if(xPos > mainwindow.width-w)
+        if(xPos > mainwindow.width-w && !variables.slideshowRunning)
             mainmenu.show()
         else
             mainmenu.hide()
 
-        if(xPos < w) {
+        if(xPos < w && !variables.slideshowRunning) {
             if((variables.filter != "" && yPos > quickinfo.x+quickinfo.height+25) || variables.filter == "")
                 metadata.show()
         } else
             metadata.hide()
 
-        if(yPos > mainwindow.height-w)
+        if(yPos > mainwindow.height-w && !variables.slideshowRunning)
             call.show("thumbnails")
         else
             call.hide("thumbnails")

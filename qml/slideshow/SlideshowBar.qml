@@ -144,9 +144,10 @@ Rectangle {
         // Reset changes to current image
         imageitem.resetZoom()
         imageitem.resetRotation()
-//        imageitem.resetMirror()
+        imageitem.resetMirror()
+        imageitem.resetPosition()
 
-//        setImageInteractiveMode(false)
+        variables.imageItemBlocked = true
 
         // Setup an array with image indices
         // Three possibilities (say, current index = 5, total number = 8)
@@ -240,9 +241,7 @@ Rectangle {
         variables.slideshowRunning = false
         variables.guiBlocked = false
 
-//        setImageInteractiveMode(true)
-
-        // Update quickinfo state
+        variables.imageItemBlocked = false
 
     }
 
@@ -251,7 +250,7 @@ Rectangle {
 
         if(!variables.slideshowRunning) {
             imageswitcher.stop()
-//            setImageInteractiveMode(true)
+            variables.imageItemBlocked = false
             return
         }
 

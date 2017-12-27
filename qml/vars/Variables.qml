@@ -9,6 +9,8 @@ Item {
 
     property bool guiBlocked: false
 
+    property bool imageItemBlocked: false
+
     property bool slideshowRunning: false
 
     property bool textEntryRequired: false
