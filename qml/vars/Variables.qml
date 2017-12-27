@@ -31,6 +31,8 @@ Item {
     property int startupUpdateStatus: 0
     property string startupFilenameAfter: ""
 
+    property bool ignoreTrayIconAndJustQuit: false
+
     function updateCurrentFilePos() {
         var onlyfile = getanddostuff.removePathFromFilename(currentFile)
         if(allFilesCurrentDir.indexOf(onlyfile) >= 0)

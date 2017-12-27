@@ -1,5 +1,5 @@
 import QtQuick 2.6
-import QtQuick.Window 2.2
+import QtQuick.Controls 1.2
 
 import PSettings 1.0
 import PFileFormats 1.0
@@ -23,7 +23,7 @@ import "./elements"
 
 import "./loadfile.js" as Load
 
-Window {
+ApplicationWindow {
 
     id: mainwindow
 
@@ -31,7 +31,6 @@ Window {
     signal verboseMessage(string loc, string msg)
     signal setOverrideCursor()
     signal restoreOverrideCursor()
-    signal quitPhotoQt()
 
     // The minimum size of the window
     minimumWidth: 640
@@ -46,155 +45,160 @@ Window {
     // Some window styling
     title: qsTr("PhotoQt Image Viewer")
 
+    // We need to wrap all the items in a 'superitem' as otherwise ApplicationWindow is verrrrry slow and sluggish
+    Item {
 
-    /**************************************************************
-     *                                                            *
-     * SOME INVISIBLE ELEMENTS FOR INTERACTING WITH C++ CODE BASE *
-     *                                                            *
-     **************************************************************/
+        anchors.fill: parent
 
-    // All the permanent settings
-    PSettings {
-        id: settings
-        onHidecounterChanged: quickinfo.updateQuickInfo()
-        onHidefilenameChanged: quickinfo.updateQuickInfo()
-        onHidefilepathshowfilenameChanged: quickinfo.updateQuickInfo()
-    }
+        /**************************************************************
+         *                                                            *
+         * SOME INVISIBLE ELEMENTS FOR INTERACTING WITH C++ CODE BASE *
+         *                                                            *
+         **************************************************************/
 
-    // The fileformats known to PhotoQt
-    PFileFormats { id: fileformats; }
-
-    // The colouring of PhotoQt
-    PColour { id: colour; }
-
-    // A whole bunch of C++ helper functions for QML
-    PGetAndDoStuff { id: getanddostuff; }
-
-    // Read the Exif/IPTC metadata of images
-    PGetMetaData { id: getmetadata; }
-
-    // Watch for changes to images in the currently loaded folder
-    PImageWatch { id: imagewatch }
-
-    // Share images to imgur.com
-    PImgur { id: shareonline_imgur; }
-
-    // Interact with the clipboard
-    PClipboard { id: clipboard; }
-
-    // Provide some management of the thumbnails database
-    PThumbnailManagement { id: thumbnailmanagement; }
-
-    // Load the shortcuts from file and provide some shortcut related convenience functions
-    PShortcutsHandler { id: shortcutshandler }
-
-    //////////////////////////////////////////////
-    // THE TOOLTIP HAS A SPECIAL ROLE: IT'S NOT //
-    // DIRECTLY A VISUAL ITEM BUT RELAYS BACK   //
-    // TO A QWIDGETS BASED QTOOLTIP
-    //////////////////////////////////////////////
-    PToolTip {
-        id: globaltooltip;
-        Component.onCompleted: {
-            setBackgroundColor(colour.tooltip_bg)
-            setTextColor(colour.tooltip_text)
+        // All the permanent settings
+        PSettings {
+            id: settings
+            onHidecounterChanged: quickinfo.updateQuickInfo()
+            onHidefilenameChanged: quickinfo.updateQuickInfo()
+            onHidefilepathshowfilenameChanged: quickinfo.updateQuickInfo()
         }
+
+        // The fileformats known to PhotoQt
+        PFileFormats { id: fileformats; }
+
+        // The colouring of PhotoQt
+        PColour { id: colour; }
+
+        // A whole bunch of C++ helper functions for QML
+        PGetAndDoStuff { id: getanddostuff; }
+
+        // Read the Exif/IPTC metadata of images
+        PGetMetaData { id: getmetadata; }
+
+        // Watch for changes to images in the currently loaded folder
+        PImageWatch { id: imagewatch }
+
+        // Share images to imgur.com
+        PImgur { id: shareonline_imgur; }
+
+        // Interact with the clipboard
+        PClipboard { id: clipboard; }
+
+        // Provide some management of the thumbnails database
+        PThumbnailManagement { id: thumbnailmanagement; }
+
+        // Load the shortcuts from file and provide some shortcut related convenience functions
+        PShortcutsHandler { id: shortcutshandler }
+
+        //////////////////////////////////////////////
+        // THE TOOLTIP HAS A SPECIAL ROLE: IT'S NOT //
+        // DIRECTLY A VISUAL ITEM BUT RELAYS BACK   //
+        // TO A QWIDGETS BASED QTOOLTIP
+        //////////////////////////////////////////////
+        PToolTip {
+            id: globaltooltip;
+            Component.onCompleted: {
+                setBackgroundColor(colour.tooltip_bg)
+                setTextColor(colour.tooltip_text)
+            }
+        }
+
+
+        /*******************************************
+         *                                         *
+         * SOME INVISIBLE ELEMENTS FOR QML CLASSES *
+         *                                         *
+         *******************************************/
+
+        // The shortcuts engine
+        Shortcuts { id: shortcuts }
+
+        // Some of the variables used in various places
+        Variables { id: variables }
+
+        // Some strings for keys and mouse shortcuts
+        StringsKeys { id: str_keys }
+        StringsMouse { id: str_mouse }
+
+        // Used to show and hide elements that are loaded when needed
+        Caller { id: call }
+
+
+        /************************************
+         *                                  *
+         * THE VISIBLE ELEMENTS FOR THE GUI *
+         *                                  *
+         ************************************/
+
+        // Managing the background begind everything
+        Background { id: background }
+
+        // The item for displaying the main image
+        MainImage { id: imageitem }
+
+        // This mousearea sits below fadeable events to show/hide them appropriately
+        HandleMouseMovements { id: handlemousemovements }
+
+        // The quickinfo element displays some information about the currently visible image and its position in the folder
+        QuickInfo { id: quickinfo }
+
+        // An 'x' in the top right corner for closing PhotoQt
+        ClosingX { id: closingx }
+
+        /**************************/
+        // ITEMS THAT FADE IN/OUT
+
+        // The mainmenu, right screen edge
+        MainMenu { id: mainmenu }
+
+        // The metadata about the currently loaded image, left screen edge
+        MetaData { id: metadata }
+
+        // The thumbnail bar
+        Loader { id: thumbnails }
+
+        // A floating, movable element showing the histogram for the currently loaded image
+        Loader { id: histogram }
+
+        // An element for browsing and opening files (loaded as needed)
+        Loader { id: openfile }
+
+        // The settings manager for tweaking PhotoQt
+        Loader { id: settingsmanager }
+
+        // An element to tweak the settings of a slideshow and then start one
+        Loader { id: slideshowsettings }
+
+        // A bar handling the actualy slideshow, providing ways to pause/quit the slideshow and adjust the music volume
+        Loader { id: slideshowbar }
+
+        // Some file management features, such as copy, move, rename, delete
+        Loader { id: filemanagement }
+
+        // Some information about me and PhotoQt
+        Loader { id: about }
+
+        // Shows status and result information about uploading images to imgur.com
+        Loader { id: imgurfeedback }
+
+        // Filter the currently loaded folder
+        Loader { id: filter }
+
+        // Set the currently loaded image as wallpaper (if available)
+        Loader { id: wallpaper }
+
+        // Scale the currently loaded image (or inform that it can't be scaled)
+        Loader { id: scaleimage }
+        Loader { id: scaleimageunsupported }
+
+        // A small message at first startup after an update/install
+        Loader { id: startup }
+
+        // The shortcut notifier element
+        PShortcutsNotifier { id: sh_notifier; }
+
     }
-
-
-    /*******************************************
-     *                                         *
-     * SOME INVISIBLE ELEMENTS FOR QML CLASSES *
-     *                                         *
-     *******************************************/
-
-    // The shortcuts engine
-    Shortcuts { id: shortcuts }
-
-    // Some of the variables used in various places
-    Variables { id: variables }
-
-    // Some strings for keys and mouse shortcuts
-    StringsKeys { id: str_keys }
-    StringsMouse { id: str_mouse }
-
-    // Used to show and hide elements that are loaded when needed
-    Caller { id: call }
-
-
-    /************************************
-     *                                  *
-     * THE VISIBLE ELEMENTS FOR THE GUI *
-     *                                  *
-     ************************************/
-
-    // Managing the background begind everything
-    Background { id: background }
-
-    // The item for displaying the main image
-    MainImage { id: imageitem }
-
-    // This mousearea sits below fadeable events to show/hide them appropriately
-    HandleMouseMovements { id: handlemousemovements }
-
-    // The quickinfo element displays some information about the currently visible image and its position in the folder
-    QuickInfo { id: quickinfo }
-
-    // An 'x' in the top right corner for closing PhotoQt
-    ClosingX { id: closingx }
-
-    /**************************/
-    // ITEMS THAT FADE IN/OUT
-
-    // The mainmenu, right screen edge
-    MainMenu { id: mainmenu }
-
-    // The metadata about the currently loaded image, left screen edge
-    MetaData { id: metadata }
-
-    // The thumbnail bar
-    Loader { id: thumbnails }
-
-    // A floating, movable element showing the histogram for the currently loaded image
-    Loader { id: histogram }
-
-    // An element for browsing and opening files (loaded as needed)
-    Loader { id: openfile }
-
-    // The settings manager for tweaking PhotoQt
-    Loader { id: settingsmanager }
-
-    // An element to tweak the settings of a slideshow and then start one
-    Loader { id: slideshowsettings }
-
-    // A bar handling the actualy slideshow, providing ways to pause/quit the slideshow and adjust the music volume
-    Loader { id: slideshowbar }
-
-    // Some file management features, such as copy, move, rename, delete
-    Loader { id: filemanagement }
-
-    // Some information about me and PhotoQt
-    Loader { id: about }
-
-    // Shows status and result information about uploading images to imgur.com
-    Loader { id: imgurfeedback }
-
-    // Filter the currently loaded folder
-    Loader { id: filter }
-
-    // Set the currently loaded image as wallpaper (if available)
-    Loader { id: wallpaper }
-
-    // Scale the currently loaded image (or inform that it can't be scaled)
-    Loader { id: scaleimage }
-    Loader { id: scaleimageunsupported }
-
-    // A small message at first startup after an update/install
-    Loader { id: startup }
-
-    // The shortcut notifier element
-    PShortcutsNotifier { id: sh_notifier; }
-
 
     /************************************
      ************************************/
@@ -202,6 +206,32 @@ Window {
     // Set up the window in the right way
     Component.onCompleted: {
         setWindowFlags()
+    }
+
+    // Catch the CloseEvent and handle accordingly
+    onClosing: {
+
+        // Quit completely
+        if(settings.trayicon != 1 || variables.ignoreTrayIconAndJustQuit) {
+
+            // Store current window geometry
+            getanddostuff.storeGeometry(Qt.rect(mainwindow.x, mainwindow.y, mainwindow.width, mainwindow.height))
+
+            // Accept the close event
+            close.accepted = true
+
+            // This is the only place Qt.quit() is to be called, as we cannot intercept a quit() event.
+            // We need to call this too as otherwise the process would keep running.
+            Qt.quit()
+
+        // Hide to system tray only
+        } else {
+
+            close.accepted = false
+            hideWindow()
+
+        }
+
     }
 
 

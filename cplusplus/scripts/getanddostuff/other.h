@@ -63,6 +63,7 @@ public:
     bool isLibRawSupportEnabled();
     QString getVersionString();
     QList<QString> getScreenNames();
+    void storeGeometry(QRect rect);
     QRect getStoredGeometry();
 
 };

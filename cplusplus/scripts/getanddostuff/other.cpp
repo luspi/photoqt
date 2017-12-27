@@ -135,6 +135,19 @@ QList<QString> GetAndDoStuffOther::getScreenNames() {
 
 }
 
+void GetAndDoStuffOther::storeGeometry(QRect rect) {
+
+    QFile geo(ConfigFiles::MAINWINDOW_GEOMETRY_FILE());
+    if(geo.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        QTextStream out(&geo);
+        QString txt = "[General]\n";
+        txt += QString("mainWindowGeometry=@Rect(%1 %2 %3 %4)\n").arg(rect.x()).arg(rect.y()).arg(rect.width()).arg(rect.height());
+        out << txt;
+        geo.close();
+    }
+
+}
+
 QRect GetAndDoStuffOther::getStoredGeometry() {
     QFile geo(ConfigFiles::MAINWINDOW_GEOMETRY_FILE());
     if(geo.open(QIODevice::ReadOnly)) {

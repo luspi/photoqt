@@ -143,14 +143,12 @@ Item {
 
 //        if(cmd === "__stopThb")
 //            thumbnailBar.stopThumbnails()
-        if(cmd === "__close")
-            mainwindow.quitPhotoQt()
-        else if(cmd === "__hide") {
-            if(settings.trayicon == 1)
-                mainwindow.hideWindow()
-            else
-                mainwindow.quitPhotoQt()
-        } else if(cmd === "__settings")
+        if(cmd === "__close") {
+            variables.ignoreTrayIconAndJustQuit = true
+            mainwindow.close()
+        } else if(cmd === "__hide")
+            mainwindow.close()
+        else if(cmd === "__settings")
                 call.show("settingsmanager")
         else if(cmd === "__next")
             Load.loadNext()
@@ -237,7 +235,7 @@ Item {
                 if(settings.trayicon)
                     hidePhotoQt()
                 else
-                    quitPhotoQt()
+                    mainwindow.close()
         }
 
     }

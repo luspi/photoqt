@@ -79,6 +79,7 @@ private slots:
     void qmlVerboseMessage(QString loc, QString msg);
     void trayAction(QSystemTrayIcon::ActivationReason reason);
     void toggleWindow();
+    void aboutToQuit();
 
 };
 

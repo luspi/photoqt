@@ -152,7 +152,7 @@ Rectangle {
                 if(settings.trayicon)
                     hideToSystemTray()
                 else
-                    quitPhotoQt()
+                    mainwindow.close()
             }
         }
 

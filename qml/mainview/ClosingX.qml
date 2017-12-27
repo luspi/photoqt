@@ -64,7 +64,7 @@ Item {
 //                if(settings.trayicon)
 //                    hideToSystemTray()
 //                else
-                    mainwindow.quitPhotoQt()
+                    mainwindow.close()
             }
         }
     }

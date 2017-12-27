@@ -22,6 +22,8 @@ MainHandler::MainHandler(bool verbose, QObject *parent) : QObject(parent) {
     // Show tray icon (if enabled, checked by function)
     showTrayIcon();
 
+    connect(qApp, &QCoreApplication::aboutToQuit, this, &MainHandler::aboutToQuit);
+
 }
 
 // Performs some initial startup checks to make sure everything is in order
@@ -76,7 +78,6 @@ void MainHandler::setObjectAndConnect() {
     connect(object, SIGNAL(verboseMessage(QString,QString)), this, SLOT(qmlVerboseMessage(QString,QString)));
     connect(object, SIGNAL(setOverrideCursor()), this, SLOT(setOverrideCursor()));
     connect(object, SIGNAL(restoreOverrideCursor()), this, SLOT(restoreOverrideCursor()));
-    connect(object, SIGNAL(quitPhotoQt()), qApp, SLOT(quit()));
 
 }
 
@@ -259,5 +260,14 @@ void MainHandler::trayAction(QSystemTrayIcon::ActivationReason reason) {
 void MainHandler::toggleWindow() {
 
     QMetaObject::invokeMethod(object, "toggleWindow");
+
+}
+
+// When quitting simply say GoodBye. Not necessary at all, just nice...
+void MainHandler::aboutToQuit() {
+
+    if(variables->verbose)
+        LOG << CURDATE;
+    LOG << "Goodbye!" << NL;
 
 }
