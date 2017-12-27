@@ -15,12 +15,8 @@ Item {
 
     Connections {
         target: container
-        onItemShown: {
-            filename.text = variables.currentFile
-            newfilename.text = getanddostuff.removePathFromFilename(variables.currentFile, true)
-            newfilename.forceActiveFocus()
-            newfilename.selectAll()
-        }
+        onItemShown:
+            setupRename()
     }
 
     // Heading
@@ -117,20 +113,14 @@ Item {
         }
     }
 
-    function showRename() {
-        verboseMessage("Rename::showRename()","")
-        if(thumbnailBar.currentFile === "") return
-        filename.text = getanddostuff.removePathFromFilename(thumbnailBar.currentFile)
+    function setupRename() {
+        filename.text = variables.currentFile
         newfilename.text = ""	// This is needed, otherwise the lineedit might keep its old contents
                                 // (if opened twice for same image with different keys pressed in between)
-        newfilename.text = getanddostuff.removePathFromFilename(thumbnailBar.currentFile, true)
-        suffix.text = "." + getanddostuff.getSuffix(thumbnailBar.currentFile)
-        newfilename.forceActiveFocus()
+        newfilename.text = variables.currentFile
+        suffix.text = "." + getanddostuff.getSuffix(variables.currentFile)
         newfilename.selectAll()
-        show()
-    }
-    function hideRename() {
-        call.hide("filemanagement")
+        newfilename.forceActiveFocus()
     }
 
     Connections {
