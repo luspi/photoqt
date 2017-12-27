@@ -65,7 +65,7 @@ Item {
             imageMargin: settings.borderAroundImg
 
             positionDuration: settings.transition*150
-            transitionDuration: settings.transition*150
+            transitionDuration: (variables.slideshowRunning ? settings.slideShowTransition*150 : settings.transition*150)
             scaleDuration: settings.transition*150
             rotationDuration: settings.transition*150
 
@@ -94,7 +94,7 @@ Item {
             imageMargin: settings.borderAroundImg
 
             positionDuration: settings.transition*150
-            transitionDuration: settings.transition*150
+            transitionDuration: (variables.slideshowRunning ? settings.slideShowTransition*150 : settings.transition*150)
             scaleDuration: settings.transition*150
             rotationDuration: settings.transition*150
 
@@ -122,7 +122,7 @@ Item {
             imageMargin: settings.borderAroundImg
 
             positionDuration: settings.transition*150
-            transitionDuration: settings.transition*150
+            transitionDuration: (variables.slideshowRunning ? settings.slideShowTransition*150 : settings.transition*150)
             scaleDuration: settings.transition*150
             rotationDuration: settings.transition*150
 
@@ -150,7 +150,7 @@ Item {
             imageMargin: settings.borderAroundImg
 
             positionDuration: settings.transition*150
-            transitionDuration: settings.transition*150
+            transitionDuration: (variables.slideshowRunning ? settings.slideShowTransition*150 : settings.transition*150)
             scaleDuration: settings.transition*150
             rotationDuration: settings.transition*150
 

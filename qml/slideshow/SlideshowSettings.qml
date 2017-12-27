@@ -12,9 +12,9 @@ FadeInTemplate {
     Connections {
         target: call
         onSlideshowSettingsShow:
-            show()
+            showSlideshow()
         onSlideshowSettingsHide:
-            hide()
+            hideSlideshow()
         onSlideshowQuickStart:
             quickstart()
         onSlideshowStartFromSettings:
@@ -308,7 +308,7 @@ FadeInTemplate {
     }
 
     function showSlideshow() {
-        verboseMessage("Slideshow::showSlideshow()",thumbnailBar.currentFile)
+        verboseMessage("Slideshow::showSlideshow()",variables.currentFile)
         if(variables.currentFile == "") return;
         loadSettings()
         show()
@@ -317,7 +317,7 @@ FadeInTemplate {
 
     function hideSlideshow() {
         verboseMessage("Slideshow::hideSlideshow()","")
-        call.hide("slideshowsettings")
+        hide()
         call.whatisshown.slideshowsettings = false
     }
     function hideSlideshowAndRememberSettings() {

@@ -119,7 +119,7 @@ Item {
     }
 
     FastBlur {
-        visible: variables.guiBlocked
+        visible: variables.guiBlocked&&!variables.slideshowRunning
         anchors.fill: image
         source: image
         radius: variables.guiBlocked ? 64 : 0
