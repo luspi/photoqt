@@ -64,10 +64,10 @@ Item {
             fitImageInWindow: settings.fitInWindow
             imageMargin: settings.borderAroundImg
 
-            positionDuration: settings.transition*150
+            positionDuration: 250
             transitionDuration: (variables.slideshowRunning ? settings.slideShowTransition*150 : settings.transition*150)
-            scaleDuration: settings.transition*150
-            rotationDuration: settings.transition*150
+            scaleDuration: 250
+            rotationDuration: 250
 
             defaultHeight: top.height-settings.borderAroundImg
             defaultWidth: top.width-settings.borderAroundImg
@@ -93,10 +93,10 @@ Item {
             fitImageInWindow: settings.fitInWindow
             imageMargin: settings.borderAroundImg
 
-            positionDuration: settings.transition*150
+            positionDuration: 250
             transitionDuration: (variables.slideshowRunning ? settings.slideShowTransition*150 : settings.transition*150)
-            scaleDuration: settings.transition*150
-            rotationDuration: settings.transition*150
+            scaleDuration: 250
+            rotationDuration: 250
 
             defaultHeight: top.height-settings.borderAroundImg
             defaultWidth: top.width-settings.borderAroundImg
@@ -121,10 +121,10 @@ Item {
             fitImageInWindow: settings.fitInWindow
             imageMargin: settings.borderAroundImg
 
-            positionDuration: settings.transition*150
+            positionDuration: 250
             transitionDuration: (variables.slideshowRunning ? settings.slideShowTransition*150 : settings.transition*150)
-            scaleDuration: settings.transition*150
-            rotationDuration: settings.transition*150
+            scaleDuration: 250
+            rotationDuration: 250
 
             defaultHeight: top.height-settings.borderAroundImg
             defaultWidth: top.width-settings.borderAroundImg
@@ -149,10 +149,10 @@ Item {
             fitImageInWindow: settings.fitInWindow
             imageMargin: settings.borderAroundImg
 
-            positionDuration: settings.transition*150
+            positionDuration: 250
             transitionDuration: (variables.slideshowRunning ? settings.slideShowTransition*150 : settings.transition*150)
-            scaleDuration: settings.transition*150
-            rotationDuration: settings.transition*150
+            scaleDuration: 250
+            rotationDuration: 250
 
             defaultHeight: top.height-settings.borderAroundImg
             defaultWidth: top.width-settings.borderAroundImg
