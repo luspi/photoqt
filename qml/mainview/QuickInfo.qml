@@ -10,6 +10,8 @@ Item {
 
     x: 5+metadata.nonFloatWidth
     y: 5
+    Behavior on x { SmoothedAnimation { duration: 200 } }
+    Behavior on y { SmoothedAnimation { duration: 200 } }
 
     width: childrenRect.width
     height: childrenRect.height
