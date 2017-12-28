@@ -21,6 +21,16 @@ Item {
         font.pointSize: 20
     }
 
+    PFileDialog {
+        id: filedialog
+        onAccepted:
+            copyFile(file)
+        onRejected: {
+            if(management_top.current == "cp")
+                management_top.hide()
+        }
+    }
+
     Connections {
         target: container
         onItemShown:
@@ -29,17 +39,12 @@ Item {
             filedialog.close()
     }
 
-    PFileDialog {
-        id: filedialog
-        onAccepted: {
-            getanddostuff.copyImage(variables.currentDir + "/" + variables.currentFile, file)
-            if(getanddostuff.removeFilenameFromPath(file) == variables.currentDir) {
-                Load.loadFile(file, variables.filter, true)
-            }
-            call.hide("filemanagement")
+    function copyFile(file) {
+        getanddostuff.copyImage(variables.currentDir + "/" + variables.currentFile, file)
+        if(getanddostuff.removeFilenameFromPath(file) == variables.currentDir) {
+            Load.loadFile(file, variables.filter, true)
         }
-        onRejected:
-            call.hide("filemanagement")
+        management_top.hide()
     }
 
 }

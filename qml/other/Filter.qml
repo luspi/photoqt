@@ -101,7 +101,7 @@ FadeInTemplate {
                     fontsize: 15
                     onClickedButton: {
                         verboseMessage("Filter","Cancel filter")
-                        call.hide("filter")
+                        hide()
                     }
                 }
 
@@ -121,7 +121,7 @@ FadeInTemplate {
                         verboseMessage("Filter","Remove filter")
                         variables.filter = ""
                         Load.loadFile(variables.currentDir+"/"+variables.currentFile, "", true)
-                        call.hide("filter")
+                        hide()
                     }
                 }
 
@@ -133,10 +133,13 @@ FadeInTemplate {
         target: call
         onFilterShow:
             showFilter()
-        onFilterHide:
-            hideFilter()
-        onFilterAccept:
-            simulateEnter()
+        onShortcut: {
+            if(!filter_top.visible) return
+            if(sh == "Escape")
+                hide()
+            else if(sh == "Enter" || sh == "Return")
+                simulateEnter()
+        }
     }
 
     // These two 'simulate' functions can be called via shortcuts
@@ -148,7 +151,7 @@ FadeInTemplate {
             variables.filterNoMatch = true
         else
             Load.loadFile(variables.currentDir+"/"+newfilename, term.getText(), true)
-        call.hide("filter")
+        hide()
     }
 
     function showFilter() {
@@ -157,11 +160,5 @@ FadeInTemplate {
         term.forceActiveFocus()
         term.selectAll()
         show()
-        call.whatisshown.filter = true
     }
-    function hideFilter() {
-        hide()
-        call.whatisshown.filter = false
-    }
-
 }

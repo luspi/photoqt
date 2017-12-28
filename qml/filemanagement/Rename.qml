@@ -13,12 +13,6 @@ Item {
     width: container.width-110
     height: Math.min(container.height, childrenRect.height)
 
-    Connections {
-        target: container
-        onItemShown:
-            setupRename()
-    }
-
     // Heading
     Text {
         id: headingtext
@@ -55,12 +49,10 @@ Item {
             spacing: 5
             CustomLineEdit {
                 id: newfilename
-                enabled: management_top.opacity==1
+                enabled: management_top.opacity==1&&management_top.current=="rn"
                 text: ""
                 fontsize: 13
                 width: rename_top.width/2
-                onAccepted: shortcuts.processString("Enter")
-                onRejected: shortcuts.processString("Escape")
             }
             Text {
                 id: suffix
@@ -96,8 +88,24 @@ Item {
                 fontsize: 18
                 onClickedButton: {
                     verboseMessage("Rename","Cancel")
-                    hideRename()
+                    management_top.hide()
                 }
+            }
+        }
+    }
+
+    Connections {
+        target: container
+        onItemShown:
+            setupRename()
+    }
+
+    Connections {
+        target: call
+        onShortcut: {
+            if(management_top.visible && current == "rn") {
+                if(sh == "Enter" || sh == "Return")
+                    simulateEnter()
             }
         }
     }
@@ -109,7 +117,7 @@ Item {
             // a rename is the same as a move into the same directory
             getanddostuff.moveImage(variables.currentDir + "/" + variables.currentFile, variables.currentDir + "/" + newfilename.getText() + suffix.text)
             Load.loadFile(variables.currentDir + "/" + newfilename.getText() + suffix.text, variables.filter, true)
-            hideRename()
+            management_top.hide()
         }
     }
 
@@ -117,15 +125,9 @@ Item {
         filename.text = variables.currentFile
         newfilename.text = ""	// This is needed, otherwise the lineedit might keep its old contents
                                 // (if opened twice for same image with different keys pressed in between)
-        newfilename.text = variables.currentFile
+        newfilename.text = getanddostuff.getImageBaseName(variables.currentFile)
         suffix.text = "." + getanddostuff.getSuffix(variables.currentFile)
         newfilename.selectAll()
-        newfilename.forceActiveFocus()
-    }
-
-    Connections {
-        target: call
-        onFilemanagementPerformRename: simulateEnter()
     }
 
 }

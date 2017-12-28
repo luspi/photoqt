@@ -9,18 +9,6 @@ FadeInTemplate {
 
     heading: qsTr("Slideshow Setup")
 
-    Connections {
-        target: call
-        onSlideshowSettingsShow:
-            showSlideshow()
-        onSlideshowSettingsHide:
-            hideSlideshow()
-        onSlideshowQuickStart:
-            quickstart()
-        onSlideshowStartFromSettings:
-            simulateEnter()
-    }
-
     content: [
 
         Rectangle { color: "#00000000"; width: 1; height: 1; },
@@ -271,7 +259,7 @@ FadeInTemplate {
                 }
                 CustomButton {
                     text: qsTr("Wait, maybe later")
-                    onClickedButton: hideSlideshow()
+                    onClickedButton: hide()
                 }
                 CustomButton {
                     text: qsTr("Save changes, but don't start just yet")
@@ -280,6 +268,19 @@ FadeInTemplate {
             }
         }
     ]
+
+    Connections {
+        target: call
+        onSlideshowSettingsShow:
+            showSlideshow()
+        onShortcut: {
+            if(!slideshow_top.visible) return
+            if(sh == "Escape")
+                hide()
+            else if(sh == "Enter" || sh == "Return")
+                simulateEnter()
+        }
+    }
 
     function selectNewMusicFile() {
         verboseMessage("Slideshow::selectNewMusicFile()","")
@@ -293,18 +294,11 @@ FadeInTemplate {
         verboseMessage("Slideshow::simulateEnter()","")
 
         saveSettings()
-        hideSlideshow()
+        hide()
 
         // The slideshowbar handles the slideshow (as it has an active role during the slideshow)
         call.load("slideshowStart")
 
-    }
-
-    function quickstart() {
-        verboseMessage("Slideshow::quickstart()",variables.currentFile)
-        if(variables.currentFile == "") return;
-        loadSettings()
-        simulateEnter()
     }
 
     function showSlideshow() {
@@ -312,18 +306,12 @@ FadeInTemplate {
         if(variables.currentFile == "") return;
         loadSettings()
         show()
-        call.whatisshown.slideshowsettings = true
     }
 
-    function hideSlideshow() {
-        verboseMessage("Slideshow::hideSlideshow()","")
-        hide()
-        call.whatisshown.slideshowsettings = false
-    }
     function hideSlideshowAndRememberSettings() {
         verboseMessage("Slideshow::hideSlideshowAndRememberSettings()","")
         saveSettings()
-        call.hide("slideshowsettings")
+        hide()
     }
 
     function saveSettings() {

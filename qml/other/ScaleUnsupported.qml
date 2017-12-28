@@ -42,26 +42,20 @@ FadeInTemplate {
             text: qsTr("Okay, I understand")
             fontsize: 15
             x: (scaleUnsupported_top.contentWidth-width)/2
-            onClickedButton: hideScaledUnsupported()
+            onClickedButton: hide()
         }
 
     ]
 
-    function showScaledUnsupported() {
-        show()
-        call.whatisshown.scaleunsupported = true
-    }
-    function hideScaledUnsupported() {
-        hide()
-        call.whatisshown.scaleunsupported = false
-    }
-
     Connections {
         target: call
         onScaleunsupportedShow:
-            showScaledUnsupported()
-        onScaleunsupportedHide:
-            hideScaledUnsupported()
+            show()
+        onShortcut: {
+            if(!scaleUnsupported_top.visible) return
+            if(sh == "Escape")
+                hide()
+        }
     }
 
 }

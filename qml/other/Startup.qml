@@ -111,12 +111,23 @@ Rectangle {
                 text: qsTr("Lets get started!")
                 fontsize: 30
                 anchors.horizontalCenter: col.horizontalCenter
-                onClickedButton: call.hide("startup")
+                onClickedButton: hideStartup()
             }
 
         } // END Column
 
     } // END Flickable
+
+    Connections {
+        target: call
+        onStartupShow:
+            showStartup(type, filename)
+        onShortcut: {
+            if(!rect.visible) return
+            if(sh == "Escape")
+                hideStartup()
+        }
+    }
 
     function showStartup(t, filenameAfter) {
 
@@ -125,7 +136,6 @@ Rectangle {
 
         opacity = 1
         variables.guiBlocked = true
-        call.whatisshown.startup = true
 
     }
 
@@ -133,16 +143,7 @@ Rectangle {
 
         opacity = 0
         variables.guiBlocked = false
-        call.whatisshown.startup = false
 
-    }
-
-    Connections {
-        target: call
-        onStartupShow:
-            showStartup(type, filename)
-        onStartupHide:
-            hideStartup()
     }
 
 }

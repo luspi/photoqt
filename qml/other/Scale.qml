@@ -275,7 +275,7 @@ FadeInTemplate {
                         if(getanddostuff.scaleImage(variables.currentDir + "/" + variables.currentFile, newwidth.value, newheight.value,
                                                     quality_slider.value, variables.currentDir + "/" + variables.currentFile)) {
                             Load.loadFile(variables.currentDir + "/" + variables.currentFile, variables.filter, true)
-                            call.hide("scale")
+                            hide()
                         } else
                             error.visible = true
 
@@ -293,7 +293,7 @@ FadeInTemplate {
                                                         quality_slider.value, fname)) {
                                 if(variables.currentDir == getanddostuff.removeFilenameFromPath(fname))
                                     Load.loadFile(fname, variables.filter, true)
-                                call.hide("scale")
+                                hide()
                             } else
                                 error.visible = true
 
@@ -304,7 +304,7 @@ FadeInTemplate {
                     id: scale_dont
                     text: qsTr("Don't scale")
                     fontsize: 15
-                    onClickedButton: call.hide("scale")
+                    onClickedButton: hide()
                 }
             }
         }
@@ -330,13 +330,13 @@ FadeInTemplate {
         verboseMessage("Scale::showScale()",variables.currentFile)
 
         if(variables.currentFile == "") {
-            call.hide("scale")
+            hide()
             return
         }
 
         if(!getanddostuff.canBeScaled(variables.currentDir + "/" + variables.currentFile)) {
             call.show("scaleunsupported")
-            call.hide("scale")
+            hide()
             return;
         }
 
@@ -347,19 +347,17 @@ FadeInTemplate {
         newwidth.value = s.width
         error.visible = false
         show()
-        call.whatisshown.scale = true
-    }
-    function hideScale() {
-        hide()
-        call.whatisshown.scale = false
     }
 
     Connections {
         target: call
         onScaleShow:
             showScale()
-        onScaleHide:
-            hideScale()
+        onShortcut: {
+            if(!scale_top.visible) return
+            if(sh == "Escape")
+                hide()
+        }
     }
 
 }

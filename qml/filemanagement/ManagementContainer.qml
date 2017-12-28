@@ -18,7 +18,7 @@ Item {
     property bool categorySetUp: false
 
     onOpacityChanged: {
-        if(opacity == 1)
+        if(opacity != 0)
            itemShown()
         else if(opacity == 0)
             itemHidden()
@@ -36,6 +36,8 @@ Item {
             } else
                 container.opacity = 0
         }
+        onVisibleChanged:
+            container.opacity = (management_top.visible&&management_top.current==category ? 1 : 0)
     }
 
 }

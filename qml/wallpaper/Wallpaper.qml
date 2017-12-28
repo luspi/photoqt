@@ -169,11 +169,24 @@ FadeInTemplate {
                 }
                 CustomButton {
                     text: qsTr("Nooo, don't!")
-                    onClickedButton: call.hide("wallpaper")
+                    onClickedButton: hide()
                 }
             }
         }
     ]
+
+    Connections {
+        target: call
+        onWallpaperShow:
+            showWallpaper()
+        onShortcut: {
+            if(!wallpaper_top.visible) return
+            if(sh == "Escape")
+                hide()
+            else if(sh == "Enter" || sh == "Return")
+                simulateEnter()
+        }
+    }
 
     // Detect if settings are valid or not
     function enDisableEnter() {
@@ -219,7 +232,7 @@ FadeInTemplate {
         }
         getanddostuff.setWallpaper(wm, options, variables.currentDir + "/" + variables.currentFile)
 
-        call.hide("wallpaper")
+        hide()
 
     }
 
@@ -235,23 +248,7 @@ FadeInTemplate {
         other.loadOther()
 
         show()
-        call.whatisshown.wallpaper = true
 
-    }
-
-    function hideWallpaper() {
-        hide()
-        call.whatisshown.wallpaper = false
-    }
-
-    Connections {
-        target: call
-        onWallpaperShow:
-            showWallpaper()
-        onWallpaperHide:
-            hideWallpaper()
-        onWallpaperAccept:
-            simulateEnter()
     }
 
 }

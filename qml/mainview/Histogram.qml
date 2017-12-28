@@ -14,7 +14,7 @@ Rectangle {
     color: "transparent"
 
     visible: (opacity!=0)
-    opacity: 0
+    opacity: settings.histogram?1:0
     Behavior on opacity { NumberAnimation { duration: 200; } }
 
     onVisibleChanged:
@@ -70,12 +70,6 @@ Rectangle {
                 loadinglabel.visible = true
         }
 
-    }
-
-    Connections {
-        target: call
-        onHistogramShow: showHistogram()
-        onHistogramHide: hideHistogram()
     }
 
     Connections {
@@ -336,7 +330,7 @@ Rectangle {
                 bg_rect.hide()
                 parent.hide()
             }
-            onClicked: call.hide("histogram")
+            onClicked: settings.histogram = false
         }
         function show() {
             closex.opacity = 0.75
@@ -345,17 +339,6 @@ Rectangle {
             closex.opacity = 0.05
         }
         Component.onCompleted: hide()
-    }
-
-    function showHistogram() {
-        opacity = 1
-        settings.histogram = true
-        call.whatisshown.histogram = true
-    }
-    function hideHistogram() {
-        opacity = 0
-        settings.histogram = false
-        call.whatisshown.histogram = false
     }
 
 }

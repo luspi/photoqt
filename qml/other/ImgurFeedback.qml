@@ -86,7 +86,7 @@ Rectangle {
                 text: qsTr("Cancel upload")
                 fontsize: 30
                 onClickedButton:
-                    call.hide("imgurfeedback")
+                    hide()
             }
 
         }
@@ -193,7 +193,7 @@ Rectangle {
                     text: qsTr("I don't want to know it!")
                     fontsize: 25
                     onClickedButton:
-                        call.hide("imgurfeedback")
+                        hide()
                 }
 
             }
@@ -243,7 +243,7 @@ Rectangle {
                     text: qsTr("Oh, man... Well, go back!")
                     fontsize: 30
                     onClickedButton:
-                        call.hide("imgurfeedback")
+                        hide()
                 }
             }
         }
@@ -288,7 +288,7 @@ Rectangle {
                     text: "Oh, man... Well, go back!"
                     fontsize: 30
                     onClickedButton:
-                        call.hide("imgurfeedback")
+                        hide()
                 }
             }
         }
@@ -403,7 +403,7 @@ Rectangle {
                     text: "Got it!"
                     fontsize: 30
                     onClickedButton:
-                        call.hide("imgurfeedback")
+                        hide()
                 }
             }
         }
@@ -458,8 +458,11 @@ Rectangle {
             show(false)
         onImgurfeedbackAnonymShow:
             show(true)
-        onImgurfeedbackHide:
-            hide()
+        onShortcut: {
+            if(!feedback_top.visible) return
+            if(sh == "Escape")
+                hide()
+        }
     }
 
     function show(anonym) {
@@ -474,7 +477,6 @@ Rectangle {
         if(!getanddostuff.checkIfConnectedToInternet()) {
             nointerneterror.opacity = 1
             opacity = 1
-            call.whatisshown.imgurfeedback = true
             return;
         }
         nointerneterror.opacity = 0
@@ -483,16 +485,14 @@ Rectangle {
             var ret = shareonline_imgur.authAccount()
             if(ret !== 0) {
                 console.log("Imgur authentication failed!!")
-                call.hide("imgurfeedback")
+                hide()
                 return
             }
             opacity = 1
-            call.whatisshown.imgurfeedback = true
             accountname = shareonline_imgur.getAccountUsername()
             shareonline_imgur.upload(variables.currentDir + "/" + variables.currentFile)
         } else {
             opacity = 1
-            call.whatisshown.imgurfeedback = true
             accountname = ""
             shareonline_imgur.anonymousUpload(variables.currentDir + "/" + variables.currentFile)
         }
@@ -506,7 +506,6 @@ Rectangle {
         obtainingImageUrlDeleteHash.opacity = 0
         shareonline_imgur.abort()
         opacity = 0
-        call.whatisshown.imgurfeedback = false
     }
 
 }

@@ -60,68 +60,7 @@ Item {
 
         verboseMessage("Shortcuts::checkForSystemShortcut()", keys)
 
-        if(keys === "Escape") {
-            if(call.whatisshown.about)
-                call.hide("about")
-            else if(call.whatisshown.settingsmanager)
-                call.hide("settingsmanager")
-            else if(call.whatisshown.filemanagement)
-                call.hide("filemanagement")
-            else if(call.whatisshown.scale)
-                call.hide("scale")
-            else if(call.whatisshown.scaleunsupported)
-                call.hide("scaleunsupported")
-            else if(call.whatisshown.wallpaper)
-                call.hide("wallpaper")
-            else if(variables.slideshowRunning)
-                call.load("slideshowStop")
-            else if(call.whatisshown.slideshowsettings)
-                call.hide("slideshowsettings")
-            else if(call.whatisshown.filter)
-                call.hide("filter")
-            else if(call.whatisshown.startup)
-                call.hide("startup")
-            else if(call.whatisshown.openfile)
-                call.hide("openfile")
-            else if(call.whatisshown.imgurfeedback)
-                call.hide("imgurfeedback")
-        } else if(keys === "Enter" || keys === "Keypad+Enter" || keys === "Return") {
-            if(call.whatisshown.filemanagement && variables.filemanagementCurrentCategory == "del")
-                call.load("filemanagementDeleteImage")
-            else if(call.whatisshown.filemanagement && variables.filemanagementCurrentCategory == "rn")
-                call.load("filemanagementPerformRename")
-            else if(call.whatisshown.wallpaper)
-                call.load("wallpaperAccept")
-            else if(call.whatisshown.slideshowsettings)
-                call.load("slideshowStartFromSettings")
-            else if(call.whatisshown.filter)
-                call.load("filterAccept")
-        } else if(keys === "Space") {
-            if(variables.slideshowRunning)
-                call.load("slideshowPause")
-        } else if(keys === "Shift+Enter" || keys === "Shift+Return" || keys === "Shift+Keypad+Enter") {
-            if(call.whatisshown.filemanagement && variables.filemanagementCurrentCategory == "del")
-                call.load("permanentDeleteFile")
-        } else if(call.whatisshown.settingsmanager) {
-            if(keys === "Ctrl+Tab")
-                call.load("settingsmanagerNextTab")
-            else if(keys === "Ctrl+Shift+Tab")
-                call.load("settingsmanagerPrevTab")
-            else if(keys === "Ctrl+S")
-                call.load("settingsmanagerSave")
-            else if(keys === "Alt+1")
-                call.load("settingsmanagerGoToTab1")
-            else if(keys === "Alt+2")
-                call.load("settingsmanagerGoToTab2")
-            else if(keys === "Alt+3")
-                call.load("settingsmanagerGoToTab3")
-            else if(keys === "Alt+4")
-                call.load("settingsmanagerGoToTab4")
-            else if(keys === "Alt+5")
-                call.load("settingsmanagerGoToTab5")
-            else if(keys === "Alt+6")
-                call.load("settingsmanagerGoToTab6")
-        }
+        call.passOnShortcut(keys)
 
     }
 
@@ -149,7 +88,7 @@ Item {
         } else if(cmd === "__hide")
             mainwindow.close()
         else if(cmd === "__settings")
-                call.show("settingsmanager")
+            call.show("settingsmanager")
         else if(cmd === "__next")
             Load.loadNext()
         else if(cmd === "__prev")
@@ -163,7 +102,7 @@ Item {
         else if(cmd === "__filterImages")
             call.show("filter")
         else if(cmd === "__slideshowQuick")
-            call.load("slideshowQuickStart")
+            call.load("slideshowStart")
         else if(cmd === "__open")
             call.show("openfile")
         else if(cmd === "__openOld")
@@ -225,10 +164,8 @@ Item {
         else if(cmd === "__defaultFileManager")
             getanddostuff.openInDefaultFileManager(variables.currentDir + "/" + variables.currentFile)
         else if(cmd === "__histogram") {
-            if(call.whatisshown.histogram)
-                call.hide("histogram")
-            else
-                call.show("histogram")
+            call.ensureElementSetup("histogram")
+            settings.histogram = !settings.histogram
         } else {
             getanddostuff.executeApp(cmd, variables.currentDir + "/" + variables.currentFile)
             if(close !== undefined && close == true)
@@ -248,8 +185,14 @@ Item {
         target: variables
         onTextEntryRequiredChanged: {
             if(!variables.textEntryRequired)
-                top.forceActiveFocus()
+                waitshortly.restart()
         }
+    }
+    Timer {
+        id: waitshortly
+        interval: 150
+        repeat: false
+        onTriggered: top.forceActiveFocus()
     }
 
 }

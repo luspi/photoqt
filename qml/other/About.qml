@@ -9,18 +9,6 @@ FadeInTemplate {
 
     heading: qsTr("About PhotoQt") + " v" + getanddostuff.getVersionString()
 
-    Connections {
-        target: call
-        onAboutShow: {
-            call.whatisshown.about = true
-            show()
-        }
-        onAboutHide: {
-            call.whatisshown.about = false
-            hide()
-        }
-    }
-
     content: [
 
         Rectangle {
@@ -131,16 +119,20 @@ FadeInTemplate {
             height: 30
 
             text: qsTr("Okay I got enough of that")
-            onClickedButton: hideAbout()
+            onClickedButton: hide()
 
         }
     ]
 
-    function showAbout() {
-        call.show("about")
-    }
-    function hideAbout() {
-        call.hide("about")
+    Connections {
+        target: call
+        onAboutShow:
+            show()
+        onShortcut: {
+            if(!about.visible) return
+            if(sh == "Escape")
+                hide()
+        }
     }
 
 }

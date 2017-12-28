@@ -25,46 +25,6 @@ Rectangle {
     property string emptyMessage: ""
 
     signal textEdited()
-    signal accepted()
-    signal rejected()
-
-    signal arrowUp()
-    signal arrowDown()
-    signal pageUp()
-    signal pageDown()
-    signal gotoHome()
-    signal gotoEnd()
-
-    signal altLeft()
-    signal altRight()
-    signal altUp()
-
-    signal ctrlTab()
-    signal ctrlShiftTab()
-
-    signal clicked()
-    signal doubleClicked()
-
-    signal historyBack()
-    signal historyForwards()
-
-    signal ctrlPlus()
-    signal ctrlMinus()
-
-    signal ctrlH()
-    signal altPeriod()
-
-    onActiveFocusChanged: {
-        if(!activeFocus)
-            variables.textEntryRequired = false
-        else
-            variables.textEntryRequired = false
-    }
-
-    onVisibleChanged: {
-        if(variables.textEntryRequired && !visible)
-            variables.textEntryRequired = false;
-    }
 
     TextInput {
 
@@ -74,6 +34,9 @@ Rectangle {
         y: (parent.height-height)/2
 
         enabled: ele_top.visible
+
+        onEnabledChanged:
+            variables.textEntryRequired = enabled
 
         width: parent.width-6
 
@@ -90,6 +53,19 @@ Rectangle {
 
         onTextChanged: parent.textEdited()
 
+        function setActiveFocus() {
+            variables.textEntryRequired = true
+            resetActiveFocus.start()
+        }
+
+        Timer {
+            id: resetActiveFocus
+            repeat: false
+            interval: 500
+            running: false
+            onTriggered: ed1.forceActiveFocus()
+        }
+
         ToolTip {
 
             text: parent.parent.tooltip
@@ -99,124 +75,22 @@ Rectangle {
             anchors.fill: parent
             acceptedButtons: Qt.LeftButton|Qt.RightButton
             cursorShape: Qt.IBeamCursor
+            propagateComposedEvents: true
 
             // We use these to re-implement selecting text by mouse (otherwise it'll be overwritten by dragging feature)
-            onClicked: {
-                if(mouse.button == Qt.LeftButton)
-                    parent.parent.clicked()
-                else
+            onClicked:
+                if(mouse.button == Qt.RightButton)
                     contextmenu.popup()
-
-            }
-            onDoubleClicked: {
+            onDoubleClicked:
                 parent.selectAll()
-                parent.parent.doubleClicked()
-            }
             onPressed: { if(mouse.button == Qt.LeftButton) { variables.textEntryRequired = true; held = true; ed1.cursorPosition = ed1.positionAt(mouse.x,mouse.y); } parent.forceActiveFocus() }
             onReleased: { if(mouse.button == Qt.LeftButton) held = false }
             onPositionChanged: {if(held) ed1.moveCursorSelection(ed1.positionAt(mouse.x,mouse.y)) }
 
         }
 
-        Keys.onPressed: {
-
+        Keys.onPressed:
             shortcuts.analyseKeyEvent(event)
-
-            if(event.key === Qt.Key_Enter || event.key === Qt.Key_Return) {
-
-                ele_top.accepted()
-                event.accepted = true
-
-            } else if(event.key === Qt.Key_Escape) {
-
-                ele_top.rejected()
-                event.accepted = true
-
-            } else if(event.key === Qt.Key_Up) {
-
-                if(event.modifiers & Qt.ControlModifier)
-                    ele_top.gotoHome()
-                else if(event.modifiers & Qt.AltModifier)
-                    ele_top.altUp()
-                else
-                    ele_top.arrowUp()
-
-                event.accepted = true
-
-            } else if(event.key === Qt.Key_Down) {
-
-                if(event.modifiers & Qt.ControlModifier)
-                    ele_top.gotoEnd()
-                else
-                    ele_top.arrowDown()
-
-                event.accepted = true
-
-            } else if(event.key === Qt.Key_PageUp) {
-
-                ele_top.pageUp()
-                event.accepted = true
-
-            } else if(event.key === Qt.Key_PageDown) {
-
-                ele_top.pageDown()
-                event.accepted = true
-
-            } else if(event.key === Qt.Key_Left) {
-
-                if(event.modifiers & Qt.AltModifier) {
-                    ele_top.altLeft()
-                    event.accepted = true
-                }
-
-            } else if(event.key === Qt.Key_Right) {
-
-                if(event.modifiers & Qt.AltModifier) {
-                    ele_top.altRight()
-                    event.accepted = true
-                }
-
-            } else if(event.key === Qt.Key_F) {
-                if(event.modifiers & Qt.ControlModifier) {
-                    ele_top.historyForwards()
-                    event.accepted = true
-                }
-            } else if(event.key === Qt.Key_B) {
-                if(event.modifiers & Qt.ControlModifier) {
-                    ele_top.historyBack()
-                    event.accepted = true
-                }
-            } else if(event.key === Qt.Key_Plus || event.key === Qt.Key_Equal) {
-                if(event.modifiers & Qt.ControlModifier) {
-                    ele_top.ctrlPlus()
-                    event.accepted = true
-                }
-            } else if(event.key === Qt.Key_Minus) {
-                if(event.modifiers & Qt.ControlModifier) {
-                    ele_top.ctrlMinus()
-                    event.accepted = true
-                }
-            } else if(event.key === Qt.Key_H) {
-                if(event.modifiers & Qt.ControlModifier) {
-                    ele_top.ctrlH()
-                    event.accepted = true
-                }
-            } else if(event.key === Qt.Key_Period) {
-                if(event.modifiers & Qt.AltModifier) {
-                    ele_top.altPeriod()
-                    event.accepted = true
-                }
-            } else if(event.key == Qt.Key_Tab || event.key == Qt.Key_Backtab) {
-                if(event.modifiers & Qt.ControlModifier && event.modifiers & Qt.ShiftModifier) {
-                    ele_top.ctrlShiftTab()
-                    event.accepted = true
-                } else if(event.modifiers & Qt.ControlModifier) {
-                    ele_top.ctrlTab()
-                    event.accepted = true
-                }
-            }
-
-        }
 
         ContextMenu {
             id: contextmenu
@@ -284,7 +158,7 @@ Rectangle {
     }
 
     function selectAll() {
-        ed1.focus = true
+        ed1.setActiveFocus()
         ed1.selectAll()
     }
 

@@ -120,6 +120,22 @@ Item {
         font.pointSize: 10*0.8
     }
 
+    Connections {
+        target: call
+        onShortcut: {
+            if(management_top.visible && current == "del") {
+                if(sh == "Enter" || sh == "Return")
+                    simulateEnter()
+                else if(sh == "Shift+Enter" || sh == "Shift+Return")
+                    simulateShiftEnter()
+            }
+        }
+    }
+
+    Connections {
+        target: container
+        onItemShown: filename.text = variables.currentFile
+    }
 
     // These two 'simulate' functions can be called via shortcuts
     function simulateEnter() {
@@ -143,29 +159,8 @@ Item {
             Load.loadFile(variables.currentDir + "/" + newfilename, variables.filter, true)
     }
 
-    function showDelete() {
-        if(variables.currentFile == "") return
-        filename.text = variables.currentFile
-        show()
-    }
-
-    function doDirectPermanentDelete() {
-        simulateShiftEnter()
-    }
-
     function hideDelete() {
-        call.hide("filemanagement")
-    }
-
-    Connections {
-        target: management_top
-        onPermanentDeleteFile:
-            doDirectPermanentDelete()
-    }
-
-    Connections {
-        target: call
-        onFilemanagementDeleteImage: simulateEnter()
+        management_top.hide()
     }
 
 }

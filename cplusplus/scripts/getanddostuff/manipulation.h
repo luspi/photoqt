@@ -49,6 +49,7 @@ public:
     void copyImage(QString imagePath, QString destinationPath);
     void moveImage(QString imagePath, QString destinationPath);
     QString getImageSuffix(QString imagePath);
+    QString getImageBaseName(QString imagePath);
 
 signals:
     void reloadDirectory(QString path, bool deleted = false);

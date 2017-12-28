@@ -267,7 +267,7 @@ Rectangle {
 
             onClickedButton: {
                 setData_restore()
-                call.hide("settingsmanager")
+                hideSettings()
             }
 
         }
@@ -307,7 +307,7 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            onClicked: call.hide("settingsmanager")
+            onClicked: hideSettings()
             //: This is the tooltip of the exit button (little 'x' top right corner)
             text: qsTr("Close settings manager")
         }
@@ -437,16 +437,30 @@ Rectangle {
         target: call
         onSettingsmanagerShow:
             showSettings()
-        onSettingsmanagerHide:
-            hideSettings()
-        onSettingsmanagerSave:
-            saveSettings()
-        onSettingsmanagerNextTab:
-            nextTab()
-        onSettingsmanagerPrevTab:
-            prevTab()
-        onSettingsmanagerGoToTab:
-            gotoTab(index)
+        onShortcut: {
+            if(!settings_top.visible) return
+            if(sh == "Escape")
+                hideSettings()
+            else if(sh == "Ctrl+S")
+                saveSettings()
+            else if(sh == "Ctrl+Tab")
+                nextTab()
+            else if(sh == "Ctrl+Shift+Tab")
+                prevTab()
+            else if(sh == "Alt+1")
+                gotoTab(0)
+            else if(sh == "Alt+2")
+                gotoTab(1)
+            else if(sh == "Alt+3")
+                gotoTab(2)
+            else if(sh == "Alt+4")
+                gotoTab(3)
+            else if(sh == "Alt+5")
+                gotoTab(4)
+            else if(sh == "Alt+6")
+                gotoTab(5)
+
+        }
     }
 
     DetectShortcut {
@@ -459,7 +473,6 @@ Rectangle {
     function showSettings() {
         verboseMessage("Settings::showSettings()","Showing Settings...")
         opacity = 1
-        call.whatisshown.settingsmanager = true
         variables.guiBlocked = true
         setData()	// We DO need to call setData() here, as otherwise - once set up - a tab would not be updated (e.g. with changes from quicksettings)
         updateDatabaseInfo()
@@ -487,7 +500,6 @@ Rectangle {
             settingsinfooverlay.hide()
         else {
             opacity = 0
-            call.whatisshown.settingsmanager = false
             if(variables.currentFile == "" )
                 call.show("openfile")
             else
@@ -520,7 +532,7 @@ Rectangle {
             invalidshortcuts.show()
         else {
             saveData();
-            call.hide("settingsmanager")
+            hideSettings()
         }
     }
 

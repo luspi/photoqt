@@ -21,6 +21,16 @@ Item {
         font.pointSize: 20
     }
 
+    PFileDialog {
+        id: filedialog
+        onAccepted:
+            moveFile(file)
+        onRejected: {
+            if(management_top.current == "mv")
+            management_top.hide()
+        }
+    }
+
     Connections {
         target: container
         onItemShown:
@@ -29,17 +39,12 @@ Item {
             filedialog.close()
     }
 
-    PFileDialog {
-        id: filedialog
-        onAccepted: {
-            getanddostuff.moveImage(variables.currentDir + "/" + variables.currentFile, file)
-            if(getanddostuff.removeFilenameFromPath(file) == variables.currentDir) {
-                Load.loadFile(file, variables.filter, true)
-            }
-            call.hide("filemanagement")
+    function moveFile(file) {
+        getanddostuff.moveImage(variables.currentDir + "/" + variables.currentFile, file)
+        if(getanddostuff.removeFilenameFromPath(file) == variables.currentDir) {
+            Load.loadFile(file, variables.filter, true)
+            management_top.hide()
         }
-        onRejected:
-            call.hide("filemanagement")
     }
 
 }

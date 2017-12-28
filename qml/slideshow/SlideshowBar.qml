@@ -31,20 +31,6 @@ Rectangle {
     property var images: []
     property int current: 0
 
-    Connections {
-        target: call
-        onSlideshowStart:
-            startSlideshow()
-        onSlideshowStop:
-            stopSlideshow()
-        onSlideshowBarShow:
-            showBar()
-        onSlideshowBarHide:
-            hideBar()
-        onSlideshowPause:
-            pauseSlideshow()
-    }
-
     CustomButton {
         id: pause
         x: 10
@@ -103,20 +89,33 @@ Rectangle {
         onError: console.error("AUDIO ERROR:",errorString,"-",source)
     }
 
+    Connections {
+        target: call
+        onSlideshowStart:
+            startSlideshow()
+        onSlideshowBarShow:
+            showBar()
+        onSlideshowBarHide:
+            hideBar()
+        onShortcut: {
+            if(!variables.slideshowRunning) return
+            if(sh == "Escape")
+                stopSlideshow()
+            else if(sh == "Space")
+                pauseSlideshow()
+        }
+    }
+
     // Display the bar
     function showBar() {
         verboseMessage("SlideshowBar::showBar()",bar.y + "/" + bar.height + " (" + variables.slideshowRunning + ")")
-        if(variables.slideshowRunning) {
+        if(variables.slideshowRunning)
             opacity = 1
-            call.whatisshown.slideshowbar = true
-        }
     }
     // Hide the bar
     function hideBar() {
-        if(!paused) {
+        if(!paused)
             opacity = 0
-            call.whatisshown.slideshowbar = false
-        }
     }
 
     // Show and hide the bar shortly after again (used at start and end of slideshow)

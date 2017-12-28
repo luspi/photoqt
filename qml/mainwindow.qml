@@ -364,7 +364,7 @@ ApplicationWindow {
 
         // Same for the histogram, but it we actually show
         if(settings.histogram)
-            call.show("histogram")
+            call.ensureElementSetup("histogram")
 
         // The first time after an update/install, we display an update/install message before processing the received filename
         if(update != 0) {
