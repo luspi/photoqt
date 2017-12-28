@@ -128,7 +128,7 @@ ListView {
                 }
                 onClicked: {
                     if(mouse.button == Qt.LeftButton) {
-                        call.hide("openfile")
+                        openfile_top.hide()
                         reloadDirectory(dir_path + "/" + files[2*index],"")
                         if(settings.openKeepLastLocation)
                             getanddostuff.setOpenFileLastLocation(dir_path)

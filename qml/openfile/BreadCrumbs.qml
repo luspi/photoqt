@@ -129,7 +129,7 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            onClicked: call.hide("openfile")
+            onClicked: openfile_top.hide()
             text: qsTr("Close 'Open File' element")
         }
 

@@ -25,6 +25,8 @@ Rectangle {
     width: mainwindow.width
     height: mainwindow.height
 
+    property string currentInFocus: "folders"
+
     property string items_path: ""
     property string dir_path: settings.openKeepLastLocation ? getanddostuff.getOpenFileLastLocation() : getanddostuff.getHomeDir()
 
@@ -74,9 +76,9 @@ Rectangle {
         UserPlaces {
             id: userplaces
             onFocusOnFolders:
-                folders.forceActiveFocus()
+                currentInFocus = "folders"
             onFocusOnFilesView:
-                edit_rect.focusOnInput()
+                currentInFocus = "filesview"
             onMoveOneLevelUp:
                 folders.moveOneLevelUp()
         }
@@ -85,9 +87,9 @@ Rectangle {
         Folders {
             id: folders
             onFocusOnFilesView:
-                edit_rect.focusOnInput()
+                currentInFocus = "filesview"
             onFocusOnUserPlaces:
-                userplaces.forceActiveFocus()
+                currentInFocus = "userplaces"
         }
 
 
@@ -145,9 +147,9 @@ Rectangle {
                 onMoveOneLevelUp:
                     folders.moveOneLevelUp()
                 onFocusOnFolderView:
-                    folders.forceActiveFocus()
+                    currentInFocus = "folders"
                 onFocusOnUserPlaces:
-                    userplaces.forceActiveFocus()
+                    currentInFocus = "userplaces"
                 onGoBackHistory:
                     breadcrumbs.goBackInHistory()
                 onGoForwardsHistory:
@@ -212,7 +214,6 @@ Rectangle {
         onStopped: {
             edit_rect.enabled = true
             filesview.focusOnFile(getanddostuff.removePathFromFilename(variables.currentFile))
-            openshortcuts.forceActiveFocus()
             openshortcuts.display()
         }
     }
@@ -233,8 +234,11 @@ Rectangle {
         target: call
         onOpenfileShow:
             show();
-        onOpenfileHide:
-            hide()
+        onShortcut: {
+            if(!openfile_top.visible) return
+            if(sh == "Escape")
+                hide()
+        }
     }
 
 
@@ -273,7 +277,6 @@ Rectangle {
     function show() {
         verboseMessage("OpenFile::show()", opacity + " to 1")
         showOpenAni.start();
-        call.whatisshown.openfile = true
     }
 
     function hide() {
@@ -283,7 +286,6 @@ Rectangle {
         else {
             verboseMessage("OpenFile::hide()", opacity + " to 0")
             hideOpenAni.start();
-            call.whatisshown.openfile = false
         }
 
     }

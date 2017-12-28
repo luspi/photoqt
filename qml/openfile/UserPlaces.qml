@@ -25,7 +25,7 @@ Rectangle {
 
     Layout.maximumWidth: 600
     Layout.minimumWidth: 200
-    color: activeFocus ? "#44000055" : "#44000000"
+    color: currentInFocus=="userplaces" ? "#44000055" : "#44000000"
 
     signal focusOnFolders()
     signal focusOnFilesView()
@@ -56,8 +56,7 @@ Rectangle {
         delegate: userplacesdelegate
 
         onCurrentIndexChanged:
-            if(!activeFocus)
-                uplaces.forceActiveFocus()
+            currentInFocus = "userplaces"
 
         // Don't highlight anything of UserPlaces at startup
         // Otherwise, a heading might be highlighted, that shouldn't happen
@@ -184,77 +183,42 @@ Rectangle {
 
     }
 
-    Keys.onPressed: {
-
-        verboseMessage("UserPlaces.Keys::onPressed", event.modifiers + " - " + event.key)
-
-        if(event.key === Qt.Key_Left) {
-
-            if(event.modifiers & Qt.AltModifier) {
-                focusOnFilesView()
-                event.accepted = true
-            } else if(event.modifiers & Qt.MetaModifier) {
-                breadcrumbs.goBackInHistory()
-                event.accepted = true
-            }
-
-        } else if(event.key === Qt.Key_Right) {
-
-            if(event.modifiers & Qt.AltModifier) {
-                focusOnFolders()
-                event.accepted = true
-            }
-
-        } else if(event.key === Qt.Key_Up) {
-            if(event.modifiers & Qt.AltModifier)
-                moveOneLevelUp()
-            else
+    Connections {
+        target: call
+        onShortcut: {
+            if(currentInFocus != "filesview" || !openfile_top.visible) return
+            if(sh == "Enter" || sh == "Return")
+                edit_rect.accepted()
+            else if(sh == "Up")
                 focusOnPrevItem()
-            event.accepted = true
-        } else if(event.key === Qt.Key_Down) {
-            focusOnNextItem()
-            event.accepted = true
-        } else if(event.key === Qt.Key_Enter || event.key === Qt.Key_Return) {
-            loadCurrentlyHighlightedFolder()
-            event.accepted = true
-        } else if(event.key === Qt.Key_PageDown) {
-            moveFocusFiveDown()
-            event.accepted = true
-        } else if(event.key === Qt.Key_PageUp) {
-            moveFocusFiveUp()
-            event.accepted = true
-        } else if(event.key === Qt.Key_F) {
-            if(event.modifiers & Qt.ControlModifier) {
-                breadcrumbs.goForwardsInHistory()
-                event.accepted = true
-            }
-        } else if(event.key === Qt.Key_B) {
-            if(event.modifiers & Qt.ControlModifier) {
-                breadcrumbs.goBackInHistory()
-                event.accepted = true
-            }
-        } else if(event.key === Qt.Key_Plus || event.key === Qt.Key_Equal ) {
-            if(event.modifiers & Qt.ControlModifier) {
+            else if(sh == "Down")
+                focusOnNextItem()
+            else if(sh == "Page Up")
+                moveFocusFiveUp()
+            else if(sh == "Page Down")
+                moveFocusFiveDown()
+            else if(sh == "Home")
+                focusOnFirstItem()
+            else if(sh == "End")
+                focusOnLastItem()
+            else if(sh == "Alt+Left")
+                focusOnFilesView()
+            else if(sh == "Alt+Right")
+                focusOnFolders()
+            else if(sh == "Alt+Up")
+                moveOneLevelUp()
+            else if(sh == "Ctrl+B")
+                goBackHistory()
+            else if(sh == "Ctrl+F")
+                goForwardsHistory()
+            else if(sh == "Ctrl++" || sh == "Ctrl+=")
                 tweaks.zoomLarger()
-                event.accepted = true
-            }
-        } else if(event.key === Qt.Key_Minus) {
-            if(event.modifiers & Qt.ControlModifier) {
+            else if(sh == "Ctrl+-")
                 tweaks.zoomSmaller()
-                event.accepted = true
-            }
-        } else if(event.key === Qt.Key_Period) {
-            if(event.modifiers & Qt.AltModifier) {
+            else if(sh == "Alt+." || sh == "Ctrl+H")
                 tweaks.toggleHiddenFolders()
-                event.accepted = true
-            }
-        } else if(event.key === Qt.Key_H) {
-            if(event.modifiers & Qt.ControlModifier) {
-                tweaks.toggleHiddenFolders()
-                event.accepted = true
-            }
-        }
 
+        }
     }
 
     function loadUserPlaces() {

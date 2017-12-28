@@ -8,7 +8,7 @@ Rectangle {
 
     id: top
 
-    color: (!folders.activeFocus && !userplaces.activeFocus) ? "#44000055" : "#44000000"
+    color: (currentInFocus=="filesview") ? "#44000055" : "#44000000"
 
     property var files: []
     property string dir_path: getanddostuff.getHomeDir()
@@ -145,6 +145,7 @@ Rectangle {
     }
 
     function loadCurrentlyHighlightedImage() {
+        return
         verboseMessage("FilesView::loadCurrentlyHighlightedImage()",listview.opacity + " - " + gridview.opacity + " - " + listview.currentIndex + " - " + gridview.currentIndex)
         hideOpenAni.start()
         if(listview.opacity == 1)

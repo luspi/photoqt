@@ -23,8 +23,6 @@ Rectangle {
     signal goBackHistory()
     signal goForwardsHistory()
 
-    property bool inCurrentFocus: filename_edit.activeFocus
-
     CustomLineEdit {
 
         id: filename_edit
@@ -35,30 +33,45 @@ Rectangle {
         anchors.bottomMargin: 5
 
         onTextEdited: filenameEdit(getText())
-        onAccepted: edit_rect.accepted()
 
-        onArrowUp: focusOnPrevItem()
-        onArrowDown: focusOnNextItem()
+    }
 
-        onPageUp: moveFocusFiveUp()
-        onPageDown: moveFocusFiveDown()
+    Connections {
+        target: call
+        onShortcut: {
+            if(currentInFocus != "filesview" || !openfile_top.visible) return
+            if(sh == "Enter" || sh == "Return")
+                edit_rect.accepted()
+            else if(sh == "Up")
+                focusOnPrevItem()
+            else if(sh == "Down")
+                focusOnNextItem()
+            else if(sh == "Page Up")
+                moveFocusFiveUp()
+            else if(sh == "Page Down")
+                moveFocusFiveDown()
+            else if(sh == "Home")
+                focusOnFirstItem()
+            else if(sh == "End")
+                focusOnLastItem()
+            else if(sh == "Alt+Left")
+                focusOnFolderView()
+            else if(sh == "Alt+Right")
+                focusOnUserPlaces()
+            else if(sh == "Alt+Up")
+                moveOneLevelUp()
+            else if(sh == "Ctrl+B")
+                goBackHistory()
+            else if(sh == "Ctrl+F")
+                goForwardsHistory()
+            else if(sh == "Ctrl++" || sh == "Ctrl+=")
+                tweaks.zoomLarger()
+            else if(sh == "Ctrl+-")
+                tweaks.zoomSmaller()
+            else if(sh == "Alt+." || sh == "Ctrl+H")
+                tweaks.toggleHiddenFolders()
 
-        onGotoHome: focusOnFirstItem()
-        onGotoEnd: focusOnLastItem()
-
-        onAltLeft: focusOnFolderView()
-        onAltRight: focusOnUserPlaces()
-        onAltUp: moveOneLevelUp()
-
-        onHistoryBack: goBackHistory()
-        onHistoryForwards: goForwardsHistory()
-
-        onCtrlPlus: tweaks.zoomLarger()
-        onCtrlMinus: tweaks.zoomSmaller()
-
-        onAltPeriod: tweaks.toggleHiddenFolders()
-        onCtrlH: tweaks.toggleHiddenFolders()
-
+        }
     }
 
     function setEditText(txt) {
@@ -68,7 +81,6 @@ Rectangle {
     }
 
     function focusOnInput() {
-        filename_edit.forceActiveFocus()
         filename_edit.selectAll()
     }
 
