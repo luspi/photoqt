@@ -1,16 +1,14 @@
 import QtQuick 2.6
-import "./keyshortcuts.js" as AnalyseKeys
+import "./mouseshortcuts.js" as AnalyseMouse
 import "../loadfile.js" as Load
 
 Item {
 
     id: top
 
-    property var keycodes: ({})
     property var setKeyShortcuts: ({})
 
     Component.onCompleted: {
-        top.forceActiveFocus()
 
         var keys = shortcutshandler.load()
 
@@ -19,19 +17,9 @@ Item {
 
     }
 
-    Keys.onPressed: analyseKeyEvent(event)
-
-    function analyseKeyEvent(event) {
-
-        var combostring = AnalyseKeys.analyseKeyEvent(event)
-
-        processString(combostring)
-
-    }
-
     function analyseMouseEvent(startedEventAtPos, event) {
 
-        var combostring = AnalyseKeys.analyseMouseEvent(startedEventAtPos, event)
+        var combostring = AnalyseMouse.analyseMouseEvent(startedEventAtPos, event)
 
         processString(combostring)
 
@@ -39,7 +27,7 @@ Item {
 
     function analyseWheelEvent(event) {
 
-        var combostring = AnalyseKeys.analyseWheelEvent(event)
+        var combostring = AnalyseMouse.analyseWheelEvent(event)
 
         processString(combostring)
 
@@ -49,28 +37,14 @@ Item {
 
         // We need to check for guiBlocked before doing any of the below checks that might change its value.
         if(variables.guiBlocked)
-            checkForSystemShortcut(combostring)
-        else
-            analyseKeyCombo(combostring)
 
-    }
+            call.passOnShortcut(combostring)
 
+        // Execute the shortcut if something is set
+        else if(!variables.guiBlocked && combostring in setKeyShortcuts) {
 
-    function checkForSystemShortcut(keys) {
-
-        verboseMessage("Shortcuts::checkForSystemShortcut()", keys)
-
-        call.passOnShortcut(keys)
-
-    }
-
-
-    function analyseKeyCombo(combo) {
-
-        if(combo in setKeyShortcuts) {
-
-            var close = setKeyShortcuts[combo][0]
-            var cmd = setKeyShortcuts[combo][1]
+            var close = setKeyShortcuts[combostring][0]
+            var cmd = setKeyShortcuts[combostring][1]
 
             executeShortcut(cmd, close)
 
@@ -82,11 +56,10 @@ Item {
 
 //        if(cmd === "__stopThb")
 //            thumbnailBar.stopThumbnails()
-        if(cmd === "__close") {
-            variables.ignoreTrayIconAndJustQuit = true
-            mainwindow.close()
-        } else if(cmd === "__hide")
-            mainwindow.close()
+        if(cmd === "__close")
+            mainwindow.quitPhotoQt();
+        else if(cmd === "__hide")
+            mainwindow.closePhotoQt()
         else if(cmd === "__settings")
             call.show("settingsmanager")
         else if(cmd === "__next")
@@ -169,30 +142,9 @@ Item {
         } else {
             getanddostuff.executeApp(cmd, variables.currentDir + "/" + variables.currentFile)
             if(close !== undefined && close == true)
-                if(settings.trayicon)
-                    hidePhotoQt()
-                else
-                    mainwindow.close()
+                mainwindow.closePhotoQt()
         }
 
-    }
-
-    onActiveFocusChanged: {
-        if(!variables.textEntryRequired)
-            top.forceActiveFocus()
-    }
-    Connections {
-        target: variables
-        onTextEntryRequiredChanged: {
-            if(!variables.textEntryRequired)
-                waitshortly.restart()
-        }
-    }
-    Timer {
-        id: waitshortly
-        interval: 150
-        repeat: false
-        onTriggered: top.forceActiveFocus()
     }
 
 }

@@ -148,12 +148,8 @@ Rectangle {
             cursorShape: Qt.PointingHandCursor
             acceptedButtons: Qt.LeftButton | Qt.RightButton
             text: qsTr("Close PhotoQt")
-            onClicked: {
-                if(settings.trayicon)
-                    hideToSystemTray()
-                else
-                    mainwindow.close()
-            }
+            onClicked:
+                mainwindow.closePhotoQt()
         }
 
     }

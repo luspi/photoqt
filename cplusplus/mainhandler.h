@@ -1,12 +1,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QObject>
+#include <QQuickView>
 #include <QQmlApplicationEngine>
 #include <QQmlProperty>
 #include <iostream>
 
 #include "variables.h"
+#include "hideclose.h"
 
 #include "settings/colour.h"
 #include "settings/fileformats.h"
@@ -21,6 +22,7 @@
 #include "scripts/thumbnailsmanagement.h"
 #include "shortcuts/shortcuts.h"
 #include "scripts/filedialog.h"
+#include "shortcuts/composestring.h"
 
 #include "imageprovider/imageproviderempty.h"
 #include "imageprovider/imageproviderfull.h"
@@ -38,20 +40,20 @@
 #include "startup/updatecheck.h"
 #include "startup/shortcuts.h"
 
-class MainHandler : public QObject {
+class MainHandler : public QQuickView {
 
     Q_OBJECT
 
 public:
 
-    MainHandler(bool verbose, QObject *parent = 0);
+    MainHandler(bool verbose, QWindow *parent = 0);
 
-    void setEngine(QQmlApplicationEngine *engine);
     void setObjectAndConnect();
     int performSomeStartupChecks();
     void loadTranslation();
     void registerQmlTypes();
     void addImageProvider();
+    void loadQML();
     void manageStartupFilename(bool startInTray, QString filename);
 
 public slots:
@@ -61,7 +63,6 @@ public slots:
 
 private:
 
-    QQmlApplicationEngine *engine;
     QObject *object;
 
     QTranslator trans;
@@ -75,11 +76,17 @@ private:
 
     void showTrayIcon();
 
+    void setupWindowProperties();
+
 private slots:
     void qmlVerboseMessage(QString loc, QString msg);
     void trayAction(QSystemTrayIcon::ActivationReason reason);
     void toggleWindow();
+    void forceWindowQuit();
     void aboutToQuit();
+
+protected:
+    bool event(QEvent *e);
 
 };
 

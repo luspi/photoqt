@@ -60,12 +60,8 @@ Item {
         onClicked: {
             if (mouse.button == Qt.RightButton)
                 contextmenuClosingX.popup()
-            else {
-//                if(settings.trayicon)
-//                    hideToSystemTray()
-//                else
-                    mainwindow.close()
-            }
+            else
+                mainwindow.closePhotoQt()
         }
     }
 

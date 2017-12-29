@@ -26,21 +26,6 @@ int main(int argc, char *argv[]) {
     // Create a handler to manage the qml files and do some preliminary stuff (e.g., startup checks)
     MainHandler handle(app.verbose);
 
-    // The qml engine. This needs to be created AFTER registering the qml types.
-    QQmlApplicationEngine engine;
-
-    // Pass the engine to the handler
-    handle.setEngine(&engine);
-
-    // Register the image providers
-    handle.addImageProvider();
-
-    // Load the qml file
-    engine.load(QUrl("qrc:/qml/mainwindow.qml"));
-
-    // Create a handle to the engine's object and connect to its signals
-    handle.setObjectAndConnect();
-
     // A remote action passed on via command line triggers the 'interaction' signal, so we pass it on to the MainWindow
     QObject::connect(&app, SIGNAL(interaction(QString)), &handle, SLOT(remoteAction(QString)));
 

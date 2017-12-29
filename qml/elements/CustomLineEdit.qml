@@ -35,9 +35,6 @@ Rectangle {
 
         enabled: ele_top.visible
 
-        onEnabledChanged:
-            variables.textEntryRequired = enabled
-
         width: parent.width-6
 
         color: enabled ? colour.text : colour.text_disabled
@@ -52,19 +49,6 @@ Rectangle {
         clip: true
 
         onTextChanged: parent.textEdited()
-
-        function setActiveFocus() {
-            variables.textEntryRequired = true
-            resetActiveFocus.start()
-        }
-
-        Timer {
-            id: resetActiveFocus
-            repeat: false
-            interval: 500
-            running: false
-            onTriggered: ed1.forceActiveFocus()
-        }
 
         ToolTip {
 
@@ -83,14 +67,11 @@ Rectangle {
                     contextmenu.popup()
             onDoubleClicked:
                 parent.selectAll()
-            onPressed: { if(mouse.button == Qt.LeftButton) { variables.textEntryRequired = true; held = true; ed1.cursorPosition = ed1.positionAt(mouse.x,mouse.y); } parent.forceActiveFocus() }
+            onPressed: { if(mouse.button == Qt.LeftButton) { held = true; ed1.cursorPosition = ed1.positionAt(mouse.x,mouse.y); } parent.forceActiveFocus() }
             onReleased: { if(mouse.button == Qt.LeftButton) held = false }
             onPositionChanged: {if(held) ed1.moveCursorSelection(ed1.positionAt(mouse.x,mouse.y)) }
 
         }
-
-        Keys.onPressed:
-            shortcuts.analyseKeyEvent(event)
 
         ContextMenu {
             id: contextmenu
@@ -158,7 +139,7 @@ Rectangle {
     }
 
     function selectAll() {
-        ed1.setActiveFocus()
+        ed1.forceActiveFocus()
         ed1.selectAll()
     }
 

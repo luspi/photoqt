@@ -13,7 +13,7 @@ SET(photoqt_QML ${photoqt_QML} ${d}/Background.qml ${d}/MainImage.qml ${d}/MainI
 SET(photoqt_QML ${photoqt_QML} ${d}/MainMenu.qml ${d}/HandleMouseMovements.qml ${d}/MetaData.qml ${d}/Histogram.qml ${d}/MainImageRectangleAnimated.qml)
 
 SET(d "qml/shortcuts")
-SET(photoqt_QML ${photoqt_QML} ${d}/Shortcuts.qml ${d}/keyshortcuts.js)
+SET(photoqt_QML ${photoqt_QML} ${d}/Shortcuts.qml ${d}/mouseshortcuts.js)
 
 SET(d "qml/openfile")
 SET(photoqt_QML ${photoqt_QML} ${d}/BreadCrumbs.qml ${d}/EditFiles.qml ${d}/FilesView.qml ${d}/FilesViewGrid.qml ${d}/FilesViewList.qml ${d}/Folders.qml ${d}/OpenFile.qml ${d}/Tweaks.qml ${d}/TweaksFileTypeSelection.qml ${d}/TweaksHiddenFolders.qml ${d}/TweaksPreview.qml ${d}/TweaksThumbnail.qml ${d}/TweaksViewMode.qml ${d}/TweaksZoom.qml ${d}/UserPlaces.qml)

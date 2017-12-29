@@ -13,8 +13,6 @@ Item {
 
     property bool slideshowRunning: false
 
-    property bool textEntryRequired: false
-
     property int totalNumberImagesCurrentFolder: 0
     property int currentFilePos: -1
     property string currentFile: ""
@@ -32,8 +30,6 @@ Item {
 
     property int startupUpdateStatus: 0
     property string startupFilenameAfter: ""
-
-    property bool ignoreTrayIconAndJustQuit: false
 
     function updateCurrentFilePos() {
         var onlyfile = getanddostuff.removePathFromFilename(currentFile)

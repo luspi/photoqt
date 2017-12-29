@@ -1,6 +1,6 @@
 #include "mainhandler.h"
 
-MainHandler::MainHandler(bool verbose, QObject *parent) : QObject(parent) {
+MainHandler::MainHandler(bool verbose, QWindow *parent) : QQuickView(parent) {
 
     // holding some variables of the current session
     variables = new Variables;
@@ -16,13 +16,21 @@ MainHandler::MainHandler(bool verbose, QObject *parent) : QObject(parent) {
     // Find and load the right translation file
     loadTranslation();
 
-    // Register the qml types. This need to happen BEFORE creating the QQmlApplicationEngine!.
+    // Register the qml types. This need to happen BEFORE loading the QML file
     registerQmlTypes();
 
     // Show tray icon (if enabled, checked by function)
     showTrayIcon();
 
+    addImageProvider();
+
+    loadQML();
+
+    setObjectAndConnect();
+
     connect(qApp, &QCoreApplication::aboutToQuit, this, &MainHandler::aboutToQuit);
+
+    setupWindowProperties();
 
 }
 
@@ -62,22 +70,17 @@ void MainHandler::loadTranslation() {
 
 }
 
-// store the engine and the connected object
-void MainHandler::setEngine(QQmlApplicationEngine *engine) {
-
-    this->engine = engine;
-
-}
-
 // Create a handler to the engine's object and connect to its signals
 void MainHandler::setObjectAndConnect() {
 
-    this->object = engine->rootObjects()[0];
+    this->object = this->rootObject();
 
     // Connect to some signals of the qml code that require handling by c++ code
     connect(object, SIGNAL(verboseMessage(QString,QString)), this, SLOT(qmlVerboseMessage(QString,QString)));
     connect(object, SIGNAL(setOverrideCursor()), this, SLOT(setOverrideCursor()));
     connect(object, SIGNAL(restoreOverrideCursor()), this, SLOT(restoreOverrideCursor()));
+    connect(object, SIGNAL(closePhotoQt()), this, SLOT(close()));
+    connect(object, SIGNAL(quitPhotoQt()), this, SLOT(forceWindowQuit()));
 
 }
 
@@ -100,11 +103,19 @@ void MainHandler::registerQmlTypes() {
 
 // Add image providers to QML
 void MainHandler::addImageProvider() {
-    this->engine->addImageProvider("thumb",new ImageProviderThumbnail);
-    this->engine->addImageProvider("full",new ImageProviderFull);
-    this->engine->addImageProvider("icon",new ImageProviderIcon);
-    this->engine->addImageProvider("empty", new ImageProviderEmpty);
-    this->engine->addImageProvider("hist", new ImageProviderHistogram);
+    this->engine()->addImageProvider("thumb",new ImageProviderThumbnail);
+    this->engine()->addImageProvider("full",new ImageProviderFull);
+    this->engine()->addImageProvider("icon",new ImageProviderIcon);
+    this->engine()->addImageProvider("empty", new ImageProviderEmpty);
+    this->engine()->addImageProvider("hist", new ImageProviderHistogram);
+}
+
+// Load QML file and set transparent background
+void MainHandler::loadQML() {
+
+    this->setSource(QUrl("qrc:/qml/mainwindow.qml"));
+    this->setColor(QColor(Qt::transparent));
+
 }
 
 // Output any QML debug messages if verbose mode is enabled
@@ -113,27 +124,109 @@ void MainHandler::qmlVerboseMessage(QString loc, QString msg) {
         LOG << CURDATE << "[QML] " << loc.toStdString() << ": " << msg.toStdString() << NL;
 }
 
+void MainHandler::setupWindowProperties() {
+
+    this->setMinimumSize(QSize(640,480));
+    this->setTitle(tr("PhotoQt Image Viewer"));
+
+    if(variables->verbose)
+        LOG << CURDATE << "setupWindowProperties(): started processing" << std::endl;
+
+    GetAndDoStuff gads;
+
+    // window mode
+    if(permanentSettings->windowmode) {
+
+        // always keep window on top
+        if(permanentSettings->keepOnTop) {
+
+            if(permanentSettings->windowDecoration)
+                this->setFlags(Qt::Window|Qt::WindowStaysOnTopHint);
+            else
+                this->setFlags(Qt::Window|Qt::FramelessWindowHint|Qt::WindowStaysOnTopHint);
+
+        // treat as normal window
+        } else {
+
+            if(permanentSettings->windowDecoration)
+                this->setFlags(Qt::Window);
+            else
+                this->setFlags(Qt::Window|Qt::FramelessWindowHint);
+
+        }
+
+        // Restore the stored window geometry
+        if(permanentSettings->saveWindowGeometry) {
+
+            QRect rect = gads.getStoredGeometry();
+
+            // Check whether stored information is actually valid
+            if(rect.width() < 100 || rect.height() < 100)
+                this->showMaximized();
+            else {
+                this->show();
+                this->setGeometry(rect);
+            }
+        // If not stored, we display the image always maximised
+        } else
+            this->showMaximized();
+
+    // fullscreen mode
+    } else {
+
+        // Always keep window on top...
+        if(permanentSettings->keepOnTop)
+            this->setFlags(Qt::WindowStaysOnTopHint|Qt::FramelessWindowHint);
+        // ... or not
+        else
+            this->setFlags(Qt::FramelessWindowHint);
+
+        // In Enlightenment, showing PhotoQt as fullscreen causes some problems, revert to showing it as maximised there by default
+        if(gads.detectWindowManager() == "enlightenment")
+            this->showMaximized();
+        else
+            this->showFullScreen();
+
+    }
+
+}
+
+// Handle events (both key and close)
+bool MainHandler::event(QEvent *e) {
+
+    if(e->type() == QEvent::KeyPress)
+        QMetaObject::invokeMethod(object, "processShortcut", Q_ARG(QVariant, ComposeString::compose((QKeyEvent*)e)));
+    else if(e->type() == QEvent::Close) {
+        HideClose::handleCloseEvent(e, permanentSettings, this);
+        return true;
+    }
+
+    return QQuickView::event(e);
+
+}
+
+// Called to force app to quit, bypassing QCloseEvent
+void MainHandler::forceWindowQuit() {
+    qApp->quit();
+}
+
 // Remote controlling
 void MainHandler::remoteAction(QString cmd) {
 
     if(variables->verbose)
         LOG << CURDATE << "remoteAction(): " << cmd.toStdString() << NL;
 
-    QVariant vis_;
-    QMetaObject::invokeMethod(object, "isWindowVisible", Q_RETURN_ARG(QVariant, vis_));
-    bool vis = vis_.toBool();
-
     // Open a new file (and show PhotoQt if necessary)
     if(cmd == "open") {
 
         if(variables->verbose)
             LOG << CURDATE << "remoteAction(): Open file" << NL;
-        if(!vis) {
+        if(!this->isVisible()) {
             StartupCheck::Screenshots::getAndStore(variables->verbose);
-            QMetaObject::invokeMethod(object, "setWindowFlags");
+            setupWindowProperties();
         }
         QMetaObject::invokeMethod(object, "openfileShow");
-        QMetaObject::invokeMethod(object, "requestActivate");
+        this->requestActivate();
 
     // Disable thumbnails
     } else if(cmd == "nothumbs") {
@@ -151,7 +244,7 @@ void MainHandler::remoteAction(QString cmd) {
         permanentSettings->thumbnailDisable = true;
 
     // Hide the window to system tray
-    } else if(cmd == "hide" || (cmd == "toggle" && vis)) {
+    } else if(cmd == "hide" || (cmd == "toggle" && this->isVisible())) {
 
         if(variables->verbose)
             LOG << CURDATE << "remoteAction(): Hiding" << NL;
@@ -160,21 +253,21 @@ void MainHandler::remoteAction(QString cmd) {
             permanentSettings->trayiconChanged(1);
         }
         QMetaObject::invokeMethod(object, "closeAnyElement");
-        QMetaObject::invokeMethod(object, "hide");
+        this->hide();
 
     // Show the window again (after being hidden to system tray)
-    } else if(cmd.startsWith("show") || (cmd == "toggle" && !vis)) {
+    } else if(cmd.startsWith("show") || (cmd == "toggle" && !this->isVisible())) {
 
         if(variables->verbose)
             LOG << CURDATE << "remoteAction(): Showing" << NL;
 
         // The same code can be found at the end of main.cpp
-        if(!vis) {
+        if(!this->isVisible()) {
             StartupCheck::Screenshots::getAndStore(variables->verbose);
-            QMetaObject::invokeMethod(object, "setWindowFlags");
+            setupWindowProperties();
         }
 
-        QMetaObject::invokeMethod(object, "requestActivate");
+        this->requestActivate();
 
         QVariant curfile;
         QMetaObject::invokeMethod(object, "getCurrentFile", Q_RETURN_ARG(QVariant, curfile));
@@ -204,7 +297,7 @@ void MainHandler::manageStartupFilename(bool startInTray, QString filename) {
             permanentSettings->trayicon = 1;
             permanentSettings->trayiconChanged(1);
         }
-        QMetaObject::invokeMethod(object, "hideWindow");
+        this->hide();
     } else
         QMetaObject::invokeMethod(object, "manageStartup", Q_ARG(QVariant, filename), Q_ARG(QVariant, update));
 
@@ -233,7 +326,7 @@ void MainHandler::showTrayIcon() {
         QAction *trayAcQuit = new QAction(QIcon(":/img/logo.png"),tr("Quit PhotoQt"),this);
         trayIconMenu->addAction(trayAcQuit);
         connect(trayAcToggle, &QAction::triggered, this, &MainHandler::toggleWindow);
-        connect(trayAcQuit, &QAction::triggered, qApp, &QApplication::quit);
+        connect(trayAcQuit, &QAction::triggered, this, &MainHandler::forceWindowQuit);
 
         // Set the menu to the tray icon
         trayIcon->setContextMenu(trayIconMenu);
@@ -259,7 +352,10 @@ void MainHandler::trayAction(QSystemTrayIcon::ActivationReason reason) {
 // Toggle the window (called from tray icon)
 void MainHandler::toggleWindow() {
 
-    QMetaObject::invokeMethod(object, "toggleWindow");
+    if(!this->isVisible())
+        this->show();
+    else
+        this->hide();
 
 }
 
