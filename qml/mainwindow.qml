@@ -19,6 +19,7 @@ import PShortcutsHandler 1.0
 import "./mainview"
 import "./shortcuts"
 import "./openfile"
+import "./openfileold"
 import "./vars"
 import "./elements"
 
@@ -149,6 +150,9 @@ Rectangle {
 
     // A floating, movable element showing the histogram for the currently loaded image
     Loader { id: histogram }
+
+    // An element for browsing and opening files (loaded as needed)
+    Loader { id: openfileold }
 
     // An element for browsing and opening files (loaded as needed)
     Loader { id: openfile }

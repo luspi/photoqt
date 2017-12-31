@@ -3,21 +3,19 @@ import QtQuick.Controls 1.3
 import QtQuick.Controls.Styles 1.3
 
 import "../elements"
-import "handlestuff.js" as Handle
 
 Rectangle {
-
-    id: breadcrumbs_top
 
     anchors.left: parent.left
     anchors.top: parent.top
     anchors.right: parent.right
     height: 50
 
-    property int contextMenuCurrentIndex: -1
+    property int historypos: -1
+    property var history: []
+    property bool loadedFromHistory: false
 
-    property alias modelForCrumbs: crumbsmodel
-    property alias viewForCrumbs: crumbsview
+    property int contextMenuCurrentIndex: -1
 
     color: "#44000000"
 
@@ -44,7 +42,7 @@ Rectangle {
             anchors.bottom: parent.bottom
             width: 40
 
-            enabled: (openvariables.historypos > 0 && openvariables.history.length > 1)
+            enabled: (historypos > 0 && history.length > 1)
 
             text: "<"
             fontsize: 30
@@ -56,18 +54,18 @@ Rectangle {
             //: The history here is the list of past visited folders in the 'Open File' element
             tooltip: qsTr("Go backwards in history")
 
-            onClickedButton: Handle.goBackInHistory()
+            onClickedButton: goBackInHistory()
             onRightClickedButton: toleftcontext.popup()
 
             ContextMenu {
                 id: toleftcontext
                 MenuItem {
                     text: "Go backwards in history"
-                    onTriggered: Handle.goBackInHistory()
+                    onTriggered: goBackInHistory()
                 }
                 MenuItem {
                     text: "Go forwards in history"
-                    onTriggered: Handle.goForwardsInHistory()
+                    onTriggered: goForwardsInHistory()
                 }
 
             }
@@ -84,7 +82,7 @@ Rectangle {
             anchors.bottom: parent.bottom
             width: 40
 
-            enabled: (openvariables.historypos < openvariables.history.length-1 && openvariables.historypos > 0)
+            enabled: (historypos < history.length-1 && historypos > 0)
 
             text: ">"
             fontsize: 30
@@ -96,18 +94,18 @@ Rectangle {
             //: The history here is the list of past visited folders in the 'Open File' element
             tooltip: qsTr("Go forwards in history")
 
-            onClickedButton: Handle.goForwardsInHistory()
+            onClickedButton: goForwardsInHistory()
             onRightClickedButton: torightcontext.popup()
 
             ContextMenu {
                 id: torightcontext
                 MenuItem {
                     text: "Go backwards in history"
-                    onTriggered: Handle.goBackInHistory()
+                    onTriggered: goBackInHistory()
                 }
                 MenuItem {
                     text: "Go forwards in history"
-                    onTriggered: Handle.goForwardsInHistory()
+                    onTriggered: goForwardsInHistory()
                 }
 
             }
@@ -132,7 +130,7 @@ Rectangle {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             onClicked: openfile_top.hide()
-            text: qsTr("Close element")
+            text: qsTr("Close 'Open File' element")
         }
 
     }
@@ -194,19 +192,19 @@ Rectangle {
                 cursorShape: Qt.PointingHandCursor
                 onClicked: {
                     if(type == "folder")
-                        openvariables.currentDirectory = partialpath
+                        loadCurrentDirectory(partialpath)
                     else {
                         delegButton.clicked = true
                         contextmenu.clear()
                         var head = contextmenu.addItem("Go directly to subfolder of '" + getanddostuff.getDirectoryDirName(partialpath) + "'")
                         head.enabled = false
-                        var folders = getanddostuff.getFoldersIn(partialpath, false, settings.openShowHiddenFilesFolders)
+                        var folders = getanddostuff.getFoldersIn(partialpath, false, tweaks.getHiddenFolders())
                         for(var i = 0; i < folders.length; ++i) {
                             var item = contextmenu.addItem(folders[i])
                             item.triggered.connect(loadDir)
                         }
                         function loadDir() {
-                            openvariables.currentDirectory = partialpath + folders[contextMenuCurrentIndex-1]
+                            loadCurrentDirectory(partialpath + folders[contextMenuCurrentIndex-1])
                         }
                         contextmenu.parentIndex = index
                         contextmenu.__popup(Qt.rect(parent.x, parent.y, parent.width, parent.height))
@@ -230,6 +228,92 @@ Rectangle {
         on__CurrentIndexChanged: {
             if(__currentIndex != -1)
                 contextMenuCurrentIndex = __currentIndex
+        }
+    }
+
+
+    function loadDirectory(path) {
+
+        verboseMessage("BreadCrumbs::loadDirectory()",path)
+
+        // If current directory is not loaded from history -> adjust history
+        if(loadedFromHistory)
+            loadedFromHistory = false
+        else
+            addToHistory(path)
+
+        var parts = path.split("/")
+        var partialpath = ""
+
+        crumbsmodel.clear()
+
+        // On Windows, the root directory is the drive letter, not a seperator
+        if(path === "/" && !getanddostuff.amIOnWindows())
+            crumbsmodel.append({"type" : "separator", "location" : "/", "partialpath" : "/"})
+        else {
+            for(var i = 0; i < parts.length; ++i) {
+                if(parts[i] === "") continue;
+                if(parts[i] === "..") {
+                    var l = crumbsmodel.count
+                    crumbsmodel.remove(l-1)
+                    crumbsmodel.remove(l-2)
+                    partialpath += "/" + parts[i]
+                } else {
+                    // On Windows, the path starts with the drive letter, not a seperator
+                    if(!getanddostuff.amIOnWindows() || i != 0) {
+                        partialpath += "/"
+                        crumbsmodel.append({"type" : "separator", "location" : parts[i], "partialpath" : partialpath})
+                    }
+                    partialpath += parts[i]
+                    crumbsmodel.append({"type" : "folder", "location" : parts[i], "partialpath" : partialpath + "/"})
+                    // On Windows, if the path consists only of the drive letter, we add a slash behind (looks better)
+                    if(parts.length === 2 && getanddostuff.amIOnWindows()) {
+                        partialpath += "/"
+                        crumbsmodel.append({"type" : "separator", "location" : parts[i], "partialpath" : partialpath})
+                    }
+                }
+            }
+        }
+
+        if(crumbsmodel.count == 0)
+            crumbsmodel.append({"type" : "separator", "location" : "/", "partialpath" : "/"})
+
+        crumbsview.positionViewAtEnd()
+
+    }
+
+    // Add to history
+    function addToHistory(path) {
+
+        verboseMessage("BreadCrumbs::addToHistory()",path + " - " + historypos + " - " + history.length)
+
+        // If current position is not the end of history -> cut off end part
+        if(historypos != history.length-1)
+            history = history.slice(0,historypos+1);
+
+        // Add path
+        history.push(path)
+        ++historypos;
+
+    }
+
+    // Go back in history, if we're not already at the beginning
+    function goBackInHistory() {
+        verboseMessage("BreadCrumbs::goBackInHistory()",historypos + " - " + history.length)
+        if(historypos > 0) {
+            --historypos
+            loadedFromHistory = true
+            loadCurrentDirectory(history[historypos])
+        }
+    }
+
+    // Go forwards in history, if we're not already at the end
+    function goForwardsInHistory() {
+        verboseMessage("BreadCrumbs::goForwardsInHistory()",historypos + " - " + history.length)
+        if(historypos < history.length-1) {
+            ++historypos
+            loadedFromHistory = true
+            loadCurrentDirectory(history[historypos])
         }
     }
 

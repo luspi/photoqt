@@ -7,6 +7,7 @@ Item {
     // These signals are used to interact with loaded elements.
 
     signal openfileShow()
+    signal openfileoldShow()
 
     signal thumbnailsShow()
     signal thumbnailsHide()
@@ -51,6 +52,8 @@ Item {
 
         if(component == "openfile")
             openfileShow()
+        else if(component == "openfileold")
+                openfileoldShow()
         else if(component == "thumbnails")
             thumbnailsShow()
         else if(component == "settingsmanager")
@@ -125,7 +128,10 @@ Item {
 
 
         // We do this weird double if statement to be able to catch any faulty call at the end
-        if(component == "openfile") {
+        if(component == "openfileold") {
+            if(openfileold.status == Loader.Null)
+                openfileold.source = "openfileold/OpenFileOld.qml"
+        } else if(component == "openfile") {
             if(openfile.status == Loader.Null)
                 openfile.source = "openfile/OpenFile.qml"
         } else if(component == "thumbnails") {
