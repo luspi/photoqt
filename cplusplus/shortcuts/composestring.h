@@ -64,7 +64,7 @@ public:
             combostring += "F11";
         else if(e->key() == Qt::Key_F12)
             combostring += "F12";
-        else if(e->key() < 10000000)
+        else if(e->text().length() > 0)
             combostring += QKeySequence(e->key()).toString();
 
         return combostring;
