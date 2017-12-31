@@ -131,8 +131,10 @@ FadeInTemplate {
 
     Connections {
         target: call
-        onFilterShow:
+        onFilterShow: {
+            if(variables.currentFile == "") return
             showFilter()
+        }
         onShortcut: {
             if(!filter_top.visible) return
             if(sh == "Escape")

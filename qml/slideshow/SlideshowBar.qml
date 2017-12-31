@@ -91,8 +91,10 @@ Rectangle {
 
     Connections {
         target: call
-        onSlideshowStart:
+        onSlideshowStart: {
+            if(variables.currentFile == "") return
             startSlideshow()
+        }
         onSlideshowBarShow:
             showBar()
         onSlideshowBarHide:

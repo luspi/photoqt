@@ -329,11 +329,6 @@ FadeInTemplate {
 
         verboseMessage("Scale::showScale()",variables.currentFile)
 
-        if(variables.currentFile == "") {
-            hide()
-            return
-        }
-
         if(!getanddostuff.canBeScaled(variables.currentDir + "/" + variables.currentFile)) {
             call.show("scaleunsupported")
             hide()
@@ -351,8 +346,10 @@ FadeInTemplate {
 
     Connections {
         target: call
-        onScaleShow:
+        onScaleShow: {
+            if(variables.currentFile == "") return
             showScale()
+        }
         onShortcut: {
             if(!scale_top.visible) return
             if(sh == "Escape")

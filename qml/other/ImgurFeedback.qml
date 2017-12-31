@@ -454,10 +454,14 @@ Rectangle {
 
     Connections {
         target: call
-        onImgurfeedbackShow:
+        onImgurfeedbackShow: {
+            if(variables.currentFile == "") return
             show(false)
-        onImgurfeedbackAnonymShow:
+        }
+        onImgurfeedbackAnonymShow: {
+            if(variables.currentFile == "") return
             show(true)
+        }
         onShortcut: {
             if(!feedback_top.visible) return
             if(sh == "Escape")

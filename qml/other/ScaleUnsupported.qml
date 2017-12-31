@@ -49,8 +49,10 @@ FadeInTemplate {
 
     Connections {
         target: call
-        onScaleunsupportedShow:
+        onScaleunsupportedShow: {
+            if(variables.currentFile == "") return
             show()
+        }
         onShortcut: {
             if(!scaleUnsupported_top.visible) return
             if(sh == "Escape")

@@ -271,8 +271,10 @@ FadeInTemplate {
 
     Connections {
         target: call
-        onSlideshowSettingsShow:
+        onSlideshowSettingsShow: {
+            if(variables.currentFile == "") return
             showSlideshow()
+        }
         onShortcut: {
             if(!slideshow_top.visible) return
             if(sh == "Escape")
@@ -303,7 +305,6 @@ FadeInTemplate {
 
     function showSlideshow() {
         verboseMessage("Slideshow::showSlideshow()",variables.currentFile)
-        if(variables.currentFile == "") return;
         loadSettings()
         show()
     }
