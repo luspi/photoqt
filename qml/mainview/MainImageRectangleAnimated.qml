@@ -1,5 +1,4 @@
 import QtQuick 2.6
-import QtGraphicalEffects 1.0
 
 Item {
 
@@ -30,6 +29,9 @@ Item {
 
     // the source of the current image
     property string source: ""
+
+    opacity: variables.guiBlocked&&!variables.slideshowRunning ? 0.1 : 1
+    Behavior on opacity { NumberAnimation { duration: 200 } }
 
     property bool paused: false
 
@@ -116,13 +118,6 @@ Item {
             z: -1
         }
 
-    }
-
-    FastBlur {
-        visible: variables.guiBlocked&&!variables.slideshowRunning
-        anchors.fill: image
-        source: image
-        radius: variables.guiBlocked ? 64 : 0
     }
 
     // The pinch area makes the image manipulatable by a touch screen
