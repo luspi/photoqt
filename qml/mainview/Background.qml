@@ -66,6 +66,8 @@ Rectangle {
         wrapMode: Text.WordWrap
         font.bold: true
         text: qsTr("Open a file to begin")
+        opacity: variables.guiBlocked ? 0.2 : 1
+        Behavior on opacity { NumberAnimation { duration: 200 } }
 
     }
 
@@ -80,6 +82,8 @@ Rectangle {
         wrapMode: Text.WordWrap
         font.bold: true
         text: qsTr("Folter is now empty")
+        opacity: variables.guiBlocked ? 0.2 : 1
+        Behavior on opacity { NumberAnimation { duration: 200 } }
 
     }
 
@@ -94,6 +98,8 @@ Rectangle {
         wrapMode: Text.WordWrap
         font.bold: true
         text: qsTr("No image matches selected filter")
+        opacity: variables.guiBlocked ? 0.2 : 1
+        Behavior on opacity { NumberAnimation { duration: 200 } }
 
     }
 
