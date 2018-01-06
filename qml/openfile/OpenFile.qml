@@ -18,6 +18,12 @@ Rectangle {
     visible: (opacity!=0)
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
+    MouseArea {
+        anchors.fill: parent
+        acceptedButtons: Qt.LeftButton|Qt.RightButton
+        hoverEnabled: true
+    }
+
     OpenVariables { id: openvariables }
 
     // Bread crumb navigation
@@ -43,6 +49,9 @@ Rectangle {
 
         orientation: Qt.Horizontal
 
+        property int hoveringOver: -1
+        property var dragSource: undefined
+
         UserPlaces { id: userplaces }
 
         Folders { id: folders }
@@ -62,10 +71,6 @@ Rectangle {
 
     Tweaks { id: tweaks }
 
-    Component.onCompleted: {
-        Handle.loadDirectory()
-    }
-
     Connections {
         target: call
         onOpenfileShow:
@@ -74,11 +79,34 @@ Rectangle {
             if(!openfile_top.visible) return
             if(sh == "Escape")
                 hide()
+            else if(sh == "Alt+Left") {
+                if(openvariables.currentFocusOn == "userplaces")
+                    openvariables.currentFocusOn = "filesview"
+                else if(openvariables.currentFocusOn == "folders")
+                    openvariables.currentFocusOn = "userplaces"
+                else
+                    openvariables.currentFocusOn = "folders"
+            } else if(sh == "Alt+Right") {
+                if(openvariables.currentFocusOn == "userplaces")
+                    openvariables.currentFocusOn = "folders"
+                else if(openvariables.currentFocusOn == "folders")
+                    openvariables.currentFocusOn = "filesview"
+                else
+                    openvariables.currentFocusOn = "userplaces"
+            }
         }
+    }
+
+    Connections {
+        target: getanddostuff
+        onFolderUpdated:
+            Handle.loadDirectoryFolders()
     }
 
     function show() {
         opacity = 1
+        openvariables.history = []
+        openvariables.historypos = -1
         variables.guiBlocked = true
     }
     function hide() {

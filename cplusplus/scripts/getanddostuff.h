@@ -45,7 +45,7 @@ public:
         imageinfo = new GetAndDoStuffImageInfo;
 
         connect(manipulation, SIGNAL(reloadDirectory(QString,bool)), this, SIGNAL(reloadDirectory(QString,bool)));
-        connect(openfile, SIGNAL(userPlacesUpdated()), this, SIGNAL(userPlacesUpdated()));
+        connect(openfile, &GetAndDoStuffOpenFile::folderUpdated, this, &GetAndDoStuff::folderUpdated);
 
     }
 
@@ -130,12 +130,12 @@ public:
     Q_INVOKABLE QVariantList getFoldersIn(QString path, bool getDotDot = true, bool showHidden = false) { return this->openfile->getFoldersIn(path, getDotDot, showHidden); }
     Q_INVOKABLE QVariantList getFilesIn(QString path, QString filter = "") { return this->openfile->getFilesIn(path, filter); }
     Q_INVOKABLE QVariantList getFilesWithSizeIn(QString path, int selectionFileTypes, bool showHidden = false) { return this->openfile->getFilesWithSizeIn(path,selectionFileTypes, showHidden); }
-    Q_INVOKABLE void addToUserPlaces(QString path) { this->openfile->addToUserPlaces(path); }
     Q_INVOKABLE void saveUserPlaces(QVariantList enabled) { return this->openfile->saveUserPlaces(enabled); }
     Q_INVOKABLE QString getOpenFileLastLocation() {  return this->openfile->getOpenFileLastLocation(); }
     Q_INVOKABLE void setOpenFileLastLocation(QString path) { openfile->setOpenFileLastLocation(path); }
     Q_INVOKABLE void saveLastOpenedImage(QString path) { openfile->saveLastOpenedImage(path); }
     Q_INVOKABLE QString getDirectoryDirName(QString path) { return openfile->getDirectoryDirName(path); }
+    Q_INVOKABLE void setCurrentDirectoryForChecking(QString dir) { openfile->setCurrentDirectoryForChecking(dir); }
 
     // IMAGE INFO
     Q_INVOKABLE bool isImageAnimated(QString path) { return imageinfo->isImageAnimated(path); }
@@ -155,7 +155,7 @@ private:
 
 signals:
     void reloadDirectory(QString path, bool deleted = false);
-    void userPlacesUpdated();
+    void folderUpdated();
 
 };
 

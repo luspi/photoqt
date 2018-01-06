@@ -1,5 +1,7 @@
 import QtQuick 2.6
 
+import "handlestuff.js" as Handle
+
 Rectangle {
 
     anchors.left: parent.left

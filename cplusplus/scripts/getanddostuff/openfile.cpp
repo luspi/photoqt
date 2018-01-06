@@ -5,16 +5,23 @@ GetAndDoStuffOpenFile::GetAndDoStuffOpenFile(QObject *parent) : QObject(parent) 
 
     formats = new FileFormats;
 
-    watcher = new QFileSystemWatcher;
-    userPlacesFileDoesntExist = !QFile(QString(ConfigFiles::DATA_DIR()) + "/../user-places.xbel").exists();
-    recheckFile();
-    connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(updateUserPlaces()));
+    watcherFolders = new QFileSystemWatcher;
+    connect(watcherFolders, &QFileSystemWatcher::directoryChanged, this, &GetAndDoStuffOpenFile::recheckFileFolders);
 
     settings = new Settings;
 }
 GetAndDoStuffOpenFile::~GetAndDoStuffOpenFile() {
-    delete watcher;
+    delete watcherFolders;
     delete settings;
+}
+
+void GetAndDoStuffOpenFile::setCurrentDirectoryForChecking(QString dir) {
+    if(QDir(dir).exists())
+        watcherFolders->addPath(dir);
+}
+
+void GetAndDoStuffOpenFile::recheckFileFolders(QString) {
+    emit folderUpdated();
 }
 
 int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path, int selectionFileTypes) {
@@ -38,6 +45,59 @@ int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path, int selectionFil
 
 QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
 
+    QFile file(QString(ConfigFiles::DATA_DIR()) + "/../user-places.xbel");
+
+    if(!file.exists()) {
+        LOG << CURDATE << "GetAndDoStuffOpenFile: File ~/.local/share/user-places.xbel does not exist" << NL;
+        return QVariantList();
+    } else if(!file.open(QIODevice::ReadOnly)) {
+        LOG << CURDATE << "GetAndDoStuffOpenFile: Can't open ~/.local/share/user-places.xbel file" << NL;
+        return QVariantList();
+    }
+
+    QVariantList ret;
+
+    QTextStream in(&file);
+    QString all = in.readAll();
+    QStringList entries = all.split("<bookmark href=\"");
+    for(int i = 1; i < entries.length(); ++i) {
+
+        QString entry = entries.at(i);
+
+        QString path = "", name = "", icon = "", id = "", isSystemItem = "", isHidden = "false";
+
+        path = entry.split("\">").at(0);
+        if(path.contains("file://"))
+            path.remove(0,7);
+
+        if(entry.contains("<title>") && entry.contains("</title>"))
+            name = entry.split("<title>").at(1).split("</title>").at(0);
+        else
+            name = path;
+
+        if(entry.contains("<bookmark:icon name=\""))
+            icon = entry.split("<bookmark:icon name=\"").at(1).split("\"/>").at(0);
+        else
+            icon = "inode-directory";
+
+        if(entry.contains("<ID>"))
+            id = entry.split("<ID>").at(1).split("</ID>").at(0);
+
+        if(entry.contains("<IsHidden>"))
+            isHidden = entry.split("<IsHidden>").at(1).split("</IsHidden>").at(0);
+
+        if(entry.contains("<isSystemItem>"))
+            isSystemItem = entry.split("<isSystemItem>").at(1).split("</isSystemItem>").at(0);
+
+        QVariantList entrylist;
+        entrylist << name << path << icon << id << isHidden << isSystemItem;
+        ret.append(entrylist);
+
+    }
+
+    return ret;
+
+/*
     QVariantList sub_places;
     QVariantList sub_devices;
 
@@ -71,7 +131,7 @@ QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
             else if(location.startsWith("file://"))
                 location = location.remove(0,6);
 
-            QVariantList ele = QVariantList() << "user" << title << location << icon;
+            QVariantList ele = QVariantList() << title << location << icon;
 
             if(QDir(location).exists())
                 sub_places.append(ele);
@@ -82,32 +142,31 @@ QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
 
     }
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+//#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
 
-    for(auto storage : QStorageInfo::mountedVolumes()) {
-        if(storage.isValid()) {
+//    for(auto storage : QStorageInfo::mountedVolumes()) {
+//        if(storage.isValid()) {
 
-            qint64 size = storage.bytesTotal()/1024/1024/102.4;
+//            qint64 size = storage.bytesTotal()/1024/1024/102.4;
 
-            if(size > 0) {
+//            if(size > 0) {
 
-                QVariantList ele = QVariantList() << "volumes"
-                                                  << QString("%1 GB " + tr("Volume") + " (%2)")
-                                                     .arg(size/10.0)
-                                                     .arg(QString(storage.fileSystemType()))
-                                                  << storage.rootPath()
-                                                  << "drive-harddisk";
-                sub_devices.append(ele);
+//                QVariantList ele = QVariantList() << "volumes"
+//                                                  << QString("%1 GB " + tr("Volume") + " (%2)")
+//                                                     .arg(size/10.0)
+//                                                     .arg(QString(storage.fileSystemType()))
+//                                                  << storage.rootPath()
+//                                                  << "drive-harddisk";
+//                sub_devices.append(ele);
 
-            }
-        }
-    }
+//            }
+//        }
+//    }
 
-#endif
-
+//#endif
 
     return sub_places+sub_devices;
-
+*/
 }
 
 QVariantList GetAndDoStuffOpenFile::getFilesAndFoldersIn(QString path) {
@@ -251,104 +310,87 @@ QString GetAndDoStuffOpenFile::removePrefixFromDirectoryOrFile(QString path) {
 
 }
 
-void GetAndDoStuffOpenFile::addToUserPlaces(QString path) {
-
-    QFile file(QString(ConfigFiles::DATA_DIR()) + "/../user-places.xbel");
-    if(file.exists() && !file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        LOG << CURDATE << "GetAndDoStuffOpenFile: Can't open ~/.local/share/user-places.xbel file" << NL;
-        return;
-    }
-
-    QDomDocument doc;
-    if(file.exists())
-        doc.setContent(&file);
-    else
-        doc.setContent(QString("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<xbel xmlns:mime=\"http://www.freedesktop.org/standards/shared-mime-info\" xmlns:kdepriv=\"http://www.kde.org/kdepriv\" xmlns:bookmark=\"http://www.freedesktop.org/standards/desktop-bookmarks\">\n</xbel>\n"));
-
-    QDomElement root = doc.documentElement();
-
-    QDomElement bookmark = doc.createElement("bookmark");
-    bookmark.setAttribute("href","file://" + path);
-
-    QDomElement title = doc.createElement("title");
-    QDomText titleText = doc.createTextNode(QFileInfo(path).fileName());
-    title.appendChild(titleText);
-    bookmark.appendChild(title);
-
-    QDomElement info = doc.createElement("info");
-
-    QDomElement metadata = doc.createElement("metadata");
-    metadata.setAttribute("owner","http://freedesktop.org");
-
-    QDomElement icon = doc.createElement("bookmark:icon");
-    icon.setAttribute("name","inode-directory");
-
-    metadata.appendChild(icon);
-    info.appendChild(metadata);
-    bookmark.appendChild(info);
-
-    root.appendChild(bookmark);
-
-    file.close();
-
-    if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-        LOG << CURDATE << "GetAndDoStuffOpenFile: Can't open ~/.local/share/user-places.xbel file" << NL;
-        return;
-    }
-
-    QTextStream out(&file);
-    root.save(out,2);
-
-    file.close();
-
-}
-
 void GetAndDoStuffOpenFile::saveUserPlaces(QVariantList enabled) {
 
-    QDomDocument doc;
-    doc.setContent(QString("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<xbel xmlns:mime=\"http://www.freedesktop.org/standards/shared-mime-info\" xmlns:kdepriv=\"http://www.kde.org/kdepriv\" xmlns:bookmark=\"http://www.freedesktop.org/standards/desktop-bookmarks\">\n</xbel>\n"));
-
-    QDomElement root = doc.documentElement();
-
-    foreach(QVariant l, enabled) {
-        QVariantList cur = l.toList();
-        if(cur.length() == 4) {
-
-            QDomElement bookmark = doc.createElement("bookmark");
-            bookmark.setAttribute("href","file://" + cur.at(2).toString());
-
-            QDomElement title = doc.createElement("title");
-            QDomText titleText = doc.createTextNode(QFileInfo(cur.at(1).toString()).fileName());
-            title.appendChild(titleText);
-            bookmark.appendChild(title);
-
-            QDomElement info = doc.createElement("info");
-
-            QDomElement metadata = doc.createElement("metadata");
-            metadata.setAttribute("owner","http://freedesktop.org");
-
-            QDomElement icon = doc.createElement("bookmark:icon");
-            icon.setAttribute("name",cur.at(3).toString());
-
-            metadata.appendChild(icon);
-            info.appendChild(metadata);
-            bookmark.appendChild(info);
-
-            root.appendChild(bookmark);
-
-        }
-    }
-
     QFile file(QString(ConfigFiles::DATA_DIR()) + "/../user-places.xbel");
     if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
         LOG << CURDATE << "GetAndDoStuffOpenFile: Can't open ~/.local/share/user-places.xbel file" << NL;
         return;
     }
 
-    QTextStream out(&file);
-    root.save(out,2);
+    QXmlStreamWriter s(&file);
+    s.setAutoFormatting(true);
+    s.setAutoFormattingIndent(1);
+    s.writeStartDocument();
 
-    file.close();
+    s.writeStartElement("xbel");
+
+    s.writeAttribute("xmlns:kdepriv", "http://www.kde.org/kdepriv");
+    s.writeAttribute("xmlns:bookmark", "https://freedesktop.org/wiki/Specifications/desktop-bookmark-spec");
+    s.writeAttribute("xmlns:mime", "http://www.freedesktop.org/standards/shared-mime-info");
+
+    foreach(QVariant l, enabled) {
+
+        QVariantList cur = l.toList();
+
+        if(cur.length() != 6) continue;
+
+        // START bookmark
+        s.writeStartElement("bookmark");
+
+        s.writeAttribute("href", cur.at(1).toString());
+
+        // title
+        s.writeTextElement("title", cur.at(0).toString());
+
+        // START info
+        s.writeStartElement("info");
+
+
+        // START metadata
+        s.writeStartElement("metadata");
+
+        s.writeAttribute("owner", "http://freedesktop.org");
+
+        // START bookmark:icon
+        s.writeStartElement("bookmark:icon");
+
+        s.writeAttribute("name", cur.at(2).toString());
+
+        // END bookmark:icon
+        s.writeEndElement();
+
+        // END metadata
+        s.writeEndElement();
+
+
+        // START metadata
+        s.writeStartElement("metadata");
+
+        s.writeAttribute("owner", "http://www.kde.org");
+
+        if(cur.at(3).toString() != "")
+            s.writeTextElement("ID", cur.at(3).toString());
+        s.writeTextElement("IsHidden", cur.at(4).toString());
+        if(cur.at(5).toString() != "")
+            s.writeTextElement("isSystemItem", cur.at(5).toString());
+
+        // END metadata
+        s.writeEndElement();
+
+
+        // END info
+        s.writeEndElement();
+
+        // END bookmark
+        s.writeEndElement();
+
+    }
+
+    // xbel
+    s.writeEndElement();
+
+    s.writeEndDocument();
 
 }
 

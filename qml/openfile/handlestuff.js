@@ -1,10 +1,20 @@
 function loadDirectory() {
 
+    if(openvariables.currentDirectory == "") return
+
     // If current directory is not loaded from history -> adjust history
     if(openvariables.loadedFromHistory)
         openvariables.loadedFromHistory = false
     else
         addToHistory()
+
+    loadDirectoryBreadCrumbs()
+
+    loadDirectoryFolders()
+
+}
+
+function loadDirectoryBreadCrumbs() {
 
     /**********************************************************/
     // BREAD CRUMBS
@@ -50,16 +60,89 @@ function loadDirectory() {
 
 }
 
+function loadDirectoryFolders() {
+
+    /**********************************************************/
+    // FOLDERS
+    ///////////////
+
+    folders.folderlistview.model.clear()
+    openvariables.currentDirectoryFolders = getanddostuff.getFoldersIn(openvariables.currentDirectory, true, settings.openShowHiddenFilesFolders)
+
+    for(var j = 0; j < openvariables.currentDirectoryFolders.length; ++j)
+        folders.folderlistview.model.append({"folder" : openvariables.currentDirectoryFolders[j],
+                                             "path" : openvariables.currentDirectory+"/"+openvariables.currentDirectoryFolders[j],
+                                             "counter" : getanddostuff.getNumberFilesInFolder(openvariables.currentDirectory
+                                                                                              + "/"
+                                                                                              + openvariables.currentDirectoryFolders[j], 0), // tweaks.getFileTypeSelection()),
+                                             "icon" : "folder",
+                                             "id" : "",
+                                             "hidden" : "false",
+                                             "systemitem" : ""})
+
+}
+
+function loadUserPlaces() {
+
+    var up = getanddostuff.getUserPlaces()
+
+    openvariables.userPlacesSetUp = false
+
+    userplaces.userPlacesModel.clear()
+
+    // for the heading
+    userplaces.userPlacesModel.append({"folder" : "",
+                                       "path" : "",
+                                       "icon" : "",
+                                       "id" : "",
+                                       "hidden" : "",
+                                       "systemitem" : ""})
+
+    for(var i = 0; i < up.length; i+=6) {
+        console.log(up[i], up[i+1], up[i+4])
+        userplaces.userPlacesModel.append({"folder" : up[i],
+                                           "path" : up[i+1],
+                                           "icon" : up[i+2],
+                                           "id" : up[i+3],
+                                           "hidden" : up[i+4],
+                                           "systemitem" : up[i+5]})
+    }
+
+    openvariables.userPlacesSetUp = true
+
+}
+
+function saveUserPlaces() {
+
+    if(!openvariables.userPlacesSetUp) return
+
+    var ret = [[]]
+
+    for(var i = 1; i < userplaces.userPlacesModel.count; ++i) {
+        var path = userplaces.userPlacesModel.get(i).path
+        if(path[0] == "/")
+            path = "file://" + path
+        ret.push([userplaces.userPlacesModel.get(i).folder, path, userplaces.userPlacesModel.get(i).icon,
+                  userplaces.userPlacesModel.get(i).id, userplaces.userPlacesModel.get(i).hidden, userplaces.userPlacesModel.get(i).systemitem])
+    }
+
+    getanddostuff.saveUserPlaces(ret);
+
+}
+
 // Add to history
 function addToHistory() {
 
     verboseMessage("BreadCrumbs::addToHistory()", openvariables.currentDirectory + " - " + openvariables.historypos + " - " + openvariables.history.length)
 
+    // FIRST ITEM DOES NOT GET ADDED FOR SOME WEIRD REASON...???????!!
+
     // If current position is not the end of history -> cut off end part
-    if(openvariables.historypos != openvariables.history.length-1)
-        openvariables.history = openvariables.history.slice(0,openvariables.historypos+1);
+//    if(openvariables.historypos != openvariables.history.length-1)
+//        openvariables.history = openvariables.history.slice(0,openvariables.historypos+1);
 
     // Add path
+    console.log(openvariables.history[openvariables.history.length-1], "followed by", openvariables.currentDirectory)
     openvariables.history.push(openvariables.currentDirectory)
     ++openvariables.historypos;
 
@@ -71,7 +154,8 @@ function goBackInHistory() {
     if(openvariables.historypos > 0) {
         --openvariables.historypos
         openvariables.loadedFromHistory = true
-        openfile_top.currentDirectory = openvariables.history[openvariables.historypos]
+        openvariables.currentDirectory = openvariables.history[openvariables.historypos]
+        console.log("reverting to",openvariables.history[openvariables.historypos])
     }
 }
 
@@ -81,6 +165,6 @@ function goForwardsInHistory() {
     if(openvariables.historypos < openvariables.history.length-1) {
         ++openvariables.historypos
         openvariables.loadedFromHistory = true
-        openfile_top.currentDirectory = openvariables.history[openvariables.historypos]
+        openvariables.currentDirectory = openvariables.history[openvariables.historypos]
     }
 }

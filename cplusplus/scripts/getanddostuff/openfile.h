@@ -22,7 +22,7 @@
 #include <QFile>
 #include <QIcon>
 #include <QtDebug>
-#include <QtXml/QDomDocument>
+#include <QXmlStreamWriter>
 #include <QUrl>
 #include <thread>
 #include "../../logger.h"
@@ -49,37 +49,24 @@ public:
     QVariantList getFilesWithSizeIn(QString path, int selectionFileTypes, bool showHidden = false);
     bool isFolder(QString path);
     QString removePrefixFromDirectoryOrFile(QString path);
-    void addToUserPlaces(QString path);
     void saveUserPlaces(QVariantList enabled);
     QString getOpenFileLastLocation();
     void setOpenFileLastLocation(QString path);
     void saveLastOpenedImage(QString path);
     QString getDirectoryDirName(QString path);
 
+    void setCurrentDirectoryForChecking(QString dir);
+
 signals:
-    void userPlacesUpdated();
+    void folderUpdated();
 
 private:
     FileFormats *formats;
-    QFileSystemWatcher *watcher;
-    bool userPlacesFileDoesntExist;
+    QFileSystemWatcher *watcherFolders;
     Settings *settings;
 
 private slots:
-    void updateUserPlaces() {
-        emit userPlacesUpdated();
-        recheckFile();
-    }
-    void recheckFile() {
-        if(QFile(QString(ConfigFiles::DATA_DIR()) + "/../user-places.xbel").exists()) {
-            watcher->addPath(QString(ConfigFiles::DATA_DIR()) + "/../user-places.xbel");
-            if(userPlacesFileDoesntExist) {
-                userPlacesFileDoesntExist = true;
-                emit userPlacesUpdated();
-            }
-        } else
-            QTimer::singleShot(1000,this,SLOT(recheckFile()));
-    }
+    void recheckFileFolders(QString);
 
 };
 
