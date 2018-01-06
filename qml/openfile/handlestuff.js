@@ -98,15 +98,13 @@ function loadUserPlaces() {
                                        "hidden" : "",
                                        "systemitem" : ""})
 
-    for(var i = 0; i < up.length; i+=6) {
-        console.log(up[i], up[i+1], up[i+4])
+    for(var i = 0; i < up.length; i+=6)
         userplaces.userPlacesModel.append({"folder" : up[i],
                                            "path" : up[i+1],
                                            "icon" : up[i+2],
                                            "id" : up[i+3],
                                            "hidden" : up[i+4],
                                            "systemitem" : up[i+5]})
-    }
 
     openvariables.userPlacesSetUp = true
 

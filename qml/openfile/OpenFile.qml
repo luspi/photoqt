@@ -101,6 +101,8 @@ Rectangle {
         target: watcher
         onFolderUpdated:
             Handle.loadDirectoryFolders()
+        onUserPlacesUpdated:
+            Handle.loadUserPlaces()
     }
 
     function show() {

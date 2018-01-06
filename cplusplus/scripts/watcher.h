@@ -2,6 +2,7 @@
 #define WATCHER_H
 
 #include <QFileSystemWatcher>
+#include "../configfiles.h"
 
 class Watcher : public QObject {
 
@@ -13,6 +14,10 @@ public:
         watcherFolders = new QFileSystemWatcher;
         connect(watcherFolders, &QFileSystemWatcher::directoryChanged, this, &Watcher::directoryChanged);
 
+        watcherUserPlaces = new QFileSystemWatcher;
+        connect(watcherUserPlaces, &QFileSystemWatcher::fileChanged, this, &Watcher::userPlacesChanged);
+        watcherUserPlaces->addPath(ConfigFiles::DATA_DIR() + "/../user-places.xbel");
+
     }
 
     Q_INVOKABLE void setCurrentDirectoryForChecking(QString dir) {
@@ -21,17 +26,24 @@ public:
     }
     ~Watcher() {
         delete watcherFolders;
+        delete watcherUserPlaces;
     }
 
 signals:
     void folderUpdated();
+    void userPlacesUpdated();
 
 private:
     QFileSystemWatcher *watcherFolders;
+    QFileSystemWatcher *watcherUserPlaces;
 
 private slots:
     void directoryChanged(QString) {
         emit folderUpdated();
+    }
+    void userPlacesChanged(QString) {
+        emit userPlacesUpdated();
+        watcherUserPlaces->addPath(ConfigFiles::DATA_DIR() + "/../user-places.xbel");
     }
 
 };

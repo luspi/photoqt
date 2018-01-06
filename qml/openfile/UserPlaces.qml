@@ -165,7 +165,7 @@ Rectangle {
             id: userPlacesDelegate
             width: userPlaces.width
             height: visible?30:0
-            visible: ((path.substring(0,1)=="/"&&hidden=="false")||index==0)
+            visible: ((path!=undefined&&path.substring(0,1)=="/"&&hidden=="false")||index==0)
 
             Rectangle {
                 width: userPlaces.width
