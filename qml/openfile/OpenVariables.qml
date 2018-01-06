@@ -17,6 +17,4 @@ Item {
 
     property var currentDirectoryFolders: []
 
-    property bool userPlacesSetUp: false
-
 }

@@ -86,8 +86,6 @@ function loadUserPlaces() {
 
     var up = getanddostuff.getUserPlaces()
 
-    openvariables.userPlacesSetUp = false
-
     userplaces.userPlacesModel.clear()
 
     // for the heading
@@ -105,14 +103,9 @@ function loadUserPlaces() {
                                            "id" : up[i+3],
                                            "hidden" : up[i+4],
                                            "systemitem" : up[i+5]})
-
-    openvariables.userPlacesSetUp = true
-
 }
 
 function saveUserPlaces() {
-
-    if(!openvariables.userPlacesSetUp) return
 
     var ret = [[]]
 
