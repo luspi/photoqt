@@ -15,6 +15,7 @@ import PClipboard 1.0
 import PShortcutsNotifier 1.0
 import PThumbnailManagement 1.0
 import PShortcutsHandler 1.0
+import PWatcher 1.0
 
 import "./mainview"
 import "./shortcuts"
@@ -80,6 +81,8 @@ Rectangle {
 
     // Load the shortcuts from file and provide some shortcut related convenience functions
     PShortcutsHandler { id: shortcutshandler }
+
+    PWatcher { id: watcher }
 
     //////////////////////////////////////////////
     // THE TOOLTIP HAS A SPECIAL ROLE: IT'S NOT //

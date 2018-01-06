@@ -45,7 +45,6 @@ public:
         imageinfo = new GetAndDoStuffImageInfo;
 
         connect(manipulation, SIGNAL(reloadDirectory(QString,bool)), this, SIGNAL(reloadDirectory(QString,bool)));
-        connect(openfile, &GetAndDoStuffOpenFile::folderUpdated, this, &GetAndDoStuff::folderUpdated);
 
     }
 
@@ -135,7 +134,6 @@ public:
     Q_INVOKABLE void setOpenFileLastLocation(QString path) { openfile->setOpenFileLastLocation(path); }
     Q_INVOKABLE void saveLastOpenedImage(QString path) { openfile->saveLastOpenedImage(path); }
     Q_INVOKABLE QString getDirectoryDirName(QString path) { return openfile->getDirectoryDirName(path); }
-    Q_INVOKABLE void setCurrentDirectoryForChecking(QString dir) { openfile->setCurrentDirectoryForChecking(dir); }
 
     // IMAGE INFO
     Q_INVOKABLE bool isImageAnimated(QString path) { return imageinfo->isImageAnimated(path); }
@@ -155,7 +153,6 @@ private:
 
 signals:
     void reloadDirectory(QString path, bool deleted = false);
-    void folderUpdated();
 
 };
 

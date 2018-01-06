@@ -6,7 +6,7 @@ Item {
     property string currentDirectory: settings.openKeepLastLocation ? getanddostuff.getOpenFileLastLocation() : getanddostuff.getHomeDir()
     onCurrentDirectoryChanged: {
         Handle.loadDirectory()
-        getanddostuff.setCurrentDirectoryForChecking(currentDirectory)
+        watcher.setCurrentDirectoryForChecking(currentDirectory)
     }
 
     property string currentFocusOn: "folders"

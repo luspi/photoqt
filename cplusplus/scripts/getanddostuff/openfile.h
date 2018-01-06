@@ -55,18 +55,9 @@ public:
     void saveLastOpenedImage(QString path);
     QString getDirectoryDirName(QString path);
 
-    void setCurrentDirectoryForChecking(QString dir);
-
-signals:
-    void folderUpdated();
-
 private:
     FileFormats *formats;
-    QFileSystemWatcher *watcherFolders;
     Settings *settings;
-
-private slots:
-    void recheckFileFolders(QString);
 
 };
 

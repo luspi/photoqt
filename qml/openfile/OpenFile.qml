@@ -98,7 +98,7 @@ Rectangle {
     }
 
     Connections {
-        target: getanddostuff
+        target: watcher
         onFolderUpdated:
             Handle.loadDirectoryFolders()
     }

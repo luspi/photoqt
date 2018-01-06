@@ -5,23 +5,10 @@ GetAndDoStuffOpenFile::GetAndDoStuffOpenFile(QObject *parent) : QObject(parent) 
 
     formats = new FileFormats;
 
-    watcherFolders = new QFileSystemWatcher;
-    connect(watcherFolders, &QFileSystemWatcher::directoryChanged, this, &GetAndDoStuffOpenFile::recheckFileFolders);
-
     settings = new Settings;
 }
 GetAndDoStuffOpenFile::~GetAndDoStuffOpenFile() {
-    delete watcherFolders;
     delete settings;
-}
-
-void GetAndDoStuffOpenFile::setCurrentDirectoryForChecking(QString dir) {
-    if(QDir(dir).exists())
-        watcherFolders->addPath(dir);
-}
-
-void GetAndDoStuffOpenFile::recheckFileFolders(QString) {
-    emit folderUpdated();
 }
 
 int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path, int selectionFileTypes) {

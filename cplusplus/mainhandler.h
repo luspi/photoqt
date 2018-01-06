@@ -23,6 +23,7 @@
 #include "shortcuts/shortcuts.h"
 #include "scripts/filedialog.h"
 #include "shortcuts/composestring.h"
+#include "scripts/watcher.h"
 
 #include "imageprovider/imageproviderempty.h"
 #include "imageprovider/imageproviderfull.h"

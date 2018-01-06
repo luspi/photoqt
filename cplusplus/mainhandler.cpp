@@ -99,6 +99,7 @@ void MainHandler::registerQmlTypes() {
     qmlRegisterType<ThumbnailManagement>("PThumbnailManagement", 1, 0, "PThumbnailManagement");
     qmlRegisterType<Shortcuts>("PShortcutsHandler", 1, 0, "PShortcutsHandler");
     qmlRegisterType<FileDialog>("PFileDialog", 1, 0, "PFileDialog");
+    qmlRegisterType<Watcher>("PWatcher", 1, 0, "PWatcher");
 }
 
 // Add image providers to QML
