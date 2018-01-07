@@ -121,6 +121,28 @@ function saveUserPlaces() {
 
 }
 
+function loadStorageInfo() {
+
+    var s = getanddostuff.getStorageInfo()
+
+    for(var i = 0; i < s.length; i+=4) {
+        var name = s[i]
+        var size = Math.round(s[i+1]/1024/1024/1024 +1);
+        var filesystemtype = s[i+2]
+        var path = s[i+3]
+
+        if(name == "")
+            name = ""+size+" GB device"
+        name += " (" + filesystemtype + ")"
+
+        userplaces.storageInfoModel.append({"name" : name,
+                                            "location" : path,
+                                            "icon" : "drive-harddisk"})
+
+    }
+
+}
+
 // Add to history
 function addToHistory() {
 

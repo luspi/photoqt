@@ -16,6 +16,7 @@ Rectangle {
     property int marginBetweenCategories: 20
 
     property alias userPlacesModel: userPlaces.model
+    property alias storageInfoModel: storageinfo.model
 
     clip: true
 
@@ -120,11 +121,13 @@ Rectangle {
         anchors.top: standardlocations.bottom
         anchors.topMargin: marginBetweenCategories
         width: parent.width
-        height: parent.height-standardlocations.height-marginBetweenCategories
+        height: parent.height-standardlocations.height-storageinfo.height-4*marginBetweenCategories
         anchors.right: parent.right
 
         property int hoveredIndex: -1
         property int dragItemIndex: -1
+
+        clip: true
 
         DropArea {
             id: dropArea
@@ -275,11 +278,76 @@ Rectangle {
 
             Rectangle {
                 width: userPlaces.width
-                y: parent.height-1
+                anchors.top: dragRect.bottom
                 height: 1
                 opacity: (splitview.hoveringOver==index&&index>0)||(splitview.hoveringOver==index+1&&index==userPlaces.model.count-1)
                 visible: opacity!=0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
+            }
+
+        }
+    }
+
+    ListView {
+        id: storageinfo
+        anchors.top: userPlaces.bottom
+        width: parent.width
+        height: settings.openUserPlacesStandard ? childrenRect.height : 0
+
+        visible: settings.openUserPlacesStandard
+        interactive: false
+
+        property int hoveredIndex: -1
+
+        model: ListModel {
+            Component.onCompleted: {
+                Handle.loadStorageInfo()
+            }
+        }
+
+        delegate: Item {
+
+            width: storageinfo.width
+            height: 30
+
+            Rectangle {
+                width: storageinfo.width
+                height: 30
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+                color: storageinfo.hoveredIndex==index&&index>0 ? "#88999999" : index%2==0 ? "#88000000" : "#44000000"
+
+                Item {
+                    id: iconitemstorage
+                    width: parent.height
+                    height: width
+                    Image {
+                        source: "image://icon/" + icon
+                        anchors.fill: parent
+                        anchors.margins: 5
+                        visible: index>0
+                    }
+
+                }
+
+                Text {
+                    anchors.fill: parent
+                    anchors.leftMargin: iconitemstorage.width
+                    verticalAlignment: Qt.AlignVCenter
+                    text: index==0 ? "Storage devices" : name
+                    color: index==0 ? "grey" : "white"
+                    font.bold: index==0
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onEntered: storageinfo.hoveredIndex = index
+                    onExited: storageinfo.hoveredIndex = -1
+                    cursorShape: index>0 ? Qt.PointingHandCursor : Qt.ArrowCursor
+                    onClicked: openvariables.currentDirectory = location
+                }
+
             }
 
         }

@@ -84,76 +84,33 @@ QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
 
     return ret;
 
-/*
-    QVariantList sub_places;
-    QVariantList sub_devices;
+}
 
-    QFile file(QString(ConfigFiles::DATA_DIR()) + "/../user-places.xbel");
-    if(file.exists() && !file.open(QIODevice::ReadOnly)) {
-        LOG << CURDATE << "GetAndDoStuffOpenFile: Can't open ~/.local/share/user-places.xbel file" << NL;
-        return QVariantList();
-    } else if(file.exists()) {
+QVariantList GetAndDoStuffOpenFile::getStorageInfo() {
 
-        QDomDocument doc;
-        doc.setContent(&file);
+    QVariantList ret;
 
-        QDomNodeList bookmarks = doc.elementsByTagName("bookmark");
-        for(int i = 0; i < bookmarks.size(); i++) {
-            QDomNode n = bookmarks.item(i);
+    foreach(QStorageInfo s, QStorageInfo::mountedVolumes()) {
+        if(s.isValid()) {
 
-            QString icon = "";
-            QString location = n.attributes().namedItem("href").nodeValue();
-            QString title = n.firstChildElement("title").text();
+            qint64 size = s.bytesTotal()/1024/1024/102.4;
 
-            QDomNodeList info = n.firstChildElement("info").childNodes();
-            for(int j = 0; j < info.size(); ++j) {
-                QDomNode ele_icon = info.item(j).firstChildElement("bookmark:icon");
-                if(ele_icon.isNull())
-                    continue;
-                icon = ele_icon.attributes().namedItem("name").nodeValue();
+            if(size > 0) {
+
+                QVariantList vol;
+                vol << s.name()
+                    << s.bytesTotal()
+                    << s.fileSystemType()
+                    << s.rootPath();
+
+                ret.append(vol);
+
             }
-
-            if(location.startsWith("file:///"))
-                location = location.remove(0,7);
-            else if(location.startsWith("file://"))
-                location = location.remove(0,6);
-
-            QVariantList ele = QVariantList() << title << location << icon;
-
-            if(QDir(location).exists())
-                sub_places.append(ele);
-
         }
-
-        file.close();
-
     }
 
-//#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+    return ret;
 
-//    for(auto storage : QStorageInfo::mountedVolumes()) {
-//        if(storage.isValid()) {
-
-//            qint64 size = storage.bytesTotal()/1024/1024/102.4;
-
-//            if(size > 0) {
-
-//                QVariantList ele = QVariantList() << "volumes"
-//                                                  << QString("%1 GB " + tr("Volume") + " (%2)")
-//                                                     .arg(size/10.0)
-//                                                     .arg(QString(storage.fileSystemType()))
-//                                                  << storage.rootPath()
-//                                                  << "drive-harddisk";
-//                sub_devices.append(ele);
-
-//            }
-//        }
-//    }
-
-//#endif
-
-    return sub_places+sub_devices;
-*/
 }
 
 QVariantList GetAndDoStuffOpenFile::getFilesAndFoldersIn(QString path) {

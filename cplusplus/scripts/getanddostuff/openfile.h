@@ -43,6 +43,7 @@ public:
 
     int getNumberFilesInFolder(QString path, int selectionFileTypes);
     QVariantList getUserPlaces();
+    QVariantList getStorageInfo();
     QVariantList getFilesAndFoldersIn(QString path);
     QVariantList getFoldersIn(QString path, bool getDotDot = true, bool showHidden = false);
     QVariantList getFilesIn(QString path, QString filter = "");

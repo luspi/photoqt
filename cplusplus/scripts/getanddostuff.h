@@ -123,6 +123,7 @@ public:
     // OPENFILE
     Q_INVOKABLE int getNumberFilesInFolder(QString path, int selectionFileTypes) { return this->openfile->getNumberFilesInFolder(path, selectionFileTypes); }
     Q_INVOKABLE QVariantList getUserPlaces() { return this->openfile->getUserPlaces(); }
+    Q_INVOKABLE QVariantList getStorageInfo() { return this->openfile->getStorageInfo(); }
     Q_INVOKABLE QVariantList getFilesAndFoldersIn(QString path) { return this->openfile->getFilesAndFoldersIn(path); }
     Q_INVOKABLE bool isFolder(QString path) { return this->openfile->isFolder(path); }
     Q_INVOKABLE QString removePrefixFromDirectoryOrFile(QString path) { return this->openfile->removePrefixFromDirectoryOrFile(path); }
