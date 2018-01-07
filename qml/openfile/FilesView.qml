@@ -12,6 +12,7 @@ Rectangle {
     color: (openvariables.currentFocusOn=="filesview") ? "#44000055" : "#44000000"
 
     property alias filesViewModel: gridview.model
+    property alias filesView: gridview
 
     GridView {
 
@@ -47,8 +48,16 @@ Rectangle {
             source: ""
             Connections {
                 target: gridview
-                onCurrentIndexChanged:
-                    bgthumb.source = "image://" + (settings.openThumbnailsHighQuality ? "full" : "thumb") + "/" + openvariables.currentDirectory + "/" + gridview.model.get(gridview.currentIndex).filename
+                onCurrentIndexChanged: {
+                    var f = ""
+                    if(gridview.model.get(gridview.currentIndex) == undefined)
+                        f = ""
+                    else {
+                        f = gridview.model.get(gridview.currentIndex).filename
+                        if(f == undefined) fn = ""
+                    }
+                    bgthumb.source = "image://" + (settings.openThumbnailsHighQuality ? "full" : "thumb") + "/" + openvariables.currentDirectory + "/" + f
+                }
             }
         }
 
