@@ -144,8 +144,10 @@ Rectangle {
                     Handle.saveUserPlaces()
                 } else {
                     if(newindex < 0) newindex = userPlaces.model.count-1
-                    userPlaces.model.move(userPlaces.dragItemIndex, newindex, 1)
-                    Handle.saveUserPlaces()
+                    if(userPlaces.dragItemIndex != newindex) {
+                        userPlaces.model.move(userPlaces.dragItemIndex, newindex, 1)
+                        Handle.saveUserPlaces()
+                    }
                 }
                 folders.folderlistview.dragItemIndex = -1
                 splitview.hoveringOver = -1
