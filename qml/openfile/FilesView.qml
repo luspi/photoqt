@@ -20,8 +20,8 @@ Rectangle {
 
         anchors.fill: parent
 
-        cellWidth: settings.openDefaultView=="icons" ? settings.openZoomLevelSet*20 : width
-        cellHeight: settings.openDefaultView=="icons" ? settings.openZoomLevelSet*20 : settings.openZoomLevelSet*5
+        cellWidth: settings.openDefaultView=="icons" ? settings.openZoomLevel*4 : width
+        cellHeight: settings.openDefaultView=="icons" ? settings.openZoomLevel*4 : settings.openZoomLevel
         Behavior on cellWidth { NumberAnimation { duration: 200 } }
         Behavior on cellHeight { NumberAnimation { duration: 100 } }
 
@@ -41,7 +41,7 @@ Rectangle {
         Image {
             id: bgthumb
             anchors.fill: parent
-            opacity: settings.openPreview ? 0.3 : 0
+            opacity: settings.openPreview ? 0.8 : 0
             visible: (opacity != 0)
             Behavior on opacity { NumberAnimation { duration: 200 } }
             asynchronous: true
@@ -113,7 +113,7 @@ Rectangle {
                 text: filename
                 color: "white"
                 font.bold: true
-                font.pixelSize: settings.openZoomLevelSet*3
+                font.pixelSize: settings.openZoomLevel/2
             }
 
             Rectangle {
@@ -134,7 +134,7 @@ Rectangle {
                     text: filename
                     color: "white"
                     font.bold: true
-                    font.pixelSize: settings.openZoomLevelSet*2.5
+                    font.pixelSize: settings.openZoomLevel/2
                 }
             }
 
@@ -154,7 +154,7 @@ Rectangle {
                 text: filesize
                 color: "white"
                 font.bold: true
-                font.pixelSize: settings.openZoomLevelSet*3
+                font.pixelSize: settings.openZoomLevel/2
             }
 
             ToolTip {
