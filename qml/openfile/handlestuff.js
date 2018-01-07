@@ -86,7 +86,7 @@ function loadDirectoryFolders() {
 
 function loadDirectoryFiles() {
 
-    openvariables.currentDirectoryFiles = getanddostuff.getFilesWithSizeIn(openvariables.currentDirectory, openvariables.filesFileTypeSelection, settings.openShowHiddenFilesFolders)
+    openvariables.currentDirectoryFiles = getanddostuff.getFilesWithSizeIn(openvariables.currentDirectory, openvariables.filesFileTypeSelection, settings.openShowHiddenFilesFolders, settings.sortby, settings.sortbyAscending)
 
     filesview.filesViewModel.clear()
     filesview.filesView.contentY = 0

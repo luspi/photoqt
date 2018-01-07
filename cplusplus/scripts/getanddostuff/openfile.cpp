@@ -2,13 +2,10 @@
 #include "../../handlefiles/loaddir.h"
 
 GetAndDoStuffOpenFile::GetAndDoStuffOpenFile(QObject *parent) : QObject(parent) {
-
     formats = new FileFormats;
-
-    settings = new Settings;
 }
 GetAndDoStuffOpenFile::~GetAndDoStuffOpenFile() {
-    delete settings;
+    delete formats;
 }
 
 int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path, int selectionFileTypes) {
@@ -148,7 +145,7 @@ QVariantList GetAndDoStuffOpenFile::getFoldersIn(QString path, bool getDotDot, b
 
 }
 
-QVariantList GetAndDoStuffOpenFile::getFilesIn(QString file, QString filter) {
+QVariantList GetAndDoStuffOpenFile::getFilesIn(QString file, QString filter, QString sortby, bool sortbyAscending) {
 
     if(file.startsWith("file:/"))
         file = file.remove(0,6);
@@ -163,20 +160,14 @@ QVariantList GetAndDoStuffOpenFile::getFilesIn(QString file, QString filter) {
         list.append(QFileInfo(file));
 
     // Sort images...
-    bool asc = settings->sortbyAscending;
-    QString sortby = settings->sortby;
-    if(sortby == "name") {
-        std::sort(list.begin(),list.end(),(asc ? LoadDir::sort_name : LoadDir::sort_name_desc));
-    }
-    if(sortby == "naturalname") {
-        std::sort(list.begin(),list.end(),(asc ? LoadDir::sort_naturalname : LoadDir::sort_naturalname_desc));
-    }
-    if(sortby == "date") {
-        std::sort(list.begin(),list.end(),(asc ? LoadDir::sort_date : LoadDir::sort_date_desc));
-    }
-    if(sortby == "size") {
-        std::sort(list.begin(),list.end(),(asc ? LoadDir::sort_size : LoadDir::sort_size_desc));
-    }
+    if(sortby == "name")
+        std::sort(list.begin(),list.end(),(sortbyAscending ? LoadDir::sort_name : LoadDir::sort_name_desc));
+    if(sortby == "naturalname")
+        std::sort(list.begin(),list.end(),(sortbyAscending ? LoadDir::sort_naturalname : LoadDir::sort_naturalname_desc));
+    if(sortby == "date")
+        std::sort(list.begin(),list.end(),(sortbyAscending ? LoadDir::sort_date : LoadDir::sort_date_desc));
+    if(sortby == "size")
+        std::sort(list.begin(),list.end(),(sortbyAscending ? LoadDir::sort_size : LoadDir::sort_size_desc));
 
     QVariantList ret;
     if(filter.startsWith("."))
@@ -198,7 +189,7 @@ QVariantList GetAndDoStuffOpenFile::getFilesIn(QString file, QString filter) {
 
 }
 
-QVariantList GetAndDoStuffOpenFile::getFilesWithSizeIn(QString path, int selectionFileTypes, bool showHidden) {
+QVariantList GetAndDoStuffOpenFile::getFilesWithSizeIn(QString path, int selectionFileTypes, bool showHidden, QString sortby, bool sortbyAscending) {
 
     if(path.startsWith("file:/"))
         path = path.remove(0,6);
@@ -224,20 +215,14 @@ QVariantList GetAndDoStuffOpenFile::getFilesWithSizeIn(QString path, int selecti
     QFileInfoList list = dir.entryInfoList();
 
     // Sort images...
-    bool asc = settings->sortbyAscending;
-    QString sortby = settings->sortby;
-    if(sortby == "name") {
-        std::sort(list.begin(),list.end(),(asc ? LoadDir::sort_name : LoadDir::sort_name_desc));
-    }
-    if(sortby == "naturalname") {
-        std::sort(list.begin(),list.end(),(asc ? LoadDir::sort_naturalname : LoadDir::sort_naturalname_desc));
-    }
-    if(sortby == "date") {
-        std::sort(list.begin(),list.end(),(asc ? LoadDir::sort_date : LoadDir::sort_date_desc));
-    }
-    if(sortby == "size") {
-        std::sort(list.begin(),list.end(),(asc ? LoadDir::sort_size : LoadDir::sort_size_desc));
-    }
+    if(sortby == "name")
+        std::sort(list.begin(),list.end(),(sortbyAscending ? LoadDir::sort_name : LoadDir::sort_name_desc));
+    if(sortby == "naturalname")
+        std::sort(list.begin(),list.end(),(sortbyAscending ? LoadDir::sort_naturalname : LoadDir::sort_naturalname_desc));
+    if(sortby == "date")
+        std::sort(list.begin(),list.end(),(sortbyAscending ? LoadDir::sort_date : LoadDir::sort_date_desc));
+    if(sortby == "size")
+        std::sort(list.begin(),list.end(),(sortbyAscending ? LoadDir::sort_size : LoadDir::sort_size_desc));
 
     QVariantList ret;
     foreach(QFileInfo l, list) {
