@@ -87,7 +87,7 @@ Rectangle {
             width: gridview.cellWidth
             height: gridview.cellHeight-(settings.openDefaultView=="list" ? 2 : 0)
 
-            color: index%2==0 ? "#22ffffff" : "#11ffffff"
+            color: "#44000000"
 
             Image {
                 id: thumb
@@ -185,7 +185,7 @@ Rectangle {
             width: gridview.cellWidth
             height: gridview.cellHeight
 
-            color: "#5d5d5d"
+            color: "#88ffffff"
 
         }
     }
