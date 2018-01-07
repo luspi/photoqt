@@ -89,11 +89,21 @@ Rectangle {
                 y: 3
                 height: settings.openDefaultView=="list" ? parent.height-6 : 2*parent.height/3 -6
                 width: settings.openDefaultView=="list" ? parent.height-6 : parent.width-6
-                source: (filename!=undefined&&settings.openThumbnails)
-                        ? ("image://thumb/" + openvariables.currentDirectory + "/" + filename)
-                        : "image://icon/image-" + getanddostuff.getSuffix(openvariables.currentDirectory + "/" + filename)
+                source: openfile_top.visible
+                        ? (filename!=undefined&&settings.openThumbnails)
+                          ? ("image://thumb/" + openvariables.currentDirectory + "/" + filename)
+                          : "image://icon/image-" + getanddostuff.getSuffix(openvariables.currentDirectory + "/" + filename)
+                        : ""
                 asynchronous: true
                 fillMode: Image.PreserveAspectFit
+                Image {
+                    anchors.fill: parent
+                    visible: thumb.status!=Image.Ready
+                    fillMode: Image.PreserveAspectFit
+                    source: openfile_top.visible
+                             ? "image://icon/image-" + getanddostuff.getSuffix(openvariables.currentDirectory + "/" + filename)
+                             : ""
+                }
             }
 
             Text {
