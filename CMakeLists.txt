@@ -61,7 +61,7 @@ option(QTONLY "ONLY USE QT-ONLY FEATURES" OFF)
 #### FIND REQUIRED PACKAGES ####
 ################################
 
-find_package(Qt5 COMPONENTS Core Quick Svg Sql Xml REQUIRED)
+find_package(Qt5 COMPONENTS Core Quick Svg Sql Xml LinguistTools REQUIRED)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
 find_package(Magick)
 find_package(Exiv2)
@@ -74,20 +74,20 @@ find_package(LibRaw)
 
 # We first copy the most recent *.ts files to the build directory and then process them
 # This way, we don't have to mess with files outside of the build folder
-#FILE(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/buildlang)
-#FILE(GLOB files "lang/*.ts")
-#FOREACH(file ${files})
-#    GET_FILENAME_COMPONENT(filename ${file} NAME)
-#    FILE(COPY ${CMAKE_CURRENT_SOURCE_DIR}/lang/${filename} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/buildlang)
-#    QT5_CREATE_TRANSLATION(qm_files ${photoqt_SOURCES} ${CMAKE_CURRENT_BINARY_DIR}/buildlang/${filename} OPTIONS "-no-obsolete")
-#ENDFOREACH()
+FILE(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/buildlang)
+FILE(GLOB files "lang/*.ts")
+FOREACH(file ${files})
+    GET_FILENAME_COMPONENT(filename ${file} NAME)
+    FILE(COPY ${CMAKE_CURRENT_SOURCE_DIR}/lang/${filename} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/buildlang)
+    QT5_CREATE_TRANSLATION(qm_files ${photoqt_SOURCES} ${CMAKE_CURRENT_BINARY_DIR}/buildlang/${filename} OPTIONS "-no-obsolete")
+ENDFOREACH()
 
 # Copy the language QRC file to the output directory, because the files listed in the
 # qrc file are relative to that directory.
-#ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/lang.qrc
-#    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/lang.qrc ${CMAKE_CURRENT_BINARY_DIR}/lang.qrc
-#    MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/lang.qrc
-#    DEPENDS ${qm_files})
+ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/lang.qrc
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/lang.qrc ${CMAKE_CURRENT_BINARY_DIR}/lang.qrc
+    MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/lang.qrc
+    DEPENDS ${qm_files})
 
 
 ##################################################################
