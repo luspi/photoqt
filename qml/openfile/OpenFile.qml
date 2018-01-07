@@ -103,6 +103,8 @@ Rectangle {
             Handle.loadDirectoryFolders()
         onUserPlacesUpdated:
             Handle.loadUserPlaces()
+        onStorageInfoUpdated:
+            Handle.loadStorageInfo()
     }
 
     function show() {

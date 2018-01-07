@@ -93,19 +93,14 @@ QVariantList GetAndDoStuffOpenFile::getStorageInfo() {
     foreach(QStorageInfo s, QStorageInfo::mountedVolumes()) {
         if(s.isValid()) {
 
-            qint64 size = s.bytesTotal()/1024/1024/102.4;
+            QVariantList vol;
+            vol << s.name()
+                << s.bytesTotal()
+                << s.fileSystemType()
+                << s.rootPath();
 
-            if(size > 0) {
+            ret.append(vol);
 
-                QVariantList vol;
-                vol << s.name()
-                    << s.bytesTotal()
-                    << s.fileSystemType()
-                    << s.rootPath();
-
-                ret.append(vol);
-
-            }
         }
     }
 

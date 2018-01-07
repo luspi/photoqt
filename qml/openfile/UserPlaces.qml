@@ -334,7 +334,7 @@ Rectangle {
                     anchors.fill: parent
                     anchors.leftMargin: iconitemstorage.width
                     verticalAlignment: Qt.AlignVCenter
-                    text: index==0 ? "Storage devices" : name
+                    text: index==0 ? "Storage devices" : (name!=undefined ? name : "")
                     color: index==0 ? "grey" : "white"
                     font.bold: index==0
                 }

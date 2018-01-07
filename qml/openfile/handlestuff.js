@@ -125,6 +125,13 @@ function loadStorageInfo() {
 
     var s = getanddostuff.getStorageInfo()
 
+    userplaces.storageInfoModel.clear()
+
+    // for the heading
+    userplaces.storageInfoModel.append({"name" : "",
+                                       "location" : "",
+                                       "icon" : ""})
+
     for(var i = 0; i < s.length; i+=4) {
         var name = s[i]
         var size = Math.round(s[i+1]/1024/1024/1024 +1);
