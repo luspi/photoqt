@@ -99,7 +99,7 @@ Rectangle {
                     verticalAlignment: Qt.AlignVCenter
                     text: index==0 ? "Standard" : name
                     color: index==0 ? "grey" : "white"
-                    font.bold: index==0
+                    font.bold: true
                 }
 
                 MouseArea {
@@ -206,7 +206,7 @@ Rectangle {
                     verticalAlignment: Qt.AlignVCenter
                     text: index==0 ? "Places" : (folder != undefined ? folder : "")
                     color: index==0 ? "grey" : "white"
-                    font.bold: index==0
+                    font.bold: true
                     elide: Text.ElideMiddle
                 }
 
@@ -334,7 +334,7 @@ Rectangle {
                     verticalAlignment: Qt.AlignVCenter
                     text: index==0 ? "Storage devices" : (name!=undefined ? name : "")
                     color: index==0 ? "grey" : "white"
-                    font.bold: index==0
+                    font.bold: true
                 }
 
                 MouseArea {
