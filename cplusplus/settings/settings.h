@@ -178,7 +178,7 @@ public:
         connect(this, &Settings::openUserPlacesWidthChanged,            &Settings::saveSettingsTimerStart);
         connect(this, &Settings::openFoldersWidthChanged,               &Settings::saveSettingsTimerStart);
         connect(this, &Settings::openThumbnailsChanged,                 &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::openThumbnailsHighQualityChanged,      &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::openPreviewHighQualityChanged,      &Settings::saveSettingsTimerStart);
         connect(this, &Settings::openUserPlacesStandardChanged,         &Settings::saveSettingsTimerStart);
         connect(this, &Settings::openUserPlacesUserChanged,             &Settings::saveSettingsTimerStart);
         connect(this, &Settings::openUserPlacesVolumesChanged,          &Settings::saveSettingsTimerStart);
@@ -369,7 +369,7 @@ public:
     int openUserPlacesWidth;
     int openFoldersWidth;
     bool openThumbnails;
-    bool openThumbnailsHighQuality;
+    bool openPreviewHighQuality;
     bool openUserPlacesStandard;
     bool openUserPlacesUser;
     bool openUserPlacesVolumes;
@@ -505,7 +505,7 @@ public:
     Q_PROPERTY(int openUserPlacesWidth MEMBER openUserPlacesWidth NOTIFY openUserPlacesWidthChanged)
     Q_PROPERTY(int openFoldersWidth MEMBER openFoldersWidth NOTIFY openFoldersWidthChanged)
     Q_PROPERTY(bool openThumbnails MEMBER openThumbnails NOTIFY openThumbnailsChanged)
-    Q_PROPERTY(bool openThumbnailsHighQuality MEMBER openThumbnailsHighQuality NOTIFY openThumbnailsHighQualityChanged)
+    Q_PROPERTY(bool openPreviewHighQuality MEMBER openPreviewHighQuality NOTIFY openPreviewHighQualityChanged)
     Q_PROPERTY(bool openUserPlacesStandard MEMBER openUserPlacesStandard NOTIFY openUserPlacesStandardChanged)
     Q_PROPERTY(bool openUserPlacesUser MEMBER openUserPlacesUser NOTIFY openUserPlacesUserChanged)
     Q_PROPERTY(bool openUserPlacesVolumes MEMBER openUserPlacesVolumes NOTIFY openUserPlacesVolumesChanged)
@@ -650,11 +650,11 @@ public:
 
         openDefaultView = "list";
         openPreview = true;
+        openPreviewHighQuality = false;
         openZoomLevel = 25;
         openUserPlacesWidth = 200;
         openFoldersWidth = 400;
         openThumbnails = false;
-        openThumbnailsHighQuality = false;
         openUserPlacesStandard = true;
         openUserPlacesUser = true;
         openUserPlacesVolumes = true;
@@ -830,7 +830,7 @@ public slots:
             cont += QString("OpenUserPlacesWidth=%1\n").arg(openUserPlacesWidth);
             cont += QString("OpenFoldersWidth=%1\n").arg(openFoldersWidth);
             cont += QString("OpenThumbnails=%1\n").arg(int(openThumbnails));
-            cont += QString("OpenThumbnailsHighQuality=%1\n").arg(int(openThumbnailsHighQuality));
+            cont += QString("OpenThumbnailsHighQuality=%1\n").arg(int(openPreviewHighQuality));
             cont += QString("OpenUserPlacesStandard=%1\n").arg(int(openUserPlacesStandard));
             cont += QString("OpenUserPlacesUser=%1\n").arg(int(openUserPlacesUser));
             cont += QString("OpenUserPlacesVolumes=%1\n").arg(int(openUserPlacesVolumes));
@@ -1304,9 +1304,9 @@ public slots:
                 openThumbnails = false;
 
             if(all.contains("OpenThumbnailsHighQuality=1"))
-                openThumbnailsHighQuality = true;
+                openPreviewHighQuality = true;
             else if(all.contains("OpenThumbnailsHighQuality=0"))
-                openThumbnailsHighQuality = false;
+                openPreviewHighQuality = false;
 
             if(all.contains("OpenUserPlacesStandard=1"))
                 openUserPlacesStandard = true;
@@ -1484,11 +1484,11 @@ signals:
 
     void openDefaultViewChanged(QString val);
     void openPreviewChanged(bool val);
+    void openPreviewHighQualityChanged(bool val);
     void openZoomLevelChanged(int val);
     void openUserPlacesWidthChanged(int val);
     void openFoldersWidthChanged(int val);
     void openThumbnailsChanged(bool val);
-    void openThumbnailsHighQualityChanged(bool val);
     void openUserPlacesStandardChanged(bool val);
     void openUserPlacesUserChanged(bool val);
     void openUserPlacesVolumesChanged(bool val);

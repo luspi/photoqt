@@ -57,10 +57,13 @@ Rectangle {
                         f = ""
                     else {
                         f = gridview.model.get(gridview.currentIndex).filename
-                        if(f == undefined) fn = ""
+                        if(f == undefined) f = ""
                     }
-                    bgthumb.source = settings.openPreview
-                            ? "image://" + (settings.openThumbnailsHighQuality ? "full" : "thumb") + "/" + openvariables.currentDirectory + "/" + f
+                    if(f == "")
+                        bgthumb.source = ""
+                    else
+                        bgthumb.source = settings.openPreview
+                            ? "image://" + (settings.openPreviewHighQuality ? "full" : "thumb") + "/" + openvariables.currentDirectory + "/" + f
                             : ""
                 }
             }
