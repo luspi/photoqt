@@ -13,6 +13,14 @@ Rectangle {
 
     color: "#44000000"
 
-    TweaksZoom { }
+    TweaksZoom { id: zoom }
+
+//    TweaksFileType { }
+
+    TweaksPreview { id: prev }
+
+    TweaksThumbnails { id: thumb }
+
+    TweaksViewMode { id: viewmode }
 
 }

@@ -174,7 +174,7 @@ public:
 
         connect(this, &Settings::openDefaultViewChanged,                &Settings::saveSettingsTimerStart);
         connect(this, &Settings::openPreviewChanged,                    &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::openZoomLevelChanged,                  &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::openZoomLevelSetChanged,               &Settings::saveSettingsTimerStart);
         connect(this, &Settings::openUserPlacesWidthChanged,            &Settings::saveSettingsTimerStart);
         connect(this, &Settings::openFoldersWidthChanged,               &Settings::saveSettingsTimerStart);
         connect(this, &Settings::openThumbnailsChanged,                 &Settings::saveSettingsTimerStart);
@@ -365,7 +365,7 @@ public:
     // 'Open File' settings
     QString openDefaultView;
     bool openPreview;
-    int openZoomLevel;
+    int openZoomLevelSet;
     int openUserPlacesWidth;
     int openFoldersWidth;
     bool openThumbnails;
@@ -501,7 +501,7 @@ public:
 
     Q_PROPERTY(QString openDefaultView MEMBER openDefaultView NOTIFY openDefaultViewChanged)
     Q_PROPERTY(bool openPreview MEMBER openPreview NOTIFY openPreviewChanged)
-    Q_PROPERTY(int openZoomLevel MEMBER openZoomLevel NOTIFY openZoomLevelChanged)
+    Q_PROPERTY(int openZoomLevelSet MEMBER openZoomLevelSet NOTIFY openZoomLevelSetChanged)
     Q_PROPERTY(int openUserPlacesWidth MEMBER openUserPlacesWidth NOTIFY openUserPlacesWidthChanged)
     Q_PROPERTY(int openFoldersWidth MEMBER openFoldersWidth NOTIFY openFoldersWidthChanged)
     Q_PROPERTY(bool openThumbnails MEMBER openThumbnails NOTIFY openThumbnailsChanged)
@@ -650,7 +650,7 @@ public:
 
         openDefaultView = "list";
         openPreview = true;
-        openZoomLevel = 15;
+        openZoomLevelSet = 5;
         openUserPlacesWidth = 200;
         openFoldersWidth = 400;
         openThumbnails = false;
@@ -826,7 +826,7 @@ public slots:
             cont += "\n[Open File]\n";
             cont += QString("OpenDefaultView=%1\n").arg(openDefaultView);
             cont += QString("OpenPreview=%1\n").arg(int(openPreview));
-            cont += QString("OpenZoomLevel=%1\n").arg(openZoomLevel);
+            cont += QString("OpenZoomLevelSet=%1\n").arg(openZoomLevelSet);
             cont += QString("OpenUserPlacesWidth=%1\n").arg(openUserPlacesWidth);
             cont += QString("OpenFoldersWidth=%1\n").arg(openFoldersWidth);
             cont += QString("OpenThumbnails=%1\n").arg(int(openThumbnails));
@@ -1289,8 +1289,8 @@ public slots:
             else if(all.contains("OpenPreview=0"))
                 openPreview = false;
 
-            if(all.contains("OpenZoomLevel="))
-                openZoomLevel = all.split("OpenZoomLevel=").at(1).split("\n").at(0).toInt();
+            if(all.contains("OpenZoomLevelSet="))
+                openZoomLevelSet = all.split("OpenZoomLevelSet=").at(1).split("\n").at(0).toInt();
 
             if(all.contains("OpenUserPlacesWidth="))
                 openUserPlacesWidth = all.split("OpenUserPlacesWidth=").at(1).split("\n").at(0).toInt();
@@ -1484,7 +1484,7 @@ signals:
 
     void openDefaultViewChanged(QString val);
     void openPreviewChanged(bool val);
-    void openZoomLevelChanged(int val);
+    void openZoomLevelSetChanged(int val);
     void openUserPlacesWidthChanged(int val);
     void openFoldersWidthChanged(int val);
     void openThumbnailsChanged(bool val);

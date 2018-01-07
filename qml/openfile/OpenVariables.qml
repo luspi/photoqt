@@ -18,8 +18,6 @@ Item {
     property var currentDirectoryFolders: []
     property var currentDirectoryFiles: []
 
-//    property string filesViewMode: "icon"
-    property string filesViewMode: "list"
     property int filesFileTypeSelection: 0
     property bool filesShowHidden: false
 

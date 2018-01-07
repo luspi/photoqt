@@ -49,12 +49,12 @@ Rectangle {
         delegate: Item {
             id: delegateItem
             width: listView.width
-            height: settings.openZoomLevel
+            height: settings.openZoomLevelSet*5
 
             Rectangle {
                 id: dragRect
                 width: listView.width
-                height: settings.openZoomLevel
+                height: settings.openZoomLevelSet*5
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
                 color: listView.hoveredIndex==index ? "#88999999" : index%2==0 ? "#88000000" : "#44000000"
@@ -82,11 +82,11 @@ Rectangle {
                         right: parent.right
                     }
 
-                    anchors.margins: 10
+                    anchors.margins: settings.openZoomLevelSet*2
                     verticalAlignment: Qt.AlignVCenter
                     text: "<b>" + folder + "</b>" + ((counter==0||folder=="..") ? "" : " <i>(" + counter + " images)</i>")
                     color: "white"
-                    font.pixelSize: settings.openZoomLevel/2
+                    font.pixelSize: settings.openZoomLevelSet*3
                     elide: Text.ElideRight
                 }
 

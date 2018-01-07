@@ -20,8 +20,8 @@ Rectangle {
 
         anchors.fill: parent
 
-        cellWidth: openvariables.filesViewMode=="icon" ? 4*settings.openZoomLevel : width
-        cellHeight: openvariables.filesViewMode=="icon" ? 4*settings.openZoomLevel : settings.openZoomLevel
+        cellWidth: settings.openDefaultView=="icons" ? settings.openZoomLevelSet*20 : width
+        cellHeight: settings.openDefaultView=="icons" ? settings.openZoomLevelSet*20 : settings.openZoomLevelSet*5
         Behavior on cellWidth { NumberAnimation { duration: 200 } }
         Behavior on cellHeight { NumberAnimation { duration: 100 } }
 
@@ -41,11 +41,14 @@ Rectangle {
         Image {
             id: bgthumb
             anchors.fill: parent
-            opacity: 0.3
+            opacity: settings.openPreview ? 0.3 : 0
+            visible: (opacity != 0)
+            Behavior on opacity { NumberAnimation { duration: 200 } }
             asynchronous: true
             fillMode: Image.PreserveAspectFit
             sourceSize: Qt.size(width,height)
             source: ""
+            z: -1
             Connections {
                 target: gridview
                 onCurrentIndexChanged: {
@@ -56,7 +59,9 @@ Rectangle {
                         f = gridview.model.get(gridview.currentIndex).filename
                         if(f == undefined) fn = ""
                     }
-                    bgthumb.source = "image://" + (settings.openThumbnailsHighQuality ? "full" : "thumb") + "/" + openvariables.currentDirectory + "/" + f
+                    bgthumb.source = settings.openPreview
+                            ? "image://" + (settings.openThumbnailsHighQuality ? "full" : "thumb") + "/" + openvariables.currentDirectory + "/" + f
+                            : ""
                 }
             }
         }
@@ -77,7 +82,7 @@ Rectangle {
 
             y: 1
             width: gridview.cellWidth
-            height: gridview.cellHeight-(openvariables.filesViewMode=="list" ? 2 : 0)
+            height: gridview.cellHeight-(settings.openDefaultView=="list" ? 2 : 0)
 
             color: index%2==0 ? "#22ffffff" : "#11ffffff"
 
@@ -85,16 +90,18 @@ Rectangle {
                 id: thumb
                 x: 3
                 y: 3
-                height: openvariables.filesViewMode=="list" ? parent.height-6 : 2*parent.height/3 -6
-                width: openvariables.filesViewMode=="list" ? parent.height-6 : parent.width-6
-                source: filename!=undefined ? ("image://thumb/" + openvariables.currentDirectory + "/" + filename) : ""
+                height: settings.openDefaultView=="list" ? parent.height-6 : 2*parent.height/3 -6
+                width: settings.openDefaultView=="list" ? parent.height-6 : parent.width-6
+                source: (filename!=undefined&&settings.openThumbnails)
+                        ? ("image://thumb/" + openvariables.currentDirectory + "/" + filename)
+                        : "image://icon/image-" + getanddostuff.getSuffix(openvariables.currentDirectory + "/" + filename)
                 asynchronous: true
                 fillMode: Image.PreserveAspectFit
             }
 
             Text {
                 id: fn_list
-                visible: openvariables.filesViewMode=="list"
+                visible: settings.openDefaultView=="list"
                 anchors{
                     left: thumb.right
                     right: fs_list.left
@@ -106,12 +113,12 @@ Rectangle {
                 text: filename
                 color: "white"
                 font.bold: true
-                font.pixelSize: settings.openZoomLevel/2
+                font.pixelSize: settings.openZoomLevelSet*3
             }
 
             Rectangle {
                 id: fn_icon
-                visible: openvariables.filesViewMode=="icon"
+                visible: settings.openDefaultView=="icons"
                 width: parent.width-4
                 height: parent.height/3 -4
                 x: 2
@@ -120,21 +127,20 @@ Rectangle {
                 radius: 5
                 Text {
                     anchors.fill: parent
-                    maximumLineCount: 2
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    maximumLineCount: 1
                     elide: Text.ElideMiddle
                     verticalAlignment: Qt.AlignVCenter
                     horizontalAlignment: Qt.AlignHCenter
                     text: filename
                     color: "white"
                     font.bold: true
-                    font.pixelSize: settings.openZoomLevel/2
+                    font.pixelSize: settings.openZoomLevelSet*2.5
                 }
             }
 
             Text {
                 id: fs_list
-                visible: openvariables.filesViewMode=="list"
+                visible: settings.openDefaultView=="list"
                 anchors{
                     left: fn_list.right
                     right: parent.right
@@ -142,13 +148,13 @@ Rectangle {
                     bottom: parent.bottom
                     rightMargin: 10
                 }
-                width: openvariables.filesViewMode=="list" ? childrenRect.width : 0
+                width: settings.openDefaultView=="list" ? childrenRect.width : 0
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignRight
                 text: filesize
                 color: "white"
                 font.bold: true
-                font.pixelSize: settings.openZoomLevel/2
+                font.pixelSize: settings.openZoomLevelSet*3
             }
 
             ToolTip {
