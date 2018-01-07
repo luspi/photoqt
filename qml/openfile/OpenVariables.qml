@@ -22,4 +22,7 @@ Item {
     onFilesFileTypeSelectionChanged:
         Handle.loadDirectoryFiles()
 
+    property bool highlightingFromUserInput: false
+    property bool textEditedFromHighlighting: false
+
 }

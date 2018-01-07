@@ -7,6 +7,8 @@ Item {
     height: parent.height
     width: zoom_txt.width+zoom_slider.width
 
+    property alias tweaksZoomSlider: zoom_slider
+
     Text {
         id: zoom_txt
         color: "white"

@@ -9,6 +9,8 @@ Rectangle {
     anchors.bottom: parent.bottom
     anchors.right: parent.right
 
+    property alias tweaksZoom: zoom
+
     height: 50
 
     color: "#44000000"

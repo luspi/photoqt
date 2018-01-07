@@ -13,12 +13,14 @@ Rectangle {
 
     property alias filesViewModel: gridview.model
     property alias filesView: gridview
+    property alias filesEditRect: editRect
 
     GridView {
 
         id: gridview
 
         anchors.fill: parent
+        anchors.bottomMargin: editRect.height
 
         cellWidth: settings.openDefaultView=="icons" ? settings.openZoomLevel*4 : width
         cellHeight: settings.openDefaultView=="icons" ? settings.openZoomLevel*4 : settings.openZoomLevel
@@ -49,24 +51,6 @@ Rectangle {
             sourceSize: Qt.size(width,height)
             source: ""
             z: -1
-            Connections {
-                target: gridview
-                onCurrentIndexChanged: {
-                    var f = ""
-                    if(gridview.model.get(gridview.currentIndex) == undefined)
-                        f = ""
-                    else {
-                        f = gridview.model.get(gridview.currentIndex).filename
-                        if(f == undefined) f = ""
-                    }
-                    if(f == "")
-                        bgthumb.source = ""
-                    else
-                        bgthumb.source = settings.openPreview
-                            ? "image://" + (settings.openPreviewHighQuality ? "full" : "thumb") + "/" + openvariables.currentDirectory + "/" + f
-                            : ""
-                }
-            }
         }
 
         model: ListModel { }
@@ -75,6 +59,16 @@ Rectangle {
         highlight: fileshighlight
         focus: true
 
+    }
+
+    CustomLineEdit {
+        id: editRect
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+            margins: 5
+        }
     }
 
     Component {
@@ -187,6 +181,59 @@ Rectangle {
 
             color: "#88ffffff"
 
+        }
+    }
+
+    Connections {
+
+        target: gridview
+
+        onCurrentIndexChanged: {
+            if(openvariables.highlightingFromUserInput)
+                return
+
+            var f = ""
+            if(gridview.model.get(gridview.currentIndex) == undefined)
+                f = ""
+            else {
+                f = gridview.model.get(gridview.currentIndex).filename
+                if(f == undefined) f = ""
+            }
+            if(f == "") {
+                bgthumb.source = ""
+                openvariables.textEditedFromHighlighting = true
+                editRect.text = ""
+                openvariables.textEditedFromHighlighting = false
+            } else {
+                bgthumb.source = settings.openPreview
+                    ? "image://" + (settings.openPreviewHighQuality ? "full" : "thumb") + "/" + openvariables.currentDirectory + "/" + f
+                    : ""
+                openvariables.textEditedFromHighlighting = true
+                editRect.text = gridview.model.get(gridview.currentIndex).filename
+                editRect.selectAll()
+                openvariables.textEditedFromHighlighting = false
+            }
+
+        }
+    }
+
+    Connections {
+        target: editRect
+        onTextEdited: {
+            if(openvariables.textEditedFromHighlighting)
+                return
+            var pattern = new RegExp(editRect.getText().replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&") + ".*","i")
+            var index = -1
+            for(var i = 0; i < openvariables.currentDirectoryFiles.length; i+=2) {
+                if(pattern.test(openvariables.currentDirectoryFiles[i])) {
+                    index = i/2
+                    break;
+                }
+            }
+            openvariables.highlightingFromUserInput = true
+            if(index != -1)
+                gridview.currentIndex = index
+            openvariables.highlightingFromUserInput = false
         }
     }
 

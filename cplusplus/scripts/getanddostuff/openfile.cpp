@@ -148,28 +148,51 @@ QVariantList GetAndDoStuffOpenFile::getFoldersIn(QString path, bool getDotDot, b
 
 }
 
-QVariantList GetAndDoStuffOpenFile::getFilesIn(QString path, QString filter) {
+QVariantList GetAndDoStuffOpenFile::getFilesIn(QString file, QString filter) {
 
-    if(path.startsWith("file:/"))
-        path = path.remove(0,6);
+    if(file.startsWith("file:/"))
+        file = file.remove(0,6);
 
-    QDir dir(path);
+    QDir dir(QFileInfo(file).absoluteDir());
     dir.setNameFilters(formats->formats_qt + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw);
     dir.setFilter(QDir::Files);
     dir.setSorting(QDir::IgnoreCase);
 
-    QStringList list = dir.entryList();
+    QFileInfoList list = dir.entryInfoList();
+    if(!list.contains(QFileInfo(file)))
+        list.append(QFileInfo(file));
+
+    // Sort images...
+    bool asc = settings->sortbyAscending;
+    QString sortby = settings->sortby;
+    if(sortby == "name") {
+        std::sort(list.begin(),list.end(),(asc ? LoadDir::sort_name : LoadDir::sort_name_desc));
+    }
+    if(sortby == "naturalname") {
+        std::sort(list.begin(),list.end(),(asc ? LoadDir::sort_naturalname : LoadDir::sort_naturalname_desc));
+    }
+    if(sortby == "date") {
+        std::sort(list.begin(),list.end(),(asc ? LoadDir::sort_date : LoadDir::sort_date_desc));
+    }
+    if(sortby == "size") {
+        std::sort(list.begin(),list.end(),(asc ? LoadDir::sort_size : LoadDir::sort_size_desc));
+    }
+
     QVariantList ret;
     if(filter.startsWith("."))
-        foreach(QString l, list) {
-            if(l.endsWith(filter))
-                ret.append(l);
+        foreach(QFileInfo l, list) {
+            if(l.fileName().endsWith(filter))
+                ret.append(l.fileName());
+        }
+    else if(filter != "")
+        foreach(QFileInfo l, list) {
+            if(l.fileName().contains(filter))
+                ret.append(l.fileName());
         }
     else
-        foreach(QString l, list) {
-            if(l.contains(filter))
-                ret.append(l);
-        }
+        foreach(QFileInfo l, list)
+            ret.append(l.fileName());
+
 
     return ret;
 

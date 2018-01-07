@@ -1,6 +1,8 @@
 import QtQuick 2.6
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.1
+
+import "../elements"
 import "handlestuff.js" as Handle
 
 Rectangle {
@@ -93,8 +95,46 @@ Rectangle {
                     openvariables.currentFocusOn = "filesview"
                 else
                     openvariables.currentFocusOn = "userplaces"
-            }
+            } else if(sh == "Up") {
+                if(filesview.filesView.currentIndex > 0)
+                    filesview.filesView.currentIndex -= 1
+            } else if(sh == "Down") {
+                if(filesview.filesView.currentIndex < filesview.filesViewModel.count-1)
+                    filesview.filesView.currentIndex += 1
+            } else if(sh == "Page Up") {
+                if(filesview.filesView.currentIndex > 4)
+                    filesview.filesView.currentIndex -= 5
+                else
+                    filesview.filesView.currentIndex = 0
+            } else if(sh == "Page Down") {
+                if(filesview.filesView.currentIndex < filesview.filesViewModel.count-5)
+                    filesview.filesView.currentIndex += 5
+                else
+                    filesview.filesView.currentIndex = filesview.filesViewModel.count-1
+            } else if(sh == "Ctrl+Up")
+                filesview.filesView.currentIndex = 0
+            else if(sh == "Ctrl+Down")
+                filesview.filesView.currentIndex = filesview.filesViewModel.count-1
+            else if(sh == "Alt+Up")
+                openvariables.currentDirectory += "/.."
+            else if(sh == "Ctrl+B")
+                Handle.goBackInHistory()
+            else if(sh == "Ctrl+F")
+                Handle.goForwardsInHistory()
+            else if(sh == "Ctrl++")
+                tweaks.tweaksZoom.tweaksZoomSlider.value += Math.min(3, tweaks.tweaksZoom.tweaksZoomSlider.maximumValue-tweaks.tweaksZoom.tweaksZoomSlider.value)
+            else if(sh == "Ctrl+-")
+                tweaks.tweaksZoom.tweaksZoomSlider.value -= Math.min(3, tweaks.tweaksZoom.tweaksZoomSlider.value-tweaks.tweaksZoom.tweaksZoomSlider.minimumValue)
+            else if(sh == "Ctrl+H" || sh == "Alt+.")
+                settings.openShowHiddenFilesFolders = !settings.openShowHiddenFilesFolders
         }
+    }
+
+    ShortcutNotifier {
+
+        id: openshortcuts
+        area: "openfile"
+
     }
 
     Connections {
@@ -107,12 +147,49 @@ Rectangle {
             Handle.loadStorageInfo()
     }
 
+    Connections {
+        target: settings
+        onOpenShowHiddenFilesFoldersChanged: {
+            Handle.loadDirectory()
+        }
+    }
+
+    Component.onCompleted: {
+
+        // We needto do that here, as it seems to be not possible to compose a string in the dict definition
+        // (i.e., when defining the property, inside the {})
+        //: This is used in the context of the 'Open File' element with its three panes
+        openshortcuts.shortcuts[str_keys.get("alt") + " + " + str_keys.get("left") + "/" + str_keys.get("right")] = qsTr("Move focus between Places/Folders/Fileview")
+        //: This is used in the context of the 'Open File' element
+        openshortcuts.shortcuts[str_keys.get("up") + "/" + str_keys.get("down")] = qsTr("Go up/down an entry")
+        //: This is used in the context of the 'Open File' element
+        openshortcuts.shortcuts[str_keys.get("page up") + "/" +str_keys.get("page down")] = qsTr("Move 5 entries up/down")
+        //: This is used in the context of the 'Open File' element
+        openshortcuts.shortcuts[str_keys.get("ctrl") + " + " + str_keys.get("up") + "/" + str_keys.get("down")] = qsTr("Move to the first/last entry")
+        //: This is used in the context of the 'Open File' element
+        openshortcuts.shortcuts[str_keys.get("alt") + " + " + str_keys.get("up")] = qsTr("Go one folder level up")
+        //: This is used in the context of the 'Open File' element
+        openshortcuts.shortcuts[str_keys.get("ctrl") + " + B/F"] = qsTr("Go backwards/forwards in history");
+        //: This is used in the context of the 'Open File' element
+        openshortcuts.shortcuts[str_keys.get("enter") + "/" + str_keys.get("return")] = qsTr("Load the currently highlighted item")
+        //: This is used in the context of the 'Open File' element
+        openshortcuts.shortcuts[str_keys.get("ctrl") + " + +/-"] = qsTr("Zoom files in/out")
+        //: This is used in the context of the 'Open File' element
+        openshortcuts.shortcuts[str_keys.get("ctrl") + " + H " + qsTr("or") + " " + str_keys.get("alt") + " + ."] = qsTr("Show/Hide hidden files/folders")
+        //: This is used in the context of the 'Open File' element
+        openshortcuts.shortcuts[str_keys.get("escape")] = qsTr("Cancel")
+
+        openshortcuts.display()
+
+    }
+
     function show() {
         opacity = 1
         openvariables.history = []
         openvariables.historypos = -1
         variables.guiBlocked = true
         Handle.addToHistory()
+        filesview.filesEditRect.selectAll()
     }
     function hide() {
         opacity = 0

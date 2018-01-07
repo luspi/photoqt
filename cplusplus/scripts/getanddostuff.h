@@ -128,7 +128,7 @@ public:
     Q_INVOKABLE bool isFolder(QString path) { return this->openfile->isFolder(path); }
     Q_INVOKABLE QString removePrefixFromDirectoryOrFile(QString path) { return this->openfile->removePrefixFromDirectoryOrFile(path); }
     Q_INVOKABLE QVariantList getFoldersIn(QString path, bool getDotDot = true, bool showHidden = false) { return this->openfile->getFoldersIn(path, getDotDot, showHidden); }
-    Q_INVOKABLE QVariantList getFilesIn(QString path, QString filter = "") { return this->openfile->getFilesIn(path, filter); }
+    Q_INVOKABLE QVariantList getFilesIn(QString file, QString filter = "") { return this->openfile->getFilesIn(file, filter); }
     Q_INVOKABLE QVariantList getFilesWithSizeIn(QString path, int selectionFileTypes, bool showHidden = false) { return this->openfile->getFilesWithSizeIn(path,selectionFileTypes, showHidden); }
     Q_INVOKABLE void saveUserPlaces(QVariantList enabled) { return this->openfile->saveUserPlaces(enabled); }
     Q_INVOKABLE QString getOpenFileLastLocation() {  return this->openfile->getOpenFileLastLocation(); }
