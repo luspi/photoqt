@@ -15,7 +15,7 @@ Rectangle {
 
     TweaksZoom { id: zoom }
 
-//    TweaksFileType { }
+    TweaksFileType { id: ft }
 
     TweaksPreview { id: prev }
 

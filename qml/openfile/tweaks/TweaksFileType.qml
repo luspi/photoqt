@@ -4,6 +4,7 @@ import "../../elements"
 
 Rectangle {
     id: hovprev_but
+    anchors.right: prev.left
     y: 10
     width: select.width+20
     height: parent.height-20

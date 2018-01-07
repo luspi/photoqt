@@ -19,6 +19,7 @@ Item {
     property var currentDirectoryFiles: []
 
     property int filesFileTypeSelection: 0
-    property bool filesShowHidden: false
+    onFilesFileTypeSelectionChanged:
+        Handle.loadDirectoryFiles()
 
 }
