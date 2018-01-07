@@ -1,6 +1,6 @@
 import QtQuick 2.6
 
-import "../elements"
+import "./tweaks"
 import "handlestuff.js" as Handle
 
 Rectangle {
@@ -13,18 +13,6 @@ Rectangle {
 
     color: "#44000000"
 
-    CustomButton {
-        x: 0
-        text: "list"
-        onClickedButton:
-            openvariables.filesViewMode = "list"
-    }
-
-    CustomButton {
-        x: 100
-        text: "icon"
-        onClickedButton:
-            openvariables.filesViewMode = "icon"
-    }
+    TweaksZoom { }
 
 }
