@@ -71,11 +71,11 @@ Rectangle {
 
             id: standarddeleg
             width: standardlocations.width
-            height: 30
+            height: settings.openZoomLevel
 
             Rectangle {
                 width: standardlocations.width
-                height: 30
+                height: settings.openZoomLevel
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
                 color: standardlocations.hoveredIndex==index&&index>0 ? "#88999999" : index%2==0 ? "#88000000" : "#44000000"
@@ -100,6 +100,7 @@ Rectangle {
                     text: index==0 ? "Standard" : name
                     color: index==0 ? "grey" : "white"
                     font.bold: true
+                    font.pixelSize: settings.openZoomLevel/2
                 }
 
                 MouseArea {
@@ -167,7 +168,7 @@ Rectangle {
         delegate: Item {
             id: userPlacesDelegate
             width: userPlaces.width
-            height: visible?30:0
+            height: visible?settings.openZoomLevel:0
             visible: ((path!=undefined&&path.substring(0,1)=="/"&&hidden=="false")||index==0)
 
             Rectangle {
@@ -182,7 +183,7 @@ Rectangle {
             Rectangle {
                 id: dragRect
                 width: userPlaces.width
-                height: 30
+                height: settings.openZoomLevel
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
                 color: userPlaces.hoveredIndex==index&&index>0 ? "#88999999" : index%2==0 ? "#88000000" : "#44000000"
@@ -208,6 +209,7 @@ Rectangle {
                     color: index==0 ? "grey" : "white"
                     font.bold: true
                     elide: Text.ElideMiddle
+                    font.pixelSize: settings.openZoomLevel/2
                 }
 
                 MouseArea {
@@ -306,11 +308,11 @@ Rectangle {
         delegate: Item {
 
             width: storageinfo.width
-            height: 30
+            height: settings.openZoomLevel
 
             Rectangle {
                 width: storageinfo.width
-                height: 30
+                height: settings.openZoomLevel
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
                 color: storageinfo.hoveredIndex==index&&index>0 ? "#88999999" : index%2==0 ? "#88000000" : "#44000000"
@@ -335,6 +337,7 @@ Rectangle {
                     text: index==0 ? "Storage devices" : (name!=undefined ? name : "")
                     color: index==0 ? "grey" : "white"
                     font.bold: true
+                    font.pixelSize: settings.openZoomLevel/2
                 }
 
                 MouseArea {

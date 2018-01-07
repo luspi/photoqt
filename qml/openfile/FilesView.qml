@@ -20,8 +20,8 @@ Rectangle {
 
         anchors.fill: parent
 
-        cellWidth: openvariables.filesViewMode=="icon" ? 120 : parent.width
-        cellHeight: openvariables.filesViewMode=="icon" ? 120 : 30
+        cellWidth: openvariables.filesViewMode=="icon" ? 4*settings.openZoomLevel : width
+        cellHeight: openvariables.filesViewMode=="icon" ? 4*settings.openZoomLevel : settings.openZoomLevel
         Behavior on cellWidth { NumberAnimation { duration: 200 } }
         Behavior on cellHeight { NumberAnimation { duration: 100 } }
 
@@ -106,15 +106,16 @@ Rectangle {
                 text: filename
                 color: "white"
                 font.bold: true
+                font.pixelSize: settings.openZoomLevel/2
             }
 
             Rectangle {
                 id: fn_icon
                 visible: openvariables.filesViewMode=="icon"
-                width: parent.width
-                height: parent.height/3
-                x: 0
-                y: 2*parent.height/3
+                width: parent.width-4
+                height: parent.height/3 -4
+                x: 2
+                y: 2*parent.height/3 +2
                 color: "#88000000"
                 radius: 5
                 Text {
@@ -127,6 +128,7 @@ Rectangle {
                     text: filename
                     color: "white"
                     font.bold: true
+                    font.pixelSize: settings.openZoomLevel/2
                 }
             }
 
@@ -146,13 +148,14 @@ Rectangle {
                 text: filesize
                 color: "white"
                 font.bold: true
+                font.pixelSize: settings.openZoomLevel/2
             }
 
             ToolTip {
                 anchors.fill: parent
                 hoverEnabled: true
                 onEntered: gridview.currentIndex = index
-                text: "<tr><td align='right'>Name: </td><td>" + filename + "</td></tr><tr><td align='right'>Size: </td><td>" + filesize + "</td></tr>"
+                text: "<tr><td align='right'><b>Name: </b></td><td><b>" + filename + "</b></td></tr><tr><td align='right'><b>Size: </b></td><td><b>" + filesize + "</b></td></tr>"
                 cursorShape: Qt.PointingHandCursor
                 onClicked: {
                     mainwindow.loadFile(openvariables.currentDirectory + "/" + filename)
