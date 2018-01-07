@@ -1,6 +1,7 @@
 import QtQuick 2.6
 import QtQuick.Layouts 1.1
 
+import "../elements"
 import "handlestuff.js" as Handle
 
 Rectangle {
@@ -90,27 +91,15 @@ Rectangle {
                 }
 
                 MouseArea {
+                    id: mouseArea
                     anchors.fill: parent
                     hoverEnabled: true
                     onEntered: listView.hoveredIndex = index
                     onExited: listView.hoveredIndex = -1
                     cursorShape: Qt.PointingHandCursor
                     onClicked: openvariables.currentDirectory = path
-                }
 
-                MouseArea {
-                    id: mouseArea
-                    anchors {
-                        left: draghandler.left
-                        top: draghandler.top
-                        bottom: draghandler.bottom
-                        right: index>0 ? draghandler.right : draghandler.left
-                    }
-                    hoverEnabled: true
-                    enabled: index>0
-                    cursorShape: drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor
-
-                    drag.target: dragRect
+                    drag.target: index>0?dragRect:undefined
 
                     drag.onActiveChanged: {
                         if (mouseArea.drag.active) {
@@ -119,8 +108,6 @@ Rectangle {
                         }
                         dragRect.Drag.drop();
                     }
-                    onEntered: listView.hoveredIndex = index
-                    onExited: listView.hoveredIndex = -1
                 }
 
                 states: [
@@ -144,6 +131,13 @@ Rectangle {
                 Drag.hotSpot.y: 10
             }
         }
+    }
+
+    ScrollBarVertical {
+        id: listview_scrollbar
+        flickable: listView
+        opacityVisible: 0.8
+        opacityHidden: 0.8
     }
 
 }

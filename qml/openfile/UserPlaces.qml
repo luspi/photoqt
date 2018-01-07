@@ -121,7 +121,7 @@ Rectangle {
         anchors.top: standardlocations.bottom
         anchors.topMargin: marginBetweenCategories
         width: parent.width
-        height: parent.height-standardlocations.height-storageinfo.height-4*marginBetweenCategories
+        height: parent.height-standardlocations.height-storageinfo.height-3*marginBetweenCategories
         anchors.right: parent.right
 
         property int hoveredIndex: -1
@@ -211,17 +211,27 @@ Rectangle {
                 }
 
                 MouseArea {
+                    id: mouseArea
                     anchors.fill: parent
                     hoverEnabled: true
                     acceptedButtons: Qt.RightButton|Qt.LeftButton
                     onEntered: userPlaces.hoveredIndex = index
                     onExited: userPlaces.hoveredIndex = -1
                     cursorShape: index>0 ? Qt.PointingHandCursor : Qt.ArrowCursor
+                    enabled: index>0
                     onClicked: {
                         if(mouse.button == Qt.LeftButton)
                             openvariables.currentDirectory = path
                         else
                             delegcontext.popup()
+                    }
+                    drag.target: dragRect
+                    drag.onActiveChanged: {
+                        if (mouseArea.drag.active) {
+                            userPlaces.dragItemIndex = index;
+                            splitview.dragSource = "userplaces"
+                        }
+                        dragRect.Drag.drop();
                     }
                 }
 
@@ -233,25 +243,6 @@ Rectangle {
                             userPlaces.model.remove(index)
                         }
                     }
-                }
-
-                MouseArea {
-                    id: mouseArea
-                    anchors.fill: draghandler
-                    drag.target: dragRect
-                    hoverEnabled: true
-                    cursorShape: Qt.OpenHandCursor
-
-                    drag.onActiveChanged: {
-                        if (mouseArea.drag.active) {
-                            userPlaces.dragItemIndex = index;
-                            splitview.dragSource = "userplaces"
-                        }
-                        dragRect.Drag.drop();
-                    }
-
-                    onEntered: userPlaces.hoveredIndex = index
-                    onExited: userPlaces.hoveredIndex = -1
                 }
 
                 states: [
@@ -288,13 +279,20 @@ Rectangle {
         }
     }
 
+    ScrollBarVertical {
+        id: listview_scrollbar
+        flickable: userPlaces
+        opacityVisible: 0.8
+        opacityHidden: 0.8
+    }
+
     ListView {
         id: storageinfo
         anchors.top: userPlaces.bottom
         width: parent.width
-        height: settings.openUserPlacesStandard ? childrenRect.height : 0
+        height: settings.openUserPlacesVolumes ? childrenRect.height : 1
 
-        visible: settings.openUserPlacesStandard
+        visible: settings.openUserPlacesVolumes
         interactive: false
 
         property int hoveredIndex: -1
