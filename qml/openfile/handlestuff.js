@@ -89,6 +89,7 @@ function loadDirectoryFiles() {
     openvariables.currentDirectoryFiles = getanddostuff.getFilesWithSizeIn(openvariables.currentDirectory, openvariables.filesFileTypeSelection, openvariables.filesShowHidden)
 
     filesview.filesViewModel.clear()
+    filesview.filesView.contentY = 0
     for(var j = 0; j < openvariables.currentDirectoryFiles.length; j+=2)
         filesview.filesViewModel.append({"filename" : openvariables.currentDirectoryFiles[j], "filesize" : openvariables.currentDirectoryFiles[j+1]})
 
