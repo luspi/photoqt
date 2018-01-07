@@ -13,7 +13,7 @@ Rectangle {
 
     color: openvariables.currentFocusOn=="userplaces" ? "#44000055" : "#44000000"
 
-    property int marginBetweenCategories: settings.openZoomLevelSet*4
+    property int marginBetweenCategories: 20
 
     property alias userPlacesModel: userPlaces.model
     property alias storageInfoModel: storageinfo.model
@@ -71,11 +71,11 @@ Rectangle {
 
             id: standarddeleg
             width: standardlocations.width
-            height: settings.openZoomLevelSet*5
+            height: 30
 
             Rectangle {
                 width: standardlocations.width
-                height: settings.openZoomLevelSet*5
+                height: 30
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
                 color: standardlocations.hoveredIndex==index&&index>0 ? "#88999999" : index%2==0 ? "#88000000" : "#44000000"
@@ -100,7 +100,7 @@ Rectangle {
                     text: index==0 ? "Standard" : name
                     color: index==0 ? "grey" : "white"
                     font.bold: true
-                    font.pixelSize: settings.openZoomLevelSet*3
+                    font.pixelSize: 15
                 }
 
                 MouseArea {
@@ -168,7 +168,7 @@ Rectangle {
         delegate: Item {
             id: userPlacesDelegate
             width: userPlaces.width
-            height: visible?settings.openZoomLevelSet*5:0
+            height: visible?30:0
             visible: ((path!=undefined&&path.substring(0,1)=="/"&&hidden=="false")||index==0)
 
             Rectangle {
@@ -183,7 +183,7 @@ Rectangle {
             Rectangle {
                 id: dragRect
                 width: userPlaces.width
-                height: settings.openZoomLevelSet*5
+                height: 30
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
                 color: userPlaces.hoveredIndex==index&&index>0 ? "#88999999" : index%2==0 ? "#88000000" : "#44000000"
@@ -209,7 +209,7 @@ Rectangle {
                     color: index==0 ? "grey" : "white"
                     font.bold: true
                     elide: Text.ElideMiddle
-                    font.pixelSize: settings.openZoomLevelSet*3
+                    font.pixelSize: 15
                 }
 
                 MouseArea {
@@ -308,11 +308,11 @@ Rectangle {
         delegate: Item {
 
             width: storageinfo.width
-            height: settings.openZoomLevelSet*5
+            height: 30
 
             Rectangle {
                 width: storageinfo.width
-                height: settings.openZoomLevelSet*5
+                height: 30
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
                 color: storageinfo.hoveredIndex==index&&index>0 ? "#88999999" : index%2==0 ? "#88000000" : "#44000000"
@@ -337,7 +337,7 @@ Rectangle {
                     text: index==0 ? "Storage devices" : (name!=undefined ? name : "")
                     color: index==0 ? "grey" : "white"
                     font.bold: true
-                    font.pixelSize: settings.openZoomLevelSet*3
+                    font.pixelSize: 15
                 }
 
                 MouseArea {

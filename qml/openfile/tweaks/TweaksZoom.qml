@@ -23,11 +23,11 @@ Item {
         y: (parent.height-height)/2
         anchors.right: parent.right
         minimumValue: 1
-        maximumValue: 10
+        maximumValue: 15
         tickmarksEnabled: true
         stepSize: 1
         scrollStep: 1
-        tooltip: qsTr("Move slider to adjust the size of everything")
+        tooltip: qsTr("Move slider to adjust the size of files")
         value: settings.openZoomLevelSet
         Behavior on value { NumberAnimation { duration: 200 } }
         onValueChanged:
