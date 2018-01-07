@@ -12,8 +12,15 @@ Item {
 
         var keys = shortcutshandler.load()
 
-        for(var i = 0; i < keys.length; i+=3)
-            setKeyShortcuts[keys[i]] = [keys[i+1], keys[i+2]]
+        for(var i = 0; i < keys.length; i+=3) {
+
+            if(keys[i] in setKeyShortcuts) {
+                setKeyShortcuts[keys[i]][0] += 1
+                setKeyShortcuts[keys[i]].push(keys[i+1])
+                setKeyShortcuts[keys[i]].push(keys[i+2])
+            } else
+                setKeyShortcuts[keys[i]] = [1, keys[i+1], keys[i+2]]
+        }
 
     }
 
@@ -43,10 +50,11 @@ Item {
         // Execute the shortcut if something is set
         else if(!variables.guiBlocked && combostring in setKeyShortcuts) {
 
-            var close = setKeyShortcuts[combostring][0]
-            var cmd = setKeyShortcuts[combostring][1]
-
-            executeShortcut(cmd, close)
+            for(var i = 0; i < setKeyShortcuts[combostring][0]; ++i) {
+                var close = setKeyShortcuts[combostring][1+i*2]
+                var cmd = setKeyShortcuts[combostring][2+i*2]
+                executeShortcut(cmd, close)
+            }
 
         }
 
