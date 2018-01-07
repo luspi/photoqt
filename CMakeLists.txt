@@ -106,8 +106,14 @@ add_definitions(-DSIMPLECRYPTKEY="${CRYPTKEY}")
 #### Add the executeable ####
 #############################
 
-add_executable(${PROJECT_NAME} ${photoqt_SOURCES} ${photoqt_QML} ${photoqt_RESOURCES})
-QT5_USE_MODULES(photoqt Core Quick Svg Sql Xml)
+# on windows we add application icons
+if(WIN32)
+    add_executable(${PROJECT_NAME} WIN32 ${photoqt_SOURCES} ${photoqt_QML} ${photoqt_RESOURCES} windowsicons.rc)
+    qt5_use_modules(photoqt Quick Sql Svg Core Xml WinExtras)
+elseif(NOT WIN32)
+    add_executable(${PROJECT_NAME} ${photoqt_SOURCES} ${photoqt_QML} ${photoqt_RESOURCES})
+    qt5_use_modules(photoqt Quick Sql Svg Core Xml)
+endif(WIN32)
 
 # We need to link to zlib for zip support
 target_link_libraries(photoqt "z")
