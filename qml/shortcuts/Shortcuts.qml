@@ -78,8 +78,6 @@ Item {
             call.load("slideshowStart")
         else if(cmd === "__open")
             call.show("openfile")
-        else if(cmd === "__openOld")
-            call.show("openfileold")
         else if(cmd === "__zoomIn")
             imageitem.zoomIn()
         else if(cmd === "__zoomOut")

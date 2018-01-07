@@ -15,9 +15,6 @@ SET(photoqt_QML ${photoqt_QML} ${d}/MainMenu.qml ${d}/HandleMouseMovements.qml $
 SET(d "qml/shortcuts")
 SET(photoqt_QML ${photoqt_QML} ${d}/Shortcuts.qml ${d}/mouseshortcuts.js)
 
-SET(d "qml/openfileold")
-SET(photoqt_QML ${photoqt_QML} ${d}/BreadCrumbs.qml ${d}/EditFiles.qml ${d}/FilesView.qml ${d}/FilesViewGrid.qml ${d}/FilesViewList.qml ${d}/Folders.qml ${d}/OpenFileOld.qml ${d}/Tweaks.qml ${d}/TweaksFileTypeSelection.qml ${d}/TweaksHiddenFolders.qml ${d}/TweaksPreview.qml ${d}/TweaksThumbnail.qml ${d}/TweaksViewMode.qml ${d}/TweaksZoom.qml ${d}/UserPlaces.qml)
-
 SET(d "qml/openfile")
 SET(photoqt_QML ${photoqt_QML} ${d}/OpenFile.qml ${d}/BreadCrumbs.qml ${d}/handlestuff.js ${d}/OpenVariables.qml ${d}/UserPlaces.qml ${d}/Folders.qml ${d}/FilesView.qml ${d}/Tweaks.qml)
 
