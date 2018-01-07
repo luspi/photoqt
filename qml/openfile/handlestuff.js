@@ -171,11 +171,10 @@ function addToHistory() {
     // FIRST ITEM DOES NOT GET ADDED FOR SOME WEIRD REASON...???????!!
 
     // If current position is not the end of history -> cut off end part
-//    if(openvariables.historypos != openvariables.history.length-1)
-//        openvariables.history = openvariables.history.slice(0,openvariables.historypos+1);
+    if(openvariables.historypos != openvariables.history.length-1)
+        openvariables.history = openvariables.history.slice(0,openvariables.historypos+1);
 
     // Add path
-    console.log(openvariables.history[openvariables.history.length-1], "followed by", openvariables.currentDirectory)
     openvariables.history.push(openvariables.currentDirectory)
     ++openvariables.historypos;
 
@@ -188,7 +187,6 @@ function goBackInHistory() {
         --openvariables.historypos
         openvariables.loadedFromHistory = true
         openvariables.currentDirectory = openvariables.history[openvariables.historypos]
-        console.log("reverting to",openvariables.history[openvariables.historypos])
     }
 }
 

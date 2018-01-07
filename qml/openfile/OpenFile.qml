@@ -112,6 +112,7 @@ Rectangle {
         openvariables.history = []
         openvariables.historypos = -1
         variables.guiBlocked = true
+        Handle.addToHistory()
     }
     function hide() {
         opacity = 0
