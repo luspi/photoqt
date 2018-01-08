@@ -1,4 +1,43 @@
 
+function analyseMouseGestureUpdate(xPos, yPos, before) {
+
+    var threshold = 100
+
+    var dx = xPos-before.x
+    var dy = yPos-before.y
+    var distance = Math.sqrt(Math.pow(dx,2)+Math.pow(dy,2));
+
+    var angle = (Math.atan2(dy, dx)/Math.PI)*180
+    angle = (angle+360)%360;
+
+    if(distance > threshold) {
+
+        if(angle <= 45 || angle > 315) {
+            if(variables.shortcutsMouseGesture[variables.shortcutsMouseGesture.length-1] != "E") {
+                variables.shortcutsMouseGesture.push("E")
+                variables.shorcutsMouseGesturePointIntermediate = Qt.point(xPos, yPos)
+            }
+        } else if(angle > 45 && angle <= 135) {
+            if(variables.shortcutsMouseGesture[variables.shortcutsMouseGesture.length-1] != "S") {
+                variables.shortcutsMouseGesture.push("S")
+                variables.shorcutsMouseGesturePointIntermediate = Qt.point(xPos, yPos)
+            }
+        } else if(angle > 135 && angle <= 225) {
+            if(variables.shortcutsMouseGesture[variables.shortcutsMouseGesture.length-1] != "W") {
+                variables.shortcutsMouseGesture.push("W")
+                variables.shorcutsMouseGesturePointIntermediate = Qt.point(xPos, yPos)
+            }
+        } else if(angle > 225 && angle <= 315) {
+            if(variables.shortcutsMouseGesture[variables.shortcutsMouseGesture.length-1] != "N") {
+                variables.shortcutsMouseGesture.push("N")
+                variables.shorcutsMouseGesturePointIntermediate = Qt.point(xPos, yPos)
+            }
+        }
+
+    }
+
+}
+
 function analyseMouseEvent(startedEventAtPos, event) {
 
     var combostring = getModifiers(event)
@@ -10,15 +49,16 @@ function analyseMouseEvent(startedEventAtPos, event) {
     else if(event.button == Qt.RightButton)
             combostring += "Right Button"
 
-    var movement = extractMovement(startedEventAtPos, Qt.point(event.x, event.y))
+    var movement = ""
+    for(var i = 0; i < variables.shortcutsMouseGesture.length; ++i)
+        movement += variables.shortcutsMouseGesture[i]
+    variables.shortcutsMouseGesture = []
 
     if(movement != "") {
         if(event.button == Qt.LeftButton && settings.leftButtonMouseClickAndMove)
             return ""
         combostring += "+" + movement
     }
-
-    console.log(combostring)
 
     return combostring
 

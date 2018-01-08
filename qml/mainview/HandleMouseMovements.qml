@@ -1,25 +1,39 @@
 import QtQuick 2.6
+import "../shortcuts/mouseshortcuts.js" as AnalyseMouse
 
 MouseArea {
 
     anchors.fill: parent
-
     hoverEnabled: true
-
-    property point pressedPos: Qt.point(-1,-1)
-
     acceptedButtons: Qt.LeftButton|Qt.MiddleButton|Qt.RightButton
-
-    onPositionChanged: handleMousePositionChange(mouse.x, mouse.y)
 
     drag.target: (settings.leftButtonMouseClickAndMove&&!variables.imageItemBlocked) ? imageitem.returnImageContainer() : undefined
 
-    onPressed: pressedPos = Qt.point(mouse.x, mouse.y)
-    onReleased: shortcuts.analyseMouseEvent(pressedPos, mouse)
+    property point pressedPosStart: Qt.point(-1,-1)
+    property point pressedPosEnd: Qt.point(-1,-1)
+
+    onPositionChanged:
+        handleMousePositionChange(mouse.x, mouse.y)
+    onPressed: {
+        pressedPosStart = Qt.point(mouse.x, mouse.y)
+        variables.shorcutsMouseGesturePointIntermediate = Qt.point(-1,-1)
+    }
+    onReleased: {
+        pressedPosEnd = Qt.point(mouse.x, mouse.y)
+        pressedPosStart = Qt.point(-1,-1)
+        shortcuts.analyseMouseEvent(pressedPosStart, mouse)
+    }
 
     onWheel: shortcuts.analyseWheelEvent(wheel)
 
     function handleMousePositionChange(xPos, yPos) {
+
+        if(pressedPosStart.x != -1 || pressedPosStart.y != -1) {
+            var before = variables.shorcutsMouseGesturePointIntermediate
+            if(variables.shorcutsMouseGesturePointIntermediate.x == -1 || variables.shorcutsMouseGesturePointIntermediate.y == -1)
+                before = pressedPosStart
+            AnalyseMouse.analyseMouseGestureUpdate(xPos, yPos, before)
+        }
 
         var w = settings.menusensitivity*5
 

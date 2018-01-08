@@ -37,4 +37,7 @@ Item {
             currentFilePos = allFilesCurrentDir.indexOf(onlyfile)
     }
 
+    property var shortcutsMouseGesture: []
+    property point shorcutsMouseGesturePointIntermediate: Qt.point(-1,-1)
+
 }
