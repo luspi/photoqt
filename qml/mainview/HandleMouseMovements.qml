@@ -7,14 +7,17 @@ MouseArea {
     hoverEnabled: true
     acceptedButtons: Qt.LeftButton|Qt.MiddleButton|Qt.RightButton
 
-    drag.target: (settings.leftButtonMouseClickAndMove&&!variables.imageItemBlocked) ? imageitem.returnImageContainer() : undefined
+    drag.target: (settings.leftButtonMouseClickAndMove&&!variables.imageItemBlocked&&buttonID==Qt.LeftButton) ? imageitem.returnImageContainer() : undefined
 
     property point pressedPosStart: Qt.point(-1,-1)
     property point pressedPosEnd: Qt.point(-1,-1)
 
+    property int buttonID: Qt.LeftButton
+
     onPositionChanged:
         handleMousePositionChange(mouse.x, mouse.y)
     onPressed: {
+        buttonID = mouse.button
         pressedPosStart = Qt.point(mouse.x, mouse.y)
         variables.shorcutsMouseGesturePointIntermediate = Qt.point(-1,-1)
     }
