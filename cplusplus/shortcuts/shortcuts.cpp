@@ -43,6 +43,61 @@ QStringList Shortcuts::load() {
 
 }
 
+QStringList Shortcuts::loadDefaults() {
+
+    QStringList ret;
+
+    ret.append(QStringList() << "O" << "0" << "__open");
+
+    ret.append(QStringList() << "Ctrl+O" << "0" << "__open");
+    ret.append(QStringList() << "Right" << "0" << "__next");
+    ret.append(QStringList() << "Space" << "0" << "__next");
+    ret.append(QStringList() << "Left" << "0" << "__prev");
+    ret.append(QStringList() << "Backspace" << "0" << "__prev");
+    ret.append(QStringList() << "Ctrl+F" << "0" << "__filterImages");
+
+    ret.append(QStringList() << "+" << "0" << "__zoomIn");
+    ret.append(QStringList() << "=" << "0" << "__zoomIn");
+    ret.append(QStringList() << "Ctrl++" << "0" << "__zoomIn");
+    ret.append(QStringList() << "Ctrl+=" << "0" << "__zoomIn");
+    ret.append(QStringList() << "-" << "0" << "__zoomOut");
+    ret.append(QStringList() << "Ctrl+-" << "0" << "__zoomOut");
+    ret.append(QStringList() << "0" << "0" << "__zoomReset");
+    ret.append(QStringList() << "1" << "0" << "__zoomActual");
+    ret.append(QStringList() << "Ctrl+1" << "0" << "__zoomActual");
+
+    ret.append(QStringList() << "R" << "0" << "__rotateR");
+    ret.append(QStringList() << "L" << "0" << "__rotateL");
+    ret.append(QStringList() << "Ctrl+0" << "0" << "__rotate0");
+    ret.append(QStringList() << "Ctrl+H" << "0" << "__flipH");
+    ret.append(QStringList() << "Ctrl+V" << "0" << "__flipV");
+
+    ret.append(QStringList() << "Ctrl+X" << "0" << "__scale");
+    ret.append(QStringList() << "Ctrl+E" << "0" << "__hideMeta");
+    ret.append(QStringList() << "E" << "0" << "__settings");
+    ret.append(QStringList() << "I" << "0" << "__about");
+    ret.append(QStringList() << "M" << "0" << "__slideshow");
+    ret.append(QStringList() << "Shift+M" << "0" << "__slideshowQuick");
+    ret.append(QStringList() << "W" << "0" << "__wallpaper");
+    ret.append(QStringList() << "S" << "0" << "__stopThb");
+    ret.append(QStringList() << "Ctrl+R" << "0" << "__reloadThb");
+
+    ret.append(QStringList() << "F2" << "0" << "__rename");
+    ret.append(QStringList() << "Ctrl+C" << "0" << "__copy");
+    ret.append(QStringList() << "Ctrl+M" << "0" << "__move");
+    ret.append(QStringList() << "Delete" << "0" << "__delete");
+
+    ret.append(QStringList() << "Escape" << "0" << "__hide");
+    ret.append(QStringList() << "Q" << "0" << "__close");
+    ret.append(QStringList() << "Ctrl+Q" << "0" << "__close");
+
+    ret.append(QStringList() << "Home" << "0" << "__gotoFirstThb");
+    ret.append(QStringList() << "End" << "0" << "__gotoLastThb");
+
+    return ret;
+
+}
+
 QString Shortcuts::convertKeycodeToString(int code) {
 
     return QKeySequence(code).toString();

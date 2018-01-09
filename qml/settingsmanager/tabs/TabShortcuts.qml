@@ -207,27 +207,28 @@ Rectangle {
 
     function setData() {
 
-        var sh = shortcutshandler.load()
-        navigation.setData(sh)
-        image.setData(sh)
-        file.setData(sh)
-        other.setData(sh)
-        external.setData(sh)
+        var dat = shortcutshandler.load()
+
+        navigation.setData(dat)
+        image.setData(dat)
+        file.setData(dat)
+        other.setData(dat)
+        external.setData(dat)
 
         mouseleftbutton.checkedButton = settings.leftButtonMouseClickAndMove
 
     }
 
     function loadDefault() {
-//        var _key_shortcuts = getanddostuff.getDefaultKeyShortcuts()
-//        var _mouse_shortcuts = getanddostuff.getDefaultMouseShortcuts()
-//        var _touch_shortcuts = getanddostuff.getDefaultTouchShortcuts()
-//        detectshortcut.setTakenShortcuts(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
-//        navigation.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
-//        image.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
-//        file.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
-//        other.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
-//        external.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
+
+        var dat = shortcutshandler.loadDefaults()
+
+        navigation.setData(dat)
+        image.setData(dat)
+        file.setData(dat)
+        other.setData(dat)
+        external.setData(dat)
+
     }
 
     function saveData() {
