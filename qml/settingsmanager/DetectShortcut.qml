@@ -16,6 +16,9 @@ Rectangle {
 
     property string category: "key"
 
+    signal gotNewShortcut(var sh)
+    signal abortedShortcutDetection()
+
     // The top row displaying icons for the two categories
     Item {
 
@@ -359,7 +362,10 @@ Rectangle {
 
             text: qsTr("Cancel")
 
-            onClickedButton: hide()
+            onClickedButton: {
+                abortedShortcutDetection()
+                hide()
+            }
 
         }
 
@@ -407,6 +413,11 @@ Rectangle {
             fontBold: true
 
             text: "Ok, set shortcut"
+
+            onClickedButton: {
+                gotNewShortcut(keymousecombo.text)
+                hide()
+            }
 
         }
 

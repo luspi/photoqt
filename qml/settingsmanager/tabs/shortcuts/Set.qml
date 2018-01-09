@@ -22,6 +22,8 @@ Item {
         width: parent.width-6
         height: count*(elementHeight+spacing)
 
+        Behavior on height { NumberAnimation { duration: 200 } }
+
         spacing: 6
 
         interactive: false
@@ -36,14 +38,23 @@ Item {
 
             width: listview.width-6
             height: listview.elementHeight
+            Behavior on height { NumberAnimation { duration: 50 } }
 
             radius: 3
             clip: true
+
+            Behavior on x { NumberAnimation { duration: 200 } }
+            onXChanged: {
+                if(x == -ele.width)
+                    listview.model.remove(index)
+            }
 
             // Change color when hovered
             property bool hovered: false
             color: hovered ? colour.tiles_inactive : colour.tiles_disabled
             Behavior on color { ColorAnimation { duration: 150; } }
+
+            property bool hotForShortcutDetection: false
 
             // quit or not (only visible for external shortcuts)
             Item {
@@ -52,7 +63,7 @@ Item {
 
                 anchors {
                     left: parent.left
-                    leftMargin: 3
+                    leftMargin: 5
                     top: parent.top
                     topMargin: 2
                     bottom: parent.bottom
@@ -62,7 +73,7 @@ Item {
 
                 property bool checked: false
                 onCheckedChanged:
-                    listview.model.set(index, {"shClose" : checked ? "1" : "0"})
+                    listview.model.set(index, {"close" : checked ? "1" : "0"})
 
                 visible: external
 
@@ -105,6 +116,22 @@ Item {
                     rightMargin: 3
                 }
 
+                MouseArea {
+
+                    anchors.fill: parent
+
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
+
+                    onEntered: ele.hovered = true
+                    onExited: ele.hovered = false
+                    onClicked: {
+                        hotForShortcutDetection = true
+                        detectshortcut.show()
+                    }
+
+                }
+
                 Text {
                     id: thetitle
                     anchors.fill: parent
@@ -112,13 +139,14 @@ Item {
                     visible: !external
                     color: colour.tiles_text_active
                     elide: Text.ElideRight
-                    text: shDesc
+                    text: desc
                 }
                 CustomLineEdit {
                     id: externalCommand
                     anchors.fill: parent
+                    anchors.rightMargin: parent.width/2+closeitem.width
                     visible: external
-                    text: shDesc
+                    text: desc
                     //: Shortcuts: This is the command to be executed (external shortcut)
                     emptyMessage: qsTr("The command goes here")
                     onTextEdited:
@@ -131,29 +159,23 @@ Item {
                     repeat: false
                     onTriggered: {
                         if(external)
-                            gridmodel.set(index, {"shCmd" : externalCommand.getText()})
+                            listview.model.set(index, {"cmd" : externalCommand.getText()})
                     }
                 }
 
                 Text {
                     id: thekey
                     anchors.fill: parent
-                    anchors.leftMargin: parent.width/2
+                    anchors.leftMargin: parent.width/2-closeitem.width/2
                     color: colour.tiles_text_active
                     elide: Text.ElideRight
-                    text: strings.translateShortcut(shKey)
-                }
-
-                MouseArea {
-
-                    anchors.fill: parent
-
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-
-                    onEntered: ele.hovered = true
-                    onExited: ele.hovered = false
-
+                    text: strings.translateShortcut(key)
+                    Component.onCompleted: {
+                        if(text == "...") {
+                            ele.hotForShortcutDetection = true
+                            detectshortcut.show()
+                        }
+                    }
                 }
 
             }
@@ -190,8 +212,32 @@ Item {
                         ele.hovered = false
                         deleteItem.hovered = false
                     }
+                    onClicked:
+                        ele.deleteThisShortcut()
                 }
 
+            }
+
+
+            Connections {
+                target: detectshortcut
+                onAbortedShortcutDetection: {
+                    if(ele.hotForShortcutDetection) {
+                        ele.hotForShortcutDetection = false
+                        if(thekey.text == "...")
+                            ele.deleteThisShortcut()
+                    }
+                }
+                onGotNewShortcut: {
+                    if(ele.hotForShortcutDetection) {
+                        ele.hotForShortcutDetection = false
+                        thekey.text = sh
+                    }
+                }
+            }
+
+            function deleteThisShortcut() {
+                ele.x = -ele.width
             }
 
         }
@@ -203,8 +249,13 @@ Item {
         listview.model.clear()
 
         for(var i = 0; i < sh.length; ++i)
-            listview.model.append({"shDesc" : sh[i][0], "shKey" : sh[i][1], "shClose" : sh[i][2], "shCmd" : sh[i][3]})
+            listview.model.append({"desc" : sh[i][0], "key" : sh[i][1], "close" : sh[i][2], "cmd" : sh[i][3]})
 
+    }
+
+    function addShortcut(dat) {
+        console.log(dat)
+        listview.model.append({"desc" : dat[1], "key" : "...", "close" : "0", "cmd" : dat[0]})
     }
 
 }
