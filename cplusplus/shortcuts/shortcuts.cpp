@@ -30,6 +30,7 @@ QStringList Shortcuts::load() {
         }
 
         QStringList val;
+        // sh, close, cmd
         val << parts.at(1) << parts.at(0) << parts.at(2);
 
         ret.append(val);

@@ -115,15 +115,15 @@ function getModifiers(event) {
     var modstring = ""
 
     if(event.modifiers & Qt.ControlModifier)
-        modstring += str_keys.get("ctrl") + "+"
+        modstring += strings.get("ctrl") + "+"
     if(event.modifiers & Qt.AltModifier)
-        modstring += str_keys.get("alt") + "+"
+        modstring += strings.get("alt") + "+"
     if(event.modifiers & Qt.ShiftModifier)
-        modstring += str_keys.get("shift") + "+"
+        modstring += strings.get("shift") + "+"
     if(event.modifiers & Qt.MetaModifier)
-        modstring += str_keys.get("meta") + "+"
+        modstring += strings.get("meta") + "+"
     if(event.modifiers & Qt.KeypadModifier)
-        modstring += str_keys.get("keypad") + "+"
+        modstring += strings.get("keypad") + "+"
 
     return modstring
 

@@ -110,8 +110,7 @@ Rectangle {
     Variables { id: variables }
 
     // Some strings for keys and mouse shortcuts
-    StringsKeys { id: str_keys }
-    StringsMouse { id: str_mouse }
+    Strings { id: strings }
 
     // Used to show and hide elements that are loaded when needed
     Caller { id: call }

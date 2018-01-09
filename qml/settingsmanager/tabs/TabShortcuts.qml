@@ -50,7 +50,7 @@ Rectangle {
             SettingsText {
                 width: flickable.width-20
                 x: 10
-                text: qsTr("Here you can adjust the shortcuts, add new or remove existing ones, or change a key/mouse/touch combination. The shortcuts are grouped into 4 different categories for internal commands plus a category for external commands. The boxes on the right side contain all the possible commands. To add a shortcut for one of the available function simply click on one of the rectangles. This will automatically open another element where you can set the desired shortcut.")
+                text: qsTr("Here you can adjust the shortcuts, add new or remove existing ones, or change a key/mouse combination. The shortcuts are grouped into 4 different categories for internal commands plus a category for external commands. The boxes on the right side contain all the possible commands. To add a shortcut for one of the available function simply click on one of the rectangles. This will automatically open another element where you can set the desired shortcut.")
             }
 
             Rectangle { color: "transparent"; width: 1; height: 30; }
@@ -64,7 +64,7 @@ Rectangle {
                 width: flickable.width-20
                 x: 10
 
-                text: qsTr("Pressing the left button of the mouse and moving it around can be used for moving a zommed image around. The same goes for a single finger on a touch screen (if one is available). If you want to use them for this purpose, then these type of gestures cannot be used for any other shortcut!")
+                text: qsTr("Pressing the left button of the mouse and moving it around can be used for moving a zommed image around. If you want to use them for this purpose, then any shortcut set to that will have no effect!")
 
             }
 
@@ -84,15 +84,6 @@ Rectangle {
                         id: mouseleftbutton
                         //: This is written on a checkbox in the shortcuts tab of the settings manager
                         text: qsTr("Mouse: Left button click-and-move")
-//                        onCheckedButtonChanged: detectshortcut.leftButtonMouseClickAndMove = checkedButton
-                    }
-
-                    CustomCheckBox {
-                        id: touchsinglefinger
-//                        enabled: getanddostuff.isTouchScreenAvailable()
-                        //: This is written on a checkbox in the shortcuts tab of the settings manager
-                        text: qsTr("Touch screen: One finger press-and-move")
-//                        onCheckedButtonChanged: detectshortcut.singleFingerTouchPressAndMove = checkedButton
                     }
 
                 }
@@ -199,7 +190,7 @@ Rectangle {
                                     //: This is a shortcut description
                                     ["__imgurAnonym", qsTr("Upload to imgur.com (anonymously)")],
                                     //: This is a shortcut description,
-                                    ["__imgur", qsTr("Upload to imgur.com")]]
+                                    ["__imgur", qsTr("Upload to imgur.com user account")]]
             }
 
             ShortcutsContainer {
@@ -216,18 +207,14 @@ Rectangle {
 
     function setData() {
 
-//        var _key_shortcuts = getanddostuff.getKeyShortcuts()
-//        var _mouse_shortcuts = getanddostuff.getMouseShortcuts()
-//        var _touch_shortcuts = getanddostuff.getTouchShortcuts()
-//        detectshortcut.setTakenShortcuts(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
-//        navigation.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
-//        image.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
-//        file.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
-//        other.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
-//        external.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
+        var sh = shortcutshandler.load()
+        navigation.setData(sh)
+        image.setData(sh)
+        file.setData(sh)
+        other.setData(sh)
+        external.setData(sh)
 
         mouseleftbutton.checkedButton = settings.leftButtonMouseClickAndMove
-        touchsinglefinger.checkedButton = settings.singleFingerTouchPressAndMove
 
     }
 
@@ -254,7 +241,6 @@ Rectangle {
 //        getanddostuff.saveShortcuts(ret)
 
         settings.leftButtonMouseClickAndMove = mouseleftbutton.checkedButton
-        settings.singleFingerTouchPressAndMove = touchsinglefinger.checkedButton
 
     }
 

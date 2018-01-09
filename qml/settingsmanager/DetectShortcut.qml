@@ -10,8 +10,6 @@ Rectangle {
     anchors.fill: parent
     color: "#ee000000"
 
-    Component.onCompleted: show()
-
     opacity: 0
     Behavior on opacity { NumberAnimation { duration: 200 } }
     visible: (opacity!=0)
@@ -221,15 +219,15 @@ Rectangle {
 
                         // check for modifier keys
                         if(allKey[i] == "Ctrl")
-                            middlearea.modifiers += str_keys.get("ctrl") + "+"
+                            middlearea.modifiers += strings.get("ctrl") + "+"
                         else if(allKey[i] == "Alt")
-                            middlearea.modifiers += str_keys.get("alt") + "+"
+                            middlearea.modifiers += strings.get("alt") + "+"
                         else if(allKey[i] == "Shift")
-                            middlearea.modifiers += str_keys.get("shift") + "+"
+                            middlearea.modifiers += strings.get("shift") + "+"
                         else if(allKey[i] == "Meta")
-                            middlearea.modifiers += str_keys.get("meta") + "+"
+                            middlearea.modifiers += strings.get("meta") + "+"
                         else if(allKey[i] == "Keypad")
-                            middlearea.modifiers += str_keys.get("keypad") + "+"
+                            middlearea.modifiers += strings.get("keypad") + "+"
 
                         // any other key is a 'normal' key
                         else {

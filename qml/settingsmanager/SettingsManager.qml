@@ -409,15 +409,15 @@ Rectangle {
 
     Component.onCompleted: {
         //: Inform the user of a possible shortcut action in the settings manager
-        settingsmanagershortcuts.shortcuts[str_keys.get("ctrl") + " + " + str_keys.get("tab")] = qsTr("Go to the next tab")
+        settingsmanagershortcuts.shortcuts[strings.get("ctrl") + " + " + strings.get("tab")] = qsTr("Go to the next tab")
         //: Inform the user of a possible shortcut action in the settings manager
-        settingsmanagershortcuts.shortcuts[str_keys.get("ctrl") + " + " + str_keys.get("shift") + " + " + str_keys.get("tab")] = qsTr("Go to the previous tab")
+        settingsmanagershortcuts.shortcuts[strings.get("ctrl") + " + " + strings.get("shift") + " + " + strings.get("tab")] = qsTr("Go to the previous tab")
         //: Inform the user of a possible shortcut action in the settings manager
-        settingsmanagershortcuts.shortcuts[str_keys.get("alt") + "+1 " + " ... " + " " + str_keys.get("alt") + "+6"] = qsTr("Switch to tab 1 to 5")
+        settingsmanagershortcuts.shortcuts[strings.get("alt") + "+1 " + " ... " + " " + strings.get("alt") + "+6"] = qsTr("Switch to tab 1 to 5")
         //: Inform the user of a possible shortcut action in the settings manager
-        settingsmanagershortcuts.shortcuts[str_keys.get("ctrl") + "+S"] = qsTr("Save settings")
+        settingsmanagershortcuts.shortcuts[strings.get("ctrl") + "+S"] = qsTr("Save settings")
         //: Inform the user of a possible shortcut action in the settings manager
-        settingsmanagershortcuts.shortcuts[str_keys.get("escape")] = qsTr("Discard settings")
+        settingsmanagershortcuts.shortcuts[strings.get("escape")] = qsTr("Discard settings")
     }
 
     Connections {

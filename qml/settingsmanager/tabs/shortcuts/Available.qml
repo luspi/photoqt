@@ -18,17 +18,20 @@ Rectangle {
     // A new shortcut is to be added
     signal addShortcut(var shortcut)
 
-    GridView {
+    ListView {
 
-        id: grid
+        id: listview
 
         x: 3
         y: 3
         width: parent.width-6
-        height: childrenRect.height
+        height: count*(elementHeight+spacing)
 
-        cellWidth: parent.width
-        cellHeight: 30
+        spacing: 6
+
+        interactive: false
+
+        property int elementHeight: 24
 
         model: shortcuts.length
 
@@ -38,8 +41,8 @@ Rectangle {
 
             x: 3
             y: 3
-            width: grid.cellWidth-6
-            height: grid.cellHeight-6
+            width: listview.width
+            height: listview.elementHeight
 
             radius: 8
 

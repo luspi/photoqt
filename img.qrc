@@ -34,7 +34,6 @@
         <file>img/settings/sortdescending.png</file>
         <file>img/settings/shortcuts/categorykeyboard.png</file>
         <file>img/settings/shortcuts/categorymouse.png</file>
-        <file>img/settings/shortcuts/categorytouch.png</file>
         <file>img/mainmenu/about.png</file>
         <file>img/mainmenu/copy.png</file>
         <file>img/mainmenu/delete.png</file>
@@ -56,5 +55,6 @@
         <file>img/mainmenu/zoomin.png</file>
         <file>img/mainmenu/zoomout.png</file>
         <file>img/openfile/hoverpreviewhq.png</file>
+        <file>img/settings/shortcuts/deleteshortcut.png</file>
     </qresource>
 </RCC>

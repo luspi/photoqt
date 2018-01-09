@@ -1,8 +1,9 @@
-import QtQuick 2.4
+import QtQuick 2.6
 
 Item {
 
-    readonly property var dict: {
+    // KEY STRINGS
+    readonly property var dictKeys: {
         //: Refers to a keyboard modifier
         "alt" : qsTr("Alt"),
         //: Refers to a keyboard modifier
@@ -47,11 +48,36 @@ Item {
         "enter" : qsTr("Enter"),
     }
 
-    function get(key) {
-        var tmp = key.toLowerCase()
-        if(tmp in dict)
-            return dict[tmp]
-        return key
+    // MOUSE STRINGS
+    readonly property var dictMouse: {
+        //: Refers to a mouse button
+        "left button" : qsTr("Left Button"),
+        //: Refers to a mouse button
+        "right button" : qsTr("Right Button"),
+        //: Refers to a mouse button
+        "middle button" : qsTr("Middle Button"),
+        //: Refers to the mouse wheel
+        "wheel up" : qsTr("Wheel Up"),
+        //: Refers to the mouse wheel
+        "wheel down" : qsTr("Wheel Down"),
+        //: Refers to a direction of a mouse gesture
+        "east" : qsTr("East"),
+        //: Refers to a direction of a mouse gesture
+        "south" : qsTr("South"),
+        //: Refers to a direction of a mouse gesture
+        "west" : qsTr("West"),
+        //: Refers to a direction of a mouse gesture
+        "north" : qsTr("North"),
+    }
+
+
+    function get(combo) {
+        var tmp = combo.toLowerCase()
+        if(tmp in dictKeys)
+            return dictKeys[tmp]
+        if(tmp in dictMouse)
+            return dictMouse[tmp]
+        return combo
     }
 
     function translateShortcut(combo) {
@@ -71,7 +97,40 @@ Item {
                 ret += get(parts[i])
         }
 
+        if(isMouseShortcut(combo)) {
+
+            var p = ret.split("+")
+            var lastItem = p[p.length-1]
+            ret = ""
+            for(var j = 0; j < p.length-1; ++j)
+                ret += p[j] + "+"
+
+            for(var k = 0; k < lastItem.length; ++k) {
+                if(k > 0) ret += "-"
+                if(lastItem[k] == "E")
+                    ret += dictMouse["east"]
+                else if(lastItem[k] == "S")
+                    ret += dictMouse["south"]
+                else if(lastItem[k] == "W")
+                    ret += dictMouse["west"]
+                else if(lastItem[k] == "N")
+                    ret += dictMouse["north"]
+            }
+
+        }
+
         return ret
+
+    }
+
+    function isMouseShortcut(combo) {
+
+        var parts = combo.split("+")
+        for(var i in parts) {
+            if(parts[i].toLowerCase() in dictMouse)
+                return true
+        }
+        return false
 
     }
 
