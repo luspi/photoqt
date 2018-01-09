@@ -97,7 +97,9 @@ Item {
                 ret += get(parts[i])
         }
 
-        if(combo.toLowerCase().indexOf("left button") > -1 || combo.toLowerCase().indexOf("right button") > -1) {
+        var comboLC = combo.toLowerCase()
+        if((comboLC.indexOf("left button") > -1 && comboLC.indexOf("left button") != comboLC.length-11)
+                || (comboLC.indexOf("right button") > -1 && comboLC.indexOf("right button") != comboLC.length-12)) {
 
             var p = ret.split("+")
             var lastItem = p[p.length-1]
