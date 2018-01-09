@@ -73,17 +73,17 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="19"/>
         <source>There are four things that can be adjusted here:</source>
-        <translation type="unfinished"/>
+        <translation>Ci sono quattro cose che possono essere regolate qui:</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="19"/>
         <source>Animation of fade-in elements (e.g., Settings or About)</source>
-        <translation type="unfinished"/>
+        <translation>Animazione della comparsa di elementi (es. delle impostazioni)</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="19"/>
         <source>Force PhotoQt to always open on a specific screen</source>
-        <translation type="unfinished"/>
+        <translation>Forza PhotoQt ad aprirsi sempre su uno specifico schermo</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="32"/>
@@ -104,7 +104,7 @@
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="58"/>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="61"/>
         <source>Make PhotoQt appear on Screen #</source>
-        <translation type="unfinished"/>
+        <translation>Sposta PhotoQt sullo schermo #</translation>
     </message>
 </context>
 <context>
@@ -112,7 +112,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/shortcuts/Available.qml" line="90"/>
         <source>Click to add shortcut</source>
-        <translation type="unfinished"/>
+        <translation>Clicca per aggiungere la scorciatoia</translation>
     </message>
 </context>
 <context>
@@ -125,7 +125,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="18"/>
         <source>The background of PhotoQt is the part, that is not covered by an image. It can be made either real (half-)transparent (using a compositor), or faked transparent (instead of the actual desktop a screenshot of it is shown), or a custom background image can be set, or none of the above. Please note: Fake transparency currently only really works when PhotoQt is run in fullscreen/maximised!</source>
-        <translation type="unfinished"/>
+        <translation>Lo sfondo di PhotoQt è la parte non coperta dall&apos;immagine corrente. Può essere usata una semitrasparenza (usando un compositor), una falsa trasparenza (al posto del vero desktop viene usato uno screenshot), un&apos;immagine personalizzata oppure nessuna di queste opzioni. Nota: Al momento la falsa trasparenza funziona bene solo se PhotoQt è a schermo intero/massimizzato!</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="36"/>
@@ -198,7 +198,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Blur.qml" line="17"/>
         <source>Please note</source>
-        <translation type="unfinished"/>
+        <translation>Tieni presente che</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Blur.qml" line="30"/>
@@ -241,7 +241,7 @@
     <message>
         <location filename="../qml/openfile/BreadCrumbs.qml" line="103"/>
         <source>Close &apos;Open File&apos; element</source>
-        <translation type="unfinished"/>
+        <translation>Chiudi elemento &apos;apri file&apos;</translation>
     </message>
 </context>
 <context>
@@ -365,7 +365,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/CloseOnClick.qml" line="17"/>
         <source>This option makes PhotoQt behave a bit like the JavaScript image viewers you find on many websites. A click outside of the image on the empty background will close the application. It can be a nice feature, PhotoQt will feel even more like a &apos;floating layer&apos;. However, you might at times close PhotoQt accidentally.</source>
-        <translation type="unfinished"/>
+        <translation>Questa opzione rende PhotoQt simile ai visualizzatori di immagini Javascript che si trovano su molti siti web. Un click al di fuori dell&apos;immagine, sullo sfondo vuoto, chiuderà l&apos;applicazione. Può essere una funzione interessante, PhotoQt sarà ancora più simile ad un &quot;livello fluttuante&quot;. Tuttavia, potrebbe capitare che l&apos;utente chiuda PhotoQt accidentalmente.</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/CloseOnClick.qml" line="26"/>
@@ -378,12 +378,12 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/ClosingX.qml" line="19"/>
         <source>Exit button (&apos;x&apos; in top right corner)</source>
-        <translation type="unfinished"/>
+        <translation>Pulsante uscita (&apos;x&apos; nell&apos;angolo in alto a destra)</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/ClosingX.qml" line="20"/>
         <source>There are two looks for the exit button: a plain &apos;x&apos;, or a slightly more fancy &apos;x&apos;. Here you can switch back and forth between both of them, and also change their size. If you prefer not to have a closing &apos;x&apos; at all, see further down for an option to hide it completely.</source>
-        <translation type="unfinished"/>
+        <translation>Ci sono due look per la chiusura da &apos;x&apos; nella parte superiore destra: semplicemente &apos;x&apos; o una &apos;x&apos; un po&apos; più fantasiosa. Qui è possibile passare avanti e indietro tra i due e anche modificarne la dimensione. Se si preferisce non avere una chiusura &apos;x&apos; , vedere più in basso per l&apos;opzione di nasconderla completamente.</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/ClosingX.qml" line="35"/>
@@ -487,12 +487,12 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/other/CustomEntries.qml" line="20"/>
         <source>Custom Entries in Main Menu</source>
-        <translation type="unfinished"/>
+        <translation>Voci personalizzate del menu principale</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/other/CustomEntries.qml" line="21"/>
         <source>Here you can adjust the custom entries in the main menu. You can simply drag and drop the entries, edit them, add a new one and remove an existing one.</source>
-        <translation type="unfinished"/>
+        <translation>Qui puoi modificare il menu contestuale. Puoi semplicemente trascinare le voci, aggiungerle, modificarle o rimuoverle.</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/other/CustomEntries.qml" line="71"/>
@@ -535,12 +535,12 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/other/CustomEntriesInteractive.qml" line="289"/>
         <source>Unavailable on Windows</source>
-        <translation type="unfinished"/>
+        <translation>Non disponibile su Windows</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/other/CustomEntriesInteractive.qml" line="290"/>
         <source>There isn&apos;t anything here yet</source>
-        <translation type="unfinished"/>
+        <translation>Non c&apos;è ancora nulla qui</translation>
     </message>
 </context>
 <context>
@@ -592,42 +592,42 @@
         <location filename="../qml/settingsmanager/DetectShortcut.qml" line="143"/>
         <source>Modifier</source>
         <extracomment>This string refers to a key modifier like Ctrl or Alt</extracomment>
-        <translation type="unfinished"/>
+        <translation>Modificatore</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/DetectShortcut.qml" line="156"/>
         <source>Mouse Button</source>
-        <translation type="unfinished"/>
+        <translation>Pulsante del mouse</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/DetectShortcut.qml" line="170"/>
         <location filename="../qml/settingsmanager/DetectShortcut.qml" line="243"/>
         <source>Gesture path</source>
         <extracomment>This refers to a gesture done with the mouse or a touchscreen finger</extracomment>
-        <translation type="unfinished"/>
+        <translation>Gesture</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/DetectShortcut.qml" line="214"/>
         <source>Number of Fingers</source>
         <extracomment>Refers to the number of fingers used when performing a touchscreen gesture</extracomment>
-        <translation type="unfinished"/>
+        <translation>Numero dita</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/DetectShortcut.qml" line="228"/>
         <source>Action</source>
         <extracomment>This refers to an action executed by a shortcut command</extracomment>
-        <translation type="unfinished"/>
+        <translation>Azione</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/DetectShortcut.qml" line="236"/>
         <source>Tap</source>
         <extracomment>This refers to a simple tap with a finger on a touchscreen</extracomment>
-        <translation type="unfinished"/>
+        <translation>Tap</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/DetectShortcut.qml" line="340"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>Cancella</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/DetectShortcut.qml" line="372"/>
@@ -685,7 +685,7 @@
     <message>
         <location filename="../qml/fadein/wallpaper/Enlightenment.qml" line="55"/>
         <source>The wallpaper can be set to any of the available monitors (one or any combination).</source>
-        <translation type="unfinished"/>
+        <translation>Lo sfondo può essere impostato per tutti i monitor disponibili (o qualsiasi combinazione).</translation>
     </message>
     <message>
         <location filename="../qml/fadein/wallpaper/Enlightenment.qml" line="71"/>
@@ -726,14 +726,14 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/other/FileTypesExtras.qml" line="22"/>
         <source>Please note</source>
-        <translation type="unfinished"/>
+        <translation>Tieni presente che</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/other/FileTypesExtras.qml" line="78"/>
         <location filename="../qml/settingsmanager/tabs/other/FileTypesExtras.qml" line="80"/>
         <source>Makes use of</source>
         <extracomment>Settings: This is used as in 'Makes use of some other tool'</extracomment>
-        <translation type="unfinished"/>
+        <translation>Fa uso di</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/other/FileTypesExtras.qml" line="22"/>
@@ -797,7 +797,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/other/FileTypesQt.qml" line="20"/>
         <source>These are the file types natively supported by Qt. Make sure, that you&apos;ll have the required libraries installed (e.g., qt5-imageformats), otherwise some of them might not work on your system.</source>
-        <translation type="unfinished"/>
+        <translation>Questi sono i formati supportati nativamente da Qt. Accertati di avere le librerie richieste installate (ad esempio qt5-imageformats), altrimenti alcuni formati potrebbero non funzionare.</translation>
     </message>
 </context>
 <context>
@@ -820,7 +820,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/other/FileTypesRaw.qml" line="23"/>
         <source>PhotoQt was built without LibRaw support!</source>
-        <translation type="unfinished"/>
+        <translation>PhotoQt è stato compilato senza supporto LibRaw!</translation>
     </message>
 </context>
 <context>
@@ -881,7 +881,7 @@
     <message>
         <location filename="../qml/openfile/FilesView.qml" line="109"/>
         <source>No images found in this folder</source>
-        <translation type="unfinished"/>
+        <translation>Nessuna immagine trovata in questa cartella</translation>
     </message>
 </context>
 <context>
@@ -927,7 +927,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/FitInWindow.qml" line="17"/>
         <source>If the image dimensions are smaller than the screen dimensions, PhotoQt can zoom those images to make them fit into the window. However, keep in mind, that such images will look pixelated to a certain degree (depending on each image).</source>
-        <translation type="unfinished"/>
+        <translation>Se le dimensioni dell&apos;immagine sono più piccole dello schermo, PhotoQt può ingrandirle per adattarle alle dimensioni della finestra. Comunque, tieni a mente che queste immagini potrebbero risultare da lievemente a molto sgranate (dipende da ogni immagine).</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/FitInWindow.qml" line="26"/>
@@ -1189,7 +1189,7 @@
     <message>
         <location filename="../qml/mainview/Histogram.qml" line="270"/>
         <source>Histogram</source>
-        <translation type="unfinished"/>
+        <translation>Istogramma</translation>
     </message>
     <message>
         <location filename="../qml/mainview/Histogram.qml" line="402"/>
@@ -1199,7 +1199,7 @@
     <message>
         <location filename="../qml/mainview/Histogram.qml" line="450"/>
         <source>Click to hide histogram. It can always be shown again from the mainmenu.</source>
-        <translation type="unfinished"/>
+        <translation>Clicca per nascondere l&apos;istogramma. Può sempre essere ripristinato dal menu principale.</translation>
     </message>
 </context>
 <context>
@@ -1262,7 +1262,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Keep.qml" line="16"/>
         <source>Keep between images</source>
-        <translation type="unfinished"/>
+        <translation>Mantieni tra diverse immagini</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Keep.qml" line="17"/>
@@ -1547,7 +1547,7 @@
         <location filename="../qml/slidein/MainMenu.qml" line="44"/>
         <source>Show/Hide Histogram</source>
         <extracomment>This is an entry in the mainmenu on the right</extracomment>
-        <translation type="unfinished"/>
+        <translation>Mostra/Nascondi Istogramma</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="46"/>
@@ -1708,7 +1708,7 @@ This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of 
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="145"/>
         <source>Close PhotoQt</source>
-        <translation type="unfinished"/>
+        <translation>Chiudi PhotoQt</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="165"/>
@@ -1727,7 +1727,7 @@ This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of 
     <message>
         <location filename="../qml/mainview/MainView.qml" line="153"/>
         <source>Hide &apos;x&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Nascondi &apos;x&apos;</translation>
     </message>
     <message>
         <location filename="../qml/mainview/MainView.qml" line="181"/>
@@ -1816,19 +1816,19 @@ This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of 
         <location filename="../qml/settingsmanager/tabs/metadata/MetaData.qml" line="20"/>
         <source>Meta Information</source>
         <extracomment>Settings: This refers to the Exif and IPTC metadata possibly stored in an image file</extracomment>
-        <translation type="unfinished"/>
+        <translation>Informazioni Metadati</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/MetaData.qml" line="21"/>
         <source>PhotoQt can display a number of information about the image (often called &apos;Exif data&apos;). However, you might not be interested in all of them, hence you can choose to disable some of them here.</source>
-        <translation type="unfinished"/>
+        <translation>PhotoQt può mostrare informazioni riguardo l&apos;immagine (di solito chiamate dati Exif). Potresti non essere interessato ad alcuni di essi, quindi da qui puoi disabilitare quelli che non vuoi che vengano mostrati.</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/MetaData.qml" line="69"/>
         <location filename="../qml/settingsmanager/tabs/metadata/MetaData.qml" line="105"/>
         <location filename="../qml/slidein/MetaData.qml" line="287"/>
         <source>Filename</source>
-        <translation type="unfinished"/>
+        <translation>Nome file</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/MetaData.qml" line="70"/>
@@ -1842,7 +1842,7 @@ This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of 
         <location filename="../qml/settingsmanager/tabs/metadata/MetaData.qml" line="107"/>
         <location filename="../qml/slidein/MetaData.qml" line="295"/>
         <source>Image</source>
-        <translation type="unfinished"/>
+        <translation>Immagine</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/MetaData.qml" line="72"/>
@@ -1898,7 +1898,7 @@ This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of 
         <location filename="../qml/settingsmanager/tabs/metadata/MetaData.qml" line="92"/>
         <source>F-Number</source>
         <extracomment>The next string refers to Exif image metadata</extracomment>
-        <translation type="unfinished"/>
+        <translation>F-Number</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="322"/>
@@ -2044,7 +2044,7 @@ The next string refers to Exif image metadata The next string refers to Exif ima
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/OnlineMap.qml" line="17"/>
         <source>Online Map for GPS</source>
-        <translation type="unfinished"/>
+        <translation>Mappe online per il GPS</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/OnlineMap.qml" line="18"/>
@@ -2111,13 +2111,13 @@ Passare alla prima/all&apos;ultima voce </translation>
         <location filename="../qml/openfile/OpenFile.qml" line="243"/>
         <source>Load the currently highlighted item</source>
         <extracomment>This is used in the context of the 'Open File' element</extracomment>
-        <translation type="unfinished"/>
+        <translation>Carica l&apos;elemento selezionato</translation>
     </message>
     <message>
         <location filename="../qml/openfile/OpenFile.qml" line="245"/>
         <source>Cancel</source>
         <extracomment>This is used in the context of the 'Open File' element</extracomment>
-        <translation type="unfinished"/>
+        <translation>Cancella</translation>
     </message>
 </context>
 <context>
@@ -2125,34 +2125,34 @@ Passare alla prima/all&apos;ultima voce </translation>
     <message>
         <location filename="../qml/fadein/wallpaper/Other.qml" line="29"/>
         <source>Warning: &apos;feh&apos; doesn&apos;t seem to be installed!</source>
-        <translation type="unfinished"/>
+        <translation>Attenzione: &apos;feh&apos; non sembra essere installato!</translation>
     </message>
     <message>
         <location filename="../qml/fadein/wallpaper/Other.qml" line="40"/>
         <source>Warning: &apos;nitrogen&apos; doesn&apos;t seem to be installed!</source>
-        <translation type="unfinished"/>
+        <translation>Attenzione: &apos;nitrogen&apos; non sembra essere installato!</translation>
     </message>
     <message>
         <location filename="../qml/fadein/wallpaper/Other.qml" line="51"/>
         <source>Warning: Both &apos;feh&apos; and &apos;nitrogen&apos; don&apos;t seem to be installed!</source>
-        <translation type="unfinished"/>
+        <translation>Attenzione: sia &apos;feh&apos; che &apos;nitrogen&apos; non sembrano essere installati!</translation>
     </message>
     <message>
         <location filename="../qml/fadein/wallpaper/Other.qml" line="62"/>
         <source>PhotoQt can use &apos;feh&apos; or &apos;nitrogen&apos; to change the background of the desktop.&lt;br&gt;This is intended particularly for window managers that don&apos;t natively support wallpapers (like Blackbox, Fluxbox, or Openbox).</source>
-        <translation type="unfinished"/>
+        <translation>PhotoQt usa Feh o Nitrogen per cambiare lo sfondo del desktop.&lt;br&gt;Questo serve in particolare nel caso in cui il proprio window manager non supporti nativamente questa funzione (come nel caso di Openbox, Fluxbox o Blackbox).</translation>
     </message>
     <message>
         <location filename="../qml/fadein/wallpaper/Other.qml" line="78"/>
         <source>Use &apos;feh&apos;</source>
         <extracomment>feh is an application, do not translate</extracomment>
-        <translation type="unfinished"/>
+        <translation>Usa &apos;feh&apos;</translation>
     </message>
     <message>
         <location filename="../qml/fadein/wallpaper/Other.qml" line="85"/>
         <source>Use &apos;nitrogen&apos;</source>
         <extracomment>nitrogen is an application, do not translate</extracomment>
-        <translation type="unfinished"/>
+        <translation>Usa &apos;nitrogen&apos;</translation>
     </message>
 </context>
 <context>
@@ -2160,38 +2160,38 @@ Passare alla prima/all&apos;ultima voce </translation>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/OverlayColor.qml" line="16"/>
         <source>Overlay Color</source>
-        <translation type="unfinished"/>
+        <translation>Colore di Sfondo</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/OverlayColor.qml" line="17"/>
         <source>Here you can adjust the background colour of PhotoQt (of the part not covered by an image). When using compositing or a background image, then you can also specify an alpha value, i.e. the transparency of the coloured overlay layer. When neither compositing is enabled nor a background image is set, then this colour will be the non-transparent background of PhotoQt.</source>
-        <translation type="unfinished"/>
+        <translation>Qui puoi scegliere il colore di sfondo di PhotoQt (della parte non occupata dall&apos;immagine). Se usi il compositing o un&apos;immagine di sfondo fissa, puoi anche specificare un valore alpha, ovvero il livello di trasparenza del livello colorato. Se non vengono usati né il compositing né un&apos;immagine di sfondo, il colore selezionato sarà usato come sfondo non trasparente.</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/OverlayColor.qml" line="43"/>
         <source>Red:</source>
-        <translation type="unfinished"/>
+        <translation>Rosso:</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/OverlayColor.qml" line="65"/>
         <source>Green:</source>
-        <translation type="unfinished"/>
+        <translation>Verde:</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/OverlayColor.qml" line="87"/>
         <source>Blue:</source>
-        <translation type="unfinished"/>
+        <translation>Blu:</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/OverlayColor.qml" line="110"/>
         <source>Alpha:</source>
         <extracomment>This refers to the alpha value of a color (i.e., how opaque/transparent the colour is)</extracomment>
-        <translation type="unfinished"/>
+        <translation>Alpha:</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/OverlayColor.qml" line="175"/>
         <source>Preview</source>
-        <translation type="unfinished"/>
+        <translation>Anteprima</translation>
     </message>
 </context>
 <context>
@@ -2199,7 +2199,7 @@ Passare alla prima/all&apos;ultima voce </translation>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/PixmapCache.qml" line="18"/>
         <source>Pixmap Cache</source>
-        <translation type="unfinished"/>
+        <translation>Cache pixmap</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/PixmapCache.qml" line="19"/>
@@ -2209,7 +2209,7 @@ Passare alla prima/all&apos;ultima voce </translation>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/PixmapCache.qml" line="19"/>
         <source>Note: Any change will only take effect after you restart PhotoQt!</source>
-        <translation type="unfinished"/>
+        <translation>Nota: ogni cambiamento avrà effetto solo dopo il riavvio di PhotoQt!</translation>
     </message>
 </context>
 <context>
@@ -2217,7 +2217,7 @@ Passare alla prima/all&apos;ultima voce </translation>
     <message>
         <location filename="../qml/fadein/wallpaper/Plasma5.qml" line="22"/>
         <source>Sorry, Plasma 5 doesn&apos;t yet offer the feature to change the wallpaper except from their own system settings. Hopefully this will change soon, but until then there&apos;s nothing I can do about that.</source>
-        <translation type="unfinished"/>
+        <translation>Scusa, Plasma 5 non offre ancora la possibilità di cambiare lo sfondo all&apos;infuori delle sue impostazioni. Si spera che questa funzione venga implementata in futuro, ma per ora qui non si può fare nulla.</translation>
     </message>
 </context>
 <context>
@@ -2251,22 +2251,22 @@ Passare alla prima/all&apos;ultima voce </translation>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Quickinfo.qml" line="16"/>
         <source>Show Quickinfo (Text Labels)</source>
-        <translation type="unfinished"/>
+        <translation>Mostra Quickinfo (etichette testuali)</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Quickinfo.qml" line="17"/>
         <source>Here you can hide the text labels shown in the main area: The Counter in the top left corner, the file path/name following the counter, and the &quot;X&quot; displayed in the top right corner. The labels can also be hidden by simply right-clicking on them and selecting &quot;Hide&quot;.</source>
-        <translation type="unfinished"/>
+        <translation>Qui puoi nascondere le etichette di testo mostrate nell&apos;area principale: il contatore nella parte alta-sinistra, il nome del file che segue il contatore e la &quot;X&quot; mostrata nella parte alta-destra. Le etichette possono anche essere nascoste semplicemente cliccando col tasto destro del mouse e selezionando &quot;Nascondi&quot;.</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Quickinfo.qml" line="29"/>
         <source>Counter</source>
-        <translation type="unfinished"/>
+        <translation>Contatore</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Quickinfo.qml" line="34"/>
         <source>Filename</source>
-        <translation type="unfinished"/>
+        <translation>Nome file</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Quickinfo.qml" line="39"/>
@@ -2276,7 +2276,7 @@ Passare alla prima/all&apos;ultima voce </translation>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Quickinfo.qml" line="44"/>
         <source>Exit button (&apos;x&apos; in top right corner)</source>
-        <translation type="unfinished"/>
+        <translation>Pulsante uscita (&apos;x&apos; nell&apos;angolo in alto a destra)</translation>
     </message>
 </context>
 <context>
@@ -2284,7 +2284,7 @@ Passare alla prima/all&apos;ultima voce </translation>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/ReOpenFile.qml" line="16"/>
         <source>Re-open last used image at startup</source>
-        <translation type="unfinished"/>
+        <translation>Riapri l&apos;ultima immagine visualizzata all&apos;avvio</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/ReOpenFile.qml" line="17"/>
@@ -2294,7 +2294,7 @@ Passare alla prima/all&apos;ultima voce </translation>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/ReOpenFile.qml" line="29"/>
         <source>Re-open last used image</source>
-        <translation type="unfinished"/>
+        <translation>Riapri l&apos;ultima immagine visualizzata all&apos;avvio</translation>
     </message>
 </context>
 <context>
@@ -2307,7 +2307,7 @@ Passare alla prima/all&apos;ultima voce </translation>
     <message>
         <location filename="../qml/fadein/Rename.qml" line="87"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>Salva</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Rename.qml" line="100"/>
@@ -2321,28 +2321,28 @@ Passare alla prima/all&apos;ultima voce </translation>
         <location filename="../qml/settingsmanager/tabs/metadata/RotateFlip.qml" line="18"/>
         <source>Automatic Rotate/Flip</source>
         <extracomment>Settings title: Rotate/flip image automatically according to its metadata</extracomment>
-        <translation type="unfinished"/>
+        <translation>Rotazione/Riflessione automatica</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/RotateFlip.qml" line="19"/>
         <source>Some cameras can detect - while taking the photo - whether the camera was turned and might store this information in the image exif data. If PhotoQt finds this information, it can rotate the image accordingly. When asking PhotoQt to always rotate images automatically without asking, it already does so at image load (including thumbnails).</source>
-        <translation type="unfinished"/>
+        <translation>Alcune fotocamere possono rilevare - durante lo scatto - se la macchina è ruotata e memorizzano queste informazioni nei dati exif. Ora, se PhotoQt trova queste informazioni, potrà ruotare la foto automaticamente. Se chiedi a PhotoQt di ruotare sempre le immagini automaticamente, lo farà al caricamento dell&apos;immagine (inclusa la rispettiva miniatura).</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/RotateFlip.qml" line="35"/>
         <source>Never rotate/flip images</source>
-        <translation type="unfinished"/>
+        <translation>Non ruotare/riflettere mai le immagini</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/RotateFlip.qml" line="41"/>
         <source>Always rotate/flip images</source>
-        <translation type="unfinished"/>
+        <translation>Ruota/Rifletti sempre le immagini</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/RotateFlip.qml" line="47"/>
         <source>Always ask</source>
         <extracomment>Used as in 'Always ask whether to rotate/flip an image according to its metadata'</extracomment>
-        <translation type="unfinished"/>
+        <translation>Chiedi sempre</translation>
     </message>
 </context>
 <context>
@@ -2406,12 +2406,12 @@ Passare alla prima/all&apos;ultima voce </translation>
     <message>
         <location filename="../qml/fadein/ScaleUnsupported.qml" line="31"/>
         <source>Sorry, this fileformat cannot be scaled with PhotoQt yet!</source>
-        <translation type="unfinished"/>
+        <translation>Scusa, questo formato non può ancora essere riscalato da Photoqt!</translation>
     </message>
     <message>
         <location filename="../qml/fadein/ScaleUnsupported.qml" line="42"/>
         <source>Okay, I understand</source>
-        <translation type="unfinished"/>
+        <translation>Ok, capito</translation>
     </message>
 </context>
 <context>
@@ -2419,49 +2419,49 @@ Passare alla prima/all&apos;ultima voce </translation>
     <message>
         <location filename="../qml/settingsmanager/tabs/shortcuts/Set.qml" line="70"/>
         <source>Click to change shortcut</source>
-        <translation type="unfinished"/>
+        <translation>Clicca per cambiare la scorciatoia</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/shortcuts/Set.qml" line="97"/>
         <source>quit</source>
         <extracomment>Shortcuts: KEEP THIS STRING SHORT! It is displayed for external shortcuts as an option to quit PhotoQt after executing shortcut</extracomment>
-        <translation type="unfinished"/>
+        <translation>esci</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/shortcuts/Set.qml" line="102"/>
         <source>Quit PhotoQt when executing shortcut</source>
-        <translation type="unfinished"/>
+        <translation>Chiudi PhotoQt quando viene eseguita la scorciatoia</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/shortcuts/Set.qml" line="102"/>
         <source>Keep PhotoQt running when executing shortcut</source>
-        <translation type="unfinished"/>
+        <translation>Tieni in esecuzione PhotoQt quando viene eseguita la scorciatoia</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/shortcuts/Set.qml" line="126"/>
         <source>The command goes here</source>
         <extracomment>Shortcuts: This is the command to be executed (external shortcut)</extracomment>
-        <translation type="unfinished"/>
+        <translation>Il comando va qui</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/shortcuts/Set.qml" line="154"/>
         <source>Key</source>
-        <translation type="unfinished"/>
+        <translation>Tasto</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/shortcuts/Set.qml" line="155"/>
         <source>Mouse</source>
-        <translation type="unfinished"/>
+        <translation>Mouse</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/shortcuts/Set.qml" line="156"/>
         <source>Touch</source>
-        <translation type="unfinished"/>
+        <translation>Touch</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/shortcuts/Set.qml" line="175"/>
         <source>Delete shortcut</source>
-        <translation type="unfinished"/>
+        <translation>Elimina scorciatoia</translation>
     </message>
 </context>
 <context>
@@ -2470,31 +2470,31 @@ Passare alla prima/all&apos;ultima voce </translation>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="58"/>
         <source>Look and Feel</source>
         <extracomment>This is used as a title for one of the tabs in the settings manager</extracomment>
-        <translation type="unfinished"/>
+        <translation>Aspetto</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="82"/>
         <source>Thumbnails</source>
         <extracomment>This is used as a title for one of the tabs in the settings manager</extracomment>
-        <translation type="unfinished"/>
+        <translation>Miniature</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="116"/>
         <source>Metadata</source>
         <extracomment>This is used as a title for one of the tabs in the settings manager</extracomment>
-        <translation type="unfinished"/>
+        <translation>Metadati</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="137"/>
         <source>Other Settings</source>
         <extracomment>This is used as a title for one of the tabs in the settings manager</extracomment>
-        <translation type="unfinished"/>
+        <translation>Altre Impostazioni</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="158"/>
         <source>Shortcuts</source>
         <extracomment>This is used as a title for one of the tabs in the settings manager</extracomment>
-        <translation type="unfinished"/>
+        <translation>Scorciatoie</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="216"/>
@@ -2503,79 +2503,79 @@ Passare alla prima/all&apos;ultima voce </translation>
         <extracomment>This is written on a button in the settings manager
 ----------
 Used in settings manager when asking for confirmation for restoring default SETTINGS</extracomment>
-        <translation type="unfinished"/>
+        <translation>Ripristina le impostazioni predefinite</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="232"/>
         <source>Exit and Discard Changes</source>
         <extracomment>This is written on a button in the settings manager</extracomment>
-        <translation type="unfinished"/>
+        <translation>Esci e annulla le modifiche</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="251"/>
         <source>Save Changes and Exit</source>
         <extracomment>This is written on a button in the settings manager</extracomment>
-        <translation type="unfinished"/>
+        <translation>Salva le modifiche e esci</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="289"/>
         <source>Do you really want to clean up the database?</source>
         <extracomment>Used in settings manager when asking for confirmation for cleaning up thumbnail database</extracomment>
-        <translation type="unfinished"/>
+        <translation>Vuoi veramente pulire il database?</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="291"/>
         <source>This removes all obsolete thumbnails, thus possibly making PhotoQt a little faster.</source>
         <extracomment>Used in settings manager when asking for confirmation for cleaning up thumbnail database</extracomment>
-        <translation type="unfinished"/>
+        <translation>Questo rimuoverà tutte le miniature obsolete, e potrebbe velocizzare un po&apos; PhotoQt</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="293"/>
         <source>This process might take a little while.</source>
         <extracomment>Used in settings manager when asking for confirmation for cleaning up thumbnail database</extracomment>
-        <translation type="unfinished"/>
+        <translation>Questo processo potrebbe richiedere un po&apos; di tempo.</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="295"/>
         <source>Yes, clean is good</source>
         <extracomment>Used in settings manager when asking for confirmation for cleaning up thumbnail database (written on button)</extracomment>
-        <translation type="unfinished"/>
+        <translation>Sì, pulire è buona cosa</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="297"/>
         <source>No, don&apos;t have time for that</source>
         <extracomment>Used in settings manager when asking for confirmation for cleaning up thumbnail database (written on button)</extracomment>
-        <translation type="unfinished"/>
+        <translation>No, non ho tempo per questo</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="307"/>
         <source>Do you really want to ERASE the entire database?</source>
         <extracomment>Used in settings manager when asking for confirmation for erasing thumbnail database</extracomment>
-        <translation type="unfinished"/>
+        <translation>Vuoi veramente CANCELLARE completamente il database?</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="309"/>
         <source>This removes every single item from the database! This step is never really necessary, and generally should not be used. After that, every thumbnail has to be re-created.</source>
         <extracomment>Used in settings manager when asking for confirmation for erasing thumbnail database</extracomment>
-        <translation type="unfinished"/>
+        <translation>Verrà rimosso ogni singolo oggetto! Questo non dovrebbe mai essere veramente necessario, e dopo l&apos;eliminazione ogni miniatura dovrà essere ricreata.</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="311"/>
         <source>This step cannot be reversed!</source>
         <extracomment>Used in settings manager when asking for confirmation for erasing thumbnail database</extracomment>
-        <translation type="unfinished"/>
+        <translation>Questa operazione non può essere annullata!</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="313"/>
         <source>Yes, get rid of it all</source>
         <extracomment>Used in settings manager when asking for confirmation for erasing thumbnail database (written on button)</extracomment>
-        <translation type="unfinished"/>
+        <translation>Sì, sbarazzati di tutto</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="315"/>
         <source>Nooo, I want to keep it</source>
         <extracomment>Used in settings manager when asking for confirmation for erasing thumbnail database (written on button)</extracomment>
-        <translation type="unfinished"/>
+        <translation>Nooo, voglio tenerlo così com&apos;è</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="364"/>
@@ -2587,25 +2587,25 @@ Used in settings manager when asking for confirmation for restoring default SETT
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="278"/>
         <source>Close settings manager</source>
         <extracomment>This is the tooltip of the exit button (little 'x' top right corner)</extracomment>
-        <translation type="unfinished"/>
+        <translation>Chiudi il gestore impostazioni</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="287"/>
         <source>Clean Database!</source>
         <extracomment>Used in settings manager when asking for confirmation for cleaning up thumbnail database</extracomment>
-        <translation type="unfinished"/>
+        <translation>Pulisci il Database</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="305"/>
         <source>Erase Database?</source>
         <extracomment>Used in settings manager when asking for confirmation for erasing thumbnail database</extracomment>
-        <translation type="unfinished"/>
+        <translation>Cancella il Database</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="325"/>
         <source>Are you sure you want to revert back to the default settings?</source>
         <extracomment>Used in settings manager when asking for confirmation for restoring default settings</extracomment>
-        <translation type="unfinished"/>
+        <translation>Sei sicuro di voler tornare alle impostazioni predefinite?</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="327"/>
@@ -2614,55 +2614,55 @@ Used in settings manager when asking for confirmation for restoring default SETT
         <extracomment>Used in settings manager when asking for confirmation for restoring default settings
 ----------
 Used in settings manager when asking for confirmation for restoring default shortcuts</extracomment>
-        <translation type="unfinished"/>
+        <translation>Questo cambiamento non sarà permanente finché non clicchi &apos;Salva&apos;.</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="329"/>
         <source>Yup, go ahead</source>
         <extracomment>Used in settings manager when asking for confirmation for restoring default settings (written on button)</extracomment>
-        <translation type="unfinished"/>
+        <translation>Ok, procediamo</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="331"/>
         <source>No, thanks</source>
         <extracomment>Used in settings manager when asking for confirmation for restoring default settings (written on button)</extracomment>
-        <translation type="unfinished"/>
+        <translation>No, grazie</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="342"/>
         <source>Set Default Shortcuts</source>
         <extracomment>Used in settings manager when asking for confirmation for restoring default SHORTCUTS</extracomment>
-        <translation type="unfinished"/>
+        <translation>Imposta Scorciatoie di default</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="344"/>
         <source>Are you sure you want to reset the shortcuts to the default set?</source>
         <extracomment>Used in settings manager when asking for confirmation for restoring default shortcuts</extracomment>
-        <translation type="unfinished"/>
+        <translation>Sei sicuro di voler reimpostare le scorciatoie a quelle di default?</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="348"/>
         <source>Yes, please</source>
         <extracomment>Used in settings manager when asking for confirmation for restoring default shortcuts (written on button)</extracomment>
-        <translation type="unfinished"/>
+        <translation>Sì, per favore</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="350"/>
         <source>Nah, don&apos;t</source>
         <extracomment>Used in settings manager when asking for confirmation for restoring default shortcuts (written on button)</extracomment>
-        <translation type="unfinished"/>
+        <translation>No, non farlo</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="362"/>
         <source>Invalid Shortcuts Settings</source>
         <extracomment>Used in settings manager to notify the user that there's a problem with the shortcuts settings</extracomment>
-        <translation type="unfinished"/>
+        <translation>Impostazioni scorciatoie invalide</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="366"/>
         <source>Go back</source>
         <extracomment>Used in settings manager to notify the user that there's a problem with the shortcuts settings (written on button)</extracomment>
-        <translation type="unfinished"/>
+        <translation>Torna indietro</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="382"/>

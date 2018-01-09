@@ -112,7 +112,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/shortcuts/Available.qml" line="90"/>
         <source>Click to add shortcut</source>
-        <translation type="unfinished"/>
+        <translation>Kliknij, aby dodać skrót</translation>
     </message>
 </context>
 <context>
@@ -198,7 +198,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Blur.qml" line="17"/>
         <source>Please note</source>
-        <translation type="unfinished"/>
+        <translation>Uwaga</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Blur.qml" line="30"/>
@@ -378,7 +378,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/ClosingX.qml" line="19"/>
         <source>Exit button (&apos;x&apos; in top right corner)</source>
-        <translation type="unfinished"/>
+        <translation>Przycisk wyjścia (&apos;x&apos; w prawym górnym rogu)</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/ClosingX.qml" line="20"/>
@@ -487,7 +487,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/other/CustomEntries.qml" line="20"/>
         <source>Custom Entries in Main Menu</source>
-        <translation type="unfinished"/>
+        <translation>Własne wpisy w menu głównym</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/other/CustomEntries.qml" line="21"/>
@@ -535,7 +535,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/other/CustomEntriesInteractive.qml" line="289"/>
         <source>Unavailable on Windows</source>
-        <translation type="unfinished"/>
+        <translation>Niedostępny na Windows</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/other/CustomEntriesInteractive.qml" line="290"/>
@@ -592,12 +592,12 @@
         <location filename="../qml/settingsmanager/DetectShortcut.qml" line="143"/>
         <source>Modifier</source>
         <extracomment>This string refers to a key modifier like Ctrl or Alt</extracomment>
-        <translation type="unfinished"/>
+        <translation>Modyfikator</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/DetectShortcut.qml" line="156"/>
         <source>Mouse Button</source>
-        <translation type="unfinished"/>
+        <translation>Przycisk myszy</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/DetectShortcut.qml" line="170"/>
@@ -616,7 +616,7 @@
         <location filename="../qml/settingsmanager/DetectShortcut.qml" line="228"/>
         <source>Action</source>
         <extracomment>This refers to an action executed by a shortcut command</extracomment>
-        <translation type="unfinished"/>
+        <translation>Akcja</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/DetectShortcut.qml" line="236"/>
@@ -627,7 +627,7 @@
     <message>
         <location filename="../qml/settingsmanager/DetectShortcut.qml" line="340"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>Anuluj</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/DetectShortcut.qml" line="372"/>
@@ -685,7 +685,7 @@
     <message>
         <location filename="../qml/fadein/wallpaper/Enlightenment.qml" line="55"/>
         <source>The wallpaper can be set to any of the available monitors (one or any combination).</source>
-        <translation type="unfinished"/>
+        <translation>Tapeta może być ustawiona na każdym z dostępnych monitorów (jednym lub każdej kombinacji).</translation>
     </message>
     <message>
         <location filename="../qml/fadein/wallpaper/Enlightenment.qml" line="71"/>
@@ -726,14 +726,14 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/other/FileTypesExtras.qml" line="22"/>
         <source>Please note</source>
-        <translation type="unfinished"/>
+        <translation>Uwaga</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/other/FileTypesExtras.qml" line="78"/>
         <location filename="../qml/settingsmanager/tabs/other/FileTypesExtras.qml" line="80"/>
         <source>Makes use of</source>
         <extracomment>Settings: This is used as in 'Makes use of some other tool'</extracomment>
-        <translation type="unfinished"/>
+        <translation>Wykorzystuje:</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/other/FileTypesExtras.qml" line="22"/>
@@ -882,7 +882,7 @@
     <message>
         <location filename="../qml/openfile/FilesView.qml" line="109"/>
         <source>No images found in this folder</source>
-        <translation type="unfinished"/>
+        <translation>Nie znaleziono obrazów w tym folderze</translation>
     </message>
 </context>
 <context>
@@ -1190,7 +1190,7 @@
     <message>
         <location filename="../qml/mainview/Histogram.qml" line="270"/>
         <source>Histogram</source>
-        <translation type="unfinished"/>
+        <translation>Histogram</translation>
     </message>
     <message>
         <location filename="../qml/mainview/Histogram.qml" line="402"/>
@@ -1548,7 +1548,7 @@
         <location filename="../qml/slidein/MainMenu.qml" line="44"/>
         <source>Show/Hide Histogram</source>
         <extracomment>This is an entry in the mainmenu on the right</extracomment>
-        <translation type="unfinished"/>
+        <translation>Pokaż/ukryj histogram</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="46"/>
@@ -1709,7 +1709,7 @@ This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of 
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="145"/>
         <source>Close PhotoQt</source>
-        <translation type="unfinished"/>
+        <translation>Zamknij PhotoQt</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="165"/>
@@ -1728,7 +1728,7 @@ This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of 
     <message>
         <location filename="../qml/mainview/MainView.qml" line="153"/>
         <source>Hide &apos;x&apos;</source>
-        <translation type="unfinished"/>
+        <translation>Ukryj &apos;x&apos;</translation>
     </message>
     <message>
         <location filename="../qml/mainview/MainView.qml" line="181"/>
@@ -1817,7 +1817,7 @@ This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of 
         <location filename="../qml/settingsmanager/tabs/metadata/MetaData.qml" line="20"/>
         <source>Meta Information</source>
         <extracomment>Settings: This refers to the Exif and IPTC metadata possibly stored in an image file</extracomment>
-        <translation type="unfinished"/>
+        <translation>Metadane</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/MetaData.qml" line="21"/>
@@ -1829,7 +1829,7 @@ This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of 
         <location filename="../qml/settingsmanager/tabs/metadata/MetaData.qml" line="105"/>
         <location filename="../qml/slidein/MetaData.qml" line="287"/>
         <source>Filename</source>
-        <translation type="unfinished"/>
+        <translation>Nazwa pliku</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/MetaData.qml" line="70"/>
@@ -1843,7 +1843,7 @@ This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of 
         <location filename="../qml/settingsmanager/tabs/metadata/MetaData.qml" line="107"/>
         <location filename="../qml/slidein/MetaData.qml" line="295"/>
         <source>Image</source>
-        <translation type="unfinished"/>
+        <translation>Obraz</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/MetaData.qml" line="72"/>
@@ -2115,7 +2115,7 @@ The next string refers to Exif image metadata The next string refers to Exif ima
         <location filename="../qml/openfile/OpenFile.qml" line="245"/>
         <source>Cancel</source>
         <extracomment>This is used in the context of the 'Open File' element</extracomment>
-        <translation type="unfinished"/>
+        <translation>Anuluj</translation>
     </message>
 </context>
 <context>
@@ -2274,7 +2274,7 @@ The next string refers to Exif image metadata The next string refers to Exif ima
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Quickinfo.qml" line="44"/>
         <source>Exit button (&apos;x&apos; in top right corner)</source>
-        <translation type="unfinished"/>
+        <translation>Przycisk wyjścia (&apos;x&apos; w prawym górnym rogu)</translation>
     </message>
 </context>
 <context>
@@ -2282,7 +2282,7 @@ The next string refers to Exif image metadata The next string refers to Exif ima
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/ReOpenFile.qml" line="16"/>
         <source>Re-open last used image at startup</source>
-        <translation type="unfinished"/>
+        <translation>Otwieraj ostatnio wyświetlony obraz przy starcie programu</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/ReOpenFile.qml" line="17"/>
@@ -2292,7 +2292,7 @@ The next string refers to Exif image metadata The next string refers to Exif ima
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/ReOpenFile.qml" line="29"/>
         <source>Re-open last used image</source>
-        <translation type="unfinished"/>
+        <translation>Otwieraj ostatnio wyświetlony obraz</translation>
     </message>
 </context>
 <context>
@@ -2423,17 +2423,17 @@ The next string refers to Exif image metadata The next string refers to Exif ima
         <location filename="../qml/settingsmanager/tabs/shortcuts/Set.qml" line="97"/>
         <source>quit</source>
         <extracomment>Shortcuts: KEEP THIS STRING SHORT! It is displayed for external shortcuts as an option to quit PhotoQt after executing shortcut</extracomment>
-        <translation type="unfinished"/>
+        <translation>zamknij</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/shortcuts/Set.qml" line="102"/>
         <source>Quit PhotoQt when executing shortcut</source>
-        <translation type="unfinished"/>
+        <translation>Zamknij PhotoQt przy wykonywaniu skrótu</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/shortcuts/Set.qml" line="102"/>
         <source>Keep PhotoQt running when executing shortcut</source>
-        <translation type="unfinished"/>
+        <translation>Kontynuuj działanie PhotoQt przy wykonywaniu skrótu</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/shortcuts/Set.qml" line="126"/>
@@ -2585,19 +2585,19 @@ Used in settings manager when asking for confirmation for restoring default SETT
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="278"/>
         <source>Close settings manager</source>
         <extracomment>This is the tooltip of the exit button (little 'x' top right corner)</extracomment>
-        <translation type="unfinished"/>
+        <translation>Zamknij menedżera ustawień</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="287"/>
         <source>Clean Database!</source>
         <extracomment>Used in settings manager when asking for confirmation for cleaning up thumbnail database</extracomment>
-        <translation type="unfinished"/>
+        <translation>Wyczyść bazę danych!</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="305"/>
         <source>Erase Database?</source>
         <extracomment>Used in settings manager when asking for confirmation for erasing thumbnail database</extracomment>
-        <translation type="unfinished"/>
+        <translation>Usunąć bazę danych?</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="325"/>
@@ -2717,7 +2717,7 @@ Used in settings manager when asking for confirmation for restoring default shor
     <message>
         <location filename="../qml/elements/ShortcutNotifier.qml" line="20"/>
         <source>Don&apos;t show again</source>
-        <translation type="unfinished"/>
+        <translation>Nie pokazuj więcej</translation>
     </message>
 </context>
 <context>
@@ -2881,7 +2881,7 @@ Used in settings manager when asking for confirmation for restoring default shor
     <message>
         <location filename="../qml/slidein/SlideshowBar.qml" line="77"/>
         <source>Quit Slideshow</source>
-        <translation type="unfinished"/>
+        <translation>Zamknij pokaz slajdów</translation>
     </message>
 </context>
 <context>
@@ -2956,7 +2956,7 @@ Used in settings manager when asking for confirmation for restoring default shor
     <message>
         <location filename="../qml/fadein/Startup.qml" line="87"/>
         <source>PhotoQt was successfully installed!</source>
-        <translation type="unfinished"/>
+        <translation>PhotoQt został zainstalowany pomyślnie!</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="87"/>
@@ -2966,7 +2966,7 @@ Used in settings manager when asking for confirmation for restoring default shor
     <message>
         <location filename="../qml/fadein/Startup.qml" line="88"/>
         <source>PhotoQt was successfully updated!</source>
-        <translation type="unfinished"/>
+        <translation>PhotoQt został zaktualizowany pomyślnie!</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="88"/>
@@ -3190,7 +3190,7 @@ Used in settings manager when asking for confirmation for restoring default shor
         <location filename="../qml/settingsmanager/tabs/TabShortcuts.qml" line="173"/>
         <source>Delete File (without confirmation)</source>
         <extracomment>This is a shortcut description</extracomment>
-        <translation type="unfinished"/>
+        <translation>Usuń plik (bez potwierdzenia)</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/TabShortcuts.qml" line="175"/>
@@ -3375,7 +3375,7 @@ Used in settings manager when asking for confirmation for restoring default shor
     <message>
         <location filename="../qml/openfile/TweaksFileTypeSelection.qml" line="26"/>
         <source>All supported images</source>
-        <translation type="unfinished"/>
+        <translation>Wszystkie wspierane obrazy</translation>
     </message>
     <message>
         <location filename="../qml/openfile/TweaksFileTypeSelection.qml" line="28"/>
@@ -3407,12 +3407,12 @@ Used in settings manager when asking for confirmation for restoring default shor
     <message>
         <location filename="../qml/openfile/TweaksViewMode.qml" line="50"/>
         <source>Show files as list</source>
-        <translation type="unfinished"/>
+        <translation>Pokaż pliki jako listę</translation>
     </message>
     <message>
         <location filename="../qml/openfile/TweaksViewMode.qml" line="88"/>
         <source>Show files as grid</source>
-        <translation type="unfinished"/>
+        <translation>Pokaż pliki jako siatkę</translation>
     </message>
 </context>
 <context>
@@ -3420,7 +3420,7 @@ Used in settings manager when asking for confirmation for restoring default shor
     <message>
         <location filename="../qml/openfile/TweaksZoom.qml" line="22"/>
         <source>Zoom:</source>
-        <translation type="unfinished"/>
+        <translation>Powiększenie:</translation>
     </message>
     <message>
         <location filename="../qml/openfile/TweaksZoom.qml" line="46"/>
@@ -3446,7 +3446,7 @@ Used in settings manager when asking for confirmation for restoring default shor
         <location filename="../qml/openfile/UserPlaces.qml" line="166"/>
         <source>Show devices</source>
         <extracomment>OpenFile: This refers to connected devices (harddrives, partitions, etc.)</extracomment>
-        <translation type="unfinished"/>
+        <translation>Pokaż urządzenia</translation>
     </message>
     <message>
         <location filename="../qml/openfile/UserPlaces.qml" line="177"/>
@@ -3499,7 +3499,7 @@ Used in settings manager when asking for confirmation for restoring default shor
         <location filename="../qml/openfile/UserPlaces.qml" line="282"/>
         <source>Devices</source>
         <extracomment>OpenFile: 'Devices' is the title for connected harddrives, partitions, ...</extracomment>
-        <translation type="unfinished"/>
+        <translation>Urządzenia</translation>
     </message>
 </context>
 <context>
@@ -3569,7 +3569,7 @@ Used in settings manager when asking for confirmation for restoring default shor
     <message>
         <location filename="../qml/fadein/wallpaper/XFCE4.qml" line="44"/>
         <source>The wallpaper can be set to any of the available monitors (one or any combination).</source>
-        <translation type="unfinished"/>
+        <translation>Tapeta może być ustawiona na każdym z dostępnych monitorów (jednym lub każdej kombinacji).</translation>
     </message>
     <message>
         <location filename="../qml/fadein/wallpaper/XFCE4.qml" line="61"/>

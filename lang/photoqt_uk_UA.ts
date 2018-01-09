@@ -4,7 +4,7 @@
     <message>
         <location filename="../qml/fadein/About.qml" line="10"/>
         <source>About PhotoQt</source>
-        <translation type="unfinished"/>
+        <translation>Про PhotoQt</translation>
     </message>
     <message>
         <location filename="../qml/fadein/About.qml" line="36"/>
@@ -50,7 +50,7 @@
     <message>
         <location filename="../qml/fadein/About.qml" line="121"/>
         <source>Okay I got enough of that</source>
-        <translation type="unfinished"/>
+        <translation>Гаразд цього доситатньо</translation>
     </message>
 </context>
 <context>
@@ -58,7 +58,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="18"/>
         <source>Animation and Window Geometry</source>
-        <translation type="unfinished"/>
+        <translation>Анімація та віконна геометрія</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="19"/>
@@ -73,7 +73,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="19"/>
         <source>There are four things that can be adjusted here:</source>
-        <translation type="unfinished"/>
+        <translation>Є чотири речі, які можна скорегувати тут:</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="19"/>
@@ -93,7 +93,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="39"/>
         <source>Save and restore window geometry</source>
-        <translation type="unfinished"/>
+        <translation>Зберегти та відновити геометрію вікна</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="49"/>
@@ -135,22 +135,22 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="42"/>
         <source>Faked transparency</source>
-        <translation type="unfinished"/>
+        <translation>Визначено прозорість</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="47"/>
         <source>Custom background image</source>
-        <translation type="unfinished"/>
+        <translation>Користувальницьке фонове зображення</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="52"/>
         <source>Monochrome, non-transparent background</source>
-        <translation type="unfinished"/>
+        <translation>Монохромний, непрозорий фон</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="98"/>
         <source>No image selected</source>
-        <translation type="unfinished"/>
+        <translation>Не вибрано жодного зображення</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="122"/>
@@ -175,7 +175,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="143"/>
         <source>Tile image</source>
-        <translation type="unfinished"/>
+        <translation>Зображення плиткою</translation>
     </message>
 </context>
 <context>
@@ -221,7 +221,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/BorderAroundImage.qml" line="21"/>
         <source>Whenever you load an image, the image is per default not shown completely in fullscreen, i.e. it&apos;s not stretching from screen edge to screen edge. Instead there is a small margin around the image of a couple pixels (looks better). Here you can adjust the width of this margin (set to 0 to disable it).</source>
-        <translation type="unfinished"/>
+        <translation>Кожного разу, коли ви завантажуєте зображення, типовао зображення не відображається повністю на повноекранному режимі, тобто воно не розтягується від краю екрана до краю екрана. Замість цього існує невелика межа навколо зображення пари пікселів (виглядає краще). Тут ви можете налаштувати ширину цього поля (встановити на 0, щоб вимкнути її).</translation>
     </message>
 </context>
 <context>
@@ -241,7 +241,7 @@
     <message>
         <location filename="../qml/openfile/BreadCrumbs.qml" line="103"/>
         <source>Close &apos;Open File&apos; element</source>
-        <translation type="unfinished"/>
+        <translation>Закрити елемент &quot;Відкрити файл&quot;</translation>
     </message>
 </context>
 <context>
@@ -292,25 +292,25 @@
         <location filename="../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="47"/>
         <source>Enable Cache</source>
         <extracomment>Settings: The cache referred to here is the thumbnail cache</extracomment>
-        <translation type="unfinished"/>
+        <translation>Увімкнути кеш</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="76"/>
         <source>File Caching</source>
         <extracomment>Settings: The cache referred to here is the thumbnail cache</extracomment>
-        <translation type="unfinished"/>
+        <translation>Кешування файлів</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="83"/>
         <source>Database Caching</source>
         <extracomment>Settings: The cache referred to here is the thumbnail cache</extracomment>
-        <translation type="unfinished"/>
+        <translation>Кешування баз даних</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="113"/>
         <source>Database filesize:</source>
         <extracomment>Settings: The database referred to here is the thumbnail database</extracomment>
-        <translation type="unfinished"/>
+        <translation>Розмір файлу бази даних:</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="141"/>
@@ -479,7 +479,7 @@
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="128"/>
         <source>Don&apos;t ask again</source>
-        <translation>Не забитувати знову</translation>
+        <translation>Не запитувати знову</translation>
     </message>
 </context>
 <context>
@@ -516,7 +516,7 @@
         <location filename="../qml/settingsmanager/tabs/other/CustomEntries.qml" line="128"/>
         <source>Set default</source>
         <extracomment>Settings: Custom entries in main menu: Detect what known tools are installed and create an entry for all available ones</extracomment>
-        <translation type="unfinished"/>
+        <translation>Встановити типово</translation>
     </message>
 </context>
 <context>
@@ -530,7 +530,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/other/CustomEntriesInteractive.qml" line="187"/>
         <source>quit</source>
-        <translation type="unfinished"/>
+        <translation>вихід</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/other/CustomEntriesInteractive.qml" line="289"/>
@@ -597,7 +597,7 @@
     <message>
         <location filename="../qml/settingsmanager/DetectShortcut.qml" line="156"/>
         <source>Mouse Button</source>
-        <translation type="unfinished"/>
+        <translation>Кнопка миші</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/DetectShortcut.qml" line="170"/>
@@ -627,7 +627,7 @@
     <message>
         <location filename="../qml/settingsmanager/DetectShortcut.qml" line="340"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>Скасувати</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/DetectShortcut.qml" line="372"/>
@@ -769,7 +769,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/other/FileTypesGMGhostscript.qml" line="19"/>
         <source>File Formats</source>
-        <translation type="unfinished"/>
+        <translation>Формати файлів</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/other/FileTypesGMGhostscript.qml" line="20"/>
@@ -792,7 +792,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/other/FileTypesQt.qml" line="19"/>
         <source>File Formats</source>
-        <translation type="unfinished"/>
+        <translation>Формати файлів</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/other/FileTypesQt.qml" line="20"/>
@@ -805,7 +805,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/other/FileTypesRaw.qml" line="19"/>
         <source>File Formats</source>
-        <translation type="unfinished"/>
+        <translation>Формати файлів</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/other/FileTypesRaw.qml" line="20"/>
@@ -828,7 +828,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/other/FileTypesUntested.qml" line="19"/>
         <source>File Formats</source>
-        <translation type="unfinished"/>
+        <translation>Формати файлів</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/other/FileTypesUntested.qml" line="19"/>
@@ -889,7 +889,7 @@
     <message>
         <location filename="../qml/fadein/Filter.qml" line="20"/>
         <source>Filter images in current directory</source>
-        <translation>Фільтрувати зображення в поточній папці</translation>
+        <translation>Фільтрувати зображення в поточній теці</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Filter.qml" line="35"/>
@@ -940,7 +940,7 @@
     <message>
         <location filename="../qml/openfile/Folders.qml" line="98"/>
         <source>Add to Favourites</source>
-        <translation type="unfinished"/>
+        <translation>Додати в обране</translation>
     </message>
     <message>
         <location filename="../qml/openfile/Folders.qml" line="103"/>
@@ -953,7 +953,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/FontSize.qml" line="17"/>
         <source>Font Size</source>
-        <translation type="unfinished"/>
+        <translation>Розмір шрифту</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/FontSize.qml" line="18"/>
@@ -1189,7 +1189,7 @@
     <message>
         <location filename="../qml/mainview/Histogram.qml" line="270"/>
         <source>Histogram</source>
-        <translation type="unfinished"/>
+        <translation>Гістограма</translation>
     </message>
     <message>
         <location filename="../qml/mainview/Histogram.qml" line="402"/>
@@ -1348,13 +1348,13 @@
         <location filename="../qml/globalstrings/Keys.qml" line="23"/>
         <source>Right</source>
         <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
-        <translation type="unfinished"/>
+        <translation>Праворуч</translation>
     </message>
     <message>
         <location filename="../qml/globalstrings/Keys.qml" line="25"/>
         <source>Left</source>
         <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
-        <translation type="unfinished"/>
+        <translation>Ліворуч</translation>
     </message>
     <message>
         <location filename="../qml/globalstrings/Keys.qml" line="27"/>
@@ -1378,7 +1378,7 @@
         <location filename="../qml/globalstrings/Keys.qml" line="33"/>
         <source>Delete</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation type="unfinished"/>
+        <translation>Видалити</translation>
     </message>
     <message>
         <location filename="../qml/globalstrings/Keys.qml" line="35"/>
@@ -1440,7 +1440,7 @@
         <location filename="../qml/settingsmanager/tabs/thumbnails/Label.qml" line="37"/>
         <source>Write Filename</source>
         <extracomment>Settings: Write the filename on a thumbnail</extracomment>
-        <translation type="unfinished"/>
+        <translation>Записати ім’я файла</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/thumbnails/Label.qml" line="49"/>
@@ -1453,12 +1453,12 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/other/Language.qml" line="19"/>
         <source>Language</source>
-        <translation type="unfinished"/>
+        <translation>Мова</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/other/Language.qml" line="20"/>
         <source>There are a good few different languages available. Thanks to everybody who took the time to translate PhotoQt!</source>
-        <translation type="unfinished"/>
+        <translation>Існує дуже багато різних мов. Дякую всім, хто встиг перекласти PhotoQt!</translation>
     </message>
 </context>
 <context>
@@ -1517,19 +1517,19 @@
         <location filename="../qml/slidein/MainMenu.qml" line="34"/>
         <source>Slideshow</source>
         <extracomment>This is an entry in the mainmenu on the right</extracomment>
-        <translation type="unfinished"/>
+        <translation>Слайд-шоу</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="36"/>
         <source>setup</source>
         <extracomment>This is an entry in the mainmenu on the right, used as 'setting up a slideshow'</extracomment>
-        <translation type="unfinished"/>
+        <translation>налаштування</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="38"/>
         <source>quickstart</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'quickstarting a slideshow'</extracomment>
-        <translation type="unfinished"/>
+        <translation>швидкий старт</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="40"/>
@@ -1547,7 +1547,7 @@
         <location filename="../qml/slidein/MainMenu.qml" line="44"/>
         <source>Show/Hide Histogram</source>
         <extracomment>This is an entry in the mainmenu on the right</extracomment>
-        <translation type="unfinished"/>
+        <translation>Показати/Приховати Гістограму</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="46"/>
@@ -1571,49 +1571,49 @@
         <location filename="../qml/slidein/MainMenu.qml" line="55"/>
         <source>Go to</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'Go To some image'</extracomment>
-        <translation type="unfinished"/>
+        <translation>Йти до</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="57"/>
         <source>previous</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'go to previous image'</extracomment>
-        <translation type="unfinished"/>
+        <translation>попереднього</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="59"/>
         <source>next</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'go to next image'</extracomment>
-        <translation type="unfinished"/>
+        <translation>наступного</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="61"/>
         <source>first</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'go to first image'</extracomment>
-        <translation type="unfinished"/>
+        <translation>першого</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="63"/>
         <source>last</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'go to last image'</extracomment>
-        <translation type="unfinished"/>
+        <translation>останнього</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="65"/>
         <source>Zoom</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'Zoom image'</extracomment>
-        <translation type="unfinished"/>
+        <translation>Зум</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="67"/>
         <source>in</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'Zoom in on image'</extracomment>
-        <translation type="unfinished"/>
+        <translation>більше</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="69"/>
         <source>out</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'Zoom out of image'</extracomment>
-        <translation type="unfinished"/>
+        <translation>менше</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="71"/>
@@ -1625,73 +1625,73 @@
 This is an entry in the mainmenu on the right, used as in 'Reset rotation of image'
 ----------
 This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of image'</extracomment>
-        <translation type="unfinished"/>
+        <translation>скинути</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="75"/>
         <source>Rotate</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'Zoom image to actual size (1:1, one-to-one)' This is an entry in the mainmenu on the right, used as in 'Rotate image'</extracomment>
-        <translation type="unfinished"/>
+        <translation>Обернути</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="77"/>
         <source>left</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'Rotate image left'</extracomment>
-        <translation type="unfinished"/>
+        <translation>ліворуч</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="79"/>
         <source>right</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'Rotate image right'</extracomment>
-        <translation type="unfinished"/>
+        <translation>праворуч</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="83"/>
         <source>Flip</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'Flip/Mirror image'</extracomment>
-        <translation type="unfinished"/>
+        <translation>Перевернути</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="85"/>
         <source>horizontal</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'Flip/Mirror image horizontally'</extracomment>
-        <translation type="unfinished"/>
+        <translation>горизонтально</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="87"/>
         <source>vertical</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'Flip/Mirror image vertically'</extracomment>
-        <translation type="unfinished"/>
+        <translation>вертикально</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="91"/>
         <source>File</source>
         <extracomment>This is an entry in the mainmenu on the right, used to refer to the current file (specifically the file, not directly the image)</extracomment>
-        <translation type="unfinished"/>
+        <translation>Файл</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="93"/>
         <source>rename</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'rename file'</extracomment>
-        <translation type="unfinished"/>
+        <translation>перейменувати</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="95"/>
         <source>copy</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'copy file'</extracomment>
-        <translation type="unfinished"/>
+        <translation>копіювати</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="97"/>
         <source>move</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'move file'</extracomment>
-        <translation type="unfinished"/>
+        <translation>перемістити</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="99"/>
         <source>delete</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'delete file'</extracomment>
-        <translation type="unfinished"/>
+        <translation>видалити</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="104"/>
@@ -1703,23 +1703,23 @@ This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of 
         <location filename="../qml/slidein/MainMenu.qml" line="106"/>
         <source>Open in default file manager</source>
         <extracomment>This is an entry in the mainmenu on the right</extracomment>
-        <translation type="unfinished"/>
+        <translation>Відкрити у типовому файловому менеджері</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="145"/>
         <source>Close PhotoQt</source>
-        <translation type="unfinished"/>
+        <translation>Закрити PhotoQt</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="165"/>
         <source>Main Menu</source>
-        <translation type="unfinished"/>
+        <translation>Головне меню</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="322"/>
         <source>Click here to go to the online manual for help regarding shortcuts, settings, features, ...</source>
         <extracomment>This message is shown at the bottom of the mainmenu</extracomment>
-        <translation type="unfinished"/>
+        <translation>Натисніть тут, щоб перейти до онлайн-посібника з довідки щодо піктограм, налаштувань, функцій...</translation>
     </message>
 </context>
 <context>
@@ -1742,12 +1742,12 @@ This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of 
     <message>
         <location filename="../qml/mainview/MainView.qml" line="229"/>
         <source>Rotate Image?</source>
-        <translation type="unfinished"/>
+        <translation>Обернути зображення?</translation>
     </message>
     <message>
         <location filename="../qml/mainview/MainView.qml" line="230"/>
         <source>The Exif data of this image says, that this image is supposed to be rotated.</source>
-        <translation type="unfinished"/>
+        <translation>Дані Exif цього зображення кажуть, що ця картинка має бути повернута.</translation>
     </message>
     <message>
         <location filename="../qml/mainview/MainView.qml" line="230"/>
@@ -1757,12 +1757,12 @@ This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of 
     <message>
         <location filename="../qml/mainview/MainView.qml" line="231"/>
         <source>Yes, do it</source>
-        <translation type="unfinished"/>
+        <translation>Так, виконуй</translation>
     </message>
     <message>
         <location filename="../qml/mainview/MainView.qml" line="232"/>
         <source>No, don&apos;t</source>
-        <translation type="unfinished"/>
+        <translation>Ні, не треба</translation>
     </message>
 </context>
 <context>
@@ -1783,7 +1783,7 @@ This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of 
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="42"/>
         <source>Metadata</source>
-        <translation type="unfinished"/>
+        <translation>Метадані</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="70"/>
@@ -1810,7 +1810,7 @@ This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of 
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="196"/>
         <source>Click to open GPS position with online map</source>
-        <translation type="unfinished"/>
+        <translation>Натисніть, щоб відкрити позицію GPS за допомогою онлайн-карти</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/MetaData.qml" line="20"/>
@@ -1828,7 +1828,7 @@ This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of 
         <location filename="../qml/settingsmanager/tabs/metadata/MetaData.qml" line="105"/>
         <location filename="../qml/slidein/MetaData.qml" line="287"/>
         <source>Filename</source>
-        <translation type="unfinished"/>
+        <translation>Ім&apos;я файлу</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/MetaData.qml" line="70"/>
@@ -1970,13 +1970,13 @@ The next string refers to Exif image metadata The next string refers to Exif ima
         <location filename="../qml/globalstrings/Mouse.qml" line="7"/>
         <source>Left Button</source>
         <extracomment>Refers to a mouse button</extracomment>
-        <translation type="unfinished"/>
+        <translation>Ліва клавіша</translation>
     </message>
     <message>
         <location filename="../qml/globalstrings/Mouse.qml" line="9"/>
         <source>Right Button</source>
         <extracomment>Refers to a mouse button</extracomment>
-        <translation type="unfinished"/>
+        <translation>Права клавіша</translation>
     </message>
     <message>
         <location filename="../qml/globalstrings/Mouse.qml" line="11"/>
@@ -2072,7 +2072,7 @@ The next string refers to Exif image metadata The next string refers to Exif ima
         <location filename="../qml/openfile/OpenFile.qml" line="231"/>
         <source>Move focus between Places/Folders/Fileview</source>
         <extracomment>This is used in the context of the 'Open File' element with its three panes</extracomment>
-        <translation type="unfinished"/>
+        <translation>Перемістити фокус між пунктами Місця/Теки/Перегляд файлів</translation>
     </message>
     <message>
         <location filename="../qml/openfile/OpenFile.qml" line="233"/>
@@ -2114,7 +2114,7 @@ The next string refers to Exif image metadata The next string refers to Exif ima
         <location filename="../qml/openfile/OpenFile.qml" line="245"/>
         <source>Cancel</source>
         <extracomment>This is used in the context of the 'Open File' element</extracomment>
-        <translation type="unfinished"/>
+        <translation>Скасувати</translation>
     </message>
 </context>
 <context>
@@ -2157,7 +2157,7 @@ The next string refers to Exif image metadata The next string refers to Exif ima
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/OverlayColor.qml" line="16"/>
         <source>Overlay Color</source>
-        <translation type="unfinished"/>
+        <translation>Колір накладання</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/OverlayColor.qml" line="17"/>
@@ -2167,23 +2167,23 @@ The next string refers to Exif image metadata The next string refers to Exif ima
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/OverlayColor.qml" line="43"/>
         <source>Red:</source>
-        <translation type="unfinished"/>
+        <translation>Червоний:</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/OverlayColor.qml" line="65"/>
         <source>Green:</source>
-        <translation type="unfinished"/>
+        <translation>Зелений:</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/OverlayColor.qml" line="87"/>
         <source>Blue:</source>
-        <translation type="unfinished"/>
+        <translation>Синій:</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/OverlayColor.qml" line="110"/>
         <source>Alpha:</source>
         <extracomment>This refers to the alpha value of a color (i.e., how opaque/transparent the colour is)</extracomment>
-        <translation type="unfinished"/>
+        <translation>Непрозорість:</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/OverlayColor.qml" line="175"/>
@@ -2263,7 +2263,7 @@ The next string refers to Exif image metadata The next string refers to Exif ima
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Quickinfo.qml" line="34"/>
         <source>Filename</source>
-        <translation type="unfinished"/>
+        <translation>Ім&apos;я файлу</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Quickinfo.qml" line="39"/>
@@ -2304,7 +2304,7 @@ The next string refers to Exif image metadata The next string refers to Exif ima
     <message>
         <location filename="../qml/fadein/Rename.qml" line="87"/>
         <source>Save</source>
-        <translation type="unfinished"/>
+        <translation>Зберегти</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Rename.qml" line="100"/>
@@ -2328,7 +2328,7 @@ The next string refers to Exif image metadata The next string refers to Exif ima
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/RotateFlip.qml" line="35"/>
         <source>Never rotate/flip images</source>
-        <translation type="unfinished"/>
+        <translation>Ніколи не повертати/перевертати зображення</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/RotateFlip.qml" line="41"/>
@@ -2422,7 +2422,7 @@ The next string refers to Exif image metadata The next string refers to Exif ima
         <location filename="../qml/settingsmanager/tabs/shortcuts/Set.qml" line="97"/>
         <source>quit</source>
         <extracomment>Shortcuts: KEEP THIS STRING SHORT! It is displayed for external shortcuts as an option to quit PhotoQt after executing shortcut</extracomment>
-        <translation type="unfinished"/>
+        <translation>вихід</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/shortcuts/Set.qml" line="102"/>
@@ -2458,7 +2458,7 @@ The next string refers to Exif image metadata The next string refers to Exif ima
     <message>
         <location filename="../qml/settingsmanager/tabs/shortcuts/Set.qml" line="175"/>
         <source>Delete shortcut</source>
-        <translation type="unfinished"/>
+        <translation>Видалити комбінацію клавіш</translation>
     </message>
 </context>
 <context>
@@ -2479,7 +2479,7 @@ The next string refers to Exif image metadata The next string refers to Exif ima
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="116"/>
         <source>Metadata</source>
         <extracomment>This is used as a title for one of the tabs in the settings manager</extracomment>
-        <translation type="unfinished"/>
+        <translation>Метадані</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="137"/>
@@ -2491,7 +2491,7 @@ The next string refers to Exif image metadata The next string refers to Exif ima
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="158"/>
         <source>Shortcuts</source>
         <extracomment>This is used as a title for one of the tabs in the settings manager</extracomment>
-        <translation type="unfinished"/>
+        <translation>Комбінації клавіш</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="216"/>
@@ -2500,19 +2500,19 @@ The next string refers to Exif image metadata The next string refers to Exif ima
         <extracomment>This is written on a button in the settings manager
 ----------
 Used in settings manager when asking for confirmation for restoring default SETTINGS</extracomment>
-        <translation type="unfinished"/>
+        <translation>Відновити типові налаштування</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="232"/>
         <source>Exit and Discard Changes</source>
         <extracomment>This is written on a button in the settings manager</extracomment>
-        <translation type="unfinished"/>
+        <translation>Вийти та скасувати зміни</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="251"/>
         <source>Save Changes and Exit</source>
         <extracomment>This is written on a button in the settings manager</extracomment>
-        <translation type="unfinished"/>
+        <translation>Зберегти зміни та вийти</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="289"/>
@@ -2623,25 +2623,25 @@ Used in settings manager when asking for confirmation for restoring default shor
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="331"/>
         <source>No, thanks</source>
         <extracomment>Used in settings manager when asking for confirmation for restoring default settings (written on button)</extracomment>
-        <translation type="unfinished"/>
+        <translation>Ні, дякую</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="342"/>
         <source>Set Default Shortcuts</source>
         <extracomment>Used in settings manager when asking for confirmation for restoring default SHORTCUTS</extracomment>
-        <translation type="unfinished"/>
+        <translation>Встановити Типові Комбінаці</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="344"/>
         <source>Are you sure you want to reset the shortcuts to the default set?</source>
         <extracomment>Used in settings manager when asking for confirmation for restoring default shortcuts</extracomment>
-        <translation type="unfinished"/>
+        <translation>Ви впевнені, що бажаєте скинути піктограми до типових значень?</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="348"/>
         <source>Yes, please</source>
         <extracomment>Used in settings manager when asking for confirmation for restoring default shortcuts (written on button)</extracomment>
-        <translation type="unfinished"/>
+        <translation>Так, будь ласка</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="350"/>
@@ -2665,31 +2665,31 @@ Used in settings manager when asking for confirmation for restoring default shor
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="382"/>
         <source>Go to the next tab</source>
         <extracomment>Inform the user of a possible shortcut action in the settings manager</extracomment>
-        <translation type="unfinished"/>
+        <translation>Перейти до наступної вкладки</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="384"/>
         <source>Go to the previous tab</source>
         <extracomment>Inform the user of a possible shortcut action in the settings manager</extracomment>
-        <translation type="unfinished"/>
+        <translation>Перейти на попередню вкладку</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="386"/>
         <source>Switch to tab 1 to 5</source>
         <extracomment>Inform the user of a possible shortcut action in the settings manager</extracomment>
-        <translation type="unfinished"/>
+        <translation>Перейдіть на вкладку 1-5</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="388"/>
         <source>Save settings</source>
         <extracomment>Inform the user of a possible shortcut action in the settings manager</extracomment>
-        <translation type="unfinished"/>
+        <translation>Зберегти налаштування</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/SettingsManager.qml" line="390"/>
         <source>Discard settings</source>
         <extracomment>Inform the user of a possible shortcut action in the settings manager</extracomment>
-        <translation type="unfinished"/>
+        <translation>Відхилити налаштування</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/TabOther.qml" line="55"/>
@@ -2705,18 +2705,18 @@ Used in settings manager when asking for confirmation for restoring default shor
     <message>
         <location filename="../qml/elements/ShortcutNotifier.qml" line="12"/>
         <source>You can use the following shortcuts for navigation</source>
-        <translation type="unfinished"/>
+        <translation>Для навігації ви можете використовувати наступні скорочення</translation>
     </message>
     <message>
         <location filename="../qml/elements/ShortcutNotifier.qml" line="18"/>
         <source>Got it!</source>
         <extracomment>In the sense of 'I understand it'</extracomment>
-        <translation type="unfinished"/>
+        <translation>Зрозумів!</translation>
     </message>
     <message>
         <location filename="../qml/elements/ShortcutNotifier.qml" line="20"/>
         <source>Don&apos;t show again</source>
-        <translation type="unfinished"/>
+        <translation>Не показувати знову</translation>
     </message>
 </context>
 <context>
@@ -2888,7 +2888,7 @@ Used in settings manager when asking for confirmation for restoring default shor
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="17"/>
         <source>Sort Images</source>
-        <translation type="unfinished"/>
+        <translation>Сортувати зображення</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="18"/>
@@ -2898,37 +2898,37 @@ Used in settings manager when asking for confirmation for restoring default shor
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="32"/>
         <source>Sort by:</source>
-        <translation type="unfinished"/>
+        <translation>Сортувати за:</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="40"/>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>Іменем</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="40"/>
         <source>Natural Name</source>
-        <translation type="unfinished"/>
+        <translation>Природне ім&apos;я</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="40"/>
         <source>Date</source>
-        <translation type="unfinished"/>
+        <translation>Датою</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="40"/>
         <source>Filesize</source>
-        <translation type="unfinished"/>
+        <translation>Розміром файлу</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="49"/>
         <source>Ascending</source>
-        <translation type="unfinished"/>
+        <translation>Зростанням</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="57"/>
         <source>Descending</source>
-        <translation type="unfinished"/>
+        <translation>Спаданням</translation>
     </message>
 </context>
 <context>
@@ -2950,12 +2950,12 @@ Used in settings manager when asking for confirmation for restoring default shor
     <message>
         <location filename="../qml/fadein/Startup.qml" line="72"/>
         <source>Welcome to PhotoQt</source>
-        <translation type="unfinished"/>
+        <translation>Ласкаво просимо в PhotoQt</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="87"/>
         <source>PhotoQt was successfully installed!</source>
-        <translation type="unfinished"/>
+        <translation>PhotoQt успішно встановлено!</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="87"/>
@@ -2965,7 +2965,7 @@ Used in settings manager when asking for confirmation for restoring default shor
     <message>
         <location filename="../qml/fadein/Startup.qml" line="88"/>
         <source>PhotoQt was successfully updated!</source>
-        <translation type="unfinished"/>
+        <translation>PhotoQt успішно оновлено!</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Startup.qml" line="88"/>
@@ -2993,7 +2993,7 @@ Used in settings manager when asking for confirmation for restoring default shor
         <location filename="../qml/settingsmanager/tabs/TabMetadata.qml" line="45"/>
         <source>Image Metadata</source>
         <extracomment>Used as heading of tab in the settings manager</extracomment>
-        <translation type="unfinished"/>
+        <translation>Метадані зображення</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/TabMetadata.qml" line="66"/>
@@ -3063,7 +3063,7 @@ Used in settings manager when asking for confirmation for restoring default shor
         <location filename="../qml/settingsmanager/tabs/TabShortcuts.qml" line="123"/>
         <source>Filter Images in Folder</source>
         <extracomment>This is a shortcut description</extracomment>
-        <translation>Фільтрувати зображення в папці</translation>
+        <translation>Фільтрувати зображення в теці</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/TabShortcuts.qml" line="125"/>
@@ -3099,7 +3099,7 @@ Used in settings manager when asking for confirmation for restoring default shor
         <location filename="../qml/settingsmanager/tabs/TabShortcuts.qml" line="135"/>
         <source>Quit PhotoQt</source>
         <extracomment>This is a shortcut description</extracomment>
-        <translation type="unfinished"/>
+        <translation>Закрити PhotoQt</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/TabShortcuts.qml" line="141"/>
@@ -3183,13 +3183,13 @@ Used in settings manager when asking for confirmation for restoring default shor
         <location filename="../qml/settingsmanager/tabs/TabShortcuts.qml" line="171"/>
         <source>Delete File</source>
         <extracomment>This is a shortcut description</extracomment>
-        <translation type="unfinished"/>
+        <translation>Видалити файл</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/TabShortcuts.qml" line="173"/>
         <source>Delete File (without confirmation)</source>
         <extracomment>This is a shortcut description</extracomment>
-        <translation type="unfinished"/>
+        <translation>Видалити файл (без підтвердження)</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/TabShortcuts.qml" line="175"/>
@@ -3374,7 +3374,7 @@ Used in settings manager when asking for confirmation for restoring default shor
     <message>
         <location filename="../qml/openfile/TweaksFileTypeSelection.qml" line="26"/>
         <source>All supported images</source>
-        <translation type="unfinished"/>
+        <translation>Усі підтримувані зображення</translation>
     </message>
     <message>
         <location filename="../qml/openfile/TweaksFileTypeSelection.qml" line="28"/>
@@ -3406,12 +3406,12 @@ Used in settings manager when asking for confirmation for restoring default shor
     <message>
         <location filename="../qml/openfile/TweaksViewMode.qml" line="50"/>
         <source>Show files as list</source>
-        <translation type="unfinished"/>
+        <translation>Показати файли як список</translation>
     </message>
     <message>
         <location filename="../qml/openfile/TweaksViewMode.qml" line="88"/>
         <source>Show files as grid</source>
-        <translation type="unfinished"/>
+        <translation>Показати файли як сітку</translation>
     </message>
 </context>
 <context>
@@ -3419,7 +3419,7 @@ Used in settings manager when asking for confirmation for restoring default shor
     <message>
         <location filename="../qml/openfile/TweaksZoom.qml" line="22"/>
         <source>Zoom:</source>
-        <translation type="unfinished"/>
+        <translation>Зум:</translation>
     </message>
     <message>
         <location filename="../qml/openfile/TweaksZoom.qml" line="46"/>
@@ -3445,7 +3445,7 @@ Used in settings manager when asking for confirmation for restoring default shor
         <location filename="../qml/openfile/UserPlaces.qml" line="166"/>
         <source>Show devices</source>
         <extracomment>OpenFile: This refers to connected devices (harddrives, partitions, etc.)</extracomment>
-        <translation type="unfinished"/>
+        <translation>Показати пристрої</translation>
     </message>
     <message>
         <location filename="../qml/openfile/UserPlaces.qml" line="177"/>
@@ -3468,19 +3468,19 @@ Used in settings manager when asking for confirmation for restoring default shor
         <location filename="../qml/openfile/UserPlaces.qml" line="242"/>
         <source>Desktop</source>
         <extracomment>OpenFile: This refers to the desktop folder</extracomment>
-        <translation type="unfinished"/>
+        <translation>Робочий стіл</translation>
     </message>
     <message>
         <location filename="../qml/openfile/UserPlaces.qml" line="244"/>
         <source>Pictures</source>
         <extracomment>OpenFile: This refers to the pictures folder</extracomment>
-        <translation type="unfinished"/>
+        <translation>Картинки</translation>
     </message>
     <message>
         <location filename="../qml/openfile/UserPlaces.qml" line="246"/>
         <source>Downloads</source>
         <extracomment>OpenFile: This refers to the downloads folder</extracomment>
-        <translation type="unfinished"/>
+        <translation>Завантаження</translation>
     </message>
     <message>
         <location filename="../qml/openfile/UserPlaces.qml" line="251"/>
@@ -3492,13 +3492,13 @@ Used in settings manager when asking for confirmation for restoring default shor
         <location filename="../qml/openfile/UserPlaces.qml" line="270"/>
         <source>Places</source>
         <extracomment>OpenFile: 'Places' is the title for the user-set folders (favourites)</extracomment>
-        <translation type="unfinished"/>
+        <translation>Місця</translation>
     </message>
     <message>
         <location filename="../qml/openfile/UserPlaces.qml" line="282"/>
         <source>Devices</source>
         <extracomment>OpenFile: 'Devices' is the title for connected harddrives, partitions, ...</extracomment>
-        <translation type="unfinished"/>
+        <translation>Пристрої</translation>
     </message>
 </context>
 <context>

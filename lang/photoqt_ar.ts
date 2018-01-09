@@ -4,7 +4,7 @@
     <message>
         <location filename="../qml/fadein/About.qml" line="10"/>
         <source>About PhotoQt</source>
-        <translation type="unfinished"/>
+        <translation>حول فوتو كيوت</translation>
     </message>
     <message>
         <location filename="../qml/fadein/About.qml" line="36"/>
@@ -29,7 +29,7 @@
     <message>
         <location filename="../qml/fadein/About.qml" line="44"/>
         <source>Don&apos;t forget to check out the website:</source>
-        <translation>لا تنسى الدخول على الموقع:</translation>
+        <translation>لا تنسى أن تلقي نظرة على الموقع:</translation>
     </message>
     <message>
         <location filename="../qml/fadein/About.qml" line="46"/>
@@ -39,7 +39,7 @@
     <message>
         <location filename="../qml/fadein/About.qml" line="81"/>
         <source>Thanks to everybody who contributed to PhotoQt and/or translated PhotoQt to another language! You guys rock!</source>
-        <translation type="unfinished"/>
+        <translation>شكراً لكل من ساهم في فوتو كيو تي و كذلك لمن ساهم في ترجمة الفوتو كيو تي إلى لغات مختلفة. نِعْم الفتية.  </translation>
     </message>
     <message>
         <location filename="../qml/fadein/About.qml" line="98"/>
@@ -50,7 +50,7 @@
     <message>
         <location filename="../qml/fadein/About.qml" line="121"/>
         <source>Okay I got enough of that</source>
-        <translation type="unfinished"/>
+        <translation>حسناً اكتفيت من ذلك</translation>
     </message>
 </context>
 <context>
@@ -112,7 +112,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/shortcuts/Available.qml" line="90"/>
         <source>Click to add shortcut</source>
-        <translation type="unfinished"/>
+        <translation>اضغط هنا لإضافة اختصار</translation>
     </message>
 </context>
 <context>
@@ -120,7 +120,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="17"/>
         <source>Background</source>
-        <translation type="unfinished"/>
+        <translation>خلفية</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="18"/>
@@ -135,7 +135,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="42"/>
         <source>Faked transparency</source>
-        <translation type="unfinished"/>
+        <translation>شفافية مزورة</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="47"/>
@@ -150,7 +150,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="98"/>
         <source>No image selected</source>
-        <translation type="unfinished"/>
+        <translation>لم يتم إختيار أي صورة</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="122"/>
@@ -216,7 +216,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/BorderAroundImage.qml" line="20"/>
         <source>Border Around Image</source>
-        <translation type="unfinished"/>
+        <translation>إطار حول الصورة</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/BorderAroundImage.qml" line="21"/>
@@ -262,7 +262,7 @@
         <location filename="../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="22"/>
         <source>Both ways have their advantages and disadvantages:</source>
         <extracomment>Settings: Used in description of 'thumbnail cache' option</extracomment>
-        <translation type="unfinished"/>
+        <translation>كلا الطريقتين لهن مميزات و سلبيات</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="24"/>
@@ -328,7 +328,7 @@
         <location filename="../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="182"/>
         <source>ERASE</source>
         <extracomment>Settings: written on button for erasing thumbnail database</extracomment>
-        <translation type="unfinished"/>
+        <translation>مسح</translation>
     </message>
 </context>
 <context>
@@ -337,7 +337,7 @@
         <location filename="../qml/settingsmanager/tabs/thumbnails/CenterOn.qml" line="18"/>
         <source>Keep in Center</source>
         <extracomment>Settings title: Keep active thumbnail in the center of the screen</extracomment>
-        <translation type="unfinished"/>
+        <translation>توسيط</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/thumbnails/CenterOn.qml" line="19"/>
@@ -355,7 +355,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/CloseOnClick.qml" line="16"/>
         <source>Click on Empty Area</source>
-        <translation type="unfinished"/>
+        <translation>اضغط في مكان فارغ</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/CloseOnClick.qml" line="17"/>
@@ -388,7 +388,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/ClosingX.qml" line="35"/>
         <source>Normal</source>
-        <translation type="unfinished"/>
+        <translation>عادي</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/ClosingX.qml" line="40"/>
@@ -398,12 +398,12 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/ClosingX.qml" line="56"/>
         <source>Small Size</source>
-        <translation type="unfinished"/>
+        <translation>حجم صغير</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/ClosingX.qml" line="79"/>
         <source>Large Size</source>
-        <translation type="unfinished"/>
+        <translation>حجم كبير</translation>
     </message>
 </context>
 <context>
@@ -469,17 +469,17 @@
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="13"/>
         <source>Yes, do it</source>
-        <translation type="unfinished"/>
+        <translation>نعم، افعلها.</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="14"/>
         <source>No, don&apos;t</source>
-        <translation type="unfinished"/>
+        <translation>لا، لا تفعلها.</translation>
     </message>
     <message>
         <location filename="../qml/elements/CustomConfirm.qml" line="128"/>
         <source>Don&apos;t ask again</source>
-        <translation type="unfinished"/>
+        <translation>لا تقم بالسؤال مرة أخرى</translation>
     </message>
 </context>
 <context>
@@ -504,7 +504,7 @@
         <location filename="../qml/settingsmanager/tabs/other/CustomEntries.qml" line="88"/>
         <source>Menu Text</source>
         <extracomment>The text to be displayed for the custom entry in the main menu</extracomment>
-        <translation type="unfinished"/>
+        <translation>نص القائمة</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/other/CustomEntries.qml" line="120"/>
@@ -516,7 +516,7 @@
         <location filename="../qml/settingsmanager/tabs/other/CustomEntries.qml" line="128"/>
         <source>Set default</source>
         <extracomment>Settings: Custom entries in main menu: Detect what known tools are installed and create an entry for all available ones</extracomment>
-        <translation type="unfinished"/>
+        <translation>ضبط كإفتراضي</translation>
     </message>
 </context>
 <context>
@@ -530,7 +530,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/other/CustomEntriesInteractive.qml" line="187"/>
         <source>quit</source>
-        <translation type="unfinished"/>
+        <translation>إنهاء</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/other/CustomEntriesInteractive.qml" line="289"/>
@@ -548,17 +548,17 @@
     <message>
         <location filename="../qml/fadein/Delete.qml" line="20"/>
         <source>Delete File</source>
-        <translation type="unfinished"/>
+        <translation>حذف الملف</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Delete.qml" line="50"/>
         <source>Do you really want to delete this file?</source>
-        <translation type="unfinished"/>
+        <translation>هل ترغب في حذف هذا الملف؟</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Delete.qml" line="78"/>
         <source>Move to Trash</source>
-        <translation type="unfinished"/>
+        <translation>نقل إلى سلة المهملات</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Delete.qml" line="78"/>
@@ -568,12 +568,12 @@
     <message>
         <location filename="../qml/fadein/Delete.qml" line="89"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>إلغاء</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Delete.qml" line="102"/>
         <source>Delete permanently</source>
-        <translation type="unfinished"/>
+        <translation>حذف نهائي</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Delete.qml" line="122"/>
@@ -592,12 +592,12 @@
         <location filename="../qml/settingsmanager/DetectShortcut.qml" line="143"/>
         <source>Modifier</source>
         <extracomment>This string refers to a key modifier like Ctrl or Alt</extracomment>
-        <translation type="unfinished"/>
+        <translation>المصحح</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/DetectShortcut.qml" line="156"/>
         <source>Mouse Button</source>
-        <translation type="unfinished"/>
+        <translation>زر الفأرة</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/DetectShortcut.qml" line="170"/>
@@ -627,7 +627,7 @@
     <message>
         <location filename="../qml/settingsmanager/DetectShortcut.qml" line="340"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>إلغاء</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/DetectShortcut.qml" line="372"/>
@@ -690,7 +690,7 @@
     <message>
         <location filename="../qml/fadein/wallpaper/Enlightenment.qml" line="71"/>
         <source>Screen</source>
-        <translation type="unfinished"/>
+        <translation>الشاشة</translation>
     </message>
     <message>
         <location filename="../qml/fadein/wallpaper/Enlightenment.qml" line="106"/>
@@ -716,7 +716,7 @@
         <location filename="../qml/settingsmanager/tabs/other/FileTypesExtras.qml" line="21"/>
         <source>Extras</source>
         <extracomment>These are extra (special) file formats</extracomment>
-        <translation type="unfinished"/>
+        <translation>إضافات</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/other/FileTypesExtras.qml" line="22"/>
@@ -751,7 +751,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/other/FileTypesGM.qml" line="20"/>
         <source>disabled</source>
-        <translation type="unfinished"/>
+        <translation>غير مفعل</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/other/FileTypesGM.qml" line="22"/>
@@ -774,7 +774,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/other/FileTypesGMGhostscript.qml" line="20"/>
         <source>disabled</source>
-        <translation type="unfinished"/>
+        <translation>غير مفعل</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/other/FileTypesGMGhostscript.qml" line="22"/>
@@ -810,7 +810,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/other/FileTypesRaw.qml" line="20"/>
         <source>disabled</source>
-        <translation type="unfinished"/>
+        <translation>غير مفعل</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/other/FileTypesRaw.qml" line="22"/>
@@ -838,7 +838,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/other/FileTypesUntested.qml" line="20"/>
         <source>disabled</source>
-        <translation type="unfinished"/>
+        <translation>غير مفعل</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/other/FileTypesUntested.qml" line="22"/>
@@ -873,7 +873,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/thumbnails/FilenameOnly.qml" line="48"/>
         <source>Fontsize</source>
-        <translation type="unfinished"/>
+        <translation>مقاس الخط</translation>
     </message>
 </context>
 <context>
@@ -904,12 +904,12 @@
     <message>
         <location filename="../qml/fadein/Filter.qml" line="90"/>
         <source>Filter</source>
-        <translation type="unfinished"/>
+        <translation>تنقية</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Filter.qml" line="99"/>
         <source>Cancel</source>
-        <translation type="unfinished"/>
+        <translation>إلغاء</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Filter.qml" line="115"/>
@@ -940,7 +940,7 @@
     <message>
         <location filename="../qml/openfile/Folders.qml" line="98"/>
         <source>Add to Favourites</source>
-        <translation type="unfinished"/>
+        <translation>إضف إلى المفضلة</translation>
     </message>
     <message>
         <location filename="../qml/openfile/Folders.qml" line="103"/>
@@ -953,7 +953,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/FontSize.qml" line="17"/>
         <source>Font Size</source>
-        <translation type="unfinished"/>
+        <translation>مقاس الخط</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/FontSize.qml" line="18"/>
@@ -968,7 +968,7 @@
         <location filename="../cplusplus/scripts/getanddostuff/context.cpp" line="15"/>
         <location filename="../cplusplus/scripts/getanddostuff/context.cpp" line="16"/>
         <source>Edit with</source>
-        <translation type="unfinished"/>
+        <translation>تحرير بواسطة</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getanddostuff/context.cpp" line="17"/>
@@ -985,7 +985,7 @@
     <message>
         <location filename="../cplusplus/scripts/getanddostuff/openfile.cpp" line="89"/>
         <source>Volume</source>
-        <translation type="unfinished"/>
+        <translation>السعة</translation>
     </message>
 </context>
 <context>
@@ -993,7 +993,7 @@
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="327"/>
         <source>Unknown</source>
-        <translation type="unfinished"/>
+        <translation>غير معروف</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="330"/>
@@ -1018,12 +1018,12 @@
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="342"/>
         <source>Fine weather</source>
-        <translation type="unfinished"/>
+        <translation>جو معتدل</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="345"/>
         <source>Cloudy Weather</source>
-        <translation type="unfinished"/>
+        <translation>جو غائم</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="348"/>
@@ -1082,13 +1082,13 @@
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="399"/>
         <source>yes</source>
         <extracomment>This string identifies that flash was fired</extracomment>
-        <translation type="unfinished"/>
+        <translation>نعم</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="401"/>
         <source>no</source>
         <extracomment>This string identifies that flash wasn't fired</extracomment>
-        <translation type="unfinished"/>
+        <translation>لا</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="403"/>
@@ -1146,7 +1146,7 @@
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="474"/>
         <source>Standard</source>
-        <translation type="unfinished"/>
+        <translation>قياسي</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="477"/>
@@ -1161,7 +1161,7 @@
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="483"/>
         <source>Night Scene</source>
-        <translation type="unfinished"/>
+        <translation>مشهد ليلي</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/getmetadata.cpp" line="486"/>
@@ -1218,12 +1218,12 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/HotEdge.qml" line="33"/>
         <source>Small</source>
-        <translation type="unfinished"/>
+        <translation>صغير</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/HotEdge.qml" line="55"/>
         <source>Large</source>
-        <translation type="unfinished"/>
+        <translation>كبير</translation>
     </message>
 </context>
 <context>
@@ -1231,7 +1231,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Interpolation.qml" line="18"/>
         <source>Interpolation</source>
-        <translation type="unfinished"/>
+        <translation>الاستيفاء</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/Interpolation.qml" line="19"/>
@@ -1281,7 +1281,7 @@
         <location filename="../qml/settingsmanager/tabs/thumbnails/KeepVisible.qml" line="17"/>
         <source>Visibility</source>
         <extracomment>Settings title: Keep the thumbnails permanently visible</extracomment>
-        <translation type="unfinished"/>
+        <translation>الرؤية</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/thumbnails/KeepVisible.qml" line="18"/>
@@ -1300,19 +1300,19 @@
         <location filename="../qml/globalstrings/Keys.qml" line="7"/>
         <source>Alt</source>
         <extracomment>Refers to a keyboard modifier</extracomment>
-        <translation type="unfinished"/>
+        <translation>Alt</translation>
     </message>
     <message>
         <location filename="../qml/globalstrings/Keys.qml" line="9"/>
         <source>Ctrl</source>
         <extracomment>Refers to a keyboard modifier</extracomment>
-        <translation type="unfinished"/>
+        <translation>Ctrl</translation>
     </message>
     <message>
         <location filename="../qml/globalstrings/Keys.qml" line="11"/>
         <source>Shift</source>
         <extracomment>Refers to a keyboard modifier</extracomment>
-        <translation type="unfinished"/>
+        <translation>Shift</translation>
     </message>
     <message>
         <location filename="../qml/globalstrings/Keys.qml" line="13"/>
@@ -1348,61 +1348,61 @@
         <location filename="../qml/globalstrings/Keys.qml" line="23"/>
         <source>Right</source>
         <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
-        <translation type="unfinished"/>
+        <translation>يمين</translation>
     </message>
     <message>
         <location filename="../qml/globalstrings/Keys.qml" line="25"/>
         <source>Left</source>
         <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
-        <translation type="unfinished"/>
+        <translation>يسار</translation>
     </message>
     <message>
         <location filename="../qml/globalstrings/Keys.qml" line="27"/>
         <source>Up</source>
         <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
-        <translation type="unfinished"/>
+        <translation>أعلى</translation>
     </message>
     <message>
         <location filename="../qml/globalstrings/Keys.qml" line="29"/>
         <source>Down</source>
         <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
-        <translation type="unfinished"/>
+        <translation>أسفل</translation>
     </message>
     <message>
         <location filename="../qml/globalstrings/Keys.qml" line="31"/>
         <source>Space</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation type="unfinished"/>
+        <translation>مسافة</translation>
     </message>
     <message>
         <location filename="../qml/globalstrings/Keys.qml" line="33"/>
         <source>Delete</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation type="unfinished"/>
+        <translation>حذف</translation>
     </message>
     <message>
         <location filename="../qml/globalstrings/Keys.qml" line="35"/>
         <source>Backspace</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation type="unfinished"/>
+        <translation>مسافة</translation>
     </message>
     <message>
         <location filename="../qml/globalstrings/Keys.qml" line="37"/>
         <source>Home</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation type="unfinished"/>
+        <translation>الرئيسية</translation>
     </message>
     <message>
         <location filename="../qml/globalstrings/Keys.qml" line="39"/>
         <source>End</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation type="unfinished"/>
+        <translation>إنهاء</translation>
     </message>
     <message>
         <location filename="../qml/globalstrings/Keys.qml" line="41"/>
         <source>Insert</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation type="unfinished"/>
+        <translation>إدخال</translation>
     </message>
     <message>
         <location filename="../qml/globalstrings/Keys.qml" line="43"/>
@@ -1414,13 +1414,13 @@
         <location filename="../qml/globalstrings/Keys.qml" line="45"/>
         <source>Return</source>
         <extracomment>'Return' refers to the enter key of the number block - please try to make the translations of 'Return' and 'Enter' (the main button) different!</extracomment>
-        <translation type="unfinished"/>
+        <translation>تراجع</translation>
     </message>
     <message>
         <location filename="../qml/globalstrings/Keys.qml" line="47"/>
         <source>Enter</source>
         <extracomment>'Enter' refers to the main enter key - please try to make the translations of 'Return' (in the number block) and 'Enter' different!</extracomment>
-        <translation type="unfinished"/>
+        <translation>إدخال</translation>
     </message>
 </context>
 <context>
@@ -1440,12 +1440,12 @@
         <location filename="../qml/settingsmanager/tabs/thumbnails/Label.qml" line="37"/>
         <source>Write Filename</source>
         <extracomment>Settings: Write the filename on a thumbnail</extracomment>
-        <translation type="unfinished"/>
+        <translation>كتابة اسم الملف</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/thumbnails/Label.qml" line="49"/>
         <source>Fontsize</source>
-        <translation type="unfinished"/>
+        <translation>مقاس الخط</translation>
     </message>
 </context>
 <context>
@@ -1453,7 +1453,7 @@
     <message>
         <location filename="../qml/settingsmanager/tabs/other/Language.qml" line="19"/>
         <source>Language</source>
-        <translation type="unfinished"/>
+        <translation>اللغة</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/other/Language.qml" line="20"/>
@@ -1523,13 +1523,13 @@
         <location filename="../qml/slidein/MainMenu.qml" line="36"/>
         <source>setup</source>
         <extracomment>This is an entry in the mainmenu on the right, used as 'setting up a slideshow'</extracomment>
-        <translation type="unfinished"/>
+        <translation>إعداد</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="38"/>
         <source>quickstart</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'quickstarting a slideshow'</extracomment>
-        <translation type="unfinished"/>
+        <translation>بداية سريعة</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="40"/>
@@ -1571,49 +1571,49 @@
         <location filename="../qml/slidein/MainMenu.qml" line="55"/>
         <source>Go to</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'Go To some image'</extracomment>
-        <translation type="unfinished"/>
+        <translation>اذهب إلى</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="57"/>
         <source>previous</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'go to previous image'</extracomment>
-        <translation type="unfinished"/>
+        <translation>السابق</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="59"/>
         <source>next</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'go to next image'</extracomment>
-        <translation type="unfinished"/>
+        <translation>التالي</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="61"/>
         <source>first</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'go to first image'</extracomment>
-        <translation type="unfinished"/>
+        <translation>الأول</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="63"/>
         <source>last</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'go to last image'</extracomment>
-        <translation type="unfinished"/>
+        <translation>الأخير</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="65"/>
         <source>Zoom</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'Zoom image'</extracomment>
-        <translation type="unfinished"/>
+        <translation>تكبير</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="67"/>
         <source>in</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'Zoom in on image'</extracomment>
-        <translation type="unfinished"/>
+        <translation>داخل</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="69"/>
         <source>out</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'Zoom out of image'</extracomment>
-        <translation type="unfinished"/>
+        <translation>خارج</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="71"/>
@@ -1625,73 +1625,73 @@
 This is an entry in the mainmenu on the right, used as in 'Reset rotation of image'
 ----------
 This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of image'</extracomment>
-        <translation type="unfinished"/>
+        <translation>إعادة ضبط</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="75"/>
         <source>Rotate</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'Zoom image to actual size (1:1, one-to-one)' This is an entry in the mainmenu on the right, used as in 'Rotate image'</extracomment>
-        <translation type="unfinished"/>
+        <translation>تدوير</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="77"/>
         <source>left</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'Rotate image left'</extracomment>
-        <translation type="unfinished"/>
+        <translation>يسار</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="79"/>
         <source>right</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'Rotate image right'</extracomment>
-        <translation type="unfinished"/>
+        <translation>يمين</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="83"/>
         <source>Flip</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'Flip/Mirror image'</extracomment>
-        <translation type="unfinished"/>
+        <translation>قلب</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="85"/>
         <source>horizontal</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'Flip/Mirror image horizontally'</extracomment>
-        <translation type="unfinished"/>
+        <translation>أفقي</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="87"/>
         <source>vertical</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'Flip/Mirror image vertically'</extracomment>
-        <translation type="unfinished"/>
+        <translation>عمودي</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="91"/>
         <source>File</source>
         <extracomment>This is an entry in the mainmenu on the right, used to refer to the current file (specifically the file, not directly the image)</extracomment>
-        <translation type="unfinished"/>
+        <translation>ملف</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="93"/>
         <source>rename</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'rename file'</extracomment>
-        <translation type="unfinished"/>
+        <translation>إعادة تسمية</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="95"/>
         <source>copy</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'copy file'</extracomment>
-        <translation type="unfinished"/>
+        <translation>نسخ</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="97"/>
         <source>move</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'move file'</extracomment>
-        <translation type="unfinished"/>
+        <translation>نقل</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="99"/>
         <source>delete</source>
         <extracomment>This is an entry in the mainmenu on the right, used as in 'delete file'</extracomment>
-        <translation type="unfinished"/>
+        <translation>حذف</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="104"/>
@@ -1708,12 +1708,12 @@ This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of 
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="145"/>
         <source>Close PhotoQt</source>
-        <translation type="unfinished"/>
+        <translation>إغلاق الفوتو كيو تي</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="165"/>
         <source>Main Menu</source>
-        <translation type="unfinished"/>
+        <translation>القائمة الرئيسية</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MainMenu.qml" line="322"/>
@@ -1737,7 +1737,7 @@ This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of 
     <message>
         <location filename="../qml/mainview/MainView.qml" line="222"/>
         <source>No results found...</source>
-        <translation type="unfinished"/>
+        <translation>لا توجد نتائج...</translation>
     </message>
     <message>
         <location filename="../qml/mainview/MainView.qml" line="229"/>
@@ -1757,12 +1757,12 @@ This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of 
     <message>
         <location filename="../qml/mainview/MainView.qml" line="231"/>
         <source>Yes, do it</source>
-        <translation type="unfinished"/>
+        <translation>نعم، افعلها.</translation>
     </message>
     <message>
         <location filename="../qml/mainview/MainView.qml" line="232"/>
         <source>No, don&apos;t</source>
-        <translation type="unfinished"/>
+        <translation>لا، لا تفعلها.</translation>
     </message>
 </context>
 <context>
@@ -1770,12 +1770,12 @@ This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of 
     <message>
         <location filename="../cplusplus/mainwindow.cpp" line="308"/>
         <source>Image Viewer</source>
-        <translation type="unfinished"/>
+        <translation>مستعرض الصور</translation>
     </message>
     <message>
         <location filename="../cplusplus/mainwindow.cpp" line="313"/>
         <source>Hide/Show PhotoQt</source>
-        <translation type="unfinished"/>
+        <translation>إخفاء/إظهار الفوتو كيوت</translation>
     </message>
 </context>
 <context>
@@ -1789,7 +1789,7 @@ This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of 
         <location filename="../qml/slidein/MetaData.qml" line="70"/>
         <source>No File Loaded</source>
         <extracomment>This is used in the metadata element on the left</extracomment>
-        <translation type="unfinished"/>
+        <translation>لم يتم تحميل أي ملف</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="90"/>
@@ -1800,7 +1800,7 @@ This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of 
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="109"/>
         <source>Invalid File</source>
-        <translation type="unfinished"/>
+        <translation>ملف غير صحيح</translation>
     </message>
     <message>
         <location filename="../qml/slidein/MetaData.qml" line="151"/>
@@ -1828,21 +1828,21 @@ This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of 
         <location filename="../qml/settingsmanager/tabs/metadata/MetaData.qml" line="105"/>
         <location filename="../qml/slidein/MetaData.qml" line="287"/>
         <source>Filename</source>
-        <translation type="unfinished"/>
+        <translation>اسم الملف</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/MetaData.qml" line="70"/>
         <location filename="../qml/settingsmanager/tabs/metadata/MetaData.qml" line="106"/>
         <location filename="../qml/slidein/MetaData.qml" line="291"/>
         <source>Filesize</source>
-        <translation type="unfinished"/>
+        <translation>حجم الملف</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/MetaData.qml" line="71"/>
         <location filename="../qml/settingsmanager/tabs/metadata/MetaData.qml" line="107"/>
         <location filename="../qml/slidein/MetaData.qml" line="295"/>
         <source>Image</source>
-        <translation type="unfinished"/>
+        <translation>صورة</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/MetaData.qml" line="72"/>
@@ -1850,7 +1850,7 @@ This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of 
         <location filename="../qml/slidein/MetaData.qml" line="300"/>
         <location filename="../qml/slidein/MetaData.qml" line="303"/>
         <source>Dimensions</source>
-        <translation type="unfinished"/>
+        <translation>الأبعاد</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/MetaData.qml" line="74"/>
@@ -1864,14 +1864,14 @@ This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of 
         <location filename="../qml/slidein/MetaData.qml" line="312"/>
         <source>Model</source>
         <extracomment>The next string refers to Exif image metadata</extracomment>
-        <translation type="unfinished"/>
+        <translation>النموذج</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/MetaData.qml" line="78"/>
         <location filename="../qml/slidein/MetaData.qml" line="314"/>
         <source>Software</source>
         <extracomment>The next string refers to Exif image metadata</extracomment>
-        <translation type="unfinished"/>
+        <translation>برنامج</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/MetaData.qml" line="80"/>
@@ -1933,7 +1933,7 @@ The next string refers to Exif image metadata The next string refers to Exif ima
         <location filename="../qml/slidein/MetaData.qml" line="330"/>
         <source>Light Source</source>
         <extracomment>The next string refers to Exif image metadata</extracomment>
-        <translation type="unfinished"/>
+        <translation>مصدر الضوء</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/metadata/MetaData.qml" line="96"/>
@@ -1970,19 +1970,19 @@ The next string refers to Exif image metadata The next string refers to Exif ima
         <location filename="../qml/globalstrings/Mouse.qml" line="7"/>
         <source>Left Button</source>
         <extracomment>Refers to a mouse button</extracomment>
-        <translation type="unfinished"/>
+        <translation>الزر اليسار</translation>
     </message>
     <message>
         <location filename="../qml/globalstrings/Mouse.qml" line="9"/>
         <source>Right Button</source>
         <extracomment>Refers to a mouse button</extracomment>
-        <translation type="unfinished"/>
+        <translation>الزر اليمين</translation>
     </message>
     <message>
         <location filename="../qml/globalstrings/Mouse.qml" line="11"/>
         <source>Middle Button</source>
         <extracomment>Refers to a mouse button</extracomment>
-        <translation type="unfinished"/>
+        <translation>الزر الوسط</translation>
     </message>
     <message>
         <location filename="../qml/globalstrings/Mouse.qml" line="13"/>
@@ -2036,7 +2036,7 @@ The next string refers to Exif image metadata The next string refers to Exif ima
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/MouseWheelSensitivity.qml" line="57"/>
         <source>Very sensitive</source>
-        <translation type="unfinished"/>
+        <translation>حساس جداً</translation>
     </message>
 </context>
 <context>
@@ -3406,7 +3406,7 @@ Used in settings manager when asking for confirmation for restoring default shor
     <message>
         <location filename="../qml/openfile/TweaksViewMode.qml" line="50"/>
         <source>Show files as list</source>
-        <translation type="unfinished"/>
+        <translation>عرض الملفات كقائمة</translation>
     </message>
     <message>
         <location filename="../qml/openfile/TweaksViewMode.qml" line="88"/>
@@ -3439,19 +3439,19 @@ Used in settings manager when asking for confirmation for restoring default shor
         <location filename="../qml/openfile/UserPlaces.qml" line="157"/>
         <source>Show user locations</source>
         <extracomment>OpenFile: This refers to the user-set folders</extracomment>
-        <translation type="unfinished"/>
+        <translation>عرض مواقع المستخدم</translation>
     </message>
     <message>
         <location filename="../qml/openfile/UserPlaces.qml" line="166"/>
         <source>Show devices</source>
         <extracomment>OpenFile: This refers to connected devices (harddrives, partitions, etc.)</extracomment>
-        <translation type="unfinished"/>
+        <translation>عرض الأجهزة</translation>
     </message>
     <message>
         <location filename="../qml/openfile/UserPlaces.qml" line="177"/>
         <source>Remove from favourites</source>
         <extracomment>OpenFile: Remove from user-set folders (favourites)</extracomment>
-        <translation type="unfinished"/>
+        <translation>حذف من المفضلة</translation>
     </message>
     <message>
         <location filename="../qml/openfile/UserPlaces.qml" line="181"/>
@@ -3462,43 +3462,43 @@ Used in settings manager when asking for confirmation for restoring default shor
         <location filename="../qml/openfile/UserPlaces.qml" line="240"/>
         <source>Home</source>
         <extracomment>OpenFile: This refers to the home folder</extracomment>
-        <translation type="unfinished"/>
+        <translation>الرئيسية</translation>
     </message>
     <message>
         <location filename="../qml/openfile/UserPlaces.qml" line="242"/>
         <source>Desktop</source>
         <extracomment>OpenFile: This refers to the desktop folder</extracomment>
-        <translation type="unfinished"/>
+        <translation>سطح المكتب</translation>
     </message>
     <message>
         <location filename="../qml/openfile/UserPlaces.qml" line="244"/>
         <source>Pictures</source>
         <extracomment>OpenFile: This refers to the pictures folder</extracomment>
-        <translation type="unfinished"/>
+        <translation>الصور</translation>
     </message>
     <message>
         <location filename="../qml/openfile/UserPlaces.qml" line="246"/>
         <source>Downloads</source>
         <extracomment>OpenFile: This refers to the downloads folder</extracomment>
-        <translation type="unfinished"/>
+        <translation>التنزيلات</translation>
     </message>
     <message>
         <location filename="../qml/openfile/UserPlaces.qml" line="251"/>
         <source>Standard</source>
         <extracomment>OpenFile: 'Standard' is the title for the standard folders (home, desktop, pictures, downloads)</extracomment>
-        <translation type="unfinished"/>
+        <translation>قياسي</translation>
     </message>
     <message>
         <location filename="../qml/openfile/UserPlaces.qml" line="270"/>
         <source>Places</source>
         <extracomment>OpenFile: 'Places' is the title for the user-set folders (favourites)</extracomment>
-        <translation type="unfinished"/>
+        <translation>الأماكن</translation>
     </message>
     <message>
         <location filename="../qml/openfile/UserPlaces.qml" line="282"/>
         <source>Devices</source>
         <extracomment>OpenFile: 'Devices' is the title for connected harddrives, partitions, ...</extracomment>
-        <translation type="unfinished"/>
+        <translation>أجهزة</translation>
     </message>
 </context>
 <context>
@@ -3506,7 +3506,7 @@ Used in settings manager when asking for confirmation for restoring default shor
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="11"/>
         <source>Set as Wallpaper</source>
-        <translation type="unfinished"/>
+        <translation>تعيين كخلفية</translation>
     </message>
     <message>
         <location filename="../qml/fadein/Wallpaper.qml" line="29"/>
@@ -3540,7 +3540,7 @@ Used in settings manager when asking for confirmation for restoring default shor
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/WindowMode.qml" line="16"/>
         <source>Window Mode</source>
-        <translation type="unfinished"/>
+        <translation>نمط النافذة</translation>
     </message>
     <message>
         <location filename="../qml/settingsmanager/tabs/lookandfeel/WindowMode.qml" line="17"/>
@@ -3573,7 +3573,7 @@ Used in settings manager when asking for confirmation for restoring default shor
     <message>
         <location filename="../qml/fadein/wallpaper/XFCE4.qml" line="61"/>
         <source>Screen</source>
-        <translation type="unfinished"/>
+        <translation>الشاشة</translation>
     </message>
     <message>
         <location filename="../qml/fadein/wallpaper/XFCE4.qml" line="96"/>
@@ -3584,7 +3584,7 @@ Used in settings manager when asking for confirmation for restoring default shor
         <location filename="../qml/fadein/wallpaper/XFCE4.qml" line="112"/>
         <source>Automatic</source>
         <extracomment>This string refers to the scaling property of an image when setting as wallpaper</extracomment>
-        <translation type="unfinished"/>
+        <translation>تلقائي</translation>
     </message>
     <message>
         <location filename="../qml/fadein/wallpaper/XFCE4.qml" line="118"/>
