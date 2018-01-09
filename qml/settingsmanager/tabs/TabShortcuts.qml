@@ -123,6 +123,8 @@ Rectangle {
                                     ["__close",qsTr("Quit PhotoQt")]]
             }
 
+            Item { width: 1; height: 10 }
+
             ShortcutsContainer {
                 id: image
                 //: One of the shortcuts categories
@@ -151,6 +153,8 @@ Rectangle {
                                     ["__playPauseAni", qsTr("Play/Pause image animation")]]
             }
 
+            Item { width: 1; height: 10 }
+
             ShortcutsContainer {
                 id: file
                 //: One of the shortcuts categories
@@ -166,6 +170,8 @@ Rectangle {
                                     //: This is a shortcut description
                                     ["__move", qsTr("Move File to a New Location")]]
             }
+
+            Item { width: 1; height: 10 }
 
             ShortcutsContainer {
                 id: other
@@ -192,6 +198,8 @@ Rectangle {
                                     //: This is a shortcut description,
                                     ["__imgur", qsTr("Upload to imgur.com user account")]]
             }
+
+            Item { width: 1; height: 10 }
 
             ShortcutsContainer {
                 id: external
