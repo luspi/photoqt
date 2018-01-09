@@ -232,6 +232,7 @@ Item {
                     if(ele.hotForShortcutDetection) {
                         ele.hotForShortcutDetection = false
                         thekey.text = sh
+                        listview.model.set(index, {"key" : sh})
                     }
                 }
             }
@@ -254,8 +255,23 @@ Item {
     }
 
     function addShortcut(dat) {
-        console.log(dat)
+
         listview.model.append({"desc" : dat[1], "key" : "...", "close" : "0", "cmd" : dat[0]})
+
+    }
+
+    function saveData() {
+
+        var ret = [[]]
+
+        for(var i = 0; i < listview.model.count; ++i) {
+            var item = listview.model.get(i)
+            var l = [item.key, item.close, item.cmd]
+            ret.push(l)
+        }
+
+        return ret
+
     }
 
 }

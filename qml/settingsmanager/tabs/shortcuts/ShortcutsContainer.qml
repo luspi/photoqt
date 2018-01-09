@@ -127,9 +127,7 @@ Rectangle {
     }
 
     function saveData() {
-
-        return set.getAllData()
-
+        return set.saveData()
     }
 
 }

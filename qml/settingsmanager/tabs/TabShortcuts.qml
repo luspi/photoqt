@@ -241,13 +241,15 @@ Rectangle {
 
     function saveData() {
 
-//        var ret = {};
-//        ret = merge_options(ret, navigation.saveData())
-//        ret = merge_options(ret, image.saveData())
-//        ret = merge_options(ret, file.saveData())
-//        ret = merge_options(ret, other.saveData())
-//        ret = merge_options(ret, external.saveData())
-//        getanddostuff.saveShortcuts(ret)
+        var dat = [[]]
+
+        dat = dat.concat(navigation.saveData())
+        dat = dat.concat(image.saveData())
+        dat = dat.concat(file.saveData())
+        dat = dat.concat(other.saveData())
+        dat = dat.concat(external.saveData())
+
+        shortcutshandler.saveShortcuts(dat)
 
         settings.leftButtonMouseClickAndMove = mouseleftbutton.checkedButton
 

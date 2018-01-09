@@ -98,6 +98,38 @@ QStringList Shortcuts::loadDefaults() {
 
 }
 
+void Shortcuts::saveShortcuts(QVariantList data) {
+
+    QFile file(ConfigFiles::SHORTCUTS_FILE());
+    if(!file.open(QIODevice::WriteOnly|QIODevice::Truncate)) {
+        LOG << CURDATE << "saveShortcuts(): ERROR: unable to open shortcuts file for saving" << NL;
+        return;
+    }
+
+    QTextStream out(&file);
+
+    out << QString("Version=%1\n").arg(VERSION);
+
+    foreach(QVariant entry, data) {
+
+        QVariantList l = entry.toList();
+
+        if(l.length() != 3)
+            continue;
+
+        QString key = entry.toList().at(0).toString();
+        QString close = entry.toList().at(1).toString();
+        QString cmd = entry.toList().at(2).toString();
+
+        if(key != "" || close != "" || cmd != "")
+            out << QString("%1::%2::%3\n").arg(close).arg(key).arg(cmd);
+
+    }
+
+    file.close();
+
+}
+
 QString Shortcuts::convertKeycodeToString(int code) {
 
     return QKeySequence(code).toString();

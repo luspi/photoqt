@@ -5,6 +5,7 @@
 #include <QFile>
 #include <QTextStream>
 #include <QKeySequence>
+#include <QtDebug>
 
 #include "../configfiles.h"
 #include "../logger.h"
@@ -17,6 +18,7 @@ public:
     Shortcuts(QObject *parent = 0);
     Q_INVOKABLE QStringList load();
     Q_INVOKABLE QStringList loadDefaults();
+    Q_INVOKABLE void saveShortcuts(QVariantList data);
     Q_INVOKABLE QString convertKeycodeToString(int code);
 
 };
