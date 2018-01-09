@@ -97,7 +97,7 @@ Item {
                 ret += get(parts[i])
         }
 
-        if(isMouseShortcut(combo)) {
+        if(combo.toLowerCase().indexOf("left button") > -1 || combo.toLowerCase().indexOf("right button") > -1) {
 
             var p = ret.split("+")
             var lastItem = p[p.length-1]
@@ -120,17 +120,6 @@ Item {
         }
 
         return ret
-
-    }
-
-    function isMouseShortcut(combo) {
-
-        var parts = combo.split("+")
-        for(var i in parts) {
-            if(parts[i].toLowerCase() in dictMouse)
-                return true
-        }
-        return false
 
     }
 
