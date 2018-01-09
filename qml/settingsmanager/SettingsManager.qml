@@ -389,19 +389,6 @@ Rectangle {
         }
     }
 
-    CustomConfirm {
-        fillAnchors: settings_top
-        id: invalidshortcuts
-        //: Used in settings manager to notify the user that there's a problem with the shortcuts settings
-        header: qsTr("Invalid Shortcuts Settings")
-        //: Used in settings manager to notify the user that there's a problem with the shortcuts settings
-        description: qsTr("There is a problem with the shortcuts setup you've created. You seem to have used a key/mouse/touch combination more than once. Please go back and fix that before saving your changes...")
-        //: Used in settings manager to notify the user that there's a problem with the shortcuts settings (written on button)
-        rejectbuttontext: qsTr("Go back")
-        actAsErrorMessage: true
-        onRejected: gotoTab(4)
-    }
-
     ShortcutNotifier {
         id: settingsmanagershortcuts
         area: "settingsmanager"
@@ -466,9 +453,6 @@ Rectangle {
     DetectShortcut {
         id: detectshortcut
     }
-    function isDetectShortcutShown() {
-        return detectshortcut.opacity==1
-    }
 
     function showSettings() {
         verboseMessage("Settings::showSettings()","Showing Settings...")
@@ -479,7 +463,7 @@ Rectangle {
         settingsmanagershortcuts.display()
     }
     function hideSettings() {
-        verboseMessage("Settings::hideSettings()",confirmclean.visible + "/" + confirmerase.visible + "/" + confirmdefaultshortcuts.visible + "/" + confirmdefaultssettings.visible + "/" + settingsmanagershortcuts.visible + "/" + detectshortcut.visible + "/" + invalidshortcuts.visible)
+        verboseMessage("Settings::hideSettings()",confirmclean.visible + "/" + confirmerase.visible + "/" + confirmdefaultshortcuts.visible + "/" + confirmdefaultssettings.visible + "/" + settingsmanagershortcuts.visible + "/" + detectshortcut.visible)
         if(confirmclean.visible)
             confirmclean.reject()
         else if(confirmerase.visible)
@@ -491,9 +475,7 @@ Rectangle {
         else if(settingsmanagershortcuts.visible)
             settingsmanagershortcuts.reject()
         else if(detectshortcut.opacity == 1)
-            detectshortcut.hide()
-        else if(invalidshortcuts.opacity == 1)
-            invalidshortcuts.accept()
+            return
         else if(exportimport.opacity == 1)
             exportimport.hide()
         else if(settingsinfooverlay.opacity == 1)
@@ -525,31 +507,8 @@ Rectangle {
     }
 
     function saveSettings() {
-
-        verboseMessage("Settings::saveSettings()",detectshortcut.checkForShortcutErrors())
-
-        if(detectshortcut.checkForShortcutErrors())
-            invalidshortcuts.show()
-        else {
-            saveData();
-            hideSettings()
-        }
-    }
-
-    function updateKeyShortcut(combo) {
-        detectshortcut.updateKeyShortcut(combo)
-    }
-    function updatedMouseGesture(button, gesture, modifiers) {
-        detectshortcut.updateMouseGesture(button, gesture, modifiers)
-    }
-    function finishedMouseGesture(button, gesture, modifiers) {
-        detectshortcut.finishedMouseGesture(button, gesture, modifiers)
-    }
-    function updateTouchGesture(fingers, type, path) {
-        detectshortcut.updateTouchGesture(fingers, type, path)
-    }
-    function finishedTouchGesture(fingers, type, path) {
-        detectshortcut.finishedTouchGesture(fingers, type, path)
+        saveData();
+        hideSettings()
     }
 
 }

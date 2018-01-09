@@ -84,7 +84,7 @@ Rectangle {
                         id: mouseleftbutton
                         //: This is written on a checkbox in the shortcuts tab of the settings manager
                         text: qsTr("Mouse: Left button click-and-move")
-                        onCheckedButtonChanged: detectshortcut.leftButtonMouseClickAndMove = checkedButton
+//                        onCheckedButtonChanged: detectshortcut.leftButtonMouseClickAndMove = checkedButton
                     }
 
                     CustomCheckBox {
@@ -92,7 +92,7 @@ Rectangle {
 //                        enabled: getanddostuff.isTouchScreenAvailable()
                         //: This is written on a checkbox in the shortcuts tab of the settings manager
                         text: qsTr("Touch screen: One finger press-and-move")
-                        onCheckedButtonChanged: detectshortcut.singleFingerTouchPressAndMove = checkedButton
+//                        onCheckedButtonChanged: detectshortcut.singleFingerTouchPressAndMove = checkedButton
                     }
 
                 }

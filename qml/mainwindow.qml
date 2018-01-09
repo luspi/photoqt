@@ -201,6 +201,10 @@ Rectangle {
         shortcuts.processString(sh)
     }
 
+    function keysRelease() {
+        call.load("keysReleased")
+    }
+
     // Called from c++ code to open a new file (needed for remote controlling)
     function openfileShow() {
         call.show("openfile")
@@ -253,7 +257,8 @@ Rectangle {
         } else {
             // If no filename has been passed, show the OpenFile element
             if(filename == "")
-                call.show("openfile")
+//                call.show("openfile")
+                call.show("settingsmanager")
             // Otherwise just load the received file
             else
                 Load.loadFile(filename)

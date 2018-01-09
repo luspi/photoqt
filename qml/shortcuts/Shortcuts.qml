@@ -28,6 +28,8 @@ Item {
 
         var combostring = AnalyseMouse.analyseMouseEvent(startedEventAtPos, event)
 
+        console.log(combostring)
+
         processString(combostring)
 
     }

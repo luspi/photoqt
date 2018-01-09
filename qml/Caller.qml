@@ -40,6 +40,7 @@ Item {
 
 
     signal shortcut(var sh)
+    signal keysReleased()
 
     /***********************************************************/
     /***********************************************************/
@@ -113,7 +114,9 @@ Item {
         } else if(func == "filemanagementRenameShow") {
             ensureElementSetup("filemanagement")
             filemanagementShow("rn")
-        } else
+        } else if(func == "keysReleased")
+            keysReleased()
+        else
             console.error("ERROR: Requested faulty load():", func)
     }
 

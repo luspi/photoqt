@@ -13,6 +13,7 @@ Button {
     property string overrideBackgroundColor: ""
     property int wrapMode: Text.NoWrap
     property string tooltip: text
+    property bool fontBold: false
 
     height: 2.5*fontsize
 
@@ -37,6 +38,7 @@ Button {
             color: overrideFontColor!="" ? overrideFontColor : control.enabled ? ((control.hovered || control.pressedDown) ? colour.button_text_active : colour.button_text) : colour.button_text_disabled
             Behavior on color { ColorAnimation { duration: 150; } }
             text: "  " + control.text + "  "
+            font.bold: fontBold
         }
 
     }

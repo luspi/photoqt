@@ -1,7 +1,7 @@
 
 function analyseMouseGestureUpdate(xPos, yPos, before) {
 
-    var threshold = 100
+    var threshold = 50
 
     var dx = xPos-before.x
     var dy = yPos-before.y
@@ -16,25 +16,31 @@ function analyseMouseGestureUpdate(xPos, yPos, before) {
             if(variables.shortcutsMouseGesture[variables.shortcutsMouseGesture.length-1] != "E") {
                 variables.shortcutsMouseGesture.push("E")
                 variables.shorcutsMouseGesturePointIntermediate = Qt.point(xPos, yPos)
+                return true
             }
         } else if(angle > 45 && angle <= 135) {
             if(variables.shortcutsMouseGesture[variables.shortcutsMouseGesture.length-1] != "S") {
                 variables.shortcutsMouseGesture.push("S")
                 variables.shorcutsMouseGesturePointIntermediate = Qt.point(xPos, yPos)
+                return true
             }
         } else if(angle > 135 && angle <= 225) {
             if(variables.shortcutsMouseGesture[variables.shortcutsMouseGesture.length-1] != "W") {
                 variables.shortcutsMouseGesture.push("W")
                 variables.shorcutsMouseGesturePointIntermediate = Qt.point(xPos, yPos)
+                return true
             }
         } else if(angle > 225 && angle <= 315) {
             if(variables.shortcutsMouseGesture[variables.shortcutsMouseGesture.length-1] != "N") {
                 variables.shortcutsMouseGesture.push("N")
                 variables.shorcutsMouseGesturePointIntermediate = Qt.point(xPos, yPos)
+                return true
             }
         }
 
     }
+
+    return false
 
 }
 
@@ -104,58 +110,20 @@ function analyseWheelEvent(event) {
 
 }
 
-function extractMovement(posStart, posEnd) {
-
-    var threshold = settings.mouseWheelSensitivity*10
-
-    var dx = posEnd.x-posStart.x
-    var dy = posEnd.y-posStart.y
-
-    if(dx > threshold) {
-
-        if(dy > threshold)
-            return "SE"
-        else if(dy < -threshold)
-            return "NE"
-        else
-            return "E"
-
-    } else if(dx < -threshold) {
-
-        if(dy > threshold)
-            return "SW"
-        else if(dy < -threshold)
-            return "NW"
-        else
-            return "W"
-
-    } else {
-
-        if(dy > threshold)
-            return "S"
-        else if(dy < -threshold)
-            return "N"
-
-    }
-
-    return ""
-
-}
-
 function getModifiers(event) {
 
     var modstring = ""
 
     if(event.modifiers & Qt.ControlModifier)
-        modstring += "Ctrl+"
+        modstring += str_keys.get("ctrl") + "+"
     if(event.modifiers & Qt.AltModifier)
-        modstring += "Alt+"
+        modstring += str_keys.get("alt") + "+"
     if(event.modifiers & Qt.ShiftModifier)
-        modstring += "Shift+"
+        modstring += str_keys.get("shift") + "+"
     if(event.modifiers & Qt.MetaModifier)
-        modstring += "Meta+"
+        modstring += str_keys.get("meta") + "+"
     if(event.modifiers & Qt.KeypadModifier)
-        modstring += "Keypad+"
+        modstring += str_keys.get("keypad") + "+"
 
     return modstring
 

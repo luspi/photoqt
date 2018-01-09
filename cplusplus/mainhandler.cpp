@@ -197,6 +197,8 @@ bool MainHandler::event(QEvent *e) {
 
     if(e->type() == QEvent::KeyPress)
         QMetaObject::invokeMethod(object, "processShortcut", Q_ARG(QVariant, ComposeString::compose((QKeyEvent*)e)));
+    else if(e->type() == QEvent::KeyRelease)
+        QMetaObject::invokeMethod(object, "keysRelease");
     else if(e->type() == QEvent::Close) {
         HideClose::handleCloseEvent(e, permanentSettings, this);
         return true;
