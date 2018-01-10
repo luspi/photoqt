@@ -107,6 +107,7 @@ Rectangle {
     Image {
         id: metadataarrow
         visible: variables.currentFile=="" && !variables.deleteNothingLeft && !variables.filterNoMatch
+        opacity: variables.guiBlocked ? 0.2 : 1
         x: 0
         y: metadata.y+metadata.height/2-height/2
         source: "qrc:/img/arrowleft.png"
@@ -118,6 +119,7 @@ Rectangle {
     Image {
         id: mainmenuarrow
         visible: variables.currentFile=="" && !variables.deleteNothingLeft && !variables.filterNoMatch
+        opacity: variables.guiBlocked ? 0.2 : 1
         x: background.width-width-5
         y: mainmenu.y+mainmenu.height/2-height/2
         source: "qrc:/img/arrowright.png"
