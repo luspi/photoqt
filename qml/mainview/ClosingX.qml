@@ -8,8 +8,7 @@ Item {
 
     id: top
 
-//    visible: (!slideshowRunning && !settings.hidex) || (slideshowRunning && !settings.slideShowHideQuickinfo)
-    visible: !settings.hidex
+    visible: (!variables.slideshowRunning && !settings.hidex) || (variables.slideshowRunning && !settings.slideShowHideQuickinfo)
 
     // Position it
     anchors.right: parent.right

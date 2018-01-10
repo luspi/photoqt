@@ -16,8 +16,8 @@ Item {
     width: childrenRect.width
     height: childrenRect.height
 
-    visible: variables.currentFile!=""&&!variables.slideshowRunning
-    opacity: variables.guiBlocked ? 0.2 : 1
+    visible: ((!settings.hidecounter || !settings.hidefilename || !settings.hidefilepathshowfilename || variables.filter!="") && !variables.slideshowRunning) || (variables.slideshowRunning && !settings.slideShowHideQuickinfo)
+    opacity: variables.guiBlocked&&!variables.slideshowRunning ? 0.2 : 1
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
     Rectangle {
