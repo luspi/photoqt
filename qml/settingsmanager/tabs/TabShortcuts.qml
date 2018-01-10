@@ -59,33 +59,36 @@ Rectangle {
 
             Rectangle { color: "transparent"; width: 1; height: 20; }
 
-            SettingsText {
+            Item {
 
-                width: flickable.width-20
-                x: 10
+                height: 50
+                width: tab_top.width
 
-                text: qsTr("Pressing the left button of the mouse and moving it around can be used for moving a zommed image around. If you want to use them for this purpose, then any shortcut set to that will have no effect!")
+                Item {
+                    id: leftClickText
+                    anchors.left: parent.left
+                    anchors.leftMargin: 10
+                    width: parent.width/2 -20
+                    height: childrenRect.height
+                    SettingsText {
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        horizontalAlignment: Qt.AlignRight
+                        text: qsTr("Pressing the left button of the mouse and moving it around can be used for moving a zommed image around.") + "<br>" + qsTr("If you put them to use for this purpose, then any mouse shortcut set to a button/gesture will have no effect!")
+                    }
+                }
 
-            }
-
-            Rectangle { color: "transparent"; width: 1; height: 10; }
-
-            Rectangle {
-                color: "transparent"
-                width: childrenRect.width
-                height: childrenRect.height
-                x: (parent.width-width)/2
-
-                Row {
-
-                    spacing: 15
-
+                Item {
+                    anchors.right: parent.right
+                    anchors.rightMargin: 10
+                    width: parent.width/2 -20
+                    height: Math.max(childrenRect.height, leftClickText.height)
                     CustomCheckBox {
                         id: mouseleftbutton
+                        y: (Math.max(height,leftClickText.height)-height)/2
                         //: This is written on a checkbox in the shortcuts tab of the settings manager
                         text: qsTr("Mouse: Left button click-and-move")
                     }
-
                 }
 
             }
