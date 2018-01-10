@@ -22,8 +22,6 @@ Item {
         width: parent.width-6
         height: count*(elementHeight+spacing)
 
-        Behavior on height { NumberAnimation { duration: 200 } }
-
         spacing: 6
 
         interactive: false
@@ -43,9 +41,9 @@ Item {
             radius: 3
             clip: true
 
-            Behavior on x { NumberAnimation { duration: 200 } }
+            Behavior on x { NumberAnimation { duration: 300 } }
             onXChanged: {
-                if(x == -ele.width)
+                if(x <= -ele.width)
                     listview.model.remove(index)
             }
 
@@ -238,7 +236,7 @@ Item {
             }
 
             function deleteThisShortcut() {
-                ele.x = -ele.width
+                ele.x = -ele.width-50
             }
 
         }
