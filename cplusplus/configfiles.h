@@ -17,6 +17,10 @@ public:
         return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
     }
 
+    static const QString GENERIC_DATA_DIR() {
+        return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
+    }
+
     static const QString CACHE_DIR() {
         return QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
     }

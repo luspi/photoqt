@@ -5,6 +5,7 @@
 #include <QTimer>
 #include <QStorageInfo>
 #include <QCryptographicHash>
+#include <thread>
 #include "../configfiles.h"
 
 class Watcher : public QObject {
@@ -14,12 +15,13 @@ class Watcher : public QObject {
 public:
     Watcher(QObject *parent = 0) : QObject(parent) {
 
+        currentFolderForWatching = "";
         watcherFolders = new QFileSystemWatcher;
         connect(watcherFolders, &QFileSystemWatcher::directoryChanged, this, &Watcher::directoryChanged);
 
         watcherUserPlaces = new QFileSystemWatcher;
         connect(watcherUserPlaces, &QFileSystemWatcher::fileChanged, this, &Watcher::userPlacesChanged);
-        watcherUserPlaces->addPath(ConfigFiles::DATA_DIR() + "/../user-places.xbel");
+        watcherUserPlaces->addPath(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel");
 
         storageInfoHash = "";
         storageInfoTimer = new QTimer;
@@ -32,8 +34,14 @@ public:
     }
 
     Q_INVOKABLE void setCurrentDirectoryForChecking(QString dir) {
-        if(QDir(dir).exists())
+        if(currentFolderForWatching != "") {
+            watcherFolders->removePath(currentFolderForWatching);
+            currentFolderForWatching = "";
+        }
+        if(dir != "" && QDir(dir).exists()) {
+            currentFolderForWatching = dir;
             watcherFolders->addPath(dir);
+        }
     }
     ~Watcher() {
         delete watcherFolders;
@@ -51,13 +59,22 @@ private:
     QTimer *storageInfoTimer;
     QByteArray storageInfoHash;
 
+    QString currentFolderForWatching;
+
 private slots:
     void directoryChanged(QString) {
         emit folderUpdated();
     }
     void userPlacesChanged(QString) {
         emit userPlacesUpdated();
-        watcherUserPlaces->addPath(ConfigFiles::DATA_DIR() + "/../user-places.xbel");
+        QFileInfo info(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel");
+        for(int i = 0; i < 40; ++i) {
+            if(info.exists())
+                break;
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
+        if(info.exists())
+            watcherUserPlaces->addPath(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel");
     }
     void checkForChangesStorageInfo() {
         QByteArray fullhash = formStorageInfoHash();
