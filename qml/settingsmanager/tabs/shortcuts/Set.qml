@@ -67,11 +67,7 @@ Item {
                     bottom: parent.bottom
                     bottomMargin: 2
                 }
-                width: visible ? childrenRect.width : 0
-
-                property bool checked: false
-                onCheckedChanged:
-                    listview.model.set(index, {"close" : checked ? "1" : "0"})
+                width: visible ? theclose.width : 0
 
                 visible: external
 
@@ -83,7 +79,7 @@ Item {
                     anchors.top: parent.top
                     anchors.bottom: parent.bottom
 
-                    color: closeitem.checked ? "white" : "grey"
+                    color: close=="1" ? "white" : "grey"
 
                     //: Shortcuts: KEEP THIS STRING SHORT! It is displayed for external shortcuts as an option to quit PhotoQt after executing shortcut
                     text: qsTr("quit") + "  "
@@ -92,8 +88,9 @@ Item {
 
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
-                        text: closeitem.checked ? qsTr("Quit PhotoQt when executing shortcut") : qsTr("Keep PhotoQt running when executing shortcut")
-                        onClicked: closeitem.checked = !closeitem.checked
+                        text: close=="1" ? qsTr("Quit PhotoQt when executing shortcut") : qsTr("Keep PhotoQt running when executing shortcut")
+                        onClicked:
+                            close = (close=="1" ? "0" : "1")
 
                     }
                 }
