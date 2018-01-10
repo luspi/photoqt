@@ -8,9 +8,19 @@ Item {
 
     property var setKeyShortcuts: ({})
 
-    Component.onCompleted: {
+    Component.onCompleted:
+        loadShortcuts()
+
+    Connections {
+        target: watcher
+        onShortcutsUpdated:
+            loadShortcuts()
+    }
+
+    function loadShortcuts() {
 
         var keys = shortcutshandler.load()
+        setKeyShortcuts= ({})
 
         for(var i = 0; i < keys.length; i+=3) {
 
@@ -27,8 +37,6 @@ Item {
     function analyseMouseEvent(startedEventAtPos, event) {
 
         var combostring = AnalyseMouse.analyseMouseEvent(startedEventAtPos, event)
-
-        console.log(combostring)
 
         processString(combostring)
 

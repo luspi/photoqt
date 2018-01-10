@@ -21,7 +21,12 @@ public:
 
         watcherUserPlaces = new QFileSystemWatcher;
         connect(watcherUserPlaces, &QFileSystemWatcher::fileChanged, this, &Watcher::userPlacesChanged);
-        watcherUserPlaces->addPath(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel");
+        if(QFileInfo(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").exists())
+            watcherUserPlaces->addPath(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel");
+
+        watcherShortcuts = new QFileSystemWatcher;
+        connect(watcherShortcuts, &QFileSystemWatcher::fileChanged, this, &Watcher::shortcutsChanged);
+        watcherShortcuts->addPath(ConfigFiles::SHORTCUTS_FILE());
 
         storageInfoHash = "";
         storageInfoTimer = new QTimer;
@@ -51,11 +56,13 @@ public:
 signals:
     void folderUpdated();
     void userPlacesUpdated();
+    void shortcutsUpdated();
     void storageInfoUpdated();
 
 private:
     QFileSystemWatcher *watcherFolders;
     QFileSystemWatcher *watcherUserPlaces;
+    QFileSystemWatcher *watcherShortcuts;
     QTimer *storageInfoTimer;
     QByteArray storageInfoHash;
 
@@ -75,6 +82,17 @@ private slots:
         }
         if(info.exists())
             watcherUserPlaces->addPath(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel");
+    }
+    void shortcutsChanged(QString) {
+        emit shortcutsUpdated();
+        QFileInfo info(ConfigFiles::SHORTCUTS_FILE());
+        for(int i = 0; i < 40; ++i) {
+            if(info.exists())
+                break;
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
+        if(info.exists())
+            watcherUserPlaces->addPath(ConfigFiles::SHORTCUTS_FILE());
     }
     void checkForChangesStorageInfo() {
         QByteArray fullhash = formStorageInfoHash();
