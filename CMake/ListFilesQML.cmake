@@ -34,7 +34,7 @@ SET(d "qml/settingsmanager/tabs/fileformats")
 SET(photoqt_QML ${photoqt_QML} ${d}/FileTypesExtras.qml ${d}/FileTypesGM.qml ${d}/FileTypesGMGhostscript.qml ${d}/FileTypesQt.qml ${d}/FileTypesRaw.qml ${d}/FileTypesTile.qml ${d}/FileTypesUntested.qml)
 
 SET(d "qml/settingsmanager/tabs/lookandfeel")
-SET(photoqt_QML ${photoqt_QML} ${d}/Animation.qml ${d}/Background.qml ${d}/Blur.qml ${d}/BorderAroundImage.qml ${d}/CloseOnClick.qml ${d}/ClosingX.qml ${d}/FitInWindow.qml ${d}/HotEdge.qml ${d}/Interpolation.qml ${d}/Keep.qml ${d}/Loop.qml ${d}/MouseWheelSensitivity.qml ${d}/OverlayColor.qml ${d}/PixmapCache.qml ${d}/Quickinfo.qml ${d}/ReOpenFile.qml ${d}/SortBy.qml ${d}/Transition.qml ${d}/TrayIcon.qml ${d}/WindowMode.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/Animation.qml ${d}/Background.qml ${d}/BorderAroundImage.qml ${d}/CloseOnClick.qml ${d}/ClosingX.qml ${d}/FitInWindow.qml ${d}/HotEdge.qml ${d}/Interpolation.qml ${d}/Keep.qml ${d}/Loop.qml ${d}/MouseWheelSensitivity.qml ${d}/OverlayColor.qml ${d}/PixmapCache.qml ${d}/Quickinfo.qml ${d}/ReOpenFile.qml ${d}/SortBy.qml ${d}/Transition.qml ${d}/TrayIcon.qml ${d}/WindowMode.qml)
 
 SET(d "qml/settingsmanager/tabs/metadata")
 SET(photoqt_QML ${photoqt_QML} ${d}/FontSize.qml ${d}/MetaData.qml ${d}/MetaDataTile.qml ${d}/MouseTrigger.qml ${d}/OnlineMap.qml ${d}/Opacity.qml ${d}/RotateFlip.qml)
