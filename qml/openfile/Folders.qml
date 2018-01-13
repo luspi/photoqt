@@ -1,5 +1,5 @@
-import QtQuick 2.6
-import QtQuick.Layouts 1.1
+import QtQuick 2.5
+import QtQuick.Layouts 1.2
 
 import "../elements"
 import "handlestuff.js" as Handle

@@ -1,5 +1,5 @@
-import QtQuick 2.4
-import QtQml.Models 2.1
+import QtQuick 2.5
+import QtQml.Models 2.2
 
 import "../../../elements"
 

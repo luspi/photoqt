@@ -1,5 +1,5 @@
-import QtQuick 2.6
-import QtQuick.Controls.Styles 1.3
+import QtQuick 2.5
+import QtQuick.Controls.Styles 1.4
 
 import "../../elements"
 

@@ -1,4 +1,4 @@
-import QtQuick 2.4
+import QtQuick 2.5
 
 // Convenience Item, so that not every single description text has to be styled individually (they are all the same)
 Text {

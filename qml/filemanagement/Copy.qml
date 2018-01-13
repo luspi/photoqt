@@ -1,5 +1,4 @@
-import QtQuick 2.6
-import QtQuick.Dialogs 1.3
+import QtQuick 2.5
 import PFileDialog 1.0
 import "../loadfile.js" as Load
 

@@ -1,5 +1,5 @@
-import QtQuick 2.6
-import QtQuick.Layouts 1.3
+import QtQuick 2.5
+import QtQuick.Layouts 1.2
 
 import "../elements"
 import "../loadfile.js" as Load
