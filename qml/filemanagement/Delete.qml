@@ -68,7 +68,11 @@ Item {
             // This button triggers "Move to Trash" under Linux, and permanent "Delete" under Windows
             CustomButton {
                 id: movetotrash
-                text: getanddostuff.amIOnLinux() ? qsTr("Move to Trash") : qsTr("Delete")
+                text: getanddostuff.amIOnLinux()
+                        //: In the sense of 'move the current image into the trash'
+                        ? qsTr("Move to Trash")
+                        //: As in 'Delete the current image'
+                        : qsTr("Delete")
                 fontsize: 18
                 onClickedButton: {
                     verboseMessage("Delete","move to trash")
@@ -98,6 +102,7 @@ Item {
         anchors.top: mainbuttons.bottom
         anchors.topMargin: 25
 
+        //: In the sense of 'Delete the current image permanently'
         text: qsTr("Delete permanently")
         fontsize: 13
         visible: getanddostuff.amIOnLinux()
@@ -115,7 +120,9 @@ Item {
         anchors.top: permanentdelete.bottom
         anchors.topMargin: 25
 
-        text: getanddostuff.amIOnLinux() ? qsTr("Enter = Move to Trash, Shift+Enter = Delete permanently, Escape = Cancel") : qsTr("Enter = Delete, Escape = Cancel")
+        text: getanddostuff.amIOnLinux()
+                ? qsTr("Enter = Move to Trash, Shift+Enter = Delete permanently, Escape = Cancel")
+                : qsTr("Enter = Delete, Escape = Cancel")
         color: colour.text
         font.pointSize: 10*0.8
     }

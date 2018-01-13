@@ -81,7 +81,7 @@ Rectangle {
         color: colour.bg_label
         wrapMode: Text.WordWrap
         font.bold: true
-        text: qsTr("Folter is now empty")
+        text: qsTr("Folder is now empty")
         opacity: variables.guiBlocked ? 0.2 : 1
         Behavior on opacity { NumberAnimation { duration: 200 } }
 

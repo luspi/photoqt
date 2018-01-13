@@ -93,6 +93,7 @@ Rectangle {
 
                 // Button to export config to file
                 CustomButton {
+                    //: Everything refers to all settings and shortcuts
                     text: qsTr("Export everything to file")
                     x: (contrect.width-width)/2
                     fontsize: 18
@@ -183,7 +184,9 @@ Rectangle {
         header: qsTr("Error")
         property string error: ""
         property bool exp: false
-        description: (exp ? qsTr("Exporting the configuration file failed with the following error message:") : qsTr("Importing the configuration file failed with the following error message:")) + "<br><br>" + error
+        description: (exp
+                      ? qsTr("Exporting the configuration file failed with the following error message:")
+                      : qsTr("Importing the configuration file failed with the following error message:")) + "<br><br>" + error
         rejectbuttontext: qsTr("Oh, okay")
         actAsErrorMessage: true
     }

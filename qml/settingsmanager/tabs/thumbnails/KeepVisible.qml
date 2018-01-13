@@ -13,9 +13,8 @@ EntryContainer {
 
         EntryTitle {
 
-            //: Settings title: Keep the thumbnails permanently visible
             title: qsTr("Visibility")
-            helptext: qsTr("Per default the Thumbnails slide out over the edge of the screen. Here you can force them to stay visible. The big image is shrunk to fit into the empty space. Note, that the thumbnails will be hidden (and only shown on mouse hovering) once you zoomed the image in/out. Resetting the zoom restores the original visibility of the thumbnails.")
+            helptext: qsTr("The thumbnails normally fade out when not needed, however, they can be set to stay visible. The big image is shrunk to fit into the empty space. Note, that the thumbnails will be hidden (and only shown on mouse hovering) once you zoomed the image in/out. Resetting the zoom restores the original visibility of the thumbnails.")
 
         }
 
@@ -27,6 +26,7 @@ EntryContainer {
 
                 id: keepvisible
 
+                // Checkbox in settings manager, thumbnails tab
                 text: qsTr("Keep thumbnails visible, don't hide them past screen edge")
 
             }

@@ -33,7 +33,7 @@ FadeInTemplate {
         },
 
         Text {
-            text: qsTr("Enter here the term you want to search for. Separate multiple terms by a space.")
+            text: qsTr("Enter here the term you want to filter the images by. Separate multiple terms by a space.")
             x: (filter_top.contentWidth-width)/2
             color: colour.text
             font.pointSize: 12
@@ -88,6 +88,7 @@ FadeInTemplate {
 
                 CustomButton {
                     id: enter
+                    //: As in 'Go ahead and filter images'
                     text: qsTr("Filter")
                     fontsize: 15
                     onClickedButton: {

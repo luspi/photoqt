@@ -14,7 +14,7 @@ EntryContainer {
         EntryTitle {
 
             title: qsTr("Show Quickinfo (Text Labels)")
-            helptext: qsTr("Here you can hide the text labels shown in the main area: The Counter in the top left corner, the file path/name following the counter, and the \"X\" displayed in the top right corner. The labels can also be hidden by simply right-clicking on them and selecting \"Hide\".")
+            helptext: qsTr("PhotoQt shows certain information about the current image and the folder in the top left corner of the screen. You can choose which information in particular to show there. This also includes the 'x' for closing PhotoQt in the top right corner.")
 
         }
 
@@ -26,6 +26,7 @@ EntryContainer {
 
                 CustomCheckBox {
                     id: quickinfo_counter
+                    //: The counter shows the current image position in the folder
                     text: qsTr("Counter")
                 }
 

@@ -323,70 +323,66 @@ QStringList GetMetaData::exifGps(QString gpsLonRef, QString gpsLon, QString gpsL
 QString GetMetaData::exifLightSource(QString value) {
 
     if(value == "0")
-        //: This string refers to the light source
+        //: This string refers to the light source stored in image metadata
         return tr("Unknown");
     else if(value == "1")
-        //: This string refers to the light source
+        //: This string refers to the light source stored in image metadata
         return tr("Daylight");
     else if(value == "2")
-        //: This string refers to the light source
+        //: This string refers to the light source stored in image metadata
         return tr("Fluorescent");
     else if(value == "3")
-        //: This string refers to the light source
+        //: This string refers to the light source stored in image metadata
         return tr("Tungsten (incandescent light)");
     else if(value == "4")
-        //: This string refers to the light source
+        //: This string refers to the light source stored in image metadata
         return tr("Flash");
     else if(value == "9")
-        //: This string refers to the light source
+        //: This string refers to the light source stored in image metadata
         return tr("Fine weather");
     else if(value == "10")
-        //: This string refers to the light source
+        //: This string refers to the light source stored in image metadata
         return tr("Cloudy Weather");
     else if(value == "11")
-        //: This string refers to the light source
+        //: This string refers to the light source stored in image metadata
         return tr("Shade");
     else if(value == "12")
-        //: This string refers to the light source
+        //: This string refers to the light source stored in image metadata
         return tr("Daylight fluorescent") + " (D 5700 - 7100K)";
     else if(value == "13")
-        //: This string refers to the light source
+        //: This string refers to the light source stored in image metadata
         return tr("Day white fluorescent") + " (N 4600 - 5400K)";
     else if(value == "14")
-        //: This string refers to the light source
+        //: This string refers to the light source stored in image metadata
         return tr("Cool white fluorescent") + " (W 3900 - 4500K)";
     else if(value == "15")
-        //: This string refers to the light source
+        //: This string refers to the light source stored in image metadata
         return tr("White fluorescent") + " (WW 3200 - 3700K)";
     else if(value == "17")
-        //: This string refers to the light source
+        //: This string refers to the light source stored in image metadata
         return tr("Standard light") + " A";
     else if(value == "18")
-        //: This string refers to the light source
+        //: This string refers to the light source stored in image metadata
         return tr("Standard light") + " B";
     else if(value == "19")
-        //: This string refers to the light source
+        //: This string refers to the light source stored in image metadata
         return tr("Standard light") + " C";
     else if(value == "20")
-        //: This string refers to the light source
         return "D55";
     else if(value == "21")
-        //: This string refers to the light source
         return "D65";
     else if(value == "22")
-        //: This string refers to the light source
         return "D75";
     else if(value == "23")
-        //: This string refers to the light source
         return tr("D50");
     else if(value == "24")
-        //: This string refers to the light source
+        //: This string refers to the light source stored in image metadata
         return tr("ISO studio tungsten");
     else if(value == "255")
-        //: This string refers to the light source
+        //: This string refers to the light source stored in image metadata
         return tr("Other light source");
     else
-        //: This string refers to the light source
+        //: This string refers to the light source stored in image metadata
         return tr("Invalid light source") + " " + value;
 
 
@@ -395,25 +391,25 @@ QString GetMetaData::exifLightSource(QString value) {
 
 QString GetMetaData::exifFlash(QString value) {
 
-    //: This string identifies that flash was fired
+    //: This string identifies that flash was fired, stored in image metadata
     QString fYes = tr("yes");
-    //: This string identifies that flash wasn't fired
+    //: This string identifies that flash wasn't fired, stored in image metadata
     QString fNo = tr("no");
-    //: This string refers to the absense of a flash
+    //: This string refers to the absense of a flash, stored in image metadata
     QString fNoFlash = tr("No flash function");
-    //: This string refers to a flash mode
+    //: This string refers to a flash mode, stored in image metadata
     QString fNoStrobe = tr("strobe return light not detected");
-    //: This string refers to a flash mode
+    //: This string refers to a flash mode, stored in image metadata
     QString fYesStrobe = tr("strobe return light detected");
-    //: This string refers to a flash mode
+    //: This string refers to a flash mode, stored in image metadata
     QString fComp = tr("compulsory flash mode");
-    //: This string refers to a flash mode
+    //: This string refers to a flash mode, stored in image metadata
     QString fAuto = tr("auto mode");
-    //: This string refers to a flash mode
+    //: This string refers to a flash mode, stored in image metadata
     QString fRed = tr("red-eye reduction mode");
-    //: This string refers to a flash mode
+    //: This string refers to a flash mode, stored in image metadata
     QString fYesReturn = tr("return light detected");
-    //: This string refers to a flash mode
+    //: This string refers to a flash mode, stored in image metadata
     QString fNoReturn = tr("return light not detected");
 
     if(value == "0")
@@ -461,6 +457,7 @@ QString GetMetaData::exifFlash(QString value) {
     else if(value == "95")
         return fYes + " (" + fAuto + ", " + fYesReturn + ", " + fRed + ")";
     else
+        //: This string refers to a flash mode, stored in image metadata
         return tr("Invalid flash") + " " + value;
 
 
@@ -470,19 +467,19 @@ QString GetMetaData::exifFlash(QString value) {
 QString GetMetaData::exifSceneType(QString value) {
 
     if(value == "0")
-        //: This string refers to a type of scene
+        //: This string refers to a type of scene, stored in image metadata
         return tr("Standard");
     else if(value == "1")
-        //: This string refers to a type of scene
+        //: This string refers to a type of scene, stored in image metadata
         return tr("Landscape");
     else if(value == "2")
-        //: This string refers to a type of scene
+        //: This string refers to a type of scene, stored in image metadata
         return tr("Portrait");
     else if(value == "3")
-        //: This string refers to a type of scene
+        //: This string refers to a type of scene, stored in image metadata
         return tr("Night Scene");
     else
-        //: This string refers to a type of scene
+        //: This string refers to a type of scene, stored in image metadata
         return tr("Invalid Scene Type") + " " + value;
 
 

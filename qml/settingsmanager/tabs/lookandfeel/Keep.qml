@@ -13,8 +13,9 @@ EntryContainer {
 
         EntryTitle {
 
+            //:Refers to keeping zoom/rotation/flip/position when switching images
             title: qsTr("Keep between images")
-            helptext: qsTr("If you would like PhotoQt to keep the set rotation, flipping and zoom level when switching images, then you can enable that here. If not set, then every time a new image is displayed, it is displayed neither zoomed nor rotated nor flipped.")
+            helptext: qsTr("By default, PhotoQt resets the zoom, rotation, flipping/mirroring and position when switching to a different image. For certain tasks, for example for comparing two images, it can be helpful to keep these properties.")
 
         }
 
@@ -26,7 +27,8 @@ EntryContainer {
 
                 CustomCheckBox {
                     id: keep_box
-                    text: qsTr("Keep Zoom, Rotation, Flip")
+                    //: Remember all these levels when switching between images
+                    text: qsTr("Keep Zoom, Rotation, Flip, Position")
                 }
 
             }

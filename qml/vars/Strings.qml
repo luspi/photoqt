@@ -42,9 +42,9 @@ Item {
         "insert" : qsTr("Insert"),
         //: Refers to one of the keys on the keyboard
         "tab" : qsTr("Tab"),
-        //: 'Return' refers to the enter key of the number block - please try to make the translations of 'Return' and 'Enter' (the main button) different!
+        //: 'Return' refers to the enter key of the number block - please try to make the translations of 'Return' and 'Enter' (the main button) different if possible!
         "return" : qsTr("Return"),
-        //: 'Enter' refers to the main enter key - please try to make the translations of 'Return' (in the number block) and 'Enter' different!
+        //: 'Enter' refers to the main enter key - please try to make the translations of 'Return' (in the number block) and 'Enter' different if possible!
         "enter" : qsTr("Enter"),
     }
 
@@ -60,13 +60,13 @@ Item {
         "wheel up" : qsTr("Wheel Up"),
         //: Refers to the mouse wheel
         "wheel down" : qsTr("Wheel Down"),
-        //: Refers to a direction of a mouse gesture
+        //: Refers to a direction of the mouse when performing a mouse gesture
         "east" : qsTr("East"),
-        //: Refers to a direction of a mouse gesture
+        //: Refers to a direction of the mouse when performing a mouse gesture
         "south" : qsTr("South"),
-        //: Refers to a direction of a mouse gesture
+        //: Refers to a direction of the mouse when performing a mouse gesture
         "west" : qsTr("West"),
-        //: Refers to a direction of a mouse gesture
+        //: Refers to a direction of the mouse when performing a mouse gesture
         "north" : qsTr("North"),
     }
 

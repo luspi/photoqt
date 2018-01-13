@@ -53,7 +53,9 @@ Rectangle {
                 horizontalAlignment: Text.AlignHCenter
                 width: feedback_top.width
                 wrapMode: Text.WordWrap
-                text: (anonymous ? qsTr("Uploading image to imgur.com anonymously") : qsTr("Uploading image to imgur.com account") + " '" + accountname + "'")
+                text: (anonymous
+                            ? qsTr("Uploading image to imgur.com anonymously")
+                            : qsTr("Uploading image to imgur.com account:") + " " + accountname)
                 color: "white"
                 font.pointSize: 40
                 font.bold: true
@@ -122,6 +124,7 @@ Rectangle {
                     id: obtaintext1
                     width: feedback_top.width-200
                     horizontalAlignment: Text.AlignHCenter
+                    //: The image url is the url returned from imgur.com after uploading
                     text: qsTr("Obtaining image url")
                     color: "white"
                     font.pointSize: 40
@@ -168,7 +171,8 @@ Rectangle {
                     visible: false
                     width: feedback_top.width-200
                     horizontalAlignment: Text.AlignHCenter
-                    text: "This seems to take a long time... If it doesn't work, then there might be a problem with the imgur.com servers at the moment. In that case the only solution is to try again at some later point!"
+                    //: Refers to uploading an image to imgur.com
+                    text: qsTr("This seems to take a long time... If it doesn't work, then there might be a problem with the imgur.com servers at the moment. In that case the only solution is to try again at some later point!")
                     wrapMode: Text.WordWrap
                     color: "red"
                     font.pointSize: 20
@@ -233,14 +237,16 @@ Rectangle {
                     font.pointSize: 40
                     font.bold: true
                     wrapMode: Text.WordWrap
-                    text: qsTr("An Error occured while uploading image!") + "\n" + qsTr("Error code") + ": " + error.code
+                          //: Refers to uploading an image to imgur.com
+                    text: qsTr("An Error occured while uploading image!") + "\n"
+                          + qsTr("Error code:") + " " + error.code
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                 }
 
                 CustomButton {
                     x: (feedback_top.width-width)/2
-                    text: qsTr("Oh, man... Well, go back!")
+                    text: qsTr("Oh, ok, got it!")
                     fontsize: 30
                     onClickedButton:
                         hide()
@@ -278,14 +284,15 @@ Rectangle {
                     font.pointSize: 40
                     font.bold: true
                     wrapMode: Text.WordWrap
-                    text: "You don't seem to be able to be connected to the internet... Unable to upload!"
+                    //: Refers to uploading an image to imgur.com
+                    text: qsTr("You don't seem to be able to be connected to the internet... Unable to upload!")
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                 }
 
                 CustomButton {
                     x: (parent.width-width)/2
-                    text: "Oh, man... Well, go back!"
+                    text: qsTr("Oh, ok, got it!")
                     fontsize: 30
                     onClickedButton:
                         hide()
@@ -323,7 +330,8 @@ Rectangle {
                     font.pointSize: 40
                     wrapMode: Text.WordWrap
                     font.bold: true
-                    text: "Image successfully uploaded!"
+                    //: Refers to uploading an image to imgur.com
+                    text: qsTr("Image successfully uploaded!")
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                 }
@@ -343,7 +351,8 @@ Rectangle {
                             color: "white"
                             font.pointSize: 15
                             font.bold: true
-                            text: "Image URL: "
+                            //: The url is returned from imgur.com after uploading
+                            text: qsTr("URL for accessing image") + ": "
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
                         }
@@ -355,7 +364,7 @@ Rectangle {
                         CustomButton {
                             fontsize: 12
                             y: (parent.height-height)/2
-                            text: "visit link"
+                            text: qsTr("visit link")
                             onClickedButton: getanddostuff.openLink(imageurl.text)
                         }
 
@@ -378,7 +387,8 @@ Rectangle {
                             color: "white"
                             font.pointSize: 15
                             font.bold: true
-                            text: "Delete URL: "
+                            //: The url is returned from imgur.com after uploading
+                            text: qsTr("URL for deleting image") + ": "
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
                         }
@@ -390,7 +400,7 @@ Rectangle {
                         CustomButton {
                             fontsize: 12
                             y: (parent.height-height)/2
-                            text: "visit link"
+                            text: qsTr("visit link")
                             onClickedButton: getanddostuff.openLink(deleteurl.text)
                         }
 
@@ -400,7 +410,7 @@ Rectangle {
 
                 CustomButton {
                     x: (parent.width-width)/2
-                    text: "Got it!"
+                    text: qsTr("Got it!")
                     fontsize: 30
                     onClickedButton:
                         hide()

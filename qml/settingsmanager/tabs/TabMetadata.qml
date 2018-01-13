@@ -40,7 +40,6 @@ Rectangle {
                 color: "white"
                 font.pointSize: 20
                 font.bold: true
-                //: Used as heading of tab in the settings manager
                 text: qsTr("Image Metadata")
                 horizontalAlignment: Text.AlignHCenter
             }
@@ -51,7 +50,7 @@ Rectangle {
                 width: flickable.width
                 color: "white"
                 font.pointSize: 9
-                text: qsTranslate("SettingsManager", "Move your mouse cursor over the different settings titles to see more information.")
+                text: qsTranslate("SettingsManager", "Move your mouse cursor over (or click on) the different settings titles to see more information.")
                 horizontalAlignment: Text.AlignHCenter
             }
 
@@ -62,7 +61,8 @@ Rectangle {
                 width: flickable.width-20
                 x: 10
                 wrapMode: Text.WordWrap
-                text: qsTr("PhotoQt can display different information of and about each image. The widget for this information is on the left outside the screen and slides in when mouse gets close to it and/or when the set shortcut (default Ctrl+E) is triggered. On demand, the triggering by mouse movement can be disabled by checking the box below.")
+                //: Introduction text of metadata tab in settings manager
+                text: qsTr("PhotoQt can display different information of and about each image. The element for this information is hidden on the left side of the screen and fades in when the mouse cursor gets close to the left screen edge and/or when the set shortcut is triggered. On demand, the triggering by mouse movement can be disabled by checking the box below.")
             }
 
             Rectangle { color: "transparent"; width: 1; height: 30; }

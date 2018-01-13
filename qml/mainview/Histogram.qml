@@ -124,6 +124,7 @@ Rectangle {
             Text {
                 x: 25
                 y: 15
+                //: A histogram visualises the color distribution in an image
                 text: qsTr("Histogram")
                 color: "white"
                 font.pixelSize: 18
@@ -157,6 +158,7 @@ Rectangle {
             Text {
                 x: 25
                 y: 15
+                //: As in 'Loading the histogram for the current image'
                 text: qsTr("Loading...")
                 color: "white"
                 font.pixelSize: 18
@@ -318,7 +320,7 @@ Rectangle {
         }
 
         ToolTip {
-            text: qsTr("Click to hide histogram. It can always be shown again from the mainmenu.")
+            text: qsTr("Click to hide histogram. It can always be shown again from the main menu.")
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor

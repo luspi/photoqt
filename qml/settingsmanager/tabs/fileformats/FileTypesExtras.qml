@@ -19,7 +19,8 @@ EntryContainer {
             title: qsTr("File Formats") + ":<br>&gt; " +
                    //: These are extra (special) file formats
                    qsTr("Extras")
-            helptext: qsTr("The following filetypes are supported by means of other third party tools. You first need to install them before you can use them.") + "<br><br><b>" + qsTr("Please note") + "</b>: " + qsTr("If an image format is also provided by GraphicsMagick/Qt, then PhotoQt first chooses the external tool (if enabled).")
+            helptext: qsTr("The following filetypes are supported by means of other third party tools. You first need to install them before you can use them.") + "<br><br><b>"
+                      + qsTr("Please note that if an image format is also provided by GraphicsMagick/Qt, then PhotoQt first chooses the external tool (if enabled).") + "</b>"
 
         }
 
@@ -74,10 +75,10 @@ EntryContainer {
         // Get current settings
         var setformats = fileformats.formats_extras
 
-        //: Settings: This is used as in 'Makes use of some other tool'
-        var extras = [["Gimp XCF","*.xcf",qsTr("Makes use of") + " 'xcftools'"],
-                      //: Settings: This is used as in 'Makes use of some other tool'
-                      ["Adobe Photoshop PSD/PSB","*.psb", "*.psd",qsTr("Makes use of") + " 'libqpsd'"]]
+        //: Used as in 'Makes use of tool abc'
+        var extras = [["xcftools: Gimp XCF","*.xcf",qsTr("Makes use of") + " 'xcftools'"],
+                      //: Used as in 'Makes use of tool abc'
+                      ["libqpsd: Adobe Photoshop PSD/PSB","*.psb", "*.psd",qsTr("Makes use of") + " 'libqpsd'"]]
 
         for(var i = 0; i < extras.length; ++i) {
 

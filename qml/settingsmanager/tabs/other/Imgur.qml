@@ -15,8 +15,8 @@ EntryContainer {
 
         EntryTitle {
 
-            title: qsTr("imgur.com")
-            helptext: qsTr("Here you can connect PhotoQt to your imgur.com account for uploading images directly to it. Alternatively, you can always upload images anonymously to imgur.com. In either case, PhotoQt will return the image URL to you.")
+            title: "imgur.com"
+            helptext: qsTr("Here you can connect PhotoQt to your imgur.com account for uploading images directly to it. Alternatively, you can always upload images anonymously to imgur.com without any user account. In either case, PhotoQt will return the image URL to you.")
 
         }
 
@@ -42,6 +42,7 @@ EntryContainer {
                     spacing: 10
 
                     SettingsText {
+                        //: Account refers to an imgur.com user account
                         text: qsTr("Authenticated with account") + ":"
                         font.pointSize: 13
                     }
@@ -52,6 +53,7 @@ EntryContainer {
                         font.pointSize: 13
                     }
                     SettingsText {
+                        //: As in "not authenticated with imgur.com user account"
                         text: "[" + qsTr("not authenticated") + "]"
                         font.bold: true
                         visible: authenticatedwith.text==""
@@ -60,6 +62,7 @@ EntryContainer {
                     SettingsText {
                         id: authenticationDateTime
                         property string datetime: "1991-07-23, 13:31"
+                        //: As in "authenticated with imgur.com user account on 1991-07-23, 13:31"
                         text: "(" + qsTr("authenticated on") + ": " + datetime + ")"
                         visible: authenticatedwith.text!=""
                         font.pointSize: 11
@@ -78,13 +81,16 @@ EntryContainer {
                     spacing: 10
 
                     CustomButton {
-                        //: Text on button to connect PhotoQt with an imgur.com user account
-                        text: (authenticatedwith.text=="" ? qsTr("Connect to Account") : qsTr("Connect to New Account"))
+                        text: (authenticatedwith.text==""
+                        //: Account refers to imgur.com user account
+                                ? qsTr("Connect to Account")
+                                  //: Account refers to imgur.com user account
+                                : qsTr("Connect to New Account"))
                         onClickedButton:
                             authbox.show()
                     }
                     CustomButton {
-                        //: Text on button to forget PhotoQt's connection with an imgur.com user account
+                        //: Account refers to imgur.com user account
                         text: qsTr("Forget Account")
                         enabled: authenticatedwith.text!=""
                         onClickedButton: {
@@ -138,7 +144,7 @@ EntryContainer {
                         Text {
                             color: enabled ? colour.text : colour.text_disabled
                             y: (parent.height-height)/2
-                            text: qsTr("Go to this URL") + ":"
+                            text: qsTr("Go to this URL:")
                         }
                         CustomLineEdit {
                             id: lineeditAuthorizeUrl

@@ -128,7 +128,7 @@ void MainHandler::qmlVerboseMessage(QString loc, QString msg) {
 void MainHandler::setupWindowProperties() {
 
     this->setMinimumSize(QSize(640,480));
-    this->setTitle(tr("PhotoQt Image Viewer"));
+    this->setTitle("PhotoQt " + tr("Image Viewer"));
 
     if(variables->verbose)
         LOG << CURDATE << "setupWindowProperties(): started processing" << std::endl;

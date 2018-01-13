@@ -78,7 +78,11 @@ Rectangle {
         var startfolder = getanddostuff.getHomeDir()
         if(filepath.text != "")
             startfolder = filepath.text
-        var str = getanddostuff.getFilename(qsTr("Select PhotoQt config file..."),startfolder,qsTr("PhotoQt Config Files") + " (*.pqt);;" + qsTr("All Files") + " (*.*)")
+        //: PhotoQt config file = configuration file
+        var str = getanddostuff.getFilename(qsTr("Select PhotoQt config file..."),startfolder,
+                                            //: PhotoQt config file = configuration file
+                                            qsTr("PhotoQt Config Files") + " (*.pqt);;"
+                                              + qsTr("All Files") + " (*.*)")
         if(str !== "")
             filepath.text = str
     }

@@ -58,7 +58,7 @@ Item {
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         onClicked: {
             if (mouse.button == Qt.RightButton)
-                contextmenuClosingX.popup()
+                context.popup()
             else
                 mainwindow.closePhotoQt()
         }
@@ -67,15 +67,42 @@ Item {
     // The actual context menu
     ContextMenu {
 
-        id: contextmenuClosingX
+        id: context
 
         MenuItem {
-            text: qsTr("Hide 'x'")
-            onTriggered: {
-                settings.hidex = true;
-                top.visible = false;
-            }
+            //: The counter shows the position of the currently loaded image in the folder
+            text: qsTr("Show counter")
+            checkable: true
+            checked: !settings.hidecounter
+            onTriggered:
+                settings.hidecounter = !checked
         }
+
+        MenuItem {
+            text: qsTr("Show filepath")
+            checkable: true
+            checked: !settings.hidefilepathshowfilename
+            onTriggered:
+                settings.hidefilepathshowfilename = !checked
+        }
+
+        MenuItem {
+            text: qsTr("Show filename")
+            checkable: true
+            checked: !settings.hidefilename
+            onTriggered:
+                settings.hidefilename = !checked
+        }
+
+        MenuItem {
+            //: The clsoing 'x' is the button in the top right corner of the screen for closing PhotoQt
+            text: qsTr("Show closing 'x'")
+            checkable: true
+            checked: !settings.hidex
+            onTriggered:
+                settings.hidex = !checked
+        }
+
     }
 
 }

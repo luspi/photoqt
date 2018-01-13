@@ -14,9 +14,9 @@ EntryContainer {
         EntryTitle {
 
             id: entrytitle
-
+            //: The pixmap cache is used to cache loaded images so they can be loaded much quicker a second time
             title: qsTr("Pixmap Cache")
-            helptext: qsTr("Here you can adjust the size of the pixmap cache. This cache holds the loaded image elements that have been displayed. This doesn't help when first displaying an image, but can speed up its second display significantly. On the other hand, it does increase the memory in use, up to the limit set here. If you disable the cache altogether (value of 0), then each time an image is displayed, it is loaded fresh from the harddrive.") + "<br><br><b>" + qsTr("Note: Any change will only take effect after you restart PhotoQt!") + "</b>"
+            helptext: qsTr("Here you can adjust the size of the pixmap cache. This cache holds the loaded image elements that have been displayed. This doesn't help when first displaying an image, but can speed up its second display significantly. On the other hand, it does increase the memory in use, up to the limit set here. If you disable the cache altogether (value of 0), then each time an image is displayed, it is loaded fresh from the harddrive.")
 
         }
 

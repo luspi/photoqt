@@ -17,7 +17,7 @@ EntryContainer {
             id: entrytitle
 
             title: qsTr("Exit button ('x' in top right corner)")
-            helptext: qsTr("There are two looks for the exit button: a plain 'x', or a slightly more fancy 'x'. Here you can switch back and forth between both of them, and also change their size. If you prefer not to have a closing 'x' at all, see further down for an option to hide it completely.")
+            helptext: qsTr("There are two looks for the exit button: a normal 'x' or a plain text'x'. The normal 'x' fits in better with the overall design of PhotoQt, but the plain text 'x' is smaller and more discreet.")
 
         }
 
@@ -32,11 +32,13 @@ EntryContainer {
 
                 CustomRadioButton {
                     id: closingx_fancy
+                    //: This is a type of exit button ('x' in top right screen corner)
                     text: qsTr("Normal")
                     exclusiveGroup: clo
                 }
                 CustomRadioButton {
                     id: closingx_normal
+                    //: This is a type of exit button ('x' in top right screen corner), showing a simple text 'x'
                     text: qsTr("Plain")
                     exclusiveGroup: clo
                     checked: true
@@ -53,6 +55,7 @@ EntryContainer {
                         id: txt_small
                         color: colour.text
                         font.pointSize: 10
+                        //: The size of the exit button ('x' in top right screen corner)
                         text: qsTr("Small Size")
                     }
 
@@ -76,6 +79,7 @@ EntryContainer {
                         id: txt_large
                         color: colour.text
                         font.pointSize: 10
+                        //: The size of the exit button ('x' in top right screen corner)
                         text: qsTr("Large Size")
                     }
 

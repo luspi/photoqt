@@ -15,7 +15,8 @@ EntryContainer {
         EntryTitle {
 
             title: qsTr("Sort Images")
-            helptext: qsTr("Here you can adjust, how the images in a folder are supposed to be sorted. You can sort them by Filename, Natural Name (e.g., file10.jpg comes after file9.jpg and not after file1.jpg), File Size, and Date. Also, you can reverse the sorting order from ascending to descending if wanted.")
+
+            helptext: qsTr("Images in the current folder can be sorted in varios ways. The can be sorted by filename, natural name (e.g., file10.jpg comes after file9.jpg and not after file1.jpg), filesize, and date, all of that both ascending or descending.")
 
         }
 
@@ -29,6 +30,7 @@ EntryContainer {
                 Text {
                     y: (parent.height-height)/2
                     color: colour.text
+                    //: As in "Sort the images by some criteria"
                     text: qsTr("Sort by:")
                     font.pointSize: 10
                 }
@@ -37,7 +39,13 @@ EntryContainer {
                     id: sortimages_checkbox
                     y: (parent.height-height)/2
                     width: 150
-                    model: [qsTr("Name"), qsTr("Natural Name"), qsTr("Date"), qsTr("Filesize")]
+                    //: Refers to the filename
+                    model: [qsTr("Name"),
+                            //: Sorting by natural name means file10.jpg comes after file9.jpg and not after file1.jpg
+                            qsTr("Natural Name"),
+                            //: The date the file was created
+                            qsTr("Date"),
+                            qsTr("Filesize")]
                 }
 
                 // Ascending or Descending

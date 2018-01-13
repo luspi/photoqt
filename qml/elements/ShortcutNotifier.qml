@@ -8,7 +8,8 @@ CustomConfirm {
 
     fillAnchors: parent
 
-    header: "Shortcuts"
+    //: Keep short!
+    header: qsTr("Shortcuts")
     property string intro: qsTr("You can use the following shortcuts for navigation") + ":"
     property var shortcuts: ({})
     property string area: ""
@@ -17,6 +18,7 @@ CustomConfirm {
     //: In the sense of 'I understand it'
     confirmbuttontext: qsTr("Got it!")
     showDontAskAgain: true
+    //: In the sense of 'Don't show me that confirmation element again'
     customisedDontAskAgainMessage: qsTr("Don't show again")
     dontAskAgainChecked: true
 

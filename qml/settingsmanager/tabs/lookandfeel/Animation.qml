@@ -29,7 +29,7 @@ EntryContainer {
                 CustomCheckBox {
 
                     id: animate_elements
-                    text: qsTr("Animate all fade-in elements")
+                    text: qsTr("Animate elements")
 
                 }
 
@@ -55,10 +55,12 @@ EntryContainer {
                     width: childrenRect.width
                     height: childrenRect.height
                     Row {
-                        property string ttip: qsTr("Make PhotoQt appear on Screen #") + (screenCombo.currentIndex+1) + ": " + screenCombo.currentText
+                        //: This sentence ends with "... on Screen #2"
+                        property string ttip: qsTr("Make PhotoQt appear on Screen") + " #" + (screenCombo.currentIndex+1) + ": " + screenCombo.currentText
                         CustomCheckBox {
                             id: screenCheck
-                            text: qsTr("Make PhotoQt appear on Screen #") + ": "
+                            //: This sentence ends with "... on Screen #2"
+                            text: qsTr("Make PhotoQt appear on Screen") + " #: "
                             tooltip: parent.ttip
                             onCheckedButtonChanged:
                                 if(checkedButton) save_restore_geometry.checkedButton = false

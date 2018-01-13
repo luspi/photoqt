@@ -35,7 +35,11 @@ Rectangle {
         id: pause
         x: 10
         y: 10
-        text: paused ? qsTr("Play Slideshow") : qsTr("Pause Slideshow")
+        text: paused
+                 //: Stays alone like that, not part of a full sentence. Written on button to allow user to play a currently paused slideshow.
+               ? qsTr("Play Slideshow")
+                 //: Stays alone like that, not part of a full sentence. Written on button to allow user to pause a currently playing slideshow.
+               : qsTr("Pause Slideshow")
         onClickedButton: pauseSlideshow()
     }
 

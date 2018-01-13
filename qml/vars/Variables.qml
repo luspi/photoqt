@@ -14,14 +14,13 @@ Item {
     property bool slideshowRunning: false
 
     property int totalNumberImagesCurrentFolder: 0
-    property int currentFilePos: -1
+    property int currentFilePos: allFilesCurrentDir.indexOf(getanddostuff.removePathFromFilename(currentFile))>=0
+                                    ? allFilesCurrentDir.indexOf(getanddostuff.removePathFromFilename(currentFile))
+                                    : -1
     property string currentFile: ""
-    onCurrentFileChanged: updateCurrentFilePos()
-
     property string filter: ""
     property string currentDir: ""
     property var allFilesCurrentDir: []
-    onAllFilesCurrentDirChanged: updateCurrentFilePos()
 
     property bool deleteNothingLeft: false
     property bool filterNoMatch: false
@@ -30,12 +29,6 @@ Item {
 
     property int startupUpdateStatus: 0
     property string startupFilenameAfter: ""
-
-    function updateCurrentFilePos() {
-        var onlyfile = getanddostuff.removePathFromFilename(currentFile)
-        if(allFilesCurrentDir.indexOf(onlyfile) >= 0)
-            currentFilePos = allFilesCurrentDir.indexOf(onlyfile)
-    }
 
     property var shortcutsMouseGesture: []
     property point shorcutsMouseGesturePointIntermediate: Qt.point(-1,-1)

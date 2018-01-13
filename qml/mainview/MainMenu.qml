@@ -29,85 +29,81 @@ Rectangle {
     MouseArea { anchors.fill: parent; hoverEnabled: true }
 
     property var allitems_static: [
-        //: This is an entry in the mainmenu on the right
+        //: This is an entry in the main menu on the right. Keep short!
         [["__open", "open", qsTr("Open File"), "hide"]],
-        //: This is an entry in the mainmenu on the right
+        //: This is an entry in the main menu on the right. Keep short!
         [["__settings", "settings", qsTr("Settings"), "hide"]],
-        //: This is an entry in the mainmenu on the right
+        //: This is an entry in the main menu on the right. Keep short!
         [["__wallpaper", "settings", qsTr("Set as Wallpaper"), "hide"]],
-        //: This is an entry in the mainmenu on the right
+        //: This is an entry in the main menu on the right. Keep short!
         [["slideshow","slideshow",qsTr("Slideshow")],
-                //: This is an entry in the mainmenu on the right, used as 'setting up a slideshow'
+                //: This is an entry in the main menu on the right, used as in 'setting up a slideshow'. Keep short!
                 ["__slideshow","",qsTr("setup"), "hide"],
-                //: This is an entry in the mainmenu on the right, used as in 'quickstarting a slideshow'
+                //: This is an entry in the main menu on the right, used as in 'quickstarting a slideshow'. Keep short!
                 ["__slideshowQuick","",qsTr("quickstart"), "hide"]],
-        //: This is an entry in the mainmenu on the right
+        //: This is an entry in the main menu on the right. Keep short!
         [["__filterImages", "filter", qsTr("Filter Images in Folder"), "hide"]],
-        //: This is an entry in the mainmenu on the right
+        //: This is an entry in the main menu on the right. Keep short!
         [["__hideMeta", "metadata", qsTr("Show/Hide Metadata"), "donthide"]],
-        //: This is an entry in the mainmenu on the right
+        //: This is an entry in the main menu on the right. Keep short!
         [["__histogram", "histogram", qsTr("Show/Hide Histogram"), "donthide"]],
-        //: This is an entry in the mainmenu on the right
+        //: This is an entry in the main menu on the right. Keep short!
         [["__about", "about", qsTr("About PhotoQt"), "hide"]],
-        //: This is an entry in the mainmenu on the right
+        //: This is an entry in the main menu on the right. Keep short!
         [["__hide", "hide", qsTr("Hide (System Tray)"), "hide"]],
-        //: This is an entry in the mainmenu on the right
+        //: This is an entry in the main menu on the right. Keep short!
         [["__close", "quit", qsTr("Quit"), "hide"]],
 
         [["heading","",""]],
 
-        //: This is an entry in the mainmenu on the right, used as in 'Go To some image'
+        //: This is an entry in the main menu on the right, used as in 'Go To some image'. Keep short!
         [["","goto",qsTr("Go to")],
-                //: This is an entry in the mainmenu on the right, used as in 'go to previous image'
+                //: This is an entry in the main menu on the right, used as in 'go to previous image'. Keep short!
                 ["__prev","",qsTr("previous"), "donthide"],
-                //: This is an entry in the mainmenu on the right, used as in 'go to next image'
+                //: This is an entry in the main menu on the right, used as in 'go to next image'. Keep short!
                 ["__next","",qsTr("next"), "donthide"],
-                //: This is an entry in the mainmenu on the right, used as in 'go to first image'
+                //: This is an entry in the main menu on the right, used as in 'go to first image'. Keep short!
                 ["__gotoFirstThb","",qsTr("first"), "donthide"],
-                //: This is an entry in the mainmenu on the right, used as in 'go to last image'
+                //: This is an entry in the main menu on the right, used as in 'go to last image'. Keep short!
                 ["__gotoLastThb","",qsTr("last"), "donthide"]],
-        //: This is an entry in the mainmenu on the right, used as in 'Zoom image'
+        //: This is an entry in the main menu on the right, used as in 'Zoom image'. Keep short!
         [["zoom","zoom",qsTr("Zoom")],
-                //: This is an entry in the mainmenu on the right, used as in 'Zoom in on image'
-                ["__zoomIn","",qsTr("in"), "donthide"],
-                //: This is an entry in the mainmenu on the right, used as in 'Zoom out of image'
-                ["__zoomOut","",qsTr("out"), "donthide"],
-                //: This is an entry in the mainmenu on the right, used as in 'Reset zoom of image'
-                ["__zoomReset","",qsTr("reset"), "donthide"],
-                //: This is an entry in the mainmenu on the right, used as in 'Zoom image to actual size (1:1, one-to-one)'
+                ["__zoomIn","","+", "donthide"],
+                ["__zoomOut","","-", "donthide"],
+                ["__zoomReset","","0", "donthide"],
                 ["__zoomActual","","1:1", "donthide"]],
-        //: This is an entry in the mainmenu on the right, used as in 'Rotate image'
+        //: This is an entry in the main menu on the right, used as in 'Rotate image'. Keep short!
         [["rotate","rotate",qsTr("Rotate")],
-                //: This is an entry in the mainmenu on the right, used as in 'Rotate image left'
+                //: This is an entry in the main menu on the right, used as in 'Rotate image left'. Keep short!
                 ["__rotateL","",qsTr("left"), "donthide"],
-                //: This is an entry in the mainmenu on the right, used as in 'Rotate image right'
+                //: This is an entry in the main menu on the right, used as in 'Rotate image right'. Keep short!
                 ["__rotateR","",qsTr("right"), "donthide"],
-                //: This is an entry in the mainmenu on the right, used as in 'Reset rotation of image'
+                //: This is an entry in the main menu on the right, used as in 'Reset rotation of image'. Keep short!
                 ["__rotate0","",qsTr("reset"), "donthide"]],
-        //: This is an entry in the mainmenu on the right, used as in 'Flip/Mirror image'
+        //: This is an entry in the main menu on the right, used as in 'Flip/Mirror image'. Keep short!
         [["flip","flip",qsTr("Flip")],
-                //: This is an entry in the mainmenu on the right, used as in 'Flip/Mirror image horizontally'
+                //: This is an entry in the main menu on the right, used as in 'Flip/Mirror image horizontally'. Keep short!
                 ["__flipH","",qsTr("horizontal"), "donthide"],
-                //: This is an entry in the mainmenu on the right, used as in 'Flip/Mirror image vertically'
+                //: This is an entry in the main menu on the right, used as in 'Flip/Mirror image vertically'. Keep short!
                 ["__flipV","",qsTr("vertical"), "donthide"],
-                //: This is an entry in the mainmenu on the right, used as in 'Reset flip/mirror of image'
+                //: This is an entry in the main menu on the right, used as in 'Reset flip/mirror of image'. Keep short!
                 ["__flipReset","",qsTr("reset"), "donthide"]],
-        //: This is an entry in the mainmenu on the right, used to refer to the current file (specifically the file, not directly the image)
+        //: This is an entry in the main menu on the right, used to refer to the current file (specifically the file, not directly the image). Keep short!
         [["","copy",qsTr("File")],
-                //: This is an entry in the mainmenu on the right, used as in 'rename file'
+                //: This is an entry in the main menu on the right, used as in 'rename file'. Keep short!
                 ["__rename","",qsTr("rename"), "hide"],
-                //: This is an entry in the mainmenu on the right, used as in 'copy file'
+                //: This is an entry in the main menu on the right, used as in 'copy file'. Keep short!
                 ["__copy","",qsTr("copy"), "hide"],
-                //: This is an entry in the mainmenu on the right, used as in 'move file'
+                //: This is an entry in the main menu on the right, used as in 'move file'. Keep short!
                 ["__move","",qsTr("move"), "hide"],
-                //: This is an entry in the mainmenu on the right, used as in 'delete file'
+                //: This is an entry in the main menu on the right, used as in 'delete file'. Keep short!
                 ["__delete","",qsTr("delete"), "hide"]],
 
         [["heading","",""]],
 
-        //: This is an entry in the mainmenu on the right
+        //: This is an entry in the main menu on the right. Keep short!
         [["__scale","scale",qsTr("Scale Image"), "hide"]],
-        //: This is an entry in the mainmenu on the right
+        //: This is an entry in the main menu on the right. Keep short!
         [["__defaultFileManager","open",qsTr("Open in default file manager"), "donthide"]]
     ]
     property var allitems_external: []
@@ -205,7 +201,7 @@ Rectangle {
             id: subview
 
             property int mainindex: index
-            height: 25
+            height: 30
             width: childrenRect.width
 
             interactive: false
@@ -225,6 +221,7 @@ Rectangle {
                     color: colour.text_inactive
                     visible: allitems[subview.mainindex].length > 1 && index > 1
                     font.bold: true
+                    font.pointSize: 11
                     text: "/"
                 }
 
@@ -252,7 +249,7 @@ Rectangle {
 
                     opacity: enabled ? 1 : 0.5
 
-                    font.pointSize: 10
+                    font.pointSize: 11
                     font.bold: true
 
                     enabled: (settings.trayicon || (allitems[subview.mainindex][index][0] !== "hide" && allitems[subview.mainindex][index][0] !=="heading" && (allitems[subview.mainindex].length === 1 || index > 0)))
@@ -329,7 +326,6 @@ Rectangle {
         color: "grey"
         wrapMode: Text.WordWrap
 
-        //: This message is shown at the bottom of the mainmenu
         text: qsTr("Click here to go to the online manual for help regarding shortcuts, settings, features, ...")
 
         ToolTip {

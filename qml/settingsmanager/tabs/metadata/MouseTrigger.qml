@@ -27,7 +27,8 @@ EntryContainer {
             CustomCheckBox {
 
                 id: triggeronmouse
-                text: qsTr("DISable Hot Edge")
+                //: The hot edge refers to the area on the very left of the screen that triggers the showing of the metadata element when the mouse enters it
+                text: qsTr("DISABLE Hot Edge")
 
             }
 

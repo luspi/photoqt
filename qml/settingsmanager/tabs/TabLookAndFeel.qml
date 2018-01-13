@@ -40,7 +40,7 @@ Rectangle {
                 color: "white"
                 font.pointSize: 20
                 font.bold: true
-                //: Used as heading of tab in the settings manager
+                //: The look of PhotoQt and how it feels and behaves
                 text: qsTr("Look and Feel")
                 horizontalAlignment: Text.AlignHCenter
             }
@@ -51,7 +51,7 @@ Rectangle {
                 width: flickable.width
                 color: "white"
                 font.pointSize: 9
-                text: qsTranslate("SettingsManager", "Move your mouse cursor over the different settings titles to see more information.")
+                text: qsTranslate("SettingsManager", "Move your mouse cursor over (or click on) the different settings titles to see more information.")
                 horizontalAlignment: Text.AlignHCenter
             }
 

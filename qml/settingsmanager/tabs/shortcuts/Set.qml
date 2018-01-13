@@ -88,7 +88,9 @@ Item {
 
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
-                        text: close=="1" ? qsTr("Quit PhotoQt when executing shortcut") : qsTr("Keep PhotoQt running when executing shortcut")
+                        text: close=="1"
+                                ? qsTr("Quit PhotoQt when executing shortcut")
+                                : qsTr("Keep PhotoQt running when executing shortcut")
                         onClicked:
                             close = (close=="1" ? "0" : "1")
 
@@ -142,7 +144,7 @@ Item {
                     anchors.rightMargin: parent.width/2+closeitem.width
                     visible: external
                     text: desc
-                    //: Shortcuts: This is the command to be executed (external shortcut)
+                    //: Shortcuts: This is the command/executable to be executed (external shortcut)
                     emptyMessage: qsTr("The command goes here")
                     onTextEdited:
                         updateExternalString.restart()

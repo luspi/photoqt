@@ -35,15 +35,17 @@ FadeInTemplate {
                 "<style type='text/css'>a:link{color:white; text-decoration: none; font-style: italic; }</style><br>"
                 + qsTr("PhotoQt is a simple image viewer, designed to be good looking, highly configurable, yet easy to use and fast.")
                 + "<br><br>"
-                + qsTr("With PhotoQt I try to be different than other image viewers (after all, there are plenty of good image viewers already out there). Its interface is kept very simple, yet there is an abundance of settings to customize the look and feel to make PhotoQt YOUR image viewer.")
+                + "<b>" + qsTr("Another image viewer?") + "</b><br>"
+                + qsTr("There are many good image viewers out there. But PhotoQt is a little different than all of them. Its interface is kept very simple, yet there is an abundance of settings to turn PhotoQt from AN image viewer into YOUR image viewer.")
                 + "<br><br>"
-                + qsTr("I'm not a trained programmer. I'm a simple Maths student that loves doing stuff like this. Most of my programming knowledge I taught myself over the past 10-ish years, and it has been developing a lot since I started PhotoQt. During my studies in university I learned a lot about the basics of programming that I was missing. And simply working on PhotoQt gave me a lot of invaluable experience. So the code of PhotoQt might in places not quite be done in the best of ways, but I think it's getting better and better with each release.")
+                + qsTr("Occasionally someone comes along because they think PhotoQt is 'like Picasa'. However, if you take a good look at it then you see that they are in fact quite different. I myself have never used Picasa, and don't have any intention to copy Picasa. With PhotoQt I want to do my own thing, and to do that as good as I can.")
                 + "<br><br>"
-                + qsTr("I heard a number of times people saying, that PhotoQt is a 'copy' of Picasa's image viewer. Well, it's not. In fact, I myself have never used Picasa. I have seen it in use though by others, and I can't deny that it influenced the basic design idea a little. But I'm not trying to do something 'like Picasa'. I try to do my own thing, and to do it as good as I can.")
-                + "<br><br>"
+                +"<b>" + qsTr("So then, who are you?") + "</b><br>"
+                + qsTr("I started playing around with programming since I was about 15 years old. So most of my programming knowledge is self-taught through books and websites. The past few years I also did a lot of programming as part of my studies and research (I did a Bachelors in Mathematics, and a Masters in Scientific Computing, followed by research in that field). Through all of that I gained a good bit of experience in programming using different programming languages. This becomes especially apparent when looking at how PhotoQt has changed since it started at the end of 2011.")
+                + "<br><br><br>"
                 + qsTr("Don't forget to check out the website:")
-                + " <a href=\"http://photoqt.org\">http://PhotoQt.org</a><br><br>"
-                + qsTr("If you find a bug or if you have a question or suggestion, tell me. I'm open to any feedback I get :)")
+                + " <a href=\"http://photoqt.org\">http://PhotoQt.org</a>. "
+                + qsTr("If you find a bug or if you have a question or suggestion, please tell me. I'm open to any feedback I get!")
                 + "<br>";
 
             }
@@ -93,8 +95,8 @@ FadeInTemplate {
             wrapMode: Text.WordWrap
             textFormat: Text.RichText
 
-            //: Don't forget to add the %1 in your translation!!
             text: "<style type='text/css'>a:link{color:white; text-decoration: none; font-style: italic; }</style><br>"
+                  //: Don't forget to add the %1 in your translation, it is a placeholder for the email address!!
                 + qsTr("You want to join the team and do something, e.g. translating PhotoQt to another language? Drop me and email (%1), and for translations, check the project page on Transifex:").arg("<a href=\"mailto:Lukas@photoqt.org\">Lukas@photoqt.org</a>") + " <a href=\"http://transifex.com/projects/p/photo\">http://transifex.com/projects/p/photo</a>."
 
             MouseArea {
@@ -118,7 +120,8 @@ FadeInTemplate {
             y: 5
             height: 30
 
-            text: qsTr("Okay I got enough of that")
+            // About element, written on button to close it
+            text: qsTr("Okay, take me back")
             onClickedButton: hide()
 
         }

@@ -76,51 +76,58 @@ Rectangle {
         ContextMenu {
             id: contextmenu
             MenuItem {
-                text: "Undo"
+                //: As in 'Undo latest change'
+                text: qsTr("Undo")
                 enabled: ed1.canUndo
                 onTriggered:
                     ed1.undo()
             }
             MenuItem {
-                text: "Redo"
+                //: As in 'Redo latest change'
+                text: qsTr("Redo")
                 enabled: ed1.canRedo
                 onTriggered:
                     ed1.redo()
             }
             MenuSeparator { }
             MenuItem {
-                text: "Cut selection"
+                //: selection = selected text
+                text: qsTr("Cut selection")
                 enabled: !ele_top.readOnly && ed1.selectedText!=""
                 onTriggered:
                     ed1.cut()
             }
             MenuItem {
-                text: "Copy selection to clipboard"
+                //: selection = selected text
+                text: qsTr("Copy selection to clipboard")
                 enabled: ed1.selectedText!=""
                 onTriggered:
                     ed1.copy()
             }
             MenuItem {
-                text: "Paste clipboard content"
+                text: qsTr("Paste clipboard content")
                 enabled: !ele_top.readOnly && ed1.canPaste
                 onTriggered:
                     ed1.paste()
             }
             MenuItem {
-                text: "Delete content"
+                //: content refers to text content in a line edit
+                text: qsTr("Delete content")
                 enabled: !ele_top.readOnly && ed1.selectedText!=""
                 onTriggered:
                     ed1.text = ""
             }
             MenuSeparator { }
             MenuItem {
-                text: "Select all"
+                //: Refering to all text
+                text: qsTr("Select all")
                 enabled: ed1.text!=""
                 onTriggered:
                     ele_top.selectAll()
             }
             MenuItem {
-                text: "Select all and copy"
+                //: In the sense of 'Selecting all text and copying it to clipboard'
+                text: qsTr("Select all and copy")
                 enabled: ed1.text!=""
                 onTriggered: {
                     ele_top.selectAll()

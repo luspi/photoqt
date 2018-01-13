@@ -70,7 +70,6 @@ Rectangle {
         font.bold: true
         font.pointSize: 18
         wrapMode: Text.WordWrap
-        //: This is used in the metadata element on the left
         text: qsTr("No File Loaded")
 
     }
@@ -90,7 +89,6 @@ Rectangle {
         font.bold: true
         font.pointSize: 18
         wrapMode: Text.WordWrap
-        //: This is used in the metadata element on the left
         text: qsTr("File Format Not Supported")
 
     }
@@ -152,6 +150,7 @@ Rectangle {
             anchors.rightMargin: 5
             fsize: 8
             textColour: getanddostuff.addAlphaToColor(colour.text,100)
+            //: Used as in 'Keep the metadata element open even if the cursor leaves it'
             text: qsTr("Keep Open")
             onButtonCheckedChanged:
                 updateNonFloatWidth()
@@ -281,60 +280,65 @@ Rectangle {
 
                 if(settings.exiffilename) {
                     var fname = getanddostuff.removePathFromFilename(variables.currentFile, false)
-                    mod.append({"name" : qsTr("Filename"), "prop" : "", "value" : fname, "tooltip" : fname })
+                    //: Keep string short!
+                    mod.append({"name" : qsTranslate("metadata", "Filename"), "prop" : "", "value" : fname, "tooltip" : fname })
                 }
 
                 if(settings.exiffilesize)
-                    mod.append({"name" : qsTr("Filesize"), "prop" : "", "value" : d["filesize"], "tooltip" : d["filesize"]})
+                    //: Keep string short!
+                    mod.append({"name" : qsTranslate("metadata", "Filesize"), "prop" : "", "value" : d["filesize"], "tooltip" : d["filesize"]})
 
                 if(settings.exifimagenumber) {
                     var pos = (variables.currentFilePos+1) + "/" + variables.totalNumberImagesCurrentFolder
-                    mod.append({"name" : qsTr("Image") + " #/#", "prop" : "", "value" : pos, "tooltip" : pos })
+                    //: Used as in "Image 3/16". The numbers (position of image in folder) are added on automatically. Keep string short!
+                    mod.append({"name" : qsTranslate("metadata", "Image") + " #/#", "prop" : "", "value" : pos, "tooltip" : pos })
                 }
 
                 if(settings.exifdimensions) {
                     if("dimensions" in d)
-                        mod.append({"name" : qsTr("Dimensions"), "prop" : "", "value" : d["dimensions"], "tooltip" : d["dimensions"]})
+                        //: The dimensions of the loaded image. Keep string short!
+                        mod.append({"name" : qsTranslate("metadata", "Dimensions"), "prop" : "", "value" : d["dimensions"], "tooltip" : d["dimensions"]})
                     else if("Exif.Photo.PixelXDimension" in d && "Exif.Photo.PixelYDimension" in d) {
                         var dim = d["Exif.Photo.PixelXDimension"] + "x" + d["Exif.Photo.PixelYDimension"]
-                        mod.append({"name" : qsTr("Dimensions"), "prop" : "", "value" : dim, "tooltip" : dim})
+                        //: The dimensions of the loaded image. Keep string short!
+                        mod.append({"name" : qsTranslate("metadata", "Dimensions"), "prop" : "", "value" : dim, "tooltip" : dim})
                     }
                 }
 
                 mod.append({"name" : "", "prop" : "", "value" : ""})
 
-                //: The next string refers to Exif image metadata
-                var labels = ["Exif.Image.Make", qsTr("Make"), "",
-                        //: The next string refers to Exif image metadata
-                        "Exif.Image.Model", qsTr("Model"), "",
-                        //: The next string refers to Exif image metadata
-                        "Exif.Image.Software", qsTr("Software"), "",
+                //: Exif image metadata: the make of the camera used to take the photo. Keep string short!
+                var labels = ["Exif.Image.Make", qsTranslate("metadata", "Make"), "",
+                        //: Exif image metadata: the model of the camera used to take the photo. Keep string short!
+                        "Exif.Image.Model", qsTranslate("metadata", "Model"), "",
+                        //: Exif image metadata: the software used to create the photo. Keep string short!
+                        "Exif.Image.Software", qsTranslate("metadata", "Software"), "",
                         "","", "",
-                        //: The next string refers to Exif image metadata
-                        "Exif.Photo.DateTimeOriginal", qsTr("Time Photo was Taken"), "",
-                        //: The next string refers to Exif image metadata
-                        "Exif.Photo.ExposureTime", qsTr("Exposure Time"), "",
-                        //: The next string refers to Exif image metadata
-                        "Exif.Photo.Flash", qsTr("Flash"), "",
-                        "Exif.Photo.ISOSpeedRatings", qsTr("ISO"), "",
-                        //: The next string refers to Exif image metadata
-                        "Exif.Photo.SceneCaptureType", qsTr("Scene Type"), "",
-                        //: The next string refers to Exif image metadata
-                        //: The next string refers to Exif image metadata
-                        "Exif.Photo.FocalLength", qsTr("Focal Length"), "",
-                        "Exif.Photo.FNumber", qsTr("F Number"), "",
-                        //: The next string refers to Exif image metadata
-                        "Exif.Photo.LightSource", qsTr("Light Source"), "",
+                        //: Exif image metadata: when the photo was taken. Keep string short!
+                        "Exif.Photo.DateTimeOriginal", qsTranslate("metadata", "Time Photo was Taken"), "",
+                        //: Exif image metadata: how long the sensor was exposed to the light. Keep string short!
+                        "Exif.Photo.ExposureTime", qsTranslate("metadata", "Exposure Time"), "",
+                        //: Exif image metadata: the flash setting when the photo was taken. Keep string short!
+                        "Exif.Photo.Flash", qsTranslate("metadata", "Flash"), "",
+                        "Exif.Photo.ISOSpeedRatings", "ISO", "",
+                        //: Exif image metadata: the specific scene type the camera used for the photo. Keep string short!
+                        "Exif.Photo.SceneCaptureType", qsTranslate("metadata", "Scene Type"), "",
+                        //: Exif image metadata: https://en.wikipedia.org/wiki/Focal_length . Keep string short!
+                        "Exif.Photo.FocalLength", qsTranslate("metadata", "Focal Length"), "",
+                        //: Exif image metadata: https://en.wikipedia.org/wiki/F-number . Keep string short!
+                        "Exif.Photo.FNumber", qsTranslate("metadata", "F Number"), "",
+                        //: Exif image metadata: What type of light the camera detected. Keep string short!
+                        "Exif.Photo.LightSource", qsTranslate("metadata", "Light Source"), "",
                         "","", "",
-                        //: The next string refers to Exif image metadata
-                        "Iptc.Application2.Keywords", qsTr("Keywords"), "",
-                        //: The next string refers to Exif image metadata
-                        "Iptc.Application2.City", qsTr("Location"), "",
-                        //: The next string refers to Exif image metadata
-                        "Iptc.Application2.Copyright", qsTr("Copyright"), "",
+                        //: IPTC image metadata: A description of the image by the user/software. Keep string short!
+                        "Iptc.Application2.Keywords", qsTranslate("metadata", "Keywords"), "",
+                        //: IPTC image metadata: The CITY the imge was taken in. Keep string short!
+                        "Iptc.Application2.City", qsTranslate("metadata", "Location"), "",
+                        //: IPTC image metadata. Keep string short!
+                        "Iptc.Application2.Copyright", qsTranslate("metadata", "Copyright"), "",
                         "","", "",
-                        //: The next string refers to Exif image metadata
-                        "Exif.GPSInfo.GPSLongitudeRef", qsTr("GPS Position"), "Exif.GPSInfo.GPSLatitudeRef",
+                        //: Exif image metadata. Keep string short!
+                        "Exif.GPSInfo.GPSLongitudeRef", qsTranslate("metadata", "GPS Position"), "Exif.GPSInfo.GPSLatitudeRef",
                         "","",""]
 
                 var oneEmpty = false;

@@ -19,6 +19,7 @@ Rectangle {
         font.pointSize: 10
         wrapMode: Text.WordWrap
         horizontalAlignment: Text.AlignHCenter
+        //: "KDE4" is a fixed name, please don't translate
         text: qsTr("Sorry, KDE4 doesn't offer the feature to change the wallpaper except from their own system settings. Unfortunately there's nothing I can do about that.")
 
     }

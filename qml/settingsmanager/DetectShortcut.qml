@@ -280,10 +280,10 @@ Rectangle {
                     pressedPos = Qt.point(event.x, event.y)
 
                 // For displaying, we use full words instead of just letters
-                var repl = ({"E" : qsTr("East"),
-                             "N" : qsTr("North"),
-                             "W" : qsTr("West"),
-                             "S" : qsTr("South")})
+                var repl = ({"E" : strings.get("East"),
+                             "N" : strings.get("North"),
+                             "W" : strings.get("West"),
+                             "S" : strings.get("South")})
 
                 // store movement
                 var movement = ""
@@ -389,7 +389,8 @@ Rectangle {
             verticalAlignment: Qt.AlignVCenter
             color: "white"
 
-            text: qsTr("Perform any mouse action or press any key combination.") + "\n" + qsTr("When your satisfied, click the button to the right.")
+            text: qsTr("Perform any mouse action or press any key combination.") + "\n"
+                  + qsTr("When your satisfied, click the button to the right.")
 
         }
 
@@ -412,7 +413,7 @@ Rectangle {
             fontsize: 30
             fontBold: true
 
-            text: "Ok, set shortcut"
+            text: qsTr("Ok, set shortcut")
 
             onClickedButton: {
                 gotNewShortcut(keymousecombo.text)

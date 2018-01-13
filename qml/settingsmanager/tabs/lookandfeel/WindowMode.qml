@@ -14,7 +14,7 @@ EntryContainer {
         EntryTitle {
 
             title: qsTr("Window Mode")
-            helptext: qsTr("PhotoQt is designed with the space of a fullscreen app in mind. That's why it by default runs as fullscreen. However, some might prefer to have it as a normal window, e.g. so that they can see the panel.")
+            helptext: qsTr("PhotoQt can be used both in fullscreen mode or as a normal window. It was designed with a fullscreen/maximised application in mind, thus it will look best when used that way, but will work just as well any other way.")
 
         }
 

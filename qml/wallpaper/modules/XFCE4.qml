@@ -28,6 +28,7 @@ Rectangle {
             width: wallpaper_top.width
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
+            //: "xfconf-query" and "XFCE4" are fixed names, please don't translate
             text: qsTr("Warning: 'xfconf-query' doesn't seem to be available! Are you sure XFCE4 is installed?");
         }
 
@@ -58,6 +59,7 @@ Rectangle {
                 height: childrenRect.height-10
                 contentHeight: childrenRect.height
                 delegate: CustomCheckBox {
+                    //: Used as in 'Screen #4'
                     text: qsTr("Screen") + " #" + index
                     checkedButton: true
                     fsize: 10
@@ -93,6 +95,7 @@ Rectangle {
             width: wallpaper_top.width
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
+            //: 'picture options' refers to options like stretching the image to fill the background, or tile the image, center it, etc.
             text: qsTr("There are several picture options that can be set for the wallpaper image.")
         }
 
@@ -108,38 +111,44 @@ Rectangle {
             Column {
                 spacing: 10
                 CustomRadioButton {
-                    //: This string refers to the scaling property of an image when setting as wallpaper
+                    //: "Automatic" means automatically choose how to set the image as wallpaper
                     text: qsTr("Automatic")
+                    property string option: "Automatic"
                     fontsize: 10
                     exclusiveGroup: wallpaperoptions_xfce
                 }
                 CustomRadioButton {
-                    //: This string refers to the scaling property of an image when setting as wallpaper
+                    //: "Centered" means set the image centered as wallpaper
                     text: qsTr("Centered")
+                    property string option: "Centered"
                     fontsize: 10
                     exclusiveGroup: wallpaperoptions_xfce
                 }
                 CustomRadioButton {
-                    //: This string refers to the scaling property of an image when setting as wallpaper
+                    //: "Tiled" means repeat the wallpaper image until the full screen is covered
                     text: qsTr("Tiled")
+                    property string option: "Tiled"
                     fontsize: 10
                     exclusiveGroup: wallpaperoptions_xfce
                 }
                 CustomRadioButton {
-                    //: This string refers to the scaling property of an image when setting as wallpaper
+                    //: "Stretched" means make the wallpaper image fill the screen without regard to its aspect ratio
                     text: qsTr("Stretched")
+                    property string option: "Stretched"
                     fontsize: 10
                     exclusiveGroup: wallpaperoptions_xfce
                 }
                 CustomRadioButton {
-                    //: This string refers to the scaling property of an image when setting as wallpaper
+                    //: "Scaled" means that the wallpaper image is scaled to properly fill the screen
                     text: qsTr("Scaled")
+                    property string option: "Scaled"
                     fontsize: 10
                     exclusiveGroup: wallpaperoptions_xfce
                 }
                 CustomRadioButton {
-                    //: This string refers to the scaling property of an image when setting as wallpaper
+                    //: "Zoomed" means that the wallpaper image is zoomed to fill the screen
                     text: qsTr("Zoomed")
+                    property string option: "Zoomed"
                     fontsize: 10
                     exclusiveGroup: wallpaperoptions_xfce
                     checked: true
@@ -177,7 +186,7 @@ Rectangle {
     }
 
     function getCurrentText() {
-        return wallpaperoptions_xfce.current.text
+        return wallpaperoptions_xfce.current.option
     }
 
 }

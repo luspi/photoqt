@@ -113,8 +113,7 @@ Rectangle {
 
                             height: icon.height
                             verticalAlignment: Qt.AlignVCenter
-                            //: Settings: Element for editing custom entires, drag an item up or down in list
-                            text: qsTr("Click here to drag")
+                            text: qsTr("Click here to drag entry")
 
                             font.pointSize: 10
 
@@ -177,7 +176,7 @@ Rectangle {
                             id: quit
 
                             y: (parent.height-height)/2
-
+                            //: KEEP THIS STRING SHORT! It is displayed for external applications of main menu as an option to quit PhotoQt after executing it
                             text: qsTr("quit")
 
                             checkedButton: _quit

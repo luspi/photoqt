@@ -42,7 +42,7 @@ FadeInTemplate {
             x: (wallpaper_top.width-width)/2
             fontsize: 13
             width: 200
-            //: 'Other' here refers to 'Other window managers'
+            //: 'Other' as in 'Other window managers'
             model: ["KDE4","Plasma 5","Gnome/Unity","XFCE4","Enlightenment",qsTr("Other")]
             // We detect the wm only here, right at the beginning, and NOT everytime the element is opened, as we don't want to change any settings that the user did during that runtime (this is useful to, e.g., play around with different wallpapers to see which one fits best)
             Component.onCompleted: {
@@ -163,11 +163,13 @@ FadeInTemplate {
                 spacing: 10
                 CustomButton {
                     id: okay
+                    //: Along the lines of: Set image as wallpaper
                     text: qsTr("Okay, do it!")
                     enabled: enDisableEnter()
                     onClickedButton: simulateEnter();
                 }
                 CustomButton {
+                    //: Along the lines of: Don't set image as wallpaper
                     text: qsTr("Nooo, don't!")
                     onClickedButton: hide()
                 }

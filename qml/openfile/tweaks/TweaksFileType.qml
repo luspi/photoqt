@@ -22,11 +22,11 @@ Rectangle {
         onCurrentIndexChanged:
             openvariables.filesFileTypeSelection = currentIndex
         model: [qsTr("All supported images"), "Qt " +
-            //: 'images' as in the term 'something images'
+            //: Used as in 'Qt images'
             qsTr("images"), "GraphicsMagick " +
-            //: 'images' as in the term 'something images'
+            //: Used as in 'GraphicsMagick images'
             qsTr("images"), "LibRaw " +
-            //: 'images' as in the term 'something images'
+            //: Used as in 'LibRaw images'
             qsTr("images")]
     }
 

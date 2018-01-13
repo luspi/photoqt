@@ -73,6 +73,7 @@ Rectangle {
                 allAvailableCommands[allAvailableCommands.length] = allAvailableItems[k][0]
 
             if(external)
+                //: One of the shortcuts categories
                 avail.shortcuts = [["", qsTr("External")]]
             else
                 // load the available shortcuts

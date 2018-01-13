@@ -5,7 +5,7 @@ GetAndDoStuffFile::~GetAndDoStuffFile() { }
 
 QString GetAndDoStuffFile::getFilenameQtImage() {
 
-    return QFileDialog::getOpenFileName(0,"Please select image file",QDir::homePath());
+    return QFileDialog::getOpenFileName(0,tr("Please select image file"),QDir::homePath());
 
 }
 

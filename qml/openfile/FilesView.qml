@@ -31,7 +31,7 @@ Rectangle {
             anchors.fill: parent
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "No image files found"
+            text: qsTr("No image files found")
             font.bold: true
             color: "grey"
             font.pointSize: 20
@@ -168,7 +168,10 @@ Rectangle {
                 anchors.fill: parent
                 hoverEnabled: true
                 onEntered: gridview.currentIndex = index
-                text: "<tr><td align='right'><b>Name: </b></td><td><b>" + filename + "</b></td></tr><tr><td align='right'><b>Size: </b></td><td><b>" + filesize + "</b></td></tr>"
+                //: Refers to the filename. Keep string short!
+                text: "<tr><td align='right'><b>" + qsTr("Name") + ": </b></td><td><b>" + filename + "</b></td></tr>
+                //: Refers to the filesize. Keep string short!
+                       <tr><td align='right'><b>" + qsTr("Size") + ": </b></td><td><b>" + filesize + "</b></td></tr>"
                 cursorShape: Qt.PointingHandCursor
                 onClicked: {
                     mainwindow.loadFile(openvariables.currentDirectory + "/" + filename)

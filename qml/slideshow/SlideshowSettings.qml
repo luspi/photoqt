@@ -19,7 +19,7 @@ FadeInTemplate {
             width: slideshow_top.contentWidth
             wrapMode: Text.WordWrap
             font.pointSize: 10
-            text: qsTr("There are several settings that can be adjusted for a slideshow, like the time between the image, if and how long the transition between the images should be, and also a music file can be specified that is played in the background.")
+            text: qsTr("There are several settings that can be adjusted for a slideshow, like the time between the image, if and how long the transition between the images should be, and also a music file can be specified that will be played in the background.")
         },
         Text {
             color: colour.text
@@ -36,6 +36,7 @@ FadeInTemplate {
             wrapMode: Text.WordWrap
             font.pointSize: 15
             font.bold: true
+            //: This refers to the time the slideshow waits before loading the next image
             text: qsTr("Time in between")
         },
         Text {
@@ -43,7 +44,7 @@ FadeInTemplate {
             width: slideshow_top.contentWidth
             wrapMode: Text.WordWrap
             font.pointSize: 10
-            text: qsTr("Adjust the time between the images. The time specified here is the amount of time the image will be completely visible, i.e. the transitioning (if set) is not part of this time.")
+            text: qsTr("Adjust the time between the images, i.e., how long the slideshow will wait before loading the next image.")
         },
 
         // Adjust the time in between (slider/spinbox)
@@ -83,6 +84,7 @@ FadeInTemplate {
             wrapMode: Text.WordWrap
             font.pointSize: 15
             font.bold: true
+            //: This refers to the transition between two images, how quickly they fade into each other (if at all)
             text: qsTr("Smooth Transition")
         },
         Text {
@@ -90,7 +92,7 @@ FadeInTemplate {
             width: slideshow_top.contentWidth
             wrapMode: Text.WordWrap
             font.pointSize: 10
-            text: qsTr("Here you can set, if you want the images to fade into each other, and how fast they are to do that.")
+            text: qsTr("Here you can set whether you want the images to fade into each other and how fast they are to do that.")
         },
 
         // Slider to adjust transition time
@@ -104,6 +106,7 @@ FadeInTemplate {
                 Text {
                     color: colour.text
                     font.pointSize: 10
+                    //: This refers to the fading between images. No transition means that the new images simply replaces the old image instantly
                     text: qsTr("No Transition")
                 }
                 CustomSlider {
@@ -120,6 +123,7 @@ FadeInTemplate {
                 Text {
                     font.pointSize: 10
                     color: colour.text
+                    //: This refers to the fading between images. A long transition means that two images fade very slowly into each other
                     text: qsTr("Long Transition")
                 }
             }
@@ -132,6 +136,7 @@ FadeInTemplate {
             wrapMode: Text.WordWrap
             font.pointSize: 15
             font.bold: true
+            //: Shuffle means putting the list of all the files in the current folder into random order. Loop means that the slideshow will start again from the bginning when it reaches the last image.
             text: qsTr("Shuffle and Loop")
         },
         Text {
@@ -139,18 +144,20 @@ FadeInTemplate {
             width: slideshow_top.contentWidth
             wrapMode: Text.WordWrap
             font.pointSize: 10
-            text: qsTr("If you want PhotoQt to loop over all images (i.e., once it shows the last image it starts from the beginning), or if you want PhotoQt to load your images in random order, you can check either or both boxes below. Note, that no image will be shown twice before every image has been shown once.")
+            text: qsTr("If you want PhotoQt to loop over all images (i.e., once it shows the last image it starts from the beginning), or if you want PhotoQt to load your images in random order, you can check either or both boxes below. Note in the case of shuffling that no image will be shown twice before every image has been shown once.")
         },
 
         // Checkboxes to en-/disable it
         CustomCheckBox {
             id: loop
+            //: This means that once the last image is reaches PhotoQt will start again from the first one
             text: qsTr("Loop over images")
             checkedButton: settings.slideShowLoop
             x: (slideshow_top.contentWidth-width)/2
         },
         CustomCheckBox {
             id: shuffle
+            //: This means to put the list of files into random order.
             text: qsTr("Shuffle images")
             checkedButton: settings.slideShowShuffle
             x: (slideshow_top.contentWidth-width)/2
@@ -163,7 +170,8 @@ FadeInTemplate {
             wrapMode: Text.WordWrap
             font.pointSize: 15
             font.bold: true
-            text: qsTr("Hide Quickinfo")
+            //: The quickinfo refers to the labels (like position in the folder, filename, closing 'x') that are normally shown on the main image
+            text: qsTr("Quickinfo")
         },
 
         Text {
@@ -176,7 +184,8 @@ FadeInTemplate {
 
         CustomCheckBox {
             id: quickinfo
-            text: qsTr("Hide Quickinfos")
+            //: The quickinfo refers to the labels (like position in the folder, filename, closing 'x') that are normally shown on the main image
+            text: qsTr("Hide Quickinfo")
             checkedButton: settings.slideShowHideQuickinfo
             x: (slideshow_top.contentWidth-width)/2
         },
@@ -232,7 +241,7 @@ FadeInTemplate {
                 y: (parent.height-height)/2
                 font.pointSize: 10
                 color: colour.text_disabled
-                text: qsTr("Click here to select music file...")
+                text: qsTr("Click here to select a music file...")
             }
             // Click on area offers option to select new file
             MouseArea {
@@ -254,14 +263,17 @@ FadeInTemplate {
                 spacing: 10
                 CustomButton {
                     id: okay
+                    //: In the sense of 'ok, save the slideshow settings and lets start with the slideshow'
                     text: qsTr("Okay, lets start")
                     onClickedButton: simulateEnter();
                 }
                 CustomButton {
+                    //: In the sense of, 'no, don't save the slideshow settings and don't start a slideshow'
                     text: qsTr("Wait, maybe later")
                     onClickedButton: hide()
                 }
                 CustomButton {
+                    //: In the sense of 'ok, save the slideshow settings, but do not start a slideshow'
                     text: qsTr("Save changes, but don't start just yet")
                     onClickedButton: hideSlideshowAndRememberSettings()
                 }
@@ -286,7 +298,9 @@ FadeInTemplate {
 
     function selectNewMusicFile() {
         verboseMessage("Slideshow::selectNewMusicFile()","")
-        var ret = getanddostuff.getFilename(qsTr("Select music file..."),musictxt.text==""?getanddostuff.getHomeDir():musictxt.text,qsTr("Music Files") + " (*.mp3 *.flac *.ogg *.wav);;" + qsTr("All Files") + " (*.*)")
+        var ret = getanddostuff.getFilename(qsTr("Select music file..."), musictxt.text==""?getanddostuff.getHomeDir():musictxt.text,
+                                            qsTr("Music Files") + " (*.mp3 *.flac *.ogg *.wav);;"
+                                            + qsTr("All Files") + " (*.*)")
         if(ret !== "")
             musictxt.text = ret
     }

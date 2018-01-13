@@ -14,9 +14,9 @@ EntryContainer {
 
         EntryTitle {
 
-            //: Settings title: At which screen edge to display the thumbnails
+            //: Refers to the top and bottom screen edges
             title: qsTr("Top or Bottom")
-            helptext: qsTr("Per default the bar with the thumbnails is shown at the lower edge. However, some might find it nice and handy to have the thumbnail bar at the upper edge, so that's what can be changed here.")
+            helptext: qsTr("Per default the bar with the thumbnails is shown at the lower screen edge. However, some might find it nice and handy to have the thumbnail bar at the upper edge.")
 
         }
 
@@ -32,7 +32,7 @@ EntryContainer {
 
                 CustomRadioButton {
                     id: loweredge
-                    //: Settings: Show thumbnails at lower screen edge
+                    //: Edge refers to a screen edge
                     text: qsTr("Show at lower edge")
                     checked: true
                     exclusiveGroup: edgegroup
@@ -40,7 +40,7 @@ EntryContainer {
 
                 CustomRadioButton {
                     id: upperedge
-                    //: Settings: Show thumbnails at upper screen edge
+                    //: Edge refers to a screen edge
                     text: qsTr("Show at upper edge")
                     exclusiveGroup: edgegroup
                 }

@@ -16,9 +16,8 @@ EntryContainer {
 
             id: entrytitle
 
-            //: Settings title: Show/Hide filename label on thumbnails
             title: qsTr("Label on Thumbnails")
-            helptext:  qsTr("When thumbnails are displayed at the top/bottom, PhotoQt usually writes the filename on them (if not disabled). You can also use the slider below to adjust the font size.")
+            helptext: qsTr("PhotoQt can write a label with some information on the thumbnails. Currently, only the filename is available. The slider adjusts the fontsize of the text for the filename.")
 
         }
 
@@ -46,6 +45,7 @@ EntryContainer {
                     y: (parent.height-height)/2
                     enabled: writefilename.checkedButton
                     opacity: enabled ? 1 : 0.5
+                    //: Settings: Write the filename with this fontsize on a thumbnail
                     text: qsTr("Fontsize") + ":"
                 }
 

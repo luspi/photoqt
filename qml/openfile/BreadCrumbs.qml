@@ -53,7 +53,7 @@ Rectangle {
 
             opacity: enabled ? 1 : 0.4
 
-            //: The history here is the list of past visited folders in the 'Open File' element
+            //: The history is the list of visited folders in the element for opening files
             tooltip: qsTr("Go backwards in history")
 
             onClickedButton: Handle.goBackInHistory()
@@ -62,11 +62,13 @@ Rectangle {
             ContextMenu {
                 id: toleftcontext
                 MenuItem {
-                    text: "Go backwards in history"
+                    //: The history is the list of visited folders in the element for opening files
+                    text: qsTr("Go backwards in history")
                     onTriggered: Handle.goBackInHistory()
                 }
                 MenuItem {
-                    text: "Go forwards in history"
+                    //: The history is the list of visited folders in the element for opening files
+                    text: qsTr("Go forwards in history")
                     onTriggered: Handle.goForwardsInHistory()
                 }
 
@@ -93,7 +95,7 @@ Rectangle {
 
             opacity: enabled ? 1 : 0.4
 
-            //: The history here is the list of past visited folders in the 'Open File' element
+            //: The history is the list of visited folders in the element for opening files
             tooltip: qsTr("Go forwards in history")
 
             onClickedButton: Handle.goForwardsInHistory()
@@ -102,11 +104,13 @@ Rectangle {
             ContextMenu {
                 id: torightcontext
                 MenuItem {
-                    text: "Go backwards in history"
+                    //: The history is the list of visited folders in the element for opening files
+                    text: qsTr("Go backwards in history")
                     onTriggered: Handle.goBackInHistory()
                 }
                 MenuItem {
-                    text: "Go forwards in history"
+                    //: The history is the list of visited folders in the element for opening files
+                    text: qsTr("Go forwards in history")
                     onTriggered: Handle.goForwardsInHistory()
                 }
 
@@ -132,6 +136,7 @@ Rectangle {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             onClicked: openfile_top.hide()
+            //: The element in this case is the element for opening files
             text: qsTr("Close element")
         }
 
@@ -198,7 +203,8 @@ Rectangle {
                     else {
                         delegButton.clicked = true
                         contextmenu.clear()
-                        var head = contextmenu.addItem("Go directly to subfolder of '" + getanddostuff.getDirectoryDirName(partialpath) + "'")
+                        //: Used as in "Go directly to subfolder of '/path/to/somewhere'"
+                        var head = contextmenu.addItem(qsTr("Go directly to subfolder of") + " '" + getanddostuff.getDirectoryDirName(partialpath) + "'")
                         head.enabled = false
                         var folders = getanddostuff.getFoldersIn(partialpath, false, settings.openShowHiddenFilesFolders)
                         for(var i = 0; i < folders.length; ++i) {

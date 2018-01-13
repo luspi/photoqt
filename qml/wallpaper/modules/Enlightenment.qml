@@ -28,8 +28,8 @@ Rectangle {
             width: wallpaper_top.width
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
-            //: Wallpaper: Enlightenment warning
-            text: qsTr("Warning: It seems that the 'msgbus' (DBUS) module is not activated! It can be activated in the settings console > Add-ons > Modules > System.");
+            //: "msgbus" and "DBUS" are fixed names, please don't translate
+            text: qsTr("Warning: It seems that the 'msgbus' (DBUS) module is not activated! It can be activated in the settings console:") + " Add-ons > Modules > System";
         }
         // NOTE (tool not existing)
         Text {
@@ -40,7 +40,7 @@ Rectangle {
             width: wallpaper_top.width
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
-            //: Wallpaper: Enlightenment warning
+            //: "enlightenment_remote" and "Enlightenment" are fixed names, please don't translate
             text: qsTr("Warning: 'enlightenment_remote' doesn't seem to be available! Are you sure Enlightenment is installed?");
         }
 
@@ -68,6 +68,7 @@ Rectangle {
                 spacing: 5
                 height: childrenRect.height
                 delegate: CustomCheckBox {
+                    //: Used as in 'Screen #4', the screen is not referring to multiple desktops/workspaces, but actual (physical) screens
                     text: qsTr("Screen") + " #" + index
                     checkedButton: true
                     fsize: 10
@@ -123,9 +124,12 @@ Rectangle {
                 delegate: CustomCheckBox {
                     text: {
                         if(row == -1)
+                            // Used as in 'Workspace #2'
                             return qsTr("Workspace") + " #" + column
                         if(column == -1)
+                            // Used as in 'Workspace #2'
                             return qsTr("Workspace") + " #" + row
+                        // Used as in 'Workspace #2'
                         return qsTr("Workspace") + " #" + row + "-" + column
                     }
                     checkedButton: true

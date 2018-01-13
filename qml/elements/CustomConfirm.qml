@@ -8,10 +8,11 @@ Rectangle {
 
     property int maxwidth: 500
 
-    property string header: qsTr("Confirm me?")
-    property string description: qsTr("Do you really want to do this?")
-    property string confirmbuttontext: qsTr("Yes, do it")
-    property string rejectbuttontext: qsTr("No, don't")
+    // these are only placeholder strings, always replaced by custom strings thus no need for translation
+    property string header: "Confirm me?"
+    property string description: "Do you really want to do this?"
+    property string confirmbuttontext: "Yes"
+    property string rejectbuttontext: "No"
 
     property bool alwaysDoThis: false
     property bool showDontAskAgain: false

@@ -35,7 +35,8 @@ Rectangle {
             anchors.fill: parent
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: "No subfolders"
+            //: Can also be expressed as 'zero subfolders' or '0 subfolders'. It is also possible to drop the 'sub' leaving 'folders' if that works better
+            text: qsTr("No subfolders")
             font.bold: true
             color: "grey"
             font.pointSize: 20
@@ -84,7 +85,13 @@ Rectangle {
 
                     anchors.margins: 10
                     verticalAlignment: Qt.AlignVCenter
-                    text: "<b>" + folder + "</b>" + ((counter==0||folder=="..") ? "" : " <i>(" + counter + " images)</i>")
+                    text: "<b>" + folder + "</b>" + ((counter==0||folder=="..")
+                                                     ? ""
+                                                     : " <i>(" + counter + " " + (counter==1
+                    //: Used as in '(1 image)'. This string is always used for the singular, exactly one image
+                                                                                    ? qsTr("image")
+                    //: Used as in '(11 images)'. This string is always used for multiple images (at least 2)
+                                                                                    : qsTr("images")) + ")</i>")
                     color: "white"
                     font.pixelSize: 15
                     elide: Text.ElideRight

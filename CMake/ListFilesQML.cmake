@@ -49,7 +49,7 @@ SET(d "qml/settingsmanager/tabs/thumbnails")
 SET(photoqt_QML ${photoqt_QML} ${d}/Cache.qml ${d}/CenterOn.qml ${d}/Disable.qml ${d}/FilenameOnly.qml ${d}/KeepVisible.qml ${d}/Label.qml ${d}/LiftUp.qml ${d}/Spacing.qml ${d}/ThumbnailSize.qml ${d}/TopOrBottom.qml)
 
 SET(d "qml/slideshow")
-SET(photoqt_QML ${photoqt_QML} ${d}/SlideshowBar.qml ${d}/SlideshowSettings.qml ${d}/slideshow.js)
+SET(photoqt_QML ${photoqt_QML} ${d}/SlideshowBar.qml ${d}/SlideshowSettings.qml)
 
 SET(d "qml/filemanagement")
 SET(photoqt_QML ${photoqt_QML} ${d}/Copy.qml ${d}/Delete.qml ${d}/Management.qml ${d}/Move.qml ${d}/Rename.qml ${d}/ManagementNavigation.qml ${d}/ManagementContainer.qml)

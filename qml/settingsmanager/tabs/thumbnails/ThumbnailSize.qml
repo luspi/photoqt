@@ -15,9 +15,8 @@ EntryContainer {
 
             id: entrytitle
 
-            //: Settings title: What pixel size to use for the thumbnails
             title: qsTr("Thumbnail Size")
-            helptext: qsTr("Here you can adjust the thumbnail size. You can set it to any size between 20 and 256 pixel. Per default it is set to 80 pixel, but with different screen resolutions it might be nice to have them larger/smaller.")
+            helptext: qsTr("Here you can adjust the thumbnail size. You can set it to any size between 20 and 256 pixel. Per default it is set to 80 pixel, but the optimal size depends on the screen resolution.")
 
         }
 

@@ -19,6 +19,7 @@ Rectangle {
         font.pointSize: 10
         wrapMode: Text.WordWrap
         horizontalAlignment: Text.AlignHCenter
+        //: "Plasma 5" is a fixed name, please don't translate
         text: qsTr("Sorry, Plasma 5 doesn't yet offer the feature to change the wallpaper except from their own system settings. Hopefully this will change soon, but until then there's nothing I can do about that.")
 
     }

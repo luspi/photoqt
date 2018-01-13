@@ -52,16 +52,20 @@ Rectangle {
                 append({"name" : "",
                         "location" : "",
                         "icon" : ""})
-                append({"name" : "Home",
+                //: This is used as name of the HOME folder
+                append({"name" : qsTr("Home"),
                         "location" : getanddostuff.getHomeDir(),
                         "icon" : "user-home"})
-                append({"name" : "Desktop",
+                //: This is used as name of the DESKTOP folder
+                append({"name" : qsTr("Desktop"),
                         "location" : getanddostuff.getDesktopDir(),
                         "icon" : "user-desktop"})
-                append({"name" : "Pictures",
+                //: This is used as name of the PICTURES folder
+                append({"name" : qsTr("Pictures"),
                         "location" : getanddostuff.getPicturesDir(),
                         "icon" : "folder-pictures"})
-                append({"name" : "Downloads",
+                //: This is used as name of the DOWNLOADS folder
+                append({"name" : qsTr("Downloads"),
                         "location" : getanddostuff.getDownloadsDir(),
                         "icon" : "folder-download"})
             }
@@ -97,7 +101,8 @@ Rectangle {
                     anchors.fill: parent
                     anchors.leftMargin: iconitem.width
                     verticalAlignment: Qt.AlignVCenter
-                    text: index==0 ? "Standard" : name
+                    //: This is the category title of standard/common folders in the element for opening files
+                    text: index==0 ? qsTr("Standard") : name
                     color: index==0 ? "grey" : "white"
                     font.bold: true
                     font.pixelSize: 15
@@ -207,7 +212,8 @@ Rectangle {
                     anchors.fill: parent
                     anchors.leftMargin: draghandler.width
                     verticalAlignment: Qt.AlignVCenter
-                    text: index==0 ? "Places" : (folder != undefined ? folder : "")
+                    //: This is the category title of user set folders (or favorites) in the element for opening files
+                    text: index==0 ? qsTr("Places") : (folder != undefined ? folder : "")
                     color: index==0 ? "grey" : "white"
                     font.bold: true
                     elide: Text.ElideMiddle
@@ -242,7 +248,8 @@ Rectangle {
                 ContextMenu {
                     id: delegcontext
                     MenuItem {
-                        text: "Remove entry"
+                        //: Remove an entry from the list of user places (or favorites) in the element for opening files
+                        text: qsTr("Remove entry")
                         onTriggered: {
                             userPlaces.model.remove(index)
                         }
@@ -336,7 +343,8 @@ Rectangle {
                     anchors.fill: parent
                     anchors.leftMargin: iconitemstorage.width
                     verticalAlignment: Qt.AlignVCenter
-                    text: index==0 ? "Storage devices" : (name!=undefined ? name : "")
+                    //: This is the category title of storage devices to open (like USB keys) in the element for opening files
+                    text: index==0 ? qsTr("Storage devices") : (name!=undefined ? name : "")
                     color: index==0 ? "grey" : "white"
                     font.bold: true
                     font.pixelSize: 15
@@ -366,7 +374,7 @@ Rectangle {
             checked: settings.openUserPlacesStandard
             onCheckedChanged:
                 settings.openUserPlacesStandard = checked
-            //: OpenFile: This refers to standard folders for pictures, etc.
+            //: The standard/common folders in the element for opening files
             text: qsTr("Show standard locations")
         }
         MenuItem {
@@ -375,7 +383,7 @@ Rectangle {
             checked: settings.openUserPlacesUser
             onCheckedChanged:
                 settings.openUserPlacesUser = checked
-            //: OpenFile: This refers to the user-set folders
+            //: The user set folders (or favorites) in the element for opening files
             text: qsTr("Show user locations")
         }
         MenuItem {
@@ -384,7 +392,7 @@ Rectangle {
             checked: settings.openUserPlacesVolumes
             onCheckedChanged:
                 settings.openUserPlacesVolumes = checked
-            //: OpenFile: This refers to connected devices (harddrives, partitions, etc.)
+            //: The storage devices (like USB keys) in the element for opening files
             text: qsTr("Show devices")
         }
 

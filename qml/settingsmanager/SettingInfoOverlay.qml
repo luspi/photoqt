@@ -80,6 +80,7 @@ Rectangle {
                         wrapMode: Text.WordWrap
                         font.bold: true
                         color: "white"
+                        // no need to translate, they will be set to a different value before showing element
                         text: "Settings Title"
                     }
                     // the settings helptext
@@ -89,6 +90,7 @@ Rectangle {
                         font.pointSize: 15
                         wrapMode: Text.WordWrap
                         color: "white"
+                        // no need to translate, they will be set to a different value before showing element
                         text: "Some helptext for this setting"
 
                     }
@@ -112,7 +114,7 @@ Rectangle {
         color: "white"
         text: "x"
         ToolTip {
-            text: "Click to close"
+            text: qsTr("Click to close")
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor

@@ -26,7 +26,7 @@ Rectangle {
             width: wallpaper_top.width
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
-            //: Wallpaper: Gnome/Unity warning
+            //: "gsettings", "Gnome" and "Unity" are fixed names, please don't translate
             text: qsTr("Warning: 'gsettings' doesn't seem to be available! Are you sure Gnome/Unity is installed?");
         }
 
@@ -37,6 +37,7 @@ Rectangle {
             width: wallpaper_top.width
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
+            //: 'picture options' refers to options like stretching the image to fill the background, or tile the image, center it, etc.
             text: qsTr("There are several picture options that can be set for the wallpaper image.")
         }
 

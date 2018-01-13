@@ -15,7 +15,7 @@ EntryContainer {
         EntryTitle {
 
             title: qsTr("Font Size")
-            helptext: qsTr("Computers can have very different resolutions. On some of them, it might be nice to increase the font size of the labels to have them easier readable. Often, a size of 8 or 9 should be working quite well...")
+            helptext: qsTr("The fontsize of the metadata element can be adjusted independently of the rest of the application.")
 
         }
 

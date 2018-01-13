@@ -42,7 +42,8 @@ Item {
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
             acceptedButtons: Qt.RightButton|Qt.LeftButton
-            text: qsTr("Show files as list")
+            //: The thumbnails in the element for opening files
+            text: qsTr("En-/Disable image thumbnails")
             onClicked:
                 settings.openThumbnails = !settings.openThumbnails
         }

@@ -14,6 +14,7 @@ Item {
         color: "white"
         font.bold: true
         y: (parent.height-height)/2
+        //: As in 'Zoom the files shown'
         text: qsTr("Zoom:")
         anchors.right: zoom_slider.left
         anchors.rightMargin: 5

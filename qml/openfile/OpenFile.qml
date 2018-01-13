@@ -158,25 +158,24 @@ Rectangle {
 
         // We needto do that here, as it seems to be not possible to compose a string in the dict definition
         // (i.e., when defining the property, inside the {})
-        //: This is used in the context of the 'Open File' element with its three panes
+        //: Refers to the three areas in the element for opening files
         openshortcuts.shortcuts[strings.get("alt") + " + " + strings.get("left") + "/" + strings.get("right")] = qsTr("Move focus between Places/Folders/Fileview")
-        //: This is used in the context of the 'Open File' element
+        //: Entry refers to the list of files and folders loaded in the element for opening files
         openshortcuts.shortcuts[strings.get("up") + "/" + strings.get("down")] = qsTr("Go up/down an entry")
-        //: This is used in the context of the 'Open File' element
+        //: Entry refers to the list of files and folders loaded in the element for opening files
         openshortcuts.shortcuts[strings.get("page up") + "/" +strings.get("page down")] = qsTr("Move 5 entries up/down")
-        //: This is used in the context of the 'Open File' element
+        //: Entry refers to the list of files and folders loaded in the element for opening files
         openshortcuts.shortcuts[strings.get("ctrl") + " + " + strings.get("up") + "/" + strings.get("down")] = qsTr("Move to the first/last entry")
-        //: This is used in the context of the 'Open File' element
+        //: This refers to loading the parent folder of the currently loaded folder in the element for opening files
         openshortcuts.shortcuts[strings.get("alt") + " + " + strings.get("up")] = qsTr("Go one folder level up")
-        //: This is used in the context of the 'Open File' element
+        //: The history is the list of visited folders in the element for opening files
         openshortcuts.shortcuts[strings.get("ctrl") + " + B/F"] = qsTr("Go backwards/forwards in history");
-        //: This is used in the context of the 'Open File' element
+        //: Item refers to the image highlighted in the element for opening files
         openshortcuts.shortcuts[strings.get("enter") + "/" + strings.get("return")] = qsTr("Load the currently highlighted item")
-        //: This is used in the context of the 'Open File' element
+        //: The files is the list of files in the element for opening files
         openshortcuts.shortcuts[strings.get("ctrl") + " + +/-"] = qsTr("Zoom files in/out")
-        //: This is used in the context of the 'Open File' element
+        //: The files/folders is the list of files/folders in the element for opening files
         openshortcuts.shortcuts[strings.get("ctrl") + " + H " + qsTr("or") + " " + strings.get("alt") + " + ."] = qsTr("Show/Hide hidden files/folders")
-        //: This is used in the context of the 'Open File' element
         openshortcuts.shortcuts[strings.get("escape")] = qsTr("Cancel")
 
         openshortcuts.display()

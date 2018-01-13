@@ -16,9 +16,8 @@ EntryContainer {
         EntryTitle {
 
             id: title
-            //: Settings: This refers to the Exif and IPTC metadata possibly stored in an image file
             title: qsTr("Meta Information")
-            helptext: qsTr("PhotoQt can display a number of information about the image (often called 'Exif data'). However, you might not be interested in all of them, hence you can choose to disable some of them here.")
+            helptext: qsTr("PhotoQt can display a number of meta information about the image. Here you can choose which ones to show and which ones to hide.")
 
         }
 
@@ -66,46 +65,53 @@ EntryContainer {
 
         if(getanddostuff.isExivSupportEnabled())
 
-            items = [["filename",qsTr("Filename"), settings.exiffilename],
-                        ["filesize",qsTr("Filesize"), settings.exiffilesize],
-                        ["imagenumber",qsTr("Image") + " #/#", settings.exifimagenumber],
-                        ["dimensions",qsTr("Dimensions"), settings.exifdimensions],
-                        //: The next string refers to Exif image metadata
-                        ["make",qsTr("Make"), settings.exifmake],
-                        //: The next string refers to Exif image metadata
-                        ["model",qsTr("Model"),settings.exifmodel],
-                        //: The next string refers to Exif image metadata
-                        ["software",qsTr("Software"),settings.exifsoftware],
-                        //: The next string refers to Exif image metadata
-                        ["time",qsTr("Time Photo was Taken"),settings.exifphototaken],
-                        //: The next string refers to Exif image metadata
-                        ["exposure",qsTr("Exposure Time"),settings.exifexposuretime],
-                        //: The next string refers to Exif image metadata
-                        ["flash",qsTr("Flash"),settings.exifflash],
-                        //: The next string refers to Exif image metadata
+            //: Keep string short!
+            items = [["filename",qsTranslate("metadata", "Filename"), settings.exiffilename],
+                        //: Keep string short!
+                        ["filesize",qsTranslate("metadata", "Filesize"), settings.exiffilesize],
+                        //: Used as in "Image 3/16". The numbers (position of image in folder) are added on automatically. Keep string short!
+                        ["imagenumber",qsTranslate("metadata", "Image") + " #/#", settings.exifimagenumber],
+                        //: The dimensions of the loaded image. Keep string short!
+                        ["dimensions",qsTranslate("metadata", "Dimensions"), settings.exifdimensions],
+                        //: Exif image metadata: the make of the camera used to take the photo. Keep string short!
+                        ["make",qsTranslate("metadata", "Make"), settings.exifmake],
+                        //: Exif image metadata: the model of the camera used to take the photo. Keep string short!
+                        ["model",qsTranslate("metadata", "Model"),settings.exifmodel],
+                        //: Exif image metadata: the software used to create the photo. Keep string short!
+                        ["software",qsTranslate("metadata", "Software"),settings.exifsoftware],
+                        //: Exif image metadata: when the photo was taken. Keep string short!
+                        ["time",qsTranslate("metadata", "Time Photo was Taken"),settings.exifphototaken],
+                        //: Exif image metadata: how long the sensor was exposed to the light. Keep string short!
+                        ["exposure",qsTranslate("metadata", "Exposure Time"),settings.exifexposuretime],
+                        //: Exif image metadata: the flash setting when the photo was taken. Keep string short!
+                        ["flash",qsTranslate("metadata", "Flash"),settings.exifflash],
                         ["iso","ISO",settings.exifiso],
-                        //: The next string refers to Exif image metadata
-                        ["scenetype",qsTr("Scene Type"),settings.exifscenetype],
-                        //: The next string refers to Exif image metadata
-                        ["focal",qsTr("Focal Length"),settings.exifflength],
-                        //: The next string refers to Exif image metadata
-                        ["fnumber",qsTr("F-Number"),settings.exiffnumber],
-                        //: The next string refers to Exif image metadata
-                        ["light",qsTr("Light Source"),settings.exiflightsource],
-                        //: The next string refers to Exif image metadata
-                        ["keywords",qsTr("Keywords"),settings.iptckeywords],
-                        //: The next string refers to Exif image metadata
-                        ["location",qsTr("Location"),settings.iptclocation],
-                        //: The next string refers to Exif image metadata
-                        ["copyright",qsTr("Copyright"),settings.iptccopyright],
-                        //: The next string refers to Exif image metadata
-                        ["gps",qsTr("GPS Position"),settings.exifgps]]
+                        //: Exif image metadata: the specific scene type the camera used for the photo. Keep string short!
+                        ["scenetype",qsTranslate("metadata", "Scene Type"),settings.exifscenetype],
+                        //: Exif image metadata: https://en.wikipedia.org/wiki/Focal_length . Keep string short!
+                        ["focal",qsTranslate("metadata", "Focal Length"),settings.exifflength],
+                        //: Exif image metadata: https://en.wikipedia.org/wiki/F-number . Keep string short!
+                        ["fnumber",qsTranslate("metadata", "F-Number"),settings.exiffnumber],
+                        //: Exif image metadata: What type of light the camera detected. Keep string short!
+                        ["light",qsTranslate("metadata", "Light Source"),settings.exiflightsource],
+                        //: IPTC image metadata: A description of the image by the user/software. Keep string short!
+                        ["keywords",qsTranslate("metadata", "Keywords"),settings.iptckeywords],
+                        //: IPTC image metadata: The CITY the imge was taken in. Keep string short!
+                        ["location",qsTranslate("metadata", "Location"),settings.iptclocation],
+                        //: IPTC image metadata. Keep string short!
+                        ["copyright",qsTranslate("metadata", "Copyright"),settings.iptccopyright],
+                        //: Exif image metadata. Keep string short!
+                        ["gps",qsTranslate("metadata", "GPS Position"),settings.exifgps]]
 
         else
-            items = [["filename",qsTr("Filename"), settings.exiffilename],
-                        ["filesize",qsTr("Filesize"), settings.exiffilesize],
-                        ["imagenumber",qsTr("Image") + " #/#", settings.exifimagenumber],
-                        ["dimensions",qsTr("Dimensions"), settings.exifdimensions]]
+            //: Keep string short!
+            items = [["filename",qsTranslate("metadata", "Filename"), settings.exiffilename],
+                        //: Keep string short!
+                        ["filesize",qsTranslate("metadata", "Filesize"), settings.exiffilesize],
+                        //: Used as in "Image 3/16". The numbers (position of image in folder) are added on automatically. Keep string short!
+                        ["imagenumber",qsTranslate("metadata", "Image") + " #/#", settings.exifimagenumber],
+                        //: The dimensions of the loaded image. Keep string short!
+                        ["dimensions",qsTranslate("metadata", "Dimensions"), settings.exifdimensions]]
 
         grid.metadataitems = items
 

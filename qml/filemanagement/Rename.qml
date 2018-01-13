@@ -74,6 +74,7 @@ Item {
         Row {
             spacing: 5
             CustomButton {
+                // Button for renaming the current file based on the entered text
                 text: qsTr("Save")
                 fontsize: 18
                 enabled: newfilename.getText() !== ""

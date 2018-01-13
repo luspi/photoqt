@@ -97,7 +97,7 @@ Item {
                 Text {
                     color: colour.quickinfo_text
                     font.pointSize: 10
-                    //: As in: FILTER images
+                    //: Used as in 'Filter images'
                     text: qsTr("Filter:") + " " + variables.filter
                     visible: (variables.filter != "")
                 }
@@ -154,7 +154,7 @@ Item {
         id: context
 
         MenuItem {
-            //: This shows part of the quickinfo labels in the top left corner
+            //: The counter shows the position of the currently loaded image in the folder
             text: qsTr("Show counter")
             checkable: true
             checked: !settings.hidecounter
@@ -163,7 +163,6 @@ Item {
         }
 
         MenuItem {
-            //: This shows part of the quickinfo labels in the top left corner
             text: qsTr("Show filepath")
             checkable: true
             checked: !settings.hidefilepathshowfilename
@@ -172,7 +171,6 @@ Item {
         }
 
         MenuItem {
-            //: This shows part of the quickinfo labels in the top left corner
             text: qsTr("Show filename")
             checkable: true
             checked: !settings.hidefilename
@@ -181,7 +179,7 @@ Item {
         }
 
         MenuItem {
-            //: This shows part of the quickinfo labels in the top right corner
+            //: The clsoing 'x' is the button in the top right corner of the screen for closing PhotoQt
             text: qsTr("Show closing 'x'")
             checkable: true
             checked: !settings.hidex

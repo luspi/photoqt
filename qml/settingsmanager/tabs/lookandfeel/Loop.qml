@@ -13,8 +13,9 @@ EntryContainer {
 
         EntryTitle {
 
+            //: Refers to looping through the folder, i.e., from the last image go back to the first one (and vice versa)
             title: qsTr("Looping")
-            helptext: qsTr("When you load the last image in a directory and select 'Next', PhotoQt automatically jumps to the first image (and vice versa: if you select 'Previous' while having the first image loaded, PhotoQt jumps to the last image). Disabling this option makes PhotoQt stop at the first/last image (i.e. selecting 'Next'/'Previous' will have no effect in these two special cases).")
+            helptext: qsTr("PhotoQt can loop over the images in the folder, i.e., when reaching the last image it continues to the first one and vice versa. If disabled, it will stop at the first/last image.")
 
         }
 

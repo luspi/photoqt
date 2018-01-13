@@ -40,7 +40,6 @@ Rectangle {
                 color: "white"
                 font.pointSize: 20
                 font.bold: true
-                //: Used as heading of tab in the settings manager
                 text: qsTr("Shortcuts")
                 horizontalAlignment: Text.AlignHCenter
             }
@@ -50,7 +49,7 @@ Rectangle {
             SettingsText {
                 width: flickable.width-20
                 x: 10
-                text: qsTr("Here you can adjust the shortcuts, add new or remove existing ones, or change a key/mouse combination. The shortcuts are grouped into 4 different categories for internal commands plus a category for external commands. The boxes on the right side contain all the possible commands. To add a shortcut for one of the available function simply click on one of the rectangles. This will automatically open another element where you can set the desired shortcut.")
+                text: qsTr("Here you can adjust the shortcuts, add new or remove existing ones, or change a key/mouse combination. The shortcuts are grouped into 4 different categories for internal commands plus a category for external commands. The boxes on the right side contain all the possible commands. To add a shortcut for one of the available functions simply click on it. This will automatically open another element where you can set the desired shortcut.")
             }
 
             Rectangle { color: "transparent"; width: 1; height: 30; }
@@ -73,8 +72,7 @@ Rectangle {
                     SettingsText {
                         anchors.left: parent.left
                         anchors.right: parent.right
-                        horizontalAlignment: Qt.AlignRight
-                        text: qsTr("Pressing the left button of the mouse and moving it around can be used for moving a zommed image around.") + "<br>" + qsTr("If you put them to use for this purpose, then any mouse shortcut set to a button/gesture will have no effect!")
+                        text: qsTr("Pressing the left button of the mouse and moving it around can be used for moving an image around. If you put them to use for this purpose, then any mouse shortcut set to a button/gesture will have no effect! Note that this is not recommended if you do not have any other means to move an image around (e.g., touchscreen)!")
                     }
                 }
 
@@ -86,7 +84,6 @@ Rectangle {
                     CustomCheckBox {
                         id: mouseleftbutton
                         y: (Math.max(height,leftClickText.height)-height)/2
-                        //: This is written on a checkbox in the shortcuts tab of the settings manager
                         text: qsTr("Mouse: Left button click-and-move")
                     }
                 }
@@ -97,7 +94,6 @@ Rectangle {
 
             CustomButton {
                 x: (parent.width-width)/2
-                //: Written on a button in the shortcuts section of the settings manager
                 text: qsTr("Set default shortcuts")
                 onClickedButton: confirmdefaultshortcuts.show()
             }
@@ -106,23 +102,15 @@ Rectangle {
 
             ShortcutsContainer {
                 id: navigation
-                //: One of the shortcuts categories
+                //: A shortcuts category: navigating images
                 category: qsTr("Navigation")
-                //: This is a shortcut description
                 allAvailableItems: [["__open",qsTr("Open New File")],
-                                    //: This is a shortcut description
                                     ["__filterImages",qsTr("Filter Images in Folder")],
-                                    //: This is a shortcut description
                                     ["__next",qsTr("Next Image")],
-                                    //: This is a shortcut description
                                     ["__prev",qsTr("Previous Image")],
-                                    //: This is a shortcut description
                                     ["__gotoFirstThb",qsTr("Go to first Image")],
-                                    //: This is a shortcut description
                                     ["__gotoLastThb",qsTr("Go to last Image")],
-                                    //: This is a shortcut description
                                     ["__hide",qsTr("Hide to System Tray")],
-                                    //: This is a shortcut description
                                     ["__close",qsTr("Quit PhotoQt")]]
             }
 
@@ -130,29 +118,18 @@ Rectangle {
 
             ShortcutsContainer {
                 id: image
-                //: One of the shortcuts categories
+                //: A shortcuts category: image manipulation
                 category: qsTr("Image")
-                //: This is a shortcut description
                 allAvailableItems: [["__zoomIn", qsTr("Zoom In")],
-                                    //: This is a shortcut description
                                     ["__zoomOut", qsTr("Zoom Out")],
-                                    //: This is a shortcut description
                                     ["__zoomActual", qsTr("Zoom to Actual Size")],
-                                    //: This is a shortcut description
                                     ["__zoomReset", qsTr("Reset Zoom")],
-                                    //: This is a shortcut description
                                     ["__rotateR", qsTr("Rotate Right")],
-                                    //: This is a shortcut description
                                     ["__rotateL", qsTr("Rotate Left")],
-                                    //: This is a shortcut description
                                     ["__rotate0", qsTr("Reset Rotation")],
-                                    //: This is a shortcut description
                                     ["__flipH", qsTr("Flip Horizontally")],
-                                    //: This is a shortcut description
                                     ["__flipV", qsTr("Flip Vertically")],
-                                    //: This is a shortcut description
                                     ["__scale", qsTr("Scale Image")],
-                                    //: This is a shortcut description
                                     ["__playPauseAni", qsTr("Play/Pause image animation")]]
             }
 
@@ -160,17 +137,12 @@ Rectangle {
 
             ShortcutsContainer {
                 id: file
-                //: One of the shortcuts categories
+                //: A shortcuts category: file management
                 category: qsTr("File")
-                //: This is a shortcut description
                 allAvailableItems: [["__rename", qsTr("Rename File")],
-                                    //: This is a shortcut description
                                     ["__delete", qsTr("Delete File")],
-                                    //: This is a shortcut description
                                     ["__deletePermanent", qsTr("Delete File (without confirmation)")],
-                                    //: This is a shortcut description
                                     ["__copy", qsTr("Copy File to a New Location")],
-                                    //: This is a shortcut description
                                     ["__move", qsTr("Move File to a New Location")]]
             }
 
@@ -178,27 +150,17 @@ Rectangle {
 
             ShortcutsContainer {
                 id: other
-                //: One of the shortcuts categories
+                //: A shortcuts category: other functions
                 category: qsTr("Other")
-                //: This is a shortcut description
                 allAvailableItems: [["__stopThb", qsTr("Interrupt Thumbnail Creation")],
-                                    //: This is a shortcut description
                                     ["__reloadThb", qsTr("Reload Thumbnails")],
-                                    //: This is a shortcut description
                                     ["__hideMeta", qsTr("Hide/Show Exif Info")],
-                                    //: This is a shortcut description
                                     ["__settings", qsTr("Show Settings")],
-                                    //: This is a shortcut description
                                     ["__slideshow", qsTr("Start Slideshow")],
-                                    //: This is a shortcut description
                                     ["__slideshowQuick", qsTr("Start Slideshow (Quickstart)")],
-                                    //: This is a shortcut description
                                     ["__about", qsTr("About PhotoQt")],
-                                    //: This is a shortcut description
                                     ["__wallpaper", qsTr("Set as Wallpaper")],
-                                    //: This is a shortcut description
                                     ["__imgurAnonym", qsTr("Upload to imgur.com (anonymously)")],
-                                    //: This is a shortcut description,
                                     ["__imgur", qsTr("Upload to imgur.com user account")]]
             }
 
@@ -206,7 +168,7 @@ Rectangle {
 
             ShortcutsContainer {
                 id: external
-                //: One of the shortcuts categories
+                //: A shortcuts category: external commands
                 category: qsTr("External")
                 external: true
                 allAvailableItems: [["", qsTr("")]]

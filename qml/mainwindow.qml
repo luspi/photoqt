@@ -256,8 +256,7 @@ Rectangle {
         } else {
             // If no filename has been passed, show the OpenFile element
             if(filename == "")
-//                call.show("openfile")
-                call.show("settingsmanager")
+                call.show("openfile")
             // Otherwise just load the received file
             else
                 Load.loadFile(filename)

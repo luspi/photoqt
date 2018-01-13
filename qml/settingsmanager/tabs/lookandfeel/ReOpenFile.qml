@@ -14,7 +14,7 @@ EntryContainer {
         EntryTitle {
 
             title: qsTr("Re-open last used image at startup")
-            helptext: qsTr("At startup, you can set PhotoQt to re-open the last used image and directory. This doesn't keep any zooming/scaling/mirroring from before. If you pass an image to PhotoQt on the command line, PhotoQt will always favour the passed-on image and skip this setting here.")
+            helptext: qsTr("At startup, you can set PhotoQt to re-open the last used image and directory. This doesn't keep any zooming/scaling/mirroring from before. If you pass an image to PhotoQt on the command line, it will always favor the passed-on image.")
 
         }
 

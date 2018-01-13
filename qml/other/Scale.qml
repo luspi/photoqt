@@ -36,7 +36,7 @@ FadeInTemplate {
             Row {
                 spacing: 5
                 Text {
-                    //: 'Size" here refers to the numbers of pixel, expressed here as 'width x height'
+                    //: 'Size" here refers to the dimensions (numbers of pixel), expressed here as 'width x height', NOT the filesize
                     text: qsTr("Current Size:")
                     font.pointSize: 13
                     color: colour.text
@@ -73,7 +73,7 @@ FadeInTemplate {
             color: colour.text_warning
             font.pointSize: 13
             font.bold: true
-            text: qsTr("Error! Something went wrong, unable to save new dimension...")
+            text: qsTr("Error! Something went wrong, unable to scale image...")
         },
 
         Rectangle {
@@ -103,6 +103,7 @@ FadeInTemplate {
                     height: childrenRect.height
                     Text {
                         color: colour.text
+                        //: The width (number of pixels) of the image
                         text: qsTr("New width:")
                         font.pointSize: 15
                         horizontalAlignment: Text.AlignRight
@@ -110,6 +111,7 @@ FadeInTemplate {
                     }
                     Text {
                         color: colour.text
+                        //: The height (number of pixels) of the image
                         text: qsTr("New height:")
                         font.pointSize: 15
                         horizontalAlignment: Text.AlignRight
@@ -186,7 +188,7 @@ FadeInTemplate {
                     id: aspect_text
                     color: colour.text
                     opacity: aspect_image.keepaspectratio ? 1 : 0.3
-                    //: This is the ratio of the image, width/height
+                    //: This is the ratio of the image = width/height
                     text: qsTr("Aspect Ratio")
                     font.pointSize: 15
                     font.strikeout: !aspect_image.keepaspectratio
@@ -224,7 +226,7 @@ FadeInTemplate {
                 Text {
                     color: colour.text
                     font.pointSize: 13
-                    //: The quality of scaling image
+                    //: Refers to the quality of scaling an image
                     text: qsTr("Quality")
                 }
                 CustomSlider {
@@ -268,6 +270,7 @@ FadeInTemplate {
 
                 CustomButton {
                     id: scale_inplace
+                    //: Scale as in "Scale image"
                     text: qsTr("Scale in place")
                     fontsize: 15
                     onClickedButton: {
@@ -283,10 +286,11 @@ FadeInTemplate {
                 }
                 CustomButton {
                     id: scale_innewfile
+                    //: Scale as in "Scale image"
                     text: qsTr("Scale into new file")
                     fontsize: 15
                     onClickedButton: {
-                        var fname = getanddostuff.getSaveFilename("Save file as...",variables.currentDir + "/" + variables.currentFile);
+                        var fname = getanddostuff.getSaveFilename(qsTr("Save file as..."),variables.currentDir + "/" + variables.currentFile);
                         verboseMessage("Scale","Scale into new file: " + fname)
                         if(fname !== "") {
                             if(getanddostuff.scaleImage(variables.currentDir + "/" + variables.currentFile,newwidth.value, newheight.value,
@@ -302,6 +306,7 @@ FadeInTemplate {
                 }
                 CustomButton {
                     id: scale_dont
+                    //: Scale as in "scale image"
                     text: qsTr("Don't scale")
                     fontsize: 15
                     onClickedButton: hide()
