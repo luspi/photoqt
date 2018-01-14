@@ -13,7 +13,7 @@ EntryContainer {
 
         EntryTitle {
 
-            //:Refers to keeping zoom/rotation/flip/position when switching images
+            //: Refers to keeping zoom/rotation/flip/position when switching images
             title: qsTr("Keep between images")
             helptext: qsTr("By default, PhotoQt resets the zoom, rotation, flipping/mirroring and position when switching to a different image. For certain tasks, for example for comparing two images, it can be helpful to keep these properties.")
 
