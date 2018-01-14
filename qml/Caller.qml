@@ -38,9 +38,10 @@ Item {
 
     signal startupShow(var type, var filename)
 
-
     signal shortcut(var sh)
     signal keysReleased()
+
+    signal closeAnyElement()
 
     /***********************************************************/
     /***********************************************************/
@@ -116,6 +117,8 @@ Item {
             filemanagementShow("rn")
         } else if(func == "keysReleased")
             keysReleased()
+        else if(func == "closeAnyElement")
+            closeAnyElement()
         else
             console.error("ERROR: Requested faulty load():", func)
     }

@@ -360,6 +360,9 @@ FadeInTemplate {
             if(sh == "Escape")
                 hide()
         }
+        onCloseAnyElement:
+            if(scale_top.visible)
+                hide()
     }
 
 }

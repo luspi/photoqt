@@ -101,7 +101,7 @@ Rectangle {
                     anchors.fill: parent
                     anchors.leftMargin: iconitem.width
                     verticalAlignment: Qt.AlignVCenter
-                    //: This is the category title of standard/common folders in the element for opening files
+                    //: This is the category title of standard/common folders (like Home, Desktop, ...) in the element for opening files
                     text: index==0 ? qsTr("Standard") : name
                     color: index==0 ? "grey" : "white"
                     font.bold: true
@@ -374,7 +374,7 @@ Rectangle {
             checked: settings.openUserPlacesStandard
             onCheckedChanged:
                 settings.openUserPlacesStandard = checked
-            //: The standard/common folders in the element for opening files
+            //: The standard/common folders (like Home, Desktop, ...)
             text: qsTr("Show standard locations")
         }
         MenuItem {
@@ -392,7 +392,7 @@ Rectangle {
             checked: settings.openUserPlacesVolumes
             onCheckedChanged:
                 settings.openUserPlacesVolumes = checked
-            //: The storage devices (like USB keys) in the element for opening files
+            //: The storage devices (like USB keys)
             text: qsTr("Show devices")
         }
 

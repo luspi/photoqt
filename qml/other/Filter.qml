@@ -143,6 +143,9 @@ FadeInTemplate {
             else if(sh == "Enter" || sh == "Return")
                 simulateEnter()
         }
+        onCloseAnyElement:
+            if(filter_top.visible)
+                hide()
     }
 
     // These two 'simulate' functions can be called via shortcuts

@@ -477,6 +477,9 @@ Rectangle {
             if(sh == "Escape")
                 hide()
         }
+        onCloseAnyElement:
+            if(feedback_top.visible)
+                hide()
     }
 
     function show(anonym) {

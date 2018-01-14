@@ -110,6 +110,9 @@ Rectangle {
             else if(sh == "Space")
                 pauseSlideshow()
         }
+        onCloseAnyElement:
+            if(variables.slideshowRunning)
+                stopSlideshow()
     }
 
     // Display the bar

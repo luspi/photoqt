@@ -427,6 +427,10 @@ Rectangle {
                 gotoTab(5)
 
         }
+        onCloseAnyElement:
+            if(settings_top.visible)
+                forceHideEverything()
+
     }
 
     DetectShortcut {
@@ -466,6 +470,26 @@ Rectangle {
             else
                 variables.guiBlocked = false
         }
+    }
+    function forceHideEverything() {
+        if(confirmclean.visible)
+            confirmclean.reject()
+        if(confirmerase.visible)
+            confirmerase.reject()
+        if(confirmdefaultshortcuts.visible)
+            confirmdefaultshortcuts.reject()
+        if(confirmdefaultssettings.visible)
+            confirmdefaultssettings.reject()
+        if(settingsmanagershortcuts.visible)
+            settingsmanagershortcuts.reject()
+        if(detectshortcut.opacity == 1)
+            detectshortcut.hide()
+        if(exportimport.opacity == 1)
+            exportimport.hide()
+        if(settingsinfooverlay.opacity == 1)
+            settingsinfooverlay.hide()
+        opacity = 0
+        variables.guiBlocked = false
     }
 
     // This function is only called, when settings have been opened and "closed without saving"

@@ -111,6 +111,9 @@ FadeInTemplate {
             if(sh == "Escape")
                 hide()
         }
+        onCloseAnyElement:
+            if(management_top.visible)
+                hide()
     }
 
 }

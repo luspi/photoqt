@@ -136,6 +136,9 @@ FadeInTemplate {
             if(sh == "Escape")
                 hide()
         }
+        onCloseAnyElement:
+            if(about.visible)
+                hide()
     }
 
 }

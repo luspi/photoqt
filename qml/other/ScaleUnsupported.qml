@@ -58,6 +58,9 @@ FadeInTemplate {
             if(sh == "Escape")
                 hide()
         }
+        onCloseAnyElement:
+            if(scaleUnsupported_top.visible)
+                hide()
     }
 
 }

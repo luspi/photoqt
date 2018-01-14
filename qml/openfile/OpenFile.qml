@@ -128,6 +128,10 @@ Rectangle {
             else if(sh == "Ctrl+H" || sh == "Alt+.")
                 settings.openShowHiddenFilesFolders = !settings.openShowHiddenFilesFolders
         }
+        onCloseAnyElement:
+            if(openfile_top.visible)
+                hide()
+
     }
 
     ShortcutNotifier {

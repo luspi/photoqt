@@ -294,6 +294,9 @@ FadeInTemplate {
             else if(sh == "Enter" || sh == "Return")
                 simulateEnter()
         }
+        onCloseAnyElement:
+            if(variables.currentFile != "")
+                hide()
     }
 
     function selectNewMusicFile() {

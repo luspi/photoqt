@@ -224,17 +224,7 @@ Rectangle {
     // We use the system shortcut for closing elements, Escape. As there might be multiple levels of elements open, we use a timer to call Escape
     // repeatedly until any element is closed and the GUI is unblocked.
     function closeAnyElement() {
-        if(variables.guiBlocked) {
-            shortcuts.processString("Escape")
-            repressEscape.restart()
-        }
-    }
-    Timer {
-        id: repressEscape
-        interval: 100
-        repeat: false
-        running: false
-        onTriggered: closeAnyElement()
+        call.load("closeAnyElement")
     }
 
     // Manage the startup event, called from c++ after everything is set up with filename and update state.

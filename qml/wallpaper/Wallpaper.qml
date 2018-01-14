@@ -188,6 +188,9 @@ FadeInTemplate {
             else if(sh == "Enter" || sh == "Return")
                 simulateEnter()
         }
+        onCloseAnyElement:
+            if(wallpaper_top.visible)
+                hide()
     }
 
     // Detect if settings are valid or not

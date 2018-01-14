@@ -129,6 +129,9 @@ Rectangle {
             if(sh == "Escape")
                 hideStartup()
         }
+        onCloseAnyElement:
+            if(rect.visible)
+                hideStartup()
     }
 
     function showStartup(t, filenameAfter) {
