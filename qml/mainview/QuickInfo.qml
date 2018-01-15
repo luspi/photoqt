@@ -16,7 +16,7 @@ Item {
     width: childrenRect.width
     height: childrenRect.height
 
-    visible: ((!settings.hidecounter || !settings.hidefilename || !settings.hidefilepathshowfilename || variables.filter!="") && !variables.slideshowRunning) || (variables.slideshowRunning && !settings.slideShowHideQuickinfo)
+    visible: ((!settings.hidecounter || !settings.hidefilename || !settings.hidefilepathshowfilename || variables.filter!="") && !variables.slideshowRunning && variables.currentFile!="") || (variables.slideshowRunning && !settings.slideShowHideQuickinfo)
     opacity: variables.guiBlocked&&!variables.slideshowRunning ? 0.2 : 1
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
@@ -46,7 +46,7 @@ Item {
             x:3
             y:3
 
-            text: settings.hidecounter ? "" : (variables.currentFilePos+1).toString() + "/" + variables.totalNumberImagesCurrentFolder.toString()
+            text: (variables.currentFile==""||settings.hidecounter) ? "" : (variables.currentFilePos+1).toString() + "/" + variables.totalNumberImagesCurrentFolder.toString()
 
             visible: !settings.hidecounter
 
@@ -65,7 +65,7 @@ Item {
             anchors.left: counter.right
             anchors.leftMargin: counter.visible ? 10 :5
 
-            text: (settings.hidefilepathshowfilename&&settings.hidefilename ? "" : (settings.hidefilepathshowfilename ? variables.currentFile :(settings.hidefilename ? variables.currentDir : variables.currentDir+"/"+variables.currentFile)))
+            text: (variables.currentFile==""||(settings.hidefilepathshowfilename&&settings.hidefilename) ? "" : (settings.hidefilepathshowfilename ? variables.currentFile :(settings.hidefilename ? variables.currentDir : variables.currentDir+"/"+variables.currentFile)))
             color: colour.quickinfo_text
             font.bold: true
             font.pointSize: 10
