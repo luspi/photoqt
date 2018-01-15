@@ -33,7 +33,7 @@ Rectangle {
 
     ToolTip {
         text: parent.helptext
-        cursorShape: Qt.WhatsThisCursor
+        cursorShape: Qt.PointingHandCursor
         waitbefore: 100
         onEntered: {
             if(parent.helptext_warning)
