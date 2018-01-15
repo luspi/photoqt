@@ -143,7 +143,7 @@ public:
         connect(this, &Settings::metadataFontSizeChanged,                       &Settings::saveSettingsTimerStart);
         connect(this, &Settings::metadataOpacityChanged,                        &Settings::saveSettingsTimerStart);
         connect(this, &Settings::metadataEnableHotEdgeChanged,                  &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::metaRotationChanged,                           &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metaApplyRotationChanged,                           &Settings::saveSettingsTimerStart);
         connect(this, &Settings::metaGpsMapServiceChanged,                      &Settings::saveSettingsTimerStart);
         connect(this, &Settings::metaFilenameChanged,                           &Settings::saveSettingsTimerStart);
         connect(this, &Settings::metaFileTypeChanged,                           &Settings::saveSettingsTimerStart);
@@ -279,7 +279,7 @@ public:
     bool    windowDecoration;
 
     bool    metadataEnableHotEdge;
-    QString metaRotation;
+    bool    metaApplyRotation;
     QString metaGpsMapService;
     int     metadataFontSize;
     int     metadataOpacity;
@@ -411,7 +411,7 @@ public:
     Q_PROPERTY(bool    windowDecoration                 MEMBER windowDecoration                 NOTIFY windowDecorationChanged)
 
     Q_PROPERTY(bool    metadataEnableHotEdge            MEMBER metadataEnableHotEdge            NOTIFY metadataEnableHotEdgeChanged)
-    Q_PROPERTY(QString metaRotation                     MEMBER metaRotation                     NOTIFY metaRotationChanged)
+    Q_PROPERTY(bool    metaApplyRotation                MEMBER metaApplyRotation                NOTIFY metaApplyRotationChanged)
     Q_PROPERTY(QString metaGpsMapService                MEMBER metaGpsMapService                NOTIFY metaGpsMapServiceChanged)
     Q_PROPERTY(int     metadataFontSize                 MEMBER metadataFontSize                 NOTIFY metadataFontSizeChanged)
     Q_PROPERTY(int     metadataOpacity                  MEMBER metadataOpacity                  NOTIFY metadataOpacityChanged)
@@ -570,7 +570,7 @@ public:
         metaLocation                     = true;
         metaCopyright                    = true;
         metaGps                          = true;
-        metaRotation                     = "Always";
+        metaApplyRotation                = true;
         metaGpsMapService                = "openstreetmap.org";
 
         metadataEnableHotEdge            = true;
@@ -734,7 +734,7 @@ public slots:
             cont += QString("MetaFNumber=%1\n").arg(int(metaFNumber));
             cont += QString("MetaLightSource=%1\n").arg(int(metaLightSource));
             cont += QString("MetaGps=%1\n").arg(int(metaGps));
-            cont += QString("MetaRotation=%1\n").arg(metaRotation);
+            cont += QString("MetaApplyRotation=%1\n").arg(int(metaApplyRotation));
             cont += QString("MetaGpsMapService=%1\n").arg(metaGpsMapService);
             cont += QString("MetaKeywords=%1\n").arg(int(metaKeywords));
             cont += QString("MetaLocation=%1\n").arg(int(metaLocation));
@@ -1163,8 +1163,10 @@ public slots:
             else if(all.contains("MetaCopyright=0"))
                 metaCopyright = false;
 
-            if(all.contains("MetaRotation="))
-                metaRotation = all.split("MetaRotation=").at(1).split("\n").at(0);
+            if(all.contains("MetaApplyRotation=1"))
+                metaApplyRotation = true;
+            else if(all.contains("MetaApplyRotation=0"))
+                metaApplyRotation = false;
 
             if(all.contains("MetaGpsMapService="))
                 metaGpsMapService = all.split("MetaGpsMapService=").at(1).split("\n").at(0);
@@ -1355,7 +1357,7 @@ signals:
     void metadataFontSizeChanged(int val);
     void metadataOpacityChanged(int val);
     void metadataEnableHotEdgeChanged(bool val);
-    void metaRotationChanged(QString val);
+    void metaApplyRotationChanged(bool val);
     void metaGpsMapServiceChanged(QString val);
     void metaFilenameChanged(bool val);
     void metaFileTypeChanged(bool val);

@@ -78,7 +78,6 @@ namespace StartupCheck {
             all.replace("ExifFNumber", "MetaFNumber");
             all.replace("ExifLightSource", "MetaLightSource");
             all.replace("ExifGps", "MetaGps");
-            all.replace("ExifRotation", "MetaRotation");
             all.replace("ExifGPSMapService", "MetaGpsMapService");
 
             all.replace("IptcKeywords", "MetaKeywords");
