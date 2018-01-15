@@ -178,7 +178,7 @@ public:
         connect(this, &Settings::openUserPlacesWidthChanged,            &Settings::saveSettingsTimerStart);
         connect(this, &Settings::openFoldersWidthChanged,               &Settings::saveSettingsTimerStart);
         connect(this, &Settings::openThumbnailsChanged,                 &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::openPreviewHighQualityChanged,      &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::openPreviewHighQualityChanged,         &Settings::saveSettingsTimerStart);
         connect(this, &Settings::openUserPlacesStandardChanged,         &Settings::saveSettingsTimerStart);
         connect(this, &Settings::openUserPlacesUserChanged,             &Settings::saveSettingsTimerStart);
         connect(this, &Settings::openUserPlacesVolumesChanged,          &Settings::saveSettingsTimerStart);
@@ -826,11 +826,11 @@ public slots:
             cont += "\n[Open File]\n";
             cont += QString("OpenDefaultView=%1\n").arg(openDefaultView);
             cont += QString("OpenPreview=%1\n").arg(int(openPreview));
+            cont += QString("OpenPreviewHighQuality=%1\n").arg(int(openPreviewHighQuality));
             cont += QString("OpenZoomLevel=%1\n").arg(openZoomLevel);
             cont += QString("OpenUserPlacesWidth=%1\n").arg(openUserPlacesWidth);
             cont += QString("OpenFoldersWidth=%1\n").arg(openFoldersWidth);
             cont += QString("OpenThumbnails=%1\n").arg(int(openThumbnails));
-            cont += QString("OpenThumbnailsHighQuality=%1\n").arg(int(openPreviewHighQuality));
             cont += QString("OpenUserPlacesStandard=%1\n").arg(int(openUserPlacesStandard));
             cont += QString("OpenUserPlacesUser=%1\n").arg(int(openUserPlacesUser));
             cont += QString("OpenUserPlacesVolumes=%1\n").arg(int(openUserPlacesVolumes));
@@ -1303,9 +1303,9 @@ public slots:
             else if(all.contains("OpenThumbnails=0"))
                 openThumbnails = false;
 
-            if(all.contains("OpenThumbnailsHighQuality=1"))
+            if(all.contains("OpenPreviewHighQuality=1"))
                 openPreviewHighQuality = true;
-            else if(all.contains("OpenThumbnailsHighQuality=0"))
+            else if(all.contains("OpenPreviewHighQuality=0"))
                 openPreviewHighQuality = false;
 
             if(all.contains("OpenUserPlacesStandard=1"))

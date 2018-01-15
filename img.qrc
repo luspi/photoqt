@@ -56,5 +56,6 @@
         <file>img/mainmenu/zoomout.png</file>
         <file>img/openfile/hoverpreviewhq.png</file>
         <file>img/settings/shortcuts/deleteshortcut.png</file>
+        <file>img/openfile/remember.png</file>
     </qresource>
 </RCC>

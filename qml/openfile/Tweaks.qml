@@ -19,6 +19,8 @@ Rectangle {
 
     TweaksFileType { id: ft }
 
+    TweaksRememberLocation { id: remember }
+
     TweaksPreview { id: prev }
 
     TweaksThumbnails { id: thumb }

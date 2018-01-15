@@ -7,6 +7,7 @@ Item {
     onCurrentDirectoryChanged: {
         Handle.loadDirectory()
         watcher.setCurrentDirectoryForChecking(currentDirectory)
+        getanddostuff.setOpenFileLastLocation(openvariables.currentDirectory)
     }
 
     property string currentFocusOn: "folders"
@@ -24,5 +25,9 @@ Item {
 
     property bool highlightingFromUserInput: false
     property bool textEditedFromHighlighting: false
+
+    // We HAVE TO break the binding, otherwise switching off the openKeepLastLocation setting before navigating to any other folder will reset the loaded folder to home folder
+    Component.onCompleted:
+        currentDirectory = currentDirectory
 
 }

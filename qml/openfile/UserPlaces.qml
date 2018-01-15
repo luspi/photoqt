@@ -127,8 +127,10 @@ Rectangle {
         anchors.top: standardlocations.bottom
         anchors.topMargin: marginBetweenCategories
         width: parent.width
-        height: parent.height-standardlocations.height-storageinfo.height-3*marginBetweenCategories
+        height: settings.openUserPlacesUser ? parent.height-standardlocations.height-storageinfo.height-3*marginBetweenCategories : 0
         anchors.right: parent.right
+
+        visible: settings.openUserPlacesUser
 
         property int hoveredIndex: -1
         property int dragItemIndex: -1
