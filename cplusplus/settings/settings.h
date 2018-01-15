@@ -1182,8 +1182,8 @@ public slots:
             if(all.contains("MetadataOpacity="))
                 metadataOpacity = all.split("MetadataOpacity=").at(1).split("\n").at(0).toInt();
 
-            if(all.contains("MetadaWindowWidth="))
-                metadataWindowWidth = all.split("MetadaWindowWidth=").at(1).split("\n").at(0).toInt();
+            if(all.contains("MetadataWindowWidth="))
+                metadataWindowWidth = all.split("MetadataWindowWidth=").at(1).split("\n").at(0).toInt();
 
 
             if(all.contains("OpenDefaultView=list"))
