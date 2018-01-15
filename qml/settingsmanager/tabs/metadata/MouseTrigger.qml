@@ -37,11 +37,11 @@ EntryContainer {
     }
 
     function setData() {
-        triggeronmouse.checkedButton = settings.metadataEnableHotEdge
+        triggeronmouse.checkedButton = !settings.metadataEnableHotEdge
     }
 
     function saveData() {
-        settings.metadataEnableHotEdge = triggeronmouse.checkedButton
+        settings.metadataEnableHotEdge = !triggeronmouse.checkedButton
     }
 
 }
