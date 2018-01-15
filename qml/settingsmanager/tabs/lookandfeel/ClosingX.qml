@@ -92,13 +92,13 @@ EntryContainer {
     }
 
     function setData() {
-        closingx_fancy.checked = settings.fancyX
-        closingx_sizeslider.value = settings.closeXsize
+        closingx_fancy.checked = settings.quickInfoFancyX
+        closingx_sizeslider.value = settings.quickInfoCloseXSize
     }
 
     function saveData() {
-        settings.fancyX = closingx_fancy.checked
-        settings.closeXsize = closingx_sizeslider.value
+        settings.quickInfoFancyX = closingx_fancy.checked
+        settings.quickInfoCloseXSize = closingx_sizeslider.value
     }
 
 }

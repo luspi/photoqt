@@ -9,9 +9,9 @@ Item {
 
     // The position of the bar, either at top or bottom
     x: 0
-    y: settings.thumbnailposition=="Top" ? 0 : mainwindow.height-height
+    y: settings.thumbnailPosition=="Top" ? 0 : mainwindow.height-height
     width: mainwindow.width
-    height: settings.thumbnailsize+settings.thumbnailLiftUp+25
+    height: settings.thumbnailSize+settings.thumbnailLiftUp+25
 
     // Bar hidden/shown
     opacity: 0
@@ -77,8 +77,8 @@ Item {
         // Centered!
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        x: (variables.allFilesCurrentDir.length*settings.thumbnailsize > parent.width ? 0 : (parent.width-variables.allFilesCurrentDir.length*settings.thumbnailsize)/2)
-        width: (variables.allFilesCurrentDir.length*settings.thumbnailsize > parent.width ? parent.width : variables.allFilesCurrentDir.length*settings.thumbnailsize)
+        x: (variables.allFilesCurrentDir.length*settings.thumbnailSize > parent.width ? 0 : (parent.width-variables.allFilesCurrentDir.length*settings.thumbnailSize)/2)
+        width: (variables.allFilesCurrentDir.length*settings.thumbnailSize > parent.width ? parent.width : variables.allFilesCurrentDir.length*settings.thumbnailSize)
 
         ListView {
 
@@ -107,7 +107,7 @@ Item {
                 id: scrollbar
                 visible: !settings.thumbnailDisable && (view.contentWidth > view.width)
                 flickable: view;
-                displayAtBottomEdge: settings.thumbnailposition=="Bottom"
+                displayAtBottomEdge: settings.thumbnailPosition=="Bottom"
             }
 
         }
@@ -143,15 +143,15 @@ Item {
             color: colour.thumbnails_bg
 
             // The width and the height of the rectangle depends on the thumbnailsize (plus a little extra in height)
-            width: settings.thumbnailsize
-            height: settings.thumbnailsize+settings.thumbnailLiftUp+rect.thumbnailExtraMargin
+            width: settings.thumbnailSize
+            height: settings.thumbnailSize+settings.thumbnailLiftUp+rect.thumbnailExtraMargin
 
             // Update the position of the current thumbnail depending on the activated, loaded and edge setting
             y: activated||loaded
-                    ? (settings.thumbnailposition=="Top"
+                    ? (settings.thumbnailPosition=="Top"
                             ? -rect.thumbnailExtraMargin/2+settings.thumbnailLiftUp
                             : 0)+rect.thumbnailExtraMargin/3
-                    : (settings.thumbnailposition=="Top"
+                    : (settings.thumbnailPosition=="Top"
                             ? -rect.thumbnailExtraMargin/2
                             : settings.thumbnailLiftUp)+rect.thumbnailExtraMargin/3
 
@@ -165,8 +165,8 @@ Item {
                     fill: parent
                     leftMargin: settings.thumbnailSpacingBetween
                     rightMargin: settings.thumbnailSpacingBetween
-                    topMargin: settings.thumbnailposition=="Top" ? settings.thumbnailLiftUp+2*(rect.thumbnailExtraMargin/3) : undefined
-                    bottomMargin: settings.thumbnailposition=="Top" ? undefined : settings.thumbnailLiftUp+2*(rect.thumbnailExtraMargin/3)
+                    topMargin: settings.thumbnailPosition=="Top" ? settings.thumbnailLiftUp+2*(rect.thumbnailExtraMargin/3) : undefined
+                    bottomMargin: settings.thumbnailPosition=="Top" ? undefined : settings.thumbnailLiftUp+2*(rect.thumbnailExtraMargin/3)
                 }
 
                 // Animate lift up/down of thumbnails
@@ -216,7 +216,7 @@ Item {
 
                 // The location and dimension of the label
                 x: 5
-                y: settings.thumbnailposition=="Top" ? parent.height*0.45 : parent.height*0.55
+                y: settings.thumbnailPosition=="Top" ? parent.height*0.45 : parent.height*0.55
                 width: parent.width-10
                 height: childrenRect.height+4
 
@@ -275,7 +275,7 @@ Item {
     // Ensure selected item is centered/visible
     function _ensureCurrentItemVisible() {
 
-        if(variables.totalNumberImagesCurrentFolder*settings.thumbnailsize > top.width) {
+        if(variables.totalNumberImagesCurrentFolder*settings.thumbnailSize > top.width) {
 
             // Newly loaded dir => center item
             if(settings.thumbnailCenterActive) {
@@ -300,8 +300,8 @@ Item {
         destPos = view.contentX;
         if(loc == ListView.Contain) {
             // Make sure there is a little margin past the thumbnail kept visible
-            if(destPos > pos) destPos += settings.thumbnailsize/2
-            else if(destPos < pos) destPos -= settings.thumbnailsize/2
+            if(destPos > pos) destPos += settings.thumbnailSize/2
+            else if(destPos < pos) destPos -= settings.thumbnailSize/2
             // but ensure that we don't go beyond the view area
             if(destPos < 0) destPos = 0
             if(destPos > view.contentWidth-view.width) destPos = view.contentWidth-view.width

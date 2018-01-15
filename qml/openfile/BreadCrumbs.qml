@@ -129,7 +129,7 @@ Rectangle {
         anchors.top: parent.top
 
         source: "qrc:/img/closingx.png"
-        sourceSize: Qt.size(3*settings.closeXsize,3*settings.closeXsize)
+        sourceSize: Qt.size(3*settings.quickInfoCloseXSize,3*settings.quickInfoCloseXSize)
 
         ToolTip {
             anchors.fill: parent

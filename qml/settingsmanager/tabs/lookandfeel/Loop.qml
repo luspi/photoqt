@@ -33,11 +33,11 @@ EntryContainer {
     }
 
     function setData() {
-        loopfolder.checkedButton = settings.loopthroughfolder
+        loopfolder.checkedButton = settings.loopThroughFolder
     }
 
     function saveData() {
-        settings.loopthroughfolder = loopfolder.checkedButton
+        settings.loopThroughFolder = loopfolder.checkedButton
     }
 
 }

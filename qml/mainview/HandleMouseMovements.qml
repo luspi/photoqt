@@ -38,7 +38,7 @@ MouseArea {
             AnalyseMouse.analyseMouseGestureUpdate(xPos, yPos, before)
         }
 
-        var w = settings.menusensitivity*5
+        var w = settings.hotEdgeWidth*5
 
         if(xPos > mainwindow.width-w && !variables.slideshowRunning)
             mainmenu.show()

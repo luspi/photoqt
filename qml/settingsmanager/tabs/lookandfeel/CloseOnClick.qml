@@ -34,11 +34,11 @@ EntryContainer {
     }
 
     function setData() {
-        closeongrey.checkedButton = settings.closeongrey
+        closeongrey.checkedButton = settings.closeOnEmptyBackground
     }
 
     function saveData() {
-        settings.closeongrey = closeongrey.checkedButton
+        settings.closeOnEmptyBackground = closeongrey.checkedButton
     }
 
 }

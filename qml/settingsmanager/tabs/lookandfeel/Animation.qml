@@ -83,7 +83,7 @@ EntryContainer {
 
     function setData() {
 
-        animate_elements.checkedButton = settings.myWidgetAnimated
+        animate_elements.checkedButton = settings.elementsFadeIn
         save_restore_geometry.checkedButton = settings.saveWindowGeometry
         keep_on_top.checkedButton = settings.keepOnTop
 
@@ -101,7 +101,7 @@ EntryContainer {
     }
 
     function saveData() {
-        settings.myWidgetAnimated = animate_elements.checkedButton
+        settings.elementsFadeIn = animate_elements.checkedButton
         settings.saveWindowGeometry = save_restore_geometry.checkedButton
         settings.keepOnTop = keep_on_top.checkedButton
 

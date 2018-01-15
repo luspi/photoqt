@@ -54,21 +54,21 @@ EntryContainer {
     }
 
     function setData() {
-        if(settings.trayicon == 0)
+        if(settings.trayIcon == 0)
             tray_one.checked = true
-        else if(settings.trayicon == 1)
+        else if(settings.trayIcon == 1)
             tray_two.checked = true
-        else if(settings.trayicon == 2)
+        else if(settings.trayIcon == 2)
             tray_three.checked = true
     }
 
     function saveData() {
         if(tray_one.checked)
-            settings.trayicon = 0
+            settings.trayIcon = 0
         else if(tray_two.checked)
-            settings.trayicon = 1
+            settings.trayIcon = 1
         else if(tray_three.checked)
-            settings.trayicon = 2
+            settings.trayIcon = 2
     }
 
 }

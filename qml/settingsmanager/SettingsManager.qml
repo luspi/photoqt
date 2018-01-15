@@ -18,7 +18,7 @@ Rectangle {
     // Invisible at startup
     opacity: 0
     visible: opacity!=0
-    Behavior on opacity { NumberAnimation { duration: settings.myWidgetAnimated ? 250 : 0 } }
+    Behavior on opacity { NumberAnimation { duration: settings.elementsFadeIn ? 250 : 0 } }
 
 
     // setData is only emitted when settings have been 'closed without saving'
@@ -295,7 +295,7 @@ Rectangle {
         anchors.top: parent.top
 
         source: "qrc:/img/closingx.png"
-        sourceSize: Qt.size(3*settings.closeXsize,3*settings.closeXsize)
+        sourceSize: Qt.size(3*settings.quickInfoCloseXSize,3*settings.quickInfoCloseXSize)
 
         ToolTip {
             anchors.fill: parent

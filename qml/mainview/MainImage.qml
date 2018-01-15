@@ -9,10 +9,10 @@ Item {
     // fill out main element
     anchors {
         fill: parent
-        leftMargin: settings.borderAroundImg+metadata.nonFloatWidth
-        rightMargin: settings.borderAroundImg
-        topMargin: settings.borderAroundImg
-        bottomMargin: settings.borderAroundImg
+        leftMargin: settings.marginAroundImage+metadata.nonFloatWidth
+        rightMargin: settings.marginAroundImage
+        topMargin: settings.marginAroundImage
+        bottomMargin: settings.marginAroundImage
     }
 
     // the source of the current image
@@ -62,15 +62,15 @@ Item {
             // Pass on some settings
 
             fitImageInWindow: settings.fitInWindow
-            imageMargin: settings.borderAroundImg
+            imageMargin: settings.marginAroundImage
 
             positionDuration: 250
-            transitionDuration: (variables.slideshowRunning ? settings.slideShowTransition*150 : settings.transition*150)
+            transitionDuration: (variables.slideshowRunning ? settings.slideShowImageTransition*150 : settings.imageTransition*150)
             scaleDuration: 250
             rotationDuration: 250
 
-            defaultHeight: top.height-settings.borderAroundImg
-            defaultWidth: top.width-settings.borderAroundImg
+            defaultHeight: top.height-settings.marginAroundImage
+            defaultWidth: top.width-settings.marginAroundImage
 
             // Connect to some signals, set this as current or hide the other image
             onHideOther: {
@@ -91,15 +91,15 @@ Item {
             // Pass on some settings
 
             fitImageInWindow: settings.fitInWindow
-            imageMargin: settings.borderAroundImg
+            imageMargin: settings.marginAroundImage
 
             positionDuration: 250
-            transitionDuration: (variables.slideshowRunning ? settings.slideShowTransition*150 : settings.transition*150)
+            transitionDuration: (variables.slideshowRunning ? settings.slideShowImageTransition*150 : settings.imageTransition*150)
             scaleDuration: 250
             rotationDuration: 250
 
-            defaultHeight: top.height-settings.borderAroundImg
-            defaultWidth: top.width-settings.borderAroundImg
+            defaultHeight: top.height-settings.marginAroundImage
+            defaultWidth: top.width-settings.marginAroundImage
 
             // Connect to some signals, set this as current or hide the other image
             onHideOther: {
@@ -119,15 +119,15 @@ Item {
             // Pass on some settings
 
             fitImageInWindow: settings.fitInWindow
-            imageMargin: settings.borderAroundImg
+            imageMargin: settings.marginAroundImage
 
             positionDuration: 250
-            transitionDuration: (variables.slideshowRunning ? settings.slideShowTransition*150 : settings.transition*150)
+            transitionDuration: (variables.slideshowRunning ? settings.slideShowImageTransition*150 : settings.imageTransition*150)
             scaleDuration: 250
             rotationDuration: 250
 
-            defaultHeight: top.height-settings.borderAroundImg
-            defaultWidth: top.width-settings.borderAroundImg
+            defaultHeight: top.height-settings.marginAroundImage
+            defaultWidth: top.width-settings.marginAroundImage
 
             // Connect to some signals, set this as current or hide the other image
             onHideOther: {
@@ -147,15 +147,15 @@ Item {
             // Pass on some settings
 
             fitImageInWindow: settings.fitInWindow
-            imageMargin: settings.borderAroundImg
+            imageMargin: settings.marginAroundImage
 
             positionDuration: 250
-            transitionDuration: (variables.slideshowRunning ? settings.slideShowTransition*150 : settings.transition*150)
+            transitionDuration: (variables.slideshowRunning ? settings.slideShowImageTransition*150 : settings.imageTransition*150)
             scaleDuration: 250
             rotationDuration: 250
 
-            defaultHeight: top.height-settings.borderAroundImg
-            defaultWidth: top.width-settings.borderAroundImg
+            defaultHeight: top.height-settings.marginAroundImage
+            defaultWidth: top.width-settings.marginAroundImage
 
             // Connect to some signals, set this as current or hide the other image
             onHideOther: {

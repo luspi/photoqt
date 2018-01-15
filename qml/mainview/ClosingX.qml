@@ -8,28 +8,28 @@ Item {
 
     id: top
 
-    visible: (!variables.slideshowRunning && !settings.hidex) || (variables.slideshowRunning && !settings.slideShowHideQuickinfo)
+    visible: (!variables.slideshowRunning && !settings.quickInfoHideX) || (variables.slideshowRunning && !settings.slideShowHideQuickInfo)
 
     // Position it
     anchors.right: parent.right
     anchors.top: parent.top
 
     // Width depends on type of 'x'
-    width: (settings.fancyX ? 3 : 1.5)*settings.closeXsize
-    height: (settings.fancyX ? 3 : 1.5)*settings.closeXsize
+    width: (settings.quickInfoFancyX ? 3 : 1.5)*settings.quickInfoCloseXSize
+    height: (settings.quickInfoFancyX ? 3 : 1.5)*settings.quickInfoCloseXSize
 
     // Normal 'x'
     Text {
 
         id: txt_x
 
-        visible: !settings.fancyX
+        visible: !settings.quickInfoFancyX
         anchors.fill: parent
 
         horizontalAlignment: Qt.AlignRight
         verticalAlignment: Qt.AlignTop
 
-        font.pointSize: settings.closeXsize*1.5
+        font.pointSize: settings.quickInfoCloseXSize*1.5
         font.bold: true
         color: colour.quickinfo_text
         text: "x"
@@ -41,12 +41,12 @@ Item {
 
         id: img_x
 
-        visible: settings.fancyX
+        visible: settings.quickInfoFancyX
         anchors.right: parent.right
         anchors.top: parent.top
 
         source: "qrc:/img/closingx.png"
-        sourceSize: Qt.size(3*settings.closeXsize,3*settings.closeXsize)
+        sourceSize: Qt.size(3*settings.quickInfoCloseXSize,3*settings.quickInfoCloseXSize)
 
     }
 
@@ -73,34 +73,34 @@ Item {
             //: The counter shows the position of the currently loaded image in the folder
             text: qsTr("Show counter")
             checkable: true
-            checked: !settings.hidecounter
+            checked: !settings.quickInfoHideCounter
             onTriggered:
-                settings.hidecounter = !checked
+                settings.quickInfoHideCounter = !checked
         }
 
         MenuItem {
             text: qsTr("Show filepath")
             checkable: true
-            checked: !settings.hidefilepathshowfilename
+            checked: !settings.quickInfoHideFilepath
             onTriggered:
-                settings.hidefilepathshowfilename = !checked
+                settings.quickInfoHideFilepath = !checked
         }
 
         MenuItem {
             text: qsTr("Show filename")
             checkable: true
-            checked: !settings.hidefilename
+            checked: !settings.quickInfoHideFilename
             onTriggered:
-                settings.hidefilename = !checked
+                settings.quickInfoHideFilename = !checked
         }
 
         MenuItem {
             //: The clsoing 'x' is the button in the top right corner of the screen for closing PhotoQt
             text: qsTr("Show closing 'x'")
             checkable: true
-            checked: !settings.hidex
+            checked: !settings.quickInfoHideX
             onTriggered:
-                settings.hidex = !checked
+                settings.quickInfoHideX = !checked
         }
 
     }

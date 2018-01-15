@@ -52,17 +52,17 @@ EntryContainer {
     }
 
     function saveData() {
-        settings.hidecounter = !quickinfo_counter.checkedButton
-        settings.hidefilepathshowfilename = !quickinfo_filepath.checkedButton
-        settings.hidefilename = !quickinfo_filename.checkedButton
-        settings.hidex = !quickinfo_closingx.checkedButton
+        settings.quickInfoHideCounter = !quickinfo_counter.checkedButton
+        settings.quickInfoHideFilepath = !quickinfo_filepath.checkedButton
+        settings.quickInfoHideFilename = !quickinfo_filename.checkedButton
+        settings.quickInfoHideX = !quickinfo_closingx.checkedButton
     }
 
     function setData() {
-        quickinfo_counter.checkedButton = !settings.hidecounter
-        quickinfo_filepath.checkedButton = !settings.hidefilepathshowfilename
-        quickinfo_filename.checkedButton = !settings.hidefilename
-        quickinfo_closingx.checkedButton = !settings.hidex
+        quickinfo_counter.checkedButton = !settings.quickInfoHideCounter
+        quickinfo_filepath.checkedButton = !settings.quickInfoHideFilepath
+        quickinfo_filename.checkedButton = !settings.quickInfoHideFilename
+        quickinfo_closingx.checkedButton = !settings.quickInfoHideX
     }
 
 }

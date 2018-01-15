@@ -6,7 +6,7 @@ Rectangle {
 
     anchors.fill: parent
 
-    color: settings.composite ? getanddostuff.addAlphaToColor(Qt.rgba(settings.bgColorRed, settings.bgColorGreen, settings.bgColorBlue, settings.bgColorAlpha), settings.bgColorAlpha)
+    color: settings.composite ? getanddostuff.addAlphaToColor(Qt.rgba(settings.backgroundColorRed, settings.backgroundColorGreen, settings.backgroundColorBlue, settings.backgroundColorAlpha), settings.backgroundColorAlpha)
                                   : "#00000000"
     // Fake transparency
     Image {
@@ -18,7 +18,7 @@ Rectangle {
         Rectangle {
             anchors.fill: parent
             visible: parent.visible
-            color: getanddostuff.addAlphaToColor(Qt.rgba(settings.bgColorRed, settings.bgColorGreen, settings.bgColorBlue, settings.bgColorAlpha), settings.bgColorAlpha)
+            color: getanddostuff.addAlphaToColor(Qt.rgba(settings.backgroundColorRed, settings.backgroundColorGreen, settings.backgroundColorBlue, settings.backgroundColorAlpha), settings.backgroundColorAlpha)
         }
     }
     function reloadScreenshot() {
@@ -42,7 +42,7 @@ Rectangle {
         Rectangle {
             anchors.fill: parent
             visible: parent.visible
-            color: getanddostuff.addAlphaToColor(Qt.rgba(settings.bgColorRed, settings.bgColorGreen, settings.bgColorBlue, settings.bgColorAlpha), settings.bgColorAlpha)
+            color: getanddostuff.addAlphaToColor(Qt.rgba(settings.backgroundColorRed, settings.backgroundColorGreen, settings.backgroundColorBlue, settings.backgroundColorAlpha), settings.backgroundColorAlpha)
         }
 
     }
@@ -51,7 +51,7 @@ Rectangle {
     Rectangle {
         anchors.fill: parent
         // The Qt.rgba() function IGNORES the alpha value by default (that's why above we use a custom function to add it!)
-        color: Qt.rgba(settings.bgColorRed,settings.bgColorGreen,settings.bgColorBlue,settings.bgColorAlpha)
+        color: Qt.rgba(settings.backgroundColorRed,settings.backgroundColorGreen,settings.backgroundColorBlue,settings.backgroundColorAlpha)
         visible: !settings.composite && !settings.backgroundImageScreenshot && !settings.backgroundImageUse
     }
 

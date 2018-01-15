@@ -14,7 +14,7 @@ Rectangle {
     color: colour.fadein_slidein_bg
 
     opacity: 0
-    Behavior on opacity { NumberAnimation { duration: settings.myWidgetAnimated ? 250 : 0; } }
+    Behavior on opacity { NumberAnimation { duration: settings.elementsFadeIn ? 250 : 0; } }
     visible: opacity!=0
     property real lastOpacityValue: 0
     onOpacityChanged: {

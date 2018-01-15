@@ -78,12 +78,12 @@ EntryContainer {
     }
 
     function setData() {
-        size_slider.value = settings.thumbnailsize
+        size_slider.value = settings.thumbnailSize
         entry.val = size_slider.value
     }
 
     function saveData() {
-        settings.thumbnailsize = size_spinbox.value
+        settings.thumbnailSize = size_spinbox.value
     }
 
 }

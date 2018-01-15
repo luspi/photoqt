@@ -52,12 +52,12 @@ EntryContainer {
     }
 
     function setData() {
-        loweredge.checked = (settings.thumbnailposition === "Bottom")
-        upperedge.checked = (settings.thumbnailposition === "Top")
+        loweredge.checked = (settings.thumbnailPosition === "Bottom")
+        upperedge.checked = (settings.thumbnailPosition === "Top")
     }
 
     function saveData() {
-        settings.thumbnailposition = (loweredge.checked ? "Bottom" : "Top")
+        settings.thumbnailPosition = (loweredge.checked ? "Bottom" : "Top")
     }
 
 }

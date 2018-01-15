@@ -190,17 +190,17 @@ EntryContainer {
     }
 
     function setData() {
-        red.value = settings.bgColorRed/255
-        green.value = settings.bgColorGreen/255
-        blue.value = settings.bgColorBlue/255
-        alpha.value = settings.bgColorAlpha/255
+        red.value = settings.backgroundColorRed/255
+        green.value = settings.backgroundColorGreen/255
+        blue.value = settings.backgroundColorBlue/255
+        alpha.value = settings.backgroundColorAlpha/255
     }
 
     function saveData() {
-        settings.bgColorRed = red.value*255
-        settings.bgColorGreen = green.value*255
-        settings.bgColorBlue = blue.value*255
-        settings.bgColorAlpha = alpha.value*255
+        settings.backgroundColorRed = red.value*255
+        settings.backgroundColorGreen = green.value*255
+        settings.backgroundColorBlue = blue.value*255
+        settings.backgroundColorAlpha = alpha.value*255
     }
 
 }

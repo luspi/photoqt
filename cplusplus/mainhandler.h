@@ -40,6 +40,7 @@
 #include "startup/thumbnails.h"
 #include "startup/updatecheck.h"
 #include "startup/shortcuts.h"
+#include "startup/settings.h"
 
 class MainHandler : public QQuickView {
 

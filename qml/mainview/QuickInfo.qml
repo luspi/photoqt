@@ -16,7 +16,7 @@ Item {
     width: childrenRect.width
     height: childrenRect.height
 
-    visible: ((!settings.hidecounter || !settings.hidefilename || !settings.hidefilepathshowfilename || variables.filter!="") && !variables.slideshowRunning && variables.currentFile!="") || (variables.slideshowRunning && !settings.slideShowHideQuickinfo)
+    visible: ((!settings.quickInfoHideCounter || !settings.quickInfoHideFilename || !settings.quickInfoHideFilepath || variables.filter!="") && !variables.slideshowRunning && variables.currentFile!="") || (variables.slideshowRunning && !settings.slideShowHideQuickInfo)
     opacity: variables.guiBlocked&&!variables.slideshowRunning ? 0.2 : 1
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
@@ -25,7 +25,7 @@ Item {
         id: containerRect
 
         x: 0
-        y: settings.thumbnailposition == "Bottom" ? 0 : background.height-height-6
+        y: settings.thumbnailPosition == "Bottom" ? 0 : background.height-height-6
 
         // it is always as big as the item it contains
         width: childrenRect.width+6
@@ -46,9 +46,9 @@ Item {
             x:3
             y:3
 
-            text: (variables.currentFile==""||settings.hidecounter) ? "" : (variables.currentFilePos+1).toString() + "/" + variables.totalNumberImagesCurrentFolder.toString()
+            text: (variables.currentFile==""||settings.quickInfoHideCounter) ? "" : (variables.currentFilePos+1).toString() + "/" + variables.totalNumberImagesCurrentFolder.toString()
 
-            visible: !settings.hidecounter
+            visible: !settings.quickInfoHideCounter
 
             color: colour.quickinfo_text
             font.bold: true
@@ -65,7 +65,7 @@ Item {
             anchors.left: counter.right
             anchors.leftMargin: counter.visible ? 10 :5
 
-            text: (variables.currentFile==""||(settings.hidefilepathshowfilename&&settings.hidefilename) ? "" : (settings.hidefilepathshowfilename ? variables.currentFile :(settings.hidefilename ? variables.currentDir : variables.currentDir+"/"+variables.currentFile)))
+            text: (variables.currentFile==""||(settings.quickInfoHideFilepath&&settings.quickInfoHideFilename) ? "" : (settings.quickInfoHideFilepath ? variables.currentFile :(settings.quickInfoHideFilename ? variables.currentDir : variables.currentDir+"/"+variables.currentFile)))
             color: colour.quickinfo_text
             font.bold: true
             font.pointSize: 10
@@ -157,34 +157,34 @@ Item {
             //: The counter shows the position of the currently loaded image in the folder
             text: qsTr("Show counter")
             checkable: true
-            checked: !settings.hidecounter
+            checked: !settings.quickInfoHideCounter
             onTriggered:
-                settings.hidecounter = !checked
+                settings.quickInfoHideCounter = !checked
         }
 
         MenuItem {
             text: qsTr("Show filepath")
             checkable: true
-            checked: !settings.hidefilepathshowfilename
+            checked: !settings.quickInfoHideFilepath
             onTriggered:
-                settings.hidefilepathshowfilename = !checked
+                settings.quickInfoHideFilepath = !checked
         }
 
         MenuItem {
             text: qsTr("Show filename")
             checkable: true
-            checked: !settings.hidefilename
+            checked: !settings.quickInfoHideFilename
             onTriggered:
-                settings.hidefilename = !checked
+                settings.quickInfoHideFilename = !checked
         }
 
         MenuItem {
             //: The clsoing 'x' is the button in the top right corner of the screen for closing PhotoQt
             text: qsTr("Show closing 'x'")
             checkable: true
-            checked: !settings.hidex
+            checked: !settings.quickInfoHideX
             onTriggered:
-                settings.hidex = !checked
+                settings.quickInfoHideX = !checked
         }
 
     }

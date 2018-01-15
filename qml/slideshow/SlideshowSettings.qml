@@ -118,7 +118,7 @@ FadeInTemplate {
                     scrollStep: 1
                     stepSize: 1
                     tickmarksEnabled: true
-                    value: settings.slideShowTransition
+                    value: settings.slideShowImageTransition
                 }
                 Text {
                     font.pointSize: 10
@@ -186,7 +186,7 @@ FadeInTemplate {
             id: quickinfo
             //: The quickinfo refers to the labels (like position in the folder, filename, closing 'x') that are normally shown on the main image
             text: qsTr("Hide Quickinfo")
-            checkedButton: settings.slideShowHideQuickinfo
+            checkedButton: settings.slideShowHideQuickInfo
             x: (slideshow_top.contentWidth-width)/2
         },
 
@@ -335,19 +335,19 @@ FadeInTemplate {
     function saveSettings() {
         verboseMessage("Slideshow::saveSettings()","")
         settings.slideShowTime = timeslider.value
-        settings.slideShowTransition = transitionslider.value
+        settings.slideShowImageTransition = transitionslider.value
         settings.slideShowLoop = loop.checkedButton
         settings.slideShowShuffle = shuffle.checkedButton
-        settings.slideShowHideQuickinfo = quickinfo.checkedButton
+        settings.slideShowHideQuickInfo = quickinfo.checkedButton
         settings.slideShowMusicFile = (musiccheckbox.checkedButton ? musictxt.text : "")
     }
     function loadSettings() {
         verboseMessage("Slideshow::loadSettings()","")
         timeslider.value = settings.slideShowTime
-        transitionslider.value = settings.slideShowTransition
+        transitionslider.value = settings.slideShowImageTransition
         loop.checkedButton = settings.slideShowLoop
         shuffle.checkedButton = settings.slideShowShuffle
-        quickinfo.checkedButton = settings.slideShowHideQuickinfo
+        quickinfo.checkedButton = settings.slideShowHideQuickInfo
         musiccheckbox.checkedButton = settings.slideShowMusicFile
         musictxt.text = settings.slideShowMusicFile
     }

@@ -65,11 +65,11 @@ EntryContainer {
     }
 
     function setData() {
-        transition.value = settings.transition
+        transition.value = settings.imageTransition
     }
 
     function saveData() {
-        settings.transition = transition.value
+        settings.imageTransition = transition.value
     }
 
 }

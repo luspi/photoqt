@@ -37,7 +37,7 @@ EntryContainer {
 
                 CustomSlider {
 
-                    id: menusensitivity
+                    id: hotedgewidth
 
                     width: Math.min(400, settings_top.width-entrytitle.width-txt_small.width-txt_large.width-60)
                     y: (parent.height-height)/2
@@ -65,11 +65,11 @@ EntryContainer {
     }
 
     function setData() {
-        menusensitivity.value = settings.menusensitivity
+        hotedgewidth.value = settings.hotEdgeWidth
     }
 
     function saveData() {
-        settings.menusensitivity = menusensitivity.value
+        settings.hotEdgeWidth = hotedgewidth.value
     }
 
 }

@@ -43,6 +43,8 @@ int MainHandler::performSomeStartupChecks() {
     // Using the settings file (and the stored version therein) check if PhotoQt was updated or installed (if settings file not present)
     int update = StartupCheck::UpdateCheck::checkForUpdateInstall(variables->verbose, permanentSettings);
 
+    if(update > 0) StartupCheck::Settings::moveToNewKeyNames();
+
     // Before the window is shown we create screenshots and store them in the temporary folder
     StartupCheck::Screenshots::getAndStore(variables->verbose);
 
@@ -136,7 +138,7 @@ void MainHandler::setupWindowProperties() {
     GetAndDoStuff gads;
 
     // window mode
-    if(permanentSettings->windowmode) {
+    if(permanentSettings->windowMode) {
 
         // always keep window on top
         if(permanentSettings->keepOnTop) {
@@ -251,9 +253,9 @@ void MainHandler::remoteAction(QString cmd) {
 
         if(variables->verbose)
             LOG << CURDATE << "remoteAction(): Hiding" << NL;
-        if(permanentSettings->trayicon != 1) {
-            permanentSettings->trayicon = 1;
-            permanentSettings->trayiconChanged(1);
+        if(permanentSettings->trayIcon != 1) {
+            permanentSettings->trayIcon = 1;
+            permanentSettings->trayIconChanged(1);
         }
         QMetaObject::invokeMethod(object, "closeAnyElement");
         this->hide();
@@ -294,11 +296,11 @@ void MainHandler::remoteAction(QString cmd) {
 void MainHandler::manageStartupFilename(bool startInTray, QString filename) {
 
     if(startInTray) {
-        if(permanentSettings->trayicon != 1) {
-            if(permanentSettings->trayicon == 0)
+        if(permanentSettings->trayIcon != 1) {
+            if(permanentSettings->trayIcon == 0)
                 showTrayIcon();
-            permanentSettings->trayicon = 1;
-            permanentSettings->trayiconChanged(1);
+            permanentSettings->trayIcon = 1;
+            permanentSettings->trayIconChanged(1);
         }
         this->hide();
     } else
@@ -312,7 +314,7 @@ void MainHandler::showTrayIcon() {
     if(variables->verbose)
         LOG << CURDATE << "showTrayIcon()" << NL;
 
-    if(permanentSettings->trayicon != 0) {
+    if(permanentSettings->trayIcon != 0) {
 
         if(variables->verbose)
             LOG << CURDATE << "showTrayIcon(): Setting up" << NL;

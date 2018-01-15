@@ -208,15 +208,15 @@ EntryContainer {
     }
 
     function setData() {
-        cache.checkedButton = settings.thumbnailcache
-        cache_file.checked = settings.thbcachefile
-        cache_db.checked = !settings.thbcachefile
+        cache.checkedButton = settings.thumbnailCache
+        cache_file.checked = settings.thumbnailCacheFile
+        cache_db.checked = !settings.thumbnailCacheFile
         updateDatabaseInfo()
     }
 
     function saveData() {
-        settings.thumbnailcache = cache.checkedButton
-        settings.thbcachefile = cache_file.checked
+        settings.thumbnailCache = cache.checkedButton
+        settings.thumbnailCacheFile = cache_file.checked
     }
 
 }

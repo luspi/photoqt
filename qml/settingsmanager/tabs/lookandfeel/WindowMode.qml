@@ -42,12 +42,12 @@ EntryContainer {
     }
 
     function setData() {
-        windowmode.checkedButton = settings.windowmode
+        windowmode.checkedButton = settings.windowMode
         windowmode_deco.checkedButton = settings.windowDecoration
     }
 
     function saveData() {
-        settings.windowmode = windowmode.checkedButton
+        settings.windowMode = windowmode.checkedButton
         settings.windowDecoration = windowmode_deco.checkedButton
     }
 
