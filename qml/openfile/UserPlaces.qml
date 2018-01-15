@@ -83,6 +83,7 @@ Rectangle {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
                 color: standardlocations.hoveredIndex==index&&index>0 ? "#88999999" : index%2==0 ? "#88000000" : "#44000000"
+                Behavior on color { ColorAnimation { duration: 100 } }
 
                 Item {
                     id: iconitem
@@ -196,6 +197,7 @@ Rectangle {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
                 color: userPlaces.hoveredIndex==index&&index>0 ? "#88999999" : index%2==0 ? "#88000000" : "#44000000"
+                Behavior on color { ColorAnimation { duration: 100 } }
 
                 Item {
                     id: draghandler
@@ -327,6 +329,7 @@ Rectangle {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
                 color: storageinfo.hoveredIndex==index&&index>0 ? "#88999999" : index%2==0 ? "#88000000" : "#44000000"
+                Behavior on color { ColorAnimation { duration: 100 } }
 
                 Item {
                     id: iconitemstorage

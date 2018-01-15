@@ -27,6 +27,8 @@ Rectangle {
         Behavior on cellWidth { NumberAnimation { duration: 200 } }
         Behavior on cellHeight { NumberAnimation { duration: 100 } }
 
+        highlightMoveDuration: 100
+
         Text {
             anchors.fill: parent
             verticalAlignment: Qt.AlignVCenter
