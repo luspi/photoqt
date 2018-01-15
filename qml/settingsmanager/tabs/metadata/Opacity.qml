@@ -71,11 +71,11 @@ EntryContainer {
     }
 
     function setData() {
-        opacity_slider.value = settings.exifopacity
+        opacity_slider.value = settings.metadataOpacity
     }
 
     function saveData() {
-        settings.exifopacity = opacity_slider.value
+        settings.metadataOpacity = opacity_slider.value
     }
 
 }

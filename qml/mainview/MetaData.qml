@@ -13,7 +13,7 @@ Rectangle {
     property string orientation: ""
 
     // Background/Border color
-    color: getanddostuff.addAlphaToColor(colour.fadein_slidein_bg,settings.exifopacity)
+    color: getanddostuff.addAlphaToColor(colour.fadein_slidein_bg,settings.metadataOpacity)
     border.width: 1
     border.color: colour.fadein_slidein_border
 
@@ -22,7 +22,7 @@ Rectangle {
     y: -1
 
     // Adjust size
-    width: settings.exifMetadaWindowWidth
+    width: settings.metadataWindowWidth
     height: parent.height+2
 
     property int nonFloatWidth: getButtonState() ? width : 0
@@ -186,7 +186,7 @@ Rectangle {
 
                 visible: imageLoaded
                 color: colour.text
-                font.pointSize: settings.exiffontsize
+                font.pointSize: settings.metadataFontSize
                 lineHeight: (name == "" ? 0.8 : 1.3);
                 textFormat: Text.RichText
                 width: parent.width
@@ -223,7 +223,7 @@ Rectangle {
 
         onReleased: {
             updateNonFloatWidth()
-            settings.exifMetadaWindowWidth = parent.width
+            settings.metadataWindowWidth = parent.width
         }
 
         onPositionChanged: {
@@ -278,23 +278,23 @@ Rectangle {
 
                 mod.clear()
 
-                if(settings.exiffilename) {
+                if(settings.metaFilename) {
                     var fname = getanddostuff.removePathFromFilename(variables.currentFile, false)
                     //: Keep string short!
                     mod.append({"name" : qsTranslate("metadata", "Filename"), "prop" : "", "value" : fname, "tooltip" : fname })
                 }
 
-                if(settings.exiffilesize)
+                if(settings.metaFileSize)
                     //: Keep string short!
                     mod.append({"name" : qsTranslate("metadata", "Filesize"), "prop" : "", "value" : d["filesize"], "tooltip" : d["filesize"]})
 
-                if(settings.exifimagenumber) {
+                if(settings.metaImageNumber) {
                     var pos = (variables.currentFilePos+1) + "/" + variables.totalNumberImagesCurrentFolder
                     //: Used as in "Image 3/16". The numbers (position of image in folder) are added on automatically. Keep string short!
                     mod.append({"name" : qsTranslate("metadata", "Image") + " #/#", "prop" : "", "value" : pos, "tooltip" : pos })
                 }
 
-                if(settings.exifdimensions) {
+                if(settings.metaDimensions) {
                     if("dimensions" in d)
                         //: The dimensions of the loaded image. Keep string short!
                         mod.append({"name" : qsTranslate("metadata", "Dimensions"), "prop" : "", "value" : d["dimensions"], "tooltip" : d["dimensions"]})
@@ -369,11 +369,11 @@ Rectangle {
 
     function gpsClick(value) {
 
-        verboseMessage("MetaData::gpsClick()",value + " - " + settings.exifgpsmapservice)
+        verboseMessage("MetaData::gpsClick()",value + " - " + settings.metaGpsMapService)
 
-        if(settings.exifgpsmapservice == "bing.com/maps")
+        if(settings.metaGpsMapService == "bing.com/maps")
             Qt.openUrlExternally("http://www.bing.com/maps/?sty=r&q=" + value + "&obox=1")
-        else if(settings.exifgpsmapservice == "maps.google.com")
+        else if(settings.metaGpsMapService == "maps.google.com")
             Qt.openUrlExternally("http://maps.google.com/maps?t=h&q=" + value)
         else {
 

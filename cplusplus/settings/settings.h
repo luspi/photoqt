@@ -146,31 +146,31 @@ public:
         connect(this, &Settings::windowDecorationChanged,               &Settings::saveSettingsTimerStart);
         connect(this, &Settings::knownFileTypesQtExtrasChanged,         &Settings::saveSettingsTimerStart);
 
-        connect(this, &Settings::exiffontsizeChanged,                   &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::exifopacityChanged,                    &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::exifenablemousetriggeringChanged,      &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::exifrotationChanged,                   &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::exifgpsmapserviceChanged,              &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::exiffilenameChanged,                   &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::exiffiletypeChanged,                   &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::exiffilesizeChanged,                   &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::exifimagenumberChanged,                &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::exifdimensionsChanged,                 &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::exifmakeChanged,                       &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::exifmodelChanged,                      &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::exifsoftwareChanged,                   &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::exifphototakenChanged,                 &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::exifexposuretimeChanged,               &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::exifflashChanged,                      &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::exifisoChanged,                        &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::exifscenetypeChanged,                  &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::exifflengthChanged,                    &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::exiffnumberChanged,                    &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::exiflightsourceChanged,                &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::iptckeywordsChanged,                   &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::iptclocationChanged,                   &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::iptccopyrightChanged,                  &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::exifgpsChanged,                        &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metadataFontSizeChanged,                   &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metadataOpacityChanged,                    &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metadataEnableHotEdgeChanged,              &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metaRotationChanged,                   &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metaGpsMapServiceChanged,              &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metaFilenameChanged,                   &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metaFileTypeChanged,                   &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metaFileSizeChanged,                   &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metaImageNumberChanged,                &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metaDimensionsChanged,                 &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metaMakeChanged,                       &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metaModelChanged,                      &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metaSoftwareChanged,                   &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metaTimePhotoTakenChanged,                 &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metaExposureTimeChanged,               &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metaFlashChanged,                      &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metaIsoChanged,                        &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metaSceneTypeChanged,                  &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metaFLengthChanged,                    &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metaFNumberChanged,                    &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metaLightSourceChanged,                &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metaKeywordsChanged,                   &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metaLocationChanged,                   &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metaCopyrightChanged,                  &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metaGpsChanged,                        &Settings::saveSettingsTimerStart);
 
         connect(this, &Settings::openDefaultViewChanged,                &Settings::saveSettingsTimerStart);
         connect(this, &Settings::openPreviewChanged,                    &Settings::saveSettingsTimerStart);
@@ -185,7 +185,7 @@ public:
         connect(this, &Settings::openKeepLastLocationChanged,           &Settings::saveSettingsTimerStart);
         connect(this, &Settings::openShowHiddenFilesFoldersChanged,     &Settings::saveSettingsTimerStart);
 
-        connect(this, &Settings::exifMetadaWindowWidthChanged,          &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metadataWindowWidthChanged,          &Settings::saveSettingsTimerStart);
         connect(this, &Settings::mainMenuWindowWidthChanged,            &Settings::saveSettingsTimerStart);
 
         connect(this, &Settings::histogramPositionChanged,              &Settings::saveSettingsTimerStart);
@@ -334,33 +334,32 @@ public:
     // The currently known filetypes (only extra Qt filetypes)
     QString knownFileTypesQtExtras;
 
-    // Some exif settings
-    bool exifenablemousetriggering;
-    QString exifrotation;
-    QString exifgpsmapservice;
-    int exiffontsize;
-    int exifopacity;
-    // Which Exif data is shown?
-    bool exiffilename;
-    bool exiffiletype;
-    bool exiffilesize;
-    bool exifimagenumber;
-    bool exifdimensions;
-    bool exifmake;
-    bool exifmodel;
-    bool exifsoftware;
-    bool exifphototaken;
-    bool exifexposuretime;
-    bool exifflash;
-    bool exifiso;
-    bool exifscenetype;
-    bool exifflength;
-    bool exiffnumber;
-    bool exiflightsource;
-    bool iptckeywords;
-    bool iptclocation;
-    bool iptccopyright;
-    bool exifgps;
+    // Some metadata settings
+    bool metadataEnableHotEdge;
+    QString metaRotation;
+    QString metaGpsMapService;
+    int metadataFontSize;
+    int metadataOpacity;
+    bool metaFilename;
+    bool metaFileType;
+    bool metaFileSize;
+    bool metaImageNumber;
+    bool metaDimensions;
+    bool metaMake;
+    bool metaModel;
+    bool metaSoftware;
+    bool metaTimePhotoTaken;
+    bool metaExposureTime;
+    bool metaFlash;
+    bool metaIso;
+    bool metaSceneType;
+    bool metaFLength;
+    bool metaFNumber;
+    bool metaLightSource;
+    bool metaKeywords;
+    bool metaLocation;
+    bool metaCopyright;
+    bool metaGps;
 
     // 'Open File' settings
     QString openDefaultView;
@@ -377,7 +376,7 @@ public:
     bool openShowHiddenFilesFolders;
 
     // Settings not adjustable in settings but other places
-    int exifMetadaWindowWidth;	// changed by dragging right rectangle edge
+    int metadataWindowWidth;	// changed by dragging right rectangle edge
     int mainMenuWindowWidth;	// changed by dragging left rectangle edge
 
     bool histogram;
@@ -473,31 +472,31 @@ public:
     Q_PROPERTY(bool windowDecoration MEMBER windowDecoration NOTIFY windowDecorationChanged)
     Q_PROPERTY(QString knownFileTypesQtExtras MEMBER knownFileTypesQtExtras NOTIFY knownFileTypesQtExtrasChanged)
 
-    Q_PROPERTY(bool exifenablemousetriggering MEMBER exifenablemousetriggering NOTIFY exifenablemousetriggeringChanged)
-    Q_PROPERTY(QString exifrotation MEMBER exifrotation NOTIFY exifrotationChanged)
-    Q_PROPERTY(QString exifgpsmapservice MEMBER exifgpsmapservice NOTIFY exifgpsmapserviceChanged)
-    Q_PROPERTY(int exiffontsize MEMBER exiffontsize NOTIFY exiffontsizeChanged)
-    Q_PROPERTY(int exifopacity MEMBER exifopacity NOTIFY exifopacityChanged)
-    Q_PROPERTY(bool exiffilename MEMBER exiffilename NOTIFY exiffilenameChanged)
-    Q_PROPERTY(bool exiffiletype MEMBER exiffiletype NOTIFY exiffiletypeChanged)
-    Q_PROPERTY(bool exiffilesize MEMBER exiffilesize NOTIFY exiffilesizeChanged)
-    Q_PROPERTY(bool exifimagenumber MEMBER exifimagenumber NOTIFY exifimagenumberChanged)
-    Q_PROPERTY(bool exifdimensions MEMBER exifdimensions NOTIFY exifdimensionsChanged)
-    Q_PROPERTY(bool exifmake MEMBER exifmake NOTIFY exifmakeChanged)
-    Q_PROPERTY(bool exifmodel MEMBER exifmodel NOTIFY exifmodelChanged)
-    Q_PROPERTY(bool exifsoftware MEMBER exifsoftware NOTIFY exifsoftwareChanged)
-    Q_PROPERTY(bool exifphototaken MEMBER exifphototaken NOTIFY exifphototakenChanged)
-    Q_PROPERTY(bool exifexposuretime MEMBER exifexposuretime NOTIFY exifexposuretimeChanged)
-    Q_PROPERTY(bool exifflash MEMBER exifflash NOTIFY exifflashChanged)
-    Q_PROPERTY(bool exifiso MEMBER exifiso NOTIFY exifisoChanged)
-    Q_PROPERTY(bool exifscenetype MEMBER exifscenetype NOTIFY exifscenetypeChanged)
-    Q_PROPERTY(bool exifflength MEMBER exifflength NOTIFY exifflengthChanged)
-    Q_PROPERTY(bool exiffnumber MEMBER exiffnumber NOTIFY exiffnumberChanged)
-    Q_PROPERTY(bool exiflightsource MEMBER exiflightsource NOTIFY exiflightsourceChanged)
-    Q_PROPERTY(bool iptckeywords MEMBER iptckeywords NOTIFY iptckeywordsChanged)
-    Q_PROPERTY(bool iptclocation MEMBER iptclocation NOTIFY iptclocationChanged)
-    Q_PROPERTY(bool iptccopyright MEMBER iptccopyright NOTIFY iptccopyrightChanged)
-    Q_PROPERTY(bool exifgps MEMBER exifgps NOTIFY exifgpsChanged)
+    Q_PROPERTY(bool metadataEnableHotEdge MEMBER metadataEnableHotEdge NOTIFY metadataEnableHotEdgeChanged)
+    Q_PROPERTY(QString metaRotation MEMBER metaRotation NOTIFY metaRotationChanged)
+    Q_PROPERTY(QString metaGpsMapService MEMBER metaGpsMapService NOTIFY metaGpsMapServiceChanged)
+    Q_PROPERTY(int metadataFontSize MEMBER metadataFontSize NOTIFY metadataFontSizeChanged)
+    Q_PROPERTY(int metadataOpacity MEMBER metadataOpacity NOTIFY metadataOpacityChanged)
+    Q_PROPERTY(bool metaFilename MEMBER metaFilename NOTIFY metaFilenameChanged)
+    Q_PROPERTY(bool metaFileType MEMBER metaFileType NOTIFY metaFileTypeChanged)
+    Q_PROPERTY(bool metaFileSize MEMBER metaFileSize NOTIFY metaFileSizeChanged)
+    Q_PROPERTY(bool metaImageNumber MEMBER metaImageNumber NOTIFY metaImageNumberChanged)
+    Q_PROPERTY(bool metaDimensions MEMBER metaDimensions NOTIFY metaDimensionsChanged)
+    Q_PROPERTY(bool metaMake MEMBER metaMake NOTIFY metaMakeChanged)
+    Q_PROPERTY(bool metaModel MEMBER metaModel NOTIFY metaModelChanged)
+    Q_PROPERTY(bool metaSoftware MEMBER metaSoftware NOTIFY metaSoftwareChanged)
+    Q_PROPERTY(bool metaTimePhotoTaken MEMBER metaTimePhotoTaken NOTIFY metaTimePhotoTakenChanged)
+    Q_PROPERTY(bool metaExposureTime MEMBER metaExposureTime NOTIFY metaExposureTimeChanged)
+    Q_PROPERTY(bool metaFlash MEMBER metaFlash NOTIFY metaFlashChanged)
+    Q_PROPERTY(bool metaIso MEMBER metaIso NOTIFY metaIsoChanged)
+    Q_PROPERTY(bool metaSceneType MEMBER metaSceneType NOTIFY metaSceneTypeChanged)
+    Q_PROPERTY(bool metaFLength MEMBER metaFLength NOTIFY metaFLengthChanged)
+    Q_PROPERTY(bool metaFNumber MEMBER metaFNumber NOTIFY metaFNumberChanged)
+    Q_PROPERTY(bool metaLightSource MEMBER metaLightSource NOTIFY metaLightSourceChanged)
+    Q_PROPERTY(bool metaKeywords MEMBER metaKeywords NOTIFY metaKeywordsChanged)
+    Q_PROPERTY(bool metaLocation MEMBER metaLocation NOTIFY metaLocationChanged)
+    Q_PROPERTY(bool metaCopyright MEMBER metaCopyright NOTIFY metaCopyrightChanged)
+    Q_PROPERTY(bool metaGps MEMBER metaGps NOTIFY metaGpsChanged)
 
     Q_PROPERTY(QString openDefaultView MEMBER openDefaultView NOTIFY openDefaultViewChanged)
     Q_PROPERTY(bool openPreview MEMBER openPreview NOTIFY openPreviewChanged)
@@ -512,7 +511,7 @@ public:
     Q_PROPERTY(bool openKeepLastLocation MEMBER openKeepLastLocation NOTIFY openKeepLastLocationChanged)
     Q_PROPERTY(bool openShowHiddenFilesFolders MEMBER openShowHiddenFilesFolders NOTIFY openShowHiddenFilesFoldersChanged)
 
-    Q_PROPERTY(int exifMetadaWindowWidth MEMBER exifMetadaWindowWidth NOTIFY exifMetadaWindowWidthChanged)
+    Q_PROPERTY(int metadataWindowWidth MEMBER metadataWindowWidth NOTIFY metadataWindowWidthChanged)
     Q_PROPERTY(int mainMenuWindowWidth MEMBER mainMenuWindowWidth NOTIFY mainMenuWindowWidthChanged)
 
     Q_PROPERTY(QPoint histogramPosition MEMBER histogramPosition NOTIFY histogramPositionChanged)
@@ -586,6 +585,7 @@ public:
         showTransparencyMarkerBackground = true;
         singleFingerTouchPressAndMove = true;
         startupLoadLastLoadedImage = false;
+        mainMenuWindowWidth = 350;
 
         hidecounter = false;
         hidefilepathshowfilename = true;
@@ -621,32 +621,33 @@ public:
         wallpaperAlignment = "center";
         wallpaperScale = "noscale";
 
+        metaFilename = true;
+        metaFileType = true;
+        metaFileSize = true;
+        metaImageNumber = true;
+        metaDimensions = true;
+        metaMake = true;
+        metaModel = true;
+        metaSoftware = true;
+        metaTimePhotoTaken = true;
+        metaExposureTime = true;
+        metaFlash = true;
+        metaIso = true;
+        metaSceneType = true;
+        metaFLength = true;
+        metaFNumber = true;
+        metaLightSource = true;
+        metaKeywords = true;
+        metaLocation = true;
+        metaCopyright = true;
+        metaGps = true;
+        metaRotation = "Always";
+        metaGpsMapService = "openstreetmap.org";
 
-        exifenablemousetriggering = true;
-        exiffontsize = 10;
-        exifopacity = 200;
-        exiffilename = true;
-        exiffiletype = true;
-        exiffilesize = true;
-        exifimagenumber = true;
-        exifdimensions = true;
-        exifmake = true;
-        exifmodel = true;
-        exifsoftware = true;
-        exifphototaken = true;
-        exifexposuretime = true;
-        exifflash = true;
-        exifiso = true;
-        exifscenetype = true;
-        exifflength = true;
-        exiffnumber = true;
-        exiflightsource = true;
-        iptckeywords = true;
-        iptclocation = true;
-        iptccopyright = true;
-        exifgps = true;
-        exifrotation = "Always";
-        exifgpsmapservice = "openstreetmap.org";
+        metadataEnableHotEdge = true;
+        metadataFontSize = 10;
+        metadataOpacity = 200;
+        metadataWindowWidth = 350;
 
         openDefaultView = "list";
         openPreview = true;
@@ -660,9 +661,6 @@ public:
         openUserPlacesVolumes = true;
         openKeepLastLocation = false;
         openShowHiddenFilesFolders = false;
-
-        exifMetadaWindowWidth = 350;
-        mainMenuWindowWidth = 350;
 
         histogram = false;
         histogramVersion = "color";
@@ -793,35 +791,37 @@ public slots:
             cont += QString("WallpaperAlignment=%1\n").arg(wallpaperAlignment);
             cont += QString("WallpaperScale=%1\n").arg((wallpaperScale));
 
-            cont += "\n[Exif]\n";
+            cont += "\n[Metadata]\n";
 
-            cont += QString("ExifEnableMouseTriggering=%1\n").arg(int(exifenablemousetriggering));
-            cont += QString("ExifFontSize=%1\n").arg(exiffontsize);
-            cont += QString("ExifOpacity=%1\n").arg(exifopacity);
-            cont += QString("ExifFilename=%1\n").arg(int(exiffilename));
-            cont += QString("ExifFiletype=%1\n").arg(int(exiffiletype));
-            cont += QString("ExifFilesize=%1\n").arg(int(exiffilesize));
-            cont += QString("ExifImageNumber=%1\n").arg(int(exifimagenumber));
-            cont += QString("ExifDimensions=%1\n").arg(int(exifdimensions));
-            cont += QString("ExifMake=%1\n").arg(int(exifmake));
-            cont += QString("ExifModel=%1\n").arg(int(exifmodel));
-            cont += QString("ExifSoftware=%1\n").arg(int(exifsoftware));
-            cont += QString("ExifPhotoTaken=%1\n").arg(int(exifphototaken));
-            cont += QString("ExifExposureTime=%1\n").arg(int(exifexposuretime));
-            cont += QString("ExifFlash=%1\n").arg(int(exifflash));
-            cont += QString("ExifIso=%1\n").arg(int(exifiso));
-            cont += QString("ExifSceneType=%1\n").arg(int(exifscenetype));
-            cont += QString("ExifFLength=%1\n").arg(int(exifflength));
-            cont += QString("ExifFNumber=%1\n").arg(int(exiffnumber));
-            cont += QString("ExifLightSource=%1\n").arg(int(exiflightsource));
-            cont += QString("ExifGps=%1\n").arg(int(exifgps));
-            cont += QString("ExifRotation=%1\n").arg(exifrotation);
-            cont += QString("ExifGPSMapService=%1\n").arg(exifgpsmapservice);
+            cont += QString("MetaFilename=%1\n").arg(int(metaFilename));
+            cont += QString("MetaFileType=%1\n").arg(int(metaFileType));
+            cont += QString("MetaFileSize=%1\n").arg(int(metaFileSize));
+            cont += QString("MetaImageNumber=%1\n").arg(int(metaImageNumber));
+            cont += QString("MetaDimensions=%1\n").arg(int(metaDimensions));
+            cont += QString("MetaMake=%1\n").arg(int(metaMake));
+            cont += QString("MetaModel=%1\n").arg(int(metaModel));
+            cont += QString("MetaSoftware=%1\n").arg(int(metaSoftware));
+            cont += QString("MetaTimePhotoTaken=%1\n").arg(int(metaTimePhotoTaken));
+            cont += QString("MetaExposureTime=%1\n").arg(int(metaExposureTime));
+            cont += QString("MetaFlash=%1\n").arg(int(metaFlash));
+            cont += QString("MetaIso=%1\n").arg(int(metaIso));
+            cont += QString("MetaSceneType=%1\n").arg(int(metaSceneType));
+            cont += QString("MetaFLength=%1\n").arg(int(metaFLength));
+            cont += QString("MetaFNumber=%1\n").arg(int(metaFNumber));
+            cont += QString("MetaLightSource=%1\n").arg(int(metaLightSource));
+            cont += QString("MetaGps=%1\n").arg(int(metaGps));
+            cont += QString("MetaRotation=%1\n").arg(metaRotation);
+            cont += QString("MetaGpsMapService=%1\n").arg(metaGpsMapService);
+            cont += QString("MetaKeywords=%1\n").arg(int(metaKeywords));
+            cont += QString("MetaLocation=%1\n").arg(int(metaLocation));
+            cont += QString("MetaCopyright=%1\n").arg(int(metaCopyright));
 
-            cont += "\n[Iptc]\n";
-            cont += QString("IptcKeywords=%1\n").arg(int(iptckeywords));
-            cont += QString("IptcLocation=%1\n").arg(int(iptclocation));
-            cont += QString("IptcCopyright=%1\n").arg(int(iptccopyright));
+            cont += "\n[Metadata Element]\n";
+
+            cont += QString("MetadataEnableHotEdge=%1\n").arg(int(metadataEnableHotEdge));
+            cont += QString("MetadataFontSize=%1\n").arg(metadataFontSize);
+            cont += QString("MetadataOpacity=%1\n").arg(metadataOpacity);
+            cont += QString("MetadataWindowWidth=%1\n").arg(metadataWindowWidth);
 
             cont += "\n[Open File]\n";
             cont += QString("OpenDefaultView=%1\n").arg(openDefaultView);
@@ -844,9 +844,8 @@ public slots:
             cont += QString("HistogramPosition=%1,%2\n").arg(histogramPosition.x()).arg(histogramPosition.y());
             cont += QString("HistogramSize=%1,%2\n").arg(histogramSize.width()).arg(histogramSize.height());
 
-            cont += "\n[Other]\n";
+            cont += "\n[Main Menu Element]\n";
 
-            cont += QString("ExifMetadaWindowWidth=%1\n").arg(exifMetadaWindowWidth);
             cont += QString("MainMenuWindowWidth=%1\n").arg(mainMenuWindowWidth);
 
             out << cont;
@@ -1161,122 +1160,125 @@ public slots:
                 wallpaperScale = all.split("WallpaperScale=").at(1).split("\n").at(0);
 
 
-            if(all.contains("ExifEnableMouseTriggering=1"))
-                exifenablemousetriggering = true;
-            else if(all.contains("ExifEnableMouseTriggering=0"))
-                exifenablemousetriggering = false;
+            if(all.contains("MetaFilename=1"))
+                metaFilename = true;
+            else if(all.contains("MetaFilename=0"))
+                metaFilename = false;
 
-            if(all.contains("ExifFontSize="))
-                exiffontsize = all.split("ExifFontSize=").at(1).split("\n").at(0).toInt();
+            if(all.contains("MetaFileType=1"))
+                metaFileType = true;
+            else if(all.contains("MetaFileType=0"))
+                metaFileType = false;
 
-            if(all.contains("ExifOpacity="))
-                exifopacity = all.split("ExifOpacity=").at(1).split("\n").at(0).toInt();
+            if(all.contains("MetaFileSize=1"))
+                metaFileSize = true;
+            else if(all.contains("MetaFileSize=0"))
+                metaFileSize = false;
 
-            if(all.contains("ExifFilename=1"))
-                exiffilename = true;
-            else if(all.contains("ExifFilename=0"))
-                exiffilename = false;
+            if(all.contains("MetaImageNumber=1"))
+                metaImageNumber = true;
+            else if(all.contains("MetaImageNumber=0"))
+                metaImageNumber = false;
 
-            if(all.contains("ExifFiletype=1"))
-                exiffiletype = true;
-            else if(all.contains("ExifFiletype=0"))
-                exiffiletype = false;
+            if(all.contains("MetaDimensions=1"))
+                metaDimensions = true;
+            else if(all.contains("MetaDimensions=0"))
+                metaDimensions = false;
 
-            if(all.contains("ExifFilesize=1"))
-                exiffilesize = true;
-            else if(all.contains("ExifFilesize=0"))
-                exiffilesize = false;
+            if(all.contains("MetaMake=1"))
+                metaMake = true;
+            else if(all.contains("MetaMake=0"))
+                metaMake = false;
 
-            if(all.contains("ExifImageNumber=1"))
-                exifimagenumber = true;
-            else if(all.contains("ExifImageNumber=0"))
-                exifimagenumber = false;
+            if(all.contains("MetaModel=1"))
+                metaModel = true;
+            else if(all.contains("MetaModel=0"))
+                metaModel = false;
 
-            if(all.contains("ExifDimensions=1"))
-                exifdimensions = true;
-            else if(all.contains("ExifDimensions=0"))
-                exifdimensions = false;
+            if(all.contains("MetaSoftware=1"))
+                metaSoftware = true;
+            else if(all.contains("MetaSoftware=0"))
+                metaSoftware = false;
 
-            if(all.contains("ExifMake=1"))
-                exifmake = true;
-            else if(all.contains("ExifMake=0"))
-                exifmake = false;
+            if(all.contains("MetaTimePhotoTaken=1"))
+                metaTimePhotoTaken = true;
+            else if(all.contains("MetaTimePhotoTaken=0"))
+                metaTimePhotoTaken = false;
 
-            if(all.contains("ExifModel=1"))
-                exifmodel = true;
-            else if(all.contains("ExifModel=0"))
-                exifmodel = false;
+            if(all.contains("MetaExposureTime=1"))
+                metaExposureTime = true;
+            else if(all.contains("MetaExposureTime=0"))
+                metaExposureTime = false;
 
-            if(all.contains("ExifSoftware=1"))
-                exifsoftware = true;
-            else if(all.contains("ExifSoftware=0"))
-                exifsoftware = false;
+            if(all.contains("MetaFlash=1"))
+                metaFlash = true;
+            else if(all.contains("MetaFlash=0"))
+                metaFlash = false;
 
-            if(all.contains("ExifPhotoTaken=1"))
-                exifphototaken = true;
-            else if(all.contains("ExifPhotoTaken=0"))
-                exifphototaken = false;
+            if(all.contains("MetaIso=1"))
+                metaIso = true;
+            else if(all.contains("MetaIso=0"))
+                metaIso = false;
 
-            if(all.contains("ExifExposureTime=1"))
-                exifexposuretime = true;
-            else if(all.contains("ExifExposureTime=0"))
-                exifexposuretime = false;
+            if(all.contains("MetaSceneType=1"))
+                metaSceneType = true;
+            else if(all.contains("MetaSceneType=0"))
+                metaSceneType = false;
 
-            if(all.contains("ExifFlash=1"))
-                exifflash = true;
-            else if(all.contains("ExifFlash=0"))
-                exifflash = false;
+            if(all.contains("MetaFLength=1"))
+                metaFLength = true;
+            else if(all.contains("MetaFLength=0"))
+                metaFLength = false;
 
-            if(all.contains("ExifIso=1"))
-                exifiso = true;
-            else if(all.contains("ExifIso=0"))
-                exifiso = false;
+            if(all.contains("MetaFNumber=1"))
+                metaFNumber = true;
+            else if(all.contains("MetaFNumber=0"))
+                metaFNumber = false;
 
-            if(all.contains("ExifSceneType=1"))
-                exifscenetype = true;
-            else if(all.contains("ExifSceneType=0"))
-                exifscenetype = false;
+            if(all.contains("MetaLightSource=1"))
+                metaLightSource = true;
+            else if(all.contains("MetaLightSource=0"))
+                metaLightSource = false;
 
-            if(all.contains("ExifFLength=1"))
-                exifflength = true;
-            else if(all.contains("ExifFLength=0"))
-                exifflength = false;
+            if(all.contains("MetaGps=1"))
+                metaGps = true;
+            else if(all.contains("MetaGps=0"))
+                metaGps = false;
 
-            if(all.contains("ExifFNumber=1"))
-                exiffnumber = true;
-            else if(all.contains("ExifFNumber=0"))
-                exiffnumber = false;
+            if(all.contains("MetaKeywords=1"))
+                metaKeywords = true;
+            else if(all.contains("MetaKeywords=0"))
+                metaKeywords = false;
 
-            if(all.contains("ExifLightSource=1"))
-                exiflightsource = true;
-            else if(all.contains("ExifLightSource=0"))
-                exiflightsource = false;
+            if(all.contains("MetaLocation=1"))
+                metaLocation = true;
+            else if(all.contains("MetaLocation=0"))
+                metaLocation = false;
 
-            if(all.contains("ExifGps=1"))
-                exifgps = true;
-            else if(all.contains("ExifGps=0"))
-                exifgps = false;
+            if(all.contains("MetaCopyright=1"))
+                metaCopyright = true;
+            else if(all.contains("MetaCopyright=0"))
+                metaCopyright = false;
 
-            if(all.contains("IptcKeywords=1"))
-                iptckeywords = true;
-            else if(all.contains("IptcKeywords=0"))
-                iptckeywords = false;
+            if(all.contains("MetaRotation="))
+                metaRotation = all.split("MetaRotation=").at(1).split("\n").at(0);
 
-            if(all.contains("IptcLocation=1"))
-                iptclocation = true;
-            else if(all.contains("IptcLocation=0"))
-                iptclocation = false;
+            if(all.contains("MetaGpsMapService="))
+                metaGpsMapService = all.split("MetaGpsMapService=").at(1).split("\n").at(0);
 
-            if(all.contains("IptcCopyright=1"))
-                iptccopyright = true;
-            else if(all.contains("IptcCopyright=0"))
-                iptccopyright = false;
+            if(all.contains("MetadataEnableHotEdge=1"))
+                metadataEnableHotEdge = true;
+            else if(all.contains("MetadataEnableHotEdge=0"))
+                metadataEnableHotEdge = false;
 
-            if(all.contains("ExifRotation="))
-                exifrotation = all.split("ExifRotation=").at(1).split("\n").at(0);
+            if(all.contains("MetadataFontSize="))
+                metadataFontSize = all.split("MetadataFontSize=").at(1).split("\n").at(0).toInt();
 
-            if(all.contains("ExifGPSMapService="))
-                exifgpsmapservice = all.split("ExifGPSMapService=").at(1).split("\n").at(0);
+            if(all.contains("MetadataOpacity="))
+                metadataOpacity = all.split("MetadataOpacity=").at(1).split("\n").at(0).toInt();
+
+            if(all.contains("MetadaWindowWidth="))
+                metadataWindowWidth = all.split("MetadaWindowWidth=").at(1).split("\n").at(0).toInt();
 
 
             if(all.contains("OpenDefaultView=list"))
@@ -1333,9 +1335,6 @@ public slots:
             else if(all.contains("OpenShowHiddenFilesFolders=0"))
                 openShowHiddenFilesFolders = false;
 
-
-            if(all.contains("ExifMetadaWindowWidth="))
-                exifMetadaWindowWidth = all.split("ExifMetadaWindowWidth=").at(1).split("\n").at(0).toInt();
 
             if(all.contains("MainMenuWindowWidth="))
                 mainMenuWindowWidth = all.split("MainMenuWindowWidth=").at(1).split("\n").at(0).toInt();
@@ -1456,31 +1455,31 @@ signals:
     void windowDecorationChanged(bool val);
     void knownFileTypesQtExtrasChanged(QString val);
 
-    void exiffontsizeChanged(int val);
-    void exifopacityChanged(int val);
-    void exifenablemousetriggeringChanged(bool val);
-    void exifrotationChanged(QString val);
-    void exifgpsmapserviceChanged(QString val);
-    void exiffilenameChanged(bool val);
-    void exiffiletypeChanged(bool val);
-    void exiffilesizeChanged(bool val);
-    void exifimagenumberChanged(bool val);
-    void exifdimensionsChanged(bool val);
-    void exifmakeChanged(bool val);
-    void exifmodelChanged(bool val);
-    void exifsoftwareChanged(bool val);
-    void exifphototakenChanged(bool val);
-    void exifexposuretimeChanged(bool val);
-    void exifflashChanged(bool val);
-    void exifisoChanged(bool val);
-    void exifscenetypeChanged(bool val);
-    void exifflengthChanged(bool val);
-    void exiffnumberChanged(bool val);
-    void exiflightsourceChanged(bool val);
-    void iptckeywordsChanged(bool val);
-    void iptclocationChanged(bool val);
-    void iptccopyrightChanged(bool val);
-    void exifgpsChanged(bool val);
+    void metadataFontSizeChanged(int val);
+    void metadataOpacityChanged(int val);
+    void metadataEnableHotEdgeChanged(bool val);
+    void metaRotationChanged(QString val);
+    void metaGpsMapServiceChanged(QString val);
+    void metaFilenameChanged(bool val);
+    void metaFileTypeChanged(bool val);
+    void metaFileSizeChanged(bool val);
+    void metaImageNumberChanged(bool val);
+    void metaDimensionsChanged(bool val);
+    void metaMakeChanged(bool val);
+    void metaModelChanged(bool val);
+    void metaSoftwareChanged(bool val);
+    void metaTimePhotoTakenChanged(bool val);
+    void metaExposureTimeChanged(bool val);
+    void metaFlashChanged(bool val);
+    void metaIsoChanged(bool val);
+    void metaSceneTypeChanged(bool val);
+    void metaFLengthChanged(bool val);
+    void metaFNumberChanged(bool val);
+    void metaLightSourceChanged(bool val);
+    void metaKeywordsChanged(bool val);
+    void metaLocationChanged(bool val);
+    void metaCopyrightChanged(bool val);
+    void metaGpsChanged(bool val);
 
     void openDefaultViewChanged(QString val);
     void openPreviewChanged(bool val);
@@ -1495,7 +1494,7 @@ signals:
     void openKeepLastLocationChanged(bool val);
     void openShowHiddenFilesFoldersChanged(bool val);
 
-    void exifMetadaWindowWidthChanged(int val);
+    void metadataWindowWidthChanged(int val);
     void mainMenuWindowWidthChanged(int val);
 
     void histogramChanged(bool val);

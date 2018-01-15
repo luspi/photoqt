@@ -53,13 +53,13 @@ EntryContainer {
     }
 
     function setData() {
-        openstreetmap.checked = (settings.exifgpsmapservice === "openstreetmap.org")
-        googlemaps.checked = (settings.exifgpsmapservice === "maps.google.com")
-        bingmaps.checked = (settings.exifgpsmapservice === "bing.com/maps")
+        openstreetmap.checked = (settings.metaGpsMapService === "openstreetmap.org")
+        googlemaps.checked = (settings.metaGpsMapService === "maps.google.com")
+        bingmaps.checked = (settings.metaGpsMapService === "bing.com/maps")
     }
 
     function saveData() {
-        settings.exifgpsmapservice = openstreetmap.checked ? "openstreetmap.org" : (googlemaps.checked ? "maps.google.com" : "bing.com/maps")
+        settings.metaGpsMapService = openstreetmap.checked ? "openstreetmap.org" : (googlemaps.checked ? "maps.google.com" : "bing.com/maps")
     }
 
 }

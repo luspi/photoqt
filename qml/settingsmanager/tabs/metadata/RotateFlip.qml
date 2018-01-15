@@ -53,13 +53,13 @@ EntryContainer {
     }
 
     function setData() {
-        neverrotate.checked = (settings.exifrotation === "Never")
-        alwaysrotate.checked = (settings.exifrotation === "Always")
-        alwaysask.checked = (settings.exifrotation === "Ask")
+        neverrotate.checked = (settings.metaRotation === "Never")
+        alwaysrotate.checked = (settings.metaRotation === "Always")
+        alwaysask.checked = (settings.metaRotation === "Ask")
     }
 
     function saveData() {
-        settings.exifrotation = neverrotate.checked ? "Never" : (alwaysrotate.checked ? "Always" : "Ask")
+        settings.metaRotation = neverrotate.checked ? "Never" : (alwaysrotate.checked ? "Always" : "Ask")
     }
 
 }

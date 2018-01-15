@@ -73,11 +73,11 @@ EntryContainer {
     }
 
     function setData() {
-        fontsize_slider.value = settings.exiffontsize
+        fontsize_slider.value = settings.metadataFontSize
     }
 
     function saveData() {
-        settings.exiffontsize = fontsize_slider.value
+        settings.metadataFontSize = fontsize_slider.value
     }
 
 }

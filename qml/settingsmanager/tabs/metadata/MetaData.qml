@@ -66,52 +66,52 @@ EntryContainer {
         if(getanddostuff.isExivSupportEnabled())
 
             //: Keep string short!
-            items = [["filename",qsTranslate("metadata", "Filename"), settings.exiffilename],
+            items = [["filename",qsTranslate("metadata", "Filename"), settings.metaFilename],
                         //: Keep string short!
-                        ["filesize",qsTranslate("metadata", "Filesize"), settings.exiffilesize],
+                        ["filesize",qsTranslate("metadata", "Filesize"), settings.metaFileSize],
                         //: Used as in "Image 3/16". The numbers (position of image in folder) are added on automatically. Keep string short!
-                        ["imagenumber",qsTranslate("metadata", "Image") + " #/#", settings.exifimagenumber],
+                        ["imagenumber",qsTranslate("metadata", "Image") + " #/#", settings.metaImageNumber],
                         //: The dimensions of the loaded image. Keep string short!
-                        ["dimensions",qsTranslate("metadata", "Dimensions"), settings.exifdimensions],
+                        ["dimensions",qsTranslate("metadata", "Dimensions"), settings.metaDimensions],
                         //: Exif image metadata: the make of the camera used to take the photo. Keep string short!
-                        ["make",qsTranslate("metadata", "Make"), settings.exifmake],
+                        ["make",qsTranslate("metadata", "Make"), settings.metaMake],
                         //: Exif image metadata: the model of the camera used to take the photo. Keep string short!
-                        ["model",qsTranslate("metadata", "Model"),settings.exifmodel],
+                        ["model",qsTranslate("metadata", "Model"),settings.metaModel],
                         //: Exif image metadata: the software used to create the photo. Keep string short!
-                        ["software",qsTranslate("metadata", "Software"),settings.exifsoftware],
+                        ["software",qsTranslate("metadata", "Software"),settings.metaSoftware],
                         //: Exif image metadata: when the photo was taken. Keep string short!
-                        ["time",qsTranslate("metadata", "Time Photo was Taken"),settings.exifphototaken],
+                        ["time",qsTranslate("metadata", "Time Photo was Taken"),settings.metaTimePhotoTaken],
                         //: Exif image metadata: how long the sensor was exposed to the light. Keep string short!
-                        ["exposure",qsTranslate("metadata", "Exposure Time"),settings.exifexposuretime],
+                        ["exposure",qsTranslate("metadata", "Exposure Time"),settings.metaExposureTime],
                         //: Exif image metadata: the flash setting when the photo was taken. Keep string short!
-                        ["flash",qsTranslate("metadata", "Flash"),settings.exifflash],
-                        ["iso","ISO",settings.exifiso],
+                        ["flash",qsTranslate("metadata", "Flash"),settings.metaFlash],
+                        ["iso","ISO",settings.metaIso],
                         //: Exif image metadata: the specific scene type the camera used for the photo. Keep string short!
-                        ["scenetype",qsTranslate("metadata", "Scene Type"),settings.exifscenetype],
+                        ["scenetype",qsTranslate("metadata", "Scene Type"),settings.metaSceneType],
                         //: Exif image metadata: https://en.wikipedia.org/wiki/Focal_length . Keep string short!
-                        ["focal",qsTranslate("metadata", "Focal Length"),settings.exifflength],
+                        ["focal",qsTranslate("metadata", "Focal Length"),settings.metaFLength],
                         //: Exif image metadata: https://en.wikipedia.org/wiki/F-number . Keep string short!
-                        ["fnumber",qsTranslate("metadata", "F-Number"),settings.exiffnumber],
+                        ["fnumber",qsTranslate("metadata", "F-Number"),settings.metaFNumber],
                         //: Exif image metadata: What type of light the camera detected. Keep string short!
-                        ["light",qsTranslate("metadata", "Light Source"),settings.exiflightsource],
+                        ["light",qsTranslate("metadata", "Light Source"),settings.metaLightSource],
                         //: IPTC image metadata: A description of the image by the user/software. Keep string short!
-                        ["keywords",qsTranslate("metadata", "Keywords"),settings.iptckeywords],
+                        ["keywords",qsTranslate("metadata", "Keywords"),settings.metaKeywords],
                         //: IPTC image metadata: The CITY the imge was taken in. Keep string short!
-                        ["location",qsTranslate("metadata", "Location"),settings.iptclocation],
+                        ["location",qsTranslate("metadata", "Location"),settings.metaLocation],
                         //: IPTC image metadata. Keep string short!
-                        ["copyright",qsTranslate("metadata", "Copyright"),settings.iptccopyright],
+                        ["copyright",qsTranslate("metadata", "Copyright"),settings.metaCopyright],
                         //: Exif image metadata. Keep string short!
-                        ["gps",qsTranslate("metadata", "GPS Position"),settings.exifgps]]
+                        ["gps",qsTranslate("metadata", "GPS Position"),settings.metaGps]]
 
         else
             //: Keep string short!
-            items = [["filename",qsTranslate("metadata", "Filename"), settings.exiffilename],
+            items = [["filename",qsTranslate("metadata", "Filename"), settings.metaFilename],
                         //: Keep string short!
-                        ["filesize",qsTranslate("metadata", "Filesize"), settings.exiffilesize],
+                        ["filesize",qsTranslate("metadata", "Filesize"), settings.metaFileSize],
                         //: Used as in "Image 3/16". The numbers (position of image in folder) are added on automatically. Keep string short!
-                        ["imagenumber",qsTranslate("metadata", "Image") + " #/#", settings.exifimagenumber],
+                        ["imagenumber",qsTranslate("metadata", "Image") + " #/#", settings.metaImageNumber],
                         //: The dimensions of the loaded image. Keep string short!
-                        ["dimensions",qsTranslate("metadata", "Dimensions"), settings.exifdimensions]]
+                        ["dimensions",qsTranslate("metadata", "Dimensions"), settings.metaDimensions]]
 
         grid.metadataitems = items
 
@@ -119,44 +119,44 @@ EntryContainer {
 
     function saveData() {
 
-        settings.exiffilename = grid.metadachecked["filename"]
-        settings.exifimagenumber = grid.metadachecked["imagenumber"]
-        settings.exiffilesize = grid.metadachecked["filesize"]
-        settings.exifdimensions = grid.metadachecked["dimensions"]
+        settings.metaFilename = grid.metadachecked["filename"]
+        settings.metaImageNumber = grid.metadachecked["imagenumber"]
+        settings.metaFileSize = grid.metadachecked["filesize"]
+        settings.metaDimensions = grid.metadachecked["dimensions"]
         if(getanddostuff.isExivSupportEnabled()) {
-            settings.exifmake = grid.metadachecked["make"]
-            settings.exifmodel = grid.metadachecked["model"]
-            settings.exifsoftware = grid.metadachecked["software"]
-            settings.exifphototaken = grid.metadachecked["time"]
-            settings.exifexposuretime = grid.metadachecked["exposure"]
-            settings.exifflash = grid.metadachecked["flash"]
-            settings.exifiso = grid.metadachecked["iso"]
-            settings.exifscenetype = grid.metadachecked["scenetype"]
-            settings.exifflength = grid.metadachecked["focal"]
-            settings.exiffnumber = grid.metadachecked["fnumber"]
-            settings.exiflightsource = grid.metadachecked["light"]
-            settings.iptckeywords = grid.metadachecked["keywords"]
-            settings.iptclocation = grid.metadachecked["location"]
-            settings.iptccopyright = grid.metadachecked["copyright"]
-            settings.exifgps = grid.metadachecked["gps"]
+            settings.metaMake = grid.metadachecked["make"]
+            settings.metaModel = grid.metadachecked["model"]
+            settings.metaSoftware = grid.metadachecked["software"]
+            settings.metaTimePhotoTaken = grid.metadachecked["time"]
+            settings.metaExposureTime = grid.metadachecked["exposure"]
+            settings.metaFlash = grid.metadachecked["flash"]
+            settings.metaIso = grid.metadachecked["iso"]
+            settings.metaSceneType = grid.metadachecked["scenetype"]
+            settings.metaFLength = grid.metadachecked["focal"]
+            settings.metaFNumber = grid.metadachecked["fnumber"]
+            settings.metaLightSource = grid.metadachecked["light"]
+            settings.metaKeywords = grid.metadachecked["keywords"]
+            settings.metaLocation = grid.metadachecked["location"]
+            settings.metaCopyright = grid.metadachecked["copyright"]
+            settings.metaGps = grid.metadachecked["gps"]
         } else {
             // If PhotoQt was compiled WITHOUT Exiv2 support, we set the setting values to true,
             // so that if a version is installed/compiled WITH support, they are enabled by default
-            settings.exifmake = true
-            settings.exifmodel = true
-            settings.exifsoftware = true
-            settings.exifphototaken = true
-            settings.exifexposuretime = true
-            settings.exifflash = true
-            settings.exifiso = true
-            settings.exifscenetype = true
-            settings.exifflength = true
-            settings.exiffnumber = true
-            settings.exiflightsource = true
-            settings.iptckeywords = true
-            settings.iptclocation = true
-            settings.iptccopyright = true
-            settings.exifgps = true
+            settings.metaMake = true
+            settings.metaModel = true
+            settings.metaSoftware = true
+            settings.metaTimePhotoTaken = true
+            settings.metaExposureTime = true
+            settings.metaFlash = true
+            settings.metaIso = true
+            settings.metaSceneType = true
+            settings.metaFLength = true
+            settings.metaFNumber = true
+            settings.metaLightSource = true
+            settings.metaKeywords = true
+            settings.metaLocation = true
+            settings.metaCopyright = true
+            settings.metaGps = true
         }
 
     }

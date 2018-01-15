@@ -45,7 +45,7 @@ MouseArea {
         else
             mainmenu.hide()
 
-        if(xPos < w && !variables.slideshowRunning) {
+        if(xPos < w && !variables.slideshowRunning && settings.metadataEnableHotEdge) {
             if((variables.filter != "" && yPos > quickinfo.x+quickinfo.height+25) || variables.filter == "")
                 metadata.show()
         } else

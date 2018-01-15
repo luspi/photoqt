@@ -37,11 +37,11 @@ EntryContainer {
     }
 
     function setData() {
-        triggeronmouse.checkedButton = settings.exifenablemousetriggering
+        triggeronmouse.checkedButton = settings.metadataEnableHotEdge
     }
 
     function saveData() {
-        settings.exifenablemousetriggering = triggeronmouse.checkedButton
+        settings.metadataEnableHotEdge = triggeronmouse.checkedButton
     }
 
 }

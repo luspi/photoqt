@@ -72,7 +72,7 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
 
     // Try to use Qt
     else
-        ret = loaderQT->load(filename,maxSize,settings->exifrotation);
+        ret = loaderQT->load(filename,maxSize,settings->metaRotation);
 
     QPixmap *newpixPt = new QPixmap(ret.width(), ret.height());
     *newpixPt = QPixmap::fromImage(ret);
