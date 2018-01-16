@@ -118,6 +118,7 @@ Rectangle {
                     color: index==0 ? "grey" : "white"
                     font.bold: true
                     font.pixelSize: 15
+                    elide: Text.ElideRight
                 }
 
                 MouseArea {
@@ -243,7 +244,7 @@ Rectangle {
                     text: index==0 ? qsTr("Places") : (folder != undefined ? folder : "")
                     color: index==0 ? "grey" : "white"
                     font.bold: true
-                    elide: Text.ElideMiddle
+                    elide: Text.ElideRight
                     font.pixelSize: 15
                 }
 
@@ -385,6 +386,7 @@ Rectangle {
                     color: index==0 ? "grey" : "white"
                     font.bold: true
                     font.pixelSize: 15
+                    elide: Text.ElideRight
                 }
 
                 MouseArea {
