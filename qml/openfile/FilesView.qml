@@ -210,29 +210,15 @@ Rectangle {
             if(openvariables.highlightingFromUserInput)
                 return
 
-            var f = ""
-            if(gridview.model.get(gridview.currentIndex) == undefined)
-                f = ""
-            else {
-                f = gridview.model.get(gridview.currentIndex).filename
-                if(f == undefined) f = ""
-            }
-            if(f == "") {
-                bgthumb.source = ""
-                openvariables.textEditedFromHighlighting = true
-                editRect.text = ""
-                openvariables.textEditedFromHighlighting = false
-            } else {
-                bgthumb.source = settings.openPreview
-                    ? "image://" + (settings.openPreviewHighQuality ? "full" : "thumb") + "/" + openvariables.currentDirectory + "/" + f
-                    : ""
-                openvariables.textEditedFromHighlighting = true
-                editRect.text = gridview.model.get(gridview.currentIndex).filename
-                editRect.selectAll()
-                openvariables.textEditedFromHighlighting = false
-            }
+            reloadBackgroundThumbnail()
 
         }
+    }
+
+    Connections {
+        target: openvariables
+        onCurrentDirectoryChanged:
+            reloadBackgroundThumbnail()
     }
 
     Connections {
@@ -252,6 +238,30 @@ Rectangle {
             if(index != -1)
                 gridview.currentIndex = index
             openvariables.highlightingFromUserInput = false
+        }
+    }
+
+    function reloadBackgroundThumbnail() {
+        var f = ""
+        if(gridview.model.get(gridview.currentIndex) == undefined)
+            f = ""
+        else {
+            f = gridview.model.get(gridview.currentIndex).filename
+            if(f == undefined) f = ""
+        }
+        if(f == "") {
+            bgthumb.source = ""
+            openvariables.textEditedFromHighlighting = true
+            editRect.text = ""
+            openvariables.textEditedFromHighlighting = false
+        } else {
+            bgthumb.source = settings.openPreview
+                ? "image://" + (settings.openPreviewHighQuality ? "full" : "thumb") + "/" + openvariables.currentDirectory + "/" + f
+                : ""
+            openvariables.textEditedFromHighlighting = true
+            editRect.text = gridview.model.get(gridview.currentIndex).filename
+            editRect.selectAll()
+            openvariables.textEditedFromHighlighting = false
         }
     }
 
