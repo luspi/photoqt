@@ -298,7 +298,7 @@ Item {
         var destPos;
         view.positionViewAtIndex(index, loc);
         destPos = view.contentX;
-        if(loc == ListView.Contain) {
+        if(loc == ListView.Contain && destPos != pos) {
             // Make sure there is a little margin past the thumbnail kept visible
             if(destPos > pos) destPos += settings.thumbnailSize/2
             else if(destPos < pos) destPos -= settings.thumbnailSize/2
