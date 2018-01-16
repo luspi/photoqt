@@ -33,6 +33,13 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
     QString full_filename = QByteArray::fromPercentEncoding(filename_encoded.toUtf8());
     QString filename = full_filename;
 
+    if(!QFileInfo(filename).exists()) {
+        QString err = QCoreApplication::translate("imageprovider", "File failed to load, it doesn't exist!");
+        LOG << CURDATE << "ImageProviderFull: ERROR: " << err.toStdString() << NL;
+        LOG << CURDATE << "ImageProviderFull: Filename: " << filename.toStdString() << NL;
+        return ErrorImage::load(err);
+    }
+
     // Which GraphicsEngine should we use?
     QString whatToUse = whatDoIUse(filename);
 

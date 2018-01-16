@@ -21,6 +21,13 @@ QImage ImageProviderThumbnail::requestImage(const QString &filename_encoded, QSi
 
     QByteArray filename = QByteArray::fromPercentEncoding(filename_encoded.toUtf8());
 
+    if(!QFileInfo(filename).exists()) {
+        QString err = QCoreApplication::translate("imageprovider", "File failed to load, it doesn't exist!");
+        LOG << CURDATE << "ImageProviderFull: ERROR: " << err.toStdString() << NL;
+        LOG << CURDATE << "ImageProviderFull: Filename: " << filename.toStdString() << NL;
+        return ErrorImage::load(err);
+    }
+
     dontCreateThumbnailNew = false;
 
     // Some general settings that are needed multiple times later-on
