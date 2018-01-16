@@ -162,9 +162,7 @@ void GetAndDoStuffManipulation::deleteImage(QString filename, bool trash) {
             if(QFileInfo(filename).absoluteFilePath().startsWith(QDir::homePath())) {
 
                 // Set the base path and make sure all the dirs exist
-                baseTrash = QString(qgetenv("XDG_DATA_HOME"));
-                if(baseTrash.trimmed() == "") baseTrash = QDir::homePath() + "/.local/share";
-                baseTrash += "/Trash/";
+                baseTrash = ConfigFiles::GENERIC_DATA_DIR() + "/Trash/";
 
                 if(!QDir(baseTrash).exists())
                     QDir().mkpath(baseTrash);
