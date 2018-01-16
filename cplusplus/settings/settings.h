@@ -135,7 +135,6 @@ public:
         connect(this, &Settings::thumbnailFilenameInsteadFontSizeChanged,       &Settings::saveSettingsTimerStart);
         connect(this, &Settings::thumbnailDisableChanged,                       &Settings::saveSettingsTimerStart);
         connect(this, &Settings::thumbnailWriteFilenameChanged,                 &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::thumbnailWriteResolutionChanged,               &Settings::saveSettingsTimerStart);
 
         connect(this, &Settings::windowmodeChanged,                             &Settings::saveSettingsTimerStart);
         connect(this, &Settings::windowDecorationChanged,                       &Settings::saveSettingsTimerStart);
@@ -272,7 +271,6 @@ public:
     int     thumbnailFilenameInsteadFontSize;
     bool    thumbnailDisable;
     bool    thumbnailWriteFilename;
-    bool    thumbnailWriteResolution;
     int     thumbnailFontSize;
 
     bool    windowMode;
@@ -404,7 +402,6 @@ public:
     Q_PROPERTY(int     thumbnailFilenameInsteadFontSize MEMBER thumbnailFilenameInsteadFontSize NOTIFY thumbnailFilenameInsteadFontSizeChanged)
     Q_PROPERTY(bool    thumbnailDisable                 MEMBER thumbnailDisable                 NOTIFY thumbnailDisableChanged)
     Q_PROPERTY(bool    thumbnailWriteFilename           MEMBER thumbnailWriteFilename           NOTIFY thumbnailWriteFilenameChanged)
-    Q_PROPERTY(bool    thumbnailWriteResolution         MEMBER thumbnailWriteResolution         NOTIFY thumbnailWriteResolutionChanged)
     Q_PROPERTY(int     thumbnailFontSize                MEMBER thumbnailFontSize                NOTIFY thumbnailFontSizeChanged)
 
     Q_PROPERTY(bool    windowMode                       MEMBER windowMode                       NOTIFY windowmodeChanged)
@@ -537,7 +534,6 @@ public:
         thumbnailCenterActive            = false;
         thumbnailDisable                 = false;
         thumbnailWriteFilename           = true;
-        thumbnailWriteResolution         = false;
         thumbnailFontSize                = 7;
 
         thumbnailFilenameInstead         = false;
@@ -703,7 +699,6 @@ public slots:
             cont += QString("ThumbnailFilenameInsteadFontSize=%1\n").arg(thumbnailFilenameInsteadFontSize);
             cont += QString("ThumbnailDisable=%1\n").arg(int(thumbnailDisable));
             cont += QString("ThumbnailWriteFilename=%1\n").arg(int(thumbnailWriteFilename));
-            cont += QString("ThumbnailWriteResolution=%1\n").arg(int(thumbnailWriteResolution));
             cont += QString("ThumbnailFontSize=%1\n").arg(thumbnailFontSize);
 
             cont += "\n[Slideshow]\n";
@@ -1031,11 +1026,6 @@ public slots:
             else if(all.contains("ThumbnailWriteFilename=0"))
                 thumbnailWriteFilename = false;
 
-            if(all.contains("ThumbnailWriteResolution=1"))
-                thumbnailWriteResolution = true;
-            else if(all.contains("ThumbnailWriteResolution=0"))
-                thumbnailWriteResolution = false;
-
             if(all.contains("ThumbnailFontSize="))
                 thumbnailFontSize = all.split("ThumbnailFontSize=").at(1).split("\n").at(0).toInt();
 
@@ -1349,7 +1339,6 @@ signals:
     void thumbnailFilenameInsteadFontSizeChanged(int val);
     void thumbnailDisableChanged(bool val);
     void thumbnailWriteFilenameChanged(bool val);
-    void thumbnailWriteResolutionChanged(bool val);
 
     void windowmodeChanged(bool val);
     void windowDecorationChanged(bool val);
