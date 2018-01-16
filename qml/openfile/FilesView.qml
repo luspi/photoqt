@@ -174,14 +174,12 @@ Rectangle {
                 hoverEnabled: true
                 onEntered: gridview.currentIndex = index
                 //: Refers to the filename. Keep string short!
-                text: "<tr><td align='right'><b>" + qsTr("Name") + ": </b></td><td><b>" + filename + "</b></td></tr>
+                text: "<tr><td align='right'><b>" + qsTr("Name") + ": </b></td><td><b>" + filename + "</b></td></tr>" +
                 //: Refers to the filesize. Keep string short!
-                       <tr><td align='right'><b>" + qsTr("Size") + ": </b></td><td><b>" + filesize + "</b></td></tr>"
+                       "<tr><td align='right'><b>" + qsTr("Size") + ": </b></td><td><b>" + filesize + "</b></td></tr>"
                 cursorShape: Qt.PointingHandCursor
-                onClicked: {
-                    mainwindow.loadFile(openvariables.currentDirectory + "/" + filename)
-                    openfile_top.hide()
-                }
+                onClicked:
+                    loadHighlightedPicture()
             }
 
         }
@@ -263,6 +261,15 @@ Rectangle {
             editRect.selectAll()
             openvariables.textEditedFromHighlighting = false
         }
+    }
+
+    function loadHighlightedPicture() {
+        // This file does no exist on purpose! Causes 'file not found' error to be shown!
+        if(gridview.model.get(gridview.currentIndex) == undefined)
+            mainwindow.loadFile(":/show/error/file not found")
+        else
+            mainwindow.loadFile(openvariables.currentDirectory + "/" + gridview.model.get(gridview.currentIndex).filename)
+        openfile_top.hide()
     }
 
 }

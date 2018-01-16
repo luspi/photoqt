@@ -81,6 +81,8 @@ Rectangle {
             if(!openfile_top.visible) return
             if(sh == "Escape")
                 hide()
+            else if(sh == "Enter" || sh == "Return")
+                filesview.loadHighlightedPicture()
             else if(sh == "Alt+Left") {
                 if(openvariables.currentFocusOn == "userplaces")
                     openvariables.currentFocusOn = "filesview"
