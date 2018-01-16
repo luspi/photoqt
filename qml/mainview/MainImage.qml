@@ -12,7 +12,7 @@ Item {
         leftMargin: settings.marginAroundImage+metadata.nonFloatWidth
         rightMargin: settings.marginAroundImage
         topMargin: settings.marginAroundImage
-        bottomMargin: settings.marginAroundImage
+        bottomMargin: settings.marginAroundImage+(settings.thumbnailKeepVisible ? variables.thumbnailsheight : 0)
     }
 
     // the source of the current image

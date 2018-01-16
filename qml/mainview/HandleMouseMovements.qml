@@ -53,7 +53,7 @@ MouseArea {
 
         if(yPos > mainwindow.height-w && !variables.slideshowRunning)
             call.show("thumbnails")
-        else
+        else if(!settings.thumbnailKeepVisible)
             call.hide("thumbnails")
 
         if(yPos < w)

@@ -33,4 +33,6 @@ Item {
     property var shortcutsMouseGesture: []
     property point shorcutsMouseGesturePointIntermediate: Qt.point(-1,-1)
 
+    property int thumbnailsheight: 0
+
 }

@@ -335,6 +335,7 @@ Item {
     function show() {
         if(variables.filterNoMatch || variables.deleteNothingLeft) return
         opacity = 1
+        variables.thumbnailsheight = top.height
     }
 
     // Hide the thumbnail bar

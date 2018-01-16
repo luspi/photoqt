@@ -190,6 +190,25 @@ Rectangle {
     PShortcutsNotifier { id: sh_notifier; }
 
 
+    /********************************************************************************
+     *                                                                              *
+     * SOME SETTINGS NEED TO BE APPLIED PROPERLY WHEN THEY CHANGE AND/OR AT STARTUP *
+     *                                                                              *
+     ********************************************************************************/
+
+    Connections {
+        target: settings
+        onThumbnailKeepVisibleChanged:
+            if(settings.thumbnailKeepVisible)
+                call.show("thumbnails")
+    }
+
+    Component.onCompleted: {
+        if(settings.thumbnailKeepVisible)
+            call.show("thumbnails")
+    }
+
+
     /**************************************************
      *                                                *
      * A WHOLE BUNCH OF FUNCTIONS TO DO GENERAL STUFF *
