@@ -55,6 +55,11 @@ Rectangle {
             Behavior on opacity { NumberAnimation { duration: 100 } }
         }
 
+        onCurrentIndexChanged: {
+            if(currentIndex != -1)
+                openvariables.currentFocusOn = "folders"
+        }
+
         model: ListModel { }
 
         highlight: Rectangle {

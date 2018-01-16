@@ -210,8 +210,12 @@ Rectangle {
         target: gridview
 
         onCurrentIndexChanged: {
+
             if(openvariables.highlightingFromUserInput)
                 return
+
+            if(gridview.currentIndex != -1)
+                openvariables.currentFocusOn = "filesview"
 
             reloadBackgroundThumbnail()
 

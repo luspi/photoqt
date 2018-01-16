@@ -454,18 +454,21 @@ Rectangle {
                 standardlocations.currentIndex = 1
             userPlaces.currentIndex = -1
             storageinfo.currentIndex = -1
+            openvariables.currentFocusOn = "userplaces"
         } else if(source == "userplaces") {
             if(userPlaces.currentIndex == -1) return
             if(userPlaces.currentIndex == 0)
                 userPlaces.currentIndex = 1
             standardlocations.currentIndex = -1
             storageinfo.currentIndex = -1
+            openvariables.currentFocusOn = "userplaces"
         } else if(source == "storage") {
             if(storageinfo.currentIndex == -1) return
             if(storageinfo.currentIndex == 0)
                 storageinfo.currentIndex = 1
             standardlocations.currentIndex = -1
             userPlaces.currentIndex = -1
+            openvariables.currentFocusOn = "userplaces"
         }
 
     }
