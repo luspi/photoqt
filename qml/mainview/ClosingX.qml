@@ -15,39 +15,21 @@ Item {
     anchors.top: parent.top
 
     // Width depends on type of 'x'
-    width: (settings.quickInfoFullX ? 3 : 1.5)*settings.quickInfoCloseXSize
-    height: (settings.quickInfoFullX ? 3 : 1.5)*settings.quickInfoCloseXSize
+    width: 3*settings.quickInfoCloseXSize
+    height: 3*settings.quickInfoCloseXSize
 
-    // Normal 'x'
-    Text {
-
-        id: txt_x
-
+    // Plain 'x'
+    Image {
         visible: !settings.quickInfoFullX
         anchors.fill: parent
-
-        horizontalAlignment: Qt.AlignRight
-        verticalAlignment: Qt.AlignTop
-
-        font.pointSize: settings.quickInfoCloseXSize*1.5
-        font.bold: true
-        color: colour.quickinfo_text
-        text: "x"
-
+        source: "qrc:/img/closingxplain.png"
     }
 
-    // Fancy 'x'
+    // Full 'x'
     Image {
-
-        id: img_x
-
         visible: settings.quickInfoFullX
-        anchors.right: parent.right
-        anchors.top: parent.top
-
+        anchors.fill: parent
         source: "qrc:/img/closingx.png"
-        sourceSize: Qt.size(3*settings.quickInfoCloseXSize,3*settings.quickInfoCloseXSize)
-
     }
 
     // Click on either one of them

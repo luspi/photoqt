@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>img/closingx.png</file>
+        <file>img/closingxplain.png</file>
         <file>img/transparent.png</file>
         <file>img/icon.png</file>
         <file>img/arrowleft.png</file>
