@@ -442,6 +442,8 @@ Rectangle {
             highlightFirst()
         onHighlightLast:
             highlightLast()
+        onLoadEntry:
+            loadHighlightedItem()
     }
 
     function handleChangeCurrentIndex(source) {
@@ -581,6 +583,36 @@ Rectangle {
                 storageinfo.currentIndex = Math.max(storageinfo.currentIndex-distance, 1)
                 return
             }
+
+        }
+
+    }
+
+    function loadHighlightedItem() {
+
+        if(openvariables.currentFocusOn != "userplaces")
+            return
+
+        if(standardlocations.visible && standardlocations.currentIndex != -1) {
+
+            if(standardlocations.model.get(standardlocations.currentIndex) == undefined)
+                return
+
+            openvariables.currentDirectory = standardlocations.model.get(standardlocations.currentIndex).location
+
+        } else if(userPlaces.visible && userPlaces.currentIndex != -1) {
+
+            if(userPlaces.model.get(userPlaces.currentIndex) == undefined)
+                return
+
+            openvariables.currentDirectory = userPlaces.model.get(userPlaces.currentIndex).path
+
+        } else if(storageinfo.visible && storageinfo.currentIndex != -1) {
+
+            if(storageinfo.model.get(storageinfo.currentIndex) == undefined)
+                return
+
+            openvariables.currentDirectory = storageinfo.model.get(storageinfo.currentIndex).location
 
         }
 

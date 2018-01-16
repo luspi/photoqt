@@ -206,6 +206,10 @@ Rectangle {
             highlightFirst()
         onHighlightLast:
             highlightLast()
+        onLoadEntry: {
+            if(openvariables.currentFocusOn == "folders")
+                loadHighlightedFolder()
+        }
     }
 
     function highlightEntry(distance) {
@@ -234,6 +238,15 @@ Rectangle {
 
         if(listView.model.count > 0)
             listView.currentIndex = listView.model.count-1
+
+    }
+
+    function loadHighlightedFolder() {
+
+        if(openvariables.currentFocusOn != "folders" || listView.model.get(listView.currentIndex) == undefined)
+            return
+
+        openvariables.currentDirectory = listView.model.get(listView.currentIndex).path
 
     }
 

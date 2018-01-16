@@ -76,6 +76,7 @@ Rectangle {
     signal highlightEntry(var distance)
     signal highlightFirst()
     signal highlightLast()
+    signal loadEntry()
 
     Connections {
         target: call
@@ -85,8 +86,6 @@ Rectangle {
             if(!openfile_top.visible) return
             if(sh == "Escape")
                 hide()
-            else if(sh == "Enter" || sh == "Return")
-                filesview.loadHighlightedPicture()
             else if(sh == "Alt+Left") {
                 if(openvariables.currentFocusOn == "userplaces")
                     openvariables.currentFocusOn = "filesview"
@@ -101,7 +100,9 @@ Rectangle {
                     openvariables.currentFocusOn = "filesview"
                 else
                     openvariables.currentFocusOn = "userplaces"
-            } else if(sh == "Up")
+            } else if(sh == "Enter" || sh == "Return")
+                loadEntry()
+            else if(sh == "Up")
                 highlightEntry(-1)
             else if(sh == "Down")
                 highlightEntry(1)

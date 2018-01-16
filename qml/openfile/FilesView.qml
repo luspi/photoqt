@@ -252,6 +252,10 @@ Rectangle {
             highlightFirst()
         onHighlightLast:
             highlightLast()
+        onLoadEntry: {
+            if(openvariables.currentFocusOn == "filesview")
+                loadHighlightedPicture()
+        }
     }
 
     function highlightEntry(distance) {
@@ -308,12 +312,13 @@ Rectangle {
     }
 
     function loadHighlightedPicture() {
-        // This file does no exist on purpose! Causes 'file not found' error to be shown!
+
         if(gridview.model.get(gridview.currentIndex) == undefined)
-            mainwindow.loadFile(":/show/error/file not found")
-        else
-            mainwindow.loadFile(openvariables.currentDirectory + "/" + gridview.model.get(gridview.currentIndex).filename)
+            return
+
+        mainwindow.loadFile(openvariables.currentDirectory + "/" + gridview.model.get(gridview.currentIndex).filename)
         openfile_top.hide()
+
     }
 
 }
