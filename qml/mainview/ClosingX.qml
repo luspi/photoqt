@@ -15,15 +15,15 @@ Item {
     anchors.top: parent.top
 
     // Width depends on type of 'x'
-    width: (settings.quickInfoFancyX ? 3 : 1.5)*settings.quickInfoCloseXSize
-    height: (settings.quickInfoFancyX ? 3 : 1.5)*settings.quickInfoCloseXSize
+    width: (settings.quickInfoFullX ? 3 : 1.5)*settings.quickInfoCloseXSize
+    height: (settings.quickInfoFullX ? 3 : 1.5)*settings.quickInfoCloseXSize
 
     // Normal 'x'
     Text {
 
         id: txt_x
 
-        visible: !settings.quickInfoFancyX
+        visible: !settings.quickInfoFullX
         anchors.fill: parent
 
         horizontalAlignment: Qt.AlignRight
@@ -41,7 +41,7 @@ Item {
 
         id: img_x
 
-        visible: settings.quickInfoFancyX
+        visible: settings.quickInfoFullX
         anchors.right: parent.right
         anchors.top: parent.top
 

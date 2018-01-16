@@ -92,12 +92,12 @@ EntryContainer {
     }
 
     function setData() {
-        closingx_fancy.checked = settings.quickInfoFancyX
+        closingx_fancy.checked = settings.quickInfoFullX
         closingx_sizeslider.value = settings.quickInfoCloseXSize
     }
 
     function saveData() {
-        settings.quickInfoFancyX = closingx_fancy.checked
+        settings.quickInfoFullX = closingx_fancy.checked
         settings.quickInfoCloseXSize = closingx_sizeslider.value
     }
 

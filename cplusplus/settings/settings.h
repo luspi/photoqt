@@ -108,12 +108,12 @@ public:
 
         connect(this, &Settings::leftButtonMouseClickAndMoveChanged,            &Settings::saveSettingsTimerStart);
 
-        connect(this, &Settings::quickinfoHideCounterChanged,                   &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::quickinfoHideFilepathChanged,                  &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::quickinfoHideFilenameChanged,                  &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::quickinfoHideXChanged,                         &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::quickinfoFancyXChanged,                        &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::quickinfoCloseXSizeChanged,                    &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::quickInfoHideCounterChanged,                   &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::quickInfoHideFilepathChanged,                  &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::quickInfoHideFilenameChanged,                  &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::quickInfoHideXChanged,                         &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::quickInfoFullXChanged,                         &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::quickInfoCloseXSizeChanged,                    &Settings::saveSettingsTimerStart);
 
         connect(this, &Settings::slideShowTimeChanged,                          &Settings::saveSettingsTimerStart);
         connect(this, &Settings::slideShowMusicFileChanged,                     &Settings::saveSettingsTimerStart);
@@ -250,8 +250,8 @@ public:
     bool    quickInfoHideFilepath;
     bool    quickInfoHideFilename;
     bool    quickInfoHideX;
-    int     quickInfoFancyX;
-    bool    quickInfoCloseXSize;
+    bool    quickInfoFullX;
+    int     quickInfoCloseXSize;
 
     int     slideShowTime;
     int     slideShowImageTransition;
@@ -378,12 +378,12 @@ public:
     Q_PROPERTY(bool    showTransparencyMarkerBackground MEMBER showTransparencyMarkerBackground NOTIFY showTransparencyMarkerBackgroundChanged)
     Q_PROPERTY(bool    leftButtonMouseClickAndMove      MEMBER leftButtonMouseClickAndMove      NOTIFY leftButtonMouseClickAndMoveChanged)
 
-    Q_PROPERTY(bool    quickInfoHideCounter             MEMBER quickInfoHideCounter             NOTIFY quickinfoHideCounterChanged)
-    Q_PROPERTY(bool    quickInfoHideFilepath            MEMBER quickInfoHideFilepath            NOTIFY quickinfoHideFilepathChanged)
-    Q_PROPERTY(bool    quickInfoHideFilename            MEMBER quickInfoHideFilename            NOTIFY quickinfoHideFilenameChanged)
-    Q_PROPERTY(bool    quickInfoHideX                   MEMBER quickInfoHideX                   NOTIFY quickinfoHideXChanged)
-    Q_PROPERTY(int     quickInfoFancyX                  MEMBER quickInfoFancyX                  NOTIFY quickinfoFancyXChanged)
-    Q_PROPERTY(bool    quickInfoCloseXSize              MEMBER quickInfoCloseXSize              NOTIFY quickinfoCloseXSizeChanged)
+    Q_PROPERTY(bool    quickInfoHideCounter             MEMBER quickInfoHideCounter             NOTIFY quickInfoHideCounterChanged)
+    Q_PROPERTY(bool    quickInfoHideFilepath            MEMBER quickInfoHideFilepath            NOTIFY quickInfoHideFilepathChanged)
+    Q_PROPERTY(bool    quickInfoHideFilename            MEMBER quickInfoHideFilename            NOTIFY quickInfoHideFilenameChanged)
+    Q_PROPERTY(bool    quickInfoHideX                   MEMBER quickInfoHideX                   NOTIFY quickInfoHideXChanged)
+    Q_PROPERTY(bool    quickInfoFullX                   MEMBER quickInfoFullX                   NOTIFY quickInfoFullXChanged)
+    Q_PROPERTY(int     quickInfoCloseXSize              MEMBER quickInfoCloseXSize              NOTIFY quickInfoCloseXSizeChanged)
 
     Q_PROPERTY(int     slideShowTime                    MEMBER slideShowTime                    NOTIFY slideShowTimeChanged)
     Q_PROPERTY(int     slideShowImageTransition         MEMBER slideShowImageTransition         NOTIFY slideShowImageTransitionChanged)
@@ -524,8 +524,8 @@ public:
         quickInfoHideFilepath            = true;
         quickInfoHideFilename            = false;
         quickInfoHideX                   = false;
-        quickInfoFancyX                  = 10;
-        quickInfoCloseXSize              = true;
+        quickInfoFullX                   = true;
+        quickInfoCloseXSize              = 10;
 
         thumbnailSize                    = 80;
         thumbnailPosition                = "Bottom";
@@ -686,8 +686,8 @@ public slots:
             cont += QString("QuickInfoHideFilepath=%1\n").arg(int(quickInfoHideFilepath));
             cont += QString("QuickInfoHideFilename=%1\n").arg(int(quickInfoHideFilename));
             cont += QString("QuickInfoHideX=%1\n").arg(int(quickInfoHideX));
-            cont += QString("QuickInfoFancyX=%1\n").arg(int(quickInfoCloseXSize));
-            cont += QString("QuickInfoCloseXSize=%1\n").arg(quickInfoFancyX);
+            cont += QString("QuickInfoFullX=%1\n").arg(int(quickInfoFullX));
+            cont += QString("QuickInfoCloseXSize=%1\n").arg(quickInfoCloseXSize);
 
             cont += "\n[Thumbnail]\n";
 
@@ -971,12 +971,12 @@ public slots:
                 quickInfoHideX = false;
 
             if(all.contains("QuickInfoCloseXSize="))
-                quickInfoFancyX = all.split("QuickInfoCloseXSize=").at(1).split("\n").at(0).toInt();
+                quickInfoCloseXSize = all.split("QuickInfoCloseXSize=").at(1).split("\n").at(0).toInt();
 
-            if(all.contains(("QuickInfoFancyX=1")))
-                quickInfoCloseXSize = true;
-            else if(all.contains("QuickInfoFancyX=0"))
-                quickInfoCloseXSize = false;
+            if(all.contains(("QuickInfoFullX=1")))
+                quickInfoFullX = true;
+            else if(all.contains("QuickInfoFullX=0"))
+                quickInfoFullX = false;
 
             if(all.contains("ThumbnailSize="))
                 thumbnailSize = all.split("ThumbnailSize=").at(1).split("\n").at(0).toInt();
@@ -1322,12 +1322,12 @@ signals:
     void showTransparencyMarkerBackgroundChanged(bool val);
     void leftButtonMouseClickAndMoveChanged(bool val);
 
-    void quickinfoHideCounterChanged(bool val);
-    void quickinfoHideFilepathChanged(bool val);
-    void quickinfoHideFilenameChanged(bool val);
-    void quickinfoHideXChanged(bool val);
-    void quickinfoFancyXChanged(int val);
-    void quickinfoCloseXSizeChanged(bool val);
+    void quickInfoHideCounterChanged(bool val);
+    void quickInfoHideFilepathChanged(bool val);
+    void quickInfoHideFilenameChanged(bool val);
+    void quickInfoHideXChanged(bool val);
+    void quickInfoFullXChanged(int val);
+    void quickInfoCloseXSizeChanged(bool val);
 
     void slideShowTimeChanged(int val);
     void slideShowMusicFileChanged(QString);
