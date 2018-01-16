@@ -202,7 +202,7 @@ Rectangle {
             height: visible?30:0
             visible: notvisible=="0"
             Component.onCompleted:
-                notvisible = (((path!=undefined&&path.substring(0,1)=="/"&&hidden=="false")||index==0) ? "0" : "1")
+                notvisible = (((path!=undefined&&hidden=="false")||index==0) ? "0" : "1")
 
             Rectangle {
                 width: userPlaces.width

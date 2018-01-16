@@ -14,6 +14,7 @@ Rectangle {
     property alias filesViewModel: gridview.model
     property alias filesView: gridview
     property alias filesEditRect: editRect
+    property bool showUnsupportedProtocolFolderMessage: false
 
     GridView {
 
@@ -33,12 +34,16 @@ Rectangle {
             anchors.fill: parent
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            text: qsTr("No image files found")
+            text: showUnsupportedProtocolFolderMessage
+                      //: Protocol refers to a file protocol (e.g., for network folders)
+                    ? qsTr("This protocol is currently not supported")
+                      //: Can also be expressed as 'zero subfolders' or '0 subfolders'. It is also possible to drop the 'sub' leaving 'folders' if that works better
+                    : qsTr("No image files found")
             font.bold: true
             color: "grey"
             font.pointSize: 20
             visible: (opacity!=0)
-            opacity: gridview.model.count==0 ? 1 : 0
+            opacity: (gridview.model.count==0||showUnsupportedProtocolFolderMessage) ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 100 } }
         }
 

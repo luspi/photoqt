@@ -12,6 +12,7 @@ Rectangle {
 
     property alias folderListView: listView
     property alias folderListModel: listView.model
+    property bool showUnsupportedProtocolFolderMessage: false
 
     color: openvariables.currentFocusOn=="folders" ? "#44000055" : "#44000000"
 
@@ -40,13 +41,17 @@ Rectangle {
             anchors.fill: parent
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
-            //: Can also be expressed as 'zero subfolders' or '0 subfolders'. It is also possible to drop the 'sub' leaving 'folders' if that works better
-            text: qsTr("No subfolders")
+            text: showUnsupportedProtocolFolderMessage
+                                //: Protocol refers to a file protocol (e.g., for network folders)
+                              ? qsTr("This protocol is currently not supported")
+                                //: Can also be expressed as 'zero subfolders' or '0 subfolders'. It is also possible to drop the 'sub' leaving 'folders' if that works better
+                              : qsTr("No subfolders")
             font.bold: true
             color: "grey"
             font.pointSize: 20
+            wrapMode: Text.WordWrap
             visible: (opacity!=0)
-            opacity: listView.model.count==1 ? 1 : 0
+            opacity: (listView.model.count==1||showUnsupportedProtocolFolderMessage) ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 100 } }
         }
 

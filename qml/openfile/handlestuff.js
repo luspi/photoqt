@@ -69,6 +69,14 @@ function loadDirectoryFolders() {
     ///////////////
 
     folders.folderListView.model.clear()
+
+    if(openvariables.currentDirectory.substring(0,1) != "/") {
+        folders.showUnsupportedProtocolFolderMessage = true
+        return
+    }
+
+    folders.showUnsupportedProtocolFolderMessage = false
+
     openvariables.currentDirectoryFolders = getanddostuff.getFoldersIn(openvariables.currentDirectory, true, settings.openShowHiddenFilesFolders)
 
     for(var j = 0; j < openvariables.currentDirectoryFolders.length; ++j)
@@ -86,9 +94,16 @@ function loadDirectoryFolders() {
 
 function loadDirectoryFiles() {
 
+    filesview.filesViewModel.clear()
+
+    if(openvariables.currentDirectory.substring(0,1) != "/") {
+        filesview.showUnsupportedProtocolFolderMessage = true
+        return
+    }
+    filesview.showUnsupportedProtocolFolderMessage = false
+
     openvariables.currentDirectoryFiles = getanddostuff.getFilesWithSizeIn(openvariables.currentDirectory, openvariables.filesFileTypeSelection, settings.openShowHiddenFilesFolders, settings.sortby, settings.sortbyAscending)
 
-    filesview.filesViewModel.clear()
     filesview.filesView.contentY = 0
     for(var j = 0; j < openvariables.currentDirectoryFiles.length; j+=2)
         filesview.filesViewModel.append({"filename" : openvariables.currentDirectoryFiles[j], "filesize" : openvariables.currentDirectoryFiles[j+1]})
