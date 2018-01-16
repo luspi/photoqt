@@ -5,7 +5,7 @@ Rectangle {
 
     id: ele_top
 
-    color: "#88000000"
+    color: "#bb000000"
     anchors.fill: parent
 
     opacity: 0
@@ -25,12 +25,10 @@ Rectangle {
     // item containing text in middle
     Rectangle {
         id: cont
-        color: "#bb000000"
-        width: 600
+        color: "#88000000"
+        width: 800
         height: flick.height+40
         radius: 5
-        border.width: 1
-        border.color: "#99999999"
         x: (parent.width-width)/2
         y: (parent.height-height)/2
 
@@ -42,6 +40,7 @@ Rectangle {
 
         ScrollBarVertical {
             flickable: flick
+            opacityHidden: opacityVisible
         }
 
         // since we have a max height, we use a flickable to accommodate longer text
@@ -52,7 +51,7 @@ Rectangle {
             x: 20
             y: 20
             width: parent.width-40
-            height: Math.min(flickcont.height,500)
+            height: Math.min(flickcont.height,700)
             contentHeight: flickcont.height
             clip: true
 
@@ -107,7 +106,7 @@ Rectangle {
     Text {
         x: cont.x+cont.width-width/2
         y: cont.y-height/2
-        font.pointSize: 20
+        font.pointSize: 15
         font.bold: true
         opacity: 0.1
         Behavior on opacity { NumberAnimation { duration: 200; } }
