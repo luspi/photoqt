@@ -11,6 +11,15 @@ Rectangle {
     width: settings.histogramSize.width
     height: settings.histogramSize.height
 
+    onXChanged:
+        settings.histogramPosition = Qt.point(x, y)
+    onYChanged:
+        settings.histogramPosition = Qt.point(x, y)
+    onWidthChanged:
+        settings.histogramSize = Qt.size(width, height)
+    onHeightChanged:
+        settings.histogramSize = Qt.size(width, height)
+
     color: "transparent"
 
     visible: (opacity!=0)
