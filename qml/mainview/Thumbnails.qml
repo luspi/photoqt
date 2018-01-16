@@ -181,8 +181,11 @@ Item {
                 // always load them assynchronously
                 asynchronous: true
 
-                // Set the source based on the special imageloader
-                source: "image://thumb/" + imagePath
+                // when no thumbnail image is loaded, the icon is shown partially opaque
+                opacity: settings.thumbnailFilenameInstead ? 0.6 : 1
+
+                // Set the source based on the special imageloader (icon or thumbnail)
+                source: settings.thumbnailFilenameInstead ? "image://icon/image-" + getanddostuff.getSuffix(imagePath) : "image://thumb/" + imagePath
 
             }
 
@@ -211,6 +214,49 @@ Item {
                     var prefix = (anim ? "file://" : "image://full/")
                     imageitem.loadImage(prefix + imagePath, anim)
                 }
+            }
+
+            // Filename label (when filename-only IS enabled)
+            Rectangle {
+
+                // The size and location
+                anchors {
+                    fill: parent
+                    leftMargin: settings.thumbnailSpacingBetween
+                    rightMargin: settings.thumbnailSpacingBetween
+                    topMargin: settings.thumbnailPosition=="Top" ? settings.thumbnailLiftUp+2*(rect.thumbnailExtraMargin/3) : undefined
+                    bottomMargin: settings.thumbnailPosition=="Top" ? undefined : settings.thumbnailLiftUp+2*(rect.thumbnailExtraMargin/3)
+                }
+
+                // only visible when filename-only thumbnail enabled
+                visible: settings.thumbnailFilenameInstead
+
+                // some slight background color, slightly darkened
+                color: "#44000000"
+
+                // The filename text
+                Text {
+
+                    // size and margin
+                    anchors.fill: parent
+                    anchors.margins: 10
+
+                    // some styling
+                    color: "white"
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    elide: Text.ElideRight
+                    font.pointSize: settings.thumbnailFilenameInsteadFontSize
+                    font.bold: true
+
+                    // align text
+                    verticalAlignment: Qt.AlignVCenter
+                    horizontalAlignment: Qt.AlignHCenter
+
+                    // the filename
+                    text: getanddostuff.removePathFromFilename(imagePath)
+
+                }
+
             }
 
             // Filename label (when filename-only NOT enabled)
