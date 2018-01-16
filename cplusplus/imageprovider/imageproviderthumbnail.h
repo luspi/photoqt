@@ -45,12 +45,7 @@ private:
     QImage getThumbnailImage(QByteArray filename);
 
     bool dbTransactionStarted;
-    bool dontCreateThumbnailNew;
-
-    QHash<QString,QSize> allSizes;
-
-    int origwidth;
-    int origheight;
+    bool needToReCreatedDbThumbnail;
 
 };
 

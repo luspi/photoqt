@@ -25,6 +25,11 @@ public:
         return QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
     }
 
+    static const QString GENERIC_CACHE_DIR() {
+        QString path = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation);
+        return (path.trimmed() != "" ? path : CACHE_DIR());
+    }
+
     static const QString SETTINGS_FILE() {
         return QString("%1/settings").arg(CONFIG_DIR());
     }

@@ -43,8 +43,6 @@ public:
 
     QImage requestImage(const QString &filename_encoded, QSize *size, const QSize &requestedSize);
 
-    QSize origSize;
-
 private:
     bool verbose;
 

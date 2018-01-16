@@ -527,7 +527,11 @@ public:
         thumbnailSize                    = 80;
         thumbnailPosition                = "Bottom";
         thumbnailCache                   = true;
+#ifdef Q_OS_WIN
         thumbnailCacheFile               = false;
+#else
+        thumbnailCacheFile               = true;
+#endif
         thumbnailSpacingBetween          = 0;
         thumbnailLiftUp                  = 6;
         thumbnailKeepVisible             = false;
