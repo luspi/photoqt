@@ -31,6 +31,11 @@ Rectangle {
     property var images: []
     property int current: 0
 
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+    }
+
     CustomButton {
         id: pause
         x: 10
