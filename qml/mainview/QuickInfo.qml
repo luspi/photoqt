@@ -92,7 +92,6 @@ Item {
                     visible: (variables.filter != "")
                     text: "x"
                     font.pointSize: 10
-                    y: (parent.height-height)/2
                 }
                 Text {
                     color: colour.quickinfo_text
