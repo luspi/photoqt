@@ -51,10 +51,17 @@ MouseArea {
         } else
             metadata.hide()
 
-        if(yPos > mainwindow.height-w && !variables.slideshowRunning)
-            call.show("thumbnails")
-        else if(!settings.thumbnailKeepVisible)
-            call.hide("thumbnails")
+        if(settings.thumbnailPosition=="Bottom") {
+            if(yPos > mainwindow.height-w && !variables.slideshowRunning)
+                call.show("thumbnails")
+            else if(!settings.thumbnailKeepVisible)
+                call.hide("thumbnails")
+        } else {
+            if(yPos < w && !variables.slideshowRunning)
+                call.show("thumbnails")
+            else if(!settings.thumbnailKeepVisible)
+                call.hide("thumbnails")
+        }
 
         if(yPos < w)
             call.show("slideshowbar")
