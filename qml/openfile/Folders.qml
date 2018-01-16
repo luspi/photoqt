@@ -80,21 +80,52 @@ Rectangle {
                         left: draghandler.right
                         top: parent.top
                         bottom: parent.bottom
-                        right: parent.right
+                        right: imagecountertext.left
                     }
+                    width: childrenRect.width
 
                     anchors.margins: 10
                     verticalAlignment: Qt.AlignVCenter
-                    text: "<b>" + folder + "</b>" + ((counter==0||folder=="..")
-                                                     ? ""
-                                                     : " <i>(" + counter + " " + (counter==1
-                    //: Used as in '(1 image)'. This string is always used for the singular, exactly one image
-                                                                                    ? qsTr("image")
-                    //: Used as in '(11 images)'. This string is always used for multiple images (at least 2)
-                                                                                    : qsTr("images")) + ")</i>")
+                    text: folder
+                    font.bold: true
                     color: "white"
                     font.pixelSize: 15
                     elide: Text.ElideRight
+                }
+
+                Item {
+
+                    id: imagecountertext
+                    anchors {
+                        top: parent.top
+                        right: parent.right
+                        bottom: parent.bottom
+                        margins: 10
+                    }
+                    width: imagecountertextitem.width
+
+                    Text {
+
+                        id: imagecountertextitem
+
+                        anchors {
+                            top: parent.top
+                            bottom: parent.bottom
+                        }
+
+                        verticalAlignment: Qt.AlignVCenter
+                        text: ((counter==0||folder=="..") ? ""
+                                                         : counter + " " + (counter==1
+                        //: Used as in '(1 image)'. This string is always used for the singular, exactly one image
+                                                                                        ? qsTr("image")
+                        //: Used as in '(11 images)'. This string is always used for multiple images (at least 2)
+                                                                                        : qsTr("images")))
+                        color: "white"
+                        font.italic: true
+                        font.pixelSize: 15
+
+                    }
+
                 }
 
                 MouseArea {
