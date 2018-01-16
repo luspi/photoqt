@@ -155,6 +155,8 @@ Item {
                             ? -rect.thumbnailExtraMargin/2
                             : settings.thumbnailLiftUp)+rect.thumbnailExtraMargin/3
 
+            Behavior on y { NumberAnimation { duration: 50 } }
+
             // The thumbnail image
             Image {
 
