@@ -57,5 +57,6 @@
         <file>img/openfile/hoverpreviewhq.png</file>
         <file>img/settings/shortcuts/deleteshortcut.png</file>
         <file>img/openfile/remember.png</file>
+        <file>img/plainerrorimg.png</file>
     </qresource>
 </RCC>
