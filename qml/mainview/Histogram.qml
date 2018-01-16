@@ -338,7 +338,7 @@ Rectangle {
             switchVersion.opacity = 0.75
         }
         function hide() {
-            switchVersion.opacity = 0.05
+            switchVersion.opacity = 0.1
         }
         Component.onCompleted: hide()
     }
@@ -381,7 +381,7 @@ Rectangle {
             closex.opacity = 0.75
         }
         function hide() {
-            closex.opacity = 0.05
+            closex.opacity = 0.1
         }
         Component.onCompleted: hide()
     }
