@@ -63,7 +63,7 @@ Item {
 
             y: 3
             anchors.left: counter.right
-            anchors.leftMargin: counter.visible ? 10 :5
+            anchors.leftMargin: visible ? (counter.visible ? 10 : 5) : 0
 
             text: (variables.currentFile==""||(settings.quickInfoHideFilepath&&settings.quickInfoHideFilename) ? "" : (settings.quickInfoHideFilepath ? variables.currentFile :(settings.quickInfoHideFilename ? variables.currentDir : variables.currentDir+"/"+variables.currentFile)))
             color: colour.quickinfo_text
