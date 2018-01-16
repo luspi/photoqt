@@ -15,6 +15,7 @@ Rectangle {
 
     property int marginBetweenCategories: 20
 
+    property alias userPlacesView: userPlaces
     property alias userPlacesModel: userPlaces.model
     property alias storageInfoModel: storageinfo.model
 
@@ -45,7 +46,11 @@ Rectangle {
         visible: settings.openUserPlacesStandard
         interactive: false
 
-        property int hoveredIndex: -1
+        highlightMoveDuration: 100
+        highlightResizeDuration: 100
+
+        onCurrentIndexChanged:
+            handleChangeCurrentIndex("standard")
 
         model: ListModel {
             Component.onCompleted: {
@@ -71,6 +76,12 @@ Rectangle {
             }
         }
 
+        highlight: Rectangle {
+            width: userPlaces.width
+            height: 30
+            color: "#88ffffff"
+        }
+
         delegate: Item {
 
             id: standarddeleg
@@ -82,7 +93,7 @@ Rectangle {
                 height: 30
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
-                color: standardlocations.hoveredIndex==index&&index>0 ? "#88999999" : index%2==0 ? "#88000000" : "#44000000"
+                color: index%2==0 ? "#88000000" : "#44000000"
                 Behavior on color { ColorAnimation { duration: 100 } }
 
                 Item {
@@ -112,8 +123,7 @@ Rectangle {
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
-                    onEntered: standardlocations.hoveredIndex = index
-                    onExited: standardlocations.hoveredIndex = -1
+                    onEntered: standardlocations.currentIndex = index
                     cursorShape: index>0 ? Qt.PointingHandCursor : Qt.ArrowCursor
                     onClicked: openvariables.currentDirectory = location
                 }
@@ -133,8 +143,13 @@ Rectangle {
 
         visible: settings.openUserPlacesUser
 
-        property int hoveredIndex: -1
+        highlightMoveDuration: 100
+        highlightResizeDuration: 100
+
         property int dragItemIndex: -1
+
+        onCurrentIndexChanged:
+            handleChangeCurrentIndex("userplaces")
 
         clip: true
 
@@ -146,9 +161,9 @@ Rectangle {
                 if(newindex==0) newindex = 1
                 if(splitview.dragSource == "folders") {
                     if(newindex != -1)
-                        userPlaces.model.insert(newindex, folders.folderlistview.model.get(folders.folderlistview.dragItemIndex))
+                        userPlaces.model.insert(newindex, folders.folderListView.model.get(folders.folderListView.dragItemIndex))
                     else
-                        userPlaces.model.append(folders.folderlistview.model.get(folders.folderlistview.dragItemIndex))
+                        userPlaces.model.append(folders.folderListView.model.get(folders.folderListView.dragItemIndex))
                     Handle.saveUserPlaces()
                 } else {
                     if(newindex < 0) newindex = userPlaces.model.count-1
@@ -157,7 +172,7 @@ Rectangle {
                         Handle.saveUserPlaces()
                     }
                 }
-                folders.folderlistview.dragItemIndex = -1
+                folders.folderListView.dragItemIndex = -1
                 splitview.hoveringOver = -1
             }
             onPositionChanged: {
@@ -175,11 +190,19 @@ Rectangle {
             }
         }
 
+        highlight: Rectangle {
+            width: userPlaces.width
+            height: 30
+            color: "#88ffffff"
+        }
+
         delegate: Item {
             id: userPlacesDelegate
             width: userPlaces.width
             height: visible?30:0
-            visible: ((path!=undefined&&path.substring(0,1)=="/"&&hidden=="false")||index==0)
+            visible: notvisible=="0"
+            Component.onCompleted:
+                notvisible = (((path!=undefined&&path.substring(0,1)=="/"&&hidden=="false")||index==0) ? "0" : "1")
 
             Rectangle {
                 width: userPlaces.width
@@ -196,7 +219,7 @@ Rectangle {
                 height: 30
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
-                color: userPlaces.hoveredIndex==index&&index>0 ? "#88999999" : index%2==0 ? "#88000000" : "#44000000"
+                color: index%2==0 ? "#88000000" : "#44000000"
                 Behavior on color { ColorAnimation { duration: 100 } }
 
                 Item {
@@ -229,8 +252,7 @@ Rectangle {
                     anchors.fill: parent
                     hoverEnabled: true
                     acceptedButtons: Qt.RightButton|Qt.LeftButton
-                    onEntered: userPlaces.hoveredIndex = index
-                    onExited: userPlaces.hoveredIndex = -1
+                    onEntered: userPlaces.currentIndex = index
                     cursorShape: index>0 ? Qt.PointingHandCursor : Qt.ArrowCursor
                     enabled: index>0
                     onClicked: {
@@ -310,12 +332,22 @@ Rectangle {
         visible: settings.openUserPlacesVolumes
         interactive: false
 
-        property int hoveredIndex: -1
+        highlightMoveDuration: 100
+        highlightResizeDuration: 100
+
+        onCurrentIndexChanged:
+            handleChangeCurrentIndex("storage")
 
         model: ListModel {
             Component.onCompleted: {
                 Handle.loadStorageInfo()
             }
+        }
+
+        highlight: Rectangle {
+            width: userPlaces.width
+            height: 30
+            color: "#88ffffff"
         }
 
         delegate: Item {
@@ -328,7 +360,7 @@ Rectangle {
                 height: 30
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
-                color: storageinfo.hoveredIndex==index&&index>0 ? "#88999999" : index%2==0 ? "#88000000" : "#44000000"
+                color: index%2==0 ? "#88000000" : "#44000000"
                 Behavior on color { ColorAnimation { duration: 100 } }
 
                 Item {
@@ -358,8 +390,7 @@ Rectangle {
                 MouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
-                    onEntered: storageinfo.hoveredIndex = index
-                    onExited: storageinfo.hoveredIndex = -1
+                    onEntered: storageinfo.currentIndex = index
                     cursorShape: index>0 ? Qt.PointingHandCursor : Qt.ArrowCursor
                     onClicked: openvariables.currentDirectory = location
                 }
@@ -400,6 +431,109 @@ Rectangle {
             //: The storage devices (like USB keys)
             text: qsTr("Show devices")
         }
+
+    }
+
+    Connections {
+        target: openfile_top
+        onHighlightNextEntry:
+            highlightNextEntry()
+        onHighlightPreviousEntry:
+            highlightPreviousEntry()
+    }
+
+    function handleChangeCurrentIndex(source) {
+
+        if(source == "standard") {
+            if(standardlocations.currentIndex == -1) return
+            if(standardlocations.currentIndex == 0)
+                standardlocations.currentIndex = 1
+            userPlaces.currentIndex = -1
+            storageinfo.currentIndex = -1
+        } else if(source == "userplaces") {
+            if(userPlaces.currentIndex == -1) return
+            if(userPlaces.currentIndex == 0)
+                userPlaces.currentIndex = 1
+            standardlocations.currentIndex = -1
+            storageinfo.currentIndex = -1
+        } else if(source == "storage") {
+            if(storageinfo.currentIndex == -1) return
+            if(storageinfo.currentIndex == 0)
+                storageinfo.currentIndex = 1
+            standardlocations.currentIndex = -1
+            userPlaces.currentIndex = -1
+        }
+
+    }
+
+    function highlightPreviousEntry() {
+
+        if(openvariables.currentFocusOn != "userplaces") return
+
+        // move up inside standard locations
+        if(standardlocations.currentIndex != -1 && standardlocations.currentIndex > 1) {
+            standardlocations.currentIndex -=1
+            return
+        }
+
+        // move up inside storage info
+        if(storageinfo.currentIndex != -1 && storageinfo.currentIndex > 1) {
+            storageinfo.currentIndex -=1
+            return
+        }
+
+        // move from userplaces to standard locations
+        if(userPlaces.currentIndex == 1) {
+            standardlocations.currentIndex = standardlocations.model.count-1
+            return
+        }
+
+        // move from storage info to userplaces
+        if(storageinfo.currentIndex == 1)
+            userPlaces.currentIndex = userPlaces.model.count
+
+        // move up inside userplaces
+        // We need to skip the items that are hidden, as they still have an index in the model. These items are marked with the property notvisible==1
+        // notvisible was chosen, as this way the item defaults to shown (i.e., notvisible=="0" or undefined)
+        while(userPlaces.currentIndex > 1) {
+            userPlaces.currentIndex -= 1
+            if(userPlaces.model.get(userPlaces.currentIndex).notvisible=="0")
+                break
+        }
+
+    }
+
+    function highlightNextEntry() {
+
+        if(openvariables.currentFocusOn != "userplaces") return
+
+        // move down inside standard locations
+        if(standardlocations.currentIndex != -1 && standardlocations.currentIndex < standardlocations.model.count-1) {
+            standardlocations.currentIndex +=1
+            return
+        }
+
+        // move down inside storage info
+        if(storageinfo.currentIndex != -1 && storageinfo.currentIndex < storageinfo.model.count-1) {
+            storageinfo.currentIndex +=1
+            return
+        }
+
+        // move inside userplaces
+        // We need to skip the items that are hidden, as they still have an index in the model. These items are marked with the property notvisible==1
+        // notvisible was chosen, as this way the item defaults to shown (i.e., notvisible=="0" or undefined)
+        var alldone = false
+        while(userPlaces.currentIndex < userPlaces.model.count-1) {
+            userPlaces.currentIndex += 1
+            if(userPlaces.model.get(userPlaces.currentIndex).notvisible=="0") {
+                alldone = true
+                break
+            }
+        }
+        if(alldone) return
+
+        // move from userplaces to storage info
+        storageinfo.currentIndex = 1
 
     }
 

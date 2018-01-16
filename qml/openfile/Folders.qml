@@ -10,7 +10,8 @@ Rectangle {
     width: settings.openFoldersWidth
     onWidthChanged: saveFolderWidth.start()
 
-    property alias folderlistview: listView
+    property alias folderListView: listView
+    property alias folderListModel: listView.model
 
     color: openvariables.currentFocusOn=="folders" ? "#44000055" : "#44000000"
 
@@ -24,12 +25,16 @@ Rectangle {
     }
 
     ListView {
+
         id: listView
+
         width: parent.width
         height: parent.height
 
+        highlightMoveDuration: 100
+        highlightResizeDuration: 100
+
         property int dragItemIndex: -1
-        property int hoveredIndex: -1
 
         Text {
             anchors.fill: parent
@@ -47,6 +52,17 @@ Rectangle {
 
         model: ListModel { }
 
+        highlight: Rectangle {
+
+            id: highlightDelegate
+
+            width: listView.width
+            height: 30
+
+            color: "#88ffffff"
+
+        }
+
         delegate: Item {
             id: delegateItem
             width: listView.width
@@ -58,7 +74,7 @@ Rectangle {
                 height: 30
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
-                color: listView.hoveredIndex==index ? "#88999999" : index%2==0 ? "#88000000" : "#44000000"
+                color: index%2==0 ? "#88000000" : "#44000000"
                 Behavior on color { ColorAnimation { duration: 100 } }
 
                 Item {
@@ -132,8 +148,7 @@ Rectangle {
                     id: mouseArea
                     anchors.fill: parent
                     hoverEnabled: true
-                    onEntered: listView.hoveredIndex = index
-                    onExited: listView.hoveredIndex = -1
+                    onEntered: listView.currentIndex = index
                     cursorShape: Qt.PointingHandCursor
                     onClicked: openvariables.currentDirectory = path
 
@@ -176,6 +191,25 @@ Rectangle {
         flickable: listView
         opacityVisible: 0.8
         opacityHidden: 0.8
+    }
+
+    Connections {
+        target: openfile_top
+        onHighlightNextEntry:
+            highlightNextEntry()
+        onHighlightPreviousEntry:
+            highlightPreviousEntry()
+    }
+
+    function highlightPreviousEntry() {
+        if(openvariables.currentFocusOn != "folders") return
+        if(listView.currentIndex > 0)
+            listView.currentIndex -= 1
+    }
+    function highlightNextEntry() {
+        if(openvariables.currentFocusOn != "folders") return
+        if(listView.currentIndex < listView.model.count-1)
+            listView.currentIndex += 1
     }
 
 }

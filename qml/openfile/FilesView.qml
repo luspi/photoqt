@@ -239,6 +239,26 @@ Rectangle {
         }
     }
 
+    Connections {
+        target: openfile_top
+        onHighlightNextEntry:
+            highlightNextEntry()
+        onHighlightPreviousEntry:
+            highlightPreviousEntry()
+    }
+
+    function highlightPreviousEntry() {
+        if(openvariables.currentFocusOn != "filesview") return
+        if(gridview.currentIndex > 0)
+            gridview.currentIndex -= 1
+    }
+
+    function highlightNextEntry() {
+        if(openvariables.currentFocusOn != "filesview") return
+        if(gridview.currentIndex < gridview.model.count-1)
+            gridview.currentIndex += 1
+    }
+
     function reloadBackgroundThumbnail() {
         var f = ""
         if(gridview.model.get(gridview.currentIndex) == undefined)

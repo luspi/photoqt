@@ -73,6 +73,9 @@ Rectangle {
 
     Tweaks { id: tweaks }
 
+    signal highlightNextEntry()
+    signal highlightPreviousEntry()
+
     Connections {
         target: call
         onOpenfileShow:
@@ -97,13 +100,11 @@ Rectangle {
                     openvariables.currentFocusOn = "filesview"
                 else
                     openvariables.currentFocusOn = "userplaces"
-            } else if(sh == "Up") {
-                if(filesview.filesView.currentIndex > 0)
-                    filesview.filesView.currentIndex -= 1
-            } else if(sh == "Down") {
-                if(filesview.filesView.currentIndex < filesview.filesViewModel.count-1)
-                    filesview.filesView.currentIndex += 1
-            } else if(sh == "Page Up") {
+            } else if(sh == "Up")
+                highlightPreviousEntry()
+            else if(sh == "Down")
+                highlightNextEntry()
+            else if(sh == "Page Up") {
                 if(filesview.filesView.currentIndex > 4)
                     filesview.filesView.currentIndex -= 5
                 else

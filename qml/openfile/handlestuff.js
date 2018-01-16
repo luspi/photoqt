@@ -68,11 +68,11 @@ function loadDirectoryFolders() {
     // FOLDERS
     ///////////////
 
-    folders.folderlistview.model.clear()
+    folders.folderListView.model.clear()
     openvariables.currentDirectoryFolders = getanddostuff.getFoldersIn(openvariables.currentDirectory, true, settings.openShowHiddenFilesFolders)
 
     for(var j = 0; j < openvariables.currentDirectoryFolders.length; ++j)
-        folders.folderlistview.model.append({"folder" : openvariables.currentDirectoryFolders[j],
+        folders.folderListView.model.append({"folder" : openvariables.currentDirectoryFolders[j],
                                              "path" : openvariables.currentDirectory+"/"+openvariables.currentDirectoryFolders[j],
                                              "counter" : getanddostuff.getNumberFilesInFolder(openvariables.currentDirectory
                                                                                               + "/"
@@ -107,7 +107,8 @@ function loadUserPlaces() {
                                        "icon" : "",
                                        "id" : "",
                                        "hidden" : "",
-                                       "systemitem" : ""})
+                                       "systemitem" : "",
+                                       "notvisible" : "1"})
 
     for(var i = 0; i < up.length; i+=6)
         userplaces.userPlacesModel.append({"folder" : up[i],
@@ -116,6 +117,8 @@ function loadUserPlaces() {
                                            "id" : up[i+3],
                                            "hidden" : up[i+4],
                                            "systemitem" : up[i+5]})
+
+    userplaces.userPlacesView.currentIndex = 1
 }
 
 function saveUserPlaces() {
