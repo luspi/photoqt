@@ -52,12 +52,12 @@ MouseArea {
             metadata.hide()
 
         if(settings.thumbnailPosition=="Bottom") {
-            if(yPos > mainwindow.height-w && !variables.slideshowRunning)
+            if(yPos > mainwindow.height-w && !variables.slideshowRunning && !settings.thumbnailDisable)
                 call.show("thumbnails")
             else if(!settings.thumbnailKeepVisible)
                 call.hide("thumbnails")
         } else {
-            if(yPos < w && !variables.slideshowRunning)
+            if(yPos < w && !variables.slideshowRunning && !settings.thumbnailDisable)
                 call.show("thumbnails")
             else if(!settings.thumbnailKeepVisible)
                 call.hide("thumbnails")

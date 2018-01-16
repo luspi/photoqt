@@ -201,6 +201,11 @@ Rectangle {
         onThumbnailKeepVisibleChanged:
             if(settings.thumbnailKeepVisible)
                 call.show("thumbnails")
+        onThumbnailDisableChanged:
+            if(!settings.thumbnailDisable) {
+                call.ensureElementSetup("thumbnails")
+                call.load("thumbnailLoadDirectory")
+            }
     }
 
     Component.onCompleted: {

@@ -270,7 +270,7 @@ Item {
         onThumbnailsHide:
             hide()
         onThumbnailsLoadDirectory:
-            loadDirectory(filename, filter)
+            loadDirectory()
     }
 
 
@@ -316,7 +316,7 @@ Item {
 
 
     // Load the specified directory based on the specified filter
-    function loadDirectory(filename, filter) {
+    function loadDirectory() {
 
         // When loading a directory, we can only call positionViewAtIndex after a few ms
         safeToUsePosWithoutCrash = false

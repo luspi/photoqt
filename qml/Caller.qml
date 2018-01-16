@@ -10,7 +10,7 @@ Item {
 
     signal thumbnailsShow()
     signal thumbnailsHide()
-    signal thumbnailsLoadDirectory(var filename, var filter)
+    signal thumbnailsLoadDirectory()
 
     signal settingsmanagerShow()
 
@@ -99,7 +99,7 @@ Item {
     function load(func) {
 
         if(func == "thumbnailLoadDirectory")
-            thumbnailsLoadDirectory(variables.currentFile, variables.filter)
+            thumbnailsLoadDirectory()
         else if(func == "slideshowStart") {
             ensureElementSetup("slideshowbar")
             slideshowStart()
