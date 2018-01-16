@@ -79,7 +79,7 @@ Rectangle {
 
         Rectangle {
 
-            y: 1
+            y: settings.openDefaultView=="list" ? 1 : 0
             width: gridview.cellWidth
             height: gridview.cellHeight-(settings.openDefaultView=="list" ? 2 : 0)
 
@@ -168,6 +168,9 @@ Rectangle {
 
             ToolTip {
                 anchors.fill: parent
+                // To avoid gaps between the items (in list view) that are not clickable, we extend the mousearea to y=0 and y=height
+                anchors.topMargin: settings.openDefaultView=="list" ? -1 : 0
+                anchors.bottomMargin: settings.openDefaultView=="list" ? -1 : 0
                 hoverEnabled: true
                 onEntered: gridview.currentIndex = index
                 //: Refers to the filename. Keep string short!
