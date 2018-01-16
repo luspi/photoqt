@@ -54,6 +54,9 @@ QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
         if(path.contains("file://"))
             path.remove(0,7);
 
+        if(path == "trash:/")
+            path = ConfigFiles::GENERIC_DATA_DIR() + "/Trash/files";
+
         if(entry.contains("<title>") && entry.contains("</title>"))
             name = entry.split("<title>").at(1).split("</title>").at(0);
         else
