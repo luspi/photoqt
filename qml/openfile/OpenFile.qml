@@ -120,7 +120,7 @@ Rectangle {
                 Handle.goBackInHistory()
             else if(sh == "Ctrl+F")
                 Handle.goForwardsInHistory()
-            else if(sh == "Ctrl++")
+            else if(sh == "Ctrl++" || sh == "Ctrl+=")
                 tweaks.tweaksZoom.tweaksZoomSlider.value += Math.min(3, tweaks.tweaksZoom.tweaksZoomSlider.maximumValue-tweaks.tweaksZoom.tweaksZoomSlider.value)
             else if(sh == "Ctrl+-")
                 tweaks.tweaksZoom.tweaksZoomSlider.value -= Math.min(3, tweaks.tweaksZoom.tweaksZoomSlider.value-tweaks.tweaksZoom.tweaksZoomSlider.minimumValue)
