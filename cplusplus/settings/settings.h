@@ -1326,8 +1326,8 @@ signals:
     void quickInfoHideFilepathChanged(bool val);
     void quickInfoHideFilenameChanged(bool val);
     void quickInfoHideXChanged(bool val);
-    void quickInfoFullXChanged(int val);
-    void quickInfoCloseXSizeChanged(bool val);
+    void quickInfoFullXChanged(bool val);
+    void quickInfoCloseXSizeChanged(int val);
 
     void slideShowTimeChanged(int val);
     void slideShowMusicFileChanged(QString);
