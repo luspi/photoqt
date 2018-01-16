@@ -233,13 +233,13 @@ Rectangle {
         }
     }
 
-    // resize histogram
+    // resize histogram (bottom right corner)
     MouseArea {
 
-        x: parent.width-30
-        y: parent.height-30
-        width: 30
-        height: 30
+        x: parent.width-10
+        y: parent.height-10
+        width: 10
+        height: 10
         hoverEnabled: true
         cursorShape: Qt.SizeFDiagCursor
 
@@ -253,6 +253,40 @@ Rectangle {
                 rect_top.width += (mouseX-width)
                 if(rect_top.width < 50)
                     rect_top.width = 50
+            }
+        }
+
+        onMouseYChanged: {
+            if(resizing){
+                rect_top.height += (mouseY-height)
+                if(rect_top.height < 50)
+                    rect_top.height = 50
+            }
+        }
+    }
+
+    // resize histogram (bottom left corner)
+    MouseArea {
+
+        x: 0
+        y: parent.height-10
+        width: 10
+        height: 10
+        hoverEnabled: true
+        cursorShape: Qt.SizeBDiagCursor
+
+        property bool resizing: false
+
+        onPressed: resizing = true
+        onReleased: resizing = false
+
+        onMouseXChanged: {
+            if(resizing){
+                rect_top.width -= mouseX
+                if(rect_top.width < 50)
+                    rect_top.width = 50
+                else
+                    rect_top.x += mouseX
             }
         }
 
