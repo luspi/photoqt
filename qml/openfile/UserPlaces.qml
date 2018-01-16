@@ -471,34 +471,42 @@ Rectangle {
         if(openvariables.currentFocusOn != "userplaces") return
 
         // move up inside standard locations
-        if(standardlocations.currentIndex != -1 && standardlocations.currentIndex > 1) {
+        if(standardlocations.currentIndex != -1 && standardlocations.currentIndex > 1 && standardlocations.visible) {
             standardlocations.currentIndex -=1
             return
         }
 
         // move up inside storage info
-        if(storageinfo.currentIndex != -1 && storageinfo.currentIndex > 1) {
+        if(storageinfo.currentIndex != -1 && storageinfo.currentIndex > 1 && storageinfo.visible) {
             storageinfo.currentIndex -=1
             return
         }
 
         // move from userplaces to standard locations
-        if(userPlaces.currentIndex == 1) {
+        if(userPlaces.currentIndex == 1 && standardlocations.visible) {
+            standardlocations.currentIndex = standardlocations.model.count-1
+            return
+        }
+
+        // move from storage info to standard locations (if userplaces disabled)
+        if(storageinfo.currentIndex == 1 && !userPlaces.visible && standardlocations.visible) {
             standardlocations.currentIndex = standardlocations.model.count-1
             return
         }
 
         // move from storage info to userplaces
-        if(storageinfo.currentIndex == 1)
+        if(storageinfo.currentIndex == 1 && userPlaces.visible)
             userPlaces.currentIndex = userPlaces.model.count
 
         // move up inside userplaces
         // We need to skip the items that are hidden, as they still have an index in the model. These items are marked with the property notvisible==1
         // notvisible was chosen, as this way the item defaults to shown (i.e., notvisible=="0" or undefined)
-        while(userPlaces.currentIndex > 1) {
-            userPlaces.currentIndex -= 1
-            if(userPlaces.model.get(userPlaces.currentIndex).notvisible=="0")
-                break
+        if(userPlaces.visible) {
+            while(userPlaces.currentIndex > 1) {
+                userPlaces.currentIndex -= 1
+                if(userPlaces.model.get(userPlaces.currentIndex).notvisible=="0")
+                    break
+            }
         }
 
     }
@@ -508,13 +516,13 @@ Rectangle {
         if(openvariables.currentFocusOn != "userplaces") return
 
         // move down inside standard locations
-        if(standardlocations.currentIndex != -1 && standardlocations.currentIndex < standardlocations.model.count-1) {
+        if(standardlocations.currentIndex != -1 && standardlocations.currentIndex < standardlocations.model.count-1 && standardlocations.visible) {
             standardlocations.currentIndex +=1
             return
         }
 
         // move down inside storage info
-        if(storageinfo.currentIndex != -1 && storageinfo.currentIndex < storageinfo.model.count-1) {
+        if(storageinfo.currentIndex != -1 && storageinfo.currentIndex < storageinfo.model.count-1 && storageinfo.visible) {
             storageinfo.currentIndex +=1
             return
         }
@@ -523,17 +531,20 @@ Rectangle {
         // We need to skip the items that are hidden, as they still have an index in the model. These items are marked with the property notvisible==1
         // notvisible was chosen, as this way the item defaults to shown (i.e., notvisible=="0" or undefined)
         var alldone = false
-        while(userPlaces.currentIndex < userPlaces.model.count-1) {
-            userPlaces.currentIndex += 1
-            if(userPlaces.model.get(userPlaces.currentIndex).notvisible=="0") {
-                alldone = true
-                break
+        if(userPlaces.visible) {
+            while(userPlaces.currentIndex < userPlaces.model.count-1) {
+                userPlaces.currentIndex += 1
+                if(userPlaces.model.get(userPlaces.currentIndex).notvisible=="0") {
+                    alldone = true
+                    break
+                }
             }
         }
         if(alldone) return
 
         // move from userplaces to storage info
-        storageinfo.currentIndex = 1
+        if(storageinfo.visible)
+            storageinfo.currentIndex = 1
 
     }
 
