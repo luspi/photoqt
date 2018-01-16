@@ -200,21 +200,41 @@ Rectangle {
 
     Connections {
         target: openfile_top
-        onHighlightNextEntry:
-            highlightNextEntry()
-        onHighlightPreviousEntry:
-            highlightPreviousEntry()
+        onHighlightEntry:
+            highlightEntry(distance)
+        onHighlightFirst:
+            highlightFirst()
+        onHighlightLast:
+            highlightLast()
     }
 
-    function highlightPreviousEntry() {
+    function highlightEntry(distance) {
+
         if(openvariables.currentFocusOn != "folders") return
-        if(listView.currentIndex > 0)
-            listView.currentIndex -= 1
+
+        if(distance > 0)
+            listView.currentIndex = Math.min(listView.currentIndex+distance, listView.model.count-1)
+        else
+            listView.currentIndex = Math.max(listView.currentIndex+distance, 0)
+
     }
-    function highlightNextEntry() {
+
+    function highlightFirst() {
+
         if(openvariables.currentFocusOn != "folders") return
-        if(listView.currentIndex < listView.model.count-1)
-            listView.currentIndex += 1
+
+        if(listView.model.count > 0)
+            listView.currentIndex = 0
+
+    }
+
+    function highlightLast() {
+
+        if(openvariables.currentFocusOn != "folders") return
+
+        if(listView.model.count > 0)
+            listView.currentIndex = listView.model.count-1
+
     }
 
 }

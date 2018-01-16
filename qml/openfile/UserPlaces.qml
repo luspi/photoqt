@@ -436,10 +436,12 @@ Rectangle {
 
     Connections {
         target: openfile_top
-        onHighlightNextEntry:
-            highlightNextEntry()
-        onHighlightPreviousEntry:
-            highlightPreviousEntry()
+        onHighlightEntry:
+            highlightEntry(distance)
+        onHighlightFirst:
+            highlightFirst()
+        onHighlightLast:
+            highlightLast()
     }
 
     function handleChangeCurrentIndex(source) {
@@ -466,85 +468,121 @@ Rectangle {
 
     }
 
-    function highlightPreviousEntry() {
-
-        if(openvariables.currentFocusOn != "userplaces") return
-
-        // move up inside standard locations
-        if(standardlocations.currentIndex != -1 && standardlocations.currentIndex > 1 && standardlocations.visible) {
-            standardlocations.currentIndex -=1
-            return
-        }
-
-        // move up inside storage info
-        if(storageinfo.currentIndex != -1 && storageinfo.currentIndex > 1 && storageinfo.visible) {
-            storageinfo.currentIndex -=1
-            return
-        }
-
-        // move from userplaces to standard locations
-        if(userPlaces.currentIndex == 1 && standardlocations.visible) {
-            standardlocations.currentIndex = standardlocations.model.count-1
-            return
-        }
-
-        // move from storage info to standard locations (if userplaces disabled)
-        if(storageinfo.currentIndex == 1 && !userPlaces.visible && standardlocations.visible) {
-            standardlocations.currentIndex = standardlocations.model.count-1
-            return
-        }
-
-        // move from storage info to userplaces
-        if(storageinfo.currentIndex == 1 && userPlaces.visible)
-            userPlaces.currentIndex = userPlaces.model.count
-
-        // move up inside userplaces
-        // We need to skip the items that are hidden, as they still have an index in the model. These items are marked with the property notvisible==1
-        // notvisible was chosen, as this way the item defaults to shown (i.e., notvisible=="0" or undefined)
-        if(userPlaces.visible) {
-            while(userPlaces.currentIndex > 1) {
-                userPlaces.currentIndex -= 1
-                if(userPlaces.model.get(userPlaces.currentIndex).notvisible=="0")
-                    break
-            }
-        }
-
+    function highlightFirst() {
+        if(standardlocations.visible)
+            standardlocations.currentIndex = 1
+        else if(userPlaces.visible && userPlaces.model.count > 1)
+            userPlaces.currentIndex = 1
+        else if(storageinfo.visible && storageinfo.model.count > 1)
+            storageinfo.currentIndex = 1
     }
 
-    function highlightNextEntry() {
+    function highlightLast() {
+        if(storageinfo.visible && storageinfo.model.count > 1)
+            storageinfo.currentIndex = storageinfo.model.count-1
+        else if(userPlaces.visible && userPlaces.model.count > 1)
+            userPlaces.currentIndex = userPlaces.model.count-1
+        else if(standardlocations.visible)
+            standardlocations.currentIndex = standardlocations.model.count-1
+    }
+
+    function highlightEntry(distance) {
 
         if(openvariables.currentFocusOn != "userplaces") return
 
-        // move down inside standard locations
-        if(standardlocations.currentIndex != -1 && standardlocations.currentIndex < standardlocations.model.count-1 && standardlocations.visible) {
-            standardlocations.currentIndex +=1
-            return
-        }
+        if(distance > 0) {
 
-        // move down inside storage info
-        if(storageinfo.currentIndex != -1 && storageinfo.currentIndex < storageinfo.model.count-1 && storageinfo.visible) {
-            storageinfo.currentIndex +=1
-            return
-        }
-
-        // move inside userplaces
-        // We need to skip the items that are hidden, as they still have an index in the model. These items are marked with the property notvisible==1
-        // notvisible was chosen, as this way the item defaults to shown (i.e., notvisible=="0" or undefined)
-        var alldone = false
-        if(userPlaces.visible) {
-            while(userPlaces.currentIndex < userPlaces.model.count-1) {
-                userPlaces.currentIndex += 1
-                if(userPlaces.model.get(userPlaces.currentIndex).notvisible=="0") {
-                    alldone = true
-                    break
-                }
+            // move from standard to userplaces
+            if(standardlocations.currentIndex != -1 && userPlaces.visible && standardlocations.currentIndex+distance > standardlocations.model.count-1) {
+                userPlaces.currentIndex = Math.min(1 + ((standardlocations.currentIndex+distance) - standardlocations.model.count), userPlaces.model.count-1)
+                return
             }
-        }
-        if(alldone) return
 
-        // move from userplaces to storage info
-        if(storageinfo.visible)
-            storageinfo.currentIndex = 1
+            // move from standard to storageinfo
+            if(standardlocations.currentIndex != -1 && !userPlaces.visible && storageinfo.visible && standardlocations.currentIndex+distance > standardlocations.model.count-1) {
+                storageinfo.currentIndex = Math.min(1 + ((standardlocations.currentIndex+distance) - standardlocations.model.count), storageinfo.model.count-1)
+                return
+            }
+
+            // move from userplaces to storageinfo
+            if(userPlaces.currentIndex != -1 && storageinfo.visible && userPlaces.currentIndex+distance > userPlaces.model.count-1) {
+                storageinfo.currentIndex = Math.min(1 + ((userPlaces.currentIndex+distance) - userPlaces.model.count), storageinfo.model.count)
+                return
+            }
+
+            // move inside standard
+            if(standardlocations.currentIndex != -1) {
+                standardlocations.currentIndex = Math.min(standardlocations.currentIndex+distance, standardlocations.model.count-1)
+                return
+            }
+
+            // move inside userplaces
+            if(userPlaces.currentIndex != -1) {
+                if(userPlaces.currentIndex == userPlaces.model.count-1)
+                    return
+                while(distance > 0) {
+                    userPlaces.currentIndex += 1
+                    if(userPlaces.model.get(userPlaces.currentIndex).notvisible=="0")
+                        distance -= 1
+                    if(userPlaces.currentIndex == userPlaces.model.count-1)
+                        distance = 0
+                }
+                return
+            }
+
+            // move inside storageinfo
+            if(storageinfo.currentIndex != -1) {
+                storageinfo.currentIndex = Math.min(storageinfo.currentIndex+distance, storageinfo.model.count-1)
+                return
+            }
+
+        } else {
+
+            distance *= -1
+
+            // move from userplaces to standard
+            if(userPlaces.currentIndex != -1 && standardlocations.visible && userPlaces.currentIndex-distance < 1) {
+                standardlocations.currentIndex = Math.max(standardlocations.count-1 - (distance-userPlaces.currentIndex), 1)
+                return
+            }
+
+            // move from storageinfo to standard
+            if(storageinfo.currentIndex != -1 && !userPlaces.visible && standardlocations.visible && storageinfo.currentIndex-distance < 1) {
+                standardlocations.currentIndex = Math.max(standardlocations.count-1 - (distance-storageinfo.currentIndex), 1)
+                return
+            }
+
+            // move from storageinfo to userplaces
+            if(storageinfo.currentIndex != -1 && userPlaces.visible && storageinfo.currentIndex-distance < 1) {
+                userPlaces.currentIndex = Math.max(userPlaces.count-1 - (distance-storageinfo.currentIndex), 1)
+                return
+            }
+
+            // move inside standard
+            if(standardlocations.currentIndex != -1) {
+                standardlocations.currentIndex = Math.max(standardlocations.currentIndex-distance, 1)
+                return
+            }
+
+            // move inside userplaces
+            if(userPlaces.currentIndex != -1) {
+                while(distance > 0) {
+                    userPlaces.currentIndex -= 1
+                    if(userPlaces.model.get(userPlaces.currentIndex).notvisible=="0")
+                        distance -= 1
+                    if(userPlaces.currentIndex == 1)
+                        distance = 0
+                }
+                return
+            }
+
+            // move inside storageinfo
+            if(storageinfo.currentIndex != -1) {
+                storageinfo.currentIndex = Math.max(storageinfo.currentIndex-distance, 1)
+                return
+            }
+
+        }
 
     }
 

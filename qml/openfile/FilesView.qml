@@ -246,22 +246,41 @@ Rectangle {
 
     Connections {
         target: openfile_top
-        onHighlightNextEntry:
-            highlightNextEntry()
-        onHighlightPreviousEntry:
-            highlightPreviousEntry()
+        onHighlightEntry:
+            highlightEntry(distance)
+        onHighlightFirst:
+            highlightFirst()
+        onHighlightLast:
+            highlightLast()
     }
 
-    function highlightPreviousEntry() {
+    function highlightEntry(distance) {
+
         if(openvariables.currentFocusOn != "filesview") return
-        if(gridview.currentIndex > 0)
-            gridview.currentIndex -= 1
+
+        if(distance > 0)
+            gridview.currentIndex = Math.min(gridview.currentIndex+distance, gridview.model.count-1)
+        else
+            gridview.currentIndex = Math.max(gridview.currentIndex+distance, 0)
+
     }
 
-    function highlightNextEntry() {
+    function highlightFirst() {
+
         if(openvariables.currentFocusOn != "filesview") return
-        if(gridview.currentIndex < gridview.model.count-1)
-            gridview.currentIndex += 1
+
+        if(gridview.model.count > 0)
+            gridview.currentIndex = 0
+
+    }
+
+    function highlightLast() {
+
+        if(openvariables.currentFocusOn != "filesview") return
+
+        if(gridview.model.count > 0)
+            gridview.currentIndex = gridview.model.count-1
+
     }
 
     function reloadBackgroundThumbnail() {

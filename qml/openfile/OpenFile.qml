@@ -73,8 +73,9 @@ Rectangle {
 
     Tweaks { id: tweaks }
 
-    signal highlightNextEntry()
-    signal highlightPreviousEntry()
+    signal highlightEntry(var distance)
+    signal highlightFirst()
+    signal highlightLast()
 
     Connections {
         target: call
@@ -101,23 +102,17 @@ Rectangle {
                 else
                     openvariables.currentFocusOn = "userplaces"
             } else if(sh == "Up")
-                highlightPreviousEntry()
+                highlightEntry(-1)
             else if(sh == "Down")
-                highlightNextEntry()
+                highlightEntry(1)
             else if(sh == "Page Up") {
-                if(filesview.filesView.currentIndex > 4)
-                    filesview.filesView.currentIndex -= 5
-                else
-                    filesview.filesView.currentIndex = 0
+                highlightEntry(-5)
             } else if(sh == "Page Down") {
-                if(filesview.filesView.currentIndex < filesview.filesViewModel.count-5)
-                    filesview.filesView.currentIndex += 5
-                else
-                    filesview.filesView.currentIndex = filesview.filesViewModel.count-1
+                highlightEntry(5)
             } else if(sh == "Ctrl+Up")
-                filesview.filesView.currentIndex = 0
+                highlightFirst()
             else if(sh == "Ctrl+Down")
-                filesview.filesView.currentIndex = filesview.filesViewModel.count-1
+                highlightLast()
             else if(sh == "Alt+Up")
                 openvariables.currentDirectory += "/.."
             else if(sh == "Ctrl+B")
