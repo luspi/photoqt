@@ -10,7 +10,7 @@ Item {
         getanddostuff.setOpenFileLastLocation(openvariables.currentDirectory)
     }
 
-    property string currentFocusOn: "folders"
+    property string currentFocusOn: "filesview"
 
     property int historypos: -1
     property var history: []
@@ -27,7 +27,9 @@ Item {
     property bool textEditedFromHighlighting: false
 
     // We HAVE TO break the binding, otherwise switching off the openKeepLastLocation setting before navigating to any other folder will reset the loaded folder to home folder
-    Component.onCompleted:
+    Component.onCompleted: {
         currentDirectory = currentDirectory
+        currentFocusOn = "filesview"
+    }
 
 }
