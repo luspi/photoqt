@@ -112,11 +112,12 @@ Item {
 
             anchors.fill: parent
 
-            // Currently, this has to be set to false, otherwise the thumbnails will likely be loaded first
-//            asynchronous: true
+            // Don't block interface while loading...
+            asynchronous: true
 
-            // same source as main image
-            source: parent.source
+            // same source as main image, but only set after full image is loaded and only if pixmapcache is enabled
+            // each image is fully loaded twice otherwise = very bad performance
+            source: (parent.status==Image.Ready&&settings.pixmapCache>5) ? parent.source : ""
 
             // this image is loaded scaled down
             sourceSize: Qt.size(defaultWidth, defaultHeight)
@@ -130,7 +131,7 @@ Item {
             mipmap: true
 
             // only visible when image not zoomed or zoomed out
-            visible: scaleMultiplier <= 1 && image.sourceSize.width > defaultWidth && image.sourceSize.height > defaultHeight
+            visible: scaleMultiplier <= 1 && image.sourceSize.width > defaultWidth && image.sourceSize.height > defaultHeight && source != ""
 
         }
 
