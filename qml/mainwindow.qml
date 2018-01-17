@@ -37,6 +37,10 @@ Rectangle {
     signal closePhotoQt()
     signal quitPhotoQt()
 
+    // tell the c++ code to update the tray icon
+    // We need to pass on the value as there is a delay for writing a change of the settings to file, thus it might not be updated on harddrive when we get to this point
+    signal trayIconValueChanged(int icon)
+
     anchors.fill: parent
 
     // Transparent background, the Background element handles the actual background
@@ -206,6 +210,8 @@ Rectangle {
                 call.ensureElementSetup("thumbnails")
                 call.load("thumbnailLoadDirectory")
             }
+        onTrayIconChanged:
+            trayIconValueChanged(settings.trayIcon)
     }
 
     Component.onCompleted: {

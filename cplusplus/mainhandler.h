@@ -76,11 +76,10 @@ private:
     bool overrideCursorSet;
     int update;
 
-    void showTrayIcon();
-
     void setupWindowProperties();
 
 private slots:
+    void handleTrayIcon(int val = -1);
     void qmlVerboseMessage(QString loc, QString msg);
     void trayAction(QSystemTrayIcon::ActivationReason reason);
     void toggleWindow();

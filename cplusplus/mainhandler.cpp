@@ -7,6 +7,8 @@ MainHandler::MainHandler(bool verbose, QWindow *parent) : QQuickView(parent) {
     variables->verbose = verbose;
     permanentSettings = new Settings;
 
+    trayIcon = nullptr;
+
     // Ensures we only once call setOverrideCursor in order to be able to properly restore it
     overrideCursorSet = false;
 
@@ -20,7 +22,7 @@ MainHandler::MainHandler(bool verbose, QWindow *parent) : QQuickView(parent) {
     registerQmlTypes();
 
     // Show tray icon (if enabled, checked by function)
-    showTrayIcon();
+    handleTrayIcon();
 
     addImageProvider();
 
@@ -83,6 +85,7 @@ void MainHandler::setObjectAndConnect() {
     connect(object, SIGNAL(restoreOverrideCursor()), this, SLOT(restoreOverrideCursor()));
     connect(object, SIGNAL(closePhotoQt()), this, SLOT(close()));
     connect(object, SIGNAL(quitPhotoQt()), this, SLOT(forceWindowQuit()));
+    connect(object, SIGNAL(trayIconValueChanged(int)), this, SLOT(handleTrayIcon(int)));
 
 }
 
@@ -298,7 +301,7 @@ void MainHandler::manageStartupFilename(bool startInTray, QString filename) {
     if(startInTray) {
         if(permanentSettings->trayIcon != 1) {
             if(permanentSettings->trayIcon == 0)
-                showTrayIcon();
+                handleTrayIcon();
             permanentSettings->trayIcon = 1;
             permanentSettings->trayIconChanged(1);
         }
@@ -309,38 +312,50 @@ void MainHandler::manageStartupFilename(bool startInTray, QString filename) {
 }
 
 // Show the tray icon (if enabled)
-void MainHandler::showTrayIcon() {
+void MainHandler::handleTrayIcon(int val) {
 
     if(variables->verbose)
         LOG << CURDATE << "showTrayIcon()" << NL;
 
-    if(permanentSettings->trayIcon != 0) {
+    if(val == -1)
+        val = permanentSettings->trayIcon;
+
+    if(val != 0) {
 
         if(variables->verbose)
             LOG << CURDATE << "showTrayIcon(): Setting up" << NL;
 
-        trayIcon = new QSystemTrayIcon(this);
-        trayIcon->setIcon(QIcon(":/img/icon.png"));
-        trayIcon->setToolTip("PhotoQt " + tr("Image Viewer"));
+        if(trayIcon == nullptr) {
 
-        // A context menu for the tray icon
-        QMenu *trayIconMenu = new QMenu;
-        trayIconMenu->setStyleSheet("background-color: rgb(67,67,67); color: white; border-radius: 5px;");
-        QAction *trayAcToggle = new QAction(QIcon(":/img/logo.png"),tr("Hide/Show PhotoQt"),this);
-        trayIconMenu->addAction(trayAcToggle);
-        QAction *trayAcQuit = new QAction(QIcon(":/img/logo.png"),tr("Quit PhotoQt"),this);
-        trayIconMenu->addAction(trayAcQuit);
-        connect(trayAcToggle, &QAction::triggered, this, &MainHandler::toggleWindow);
-        connect(trayAcQuit, &QAction::triggered, this, &MainHandler::forceWindowQuit);
+            trayIcon = new QSystemTrayIcon(this);
+            trayIcon->setIcon(QIcon(":/img/icon.png"));
+            trayIcon->setToolTip("PhotoQt " + tr("Image Viewer"));
 
-        // Set the menu to the tray icon
-        trayIcon->setContextMenu(trayIconMenu);
-        connect(trayIcon, &QSystemTrayIcon::activated, this, &MainHandler::trayAction);
+            // A context menu for the tray icon
+            QMenu *trayIconMenu = new QMenu;
+            trayIconMenu->setStyleSheet("background-color: rgb(67,67,67); color: white; border-radius: 5px;");
+            QAction *trayAcToggle = new QAction(QIcon(":/img/logo.png"),tr("Hide/Show PhotoQt"),this);
+            trayIconMenu->addAction(trayAcToggle);
+            QAction *trayAcQuit = new QAction(QIcon(":/img/logo.png"),tr("Quit PhotoQt"),this);
+            trayIconMenu->addAction(trayAcQuit);
+            connect(trayAcToggle, &QAction::triggered, this, &MainHandler::toggleWindow);
+            connect(trayAcQuit, &QAction::triggered, this, &MainHandler::forceWindowQuit);
+
+            // Set the menu to the tray icon
+            trayIcon->setContextMenu(trayIconMenu);
+            connect(trayIcon, &QSystemTrayIcon::activated, this, &MainHandler::trayAction);
+
+        }
 
         if(variables->verbose)
             LOG << CURDATE << "showTrayIcon(): Setting icon to visible" << NL;
 
         trayIcon->show();
+
+    } else {
+
+        if(trayIcon != nullptr)
+            trayIcon->hide();
 
     }
 
