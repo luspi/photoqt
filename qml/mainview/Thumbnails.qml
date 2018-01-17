@@ -182,11 +182,25 @@ Item {
                 asynchronous: true
 
                 // when no thumbnail image is loaded, the icon is shown partially opaque
-                opacity: settings.thumbnailFilenameInstead ? 0.6 : 1
+                opacity: settings.thumbnailFilenameInstead ? 0.6 : (status==Image.Ready ? 1 : 0)
+                Behavior on opacity { NumberAnimation { duration: 200 } }
 
                 // Set the source based on the special imageloader (icon or thumbnail)
                 source: imageitem.mainImageFinishedLoading ? (settings.thumbnailFilenameInstead ? "image://icon/image-" + getanddostuff.getSuffix(imagePath) : "image://thumb/" + imagePath) : ""
 
+            }
+
+            // Temporary image icon while thumbnail is loading
+            Image {
+                anchors.fill: img
+                anchors.margins: 10
+                verticalAlignment: Image.AlignTop
+                source: settings.thumbnailFilenameInstead ? "" : "image://icon/image-" + getanddostuff.getSuffix(imagePath)
+                fillMode: Image.PreserveAspectFit
+                asynchronous: true
+                visible: !settings.thumbnailFilenameInstead
+                opacity: img.status==Image.Ready ? 0 : 0.8
+                Behavior on opacity { NumberAnimation { duration: 200 } }
             }
 
             // The mouse area for the thumbnail also holds a tooltip
