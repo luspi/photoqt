@@ -6,15 +6,20 @@ import "handlestuff.js" as Handle
 
 Rectangle {
 
+    // minimum width, but this one always is the one to stretch to fill the rest of available space
     Layout.minimumWidth: 200
     Layout.fillWidth: true
 
-    color: (openvariables.currentFocusOn=="filesview") ? "#44000055" : "#44000000"
-
+    // some aliases to access things from outside
     property alias filesViewModel: gridview.model
     property alias filesView: gridview
     property alias filesEditRect: editRect
+
+    // when this is set to true, an 'unsupported protocol' message is displayed
     property bool showUnsupportedProtocolFolderMessage: false
+
+    // if in focus, show a slight blue glimmer
+    color: (openvariables.currentFocusOn=="filesview") ? "#44000055" : "#44000000"
 
     // This gridview holds all the items for each file, either in a list of in a grid
     GridView {
@@ -56,13 +61,14 @@ Rectangle {
         // Some status messages if no image is found in the folder or the protocol is not supported (like network:/)
         Text {
 
+            // tie size to parent
             anchors.fill: parent
 
             // displayed in center
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
 
-            // visibility
+            // visibility depends on model count and property value
             visible: (opacity!=0)
             opacity: (gridview.model.count==0||showUnsupportedProtocolFolderMessage) ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 100 } }
@@ -71,6 +77,7 @@ Rectangle {
             color: "grey"
             font.bold: true
             font.pointSize: 20
+            wrapMode: Text.WordWrap
 
             // the text status messages
             text: showUnsupportedProtocolFolderMessage
@@ -109,9 +116,20 @@ Rectangle {
         // the model is a simple ListModel, filled by handlestuff.js
         model: ListModel { }
 
-        // the delegate for the item and its highlight
+        // the delegate for the item
         delegate: files
-        highlight: fileshighlight
+
+        // the item for showing which entry is highlighted
+        highlight: Rectangle {
+
+            // it fill the full cell
+            width: gridview.cellWidth
+            height: gridview.cellHeight
+
+            // slight white background signals highlighted entry
+            color: "#88ffffff"
+
+        }
 
     }
 
@@ -130,7 +148,7 @@ Rectangle {
 
     }
 
-    // This is the component that make sup each file entry
+    // This is the component that makes up each file entry
     Component {
 
         id: files
@@ -330,23 +348,6 @@ Rectangle {
 
     }
 
-    // This is the rectangle for highlighting entries
-    Component {
-
-        id: fileshighlight
-
-        Rectangle {
-
-            // it fill the full cell
-            width: gridview.cellWidth
-            height: gridview.cellHeight
-
-            // slight white background signals highlighted entry
-            color: "#88ffffff"
-
-        }
-    }
-
     // React to changes to highlighted entry
     Connections {
 
@@ -415,7 +416,7 @@ Rectangle {
         onHighlightLast:
             highlightLast()
         onLoadEntry:
-                loadHighlightedPicture()
+            loadHighlightedPicture()
     }
 
     // highlight an entry up or down (at given distance)

@@ -9,23 +9,29 @@ Rectangle {
 
     id: openfile_top
 
+    // size is tied to mainwindow
+    // anchoring to parent doesn't work here, as element is wrapped inside Loader
     x: mainwindow.x
     y: mainwindow.y
     width: mainwindow.width
     height: mainwindow.height
 
+    // background color is a semi-transparent black
     color: "#88000000"
 
+    // opacity is animated
     opacity: 0
     visible: (opacity!=0)
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
+    // mouse area preventing HandleMouseMovements from catching mouse events
     MouseArea {
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton|Qt.RightButton
         hoverEnabled: true
     }
 
+    // Some variables used by the various subelements
     OpenVariables { id: openvariables }
 
     // Bread crumb navigation
@@ -40,24 +46,30 @@ Rectangle {
         color: "white"
     }
 
+    // The three panes holding userplaces, folders, files
     SplitView {
 
         id: splitview
 
+        // anchors to surrounding
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: tweaks.top
         anchors.top: breadcrumbs.bottom
 
+        // panes are laid out horizontally
         orientation: Qt.Horizontal
 
-        property int hoveringOver: -1
+        // the dragsource, used to distinguish between dragging new folder and reordering userplaces
         property var dragSource: undefined
 
+        // left pane holding some places
         UserPlaces { id: userplaces }
 
+        // middle pane showing the found subfolders
         Folders { id: folders }
 
+        // right pane showing the image files found
         FilesView { id: filesview }
 
     }
@@ -71,8 +83,10 @@ Rectangle {
         color: "white"
     }
 
+    // the bottom part contains some tweaks and settings that directly affect the open file element
     Tweaks { id: tweaks }
 
+    // some signals used to pass on shortcuts
     signal highlightEntry(var distance)
     signal highlightFirst()
     signal highlightLast()
@@ -133,6 +147,7 @@ Rectangle {
 
     }
 
+    // a notifier informing the user about the possible shortcuts. Only shown at first open until user clicks it away ('do not show again' checkbox checked by default)
     ShortcutNotifier {
 
         id: openshortcuts
@@ -140,6 +155,7 @@ Rectangle {
 
     }
 
+    // react to changes in folder, userplaces, and storage devices
     Connections {
         target: watcher
         onFolderUpdated:
@@ -150,11 +166,11 @@ Rectangle {
             Handle.loadStorageInfo()
     }
 
+    // react to changes in settings
     Connections {
         target: settings
-        onOpenShowHiddenFilesFoldersChanged: {
+        onOpenShowHiddenFilesFoldersChanged:
             Handle.loadDirectory()
-        }
     }
 
     Component.onCompleted: {
@@ -185,14 +201,20 @@ Rectangle {
 
     }
 
+    // show the element
     function show() {
         opacity = 1
+        // reset history
         openvariables.history = []
         openvariables.historypos = -1
+        // block interface
         variables.guiBlocked = true
+        // add current folder to history (first entry)
         Handle.addToHistory()
+        // focus on edit rect (and select all)
         filesview.filesEditRect.selectAll()
     }
+    // hide element
     function hide() {
         opacity = 0
         variables.guiBlocked = false
