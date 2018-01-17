@@ -171,8 +171,6 @@ Item {
                     bottomMargin: settings.thumbnailPosition=="Top" ? undefined : settings.thumbnailLiftUp+2*(rect.thumbnailExtraMargin/3)
                 }
 
-                property bool thumbnailLoaded: false
-
                 // Animate lift up/down of thumbnails
                 Behavior on anchors.bottomMargin { NumberAnimation { duration: 100 } }
                 Behavior on anchors.topMargin { NumberAnimation { duration: 100 } }
@@ -187,13 +185,24 @@ Item {
                 opacity: settings.thumbnailFilenameInstead ? 0.6 : (status==Image.Ready ? 1 : 0)
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
+                // only if this is true do we show the thumbnail image (value depends on status of loading of mainimage)
+                property bool loadThumbnail: true
+
                 // Set the source based on the special imageloader (icon or thumbnail)
-                // we only load thumbnail images if the main image has finished loading AND do nothing if the thumbnail has already finished loading
-                source: imageitem.mainImageFinishedLoading||thumbnailLoaded ? (settings.thumbnailFilenameInstead ? "image://icon/image-" + getanddostuff.getSuffix(imagePath) : "image://thumb/" + imagePath) : ""
+                // loading depends on the loadThumbnail property which in turn depends on the mainimage and whether the thumbnail has already finished loading
+                source: loadThumbnail ? (settings.thumbnailFilenameInstead ? "image://icon/image-" + getanddostuff.getSuffix(imagePath) : "image://thumb/" + imagePath) : "image://icon/image-" + getanddostuff.getSuffix(imagePath)
 
-                // A ready status means the thumbnail has finished loading
-                onStatusChanged: thumbnailLoaded = (status == Image.Ready)
+                // We react to changes in the status of loading the mainimage
+                Connections {
+                    target: imageitem
+                    onMainImageLoadingChanged:
+                        // whether we load a thumbnail depends on whether the mainimage has finished loading OR if the thumbnail has already finished loading
+                        img.loadThumbnail = (imageitem.mainImageFinishedLoading||img.status==Image.Ready)
+                }
 
+                // When created the mainimage is likely not yet finished loading, this needs to be reflected in the loadThumbnail property
+                Component.onCompleted:
+                    img.loadThumbnail = imageitem.mainImageFinishedLoading
 
             }
 
