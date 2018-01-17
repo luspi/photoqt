@@ -23,6 +23,13 @@ Rectangle {
     // if in focus, show a slight blue glimmer
     color: openvariables.currentFocusOn=="folders" ? "#44000055" : "#44000000"
 
+    // Entering the pane (even if not hovering a folder) sets the current focus to folders
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        onEntered: openvariables.currentFocusOn = "folders"
+    }
+
     // This listview holds all the subfolders found in the current folder
     ListView {
 

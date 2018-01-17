@@ -36,6 +36,7 @@ Rectangle {
         hoverEnabled: true
         acceptedButtons: Qt.RightButton
         onClicked: headingmenu.popup()
+        onEntered: openvariables.currentFocusOn = "userplaces"
     }
 
     // This listview holds the standard locations

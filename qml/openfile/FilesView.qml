@@ -21,6 +21,13 @@ Rectangle {
     // if in focus, show a slight blue glimmer
     color: (openvariables.currentFocusOn=="filesview") ? "#44000055" : "#44000000"
 
+    // Entering the pane (even if not hovering a file) sets the current focus to folders
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        onEntered: openvariables.currentFocusOn = "filesview"
+    }
+
     // This gridview holds all the items for each file, either in a list of in a grid
     GridView {
 
