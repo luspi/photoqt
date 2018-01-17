@@ -16,229 +16,378 @@ Rectangle {
     property alias filesEditRect: editRect
     property bool showUnsupportedProtocolFolderMessage: false
 
+    // This gridview holds all the items for each file, either in a list of in a grid
     GridView {
 
         id: gridview
 
+        // position and size
         anchors.fill: parent
         anchors.bottomMargin: editRect.height
 
+        // size of individual items depend on type of view. A list is nothing but a grid with one column
+        // we animate switching the view mode
         cellWidth: settings.openDefaultView=="icons" ? settings.openZoomLevel*4 : width
         cellHeight: settings.openDefaultView=="icons" ? settings.openZoomLevel*4 : settings.openZoomLevel
-        Behavior on cellWidth { NumberAnimation { duration: 200 } }
-        Behavior on cellHeight { NumberAnimation { duration: 100 } }
+        Behavior on cellWidth { NumberAnimation { id: cellWidthAni; duration: 200; } }
+        Behavior on cellHeight { NumberAnimation { id: cellHeightAni; duration: 100; } }
 
+        // changing the width of the filesview should not be animated, it feels more natural when the width follows directly what the mouse does
+        // thus we remove the animation when changing width and reset it again shortly after
+        onWidthChanged: {
+            cellWidthAni.duration = 0
+            cellHeightAni.duration = 0
+            resetAniDurations.restart()
+        }
+        // reset the animation durations after 250 ms
+        Timer {
+            id: resetAniDurations
+            interval: 250
+            repeat: false
+            onTriggered: {
+                cellWidthAni.duration = 200
+                cellHeightAni.duration = 100
+            }
+        }
+
+        // highlight item moves relatively fast
         highlightMoveDuration: 100
 
+        // Some status messages if no image is found in the folder or the protocol is not supported (like network:/)
         Text {
+
             anchors.fill: parent
+
+            // displayed in center
             verticalAlignment: Qt.AlignVCenter
             horizontalAlignment: Qt.AlignHCenter
+
+            // visibility
+            visible: (opacity!=0)
+            opacity: (gridview.model.count==0||showUnsupportedProtocolFolderMessage) ? 1 : 0
+            Behavior on opacity { NumberAnimation { duration: 100 } }
+
+            // some additional styling
+            color: "grey"
+            font.bold: true
+            font.pointSize: 20
+
+            // the text status messages
             text: showUnsupportedProtocolFolderMessage
                       //: Protocol refers to a file protocol (e.g., for network folders)
                     ? qsTr("This protocol is currently not supported")
                       //: Can also be expressed as 'zero subfolders' or '0 subfolders'. It is also possible to drop the 'sub' leaving 'folders' if that works better
                     : qsTr("No image files found")
-            font.bold: true
-            color: "grey"
-            font.pointSize: 20
-            visible: (opacity!=0)
-            opacity: (gridview.model.count==0||showUnsupportedProtocolFolderMessage) ? 1 : 0
-            Behavior on opacity { NumberAnimation { duration: 100 } }
+
+
         }
 
+        // The preview background thumbnail image
         Image {
+
             id: bgthumb
+
+            // fill view
             anchors.fill: parent
+
+            // visibility
             opacity: settings.openPreview ? 0.8 : 0
             visible: (opacity != 0)
             Behavior on opacity { NumberAnimation { duration: 200 } }
+
+            // some properties
             asynchronous: true
             fillMode: Image.PreserveAspectFit
             sourceSize: Qt.size(width,height)
-            source: ""
             z: -1
+
+            // set the source, at start of course empty
+            source: ""
+
         }
 
+        // the model is a simple ListModel, filled by handlestuff.js
         model: ListModel { }
 
+        // the delegate for the item and its highlight
         delegate: files
         highlight: fileshighlight
-        focus: true
 
     }
 
+    // This is shown at the bottom, shows the filename and allows the user to enter terms to search for a file
     CustomLineEdit {
+
         id: editRect
+
+        // size and position
         anchors {
             left: parent.left
             right: parent.right
             bottom: parent.bottom
             margins: 5
         }
+
     }
 
+    // This is the component that make sup each file entry
     Component {
 
         id: files
 
         Rectangle {
 
+            // size and position inside component (i.e., inside cell)
             y: settings.openDefaultView=="list" ? 1 : 0
             width: gridview.cellWidth
             height: gridview.cellHeight-(settings.openDefaultView=="list" ? 2 : 0)
 
+            // some faint background color
             color: "#44000000"
 
+            // The thumbnail image
             Image {
+
                 id: thumb
+
+                // position and size, depends on type of view
                 x: 3
                 y: 3
                 height: settings.openDefaultView=="list" ? parent.height-6 : 2*parent.height/3 -6
                 width: settings.openDefaultView=="list" ? parent.height-6 : parent.width-6
-                source: openfile_top.visible
-                        ? (filename!=undefined&&settings.openThumbnails)
+
+                // some properties
+                asynchronous: true
+                fillMode: Image.PreserveAspectFit
+
+                // the source depends on settings and visibility
+                source: (filename!=undefined&&settings.openThumbnails&&openfile_top.visible)
                           ? ("image://thumb/" + openvariables.currentDirectory + "/" + filename)
                           : "image://icon/image-" + getanddostuff.getSuffix(openvariables.currentDirectory + "/" + filename)
-                        : ""
+
+                // the thumbnail fades in when ready
                 opacity: Image.Ready&&source!="" ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
-                asynchronous: true
-                fillMode: Image.PreserveAspectFit
             }
 
+            // This is the temporary image showing an image icon while thumbnail is loading
             Image {
+
+                // same size/position as thumbnail image
                 anchors.fill: thumb
+
+                // it fades out once the full thumbnail image is available
                 visible: opacity!=0
                 opacity: thumb.status==Image.Ready&&thumb.source!="" ? 0 : 1
                 Behavior on opacity { NumberAnimation { duration: 200 } }
+
+                // same fill mode as thumb image, but NOT assynchronous! If set to asynchronous, it will never load before the thumb image...
                 fillMode: Image.PreserveAspectFit
-                source: openfile_top.visible
-                         ? "image://icon/image-" + getanddostuff.getSuffix(openvariables.currentDirectory + "/" + filename)
-                         : ""
+
+                // the source is always this, as this icon image loads almost instantly there is no need to set/remove it
+                source: "image://icon/image-" + getanddostuff.getSuffix(openvariables.currentDirectory + "/" + filename)
+
             }
 
+            // The filename when files are shown in list
             Text {
+
                 id: fn_list
+
+                anchors.fill: parent
+                anchors.leftMargin: thumb.width+10
+                anchors.rightMargin: fs_list.width+20
+
+                // visible when view mode is list
                 visible: settings.openDefaultView=="list"
-                anchors{
-                    left: thumb.right
-                    right: fs_list.left
-                    top: parent.top
-                    bottom: parent.bottom
-                    leftMargin: 10
-                }
+
+                // some properties
                 verticalAlignment: Qt.AlignVCenter
-                text: filename
+                elide: Text.ElideRight
                 color: "white"
                 font.bold: true
                 font.pixelSize: settings.openZoomLevel/2
+
+                // the filename set as text
+                text: filename
+
             }
 
+            // This is the filename when files are shown as icons
             Rectangle {
+
                 id: fn_icon
-                visible: settings.openDefaultView=="icons"
-                width: parent.width-4
-                height: parent.height/3 -4
+
+                // size and position
                 x: 2
                 y: 2*parent.height/3 +2
+                width: parent.width-4
+                height: parent.height/3 -4
+
+                // visible when view mode is icons
+                visible: settings.openDefaultView=="icons"
+
+                // some properties
                 color: "#88000000"
                 radius: 5
+
                 Text {
+
+                    // fill rectangle
                     anchors.fill: parent
-                    maximumLineCount: 1
-                    elide: Text.ElideMiddle
-                    verticalAlignment: Qt.AlignVCenter
+
+                    // center text
                     horizontalAlignment: Qt.AlignHCenter
-                    text: filename
+                    verticalAlignment: Qt.AlignVCenter
+
+                    // some properties
                     color: "white"
                     font.bold: true
                     font.pixelSize: settings.openZoomLevel/2
+                    maximumLineCount: 1
+                    elide: Text.ElideMiddle
+
+                    // and the filename
+                    text: filename
+
                 }
             }
 
-            Text {
+            // The filesize is shown only for the list
+            // we wrap it into an item as this gives us better access to the required width
+            Item {
+
                 id: fs_list
+
+                // visibility depends on view mode
                 visible: settings.openDefaultView=="list"
+
+                // size and position
                 anchors{
-                    left: fn_list.right
                     right: parent.right
                     top: parent.top
                     bottom: parent.bottom
                     rightMargin: 10
                 }
-                width: settings.openDefaultView=="list" ? childrenRect.width : 0
-                verticalAlignment: Qt.AlignVCenter
-                horizontalAlignment: Qt.AlignRight
-                text: filesize
-                color: "white"
-                font.bold: true
-                font.pixelSize: settings.openZoomLevel/2
+                width: settings.openDefaultView=="list" ? fs_listtext.width : 0
+
+                // the actual filesize text
+                Text {
+
+                    id: fs_listtext
+
+                    // size and position
+                    anchors.top: parent.top
+                    anchors.bottom: parent.bottom
+                    anchors.right: parent.right
+
+                    // center filesize text
+                    verticalAlignment: Qt.AlignVCenter
+
+                    // some properties
+                    color: "white"
+                    font.bold: true
+                    font.pixelSize: settings.openZoomLevel/2
+
+                    // the actual filesize text
+                    text: filesize
+
+                }
             }
 
+            // The tooltip for each item is the full name and the filesize
             ToolTip {
+
+                // clicking anywhere will load the file
                 anchors.fill: parent
+
                 // To avoid gaps between the items (in list view) that are not clickable, we extend the mousearea to y=0 and y=height
                 anchors.topMargin: settings.openDefaultView=="list" ? -1 : 0
                 anchors.bottomMargin: settings.openDefaultView=="list" ? -1 : 0
+
+                // some properties
                 hoverEnabled: true
-                onEntered: gridview.currentIndex = index
-                //: Refers to the filename. Keep string short!
-                text: "<tr><td align='right'><b>" + qsTr("Name") + ": </b></td><td><b>" + filename + "</b></td></tr>" +
-                //: Refers to the filesize. Keep string short!
-                       "<tr><td align='right'><b>" + qsTr("Size") + ": </b></td><td><b>" + filesize + "</b></td></tr>"
                 cursorShape: Qt.PointingHandCursor
-                onClicked:
+
+                // the currentIndex follows the mouse cursor
+                onEntered: gridview.currentIndex = index
+
+                // a click loads the highlighted image
+                onClicked: {
+                    openvariables.currentFocusOn = "filesview"
                     loadHighlightedPicture()
+                }
+
+                // The tooltip text is a html table
+                                                    //: Refers to the filename. Keep string short!
+                text: "<tr><td align='right'><b>" + qsTr("Name") + ": </b></td><td><b>" + filename + "</b></td></tr>" +
+                                                    //: Refers to the filesize. Keep string short!
+                      "<tr><td align='right'><b>" + qsTr("Size") + ": </b></td><td><b>" + filesize + "</b></td></tr>"
             }
 
         }
 
     }
 
+    // This is the rectangle for highlighting entries
     Component {
 
         id: fileshighlight
 
         Rectangle {
 
+            // it fill the full cell
             width: gridview.cellWidth
             height: gridview.cellHeight
 
+            // slight white background signals highlighted entry
             color: "#88ffffff"
 
         }
     }
 
+    // React to changes to highlighted entry
     Connections {
 
         target: gridview
 
+        // a new highlighted entry means the currentIndex property changed
         onCurrentIndexChanged: {
 
-            if(openvariables.highlightingFromUserInput)
-                return
-
+            // ensure filesview is in focus
             if(gridview.currentIndex != -1)
                 openvariables.currentFocusOn = "filesview"
 
+            // update background/preview image
             reloadBackgroundThumbnail()
 
         }
     }
 
+    // Also rect to changes in the folder (the currentIndex might not change)
     Connections {
+
         target: openvariables
+
+        // update background/preview image
         onCurrentDirectoryChanged:
             reloadBackgroundThumbnail()
+
     }
 
+    // React to the user editing the text in the rectangle
     Connections {
+
         target: editRect
+
         onTextEdited: {
+
+            // This is set to true when the text was set programatically (not by user)
             if(openvariables.textEditedFromHighlighting)
                 return
+
+            // build regular expression and try to find the first file that matches that expression
             var pattern = new RegExp(editRect.getText().replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&") + ".*","i")
             var index = -1
             for(var i = 0; i < openvariables.currentDirectoryFiles.length; i+=2) {
@@ -247,6 +396,8 @@ Rectangle {
                     break;
                 }
             }
+
+            // update the current index (without messing with the text in the edit rect)
             openvariables.highlightingFromUserInput = true
             if(index != -1)
                 gridview.currentIndex = index
@@ -254,6 +405,7 @@ Rectangle {
         }
     }
 
+    // React to shortcut actions
     Connections {
         target: openfile_top
         onHighlightEntry:
@@ -262,70 +414,104 @@ Rectangle {
             highlightFirst()
         onHighlightLast:
             highlightLast()
-        onLoadEntry: {
-            if(openvariables.currentFocusOn == "filesview")
+        onLoadEntry:
                 loadHighlightedPicture()
-        }
     }
 
+    // highlight an entry up or down (at given distance)
     function highlightEntry(distance) {
 
+        // check if we have focus
         if(openvariables.currentFocusOn != "filesview") return
 
+        // >0 means go down
         if(distance > 0)
             gridview.currentIndex = Math.min(gridview.currentIndex+distance, gridview.model.count-1)
+        // <0 means go up
         else
             gridview.currentIndex = Math.max(gridview.currentIndex+distance, 0)
 
     }
 
+    // highlight the first entry in the list
     function highlightFirst() {
 
+        // check if we have focus
         if(openvariables.currentFocusOn != "filesview") return
 
+        // if there are any items, go to first one
         if(gridview.model.count > 0)
             gridview.currentIndex = 0
 
     }
 
+    // highlight the lasy entry in the list
     function highlightLast() {
 
+        // check if we have focus
         if(openvariables.currentFocusOn != "filesview") return
 
+        // if there are any items, go to last one
         if(gridview.model.count > 0)
             gridview.currentIndex = gridview.model.count-1
 
     }
 
+    // Reload the background/preview image
     function reloadBackgroundThumbnail() {
+
+        // This holds the filename that is to be shown
         var f = ""
+
+        // If currentIndex is invalid (e.g., -1), leave f empty
         if(gridview.model.get(gridview.currentIndex) == undefined)
             f = ""
+        // otherwise try to get the filename from the model
         else {
             f = gridview.model.get(gridview.currentIndex).filename
+            // If it fails, reset f to empty string
             if(f == undefined) f = ""
         }
+
+        // If f is empty, i.e., no valid file is highlighted
         if(f == "") {
+            // set background/preview image to empty
             bgthumb.source = ""
-            openvariables.textEditedFromHighlighting = true
-            editRect.text = ""
-            openvariables.textEditedFromHighlighting = false
+            // if the change in currentIndex hasn't happened through user input, clear the text in the editRect
+            if(!openvariables.highlightingFromUserInput) {
+                // This variable keeps PhotoQt from trying to find a file matching this as regular expression, not necessary
+                openvariables.textEditedFromHighlighting = true
+                editRect.text = ""
+                openvariables.textEditedFromHighlighting = false
+            }
+        // if we have a filename
         } else {
+            // set background/preview image (if enabled)
             bgthumb.source = settings.openPreview
-                ? "image://" + (settings.openPreviewHighQuality ? "full" : "thumb") + "/" + openvariables.currentDirectory + "/" + f
-                : ""
-            openvariables.textEditedFromHighlighting = true
-            editRect.text = gridview.model.get(gridview.currentIndex).filename
-            editRect.selectAll()
-            openvariables.textEditedFromHighlighting = false
+                                ? "image://" + (settings.openPreviewHighQuality ? "full" : "thumb") + "/" + openvariables.currentDirectory + "/" + f
+                                : ""
+            // if the change in currentIndex hasn't happened through user input, update the text in the edit rect and select it all
+            if(!openvariables.highlightingFromUserInput) {
+                // This variable keeps PhotoQt from trying to find a file matching this as regular expression, not necessary
+                openvariables.textEditedFromHighlighting = true
+                editRect.text = gridview.model.get(gridview.currentIndex).filename
+                editRect.selectAll()
+                openvariables.textEditedFromHighlighting = false
+            }
         }
     }
 
+    // Load the entry that is currently highlighted
     function loadHighlightedPicture() {
 
+        // check if we have focus
+        if(openvariables.currentFocusOn != "filesview") return
+
+        // if the entry is valid
         if(gridview.model.get(gridview.currentIndex) == undefined)
             return
 
+        // load file and hide element
         mainwindow.loadFile(openvariables.currentDirectory + "/" + gridview.model.get(gridview.currentIndex).filename)
         openfile_top.hide()
 
