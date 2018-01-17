@@ -19,6 +19,7 @@ Item {
     property bool animated: false
     property string source: ""
     onSourceChanged: {
+        mainImageFinishedLoading = false
         if(animated) {
             if(currentId == imageANIM1) {
                 imageANIM2.paused = false
@@ -39,6 +40,8 @@ Item {
             }
         }
     }
+
+    property bool mainImageFinishedLoading: false
 
     // the currentId holds which one of the two image elements is currently visible
     property var currentId: undefined

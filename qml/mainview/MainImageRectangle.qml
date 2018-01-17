@@ -102,6 +102,7 @@ Item {
                 resetZoomWithoutAnimation()
                 resetRotationWithoutAnimation()
                 opacity = 1
+                mainImageFinishedLoading = true
                 hideOther()
             }
         }

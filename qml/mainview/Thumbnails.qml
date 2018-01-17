@@ -185,7 +185,7 @@ Item {
                 opacity: settings.thumbnailFilenameInstead ? 0.6 : 1
 
                 // Set the source based on the special imageloader (icon or thumbnail)
-                source: settings.thumbnailFilenameInstead ? "image://icon/image-" + getanddostuff.getSuffix(imagePath) : "image://thumb/" + imagePath
+                source: imageitem.mainImageFinishedLoading ? (settings.thumbnailFilenameInstead ? "image://icon/image-" + getanddostuff.getSuffix(imagePath) : "image://thumb/" + imagePath) : ""
 
             }
 
