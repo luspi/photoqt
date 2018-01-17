@@ -154,12 +154,6 @@ Rectangle {
             slideshowmusic.play()
         }
 
-        // Reset changes to current image
-        imageitem.resetZoom()
-        imageitem.resetRotation()
-        imageitem.resetMirror()
-        imageitem.resetPosition()
-
         variables.imageItemBlocked = true
 
         // Setup an array with image indices
