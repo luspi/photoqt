@@ -101,16 +101,22 @@ Rectangle {
                           ? ("image://thumb/" + openvariables.currentDirectory + "/" + filename)
                           : "image://icon/image-" + getanddostuff.getSuffix(openvariables.currentDirectory + "/" + filename)
                         : ""
+                opacity: Image.Ready&&source!="" ? 1 : 0
+                Behavior on opacity { NumberAnimation { duration: 200 } }
+
                 asynchronous: true
                 fillMode: Image.PreserveAspectFit
-                Image {
-                    anchors.fill: parent
-                    visible: thumb.status!=Image.Ready
-                    fillMode: Image.PreserveAspectFit
-                    source: openfile_top.visible
-                             ? "image://icon/image-" + getanddostuff.getSuffix(openvariables.currentDirectory + "/" + filename)
-                             : ""
-                }
+            }
+
+            Image {
+                anchors.fill: thumb
+                visible: opacity!=0
+                opacity: thumb.status==Image.Ready&&thumb.source!="" ? 0 : 1
+                Behavior on opacity { NumberAnimation { duration: 200 } }
+                fillMode: Image.PreserveAspectFit
+                source: openfile_top.visible
+                         ? "image://icon/image-" + getanddostuff.getSuffix(openvariables.currentDirectory + "/" + filename)
+                         : ""
             }
 
             Text {
