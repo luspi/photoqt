@@ -81,7 +81,9 @@ function loadNext() {
     if(variables.filterNoMatch || variables.deleteNothingLeft) return
     // We need to use a temp variable, otherwise wrapping the end of the images around to the beginning wont work!
     var loadpos = variables.currentFilePos
-    if(loadpos == variables.allFilesCurrentDir.length-1)
+    if(loadpos == variables.allFilesCurrentDir.length-1 && !settings.loopThroughFolder)
+        return
+    else if(loadpos == variables.allFilesCurrentDir.length-1)
         loadpos = 0
     else
         loadpos += 1
@@ -93,7 +95,9 @@ function loadPrev() {
     if(variables.filterNoMatch || variables.deleteNothingLeft) return
     // We need to use a temp variable, otherwise wrapping the beginning of the images around to the end wont work!
     var loadpos = variables.currentFilePos
-    if(loadpos <= 0)
+    if(loadpos <= 0 && !settings.loopThroughFolder)
+        return
+    else if(loadpos <= 0)
         loadpos = variables.allFilesCurrentDir.length-1
     else
         loadpos -= 1
