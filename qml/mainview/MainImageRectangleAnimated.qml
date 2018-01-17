@@ -74,8 +74,8 @@ Item {
 
         id: image
 
-        // Currently, this has to be set to false, otherwise the thumbnails will likely be loaded first
-//        asynchronous: true
+        // Don't block interface while loading...
+        asynchronous: true
 
         // source is tied to imageContainer property
         source: imageContainer.source
