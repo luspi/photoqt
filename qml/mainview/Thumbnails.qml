@@ -171,6 +171,8 @@ Item {
                     bottomMargin: settings.thumbnailPosition=="Top" ? undefined : settings.thumbnailLiftUp+2*(rect.thumbnailExtraMargin/3)
                 }
 
+                property bool thumbnailLoaded: false
+
                 // Animate lift up/down of thumbnails
                 Behavior on anchors.bottomMargin { NumberAnimation { duration: 100 } }
                 Behavior on anchors.topMargin { NumberAnimation { duration: 100 } }
@@ -186,7 +188,12 @@ Item {
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
                 // Set the source based on the special imageloader (icon or thumbnail)
-                source: imageitem.mainImageFinishedLoading ? (settings.thumbnailFilenameInstead ? "image://icon/image-" + getanddostuff.getSuffix(imagePath) : "image://thumb/" + imagePath) : ""
+                // we only load thumbnail images if the main image has finished loading AND do nothing if the thumbnail has already finished loading
+                source: imageitem.mainImageFinishedLoading||thumbnailLoaded ? (settings.thumbnailFilenameInstead ? "image://icon/image-" + getanddostuff.getSuffix(imagePath) : "image://thumb/" + imagePath) : ""
+
+                // A ready status means the thumbnail has finished loading
+                onStatusChanged: thumbnailLoaded = (status == Image.Ready)
+
 
             }
 
