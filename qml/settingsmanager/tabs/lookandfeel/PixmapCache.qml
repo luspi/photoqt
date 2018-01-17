@@ -44,6 +44,8 @@ EntryContainer {
                     stepSize: 1
                     scrollStep: 5
 
+                    value: entry.val
+
                     onValueChanged:
                         entry.val = value
 
@@ -62,10 +64,8 @@ EntryContainer {
 
                     value: entry.val
 
-                    onValueChanged: {
-                        if(value%5 == 0)
-                            pixmapcache_sizeslider.value = value
-                    }
+                    onValueChanged:
+                        entry.val = value
 
                 }
 
@@ -76,11 +76,11 @@ EntryContainer {
     }
 
     function setData() {
-        pixmapcache_sizeslider.value = settings.pixmapCache
+        entry.val = settings.pixmapCache
     }
 
     function saveData() {
-        settings.pixmapCache = pixmapcache_sizeslider.value
+        settings.pixmapCache = entry.val
     }
 
 }
