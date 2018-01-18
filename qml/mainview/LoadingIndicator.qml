@@ -40,7 +40,7 @@ Rectangle {
             waitAFewMs.stop()
 
             // ... reset the indicator circle position
-            movingaround.x = leftRightMargin+animwidth/2 - movingaround.width/2
+            movingaround.x = width/2 - movingaround.width/2
             movingaround.y = (loadingimage_top.height-movingaround.height)/2
 
         }
@@ -53,7 +53,7 @@ Rectangle {
         id: movingaround
 
         // the position is in the center
-        x: leftRightMargin+animwidth/2 - width/2
+        x: parent.width/2 - width/2
         y: (loadingimage_top.height-height)/2
 
         // the size of the circle (only that size in middle of screen, around the edges the scale goes down)
@@ -99,12 +99,6 @@ Rectangle {
 
     }
 
-    // the circle does not move from screen edge to screen edge, but has that much margin left/right
-    property int leftRightMargin: width/6
-
-    // this is the effective width the circle can move along
-    property int animwidth: loadingimage_top.width-2*leftRightMargin
-
     // This timer is called when the animation has stopped to restart it after a short delay
     Timer {
 
@@ -131,8 +125,8 @@ Rectangle {
         // by default, the animation is not running
         running: false
 
-        // 4 seconds seems like a reasonable time, giving a nice animation speed
-        duration: 4000
+        // 5 seconds seems like a reasonable time, giving a nice animation speed
+        duration: 2000
 
         // don't move linear, but vary speed slightly
         easing.type: Easing.InOutQuad
@@ -149,19 +143,13 @@ Rectangle {
             // starting from center:
 
             // 1) move circle HALF WAY to the RIGHT
-            PathCurve { x: leftRightMargin+(3*animwidth)/4 -movingaround.width/2; y: (loadingimage_top.height-movingaround.height)/2 }
+            PathCurve { x: (3*loadingimage_top.width)/4 -movingaround.width/2; y: (loadingimage_top.height-movingaround.height)/2 }
 
             // 2) move circle HALF WAY to the LEFT
-            PathCurve { x: leftRightMargin+(animwidth)/4 -movingaround.width/2; y: (loadingimage_top.height-movingaround.height)/2 }
+            PathCurve { x: (loadingimage_top.width)/4 -movingaround.width/2; y: (loadingimage_top.height-movingaround.height)/2 }
 
-            // 3) move circle ALL THE WAY to the RIGHT
-            PathCurve { x: leftRightMargin+animwidth -movingaround.width/2; y: (loadingimage_top.height-movingaround.height)/2 }
-
-            // 4) move circle ALL THE WAY to the LEFT
-            PathCurve { x: leftRightMargin -movingaround.width/2; y: (loadingimage_top.height-movingaround.height)/2 }
-
-            // 5) move circle back to the center
-            PathCurve { x: leftRightMargin+animwidth/2 -movingaround.width/2; y: (loadingimage_top.height-movingaround.height)/2 }
+            // 3) move circle back to the center
+            PathCurve { x: loadingimage_top.width/2 -movingaround.width/2; y: (loadingimage_top.height-movingaround.height)/2 }
 
 
         }
