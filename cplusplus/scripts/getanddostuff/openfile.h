@@ -26,7 +26,6 @@
 #include <QUrl>
 #include <thread>
 #include <QCollator>
-#include "../sortlist.h"
 #include "../../logger.h"
 #include "../../settings/fileformats.h"
 #include "../../settings/settings.h"

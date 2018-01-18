@@ -1,4 +1,5 @@
 #include "openfile.h"
+#include "../sortlist.h"
 
 GetAndDoStuffOpenFile::GetAndDoStuffOpenFile(QObject *parent) : QObject(parent) {
     formats = new FileFormats;
