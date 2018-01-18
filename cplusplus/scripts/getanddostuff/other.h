@@ -65,6 +65,7 @@ public:
     QList<QString> getScreenNames();
     void storeGeometry(QRect rect);
     QRect getStoredGeometry();
+    bool isImageAnimated(QString path);
 
 };
 

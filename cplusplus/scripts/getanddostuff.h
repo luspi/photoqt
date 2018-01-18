@@ -26,7 +26,6 @@
 #include "getanddostuff/other.h"
 #include "getanddostuff/wallpaper.h"
 #include "getanddostuff/openfile.h"
-#include "getanddostuff/imageinfo.h"
 
 class GetAndDoStuff : public QObject {
 
@@ -42,7 +41,6 @@ public:
         other = new GetAndDoStuffOther;
         wallpaper = new GetAndDoStuffWallpaper;
         openfile = new GetAndDoStuffOpenFile;
-        imageinfo = new GetAndDoStuffImageInfo;
 
         connect(manipulation, SIGNAL(reloadDirectory(QString,bool)), this, SIGNAL(reloadDirectory(QString,bool)));
 
@@ -56,7 +54,6 @@ public:
         delete other;
         delete wallpaper;
         delete openfile;
-        delete imageinfo;
     }
 
     // CONTEXT
@@ -114,6 +111,7 @@ public:
     Q_INVOKABLE QList<QString> getScreenNames() { return other->getScreenNames(); }
     Q_INVOKABLE void storeGeometry(QRect rect) { other->storeGeometry(rect); }
     Q_INVOKABLE QRect getStoredGeometry() { return other->getStoredGeometry(); }
+    Q_INVOKABLE bool isImageAnimated(QString path) { return other->isImageAnimated(path); }
 
     // WALLPAPER
     Q_INVOKABLE QString detectWindowManager() { return wallpaper->detectWindowManager(); }
@@ -138,12 +136,6 @@ public:
     Q_INVOKABLE void saveLastOpenedImage(QString path) { openfile->saveLastOpenedImage(path); }
     Q_INVOKABLE QString getDirectoryDirName(QString path) { return openfile->getDirectoryDirName(path); }
 
-    // IMAGE INFO
-    Q_INVOKABLE bool isImageAnimated(QString path) { return imageinfo->isImageAnimated(path); }
-    Q_INVOKABLE QSize getAnimatedImageSize(QString path) { return imageinfo->getAnimatedImageSize(path); }
-    Q_INVOKABLE QList<int> getNumFramesAndDuration(QString filename) { return imageinfo->getNumFramesAndDuration(filename); }
-    Q_INVOKABLE QString getLastModified(QString filename) { return imageinfo->getLastModified(filename); }
-
 private:
     GetAndDoStuffContext *context;
     GetAndDoStuffExternal *external;
@@ -152,7 +144,6 @@ private:
     GetAndDoStuffOther *other;
     GetAndDoStuffWallpaper *wallpaper;
     GetAndDoStuffOpenFile *openfile;
-    GetAndDoStuffImageInfo *imageinfo;
 
 signals:
     void reloadDirectory(QString path, bool deleted = false);

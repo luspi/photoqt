@@ -163,3 +163,14 @@ QRect GetAndDoStuffOther::getStoredGeometry() {
     } else
         return QRect();
 }
+
+bool GetAndDoStuffOther::isImageAnimated(QString path) {
+
+    if(path.startsWith("image://full/"))
+        path = path.remove(0,13);
+    if(path.contains("::photoqt::"))
+        path = path.split("::photoqt::").at(0);
+
+    return QImageReader::supportedImageFormats().contains(QFileInfo(path).suffix().toLower().toUtf8());
+
+}
