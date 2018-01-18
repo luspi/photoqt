@@ -219,6 +219,10 @@ Rectangle {
             }
         onTrayIconChanged:
             trayIconValueChanged(settings.trayIcon)
+        onSortbyChanged:
+            Load.loadFile(variables.currentFile, variables.filter, true)
+        onSortbyAscendingChanged:
+            Load.loadFile(variables.currentFile, variables.filter, true)
     }
 
     Component.onCompleted: {

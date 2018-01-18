@@ -6,6 +6,9 @@ function loadFile(filename, filter, forceReloadDirectory) {
     if(filename === undefined || filename == "")
         return
 
+    if(forceReloadDirectory && filename.substring(0,1) != "/")
+        filename = variables.currentDir + "/" + filename
+
     // Load a file from full path
     if(filename.substring(0,1) == "/") {
 
