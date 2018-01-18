@@ -217,27 +217,94 @@ QVariantList GetAndDoStuffOpenFile::getFilesWithSizeIn(QString path, int selecti
 
     QFileInfoList list = dir.entryInfoList();
 
-    // Sort images...
-    if(sortby == "name")
-        std::sort(list.begin(),list.end(),(sortbyAscending ? LoadDir::sort_name : LoadDir::sort_name_desc));
-    if(sortby == "naturalname")
-        std::sort(list.begin(),list.end(),(sortbyAscending ? LoadDir::sort_naturalname : LoadDir::sort_naturalname_desc));
-    if(sortby == "date")
-        std::sort(list.begin(),list.end(),(sortbyAscending ? LoadDir::sort_date : LoadDir::sort_date_desc));
-    if(sortby == "size")
-        std::sort(list.begin(),list.end(),(sortbyAscending ? LoadDir::sort_size : LoadDir::sort_size_desc));
+    QCollator collator;
+    collator.setCaseSensitivity(Qt::CaseInsensitive);
+    collator.setIgnorePunctuation(true);
+
+    if(sortby == "name") {
+
+        collator.setNumericMode(false);
+
+        if(sortbyAscending)
+            std::sort(list.begin(), list.end(), [&collator](const QFileInfo &file1, const QFileInfo &file2) {
+                return collator.compare(file1.fileName(),
+                                        file2.fileName()) < 0;
+            });
+        else
+            std::sort(list.rbegin(), list.rend(), [&collator](const QFileInfo &file1, const QFileInfo &file2) {
+                return collator.compare(file1.fileName(),
+                                        file2.fileName()) < 0;
+            });
+
+    } else if(sortby == "naturalname") {
+
+        collator.setNumericMode(true);
+
+        if(sortbyAscending)
+            std::sort(list.begin(), list.end(), [&collator](const QFileInfo &file1, const QFileInfo &file2) {
+                return collator.compare(file1.fileName(),
+                                        file2.fileName()) < 0;
+            });
+        else
+            std::sort(list.rbegin(), list.rend(), [&collator](const QFileInfo &file1, const QFileInfo &file2) {
+                return collator.compare(file1.fileName(),
+                                        file2.fileName()) < 0;
+            });
+
+    } else if(sortby == "date") {
+
+        collator.setNumericMode(true);
+
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
+
+        if(sortbyAscending)
+            std::sort(list.begin(), list.end(), [&collator](const QFileInfo &file1, const QFileInfo &file2) {
+                return collator.compare(QString::number(file1.metadataChangeTime().toMSecsSinceEpoch()),
+                                        QString::number(file2.metadataChangeTime().toMSecsSinceEpoch())) < 0;
+            });
+        else
+            std::sort(list.rbegin(), list.rend(), [&collator](const QFileInfo &file1, const QFileInfo &file2) {
+                return collator.compare(QString::number(file1.metadataChangeTime().toMSecsSinceEpoch()),
+                                        QString::number(file2.metadataChangeTime().toMSecsSinceEpoch())) < 0;
+            });
+
+#else
+
+        if(sortbyAscending)
+            std::sort(list.begin(), list.end(), [&collator](const QFileInfo &file1, const QFileInfo &file2) {
+                return collator.compare(QString::number(file1.created().toMSecsSinceEpoch()),
+                                        QString::number(file2.created().toMSecsSinceEpoch())) < 0;
+            });
+        else
+            std::sort(list.rbegin(), list.rend(), [&collator](const QFileInfo &file1, const QFileInfo &file2) {
+                return collator.compare(QString::number(file1.created().toMSecsSinceEpoch()),
+                                        QString::number(file2.created().toMSecsSinceEpoch())) < 0;
+            });
+
+#endif
+
+    } else if(sortby == "size") {
+
+        collator.setNumericMode(true);
+
+        if(sortbyAscending)
+            std::sort(list.begin(), list.end(), [&collator](const QFileInfo &file1, const QFileInfo &file2) {
+                return collator.compare(QString::number(file1.size()),
+                                        QString::number(file2.size())) < 0;
+            });
+
+    }
 
     QVariantList ret;
-    foreach(QFileInfo l, list) {
-        int s = l.size();
-        QString size = "";
+    for(auto l : list) {
+        ret.append(l.fileName());
+        qint64 s = l.size();
         if(s <= 1024)
-            size = QString::number(s) + " B";
+            ret.append(QString::number(s) + " B");
         else if(s <= 1024*1024)
-            size = QString::number(qRound(double(s)/1024.0)) + " KB";
+            ret.append(QString::number(qRound(10.0*(s/1024.0))/10.0) + " KB");
         else
-            size = QString::number(qRound(100*double(s)/(1024*1024))/100.0) + " MB";
-        ret.append(QVariantList() << l.fileName() << size);
+            ret.append(QString::number(qRound(100.0*(s/(1024.0*1024.0)))/100.0) + " MB");
     }
 
     return ret;

@@ -25,6 +25,7 @@
 #include <QXmlStreamWriter>
 #include <QUrl>
 #include <thread>
+#include <QCollator>
 #include "../../logger.h"
 #include "../../settings/fileformats.h"
 #include "../../settings/settings.h"
