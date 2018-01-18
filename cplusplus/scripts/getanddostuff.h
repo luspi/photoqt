@@ -59,7 +59,6 @@ public:
     // CONTEXT
     Q_INVOKABLE QStringList setDefaultContextMenuEntries() { return context->setDefaultContextMenuEntries(); }
     Q_INVOKABLE QStringList getContextMenu() { return context->getContextMenu(); }
-    Q_INVOKABLE qint64 getContextMenuFileModifiedTime() { return context->getContextMenuFileModifiedTime(); }
     Q_INVOKABLE void saveContextMenu(QJSValue m) { context->saveContextMenu(m.toVariant().toList()); }
 
     // EXTERNAL

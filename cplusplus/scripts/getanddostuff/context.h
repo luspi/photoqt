@@ -39,7 +39,6 @@ public:
 
     QStringList setDefaultContextMenuEntries();
     QStringList getContextMenu();
-    qint64 getContextMenuFileModifiedTime();
     void saveContextMenu(QVariantList m);
     bool checkIfBinaryExists(QString exec);
 

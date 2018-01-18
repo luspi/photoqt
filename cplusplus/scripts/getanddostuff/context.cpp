@@ -103,12 +103,6 @@ bool GetAndDoStuffContext::checkIfBinaryExists(QString exec) {
     return p.exitCode() != 2;
 }
 
-
-qint64 GetAndDoStuffContext::getContextMenuFileModifiedTime() {
-    QFileInfo info(ConfigFiles::CONTEXTMENU_FILE());
-    return info.lastModified().toMSecsSinceEpoch();
-}
-
 void GetAndDoStuffContext::saveContextMenu(QVariantList l) {
 
 #ifdef Q_OS_WIN
