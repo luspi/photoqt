@@ -2,11 +2,9 @@
 
 GetAndDoStuffOpenFile::GetAndDoStuffOpenFile(QObject *parent) : QObject(parent) {
     formats = new FileFormats;
-    load = new LoadDir(false);
 }
 GetAndDoStuffOpenFile::~GetAndDoStuffOpenFile() {
     delete formats;
-    delete load;
 }
 
 int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path, int selectionFileTypes) {
@@ -163,7 +161,7 @@ QVariantList GetAndDoStuffOpenFile::getFilesIn(QString file, QString filter, QSt
     if(!list.contains(QFileInfo(file)))
         list.append(QFileInfo(file));
 
-    load->sortList(&list, sortby, sortbyAscending);
+    Sort::sortList(&list, sortby, sortbyAscending);
 
     QVariantList ret;
     if(filter.startsWith(".")) {
@@ -215,7 +213,7 @@ QVariantList GetAndDoStuffOpenFile::getFilesWithSizeIn(QString path, int selecti
     collator.setCaseSensitivity(Qt::CaseInsensitive);
     collator.setIgnorePunctuation(true);
 
-    load->sortList(&list, sortby, sortbyAscending);
+    Sort::sortList(&list, sortby, sortbyAscending);
 
     QVariantList ret;
     for(QFileInfo l : list) {
