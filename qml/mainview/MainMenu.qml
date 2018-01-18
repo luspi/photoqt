@@ -389,7 +389,7 @@ Rectangle {
     }
 
     function clickInMainMenu(pos) {
-        var ret = mainmenu.contains(mainmenu.mapFromItem(toplevel,pos.x,pos.y))
+        var ret = mainmenu.contains(mainmenu.mapFromItem(mainwindow,pos.x,pos.y))
         verboseMessage("MainMenu::clickInMainMenu()", pos)
         return ret
     }

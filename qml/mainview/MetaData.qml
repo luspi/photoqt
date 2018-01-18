@@ -412,7 +412,7 @@ Rectangle {
     }
 
     function clickInMetaData(pos) {
-        var ret = meta.contains(meta.mapFromItem(toplevel,pos.x,pos.y))
+        var ret = meta.contains(meta.mapFromItem(mainwindow,pos.x,pos.y))
         verboseMessage("MetaData::clickInMetaData()", pos)
         return ret
     }

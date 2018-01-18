@@ -13,7 +13,7 @@ Rectangle {
         id: fake
         anchors.fill: parent
         visible: !settings.composite && settings.backgroundImageScreenshot
-        source: (!settings.composite && settings.backgroundImageScreenshot) ? "file:/" + getanddostuff.getTempDir() +"/photoqt_screenshot_" + getanddostuff.getCurrentScreen(toplevel.windowx,toplevel.windowy) + ".jpg" : ""
+        source: (!settings.composite && settings.backgroundImageScreenshot) ? "file:/" + getanddostuff.getTempDir() +"/photoqt_screenshot_" + getanddostuff.getCurrentScreen(mainwindow.windowx,mainwindow.windowy) + ".jpg" : ""
         cache: false
         Rectangle {
             anchors.fill: parent
@@ -25,7 +25,7 @@ Rectangle {
         verboseMessage("Background::reloadScreenshot()","")
         fake.source = ""
         if(!settings.composite && settings.backgroundImageScreenshot)
-            fake.source = "file:/" + getanddostuff.getTempDir() +"/photoqt_screenshot_" + getanddostuff.getCurrentScreen(toplevel.windowx+background.width/2,toplevel.windowy+background.height/2) + ".jpg"
+            fake.source = "file:/" + getanddostuff.getTempDir() +"/photoqt_screenshot_" + getanddostuff.getCurrentScreen(mainwindow.windowx+background.width/2,mainwindow.windowy+background.height/2) + ".jpg"
     }
 
     // Background screenshot
