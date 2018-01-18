@@ -31,9 +31,6 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/zip.cpp ${d}/zipreader.h ${d}/zipwri
 SET(d "cplusplus/simplecrypt")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/simplecrypt.cpp)
 
-SET(d "cplusplus/clipboard")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/clipboard.cpp)
-
 SET(d "cplusplus/tooltip")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/tooltip.cpp)
 

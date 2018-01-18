@@ -11,7 +11,6 @@ import PColour 1.0
 import QtGraphicalEffects 1.0
 import PImageWatch 1.0
 import PImgur 1.0
-import PClipboard 1.0
 import PShortcutsNotifier 1.0
 import PThumbnailManagement 1.0
 import PShortcutsHandler 1.0
@@ -75,9 +74,6 @@ Rectangle {
 
     // Share images to imgur.com
     PImgur { id: shareonline_imgur; }
-
-    // Interact with the clipboard
-    PClipboard { id: clipboard; }
 
     // Provide some management of the thumbnails database
     PThumbnailManagement { id: thumbnailmanagement; }

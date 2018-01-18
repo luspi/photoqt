@@ -1,7 +1,13 @@
 #include "external.h"
 
-GetAndDoStuffExternal::GetAndDoStuffExternal(QObject *parent) : QObject(parent) { }
-GetAndDoStuffExternal::~GetAndDoStuffExternal() { }
+GetAndDoStuffExternal::GetAndDoStuffExternal(QObject *parent) : QObject(parent) {
+     imageprovider = nullptr;
+}
+
+GetAndDoStuffExternal::~GetAndDoStuffExternal() {
+    if(imageprovider != nullptr)
+        delete imageprovider;
+}
 
 void GetAndDoStuffExternal::openLink(QString url) {
     QDesktopServices::openUrl(url);
@@ -193,5 +199,28 @@ bool GetAndDoStuffExternal::checkIfConnectedToInternet() {
 
     // return whether we're connected or not
     return internetConnected;
+
+}
+
+void GetAndDoStuffExternal::clipboardSetText(QString text) {
+
+    QApplication::clipboard()->setText(text, QClipboard::Clipboard);
+    QApplication::clipboard()->setText(text, QClipboard::Selection);
+
+}
+
+void GetAndDoStuffExternal::clipboardSetImage(QString filepath) {
+
+    if(imageprovider == nullptr)
+         imageprovider = new ImageProviderFull;
+
+    if(filepath.startsWith("file:/"))
+        filepath = filepath.remove(0,6);
+    if(filepath.startsWith("image://full/"))
+        filepath = filepath.remove(0,13);
+
+    QImage img = imageprovider->requestImage(filepath, new QSize, QSize());
+    QApplication::clipboard()->setImage(img, QClipboard::Clipboard);
+    QApplication::clipboard()->setImage(img, QClipboard::Selection);
 
 }

@@ -31,6 +31,7 @@
 #include <QNetworkInterface>
 #include <QRegExpValidator>
 #include "../../logger.h"
+#include "../../imageprovider/imageproviderfull.h"
 
 #include "../../zip/zipreader.h"
 #include "../../zip/zipwriter.h"
@@ -50,6 +51,11 @@ public:
     QString importConfig(QString filename);
     void restartPhotoQt(QString loadThisFileAfter);
     bool checkIfConnectedToInternet();
+    void clipboardSetText(QString text);
+    void clipboardSetImage(QString filepath);
+
+private:
+    ImageProviderFull *imageprovider;
 
 };
 

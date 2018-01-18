@@ -17,7 +17,6 @@
 #include "scripts/shareonline/imgur.h"
 #include "tooltip/tooltip.h"
 #include "scripts/imagewatch.h"
-#include "clipboard/clipboard.h"
 #include "shortcuts/shortcutsnotifier.h"
 #include "scripts/thumbnailsmanagement.h"
 #include "shortcuts/shortcuts.h"
