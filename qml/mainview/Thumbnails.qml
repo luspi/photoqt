@@ -139,6 +139,9 @@ Item {
                     loaded = (getanddostuff.removePathFromFilename(imagePath)==variables.currentFile)
             }
 
+            Component.onCompleted:
+                loaded = (getanddostuff.removePathFromFilename(imagePath)==variables.currentFile)
+
             // The color behind the thumbnail
             color: colour.thumbnails_bg
 
