@@ -456,8 +456,15 @@ Rectangle {
                         //: Remove an entry from the list of user places (or favorites) in the element for opening files
                         text: qsTr("Remove entry")
 
-                        onTriggered:
+                        onTriggered: {
+
+                            // Remove from model
                             userPlaces.model.remove(index)
+
+                            // and save the changes to file
+                            Handle.saveUserPlaces()
+
+                        }
 
                     }
 
