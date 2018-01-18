@@ -45,10 +45,18 @@ Item {
     property bool mainImageFinishedLoading: false
     // the changed signals of properties don't seem to be globally accessible, thus we need to emit a custom signal to let the world (in particular the Thumbnails) know of a change here
     signal mainImageLoadingChanged()
-    onMainImageFinishedLoadingChanged:
+    onMainImageFinishedLoadingChanged: {
         mainImageLoadingChanged()
+        if(top.source == "") return
+        if(!mainImageFinishedLoading)
+            showLoadingImage.start()
+        else {
+            showLoadingImage.stop()
+            loadingimage.opacity = 0
+        }
+    }
 
-    // the currentId holds which one of the two image elements is currently visible
+    // the currentId holds which one of the four image elements is currently visible
     property var currentId: undefined
 
     // This flickable keeps the image element movable
@@ -174,6 +182,27 @@ Item {
             onSetAsCurrentId: currentId = imageANIM2
 
         }
+
+    }
+
+    // This item shows a loading indicator, to give the user some feedback that something is in fact going on
+    LoadingIndicator { id: loadingimage }
+
+    // This timer allows for a little timeout before the loading indicator is shown
+    // Most 'normal' images are loaded pretty quickly, no need to bother with this indicator for those
+    Timer {
+
+        id: showLoadingImage
+
+        // show indicator if the image takes more than 500ms to load
+        interval: 1000
+        repeat: false
+        running: false
+
+        // show indicator only if the mainimage hasn't finished loading in the meantime
+        onTriggered:
+            if(!top.mainImageFinishedLoading)
+                loadingimage.opacity = 1
 
     }
 

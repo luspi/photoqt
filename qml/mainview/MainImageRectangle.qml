@@ -104,7 +104,9 @@ Item {
                 opacity = 1
                 mainImageFinishedLoading = true
                 hideOther()
-            }
+                loadingimage.opacity = 0
+            } else if(status == Image.Loading)
+                showLoadingImage.start()
         }
 
         // This is a masking image for when the image is not zoomed. It loads a scaled down version for better quality when not zoomed (or zoomed out)
