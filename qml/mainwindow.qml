@@ -205,6 +205,9 @@ Rectangle {
         onThumbnailKeepVisibleChanged:
             if(settings.thumbnailKeepVisible)
                 call.show("thumbnails")
+        onThumbnailKeepVisibleWhenNotZoomedInChanged:
+            if(settings.thumbnailKeepVisibleWhenNotZoomedIn)
+                call.show("thumbnails")
         onThumbnailDisableChanged:
             if(!settings.thumbnailDisable) {
                 call.ensureElementSetup("thumbnails")
@@ -215,7 +218,7 @@ Rectangle {
     }
 
     Component.onCompleted: {
-        if(settings.thumbnailKeepVisible)
+        if(settings.thumbnailKeepVisible || settings.thumbnailKeepVisibleWhenNotZoomedIn)
             call.show("thumbnails")
     }
 

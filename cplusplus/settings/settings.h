@@ -128,6 +128,7 @@ public:
         connect(this, &Settings::thumbnailSpacingBetweenChanged,                &Settings::saveSettingsTimerStart);
         connect(this, &Settings::thumbnailLiftUpChanged,                        &Settings::saveSettingsTimerStart);
         connect(this, &Settings::thumbnailKeepVisibleChanged,                   &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::thumbnailKeepVisibleWhenNotZoomedInChanged,    &Settings::saveSettingsTimerStart);
         connect(this, &Settings::thumbnailFontSizeChanged,                      &Settings::saveSettingsTimerStart);
         connect(this, &Settings::thumbnailCenterActiveChanged,                  &Settings::saveSettingsTimerStart);
         connect(this, &Settings::thumbnailPositionChanged,                      &Settings::saveSettingsTimerStart);
@@ -266,6 +267,7 @@ public:
     int     thumbnailSpacingBetween;
     int     thumbnailLiftUp;
     bool    thumbnailKeepVisible;
+    bool    thumbnailKeepVisibleWhenNotZoomedIn;
     bool    thumbnailCenterActive;
     bool    thumbnailFilenameInstead;
     int     thumbnailFilenameInsteadFontSize;
@@ -397,6 +399,9 @@ public:
     Q_PROPERTY(int     thumbnailSpacingBetween          MEMBER thumbnailSpacingBetween          NOTIFY thumbnailSpacingBetweenChanged)
     Q_PROPERTY(int     thumbnailLiftUp                  MEMBER thumbnailLiftUp                  NOTIFY thumbnailLiftUpChanged)
     Q_PROPERTY(bool    thumbnailKeepVisible             MEMBER thumbnailKeepVisible             NOTIFY thumbnailKeepVisibleChanged)
+    Q_PROPERTY(bool    thumbnailKeepVisibleWhenNotZoomedIn
+                                                        MEMBER thumbnailKeepVisibleWhenNotZoomedIn
+                                                                                                NOTIFY thumbnailKeepVisibleWhenNotZoomedInChanged)
     Q_PROPERTY(bool    thumbnailCenterActive            MEMBER thumbnailCenterActive            NOTIFY thumbnailCenterActiveChanged)
     Q_PROPERTY(bool    thumbnailFilenameInstead         MEMBER thumbnailFilenameInstead         NOTIFY thumbnailFilenameInsteadChanged)
     Q_PROPERTY(int     thumbnailFilenameInsteadFontSize MEMBER thumbnailFilenameInsteadFontSize NOTIFY thumbnailFilenameInsteadFontSizeChanged)
@@ -461,140 +466,140 @@ public:
     // Set the default settings
     Q_INVOKABLE void setDefault() {
 
-        version                          = QString::fromStdString(VERSION);
-        versionInTextFile                = "";
+        version                    = QString::fromStdString(VERSION);
+        versionInTextFile          = "";
 
-        sortby                           = "name";
-        sortbyAscending                  = true;
+        sortby                     = "name";
+        sortbyAscending            = true;
 
-        windowMode                       = true;
-        windowDecoration                 = false;
+        windowMode                 = true;
+        windowDecoration           = false;
 
-        elementsFadeIn                   = true;
-        saveWindowGeometry               = false;
-        keepOnTop                        = false;
-        openOnScreen                     = false;
-        openOnScreenName                 = "";
+        elementsFadeIn             = true;
+        saveWindowGeometry         = false;
+        keepOnTop                  = false;
+        openOnScreen               = false;
+        openOnScreenName           = "";
 
-        language                         = QLocale::system().name();
-        backgroundColorRed               = 0;
-        backgroundColorGreen             = 0;
-        backgroundColorBlue              = 0;
-        backgroundColorAlpha             = 190;
-
-#ifdef Q_OS_WIN
-        backgroundImageScreenshot        = (QtWin::isCompositionEnabled() ? false : true);
-#else
-        backgroundImageScreenshot        = false;
-#endif
-        backgroundImageUse               = false;
-        backgroundImagePath              = "";
-        backgroundImageScale             = true;
-        backgroundImageScaleCrop         = false;
-        backgroundImageStretch           = false;
-        backgroundImageCenter            = false;
-        backgroundImageTile              = false;
+        language                   = QLocale::system().name();
+        backgroundColorRed         = 0;
+        backgroundColorGreen       = 0;
+        backgroundColorBlue        = 0;
+        backgroundColorAlpha       = 190;
 
 #ifdef Q_OS_WIN
-        composite                        = (QtWin::isCompositionEnabled() ? true : false);
+        backgroundImageScreenshot  = (QtWin::isCompositionEnabled() ? false : true);
 #else
-        composite                        = true;
+        backgroundImageScreenshot  = false;
 #endif
-        trayIcon                         = 0;
-        imageTransition                  = 1;
-        loopThroughFolder                = true;
-        hotEdgeWidth                     = 4;
-        closeOnEmptyBackground           = false;
-        marginAroundImage                = 5;
-        mouseWheelSensitivity            = 1;
-        keepZoomRotationMirror           = false;
-        fitInWindow                      = false;
+        backgroundImageUse         = false;
+        backgroundImagePath        = "";
+        backgroundImageScale       = true;
+        backgroundImageScaleCrop   = false;
+        backgroundImageStretch     = false;
+        backgroundImageCenter      = false;
+        backgroundImageTile        = false;
+
+#ifdef Q_OS_WIN
+        composite                              = (QtWin::isCompositionEnabled() ? true : false);
+#else
+        composite                              = true;
+#endif
+        trayIcon                               = 0;
+        imageTransition                        = 1;
+        loopThroughFolder                      = true;
+        hotEdgeWidth                           = 4;
+        closeOnEmptyBackground                 = false;
+        marginAroundImage                      = 5;
+        mouseWheelSensitivity                  = 1;
+        keepZoomRotationMirror                 = false;
+        fitInWindow                            = false;
         interpolationNearestNeighbourThreshold = 100;
         interpolationNearestNeighbourUpscale   = false;
-        pixmapCache                      = 128;
-        leftButtonMouseClickAndMove      = true;
-        showTransparencyMarkerBackground = true;
-        startupLoadLastLoadedImage       = false;
-        mainMenuWindowWidth              = 350;
+        pixmapCache                            = 128;
+        leftButtonMouseClickAndMove            = true;
+        showTransparencyMarkerBackground       = true;
+        startupLoadLastLoadedImage             = false;
+        mainMenuWindowWidth                    = 350;
 
-        quickInfoHideCounter             = false;
-        quickInfoHideFilepath            = true;
-        quickInfoHideFilename            = false;
-        quickInfoHideX                   = false;
-        quickInfoFullX                   = true;
-        quickInfoCloseXSize              = 10;
+        quickInfoHideCounter                   = false;
+        quickInfoHideFilepath                  = true;
+        quickInfoHideFilename                  = false;
+        quickInfoHideX                         = false;
+        quickInfoFullX                         = true;
+        quickInfoCloseXSize                    = 10;
 
-        thumbnailSize                    = 80;
-        thumbnailPosition                = "Bottom";
-        thumbnailCache                   = true;
+        thumbnailSize                          = 80;
+        thumbnailPosition                      = "Bottom";
+        thumbnailCache                         = true;
 #ifdef Q_OS_WIN
-        thumbnailCacheFile               = false;
+        thumbnailCacheFile                     = false;
 #else
-        thumbnailCacheFile               = true;
+        thumbnailCacheFile                     = true;
 #endif
-        thumbnailSpacingBetween          = 0;
-        thumbnailLiftUp                  = 6;
-        thumbnailKeepVisible             = false;
-        thumbnailCenterActive            = false;
-        thumbnailDisable                 = false;
-        thumbnailWriteFilename           = true;
-        thumbnailFontSize                = 7;
+        thumbnailSpacingBetween                = 0;
+        thumbnailLiftUp                        = 6;
+        thumbnailKeepVisible                   = false;
+        thumbnailKeepVisibleWhenNotZoomedIn    = false;
+        thumbnailCenterActive                  = false;
+        thumbnailDisable                       = false;
+        thumbnailWriteFilename                 = true;
+        thumbnailFontSize                      = 7;
+        thumbnailFilenameInstead               = false;
+        thumbnailFilenameInsteadFontSize       = 8;
 
-        thumbnailFilenameInstead         = false;
-        thumbnailFilenameInsteadFontSize = 8;
+        slideShowTime              = 5;
+        slideShowImageTransition   = 4;
+        slideShowMusicFile         = "";
+        slideShowShuffle           = false;
+        slideShowLoop              = true;
+        slideShowHideQuickInfo     = true;
 
-        slideShowTime                    = 5;
-        slideShowImageTransition         = 4;
-        slideShowMusicFile               = "";
-        slideShowShuffle                 = false;
-        slideShowLoop                    = true;
-        slideShowHideQuickInfo           = true;
+        metaFilename               = true;
+        metaFileType               = true;
+        metaFileSize               = true;
+        metaImageNumber            = true;
+        metaDimensions             = true;
+        metaMake                   = true;
+        metaModel                  = true;
+        metaSoftware               = true;
+        metaTimePhotoTaken         = true;
+        metaExposureTime           = true;
+        metaFlash                  = true;
+        metaIso                    = true;
+        metaSceneType              = true;
+        metaFLength                = true;
+        metaFNumber                = true;
+        metaLightSource            = true;
+        metaKeywords               = true;
+        metaLocation               = true;
+        metaCopyright              = true;
+        metaGps                    = true;
+        metaApplyRotation          = true;
+        metaGpsMapService          = "openstreetmap.org";
 
-        metaFilename                     = true;
-        metaFileType                     = true;
-        metaFileSize                     = true;
-        metaImageNumber                  = true;
-        metaDimensions                   = true;
-        metaMake                         = true;
-        metaModel                        = true;
-        metaSoftware                     = true;
-        metaTimePhotoTaken               = true;
-        metaExposureTime                 = true;
-        metaFlash                        = true;
-        metaIso                          = true;
-        metaSceneType                    = true;
-        metaFLength                      = true;
-        metaFNumber                      = true;
-        metaLightSource                  = true;
-        metaKeywords                     = true;
-        metaLocation                     = true;
-        metaCopyright                    = true;
-        metaGps                          = true;
-        metaApplyRotation                = true;
-        metaGpsMapService                = "openstreetmap.org";
+        metadataEnableHotEdge      = true;
+        metadataFontSize           = 10;
+        metadataOpacity            = 200;
+        metadataWindowWidth        = 350;
 
-        metadataEnableHotEdge            = true;
-        metadataFontSize                 = 10;
-        metadataOpacity                  = 200;
-        metadataWindowWidth              = 350;
+        openDefaultView            = "list";
+        openPreview                = true;
+        openPreviewHighQuality     = false;
+        openZoomLevel              = 25;
+        openUserPlacesWidth        = 200;
+        openFoldersWidth           = 400;
+        openThumbnails             = false;
+        openUserPlacesStandard     = true;
+        openUserPlacesUser         = true;
+        openUserPlacesVolumes      = true;
+        openKeepLastLocation       = false;
+        openShowHiddenFilesFolders = false;
 
-        openDefaultView                  = "list";
-        openPreview                      = true;
-        openPreviewHighQuality           = false;
-        openZoomLevel                    = 25;
-        openUserPlacesWidth              = 200;
-        openFoldersWidth                 = 400;
-        openThumbnails                   = false;
-        openUserPlacesStandard           = true;
-        openUserPlacesUser               = true;
-        openUserPlacesVolumes            = true;
-        openKeepLastLocation             = false;
-        openShowHiddenFilesFolders       = false;
-
-        histogram                        = false;
-        histogramVersion                 = "color";
-        histogramPosition                = QPoint(100,100);
-        histogramSize                    = QSize(300,200);
+        histogram                  = false;
+        histogramVersion           = "color";
+        histogramPosition          = QPoint(100,100);
+        histogramSize              = QSize(300,200);
 
     }
 
@@ -697,7 +702,8 @@ public slots:
             cont += QString("ThumbnailCacheFile=%1\n").arg(int(thumbnailCacheFile));
             cont += QString("ThumbnailSpacingBetween=%1\n").arg(thumbnailSpacingBetween);
             cont += QString("ThumbnailLiftUp=%1\n").arg(thumbnailLiftUp);
-            cont += QString("ThumbnailKeepVisible=%1\n").arg(thumbnailKeepVisible);
+            cont += QString("ThumbnailKeepVisible=%1\n").arg(int(thumbnailKeepVisible));
+            cont += QString("ThumbnailKeepVisibleWhenNotZoomedIn=%1\n").arg(int(thumbnailKeepVisibleWhenNotZoomedIn));
             cont += QString("ThumbnailCenterActive=%1\n").arg(int(thumbnailCenterActive));
             cont += QString("ThumbnailFilenameInstead=%1\n").arg(int(thumbnailFilenameInstead));
             cont += QString("ThumbnailFilenameInsteadFontSize=%1\n").arg(thumbnailFilenameInsteadFontSize);
@@ -1006,6 +1012,11 @@ public slots:
                 thumbnailKeepVisible = true;
             else if(all.contains("ThumbnailKeepVisible=0"))
                 thumbnailKeepVisible = false;
+
+            if(all.contains("ThumbnailKeepVisibleWhenNotZoomedIn=1"))
+                thumbnailKeepVisibleWhenNotZoomedIn = true;
+            else if(all.contains("ThumbnailKeepVisibleWhenNotZoomedIn=0"))
+                thumbnailKeepVisibleWhenNotZoomedIn = false;
 
             if(all.contains("ThumbnailCenterActive=1"))
                 thumbnailCenterActive = true;
@@ -1336,6 +1347,7 @@ signals:
     void thumbnailSpacingBetweenChanged(int val);
     void thumbnailLiftUpChanged(int val);
     void thumbnailKeepVisibleChanged(bool val);
+    void thumbnailKeepVisibleWhenNotZoomedInChanged(bool val);
     void thumbnailFontSizeChanged(int val);
     void thumbnailCenterActiveChanged(bool val);
     void thumbnailPositionChanged(QString val);

@@ -2,7 +2,7 @@ import QtQuick 2.5
 
 Item {
 
-    id: top
+    id: mainimage_top
 
     visible: !variables.deleteNothingLeft && !variables.filterNoMatch
 
@@ -12,7 +12,7 @@ Item {
         leftMargin: settings.marginAroundImage+metadata.nonFloatWidth
         rightMargin: settings.marginAroundImage
         topMargin: settings.marginAroundImage
-        bottomMargin: settings.marginAroundImage+(settings.thumbnailKeepVisible ? variables.thumbnailsheight : 0)
+        bottomMargin: settings.marginAroundImage+(settings.thumbnailKeepVisible||settings.thumbnailKeepVisibleWhenNotZoomedIn ? variables.thumbnailsheight : 0)
     }
 
     // the source of the current image
@@ -41,13 +41,15 @@ Item {
         }
     }
 
+    signal zoomChanged()
+
     // this property os false as long the mainimage has not yet completed loading. It switches to true once the mainimage gets displayed
     property bool mainImageFinishedLoading: false
     // the changed signals of properties don't seem to be globally accessible, thus we need to emit a custom signal to let the world (in particular the Thumbnails) know of a change here
     signal mainImageLoadingChanged()
     onMainImageFinishedLoadingChanged: {
         mainImageLoadingChanged()
-        if(top.source == "") return
+        if(mainimage_top.source == "") return
         if(!mainImageFinishedLoading)
             showLoadingImage.start()
         else {
@@ -85,8 +87,8 @@ Item {
             scaleDuration: 250
             rotationDuration: 250
 
-            defaultHeight: top.height-settings.marginAroundImage
-            defaultWidth: top.width-settings.marginAroundImage
+            defaultHeight: mainimage_top.height-settings.marginAroundImage
+            defaultWidth: mainimage_top.width-settings.marginAroundImage
 
             // Connect to some signals, set this as current or hide the other image
             onHideOther: {
@@ -96,6 +98,8 @@ Item {
             }
             onSetAsCurrentId: currentId = image1
 
+            onZoomChanged:
+                mainimage_top.zoomChanged()
 
         }
 
@@ -114,8 +118,8 @@ Item {
             scaleDuration: 250
             rotationDuration: 250
 
-            defaultHeight: top.height-settings.marginAroundImage
-            defaultWidth: top.width-settings.marginAroundImage
+            defaultHeight: mainimage_top.height-settings.marginAroundImage
+            defaultWidth: mainimage_top.width-settings.marginAroundImage
 
             // Connect to some signals, set this as current or hide the other image
             onHideOther: {
@@ -124,6 +128,9 @@ Item {
                 imageANIM2.hideMe()
             }
             onSetAsCurrentId: currentId = image2
+
+            onZoomChanged:
+                mainimage_top.zoomChanged()
 
         }
 
@@ -142,8 +149,8 @@ Item {
             scaleDuration: 250
             rotationDuration: 250
 
-            defaultHeight: top.height-settings.marginAroundImage
-            defaultWidth: top.width-settings.marginAroundImage
+            defaultHeight: mainimage_top.height-settings.marginAroundImage
+            defaultWidth: mainimage_top.width-settings.marginAroundImage
 
             // Connect to some signals, set this as current or hide the other image
             onHideOther: {
@@ -152,6 +159,9 @@ Item {
                 imageANIM2.hideMe()
             }
             onSetAsCurrentId: currentId = imageANIM1
+
+            onZoomChanged:
+                mainimage_top.zoomChanged()
 
         }
 
@@ -170,8 +180,8 @@ Item {
             scaleDuration: 250
             rotationDuration: 250
 
-            defaultHeight: top.height-settings.marginAroundImage
-            defaultWidth: top.width-settings.marginAroundImage
+            defaultHeight: mainimage_top.height-settings.marginAroundImage
+            defaultWidth: mainimage_top.width-settings.marginAroundImage
 
             // Connect to some signals, set this as current or hide the other image
             onHideOther: {
@@ -180,6 +190,9 @@ Item {
                 imageANIM1.hideMe()
             }
             onSetAsCurrentId: currentId = imageANIM2
+
+            onZoomChanged:
+                mainimage_top.zoomChanged()
 
         }
 
@@ -201,7 +214,7 @@ Item {
 
         // show indicator only if the mainimage hasn't finished loading in the meantime
         onTriggered:
-            if(!top.mainImageFinishedLoading)
+            if(!mainimage_top.mainImageFinishedLoading)
                 loadingimage.opacity = 1
 
     }
@@ -210,9 +223,20 @@ Item {
     /****************************************************/
     // All the API functions
 
+    function isZoomedIn() {
+        if(currentId == image1)
+            return image1.isZoomedIn()
+        else if(currentId == image2)
+            return image2.isZoomedIn()
+        else if(currentId == imageANIM1)
+            return imageANIM1.isZoomedIn()
+        else if(currentId == imageANIM2)
+            return imageANIM2.isZoomedIn()
+    }
+
     function loadImage(filename, animated) {
-        top.animated = animated
-        top.source = filename
+        mainimage_top.animated = animated
+        mainimage_top.source = filename
     }
 
     function resetPosition() {

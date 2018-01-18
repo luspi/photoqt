@@ -45,6 +45,10 @@ Item {
     // Animate the scale property. We reset the duration after it is done as it is sometimes set to zero (e.g. for loading a new image)
     Behavior on scale { NumberAnimation { id: scaleAni; duration: scaleDuration; onStopped: duration = scaleDuration } }
 
+    signal zoomChanged()
+    onScaleMultiplierChanged:
+        zoomChanged()
+
     // The x and y positions depend on the image
     x: ( defaultWidth - width ) / 2 + imageMargin/2
     y: ( defaultHeight - height ) / 2 + imageMargin/2
@@ -176,6 +180,9 @@ Item {
         posYAni.duration = 0
         x = Qt.binding(function() { return ( defaultWidth - width ) / 2 + imageMargin/2 })
         y = Qt.binding(function() { return ( defaultHeight - height ) / 2 + imageMargin/2 })
+    }
+    function isZoomedIn() {
+        return (scaleMultiplier>1)
     }
 
 

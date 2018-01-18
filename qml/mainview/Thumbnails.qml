@@ -47,6 +47,8 @@ Item {
         }
     }
 
+    property bool mouseHoveringThumbnails: false
+
     // Enable moving of flickable with mouse wheel (i.e., translate vertical to horizontal scroll)
     MouseArea {
         anchors.fill: parent
@@ -67,6 +69,10 @@ Item {
                     view.contentX = view.contentWidth-view.width
             }
         }
+        onEntered:
+            mouseHoveringThumbnails = true
+        onExited:
+            mouseHoveringThumbnails = false
     }
 
     // This item make sure, that the thumbnails are displayed centered when their combined width is less than the width of the screen
@@ -235,10 +241,14 @@ Item {
                 text: getanddostuff.removePathFromFilename(imagePath)
 
                 // set lift up/down of thumbnails
-                onEntered:
+                onEntered: {
                     rect.activated = true
-                onExited:
+                    mouseHoveringThumbnails = true
+                }
+                onExited: {
                     rect.activated = false
+                    mouseHoveringThumbnails = false
+                }
 
                 // Load the selected thumbnail as main image
                 onClicked: {
@@ -348,6 +358,16 @@ Item {
             hide()
         onThumbnailsLoadDirectory:
             loadDirectory()
+    }
+
+    Connections {
+        target: imageitem
+        onZoomChanged: {
+            if(imageitem.isZoomedIn() && settings.thumbnailKeepVisibleWhenNotZoomedIn && !mouseHoveringThumbnails)
+                hide()
+            else if(!imageitem.isZoomedIn() && settings.thumbnailKeepVisibleWhenNotZoomedIn)
+                show()
+        }
     }
 
 

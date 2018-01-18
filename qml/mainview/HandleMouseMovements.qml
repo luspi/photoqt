@@ -54,12 +54,12 @@ MouseArea {
         if(settings.thumbnailPosition=="Bottom") {
             if(yPos > mainwindow.height-w && !variables.slideshowRunning && !settings.thumbnailDisable)
                 call.show("thumbnails")
-            else if(!settings.thumbnailKeepVisible)
+            else if((!settings.thumbnailKeepVisible && !settings.thumbnailKeepVisibleWhenNotZoomedIn) || (settings.thumbnailKeepVisibleWhenNotZoomedIn && imageitem.isZoomedIn()))
                 call.hide("thumbnails")
         } else {
             if(yPos < w && !variables.slideshowRunning && !settings.thumbnailDisable)
                 call.show("thumbnails")
-            else if(!settings.thumbnailKeepVisible)
+            else if((!settings.thumbnailKeepVisible && !settings.thumbnailKeepVisibleWhenNotZoomedIn) || (settings.thumbnailKeepVisibleWhenNotZoomedIn && imageitem.isZoomedIn()))
                 call.hide("thumbnails")
         }
 
