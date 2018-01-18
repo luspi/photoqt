@@ -158,8 +158,10 @@ Rectangle {
     // react to changes in folder, userplaces, and storage devices
     Connections {
         target: watcher
-        onFolderUpdated:
+        onFolderUpdated: {
             Handle.loadDirectoryFolders()
+            Handle.loadDirectoryFiles()
+        }
         onUserPlacesUpdated:
             Handle.loadUserPlaces()
         onStorageInfoUpdated:
@@ -213,11 +215,20 @@ Rectangle {
         Handle.addToHistory()
         // focus on edit rect (and select all)
         filesview.filesEditRect.selectAll()
+        // Make sure the current directory is set for checking
+        // necessary as when element is closed the watcher is paused until this moment
+        watcher.startWatchingForOpenFileElement(openvariables.currentDirectory)
+        // Make sure the userplaces are up to date
+        Handle.loadUserPlaces()
+        // Make sure the latest changes to the folder are loaded
+        Handle.loadDirectory()
     }
     // hide element
     function hide() {
         opacity = 0
         variables.guiBlocked = false
+        // stop watching for changes
+        watcher.stopWatchingForOpenFileElement()
     }
 
 }

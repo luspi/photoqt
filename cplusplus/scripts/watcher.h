@@ -30,7 +30,7 @@ public:
 
         storageInfoHash = "";
         storageInfoTimer = new QTimer;
-        storageInfoTimer->setInterval(2500);
+        storageInfoTimer->setInterval(5000);
         storageInfoTimer->setSingleShot(false);
         connect(storageInfoTimer, &QTimer::timeout, this, &Watcher::checkForChangesStorageInfo);
         storageInfoTimer->start();
@@ -48,6 +48,34 @@ public:
             watcherFolders->addPath(dir);
         }
     }
+    Q_INVOKABLE void stopWatchingForOpenFileElement() {
+        // stop watching folder
+        if(currentFolderForWatching != "") {
+            watcherFolders->removePath(currentFolderForWatching);
+            currentFolderForWatching = "";
+        }
+        // stop watching userplaces
+        watcherUserPlaces->removePath(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel");
+        // stop watching for changes to storageinfo
+        storageInfoTimer->stop();
+    }
+
+    Q_INVOKABLE void startWatchingForOpenFileElement(QString dir) {
+
+        setCurrentDirectoryForChecking(dir);
+
+        // make sure the userplaces are watched (stopped while element is hidden)
+        if(watcherUserPlaces->files().length() == 0) {
+            if(QFileInfo(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").exists())
+                watcherUserPlaces->addPath(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel");
+        }
+
+        // make sure that the storageinfo timer is running (stopped while element is hidden)
+        if(!storageInfoTimer->isActive())
+            storageInfoTimer->start();
+
+    }
+
     ~Watcher() {
         delete watcherFolders;
         delete watcherUserPlaces;
