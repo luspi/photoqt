@@ -131,7 +131,7 @@ private slots:
     }
     QByteArray formStorageInfoHash() {
         QByteArray fullhash = 0;
-        foreach(QStorageInfo s, QStorageInfo::mountedVolumes()) {
+        for(QStorageInfo s : QStorageInfo::mountedVolumes()) {
             if(s.isValid()) {
 
                 QString compose = QString("%1%2%3%4").arg(s.name()).arg(s.bytesTotal()).arg(QString(s.fileSystemType())).arg(s.rootPath());

@@ -71,7 +71,7 @@ QStringList GetAndDoStuffContext::getContextMenu() {
     QStringList all = in.readAll().split("\n");
     int numRow = 0;
     QStringList ret;
-    foreach(QString line, all) {
+    for(QString line : all) {
         QString tmp = line;
         if(numRow == 0) {
             ret.append(tmp.remove(0,1));
@@ -118,7 +118,7 @@ void GetAndDoStuffContext::saveContextMenu(QVariantList l) {
     QMap<int,QVariantList> adj;
 
     // We re-order the data (use actual position in list as keys), if not deleted
-    foreach(QVariant map, l) {
+    for(QVariant map : l) {
         QVariantMap data = map.toMap();
         // Invalid data can be caused by deletion
         if(data.value("description").isValid())

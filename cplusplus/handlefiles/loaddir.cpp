@@ -31,7 +31,7 @@ QFileInfoList LoadDir::loadDir(QString filepath, QString filter) {
         if(verbose)
             LOG << CURDATE << "LoadDir::loaddir(): Filter set: '" << filter.toStdString() << "'" << NL;
         QStringList new_flt;
-        foreach(QString f, filter.split(" ")) {
+        for(QString f : filter.split(" ")) {
             if(f.startsWith("."))
                 new_flt.append("*" + f);
             else

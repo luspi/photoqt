@@ -91,7 +91,7 @@ QVariantList GetAndDoStuffOpenFile::getStorageInfo() {
 
     QVariantList ret;
 
-    foreach(QStorageInfo s, QStorageInfo::mountedVolumes()) {
+    for(QStorageInfo s : QStorageInfo::mountedVolumes()) {
         if(s.isValid()) {
 
             QVariantList vol;
@@ -121,7 +121,7 @@ QVariantList GetAndDoStuffOpenFile::getFilesAndFoldersIn(QString path) {
 
     QStringList list = dir.entryList();
     QVariantList ret;
-    foreach(QString l, list)
+    for(QString l : list)
         ret.append(l);
 
     return ret;
@@ -142,7 +142,7 @@ QVariantList GetAndDoStuffOpenFile::getFoldersIn(QString path, bool getDotDot, b
 
     QStringList list = dir.entryList();
     QVariantList ret;
-    foreach(QString l, list)
+    for(QString l : list)
         ret.append(l);
 
     return ret;
@@ -166,19 +166,20 @@ QVariantList GetAndDoStuffOpenFile::getFilesIn(QString file, QString filter, QSt
     load->sortList(&list, sortby, sortbyAscending);
 
     QVariantList ret;
-    if(filter.startsWith("."))
-        foreach(QFileInfo l, list) {
+    if(filter.startsWith(".")) {
+        for(QFileInfo l : list) {
             if(l.fileName().endsWith(filter))
                 ret.append(l.fileName());
         }
-    else if(filter != "")
-        foreach(QFileInfo l, list) {
+    } else if(filter != "") {
+        for(QFileInfo l : list) {
             if(l.fileName().contains(filter))
                 ret.append(l.fileName());
         }
-    else
-        foreach(QFileInfo l, list)
+    } else {
+        for(QFileInfo l : list)
             ret.append(l.fileName());
+    }
 
 
     return ret;
@@ -217,7 +218,7 @@ QVariantList GetAndDoStuffOpenFile::getFilesWithSizeIn(QString path, int selecti
     load->sortList(&list, sortby, sortbyAscending);
 
     QVariantList ret;
-    for(auto l : list) {
+    for(QFileInfo l : list) {
         ret.append(l.fileName());
         qint64 s = l.size();
         if(s <= 1024)
@@ -267,7 +268,7 @@ void GetAndDoStuffOpenFile::saveUserPlaces(QVariantList enabled) {
     s.writeAttribute("xmlns:bookmark", "https://freedesktop.org/wiki/Specifications/desktop-bookmark-spec");
     s.writeAttribute("xmlns:mime", "http://www.freedesktop.org/standards/shared-mime-info");
 
-    foreach(QVariant l, enabled) {
+    for(QVariant l : enabled) {
 
         QVariantList cur = l.toList();
 

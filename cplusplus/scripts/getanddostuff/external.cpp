@@ -103,7 +103,7 @@ QString GetAndDoStuffExternal::importConfig(QString filename) {
     }
 
     // and iterate over all files in the zip file
-    foreach(ZipReader::FileInfo item, reader.fileInfoList()) {
+    for(ZipReader::FileInfo item : reader.fileInfoList()) {
 
         if(!allfiles.keys().contains(item.filePath)) {
             QString err = "ERROR: Not a valid PhotoQt config file!";

@@ -75,7 +75,7 @@ namespace StartupCheck {
             oldpaths << QDir::homePath() + "/.config/PhotoQt";
 #endif
 
-            foreach(QString oldpath, oldpaths) {
+            for(QString oldpath : oldpaths) {
 
                 // If new folders have been created and old files exist -> need to move
                 if(migrated && QDir(oldpath).exists()) {

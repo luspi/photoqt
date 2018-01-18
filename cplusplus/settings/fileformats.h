@@ -112,37 +112,37 @@ public:
         QStringList defaultEnabled = FileFormatsHandler::DefaultFormats::getList();
 
         QStringList tmp;
-        foreach(QString f, formats_qt)
+        for(QString f : formats_qt)
             if(defaultEnabled.contains(f))
                 tmp.append(f);
         formats_qt = tmp;
 
         tmp.clear();
-        foreach(QString f, formats_gm)
+        for(QString f : formats_gm)
             if(defaultEnabled.contains(f))
                 tmp.append(f);
         formats_gm = tmp;
 
         tmp.clear();
-        foreach(QString f, formats_gm_ghostscript)
+        for(QString f : formats_gm_ghostscript)
             if(defaultEnabled.contains(f))
                 tmp.append(f);
         formats_gm_ghostscript = tmp;
 
         tmp.clear();
-        foreach(QString f, formats_extras)
+        for(QString f : formats_extras)
             if(defaultEnabled.contains(f))
                 tmp.append(f);
         formats_extras = tmp;
 
         tmp.clear();
-        foreach(QString f, formats_untested)
+        for(QString f : formats_untested)
             if(defaultEnabled.contains(f))
                 tmp.append(f);
         formats_untested = tmp;
 
         tmp.clear();
-        foreach(QString f, formats_raw)
+        for(QString f : formats_raw)
             if(defaultEnabled.contains(f))
                 tmp.append(f);
         formats_raw = tmp;
@@ -184,37 +184,37 @@ public slots:
         setAvailableFormats();
 
         QStringList tmp;
-        foreach(QString f, formats_qt)
+        for(QString f : formats_qt)
             if(!disabled.contains(f))
                 tmp.append(f);
         formats_qt = tmp;
 
         tmp.clear();
-        foreach(QString f, formats_gm)
+        for(QString f : formats_gm)
             if(!disabled.contains(f))
                 tmp.append(f);
         formats_gm = tmp;
 
         tmp.clear();
-        foreach(QString f, formats_gm_ghostscript)
+        for(QString f : formats_gm_ghostscript)
             if(!disabled.contains(f))
                 tmp.append(f);
         formats_gm_ghostscript = tmp;
 
         tmp.clear();
-        foreach(QString f, formats_extras)
+        for(QString f : formats_extras)
             if(!disabled.contains(f))
                 tmp.append(f);
         formats_extras = tmp;
 
         tmp.clear();
-        foreach(QString f, formats_untested)
+        for(QString f : formats_untested)
             if(!disabled.contains(f))
                 tmp.append(f);
         formats_untested = tmp;
 
         tmp.clear();
-        foreach(QString f, formats_raw)
+        for(QString f : formats_raw)
             if(!disabled.contains(f))
                 tmp.append(f);
         formats_raw = tmp;
@@ -236,27 +236,27 @@ public slots:
 
         setAvailableFormats();
 
-        foreach(QString f, formats_qt)
+        for(QString f : formats_qt)
             if(!current_qt.contains(f))
                 disabled.append(f);
 
-        foreach(QString f, formats_gm)
+        for(QString f : formats_gm)
             if(!current_gm.contains(f))
                 disabled.append(f);
 
-        foreach(QString f, formats_gm_ghostscript)
+        for(QString f : formats_gm_ghostscript)
             if(!current_gm_ghostscript.contains(f))
                 disabled.append(f);
 
-        foreach(QString f, formats_extras)
+        for(QString f : formats_extras)
             if(!current_extras.contains(f))
                 disabled.append(f);
 
-        foreach(QString f, formats_untested)
+        for(QString f : formats_untested)
             if(!current_untested.contains(f))
                 disabled.append(f);
 
-        foreach(QString f, formats_raw)
+        for(QString f : formats_raw)
             if(!current_raw.contains(f))
                 disabled.append(f);
 

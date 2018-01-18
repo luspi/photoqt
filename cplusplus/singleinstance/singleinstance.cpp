@@ -24,7 +24,7 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
 
     // Check for any other set option
     QStringList options = handler.parser.optionNames();
-    foreach(QString opt, options)
+    for(QString opt : options)
         message += ":-:-:::" + opt.toUtf8() + "::";
 
     // This is treated specially: We export the config file and then quit without continuing

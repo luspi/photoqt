@@ -18,7 +18,7 @@ QStringList Shortcuts::load() {
     QTextStream in(&file);
     QStringList cont = in.readAll().split("\n");
 
-    foreach(QString line, cont) {
+    for(QString line : cont) {
 
         if(line.startsWith("Version=") || line.trimmed() == "")
             continue;
@@ -110,7 +110,7 @@ void Shortcuts::saveShortcuts(QVariantList data) {
 
     out << QString("Version=%1\n").arg(VERSION);
 
-    foreach(QVariant entry, data) {
+    for(QVariant entry : data) {
 
         QVariantList l = entry.toList();
 
