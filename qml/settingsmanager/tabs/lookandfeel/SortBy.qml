@@ -82,6 +82,8 @@ EntryContainer {
             sortimages_checkbox.currentIndex = 2
         else if(settings.sortby === "size")
             sortimages_checkbox.currentIndex = 3
+        sortimages_ascending.checked = settings.sortbyAscending
+        sortimages_descending.checked = !settings.sortbyAscending
     }
 
     function saveData() {
@@ -93,6 +95,7 @@ EntryContainer {
             settings.sortby = "date"
         else if(sortimages_checkbox.currentIndex == 3)
             settings.sortby = "size"
+        settings.sortbyAscending = sortimages_ascending.checked
     }
 
 }
