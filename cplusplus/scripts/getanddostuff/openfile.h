@@ -26,6 +26,7 @@
 #include <QUrl>
 #include <thread>
 #include <QCollator>
+#include "../../handlefiles/loaddir.h"
 #include "../../logger.h"
 #include "../../settings/fileformats.h"
 #include "../../settings/settings.h"
@@ -59,6 +60,7 @@ public:
 
 private:
     FileFormats *formats;
+    LoadDir *load;
 
 };
 

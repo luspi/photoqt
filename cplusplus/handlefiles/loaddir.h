@@ -21,6 +21,7 @@
 #include <QDir>
 #include <QDateTime>
 #include <QHash>
+#include <QCollator>
 #include <QAbstractListModel>
 #include "../settings/settings.h"
 #include "../settings/fileformats.h"
@@ -36,16 +37,9 @@ public:
     explicit LoadDir(bool verbose);
     ~LoadDir();
 
-    QVector<QFileInfo> loadDir(QString filepath, QString filter);
+    QFileInfoList loadDir(QString filepath, QString filter);
 
-    static bool sort_name(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
-    static bool sort_name_desc(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
-    static bool sort_naturalname(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
-    static bool sort_naturalname_desc(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
-    static bool sort_date(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
-    static bool sort_date_desc(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
-    static bool sort_size(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
-    static bool sort_size_desc(const QFileInfo &s1fileinfo, const QFileInfo &s2fileinfo);
+    void sortList(QFileInfoList *list, QString sortby, bool sortbyAscending);
 
 private:
 
@@ -56,7 +50,7 @@ private:
 
     QStringList imageFilter;
 
-    QVector<QFileInfo> allImgsInfo;
+    QFileInfoList allImgsInfo;
 
 };
 
