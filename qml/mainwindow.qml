@@ -203,11 +203,15 @@ Rectangle {
     Connections {
         target: settings
         onThumbnailKeepVisibleChanged:
-            if(settings.thumbnailKeepVisible)
+            if(settings.thumbnailKeepVisible) {
+                call.ensureElementSetup("thumbnails")
                 call.show("thumbnails")
+            }
         onThumbnailKeepVisibleWhenNotZoomedInChanged:
-            if(settings.thumbnailKeepVisibleWhenNotZoomedIn)
+            if(settings.thumbnailKeepVisibleWhenNotZoomedIn) {
+                call.ensureElementSetup("thumbnails")
                 call.show("thumbnails")
+            }
         onThumbnailDisableChanged:
             if(!settings.thumbnailDisable) {
                 call.ensureElementSetup("thumbnails")
