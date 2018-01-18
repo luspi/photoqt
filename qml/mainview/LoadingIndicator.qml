@@ -36,6 +36,9 @@ Rectangle {
             // ... we pause the animation and ...
             motionPath.stop()
 
+            // ... and the timer that could possibly restart it and ...
+            waitAFewMs.stop()
+
             // ... reset the indicator circle position
             movingaround.x = leftRightMargin+animwidth/2 - movingaround.width/2
             movingaround.y = (loadingimage_top.height-movingaround.height)/2
@@ -110,9 +113,11 @@ Rectangle {
         // Delay is currently set to 500 ms
         interval: 500
 
-        onTriggered:
-            // Start animation. The animation is always stopped when not needed, never just paused!
-            motionPath.start()
+        onTriggered: {
+            // Start animation if still needed. The animation is always stopped when not needed, never just paused!
+            if(loadingimage_top.opacity != 0)
+                motionPath.restart()
+        }
     }
 
     // The path animation
@@ -133,7 +138,10 @@ Rectangle {
         easing.type: Easing.InOutQuad
 
         // when the naimation has finished, we restart it after a delay
-        onStopped: if(loadingimage_top.opacity != 0) waitAFewMs.start()
+        onStopped: {
+            if(loadingimage_top.opacity != 0)
+                waitAFewMs.start()
+        }
 
         // the path
         path: Path {
