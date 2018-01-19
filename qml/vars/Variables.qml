@@ -35,4 +35,6 @@ Item {
 
     property int thumbnailsheight: 0
 
+    property point windowXY: Qt.point(-1,-1)
+
 }

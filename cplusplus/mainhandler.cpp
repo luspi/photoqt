@@ -34,6 +34,15 @@ MainHandler::MainHandler(bool verbose, QWindow *parent) : QQuickView(parent) {
 
     setupWindowProperties();
 
+    connect(this, &MainHandler::xChanged, this, &MainHandler::windowXYchanged);
+    connect(this, &MainHandler::yChanged, this, &MainHandler::windowXYchanged);
+
+}
+
+void MainHandler::windowXYchanged(int) {
+
+    QMetaObject::invokeMethod(object, "windowXYchanged", Q_ARG(QVariant, this->x()), Q_ARG(QVariant, this->y()));
+
 }
 
 // Performs some initial startup checks to make sure everything is in order

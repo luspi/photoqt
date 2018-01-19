@@ -233,6 +233,10 @@ Rectangle {
      *                                                *
      **************************************************/
 
+    function windowXYchanged(x, y) {
+        variables.windowXY = Qt.point(x, y)
+    }
+
     function processShortcut(sh) {
         shortcuts.processString(sh)
     }
