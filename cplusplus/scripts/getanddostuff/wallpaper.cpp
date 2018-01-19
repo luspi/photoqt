@@ -52,9 +52,7 @@ void GetAndDoStuffWallpaper::setWallpaper(QString wm, QVariantMap options, QStri
 
         // Filter out all the config paths that we need to adjust
         QStringList pathToSetImageTo;
-        for(int i = 0; i < output.length(); ++i) {
-
-            QString line = output.at(i);
+        for(QString line : output) {
             // Correct line
             if(line.startsWith("/backdrop/screen0/monitor")
                         && line.contains("/image-style")) {
