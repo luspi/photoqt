@@ -32,8 +32,8 @@ Rectangle {
     Image {
         visible: settings.backgroundImageUse
         anchors.fill: parent
-        horizontalAlignment: settings.backgroundImageCenter ? Image.AlignHCenter : Image.AlignLeft
-        verticalAlignment: settings.backgroundImageCenter ? Image.AlignVCenter : Image.AlignTop
+        horizontalAlignment: settings.backgroundImageCenter||settings.backgroundImageScale ? Image.AlignHCenter : Image.AlignLeft
+        verticalAlignment: settings.backgroundImageCenter||settings.backgroundImageScale ? Image.AlignVCenter : Image.AlignTop
         fillMode: settings.backgroundImageScale ? Image.PreserveAspectFit
                                                 : (settings.backgroundImageScaleCrop ? Image.PreserveAspectCrop
                                                     : (settings.backgroundImageStretch ? Image.Stretch
