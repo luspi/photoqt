@@ -84,6 +84,7 @@ private slots:
     void toggleWindow();
     void forceWindowQuit();
     void aboutToQuit();
+    void windowXYchanged(int);
 
 protected:
     bool event(QEvent *e);
