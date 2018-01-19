@@ -39,46 +39,114 @@ QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
         return QVariantList();
     }
 
+    // This list will contain all return values
     QVariantList ret;
 
-    QTextStream in(&file);
-    QString all = in.readAll();
-    QStringList entries = all.split("<bookmark href=\"");
-    for(int i = 1; i < entries.length(); ++i) {
+    // We use the stream reader to parse the file
+    QXmlStreamReader xmlReader(&file);
 
-        QString entry = entries.at(i);
+    // set up some variables for the data. They are filled progressively in the loop below
+    QString path = "";
+    QString name = "";
+    QString icon = "";
+    QString id = "";
+    QString isSystemItem = "";
+    QString isHidden = "false";
 
-        QString path = "", name = "", icon = "", id = "", isSystemItem = "", isHidden = "false";
+    // these keep track of which tag we have entered
+    bool enteredTitle = false;
+    bool enteredID = false;
+    bool enteredIsHidden = false;
+    bool enteredIsSystemItem = false;
 
-        path = entry.split("\">").at(0);
-        if(path.contains("file://"))
-            path.remove(0,7);
+    // loop through xml file
+    while (!xmlReader.atEnd()) {
 
-        if(path == "trash:/")
-            path = ConfigFiles::GENERIC_DATA_DIR() + "/Trash/files";
+        // next item
+        xmlReader.readNext();
 
-        if(entry.contains("<title>") && entry.contains("</title>"))
-            name = entry.split("<title>").at(1).split("</title>").at(0);
-        else
-            name = path;
+        // A bookmark end tag finishes a full entry
+        if(xmlReader.tokenType() == QXmlStreamReader::EndElement && xmlReader.name() == "bookmark") {
 
-        if(entry.contains("<bookmark:icon name=\""))
-            icon = entry.split("<bookmark:icon name=\"").at(1).split("\"/>").at(0);
-        else
-            icon = "inode-directory";
+            // Compose all items into a list
+            QVariantList entrylist;
+            entrylist << name << path << icon << id << isHidden << isSystemItem;
+            ret.append(entrylist);
 
-        if(entry.contains("<ID>"))
-            id = entry.split("<ID>").at(1).split("</ID>").at(0);
+            // and reset the variables
+            path = "";
+            name = "";
+            icon = "";
+            id = "";
+            isHidden = "false";
+            isSystemItem = "";
 
-        if(entry.contains("<IsHidden>"))
-            isHidden = entry.split("<IsHidden>").at(1).split("</IsHidden>").at(0);
+            // and make sure that these are all reset (should be already done)
+            enteredTitle = false;
+            enteredID = false;
+            enteredIsHidden = false;
+            enteredIsSystemItem = false;
 
-        if(entry.contains("<isSystemItem>"))
-            isSystemItem = entry.split("<isSystemItem>").at(1).split("</isSystemItem>").at(0);
+        }
 
-        QVariantList entrylist;
-        entrylist << name << path << icon << id << isHidden << isSystemItem;
-        ret.append(entrylist);
+        // BOOKMARK
+
+        if(xmlReader.tokenType() == QXmlStreamReader::StartElement && xmlReader.name() == "bookmark") {
+
+            path = xmlReader.attributes().value("href").toString();
+
+            if(path.contains("file://"))
+                path.remove(0,7);
+
+            if(path == "trash:/")
+                path = ConfigFiles::GENERIC_DATA_DIR() + "/Trash/files";
+
+        }
+
+        // TITLE
+
+        if(xmlReader.tokenType() == QXmlStreamReader::StartElement && xmlReader.name() == "title")
+            enteredTitle = true;
+
+        if(xmlReader.tokenType() == QXmlStreamReader::Characters && enteredTitle) {
+            name = xmlReader.text().toString();
+            enteredTitle = false;
+        }
+
+        // ICON
+
+        if(xmlReader.tokenType() == QXmlStreamReader::StartElement && xmlReader.name() == "icon")
+            icon = xmlReader.attributes().value("name").toString();
+
+        // ID
+
+        if(xmlReader.tokenType() == QXmlStreamReader::StartElement && xmlReader.name() == "ID")
+            enteredID = true;
+
+        if(xmlReader.tokenType() == QXmlStreamReader::Characters && enteredID) {
+            id = xmlReader.text().toString();
+            enteredID = false;
+        }
+
+        // ISHIDDEN
+
+        if(xmlReader.tokenType() == QXmlStreamReader::StartElement && xmlReader.name() == "IsHidden")
+            enteredIsHidden = true;
+
+        if(xmlReader.tokenType() == QXmlStreamReader::Characters && enteredIsHidden) {
+            isHidden = xmlReader.text().toString();
+            enteredIsHidden = false;
+        }
+
+        // ISSYSTEMITEM
+
+        if(xmlReader.tokenType() == QXmlStreamReader::StartElement && xmlReader.name() == "isSystemItem")
+            enteredIsSystemItem = true;
+
+        if(xmlReader.tokenType() == QXmlStreamReader::Characters && enteredIsSystemItem) {
+            isSystemItem = xmlReader.text().toString();
+            enteredIsSystemItem = false;
+        }
 
     }
 
