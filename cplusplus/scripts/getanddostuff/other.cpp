@@ -129,6 +129,6 @@ bool GetAndDoStuffOther::isImageAnimated(QString path) {
     if(path.startsWith("file://"))
         path = path.remove(0,7);
 
-    return QImageReader::supportedImageFormats().contains(QFileInfo(path).suffix().toLower().toUtf8());
+    return QImageReader(path).supportsAnimation();
 
 }
