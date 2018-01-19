@@ -140,17 +140,17 @@ Rectangle {
     /**************************/
     // ITEMS THAT FADE IN/OUT
 
-    // The mainmenu, right screen edge
-    MainMenu { id: mainmenu }
-
-    // The metadata about the currently loaded image, left screen edge
-    MetaData { id: metadata }
-
     // The thumbnail bar
     Loader { id: thumbnails }
 
     // A floating, movable element showing the histogram for the currently loaded image
     Loader { id: histogram }
+
+    // The mainmenu, right screen edge
+    MainMenu { id: mainmenu }
+
+    // The metadata about the currently loaded image, left screen edge
+    MetaData { id: metadata }
 
     // An element for browsing and opening files (loaded as needed)
     Loader { id: openfile }
