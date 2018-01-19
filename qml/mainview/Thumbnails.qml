@@ -8,15 +8,20 @@ Item {
     id: top
 
     // The position of the bar, either at top or bottom
-    x: 0
+    x: metadata.nonFloatWidth
     y: settings.thumbnailPosition=="Top" ? 0 : mainwindow.height-height
-    width: mainwindow.width
+    width: mainwindow.width-metadata.nonFloatWidth
     height: settings.thumbnailSize+settings.thumbnailLiftUp+25
+
+    Behavior on x { NumberAnimation { duration: 200 } }
+    Behavior on width { NumberAnimation { duration: 200 } }
 
     // Bar hidden/shown
     opacity: 0
     visible: (opacity!=0)
     Behavior on opacity { NumberAnimation { duration: 200 } }
+
+    clip: true
 
     // The index of the currently displayed image is handled in Variables
     Connections {
