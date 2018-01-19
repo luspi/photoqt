@@ -219,6 +219,12 @@ Item {
 
     }
 
+    Connections {
+        target: watcher
+        onImageUpdated:
+            reloadImage()
+    }
+
     /****************************************************/
     /****************************************************/
     // All the API functions
@@ -237,6 +243,17 @@ Item {
     function loadImage(filename, animated) {
         mainimage_top.animated = animated
         mainimage_top.source = filename
+    }
+
+    function reloadImage() {
+        if(currentId == image1)
+            image1.reloadImage()
+        else if(currentId == image2)
+            image2.reloadImage()
+        else if(currentId == imageANIM1)
+            imageANIM1.reloadImage()
+        else if(currentId == imageANIM2)
+            imageANIM2.reloadImage()
     }
 
     function resetPosition() {

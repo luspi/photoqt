@@ -106,7 +106,6 @@ void MainHandler::registerQmlTypes() {
     qmlRegisterType<GetAndDoStuff>("PGetAndDoStuff", 1, 0, "PGetAndDoStuff");
     qmlRegisterType<ToolTip>("PToolTip", 1, 0, "PToolTip");
     qmlRegisterType<Colour>("PColour", 1, 0, "PColour");
-    qmlRegisterType<ImageWatch>("PImageWatch", 1, 0, "PImageWatch");
     qmlRegisterType<ShareOnline::Imgur>("PImgur", 1, 0, "PImgur");
     qmlRegisterType<ShortcutsNotifier>("PShortcutsNotifier", 1, 0, "PShortcutsNotifier");
     qmlRegisterType<ThumbnailManagement>("PThumbnailManagement", 1, 0, "PThumbnailManagement");

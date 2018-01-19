@@ -92,6 +92,8 @@ Item {
         smooth: true
         mipmap: true
 
+        cache: false
+
         // set fill mode
         fillMode: Image.PreserveAspectFit
 
@@ -181,13 +183,19 @@ Item {
         }
     }
 
-    function returnImageContainer() {
-        return imageContainer
-    }
-
     /***************************************************************/
     /***************************************************************/
     // Some system functions
+
+    function reloadImage() {
+        var tmp = image.source
+        image.source = ""
+        image.source = tmp
+    }
+
+    function returnImageContainer() {
+        return imageContainer
+    }
 
     // hide this element. Currently only transition available is fading out
     function hideMe() {

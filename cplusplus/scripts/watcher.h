@@ -15,6 +15,14 @@ class Watcher : public QObject {
 public:
     Watcher(QObject *parent = 0) : QObject(parent) {
 
+        notifyAboutImageChange = new QTimer;
+        notifyAboutImageChange->setInterval(1000);
+        notifyAboutImageChange->setSingleShot(true);
+        connect(notifyAboutImageChange, &QTimer::timeout, this, &Watcher::imageChangedNotify);
+        currentImageForWatching = "";
+        watcherImage = new QFileSystemWatcher;
+        connect(watcherImage, &QFileSystemWatcher::fileChanged, this, &Watcher::imageChanged);
+
         currentFolderForWatching = "";
         watcherFolders = new QFileSystemWatcher;
         connect(watcherFolders, &QFileSystemWatcher::directoryChanged, this, &Watcher::directoryChanged);
@@ -38,6 +46,16 @@ public:
 
     }
 
+    Q_INVOKABLE void setCurrentImageForWatching(QString file) {
+        if(currentImageForWatching != "") {
+            watcherImage->removePath(currentImageForWatching);
+            currentImageForWatching = "";
+        }
+        if(file != "" && QFileInfo(file).exists()) {
+            currentImageForWatching = file;
+            watcherImage->addPath(file);
+        }
+    }
     Q_INVOKABLE void setCurrentDirectoryForChecking(QString dir) {
         if(currentFolderForWatching != "") {
             watcherFolders->removePath(currentFolderForWatching);
@@ -79,9 +97,14 @@ public:
     ~Watcher() {
         delete watcherFolders;
         delete watcherUserPlaces;
+        delete watcherShortcuts;
+        delete watcherImage;
+        delete notifyAboutImageChange;
+        delete storageInfoTimer;
     }
 
 signals:
+    void imageUpdated();
     void folderUpdated();
     void userPlacesUpdated();
     void shortcutsUpdated();
@@ -91,12 +114,22 @@ private:
     QFileSystemWatcher *watcherFolders;
     QFileSystemWatcher *watcherUserPlaces;
     QFileSystemWatcher *watcherShortcuts;
+    QTimer *notifyAboutImageChange;
+    QFileSystemWatcher *watcherImage;
     QTimer *storageInfoTimer;
     QByteArray storageInfoHash;
 
+    QString currentImageForWatching;
     QString currentFolderForWatching;
 
+
 private slots:
+    void imageChanged(QString) {
+        notifyAboutImageChange->start();
+    }
+    void imageChangedNotify() {
+        emit imageUpdated();
+    }
     void directoryChanged(QString) {
         emit folderUpdated();
     }

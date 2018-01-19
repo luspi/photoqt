@@ -9,7 +9,6 @@ import PGetMetaData 1.0
 import PToolTip 1.0
 import PColour 1.0
 import QtGraphicalEffects 1.0
-import PImageWatch 1.0
 import PImgur 1.0
 import PShortcutsNotifier 1.0
 import PThumbnailManagement 1.0
@@ -69,9 +68,6 @@ Rectangle {
     // Read the Exif/IPTC metadata of images
     PGetMetaData { id: getmetadata; }
 
-    // Watch for changes to images in the currently loaded folder
-    PImageWatch { id: imagewatch }
-
     // Share images to imgur.com
     PImgur { id: shareonline_imgur; }
 
@@ -81,6 +77,7 @@ Rectangle {
     // Load the shortcuts from file and provide some shortcut related convenience functions
     PShortcutsHandler { id: shortcutshandler }
 
+    // Watch for changes to files/folders/devices
     PWatcher { id: watcher }
 
     //////////////////////////////////////////////
