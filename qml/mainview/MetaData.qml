@@ -311,6 +311,12 @@ Rectangle {
         }
     }
 
+    Connections {
+        target: watcher
+        onImageUpdated:
+            setData(getmetadata.getExiv2(variables.currentDir + "/" + variables.currentFile))
+    }
+
     function setData(d) {
 
         if(variables.currentFile == "")
