@@ -45,12 +45,9 @@ public:
     int getNumberFilesInFolder(QString path, int selectionFileTypes);
     QVariantList getUserPlaces();
     QVariantList getStorageInfo();
-    QVariantList getFilesAndFoldersIn(QString path);
     QVariantList getFoldersIn(QString path, bool getDotDot = true, bool showHidden = false);
     QVariantList getFilesIn(QString path, QString filter, QString sortby, bool sortbyAscending);
     QVariantList getFilesWithSizeIn(QString path, int selectionFileTypes, bool showHidden, QString sortby, bool sortbyAscending);
-    bool isFolder(QString path);
-    QString removePrefixFromDirectoryOrFile(QString path);
     void saveUserPlaces(QVariantList enabled);
     QString getOpenFileLastLocation();
     void setOpenFileLastLocation(QString path);

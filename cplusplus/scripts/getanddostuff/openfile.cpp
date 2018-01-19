@@ -176,25 +176,6 @@ QVariantList GetAndDoStuffOpenFile::getStorageInfo() {
 
 }
 
-QVariantList GetAndDoStuffOpenFile::getFilesAndFoldersIn(QString path) {
-
-    if(path.startsWith("file:/"))
-        path = path.remove(0,6);
-
-    QDir dir(path);
-    dir.setNameFilters(formats->formats_qt + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw);
-    dir.setFilter(QDir::AllDirs|QDir::Files|QDir::NoDotAndDotDot);
-    dir.setSorting(QDir::DirsFirst|QDir::IgnoreCase);
-
-    QStringList list = dir.entryList();
-    QVariantList ret;
-    for(QString l : list)
-        ret.append(l);
-
-    return ret;
-
-}
-
 QVariantList GetAndDoStuffOpenFile::getFoldersIn(QString path, bool getDotDot, bool showHidden) {
 
     if(path.startsWith("file:/"))
@@ -248,7 +229,6 @@ QVariantList GetAndDoStuffOpenFile::getFilesIn(QString file, QString filter, QSt
             ret.append(l.fileName());
     }
 
-
     return ret;
 
 }
@@ -297,22 +277,6 @@ QVariantList GetAndDoStuffOpenFile::getFilesWithSizeIn(QString path, int selecti
     }
 
     return ret;
-
-}
-
-bool GetAndDoStuffOpenFile::isFolder(QString path) {
-    if(path.startsWith("file:/"))
-        path = path.remove(0,6);
-    QFileInfo info(path);
-    return !info.isFile();
-}
-
-QString GetAndDoStuffOpenFile::removePrefixFromDirectoryOrFile(QString path) {
-
-    if(path.startsWith("file:/"))
-        return path.remove(0,6);
-
-    return path;
 
 }
 

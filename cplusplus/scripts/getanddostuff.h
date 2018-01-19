@@ -123,9 +123,6 @@ public:
     Q_INVOKABLE int getNumberFilesInFolder(QString path, int selectionFileTypes) { return this->openfile->getNumberFilesInFolder(path, selectionFileTypes); }
     Q_INVOKABLE QVariantList getUserPlaces() { return this->openfile->getUserPlaces(); }
     Q_INVOKABLE QVariantList getStorageInfo() { return this->openfile->getStorageInfo(); }
-    Q_INVOKABLE QVariantList getFilesAndFoldersIn(QString path) { return this->openfile->getFilesAndFoldersIn(path); }
-    Q_INVOKABLE bool isFolder(QString path) { return this->openfile->isFolder(path); }
-    Q_INVOKABLE QString removePrefixFromDirectoryOrFile(QString path) { return this->openfile->removePrefixFromDirectoryOrFile(path); }
     Q_INVOKABLE QVariantList getFoldersIn(QString path, bool getDotDot = true, bool showHidden = false) { return this->openfile->getFoldersIn(path, getDotDot, showHidden); }
     Q_INVOKABLE QVariantList getFilesIn(QString file, QString filter, QString sortby, bool sortbyAscending) { return this->openfile->getFilesIn(file, filter, sortby, sortbyAscending); }
     Q_INVOKABLE QVariantList getFilesWithSizeIn(QString path, int selectionFileTypes, bool showHidden, QString sortby, bool sortbyAscending) { return this->openfile->getFilesWithSizeIn(path,selectionFileTypes, showHidden, sortby, sortbyAscending); }
