@@ -17,13 +17,15 @@ Rectangle {
     border.width: 1
     border.color: colour.fadein_slidein_border
 
-    // Set position (we pretend that rounded corners are along the right edge only, that's why visible x is off screen)
-    x: -1
-    y: -1
-
     // Adjust size
     width: settings.metadataWindowWidth
-    height: parent.height+2
+    anchors {
+        left: mainwindow.left
+        top: mainwindow.top
+        bottom: mainwindow.bottom
+        margins: -1
+    }
+
 
     property int nonFloatWidth: getButtonState() ? width : 0
 
@@ -38,35 +40,57 @@ Rectangle {
     Text {
 
         id: heading
-        y: 10
-        x: (parent.width-width)/2
-        font.pointSize: 15
+
+        anchors {
+            top: parent.top
+            left: parent.left
+            right: parent.right
+            topMargin: 10
+        }
+
+        horizontalAlignment: Qt.AlignHCenter
+
         color: colour.text
+        font.pointSize: 15
         font.bold: true
+
         text: qsTr("Metadata")
 
     }
 
     Rectangle {
-        id: spacingbelowheader
-        x: 5
-        y: heading.y+heading.height+10
+
+        id: separatorTop
+
+        anchors {
+            top: heading.bottom
+            left: parent.left
+            right: parent.right
+            topMargin: 10
+        }
+
+        color: colour.linecolour
         height: 1
-        width: parent.width-10
-        color: "white"
+
     }
 
     // Label at first start-up
     Text {
 
-        anchors.fill: parent
-
-        color: colour.bg_label
+        anchors {
+            top: separatorTop.bottom
+            left: parent.left
+            right: parent.right
+            bottom: separatorBottom.bottom
+            margins: 10
+        }
 
         visible: !imageLoaded && !unsupportedLabel.visible && !invalidLabel.visible
+
         horizontalAlignment: Qt.AlignHCenter
         verticalAlignment: Qt.AlignVCenter
 
+        color: colour.bg_label
         font.bold: true
         font.pointSize: 18
         wrapMode: Text.WordWrap
@@ -78,17 +102,24 @@ Rectangle {
 
         id: unsupportedLabel
 
-        anchors.fill: parent
-
-        color: colour.bg_label
+        anchors {
+            top: separatorTop.bottom
+            left: parent.left
+            right: parent.right
+            bottom: separatorBottom.bottom
+            margins: 10
+        }
 
         visible: false
+
         horizontalAlignment: Qt.AlignHCenter
         verticalAlignment: Qt.AlignVCenter
 
+        color: colour.bg_label
         font.bold: true
         font.pointSize: 18
         wrapMode: Text.WordWrap
+
         text: qsTr("File Format Not Supported")
 
     }
@@ -97,17 +128,24 @@ Rectangle {
 
         id: invalidLabel
 
-        anchors.fill: parent
-
-        color: colour.bg_label
+        anchors {
+            top: separatorTop.bottom
+            left: parent.left
+            right: parent.right
+            bottom: separatorBottom.bottom
+            margins: 10
+        }
 
         visible: false
+
         horizontalAlignment: Qt.AlignHCenter
         verticalAlignment: Qt.AlignVCenter
 
+        color: colour.bg_label
         font.bold: true
         font.pointSize: 18
         wrapMode: Text.WordWrap
+
         text: qsTr("Invalid File")
 
     }
@@ -116,44 +154,66 @@ Rectangle {
 
         id: view
 
-        x: 10
-        y: spacingbelowheader.y + spacingbelowheader.height + 10
-
-        width: childrenRect.width
-        height: parent.height - spacingbelowheader.y-spacingbelowheader.height-20 - check.height-10
+        anchors {
+            top: separatorTop.bottom
+            left: parent.left
+            right: parent.right
+            bottom: separatorBottom.top
+            margins: 10
+        }
 
         visible: imageLoaded
+
         model: ListModel { id: mod; }
         delegate: deleg
 
     }
 
     Rectangle {
-        id: spacing
-        width: meta.width
+        id: separatorBottom
+        anchors {
+            bottom: keepopen.top
+            left: parent.left
+            right: parent.right
+            bottomMargin: 10
+        }
+
         height: 1
-        x: 0
-        y: view.height+view.y
         color: colour.linecolour
     }
 
     Rectangle {
+
         id: keepopen
+
+        anchors {
+            bottom: parent.bottom
+            left: parent.left
+            right: parent.right
+            bottomMargin: 10
+        }
+
+        height: check.height
         color: "#00000000"
-        x: 0
-        y: view.height+view.y+spacing.height+3 + 5
-        width: meta.width
+
         CustomCheckBox {
+
             id: check
+
             textOnRight: false
+
             anchors.right: parent.right
             anchors.rightMargin: 5
+
             fsize: 8
             textColour: "#64" + colour.text.substring(1,colour.text.length)
             //: Used as in 'Keep the metadata element open even if the cursor leaves it'
+
             text: qsTr("Keep Open")
+
             onButtonCheckedChanged:
                 updateNonFloatWidth()
+
         }
     }
     function updateNonFloatWidth() {
