@@ -60,7 +60,6 @@ public:
     bool isGraphicsMagickSupportEnabled();
     bool isLibRawSupportEnabled();
     QString getVersionString();
-    QList<QString> getScreenNames();
     void storeGeometry(QRect rect);
     QRect getStoredGeometry();
     bool isImageAnimated(QString path);

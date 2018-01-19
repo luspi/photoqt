@@ -73,8 +73,6 @@ public:
         connect(this, &Settings::saveWindowGeometryChanged,                     &Settings::saveSettingsTimerStart);;
         connect(this, &Settings::keepOnTopChanged,                              &Settings::saveSettingsTimerStart);
         connect(this, &Settings::compositeChanged,                              &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::openOnScreenChanged,                           &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::openOnScreenNameChanged,                       &Settings::saveSettingsTimerStart);
         connect(this, &Settings::startupLoadLastLoadedImageChanged,             &Settings::saveSettingsTimerStart);
 
         connect(this, &Settings::backgroundColorRedChanged,                     &Settings::saveSettingsTimerStart);
@@ -212,8 +210,6 @@ public:
     bool    saveWindowGeometry;
     bool    keepOnTop;
     bool    composite;
-    bool    openOnScreen;
-    QString openOnScreenName;
     bool    startupLoadLastLoadedImage;
 
     int     backgroundColorRed;
@@ -339,8 +335,6 @@ public:
     Q_PROPERTY(bool    saveWindowGeometry               MEMBER saveWindowGeometry               NOTIFY saveWindowGeometryChanged)
     Q_PROPERTY(bool    keepOnTop                        MEMBER keepOnTop                        NOTIFY keepOnTopChanged)
     Q_PROPERTY(bool    composite                        MEMBER composite                        NOTIFY compositeChanged)
-    Q_PROPERTY(bool    openOnScreen                     MEMBER openOnScreen                     NOTIFY openOnScreenChanged)
-    Q_PROPERTY(QString openOnScreenName                 MEMBER openOnScreenName                 NOTIFY openOnScreenNameChanged)
     Q_PROPERTY(bool    startupLoadLastLoadedImage       MEMBER startupLoadLastLoadedImage       NOTIFY startupLoadLastLoadedImageChanged)
 
     Q_PROPERTY(int     backgroundColorRed               MEMBER backgroundColorRed               NOTIFY backgroundColorRedChanged)
@@ -478,8 +472,6 @@ public:
         elementsFadeIn             = true;
         saveWindowGeometry         = false;
         keepOnTop                  = false;
-        openOnScreen               = false;
-        openOnScreenName           = "";
 
         language                   = QLocale::system().name();
         backgroundColorRed         = 0;
@@ -646,8 +638,6 @@ public slots:
             cont += QString("ElementsFadeIn=%1\n").arg(int(elementsFadeIn));
             cont += QString("SaveWindowGeometry=%1\n").arg(int(saveWindowGeometry));
             cont += QString("KeepOnTop=%1\n").arg(int(keepOnTop));
-            cont += QString("OpenOnScreen=%1\n").arg(int(openOnScreen));
-            cont += QString("OpenOnScreenName=%1\n").arg(openOnScreenName);
             cont += QString("StartupLoadLastLoadedImage=%1\n").arg(int(startupLoadLastLoadedImage));
 
             cont += "\n[Look]\n";
@@ -856,14 +846,6 @@ public slots:
                 composite = true;
             else if(all.contains("Composite=0"))
                 composite = false;
-
-            if(all.contains("OpenOnScreen=1"))
-                openOnScreen = true;
-            else if(all.contains("OpenOnScreen=0"))
-                openOnScreen = false;
-
-            if(all.contains("OpenOnScreenName="))
-                openOnScreenName = all.split("OpenOnScreenName=").at(1).split("\n").at(0);
 
             if(all.contains("StartupLoadLastLoadedImage=1"))
                 startupLoadLastLoadedImage = true;
@@ -1292,8 +1274,6 @@ signals:
     void saveWindowGeometryChanged(bool val);
     void keepOnTopChanged(bool val);
     void compositeChanged(bool val);
-    void openOnScreenChanged(bool val);
-    void openOnScreenNameChanged(QString val);
     void startupLoadLastLoadedImageChanged(bool val);
 
     void backgroundColorRedChanged(int val);
