@@ -4,38 +4,12 @@
 GetAndDoStuffOther::GetAndDoStuffOther(QObject *parent) : QObject(parent) { }
 GetAndDoStuffOther::~GetAndDoStuffOther() { }
 
-QPoint GetAndDoStuffOther::getGlobalCursorPos() {
+QString GetAndDoStuffOther::convertRgbaToHex(int r, int g, int b, int a) {
 
-    return QCursor::pos();
-
-}
-
-QColor GetAndDoStuffOther::addAlphaToColor(QString col, int alpha) {
-
-    if(col.length() == 9) {
-
-        col = col.remove(0,3);
-
-        bool ok;
-        int red = (QString(col.at(0)) + QString(col.at(1))).toUInt(&ok,16);
-        int green = (QString(col.at(2)) + QString(col.at(3))).toUInt(&ok,16);
-        int blue = (QString(col.at(4)) + QString(col.at(5))).toUInt(&ok,16);
-
-        return QColor(red, green, blue, alpha);
-
-    } else if(col.length() == 7) {
-
-        col = col.remove(0,1);
-
-        bool ok;
-        int red = (QString(col.at(0)) + QString(col.at(1))).toUInt(&ok,16);
-        int green = (QString(col.at(2)) + QString(col.at(3))).toUInt(&ok,16);
-        int blue = (QString(col.at(4)) + QString(col.at(5))).toUInt(&ok,16);
-
-        return QColor(red, green, blue, alpha);
-
-    } else
-        return QColor(col);
+    return QString("#%1%2%3%4").arg(a, 2, 16, QLatin1Char('0'))
+                               .arg(r, 2, 16, QLatin1Char('0'))
+                               .arg(g, 2, 16, QLatin1Char('0'))
+                               .arg(b, 2, 16, QLatin1Char('0'));
 
 }
 
@@ -92,10 +66,6 @@ QString GetAndDoStuffOther::getDownloadsDir() {
     if(loc.length() == 0)
         return "";
     return loc.first();
-}
-
-QString GetAndDoStuffOther::getRootDir() {
-    return QDir::rootPath();
 }
 
 bool GetAndDoStuffOther::isExivSupportEnabled() {
@@ -168,8 +138,8 @@ bool GetAndDoStuffOther::isImageAnimated(QString path) {
 
     if(path.startsWith("image://full/"))
         path = path.remove(0,13);
-    if(path.contains("::photoqt::"))
-        path = path.split("::photoqt::").at(0);
+    if(path.startsWith("file://"))
+        path = path.remove(0,7);
 
     return QImageReader::supportedImageFormats().contains(QFileInfo(path).suffix().toLower().toUtf8());
 

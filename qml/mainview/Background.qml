@@ -6,8 +6,8 @@ Rectangle {
 
     anchors.fill: parent
 
-    color: settings.composite ? getanddostuff.addAlphaToColor(Qt.rgba(settings.backgroundColorRed, settings.backgroundColorGreen, settings.backgroundColorBlue, settings.backgroundColorAlpha), settings.backgroundColorAlpha)
-                                  : "#00000000"
+    color: settings.composite ? getanddostuff.convertRgbaToHex(settings.backgroundColorRed, settings.backgroundColorGreen, settings.backgroundColorBlue, settings.backgroundColorAlpha) : "#00000000"
+
     // Fake transparency
     Image {
         id: fake
@@ -18,7 +18,7 @@ Rectangle {
         Rectangle {
             anchors.fill: parent
             visible: parent.visible
-            color: getanddostuff.addAlphaToColor(Qt.rgba(settings.backgroundColorRed, settings.backgroundColorGreen, settings.backgroundColorBlue, settings.backgroundColorAlpha), settings.backgroundColorAlpha)
+            color: getanddostuff.convertRgbaToHex(settings.backgroundColorRed, settings.backgroundColorGreen, settings.backgroundColorBlue, settings.backgroundColorAlpha)
         }
     }
     function reloadScreenshot() {
@@ -42,7 +42,7 @@ Rectangle {
         Rectangle {
             anchors.fill: parent
             visible: parent.visible
-            color: getanddostuff.addAlphaToColor(Qt.rgba(settings.backgroundColorRed, settings.backgroundColorGreen, settings.backgroundColorBlue, settings.backgroundColorAlpha), settings.backgroundColorAlpha)
+            color: getanddostuff.convertRgbaToHex(settings.backgroundColorRed, settings.backgroundColorGreen, settings.backgroundColorBlue, settings.backgroundColorAlpha)
         }
 
     }

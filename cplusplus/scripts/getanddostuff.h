@@ -91,8 +91,7 @@ public:
     Q_INVOKABLE QString getImageBaseName(QString imagePath) { return manipulation->getImageBaseName(imagePath); }
 
     // OTHER
-    Q_INVOKABLE QPoint getGlobalCursorPos() { return other->getGlobalCursorPos(); }
-    Q_INVOKABLE QColor addAlphaToColor(QString col, int alpha) { return other->addAlphaToColor(col, alpha); }
+    Q_INVOKABLE QString convertRgbaToHex(int r, int g, int b, int a) { return other->convertRgbaToHex(r, g, b, a); }
     Q_INVOKABLE bool amIOnLinux() { return other->amIOnLinux(); }
     Q_INVOKABLE bool amIOnWindows() { return other->amIOnWindows(); }
     Q_INVOKABLE QString trim(QString s) { return other->trim(s); }
@@ -100,7 +99,6 @@ public:
     Q_INVOKABLE QString getTempDir() { return other->getTempDir(); }
     Q_INVOKABLE QString getHomeDir() { return other->getHomeDir(); }
     Q_INVOKABLE QString getDesktopDir() { return other->getDesktopDir(); }
-    Q_INVOKABLE QString getRootDir() { return other->getRootDir(); }
     Q_INVOKABLE QString getPicturesDir() { return other->getPicturesDir(); }
     Q_INVOKABLE QString getDownloadsDir() { return other->getDownloadsDir(); }
     Q_INVOKABLE bool isExivSupportEnabled() { return other->isExivSupportEnabled(); }

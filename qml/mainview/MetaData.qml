@@ -13,7 +13,7 @@ Rectangle {
     property string orientation: ""
 
     // Background/Border color
-    color: getanddostuff.addAlphaToColor(colour.fadein_slidein_bg,settings.metadataOpacity)
+    color: colour.fadein_slidein_bg
     border.width: 1
     border.color: colour.fadein_slidein_border
 
@@ -149,7 +149,7 @@ Rectangle {
             anchors.right: parent.right
             anchors.rightMargin: 5
             fsize: 8
-            textColour: getanddostuff.addAlphaToColor(colour.text,100)
+            textColour: "#64" + colour.text.substring(1,colour.text.length)
             //: Used as in 'Keep the metadata element open even if the cursor leaves it'
             text: qsTr("Keep Open")
             onButtonCheckedChanged:

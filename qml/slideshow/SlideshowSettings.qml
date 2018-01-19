@@ -215,7 +215,7 @@ FadeInTemplate {
         },
         // Area displaying music file path and option to change it
         Rectangle {
-            color: enabled ? getanddostuff.addAlphaToColor(colour.text_disabled,20) : getanddostuff.addAlphaToColor(colour.text,20)
+            color: "#14" + (enabled ? colour.text_disabled.substring(1,colour.text_disabled.length) : colour.text.substring(1,colour.text.length))
             width: slideshow_top.contentWidth/2
             enabled: musiccheckbox.checkedButton
             x: slideshow_top.contentWidth/4

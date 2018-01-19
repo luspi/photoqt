@@ -46,8 +46,7 @@ public:
     explicit GetAndDoStuffOther(QObject *parent = 0);
     ~GetAndDoStuffOther();
 
-    QPoint getGlobalCursorPos();
-    QColor addAlphaToColor(QString col, int alpha);
+    QString convertRgbaToHex(int r, int g, int b, int a);
     bool amIOnLinux();
     bool amIOnWindows();
     QString trim(QString s) { return s.trimmed(); }
@@ -55,7 +54,6 @@ public:
     QString getTempDir();
     QString getHomeDir();
     QString getDesktopDir();
-    QString getRootDir();
     QString getPicturesDir();
     QString getDownloadsDir();
     bool isExivSupportEnabled();
