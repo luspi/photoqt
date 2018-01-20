@@ -135,7 +135,7 @@ public:
         connect(this, &Settings::thumbnailDisableChanged,                       &Settings::saveSettingsTimerStart);
         connect(this, &Settings::thumbnailWriteFilenameChanged,                 &Settings::saveSettingsTimerStart);
 
-        connect(this, &Settings::windowmodeChanged,                             &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::windowModeChanged,                             &Settings::saveSettingsTimerStart);
         connect(this, &Settings::windowDecorationChanged,                       &Settings::saveSettingsTimerStart);
 
         connect(this, &Settings::metadataFontSizeChanged,                       &Settings::saveSettingsTimerStart);
@@ -403,7 +403,7 @@ public:
     Q_PROPERTY(bool    thumbnailWriteFilename           MEMBER thumbnailWriteFilename           NOTIFY thumbnailWriteFilenameChanged)
     Q_PROPERTY(int     thumbnailFontSize                MEMBER thumbnailFontSize                NOTIFY thumbnailFontSizeChanged)
 
-    Q_PROPERTY(bool    windowMode                       MEMBER windowMode                       NOTIFY windowmodeChanged)
+    Q_PROPERTY(bool    windowMode                       MEMBER windowMode                       NOTIFY windowModeChanged)
     Q_PROPERTY(bool    windowDecoration                 MEMBER windowDecoration                 NOTIFY windowDecorationChanged)
 
     Q_PROPERTY(bool    metadataEnableHotEdge            MEMBER metadataEnableHotEdge            NOTIFY metadataEnableHotEdgeChanged)
@@ -1336,7 +1336,7 @@ signals:
     void thumbnailDisableChanged(bool val);
     void thumbnailWriteFilenameChanged(bool val);
 
-    void windowmodeChanged(bool val);
+    void windowModeChanged(bool val);
     void windowDecorationChanged(bool val);
 
     void metadataFontSizeChanged(int val);
