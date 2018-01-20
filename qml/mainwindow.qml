@@ -40,7 +40,7 @@ Rectangle {
     // We need to pass on the value as there is a delay for writing a change of the settings to file, thus it might not be updated on harddrive when we get to this point
     signal trayIconValueChanged(int icon)
 
-    signal windowModeChanged(bool windowmode, bool windowdeco)
+    signal windowModeChanged(bool windowmode, bool windowdeco, bool keepontop)
 
     anchors.fill: parent
 
@@ -223,9 +223,11 @@ Rectangle {
         onSortbyAscendingChanged:
             Load.loadFile(variables.currentFile, variables.filter, true)
         onWindowModeChanged:
-            mainwindow.windowModeChanged(settings.windowMode, settings.windowDecoration)
+            mainwindow.windowModeChanged(settings.windowMode, settings.windowDecoration, settings.keepOnTop)
         onWindowDecorationChanged:
-            mainwindow.windowModeChanged(settings.windowMode, settings.windowDecoration)
+            mainwindow.windowModeChanged(settings.windowMode, settings.windowDecoration, settings.keepOnTop)
+        onKeepOnTopChanged:
+            mainwindow.windowModeChanged(settings.windowMode, settings.windowDecoration, settings.keepOnTop)
         onLanguageChanged:
             em.setLanguage(settings.language)
     }

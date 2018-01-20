@@ -85,7 +85,7 @@ void MainHandler::setObjectAndConnect() {
     connect(object, SIGNAL(closePhotoQt()), this, SLOT(close()));
     connect(object, SIGNAL(quitPhotoQt()), this, SLOT(forceWindowQuit()));
     connect(object, SIGNAL(trayIconValueChanged(int)), this, SLOT(handleTrayIcon(int)));
-    connect(object, SIGNAL(windowModeChanged(bool, bool)), this, SLOT(handleWindowModeChanged(bool, bool)));
+    connect(object, SIGNAL(windowModeChanged(bool, bool, bool)), this, SLOT(handleWindowModeChanged(bool, bool, bool)));
 
 }
 
@@ -129,7 +129,7 @@ void MainHandler::qmlVerboseMessage(QString loc, QString msg) {
         LOG << CURDATE << "[QML] " << loc.toStdString() << ": " << msg.toStdString() << NL;
 }
 
-void MainHandler::setupWindowProperties() {
+void MainHandler::setupWindowProperties(bool dontCallShow) {
 
     this->setMinimumSize(QSize(640,480));
     this->setTitle("PhotoQt " + tr("Image Viewer"));
@@ -138,6 +138,12 @@ void MainHandler::setupWindowProperties() {
         LOG << CURDATE << "setupWindowProperties(): started processing" << std::endl;
 
     GetAndDoStuff gads;
+
+    bool windowMaximised = true;
+    if(!dontCallShow && this->isVisible()) {
+        if(!(this->windowStates() & Qt::WindowFullScreen))
+            windowMaximised = false;
+    }
 
     // window mode
     if(permanentSettings->windowMode) {
@@ -161,22 +167,24 @@ void MainHandler::setupWindowProperties() {
         }
 
         // Restore the stored window geometry
-        if(permanentSettings->saveWindowGeometry) {
+        if(permanentSettings->saveWindowGeometry && !dontCallShow) {
 
             QRect rect = gads.getStoredGeometry();
 
             // Check whether stored information is actually valid
             if(rect.width() < 100 || rect.height() < 100) {
                 this->showNormal();
-                this->showMaximized();
+                if(windowMaximised)
+                    this->showMaximized();
             } else {
                 this->show();
                 this->setGeometry(rect);
             }
         // If not stored, we display the image always maximised
-        } else {
+        } else if(!dontCallShow) {
             this->showNormal();
-            this->showMaximized();
+            if(windowMaximised)
+                this->showMaximized();
         }
 
     // fullscreen mode
@@ -191,9 +199,12 @@ void MainHandler::setupWindowProperties() {
 
         // In Enlightenment, showing PhotoQt as fullscreen causes some problems, revert to showing it as maximised there by default
         if(gads.detectWindowManager() == "enlightenment") {
-            this->showNormal();
-            this->showMaximized();
-        } else
+            if(!dontCallShow) {
+                this->showNormal();
+                if(windowMaximised)
+                    this->showMaximized();
+            }
+        } else if(!dontCallShow)
             this->showFullScreen();
 
     }
@@ -364,12 +375,20 @@ void MainHandler::handleTrayIcon(int val) {
 
 }
 
-void MainHandler::handleWindowModeChanged(bool windowmode, bool windowdeco) {
+void MainHandler::handleWindowModeChanged(bool windowmode, bool windowdeco, bool keepontop) {
 
-    permanentSettings->windowMode = windowmode;
-    permanentSettings->windowDecoration = windowdeco;
+    bool dontShowNormal = true;
+    if(permanentSettings->windowMode != windowmode) {
+        permanentSettings->windowMode = windowmode;
+        dontShowNormal = false;
+    }
+    if(permanentSettings->windowDecoration != windowdeco) {
+        permanentSettings->windowDecoration = windowdeco;
+        dontShowNormal = false;
+    }
+    permanentSettings->keepOnTop = keepontop;
 
-    setupWindowProperties();
+    setupWindowProperties(dontShowNormal);
 
 }
 

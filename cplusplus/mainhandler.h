@@ -73,7 +73,7 @@ private:
     bool overrideCursorSet;
     int update;
 
-    void setupWindowProperties();
+    void setupWindowProperties(bool dontCallShow = false);
 
 private slots:
     void handleTrayIcon(int val = -1);
@@ -83,7 +83,7 @@ private slots:
     void forceWindowQuit();
     void aboutToQuit();
     void windowXYchanged(int);
-    void handleWindowModeChanged(bool windowmode, bool windowdeco);
+    void handleWindowModeChanged(bool windowmode, bool windowdeco, bool keepontop);
 
 protected:
     bool event(QEvent *e);
