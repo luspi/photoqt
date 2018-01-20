@@ -127,7 +127,7 @@ Item {
 
             // same source as main image, but only set after full image is loaded and only if pixmapcache is enabled
             // each image is fully loaded twice otherwise = very bad performance
-            source: (parent.status==Image.Ready&&settings.pixmapCache>5) ? parent.source : ""
+            source: (image.status==Image.Ready&&settings.pixmapCache>32) ? parent.source : ""
 
             // this image is loaded scaled down
             sourceSize: Qt.size(defaultWidth, defaultHeight)
