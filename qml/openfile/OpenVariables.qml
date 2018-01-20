@@ -29,10 +29,7 @@ Item {
     property bool highlightingFromUserInput: false
     property bool textEditedFromHighlighting: false
 
-    Component.onCompleted: {
-    // We HAVE TO break the binding, otherwise switching off the openKeepLastLocation setting before navigating to any other folder will reset the loaded folder to home folder
-        currentDirectory = currentDirectory
+    Component.onCompleted:
         currentFocusOn = "filesview"
-    }
 
 }

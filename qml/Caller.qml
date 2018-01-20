@@ -7,6 +7,7 @@ Item {
     // These signals are used to interact with loaded elements.
 
     signal openfileShow()
+    signal openfileNavigateToCurrentDir(var dir)
 
     signal thumbnailsShow()
     signal thumbnailsHide()
@@ -119,6 +120,8 @@ Item {
             keysReleased()
         else if(func == "closeAnyElement")
             closeAnyElement()
+        else if(func == "openfileNavigateToCurrentDir")
+            openfileNavigateToCurrentDir(variables.currentDir)
         else
             console.error("ERROR: Requested faulty load():", func)
     }

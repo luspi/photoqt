@@ -96,6 +96,8 @@ Rectangle {
         target: call
         onOpenfileShow:
             show()
+        onOpenfileNavigateToCurrentDir:
+            openvariables.currentDirectory = dir
         onShortcut: {
             if(!openfile_top.visible) return
             if(sh == "Escape")

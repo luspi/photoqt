@@ -17,9 +17,11 @@ function loadFile(filename, filter, forceReloadDirectory) {
         var pathonly = getanddostuff.removeFilenameFromPath(filename)
 
         // If it's a new path or a forced reload, load folder contents and set up thumbnails (if enabled)
-        if(pathonly != variables.currentDir || (forceReloadDirectory !== undefined && forceReloadDirectory)) {
+        if(filenameonly == "" || pathonly != variables.currentDir || (forceReloadDirectory !== undefined && forceReloadDirectory)) {
             variables.allFilesCurrentDir = getanddostuff.getFilesIn(filename, filter, settings.sortby, settings.sortbyAscending)
             variables.totalNumberImagesCurrentFolder = variables.allFilesCurrentDir.length
+            if(filenameonly == "" && variables.totalNumberImagesCurrentFolder > 0)
+                filenameonly = variables.allFilesCurrentDir[0]
             variables.currentDir = pathonly
             variables.currentFile = filenameonly
             if(!settings.thumbnailDisable)
@@ -41,10 +43,15 @@ function loadFile(filename, filter, forceReloadDirectory) {
     var anim = getanddostuff.isImageAnimated(src)
     var prefix = (anim ? "file://" : "image://full/")
 
-    imageitem.loadImage(prefix + src, anim)
-    metadata.setData(getmetadata.getExiv2(src))
-    watcher.setCurrentImageForWatching(src);
-    getanddostuff.saveLastOpenedImage(src)
+    if(variables.currentFile != "") {
+        imageitem.loadImage(prefix + src, anim)
+        metadata.setData(getmetadata.getExiv2(src))
+        watcher.setCurrentImageForWatching(src);
+        getanddostuff.saveLastOpenedImage(src)
+    } else {
+        call.show("openfile")
+        call.load("openfileNavigateToCurrentDir")
+    }
 
 }
 
