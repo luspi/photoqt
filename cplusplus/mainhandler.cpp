@@ -167,8 +167,7 @@ void MainHandler::setupWindowProperties() {
 
             // Check whether stored information is actually valid
             if(rect.width() < 100 || rect.height() < 100) {
-                if(this->isVisible())
-                    this->showNormal();
+                this->showNormal();
                 this->showMaximized();
             } else {
                 this->show();
@@ -176,8 +175,7 @@ void MainHandler::setupWindowProperties() {
             }
         // If not stored, we display the image always maximised
         } else {
-            if(this->isVisible())
-                this->showNormal();
+            this->showNormal();
             this->showMaximized();
         }
 
@@ -193,8 +191,7 @@ void MainHandler::setupWindowProperties() {
 
         // In Enlightenment, showing PhotoQt as fullscreen causes some problems, revert to showing it as maximised there by default
         if(gads.detectWindowManager() == "enlightenment") {
-            if(this->isVisible())
-                this->showNormal();
+            this->showNormal();
             this->showMaximized();
         } else
             this->showFullScreen();
