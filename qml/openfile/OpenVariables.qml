@@ -3,7 +3,7 @@ import "handlestuff.js" as Handle
 
 Item {
 
-    property string currentDirectory: settings.openKeepLastLocation ? getanddostuff.getOpenFileLastLocation() : getanddostuff.getHomeDir()
+    property string currentDirectory: settings.openKeepLastLocation ? getanddostuff.getOpenFileLastLocation() : getanddostuff.getCurrentWorkingDirectory()
     onCurrentDirectoryChanged: {
         Handle.loadDirectory()
         watcher.setCurrentDirectoryForChecking(currentDirectory)

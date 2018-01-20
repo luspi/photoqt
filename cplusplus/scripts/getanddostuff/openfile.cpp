@@ -378,7 +378,7 @@ void GetAndDoStuffOpenFile::setOpenFileLastLocation(QString path) {
 
 QString GetAndDoStuffOpenFile::getOpenFileLastLocation() {
 
-    QString ret = QDir::homePath();
+    QString ret = QDir::currentPath();
     QFile file(ConfigFiles::OPENFILE_LAST_LOCATION());
     if(file.exists() && file.open(QIODevice::ReadOnly)) {
         QTextStream in(&file);
@@ -387,6 +387,10 @@ QString GetAndDoStuffOpenFile::getOpenFileLastLocation() {
     }
     return ret;
 
+}
+
+QString GetAndDoStuffOpenFile::getCurrentWorkingDirectory() {
+    return QDir::currentPath();
 }
 
 void GetAndDoStuffOpenFile::saveLastOpenedImage(QString path) {
