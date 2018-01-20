@@ -127,6 +127,7 @@ public:
     Q_INVOKABLE QString getOpenFileLastLocation() {  return this->openfile->getOpenFileLastLocation(); }
     Q_INVOKABLE void setOpenFileLastLocation(QString path) { openfile->setOpenFileLastLocation(path); }
     Q_INVOKABLE void saveLastOpenedImage(QString path) { openfile->saveLastOpenedImage(path); }
+    Q_INVOKABLE QString getLastOpenedImage() { return openfile->getLastOpenedImage(); }
     Q_INVOKABLE QString getCurrentWorkingDirectory() { return openfile->getCurrentWorkingDirectory(); }
     Q_INVOKABLE QString getDirectoryDirName(QString path) { return openfile->getDirectoryDirName(path); }
 

@@ -230,6 +230,8 @@ Rectangle {
             mainwindow.windowModeChanged(settings.windowMode, settings.windowDecoration, settings.keepOnTop)
         onLanguageChanged:
             em.setLanguage(settings.language)
+        onStartupLoadLastLoadedImageChanged:
+            getanddostuff.saveLastOpenedImage("")
     }
 
     Component.onCompleted: {
@@ -299,6 +301,10 @@ Rectangle {
             variables.startupFilenameAfter = filename
             call.show("startup")
         } else {
+
+            if(settings.startupLoadLastLoadedImage)
+                filename = getanddostuff.getLastOpenedImage()
+
             // If no filename has been passed, show the OpenFile element
             if(filename == "")
                 call.show("openfile")

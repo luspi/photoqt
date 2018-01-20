@@ -405,6 +405,22 @@ void GetAndDoStuffOpenFile::saveLastOpenedImage(QString path) {
 
 }
 
+QString GetAndDoStuffOpenFile::getLastOpenedImage() {
+
+    QString filename = "";
+
+    QFile file(ConfigFiles::LASTOPENEDIMAGE_FILE());
+    if(file.open(QIODevice::ReadOnly)) {
+        QTextStream in(&file);
+        filename = in.readAll().trimmed();
+    } else
+        LOG << CURDATE << "ERROR: Unable to get stored path of last opened image. Error: " << file.errorString().trimmed().toStdString() << NL;
+
+    file.close();
+
+    return filename;
+}
+
 QString GetAndDoStuffOpenFile::getDirectoryDirName(QString path) {
 
     return QDir(path).dirName();

@@ -52,6 +52,7 @@ public:
     QString getOpenFileLastLocation();
     void setOpenFileLastLocation(QString path);
     void saveLastOpenedImage(QString path);
+    QString getLastOpenedImage();
     QString getCurrentWorkingDirectory();
     QString getDirectoryDirName(QString path);
 

@@ -40,9 +40,11 @@ function loadFile(filename, filter, forceReloadDirectory) {
     var src = variables.currentDir + "/" + variables.currentFile
     var anim = getanddostuff.isImageAnimated(src)
     var prefix = (anim ? "file://" : "image://full/")
+
     imageitem.loadImage(prefix + src, anim)
     metadata.setData(getmetadata.getExiv2(src))
     watcher.setCurrentImageForWatching(src);
+    getanddostuff.saveLastOpenedImage(src)
 
 }
 
