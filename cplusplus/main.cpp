@@ -1,6 +1,9 @@
 #include <QApplication>
 #include "mainhandler.h"
 #include "singleinstance/singleinstance.h"
+#ifdef GM
+#include <GraphicsMagick/Magick++.h>
+#endif
 
 int main(int argc, char *argv[]) {
 
@@ -15,6 +18,11 @@ int main(int argc, char *argv[]) {
     // This class ensures, that only one instance is running. If one is already running, we pass the commands to the main process and exit.
     // If no process is running yet, we create a LocalServer and continue below
     SingleInstance app(argc, argv);
+
+#ifdef GM
+    // Initialise Magick as early as possible
+    Magick::InitializeMagick(NULL);
+#endif
 
     // This means, that, e.g., --export or --import was passed along -> we will simply quit (preparation for that is done in the handleExportImport() function)
     if(StartupCheck::ExportImport::handleExportImport(&app) != -1) return 0;
