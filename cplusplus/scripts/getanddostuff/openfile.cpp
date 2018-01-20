@@ -216,17 +216,22 @@ QVariantList GetAndDoStuffOpenFile::getFilesIn(QString file, QString filter, QSt
     QVariantList ret;
     if(filter.startsWith(".")) {
         for(QFileInfo l : list) {
-            if(l.fileName().endsWith(filter))
-                ret.append(l.fileName());
+            QString fn = l.fileName().trimmed();
+            if(fn.endsWith(filter) && fn != "")
+                ret.append(fn);
         }
     } else if(filter != "") {
         for(QFileInfo l : list) {
-            if(l.fileName().contains(filter))
-                ret.append(l.fileName());
+            QString fn = l.fileName().trimmed();
+            if(fn.contains(filter) && fn != "")
+                ret.append(fn);
         }
     } else {
-        for(QFileInfo l : list)
-            ret.append(l.fileName());
+        for(QFileInfo l : list) {
+            QString fn = l.fileName().trimmed();
+            if(fn != "")
+                ret.append(fn);
+        }
     }
 
     return ret;
