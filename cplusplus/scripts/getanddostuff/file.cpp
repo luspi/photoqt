@@ -90,3 +90,9 @@ QString GetAndDoStuffFile::getSuffix(QString file) {
     return QFileInfo(file).completeSuffix();
 
 }
+
+bool GetAndDoStuffFile::doesThisExist(QString path) {
+
+    return QFileInfo(path).exists();
+
+}

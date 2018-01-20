@@ -40,6 +40,7 @@ public:
     QString getFilename(QString caption, QString dir, QString filter = "");
     QString getIconPathFromTheme(QString binary);
     QString getSaveFilename(QString caption, QString file);
+    bool doesThisExist(QString path);
 
 };
 

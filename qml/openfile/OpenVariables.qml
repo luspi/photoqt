@@ -3,11 +3,14 @@ import "handlestuff.js" as Handle
 
 Item {
 
-    property string currentDirectory: settings.openKeepLastLocation ? getanddostuff.getOpenFileLastLocation() : getanddostuff.getCurrentWorkingDirectory()
+    property string currentDirectory: ""
     onCurrentDirectoryChanged: {
-        Handle.loadDirectory()
-        watcher.setCurrentDirectoryForChecking(currentDirectory)
-        getanddostuff.setOpenFileLastLocation(openvariables.currentDirectory)
+        if(getanddostuff.doesThisExist(currentDirectory)) {
+            Handle.loadDirectory()
+            watcher.setCurrentDirectoryForChecking(currentDirectory)
+            getanddostuff.setOpenFileLastLocation(openvariables.currentDirectory)
+        } else
+            currentDirectory = getanddostuff.getHomeDir()
     }
 
     property string currentFocusOn: "filesview"

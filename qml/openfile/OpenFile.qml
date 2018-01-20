@@ -205,23 +205,39 @@ Rectangle {
 
     // show the element
     function show() {
+
+        // First load, restore last folder of previous session
+        if(settings.openKeepLastLocation && variables.currentDir == "")
+            openvariables.currentDirectory = getanddostuff.getOpenFileLastLocation()
+        // First load, set element to current working directory
+        else if(!settings.openKeepLastLocation && variables.currentDir == "")
+            openvariables.currentDirectory = getanddostuff.getCurrentWorkingDirectory()
+        // Second+ load, load same folder as current main image
+        else if(variables.currentDir != "")
+            openvariables.currentDirectory = variables.currentDir
+
         opacity = 1
+
         // reset history
         openvariables.history = []
         openvariables.historypos = -1
+
         // block interface
         variables.guiBlocked = true
-        // add current folder to history (first entry)
-        Handle.addToHistory()
+
         // focus on edit rect (and select all)
         filesview.filesEditRect.selectAll()
         // Make sure the current directory is set for checking
         // necessary as when element is closed the watcher is paused until this moment
         watcher.startWatchingForOpenFileElement(openvariables.currentDirectory)
+
         // Make sure the userplaces are up to date
         Handle.loadUserPlaces()
         // Make sure the latest changes to the folder are loaded
         Handle.loadDirectory()
+        // add current folder to history (first entry)
+        Handle.addToHistory()
+
     }
     // hide element
     function hide() {
