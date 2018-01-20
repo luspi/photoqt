@@ -27,7 +27,7 @@ Rectangle {
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
             //: "feh" is a fixed name (name of a tool), please don't translate
-            text: qsTr("Warning: 'feh' doesn't seem to be installed!");
+            text: em.pty+qsTr("Warning: 'feh' doesn't seem to be installed!");
         }
         // NOTE for nitrogen (tool not existing)
         Text {
@@ -39,7 +39,7 @@ Rectangle {
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
             //: "nitrogen" is a fixed name (name of a tool), please don't translate
-            text: qsTr("Warning: 'nitrogen' doesn't seem to be installed!");
+            text: em.pty+qsTr("Warning: 'nitrogen' doesn't seem to be installed!");
         }
         // NOTE for feh AND nitrogen (tool not existing)
         Text {
@@ -51,7 +51,7 @@ Rectangle {
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
             //: "feh" and "nitrogen" are a fixed names (names of tools), please don't translate
-            text: qsTr("Warning: Both 'feh' and 'nitrogen' don't seem to be installed!");
+            text: em.pty+qsTr("Warning: Both 'feh' and 'nitrogen' don't seem to be installed!");
         }
 
 
@@ -63,10 +63,10 @@ Rectangle {
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
             //: "feh" and "nitrogen" are a fixed names (names of tools), please don't translate
-            text: qsTr("PhotoQt can use 'feh' or 'nitrogen' to change the background of the desktop.")
+            text: em.pty+qsTr("PhotoQt can use 'feh' or 'nitrogen' to change the background of the desktop.")
                   + "<br>"
                     //: "Blackbox", "Fluxbox" and "Openbox" are fixed names, please don't translate
-                  + qsTr("This is intended particularly for window managers that don't natively support wallpapers (like Blackbox, Fluxbox, or Openbox).")
+                  + em.pty+qsTr("This is intended particularly for window managers that don't natively support wallpapers (like Blackbox, Fluxbox, or Openbox).")
         }
 
         // SWITCH BETWEEN feh AND nitrogen
@@ -82,14 +82,14 @@ Rectangle {
                 CustomCheckBox {
                     id: feh
                     //: Used as in "Use 'feh'" (feh is a tool)
-                    text: qsTr("Use") +" 'feh'"
+                    text: em.pty+qsTr("Use") +" 'feh'"
                     checkedButton: true
                     onButtonCheckedChanged: nitrogen.checkedButton = !feh.checkedButton
                 }
                 CustomCheckBox {
                     id: nitrogen
                     //: Used as in "Use 'nitrogen'" (nitrogen is a tool)
-                    text: qsTr("Use") + " 'nitrogen'"
+                    text: em.pty+qsTr("Use") + " 'nitrogen'"
                     checkedButton: false
                     onButtonCheckedChanged: feh.checkedButton = !nitrogen.checkedButton
                 }

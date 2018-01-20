@@ -42,7 +42,7 @@ Item {
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
             acceptedButtons: Qt.RightButton|Qt.LeftButton
-            text: qsTr("Remember current folder between sessions")
+            text: em.pty+qsTr("Remember current folder between sessions")
             onClicked:
                 settings.openKeepLastLocation = !settings.openKeepLastLocation
         }

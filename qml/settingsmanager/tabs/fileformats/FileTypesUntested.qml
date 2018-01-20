@@ -16,14 +16,14 @@ EntryContainer {
         EntryTitle {
 
             id: title
-            title: qsTr("File Formats") + ":<br>&gt; "
+            title: em.pty+qsTr("File Formats") + ":<br>&gt; "
                      //: As in 'Untested file formats'
-                   + qsTr("Untested")
+                   + em.pty+qsTr("Untested")
                      //: As in 'disabled category'
-                   + (helptext_warning ? "<br><br><font color=\"red\"><i>&gt; " + qsTr("disabled") + "!</i></font>" : "")
+                   + (helptext_warning ? "<br><br><font color=\"red\"><i>&gt; " + em.pty+qsTr("disabled") + "!</i></font>" : "")
             helptext: entry.enabled
-                       ? qsTr("These are some file types that are supported by GraphicMagick, but have not been tested in PhotoQt. They might work, but no guarantee can be given!")
-                       : "<div color='red'>" + qsTr("PhotoQt was built without GraphicsMagick support!") + "</div>"
+                       ? em.pty+qsTr("These are some file types that are supported by GraphicMagick, but have not been tested in PhotoQt. They might work, but no guarantee can be given!")
+                       : "<div color='red'>" + em.pty+qsTr("PhotoQt was built without GraphicsMagick support!") + "</div>"
 
             helptext_warning: !entry.enabled
 

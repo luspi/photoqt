@@ -13,8 +13,8 @@ EntryContainer {
 
         EntryTitle {
 
-            title: qsTr("Show Quickinfo (Text Labels)")
-            helptext: qsTr("PhotoQt shows certain information about the current image and the folder in the top left corner of the screen. You can choose which information in particular to show there. This also includes the 'x' for closing PhotoQt in the top right corner.")
+            title: em.pty+qsTr("Show Quickinfo (Text Labels)")
+            helptext: em.pty+qsTr("PhotoQt shows certain information about the current image and the folder in the top left corner of the screen. You can choose which information in particular to show there. This also includes the 'x' for closing PhotoQt in the top right corner.")
 
         }
 
@@ -27,22 +27,22 @@ EntryContainer {
                 CustomCheckBox {
                     id: quickinfo_counter
                     //: The counter shows the current image position in the folder
-                    text: qsTr("Counter")
+                    text: em.pty+qsTr("Counter")
                 }
 
                 CustomCheckBox {
                     id: quickinfo_filepath
-                    text: qsTr("Filepath")
+                    text: em.pty+qsTr("Filepath")
                 }
 
                 CustomCheckBox {
                     id: quickinfo_filename
-                    text: qsTr("Filename")
+                    text: em.pty+qsTr("Filename")
                 }
 
                 CustomCheckBox {
                     id: quickinfo_closingx
-                    text: qsTr("Exit button ('x' in top right corner)")
+                    text: em.pty+qsTr("Exit button ('x' in top right corner)")
                 }
 
             }

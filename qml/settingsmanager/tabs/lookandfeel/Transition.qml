@@ -16,8 +16,8 @@ EntryContainer {
             id: entrytitle
 
             //: The transition refers to images fading into one another when switching between them
-            title: qsTr("Smooth Transition")
-            helptext: qsTr("Switching between images can be done smoothly, the new image can be set to fade into the old image. 'No transition' means, that the previous image is simply replaced instantly by the new image.")
+            title: em.pty+qsTr("Smooth Transition")
+            helptext: em.pty+qsTr("Switching between images can be done smoothly, the new image can be set to fade into the old image. 'No transition' means, that the previous image is simply replaced instantly by the new image.")
 
         }
 
@@ -31,7 +31,7 @@ EntryContainer {
                     id: txt_no
                     color: colour.text
                     //: No transition means that images are simply replaced when switching between them, no cross-fading
-                    text: qsTr("No Transition")
+                    text: em.pty+qsTr("No Transition")
                     font.pointSize: 10
                 }
 
@@ -54,7 +54,7 @@ EntryContainer {
                     id: txt_long
                     color: colour.text
                     //: A very long transition between images, they slowly fade into each other
-                    text: qsTr("Long Transition")
+                    text: em.pty+qsTr("Long Transition")
                     font.pointSize: 10
                 }
 

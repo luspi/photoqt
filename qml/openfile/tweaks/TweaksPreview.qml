@@ -43,7 +43,7 @@ Item {
             cursorShape: Qt.PointingHandCursor
             acceptedButtons: Qt.RightButton|Qt.LeftButton
             //: The hover preview shows the image behind the files in the element for opening files
-            text: qsTr("En-/Disable hover preview")
+            text: em.pty+qsTr("En-/Disable hover preview")
             onClicked:
                 settings.openPreview = !settings.openPreview
         }
@@ -82,7 +82,7 @@ Item {
             cursorShape: Qt.PointingHandCursor
             acceptedButtons: Qt.RightButton|Qt.LeftButton
             //: The preview shows the image behind the files in the element for opening files, use high quality preview
-            text: qsTr("Use HIGH QUALITY preview")
+            text: em.pty+qsTr("Use HIGH QUALITY preview")
             onClicked:
                 settings.openPreviewHighQuality = !settings.openPreviewHighQuality
         }

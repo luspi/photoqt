@@ -16,11 +16,11 @@ EntryContainer {
         EntryTitle {
 
             id: title
-            title: qsTr("File Formats") + ":<br>&gt; " +
+            title: em.pty+qsTr("File Formats") + ":<br>&gt; " +
                    //: These are extra (special) file formats
-                   qsTr("Extras")
-            helptext: qsTr("The following filetypes are supported by means of other third party tools. You first need to install them before you can use them.") + "<br><br><b>"
-                      + qsTr("Please note that if an image format is also provided by GraphicsMagick/Qt, then PhotoQt first chooses the external tool (if enabled).") + "</b>"
+                   em.pty+qsTr("Extras")
+            helptext: em.pty+qsTr("The following filetypes are supported by means of other third party tools. You first need to install them before you can use them.") + "<br><br><b>"
+                      + em.pty+qsTr("Please note that if an image format is also provided by GraphicsMagick/Qt, then PhotoQt first chooses the external tool (if enabled).") + "</b>"
 
         }
 
@@ -76,9 +76,9 @@ EntryContainer {
         var setformats = fileformats.formats_extras
 
         //: Used as in 'Makes use of tool abc'
-        var extras = [["xcftools: Gimp XCF","*.xcf",qsTr("Makes use of") + " 'xcftools'"],
+        var extras = [["xcftools: Gimp XCF","*.xcf",em.pty+qsTr("Makes use of") + " 'xcftools'"],
                       //: Used as in 'Makes use of tool abc'
-                      ["libqpsd: Adobe Photoshop PSD/PSB","*.psb", "*.psd",qsTr("Makes use of") + " 'libqpsd'"]]
+                      ["libqpsd: Adobe Photoshop PSD/PSB","*.psb", "*.psd",em.pty+qsTr("Makes use of") + " 'libqpsd'"]]
 
         for(var i = 0; i < extras.length; ++i) {
 

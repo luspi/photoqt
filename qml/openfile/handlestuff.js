@@ -171,7 +171,7 @@ function loadStorageInfo() {
 
         if(name == "")
             //: This is used for the name of a storage device (e.g., USB), as in '5 GB device'
-            name = ""+size+" GB " + qsTr("device")
+            name = ""+size+" GB " + em.pty+qsTr("device")
         name += " (" + filesystemtype + ")"
 
         userplaces.storageInfoModel.append({"name" : name,

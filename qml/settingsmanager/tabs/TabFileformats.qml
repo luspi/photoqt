@@ -40,7 +40,7 @@ Rectangle {
                 color: "white"
                 font.pointSize: 20
                 font.bold: true
-                text: qsTr("Fileformats")
+                text: em.pty+qsTr("Fileformats")
                 horizontalAlignment: Text.AlignHCenter
             }
 

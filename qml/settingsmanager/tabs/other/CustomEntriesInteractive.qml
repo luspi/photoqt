@@ -113,7 +113,7 @@ Rectangle {
 
                             height: icon.height
                             verticalAlignment: Qt.AlignVCenter
-                            text: qsTr("Click here to drag entry")
+                            text: em.pty+qsTr("Click here to drag entry")
 
                             font.pointSize: 10
 
@@ -177,7 +177,7 @@ Rectangle {
 
                             y: (parent.height-height)/2
                             //: KEEP THIS STRING SHORT! It is displayed for external applications of main menu as an option to quit PhotoQt after executing it
-                            text: qsTr("quit")
+                            text: em.pty+qsTr("quit")
 
                             checkedButton: _quit
 
@@ -287,8 +287,8 @@ Rectangle {
             opacity: (contextmodel.count == 0 ? 1 : 0)
             Behavior on opacity { NumberAnimation { duration: 150 } }
             color: colour.text_inactive
-            text: getanddostuff.amIOnWindows() ? qsTr("Unavailable on Windows")
-                               : qsTr("There isn't anything here yet")
+            text: getanddostuff.amIOnWindows() ? em.pty+qsTr("Unavailable on Windows")
+                               : em.pty+qsTr("There isn't anything here yet")
             font.bold: true
             font.pointSize: 20
             verticalAlignment: Text.AlignVCenter

@@ -16,8 +16,8 @@ EntryContainer {
 
             id: entrytitle
 
-            title: qsTr("Lift-Up of Thumbnails")
-            helptext: qsTr("When a thumbnail is hovered, it is lifted up some pixels. Here you can increase/decrease this value according to your personal preference.")
+            title: em.pty+qsTr("Lift-Up of Thumbnails")
+            helptext: em.pty+qsTr("When a thumbnail is hovered, it is lifted up some pixels. Here you can increase/decrease this value according to your personal preference.")
 
         }
 

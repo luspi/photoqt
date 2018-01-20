@@ -40,7 +40,7 @@ Rectangle {
                 color: "white"
                 font.pointSize: 20
                 font.bold: true
-                text: qsTr("Other Settings")
+                text: em.pty+qsTr("Other Settings")
                 horizontalAlignment: Text.AlignHCenter
             }
 

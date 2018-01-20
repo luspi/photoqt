@@ -9,17 +9,17 @@ CustomConfirm {
     fillAnchors: parent
 
     //: Keep short!
-    header: qsTr("Shortcuts")
-    property string intro: qsTr("You can use the following shortcuts for navigation") + ":"
+    header: em.pty+qsTr("Shortcuts")
+    property string intro: em.pty+qsTr("You can use the following shortcuts for navigation") + ":"
     property var shortcuts: ({})
     property string area: ""
 
     actAsInfoMessage: true
     //: In the sense of 'I understand it'
-    confirmbuttontext: qsTr("Got it!")
+    confirmbuttontext: em.pty+qsTr("Got it!")
     showDontAskAgain: true
     //: In the sense of 'Don't show me that confirmation element again'
-    customisedDontAskAgainMessage: qsTr("Don't show again")
+    customisedDontAskAgainMessage: em.pty+qsTr("Don't show again")
     dontAskAgainChecked: true
 
     Component.onCompleted: {

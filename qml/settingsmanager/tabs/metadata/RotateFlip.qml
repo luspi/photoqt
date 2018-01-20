@@ -14,8 +14,8 @@ EntryContainer {
 
         EntryTitle {
 
-            title: qsTr("Automatic Rotate/Flip")
-            helptext: qsTr("Some cameras can detect - while taking the photo - whether the camera was turned and might store this information in the image exif data. If PhotoQt finds this information, it can rotate the image accordingly or simply ignore that information.")
+            title: em.pty+qsTr("Automatic Rotate/Flip")
+            helptext: em.pty+qsTr("Some cameras can detect - while taking the photo - whether the camera was turned and might store this information in the image exif data. If PhotoQt finds this information, it can rotate the image accordingly or simply ignore that information.")
 
         }
 
@@ -31,13 +31,13 @@ EntryContainer {
 
                 CustomRadioButton {
                     id: neverrotate
-                    text: qsTr("Never rotate/flip images")
+                    text: em.pty+qsTr("Never rotate/flip images")
                     exclusiveGroup: rotateflipgroup
                     checked: true
                 }
                 CustomRadioButton {
                     id: alwaysrotate
-                    text: qsTr("Always rotate/flip images")
+                    text: em.pty+qsTr("Always rotate/flip images")
                     exclusiveGroup: rotateflipgroup
                 }
 

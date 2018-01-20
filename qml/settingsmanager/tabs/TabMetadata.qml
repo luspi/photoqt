@@ -40,7 +40,7 @@ Rectangle {
                 color: "white"
                 font.pointSize: 20
                 font.bold: true
-                text: qsTr("Image Metadata")
+                text: em.pty+qsTr("Image Metadata")
                 horizontalAlignment: Text.AlignHCenter
             }
 
@@ -62,7 +62,7 @@ Rectangle {
                 x: 10
                 wrapMode: Text.WordWrap
                 //: Introduction text of metadata tab in settings manager
-                text: qsTr("PhotoQt can display different information of and about each image. The element for this information is hidden on the left side of the screen and fades in when the mouse cursor gets close to the left screen edge and/or when the set shortcut is triggered. On demand, the triggering by mouse movement can be disabled by checking the box below.")
+                text: em.pty+qsTr("PhotoQt can display different information of and about each image. The element for this information is hidden on the left side of the screen and fades in when the mouse cursor gets close to the left screen edge and/or when the set shortcut is triggered. On demand, the triggering by mouse movement can be disabled by checking the box below.")
             }
 
             Rectangle { color: "transparent"; width: 1; height: 30; }

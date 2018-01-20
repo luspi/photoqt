@@ -42,9 +42,9 @@ Rectangle {
         y: 10
         text: paused
                  //: Stays alone like that, not part of a full sentence. Written on button to allow user to play a currently paused slideshow.
-               ? qsTr("Play Slideshow")
+               ? em.pty+qsTr("Play Slideshow")
                  //: Stays alone like that, not part of a full sentence. Written on button to allow user to pause a currently playing slideshow.
-               : qsTr("Pause Slideshow")
+               : em.pty+qsTr("Pause Slideshow")
         onClickedButton: pauseSlideshow()
     }
 
@@ -59,7 +59,7 @@ Rectangle {
         Row {
             spacing: 5
             Text {
-                text: qsTr("Music Volume:")
+                text: em.pty+qsTr("Music Volume:")
                 font.pointSize: 10
                 y: (volumerect.height-height)/2
                 color: settings.slideShowMusicFile == "" ? colour.text_disabled : colour.text
@@ -87,7 +87,7 @@ Rectangle {
         id: exit
         x: bar.width-width-10
         y: 10
-        text: qsTr("Quit Slideshow")
+        text: em.pty+qsTr("Quit Slideshow")
         onClickedButton: stopSlideshow()
     }
 

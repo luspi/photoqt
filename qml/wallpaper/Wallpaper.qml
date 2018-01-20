@@ -8,7 +8,7 @@ FadeInTemplate {
 
     id: wallpaper_top
 
-    heading: qsTr("Set as Wallpaper")
+    heading: em.pty+qsTr("Set as Wallpaper")
 
     property int currentlySelectedWm: 0
 
@@ -26,7 +26,7 @@ FadeInTemplate {
             color: colour.text
             font.bold: true
             font.pointSize: 15
-            text: qsTr("Window Manager")
+            text: em.pty+qsTr("Window Manager")
         },
 
         Text {
@@ -34,7 +34,7 @@ FadeInTemplate {
             font.pointSize: 10
             width: wallpaper_top.width
             wrapMode: Text.WordWrap
-            text: qsTr("PhotoQt tries to detect your window manager according to the environment variables set by your system. If it still got it wrong, you can change the window manager manually.")
+            text: em.pty+qsTr("PhotoQt tries to detect your window manager according to the environment variables set by your system. If it still got it wrong, you can change the window manager manually.")
         },
 
         CustomComboBox {
@@ -43,7 +43,7 @@ FadeInTemplate {
             fontsize: 13
             width: 200
             //: 'Other' as in 'Other window managers'
-            model: ["KDE4","Plasma 5","Gnome/Unity","XFCE4","Enlightenment",qsTr("Other")]
+            model: ["KDE4","Plasma 5","Gnome/Unity","XFCE4","Enlightenment",em.pty+qsTr("Other")]
             // We detect the wm only here, right at the beginning, and NOT everytime the element is opened, as we don't want to change any settings that the user did during that runtime (this is useful to, e.g., play around with different wallpapers to see which one fits best)
             Component.onCompleted: {
                 var wm = getanddostuff.detectWindowManager();
@@ -164,13 +164,13 @@ FadeInTemplate {
                 CustomButton {
                     id: okay
                     //: Along the lines of: Set image as wallpaper
-                    text: qsTr("Okay, do it!")
+                    text: em.pty+qsTr("Okay, do it!")
                     enabled: enDisableEnter()
                     onClickedButton: simulateEnter();
                 }
                 CustomButton {
                     //: Along the lines of: Don't set image as wallpaper
-                    text: qsTr("Nooo, don't!")
+                    text: em.pty+qsTr("Nooo, don't!")
                     onClickedButton: hide()
                 }
             }

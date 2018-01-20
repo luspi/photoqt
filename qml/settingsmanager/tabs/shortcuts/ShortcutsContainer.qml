@@ -74,7 +74,7 @@ Rectangle {
 
             if(external)
                 //: One of the shortcuts categories
-                avail.shortcuts = [["", qsTr("External")]]
+                avail.shortcuts = [["", em.pty+qsTr("External")]]
             else
                 // load the available shortcuts
                 avail.shortcuts = allAvailableItems

@@ -113,7 +113,7 @@ Rectangle {
         color: "white"
         text: "x"
         ToolTip {
-            text: qsTr("Click to close")
+            text: em.pty+qsTr("Click to close")
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor

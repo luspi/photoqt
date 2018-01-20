@@ -134,7 +134,7 @@ Rectangle {
                 x: 25
                 y: 15
                 //: A histogram visualises the color distribution in an image
-                text: qsTr("Histogram")
+                text: em.pty+qsTr("Histogram")
                 color: "white"
                 font.pixelSize: 18
                 font.bold: true
@@ -168,7 +168,7 @@ Rectangle {
                 x: 25
                 y: 15
                 //: As in 'Loading the histogram for the current image'
-                text: qsTr("Loading...")
+                text: em.pty+qsTr("Loading...")
                 color: "white"
                 font.pixelSize: 18
                 font.bold: true
@@ -200,7 +200,7 @@ Rectangle {
         ToolTip {
             id: dragArea
             hoverEnabled: true
-            text: qsTr("Click-and-drag to move. Right click to switch version.")
+            text: em.pty+qsTr("Click-and-drag to move. Right click to switch version.")
             acceptedButtons: Qt.LeftButton | Qt.RightButton
             anchors.fill: parent
             drag.target: rect_top
@@ -315,7 +315,7 @@ Rectangle {
             sourceSize.height: parent.height
         }
         ToolTip {
-            text: qsTr("Click to switch between coloured and greyscale histogram. You can also switch by doing a right-click onto the histogram.")
+            text: em.pty+qsTr("Click to switch between coloured and greyscale histogram. You can also switch by doing a right-click onto the histogram.")
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
@@ -363,7 +363,7 @@ Rectangle {
         }
 
         ToolTip {
-            text: qsTr("Click to hide histogram. It can always be shown again from the main menu.")
+            text: em.pty+qsTr("Click to hide histogram. It can always be shown again from the main menu.")
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor

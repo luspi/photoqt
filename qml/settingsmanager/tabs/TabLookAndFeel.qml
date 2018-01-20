@@ -41,7 +41,7 @@ Rectangle {
                 font.pointSize: 20
                 font.bold: true
                 //: The look of PhotoQt and how it feels and behaves
-                text: qsTr("Look and Feel")
+                text: em.pty+qsTr("Look and Feel")
                 horizontalAlignment: Text.AlignHCenter
             }
 

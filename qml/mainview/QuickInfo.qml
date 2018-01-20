@@ -97,7 +97,7 @@ Item {
                     color: colour.quickinfo_text
                     font.pointSize: 10
                     //: Used as in 'Filter images'
-                    text: qsTr("Filter:") + " " + variables.filter
+                    text: em.pty+qsTr("Filter:") + " " + variables.filter
                     visible: (variables.filter != "")
                 }
             }
@@ -154,7 +154,7 @@ Item {
 
         MenuItem {
             //: The counter shows the position of the currently loaded image in the folder
-            text: qsTr("Show counter")
+            text: em.pty+qsTr("Show counter")
             checkable: true
             checked: !settings.quickInfoHideCounter
             onTriggered:
@@ -162,7 +162,7 @@ Item {
         }
 
         MenuItem {
-            text: qsTr("Show filepath")
+            text: em.pty+qsTr("Show filepath")
             checkable: true
             checked: !settings.quickInfoHideFilepath
             onTriggered:
@@ -170,7 +170,7 @@ Item {
         }
 
         MenuItem {
-            text: qsTr("Show filename")
+            text: em.pty+qsTr("Show filename")
             checkable: true
             checked: !settings.quickInfoHideFilename
             onTriggered:
@@ -179,7 +179,7 @@ Item {
 
         MenuItem {
             //: The clsoing 'x' is the button in the top right corner of the screen for closing PhotoQt
-            text: qsTr("Show closing 'x'")
+            text: em.pty+qsTr("Show closing 'x'")
             checkable: true
             checked: !settings.quickInfoHideX
             onTriggered:

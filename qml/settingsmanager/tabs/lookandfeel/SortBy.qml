@@ -14,9 +14,9 @@ EntryContainer {
 
         EntryTitle {
 
-            title: qsTr("Sort Images")
+            title: em.pty+qsTr("Sort Images")
 
-            helptext: qsTr("Images in the current folder can be sorted in varios ways. The can be sorted by filename, natural name (e.g., file10.jpg comes after file9.jpg and not after file1.jpg), filesize, and date, all of that both ascending or descending.")
+            helptext: em.pty+qsTr("Images in the current folder can be sorted in varios ways. The can be sorted by filename, natural name (e.g., file10.jpg comes after file9.jpg and not after file1.jpg), filesize, and date, all of that both ascending or descending.")
 
         }
 
@@ -31,7 +31,7 @@ EntryContainer {
                     y: (parent.height-height)/2
                     color: colour.text
                     //: As in "Sort the images by some criteria"
-                    text: qsTr("Sort by:")
+                    text: em.pty+qsTr("Sort by:")
                     font.pointSize: 10
                 }
                 // Choose Criteria
@@ -40,12 +40,12 @@ EntryContainer {
                     y: (parent.height-height)/2
                     width: 150
                     //: Refers to the filename
-                    model: [qsTr("Name"),
+                    model: [em.pty+qsTr("Name"),
                             //: Sorting by natural name means file10.jpg comes after file9.jpg and not after file1.jpg
-                            qsTr("Natural Name"),
+                            em.pty+qsTr("Natural Name"),
                             //: The date the file was created
-                            qsTr("Date"),
-                            qsTr("Filesize")]
+                            em.pty+qsTr("Date"),
+                            em.pty+qsTr("Filesize")]
                 }
 
                 // Ascending or Descending
@@ -54,7 +54,7 @@ EntryContainer {
                 CustomRadioButton {
                     id: sortimages_ascending
                     y: (parent.height-height)/2
-                    text: qsTr("Ascending")
+                    text: em.pty+qsTr("Ascending")
                     icon: "qrc:/img/settings/sortascending.png"
                     exclusiveGroup: radiobuttons_sorting
                     checked: true
@@ -62,7 +62,7 @@ EntryContainer {
                 CustomRadioButton {
                     id: sortimages_descending
                     y: (parent.height-height)/2
-                    text: qsTr("Descending")
+                    text: em.pty+qsTr("Descending")
                     icon: "qrc:/img/settings/sortdescending.png"
                     exclusiveGroup: radiobuttons_sorting
                 }

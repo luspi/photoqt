@@ -16,8 +16,8 @@ EntryContainer {
             id: entrytitle
 
             //: The hot edge refers to the left and right screen edge. When the mouse cursor enters the hot edge area, then the main menu/metadata element is shown
-            title: qsTr("Size of 'Hot Edge' of main menu")
-            helptext: qsTr("Here you can adjust the sensitivity of the metadata and main menu elements. The main menu opens when your mouse cursor gets close to the right screen edge, the metadata element when you go to the left screen edge. This setting controls how close to the screen edge you have to get before they are shown.")
+            title: em.pty+qsTr("Size of 'Hot Edge' of main menu")
+            helptext: em.pty+qsTr("Here you can adjust the sensitivity of the metadata and main menu elements. The main menu opens when your mouse cursor gets close to the right screen edge, the metadata element when you go to the left screen edge. This setting controls how close to the screen edge you have to get before they are shown.")
 
         }
 
@@ -31,7 +31,7 @@ EntryContainer {
                     id: txt_small
                     color: colour.text
                     //: This refers to the size of the hot edge, you have to get very close to the screen edge to trigger the main menu or metadata element
-                    text: qsTr("Small")
+                    text: em.pty+qsTr("Small")
                     font.pointSize: 10
                 }
 
@@ -54,7 +54,7 @@ EntryContainer {
                     id: txt_large
                     color: colour.text
                     //: This refers to the size of the hot edge, you don't have to get very close to the screen edge to trigger the main menu or metadata element
-                    text: qsTr("Large")
+                    text: em.pty+qsTr("Large")
                     font.pointSize: 10
                 }
 

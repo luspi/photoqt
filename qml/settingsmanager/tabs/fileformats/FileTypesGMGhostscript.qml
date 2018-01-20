@@ -16,12 +16,12 @@ EntryContainer {
         EntryTitle {
 
             id: title
-            title: qsTr("File Formats") + ":<br>&gt; GraphicsMagick/Ghostscript"
+            title: em.pty+qsTr("File Formats") + ":<br>&gt; GraphicsMagick/Ghostscript"
                       //: Used as in 'disabled category'
-                   + (helptext_warning ? "<br><br><font color=\"red\"><i>&gt; " + qsTr("disabled") + "!</i></font>" : "")
+                   + (helptext_warning ? "<br><br><font color=\"red\"><i>&gt; " + em.pty+qsTr("disabled") + "!</i></font>" : "")
             helptext: entry.enabled
-                      ? qsTr("The following file types are supported by GraphicsMagick, and they have been tested and should work. However, they require Ghostscript to be installed on the system.")
-                      : "<div color='red'>" + qsTr("PhotoQt was built without GraphicsMagick support!") + "</div>"
+                      ? em.pty+qsTr("The following file types are supported by GraphicsMagick, and they have been tested and should work. However, they require Ghostscript to be installed on the system.")
+                      : "<div color='red'>" + em.pty+qsTr("PhotoQt was built without GraphicsMagick support!") + "</div>"
 
             helptext_warning: !entry.enabled
 

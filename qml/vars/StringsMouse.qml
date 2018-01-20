@@ -4,15 +4,15 @@ Item {
 
     readonly property var dict: {
         //: Refers to a mouse button
-        "left button" : qsTr("Left Button"),
+        "left button" : em.pty+qsTr("Left Button"),
         //: Refers to a mouse button
-        "right button" : qsTr("Right Button"),
+        "right button" : em.pty+qsTr("Right Button"),
         //: Refers to a mouse button
-        "middle button" : qsTr("Middle Button"),
+        "middle button" : em.pty+qsTr("Middle Button"),
         //: Refers to the mouse wheel
-        "wheel up" : qsTr("Wheel Up"),
+        "wheel up" : em.pty+qsTr("Wheel Up"),
         //: Refers to the mouse wheel
-        "wheel down" : qsTr("Wheel Down")
+        "wheel down" : em.pty+qsTr("Wheel Down")
     }
 
     function get(key) {

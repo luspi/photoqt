@@ -14,8 +14,8 @@ EntryContainer {
 
         EntryTitle {
 
-            title: qsTr("Hide to Tray Icon")
-            helptext: qsTr("PhotoQt can make use of a tray icon in the system tray. It can also hide to the system tray when closing it instead of quitting. It is also possible to start PhotoQt already minimised to the tray (e.g. at system startup) when called with \"--start-in-tray\".")
+            title: em.pty+qsTr("Hide to Tray Icon")
+            helptext: em.pty+qsTr("PhotoQt can make use of a tray icon in the system tray. It can also hide to the system tray when closing it instead of quitting. It is also possible to start PhotoQt already minimised to the tray (e.g. at system startup) when called with \"--start-in-tray\".")
 
         }
 
@@ -30,20 +30,20 @@ EntryContainer {
                 CustomRadioButton {
                     id: tray_one
                     //: The tray icon is the icon in the system tray
-                    text: qsTr("No tray icon")
+                    text: em.pty+qsTr("No tray icon")
                     exclusiveGroup: tray
                     checked: true
                 }
                 CustomRadioButton {
                     id: tray_two
                     //: The tray icon is the icon in the system tray
-                    text: qsTr("Hide to tray icon")
+                    text: em.pty+qsTr("Hide to tray icon")
                     exclusiveGroup: tray
                 }
                 CustomRadioButton {
                     id: tray_three
                     //: The tray icon is the icon in the system tray
-                    text: qsTr("Show tray icon, but don't hide to it")
+                    text: em.pty+qsTr("Show tray icon, but don't hide to it")
                     exclusiveGroup: tray
                 }
 

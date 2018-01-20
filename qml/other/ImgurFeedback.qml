@@ -54,8 +54,8 @@ Rectangle {
                 width: feedback_top.width
                 wrapMode: Text.WordWrap
                 text: (anonymous
-                            ? qsTr("Uploading image to imgur.com anonymously")
-                            : qsTr("Uploading image to imgur.com account:") + " " + accountname)
+                            ? em.pty+qsTr("Uploading image to imgur.com anonymously")
+                            : em.pty+qsTr("Uploading image to imgur.com account:") + " " + accountname)
                 color: "white"
                 font.pointSize: 40
                 font.bold: true
@@ -85,7 +85,7 @@ Rectangle {
 
             CustomButton {
                 x: (parent.width-width)/2
-                text: qsTr("Cancel upload")
+                text: em.pty+qsTr("Cancel upload")
                 fontsize: 30
                 onClickedButton:
                     hide()
@@ -125,7 +125,7 @@ Rectangle {
                     width: feedback_top.width-200
                     horizontalAlignment: Text.AlignHCenter
                     //: The image url is the url returned from imgur.com after uploading
-                    text: qsTr("Obtaining image url")
+                    text: em.pty+qsTr("Obtaining image url")
                     color: "white"
                     font.pointSize: 40
                     font.bold: true
@@ -159,7 +159,7 @@ Rectangle {
                     id: obtaintext2
                     width: feedback_top.width-200
                     horizontalAlignment: Text.AlignHCenter
-                    text: qsTr("Please wait!")
+                    text: em.pty+qsTr("Please wait!")
                     color: "white"
                     font.pointSize: 40
                     font.bold: true
@@ -172,7 +172,7 @@ Rectangle {
                     width: feedback_top.width-200
                     horizontalAlignment: Text.AlignHCenter
                     //: Refers to uploading an image to imgur.com
-                    text: qsTr("This seems to take a long time... If it doesn't work, then there might be a problem with the imgur.com servers at the moment. In that case the only solution is to try again at some later point!")
+                    text: em.pty+qsTr("This seems to take a long time... If it doesn't work, then there might be a problem with the imgur.com servers at the moment. In that case the only solution is to try again at some later point!")
                     wrapMode: Text.WordWrap
                     color: "red"
                     font.pointSize: 20
@@ -194,7 +194,7 @@ Rectangle {
 
                 CustomButton {
                     x: (parent.width-width)/2
-                    text: qsTr("I don't want to know it!")
+                    text: em.pty+qsTr("I don't want to know it!")
                     fontsize: 25
                     onClickedButton:
                         hide()
@@ -238,15 +238,15 @@ Rectangle {
                     font.bold: true
                     wrapMode: Text.WordWrap
                           //: Refers to uploading an image to imgur.com
-                    text: qsTr("An Error occured while uploading image!") + "\n"
-                          + qsTr("Error code:") + " " + error.code
+                    text: em.pty+qsTr("An Error occured while uploading image!") + "\n"
+                          + em.pty+qsTr("Error code:") + " " + error.code
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                 }
 
                 CustomButton {
                     x: (feedback_top.width-width)/2
-                    text: qsTr("Oh, ok, got it!")
+                    text: em.pty+qsTr("Oh, ok, got it!")
                     fontsize: 30
                     onClickedButton:
                         hide()
@@ -285,14 +285,14 @@ Rectangle {
                     font.bold: true
                     wrapMode: Text.WordWrap
                     //: Refers to uploading an image to imgur.com
-                    text: qsTr("You don't seem to be able to be connected to the internet... Unable to upload!")
+                    text: em.pty+qsTr("You don't seem to be able to be connected to the internet... Unable to upload!")
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                 }
 
                 CustomButton {
                     x: (parent.width-width)/2
-                    text: qsTr("Oh, ok, got it!")
+                    text: em.pty+qsTr("Oh, ok, got it!")
                     fontsize: 30
                     onClickedButton:
                         hide()
@@ -331,7 +331,7 @@ Rectangle {
                     wrapMode: Text.WordWrap
                     font.bold: true
                     //: Refers to uploading an image to imgur.com
-                    text: qsTr("Image successfully uploaded!")
+                    text: em.pty+qsTr("Image successfully uploaded!")
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                 }
@@ -352,7 +352,7 @@ Rectangle {
                             font.pointSize: 15
                             font.bold: true
                             //: The url is returned from imgur.com after uploading
-                            text: qsTr("URL for accessing image") + ": "
+                            text: em.pty+qsTr("URL for accessing image") + ": "
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
                         }
@@ -364,7 +364,7 @@ Rectangle {
                         CustomButton {
                             fontsize: 12
                             y: (parent.height-height)/2
-                            text: qsTr("visit link")
+                            text: em.pty+qsTr("visit link")
                             onClickedButton: getanddostuff.openLink(imageurl.text)
                         }
 
@@ -388,7 +388,7 @@ Rectangle {
                             font.pointSize: 15
                             font.bold: true
                             //: The url is returned from imgur.com after uploading
-                            text: qsTr("URL for deleting image") + ": "
+                            text: em.pty+qsTr("URL for deleting image") + ": "
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
                         }
@@ -400,7 +400,7 @@ Rectangle {
                         CustomButton {
                             fontsize: 12
                             y: (parent.height-height)/2
-                            text: qsTr("visit link")
+                            text: em.pty+qsTr("visit link")
                             onClickedButton: getanddostuff.openLink(deleteurl.text)
                         }
 
@@ -410,7 +410,7 @@ Rectangle {
 
                 CustomButton {
                     x: (parent.width-width)/2
-                    text: qsTr("Got it!")
+                    text: em.pty+qsTr("Got it!")
                     fontsize: 30
                     onClickedButton:
                         hide()

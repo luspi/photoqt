@@ -14,7 +14,7 @@ Item {
         height: parent.height
         verticalAlignment: Qt.AlignVCenter
         horizontalAlignment: Qt.AlignHCenter
-        text: qsTr("Use the file dialog to select a destination location.")
+        text: em.pty+qsTr("Use the file dialog to select a destination location.")
         color: colour.bg_label
         font.bold: true
         font.pointSize: 20
@@ -33,7 +33,7 @@ Item {
     Connections {
         target: container
         onItemShown:
-            filedialog.getFilename(qsTr("Copy Image to..."), variables.currentDir + "/" +  variables.currentFile)
+            filedialog.getFilename(em.pty+qsTr("Copy Image to..."), variables.currentDir + "/" +  variables.currentFile)
         onItemHidden:
             filedialog.close()
     }

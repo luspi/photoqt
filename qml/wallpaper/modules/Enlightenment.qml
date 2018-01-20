@@ -29,7 +29,7 @@ Rectangle {
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
             //: "msgbus" and "DBUS" are fixed names, please don't translate
-            text: qsTr("Warning: It seems that the 'msgbus' (DBUS) module is not activated! It can be activated in the settings console:") + " Add-ons > Modules > System";
+            text: em.pty+qsTr("Warning: It seems that the 'msgbus' (DBUS) module is not activated! It can be activated in the settings console:") + " Add-ons > Modules > System";
         }
         // NOTE (tool not existing)
         Text {
@@ -41,7 +41,7 @@ Rectangle {
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
             //: "enlightenment_remote" and "Enlightenment" are fixed names, please don't translate
-            text: qsTr("Warning: 'enlightenment_remote' doesn't seem to be available! Are you sure Enlightenment is installed?");
+            text: em.pty+qsTr("Warning: 'enlightenment_remote' doesn't seem to be available! Are you sure Enlightenment is installed?");
         }
 
         // MONITOR HEADING
@@ -52,7 +52,7 @@ Rectangle {
             width: wallpaper_top.width
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
-            text: qsTr("The wallpaper can be set to any of the available monitors (one or any combination).")
+            text: em.pty+qsTr("The wallpaper can be set to any of the available monitors (one or any combination).")
         }
 
         // MONITOR SELECTION
@@ -69,7 +69,7 @@ Rectangle {
                 height: childrenRect.height
                 delegate: CustomCheckBox {
                     //: Used as in 'Screen #4', the screen is not referring to multiple desktops/workspaces, but actual (physical) screens
-                    text: qsTr("Screen") + " #" + index
+                    text: em.pty+qsTr("Screen") + " #" + index
                     checkedButton: true
                     fsize: 10
                     Component.onCompleted: {
@@ -104,7 +104,7 @@ Rectangle {
             width: wallpaper_top.width
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
-            text: qsTr("You can set the wallpaper to any sub-selection of workspaces")
+            text: em.pty+qsTr("You can set the wallpaper to any sub-selection of workspaces")
         }
 
         Rectangle { color: "#00000000"; width: 1; height: 1; }
@@ -125,12 +125,12 @@ Rectangle {
                     text: {
                         if(row == -1)
                             // Used as in 'Workspace #2'
-                            return qsTr("Workspace") + " #" + column
+                            return em.pty+qsTr("Workspace") + " #" + column
                         if(column == -1)
                             // Used as in 'Workspace #2'
-                            return qsTr("Workspace") + " #" + row
+                            return em.pty+qsTr("Workspace") + " #" + row
                         // Used as in 'Workspace #2'
-                        return qsTr("Workspace") + " #" + row + "-" + column
+                        return em.pty+qsTr("Workspace") + " #" + row + "-" + column
                     }
                     checkedButton: true
                     fsize: 10

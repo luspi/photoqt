@@ -15,8 +15,8 @@ EntryContainer {
 
             id: entrytitle
 
-            title: qsTr("Animation and Window Geometry")
-            helptext: qsTr("There are three things that can be adjusted here:") + "<ol><li>" + qsTr("Animation of fade-in elements (e.g., Settings or About)") + "</li><li>" + qsTr("Save and restore of Window Geometry: On quitting PhotoQt, it stores the size and position of the window and can restore it the next time started.") + "</li><li>" + qsTr("Keep PhotoQt above all other windows at all time") + "</li></ol>"
+            title: em.pty+qsTr("Animation and Window Geometry")
+            helptext: em.pty+qsTr("There are three things that can be adjusted here:") + "<ol><li>" + em.pty+qsTr("Animation of fade-in elements (e.g., Settings or About)") + "</li><li>" + em.pty+qsTr("Save and restore of Window Geometry: On quitting PhotoQt, it stores the size and position of the window and can restore it the next time started.") + "</li><li>" + em.pty+qsTr("Keep PhotoQt above all other windows at all time") + "</li></ol>"
 
         }
 
@@ -29,14 +29,14 @@ EntryContainer {
                 CustomCheckBox {
 
                     id: animate_elements
-                    text: qsTr("Animate elements")
+                    text: em.pty+qsTr("Animate elements")
 
                 }
 
                 CustomCheckBox {
 
                     id: save_restore_geometry
-                    text: qsTr("Save and restore window geometry")
+                    text: em.pty+qsTr("Save and restore window geometry")
                     onCheckedButtonChanged:
                         if(checkedButton) screenCheck.checkedButton = false
 
@@ -46,7 +46,7 @@ EntryContainer {
 
                     id: keep_on_top
                     wrapMode: Text.WordWrap
-                    text: qsTr("Keep above other windows")
+                    text: em.pty+qsTr("Keep above other windows")
 
                 }
 

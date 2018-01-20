@@ -16,8 +16,8 @@ EntryContainer {
         EntryTitle {
 
             id: title
-            title: qsTr("File Formats") + ":<br>&gt; Qt"
-            helptext: qsTr("These are the file types natively supported by Qt. Make sure, that you'll have the required libraries installed (e.g., qt5-imageformats), otherwise some of them might not work on your system.")
+            title: em.pty+qsTr("File Formats") + ":<br>&gt; Qt"
+            helptext: em.pty+qsTr("These are the file types natively supported by Qt. Make sure, that you'll have the required libraries installed (e.g., qt5-imageformats), otherwise some of them might not work on your system.")
 
         }
 

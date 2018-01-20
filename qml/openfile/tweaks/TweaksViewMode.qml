@@ -40,7 +40,7 @@ Item {
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
             acceptedButtons: Qt.RightButton|Qt.LeftButton
-            text: qsTr("Show files as list")
+            text: em.pty+qsTr("Show files as list")
             onClicked:
                 settings.openDefaultView = "list"
         }
@@ -74,7 +74,7 @@ Item {
         ToolTip {
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
-            text: qsTr("Show files as grid")
+            text: em.pty+qsTr("Show files as grid")
             acceptedButtons: Qt.RightButton|Qt.LeftButton
             onClicked:
                 settings.openDefaultView = "icons"

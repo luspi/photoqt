@@ -66,7 +66,7 @@ Rectangle {
 
                 // Header
                 Text {
-                    text: qsTr("Export/Import settings and shortcuts")
+                    text: em.pty+qsTr("Export/Import settings and shortcuts")
                     color: "white"
                     font.pointSize: 18
                     width: contrect.width
@@ -76,7 +76,7 @@ Rectangle {
 
                 // A short explanation text
                 Text {
-                    text: qsTr("Here you can export all settings and shortcuts into a single packed file and, e.g., import it in another installation of PhotoQt.")
+                    text: em.pty+qsTr("Here you can export all settings and shortcuts into a single packed file and, e.g., import it in another installation of PhotoQt.")
                     color: "white"
                     width: contrect.width
                     font.pointSize: 12
@@ -94,7 +94,7 @@ Rectangle {
                 // Button to export config to file
                 CustomButton {
                     //: Everything refers to all settings and shortcuts
-                    text: qsTr("Export everything to file")
+                    text: em.pty+qsTr("Export everything to file")
                     x: (contrect.width-width)/2
                     fontsize: 18
                     onClickedButton: {
@@ -130,7 +130,7 @@ Rectangle {
                 // Import selected config file
                 CustomButton {
                     x: (contrect.width-width)/2
-                    text: qsTr("Import settings and shortcuts")
+                    text: em.pty+qsTr("Import settings and shortcuts")
                     enabled: importfilename.file!=""
                     fontsize: 18
                     onClickedButton: {
@@ -154,7 +154,7 @@ Rectangle {
                     enabled: importfilename.file!=""
                     horizontalAlignment: Text.AlignHCenter
                     wrapMode: Text.WordWrap
-                    text: qsTr("PhotoQt will attempt to automatically restart after a successful import!")
+                    text: em.pty+qsTr("PhotoQt will attempt to automatically restart after a successful import!")
                 }
 
                 // Separator line
@@ -168,7 +168,7 @@ Rectangle {
                 CustomButton {
                     x: (parent.width-width)/2
                     fontsize: 15
-                    text: qsTr("I don't want to do this")
+                    text: em.pty+qsTr("I don't want to do this")
                     onClickedButton: hide()
                 }
 
@@ -181,13 +181,13 @@ Rectangle {
     // Error message box
     CustomConfirm {
         id: errormsg
-        header: qsTr("Error")
+        header: em.pty+qsTr("Error")
         property string error: ""
         property bool exp: false
         description: (exp
-                      ? qsTr("Exporting the configuration file failed with the following error message:")
-                      : qsTr("Importing the configuration file failed with the following error message:")) + "<br><br>" + error
-        rejectbuttontext: qsTr("Oh, okay")
+                      ? em.pty+qsTr("Exporting the configuration file failed with the following error message:")
+                      : em.pty+qsTr("Importing the configuration file failed with the following error message:")) + "<br><br>" + error
+        rejectbuttontext: em.pty+qsTr("Oh, okay")
         actAsErrorMessage: true
     }
 

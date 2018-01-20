@@ -14,8 +14,8 @@ EntryContainer {
         EntryTitle {
 
             //: This refers to the background color of PhotoQt, behind the main image (the part not covered by the image itself)
-            title: qsTr("Overlay Color")
-            helptext: qsTr("Here you can adjust the background colour of PhotoQt (of the part not covered by an image). When using compositing or a background image, then you can also specify an alpha value, i.e. the transparency of the coloured overlay layer. When neither compositing is enabled nor a background image is set, then this colour will be the non-transparent background of PhotoQt.")
+            title: em.pty+qsTr("Overlay Color")
+            helptext: em.pty+qsTr("Here you can adjust the background colour of PhotoQt (of the part not covered by an image). When using compositing or a background image, then you can also specify an alpha value, i.e. the transparency of the coloured overlay layer. When neither compositing is enabled nor a background image is set, then this colour will be the non-transparent background of PhotoQt.")
 
         }
 
@@ -41,7 +41,7 @@ EntryContainer {
                                 horizontalAlignment: Qt.AlignRight
                                 color: colour.text
                                 font.pointSize: 10
-                                text: qsTr("Red:")
+                                text: em.pty+qsTr("Red:")
                             }
 
                             CustomSlider {
@@ -63,7 +63,7 @@ EntryContainer {
                                 horizontalAlignment: Qt.AlignRight
                                 color: colour.text
                                 font.pointSize: 10
-                                text: qsTr("Green:")
+                                text: em.pty+qsTr("Green:")
                             }
 
                             CustomSlider {
@@ -85,7 +85,7 @@ EntryContainer {
                                 horizontalAlignment: Qt.AlignRight
                                 color: colour.text
                                 font.pointSize: 10
-                                text: qsTr("Blue:")
+                                text: em.pty+qsTr("Blue:")
                             }
 
                             CustomSlider {
@@ -108,7 +108,7 @@ EntryContainer {
                                 color: colour.text
                                 font.pointSize: 10
                                 //: This refers to the alpha value of a color (i.e., how opaque/transparent the colour is)
-                                text: qsTr("Alpha:")
+                                text: em.pty+qsTr("Alpha:")
                             }
 
                             CustomSlider {
@@ -173,7 +173,7 @@ EntryContainer {
                                 verticalAlignment: Qt.AlignVCenter
 
                                 color: "white"
-                                text: qsTr("Preview")
+                                text: em.pty+qsTr("Preview")
 
                             }
 

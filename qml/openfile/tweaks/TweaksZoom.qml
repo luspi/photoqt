@@ -15,7 +15,7 @@ Item {
         font.bold: true
         y: (parent.height-height)/2
         //: As in 'Zoom the files shown'
-        text: qsTr("Zoom:")
+        text: em.pty+qsTr("Zoom:")
         anchors.right: zoom_slider.left
         anchors.rightMargin: 5
     }
@@ -30,7 +30,7 @@ Item {
         tickmarksEnabled: true
         stepSize: 1
         scrollStep: 1
-        tooltip: qsTr("Move slider to adjust the size of files")
+        tooltip: em.pty+qsTr("Move slider to adjust the size of files")
         value: settings.openZoomLevel
         Behavior on value { NumberAnimation { duration: 200 } }
         onValueChanged:

@@ -16,8 +16,8 @@ EntryContainer {
             id: entrytitle
 
             //: The type of interpolation to use for small images
-            title: qsTr("Interpolation")
-            helptext: qsTr("There are many different interpolation algorithms out there. Depending on the choice of interpolation algorithm, the image (when zoomed in) will look slightly differently. PhotoQt uses mipmaps to get the best quality for images. However, for very small images, that might lead to too much blurring causing them to look rather ugly. For those images, the 'Nearest Neighbour' algorithm tends to be a better choice. The threshold defines for which images to use which algorithm.");
+            title: em.pty+qsTr("Interpolation")
+            helptext: em.pty+qsTr("There are many different interpolation algorithms out there. Depending on the choice of interpolation algorithm, the image (when zoomed in) will look slightly differently. PhotoQt uses mipmaps to get the best quality for images. However, for very small images, that might lead to too much blurring causing them to look rather ugly. For those images, the 'Nearest Neighbour' algorithm tends to be a better choice. The threshold defines for which images to use which algorithm.");
 
         }
 
@@ -32,7 +32,7 @@ EntryContainer {
                     id: txt_label
                     color: colour.text
                     //: When to trigger an action, below which threshold
-                    text: qsTr("Threshold:")
+                    text: em.pty+qsTr("Threshold:")
                     font.pointSize: 10
                     y: (parent.height-height)/2
 
@@ -65,7 +65,7 @@ EntryContainer {
                     wrapMode: Text.WordWrap
                     fixedwidth: settings_top.width-entrytitle.width-txt_label.width-interpolationthreshold.width-90
                     //: 'Nearest Neighbour' is the name of a specific algorithm
-                    text: qsTr("Use 'Nearest Neighbour' algorithm for upscaling")
+                    text: em.pty+qsTr("Use 'Nearest Neighbour' algorithm for upscaling")
 
                 }
 

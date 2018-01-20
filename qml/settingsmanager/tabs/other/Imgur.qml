@@ -16,7 +16,7 @@ EntryContainer {
         EntryTitle {
 
             title: "imgur.com"
-            helptext: qsTr("Here you can connect PhotoQt to your imgur.com account for uploading images directly to it. Alternatively, you can always upload images anonymously to imgur.com without any user account. In either case, PhotoQt will return the image URL to you.")
+            helptext: em.pty+qsTr("Here you can connect PhotoQt to your imgur.com account for uploading images directly to it. Alternatively, you can always upload images anonymously to imgur.com without any user account. In either case, PhotoQt will return the image URL to you.")
 
         }
 
@@ -43,7 +43,7 @@ EntryContainer {
 
                     SettingsText {
                         //: Account refers to an imgur.com user account
-                        text: qsTr("Authenticated with account") + ":"
+                        text: em.pty+qsTr("Authenticated with account") + ":"
                         font.pointSize: 13
                     }
                     SettingsText {
@@ -54,7 +54,7 @@ EntryContainer {
                     }
                     SettingsText {
                         //: As in "not authenticated with imgur.com user account"
-                        text: "[" + qsTr("not authenticated") + "]"
+                        text: "[" + em.pty+qsTr("not authenticated") + "]"
                         font.bold: true
                         visible: authenticatedwith.text==""
                         font.pointSize: 13
@@ -63,7 +63,7 @@ EntryContainer {
                         id: authenticationDateTime
                         property string datetime: "1991-07-23, 13:31"
                         //: As in "authenticated with imgur.com user account on 1991-07-23, 13:31"
-                        text: "(" + qsTr("authenticated on") + ": " + datetime + ")"
+                        text: "(" + em.pty+qsTr("authenticated on") + ": " + datetime + ")"
                         visible: authenticatedwith.text!=""
                         font.pointSize: 11
                     }
@@ -83,15 +83,15 @@ EntryContainer {
                     CustomButton {
                         text: (authenticatedwith.text==""
                         //: Account refers to imgur.com user account
-                                ? qsTr("Connect to Account")
+                                ? em.pty+qsTr("Connect to Account")
                                   //: Account refers to imgur.com user account
-                                : qsTr("Connect to New Account"))
+                                : em.pty+qsTr("Connect to New Account"))
                         onClickedButton:
                             authbox.show()
                     }
                     CustomButton {
                         //: Account refers to imgur.com user account
-                        text: qsTr("Forget Account")
+                        text: em.pty+qsTr("Forget Account")
                         enabled: authenticatedwith.text!=""
                         onClickedButton: {
                             shareonline_imgur.forgetAccount()
@@ -139,35 +139,35 @@ EntryContainer {
                             id: inetconnected
                             color: colour.text_warning
                             y: (parent.height-height)/2
-                            text: qsTr("Not connected to internet")
+                            text: em.pty+qsTr("Not connected to internet")
                         }
                         Text {
                             color: enabled ? colour.text : colour.text_disabled
                             y: (parent.height-height)/2
-                            text: qsTr("Go to this URL:")
+                            text: em.pty+qsTr("Go to this URL:")
                         }
                         CustomLineEdit {
                             id: lineeditAuthorizeUrl
                             width: 500
                             readOnly: true
                             text: ""
-                            emptyMessage: qsTr("loading...")
+                            emptyMessage: em.pty+qsTr("loading...")
                         }
                         CustomButton {
-                            text: qsTr("open link")
+                            text: em.pty+qsTr("open link")
                             onClickedButton: getanddostuff.openLink(shareonline_imgur.authorizeUrlForPin())
                         }
                         Text {
                             color: enabled ? colour.text : colour.text_disabled
                             y: (parent.height-height)/2
-                            text: qsTr("Paste PIN here") + ":"
+                            text: em.pty+qsTr("Paste PIN here") + ":"
                         }
                         CustomLineEdit {
                             id: authpin
                             width: 100
                         }
                         CustomButton {
-                            text: qsTr("Connect")
+                            text: em.pty+qsTr("Connect")
                             onClickedButton: authenticate()
                         }
                         Rectangle {
@@ -175,7 +175,7 @@ EntryContainer {
                             width: 1
                         }
                         CustomButton {
-                            text: qsTr("Cancel")
+                            text: em.pty+qsTr("Cancel")
                             onClickedButton:
                                 authbox.hide()
                         }

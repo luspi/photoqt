@@ -14,8 +14,8 @@ EntryContainer {
         EntryTitle {
 
             //: Along the lines of 'zoom small images until they fill the window'
-            title: qsTr("Fit in Window")
-            helptext: qsTr("If the image dimensions are smaller than the screen dimensions, PhotoQt can automatically zoom those images to make them fit into the window.")
+            title: em.pty+qsTr("Fit in Window")
+            helptext: em.pty+qsTr("If the image dimensions are smaller than the screen dimensions, PhotoQt can automatically zoom those images to make them fit into the window.")
 
         }
 
@@ -24,7 +24,7 @@ EntryContainer {
             CustomCheckBox {
 
                 id: fitinwindow
-                text: qsTr("Fit Smaller Images in Window")
+                text: em.pty+qsTr("Fit Smaller Images in Window")
 
             }
 

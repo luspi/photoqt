@@ -14,6 +14,7 @@ import PShortcutsNotifier 1.0
 import PThumbnailManagement 1.0
 import PShortcutsHandler 1.0
 import PWatcher 1.0
+import PLocalisation 1.0
 
 import "./mainview"
 import "./shortcuts"
@@ -81,6 +82,9 @@ Rectangle {
 
     // Watch for changes to files/folders/devices
     PWatcher { id: watcher }
+
+    // Localisation handler, allows for runtime switches of languages
+    PLocalisation { id : em }
 
     //////////////////////////////////////////////
     // THE TOOLTIP HAS A SPECIAL ROLE: IT'S NOT //
@@ -222,11 +226,16 @@ Rectangle {
             mainwindow.windowModeChanged(settings.windowMode, settings.windowDecoration)
         onWindowDecorationChanged:
             mainwindow.windowModeChanged(settings.windowMode, settings.windowDecoration)
+        onLanguageChanged:
+            em.setLanguage(settings.language)
     }
 
     Component.onCompleted: {
         if(settings.thumbnailKeepVisible || settings.thumbnailKeepVisibleWhenNotZoomedIn)
             call.show("thumbnails")
+
+        em.setLanguage(settings.language)
+
     }
 
 

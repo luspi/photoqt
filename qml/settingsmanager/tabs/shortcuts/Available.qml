@@ -90,7 +90,7 @@ Rectangle {
                     anchors.leftMargin: 4
                     horizontalAlignment: Text.AlignHCenter
                     color: "grey"
-                    text: qsTr("Click to add shortcut")
+                    text: em.pty+qsTr("Click to add shortcut")
                 }
 
             }

@@ -28,7 +28,7 @@ FadeInTemplate {
                 wrapMode: Text.WordWrap
                 width: Math.min(background.width/2,500)
                 lineHeight: 1.1
-                text: qsTr("Sorry, this fileformat cannot be scaled with PhotoQt yet!")
+                text: em.pty+qsTr("Sorry, this fileformat cannot be scaled with PhotoQt yet!")
             }
         },
 
@@ -39,7 +39,7 @@ FadeInTemplate {
         },
 
         CustomButton {
-            text: qsTr("Okay, I understand")
+            text: em.pty+qsTr("Okay, I understand")
             fontsize: 15
             x: (scaleUnsupported_top.contentWidth-width)/2
             onClickedButton: hide()

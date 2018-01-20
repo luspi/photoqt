@@ -16,8 +16,8 @@ EntryContainer {
         EntryTitle {
 
             id: title
-            title: qsTr("Language")
-            helptext: qsTr("There are a good few different languages available. Thanks to everybody who took the time to translate PhotoQt!")
+            title: em.pty+qsTr("Language")
+            helptext: em.pty+qsTr("There are a good few different languages available. Thanks to everybody who took the time to translate PhotoQt!")
 
         }
 

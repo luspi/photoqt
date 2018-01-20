@@ -15,8 +15,8 @@ EntryContainer {
         EntryTitle {
 
             //: Refers to the top and bottom screen edges
-            title: qsTr("Top or Bottom")
-            helptext: qsTr("Per default the bar with the thumbnails is shown at the lower screen edge. However, some might find it nice and handy to have the thumbnail bar at the upper edge.")
+            title: em.pty+qsTr("Top or Bottom")
+            helptext: em.pty+qsTr("Per default the bar with the thumbnails is shown at the lower screen edge. However, some might find it nice and handy to have the thumbnail bar at the upper edge.")
 
         }
 
@@ -33,7 +33,7 @@ EntryContainer {
                 CustomRadioButton {
                     id: loweredge
                     //: Edge refers to a screen edge
-                    text: qsTr("Show at lower edge")
+                    text: em.pty+qsTr("Show at lower edge")
                     checked: true
                     exclusiveGroup: edgegroup
                 }
@@ -41,7 +41,7 @@ EntryContainer {
                 CustomRadioButton {
                     id: upperedge
                     //: Edge refers to a screen edge
-                    text: qsTr("Show at upper edge")
+                    text: em.pty+qsTr("Show at upper edge")
                     exclusiveGroup: edgegroup
                 }
 

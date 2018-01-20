@@ -44,22 +44,22 @@ FadeInTemplate {
 
                     ManagementNavigation {
                         //: As in 'Copy current image to a new location'. Keep string short!
-                        text: qsTr("Copy")
+                        text: em.pty+qsTr("Copy")
                         category: "cp"
                     }
                     ManagementNavigation {
                         //: As in 'Delete current image'. Keep string short!
-                        text: qsTr("Delete")
+                        text: em.pty+qsTr("Delete")
                         category: "del"
                     }
                     ManagementNavigation {
                         //: As in 'Move current image to a new location'. Keep string short!
-                        text: qsTr("Move")
+                        text: em.pty+qsTr("Move")
                         category: "mv"
                     }
                     ManagementNavigation {
                         //: As in 'Rename current image'. Keep string short!
-                        text: qsTr("Rename")
+                        text: em.pty+qsTr("Rename")
                         category: "rn"
                     }
 

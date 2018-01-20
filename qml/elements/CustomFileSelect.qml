@@ -49,7 +49,7 @@ Rectangle {
                 verticalAlignment: Text.AlignVCenter
                 visible: filepath.text == ""
                 clip: true
-                text: qsTr("Click here to select a configuration file")
+                text: em.pty+qsTr("Click here to select a configuration file")
             }
 
         }
@@ -79,10 +79,10 @@ Rectangle {
         if(filepath.text != "")
             startfolder = filepath.text
         //: PhotoQt config file = configuration file
-        var str = getanddostuff.getFilename(qsTr("Select PhotoQt config file..."),startfolder,
+        var str = getanddostuff.getFilename(em.pty+qsTr("Select PhotoQt config file..."),startfolder,
                                             //: PhotoQt config file = configuration file
-                                            qsTr("PhotoQt Config Files") + " (*.pqt);;"
-                                              + qsTr("All Files") + " (*.*)")
+                                            em.pty+qsTr("PhotoQt Config Files") + " (*.pqt);;"
+                                              + em.pty+qsTr("All Files") + " (*.*)")
         if(str !== "")
             filepath.text = str
     }

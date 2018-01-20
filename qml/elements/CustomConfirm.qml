@@ -127,7 +127,7 @@ Rectangle {
                 CustomCheckBox {
                     id: ask
                     x: (parent.width-width)/2
-                    text: customisedDontAskAgainMessage=="" ? qsTr("Don't ask again") : customisedDontAskAgainMessage
+                    text: customisedDontAskAgainMessage=="" ? em.pty+qsTr("Don't ask again") : customisedDontAskAgainMessage
                     visible: showDontAskAgain
                     checkedButton: dontAskAgainChecked
                 }

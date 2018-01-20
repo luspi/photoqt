@@ -17,7 +17,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/colour.h ${d}/fileformats.h ${d}/fil
 
 SET(d "cplusplus/scripts")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/getanddostuff.h ${d}/getmetadata.cpp ${d}/gmimagemagick.h ${d}/runprocess.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/thumbnailsmanagement.cpp ${d}/filedialog.h ${d}/watcher.h ${d}/sortlist.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/thumbnailsmanagement.cpp ${d}/filedialog.h ${d}/watcher.h ${d}/sortlist.h ${d}/localisation.h)
 
 SET(d "cplusplus/scripts/getanddostuff")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/context.cpp ${d}/external.cpp ${d}/file.cpp ${d}/manipulation.cpp ${d}/openfile.cpp ${d}/other.cpp ${d}/wallpaper.cpp)
@@ -35,7 +35,7 @@ SET(d "cplusplus/tooltip")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/tooltip.cpp)
 
 SET(d "cplusplus/startup")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/exportimport.h ${d}/fileformats.h ${d}/localisation.h ${d}/migration.h ${d}/screenshots.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/exportimport.h ${d}/fileformats.h ${d}/migration.h ${d}/screenshots.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/startintray.h ${d}/thumbnails.h ${d}/updatecheck.h ${d}/shortcuts.h ${d}/settings.h)
 
 SET(d "cplusplus/singleinstance")

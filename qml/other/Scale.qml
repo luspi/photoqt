@@ -20,7 +20,7 @@ FadeInTemplate {
 
         // Header
         Text {
-            text: qsTr("Scale Image")
+            text: em.pty+qsTr("Scale Image")
             color: colour.text
             font.pointSize: 18*2
             font.bold: true
@@ -37,7 +37,7 @@ FadeInTemplate {
                 spacing: 5
                 Text {
                     //: 'Size" here refers to the dimensions (numbers of pixel), expressed here as 'width x height', NOT the filesize
-                    text: qsTr("Current Size:")
+                    text: em.pty+qsTr("Current Size:")
                     font.pointSize: 13
                     color: colour.text
                 }
@@ -73,7 +73,7 @@ FadeInTemplate {
             color: colour.text_warning
             font.pointSize: 13
             font.bold: true
-            text: qsTr("Error! Something went wrong, unable to scale image...")
+            text: em.pty+qsTr("Error! Something went wrong, unable to scale image...")
         },
 
         Rectangle {
@@ -104,7 +104,7 @@ FadeInTemplate {
                     Text {
                         color: colour.text
                         //: The width (number of pixels) of the image
-                        text: qsTr("New width:")
+                        text: em.pty+qsTr("New width:")
                         font.pointSize: 15
                         horizontalAlignment: Text.AlignRight
                         y: (newwidth.height-height)/2+5
@@ -112,7 +112,7 @@ FadeInTemplate {
                     Text {
                         color: colour.text
                         //: The height (number of pixels) of the image
-                        text: qsTr("New height:")
+                        text: em.pty+qsTr("New height:")
                         font.pointSize: 15
                         horizontalAlignment: Text.AlignRight
                         y: newwidth.height+10+(newheight.height-height)/2
@@ -189,7 +189,7 @@ FadeInTemplate {
                     color: colour.text
                     opacity: aspect_image.keepaspectratio ? 1 : 0.3
                     //: This is the ratio of the image = width/height
-                    text: qsTr("Aspect Ratio")
+                    text: em.pty+qsTr("Aspect Ratio")
                     font.pointSize: 15
                     font.strikeout: !aspect_image.keepaspectratio
                     y: (rowedits.height-height)/2+5
@@ -227,7 +227,7 @@ FadeInTemplate {
                     color: colour.text
                     font.pointSize: 13
                     //: Refers to the quality of scaling an image
-                    text: qsTr("Quality")
+                    text: em.pty+qsTr("Quality")
                 }
                 CustomSlider {
                     id: quality_slider
@@ -271,7 +271,7 @@ FadeInTemplate {
                 CustomButton {
                     id: scale_inplace
                     //: Scale as in "Scale image"
-                    text: qsTr("Scale in place")
+                    text: em.pty+qsTr("Scale in place")
                     fontsize: 15
                     onClickedButton: {
                         verboseMessage("Scale","Scale in place")
@@ -287,10 +287,10 @@ FadeInTemplate {
                 CustomButton {
                     id: scale_innewfile
                     //: Scale as in "Scale image"
-                    text: qsTr("Scale into new file")
+                    text: em.pty+qsTr("Scale into new file")
                     fontsize: 15
                     onClickedButton: {
-                        var fname = getanddostuff.getSaveFilename(qsTr("Save file as..."),variables.currentDir + "/" + variables.currentFile);
+                        var fname = getanddostuff.getSaveFilename(em.pty+qsTr("Save file as..."),variables.currentDir + "/" + variables.currentFile);
                         verboseMessage("Scale","Scale into new file: " + fname)
                         if(fname !== "") {
                             if(getanddostuff.scaleImage(variables.currentDir + "/" + variables.currentFile,newwidth.value, newheight.value,
@@ -307,7 +307,7 @@ FadeInTemplate {
                 CustomButton {
                     id: scale_dont
                     //: Scale as in "scale image"
-                    text: qsTr("Don't scale")
+                    text: em.pty+qsTr("Don't scale")
                     fontsize: 15
                     onClickedButton: hide()
                 }

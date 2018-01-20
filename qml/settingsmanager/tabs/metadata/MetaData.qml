@@ -16,8 +16,8 @@ EntryContainer {
         EntryTitle {
 
             id: title
-            title: qsTr("Meta Information")
-            helptext: qsTr("PhotoQt can display a number of meta information about the image. Here you can choose which ones to show and which ones to hide.")
+            title: em.pty+qsTr("Meta Information")
+            helptext: em.pty+qsTr("PhotoQt can display a number of meta information about the image. Here you can choose which ones to show and which ones to hide.")
 
         }
 

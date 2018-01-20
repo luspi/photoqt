@@ -18,7 +18,7 @@ FadeInTemplate {
 
         // Heading
         Text {
-            text: qsTr("Filter images in current directory")
+            text: em.pty+qsTr("Filter images in current directory")
             color: colour.text
             font.bold: true
             font.pointSize: 30
@@ -33,14 +33,14 @@ FadeInTemplate {
         },
 
         Text {
-            text: qsTr("Enter here the term you want to filter the images by. Separate multiple terms by a space.")
+            text: em.pty+qsTr("Enter here the term you want to filter the images by. Separate multiple terms by a space.")
             x: (filter_top.contentWidth-width)/2
             color: colour.text
             font.pointSize: 12
         },
 
         Text {
-            text: qsTr("If you want to limit a term to file extensions, prepend a dot '.' to the term.")
+            text: em.pty+qsTr("If you want to limit a term to file extensions, prepend a dot '.' to the term.")
             x: (filter_top.contentWidth-width)/2
             color: colour.text
             font.pointSize: 12
@@ -89,7 +89,7 @@ FadeInTemplate {
                 CustomButton {
                     id: enter
                     //: As in 'Go ahead and filter images'
-                    text: qsTr("Filter")
+                    text: em.pty+qsTr("Filter")
                     fontsize: 15
                     onClickedButton: {
                         verboseMessage("Filter","Accept filter")
@@ -98,7 +98,7 @@ FadeInTemplate {
                 }
 
                 CustomButton {
-                    text: qsTr("Cancel")
+                    text: em.pty+qsTr("Cancel")
                     fontsize: 15
                     onClickedButton: {
                         verboseMessage("Filter","Cancel filter")
@@ -114,7 +114,7 @@ FadeInTemplate {
 
                 CustomButton {
                     id: remove
-                    text: qsTr("Remove Filter")
+                    text: em.pty+qsTr("Remove Filter")
                     fontsize: 13
                     enabled: variables.filter != ""
                     y: (parent.height-height)/2

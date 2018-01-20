@@ -360,7 +360,7 @@ Rectangle {
             fontsize: 30
             fontBold: true
 
-            text: qsTr("Cancel")
+            text: em.pty+qsTr("Cancel")
 
             onClickedButton: {
                 abortedShortcutDetection()
@@ -389,8 +389,8 @@ Rectangle {
             verticalAlignment: Qt.AlignVCenter
             color: "white"
 
-            text: qsTr("Perform any mouse action or press any key combination.") + "\n"
-                  + qsTr("When your satisfied, click the button to the right.")
+            text: em.pty+qsTr("Perform any mouse action or press any key combination.") + "\n"
+                  + em.pty+qsTr("When your satisfied, click the button to the right.")
 
         }
 
@@ -413,7 +413,7 @@ Rectangle {
             fontsize: 30
             fontBold: true
 
-            text: qsTr("Ok, set shortcut")
+            text: em.pty+qsTr("Ok, set shortcut")
 
             onClickedButton: {
                 gotNewShortcut(keymousecombo.text)

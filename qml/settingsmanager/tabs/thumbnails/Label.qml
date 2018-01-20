@@ -16,8 +16,8 @@ EntryContainer {
 
             id: entrytitle
 
-            title: qsTr("Label on Thumbnails")
-            helptext: qsTr("PhotoQt can write a label with some information on the thumbnails. Currently, only the filename is available. The slider adjusts the fontsize of the text for the filename.")
+            title: em.pty+qsTr("Label on Thumbnails")
+            helptext: em.pty+qsTr("PhotoQt can write a label with some information on the thumbnails. Currently, only the filename is available. The slider adjusts the fontsize of the text for the filename.")
 
         }
 
@@ -33,7 +33,7 @@ EntryContainer {
                     id: writefilename
                     y: (parent.height-height)/2
                     //: Settings: Write the filename on a thumbnail
-                    text: qsTr("Write Filename")
+                    text: em.pty+qsTr("Write Filename")
                 }
 
                 Rectangle { color: "transparent"; width: 10; height: 1; }
@@ -46,7 +46,7 @@ EntryContainer {
                     enabled: writefilename.checkedButton
                     opacity: enabled ? 1 : 0.5
                     //: Settings: Write the filename with this fontsize on a thumbnail
-                    text: qsTr("Fontsize") + ":"
+                    text: em.pty+qsTr("Fontsize") + ":"
                 }
 
                 CustomSlider {

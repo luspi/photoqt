@@ -89,9 +89,9 @@ Rectangle {
             // the text status messages
             text: showUnsupportedProtocolFolderMessage
                       //: Protocol refers to a file protocol (e.g., for network folders)
-                    ? qsTr("This protocol is currently not supported")
+                    ? em.pty+qsTr("This protocol is currently not supported")
                       //: Can also be expressed as 'zero subfolders' or '0 subfolders'. It is also possible to drop the 'sub' leaving 'folders' if that works better
-                    : qsTr("No image files found")
+                    : em.pty+qsTr("No image files found")
 
 
         }
@@ -346,9 +346,9 @@ Rectangle {
 
                 // The tooltip text is a html table
                                                     //: Refers to the filename. Keep string short!
-                text: "<tr><td align='right'><b>" + qsTr("Name") + ": </b></td><td>" + filename + "</td></tr>" +
+                text: "<tr><td align='right'><b>" + em.pty+qsTr("Name") + ": </b></td><td>" + filename + "</td></tr>" +
                                                     //: Refers to the filesize. Keep string short!
-                      "<tr><td align='right'><b>" + qsTr("Size") + ": </b></td><td>" + filesize + "</td></tr>"
+                      "<tr><td align='right'><b>" + em.pty+qsTr("Size") + ": </b></td><td>" + filesize + "</td></tr>"
             }
 
         }

@@ -14,8 +14,8 @@ EntryContainer {
 
         EntryTitle {
 
-            title: qsTr("Font Size")
-            helptext: qsTr("The fontsize of the metadata element can be adjusted independently of the rest of the application.")
+            title: em.pty+qsTr("Font Size")
+            helptext: em.pty+qsTr("The fontsize of the metadata element can be adjusted independently of the rest of the application.")
 
         }
 

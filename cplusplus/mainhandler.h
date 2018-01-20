@@ -22,6 +22,7 @@
 #include "scripts/filedialog.h"
 #include "shortcuts/composestring.h"
 #include "scripts/watcher.h"
+#include "scripts/localisation.h"
 
 #include "imageprovider/imageproviderempty.h"
 #include "imageprovider/imageproviderfull.h"
@@ -31,7 +32,6 @@
 
 #include "startup/exportimport.h"
 #include "startup/fileformats.h"
-#include "startup/localisation.h"
 #include "startup/migration.h"
 #include "startup/screenshots.h"
 #include "startup/startintray.h"
@@ -50,7 +50,6 @@ public:
 
     void setObjectAndConnect();
     int performSomeStartupChecks();
-    void loadTranslation();
     void registerQmlTypes();
     void addImageProvider();
     void loadQML();

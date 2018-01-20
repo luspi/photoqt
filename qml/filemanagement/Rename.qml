@@ -16,7 +16,7 @@ Item {
     // Heading
     Text {
         id: headingtext
-        text: qsTr("Rename File")
+        text: em.pty+qsTr("Rename File")
         color: colour.text
         font.bold: true
         font.pointSize: 18*2
@@ -75,7 +75,7 @@ Item {
             spacing: 5
             CustomButton {
                 // Button for renaming the current file based on the entered text
-                text: qsTr("Save")
+                text: em.pty+qsTr("Save")
                 fontsize: 18
                 enabled: newfilename.getText() !== ""
                 onClickedButton: {
@@ -85,7 +85,7 @@ Item {
                 }
             }
             CustomButton {
-                text: qsTr("Cancel")
+                text: em.pty+qsTr("Cancel")
                 fontsize: 18
                 onClickedButton: {
                     verboseMessage("Rename","Cancel")

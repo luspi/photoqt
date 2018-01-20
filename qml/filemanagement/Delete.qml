@@ -17,7 +17,7 @@ Item {
     Text {
         id: headertext
         x: (parent.width-width)/2
-        text: qsTr("Delete File")
+        text: em.pty+qsTr("Delete File")
         color: colour.text
         font.bold: true
         font.pointSize: 18*2
@@ -39,7 +39,7 @@ Item {
     Text {
         id: question
         x: (parent.width-width)/2
-        text: qsTr("Do you really want to delete this file?")
+        text: em.pty+qsTr("Do you really want to delete this file?")
         font.pointSize: 10*2
         color: colour.text
         anchors.top: filename.bottom
@@ -70,9 +70,9 @@ Item {
                 id: movetotrash
                 text: getanddostuff.amIOnLinux()
                         //: In the sense of 'move the current image into the trash'
-                        ? qsTr("Move to Trash")
+                        ? em.pty+qsTr("Move to Trash")
                         //: As in 'Delete the current image'
-                        : qsTr("Delete")
+                        : em.pty+qsTr("Delete")
                 fontsize: 18
                 onClickedButton: {
                     verboseMessage("Delete","move to trash")
@@ -81,7 +81,7 @@ Item {
             }
 
             CustomButton {
-                text: qsTr("Cancel")
+                text: em.pty+qsTr("Cancel")
                 fontsize: 18
                 onClickedButton: {
                     verboseMessage("Delete","do not delete")
@@ -103,7 +103,7 @@ Item {
         anchors.topMargin: 25
 
         //: In the sense of 'Delete the current image permanently'
-        text: qsTr("Delete permanently")
+        text: em.pty+qsTr("Delete permanently")
         fontsize: 13
         visible: getanddostuff.amIOnLinux()
         onClickedButton: {
@@ -121,8 +121,8 @@ Item {
         anchors.topMargin: 25
 
         text: getanddostuff.amIOnLinux()
-                ? qsTr("Enter = Move to Trash, Shift+Enter = Delete permanently, Escape = Cancel")
-                : qsTr("Enter = Delete, Escape = Cancel")
+                ? em.pty+qsTr("Enter = Move to Trash, Shift+Enter = Delete permanently, Escape = Cancel")
+                : em.pty+qsTr("Enter = Delete, Escape = Cancel")
         color: colour.text
         font.pointSize: 10*0.8
     }

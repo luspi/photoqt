@@ -15,8 +15,8 @@ EntryContainer {
 
             id: entrytitle
 
-            title: qsTr("Thumbnail Size")
-            helptext: qsTr("Here you can adjust the thumbnail size. You can set it to any size between 20 and 256 pixel. Per default it is set to 80 pixel, but the optimal size depends on the screen resolution.")
+            title: em.pty+qsTr("Thumbnail Size")
+            helptext: em.pty+qsTr("Here you can adjust the thumbnail size. You can set it to any size between 20 and 256 pixel. Per default it is set to 80 pixel, but the optimal size depends on the screen resolution.")
 
         }
 

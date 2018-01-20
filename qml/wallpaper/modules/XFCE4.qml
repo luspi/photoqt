@@ -29,7 +29,7 @@ Rectangle {
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
             //: "xfconf-query" and "XFCE4" are fixed names, please don't translate
-            text: qsTr("Warning: 'xfconf-query' doesn't seem to be available! Are you sure XFCE4 is installed?");
+            text: em.pty+qsTr("Warning: 'xfconf-query' doesn't seem to be available! Are you sure XFCE4 is installed?");
         }
 
         Rectangle { id: xfce4_error_spacing; color: "#00000000"; width: 1; height: 1; }
@@ -42,7 +42,7 @@ Rectangle {
             width: wallpaper_top.width
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
-            text: qsTr("The wallpaper can be set to any of the available monitors (one or any combination).")
+            text: em.pty+qsTr("The wallpaper can be set to any of the available monitors (one or any combination).")
         }
 
         // MONITOR SELECTION
@@ -60,7 +60,7 @@ Rectangle {
                 contentHeight: childrenRect.height
                 delegate: CustomCheckBox {
                     //: Used as in 'Screen #4'
-                    text: qsTr("Screen") + " #" + index
+                    text: em.pty+qsTr("Screen") + " #" + index
                     checkedButton: true
                     fsize: 10
                     Component.onCompleted: {
@@ -96,7 +96,7 @@ Rectangle {
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
             //: 'picture options' refers to options like stretching the image to fill the background, or tile the image, center it, etc.
-            text: qsTr("There are several picture options that can be set for the wallpaper image.")
+            text: em.pty+qsTr("There are several picture options that can be set for the wallpaper image.")
         }
 
         Rectangle { color: "#00000000"; width: 1; height: 1; }
@@ -112,42 +112,42 @@ Rectangle {
                 spacing: 10
                 CustomRadioButton {
                     //: "Automatic" means automatically choose how to set the image as wallpaper
-                    text: qsTr("Automatic")
+                    text: em.pty+qsTr("Automatic")
                     property string option: "Automatic"
                     fontsize: 10
                     exclusiveGroup: wallpaperoptions_xfce
                 }
                 CustomRadioButton {
                     //: "Centered" means set the image centered as wallpaper
-                    text: qsTr("Centered")
+                    text: em.pty+qsTr("Centered")
                     property string option: "Centered"
                     fontsize: 10
                     exclusiveGroup: wallpaperoptions_xfce
                 }
                 CustomRadioButton {
                     //: "Tiled" means repeat the wallpaper image until the full screen is covered
-                    text: qsTr("Tiled")
+                    text: em.pty+qsTr("Tiled")
                     property string option: "Tiled"
                     fontsize: 10
                     exclusiveGroup: wallpaperoptions_xfce
                 }
                 CustomRadioButton {
                     //: "Stretched" means make the wallpaper image fill the screen without regard to its aspect ratio
-                    text: qsTr("Stretched")
+                    text: em.pty+qsTr("Stretched")
                     property string option: "Stretched"
                     fontsize: 10
                     exclusiveGroup: wallpaperoptions_xfce
                 }
                 CustomRadioButton {
                     //: "Scaled" means that the wallpaper image is scaled to properly fill the screen
-                    text: qsTr("Scaled")
+                    text: em.pty+qsTr("Scaled")
                     property string option: "Scaled"
                     fontsize: 10
                     exclusiveGroup: wallpaperoptions_xfce
                 }
                 CustomRadioButton {
                     //: "Zoomed" means that the wallpaper image is zoomed to fill the screen
-                    text: qsTr("Zoomed")
+                    text: em.pty+qsTr("Zoomed")
                     property string option: "Zoomed"
                     fontsize: 10
                     exclusiveGroup: wallpaperoptions_xfce

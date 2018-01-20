@@ -15,8 +15,8 @@ EntryContainer {
 
             id: entrytitle
 
-            title: qsTr("Mouse Wheel Sensitivity")
-            helptext: qsTr("The mouse can be used for various things, including many types of shortcuts. The sensitivity of the mouse wheel defines the distance the wheel has to be moved before triggering a shortcut.")
+            title: em.pty+qsTr("Mouse Wheel Sensitivity")
+            helptext: em.pty+qsTr("The mouse can be used for various things, including many types of shortcuts. The sensitivity of the mouse wheel defines the distance the wheel has to be moved before triggering a shortcut.")
 
         }
 
@@ -31,7 +31,7 @@ EntryContainer {
                     id: txt_no
                     color: colour.text
                     //: Refers to the sensitivity of the mouse wheel
-                    text: qsTr("Not at all sensitive")
+                    text: em.pty+qsTr("Not at all sensitive")
                     font.pointSize: 10
 
                 }
@@ -56,7 +56,7 @@ EntryContainer {
                     id: txt_very
                     color: colour.text
                     //: Refers to the sensitivity of the mouse wheel
-                    text: qsTr("Very sensitive")
+                    text: em.pty+qsTr("Very sensitive")
                     font.pointSize: 10
 
                 }

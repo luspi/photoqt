@@ -15,9 +15,6 @@ MainHandler::MainHandler(bool verbose, QWindow *parent) : QQuickView(parent) {
     // Perform some startup checks/tasks
     update = performSomeStartupChecks();
 
-    // Find and load the right translation file
-    loadTranslation();
-
     // Register the qml types. This need to happen BEFORE loading the QML file
     registerQmlTypes();
 
@@ -76,13 +73,6 @@ int MainHandler::performSomeStartupChecks() {
 
 }
 
-// Load the right translation file
-void MainHandler::loadTranslation() {
-
-    StartupCheck::Localisation::loadTranslation(variables->verbose, permanentSettings, &trans);
-
-}
-
 // Create a handler to the engine's object and connect to its signals
 void MainHandler::setObjectAndConnect() {
 
@@ -113,6 +103,7 @@ void MainHandler::registerQmlTypes() {
     qmlRegisterType<Shortcuts>("PShortcutsHandler", 1, 0, "PShortcutsHandler");
     qmlRegisterType<FileDialog>("PFileDialog", 1, 0, "PFileDialog");
     qmlRegisterType<Watcher>("PWatcher", 1, 0, "PWatcher");
+    qmlRegisterType<Localisation>("PLocalisation", 1, 0, "PLocalisation");
 }
 
 // Add image providers to QML

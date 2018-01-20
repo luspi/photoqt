@@ -69,9 +69,9 @@ Rectangle {
             // the text status messages
             text: showUnsupportedProtocolFolderMessage
                                 //: Protocol refers to a file protocol (e.g., for network folders)
-                              ? qsTr("This protocol is currently not supported")
+                              ? em.pty+qsTr("This protocol is currently not supported")
                                 //: Can also be expressed as 'zero subfolders' or '0 subfolders'. It is also possible to drop the 'sub' leaving 'folders' if that works better
-                              : qsTr("No subfolders")
+                              : em.pty+qsTr("No subfolders")
 
         }
 
@@ -208,9 +208,9 @@ Rectangle {
                         text: ((counter==0||folder=="..") ? ""
                                                          : counter + " " + (counter==1
                         //: Used as in '(1 image)'. This string is always used for the singular, exactly one image
-                                                                                        ? qsTr("image")
+                                                                                        ? em.pty+qsTr("image")
                         //: Used as in '(11 images)'. This string is always used for multiple images (at least 2)
-                                                                                        : qsTr("images")))
+                                                                                        : em.pty+qsTr("images")))
 
                     }
 

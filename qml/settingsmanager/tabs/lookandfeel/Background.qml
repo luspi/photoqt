@@ -15,8 +15,8 @@ EntryContainer {
         EntryTitle {
 
             // The background of PhotoQt behind the main image
-            title: qsTr("Background")
-            helptext: qsTr("The background of PhotoQt is the part, that is not covered by an image. It can be made either real (half-)transparent (using a compositor), or faked transparent (instead of the actual desktop a screenshot of it is shown), or a custom background image can be set, or none of the above. Please note: Fake transparency currently only really works when PhotoQt is run in fullscreen/maximised!")
+            title: em.pty+qsTr("Background")
+            helptext: em.pty+qsTr("The background of PhotoQt is the part, that is not covered by an image. It can be made either real (half-)transparent (using a compositor), or faked transparent (instead of the actual desktop a screenshot of it is shown), or a custom background image can be set, or none of the above. Please note: Fake transparency currently only really works when PhotoQt is run in fullscreen/maximised!")
 
         }
 
@@ -34,23 +34,23 @@ EntryContainer {
                     ExclusiveGroup { id: radiobuttons_background }
                     CustomRadioButton {
                         id: background_halftrans
-                        text: qsTr("(Half-)Transparent background")
+                        text: em.pty+qsTr("(Half-)Transparent background")
                         exclusiveGroup: radiobuttons_background
                         checked: true
                     }
                     CustomRadioButton {
                         id: background_fakedtrans
-                        text: qsTr("Faked transparency")
+                        text: em.pty+qsTr("Faked transparency")
                         exclusiveGroup: radiobuttons_background
                     }
                     CustomRadioButton {
                         id: background_image
-                        text: qsTr("Custom background image")
+                        text: em.pty+qsTr("Custom background image")
                         exclusiveGroup: radiobuttons_background
                     }
                     CustomRadioButton {
                         id: background_onecoloured
-                        text: qsTr("Monochrome, non-transparent background")
+                        text: em.pty+qsTr("Monochrome, non-transparent background")
                         exclusiveGroup: radiobuttons_background
                     }
                 }
@@ -96,7 +96,7 @@ EntryContainer {
                                 verticalAlignment: Qt.AlignVCenter
                                 color: "white"
                                 font.pointSize: 10
-                                text: qsTr("No image selected")
+                                text: em.pty+qsTr("No image selected")
                             }
                         }
                     }
@@ -121,32 +121,32 @@ EntryContainer {
                             CustomRadioButton {
                                 id: background_image_scale
                                 //: Refers to a background image, scale it to fit
-                                text: qsTr("Scale to fit")
+                                text: em.pty+qsTr("Scale to fit")
                                 exclusiveGroup: radiobuttons_image
                                 checked: true
                             }
                             CustomRadioButton {
                                 id: background_image_scalecrop
                                 //: Refers to a background image, crop and scale it to fit perfectly
-                                text: qsTr("Scale and Crop to fit")
+                                text: em.pty+qsTr("Scale and Crop to fit")
                                 exclusiveGroup: radiobuttons_image
                             }
                             CustomRadioButton {
                                 id: background_image_stretch
                                 //: Refers to a background image, stretch it to fit perfectly
-                                text: qsTr("Stretch to fit")
+                                text: em.pty+qsTr("Stretch to fit")
                                 exclusiveGroup: radiobuttons_image
                             }
                             CustomRadioButton {
                                 id: background_image_center
                                 //: Refers to a background image, center it
-                                text: qsTr("Center image")
+                                text: em.pty+qsTr("Center image")
                                 exclusiveGroup: radiobuttons_image
                             }
                             CustomRadioButton {
                                 id: background_image_tile
                                 //: Refers to a background image, tile it to fill everything
-                                text: qsTr("Tile image")
+                                text: em.pty+qsTr("Tile image")
                                 exclusiveGroup: radiobuttons_image
                             }
 

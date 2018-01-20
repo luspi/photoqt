@@ -15,7 +15,7 @@ Item {
         verticalAlignment: Qt.AlignVCenter
         horizontalAlignment: Qt.AlignHCenter
         //: The destination location is a location on the computer to move a file to
-        text: qsTr("Use the file dialog to select a destination location.")
+        text: em.pty+qsTr("Use the file dialog to select a destination location.")
         color: colour.bg_label
         font.bold: true
         font.pointSize: 20
@@ -34,7 +34,7 @@ Item {
     Connections {
         target: container
         onItemShown:
-            filedialog.getFilename(qsTr("Move Image to..."), variables.currentDir + "/" +  variables.currentFile)
+            filedialog.getFilename(em.pty+qsTr("Move Image to..."), variables.currentDir + "/" +  variables.currentFile)
         onItemHidden:
             filedialog.close()
     }

@@ -40,7 +40,7 @@ Rectangle {
                 color: "white"
                 font.pointSize: 20
                 font.bold: true
-                text: qsTr("Shortcuts")
+                text: em.pty+qsTr("Shortcuts")
                 horizontalAlignment: Text.AlignHCenter
             }
 
@@ -49,7 +49,7 @@ Rectangle {
             SettingsText {
                 width: flickable.width-20
                 x: 10
-                text: qsTr("Here you can adjust the shortcuts, add new or remove existing ones, or change a key/mouse combination. The shortcuts are grouped into 4 different categories for internal commands plus a category for external commands. The boxes on the right side contain all the possible commands. To add a shortcut for one of the available functions simply click on it. This will automatically open another element where you can set the desired shortcut.")
+                text: em.pty+qsTr("Here you can adjust the shortcuts, add new or remove existing ones, or change a key/mouse combination. The shortcuts are grouped into 4 different categories for internal commands plus a category for external commands. The boxes on the right side contain all the possible commands. To add a shortcut for one of the available functions simply click on it. This will automatically open another element where you can set the desired shortcut.")
             }
 
             Rectangle { color: "transparent"; width: 1; height: 30; }
@@ -72,7 +72,7 @@ Rectangle {
                     SettingsText {
                         anchors.left: parent.left
                         anchors.right: parent.right
-                        text: qsTr("Pressing the left button of the mouse and moving it around can be used for moving an image around. If you put them to use for this purpose, then any mouse shortcut set to a button/gesture will have no effect! Note that this is not recommended if you do not have any other means to move an image around (e.g., touchscreen)!")
+                        text: em.pty+qsTr("Pressing the left button of the mouse and moving it around can be used for moving an image around. If you put them to use for this purpose, then any mouse shortcut set to a button/gesture will have no effect! Note that this is not recommended if you do not have any other means to move an image around (e.g., touchscreen)!")
                     }
                 }
 
@@ -84,7 +84,7 @@ Rectangle {
                     CustomCheckBox {
                         id: mouseleftbutton
                         y: (Math.max(height,leftClickText.height)-height)/2
-                        text: qsTr("Mouse: Left button click-and-move")
+                        text: em.pty+qsTr("Mouse: Left button click-and-move")
                     }
                 }
 
@@ -94,7 +94,7 @@ Rectangle {
 
             CustomButton {
                 x: (parent.width-width)/2
-                text: qsTr("Set default shortcuts")
+                text: em.pty+qsTr("Set default shortcuts")
                 onClickedButton: confirmdefaultshortcuts.show()
             }
 
@@ -103,15 +103,15 @@ Rectangle {
             ShortcutsContainer {
                 id: navigation
                 //: A shortcuts category: navigating images
-                category: qsTr("Navigation")
-                allAvailableItems: [["__open",qsTr("Open New File")],
-                                    ["__filterImages",qsTr("Filter Images in Folder")],
-                                    ["__next",qsTr("Next Image")],
-                                    ["__prev",qsTr("Previous Image")],
-                                    ["__gotoFirstThb",qsTr("Go to first Image")],
-                                    ["__gotoLastThb",qsTr("Go to last Image")],
-                                    ["__hide",qsTr("Hide to System Tray")],
-                                    ["__close",qsTr("Quit PhotoQt")]]
+                category: em.pty+qsTr("Navigation")
+                allAvailableItems: [["__open",em.pty+qsTr("Open New File")],
+                                    ["__filterImages",em.pty+qsTr("Filter Images in Folder")],
+                                    ["__next",em.pty+qsTr("Next Image")],
+                                    ["__prev",em.pty+qsTr("Previous Image")],
+                                    ["__gotoFirstThb",em.pty+qsTr("Go to first Image")],
+                                    ["__gotoLastThb",em.pty+qsTr("Go to last Image")],
+                                    ["__hide",em.pty+qsTr("Hide to System Tray")],
+                                    ["__close",em.pty+qsTr("Quit PhotoQt")]]
             }
 
             Item { width: 1; height: 10 }
@@ -119,18 +119,18 @@ Rectangle {
             ShortcutsContainer {
                 id: image
                 //: A shortcuts category: image manipulation
-                category: qsTr("Image")
-                allAvailableItems: [["__zoomIn", qsTr("Zoom In")],
-                                    ["__zoomOut", qsTr("Zoom Out")],
-                                    ["__zoomActual", qsTr("Zoom to Actual Size")],
-                                    ["__zoomReset", qsTr("Reset Zoom")],
-                                    ["__rotateR", qsTr("Rotate Right")],
-                                    ["__rotateL", qsTr("Rotate Left")],
-                                    ["__rotate0", qsTr("Reset Rotation")],
-                                    ["__flipH", qsTr("Flip Horizontally")],
-                                    ["__flipV", qsTr("Flip Vertically")],
-                                    ["__scale", qsTr("Scale Image")],
-                                    ["__playPauseAni", qsTr("Play/Pause image animation")]]
+                category: em.pty+qsTr("Image")
+                allAvailableItems: [["__zoomIn", em.pty+qsTr("Zoom In")],
+                                    ["__zoomOut", em.pty+qsTr("Zoom Out")],
+                                    ["__zoomActual", em.pty+qsTr("Zoom to Actual Size")],
+                                    ["__zoomReset", em.pty+qsTr("Reset Zoom")],
+                                    ["__rotateR", em.pty+qsTr("Rotate Right")],
+                                    ["__rotateL", em.pty+qsTr("Rotate Left")],
+                                    ["__rotate0", em.pty+qsTr("Reset Rotation")],
+                                    ["__flipH", em.pty+qsTr("Flip Horizontally")],
+                                    ["__flipV", em.pty+qsTr("Flip Vertically")],
+                                    ["__scale", em.pty+qsTr("Scale Image")],
+                                    ["__playPauseAni", em.pty+qsTr("Play/Pause image animation")]]
             }
 
             Item { width: 1; height: 10 }
@@ -138,12 +138,12 @@ Rectangle {
             ShortcutsContainer {
                 id: file
                 //: A shortcuts category: file management
-                category: qsTr("File")
-                allAvailableItems: [["__rename", qsTr("Rename File")],
-                                    ["__delete", qsTr("Delete File")],
-                                    ["__deletePermanent", qsTr("Delete File (without confirmation)")],
-                                    ["__copy", qsTr("Copy File to a New Location")],
-                                    ["__move", qsTr("Move File to a New Location")]]
+                category: em.pty+qsTr("File")
+                allAvailableItems: [["__rename", em.pty+qsTr("Rename File")],
+                                    ["__delete", em.pty+qsTr("Delete File")],
+                                    ["__deletePermanent", em.pty+qsTr("Delete File (without confirmation)")],
+                                    ["__copy", em.pty+qsTr("Copy File to a New Location")],
+                                    ["__move", em.pty+qsTr("Move File to a New Location")]]
             }
 
             Item { width: 1; height: 10 }
@@ -151,17 +151,17 @@ Rectangle {
             ShortcutsContainer {
                 id: other
                 //: A shortcuts category: other functions
-                category: qsTr("Other")
-                allAvailableItems: [["__stopThb", qsTr("Interrupt Thumbnail Creation")],
-                                    ["__reloadThb", qsTr("Reload Thumbnails")],
-                                    ["__hideMeta", qsTr("Hide/Show Exif Info")],
-                                    ["__settings", qsTr("Show Settings")],
-                                    ["__slideshow", qsTr("Start Slideshow")],
-                                    ["__slideshowQuick", qsTr("Start Slideshow (Quickstart)")],
-                                    ["__about", qsTr("About PhotoQt")],
-                                    ["__wallpaper", qsTr("Set as Wallpaper")],
-                                    ["__imgurAnonym", qsTr("Upload to imgur.com (anonymously)")],
-                                    ["__imgur", qsTr("Upload to imgur.com user account")]]
+                category: em.pty+qsTr("Other")
+                allAvailableItems: [["__stopThb", em.pty+qsTr("Interrupt Thumbnail Creation")],
+                                    ["__reloadThb", em.pty+qsTr("Reload Thumbnails")],
+                                    ["__hideMeta", em.pty+qsTr("Hide/Show Exif Info")],
+                                    ["__settings", em.pty+qsTr("Show Settings")],
+                                    ["__slideshow", em.pty+qsTr("Start Slideshow")],
+                                    ["__slideshowQuick", em.pty+qsTr("Start Slideshow (Quickstart)")],
+                                    ["__about", em.pty+qsTr("About PhotoQt")],
+                                    ["__wallpaper", em.pty+qsTr("Set as Wallpaper")],
+                                    ["__imgurAnonym", em.pty+qsTr("Upload to imgur.com (anonymously)")],
+                                    ["__imgur", em.pty+qsTr("Upload to imgur.com user account")]]
             }
 
             Item { width: 1; height: 10 }
@@ -169,9 +169,9 @@ Rectangle {
             ShortcutsContainer {
                 id: external
                 //: A shortcuts category: external commands
-                category: qsTr("External")
+                category: em.pty+qsTr("External")
                 external: true
-                allAvailableItems: [["", qsTr("")]]
+                allAvailableItems: [["", em.pty+qsTr("")]]
             }
 
         }

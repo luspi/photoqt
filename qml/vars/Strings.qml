@@ -5,69 +5,69 @@ Item {
     // KEY STRINGS
     readonly property var dictKeys: {
         //: Refers to a keyboard modifier
-        "alt" : qsTr("Alt"),
+        "alt" : em.pty+qsTr("Alt"),
         //: Refers to a keyboard modifier
-        "ctrl" : qsTr("Ctrl"),
+        "ctrl" : em.pty+qsTr("Ctrl"),
         //: Refers to a keyboard modifier
-        "shift" : qsTr("Shift"),
+        "shift" : em.pty+qsTr("Shift"),
         //: Refers to one of the keys on the keyboard
-        "page up" : qsTr("Page Up"),
+        "page up" : em.pty+qsTr("Page Up"),
         //: Refers to one of the keys on the keyboard
-        "page down" : qsTr("Page Down"),
+        "page down" : em.pty+qsTr("Page Down"),
         //: Refers to the key that usually has the 'Windows' symbol on it
-        "meta" : qsTr("Meta"),
+        "meta" : em.pty+qsTr("Meta"),
         //: Refers to the key that triggers the number block on keyboards
-        "keypad" : qsTr("Keypad"),
+        "keypad" : em.pty+qsTr("Keypad"),
         //: Refers to one of the keys on the keyboard
-        "escape" : qsTr("Escape"),
+        "escape" : em.pty+qsTr("Escape"),
         //: Refers to one of the arrow keys on the keyboard
-        "right" : qsTr("Right"),
+        "right" : em.pty+qsTr("Right"),
         //: Refers to one of the arrow keys on the keyboard
-        "left" : qsTr("Left"),
+        "left" : em.pty+qsTr("Left"),
         //: Refers to one of the arrow keys on the keyboard
-        "up" : qsTr("Up"),
+        "up" : em.pty+qsTr("Up"),
         //: Refers to one of the arrow keys on the keyboard
-        "down" : qsTr("Down"),
+        "down" : em.pty+qsTr("Down"),
         //: Refers to one of the keys on the keyboard
-        "space" : qsTr("Space"),
+        "space" : em.pty+qsTr("Space"),
         //: Refers to one of the keys on the keyboard
-        "delete" : qsTr("Delete"),
+        "delete" : em.pty+qsTr("Delete"),
         //: Refers to one of the keys on the keyboard
-        "backspace" : qsTr("Backspace"),
+        "backspace" : em.pty+qsTr("Backspace"),
         //: Refers to one of the keys on the keyboard
-        "home" : qsTr("Home"),
+        "home" : em.pty+qsTr("Home"),
         //: Refers to one of the keys on the keyboard
-        "end" : qsTr("End"),
+        "end" : em.pty+qsTr("End"),
         //: Refers to one of the keys on the keyboard
-        "insert" : qsTr("Insert"),
+        "insert" : em.pty+qsTr("Insert"),
         //: Refers to one of the keys on the keyboard
-        "tab" : qsTr("Tab"),
+        "tab" : em.pty+qsTr("Tab"),
         //: 'Return' refers to the enter key of the number block - please try to make the translations of 'Return' and 'Enter' (the main button) different if possible!
-        "return" : qsTr("Return"),
+        "return" : em.pty+qsTr("Return"),
         //: 'Enter' refers to the main enter key - please try to make the translations of 'Return' (in the number block) and 'Enter' different if possible!
-        "enter" : qsTr("Enter"),
+        "enter" : em.pty+qsTr("Enter"),
     }
 
     // MOUSE STRINGS
     readonly property var dictMouse: {
         //: Refers to a mouse button
-        "left button" : qsTr("Left Button"),
+        "left button" : em.pty+qsTr("Left Button"),
         //: Refers to a mouse button
-        "right button" : qsTr("Right Button"),
+        "right button" : em.pty+qsTr("Right Button"),
         //: Refers to a mouse button
-        "middle button" : qsTr("Middle Button"),
+        "middle button" : em.pty+qsTr("Middle Button"),
         //: Refers to the mouse wheel
-        "wheel up" : qsTr("Wheel Up"),
+        "wheel up" : em.pty+qsTr("Wheel Up"),
         //: Refers to the mouse wheel
-        "wheel down" : qsTr("Wheel Down"),
+        "wheel down" : em.pty+qsTr("Wheel Down"),
         //: Refers to a direction of the mouse when performing a mouse gesture
-        "east" : qsTr("East"),
+        "east" : em.pty+qsTr("East"),
         //: Refers to a direction of the mouse when performing a mouse gesture
-        "south" : qsTr("South"),
+        "south" : em.pty+qsTr("South"),
         //: Refers to a direction of the mouse when performing a mouse gesture
-        "west" : qsTr("West"),
+        "west" : em.pty+qsTr("West"),
         //: Refers to a direction of the mouse when performing a mouse gesture
-        "north" : qsTr("North"),
+        "north" : em.pty+qsTr("North"),
     }
 
 

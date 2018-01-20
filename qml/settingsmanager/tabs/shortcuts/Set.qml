@@ -82,15 +82,15 @@ Item {
                     color: close=="1" ? "white" : "grey"
 
                     //: Shortcuts: KEEP THIS STRING SHORT! It is displayed for external shortcuts as an option to quit PhotoQt after executing shortcut
-                    text: qsTr("quit") + "  "
+                    text: em.pty+qsTr("quit") + "  "
 
                     ToolTip {
 
                         anchors.fill: parent
                         cursorShape: Qt.PointingHandCursor
                         text: close=="1"
-                                ? qsTr("Quit PhotoQt when executing shortcut")
-                                : qsTr("Keep PhotoQt running when executing shortcut")
+                                ? em.pty+qsTr("Quit PhotoQt when executing shortcut")
+                                : em.pty+qsTr("Keep PhotoQt running when executing shortcut")
                         onClicked:
                             close = (close=="1" ? "0" : "1")
 
@@ -145,7 +145,7 @@ Item {
                     visible: external
                     text: desc
                     //: Shortcuts: This is the command/executable to be executed (external shortcut)
-                    emptyMessage: qsTr("The command goes here")
+                    emptyMessage: em.pty+qsTr("The command goes here")
                     onTextEdited:
                         updateExternalString.restart()
                 }
@@ -198,7 +198,7 @@ Item {
 
                 ToolTip {
                     anchors.fill: parent
-                    text: qsTr("Delete shortcut")
+                    text: em.pty+qsTr("Delete shortcut")
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     onEntered: {

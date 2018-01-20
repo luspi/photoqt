@@ -17,8 +17,8 @@ EntryContainer {
         EntryTitle {
 
             id: title
-            title: qsTr("Custom Entries in Main Menu")
-            helptext: qsTr("Here you can adjust the custom entries in the main menu. You can simply drag and drop the entries, edit them, add a new one and remove an existing one.")
+            title: em.pty+qsTr("Custom Entries in Main Menu")
+            helptext: em.pty+qsTr("Here you can adjust the custom entries in the main menu. You can simply drag and drop the entries, edit them, add a new one and remove an existing one.")
 
         }
 
@@ -67,7 +67,7 @@ EntryContainer {
                             verticalAlignment: Qt.AlignVCenter
                             horizontalAlignment: Qt.AlignHCenter
 
-                            text: qsTr("Executable")
+                            text: em.pty+qsTr("Executable")
 
                         }
 
@@ -83,7 +83,7 @@ EntryContainer {
                             verticalAlignment: Qt.AlignVCenter
                             horizontalAlignment: Qt.AlignHCenter
 
-                            text: qsTr("Menu Text")
+                            text: em.pty+qsTr("Menu Text")
 
                         }
 
@@ -114,14 +114,14 @@ EntryContainer {
                             id: contextadd
                             width: 150
                             wrapMode: Text.WordWrap
-                            text: qsTr("Add new entry")
+                            text: em.pty+qsTr("Add new entry")
                             onClickedButton: context.addNewItem()
                         }
 
 
                         CustomButton {
                             id: contextreset
-                            text: qsTr("Set default entries")
+                            text: em.pty+qsTr("Set default entries")
                             width: 150
                             onClickedButton: {
                                 getanddostuff.setDefaultContextMenuEntries()

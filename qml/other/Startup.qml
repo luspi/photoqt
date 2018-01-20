@@ -82,7 +82,7 @@ Rectangle {
 
             Text {
                 id: welcome
-                text: qsTr("Welcome to PhotoQt")
+                text: em.pty+qsTr("Welcome to PhotoQt")
                 color: "white"
                 font.pointSize: 45
                 width: holder.width
@@ -97,10 +97,10 @@ Rectangle {
                 wrapMode: Text.WordWrap
                 horizontalAlignment: Text.AlignHCenter
                 anchors.horizontalCenter: parent.horizontalCenter
-                text: type=="installed" ? qsTr("PhotoQt was successfully installed!") + "<br>"
-                                          + qsTr("An image viewer packed with features and adjustable in every detail awaits you... Go, enjoy :-)")
-                                        : qsTr("PhotoQt was successfully updated!") + "<br>"
-                                          + qsTr("Many new features and bug fixes await you... Go, enjoy :-)")
+                text: type=="installed" ? em.pty+qsTr("PhotoQt was successfully installed!") + "<br>"
+                                          + em.pty+qsTr("An image viewer packed with features and adjustable in every detail awaits you... Go, enjoy :-)")
+                                        : em.pty+qsTr("PhotoQt was successfully updated!") + "<br>"
+                                          + em.pty+qsTr("Many new features and bug fixes await you... Go, enjoy :-)")
             }
 
             Rectangle {
@@ -110,7 +110,7 @@ Rectangle {
             }
 
             CustomButton {
-                text: qsTr("Lets get started!")
+                text: em.pty+qsTr("Lets get started!")
                 fontsize: 30
                 anchors.horizontalCenter: col.horizontalCenter
                 onClickedButton: hideStartup()

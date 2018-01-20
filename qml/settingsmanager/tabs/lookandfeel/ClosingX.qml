@@ -16,8 +16,8 @@ EntryContainer {
 
             id: entrytitle
 
-            title: qsTr("Exit button ('x' in top right corner)")
-            helptext: qsTr("There are two looks for the exit button: a normal 'x' or a plain text'x'. The normal 'x' fits in better with the overall design of PhotoQt, but the plain text 'x' is smaller and more discreet.")
+            title: em.pty+qsTr("Exit button ('x' in top right corner)")
+            helptext: em.pty+qsTr("There are two looks for the exit button: a normal 'x' or a plain text'x'. The normal 'x' fits in better with the overall design of PhotoQt, but the plain text 'x' is smaller and more discreet.")
 
         }
 
@@ -33,13 +33,13 @@ EntryContainer {
                 CustomRadioButton {
                     id: closingx_fancy
                     //: This is a type of exit button ('x' in top right screen corner)
-                    text: qsTr("Normal")
+                    text: em.pty+qsTr("Normal")
                     exclusiveGroup: clo
                 }
                 CustomRadioButton {
                     id: closingx_normal
                     //: This is a type of exit button ('x' in top right screen corner), showing a simple text 'x'
-                    text: qsTr("Plain")
+                    text: em.pty+qsTr("Plain")
                     exclusiveGroup: clo
                     checked: true
                 }
@@ -56,7 +56,7 @@ EntryContainer {
                         color: colour.text
                         font.pointSize: 10
                         //: The size of the exit button ('x' in top right screen corner)
-                        text: qsTr("Small Size")
+                        text: em.pty+qsTr("Small Size")
                     }
 
                     CustomSlider {
@@ -80,7 +80,7 @@ EntryContainer {
                         color: colour.text
                         font.pointSize: 10
                         //: The size of the exit button ('x' in top right screen corner)
-                        text: qsTr("Large Size")
+                        text: em.pty+qsTr("Large Size")
                     }
 
                 }

@@ -43,7 +43,7 @@ Item {
             cursorShape: Qt.PointingHandCursor
             acceptedButtons: Qt.RightButton|Qt.LeftButton
             //: The thumbnails in the element for opening files
-            text: qsTr("En-/Disable image thumbnails")
+            text: em.pty+qsTr("En-/Disable image thumbnails")
             onClicked:
                 settings.openThumbnails = !settings.openThumbnails
         }

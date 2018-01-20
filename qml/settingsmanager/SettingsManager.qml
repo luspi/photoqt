@@ -57,7 +57,7 @@ Rectangle {
         Tab {
 
             //: The look of PhotoQt and how it feels and behaves
-            title: qsTr("Look and Feel")
+            title: em.pty+qsTr("Look and Feel")
 
             TabLookAndFeel {
 
@@ -80,7 +80,7 @@ Rectangle {
 
         Tab {
 
-            title: qsTr("Thumbnails")
+            title: em.pty+qsTr("Thumbnails")
 
             TabThumbnails {
 
@@ -113,7 +113,7 @@ Rectangle {
 
         Tab {
 
-            title: qsTr("Metadata")
+            title: em.pty+qsTr("Metadata")
             TabMetadata {
                 Connections {
                     target: settings_top
@@ -133,7 +133,7 @@ Rectangle {
 
         Tab {
 
-            title: qsTr("Fileformats")
+            title: em.pty+qsTr("Fileformats")
 
             TabFileformats {
                 Connections {
@@ -154,7 +154,7 @@ Rectangle {
 
         Tab {
 
-            title: qsTr("Other Settings")
+            title: em.pty+qsTr("Other Settings")
 
             TabOther {
                 Connections {
@@ -174,7 +174,7 @@ Rectangle {
 
         Tab {
 
-            title: qsTr("Shortcuts")
+            title: em.pty+qsTr("Shortcuts")
 
             TabShortcuts {
                 Connections {
@@ -231,7 +231,7 @@ Rectangle {
             y: 5
             height: parent.height-10
 
-            text: qsTr("Restore Default Settings")
+            text: em.pty+qsTr("Restore Default Settings")
 
             onClickedButton: confirmdefaultssettings.show()
 
@@ -257,7 +257,7 @@ Rectangle {
             height: parent.height-10
 
             //: Changes here refer to changes in the settings manager
-            text: qsTr("Exit and Discard Changes")
+            text: em.pty+qsTr("Exit and Discard Changes")
 
             onClickedButton: {
                 setData_restore()
@@ -276,7 +276,7 @@ Rectangle {
             height: parent.height-10
 
             //: Changes here refer to changes in the settings manager
-            text: qsTr("Save Changes and Exit")
+            text: em.pty+qsTr("Save Changes and Exit")
 
             onClickedButton: {
                 saveSettings()
@@ -302,7 +302,7 @@ Rectangle {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             onClicked: hideSettings()
-            text: qsTr("Close settings manager")
+            text: em.pty+qsTr("Close settings manager")
         }
 
     }
@@ -311,15 +311,15 @@ Rectangle {
         fillAnchors: settings_top
         id: confirmclean
         //: The database refers to the database used for thumbnail caching
-        header: qsTr("Clean Database!")
+        header: em.pty+qsTr("Clean Database!")
         //: The database refers to the database used for thumbnail caching
-        description: qsTr("Do you really want to clean up the database?") + "<br><br>" +
-                     qsTr("This removes all obsolete thumbnails, thus possibly making PhotoQt a little faster.") + "<bR><br>" +
-                     qsTr("This process might take a little while.")
+        description: em.pty+qsTr("Do you really want to clean up the database?") + "<br><br>" +
+                     em.pty+qsTr("This removes all obsolete thumbnails, thus possibly making PhotoQt a little faster.") + "<bR><br>" +
+                     em.pty+qsTr("This process might take a little while.")
         //: Along the lines of "Yes, clean the database for thumbnails caching"
-        confirmbuttontext: qsTr("Yes, clean is good")
+        confirmbuttontext: em.pty+qsTr("Yes, clean is good")
         //: Along the lines of "No, cleaning the database for thumbnails caching takes too long, don't do it"
-        rejectbuttontext: qsTr("No, don't have time for that")
+        rejectbuttontext: em.pty+qsTr("No, don't have time for that")
         onAccepted: cleanDatabase()
     }
 
@@ -327,28 +327,28 @@ Rectangle {
         fillAnchors: settings_top
         id: confirmerase
         //: The database refers to the database used for thumbnail caching
-        header: qsTr("Erase Database?")
+        header: em.pty+qsTr("Erase Database?")
          //: The database refers to the database used for thumbnail caching
-        description: qsTr("Do you really want to ERASE the entire database?") + "<br><br>" +
+        description: em.pty+qsTr("Do you really want to ERASE the entire database?") + "<br><br>" +
                       //: The database refers to the database used for thumbnail caching
-                     qsTr("This removes every single item from the database! This step should never really be necessary. Afterwards every thumbnail has to be re-created.") + "<br>" +
-                     qsTr("This step cannot be reversed!")
+                     em.pty+qsTr("This removes every single item from the database! This step should never really be necessary. Afterwards every thumbnail has to be re-created.") + "<br>" +
+                     em.pty+qsTr("This step cannot be reversed!")
         //: Along the lines of "Yes, empty the database for thumbnails caching"
-        confirmbuttontext: qsTr("Yes, get rid of it all")
+        confirmbuttontext: em.pty+qsTr("Yes, get rid of it all")
         //: Along the lines of "No, don't empty the database for thumbnails caching, I want to keep it"
-        rejectbuttontext: qsTr("No, I want to keep it")
+        rejectbuttontext: em.pty+qsTr("No, I want to keep it")
         onAccepted: eraseDatabase()
     }
 
     CustomConfirm {
         fillAnchors: settings_top
         id: confirmdefaultssettings
-        header: qsTr("Restore Default Settings")
-        description: qsTr("Are you sure you want to revert back to the default settings?") + "<br><br>" +
-                     qsTr("This change is not permanent until you click on 'Save'.")
-        confirmbuttontext: qsTr("Yes, go ahead")
+        header: em.pty+qsTr("Restore Default Settings")
+        description: em.pty+qsTr("Are you sure you want to revert back to the default settings?") + "<br><br>" +
+                     em.pty+qsTr("This change is not permanent until you click on 'Save'.")
+        confirmbuttontext: em.pty+qsTr("Yes, go ahead")
         //: Used in settings manager when asking for confirmation for restoring default settings (written on button)
-        rejectbuttontext: qsTr("No, thanks")
+        rejectbuttontext: em.pty+qsTr("No, thanks")
         onAccepted: {
             settings.setDefault()
             setData()
@@ -358,11 +358,11 @@ Rectangle {
     CustomConfirm {
         fillAnchors: settings_top
         id: confirmdefaultshortcuts
-        header: qsTr("Set Default Shortcuts")
-        description: qsTr("Are you sure you want to reset the shortcuts to the default set?") + "<br><br>" +
-                     qsTr("This change is not permanent until you click on 'Save'.")
-        confirmbuttontext: qsTr("Yes, please")
-        rejectbuttontext: qsTr("No, don't")
+        header: em.pty+qsTr("Set Default Shortcuts")
+        description: em.pty+qsTr("Are you sure you want to reset the shortcuts to the default set?") + "<br><br>" +
+                     em.pty+qsTr("This change is not permanent until you click on 'Save'.")
+        confirmbuttontext: em.pty+qsTr("Yes, please")
+        rejectbuttontext: em.pty+qsTr("No, don't")
         maxwidth: 400
         onAccepted: {
             verboseMessage("Settings","Setting default shortcuts...")
@@ -390,13 +390,13 @@ Rectangle {
 
     Component.onCompleted: {
         //: The tab refers to the tabs in the settings manager
-        settingsmanagershortcuts.shortcuts[strings.get("ctrl") + " + " + strings.get("tab")] = qsTr("Go to the next tab")
+        settingsmanagershortcuts.shortcuts[strings.get("ctrl") + " + " + strings.get("tab")] = em.pty+qsTr("Go to the next tab")
         //: The tab refers to the tabs in the settings manager
-        settingsmanagershortcuts.shortcuts[strings.get("ctrl") + " + " + strings.get("shift") + " + " + strings.get("tab")] = qsTr("Go to the previous tab")
+        settingsmanagershortcuts.shortcuts[strings.get("ctrl") + " + " + strings.get("shift") + " + " + strings.get("tab")] = em.pty+qsTr("Go to the previous tab")
         //: The tab refers to the tabs in the settings manager
-        settingsmanagershortcuts.shortcuts[strings.get("alt") + "+1 " + " ... " + " " + strings.get("alt") + "+6"] = qsTr("Switch to tab 1 to 5")
-        settingsmanagershortcuts.shortcuts[strings.get("ctrl") + "+S"] = qsTr("Save settings")
-        settingsmanagershortcuts.shortcuts[strings.get("escape")] = qsTr("Discard settings")
+        settingsmanagershortcuts.shortcuts[strings.get("alt") + "+1 " + " ... " + " " + strings.get("alt") + "+6"] = em.pty+qsTr("Switch to tab 1 to 5")
+        settingsmanagershortcuts.shortcuts[strings.get("ctrl") + "+S"] = em.pty+qsTr("Save settings")
+        settingsmanagershortcuts.shortcuts[strings.get("escape")] = em.pty+qsTr("Discard settings")
     }
 
     Connections {

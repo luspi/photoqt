@@ -16,8 +16,8 @@ EntryContainer {
 
             id: entrytitle
 
-            title: qsTr("Filename Thumbnail")
-            helptext: qsTr("If you don't want PhotoQt to always load the actual image thumbnail in the background, but you still want to have something for better navigating, then you can set a filename-only thumbnail, i.e. PhotoQt wont load any thumbnail images but simply puts the file name into the box. You can also adjust the font size of this text.")
+            title: em.pty+qsTr("Filename Thumbnail")
+            helptext: em.pty+qsTr("If you don't want PhotoQt to always load the actual image thumbnail in the background, but you still want to have something for better navigating, then you can set a filename-only thumbnail, i.e. PhotoQt wont load any thumbnail images but simply puts the file name into the box. You can also adjust the font size of this text.")
 
         }
 
@@ -31,7 +31,7 @@ EntryContainer {
 
                 CustomCheckBox {
                     id: filenameonly
-                    text: qsTr("Use filename-only thumbnail")
+                    text: em.pty+qsTr("Use filename-only thumbnail")
                 }
 
                 Rectangle { color: "transparent"; width: 10; height: 1; }
@@ -43,7 +43,7 @@ EntryContainer {
                     y: (parent.height-height)/2
                     enabled: filenameonly.checkedButton
                     opacity: enabled ? 1 : 0.5
-                    text: qsTr("Fontsize") + ":"
+                    text: em.pty+qsTr("Fontsize") + ":"
                 }
 
                 CustomSlider {

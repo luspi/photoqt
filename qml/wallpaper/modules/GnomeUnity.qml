@@ -27,7 +27,7 @@ Rectangle {
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
             //: "gsettings", "Gnome" and "Unity" are fixed names, please don't translate
-            text: qsTr("Warning: 'gsettings' doesn't seem to be available! Are you sure Gnome/Unity is installed?");
+            text: em.pty+qsTr("Warning: 'gsettings' doesn't seem to be available! Are you sure Gnome/Unity is installed?");
         }
 
         // PICTURE OPTIONS HEADING
@@ -38,7 +38,7 @@ Rectangle {
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
             //: 'picture options' refers to options like stretching the image to fill the background, or tile the image, center it, etc.
-            text: qsTr("There are several picture options that can be set for the wallpaper image.")
+            text: em.pty+qsTr("There are several picture options that can be set for the wallpaper image.")
         }
 
         Rectangle { color: "#00000000"; width: 1; height: 1; }

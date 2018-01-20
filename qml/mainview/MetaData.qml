@@ -54,7 +54,7 @@ Rectangle {
         font.pointSize: 15
         font.bold: true
 
-        text: qsTr("Metadata")
+        text: em.pty+qsTr("Metadata")
 
     }
 
@@ -94,7 +94,7 @@ Rectangle {
         font.bold: true
         font.pointSize: 18
         wrapMode: Text.WordWrap
-        text: qsTr("No File Loaded")
+        text: em.pty+qsTr("No File Loaded")
 
     }
 
@@ -120,7 +120,7 @@ Rectangle {
         font.pointSize: 18
         wrapMode: Text.WordWrap
 
-        text: qsTr("File Format Not Supported")
+        text: em.pty+qsTr("File Format Not Supported")
 
     }
 
@@ -146,7 +146,7 @@ Rectangle {
         font.pointSize: 18
         wrapMode: Text.WordWrap
 
-        text: qsTr("Invalid File")
+        text: em.pty+qsTr("Invalid File")
 
     }
 
@@ -209,7 +209,7 @@ Rectangle {
             textColour: "#64" + colour.text.substring(1,colour.text.length)
             //: Used as in 'Keep the metadata element open even if the cursor leaves it'
 
-            text: qsTr("Keep Open")
+            text: em.pty+qsTr("Keep Open")
 
             onButtonCheckedChanged:
                 updateNonFloatWidth()
@@ -254,7 +254,7 @@ Rectangle {
                 text: name !== "" ? "<b>" + name + "</b>: " + value : ""
 
                 ToolTip {
-                    text: prop=="Exif.GPSInfo.GPSLongitudeRef" ? qsTr("Click to open GPS position with online map")
+                    text: prop=="Exif.GPSInfo.GPSLongitudeRef" ? em.pty+qsTr("Click to open GPS position with online map")
                                     : (name !== "" ? "<b>" + name + "</b><br>" + value : "")
                     anchors.fill: parent
                     cursorShape: prop == "Exif.GPSInfo.GPSLongitudeRef" ? Qt.PointingHandCursor : Qt.ArrowCursor

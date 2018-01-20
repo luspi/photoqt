@@ -71,19 +71,19 @@ Rectangle {
                         "location" : "",
                         "icon" : ""})
                 //: This is used as name of the HOME folder
-                append({"name" : qsTr("Home"),
+                append({"name" : em.pty+qsTr("Home"),
                         "location" : getanddostuff.getHomeDir(),
                         "icon" : "user-home"})
                 //: This is used as name of the DESKTOP folder
-                append({"name" : qsTr("Desktop"),
+                append({"name" : em.pty+qsTr("Desktop"),
                         "location" : getanddostuff.getDesktopDir(),
                         "icon" : "user-desktop"})
                 //: This is used as name of the PICTURES folder
-                append({"name" : qsTr("Pictures"),
+                append({"name" : em.pty+qsTr("Pictures"),
                         "location" : getanddostuff.getPicturesDir(),
                         "icon" : "folder-pictures"})
                 //: This is used as name of the DOWNLOADS folder
-                append({"name" : qsTr("Downloads"),
+                append({"name" : em.pty+qsTr("Downloads"),
                         "location" : getanddostuff.getDownloadsDir(),
                         "icon" : "folder-download"})
             }
@@ -163,7 +163,7 @@ Rectangle {
                     elide: Text.ElideRight
 
                     //: This is the category title of standard/common folders (like Home, Desktop, ...) in the element for opening files
-                    text: index==0 ? qsTr("Standard") : name
+                    text: index==0 ? em.pty+qsTr("Standard") : name
 
                 }
 
@@ -403,7 +403,7 @@ Rectangle {
                     elide: Text.ElideRight
 
                     //: This is the category title of user set folders (or favorites) in the element for opening files
-                    text: index==0 ? qsTr("Places") : (folder != undefined ? folder : "")
+                    text: index==0 ? em.pty+qsTr("Places") : (folder != undefined ? folder : "")
                 }
 
                 // mouse area handling clicks and drag
@@ -454,7 +454,7 @@ Rectangle {
                     MenuItem {
 
                         //: Remove an entry from the list of user places (or favorites) in the element for opening files
-                        text: qsTr("Remove entry")
+                        text: em.pty+qsTr("Remove entry")
 
                         onTriggered: {
 
@@ -628,7 +628,7 @@ Rectangle {
                     elide: Text.ElideRight
 
                     //: This is the category title of storage devices to open (like USB keys) in the element for opening files
-                    text: index==0 ? qsTr("Storage devices") : (name!=undefined ? name : "")
+                    text: index==0 ? em.pty+qsTr("Storage devices") : (name!=undefined ? name : "")
 
                 }
 
@@ -668,7 +668,7 @@ Rectangle {
             onCheckedChanged:
                 settings.openUserPlacesStandard = checked
             //: The standard/common folders (like Home, Desktop, ...)
-            text: qsTr("Show standard locations")
+            text: em.pty+qsTr("Show standard locations")
         }
         // show/hide userplaces
         MenuItem {
@@ -678,7 +678,7 @@ Rectangle {
             onCheckedChanged:
                 settings.openUserPlacesUser = checked
             //: The user set folders (or favorites) in the element for opening files
-            text: qsTr("Show user locations")
+            text: em.pty+qsTr("Show user locations")
         }
         // show/hide storageinfo
         MenuItem {
@@ -688,7 +688,7 @@ Rectangle {
             onCheckedChanged:
                 settings.openUserPlacesVolumes = checked
             //: The storage devices (like USB keys)
-            text: qsTr("Show devices")
+            text: em.pty+qsTr("Show devices")
         }
 
     }
