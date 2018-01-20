@@ -29,6 +29,7 @@ EntryContainer {
                 CustomCheckBox {
 
                     id: animate_elements
+                    wrapMode: Text.WordWrap
                     text: em.pty+qsTr("Animate elements")
 
                 }
@@ -36,9 +37,8 @@ EntryContainer {
                 CustomCheckBox {
 
                     id: save_restore_geometry
+                    wrapMode: Text.WordWrap
                     text: em.pty+qsTr("Save and restore window geometry")
-                    onCheckedButtonChanged:
-                        if(checkedButton) screenCheck.checkedButton = false
 
                 }
 
