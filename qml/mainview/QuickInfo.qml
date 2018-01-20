@@ -10,15 +10,15 @@ Item {
 
     x: 5+metadata.nonFloatWidth
     y: 5
-    Behavior on x { SmoothedAnimation { duration: 200 } }
-    Behavior on y { SmoothedAnimation { duration: 200 } }
+    Behavior on x { SmoothedAnimation { duration: variables.animationSpeed } }
+    Behavior on y { SmoothedAnimation { duration: variables.animationSpeed } }
 
     width: childrenRect.width
     height: childrenRect.height
 
     visible: ((!settings.quickInfoHideCounter || !settings.quickInfoHideFilename || !settings.quickInfoHideFilepath || variables.filter!="") && !variables.slideshowRunning && variables.currentFile!="") || (variables.slideshowRunning && !settings.slideShowHideQuickInfo)
     opacity: variables.guiBlocked&&!variables.slideshowRunning ? 0.2 : 1
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
     Rectangle {
 
@@ -31,8 +31,8 @@ Item {
         width: childrenRect.width+6
         height: childrenRect.height+6
         clip: true
-        Behavior on width { SmoothedAnimation { duration: 100 } }
-        Behavior on height { SmoothedAnimation { duration: 100 } }
+        Behavior on width { SmoothedAnimation { duration: variables.animationSpeed } }
+        Behavior on height { SmoothedAnimation { duration: variables.animationSpeed } }
 
         // Some styling
         color: colour.quickinfo_bg

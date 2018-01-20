@@ -11,7 +11,7 @@ Rectangle {
     color: "#ee000000"
 
     opacity: 0
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
     visible: (opacity!=0)
 
     property string category: "key"

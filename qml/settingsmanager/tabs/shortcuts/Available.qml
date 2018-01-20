@@ -7,7 +7,7 @@ Rectangle {
 
     // The height depends on how many elements there are
     height: Math.max(childrenRect.height,5)
-    Behavior on height { NumberAnimation { duration: 150; } }
+    Behavior on height { NumberAnimation { duration: variables.animationSpeed/2 } }
 
     // The available shortcuts
     property var shortcuts: []
@@ -49,7 +49,7 @@ Rectangle {
             // Color changes when hovered
             property bool hovered: false
             color: hovered ? colour.tiles_inactive : colour.tiles_disabled
-            Behavior on color { ColorAnimation { duration: 150; } }
+            Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
 
 
             Rectangle {

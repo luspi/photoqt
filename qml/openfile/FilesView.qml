@@ -41,8 +41,8 @@ Rectangle {
         // we animate switching the view mode
         cellWidth: settings.openDefaultView=="icons" ? settings.openZoomLevel*4 : width
         cellHeight: settings.openDefaultView=="icons" ? settings.openZoomLevel*4 : settings.openZoomLevel
-        Behavior on cellWidth { NumberAnimation { id: cellWidthAni; duration: 200; } }
-        Behavior on cellHeight { NumberAnimation { id: cellHeightAni; duration: 100; } }
+        Behavior on cellWidth { NumberAnimation { id: cellWidthAni; duration: variables.animationSpeed; } }
+        Behavior on cellHeight { NumberAnimation { id: cellHeightAni; duration: variables.animationSpeed/2; } }
 
         // changing the width of the filesview should not be animated, it feels more natural when the width follows directly what the mouse does
         // thus we remove the animation when changing width and reset it again shortly after
@@ -78,7 +78,7 @@ Rectangle {
             // visibility depends on model count and property value
             visible: (opacity!=0)
             opacity: (gridview.model.count==0||showUnsupportedProtocolFolderMessage) ? 1 : 0
-            Behavior on opacity { NumberAnimation { duration: 100 } }
+            Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
             // some additional styling
             color: "grey"
@@ -107,7 +107,7 @@ Rectangle {
             // visibility
             opacity: settings.openPreview ? 0.8 : 0
             visible: (opacity != 0)
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
             // some properties
             asynchronous: true
@@ -192,7 +192,7 @@ Rectangle {
 
                 // the thumbnail fades in when ready
                 opacity: Image.Ready&&source!="" ? 1 : 0
-                Behavior on opacity { NumberAnimation { duration: 200 } }
+                Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
             }
 
@@ -205,7 +205,7 @@ Rectangle {
                 // it fades out once the full thumbnail image is available
                 visible: opacity!=0
                 opacity: thumb.status==Image.Ready&&thumb.source!="" ? 0 : 1
-                Behavior on opacity { NumberAnimation { duration: 200 } }
+                Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
                 // same fill mode as thumb image, but NOT assynchronous! If set to asynchronous, it will never load before the thumb image...
                 fillMode: Image.PreserveAspectFit

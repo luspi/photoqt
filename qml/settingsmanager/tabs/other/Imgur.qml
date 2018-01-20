@@ -119,7 +119,7 @@ EntryContainer {
                     height: 0
                     clip: true
                     property int h: childrenRect.height
-                    Behavior on height { NumberAnimation { duration: 200 } }
+                    Behavior on height { NumberAnimation { duration: variables.animationSpeed } }
                     visible: (height!=0)
 
                     function show() {

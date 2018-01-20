@@ -62,7 +62,7 @@ EntryContainer {
                     spacing: 20
                     enabled: background_image.checked
                     opacity: enabled ? 1 : 0
-                    Behavior on opacity { NumberAnimation { duration: 100; } }
+                    Behavior on opacity { NumberAnimation { duration: variables.animationSpeed/2 } }
 
                     // DIsplay background image preview
                     Image {

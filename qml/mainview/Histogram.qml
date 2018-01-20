@@ -24,7 +24,7 @@ Rectangle {
 
     visible: (opacity!=0)
     opacity: settings.histogram?1:0
-    Behavior on opacity { NumberAnimation { duration: 200; } }
+    Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
     onVisibleChanged:
         if(visible) updateHistogram()
@@ -40,7 +40,7 @@ Rectangle {
         color: "black"
         opacity: 0.3
         radius: 10
-        Behavior on opacity { NumberAnimation { duration: 200 } }
+        Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
         anchors.fill: parent
 
         function show() {
@@ -115,7 +115,7 @@ Rectangle {
         id: infolabel
 
         opacity: 0.5
-        Behavior on opacity { NumberAnimation { duration: 200 } }
+        Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
         visible: (imghist.source == "" || imghist.source == "color" || imghist.source == "grey")
         anchors.fill: parent
@@ -150,7 +150,7 @@ Rectangle {
 
         visible: false
         opacity: 1
-        Behavior on opacity { NumberAnimation { duration: 200 } }
+        Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
         anchors.fill: parent
         color: "transparent"

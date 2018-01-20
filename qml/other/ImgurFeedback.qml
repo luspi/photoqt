@@ -16,7 +16,7 @@ Rectangle {
 
     visible: opacity!=0
     opacity: 0
-    Behavior on opacity { NumberAnimation { duration: 300; } }
+    Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
     onOpacityChanged:
         variables.guiBlocked = (opacity==1)
 
@@ -36,7 +36,7 @@ Rectangle {
         id: uploading
 
         opacity: (error.visible||report.visible||obtainingImageUrlDeleteHash.visible||nointerneterror.visible) ? 0 : 1
-        Behavior on opacity { NumberAnimation { duration: 300; } }
+        Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
         visible: opacity!=0
 
         color: "transparent"
@@ -102,7 +102,7 @@ Rectangle {
         property int code: 0
 
         opacity: 0
-        Behavior on opacity { NumberAnimation { duration: 300; } }
+        Behavior on opacity { NumberAnimation { duration: variables.animationSpeed; } }
         visible: opacity!=0
 
         color: "#00000000"
@@ -213,7 +213,7 @@ Rectangle {
         property int code: 0
 
         opacity: 0
-        Behavior on opacity { NumberAnimation { duration: 300; } }
+        Behavior on opacity { NumberAnimation { duration: variables.animationSpeed; } }
         visible: opacity!=0
 
         color: "#00000000"
@@ -260,7 +260,7 @@ Rectangle {
         id: nointerneterror
 
         opacity: 0
-        Behavior on opacity { NumberAnimation { duration: 300; } }
+        Behavior on opacity { NumberAnimation { duration: variables.animationSpeed; } }
         visible: opacity!=0
 
         color: "#00000000"
@@ -306,7 +306,7 @@ Rectangle {
         id: report
 
         opacity: 0
-        Behavior on opacity { NumberAnimation { duration: 300; } }
+        Behavior on opacity { NumberAnimation { duration: variables.animationSpeed; } }
         visible: opacity!=0
 
         color: "#00000000"

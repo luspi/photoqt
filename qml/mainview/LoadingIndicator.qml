@@ -19,7 +19,7 @@ Rectangle {
     // Animate opacity slightly
     opacity: 0
     visible: (opacity!=0)
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
     // When the opacity changes, we need to adjust the animation
     onOpacityChanged: {

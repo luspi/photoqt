@@ -14,7 +14,7 @@ ComboBox {
     property real disabledOpacity: 0.5
 
     opacity: enabled ? 1 : disabledOpacity
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
     style: ComboBoxStyle {
 

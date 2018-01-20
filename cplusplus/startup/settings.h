@@ -41,8 +41,8 @@ namespace StartupCheck {
 
             // THESE SETTINGS CHANGED NAME!!
 
-            if(!all.contains("ElementsFadeIn="))
-                all.replace("MyWidgetAnimated=", "ElementsFadeIn=");
+            if(!all.contains("Animations="))
+                all.replace("MyWidgetAnimated=", "Animations=");
 
             if(!all.contains("ImageTransition="))
                 all.replace("Transition=", "ImageTransition=");

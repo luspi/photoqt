@@ -19,7 +19,7 @@ Rectangle {
     opacity: 0
     visible: opacity!=0
 
-    Behavior on opacity { NumberAnimation { duration: settings.elementsFadeIn ? 250 : 0 } }
+    Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
     property real lastOpacityValue: 0
     onOpacityChanged: {
         if(openFileAfter == "" && opacity > 0.1 && opacity < lastOpacityValue)

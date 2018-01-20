@@ -10,7 +10,7 @@ Rectangle {
 
     opacity: 0
     visible: opacity!=0
-    Behavior on opacity { NumberAnimation { duration: 300; } }
+    Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
     // click on bg closes element
     MouseArea {
@@ -109,7 +109,7 @@ Rectangle {
         font.pointSize: 15
         font.bold: true
         opacity: 0.1
-        Behavior on opacity { NumberAnimation { duration: 200; } }
+        Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
         color: "white"
         text: "x"
         ToolTip {

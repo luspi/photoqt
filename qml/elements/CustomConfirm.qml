@@ -31,7 +31,7 @@ Rectangle {
     anchors.fill: fillAnchors
 
     opacity: 0
-    Behavior on opacity { NumberAnimation { duration: 250 } }
+    Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
     visible: opacity!=0
 
     color: colour.fadein_slidein_block_bg

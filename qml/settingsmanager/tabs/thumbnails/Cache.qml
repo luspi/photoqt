@@ -110,7 +110,7 @@ EntryContainer {
                             Text {
                                 font.pointSize: 10
                                 color: cache.checkedButton ? colour.text : colour.text_disabled
-                                Behavior on color { ColorAnimation { duration: 150; } }
+                                Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
                                 //: The database refers to the database used for caching thumbnail images
                                 text: em.pty+qsTr("Database filesize:")
                             }
@@ -118,7 +118,7 @@ EntryContainer {
                                 font.pointSize: 10
                                 id: db_filesize
                                 color: cache.checkedButton ? colour.text : colour.text_disabled
-                                Behavior on color { ColorAnimation { duration: 150; } }
+                                Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
                                 text: "0 KB"
                             }
                         }
@@ -138,7 +138,7 @@ EntryContainer {
                             Text {
                                 font.pointSize: 10
                                 color: cache.checkedButton ? colour.text : colour.text_disabled
-                                Behavior on color { ColorAnimation { duration: 150; } }
+                                Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
                                 //: The database refers to the database used for caching thumbnail images (the entries)
                                 text: em.pty+qsTr("Entries in database:")
                             }
@@ -146,7 +146,7 @@ EntryContainer {
                                 font.pointSize: 10
                                 id: db_entries
                                 color: cache.checkedButton ? colour.text : colour.text_disabled
-                                Behavior on color { ColorAnimation { duration: 150; } }
+                                Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
                                 text: "0"
                             }
                         }

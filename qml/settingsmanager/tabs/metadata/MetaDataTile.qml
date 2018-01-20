@@ -18,7 +18,7 @@ Rectangle {
 
     // Look
     color: enabled ? (checked ? colour.tiles_active : (hovered ? colour.tiles_inactive : colour.tiles_disabled)) : colour.tiles_disabled
-    Behavior on color { ColorAnimation { duration: 150; } }
+    Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
     radius: variables.global_item_radius
 
     // And the checkbox indicator

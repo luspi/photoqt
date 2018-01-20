@@ -32,7 +32,7 @@ Item {
         scrollStep: 1
         tooltip: em.pty+qsTr("Move slider to adjust the size of files")
         value: settings.openZoomLevel
-        Behavior on value { NumberAnimation { duration: 200 } }
+        Behavior on value { NumberAnimation { duration: variables.animationSpeed } }
         onValueChanged:
             settings.openZoomLevel = value
     }

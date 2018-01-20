@@ -6,7 +6,7 @@ Text {
     font.pointSize: 30
     font.bold: true
     color: (active||management_top.current==category) ? colorActive : colorInactive
-    Behavior on color { ColorAnimation { duration: 100 } }
+    Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
 
     property string colorActive: colour.text
     property string colorInactive: colour.text_disabled

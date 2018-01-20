@@ -285,7 +285,7 @@ Rectangle {
         Text {
             anchors.fill: parent
             opacity: (contextmodel.count == 0 ? 1 : 0)
-            Behavior on opacity { NumberAnimation { duration: 150 } }
+            Behavior on opacity { NumberAnimation { duration: variables.animationSpeed/2 } }
             color: colour.text_inactive
             text: getanddostuff.amIOnWindows() ? em.pty+qsTr("Unavailable on Windows")
                                : em.pty+qsTr("There isn't anything here yet")

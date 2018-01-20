@@ -9,7 +9,7 @@ FadeInTemplate {
 
     visible: (opacity!=0)
     opacity: 0
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
     width: mainwindow.width
     height: mainwindow.height

@@ -31,7 +31,7 @@ Item {
     property string source: ""
 
     opacity: variables.guiBlocked&&!variables.slideshowRunning ? 0.1 : 1
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
     property bool paused: false
 

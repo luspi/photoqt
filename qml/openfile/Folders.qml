@@ -58,7 +58,7 @@ Rectangle {
             // visibility depends on model count and property value
             visible: (opacity!=0)
             opacity: (listView.model.count==1||showUnsupportedProtocolFolderMessage) ? 1 : 0
-            Behavior on opacity { NumberAnimation { duration: 100 } }
+            Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
             // some additional styling
             font.bold: true

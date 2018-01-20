@@ -18,7 +18,7 @@ Rectangle {
     // Invisible at startup
     opacity: 0
     visible: opacity!=0
-    Behavior on opacity { NumberAnimation { duration: settings.elementsFadeIn ? 250 : 0 } }
+    Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
 
     // setData is only emitted when settings have been 'closed without saving'

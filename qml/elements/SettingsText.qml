@@ -4,7 +4,7 @@ import QtQuick 2.5
 Text {
 
     color: enabled ? colour.text : colour.text_disabled
-    Behavior on color { ColorAnimation { duration: 50; } }
+    Behavior on color { ColorAnimation { duration: variables.animationSpeed/5 } }
     font.pointSize: 10
     wrapMode: Text.WordWrap
     textFormat: Text.StyledText

@@ -7,7 +7,7 @@ Item {
     id: setTop
 
     height: Math.max(childrenRect.height,5)
-    Behavior on height { NumberAnimation { duration: 150; } }
+    Behavior on height { NumberAnimation { duration: variables.animationSpeed/2 } }
 
     property bool external: shortcutscontainer.external
 
@@ -36,12 +36,12 @@ Item {
 
             width: listview.width-6
             height: listview.elementHeight
-            Behavior on height { NumberAnimation { duration: 50 } }
+            Behavior on height { NumberAnimation { duration: variables.animationSpeed/5 } }
 
             radius: 3
             clip: true
 
-            Behavior on x { NumberAnimation { duration: 300 } }
+            Behavior on x { NumberAnimation { duration: variables.animationSpeed } }
             onXChanged: {
                 if(x <= -ele.width)
                     listview.model.remove(index)
@@ -50,7 +50,7 @@ Item {
             // Change color when hovered
             property bool hovered: false
             color: hovered ? colour.tiles_inactive : colour.tiles_disabled
-            Behavior on color { ColorAnimation { duration: 150; } }
+            Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
 
             property bool hotForShortcutDetection: false
 

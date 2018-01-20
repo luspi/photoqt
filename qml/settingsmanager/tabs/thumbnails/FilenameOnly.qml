@@ -39,7 +39,7 @@ EntryContainer {
                 Text {
                     id: txt_fontsize
                     color: enabled ? colour.text : colour.text_inactive
-                    Behavior on color { ColorAnimation { duration: 150; } }
+                    Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
                     y: (parent.height-height)/2
                     enabled: filenameonly.checkedButton
                     opacity: enabled ? 1 : 0.5

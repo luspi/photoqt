@@ -23,7 +23,7 @@ Rectangle {
 
     opacity: 0
     visible: opacity != 0
-    Behavior on opacity { NumberAnimation { duration: 250; } }
+    Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
     // This mouseare catches all mouse movements and prevents them from being passed on to the background
     MouseArea { anchors.fill: parent; hoverEnabled: true }

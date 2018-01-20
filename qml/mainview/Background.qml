@@ -67,7 +67,7 @@ Rectangle {
         font.bold: true
         text: em.pty+qsTr("Open a file to begin")
         opacity: variables.guiBlocked ? 0.2 : 1
-        Behavior on opacity { NumberAnimation { duration: 200 } }
+        Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
     }
 
@@ -83,7 +83,7 @@ Rectangle {
         font.bold: true
         text: em.pty+qsTr("Folder is now empty")
         opacity: variables.guiBlocked ? 0.2 : 1
-        Behavior on opacity { NumberAnimation { duration: 200 } }
+        Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
     }
 
@@ -99,7 +99,7 @@ Rectangle {
         font.bold: true
         text: em.pty+qsTr("No image matches selected filter")
         opacity: variables.guiBlocked ? 0.2 : 1
-        Behavior on opacity { NumberAnimation { duration: 200 } }
+        Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
     }
 

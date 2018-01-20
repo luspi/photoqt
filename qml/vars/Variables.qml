@@ -37,4 +37,6 @@ Item {
 
     property point windowXY: Qt.point(-1,-1)
 
+    property int animationSpeed: settings.animations ? 250 : 0
+
 }

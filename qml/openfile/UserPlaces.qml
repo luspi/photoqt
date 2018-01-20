@@ -339,7 +339,7 @@ Rectangle {
                 // opacity depends on drag/drop and is animated slightly
                 opacity: (userplaces_top.hoveringOver==index&&index>0)||(userplaces_top.hoveringOver==index-1&&index==1) ? 1 : 0
                 visible: opacity!=0
-                Behavior on opacity { NumberAnimation { duration: 200 } }
+                Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
             }
 
@@ -511,7 +511,7 @@ Rectangle {
                 // opacity depends on drag/drop and is animated slightly
                 opacity: (userplaces_top.hoveringOver==index&&index>0)||(userplaces_top.hoveringOver==index+1&&index==userPlaces.model.count-1)
                 visible: opacity!=0
-                Behavior on opacity { NumberAnimation { duration: 200 } }
+                Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
             }
 
         }

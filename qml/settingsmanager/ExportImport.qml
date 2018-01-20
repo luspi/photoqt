@@ -8,7 +8,7 @@ Rectangle {
     // Visibility handlers
     visible: false
     opacity: 0
-    Behavior on opacity { NumberAnimation { duration: 300 } }
+    Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
     onOpacityChanged: {
         if(opacity == 0) visible = false
         else visible = true

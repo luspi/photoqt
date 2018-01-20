@@ -18,11 +18,11 @@ Menu {
                 implicitHeight: 10
                 radius: variables.global_item_radius/2
                 color: control.enabled ? colour.radio_check_indicator_bg_color : colour.radio_check_indicator_bg_color_disabled
-                Behavior on color { ColorAnimation { duration: 150; } }
+                Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
                 Rectangle {
                     visible: styleData.checked
                     color: control.enabled ? colour.radio_check_indicator_color : colour.radio_check_indicator_color_disabled
-                    Behavior on color { ColorAnimation { duration: 150; } }
+                    Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
                     radius: variables.global_item_radius/2
                     anchors.margins: 2
                     anchors.fill: parent

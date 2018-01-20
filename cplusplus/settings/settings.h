@@ -69,7 +69,7 @@ public:
 
         connect(this, &Settings::versionChanged,                                &Settings::saveSettingsTimerStart);
         connect(this, &Settings::languageChanged,                               &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::elementsFadeInChanged,                         &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::animationsChanged,                             &Settings::saveSettingsTimerStart);
         connect(this, &Settings::saveWindowGeometryChanged,                     &Settings::saveSettingsTimerStart);;
         connect(this, &Settings::keepOnTopChanged,                              &Settings::saveSettingsTimerStart);
         connect(this, &Settings::compositeChanged,                              &Settings::saveSettingsTimerStart);
@@ -141,7 +141,7 @@ public:
         connect(this, &Settings::metadataFontSizeChanged,                       &Settings::saveSettingsTimerStart);
         connect(this, &Settings::metadataOpacityChanged,                        &Settings::saveSettingsTimerStart);
         connect(this, &Settings::metadataEnableHotEdgeChanged,                  &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::metaApplyRotationChanged,                           &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::metaApplyRotationChanged,                      &Settings::saveSettingsTimerStart);
         connect(this, &Settings::metaGpsMapServiceChanged,                      &Settings::saveSettingsTimerStart);
         connect(this, &Settings::metaFilenameChanged,                           &Settings::saveSettingsTimerStart);
         connect(this, &Settings::metaFileTypeChanged,                           &Settings::saveSettingsTimerStart);
@@ -206,7 +206,7 @@ public:
     QString version;
     QString versionInTextFile;  // differs from 'version' only when PhotoQt has been updated
     QString language;
-    bool    elementsFadeIn;
+    bool    animations;
     bool    saveWindowGeometry;
     bool    keepOnTop;
     bool    composite;
@@ -225,7 +225,7 @@ public:
     bool    backgroundImageCenter;
     bool    backgroundImageTile;
 
-    int         trayIcon;
+    int     trayIcon;
     int     imageTransition;
     bool    loopThroughFolder;
     int     hotEdgeWidth;
@@ -331,7 +331,7 @@ public:
 
     Q_PROPERTY(QString version                          MEMBER version                          NOTIFY versionChanged)
     Q_PROPERTY(QString language                         MEMBER language                         NOTIFY languageChanged)
-    Q_PROPERTY(bool    elementsFadeIn                   MEMBER elementsFadeIn                   NOTIFY elementsFadeInChanged)
+    Q_PROPERTY(bool    animations                       MEMBER animations                       NOTIFY animationsChanged)
     Q_PROPERTY(bool    saveWindowGeometry               MEMBER saveWindowGeometry               NOTIFY saveWindowGeometryChanged)
     Q_PROPERTY(bool    keepOnTop                        MEMBER keepOnTop                        NOTIFY keepOnTopChanged)
     Q_PROPERTY(bool    composite                        MEMBER composite                        NOTIFY compositeChanged)
@@ -469,7 +469,7 @@ public:
         windowMode                 = true;
         windowDecoration           = false;
 
-        elementsFadeIn             = true;
+        animations                 = true;
         saveWindowGeometry         = false;
         keepOnTop                  = false;
 
@@ -632,10 +632,10 @@ public slots:
 
             QString cont = "Version=" + version + "\n";
 
-            cont += QString("Language=%1\n")    .arg(language);
-            cont += QString("WindowMode=%1\n")  .arg(int(windowMode));
+            cont += QString("Language=%1\n").arg(language);
+            cont += QString("WindowMode=%1\n").arg(int(windowMode));
             cont += QString("WindowDecoration=%1\n").arg(int(windowDecoration));
-            cont += QString("ElementsFadeIn=%1\n").arg(int(elementsFadeIn));
+            cont += QString("Animations=%1\n").arg(int(animations));
             cont += QString("SaveWindowGeometry=%1\n").arg(int(saveWindowGeometry));
             cont += QString("KeepOnTop=%1\n").arg(int(keepOnTop));
             cont += QString("StartupLoadLastLoadedImage=%1\n").arg(int(startupLoadLastLoadedImage));
@@ -827,10 +827,10 @@ public slots:
             else if(all.contains("WindowDecoration=0"))
                 windowDecoration = false;
 
-            if(all.contains("ElementsFadeIn=1"))
-                elementsFadeIn = true;
-            else if(all.contains("ElementsFadeIn=0"))
-                elementsFadeIn = false;
+            if(all.contains("Animations=1"))
+                animations = true;
+            else if(all.contains("Animations=0"))
+                animations = false;
 
             if(all.contains("SaveWindowGeometry=1"))
                 saveWindowGeometry = true;
@@ -1270,7 +1270,7 @@ private slots:
 signals:
     void versionChanged(QString val);
     void languageChanged(QString val);
-    void elementsFadeInChanged(bool val);
+    void animationsChanged(bool val);
     void saveWindowGeometryChanged(bool val);
     void keepOnTopChanged(bool val);
     void compositeChanged(bool val);

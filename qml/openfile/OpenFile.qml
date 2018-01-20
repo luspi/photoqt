@@ -22,7 +22,7 @@ Rectangle {
     // opacity is animated
     opacity: 0
     visible: (opacity!=0)
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
     // mouse area preventing HandleMouseMovements from catching mouse events
     MouseArea {

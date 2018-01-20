@@ -13,7 +13,7 @@ Item {
     property string tooltip: text
     property int fsize: 10
     property string textColour: (enabled ? colour.text : colour.text_disabled)
-    Behavior on textColour { ColorAnimation { duration: 150; } }
+    Behavior on textColour { ColorAnimation { duration: variables.animationSpeed/2 } }
     property int elide: Text.ElideNone
 
     property int fixedwidth: -1
@@ -41,7 +41,7 @@ Item {
         visible: !textOnRight
 
         color: textColour
-        Behavior on color { ColorAnimation { duration: 150; } }
+        Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
 
         text: !textOnRight ? rect.text : ""
         font.pointSize: fsize
@@ -69,11 +69,11 @@ Item {
                 implicitHeight: fsize*2
                 radius: variables.global_item_radius/2
                 color: control.enabled ? indicatorBackgroundColourEnabled : colour.radio_check_indicator_bg_color_disabled
-                Behavior on color { ColorAnimation { duration: 250; } }
+                Behavior on color { ColorAnimation { duration: variables.animationSpeed } }
                 Rectangle {
                     visible: rect.checkedButton
                     color: control.enabled ? indicatorColourEnabled : colour.radio_check_indicator_color_disabled
-                    Behavior on color { ColorAnimation { duration: 150; } }
+                    Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
                     radius: variables.global_item_radius/2
                     anchors.margins: 4
                     anchors.fill: parent
@@ -81,7 +81,7 @@ Item {
             }
             label: Text {
                 color: textColour
-                Behavior on color { ColorAnimation { duration: 150; } }
+                Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
                 visible: textOnRight
                 elide: rect.elide
                 wrapMode: rect.wrapMode

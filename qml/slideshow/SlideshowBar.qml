@@ -18,7 +18,7 @@ Rectangle {
     y: 0
 
     opacity: 0
-    Behavior on opacity { NumberAnimation { duration: 250 } }
+    Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
     visible: opacity!=0
 
     // Adjust size

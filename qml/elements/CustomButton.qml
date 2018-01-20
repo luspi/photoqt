@@ -25,7 +25,7 @@ Button {
         background: Rectangle {
             anchors.fill: parent
             color: overrideBackgroundColor!="" ? overrideBackgroundColor : control.enabled ? (control.pressedDown ? colour.button_bg_pressed : (control.hovered ? colour.button_bg_hovered : colour.button_bg)) : colour.button_bg_disabled
-            Behavior on color { ColorAnimation { duration: 150; } }
+            Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
             radius: variables.global_item_radius
         }
 
@@ -36,7 +36,7 @@ Button {
             font.pixelSize: fontsize
             wrapMode: but.wrapMode
             color: overrideFontColor!="" ? overrideFontColor : control.enabled ? ((control.hovered || control.pressedDown) ? colour.button_text_active : colour.button_text) : colour.button_text_disabled
-            Behavior on color { ColorAnimation { duration: 150; } }
+            Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
             text: "  " + control.text + "  "
             font.bold: fontBold
         }

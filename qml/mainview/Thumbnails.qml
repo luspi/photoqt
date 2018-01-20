@@ -13,13 +13,13 @@ Item {
     width: mainwindow.width-metadata.nonFloatWidth
     height: settings.thumbnailSize+settings.thumbnailLiftUp+25
 
-    Behavior on x { NumberAnimation { duration: 200 } }
-    Behavior on width { NumberAnimation { duration: 200 } }
+    Behavior on x { NumberAnimation { duration: variables.animationSpeed } }
+    Behavior on width { NumberAnimation { duration: variables.animationSpeed } }
 
     // Bar hidden/shown
     opacity: 0
     visible: (opacity!=0)
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
     clip: true
 
@@ -169,7 +169,7 @@ Item {
                             ? -rect.thumbnailExtraMargin/2
                             : settings.thumbnailLiftUp)+rect.thumbnailExtraMargin/3
 
-            Behavior on y { NumberAnimation { duration: 50 } }
+            Behavior on y { NumberAnimation { duration: variables.animationSpeed/5 } }
 
             // The thumbnail image
             Image {
@@ -186,8 +186,8 @@ Item {
                 }
 
                 // Animate lift up/down of thumbnails
-                Behavior on anchors.bottomMargin { NumberAnimation { duration: 100 } }
-                Behavior on anchors.topMargin { NumberAnimation { duration: 100 } }
+                Behavior on anchors.bottomMargin { NumberAnimation { duration: variables.animationSpeed/2 } }
+                Behavior on anchors.topMargin { NumberAnimation { duration: variables.animationSpeed/2 } }
 
                 // Set proper fill mode
                 fillMode: Image.PreserveAspectFit
@@ -197,7 +197,7 @@ Item {
 
                 // when no thumbnail image is loaded, the icon is shown partially opaque
                 opacity: settings.thumbnailFilenameInstead ? 0.6 : (status==Image.Ready ? 1 : 0)
-                Behavior on opacity { NumberAnimation { duration: 200 } }
+                Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
                 // only if this is true do we show the thumbnail image (value depends on status of loading of mainimage)
                 property bool loadThumbnail: true
@@ -230,7 +230,7 @@ Item {
                 asynchronous: true
                 visible: !settings.thumbnailFilenameInstead
                 opacity: img.status==Image.Ready ? 0 : 0.8
-                Behavior on opacity { NumberAnimation { duration: 200 } }
+                Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
             }
 
             // The mouse area for the thumbnail also holds a tooltip

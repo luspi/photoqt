@@ -22,7 +22,7 @@ Rectangle {
 
     // Look
     color: checked ? colour.tiles_active : (hovered ? colour.tiles_inactive : colour.tiles_disabled)
-    Behavior on color { ColorAnimation { duration: 150 } }
+    Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
     radius: variables.global_item_radius
 
     CustomCheckBox {

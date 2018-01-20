@@ -21,12 +21,12 @@ RadioButton {
             implicitHeight: 1.6*fontsize
             radius: 0.9*fontsize
             color: control.enabled ? indicatorBackgroundColourEnabled : indicatorBackgroundColourDisabled
-            Behavior on color { ColorAnimation { duration: 150; } }
+            Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
             Rectangle {
                 anchors.fill: parent
                 visible: control.checked
                 color: control.enabled ? indicatorColourEnabled : indicatorColourDisabled
-                Behavior on color { ColorAnimation { duration: 150; } }
+                Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
                 radius: 0.9*fontsize
                 anchors.margins: 0.4*fontsize
             }
@@ -49,7 +49,7 @@ RadioButton {
                 x: (icon != "") ? 1.8*fontsize : 0
                 y: 0
                 color: control.enabled ? textColour : colour.text_disabled
-                Behavior on color { ColorAnimation { duration: 150; } }
+                Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
                 height: 1.6*fontsize
                 font.pointSize: fontsize
                 text: control.text
