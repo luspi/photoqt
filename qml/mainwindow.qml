@@ -39,6 +39,8 @@ Rectangle {
     // We need to pass on the value as there is a delay for writing a change of the settings to file, thus it might not be updated on harddrive when we get to this point
     signal trayIconValueChanged(int icon)
 
+    signal windowModeChanged(bool windowmode, bool windowdeco)
+
     anchors.fill: parent
 
     // Transparent background, the Background element handles the actual background
@@ -216,6 +218,10 @@ Rectangle {
             Load.loadFile(variables.currentFile, variables.filter, true)
         onSortbyAscendingChanged:
             Load.loadFile(variables.currentFile, variables.filter, true)
+        onWindowModeChanged:
+            mainwindow.windowModeChanged(settings.windowMode, settings.windowDecoration)
+        onWindowDecorationChanged:
+            mainwindow.windowModeChanged(settings.windowMode, settings.windowDecoration)
     }
 
     Component.onCompleted: {

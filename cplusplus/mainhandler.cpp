@@ -95,6 +95,7 @@ void MainHandler::setObjectAndConnect() {
     connect(object, SIGNAL(closePhotoQt()), this, SLOT(close()));
     connect(object, SIGNAL(quitPhotoQt()), this, SLOT(forceWindowQuit()));
     connect(object, SIGNAL(trayIconValueChanged(int)), this, SLOT(handleTrayIcon(int)));
+    connect(object, SIGNAL(windowModeChanged(bool, bool)), this, SLOT(handleWindowModeChanged(bool, bool)));
 
 }
 
@@ -174,15 +175,18 @@ void MainHandler::setupWindowProperties() {
             QRect rect = gads.getStoredGeometry();
 
             // Check whether stored information is actually valid
-            if(rect.width() < 100 || rect.height() < 100)
+            if(rect.width() < 100 || rect.height() < 100) {
+                this->showNormal();
                 this->showMaximized();
-            else {
+            } else {
                 this->show();
                 this->setGeometry(rect);
             }
         // If not stored, we display the image always maximised
-        } else
+        } else {
+            this->showNormal();
             this->showMaximized();
+        }
 
     // fullscreen mode
     } else {
@@ -195,9 +199,10 @@ void MainHandler::setupWindowProperties() {
             this->setFlags(Qt::FramelessWindowHint);
 
         // In Enlightenment, showing PhotoQt as fullscreen causes some problems, revert to showing it as maximised there by default
-        if(gads.detectWindowManager() == "enlightenment")
+        if(gads.detectWindowManager() == "enlightenment") {
+            this->showNormal();
             this->showMaximized();
-        else
+        } else
             this->showFullScreen();
 
     }
@@ -365,6 +370,15 @@ void MainHandler::handleTrayIcon(int val) {
             trayIcon->hide();
 
     }
+
+}
+
+void MainHandler::handleWindowModeChanged(bool windowmode, bool windowdeco) {
+
+    permanentSettings->windowMode = windowmode;
+    permanentSettings->windowDecoration = windowdeco;
+
+    setupWindowProperties();
 
 }
 

@@ -84,6 +84,7 @@ private slots:
     void forceWindowQuit();
     void aboutToQuit();
     void windowXYchanged(int);
+    void handleWindowModeChanged(bool windowmode, bool windowdeco);
 
 protected:
     bool event(QEvent *e);
