@@ -44,24 +44,29 @@ function analyseMouseGestureUpdate(xPos, yPos, before) {
 
 }
 
-function analyseMouseEvent(startedEventAtPos, event) {
+function analyseMouseEvent(startedEventAtPos, event, forceThisButton, dontResetGesture) {
 
     var combostring = getModifiers(event)
 
-    if(event.button == Qt.LeftButton)
+    var button = event.button
+    if(forceThisButton != undefined)
+        button = forceThisButton
+
+    if(button == Qt.LeftButton)
         combostring += "Left Button"
-    else if(event.button == Qt.MiddleButton)
+    else if(button == Qt.MiddleButton)
             combostring += "Middle Button"
-    else if(event.button == Qt.RightButton)
+    else if(button == Qt.RightButton)
             combostring += "Right Button"
 
     var movement = ""
     for(var i = 0; i < variables.shortcutsMouseGesture.length; ++i)
         movement += variables.shortcutsMouseGesture[i]
+    if(dontResetGesture == undefined || !dontResetGesture)
     variables.shortcutsMouseGesture = []
 
     if(movement != "") {
-        if(event.button == Qt.LeftButton && settings.leftButtonMouseClickAndMove)
+        if(button == Qt.LeftButton && settings.leftButtonMouseClickAndMove && !detectshortcut.visible)
             return ""
         combostring += "+" + movement
     }
@@ -70,7 +75,7 @@ function analyseMouseEvent(startedEventAtPos, event) {
 
 }
 
-function analyseWheelEvent(event) {
+function analyseWheelEvent(event, dontResetVariables) {
 
     var combostring = getModifiers(event)
 
@@ -86,7 +91,7 @@ function analyseWheelEvent(event) {
     variables.wheelLeftRight += angleX
     variables.wheelUpDown += angleY
 
-    var threshold = Math.max(settings.mouseWheelSensitivity*120, 30)
+    var threshold = settings.mouseWheelSensitivity*120
 
     // wheel LEFT
     if(variables.wheelLeftRight <= -threshold) {
@@ -124,8 +129,10 @@ function analyseWheelEvent(event) {
 
     }
 
-    variables.wheelUpDown = 0
-    variables.wheelLeftRight = 0
+    if(dontResetVariables == undefined || !dontResetVariables) {
+        variables.wheelUpDown = 0
+        variables.wheelLeftRight = 0
+    }
 
     return combostring
 

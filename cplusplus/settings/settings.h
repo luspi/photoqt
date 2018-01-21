@@ -503,7 +503,7 @@ public:
         hotEdgeWidth                           = 4;
         closeOnEmptyBackground                 = false;
         marginAroundImage                      = 5;
-        mouseWheelSensitivity                  = 0;
+        mouseWheelSensitivity                  = 1;
         keepZoomRotationMirror                 = false;
         fitInWindow                            = false;
         interpolationNearestNeighbourThreshold = 100;

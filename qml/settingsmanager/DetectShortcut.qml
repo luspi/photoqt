@@ -76,21 +76,9 @@ Rectangle {
     }
 
     // The area in the middle displays the performed shortcut and is the hotarea for mouse shortcut detection
-    Item {
+    Text {
 
-        id: middlearea
-
-        // The modifiers pressed, used for both key and mouse shortcuts
-        property string modifiers: ""
-
-        // The key shortcut
-        property string keycombo: ""
-
-        // The mouse shortcut
-        property string mouseButton: ""
-        property string mouseWheel: ""
-        property string mousePath: ""
-        property string mousePathDisplay: ""
+        id: combo
 
         // position and size
         anchors {
@@ -100,219 +88,17 @@ Rectangle {
             bottom: bottomrow.top
         }
 
-        // text label to display key/mouse combo
-        Text {
-            id: keymousecombo
-            anchors.fill: parent
-            color: "white"
-            font.pointSize: 30
-            font.bold: true
-            textFormat: Text.RichText
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            verticalAlignment: Qt.AlignVCenter
-            horizontalAlignment: Qt.AlignHCenter
-            // display either key or mouse combo, they are set/cleared during the detection process below
-            text: middlearea.keycombo!=""
-                        ? middlearea.modifiers+middlearea.keycombo
-                        : (middlearea.mouseWheel==""?middlearea.modifiers:"")
-                            + middlearea.mouseButton+middlearea.mouseWheel
-                            + (middlearea.mousePathDisplay!=""?"+":"")
-                            + middlearea.mousePathDisplay
-        }
+        verticalAlignment: Qt.AlignVCenter
+        horizontalAlignment: Qt.AlignHCenter
 
-        // hot area for detecting mouse actions
-        MouseArea {
+        color: "white"
+        font.pointSize: 30
+        font.bold: true
+        textFormat: Text.RichText
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 
-            id: mouseSH
-
-            anchors.fill: parent
-            hoverEnabled: true
-            acceptedButtons: Qt.LeftButton|Qt.MiddleButton|Qt.RightButton
-
-            // This is used for detecting the previous waypoint during a mouse gesture
-            property point pressedPos: Qt.point(-1,-1)
-
-            // Which one is currently pressed
-            property bool mousePressed: false
-            property bool keysPressed: false
-
-            // mouse movement
-            onPositionChanged:
-                handleMousePositionChange(mouse)
-
-            // pressing a button
-            onPressed: {
-
-                // if no keys are pressed, reset modifiers
-                if(!keysPressed)
-                    middlearea.modifiers = ""
-
-                // set category to mouse
-                detect_top.category = "mouse"
-                mousePressed = true
-
-                // the starting waypoint, needed for gestures
-                pressedPos = Qt.point(mouse.x, mouse.y)
-
-                // update shortcut text
-                middlearea.mouseButton = getMouseButton(mouse)
-                middlearea.mousePath = ""
-                middlearea.mousePathDisplay = ""
-                middlearea.mouseWheel = ""
-                middlearea.keycombo = ""
-
-            }
-            onReleased: {
-
-                // ensure category is set to mouse, even though mouse gesture is done
-                detect_top.category = "mouse"
-                mousePressed = false
-
-                // Set gesture to empty after we're done
-                variables.shortcutsMouseGesture = []
-
-            }
-
-            onWheel: {
-
-                // set category to mouse
-                detect_top.category = "mouse"
-
-                // update the shortcut text
-                middlearea.mouseWheel = AnalyseMouse.analyseWheelEvent(wheel)
-                middlearea.mousePath = ""
-                middlearea.mousePathDisplay = ""
-                middlearea.mouseButton = ""
-
-            }
-
-            Connections {
-
-                target: call
-
-                onShortcut: {
-                    // ignore if not visible
-                    if(!detect_top.visible) return
-
-                    // keys are pressed!
-                    mouseSH.keysPressed = true
-
-                    // if no mouse action is currently performed, reset shortcut text
-                    if(!mouseSH.mousePressed) {
-                        middlearea.mouseButton = ""
-                        middlearea.mousePath = ""
-                        middlearea.mousePathDisplay = ""
-                        middlearea.mouseWheel = ""
-                    }
-
-                    // split key combo into seperate keys
-                    var allKey = sh.split("+")
-                    // this string will hold the key combo without modifier keys
-                    var allKeyWithoutMod = ""
-
-                    // for now reset modifier text
-                    middlearea.modifiers = ""
-
-                    // loop through all keys
-                    for(var i = 0; i < allKey.length; ++i) {
-
-                        // ignore empty elements
-                        if(allKey[i] == "")
-                            continue
-
-                        // check for modifier keys
-                        if(allKey[i] == "Ctrl")
-                            middlearea.modifiers += strings.get("ctrl") + "+"
-                        else if(allKey[i] == "Alt")
-                            middlearea.modifiers += strings.get("alt") + "+"
-                        else if(allKey[i] == "Shift")
-                            middlearea.modifiers += strings.get("shift") + "+"
-                        else if(allKey[i] == "Meta")
-                            middlearea.modifiers += strings.get("meta") + "+"
-                        else if(allKey[i] == "Keypad")
-                            middlearea.modifiers += strings.get("keypad") + "+"
-
-                        // any other key is a 'normal' key
-                        else {
-                            if(allKeyWithoutMod.length > 0)
-                                allKeyWithoutMod += "+"
-                            allKeyWithoutMod += allKey[i]
-                        }
-
-                    }
-
-                    // if no mouse action is currently performed, set key combo
-                    if(!mouseSH.mousePressed) {
-                        middlearea.keycombo = allKeyWithoutMod
-                        detect_top.category = "key"
-                    }
-
-                }
-
-                // key combo finished
-                onKeysReleased:
-                    mouseSH.keysPressed = false
-
-            }
-
-            // get the current mouse button
-            function getMouseButton(event) {
-                if(event.button == Qt.LeftButton)
-                    return "Left Button"
-                else if(event.button == Qt.MiddleButton)
-                    return "Middle Button"
-                else if(event.button == Qt.RightButton)
-                    return "Right Button"
-            }
-
-            // handle a mouse movement
-            function handleMousePositionChange(event) {
-
-                // if no mouse button is currently pressed, ignore movement
-                if(!mousePressed)
-                    return
-
-                // ensure category is set to mouse
-                detect_top.category = "mouse"
-
-                // analyse latest movement. If no waypoint added, update pressedPos position
-                if(AnalyseMouse.analyseMouseGestureUpdate(event.x, event.y, pressedPos))
-                    pressedPos = Qt.point(event.x, event.y)
-
-                // For displaying, we use full words instead of just letters
-                var repl = ({"E" : strings.get("East"),
-                             "N" : strings.get("North"),
-                             "W" : strings.get("West"),
-                             "S" : strings.get("South")})
-
-                // store movement
-                var movement = ""
-                var movementdisp = ""
-
-                // look through gesture array
-                for(var i = 0; i < variables.shortcutsMouseGesture.length; ++i) {
-
-                    // Add separator
-                    if(i > 0) {
-                        movement += "-"
-                        movementdisp += "-"
-                    }
-
-                    // update movement strings
-                    movement += variables.shortcutsMouseGesture[i]
-                    movementdisp += repl[variables.shortcutsMouseGesture[i]]
-
-                }
-
-                // if movement has changed, update shortcut text
-                if(middlearea.mousePath != movement) {
-                    middlearea.mousePath = movement
-                    middlearea.mousePathDisplay = movementdisp
-                }
-
-            }
-
-        }
+        // display either key or mouse combo, they are set/cleared during the detection process below
+        text: "..."
 
     }
 
@@ -416,7 +202,7 @@ Rectangle {
             text: em.pty+qsTr("Ok, set shortcut")
 
             onClickedButton: {
-                gotNewShortcut(keymousecombo.text)
+                gotNewShortcut(combo.text)
                 hide()
             }
 
@@ -424,14 +210,84 @@ Rectangle {
 
     }
 
+    Connections {
+        target: call
+        onShortcut: {
+            // ignore if not visible
+            if(!detect_top.visible) return
+            if(!combo.mouseEventInProgress)
+                combo.text = sh
+        }
+    }
+
+    MouseArea {
+
+        anchors.fill: combo
+
+        hoverEnabled: true
+        acceptedButtons: Qt.LeftButton|Qt.MiddleButton|Qt.RightButton
+
+        property point pressedPosStart: Qt.point(-1,-1)
+        property point pressedPosEnd: Qt.point(-1,-1)
+
+        property bool mouseEventInProgress: false
+        property int buttonId: 0
+
+        onPositionChanged:
+            handleMousePositionChange(mouse)
+        onPressed: {
+            buttonId = mouse.button
+            mouseEventInProgress = true
+            pressedPosStart = Qt.point(mouse.x, mouse.y)
+            variables.shorcutsMouseGesturePointIntermediate = Qt.point(-1,-1)
+        }
+        onReleased: {
+            var txt = AnalyseMouse.analyseMouseEvent(pressedPosStart, mouse, buttonId)
+            if(txt != "") combo.text = txt
+            pressedPosEnd = Qt.point(mouse.x, mouse.y)
+            pressedPosStart = Qt.point(-1,-1)
+            mouseEventInProgress = false
+        }
+        onWheel: {
+            var txt = AnalyseMouse.analyseWheelEvent(wheel, true)
+            if(txt != "") {
+                combo.text = txt
+                wheelEventDone.start()
+            }
+        }
+        Timer {
+            id: wheelEventDone
+            interval: 1000
+            repeat: false
+            onTriggered: {
+                variables.wheelUpDown = 0
+                variables.wheelLeftRight = 0
+            }
+        }
+
+        function handleMousePositionChange(mouse) {
+
+            if(pressedPosStart.x != -1 || pressedPosStart.y != -1) {
+                var before = variables.shorcutsMouseGesturePointIntermediate
+                if(variables.shorcutsMouseGesturePointIntermediate.x == -1 || variables.shorcutsMouseGesturePointIntermediate.y == -1)
+                    before = pressedPosStart
+                AnalyseMouse.analyseMouseGestureUpdate(mouse.x, mouse.y, before)
+                var txt = AnalyseMouse.analyseMouseEvent(pressedPosStart, mouse, buttonId, true)
+                if(txt != "") combo.text = txt
+            }
+
+        }
+
+    }
+
     function show() {
-        middlearea.keycombo = "..."
-        middlearea.modifiers = ""
+        combo.text = "..."
         opacity = 1
     }
 
     function hide() {
         opacity = 0
     }
+
 
 }
