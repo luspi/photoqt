@@ -39,4 +39,7 @@ Item {
 
     property int animationSpeed: settings.animations ? 250 : 0
 
+    property int wheelUpDown: 0
+    property int wheelLeftRight: 0
+
 }

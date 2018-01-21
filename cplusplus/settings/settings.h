@@ -503,7 +503,7 @@ public:
         hotEdgeWidth                           = 4;
         closeOnEmptyBackground                 = false;
         marginAroundImage                      = 5;
-        mouseWheelSensitivity                  = 1;
+        mouseWheelSensitivity                  = 0;
         keepZoomRotationMirror                 = false;
         fitInWindow                            = false;
         interpolationNearestNeighbourThreshold = 100;
@@ -903,10 +903,8 @@ public slots:
             if(all.contains("MarginAroundImage="))
                 marginAroundImage = all.split("MarginAroundImage=").at(1).split("\n").at(0).toInt();
 
-            if(all.contains("MouseWheelSensitivity=")) {
+            if(all.contains("MouseWheelSensitivity="))
                 mouseWheelSensitivity = all.split("MouseWheelSensitivity=").at(1).split("\n").at(0).toInt();
-                if(mouseWheelSensitivity < 1) mouseWheelSensitivity = 1;
-            }
 
             if(all.contains("KeepZoomRotationMirror=1"))
                 keepZoomRotationMirror = true;

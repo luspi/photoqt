@@ -80,31 +80,52 @@ function analyseWheelEvent(event) {
     if(event.inverted) {
         var tmp = angleX
         angleX = angleY
-        angleY = angleX
+        angleY = tmp
     }
 
-    var threashold = settings.mouseWheelSensitivity*5
+    variables.wheelLeftRight += angleX
+    variables.wheelUpDown += angleY
 
-    if(angleX > threashold) {
-        if(angleY > threashold)
-            combostring += "Wheel Up Right"
-        else if(angleY < -threashold)
-            combostring += "Wheel Down Right"
-        else
-            combostring += "Wheel Right"
-    } else if(angleX < -threashold) {
-        if(angleY > threashold)
+    var threshold = Math.max(settings.mouseWheelSensitivity*120, 30)
+
+    // wheel LEFT
+    if(variables.wheelLeftRight <= -threshold) {
+
+        // wheel UP
+        if(variables.wheelUpDown <= -threshold)
             combostring += "Wheel Up Left"
-        else if(angleY < -threashold)
+        // wheel DOWN
+        else if(variables.wheelUpDown >= threshold)
             combostring += "Wheel Down Left"
+        // neither up nor down
         else
             combostring += "Wheel Left"
+
+    } else if(variables.wheelLeftRight >= threshold) {
+
+        // wheel UP
+        if(variables.wheelUpDown <= -threshold)
+            combostring += "Wheel Up Right"
+        // wheel DOWN
+        else if(variables.wheelUpDown >= threshold)
+            combostring += "Wheel Down Right"
+        // neither up nor down
+        else
+            combostring += "Wheel Right"
+
     } else {
-        if(angleY > threashold)
+
+        // wheel UP
+        if(variables.wheelUpDown <= -threshold)
             combostring += "Wheel Up"
-        else if(angleY < -threashold)
+        // wheel DOWN
+        else if(variables.wheelUpDown >= threshold)
             combostring += "Wheel Down"
+
     }
+
+    variables.wheelUpDown = 0
+    variables.wheelLeftRight = 0
 
     return combostring
 
