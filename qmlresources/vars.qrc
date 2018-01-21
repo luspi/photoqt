@@ -2,6 +2,5 @@
     <qresource prefix="/">
     <file>../qml/vars/Variables.qml</file>
     <file>../qml/vars/Strings.qml</file>
-    <file>../qml/vars/ShortcutsStrings.qml</file>
     </qresource>
 </RCC>

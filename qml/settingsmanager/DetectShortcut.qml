@@ -105,8 +105,11 @@ Rectangle {
             if(already != undefined) {
                 var count = already[0]
                 alreadySet.shTxt = ""
-                for(var i = 2; i < already.length; i+=2)
-                    alreadySet.shTxt += shortcutsstrings.get(already[i]) + "<br>"
+                for(var i = 2; i < already.length; i+=2) {
+                    var title = variables.shortcutTitles[already[i]]
+                    if(title == undefined) title = already[i]
+                    alreadySet.shTxt += title + "<br>"
+                }
             } else
                 alreadySet.shTxt = ""
         }

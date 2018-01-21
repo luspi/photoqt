@@ -42,4 +42,7 @@ Item {
     property int wheelUpDown: 0
     property int wheelLeftRight: 0
 
+    // temporary solution to avoid having to retranslate the names for the possible shortcuts (will be replaced with better solution for following release)
+    property var shortcutTitles: ({})
+
 }

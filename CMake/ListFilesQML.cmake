@@ -6,7 +6,7 @@ SET(d "qml")
 SET(photoqt_QML ${photoqt_QML} ${d}/mainwindow.qml ${d}/Caller.qml ${d}/loadfile.js)
 
 SET(d "qml/vars")
-SET(photoqt_QML ${photoqt_QML} ${d}/Variables.qml ${d}/Strings.qml ${d}/ShortcutsStrings.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/Variables.qml ${d}/Strings.qml)
 
 SET(d "qml/mainview")
 SET(photoqt_QML ${photoqt_QML} ${d}/Background.qml ${d}/MainImage.qml ${d}/MainImageRectangle.qml ${d}/Thumbnails.qml ${d}/QuickInfo.qml ${d}/ClosingX.qml)

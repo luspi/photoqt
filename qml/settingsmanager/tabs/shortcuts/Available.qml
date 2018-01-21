@@ -11,6 +11,17 @@ Rectangle {
 
     // The available shortcuts
     property var shortcuts: []
+    // temporary solution for sharing titles with DetectShortcut
+    onShortcutsChanged: {
+        if(shortcuts.length != 0) {
+            for(var i = 0; i < shortcuts.length; ++i) {
+                var internal = shortcuts[i][0]
+                var title = shortcuts[i][1]
+                if(internal != "")
+                    variables.shortcutTitles[internal] = title
+            }
+        }
+    }
 
     color: "transparent"
     clip: true
