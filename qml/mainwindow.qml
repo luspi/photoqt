@@ -108,6 +108,7 @@ Rectangle {
 
     // The shortcuts engine
     Shortcuts { id: shortcuts }
+    ShortcutsStrings { id: shortcutsstrings }
 
     // Some of the variables used in various places
     Variables { id: variables }

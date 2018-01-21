@@ -97,8 +97,45 @@ Rectangle {
         textFormat: Text.RichText
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 
-        // display either key or mouse combo, they are set/cleared during the detection process below
+        // display either key or mouse combo
         text: "..."
+
+        onTextChanged: {
+            var already = shortcuts.setKeyShortcuts[combo.text]
+            if(already != undefined) {
+                var count = already[0]
+                alreadySet.shTxt = ""
+                for(var i = 2; i < already.length; i+=2)
+                    alreadySet.shTxt += shortcutsstrings.get(already[i]) + "<br>"
+            } else
+                alreadySet.shTxt = ""
+        }
+
+        Text {
+
+            id: alreadySet
+
+            anchors {
+                right: parent.right
+                top: parent.top
+                rightMargin: 10
+                topMargin: 10
+            }
+
+            color: "grey"
+            font.pointSize: 15
+            font.bold: true
+            horizontalAlignment: Text.AlignHCenter
+
+            property string shTxt: ""
+
+            visible: (opacity!=0)
+            opacity: shTxt==""?0:1
+            Behavior on opacity { NumberAnimation { duration: 100 } }
+
+            text: qsTr("Shortcut also already set for the following:") + "<br><br>" + shTxt
+
+        }
 
     }
 
