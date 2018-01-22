@@ -50,8 +50,7 @@ Rectangle {
     // BACKGROUND COLOR
     Rectangle {
         anchors.fill: parent
-        // The Qt.rgba() function IGNORES the alpha value by default (that's why above we use a custom function to add it!)
-        color: Qt.rgba(settings.backgroundColorRed,settings.backgroundColorGreen,settings.backgroundColorBlue,settings.backgroundColorAlpha)
+        color: getanddostuff.convertRgbaToHex(settings.backgroundColorRed, settings.backgroundColorGreen, settings.backgroundColorBlue, settings.backgroundColorAlpha)
         visible: !settings.composite && !settings.backgroundImageScreenshot && !settings.backgroundImageUse
     }
 
