@@ -93,6 +93,13 @@ QString GetAndDoStuffFile::getSuffix(QString file) {
 
 bool GetAndDoStuffFile::doesThisExist(QString path) {
 
+    if(path.startsWith("file:///"))
+        path = path.remove(0,7);
+    else if(path.startsWith("file://"))
+        path = path.remove(0,6);
+    else if(path.startsWith("image://full/"))
+        path = path.remove(0,13);
+
     return QFileInfo(path).exists();
 
 }

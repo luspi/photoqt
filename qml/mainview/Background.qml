@@ -38,7 +38,7 @@ Rectangle {
                                                 : (settings.backgroundImageScaleCrop ? Image.PreserveAspectCrop
                                                     : (settings.backgroundImageStretch ? Image.Stretch
                                                         : (settings.backgroundImageTile ? Image.Tile : Image.Pad)))
-        source: settings.backgroundImagePath
+        source: getanddostuff.doesThisExist(settings.backgroundImagePath) ? settings.backgroundImagePath : "qrc:/img/plainerrorimg.png"
         Rectangle {
             anchors.fill: parent
             visible: parent.visible
