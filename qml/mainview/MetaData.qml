@@ -258,7 +258,7 @@ Item {
 
                 visible: imageLoaded
                 color: colour.text
-                font.pointSize: settings.metadataFontSize
+                font.pointSize: Math.max(5, Math.min(20, settings.metadataFontSize))
                 lineHeight: (name == "" ? 0.8 : 1.3);
                 textFormat: Text.RichText
                 width: parent.width
