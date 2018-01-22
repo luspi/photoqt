@@ -9,10 +9,11 @@ Rectangle {
 
     id: userplaces_top
 
-    // minimum width is 200
+    // minimum width is 200, maximum width is half the element width
     Layout.minimumWidth: 200
+    Layout.maximumWidth:openfile_top.width/2
     // starting width is read from settings
-    width: Math.max(200, Math.min(userplaces_top.width/2, settings.openUserPlacesWidth))
+    width: settings.openUserPlacesWidth
     // a change in width is written to settings
     onWidthChanged: settings.openUserPlacesWidth = width
 
