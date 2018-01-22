@@ -347,7 +347,7 @@ Item {
                     // The appearance of the text
                     color: colour.text
                     font.bold: true
-                    font.pointSize: settings.thumbnailFontSize
+                    font.pointSize: Math.max(5, Math.min(20, settings.thumbnailFontSize))
 
                     // The handling of the text (in particular too long texts)
                     maximumLineCount: 1
