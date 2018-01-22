@@ -14,7 +14,7 @@ Item {
 
     // make sure settings values are valid
     property int settingsMetadataWindowWidth: Math.max(Math.min(settings.metadataWindowWidth, background.width/2), 300)
-    property int settingsMetadataOpacity: Math.min(Math.max(settings.metadataOpacity/255, 0), 1)
+    property real settingsMetadataOpacity: Math.min(Math.max(settings.metadataOpacity/255, 0), 1)
     property int settingsMetadataFontSize: Math.max(5, Math.min(20, settings.metadataFontSize))
 
     // Adjust size
