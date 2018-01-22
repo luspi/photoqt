@@ -463,7 +463,7 @@ public:
         version                    = QString::fromStdString(VERSION);
         versionInTextFile          = "";
 
-        sortby                     = "name";
+        sortby                     = "naturalname";
         sortbyAscending            = true;
 
         windowMode                 = true;
