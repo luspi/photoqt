@@ -66,7 +66,7 @@ function analyseMouseEvent(startedEventAtPos, event, forceThisButton, dontResetG
     variables.shortcutsMouseGesture = []
 
     if(movement != "") {
-        if(button == Qt.LeftButton && settings.leftButtonMouseClickAndMove && !detectshortcut.visible)
+        if(button == Qt.LeftButton && settings.leftButtonMouseClickAndMove && settingsmanager.status!=Loader.Null && !settingsmanager.item.settingsDetectShortcuts.visible)
             return ""
         combostring += "+" + movement
     }

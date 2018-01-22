@@ -22,6 +22,8 @@ Rectangle {
 
     property int settingsQuickInfoCloseXSize: Math.max(5, Math.min(25, settings.quickInfoCloseXSize))
 
+    property alias settingsDetectShortcuts: detectshortcut
+
     // setData is only emitted when settings have been 'closed without saving'
     // See comment above 'setData_restore()' function below
     signal setData()
