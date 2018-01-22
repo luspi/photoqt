@@ -334,7 +334,7 @@ void MainHandler::handleTrayIcon(int val) {
     if(val == -1)
         val = permanentSettings->trayIcon;
 
-    if(val != 0) {
+    if(val == 1 || val == 2) {
 
         if(variables->verbose)
             LOG << CURDATE << "showTrayIcon(): Setting up" << NL;

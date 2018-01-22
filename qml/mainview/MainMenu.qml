@@ -234,7 +234,7 @@ Rectangle {
                     source: allitems[subview.mainindex][index][1]===""
                             ? "" : (allitems[subview.mainindex][index][0].slice(0,8)=="_:_EX_:_"
                                     ? getanddostuff.getIconPathFromTheme(allitems[subview.mainindex][index][1]) : "qrc:/img/mainmenu/" + allitems[subview.mainindex][index][1] + ".png")
-                    opacity: (settings.trayIcon || allitems[subview.mainindex][index][0] !== "hide") ? 1 : 0.5
+                    opacity: (settings.trayIcon==1 || allitems[subview.mainindex][index][0] !== "hide") ? 1 : 0.5
                     visible: (source!="" || allitems[subview.mainindex][index][0]==="heading")
                 }
 
@@ -252,7 +252,7 @@ Rectangle {
                     font.pointSize: 11
                     font.bold: true
 
-                    enabled: (settings.trayIcon || (allitems[subview.mainindex][index][0] !== "hide" && allitems[subview.mainindex][index][0] !=="heading" && (allitems[subview.mainindex].length === 1 || index > 0)))
+                    enabled: (settings.trayIcon==1 || (allitems[subview.mainindex][index][0] !== "hide" && allitems[subview.mainindex][index][0] !=="heading" && (allitems[subview.mainindex].length === 1 || index > 0)))
 
                     // The spaces guarantee a bit of space betwene icon and text
                     text: allitems[subview.mainindex][index][2] + ((allitems[subview.mainindex].length > 1 && index == 0) ? ":" : "")
