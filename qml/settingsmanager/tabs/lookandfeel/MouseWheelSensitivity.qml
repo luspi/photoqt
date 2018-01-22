@@ -43,7 +43,7 @@ EntryContainer {
                     width: Math.min(400, settings_top.width-entrytitle.width-txt_no.width-txt_very.width-60)
                     y: (parent.height-height)/2
 
-                    minimumValue: 1
+                    minimumValue: 0
                     maximumValue: 10
 
                     tickmarksEnabled: true

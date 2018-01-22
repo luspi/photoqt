@@ -91,7 +91,7 @@ function analyseWheelEvent(event, dontResetVariables) {
     variables.wheelLeftRight += angleX
     variables.wheelUpDown += angleY
 
-    var threshold = settings.mouseWheelSensitivity*120
+    var threshold = Math.max(30, Math.max(0, Math.min(10, settings.mouseWheelSensitivity*120)))
 
     // wheel LEFT
     if(variables.wheelLeftRight <= -threshold) {
