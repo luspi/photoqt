@@ -2,7 +2,7 @@ import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import "../elements"
-import "../loadfile.js" as Load
+import "../handlestuff.js" as Handle
 
 Item {
 
@@ -128,7 +128,7 @@ Item {
             // A left click on 'x' deletes filter (only if set)
             if(overDeleteFilterLabel && Qt.LeftButton) {
                 variables.filter = ""
-                Load.loadFile(variables.currentDir+"/"+variables.currentFile, "", true)
+                Handle.loadFile(variables.currentDir+"/"+variables.currentFile, "", true)
             }
 
         }

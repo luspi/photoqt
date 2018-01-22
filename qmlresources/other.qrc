@@ -2,7 +2,7 @@
     <qresource prefix="/">
     <file>../qml/mainwindow.qml</file>
     <file>../qml/Caller.qml</file>
-    <file>../qml/loadfile.js</file>
+    <file>../qml/handlestuff.js</file>
     <file>../qml/other/About.qml</file>
     <file>../qml/other/ImgurFeedback.qml</file>
     <file>../qml/other/Filter.qml</file>

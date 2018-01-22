@@ -22,7 +22,7 @@ import "./openfile"
 import "./vars"
 import "./elements"
 
-import "./loadfile.js" as Load
+import "./handlestuff.js" as Handle
 
 Rectangle {
 
@@ -219,9 +219,9 @@ Rectangle {
         onTrayIconChanged:
             trayIconValueChanged(settings.trayIcon)
         onSortbyChanged:
-            Load.loadFile(variables.currentFile, variables.filter, true)
+            Handle.loadFile(variables.currentFile, variables.filter, true)
         onSortbyAscendingChanged:
-            Load.loadFile(variables.currentFile, variables.filter, true)
+            Handle.loadFile(variables.currentFile, variables.filter, true)
         onWindowModeChanged:
             mainwindow.windowModeChanged(settings.windowMode, settings.windowDecoration, settings.keepOnTop)
         onWindowDecorationChanged:
@@ -269,7 +269,7 @@ Rectangle {
     // Called from c++ code to load an image file (needed for remote controlling)
     function loadFile(filename) {
         variables.filter = ""
-        Load.loadFile(filename, "", false)
+        Handle.loadFile(filename, "", false)
     }
 
     // Called from c++ code to get the filename of the currently loaded image file (needed for remote controlling)
@@ -310,7 +310,7 @@ Rectangle {
                 call.show("openfile")
             // Otherwise just load the received file
             else
-                Load.loadFile(filename)
+                Handle.loadFile(filename)
         }
 
     }

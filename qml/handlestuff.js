@@ -128,3 +128,15 @@ function loadLast() {
     if(variables.filterNoMatch || variables.deleteNothingLeft) return
     loadFile(variables.allFilesCurrentDir[variables.allFilesCurrentDir.length -1], variables.filter)
 }
+
+function checkIfClickOnEmptyArea(prsd, rlsd) {
+
+    var dx = prsd.x-rlsd.x
+    var dy = prsd.y-rlsd.y
+
+    if(dx > 50 || dy > 50 || !settings.closeOnEmptyBackground)
+        return
+
+    imageitem.checkClickOnEmptyArea((prsd.x+rlsd.x)/2, (prsd.y+rlsd.y)/2)
+
+}

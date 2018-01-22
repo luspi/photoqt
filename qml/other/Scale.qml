@@ -2,7 +2,7 @@ import QtQuick 2.5
 import QtQuick.Controls 1.4
 
 import "../elements"
-import "../loadfile.js" as Load
+import "../handlestuff.js" as Handle
 
 FadeInTemplate {
 
@@ -277,7 +277,7 @@ FadeInTemplate {
                         verboseMessage("Scale","Scale in place")
                         if(getanddostuff.scaleImage(variables.currentDir + "/" + variables.currentFile, newwidth.value, newheight.value,
                                                     quality_slider.value, variables.currentDir + "/" + variables.currentFile)) {
-                            Load.loadFile(variables.currentDir + "/" + variables.currentFile, variables.filter, true)
+                            Handle.loadFile(variables.currentDir + "/" + variables.currentFile, variables.filter, true)
                             hide()
                         } else
                             error.visible = true
@@ -296,7 +296,7 @@ FadeInTemplate {
                             if(getanddostuff.scaleImage(variables.currentDir + "/" + variables.currentFile,newwidth.value, newheight.value,
                                                         quality_slider.value, fname)) {
                                 if(variables.currentDir == getanddostuff.removeFilenameFromPath(fname))
-                                    Load.loadFile(fname, variables.filter, true)
+                                    Handle.loadFile(fname, variables.filter, true)
                                 hide()
                             } else
                                 error.visible = true

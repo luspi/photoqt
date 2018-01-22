@@ -1,7 +1,7 @@
 import QtQuick 2.5
 import QtGraphicalEffects 1.0
 import "../elements"
-import "../loadfile.js" as Load
+import "../handlestuff.js" as Handle
 
 Item {
 
@@ -270,7 +270,7 @@ Item {
                 // Load the selected thumbnail as main image
                 onClicked: {
                     variables.currentFile = getanddostuff.removePathFromFilename(imagePath)
-                    Load.loadFile(variables.currentFile, variables.filter, false)
+                    Handle.loadFile(variables.currentFile, variables.filter, false)
                 }
             }
 

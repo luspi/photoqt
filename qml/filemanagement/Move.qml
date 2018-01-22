@@ -1,6 +1,6 @@
 import QtQuick 2.5
 import PFileDialog 1.0
-import "../loadfile.js" as Load
+import "../handlestuff.js" as Handle
 
 Item {
 
@@ -42,7 +42,7 @@ Item {
     function moveFile(file) {
         getanddostuff.moveImage(variables.currentDir + "/" + variables.currentFile, file)
         if(getanddostuff.removeFilenameFromPath(file) == variables.currentDir) {
-            Load.loadFile(file, variables.filter, true)
+            Handle.loadFile(file, variables.filter, true)
             management_top.hide()
         }
     }

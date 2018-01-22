@@ -2,7 +2,7 @@ import QtQuick 2.5
 import QtQuick.Controls 1.4
 
 import "../elements"
-import "../loadfile.js" as Load
+import "../handlestuff.js" as Handle
 
 Rectangle {
 
@@ -25,7 +25,7 @@ Rectangle {
         if(openFileAfter == "" && opacity > 0.1 && opacity < lastOpacityValue)
             call.show("openfile")
         else if(!visible)
-            Load.loadFile(openFileAfter, variables.filter)
+            Handle.loadFile(openFileAfter, variables.filter)
         lastOpacityValue = opacity
     }
 

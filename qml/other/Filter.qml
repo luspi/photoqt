@@ -2,7 +2,7 @@ import QtQuick 2.5
 import QtQuick.Controls 1.4
 
 import "../elements"
-import "../loadfile.js" as Load
+import "../handlestuff.js" as Handle
 
 FadeInTemplate {
 
@@ -121,7 +121,7 @@ FadeInTemplate {
                     onClickedButton: {
                         verboseMessage("Filter","Remove filter")
                         variables.filter = ""
-                        Load.loadFile(variables.currentDir+"/"+variables.currentFile, "", true)
+                        Handle.loadFile(variables.currentDir+"/"+variables.currentFile, "", true)
                         hide()
                     }
                 }
@@ -152,11 +152,11 @@ FadeInTemplate {
     function simulateEnter() {
         verboseMessage("Filter::simulateEnter()","")
         variables.filter = term.getText()
-        var newfilename = Load.getFilenameMatchingFilter(term.getText())
+        var newfilename = Handle.getFilenameMatchingFilter(term.getText())
         if(newfilename == "")
             variables.filterNoMatch = true
         else
-            Load.loadFile(variables.currentDir+"/"+newfilename, term.getText(), true)
+            Handle.loadFile(variables.currentDir+"/"+newfilename, term.getText(), true)
         hide()
     }
 

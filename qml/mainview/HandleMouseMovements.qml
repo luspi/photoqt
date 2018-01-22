@@ -1,5 +1,6 @@
 import QtQuick 2.5
 import "../shortcuts/mouseshortcuts.js" as AnalyseMouse
+import "../handlestuff.js" as Handle
 
 MouseArea {
 
@@ -23,8 +24,8 @@ MouseArea {
     }
     onReleased: {
         pressedPosEnd = Qt.point(mouse.x, mouse.y)
-        pressedPosStart = Qt.point(-1,-1)
         shortcuts.analyseMouseEvent(pressedPosStart, mouse)
+        pressedPosStart = Qt.point(-1,-1)
     }
 
     onWheel: shortcuts.analyseWheelEvent(wheel)

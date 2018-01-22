@@ -2,7 +2,7 @@ import QtQuick 2.5
 import QtQuick.Controls 1.4
 
 import "../elements"
-import "../loadfile.js" as Load
+import "../handlestuff.js" as Handle
 
 Item {
 
@@ -117,7 +117,7 @@ Item {
         if(newfilename.getText() !== "") {
             // a rename is the same as a move into the same directory
             getanddostuff.moveImage(variables.currentDir + "/" + variables.currentFile, variables.currentDir + "/" + newfilename.getText() + suffix.text)
-            Load.loadFile(variables.currentDir + "/" + newfilename.getText() + suffix.text, variables.filter, true)
+            Handle.loadFile(variables.currentDir + "/" + newfilename.getText() + suffix.text, variables.filter, true)
             management_top.hide()
         }
     }

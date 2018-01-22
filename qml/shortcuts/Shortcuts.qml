@@ -1,6 +1,6 @@
 import QtQuick 2.5
 import "./mouseshortcuts.js" as AnalyseMouse
-import "../loadfile.js" as Load
+import "../handlestuff.js" as Handle
 
 Item {
 
@@ -81,9 +81,9 @@ Item {
         else if(cmd === "__settings")
             call.show("settingsmanager")
         else if(cmd === "__next")
-            Load.loadNext()
+            Handle.loadNext()
         else if(cmd === "__prev")
-            Load.loadPrev()
+            Handle.loadPrev()
 //        if(cmd === "__reloadThb")
 //            thumbnailBar.reloadThumbnails()
         else if(cmd === "__about")
@@ -137,9 +137,9 @@ Item {
             }
         }
         else if(cmd === "__gotoFirstThb")
-            Load.loadFirst()
+            Handle.loadFirst()
         else if(cmd === "__gotoLastThb")
-            Load.loadLast()
+            Handle.loadLast()
         else if(cmd === "__wallpaper")
             call.show("wallpaper")
         else if(cmd === "__scale")

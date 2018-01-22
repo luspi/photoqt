@@ -2,7 +2,7 @@ import QtQuick 2.5
 import QtQuick.Layouts 1.2
 
 import "../elements"
-import "../loadfile.js" as Load
+import "../handlestuff.js" as Handle
 
 Item {
 
@@ -149,21 +149,21 @@ Item {
         verboseMessage("Delete::simulateEnter()","")
         hideDelete()
         getanddostuff.deleteImage(variables.currentDir + "/" + variables.currentFile,getanddostuff.amIOnLinux())
-        var newfilename = Load.getNewFilenameAfterDeletion()
+        var newfilename = Handle.getNewFilenameAfterDeletion()
         if(newfilename == "")
             variables.deleteNothingLeft = true
         else
-            Load.loadFile(variables.currentDir + "/" + newfilename, variables.filter, true)
+            Handle.loadFile(variables.currentDir + "/" + newfilename, variables.filter, true)
     }
     function simulateShiftEnter() {
         verboseMessage("Delete::simulateShiftEnter()","")
         hideDelete()
         getanddostuff.deleteImage(variables.currentDir + "/" + variables.currentFile,false)
-        var newfilename = Load.getNewFilenameAfterDeletion()
+        var newfilename = Handle.getNewFilenameAfterDeletion()
         if(newfilename == "")
             variables.deleteNothingLeft = true
         else
-            Load.loadFile(variables.currentDir + "/" + newfilename, variables.filter, true)
+            Handle.loadFile(variables.currentDir + "/" + newfilename, variables.filter, true)
     }
 
     function hideDelete() {

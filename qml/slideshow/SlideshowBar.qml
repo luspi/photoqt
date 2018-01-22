@@ -4,7 +4,7 @@ import QtMultimedia 5.5
 
 import "../elements"
 
-import "../loadfile.js" as Load
+import "../handlestuff.js" as Handle
 
 Rectangle {
 
@@ -292,7 +292,7 @@ Rectangle {
         }
 
         // Display new image and increment counter
-        Load.loadFile(variables.allFilesCurrentDir[images[current]], variables.filter)
+        Handle.loadFile(variables.allFilesCurrentDir[images[current]], variables.filter)
         ++current
     }
 
