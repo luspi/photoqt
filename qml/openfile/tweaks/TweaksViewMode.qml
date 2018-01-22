@@ -19,7 +19,7 @@ Item {
         width: height
         height: parent.height
         checkable: true
-        checked: settings.openDefaultView=="list"
+        checked: settings.openDefaultView!="icons"
 
         style: ButtonStyle {
             background: Rectangle {

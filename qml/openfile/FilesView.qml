@@ -163,9 +163,9 @@ Rectangle {
         Rectangle {
 
             // size and position inside component (i.e., inside cell)
-            y: settings.openDefaultView=="list" ? 1 : 0
+            y: settings.openDefaultView=="icons" ? 0 : 1
             width: gridview.cellWidth
-            height: gridview.cellHeight-(settings.openDefaultView=="list" ? 2 : 0)
+            height: gridview.cellHeight-(settings.openDefaultView=="icons" ? 0 : 2)
 
             // some faint background color
             color: "#44000000"
@@ -178,8 +178,8 @@ Rectangle {
                 // position and size, depends on type of view
                 x: 3
                 y: 3
-                height: settings.openDefaultView=="list" ? parent.height-6 : 2*parent.height/3 -6
-                width: settings.openDefaultView=="list" ? parent.height-6 : parent.width-6
+                height: settings.openDefaultView=="icons" ? 2*parent.height/3 -6 : parent.height-6
+                width: settings.openDefaultView=="icons" ? parent.width-6 : parent.height-6
 
                 // some properties
                 asynchronous: true
@@ -225,7 +225,7 @@ Rectangle {
                 anchors.rightMargin: fs_list.width+20
 
                 // visible when view mode is list
-                visible: settings.openDefaultView=="list"
+                visible: settings.openDefaultView!="icons"
 
                 // some properties
                 verticalAlignment: Qt.AlignVCenter
@@ -286,7 +286,7 @@ Rectangle {
                 id: fs_list
 
                 // visibility depends on view mode
-                visible: settings.openDefaultView=="list"
+                visible: settings.openDefaultView!="icons"
 
                 // size and position
                 anchors{
@@ -295,7 +295,7 @@ Rectangle {
                     bottom: parent.bottom
                     rightMargin: 10
                 }
-                width: settings.openDefaultView=="list" ? fs_listtext.width : 0
+                width: settings.openDefaultView=="icons" ? 0 : fs_listtext.width
 
                 // the actual filesize text
                 Text {
@@ -328,8 +328,8 @@ Rectangle {
                 anchors.fill: parent
 
                 // To avoid gaps between the items (in list view) that are not clickable, we extend the mousearea to y=0 and y=height
-                anchors.topMargin: settings.openDefaultView=="list" ? -1 : 0
-                anchors.bottomMargin: settings.openDefaultView=="list" ? -1 : 0
+                anchors.topMargin: settings.openDefaultView=="icons" ? 0 : -1
+                anchors.bottomMargin: settings.openDefaultView=="icons" ? 0 : -1
 
                 // some properties
                 hoverEnabled: true
