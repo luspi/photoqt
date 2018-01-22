@@ -9,6 +9,8 @@ FadeInTemplate {
 
     heading: em.pty+qsTr("Slideshow Setup")
 
+    property string slideShowMusicFile: getanddostuff.doesThisExist(slideShowMusicFile) ? slideShowMusicFile : ""
+
     content: [
 
         Rectangle { color: "#00000000"; width: 1; height: 1; },
@@ -210,7 +212,7 @@ FadeInTemplate {
         CustomCheckBox {
             id: musiccheckbox
             x: (slideshow_top.contentWidth-width)/2
-            checkedButton: (settings.slideShowMusicFile != "")
+            checkedButton: (slideShowMusicFile != "")
             text: em.pty+qsTr("Enable Music")
         },
         // Area displaying music file path and option to change it
@@ -231,7 +233,7 @@ FadeInTemplate {
                 font.pointSize: 10
                 y: (parent.height-height)/2
                 color: parent.enabled ? colour.text : colour.text_disabled
-                text: settings.slideShowMusicFile
+                text: slideShowMusicFile
             }
             Text {
                 id: emptymusic
@@ -348,8 +350,8 @@ FadeInTemplate {
         loop.checkedButton = settings.slideShowLoop
         shuffle.checkedButton = settings.slideShowShuffle
         quickinfo.checkedButton = settings.slideShowHideQuickInfo
-        musiccheckbox.checkedButton = settings.slideShowMusicFile
-        musictxt.text = settings.slideShowMusicFile
+        musiccheckbox.checkedButton = slideShowMusicFile
+        musictxt.text = slideShowMusicFile
     }
 
 }
