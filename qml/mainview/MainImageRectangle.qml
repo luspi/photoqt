@@ -30,6 +30,9 @@ Item {
     // the source of the current image
     property string source: ""
 
+    property int settingsInterpolationNearestNeighbourThreshold: Math.max(0, settings.interpolationNearestNeighbourThreshold)
+    property int settingsInterpolationNearestNeighbourUpscale: settings.interpolationNearestNeighbourUpscale
+
     // This is called when a click occurs and the closeOnEmptyBackground setting is set to true
     function checkClickOnEmptyArea(posX, posY) {
 
@@ -105,8 +108,8 @@ Item {
 
         // High quality
         antialiasing: true
-        smooth: true
-        mipmap: true
+        smooth: (settingsInterpolationNearestNeighbourUpscale && image.paintedWidth<=settingsInterpolationNearestNeighbourThreshold && image.paintedHeight<=settingsInterpolationNearestNeighbourThreshold) ? false : true
+        mipmap: (settingsInterpolationNearestNeighbourUpscale && image.paintedWidth<=settingsInterpolationNearestNeighbourThreshold && image.paintedHeight<=settingsInterpolationNearestNeighbourThreshold) ? false : true
 
         cache: false
 
