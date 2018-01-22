@@ -507,7 +507,7 @@ public:
         keepZoomRotationMirror                 = false;
         fitInWindow                            = false;
         interpolationNearestNeighbourThreshold = 100;
-        interpolationNearestNeighbourUpscale   = false;
+        interpolationNearestNeighbourUpscale   = true;
         pixmapCache                            = 128;
         leftButtonMouseClickAndMove            = true;
         showTransparencyMarkerBackground       = true;
