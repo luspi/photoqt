@@ -3,7 +3,7 @@ import QtQuick.Controls 1.4
 
 import "../elements"
 
-Rectangle {
+Item {
 
     id: meta
 
@@ -12,11 +12,6 @@ Rectangle {
 
     property string orientation: ""
 
-    // Background/Border color
-    color: colour.fadein_slidein_bg
-    border.width: 1
-    border.color: colour.fadein_slidein_border
-
     // Adjust size
     width: Math.max(Math.min(settings.metadataWindowWidth, background.width/2), 300)
     anchors {
@@ -24,6 +19,23 @@ Rectangle {
         top: mainwindow.top
         bottom: mainwindow.bottom
         margins: -1
+    }
+
+    // This is for the background color, allows adjusting opacity without affecting the text
+    Rectangle {
+
+        id: bgcolor
+
+        anchors.fill: parent
+
+        // Background/Border color
+        color: colour.fadein_slidein_bg
+        border.width: 1
+        border.color: colour.fadein_slidein_border
+
+        // Opacity is between 0 and 1 and depends on settings
+        opacity: Math.min(Math.max(settings.metadataOpacity/255, 0), 1)
+
     }
 
 
