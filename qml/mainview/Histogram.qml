@@ -29,9 +29,6 @@ Rectangle {
     onVisibleChanged:
         if(visible) updateHistogram()
 
-    property string settingsHistogramVersion: settings.histogramVersion
-    onSettingsHistogramVersionChanged: updateHistogram()
-
     // half transparent black background
     Rectangle {
 
@@ -87,6 +84,12 @@ Rectangle {
             hist_timer.restart()
     }
 
+    Connections {
+        target: settings
+        onHistogramVersionChanged:
+            updateHistogram()
+    }
+
     Timer {
         id: hist_timer
         repeat: false
@@ -102,9 +105,9 @@ Rectangle {
 
         verboseMessage("Histogram::updateHistogram()",settings.histogramVersion)
 
-        if(settings.histogramVersion === "color")
+        if(settings.histogramVersion != "grey")
             imghist.source = "image://hist/color" + variables.currentDir+"/"+variables.currentFile
-        else if(settings.histogramVersion === "grey")
+        else if(settings.histogramVersion == "grey")
             imghist.source = "image://hist/grey" + variables.currentDir+"/"+variables.currentFile
 
     }
@@ -208,12 +211,8 @@ Rectangle {
             onPressed: {
                 if(mouse.button == Qt.LeftButton)
                     bg_rect.showMove()
-                else {
-                    if(settings.histogramVersion == "color")
-                        settings.histogramVersion = "grey"
-                    else
-                        settings.histogramVersion = "color"
-                }
+                else
+                    settings.histogramVersion = (settings.histogramVersion != "grey" ? "grey" : "color")
 
             }
 
@@ -327,12 +326,8 @@ Rectangle {
                 bg_rect.hide()
                 parent.hide()
             }
-            onClicked: {
-                if(settings.histogramVersion == "color")
-                    settings.histogramVersion = "grey"
-                else
-                    settings.histogramVersion = "color"
-            }
+            onClicked:
+                settings.histogramVersion = (settings.histogramVersion != "grey" ? "grey" : "color")
         }
         function show() {
             switchVersion.opacity = 0.75
