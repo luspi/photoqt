@@ -15,7 +15,7 @@ Item {
 
     // make sure settings values are valid
     property int settingsThumbnailSize: Math.max(20, Math.min(256, settings.thumbnailSize))
-    property int settingsThumbnailPosition: settings.thumbnailPosition=="Top" ? "Top" : "Bottom"
+    property string settingsThumbnailPosition: settings.thumbnailPosition=="Top" ? "Top" : "Bottom"
     property int settingsThumbnailSpacingBetween: Math.max(0, Math.min(30, settings.thumbnailSpacingBetween))
     property int settingsThumbnailLiftUp: Math.max(0, Math.min(40, settings.thumbnailLiftUp))
     property int settingsThumbnailFilenameInsteadFontSize: Math.max(5, Math.min(20, settings.thumbnailFilenameInsteadFontSize))
