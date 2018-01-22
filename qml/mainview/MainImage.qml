@@ -83,7 +83,9 @@ Item {
             imageMargin: settings.marginAroundImage
 
             positionDuration: 250
-            transitionDuration: (variables.slideshowRunning ? settings.slideShowImageTransition*150 : settings.imageTransition*150)
+            transitionDuration: (variables.slideshowRunning
+                                 ? Math.max(0, Math.min(15, settings.slideShowImageTransition))*150
+                                 : Math.max(0, Math.min(15, settings.imageTransition)))*150
             scaleDuration: 250
             rotationDuration: 250
 
@@ -114,7 +116,9 @@ Item {
             imageMargin: settings.marginAroundImage
 
             positionDuration: 250
-            transitionDuration: (variables.slideshowRunning ? settings.slideShowImageTransition*150 : settings.imageTransition*150)
+            transitionDuration: (variables.slideshowRunning
+                                 ? Math.max(0, Math.min(15, settings.slideShowImageTransition))*150
+                                 : Math.max(0, Math.min(15, settings.imageTransition)))*150
             scaleDuration: 250
             rotationDuration: 250
 
@@ -145,7 +149,9 @@ Item {
             imageMargin: settings.marginAroundImage
 
             positionDuration: 250
-            transitionDuration: (variables.slideshowRunning ? settings.slideShowImageTransition*150 : settings.imageTransition*150)
+            transitionDuration: (variables.slideshowRunning
+                                 ? Math.max(0, Math.min(15, settings.slideShowImageTransition))*150
+                                 : Math.max(0, Math.min(15, settings.imageTransition)))*150
             scaleDuration: 250
             rotationDuration: 250
 
@@ -176,7 +182,9 @@ Item {
             imageMargin: settings.marginAroundImage
 
             positionDuration: 250
-            transitionDuration: (variables.slideshowRunning ? settings.slideShowImageTransition*150 : settings.imageTransition*150)
+            transitionDuration: (variables.slideshowRunning
+                                 ? Math.max(0, Math.min(15, settings.slideShowImageTransition))*150
+                                 : Math.max(0, Math.min(15, settings.imageTransition)))*150
             scaleDuration: 250
             rotationDuration: 250
 

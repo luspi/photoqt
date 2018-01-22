@@ -43,7 +43,7 @@ EntryContainer {
                     y: (parent.height-height)/2
 
                     minimumValue: 0
-                    maximumValue: 10
+                    maximumValue: 15
 
                     tickmarksEnabled: true
                     stepSize: 1
