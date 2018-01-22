@@ -193,7 +193,7 @@ Rectangle {
         }
 
         // Set up timer for switching images
-        imageswitcher.interval = settings.slideShowTime*1000
+        imageswitcher.interval = Math.max(1000, Math.min(300*1000, settings.slideShowTime*1000))
         imageswitcher.start()
 
         // Slide in and out bar to signal start of slideshow
