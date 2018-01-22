@@ -73,13 +73,14 @@ Rectangle {
             CloseOnClick { id: closeonclick }
             Loop { id: loop; alternating: true }
             Transition { id: transition }
-            HotEdge { id: hotedge; alternating: true }
-            MouseWheelSensitivity { id: mousewheel }
-            Interpolation { id: interpolation; alternating: true }
-            PixmapCache { id: pixmapcache }
-            ReOpenFile { id: reopenfile; alternating: true }
-            Keep { id: remember }
-            Animation { id: animation; alternating: true }
+            TransparencyMarker { id: transparency; alternating: true }
+            HotEdge { id: hotedge }
+            MouseWheelSensitivity { id: mousewheel; alternating: true }
+            Interpolation { id: interpolation }
+            PixmapCache { id: pixmapcache; alternating: true }
+            ReOpenFile { id: reopenfile }
+            Keep { id: remember; alternating: true }
+            Animation { id: animation }
         }
 
     }
@@ -98,6 +99,7 @@ Rectangle {
         closeonclick.setData()
         loop.setData()
         transition.setData()
+        transparency.setData()
         hotedge.setData()
         mousewheel.setData()
         interpolation.setData()
@@ -122,6 +124,7 @@ Rectangle {
         closeonclick.saveData()
         loop.saveData()
         transition.saveData()
+        transparency.saveData()
         hotedge.saveData()
         mousewheel.saveData()
         interpolation.saveData()

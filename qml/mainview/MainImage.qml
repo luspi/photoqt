@@ -22,6 +22,7 @@ Item {
     property int settingsSlideShowImageTransition: Math.max(0, Math.min(15, settings.slideShowImageTransition))*150
     property int settingsImageTransition: Math.max(0, Math.min(15, settings.imageTransition))
 
+    // This is called when a click occurs and the closeOnEmptyBackground setting is set to true
     function checkClickOnEmptyArea(posX, posY) {
         if(currentId == image1)
             image1.checkClickOnEmptyArea(posX, posY)

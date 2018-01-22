@@ -26,6 +26,7 @@
         <file>../qml/settingsmanager/tabs/lookandfeel/WindowMode.qml</file>
         <file>../qml/settingsmanager/tabs/lookandfeel/PixmapCache.qml</file>
         <file>../qml/settingsmanager/tabs/lookandfeel/ReOpenFile.qml</file>
+        <file>../qml/settingsmanager/tabs/lookandfeel/TransparencyMarker.qml</file>
         <file>../qml/settingsmanager/tabs/TabThumbnails.qml</file>
         <file>../qml/settingsmanager/tabs/thumbnails/ThumbnailSize.qml</file>
         <file>../qml/settingsmanager/tabs/thumbnails/Spacing.qml</file>
