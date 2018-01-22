@@ -15,8 +15,8 @@ Item {
     anchors.top: parent.top
 
     // Width depends on type of 'x'
-    width: 3*settings.quickInfoCloseXSize
-    height: 3*settings.quickInfoCloseXSize
+    width: 3*Math.max(5, Math.min(25, settings.quickInfoCloseXSize))
+    height: 3*Math.max(5, Math.min(25, settings.quickInfoCloseXSize))
 
     // Plain 'x'
     Image {

@@ -119,8 +119,8 @@ Rectangle {
         anchors.topMargin: 1
 
         // Width depends on type of 'x'
-        width: 3*settings.quickInfoCloseXSize
-        height: 3*settings.quickInfoCloseXSize
+        width: 3*Math.max(5, Math.min(25, settings.quickInfoCloseXSize))
+        height: 3*Math.max(5, Math.min(25, settings.quickInfoCloseXSize))
 
         // Invisible rectangle
         color: "#00000000"
@@ -134,7 +134,7 @@ Rectangle {
             anchors.top: parent.top
 
             source: "qrc:/img/closingx.png"
-            sourceSize: Qt.size(3*settings.quickInfoCloseXSize,3*settings.quickInfoCloseXSize)
+            sourceSize: Qt.size(parent.width, parent.height)
 
         }
 
