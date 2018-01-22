@@ -27,21 +27,6 @@ namespace Sort {
                                             file2.fileName()) < 0;
                 });
 
-        } else if(sortby == "naturalname") {
-
-            collator.setNumericMode(true);
-
-            if(sortbyAscending)
-                std::sort(list->begin(), list->end(), [&collator](const QFileInfo &file1, const QFileInfo &file2) {
-                    return collator.compare(file1.fileName(),
-                                            file2.fileName()) < 0;
-                });
-            else
-                std::sort(list->rbegin(), list->rend(), [&collator](const QFileInfo &file1, const QFileInfo &file2) {
-                    return collator.compare(file1.fileName(),
-                                            file2.fileName()) < 0;
-                });
-
         } else if(sortby == "date") {
 
             collator.setNumericMode(true);
@@ -87,6 +72,21 @@ namespace Sort {
                 std::sort(list->rbegin(), list->rend(), [&collator](const QFileInfo &file1, const QFileInfo &file2) {
                     return collator.compare(QString::number(file1.size()),
                                             QString::number(file2.size())) < 0;
+                });
+
+        } else { // default to naturalname
+
+            collator.setNumericMode(true);
+
+            if(sortbyAscending)
+                std::sort(list->begin(), list->end(), [&collator](const QFileInfo &file1, const QFileInfo &file2) {
+                    return collator.compare(file1.fileName(),
+                                            file2.fileName()) < 0;
+                });
+            else
+                std::sort(list->rbegin(), list->rend(), [&collator](const QFileInfo &file1, const QFileInfo &file2) {
+                    return collator.compare(file1.fileName(),
+                                            file2.fileName()) < 0;
                 });
 
         }
