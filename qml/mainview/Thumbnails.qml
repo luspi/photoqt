@@ -9,6 +9,7 @@ Item {
 
     property int thumbnailSize: Math.max(20, Math.min(256, settings.thumbnailSize))
     property int thumbnailPosition: settings.thumbnailPosition=="Top" ? "Top" : "Bottom"
+    property int thumbnailSpacingBetween: Math.max(0, Math.min(30, settings.thumbnailSpacingBetween))
 
     // The position of the bar, either at top or bottom
     x: metadata.nonFloatWidth
@@ -186,8 +187,8 @@ Item {
                 // The positioning of the thumbnail inside of the containing rectangle
                 anchors {
                     fill: parent
-                    leftMargin: settings.thumbnailSpacingBetween
-                    rightMargin: settings.thumbnailSpacingBetween
+                    leftMargin: thumbnailSpacingBetween
+                    rightMargin: thumbnailSpacingBetween
                     topMargin: thumbnailPosition=="Top" ? settings.thumbnailLiftUp+2*(rect.thumbnailExtraMargin/3) : undefined
                     bottomMargin: thumbnailPosition=="Top" ? undefined : settings.thumbnailLiftUp+2*(rect.thumbnailExtraMargin/3)
                 }
@@ -275,8 +276,8 @@ Item {
                 // The size and location
                 anchors {
                     fill: parent
-                    leftMargin: settings.thumbnailSpacingBetween
-                    rightMargin: settings.thumbnailSpacingBetween
+                    leftMargin: thumbnailSpacingBetween
+                    rightMargin: thumbnailSpacingBetween
                     topMargin: thumbnailPosition=="Top" ? settings.thumbnailLiftUp+2*(rect.thumbnailExtraMargin/3) : undefined
                     bottomMargin: thumbnailPosition=="Top" ? undefined : settings.thumbnailLiftUp+2*(rect.thumbnailExtraMargin/3)
                 }
