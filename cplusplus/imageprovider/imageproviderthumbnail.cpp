@@ -36,7 +36,7 @@ QImage ImageProviderThumbnail::requestImage(const QString &filename_encoded, QSi
 
     // Some general settings that are needed multiple times later-on
     int width = requestedSize.width();
-    if(width == -1) width = settings->thumbnailSize;
+    if(width == -1) width = std::max(20, std::min(256, settings->thumbnailSize));
 
     // Return full thumbnail
     return getThumbnailImage(filename);

@@ -11,7 +11,7 @@ Item {
     x: metadata.nonFloatWidth
     y: settings.thumbnailPosition=="Top" ? 0 : mainwindow.height-height
     width: mainwindow.width-metadata.nonFloatWidth
-    height: settings.thumbnailSize+settings.thumbnailLiftUp+25
+    height: Math.max(20, Math.min(256, settings.thumbnailSize))+settings.thumbnailLiftUp+25
 
     Behavior on x { NumberAnimation { duration: variables.animationSpeed } }
     Behavior on width { NumberAnimation { duration: variables.animationSpeed } }
@@ -88,8 +88,12 @@ Item {
         // Centered!
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        x: (variables.allFilesCurrentDir.length*settings.thumbnailSize > parent.width ? 0 : (parent.width-variables.allFilesCurrentDir.length*settings.thumbnailSize)/2)
-        width: (variables.allFilesCurrentDir.length*settings.thumbnailSize > parent.width ? parent.width : variables.allFilesCurrentDir.length*settings.thumbnailSize)
+        x: (variables.allFilesCurrentDir.length*Math.max(20, Math.min(256, settings.thumbnailSize)) > parent.width
+            ? 0
+            : (parent.width-variables.allFilesCurrentDir.length*Math.max(20, Math.min(256, settings.thumbnailSize)))/2)
+        width: (variables.allFilesCurrentDir.length*Math.max(20, Math.min(256, settings.thumbnailSize)) > parent.width
+                ? parent.width
+                : variables.allFilesCurrentDir.length*Math.max(20, Math.min(256, settings.thumbnailSize)))
 
         ListView {
 
@@ -157,8 +161,8 @@ Item {
             color: colour.thumbnails_bg
 
             // The width and the height of the rectangle depends on the thumbnailsize (plus a little extra in height)
-            width: settings.thumbnailSize
-            height: settings.thumbnailSize+settings.thumbnailLiftUp+rect.thumbnailExtraMargin
+            width: Math.max(20, Math.min(256, settings.thumbnailSize))
+            height: Math.max(20, Math.min(256, settings.thumbnailSize))+settings.thumbnailLiftUp+rect.thumbnailExtraMargin
 
             // Update the position of the current thumbnail depending on the activated, loaded and edge setting
             y: activated||loaded
@@ -379,7 +383,7 @@ Item {
     // Ensure selected item is centered/visible
     function _ensureCurrentItemVisible() {
 
-        if(variables.totalNumberImagesCurrentFolder*settings.thumbnailSize > top.width) {
+        if(variables.totalNumberImagesCurrentFolder*Math.max(20, Math.min(256, settings.thumbnailSize)) > top.width) {
 
             // Newly loaded dir => center item
             if(settings.thumbnailCenterActive) {
@@ -404,8 +408,8 @@ Item {
         destPos = view.contentX;
         if(loc == ListView.Contain && destPos != pos) {
             // Make sure there is a little margin past the thumbnail kept visible
-            if(destPos > pos) destPos += settings.thumbnailSize/2
-            else if(destPos < pos) destPos -= settings.thumbnailSize/2
+            if(destPos > pos) destPos += Math.max(20, Math.min(256, settings.thumbnailSize))/2
+            else if(destPos < pos) destPos -= Math.max(20, Math.min(256, settings.thumbnailSize))/2
             // but ensure that we don't go beyond the view area
             if(destPos < 0) destPos = 0
             if(destPos > view.contentWidth-view.width) destPos = view.contentWidth-view.width
