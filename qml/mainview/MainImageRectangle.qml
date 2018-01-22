@@ -30,6 +30,22 @@ Item {
     // the source of the current image
     property string source: ""
 
+    // This is called when a click occurs and the closeOnEmptyBackground setting is set to true
+    function checkClickOnEmptyArea(posX, posY) {
+
+        // safety margin, just in case
+        var safetyMargin = 5
+
+        // map click to image item
+        var pt = image.mapFromItem(mainwindow, posX, posY)
+
+        // if click is outside of image item ...
+        if(pt.x < -safetyMargin || pt.x > image.width+safetyMargin || pt.y < -safetyMargin || pt.y > image.height+safetyMargin)
+            // ... close window
+            mainwindow.closePhotoQt()
+
+    }
+
     opacity: variables.guiBlocked&&!variables.slideshowRunning ? 0.1 : 1
     Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 

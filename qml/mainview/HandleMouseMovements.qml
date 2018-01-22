@@ -25,6 +25,7 @@ MouseArea {
     onReleased: {
         pressedPosEnd = Qt.point(mouse.x, mouse.y)
         shortcuts.analyseMouseEvent(pressedPosStart, mouse)
+        Handle.checkIfClickOnEmptyArea(pressedPosStart, pressedPosEnd)
         pressedPosStart = Qt.point(-1,-1)
     }
 

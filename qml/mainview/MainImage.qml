@@ -22,6 +22,17 @@ Item {
     property int settingsSlideShowImageTransition: Math.max(0, Math.min(15, settings.slideShowImageTransition))*150
     property int settingsImageTransition: Math.max(0, Math.min(15, settings.imageTransition))
 
+    function checkClickOnEmptyArea(posX, posY) {
+        if(currentId == image1)
+            image1.checkClickOnEmptyArea(posX, posY)
+        else if(currentId == image2)
+            image2.checkClickOnEmptyArea(posX, posY)
+        else if(currentId == imageANIM1)
+            imageANIM1.checkClickOnEmptyArea(posX, posY)
+        else if(currentId == imageANIM2)
+            imageANIM2.checkClickOnEmptyArea(posX, posY)
+    }
+
     // the source of the current image
     property bool animated: false
     property string source: ""
