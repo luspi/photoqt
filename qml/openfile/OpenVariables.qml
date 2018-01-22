@@ -23,8 +23,10 @@ Item {
     property var currentDirectoryFiles: []
 
     property int filesFileTypeSelection: 0
-    onFilesFileTypeSelectionChanged:
+    onFilesFileTypeSelectionChanged: {
         Handle.loadDirectoryFiles()
+        Handle.loadDirectoryFolders()
+    }
 
     property bool highlightingFromUserInput: false
     property bool textEditedFromHighlighting: false

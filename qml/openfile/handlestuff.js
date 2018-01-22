@@ -84,7 +84,7 @@ function loadDirectoryFolders() {
                                              "path" : openvariables.currentDirectory+"/"+openvariables.currentDirectoryFolders[j],
                                              "counter" : getanddostuff.getNumberFilesInFolder(openvariables.currentDirectory
                                                                                               + "/"
-                                                                                              + openvariables.currentDirectoryFolders[j], 0), // tweaks.getFileTypeSelection()),
+                                                                                              + openvariables.currentDirectoryFolders[j], openvariables.filesFileTypeSelection),
                                              "icon" : "folder",
                                              "id" : "",
                                              "hidden" : "false",
