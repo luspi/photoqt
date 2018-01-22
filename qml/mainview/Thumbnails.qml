@@ -300,7 +300,7 @@ Item {
                     color: "white"
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     elide: Text.ElideRight
-                    font.pointSize: settings.thumbnailFilenameInsteadFontSize
+                    font.pointSize: Math.max(5, Math.min(20, settings.thumbnailFilenameInsteadFontSize))
                     font.bold: true
 
                     // align text
