@@ -856,7 +856,7 @@ public slots:
                     backgroundImageScreenshot = line.split("=").at(1).toInt();
 
                 else if(line.startsWith("BackgroundImagePath="))
-                    backgroundImagePath = line.split("=").at(1);
+                    backgroundImagePath = line.split("=").at(1).trimmed();
                 else if(line.startsWith("BackgroundImageUse="))
                     backgroundImageUse = line.split("=").at(1).toInt();
                 else if(line.startsWith("BackgroundImageScale="))
@@ -937,7 +937,7 @@ public slots:
                     thumbnailSize = line.split("=").at(1).toInt();
 
                 else if(line.startsWith("ThumbnailPosition="))
-                    thumbnailPosition = line.split("=").at(1);
+                    thumbnailPosition = line.split("=").at(1).trimmed();
 
                 else if(line.startsWith("ThumbnailCache="))
                     thumbnailCache = line.split("=").at(1).toInt();
@@ -983,7 +983,7 @@ public slots:
                     slideShowImageTransition = line.split("=").at(1).toInt();
 
                 else if(line.startsWith("SlideShowMusicFile="))
-                    slideShowMusicFile = line.split("=").at(1);
+                    slideShowMusicFile = line.split("=").at(1).trimmed();
 
                 else if(line.startsWith("SlideShowShuffle="))
                     slideShowShuffle = line.split("=").at(1).toInt();
@@ -1059,7 +1059,7 @@ public slots:
                     metaApplyRotation = line.split("=").at(1).toInt();
 
                 else if(line.startsWith("MetaGpsMapService="))
-                    metaGpsMapService = line.split("=").at(1);
+                    metaGpsMapService = line.split("=").at(1).trimmed();
 
                 else if(line.startsWith("MetadataEnableHotEdge="))
                     metadataEnableHotEdge = line.split("=").at(1).toInt();
@@ -1119,7 +1119,7 @@ public slots:
                     histogram = line.split("=").at(1).toInt();
 
                 else if(line.startsWith("HistogramVersion="))
-                    histogramVersion = line.split("=").at(1);
+                    histogramVersion = line.split("=").at(1).trimmed();
 
                 else if(line.startsWith("HistogramPosition=")) {
                     QStringList parts = line.split("HistogramPosition=").at(1).split(",");
