@@ -36,7 +36,6 @@ EntryContainer {
                     minimumValue: 0
                     maximumValue: 100
 
-                    value: border_sizespinbox.value
                     tickmarksEnabled: true
                     stepSize: 1
 
@@ -52,6 +51,8 @@ EntryContainer {
                     maximumValue: 100
 
                     value: border_sizeslider.value
+                    onValueChanged:
+                        border_sizeslider.value = value
                     suffix: " px"
 
                 }
