@@ -52,7 +52,7 @@ EntryContainer {
     }
 
     function setData() {
-        loweredge.checked = (settings.thumbnailPosition === "Bottom")
+        loweredge.checked = (settings.thumbnailPosition !== "Top")
         upperedge.checked = (settings.thumbnailPosition === "Top")
     }
 

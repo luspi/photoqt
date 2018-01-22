@@ -19,6 +19,8 @@ Rectangle {
     property alias modelForCrumbs: crumbsmodel
     property alias viewForCrumbs: crumbsview
 
+    property int settingsQuickInfoCloseXSize: Math.max(5, Math.min(25, settings.quickInfoCloseXSize))
+
     color: "#44000000"
 
     // Two buttons to go backwards/forwards in history
@@ -129,7 +131,7 @@ Rectangle {
         anchors.top: parent.top
 
         source: "qrc:/img/closingx.png"
-        sourceSize: Qt.size(3*Math.max(5, Math.min(25, settings.quickInfoCloseXSize)), 3*Math.max(5, Math.min(25, settings.quickInfoCloseXSize)))
+        sourceSize: Qt.size(3*settingsQuickInfoCloseXSize, 3*settingsQuickInfoCloseXSize)
 
         ToolTip {
             anchors.fill: parent

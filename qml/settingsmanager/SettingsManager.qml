@@ -20,6 +20,7 @@ Rectangle {
     visible: opacity!=0
     Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
+    property int settingsQuickInfoCloseXSize: Math.max(5, Math.min(25, settings.quickInfoCloseXSize))
 
     // setData is only emitted when settings have been 'closed without saving'
     // See comment above 'setData_restore()' function below
@@ -295,7 +296,7 @@ Rectangle {
         anchors.top: parent.top
 
         source: "qrc:/img/closingx.png"
-        sourceSize: Qt.size(3*Math.max(5, Math.min(25, settings.quickInfoCloseXSize)),3*Math.max(5, Math.min(25, settings.quickInfoCloseXSize)))
+        sourceSize: Qt.size(3*settingsQuickInfoCloseXSize, 3*settingsQuickInfoCloseXSize)
 
         ToolTip {
             anchors.fill: parent

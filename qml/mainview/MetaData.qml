@@ -12,8 +12,13 @@ Item {
 
     property string orientation: ""
 
+    // make sure settings values are valid
+    property int settingsMetadataWindowWidth: Math.max(Math.min(settings.metadataWindowWidth, background.width/2), 300)
+    property int settingsMetadataOpacity: Math.min(Math.max(settings.metadataOpacity/255, 0), 1)
+    property int settingsMetadataFontSize: Math.max(5, Math.min(20, settings.metadataFontSize))
+
     // Adjust size
-    width: Math.max(Math.min(settings.metadataWindowWidth, background.width/2), 300)
+    width: settingsMetadataWindowWidth
     anchors {
         left: mainwindow.left
         top: mainwindow.top
@@ -34,7 +39,7 @@ Item {
         border.color: colour.fadein_slidein_border
 
         // Opacity is between 0 and 1 and depends on settings
-        opacity: Math.min(Math.max(settings.metadataOpacity/255, 0), 1)
+        opacity: settingsMetadataOpacity
 
     }
 
@@ -258,7 +263,7 @@ Item {
 
                 visible: imageLoaded
                 color: colour.text
-                font.pointSize: Math.max(5, Math.min(20, settings.metadataFontSize))
+                font.pointSize: settingsMetadataFontSize
                 lineHeight: (name == "" ? 0.8 : 1.3);
                 textFormat: Text.RichText
                 width: parent.width

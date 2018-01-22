@@ -13,8 +13,6 @@ Rectangle {
     // Background/Border color
     color: colour.fadein_slidein_bg
 
-    property string slideShowMusicFile: getanddostuff.doesThisExist(slideShowMusicFile) ? slideShowMusicFile : ""
-
     // Set position (we pretend that rounded corners are along the bottom edge only, that's why visible y is off screen)
     x: 0
     y: 0
@@ -26,6 +24,10 @@ Rectangle {
     // Adjust size
     width: mainwindow.width+2
     height: pause.height+20
+
+    // make sure settings values are valid
+    property int settingsSlideShowTime: Math.max(1000, Math.min(300*1000, settings.slideShowTime*1000))
+    property string settingsSlideShowMusicFile: getanddostuff.doesThisExist(settingsSlideShowMusicFile) ? settingsSlideShowMusicFile : ""
 
     // paused?
     property bool paused: false
@@ -64,7 +66,7 @@ Rectangle {
                 text: em.pty+qsTr("Music Volume:")
                 font.pointSize: 10
                 y: (volumerect.height-height)/2
-                color: slideShowMusicFile == "" ? colour.text_disabled : colour.text
+                color: settingsSlideShowMusicFile == "" ? colour.text_disabled : colour.text
             }
             CustomSlider {
                 id: volumeslider
@@ -73,14 +75,14 @@ Rectangle {
                 stepSize: 1
                 scrollStep: 5
                 value: 80
-                enabled: slideShowMusicFile != ""
+                enabled: settingsSlideShowMusicFile != ""
                 y: (volumerect.height-height)/2
             }
             Text {
                 text: "" + volumeslider.value + "%"
                 font.pointSize: 10
                 y: (volumerect.height-height)/2
-                color: slideShowMusicFile == "" ? colour.text_disabled : colour.text
+                color: settingsSlideShowMusicFile == "" ? colour.text_disabled : colour.text
             }
         }
     }
@@ -151,8 +153,8 @@ Rectangle {
         variables.guiBlocked = true
 
         // Set music file
-        if(slideShowMusicFile != "") {
-            slideshowmusic.source = "file://" + slideShowMusicFile
+        if(settingsSlideShowMusicFile != "") {
+            slideshowmusic.source = "file://" + settingsSlideShowMusicFile
             slideshowmusic.play()
         }
 
@@ -195,7 +197,7 @@ Rectangle {
         }
 
         // Set up timer for switching images
-        imageswitcher.interval = Math.max(1000, Math.min(300*1000, settings.slideShowTime*1000))
+        imageswitcher.interval = settingsSlideShowTime
         imageswitcher.start()
 
         // Slide in and out bar to signal start of slideshow
@@ -211,7 +213,7 @@ Rectangle {
         // Pause
         if(!paused) {
             // Pause music (if set)
-            if(slideShowMusicFile != "")
+            if(settingsSlideShowMusicFile != "")
                 slideshowmusic.pause()
             paused = true
             imageswitcher.stop()
@@ -220,7 +222,7 @@ Rectangle {
         // Play
         } else {
             // Play music (if set)
-            if(slideShowMusicFile != "")
+            if(settingsSlideShowMusicFile != "")
                 slideshowmusic.play()
             paused = false
             imageswitcher.start()
@@ -243,7 +245,7 @@ Rectangle {
         showAndHideBar()
 
         // Stop music (if started)
-        if(slideShowMusicFile != "")
+        if(settingsSlideShowMusicFile != "")
             slideshowmusic.stop()
 
         // Update variables

@@ -18,12 +18,16 @@ Rectangle {
     y: -1
 
     // Adjust size
-    width: Math.max(Math.min(settings.mainMenuWindowWidth, background.width/2), 300)
+    width: settingsMainMenuWindowWidth
     height: background.height+2
 
     opacity: 0
     visible: opacity != 0
     Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
+
+    // make sure settings values are valid
+    property int settingsQuickInfoCloseXSize: Math.max(5, Math.min(25, settings.quickInfoCloseXSize))
+    property int settingsMainMenuWindowWidth: Math.max(Math.min(settings.mainMenuWindowWidth, background.width/2), 300)
 
     // This mouseare catches all mouse movements and prevents them from being passed on to the background
     MouseArea { anchors.fill: parent; hoverEnabled: true }
@@ -119,8 +123,8 @@ Rectangle {
         anchors.topMargin: 1
 
         // Width depends on type of 'x'
-        width: 3*Math.max(5, Math.min(25, settings.quickInfoCloseXSize))
-        height: 3*Math.max(5, Math.min(25, settings.quickInfoCloseXSize))
+        width: 3*settingsQuickInfoCloseXSize
+        height: 3*settingsQuickInfoCloseXSize
 
         // Invisible rectangle
         color: "#00000000"

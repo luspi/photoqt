@@ -7,16 +7,19 @@ Item {
 
     id: top
 
-    property int thumbnailSize: Math.max(20, Math.min(256, settings.thumbnailSize))
-    property int thumbnailPosition: settings.thumbnailPosition=="Top" ? "Top" : "Bottom"
-    property int thumbnailSpacingBetween: Math.max(0, Math.min(30, settings.thumbnailSpacingBetween))
-    property int thumbnailLiftUp: Math.max(0, Math.min(40, settings.thumbnailLiftUp))
-
     // The position of the bar, either at top or bottom
     x: metadata.nonFloatWidth
-    y: thumbnailPosition=="Top" ? 0 : mainwindow.height-height
+    y: settingsThumbnailPosition=="Top" ? 0 : mainwindow.height-height
     width: mainwindow.width-metadata.nonFloatWidth
-    height: thumbnailSize+thumbnailLiftUp+25
+    height: settingsThumbnailSize+settingsThumbnailLiftUp+25
+
+    // make sure settings values are valid
+    property int settingsThumbnailSize: Math.max(20, Math.min(256, settings.thumbnailSize))
+    property int settingsThumbnailPosition: settings.thumbnailPosition=="Top" ? "Top" : "Bottom"
+    property int settingsThumbnailSpacingBetween: Math.max(0, Math.min(30, settings.thumbnailSpacingBetween))
+    property int settingsThumbnailLiftUp: Math.max(0, Math.min(40, settings.thumbnailLiftUp))
+    property int settingsThumbnailFilenameInsteadFontSize: Math.max(5, Math.min(20, settings.thumbnailFilenameInsteadFontSize))
+    property int settingsThumbnailFontSize: Math.max(5, Math.min(20, settings.thumbnailFontSize))
 
     Behavior on x { NumberAnimation { duration: variables.animationSpeed } }
     Behavior on width { NumberAnimation { duration: variables.animationSpeed } }
@@ -93,12 +96,12 @@ Item {
         // Centered!
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        x: (variables.allFilesCurrentDir.length*thumbnailSize > parent.width
+        x: (variables.allFilesCurrentDir.length*settingsThumbnailSize > parent.width
             ? 0
-            : (parent.width-variables.allFilesCurrentDir.length*thumbnailSize)/2)
-        width: (variables.allFilesCurrentDir.length*thumbnailSize > parent.width
+            : (parent.width-variables.allFilesCurrentDir.length*settingsThumbnailSize)/2)
+        width: (variables.allFilesCurrentDir.length*settingsThumbnailSize > parent.width
                 ? parent.width
-                : variables.allFilesCurrentDir.length*thumbnailSize)
+                : variables.allFilesCurrentDir.length*settingsThumbnailSize)
 
         ListView {
 
@@ -127,7 +130,7 @@ Item {
                 id: scrollbar
                 visible: !settings.thumbnailDisable && (view.contentWidth > view.width)
                 flickable: view;
-                displayAtBottomEdge: thumbnailPosition=="Bottom"
+                displayAtBottomEdge: settingsThumbnailPosition=="Bottom"
             }
 
         }
@@ -166,17 +169,17 @@ Item {
             color: colour.thumbnails_bg
 
             // The width and the height of the rectangle depends on the thumbnailsize (plus a little extra in height)
-            width: thumbnailSize
-            height: thumbnailSize+thumbnailLiftUp+rect.thumbnailExtraMargin
+            width: settingsThumbnailSize
+            height: settingsThumbnailSize+settingsThumbnailLiftUp+rect.thumbnailExtraMargin
 
             // Update the position of the current thumbnail depending on the activated, loaded and edge setting
             y: activated||loaded
-                    ? (thumbnailPosition=="Top"
-                            ? -rect.thumbnailExtraMargin/2+thumbnailLiftUp
+                    ? (settingsThumbnailPosition=="Top"
+                            ? -rect.thumbnailExtraMargin/2+settingsThumbnailLiftUp
                             : 0)+rect.thumbnailExtraMargin/3
-                    : (thumbnailPosition=="Top"
+                    : (settingsThumbnailPosition=="Top"
                             ? -rect.thumbnailExtraMargin/2
-                            : thumbnailLiftUp)+rect.thumbnailExtraMargin/3
+                            : settingsThumbnailLiftUp)+rect.thumbnailExtraMargin/3
 
             Behavior on y { NumberAnimation { duration: variables.animationSpeed/5 } }
 
@@ -188,10 +191,10 @@ Item {
                 // The positioning of the thumbnail inside of the containing rectangle
                 anchors {
                     fill: parent
-                    leftMargin: thumbnailSpacingBetween
-                    rightMargin: thumbnailSpacingBetween
-                    topMargin: thumbnailPosition=="Top" ? thumbnailLiftUp+2*(rect.thumbnailExtraMargin/3) : undefined
-                    bottomMargin: thumbnailPosition=="Top" ? undefined : thumbnailLiftUp+2*(rect.thumbnailExtraMargin/3)
+                    leftMargin: settingsThumbnailSpacingBetween
+                    rightMargin: settingsThumbnailSpacingBetween
+                    topMargin: settingsThumbnailPosition=="Top" ? settingsThumbnailLiftUp+2*(rect.thumbnailExtraMargin/3) : undefined
+                    bottomMargin: settingsThumbnailPosition=="Top" ? undefined : settingsThumbnailLiftUp+2*(rect.thumbnailExtraMargin/3)
                 }
 
                 // Animate lift up/down of thumbnails
@@ -277,10 +280,10 @@ Item {
                 // The size and location
                 anchors {
                     fill: parent
-                    leftMargin: thumbnailSpacingBetween
-                    rightMargin: thumbnailSpacingBetween
-                    topMargin: thumbnailPosition=="Top" ? thumbnailLiftUp+2*(rect.thumbnailExtraMargin/3) : undefined
-                    bottomMargin: thumbnailPosition=="Top" ? undefined : thumbnailLiftUp+2*(rect.thumbnailExtraMargin/3)
+                    leftMargin: settingsThumbnailSpacingBetween
+                    rightMargin: settingsThumbnailSpacingBetween
+                    topMargin: settingsThumbnailPosition=="Top" ? settingsThumbnailLiftUp+2*(rect.thumbnailExtraMargin/3) : undefined
+                    bottomMargin: settingsThumbnailPosition=="Top" ? undefined : settingsThumbnailLiftUp+2*(rect.thumbnailExtraMargin/3)
                 }
 
                 // only visible when filename-only thumbnail enabled
@@ -300,7 +303,7 @@ Item {
                     color: "white"
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     elide: Text.ElideRight
-                    font.pointSize: Math.max(5, Math.min(20, settings.thumbnailFilenameInsteadFontSize))
+                    font.pointSize: settingsThumbnailFilenameInsteadFontSize
                     font.bold: true
 
                     // align text
@@ -319,7 +322,7 @@ Item {
 
                 // The location and dimension of the label
                 x: 5
-                y: thumbnailPosition=="Top" ? parent.height*0.45 : parent.height*0.55
+                y: settingsThumbnailPosition=="Top" ? parent.height*0.45 : parent.height*0.55
                 width: parent.width-10
                 height: childrenRect.height+4
 
@@ -347,7 +350,7 @@ Item {
                     // The appearance of the text
                     color: colour.text
                     font.bold: true
-                    font.pointSize: Math.max(5, Math.min(20, settings.thumbnailFontSize))
+                    font.pointSize: settingsThumbnailFontSize
 
                     // The handling of the text (in particular too long texts)
                     maximumLineCount: 1
@@ -388,7 +391,7 @@ Item {
     // Ensure selected item is centered/visible
     function _ensureCurrentItemVisible() {
 
-        if(variables.totalNumberImagesCurrentFolder*thumbnailSize > top.width) {
+        if(variables.totalNumberImagesCurrentFolder*settingsThumbnailSize > top.width) {
 
             // Newly loaded dir => center item
             if(settings.thumbnailCenterActive) {
@@ -413,8 +416,8 @@ Item {
         destPos = view.contentX;
         if(loc == ListView.Contain && destPos != pos) {
             // Make sure there is a little margin past the thumbnail kept visible
-            if(destPos > pos) destPos += thumbnailSize/2
-            else if(destPos < pos) destPos -= thumbnailSize/2
+            if(destPos > pos) destPos += settingsThumbnailSize/2
+            else if(destPos < pos) destPos -= settingsThumbnailSize/2
             // but ensure that we don't go beyond the view area
             if(destPos < 0) destPos = 0
             if(destPos > view.contentWidth-view.width) destPos = view.contentWidth-view.width

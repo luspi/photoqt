@@ -6,10 +6,12 @@ import "handlestuff.js" as Handle
 
 Rectangle {
 
+    id: folders_top
+
     // minimum width is 200
     Layout.minimumWidth: 200
     // starting width is read from settings
-    width: settings.openFoldersWidth
+    width: Math.max(200, Math.min(folders_top.width/2, settings.openFoldersWidth))
     // a change in width is written to settings
     onWidthChanged: settings.openFoldersWidth = width
 

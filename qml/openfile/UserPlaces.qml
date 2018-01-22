@@ -12,7 +12,7 @@ Rectangle {
     // minimum width is 200
     Layout.minimumWidth: 200
     // starting width is read from settings
-    width: settings.openUserPlacesWidth
+    width: Math.max(200, Math.min(userplaces_top.width/2, settings.openUserPlacesWidth))
     // a change in width is written to settings
     onWidthChanged: settings.openUserPlacesWidth = width
 

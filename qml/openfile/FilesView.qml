@@ -18,6 +18,10 @@ Rectangle {
     // when this is set to true, an 'unsupported protocol' message is displayed
     property bool showUnsupportedProtocolFolderMessage: false
 
+    // make sure settings values are valid
+    property string settingsOpenDefaultView: (settings.openDefaultView=="icons" ? "icons" : "list")
+    property int settingsOpenZoomLevel: Math.max(10, Math.min(50, settings.openZoomLevel))
+
     // if in focus, show a slight blue glimmer
     color: (openvariables.currentFocusOn=="filesview") ? "#44000055" : "#44000000"
 
@@ -39,8 +43,8 @@ Rectangle {
 
         // size of individual items depend on type of view. A list is nothing but a grid with one column
         // we animate switching the view mode
-        cellWidth: settings.openDefaultView=="icons" ? settings.openZoomLevel*4 : width
-        cellHeight: settings.openDefaultView=="icons" ? settings.openZoomLevel*4 : settings.openZoomLevel
+        cellWidth: settingsOpenDefaultView=="icons" ? settingsOpenZoomLevel*4 : width
+        cellHeight: settingsOpenDefaultView=="icons" ? settingsOpenZoomLevel*4 : settingsOpenZoomLevel
         Behavior on cellWidth { NumberAnimation { id: cellWidthAni; duration: variables.animationSpeed; } }
         Behavior on cellHeight { NumberAnimation { id: cellHeightAni; duration: variables.animationSpeed/2; } }
 
@@ -163,9 +167,9 @@ Rectangle {
         Rectangle {
 
             // size and position inside component (i.e., inside cell)
-            y: settings.openDefaultView=="icons" ? 0 : 1
+            y: settingsOpenDefaultView=="icons" ? 0 : 1
             width: gridview.cellWidth
-            height: gridview.cellHeight-(settings.openDefaultView=="icons" ? 0 : 2)
+            height: gridview.cellHeight-(settingsOpenDefaultView=="icons" ? 0 : 2)
 
             // some faint background color
             color: "#44000000"
@@ -178,8 +182,8 @@ Rectangle {
                 // position and size, depends on type of view
                 x: 3
                 y: 3
-                height: settings.openDefaultView=="icons" ? 2*parent.height/3 -6 : parent.height-6
-                width: settings.openDefaultView=="icons" ? parent.width-6 : parent.height-6
+                height: settingsOpenDefaultView=="icons" ? 2*parent.height/3 -6 : parent.height-6
+                width: settingsOpenDefaultView=="icons" ? parent.width-6 : parent.height-6
 
                 // some properties
                 asynchronous: true
@@ -225,14 +229,14 @@ Rectangle {
                 anchors.rightMargin: fs_list.width+20
 
                 // visible when view mode is list
-                visible: settings.openDefaultView!="icons"
+                visible: settingsOpenDefaultView=="list"
 
                 // some properties
                 verticalAlignment: Qt.AlignVCenter
                 elide: Text.ElideRight
                 color: "white"
                 font.bold: true
-                font.pixelSize: settings.openZoomLevel/2
+                font.pixelSize: settingsOpenZoomLevel/2
 
                 // the filename set as text
                 text: filename
@@ -251,7 +255,7 @@ Rectangle {
                 height: parent.height/3 -4
 
                 // visible when view mode is icons
-                visible: settings.openDefaultView=="icons"
+                visible: settingsOpenDefaultView=="icons"
 
                 // some properties
                 color: "#88000000"
@@ -269,7 +273,7 @@ Rectangle {
                     // some properties
                     color: "white"
                     font.bold: true
-                    font.pixelSize: settings.openZoomLevel/2
+                    font.pixelSize: settingsOpenZoomLevel/2
                     maximumLineCount: 1
                     elide: Text.ElideMiddle
 
@@ -286,7 +290,7 @@ Rectangle {
                 id: fs_list
 
                 // visibility depends on view mode
-                visible: settings.openDefaultView!="icons"
+                visible: settingsOpenDefaultView=="list"
 
                 // size and position
                 anchors{
@@ -295,7 +299,7 @@ Rectangle {
                     bottom: parent.bottom
                     rightMargin: 10
                 }
-                width: settings.openDefaultView=="icons" ? 0 : fs_listtext.width
+                width: settingsOpenDefaultView=="icons" ? 0 : fs_listtext.width
 
                 // the actual filesize text
                 Text {
@@ -313,7 +317,7 @@ Rectangle {
                     // some properties
                     color: "white"
                     font.bold: true
-                    font.pixelSize: settings.openZoomLevel/2
+                    font.pixelSize: settingsOpenZoomLevel/2
 
                     // the actual filesize text
                     text: filesize
@@ -328,8 +332,8 @@ Rectangle {
                 anchors.fill: parent
 
                 // To avoid gaps between the items (in list view) that are not clickable, we extend the mousearea to y=0 and y=height
-                anchors.topMargin: settings.openDefaultView=="icons" ? 0 : -1
-                anchors.bottomMargin: settings.openDefaultView=="icons" ? 0 : -1
+                anchors.topMargin: settingsOpenDefaultView=="icons" ? 0 : -1
+                anchors.bottomMargin: settingsOpenDefaultView=="icons" ? 0 : -1
 
                 // some properties
                 hoverEnabled: true

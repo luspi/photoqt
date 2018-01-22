@@ -6,7 +6,7 @@ Item {
 
     visible: !variables.deleteNothingLeft && !variables.filterNoMatch
 
-    property int marginAroundImage: Math.max(0, Math.min(100, settings.marginAroundImage))
+    property int marginAroundImage: settingsMarginAroundImage
 
     // fill out main element
     anchors {
@@ -16,6 +16,11 @@ Item {
         topMargin: marginAroundImage
         bottomMargin: marginAroundImage+(settings.thumbnailKeepVisible||settings.thumbnailKeepVisibleWhenNotZoomedIn ? variables.thumbnailsheight : 0)
     }
+
+    // make sure settings values are valid
+    property int settingsMarginAroundImage: Math.max(0, Math.min(100, settings.marginAroundImage))
+    property int settingsSlideShowImageTransition: Math.max(0, Math.min(15, settings.slideShowImageTransition))*150
+    property int settingsImageTransition: Math.max(0, Math.min(15, settings.imageTransition))
 
     // the source of the current image
     property bool animated: false
@@ -85,9 +90,7 @@ Item {
             imageMargin: marginAroundImage
 
             positionDuration: 250
-            transitionDuration: (variables.slideshowRunning
-                                 ? Math.max(0, Math.min(15, settings.slideShowImageTransition))*150
-                                 : Math.max(0, Math.min(15, settings.imageTransition)))*150
+            transitionDuration: (variables.slideshowRunning ? settingsSlideShowImageTransition : settingsImageTransition)*150
             scaleDuration: 250
             rotationDuration: 250
 
@@ -118,9 +121,7 @@ Item {
             imageMargin: marginAroundImage
 
             positionDuration: 250
-            transitionDuration: (variables.slideshowRunning
-                                 ? Math.max(0, Math.min(15, settings.slideShowImageTransition))*150
-                                 : Math.max(0, Math.min(15, settings.imageTransition)))*150
+            transitionDuration: (variables.slideshowRunning ? settingsSlideShowImageTransition : settingsImageTransition)*150
             scaleDuration: 250
             rotationDuration: 250
 
@@ -151,9 +152,7 @@ Item {
             imageMargin: marginAroundImage
 
             positionDuration: 250
-            transitionDuration: (variables.slideshowRunning
-                                 ? Math.max(0, Math.min(15, settings.slideShowImageTransition))*150
-                                 : Math.max(0, Math.min(15, settings.imageTransition)))*150
+            transitionDuration: (variables.slideshowRunning ? settingsSlideShowImageTransition : settingsImageTransition)*150
             scaleDuration: 250
             rotationDuration: 250
 
@@ -184,9 +183,7 @@ Item {
             imageMargin: marginAroundImage
 
             positionDuration: 250
-            transitionDuration: (variables.slideshowRunning
-                                 ? Math.max(0, Math.min(15, settings.slideShowImageTransition))*150
-                                 : Math.max(0, Math.min(15, settings.imageTransition)))*150
+            transitionDuration: (variables.slideshowRunning ? settingsSlideShowImageTransition : settingsImageTransition)*150
             scaleDuration: 250
             rotationDuration: 250
 
