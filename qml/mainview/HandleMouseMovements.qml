@@ -51,7 +51,7 @@ MouseArea {
         } else
             metadata.hide()
 
-        if(settings.thumbnailPosition=="Bottom") {
+        if(settings.thumbnailPosition!="Top") {
             if(yPos > mainwindow.height-w && !variables.slideshowRunning && !settings.thumbnailDisable)
                 call.show("thumbnails")
             else if((!settings.thumbnailKeepVisible && !settings.thumbnailKeepVisibleWhenNotZoomedIn) || (settings.thumbnailKeepVisibleWhenNotZoomedIn && imageitem.isZoomedIn()))

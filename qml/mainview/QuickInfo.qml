@@ -25,7 +25,7 @@ Item {
         id: containerRect
 
         x: 0
-        y: settings.thumbnailPosition == "Bottom" ? 0 : background.height-height-6
+        y: settings.thumbnailPosition != "Top" ? 0 : background.height-height-6
 
         // it is always as big as the item it contains
         width: childrenRect.width+6
