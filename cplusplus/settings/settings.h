@@ -616,7 +616,7 @@ public slots:
 
         QFile file(ConfigFiles::SETTINGS_FILE());
 
-        if(!file.open(QIODevice::ReadWrite))
+        if(file.exists() && !file.open(QIODevice::ReadWrite))
 
             LOG << CURDATE << "ERROR saving settings" << NL;
 
@@ -624,8 +624,10 @@ public slots:
 
             if(verbose) LOG << CURDATE << "Save Settings" << NL;
 
-            file.close();
-            file.remove();
+            if(file.exists()) {
+                file.close();
+                file.remove();
+            }
             file.open(QIODevice::ReadWrite);
 
             QTextStream out(&file);
@@ -801,453 +803,335 @@ public slots:
 
             // Read file
             QTextStream in(&file);
-            QString all = in.readAll();
-
-            if(all.contains("Language="))
-                language = all.split("Language=").at(1).split("\n").at(0);
-
-            if(all.contains("Version="))
-                versionInTextFile = all.split("Version=").at(1).split("\n").at(0);
-
-            if(all.contains("SortImagesBy="))
-                sortby = all.split("SortImagesBy=").at(1).split("\n").at(0);
-
-            if(all.contains("SortImagesAscending=1"))
-                sortbyAscending = true;
-            else if(all.contains("SortImagesAscending=0"))
-                sortbyAscending = false;
-
-            if(all.contains("WindowMode=1"))
-                windowMode = true;
-            else if(all.contains("WindowMode=0"))
-                windowMode = false;
-
-            if(all.contains("WindowDecoration=1"))
-                windowDecoration = true;
-            else if(all.contains("WindowDecoration=0"))
-                windowDecoration = false;
-
-            if(all.contains("Animations=1"))
-                animations = true;
-            else if(all.contains("Animations=0"))
-                animations = false;
-
-            if(all.contains("SaveWindowGeometry=1"))
-                saveWindowGeometry = true;
-            else if(all.contains("SaveWindowGeometry=0"))
-                saveWindowGeometry = false;
-
-            if(all.contains("KeepOnTop=1"))
-                keepOnTop = true;
-            else if(all.contains("KeepOnTop=0"))
-                keepOnTop = false;
-
-            if(all.contains("Composite=1"))
-                composite = true;
-            else if(all.contains("Composite=0"))
-                composite = false;
-
-            if(all.contains("StartupLoadLastLoadedImage=1"))
-                startupLoadLastLoadedImage = true;
-            else if(all.contains("StartupLoadLastLoadedImage=0"))
-                startupLoadLastLoadedImage = false;
-
-
-            if(all.contains("BackgroundColorRed="))
-                backgroundColorRed = all.split("BackgroundColorRed=").at(1).split("\n").at(0).toInt();
-            if(all.contains("BackgroundColorGreen="))
-                backgroundColorGreen = all.split("BackgroundColorGreen=").at(1).split("\n").at(0).toInt();
-            if(all.contains("BackgroundColorBlue="))
-                backgroundColorBlue = all.split("BackgroundColorBlue=").at(1).split("\n").at(0).toInt();
-            if(all.contains("BackgroundColorAlpha="))
-                backgroundColorAlpha = all.split("BackgroundColorAlpha=").at(1).split("\n").at(0).toInt();
-
-            if(all.contains("BackgroundImageScreenshot="))
-                backgroundImageScreenshot = bool(all.split("BackgroundImageScreenshot=").at(1).split("\n").at(0).toInt());
-
-            if(all.contains("BackgroundImagePath="))
-                backgroundImagePath = all.split("BackgroundImagePath=").at(1).split("\n").at(0);
-            if(all.contains("BackgroundImageUse="))
-                backgroundImageUse = bool(all.split("BackgroundImageUse=").at(1).split("\n").at(0).toInt());
-            if(all.contains("BackgroundImageScale="))
-                backgroundImageScale = bool(all.split("BackgroundImageScale=").at(1).split("\n").at(0).toInt());
-            if(all.contains("BackgroundImageScaleCrop="))
-                backgroundImageScaleCrop = bool(all.split("BackgroundImageScaleCrop=").at(1).split("\n").at(0).toInt());
-            if(all.contains("BackgroundImageStretch="))
-                backgroundImageStretch = bool(all.split("BackgroundImageStretch=").at(1).split("\n").at(0).toInt());
-            if(all.contains("BackgroundImageCenter="))
-                backgroundImageCenter = bool(all.split("BackgroundImageCenter=").at(1).split("\n").at(0).toInt());
-            if(all.contains("BackgroundImageTile="))
-                backgroundImageTile = bool(all.split("BackgroundImageTile=").at(1).split("\n").at(0).toInt());
-
-
-            if(all.contains("TrayIcon="))
-                trayIcon = all.split("TrayIcon=").at(1).split("\n").at(0).toInt();
-
-            if(all.contains("ImageTransition="))
-                imageTransition = all.split("ImageTransition=").at(1).split("\n").at(0).toInt();
-
-            if(all.contains("LoopThroughFolder=1"))
-                loopThroughFolder = true;
-            else if(all.contains("LoopThroughFolder=0"))
-                loopThroughFolder = false;
-
-            if(all.contains("HotEdgeWidth="))
-                hotEdgeWidth = all.split("HotEdgeWidth=").at(1).split("\n").at(0).toInt();
-
-            if(all.contains("CloseOnEmptyBackground=1"))
-                closeOnEmptyBackground = true;
-            else if(all.contains("CloseOnEmptyBackground=0"))
-                closeOnEmptyBackground = false;
-
-            if(all.contains("MarginAroundImage="))
-                marginAroundImage = all.split("MarginAroundImage=").at(1).split("\n").at(0).toInt();
-
-            if(all.contains("MouseWheelSensitivity="))
-                mouseWheelSensitivity = all.split("MouseWheelSensitivity=").at(1).split("\n").at(0).toInt();
-
-            if(all.contains("KeepZoomRotationMirror=1"))
-                keepZoomRotationMirror = true;
-            else if(all.contains("KeepZoomRotationMirror=0"))
-                keepZoomRotationMirror = false;
-
-            if(all.contains("FitInWindow=1"))
-                fitInWindow = true;
-            else if(all.contains("FitInWindow=0"))
-                fitInWindow = false;
-
-            if(all.contains("InterpolationNearestNeighbourThreshold="))
-                interpolationNearestNeighbourThreshold = all.split("InterpolationNearestNeighbourThreshold=").at(1).split("\n").at(0).toInt();
-
-            if(all.contains("InterpolationNearestNeighbourUpscale=1"))
-                interpolationNearestNeighbourUpscale = true;
-            else if(all.contains("InterpolationNearestNeighbourUpscale=0"))
-                interpolationNearestNeighbourUpscale = false;
-
-            if(all.contains("PixmapCache="))
-                pixmapCache = all.split("PixmapCache=").at(1).split("\n").at(0).toInt();
-
-            if(all.contains("ShowTransparencyMarkerBackground="))
-                showTransparencyMarkerBackground = all.split("ShowTransparencyMarkerBackground=").at(1).split("\n").at(0).toInt();
-
-            if(all.contains("LeftButtonMouseClickAndMove=1"))
-                leftButtonMouseClickAndMove = true;
-            else if(all.contains("LeftButtonMouseClickAndMove=0"))
-                leftButtonMouseClickAndMove = false;
-
-            if(all.contains("QuickInfoHideCounter=1"))
-                quickInfoHideCounter = true;
-            else if(all.contains("QuickInfoHideCounter=0"))
-                quickInfoHideCounter = false;
-
-            if(all.contains("QuickInfoHideFilepath=1"))
-                quickInfoHideFilepath = true;
-            else if(all.contains("QuickInfoHideFilepath=0"))
-                quickInfoHideFilepath = false;
-
-            if(all.contains("QuickInfoHideFilename=1"))
-                quickInfoHideFilename = true;
-            else if(all.contains("QuickInfoHideFilename=0"))
-                quickInfoHideFilename = false;
-
-            if(all.contains("QuickInfoHideX=1"))
-                quickInfoHideX = true;
-            else if(all.contains("QuickInfoHideX=0"))
-                quickInfoHideX = false;
-
-            if(all.contains("QuickInfoCloseXSize="))
-                quickInfoCloseXSize = all.split("QuickInfoCloseXSize=").at(1).split("\n").at(0).toInt();
-
-            if(all.contains(("QuickInfoFullX=1")))
-                quickInfoFullX = true;
-            else if(all.contains("QuickInfoFullX=0"))
-                quickInfoFullX = false;
-
-            if(all.contains("ThumbnailSize="))
-                thumbnailSize = all.split("ThumbnailSize=").at(1).split("\n").at(0).toInt();
-
-            if(all.contains("ThumbnailPosition="))
-                thumbnailPosition = all.split("ThumbnailPosition=").at(1).split("\n").at(0);
-
-            if(all.contains("ThumbnailCache=1"))
-                thumbnailCache = true;
-            else if(all.contains("ThumbnailCache=0"))
-                thumbnailCache = false;
-
-            if(all.contains("ThumbnailCacheFile=1"))
-                thumbnailCacheFile = true;
-            else if(all.contains("ThumbnailCacheFile=0"))
-                thumbnailCacheFile = false;
-
-            if(all.contains("ThumbnailSpacingBetween="))
-                thumbnailSpacingBetween = all.split("ThumbnailSpacingBetween=").at(1).split("\n").at(0).toInt();
-            // That below is the old property
-            else if(all.contains("ThumbnailBorderAround="))
-                thumbnailSpacingBetween = all.split("ThumbnailBorderAround=").at(1).split("\n").at(0).toInt();
-
-            if(all.contains("ThumbnailLiftUp="))
-                thumbnailLiftUp = all.split("ThumbnailLiftUp=").at(1).split("\n").at(0).toInt();
-
-            if(all.contains("ThumbnailKeepVisible=1"))
-                thumbnailKeepVisible = true;
-            else if(all.contains("ThumbnailKeepVisible=0"))
-                thumbnailKeepVisible = false;
-
-            if(all.contains("ThumbnailKeepVisibleWhenNotZoomedIn=1"))
-                thumbnailKeepVisibleWhenNotZoomedIn = true;
-            else if(all.contains("ThumbnailKeepVisibleWhenNotZoomedIn=0"))
-                thumbnailKeepVisibleWhenNotZoomedIn = false;
-
-            if(all.contains("ThumbnailCenterActive=1"))
-                thumbnailCenterActive = true;
-            else if(all.contains("ThumbnailCenterActive=0"))
-                thumbnailCenterActive = false;
-
-            if(all.contains("ThumbnailFilenameInstead=1"))
-                thumbnailFilenameInstead = true;
-            else if(all.contains("ThumbnailFilenameInstead=0"))
-                thumbnailFilenameInstead = false;
-
-            if(all.contains("ThumbnailFilenameInsteadFontSize="))
-                thumbnailFilenameInsteadFontSize = all.split("ThumbnailFilenameInsteadFontSize=").at(1).split("\n").at(0).toInt();
-
-            if(all.contains("ThumbnailDisable=1"))
-                thumbnailDisable = true;
-            else if(all.contains("ThumbnailDisable=0"))
-                thumbnailDisable = false;
-
-            if(all.contains("ThumbnailWriteFilename=1"))
-                thumbnailWriteFilename = true;
-            else if(all.contains("ThumbnailWriteFilename=0"))
-                thumbnailWriteFilename = false;
-
-            if(all.contains("ThumbnailFontSize="))
-                thumbnailFontSize = all.split("ThumbnailFontSize=").at(1).split("\n").at(0).toInt();
-
-
-            if(all.contains("SlideShowTime="))
-                slideShowTime = all.split("SlideShowTime=").at(1).split("\n").at(0).toInt();
-
-            if(all.contains("SlideShowImageTransition="))
-                slideShowImageTransition = all.split("SlideShowImageTransition=").at(1).split("\n").at(0).toInt();
-
-            if(all.contains("SlideShowMusicFile="))
-                slideShowMusicFile = all.split("SlideShowMusicFile=").at(1).split("\n").at(0).trimmed();
-
-            if(all.contains("SlideShowShuffle=1"))
-                slideShowShuffle = true;
-            else if(all.contains("SlideShowShuffle=0"))
-                slideShowShuffle = false;
-
-            if(all.contains("SlideShowLoop=1"))
-                slideShowLoop = true;
-            else if(all.contains("SlideShowLoop=0"))
-                slideShowLoop = false;
-
-            if(all.contains("SlideShowHideQuickInfo="))
-                slideShowHideQuickInfo = bool(all.split("SlideShowHideQuickInfo=").at(1).split("\n").at(0).toInt());
-
-
-            if(all.contains("MetaFilename=1"))
-                metaFilename = true;
-            else if(all.contains("MetaFilename=0"))
-                metaFilename = false;
-
-            if(all.contains("MetaFileType=1"))
-                metaFileType = true;
-            else if(all.contains("MetaFileType=0"))
-                metaFileType = false;
-
-            if(all.contains("MetaFileSize=1"))
-                metaFileSize = true;
-            else if(all.contains("MetaFileSize=0"))
-                metaFileSize = false;
-
-            if(all.contains("MetaImageNumber=1"))
-                metaImageNumber = true;
-            else if(all.contains("MetaImageNumber=0"))
-                metaImageNumber = false;
-
-            if(all.contains("MetaDimensions=1"))
-                metaDimensions = true;
-            else if(all.contains("MetaDimensions=0"))
-                metaDimensions = false;
-
-            if(all.contains("MetaMake=1"))
-                metaMake = true;
-            else if(all.contains("MetaMake=0"))
-                metaMake = false;
-
-            if(all.contains("MetaModel=1"))
-                metaModel = true;
-            else if(all.contains("MetaModel=0"))
-                metaModel = false;
-
-            if(all.contains("MetaSoftware=1"))
-                metaSoftware = true;
-            else if(all.contains("MetaSoftware=0"))
-                metaSoftware = false;
-
-            if(all.contains("MetaTimePhotoTaken=1"))
-                metaTimePhotoTaken = true;
-            else if(all.contains("MetaTimePhotoTaken=0"))
-                metaTimePhotoTaken = false;
-
-            if(all.contains("MetaExposureTime=1"))
-                metaExposureTime = true;
-            else if(all.contains("MetaExposureTime=0"))
-                metaExposureTime = false;
-
-            if(all.contains("MetaFlash=1"))
-                metaFlash = true;
-            else if(all.contains("MetaFlash=0"))
-                metaFlash = false;
-
-            if(all.contains("MetaIso=1"))
-                metaIso = true;
-            else if(all.contains("MetaIso=0"))
-                metaIso = false;
-
-            if(all.contains("MetaSceneType=1"))
-                metaSceneType = true;
-            else if(all.contains("MetaSceneType=0"))
-                metaSceneType = false;
-
-            if(all.contains("MetaFLength=1"))
-                metaFLength = true;
-            else if(all.contains("MetaFLength=0"))
-                metaFLength = false;
-
-            if(all.contains("MetaFNumber=1"))
-                metaFNumber = true;
-            else if(all.contains("MetaFNumber=0"))
-                metaFNumber = false;
-
-            if(all.contains("MetaLightSource=1"))
-                metaLightSource = true;
-            else if(all.contains("MetaLightSource=0"))
-                metaLightSource = false;
-
-            if(all.contains("MetaGps=1"))
-                metaGps = true;
-            else if(all.contains("MetaGps=0"))
-                metaGps = false;
-
-            if(all.contains("MetaKeywords=1"))
-                metaKeywords = true;
-            else if(all.contains("MetaKeywords=0"))
-                metaKeywords = false;
-
-            if(all.contains("MetaLocation=1"))
-                metaLocation = true;
-            else if(all.contains("MetaLocation=0"))
-                metaLocation = false;
-
-            if(all.contains("MetaCopyright=1"))
-                metaCopyright = true;
-            else if(all.contains("MetaCopyright=0"))
-                metaCopyright = false;
-
-            if(all.contains("MetaApplyRotation=1"))
-                metaApplyRotation = true;
-            else if(all.contains("MetaApplyRotation=0"))
-                metaApplyRotation = false;
-
-            if(all.contains("MetaGpsMapService="))
-                metaGpsMapService = all.split("MetaGpsMapService=").at(1).split("\n").at(0);
-
-            if(all.contains("MetadataEnableHotEdge=1"))
-                metadataEnableHotEdge = true;
-            else if(all.contains("MetadataEnableHotEdge=0"))
-                metadataEnableHotEdge = false;
-
-            if(all.contains("MetadataFontSize="))
-                metadataFontSize = all.split("MetadataFontSize=").at(1).split("\n").at(0).toInt();
-
-            if(all.contains("MetadataOpacity="))
-                metadataOpacity = all.split("MetadataOpacity=").at(1).split("\n").at(0).toInt();
-
-            if(all.contains("MetadataWindowWidth="))
-                metadataWindowWidth = all.split("MetadataWindowWidth=").at(1).split("\n").at(0).toInt();
-
-
-            if(all.contains("OpenDefaultView=list"))
-                openDefaultView = "list";
-            else if(all.contains("OpenDefaultView=icons"))
-                openDefaultView = "icons";
-
-            if(all.contains("OpenPreview=1"))
-                openPreview = true;
-            else if(all.contains("OpenPreview=0"))
-                openPreview = false;
-
-            if(all.contains("OpenZoomLevel="))
-                openZoomLevel = all.split("OpenZoomLevel=").at(1).split("\n").at(0).toInt();
-
-            if(all.contains("OpenUserPlacesWidth="))
-                openUserPlacesWidth = all.split("OpenUserPlacesWidth=").at(1).split("\n").at(0).toInt();
-
-            if(all.contains("OpenFoldersWidth="))
-                openFoldersWidth = all.split("OpenFoldersWidth=").at(1).split("\n").at(0).toInt();
-
-            if(all.contains("OpenThumbnails=1"))
-                openThumbnails = true;
-            else if(all.contains("OpenThumbnails=0"))
-                openThumbnails = false;
-
-            if(all.contains("OpenPreviewHighQuality=1"))
-                openPreviewHighQuality = true;
-            else if(all.contains("OpenPreviewHighQuality=0"))
-                openPreviewHighQuality = false;
-
-            if(all.contains("OpenUserPlacesStandard=1"))
-                openUserPlacesStandard = true;
-            else if(all.contains("OpenUserPlacesStandard=0"))
-                openUserPlacesStandard = false;
-
-            if(all.contains("OpenUserPlacesUser=1"))
-                openUserPlacesUser = true;
-            else if(all.contains("OpenUserPlacesUser=0"))
-                openUserPlacesUser = false;
-
-            if(all.contains("OpenUserPlacesVolumes=1"))
-                openUserPlacesVolumes = true;
-            else if(all.contains("OpenUserPlacesVolumes=0"))
-                openUserPlacesVolumes = false;
-
-            if(all.contains("OpenKeepLastLocation=1"))
-                openKeepLastLocation = true;
-            else if(all.contains("OpenKeepLastLocation=0"))
-                openKeepLastLocation = false;
-
-            if(all.contains("OpenShowHiddenFilesFolders=1"))
-                openShowHiddenFilesFolders = true;
-            else if(all.contains("OpenShowHiddenFilesFolders=0"))
-                openShowHiddenFilesFolders = false;
-
-
-            if(all.contains("MainMenuWindowWidth="))
-                mainMenuWindowWidth = all.split("MainMenuWindowWidth=").at(1).split("\n").at(0).toInt();
-
-            if(all.contains("Histogram=1"))
-                histogram = true;
-            else if(all.contains("Histogram=0"))
-                histogram = false;
-
-            if(all.contains("HistogramVersion="))
-                histogramVersion = all.split("HistogramVersion=").at(1).split("\n").at(0);
-
-            if(all.contains("HistogramPosition=")) {
-                QStringList parts = all.split("HistogramPosition=").at(1).split("\n").at(0).split(",");
-                histogramPosition = QPoint(parts.at(0).toInt(), parts.at(1).toInt());
-            }
-
-            if(all.contains("HistogramSize=")) {
-                QStringList parts = all.split("HistogramSize=").at(1).split("\n").at(0).split(",");
-                histogramSize = QSize(parts.at(0).toInt(), parts.at(1).toInt());
-            }
-
+            QStringList parts = in.readAll().split("\n");
             file.close();
+
+            for(QString line : parts) {
+
+                if(line.startsWith("Language="))
+                    language = line.split("=").at(1).trimmed();
+
+                else if(line.startsWith("Version="))
+                    versionInTextFile = line.split("=").at(1).trimmed();
+
+
+                else if(line.startsWith("SortImagesBy="))
+                    sortby = line.split("=").at(1).trimmed();
+
+                else if(line.startsWith("SortImagesAscending="))
+                    sortbyAscending = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("WindowMode="))
+                    windowMode = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("WindowDecoration="))
+                    windowDecoration = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("Animations="))
+                    animations = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("SaveWindowGeometry="))
+                    saveWindowGeometry = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("KeepOnTop="))
+                    keepOnTop = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("Composite="))
+                    composite = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("StartupLoadLastLoadedImage="))
+                    startupLoadLastLoadedImage = line.split("=").at(1).toInt();
+
+
+                else if(line.startsWith("BackgroundColorRed="))
+                    backgroundColorRed = line.split("=").at(1).toInt();
+                else if(line.startsWith("BackgroundColorGreen="))
+                    backgroundColorGreen = line.split("=").at(1).toInt();
+                else if(line.startsWith("BackgroundColorBlue="))
+                    backgroundColorBlue = line.split("=").at(1).toInt();
+                else if(line.startsWith("BackgroundColorAlpha="))
+                    backgroundColorAlpha = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("BackgroundImageScreenshot="))
+                    backgroundImageScreenshot = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("BackgroundImagePath="))
+                    backgroundImagePath = line.split("=").at(1);
+                else if(line.startsWith("BackgroundImageUse="))
+                    backgroundImageUse = line.split("=").at(1).toInt();
+                else if(line.startsWith("BackgroundImageScale="))
+                    backgroundImageScale = line.split("=").at(1).toInt();
+                else if(line.startsWith("BackgroundImageScaleCrop="))
+                    backgroundImageScaleCrop = line.split("=").at(1).toInt();
+                else if(line.startsWith("BackgroundImageStretch="))
+                    backgroundImageStretch = line.split("=").at(1).toInt();
+                else if(line.startsWith("BackgroundImageCenter="))
+                    backgroundImageCenter = line.split("=").at(1).toInt();
+                else if(line.startsWith("BackgroundImageTile="))
+                    backgroundImageTile = line.split("=").at(1).toInt();
+
+
+                else if(line.startsWith("TrayIcon="))
+                    trayIcon = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("ImageTransition="))
+                    imageTransition = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("LoopThroughFolder="))
+                    loopThroughFolder = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("HotEdgeWidth="))
+                    hotEdgeWidth = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("CloseOnEmptyBackground="))
+                    closeOnEmptyBackground = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("MarginAroundImage="))
+                    marginAroundImage = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("MouseWheelSensitivity="))
+                    mouseWheelSensitivity = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("KeepZoomRotationMirror="))
+                    keepZoomRotationMirror = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("FitInWindow="))
+                    fitInWindow = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("InterpolationNearestNeighbourThreshold="))
+                    interpolationNearestNeighbourThreshold = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("InterpolationNearestNeighbourUpscale="))
+                    interpolationNearestNeighbourUpscale = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("PixmapCache="))
+                    pixmapCache = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("ShowTransparencyMarkerBackground="))
+                    showTransparencyMarkerBackground = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("LeftButtonMouseClickAndMove="))
+                    leftButtonMouseClickAndMove = line.split("=").at(1).toInt();
+
+
+                else if(line.startsWith("QuickInfoHideCounter="))
+                    quickInfoHideCounter = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("QuickInfoHideFilepath="))
+                    quickInfoHideFilepath = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("QuickInfoHideFilename="))
+                    quickInfoHideFilename = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("QuickInfoHideX="))
+                    quickInfoHideX = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("QuickInfoCloseXSize="))
+                    quickInfoCloseXSize = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("QuickInfoFullX="))
+                    quickInfoFullX = line.split("=").at(1).toInt();
+
+
+                else if(line.startsWith("ThumbnailSize="))
+                    thumbnailSize = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("ThumbnailPosition="))
+                    thumbnailPosition = line.split("=").at(1);
+
+                else if(line.startsWith("ThumbnailCache="))
+                    thumbnailCache = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("ThumbnailCacheFile="))
+                    thumbnailCacheFile = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("ThumbnailSpacingBetween="))
+                    thumbnailSpacingBetween = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("ThumbnailLiftUp="))
+                    thumbnailLiftUp = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("ThumbnailKeepVisible="))
+                    thumbnailKeepVisible = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("ThumbnailKeepVisibleWhenNotZoomedIn="))
+                    thumbnailKeepVisibleWhenNotZoomedIn = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("ThumbnailCenterActive="))
+                    thumbnailCenterActive = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("ThumbnailFilenameInstead="))
+                    thumbnailFilenameInstead = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("ThumbnailFilenameInsteadFontSize="))
+                    thumbnailFilenameInsteadFontSize = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("ThumbnailDisable="))
+                    thumbnailDisable = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("ThumbnailWriteFilename="))
+                    thumbnailWriteFilename = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("ThumbnailFontSize="))
+                    thumbnailFontSize = line.split("=").at(1).toInt();
+
+
+                else if(line.startsWith("SlideShowTime="))
+                    slideShowTime = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("SlideShowImageTransition="))
+                    slideShowImageTransition = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("SlideShowMusicFile="))
+                    slideShowMusicFile = line.split("=").at(1);
+
+                else if(line.startsWith("SlideShowShuffle="))
+                    slideShowShuffle = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("SlideShowLoop="))
+                    slideShowLoop = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("SlideShowHideQuickInfo="))
+                    slideShowHideQuickInfo = line.split("=").at(1).toInt();
+
+
+                else if(line.startsWith("MetaFilename="))
+                    metaFilename = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("MetaFileType="))
+                    metaFileType = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("MetaFileSize="))
+                    metaFileSize = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("MetaImageNumber="))
+                    metaImageNumber = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("MetaDimensions="))
+                    metaDimensions = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("MetaMake="))
+                    metaMake = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("MetaModel="))
+                    metaModel = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("MetaSoftware="))
+                    metaSoftware = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("MetaTimePhotoTaken="))
+                    metaTimePhotoTaken = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("MetaExposureTime="))
+                    metaExposureTime = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("MetaFlash="))
+                    metaFlash = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("MetaIso="))
+                    metaIso = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("MetaSceneType="))
+                    metaSceneType = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("MetaFLength="))
+                    metaFLength = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("MetaFNumber="))
+                    metaFNumber = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("MetaLightSource="))
+                    metaLightSource = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("MetaGps="))
+                    metaGps = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("MetaKeywords="))
+                    metaKeywords = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("MetaLocation="))
+                    metaLocation = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("MetaCopyright="))
+                    metaCopyright = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("MetaApplyRotation="))
+                    metaApplyRotation = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("MetaGpsMapService="))
+                    metaGpsMapService = line.split("=").at(1);
+
+                else if(line.startsWith("MetadataEnableHotEdge="))
+                    metadataEnableHotEdge = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("MetadataFontSize="))
+                    metadataFontSize = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("MetadataOpacity="))
+                    metadataOpacity = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("MetadataWindowWidth="))
+                    metadataWindowWidth = line.split("=").at(1).toInt();
+
+
+                else if(line.startsWith("OpenDefaultView="))
+                    openDefaultView = line.split("=").at(1).trimmed();
+
+                else if(line.startsWith("OpenPreview="))
+                    openPreview = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("OpenZoomLevel="))
+                    openZoomLevel = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("OpenUserPlacesWidth="))
+                    openUserPlacesWidth = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("OpenFoldersWidth="))
+                    openFoldersWidth = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("OpenThumbnails="))
+                    openThumbnails = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("OpenPreviewHighQuality="))
+                    openPreviewHighQuality = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("OpenUserPlacesStandard="))
+                    openUserPlacesStandard = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("OpenUserPlacesUser="))
+                    openUserPlacesUser = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("OpenUserPlacesVolumes="))
+                    openUserPlacesVolumes = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("OpenKeepLastLocation="))
+                    openKeepLastLocation = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("OpenShowHiddenFilesFolders="))
+                    openShowHiddenFilesFolders = line.split("=").at(1).toInt();
+
+
+                else if(line.startsWith("MainMenuWindowWidth="))
+                    mainMenuWindowWidth = line.split("=").at(1).toInt();
+
+
+                else if(line.startsWith("Histogram="))
+                    histogram = line.split("=").at(1).toInt();
+
+                else if(line.startsWith("HistogramVersion="))
+                    histogramVersion = line.split("=").at(1);
+
+                else if(line.startsWith("HistogramPosition=")) {
+                    QStringList parts = line.split("HistogramPosition=").at(1).split(",");
+                    histogramPosition = QPoint(parts.at(0).toInt(), parts.at(1).toInt());
+                }
+
+                else if(line.startsWith("HistogramSize=")) {
+                    QStringList parts = line.split("HistogramSize=").at(1).split(",");
+                    histogramSize = QSize(parts.at(0).toInt(), parts.at(1).toInt());
+                }
+
+            }
 
         }
 
