@@ -6,13 +6,15 @@ Item {
 
     visible: !variables.deleteNothingLeft && !variables.filterNoMatch
 
+    property int marginAroundImage: Math.max(0, Math.min(100, settings.marginAroundImage))
+
     // fill out main element
     anchors {
         fill: parent
-        leftMargin: settings.marginAroundImage+metadata.nonFloatWidth
-        rightMargin: settings.marginAroundImage
-        topMargin: settings.marginAroundImage
-        bottomMargin: settings.marginAroundImage+(settings.thumbnailKeepVisible||settings.thumbnailKeepVisibleWhenNotZoomedIn ? variables.thumbnailsheight : 0)
+        leftMargin: marginAroundImage+metadata.nonFloatWidth
+        rightMargin: marginAroundImage
+        topMargin: marginAroundImage
+        bottomMargin: marginAroundImage+(settings.thumbnailKeepVisible||settings.thumbnailKeepVisibleWhenNotZoomedIn ? variables.thumbnailsheight : 0)
     }
 
     // the source of the current image
@@ -80,7 +82,7 @@ Item {
             // Pass on some settings
 
             fitImageInWindow: settings.fitInWindow
-            imageMargin: settings.marginAroundImage
+            imageMargin: marginAroundImage
 
             positionDuration: 250
             transitionDuration: (variables.slideshowRunning
@@ -89,8 +91,8 @@ Item {
             scaleDuration: 250
             rotationDuration: 250
 
-            defaultHeight: mainimage_top.height-settings.marginAroundImage
-            defaultWidth: mainimage_top.width-settings.marginAroundImage
+            defaultHeight: mainimage_top.height-marginAroundImage
+            defaultWidth: mainimage_top.width-marginAroundImage
 
             // Connect to some signals, set this as current or hide the other image
             onHideOther: {
@@ -113,7 +115,7 @@ Item {
             // Pass on some settings
 
             fitImageInWindow: settings.fitInWindow
-            imageMargin: settings.marginAroundImage
+            imageMargin: marginAroundImage
 
             positionDuration: 250
             transitionDuration: (variables.slideshowRunning
@@ -122,8 +124,8 @@ Item {
             scaleDuration: 250
             rotationDuration: 250
 
-            defaultHeight: mainimage_top.height-settings.marginAroundImage
-            defaultWidth: mainimage_top.width-settings.marginAroundImage
+            defaultHeight: mainimage_top.height-marginAroundImage
+            defaultWidth: mainimage_top.width-marginAroundImage
 
             // Connect to some signals, set this as current or hide the other image
             onHideOther: {
@@ -146,7 +148,7 @@ Item {
             // Pass on some settings
 
             fitImageInWindow: settings.fitInWindow
-            imageMargin: settings.marginAroundImage
+            imageMargin: marginAroundImage
 
             positionDuration: 250
             transitionDuration: (variables.slideshowRunning
@@ -155,8 +157,8 @@ Item {
             scaleDuration: 250
             rotationDuration: 250
 
-            defaultHeight: mainimage_top.height-settings.marginAroundImage
-            defaultWidth: mainimage_top.width-settings.marginAroundImage
+            defaultHeight: mainimage_top.height-marginAroundImage
+            defaultWidth: mainimage_top.width-marginAroundImage
 
             // Connect to some signals, set this as current or hide the other image
             onHideOther: {
@@ -179,7 +181,7 @@ Item {
             // Pass on some settings
 
             fitImageInWindow: settings.fitInWindow
-            imageMargin: settings.marginAroundImage
+            imageMargin: marginAroundImage
 
             positionDuration: 250
             transitionDuration: (variables.slideshowRunning
@@ -188,8 +190,8 @@ Item {
             scaleDuration: 250
             rotationDuration: 250
 
-            defaultHeight: mainimage_top.height-settings.marginAroundImage
-            defaultWidth: mainimage_top.width-settings.marginAroundImage
+            defaultHeight: mainimage_top.height-marginAroundImage
+            defaultWidth: mainimage_top.width-marginAroundImage
 
             // Connect to some signals, set this as current or hide the other image
             onHideOther: {

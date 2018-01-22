@@ -34,7 +34,7 @@ EntryContainer {
                     y: (parent.height-height)/2
 
                     minimumValue: 0
-                    maximumValue: 50
+                    maximumValue: 100
 
                     value: border_sizespinbox.value
                     tickmarksEnabled: true
@@ -49,7 +49,7 @@ EntryContainer {
                     width: 75
 
                     minimumValue: 0
-                    maximumValue: 50
+                    maximumValue: 100
 
                     value: border_sizeslider.value
                     suffix: " px"
