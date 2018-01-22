@@ -10,12 +10,13 @@ Item {
     property int thumbnailSize: Math.max(20, Math.min(256, settings.thumbnailSize))
     property int thumbnailPosition: settings.thumbnailPosition=="Top" ? "Top" : "Bottom"
     property int thumbnailSpacingBetween: Math.max(0, Math.min(30, settings.thumbnailSpacingBetween))
+    property int thumbnailLiftUp: Math.max(0, Math.min(40, settings.thumbnailLiftUp))
 
     // The position of the bar, either at top or bottom
     x: metadata.nonFloatWidth
     y: thumbnailPosition=="Top" ? 0 : mainwindow.height-height
     width: mainwindow.width-metadata.nonFloatWidth
-    height: thumbnailSize+settings.thumbnailLiftUp+25
+    height: thumbnailSize+thumbnailLiftUp+25
 
     Behavior on x { NumberAnimation { duration: variables.animationSpeed } }
     Behavior on width { NumberAnimation { duration: variables.animationSpeed } }
@@ -166,16 +167,16 @@ Item {
 
             // The width and the height of the rectangle depends on the thumbnailsize (plus a little extra in height)
             width: thumbnailSize
-            height: thumbnailSize+settings.thumbnailLiftUp+rect.thumbnailExtraMargin
+            height: thumbnailSize+thumbnailLiftUp+rect.thumbnailExtraMargin
 
             // Update the position of the current thumbnail depending on the activated, loaded and edge setting
             y: activated||loaded
                     ? (thumbnailPosition=="Top"
-                            ? -rect.thumbnailExtraMargin/2+settings.thumbnailLiftUp
+                            ? -rect.thumbnailExtraMargin/2+thumbnailLiftUp
                             : 0)+rect.thumbnailExtraMargin/3
                     : (thumbnailPosition=="Top"
                             ? -rect.thumbnailExtraMargin/2
-                            : settings.thumbnailLiftUp)+rect.thumbnailExtraMargin/3
+                            : thumbnailLiftUp)+rect.thumbnailExtraMargin/3
 
             Behavior on y { NumberAnimation { duration: variables.animationSpeed/5 } }
 
@@ -189,8 +190,8 @@ Item {
                     fill: parent
                     leftMargin: thumbnailSpacingBetween
                     rightMargin: thumbnailSpacingBetween
-                    topMargin: thumbnailPosition=="Top" ? settings.thumbnailLiftUp+2*(rect.thumbnailExtraMargin/3) : undefined
-                    bottomMargin: thumbnailPosition=="Top" ? undefined : settings.thumbnailLiftUp+2*(rect.thumbnailExtraMargin/3)
+                    topMargin: thumbnailPosition=="Top" ? thumbnailLiftUp+2*(rect.thumbnailExtraMargin/3) : undefined
+                    bottomMargin: thumbnailPosition=="Top" ? undefined : thumbnailLiftUp+2*(rect.thumbnailExtraMargin/3)
                 }
 
                 // Animate lift up/down of thumbnails
@@ -278,8 +279,8 @@ Item {
                     fill: parent
                     leftMargin: thumbnailSpacingBetween
                     rightMargin: thumbnailSpacingBetween
-                    topMargin: thumbnailPosition=="Top" ? settings.thumbnailLiftUp+2*(rect.thumbnailExtraMargin/3) : undefined
-                    bottomMargin: thumbnailPosition=="Top" ? undefined : settings.thumbnailLiftUp+2*(rect.thumbnailExtraMargin/3)
+                    topMargin: thumbnailPosition=="Top" ? thumbnailLiftUp+2*(rect.thumbnailExtraMargin/3) : undefined
+                    bottomMargin: thumbnailPosition=="Top" ? undefined : thumbnailLiftUp+2*(rect.thumbnailExtraMargin/3)
                 }
 
                 // only visible when filename-only thumbnail enabled
