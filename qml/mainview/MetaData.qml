@@ -18,7 +18,7 @@ Rectangle {
     border.color: colour.fadein_slidein_border
 
     // Adjust size
-    width: settings.metadataWindowWidth
+    width: Math.max(Math.min(settings.metadataWindowWidth, background.width/2), 300)
     anchors {
         left: mainwindow.left
         top: mainwindow.top

@@ -18,7 +18,7 @@ Rectangle {
     y: -1
 
     // Adjust size
-    width: settings.mainMenuWindowWidth
+    width: Math.max(Math.min(settings.mainMenuWindowWidth, background.width/2), 300)
     height: background.height+2
 
     opacity: 0
