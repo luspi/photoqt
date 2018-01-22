@@ -90,11 +90,11 @@ public:
         connect(this, &Settings::backgroundImageTileChanged,                    &Settings::saveSettingsTimerStart);
 
         connect(this, &Settings::trayIconChanged,                               &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::transitionChanged,                             &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::imageTransitionChanged,                        &Settings::saveSettingsTimerStart);
         connect(this, &Settings::loopThroughFolderChanged,                      &Settings::saveSettingsTimerStart);
         connect(this, &Settings::hotEdgeWidthChanged,                           &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::closeongreyChanged,                            &Settings::saveSettingsTimerStart);
-        connect(this, &Settings::borderAroundImgChanged,                        &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::closeOnEmptyBackgroundChanged,                 &Settings::saveSettingsTimerStart);
+        connect(this, &Settings::marginAroundImageChanged,                      &Settings::saveSettingsTimerStart);
         connect(this, &Settings::sortbyChanged,                                 &Settings::saveSettingsTimerStart);
         connect(this, &Settings::sortbyAscendingChanged,                        &Settings::saveSettingsTimerStart);
         connect(this, &Settings::mouseWheelSensitivityChanged,                  &Settings::saveSettingsTimerStart);
@@ -352,11 +352,11 @@ public:
     Q_PROPERTY(bool    backgroundImageTile              MEMBER backgroundImageTile              NOTIFY backgroundImageTileChanged)
 
     Q_PROPERTY(int     trayIcon                         MEMBER trayIcon                         NOTIFY trayIconChanged)
-    Q_PROPERTY(int     imageTransition                  MEMBER imageTransition                  NOTIFY transitionChanged)
+    Q_PROPERTY(int     imageTransition                  MEMBER imageTransition                  NOTIFY imageTransitionChanged)
     Q_PROPERTY(bool    loopThroughFolder                MEMBER loopThroughFolder                NOTIFY loopThroughFolderChanged)
     Q_PROPERTY(int     hotEdgeWidth                     MEMBER hotEdgeWidth                     NOTIFY hotEdgeWidthChanged)
-    Q_PROPERTY(bool    closeOnEmptyBackground           MEMBER closeOnEmptyBackground           NOTIFY closeongreyChanged)
-    Q_PROPERTY(int     marginAroundImage                MEMBER marginAroundImage                NOTIFY borderAroundImgChanged)
+    Q_PROPERTY(bool    closeOnEmptyBackground           MEMBER closeOnEmptyBackground           NOTIFY closeOnEmptyBackgroundChanged)
+    Q_PROPERTY(int     marginAroundImage                MEMBER marginAroundImage                NOTIFY marginAroundImageChanged)
     Q_PROPERTY(QString sortby                           MEMBER sortby                           NOTIFY sortbyChanged)
     Q_PROPERTY(bool    sortbyAscending                  MEMBER sortbyAscending                  NOTIFY sortbyAscendingChanged)
     Q_PROPERTY(int     mouseWheelSensitivity            MEMBER mouseWheelSensitivity            NOTIFY mouseWheelSensitivityChanged)
@@ -1289,11 +1289,11 @@ signals:
     void backgroundImageTileChanged(bool val);
 
     void trayIconChanged(int val);
-    void transitionChanged(int val);
+    void imageTransitionChanged(int val);
     void loopThroughFolderChanged(bool val);
     void hotEdgeWidthChanged(int val);
-    void closeongreyChanged(bool val);
-    void borderAroundImgChanged(int val);
+    void closeOnEmptyBackgroundChanged(bool val);
+    void marginAroundImageChanged(int val);
     void sortbyChanged(QString val);
     void sortbyAscendingChanged(bool val);
     void mouseWheelSensitivityChanged(int val);
