@@ -120,23 +120,76 @@ Item {
         opacity: 0
         Behavior on opacity { NumberAnimation { duration: transitionDuration } }
         onOpacityChanged: {
-            if(opacity == 0) {
-                resetPositionWithoutAnimation()
-                resetRotationWithoutAnimation()
-                resetZoomWithoutAnimation()
-            // to make sure the scale is properly reset (without animation) when showing a new image
-            } else if(opacity < 0.1)
-                scaleAni.complete()
+            if(!settings.keepZoomRotationMirror) {
+                if(opacity == 0) {
+                    resetPositionWithoutAnimation()
+                    resetRotationWithoutAnimation()
+                    resetZoomWithoutAnimation()
+                // to make sure the scale is properly reset (without animation) when showing a new image
+                } else if(opacity < 0.1)
+                    scaleAni.complete()
+            }
         }
 
         // When imae is loaded, show image and hid the other
         onStatusChanged: {
             if(status == Image.Ready) {
+                var currentIdBefore = currentId
                 setAsCurrentId()
-                resetPositionWithoutAnimation()
-                resetZoomWithoutAnimation()
-                resetRotationWithoutAnimation()
-                scaleAni.complete()
+                // If we don't keep the properties, reset them all
+                if(!settings.keepZoomRotationMirror) {
+                    resetPositionWithoutAnimation()
+                    resetZoomWithoutAnimation()
+                    resetRotationWithoutAnimation()
+                    // The scale property is the only property animated using 'Behavior on' (due to a complex scale property)
+                    // This is to ensure the animation is completed. Its duration should be set to 0, but this does not always work reliably
+                    scaleAni.complete()
+                // Keep rotation, scale, positionDuration
+                } else {
+                    // no scale animation wanted
+                    scaleAni.duration = 0
+                    // copy properties of image1 element
+                    if(currentIdBefore == image1) {
+                        imageContainer.x = image1.x
+                        imageContainer.y = image1.y
+                        imageContainer.scaleMultiplier = image1.scaleMultiplier
+                        imageContainer.rotation = image1.rotation
+                        // if the aspect ratio of the image has changed or the image dimensions, we reset the position, as this could otherwise lead to odd behavior
+                        // (not wrong behavior, just not very userfriendly)
+                        if(getImageRatio() != image1.getImageRatio() || getWidthPlusHeight() != image1.getWidthPlusHeight())
+                            resetPositionWithoutAnimation()
+                    // copy properties of image2 element
+                    } else if(currentIdBefore == image2) {
+                        imageContainer.x = image2.x
+                        imageContainer.y = image2.y
+                        imageContainer.scaleMultiplier = image2.scaleMultiplier
+                        imageContainer.rotation = image2.rotation
+                        // if the aspect ratio of the image has changed or the image dimensions, we reset the position, as this could otherwise lead to odd behavior
+                        // (not wrong behavior, just not very userfriendly)
+                        if(getImageRatio() != image2.getImageRatio() || getWidthPlusHeight() != image2.getWidthPlusHeight())
+                            resetPositionWithoutAnimation()
+                    // copy properties of imageANIM1 element
+                    } else if(currentIdBefore == imageANIM1) {
+                        imageContainer.x = imageANIM1.x
+                        imageContainer.y = imageANIM1.y
+                        imageContainer.scaleMultiplier = imageANIM1.scaleMultiplier
+                        imageContainer.rotation = imageANIM1.rotation
+                        // if the aspect ratio of the image has changed or the image dimensions, we reset the position, as this could otherwise lead to odd behavior
+                        // (not wrong behavior, just not very userfriendly)
+                        if(getImageRatio() != imageANIM1.getImageRatio() || getWidthPlusHeight() != imageANIM1.getWidthPlusHeight())
+                            resetPositionWithoutAnimation()
+                    // copy properties of imageANIM2 element
+                    } else if(currentIdBefore == imageANIM2) {
+                        imageContainer.x = imageANIM2.x
+                        imageContainer.y = imageANIM2.y
+                        imageContainer.scaleMultiplier = imageANIM2.scaleMultiplier
+                        imageContainer.rotation = imageANIM2.rotation
+                        // if the aspect ratio of the image has changed or the image dimensions, we reset the position, as this could otherwise lead to odd behavior
+                        // (not wrong behavior, just not very userfriendly)
+                        if(getImageRatio() != imageANIM2.getImageRatio() || getWidthPlusHeight() != imageANIM2.getWidthPlusHeight())
+                            resetPositionWithoutAnimation()
+                    }
+                }
                 opacity = 1
                 mainImageFinishedLoading = true
                 hideOther()
@@ -207,6 +260,14 @@ Item {
     /***************************************************************/
     /***************************************************************/
     // Some system functions
+
+    // some info about the currently loaded image
+    function getImageRatio() {
+        return image.width/image.height
+    }
+    function getWidthPlusHeight() {
+        return image.width+image.height
+    }
 
     function reloadImage() {
         var tmp = image.source
