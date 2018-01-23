@@ -207,6 +207,8 @@ Item {
                 // always load them assynchronously
                 asynchronous: true
 
+                smooth: (sourceSize.width < img.width/3 && sourceSize.height < img.height/3) ? false : true
+
                 // when no thumbnail image is loaded, the icon is shown partially opaque
                 opacity: settings.thumbnailFilenameInstead ? 0.6 : (status==Image.Ready ? 1 : 0)
                 Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
