@@ -60,7 +60,7 @@ Item {
                                           defaultHeight / image.sourceSize.height )
             : scaleMultiplier)
     // Animate the scale property. We reset the duration after it is done as it is sometimes set to zero (e.g. for loading a new image)
-    Behavior on scale { NumberAnimation { id: scaleAni; duration: scaleDuration; onStopped: duration = scaleDuration } }
+    Behavior on scale { NumberAnimation { id: scaleAni; duration: scaleDuration } }
 
     // When the image is zoomed in/out we emit a signal
     // this is needed, e.g., for the thumbnail bar in combination with the keepVisibleWhenNotZoomed property
@@ -71,14 +71,9 @@ Item {
     // The x and y positions depend on the image
     x: ( defaultWidth - width ) / 2 + imageMargin/2
     y: ( defaultHeight - height ) / 2 + imageMargin/2
-    // Animate the x/y properties
-    Behavior on x { NumberAnimation { id: posXAni; duration: 0; onStopped: duration = 0 } }
-    Behavior on y { NumberAnimation { id: posYAni; duration: 0; onStopped: duration = 0 } }
 
     // The rotation of the current image
     rotation: 0
-    // ... animated
-    Behavior on rotation { NumberAnimation { id: rotationAni; duration: rotationDuration; onStopped: duration = rotationDuration } }
     // When rotating by 90/270 degrees and with the image essentially not moved/zoomed we reset the zoom to show the whole image
     onRotationChanged: {
         if(scaleMultiplier > image.sourceSize.height/image.sourceSize.width-0.01 && scaleMultiplier < 1.1
@@ -120,6 +115,15 @@ Item {
         visible: (opacity!=0)
         opacity: 0
         Behavior on opacity { NumberAnimation { duration: transitionDuration } }
+        onOpacityChanged: {
+            if(opacity == 0) {
+                resetPositionWithoutAnimation()
+                resetRotationWithoutAnimation()
+                resetZoomWithoutAnimation()
+            // to make sure the scale is properly reset (without animation) when showing a new image
+            } else if(opacity < 0.1)
+                scaleAni.complete()
+        }
 
         // When imae is loaded, show image and hid the other
         onStatusChanged: {
@@ -128,6 +132,7 @@ Item {
                 resetPositionWithoutAnimation()
                 resetZoomWithoutAnimation()
                 resetRotationWithoutAnimation()
+                scaleAni.complete()
                 opacity = 1
                 mainImageFinishedLoading = true
                 hideOther()
@@ -202,6 +207,27 @@ Item {
         }
     }
 
+    // We use this type of animation for resetting the x,y coordinates on user request, as otherwise (when using Behavior on x,y)
+    // the image might be weirdly animated when fading in/out
+    PropertyAnimation {
+        id: xAni
+        target: imageContainer
+        properties: "x"
+        duration: positionDuration
+    }
+    PropertyAnimation {
+        id: yAni
+        target: imageContainer
+        properties: "y"
+        duration: positionDuration
+    }
+    PropertyAnimation {
+        id: rotationAni
+        target: imageContainer
+        properties: "rotation"
+        duration: rotationDuration
+    }
+
     /***************************************************************/
     /***************************************************************/
     // Some system functions
@@ -223,16 +249,16 @@ Item {
 
     // Reset position to center image on screen, animated.
     function resetPosition() {
-        posXAni.duration = positionDuration
-        posYAni.duration = positionDuration
-        x = Qt.binding(function() { return ( defaultWidth - width ) / 2 + imageMargin/2 })
-        y = Qt.binding(function() { return ( defaultHeight - height ) / 2 + imageMargin/2 })
+        xAni.from = imageContainer.x
+        xAni.to = ( defaultWidth - width ) / 2 + imageMargin/2
+        yAni.from = imageContainer.y
+        yAni.to = ( defaultHeight - height ) / 2 + imageMargin/2
+        xAni.running = true
+        yAni.running = true
     }
 
     // Reset position to center image on screen, not animated.
     function resetPositionWithoutAnimation() {
-        posXAni.duration = 0
-        posYAni.duration = 0
         x = Qt.binding(function() { return ( defaultWidth - width ) / 2 + imageMargin/2 })
         y = Qt.binding(function() { return ( defaultHeight - height ) / 2 + imageMargin/2 })
     }
@@ -280,29 +306,22 @@ Item {
     }
 
     function rotateImage(angle) {
-        rotationAni.duration = rotationDuration
-        if(rotationAni.running)
-            imageContainer.rotation = rotationAni.to+angle
-        else
-            imageContainer.rotation += angle
+        rotationAni.from = imageContainer.rotation
+        rotationAni.to = (rotationAni.running ? rotationAni.to+angle : imageContainer.rotation+angle)
+        rotationAni.running = true
     }
 
     function resetRotation() {
 
-        rotationAni.duration = rotationDuration
-
         var angle = (imageContainer.rotation%360 +360)%360
 
-        if(angle <= 180)
-            imageContainer.rotation -= angle
-        else
-            imageContainer.rotation += (360-angle)
+        rotationAni.from = imageContainer.rotation
+        rotationAni.to = (angle <= 180 ? imageContainer.rotation-angle : imageContainer.rotation+(360-angle))
+        rotationAni.running = true
 
     }
 
     function resetRotationWithoutAnimation() {
-
-        rotationAni.duration = 0
 
         var angle = (imageContainer.rotation%360 +360)%360
 
@@ -318,7 +337,6 @@ Item {
     }
 
     function mirrorVertical() {
-        rotationAni.duration = 0
         imageContainer.rotation += 180
         image.mirror = !image.mirror
     }
