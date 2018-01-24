@@ -123,7 +123,8 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
     p = imageproviderfull->requestImage(filename.toPercentEncoding(),tmp,QSize(ts,ts));
     delete tmp;
 
-    if(p.width() <= ts && p.height() <= ts)
+    // Only if the image itself is smaller than the requested thumbnail size are both dimensions less than (strictly) than ts
+    if(p.width() < ts && p.height() < ts)
         return p;
 
     // Create file cache thumbnail
