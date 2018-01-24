@@ -32,22 +32,20 @@ namespace StartupCheck {
 
             if(verbose) LOG << CURDATE << "StartupCheck::UpdateCheck" << NL;
 
-            if(settings->versionInTextFile == "") {
+            if(settings->getVersionInTextFile() == "") {
                 if(verbose) LOG << CURDATE << "PhotoQt newly installed!" << NL;
-                settings->version = VERSION;
-                settings->versionChanged(VERSION);
+                settings->setVersion(VERSION);
                 return 2;
             }
 
             if(verbose) LOG << CURDATE << "Checking if first run of new version" << NL;
 
             // If it doesn't contain current version (some previous version)
-            if(settings->version != settings->versionInTextFile) {
+            if(settings->getVersion() != settings->getVersionInTextFile()) {
 
                 if(verbose) LOG << CURDATE << "PhotoQt updated" << NL;
 
-                settings->version = VERSION;
-                settings->versionChanged(VERSION);
+                settings->setVersion(VERSION);
 
                 return 1;
 

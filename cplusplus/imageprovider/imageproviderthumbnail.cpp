@@ -10,7 +10,7 @@ ImageProviderThumbnail::ImageProviderThumbnail() : QQuickImageProvider(QQuickIma
     // Setup database
     db = QSqlDatabase::addDatabase("QSQLITE","thumbDB" + QString::number(rand()));
     db.setDatabaseName(ConfigFiles::THUMBNAILS_DB());
-    if(settings->thumbnailCache && !settings->thumbnailCacheFile)
+    if(settings->getThumbnailCache() && !settings->getThumbnailCacheFile())
         db.open();
 
     // Get permanent and temporary settings
@@ -36,7 +36,7 @@ QImage ImageProviderThumbnail::requestImage(const QString &filename_encoded, QSi
 
     // Some general settings that are needed multiple times later-on
     int width = requestedSize.width();
-    if(width == -1) width = std::max(20, std::min(256, settings->thumbnailSize));
+    if(width == -1) width = std::max(20, std::min(256, settings->getThumbnailSize()));
 
     // Return full thumbnail
     return getThumbnailImage(filename);
@@ -45,8 +45,8 @@ QImage ImageProviderThumbnail::requestImage(const QString &filename_encoded, QSi
 
 QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
 
-    QString typeCache = (settings->thumbnailCacheFile ? "files" : "db");
-    bool cacheEnabled = settings->thumbnailCache;
+    QString typeCache = (settings->getThumbnailCacheFile() ? "files" : "db");
+    bool cacheEnabled = settings->getThumbnailCache();
 
     if(cacheEnabled && typeCache == "db" && !db.isOpen()) db.open();
 

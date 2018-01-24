@@ -146,12 +146,12 @@ void MainHandler::setupWindowProperties(bool dontCallShow) {
     }
 
     // window mode
-    if(permanentSettings->windowMode) {
+    if(permanentSettings->getWindowMode()) {
 
         // always keep window on top
-        if(permanentSettings->keepOnTop) {
+        if(permanentSettings->getKeepOnTop()) {
 
-            if(permanentSettings->windowDecoration)
+            if(permanentSettings->getWindowDecoration())
                 this->setFlags(Qt::Window|Qt::WindowStaysOnTopHint);
             else
                 this->setFlags(Qt::Window|Qt::FramelessWindowHint|Qt::WindowStaysOnTopHint);
@@ -159,7 +159,7 @@ void MainHandler::setupWindowProperties(bool dontCallShow) {
         // treat as normal window
         } else {
 
-            if(permanentSettings->windowDecoration)
+            if(permanentSettings->getWindowDecoration())
                 this->setFlags(Qt::Window);
             else
                 this->setFlags(Qt::Window|Qt::FramelessWindowHint);
@@ -167,7 +167,7 @@ void MainHandler::setupWindowProperties(bool dontCallShow) {
         }
 
         // Restore the stored window geometry
-        if(permanentSettings->saveWindowGeometry && !dontCallShow) {
+        if(permanentSettings->getSaveWindowGeometry() && !dontCallShow) {
 
             QRect rect = gads.getStoredGeometry();
 
@@ -191,7 +191,7 @@ void MainHandler::setupWindowProperties(bool dontCallShow) {
     } else {
 
         // Always keep window on top...
-        if(permanentSettings->keepOnTop)
+        if(permanentSettings->getKeepOnTop())
             this->setFlags(Qt::WindowStaysOnTopHint|Qt::FramelessWindowHint);
         // ... or not
         else
@@ -255,25 +255,21 @@ void MainHandler::remoteAction(QString cmd) {
 
         if(variables->verbose)
             LOG << CURDATE << "remoteAction(): Disable thumbnails" << NL;
-        permanentSettings->thumbnailDisable = true;
-        permanentSettings->thumbnailDisableChanged(true);
+        permanentSettings->setThumbnailDisable(true);
 
     // (Re-)enable thumbnails
     } else if(cmd == "thumbs") {
 
         if(variables->verbose)
             LOG << CURDATE << "remoteAction(): Enable thumbnails" << NL;
-        permanentSettings->thumbnailDisable = true;
+        permanentSettings->setThumbnailDisable(false);
 
     // Hide the window to system tray
     } else if(cmd == "hide" || (cmd == "toggle" && this->isVisible())) {
 
         if(variables->verbose)
             LOG << CURDATE << "remoteAction(): Hiding" << NL;
-        if(permanentSettings->trayIcon != 1) {
-            permanentSettings->trayIcon = 1;
-            permanentSettings->trayIconChanged(1);
-        }
+        permanentSettings->setTrayIcon(1);
         QMetaObject::invokeMethod(object, "closeAnyElement");
         this->hide();
 
@@ -313,11 +309,10 @@ void MainHandler::remoteAction(QString cmd) {
 void MainHandler::manageStartupFilename(bool startInTray, QString filename) {
 
     if(startInTray) {
-        if(permanentSettings->trayIcon != 1) {
-            if(permanentSettings->trayIcon == 0)
+        if(permanentSettings->getTrayIcon() != 1) {
+            if(permanentSettings->getTrayIcon() == 0)
                 handleTrayIcon();
-            permanentSettings->trayIcon = 1;
-            permanentSettings->trayIconChanged(1);
+            permanentSettings->setTrayIcon(1);
         }
         this->hide();
     } else
@@ -332,7 +327,7 @@ void MainHandler::handleTrayIcon(int val) {
         LOG << CURDATE << "showTrayIcon()" << NL;
 
     if(val == -1)
-        val = permanentSettings->trayIcon;
+        val = permanentSettings->getTrayIcon();
 
     if(val == 1 || val == 2) {
 
@@ -378,15 +373,15 @@ void MainHandler::handleTrayIcon(int val) {
 void MainHandler::handleWindowModeChanged(bool windowmode, bool windowdeco, bool keepontop) {
 
     bool dontShowNormal = true;
-    if(permanentSettings->windowMode != windowmode) {
-        permanentSettings->windowMode = windowmode;
+    if(permanentSettings->getWindowMode() != windowmode) {
+        permanentSettings->setWindowMode(windowmode);
         dontShowNormal = false;
     }
-    if(permanentSettings->windowDecoration != windowdeco) {
-        permanentSettings->windowDecoration = windowdeco;
+    if(permanentSettings->getWindowDecoration() != windowdeco) {
+        permanentSettings->setWindowDecoration(windowdeco);
         dontShowNormal = false;
     }
-    permanentSettings->keepOnTop = keepontop;
+    permanentSettings->setKeepOnTop(keepontop);
 
     setupWindowProperties(dontShowNormal);
 

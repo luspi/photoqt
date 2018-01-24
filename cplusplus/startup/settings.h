@@ -28,6 +28,10 @@ namespace StartupCheck {
         static inline void moveToNewKeyNames() {
 
             QFile fileIn(ConfigFiles::SETTINGS_FILE());
+
+            if(!fileIn.exists())
+                return;
+
             if(!fileIn.open(QIODevice::ReadOnly)) {
                 LOG << CURDATE << "ERROR! Startup::Settings - unable to open settings file for reading -> unable to ensure values are preserved between sessions." << NL;
                 return;

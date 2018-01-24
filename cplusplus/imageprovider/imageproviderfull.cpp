@@ -13,7 +13,7 @@ ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider
     rawfiles = fileformats->formats_raw.join(",");
 
     pixmapcache = new QCache<QByteArray, QPixmap>;
-    pixmapcache->setMaxCost(8*1024*std::max(0, std::min(1000, settings->pixmapCache)));
+    pixmapcache->setMaxCost(8*1024*std::max(0, std::min(1000, settings->getPixmapCache())));
 
     loaderGM = new LoadImageGM;
     loaderQT = new LoadImageQt;
@@ -79,7 +79,7 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
 
     // Try to use Qt
     else
-        ret = loaderQT->load(filename,maxSize,settings->metaApplyRotation);
+        ret = loaderQT->load(filename,maxSize,settings->getMetaApplyRotation());
 
     QPixmap *newpixPt = new QPixmap(ret.width(), ret.height());
     *newpixPt = QPixmap::fromImage(ret);

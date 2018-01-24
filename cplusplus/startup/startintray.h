@@ -37,10 +37,7 @@ namespace StartupCheck {
 
                 // If the option "Use Tray Icon" in the settings is not set, we set it
 
-                if(settings->trayIcon != 1) {
-                    settings->trayIcon = 1;
-                    settings->trayIconChanged(1);
-                }
+                settings->setTrayIcon(1);
 
             }
 

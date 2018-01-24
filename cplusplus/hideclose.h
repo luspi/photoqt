@@ -12,7 +12,7 @@ class HideClose : QObject {
 public:
     static void handleCloseEvent(QEvent *e, Settings *settings, QQuickView *view) {
 
-        if(settings->trayIcon != 1) {
+        if(settings->getTrayIcon() != 1) {
 
             GetAndDoStuff gads;
             gads.storeGeometry(QRect(view->x(), view->y(), view->width(), view->height()));
