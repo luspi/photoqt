@@ -58,6 +58,8 @@ public:
         parser.addOption(opt_export);
         QCommandLineOption opt_import("import", tr("Import configuration file with given filename"), "filename");
         parser.addOption(opt_import);
+        QCommandLineOption opt_standalone("standalone", tr("Create standalone PhotoQt, no remote interaction possible!"));
+        parser.addOption(opt_standalone);
 
         // Add optional argument 'filename'
         parser.addPositionalArgument("filename",tr("File to open with PhotoQt"), "[filename]");

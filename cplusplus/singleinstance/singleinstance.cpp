@@ -8,6 +8,9 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
     // This is the message string that we send to a running instance (if it exists
     QByteArray message = "";
 
+    socket = nullptr;
+    server = nullptr;
+
     // Check for filenames
     QStringList positional = handler.parser.positionalArguments();
     if(positional.length() > 0) {
@@ -42,6 +45,11 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
         // we need to 'new' the following two otherwise it will crash in the destructor
         socket = new QLocalSocket();
         server = new QLocalServer();
+        return;
+    }
+
+    if(message.contains("::standalone::")) {
+        handleResponse(message);
         return;
     }
 
@@ -132,7 +140,10 @@ void SingleInstance::handleResponse(QString msg) {
 }
 
 SingleInstance::~SingleInstance() {
-    server->close();
-    delete socket;
-    delete server;
+    if(socket != nullptr)
+        delete socket;
+    if(server != nullptr) {
+        server->close();
+        delete server;
+    }
 }
