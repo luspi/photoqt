@@ -1598,9 +1598,6 @@ public slots:
     // Read the current settings
     void readSettings() {
 
-        // Set default values to start out with
-        setDefault();
-
         watcherAddFileTimer->start();
 
         QFile file(ConfigFiles::SETTINGS_FILE());
