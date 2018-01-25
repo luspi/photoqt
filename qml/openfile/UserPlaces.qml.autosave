@@ -763,7 +763,7 @@ Rectangle {
             if(openfile_top.width < minimisedThreshold && !settings.openHideUserPlaces && !tmpOpenHideUserPlaces)  {
                 tmpOpenHideUserPlaces = true
                 settings.openHideUserPlaces = true
-            // If window is large enough and has been hidden automatically: show it
+            // If window is large enough and has been hidden automatically: show itp
             } else if(openfile_top.width >= minimisedThreshold && tmpOpenHideUserPlaces) {
                 tmpOpenHideUserPlaces = false
                 settings.openHideUserPlaces = false
