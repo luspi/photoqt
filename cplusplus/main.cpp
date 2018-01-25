@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
 
 #ifdef GM
     // Initialise Magick as early as possible
-    Magick::InitializeMagick(NULL);
+    Magick::InitializeMagick(*argv);
 #endif
 
     // This means, that, e.g., --export or --import was passed along -> we will simply quit (preparation for that is done in the handleExportImport() function)
