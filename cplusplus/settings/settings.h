@@ -200,6 +200,7 @@ private:
     bool    m_openUserPlacesVolumes;
     bool    m_openKeepLastLocation;
     bool    m_openShowHiddenFilesFolders;
+    bool    m_openHideUserPlaces;
 
     int     m_metadataWindowWidth;
     int     m_mainMenuWindowWidth;
@@ -1220,6 +1221,16 @@ public:
                                                                                              emit openShowHiddenFilesFoldersChanged(val);
                                                                                              saveSettingsTimer->start(); } }
 
+    // openHideUserPlaces
+    Q_PROPERTY(bool   openHideUserPlaces
+               READ   getOpenHideUserPlaces
+               WRITE  setOpenHideUserPlaces
+               NOTIFY openHideUserPlacesChanged)
+    bool getOpenHideUserPlaces() { return m_openHideUserPlaces; }
+    void setOpenHideUserPlaces(bool val) { if(val != m_openHideUserPlaces) { m_openHideUserPlaces = val;
+                                                                             emit openHideUserPlacesChanged(val);
+                                                                             saveSettingsTimer->start(); } }
+
     // metadataWindowWidth
     Q_PROPERTY(int    metadataWindowWidth
                READ   getMetadataWindowWidth
@@ -1415,6 +1426,7 @@ public:
         setOpenUserPlacesVolumes(false);
         setOpenKeepLastLocation(false);
         setOpenShowHiddenFilesFolders(false);
+        setOpenHideUserPlaces(false);
 
         setHistogram(false);
         setHistogramVersion("color");
@@ -1573,6 +1585,7 @@ public slots:
             cont += QString("OpenUserPlacesVolumes=%1\n").arg(int(m_openUserPlacesVolumes));
             cont += QString("OpenKeepLastLocation=%1\n").arg(int(m_openKeepLastLocation));
             cont += QString("OpenShowHiddenFilesFolders=%1\n").arg(int(m_openShowHiddenFilesFolders));
+            cont += QString("OpenHideUserPlaces=%1\n").arg(int(m_openHideUserPlaces));
 
             cont += "\n[Histogram]\n";
 
@@ -1917,6 +1930,9 @@ public slots:
                 else if(line.startsWith("OpenShowHiddenFilesFolders="))
                     setOpenShowHiddenFilesFolders(line.split("=").at(1).toInt());
 
+                else if(line.startsWith("OpenHideUserPlaces="))
+                    setOpenHideUserPlaces(line.split("=").at(1).toInt());
+
 
                 else if(line.startsWith("MainMenuWindowWidth="))
                     setMainMenuWindowWidth(line.split("=").at(1).toInt());
@@ -2057,6 +2073,7 @@ signals:
     void openUserPlacesVolumesChanged(bool val);
     void openKeepLastLocationChanged(bool val);
     void openShowHiddenFilesFoldersChanged(bool val);
+    void openHideUserPlacesChanged(bool val);
 
     void metadataWindowWidthChanged(int val);
     void mainMenuWindowWidthChanged(int val);

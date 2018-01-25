@@ -106,7 +106,7 @@ Rectangle {
                 if(openvariables.currentFocusOn == "userplaces")
                     openvariables.currentFocusOn = "filesview"
                 else if(openvariables.currentFocusOn == "folders")
-                    openvariables.currentFocusOn = "userplaces"
+                    openvariables.currentFocusOn = settings.openHideUserPlaces ? "filesview" : "userplaces"
                 else
                     openvariables.currentFocusOn = "folders"
             } else if(sh == "Alt+Right") {
@@ -115,7 +115,7 @@ Rectangle {
                 else if(openvariables.currentFocusOn == "folders")
                     openvariables.currentFocusOn = "filesview"
                 else
-                    openvariables.currentFocusOn = "userplaces"
+                    openvariables.currentFocusOn = settings.openHideUserPlaces ? "folders" : "userplaces"
             } else if(sh == "Enter" || sh == "Return")
                 loadEntry()
             else if(sh == "Up")

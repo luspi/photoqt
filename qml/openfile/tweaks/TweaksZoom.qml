@@ -3,7 +3,8 @@ import "../../elements"
 
 Item {
 
-    x: 10
+    anchors.left: up.right
+    anchors.leftMargin: 10
     height: parent.height
     width: zoom_txt.width+zoom_slider.width
 

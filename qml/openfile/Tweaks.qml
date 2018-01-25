@@ -15,6 +15,8 @@ Rectangle {
 
     color: "#44000000"
 
+    TweaksUserPlaces { id: up }
+
     // Zoom files view
     TweaksZoom { id: zoom }
 

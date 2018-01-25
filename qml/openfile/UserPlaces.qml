@@ -9,13 +9,17 @@ Rectangle {
 
     id: userplaces_top
 
-    // minimum width is 200, maximum width is half the element width
-    Layout.minimumWidth: 200
-    Layout.maximumWidth:openfile_top.width/2
     // starting width is read from settings
     width: settings.openUserPlacesWidth
     // a change in width is written to settings
-    onWidthChanged: settings.openUserPlacesWidth = width
+    onWidthChanged: reCalcWidth()
+
+    // When there is only little space, we show a minimised version (no text, icon only)
+    // This is the width of the pane when minimised
+    property int minimisedWidth: 40
+
+    // The pane can be hidden if not wanted
+    visible: !settings.openHideUserPlaces
 
     // margin in between the different categories
     property int marginBetweenCategories: 20
@@ -109,14 +113,14 @@ Rectangle {
 
             // full width, fixed height of 30
             width: standardlocations.width
-            height: 30
+            height: userplaces_top.width==minimisedWidth&&index==0 ? 0 : 30
 
             // a rectangle for each item
             Rectangle {
 
                 // full width and height
                 width: standardlocations.width
-                height: 30
+                height: userplaces_top.width==minimisedWidth&&index==0 ? 0 : 30
 
                 // give the entries an alternating background color
                 color: index%2==0 ? "#88000000" : "#44000000"
@@ -150,6 +154,8 @@ Rectangle {
                 // The text of each entry
                 Text {
 
+                    id: entrytextStandard
+
                     // size and position
                     anchors.fill: parent
                     anchors.leftMargin: iconitem.width
@@ -169,10 +175,12 @@ Rectangle {
                 }
 
                 // mouse area handles changes to currentIndex and clicked events
-                MouseArea {
+                ToolTip {
 
                     // a click everywhere works
                     anchors.fill: parent
+
+                    text: entrytextStandard.text
 
                     // some properties
                     hoverEnabled: true
@@ -318,7 +326,7 @@ Rectangle {
 
             // full width, fixed height of 30 (if entry not hidden)
             width: userPlaces.width
-            height: visible?30:0
+            height: ((userplaces_top.width==minimisedWidth&&index==0)||!visible) ? 0 : 30
 
             // an entry can be hidden (property in XML file). We still load it so that when we save the file we keep all information
             // the 'notvisible' key allows the functions below to find out whether this item is hidden or not
@@ -352,7 +360,7 @@ Rectangle {
                 // full width, height of 30
                 // DO NOT tie this to the parent, as the rectangle will be reparented when dragged
                 width: userPlaces.width
-                height: 30
+                height: userplaces_top.width==minimisedWidth&&index==0 ? 0 : 30
 
                 // these anchors make sure the item falls back into place after being dropped
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -390,6 +398,8 @@ Rectangle {
                 // The text of each entry
                 Text {
 
+                    id: entrytextUser
+
                     // size and position
                     anchors.fill: parent
                     anchors.leftMargin: entryicon.width
@@ -408,12 +418,14 @@ Rectangle {
                 }
 
                 // mouse area handling clicks and drag
-                MouseArea {
+                ToolTip {
 
                     id: mouseArea
 
                     // fills full entry
                     anchors.fill: parent
+
+                    text: entrytextUser.text
 
                     // some properties
                     hoverEnabled: true
@@ -574,14 +586,14 @@ Rectangle {
 
             // full width, fixed height of 30
             width: storageinfo.width
-            height: 30
+            height: userplaces_top.width==minimisedWidth&&index==0 ? 0 : 30
 
             // A rectangle for each of the items
             Rectangle {
 
                 // full width and height
                 width: storageinfo.width
-                height: 30
+                height: userplaces_top.width==minimisedWidth&&index==0 ? 0 : 30
 
                 // give the entries an alternating background color
                 color: index%2==0 ? "#88000000" : "#44000000"
@@ -615,6 +627,8 @@ Rectangle {
                 // The text of each entry
                 Text {
 
+                    id: entrytextStorage
+
                     // size and position
                     anchors.fill: parent
                     anchors.leftMargin: iconitemstorage.width
@@ -634,10 +648,12 @@ Rectangle {
                 }
 
                 // mouse area handles changes to currentIndex and clicked events
-                MouseArea {
+                ToolTip {
 
                     // a click everywhere works
                     anchors.fill: parent
+
+                    text: entrytextStorage.text
 
                     // some properties
                     hoverEnabled: true
@@ -666,8 +682,10 @@ Rectangle {
             id: visiblestandard
             checkable: true
             checked: settings.openUserPlacesStandard
-            onCheckedChanged:
+            onCheckedChanged: {
                 settings.openUserPlacesStandard = checked
+                settings.openHideUserPlaces = (!settings.openUserPlacesStandard && !settings.openUserPlacesUser && !settings.openUserPlacesVolumes)
+            }
             //: The standard/common folders (like Home, Desktop, ...)
             text: em.pty+qsTr("Show standard locations")
         }
@@ -676,8 +694,10 @@ Rectangle {
             id: visibleuser
             checkable: true
             checked: settings.openUserPlacesUser
-            onCheckedChanged:
+            onCheckedChanged: {
                 settings.openUserPlacesUser = checked
+                settings.openHideUserPlaces = (!settings.openUserPlacesStandard && !settings.openUserPlacesUser && !settings.openUserPlacesVolumes)
+            }
             //: The user set folders (or favorites) in the element for opening files
             text: em.pty+qsTr("Show user locations")
         }
@@ -686,8 +706,10 @@ Rectangle {
             id: visiblevolumes
             checkable: true
             checked: settings.openUserPlacesVolumes
-            onCheckedChanged:
+            onCheckedChanged: {
                 settings.openUserPlacesVolumes = checked
+                settings.openHideUserPlaces = (!settings.openUserPlacesStandard && !settings.openUserPlacesUser && !settings.openUserPlacesVolumes)
+            }
             //: The storage devices (like USB keys)
             text: em.pty+qsTr("Show devices")
         }
@@ -705,6 +727,23 @@ Rectangle {
             highlightLast()
         onLoadEntry:
             loadHighlightedItem()
+        onWidthChanged:
+            reCalcWidth()
+    }
+
+    // Handle the width of the pane
+    function reCalcWidth() {
+        // If the window is big enough, minimum size is set to 200, maximum to half the window width
+        if(openfile_top.width > 800) {
+            if(width < 200)
+                width = 200
+            if(width > openfile_top.width/2)
+                width = openfile_top.width/2
+            // Store width in setting for following sessions
+            settings.openUserPlacesWidth = width
+        // Window is small? Use minimised width.
+        } else
+            width = minimisedWidth
     }
 
     // Only one of the three categories can have a highlight at any given time. Gives the illusion of one big listview instead of the three ones

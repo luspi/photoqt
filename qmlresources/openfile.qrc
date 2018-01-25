@@ -14,5 +14,6 @@
     <file>../qml/openfile/tweaks/TweaksViewMode.qml</file>
     <file>../qml/openfile/tweaks/TweaksZoom.qml</file>
     <file>../qml/openfile/tweaks/TweaksRememberLocation.qml</file>
+    <file>../qml/openfile/tweaks/TweaksUserPlaces.qml</file>
     </qresource>
 </RCC>
