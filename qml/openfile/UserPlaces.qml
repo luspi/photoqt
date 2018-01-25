@@ -44,6 +44,32 @@ Rectangle {
         onEntered: openvariables.currentFocusOn = "userplaces"
     }
 
+    Text {
+
+        // tie size to parent
+        anchors.fill: parent
+        anchors.margins: 10
+
+        // displayed in center
+        verticalAlignment: Qt.AlignVCenter
+        horizontalAlignment: Qt.AlignHCenter
+
+        // visibility depends on model count and property value
+        visible: (opacity!=0)
+        opacity: (settings.openUserPlacesStandard || settings.openUserPlacesUser || settings.openUserPlacesVolumes) ? 0 : 1
+        Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
+
+        // some additional styling
+        font.bold: true
+        color: "grey"
+        font.pointSize: 20
+        wrapMode: Text.WordWrap
+
+        // the text status messages
+        text: em.pty+qsTr("No categories enabled! They can be shown on right click!")
+
+    }
+
     // This listview holds the standard locations
     ListView {
 
