@@ -22,7 +22,7 @@
 #include <QtSvg/QtSvg>
 #include "pixmapcache.h"
 #include "../settings/fileformats.h"
-#include "../settings/settings.h"
+#include "../settings/slimsettingsreadonly.h"
 #include "../logger.h"
 
 #include "loader/loadimage_qt.h"
@@ -47,7 +47,7 @@ private:
     bool verbose;
 
     QSize maxSize;
-    Settings *settings;
+    SlimSettingsReadOnly *settings;
     FileFormats *fileformats;
 
     QString qtfiles;

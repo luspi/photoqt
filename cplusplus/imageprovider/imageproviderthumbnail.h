@@ -24,7 +24,7 @@
 #include <QCryptographicHash>
 #include <QFile>
 #include <QDir>
-#include "../settings/settings.h"
+#include "../settings/slimsettingsreadonly.h"
 
 #include "imageproviderfull.h"
 
@@ -38,7 +38,7 @@ public:
 
 private:
     QSqlDatabase db;
-    Settings *settings;
+    SlimSettingsReadOnly *settings;
 
     ImageProviderFull *imageproviderfull;
 
