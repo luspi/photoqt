@@ -1420,7 +1420,7 @@ public:
         setOpenZoomLevel(25);
         setOpenUserPlacesWidth(300);
         setOpenFoldersWidth(400);
-        setOpenThumbnails(false);
+        setOpenThumbnails(true);
         setOpenUserPlacesStandard(true);
         setOpenUserPlacesUser(true);
         setOpenUserPlacesVolumes(false);
