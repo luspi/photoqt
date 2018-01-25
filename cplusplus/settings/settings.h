@@ -1411,7 +1411,7 @@ public:
 
         setMetadataEnableHotEdge(true);
         setMetadataFontSize(10);
-        setMetadataOpacity(204);
+        setMetadataOpacity(220);
         setMetadataWindowWidth(350);
 
         setOpenDefaultView("list");
