@@ -319,4 +319,27 @@ Rectangle {
 
     }
 
+    function handleMouseExit(pos) {
+        if(pos.x < 10 || pos.x > mainwindow.width-10 || pos.y < 10 || pos.y > mainwindow.height-10)
+            hideEverythingAfterExit.restart()
+        else {
+            hideEverythingAfterExit.stop()
+        }
+    }
+
+    Timer {
+        id: hideEverythingAfterExit
+        interval: 1000
+        repeat: false
+        onTriggered: {
+            if(!variables.guiBlocked) {
+                mainmenu.hide()
+                metadata.hide()
+                if((!settings.thumbnailKeepVisible && !settings.thumbnailKeepVisibleWhenNotZoomedIn) || (settings.thumbnailKeepVisibleWhenNotZoomedIn && imageitem.isZoomedIn()))
+                    call.hide("thumbnails")
+                call.hide("slideshowbar")
+            }
+        }
+    }
+
 }

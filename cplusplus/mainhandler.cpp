@@ -221,6 +221,10 @@ bool MainHandler::event(QEvent *e) {
     else if(e->type() == QEvent::Close) {
         HideClose::handleCloseEvent(e, permanentSettings, this);
         return true;
+    } else if(e->type() == QEvent::MouseMove) {
+        QMouseEvent *event = (QMouseEvent*)e;
+        if(!(this->windowStates() & Qt::WindowMaximized))
+            QMetaObject::invokeMethod(object, "handleMouseExit", Q_ARG(QVariant, event->pos()));
     }
 
     return QQuickView::event(e);
