@@ -88,7 +88,6 @@ public:
     Q_INVOKABLE void deleteImage(QString filename, bool trash) { manipulation->deleteImage(filename, trash); }
     Q_INVOKABLE void copyImage(QString imagePath, QString destinationPath) { manipulation->copyImage(imagePath, destinationPath); }
     Q_INVOKABLE void moveImage(QString imagePath, QString destinationPath) { manipulation->moveImage(imagePath, destinationPath); }
-    Q_INVOKABLE QString getImageSuffix(QString imagePath) { return manipulation->getImageSuffix(imagePath); }
     Q_INVOKABLE QString getImageBaseName(QString imagePath) { return manipulation->getImageBaseName(imagePath); }
 
     // OTHER

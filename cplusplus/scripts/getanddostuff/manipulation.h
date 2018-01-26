@@ -48,7 +48,6 @@ public:
     void deleteImage(QString filename, bool trash);
     void copyImage(QString imagePath, QString destinationPath);
     void moveImage(QString imagePath, QString destinationPath);
-    QString getImageSuffix(QString imagePath);
     QString getImageBaseName(QString imagePath);
 
 signals:

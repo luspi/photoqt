@@ -307,12 +307,6 @@ void GetAndDoStuffManipulation::moveImage(QString imagePath, QString destination
 
 }
 
-QString GetAndDoStuffManipulation::getImageSuffix(QString imagePath) {
-
-    return QFileInfo(imagePath).completeSuffix();
-
-}
-
 QString GetAndDoStuffManipulation::getImageBaseName(QString imagePath) {
 
     return QFileInfo(imagePath).baseName();
