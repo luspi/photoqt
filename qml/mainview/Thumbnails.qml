@@ -125,6 +125,8 @@ Item {
             // Turn it horizontal
             orientation: ListView.Horizontal
 
+            interactive: contentWidth > top.width
+
             // A scrollbar indicating the position along the bar
             ScrollBarHorizontal {
                 id: scrollbar
