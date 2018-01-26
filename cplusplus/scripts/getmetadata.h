@@ -40,7 +40,6 @@ public:
 
     Q_INVOKABLE QVariantMap getExiv2(QString path);
 
-private:
     QString exifExposureTime(QString value);
     QString exifFNumberFLength(QString value);
     QString exifPhotoTaken(QString value);
