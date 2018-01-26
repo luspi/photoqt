@@ -60,12 +60,17 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
         // If there exists a thumbnail of the current file already
         if(QFile(ConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails/large/" + md5 + ".png").exists()) {
 
+            if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+                LOG << CURDATE << "ImageProviderThumbnail: Found cached thumbnail (file cache): " << QFileInfo(filename).fileName().toStdString() << NL;
+
             p.load(ConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails/large/" + md5 + ".png");
             uint mtime = p.text("Thumb::MTime").trimmed().toInt();
 
             // Use image if it's up-to-date
             if(QFileInfo(filename).lastModified().toTime_t() == mtime)
                 return p;
+            else if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+                LOG << CURDATE << "ImageProviderThumbnail: Image was modified since thumbnail creation, not using cached thumbnail: " << QFileInfo(filename).fileName().toStdString() << NL;
 
         }
 
@@ -83,6 +88,9 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
         // Check for found value
         if(query.next()) {
 
+            if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+                LOG << CURDATE << "ImageProviderThumbnail: Found cached thumbnail (db cache): " << QFileInfo(filename).fileName().toStdString() << NL;
+
             // Check if updated
             if(query.value(query.record().indexOf("filelastmod")).toUInt() == QFileInfo(filename).lastModified().toTime_t()) {
 
@@ -98,8 +106,11 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
                 return p;
 
             // The original image has been changed -> need to recreate thumbnail image
-            } else
+            } else {
+                if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+                    LOG << CURDATE << "ImageProviderThumbnail: Image was modified since thumbnail creation, not using cached thumbnail: " << QFileInfo(filename).fileName().toStdString() << NL;
                 needToReCreatedDbThumbnail = true;
+            }
 
 
         }
@@ -116,9 +127,12 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
     p = imageproviderfull->requestImage(filename.toPercentEncoding(),tmp,QSize(ts,ts));
     delete tmp;
 
-    // Only if the image itself is smaller than the requested thumbnail size are both dimensions less than (strictly) than ts
-    if(p.width() < ts && p.height() < ts)
+    // Only if the image itself is smaller than the requested thumbnail size are both dimensions less than (strictly) than ts -> no caching
+    if(p.width() < ts && p.height() < ts) {
+        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+            LOG << CURDATE << "ImageProviderThumbnail: Image is smaller than potential thumbnail, no need to cache: " << QFileInfo(filename).fileName().toStdString() << NL;
         return p;
+    }
 
     // Create file cache thumbnail
     if(typeCache == "files" && cacheEnabled) {
@@ -140,7 +154,9 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
 
             // And save new thumbnail image
             if(!p.save(ConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails/large/" + md5 + ".png"))
-                LOG << CURDATE << "ImageProviderThumbnail: ERROR creating new thumbnail file!" << NL;
+                LOG << CURDATE << "ImageProviderThumbnail: ERROR creating new thumbnail file: " << QFileInfo(filename).fileName().toStdString() << NL;
+            else
+                LOG << CURDATE << "ImageProviderThumbnail: Successfully cached thumbnail (file cache): " << QFileInfo(filename).fileName().toStdString() << NL;
 
         }
 
@@ -179,6 +195,8 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
 
         if(query2.lastError().text().trimmed().length())
             LOG << CURDATE << "ImageProviderThumbnail: ERROR [" << QString(filename).toStdString() << "]: " << query2.lastError().text().trimmed().toStdString() << NL;
+        else
+            LOG << CURDATE << "ImageProviderThumbnail: Successfully cached thumbnail (db cache): " << QFileInfo(filename).fileName().toStdString() << NL;
 
         // cleaning up
         query2.clear();

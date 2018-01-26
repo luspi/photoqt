@@ -37,6 +37,9 @@ public:
 
 #ifdef GM
 
+        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+            LOG << CURDATE << "LoadImageGM: Loading image using GraphicsMagick: " << QFileInfo(filename).fileName().toStdString() << NL;
+
         GmImageMagick imagemagick;
         QSize origSize;
 
@@ -115,9 +118,12 @@ public:
             return ErrorImage::load(QString(error_.what()));
         }
 
+#else
+        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+            LOG << CURDATE << "LoadImageGM: PhotoQt was compiled without GraphicsMagick support, returning error image" << NL;
 #endif
 
-        return QImage();
+        return ErrorImage::load("Failed to load image with GraphicsMagick!");
 
     }
 

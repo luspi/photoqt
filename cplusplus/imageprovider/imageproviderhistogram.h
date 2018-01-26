@@ -34,6 +34,9 @@ public:
 
     QPixmap requestPixmap(const QString &fpath, QSize *, const QSize &requestedSize) {
 
+        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+            LOG << CURDATE << "ImageProviderHistogram: Loading histogram for " << QFileInfo(fpath).fileName().toStdString() << NL;
+
         // Obtain type of histogram
         bool color = false;
         QString tmp = fpath;
@@ -49,6 +52,8 @@ public:
         if(tmp.trimmed() == "") {
             QPixmap pix = QPixmap(1,1);
             pix.fill(Qt::transparent);
+            if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+                LOG << CURDATE << "ImageProviderHistogram: Empty path specified, returning 1x1 transparent/empty image" << NL;
             return pix;
         }
 
