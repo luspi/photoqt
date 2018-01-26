@@ -36,13 +36,10 @@ class FileFormats : public QObject {
 private:
     QFileSystemWatcher *watcher;
     QTimer *saveFileformatsTimer;
-    bool verbose;
 
 public:
 
-    FileFormats(bool verbose = false, bool usedAtStartupOnly = false, QObject *parent = 0) : QObject(parent) {
-
-        this->verbose = verbose;
+    FileFormats(bool usedAtStartupOnly = false, QObject *parent = 0) : QObject(parent) {
 
         // This class is used during startup checks if the default formats have to be set
         // It only lives for a moment, and doesn't need many of the functions
@@ -92,7 +89,7 @@ public:
 
     void setAvailableFormats() {
 
-        if(verbose) LOG << CURDATE << "Setting available file formats" << NL;
+        if(qgetenv("PHOTOQT_VERBOSE") == "yes") LOG << CURDATE << "Setting available file formats" << NL;
 
         formats_qt = FileFormatsHandler::AvailableFormats::getListForQt();
         formats_gm = FileFormatsHandler::AvailableFormats::getListForGm();
@@ -107,7 +104,7 @@ public:
 
         setAvailableFormats();
 
-        if(verbose) LOG << CURDATE << "Filtering out default file formats" << NL;
+        if(qgetenv("PHOTOQT_VERBOSE") == "yes") LOG << CURDATE << "Filtering out default file formats" << NL;
 
         QStringList defaultEnabled = FileFormatsHandler::DefaultFormats::getList();
 
@@ -161,7 +158,7 @@ public slots:
 
     void loadFormats() {
 
-        if(verbose) LOG << CURDATE << "Loading disabled file formats from file" << NL;
+        if(qgetenv("PHOTOQT_VERBOSE") == "yes") LOG << CURDATE << "Loading disabled file formats from file" << NL;
 
         QFile file(ConfigFiles::FILEFORMATS_FILE());
 
@@ -223,7 +220,7 @@ public slots:
 
     void saveFormats() {
 
-        if(verbose) LOG << CURDATE << "Saving disabled file formats to file" << NL;
+        if(qgetenv("PHOTOQT_VERBOSE") == "yes") LOG << CURDATE << "Saving disabled file formats to file" << NL;
 
         QStringList current_qt = formats_qt;
         QStringList current_gm = formats_gm;

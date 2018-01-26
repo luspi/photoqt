@@ -26,9 +26,9 @@ namespace StartupCheck {
 
     namespace Migration {
 
-        static inline void migrateIfNecessary(bool verbose) {
+        static inline void migrateIfNecessary() {
 
-            if(verbose) LOG << CURDATE << "StartupCheck::Migration" << NL;
+            if(qgetenv("PHOTOQT_VERBOSE") == "yes") LOG << CURDATE << "StartupCheck::Migration" << NL;
 
             // If this is true, then the new config folders have been created
             bool migrated = false;

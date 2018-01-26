@@ -110,6 +110,12 @@ void SingleInstance::handleResponse(QString msg) {
 
     // Analyse what action(s) to take
 
+    // If verbose/debug mode enabled, set environment variable. This variable can be read anywhere to detect this mode
+    // On quit, this variable will be unset again
+    if(msg.contains("::verbose::") || msg.contains("::debug::") ||
+       QFile(QString(ConfigFiles::CONFIG_DIR()) + "/verbose").exists() || QFile(QString(ConfigFiles::CONFIG_DIR()) + "/verboselog").exists())
+        qputenv("PHOTOQT_VERBOSE", "yes");
+
     // These ones are passed on to the main process
     open = ((msg.contains("::open::") || msg.contains("::o::")) && !msg.contains("::file::"));
     nothumbs = (msg.contains("::no-thumbs::") && !msg.contains("::thumbs::"));
@@ -120,7 +126,6 @@ void SingleInstance::handleResponse(QString msg) {
     hide = (msg.contains("::hide::") && !msg.contains("::toggle::") && !msg.contains("::start-in-tray::"));
 
     // These ones only play a role on startup and are ignored otherwise
-    verbose = (msg.contains("::verbose::") || msg.contains("::debug::") || QFile(QString(ConfigFiles::CONFIG_DIR()) + "/verbose").exists() || QFile(QString(ConfigFiles::CONFIG_DIR()) + "/verboselog").exists());
     startintray = (msg.contains("::start-in-tray::"));
 
     // Check for passed on filename (we check in mainwindow.cpp if it's an actually valid file)

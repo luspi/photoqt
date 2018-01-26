@@ -14,6 +14,8 @@ public:
 
         if(settings->getTrayIcon() != 1) {
 
+            qunsetenv("PHOTOQT_VERBOSE");
+
             GetAndDoStuff gads;
             gads.storeGeometry(QRect(view->x(), view->y(), view->width(), view->height()));
 

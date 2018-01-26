@@ -61,7 +61,7 @@ bool GetAndDoStuffManipulation::scaleImage(QString filename, int width, int heig
 
     if(formats.contains(QFileInfo(filename).suffix().toLower()) && formats.contains(QFileInfo(newfilename).suffix().toLower())) {
 
-//        if(verbose) std::clog << "scale: image format supported by exiv2" << NL;
+        if(qgetenv("PHOTOQT_VERBOSE") == "yes") std::clog << "scale: image format supported by exiv2" << NL;
 
         try {
 
@@ -142,7 +142,7 @@ void GetAndDoStuffManipulation::deleteImage(QString filename, bool trash) {
 
     if(trash) {
 
-//        if(verbose) std::clog << "fhd: Move to trash" << NL;
+        if(qgetenv("PHOTOQT_VERBOSE") == "yes") std::clog << "fhd: Move to trash" << NL;
 
         // The file to delete
         QFile f(filename);
@@ -218,7 +218,7 @@ void GetAndDoStuffManipulation::deleteImage(QString filename, bool trash) {
 
     } else {
 
-//        if(verbose) LOG << CURDATE << "GetAndDoStuffManipulation: fhd: Hard delete file" << NL;
+        if(qgetenv("PHOTOQT_VERBOSE") == "yes") LOG << CURDATE << "GetAndDoStuffManipulation: fhd: Hard delete file" << NL;
 
         // current file
         QFile file(filename);
@@ -236,7 +236,7 @@ void GetAndDoStuffManipulation::deleteImage(QString filename, bool trash) {
 
 #else
 
-//    if(verbose) LOG << CURDATE << "GetAndDoStuffManipulation: fhd: Delete file" << NL;
+    if(qgetenv("PHOTOQT_VERBOSE") == "yes") LOG << CURDATE << "GetAndDoStuffManipulation: fhd: Delete file" << NL;
 
     // current file
     QFile file(filename);

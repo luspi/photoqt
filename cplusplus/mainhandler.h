@@ -6,7 +6,6 @@
 #include <QQmlProperty>
 #include <iostream>
 
-#include "variables.h"
 #include "hideclose.h"
 
 #include "settings/colour.h"
@@ -45,7 +44,7 @@ class MainHandler : public QQuickView {
 
 public:
 
-    MainHandler(bool verbose, QWindow *parent = 0);
+    MainHandler(QWindow *parent = 0);
 
     void setObjectAndConnect();
     int performSomeStartupChecks();
@@ -66,7 +65,6 @@ private:
     QTranslator trans;
     QSystemTrayIcon *trayIcon;
 
-    Variables *variables;
     Settings *permanentSettings;
 
     bool overrideCursorSet;

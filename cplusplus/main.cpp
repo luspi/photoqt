@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
     qApp->setQuitOnLastWindowClosed(true);
 
     // Create a handler to manage the qml files and do some preliminary stuff (e.g., startup checks)
-    MainHandler handle(app.verbose);
+    MainHandler handle;
 
     // A remote action passed on via command line triggers the 'interaction' signal, so we pass it on to the MainWindow
     QObject::connect(&app, SIGNAL(interaction(QString)), &handle, SLOT(remoteAction(QString)));

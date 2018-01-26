@@ -28,22 +28,22 @@ namespace StartupCheck {
     namespace UpdateCheck {
 
         // 0 = nothing, 1 = update, 2 = install
-        static inline int checkForUpdateInstall(bool verbose, Settings *settings) {
+        static inline int checkForUpdateInstall(Settings *settings) {
 
-            if(verbose) LOG << CURDATE << "StartupCheck::UpdateCheck" << NL;
+            if(qgetenv("PHOTOQT_VERBOSE") == "yes") LOG << CURDATE << "StartupCheck::UpdateCheck" << NL;
 
             if(settings->getVersionInTextFile() == "") {
-                if(verbose) LOG << CURDATE << "PhotoQt newly installed!" << NL;
+                if(qgetenv("PHOTOQT_VERBOSE") == "yes") LOG << CURDATE << "PhotoQt newly installed!" << NL;
                 settings->setVersion(VERSION);
                 return 2;
             }
 
-            if(verbose) LOG << CURDATE << "Checking if first run of new version" << NL;
+            if(qgetenv("PHOTOQT_VERBOSE") == "yes") LOG << CURDATE << "Checking if first run of new version" << NL;
 
             // If it doesn't contain current version (some previous version)
             if(settings->getVersion() != settings->getVersionInTextFile()) {
 
-                if(verbose) LOG << CURDATE << "PhotoQt updated" << NL;
+                if(qgetenv("PHOTOQT_VERBOSE") == "yes") LOG << CURDATE << "PhotoQt updated" << NL;
 
                 settings->setVersion(VERSION);
 

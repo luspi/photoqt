@@ -44,8 +44,6 @@ public:
     QImage requestImage(const QString &filename_encoded, QSize *size, const QSize &requestedSize);
 
 private:
-    bool verbose;
-
     QSize maxSize;
     SlimSettingsReadOnly *settings;
     FileFormats *fileformats;

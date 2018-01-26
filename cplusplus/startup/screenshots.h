@@ -26,9 +26,9 @@ namespace StartupCheck {
 
     namespace Screenshots {
 
-        static inline void getAndStore(bool verbose) {
+        static inline void getAndStore() {
 
-            if(verbose) LOG << CURDATE << "StartupCheck::Screenshots" << NL;
+            if(qgetenv("PHOTOQT_VERBOSE") == "yes") LOG << CURDATE << "StartupCheck::Screenshots" << NL;
 
             // Get screenshots for fake transparency
             for(int i = 0; i < QGuiApplication::screens().count(); ++i) {

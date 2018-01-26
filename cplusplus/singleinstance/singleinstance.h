@@ -41,7 +41,6 @@ public:
     bool toggle;
     bool show;
     bool hide;
-    bool verbose;
     bool startintray;
     QString filename;
 

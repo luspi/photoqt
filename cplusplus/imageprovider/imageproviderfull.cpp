@@ -2,10 +2,8 @@
 
 ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider::Image) {
 
-    verbose = false;
-
     settings = new SlimSettingsReadOnly;
-    fileformats = new FileFormats(verbose);
+    fileformats = new FileFormats;
 
     gmfiles = fileformats->formats_gm.join(",") + fileformats->formats_gm_ghostscript.join(",") + fileformats->formats_untested.join(",");
     qtfiles = fileformats->formats_qt.join(",");
@@ -43,7 +41,7 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
     // Which GraphicsEngine should we use?
     QString whatToUse = whatDoIUse(filename);
 
-    if(verbose)
+    if(qgetenv("PHOTOQT_VERBOSE") == "yes")
         LOG << CURDATE << "ImageProviderFull: Using Graphicsengine: "
             << (whatToUse=="gm" ? "GraphicsMagick" : (whatToUse=="qt" ? "ImageReader" : (whatToUse=="raw" ? "LibRaw" : "External Tool")))
             << " [" << whatToUse.toStdString() << "]" << NL;

@@ -1,10 +1,8 @@
 #include "mainhandler.h"
 
-MainHandler::MainHandler(bool verbose, QWindow *parent) : QQuickView(parent) {
+MainHandler::MainHandler(QWindow *parent) : QQuickView(parent) {
 
     // holding some variables of the current session
-    variables = new Variables;
-    variables->verbose = verbose;
     permanentSettings = new Settings;
 
     trayIcon = nullptr;
@@ -46,24 +44,24 @@ void MainHandler::windowXYchanged(int) {
 int MainHandler::performSomeStartupChecks() {
 
     // Since version 1.4, PhotoQt uses proper standard folders for storing its config files. The configuration of older versions needs to be migrated.
-    StartupCheck::Migration::migrateIfNecessary(variables->verbose);
+    StartupCheck::Migration::migrateIfNecessary();
 
     // Using the settings file (and the stored version therein) check if PhotoQt was updated or installed (if settings file not present)
-    int update = StartupCheck::UpdateCheck::checkForUpdateInstall(variables->verbose, permanentSettings);
+    int update = StartupCheck::UpdateCheck::checkForUpdateInstall(permanentSettings);
 
     if(update > 0) StartupCheck::Settings::moveToNewKeyNames();
 
     // Before the window is shown we create screenshots and store them in the temporary folder
-    StartupCheck::Screenshots::getAndStore(variables->verbose);
+    StartupCheck::Screenshots::getAndStore();
 
     // Check whether everything is alright with the thumbnails database
-    StartupCheck::Thumbnails::checkThumbnailsDatabase(update, permanentSettings, variables->verbose);
+    StartupCheck::Thumbnails::checkThumbnailsDatabase(update, permanentSettings);
 
     // Ensure PhotoQt knows about all the required file formats
-    StartupCheck::FileFormats::checkForDefaultSettingsFileAndReturnWhetherDefaultsAreToBeSet(variables->verbose);
+    StartupCheck::FileFormats::checkForDefaultSettingsFileAndReturnWhetherDefaultsAreToBeSet();
 
     // Only on update do we need to (potentially) combine mouse and key shortcuts in single file
-    if(update == 1) StartupCheck::Shortcuts::combineKeyMouseShortcutsSingleFile(variables->verbose);
+    if(update == 1) StartupCheck::Shortcuts::combineKeyMouseShortcutsSingleFile();
 
     // Return the code whether PhotoQt was updated (1), installed (2), or none of the above (0)
     return update;
@@ -122,7 +120,7 @@ void MainHandler::loadQML() {
 
 // Output any QML debug messages if verbose mode is enabled
 void MainHandler::qmlVerboseMessage(QString loc, QString msg) {
-    if(variables->verbose)
+    if(qgetenv("PHOTOQT_VERBOSE") == "yes")
         LOG << CURDATE << "[QML] " << loc.toStdString() << ": " << msg.toStdString() << NL;
 }
 
@@ -131,7 +129,7 @@ void MainHandler::setupWindowProperties(bool dontCallShow) {
     this->setMinimumSize(QSize(640,480));
     this->setTitle("PhotoQt " + tr("Image Viewer"));
 
-    if(variables->verbose)
+    if(qgetenv("PHOTOQT_VERBOSE") == "yes")
         LOG << CURDATE << "setupWindowProperties(): started processing" << std::endl;
 
     GetAndDoStuff gads;
@@ -236,16 +234,16 @@ void MainHandler::forceWindowQuit() {
 // Remote controlling
 void MainHandler::remoteAction(QString cmd) {
 
-    if(variables->verbose)
+    if(qgetenv("PHOTOQT_VERBOSE") == "yes")
         LOG << CURDATE << "remoteAction(): " << cmd.toStdString() << NL;
 
     // Open a new file (and show PhotoQt if necessary)
     if(cmd == "open") {
 
-        if(variables->verbose)
+        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
             LOG << CURDATE << "remoteAction(): Open file" << NL;
         if(!this->isVisible()) {
-            StartupCheck::Screenshots::getAndStore(variables->verbose);
+            StartupCheck::Screenshots::getAndStore();
             setupWindowProperties();
         }
         QMetaObject::invokeMethod(object, "openfileShow");
@@ -254,21 +252,21 @@ void MainHandler::remoteAction(QString cmd) {
     // Disable thumbnails
     } else if(cmd == "nothumbs") {
 
-        if(variables->verbose)
+        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
             LOG << CURDATE << "remoteAction(): Disable thumbnails" << NL;
         permanentSettings->setThumbnailDisable(true);
 
     // (Re-)enable thumbnails
     } else if(cmd == "thumbs") {
 
-        if(variables->verbose)
+        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
             LOG << CURDATE << "remoteAction(): Enable thumbnails" << NL;
         permanentSettings->setThumbnailDisable(false);
 
     // Hide the window to system tray
     } else if(cmd == "hide" || (cmd == "toggle" && this->isVisible())) {
 
-        if(variables->verbose)
+        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
             LOG << CURDATE << "remoteAction(): Hiding" << NL;
         permanentSettings->setTrayIcon(1);
         QMetaObject::invokeMethod(object, "closeAnyElement");
@@ -277,12 +275,12 @@ void MainHandler::remoteAction(QString cmd) {
     // Show the window again (after being hidden to system tray)
     } else if(cmd.startsWith("show") || (cmd == "toggle" && !this->isVisible())) {
 
-        if(variables->verbose)
+        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
             LOG << CURDATE << "remoteAction(): Showing" << NL;
 
         // The same code can be found at the end of main.cpp
         if(!this->isVisible()) {
-            StartupCheck::Screenshots::getAndStore(variables->verbose);
+            StartupCheck::Screenshots::getAndStore();
             setupWindowProperties();
         }
 
@@ -296,7 +294,7 @@ void MainHandler::remoteAction(QString cmd) {
     // Load the specified file in PhotoQt
     } else if(cmd.startsWith("::file::")) {
 
-        if(variables->verbose)
+        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
             LOG << CURDATE << "remoteAction(): Opening passed-on file" << NL;
         QMetaObject::invokeMethod(object, "closeAnyElement");
         QMetaObject::invokeMethod(object, "loadFile", Q_ARG(QVariant, cmd.remove(0,8)));
@@ -324,7 +322,7 @@ void MainHandler::manageStartupFilename(bool startInTray, QString filename) {
 // Show the tray icon (if enabled)
 void MainHandler::handleTrayIcon(int val) {
 
-    if(variables->verbose)
+    if(qgetenv("PHOTOQT_VERBOSE") == "yes")
         LOG << CURDATE << "showTrayIcon()" << NL;
 
     if(val == -1)
@@ -332,7 +330,7 @@ void MainHandler::handleTrayIcon(int val) {
 
     if(val == 1 || val == 2) {
 
-        if(variables->verbose)
+        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
             LOG << CURDATE << "showTrayIcon(): Setting up" << NL;
 
         if(trayIcon == nullptr) {
@@ -357,7 +355,7 @@ void MainHandler::handleTrayIcon(int val) {
 
         }
 
-        if(variables->verbose)
+        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
             LOG << CURDATE << "showTrayIcon(): Setting icon to visible" << NL;
 
         trayIcon->show();
@@ -409,7 +407,7 @@ void MainHandler::toggleWindow() {
 // When quitting simply say GoodBye. Not necessary at all, just nice...
 void MainHandler::aboutToQuit() {
 
-    if(variables->verbose)
+    if(qgetenv("PHOTOQT_VERBOSE") == "yes")
         LOG << CURDATE;
     LOG << "Goodbye!" << NL;
 
