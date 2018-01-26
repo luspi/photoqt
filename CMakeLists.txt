@@ -43,6 +43,7 @@ set(CMAKE_AUTORCC ON)
 #############################
 
 include(CMake/ListFilesCPlusPlus.cmake)
+include(CMake/ListFilesTesting.cmake)
 include(CMake/ListFilesQML.cmake)
 include(CMake/ListFilesResources.cmake)
 
@@ -55,6 +56,7 @@ option(RAW "Use libraw library" ON)
 option(EXIV2 "Use exiv2 library" ON)
 option(GM "Use graphicsmagick library" ON)
 option(QTONLY "ONLY USE QT-ONLY FEATURES" OFF)
+option(TESTING "Enable testing" OFF)
 
 
 ################################
@@ -119,6 +121,27 @@ endif(WIN32)
 target_link_libraries(photoqt "z")
 
 
+########################
+#### HANDLE TESTING ####
+########################
+
+if(TESTING)
+
+    # Enable testing and fint the required test package
+    enable_testing()
+    find_package(Qt5Test REQUIRED)
+
+    # Add the test executable and mark
+    add_executable(photoqt_test ${photoqt_TESTING})
+    add_test(photoqt_test photoqt_test)
+    qt5_use_modules(photoqt_test Core Widgets)
+
+    target_link_libraries(photoqt_test Qt5::Test)
+    add_definitions(-DTESTING)
+
+endif(TESTING)
+
+
 #######################################
 #### EMPLY THE PROPER DESKTOP FILE ####
 #######################################
@@ -155,6 +178,9 @@ if(EXIV2)
     elseif(${EXIV2_FOUND})
         include_directories(${EXIV2_INCLUDE_DIR})
         target_link_libraries(photoqt "exiv2")
+        if(TESTING)
+            target_link_libraries(photoqt_test "exiv2")
+        endif(TESTING)
         if(WIN32)
             target_link_libraries(photoqt "expat")
             target_link_libraries(photoqt "ws2_32")
@@ -163,6 +189,15 @@ if(EXIV2)
             target_link_libraries(photoqt "intl")
             target_link_libraries(photoqt "iconv")
             target_link_libraries(photoqt "psapi")
+            if(TESTING)
+                target_link_libraries(photoqt_test "expat")
+                target_link_libraries(photoqt_test "ws2_32")
+                target_link_libraries(photoqt_test "wsock32")
+                target_link_libraries(photoqt_test "z")
+                target_link_libraries(photoqt_test "intl")
+                target_link_libraries(photoqt_test "iconv")
+                target_link_libraries(photoqt_test "psapi")
+            endif(TESTING)
         endif(WIN32)
         add_definitions(-DEXIV2)
         message("** Exiv2 enabled")
