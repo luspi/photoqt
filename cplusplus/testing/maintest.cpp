@@ -2,6 +2,7 @@
 
 #include "getanddostufftest.h"
 #include "getmetadatatest.h"
+#include "simplecrypttest.h"
 
 int main(int argc, char **argv) {
 
@@ -16,6 +17,7 @@ int main(int argc, char **argv) {
 
     ASSERT_TEST(new GetAndDoStuffTest);
     ASSERT_TEST(new GetMetaDataTest);
+    ASSERT_TEST(new SimpleCryptTest);
 
     return status;
 
