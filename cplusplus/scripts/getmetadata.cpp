@@ -372,10 +372,9 @@ QString GetMetaData::exifLightSource(QString value) {
     else if(value == "22")
         return "D75";
     else if(value == "23")
-        return tr("D50");
+        return "D50";
     else if(value == "24")
-        //: This string refers to the light source stored in image metadata
-        return tr("ISO studio tungsten");
+        return "ISO studio tungsten";
     else if(value == "255")
         //: This string refers to the light source stored in image metadata
         return tr("Other light source");
