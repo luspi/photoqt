@@ -56,9 +56,6 @@ int MainHandler::performSomeStartupChecks() {
     // Before the window is shown we create screenshots and store them in the temporary folder
     StartupCheck::Screenshots::getAndStore(variables->verbose);
 
-    // If we start PhotoQt in system tray, we need to make sure the tray is properly enabled
-    StartupCheck::StartInTray::makeSureSettingsReflectTrayStartupSetting(variables->verbose, variables->startintray, permanentSettings);
-
     // Check whether everything is alright with the thumbnails database
     StartupCheck::Thumbnails::checkThumbnailsDatabase(update, permanentSettings, variables->verbose);
 

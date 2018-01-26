@@ -34,7 +34,6 @@
 #include "startup/fileformats.h"
 #include "startup/migration.h"
 #include "startup/screenshots.h"
-#include "startup/startintray.h"
 #include "startup/thumbnails.h"
 #include "startup/updatecheck.h"
 #include "startup/shortcuts.h"
