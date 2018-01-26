@@ -2,7 +2,6 @@
 #define CONFIGFILES_H
 
 #include <QObject>
-#include <QGuiApplication>
 #include <QStandardPaths>
 
 class ConfigFiles {
