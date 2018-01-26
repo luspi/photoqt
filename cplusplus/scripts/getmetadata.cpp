@@ -253,8 +253,12 @@ QString GetMetaData::exifPhotoTaken(QString value) {
 // Compose GPS data
 QStringList GetMetaData::exifGps(QString gpsLonRef, QString gpsLon, QString gpsLatRef, QString gpsLat) {
 
+    if(gpsLatRef == "") gpsLatRef = "N";
+    if(gpsLonRef == "") gpsLonRef = "E";
+
     // Format the latitude string
     QStringList split = gpsLat.split(" ");
+
     // Some photos have the GPS minutes stored as decimal. That needs to be converted into:
     // - Integer value for minute
     // - Decimal value *60 for seconds
@@ -271,16 +275,27 @@ QStringList GetMetaData::exifGps(QString gpsLonRef, QString gpsLon, QString gpsL
                 division = int(division);
             }
             split.replace(i,QString("%1").arg(division));
-        }
+        } else if(split.at(i) == "")
+            split[i] = "0";
 
     }
     // And calculate seconds and set them into third position
     if(calcSecs > 0 && split.length() >= 3)
         split.replace(2,QString::number(split.at(2).toFloat()+calcSecs*60));
 
-    gpsLat = split.at(0) + "°" + split.at(1) + "'" + split.at(2) + "''";
+    if(split.length() == 3)
+        gpsLat = split.at(0) + "°" + split.at(1) + "'" + split.at(2) + "''";
+    else if(split.length() == 2)
+        gpsLat = split.at(0) + "°" + split.at(1) + "'0''";
+    else if(split.length() == 1)
+        gpsLat = split.at(0) + "°0'0''";
 
-    float secL = (split.at(1).toFloat()*60+split.at(2).toFloat())/3600.0;
+    float secL = 0;
+    if(split.length() == 3)
+        secL = ((split.at(1).toFloat()*60+split.at(2).toFloat())/3600.0);
+    else if(split.length() == 2)
+        secL = ((split.at(1).toFloat()*60)/3600.0);
+
     float left = split.at(0).toFloat() + secL;
     if(gpsLatRef == "S") left *= -1;
 
@@ -300,14 +315,26 @@ QStringList GetMetaData::exifGps(QString gpsLonRef, QString gpsLon, QString gpsL
                 division = int(division);
             }
             split.replace(i,QString("%1").arg(division));
-        }
+        } else if(split.at(i) == "")
+            split[i] = "0";
     }
     // And calculate seconds and set them into third position
-    if(calcSecs > 0 && split.length() >= 3)
+    if(calcSecs > 0 && split.length() > 2)
         split.replace(2,QString::number(split.at(2).toFloat()+calcSecs*60));
-    gpsLon = split.at(0) + "°" + split.at(1) + "'" + split.at(2) + "''";
 
-    float secR = (split.at(1).toFloat()*60+split.at(2).toFloat())/3600.0;
+    if(split.length() == 3)
+        gpsLon = split.at(0) + "°" + split.at(1) + "'" + split.at(2) + "''";
+    else if(split.length() == 2)
+        gpsLon = split.at(0) + "°" + split.at(1) + "'0''";
+    else if(split.length() == 1)
+        gpsLon = split.at(0) + "°0'0''";
+
+    float secR = 0;
+    if(split.length() == 3)
+        secR = ((split.at(1).toFloat()*60+split.at(2).toFloat())/3600.0);
+    else if(split.length() == 2)
+        secR = ((split.at(1).toFloat()*60)/3600.0);
+
     float right = split.at(0).toFloat() + secR;
     if(gpsLonRef == "W") right *= -1;
 
