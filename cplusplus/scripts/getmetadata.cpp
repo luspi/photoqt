@@ -223,6 +223,9 @@ QString GetMetaData::exifExposureTime(QString value) {
 // Format Focal Length
 QString GetMetaData::exifFNumberFLength(QString value) {
 
+    if(value.startsWith("f/"))
+        value = value.remove(0,2);
+
     if(value.contains("/")) {
         QStringList split = value.split("/");
         float t1 = split.at(0).toFloat();
