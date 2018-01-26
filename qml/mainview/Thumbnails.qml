@@ -405,7 +405,14 @@ Item {
                 verboseMessage("ThumbnailBar::displayImage()","Keep thumbnail visible")
                 positionViewAtIndex(variables.currentFilePos,ListView.Contain)
             }
-        }
+        } else
+            // Ensure that all thumbnails are actually visible!
+            // Avoid the problem:
+            //  1) Load directory with many images
+            //  2) Scroll thumbnails to right
+            //  3) Load thumbnails with very few thumbnails
+            //  Result: Not all thumbnails visible
+            positionViewAtIndex(variables.currentFilePos,ListView.Center)
 
     }
 
