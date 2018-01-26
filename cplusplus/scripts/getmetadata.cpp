@@ -198,22 +198,20 @@ QString GetMetaData::exifExposureTime(QString value) {
 
     if(value.contains("/")) {
         QStringList split = value.split("/");
-        if(split.at(0) != "1") {
-            int t1 = split.at(0).toInt();
-            float t2 = split.at(1).toFloat();
-            // I got a bug report of PhotoQt crashing for certain images that have an exposure time
-            // of "1/0". So we have to check for it, or we get a division by zero, i.e., crash
-            if(t1 == 0) {
-                t1 = 0;
-                t2 = 0;
-                value = "0";
-            } else if(t1 != 1) {
-                t1 = t1/t1;
-                t2 = t2/t1;
-                value = QString("%1/%2").arg(t1).arg(t2);
-            } else {
-                value = QString("%1/%2").arg(t1).arg(t2);
-            }
+        int t1 = split.at(0).toInt();
+        double t2 = split.at(1).split(" ").at(0).toDouble();
+        // I got a bug report of PhotoQt crashing for certain images that have an exposure time
+        // of "1/0". So we have to check for it, or we get a division by zero, i.e., crash
+        if(t1 == 0 || t2 == 0) {
+            t1 = 0;
+            t2 = 0;
+            value = "0";
+        } else if(t1 != 1) {
+            t2 = t2/t1;
+            t1 = t1/t1;
+            value = QString("%1/%2").arg(t1).arg(t2);
+        } else {
+            value = QString("%1/%2").arg(t1).arg(t2);
         }
 
     }
