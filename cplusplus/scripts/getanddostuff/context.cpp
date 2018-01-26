@@ -100,7 +100,7 @@ bool GetAndDoStuffContext::checkIfBinaryExists(QString exec) {
 #endif
     p.start("which " + exec);
     p.waitForFinished();
-    return p.exitCode() != 2;
+    return p.exitCode() == 0;
 }
 
 void GetAndDoStuffContext::saveContextMenu(QVariantList l) {
