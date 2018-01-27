@@ -113,15 +113,17 @@ private:
     void showHelp() {
 
         // the max width gets two added on the left (indented by 2) and on the right (spacing between option and description)
-        int maxWidth = 2+maxEntriesWidth+2;
+        int entryWidth = 2+maxEntriesWidth+2;
+
+        int maxWidth = 78;
 
         // Header
         std::cout << "Usage: photoqt [options] [filename]" << std::endl;
         std::cout << "PhotoQt Image Viewer" << std::endl << std::endl;
 
         // help and version option
-        std::cout << std::setfill(' ') << std::setw(maxWidth) << std::left << "  -h, --help" << "Displays this help." << std::endl;
-        std::cout << std::setfill(' ') << std::setw(maxWidth) << std::left << "  -v, --version" << "Displays version information." << std::endl;
+        std::cout << std::setfill(' ') << std::setw(entryWidth) << std::left << "  -h, --help" << "Displays this help." << std::endl;
+        std::cout << std::setfill(' ') << std::setw(entryWidth) << std::left << "  -v, --version" << "Displays version information." << std::endl;
 
         // Loop over all categories
         for(QString cat : categories) {
@@ -133,8 +135,41 @@ private:
             for(QStringList entry : allEntries) {
 
                 // If categories match, output option
-                if(entry.at(0) == cat)
-                    std::cout << std::setfill(' ') << std::setw(maxWidth) << std::left << ("  " + entry.at(1).toStdString()) << entry.at(2).toStdString() << std::endl;
+                if(entry.at(0) == cat) {
+
+                    // Output category
+                    std::cout << std::setfill(' ') << std::setw(entryWidth) << std::left << ("  " + entry.at(1).toStdString());
+
+                    // The description. This will be reduced by whatever is outputted
+                    QString desc = entry.at(2);
+
+                    // Keep as going as long as there is something to output
+                    while(desc.length() > 0) {
+
+                        // The maximum width that is available for the description
+                        int maxDescLength = std::min(maxWidth-entryWidth, desc.length()-1);
+
+                        // Make sure that, if we are not at the end of the string, we break the string at a space
+                        while(desc.at(maxDescLength) != " " && maxDescLength < desc.length()-1)
+                            --maxDescLength;
+
+                        // Error checking, this should never really happen, but just to be safe
+                        if(maxDescLength < 1)
+                            break;
+
+                        // If this is the second line, we need to pad the output on the left for proper indentation
+                        if(desc.length() < entry.at(2).length())
+                            std::cout << std::setfill(' ') << std::setw(entryWidth) << " ";
+
+                        // Output the description (sub-)string
+                        std::cout << desc.left(maxDescLength+1).trimmed().toStdString() << std::endl;
+
+                        // Remove whatever part of the description is displayed
+                        desc = desc.remove(0, maxDescLength+1);
+
+                    }
+
+                }
 
             }
 
@@ -143,7 +178,7 @@ private:
         // Output the positional argument at end
         std::cout << std::endl;
         std::cout << "Arguments:" << std::endl;
-        std::cout << std::setfill(' ') << std::setw(maxWidth) << std::left << "  filename" << "File to open with PhotoQt" << std::endl;
+        std::cout << std::setfill(' ') << std::setw(entryWidth) << std::left << "  filename" << "File to open with PhotoQt." << std::endl;
 
         // And quit application
         qApp->quit();
