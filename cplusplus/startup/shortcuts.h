@@ -27,7 +27,7 @@ namespace StartupCheck {
 
         static inline void combineKeyMouseShortcutsSingleFile() {
 
-            if(qgetenv("PHOTOQT_VERBOSE") == "yes") LOG << CURDATE << "StartupCheck::StartInTray" << NL;
+            if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "StartupCheck::StartInTray" << NL;
 
             // All shortcuts are stored in this single file
             QFile allshortcuts(ConfigFiles::SHORTCUTS_FILE());

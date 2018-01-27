@@ -32,7 +32,7 @@ public:
 
     QImage load(QString filename, QSize maxSize, bool metaRotate) {
 
-        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
             LOG << CURDATE << "LoadImageQt: Load image using Qt: " << QFileInfo(filename).fileName().toStdString() << NL;
 
         // For reading SVG files

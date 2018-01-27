@@ -31,7 +31,7 @@ public:
 
     QPixmap requestPixmap(const QString &icon, QSize *, const QSize &requestedSize){
 
-        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
             LOG << CURDATE << "ImageProviderIcon: Attempting to load icon from theme: " << icon.toStdString() << NL;
 
         QSize use = requestedSize;
@@ -48,7 +48,7 @@ public:
         // If icon is not available or if on Windows, choose from a small selection of custom provided icons
         // These backup icons are taken from the Breese-Dark icon theme, created by KDE/Plasma
         if(ret.isNull()) {
-            if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+            if(qgetenv("PHOTOQT_DEBUG") == "yes")
                 LOG << CURDATE << "ImageProviderIcon: Icon not found in theme, using fallback icon: " << icon.toStdString() << NL;
             if(QFile(":/img/openfile/backupicons/" + icon + ".svg").exists())
                 ret = QIcon(":/img/openfile/backupicons/" + icon + ".svg");

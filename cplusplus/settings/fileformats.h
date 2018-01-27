@@ -89,7 +89,7 @@ public:
 
     void setAvailableFormats() {
 
-        if(qgetenv("PHOTOQT_VERBOSE") == "yes") LOG << CURDATE << "Setting available file formats" << NL;
+        if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "Setting available file formats" << NL;
 
         formats_qt = FileFormatsHandler::AvailableFormats::getListForQt();
         formats_gm = FileFormatsHandler::AvailableFormats::getListForGm();
@@ -104,7 +104,7 @@ public:
 
         setAvailableFormats();
 
-        if(qgetenv("PHOTOQT_VERBOSE") == "yes") LOG << CURDATE << "Filtering out default file formats" << NL;
+        if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "Filtering out default file formats" << NL;
 
         QStringList defaultEnabled = FileFormatsHandler::DefaultFormats::getList();
 
@@ -158,7 +158,7 @@ public slots:
 
     void loadFormats() {
 
-        if(qgetenv("PHOTOQT_VERBOSE") == "yes") LOG << CURDATE << "Loading disabled file formats from file" << NL;
+        if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "Loading disabled file formats from file" << NL;
 
         QFile file(ConfigFiles::FILEFORMATS_FILE());
 
@@ -220,7 +220,7 @@ public slots:
 
     void saveFormats() {
 
-        if(qgetenv("PHOTOQT_VERBOSE") == "yes") LOG << CURDATE << "Saving disabled file formats to file" << NL;
+        if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "Saving disabled file formats to file" << NL;
 
         QStringList current_qt = formats_qt;
         QStringList current_gm = formats_gm;

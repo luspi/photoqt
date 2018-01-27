@@ -34,7 +34,7 @@ public:
 
     QImage load(QString filename, QSize maxSize) {
 
-        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
             LOG << CURDATE << "LoadImageXCF: Load image using xcftools: " << QFileInfo(filename).fileName().toStdString() << NL;
 
         QSize origSize;

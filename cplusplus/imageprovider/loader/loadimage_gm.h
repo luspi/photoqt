@@ -37,7 +37,7 @@ public:
 
 #ifdef GM
 
-        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
             LOG << CURDATE << "LoadImageGM: Loading image using GraphicsMagick: " << QFileInfo(filename).fileName().toStdString() << NL;
 
         GmImageMagick imagemagick;
@@ -119,7 +119,7 @@ public:
         }
 
 #else
-        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
             LOG << CURDATE << "LoadImageGM: PhotoQt was compiled without GraphicsMagick support, returning error image" << NL;
 #endif
 

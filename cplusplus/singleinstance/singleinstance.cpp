@@ -110,9 +110,10 @@ void SingleInstance::handleResponse(QString msg) {
 
     // If verbose/debug mode enabled, set environment variable. This variable can be read anywhere to detect this mode
     // On quit, this variable will be unset again
-    if(msg.contains("::verbose::") || msg.contains("::debug::") ||
-       QFile(QString(ConfigFiles::CONFIG_DIR()) + "/verbose").exists() || QFile(QString(ConfigFiles::CONFIG_DIR()) + "/verboselog").exists())
-        qputenv("PHOTOQT_VERBOSE", "yes");
+    if(msg.contains("::debug::"))
+        qputenv("PHOTOQT_DEBUG", "yes");
+    if(msg.contains("::no-debug::"))
+        qunsetenv("PHOTOQT_DEBUG");
 
     // These ones are passed on to the main process
     open = ((msg.contains("::open::") || msg.contains("::o::")) && !msg.contains("::file::"));

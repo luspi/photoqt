@@ -120,7 +120,7 @@ void MainHandler::loadQML() {
 
 // Output any QML debug messages if verbose mode is enabled
 void MainHandler::qmlVerboseMessage(QString loc, QString msg) {
-    if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE << "[QML] " << loc.toStdString() << ": " << msg.toStdString() << NL;
 }
 
@@ -129,7 +129,7 @@ void MainHandler::setupWindowProperties(bool dontCallShow) {
     this->setMinimumSize(QSize(640,480));
     this->setTitle("PhotoQt " + tr("Image Viewer"));
 
-    if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE << "setupWindowProperties(): started processing" << std::endl;
 
     GetAndDoStuff gads;
@@ -234,13 +234,13 @@ void MainHandler::forceWindowQuit() {
 // Remote controlling
 void MainHandler::remoteAction(QString cmd) {
 
-    if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE << "remoteAction(): " << cmd.toStdString() << NL;
 
     // Open a new file (and show PhotoQt if necessary)
     if(cmd == "open") {
 
-        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
             LOG << CURDATE << "remoteAction(): Open file" << NL;
         if(!this->isVisible()) {
             StartupCheck::Screenshots::getAndStore();
@@ -252,21 +252,21 @@ void MainHandler::remoteAction(QString cmd) {
     // Disable thumbnails
     } else if(cmd == "nothumbs") {
 
-        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
             LOG << CURDATE << "remoteAction(): Disable thumbnails" << NL;
         permanentSettings->setThumbnailDisable(true);
 
     // (Re-)enable thumbnails
     } else if(cmd == "thumbs") {
 
-        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
             LOG << CURDATE << "remoteAction(): Enable thumbnails" << NL;
         permanentSettings->setThumbnailDisable(false);
 
     // Hide the window to system tray
     } else if(cmd == "hide" || (cmd == "toggle" && this->isVisible())) {
 
-        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
             LOG << CURDATE << "remoteAction(): Hiding" << NL;
         permanentSettings->setTrayIcon(1);
         QMetaObject::invokeMethod(object, "closeAnyElement");
@@ -275,7 +275,7 @@ void MainHandler::remoteAction(QString cmd) {
     // Show the window again (after being hidden to system tray)
     } else if(cmd.startsWith("show") || (cmd == "toggle" && !this->isVisible())) {
 
-        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
             LOG << CURDATE << "remoteAction(): Showing" << NL;
 
         // The same code can be found at the end of main.cpp
@@ -294,7 +294,7 @@ void MainHandler::remoteAction(QString cmd) {
     // Load the specified file in PhotoQt
     } else if(cmd.startsWith("::file::")) {
 
-        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
             LOG << CURDATE << "remoteAction(): Opening passed-on file" << NL;
         QMetaObject::invokeMethod(object, "closeAnyElement");
         QMetaObject::invokeMethod(object, "loadFile", Q_ARG(QVariant, cmd.remove(0,8)));
@@ -322,7 +322,7 @@ void MainHandler::manageStartupFilename(bool startInTray, QString filename) {
 // Show the tray icon (if enabled)
 void MainHandler::handleTrayIcon(int val) {
 
-    if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE << "showTrayIcon()" << NL;
 
     if(val == -1)
@@ -330,7 +330,7 @@ void MainHandler::handleTrayIcon(int val) {
 
     if(val == 1 || val == 2) {
 
-        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
             LOG << CURDATE << "showTrayIcon(): Setting up" << NL;
 
         if(trayIcon == nullptr) {
@@ -355,7 +355,7 @@ void MainHandler::handleTrayIcon(int val) {
 
         }
 
-        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
             LOG << CURDATE << "showTrayIcon(): Setting icon to visible" << NL;
 
         trayIcon->show();
@@ -407,7 +407,7 @@ void MainHandler::toggleWindow() {
 // When quitting simply say GoodBye. Not necessary at all, just nice...
 void MainHandler::aboutToQuit() {
 
-    if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE;
     LOG << "Goodbye!" << NL;
 

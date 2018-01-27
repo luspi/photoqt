@@ -51,7 +51,7 @@ public:
 
         // Third category
         cat = "General Options";
-        addOption(cat, {"debug", "verbose"}, "Enable debug messages");
+        addOption(cat, {"debug", "no-debug"}, "Switch on/off debug messages");
         addOption(cat, "export", "Export configuration file to given filename", "filename");
         addOption(cat, "import", "Import configuration file with given filename", "filename");
 

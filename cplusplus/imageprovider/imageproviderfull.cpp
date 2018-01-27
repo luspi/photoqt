@@ -41,7 +41,7 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
     // Which GraphicsEngine should we use?
     QString whatToUse = whatDoIUse(filename);
 
-    if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE << "ImageProviderFull: Using graphics engine: "
             << (whatToUse=="gm" ? "GraphicsMagick" : (whatToUse=="qt" ? "ImageReader" : (whatToUse=="raw" ? "LibRaw" : "External Tool")))
             << " [" << whatToUse.toStdString() << "]" << NL;
@@ -55,7 +55,7 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
         QPixmap *pix = pixmapcache->object(cachekey);
         if(!pix->isNull()) {
 
-            if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+            if(qgetenv("PHOTOQT_DEBUG") == "yes")
                 LOG << CURDATE << "ImageProviderFull: Loading full image from pixmap cache: " << QFileInfo(filename).fileName().toStdString() << NL;
 
             ret = pix->toImage();
@@ -85,7 +85,7 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
     QPixmap *newpixPt = new QPixmap(ret.width(), ret.height());
     *newpixPt = QPixmap::fromImage(ret);
     if(!newpixPt->isNull()) {
-        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
             LOG << CURDATE << "ImageProviderFull: Inserting full image into pixmap cache: " << QFileInfo(filename).fileName().toStdString() << NL;
         pixmapcache->insert(cachekey, newpixPt, newpixPt->width()*newpixPt->height()*newpixPt->depth()/(8*1024));
     }

@@ -36,7 +36,7 @@ public:
 
 #ifdef RAW
 
-        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
             LOG << CURDATE << "LoadImageRaw: Load image using LibRaw: " << QFileInfo(filename).fileName().toStdString() << NL;
 
         // Later we decide according to thumbnail/image size whether to load thumbnail or half/full image
@@ -159,7 +159,7 @@ public:
         return image;
 
 #else
-        if(qgetenv("PHOTOQT_VERBOSE") == "yes")
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
             LOG << CURDATE << "LoadImageRaw: PhotoQt was compiled without LibRaw support, returning error image" << NL;
 #endif
 

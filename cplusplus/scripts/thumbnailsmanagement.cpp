@@ -36,7 +36,7 @@ int ThumbnailManagement::getNumberDatabaseEntries() {
 
 void ThumbnailManagement::cleanDatabase() {
 
-    if(qgetenv("PHOTOQT_VERBOSE") == "yes") LOG << CURDATE << "ThumbnailManagement: thb: Clean database" << NL;
+    if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "ThumbnailManagement: thb: Clean database" << NL;
 
     QSqlQuery query(db);
 
@@ -99,7 +99,7 @@ void ThumbnailManagement::cleanDatabase() {
 
 void ThumbnailManagement::eraseDatabase() {
 
-    if(qgetenv("PHOTOQT_VERBOSE") == "yes") LOG << CURDATE << "ThumbnailManagement: thb: Erase database" << NL;
+    if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "ThumbnailManagement: thb: Erase database" << NL;
 
     QSqlQuery query(db);
 
