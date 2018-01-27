@@ -197,6 +197,8 @@ Item {
         // This is a masking image for when the image is not zoomed. It loads a scaled down version for better quality when not zoomed (or zoomed out)
         Image {
 
+            id: imagemasking
+
             anchors.fill: parent
 
             // Don't block interface while loading...
@@ -395,16 +397,19 @@ Item {
 
     function mirrorHorizontal() {
         image.mirror = !image.mirror
+        imagemasking.mirror = !imagemasking.mirror
     }
 
     function mirrorVertical() {
         imageContainer.rotation += 180
         image.mirror = !image.mirror
+        imagemasking.mirror = !imagemasking.mirror
     }
 
     function resetMirror() {
         resetRotationWithoutAnimation()
         image.mirror = false
+        imagemasking.mirror = false
     }
 
     function getCurrentSourceSize() {
