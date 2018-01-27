@@ -39,9 +39,8 @@ public:
         // First category
         QString cat = "Interaction with PhotoQt";
         addOption(cat, {"o", "open"}, "Make PhotoQt ask for a new File.");
-        addOption(cat, {"o", "open"}, "Make PhotoQt ask for a new File.");
-        addOption(cat, {"t", "toggle"}, "Toggle PhotoQt - hides PhotoQt if visible, shows if hidden.");
         addOption(cat, {"s", "show"}, "Shows PhotoQt (does nothing if already shown).");
+        addOption(cat, {"t", "toggle"}, "Toggle PhotoQt - hides PhotoQt if visible, shows if hidden.");
         addOption(cat, "no-thumbs", "Disable thumbnails");
         addOption(cat, "thumbs", "Enable thumbnails");
 
