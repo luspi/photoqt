@@ -60,25 +60,6 @@ public:
 
     }
 
-    // Hold max width required for options
-    int maxEntriesWidth;
-
-    // All categories that have been set
-    QStringList categories;
-    // All entries
-    QList<QStringList> allEntries;
-    // All options that are set as one list
-    QStringList validOptions;
-    // All options that are set with values as one list
-    QStringList optionsWithValue;
-
-    // All options that have been found
-    QStringList foundOptions;
-    // All option/value pairs that have been found
-    QMap<QString,QString> foundValues;
-    // The found filename (if any)
-    QString foundFilename;
-
     // Convenience function, allows to pass a single option as string
     void addOption(QString cat, QString option, QString description, QString valueName = "") {
         addOption(cat, QStringList() << option, description, valueName);
@@ -126,6 +107,8 @@ public:
         allEntries << (QStringList() << cat << optionString << description);
 
     }
+
+private:
 
     // Show the help message and quit
     void showHelp() {
@@ -246,6 +229,26 @@ public:
         }
 
     }
+
+public:
+    // All options that have been found
+    QStringList foundOptions;
+    // All option/value pairs that have been found
+    QMap<QString,QString> foundValues;
+    // The found filename (if any)
+    QString foundFilename;
+
+private:
+    // Hold max width required for options
+    int maxEntriesWidth;
+    // All categories that have been set
+    QStringList categories;
+    // All entries
+    QList<QStringList> allEntries;
+    // All options that are set as one list
+    QStringList validOptions;
+    // All options that are set with values as one list
+    QStringList optionsWithValue;
 
 };
 
