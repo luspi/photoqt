@@ -12,28 +12,26 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
     server = nullptr;
 
     // Check for filenames
-    QStringList positional = handler.parser.positionalArguments();
-    if(positional.length() > 0) {
-        QString pos = positional.at(0);
+    if(handler.foundFilename.length() > 0) {
+        QString fname = handler.foundFilename;
         // If PhotoQt has been restarted (from importing config file)
         // -> wait for a little bit to make sure the previous instance of PhotoQt is properly closed
-        if(pos.startsWith("RESTARTRESTARTRESTART")) {
+        if(fname.startsWith("RESTARTRESTARTRESTART")) {
             std::this_thread::sleep_for(std::chrono::seconds(1));
-            pos = pos.remove(0,21);
+            fname = fname.remove(0,21);
         }
-        if(pos.trimmed() != "")
-            message += ":-:-:" + QByteArray("::file::") + QFileInfo(pos).absoluteFilePath();
+        if(fname.trimmed() != "")
+            message += ":-:-:" + QByteArray("::file::") + QFileInfo(fname).absoluteFilePath();
     }
 
     // Check for any other set option
-    QStringList options = handler.parser.optionNames();
-    for(QString opt : options)
+    for(QString opt : handler.foundOptions)
         message += ":-:-:::" + opt.toUtf8() + "::";
 
     // This is treated specially: We export the config file and then quit without continuing
     exportAndQuitNow = "";
     if(message.contains("::export::")) {
-        exportAndQuitNow = handler.parser.value("export");;
+        exportAndQuitNow = handler.foundValues["export"];
         // we need to 'new' the following two otherwise it will crash in the destructor
         socket = new QLocalSocket();
         server = new QLocalServer();
@@ -41,7 +39,7 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
      }
     importAndQuitNow = "";
     if(message.contains("::import::")) {
-        importAndQuitNow = handler.parser.value("import");
+        importAndQuitNow = handler.foundValues["import"];
         // we need to 'new' the following two otherwise it will crash in the destructor
         socket = new QLocalSocket();
         server = new QLocalServer();
