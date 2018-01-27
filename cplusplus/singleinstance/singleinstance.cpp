@@ -108,7 +108,7 @@ void SingleInstance::handleResponse(QString msg) {
 
     // Analyse what action(s) to take
 
-    // If verbose/debug mode enabled, set environment variable. This variable can be read anywhere to detect this mode
+    // If verbose/debug mode enabled, set environment variable. This variable can be read anywhere to detect this mode.
     // On quit, this variable will be unset again
     if(msg.contains("::debug::")) {
         std::cout << "***********************" << std::endl;
@@ -116,6 +116,7 @@ void SingleInstance::handleResponse(QString msg) {
         std::cout << "***********************" << std::endl;
         qputenv("PHOTOQT_DEBUG", "yes");
     }
+    // This allows the user to undo the switch during runtime, enabling getting debug messages for specific actions only
     if(msg.contains("::no-debug::")) {
         std::cout << "************************" << std::endl;
         std::cout << "DISABLING DEBUG MESSAGES" << std::endl;
@@ -123,31 +124,25 @@ void SingleInstance::handleResponse(QString msg) {
         qunsetenv("PHOTOQT_DEBUG");
     }
 
-    // These ones are passed on to the main process
-    open = ((msg.contains("::open::") || msg.contains("::o::")) && !msg.contains("::file::"));
-    nothumbs = (msg.contains("::no-thumbs::") && !msg.contains("::thumbs::"));
-    thumbs = msg.contains("::thumbs::");
-    toggle = (msg.contains("::toggle::") || msg.contains("::t::")) && !msg.contains("::start-in-tray::");
-    show = ((msg.contains("::show::") || msg.contains("::s::"))
-            && !msg.contains("::toggle::") && !msg.contains("::t::") && !msg.contains("::start-in-tray::"));
-    hide = (msg.contains("::hide::") && !msg.contains("::toggle::") && !msg.contains("::start-in-tray::"));
-
     // These ones only play a role on startup and are ignored otherwise
-    startintray = (msg.contains("::start-in-tray::"));
+    startintray = false;
 
-    // Check for passed on filename (we check in mainwindow.cpp if it's an actually valid file)
-    if(msg.contains("::file::"))
-        filename = msg.split("::file::").at(1).split(":-:-:").at(0);
-    else
-        filename = "";
-
-    if(filename != "") emit interaction("::file::" + filename);
-    if(open) emit interaction("open");
-    if(nothumbs) emit interaction("nothumbs");
-    if(thumbs) emit interaction("thumbs");
-    if(toggle) emit interaction("toggle");
-    if(show) emit interaction("show");
-    if(hide) emit interaction("hide");
+    if(msg.contains("::start-in-tray::"))
+        startintray = true;
+    else if(msg.contains("::file::"))
+        emit interaction("::file::" + msg.split("::file::").at(1).split(":-:-:").at(0));
+    else if((msg.contains("::open::") || msg.contains("::o::")))
+        emit interaction("open");
+    else if(msg.contains("::thumbs::"))
+        emit interaction("thumbs");
+    else if(msg.contains("::no-thumbs::"))
+        emit interaction("nothumbs");
+    else if(msg.contains("::toggle::") || msg.contains("::t::"))
+        emit interaction("toggle");
+    else if(msg.contains("::show::") || msg.contains("::s::"))
+        emit interaction("show");
+    else if(msg.contains("::hide::"))
+        emit interaction("hide");
 
 }
 
