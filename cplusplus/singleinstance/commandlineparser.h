@@ -117,7 +117,7 @@ private:
         int maxWidth = 2+maxEntriesWidth+2;
 
         // Header
-        std::cout << "Usage: ./photoqt [options] [filename]" << std::endl;
+        std::cout << "Usage: photoqt [options] [filename]" << std::endl;
         std::cout << "PhotoQt Image Viewer" << std::endl << std::endl;
 
         // help and version option
