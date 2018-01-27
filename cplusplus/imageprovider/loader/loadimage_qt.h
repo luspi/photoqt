@@ -25,11 +25,6 @@
 #include "../../logger.h"
 #include "errorimage.h"
 
-#ifdef EXIV2
-#include <exiv2/image.hpp>
-#include <exiv2/exif.hpp>
-#endif
-
 class LoadImageQt {
 
 public:
@@ -124,104 +119,10 @@ public:
             if(maxSize.width() != -1)
                 reader.setScaledSize(QSize(dispWidth,dispHeight));
 
-#if QT_VERSION >= 0x050500
-
             reader.setAutoTransform(metaRotate);
-
-#endif
 
             // Eventually load the image
             img = reader.read();
-
-#if defined(EXIV2) && QT_VERSION < 0x050500
-
-            // If this setting is enabled, then we check at image load for the Exif rotation tag
-            // and change the image accordingly
-            if(metaRotate && angle == 0) {
-
-                // Known formats by Exiv2
-                QStringList formats;
-                formats << "jpeg" << "jpg" << "tif" << "tiff"
-                    << "png" << "psd" << "jpeg2000" << "jp2"
-                    << "j2k" << "jpc" << "jpf" << "jpx"
-                    << "jpm" << "mj2" << "bmp" << "bitmap"
-                    << "gif" << "tga";
-
-                if(formats.contains(QFileInfo(filename).suffix().toLower().trimmed())) {
-
-                    // Obtain metadata
-                    Exiv2::Image::AutoPtr meta;
-                    try {
-                        meta  = Exiv2::ImageFactory::open(filename.toStdString());
-                        meta->readMetadata();
-                        Exiv2::ExifData &exifData = meta->exifData();
-
-                        // We only need this one key
-                        Exiv2::ExifKey k("Exif.Image.Orientation");
-                        Exiv2::ExifData::const_iterator it = exifData.findKey(k);
-
-                        // If it exists
-                        if(it != exifData.end()) {
-
-                            // Get its value and analyse it
-                            QString val = QString::fromStdString(Exiv2::toString(it->value()));
-
-                            bool flipHor = false;
-                            int rotationDeg = 0;
-                            // 1 = No rotation/flipping
-                            if(val == "1")
-                                rotationDeg = 0;
-                            // 2 = Horizontally Flipped
-                            if(val == "2") {
-                                rotationDeg = 0;
-                                flipHor = true;
-                            // 3 = Rotated by 180 degrees
-                            } else if(val == "3")
-                                rotationDeg = 180;
-                            // 4 = Rotated by 180 degrees and flipped horizontally
-                            else if(val == "4") {
-                                rotationDeg = 180;
-                                flipHor = true;
-                            // 5 = Rotated by 270 degrees and flipped horizontally
-                            } else if(val == "5") {
-                                rotationDeg = 270;
-                                flipHor = true;
-                            // 6 = Rotated by 270 degrees
-                            } else if(val == "6")
-                                rotationDeg = 270;
-                            // 7 = Flipped Horizontally and Rotated by 90 degrees
-                            else if(val == "7") {
-                                rotationDeg = 90;
-                                flipHor = true;
-                            // 8 = Rotated by 90 degrees
-                            } else if(val == "8")
-                                rotationDeg = 90;
-
-                            // Perform some rotation
-                            if(rotationDeg != 0) {
-                                QTransform transform;
-                                transform.rotate(-rotationDeg);
-                                img = img.transformed(transform);
-                            }
-                            // And flip image
-                            if(flipHor)
-                                img = img.mirrored(true,false);
-
-                            // Depending on our rotation, we might need to adjust the image dimensions here accordingly
-                            if(img.width() != reader.scaledSize().width() && maxSize.width() != -1) {
-                                img = img.scaledToHeight(dispHeight);
-                            }
-
-                        }
-                    } catch (Exiv2::Error& e) {
-                        LOG << CURDATE << "LoadImageQt: reader qt - ERROR reading exiv data (caught exception): " << e.what() << NL;
-                    }
-
-                }
-
-            }
-
-#endif
 
             // If an error occured
             if(img.isNull()) {
