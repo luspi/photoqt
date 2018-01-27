@@ -124,7 +124,7 @@ void SingleInstance::handleResponse(QString msg) {
         qunsetenv("PHOTOQT_DEBUG");
     }
 
-    // These ones only play a role on startup and are ignored otherwise
+    // Reset this variable before checking
     startintray = false;
 
     if(msg.contains("::start-in-tray::"))
