@@ -41,19 +41,18 @@ public:
         addOption(cat, {"o", "open"}, "Make PhotoQt ask for a new File.");
         addOption(cat, {"s", "show"}, "Shows PhotoQt (does nothing if already shown).");
         addOption(cat, {"t", "toggle"}, "Toggle PhotoQt - hides PhotoQt if visible, shows if hidden.");
-        addOption(cat, "no-thumbs", "Disable thumbnails");
-        addOption(cat, "thumbs", "Enable thumbnails");
+        addOption(cat, {"thumbs", "no-thumbs"}, "Enable/Disable thumbnails.");
 
         // Second category
         cat = "Start-up-only options";
         addOption(cat, "start-in-tray", "Start PhotoQt hidden to the system tray.");
-        addOption(cat, "standalone", "Create standalone PhotoQt, multiple instances but no remote interaction possible!");
+        addOption(cat, "standalone", "Create standalone PhotoQt, multiple instances but no remote interaction possible.");
 
         // Third category
         cat = "General Options";
-        addOption(cat, {"debug", "no-debug"}, "Switch on/off debug messages");
-        addOption(cat, "export", "Export configuration file to given filename", "filename");
-        addOption(cat, "import", "Import configuration file with given filename", "filename");
+        addOption(cat, {"debug", "no-debug"}, "Switch on/off debug messages.");
+        addOption(cat, "export", "Export configuration to given filename.", "filename");
+        addOption(cat, "import", "Import configuration from given filename.", "filename");
 
         // Process the command line
         process(app);
