@@ -72,8 +72,6 @@ Item {
 
     function executeShortcut(cmd, close) {
 
-//        if(cmd === "__stopThb")
-//            thumbnailBar.stopThumbnails()
         if(cmd === "__close")
             mainwindow.quitPhotoQt();
         else if(cmd === "__hide")
@@ -84,8 +82,6 @@ Item {
             Handle.loadNext()
         else if(cmd === "__prev")
             Handle.loadPrev()
-//        if(cmd === "__reloadThb")
-//            thumbnailBar.reloadThumbnails()
         else if(cmd === "__about")
             call.show("about")
         else if(cmd === "__slideshow")

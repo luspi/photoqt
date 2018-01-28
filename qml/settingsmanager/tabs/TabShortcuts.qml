@@ -152,9 +152,7 @@ Rectangle {
                 id: other
                 //: A shortcuts category: other functions
                 category: em.pty+qsTr("Other")
-                allAvailableItems: [["__stopThb", em.pty+qsTr("Interrupt Thumbnail Creation")],
-                                    ["__reloadThb", em.pty+qsTr("Reload Thumbnails")],
-                                    ["__hideMeta", em.pty+qsTr("Hide/Show Exif Info")],
+                allAvailableItems: [["__hideMeta", em.pty+qsTr("Hide/Show Exif Info")],
                                     ["__settings", em.pty+qsTr("Show Settings")],
                                     ["__slideshow", em.pty+qsTr("Start Slideshow")],
                                     ["__slideshowQuick", em.pty+qsTr("Start Slideshow (Quickstart)")],
