@@ -51,7 +51,6 @@ public:
     QString importConfig(QString filename);
     void restartPhotoQt(QString loadThisFileAfter);
     bool checkIfConnectedToInternet();
-    void clipboardSetText(QString text);
     void clipboardSetImage(QString filepath);
 
 private:

@@ -202,13 +202,6 @@ bool GetAndDoStuffExternal::checkIfConnectedToInternet() {
 
 }
 
-void GetAndDoStuffExternal::clipboardSetText(QString text) {
-
-    QApplication::clipboard()->setText(text, QClipboard::Clipboard);
-    QApplication::clipboard()->setText(text, QClipboard::Selection);
-
-}
-
 void GetAndDoStuffExternal::clipboardSetImage(QString filepath) {
 
     if(imageprovider == nullptr)

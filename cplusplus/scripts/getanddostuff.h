@@ -69,7 +69,6 @@ public:
     Q_INVOKABLE QString importConfig(QString filename) { return external->importConfig(filename); }
     Q_INVOKABLE void restartPhotoQt(QString loadThisFileAfter) { external->restartPhotoQt(loadThisFileAfter); }
     Q_INVOKABLE bool checkIfConnectedToInternet() { return external->checkIfConnectedToInternet(); }
-    Q_INVOKABLE void clipboardSetText(QString text) { external->clipboardSetText(text); }
     Q_INVOKABLE void clipboardSetImage(QString filepath) { external->clipboardSetImage(filepath); }
 
     // FILE
