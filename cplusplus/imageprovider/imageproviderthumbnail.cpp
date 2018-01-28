@@ -155,7 +155,7 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
             // And save new thumbnail image
             if(!p.save(ConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails/large/" + md5 + ".png"))
                 LOG << CURDATE << "ImageProviderThumbnail: ERROR creating new thumbnail file: " << QFileInfo(filename).fileName().toStdString() << NL;
-            else
+            else if(qgetenv("PHOTOQT_DEBUG") == "yes")
                 LOG << CURDATE << "ImageProviderThumbnail: Successfully cached thumbnail (file cache): " << QFileInfo(filename).fileName().toStdString() << NL;
 
         }
@@ -195,7 +195,7 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
 
         if(query2.lastError().text().trimmed().length())
             LOG << CURDATE << "ImageProviderThumbnail: ERROR [" << QString(filename).toStdString() << "]: " << query2.lastError().text().trimmed().toStdString() << NL;
-        else
+        else if(qgetenv("PHOTOQT_DEBUG") == "yes")
             LOG << CURDATE << "ImageProviderThumbnail: Successfully cached thumbnail (db cache): " << QFileInfo(filename).fileName().toStdString() << NL;
 
         // cleaning up
