@@ -220,7 +220,7 @@ Item {
 
                 // Set the source based on the special imageloader (icon or thumbnail)
                 // loading depends on the loadThumbnail property which in turn depends on the mainimage and whether the thumbnail has already finished loading
-                source: loadThumbnail ? (settings.thumbnailFilenameInstead ? "image://icon/image-" + getanddostuff.getSuffix(imagePath) : "image://thumb/" + imagePath) : "image://icon/image-" + getanddostuff.getSuffix(imagePath)
+                source: loadThumbnail ? (settings.thumbnailFilenameInstead ? "image://icon/image-" + getanddostuff.getSuffix(imagePath) : "image://thumb/" + imagePath) : ""
 
                 // We react to changes in the status of loading the mainimage
                 Connections {
