@@ -204,16 +204,25 @@ bool GetAndDoStuffExternal::checkIfConnectedToInternet() {
 
 void GetAndDoStuffExternal::clipboardSetImage(QString filepath) {
 
+    // Make sure image provider exists
     if(imageprovider == nullptr)
          imageprovider = new ImageProviderFull;
 
+    // remove possible prefix
     if(filepath.startsWith("file:/"))
         filepath = filepath.remove(0,6);
     if(filepath.startsWith("image://full/"))
         filepath = filepath.remove(0,13);
 
+    // request image
     QImage img = imageprovider->requestImage(filepath, new QSize, QSize());
-    QApplication::clipboard()->setImage(img, QClipboard::Clipboard);
-    QApplication::clipboard()->setImage(img, QClipboard::Selection);
+
+    // create mime data object with url and image data
+    QMimeData *data = new QMimeData;
+    data->setUrls(QList<QUrl>() << "file://" + filepath);
+    data->setImageData(img);
+
+    // set mime data to clipboard
+    qApp->clipboard()->setMimeData(data);
 
 }

@@ -151,7 +151,9 @@ Item {
         else if(cmd === "__histogram") {
             call.ensureElementSetup("histogram")
             settings.histogram = !settings.histogram
-        } else {
+        } else if(cmd === "__clipboard")
+            getanddostuff.clipboardSetImage(variables.currentDir + "/" + variables.currentFile)
+        else {
             getanddostuff.executeApp(cmd, variables.currentDir + "/" + variables.currentFile)
             if(close !== undefined && close == true)
                 mainwindow.closePhotoQt()

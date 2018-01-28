@@ -143,7 +143,8 @@ Rectangle {
                                     ["__delete", em.pty+qsTr("Delete File")],
                                     ["__deletePermanent", em.pty+qsTr("Delete File (without confirmation)")],
                                     ["__copy", em.pty+qsTr("Copy File to a New Location")],
-                                    ["__move", em.pty+qsTr("Move File to a New Location")]]
+                                    ["__move", em.pty+qsTr("Move File to a New Location")],
+                                    ["__clipboard", em.pty+qsTr("Copy Image to Clipboard")]]
             }
 
             Item { width: 1; height: 10 }
