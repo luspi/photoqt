@@ -127,10 +127,11 @@ void SingleInstance::handleResponse(QString msg) {
     // Reset this variable before checking
     startintray = false;
 
-    if(msg.contains("::start-in-tray::"))
+    if(msg.contains("::file::")) {
+        filename = msg.split("::file::").at(1).split(":-:-:").at(0);
+        emit interaction("::file::" + filename);
+    } else if(msg.contains("::start-in-tray::"))
         startintray = true;
-    else if(msg.contains("::file::"))
-        emit interaction("::file::" + msg.split("::file::").at(1).split(":-:-:").at(0));
     else if((msg.contains("::open::") || msg.contains("::o::")))
         emit interaction("open");
     else if(msg.contains("::thumbs::"))

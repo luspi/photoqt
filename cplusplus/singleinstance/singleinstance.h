@@ -35,12 +35,6 @@ public:
     explicit SingleInstance(int&, char *[]);
     ~SingleInstance();
 
-    bool open;
-    bool nothumbs;
-    bool thumbs;
-    bool toggle;
-    bool show;
-    bool hide;
     bool startintray;
     QString filename;
 
