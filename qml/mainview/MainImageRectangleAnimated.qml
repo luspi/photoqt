@@ -344,7 +344,7 @@ Item {
 
     function rotateImage(angle) {
         rotationAni.from = imageContainer.rotation
-        rotationAni.to = (rotationAni.running ? rotationAni.to+angle : imageContainer.rotation+angle)
+        rotationAni.to = imageContainer.rotation+angle
         rotationAni.running = true
     }
 
