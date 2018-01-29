@@ -19,7 +19,7 @@ EntryContainer {
                       //: This refers to a type of cache for the thumbnails
                       em.pty+qsTr("1) File Caching (following the freedesktop.org standard)") + "<br>" +
                       //: This refers to a type of cache for the thumbnails
-                      em.pty+qsTr("2) Database Caching (better performance and management, default option)") + "<br><br>" +
+                      em.pty+qsTr("2) Database Caching") + "<br><br>" +
                       //: The two ways are the two types of thumbnail caching (files and database)
                       em.pty+qsTr("Both ways have their advantages and disadvantages:") + "<br>" +
                       //: The caching here refers to thumbnail caching
