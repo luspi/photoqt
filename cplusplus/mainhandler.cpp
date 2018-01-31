@@ -350,27 +350,28 @@ void MainHandler::handleTrayIcon(int val) {
 
     if(val == 1 || val == 2) {
 
-        if(trayIcon == nullptr) {
+        // we delete a possibly already existing tray icon instance
+        // if we don't do this and just re-show a hidden tray icon, then interaction by the user with icon seems to be broken
+        if(trayIcon != nullptr)
+            delete trayIcon;
 
-            trayIcon = new QSystemTrayIcon(this);
-            trayIcon->setIcon(QIcon(":/img/icon.png"));
-            trayIcon->setToolTip("PhotoQt " + tr("Image Viewer"));
+        trayIcon = new QSystemTrayIcon(this);
+        trayIcon->setIcon(QIcon(":/img/icon.png"));
+        trayIcon->setToolTip("PhotoQt " + tr("Image Viewer"));
 
-            // A context menu for the tray icon
-            QMenu *trayIconMenu = new QMenu;
-            trayIconMenu->setStyleSheet("background-color: rgb(67,67,67); color: white; border-radius: 5px;");
-            QAction *trayAcToggle = new QAction(QIcon(":/img/logo.png"),tr("Hide/Show PhotoQt"),this);
-            trayIconMenu->addAction(trayAcToggle);
-            QAction *trayAcQuit = new QAction(QIcon(":/img/logo.png"),tr("Quit PhotoQt"),this);
-            trayIconMenu->addAction(trayAcQuit);
-            connect(trayAcToggle, &QAction::triggered, this, &MainHandler::toggleWindow);
-            connect(trayAcQuit, &QAction::triggered, this, &MainHandler::forceWindowQuit);
+        // A context menu for the tray icon
+        QMenu *trayIconMenu = new QMenu;
+        trayIconMenu->setStyleSheet("background-color: rgb(67,67,67); color: white; border-radius: 5px;");
+        QAction *trayAcToggle = new QAction(QIcon(":/img/logo.png"),tr("Hide/Show PhotoQt"),this);
+        trayIconMenu->addAction(trayAcToggle);
+        QAction *trayAcQuit = new QAction(QIcon(":/img/logo.png"),tr("Quit PhotoQt"),this);
+        trayIconMenu->addAction(trayAcQuit);
+        connect(trayAcToggle, &QAction::triggered, this, &MainHandler::toggleWindow);
+        connect(trayAcQuit, &QAction::triggered, this, &MainHandler::forceWindowQuit);
 
-            // Set the menu to the tray icon
-            trayIcon->setContextMenu(trayIconMenu);
-            connect(trayIcon, &QSystemTrayIcon::activated, this, &MainHandler::trayAction);
-
-        }
+        // Set the menu to the tray icon
+        trayIcon->setContextMenu(trayIconMenu);
+        connect(trayIcon, &QSystemTrayIcon::activated, this, &MainHandler::trayAction);
 
         trayIcon->show();
 
