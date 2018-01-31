@@ -72,7 +72,7 @@ Rectangle {
                     SettingsText {
                         anchors.left: parent.left
                         anchors.right: parent.right
-                        text: em.pty+qsTr("Pressing the left button of the mouse and moving it around can be used for moving an image around. If you put them to use for this purpose, then any mouse shortcut set to a button/gesture will have no effect! Note that this is not recommended if you do not have any other means to move an image around (e.g., touchscreen)!")
+                        text: em.pty+qsTr("Pressing the left button of the mouse and moving it around can be used for moving an image around. If you put it to use for this purpose then any shortcut involving the left mouse button will have no effect! Note that it is not recommended to disable this if you do not have any other means to move an image around (e.g., touchscreen)!")
                     }
                 }
 
