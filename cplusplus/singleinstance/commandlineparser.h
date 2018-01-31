@@ -41,6 +41,7 @@ public:
         QString cat = "Interaction with PhotoQt";
         addOption(cat, {"o", "open"}, "Make PhotoQt ask for a new File.");
         addOption(cat, {"s", "show"}, "Shows PhotoQt (does nothing if already shown).");
+        addOption(cat, "hide", "Hides PhotoQt to system tray (does nothing if already hidden).");
         addOption(cat, {"t", "toggle"}, "Toggle PhotoQt - hides PhotoQt if visible, shows if hidden.");
         addOption(cat, {"thumbs", "no-thumbs"}, "Enable/Disable thumbnails.");
 
