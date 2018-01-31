@@ -19,6 +19,7 @@
 
 #include <QCoreApplication>
 #include <iomanip>
+#include "../logger.h"
 
 // A custom command line parser
 // Looks very much like QCommandLineParser, but allows grouping entries

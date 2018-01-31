@@ -129,8 +129,9 @@ void MainHandler::setupWindowProperties(bool dontCallShow) {
     this->setMinimumSize(QSize(640,480));
     this->setTitle("PhotoQt " + tr("Image Viewer"));
 
-    if(qgetenv("PHOTOQT_DEBUG") == "yes")
-        LOG << CURDATE << "setupWindowProperties(): started processing" << std::endl;
+    bool debug = (qgetenv("PHOTOQT_DEBUG") == "yes");
+
+    if(debug) LOG << CURDATE << "setupWindowProperties(): started processing" << std::endl;
 
     GetAndDoStuff gads;
 
@@ -139,6 +140,15 @@ void MainHandler::setupWindowProperties(bool dontCallShow) {
         if(!(this->windowStates() & Qt::WindowFullScreen))
             windowMaximised = false;
     }
+
+    if(debug) LOG << CURDATE << "setupWindowProperties(): window maximised: " << windowMaximised << std::endl;
+
+    if(debug) LOG << CURDATE << "setupWindowProperties(): settings values: "
+                  << permanentSettings->getWindowMode() << " / "
+                  << permanentSettings->getKeepOnTop()  << " / "
+                  << permanentSettings->getWindowDecoration()  << " / "
+                  << permanentSettings->getSaveWindowGeometry()  << " / "
+                  << std::endl;
 
     // window mode
     if(permanentSettings->getWindowMode()) {
@@ -234,14 +244,15 @@ void MainHandler::forceWindowQuit() {
 // Remote controlling
 void MainHandler::remoteAction(QString cmd) {
 
-    if(qgetenv("PHOTOQT_DEBUG") == "yes")
-        LOG << CURDATE << "remoteAction(): " << cmd.toStdString() << NL;
+    bool debug = (qgetenv("PHOTOQT_DEBUG") == "yes");
+
+    if(debug) LOG << CURDATE << "remoteAction(): " << cmd.toStdString() << NL;
 
     // Open a new file (and show PhotoQt if necessary)
     if(cmd == "open") {
 
-        if(qgetenv("PHOTOQT_DEBUG") == "yes")
-            LOG << CURDATE << "remoteAction(): Open file" << NL;
+        if(debug) LOG << CURDATE << "remoteAction(): Open file" << NL;
+
         if(!this->isVisible()) {
             StartupCheck::Screenshots::getAndStore();
             setupWindowProperties();
@@ -252,22 +263,22 @@ void MainHandler::remoteAction(QString cmd) {
     // Disable thumbnails
     } else if(cmd == "nothumbs") {
 
-        if(qgetenv("PHOTOQT_DEBUG") == "yes")
-            LOG << CURDATE << "remoteAction(): Disable thumbnails" << NL;
+        if(debug) LOG << CURDATE << "remoteAction(): Disable thumbnails" << NL;
+
         permanentSettings->setThumbnailDisable(true);
 
     // (Re-)enable thumbnails
     } else if(cmd == "thumbs") {
 
-        if(qgetenv("PHOTOQT_DEBUG") == "yes")
-            LOG << CURDATE << "remoteAction(): Enable thumbnails" << NL;
+        if(debug) LOG << CURDATE << "remoteAction(): Enable thumbnails" << NL;
+
         permanentSettings->setThumbnailDisable(false);
 
     // Hide the window to system tray
     } else if(cmd == "hide" || (cmd == "toggle" && this->isVisible())) {
 
-        if(qgetenv("PHOTOQT_DEBUG") == "yes")
-            LOG << CURDATE << "remoteAction(): Hiding" << NL;
+        if(debug) LOG << CURDATE << "remoteAction(): Hiding" << NL;
+
         permanentSettings->setTrayIcon(1);
         QMetaObject::invokeMethod(object, "closeAnyElement");
         this->hide();
@@ -275,8 +286,7 @@ void MainHandler::remoteAction(QString cmd) {
     // Show the window again (after being hidden to system tray)
     } else if(cmd.startsWith("show") || (cmd == "toggle" && !this->isVisible())) {
 
-        if(qgetenv("PHOTOQT_DEBUG") == "yes")
-            LOG << CURDATE << "remoteAction(): Showing" << NL;
+        if(debug) LOG << CURDATE << "remoteAction(): Showing (" << cmd.toStdString() << ")" << NL;
 
         // The same code can be found at the end of main.cpp
         if(!this->isVisible()) {
@@ -294,10 +304,12 @@ void MainHandler::remoteAction(QString cmd) {
     // Load the specified file in PhotoQt
     } else if(cmd.startsWith("::file::")) {
 
-        if(qgetenv("PHOTOQT_DEBUG") == "yes")
-            LOG << CURDATE << "remoteAction(): Opening passed-on file" << NL;
+        QString fname = cmd.remove(0,8);
+
+        if(debug) LOG << CURDATE << "remoteAction(): Opening passed-on file: " << fname.toStdString() << NL;
+
         QMetaObject::invokeMethod(object, "closeAnyElement");
-        QMetaObject::invokeMethod(object, "loadFile", Q_ARG(QVariant, cmd.remove(0,8)));
+        QMetaObject::invokeMethod(object, "loadFile", Q_ARG(QVariant, fname));
 
     }
 
@@ -322,16 +334,13 @@ void MainHandler::manageStartupFilename(bool startInTray, QString filename) {
 // Show the tray icon (if enabled)
 void MainHandler::handleTrayIcon(int val) {
 
-    if(qgetenv("PHOTOQT_DEBUG") == "yes")
-        LOG << CURDATE << "showTrayIcon()" << NL;
-
     if(val == -1)
         val = permanentSettings->getTrayIcon();
 
-    if(val == 1 || val == 2) {
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "handleTrayIcon(): " << val << " / " << (trayIcon==nullptr) << NL;
 
-        if(qgetenv("PHOTOQT_DEBUG") == "yes")
-            LOG << CURDATE << "showTrayIcon(): Setting up" << NL;
+    if(val == 1 || val == 2) {
 
         if(trayIcon == nullptr) {
 
@@ -354,9 +363,6 @@ void MainHandler::handleTrayIcon(int val) {
             connect(trayIcon, &QSystemTrayIcon::activated, this, &MainHandler::trayAction);
 
         }
-
-        if(qgetenv("PHOTOQT_DEBUG") == "yes")
-            LOG << CURDATE << "showTrayIcon(): Setting icon to visible" << NL;
 
         trayIcon->show();
 
@@ -381,6 +387,9 @@ void MainHandler::handleWindowModeChanged(bool windowmode, bool windowdeco, bool
         dontShowNormal = false;
     }
     permanentSettings->setKeepOnTop(keepontop);
+
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "handleWindowModeChanged(): " << windowmode << " / " << windowdeco << " / " << keepontop << NL;
 
     setupWindowProperties(dontShowNormal);
 

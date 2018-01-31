@@ -127,23 +127,34 @@ void SingleInstance::handleResponse(QString msg) {
     // Reset this variable before checking
     startintray = false;
 
+    bool debug = (qgetenv("PHOTOQT_DEBUG") == "yes");
+
     if(msg.contains("::file::")) {
         filename = msg.split("::file::").at(1).split(":-:-:").at(0);
+        if(debug) LOG << CURDATE << "SingleInstance - found filename: " << filename.toStdString() << NL;
         emit interaction("::file::" + filename);
-    } else if(msg.contains("::start-in-tray::"))
+    } else if(msg.contains("::start-in-tray::")) {
         startintray = true;
-    else if((msg.contains("::open::") || msg.contains("::o::")))
+        if(debug) LOG << CURDATE << "SingleInstance - found flag: start-in-tray" << NL;
+    } else if((msg.contains("::open::") || msg.contains("::o::"))) {
+        if(debug) LOG << CURDATE << "SingleInstance - found flag: o/open" << NL;
         emit interaction("open");
-    else if(msg.contains("::thumbs::"))
+    } else if(msg.contains("::thumbs::")) {
+        if(debug) LOG << CURDATE << "SingleInstance - found flag: thumbs" << NL;
         emit interaction("thumbs");
-    else if(msg.contains("::no-thumbs::"))
+    } else if(msg.contains("::no-thumbs::")) {
+        if(debug) LOG << CURDATE << "SingleInstance - found flag: no-thumbs" << NL;
         emit interaction("nothumbs");
-    else if(msg.contains("::toggle::") || msg.contains("::t::"))
+    } else if(msg.contains("::toggle::") || msg.contains("::t::")) {
+        if(debug) LOG << CURDATE << "SingleInstance - found flag: t/toggle" << NL;
         emit interaction("toggle");
-    else if(msg.contains("::show::") || msg.contains("::s::"))
+    } else if(msg.contains("::show::") || msg.contains("::s::")) {
+        if(debug) LOG << CURDATE << "SingleInstance - found flag: s/show" << NL;
         emit interaction("show");
-    else if(msg.contains("::hide::"))
+    } else if(msg.contains("::hide::")) {
+        if(debug) LOG << CURDATE << "SingleInstance - found flag: hide" << NL;
         emit interaction("hide");
+    }
 
 }
 
