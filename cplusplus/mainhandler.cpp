@@ -290,7 +290,6 @@ void MainHandler::remoteAction(QString cmd) {
 
         if(debug) LOG << CURDATE << "remoteAction(): Showing (" << cmd.toStdString() << ")" << NL;
 
-        // The same code can be found at the end of main.cpp
         if(!this->isVisible()) {
             StartupCheck::Screenshots::getAndStore();
             setupWindowProperties();
@@ -312,6 +311,13 @@ void MainHandler::remoteAction(QString cmd) {
 
         QMetaObject::invokeMethod(object, "closeAnyElement");
         QMetaObject::invokeMethod(object, "loadFile", Q_ARG(QVariant, fname));
+
+        if(!this->isVisible()) {
+            StartupCheck::Screenshots::getAndStore();
+            setupWindowProperties();
+        }
+
+        this->requestActivate();
 
     }
 
