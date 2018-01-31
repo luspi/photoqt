@@ -146,7 +146,12 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
             p.setText("Thumb::MTime", QString("%1").arg(QFileInfo(filename).lastModified().toTime_t()));
             QMimeDatabase mimedb;
             p.setText("Thumb::Mimetype", mimedb.mimeTypeForFile(filename).name());
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
             p.setText("Thumb::Size", QString("%1").arg(p.sizeInBytes()));
+#else
+            QFileInfo info(filename);
+            p.setText("Thumb::Size", QString("%1").arg(info.size()));
+#endif
 
             // If the file does already exist, then the image has likely been updated -> delete old thumbnail image
             if(QFile(ConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails/large/" + md5 + ".png").exists())
