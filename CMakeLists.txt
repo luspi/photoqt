@@ -18,7 +18,7 @@ add_definitions(-DVERSION="dev")
 #################################
 
 add_definitions(-DQT_DEPRECATED_WARNINGS)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O0 -g -Wall")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3 -g -Wall")
 
 
 ################################
