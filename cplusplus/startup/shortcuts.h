@@ -40,13 +40,13 @@ namespace StartupCheck {
 
                 // Open for reading only
                 if(!mouseshortcuts.open(QIODevice::ReadOnly)) {
-                    LOG << CURDATE << "StartupCheck::Shortcuts::combineKeyMouseShortcutsSingleFile() unable to open mouseshortcuts for reading..." << NL;
+                    LOG << CURDATE << "StartupCheck::Shortcuts::combineKeyMouseShortcutsSingleFile() - ERROR: unable to open mouseshortcuts for reading..." << NL;
                     return;
                 }
 
                 // Open for appending only
                 if(!allshortcuts.open(QIODevice::WriteOnly|QIODevice::Append)) {
-                    LOG << CURDATE << "StartupCheck::Shortcuts::combineKeyMouseShortcutsSingleFile() unable to open shortcuts for writing..." << NL;
+                    LOG << CURDATE << "StartupCheck::Shortcuts::combineKeyMouseShortcutsSingleFile() - ERROR: unable to open shortcuts for writing..." << NL;
                     return;
                 }
 
@@ -63,7 +63,7 @@ namespace StartupCheck {
 
                 // and remove old mouse shortcuts file (not needed anymore)
                 if(!mouseshortcuts.remove())
-                    LOG << CURDATE << "ERROR: Unable to remove redundant mouse_shortcuts file!" << NL;
+                    LOG << CURDATE << "StartupCheck::Shortcuts::combineKeyMouseShortcutsSingleFile() - ERROR: Unable to remove redundant mouse_shortcuts file!" << NL;
 
             }
 

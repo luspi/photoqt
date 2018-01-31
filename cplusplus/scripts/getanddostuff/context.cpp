@@ -5,6 +5,9 @@ GetAndDoStuffContext::~GetAndDoStuffContext() { }
 
 QStringList GetAndDoStuffContext::setDefaultContextMenuEntries() {
 
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffContext::setDefaultContextMenuEntries()" << NL;
+
 #ifdef Q_OS_WIN
     return QStringList();
 #endif
@@ -53,6 +56,9 @@ QStringList GetAndDoStuffContext::setDefaultContextMenuEntries() {
 
 QStringList GetAndDoStuffContext::getContextMenu() {
 
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffContext::getContextMenu()" << NL;
+
 #ifdef Q_OS_WIN
     return QStringList();
 #endif
@@ -90,6 +96,9 @@ QStringList GetAndDoStuffContext::getContextMenu() {
 
 bool GetAndDoStuffContext::checkIfBinaryExists(QString exec) {
 
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffContext::checkIfBinaryExists() - " << exec.toStdString() << NL;
+
 #ifdef Q_OS_WIN
     return false;
 #endif
@@ -104,6 +113,9 @@ bool GetAndDoStuffContext::checkIfBinaryExists(QString exec) {
 }
 
 void GetAndDoStuffContext::saveContextMenu(QVariantList l) {
+
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffContext::saveContextMenu() - # items in list: " << l.count() << NL;
 
 #ifdef Q_OS_WIN
     return;

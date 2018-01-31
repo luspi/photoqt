@@ -33,7 +33,7 @@ namespace StartupCheck {
                 return;
 
             if(!fileIn.open(QIODevice::ReadOnly)) {
-                LOG << CURDATE << "ERROR! Startup::Settings - unable to open settings file for reading -> unable to ensure values are preserved between sessions." << NL;
+                LOG << CURDATE << "StartupCheck::Settings::moveToNewKeyNames() - ERROR: unable to open settings file for reading -> unable to ensure values are preserved between sessions." << NL;
                 return;
             }
 

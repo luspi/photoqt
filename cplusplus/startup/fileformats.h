@@ -29,7 +29,7 @@ namespace StartupCheck {
 
         static inline void checkForDefaultSettingsFileAndReturnWhetherDefaultsAreToBeSet() {
 
-            if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "StartupCheck::FileFormats" << NL;
+            if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "StartupCheck::FileFormats::checkForDefaultSettingsFileAndReturnWhetherDefaultsAreToBeSet()" << NL;
 
             // At this point, we only check if the file exists. If it doesn't, then the return value 'true'
             // is passed on to the MainWindow class later-on for setting the default fileformats

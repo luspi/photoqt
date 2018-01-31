@@ -6,6 +6,9 @@ GetAndDoStuffOther::~GetAndDoStuffOther() { }
 
 QString GetAndDoStuffOther::convertRgbaToHex(int r, int g, int b, int a) {
 
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffOther::convertRgbaToHex() - " << r << "/" << g << "/" << b << "/" << a << NL;
+
     // enforce max/min limits on values
     if(r < 0) { r = 0; } if(r > 255) { r = 255; }
     if(g < 0) { g = 0; } if(g > 255) { g = 255; }
@@ -36,6 +39,9 @@ bool GetAndDoStuffOther::amIOnWindows() {
 }
 
 int GetAndDoStuffOther::getCurrentScreen(int x, int y) {
+
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffOther::getCurrentScreen() - " << x << "/" << y << NL;
 
     for(int i = 0; i < QGuiApplication::screens().count(); ++i)
         if(QGuiApplication::screens().at(i)->geometry().contains(x,y))
@@ -101,6 +107,9 @@ QString GetAndDoStuffOther::getVersionString() {
 
 void GetAndDoStuffOther::storeGeometry(QRect rect) {
 
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffOther::storeGeometry() - " << rect.x() << "x" << rect.y() << " / " << rect.width() << "x" << rect.height() << NL;
+
     QFile geo(ConfigFiles::MAINWINDOW_GEOMETRY_FILE());
     if(geo.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
         QTextStream out(&geo);
@@ -113,6 +122,10 @@ void GetAndDoStuffOther::storeGeometry(QRect rect) {
 }
 
 QRect GetAndDoStuffOther::getStoredGeometry() {
+
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffOther::getStoredGeometry()" << NL;
+
     QFile geo(ConfigFiles::MAINWINDOW_GEOMETRY_FILE());
     if(geo.open(QIODevice::ReadOnly)) {
         QTextStream in(&geo);

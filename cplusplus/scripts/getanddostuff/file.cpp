@@ -18,6 +18,9 @@ QString GetAndDoStuffFile::getFilename(QString caption, QString dir, QString fil
 // Search for the file path of the icons in the hicolor theme (used by contextmenu)
 QString GetAndDoStuffFile::getIconPathFromTheme(QString binary) {
 
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffFile::getIconPathFromTheme() - " << binary.toStdString() << NL;
+
     // We go through all the themeSearchPath elements
     for(int i = 0; i < QIcon::themeSearchPaths().length(); ++i) {
 

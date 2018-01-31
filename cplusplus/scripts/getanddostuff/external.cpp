@@ -15,6 +15,9 @@ void GetAndDoStuffExternal::openLink(QString url) {
 
 void GetAndDoStuffExternal::executeApp(QString exec, QString fname) {
 
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffExternal::executeApp() - " << exec.toStdString() << " / " << fname.toStdString() << NL;
+
     fname = QByteArray::fromPercentEncoding(fname.toUtf8());
 
     QProcess *p = new QProcess;
@@ -35,6 +38,9 @@ void GetAndDoStuffExternal::openInDefaultFileManager(QString file) {
 }
 
 QString GetAndDoStuffExternal::exportConfig(QString useThisFilename) {
+
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffExternal::exportConfig() - " << useThisFilename.toStdString() << NL;
 
     // Obtain a filename from the user or used passed on filename
     QString zipFile;
@@ -89,6 +95,9 @@ QString GetAndDoStuffExternal::exportConfig(QString useThisFilename) {
 }
 
 QString GetAndDoStuffExternal::importConfig(QString filename) {
+
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffExternal::importConfig() - " << filename.toStdString() << NL;
 
     // All the config files to be imported
     QHash<QString,QString> allfiles;
@@ -148,6 +157,10 @@ QString GetAndDoStuffExternal::importConfig(QString filename) {
 }
 
 void GetAndDoStuffExternal::restartPhotoQt(QString loadThisFileAfter) {
+
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffExternal::restartPhotoQt() - " << loadThisFileAfter.toStdString() << NL;
+
     // restart PhotoQt, prepend 'RESTARTRESTARTRESTART' to file to be loader
     // -> this causes PhotoQt to load at startup to make sure this instance is first properly closed
     qApp->quit();
@@ -155,6 +168,9 @@ void GetAndDoStuffExternal::restartPhotoQt(QString loadThisFileAfter) {
 }
 
 bool GetAndDoStuffExternal::checkIfConnectedToInternet() {
+
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffExternal::checkIfConnectedToInternet()" << NL;
 
     // will store the return value
     bool internetConnected = false;
@@ -203,6 +219,9 @@ bool GetAndDoStuffExternal::checkIfConnectedToInternet() {
 }
 
 void GetAndDoStuffExternal::clipboardSetImage(QString filepath) {
+
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffExternal::clipboardSetImage() - " << filepath.toStdString() << NL;
 
     // Make sure image provider exists
     if(imageprovider == nullptr)

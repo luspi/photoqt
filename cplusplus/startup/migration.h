@@ -38,7 +38,7 @@ namespace StartupCheck {
             // Check for configuration folder
             if(!QDir(ConfigFiles::CONFIG_DIR()).exists()) {
                 if(!dir.mkpath(ConfigFiles::CONFIG_DIR())) {
-                    LOG << CURDATE << "StartupCheck::Migration: ERROR! Unable to create configuration directory '"
+                    LOG << CURDATE << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to create configuration directory '"
                         << ConfigFiles::CONFIG_DIR().toStdString() << "'" << NL;
                     std::exit(1);
                 } else
@@ -48,7 +48,7 @@ namespace StartupCheck {
             // Check for data folder
             if(!QDir(ConfigFiles::DATA_DIR()).exists()) {
                 if(!dir.mkpath(ConfigFiles::DATA_DIR())) {
-                    LOG << CURDATE << "StartupCheck::Migration: ERROR! Unable to create data directory '"
+                    LOG << CURDATE << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to create data directory '"
                         << ConfigFiles::DATA_DIR().toStdString() << "'" << NL;
                     std::exit(1);
                 } else
@@ -58,7 +58,7 @@ namespace StartupCheck {
             // Check for cache folder
             if(!QDir(ConfigFiles::CACHE_DIR()).exists()) {
                 if(!dir.mkpath(ConfigFiles::CACHE_DIR())) {
-                    LOG << CURDATE << "StartupCheck::Migration: ERROR! Unable to create data directory '"
+                    LOG << CURDATE << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to create data directory '"
                         << ConfigFiles::CACHE_DIR().toStdString() << "'" << NL;
                     std::exit(1);
                 } else
@@ -92,7 +92,7 @@ namespace StartupCheck {
                         if(!file.rename(ConfigFiles::SETTINGS_FILE()))
 
                             LOG << CURDATE
-                                << "StartupCheck::Migration: ERROR! Unable to move settings file to new location! Default settings will be used."
+                                << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to move settings file to new location! Default settings will be used."
                                 << NL;
 
                     }
@@ -109,7 +109,7 @@ namespace StartupCheck {
                         if(!file.rename(ConfigFiles::SHORTCUTS_FILE()))
 
                             LOG << CURDATE
-                                << "StartupCheck::Migration: ERROR! Unable to move shortcuts file to new location! Default shortcuts will be used."
+                                << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to move shortcuts file to new location! Default shortcuts will be used."
                                 << NL;
 
                     }
@@ -126,7 +126,7 @@ namespace StartupCheck {
                         if(!file.rename(ConfigFiles::CONTEXTMENU_FILE()))
 
                             LOG << CURDATE
-                                << "StartupCheck::Migration: ERROR! Unable to move contextmenu file to new location! Default entries will be set."
+                                << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to move contextmenu file to new location! Default entries will be set."
                                 << NL;
 
                     }
@@ -143,7 +143,7 @@ namespace StartupCheck {
                         if(!file.rename(ConfigFiles::FILEFORMATS_FILE()))
 
                             LOG << CURDATE
-                                << "StartupCheck::Migration: ERROR! Unable to move fileformats.disabled file to new location! Default fileformats will be set."
+                                << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to move fileformats.disabled file to new location! Default fileformats will be set."
                                 << NL;
 
                     }
@@ -160,7 +160,7 @@ namespace StartupCheck {
                         if(!file.rename(ConfigFiles::THUMBNAILS_DB()))
 
                             LOG << CURDATE
-                                << "StartupCheck::Migration: ERROR! Unable to move thumbnails database to new location!"
+                                << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to move thumbnails database to new location!"
                                 << NL;
 
                     }
@@ -170,11 +170,11 @@ namespace StartupCheck {
                     if(dir.entryList(QDir::NoDotAndDotDot).length() == 0) {
                         if(!dir.rmdir(oldpath))
                             LOG << CURDATE
-                                << "StartupCheck::Migration: ERROR! Unable to remove old config folder '" << oldpath.toStdString() << "'"
+                                << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to remove old config folder '" << oldpath.toStdString() << "'"
                                 << NL;
                     } else {
                         LOG << CURDATE
-                            << "StartupCheck::Migration: Unable to remove old config folder '" << oldpath.toStdString() << "', not empty!"
+                            << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to remove old config folder '" << oldpath.toStdString() << "', not empty!"
                             << NL;
                     }
 

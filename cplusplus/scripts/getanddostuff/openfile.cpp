@@ -10,6 +10,9 @@ GetAndDoStuffOpenFile::~GetAndDoStuffOpenFile() {
 
 int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path, int selectionFileTypes) {
 
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffOpenFile::getNumberFilesInFolder() - " << path.toStdString() << " / " << selectionFileTypes << NL;
+
     QDir dir(path);
     if(selectionFileTypes == 0)
         dir.setNameFilters(formats->formats_qt + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw);
@@ -28,6 +31,9 @@ int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path, int selectionFil
 }
 
 QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
+
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffOpenFile::getUserPlaces()" << NL;
 
     QFile file(QString(ConfigFiles::GENERIC_DATA_DIR()) + "/user-places.xbel");
 
@@ -156,6 +162,9 @@ QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
 
 QVariantList GetAndDoStuffOpenFile::getStorageInfo() {
 
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffOpenFile::getStorageInfo()" << NL;
+
     QVariantList ret;
 
     for(QStorageInfo s : QStorageInfo::mountedVolumes()) {
@@ -178,6 +187,9 @@ QVariantList GetAndDoStuffOpenFile::getStorageInfo() {
 
 QVariantList GetAndDoStuffOpenFile::getFoldersIn(QString path, bool getDotDot, bool showHidden) {
 
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffOpenFile::getFoldersIn() - " << path.toStdString() << " / " << getDotDot << " / " << showHidden << NL;
+
     if(path.startsWith("file:/"))
         path = path.remove(0,6);
 
@@ -198,6 +210,9 @@ QVariantList GetAndDoStuffOpenFile::getFoldersIn(QString path, bool getDotDot, b
 }
 
 QVariantList GetAndDoStuffOpenFile::getFilesIn(QString file, QString filter, QString sortby, bool sortbyAscending) {
+
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffOpenFile::getFilesIn() - " << file.toStdString() << " / " << filter.toStdString() << " / " << sortby.toStdString() << " / " << sortbyAscending << NL;
 
     if(file.startsWith("file:/"))
         file = file.remove(0,6);
@@ -239,6 +254,13 @@ QVariantList GetAndDoStuffOpenFile::getFilesIn(QString file, QString filter, QSt
 }
 
 QVariantList GetAndDoStuffOpenFile::getFilesWithSizeIn(QString path, int selectionFileTypes, bool showHidden, QString sortby, bool sortbyAscending) {
+
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffOpenFile::getFilesWithSizeIn() - " << path.toStdString() << " / "
+                                                                           << selectionFileTypes << " / "
+                                                                           << showHidden << " / "
+                                                                           << sortby.toStdString() << " / "
+                                                                           << sortbyAscending << NL;
 
     if(path.startsWith("file:/"))
         path = path.remove(0,6);
@@ -286,6 +308,9 @@ QVariantList GetAndDoStuffOpenFile::getFilesWithSizeIn(QString path, int selecti
 }
 
 void GetAndDoStuffOpenFile::saveUserPlaces(QVariantList enabled) {
+
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffOpenFile::saveUserPlaces() - # items in list: " << enabled.count() << NL;
 
     QFile file(QString(ConfigFiles::GENERIC_DATA_DIR()) + "/user-places.xbel");
     if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
@@ -371,6 +396,9 @@ void GetAndDoStuffOpenFile::saveUserPlaces(QVariantList enabled) {
 
 void GetAndDoStuffOpenFile::setOpenFileLastLocation(QString path) {
 
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffOpenFile::setOpenFileLastLocation() - " << path.toStdString() << NL;
+
     QFile file(ConfigFiles::OPENFILE_LAST_LOCATION());
     if(file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
         QTextStream out(&file);
@@ -382,6 +410,9 @@ void GetAndDoStuffOpenFile::setOpenFileLastLocation(QString path) {
 }
 
 QString GetAndDoStuffOpenFile::getOpenFileLastLocation() {
+
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffOpenFile::getOpenFileLastLocation()" << NL;
 
     QString ret = QDir::currentPath();
     QFile file(ConfigFiles::OPENFILE_LAST_LOCATION());
@@ -400,6 +431,9 @@ QString GetAndDoStuffOpenFile::getCurrentWorkingDirectory() {
 
 void GetAndDoStuffOpenFile::saveLastOpenedImage(QString path) {
 
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffOpenFile::saveLastOpenedImage()" << NL;
+
     QFile file(ConfigFiles::LASTOPENEDIMAGE_FILE());
     if(file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
         QTextStream out(&file);
@@ -411,6 +445,9 @@ void GetAndDoStuffOpenFile::saveLastOpenedImage(QString path) {
 }
 
 QString GetAndDoStuffOpenFile::getLastOpenedImage() {
+
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffOpenFile::getLastOpenedImage()" << NL;
 
     QString filename = "";
 

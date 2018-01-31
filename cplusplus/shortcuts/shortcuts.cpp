@@ -1,8 +1,6 @@
 #include "shortcuts.h"
 
-Shortcuts::Shortcuts(QObject *parent) : QObject(parent) {
-
-}
+Shortcuts::Shortcuts(QObject *parent) : QObject(parent) { }
 
 QStringList Shortcuts::load() {
 
@@ -11,7 +9,7 @@ QStringList Shortcuts::load() {
     QFile file(ConfigFiles::SHORTCUTS_FILE());
 
     if(!file.open(QIODevice::ReadOnly)) {
-        LOG << CURDATE << " Shortcuts::load() 1 - ERROR: Unable to open key shortcuts file for reading" << NL;
+        LOG << CURDATE << " Shortcuts::load() - ERROR: Unable to open key shortcuts file for reading" << NL;
         return QStringList();
     }
 
@@ -25,7 +23,7 @@ QStringList Shortcuts::load() {
 
         QStringList parts = line.split("::");
         if(parts.length() != 3) {
-            LOG << CURDATE << " Shortcuts::load() 2 - ERROR: Invalid shortcuts format: " << line.toStdString() << NL;
+            LOG << CURDATE << " Shortcuts::load() - ERROR: Invalid shortcuts format: " << line.toStdString() << NL;
             continue;
         }
 
@@ -44,6 +42,9 @@ QStringList Shortcuts::load() {
 }
 
 QStringList Shortcuts::loadDefaults() {
+
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "Shortcuts::loadDefaults()" << NL;
 
     QStringList ret;
 
@@ -100,9 +101,12 @@ QStringList Shortcuts::loadDefaults() {
 
 void Shortcuts::saveShortcuts(QVariantList data) {
 
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "Shortcuts::saveShortcuts() - # of shortcuts: " << data.length() << NL;
+
     QFile file(ConfigFiles::SHORTCUTS_FILE());
     if(!file.open(QIODevice::WriteOnly|QIODevice::Truncate)) {
-        LOG << CURDATE << "saveShortcuts(): ERROR: unable to open shortcuts file for saving" << NL;
+        LOG << CURDATE << "Shortcuts::saveShortcuts() - ERROR: unable to open shortcuts file for saving" << NL;
         return;
     }
 

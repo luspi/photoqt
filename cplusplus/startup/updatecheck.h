@@ -30,20 +30,22 @@ namespace StartupCheck {
         // 0 = nothing, 1 = update, 2 = install
         static inline int checkForUpdateInstall(Settings *settings) {
 
-            if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "StartupCheck::UpdateCheck" << NL;
+            bool debug = (qgetenv("PHOTOQT_DEBUG") == "yes");
+
+            if(debug) LOG << CURDATE << "StartupCheck::UpdateCheck" << NL;
 
             if(settings->getVersionInTextFile() == "") {
-                if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "PhotoQt newly installed!" << NL;
+                if(debug) LOG << CURDATE << "PhotoQt newly installed!" << NL;
                 settings->setVersion(VERSION);
                 return 2;
             }
 
-            if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "Checking if first run of new version" << NL;
+            if(debug) LOG << CURDATE << "Checking if first run of new version" << NL;
 
             // If it doesn't contain current version (some previous version)
             if(settings->getVersion() != settings->getVersionInTextFile()) {
 
-                if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "PhotoQt updated" << NL;
+                if(debug) LOG << CURDATE << "PhotoQt updated" << NL;
 
                 settings->setVersion(VERSION);
 

@@ -6,7 +6,7 @@ ThumbnailManagement::ThumbnailManagement(QObject *parent) : QObject(parent) {
     db = QSqlDatabase::addDatabase("QSQLITE", "thumbDB");
     db.setDatabaseName(ConfigFiles::THUMBNAILS_DB());
     if(!db.open())
-        LOG << CURDATE << "ThumbnailManagement: ERROR: Can't open thumbnail database: " << db.lastError().text().trimmed().toStdString() << NL;
+        LOG << CURDATE << "ThumbnailManagement - ERROR: Can't open thumbnail database: " << db.lastError().text().trimmed().toStdString() << NL;
 
 }
 
@@ -21,7 +21,7 @@ int ThumbnailManagement::getNumberDatabaseEntries() {
     QSqlQuery query(db);
     query.exec("SELECT COUNT(filepath) AS c FROM Thumbnails");
     if(query.lastError().text().trimmed().length()) {
-        LOG << CURDATE << "ThumbnailManagement: ERROR: (Count) " << query.lastError().text().trimmed().toStdString() << NL;
+        LOG << CURDATE << "ThumbnailManagement::getNumberDatabaseEntries() - ERROR: " << query.lastError().text().trimmed().toStdString() << NL;
         query.clear();
         return 0;
     }
@@ -36,7 +36,8 @@ int ThumbnailManagement::getNumberDatabaseEntries() {
 
 void ThumbnailManagement::cleanDatabase() {
 
-    if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "ThumbnailManagement: thb: Clean database" << NL;
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "ThumbnailManagement::cleanDatabase()" << NL;
 
     QSqlQuery query(db);
 
@@ -77,14 +78,14 @@ void ThumbnailManagement::cleanDatabase() {
         query2.bindValue(":path",toDel.at(i).at(0));
         query2.exec();
         if(query2.lastError().text().trimmed().length())
-            LOG << CURDATE << "ThumbnailManagement: ERROR (del): " << query2.lastError().text().trimmed().toStdString() << NL;
+            LOG << CURDATE << "ThumbnailManagement::cleanDatabase() - ERROR deleting: " << query2.lastError().text().trimmed().toStdString() << NL;
         query2.clear();
 
     }
 
     // Error catching
     if(db.lastError().text().trimmed().length())
-        LOG << CURDATE << "ThumbnailManagement: ERROR (after del): " << db.lastError().text().trimmed().toStdString() << NL;
+        LOG << CURDATE << "ThumbnailManagement::cleanDatabase() - ERROR executing query: " << db.lastError().text().trimmed().toStdString() << NL;
 
 
     // Compress database
@@ -92,14 +93,15 @@ void ThumbnailManagement::cleanDatabase() {
     query3.prepare("VACUUM");
     query3.exec();
     if(query3.lastError().text().trimmed().length())
-        LOG << CURDATE << "ThumbnailManagement: ERROR: (Vacuum) " << query3.lastError().text().trimmed().toStdString() << NL;
+        LOG << CURDATE << "ThumbnailManagement::cleanDatabase() - ERROR compressing db: " << query3.lastError().text().trimmed().toStdString() << NL;
     query3.clear();
 
 }
 
 void ThumbnailManagement::eraseDatabase() {
 
-    if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "ThumbnailManagement: thb: Erase database" << NL;
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "ThumbnailManagement::eraseDatabase()" << NL;
 
     QSqlQuery query(db);
 
@@ -107,21 +109,21 @@ void ThumbnailManagement::eraseDatabase() {
     query.prepare("DROP TABLE Thumbnails");
     query.exec();
     if(query.lastError().text().trimmed().length())
-        LOG << CURDATE << "ThumbnailManagement: ERROR: (Drop) " << query.lastError().text().trimmed().toStdString() << NL;
+        LOG << CURDATE << "ThumbnailManagement::eraseDatabase() - ERROR dropping: " << query.lastError().text().trimmed().toStdString() << NL;
     query.clear();
 
     // VACUUM database (decrease size)
     query.prepare("VACUUM");
     query.exec();
     if(query.lastError().text().trimmed().length())
-        LOG << CURDATE << "ThumbnailManagement: ERROR: (Vacuum) " << query.lastError().text().trimmed().toStdString() << NL;
+        LOG << CURDATE << "ThumbnailManagement::eraseDatabase() - ERROR compressing db: " << query.lastError().text().trimmed().toStdString() << NL;
     query.clear();
 
     // Create new table
     query.prepare("CREATE TABLE Thumbnails (filepath TEXT,thumbnail BLOB, filelastmod INT, thumbcreated INT, origwidth INT, origheight INT)");
     query.exec();
     if(query.lastError().text().trimmed().length())
-        LOG << CURDATE << "ThumbnailManagement: ERROR (Creating Thumbnail Datbase): " << query.lastError().text().trimmed().toStdString() << NL;
+        LOG << CURDATE << "ThumbnailManagement::eraseDatabase() - ERROR recreating db: " << query.lastError().text().trimmed().toStdString() << NL;
     query.clear();
 
 }

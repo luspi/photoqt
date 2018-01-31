@@ -28,13 +28,15 @@ namespace StartupCheck {
 
         static inline void checkThumbnailsDatabase(int update, Settings *settings) {
 
-            if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "StartupCheck::Thumbnails" << NL;
+            bool debug = (qgetenv("PHOTOQT_DEBUG") == "yes");
+
+            if(debug) LOG << CURDATE << "StartupCheck::Thumbnails" << NL;
 
             // Check if thumbnail database exists. If not, create it
             QFile database(ConfigFiles::THUMBNAILS_DB());
             if(!database.exists()) {
 
-                if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "Create Thumbnail Database" << NL;
+                if(debug) LOG << CURDATE << "Create Thumbnail Database" << NL;
 
                 QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE", "thumbDB1");
                 db.setDatabaseName(ConfigFiles::THUMBNAILS_DB());
@@ -48,7 +50,7 @@ namespace StartupCheck {
 
             } else if(update != 0) {
 
-                if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "Opening Thumbnail Database" << NL;
+                if(debug) LOG << CURDATE << "Opening Thumbnail Database" << NL;
 
                 // Opening the thumbnail database
                 QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE","thumbDB2");

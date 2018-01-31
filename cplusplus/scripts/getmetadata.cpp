@@ -1,11 +1,12 @@
 #include "getmetadata.h"
 
-GetMetaData::GetMetaData(QObject *parent) : QObject(parent) {
-
-}
+GetMetaData::GetMetaData(QObject *parent) : QObject(parent) { }
 
 
 QVariantMap GetMetaData::getExiv2(QString path) {
+
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetMetaData::getExiv2()" << NL;
 
     QVariantMap returnMap;
 
@@ -19,6 +20,9 @@ QVariantMap GetMetaData::getExiv2(QString path) {
     QFileInfo info(path);
 
     if(!QFile(path).exists()) {
+
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
+            LOG << CURDATE << "GetMetaData::getExiv2() - file does not exist" << NL;
 
         returnMap.insert("validfile","0");
         return returnMap;
@@ -45,6 +49,9 @@ QVariantMap GetMetaData::getExiv2(QString path) {
 
         // "Unsupported"
         if(!formats.contains(info.suffix().toLower())) {
+
+            if(qgetenv("PHOTOQT_DEBUG") == "yes")
+                LOG << CURDATE << "GetMetaData::getExiv2() - unsupported image format" << NL;
 
             returnMap.insert("supported","0");
             return returnMap;
@@ -87,7 +94,7 @@ QVariantMap GetMetaData::getExiv2(QString path) {
                 image  = Exiv2::ImageFactory::open(path.toStdString());
                 image->readMetadata();
             } catch (Exiv2::Error& e) {
-                LOG << CURDATE << "getmetadata - ERROR reading exiv data (caught exception): " << e.what() << NL;
+                LOG << CURDATE << "GetMetaData::getExiv2() - ERROR reading exiv data (caught exception): " << e.what() << NL;
                 returnMap.clear();
                 returnMap.insert("validfile","0");
                 return returnMap;

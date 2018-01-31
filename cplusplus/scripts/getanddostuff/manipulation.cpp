@@ -32,6 +32,9 @@ bool GetAndDoStuffManipulation::canBeScaled(QString filename) {
 
 bool GetAndDoStuffManipulation::scaleImage(QString filename, int width, int height, int quality, QString newfilename) {
 
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffManipulation::scaleImage() - " << filename.toStdString() << " / " << width << " / " << height << " / " << quality << " / " << newfilename.toStdString() << NL;
+
     // These image formats known by exiv2 are also supported by PhotoQt
     QStringList formats;
     formats << "jpeg"
@@ -135,6 +138,9 @@ bool GetAndDoStuffManipulation::scaleImage(QString filename, int width, int heig
 
 
 void GetAndDoStuffManipulation::deleteImage(QString filename, bool trash) {
+
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffManipulation::deleteImage() - " << filename.toStdString() << " / " << trash << NL;
 
     filename = QByteArray::fromPercentEncoding(filename.toUtf8());
 
@@ -257,6 +263,9 @@ void GetAndDoStuffManipulation::deleteImage(QString filename, bool trash) {
 
 void GetAndDoStuffManipulation::copyImage(QString imagePath, QString destinationPath) {
 
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffManipulation::copyImage() - " << imagePath.toStdString() << " / " << destinationPath.toStdString() << NL;
+
     if(destinationPath.startsWith("file://"))
         destinationPath = destinationPath.remove(0,7);
 
@@ -275,6 +284,9 @@ void GetAndDoStuffManipulation::copyImage(QString imagePath, QString destination
 }
 
 void GetAndDoStuffManipulation::moveImage(QString imagePath, QString destinationPath) {
+
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffManipulation::moveImage() - " << imagePath.toStdString() << " / " << destinationPath.toStdString() << NL;
 
     if(destinationPath.startsWith("file://"))
         destinationPath = destinationPath.remove(0,7);

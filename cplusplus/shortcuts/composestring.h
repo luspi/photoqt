@@ -2,6 +2,7 @@
 #define COMPOSESTRING_H
 
 #include <QKeyEvent>
+#include "../logger.h"
 
 class ComposeString {
 
@@ -214,6 +215,9 @@ public:
                 combostring += QKeySequence(e->key()).toString();
 
         }
+
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
+            LOG << CURDATE << "ComposeString::compose() - combostring = " << combostring.toStdString() << NL;
 
         return combostring;
 

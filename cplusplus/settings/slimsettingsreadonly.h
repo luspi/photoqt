@@ -52,9 +52,12 @@ public:
 
         if(file.exists() && !file.open(QIODevice::ReadOnly))
 
-            LOG << CURDATE  << "ERROR reading slim settings:" << file.errorString().trimmed().toStdString() << NL;
+            LOG << CURDATE << "SlimSettingsReadOnly::readSettings() - ERROR: " << file.errorString().trimmed().toStdString() << NL;
 
         else if(file.exists() && file.isOpen()) {
+
+            if(qgetenv("PHOTOQT_DEBUG") == "yes")
+                LOG << CURDATE << "SlimSettingsReadOnly::readSettings() - reading settings" << NL;
 
             // Read file
             QTextStream in(&file);
@@ -74,7 +77,9 @@ public:
 
             }
 
-        }
+        } else
+            if(qgetenv("PHOTOQT_DEBUG") == "yes")
+                LOG << CURDATE << "SlimSettingsReadOnly::readSettings() - no settings to read (or file not open)" << NL;
 
     }
 

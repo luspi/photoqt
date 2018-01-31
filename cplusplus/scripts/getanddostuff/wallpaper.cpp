@@ -5,6 +5,9 @@ GetAndDoStuffWallpaper::~GetAndDoStuffWallpaper() { }
 
 QString GetAndDoStuffWallpaper::detectWindowManager() {
 
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffWallpaper::detectWindowManager()" << NL;
+
     if(QString(getenv("KDE_FULL_SESSION")).toLower() == "true") {
         if(QString(getenv("KDE_SESSION_VERSION")).toLower() == "5")
             return "plasma5";
@@ -22,13 +25,16 @@ QString GetAndDoStuffWallpaper::detectWindowManager() {
 
 void GetAndDoStuffWallpaper::setWallpaper(QString wm, QVariantMap options, QString file) {
 
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffWallpaper::setWallpaper() - " << wm.toStdString() << " / " << options.count() << " / " << file.toStdString() << NL;
+
     // SET GNOME/UNITY WALLPAPER
     if(wm == "gnome_unity") {
 
         QProcess proc;
         int ret = proc.execute(QString("gsettings set org.gnome.desktop.background picture-options %1").arg(options.value("option").toString()));
         if(ret != 0)
-            LOG << CURDATE << "GetAndDoStuffWallpaper: ERROR [wallpaper]: gsettings failed with exit code " << ret << " - are you sure Gnome/Unity is installed?" << NL;
+            LOG << CURDATE << "GetAndDoStuffWallpaper::setWallpaper() - ERROR: gsettings failed with exit code " << ret << " - are you sure Gnome/Unity is installed?" << NL;
         else
             proc.execute(QString("gsettings set org.gnome.desktop.background picture-uri file:/%1").arg(file));
 
@@ -44,7 +50,7 @@ void GetAndDoStuffWallpaper::setWallpaper(QString wm, QVariantMap options, QStri
         proc.start("xfconf-query -c xfce4-desktop -lv");
         while(proc.waitForOutput()) {}
         if(proc.gotError()) {
-            LOG << CURDATE << "GetAndDoStuffWallpaper: ERROR (code: " << proc.getErrorCode() << "): Failed to start xfconf-query! Is XFCE4 installed?" << NL;
+            LOG << CURDATE << "GetAndDoStuffWallpaper::setWallpaper() - ERROR (code: " << proc.getErrorCode() << "): Failed to start xfconf-query! Is XFCE4 installed?" << NL;
             return;
         }
 
@@ -98,11 +104,11 @@ void GetAndDoStuffWallpaper::setWallpaper(QString wm, QVariantMap options, QStri
         proc.start("enlightenment_remote -module-list");
         while(proc.waitForOutput()) {}
         if(proc.gotError()) {
-            LOG << CURDATE << "GetAndDoStuffWallpaper: ERROR (code: " << proc.getErrorCode() << "): Failed to start enlightenment_remote! Is Enlightenment installed?" << NL;
+            LOG << CURDATE << "GetAndDoStuffWallpaper::setWallpaper() - ERROR (code: " << proc.getErrorCode() << "): Failed to start enlightenment_remote! Is Enlightenment installed?" << NL;
             return;
         }
         if(!proc.getOutput().contains("msgbus -- Enabled")) {
-            LOG << CURDATE << "GetAndDoStuffWallpaper: ERROR: Enlightenment module 'msgbus' doesn't seem to be loaded! Please check that..." << NL;
+            LOG << CURDATE << "GetAndDoStuffWallpaper::setWallpaper() - ERROR: Enlightenment module 'msgbus' doesn't seem to be loaded! Please check that..." << NL;
             return;
         }
 
@@ -135,11 +141,11 @@ void GetAndDoStuffWallpaper::setWallpaper(QString wm, QVariantMap options, QStri
         if(app == "feh") {
             int ret = QProcess::execute(QString("feh %1 %2").arg(options.value("feh_option").toString()).arg(file));
             if(ret != 0)
-                LOG << CURDATE << "GetAndDoStuffWallpaper: ERROR [wallpaper]: feh exited with error code " << ret << " - are you sure it is installed?" << NL;
+                LOG << CURDATE << "GetAndDoStuffWallpaper::setWallpaper() - ERROR: feh exited with error code " << ret << " - are you sure it is installed?" << NL;
         } else {
             int ret = QProcess::execute(QString("nitrogen %1 %2").arg(options.value("nitrogen_option").toString()).arg(file));
             if(ret != 0)
-                LOG << CURDATE << "GetAndDoStuffWallpaper: ERROR [wallpaper]: nitrogen exited with error code " << ret << " - are you sure it is installed?" << NL;
+                LOG << CURDATE << "GetAndDoStuffWallpaper::setWallpaper() - ERROR: nitrogen exited with error code " << ret << " - are you sure it is installed?" << NL;
         }
 
     }
@@ -152,6 +158,9 @@ int GetAndDoStuffWallpaper::getScreenCount() {
 
 QList<int> GetAndDoStuffWallpaper::getEnlightenmentWorkspaceCount() {
 
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffWallpaper::getEnlightenmentWorkspaceCount()" << NL;
+
     QList<int> ret;
 
     RunProcess proc;
@@ -159,14 +168,14 @@ QList<int> GetAndDoStuffWallpaper::getEnlightenmentWorkspaceCount() {
     proc.start("enlightenment_remote -desktops-get");
     while(proc.waitForOutput()) {}
     if(proc.gotError()) {
-        LOG << CURDATE << "GetAndDoStuffWallpaper: ERROR (code: " << proc.getErrorCode() << "): Failed to start enlightenment_remote! Is Enlightenment installed and the DBUS module activated?" << NL;
+        LOG << CURDATE << "GetAndDoStuffWallpaper::getEnlightenmentWorkspaceCount() - ERROR (code: " << proc.getErrorCode() << "): Failed to start enlightenment_remote! Is Enlightenment installed and the DBUS module activated?" << NL;
         return QList<int>() << 1 << 1;
     }
 
     QStringList parts = proc.getOutput().trimmed().split(" ");
     if(parts.length() != 2) {
         if(checkWallpaperTool("enlightenment") != 2)
-            LOG << CURDATE << "GetAndDoStuffWallpaper: ERROR: Failed to get proper workspace count! Falling back to default (1x1)" << NL;
+            LOG << CURDATE << "GetAndDoStuffWallpaper::getEnlightenmentWorkspaceCount() - ERROR: Failed to get proper workspace count! Falling back to default (1x1)" << NL;
         return QList<int>() << 1 << 1;
     }
     // Enlightenment returns columns before rows
@@ -179,6 +188,9 @@ QList<int> GetAndDoStuffWallpaper::getEnlightenmentWorkspaceCount() {
 }
 
 int GetAndDoStuffWallpaper::checkWallpaperTool(QString wm) {
+
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffWallpaper::checkWallpaperTool() - " << wm.toStdString() << NL;
 
     if(wm == "enlightenment") {
         RunProcess proc;

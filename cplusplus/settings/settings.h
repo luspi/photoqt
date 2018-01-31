@@ -1298,6 +1298,9 @@ public:
     // Set the default settings
     Q_INVOKABLE void setDefault() {
 
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
+            LOG << CURDATE << "Settings::setDefault()" << NL;
+
         setVersion(QString::fromStdString(VERSION));
         m_versionInTextFile = "";
 
@@ -1444,11 +1447,14 @@ public slots:
     // Save settings
     void saveSettings() {
 
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
+            LOG << CURDATE << "Settings::saveSettings()" << NL;
+
         QFile file(ConfigFiles::SETTINGS_FILE());
 
         if(file.exists() && !file.open(QIODevice::ReadWrite))
 
-            LOG << CURDATE << "ERROR saving settings" << NL;
+            LOG << CURDATE << "Settings::saveSettings() - ERROR saving settings" << NL;
 
         else {
 
@@ -1611,13 +1617,16 @@ public slots:
     // Read the current settings
     void readSettings() {
 
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
+            LOG << CURDATE << "Settings::readSettings()" << NL;
+
         watcherAddFileTimer->start();
 
         QFile file(ConfigFiles::SETTINGS_FILE());
 
         if(file.exists() && !file.open(QIODevice::ReadOnly))
 
-            LOG << CURDATE  << "ERROR reading settings:" << file.errorString().trimmed().toStdString() << NL;
+            LOG << CURDATE  << "Settings::readSettings() - ERROR reading settings:" << file.errorString().trimmed().toStdString() << NL;
 
         else if(file.exists() && file.isOpen()) {
 
