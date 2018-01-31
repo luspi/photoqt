@@ -137,7 +137,7 @@ void MainHandler::setupWindowProperties(bool dontCallShow) {
 
     bool windowMaximised = true;
     if(!dontCallShow && this->isVisible()) {
-        if(!(this->windowStates() & Qt::WindowFullScreen))
+        if(!(this->windowState() & Qt::WindowFullScreen))
             windowMaximised = false;
     }
 
@@ -228,7 +228,7 @@ bool MainHandler::event(QEvent *e) {
         return true;
     } else if(e->type() == QEvent::MouseMove) {
         QMouseEvent *event = (QMouseEvent*)e;
-        if(!(this->windowStates() & Qt::WindowMaximized))
+        if(!(this->windowState() & Qt::WindowMaximized))
             QMetaObject::invokeMethod(object, "handleMouseExit", Q_ARG(QVariant, event->pos()));
     }
 
