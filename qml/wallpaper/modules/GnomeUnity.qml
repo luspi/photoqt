@@ -90,6 +90,8 @@ Rectangle {
 
     function loadGnomeUnity() {
 
+        verboseMessage("Wallpaper/GnomeUnity","loadGnomeUnity()")
+
         var ret = getanddostuff.checkWallpaperTool("gnome_unity")
         gnome_unity_error.visible = (ret == 1)
     }

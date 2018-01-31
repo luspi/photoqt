@@ -179,6 +179,8 @@ Rectangle {
 
     function setData() {
 
+        verboseMessage("SettingsManager/TabShortcuts", "setData()")
+
         var dat = shortcutshandler.load()
 
         navigation.setData(dat)
@@ -193,6 +195,8 @@ Rectangle {
 
     function loadDefault() {
 
+        verboseMessage("SettingsManager/TabShortcuts", "loadDefault()")
+
         var dat = shortcutshandler.loadDefaults()
 
         navigation.setData(dat)
@@ -204,6 +208,8 @@ Rectangle {
     }
 
     function saveData() {
+
+        verboseMessage("SettingsManager/TabShortcuts", "saveData()")
 
         var dat = [[]]
 

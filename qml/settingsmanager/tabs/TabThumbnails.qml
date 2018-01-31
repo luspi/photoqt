@@ -77,6 +77,7 @@ Rectangle {
     }
 
     function setData() {
+        verboseMessage("SettingsManager/TabThumbnails", "setData()")
         thumbnailsize.setData()
         spacing.setData()
         liftup.setData()
@@ -90,6 +91,7 @@ Rectangle {
     }
 
     function saveData() {
+        verboseMessage("SettingsManager/TabThumbnails", "saveData()")
         thumbnailsize.saveData()
         spacing.saveData()
         liftup.saveData()
@@ -103,16 +105,19 @@ Rectangle {
     }
 
     function eraseDatabase() {
+        verboseMessage("SettingsManager/TabThumbnails", "eraseDatabase()")
         thumbnailmanagement.eraseDatabase()
         updateDatabaseInfo()
     }
 
     function cleanDatabase() {
+        verboseMessage("SettingsManager/TabThumbnails", "cleanDatabase()")
         thumbnailmanagement.cleanDatabase()
         updateDatabaseInfo()
     }
 
     function updateDatabaseInfo() {
+        verboseMessage("SettingsManager/TabThumbnails", "updateDatabaseInfo()")
         cache.updateDatabaseInfo()
     }
 

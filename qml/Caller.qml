@@ -50,6 +50,8 @@ Item {
     // Load and show a component
     function show(component) {
 
+        verboseMessage("Caller","show(): " + component)
+
         ensureElementSetup(component)
 
         if(component == "openfile")
@@ -86,6 +88,9 @@ Item {
 
     // Hide a component
     function hide(component) {
+
+        verboseMessage("Caller","hide(): " + component)
+
         if(component == "thumbnails")
             thumbnailsHide()
         else if(component == "slideshowbar")
@@ -98,6 +103,8 @@ Item {
 
     // Load some function
     function load(func) {
+
+        verboseMessage("Caller","load(): " + func)
 
         if(func == "thumbnailLoadDirectory")
             thumbnailsLoadDirectory()
@@ -127,11 +134,13 @@ Item {
     }
 
     function passOnShortcut(sh) {
+        verboseMessage("Caller","passOnShortcut(): " + sh)
         shortcut(sh)
     }
 
     function ensureElementSetup(component) {
 
+        verboseMessage("Caller","ensureElementSetup()" + component)
 
         // We do this weird double if statement to be able to catch any faulty call at the end
         if(component == "openfile") {

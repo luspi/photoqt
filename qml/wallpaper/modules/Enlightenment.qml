@@ -160,6 +160,9 @@ Rectangle {
     }
 
     function loadEnlightenment() {
+
+        verboseMessage("Wallpaper/Enlightenment","loadEnlightenment()")
+
         var c = getanddostuff.getScreenCount()
         enlightenment_monitor_model.clear()
         for(var i = 0; i < c; ++i)

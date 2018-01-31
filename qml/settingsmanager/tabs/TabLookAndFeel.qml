@@ -87,6 +87,8 @@ Rectangle {
 
     function setData() {
 
+        verboseMessage("SettingsManager/TabMetadata", "setData()")
+
         sortby.setData()
         windowmode.setData()
         trayicon.setData()
@@ -111,6 +113,8 @@ Rectangle {
     }
 
     function saveData() {
+
+        verboseMessage("SettingsManager/TabMetadata", "saveData()")
 
         sortby.saveData()
         windowmode.saveData()

@@ -303,7 +303,7 @@ FadeInTemplate {
     }
 
     function selectNewMusicFile() {
-        verboseMessage("Slideshow::selectNewMusicFile()","")
+        verboseMessage("Slideshow/SlideshowSettings", "selectNewMusicFile()")
         var ret = getanddostuff.getFilename(em.pty+qsTr("Select music file..."), musictxt.text==""?getanddostuff.getHomeDir():musictxt.text,
                                             em.pty+qsTr("Music Files") + " (*.mp3 *.flac *.ogg *.wav);;"
                                             + em.pty+qsTr("All Files") + " (*.*)")
@@ -313,7 +313,7 @@ FadeInTemplate {
 
     function simulateEnter() {
 
-        verboseMessage("Slideshow::simulateEnter()","")
+        verboseMessage("Slideshow/SlideshowSettings", "simulateEnter()")
 
         saveSettings()
         hide()
@@ -324,19 +324,19 @@ FadeInTemplate {
     }
 
     function showSlideshow() {
-        verboseMessage("Slideshow::showSlideshow()",variables.currentFile)
+        verboseMessage("Slideshow/SlideshowSettings", "showSlideshow(): " + variables.currentFile)
         loadSettings()
         show()
     }
 
     function hideSlideshowAndRememberSettings() {
-        verboseMessage("Slideshow::hideSlideshowAndRememberSettings()","")
+        verboseMessage("Slideshow/SlideshowSettings", "hideSlideshowAndRememberSettings()")
         saveSettings()
         hide()
     }
 
     function saveSettings() {
-        verboseMessage("Slideshow::saveSettings()","")
+        verboseMessage("Slideshow/SlideshowSettings", "saveSettings()")
         settings.slideShowTime = timeslider.value
         settings.slideShowImageTransition = transitionslider.value
         settings.slideShowLoop = loop.checkedButton
@@ -345,7 +345,7 @@ FadeInTemplate {
         settings.slideShowMusicFile = (musiccheckbox.checkedButton ? musictxt.text : "")
     }
     function loadSettings() {
-        verboseMessage("Slideshow::loadSettings()","")
+        verboseMessage("Slideshow/SlideshowSettings", "loadSettings()")
         timeslider.value = settings.slideShowTime
         transitionslider.value = settings.slideShowImageTransition
         loop.checkedButton = settings.slideShowLoop

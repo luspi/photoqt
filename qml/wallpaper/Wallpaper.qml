@@ -47,7 +47,7 @@ FadeInTemplate {
             // We detect the wm only here, right at the beginning, and NOT everytime the element is opened, as we don't want to change any settings that the user did during that runtime (this is useful to, e.g., play around with different wallpapers to see which one fits best)
             Component.onCompleted: {
                 var wm = getanddostuff.detectWindowManager();
-                verboseMessage("Wallpaper","Detected window manager: " + wm)
+                verboseMessage("Wallpaper","onCompleted: Detected window manager: " + wm)
                 if(wm === "kde4")
                     wm_selection.currentIndex = 0
                 if(wm === "plasma5")
@@ -195,7 +195,7 @@ FadeInTemplate {
 
     // Detect if settings are valid or not
     function enDisableEnter() {
-        verboseMessage("Wallpaper::enDisableEnter()",wm_selection.currentIndex)
+        verboseMessage("Wallpaper","enDisableEnter(): " + wm_selection.currentIndex)
         if(wm_selection.currentIndex == 3 && xfce4.getSelectedScreens().length != 0)
             return true
         else if(wm_selection.currentIndex != 0 && wm_selection.currentIndex != 1 && wm_selection.currentIndex != 3)
@@ -205,7 +205,7 @@ FadeInTemplate {
 
     function simulateEnter() {
 
-        verboseMessage("Wallpaper::simulateEnter()",wm_selection.currentIndex)
+        verboseMessage("Wallpaper","simulateEnter(): " + wm_selection.currentIndex)
 
         // This way we detect if the current setting is valid or not
         if(!okay.enabled)
@@ -243,7 +243,7 @@ FadeInTemplate {
 
     function showWallpaper() {
 
-        verboseMessage("Wallpaper::showWallpaper()",variables.currentFile)
+        verboseMessage("Wallpaper","showWallpaper(): " + variables.currentFile)
 
         if(variables.currentFile === "") return
 

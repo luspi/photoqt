@@ -198,6 +198,8 @@ EntryContainer {
 
     function updateDatabaseInfo() {
 
+        verboseMessage("SettingsManager/Thumbnails/Cache", "updateDatabaseInfo()")
+
         var filesize = thumbnailmanagement.getDatabaseFilesize()
         if(filesize < 1024)
             db_filesize.text = filesize + " KB"

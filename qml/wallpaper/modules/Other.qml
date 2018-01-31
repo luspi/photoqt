@@ -173,6 +173,7 @@ Rectangle {
     }
 
     function loadOther() {
+        verboseMessage("Wallpaper/Other","loadOther()")
         var ret = getanddostuff.checkWallpaperTool("other")
         other_error_feh_nitrogen.visible = (ret === 3)
         other_error_nitrogen.visible = (ret === 2)

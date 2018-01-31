@@ -163,6 +163,8 @@ Rectangle {
 
     function loadXfce4() {
 
+        verboseMessage("Wallpaper/XFCE4","loadXfce4()")
+
         var c = getanddostuff.getScreenCount()
         xfce4_monitor_model.clear()
 

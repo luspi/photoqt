@@ -6,13 +6,9 @@ Rectangle {
     color: colour.fadein_slidein_block_bg
 
     // Visibility handlers
-    visible: false
+    visible: (opacity!=0)
     opacity: 0
     Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
-    onOpacityChanged: {
-        if(opacity == 0) visible = false
-        else visible = true
-    }
 
     // Catch mouse events (background)
     MouseArea {

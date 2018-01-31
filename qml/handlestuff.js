@@ -2,6 +2,8 @@
 // Load a file. The third paramater is optional, if not provided it is assumed to be false
 function loadFile(filename, filter, forceReloadDirectory) {
 
+    verboseMessage("handlstuff.js","loadFile(): "+ filename + " / " + filter + " / " + forceReloadDirectory)
+
     // Make sure a file is actually loaded
     if(filename === undefined || filename == "")
         return
@@ -57,7 +59,9 @@ function loadFile(filename, filter, forceReloadDirectory) {
 
 // After deleting an image, we need to figure out the new filename to be displayed (if any left)
 function getNewFilenameAfterDeletion() {
-    verboseMessage("ThumbnailBar::getNewFilenameAfterDeletion()",variables.totalNumberImagesCurrentFolder, variables.currentFilePos)
+
+    verboseMessage("handlstuff.js","getNewFilenameAfterDeletion(): " + variables.totalNumberImagesCurrentFolder + " / " + variables.currentFilePos)
+
     if(variables.totalNumberImagesCurrentFolder == 1)
         return ""
     if(variables.currentFilePos < variables.totalNumberImagesCurrentFolder-1)
@@ -67,6 +71,9 @@ function getNewFilenameAfterDeletion() {
 
 // After setting a filter, make sure the displayed image matches the set filter
 function getFilenameMatchingFilter(filter) {
+
+    verboseMessage("handlstuff.js","getFilenameMatchingFilter(): " + filter)
+
     if((filter.charAt(0) == "." && variables.currentFile.indexOf(filter) == variables.currentFile.length-filter.length)
             || (filter.charAt(0) != "." && variables.currentFile.indexOf(filter) >= 0)) {
         return variables.currentFile
@@ -91,7 +98,11 @@ function getFilenameMatchingFilter(filter) {
 
 // Load the next image in the folder
 function loadNext() {
+
+    verboseMessage("handlstuff.js","loadNext(): " + variables.filterNoMatch + " / " + variables.deleteNothingLeft)
+
     if(variables.filterNoMatch || variables.deleteNothingLeft) return
+
     // We need to use a temp variable, otherwise wrapping the end of the images around to the beginning wont work!
     var loadpos = variables.currentFilePos
     if(loadpos == variables.allFilesCurrentDir.length-1 && !settings.loopThroughFolder)
@@ -105,7 +116,11 @@ function loadNext() {
 
 // Load the previous image in the folder
 function loadPrev() {
+
+    verboseMessage("handlstuff.js","loadPrev(): " + variables.filterNoMatch + " / " + variables.deleteNothingLeft)
+
     if(variables.filterNoMatch || variables.deleteNothingLeft) return
+
     // We need to use a temp variable, otherwise wrapping the beginning of the images around to the end wont work!
     var loadpos = variables.currentFilePos
     if(loadpos <= 0 && !settings.loopThroughFolder)
@@ -119,17 +134,21 @@ function loadPrev() {
 
 // Jump to the first image in the folder
 function loadFirst() {
+    verboseMessage("handlstuff.js","loadFirst(): " + variables.filterNoMatch + " / " + variables.deleteNothingLeft)
     if(variables.filterNoMatch || variables.deleteNothingLeft) return
     loadFile(variables.allFilesCurrentDir[0], variables.filter)
 }
 
 // Jump to the last image in the folder
 function loadLast() {
+    verboseMessage("handlstuff.js","loadLast(): " + variables.filterNoMatch + " / " + variables.deleteNothingLeft)
     if(variables.filterNoMatch || variables.deleteNothingLeft) return
     loadFile(variables.allFilesCurrentDir[variables.allFilesCurrentDir.length -1], variables.filter)
 }
 
 function checkIfClickOnEmptyArea(prsd, rlsd) {
+
+    verboseMessage("handlstuff.js","checkIfClickOnEmptyArea(): " + prsd.x + " / " + prsd.y + " // " + rlsd.x + " / " + rlsd.y)
 
     var dx = prsd.x-rlsd.x
     var dy = prsd.y-rlsd.y

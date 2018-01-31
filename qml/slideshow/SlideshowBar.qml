@@ -126,19 +126,24 @@ Rectangle {
 
     // Display the bar
     function showBar() {
-        verboseMessage("SlideshowBar::showBar()",bar.y + "/" + bar.height + " (" + variables.slideshowRunning + ")")
-        if(variables.slideshowRunning)
+        if(variables.slideshowRunning) {
+            verboseMessage("Slideshow/SlideshowBar", "showBar()")
             opacity = 1
+        } else
+            verboseMessage("Slideshow/SlideshowBar", "showbar(): no slideshow running")
     }
     // Hide the bar
     function hideBar() {
-        if(!paused)
+        if(!paused) {
+            verboseMessage("Slideshow/SlideshowBar", "hideBar()")
             opacity = 0
+        } else
+            verboseMessage("Slideshow/SlideshowBar", "hideBar(): slideshow paused")
     }
 
     // Show and hide the bar shortly after again (used at start and end of slideshow)
     function showAndHideBar() {
-        verboseMessage("SlideshowBar::showAndHideBar()","Show and Hide")
+        verboseMessage("Slideshow/SlideshowBar", "showAndHideBar()")
         call.show("slideshowbar")
         hidebarsoon.start()
     }
@@ -146,7 +151,7 @@ Rectangle {
     // Start a slideshow
     function startSlideshow() {
 
-        verboseMessage("SlideshowBar::startSlideshow()","Starting Slideshow...")
+        verboseMessage("Slideshow/SlideshowBar", "startSlideshow()")
 
         // Set some variables
         variables.slideshowRunning = true
@@ -208,7 +213,7 @@ Rectangle {
     // Pause/Play slideshow
     function pauseSlideshow() {
 
-        verboseMessage("SlideshowBar::pauseSlideshow()",paused)
+        verboseMessage("Slideshow/SlideshowBar", "pauseSlideshow()")
 
         // Pause
         if(!paused) {
@@ -233,7 +238,7 @@ Rectangle {
     // Stop slideshow
     function stopSlideshow() {
 
-        verboseMessage("SlideshowBar::stopSlideshow()","Stopping show...")
+        verboseMessage("Slideshow/SlideshowBar", "stopSlideshow()")
 
         // We're definitely not paused anymore
         paused = false
@@ -265,7 +270,10 @@ Rectangle {
             return
         }
 
-        verboseMessage("SlideshowBar::switchImage()",current + "/" + images.length + " - " + settings.slideShowLoop + " - " + settings.slideShowShuffle)
+        verboseMessage("Slideshow/SlideshowBar", "switchImage(): " + current + " / " +
+                                                                     images.length + " / " +
+                                                                     settings.slideShowLoop + " / " +
+                                                                     settings.slideShowShuffle)
 
         // If we reached the end of the array
         if(current == images.length) {

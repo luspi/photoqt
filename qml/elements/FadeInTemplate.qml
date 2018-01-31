@@ -132,10 +132,12 @@ Rectangle {
     }
 
     function show() {
+        verboseMessage("FadeInTemplate", "show(): " + getanddostuff.convertIdIntoString(fadein_top))
         opacity = 1
         variables.guiBlocked = true
     }
     function hide() {
+        verboseMessage("FadeInTemplate", "hide(): " + getanddostuff.convertIdIntoString(fadein_top))
         opacity = 0
         variables.guiBlocked = false
     }

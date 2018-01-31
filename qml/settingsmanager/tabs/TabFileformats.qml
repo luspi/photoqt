@@ -73,6 +73,7 @@ Rectangle {
     }
 
     function setData() {
+        verboseMessage("SettingsManager/TabFileFormats", "setData()")
         filetypesqt.setData()
         filetypesgm.setData()
         filetypesgmghostscript.setData()
@@ -82,6 +83,7 @@ Rectangle {
     }
 
     function saveData() {
+        verboseMessage("SettingsManager/TabFileFormats", "saveData()")
         filetypesqt.saveData()
         filetypesgm.saveData()
         filetypesgmghostscript.saveData()

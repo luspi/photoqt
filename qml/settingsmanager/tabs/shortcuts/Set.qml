@@ -253,6 +253,8 @@ Item {
 
     function addShortcut(dat) {
 
+        verboseMessage("SettingsManager/Shortcuts/Set", "addShortcut(): " + dat)
+
         listview.model.append({"desc" : dat[1], "key" : "...", "close" : "0", "cmd" : dat[0]})
 
     }

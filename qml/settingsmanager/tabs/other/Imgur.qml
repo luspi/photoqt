@@ -191,6 +191,7 @@ EntryContainer {
     }
 
     function authenticate() {
+        verboseMessage("SettingsManager/Other/Imgur", "authenticate()")
         authbox.enabled = false
         var ret = shareonline_imgur.authorizeHandlePin(authpin.getText())
         if(ret == PImgur.IMGUR_NOERROR) {
@@ -198,7 +199,7 @@ EntryContainer {
             setData()
         } else {
             authbox.enabled = true
-            verboseMessage("SettingsManager/Imgur/authenticate", "authenticate() error return value:",ret)
+            verboseMessage("SettingsManager/Other/Imgur", "authenticate(): Error return value: " + ret)
         }
     }
 
@@ -214,7 +215,6 @@ EntryContainer {
 
     }
 
-    function saveData() {
-    }
+    function saveData() { }
 
 }

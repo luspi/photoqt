@@ -124,6 +124,7 @@ Rectangle {
     }
 
     function show(title, helptext) {
+        verboseMessage("SettingsManager/SettingsInfoOverlay", "show(): " + title + " / " + helptext)
         setting_title.text = title
         setting_helptext.text = helptext
         opacity = 1

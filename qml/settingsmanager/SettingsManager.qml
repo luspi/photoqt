@@ -368,7 +368,7 @@ Rectangle {
         rejectbuttontext: em.pty+qsTr("No, don't")
         maxwidth: 400
         onAccepted: {
-            verboseMessage("Settings","Setting default shortcuts...")
+            verboseMessage("SettingsManager","Setting default shortcuts...")
             shortcutsLoadDefaults()
         }
     }
@@ -441,7 +441,7 @@ Rectangle {
     }
 
     function showSettings() {
-        verboseMessage("Settings::showSettings()","Showing Settings...")
+        verboseMessage("SettingsManager", "showSettings()")
         opacity = 1
         variables.guiBlocked = true
         setData()	// We DO need to call setData() here, as otherwise - once set up - a tab would not be updated (e.g. with changes from quicksettings)
@@ -449,7 +449,14 @@ Rectangle {
         settingsmanagershortcuts.display()
     }
     function hideSettings() {
-        verboseMessage("Settings::hideSettings()",confirmclean.visible + "/" + confirmerase.visible + "/" + confirmdefaultshortcuts.visible + "/" + confirmdefaultssettings.visible + "/" + settingsmanagershortcuts.visible + "/" + detectshortcut.visible)
+        verboseMessage("SettingsManager", "hideSettings(): ", confirmclean.visible + " / " +
+                                                              confirmerase.visible + " / " +
+                                                              confirmdefaultshortcuts.visible + " / " +
+                                                              confirmdefaultssettings.visible + " / " +
+                                                              settingsmanagershortcuts.visible + " / " +
+                                                              detectshortcut.visible + " / " +
+                                                              exportimport.visible + " / " +
+                                                              settingsinfooverlay.visible)
         if(confirmclean.visible)
             confirmclean.reject()
         else if(confirmerase.visible)
@@ -460,11 +467,11 @@ Rectangle {
             confirmdefaultssettings.reject()
         else if(settingsmanagershortcuts.visible)
             settingsmanagershortcuts.reject()
-        else if(detectshortcut.opacity == 1)
+        else if(detectshortcut.visible)
             return
-        else if(exportimport.opacity == 1)
+        else if(exportimport.visible)
             exportimport.hide()
-        else if(settingsinfooverlay.opacity == 1)
+        else if(settingsinfooverlay.visible)
             settingsinfooverlay.hide()
         else {
             opacity = 0
@@ -475,6 +482,7 @@ Rectangle {
         }
     }
     function forceHideEverything() {
+        verboseMessage("SettingsManager", "forceHideEverything()")
         if(confirmclean.visible)
             confirmclean.reject()
         if(confirmerase.visible)

@@ -84,6 +84,7 @@ Rectangle {
     }
 
     function setData() {
+        verboseMessage("SettingsManager/TabMetadata", "setData()")
         trigger.setData()
         metadata.setData()
         fontsize.setData()
@@ -93,6 +94,7 @@ Rectangle {
     }
 
     function saveData() {
+        verboseMessage("SettingsManager/TabMetadata", "saveData()")
         trigger.saveData()
         metadata.saveData()
         fontsize.saveData()

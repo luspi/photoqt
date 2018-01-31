@@ -303,7 +303,7 @@ Rectangle {
 
     // Delete an item
     function deleteItem(modelIndex, listIndex) {
-        verboseMessage("Settings::TabOtherContext::deleteItem()",modelIndex + " - " + listIndex)
+        verboseMessage("SettingsManager/Other/CustomEntriesInteractive", "deleteItem(): " + modelIndex + " / " + listIndex)
         contextmodel.remove(listIndex)
         modelData = []
         requestUpdateModelData()
@@ -311,6 +311,7 @@ Rectangle {
 
     // Add an item
     function addItem(bin, desc, q) {
+        verboseMessage("SettingsManager/Other/CustomEntriesInteractive", "addItem(): " + bin + " / " + desc + " / " + q)
         var pos = contextmodel.count
         modelData[pos] = {"posInList" : pos , "posInView" : pos , "binary" : bin, "description" : desc, "quit" : q }
         contextmodel.append({_posInList : pos, _binary: bin, _description: desc, _quit: q })
@@ -318,7 +319,7 @@ Rectangle {
 
     // Add an empty item
     function addNewItem() {
-        verboseMessage("Settings::TabOtherContext::addNewItem()","")
+        verboseMessage("SettingsManager/Other/CustomEntriesInteractive", "addNewItem()")
         addItem("executeable","menu text",0)
     }
 

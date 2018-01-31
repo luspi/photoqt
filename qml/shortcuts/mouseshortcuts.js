@@ -1,6 +1,8 @@
 
 function analyseMouseGestureUpdate(xPos, yPos, before) {
 
+    verboseMessage("Shortcuts/mouseshortcuts.js", "analyseMouseGestureUpdate(): " + xPos + " / " + yPos + " / " + before.x + " / " + before.y)
+
     var threshold = 50
 
     var dx = xPos-before.x
@@ -46,6 +48,8 @@ function analyseMouseGestureUpdate(xPos, yPos, before) {
 
 function analyseMouseEvent(startedEventAtPos, event, forceThisButton, dontResetGesture) {
 
+    verboseMessage("Shortcuts/mouseshortcuts.js", "analyseMouseEvent(): " + startedEventAtPos + " / " + event.button + " / " + forceThisButton + " / " + dontResetGesture)
+
     var combostring = getModifiers(event)
 
     var button = event.button
@@ -76,6 +80,8 @@ function analyseMouseEvent(startedEventAtPos, event, forceThisButton, dontResetG
 }
 
 function analyseWheelEvent(event, dontResetVariables) {
+
+    verboseMessage("Shortcuts/mouseshortcuts.js", "analyseWheelEvent(): " + event.angleDelta.x + " / " + event.angleDelta.y + " / " + event.inverted)
 
     var combostring = getModifiers(event)
 
@@ -133,6 +139,8 @@ function analyseWheelEvent(event, dontResetVariables) {
         variables.wheelUpDown = 0
         variables.wheelLeftRight = 0
     }
+
+    verboseMessage("Shortcuts/mouseshortcuts.js", "analyseWheelEvent(): combostring = " + combostring)
 
     return combostring
 

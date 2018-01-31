@@ -69,12 +69,14 @@ Rectangle {
     }
 
     function setData() {
+        verboseMessage("SettingsManager/TabOther", "setData()")
         language.setData()
         customentries.setData()
         imgur.setData()
     }
 
     function saveData() {
+        verboseMessage("SettingsManager/TabOther", "saveData()")
         language.saveData()
         customentries.saveData()
         imgur.saveData()

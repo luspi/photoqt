@@ -82,6 +82,8 @@ Item {
 
     function translateShortcut(combo) {
 
+        var comboSave = combo
+
         combo = combo.replace("++","+PLUS")
         if(combo == "+") combo = "PLUS"
         var parts = combo.split("+")
@@ -120,6 +122,8 @@ Item {
             }
 
         }
+
+        verboseMessage("vars/Strings", "translateShortcut(): " + comboSave + " / " + ret)
 
         return ret
 
