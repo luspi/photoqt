@@ -29,10 +29,7 @@
 #include "../../logger.h"
 #include "../../settings/fileformats.h"
 #include "../../settings/settings.h"
-
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
 #include <QStorageInfo>
-#endif
 
 class GetAndDoStuffOpenFile : public QObject {
 

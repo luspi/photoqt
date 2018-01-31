@@ -4,20 +4,14 @@
 
 #include "tooltip.h"
 #include <QQuickWindow>
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
-    #include <QQuickRenderControl>
-#endif
+#include <QQuickRenderControl>
 
 ToolTip::ToolTip(QObject *parent) : QObject(parent) { }
 
 void ToolTip::showText(QQuickItem *item, const QPointF &pos, const QString &str) {
     QPoint quickWidgetOffsetInTlw;
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
     QWindow *renderWindow = QQuickRenderControl::renderWindowFor(item->window(), &quickWidgetOffsetInTlw);
     QWindow *window = renderWindow ? renderWindow : item->window();
-#else
-    QWindow *window = item->window();
-#endif
     const QPoint offsetInQuickWidget = item->mapToScene(pos).toPoint();
     const QPoint mappedPos = window->mapToGlobal(offsetInQuickWidget + quickWidgetOffsetInTlw);
     QToolTip::showText(mappedPos, str);

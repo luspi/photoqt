@@ -104,9 +104,7 @@ bool GetAndDoStuffContext::checkIfBinaryExists(QString exec) {
 #endif
 
     QProcess p;
-#if QT_VERSION >= 0x050200
     p.setStandardOutputFile(QProcess::nullDevice());
-#endif
     p.start("which " + exec);
     p.waitForFinished();
     return p.exitCode() == 0;
