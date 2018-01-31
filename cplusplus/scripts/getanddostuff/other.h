@@ -29,6 +29,8 @@
 #include <QDir>
 #include <QTextStream>
 #include <QStandardPaths>
+#include <QQmlEngine>
+#include <QQmlContext>
 #include "../../logger.h"
 
 #include <QWindow>
@@ -63,6 +65,7 @@ public:
     void storeGeometry(QRect rect);
     QRect getStoredGeometry();
     bool isImageAnimated(QString path);
+    QString convertIdIntoString(QObject *object);
 
 };
 

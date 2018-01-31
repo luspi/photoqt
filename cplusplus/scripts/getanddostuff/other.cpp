@@ -151,3 +151,8 @@ bool GetAndDoStuffOther::isImageAnimated(QString path) {
     return QImageReader(path).supportsAnimation();
 
 }
+
+QString GetAndDoStuffOther::convertIdIntoString(QObject *object) {
+    const auto context = qmlContext(object);
+    return context ? context->nameForObject(object): QString("context not found");
+}
