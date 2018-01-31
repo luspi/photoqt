@@ -448,16 +448,14 @@ Rectangle {
             feedback_top.someerror = true
         }
         onImgurImageUrl: {
-            console.log(url)
             imageurl.text = url
             imageurl.selectAll()
-            verboseMessage("ImgurFeedback::onImgurImageUrl", url)
+            verboseMessage("Other/ImgurFeedback", "onImgurImageUrl: " + url)
         }
 
         onImgurDeleteHash: {
-            console.log("http://imgur.com/delete/" + url)
             deleteurl.text = "http://imgur.com/delete/" + url
-            verboseMessage("ImgurFeedback::onImgurDeleteHash", url)
+            verboseMessage("Other/ImgurFeedback", "onImgurDeleteHash: " + url)
         }
 
     }
@@ -483,6 +481,8 @@ Rectangle {
     }
 
     function show(anonym) {
+
+        verboseMessage("Other/ImgurFeedback", "show(): " + anonym)
 
         anonymous = anonym
         error.opacity = 0
@@ -517,6 +517,7 @@ Rectangle {
     }
 
     function hide() {
+        verboseMessage("Other/ImgurFeedback", "hide()")
         error.opacity = 0
         report.opacity = 0
         nointerneterror.opacity = 0

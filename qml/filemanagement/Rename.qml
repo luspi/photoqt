@@ -113,7 +113,7 @@ Item {
 
     // This 'simulate' function can be called via shortcut
     function simulateEnter() {
-        verboseMessage("Rename::simulateEnter()","")
+        verboseMessage("FileManagement/Rename", "simulateEnter()")
         if(newfilename.getText() !== "") {
             // a rename is the same as a move into the same directory
             getanddostuff.moveImage(variables.currentDir + "/" + variables.currentFile, variables.currentDir + "/" + newfilename.getText() + suffix.text)
@@ -123,6 +123,7 @@ Item {
     }
 
     function setupRename() {
+        verboseMessage("FileManagement/Rename", "setupRename()")
         filename.text = variables.currentFile
         newfilename.text = ""	// This is needed, otherwise the lineedit might keep its old contents
                                 // (if opened twice for same image with different keys pressed in between)

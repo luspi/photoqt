@@ -208,6 +208,8 @@ Rectangle {
     // show the element
     function show() {
 
+        verboseMessage("OpenFile/OpenFile", "show()")
+
         // First load, restore last folder of previous session
         if(settings.openKeepLastLocation && variables.currentDir == "")
             openvariables.currentDirectory = getanddostuff.getOpenFileLastLocation()
@@ -243,6 +245,7 @@ Rectangle {
     }
     // hide element
     function hide() {
+        verboseMessage("OpenFile/OpenFile", "hide()")
         opacity = 0
         variables.guiBlocked = false
         // stop watching for changes

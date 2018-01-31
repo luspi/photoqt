@@ -146,7 +146,7 @@ Item {
 
     // These two 'simulate' functions can be called via shortcuts
     function simulateEnter() {
-        verboseMessage("Delete::simulateEnter()","")
+        verboseMessage("Filemanagement/Delete", "simulateEnter()")
         hideDelete()
         getanddostuff.deleteImage(variables.currentDir + "/" + variables.currentFile,getanddostuff.amIOnLinux())
         var newfilename = Handle.getNewFilenameAfterDeletion()
@@ -156,7 +156,7 @@ Item {
             Handle.loadFile(variables.currentDir + "/" + newfilename, variables.filter, true)
     }
     function simulateShiftEnter() {
-        verboseMessage("Delete::simulateShiftEnter()","")
+        verboseMessage("Filemanagement/Delete", "simulateShiftEnter()")
         hideDelete()
         getanddostuff.deleteImage(variables.currentDir + "/" + variables.currentFile,false)
         var newfilename = Handle.getNewFilenameAfterDeletion()

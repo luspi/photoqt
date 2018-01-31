@@ -36,6 +36,8 @@ Item {
     // This is called when a click occurs and the closeOnEmptyBackground setting is set to true
     function checkClickOnEmptyArea(posX, posY) {
 
+        verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "checkClickOnEmptyArea(): " + posX + "/" + posY)
+
         // safety margin, just in case
         var safetyMargin = 5
 
@@ -133,6 +135,7 @@ Item {
 
         // When imae is loaded, show image and hid the other
         onStatusChanged: {
+            verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "statusChanged: " + status)
             if(status == Image.Ready) {
                 var currentIdBefore = currentId
                 setAsCurrentId()
@@ -263,13 +266,16 @@ Item {
 
     // some info about the currently loaded image
     function getImageRatio() {
+        verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "getImageRatio()")
         return image.width/image.height
     }
     function getWidthPlusHeight() {
+        verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "getWidthPlusHeight()")
         return image.width+image.height
     }
 
     function reloadImage() {
+        verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "reloadImage()")
         var tmp = image.source
         image.source = ""
         image.source = tmp
@@ -281,11 +287,13 @@ Item {
 
     // hide this element. Currently only transition available is fading out
     function hideMe() {
+        verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "hideMe()")
         image.opacity = 0
     }
 
     // Reset position to center image on screen, animated.
     function resetPosition() {
+        verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "resetPosition()")
         xAni.from = imageContainer.x
         xAni.to = ( defaultWidth - width ) / 2 + imageMargin/2
         yAni.from = imageContainer.y
@@ -296,12 +304,14 @@ Item {
 
     // Reset position to center image on screen, not animated.
     function resetPositionWithoutAnimation() {
+        verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "resetPositionWithoutAnimation()")
         x = Qt.binding(function() { return ( defaultWidth - width ) / 2 + imageMargin/2 })
         y = Qt.binding(function() { return ( defaultHeight - height ) / 2 + imageMargin/2 })
     }
 
     // Check if image is zoomed in
     function isZoomedIn() {
+        verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "isZoomedIn()")
         return (scaleMultiplier>1)
     }
 
@@ -311,16 +321,19 @@ Item {
     // API functions for manipulating display of images
 
     function zoomIn() {
+        verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "zoomIn()")
         scaleAni.duration = scaleDuration
         imageContainer.scaleMultiplier *= 1.1
     }
 
     function zoomOut() {
+        verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "zoomOut()")
         scaleAni.duration = scaleDuration
         imageContainer.scaleMultiplier /= 1.1
     }
 
     function zoomActual() {
+        verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "zoomActual()")
         if(image.sourceSize.width < defaultWidth && image.sourceSize.height < defaultHeight)
             return
         scaleAni.duration = scaleDuration
@@ -328,6 +341,7 @@ Item {
     }
 
     function resetZoom() {
+        verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "resetZoom()")
         scaleAni.duration = scaleDuration
         if((imageContainer.rotation%180 +180)%180 == 90)
             scaleMultiplier = image.sourceSize.height/image.sourceSize.width
@@ -335,6 +349,7 @@ Item {
             scaleMultiplier = 1
     }
     function resetZoomWithoutAnimation() {
+        verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "resetZoomWithoutAnimation()")
         scaleAni.duration = 0
         if((imageContainer.rotation%180 +180)%180 == 90)
             scaleMultiplier = image.sourceSize.height/image.sourceSize.width
@@ -343,12 +358,15 @@ Item {
     }
 
     function rotateImage(angle) {
+        verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "rotateImage(): " + angle)
         rotationAni.from = imageContainer.rotation
         rotationAni.to = imageContainer.rotation+angle
         rotationAni.running = true
     }
 
     function resetRotation() {
+
+        verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "resetRotation()")
 
         var angle = (imageContainer.rotation%360 +360)%360
 
@@ -360,6 +378,8 @@ Item {
 
     function resetRotationWithoutAnimation() {
 
+        verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "resetRotationWithoutAnimation()")
+
         var angle = (imageContainer.rotation%360 +360)%360
 
         if(angle <= 180)
@@ -370,20 +390,24 @@ Item {
     }
 
     function mirrorHorizontal() {
+        verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "mirrorHorizontal()")
         image.mirror = !image.mirror
     }
 
     function mirrorVertical() {
+        verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "mirrorVertical()")
         imageContainer.rotation += 180
         image.mirror = !image.mirror
     }
 
     function resetMirror() {
+        verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "resetMirror()")
         resetRotationWithoutAnimation()
         image.mirror = false
     }
 
     function getCurrentSourceSize() {
+        verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "getCurrentSourceSize()")
         return image.sourceSize
     }
 

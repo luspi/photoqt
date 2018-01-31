@@ -136,6 +136,8 @@ Rectangle {
 
     function showStartup(t, filenameAfter) {
 
+        verboseMessage("Other/Startup", "showStartup(): " + t + " / " + filenameAfter)
+
         type = (t==1 ? "updated" : "installed");
         openFileAfter = filenameAfter
 
@@ -145,6 +147,8 @@ Rectangle {
     }
 
     function hideStartup() {
+
+        verboseMessage("Other/Startup", "hideStartup()")
 
         opacity = 0
         variables.guiBlocked = false

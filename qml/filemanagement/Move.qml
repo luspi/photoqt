@@ -40,6 +40,7 @@ Item {
     }
 
     function moveFile(file) {
+        verboseMessage("FileManagement/Move", "moveFile(): " + file)
         getanddostuff.moveImage(variables.currentDir + "/" + variables.currentFile, file)
         if(getanddostuff.removeFilenameFromPath(file) == variables.currentDir) {
             Handle.loadFile(file, variables.filter, true)

@@ -234,7 +234,7 @@ Item {
         }
     }
     function updateNonFloatWidth() {
-        verboseMessage("MetaData::updateNonFloatWidth()",check.checkedButton + " - " + nonFloatWidth + " - " + meta.width)
+        verboseMessage("MainView/MetaData", "updateNonFloatWidth(): " + check.checkedButton + " - " + nonFloatWidth + " - " + meta.width)
         if(check.checkedButton)
             nonFloatWidth = meta.width
         else
@@ -336,6 +336,8 @@ Item {
 
     function setData(d) {
 
+        verboseMessage("MainView/MetaData", "setData()")
+
         if(variables.currentFile == "")
             return
 
@@ -344,16 +346,14 @@ Item {
         view.visible = false
 
         if(d["validfile"] == "0") {
-            verboseMessage("MetaData::setData()","Invalid file")
+            verboseMessage("MainView/MetaData", "setData(): Invalid file")
             invalidLabel.visible = true
         } else {
 
             if(d["supported"] == "0") {
-                verboseMessage("MetaData::setData()","Unsupported file format")
+                verboseMessage("MainView/MetaData", "setData(): Unsupported file format")
                 unsupportedLabel.visible = true
             } else {
-
-                verboseMessage("MetaData::setData()","Setting data")
 
                 orientation = d["Exif.Image.Orientation"]
 
@@ -452,7 +452,7 @@ Item {
 
     function gpsClick(value) {
 
-        verboseMessage("MetaData::gpsClick()",value + " - " + settings.metaGpsMapService)
+        verboseMessage("MainView/MetaData", "gpsClick(): " + value)
 
         if(settings.metaGpsMapService == "bing.com/maps")
             Qt.openUrlExternally("http://www.bing.com/maps/?sty=r&q=" + value + "&obox=1")
@@ -481,22 +481,19 @@ Item {
         imageLoaded = false
     }
 
-
-
     function hide() {
-        if(!check.checkedButton) {
-            if(opacity != 0) verboseMessage("MetaData::hide()", opacity + " to 0")
+        if(opacity == 1) verboseMessage("MainView/MetaData", "hide()")
+        if(!check.checkedButton)
             opacity = 0
-        }
     }
     function show() {
-        if(opacity != 1) verboseMessage("MetaData::show()", opacity + " to 1")
+        if(opacity != 0) verboseMessage("MainView/MetaData", "show()")
         opacity = 1
     }
 
     function clickInMetaData(pos) {
+        verboseMessage("MainView/MetaData", "clickInMetaData(): " + pos)
         var ret = meta.contains(meta.mapFromItem(mainwindow,pos.x,pos.y))
-        verboseMessage("MetaData::clickInMetaData()", pos)
         return ret
     }
 

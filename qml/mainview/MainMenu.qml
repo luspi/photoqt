@@ -367,6 +367,8 @@ Rectangle {
 
     function setupExternalApps() {
 
+        verboseMessage("MainView/MainMenu", "setupExternalApps()")
+
         allitems_external = []
 
         var c = getanddostuff.getContextMenu()
@@ -383,17 +385,17 @@ Rectangle {
     }
 
     function show() {
-        if(opacity != 1) verboseMessage("MainMenu::show()", opacity + " to 1")
+        if(opacity != 1) verboseMessage("MainView/MainMenu", "show()")
         opacity = 1
     }
     function hide() {
-        if(opacity != 0) verboseMessage("MainMenu::hide()", opacity + " to 0")
+        if(opacity == 1) verboseMessage("MainView/MainMenu", "hide()")
         opacity = 0
     }
 
     function clickInMainMenu(pos) {
+        verboseMessage("MainView/MainMenu", "clickInMainMenu(): " + pos)
         var ret = mainmenu.contains(mainmenu.mapFromItem(mainwindow,pos.x,pos.y))
-        verboseMessage("MainMenu::clickInMainMenu()", pos)
         return ret
     }
 

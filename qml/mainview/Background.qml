@@ -22,7 +22,7 @@ Rectangle {
         }
     }
     function reloadScreenshot() {
-        verboseMessage("Background::reloadScreenshot()","")
+        verboseMessage("MainView/Background", "reloadScreenshot()")
         fake.source = ""
         if(!settings.composite && settings.backgroundImageScreenshot)
             fake.source = "file:/" + getanddostuff.getTempDir() +"/photoqt_screenshot_" + getanddostuff.getCurrentScreen(variables.windowXY.x+background.width/2,variables.windowXY.y+background.height/2) + ".jpg"

@@ -39,6 +39,7 @@ Item {
     }
 
     function copyFile(file) {
+        verboseMessage("FileManagement/Copy", "copyFile(): " + file)
         getanddostuff.copyImage(variables.currentDir + "/" + variables.currentFile, file)
         if(getanddostuff.removeFilenameFromPath(file) == variables.currentDir) {
             Handle.loadFile(file, variables.filter, true)

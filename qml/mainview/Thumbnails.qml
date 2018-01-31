@@ -395,6 +395,8 @@ Item {
     // Ensure selected item is centered/visible
     function _ensureCurrentItemVisible() {
 
+        verboseMessage("MainView/Thumbnails", "_ensureCurrentItemVisible()")
+
         if(variables.totalNumberImagesCurrentFolder*settingsThumbnailSize > top.width) {
 
             // Newly loaded dir => center item
@@ -418,6 +420,8 @@ Item {
 
     // Animate auto-scrolling of view
     function positionViewAtIndex(index, loc) {
+
+        verboseMessage("MainView/Thumbnails", "positionViewAtIndex(): " + index + " / " + loc)
 
         verboseMessage("ThumbnailBar::positionViewAtIndex()", index + " - " + loc)
         autoScrollAnim.running = false
@@ -443,6 +447,8 @@ Item {
     // Load the specified directory based on the specified filter
     function loadDirectory() {
 
+        verboseMessage("MainView/Thumbnails", "loadDirectory()")
+
         // When loading a directory, we can only call positionViewAtIndex after a few ms
         safeToUsePosWithoutCrash = false
 
@@ -460,6 +466,7 @@ Item {
 
     // Show the thumbnail bar
     function show() {
+        if(opacity != 1) verboseMessage("MainView/Thumbnails", "show()")
         if(variables.filterNoMatch || variables.deleteNothingLeft) return
         opacity = 1
         variables.thumbnailsheight = top.height
@@ -467,6 +474,7 @@ Item {
 
     // Hide the thumbnail bar
     function hide() {
+        if(opacity == 1) verboseMessage("MainView/Thumbnails", "hide()")
         opacity = 0
     }
 

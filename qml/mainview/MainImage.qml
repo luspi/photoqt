@@ -24,6 +24,7 @@ Item {
 
     // This is called when a click occurs and the closeOnEmptyBackground setting is set to true
     function checkClickOnEmptyArea(posX, posY) {
+        verboseMessage("MainView/MainImage", "checkClickOnEmptyArea(): " + posX + "/" + posY)
         if(currentId == image1)
             image1.checkClickOnEmptyArea(posX, posY)
         else if(currentId == image2)
@@ -38,6 +39,7 @@ Item {
     property bool animated: false
     property string source: ""
     onSourceChanged: {
+        verboseMessage("MainView/MainImage", "sourceChanged: " + source)
         mainImageFinishedLoading = false
         if(animated) {
             if(currentId == imageANIM1) {
@@ -67,6 +69,7 @@ Item {
     // the changed signals of properties don't seem to be globally accessible, thus we need to emit a custom signal to let the world (in particular the Thumbnails) know of a change here
     signal mainImageLoadingChanged()
     onMainImageFinishedLoadingChanged: {
+        verboseMessage("MainView/MainImage", "mainImageFinishedLoadingChanged: " + mainImageFinishedLoading)
         mainImageLoadingChanged()
         if(mainimage_top.source == "") return
         if(!mainImageFinishedLoading)
@@ -232,9 +235,12 @@ Item {
         running: false
 
         // show indicator only if the mainimage hasn't finished loading in the meantime
-        onTriggered:
-            if(!mainimage_top.mainImageFinishedLoading)
+        onTriggered: {
+            if(!mainimage_top.mainImageFinishedLoading) {
+                verboseMessage("MainView/MainImage", "showing loading indicator")
                 loadingimage.opacity = 1
+            }
+        }
 
     }
 
@@ -249,6 +255,7 @@ Item {
     // All the API functions
 
     function isZoomedIn() {
+        verboseMessage("MainView/MainImage", "isZoomedIn()")
         if(currentId == image1)
             return image1.isZoomedIn()
         else if(currentId == image2)
@@ -260,11 +267,13 @@ Item {
     }
 
     function loadImage(filename, animated) {
+        verboseMessage("MainView/MainImage", "loadImage(): " + filename + " / " + animated)
         mainimage_top.animated = animated
         mainimage_top.source = filename
     }
 
     function reloadImage() {
+        verboseMessage("MainView/MainImage", "reloadImage()")
         if(currentId == image1)
             image1.reloadImage()
         else if(currentId == image2)
@@ -276,6 +285,7 @@ Item {
     }
 
     function resetPosition() {
+        verboseMessage("MainView/MainImage", "resetPosition()")
         image1.resetPosition()
         image2.resetPosition()
         imageANIM1.resetPosition()
@@ -283,6 +293,7 @@ Item {
     }
 
     function resetZoom() {
+        verboseMessage("MainView/MainImage", "resetZoom()")
         image1.resetZoom()
         image2.resetZoom()
         imageANIM1.resetZoom()
@@ -290,6 +301,7 @@ Item {
     }
 
     function zoomIn() {
+        verboseMessage("MainView/MainImage", "zoomIn()")
         if(currentId == image1)
             image1.zoomIn()
         else if(currentId == image2)
@@ -300,6 +312,7 @@ Item {
             imageANIM2.zoomIn()
     }
     function zoomOut() {
+        verboseMessage("MainView/MainImage", "zoomOut()")
         if(currentId == image1)
             image1.zoomOut()
         else if(currentId == image2)
@@ -310,6 +323,7 @@ Item {
             imageANIM2.zoomOut()
     }
     function zoomActual() {
+        verboseMessage("MainView/MainImage", "zoomActual()")
         if(currentId == image1)
             image1.zoomActual()
         else if(currentId == image2)
@@ -321,6 +335,7 @@ Item {
     }
 
     function rotateImage(angle) {
+        verboseMessage("MainView/MainImage", "rotateImage(): " + angle)
         if(currentId == image1)
             image1.rotateImage(angle)
         else if(currentId == image2)
@@ -332,6 +347,7 @@ Item {
     }
 
     function resetRotation() {
+        verboseMessage("MainView/MainImage", "resetRotation()")
         if(currentId == image1)
             image1.resetRotation()
         else if(currentId == image2)
@@ -343,6 +359,7 @@ Item {
     }
 
     function playPauseAnimation() {
+        verboseMessage("MainView/MainImage", "playPauseAnimation()")
         if(currentId == imageANIM1)
             imageANIM1.paused = !imageANIM1.paused
         else if(currentId == imageANIM2)
@@ -350,6 +367,7 @@ Item {
     }
 
     function returnImageContainer() {
+        verboseMessage("MainView/MainImage", "returnImageContainer()")
         if(currentId == image1)
             return image1.returnImageContainer()
         else if(currentId == image2)
@@ -362,6 +380,7 @@ Item {
     }
 
     function mirrorHorizontal() {
+        verboseMessage("MainView/MainImage", "mirrorHorizontal()")
         if(currentId == image1)
             image1.mirrorHorizontal()
         else if(currentId == image2)
@@ -373,6 +392,7 @@ Item {
     }
 
     function mirrorVertical() {
+        verboseMessage("MainView/MainImage", "mirrorVertical()")
         if(currentId == image1)
             image1.mirrorVertical()
         else if(currentId == image2)
@@ -384,6 +404,7 @@ Item {
     }
 
     function resetMirror() {
+        verboseMessage("MainView/MainImage", "resetMirror()")
         if(currentId == image1)
             image1.resetMirror()
         else if(currentId == image2)
@@ -395,6 +416,7 @@ Item {
     }
 
     function getCurrentSourceSize() {
+        verboseMessage("MainView/MainImage", "getCurrentSourceSize()")
         if(currentId == image1)
             return image1
         else if(currentId == image2)

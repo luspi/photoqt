@@ -774,6 +774,8 @@ Rectangle {
     // Only one of the three categories can have a highlight at any given time. Gives the illusion of one big listview instead of the three ones
     function handleChangeCurrentIndex(source) {
 
+        verboseMessage("OpenFile/UserPlaces", "handleChangeCurrentIndex(): " + source)
+
         // currentIndex of standardlocations has changed
         if(source == "standard") {
 
@@ -834,6 +836,8 @@ Rectangle {
         // check if we have focus
         if(openvariables.currentFocusOn != "userplaces") return
 
+        verboseMessage("OpenFile/UserPlaces", "highlightFirst()")
+
         // we go from top down: standardstandardlocations -> userplaces -> storageinfo
         // the first one visible gets its first entry highlighted
         if(standardlocations.visible)
@@ -848,6 +852,8 @@ Rectangle {
 
         // check if we have focus
         if(openvariables.currentFocusOn != "userplaces") return
+
+        verboseMessage("OpenFile/UserPlaces", "highlightLast()")
 
         // we go from bottom up: storageinfo -> userplaces -> standardstandardlocations
         // the first one visible gets its last entry highlighted
@@ -864,6 +870,8 @@ Rectangle {
 
         // check if we have focus
         if(openvariables.currentFocusOn != "userplaces") return
+
+        verboseMessage("OpenFile/UserPlaces", "highlightEntry(): " + distance)
 
         // >0 means go down
         if(distance > 0) {
@@ -971,6 +979,8 @@ Rectangle {
         // check if we have focus
         if(openvariables.currentFocusOn != "userplaces")
             return
+
+        verboseMessage("OpenFile/UserPlaces", "loadHighlightedItem()")
 
         // load standardlocations location
         if(standardlocations.visible && standardlocations.currentIndex != -1) {

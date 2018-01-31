@@ -326,6 +326,8 @@ Rectangle {
         // check if we have focus
         if(openvariables.currentFocusOn != "folders") return
 
+        verboseMessage("OpenFile/FilesView", "highlightEntry(): " + distance)
+
         // >0 means go down
         if(distance > 0)
             listView.currentIndex = Math.min(listView.currentIndex+distance, listView.model.count-1)
@@ -341,6 +343,8 @@ Rectangle {
         // check if we have focus
         if(openvariables.currentFocusOn != "folders") return
 
+        verboseMessage("OpenFile/Folders", "highlightFirst()")
+
         // if there are any items, go to first one
         if(listView.model.count > 0)
             listView.currentIndex = 0
@@ -352,6 +356,8 @@ Rectangle {
 
         // check if we have focus
         if(openvariables.currentFocusOn != "folders") return
+
+        verboseMessage("OpenFile/Folders", "highlightLast()")
 
         // if there are any items, go to last one
         if(listView.model.count > 0)
@@ -365,6 +371,8 @@ Rectangle {
         // check if we have focus and if entry is valid
         if(openvariables.currentFocusOn != "folders" || listView.model.get(listView.currentIndex) == undefined)
             return
+
+        verboseMessage("OpenFile/Folders", "loadHighlightedFolder()")
 
         // load folder
         openvariables.currentDirectory = listView.model.get(listView.currentIndex).path

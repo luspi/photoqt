@@ -436,6 +436,8 @@ Rectangle {
         // check if we have focus
         if(openvariables.currentFocusOn != "filesview") return
 
+        verboseMessage("OpenFile/FilesView", "highlightEntry(): " + distance)
+
         // >0 means go down
         if(distance > 0)
             gridview.currentIndex = Math.min(gridview.currentIndex+distance, gridview.model.count-1)
@@ -451,6 +453,8 @@ Rectangle {
         // check if we have focus
         if(openvariables.currentFocusOn != "filesview") return
 
+        verboseMessage("OpenFile/FilesView", "highlightFirst()")
+
         // if there are any items, go to first one
         if(gridview.model.count > 0)
             gridview.currentIndex = 0
@@ -463,6 +467,8 @@ Rectangle {
         // check if we have focus
         if(openvariables.currentFocusOn != "filesview") return
 
+        verboseMessage("OpenFile/FilesView", "highlightLast()")
+
         // if there are any items, go to last one
         if(gridview.model.count > 0)
             gridview.currentIndex = gridview.model.count-1
@@ -471,6 +477,8 @@ Rectangle {
 
     // Reload the background/preview image
     function reloadBackgroundThumbnail() {
+
+        verboseMessage("OpenFile/FilesView", "reloadBackgroundThumbnail()")
 
         // This holds the filename that is to be shown
         var f = ""
@@ -518,6 +526,8 @@ Rectangle {
 
         // check if we have focus
         if(openvariables.currentFocusOn != "filesview") return
+
+        verboseMessage("OpenFile/FilesView", "loadHighlightedPicture()")
 
         // if the entry is valid
         if(gridview.model.get(gridview.currentIndex) == undefined)

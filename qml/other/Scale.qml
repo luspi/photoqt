@@ -175,7 +175,7 @@ FadeInTemplate {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-                            verboseMessage("Scale","Trigger aspect ratio")
+                            verboseMessage("Other/Scale","Trigger aspect ratio")
                             parent.keepaspectratio = !parent.keepaspectratio
                             parent.source = parent.keepaspectratio ? "qrc:/img/ratioKeep.png" : "qrc:/img/ratioDontKeep.png"
                             if(parent.keepaspectratio) reenableKeepAspectRatio()
@@ -199,7 +199,7 @@ FadeInTemplate {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-                            verboseMessage("Scale","Trigger aspect ratio")
+                            verboseMessage("Other/Scale","Trigger aspect ratio")
                             aspect_image.keepaspectratio = !aspect_image.keepaspectratio
                             aspect_image.source = aspect_image.keepaspectratio ? "qrc:/img/ratioKeep.png" : "qrc:/img/ratioDontKeep.png"
                             if(aspect_image.keepaspectratio) reenableKeepAspectRatio()
@@ -274,7 +274,7 @@ FadeInTemplate {
                     text: em.pty+qsTr("Scale in place")
                     fontsize: 15
                     onClickedButton: {
-                        verboseMessage("Scale","Scale in place")
+                        verboseMessage("Other/Scale","Scale in place")
                         if(getanddostuff.scaleImage(variables.currentDir + "/" + variables.currentFile, newwidth.value, newheight.value,
                                                     quality_slider.value, variables.currentDir + "/" + variables.currentFile)) {
                             Handle.loadFile(variables.currentDir + "/" + variables.currentFile, variables.filter, true)
@@ -291,7 +291,7 @@ FadeInTemplate {
                     fontsize: 15
                     onClickedButton: {
                         var fname = getanddostuff.getSaveFilename(em.pty+qsTr("Save file as..."),variables.currentDir + "/" + variables.currentFile);
-                        verboseMessage("Scale","Scale into new file: " + fname)
+                        verboseMessage("Other/Scale","Scale into new file: " + fname)
                         if(fname !== "") {
                             if(getanddostuff.scaleImage(variables.currentDir + "/" + variables.currentFile,newwidth.value, newheight.value,
                                                         quality_slider.value, fname)) {
@@ -323,7 +323,7 @@ FadeInTemplate {
         newheight.value = newwidth.value*((currentheight.text*1)/(currentwidth.text*1));
     }
     function reenableKeepAspectRatio() {
-        verboseMessage("Scale::reenableKeepAspectRatio()",lastClicked)
+        verboseMessage("Other/Scale", "reenableKeepAspectRatio(): " + lastClicked)
         if(lastClicked == "w")
             adjustHeight()
         else
@@ -332,7 +332,7 @@ FadeInTemplate {
 
     function showScale() {
 
-        verboseMessage("Scale::showScale()",variables.currentFile)
+        verboseMessage("Other/Scale", "showScale()")
 
         if(!getanddostuff.canBeScaled(variables.currentDir + "/" + variables.currentFile)) {
             call.show("scaleunsupported")

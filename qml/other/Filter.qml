@@ -91,19 +91,15 @@ FadeInTemplate {
                     //: As in 'Go ahead and filter images'
                     text: em.pty+qsTr("Filter")
                     fontsize: 15
-                    onClickedButton: {
-                        verboseMessage("Filter","Accept filter")
+                    onClickedButton:
                         simulateEnter()
-                    }
                 }
 
                 CustomButton {
                     text: em.pty+qsTr("Cancel")
                     fontsize: 15
-                    onClickedButton: {
-                        verboseMessage("Filter","Cancel filter")
+                    onClickedButton:
                         hide()
-                    }
                 }
 
                 Rectangle {
@@ -119,7 +115,7 @@ FadeInTemplate {
                     enabled: variables.filter != ""
                     y: (parent.height-height)/2
                     onClickedButton: {
-                        verboseMessage("Filter","Remove filter")
+                        verboseMessage("Other/Filter","Remove filter")
                         variables.filter = ""
                         Handle.loadFile(variables.currentDir+"/"+variables.currentFile, "", true)
                         hide()
@@ -150,7 +146,7 @@ FadeInTemplate {
 
     // These two 'simulate' functions can be called via shortcuts
     function simulateEnter() {
-        verboseMessage("Filter::simulateEnter()","")
+        verboseMessage("Other/Filter", "simulateEnter()")
         variables.filter = term.getText()
         var newfilename = Handle.getFilenameMatchingFilter(term.getText())
         if(newfilename == "")
@@ -161,7 +157,7 @@ FadeInTemplate {
     }
 
     function showFilter() {
-        verboseMessage("Filter::showFilter()","")
+        verboseMessage("Other/Filter", "showFilter()")
         term.text = variables.filter
         term.forceActiveFocus()
         term.selectAll()

@@ -2,6 +2,8 @@ function loadDirectory() {
 
     if(openvariables.currentDirectory == "") return
 
+    verboseMessage("OpenFile/handlestuff.js", "loadDirectory()")
+
     // If current directory is not loaded from history -> adjust history
     if(openvariables.loadedFromHistory)
         openvariables.loadedFromHistory = false
@@ -17,6 +19,8 @@ function loadDirectory() {
 }
 
 function loadDirectoryBreadCrumbs() {
+
+    verboseMessage("OpenFile/handlestuff.js", "loadDirectoryBreadCrumbs()")
 
     /**********************************************************/
     // BREAD CRUMBS
@@ -64,6 +68,8 @@ function loadDirectoryBreadCrumbs() {
 
 function loadDirectoryFolders() {
 
+    verboseMessage("OpenFile/handlestuff.js", "loadDirectoryFolders()")
+
     /**********************************************************/
     // FOLDERS
     ///////////////
@@ -94,6 +100,8 @@ function loadDirectoryFolders() {
 
 function loadDirectoryFiles() {
 
+    verboseMessage("OpenFile/handlestuff.js", "loadDirectoryFiles()")
+
     filesview.filesViewModel.clear()
 
     if(openvariables.currentDirectory.substring(0,1) != "/") {
@@ -111,6 +119,8 @@ function loadDirectoryFiles() {
 }
 
 function loadUserPlaces() {
+
+    verboseMessage("OpenFile/handlestuff.js", "loadUserPlaces()")
 
     var up = getanddostuff.getUserPlaces()
 
@@ -138,6 +148,8 @@ function loadUserPlaces() {
 
 function saveUserPlaces() {
 
+    verboseMessage("OpenFile/handlestuff.js", "saveUserPlaces()")
+
     var ret = [[]]
 
     for(var i = 1; i < userplaces.userPlacesModel.count; ++i) {
@@ -153,6 +165,8 @@ function saveUserPlaces() {
 }
 
 function loadStorageInfo() {
+
+    verboseMessage("OpenFile/handlestuff.js", "loadStorageInfo()")
 
     var s = getanddostuff.getStorageInfo()
 
@@ -185,7 +199,7 @@ function loadStorageInfo() {
 // Add to history
 function addToHistory() {
 
-    verboseMessage("BreadCrumbs::addToHistory()", openvariables.currentDirectory + " - " + openvariables.historypos + " - " + openvariables.history.length)
+    verboseMessage("OpenFile/handlestuff.js", "addToHistory()")
 
     // FIRST ITEM DOES NOT GET ADDED FOR SOME WEIRD REASON...???????!!
 
@@ -201,7 +215,7 @@ function addToHistory() {
 
 // Go back in history, if we're not already at the beginning
 function goBackInHistory() {
-    verboseMessage("BreadCrumbs::goBackInHistory()", openvariables.historypos + " - " + openvariables.history.length)
+    verboseMessage("OpenFile/handlestuff.js", "goBackInHistory()")
     if(openvariables.historypos > 0) {
         --openvariables.historypos
         openvariables.loadedFromHistory = true
@@ -211,7 +225,7 @@ function goBackInHistory() {
 
 // Go forwards in history, if we're not already at the end
 function goForwardsInHistory() {
-    verboseMessage("BreadCrumbs::goForwardsInHistory()", openvariables.historypos + " - " + openvariables.history.length)
+    verboseMessage("OpenFile/handlestuff.js", "goForwardsInHistory()")
     if(openvariables.historypos < openvariables.history.length-1) {
         ++openvariables.historypos
         openvariables.loadedFromHistory = true

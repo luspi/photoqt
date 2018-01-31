@@ -43,6 +43,8 @@ Rectangle {
             movingaround.x = width/2 - movingaround.width/2
             movingaround.y = (loadingimage_top.height-movingaround.height)/2
 
+            verboseMessage("MainView/LoadingIndicator", "hiding loading indicator")
+
         }
 
     }
