@@ -257,6 +257,8 @@ void MainHandler::remoteAction(QString cmd) {
             StartupCheck::Screenshots::getAndStore();
             setupWindowProperties();
         }
+
+        QMetaObject::invokeMethod(object, "closeAnyElement");
         QMetaObject::invokeMethod(object, "openfileShow");
         this->requestActivate();
 
