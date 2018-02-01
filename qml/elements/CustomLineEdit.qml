@@ -1,5 +1,6 @@
 import QtQuick 2.5
 import QtQuick.Controls 1.4
+import PContextMenu 1.0
 import "./"
 
 Rectangle {
@@ -73,66 +74,90 @@ Rectangle {
 
         }
 
-        ContextMenu {
+        PContextMenu {
+
             id: contextmenu
-            MenuItem {
+
+            Component.onCompleted: {
+
                 //: As in 'Undo latest change'
-                text: em.pty+qsTr("Undo")
-                enabled: ed1.canUndo
-                onTriggered:
-                    ed1.undo()
-            }
-            MenuItem {
+                addItem(em.pty+qsTr("Undo"))  // 0
+
                 //: As in 'Redo latest change'
-                text: em.pty+qsTr("Redo")
-                enabled: ed1.canRedo
-                onTriggered:
-                    ed1.redo()
-            }
-            MenuSeparator { }
-            MenuItem {
+                addItem(em.pty+qsTr("Redo"))  // 1
+
+                addSeparator()
+
                 //: selection = selected text
-                text: em.pty+qsTr("Cut selection")
-                enabled: !ele_top.readOnly && ed1.selectedText!=""
-                onTriggered:
-                    ed1.cut()
-            }
-            MenuItem {
+                addItem(em.pty+qsTr("Cut selection"))  // 2
+
                 //: selection = selected text
-                text: em.pty+qsTr("Copy selection to clipboard")
-                enabled: ed1.selectedText!=""
-                onTriggered:
-                    ed1.copy()
-            }
-            MenuItem {
-                text: em.pty+qsTr("Paste clipboard content")
-                enabled: !ele_top.readOnly && ed1.canPaste
-                onTriggered:
-                    ed1.paste()
-            }
-            MenuItem {
+                addItem(em.pty+qsTr("Copy selection to clipboard"))  // 3
+
+                addItem(em.pty+qsTr("Paste clipboard content"))  // 4
+
                 //: content refers to text content in a line edit
-                text: em.pty+qsTr("Delete content")
-                enabled: !ele_top.readOnly && ed1.selectedText!=""
-                onTriggered:
-                    ed1.text = ""
-            }
-            MenuSeparator { }
-            MenuItem {
+                addItem(em.pty+qsTr("Delete content"))  // 5
+
+                addSeparator()
+
                 //: Refering to all text
-                text: em.pty+qsTr("Select all")
-                enabled: ed1.text!=""
-                onTriggered:
-                    ele_top.selectAll()
-            }
-            MenuItem {
+                addItem(em.pty+qsTr("Select all"))  // 6
+
                 //: In the sense of 'Selecting all text and copying it to clipboard'
-                text: em.pty+qsTr("Select all and copy")
-                enabled: ed1.text!=""
-                onTriggered: {
+                addItem(em.pty+qsTr("Select all and copy"))  // 7
+
+            }
+
+            onSelectedIndexChanged: {
+                console.log("current Index changed:", index)
+                if(index == 0)
+                    ed1.undo()
+                else if(index == 1)
+                    ed1.redo()
+                else if(index == 2)
+                    ed1.cut()
+                else if(index == 3)
+                    ed1.copy()
+                else if(index == 4)
+                    ed1.paste()
+                else if(index == 5)
+                    ed1.text = ""
+                else if(index == 6)
+                    ele_top.selectAll()
+                else if(index == 7) {
                     ele_top.selectAll()
                     ed1.copy()
                 }
+            }
+
+        }
+
+        Connections {
+            target: ed1
+            onCanUndoChanged:
+                contextmenu.setEnabled(0, ed1.canUndo)
+            onCanRedoChanged:
+                contextmenu.setEnabled(1, ed1.canRedo)
+            onSelectedTextChanged: {
+                contextmenu.setEnabled(2, (!ele_top.readOnly && ed1.selectedText!=""))
+                contextmenu.setEnabled(3, ed1.selectedText!="")
+                contextmenu.setEnabled(5, (!ele_top.readOnly && ed1.selectedText!=""))
+            }
+            onCanPasteChanged:
+                contextmenu.setEnabled(4, (!ele_top.readOnly && ed1.canPaste))
+            onTextChanged: {
+                contextmenu.setEnabled(6, ed1.text!="")
+                contextmenu.setEnabled(7, ed1.text!="")
+            }
+        }
+
+        Connections {
+            target: ele_top
+            onReadOnlyChanged: {
+                contextmenu.setEnabled(2, (!ele_top.readOnly && ed1.selectedText!=""))
+                contextmenu.setEnabled(4, (!ele_top.readOnly && ed1.canPaste))
+                contextmenu.setEnabled(5, (!ele_top.readOnly && ed1.selectedText!=""))
             }
         }
 

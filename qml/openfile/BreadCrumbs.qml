@@ -1,6 +1,7 @@
 import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
+import PContextMenu 1.0
 
 import "../elements"
 import "handlestuff.js" as Handle
@@ -61,19 +62,18 @@ Rectangle {
             onClickedButton: Handle.goBackInHistory()
             onRightClickedButton: toleftcontext.popup()
 
-            ContextMenu {
+            PContextMenu {
                 id: toleftcontext
-                MenuItem {
-                    //: The history is the list of visited folders in the element for opening files
-                    text: em.pty+qsTr("Go backwards in history")
-                    onTriggered: Handle.goBackInHistory()
+                Component.onCompleted: {
+                    addItem(em.pty+qsTr("Go backwards in history"))
+                    addItem(em.pty+qsTr("Go forwards in history"))
                 }
-                MenuItem {
-                    //: The history is the list of visited folders in the element for opening files
-                    text: em.pty+qsTr("Go forwards in history")
-                    onTriggered: Handle.goForwardsInHistory()
+                onSelectedIndexChanged: {
+                    if(index == 0)
+                        Handle.goBackInHistory()
+                    else
+                        Handle.goForwardsInHistory()
                 }
-
             }
 
         }
@@ -103,19 +103,18 @@ Rectangle {
             onClickedButton: Handle.goForwardsInHistory()
             onRightClickedButton: torightcontext.popup()
 
-            ContextMenu {
+            PContextMenu {
                 id: torightcontext
-                MenuItem {
-                    //: The history is the list of visited folders in the element for opening files
-                    text: em.pty+qsTr("Go backwards in history")
-                    onTriggered: Handle.goBackInHistory()
+                Component.onCompleted: {
+                    addItem(em.pty+qsTr("Go backwards in history"))
+                    addItem(em.pty+qsTr("Go forwards in history"))
                 }
-                MenuItem {
-                    //: The history is the list of visited folders in the element for opening files
-                    text: em.pty+qsTr("Go forwards in history")
-                    onTriggered: Handle.goForwardsInHistory()
+                onSelectedIndexChanged: {
+                    if(index == 0)
+                        Handle.goBackInHistory()
+                    else
+                        Handle.goForwardsInHistory()
                 }
-
             }
 
         }
@@ -170,6 +169,8 @@ Rectangle {
 
             property bool clicked: false
 
+            property var folders: getanddostuff.getFoldersIn(partialpath, false, settings.openShowHiddenFilesFolders)
+
             Connections {
                 target: contextmenu
                 onOpenedChanged:
@@ -206,18 +207,14 @@ Rectangle {
                         delegButton.clicked = true
                         contextmenu.clear()
                         //: Used as in "Go directly to subfolder of '/path/to/somewhere'"
-                        var head = contextmenu.addItem(em.pty+qsTr("Go directly to subfolder of") + " '" + getanddostuff.getDirectoryDirName(partialpath) + "'")
-                        head.enabled = false
-                        var folders = getanddostuff.getFoldersIn(partialpath, false, settings.openShowHiddenFilesFolders)
-                        for(var i = 0; i < folders.length; ++i) {
-                            var item = contextmenu.addItem(folders[i])
-                            item.triggered.connect(loadDir)
-                        }
-                        function loadDir() {
-                            openvariables.currentDirectory = partialpath + folders[contextMenuCurrentIndex-1]
-                        }
+                        contextmenu.addItem(em.pty+qsTr("Go directly to subfolder of") + " '" + getanddostuff.getDirectoryDirName(partialpath) + "'")
+                        contextmenu.setEnabled(0, false)
+                        for(var i = 0; i < folders.length; ++i)
+                            contextmenu.addItem(folders[i])
                         contextmenu.parentIndex = index
-                        contextmenu.__popup(Qt.rect(parent.x, parent.y, parent.width, parent.height))
+                        contextmenu.userData = partialpath
+                        var pos = delegButton.parent.mapToItem(mainwindow, delegButton.x, delegButton.y)
+                        contextmenu.popup(Qt.point(pos.x, pos.y+delegButton.height))
                     }
                 }
                 onEntered:
@@ -227,18 +224,15 @@ Rectangle {
                     parent.hovered = false
             }
 
+            PContextMenu {
+                id: contextmenu
+                property int parentIndex: -1
+                onSelectedIndexChanged:
+                    openvariables.currentDirectory = userData + folders[index-1]
+            }
+
         }
 
-    }
-
-    ContextMenu {
-        title: "Folders"
-        id: contextmenu
-        property int parentIndex: -1
-        on__CurrentIndexChanged: {
-            if(__currentIndex != -1)
-                contextMenuCurrentIndex = __currentIndex
-        }
     }
 
 }

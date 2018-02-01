@@ -22,7 +22,7 @@ SET(d "qml/openfile/tweaks")
 SET(photoqt_QML ${photoqt_QML} ${d}/TweaksFileType.qml  ${d}/TweaksPreview.qml  ${d}/TweaksThumbnails.qml  ${d}/TweaksViewMode.qml  ${d}/TweaksZoom.qml ${d}/TweaksRememberLocation.qml ${d}/TweaksUserPlaces.qml)
 
 SET(d "qml/elements")
-SET(photoqt_QML ${photoqt_QML} ${d}/ContextMenu.qml ${d}/CustomButton.qml ${d}/CustomCheckBox.qml ${d}/CustomComboBox.qml ${d}/CustomConfirm.qml ${d}/CustomFileSelect.qml ${d}/CustomLineEdit.qml ${d}/CustomProgressBar.qml ${d}/CustomRadioButton.qml ${d}/CustomSlider.qml ${d}/CustomSpinBox.qml ${d}/CustomTabView.qml ${d}/CustomTextEdit.qml ${d}/ScrollBarHorizontal.qml ${d}/ScrollBarVertical.qml ${d}/SettingsText.qml ${d}/ShortcutNotifier.qml ${d}/ToolTip.qml ${d}/FadeInTemplate.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/CustomButton.qml ${d}/CustomCheckBox.qml ${d}/CustomComboBox.qml ${d}/CustomConfirm.qml ${d}/CustomFileSelect.qml ${d}/CustomLineEdit.qml ${d}/CustomProgressBar.qml ${d}/CustomRadioButton.qml ${d}/CustomSlider.qml ${d}/CustomSpinBox.qml ${d}/CustomTabView.qml ${d}/CustomTextEdit.qml ${d}/ScrollBarHorizontal.qml ${d}/ScrollBarVertical.qml ${d}/SettingsText.qml ${d}/ShortcutNotifier.qml ${d}/ToolTip.qml ${d}/FadeInTemplate.qml)
 
 SET(d "qml/settingsmanager")
 SET(photoqt_QML ${photoqt_QML} ${d}/DetectShortcut.qml ${d}/EntryContainer.qml ${d}/EntrySetting.qml ${d}/EntryTitle.qml ${d}/ExportImport.qml ${d}/SettingInfoOverlay.qml ${d}/SettingsManager.qml)

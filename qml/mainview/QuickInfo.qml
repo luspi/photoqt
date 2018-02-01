@@ -1,6 +1,7 @@
 import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
+import PContextMenu 1.0
 import "../elements"
 import "../handlestuff.js" as Handle
 
@@ -148,41 +149,40 @@ Item {
         }
     }
 
-    ContextMenu {
+    PContextMenu {
 
         id: context
 
-        MenuItem {
+        Component.onCompleted: {
+
             //: The counter shows the position of the currently loaded image in the folder
-            text: em.pty+qsTr("Show counter")
-            checkable: true
-            checked: !settings.quickInfoHideCounter
-            onTriggered:
-                settings.quickInfoHideCounter = !checked
-        }
+            addItem(em.pty+qsTr("Show counter"))
+            setCheckable(0, true)
+            setChecked(0, !settings.quickInfoHideCounter)
 
-        MenuItem {
-            text: em.pty+qsTr("Show filepath")
-            checkable: true
-            checked: !settings.quickInfoHideFilepath
-            onTriggered:
-                settings.quickInfoHideFilepath = !checked
-        }
+            addItem(em.pty+qsTr("Show filepath"))
+            setCheckable(1, true)
+            setChecked(1, !settings.quickInfoHideFilepath)
 
-        MenuItem {
-            text: em.pty+qsTr("Show filename")
-            checkable: true
-            checked: !settings.quickInfoHideFilename
-            onTriggered:
-                settings.quickInfoHideFilename = !checked
-        }
+            addItem(em.pty+qsTr("Show filename"))
+            setCheckable(2, true)
+            setChecked(2, !settings.quickInfoHideFilename)
 
-        MenuItem {
             //: The clsoing 'x' is the button in the top right corner of the screen for closing PhotoQt
-            text: em.pty+qsTr("Show closing 'x'")
-            checkable: true
-            checked: !settings.quickInfoHideX
-            onTriggered:
+            addItem(em.pty+qsTr("Show closing 'x'"))
+            setCheckable(3, true)
+            setChecked(3, !settings.quickInfoHideX)
+
+        }
+
+        onCheckedChanged: {
+            if(index == 0)
+                settings.quickInfoHideCounter = !checked
+            else if(index == 1)
+                settings.quickInfoHideFilepath = !checked
+            else if(index == 2)
+                settings.quickInfoHideFilename = !checked
+            else if(index == 3)
                 settings.quickInfoHideX = !checked
         }
 

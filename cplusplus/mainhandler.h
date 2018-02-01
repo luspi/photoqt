@@ -22,6 +22,7 @@
 #include "shortcuts/composestring.h"
 #include "scripts/watcher.h"
 #include "scripts/localisation.h"
+#include "contextmenu/contextmenu.h"
 
 #include "imageprovider/imageproviderempty.h"
 #include "imageprovider/imageproviderfull.h"

@@ -43,3 +43,6 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/commandlineparser.h ${d}/singleinsta
 
 SET(d "cplusplus/shortcuts")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/shortcutsnotifier.h ${d}/shortcuts.cpp ${d}/composestring.h)
+
+SET(d "cplusplus/contextmenu")
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/contextmenu.cpp)

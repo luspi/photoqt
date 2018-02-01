@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/">
-    <file>../qml/elements/ContextMenu.qml</file>
     <file>../qml/elements/CustomButton.qml</file>
     <file>../qml/elements/CustomCheckBox.qml</file>
     <file>../qml/elements/CustomComboBox.qml</file>

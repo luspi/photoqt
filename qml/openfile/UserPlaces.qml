@@ -1,6 +1,7 @@
 import QtQuick 2.5
 import QtQuick.Layouts 1.2
 import QtQuick.Controls 1.4
+import PContextMenu 1.0
 
 import "../elements"
 import "handlestuff.js" as Handle
@@ -490,26 +491,21 @@ Rectangle {
                 }
 
                 // A context menu for removing an item from the list of userplaces
-                ContextMenu {
+                // so far this is the only context menu item there is
+                PContextMenu {
 
                     id: delegcontext
 
-                    // so far this is the only context menu item there is
-                    MenuItem {
-
+                    Component.onCompleted:
                         //: Remove an entry from the list of user places (or favorites) in the element for opening files
-                        text: em.pty+qsTr("Remove entry")
+                        addItem(em.pty+qsTr("Remove entry"))
 
-                        onTriggered: {
+                    onSelectedIndexChanged: {
+                        // Remove from model
+                        userPlaces.model.remove(index)
 
-                            // Remove from model
-                            userPlaces.model.remove(index)
-
-                            // and save the changes to file
-                            Handle.saveUserPlaces()
-
-                        }
-
+                        // and save the changes to file
+                        Handle.saveUserPlaces()
                     }
 
                 }
@@ -704,45 +700,35 @@ Rectangle {
     }
 
     // This context menu is shown by default on the background to show/hide categories
-    ContextMenu {
+    PContextMenu {
 
         id: headingmenu
 
-        // show/hide standardlocations
-        MenuItem {
-            id: visiblestandard
-            checkable: true
-            checked: settings.openUserPlacesStandard
-            onCheckedChanged: {
-                settings.openUserPlacesStandard = checked
-                settings.openHideUserPlaces = (!settings.openUserPlacesStandard && !settings.openUserPlacesUser && !settings.openUserPlacesVolumes)
-            }
+        Component.onCompleted: {
             //: The standard/common folders (like Home, Desktop, ...)
-            text: em.pty+qsTr("Show standard locations")
-        }
-        // show/hide userplaces
-        MenuItem {
-            id: visibleuser
-            checkable: true
-            checked: settings.openUserPlacesUser
-            onCheckedChanged: {
-                settings.openUserPlacesUser = checked
-                settings.openHideUserPlaces = (!settings.openUserPlacesStandard && !settings.openUserPlacesUser && !settings.openUserPlacesVolumes)
-            }
+            addItem(em.pty+qsTr("Show standard locations"))
+            setCheckable(0, true)
+            setChecked(0, settings.openUserPlacesStandard)
             //: The user set folders (or favorites) in the element for opening files
-            text: em.pty+qsTr("Show user locations")
-        }
-        // show/hide storageinfo
-        MenuItem {
-            id: visiblevolumes
-            checkable: true
-            checked: settings.openUserPlacesVolumes
-            onCheckedChanged: {
-                settings.openUserPlacesVolumes = checked
-                settings.openHideUserPlaces = (!settings.openUserPlacesStandard && !settings.openUserPlacesUser && !settings.openUserPlacesVolumes)
-            }
+            addItem(em.pty+qsTr("Show user locations"))
+            setCheckable(1, true)
+            setChecked(1, settings.openUserPlacesUser)
             //: The storage devices (like USB keys)
-            text: em.pty+qsTr("Show devices")
+            addItem(em.pty+qsTr("Show devices"))
+            setCheckable(2, true)
+            setChecked(2, settings.openUserPlacesVolumes)
+        }
+
+        onCheckedChanged: {
+            if(index == 0)
+                settings.openUserPlacesStandard = checked
+            else if(index == 1)
+                settings.openUserPlacesUser = checked
+            else if(index == 2)
+                settings.openUserPlacesVolumes = checked
+
+            if(!isChecked(0) && !isChecked(1) && !isChecked(2))
+                settings.openHideUserPlaces = true
         }
 
     }

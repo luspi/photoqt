@@ -99,6 +99,7 @@ void MainHandler::registerQmlTypes() {
     qmlRegisterType<FileDialog>("PFileDialog", 1, 0, "PFileDialog");
     qmlRegisterType<Watcher>("PWatcher", 1, 0, "PWatcher");
     qmlRegisterType<Localisation>("PLocalisation", 1, 0, "PLocalisation");
+    qmlRegisterType<ContextMenu>("PContextMenu", 1, 0, "PContextMenu");
 }
 
 // Add image providers to QML
