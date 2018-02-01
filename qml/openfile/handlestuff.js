@@ -133,7 +133,7 @@ function loadUserPlaces() {
                                        "id" : "",
                                        "hidden" : "",
                                        "systemitem" : "",
-                                       "notvisible" : "1"})
+                                       "notvisible" : "0"})
 
     for(var i = 0; i < up.length; i+=6)
         userplaces.userPlacesModel.append({"folder" : up[i],
@@ -141,7 +141,8 @@ function loadUserPlaces() {
                                            "icon" : up[i+2],
                                            "id" : up[i+3],
                                            "hidden" : up[i+4],
-                                           "systemitem" : up[i+5]})
+                                           "systemitem" : up[i+5],
+                                           "notvisible" : "0"})
 
     userplaces.userPlacesView.currentIndex = 1
 }
