@@ -29,8 +29,7 @@
 #include <QDir>
 #include <QTextStream>
 #include <QStandardPaths>
-#include <QQmlEngine>
-#include <QQmlContext>
+#include <QtQml>
 #include "../../logger.h"
 
 #include <QWindow>
