@@ -8,6 +8,12 @@ Item {
 
     property int marginAroundImage: settingsMarginAroundImage
 
+    // Handles are used for pincharea (manipulation by touchscreen)
+    property alias currentImage1: image1
+    property alias currentImage2: image2
+    property alias currentImageANIM1: imageANIM1
+    property alias currentImageANIM2: imageANIM2
+
     // fill out main element
     anchors {
         fill: parent

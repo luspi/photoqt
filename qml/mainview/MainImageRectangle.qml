@@ -54,20 +54,15 @@ Item {
     opacity: variables.guiBlocked&&!variables.slideshowRunning ? 0.1 : 1
     Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
-    // The scaleMultiplier takes care of the zooming to keep the binding for scale as is
-    property real scaleMultiplier: 1
-    // The scale depends on the actual image and the fitInWindow property
-    scale: ((fitImageInWindow || image.sourceSize.width > defaultWidth || image.sourceSize.height > defaultHeight)
-            ? scaleMultiplier * Math.min( defaultWidth / image.sourceSize.width,
-                                          defaultHeight / image.sourceSize.height )
-            : scaleMultiplier)
-    // Animate the scale property. We reset the duration after it is done as it is sometimes set to zero (e.g. for loading a new image)
+    // Scaling of image
+    scale: 1
+    // Animate the scale property
     Behavior on scale { NumberAnimation { id: scaleAni; duration: scaleDuration } }
 
     // When the image is zoomed in/out we emit a signal
     // this is needed, e.g., for the thumbnail bar in combination with the keepVisibleWhenNotZoomed property
     signal zoomChanged()
-    onScaleMultiplierChanged:
+    onScaleChanged:
         zoomChanged()
 
     // The x and y positions depend on the image
@@ -78,10 +73,18 @@ Item {
     rotation: 0
     // When rotating by 90/270 degrees and with the image essentially not moved/zoomed we reset the zoom to show the whole image
     onRotationChanged: {
-        if(scaleMultiplier > image.sourceSize.height/image.sourceSize.width-0.01 && scaleMultiplier < 1.1
-                && Math.abs(x-((defaultWidth-width)/2+imageMargin/2)) < 10 && Math.abs(y-((defaultHeight-height)/2+imageMargin/2)) < 10)
-            resetZoom()
+        if(Math.abs(x-((defaultWidth-width)/2+imageMargin/2)) < 10 && Math.abs(y-((defaultHeight-height)/2+imageMargin/2)) < 10) {
+            if(((Math.abs(scale*image.paintedHeight-defaultHeight) < 0.01 && scale*image.paintedWidth < defaultWidth)
+                || (scale*image.paintedHeight < defaultHeight && Math.abs(scale*image.paintedWidth-defaultWidth) < 0.01))) {
+                resetZoom()
+                zoomAdjustedAfterRotation = true
+            } else if(zoomAdjustedAfterRotation)
+                resetZoom()
+        }
     }
+    // If this is set to true, then. when rotated, the image is fit into the screen.
+    // This happens as long as the user doesn't manually zoom the image (that resets this to false)
+    property bool zoomAdjustedAfterRotation: false
 
     // Signal that the other image element is supposed to be hidden
     signal hideOther()
@@ -151,7 +154,7 @@ Item {
                     if(currentIdBefore == image1) {
                         imageContainer.x = image1.x
                         imageContainer.y = image1.y
-                        imageContainer.scaleMultiplier = image1.scaleMultiplier
+                        imageContainer.scale = image1.scale
                         imageContainer.rotation = image1.rotation
                         // if the aspect ratio of the image has changed or the image dimensions, we reset the position, as this could otherwise lead to odd behavior
                         // (not wrong behavior, just not very userfriendly)
@@ -161,7 +164,7 @@ Item {
                     } else if(currentIdBefore == image2) {
                         imageContainer.x = image2.x
                         imageContainer.y = image2.y
-                        imageContainer.scaleMultiplier = image2.scaleMultiplier
+                        imageContainer.scale = image2.scale
                         imageContainer.rotation = image2.rotation
                         // if the aspect ratio of the image has changed or the image dimensions, we reset the position, as this could otherwise lead to odd behavior
                         // (not wrong behavior, just not very userfriendly)
@@ -171,7 +174,7 @@ Item {
                     } else if(currentIdBefore == imageANIM1) {
                         imageContainer.x = imageANIM1.x
                         imageContainer.y = imageANIM1.y
-                        imageContainer.scaleMultiplier = imageANIM1.scaleMultiplier
+                        imageContainer.scale = imageANIM1.scale
                         imageContainer.rotation = imageANIM1.rotation
                         // if the aspect ratio of the image has changed or the image dimensions, we reset the position, as this could otherwise lead to odd behavior
                         // (not wrong behavior, just not very userfriendly)
@@ -181,7 +184,7 @@ Item {
                     } else if(currentIdBefore == imageANIM2) {
                         imageContainer.x = imageANIM2.x
                         imageContainer.y = imageANIM2.y
-                        imageContainer.scaleMultiplier = imageANIM2.scaleMultiplier
+                        imageContainer.scale = imageANIM2.scale
                         imageContainer.rotation = imageANIM2.rotation
                         // if the aspect ratio of the image has changed or the image dimensions, we reset the position, as this could otherwise lead to odd behavior
                         // (not wrong behavior, just not very userfriendly)
@@ -223,7 +226,12 @@ Item {
             mipmap: true
 
             // only visible when image not zoomed or zoomed out
-            visible: scaleMultiplier <= 1 && image.sourceSize.width > defaultWidth && image.sourceSize.height > defaultHeight && source != ""
+            visible: imageContainer.width*imageContainer.scale <= defaultWidth+2 &&
+                     imageContainer.height*imageContainer.scale <= defaultHeight+2 &&
+                     scale <= 1 &&
+                     image.sourceSize.width > defaultWidth &&
+                     image.sourceSize.height > defaultHeight &&
+                     source != ""
 
         }
 
@@ -235,34 +243,6 @@ Item {
             z: -1
         }
 
-    }
-
-    // The pinch area makes the image manipulatable by a touch screen
-    PinchArea {
-
-        anchors.fill: parent
-
-        pinch.target: imageContainer
-        pinch.minimumRotation: -360
-        pinch.maximumRotation: 360
-        pinch.minimumScale: 0.1
-        pinch.maximumScale: 10
-        pinch.dragAxis: Pinch.XAndYAxis
-        onPinchStarted: setFrameColor();
-
-        onSmartZoom: {
-            if (pinch.scale > 0) {
-                imageContainer.rotation = 0;
-                imageContainer.scaleMultiplier = Math.min(top.width, top.height) / Math.max(image.sourceSize.width, image.sourceSize.height) * 0.85
-                imageContainer.x = flick.contentX + (flick.width - imageContainer.width) / 2
-                imageContainer.y = flick.contentY + (flick.height - imageContainer.height) / 2
-            } else {
-                imageContainer.rotation = pinch.previousAngle
-                imageContainer.scaleMultiplier = pinch.previousScale
-                imageContainer.x = pinch.previousCenter.x - imageContainer.width / 2
-                imageContainer.y = pinch.previousCenter.y - imageContainer.height / 2
-            }
-        }
     }
 
     // We use this type of animation for resetting the x,y coordinates on user request, as otherwise (when using Behavior on x,y)
@@ -284,6 +264,23 @@ Item {
         target: imageContainer
         properties: "rotation"
         duration: rotationDuration
+    }
+
+    /************************************************************************************************************/
+    /************************************************************************************************************/
+
+    // Sometimes an image changes status before the proper sourcesize is set, this ensures it is properly visible
+    Connections {
+        target: image
+        onSourceSizeChanged:
+            resetZoomWithoutAnimation()
+    }
+
+    // React to a change to fitInWindow setting
+    Connections {
+        target: settings
+        onFitInWindowChanged:
+            resetZoomWithoutAnimation()
     }
 
     /***************************************************************/
@@ -338,7 +335,7 @@ Item {
     // Check if image is zoomed in
     function isZoomedIn() {
         verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "isZoomedIn()")
-        return (scaleMultiplier>1)
+        return (scale>1)
     }
 
 
@@ -349,38 +346,86 @@ Item {
     function zoomIn() {
         verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "zoomIn()")
         scaleAni.duration = scaleDuration
-        imageContainer.scaleMultiplier *= 1.1
+        imageContainer.scale *= 1.1
+        zoomAdjustedAfterRotation = false
     }
 
     function zoomOut() {
         verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "zoomOut()")
         scaleAni.duration = scaleDuration
-        imageContainer.scaleMultiplier /= 1.1
+        imageContainer.scale /= 1.1
+        zoomAdjustedAfterRotation = false
     }
 
     function zoomActual() {
         verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "zoomActual()")
-        if(image.sourceSize.width < defaultWidth && image.sourceSize.height < defaultHeight)
+        if(image.sourceSize.width < defaultWidth && image.sourceSize.height < defaultHeight) {
+            resetZoom()
             return
+        }
         scaleAni.duration = scaleDuration
-        scaleMultiplier = 1/Math.min( defaultWidth / image.sourceSize.width, defaultHeight / image.sourceSize.height)
+        scale = 1/Math.min( defaultWidth / image.sourceSize.width, defaultHeight / image.sourceSize.height)
+        zoomAdjustedAfterRotation = false
     }
 
     function resetZoom() {
+
         verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "resetZoom()")
+
         scaleAni.duration = scaleDuration
+
+        // fit in window for smaller images
+        if(settings.fitInWindow && image.sourceSize.width < defaultWidth && image.sourceSize.height < defaultHeight) {
+            imageContainer.scale = Math.min(defaultWidth / image.sourceSize.width, defaultHeight / image.sourceSize.height)
+            return
+        }
+
+        // adjust the scale factor when image is rotated to the sides
+        var factor = 1
         if((imageContainer.rotation%180 +180)%180 == 90)
-            scaleMultiplier = image.sourceSize.height/image.sourceSize.width
-        else
-            scaleMultiplier = 1
+            factor = image.sourceSize.height/image.sourceSize.width
+
+        // find the smallest factor required for proper scaling
+        var facW = 1
+        var facH = 1
+        if(image.sourceSize.width > defaultWidth)
+            facW = defaultWidth / image.sourceSize.width
+        if(image.sourceSize.height > defaultHeight)
+            facH = defaultHeight / image.sourceSize.height
+
+        // scale
+        imageContainer.scale = factor*Math.min(facH, facW)
+
     }
+
     function resetZoomWithoutAnimation() {
-        verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "resetZoomWithoutAnimation()")
+
+        verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "resetZoom()")
+
         scaleAni.duration = 0
+
+        // fit in window for smaller images
+        if(settings.fitInWindow && image.sourceSize.width < defaultWidth && image.sourceSize.height < defaultHeight) {
+            imageContainer.scale = Math.min(defaultWidth / image.sourceSize.width, defaultHeight / image.sourceSize.height)
+            return
+        }
+
+        // adjust the scale factor when image is rotated to the sides
+        var factor = 1
         if((imageContainer.rotation%180 +180)%180 == 90)
-            scaleMultiplier = image.sourceSize.height/image.sourceSize.width
-        else
-            scaleMultiplier = 1
+            factor = image.sourceSize.height/image.sourceSize.width
+
+        // find the smallest factor required for proper scaling
+        var facW = 1
+        var facH = 1
+        if(image.sourceSize.width > defaultWidth)
+            facW = defaultWidth / image.sourceSize.width
+        if(image.sourceSize.height > defaultHeight)
+            facH = defaultHeight / image.sourceSize.height
+
+        // scale
+        imageContainer.scale = factor*Math.min(facH, facW)
+
     }
 
     function rotateImage(angle) {
