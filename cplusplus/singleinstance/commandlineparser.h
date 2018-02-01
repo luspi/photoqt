@@ -152,7 +152,7 @@ private:
                         int maxDescLength = std::min(maxWidth-entryWidth, desc.length()-1);
 
                         // Make sure that, if we are not at the end of the string, we break the string at a space
-                        while(desc.at(maxDescLength) != " " && maxDescLength < desc.length()-1)
+                        while(desc.at(maxDescLength) != ' ' && maxDescLength < desc.length()-1)
                             --maxDescLength;
 
                         // Error checking, this should never really happen, but just to be safe
