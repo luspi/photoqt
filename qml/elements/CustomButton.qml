@@ -18,7 +18,7 @@ Button {
     height: 2.5*fontsize
 
     signal clickedButton()
-    signal rightClickedButton()
+    signal rightClickedButton(var pos)
 
     style: ButtonStyle {
 
@@ -59,7 +59,7 @@ Button {
             if(mouse.button == Qt.LeftButton)
                 clickedButton()
             else
-                rightClickedButton()
+                rightClickedButton(Qt.point(mouse.x, mouse.y))
         }
 
     }
