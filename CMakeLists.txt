@@ -91,6 +91,9 @@ ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/lang.qrc
     MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/lang.qrc
     DEPENDS ${qm_files})
 
+# Add the resource files
+qt5_add_resources(RESOURCES ${photoqt_RESOURCES})
+
 
 ##################################################################
 #### GENERATE RANDOM CRYPT KEY FOR SIMPLE ENCRYPTION          ####
@@ -110,10 +113,10 @@ add_definitions(-DSIMPLECRYPTKEY="${CRYPTKEY}")
 
 # on windows we add application icons
 if(WIN32)
-    add_executable(${PROJECT_NAME} WIN32 ${photoqt_SOURCES} ${photoqt_QML} ${photoqt_RESOURCES} windowsicons.rc)
+    add_executable(${PROJECT_NAME} WIN32 ${photoqt_SOURCES} ${photoqt_QML} ${RESOURCES} windowsicons.rc)
     qt5_use_modules(photoqt Quick Sql Svg Core Xml WinExtras)
 elseif(NOT WIN32)
-    add_executable(${PROJECT_NAME} ${photoqt_SOURCES} ${photoqt_QML} ${photoqt_RESOURCES})
+    add_executable(${PROJECT_NAME} ${photoqt_SOURCES} ${photoqt_QML} ${RESOURCES})
     qt5_use_modules(photoqt Quick Sql Svg Core Xml)
 endif(WIN32)
 
