@@ -45,7 +45,7 @@ Rectangle {
         acceptedButtons: Qt.LeftButton | Qt.RightButton
         onClicked: {
             if(!rect.contains(Qt.point(mouse.x,mouse.y)))
-            hideConfirm.start()
+            _hide()
         }
     }
 
