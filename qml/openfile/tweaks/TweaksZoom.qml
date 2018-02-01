@@ -32,21 +32,20 @@ Item {
         stepSize: 1
         scrollStep: 1
         tooltip: em.pty+qsTr("Move slider to adjust the size of files")
-        value: 25
+        value: settings.openZoomLevel
         Behavior on value { NumberAnimation { duration: variables.animationSpeed } }
         onValueChanged:
-            settings.openZoomLevel = value
+            // we use start and not restart to still update the zoom level regularly
+            zoomSaveTimer.start()
     }
 
-    // If setting this directly to the value, then there seems to be a problem with older Qt versions (observed with Qt 5.5) where the value would
-    // then be always set to its minimum...
-    // This is a little longwinded, but at least works everywhere.
-    Component.onCompleted:
-        zoom_slider.value = settings.openZoomLevel
-    Connections {
-        target: settings
-        onOpenZoomLevelChanged:
-            zoom_slider.value = settings.openZoomLevel
+    // save zoom level after short timeout
+    Timer {
+        id: zoomSaveTimer
+        interval: 100
+        repeat: false
+        onTriggered:
+            settings.openZoomLevel = zoom_slider.value
     }
 
 }
