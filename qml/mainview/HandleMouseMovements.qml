@@ -51,7 +51,9 @@ PinchArea {
             handleMousePositionChange(mouse.x, mouse.y)
         onPressed: {
             buttonID = mouse.button
-            dragSource = mouse.source
+            // the mouse.source property is only available starting at Qt 5.7
+            if(mouse.source != undefined)
+                dragSource = mouse.source
             pressedPosStart = Qt.point(mouse.x, mouse.y)
             variables.shorcutsMouseGesturePointIntermediate = Qt.point(-1,-1)
         }
