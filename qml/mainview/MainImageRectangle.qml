@@ -283,6 +283,17 @@ Item {
             resetZoomWithoutAnimation()
     }
 
+    // React to changes to window size
+    Connections {
+        target: mainwindow
+        onWidthChanged:
+            if(!isZoomedIn())
+                resetZoomWithoutAnimation()
+        onHeightChanged:
+            if(!isZoomedIn())
+                resetZoomWithoutAnimation()
+    }
+
     /***************************************************************/
     /***************************************************************/
     // Some system functions
