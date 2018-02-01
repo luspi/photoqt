@@ -362,7 +362,7 @@ Item {
 
         // adjust the scale factor when image is rotated to the sides
         var factor = 1
-        if((imageContainer.rotation%180 +180)%180 == 90)
+        if((rotationAni.to%180 +180)%180 == 90)
             factor = image.sourceSize.height/image.sourceSize.width
 
         // find the smallest factor required for proper scaling
@@ -392,7 +392,7 @@ Item {
 
         // adjust the scale factor when image is rotated to the sides
         var factor = 1
-        if((imageContainer.rotation%180 +180)%180 == 90)
+        if((rotationAni.to%180 +180)%180 == 90)
             factor = image.sourceSize.height/image.sourceSize.width
 
         // find the smallest factor required for proper scaling
