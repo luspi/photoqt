@@ -38,7 +38,8 @@ QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
     QFile file(QString(ConfigFiles::GENERIC_DATA_DIR()) + "/user-places.xbel");
 
     if(!file.exists()) {
-        LOG << CURDATE << "GetAndDoStuffOpenFile: File " << ConfigFiles::GENERIC_DATA_DIR().toStdString() << "/user-places.xbel does not exist" << NL;
+        LOG << CURDATE << "GetAndDoStuffOpenFile: File " << ConfigFiles::GENERIC_DATA_DIR().toStdString() << "/user-places.xbel does not exist! Creating dummy file..." << NL;
+        saveUserPlaces(QVariantList());
         return QVariantList();
     } else if(!file.open(QIODevice::ReadOnly)) {
         LOG << CURDATE << "GetAndDoStuffOpenFile: Can't open " + ConfigFiles::GENERIC_DATA_DIR().toStdString() + "/user-places.xbel file" << NL;
