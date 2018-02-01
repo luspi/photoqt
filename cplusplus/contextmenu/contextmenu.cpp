@@ -62,7 +62,7 @@ ContextMenu::~ContextMenu() {
 
 // add a new item to the menu
 void ContextMenu::addItem(QString text) {
-    QAction *ac = new QAction(text);
+    QAction *ac = new QAction(text, 0);
     allActions.append(ac);
     menu->addAction(ac);
     connect(ac, &QAction::toggled, this, &ContextMenu::itemChecked);
