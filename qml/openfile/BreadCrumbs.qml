@@ -205,16 +205,8 @@ Rectangle {
                         openvariables.currentDirectory = partialpath
                     else {
                         delegButton.clicked = true
-                        contextmenu.clear()
-                        //: Used as in "Go directly to subfolder of '/path/to/somewhere'"
-                        contextmenu.addItem(em.pty+qsTr("Go directly to subfolder of") + " '" + getanddostuff.getDirectoryDirName(partialpath) + "'")
-                        contextmenu.setEnabled(0, false)
-                        for(var i = 0; i < folders.length; ++i)
-                            contextmenu.addItem(folders[i])
-                        contextmenu.parentIndex = index
-                        contextmenu.userData = partialpath
                         var pos = delegButton.parent.mapToItem(mainwindow, delegButton.x, delegButton.y)
-                        contextmenu.popup(Qt.point(pos.x, pos.y+delegButton.height))
+                        contextmenu.popup(Qt.point(pos.x+variables.windowXY.x, pos.y+delegButton.height+variables.windowXY.y))
                     }
                 }
                 onEntered:
@@ -229,6 +221,16 @@ Rectangle {
                 property int parentIndex: -1
                 onSelectedIndexChanged:
                     openvariables.currentDirectory = userData + folders[index-1]
+            }
+
+            Component.onCompleted: {
+                //: Used as in "Go directly to subfolder of '/path/to/somewhere'"
+                contextmenu.addItem(em.pty+qsTr("Go directly to subfolder of") + " '" + getanddostuff.getDirectoryDirName(partialpath) + "'")
+                contextmenu.setEnabled(0, false)
+                for(var i = 0; i < folders.length; ++i)
+                    contextmenu.addItem(folders[i])
+                contextmenu.parentIndex = index
+                contextmenu.userData = partialpath
             }
 
         }
