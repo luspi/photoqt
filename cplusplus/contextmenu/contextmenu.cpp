@@ -28,19 +28,19 @@ ContextMenu::ContextMenu(QObject *parent) : QObject(parent) {
                   }
                   /* the indicator, unchecked */
                   QMenu::indicator {
-                      background: #22ffffff;
+                      image: url(:/img/contextmenu/unchecked.png);
                   }
                   /* the indicator, unchecked, disabled */
                   QMenu::indicator:disabled {
-                      background: #11808080;
+                      image: url(:/img/contextmenu/unchecked_disabled.png);
                   }
                   /* the indicator, checked */
                   QMenu::indicator:checked {
-                      background: #ffffff;
+                      image: url(:/img/contextmenu/checked.png);
                   }
                   /* the indicator, checked, disabled */
                   QMenu::indicator:checked:disabled {
-                      background: #88555555;
+                      image: url(:/img/contextmenu/checked_disabled.png);
                   })d";
     menu->setStyleSheet(css);
 

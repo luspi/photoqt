@@ -60,5 +60,9 @@
         <file>img/settings/shortcuts/deleteshortcut.png</file>
         <file>img/openfile/remember.png</file>
         <file>img/plainerrorimg.png</file>
+        <file>img/contextmenu/checked.png</file>
+        <file>img/contextmenu/unchecked.png</file>
+        <file>img/contextmenu/checked_disabled.png</file>
+        <file>img/contextmenu/unchecked_disabled.png</file>
     </qresource>
 </RCC>
