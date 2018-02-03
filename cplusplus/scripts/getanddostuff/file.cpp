@@ -71,9 +71,24 @@ QString GetAndDoStuffFile::getSaveFilename(QString caption, QString file) {
 
 QString GetAndDoStuffFile::removePathFromFilename(QString path, bool removeSuffix) {
 
+    if(path.startsWith("file:/"))
+        path = path.remove(0,6);
+    else if(path.startsWith("image://full/"))
+        path = path.remove(0,13);
+
+#ifdef Q_OS_WIN
+    while(path.startsWith("/"))
+        path = path.remove(0,1);
+#endif
+
+    QFileInfo info(path);
+
+    if(info.isDir())
+        return "";
+
     if(removeSuffix)
-        return QFileInfo(path).baseName();
-    return QFileInfo(path).fileName();
+        return info.baseName();
+    return info.fileName();
 
 }
 
