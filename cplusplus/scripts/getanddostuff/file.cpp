@@ -104,7 +104,12 @@ QString GetAndDoStuffFile::removeFilenameFromPath(QString file) {
         file = file.remove(0,1);
 #endif
 
-    return QFileInfo(file).absolutePath();
+    // If filename is actually a directory already, simple return full path
+    QFileInfo info(file);
+    if(info.isDir()) return file;
+
+    // else return absolute path
+    return info.absolutePath();
 
 }
 
