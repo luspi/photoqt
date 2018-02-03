@@ -226,14 +226,21 @@ QVariantList GetAndDoStuffOpenFile::getFilesIn(QString file, QString filter, QSt
         file = file.remove(0,1);
 #endif
 
-    QDir dir(QFileInfo(file).absoluteDir());
+    QFileInfo info(file);
+
+    QDir dir;
+    if(info.isDir())
+        dir.setPath(file);
+    else
+        dir.setPath(info.absolutePath());
+
     dir.setNameFilters(formats->formats_qt + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw);
     dir.setFilter(QDir::Files);
     dir.setSorting(QDir::IgnoreCase);
 
     QFileInfoList list = dir.entryInfoList();
-    if(!list.contains(QFileInfo(file)))
-        list.append(QFileInfo(file));
+    if(!list.contains(info) && !info.isDir())
+        list.append(info);
 
     Sort::sortList(&list, sortby, sortbyAscending);
 
