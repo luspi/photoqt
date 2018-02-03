@@ -260,6 +260,32 @@ Rectangle {
         onCurrentIndexChanged:
             handleChangeCurrentIndex("userplaces")
 
+        Text {
+
+            // tie size to parent
+            anchors.fill: parent
+            anchors.margins: 10
+
+            // displayed in center
+            verticalAlignment: Qt.AlignVCenter
+            horizontalAlignment: Qt.AlignHCenter
+
+            // visibility depends on model count and property value
+            visible: (opacity!=0)
+            opacity: userPlaces.model.count==1
+            Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
+
+            // some additional styling
+            font.bold: true
+            color: "grey"
+            font.pointSize: 15
+            wrapMode: Text.WordWrap
+
+            // the text status messages
+            text: em.pty+qsTr("No user places set yet. You can drag and drop folders here to bookmark them.")
+
+        }
+
         // The drop area for drag/drop and/or reordering
         DropArea {
 
