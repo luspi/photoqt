@@ -22,10 +22,20 @@ function loadFile(filename, filter, forceReloadDirectory) {
         if(filenameonly == "" || pathonly != variables.currentDir || (forceReloadDirectory !== undefined && forceReloadDirectory)) {
             variables.allFilesCurrentDir = getanddostuff.getFilesIn(filename, filter, settings.sortby, settings.sortbyAscending)
             variables.totalNumberImagesCurrentFolder = variables.allFilesCurrentDir.length
-            if(filenameonly == "" && variables.totalNumberImagesCurrentFolder > 0)
-                filenameonly = variables.allFilesCurrentDir[0]
             variables.currentDir = pathonly
             variables.currentFile = filenameonly
+            // If no filename is available (e.g., when a directory was passed on during startup ...
+            if(filenameonly == "") {
+                // ... and if there are images in the current folder then load the first one ...
+                if(variables.totalNumberImagesCurrentFolder > 0) {
+                    filenameonly = variables.allFilesCurrentDir[0]
+                    variables.currentFile = filenameonly
+                // ... else show the open file element (by design will open at current folder as variables.currentDir is set above)
+                } else {
+                    call.show("openfile")
+                    return
+                }
+            }
             if(!settings.thumbnailDisable)
                 call.load("thumbnailLoadDirectory")
         // Otherwise it is just a file in the same folder > Only display right image
