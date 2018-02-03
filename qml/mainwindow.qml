@@ -313,7 +313,7 @@ Rectangle {
             call.show("startup")
         } else {
 
-            if(settings.startupLoadLastLoadedImage)
+            if(settings.startupLoadLastLoadedImage && filename == "")
                 filename = getanddostuff.getLastOpenedImage()
 
             // If no filename has been passed, show the OpenFile element
