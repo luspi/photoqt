@@ -207,6 +207,8 @@ Rectangle {
                 call.show("thumbnails")
             } else
                 call.hide("thumbnails")
+            if(!imageitem.isZoomedIn())
+                imageitem.resetZoom()
         }
         onThumbnailKeepVisibleWhenNotZoomedInChanged: {
             if(settings.thumbnailKeepVisibleWhenNotZoomedIn) {
@@ -214,12 +216,17 @@ Rectangle {
                 call.show("thumbnails")
             } else
                 call.hide("thumbnails")
+            if(!imageitem.isZoomedIn())
+                imageitem.resetZoom()
         }
-        onThumbnailDisableChanged:
+        onThumbnailDisableChanged: {
             if(!settings.thumbnailDisable) {
                 call.ensureElementSetup("thumbnails")
                 call.load("thumbnailLoadDirectory")
             }
+            if(!imageitem.isZoomedIn())
+                imageitem.resetZoom()
+        }
         onTrayIconChanged:
             trayIconValueChanged(settings.trayIcon)
         onSortbyChanged:
