@@ -346,7 +346,9 @@ Item {
     // Check if image is zoomed in
     function isZoomedIn() {
         verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "isZoomedIn()")
-        return (scale>1)
+        if((rotationAni.to%180 +180)%180 == 90)
+            return (height*scale > defaultWidth || width*scale > defaultHeight)
+        return (height*scale > defaultHeight || width*scale > defaultWidth)
     }
 
 
