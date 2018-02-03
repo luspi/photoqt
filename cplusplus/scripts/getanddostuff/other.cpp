@@ -145,8 +145,13 @@ bool GetAndDoStuffOther::isImageAnimated(QString path) {
 
     if(path.startsWith("image://full/"))
         path = path.remove(0,13);
-    if(path.startsWith("file://"))
-        path = path.remove(0,7);
+    if(path.startsWith("file:/"))
+        path = path.remove(0,6);
+
+#ifdef Q_OS_WIN
+    while(path.startsWith("/"))
+        path = path.remove(0,1);
+#endif
 
     return QImageReader(path).supportsAnimation();
 

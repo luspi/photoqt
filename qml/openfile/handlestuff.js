@@ -76,7 +76,9 @@ function loadDirectoryFolders() {
 
     folders.folderListView.model.clear()
 
-    if(openvariables.currentDirectory.substring(0,1) != "/") {
+    // On Linux the filenames start with a slash '/', on Windows with the drive letter followed by ':/'
+    if((openvariables.currentDirectory.substring(0,1) != "/" && !getanddostuff.amIOnWindows()) ||
+            (openvariables.currentDirectory.substring(1,3) != ":/" && getanddostuff.amIOnWindows())) {
         folders.showUnsupportedProtocolFolderMessage = true
         return
     }
@@ -104,7 +106,9 @@ function loadDirectoryFiles() {
 
     filesview.filesViewModel.clear()
 
-    if(openvariables.currentDirectory.substring(0,1) != "/") {
+    // On Linux the filenames start with a slash '/', on Windows with the drive letter followed by ':/'
+    if((openvariables.currentDirectory.substring(0,1) != "/" && !getanddostuff.amIOnWindows()) ||
+            (openvariables.currentDirectory.substring(1,3) != ":/" && getanddostuff.amIOnWindows())) {
         filesview.showUnsupportedProtocolFolderMessage = true
         return
     }

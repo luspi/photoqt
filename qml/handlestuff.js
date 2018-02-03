@@ -8,11 +8,11 @@ function loadFile(filename, filter, forceReloadDirectory) {
     if(filename === undefined || filename == "")
         return
 
-    if(forceReloadDirectory && filename.substring(0,1) != "/")
+    if(forceReloadDirectory && ((filename.substring(0,1) != "/" && !getanddostuff.amIOnWindows()) || (filename.substring(1,3) != ":/" && getanddostuff.amIOnWindows())))
         filename = variables.currentDir + "/" + filename
 
     // Load a file from full path
-    if(filename.substring(0,1) == "/") {
+    if((filename.substring(0,1) == "/" && !getanddostuff.amIOnWindows()) || (filename.substring(1,3) == ":/" && getanddostuff.amIOnWindows())) {
 
         // Separate filename and path
         var filenameonly = getanddostuff.removePathFromFilename(filename)

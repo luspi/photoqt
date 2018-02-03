@@ -16,6 +16,11 @@ QVariantMap GetMetaData::getExiv2(QString path) {
     else if(path.startsWith("file:/"))
         path = path.remove(0,6);
 
+#ifdef Q_OS_WIN
+    while(path.startsWith("/"))
+        path = path.remove(0,1);
+#endif
+
     path = QUrl::fromPercentEncoding(path.toUtf8());
     QFileInfo info(path);
 

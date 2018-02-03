@@ -233,6 +233,11 @@ void GetAndDoStuffExternal::clipboardSetImage(QString filepath) {
     if(filepath.startsWith("image://full/"))
         filepath = filepath.remove(0,13);
 
+#ifdef Q_OS_WIN
+    while(filepath.startsWith("/"))
+        filepath = filepath.remove(0,1);
+#endif
+
     // request image
     QImage img = imageprovider->requestImage(filepath, new QSize, QSize());
 

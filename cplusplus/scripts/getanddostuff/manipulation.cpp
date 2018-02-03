@@ -266,8 +266,12 @@ void GetAndDoStuffManipulation::copyImage(QString imagePath, QString destination
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE << "GetAndDoStuffManipulation::copyImage() - " << imagePath.toStdString() << " / " << destinationPath.toStdString() << NL;
 
-    if(destinationPath.startsWith("file://"))
-        destinationPath = destinationPath.remove(0,7);
+    if(destinationPath.startsWith("file:/"))
+        destinationPath = destinationPath.remove(0,6);
+#ifdef Q_OS_WIN
+    while(destinationPath.startsWith("/"))
+        destinationPath = destinationPath.remove(0,1);
+#endif
 
     // Don't do anything here
     if(destinationPath.trimmed() == "") return;
@@ -288,8 +292,12 @@ void GetAndDoStuffManipulation::moveImage(QString imagePath, QString destination
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE << "GetAndDoStuffManipulation::moveImage() - " << imagePath.toStdString() << " / " << destinationPath.toStdString() << NL;
 
-    if(destinationPath.startsWith("file://"))
-        destinationPath = destinationPath.remove(0,7);
+    if(destinationPath.startsWith("file:/"))
+        destinationPath = destinationPath.remove(0,6);
+#ifdef Q_OS_WIN
+    while(destinationPath.startsWith("/"))
+        destinationPath = destinationPath.remove(0,1);
+#endif
 
     // Don't do anything here
     if(destinationPath.trimmed() == "") return;

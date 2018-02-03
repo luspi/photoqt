@@ -81,8 +81,13 @@ QString GetAndDoStuffFile::removeFilenameFromPath(QString file) {
 
     if(file.startsWith("file:/"))
         file = file.remove(0,6);
-    if(file.startsWith("image://full/"))
+    else if(file.startsWith("image://full/"))
         file = file.remove(0,13);
+
+#ifdef Q_OS_WIN
+    while(file.startsWith("/"))
+        file = file.remove(0,1);
+#endif
 
     return QFileInfo(file).absolutePath();
 
@@ -96,12 +101,15 @@ QString GetAndDoStuffFile::getSuffix(QString file) {
 
 bool GetAndDoStuffFile::doesThisExist(QString path) {
 
-    if(path.startsWith("file:///"))
-        path = path.remove(0,7);
-    else if(path.startsWith("file://"))
+    if(path.startsWith("file:/"))
         path = path.remove(0,6);
     else if(path.startsWith("image://full/"))
         path = path.remove(0,13);
+
+#ifdef Q_OS_WIN
+    while(path.startsWith("/"))
+        path = path.remove(0,1);
+#endif
 
     return QFileInfo(path).exists();
 

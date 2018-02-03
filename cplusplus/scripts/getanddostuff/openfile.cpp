@@ -193,6 +193,10 @@ QVariantList GetAndDoStuffOpenFile::getFoldersIn(QString path, bool getDotDot, b
 
     if(path.startsWith("file:/"))
         path = path.remove(0,6);
+#ifdef Q_OS_WIN
+    while(path.startsWith("/"))
+        path = path.remove(0,1);
+#endif
 
     QDir dir(path);
     if(showHidden)
@@ -217,6 +221,10 @@ QVariantList GetAndDoStuffOpenFile::getFilesIn(QString file, QString filter, QSt
 
     if(file.startsWith("file:/"))
         file = file.remove(0,6);
+#ifdef Q_OS_WIN
+    while(file.startsWith("/"))
+        file = file.remove(0,1);
+#endif
 
     QDir dir(QFileInfo(file).absoluteDir());
     dir.setNameFilters(formats->formats_qt + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw);
@@ -265,6 +273,10 @@ QVariantList GetAndDoStuffOpenFile::getFilesWithSizeIn(QString path, int selecti
 
     if(path.startsWith("file:/"))
         path = path.remove(0,6);
+#ifdef Q_OS_WIN
+    while(path.startsWith("/"))
+        path = path.remove(0,1);
+#endif
 
     QDir dir(path);
     if(selectionFileTypes == 0)
