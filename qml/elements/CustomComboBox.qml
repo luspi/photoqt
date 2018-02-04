@@ -1,22 +1,31 @@
 import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
+import PContextMenu 1.0
 
-ComboBox {
+Button {
+
+    id: but
 
     property int fontsize: 10
     property bool transparentBackground: false
     property string backgroundColor: ""
     property bool displayAsError: false
     property bool showBorder: true
-    property string tooltip: currentText
+    property string tooltip: text
     property int radius: 0
     property real disabledOpacity: 0.5
+
+    property var model: []
+    property int currentIndex: -1
 
     opacity: enabled ? 1 : disabledOpacity
     Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
-    style: ComboBoxStyle {
+    onWidthChanged: context.setFixedWidth(but.width)
+    onFontsizeChanged: context.setFontSize(but.fontsize)
+
+    style: ButtonStyle {
 
         background: Rectangle {
             clip: true
@@ -29,56 +38,40 @@ ComboBox {
         label: Text {
             id: txt
             font.pointSize: fontsize
-            text: control.currentText
+            text: currentIndex==-1 ? "" : model[currentIndex]
             font.bold: displayAsError
             elide: Text.ElideRight
             color: displayAsError ? colour.text_warning : colour.text
         }
 
-        // Undocumented and unofficial way to style dropdown menu
-        // Found at: http://qt-project.org/forums/viewthread/33188
+    }
 
-        // drop-down customization here
-        property Component __dropDownStyle: MenuStyle {
+    PContextMenu {
 
-            __maxPopupHeight: 600
-            __menuItemType: "comboboxitem"
+        id: context
 
-            // background
-            frame: Rectangle {
-                color: colour.combo_dropdown_frame
-                border.width: 1
-                border.color: colour.combo_dropdown_frame_border
-            }
+        Component.onCompleted: {
 
-            // an item text
-            itemDelegate.label: Text {
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                font.pointSize: fontsize
-                color: styleData.selected ? colour.combo_dropdown_text_highlight : colour.combo_dropdown_text
-                text: styleData.text
-            }
+            for(var i = 0; i < model.length; ++i)
+                addItem(model[i])
 
-            // selection of an item
-            itemDelegate.background: Rectangle {
-                color: styleData.selected ? colour.combo_dropdown_background_highlight : colour.combo_dropdown_background
-            }
+            if(model.length > 0)
+                but.currentIndex = 0
 
-            __scrollerStyle: ScrollViewStyle { }
+            setFixedWidth(but.width)
+            setFontSize(but.fontsize)
 
+        }
+
+        onSelectedIndexChanged: {
+            but.currentIndex = index
         }
 
     }
 
-    ToolTip {
-        anchors.fill: parent
-        text: parent.tooltip
-        cursorShape: Qt.PointingHandCursor
-        propagateComposedEvents: true
-        onClicked: mouse.accepted = false
-        onPressed: mouse.accepted = false
-        onPressAndHold: mouse.accepted = false
+    onClicked: {
+        var pos = but.parent.mapToItem(mainwindow, but.x, but.y)
+        context.popup(Qt.point(pos.x+variables.windowXY.x, pos.y+but.height+variables.windowXY.y))
     }
 
 }
