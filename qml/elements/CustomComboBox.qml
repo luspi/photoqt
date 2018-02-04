@@ -54,9 +54,6 @@ Button {
             for(var i = 0; i < model.length; ++i)
                 addItem(model[i])
 
-            if(model.length > 0)
-                but.currentIndex = 0
-
             setFixedWidth(but.width)
             setFontSize(but.fontsize)
 
