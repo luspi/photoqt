@@ -20,14 +20,35 @@
 #include "../configfiles.h"
 #include "../logger.h"
 #include "../settings/settings.h"
+#include "../shortcuts/shortcuts.h"
 
 namespace StartupCheck {
 
     namespace Shortcuts {
 
+        static inline void setDefaultShortcutsIfShortcutFileDoesntExist() {
+
+            if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "StartupCheck::Shortcuts - setDefaultShortcutsIfShortcutFileDoesntExist()" << NL;
+
+            // All shortcuts are stored in this single file
+            QFile allshortcuts(ConfigFiles::SHORTCUTS_FILE());
+
+            // If file doesn't exist (i.e., on first start)
+            if(!allshortcuts.exists()) {
+
+                // Get handler to shortcuts object (the :: are needed as the current namespace is also called Shortcuts)
+                ::Shortcuts sh;
+
+                // Load and save default shortcuts
+                sh.saveShortcuts(sh.loadDefaults());
+
+            }
+
+        }
+
         static inline void combineKeyMouseShortcutsSingleFile() {
 
-            if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "StartupCheck::StartInTray" << NL;
+            if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "StartupCheck::Shortcuts - combineKeyMouseShortcutsSingleFile()" << NL;
 
             // All shortcuts are stored in this single file
             QFile allshortcuts(ConfigFiles::SHORTCUTS_FILE());

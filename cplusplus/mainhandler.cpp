@@ -57,6 +57,9 @@ int MainHandler::performSomeStartupChecks() {
     // Check whether everything is alright with the thumbnails database
     StartupCheck::Thumbnails::checkThumbnailsDatabase(update, permanentSettings);
 
+    // Make sure default shortcuts are set on first start
+    if(update > 0) StartupCheck::Shortcuts::setDefaultShortcutsIfShortcutFileDoesntExist();
+
     // Only on update do we need to (potentially) combine mouse and key shortcuts in single file
     if(update == 1) StartupCheck::Shortcuts::combineKeyMouseShortcutsSingleFile();
 
