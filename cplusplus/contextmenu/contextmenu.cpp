@@ -9,7 +9,7 @@ ContextMenu::ContextMenu(QObject *parent) : QObject(parent) {
     QString css = // the frame
                   "QMenu {"
                       "background-color: #0f0f0f;"
-                      "border: 1px solid #ffffff;"
+                      "border: 1px solid #99969696;"
                   "}"
                   // the individual items, not hovered
                   "QMenu::item {"
