@@ -230,7 +230,8 @@ Rectangle {
                 for(var i = 0; i < folders.length; ++i)
                     contextmenu.addItem(folders[i])
                 contextmenu.parentIndex = index
-                contextmenu.userData = partialpath
+                if(partialpath != undefined)
+                    contextmenu.userData = partialpath
             }
 
         }

@@ -36,7 +36,8 @@ Item {
         Behavior on value { NumberAnimation { duration: variables.animationSpeed } }
         onValueChanged:
             // we use start and not restart to still update the zoom level regularly
-            zoomSaveTimer.start()
+            if(zoomSaveTimer != null)
+               zoomSaveTimer.start()
     }
 
     // save zoom level after short timeout
