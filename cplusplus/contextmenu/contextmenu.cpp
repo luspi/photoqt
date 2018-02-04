@@ -6,42 +6,41 @@ ContextMenu::ContextMenu(QObject *parent) : QObject(parent) {
     menu = new QMenu;
 
     // The styling of the menu
-    QString css = R"d(
-                  /* the frame */
-                  QMenu {
-                      background-color: #0f0f0f;
-                      border: 1px solid #ffffff;
-                  }
-                  /* the individual items, not hovered */
-                  QMenu::item {
-                      background-color: transparent;
-                      color: #ffffff;
-                  }
-                  /* the individual items, not hovered, disabled */
-                  QMenu::item:disabled {
-                      background-color: transparent;
-                      color: #aa808080;
-                  }
-                  /* the individual items, hovered */
-                  QMenu::item:selected { /* when user selects item using mouse or keyboard */
-                      background-color: #4f4f4f;
-                  }
-                  /* the indicator, unchecked */
-                  QMenu::indicator {
-                      image: url(:/img/contextmenu/unchecked.png);
-                  }
-                  /* the indicator, unchecked, disabled */
-                  QMenu::indicator:disabled {
-                      image: url(:/img/contextmenu/unchecked_disabled.png);
-                  }
-                  /* the indicator, checked */
-                  QMenu::indicator:checked {
-                      image: url(:/img/contextmenu/checked.png);
-                  }
-                  /* the indicator, checked, disabled */
-                  QMenu::indicator:checked:disabled {
-                      image: url(:/img/contextmenu/checked_disabled.png);
-                  })d";
+    QString css = // the frame
+                  "QMenu {"
+                      "background-color: #0f0f0f;"
+                      "border: 1px solid #ffffff;"
+                  "}"
+                  // the individual items, not hovered
+                  "QMenu::item {"
+                      "background-color: transparent;"
+                      "color: #ffffff;"
+                  "}"
+                  // the individual items, not hovered, disabled
+                  "QMenu::item:disabled {"
+                      "background-color: transparent;"
+                      "color: #aa808080;"
+                  "}"
+                  // the individual items, hovered
+                  "QMenu::item:selected {"
+                      "background-color: #4f4f4f;"
+                  "}"
+                  // the indicator, unchecked
+                  "QMenu::indicator {"
+                      "image: url(:/img/contextmenu/unchecked.png);"
+                  "}"
+                  // the indicator, unchecked, disabled
+                  "QMenu::indicator:disabled {"
+                      "image: url(:/img/contextmenu/unchecked_disabled.png);"
+                  "}"
+                  // the indicator, checked
+                  "QMenu::indicator:checked {"
+                      "image: url(:/img/contextmenu/checked.png);"
+                  "}"
+                  // the indicator, checked, disabled
+                  "QMenu::indicator:checked:disabled {"
+                      "image: url(:/img/contextmenu/checked_disabled.png);"
+                  "}";
     menu->setStyleSheet(css);
 
     m_opened = false;
