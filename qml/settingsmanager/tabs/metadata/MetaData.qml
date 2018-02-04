@@ -37,6 +37,8 @@ EntryContainer {
                 cellHeight: 30 + 2*spacing
                 property int spacing: 3
 
+                interactive: false
+
                 model: metadataitems.length
                 delegate: MetaDataTile {
                     id: tile

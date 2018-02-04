@@ -54,6 +54,8 @@ EntryContainer {
 
                 property string currentlySelected: ""
 
+                interactive: false
+
                 id: grid
                 width: Math.floor((item_top.width-title.width-title.x-parent.parent.spacing-5)/(cellWidth)) * (cellWidth)
                 height: childrenRect.height

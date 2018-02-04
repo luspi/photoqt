@@ -42,6 +42,8 @@ EntryContainer {
                 cellHeight: 30+spacing*2
                 property int spacing: 3
 
+                interactive: false
+
                 model: entry.types_extras.length
                 delegate: FileTypesTile {
                     id: tile
