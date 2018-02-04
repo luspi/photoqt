@@ -30,6 +30,8 @@ public:
     Q_INVOKABLE void setCheckable(int index, bool checkable);
     Q_INVOKABLE void setChecked(int index, bool checked);
     Q_INVOKABLE bool isChecked(int index);
+    Q_INVOKABLE void setFixedWidth(int w);
+    Q_INVOKABLE void setFontSize(int fs);
 
     Q_INVOKABLE void setEnabled(int index, bool enabled);
     Q_INVOKABLE void popup(QPoint pos = QPoint(0,0));

@@ -72,6 +72,16 @@ void ContextMenu::addSeparator() {
     menu->addSeparator();
 }
 
+void ContextMenu::setFixedWidth(int w) {
+    menu->setFixedWidth(w);
+}
+
+void ContextMenu::setFontSize(int fs) {
+    QFont f = menu->font();
+    f.setPointSize(fs);
+    menu->setFont(f);
+}
+
 // popup menu. If no position is specified, it will popup under mouse cursor
 void ContextMenu::popup(QPoint pos) {
     if(pos.isNull())
