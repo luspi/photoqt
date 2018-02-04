@@ -109,7 +109,7 @@ EntryContainer {
                             spacing: 5
                             Text {
                                 font.pointSize: 10
-                                color: cache.checkedButton ? colour.text : colour.text_disabled
+                                color: cache.checkedButton&&cache_db.checked ? colour.text : colour.text_disabled
                                 Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
                                 //: The database refers to the database used for caching thumbnail images
                                 text: em.pty+qsTr("Database filesize:")
@@ -117,7 +117,8 @@ EntryContainer {
                             Text {
                                 font.pointSize: 10
                                 id: db_filesize
-                                color: cache.checkedButton ? colour.text : colour.text_disabled
+                                enabled: cache_db.checked
+                                color: cache.checkedButton&&cache_db.checked ? colour.text : colour.text_disabled
                                 Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
                                 text: "0 KB"
                             }
@@ -137,7 +138,8 @@ EntryContainer {
                             spacing: 5
                             Text {
                                 font.pointSize: 10
-                                color: cache.checkedButton ? colour.text : colour.text_disabled
+                                enabled: cache_db.checked
+                                color: cache.checkedButton&&cache_db.checked ? colour.text : colour.text_disabled
                                 Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
                                 //: The database refers to the database used for caching thumbnail images (the entries)
                                 text: em.pty+qsTr("Entries in database:")
@@ -145,7 +147,8 @@ EntryContainer {
                             Text {
                                 font.pointSize: 10
                                 id: db_entries
-                                color: cache.checkedButton ? colour.text : colour.text_disabled
+                                enabled: cache_db.checked
+                                color: cache.checkedButton&&cache_db.checked ? colour.text : colour.text_disabled
                                 Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
                                 text: "0"
                             }
@@ -169,7 +172,7 @@ EntryContainer {
                     //: Refers to cleaning up the database for thumbnail caching
                     text: em.pty+qsTr("CLEAN UP")
 
-                    enabled: cache.checkedButton
+                    enabled: cache.checkedButton&&cache_db.checked
 
                     onClickedButton: confirmclean.show()
 
@@ -183,7 +186,7 @@ EntryContainer {
                     //: Refers to emptying the database for thumbnail caching
                     text: em.pty+qsTr("ERASE")
 
-                    enabled: cache.checkedButton
+                    enabled: cache.checkedButton&&cache_db.checked
 
                     onClickedButton: confirmerase.show()
 
