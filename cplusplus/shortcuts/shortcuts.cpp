@@ -2,15 +2,15 @@
 
 Shortcuts::Shortcuts(QObject *parent) : QObject(parent) { }
 
-QStringList Shortcuts::load() {
+QVariantList Shortcuts::load() {
 
-    QStringList ret;
+    QVariantList ret;
 
     QFile file(ConfigFiles::SHORTCUTS_FILE());
 
     if(!file.open(QIODevice::ReadOnly)) {
         LOG << CURDATE << " Shortcuts::load() - ERROR: Unable to open key shortcuts file for reading" << NL;
-        return QStringList();
+        return QVariantList();
     }
 
     QTextStream in(&file);
@@ -27,11 +27,8 @@ QStringList Shortcuts::load() {
             continue;
         }
 
-        QStringList val;
         // sh, close, cmd
-        val << parts.at(1) << parts.at(0) << parts.at(2);
-
-        ret.append(val);
+        ret << parts.at(1) << parts.at(0) << parts.at(2);
 
     }
 
@@ -41,59 +38,59 @@ QStringList Shortcuts::load() {
 
 }
 
-QStringList Shortcuts::loadDefaults() {
+QVariantList Shortcuts::loadDefaults() {
 
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE << "Shortcuts::loadDefaults()" << NL;
 
-    QStringList ret;
+    QVariantList ret;
 
-    ret.append(QStringList() << "O" << "0" << "__open");
+    ret << "O" << "0" << "__open";
 
-    ret.append(QStringList() << "Ctrl+O" << "0" << "__open");
-    ret.append(QStringList() << "Right" << "0" << "__next");
-    ret.append(QStringList() << "Space" << "0" << "__next");
-    ret.append(QStringList() << "Left" << "0" << "__prev");
-    ret.append(QStringList() << "Backspace" << "0" << "__prev");
-    ret.append(QStringList() << "Ctrl+F" << "0" << "__filterImages");
+    ret << "Ctrl+O" << "0" << "__open";
+    ret << "Right" << "0" << "__next";
+    ret << "Space" << "0" << "__next";
+    ret << "Left" << "0" << "__prev";
+    ret << "Backspace" << "0" << "__prev";
+    ret << "Ctrl+F" << "0" << "__filterImages";
 
-    ret.append(QStringList() << "+" << "0" << "__zoomIn");
-    ret.append(QStringList() << "=" << "0" << "__zoomIn");
-    ret.append(QStringList() << "Ctrl++" << "0" << "__zoomIn");
-    ret.append(QStringList() << "Ctrl+=" << "0" << "__zoomIn");
-    ret.append(QStringList() << "-" << "0" << "__zoomOut");
-    ret.append(QStringList() << "Ctrl+-" << "0" << "__zoomOut");
-    ret.append(QStringList() << "0" << "0" << "__zoomReset");
-    ret.append(QStringList() << "1" << "0" << "__zoomActual");
-    ret.append(QStringList() << "Ctrl+1" << "0" << "__zoomActual");
+    ret << "+" << "0" << "__zoomIn";
+    ret << "=" << "0" << "__zoomIn";
+    ret << "Ctrl++" << "0" << "__zoomIn";
+    ret << "Ctrl+=" << "0" << "__zoomIn";
+    ret << "-" << "0" << "__zoomOut";
+    ret << "Ctrl+-" << "0" << "__zoomOut";
+    ret << "0" << "0" << "__zoomReset";
+    ret << "1" << "0" << "__zoomActual";
+    ret << "Ctrl+1" << "0" << "__zoomActual";
 
-    ret.append(QStringList() << "R" << "0" << "__rotateR");
-    ret.append(QStringList() << "L" << "0" << "__rotateL");
-    ret.append(QStringList() << "Ctrl+0" << "0" << "__rotate0");
-    ret.append(QStringList() << "Ctrl+H" << "0" << "__flipH");
-    ret.append(QStringList() << "Ctrl+V" << "0" << "__flipV");
+    ret << "R" << "0" << "__rotateR";
+    ret << "L" << "0" << "__rotateL";
+    ret << "Ctrl+0" << "0" << "__rotate0";
+    ret << "Ctrl+H" << "0" << "__flipH";
+    ret << "Ctrl+V" << "0" << "__flipV";
 
-    ret.append(QStringList() << "Ctrl+X" << "0" << "__scale");
-    ret.append(QStringList() << "Ctrl+E" << "0" << "__hideMeta");
-    ret.append(QStringList() << "E" << "0" << "__settings");
-    ret.append(QStringList() << "I" << "0" << "__about");
-    ret.append(QStringList() << "M" << "0" << "__slideshow");
-    ret.append(QStringList() << "Shift+M" << "0" << "__slideshowQuick");
-    ret.append(QStringList() << "W" << "0" << "__wallpaper");
-    ret.append(QStringList() << "S" << "0" << "__stopThb");
-    ret.append(QStringList() << "Ctrl+R" << "0" << "__reloadThb");
+    ret << "Ctrl+X" << "0" << "__scale";
+    ret << "Ctrl+E" << "0" << "__hideMeta";
+    ret << "E" << "0" << "__settings";
+    ret << "I" << "0" << "__about";
+    ret << "M" << "0" << "__slideshow";
+    ret << "Shift+M" << "0" << "__slideshowQuick";
+    ret << "W" << "0" << "__wallpaper";
+    ret << "S" << "0" << "__stopThb";
+    ret << "Ctrl+R" << "0" << "__reloadThb";
 
-    ret.append(QStringList() << "F2" << "0" << "__rename");
-    ret.append(QStringList() << "Ctrl+C" << "0" << "__copy");
-    ret.append(QStringList() << "Ctrl+M" << "0" << "__move");
-    ret.append(QStringList() << "Delete" << "0" << "__delete");
+    ret << "F2" << "0" << "__rename";
+    ret << "Ctrl+C" << "0" << "__copy";
+    ret << "Ctrl+M" << "0" << "__move";
+    ret << "Delete" << "0" << "__delete";
 
-    ret.append(QStringList() << "Escape" << "0" << "__hide");
-    ret.append(QStringList() << "Q" << "0" << "__close");
-    ret.append(QStringList() << "Ctrl+Q" << "0" << "__close");
+    ret << "Escape" << "0" << "__hide";
+    ret << "Q" << "0" << "__close";
+    ret << "Ctrl+Q" << "0" << "__close";
 
-    ret.append(QStringList() << "Home" << "0" << "__gotoFirstThb");
-    ret.append(QStringList() << "End" << "0" << "__gotoLastThb");
+    ret << "Home" << "0" << "__gotoFirstThb";
+    ret << "End" << "0" << "__gotoLastThb";
 
     return ret;
 
@@ -114,16 +111,12 @@ void Shortcuts::saveShortcuts(QVariantList data) {
 
     out << QString("Version=%1\n").arg(VERSION);
 
-    for(QVariant entry : data) {
+    // The -2 in the upper limit ensures that also the last entry has 3 entries available
+    for(int i = 0; i < data.length()-2; i+=3) {
 
-        QVariantList l = entry.toList();
-
-        if(l.length() != 3)
-            continue;
-
-        QString key = entry.toList().at(0).toString();
-        QString close = entry.toList().at(1).toString();
-        QString cmd = entry.toList().at(2).toString();
+        QString key = data.at(i).toString();
+        QString close = data.at(i+1).toString();
+        QString cmd = data.at(i+2).toString();
 
         if(key != "" || close != "" || cmd != "")
             out << QString("%1::%2::%3\n").arg(close).arg(key).arg(cmd);

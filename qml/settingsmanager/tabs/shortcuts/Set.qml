@@ -261,12 +261,13 @@ Item {
 
     function saveData() {
 
-        var ret = [[]]
+        var ret = []
 
         for(var i = 0; i < listview.model.count; ++i) {
             var item = listview.model.get(i)
-            var l = [item.key, item.close, item.cmd]
-            ret.push(l)
+            ret.push(item.key)
+            ret.push(item.close)
+            ret.push(item.cmd)
         }
 
         return ret

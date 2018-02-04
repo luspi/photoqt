@@ -16,8 +16,8 @@ class Shortcuts : public QObject {
 
 public:
     Shortcuts(QObject *parent = 0);
-    Q_INVOKABLE QStringList load();
-    Q_INVOKABLE QStringList loadDefaults();
+    Q_INVOKABLE QVariantList load();
+    Q_INVOKABLE QVariantList loadDefaults();
     Q_INVOKABLE void saveShortcuts(QVariantList data);
     Q_INVOKABLE QString convertKeycodeToString(int code);
 

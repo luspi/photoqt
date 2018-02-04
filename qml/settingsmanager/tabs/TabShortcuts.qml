@@ -211,7 +211,7 @@ Rectangle {
 
         verboseMessage("SettingsManager/TabShortcuts", "saveData()")
 
-        var dat = [[]]
+        var dat = []
 
         dat = dat.concat(navigation.saveData())
         dat = dat.concat(image.saveData())
