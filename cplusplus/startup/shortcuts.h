@@ -31,7 +31,7 @@ namespace StartupCheck {
             if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "StartupCheck::Shortcuts - setDefaultShortcutsIfShortcutFileDoesntExist()" << NL;
 
             // All shortcuts are stored in this single file
-            QFile allshortcuts(ConfigFiles::SHORTCUTS_FILE());
+            QFileInfo allshortcuts(ConfigFiles::SHORTCUTS_FILE());
 
             // If file doesn't exist (i.e., on first start)
             if(!allshortcuts.exists()) {
