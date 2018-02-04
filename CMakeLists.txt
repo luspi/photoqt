@@ -56,7 +56,7 @@ option(RAW "Use libraw library" ON)
 option(EXIV2 "Use exiv2 library" ON)
 option(GM "Use graphicsmagick library" ON)
 option(QTONLY "ONLY USE QT-ONLY FEATURES" OFF)
-option(TESTING "Enable testing" OFF)
+option(TESTING "Enable some tests" OFF)
 
 
 ################################
@@ -76,17 +76,17 @@ find_package(LibRaw)
 
 # We first copy the most recent *.ts files to the build directory and then process them
 # This way, we don't have to mess with files outside of the build folder
-FILE(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/buildlang)
-FILE(GLOB files "lang/*.ts")
-FOREACH(file ${files})
-    GET_FILENAME_COMPONENT(filename ${file} NAME)
-    FILE(COPY ${CMAKE_CURRENT_SOURCE_DIR}/lang/${filename} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/buildlang)
-    QT5_CREATE_TRANSLATION(qm_files ${photoqt_SOURCES} ${photoqt_QML} ${CMAKE_CURRENT_BINARY_DIR}/buildlang/${filename} OPTIONS "-no-obsolete")
-ENDFOREACH()
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/buildlang)
+file(GLOB files "lang/*.ts")
+foreach(file ${files})
+   get_filename_component(filename ${file} NAME)
+   file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/lang/${filename} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/buildlang)
+   qt5_create_translation(qm_files ${photoqt_SOURCES} ${photoqt_QML} ${CMAKE_CURRENT_BINARY_DIR}/buildlang/${filename} OPTIONS "-no-obsolete")
+endforeach()
 
 # Copy the language QRC file to the output directory, because the files listed in the
 # qrc file are relative to that directory.
-ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/lang.qrc
+add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/lang.qrc
     COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/lang.qrc ${CMAKE_CURRENT_BINARY_DIR}/lang.qrc
     MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/lang.qrc
     DEPENDS ${qm_files})
@@ -114,14 +114,14 @@ add_definitions(-DSIMPLECRYPTKEY="${CRYPTKEY}")
 # on windows we add application icons
 if(WIN32)
     add_executable(${PROJECT_NAME} WIN32 ${photoqt_SOURCES} ${photoqt_QML} ${RESOURCES} windowsicons.rc)
-    qt5_use_modules(photoqt Quick Sql Svg Core Xml WinExtras)
+    qt5_use_modules(${PROJECT_NAME} Quick Sql Svg Core Xml WinExtras)
 elseif(NOT WIN32)
     add_executable(${PROJECT_NAME} ${photoqt_SOURCES} ${photoqt_QML} ${RESOURCES})
-    qt5_use_modules(photoqt Quick Sql Svg Core Xml)
+    qt5_use_modules(${PROJECT_NAME} Quick Sql Svg Core Xml)
 endif(WIN32)
 
 # We need to link to zlib for zip support
-target_link_libraries(photoqt "z")
+target_link_libraries(${PROJECT_NAME} "z")
 
 
 ########################
@@ -130,17 +130,23 @@ target_link_libraries(photoqt "z")
 
 if(TESTING)
 
+    # Set the testing project name
+    set(PROJECT_TEST_NAME ${PROJECT_NAME}_test)
+
     # Enable testing and fint the required test package
     enable_testing()
     find_package(Qt5Test REQUIRED)
 
     # Add the test executable and mark
-    add_executable(photoqt_test ${photoqt_TESTING})
-    add_test(photoqt_test photoqt_test)
-    qt5_use_modules(photoqt_test Core Widgets)
+    add_executable(${PROJECT_TEST_NAME} ${photoqt_TESTING})
+    add_test(${PROJECT_TEST_NAME} ${PROJECT_TEST_NAME})
+    qt5_use_modules(${PROJECT_TEST_NAME} Quick Core Widgets)
 
-    target_link_libraries(photoqt_test Qt5::Test)
-    add_definitions(-DTESTING)
+    # link against the testing library
+    target_link_libraries(${PROJECT_TEST_NAME} Qt5::Test)
+
+    # And inform the user
+    message("** TESTING ENABLED")
 
 endif(TESTING)
 
@@ -150,10 +156,10 @@ endif(TESTING)
 #######################################
 
 if(GM)
-    add_custom_command(TARGET photoqt POST_BUILD
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/for_photoqt_desktop_FULL ${CMAKE_CURRENT_SOURCE_DIR}/photoqt.desktop)
 elseif(NOT GM)
-    add_custom_command(TARGET photoqt POST_BUILD
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/for_photoqt_desktop_QT ${CMAKE_CURRENT_SOURCE_DIR}/photoqt.desktop)
 endif(GM)
 
@@ -167,7 +173,7 @@ if(RAW)
         message(FATAL_ERROR "** Unable to locate LibRaw... is it installed?")
     elseif(${LIBRAW_FOUND})
         include_directories(${LIBRAW_INCLUDE_DIR})
-        target_link_libraries(photoqt "raw")
+        target_link_libraries(${PROJECT_NAME} "raw")
         message("** LibRaw enabled")
         add_definitions(-DRAW)
     endif(NOT ${LIBRAW_FOUND})
@@ -180,26 +186,26 @@ if(EXIV2)
         message(FATAL_ERROR "** Unable to locate Exiv2... is it installed?")
     elseif(${EXIV2_FOUND})
         include_directories(${EXIV2_INCLUDE_DIR})
-        target_link_libraries(photoqt "exiv2")
+        target_link_libraries(${PROJECT_NAME} "exiv2")
         if(TESTING)
-            target_link_libraries(photoqt_test "exiv2")
+            target_link_libraries(${PROJECT_TEST_NAME} "exiv2")
         endif(TESTING)
         if(WIN32)
-            target_link_libraries(photoqt "expat")
-            target_link_libraries(photoqt "ws2_32")
-            target_link_libraries(photoqt "wsock32")
-            target_link_libraries(photoqt "z")
-            target_link_libraries(photoqt "intl")
-            target_link_libraries(photoqt "iconv")
-            target_link_libraries(photoqt "psapi")
+            target_link_libraries(${PROJECT_NAME} "expat")
+            target_link_libraries(${PROJECT_NAME} "ws2_32")
+            target_link_libraries(${PROJECT_NAME} "wsock32")
+            target_link_libraries(${PROJECT_NAME} "z")
+            target_link_libraries(${PROJECT_NAME} "intl")
+            target_link_libraries(${PROJECT_NAME} "iconv")
+            target_link_libraries(${PROJECT_NAME} "psapi")
             if(TESTING)
-                target_link_libraries(photoqt_test "expat")
-                target_link_libraries(photoqt_test "ws2_32")
-                target_link_libraries(photoqt_test "wsock32")
-                target_link_libraries(photoqt_test "z")
-                target_link_libraries(photoqt_test "intl")
-                target_link_libraries(photoqt_test "iconv")
-                target_link_libraries(photoqt_test "psapi")
+                target_link_libraries(${PROJECT_TEST_NAME} "expat")
+                target_link_libraries(${PROJECT_TEST_NAME} "ws2_32")
+                target_link_libraries(${PROJECT_TEST_NAME} "wsock32")
+                target_link_libraries(${PROJECT_TEST_NAME} "z")
+                target_link_libraries(${PROJECT_TEST_NAME} "intl")
+                target_link_libraries(${PROJECT_TEST_NAME} "iconv")
+                target_link_libraries(${PROJECT_TEST_NAME} "psapi")
             endif(TESTING)
         endif(WIN32)
         add_definitions(-DEXIV2)
@@ -214,7 +220,7 @@ if(GM)
         message(FATAL_ERROR "** Unable to locate GraphicsMagick... is it installed?")
     elseif(${MAGICK++_FOUND})
         include_directories(${MAGICK++_INCLUDE_DIR})
-        target_link_libraries(photoqt "GraphicsMagick++")
+        target_link_libraries(${PROJECT_NAME} "GraphicsMagick++")
         add_definitions(-DGM)
         message("** Graphicsmagick enabled")
     endif(NOT ${MAGICK++_FOUND})
@@ -231,7 +237,7 @@ if(UNIX)
 
     # Install executeable
     install(
-        TARGETS photoqt
+        TARGETS ${PROJECT_NAME}
         DESTINATION bin/
     )
 
