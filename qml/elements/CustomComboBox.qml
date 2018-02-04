@@ -86,7 +86,7 @@ Button {
             for(var i = 0; i < but.model.length; ++i) {
                 if(i == currentIndex)
                     txt += "<b>"
-                txt += i + ") " + but.model[i]
+                txt += (i+1) + ") " + but.model[i]
                 if(i == currentIndex)
                     txt += "</b>"
                 if(i != but.model.length-1)
