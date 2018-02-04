@@ -57,9 +57,6 @@ int MainHandler::performSomeStartupChecks() {
     // Check whether everything is alright with the thumbnails database
     StartupCheck::Thumbnails::checkThumbnailsDatabase(update, permanentSettings);
 
-    // Ensure PhotoQt knows about all the required file formats
-    StartupCheck::FileFormats::checkForDefaultSettingsFileAndReturnWhetherDefaultsAreToBeSet();
-
     // Only on update do we need to (potentially) combine mouse and key shortcuts in single file
     if(update == 1) StartupCheck::Shortcuts::combineKeyMouseShortcutsSingleFile();
 

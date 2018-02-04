@@ -31,7 +31,6 @@
 #include "imageprovider/imageproviderthumbnail.h"
 
 #include "startup/exportimport.h"
-#include "startup/fileformats.h"
 #include "startup/migration.h"
 #include "startup/screenshots.h"
 #include "startup/thumbnails.h"
