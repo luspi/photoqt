@@ -26,7 +26,6 @@ Button {
     onFontsizeChanged: context.setFontSize(but.fontsize)
 
     style: ButtonStyle {
-
         background: Rectangle {
             clip: true
             radius: control.radius
@@ -69,9 +68,15 @@ Button {
 
     }
 
-    onClicked: {
-        var pos = but.parent.mapToItem(mainwindow, but.x, but.y)
-        context.popup(Qt.point(pos.x+variables.windowXY.x, pos.y+but.height+variables.windowXY.y))
+    ToolTip {
+        anchors.fill: parent
+        cursorShape: Qt.PointingHandCursor
+        hoverEnabled: true
+        text: model[currentIndex]
+        onClicked: {
+            var pos = but.parent.mapToItem(mainwindow, but.x, but.y)
+            context.popup(Qt.point(pos.x+variables.windowXY.x, pos.y+but.height+variables.windowXY.y))
+        }
     }
 
 }
