@@ -66,13 +66,33 @@ Button {
     }
 
     ToolTip {
+        id: ttip
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
         hoverEnabled: true
-        text: model[currentIndex]
+        text: ""
         onClicked: {
             var pos = but.parent.mapToItem(mainwindow, but.x, but.y)
             context.popup(Qt.point(pos.x+variables.windowXY.x, pos.y+but.height+variables.windowXY.y))
+        }
+        Component.onCompleted: setupText()
+        Connections {
+            target: but
+            onModelChanged: ttip.setupText()
+            onCurrentIndexChanged: ttip.setupText()
+        }
+        function setupText() {
+            var txt = ""
+            for(var i = 0; i < but.model.length; ++i) {
+                if(i == currentIndex)
+                    txt += "<b>"
+                txt += i + ") " + but.model[i]
+                if(i == currentIndex)
+                    txt += "</b>"
+                if(i != but.model.length-1)
+                    txt += "<br>"
+            }
+            ttip.text = txt
         }
     }
 
