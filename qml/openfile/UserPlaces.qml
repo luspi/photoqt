@@ -889,12 +889,20 @@ Rectangle {
         if(distance > 0) {
 
             // move from standard to userplaces
-            if(standardlocations.currentIndex != -1 && userPlaces.visible && standardlocations.currentIndex+distance > standardlocations.model.count-1) {
+            if(standardlocations.currentIndex != -1 && userPlaces.visible && standardlocations.currentIndex+distance > standardlocations.model.count-1
+                    && standardlocations.currentIndex-1+distance < (standardlocations.model.count-1)+(userPlaces.model.count-1)) {
                 userPlaces.currentIndex = Math.min(1 + ((standardlocations.currentIndex+distance) - standardlocations.model.count), userPlaces.model.count-1)
                 return
             }
 
-            // move from standard to storageinfo
+            // move from standard to storageinfo (userplaces too short)
+            if(standardlocations.currentIndex != -1 && userPlaces.visible && storageinfo.visible &&
+                    standardlocations.currentIndex+distance > (standardlocations.model.count-1)+(userPlaces.model.count-1)) {
+                storageinfo.currentIndex = Math.min(2 + ((standardlocations.currentIndex+distance) - standardlocations.model.count-userPlaces.model.count), storageinfo.model.count-1)
+                return
+            }
+
+            // move from standard to storageinfo (no userplaces)
             if(standardlocations.currentIndex != -1 && !userPlaces.visible && storageinfo.visible && standardlocations.currentIndex+distance > standardlocations.model.count-1) {
                 storageinfo.currentIndex = Math.min(1 + ((standardlocations.currentIndex+distance) - standardlocations.model.count), storageinfo.model.count-1)
                 return
@@ -944,7 +952,14 @@ Rectangle {
                 return
             }
 
-            // move from storageinfo to standard
+            // move from storageinfo to standard (userplaces too short)
+            if(storageinfo.currentIndex != -1 && userPlaces.visible && standardlocations.visible && storageinfo.currentIndex-distance-1 < 1 &&
+                    userPlaces.model.count-1-(distance-storageinfo.currentIndex) < 1) {
+                standardlocations.currentIndex = Math.max(standardlocations.count-1 - ((distance-storageinfo.currentIndex) - (userPlaces.model.count-1)), 1)
+                return
+            }
+
+            // move from storageinfo to standard (no userplaces)
             if(storageinfo.currentIndex != -1 && !userPlaces.visible && standardlocations.visible && storageinfo.currentIndex-distance < 1) {
                 standardlocations.currentIndex = Math.max(standardlocations.count-1 - (distance-storageinfo.currentIndex), 1)
                 return
