@@ -143,52 +143,70 @@ Item {
                     resetPositionWithoutAnimation()
                     resetZoomWithoutAnimation()
                     resetRotationWithoutAnimation()
+                    image.mirror = false
+                    imagemasking.mirror = false
                     // The scale property is the only property animated using 'Behavior on' (due to a complex scale property)
                     // This is to ensure the animation is completed. Its duration should be set to 0, but this does not always work reliably
                     scaleAni.complete()
                 // Keep rotation, scale, positionDuration
                 } else {
                     // no scale animation wanted
-                    scaleAni.duration = 0
+                    scaleAni.duration = scaleDuration
                     // copy properties of image1 element
                     if(currentIdBefore == image1) {
                         imageContainer.x = image1.x
                         imageContainer.y = image1.y
-                        imageContainer.scale = image1.scale
-                        imageContainer.rotation = image1.rotation
+                        rotationAni.to = image1.rotation
+                        rotationAni.start()
+                        rotationAni.complete()
+                        resetScale.restoreScale(image1.scale)
+                        image.mirror = image1.getMirror()
+                        imagemasking.mirror = image1.getMirror()
                         // if the aspect ratio of the image has changed or the image dimensions, we reset the position, as this could otherwise lead to odd behavior
                         // (not wrong behavior, just not very userfriendly)
-                        if(getImageRatio() != image1.getImageRatio() || getWidthPlusHeight() != image1.getWidthPlusHeight())
+                        if(getImageRatio() !== image1.getImageRatio() || getWidthPlusHeight() !== image1.getWidthPlusHeight())
                             resetPositionWithoutAnimation()
                     // copy properties of image2 element
                     } else if(currentIdBefore == image2) {
                         imageContainer.x = image2.x
                         imageContainer.y = image2.y
-                        imageContainer.scale = image2.scale
-                        imageContainer.rotation = image2.rotation
+                        rotationAni.to = image2.rotation
+                        rotationAni.start()
+                        rotationAni.complete()
+                        resetScale.restoreScale(image2.scale)
+                        image.mirror = image2.getMirror()
+                        imagemasking.mirror = image2.getMirror()
                         // if the aspect ratio of the image has changed or the image dimensions, we reset the position, as this could otherwise lead to odd behavior
                         // (not wrong behavior, just not very userfriendly)
-                        if(getImageRatio() != image2.getImageRatio() || getWidthPlusHeight() != image2.getWidthPlusHeight())
+                        if(getImageRatio() !== image2.getImageRatio() || getWidthPlusHeight() !== image2.getWidthPlusHeight())
                             resetPositionWithoutAnimation()
                     // copy properties of imageANIM1 element
                     } else if(currentIdBefore == imageANIM1) {
                         imageContainer.x = imageANIM1.x
                         imageContainer.y = imageANIM1.y
-                        imageContainer.scale = imageANIM1.scale
-                        imageContainer.rotation = imageANIM1.rotation
+                        rotationAni.to = imageANIM1.rotation
+                        rotationAni.start()
+                        rotationAni.complete()
+                        resetScale.restoreScale(imageANIM1.scale)
+                        image.mirror = imageANIM1.getMirror()
+                        imagemasking.mirror = imageANIM1.getMirror()
                         // if the aspect ratio of the image has changed or the image dimensions, we reset the position, as this could otherwise lead to odd behavior
                         // (not wrong behavior, just not very userfriendly)
-                        if(getImageRatio() != imageANIM1.getImageRatio() || getWidthPlusHeight() != imageANIM1.getWidthPlusHeight())
+                        if(getImageRatio() !== imageANIM1.getImageRatio() || getWidthPlusHeight() !== imageANIM1.getWidthPlusHeight())
                             resetPositionWithoutAnimation()
                     // copy properties of imageANIM2 element
                     } else if(currentIdBefore == imageANIM2) {
                         imageContainer.x = imageANIM2.x
                         imageContainer.y = imageANIM2.y
-                        imageContainer.scale = imageANIM2.scale
-                        imageContainer.rotation = imageANIM2.rotation
+                        rotationAni.to = imageANIM2.rotation
+                        rotationAni.start()
+                        rotationAni.complete()
+                        resetScale.restoreScale(imageANIM2.scale)
+                        image.mirror = imageANIM2.getMirror()
+                        imagemasking.mirror = imageANIM2.getMirror()
                         // if the aspect ratio of the image has changed or the image dimensions, we reset the position, as this could otherwise lead to odd behavior
                         // (not wrong behavior, just not very userfriendly)
-                        if(getImageRatio() != imageANIM2.getImageRatio() || getWidthPlusHeight() != imageANIM2.getWidthPlusHeight())
+                        if(getImageRatio() !== imageANIM2.getImageRatio() || getWidthPlusHeight() !== imageANIM2.getWidthPlusHeight())
                             resetPositionWithoutAnimation()
                     }
                 }
@@ -198,6 +216,16 @@ Item {
                 loadingimage.opacity = 0
             } else if(status == Image.Loading)
                 showLoadingImage.start()
+        }
+
+        // This is necessary as otherwise for some reasom (not sure why) the zoom will always be reset. This ensures the scale property is properly set (if Keep* setting is set)
+        Timer {
+            id: resetScale
+            interval: 0
+            repeat: false
+            function restoreScale(val) { restore = val; start() }
+            property real restore: 1
+            onTriggered: imageContainer.scale = restore
         }
 
         // This is a masking image for when the image is not zoomed. It loads a scaled down version for better quality when not zoomed (or zoomed out)
@@ -484,6 +512,10 @@ Item {
         imageContainer.rotation += 180
         image.mirror = !image.mirror
         imagemasking.mirror = !imagemasking.mirror
+    }
+
+    function getMirror() {
+        return image.mirror
     }
 
     function resetMirror() {
