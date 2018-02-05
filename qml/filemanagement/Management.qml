@@ -102,7 +102,7 @@ FadeInTemplate {
     Connections {
         target: call
         onFilemanagementShow: {
-            if(variables.currentFile == "") return
+            if(variables.currentFile === "") return
             management_top.current = category
             show()
         }

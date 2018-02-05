@@ -19,7 +19,7 @@ Rectangle {
     property bool showUnsupportedProtocolFolderMessage: false
 
     // make sure settings values are valid
-    property string settingsOpenDefaultView: (settings.openDefaultView=="icons" ? "icons" : "list")
+    property string settingsOpenDefaultView: (settings.openDefaultView==="icons" ? "icons" : "list")
     property int settingsOpenZoomLevel: Math.max(10, Math.min(50, settings.openZoomLevel))
 
     // if in focus, show a slight blue glimmer
@@ -81,7 +81,7 @@ Rectangle {
 
             // visibility depends on model count and property value
             visible: (opacity!=0)
-            opacity: (gridview.model.count==0||showUnsupportedProtocolFolderMessage) ? 1 : 0
+            opacity: (gridview.model.count===0||showUnsupportedProtocolFolderMessage) ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
             // some additional styling
@@ -484,7 +484,7 @@ Rectangle {
         var f = ""
 
         // If currentIndex is invalid (e.g., -1), leave f empty
-        if(gridview.model.get(gridview.currentIndex) == undefined)
+        if(gridview.model.get(gridview.currentIndex) === undefined)
             f = ""
         // otherwise try to get the filename from the model
         else {
@@ -530,7 +530,7 @@ Rectangle {
         verboseMessage("OpenFile/FilesView", "loadHighlightedPicture()")
 
         // if the entry is valid
-        if(gridview.model.get(gridview.currentIndex) == undefined)
+        if(gridview.model.get(gridview.currentIndex) === undefined)
             return
 
         // load file and hide element

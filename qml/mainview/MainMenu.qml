@@ -235,7 +235,7 @@ Rectangle {
                     sourceSize.width: width
                     sourceSize.height: height
                     source: allitems[subview.mainindex][index][1]===""
-                            ? "" : (allitems[subview.mainindex][index][0].slice(0,8)=="_:_EX_:_"
+                            ? "" : (allitems[subview.mainindex][index][0].slice(0,8)==="_:_EX_:_"
                                     ? getanddostuff.getIconPathFromTheme(allitems[subview.mainindex][index][1]) : "qrc:/img/mainmenu/" + allitems[subview.mainindex][index][1] + ".png")
                     opacity: (settings.trayIcon==1 || allitems[subview.mainindex][index][0] !== "hide") ? 1 : 0.5
                     visible: (source!="" || allitems[subview.mainindex][index][0]==="heading")

@@ -105,7 +105,7 @@ Rectangle {
     Connections {
         target: call
         onSlideshowStart: {
-            if(variables.currentFile == "") return
+            if(variables.currentFile === "") return
             startSlideshow()
         }
         onSlideshowBarShow:
@@ -181,16 +181,16 @@ Rectangle {
 
             // Option 2
             if(settings.slideShowLoop) {
-                for(var i = 0; i <= variables.currentFilePos; ++i)
-                    images.push(i);
+                for(var j = 0; j <= variables.currentFilePos; ++j)
+                    images.push(j);
             }
 
         // Option 3
         } else {
 
-            for(var i = 0; i < variables.totalNumberImagesCurrentFolder; ++i)
-                if(i != variables.currentFilePos) {
-                    images.push(i)
+            for(var k = 0; k < variables.totalNumberImagesCurrentFolder; ++k)
+                if(k !== variables.currentFilePos) {
+                    images.push(k)
                 }
 
             // Shuffle function at end of file
@@ -287,7 +287,7 @@ Rectangle {
                 if(settings.slideShowShuffle) {
                     images = []
                     for(var i = 0; i < variables.totalNumberImagesCurrentFolder; ++i)
-                        if(i != variables.currentFilePos)
+                        if(i !== variables.currentFilePos)
                             images.push(i)
                     images = shuffle(images)
                     images.push(variables.currentFilePos)

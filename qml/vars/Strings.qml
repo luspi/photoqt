@@ -85,23 +85,23 @@ Item {
         var comboSave = combo
 
         combo = combo.replace("++","+PLUS")
-        if(combo == "+") combo = "PLUS"
+        if(combo === "+") combo = "PLUS"
         var parts = combo.split("+")
         var ret = ""
         for(var i in parts) {
             if(ret != "")
                 ret += "+"
-            if(parts[i] == "")
+            if(parts[i] === "")
                 continue
-            if(parts[i] == "PLUS")
+            if(parts[i] === "PLUS")
                 ret += "+"
             else
                 ret += get(parts[i])
         }
 
         var comboLC = combo.toLowerCase()
-        if((comboLC.indexOf("left button") > -1 && comboLC.indexOf("left button") != comboLC.length-11)
-                || (comboLC.indexOf("right button") > -1 && comboLC.indexOf("right button") != comboLC.length-12)) {
+        if((comboLC.indexOf("left button") > -1 && comboLC.indexOf("left button") !== comboLC.length-11)
+                || (comboLC.indexOf("right button") > -1 && comboLC.indexOf("right button") !== comboLC.length-12)) {
 
             var p = ret.split("+")
             var lastItem = p[p.length-1]
@@ -111,13 +111,13 @@ Item {
 
             for(var k = 0; k < lastItem.length; ++k) {
                 if(k > 0) ret += "-"
-                if(lastItem[k] == "E")
+                if(lastItem[k] === "E")
                     ret += dictMouse["east"]
-                else if(lastItem[k] == "S")
+                else if(lastItem[k] === "S")
                     ret += dictMouse["south"]
-                else if(lastItem[k] == "W")
+                else if(lastItem[k] === "W")
                     ret += dictMouse["west"]
-                else if(lastItem[k] == "N")
+                else if(lastItem[k] === "N")
                     ret += dictMouse["north"]
             }
 

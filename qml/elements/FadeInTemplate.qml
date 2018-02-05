@@ -18,7 +18,7 @@ Rectangle {
     visible: opacity!=0
     property real lastOpacityValue: 0
     onOpacityChanged: {
-        if(variables.currentFile == "" && opacity > 0.1 && opacity < lastOpacityValue)
+        if(variables.currentFile === "" && opacity > 0.1 && opacity < lastOpacityValue)
             call.show("openfile")
         lastOpacityValue = opacity
     }

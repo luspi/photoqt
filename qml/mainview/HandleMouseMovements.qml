@@ -18,13 +18,13 @@ PinchArea {
     Connections {
         target: imageitem
         onCurrentIdChanged: {
-            if(getanddostuff.convertIdIntoString(imageitem.currentId) == "image1")
+            if(getanddostuff.convertIdIntoString(imageitem.currentId) === "image1")
                 pincharea.pinch.target = imageitem.currentImage1
-            else if(getanddostuff.convertIdIntoString(imageitem.currentId) == "image2")
+            else if(getanddostuff.convertIdIntoString(imageitem.currentId) === "image2")
                 pincharea.pinch.target = imageitem.currentImage2
-            else if(getanddostuff.convertIdIntoString(imageitem.currentId) == "imageANIM1")
+            else if(getanddostuff.convertIdIntoString(imageitem.currentId) === "imageANIM1")
                 pincharea.pinch.target = imageitem.currentImageANIM1
-            else if(getanddostuff.convertIdIntoString(imageitem.currentId) == "imageANIM2")
+            else if(getanddostuff.convertIdIntoString(imageitem.currentId) === "imageANIM2")
                 pincharea.pinch.target = imageitem.currentImageANIM2
             else
                 console.error("MainView / HandleMouseMovements", "ERROR: Invalid image id:", imageitem.currentId)
@@ -39,7 +39,7 @@ PinchArea {
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton|Qt.MiddleButton|Qt.RightButton
 
-        drag.target: (dragSource!=Qt.MouseEventNotSynthesized||(settings.leftButtonMouseClickAndMove&&!variables.imageItemBlocked&&buttonID==Qt.LeftButton)) ? imageitem.returnImageContainer() : undefined
+        drag.target: (dragSource!==Qt.MouseEventNotSynthesized||(settings.leftButtonMouseClickAndMove&&!variables.imageItemBlocked&&buttonID==Qt.LeftButton)) ? imageitem.returnImageContainer() : undefined
 
         property point pressedPosStart: Qt.point(-1,-1)
         property point pressedPosEnd: Qt.point(-1,-1)
@@ -68,9 +68,9 @@ PinchArea {
 
         function handleMousePositionChange(xPos, yPos) {
 
-            if(pressedPosStart.x != -1 || pressedPosStart.y != -1) {
+            if(pressedPosStart.x !== -1 || pressedPosStart.y !== -1) {
                 var before = variables.shorcutsMouseGesturePointIntermediate
-                if(variables.shorcutsMouseGesturePointIntermediate.x == -1 || variables.shorcutsMouseGesturePointIntermediate.y == -1)
+                if(variables.shorcutsMouseGesturePointIntermediate.x === -1 || variables.shorcutsMouseGesturePointIntermediate.y === -1)
                     before = pressedPosStart
                 AnalyseMouse.analyseMouseGestureUpdate(xPos, yPos, before)
             }

@@ -287,7 +287,7 @@ FadeInTemplate {
     Connections {
         target: call
         onSlideshowSettingsShow: {
-            if(variables.currentFile == "") return
+            if(variables.currentFile === "") return
             showSlideshow()
         }
         onShortcut: {
@@ -298,7 +298,7 @@ FadeInTemplate {
                 simulateEnter()
         }
         onCloseAnyElement:
-            if(variables.currentFile != "")
+            if(variables.currentFile !== "")
                 hide()
     }
 

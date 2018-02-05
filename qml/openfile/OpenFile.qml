@@ -211,13 +211,13 @@ Rectangle {
         verboseMessage("OpenFile/OpenFile", "show()")
 
         // First load, restore last folder of previous session
-        if(settings.openKeepLastLocation && variables.currentDir == "")
+        if(settings.openKeepLastLocation && variables.currentDir === "")
             openvariables.currentDirectory = getanddostuff.getOpenFileLastLocation()
         // First load, set element to current working directory
-        else if(!settings.openKeepLastLocation && variables.currentDir == "")
+        else if(!settings.openKeepLastLocation && variables.currentDir === "")
             openvariables.currentDirectory = getanddostuff.getCurrentWorkingDirectory()
         // Second+ load, load same folder as current main image
-        else if(variables.currentDir != "")
+        else if(variables.currentDir !== "")
             openvariables.currentDirectory = variables.currentDir
 
         opacity = 1

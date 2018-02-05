@@ -307,17 +307,17 @@ Rectangle {
             call.ensureElementSetup("histogram")
 
         // The first time after an update/install, we display an update/install message before processing the received filename
-        if(update != 0) {
+        if(update !== 0) {
             variables.startupUpdateStatus = update
             variables.startupFilenameAfter = filename
             call.show("startup")
         } else {
 
-            if(settings.startupLoadLastLoadedImage && filename == "")
+            if(settings.startupLoadLastLoadedImage && filename === "")
                 filename = getanddostuff.getLastOpenedImage()
 
             // If no filename has been passed, show the OpenFile element
-            if(filename == "")
+            if(filename === "")
                 call.show("openfile")
             // Otherwise just load the received file
             else

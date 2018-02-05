@@ -150,7 +150,7 @@ Item {
         hideDelete()
         getanddostuff.deleteImage(variables.currentDir + "/" + variables.currentFile,getanddostuff.amIOnLinux())
         var newfilename = Handle.getNewFilenameAfterDeletion()
-        if(newfilename == "")
+        if(newfilename === "")
             variables.deleteNothingLeft = true
         else
             Handle.loadFile(variables.currentDir + "/" + newfilename, variables.filter, true)
@@ -160,7 +160,7 @@ Item {
         hideDelete()
         getanddostuff.deleteImage(variables.currentDir + "/" + variables.currentFile,false)
         var newfilename = Handle.getNewFilenameAfterDeletion()
-        if(newfilename == "")
+        if(newfilename === "")
             variables.deleteNothingLeft = true
         else
             Handle.loadFile(variables.currentDir + "/" + newfilename, variables.filter, true)

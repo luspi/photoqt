@@ -15,7 +15,7 @@ Item {
 
     // make sure settings values are valid
     property int settingsThumbnailSize: Math.max(20, Math.min(256, settings.thumbnailSize))
-    property string settingsThumbnailPosition: settings.thumbnailPosition=="Top" ? "Top" : "Bottom"
+    property string settingsThumbnailPosition: settings.thumbnailPosition==="Top" ? "Top" : "Bottom"
     property int settingsThumbnailSpacingBetween: Math.max(0, Math.min(30, settings.thumbnailSpacingBetween))
     property int settingsThumbnailLiftUp: Math.max(0, Math.min(40, settings.thumbnailLiftUp))
     property int settingsThumbnailFilenameInsteadFontSize: Math.max(5, Math.min(20, settings.thumbnailFilenameInsteadFontSize))
@@ -161,11 +161,11 @@ Item {
             Connections {
                 target: variables
                 onCurrentFileChanged:
-                    loaded = (getanddostuff.removePathFromFilename(imagePath)==variables.currentFile)
+                    loaded = (getanddostuff.removePathFromFilename(imagePath)===variables.currentFile)
             }
 
             Component.onCompleted:
-                loaded = (getanddostuff.removePathFromFilename(imagePath)==variables.currentFile)
+                loaded = (getanddostuff.removePathFromFilename(imagePath)===variables.currentFile)
 
             // The color behind the thumbnail
             color: colour.thumbnails_bg
@@ -429,7 +429,7 @@ Item {
         var destPos;
         view.positionViewAtIndex(index, loc);
         destPos = view.contentX;
-        if(loc == ListView.Contain && destPos != pos) {
+        if(loc === ListView.Contain && destPos !== pos) {
             // Make sure there is a little margin past the thumbnail kept visible
             if(destPos > pos) destPos += settingsThumbnailSize/2
             else if(destPos < pos) destPos -= settingsThumbnailSize/2

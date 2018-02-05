@@ -54,11 +54,11 @@ EntryContainer {
     }
 
     function setData() {
-        if(settings.trayIcon == 0)
+        if(settings.trayIcon === 0)
             tray_one.checked = true
-        else if(settings.trayIcon == 1)
+        else if(settings.trayIcon === 1)
             tray_two.checked = true
-        else if(settings.trayIcon == 2)
+        else if(settings.trayIcon === 2)
             tray_three.checked = true
     }
 

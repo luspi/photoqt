@@ -138,7 +138,7 @@ Rectangle {
 
         verboseMessage("Other/Startup", "showStartup(): " + t + " / " + filenameAfter)
 
-        type = (t==1 ? "updated" : "installed");
+        type = (t===1 ? "updated" : "installed");
         openFileAfter = filenameAfter
 
         opacity = 1

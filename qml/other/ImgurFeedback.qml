@@ -463,11 +463,11 @@ Rectangle {
     Connections {
         target: call
         onImgurfeedbackShow: {
-            if(variables.currentFile == "") return
+            if(variables.currentFile === "") return
             show(false)
         }
         onImgurfeedbackAnonymShow: {
-            if(variables.currentFile == "") return
+            if(variables.currentFile === "") return
             show(true)
         }
         onShortcut: {

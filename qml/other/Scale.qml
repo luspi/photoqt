@@ -295,7 +295,7 @@ FadeInTemplate {
                         if(fname !== "") {
                             if(getanddostuff.scaleImage(variables.currentDir + "/" + variables.currentFile,newwidth.value, newheight.value,
                                                         quality_slider.value, fname)) {
-                                if(variables.currentDir == getanddostuff.removeFilenameFromPath(fname))
+                                if(variables.currentDir === getanddostuff.removeFilenameFromPath(fname))
                                     Handle.loadFile(fname, variables.filter, true)
                                 hide()
                             } else
@@ -352,7 +352,7 @@ FadeInTemplate {
     Connections {
         target: call
         onScaleShow: {
-            if(variables.currentFile == "") return
+            if(variables.currentFile === "") return
             showScale()
         }
         onShortcut: {

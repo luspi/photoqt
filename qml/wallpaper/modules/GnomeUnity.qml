@@ -93,7 +93,7 @@ Rectangle {
         verboseMessage("Wallpaper/GnomeUnity","loadGnomeUnity()")
 
         var ret = getanddostuff.checkWallpaperTool("gnome_unity")
-        gnome_unity_error.visible = (ret == 1)
+        gnome_unity_error.visible = (ret === 1)
     }
 
     function getCurrentText() {

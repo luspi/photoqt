@@ -196,7 +196,7 @@ FadeInTemplate {
     // Detect if settings are valid or not
     function enDisableEnter() {
         verboseMessage("Wallpaper","enDisableEnter(): " + wm_selection.currentIndex)
-        if(wm_selection.currentIndex == 3 && xfce4.getSelectedScreens().length != 0)
+        if(wm_selection.currentIndex == 3 && xfce4.getSelectedScreens().length !== 0)
             return true
         else if(wm_selection.currentIndex != 0 && wm_selection.currentIndex != 1 && wm_selection.currentIndex != 3)
             return true;

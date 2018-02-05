@@ -26,8 +26,8 @@ Item {
         onAccepted:
             moveFile(file)
         onRejected: {
-            if(management_top.current == "mv")
-            management_top.hide()
+            if(management_top.current === "mv")
+                management_top.hide()
         }
     }
 
@@ -42,7 +42,7 @@ Item {
     function moveFile(file) {
         verboseMessage("FileManagement/Move", "moveFile(): " + file)
         getanddostuff.moveImage(variables.currentDir + "/" + variables.currentFile, file)
-        if(getanddostuff.removeFilenameFromPath(file) == variables.currentDir) {
+        if(getanddostuff.removeFilenameFromPath(file) === variables.currentDir) {
             Handle.loadFile(file, variables.filter, true)
             management_top.hide()
         }

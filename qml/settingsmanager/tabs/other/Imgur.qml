@@ -194,7 +194,7 @@ EntryContainer {
         verboseMessage("SettingsManager/Other/Imgur", "authenticate()")
         authbox.enabled = false
         var ret = shareonline_imgur.authorizeHandlePin(authpin.getText())
-        if(ret == PImgur.IMGUR_NOERROR) {
+        if(ret === PImgur.IMGUR_NOERROR) {
             authbox.hide()
             setData()
         } else {
@@ -207,7 +207,7 @@ EntryContainer {
 
         shareonline_imgur.authAccount()
 
-        if(shareonline_imgur.authAccount() == PImgur.IMGUR_NOERROR) {
+        if(shareonline_imgur.authAccount() === PImgur.IMGUR_NOERROR) {
             authenticatedwith.text = shareonline_imgur.getAccountUsername()
             authenticationDateTime.datetime = shareonline_imgur.getAuthDateTime()
         } else

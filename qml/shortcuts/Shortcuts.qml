@@ -155,7 +155,7 @@ Item {
             getanddostuff.clipboardSetImage(variables.currentDir + "/" + variables.currentFile)
         else {
             getanddostuff.executeApp(cmd, variables.currentDir + "/" + variables.currentFile)
-            if(close !== undefined && close == true)
+            if(close !== undefined && close === true)
                 mainwindow.closePhotoQt()
         }
 

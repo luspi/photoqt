@@ -19,7 +19,7 @@ Item {
         width: height
         height: parent.height
         checkable: true
-        checked: settings.openDefaultView!="icons"
+        checked: settings.openDefaultView!=="icons"
 
         style: ButtonStyle {
             background: Rectangle {
@@ -54,7 +54,7 @@ Item {
         width: height
         height: parent.height
         checkable: true
-        checked: settings.openDefaultView=="icons"
+        checked: settings.openDefaultView==="icons"
 
         style: ButtonStyle {
             background: Rectangle {

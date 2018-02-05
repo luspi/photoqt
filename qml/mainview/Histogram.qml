@@ -101,13 +101,13 @@ Rectangle {
     function updateHistogram() {
 
         // Don't calculate histogram if disabled
-        if(!settings.histogram || variables.currentFile == "") return;
+        if(!settings.histogram || variables.currentFile === "") return;
 
         verboseMessage("Histogram::updateHistogram()",settings.histogramVersion)
 
-        if(settings.histogramVersion != "grey")
+        if(settings.histogramVersion !== "grey")
             imghist.source = "image://hist/color" + variables.currentDir+"/"+variables.currentFile
-        else if(settings.histogramVersion == "grey")
+        else if(settings.histogramVersion === "grey")
             imghist.source = "image://hist/grey" + variables.currentDir+"/"+variables.currentFile
 
     }
@@ -212,7 +212,7 @@ Rectangle {
                 if(mouse.button == Qt.LeftButton)
                     bg_rect.showMove()
                 else
-                    settings.histogramVersion = (settings.histogramVersion != "grey" ? "grey" : "color")
+                    settings.histogramVersion = (settings.histogramVersion !== "grey" ? "grey" : "color")
 
             }
 
@@ -327,7 +327,7 @@ Rectangle {
                 parent.hide()
             }
             onClicked:
-                settings.histogramVersion = (settings.histogramVersion != "grey" ? "grey" : "color")
+                settings.histogramVersion = (settings.histogramVersion !== "grey" ? "grey" : "color")
         }
         function show() {
             switchVersion.opacity = 0.75

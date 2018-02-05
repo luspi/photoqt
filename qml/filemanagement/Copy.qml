@@ -25,7 +25,7 @@ Item {
         onAccepted:
             copyFile(file)
         onRejected: {
-            if(management_top.current == "cp")
+            if(management_top.current === "cp")
                 management_top.hide()
         }
     }
@@ -41,7 +41,7 @@ Item {
     function copyFile(file) {
         verboseMessage("FileManagement/Copy", "copyFile(): " + file)
         getanddostuff.copyImage(variables.currentDir + "/" + variables.currentFile, file)
-        if(getanddostuff.removeFilenameFromPath(file) == variables.currentDir) {
+        if(getanddostuff.removeFilenameFromPath(file) === variables.currentDir) {
             Handle.loadFile(file, variables.filter, true)
         }
         management_top.hide()

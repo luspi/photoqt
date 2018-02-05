@@ -112,7 +112,7 @@ FadeInTemplate {
                     id: remove
                     text: em.pty+qsTr("Remove Filter")
                     fontsize: 13
-                    enabled: variables.filter != ""
+                    enabled: variables.filter !== ""
                     y: (parent.height-height)/2
                     onClickedButton: {
                         verboseMessage("Other/Filter","Remove filter")
@@ -129,7 +129,7 @@ FadeInTemplate {
     Connections {
         target: call
         onFilterShow: {
-            if(variables.currentFile == "") return
+            if(variables.currentFile === "") return
             showFilter()
         }
         onShortcut: {
@@ -149,7 +149,7 @@ FadeInTemplate {
         verboseMessage("Other/Filter", "simulateEnter()")
         variables.filter = term.getText()
         var newfilename = Handle.getFilenameMatchingFilter(term.getText())
-        if(newfilename == "")
+        if(newfilename === "")
             variables.filterNoMatch = true
         else
             Handle.loadFile(variables.currentDir+"/"+newfilename, term.getText(), true)

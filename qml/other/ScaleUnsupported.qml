@@ -50,7 +50,7 @@ FadeInTemplate {
     Connections {
         target: call
         onScaleunsupportedShow: {
-            if(variables.currentFile == "") return
+            if(variables.currentFile === "") return
             show()
         }
         onShortcut: {

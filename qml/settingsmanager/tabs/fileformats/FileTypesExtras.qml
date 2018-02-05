@@ -118,13 +118,13 @@ EntryContainer {
         var tobesaved = []
 
         // Loop over all data and store checked elements
-        for(var ele in entry.modeldata)
-            if(entry.modeldata[ele])
-                tobesaved = tobesaved.concat(ele.split(", "))
+        for(var ele1 in entry.modeldata)
+            if(entry.modeldata[ele1])
+                tobesaved = tobesaved.concat(ele1.split(", "))
 
         var tmp = []
-        for(var ele in tobesaved)
-            tmp[tmp.length] = "*" + tobesaved[ele]
+        for(var ele2 in tobesaved)
+            tmp[tmp.length] = "*" + tobesaved[ele2]
         tobesaved = tmp
 
         // Update data

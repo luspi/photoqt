@@ -475,7 +475,7 @@ Rectangle {
             settingsinfooverlay.hide()
         else {
             opacity = 0
-            if(variables.currentFile == "" )
+            if(variables.currentFile === "" )
                 call.show("openfile")
             else
                 variables.guiBlocked = false

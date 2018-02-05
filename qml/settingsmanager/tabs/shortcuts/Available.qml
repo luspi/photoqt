@@ -17,7 +17,7 @@ Rectangle {
             for(var i = 0; i < shortcuts.length; ++i) {
                 var internal = shortcuts[i][0]
                 var title = shortcuts[i][1]
-                if(internal != "")
+                if(internal !== "")
                     variables.shortcutTitles[internal] = title
             }
         }

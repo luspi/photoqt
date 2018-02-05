@@ -58,7 +58,7 @@ Rectangle {
 
             // visibility depends on model count and property value
             visible: (opacity!=0)
-            opacity: (listView.model.count==1||showUnsupportedProtocolFolderMessage) ? 1 : 0
+            opacity: (listView.model.count===1||showUnsupportedProtocolFolderMessage) ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
             // some additional styling
@@ -369,7 +369,7 @@ Rectangle {
     function loadHighlightedFolder() {
 
         // check if we have focus and if entry is valid
-        if(openvariables.currentFocusOn != "folders" || listView.model.get(listView.currentIndex) == undefined)
+        if(openvariables.currentFocusOn != "folders" || listView.model.get(listView.currentIndex) === undefined)
             return
 
         verboseMessage("OpenFile/Folders", "loadHighlightedFolder()")

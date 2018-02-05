@@ -345,12 +345,12 @@ Item {
         unsupportedLabel.visible = false
         view.visible = false
 
-        if(d["validfile"] == "0") {
+        if(d["validfile"] === "0") {
             verboseMessage("MainView/MetaData", "setData(): Invalid file")
             invalidLabel.visible = true
         } else {
 
-            if(d["supported"] == "0") {
+            if(d["supported"] === "0") {
                 verboseMessage("MainView/MetaData", "setData(): Unsupported file format")
                 unsupportedLabel.visible = true
             } else {
@@ -427,17 +427,17 @@ Item {
                 var oneEmpty = false;
 
                 for(var i = 0; i < labels.length; i+=3) {
-                    if(labels[i] == "" && labels[i+1] == "") {
+                    if(labels[i] === "" && labels[i+1] === "") {
                         if(!oneEmpty) {
                             oneEmpty = true
                             mod.append({"name" : "", "prop" : "", "value" : "", "tooltip" : ""})
                         }
-                    } else if(d[labels[i]] != "" && d[labels[i+1]] != "") {
+                    } else if(d[labels[i]] !== "" && d[labels[i+1]] !== "") {
                         oneEmpty = false;
                         mod.append({"name" : labels[i+1],
                                 "prop" : labels[i],
                                 "value" : d[labels[i]],
-                                "tooltip" : d[labels[i+2] == "" ? d[labels[i]] : d[labels[i+2]]]})
+                                "tooltip" : d[labels[i+2] === "" ? d[labels[i]] : d[labels[i+2]]]})
                     }
                 }
 

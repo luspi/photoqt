@@ -97,9 +97,9 @@ Rectangle {
                         // execute export, return value is error message
                         var ret = getanddostuff.exportConfig()
                         // if there's an error message, display it
-                        if(ret == "-") {
+                        if(ret === "-") {
                             // do nothing, QFileDialog cancelled by user
-                        } else if(ret != "") {
+                        } else if(ret !== "") {
                             errormsg.error = ret
                             errormsg.exp = true
                             errormsg.show()
@@ -133,7 +133,7 @@ Rectangle {
                         // Import files, return value is error message
                         var ret = getanddostuff.importConfig(importfilename.file)
                         // If error message, display error
-                        if(ret != "") {
+                        if(ret !== "") {
                             errormsg.exp = false
                             errormsg.error = ret
                             errormsg.show()

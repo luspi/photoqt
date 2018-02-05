@@ -165,8 +165,8 @@ Rectangle {
 
         var c = getanddostuff.getScreenCount()
         enlightenment_monitor_model.clear()
-        for(var i = 0; i < c; ++i)
-            enlightenment_monitor_model.append({ "index" : i })
+        for(var k = 0; k < c; ++k)
+            enlightenment_monitor_model.append({ "index" : k })
 
         // Set-up enlightenment workspaces
         enlightenment_workspace_model.clear()

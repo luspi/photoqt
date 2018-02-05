@@ -49,7 +49,7 @@ Item {
             spacing: 5
             CustomLineEdit {
                 id: newfilename
-                enabled: management_top.opacity==1&&management_top.current=="rn"
+                enabled: management_top.opacity===1&&management_top.current==="rn"
                 text: ""
                 fontsize: 13
                 width: rename_top.width/2

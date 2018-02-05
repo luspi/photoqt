@@ -102,12 +102,12 @@ Rectangle {
 
         onTextChanged: {
             var already = shortcuts.setKeyShortcuts[combo.text]
-            if(already != undefined) {
+            if(already !== undefined) {
                 var count = already[0]
                 alreadySet.shTxt = ""
                 for(var i = 2; i < already.length; i+=2) {
                     var title = variables.shortcutTitles[already[i]]
-                    if(title == undefined) title = already[i]
+                    if(title === undefined) title = already[i]
                     alreadySet.shTxt += title + "<br>"
                 }
             } else
@@ -283,14 +283,14 @@ Rectangle {
         }
         onReleased: {
             var txt = AnalyseMouse.analyseMouseEvent(pressedPosStart, mouse, buttonId)
-            if(txt != "") combo.text = txt
+            if(txt !== "") combo.text = txt
             pressedPosEnd = Qt.point(mouse.x, mouse.y)
             pressedPosStart = Qt.point(-1,-1)
             mouseEventInProgress = false
         }
         onWheel: {
             var txt = AnalyseMouse.analyseWheelEvent(wheel, true)
-            if(txt != "") {
+            if(txt !== "") {
                 combo.text = txt
                 wheelEventDone.start()
             }
@@ -307,13 +307,13 @@ Rectangle {
 
         function handleMousePositionChange(mouse) {
 
-            if(pressedPosStart.x != -1 || pressedPosStart.y != -1) {
+            if(pressedPosStart.x !== -1 || pressedPosStart.y !== -1) {
                 var before = variables.shorcutsMouseGesturePointIntermediate
-                if(variables.shorcutsMouseGesturePointIntermediate.x == -1 || variables.shorcutsMouseGesturePointIntermediate.y == -1)
+                if(variables.shorcutsMouseGesturePointIntermediate.x === -1 || variables.shorcutsMouseGesturePointIntermediate.y === -1)
                     before = pressedPosStart
                 AnalyseMouse.analyseMouseGestureUpdate(mouse.x, mouse.y, before)
                 var txt = AnalyseMouse.analyseMouseEvent(pressedPosStart, mouse, buttonId, true)
-                if(txt != "") combo.text = txt
+                if(txt !== "") combo.text = txt
             }
 
         }

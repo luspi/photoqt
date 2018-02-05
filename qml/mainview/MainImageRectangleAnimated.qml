@@ -166,7 +166,7 @@ Item {
                         image.mirror = image1.getMirror()
                         // if the aspect ratio of the image has changed or the image dimensions, we reset the position, as this could otherwise lead to odd behavior
                         // (not wrong behavior, just not very userfriendly)
-                        if(getImageRatio() != image1.getImageRatio() || getWidthPlusHeight() != image1.getWidthPlusHeight())
+                        if(getImageRatio() !== image1.getImageRatio() || getWidthPlusHeight() !== image1.getWidthPlusHeight())
                             resetPositionWithoutAnimation()
                     // copy properties of image2 element
                     } else if(currentIdBefore == image2) {
@@ -179,7 +179,7 @@ Item {
                         image.mirror = image2.getMirror()
                         // if the aspect ratio of the image has changed or the image dimensions, we reset the position, as this could otherwise lead to odd behavior
                         // (not wrong behavior, just not very userfriendly)
-                        if(getImageRatio() != image2.getImageRatio() || getWidthPlusHeight() != image2.getWidthPlusHeight())
+                        if(getImageRatio() !== image2.getImageRatio() || getWidthPlusHeight() !== image2.getWidthPlusHeight())
                             resetPositionWithoutAnimation()
                     // copy properties of imageANIM1 element
                     } else if(currentIdBefore == imageANIM1) {
@@ -192,7 +192,7 @@ Item {
                         image.mirror = imageANIM1.getMirror()
                         // if the aspect ratio of the image has changed or the image dimensions, we reset the position, as this could otherwise lead to odd behavior
                         // (not wrong behavior, just not very userfriendly)
-                        if(getImageRatio() != imageANIM1.getImageRatio() || getWidthPlusHeight() != imageANIM1.getWidthPlusHeight())
+                        if(getImageRatio() !== imageANIM1.getImageRatio() || getWidthPlusHeight() !== imageANIM1.getWidthPlusHeight())
                             resetPositionWithoutAnimation()
                     // copy properties of imageANIM2 element
                     } else if(currentIdBefore == imageANIM2) {
@@ -205,7 +205,7 @@ Item {
                         image.mirror = imageANIM2.getMirror()
                         // if the aspect ratio of the image has changed or the image dimensions, we reset the position, as this could otherwise lead to odd behavior
                         // (not wrong behavior, just not very userfriendly)
-                        if(getImageRatio() != imageANIM2.getImageRatio() || getWidthPlusHeight() != imageANIM2.getWidthPlusHeight())
+                        if(getImageRatio() !== imageANIM2.getImageRatio() || getWidthPlusHeight() !== imageANIM2.getWidthPlusHeight())
                             resetPositionWithoutAnimation()
                     }
                 }

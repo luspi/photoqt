@@ -272,7 +272,7 @@ Rectangle {
 
             // visibility depends on model count and property value
             visible: (opacity!=0)
-            opacity: userPlaces.model.count==1
+            opacity: userPlaces.model.count===1
             Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
             // some additional styling
@@ -300,13 +300,13 @@ Rectangle {
                 // find the index on which it was dropped
                 var newindex = userPlaces.indexAt(drag.x, drag.y)
                 // a drop on the first entry (category title) is taken as drop on entry below
-                if(newindex==0) newindex = 1
+                if(newindex===0) newindex = 1
 
                 // if drag/drop originated from folders pane
                 if(splitview.dragSource == "folders") {
 
                     // if item was dropped on an item, insert folder at that location
-                    if(newindex != -1)
+                    if(newindex !== -1)
                         userPlaces.model.insert(newindex, folders.folderListView.model.get(folders.folderListView.dragItemIndex))
                     // if item was dropped below the items, simply append it to the model
                     else
@@ -321,7 +321,7 @@ Rectangle {
                     if(newindex < 0) newindex = userPlaces.model.count-1
 
                     // if item was moved (if left in place nothing needs to be done)
-                    if(userPlaces.dragItemIndex != newindex) {
+                    if(userPlaces.dragItemIndex !== newindex) {
 
                         // move item to location
                         userPlaces.model.move(userPlaces.dragItemIndex, newindex, 1)
@@ -345,7 +345,7 @@ Rectangle {
                 // get new index
                 var newindex = userPlaces.indexAt(drag.x, drag.y)
                 // if drag is below any item, set newindex to end
-                if(newindex == -1)
+                if(newindex === -1)
                     newindex = userPlaces.model.count
 
                 // store where the drag is located right now (updates marker in model)
@@ -789,7 +789,7 @@ Rectangle {
         verboseMessage("OpenFile/UserPlaces", "handleChangeCurrentIndex(): " + source)
 
         // currentIndex of standardlocations has changed
-        if(source == "standard") {
+        if(source === "standard") {
 
             // this likely means that the currentIndex was unset (set to -1) -> do nothing
             if(standardlocations.currentIndex == -1) return
@@ -806,7 +806,7 @@ Rectangle {
             openvariables.currentFocusOn = "userplaces"
 
         // currentIndex of userplaces has changed
-        } else if(source == "userplaces") {
+        } else if(source === "userplaces") {
 
             // this likely means that the currentIndex was unset (set to -1) -> do nothing
             if(userPlaces.currentIndex == -1) return
@@ -823,7 +823,7 @@ Rectangle {
             openvariables.currentFocusOn = "userplaces"
 
         // currentIndex of storageinfo has changed
-        } else if(source == "storage") {
+        } else if(source === "storage") {
 
             // this likely means that the currentIndex was unset (set to -1) -> do nothing
             if(storageinfo.currentIndex == -1) return
@@ -919,7 +919,7 @@ Rectangle {
                 // since we have to skip the not visible items, we count any visible item we find
                 while(distance > 0) {
                     userPlaces.currentIndex += 1
-                    if(userPlaces.model.get(userPlaces.currentIndex).notvisible=="0")
+                    if(userPlaces.model.get(userPlaces.currentIndex).notvisible==="0")
                         distance -= 1
                     if(userPlaces.currentIndex == userPlaces.model.count-1)
                         distance = 0
@@ -967,7 +967,7 @@ Rectangle {
                 // since we have to skip the not visible items, we count any visible item we find
                 while(distance > 0) {
                     userPlaces.currentIndex -= 1
-                    if(userPlaces.model.get(userPlaces.currentIndex).notvisible=="0")
+                    if(userPlaces.model.get(userPlaces.currentIndex).notvisible==="0")
                         distance -= 1
                     if(userPlaces.currentIndex == 1)
                         distance = 0
@@ -997,7 +997,7 @@ Rectangle {
         // load standardlocations location
         if(standardlocations.visible && standardlocations.currentIndex != -1) {
 
-            if(standardlocations.model.get(standardlocations.currentIndex) == undefined)
+            if(standardlocations.model.get(standardlocations.currentIndex) === undefined)
                 return
 
             openvariables.currentDirectory = standardlocations.model.get(standardlocations.currentIndex).location
@@ -1005,7 +1005,7 @@ Rectangle {
         // load userplaces location
         } else if(userPlaces.visible && userPlaces.currentIndex != -1) {
 
-            if(userPlaces.model.get(userPlaces.currentIndex) == undefined)
+            if(userPlaces.model.get(userPlaces.currentIndex) === undefined)
                 return
 
             openvariables.currentDirectory = userPlaces.model.get(userPlaces.currentIndex).path
@@ -1013,7 +1013,7 @@ Rectangle {
         // load storageinfo location
         } else if(storageinfo.visible && storageinfo.currentIndex != -1) {
 
-            if(storageinfo.model.get(storageinfo.currentIndex) == undefined)
+            if(storageinfo.model.get(storageinfo.currentIndex) === undefined)
                 return
 
             openvariables.currentDirectory = storageinfo.model.get(storageinfo.currentIndex).location
