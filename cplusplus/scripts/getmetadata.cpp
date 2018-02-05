@@ -1,6 +1,12 @@
 #include "getmetadata.h"
 
-GetMetaData::GetMetaData(QObject *parent) : QObject(parent) { }
+GetMetaData::GetMetaData(QObject *parent) : QObject(parent) {
+    settings = new SlimSettingsReadOnly;
+}
+
+GetMetaData::~GetMetaData() {
+    delete settings;
+}
 
 
 QVariantMap GetMetaData::getExiv2(QString path) {
@@ -66,29 +72,47 @@ QVariantMap GetMetaData::getExiv2(QString path) {
 
             returnMap.insert("supported","1");
 
-            returnMap.insert("Exif.Image.Make","");
-            returnMap.insert("Exif.Image.Model","");
-            returnMap.insert("Exif.Image.Software","");
-            returnMap.insert("Exif.Image.Orientation","");
-            returnMap.insert("Exif.Photo.DateTimeOriginal","");
-            returnMap.insert("Exif.Photo.ExposureTime","");
-            returnMap.insert("Exif.Photo.Flash","");
-            returnMap.insert("Exif.Photo.ISOSpeedRatings","");
-            returnMap.insert("Exif.Photo.SceneCaptureType","");
-            returnMap.insert("Exif.Photo.FocalLength","");
-            returnMap.insert("Exif.Photo.FNumber","");
-            returnMap.insert("Exif.Photo.LightSource","");
-            returnMap.insert("Exif.Photo.PixelXDimension","");
-            returnMap.insert("Exif.Photo.PixelYDimension","");
-            returnMap.insert("Exif.GPSInfo.GPSLatitudeRef","");
-            returnMap.insert("Exif.GPSInfo.GPSLatitude","");
-            returnMap.insert("Exif.GPSInfo.GPSLongitudeRef","");
-            returnMap.insert("Exif.GPSInfo.GPSLongitude","");
+            if(settings->metaMake)
+                returnMap.insert("Exif.Image.Make","");
+            if(settings->metaModel)
+                returnMap.insert("Exif.Image.Model","");
+            if(settings->metaSoftware)
+                returnMap.insert("Exif.Image.Software","");
+            if(settings->metaTimePhotoTaken)
+                returnMap.insert("Exif.Photo.DateTimeOriginal","");
+            if(settings->metaExposureTime)
+                returnMap.insert("Exif.Photo.ExposureTime","");
+            if(settings->metaFlash)
+                returnMap.insert("Exif.Photo.Flash","");
+            if(settings->metaIso)
+                returnMap.insert("Exif.Photo.ISOSpeedRatings","");
+            if(settings->metaSceneType)
+                returnMap.insert("Exif.Photo.SceneCaptureType","");
+            if(settings->metaFLength)
+                returnMap.insert("Exif.Photo.FocalLength","");
+            if(settings->metaFNumber)
+                returnMap.insert("Exif.Photo.FNumber","");
+            if(settings->metaLightSource)
+                returnMap.insert("Exif.Photo.LightSource","");
+            if(settings->metaDimensions) {
+                returnMap.insert("Exif.Photo.PixelXDimension","");
+                returnMap.insert("Exif.Photo.PixelYDimension","");
+            }
+            if(settings->metaGps) {
+                returnMap.insert("Exif.GPSInfo.GPSLatitudeRef","");
+                returnMap.insert("Exif.GPSInfo.GPSLatitude","");
+                returnMap.insert("Exif.GPSInfo.GPSLongitudeRef","");
+                returnMap.insert("Exif.GPSInfo.GPSLongitude","");
+            }
 
-            returnMap.insert("Iptc.Application2.Keywords","");
-            returnMap.insert("Iptc.Application2.City","");
-            returnMap.insert("Iptc.Application2.CountryName","");
-            returnMap.insert("Iptc.Application2.Copyright","");
+            if(settings->metaKeywords)
+                returnMap.insert("Iptc.Application2.Keywords","");
+            if(settings->metaLocation) {
+                returnMap.insert("Iptc.Application2.City","");
+                returnMap.insert("Iptc.Application2.CountryName","");
+            }
+            if(settings->metaCopyright)
+                returnMap.insert("Iptc.Application2.Copyright","");
 
 #ifdef EXIV2
 

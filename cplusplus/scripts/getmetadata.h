@@ -24,6 +24,7 @@
 #include <QUrl>
 #include <QImageReader>
 
+#include "../settings/slimsettingsreadonly.h"
 #include "../logger.h"
 
 #ifdef EXIV2
@@ -37,6 +38,7 @@ class GetMetaData : public QObject {
 
 public:
     explicit GetMetaData(QObject *parent = 0);
+    ~GetMetaData();
 
     Q_INVOKABLE QVariantMap getExiv2(QString path);
 
@@ -49,6 +51,9 @@ public:
     QString exifSceneType(QString value);
 
     QStringList exifGps(QString gpsLonRef, QString gpsLon, QString gpsLatRef, QString gpsLat);
+
+private:
+    SlimSettingsReadOnly *settings;
 
 };
 

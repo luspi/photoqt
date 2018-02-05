@@ -10,8 +10,6 @@ Item {
     // Set up model on first load, afetrwards just change data
     property bool imageLoaded: false
 
-    property string orientation: ""
-
     // make sure settings values are valid
     property int settingsMetadataWindowWidth: Math.max(Math.min(settings.metadataWindowWidth, background.width/2), 300)
     property real settingsMetadataOpacity: Math.min(Math.max(settings.metadataOpacity/255, 0), 1)
@@ -355,8 +353,6 @@ Item {
                 unsupportedLabel.visible = true
             } else {
 
-                orientation = d["Exif.Image.Orientation"]
-
                 view.visible = true
 
                 mod.clear()
@@ -427,6 +423,8 @@ Item {
                 var oneEmpty = false;
 
                 for(var i = 0; i < labels.length; i+=3) {
+                    if(d[labels[i]] === undefined && d[labels[i+1]] === undefined)
+                        continue
                     if(labels[i] === "" && labels[i+1] === "") {
                         if(!oneEmpty) {
                             oneEmpty = true
