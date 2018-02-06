@@ -151,7 +151,7 @@ EntryContainer {
                             onDropped: {
 
                                 // find the index on which it was dropped
-                                var newindex = listview.indexAt(drag.x, drag.y)
+                                var newindex = listview.indexAt(drag.x, drag.y+listview.contentY)
 
                                 // if item was dropped below any item, set new index to very end
                                 if(newindex < 0) newindex = listview.model.count-1
@@ -171,7 +171,7 @@ EntryContainer {
                             onPositionChanged: {
 
                                 // get new index
-                                var newindex = listview.indexAt(drag.x, drag.y)
+                                var newindex = listview.indexAt(drag.x, drag.y+listview.contentY)
                                 // if drag is below any item, set newindex to end
                                 if(newindex === -1)
                                     newindex = listview.model.count
