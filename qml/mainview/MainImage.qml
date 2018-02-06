@@ -25,7 +25,7 @@ Item {
 
     // make sure settings values are valid
     property int settingsMarginAroundImage: Math.max(0, Math.min(100, settings.marginAroundImage))
-    property int settingsSlideShowImageTransition: Math.max(0, Math.min(15, settings.slideShowImageTransition))*150
+    property int settingsSlideShowImageTransition: Math.max(0, Math.min(15, settings.slideShowImageTransition))
     property int settingsImageTransition: Math.max(0, Math.min(15, settings.imageTransition))
 
     // This is called when a click occurs and the closeOnEmptyBackground setting is set to true
