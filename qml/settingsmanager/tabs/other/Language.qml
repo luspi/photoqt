@@ -29,27 +29,27 @@ EntryContainer {
 
             GridView {
 
-                property var languageitems: [["en","English",""],
+                property var languageitems: [["en/en_IE/en_US/en_CA","English",""],
                                             ["ar","عربي ,عربى",""],
                                             ["cs","Čeština",""],
-                                            ["de","Deutsch",""],
+                                            ["de/de_DE/de_CH/de_AT","Deutsch",""],
                                             ["el","Ελληνικά",""],
-                                            ["es_ES","Español (España)",""],
+                                            ["es/es_ES","Español (España)",""],
                                             ["es_CR","Español (Costa Rica)",""],
                                             ["fi","Suomen kieli",""],
-                                            ["fr","Français",""],
+                                            ["fr/fr_FR","Français",""],
                                             ["he","עברית",""],
                                             ["it","Italiano",""],
                                             ["ja","日本語",""],
                                             ["lt","lietuvių kalba",""],
                                             ["pl","Polski",""],
                                             ["pt_BR","Português (Brasil)",""],
-                                            ["pt_PT","Português (Portugal)",""],
-                                            ["ru_RU","русский язык",""],
+                                            ["pt/pt_PT","Português (Portugal)",""],
+                                            ["ru/ru_RU","русский язык",""],
                                             ["sk","Slovenčina",""],
                                             ["tr","Türkçe",""],
-                                            ["uk_UA","Українська",""],
-                                            ["zh_CN","Chinese",""],
+                                            ["uk/uk_UA","Українська",""],
+                                            ["zh/zh_CN","Chinese",""],
                                             ["zh_TW","Chinese (traditional)",""]]
 
                 property string currentlySelected: ""
@@ -69,7 +69,7 @@ EntryContainer {
                     objectName: grid.languageitems[index][0]
                     text: grid.languageitems[index][1]
                     author: grid.languageitems[index][2]
-                    checked: (objectName===grid.currentlySelected)
+                    checked: objectName.split("/").indexOf(grid.currentlySelected)>-1
                     exclusiveGroup: languagegroup
                     width: grid.cellWidth-grid.spacing*2
                     x: grid.spacing
@@ -89,7 +89,8 @@ EntryContainer {
     }
 
     function saveData() {
-        settings.language = languagegroup.current.objectName
+        if(languagegroup.current != null)
+            settings.language = languagegroup.current.objectName
     }
 
 }
