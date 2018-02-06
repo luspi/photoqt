@@ -26,6 +26,7 @@ Rectangle {
     property string emptyMessage: ""
 
     signal textEdited()
+    signal tabPressed()
 
     TextInput {
 
@@ -37,6 +38,10 @@ Rectangle {
         enabled: ele_top.visible
 
         width: parent.width-6
+
+        // This is catched and processed here as otherwise it would be processed (i.e., the LineEdit loses focus) BEFORE the shortcuts engine would receive it
+        Keys.onTabPressed:
+            tabPressed()
 
         color: enabled ? colour.text : colour.text_disabled
         selectedTextColor: colour.text_selected
