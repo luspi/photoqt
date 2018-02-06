@@ -348,7 +348,7 @@ Rectangle {
         id: confirmdefaultssettings
         header: em.pty+qsTr("Restore Default Settings")
         description: em.pty+qsTr("Are you sure you want to revert back to the default settings?") + "<br><br>" +
-                     em.pty+qsTr("This change is not permanent until you click on 'Save'.")
+                     em.pty+qsTr("This step cannot be reversed!")
         confirmbuttontext: em.pty+qsTr("Yes, go ahead")
         //: Used in settings manager when asking for confirmation for restoring default settings (written on button)
         rejectbuttontext: em.pty+qsTr("No, thanks")
@@ -363,7 +363,7 @@ Rectangle {
         id: confirmdefaultshortcuts
         header: em.pty+qsTr("Set Default Shortcuts")
         description: em.pty+qsTr("Are you sure you want to reset the shortcuts to the default set?") + "<br><br>" +
-                     em.pty+qsTr("This change is not permanent until you click on 'Save'.")
+                     em.pty+qsTr("This step cannot be reversed!")
         confirmbuttontext: em.pty+qsTr("Yes, please")
         rejectbuttontext: em.pty+qsTr("No, don't")
         maxwidth: 400
