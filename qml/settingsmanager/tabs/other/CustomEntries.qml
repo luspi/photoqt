@@ -96,6 +96,17 @@ EntryContainer {
 
                     }
 
+
+                    ScrollBarVertical {
+                        id: listview_scrollbar
+                        flickable: listview
+                        showOutside: true
+                        // don't hide, always keep visible
+                        opacityVisible: 0.8
+                        opacityHidden: 0.5
+                        z: listview.z+1
+                    }
+
                     // The view for all the entries
                     ListView {
 
