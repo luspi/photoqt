@@ -228,7 +228,7 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
 }
 
 ImageProviderThumbnail::~ImageProviderThumbnail() {
-    if(dbTransactionStarted) if(!db.commit()) qDebug() << "[imageprovider thumbs ~] ERROR: CAN'T commit DB TRANSACTION!";
+    if(dbSetup && dbTransactionStarted) if(!db.commit()) qDebug() << "[imageprovider thumbs ~] ERROR: CAN'T commit DB TRANSACTION!";
     db.close();
     delete imageproviderfull;
     delete settings;
