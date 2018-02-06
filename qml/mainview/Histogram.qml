@@ -203,6 +203,7 @@ Rectangle {
         ToolTip {
             id: dragArea
             hoverEnabled: true
+            //: Used for the histogram. The version refers to the type of histogram that is available (colored and greyscale)
             text: em.pty+qsTr("Click-and-drag to move. Right click to switch version.")
             acceptedButtons: Qt.LeftButton | Qt.RightButton
             anchors.fill: parent
