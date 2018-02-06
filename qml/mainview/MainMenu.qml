@@ -365,6 +365,12 @@ Rectangle {
 
     Component.onCompleted: setupExternalApps()
 
+    Connections {
+        target: watcher
+        onCustomMenuEntriesUpdated:
+            setupExternalApps()
+    }
+
     function setupExternalApps() {
 
         verboseMessage("MainView/MainMenu", "setupExternalApps()")

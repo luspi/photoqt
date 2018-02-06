@@ -44,6 +44,10 @@ public:
         storageInfoTimer->start();
         storageInfoHash = formStorageInfoHash();
 
+        watcherCustomMenuEntries = new QFileSystemWatcher;
+        connect(watcherCustomMenuEntries, &QFileSystemWatcher::fileChanged, this, &Watcher::customMenuEntriesChanged);
+        watcherCustomMenuEntries->addPath(ConfigFiles::CONTEXTMENU_FILE());
+
     }
 
     Q_INVOKABLE void setCurrentImageForWatching(QString file) {
@@ -101,6 +105,7 @@ public:
         delete watcherImage;
         delete notifyAboutImageChange;
         delete storageInfoTimer;
+        delete watcherCustomMenuEntries;
     }
 
 signals:
@@ -109,11 +114,13 @@ signals:
     void userPlacesUpdated();
     void shortcutsUpdated();
     void storageInfoUpdated();
+    void customMenuEntriesUpdated();
 
 private:
     QFileSystemWatcher *watcherFolders;
     QFileSystemWatcher *watcherUserPlaces;
     QFileSystemWatcher *watcherShortcuts;
+    QFileSystemWatcher *watcherCustomMenuEntries;
     QTimer *notifyAboutImageChange;
     QFileSystemWatcher *watcherImage;
     QTimer *storageInfoTimer;
@@ -172,6 +179,17 @@ private slots:
             }
         }
         return fullhash;
+    }
+    void customMenuEntriesChanged() {
+        emit customMenuEntriesUpdated();
+        QFileInfo info(ConfigFiles::CONTEXTMENU_FILE());
+        for(int i = 0; i < 40; ++i) {
+            if(info.exists())
+                break;
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        }
+        if(info.exists())
+            watcherCustomMenuEntries->addPath(ConfigFiles::CONTEXTMENU_FILE());
     }
 
 };
