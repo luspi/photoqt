@@ -114,7 +114,8 @@ void ContextMenu::itemChecked(bool) {
 
 // specify whether item is visible
 void ContextMenu::setEnabled(int index, bool enabled) {
-    allActions.at(index)->setEnabled(enabled);
+    if(index < allActions.length())
+        allActions.at(index)->setEnabled(enabled);
 }
 
 // slot called when user clicks on item
