@@ -159,6 +159,7 @@ Rectangle {
                                     ["__slideshowQuick", em.pty+qsTr("Start Slideshow (Quickstart)")],
                                     ["__about", em.pty+qsTr("About PhotoQt")],
                                     ["__wallpaper", em.pty+qsTr("Set as Wallpaper")],
+                                    ["__histogram", em.pty+qsTr("Show Histogram")],
                                     ["__imgurAnonym", em.pty+qsTr("Upload to imgur.com (anonymously)")],
                                     ["__imgur", em.pty+qsTr("Upload to imgur.com user account")]]
             }
