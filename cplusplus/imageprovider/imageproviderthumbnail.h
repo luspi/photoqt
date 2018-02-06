@@ -47,6 +47,9 @@ private:
     bool dbTransactionStarted;
     bool needToReCreatedDbThumbnail;
 
+    bool dbSetup;
+    void setupDbWhenNotYetDone();
+
 };
 
 #endif // IMAGEPROVIDERTHUMBS_H

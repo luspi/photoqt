@@ -7,14 +7,27 @@ ImageProviderThumbnail::ImageProviderThumbnail() : QQuickImageProvider(QQuickIma
     // Get permanent and temporary settings
     settings = new SlimSettingsReadOnly;
 
-    // Setup database
-    db = QSqlDatabase::addDatabase("QSQLITE","thumbDB" + QString::number(rand()));
-    db.setDatabaseName(ConfigFiles::THUMBNAILS_DB());
+    dbSetup = false;
     if(settings->thumbnailCache && !settings->thumbnailCacheFile)
+        setupDbWhenNotYetDone();
+
+}
+
+void ImageProviderThumbnail::setupDbWhenNotYetDone() {
+
+    if(!dbSetup) {
+
+        // Setup database
+        db = QSqlDatabase::addDatabase("QSQLITE","thumbDB" + QString::number(rand()));
+        db.setDatabaseName(ConfigFiles::THUMBNAILS_DB());
         db.open();
 
-    // No transaction has been started yet
-    dbTransactionStarted = false;
+        // No transaction has been started yet
+        dbTransactionStarted = false;
+
+        dbSetup = true;
+
+    }
 
 }
 
@@ -41,7 +54,8 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
     QString typeCache = (settings->thumbnailCacheFile ? "files" : "db");
     bool cacheEnabled = settings->thumbnailCache;
 
-    if(cacheEnabled && typeCache == "db" && !db.isOpen()) db.open();
+    if(settings->thumbnailCache && !settings->thumbnailCacheFile)
+        setupDbWhenNotYetDone();
 
     // Create the md5 hash for the thumbnail file
     QByteArray path = "file://" + filename;
@@ -74,7 +88,7 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
 
         }
 
-    // otherwise use the database (default)
+    // otherwise use the database
     } else if(cacheEnabled) {
 
         needToReCreatedDbThumbnail = false;
