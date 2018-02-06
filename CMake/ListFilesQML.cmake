@@ -40,7 +40,7 @@ SET(d "qml/settingsmanager/tabs/metadata")
 SET(photoqt_QML ${photoqt_QML} ${d}/FontSize.qml ${d}/MetaData.qml ${d}/MetaDataTile.qml ${d}/MouseTrigger.qml ${d}/OnlineMap.qml ${d}/Opacity.qml ${d}/RotateFlip.qml)
 
 SET(d "qml/settingsmanager/tabs/other")
-SET(photoqt_QML ${photoqt_QML} ${d}/CustomEntries.qml ${d}/CustomEntriesInteractive.qml ${d}/Imgur.qml ${d}/Language.qml ${d}/LanguageTile.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/CustomEntries.qml ${d}/Imgur.qml ${d}/Language.qml ${d}/LanguageTile.qml)
 
 SET(d "qml/settingsmanager/tabs/shortcuts")
 SET(photoqt_QML ${photoqt_QML} ${d}/Available.qml ${d}/Set.qml ${d}/ShortcutsContainer.qml)

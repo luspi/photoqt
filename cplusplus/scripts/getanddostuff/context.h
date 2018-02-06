@@ -37,7 +37,7 @@ public:
     explicit GetAndDoStuffContext(QObject *parent = 0);
     ~GetAndDoStuffContext();
 
-    QStringList setDefaultContextMenuEntries();
+    QStringList getDefaultContextMenuEntries();
     QStringList getContextMenu();
     void saveContextMenu(QVariantList m);
     bool checkIfBinaryExists(QString exec);

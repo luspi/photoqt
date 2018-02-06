@@ -3,7 +3,7 @@
 GetAndDoStuffContext::GetAndDoStuffContext(QObject *parent) : QObject(parent) { }
 GetAndDoStuffContext::~GetAndDoStuffContext() { }
 
-QStringList GetAndDoStuffContext::setDefaultContextMenuEntries() {
+QStringList GetAndDoStuffContext::getDefaultContextMenuEntries() {
 
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE << "GetAndDoStuffContext::setDefaultContextMenuEntries()" << NL;
@@ -32,23 +32,10 @@ QStringList GetAndDoStuffContext::setDefaultContextMenuEntries() {
       << tr("Open in") + " Eye of Gnome" << "eog %f";
 
     QStringList ret;
-    QVariantList forsaving;
-    int counter = 0;
     // Check for all entries
-    for(int i = 0; i < m.size()/2; ++i) {
-        if(checkIfBinaryExists(m[2*i+1])) {
+    for(int i = 0; i < m.size()/2; ++i)
+        if(checkIfBinaryExists(m[2*i+1]))
             ret << m[2*i+1] << "0" << m[2*i];
-            QVariantMap map;
-            map.insert("posInView",counter);
-            map.insert("binary",m[2*i+1]);
-            map.insert("description",m[2*i]);
-            map.insert("quit","0");
-            forsaving.append(map);
-            ++counter;
-        }
-    }
-
-    saveContextMenu(forsaving);
 
     return ret;
 
@@ -65,7 +52,7 @@ QStringList GetAndDoStuffContext::getContextMenu() {
 
     QFile file(ConfigFiles::CONTEXTMENU_FILE());
 
-    if(!file.exists()) return setDefaultContextMenuEntries();
+    if(!file.exists()) return getDefaultContextMenuEntries();
 
     if(!file.open(QIODevice::ReadOnly)) {
         LOG << CURDATE << "GetAndDoStuffContext: ERROR: Can't open contextmenu file" << NL;
@@ -107,7 +94,7 @@ bool GetAndDoStuffContext::checkIfBinaryExists(QString exec) {
     p.setStandardOutputFile(QProcess::nullDevice());
     p.start("which " + exec);
     p.waitForFinished();
-    return p.exitCode() == 0;
+    return p.exitCode() == 1;
 }
 
 void GetAndDoStuffContext::saveContextMenu(QVariantList l) {
@@ -126,7 +113,7 @@ void GetAndDoStuffContext::saveContextMenu(QVariantList l) {
         QVariantMap data = map.toMap();
         // Invalid data can be caused by deletion
         if(data.value("description").isValid())
-            adj.insert(data.value("posInView").toInt(),QList<QVariant>() << data.value("binary") << data.value("description") << data.value("quit"));
+            adj.insert(data.value("index").toInt(),QList<QVariant>() << data.value("executable") << data.value("description") << data.value("quit"));
     }
 
     // Open file
