@@ -12,6 +12,7 @@ Rectangle {
         bottom: flickable.bottom;
         right: flickable.right;
         margins: 1;
+        rightMargin: showOutside ? -width : 1
     }
 
     property Flickable flickable: null;
@@ -19,6 +20,8 @@ Rectangle {
 
     property real opacityVisible: 0.8
     property real opacityHidden: 0.1
+
+    property bool showOutside: false
 
     signal scrollFinished();
 
