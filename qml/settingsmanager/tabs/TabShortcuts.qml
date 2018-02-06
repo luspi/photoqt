@@ -110,8 +110,8 @@ Rectangle {
                                     ["__prev",em.pty+qsTr("Previous Image")],
                                     ["__gotoFirstThb",em.pty+qsTr("Go to first Image")],
                                     ["__gotoLastThb",em.pty+qsTr("Go to last Image")],
-                                    ["__hide",em.pty+qsTr("Hide to System Tray")],
-                                    ["__close",em.pty+qsTr("Quit PhotoQt")]]
+                                    ["__close",em.pty+qsTr("Hide to System Tray (if enabled)")],
+                                    ["__quit",em.pty+qsTr("Quit PhotoQt")]]
             }
 
             Item { width: 1; height: 10 }

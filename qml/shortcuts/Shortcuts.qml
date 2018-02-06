@@ -72,9 +72,9 @@ Item {
 
     function executeShortcut(cmd, close) {
 
-        if(cmd === "__close")
+        if(cmd === "__quit")
             mainwindow.quitPhotoQt();
-        else if(cmd === "__hide")
+        else if(cmd === "__close")
             mainwindow.closePhotoQt()
         else if(cmd === "__settings")
             call.show("settingsmanager")

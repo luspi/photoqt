@@ -26,6 +26,43 @@ namespace StartupCheck {
 
     namespace Shortcuts {
 
+    static inline void renameShortcutsFunctions() {
+
+        if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "StartupCheck::Shortcuts - renameShortcutsFunctions()" << NL;
+
+        QFile allshortcuts(ConfigFiles::SHORTCUTS_FILE());
+
+        if(!allshortcuts.exists())
+            return;
+
+        if(!allshortcuts.open(QIODevice::ReadOnly)) {
+            LOG << CURDATE << "ERROR: Unable to open shortcuts file for reading!" << std::endl;
+            return;
+        }
+
+        QTextStream in(&allshortcuts);
+        QString all = in.readAll();
+
+        allshortcuts.close();
+
+        if(!all.contains("__close") && !all.contains("__hide"))
+            return;
+
+        all = all.replace("__close", "__quit");
+        all = all.replace("__hide", "__close");
+
+        if(!allshortcuts.open(QIODevice::WriteOnly|QIODevice::Truncate)) {
+            LOG << CURDATE << "ERROR: Unable to open shortcuts file for writing!" << std::endl;
+            return;
+        }
+
+        QTextStream out(&allshortcuts);
+        out << all;
+
+        allshortcuts.close();
+
+    }
+
         static inline void setDefaultShortcutsIfShortcutFileDoesntExist() {
 
             if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "StartupCheck::Shortcuts - setDefaultShortcutsIfShortcutFileDoesntExist()" << NL;

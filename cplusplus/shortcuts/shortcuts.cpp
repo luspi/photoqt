@@ -85,9 +85,9 @@ QVariantList Shortcuts::loadDefaults() {
     ret << "Ctrl+M" << "0" << "__move";
     ret << "Delete" << "0" << "__delete";
 
-    ret << "Escape" << "0" << "__hide";
-    ret << "Q" << "0" << "__close";
-    ret << "Ctrl+Q" << "0" << "__close";
+    ret << "Escape" << "0" << "__close";
+    ret << "Q" << "0" << "__quit";
+    ret << "Ctrl+Q" << "0" << "__quit";
 
     ret << "Home" << "0" << "__gotoFirstThb";
     ret << "End" << "0" << "__gotoLastThb";
