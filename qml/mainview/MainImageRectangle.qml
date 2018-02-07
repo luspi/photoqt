@@ -29,6 +29,12 @@ Item {
 
     // the source of the current image
     property string source: ""
+    onSourceChanged: zoomHasBeenManuallyChanged = false
+
+    // We check whether the image has ever been zoomed. If it hasn't, then we can always ensure image is adjusted inside window
+    property bool zoomHasBeenManuallyChanged: false
+    // This is the threshold for how close to the original size we need to be before fitting image into window when window is resized
+    property int zoomedThreshold: Math.min(mainwindow.width*0.1, mainwindow.height*0.1)
 
     property int settingsInterpolationNearestNeighbourThreshold: Math.max(0, settings.interpolationNearestNeighbourThreshold)
     property int settingsInterpolationNearestNeighbourUpscale: settings.interpolationNearestNeighbourUpscale
@@ -319,12 +325,22 @@ Item {
     // React to changes to window size
     Connections {
         target: mainwindow
-        onWidthChanged:
-            if(!isZoomedIn())
+        onWidthChanged: {
+            var dw = imageContainer.width*imageContainer.scale-imageContainer.defaultWidth
+            var dh = imageContainer.height*imageContainer.scale-imageContainer.defaultHeight
+            if(!zoomHasBeenManuallyChanged ||
+                    (Math.abs(dw) <= imageContainer.zoomedThreshold && dh < imageContainer.defaultHeight+imageContainer.zoomedThreshold) ||
+                    (Math.abs(dh) <= imageContainer.zoomedThreshold && dw < imageContainer.defaultWidth+imageContainer.zoomedThreshold))
                 resetZoomWithoutAnimation()
-        onHeightChanged:
-            if(!isZoomedIn())
+        }
+        onHeightChanged: {
+            var dw = imageContainer.width*imageContainer.scale-imageContainer.defaultWidth
+            var dh = imageContainer.height*imageContainer.scale-imageContainer.defaultHeight
+            if(!zoomHasBeenManuallyChanged ||
+                    (Math.abs(dw) <= imageContainer.zoomedThreshold && dh < imageContainer.defaultHeight+imageContainer.zoomedThreshold) ||
+                    (Math.abs(dh) <= imageContainer.zoomedThreshold && dw < imageContainer.defaultWidth+imageContainer.zoomedThreshold))
                 resetZoomWithoutAnimation()
+        }
     }
 
     /***************************************************************/
@@ -378,10 +394,10 @@ Item {
 
     // Check if image is zoomed in
     function isZoomedIn() {
-        verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "isZoomedIn()")
+        verboseMessage("MainView/MainImageRectangleAnimated - " + getanddostuff.convertIdIntoString(imageContainer), "isZoomedIn()")
         if((rotationAni.to%180 +180)%180 == 90)
-            return (height*scale > defaultWidth || width*scale > defaultHeight)
-        return (height*scale > defaultHeight || width*scale > defaultWidth)
+            return (height*scale > defaultWidth+zoomedThreshold || width*scale > defaultHeight+zoomedThreshold)
+        return (width*scale > defaultWidth+zoomedThreshold || height*scale > defaultHeight+zoomedThreshold)
     }
 
 
@@ -394,6 +410,7 @@ Item {
         scaleAni.duration = scaleDuration
         imageContainer.scale *= 1.1
         zoomAdjustedAfterRotation = false
+        zoomHasBeenManuallyChanged = true
     }
 
     function zoomOut() {
@@ -401,6 +418,7 @@ Item {
         scaleAni.duration = scaleDuration
         imageContainer.scale /= 1.1
         zoomAdjustedAfterRotation = false
+        zoomHasBeenManuallyChanged = true
     }
 
     function zoomActual() {
@@ -412,6 +430,7 @@ Item {
         scaleAni.duration = scaleDuration
         scale = 1/Math.min( defaultWidth / image.sourceSize.width, defaultHeight / image.sourceSize.height)
         zoomAdjustedAfterRotation = false
+        zoomHasBeenManuallyChanged = true
     }
 
     function resetZoom() {
@@ -465,6 +484,8 @@ Item {
 
         // scale
         imageContainer.scale = Math.min(facH, facW)
+
+        zoomHasBeenManuallyChanged = false
 
     }
 
