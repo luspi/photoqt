@@ -254,11 +254,17 @@ Item {
             mipmap: true
 
             // only visible when image not zoomed or zoomed out
-            visible: imageContainer.width*imageContainer.scale <= defaultWidth+2 &&
-                     imageContainer.height*imageContainer.scale <= defaultHeight+2 &&
-                     image.sourceSize.width > defaultWidth &&
-                     image.sourceSize.height > defaultHeight &&
-                     source != ""
+            visible: ((rotationAni.to%180 +180)%180 == 0)
+                     ? imageContainer.width*imageContainer.scale <= defaultWidth+2 &&
+                       imageContainer.height*imageContainer.scale <= defaultHeight+2 &&
+                       image.sourceSize.width > defaultWidth &&
+                       image.sourceSize.height > defaultHeight &&
+                       source != ""
+                     : imageContainer.height*imageContainer.scale <= defaultWidth+2 &&
+                       imageContainer.width*imageContainer.scale <= defaultHeight+2 &&
+                       image.sourceSize.height > defaultWidth &&
+                       image.sourceSize.width > defaultHeight &&
+                       source != ""
 
         }
 
