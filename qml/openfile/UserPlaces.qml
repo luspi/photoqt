@@ -382,6 +382,9 @@ Rectangle {
 
             id: userPlacesDelegate
 
+            // This is needed for deleting an entry from the context menu, as the signal that is received there passes on a variable that is also named index
+            property int myIndex: index
+
             // full width, fixed height of 30 (if entry not hidden)
             width: userPlaces.width
             height: !visible ? 0 : 30
@@ -527,8 +530,8 @@ Rectangle {
                         addItem(em.pty+qsTr("Remove entry"))
 
                     onSelectedIndexChanged: {
-                        // Remove from model
-                        userPlaces.model.remove(index)
+                        // Remove from model. We use the myIndex property as this signal passes on a variable that is also named 'index'
+                        userPlaces.model.remove(userPlacesDelegate.myIndex)
 
                         // and save the changes to file
                         Handle.saveUserPlaces()
