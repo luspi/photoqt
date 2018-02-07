@@ -377,29 +377,7 @@ Item {
 
         verboseMessage("MainView/MainImageRectangleAnimated - " + getanddostuff.convertIdIntoString(imageContainer), "resetZoom()")
 
-        scaleAni.duration = scaleDuration
-
-        // fit in window for smaller images
-        if(settings.fitInWindow && image.sourceSize.width < defaultWidth && image.sourceSize.height < defaultHeight) {
-            imageContainer.scale = Math.min(defaultWidth / image.sourceSize.width, defaultHeight / image.sourceSize.height)
-            return
-        }
-
-        // adjust the scale factor when image is rotated to the sides
-        var factor = 1
-        if((rotationAni.to%180 +180)%180 == 90)
-            factor = image.sourceSize.height/image.sourceSize.width
-
-        // find the smallest factor required for proper scaling
-        var facW = 1
-        var facH = 1
-        if(image.sourceSize.width > defaultWidth)
-            facW = defaultWidth / image.sourceSize.width
-        if(image.sourceSize.height > defaultHeight)
-            facH = defaultHeight / image.sourceSize.height
-
-        // scale
-        imageContainer.scale = factor*Math.min(facH, facW)
+        _resetZoomWithDuration(scaleDuration)
 
     }
 
@@ -407,7 +385,13 @@ Item {
 
         verboseMessage("MainView/MainImageRectangleAnimated - " + getanddostuff.convertIdIntoString(imageContainer), "resetZoom()")
 
-        scaleAni.duration = 0
+        _resetZoomWithDuration(0)
+
+    }
+
+    function _resetZoomWithDuration(duration) {
+
+        scaleAni.duration = duration
 
         // fit in window for smaller images
         if(settings.fitInWindow && image.sourceSize.width < defaultWidth && image.sourceSize.height < defaultHeight) {
@@ -415,21 +399,31 @@ Item {
             return
         }
 
-        // adjust the scale factor when image is rotated to the sides
-        var factor = 1
-        if((rotationAni.to%180 +180)%180 == 90)
-            factor = image.sourceSize.height/image.sourceSize.width
-
-        // find the smallest factor required for proper scaling
+        // find the right scale factor to fit image inside window
         var facW = 1
         var facH = 1
-        if(image.sourceSize.width > defaultWidth)
-            facW = defaultWidth / image.sourceSize.width
-        if(image.sourceSize.height > defaultHeight)
-            facH = defaultHeight / image.sourceSize.height
+
+        // when image is rotated +/- 90 degrees ...
+        if((rotationAni.to%180 +180)%180 == 90) {
+
+            if(image.sourceSize.width > defaultHeight)
+                facW = defaultHeight / image.sourceSize.width
+            if(image.sourceSize.height > defaultWidth)
+                facH = defaultWidth / image.sourceSize.height
+
+        // ... else ...
+        } else {
+
+            // find the smallest factor required for proper scaling
+            if(image.sourceSize.width > defaultWidth)
+                facW = defaultWidth / image.sourceSize.width
+            if(image.sourceSize.height > defaultHeight)
+                facH = defaultHeight / image.sourceSize.height
+
+        }
 
         // scale
-        imageContainer.scale = factor*Math.min(facH, facW)
+        imageContainer.scale = Math.min(facH, facW)
 
     }
 
