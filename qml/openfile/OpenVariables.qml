@@ -5,7 +5,7 @@ Item {
 
     property string currentDirectory: ""
     onCurrentDirectoryChanged: {
-        if(getanddostuff.doesThisExist(currentDirectory)) {
+        if(getanddostuff.doesThisExist(currentDirectory) || currentDirectory.substring(0,7) == "remote:") {
             Handle.loadDirectory()
             watcher.setCurrentDirectoryForChecking(currentDirectory)
             getanddostuff.setOpenFileLastLocation(openvariables.currentDirectory)
