@@ -256,7 +256,6 @@ Item {
             // only visible when image not zoomed or zoomed out
             visible: imageContainer.width*imageContainer.scale <= defaultWidth+2 &&
                      imageContainer.height*imageContainer.scale <= defaultHeight+2 &&
-                     scale <= 1 &&
                      image.sourceSize.width > defaultWidth &&
                      image.sourceSize.height > defaultHeight &&
                      source != ""
