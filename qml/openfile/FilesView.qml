@@ -20,7 +20,7 @@ Rectangle {
 
     // make sure settings values are valid
     property string settingsOpenDefaultView: (settings.openDefaultView==="icons" ? "icons" : "list")
-    property int settingsOpenZoomLevel: Math.max(10, Math.min(50, settings.openZoomLevel))
+    property int settingsOpenZoomLevel: Math.max(10, Math.min(50, settings.openZoomLevel))*1.5
 
     // if in focus, show a slight blue glimmer
     color: (openvariables.currentFocusOn=="filesview") ? "#44000055" : "#44000000"
