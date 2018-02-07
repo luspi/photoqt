@@ -39,7 +39,8 @@ Rectangle {
 
         // position and size
         anchors.fill: parent
-        anchors.bottomMargin: editRect.height
+        anchors.bottomMargin: editRect.height+editRect.anchors.margins*2
+        clip: true
 
         // size of individual items depend on type of view. A list is nothing but a grid with one column
         // we animate switching the view mode
