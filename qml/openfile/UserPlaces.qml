@@ -298,7 +298,7 @@ Rectangle {
             onDropped: {
 
                 // find the index on which it was dropped
-                var newindex = userPlaces.indexAt(drag.x, drag.y)
+                var newindex = userPlaces.indexAt(drag.x, drag.y+userPlaces.contentY)
                 // a drop on the first entry (category title) is taken as drop on entry below
                 if(newindex===0) newindex = 1
 
@@ -343,7 +343,7 @@ Rectangle {
             onPositionChanged: {
 
                 // get new index
-                var newindex = userPlaces.indexAt(drag.x, drag.y)
+                var newindex = userPlaces.indexAt(drag.x, drag.y+userPlaces.contentY)
                 // if drag is below any item, set newindex to end
                 if(newindex === -1)
                     newindex = userPlaces.model.count
