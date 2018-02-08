@@ -1358,7 +1358,7 @@ public:
         setInterpolationNearestNeighbourUpscale(true);
         setPixmapCache(128);
         setLeftButtonMouseClickAndMove(true);
-        setShowTransparencyMarkerBackground(true);
+        setShowTransparencyMarkerBackground(false);
         setStartupLoadLastLoadedImage(false);
         setMainMenuWindowWidth(350);
 
