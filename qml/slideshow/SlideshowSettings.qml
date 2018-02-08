@@ -32,7 +32,7 @@ FadeInTemplate {
     heading: em.pty+qsTr("Slideshow Setup")
 
     // make sure settings values are valid
-    property string settingsSlideShowMusicFile: getanddostuff.doesThisExist(settingsSlideShowMusicFile) ? settingsSlideShowMusicFile : ""
+    property string settingsSlideShowMusicFile: getanddostuff.doesThisExist(settings.slideShowMusicFile) ? settings.slideShowMusicFile : ""
 
     content: [
 
@@ -373,7 +373,7 @@ FadeInTemplate {
         loop.checkedButton = settings.slideShowLoop
         shuffle.checkedButton = settings.slideShowShuffle
         quickinfo.checkedButton = settings.slideShowHideQuickInfo
-        musiccheckbox.checkedButton = settingsSlideShowMusicFile
+        musiccheckbox.checkedButton = (settingsSlideShowMusicFile!="")
         musictxt.text = settingsSlideShowMusicFile
     }
 

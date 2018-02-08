@@ -49,7 +49,7 @@ Rectangle {
 
     // make sure settings values are valid
     property int settingsSlideShowTime: Math.max(1000, Math.min(300*1000, settings.slideShowTime*1000))
-    property string settingsSlideShowMusicFile: getanddostuff.doesThisExist(settingsSlideShowMusicFile) ? settingsSlideShowMusicFile : ""
+    property string settingsSlideShowMusicFile: getanddostuff.doesThisExist(settings.slideShowMusicFile) ? settings.slideShowMusicFile : ""
 
     // paused?
     property bool paused: false
@@ -122,6 +122,7 @@ Rectangle {
         id: slideshowmusic
         volume: volumeslider.value/100.0
         onError: console.error("AUDIO ERROR:",errorString,"-",source)
+        onStopped: if(variables.slideshowRunning) slideshowmusic.play()
     }
 
     Connections {
@@ -183,6 +184,7 @@ Rectangle {
         if(settingsSlideShowMusicFile != "") {
             slideshowmusic.source = "file://" + settingsSlideShowMusicFile
             slideshowmusic.play()
+            console.log("playing music:", slideshowmusic.source)
         }
 
         variables.imageItemBlocked = true
@@ -262,6 +264,9 @@ Rectangle {
 
         verboseMessage("Slideshow/SlideshowBar", "stopSlideshow()")
 
+        // slideshow ended
+        variables.slideshowRunning = false
+
         // We're definitely not paused anymore
         paused = false
 
@@ -276,9 +281,7 @@ Rectangle {
             slideshowmusic.stop()
 
         // Update variables
-        variables.slideshowRunning = false
         variables.guiBlocked = false
-
         variables.imageItemBlocked = false
 
     }
