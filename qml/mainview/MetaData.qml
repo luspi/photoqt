@@ -348,30 +348,27 @@ Item {
             invalidLabel.visible = true
         } else {
 
-            if(d["supported"] === "0") {
-                verboseMessage("MainView/MetaData", "setData(): Unsupported file format")
-                unsupportedLabel.visible = true
-            } else {
+            view.visible = true
 
-                view.visible = true
+            mod.clear()
 
-                mod.clear()
+            if(settings.metaFilename) {
+                var fname = getanddostuff.removePathFromFilename(variables.currentFile, false)
+                //: Keep string short!
+                mod.append({"name" : qsTranslate("metadata", "Filename"), "prop" : "", "value" : fname, "tooltip" : fname })
+            }
 
-                if(settings.metaFilename) {
-                    var fname = getanddostuff.removePathFromFilename(variables.currentFile, false)
-                    //: Keep string short!
-                    mod.append({"name" : qsTranslate("metadata", "Filename"), "prop" : "", "value" : fname, "tooltip" : fname })
-                }
+            if(settings.metaFileSize)
+                //: Keep string short!
+                mod.append({"name" : qsTranslate("metadata", "Filesize"), "prop" : "", "value" : d["filesize"], "tooltip" : d["filesize"]})
 
-                if(settings.metaFileSize)
-                    //: Keep string short!
-                    mod.append({"name" : qsTranslate("metadata", "Filesize"), "prop" : "", "value" : d["filesize"], "tooltip" : d["filesize"]})
+            if(settings.metaImageNumber) {
+                var pos = (variables.currentFilePos+1) + "/" + variables.totalNumberImagesCurrentFolder
+                //: Used as in "Image 3/16". The numbers (position of image in folder) are added on automatically. Keep string short!
+                mod.append({"name" : qsTranslate("metadata", "Image") + " #/#", "prop" : "", "value" : pos, "tooltip" : pos })
+            }
 
-                if(settings.metaImageNumber) {
-                    var pos = (variables.currentFilePos+1) + "/" + variables.totalNumberImagesCurrentFolder
-                    //: Used as in "Image 3/16". The numbers (position of image in folder) are added on automatically. Keep string short!
-                    mod.append({"name" : qsTranslate("metadata", "Image") + " #/#", "prop" : "", "value" : pos, "tooltip" : pos })
-                }
+            if(d["supported"] !== "0") {
 
                 if(settings.metaDimensions) {
                     if("dimensions" in d)
@@ -439,10 +436,10 @@ Item {
                     }
                 }
 
-                view.model = mod
-                imageLoaded = true
-
             }
+
+            view.model = mod
+            imageLoaded = true
 
         }
 
