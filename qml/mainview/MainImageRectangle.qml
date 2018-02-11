@@ -513,9 +513,16 @@ Item {
 
     function rotateImage(angle) {
         verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "rotateImage(): " + angle)
+
+        var setTo = imageContainer.rotation+angle
+        var dif = setTo%90
+        if(dif != 0) setTo -= dif
+
         rotationAni.from = imageContainer.rotation
-        rotationAni.to = imageContainer.rotation+angle
+        rotationAni.to = setTo
+
         rotationAni.running = true
+
     }
 
     function resetRotation() {
