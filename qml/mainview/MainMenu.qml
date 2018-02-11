@@ -277,7 +277,8 @@ Rectangle {
                     font.pointSize: 11
                     font.bold: true
 
-                    enabled: (settings.trayIcon==1 || (allitems[subview.mainindex][index][0] !== "hide" && allitems[subview.mainindex][index][0] !=="heading" && (allitems[subview.mainindex].length === 1 || index > 0)))
+                    enabled: (settings.trayIcon==1 || (allitems[subview.mainindex][index][0] !== "__close" && allitems[subview.mainindex][index][0] !=="heading" && (allitems[subview.mainindex].length === 1 || index > 0)))
+
 
                     // The spaces guarantee a bit of space betwene icon and text
                     text: allitems[subview.mainindex][index][2] + ((allitems[subview.mainindex].length > 1 && index == 0) ? ":" : "")
