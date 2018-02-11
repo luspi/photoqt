@@ -250,7 +250,7 @@ Item {
                 onGotNewShortcut: {
                     if(ele.hotForShortcutDetection) {
                         ele.hotForShortcutDetection = false
-                        thekey.text = sh
+                        thekey.text = strings.translateShortcut(sh)
                         listview.model.set(index, {"key" : sh})
                     }
                 }

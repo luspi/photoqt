@@ -120,10 +120,12 @@ Rectangle {
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 
         // display either key or mouse combo
-        text: "..."
+        text: strings.translateShortcut(currentCombo)
+
+        property string currentCombo: "..."
 
         onTextChanged: {
-            var already = shortcuts.setKeyShortcuts[combo.text]
+            var already = shortcuts.setKeyShortcuts[combo.currentCombo]
             if(already !== undefined) {
                 var count = already[0]
                 alreadySet.shTxt = ""
@@ -264,7 +266,7 @@ Rectangle {
             text: em.pty+qsTr("Ok, set shortcut")
 
             onClickedButton: {
-                gotNewShortcut(combo.text)
+                gotNewShortcut(combo.currentCombo)
                 hide()
             }
 
@@ -277,8 +279,10 @@ Rectangle {
         onShortcut: {
             // ignore if not visible
             if(!detect_top.visible) return
-            if(!combo.mouseEventInProgress)
-                combo.text = sh
+            if(!combo.mouseEventInProgress) {
+                combo.currentCombo = sh
+                category = "key"
+            }
         }
     }
 
@@ -305,7 +309,10 @@ Rectangle {
         }
         onReleased: {
             var txt = AnalyseMouse.analyseMouseEvent(pressedPosStart, mouse, buttonId)
-            if(txt !== "") combo.text = txt
+            if(txt !== "") {
+                category = "mouse"
+                combo.currentCombo = txt
+            }
             pressedPosEnd = Qt.point(mouse.x, mouse.y)
             pressedPosStart = Qt.point(-1,-1)
             mouseEventInProgress = false
@@ -313,7 +320,7 @@ Rectangle {
         onWheel: {
             var txt = AnalyseMouse.analyseWheelEvent(wheel, true)
             if(txt !== "") {
-                combo.text = txt
+                combo.currentCombo = txt
                 wheelEventDone.start()
             }
         }
@@ -335,7 +342,10 @@ Rectangle {
                     before = pressedPosStart
                 AnalyseMouse.analyseMouseGestureUpdate(mouse.x, mouse.y, before)
                 var txt = AnalyseMouse.analyseMouseEvent(pressedPosStart, mouse, buttonId, true)
-                if(txt !== "") combo.text = txt
+                if(txt !== "") {
+                    category = "mouse"
+                    combo.currentCombo = txt
+                }
             }
 
         }
@@ -343,7 +353,7 @@ Rectangle {
     }
 
     function show() {
-        combo.text = "..."
+        combo.currentCombo = "..."
         opacity = 1
     }
 
