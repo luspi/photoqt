@@ -514,6 +514,8 @@ Item {
     function rotateImage(angle) {
         verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "rotateImage(): " + angle)
 
+        // This ensures the angle is taken in 90 de gree steps.
+        // These checks are necessary as the user might have rotated the image by a different angle (e.g., using touchscreen)
         var setTo = imageContainer.rotation+angle
         var dif = setTo%90
         if(dif != 0) setTo -= dif
