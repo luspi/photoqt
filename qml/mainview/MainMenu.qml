@@ -75,9 +75,9 @@ Rectangle {
         //: This is an entry in the main menu on the right. Keep short!
         [["__about", "about", em.pty+qsTr("About PhotoQt"), "hide"]],
         //: This is an entry in the main menu on the right. Keep short!
-        [["__hide", "hide", em.pty+qsTr("Hide (System Tray)"), "hide"]],
+        [["__close", "hide", em.pty+qsTr("Hide (System Tray)"), "hide"]],
         //: This is an entry in the main menu on the right. Keep short!
-        [["__close", "quit", em.pty+qsTr("Quit"), "hide"]],
+        [["__quit", "quit", em.pty+qsTr("Quit"), "hide"]],
 
         [["heading","",""]],
 
