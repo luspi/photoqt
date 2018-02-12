@@ -68,20 +68,27 @@ QVariantList Shortcuts::loadDefaults() {
     QVariantList ret;
 
     ret << "O" << "0" << "__open";
-
     ret << "Ctrl+O" << "0" << "__open";
+    ret << "Right Button+WE" << "0" << "__open";
+
     ret << "Right" << "0" << "__next";
     ret << "Space" << "0" << "__next";
+    ret << "Right Button+E" << "0" << "__next";
     ret << "Left" << "0" << "__prev";
     ret << "Backspace" << "0" << "__prev";
+    ret << "Right Button+W" << "0" << "__prev";
     ret << "Ctrl+F" << "0" << "__filterImages";
 
     ret << "+" << "0" << "__zoomIn";
     ret << "=" << "0" << "__zoomIn";
     ret << "Ctrl++" << "0" << "__zoomIn";
     ret << "Ctrl+=" << "0" << "__zoomIn";
+    ret << "Ctrl+Wheel Up" << "0" << "__zoomIn";
+    ret << "Right Button+N" << "0" << "__zoomIn";
     ret << "-" << "0" << "__zoomOut";
     ret << "Ctrl+-" << "0" << "__zoomOut";
+    ret << "Ctrl+Wheel Down" << "0" << "__zoomOut";
+    ret << "Right Button+S" << "0" << "__zoomOut";
     ret << "0" << "0" << "__zoomReset";
     ret << "1" << "0" << "__zoomActual";
     ret << "Ctrl+1" << "0" << "__zoomActual";
@@ -94,13 +101,12 @@ QVariantList Shortcuts::loadDefaults() {
 
     ret << "Ctrl+X" << "0" << "__scale";
     ret << "Ctrl+E" << "0" << "__hideMeta";
-    ret << "E" << "0" << "__settings";
+    ret << "P" << "0" << "__settings";
     ret << "I" << "0" << "__about";
     ret << "M" << "0" << "__slideshow";
     ret << "Shift+M" << "0" << "__slideshowQuick";
     ret << "W" << "0" << "__wallpaper";
-    ret << "S" << "0" << "__stopThb";
-    ret << "Ctrl+R" << "0" << "__reloadThb";
+    ret << "H" << "0" << "__histogram";
 
     ret << "F2" << "0" << "__rename";
     ret << "Ctrl+C" << "0" << "__copy";
@@ -110,6 +116,7 @@ QVariantList Shortcuts::loadDefaults() {
     ret << "Escape" << "0" << "__close";
     ret << "Q" << "0" << "__quit";
     ret << "Ctrl+Q" << "0" << "__quit";
+    ret << "Right Button+SES" << "0" << "__close";
 
     ret << "Home" << "0" << "__gotoFirstThb";
     ret << "End" << "0" << "__gotoLastThb";
