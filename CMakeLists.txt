@@ -10,7 +10,7 @@ project(photoqt)
 ####  GLOBAL VERSION STRING FOR ALL FILES (INCLUDING CPP/QML) ####
 ##################################################################
 
-add_definitions(-DVERSION="dev")
+add_definitions(-DVERSION="1.6")
 
 
 #################################
@@ -18,15 +18,15 @@ add_definitions(-DVERSION="dev")
 #################################
 
 add_definitions(-DQT_DEPRECATED_WARNINGS)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3 -g -Wall")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3 -Wall")
 
 
 ################################
 #### MANIPULATE DEBUG BUILD ####
 ################################
 
-add_definitions(-DPHOTOQTDEBUG)
-set(CMAKE_BUILD_TYPE "Debug")
+#add_definitions(-DPHOTOQTDEBUG)
+set(CMAKE_BUILD_TYPE "Release")
 
 
 ##########################
