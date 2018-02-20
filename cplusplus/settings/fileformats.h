@@ -29,7 +29,6 @@
 #include <QDir>
 #include <QFileSystemWatcher>
 #include <QTimer>
-#include <QtDebug>
 
 #include "fileformatsavailable.h"
 #include "fileformatsdefaultenabled.h"

@@ -21,7 +21,6 @@
  **************************************************************************/
 
 #include "other.h"
-#include <QtDebug>
 
 GetAndDoStuffOther::GetAndDoStuffOther(QObject *parent) : QObject(parent) { }
 GetAndDoStuffOther::~GetAndDoStuffOther() { }

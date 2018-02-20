@@ -27,7 +27,6 @@
 #include <QFile>
 #include <QTextStream>
 #include <QKeySequence>
-#include <QtDebug>
 
 #include "../configfiles.h"
 #include "../logger.h"

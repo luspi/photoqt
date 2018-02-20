@@ -27,7 +27,6 @@
 #include <QDir>
 #include <QFile>
 #include <QIcon>
-#include <QtDebug>
 #include <QXmlStreamWriter>
 #include <QUrl>
 #include <thread>

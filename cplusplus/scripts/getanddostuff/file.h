@@ -28,7 +28,6 @@
 #include <QStringList>
 #include <QIcon>
 #include <QImageReader>
-#include <QtDebug>
 #include "../../logger.h"
 
 class GetAndDoStuffFile : public QObject {

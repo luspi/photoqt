@@ -24,9 +24,9 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+#include "../logger.h"
 #include "simplecrypt.h"
 #include <QByteArray>
-#include <QtDebug>
 #include <QtGlobal>
 #include <QDateTime>
 #include <QCryptographicHash>
@@ -79,7 +79,7 @@ QByteArray SimpleCrypt::encryptToByteArray(const QString& plaintext)
 QByteArray SimpleCrypt::encryptToByteArray(QByteArray plaintext)
 {
     if (m_keyParts.isEmpty()) {
-        qWarning() << "No key set.";
+        LOG << CURDATE << "SimpleCrypt::encryptToByteArray() :: ERROR: No key set." << NL;
         m_lastError = ErrorNoKeySet;
         return QByteArray();
     }
@@ -179,7 +179,7 @@ QByteArray SimpleCrypt::decryptToByteArray(const QString& cyphertext)
 QByteArray SimpleCrypt::decryptToByteArray(QByteArray cypher)
 {
     if (m_keyParts.isEmpty()) {
-        qWarning() << "No key set.";
+        LOG << CURDATE << "SimpleCrypt::decryptToByteArray() :: ERROR: No key set." << NL;
         m_lastError = ErrorNoKeySet;
         return QByteArray();
     }
@@ -193,7 +193,7 @@ QByteArray SimpleCrypt::decryptToByteArray(QByteArray cypher)
 
     if (version !=3) {  //we only work with version 3
         m_lastError = ErrorUnknownVersion;
-        qWarning() << "Invalid version or not a cyphertext.";
+        LOG << CURDATE << "SimpleCrypt::decryptToByteArray() :: ERROR: Invalid version or not a cyphertext." << NL;
         return QByteArray();
     }
 

@@ -324,8 +324,10 @@ void MainHandler::remoteAction(QString cmd) {
 
         QVariant curfile;
         QMetaObject::invokeMethod(object, "getCurrentFile", Q_RETURN_ARG(QVariant, curfile));
-        if(curfile.toString() == "" && cmd != "show_noopen")
+        if(curfile.toString() == "" && cmd != "show_noopen") {
+            QMetaObject::invokeMethod(object, "closeAnyElement");
             QMetaObject::invokeMethod(object, "openfileShow");
+        }
 
     // Load the specified file in PhotoQt
     } else if(cmd.startsWith("::file::")) {

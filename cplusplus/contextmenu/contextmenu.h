@@ -24,7 +24,6 @@
 #define CONTEXTMENU_H
 
 #include <QMenu>
-#include <QtDebug>
 
 class ContextMenu : public QObject {
 

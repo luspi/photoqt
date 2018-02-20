@@ -207,7 +207,7 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
         // make sure transaction is started
         if(!dbTransactionStarted) {
             if(!db.transaction())
-                qDebug() << "[imageprovider thumbs] ERROR: CAN'T START DB TRANSACTION!";
+                LOG << CURDATE << "ImageProviderThumbnail: ERROR: Cannot start db transaction" << NL;
             dbTransactionStarted = true;
         }
 
@@ -250,7 +250,7 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
 }
 
 ImageProviderThumbnail::~ImageProviderThumbnail() {
-    if(dbSetup && dbTransactionStarted) if(!db.commit()) qDebug() << "[imageprovider thumbs ~] ERROR: CAN'T commit DB TRANSACTION!";
+    if(dbSetup && dbTransactionStarted) if(!db.commit()) LOG << CURDATE << "ImageProviderThumbnail::~ImageProviderThumbnail :: ERROR: CAN'T commit db transaction!";
     db.close();
     delete imageproviderfull;
     delete settings;

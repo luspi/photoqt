@@ -25,7 +25,6 @@
 
 #include <QFile>
 #include <QImage>
-#include <QtDebug>
 #include "errorimage.h"
 
 #ifdef RAW

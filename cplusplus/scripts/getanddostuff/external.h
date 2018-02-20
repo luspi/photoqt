@@ -33,7 +33,6 @@
 #include <sstream>
 #include <QApplication>
 #include <QTimer>
-#include <QtDebug>
 #include <QNetworkInterface>
 #include <QRegExpValidator>
 #include "../../logger.h"
