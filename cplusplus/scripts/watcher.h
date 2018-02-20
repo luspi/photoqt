@@ -56,7 +56,8 @@ public:
 
         watcherShortcuts = new QFileSystemWatcher;
         connect(watcherShortcuts, &QFileSystemWatcher::fileChanged, this, &Watcher::shortcutsChanged);
-        watcherShortcuts->addPath(ConfigFiles::SHORTCUTS_FILE());
+        if(QFileInfo(ConfigFiles::SHORTCUTS_FILE()).exists())
+            watcherShortcuts->addPath(ConfigFiles::SHORTCUTS_FILE());
 
         storageInfoHash = "";
         storageInfoTimer = new QTimer;
@@ -68,7 +69,8 @@ public:
 
         watcherCustomMenuEntries = new QFileSystemWatcher;
         connect(watcherCustomMenuEntries, &QFileSystemWatcher::fileChanged, this, &Watcher::customMenuEntriesChanged);
-        watcherCustomMenuEntries->addPath(ConfigFiles::CONTEXTMENU_FILE());
+        if(QFileInfo(ConfigFiles::CONTEXTMENU_FILE()).exists())
+            watcherCustomMenuEntries->addPath(ConfigFiles::CONTEXTMENU_FILE());
 
     }
 
