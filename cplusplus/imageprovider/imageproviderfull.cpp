@@ -1,195 +1,213 @@
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Contact: http://photoqt.org                                          **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
+
 #include "imageproviderfull.h"
 
 ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider::Image) {
 
-	verbose = false;
+    settings = new SlimSettingsReadOnly;
+    fileformats = new FileFormats;
 
-	settings = new Settings;
-	fileformats = new FileFormats(verbose);
+    gmfiles = fileformats->formats_gm.join(",") + fileformats->formats_gm_ghostscript.join(",") + fileformats->formats_untested.join(",");
+    qtfiles = fileformats->formats_qt.join(",");
+    extrasfiles = fileformats->formats_extras.join(",");
+    rawfiles = fileformats->formats_raw.join(",");
 
-	gmfiles = fileformats->formats_gm.join(",") + fileformats->formats_gm_ghostscript.join(",") + fileformats->formats_untested.join(",");
-	qtfiles = fileformats->formats_qt.join(",");
-	extrasfiles = fileformats->formats_extras.join(",");
-	rawfiles = fileformats->formats_raw.join(",");
+    pixmapcache = new QCache<QByteArray, QPixmap>;
+    pixmapcache->setMaxCost(8*1024*std::max(0, std::min(1000, settings->pixmapCache)));
 
-	pixmapcache = new QCache<QByteArray, QPixmap>;
-	pixmapcache->setMaxCost(1024*settings->pixmapCache);
-
-	loaderGM = new LoadImageGM;
-	loaderQT = new LoadImageQt;
-	loaderRAW = new LoadImageRaw;
-	loaderXCF = new LoadImageXCF;
+    loaderGM = new LoadImageGM;
+    loaderQT = new LoadImageQt;
+    loaderRAW = new LoadImageRaw;
+    loaderXCF = new LoadImageXCF;
 
 }
 
 ImageProviderFull::~ImageProviderFull() {
-	delete settings;
-	delete fileformats;
-	delete pixmapcache;
+    delete settings;
+    delete fileformats;
+    delete pixmapcache;
 }
 
 QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *, const QSize &requestedSize) {
 
-	QString full_filename = QByteArray::fromPercentEncoding(filename_encoded.toUtf8());
-	QString filename = full_filename;
-	int angle = 0;
+    QString full_filename = QByteArray::fromPercentEncoding(filename_encoded.toUtf8());
+#ifdef Q_OS_WIN
+    // It is not always clear whether the file url prefix comes with two or three slashes
+    // This makes sure that in Windows the file always starts with something like C:/path and not /C:/path
+    while(full_filename.startsWith("/"))
+        full_filename = full_filename.remove(0,1);
+#endif
+    QString filename = full_filename;
 
-	if(filename.contains("::photoqt::")) {
-		QStringList p = filename.split("::photoqt::");
-		filename = p.at(0);
-		if(p.at(1).contains("::photoqtmod::"))
-			angle = p.at(1).split("::photoqtmod::").at(0).toInt();
-		else if(p.at(1).contains("::photoqtani::"))
-			angle = p.at(1).split("::photoqtani::").at(0).toInt();
-		else
-			angle = p.at(1).toInt();
-	}
+    if(!QFileInfo(filename).exists()) {
+        QString err = QCoreApplication::translate("imageprovider", "File failed to load, it doesn't exist!");
+        LOG << CURDATE << "ImageProviderFull: ERROR: " << err.toStdString() << NL;
+        LOG << CURDATE << "ImageProviderFull: Filename: " << filename.toStdString() << NL;
+        return ErrorImage::load(err);
+    }
 
-	QTransform trans;
-	trans.rotate(angle);
+    // Which GraphicsEngine should we use?
+    QString whatToUse = whatDoIUse(filename);
 
-	// Which GraphicsEngine should we use?
-	QString whatToUse = whatDoIUse(filename);
-
-	if(verbose)
-		LOG << CURDATE << "ImageProviderFull: Using Graphicsengine: "
-			  << (whatToUse=="gm" ? "GraphicsMagick" : (whatToUse=="qt" ? "ImageReader" : (whatToUse=="raw" ? "LibRaw" : "External Tool")))
-			  << " [" << whatToUse.toStdString() << "]" << NL;
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "ImageProviderFull: Using graphics engine: "
+            << (whatToUse=="gm" ? "GraphicsMagick" : (whatToUse=="qt" ? "ImageReader" : (whatToUse=="raw" ? "LibRaw" : "External Tool")))
+            << " [" << whatToUse.toStdString() << "]" << NL;
 
 
-	QImage ret;
+    QImage ret;
 
-	QByteArray cachekey = getUniqueCacheKey(filename);
+    QByteArray cachekey = getUniqueCacheKey(filename);
 
-	// For animated images, we add the current frame to the cachekey in order to distinguish different frames in the cache
-	if(full_filename.contains("::photoqtani::"))
-		cachekey = cachekey + full_filename.split("::photoqtani::").at(1).toUtf8();
+    if(pixmapcache->contains(cachekey)) {
+        QPixmap *pix = pixmapcache->object(cachekey);
+        if(!pix->isNull()) {
 
+            if(qgetenv("PHOTOQT_DEBUG") == "yes")
+                LOG << CURDATE << "ImageProviderFull: Loading full image from pixmap cache: " << QFileInfo(filename).fileName().toStdString() << NL;
 
-	if(pixmapcache->contains(cachekey)) {
-		QPixmap *pix = pixmapcache->object(cachekey);
-		if(!pix->isNull()) {
+            ret = pix->toImage();
 
-			ret = pix->toImage();
+            if(requestedSize.width() > 2 && requestedSize.height() > 2 && ret.width() > requestedSize.width() && ret.height() > requestedSize.height())
+                return ret.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
-			if(requestedSize.width() > 2 && requestedSize.height() > 2 && ret.width() > requestedSize.width() && ret.height() > requestedSize.height())
-				return ret.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation).transformed(trans);
+            return ret;
+        }
+    }
 
-			return ret.transformed(trans);
-		}
-	}
+    // Try to use XCFtools for XCF (if enabled)
+    if(QFileInfo(filename).suffix().toLower() == "xcf" && whatToUse == "extra")
+            ret = loaderXCF->load(filename,maxSize);
 
-	// Try to use XCFtools for XCF (if enabled)
-	if(QFileInfo(filename).suffix().toLower() == "xcf" && whatToUse == "extra")
-			ret = loaderXCF->load(filename,maxSize);
+    // Try to use GraphicsMagick (if available)
+    else if(whatToUse == "gm")
+        ret = loaderGM->load(filename, maxSize);
 
-	// Try to use GraphicsMagick (if available)
-	else if(whatToUse == "gm")
-		ret = loaderGM->load(filename, maxSize);
+    else if(whatToUse == "raw")
+        ret = loaderRAW->load(filename, maxSize);
 
-	else if(whatToUse == "raw")
-		ret = loaderRAW->load(filename, maxSize);
+    // Try to use Qt
+    else
+        ret = loaderQT->load(filename,maxSize,settings->metaApplyRotation);
 
-	// Try to use Qt
-	else
-		ret = loaderQT->load(filename,maxSize,settings->exifrotation);
+    QPixmap *newpixPt = new QPixmap(ret.width(), ret.height());
+    *newpixPt = QPixmap::fromImage(ret);
+    if(!newpixPt->isNull()) {
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
+            LOG << CURDATE << "ImageProviderFull: Inserting full image into pixmap cache: " << QFileInfo(filename).fileName().toStdString() << NL;
+        pixmapcache->insert(cachekey, newpixPt, newpixPt->width()*newpixPt->height()*newpixPt->depth()/(8*1024));
+    }
 
-	QPixmap *newpixPt = new QPixmap(ret.width(), ret.height());
-	*newpixPt = QPixmap::fromImage(ret);
-	if(!newpixPt->isNull()) {
-		pixmapcache->insert(cachekey, newpixPt, newpixPt->width()*newpixPt->height()*newpixPt->depth()/(8*1024));
-	}
+    if(requestedSize.width() > 2 && requestedSize.height() > 2 && ret.width() > requestedSize.width() && ret.height() > requestedSize.height())
+        ret = ret.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
-	if(requestedSize.width() > 2 && requestedSize.height() > 2 && ret.width() > requestedSize.width() && ret.height() > requestedSize.height())
-		ret = ret.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
-	return ret.transformed(trans);
+    return ret;
 
 }
 
 QString ImageProviderFull::whatDoIUse(QString filename) {
 
-	if(filename.trimmed() == "") return "qt";
+    if(filename.trimmed() == "") return "qt";
 
-	if(extrasfiles.trimmed() != "") {
+    if(extrasfiles.trimmed() != "") {
 
-		// We need this list for GM and EXTRA below
-		QStringList extrasFiles = extrasfiles.split(",");
+        // We need this list for GM and EXTRA below
+        QStringList extrasFiles = extrasfiles.split(",");
 
-		// Check for extra
-		for(int i = 0; i < extrasFiles.length(); ++i) {
-			// We need to remove the first character of qtfiles.at(i), since that is a "*"
-			if(filename.toLower().endsWith(QString(extrasFiles.at(i)).remove(0,2)))
-				return "extra";
-		}
+        // Check for extra
+        for(int i = 0; i < extrasFiles.length(); ++i) {
+            // We need to remove the first character of qtfiles.at(i), since that is a "*"
+            if(filename.toLower().endsWith(QString(extrasFiles.at(i)).remove(0,2)))
+                return "extra";
+        }
 
-	}
+    }
 
 #ifdef RAW
 
-	if(rawfiles.trimmed() != "") {
+    if(rawfiles.trimmed() != "") {
 
-		QStringList rawFiles = rawfiles.split(",");
+        QStringList rawFiles = rawfiles.split(",");
 
-		// Check for raw
-		for(int i = 0; i < rawFiles.length(); ++i) {
-			// We need to remove the first character of qtfiles.at(i), since that is a "*"
-			if(filename.toLower().endsWith(QString(rawFiles.at(i)).remove(0,1)))
-				return "raw";
-		}
+        // Check for raw
+        for(int i = 0; i < rawFiles.length(); ++i) {
+            // We need to remove the first character of qtfiles.at(i), since that is a "*"
+            if(filename.toLower().endsWith(QString(rawFiles.at(i)).remove(0,1)))
+                return "raw";
+        }
 
-	}
+    }
 
 #endif
 
 #ifdef GM
 
-	// Check for GM (i.e., check for not qt and not extra)
-	bool usegm = true;
-	QStringList qtFiles = qtfiles.split(",");
+    // Check for GM (i.e., check for not qt and not extra)
+    bool usegm = true;
+    QStringList qtFiles = qtfiles.split(",");
 
-	for(int i = 0; i < qtFiles.length(); ++i) {
-		// We need to remove the first character of qtfiles.at(i), since that is a "*"
-		if(filename.toLower().endsWith(QString(qtFiles.at(i)).remove(0,1)) && QString(qtFiles.at(i)).trimmed() != "")
-			usegm = false;
-	}
-	if(extrasfiles.trimmed() != "") {
+    for(int i = 0; i < qtFiles.length(); ++i) {
+        // We need to remove the first character of qtfiles.at(i), since that is a "*"
+        if(filename.toLower().endsWith(QString(qtFiles.at(i)).remove(0,1)) && QString(qtFiles.at(i)).trimmed() != "")
+            usegm = false;
+    }
+    if(extrasfiles.trimmed() != "") {
 
-		// We need this list for GM and EXTRA below
-		QStringList extrasFiles = extrasfiles.split(",");
-		for(int i = 0; i < extrasFiles.length(); ++i) {
-			// We need to remove the first character of qtfiles.at(i), since that is a "*"
-			if(filename.toLower().endsWith(QString(extrasFiles.at(i)).remove(0,2)) && QString(extrasFiles.at(i)).trimmed() != "")
-				usegm = false;
-		}
-	}
+        // We need this list for GM and EXTRA below
+        QStringList extrasFiles = extrasfiles.split(",");
+        for(int i = 0; i < extrasFiles.length(); ++i) {
+            // We need to remove the first character of qtfiles.at(i), since that is a "*"
+            if(filename.toLower().endsWith(QString(extrasFiles.at(i)).remove(0,2)) && QString(extrasFiles.at(i)).trimmed() != "")
+                usegm = false;
+        }
+    }
 
 #ifdef RAW
 
-	if(rawfiles.trimmed() != "") {
-		QStringList rawFiles = rawfiles.split(",");
-		// Check for raw
-		for(int i = 0; i < rawFiles.length(); ++i) {
-			// We need to remove the first character of qtfiles.at(i), since that is a "*"
-			if(filename.toLower().endsWith(QString(rawFiles.at(i)).remove(0,1)) && QString(rawFiles.at(i)).trimmed() != "")
-				usegm = false;
-		}
-	}
+    if(rawfiles.trimmed() != "") {
+        QStringList rawFiles = rawfiles.split(",");
+        // Check for raw
+        for(int i = 0; i < rawFiles.length(); ++i) {
+            // We need to remove the first character of qtfiles.at(i), since that is a "*"
+            if(filename.toLower().endsWith(QString(rawFiles.at(i)).remove(0,1)) && QString(rawFiles.at(i)).trimmed() != "")
+                usegm = false;
+        }
+    }
 
 #endif
 
 
-	if(usegm) return "gm";
+    if(usegm) return "gm";
 #endif
 
-	return "qt";
+    return "qt";
 
 }
 
 QByteArray ImageProviderFull::getUniqueCacheKey(QString path) {
-	path = path.remove("image://full/");
-	path = path.remove("file:/");
-	QFileInfo info(path);
-	QString fn = QString("%1%2").arg(path).arg(info.lastModified().toMSecsSinceEpoch());
-	return QCryptographicHash::hash(fn.toUtf8(),QCryptographicHash::Md5).toHex();
+    path = path.remove("image://full/");
+    path = path.remove("file:/");
+    QFileInfo info(path);
+    QString fn = QString("%1%2").arg(path).arg(info.lastModified().toMSecsSinceEpoch());
+    return QCryptographicHash::hash(fn.toUtf8(),QCryptographicHash::Md5).toHex();
 }

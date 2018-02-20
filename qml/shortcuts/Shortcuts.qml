@@ -1,204 +1,186 @@
-import QtQuick 2.3
-import "mouseshortcuts.js" as Mouse
-import "keyshortcuts.js" as Key
-import "touchshortcuts.js" as Touch
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Contact: http://photoqt.org                                          **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
 
-// The shortcuts engine with flexible mouse, key and touch shortcuts
+import QtQuick 2.5
+import "./mouseshortcuts.js" as AnalyseMouse
+import "../handlestuff.js" as Handle
 
 Item {
 
-	id: top
+    id: top
 
-	// Get the current shortcuts
-	property var keyshortcutfile: getanddostuff.getKeyShortcuts()
-	property var mouseshortcutfile: getanddostuff.getMouseShortcuts()
-	property var touchshortcutfile : getanddostuff.getTouchShortcuts()
+    property var setKeyShortcuts: ({})
 
-	// This is a "trick" of sorts. The notifierChanged signal is triggered in getanddostuff.h
-	// whenever the shortcuts files were modified, which in turns reloads the shortcuts files.
-	property int keyNotifier: getanddostuff.keyShortcutNotifier
-	property int mouseNotifier: getanddostuff.mouseShortcutNotifier
-	onKeyNotifierChanged:
-		keyshortcutfile = getanddostuff.getKeyShortcuts()
-	onMouseNotifierChanged:
-		mouseshortcutfile = getanddostuff.getMouseShortcuts()
+    Component.onCompleted:
+        loadShortcuts()
 
+    Connections {
+        target: watcher
+        onShortcutsUpdated:
+            loadShortcuts()
+    }
 
-	function gotUpdatedTouchGesture(startPoint, endPoint, type, numFingers, duration, path) {
-		Touch.gotUpdatedTouchGesture(startPoint, endPoint, type, numFingers, duration, path)
-	}
-	function gotFinishedTouchGesture(startPoint, endPoint, type, numFingers, duration, path) {
-		Touch.gotFinishedTouchGesture(startPoint, endPoint, type, numFingers, duration, path)
-	}
-	function gotFinishedMouseGesture(startPoint, endPoint, duration, button, gesture, wheelAngleDelta, modifiers) {
-		Mouse.gotFinishedMouseGesture(startPoint, endPoint, duration, button, gesture, wheelAngleDelta, modifiers)
-	}
-	function gotUpdatedMouseGesture(button, gesture, modifiers) {
-		Mouse.gotUpdatedMouseGesture(button, gesture, modifiers)
-	}
-	function updateKeyCombo(combo) {
-		Key.updateKeyCombo(combo)
-	}
-	function simulateShortcut(keys) {
-		Key.simulateShortcut(keys)
-	}
+    function loadShortcuts() {
 
-	function checkForSystemShortcut(keys) {
-		verboseMessage("Shortcuts::checkForSystemShortcut()", keys)
-		if(keys === "Escape") {
-			if(about.opacity == 1)
-				about.hideAbout()
-			else if(settingsmanager.opacity == 1)
-				settingsmanager.hideSettings()
-			else if(scaleImage.opacity == 1)
-				scaleImage.hideScale()
-			else if(scaleImageUnsupported.opacity == 1)
-				scaleImageUnsupported.hideScaledUnsupported()
-			else if(deleteImage.opacity == 1)
-				deleteImage.hideDelete()
-			else if(rename.opacity == 1)
-				rename.hideRename()
-			else if(wallpaper.opacity == 1)
-				wallpaper.hideWallpaper()
-			else if(slideshow.opacity == 1)
-				slideshow.hideSlideshow()
-			else if(filter.opacity == 1)
-				filter.hideFilter()
-			else if(startup.opacity == 1)
-				startup.hideStartup()
-			else if(openfile.opacity == 1)
-				openfile.hide()
-		} else if(keys === "Enter" || keys === "Keypad+Enter" || keys === "Return") {
-			if(deleteImage.opacity == 1)
-				deleteImage.simulateEnter()
-			else if(rename.opacity == 1)
-				rename.simulateEnter()
-			else if(wallpaper.opacity == 1)
-				wallpaper.simulateEnter()
-			else if(slideshow.opacity == 1)
-				slideshow.simulateEnter()
-			else if(filter.opacity == 1)
-				filter.simulateEnter()
-		} else if(keys === "Space") {
-			if(slideshowRunning) {
-				slideshowbar.pauseSlideshow()
-				if(!slideshowbar.paused) slideshowbar.hideBar()
-			}
-		} else if(keys === "Shift+Enter" || keys === "Shift+Return" || keys === "Shift+Keypad+Enter") {
-			if(deleteImage.opacity == 1)
-				deleteImage.simulateShiftEnter()
-		} else if(!settingsmanager.wait_amDetectingANewShortcut && settingsmanager.opacity == 1) {
-			if(keys === "Ctrl+Tab")
-				settingsmanager.nextTab()
-			else if(keys === "Ctrl+Shift+Tab")
-				settingsmanager.prevTab()
-			else if(keys === "Ctrl+S")
-				settingsmanager.saveSettings()
-			else if(keys === "Alt+1")
-				settingsmanager.gotoTab(0)
-			else if(keys === "Alt+2")
-				settingsmanager.gotoTab(1)
-			else if(keys === "Alt+3")
-				settingsmanager.gotoTab(2)
-			else if(keys === "Alt+4")
-				settingsmanager.gotoTab(3)
-			else if(keys === "Alt+5")
-				settingsmanager.gotoTab(4)
-		}
+        var keys = shortcutshandler.load()
+        setKeyShortcuts= ({})
 
-	}
+        for(var i = 0; i < keys.length; i+=3) {
 
-	// Close is only defined for external shortcuts
-	function execute(cmd, close, bymouse) {
+            if(keys[i] in setKeyShortcuts) {
+                setKeyShortcuts[keys[i]][0] += 1
+                setKeyShortcuts[keys[i]].push(keys[i+1])
+                setKeyShortcuts[keys[i]].push(keys[i+2])
+            } else
+                setKeyShortcuts[keys[i]] = [1, keys[i+1], keys[i+2]]
+        }
 
-		verboseMessage("Shortcuts::execute()", cmd + " - " + close)
+    }
 
-		if(bymouse === undefined)
-			bymouse = false;
+    function analyseMouseEvent(startedEventAtPos, event) {
 
-		if(cmd === "__stopThb")
-			thumbnailBar.stopThumbnails()
-		if(cmd === "__close")
-			quitPhotoQt()
-		else if(cmd === "__hide") {
-			if(settings.trayicon)
-				hideToSystemTray()
-			else
-				quitPhotoQt()
-		} else if(cmd === "__settings")
-			settingsmanager.showSettings()
-		else if(cmd === "__next")
-			thumbnailBar.nextImage()
-		else if(cmd === "__prev")
-			thumbnailBar.previousImage()
-		if(cmd === "__reloadThb")
-			thumbnailBar.reloadThumbnails()
-		else if(cmd === "__about")
-			about.showAbout()
-		else if(cmd === "__slideshow")
-			slideshow.showSlideshow()
-		else if(cmd === "__filterImages")
-			filter.showFilter()
-		else if(cmd === "__slideshowQuick")
-			slideshow.quickstart()
-		else if(cmd === "__open")
-			openFile()
-		else if(cmd === "__openOld")
-			openFileOLD()
-		else if(cmd === "__zoomIn")
-			mainview.zoomIn(!bymouse)
-		else if(cmd === "__zoomOut")
-			mainview.zoomOut(!bymouse)
-		else if(cmd === "__zoomReset")
-			mainview.resetZoom()
-		else if(cmd === "__zoomActual")
-			mainview.zoomActual()
-		else if(cmd === "__rotateL")
-			mainview.rotateLeft()
-		else if(cmd === "__rotateR")
-			mainview.rotateRight()
-		else if(cmd === "__rotate0")
-			mainview.resetRotation()
-		else if(cmd === "__flipH")
-			mainview.mirrorHorizontal()
-		else if(cmd === "__flipV")
-			mainview.mirrorVertical()
-		else if(cmd === "__rename")
-			rename.showRename()
-		else if(cmd === "__delete")
-			deleteImage.showDelete()
-		else if(cmd === "__deletePermanent")
-			deleteImage.doDirectPermanentDelete()
-		else if(cmd === "__copy")
-			getanddostuff.copyImage(thumbnailBar.currentFile)
-		else if(cmd === "__move")
-			getanddostuff.moveImage(thumbnailBar.currentFile)
-		else if(cmd === "__hideMeta") {
-			if(metaData.x < -40) {
-				metaData.checkCheckbox()
-				background.showMetadata()
-			} else {
-				metaData.uncheckCheckbox()
-				background.hideMetadata()
-			}
-		} else if(cmd === "__gotoFirstThb")
-			thumbnailBar.gotoFirstImage()
-		else if(cmd === "__gotoLastThb")
-			thumbnailBar.gotoLastImage()
+        var combostring = AnalyseMouse.analyseMouseEvent(startedEventAtPos, event)
 
-		else if(cmd === "__wallpaper")
-			wallpaper.showWallpaper()
-		else if(cmd === "__scale")
-			scaleImage.showScale()
-		else {
-			getanddostuff.executeApp(cmd,thumbnailBar.currentFile)
-			if(close !== undefined && close == true)
-				if(settings.trayicon)
-					hideToSystemTray()
-				else
-					quitPhotoQt()
-		}
+        processString(combostring)
 
-	}
+    }
+
+    function analyseWheelEvent(event) {
+
+        var combostring = AnalyseMouse.analyseWheelEvent(event)
+
+        processString(combostring)
+
+    }
+
+    function processString(combostring) {
+
+        // We need to check for guiBlocked before doing any of the below checks that might change its value.
+        if(variables.guiBlocked)
+
+            call.passOnShortcut(combostring)
+
+        // Execute the shortcut if something is set
+        else if(!variables.guiBlocked && combostring in setKeyShortcuts) {
+
+            for(var i = 0; i < setKeyShortcuts[combostring][0]; ++i) {
+                var close = setKeyShortcuts[combostring][1+i*2]
+                var cmd = setKeyShortcuts[combostring][2+i*2]
+                executeShortcut(cmd, close)
+            }
+
+        }
+
+    }
+
+    function executeShortcut(cmd, close) {
+
+        if(cmd === "__quit")
+            mainwindow.quitPhotoQt();
+        else if(cmd === "__close")
+            mainwindow.closePhotoQt()
+        else if(cmd === "__settings")
+            call.show("settingsmanager")
+        else if(cmd === "__next")
+            Handle.loadNext()
+        else if(cmd === "__prev")
+            Handle.loadPrev()
+        else if(cmd === "__about")
+            call.show("about")
+        else if(cmd === "__slideshow")
+            call.show("slideshowsettings")
+        else if(cmd === "__filterImages")
+            call.show("filter")
+        else if(cmd === "__slideshowQuick")
+            call.load("slideshowStart")
+        else if(cmd === "__open")
+            call.show("openfile")
+        else if(cmd === "__zoomIn")
+            imageitem.zoomIn()
+        else if(cmd === "__zoomOut")
+            imageitem.zoomOut()
+        else if(cmd === "__zoomReset") {
+            imageitem.resetPosition()
+            imageitem.resetZoom()
+        } else if(cmd === "__zoomActual")
+            imageitem.zoomActual()
+        else if(cmd === "__rotateL")
+            imageitem.rotateImage(-90)
+        else if(cmd === "__rotateR")
+            imageitem.rotateImage(90)
+        else if(cmd === "__rotate0")
+            imageitem.resetRotation()
+        else if(cmd === "__flipH")
+            imageitem.mirrorHorizontal()
+        else if(cmd === "__flipV")
+            imageitem.mirrorVertical()
+        else if(cmd === "__flipReset")
+            imageitem.resetMirror()
+        else if(cmd === "__rename") {
+            call.load("filemanagementRenameShow")
+        } else if(cmd === "__delete")
+            call.load("filemanagementDeleteShow")
+        else if(cmd === "__deletePermanent")
+            call.load("permanentDeleteFile")
+        else if(cmd === "__copy")
+            call.load("filemanagementCopyShow")
+        else if(cmd === "__move")
+            call.load("filemanagementMoveShow")
+        else if(cmd === "__hideMeta") {
+            if(metadata.opacity > 0) {
+                metadata.uncheckCheckbox()
+                metadata.hide()
+            } else {
+                metadata.checkCheckbox()
+                metadata.show()
+            }
+        }
+        else if(cmd === "__gotoFirstThb")
+            Handle.loadFirst()
+        else if(cmd === "__gotoLastThb")
+            Handle.loadLast()
+        else if(cmd === "__wallpaper")
+            call.show("wallpaper")
+        else if(cmd === "__scale")
+            call.show("scale")
+        else if(cmd === "__playPauseAni")
+            imageitem.playPauseAnimation()
+        else if(cmd === "__imgur")
+            call.show("imgurfeedback")
+        else if(cmd === "__imgurAnonym")
+            call.show("imgurfeedbackanonym")
+        else if(cmd === "__defaultFileManager")
+            getanddostuff.openInDefaultFileManager(variables.currentDir + "/" + variables.currentFile)
+        else if(cmd === "__histogram") {
+            call.ensureElementSetup("histogram")
+            settings.histogram = !settings.histogram
+        } else if(cmd === "__clipboard")
+            getanddostuff.clipboardSetImage(variables.currentDir + "/" + variables.currentFile)
+        else {
+            getanddostuff.executeApp(cmd, variables.currentDir + "/" + variables.currentFile)
+            if(close !== undefined && close === true)
+                mainwindow.closePhotoQt()
+        }
+
+    }
 
 }

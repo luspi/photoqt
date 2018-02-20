@@ -1,42 +1,65 @@
-import QtQuick 2.3
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Contact: http://photoqt.org                                          **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
+
+import QtQuick 2.5
 
 import "../../../elements"
 import "../../"
 
 EntryContainer {
 
-	id: item_top
+    id: item_top
 
-	Row {
+    Row {
 
-		spacing: 20
+        spacing: 20
 
-		EntryTitle {
+        EntryTitle {
 
-			title: qsTr("Looping")
-			helptext: qsTr("When you load the last image in a directory and select 'Next', PhotoQt automatically jumps to the first image (and vice versa: if you select 'Previous' while having the first image loaded, PhotoQt jumps to the last image). Disabling this option makes PhotoQt stop at the first/last image (i.e. selecting 'Next'/'Previous' will have no effect in these two special cases).")
+            //: Refers to looping through the folder, i.e., from the last image go back to the first one (and vice versa)
+            title: em.pty+qsTr("Looping")
+            helptext: em.pty+qsTr("PhotoQt can loop over the images in the folder, i.e., when reaching the last image it continues to the first one and vice versa. If disabled, it will stop at the first/last image.")
 
-		}
+        }
 
-		EntrySetting {
+        EntrySetting {
 
-			CustomCheckBox {
+            CustomCheckBox {
 
-				id: loopfolder
-				text: qsTr("Loop through images in folder")
+                id: loopfolder
+                text: em.pty+qsTr("Loop through images in folder")
 
-			}
+            }
 
-		}
+        }
 
-	}
+    }
 
-	function setData() {
-		loopfolder.checkedButton = settings.loopthroughfolder
-	}
+    function setData() {
+        loopfolder.checkedButton = settings.loopThroughFolder
+    }
 
-	function saveData() {
-		settings.loopthroughfolder = loopfolder.checkedButton
-	}
+    function saveData() {
+        settings.loopThroughFolder = loopfolder.checkedButton
+    }
 
 }

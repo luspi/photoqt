@@ -1,5 +1,5 @@
-# PhotoQt v1.5.1
-__Copyright (C) 2011-2017, Lukas Spies (Lukas@photoqt.org)
+# PhotoQt v1.6
+__Copyright (C) 2011-2018, Lukas Spies (Lukas@photoqt.org)
 License: GPLv2 (or later)
 Website: http://photoqt.org__
 
@@ -9,11 +9,11 @@ PhotoQt is a fast and highly configurable image viewer with a simple and nice in
 
 ## DEPENDENCIES
 
-- Qt >= 5.3
+- Qt >= 5.5
 - CMake (needed for building PhotoQt)
 
-Make sure that you have the required Qt modules installed:  
-QtQuick, QtQuick.Controls, QtQuick.Controls.Styles, QtQuick.Layouts, QtQml.Models, Qt.labs.folderlistmodel, Qt.labs.settings, QtGraphicalEffects, QtMultimedia.  
+Make sure that you have the required QML modules installed:  
+QtGraphicalEffects, QtMultimedia, QtQuick, QtQuick.Controls, QtQuick.Controls.Styles, QtQuick.Layouts, QtQuick.Window.  
 Dependencies, that are needed by default, but can be disabled via CMake
 
 - Exiv2
@@ -37,46 +37,47 @@ These dependencies are not needed for compiling PhotoQt. However, if they are in
 
 ## INSTALL
 
-1. _cd build/_
+1. _mkdir build && cd build/_
 
 2. _cmake .._
 
-	 \# Note: This installs PhotoQt by default into /usr/local/{bin,share}  
-	 \# To install PhotoQt into another prefix e.g. /usr/{bin,share}, run:
+        \# Note: This installs PhotoQt by default into /usr/local/{bin,share}  
+        \# To install PhotoQt into another prefix e.g. /usr/{bin,share}, run:
 
     _cmake -DCMAKE\_INSTALL\_PREFIX=/usr .._
 
-	 \# PhotoQt makes use of the libraries Exiv2, GraphicsMagick ("gm") and LibRaw.  
-	 \# You can en-/disable them with the following options:  
-	 \# (if you don't specify anything, it asumes a value of ON)
+        \# PhotoQt makes use of the libraries Exiv2, GraphicsMagick ("gm") and LibRaw.  
+        \# You can en-/disable them with the following options:  
+        \# (if you don't specify anything, it asumes a value of ON)
 
-	 _-DEXIV2=OFF_  
-	 _-DGM=OFF_  
-	 _-DRAW=OFF_
+        _-DEXIV2=OFF_  
+        _-DGM=OFF_  
+        _-DRAW=OFF_
 
-	 \# You can combine them in any way you want.  
-	 \# The following option equates to setting the three above options to OFF
+        \# You can combine them in any way you want.  
+        \# The following option equates to setting the three above options to OFF
 
-	 _-DQTONLY=ON_
+        _-DQTONLY=ON_
 
-	 \# If CMake aborts with the error that it can't find Exiv2 and/or GraphicsMagick and/or LibRaw,  
-	 \# but you're certain that the header files are available, then  
-	 \# you can pass their locations to CMake:
+        \# If CMake aborts with the error that it can't find Exiv2 and/or GraphicsMagick and/or LibRaw,  
+        \# but you're certain that the header files are available, then  
+        \# you can pass their locations to CMake:
 
-	 _-DMAGICK_LOCATION=/path/to/graphicsmagick_  
-     _-DEXIV2_LOCATION=/path/to/exiv2_  
-     _-DLIBRAW_LOCATION=/path/to/libraw_
+        _-DMAGICK_LOCATION=/path/to/graphicsmagick_  
+        _-DEXIV2_LOCATION=/path/to/exiv2_  
+        _-DLIBRAW_LOCATION=/path/to/libraw_
 
 3. _make_  
-	 \# This creates an executeable photoqt binary located in the ./build/ folder
+        \# This creates an executeable photoqt binary located in the ./build/ folder
 
 4. (as root or sudo) _make install_
 
-	 \# This command:  
-	 1. installs the desktop file to share/applications/  
-	 2. moves some icons to icons/hicolor/  
-	 3. moves the binary to bin/
+        \# This command:  
+        1. installs the desktop file to share/applications/  
+        2. moves some icons to icons/hicolor/  
+        3. moves the binary to bin/
+        4. Installs the appdata file to share/appdata/
 
 ## UNINSTALL
 
-If you want to uninstall PhotoQt, simply run __make uninstall__ as root. This removes the desktop file (via _xdg-desktop-menu uninstall_), the icons and the binary file. Alternatively you can simply remove all the files manually, that should yield the same result.
+If you want to uninstall PhotoQt, simply run __make uninstall__ as root. This removes the desktop file (via _xdg-desktop-menu uninstall_), the icons, the binary file, and the appdata file. Alternatively you can simply remove all the files manually, that should yield the same result.

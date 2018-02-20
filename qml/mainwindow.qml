@@ -1,327 +1,372 @@
-import QtQuick 2.3
-import Settings 1.0
-import FileFormats 1.0
-import GetAndDoStuff 1.0
-import GetMetaData 1.0
-import ThumbnailManagement 1.0
-import ToolTip 1.0
-import ShortcutsNotifier 1.0
-import Colour 1.0
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Contact: http://photoqt.org                                          **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
+
+import QtQuick 2.5
+
+import PSettings 1.0
+import PFileFormats 1.0
+import PGetAndDoStuff 1.0
+import PGetMetaData 1.0
+import PToolTip 1.0
+import PColour 1.0
 import QtGraphicalEffects 1.0
-import ImageWatch 1.0
+import PImgur 1.0
+import PShortcutsNotifier 1.0
+import PThumbnailManagement 1.0
+import PShortcutsHandler 1.0
+import PWatcher 1.0
+import PLocalisation 1.0
 
-import "mainview/"
-import "slidein/"
-import "fadein/"
-import "settingsmanager/"
-import "openfile/"
-import "shortcuts/"
+import "./mainview"
+import "./shortcuts"
+import "./openfile"
+import "./vars"
+import "./elements"
 
-import "globalstrings/" as Strings
+import "./handlestuff.js" as Handle
 
-Item {
+Rectangle {
 
-	id: toplevel
+    id: mainwindow
 
-	width: (parent != null ? parent.width : 600)
-	height: (parent != null ? parent.height : 400)
+    // Some signals for communicating back to the C++ code base
+    signal verboseMessage(string loc, string msg)
+    signal setOverrideCursor()
+    signal restoreOverrideCursor()
 
-	// This is how much bigger than the thumbnails the thumbnail bar is (this is the space to the top)
-	readonly property int thumbnailbarheight_addon: 50
+    signal closePhotoQt()
+    signal quitPhotoQt()
 
-	// These signals is picked up by the mainwindow.cpp file
-	signal hideToSystemTray();
-	signal quitPhotoQt();
-	signal reloadDirectory(string filename, string filter);
-	signal verboseMessage(string loc, string msg);
-	signal setOverrideCursor();
-	signal restoreOverrideCursor();
+    // tell the c++ code to update the tray icon
+    // We need to pass on the value as there is a delay for writing a change of the settings to file, thus it might not be updated on harddrive when we get to this point
+    signal trayIconValueChanged(int icon)
 
-	signal registerFilenameToWatch(string filename)
+    signal windowModeChanged(bool windowmode, bool windowdeco, bool keepontop)
 
-	// Interface blocked? System Shortcuts blocked?
-	property bool blocked: false
-	property bool blockedSystem: false
-	property int softblocked: 0
+    anchors.fill: parent
 
-	// Detect some states/properties (e.g. for slideshow)
-	property bool slideshowRunning: false
-	property string currentfilter: ""
-	property int windowx: 0
-	property int windowy: 0
-	property int windowx_currentscreen: 0
-	property int windowy_currentscreen: 0
-	property point localcursorpos: Qt.point(0,0);
-	property bool windowshown: true
-	onWindowshownChanged: if(windowshown) background.reloadScreenshot()
-	onWindowxChanged: if(windowshown) background.reloadScreenshot()
+    // Transparent background, the Background element handles the actual background
+    color: "transparent"
 
-	// Element radius is the radius of "windows" (e.g., About or Quicksettings)
-	// Item radius is the radius of smaller items (e.g., spinbox)
-	readonly property int global_element_radius: 10
-	readonly property int global_item_radius: 5
+    // Without this nothing will be visible
+    visible: true
 
+    /**************************************************************
+     *                                                            *
+     * SOME INVISIBLE ELEMENTS FOR INTERACTING WITH C++ CODE BASE *
+     *                                                            *
+     **************************************************************/
 
-	// When the slidein widgets are not visible, then they are moved away a safety distance,
-	// otherwise they might be visible for a fraction of a second when resizing the windowChanged
-	// (and also at startup)
-	readonly property int safetyDistanceForSlidein: 500
+    // All the permanent settings
+    PSettings { id: settings }
 
+    // The fileformats known to PhotoQt
+    PFileFormats { id: fileformats; }
 
-	/////////////////////////////////////////////////
-	// THE FOLLOWING ITEMS DO NOT HAVE A VISUAL    //
-	// REPRESENTATION! THEY HAVE MERELY FUNCTIONAL //
-	// PURPOSE                                     //
-	/////////////////////////////////////////////////
+    // The colouring of PhotoQt
+    PColour { id: colour; }
 
+    // A whole bunch of C++ helper functions for QML
+    PGetAndDoStuff { id: getanddostuff; }
 
-	// Access to the permanent settings file (~/.photoqt/settings)
-	Settings {
-		id: settings;
-		onHidecounterChanged: quickInfo.updateQuickInfo(quickInfo._pos, thumbnailBar.totalNumberImages, thumbnailBar.currentFile)
-		onHidefilenameChanged: quickInfo.updateQuickInfo(quickInfo._pos, thumbnailBar.totalNumberImages, thumbnailBar.currentFile)
-		onHidefilepathshowfilenameChanged: quickInfo.updateQuickInfo(quickInfo._pos, thumbnailBar.totalNumberImages, thumbnailBar.currentFile)
-		onHidexChanged: quickInfo.updateQuickInfo(quickInfo._pos, thumbnailBar.totalNumberImages, thumbnailBar.currentFile)
-	}
-	FileFormats { id: fileformats; }
-	Colour { id: colour; }
-	GetAndDoStuff {
-		id: getanddostuff;
-		// The reloadDirectory signal is emitted by copy/move actions in getanddostuff.cpp
-		// We can't emit the qml reload signal from here (empty error message?), so we go the detour with a function emitting the signal
-		onReloadDirectory: {
-			if(deleted)
-				doReload(thumbnailBar.getNewFilenameAfterDeletion())
-			else
-				doReload(path)
-		}
-		onUserPlacesUpdated: {
-			openfile.reloadUserPlaces()
-		}
-	}
-	GetMetaData { id: getmetadata; }
-	ThumbnailManagement { id: thumbnailmanagement; }
-	ShortcutsNotifier { id: sh_notifier; }
-	Shortcuts { id: shortcuts; }
-	ImageWatch {
-		id: imagewatch
-		onReloadDirectory:
-			doReload(thumbnailBar.currentFile)
-	}
+    // Read the Exif/IPTC metadata of images
+    PGetMetaData { id: getmetadata; }
 
-	Strings.Keys { id: str_keys }
-	Strings.Mouse { id: str_mouse }
+    // Share images to imgur.com
+    PImgur { id: shareonline_imgur; }
 
-	/////////////////////////////////////////////////
+    // Provide some management of the thumbnails database
+    PThumbnailManagement { id: thumbnailmanagement; }
+
+    // Load the shortcuts from file and provide some shortcut related convenience functions
+    PShortcutsHandler { id: shortcutshandler }
+
+    // Watch for changes to files/folders/devices
+    PWatcher { id: watcher }
+
+    // Localisation handler, allows for runtime switches of languages
+    PLocalisation { id : em }
+
+    //////////////////////////////////////////////
+    // THE TOOLTIP HAS A SPECIAL ROLE: IT'S NOT //
+    // DIRECTLY A VISUAL ITEM BUT RELAYS BACK   //
+    // TO A QWIDGETS BASED QTOOLTIP
+    //////////////////////////////////////////////
+    PToolTip {
+        id: globaltooltip;
+        Component.onCompleted: {
+            setBackgroundColor(colour.tooltip_bg)
+            setTextColor(colour.tooltip_text)
+        }
+    }
 
 
-	//////////////////////////////////////////////////////
-	// THE FOLLOWING ITEMS REPRESENT THE MAIN ELEMENTS  //
-	// OF PHOTOQT THAT ARE ALWAYS NEEDED AND ARE ALWAYS //
-	// VISIBLE (WELL KINDA)                             //
-	//////////////////////////////////////////////////////
+    /*******************************************
+     *                                         *
+     * SOME INVISIBLE ELEMENTS FOR QML CLASSES *
+     *                                         *
+     *******************************************/
 
-	// Application background
-	Background { id: background; }
+    // The shortcuts engine
+    Shortcuts { id: shortcuts }
 
-	////////////////////////////
+    // Some of the variables used in various places
+    Variables { id: variables }
 
-	// The main displayed image
-	MainView {
-		id: mainview;
-		MouseArea {
-			anchors.fill: parent
-			propagateComposedEvents: true
-			onPressed: {
-				mainview.analyseClick(Qt.point(mouse.x,mouse.y))
-				mouse.accepted = false
-			}
-		}
-	}
-	GaussianBlur {
-		id: blur_mainview
-		anchors.fill: mainview
-		visible: opacity != 0
-		opacity: 0
-		samples: settings.blurIntensity*3
-		Behavior on opacity { NumberAnimation { duration: 250 } }
-		radius: settings.blurIntensity*4
-		source: mainview
-	}
+    // Some strings for keys and mouse shortcuts
+    Strings { id: strings }
 
-	////////////////////////////
-
-	// The quickinfo (position in folder, filename)
-	QuickInfo {
-		id: quickInfo;
-		Behavior on opacity { NumberAnimation { duration: 250 } }
-	}
-
-	Histogram {
-		id: histogram;
-	}
-
-	////////////////////////////
-
-	// The thumbnail bar at the bottom
-	ThumbnailBar { id: thumbnailBar; }
-	GaussianBlur {
-		id: blur_thumbnailBar
-		anchors.fill: thumbnailBar
-		visible: opacity != 0 && thumbnailBar.y > 0 && thumbnailBar.y < parent.height
-		opacity: 0
-		samples: settings.blurIntensity*3
-		Behavior on opacity { NumberAnimation { duration: 250 } }
-		radius: settings.blurIntensity*4
-		source: thumbnailBar
-	}
-
-	////////////////////////////
-
-	// The mainmenu bar on the right
-	MainMenu { id: mainmenu; }
-	GaussianBlur {
-		id: blur_mainmenu
-		anchors.fill: mainmenu
-		visible: opacity != 0 && mainmenu.opacity == 1
-		opacity: 0
-		samples: settings.blurIntensity*2
-		Behavior on opacity { NumberAnimation { duration: 250 } }
-		radius: settings.blurIntensity*4
-		source: mainmenu
-	}
-
-	////////////////////////////
-
-	// MetaData of the image (using the C++ Exiv2 library)
-	MetaData { id: metaData; }
-	GaussianBlur {
-		id: blur_metadata
-		anchors.fill: metaData
-		visible: opacity != 0 && metaData.opacity == 1
-		opacity: 0
-		samples: settings.blurIntensity*2
-		Behavior on opacity { NumberAnimation { duration: 250 } }
-		radius: settings.blurIntensity*4
-		source: metaData
-	}
-
-	//////////////////////////////////////////////////////
+    // Used to show and hide elements that are loaded when needed
+    Caller { id: call }
 
 
-	////////////////////////////////////////////
-	// THESE ARE ALL THE WIDGETS THAT FADE IN //
-	// THEY ARE ALWAYS IN THE FOREGROUND      //
-	////////////////////////////////////////////
+    /************************************
+     *                                  *
+     * THE VISIBLE ELEMENTS FOR THE GUI *
+     *                                  *
+     ************************************/
 
-	About { id: about; }
-	Wallpaper { id: wallpaper; }
-	Scale { id: scaleImage; }
-	ScaleUnsupported { id: scaleImageUnsupported; }
-	Delete { id: deleteImage; }
-	Rename { id: rename; }
-	Slideshow { id: slideshow; }
-	SlideshowBar { id: slideshowbar; }
-	Filter { id: filter; }
-	Startup { id: startup; }
-	OpenFile { id: openfile; }
-	SettingsManager { id: settingsmanager; }
+    // Managing the background begind everything
+    Background { id: background }
 
-	////////////////////////////////////////////
+    // The item for displaying the main image
+    MainImage { id: imageitem }
 
-	//////////////////////////////////////////////
-	// THE TOOLTIP HAS A SPECIAL ROLE: IT'S NOT //
-	// DIRECTLY A VISUAL ITEM BUT RELAYS BACK   //
-	// TO A QWIDGETS BASED QTOOLTIP
-	//////////////////////////////////////////////
+    // This mousearea sits below fadeable events to show/hide them appropriately
+    HandleMouseMovements { id: handlemousemovements }
 
-	ToolTip {
-		id: globaltooltip;
-		Component.onCompleted: {
-			setBackgroundColor(colour.tooltip_bg)
-			setTextColor(colour.tooltip_text)
-		}
-	}
+    // The quickinfo element displays some information about the currently visible image and its position in the folder
+    QuickInfo { id: quickinfo }
 
-	//////////////////////////////////////////////
+    // An 'x' in the top right corner for closing PhotoQt
+    ClosingX { id: closingx }
 
-	// We don't show them at startup right away, as that can lead to small graphical glitches
-	// This way, we simply avoid that altogether
-	Component.onCompleted:
-		mainview.displayIdleAndNothingLoadedMessage()
+    /**************************/
+    // ITEMS THAT FADE IN/OUT
 
-	// Slots accessable by mainwindow.cpp, passed on to thumbnailbar
-	function setupModel(stringlist, pos) { thumbnailBar.setupModel(stringlist, pos); thumbnailBar.setupModel(stringlist, pos) }
-	function displayImage(pos) { thumbnailBar.displayImage(pos) }
-	function nextImage() { thumbnailBar.nextImage(); }
-	function previousImage() { thumbnailBar.previousImage(); }
-	function resetZoom() { mainview.resetZoom(); }
-	function isZoomed() { return mainview.isZoomed(); }
+    // The thumbnail bar
+    Loader { id: thumbnails }
 
-	function updateKeyCombo(combo) { shortcuts.updateKeyCombo(combo); }
+    // A floating, movable element showing the histogram for the currently loaded image
+    Loader { id: histogram }
 
-	function setImageInteractiveMode(enabled) { mainview.setInteractiveMode(enabled) }
-	function finishedTouchEvent(startPoint, endPoint, type, numFingers, duration, path) {
-		shortcuts.gotFinishedTouchGesture(startPoint, endPoint, type, numFingers, duration, path)
-	}
-	function updatedTouchEvent(startPoint, endPoint, type, numFingers, duration, path) {
-		shortcuts.gotUpdatedTouchGesture(startPoint, endPoint, type, numFingers, duration, path)
-	}
+    // The mainmenu, right screen edge
+    MainMenu { id: mainmenu }
 
-	function updatedMouseEvent(button, gesture, modifiers) {
-		shortcuts.gotUpdatedMouseGesture(button, gesture, modifiers);
-	}
-	function finishedMouseEvent(startPoint, endPoint, duration, button, gesture, wheelAngleDelta, modifiers) {
-		shortcuts.gotFinishedMouseGesture(startPoint, endPoint, duration, button, gesture, wheelAngleDelta, modifiers);
-	}
+    // The metadata about the currently loaded image, left screen edge
+    MetaData { id: metadata }
 
-	function showStartup(type, filename) { startup.showStartup(type, filename); }
+    // An element for browsing and opening files (loaded as needed)
+    Loader { id: openfile }
 
-	function openFile() { openfile.show(); }
-	function openFileOLD() { openfile.show(); }
-	function hideOpenFile() { openfile.hide(); }
+    // The settings manager for tweaking PhotoQt
+    Loader { id: settingsmanager }
 
-	function getCursorPos() { return localcursorpos; }
+    // An element to tweak the settings of a slideshow and then start one
+    Loader { id: slideshowsettings }
 
-	function noResultsFromFilter() {
-		verboseMessage("MainWindow::noResultsFromFilter()","Displaying 'no results found' message")
-		mainview.noFilterResultsFound()
-		thumbnailBar.setupModel([],0)
-		metaData.clear()
-		quickInfo.updateQuickInfo(-1,0,"")
-	}
+    // A bar handling the actualy slideshow, providing ways to pause/quit the slideshow and adjust the music volume
+    Loader { id: slideshowbar }
 
-	function alsoIgnoreSystemShortcuts(block) {
-		verboseMessage("MainWindow::alsoIgnoreSystemShortcuts()","Setting interface and system shortcut block to '" + block + "'")
-		blocked = block;
-		blockedSystem = block;
-	}
+    // Some file management features, such as copy, move, rename, delete
+    Loader { id: filemanagement }
 
-	// We can't emit the signal from the subcomponent (empty error message), so we go the detour with a function emitting the signal
-	function doReload(path) {
-		verboseMessage("MainWindow::doReload()","Reloading directory '" + path + "'")
-		reloadDirectory(path,currentfilter)
-	}
+    // Some information about me and PhotoQt
+    Loader { id: about }
 
-	// For blurring, we animate by using a NumberAnimation on opacity
-	// Thus, besides updating the source, this is the only thing we need to adjust.
-	function blurAllBackgroundElements() {
+    // Shows status and result information about uploading images to imgur.com
+    Loader { id: imgurfeedback }
 
-		blur_mainview.opacity = 1
-		blur_metadata.opacity = 1
-		blur_mainmenu.opacity = 1
-		blur_thumbnailBar.opacity = 1
-		quickInfo.opacity = 0.2
+    // Filter the currently loaded folder
+    Loader { id: filter }
 
-	}
-	function unblurAllBackgroundElements() {
+    // Set the currently loaded image as wallpaper (if available)
+    Loader { id: wallpaper }
 
-		blur_mainview.opacity = 0
-		blur_metadata.opacity = 0
-		blur_mainmenu.opacity = 0
-		blur_thumbnailBar.opacity = 0
-		quickInfo.opacity = 1
+    // Scale the currently loaded image (or inform that it can't be scaled)
+    Loader { id: scaleimage }
+    Loader { id: scaleimageunsupported }
 
-	}
+    // A small message at first startup after an update/install
+    Loader { id: startup }
+
+    // The shortcut notifier element
+    PShortcutsNotifier { id: sh_notifier; }
+
+
+    /********************************************************************************
+     *                                                                              *
+     * SOME SETTINGS NEED TO BE APPLIED PROPERLY WHEN THEY CHANGE AND/OR AT STARTUP *
+     *                                                                              *
+     ********************************************************************************/
+
+    Connections {
+        target: settings
+        onThumbnailKeepVisibleChanged: {
+            if(settings.thumbnailKeepVisible) {
+                call.ensureElementSetup("thumbnails")
+                call.show("thumbnails")
+            } else
+                call.hide("thumbnails")
+            if(!imageitem.isZoomedIn())
+                imageitem.resetZoom()
+        }
+        onThumbnailKeepVisibleWhenNotZoomedInChanged: {
+            if(settings.thumbnailKeepVisibleWhenNotZoomedIn) {
+                call.ensureElementSetup("thumbnails")
+                call.show("thumbnails")
+            } else
+                call.hide("thumbnails")
+            if(!imageitem.isZoomedIn())
+                imageitem.resetZoom()
+        }
+        onThumbnailDisableChanged: {
+            if(!settings.thumbnailDisable) {
+                call.ensureElementSetup("thumbnails")
+                call.load("thumbnailLoadDirectory")
+            }
+            if(!imageitem.isZoomedIn())
+                imageitem.resetZoom()
+        }
+        onTrayIconChanged:
+            trayIconValueChanged(settings.trayIcon)
+        onSortbyChanged:
+            Handle.loadFile(variables.currentFile, variables.filter, true)
+        onSortbyAscendingChanged:
+            Handle.loadFile(variables.currentFile, variables.filter, true)
+        onWindowModeChanged:
+            mainwindow.windowModeChanged(settings.windowMode, settings.windowDecoration, settings.keepOnTop)
+        onWindowDecorationChanged:
+            mainwindow.windowModeChanged(settings.windowMode, settings.windowDecoration, settings.keepOnTop)
+        onKeepOnTopChanged:
+            mainwindow.windowModeChanged(settings.windowMode, settings.windowDecoration, settings.keepOnTop)
+        onLanguageChanged:
+            em.setLanguage(settings.language)
+        onStartupLoadLastLoadedImageChanged:
+            getanddostuff.saveLastOpenedImage("")
+    }
+
+    Component.onCompleted: {
+        if(settings.thumbnailKeepVisible || settings.thumbnailKeepVisibleWhenNotZoomedIn)
+            call.show("thumbnails")
+
+        em.setLanguage(settings.language)
+
+    }
+
+
+    /**************************************************
+     *                                                *
+     * A WHOLE BUNCH OF FUNCTIONS TO DO GENERAL STUFF *
+     *                                                *
+     **************************************************/
+
+    function windowXYchanged(x, y) {
+        variables.windowXY = Qt.point(x, y)
+    }
+
+    function processShortcut(sh) {
+        shortcuts.processString(sh)
+    }
+
+    function keysRelease() {
+        call.load("keysReleased")
+    }
+
+    // Called from c++ code to open a new file (needed for remote controlling)
+    function openfileShow() {
+        call.show("openfile")
+    }
+
+    // Called from c++ code to load an image file (needed for remote controlling)
+    function loadFile(filename) {
+        variables.filter = ""
+        Handle.loadFile(filename, "", false)
+    }
+
+    // Called from c++ code to get the filename of the currently loaded image file (needed for remote controlling)
+    function getCurrentFile() {
+        return variables.currentFile
+    }
+
+    // Close any possibly open element. This is needed for remote controlling, e.g., for loading an image while there is an element open in PhotoQt.
+    // We use the system shortcut for closing elements, Escape. As there might be multiple levels of elements open, we use a timer to call Escape
+    // repeatedly until any element is closed and the GUI is unblocked.
+    function closeAnyElement() {
+        call.load("closeAnyElement")
+    }
+
+    // Manage the startup event, called from c++ after everything is set up with filename and update state.
+    function manageStartup(filename, update) {
+
+        // If thumbnails are not disabled, we ensure the element is set up, but no need to actually show the bar
+        if(!settings.thumbnailDisable)
+            call.ensureElementSetup("thumbnails")
+
+        // Same for the histogram, but it we actually show
+        if(settings.histogram)
+            call.ensureElementSetup("histogram")
+
+        // The first time after an update/install, we display an update/install message before processing the received filename
+        if(update !== 0) {
+            variables.startupUpdateStatus = update
+            variables.startupFilenameAfter = filename
+            call.show("startup")
+        } else {
+
+            if(settings.startupLoadLastLoadedImage && filename === "")
+                filename = getanddostuff.getLastOpenedImage()
+
+            // If no filename has been passed, show the OpenFile element
+            if(filename === "")
+                call.show("openfile")
+            // Otherwise just load the received file
+            else
+                Handle.loadFile(filename)
+        }
+
+    }
+
+    function handleMouseExit(pos) {
+        if(pos.x < 10 || pos.x > mainwindow.width-10 || pos.y < 10 || pos.y > mainwindow.height-10)
+            hideEverythingAfterExit.restart()
+        else {
+            hideEverythingAfterExit.stop()
+        }
+    }
+
+    Timer {
+        id: hideEverythingAfterExit
+        interval: 1000
+        repeat: false
+        onTriggered: {
+            if(!variables.guiBlocked) {
+                mainmenu.hide()
+                metadata.hide()
+                if((!settings.thumbnailKeepVisible && !settings.thumbnailKeepVisibleWhenNotZoomedIn) || (settings.thumbnailKeepVisibleWhenNotZoomedIn && imageitem.isZoomedIn()))
+                    call.hide("thumbnails")
+                call.hide("slideshowbar")
+            }
+        }
+    }
 
 }

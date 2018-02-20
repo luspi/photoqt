@@ -1,63 +1,60 @@
-import QtQuick 2.3
-import QtQuick.Controls 1.2
-import QtQuick.Controls.Styles 1.2
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Contact: http://photoqt.org                                          **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
+
+import QtQuick 2.5
+
+import "./tweaks"
+import "handlestuff.js" as Handle
 
 Rectangle {
 
-	id: statusbar
+    anchors.left: parent.left
+    anchors.bottom: parent.bottom
+    anchors.right: parent.right
 
-	color: "#44000000"
+    property alias tweaksZoom: zoom
 
-	signal displayIcons();
-	signal displayList();
+    height: 50
 
-	property int zoomlevel: zoom.getZoomLevel()
-	property bool isHoverPreviewEnabled: preview.isHoverEnabled
+    color: "#44000000"
 
-	TweaksZoom {
-		id: zoom
-		anchors.left: parent.left
-		anchors.leftMargin: 10
-		onUpdateZoom: zoomlevel = level
-	}
+    TweaksUserPlaces { id: up }
 
-	TweaksFileTypeSelection {
-		id: select
-		anchors.right: preview.left
-		anchors.rightMargin: 10
-	}
+    // Zoom files view
+    TweaksZoom { id: zoom }
 
-	TweaksPreview {
-		id: preview
-		anchors.right: thumbnail.left
-		anchors.rightMargin: 10
-	}
+    // choose which file type group to show
+    TweaksFileType { id: ft }
 
-	TweaksThumbnail {
-		id: thumbnail
-		anchors.right: viewmode.left
-	}
+    // remember the current location in between PhotoQt sessions
+    TweaksRememberLocation { id: remember }
 
+    // control the preview image
+    TweaksPreview { id: prev }
 
-	TweaksViewMode {
-		id: viewmode
-		anchors.right: parent.right
-		anchors.rightMargin: 10
-	}
+    // manage the file thumbnails
+    TweaksThumbnails { id: thumb }
 
-	function getView() {
-		return viewmode.getView()
-	}
-
-	function getThumbnailEnabled() {
-		return thumbnail.getThumbnailEnabled()
-	}
-	function setThumbnailChecked(s) {
-		thumbnail.setThumbnailChecked(s)
-	}
-
-	function getFileTypeSelection() {
-		return select.getFileTypeSelection()
-	}
+    // which view mode to use (lists vs icons)
+    TweaksViewMode { id: viewmode }
 
 }

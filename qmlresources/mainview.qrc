@@ -1,10 +1,16 @@
 <RCC>
     <qresource prefix="/">
-        <file>../qml/mainview/Background.qml</file>
-	<file>../qml/mainview/QuickInfo.qml</file>
-	<file>../qml/mainview/SmartImage.qml</file>
-	<file>../qml/mainview/MainView.qml</file>
-	<file>../qml/mainview/Histogram.qml</file>
-	<file>../qml/mainview/ImageItem.qml</file>
+    <file>../qml/mainview/Background.qml</file>
+    <file>../qml/mainview/MainImage.qml</file>
+    <file>../qml/mainview/MainImageRectangle.qml</file>
+    <file>../qml/mainview/MainImageRectangleAnimated.qml</file>
+    <file>../qml/mainview/Thumbnails.qml</file>
+    <file>../qml/mainview/QuickInfo.qml</file>
+    <file>../qml/mainview/ClosingX.qml</file>
+    <file>../qml/mainview/MainMenu.qml</file>
+    <file>../qml/mainview/HandleMouseMovements.qml</file>
+    <file>../qml/mainview/MetaData.qml</file>
+    <file>../qml/mainview/Histogram.qml</file>
+    <file>../qml/mainview/LoadingIndicator.qml</file>
     </qresource>
 </RCC>

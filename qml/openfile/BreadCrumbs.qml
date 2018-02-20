@@ -1,287 +1,263 @@
-import QtQuick 2.3
-import QtQuick.Controls 1.2
-import QtQuick.Controls.Styles 1.2
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Contact: http://photoqt.org                                          **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
+
+import QtQuick 2.5
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
+import PContextMenu 1.0
 
 import "../elements"
+import "handlestuff.js" as Handle
 
 Rectangle {
 
-	anchors.left: parent.left
-	anchors.top: parent.top
-	anchors.right: parent.right
-	height: 50
+    id: breadcrumbs_top
 
-	property int historypos: -1
-	property var history: []
-	property bool loadedFromHistory: false
+    anchors.left: parent.left
+    anchors.top: parent.top
+    anchors.right: parent.right
+    height: 50
 
-	color: "#44000000"
+    property int contextMenuCurrentIndex: -1
 
-	// Two buttons to go backwards/forwards in history
-	Rectangle {
+    property alias modelForCrumbs: crumbsmodel
+    property alias viewForCrumbs: crumbsview
 
-		id: hist_but
+    property int settingsQuickInfoCloseXSize: Math.max(5, Math.min(25, settings.quickInfoCloseXSize))
 
-		// Positioning and styling
-		color: "transparent"
-		anchors.left: parent.left
-		anchors.leftMargin: 10
-		anchors.top: parent.top
-		anchors.bottom: parent.bottom
-		width: toleft.width+toright.width
+    color: "#44000000"
 
-		// Backwards
-		CustomButton {
+    // Two buttons to go backwards/forwards in history
+    Rectangle {
 
-			id: toleft
+        id: hist_but
 
-			anchors.left: parent.left
-			anchors.top: parent.top
-			anchors.bottom: parent.bottom
-			width: 40
+        // Positioning and styling
+        color: "transparent"
+        anchors.left: parent.left
+        anchors.leftMargin: 10
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        width: toleft.width+toright.width
 
-			enabled: (historypos > 0 && history.length > 1)
+        // Backwards
+        CustomButton {
 
-			text: "<"
-			fontsize: 30
-			overrideFontColor: "white"
-			overrideBackgroundColor: "transparent"
+            id: toleft
 
-			opacity: enabled ? 1 : 0.4
+            anchors.left: parent.left
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            width: 40
 
-			//: The history here is the list of past visited folders in the 'Open File' element
-			tooltip: qsTr("Go backwards in history")
+            enabled: (openvariables.historypos > 0 && openvariables.history.length > 1)
 
-			onClickedButton: goBackInHistory()
+            text: "<"
+            fontsize: 30
+            overrideFontColor: "white"
+            overrideBackgroundColor: "transparent"
 
-		}
+            opacity: enabled ? 1 : 0.4
 
-		// Forwards
-		CustomButton {
+            //: The history is the list of visited folders in the element for opening files
+            tooltip: em.pty+qsTr("Go backwards in history")
 
-			id: toright
+            onClickedButton: Handle.goBackInHistory()
+            onRightClickedButton: toleftcontext.popup()
 
-			anchors.right: parent.right
-			anchors.top: parent.top
-			anchors.bottom: parent.bottom
-			width: 40
+            PContextMenu {
+                id: toleftcontext
+                Component.onCompleted: {
+                    addItem(em.pty+qsTr("Go backwards in history"))
+                    addItem(em.pty+qsTr("Go forwards in history"))
+                }
+                onSelectedIndexChanged: {
+                    if(index == 0)
+                        Handle.goBackInHistory()
+                    else
+                        Handle.goForwardsInHistory()
+                }
+            }
 
-			enabled: (historypos < history.length-1 && historypos > 0)
+        }
 
-			text: ">"
-			fontsize: 30
-			overrideFontColor: "white"
-			overrideBackgroundColor: "transparent"
+        // Forwards
+        CustomButton {
 
-			opacity: enabled ? 1 : 0.4
+            id: toright
 
-			//: The history here is the list of past visited folders in the 'Open File' element
-			tooltip: qsTr("Go forwards in history")
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            width: 40
 
-			onClickedButton: goForwardsInHistory()
+            enabled: (openvariables.historypos < openvariables.history.length-1 && openvariables.historypos > 0)
 
-		}
+            text: ">"
+            fontsize: 30
+            overrideFontColor: "white"
+            overrideBackgroundColor: "transparent"
 
-	}
+            opacity: enabled ? 1 : 0.4
 
-	// This button closes the OpenFile dialog -> it is displayed to the RIGHT of the ListView below, in the top right corner
-	Image {
+            //: The history is the list of visited folders in the element for opening files
+            tooltip: em.pty+qsTr("Go forwards in history")
 
-		id: closeopenfile
+            onClickedButton: Handle.goForwardsInHistory()
+            onRightClickedButton: torightcontext.popup()
 
-		anchors.right: parent.right
-		anchors.top: parent.top
+            PContextMenu {
+                id: torightcontext
+                Component.onCompleted: {
+                    addItem(em.pty+qsTr("Go backwards in history"))
+                    addItem(em.pty+qsTr("Go forwards in history"))
+                }
+                onSelectedIndexChanged: {
+                    if(index == 0)
+                        Handle.goBackInHistory()
+                    else
+                        Handle.goForwardsInHistory()
+                }
+            }
 
-		source: "qrc:/img/closingx.png"
-		sourceSize: Qt.size(3*settings.closeXsize,3*settings.closeXsize)
+        }
 
-		ToolTip {
-			anchors.fill: parent
-			hoverEnabled: true
-			cursorShape: Qt.PointingHandCursor
-			onClicked: openfile.hide()
-			text: qsTr("Close 'Open File' element")
-		}
+    }
 
-	}
+    // This button closes the OpenFile dialog -> it is displayed to the RIGHT of the ListView below, in the top right corner
+    Image {
 
-	ListView {
+        id: closeopenfile
 
-		id: crumbsview
+        anchors.right: parent.right
+        anchors.top: parent.top
 
-		spacing: 0
+        source: "qrc:/img/closingx.png"
+        sourceSize: Qt.size(3*settingsQuickInfoCloseXSize, 3*settingsQuickInfoCloseXSize)
 
-		anchors.left: hist_but.right
-		anchors.right: closeopenfile.left
-		height: parent.height
+        ToolTip {
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            onClicked: openfile_top.hide()
+            //: The element in this case is the element for opening files
+            text: em.pty+qsTr("Close element")
+        }
 
-		orientation: ListView.Horizontal
-		interactive: false
-		clip: true
+    }
 
-		model: ListModel { id: crumbsmodel; }
+    ListView {
 
-		property var menuitems: []
+        id: crumbsview
 
-		delegate: Button {
-			y: 7
-			height: parent.height-15
-			property bool hovered: false
+        spacing: 0
 
-			style: ButtonStyle {
-				background: Rectangle {
-					id: bg
-					anchors.fill: parent
-					color: hovered ? "#44ffffff" : "#00000000"
-					radius: 5
-				}
+        anchors.left: hist_but.right
+        anchors.right: closeopenfile.left
+        height: parent.height
 
-				label: Text {
-					id: txt
-					horizontalAlignment: Text.AlignHCenter
-					color: "white"
-					font.bold: true
-					font.pointSize: 15
-					text: type=="folder" ? " " + location : " /"
-				}
+        orientation: ListView.Horizontal
+        interactive: false
+        clip: true
 
-			}
+        model: ListModel { id: crumbsmodel; }
 
-			MouseArea {
-				anchors.fill: parent
-				hoverEnabled: true
-				cursorShape: type=="folder" ? Qt.PointingHandCursor : Qt.ArrowCursor
-				onClicked: {
-					if(type == "folder")
-						loadCurrentDirectory(partialpath)
-					else {
-//							m.clear()
-//							var folders = getanddostuff.getFoldersIn(partialpath)
-//							m.dir = partialpath
-//							for(var i = 0; i < folders.length; ++i) {
-//								m.addItem(folders[i])
-//							}
-//							m.popup()
-					}
-				}
-				onEntered:
-					if(type=="folder")
-						parent.hovered = true
-				onExited:
-					if(type=="folder")
-						parent.hovered = false
-			}
+        property var menuitems: []
 
-		}
+        delegate: Button {
+            id: delegButton
+            y: 7
+            height: parent.height-15
+            property bool hovered: false
 
-	}
+            property bool clicked: false
 
-	//	Menu {
-	//		id: m
-	//		property string dir: ""
-	//		style: MenuStyle {
-	//			// an item text
-	//			itemDelegate.label: Text {
-	//				verticalAlignment: Text.AlignVCenter
-	//				horizontalAlignment: Text.AlignHCenter
-	//				font.pointSize: 12
-	//				color: "white"
-	//				text: styleData.text.split("/")[styleData.text.split("/").length-1]
-	//			}
+            property var folders: getanddostuff.getFoldersIn(partialpath, false, settings.openShowHiddenFilesFolders)
 
-	//			// selection of an item
-	//			itemDelegate.background: Rectangle {
-	//				color: styleData.selected ? "grey" : "#222222"
-	//				border.width: 1
-	//				border.color: "#222222"
-	//			}
-	//		}
-	//	}
+            Connections {
+                target: contextmenu
+                onOpenedChanged:
+                    delegButton.clicked = (contextmenu.opened&&index==contextmenu.parentIndex)
+            }
 
+            style: ButtonStyle {
+                background: Rectangle {
+                    id: bg
+                    anchors.fill: parent
+                    color: (hovered||delegButton.clicked) ? "#44ffffff" : "#00000000"
+                    radius: 5
+                }
 
-	function loadDirectory(path) {
+                label: Text {
+                    id: txt
+                    horizontalAlignment: Text.AlignHCenter
+                    color: "white"
+                    font.bold: true
+                    font.pointSize: 15
+                    text: type=="folder" ? " " + location + " " : " / "
+                }
 
-		verboseMessage("BreadCrumbs::loadDirectory()",path)
+            }
 
-		// If current directory is not loaded from history -> adjust history
-		if(loadedFromHistory)
-			loadedFromHistory = false
-		else
-			addToHistory(path)
+            MouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                onClicked: {
+                    if(type == "folder")
+                        openvariables.currentDirectory = partialpath
+                    else {
+                        delegButton.clicked = true
+                        var pos = delegButton.parent.mapToItem(mainwindow, delegButton.x, delegButton.y)
+                        contextmenu.popup(Qt.point(pos.x+variables.windowXY.x, pos.y+delegButton.height+variables.windowXY.y))
+                    }
+                }
+                onEntered:
+                    if(!contextmenu.opened)
+                        parent.hovered = true
+                onExited:
+                    parent.hovered = false
+            }
 
-		var parts = path.split("/")
-		var partialpath = ""
+            PContextMenu {
+                id: contextmenu
+                property int parentIndex: -1
+                onSelectedIndexChanged:
+                    openvariables.currentDirectory = userData + folders[index-1]
+            }
 
-		crumbsmodel.clear()
+            Component.onCompleted: {
+                //: Used as in "Go directly to subfolder of '/path/to/somewhere'"
+                contextmenu.addItem(em.pty+qsTr("Go directly to subfolder of") + " '" + getanddostuff.getDirectoryDirName(partialpath) + "'")
+                contextmenu.setEnabled(0, false)
+                for(var i = 0; i < folders.length; ++i)
+                    contextmenu.addItem(folders[i])
+                contextmenu.parentIndex = index
+                if(partialpath != undefined)
+                    contextmenu.userData = partialpath
+            }
 
-		// On Windows, the root directory is the drive letter, not a seperator
-		if(path === "/" && !getanddostuff.amIOnWindows())
-			crumbsmodel.append({"type" : "separator", "location" : "/", "partialpath" : "/"})
-		else {
-			for(var i = 0; i < parts.length; ++i) {
-				if(parts[i] === "") continue;
-				if(parts[i] === "..") {
-					var l = crumbsmodel.count
-					crumbsmodel.remove(l-1)
-					crumbsmodel.remove(l-2)
-					partialpath += "/" + parts[i]
-				} else {
-					// On Windows, the path starts with the drive letter, not a seperator
-					if(!getanddostuff.amIOnWindows() || i != 0) {
-						partialpath += "/"
-						crumbsmodel.append({"type" : "separator", "location" : parts[i], "partialpath" : partialpath})
-					}
-					partialpath += parts[i]
-					crumbsmodel.append({"type" : "folder", "location" : parts[i], "partialpath" : partialpath + "/"})
-					// On Windows, if the path consists only of the drive letter, we add a slash behind (looks better)
-					if(parts.length === 2 && getanddostuff.amIOnWindows()) {
-						partialpath += "/"
-						crumbsmodel.append({"type" : "separator", "location" : parts[i], "partialpath" : partialpath})
-					}
-				}
-			}
-		}
+        }
 
-		if(crumbsmodel.count == 0)
-			crumbsmodel.append({"type" : "separator", "location" : "/", "partialpath" : "/"})
-
-		crumbsview.positionViewAtEnd()
-
-	}
-
-	// Add to history
-	function addToHistory(path) {
-
-		verboseMessage("BreadCrumbs::addToHistory()",path + " - " + historypos + " - " + history.length)
-
-		// If current position is not the end of history -> cut off end part
-		if(historypos != history.length-1)
-			history = history.slice(0,historypos+1);
-
-		// Add path
-		history.push(path)
-		++historypos;
-
-	}
-
-	// Go back in history, if we're not already at the beginning
-	function goBackInHistory() {
-		verboseMessage("BreadCrumbs::goBackInHistory()",historypos + " - " + history.length)
-		if(historypos > 0) {
-			--historypos
-			loadedFromHistory = true
-			loadCurrentDirectory(history[historypos])
-		}
-	}
-
-	// Go forwards in history, if we're not already at the end
-	function goForwardsInHistory() {
-		verboseMessage("BreadCrumbs::goForwardsInHistory()",historypos + " - " + history.length)
-		if(historypos < history.length-1) {
-			++historypos
-			loadedFromHistory = true
-			loadCurrentDirectory(history[historypos])
-		}
-	}
+    }
 
 }

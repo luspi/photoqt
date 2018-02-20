@@ -1,46 +1,70 @@
-import QtQuick 2.3
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Contact: http://photoqt.org                                          **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
+
+import QtQuick 2.5
 
 import "../../../elements"
 import "../../"
 
 EntryContainer {
 
-	id: item_top
+    id: item_top
 
-	Row {
+    Row {
 
-		spacing: 20
+        spacing: 20
 
-		EntryTitle {
+        EntryTitle {
 
-			title: qsTr("Keep between images")
-			helptext: qsTr("If you would like PhotoQt to keep the set rotation, flipping and zoom level when switching images, then you can enable that here. If not set, then every time a new image is displayed, it is displayed neither zoomed nor rotated nor flipped.")
+            //: Refers to keeping zoom/rotation/flip/position when switching images
+            title: em.pty+qsTr("Keep between images")
+            helptext: em.pty+qsTr("By default, PhotoQt resets the zoom, rotation, flipping/mirroring and position when switching to a different image. For certain tasks, for example for comparing two images, it can be helpful to keep these properties.")
 
-		}
+        }
 
-		EntrySetting {
+        EntrySetting {
 
-			Row {
+            Row {
 
-				spacing: 10
+                spacing: 10
 
-				CustomCheckBox {
-					id: keep_box
-					text: qsTr("Keep Zoom, Rotation, Flip")
-				}
+                CustomCheckBox {
+                    id: keep_box
+                    //: Remember all these levels when switching between images
+                    text: em.pty+qsTr("Keep Zoom, Rotation, Flip, Position")
+                }
 
-			}
+            }
 
-		}
+        }
 
-	}
+    }
 
-	function setData() {
-		keep_box.checkedButton = settings.keepZoomRotationMirror
-	}
+    function setData() {
+        keep_box.checkedButton = settings.keepZoomRotationMirror
+    }
 
-	function saveData() {
-		settings.keepZoomRotationMirror = keep_box.checkedButton
-	}
+    function saveData() {
+        settings.keepZoomRotationMirror = keep_box.checkedButton
+    }
 
 }

@@ -1,5 +1,27 @@
-import QtQuick 2.3
-import QtQuick.Controls 1.2
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Contact: http://photoqt.org                                          **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
+
+import QtQuick 2.5
+import QtQuick.Controls 1.4
 
 import "../../elements"
 import "shortcuts"
@@ -7,258 +29,232 @@ import "shortcuts"
 
 Rectangle {
 
-	id: tab_top
+    id: tab_top
 
-	property int titlewidth: 100
+    property int titlewidth: 100
 
-	color: "#00000000"
+    color: "#00000000"
 
-	anchors {
-		fill: parent
-		bottomMargin: 5
-	}
+    anchors {
+        fill: parent
+        bottomMargin: 5
+    }
 
-	Flickable {
+    Flickable {
 
-		id: flickable
+        id: flickable
 
-		clip: true
+        clip: true
 
-		anchors.fill: parent
+        anchors.fill: parent
 
-		contentHeight: contentItem.childrenRect.height+20
-		contentWidth: maincol.width
+        contentHeight: contentItem.childrenRect.height+20
+        contentWidth: maincol.width
 
-		Column {
+        Column {
 
-			id: maincol
+            id: maincol
 
-			Rectangle { color: "transparent"; width: 1; height: 10; }
+            Rectangle { color: "transparent"; width: 1; height: 10; }
 
-			Text {
-				width: flickable.width
-				color: "white"
-				font.pointSize: 20
-				font.bold: true
-				//: Used as heading of tab in the settings manager
-				text: qsTr("Shortcuts")
-				horizontalAlignment: Text.AlignHCenter
-			}
+            Text {
+                width: flickable.width
+                color: "white"
+                font.pointSize: 20
+                font.bold: true
+                text: em.pty+qsTr("Shortcuts")
+                horizontalAlignment: Text.AlignHCenter
+            }
 
-			Rectangle { color: "transparent"; width: 1; height: 20; }
+            Rectangle { color: "transparent"; width: 1; height: 20; }
 
-			SettingsText {
-				width: flickable.width-20
-				x: 10
-				text: qsTr("Here you can adjust the shortcuts, add new or remove existing ones, or change a key/mouse/touch combination. The shortcuts are grouped into 4 different categories for internal commands plus a category for external commands. The boxes on the right side contain all the possible commands. To add a shortcut for one of the available function simply click on one of the rectangles. This will automatically open another element where you can set the desired shortcut.")
-			}
+            SettingsText {
+                width: flickable.width-20
+                x: 10
+                text: em.pty+qsTr("Here you can adjust the shortcuts, add new or remove existing ones, or change a key/mouse combination. The shortcuts are grouped into 4 different categories for internal commands plus a category for external commands. The boxes on the right side contain all the possible commands. To add a shortcut for one of the available functions simply click on it. This will automatically open another element where you can set the desired shortcut.")
+            }
 
-			Rectangle { color: "transparent"; width: 1; height: 30; }
+            Rectangle { color: "transparent"; width: 1; height: 30; }
 
-			Rectangle { color: "#88ffffff"; width: parent.width; height: 1; }
+            Rectangle { color: "#88ffffff"; width: parent.width; height: 1; }
 
-			Rectangle { color: "transparent"; width: 1; height: 20; }
+            Rectangle { color: "transparent"; width: 1; height: 20; }
 
-			SettingsText {
+            Item {
 
-				width: flickable.width-20
-				x: 10
+                height: 50
+                width: tab_top.width
 
-				text: qsTr("Pressing the left button of the mouse and moving it around can be used for moving a zommed image around. The same goes for a single finger on a touch screen (if one is available). If you want to use them for this purpose, then these type of gestures cannot be used for any other shortcut!")
+                Item {
+                    id: leftClickText
+                    anchors.left: parent.left
+                    anchors.leftMargin: 10
+                    width: parent.width/2 -20
+                    height: childrenRect.height
+                    SettingsText {
+                        anchors.left: parent.left
+                        anchors.right: parent.right
+                        text: em.pty+qsTr("Pressing the left button of the mouse and moving it around can be used for moving an image around. If you put it to use for this purpose then any shortcut involving the left mouse button will have no effect! Note that it is not recommended to disable this if you do not have any other means to move an image around (e.g., touchscreen)!")
+                    }
+                }
 
-			}
+                Item {
+                    anchors.right: parent.right
+                    anchors.rightMargin: 10
+                    width: parent.width/2 -20
+                    height: Math.max(childrenRect.height, leftClickText.height)
+                    CustomCheckBox {
+                        id: mouseleftbutton
+                        y: (Math.max(height,leftClickText.height)-height)/2
+                        text: em.pty+qsTr("Mouse: Left button click-and-move")
+                    }
+                }
 
-			Rectangle { color: "transparent"; width: 1; height: 10; }
+            }
 
-			Rectangle {
-				color: "transparent"
-				width: childrenRect.width
-				height: childrenRect.height
-				x: (parent.width-width)/2
+            Rectangle { color: "transparent"; width: 1; height: 30; }
 
-				Row {
+            CustomButton {
+                x: (parent.width-width)/2
+                text: em.pty+qsTr("Set default shortcuts")
+                onClickedButton: confirmdefaultshortcuts.show()
+            }
 
-					spacing: 15
+            Rectangle { color: "transparent"; width: 1; height: 20; }
 
-					CustomCheckBox {
-						id: mouseleftbutton
-						//: This is written on a checkbox in the shortcuts tab of the settings manager
-						text: qsTr("Mouse: Left button click-and-move")
-						onCheckedButtonChanged: detectshortcut.leftButtonMouseClickAndMove = checkedButton
-					}
+            ShortcutsContainer {
+                id: navigation
+                //: A shortcuts category: navigating images
+                category: em.pty+qsTr("Navigation")
+                allAvailableItems: [["__open",em.pty+qsTr("Open New File")],
+                                    ["__filterImages",em.pty+qsTr("Filter Images in Folder")],
+                                    ["__next",em.pty+qsTr("Next Image")],
+                                    ["__prev",em.pty+qsTr("Previous Image")],
+                                    ["__gotoFirstThb",em.pty+qsTr("Go to first Image")],
+                                    ["__gotoLastThb",em.pty+qsTr("Go to last Image")],
+                                    ["__close",em.pty+qsTr("Hide to System Tray (if enabled)")],
+                                    ["__quit",em.pty+qsTr("Quit PhotoQt")]]
+            }
 
-					CustomCheckBox {
-						id: touchsinglefinger
-						enabled: getanddostuff.isTouchScreenAvailable()
-						//: This is written on a checkbox in the shortcuts tab of the settings manager
-						text: qsTr("Touch screen: One finger press-and-move")
-						onCheckedButtonChanged: detectshortcut.singleFingerTouchPressAndMove = checkedButton
-					}
+            Item { width: 1; height: 10 }
 
-				}
+            ShortcutsContainer {
+                id: image
+                //: A shortcuts category: image manipulation
+                category: em.pty+qsTr("Image")
+                allAvailableItems: [["__zoomIn", em.pty+qsTr("Zoom In")],
+                                    ["__zoomOut", em.pty+qsTr("Zoom Out")],
+                                    ["__zoomActual", em.pty+qsTr("Zoom to Actual Size")],
+                                    ["__zoomReset", em.pty+qsTr("Reset Zoom")],
+                                    ["__rotateR", em.pty+qsTr("Rotate Right")],
+                                    ["__rotateL", em.pty+qsTr("Rotate Left")],
+                                    ["__rotate0", em.pty+qsTr("Reset Rotation")],
+                                    ["__flipH", em.pty+qsTr("Flip Horizontally")],
+                                    ["__flipV", em.pty+qsTr("Flip Vertically")],
+                                    ["__scale", em.pty+qsTr("Scale Image")],
+                                    ["__playPauseAni", em.pty+qsTr("Play/Pause image animation")]]
+            }
 
-			}
+            Item { width: 1; height: 10 }
 
-			Rectangle { color: "transparent"; width: 1; height: 30; }
+            ShortcutsContainer {
+                id: file
+                //: A shortcuts category: file management
+                category: em.pty+qsTr("File")
+                allAvailableItems: [["__rename", em.pty+qsTr("Rename File")],
+                                    ["__delete", em.pty+qsTr("Delete File")],
+                                    ["__deletePermanent", em.pty+qsTr("Delete File (without confirmation)")],
+                                    ["__copy", em.pty+qsTr("Copy File to a New Location")],
+                                    ["__move", em.pty+qsTr("Move File to a New Location")],
+                                    ["__clipboard", em.pty+qsTr("Copy Image to Clipboard")]]
+            }
 
-			CustomButton {
-				x: (parent.width-width)/2
-				//: Written on a button in the shortcuts section of the settings manager
-				text: qsTr("Set default shortcuts")
-				onClickedButton: confirmdefaultshortcuts.show()
-			}
+            Item { width: 1; height: 10 }
 
-			Rectangle { color: "transparent"; width: 1; height: 20; }
+            ShortcutsContainer {
+                id: other
+                //: A shortcuts category: other functions
+                category: em.pty+qsTr("Other")
+                allAvailableItems: [["__hideMeta", em.pty+qsTr("Hide/Show Exif Info")],
+                                    ["__settings", em.pty+qsTr("Show Settings")],
+                                    ["__slideshow", em.pty+qsTr("Start Slideshow")],
+                                    ["__slideshowQuick", em.pty+qsTr("Start Slideshow (Quickstart)")],
+                                    ["__about", em.pty+qsTr("About PhotoQt")],
+                                    ["__wallpaper", em.pty+qsTr("Set as Wallpaper")],
+                                    ["__histogram", em.pty+qsTr("Show Histogram")],
+                                    ["__imgurAnonym", em.pty+qsTr("Upload to imgur.com (anonymously)")],
+                                    ["__imgur", em.pty+qsTr("Upload to imgur.com user account")]]
+            }
 
-			ShortcutsContainer {
-				id: navigation
-				//: One of the shortcuts categories
-				category: qsTr("Navigation")
-				//: This is a shortcut description
-				allAvailableItems: [["__open",qsTr("Open New File")],
-									//: This is a shortcut description
-									["__filterImages",qsTr("Filter Images in Folder")],
-									//: This is a shortcut description
-									["__next",qsTr("Next Image")],
-									//: This is a shortcut description
-									["__prev",qsTr("Previous Image")],
-									//: This is a shortcut description
-									["__gotoFirstThb",qsTr("Go to first Image")],
-									//: This is a shortcut description
-									["__gotoLastThb",qsTr("Go to last Image")],
-									//: This is a shortcut description
-									["__hide",qsTr("Hide to System Tray")],
-									//: This is a shortcut description
-									["__close",qsTr("Quit PhotoQt")]]
-			}
+            Item { width: 1; height: 10 }
 
-			ShortcutsContainer {
-				id: image
-				//: One of the shortcuts categories
-				category: qsTr("Image")
-				//: This is a shortcut description
-				allAvailableItems: [["__zoomIn", qsTr("Zoom In")],
-									//: This is a shortcut description
-									["__zoomOut", qsTr("Zoom Out")],
-									//: This is a shortcut description
-									["__zoomActual", qsTr("Zoom to Actual Size")],
-									//: This is a shortcut description
-									["__zoomReset", qsTr("Reset Zoom")],
-									//: This is a shortcut description
-									["__rotateR", qsTr("Rotate Right")],
-									//: This is a shortcut description
-									["__rotateL", qsTr("Rotate Left")],
-									//: This is a shortcut description
-									["__rotate0", qsTr("Reset Rotation")],
-									//: This is a shortcut description
-									["__flipH", qsTr("Flip Horizontally")],
-									//: This is a shortcut description
-									["__flipV", qsTr("Flip Vertically")],
-									//: This is a shortcut description
-									["__scale", qsTr("Scale Image")]]
-			}
+            ShortcutsContainer {
+                id: external
+                //: A shortcuts category: external commands
+                category: em.pty+qsTr("External")
+                external: true
+                allAvailableItems: [["", em.pty+qsTr("")]]
+            }
 
-			ShortcutsContainer {
-				id: file
-				//: One of the shortcuts categories
-				category: qsTr("File")
-				//: This is a shortcut description
-				allAvailableItems: [["__rename", qsTr("Rename File")],
-									//: This is a shortcut description
-									["__delete", qsTr("Delete File")],
-									//: This is a shortcut description
-									["__deletePermanent", qsTr("Delete File (without confirmation)")],
-									//: This is a shortcut description
-									["__copy", qsTr("Copy File to a New Location")],
-									//: This is a shortcut description
-									["__move", qsTr("Move File to a New Location")]]
-			}
+        }
 
-			ShortcutsContainer {
-				id: other
-				//: One of the shortcuts categories
-				category: qsTr("Other")
-				//: This is a shortcut description
-				allAvailableItems: [["__stopThb", qsTr("Interrupt Thumbnail Creation")],
-									//: This is a shortcut description
-									["__reloadThb", qsTr("Reload Thumbnails")],
-									//: This is a shortcut description
-									["__hideMeta", qsTr("Hide/Show Exif Info")],
-									//: This is a shortcut description
-									["__settings", qsTr("Show Settings")],
-									//: This is a shortcut description
-									["__slideshow", qsTr("Start Slideshow")],
-									//: This is a shortcut description
-									["__slideshowQuick", qsTr("Start Slideshow (Quickstart)")],
-									//: This is a shortcut description
-									["__about", qsTr("About PhotoQt")],
-									//: This is a shortcut description
-									["__wallpaper", qsTr("Set as Wallpaper")]]
-			}
+    }
 
-			ShortcutsContainer {
-				id: external
-				//: One of the shortcuts categories
-				category: qsTr("External")
-				external: true
-				allAvailableItems: [["", qsTr("")]]
-			}
+    function setData() {
 
-		}
+        verboseMessage("SettingsManager/TabShortcuts", "setData()")
 
-	}
+        var dat = shortcutshandler.load()
 
-	function setData() {
+        navigation.setData(dat)
+        image.setData(dat)
+        file.setData(dat)
+        other.setData(dat)
+        external.setData(dat)
 
-		var _key_shortcuts = getanddostuff.getKeyShortcuts()
-		var _mouse_shortcuts = getanddostuff.getMouseShortcuts()
-		var _touch_shortcuts = getanddostuff.getTouchShortcuts()
-		detectshortcut.setTakenShortcuts(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
-		navigation.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
-		image.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
-		file.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
-		other.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
-		external.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
+        mouseleftbutton.checkedButton = settings.leftButtonMouseClickAndMove
 
-		mouseleftbutton.checkedButton = settings.leftButtonMouseClickAndMove
-		touchsinglefinger.checkedButton = settings.singleFingerTouchPressAndMove
+    }
 
-	}
+    function loadDefault() {
 
-	function loadDefault() {
-		var _key_shortcuts = getanddostuff.getDefaultKeyShortcuts()
-		var _mouse_shortcuts = getanddostuff.getDefaultMouseShortcuts()
-		var _touch_shortcuts = getanddostuff.getDefaultTouchShortcuts()
-		detectshortcut.setTakenShortcuts(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
-		navigation.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
-		image.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
-		file.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
-		other.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
-		external.setData(_key_shortcuts, _mouse_shortcuts, _touch_shortcuts)
-	}
+        verboseMessage("SettingsManager/TabShortcuts", "loadDefault()")
 
-	function saveData() {
+        var dat = shortcutshandler.loadDefaults()
 
-		var ret = {};
-		ret = merge_options(ret, navigation.saveData())
-		ret = merge_options(ret, image.saveData())
-		ret = merge_options(ret, file.saveData())
-		ret = merge_options(ret, other.saveData())
-		ret = merge_options(ret, external.saveData())
-		getanddostuff.saveShortcuts(ret)
+        navigation.setData(dat)
+        image.setData(dat)
+        file.setData(dat)
+        other.setData(dat)
+        external.setData(dat)
 
-		settings.leftButtonMouseClickAndMove = mouseleftbutton.checkedButton
-		settings.singleFingerTouchPressAndMove = touchsinglefinger.checkedButton
+    }
 
-	}
+    function saveData() {
 
-	function merge_options(obj1,obj2){
-		var obj3 = {};
-		for (var attrname in obj1)
-			obj3[attrname] = obj1[attrname];
-		for (attrname in obj2)
-			obj3[attrname] = obj2[attrname];
-		return obj3;
-	}
+        verboseMessage("SettingsManager/TabShortcuts", "saveData()")
+
+        var dat = []
+
+        dat = dat.concat(navigation.saveData())
+        dat = dat.concat(image.saveData())
+        dat = dat.concat(file.saveData())
+        dat = dat.concat(other.saveData())
+        dat = dat.concat(external.saveData())
+
+        shortcutshandler.saveShortcuts(dat)
+
+        settings.leftButtonMouseClickAndMove = mouseleftbutton.checkedButton
+
+    }
+
+    function merge_options(obj1,obj2){
+        var obj3 = {};
+        for (var attrname in obj1)
+            obj3[attrname] = obj1[attrname];
+        for (attrname in obj2)
+            obj3[attrname] = obj2[attrname];
+        return obj3;
+    }
 
 }

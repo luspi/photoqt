@@ -25,7 +25,7 @@ parser.add_option("-v", "--version", dest="version",
 (options, args) = parser.parse_args()
 
 # We only need to either basic or full version, as all strings are the same
-options.input = "photoqt_full.nsi"
+options.input = "photoqt.nsi"
 options.output = "lang_en.po"
 options.project = "PhotoQt Windows Installer"
 options.lang = "English"

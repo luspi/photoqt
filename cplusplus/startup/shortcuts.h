@@ -1,91 +1,139 @@
-/*
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Contact: http://photoqt.org                                          **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
 
 #ifndef STARTUPCHECK_SHORTCUTS_H
 #define STARTUPCHECK_SHORTCUTS_H
 
-#include <QDir>
-#include <QFileInfo>
+#include "../configfiles.h"
 #include "../logger.h"
-#include "../scripts/getanddostuff/shortcuts.h"
+#include "../settings/settings.h"
+#include "../shortcuts/shortcuts.h"
 
 namespace StartupCheck {
 
-	namespace Shortcuts {
+    namespace Shortcuts {
 
-		static inline void makeSureShortcutsFileExists(bool verbose) {
+    static inline void renameShortcutsFunctions() {
 
-			if(verbose) LOG << CURDATE << "StartupCheck::Shortcuts::makeSureShortcutsFileExists" << NL;
+        if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "StartupCheck::Shortcuts - renameShortcutsFunctions()" << NL;
 
-			QFileInfo file(CFG_KEY_SHORTCUTS_FILE);
-			if(!file.exists()) {
-				GetAndDoStuffShortcuts sh(true);
-				sh.saveShortcuts(sh.getDefaultKeyShortcuts());
-			}
+        QFile allshortcuts(ConfigFiles::SHORTCUTS_FILE());
 
-		}
+        if(!allshortcuts.exists())
+            return;
 
-		static inline void migrateMouseShortcuts(bool verbose) {
+        if(!allshortcuts.open(QIODevice::ReadOnly)) {
+            LOG << CURDATE << "ERROR: Unable to open shortcuts file for reading!" << std::endl;
+            return;
+        }
 
-			if(verbose) LOG << CURDATE << "StartupCheck::Shortcuts::migrateMouseShortcuts" << NL;
+        QTextStream in(&allshortcuts);
+        QString all = in.readAll();
 
-			QFile mousefile(CFG_MOUSE_SHORTCUTS_FILE);
-			QFile keyfile(CFG_KEY_SHORTCUTS_FILE);
+        allshortcuts.close();
 
-			if(!mousefile.exists()) {
+        if(!all.contains("__close") && !all.contains("__hide"))
+            return;
 
-				if(mousefile.open(QIODevice::WriteOnly)) {
+        all = all.replace("__close", "__quit");
+        all = all.replace("__hide", "__close");
 
-					if(keyfile.open(QIODevice::ReadOnly)) {
+        if(!allshortcuts.open(QIODevice::WriteOnly|QIODevice::Truncate)) {
+            LOG << CURDATE << "ERROR: Unable to open shortcuts file for writing!" << std::endl;
+            return;
+        }
 
-						QTextStream keyin(&keyfile);
-						QTextStream mouseout(&mousefile);
+        QTextStream out(&allshortcuts);
+        out << all;
 
-						QString newKeyFileContent = "";
-						QString newMouseFileContent = QString("Version=%1\n").arg(VERSION);
+        allshortcuts.close();
 
-						QStringList allKeys = keyin.readAll().split("\n");
-						foreach(QString k, allKeys) {
-							if(k.contains("::[M]"))
-								newMouseFileContent += k.replace("[M] ","") + "\n";
-							else
-								newKeyFileContent += k + "\n";
-						}
+    }
 
-						mouseout << newMouseFileContent;
+        static inline void setDefaultShortcutsIfShortcutFileDoesntExist() {
 
-						keyfile.close();
-						keyfile.open(QIODevice::WriteOnly);
-						QTextStream keyout(&keyfile);
-						keyout << newKeyFileContent;
-						keyfile.close();
+            if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "StartupCheck::Shortcuts - setDefaultShortcutsIfShortcutFileDoesntExist()" << NL;
 
-					} else
-						LOG << CURDATE << "StartupCheck::Shortcuts - ERROR: Unable to open key shortcuts file" << NL;
+            // All shortcuts are stored in this single file
+            QFileInfo allshortcuts(ConfigFiles::SHORTCUTS_FILE());
 
-					mousefile.close();
+            // If file doesn't exist (i.e., on first start)
+            if(!allshortcuts.exists()) {
 
-				} else
-					LOG << CURDATE << "StartupCheck::Shortcuts - ERROR: Unable to open mouse shortcuts file" << NL;
+                // Get handler to shortcuts object (the :: are needed as the current namespace is also called Shortcuts)
+                ::Shortcuts sh;
 
-			}
+                // Load and save default shortcuts
+                sh.saveShortcuts(sh.loadDefaults());
 
-		}
+            }
 
-	}
+        }
+
+        static inline void combineKeyMouseShortcutsSingleFile() {
+
+            if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "StartupCheck::Shortcuts - combineKeyMouseShortcutsSingleFile()" << NL;
+
+            // All shortcuts are stored in this single file
+            QFile allshortcuts(ConfigFiles::SHORTCUTS_FILE());
+
+            // Potential mouse shortcuts from previous versions
+            QFile mouseshortcuts(QString("%1/mouseshortcuts").arg(ConfigFiles::CONFIG_DIR()));
+
+            // If mouse shortcuts exist in the wrong place, migrate!
+            if(mouseshortcuts.exists()) {
+
+                // Open for reading only
+                if(!mouseshortcuts.open(QIODevice::ReadOnly)) {
+                    LOG << CURDATE << "StartupCheck::Shortcuts::combineKeyMouseShortcutsSingleFile() - ERROR: unable to open mouseshortcuts for reading..." << NL;
+                    return;
+                }
+
+                // Open for appending only
+                if(!allshortcuts.open(QIODevice::WriteOnly|QIODevice::Append)) {
+                    LOG << CURDATE << "StartupCheck::Shortcuts::combineKeyMouseShortcutsSingleFile() - ERROR: unable to open shortcuts for writing..." << NL;
+                    return;
+                }
+
+                // stream to both files
+                QTextStream in(&mouseshortcuts);
+                QTextStream out(&allshortcuts);
+
+                // Add a linebreak, just to be save, before adding the mouse shortcuts to allshortcuts file
+                out << "\n" << in.readAll();
+
+                // close both files
+                mouseshortcuts.close();
+                allshortcuts.close();
+
+                // and remove old mouse shortcuts file (not needed anymore)
+                if(!mouseshortcuts.remove())
+                    LOG << CURDATE << "StartupCheck::Shortcuts::combineKeyMouseShortcutsSingleFile() - ERROR: Unable to remove redundant mouse_shortcuts file!" << NL;
+
+            }
+
+        }
+
+    }
 
 }
 

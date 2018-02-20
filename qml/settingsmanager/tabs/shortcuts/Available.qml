@@ -1,116 +1,152 @@
-import QtQuick 2.3
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Contact: http://photoqt.org                                          **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
+
+import QtQuick 2.5
 import "../../../elements"
 
 Rectangle {
 
-	id: top
+    id: top
 
-	// The height depends on how many elements there are
-	height: Math.max(childrenRect.height,5)
-	Behavior on height { NumberAnimation { duration: 150; } }
+    // The height depends on how many elements there are
+    height: Math.max(childrenRect.height,5)
+    Behavior on height { NumberAnimation { duration: variables.animationSpeed/2 } }
 
-	// The available shortcuts
-	property var shortcuts: []
+    // The available shortcuts
+    property var shortcuts: []
+    // temporary solution for sharing titles with DetectShortcut
+    onShortcutsChanged: {
+        if(shortcuts.length != 0) {
+            for(var i = 0; i < shortcuts.length; ++i) {
+                var internal = shortcuts[i][0]
+                var title = shortcuts[i][1]
+                if(internal !== "")
+                    variables.shortcutTitles[internal] = title
+            }
+        }
+    }
 
-	color: "transparent"
-	clip: true
+    color: "transparent"
+    clip: true
 
-	// A new shortcut is to be added
-	signal addShortcut(var shortcut)
+    // A new shortcut is to be added
+    signal addShortcut(var shortcut)
 
-	GridView {
+    ListView {
 
-		id: grid
+        id: listview
 
-		x: 3
-		y: 3
-		width: parent.width-6
-		height: childrenRect.height
+        x: 3
+        y: 3
+        width: parent.width-6
+        height: count*(elementHeight+spacing)
 
-		cellWidth: parent.width
-		cellHeight: 30
+        spacing: 6
 
-		model: shortcuts.length
+        interactive: false
 
-		delegate: Rectangle {
+        property int elementHeight: 24
 
-			id: deleg_top
+        model: shortcuts.length
 
-			x: 3
-			y: 3
-			width: grid.cellWidth-6
-			height: grid.cellHeight-6
+        delegate: Rectangle {
 
-			radius: 8
+            id: deleg_top
 
-			// Color changes when hovered
-			property bool hovered: false
-			color: hovered ? colour.tiles_inactive : colour.tiles_disabled
-			Behavior on color { ColorAnimation { duration: 150; } }
+            x: 3
+            y: 3
+            width: listview.width
+            height: listview.elementHeight
+
+            radius: 8
+
+            // Color changes when hovered
+            property bool hovered: false
+            color: hovered ? colour.tiles_inactive : colour.tiles_disabled
+            Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
 
 
-			Rectangle {
+            Rectangle {
 
-				id: sh_title
+                id: sh_title
 
-				width: parent.width/2
-				height: parent.height
+                width: parent.width/2
+                height: parent.height
 
-				color: "transparent"
+                color: "transparent"
 
-				// Which shortcut this is
-				Text {
+                // Which shortcut this is
+                Text {
 
-					anchors.fill: parent
-					anchors.margins: 2
-					anchors.leftMargin: 4
-					color: colour.tiles_text_active
-					text: shortcuts[index][1]
+                    anchors.fill: parent
+                    anchors.margins: 2
+                    anchors.leftMargin: 4
+                    color: colour.tiles_text_active
+                    text: shortcuts[index][1]
 
-				}
+                }
 
-			}
+            }
 
-			// The buttons
-			Rectangle {
+            // The buttons
+            Rectangle {
 
-				x: parent.width/2+2
-				y: 2
-				width: parent.width/2-4
-				height: parent.height-4
+                x: parent.width/2+2
+                y: 2
+                width: parent.width/2-4
+                height: parent.height-4
 
-				color: "transparent"
+                color: "transparent"
 
-				Text {
-					anchors.fill: parent
-					anchors.margins: 2
-					anchors.leftMargin: 4
-					horizontalAlignment: Text.AlignHCenter
-					color: "grey"
-					text: qsTr("Click to add shortcut")
-				}
+                Text {
+                    anchors.fill: parent
+                    anchors.margins: 2
+                    anchors.leftMargin: 4
+                    horizontalAlignment: Text.AlignHCenter
+                    color: "grey"
+                    text: em.pty+qsTr("Click to add shortcut")
+                }
 
-			}
+            }
 
-			// When hovered, change color of this element AND of 'key' button
-			// A click adds a new shortcut
-			MouseArea {
+            // When hovered, change color of this element AND of 'key' button
+            // A click adds a new shortcut
+            MouseArea {
 
-				anchors.fill: parent
-				hoverEnabled: true
-				cursorShape: Qt.PointingHandCursor
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
 
-				onEntered:
-					deleg_top.hovered = true
-				onExited:
-					deleg_top.hovered = false
-				onClicked:
-					set.addShortcut(shortcuts[index])
+                onEntered:
+                    deleg_top.hovered = true
+                onExited:
+                    deleg_top.hovered = false
+                onClicked:
+                    set.addShortcut(shortcuts[index])
 
-			}
+            }
 
-		}
+        }
 
-	}
+    }
 
 }

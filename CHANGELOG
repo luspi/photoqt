@@ -1,5 +1,30 @@
-Changelog PhotoQt v1.5.1  - Copyright (C) 2011-2017, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
+Changelog PhotoQt v1.6  - Copyright (C) 2011-2018, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
+
+
+Release 1.6 - 20/02/2018
+----------------------------
+- Re-structuring of code, taking better advantage of QML property bindings
+- Hiding most elements behind Loader items for faster start-up
+- Add: proper touchscreen support
+- Add: Uploading of images to imgur.com
+- Add: Copy images to clipboard
+- Add: Ability to freely move main image
+- Add: Split 'ThumbnailKeepVisible' setting into 1) always visible, 2) visible when image not zoomed
+- Add: Export/Import configuration and shortcuts
+- Add: Handle case of directory passed on command line (instead of image)
+- Add: Transparency marker option
+- Add: one shortcut for multiple functions
+- Change: Default shortcuts set (e.g., default shortcut for settings managernow 'p')
+- Redo: 'Open File' element, more versatile and reliable
+- Add/Change: Open File now has two hover preview modes: quick (uses thumbnail) or full
+- Add/Change: Left pane of Open File element can be hidden (hides if nothing is there or window is resized rather small)
+- Redo: New 'loading image' indicator
+- Fix: rotating very wide images properly fits them into the window
+- Fix: so many bugs along with re-structuring they cannot be counted
+- Fix: more bugs
+- Fix: and more bugs
+- Fix: and more bugs
 
 
 Release 1.5.1 - 17/01/2017

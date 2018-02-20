@@ -1,13 +1,7 @@
 # All the qml files
 SET(d "qmlresources")
-SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${d}/elements.qrc)
-SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${d}/fadein.qrc)
-SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${d}/mainview.qrc)
-SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${d}/openfile.qrc)
-SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${d}/other.qrc)
-SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${d}/settingsmanager.qrc)
-SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${d}/slidein.qrc)
-SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${d}/globalstrings.qrc)
+SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${d}/elements.qrc ${d}/mainview.qrc ${d}/openfile.qrc ${d}/other.qrc ${d}/shortcuts.qrc ${d}/vars.qrc)
+SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${d}/settingsmanager.qrc ${d}/slideshow.qrc ${d}/filemanagement.qrc ${d}/wallpaper.qrc)
 
 # Add language resource file
 SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${CMAKE_CURRENT_BINARY_DIR}/lang.qrc)

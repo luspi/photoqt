@@ -1,18 +1,24 @@
-/*
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Contact: http://photoqt.org                                          **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
 
 #ifndef STARTUPCHECK_STARTUPUPDATECHECK_H
 #define STARTUPCHECK_STARTUPUPDATECHECK_H
@@ -25,60 +31,39 @@
 
 namespace StartupCheck {
 
-	namespace UpdateCheck {
+    namespace UpdateCheck {
 
-		// 0 = nothing, 1 = update, 2 = install
-		static inline int checkForUpdateInstall(bool verbose, QString *settingsText) {
+        // 0 = nothing, 1 = update, 2 = install
+        static inline int checkForUpdateInstall(Settings *settings) {
 
-			if(verbose) LOG << CURDATE << "StartupCheck::UpdateCheck|" << NL;
+            bool debug = (qgetenv("PHOTOQT_DEBUG") == "yes");
 
-			QString version = VERSION;
+            if(debug) LOG << CURDATE << "StartupCheck::UpdateCheck" << NL;
 
-			if(*settingsText == "") {
-				if(verbose) LOG << CURDATE << "PhotoQt newly installed! Creating empty settings file" << NL;
-				*settingsText = "Version=" + version + "\n";
-				Settings set(true);
-				set.saveSettings();
-				QFile file(CFG_SETTINGS_FILE);
-				if(file.open(QIODevice::ReadOnly)) {
-					QTextStream in(&file);
-					*settingsText = in.readAll();
-					file.close();
-				}
-				return 2;
-			}
+            if(settings->getVersionInTextFile() == "") {
+                if(debug) LOG << CURDATE << "PhotoQt newly installed!" << NL;
+                settings->setVersion(VERSION);
+                return 2;
+            }
 
-			if(verbose) LOG << CURDATE << "Checking if first run of new version" << NL;
+            if(debug) LOG << CURDATE << "Checking if first run of new version" << NL;
 
-			// If it doesn't contain current version (some previous version)
-			if(!settingsText->contains("Version=" + version)) {
+            // If it doesn't contain current version (some previous version)
+            if(settings->getVersion() != settings->getVersionInTextFile()) {
 
-				if(verbose) LOG << CURDATE << "PhotoQt updated" << NL;
+                if(debug) LOG << CURDATE << "PhotoQt updated" << NL;
 
-				if(!settingsText->contains("Version=")) {
-					*settingsText = "Version=" + version + "\n" + *settingsText;
-					return 1;
-				}
+                settings->setVersion(VERSION);
 
-				QStringList splitAtVersion = settingsText->split("Version=");
-				QStringList splitAfterVersion = splitAtVersion.at(1).split("\n");
-				splitAfterVersion.removeFirst();
+                return 1;
 
-				QString newtext = "Version=" + version + "\n";
-				newtext += splitAtVersion.at(0);
-				newtext += splitAfterVersion.join("\n");
+            }
 
-				*settingsText = newtext;
+            return 0;
 
-				return 1;
+        }
 
-			}
-
-			return 0;
-
-		}
-
-	}
+    }
 
 }
 

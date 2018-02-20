@@ -1,209 +1,257 @@
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Contact: http://photoqt.org                                          **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
+
 #include "imageproviderthumbnail.h"
 
 ImageProviderThumbnail::ImageProviderThumbnail() : QQuickImageProvider(QQuickImageProvider::Image) {
 
-	imageproviderfull = new ImageProviderFull;
+    imageproviderfull = new ImageProviderFull;
 
-	// Setup database
-	db = QSqlDatabase::addDatabase("QSQLITE","thumbDB" + QString::number(rand()));
-	db.setDatabaseName(CFG_THUMBNAILS_DB);
-	db.open();
+    // Get permanent and temporary settings
+    settings = new SlimSettingsReadOnly;
 
-	// Get permanent and temporary settings
-	settings = new Settings;
+    dbSetup = false;
+    if(settings->thumbnailCache && !settings->thumbnailCacheFile)
+        setupDbWhenNotYetDone();
 
-	// No transaction has been started yet
-	dbTransactionStarted = false;
+}
+
+void ImageProviderThumbnail::setupDbWhenNotYetDone() {
+
+    if(!dbSetup) {
+
+        // Setup database
+        db = QSqlDatabase::addDatabase("QSQLITE","thumbDB" + QString::number(rand()));
+        db.setDatabaseName(ConfigFiles::THUMBNAILS_DB());
+        db.open();
+
+        // No transaction has been started yet
+        dbTransactionStarted = false;
+
+        dbSetup = true;
+
+    }
 
 }
 
 QImage ImageProviderThumbnail::requestImage(const QString &filename_encoded, QSize *, const QSize &requestedSize) {
 
-	QByteArray filename = QByteArray::fromPercentEncoding(filename_encoded.toUtf8());
+    QByteArray filename = QByteArray::fromPercentEncoding(filename_encoded.toUtf8());
 
-	dontCreateThumbnailNew = false;
+    filename = filename.replace("//","/");
 
-	// Do some special action
-	if(filename.startsWith("__**__")) {
-		// Smartly preload this thumbnail
-		if(filename.startsWith("__**__smart")) {
-			filename = filename.remove(0,11);
-			dontCreateThumbnailNew = true;
-		// Commit database and exit
-		} else {
-			if(dbTransactionStarted) if(!db.commit()) qDebug() << "[imageprovider thumbs] ERROR: CAN'T commit DB TRANSACTION!";
-			dbTransactionStarted = false;
-			return QImage(1,1,QImage::Format_ARGB32);
-		}
-	}
+    if(!QFileInfo(filename).exists()) {
+        QString err = QCoreApplication::translate("imageprovider", "File failed to load, it doesn't exist!");
+        LOG << CURDATE << "ImageProviderFull: ERROR: " << err.toStdString() << NL;
+        LOG << CURDATE << "ImageProviderFull: Filename: " << filename.toStdString() << NL;
+        return ErrorImage::load(err);
+    }
 
-	// Some general settings that are needed multiple times later-on
-	int width = requestedSize.width();
-	if(width == -1) width = settings->thumbnailsize;
-
-	// Return full thumbnail
-	return getThumbnailImage(filename);
+    // Return full thumbnail
+    return getThumbnailImage(filename);
 
 }
 
 QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
 
-	QString typeCache = (settings->thbcachefile ? "files" : "db");
-	bool cacheEnabled = settings->thumbnailcache;
+    QString typeCache = (settings->thumbnailCacheFile ? "files" : "db");
+    bool cacheEnabled = settings->thumbnailCache;
 
-	if(!db.isOpen()) db.open();
+    if(settings->thumbnailCache && !settings->thumbnailCacheFile)
+        setupDbWhenNotYetDone();
 
-	// Create the md5 hash for the thumbnail file
-	QByteArray path = "file://" + filename;
-	QByteArray md5 = QCryptographicHash::hash(path,QCryptographicHash::Md5).toHex();
+    // Create the md5 hash for the thumbnail file
+    QByteArray path = "file://" + filename;
+    QByteArray md5 = QCryptographicHash::hash(path,QCryptographicHash::Md5).toHex();
 
-	// Prepare the return QImage
-	QImage p;
+    // Prepare the return QImage
+    QImage p;
 
-	// We always opt for the 256px resolution for the thumbnails,
-	// as then we don't have to re-create thumbnails depending on change in settings
-	int ts = 256;
+    // We always opt for the 256px resolution for the thumbnails,
+    // as then we don't have to re-create thumbnails depending on change in settings
+    int ts = 256;
 
-	origwidth = -1;
-	origheight = -1;
+    // If files in XDG_CACHE_HOME/thumbnails/ shall be used, then do use them
+    if(typeCache == "files" && cacheEnabled) {
 
-	bool wasoncecreated = false;
+        // If there exists a thumbnail of the current file already
+        if(QFile(ConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails/large/" + md5 + ".png").exists()) {
 
-	// If files in ~/.thumbnails/ shall be used, then do use them
-	if(typeCache == "files" && cacheEnabled) {
+            if(qgetenv("PHOTOQT_DEBUG") == "yes")
+                LOG << CURDATE << "ImageProviderThumbnail: Found cached thumbnail (file cache): " << QFileInfo(filename).fileName().toStdString() << NL;
 
-		// If there exists a thumbnail of the current file already
-		if(QFile(QDir::homePath() + "/.thumbnails/large/" + md5 + ".png").exists() && cacheEnabled) {
+            p.load(ConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails/large/" + md5 + ".png");
+            uint mtime = p.text("Thumb::MTime").trimmed().toInt();
 
-//			if(verbose) LOG << CURDATE << "ImageProviderThumbnail: thread: Loading existing thumb from file: " << createThisOne << NL;
+            // Use image if it's up-to-date
+            if(QFileInfo(filename).lastModified().toTime_t() == mtime)
+                return p;
+            else if(qgetenv("PHOTOQT_DEBUG") == "yes")
+                LOG << CURDATE << "ImageProviderThumbnail: Image was modified since thumbnail creation, not using cached thumbnail: " << QFileInfo(filename).fileName().toStdString() << NL;
 
-			p.load(QDir::homePath() + "/.thumbnails/large/" + md5 + ".png");
-			uint mtime = p.text("Thumb").remove("MTime:").trimmed().toInt();
+        }
 
-			// Use image if it's up-to-date
-			if(QFileInfo(filename).lastModified().toTime_t() == mtime) {
-				QSize dim = allSizes.value(filename);
-				origwidth = dim.width();
-				origheight = dim.height();
-				wasoncecreated = true;
-			}
+    // otherwise use the database
+    } else if(cacheEnabled) {
 
-		}
+        needToReCreatedDbThumbnail = false;
 
-	// otherwise use the database (default)
-	} else if(cacheEnabled) {
+        // Query database
+        QSqlQuery query(db);
+        query.prepare("SELECT thumbnail,filelastmod FROM Thumbnails WHERE filepath=:fpath");
+        query.bindValue(":fpath",filename);
+        query.exec();
 
-		QSqlQuery query(db);
-		query.prepare("SELECT thumbnail,filelastmod,origwidth,origheight FROM Thumbnails WHERE filepath=:fpath");
-		query.bindValue(":fpath",filename);
-		query.exec();
-		if(query.next()) {
+        // Check for found value
+        if(query.next()) {
 
-			if(query.value(query.record().indexOf("filelastmod")).toUInt() == QFileInfo(filename).lastModified().toTime_t()) {
-//				if(verbose) LOG << CURDATE << "ImageProviderThumbnail: thread: Loading existing thumb from db: " << createThisOne << NL;
-				QByteArray b;
-				b = query.value(query.record().indexOf("thumbnail")).toByteArray();
-				p.loadFromData(b);
-				origwidth = query.value(query.record().indexOf("origwidth")).toInt();
-				origheight = query.value(query.record().indexOf("origheight")).toInt();
-				wasoncecreated = true;
-			}
+            if(qgetenv("PHOTOQT_DEBUG") == "yes")
+                LOG << CURDATE << "ImageProviderThumbnail: Found cached thumbnail (db cache): " << QFileInfo(filename).fileName().toStdString() << NL;
+
+            // Check if updated
+            if(query.value(query.record().indexOf("filelastmod")).toUInt() == QFileInfo(filename).lastModified().toTime_t()) {
+
+                // If current thumbnail -> load it
+                QByteArray b;
+                b = query.value(query.record().indexOf("thumbnail")).toByteArray();
+                p.loadFromData(b);
+
+                // Cleaning up
+                query.clear();
+
+                // Return image
+                return p;
+
+            // The original image has been changed -> need to recreate thumbnail image
+            } else {
+                if(qgetenv("PHOTOQT_DEBUG") == "yes")
+                    LOG << CURDATE << "ImageProviderThumbnail: Image was modified since thumbnail creation, not using cached thumbnail: " << QFileInfo(filename).fileName().toStdString() << NL;
+                needToReCreatedDbThumbnail = true;
+            }
 
 
-		}
+        }
 
-		query.clear();
+        // Cleaning up
+        query.clear();
 
-	}
+    }
 
-	// If file wasn't loaded from file or database, then it doesn't exist yet (or isn't up-to-date anymore) and we have to create it
+    // If file wasn't loaded from file or database, then it doesn't exist yet (or isn't up-to-date anymore) and we have to create it
 
-	if(!wasoncecreated && !dontCreateThumbnailNew) {
+    // We create a temporary pointer, so that we can delete it properly afterwards
+    QSize *tmp = new QSize(ts,ts);
+    p = imageproviderfull->requestImage(filename.toPercentEncoding(),tmp,QSize(ts,ts));
+    delete tmp;
 
-		// We create a temporary pointer, so that we can delete it properly afterwards
-		QSize *tmp = new QSize(ts,ts);
-		p = imageproviderfull->requestImage(filename.toPercentEncoding(),tmp,QSize(ts,ts));
-		delete tmp;
+    // Only if the image itself is smaller than the requested thumbnail size are both dimensions less than (strictly) than ts -> no caching
+    if(p.width() < ts && p.height() < ts) {
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
+            LOG << CURDATE << "ImageProviderThumbnail: Image is smaller than potential thumbnail, no need to cache: " << QFileInfo(filename).fileName().toStdString() << NL;
+        return p;
+    }
 
-		origwidth = imageproviderfull->origSize.width();
-		origheight = imageproviderfull->origSize.height();
+    // Create file cache thumbnail
+    if(typeCache == "files" && cacheEnabled) {
 
-		if(typeCache == "files" && cacheEnabled) {
+        // If the file itself wasn't read from the thumbnails folder, is not a temporary file, and if the original file isn't at thumbnail size itself
+        if(!filename.startsWith(QString(ConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails").toUtf8())
+                && !filename.startsWith(QDir::tempPath().toUtf8())) {
 
-			// If the file itself wasn't read from the thumbnails folder, is not a temporary file, and if the original file isn't at thumbnail size itself
-			if(filename.startsWith(QString(CFG_THUMBNAILS_DB).toUtf8())
-					&& !filename.startsWith(QDir::tempPath().toUtf8())
-					&& (p.height() > ts || p.width() > ts)) {
+            // Set some required (and additional) meta information
+            p.setText("Thumb::URI", QString("file://%1").arg(QString(filename)));
+            p.setText("Thumb::MTime", QString("%1").arg(QFileInfo(filename).lastModified().toTime_t()));
+            QMimeDatabase mimedb;
+            p.setText("Thumb::Mimetype", mimedb.mimeTypeForFile(filename).name());
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
+            p.setText("Thumb::Size", QString("%1").arg(p.sizeInBytes()));
+#else
+            QFileInfo info(filename);
+            p.setText("Thumb::Size", QString("%1").arg(info.size()));
+#endif
 
-				// We use a QImageWriter (faster, metainfo support) - the path is a temporary path (for reason, see below)
-				QImageWriter writer(QDir::tempPath() + "/" + md5 + "__photo.png","png");
+            // If the file does already exist, then the image has likely been updated -> delete old thumbnail image
+            if(QFile(ConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails/large/" + md5 + ".png").exists())
+                QFile(ConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails/large/" + md5 + ".png").remove();
 
-				// The following meta information is required by the freedesktop standard
-				writer.setText("Thumb::MTime",QString("%1").arg(QFileInfo(filename).lastModified().toTime_t()));
+            // And save new thumbnail image
+            if(!p.save(ConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails/large/" + md5 + ".png"))
+                LOG << CURDATE << "ImageProviderThumbnail: ERROR creating new thumbnail file: " << QFileInfo(filename).fileName().toStdString() << NL;
+            else if(qgetenv("PHOTOQT_DEBUG") == "yes")
+                LOG << CURDATE << "ImageProviderThumbnail: Successfully cached thumbnail (file cache): " << QFileInfo(filename).fileName().toStdString() << NL;
 
-				// We write the temporary file
-				writer.write(p);
+        }
 
-				// If the file still doesn't exist, copy it to the right location (>> protection from concurrency)
-				if(QFile(QDir::homePath() + "/cache/.thumbnails/large/" + md5 + ".png").exists())
-					QFile(QDir::homePath() + "/cache/.thumbnails/large/" + md5 + ".png").remove();
+    // if not file caching -> db caching
+    } else if(cacheEnabled) {
 
-				if(!QFile(QDir::tempPath() + "/" + md5 + "__photo.png").copy(QDir::homePath() + "/cache/.thumbnails/large/" + md5 + ".png"))
-					LOG << CURDATE << "ImageProviderThumbnail: ERROR creating new thumbnail file!" << NL;
-				// Delete temporary file
-				QFile(QDir::tempPath() + "/" + md5 + "__photo.png").remove();
+        // make sure transaction is started
+        if(!dbTransactionStarted) {
+            if(!db.transaction())
+                LOG << CURDATE << "ImageProviderThumbnail: ERROR: Cannot start db transaction" << NL;
+            dbTransactionStarted = true;
+        }
 
-			}
+        QSqlQuery query2(db);
 
-		} else if(cacheEnabled) {
+        // convert image to bytearray
+        QByteArray b;
+        QBuffer buf(&b);
+        buf.open(QIODevice::WriteOnly);
 
-			if(!dbTransactionStarted) {
-				if(!db.transaction())
-					qDebug() << "[imageprovider thumbs] ERROR: CAN'T START DB TRANSACTION!";
-				dbTransactionStarted = true;
-			}
+        // Always use png format
+        p.save(&buf,"PNG");
 
-			QSqlQuery query2(db);
+        // If it was once created, i.e. if the file changed (i.e. if last mod date changed), then we have to update it
+        if(needToReCreatedDbThumbnail)
+            query2.prepare("UPDATE Thumbnails SET filepath=:path,thumbnail=:thb,filelastmod=:mod,thumbcreated=:crt WHERE filepath=:path");
+        else
+            query2.prepare("INSERT INTO Thumbnails(filepath,thumbnail,filelastmod,thumbcreated) VALUES(:path,:thb,:mod,:crt)");
 
-			QByteArray b;
-			QBuffer buf(&b);
-			buf.open(QIODevice::WriteOnly);
+        // bind the thumbnail properties
+        query2.bindValue(":path",filename);
+        query2.bindValue(":thb",b);
+        query2.bindValue(":mod",QFileInfo(filename).lastModified().toTime_t());
+        query2.bindValue(":crt",QDateTime::currentMSecsSinceEpoch());
+        query2.exec();
 
-			// If file has transparent areas, we save it as png to preserver transparency. Otherwise we choose jpg (smaller)
-			if(p.hasAlphaChannel())
-				p.save(&buf,"PNG");
-			else
-				p.save(&buf,"JPG");
+        if(query2.lastError().text().trimmed().length())
+            LOG << CURDATE << "ImageProviderThumbnail: ERROR [" << QString(filename).toStdString() << "]: " << query2.lastError().text().trimmed().toStdString() << NL;
+        else if(qgetenv("PHOTOQT_DEBUG") == "yes")
+            LOG << CURDATE << "ImageProviderThumbnail: Successfully cached thumbnail (db cache): " << QFileInfo(filename).fileName().toStdString() << NL;
 
-			// If it was once created, i.e. if the file changed (i.e. if last mod date changed), then we have to update it
-			if(wasoncecreated)
-				query2.prepare("UPDATE Thumbnails SET filepath=:path,thumbnail=:thb,filelastmod=:mod,thumbcreated=:crt,origwidth=:origw,origheight=:origh WHERE filepath=:path");
-			else
-				query2.prepare("INSERT INTO Thumbnails(filepath,thumbnail,filelastmod,thumbcreated,origwidth,origheight) VALUES(:path,:thb,:mod,:crt,:origw,:origh)");
+        // cleaning up
+        query2.clear();
 
-			query2.bindValue(":path",filename);
-			query2.bindValue(":thb",b);
-			query2.bindValue(":mod",QFileInfo(filename).lastModified().toTime_t());
-			query2.bindValue(":crt",QDateTime::currentMSecsSinceEpoch());
-			query2.bindValue(":origw",origwidth);
-			query2.bindValue(":origh",origheight);
-			query2.exec();
-			if(query2.lastError().text().trimmed().length())
-				LOG << CURDATE << "ImageProviderThumbnail: ERROR [" << QString(filename).toStdString() << "]: " << query2.lastError().text().trimmed().toStdString() << NL;
-			query2.clear();
+    }
 
-		}
-
-	} else if(!wasoncecreated && dontCreateThumbnailNew)
-		p = QImage(1,1,QImage::Format_ARGB32);
-
-	return p;
+    // aaaaand done!
+    return p;
 
 }
 
 ImageProviderThumbnail::~ImageProviderThumbnail() {
-	if(dbTransactionStarted) if(!db.commit()) qDebug() << "[imageprovider thumbs ~] ERROR: CAN'T commit DB TRANSACTION!";
-	db.close();
-	delete imageproviderfull;
-	delete settings;
+    if(dbSetup && dbTransactionStarted) if(!db.commit()) LOG << CURDATE << "ImageProviderThumbnail::~ImageProviderThumbnail :: ERROR: CAN'T commit db transaction!";
+    db.close();
+    delete imageproviderfull;
+    delete settings;
 }

@@ -1,4 +1,4 @@
- PhotoQt v1.5.1 - Copyright (C) 2011-2017, Lukas Spies (Lukas@photoqt.org),
+ PhotoQt v1.6 - Copyright (C) 2011-2018, Lukas Spies (Lukas@photoqt.org),
  License: GPLv2 (or later) -- Website: http://photoqt.org
 --------------------------------------------------------------------
 
@@ -8,13 +8,12 @@
 
  DEPENDENCIES
 --------------
-- Qt >= 5.3
+- Qt >= 5.5
 - CMake (needed for building PhotoQt)
 
-> Make sure that you have the required Qt modules installed:
-  QtQuick, QtQuick.Controls, QtQuick.Controls.Styles,
-  QtQuick.Layouts, QtQml.Models, QtGraphicalEffects, QtMultimedia,
-  Qt.labs.folderlistmodel, Qt.labs.settings
+> Make sure that you have the required QML modules installed:
+  QtGraphicalEffects, QtMultimedia, QtQuick, QtQuick.Controls,
+  QtQuick.Controls.Styles, QtQuick.Layouts, QtQuick.Window
 
 > Dependencies, that are needed by default, but can be disabled via CMake
    (see INSTALL section):
@@ -45,7 +44,7 @@
  INSTALL
 ---------
 
-1) cd build/
+1) mkdir build && cd build/
 
 2) cmake ..
 
@@ -79,13 +78,14 @@
 
 4) (as root or sudo) make install
      # This (i) installs the desktop file to share/applications/
-     #      (ii) moves some icons to icons/hicolor/
-     #      (iii) moves the binary to bin/
+     #      (ii) installs some icons to icons/hicolor/
+     #      (iii) installs the binary to bin/
+     #      (iv) installs the appdata file to share/appdata/
 
 
  UNINSTALL
 -----------
  If you want to uninstall PhotoQt, simply run "make uninstall" as root. This removes
- the desktop file (via xdg-desktop-menu uninstall), the icons and the binary file.
- Alternatively you can simply remove all the files manually, that should yield the
- same result.
+ the desktop file (via xdg-desktop-menu uninstall), the icons, the binary file, and
+ the appdata file. Alternatively you can simply remove all the files manually, that
+ should yield the same result.

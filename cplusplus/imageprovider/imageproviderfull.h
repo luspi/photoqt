@@ -1,18 +1,24 @@
-/*
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Contact: http://photoqt.org                                          **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
 
 #ifndef IMAGEPROVIDERFULL_H
 #define IMAGEPROVIDERFULL_H
@@ -22,7 +28,7 @@
 #include <QtSvg/QtSvg>
 #include "pixmapcache.h"
 #include "../settings/fileformats.h"
-#include "../settings/settings.h"
+#include "../settings/slimsettingsreadonly.h"
 #include "../logger.h"
 
 #include "loader/loadimage_qt.h"
@@ -35,48 +41,39 @@
 #include "../scripts/gmimagemagick.h"
 #endif
 
-#ifdef EXIV2
-#include <exiv2/image.hpp>
-#include <exiv2/exif.hpp>
-#endif
-
 class ImageProviderFull : public QQuickImageProvider {
 
 public:
-	explicit ImageProviderFull();
-	~ImageProviderFull();
+    explicit ImageProviderFull();
+    ~ImageProviderFull();
 
-	QImage requestImage(const QString &filename_encoded, QSize *size, const QSize &requestedSize);
-
-	QSize origSize;
+    QImage requestImage(const QString &filename_encoded, QSize *size, const QSize &requestedSize);
 
 private:
-	bool verbose;
+    QSize maxSize;
+    SlimSettingsReadOnly *settings;
+    FileFormats *fileformats;
 
-	QSize maxSize;
-	Settings *settings;
-	FileFormats *fileformats;
+    QString qtfiles;
+    QString gmfiles;
+    QString extrasfiles;
+    QString rawfiles;
 
-	QString qtfiles;
-	QString gmfiles;
-	QString extrasfiles;
-	QString rawfiles;
+    LoadImageGM *loaderGM;
+    LoadImageQt *loaderQT;
+    LoadImageRaw *loaderRAW;
+    LoadImageXCF *loaderXCF;
 
-	LoadImageGM *loaderGM;
-	LoadImageQt *loaderQT;
-	LoadImageRaw *loaderRAW;
-	LoadImageXCF *loaderXCF;
-
-	QCache<QByteArray,QPixmap> *pixmapcache;
+    QCache<QByteArray,QPixmap> *pixmapcache;
 
 
-	QString whatDoIUse(QString filename);
+    QString whatDoIUse(QString filename);
 
 #ifdef GM
-	GmImageMagick imagemagick;
+    GmImageMagick imagemagick;
 #endif
 
-	QByteArray getUniqueCacheKey(QString path);
+    QByteArray getUniqueCacheKey(QString path);
 
 };
 

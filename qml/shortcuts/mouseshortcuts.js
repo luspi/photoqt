@@ -1,60 +1,187 @@
-// An update to the gesture; not yet finished gesture!
-function gotUpdatedMouseGesture(button, gesture, modifiers) {
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Contact: http://photoqt.org                                          **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
 
-	verboseMessage("Shortcuts::gotUpdatedMouseGesture()", button + " / " + gesture + " / " + modifiers)
+function analyseMouseGestureUpdate(xPos, yPos, before) {
 
-	// The mouse shortcut combo
-	var combo = "";
+    verboseMessage("Shortcuts/mouseshortcuts.js", "analyseMouseGestureUpdate(): " + xPos + " / " + yPos + " / " + before.x + " / " + before.y)
 
-	// If modifier pressed, add to combo
-	if(modifiers !== "")
-		combo = modifiers + "+";
+    var threshold = 50
 
-	// Set button
-	combo += button
+    var dx = xPos-before.x
+    var dy = yPos-before.y
+    var distance = Math.sqrt(Math.pow(dx,2)+Math.pow(dy,2));
 
-	// If there's a gesture, add to combo
-	if(gesture.length > 0)
-		combo += "+"
-	for(var k in gesture)
-		combo += gesture[k]
+    var angle = (Math.atan2(dy, dx)/Math.PI)*180
+    angle = (angle+360)%360;
 
-	settingsmanager.updatedMouseGesture(button, gesture, modifiers)
+    if(distance > threshold) {
+
+        if(angle <= 45 || angle > 315) {
+            if(variables.shortcutsMouseGesture[variables.shortcutsMouseGesture.length-1] != "E") {
+                variables.shortcutsMouseGesture.push("E")
+                variables.shorcutsMouseGesturePointIntermediate = Qt.point(xPos, yPos)
+                return true
+            }
+        } else if(angle > 45 && angle <= 135) {
+            if(variables.shortcutsMouseGesture[variables.shortcutsMouseGesture.length-1] != "S") {
+                variables.shortcutsMouseGesture.push("S")
+                variables.shorcutsMouseGesturePointIntermediate = Qt.point(xPos, yPos)
+                return true
+            }
+        } else if(angle > 135 && angle <= 225) {
+            if(variables.shortcutsMouseGesture[variables.shortcutsMouseGesture.length-1] != "W") {
+                variables.shortcutsMouseGesture.push("W")
+                variables.shorcutsMouseGesturePointIntermediate = Qt.point(xPos, yPos)
+                return true
+            }
+        } else if(angle > 225 && angle <= 315) {
+            if(variables.shortcutsMouseGesture[variables.shortcutsMouseGesture.length-1] != "N") {
+                variables.shortcutsMouseGesture.push("N")
+                variables.shorcutsMouseGesturePointIntermediate = Qt.point(xPos, yPos)
+                return true
+            }
+        }
+
+    }
+
+    return false
 
 }
 
-// Finished the mouse gesture
-function gotFinishedMouseGesture(startPoint, endPoint, duration, button, gesture, wheelAngleDelta, modifiers) {
+function analyseMouseEvent(startedEventAtPos, event, forceThisButton, dontResetGesture) {
 
-	verboseMessage("Shortcuts::gotFinishedMouseGesture()", startPoint + " / " + endPoint + " / " + duration + " / " + button + " / " + gesture + " / " + wheelAngleDelta + " / " + modifiers)
+    verboseMessage("Shortcuts/mouseshortcuts.js", "analyseMouseEvent(): " + startedEventAtPos + " / " + event.button + " / " + forceThisButton + " / " + dontResetGesture)
 
-	// distance -> currently unused
-	var dx = endPoint.x-startPoint.x
-	var dy = endPoint.y-startPoint.y
+    var combostring = getModifiers(event)
 
-	// The mouse shortcut combo
-	var combo = "";
+    var button = event.button
+    if(forceThisButton != undefined)
+        button = forceThisButton
 
-	// If modifier pressed, add to combo
-	if(modifiers !== "")
-		combo = modifiers + "+";
+    if(button == Qt.LeftButton)
+        combostring += "Left Button"
+    else if(button == Qt.MiddleButton)
+            combostring += "Middle Button"
+    else if(button == Qt.RightButton)
+            combostring += "Right Button"
 
-	// Set button
-	combo += button
+    var movement = ""
+    for(var i = 0; i < variables.shortcutsMouseGesture.length; ++i)
+        movement += variables.shortcutsMouseGesture[i]
+    if(dontResetGesture == undefined || !dontResetGesture)
+    variables.shortcutsMouseGesture = []
 
-	// If there's a gesture, add to combo
-	if(gesture.length > 0)
-		combo += "+"
-	for(var k in gesture)
-		combo += gesture[k]
+    if(movement != "") {
+        if(button == Qt.LeftButton && settings.leftButtonMouseClickAndMove && settingsmanager.status!=Loader.Null && !settingsmanager.item.settingsDetectShortcuts.visible)
+            return ""
+        combostring += "+" + movement
+    }
 
-	if(!blockedSystem) {
-		if(blocked) {
-			checkForSystemShortcut(combo)
-		} else if(combo in mouseshortcutfile)
-			execute(mouseshortcutfile[combo][1],mouseshortcutfile[combo][0],true)
-	}
+    return combostring
 
-	settingsmanager.finishedMouseGesture(button, gesture, modifiers)
+}
+
+function analyseWheelEvent(event, dontResetVariables) {
+
+    verboseMessage("Shortcuts/mouseshortcuts.js", "analyseWheelEvent(): " + event.angleDelta.x + " / " + event.angleDelta.y + " / " + event.inverted)
+
+    var combostring = getModifiers(event)
+
+    var angleX = event.angleDelta.x
+    var angleY = event.angleDelta.y
+
+    if(event.inverted) {
+        var tmp = angleX
+        angleX = angleY
+        angleY = tmp
+    }
+
+    variables.wheelLeftRight += angleX
+    variables.wheelUpDown += angleY
+
+    var threshold = Math.max(30, Math.max(0, Math.min(10, settings.mouseWheelSensitivity*120)))
+
+    // wheel LEFT
+    if(variables.wheelLeftRight <= -threshold) {
+
+        // wheel UP
+        if(variables.wheelUpDown <= -threshold)
+            combostring += "Wheel Up Left"
+        // wheel DOWN
+        else if(variables.wheelUpDown >= threshold)
+            combostring += "Wheel Down Left"
+        // neither up nor down
+        else
+            combostring += "Wheel Left"
+
+    } else if(variables.wheelLeftRight >= threshold) {
+
+        // wheel UP
+        if(variables.wheelUpDown <= -threshold)
+            combostring += "Wheel Up Right"
+        // wheel DOWN
+        else if(variables.wheelUpDown >= threshold)
+            combostring += "Wheel Down Right"
+        // neither up nor down
+        else
+            combostring += "Wheel Right"
+
+    } else {
+
+        // wheel UP
+        if(variables.wheelUpDown <= -threshold)
+            combostring += "Wheel Up"
+        // wheel DOWN
+        else if(variables.wheelUpDown >= threshold)
+            combostring += "Wheel Down"
+
+    }
+
+    if(dontResetVariables == undefined || !dontResetVariables) {
+        variables.wheelUpDown = 0
+        variables.wheelLeftRight = 0
+    }
+
+    verboseMessage("Shortcuts/mouseshortcuts.js", "analyseWheelEvent(): combostring = " + combostring)
+
+    return combostring
+
+}
+
+function getModifiers(event) {
+
+    var modstring = ""
+
+    if(event.modifiers & Qt.ControlModifier)
+        modstring += "Ctrl+"
+    if(event.modifiers & Qt.AltModifier)
+        modstring += "Alt+"
+    if(event.modifiers & Qt.ShiftModifier)
+        modstring += "Shift+"
+    if(event.modifiers & Qt.MetaModifier)
+        modstring += "Meta+"
+    if(event.modifiers & Qt.KeypadModifier)
+        modstring += "Keypad+"
+
+    return modstring
 
 }

@@ -1,241 +1,213 @@
-import QtQuick.Controls 1.2
-import QtQuick.Controls.Styles 1.2
-import QtQuick 2.3
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Contact: http://photoqt.org                                          **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
+
+import QtQuick 2.5
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
+import PContextMenu 1.0
 import "../elements"
+import "../handlestuff.js" as Handle
 
 Item {
 
-	id: item
+    id: item
 
-	x: metaData.nonFloatWidth + 5
-	y:5
+    x: 5+metadata.nonFloatWidth
+    y: 5
+    Behavior on x { SmoothedAnimation { duration: variables.animationSpeed } }
+    Behavior on y { SmoothedAnimation { duration: variables.animationSpeed } }
 
-	function getWidth() { return counterRect.width; }
-	function getHeight() { return counterRect.height; }
+    width: childrenRect.width
+    height: childrenRect.height
 
-	opacity: 0
+    visible: ((!settings.quickInfoHideCounter || !settings.quickInfoHideFilename || !settings.quickInfoHideFilepath || variables.filter!="") && !variables.slideshowRunning && variables.currentFile!="") || (variables.slideshowRunning && !settings.slideShowHideQuickInfo)
+    opacity: variables.guiBlocked&&!variables.slideshowRunning ? 0.2 : 1
+    Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
-	property bool somethingLoaded: false
+    Rectangle {
 
-	property int _pos: -1
+        id: containerRect
 
-	// Set data
-	function updateQuickInfo(pos, totalNumberImages, filepath) {
+        x: 0
+        y: settings.thumbnailPosition != "Top" ? 0 : background.height-height-6
 
-		verboseMessage("QuickInfo::updateQuickInfo()",pos + "/" + totalNumberImages + " - " + filepath)
+        // it is always as big as the item it contains
+        width: childrenRect.width+6
+        height: childrenRect.height+6
+        clip: true
+        Behavior on width { SmoothedAnimation { duration: variables.animationSpeed } }
+        Behavior on height { SmoothedAnimation { duration: variables.animationSpeed } }
 
-		_pos = pos
+        // Some styling
+        color: colour.quickinfo_bg
+        radius: variables.global_item_radius
 
-		somethingLoaded = true
+        // COUNTER
+        Text {
 
-		if(settings.hidecounter || totalNumberImages === 0) {
-			counter.text = ""
-			counter.visible = false
-			spacing.visible = false
-		} else {
-			counter.text = (pos+1).toString() + "/" + totalNumberImages.toString()
-			counter.visible = true
-		}
+            id: counter
 
-		if(settings.hidefilename || totalNumberImages === 0) {
-			filename.text = ""
-			filename.visible = false
-			spacing.visible = false
-		} else if(settings.hidefilepathshowfilename) {
-			filename.text = getanddostuff.removePathFromFilename(filepath)
-			filename.visible = true
-		} else {
-			filename.text = filepath
-			filename.visible = true
-		}
+            x:3
+            y:3
 
-		spacing.visible = (counter.visible && filename.visible && totalNumberImages !== 0)
-		spacing.width = (spacing.visible ? 10 : 0)
+            text: (variables.currentFile==""||settings.quickInfoHideCounter) ? "" : (variables.currentFilePos+1).toString() + "/" + variables.totalNumberImagesCurrentFolder.toString()
 
-		if(((!counter.visible && !filename.visible) || (slideshowRunning && settings.slideShowHideQuickinfo)) && currentfilter == "") {
-			opacity = 0
-		} else
-			opacity = 1
+            visible: !settings.quickInfoHideCounter
 
-	}
+            color: colour.quickinfo_text
+            font.bold: true
+            font.pointSize: 10
 
-	// Rectangle holding all the items
-	Rectangle {
+        }
 
-		id: counterRect
+        // FILENAME
+        Text {
 
-		x: 0
-		y: settings.thumbnailposition == "Bottom" ? 0 : background.height-height-6
+            id: filename
 
-		// it is always as big as the item it contains
-		width: childrenRect.width+6
-		height: childrenRect.height+6
+            y: 3
+            anchors.left: counter.right
+            anchors.leftMargin: visible ? (counter.visible ? 10 : 5) : 0
 
-		// Some styling
-		color: colour.quickinfo_bg
-		radius: global_item_radius
+            text: (variables.currentFile==""||(settings.quickInfoHideFilepath&&settings.quickInfoHideFilename) ? "" : (settings.quickInfoHideFilepath ? variables.currentFile :(settings.quickInfoHideFilename ? variables.currentDir : variables.currentDir+"/"+variables.currentFile)))
+            color: colour.quickinfo_text
+            font.bold: true
+            font.pointSize: 10
+            visible: text!=""
 
-		// COUNTER
-		Text {
+        }
 
-			id: counter
+        // Filter label
+        Rectangle {
+            id: filterLabel
+            visible: (variables.filter != "")
+            x: ((!filename.visible && !counter.visible) ? 5 : filename.x-filter_delete.width-filterrow.spacing)
+            y: ((!filename.visible && !counter.visible) ? (filename.height-height/2)/2 : filename.y+filename.height+2)
+            width: childrenRect.width
+            height: childrenRect.height
+            color: "#00000000"
+            Row {
+                id: filterrow
+                spacing: 5
+                // A label for deletion. The one main MouseArea below trackes whether it is hovered or not
+                Text {
+                    id: filter_delete
+                    color: colour.quickinfo_text
+                    visible: (variables.filter != "")
+                    text: "x"
+                    font.pointSize: 10
+                }
+                Text {
+                    color: colour.quickinfo_text
+                    font.pointSize: 10
+                    //: Used as in 'Filter images'
+                    text: em.pty+qsTr("Filter:") + " " + variables.filter
+                    visible: (variables.filter != "")
+                }
+            }
+        }
 
-			x:3
-			y:3
 
-			text: ""
+    }
 
-			color: colour.quickinfo_text
-			font.bold: true
-			font.pointSize: 10
+    // One big MouseArea for everything
+    MouseArea {
 
-			// Show context menu on right click
-			MouseArea {
-				anchors.fill: parent
-				acceptedButtons: Qt.LeftButton | Qt.RightButton
-				onClicked: {
-					if (mouse.button == Qt.RightButton && somethingLoaded) {
-						if(softblocked != 0)
-							softblocked = 0
-						else {
-							softblocked = 1
-							contextmenuCounter.popup()
-						}
-					}
-				}
-			}
+        id: contextmouse
 
-			// The context menu
-			ContextMenu {
+        anchors.fill: parent
 
-				id: contextmenuCounter
+        // The label is draggable, though its position is not stored between sessions (i.e., at startup it is always reset to default)
+        drag.target: parent
 
-				MenuItem {
-					//: This is the image counter in the top left corner (part of the quickinfo labels)
-					text: qsTr("Hide Counter")
-					onTriggered: {
-					counter.text = ""
-					counter.visible = false
-					spacing.visible = false
-					spacing.width = 0
-					settings.hidecounter = true;
-					if(filename.visible == false) item.opacity = 0
-					}
-				}
+        hoverEnabled: true
+        acceptedButtons: Qt.LeftButton|Qt.RightButton
+        // The cursor shape depends on whether we hover the 'x' for deleting the filter or not
+        cursorShape: overDeleteFilterLabel?Qt.PointingHandCursor:Qt.ArrowCursor
+        property bool overDeleteFilterLabel: false
+        onClicked: {
+            // A right click shows context menu
+            if(mouse.button == Qt.RightButton)
+                context.popup()
+            // A left click on 'x' deletes filter (only if set)
+            if(overDeleteFilterLabel && Qt.LeftButton) {
+                variables.filter = ""
+                Handle.loadFile(variables.currentDir+"/"+variables.currentFile, "", true)
+            }
 
-			}
+        }
+        onPositionChanged: {
+            // No filter visible => nothing to do
+            if(!filterLabel.visible)  {
+                overDeleteFilterLabel = false
+                return
+            }
+            // Check if within text label of 'x'
+            var filterXY = mapFromItem(filter_delete, filter_delete.x, filter_delete.y)
+            if(mouse.x > filterXY.x && mouse.x < filterXY.x+filter_delete.width
+                    && mouse.y > filterXY.y && mouse.y < filterXY.y+filter_delete.height)
+                overDeleteFilterLabel = true
+            else
+                overDeleteFilterLabel = false
+        }
+    }
 
-		}
+    PContextMenu {
 
-		// SPACING - it does nothing but seperate counter from filename
-		Text {
-			id: spacing
+        id: context
 
-			visible: !settings.hidecounter && !settings.hidefilepathshowfilename && !settings.hidefilename
+        Component.onCompleted: {
 
-			y: 3
-			width: 10
-			anchors.left: counter.right
+            //: The counter shows the position of the currently loaded image in the folder
+            addItem(em.pty+qsTr("Show counter"))
+            setCheckable(0, true)
+            setChecked(0, !settings.quickInfoHideCounter)
 
-			text: ""
+            addItem(em.pty+qsTr("Show filepath"))
+            setCheckable(1, true)
+            setChecked(1, !settings.quickInfoHideFilepath)
 
-		}
+            addItem(em.pty+qsTr("Show filename"))
+            setCheckable(2, true)
+            setChecked(2, !settings.quickInfoHideFilename)
 
-		// FILENAME
-		Text {
+            //: The clsoing 'x' is the button in the top right corner of the screen for closing PhotoQt
+            addItem(em.pty+qsTr("Show closing 'x'"))
+            setCheckable(3, true)
+            setChecked(3, !settings.quickInfoHideX)
 
-			id: filename
+        }
 
-			y: 3
-			anchors.left: spacing.right
+        onCheckedChanged: {
+            if(index == 0)
+                settings.quickInfoHideCounter = !checked
+            else if(index == 1)
+                settings.quickInfoHideFilepath = !checked
+            else if(index == 2)
+                settings.quickInfoHideFilename = !checked
+            else if(index == 3)
+                settings.quickInfoHideX = !checked
+        }
 
-			text: ""
-			color: colour.quickinfo_text
-			font.bold: true
-			font.pointSize: 10
-
-			// Show context menu
-			MouseArea {
-				anchors.fill: parent
-				acceptedButtons: Qt.LeftButton | Qt.RightButton
-				onClicked: {
-					if (mouse.button == Qt.RightButton && somethingLoaded) {
-						if(softblocked != 0)
-							softblocked = 0
-						else {
-							softblocked = 1
-							contextmenuFilename.popup()
-						}
-					}
-				}
-			}
-
-			// The actual context menu
-			ContextMenu {
-
-				id: contextmenuFilename
-
-				MenuItem {
-					//: This hides part of the quickinfo labels in the top left corner
-					text: qsTr("Hide Filepath, leave Filename")
-					onTriggered: {
-						filename.text = getanddostuff.removePathFromFilename(filename.text)
-						settings.hidefilepathshowfilename = true;
-					}
-				}
-
-				MenuItem {
-					text: "<font color=\"" + colour.menu_text + "\">" + qsTr("Hide both, Filename and Filepath") + "</font>"
-					onTriggered: {
-						filename.text = ""
-						spacing.visible = false
-						spacing.width = 0
-						settings.hidefilename = true;
-						if(counter.visible == false) item.opacity = 0
-					}
-				}
-
-			}
-		}
-
-		// Filter label
-		Rectangle {
-			id: filterLabel
-			visible: (currentfilter != "")
-			x: (_pos == -1 ? 5 : filename.x-filter_delete.width-filterrow.spacing)
-			y: (_pos == -1 ? (filename.height-height/2)/2 : filename.y+filename.height+2)
-			width: childrenRect.width
-			height: childrenRect.height
-			color: "#00000000"
-			Row {
-				id: filterrow
-				spacing: 5
-				Text {
-					id: filter_delete
-					color: colour.quickinfo_text
-					visible: (currentfilter != "")
-					text: "x"
-					font.pointSize: 10
-					y: (parent.height-height)/2
-					MouseArea {
-						anchors.fill: parent
-						cursorShape: Qt.PointingHandCursor
-						onClicked: {
-							currentfilter = ""
-							doReload(thumbnailBar.currentFile)
-						}
-					}
-				}
-				Text {
-					color: colour.quickinfo_text
-					font.pointSize: 10
-					//: As in: FILTER images
-					text: qsTr("Filter:") + " " + currentfilter
-					visible: (currentfilter != "")
-				}
-			}
-		}
-
-	}
+    }
 
 }

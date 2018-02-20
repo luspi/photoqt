@@ -1,67 +1,81 @@
-import QtQuick 2.3
-import QtQuick.Controls 1.2
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Contact: http://photoqt.org                                          **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
+
+import QtQuick 2.5
+import QtQuick.Controls 1.4
 
 import "../../../elements"
 import "../../"
 
 EntryContainer {
 
-	id: item_top
+    id: item_top
 
-	Row {
+    Row {
 
-		spacing: 20
+        spacing: 20
 
-		EntryTitle {
+        EntryTitle {
 
-			//: Settings title: Rotate/flip image automatically according to its metadata
-			title: qsTr("Automatic Rotate/Flip")
-			helptext: qsTr("Some cameras can detect - while taking the photo - whether the camera was turned and might store this information in the image exif data. If PhotoQt finds this information, it can rotate the image accordingly. When asking PhotoQt to always rotate images automatically without asking, it already does so at image load (including thumbnails).")
+            title: em.pty+qsTr("Automatic Rotate/Flip")
+            helptext: em.pty+qsTr("Some cameras can detect - while taking the photo - whether the camera was turned and might store this information in the image exif data. If PhotoQt finds this information, it can rotate the image accordingly or simply ignore that information.")
 
-		}
+        }
 
-		EntrySetting {
+        EntrySetting {
 
-			id: entry
+            id: entry
 
-			ExclusiveGroup { id: rotateflipgroup; }
+            ExclusiveGroup { id: rotateflipgroup; }
 
-			Row {
+            Row {
 
-				spacing: 10
+                spacing: 10
 
-				CustomRadioButton {
-					id: neverrotate
-					text: qsTr("Never rotate/flip images")
-					exclusiveGroup: rotateflipgroup
-					checked: true
-				}
-				CustomRadioButton {
-					id: alwaysrotate
-					text: qsTr("Always rotate/flip images")
-					exclusiveGroup: rotateflipgroup
-				}
-				CustomRadioButton {
-					id: alwaysask
-					//: Used as in 'Always ask whether to rotate/flip an image according to its metadata'
-					text: qsTr("Always ask")
-					exclusiveGroup: rotateflipgroup
-				}
+                CustomRadioButton {
+                    id: neverrotate
+                    text: em.pty+qsTr("Never rotate/flip images")
+                    exclusiveGroup: rotateflipgroup
+                    checked: true
+                }
+                CustomRadioButton {
+                    id: alwaysrotate
+                    text: em.pty+qsTr("Always rotate/flip images")
+                    exclusiveGroup: rotateflipgroup
+                }
 
-			}
+            }
 
-		}
+        }
 
-	}
+    }
 
-	function setData() {
-		neverrotate.checked = (settings.exifrotation === "Never")
-		alwaysrotate.checked = (settings.exifrotation === "Always")
-		alwaysask.checked = (settings.exifrotation === "Ask")
-	}
+    function setData() {
+        neverrotate.checked = !settings.metaApplyRotation
+        alwaysrotate.checked = settings.metaApplyRotation
+    }
 
-	function saveData() {
-		settings.exifrotation = neverrotate.checked ? "Never" : (alwaysrotate.checked ? "Always" : "Ask")
-	}
+    function saveData() {
+        settings.metaApplyRotation = alwaysrotate.checked
+    }
 
 }

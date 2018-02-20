@@ -1,5 +1,27 @@
-import QtQuick 2.3
-import QtQuick.Controls 1.2
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Contact: http://photoqt.org                                          **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
+
+import QtQuick 2.5
+import QtQuick.Controls 1.4
 
 import "./metadata"
 import "../../elements"
@@ -7,98 +29,100 @@ import "../../elements"
 
 Rectangle {
 
-	id: tab_top
+    id: tab_top
 
-	property int titlewidth: 100
+    property int titlewidth: 100
 
-	color: "#00000000"
+    color: "#00000000"
 
-	anchors {
-		fill: parent
-		bottomMargin: 5
-	}
+    anchors {
+        fill: parent
+        bottomMargin: 5
+    }
 
-	Flickable {
+    Flickable {
 
-		id: flickable
+        id: flickable
 
-		clip: true
+        clip: true
 
-		anchors.fill: parent
+        anchors.fill: parent
 
-		contentHeight: contentItem.childrenRect.height+20
-		contentWidth: maincol.width
+        contentHeight: contentItem.childrenRect.height+20
+        contentWidth: maincol.width
 
-		Column {
+        Column {
 
-			id: maincol
+            id: maincol
 
-			Rectangle { color: "transparent"; width: 1; height: 10; }
+            Rectangle { color: "transparent"; width: 1; height: 10; }
 
-			Text {
-				width: flickable.width
-				color: "white"
-				font.pointSize: 20
-				font.bold: true
-				//: Used as heading of tab in the settings manager
-				text: qsTr("Image Metadata")
-				horizontalAlignment: Text.AlignHCenter
-			}
+            Text {
+                width: flickable.width
+                color: "white"
+                font.pointSize: 20
+                font.bold: true
+                text: em.pty+qsTr("Image Metadata")
+                horizontalAlignment: Text.AlignHCenter
+            }
 
-			Rectangle { color: "transparent"; width: 1; height: 20; }
+            Rectangle { color: "transparent"; width: 1; height: 20; }
 
-			Text {
-				width: flickable.width
-				color: "white"
-				font.pointSize: 9
-				text: qsTranslate("SettingsManager", "Move your mouse cursor over the different settings titles to see more information.")
-				horizontalAlignment: Text.AlignHCenter
-			}
+            Text {
+                width: flickable.width
+                color: "white"
+                font.pointSize: 9
+                text: qsTranslate("SettingsManager", "Move your mouse cursor over (or click on) the different settings titles to see more information.")
+                horizontalAlignment: Text.AlignHCenter
+            }
 
-			Rectangle { color: "transparent"; width: 1; height: 20; }
+            Rectangle { color: "transparent"; width: 1; height: 20; }
 
-			Text {
-				color: "white"
-				width: flickable.width-20
-				x: 10
-				wrapMode: Text.WordWrap
-				text: qsTr("PhotoQt can display different information of and about each image. The widget for this information is on the left outside the screen and slides in when mouse gets close to it and/or when the set shortcut (default Ctrl+E) is triggered. On demand, the triggering by mouse movement can be disabled by checking the box below.")
-			}
+            Text {
+                color: "white"
+                width: flickable.width-20
+                x: 10
+                wrapMode: Text.WordWrap
+                //: Introduction text of metadata tab in settings manager
+                text: em.pty+qsTr("PhotoQt can display different information of and about each image. The element for this information is hidden on the left side of the screen and fades in when the mouse cursor gets close to the left screen edge and/or when the set shortcut is triggered. On demand, the triggering by mouse movement can be disabled by checking the box below.")
+            }
 
-			Rectangle { color: "transparent"; width: 1; height: 30; }
+            Rectangle { color: "transparent"; width: 1; height: 30; }
 
-			Rectangle { color: "#88ffffff"; width: parent.width; height: 1; }
+            Rectangle { color: "#88ffffff"; width: parent.width; height: 1; }
 
-			Rectangle { color: "transparent"; width: 1; height: 20; }
+            Rectangle { color: "transparent"; width: 1; height: 20; }
 
-			MouseTrigger { id: trigger }
-			MetaData { id: metadata; alternating: true }
-			FontSize { id: fontsize }
-			Opacity { id: op; alternating: true }
-			RotateFlip { id: rotateflip }
-			OnlineMap { id: onlinemap; alternating: true }
+            MouseTrigger { id: trigger }
+            MetaData { id: metadata; alternating: true }
+            FontSize { id: fontsize }
+            Opacity { id: op; alternating: true }
+            RotateFlip { id: rotateflip }
+            OnlineMap { id: onlinemap; alternating: true }
 
 
-		}
+        }
 
-	}
+    }
 
-	function setData() {
-		trigger.setData()
-		metadata.setData()
-		fontsize.setData()
-		op.setData()
-		rotateflip.setData()
-		onlinemap.setData()
-	}
+    function setData() {
+        verboseMessage("SettingsManager/TabMetadata", "setData()")
+        trigger.setData()
+        metadata.setData()
+        fontsize.setData()
+        op.setData()
+        rotateflip.setData()
+        onlinemap.setData()
+    }
 
-	function saveData() {
-		trigger.saveData()
-		metadata.saveData()
-		fontsize.saveData()
-		op.saveData()
-		rotateflip.saveData()
-		onlinemap.saveData()
-	}
+    function saveData() {
+        verboseMessage("SettingsManager/TabMetadata", "saveData()")
+        trigger.saveData()
+        metadata.saveData()
+        fontsize.saveData()
+        op.saveData()
+        rotateflip.saveData()
+        onlinemap.saveData()
+    }
 
 }

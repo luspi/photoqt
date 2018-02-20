@@ -1,5 +1,27 @@
-import QtQuick 2.3
-import QtQuick.Controls 1.2
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Contact: http://photoqt.org                                          **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
+
+import QtQuick 2.5
+import QtQuick.Controls 1.4
 
 import "./lookandfeel"
 import "../../elements"
@@ -7,132 +29,136 @@ import "../../elements"
 
 Rectangle {
 
-	id: tab_top
+    id: tab_top
 
-	property int titlewidth: 100
+    property int titlewidth: 100
 
-	color: "#00000000"
+    color: "#00000000"
 
-	anchors {
-		fill: parent
-		bottomMargin: 5
-	}
+    anchors {
+        fill: parent
+        bottomMargin: 5
+    }
 
-	Flickable {
+    Flickable {
 
-		id: flickable
+        id: flickable
 
-		clip: true
+        clip: true
 
-		anchors.fill: parent
+        anchors.fill: parent
 
-		contentHeight: contentItem.childrenRect.height+20
-		contentWidth: maincol.width
+        contentHeight: contentItem.childrenRect.height+20
+        contentWidth: maincol.width
 
-		Column {
+        Column {
 
-			id: maincol
+            id: maincol
 
-			Rectangle { color: "transparent"; width: 1; height: 10; }
+            Rectangle { color: "transparent"; width: 1; height: 10; }
 
-			Text {
-				width: flickable.width
-				color: "white"
-				font.pointSize: 20
-				font.bold: true
-				//: Used as heading of tab in the settings manager
-				text: qsTr("Look and Feel")
-				horizontalAlignment: Text.AlignHCenter
-			}
+            Text {
+                width: flickable.width
+                color: "white"
+                font.pointSize: 20
+                font.bold: true
+                //: The look of PhotoQt and how it feels and behaves
+                text: em.pty+qsTr("Look and Feel")
+                horizontalAlignment: Text.AlignHCenter
+            }
 
-			Rectangle { color: "transparent"; width: 1; height: 20; }
+            Rectangle { color: "transparent"; width: 1; height: 20; }
 
-			Text {
-				width: flickable.width
-				color: "white"
-				font.pointSize: 9
-				text: qsTranslate("SettingsManager", "Move your mouse cursor over the different settings titles to see more information.")
-				horizontalAlignment: Text.AlignHCenter
-			}
+            Text {
+                width: flickable.width
+                color: "white"
+                font.pointSize: 9
+                text: qsTranslate("SettingsManager", "Move your mouse cursor over (or click on) the different settings titles to see more information.")
+                horizontalAlignment: Text.AlignHCenter
+            }
 
-			Rectangle { color: "transparent"; width: 1; height: 20; }
+            Rectangle { color: "transparent"; width: 1; height: 20; }
 
-			Rectangle { color: "#88ffffff"; width: parent.width; height: 1; }
+            Rectangle { color: "#88ffffff"; width: parent.width; height: 1; }
 
-			Rectangle { color: "transparent"; width: 1; height: 20; }
+            Rectangle { color: "transparent"; width: 1; height: 20; }
 
-			SortBy { id: sortby; }
-			WindowMode { id: windowmode; alternating: true }
-			TrayIcon { id: trayicon }
-			ClosingX { id: closingx; alternating: true }
-			FitInWindow { id: fitin }
-			Quickinfo { id: quickinfo; alternating: true }
-			Background { id: background }
-			OverlayColor { id: overlay; alternating: true }
-			Blur { id: blur }
-			BorderAroundImage { id: border; alternating: true }
-			CloseOnClick { id: closeonclick }
-			Loop { id: loop; alternating: true }
-			Transition { id: transition }
-			HotEdge { id: hotedge; alternating: true }
-			MouseWheelSensitivity { id: mousewheel }
-			Interpolation { id: interpolation; alternating: true }
-			PixmapCache { id: pixmapcache }
-			ReOpenFile { id: reopenfile; alternating: true }
-			Keep { id: remember }
-			Animation { id: animation; alternating: true }
-		}
+            SortBy { id: sortby; }
+            WindowMode { id: windowmode; alternating: true }
+            TrayIcon { id: trayicon }
+            ClosingX { id: closingx; alternating: true }
+            FitInWindow { id: fitin }
+            Quickinfo { id: quickinfo; alternating: true }
+            Background { id: background }
+            OverlayColor { id: overlay; alternating: true }
+            BorderAroundImage { id: border; alternating: true }
+            CloseOnClick { id: closeonclick }
+            Loop { id: loop; alternating: true }
+            Transition { id: transition }
+            TransparencyMarker { id: transparency; alternating: true }
+            HotEdge { id: hotedge }
+            MouseWheelSensitivity { id: mousewheel; alternating: true }
+            Interpolation { id: interpolation }
+            PixmapCache { id: pixmapcache; alternating: true }
+            ReOpenFile { id: reopenfile }
+            Keep { id: remember; alternating: true }
+            Animation { id: animation }
+        }
 
-	}
+    }
 
-	function setData() {
+    function setData() {
 
-		sortby.setData()
-		windowmode.setData()
-		trayicon.setData()
-		closingx.setData()
-		fitin.setData()
-		quickinfo.setData()
-		background.setData()
-		overlay.setData()
-		blur.setData()
-		border.setData()
-		closeonclick.setData()
-		loop.setData()
-		transition.setData()
-		hotedge.setData()
-		mousewheel.setData()
-		interpolation.setData()
-		pixmapcache.setData()
-		reopenfile.setData()
-		remember.setData()
-		animation.setData()
+        verboseMessage("SettingsManager/TabMetadata", "setData()")
 
-	}
+        sortby.setData()
+        windowmode.setData()
+        trayicon.setData()
+        closingx.setData()
+        fitin.setData()
+        quickinfo.setData()
+        background.setData()
+        overlay.setData()
+        border.setData()
+        closeonclick.setData()
+        loop.setData()
+        transition.setData()
+        transparency.setData()
+        hotedge.setData()
+        mousewheel.setData()
+        interpolation.setData()
+        pixmapcache.setData()
+        reopenfile.setData()
+        remember.setData()
+        animation.setData()
 
-	function saveData() {
+    }
 
-		sortby.saveData()
-		windowmode.saveData()
-		trayicon.saveData()
-		closingx.saveData()
-		fitin.saveData()
-		quickinfo.saveData()
-		background.saveData()
-		overlay.saveData()
-		blur.saveData()
-		border.saveData()
-		closeonclick.saveData()
-		loop.saveData()
-		transition.saveData()
-		hotedge.saveData()
-		mousewheel.saveData()
-		interpolation.saveData()
-		pixmapcache.saveData()
-		reopenfile.saveData()
-		remember.saveData()
-		animation.saveData()
+    function saveData() {
 
-	}
+        verboseMessage("SettingsManager/TabMetadata", "saveData()")
+
+        sortby.saveData()
+        windowmode.saveData()
+        trayicon.saveData()
+        closingx.saveData()
+        fitin.saveData()
+        quickinfo.saveData()
+        background.saveData()
+        overlay.saveData()
+        border.saveData()
+        closeonclick.saveData()
+        loop.saveData()
+        transition.saveData()
+        transparency.saveData()
+        hotedge.saveData()
+        mousewheel.saveData()
+        interpolation.saveData()
+        pixmapcache.saveData()
+        reopenfile.saveData()
+        remember.saveData()
+        animation.saveData()
+
+    }
 
 }

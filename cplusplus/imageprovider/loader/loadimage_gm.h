@@ -1,18 +1,24 @@
-/*
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Contact: http://photoqt.org                                          **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
 
 #ifndef LOADIMAGE_MAGICK_H
 #define LOADIMAGE_MAGICK_H
@@ -31,95 +37,101 @@ class LoadImageGM {
 
 public:
 
-	LoadImageGM() { }
+    LoadImageGM() { }
 
-	QImage load(QString filename, QSize maxSize) {
+    QImage load(QString filename, QSize maxSize) {
 
-		#ifdef GM
+#ifdef GM
 
-			GmImageMagick imagemagick;
-			QSize origSize;
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
+            LOG << CURDATE << "LoadImageGM: Loading image using GraphicsMagick: " << QFileInfo(filename).fileName().toStdString() << NL;
 
-			// We first read the image into memory
-			QFile file(filename);
-			if(!file.open(QIODevice::ReadOnly)) {
-				LOG << CURDATE << "LoadImageGM: reader gm - ERROR opening file, returning empty image" << NL;
-				return QImage();
-			}
-			char *data = new char[file.size()];
-			qint64 s = file.read(data, file.size());
+        GmImageMagick imagemagick;
+        QSize origSize;
 
-			// A return value of -1 means error
-			if (s == -1) {
-				delete[] data;
-				LOG << CURDATE << "LoadImageGM: reader gm - ERROR reading image file data" << NL;
-				return QImage();
-			}
-			// Read image into blob
-			Magick::Blob blob(data, file.size());
-			try {
+        // We first read the image into memory
+        QFile file(filename);
+        if(!file.open(QIODevice::ReadOnly)) {
+            LOG << CURDATE << "LoadImageGM: reader gm - ERROR opening file, returning empty image" << NL;
+            return QImage();
+        }
+        char *data = new char[file.size()];
+        qint64 s = file.read(data, file.size());
 
-				// Prepare Magick
-				QString suf = QFileInfo(filename).suffix().toLower();
-				Magick::Image image;
-				image = imagemagick.setImageMagick(image,suf);
+        // A return value of -1 means error
+        if (s == -1) {
+            delete[] data;
+            LOG << CURDATE << "LoadImageGM: reader gm - ERROR reading image file data" << NL;
+            return QImage();
+        }
+        // Read image into blob
+        Magick::Blob blob(data, file.size());
+        try {
 
-				// Read image into Magick
-				image.read(blob);
+            // Prepare Magick
+            QString suf = QFileInfo(filename).suffix().toLower();
+            Magick::Image image;
+            image = imagemagick.setImageMagick(image,suf);
 
-				// Scale image if necessary
-				if(maxSize.width() != -1) {
+            // Read image into Magick
+            image.read(blob);
 
-					int dispWidth = image.columns();
-					int dispHeight = image.rows();
+            // Scale image if necessary
+            if(maxSize.width() != -1) {
 
-					double q;
+                int dispWidth = image.columns();
+                int dispHeight = image.rows();
 
-					if(dispWidth > maxSize.width()) {
-							q = maxSize.width()/(dispWidth*1.0);
-							dispWidth *= q;
-							dispHeight *= q;
-					}
-					if(dispHeight > maxSize.height()) {
-						q = maxSize.height()/(dispHeight*1.0);
-						dispWidth *= q;
-						dispHeight *= q;
-					}
+                double q;
 
-					// For small images we can use the faster algorithm, as the quality is good enough for that
-					if(dispWidth < 300 && dispHeight < 300)
-						image.thumbnail(Magick::Geometry(dispWidth,dispHeight));
-					else
-						image.scale(Magick::Geometry(dispWidth,dispHeight));
+                if(dispWidth > maxSize.width()) {
+                        q = maxSize.width()/(dispWidth*1.0);
+                        dispWidth *= q;
+                        dispHeight *= q;
+                }
+                if(dispHeight > maxSize.height()) {
+                    q = maxSize.height()/(dispHeight*1.0);
+                    dispWidth *= q;
+                    dispHeight *= q;
+                }
 
-				}
+                // For small images we can use the faster algorithm, as the quality is good enough for that
+                if(dispWidth < 300 && dispHeight < 300)
+                    image.thumbnail(Magick::Geometry(dispWidth,dispHeight));
+                else
+                    image.scale(Magick::Geometry(dispWidth,dispHeight));
 
-				// Write Magick as PNG to memory
-				Magick::Blob ob;
-				image.type(Magick::TrueColorMatteType);
-				image.magick("PNG");
-				image.write(&ob);
+            }
 
-				// And load PNG from memory into QImage
-				const QByteArray imgData((char*)(ob.data()),ob.length());
-				QImage img((maxSize.width() > -1 ? maxSize : QSize(4000,3000)), QImage::Format_ARGB32);	// zoomed or not?
-				img.loadFromData(imgData);
+            // Write Magick as PNG to memory
+            Magick::Blob ob;
+            image.type(Magick::TrueColorMatteType);
+            image.magick("PNG");
+            image.write(&ob);
 
-				// And we're done!
-				delete[] data;
-				return img;
+            // And load PNG from memory into QImage
+            const QByteArray imgData((char*)(ob.data()),ob.length());
+            QImage img((maxSize.width() > -1 ? maxSize : QSize(4000,3000)), QImage::Format_ARGB32);	// zoomed or not?
+            img.loadFromData(imgData);
 
-			} catch(Magick::Exception &error_) {
-				delete[] data;
-				LOG << CURDATE << "LoadImageGM: reader gm Error: " << error_.what() << NL;
-				return ErrorImage::load(QString(error_.what()));
-			}
+            // And we're done!
+            delete[] data;
+            return img;
 
-		#endif
+        } catch(Magick::Exception &error_) {
+            delete[] data;
+            LOG << CURDATE << "LoadImageGM: reader gm Error: " << error_.what() << NL;
+            return ErrorImage::load(QString(error_.what()));
+        }
 
-			return QImage();
+#else
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
+            LOG << CURDATE << "LoadImageGM: PhotoQt was compiled without GraphicsMagick support, returning error image" << NL;
+#endif
 
-	}
+        return ErrorImage::load("Failed to load image with GraphicsMagick!");
+
+    }
 
 };
 

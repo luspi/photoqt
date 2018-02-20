@@ -1,73 +1,97 @@
-import QtQuick 2.3
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Contact: http://photoqt.org                                          **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
+
+import QtQuick 2.5
 
 import "../../../elements"
 import "../../"
 
 EntryContainer {
 
-	id: item_top
+    id: item_top
 
-	Row {
+    Row {
 
-		spacing: 20
+        spacing: 20
 
-		EntryTitle {
+        EntryTitle {
 
-			id: entrytitle
+            id: entrytitle
 
-			//: The hot edge refers to the left and right screen edge. When the mouse cursor enters the hot edge area, then the main menu/metadata element is shown
-			title: qsTr("Size of 'Hot Edge'")
-			helptext: qsTr("Here you can adjust the sensitivity of the drop-down menu. The menu opens when your mouse cursor gets close to the right side of the upper edge. Here you can adjust how close you need to get for it to open.")
+            //: The hot edge refers to the left and right screen edge. When the mouse cursor enters the hot edge area, then the main menu/metadata element is shown
+            title: em.pty+qsTr("Size of 'Hot Edge'")
+            helptext: em.pty+qsTr("Here you can adjust the sensitivity of the metadata and main menu elements. The main menu opens when your mouse cursor gets close to the right screen edge, the metadata element when you go to the left screen edge. This setting controls how close to the screen edge you have to get before they are shown.")
 
-		}
+        }
 
-		EntrySetting {
+        EntrySetting {
 
-			Row {
+            Row {
 
-				spacing: 10
+                spacing: 10
 
-				Text {
-					id: txt_small
-					color: colour.text
-					text: qsTr("Small")
-					font.pointSize: 10
-				}
+                Text {
+                    id: txt_small
+                    color: colour.text
+                    //: This refers to the size of the hot edge, you have to get very close to the screen edge to trigger the main menu or metadata element
+                    text: em.pty+qsTr("Small")
+                    font.pointSize: 10
+                }
 
-				CustomSlider {
+                CustomSlider {
 
-					id: menusensitivity
+                    id: hotedgewidth
 
-					width: Math.min(400, settings_top.width-entrytitle.width-txt_small.width-txt_large.width-60)
-					y: (parent.height-height)/2
+                    width: Math.min(400, settings_top.width-entrytitle.width-txt_small.width-txt_large.width-60)
+                    y: (parent.height-height)/2
 
-					minimumValue: 1
-					maximumValue: 10
+                    minimumValue: 1
+                    maximumValue: 20
 
-					tickmarksEnabled: true
-					stepSize: 1
+                    tickmarksEnabled: true
+                    stepSize: 1
 
-				}
+                }
 
-				Text {
-					id: txt_large
-					color: colour.text
-					text: qsTr("Large")
-					font.pointSize: 10
-				}
+                Text {
+                    id: txt_large
+                    color: colour.text
+                    //: This refers to the size of the hot edge, you don't have to get very close to the screen edge to trigger the main menu or metadata element
+                    text: em.pty+qsTr("Large")
+                    font.pointSize: 10
+                }
 
-			}
+            }
 
-		}
+        }
 
-	}
+    }
 
-	function setData() {
-		menusensitivity.value = settings.menusensitivity
-	}
+    function setData() {
+        hotedgewidth.value = settings.hotEdgeWidth
+    }
 
-	function saveData() {
-		settings.menusensitivity = menusensitivity.value
-	}
+    function saveData() {
+        settings.hotEdgeWidth = hotedgewidth.value
+    }
 
 }

@@ -1,18 +1,24 @@
-/*
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation, Inc.,
- * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- */
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Contact: http://photoqt.org                                          **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
 
 #ifndef LOADIMAGE_XCF_H
 #define LOADIMAGE_XCF_H
@@ -30,55 +36,58 @@ class LoadImageXCF {
 
 public:
 
-	LoadImageXCF() { }
+    LoadImageXCF() { }
 
-	QImage load(QString filename, QSize maxSize) {
+    QImage load(QString filename, QSize maxSize) {
 
-		QSize origSize;
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
+            LOG << CURDATE << "LoadImageXCF: Load image using xcftools: " << QFileInfo(filename).fileName().toStdString() << NL;
 
-		// We first check if xcftools is actually installed
-		QProcess which;
-		which.setStandardOutputFile(QProcess::nullDevice());
-		which.start("which xcf2png");
-		which.waitForFinished();
-		// If it isn't -> display error
-		if(which.exitCode()) {
-			LOG << CURDATE << "LoadImageXCF: reader xcf - Error: xcftools not found" << NL;
-			return ErrorImage::load("PhotoQt relies on 'xcftools'' to display XCF images, but it wasn't found!");
-		}
+        QSize origSize;
 
-		// Convert xcf to png using xcf2png (part of xcftools)
-		QProcess p;
-		p.execute(QString("xcf2png \"%1\" -o %2").arg(filename).arg(QDir::tempPath() + "/photoqt_tmp.png"));
+        // We first check if xcftools is actually installed
+        QProcess which;
+        which.setStandardOutputFile(QProcess::nullDevice());
+        which.start("which xcf2png");
+        which.waitForFinished();
+        // If it isn't -> display error
+        if(which.exitCode()) {
+            LOG << CURDATE << "LoadImageXCF: reader xcf - Error: xcftools not found" << NL;
+            return ErrorImage::load("PhotoQt relies on 'xcftools'' to display XCF images, but it wasn't found!");
+        }
 
-		// And load it
-		QImageReader reader(QDir::tempPath() + "/photoqt_tmp.png");
+        // Convert xcf to png using xcf2png (part of xcftools)
+        QProcess p;
+        p.execute(QString("xcf2png \"%1\" -o %2").arg(filename).arg(QDir::tempPath() + "/photoqt_tmp.png"));
 
-		origSize = reader.size();
+        // And load it
+        QImageReader reader(QDir::tempPath() + "/photoqt_tmp.png");
 
-		int dispWidth = origSize.width();
-		int dispHeight = origSize.height();
+        origSize = reader.size();
 
-		double q;
+        int dispWidth = origSize.width();
+        int dispHeight = origSize.height();
 
-		if(dispWidth > maxSize.width()) {
-				q = maxSize.width()/(dispWidth*1.0);
-				dispWidth *= q;
-				dispHeight *= q;
-		}
+        double q;
 
-		// If thumbnails are kept visible, then we need to subtract their height from the absolute height otherwise they overlap with the main image
-		if(dispHeight > maxSize.height()) {
-			q = maxSize.height()/(dispHeight*1.0);
-			dispWidth *= q;
-			dispHeight *= q;
-		}
+        if(dispWidth > maxSize.width()) {
+            q = maxSize.width()/(dispWidth*1.0);
+            dispWidth *= q;
+            dispHeight *= q;
+        }
 
-		reader.setScaledSize(QSize(dispWidth,dispHeight));
+        // If thumbnails are kept visible, then we need to subtract their height from the absolute height otherwise they overlap with the main image
+        if(dispHeight > maxSize.height()) {
+            q = maxSize.height()/(dispHeight*1.0);
+            dispWidth *= q;
+            dispHeight *= q;
+        }
 
-		return reader.read();
+        reader.setScaledSize(QSize(dispWidth,dispHeight));
 
-	}
+        return reader.read();
+
+    }
 
 };
 

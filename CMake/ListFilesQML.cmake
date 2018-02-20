@@ -3,61 +3,62 @@
 #####################
 
 SET(d "qml")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/mainwindow.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/mainwindow.qml ${d}/Caller.qml ${d}/handlestuff.js)
 
-SET(d "qml/slidein")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/ThumbnailBar.qml ${d}/MetaData.qml ${d}/MainMenu.qml ${d}/SlideshowBar.qml)
+SET(d "qml/vars")
+SET(photoqt_QML ${photoqt_QML} ${d}/Variables.qml ${d}/Strings.qml)
 
 SET(d "qml/mainview")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Background.qml ${d}/QuickInfo.qml ${d}/SmartImage.qml ${d}/ImageItem.qml ${d}/MainView.qml ${d}/Histogram.qml)
-
-SET(d "qml/openfile")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/OpenFile.qml ${d}/BreadCrumbs.qml ${d}/UserPlaces.qml ${d}/Folders.qml ${d}/FilesView.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/EditFiles.qml ${d}/TweaksZoom.qml ${d}/Tweaks.qml ${d}/TweaksViewMode.qml ${d}/TweaksPreview.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/TweaksThumbnail.qml ${d}/FilesViewGrid.qml ${d}/FilesViewList.qml ${d}/TweaksFileTypeSelection.qml)
-
-SET(d "qml/elements")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/ScrollBarHorizontal.qml ${d}/ScrollBarVertical.qml ${d}/SettingsText.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/CustomCheckBox.qml ${d}/CustomButton.qml ${d}/CustomTabView.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/CustomComboBox.qml ${d}/CustomRadioButton.qml ${d}/CustomSlider.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/CustomSpinBox.qml ${d}/CustomConfirm.qml ${d}/CustomTextEdit.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/ShortcutNotifier.qml ${d}/ContextMenu.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/CustomLineEdit.qml ${d}/ToolTip.qml)
-
-SET(d "qml/fadein")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/FadeInTemplate.qml ${d}/About.qml ${d}/Scale.qml ${d}/Rename.qml ${d}/Delete.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Wallpaper.qml ${d}/Slideshow.qml ${d}/Filter.qml ${d}/Startup.qml ${d}/ScaleUnsupported.qml)
-
-SET(d "qml/fadein/wallpaper")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/KDE4.qml ${d}/Plasma5.qml ${d}/GnomeUnity.qml ${d}/XFCE4.qml ${d}/Enlightenment.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Other.qml)
-
-SET(d "qml/settingsmanager")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/SettingsManager.qml ${d}/EntryTitle.qml ${d}/EntrySetting.qml ${d}/EntryContainer.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/DetectShortcut.qml)
-SET(d "qml/settingsmanager/tabs")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/TabLookAndFeel.qml ${d}/TabThumbnails.qml ${d}/TabMetadata.qml ${d}/TabOther.qml ${d}/TabShortcuts.qml)
-SET(d "qml/settingsmanager/tabs/lookandfeel")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/SortBy.qml ${d}/WindowMode.qml ${d}/TrayIcon.qml ${d}/ClosingX.qml ${d}/FitInWindow.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/OverlayColor.qml ${d}/Quickinfo.qml ${d}/Background.qml ${d}/BorderAroundImage.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/CloseOnClick.qml ${d}/Loop.qml ${d}/Transition.qml ${d}/HotEdge.qml ${d}/Blur.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/MouseWheelSensitivity.qml ${d}/Interpolation.qml ${d}/Keep.qml ${d}/Animation.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/PixmapCache.qml ${d}/ReOpenFile.qml)
-SET(d "qml/settingsmanager/tabs/thumbnails")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/ThumbnailSize.qml ${d}/Spacing.qml ${d}/LiftUp.qml ${d}/KeepVisible.qml ${d}/Cache.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/CenterOn.qml ${d}/TopOrBottom.qml ${d}/Label.qml ${d}/FilenameOnly.qml ${d}/Disable.qml)
-SET(d "qml/settingsmanager/tabs/metadata")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/MouseTrigger.qml ${d}/MetaData.qml ${d}/MetaDataTile.qml ${d}/FontSize.qml ${d}/RotateFlip.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/OnlineMap.qml ${d}/Opacity.qml)
-SET(d "qml/settingsmanager/tabs/other")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Language.qml ${d}/LanguageTile.qml ${d}/CustomEntries.qml ${d}/CustomEntriesInteractive.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/FileTypesQt.qml ${d}/FileTypesTile.qml ${d}/FileTypesGM.qml ${d}/FileTypesGMGhostscript.qml)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/FileTypesExtras.qml ${d}/FileTypesUntested.qml ${d}/FileTypesRaw.qml)
-SET(d "qml/settingsmanager/tabs/shortcuts")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Available.qml ${d}/Set.qml ${d}/ShortcutsContainer.qml)
-
-SET(d "qml/globalstrings")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Keys.qml ${d}/Mouse.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/Background.qml ${d}/MainImage.qml ${d}/MainImageRectangle.qml ${d}/Thumbnails.qml ${d}/QuickInfo.qml ${d}/ClosingX.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/MainMenu.qml ${d}/HandleMouseMovements.qml ${d}/MetaData.qml ${d}/Histogram.qml ${d}/MainImageRectangleAnimated.qml ${d}/LoadingIndicator.qml)
 
 SET(d "qml/shortcuts")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/Shortcuts.qml ${d}/mouseshortcuts.js ${d}/keyshortcuts.js ${d}/touchshortcuts.js)
+SET(photoqt_QML ${photoqt_QML} ${d}/Shortcuts.qml ${d}/mouseshortcuts.js)
+
+SET(d "qml/openfile")
+SET(photoqt_QML ${photoqt_QML} ${d}/OpenFile.qml ${d}/BreadCrumbs.qml ${d}/handlestuff.js ${d}/OpenVariables.qml ${d}/UserPlaces.qml ${d}/Folders.qml ${d}/FilesView.qml ${d}/Tweaks.qml)
+
+SET(d "qml/openfile/tweaks")
+SET(photoqt_QML ${photoqt_QML} ${d}/TweaksFileType.qml  ${d}/TweaksPreview.qml  ${d}/TweaksThumbnails.qml  ${d}/TweaksViewMode.qml  ${d}/TweaksZoom.qml ${d}/TweaksRememberLocation.qml ${d}/TweaksUserPlaces.qml)
+
+SET(d "qml/elements")
+SET(photoqt_QML ${photoqt_QML} ${d}/CustomButton.qml ${d}/CustomCheckBox.qml ${d}/CustomComboBox.qml ${d}/CustomConfirm.qml ${d}/CustomFileSelect.qml ${d}/CustomLineEdit.qml ${d}/CustomProgressBar.qml ${d}/CustomRadioButton.qml ${d}/CustomSlider.qml ${d}/CustomSpinBox.qml ${d}/CustomTabView.qml ${d}/CustomTextEdit.qml ${d}/ScrollBarHorizontal.qml ${d}/ScrollBarVertical.qml ${d}/SettingsText.qml ${d}/ShortcutNotifier.qml ${d}/ToolTip.qml ${d}/FadeInTemplate.qml)
+
+SET(d "qml/settingsmanager")
+SET(photoqt_QML ${photoqt_QML} ${d}/DetectShortcut.qml ${d}/EntryContainer.qml ${d}/EntrySetting.qml ${d}/EntryTitle.qml ${d}/ExportImport.qml ${d}/SettingInfoOverlay.qml ${d}/SettingsManager.qml)
+
+SET(d "qml/settingsmanager/tabs")
+SET(photoqt_QML ${photoqt_QML} ${d}/TabFileformats.qml ${d}/TabLookAndFeel.qml ${d}/TabMetadata.qml ${d}/TabOther.qml ${d}/TabShortcuts.qml ${d}/TabThumbnails.qml)
+
+SET(d "qml/settingsmanager/tabs/fileformats")
+SET(photoqt_QML ${photoqt_QML} ${d}/FileTypesExtras.qml ${d}/FileTypesGM.qml ${d}/FileTypesGMGhostscript.qml ${d}/FileTypesQt.qml ${d}/FileTypesRaw.qml ${d}/FileTypesTile.qml ${d}/FileTypesUntested.qml)
+
+SET(d "qml/settingsmanager/tabs/lookandfeel")
+SET(photoqt_QML ${photoqt_QML} ${d}/Animation.qml ${d}/Background.qml ${d}/BorderAroundImage.qml ${d}/CloseOnClick.qml ${d}/ClosingX.qml ${d}/FitInWindow.qml ${d}/HotEdge.qml ${d}/Interpolation.qml ${d}/Keep.qml ${d}/Loop.qml ${d}/MouseWheelSensitivity.qml ${d}/OverlayColor.qml ${d}/PixmapCache.qml ${d}/Quickinfo.qml ${d}/ReOpenFile.qml ${d}/SortBy.qml ${d}/Transition.qml ${d}/TrayIcon.qml ${d}/WindowMode.qml ${d}/TransparencyMarker.qml)
+
+SET(d "qml/settingsmanager/tabs/metadata")
+SET(photoqt_QML ${photoqt_QML} ${d}/FontSize.qml ${d}/MetaData.qml ${d}/MetaDataTile.qml ${d}/MouseTrigger.qml ${d}/OnlineMap.qml ${d}/Opacity.qml ${d}/RotateFlip.qml)
+
+SET(d "qml/settingsmanager/tabs/other")
+SET(photoqt_QML ${photoqt_QML} ${d}/CustomEntries.qml ${d}/Imgur.qml ${d}/Language.qml ${d}/LanguageTile.qml)
+
+SET(d "qml/settingsmanager/tabs/shortcuts")
+SET(photoqt_QML ${photoqt_QML} ${d}/Available.qml ${d}/Set.qml ${d}/ShortcutsContainer.qml)
+
+SET(d "qml/settingsmanager/tabs/thumbnails")
+SET(photoqt_QML ${photoqt_QML} ${d}/Cache.qml ${d}/CenterOn.qml ${d}/Disable.qml ${d}/FilenameOnly.qml ${d}/KeepVisible.qml ${d}/Label.qml ${d}/LiftUp.qml ${d}/Spacing.qml ${d}/ThumbnailSize.qml ${d}/TopOrBottom.qml)
+
+SET(d "qml/slideshow")
+SET(photoqt_QML ${photoqt_QML} ${d}/SlideshowBar.qml ${d}/SlideshowSettings.qml)
+
+SET(d "qml/filemanagement")
+SET(photoqt_QML ${photoqt_QML} ${d}/Copy.qml ${d}/Delete.qml ${d}/Management.qml ${d}/Move.qml ${d}/Rename.qml ${d}/ManagementNavigation.qml ${d}/ManagementContainer.qml)
+
+SET(d "qml/other")
+SET(photoqt_QML ${photoqt_QML} ${d}/About.qml ${d}/ImgurFeedback.qml ${d}/Filter.qml ${d}/Scale.qml ${d}/ScaleUnsupported.qml ${d}/Startup.qml)
+
+SET(d "qml/wallpaper")
+SET(photoqt_QML ${photoqt_QML} ${d}/Wallpaper.qml)
+
+SET(d "qml/wallpaper/modules")
+SET(photoqt_QML ${photoqt_QML} ${d}/Enlightenment.qml ${d}/GnomeUnity.qml ${d}/KDE4.qml ${d}/Other.qml ${d}/Plasma5.qml ${d}/XFCE4.qml)

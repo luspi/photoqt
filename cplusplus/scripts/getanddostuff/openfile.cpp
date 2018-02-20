@@ -1,355 +1,512 @@
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Contact: http://photoqt.org                                          **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
+
 #include "openfile.h"
+#include "../sortlist.h"
 
 GetAndDoStuffOpenFile::GetAndDoStuffOpenFile(QObject *parent) : QObject(parent) {
-
-	formats = new FileFormats;
-
-	watcher = new QFileSystemWatcher;
-	userPlacesFileDoesntExist = !QFile(QString(DATA_DIR) + "/../user-places.xbel").exists();
-	recheckFile();
-	connect(watcher, SIGNAL(fileChanged(QString)), this, SLOT(updateUserPlaces()));
+    formats = new FileFormats;
 }
 GetAndDoStuffOpenFile::~GetAndDoStuffOpenFile() {
-	delete watcher;
+    delete formats;
 }
 
 int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path, int selectionFileTypes) {
 
-	QDir dir(path);
-	if(selectionFileTypes == 0)
-		dir.setNameFilters(formats->formats_qt + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw);
-	else if(selectionFileTypes == 1)
-		dir.setNameFilters(formats->formats_qt);
-	else if(selectionFileTypes == 2)
-		dir.setNameFilters(formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_untested);
-	else if(selectionFileTypes == 3)
-		dir.setNameFilters(formats->formats_raw);
-	else if(selectionFileTypes == 4)
-		dir.setNameFilters(QStringList() << "*.*");
-	dir.setFilter(QDir::Files);
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffOpenFile::getNumberFilesInFolder() - " << path.toStdString() << " / " << selectionFileTypes << NL;
 
-	return dir.entryList().length();
+    QDir dir(path);
+    if(selectionFileTypes == 0)
+        dir.setNameFilters(formats->formats_qt + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw);
+    else if(selectionFileTypes == 1)
+        dir.setNameFilters(formats->formats_qt);
+    else if(selectionFileTypes == 2)
+        dir.setNameFilters(formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_untested);
+    else if(selectionFileTypes == 3)
+        dir.setNameFilters(formats->formats_raw);
+    else if(selectionFileTypes == 4)
+        dir.setNameFilters(QStringList() << "*.*");
+    dir.setFilter(QDir::Files);
+
+    return dir.entryList().length();
 
 }
 
 QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
 
-	QVariantList sub_places;
-	QVariantList sub_devices;
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffOpenFile::getUserPlaces()" << NL;
 
-	QFile file(QString(DATA_DIR) + "/../user-places.xbel");
-	if(file.exists() && !file.open(QIODevice::ReadOnly)) {
-		LOG << CURDATE << "GetAndDoStuffOpenFile: Can't open ~/.local/share/user-places.xbel file" << NL;
-		return QVariantList();
-	} else if(file.exists()) {
+    QFile file(QString(ConfigFiles::GENERIC_DATA_DIR()) + "/user-places.xbel");
 
-		QDomDocument doc;
-		doc.setContent(&file);
+    if(!file.exists()) {
+        LOG << CURDATE << "GetAndDoStuffOpenFile: File " << ConfigFiles::GENERIC_DATA_DIR().toStdString() << "/user-places.xbel does not exist! Creating dummy file..." << NL;
+        saveUserPlaces(QVariantList());
+        return QVariantList();
+    } else if(!file.open(QIODevice::ReadOnly)) {
+        LOG << CURDATE << "GetAndDoStuffOpenFile: Can't open " + ConfigFiles::GENERIC_DATA_DIR().toStdString() + "/user-places.xbel file" << NL;
+        return QVariantList();
+    }
 
-		QDomNodeList bookmarks = doc.elementsByTagName("bookmark");
-		for(int i = 0; i < bookmarks.size(); i++) {
-			QDomNode n = bookmarks.item(i);
+    // This list will contain all return values
+    QVariantList ret;
 
-			QString icon = "";
-			QString location = n.attributes().namedItem("href").nodeValue();
-			QString title = n.firstChildElement("title").text();
+    // We use the stream reader to parse the file
+    QXmlStreamReader xmlReader(&file);
 
-			QDomNodeList info = n.firstChildElement("info").childNodes();
-			for(int j = 0; j < info.size(); ++j) {
-				QDomNode ele_icon = info.item(j).firstChildElement("bookmark:icon");
-				if(ele_icon.isNull())
-					continue;
-				icon = ele_icon.attributes().namedItem("name").nodeValue();
-			}
+    // set up some variables for the data. They are filled progressively in the loop below
+    QString path = "";
+    QString name = "";
+    QString icon = "";
+    QString id = "";
+    QString isSystemItem = "";
+    QString isHidden = "false";
 
-			if(location.startsWith("file:///"))
-				location = location.remove(0,7);
-			else if(location.startsWith("file://"))
-				location = location.remove(0,6);
+    // these keep track of which tag we have entered
+    bool enteredTitle = false;
+    bool enteredID = false;
+    bool enteredIsHidden = false;
+    bool enteredIsSystemItem = false;
 
-			QVariantList ele = QVariantList() << "user" << title << location << icon;
+    // loop through xml file
+    while (!xmlReader.atEnd()) {
 
-			if(QDir(location).exists())
-				sub_places.append(ele);
+        // next item
+        xmlReader.readNext();
 
-		}
+        // A bookmark end tag finishes a full entry
+        if(xmlReader.tokenType() == QXmlStreamReader::EndElement && xmlReader.name() == "bookmark") {
 
-		file.close();
+            // Compose all items into a list
+            QVariantList entrylist;
+            entrylist << name << path << icon << id << isHidden << isSystemItem;
+            ret.append(entrylist);
 
-	}
+            // and reset the variables
+            path = "";
+            name = "";
+            icon = "";
+            id = "";
+            isHidden = "false";
+            isSystemItem = "";
 
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 4, 0))
+            // and make sure that these are all reset (should be already done)
+            enteredTitle = false;
+            enteredID = false;
+            enteredIsHidden = false;
+            enteredIsSystemItem = false;
 
-	for(auto storage : QStorageInfo::mountedVolumes()) {
-		if(storage.isValid()) {
+        }
 
-			qint64 size = storage.bytesTotal()/1024/1024/102.4;
+        // BOOKMARK
 
-			if(size > 0) {
+        if(xmlReader.tokenType() == QXmlStreamReader::StartElement && xmlReader.name() == "bookmark") {
 
-				QVariantList ele = QVariantList() << "volumes"
-												  << QString("%1 GB " + tr("Volume") + " (%2)")
-													 .arg(size/10.0)
-													 .arg(QString(storage.fileSystemType()))
-												  << storage.rootPath()
-												  << "drive-harddisk";
-				sub_devices.append(ele);
+            path = xmlReader.attributes().value("href").toString();
 
-			}
-		}
-	}
+            if(path.contains("file://"))
+                path.remove(0,7);
 
+            if(path == "trash:/")
+                path = ConfigFiles::GENERIC_DATA_DIR() + "/Trash/files";
+
+        }
+
+        // TITLE
+
+        if(xmlReader.tokenType() == QXmlStreamReader::StartElement && xmlReader.name() == "title")
+            enteredTitle = true;
+
+        if(xmlReader.tokenType() == QXmlStreamReader::Characters && enteredTitle) {
+            name = xmlReader.text().toString();
+            enteredTitle = false;
+        }
+
+        // ICON
+
+        if(xmlReader.tokenType() == QXmlStreamReader::StartElement && xmlReader.name() == "icon")
+            icon = xmlReader.attributes().value("name").toString();
+
+        // ID
+
+        if(xmlReader.tokenType() == QXmlStreamReader::StartElement && xmlReader.name() == "ID")
+            enteredID = true;
+
+        if(xmlReader.tokenType() == QXmlStreamReader::Characters && enteredID) {
+            id = xmlReader.text().toString();
+            enteredID = false;
+        }
+
+        // ISHIDDEN
+
+        if(xmlReader.tokenType() == QXmlStreamReader::StartElement && xmlReader.name() == "IsHidden")
+            enteredIsHidden = true;
+
+        if(xmlReader.tokenType() == QXmlStreamReader::Characters && enteredIsHidden) {
+            isHidden = xmlReader.text().toString();
+            enteredIsHidden = false;
+        }
+
+        // ISSYSTEMITEM
+
+        if(xmlReader.tokenType() == QXmlStreamReader::StartElement && xmlReader.name() == "isSystemItem")
+            enteredIsSystemItem = true;
+
+        if(xmlReader.tokenType() == QXmlStreamReader::Characters && enteredIsSystemItem) {
+            isSystemItem = xmlReader.text().toString();
+            enteredIsSystemItem = false;
+        }
+
+    }
+
+    return ret;
+
+}
+
+QVariantList GetAndDoStuffOpenFile::getStorageInfo() {
+
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffOpenFile::getStorageInfo()" << NL;
+
+    QVariantList ret;
+
+    for(QStorageInfo s : QStorageInfo::mountedVolumes()) {
+        if(s.isValid()) {
+
+            QVariantList vol;
+            vol << s.name()
+                << s.bytesTotal()
+                << s.fileSystemType()
+                << s.rootPath();
+
+            ret.append(vol);
+
+        }
+    }
+
+    return ret;
+
+}
+
+QVariantList GetAndDoStuffOpenFile::getFoldersIn(QString path, bool getDotDot, bool showHidden) {
+
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffOpenFile::getFoldersIn() - " << path.toStdString() << " / " << getDotDot << " / " << showHidden << NL;
+
+    if(path.startsWith("file:/"))
+        path = path.remove(0,6);
+#ifdef Q_OS_WIN
+    while(path.startsWith("/"))
+        path = path.remove(0,1);
 #endif
 
+    QDir dir(path);
+    if(showHidden)
+        dir.setFilter(QDir::AllDirs|(getDotDot ? QDir::NoDot : QDir::NoDotAndDotDot)|QDir::Hidden);
+    else
+        dir.setFilter(QDir::AllDirs|(getDotDot ? QDir::NoDot : QDir::NoDotAndDotDot));
+    dir.setSorting(QDir::IgnoreCase);
 
-	return sub_places+sub_devices;
+    QStringList list = dir.entryList();
+    QVariantList ret;
+    for(QString l : list)
+        ret.append(l);
 
-}
-
-QVariantList GetAndDoStuffOpenFile::getFilesAndFoldersIn(QString path) {
-
-	if(path.startsWith("file:/"))
-		path = path.remove(0,6);
-
-	QDir dir(path);
-	dir.setNameFilters(formats->formats_qt + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw);
-	dir.setFilter(QDir::AllDirs|QDir::Files|QDir::NoDotAndDotDot);
-	dir.setSorting(QDir::DirsFirst|QDir::IgnoreCase);
-
-	QStringList list = dir.entryList();
-	QVariantList ret;
-	foreach(QString l, list)
-		ret.append(l);
-
-	return ret;
+    return ret;
 
 }
 
-QVariantList GetAndDoStuffOpenFile::getFoldersIn(QString path) {
+QVariantList GetAndDoStuffOpenFile::getFilesIn(QString file, QString filter, QString sortby, bool sortbyAscending) {
 
-	if(path.startsWith("file:/"))
-		path = path.remove(0,6);
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffOpenFile::getFilesIn() - " << file.toStdString() << " / " << filter.toStdString() << " / " << sortby.toStdString() << " / " << sortbyAscending << NL;
 
-	QDir dir(path);
-	dir.setFilter(QDir::AllDirs|QDir::NoDot);
-	dir.setSorting(QDir::IgnoreCase);
+    if(file.startsWith("file:/"))
+        file = file.remove(0,6);
+#ifdef Q_OS_WIN
+    while(file.startsWith("/"))
+        file = file.remove(0,1);
+#endif
 
-	QStringList list = dir.entryList();
-	QVariantList ret;
-	foreach(QString l, list)
-		ret.append(l);
+    QFileInfo info(file);
 
-	return ret;
+    QDir dir;
+    if(info.isDir())
+        dir.setPath(file);
+    else
+        dir.setPath(info.absolutePath());
 
-}
+    dir.setNameFilters(formats->formats_qt + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw);
+    dir.setFilter(QDir::Files);
+    dir.setSorting(QDir::IgnoreCase);
 
-QVariantList GetAndDoStuffOpenFile::getFilesIn(QString path) {
+    QFileInfoList list = dir.entryInfoList();
+    if(!list.contains(info) && !info.isDir())
+        list.append(info);
 
-	if(path.startsWith("file:/"))
-		path = path.remove(0,6);
+    Sort::sortList(&list, sortby, sortbyAscending);
 
-	QDir dir(path);
-	dir.setNameFilters(formats->formats_qt + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw);
-	dir.setFilter(QDir::Files);
-	dir.setSorting(QDir::IgnoreCase);
+    QVariantList ret;
+    if(filter.startsWith(".")) {
+        for(QFileInfo l : list) {
+            QString fn = l.fileName().trimmed();
+            if(fn.endsWith(filter) && fn != "")
+                ret.append(fn);
+        }
+    } else if(filter != "") {
+        for(QFileInfo l : list) {
+            QString fn = l.fileName().trimmed();
+            if(fn.contains(filter) && fn != "")
+                ret.append(fn);
+        }
+    } else {
+        for(QFileInfo l : list) {
+            QString fn = l.fileName().trimmed();
+            if(fn != "")
+                ret.append(fn);
+        }
+    }
 
-	QStringList list = dir.entryList();
-	QVariantList ret;
-	foreach(QString l, list)
-		ret.append(l);
-
-	return ret;
-
-}
-
-QVariantList GetAndDoStuffOpenFile::getFilesWithSizeIn(QString path, int selectionFileTypes) {
-
-	if(path.startsWith("file:/"))
-		path = path.remove(0,6);
-
-	QDir dir(path);
-	if(selectionFileTypes == 0)
-		dir.setNameFilters(formats->formats_qt + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw);
-	else if(selectionFileTypes == 1)
-		dir.setNameFilters(formats->formats_qt);
-	else if(selectionFileTypes == 2)
-		dir.setNameFilters(formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_untested);
-	else if(selectionFileTypes == 3)
-		dir.setNameFilters(formats->formats_raw);
-	else if(selectionFileTypes == 4)
-		dir.setNameFilters(QStringList() << "*.*");
-
-	dir.setFilter(QDir::Files);
-	dir.setSorting(QDir::IgnoreCase);
-
-	QFileInfoList list = dir.entryInfoList();
-	QVariantList ret;
-	foreach(QFileInfo l, list) {
-		int s = l.size();
-		QString size = "";
-		if(s <= 1024)
-			size = QString::number(s) + " B";
-		else if(s <= 1024*1024)
-			size = QString::number(qRound(double(s)/1024.0)) + " KB";
-		else
-			size = QString::number(qRound(100*double(s)/(1024*1024))/100.0) + " MB";
-		ret.append(QVariantList() << l.fileName() << size);
-	}
-
-	return ret;
+    return ret;
 
 }
 
-bool GetAndDoStuffOpenFile::isFolder(QString path) {
-	if(path.startsWith("file:/"))
-		path = path.remove(0,6);
-	QFileInfo info(path);
-	return !info.isFile();
-}
+QVariantList GetAndDoStuffOpenFile::getFilesWithSizeIn(QString path, int selectionFileTypes, bool showHidden, QString sortby, bool sortbyAscending) {
 
-QString GetAndDoStuffOpenFile::removePrefixFromDirectoryOrFile(QString path) {
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffOpenFile::getFilesWithSizeIn() - " << path.toStdString() << " / "
+                                                                           << selectionFileTypes << " / "
+                                                                           << showHidden << " / "
+                                                                           << sortby.toStdString() << " / "
+                                                                           << sortbyAscending << NL;
 
-	if(path.startsWith("file:/"))
-		return path.remove(0,6);
+    if(path.startsWith("file:/"))
+        path = path.remove(0,6);
+#ifdef Q_OS_WIN
+    while(path.startsWith("/"))
+        path = path.remove(0,1);
+#endif
 
-	return path;
+    QDir dir(path);
+    if(selectionFileTypes == 0)
+        dir.setNameFilters(formats->formats_qt + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw);
+    else if(selectionFileTypes == 1)
+        dir.setNameFilters(formats->formats_qt);
+    else if(selectionFileTypes == 2)
+        dir.setNameFilters(formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_untested);
+    else if(selectionFileTypes == 3)
+        dir.setNameFilters(formats->formats_raw);
+    else if(selectionFileTypes == 4)
+        dir.setNameFilters(QStringList() << "*.*");
 
-}
+    if(showHidden)
+        dir.setFilter(QDir::Files|QDir::Hidden);
+    else
+        dir.setFilter(QDir::Files);
+    dir.setSorting(QDir::IgnoreCase);
 
-void GetAndDoStuffOpenFile::addToUserPlaces(QString path) {
+    QFileInfoList list = dir.entryInfoList();
 
-	QFile file(QString(DATA_DIR) + "/../user-places.xbel");
-	if(file.exists() && !file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-		LOG << CURDATE << "GetAndDoStuffOpenFile: Can't open ~/.local/share/user-places.xbel file" << NL;
-		return;
-	}
+    QCollator collator;
+    collator.setCaseSensitivity(Qt::CaseInsensitive);
+    collator.setIgnorePunctuation(true);
 
-	QDomDocument doc;
-	if(file.exists())
-		doc.setContent(&file);
-	else
-		doc.setContent(QString("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<xbel xmlns:mime=\"http://www.freedesktop.org/standards/shared-mime-info\" xmlns:kdepriv=\"http://www.kde.org/kdepriv\" xmlns:bookmark=\"http://www.freedesktop.org/standards/desktop-bookmarks\">\n</xbel>\n"));
+    Sort::sortList(&list, sortby, sortbyAscending);
 
-	QDomElement root = doc.documentElement();
+    QVariantList ret;
+    for(QFileInfo l : list) {
+        ret.append(l.fileName());
+        qint64 s = l.size();
+        if(s <= 1024)
+            ret.append(QString::number(s) + " B");
+        else if(s <= 1024*1024)
+            ret.append(QString::number(qRound(10.0*(s/1024.0))/10.0) + " KB");
+        else
+            ret.append(QString::number(qRound(100.0*(s/(1024.0*1024.0)))/100.0) + " MB");
+    }
 
-	QDomElement bookmark = doc.createElement("bookmark");
-	bookmark.setAttribute("href","file://" + path);
-
-	QDomElement title = doc.createElement("title");
-	QDomText titleText = doc.createTextNode(QFileInfo(path).fileName());
-	title.appendChild(titleText);
-	bookmark.appendChild(title);
-
-	QDomElement info = doc.createElement("info");
-
-	QDomElement metadata = doc.createElement("metadata");
-	metadata.setAttribute("owner","http://freedesktop.org");
-
-	QDomElement icon = doc.createElement("bookmark:icon");
-	icon.setAttribute("name","inode-directory");
-
-	metadata.appendChild(icon);
-	info.appendChild(metadata);
-	bookmark.appendChild(info);
-
-	root.appendChild(bookmark);
-
-	file.close();
-
-	if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-		LOG << CURDATE << "GetAndDoStuffOpenFile: Can't open ~/.local/share/user-places.xbel file" << NL;
-		return;
-	}
-
-	QTextStream out(&file);
-	root.save(out,2);
-
-	file.close();
+    return ret;
 
 }
 
 void GetAndDoStuffOpenFile::saveUserPlaces(QVariantList enabled) {
 
-	QDomDocument doc;
-	doc.setContent(QString("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<xbel xmlns:mime=\"http://www.freedesktop.org/standards/shared-mime-info\" xmlns:kdepriv=\"http://www.kde.org/kdepriv\" xmlns:bookmark=\"http://www.freedesktop.org/standards/desktop-bookmarks\">\n</xbel>\n"));
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffOpenFile::saveUserPlaces() - # items in list: " << enabled.count() << NL;
 
-	QDomElement root = doc.documentElement();
+    QFile file(QString(ConfigFiles::GENERIC_DATA_DIR()) + "/user-places.xbel");
+    if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        LOG << CURDATE << "GetAndDoStuffOpenFile: Can't open " << ConfigFiles::GENERIC_DATA_DIR().toStdString() << "/user-places.xbel file" << NL;
+        return;
+    }
 
-	foreach(QVariant l, enabled) {
-		QVariantList cur = l.toList();
-		if(cur.length() == 4) {
+    QXmlStreamWriter s(&file);
+    s.setAutoFormatting(true);
+    s.setAutoFormattingIndent(1);
+    s.writeStartDocument();
 
-			QDomElement bookmark = doc.createElement("bookmark");
-			bookmark.setAttribute("href","file://" + cur.at(2).toString());
+    s.writeStartElement("xbel");
 
-			QDomElement title = doc.createElement("title");
-			QDomText titleText = doc.createTextNode(QFileInfo(cur.at(1).toString()).fileName());
-			title.appendChild(titleText);
-			bookmark.appendChild(title);
+    s.writeAttribute("xmlns:kdepriv", "http://www.kde.org/kdepriv");
+    s.writeAttribute("xmlns:bookmark", "https://freedesktop.org/wiki/Specifications/desktop-bookmark-spec");
+    s.writeAttribute("xmlns:mime", "http://www.freedesktop.org/standards/shared-mime-info");
 
-			QDomElement info = doc.createElement("info");
+    for(QVariant l : enabled) {
 
-			QDomElement metadata = doc.createElement("metadata");
-			metadata.setAttribute("owner","http://freedesktop.org");
+        QVariantList cur = l.toList();
 
-			QDomElement icon = doc.createElement("bookmark:icon");
-			icon.setAttribute("name",cur.at(3).toString());
+        if(cur.length() != 6) continue;
 
-			metadata.appendChild(icon);
-			info.appendChild(metadata);
-			bookmark.appendChild(info);
+        // START bookmark
+        s.writeStartElement("bookmark");
 
-			root.appendChild(bookmark);
+        s.writeAttribute("href", cur.at(1).toString());
 
-		}
-	}
+        // title
+        s.writeTextElement("title", cur.at(0).toString());
 
-	QFile file(QString(DATA_DIR) + "/../user-places.xbel");
-	if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-		LOG << CURDATE << "GetAndDoStuffOpenFile: Can't open ~/.local/share/user-places.xbel file" << NL;
-		return;
-	}
+        // START info
+        s.writeStartElement("info");
 
-	QTextStream out(&file);
-	root.save(out,2);
 
-	file.close();
+        // START metadata
+        s.writeStartElement("metadata");
+
+        s.writeAttribute("owner", "http://freedesktop.org");
+
+        // START bookmark:icon
+        s.writeStartElement("bookmark:icon");
+
+        s.writeAttribute("name", cur.at(2).toString());
+
+        // END bookmark:icon
+        s.writeEndElement();
+
+        // END metadata
+        s.writeEndElement();
+
+
+        // START metadata
+        s.writeStartElement("metadata");
+
+        s.writeAttribute("owner", "http://www.kde.org");
+
+        if(cur.at(3).toString() != "")
+            s.writeTextElement("ID", cur.at(3).toString());
+        s.writeTextElement("IsHidden", cur.at(4).toString());
+        if(cur.at(5).toString() != "")
+            s.writeTextElement("isSystemItem", cur.at(5).toString());
+
+        // END metadata
+        s.writeEndElement();
+
+
+        // END info
+        s.writeEndElement();
+
+        // END bookmark
+        s.writeEndElement();
+
+    }
+
+    // xbel
+    s.writeEndElement();
+
+    s.writeEndDocument();
 
 }
 
 void GetAndDoStuffOpenFile::setOpenFileLastLocation(QString path) {
 
-	QFile file(CFG_OPENFILE_LAST_LOCATION);
-	if(file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-		QTextStream out(&file);
-		out << path;
-		file.close();
-	} else
-		LOG << CURDATE << " GetAndDoStuffOpenFile::setLastLocation(): Unable to open file for writing: " << file.errorString().toStdString() << NL;
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffOpenFile::setOpenFileLastLocation() - " << path.toStdString() << NL;
+
+    QFile file(ConfigFiles::OPENFILE_LAST_LOCATION());
+    if(file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        QTextStream out(&file);
+        out << path;
+        file.close();
+    } else
+        LOG << CURDATE << " GetAndDoStuffOpenFile::setLastLocation(): Unable to open file for writing: " << file.errorString().toStdString() << NL;
 
 }
 
 QString GetAndDoStuffOpenFile::getOpenFileLastLocation() {
 
-	QString ret = QDir::homePath();
-	QFile file(CFG_OPENFILE_LAST_LOCATION);
-	if(file.exists() && file.open(QIODevice::ReadOnly)) {
-		QTextStream in(&file);
-		ret = in.readAll().trimmed();
-		file.close();
-	}
-	return ret;
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffOpenFile::getOpenFileLastLocation()" << NL;
 
+    QString ret = QDir::currentPath();
+    QFile file(ConfigFiles::OPENFILE_LAST_LOCATION());
+    if(file.exists() && file.open(QIODevice::ReadOnly)) {
+        QTextStream in(&file);
+        ret = in.readAll().trimmed();
+        file.close();
+    }
+    return ret;
+
+}
+
+QString GetAndDoStuffOpenFile::getCurrentWorkingDirectory() {
+    return QDir::currentPath();
 }
 
 void GetAndDoStuffOpenFile::saveLastOpenedImage(QString path) {
 
-	QFile file(CFG_LASTOPENEDIMAGE_FILE);
-	if(file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-		QTextStream out(&file);
-		out << path;
-		file.close();
-	} else
-		LOG << CURDATE << "ERROR: Unable to store path of last opened image. Error: " << file.errorString().trimmed().toStdString() << NL;
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffOpenFile::saveLastOpenedImage()" << NL;
+
+    QFile file(ConfigFiles::LASTOPENEDIMAGE_FILE());
+    if(file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        QTextStream out(&file);
+        out << path;
+        file.close();
+    } else
+        LOG << CURDATE << "ERROR: Unable to store path of last opened image. Error: " << file.errorString().trimmed().toStdString() << NL;
+
+}
+
+QString GetAndDoStuffOpenFile::getLastOpenedImage() {
+
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "GetAndDoStuffOpenFile::getLastOpenedImage()" << NL;
+
+    QString filename = "";
+
+    QFile file(ConfigFiles::LASTOPENEDIMAGE_FILE());
+    if(file.open(QIODevice::ReadOnly)) {
+        QTextStream in(&file);
+        filename = in.readAll().trimmed();
+    } else
+        LOG << CURDATE << "ERROR: Unable to get stored path of last opened image. Error: " << file.errorString().trimmed().toStdString() << NL;
+
+    file.close();
+
+    return filename;
+}
+
+QString GetAndDoStuffOpenFile::getDirectoryDirName(QString path) {
+
+    return QDir(path).dirName();
 
 }

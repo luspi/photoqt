@@ -1,664 +1,365 @@
-import QtQuick 2.3
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2018 Lukas Spies                                       **
+ ** Contact: http://photoqt.org                                          **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
+
+import QtQuick 2.5
 
 import "../elements"
+import "../shortcuts/mouseshortcuts.js" as AnalyseMouse
 
 Rectangle {
 
-	id: top
-
-	anchors.fill: parent
-	color: "#ee000000"
-
-	opacity: 0
-
-	// The semi-transparent icons at the top have this opacity
-	property real opacityDisabledCategory: 0.2
-
-	// Store selections for later use
-	property string category: "key"
-	property string key_combo: ""
-	property int touch_fingers: 1
-	property string touch_action: "tap"
-	property var touch_path: []
-	property string mouse_mods: ""
-	property string mouse_button: ""
-	property var mouse_path: []
-
-	property bool successful: false
-	signal success(var cat, var args)
-	signal cancel()
-
-	property var checkAllShortcuts: ({})
-	signal takenShortcutsUpdated()
-
-	property bool leftButtonMouseClickAndMove: true
-	onLeftButtonMouseClickAndMoveChanged: takenShortcutsUpdated()
-	property bool singleFingerTouchPressAndMove: true
-	onSingleFingerTouchPressAndMoveChanged: takenShortcutsUpdated()
-
-	// Animate element by controlling opacity
-	Behavior on opacity { NumberAnimation { duration: 100; } }
-	onOpacityChanged: {
-		visible = (opacity == 0 ? false : true)
-		if(opacity == 1)
-			countdowntimer.start()
-	}
-
-	// main column
-	Column {
-
-		spacing: 5
-
-		// top row, containing the category symbols
-		Rectangle {
-
-			id: icons
-			color: "transparent"
-			height: 120
-			width: top.width
-
-			// The symbols are contained in a sub-rectangle for centering
-			Rectangle {
-
-				color: "transparent"
-				height: parent.height-20
-				width: childrenRect.width
-				x: (top.width-width)/2
-				y: 10
-
-				// The three symbols
-				Row {
-
-					spacing: 100
-
-					// Touch shortcut
-					Image {
-						opacity: info_touch.opacity == 1 ? 1 : opacityDisabledCategory
-						width: 90
-						height: 90
-						y: 5
-						source: "qrc:/img/settings/shortcuts/categorytouch.png"
-					}
-					// Mouse shortcut
-					Image {
-						opacity: info_mouse.opacity == 1 ? 1 : opacityDisabledCategory
-						width: 90
-						height: 90
-						y: 5
-						source: "qrc:/img/settings/shortcuts/categorymouse.png"
-					}
-					// Keyboard shortcut
-					Image {
-						opacity: info_key.opacity == 1 ? 1 : opacityDisabledCategory
-						width: 90
-						height: 90
-						y: 5
-						source: "qrc:/img/settings/shortcuts/categorykeyboard.png"
-					}
-				}
-			}
-
-		}
-
-		// Seperator
-		Rectangle {
-			width: top.width
-			height: 1
-			color: "white"
-		}
-
-		// The main area displaying the current selection
-		Rectangle {
-
-			id: info
-			color: "transparent"
-			height: top.height-icons.height-bottom.height-20
-			width: top.width
-
-			// Display the mouse action: modifier, button, path
-			Rectangle {
-
-				id: info_mouse
-
-				opacity: 0
-
-				anchors.fill: parent
-				color: "transparent"
-
-				Rectangle {
-
-					color: "transparent"
-					width: childrenRect.width
-					height: childrenRect.height
-					x: (parent.width-width)/2
-					y: (parent.height-height)/2
-
-					Grid {
-
-						columns: 2
-						spacing: 20
-
-						Text {
-							//: This string refers to a key modifier like Ctrl or Alt
-							text: qsTr("Modifier") + ":"
-							color: "white"
-							font.pointSize: 25
-							font.bold: true
-						}
-						Text {
-							id: info_mouse_modifier
-							text: str_keys.get("ctrl")
-							color: "white"
-							font.pointSize: 25
-							font.bold: true
-						}
-						Text {
-							text: qsTr("Mouse Button") + ":"
-							color: "white"
-							font.pointSize: 25
-							font.bold: true
-						}
-						Text {
-							id: info_mouse_button
-							text: str_mouse.get("left button")
-							color: "white"
-							font.pointSize: 25
-							font.bold: true
-						}
-						Text {
-							//: This refers to a gesture done with the mouse or a touchscreen finger
-							text: qsTr("Gesture path") + ":"
-							color: "white"
-							font.pointSize: 25
-							font.bold: true
-						}
-						Text {
-							id: info_mouse_path
-							text: "S-E"
-							color: "white"
-							font.pointSize: 25
-							font.bold: true
-						}
-
-					}
-
-				}
-
-			}
-
-			// Display the touch info: fingers, action, path
-			Rectangle {
-
-				id: info_touch
-
-				opacity: 0
-
-				anchors.fill: parent
-				color: "transparent"
-
-				Rectangle {
-
-					color: "transparent"
-					width: childrenRect.width
-					height: childrenRect.height
-					x: (parent.width-width)/2
-					y: (parent.height-height)/2
-
-					Grid {
-
-						columns: 2
-						spacing: 20
-
-						Text {
-							//: Refers to the number of fingers used when performing a touchscreen gesture
-							text: qsTr("Number of Fingers") + ":"
-							color: "white"
-							font.pointSize: 25
-							font.bold: true
-						}
-						Text {
-							id: info_touch_fingers
-							text: "2"
-							color: "white"
-							font.pointSize: 25
-							font.bold: true
-						}
-						Text {
-							//: This refers to an action executed by a shortcut command
-							text: qsTr("Action") + ":"
-							color: "white"
-							font.pointSize: 25
-							font.bold: true
-						}
-						Text {
-							id: info_touch_action
-							//: This refers to a simple tap with a finger on a touchscreen
-							text: qsTr("Tap")
-							color: "white"
-							font.pointSize: 25
-							font.bold: true
-						}
-						Text {
-							//: This refers to a gesture done with the mouse or a touchscreen finger
-							text: qsTr("Gesture path") + ":"
-							color: "white"
-							font.pointSize: 25
-							font.bold: true
-						}
-						Text {
-							id: info_touch_path
-							text: "S-E"
-							color: "white"
-							font.pointSize: 25
-							font.bold: true
-						}
-
-					}
-
-				}
-
-			}
-
-			// Display the touch info: key combo
-			Rectangle {
-
-				id: info_key
-
-				opacity: 0
-
-				anchors.fill: parent
-				color: "transparent"
-
-				Rectangle {
-
-					color: "transparent"
-					width: childrenRect.width
-					height: childrenRect.height
-					x: (parent.width-width)/2
-					y: (parent.height-height)/2
-
-					Text {
-						id: info_key_combo
-						text: str_keys.get("ctrl") + "+O"
-						color: "white"
-						font.pointSize: 25
-						font.bold: true
-					}
-
-				}
-
-			}
-
-			// At start, a simple "..." is displayed
-			Rectangle {
-
-				id: info_empty
-
-				opacity: 1
-
-				anchors.fill: parent
-				color: "transparent"
-
-				Rectangle {
-
-					color: "transparent"
-					width: childrenRect.width
-					height: childrenRect.height
-					x: (parent.width-width)/2
-					y: (parent.height-height)/2
-
-					Text {
-						text: "..."
-						color: "white"
-						font.pointSize: 25
-						font.bold: true
-					}
-
-				}
-
-			}
-
-		}
-
-		// Seperator
-		Rectangle {
-			width: top.width
-			height: 1
-			color: "white"
-		}
-
-		// Bottom row with cancel button, instructions, and timeout counter
-		Rectangle {
-			id: bottom
-			color: "#99000000"
-			height: 100
-			width: top.width
-
-			// Cancel detection
-			CustomButton {
-				id: cancelbutton
-				text: "  " + qsTr("Cancel") + "  "
-				x: 5
-				y: 5
-				height: parent.height-10
-				fontsize: 15
-				onClickedButton: {
-					countdowntimer.stop()
-					countdownlabel.text = "0"
-					successful = false
-					checkResult()
-				}
-			}
-
-			// Seperator
-			Rectangle {
-				color: "#44ffffff"
-				width: 1
-				height: parent.height
-				x: cancelbutton.x+cancelbutton.width+5
-				y: 0
-			}
-
-			// Instructions
-			Rectangle {
-				id: instructions
-				color: "transparent"
-				x: cancelbutton.width+60
-				y: 0
-				height: parent.height
-				width: parent.width-countdown.width-cancelbutton.width-60
-				Text {
-					anchors.fill: parent
-					text: qsTr("Perform any touch gesture, mouse action or press any key combination.")
-					verticalAlignment: Text.AlignVCenter
-					horizontalAlignment: Text.AlignHCenter
-					color: "white"
-					font.pointSize: 15
-					wrapMode: Text.WordWrap
-				}
-			}
-
-			// Seperator
-			Rectangle {
-				color: "#44ffffff"
-				width: 1
-				height: parent.height
-				x: instructions.x+instructions.width
-				y: 0
-			}
-
-			// Timeout counter
-			Rectangle {
-
-				id: countdown
-				width: parent.height*2
-				height: parent.height
-				x: parent.width-width
-				color: "transparent"
-
-				Text {
-					id: countdownlabel
-					anchors.fill: parent
-					verticalAlignment: Text.AlignVCenter
-					horizontalAlignment: Text.AlignHCenter
-					color: "white"
-					text: "5"
-					font.bold: true
-					font.pointSize: 20
-				}
-				Timer {
-					id: countdowntimer
-					interval: 1000
-					running: false
-					repeat: true
-					onTriggered: {
-						countdownlabel.text = countdownlabel.text*1-1
-						checkResult()
-					}
-				}
-
-				function reset() {
-					countdownlabel.text = "5"
-					countdowntimer.restart()
-				}
-			}
-		}
-
-	}
-
-	function checkResult() {
-		verboseMessage("DetectShortcut::checkResult()", countdownlabel.text + " - " + successful + " - " + category)
-		if(countdownlabel.text == "0") {
-			hide()
-			if(successful) {
-				if(category == "touch")
-					success("touch", [touch_fingers,touch_action,touch_path])
-				else if(category == "mouse")
-					success("mouse",[mouse_mods,mouse_button,mouse_path])
-				else if(category == "key")
-					success("key",[key_combo])
-				else
-					cancel()
-			} else
-				cancel()
-
-		}
-	}
-
-	// Show element
-	function show() {
-		verboseMessage("DetectShortcut::show()", opacity + " to 1")
-		opacity = 1
-		resetInterface()
-	}
-	// Hide element
-	function hide() {
-		verboseMessage("DetectShortcut::hide()", opacity + " to 0")
-		opacity = 0
-		countdowntimer.stop()
-	}
-
-	// Reset interface and show empty message
-	function resetInterface() {
-		verboseMessage("DetectShortcut::resetInterface()","")
-		switchTo("empty")
-		successful = false
-		countdown.reset()
-	}
-
-	// Switch to a different category
-	function switchTo(cat) {
-		verboseMessage("DetectShortcut::switchTo()",cat)
-		// Unfinished gesture (if finished, this boolean will be set to true later in the finished*() function
-		successful = false
-		category = cat
-		info_touch.opacity = (cat === "touch" ? 1 : 0)
-		info_mouse.opacity = (cat === "mouse" ? 1 : 0)
-		info_key.opacity = (cat === "key" ? 1 : 0)
-		info_empty.opacity = (cat === "empty" ? 1 : 0)
-	}
-
-	// Update to mouse gesture
-	function updateMouseGesture(button, gesture, modifiers) {
-		if(opacity != 1) return
-		verboseMessage("DetectShortcut::updateMouseGesture()",button + " - " + gesture + " - " + modifiers)
-		if(bottom.x+cancelbutton.x <= localcursorpos.x && bottom.y+cancelbutton.y <= localcursorpos.y
-			&& bottom.x+cancelbutton.x+cancelbutton.width >= localcursorpos.x
-				&& bottom.y+cancelbutton.y+cancelbutton.height >= localcursorpos.y)
-			return
-		switchTo("mouse")
-		info_mouse_button.text = str_mouse.get(button)
-		info_mouse_modifier.text = (modifiers == "" ? "-" : str_keys.translateKeyCombo(modifiers))
-		info_mouse_path.text = (gesture.length == 0 ? "-" : gesture.join(" - "))
-
-		successful = false
-
-		mouse_mods = modifiers
-		mouse_button = button
-		mouse_path = gesture
-
-		countdown.reset()
-
-	}
-
-	// Completed mouse gesture
-	function finishedMouseGesture(button, gesture, modifiers) {
-		if(opacity != 1) return
-		verboseMessage("DetectShortcut::finishedMouseGesture()",button + " - " + gesture + " - " + modifiers)
-		if(bottom.x+cancelbutton.x <= localcursorpos.x && bottom.y+cancelbutton.y <= localcursorpos.y
-			&& bottom.x+cancelbutton.x+cancelbutton.width >= localcursorpos.x
-				&& bottom.y+cancelbutton.y+cancelbutton.height >= localcursorpos.y)
-			return
-		switchTo("mouse")
-		info_mouse_button.text = str_mouse.get(button)
-		info_mouse_modifier.text = (modifiers == "" ? "-" : str_keys.translateKeyCombo(modifiers))
-		info_mouse_path.text = (gesture.length == 0 ? "-" : gesture.join(" - "))
-
-		mouse_mods = modifiers
-		mouse_button = button
-		mouse_path = gesture
-
-		successful = true
-		countdownlabel.text = "1"
-
-	}
-
-	// Update to touch gesture
-	function updateTouchGesture(fingers, type, path) {
-		if(opacity != 1) return
-		verboseMessage("DetectShortcut::finishedMouseGesture()",fingers + " - " + type + " - " + path)
-		switchTo("touch")
-		info_touch_fingers.text = fingers
-		//: A 'pinch inwards' refers to two fingers on a touchscreen that are dragged towards each other
-		info_touch_action.text = (type === "pinchIN" ? qsTr("pinch inwards")
-								//: A 'pinch outwards' refers to two fingers on a touchscreen that are dragged awwar from each other
-													 : (type === "pinchOUT" ? qsTr("pinch outwards")
-																			: type))
-		info_touch_path.text = (path.length == 0 ? "-" : path.join(" - "))
-
-		successful = false
-
-		touch_fingers = fingers
-		touch_action = type
-		touch_path = path
-
-		countdown.reset()
-
-	}
-
-	// Completed touch gesture
-	function finishedTouchGesture(fingers, type, path) {
-		if(opacity != 1) return
-		verboseMessage("DetectShortcut::finishedMouseGesture()",fingers + " - " + type + " - " + path)
-		switchTo("touch")
-		info_touch_fingers.text = fingers
-		//: A 'pinch inwards' refers to two fingers on a touchscreen that are dragged towards each other
-		info_touch_action.text = (type === "pinchIN" ? qsTr("pinch inwards")
-								//: A 'pinch outwards' refers to two fingers on a touchscreen that are dragged awwar from each other
-													 : (type === "pinchOUT" ? qsTr("pinch outwards")
-																			: type))
-		info_touch_path.text = (path.length == 0 ? "-" : path.join(" - "))
-
-		touch_fingers = fingers
-		touch_action = type
-		touch_path = path
-
-		successful = true
-
-		countdownlabel.text = "1"
-
-	}
-
-	// Update to key shortcut
-	function updateKeyShortcut(combo) {
-		if(opacity != 1) return
-		verboseMessage("DetectShortcut::updateKeyShortcut()",combo)
-		switchTo("key")
-		info_key_combo.text = str_keys.translateKeyCombo(combo)
-
-		key_combo = combo
-
-		if(combo !== "" && combo.slice(-1) !== "+") {
-			successful = true
-			countdownlabel.text = "1"
-		} else {
-			successful = false
-			countdown.reset()
-		}
-
-	}
-
-
-	function setTakenShortcuts(key_shortcuts, mouse_shortcuts, _touch_shortcuts) {
-
-		verboseMessage("DetectShortcut::setTakenShortcuts()","")
-
-		checkAllShortcuts = {}
-
-		for(var i in key_shortcuts)
-			checkAllShortcuts[i] = 1
-		for(var j in mouse_shortcuts)
-			checkAllShortcuts[j] = 1
-		for(var k in _touch_shortcuts)
-			checkAllShortcuts[k] = 1
-
-	}
-
-	function updateTakenShortcut(old_shortcut, new_shortcut) {
-
-		verboseMessage("DetectShortcut::setTakenShortcuts()",old_shortcut + " - " + new_shortcut)
-
-		checkAllShortcuts[old_shortcut] -= 1;
-
-		if(new_shortcut !== "") {
-
-			if(new_shortcut in checkAllShortcuts)
-				checkAllShortcuts[new_shortcut] += 1;
-			else
-				checkAllShortcuts[new_shortcut] = 1;
-
-		}
-
-		takenShortcutsUpdated()
-
-	}
-
-	function checkForShortcutErrors() {
-
-		verboseMessage("DetectShortcut::checkForShortcutErrors()","")
-
-		var err = false
-
-		for(var ele in checkAllShortcuts) {
-			if(checkAllShortcuts[ele] > 1
-					|| (checkAllShortcuts[ele] !== 0 && leftButtonMouseClickAndMove && ele.slice(0,12) === "Left Button+")
-					|| (checkAllShortcuts[ele] !== 0 && singleFingerTouchPressAndMove && ele.slice(0,8) === "1::swipe")) {
-				err = true
-				break;
-			}
-		}
-
-		return err
-
-	}
-
-	function checkIfShortcutTaken(sh) {
-
-		verboseMessage("DetectShortcut::checkIfShortcutTaken()",sh)
-
-		if(sh === undefined || sh === "")
-			return false
-
-		if(leftButtonMouseClickAndMove) {
-			if(sh.slice(0,12) === "Left Button+")
-				return true
-		}
-		if(singleFingerTouchPressAndMove) {
-			if(sh.slice(0,8) === "1::swipe")
-				return true
-		}
-
-		return checkAllShortcuts[sh]*1 !== 1
-	}
+    id: detect_top
+
+    anchors.fill: parent
+    color: "#ee000000"
+
+    opacity: 0
+    Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
+    visible: (opacity!=0)
+
+    property string category: "key"
+
+    signal gotNewShortcut(var sh)
+    signal abortedShortcutDetection()
+
+    // The top row displaying icons for the two categories
+    Item {
+
+        id: toprow
+
+        // size and position
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: parent.top
+        }
+        height: 150
+
+        // This item contains the icon and is centered in the rectangle
+        Item {
+
+            // Centered, a little smaller in height than the parent
+            x: (parent.width-width)/2
+            y: (parent.height-height)/2
+            width: categoryKey.width+categoryMouse.width+50
+            height: 100
+
+            // Mouse shortcut
+            Image {
+                id: categoryMouse
+                opacity: detect_top.category=="mouse" ? 1 : 0.2
+                width: 100
+                height: 100
+                source: "qrc:/img/settings/shortcuts/categorymouse.png"
+            }
+
+            // Keyboard shortcut
+            Image {
+                id: categoryKey
+                opacity: detect_top.category=="key" ? 1 : 0.2
+                x: categoryMouse.width+50
+                width: 100
+                height: 100
+                source: "qrc:/img/settings/shortcuts/categorykeyboard.png"
+            }
+
+        }
+
+    }
+
+    // Separator line
+    Rectangle {
+        anchors {
+            left: parent.left
+            right: parent.right
+            top: toprow.bottom
+        }
+        height: 1
+        color: "white"
+    }
+
+    // The area in the middle displays the performed shortcut and is the hotarea for mouse shortcut detection
+    Text {
+
+        id: combo
+
+        // position and size
+        anchors {
+            top: toprow.bottom
+            left: parent.left
+            right: parent.right
+            bottom: bottomrow.top
+        }
+
+        verticalAlignment: Qt.AlignVCenter
+        horizontalAlignment: Qt.AlignHCenter
+
+        color: "white"
+        font.pointSize: 30
+        font.bold: true
+        textFormat: Text.RichText
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+
+        // display either key or mouse combo
+        text: strings.translateShortcut(currentCombo)
+
+        property string currentCombo: "..."
+
+        onTextChanged: {
+            var already = shortcuts.setKeyShortcuts[combo.currentCombo]
+            if(already !== undefined) {
+                var count = already[0]
+                alreadySet.shTxt = ""
+                for(var i = 2; i < already.length; i+=2) {
+                    var title = variables.shortcutTitles[already[i]]
+                    if(title === undefined) title = already[i]
+                    alreadySet.shTxt += title + "<br>"
+                }
+            } else
+                alreadySet.shTxt = ""
+        }
+
+        Text {
+
+            id: alreadySet
+
+            anchors {
+                right: parent.right
+                top: parent.top
+                rightMargin: 10
+                topMargin: 10
+            }
+
+            color: "grey"
+            font.pointSize: 15
+            font.bold: true
+            horizontalAlignment: Text.AlignHCenter
+
+            property string shTxt: ""
+
+            visible: (opacity!=0)
+            opacity: shTxt==""?0:1
+            Behavior on opacity { NumberAnimation { duration: 100 } }
+
+            text: qsTr("Shortcut also already set for the following:") + "<br><br>" + shTxt
+
+        }
+
+    }
+
+    // Separator line
+    Rectangle {
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: bottomrow.top
+        }
+        height: 1
+        color: "white"
+    }
+
+    // An area at the bottom for cancel/ok buttons and instruction text
+    Item {
+
+        id: bottomrow
+
+        // size and position
+        anchors {
+            left: parent.left
+            right: parent.right
+            bottom: parent.bottom
+        }
+        height: 150
+
+        // Button to cancel
+        CustomButton {
+
+            id: cancelbut
+
+            // size and position
+            anchors {
+                left: parent.left
+                leftMargin: 5
+                top: parent.top
+                topMargin: 5
+                bottom: parent.bottom
+                bottomMargin: 5
+            }
+            width: parent.height*3
+
+            // some font styling
+            fontsize: 30
+            fontBold: true
+
+            text: em.pty+qsTr("Cancel")
+
+            onClickedButton: {
+                abortedShortcutDetection()
+                hide()
+            }
+
+        }
+
+        Text {
+
+            // size and position
+            anchors {
+                left: cancelbut.right
+                leftMargin: 10
+                right: okbut.left
+                rightMargin: 10
+                top: parent.top
+                bottom: parent.bottom
+            }
+
+            // some styling
+            font.pointSize: 15
+            font.bold: true
+            wrapMode: Text.WordWrap
+            horizontalAlignment: Qt.AlignHCenter
+            verticalAlignment: Qt.AlignVCenter
+            color: "white"
+
+            text: em.pty+qsTr("Perform any mouse action or press any key combination.") + "\n"
+                  + em.pty+qsTr("When your satisfied, click the button to the right.")
+
+        }
+
+        CustomButton {
+
+            id: okbut
+
+            // size and position
+            anchors {
+                right: parent.right
+                rightMargin: 5
+                top: parent.top
+                topMargin: 5
+                bottom: parent.bottom
+                bottomMargin: 5
+            }
+            width: parent.height*3
+
+            // some styling
+            fontsize: 30
+            fontBold: true
+
+            text: em.pty+qsTr("Ok, set shortcut")
+
+            onClickedButton: {
+                gotNewShortcut(combo.currentCombo)
+                hide()
+            }
+
+        }
+
+    }
+
+    Connections {
+        target: call
+        onShortcut: {
+            // ignore if not visible
+            if(!detect_top.visible) return
+            if(!combo.mouseEventInProgress) {
+                combo.currentCombo = sh
+                category = "key"
+            }
+        }
+    }
+
+    MouseArea {
+
+        anchors.fill: combo
+
+        hoverEnabled: true
+        acceptedButtons: Qt.LeftButton|Qt.MiddleButton|Qt.RightButton
+
+        property point pressedPosStart: Qt.point(-1,-1)
+        property point pressedPosEnd: Qt.point(-1,-1)
+
+        property bool mouseEventInProgress: false
+        property int buttonId: 0
+
+        onPositionChanged:
+            handleMousePositionChange(mouse)
+        onPressed: {
+            buttonId = mouse.button
+            mouseEventInProgress = true
+            pressedPosStart = Qt.point(mouse.x, mouse.y)
+            variables.shorcutsMouseGesturePointIntermediate = Qt.point(-1,-1)
+        }
+        onReleased: {
+            var txt = AnalyseMouse.analyseMouseEvent(pressedPosStart, mouse, buttonId)
+            if(txt !== "") {
+                category = "mouse"
+                combo.currentCombo = txt
+            }
+            pressedPosEnd = Qt.point(mouse.x, mouse.y)
+            pressedPosStart = Qt.point(-1,-1)
+            mouseEventInProgress = false
+        }
+        onWheel: {
+            var txt = AnalyseMouse.analyseWheelEvent(wheel, true)
+            if(txt !== "") {
+                combo.currentCombo = txt
+                wheelEventDone.start()
+            }
+        }
+        Timer {
+            id: wheelEventDone
+            interval: 1000
+            repeat: false
+            onTriggered: {
+                variables.wheelUpDown = 0
+                variables.wheelLeftRight = 0
+            }
+        }
+
+        function handleMousePositionChange(mouse) {
+
+            if(pressedPosStart.x !== -1 || pressedPosStart.y !== -1) {
+                var before = variables.shorcutsMouseGesturePointIntermediate
+                if(variables.shorcutsMouseGesturePointIntermediate.x === -1 || variables.shorcutsMouseGesturePointIntermediate.y === -1)
+                    before = pressedPosStart
+                AnalyseMouse.analyseMouseGestureUpdate(mouse.x, mouse.y, before)
+                var txt = AnalyseMouse.analyseMouseEvent(pressedPosStart, mouse, buttonId, true)
+                if(txt !== "") {
+                    category = "mouse"
+                    combo.currentCombo = txt
+                }
+            }
+
+        }
+
+    }
+
+    function show() {
+        combo.currentCombo = "..."
+        opacity = 1
+    }
+
+    function hide() {
+        opacity = 0
+    }
+
 
 }

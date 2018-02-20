@@ -1,9 +1,13 @@
 <RCC>
     <qresource prefix="/">
-	<file>../qml/mainwindow.qml</file>
-	<file>../qml/shortcuts/Shortcuts.qml</file>
-	<file>../qml/shortcuts/mouseshortcuts.js</file>
-	<file>../qml/shortcuts/keyshortcuts.js</file>
-	<file>../qml/shortcuts/touchshortcuts.js</file>
+    <file>../qml/mainwindow.qml</file>
+    <file>../qml/Caller.qml</file>
+    <file>../qml/handlestuff.js</file>
+    <file>../qml/other/About.qml</file>
+    <file>../qml/other/ImgurFeedback.qml</file>
+    <file>../qml/other/Filter.qml</file>
+    <file>../qml/other/Scale.qml</file>
+    <file>../qml/other/ScaleUnsupported.qml</file>
+    <file>../qml/other/Startup.qml</file>
     </qresource>
 </RCC>
