@@ -41,42 +41,43 @@ These dependencies are not needed for compiling PhotoQt. However, if they are in
 
 2. _cmake .._
 
-        \# Note: This installs PhotoQt by default into /usr/local/{bin,share}  
-        \# To install PhotoQt into another prefix e.g. /usr/{bin,share}, run:
+    \# Note: This installs PhotoQt by default into /usr/local/{bin,share}  
+    \# To install PhotoQt into another prefix e.g. /usr/{bin,share}, run:
 
     _cmake -DCMAKE\_INSTALL\_PREFIX=/usr .._
 
-        \# PhotoQt makes use of the libraries Exiv2, GraphicsMagick ("gm") and LibRaw.  
-        \# You can en-/disable them with the following options:  
-        \# (if you don't specify anything, it asumes a value of ON)
+    \# PhotoQt makes use of the libraries Exiv2, GraphicsMagick ("gm") and LibRaw.  
+    \# You can en-/disable them with the following options:  
+    \# (if you don't specify anything, it asumes a value of ON)
 
-        _-DEXIV2=OFF_  
-        _-DGM=OFF_  
-        _-DRAW=OFF_
+    _-DEXIV2=OFF_  
+    _-DGM=OFF_  
+    _-DRAW=OFF_
 
-        \# You can combine them in any way you want.  
-        \# The following option equates to setting the three above options to OFF
+    \# You can combine them in any way you want.  
+    \# The following option equates to setting the three above options to OFF
 
-        _-DQTONLY=ON_
+    _-DQTONLY=ON_
 
-        \# If CMake aborts with the error that it can't find Exiv2 and/or GraphicsMagick and/or LibRaw,  
-        \# but you're certain that the header files are available, then  
-        \# you can pass their locations to CMake:
+    \# If CMake aborts with the error that it can't find Exiv2 and/or GraphicsMagick and/or LibRaw,  
+    \# but you're certain that the header files are available, then  
+    \# you can pass their locations to CMake:
 
-        _-DMAGICK_LOCATION=/path/to/graphicsmagick_  
-        _-DEXIV2_LOCATION=/path/to/exiv2_  
-        _-DLIBRAW_LOCATION=/path/to/libraw_
+    _-DMAGICK_LOCATION=/path/to/graphicsmagick_  
+    _-DEXIV2_LOCATION=/path/to/exiv2_  
+    _-DLIBRAW_LOCATION=/path/to/libraw_
 
 3. _make_  
-        \# This creates an executeable photoqt binary located in the ./build/ folder
+
+    \# This creates an executeable photoqt binary located in the ./build/ folder
 
 4. (as root or sudo) _make install_
 
-        \# This command:  
-        1. installs the desktop file to share/applications/  
-        2. moves some icons to icons/hicolor/  
-        3. moves the binary to bin/
-        4. Installs the appdata file to share/appdata/
+    \# This command:  
+    1. installs the desktop file to share/applications/  
+    2. moves some icons to icons/hicolor/  
+    3. moves the binary to bin/
+    4. Installs the appdata file to share/appdata/
 
 ## UNINSTALL
 
