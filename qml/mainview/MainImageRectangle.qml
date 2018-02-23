@@ -322,6 +322,7 @@ Item {
     }
     PropertyAnimation {
         id: rotationAni
+        to: 0   // this is important as otherwise the check for rotation on first load depends on an undefined value
         target: imageContainer
         properties: "rotation"
         duration: rotationDuration
