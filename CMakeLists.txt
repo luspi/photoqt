@@ -10,7 +10,7 @@ project(photoqt)
 ####  GLOBAL VERSION STRING FOR ALL FILES (INCLUDING CPP/QML) ####
 ##################################################################
 
-add_definitions(-DVERSION="1.6")
+add_definitions(-DVERSION="dev")
 
 
 #################################
