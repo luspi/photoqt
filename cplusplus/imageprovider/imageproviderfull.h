@@ -54,11 +54,6 @@ private:
     SlimSettingsReadOnly *settings;
     FileFormats *fileformats;
 
-    QString qtfiles;
-    QString gmfiles;
-    QString extrasfiles;
-    QString rawfiles;
-
     LoadImageGM *loaderGM;
     LoadImageQt *loaderQT;
     LoadImageRaw *loaderRAW;

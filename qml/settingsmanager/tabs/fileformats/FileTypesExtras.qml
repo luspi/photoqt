@@ -116,7 +116,7 @@ EntryContainer {
             for(var j = 1; j < cur.length-1; ++j) {
 
                 // If found, then the current file format is ENabled, if not then it is DISabled
-                if(setformats.indexOf("*" + cur[j]) === -1)
+                if(setformats.indexOf(cur[j]) === -1)
                     found = false
 
                 // The space aftet eh comma is very important! It is needed when saving data
@@ -146,7 +146,7 @@ EntryContainer {
 
         var tmp = []
         for(var ele2 in tobesaved)
-            tmp[tmp.length] = "*" + tobesaved[ele2]
+            tmp[tmp.length] = tobesaved[ele2]
         tobesaved = tmp
 
         // Update data

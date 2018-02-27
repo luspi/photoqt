@@ -27,11 +27,6 @@ ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider
     settings = new SlimSettingsReadOnly;
     fileformats = new FileFormats;
 
-    gmfiles = fileformats->formats_gm.join(",") + fileformats->formats_gm_ghostscript.join(",") + fileformats->formats_untested.join(",");
-    qtfiles = fileformats->formats_qt.join(",");
-    extrasfiles = fileformats->formats_extras.join(",");
-    rawfiles = fileformats->formats_raw.join(",");
-
     pixmapcache = new QCache<QByteArray, QPixmap>;
     pixmapcache->setMaxCost(8*1024*std::max(0, std::min(1000, settings->pixmapCache)));
 
@@ -96,8 +91,8 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
     }
 
     // Try to use XCFtools for XCF (if enabled)
-    if(QFileInfo(filename).suffix().toLower() == "xcf" && whatToUse == "extra")
-            ret = loaderXCF->load(filename,maxSize);
+    if(whatToUse == "xcftools")
+        ret = loaderXCF->load(filename,maxSize);
 
     // Try to use GraphicsMagick (if available)
     else if(whatToUse == "gm")
@@ -129,76 +124,53 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
 
     if(filename.trimmed() == "") return "qt";
 
-    if(extrasfiles.trimmed() != "") {
+    /***********************************************************/
+    // Qt image plugins
 
-        // We need this list for GM and EXTRA below
-        QStringList extrasFiles = extrasfiles.split(",");
-
-        // Check for extra
-        for(int i = 0; i < extrasFiles.length(); ++i) {
-            // We need to remove the first character of qtfiles.at(i), since that is a "*"
-            if(filename.toLower().endsWith(QString(extrasFiles.at(i)).remove(0,2)))
-                return "extra";
-        }
-
+    foreach(QString qt, fileformats->formats_qt) {
+        if(filename.toLower().endsWith(qt.remove(0,1)))
+            return "qt";
     }
+    foreach(QString qt, fileformats->formats_kde) {
+        if(filename.toLower().endsWith(qt.remove(0,1)))
+            return "qt";
+    }
+    if((fileformats->formats_extras.contains("*.psb") && filename.endsWith(".psb")) ||
+       (fileformats->formats_extras.contains("*.psd") && filename.endsWith(".psd")))
+        return "qt";
+
+
+    /***********************************************************/
+    // xcftools
+
+    if((fileformats->formats_extras.contains("*.xcf") && filename.endsWith(".xcf")))
+        return "xcftools";
+
+
 
 #ifdef RAW
 
-    if(rawfiles.trimmed() != "") {
+    /***********************************************************/
+    // libraw library
 
-        QStringList rawFiles = rawfiles.split(",");
-
-        // Check for raw
-        for(int i = 0; i < rawFiles.length(); ++i) {
-            // We need to remove the first character of qtfiles.at(i), since that is a "*"
-            if(filename.toLower().endsWith(QString(rawFiles.at(i)).remove(0,1)))
-                return "raw";
-        }
-
+    foreach(QString raw, fileformats->formats_raw) {
+        if(filename.toLower().endsWith(raw.remove(0,1)))
+            return "raw";
     }
 
 #endif
 
 #ifdef GM
 
-    // Check for GM (i.e., check for not qt and not extra)
-    bool usegm = true;
-    QStringList qtFiles = qtfiles.split(",");
+    /***********************************************************/
+    // GraphicsMagick is our swiss army knife, if nothing else then this should hopefully be able to load the image
 
-    for(int i = 0; i < qtFiles.length(); ++i) {
-        // We need to remove the first character of qtfiles.at(i), since that is a "*"
-        if(filename.toLower().endsWith(QString(qtFiles.at(i)).remove(0,1)) && QString(qtFiles.at(i)).trimmed() != "")
-            usegm = false;
-    }
-    if(extrasfiles.trimmed() != "") {
-
-        // We need this list for GM and EXTRA below
-        QStringList extrasFiles = extrasfiles.split(",");
-        for(int i = 0; i < extrasFiles.length(); ++i) {
-            // We need to remove the first character of qtfiles.at(i), since that is a "*"
-            if(filename.toLower().endsWith(QString(extrasFiles.at(i)).remove(0,2)) && QString(extrasFiles.at(i)).trimmed() != "")
-                usegm = false;
-        }
-    }
-
-#ifdef RAW
-
-    if(rawfiles.trimmed() != "") {
-        QStringList rawFiles = rawfiles.split(",");
-        // Check for raw
-        for(int i = 0; i < rawFiles.length(); ++i) {
-            // We need to remove the first character of qtfiles.at(i), since that is a "*"
-            if(filename.toLower().endsWith(QString(rawFiles.at(i)).remove(0,1)) && QString(rawFiles.at(i)).trimmed() != "")
-                usegm = false;
-        }
-    }
+    return "gm";
 
 #endif
 
-
-    if(usegm) return "gm";
-#endif
+    /***********************************************************/
+    // If GraphicsMagick is disabled, we default to the built-in Qt image plugins
 
     return "qt";
 
