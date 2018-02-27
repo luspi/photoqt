@@ -66,6 +66,7 @@ public:
 
         connect(this, SIGNAL(formats_qtChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
         connect(this, SIGNAL(formats_gmChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
+        connect(this, SIGNAL(formats_kdeChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
         connect(this, SIGNAL(formats_gm_ghostscriptChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
         connect(this, SIGNAL(formats_extrasChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
         connect(this, SIGNAL(formats_untestedChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
@@ -79,6 +80,7 @@ public:
 
     // Per default enabled image formats
     QStringList formats_qt;
+    QStringList formats_kde;
     QStringList formats_gm;
     QStringList formats_gm_ghostscript;
     QStringList formats_extras;
@@ -86,6 +88,7 @@ public:
     QStringList formats_raw;
 
     Q_PROPERTY(QStringList formats_qt MEMBER formats_qt NOTIFY formats_qtChanged)
+    Q_PROPERTY(QStringList formats_kde MEMBER formats_kde NOTIFY formats_kdeChanged)
     Q_PROPERTY(QStringList formats_gm MEMBER formats_gm NOTIFY formats_gmChanged)
     Q_PROPERTY(QStringList formats_gm_ghostscript MEMBER formats_gm_ghostscript NOTIFY formats_gm_ghostscriptChanged)
     Q_PROPERTY(QStringList formats_extras MEMBER formats_extras NOTIFY formats_extrasChanged)
@@ -98,6 +101,7 @@ public:
             LOG << CURDATE << "FileFormats::setAvailableFormats() - Setting available file formats" << NL;
 
         formats_qt = FileFormatsHandler::AvailableFormats::getListForQt();
+        formats_kde = FileFormatsHandler::AvailableFormats::getListForKde();
         formats_gm = FileFormatsHandler::AvailableFormats::getListForGm();
         formats_gm_ghostscript = FileFormatsHandler::AvailableFormats::getListForGmGhostscript();
         formats_extras = FileFormatsHandler::AvailableFormats::getListForExtras();
@@ -113,41 +117,32 @@ public:
         if(qgetenv("PHOTOQT_DEBUG") == "yes")
             LOG << CURDATE << "FileFormats::setAvailableFormats() - Filtering out default file formats" << NL;
 
-        QStringList defaultEnabled = FileFormatsHandler::DefaultFormats::getList();
+        QStringList defaultEnabledQt = FileFormatsHandler::DefaultFormats::getListForQt();
+        QStringList defaultEnabledKde = FileFormatsHandler::DefaultFormats::getListForKde();
+        QStringList defaultEnabledGm = FileFormatsHandler::DefaultFormats::getListForGm();
+        QStringList defaultEnabledRaw = FileFormatsHandler::DefaultFormats::getListForRaw();
 
         QStringList tmp;
         for(QString f : formats_qt)
-            if(defaultEnabled.contains(f))
+            if(defaultEnabledQt.contains(f))
                 tmp.append(f);
         formats_qt = tmp;
 
         tmp.clear();
+        for(QString f : formats_kde)
+            if(defaultEnabledKde.contains(f))
+                tmp.append(f);
+        formats_kde = tmp;
+
+        tmp.clear();
         for(QString f : formats_gm)
-            if(defaultEnabled.contains(f))
+            if(defaultEnabledGm.contains(f))
                 tmp.append(f);
         formats_gm = tmp;
 
         tmp.clear();
-        for(QString f : formats_gm_ghostscript)
-            if(defaultEnabled.contains(f))
-                tmp.append(f);
-        formats_gm_ghostscript = tmp;
-
-        tmp.clear();
-        for(QString f : formats_extras)
-            if(defaultEnabled.contains(f))
-                tmp.append(f);
-        formats_extras = tmp;
-
-        tmp.clear();
-        for(QString f : formats_untested)
-            if(defaultEnabled.contains(f))
-                tmp.append(f);
-        formats_untested = tmp;
-
-        tmp.clear();
         for(QString f : formats_raw)
-            if(defaultEnabled.contains(f))
+            if(defaultEnabledRaw.contains(f))
                 tmp.append(f);
         formats_raw = tmp;
 
@@ -156,11 +151,19 @@ public:
 public slots:
 
     void setFilesToWatcher() {
-        if(!QFile(ConfigFiles::SETTINGS_FILE()).exists() || !QFile(ConfigFiles::FILEFORMATS_FILE()).exists())
-            QTimer::singleShot(500, this, SLOT(setFilesToWatcher()));
+        if(!QFile(ConfigFiles::FILEFORMATSQT_FILE()).exists() || !QFile(ConfigFiles::FILEFORMATSKDE_FILE()).exists() ||
+           !QFile(ConfigFiles::FILEFORMATSGM_FILE()).exists() || !QFile(ConfigFiles::FILEFORMATSGMGHOSTSCRIPT_FILE()).exists() ||
+           !QFile(ConfigFiles::FILEFORMATSEXTRAS_FILE()).exists() || !QFile(ConfigFiles::FILEFORMATSUNTESTED_FILE()).exists() ||
+           !QFile(ConfigFiles::FILEFORMATSRAW_FILE()).exists())
+            QTimer::singleShot(1000, this, SLOT(setFilesToWatcher()));
         else
-            watcher->addPaths(QStringList() << ConfigFiles::SETTINGS_FILE()
-                              << ConfigFiles::FILEFORMATS_FILE());
+            watcher->addPaths(QStringList() << ConfigFiles::FILEFORMATSQT_FILE()
+                              << ConfigFiles::FILEFORMATSKDE_FILE()
+                              << ConfigFiles::FILEFORMATSGM_FILE()
+                              << ConfigFiles::FILEFORMATSGMGHOSTSCRIPT_FILE()
+                              << ConfigFiles::FILEFORMATSEXTRAS_FILE()
+                              << ConfigFiles::FILEFORMATSUNTESTED_FILE()
+                              << ConfigFiles::FILEFORMATSRAW_FILE());
     }
 
     void loadFormats() {
@@ -168,59 +171,133 @@ public slots:
         if(qgetenv("PHOTOQT_DEBUG") == "yes")
             LOG << CURDATE << "FileFormats::loadFormats()" << NL;
 
-        QFile file(ConfigFiles::FILEFORMATS_FILE());
+        QFile file_qt(ConfigFiles::FILEFORMATSQT_FILE());
+        QFile file_kde(ConfigFiles::FILEFORMATSKDE_FILE());
+        QFile file_gm(ConfigFiles::FILEFORMATSGM_FILE());
+        QFile file_gmghostscript(ConfigFiles::FILEFORMATSGMGHOSTSCRIPT_FILE());
+        QFile file_extras(ConfigFiles::FILEFORMATSEXTRAS_FILE());
+        QFile file_untested(ConfigFiles::FILEFORMATSUNTESTED_FILE());
+        QFile file_raw(ConfigFiles::FILEFORMATSRAW_FILE());
 
         // At first startup, this file might not (yet) exist, but we can simply set the
         // default formats as they are currently in the process of being set anyways
-        if(!file.exists()) {
+        if(!file_qt.exists() && !file_kde.exists() && !file_gm.exists() && !file_gmghostscript.exists() && !file_extras.exists() && !file_untested.exists() && !file_raw.exists()) {
             setDefaultFormats();
             return;
         }
-
-        if(!file.open(QIODevice::ReadOnly)) {
-            LOG << CURDATE << "FileFormats::loadFormats() - ERROR: Unable to open file to load disabled fileformats. Using default settings..." << NL;
-            setDefaultFormats();
-            return;
-        }
-
-        QTextStream in(&file);
-        QStringList disabled = in.readAll().split("\n",QString::SkipEmptyParts);
 
         setAvailableFormats();
 
+
+        /*****************************************/
+        // Qt disabled
+
+        if(!file_qt.open(QIODevice::ReadOnly)) {
+            LOG << CURDATE << "FileFormats::loadFormats() - ERROR: Unable to open file to load Qt disabled fileformats. Using default fileformats..." << NL;
+            setDefaultFormats();
+            return;
+        }
+        QTextStream in_qt(&file_qt);
+        QStringList disabled_qt = in_qt.readAll().split("\n",QString::SkipEmptyParts);
         QStringList tmp;
         for(QString f : formats_qt)
-            if(!disabled.contains(f))
+            if(!disabled_qt.contains(f))
                 tmp.append(f);
         formats_qt = tmp;
 
+        /*****************************************/
+        // KDE disabled
+
+        if(!file_kde.open(QIODevice::ReadOnly)) {
+            LOG << CURDATE << "FileFormats::loadFormats() - ERROR: Unable to open file to load KDE disabled fileformats. Using default fileformats..." << NL;
+            setDefaultFormats();
+            return;
+        }
+        QTextStream in_kde(&file_kde);
+        QStringList disabled_kde = in_kde.readAll().split("\n",QString::SkipEmptyParts);
+        tmp.clear();
+        for(QString f : formats_kde)
+            if(!disabled_kde.contains(f))
+                tmp.append(f);
+        formats_kde = tmp;
+
+        /*****************************************/
+        // GM disabled
+
+        if(!file_gm.open(QIODevice::ReadOnly)) {
+            LOG << CURDATE << "FileFormats::loadFormats() - ERROR: Unable to open file to load GM disabled fileformats. Using default fileformats..." << NL;
+            setDefaultFormats();
+            return;
+        }
+        QTextStream in_gm(&file_gm);
+        QStringList disabled_gm = in_gm.readAll().split("\n",QString::SkipEmptyParts);
         tmp.clear();
         for(QString f : formats_gm)
-            if(!disabled.contains(f))
+            if(!disabled_gm.contains(f))
                 tmp.append(f);
         formats_gm = tmp;
 
+        /*****************************************/
+        // GM Ghostscript disabled
+
+        if(!file_gmghostscript.open(QIODevice::ReadOnly)) {
+            LOG << CURDATE << "FileFormats::loadFormats() - ERROR: Unable to open file to load GM Ghostscript disabled fileformats. Using default fileformats..." << NL;
+            setDefaultFormats();
+            return;
+        }
+        QTextStream in_gmghostscript(&file_gmghostscript);
+        QStringList disabled_gmghostscript = in_gmghostscript.readAll().split("\n",QString::SkipEmptyParts);
         tmp.clear();
         for(QString f : formats_gm_ghostscript)
-            if(!disabled.contains(f))
+            if(!disabled_gmghostscript.contains(f))
                 tmp.append(f);
         formats_gm_ghostscript = tmp;
 
+        /*****************************************/
+        // Extras disabled
+
+        if(!file_extras.open(QIODevice::ReadOnly)) {
+            LOG << CURDATE << "FileFormats::loadFormats() - ERROR: Unable to open file to load Extras disabled fileformats. Using default fileformats..." << NL;
+            setDefaultFormats();
+            return;
+        }
+        QTextStream in_extras(&file_extras);
+        QStringList disabled_extras = in_extras.readAll().split("\n",QString::SkipEmptyParts);
         tmp.clear();
         for(QString f : formats_extras)
-            if(!disabled.contains(f))
+            if(!disabled_extras.contains(f))
                 tmp.append(f);
         formats_extras = tmp;
 
+        /*****************************************/
+        // Untested disabled
+
+        if(!file_untested.open(QIODevice::ReadOnly)) {
+            LOG << CURDATE << "FileFormats::loadFormats() - ERROR: Unable to open file to load Untested disabled fileformats. Using default fileformats..." << NL;
+            setDefaultFormats();
+            return;
+        }
+        QTextStream in_untested(&file_untested);
+        QStringList disabled_untested = in_untested.readAll().split("\n",QString::SkipEmptyParts);
         tmp.clear();
         for(QString f : formats_untested)
-            if(!disabled.contains(f))
+            if(!disabled_untested.contains(f))
                 tmp.append(f);
         formats_untested = tmp;
 
+        /*****************************************/
+        // RAW disabled
+
+        if(!file_raw.open(QIODevice::ReadOnly)) {
+            LOG << CURDATE << "FileFormats::loadFormats() - ERROR: Unable to open file to load RAW disabled fileformats. Using default fileformats..." << NL;
+            setDefaultFormats();
+            return;
+        }
+        QTextStream in_raw(&file_raw);
+        QStringList disabled_raw = in_raw.readAll().split("\n",QString::SkipEmptyParts);
         tmp.clear();
         for(QString f : formats_raw)
-            if(!disabled.contains(f))
+            if(!disabled_raw.contains(f))
                 tmp.append(f);
         formats_raw = tmp;
 
@@ -232,55 +309,139 @@ public slots:
             LOG << CURDATE << "FileFormats::saveFormats()" << NL;
 
         QStringList current_qt = formats_qt;
+        QStringList current_kde = formats_kde;
         QStringList current_gm = formats_gm;
         QStringList current_gm_ghostscript = formats_gm_ghostscript;
         QStringList current_extras = formats_extras;
         QStringList current_untested = formats_untested;
         QStringList current_raw = formats_raw;
 
-        QStringList disabled;
-
         setAvailableFormats();
 
+        /*******************************************/
+        // Qt fileformats
+
+        QStringList disabled_qt;
         for(QString f : formats_qt)
             if(!current_qt.contains(f))
-                disabled.append(f);
+                disabled_qt.append(f);
 
-        for(QString f : formats_gm)
-            if(!current_gm.contains(f))
-                disabled.append(f);
-
-        for(QString f : formats_gm_ghostscript)
-            if(!current_gm_ghostscript.contains(f))
-                disabled.append(f);
-
-        for(QString f : formats_extras)
-            if(!current_extras.contains(f))
-                disabled.append(f);
-
-        for(QString f : formats_untested)
-            if(!current_untested.contains(f))
-                disabled.append(f);
-
-        for(QString f : formats_raw)
-            if(!current_raw.contains(f))
-                disabled.append(f);
-
-        QFile file(ConfigFiles::FILEFORMATS_FILE());
-        if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-            LOG << CURDATE << "ERROR! Unable to save update fileformats..." << NL;
+        QFile file_qt(ConfigFiles::FILEFORMATSQT_FILE());
+        if(!file_qt.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+            LOG << CURDATE << "ERROR! Unable to save updated Qt fileformats..." << NL;
             return;
         }
+        QTextStream out_qt(&file_qt);
+        out_qt << disabled_qt.join("\n");
+        file_qt.close();
 
-        QTextStream out(&file);
-        out << disabled.join("\n");
+        /*******************************************/
+        // KDE fileformats
 
-        file.close();
+        QStringList disabled_kde;
+        for(QString f : formats_kde)
+            if(!current_kde.contains(f))
+                disabled_kde.append(f);
+
+        QFile file_kde(ConfigFiles::FILEFORMATSKDE_FILE());
+        if(!file_kde.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+            LOG << CURDATE << "ERROR! Unable to save updated KDE fileformats..." << NL;
+            return;
+        }
+        QTextStream out_kde(&file_kde);
+        out_kde << disabled_kde.join("\n");
+        file_kde.close();
+
+        /*******************************************/
+        // GM fileformats
+
+        QStringList disabled_gm;
+        for(QString f : formats_gm)
+            if(!current_gm.contains(f))
+                disabled_gm.append(f);
+
+        QFile file_gm(ConfigFiles::FILEFORMATSGM_FILE());
+        if(!file_gm.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+            LOG << CURDATE << "ERROR! Unable to save updated GM fileformats..." << NL;
+            return;
+        }
+        QTextStream out_gm(&file_gm);
+        out_gm << disabled_gm.join("\n");
+        file_gm.close();
+
+        /*******************************************/
+        // GMGhostscript fileformats
+
+        QStringList disabled_gmghostscript;
+        for(QString f : formats_gm_ghostscript)
+            if(!current_gm_ghostscript.contains(f))
+                disabled_gmghostscript.append(f);
+
+        QFile file_gmghostscript(ConfigFiles::FILEFORMATSGMGHOSTSCRIPT_FILE());
+        if(!file_gmghostscript.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+            LOG << CURDATE << "ERROR! Unable to save updated GMGhostscript fileformats..." << NL;
+            return;
+        }
+        QTextStream out_gmghostscript(&file_gmghostscript);
+        out_gmghostscript << disabled_gmghostscript.join("\n");
+        file_gmghostscript.close();
+
+        /*******************************************/
+        // Extras fileformats
+
+        QStringList disabled_extras;
+        for(QString f : formats_extras)
+            if(!current_extras.contains(f))
+                disabled_extras.append(f);
+
+        QFile file_extras(ConfigFiles::FILEFORMATSEXTRAS_FILE());
+        if(!file_extras.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+            LOG << CURDATE << "ERROR! Unable to save updated Extras fileformats..." << NL;
+            return;
+        }
+        QTextStream out_extras(&file_extras);
+        out_extras << disabled_extras.join("\n");
+        file_extras.close();
+
+        /*******************************************/
+        // Untested fileformats
+
+        QStringList disabled_untested;
+        for(QString f : formats_untested)
+            if(!current_untested.contains(f))
+                disabled_untested.append(f);
+
+        QFile file_untested(ConfigFiles::FILEFORMATSUNTESTED_FILE());
+        if(!file_untested.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+            LOG << CURDATE << "ERROR! Unable to save updated Untested fileformats..." << NL;
+            return;
+        }
+        QTextStream out_untested(&file_untested);
+        out_untested << disabled_untested.join("\n");
+        file_untested.close();
+
+        /*******************************************/
+        // RAW fileformats
+
+        QStringList disabled_raw;
+        for(QString f : formats_raw)
+            if(!current_raw.contains(f))
+                disabled_raw.append(f);
+
+        QFile file_raw(ConfigFiles::FILEFORMATSRAW_FILE());
+        if(!file_raw.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+            LOG << CURDATE << "ERROR! Unable to save updated RAW fileformats..." << NL;
+            return;
+        }
+        QTextStream out_raw(&file_raw);
+        out_raw << disabled_raw.join("\n");
+        file_raw.close();
 
     }
 
 signals:
     void formats_qtChanged(QStringList val);
+    void formats_kdeChanged(QStringList val);
     void formats_gmChanged(QStringList val);
     void formats_gm_ghostscriptChanged(QStringList val);
     void formats_extrasChanged(QStringList val);

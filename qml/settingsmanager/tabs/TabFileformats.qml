@@ -83,11 +83,12 @@ Rectangle {
             Rectangle { color: "transparent"; width: 1; height: 20; }
 
             FileTypesQt { id: filetypesqt }
-            FileTypesExtras { id: filetypesextras; alternating: true }
-            FileTypesGM { id: filetypesgm }
-            FileTypesGMGhostscript { id: filetypesgmghostscript; alternating: true }
-            FileTypesRaw { id: filetypesraw }
-            FileTypesUntested { id: filetypesuntested; alternating: true }
+            FileTypesKde { id: filetypeskde; alternating: true }
+            FileTypesExtras { id: filetypesextras }
+            FileTypesGM { id: filetypesgm; alternating: true }
+            FileTypesGMGhostscript { id: filetypesgmghostscript }
+            FileTypesRaw { id: filetypesraw; alternating: true }
+            FileTypesUntested { id: filetypesuntested }
 
 
         }
@@ -97,6 +98,7 @@ Rectangle {
     function setData() {
         verboseMessage("SettingsManager/TabFileFormats", "setData()")
         filetypesqt.setData()
+        filetypeskde.setData()
         filetypesgm.setData()
         filetypesgmghostscript.setData()
         filetypesextras.setData()
@@ -107,6 +109,7 @@ Rectangle {
     function saveData() {
         verboseMessage("SettingsManager/TabFileFormats", "saveData()")
         filetypesqt.saveData()
+        filetypeskde.saveData()
         filetypesgm.saveData()
         filetypesgmghostscript.saveData()
         filetypesextras.saveData()

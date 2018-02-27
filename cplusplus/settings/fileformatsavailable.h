@@ -88,13 +88,46 @@ namespace FileFormatsHandler {
 
         }
 
+        static inline QStringList getListForKde() {
+
+            QStringList ret;
+
+            ret << "*.eps"   // Adobe Encapsulated PostScript
+                << "*.epsf"
+
+                << "*.exr"   // OpenEXR
+
+                << "*.kra"   // Krita Document
+
+                << "*.ora"   // Open Raster Image File
+
+                << "*.pcx"   // PC Paintbrush
+
+                << "*.pic"   // Apple Macintosh QuickDraw /PICT file
+
+                << "*.psd"   // Adobe PhotoShop
+                << "*.psb"
+
+                << "*.ras"   // Sun Graphics
+
+                << "*.rgb"   // Silicon Graphics
+                << "*.rgba"
+
+                << "*.tga"   // Truevision Targa Graphic
+
+                << "*.xcf";    // Gimp format
+
+            return ret;
+
+        }
+
         static inline QStringList getListForExtras() {
 
             QStringList ret;
 
-            ret << "**.psb"
-                << "**.psd"
-                << "**.xcf";
+            ret << "*.psb"
+                << "*.psd"
+                << "*.xcf";
 
             return ret;
         }

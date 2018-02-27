@@ -59,8 +59,32 @@ public:
         return QString("%1/contextmenu").arg(CONFIG_DIR());
     }
 
-    static const QString FILEFORMATS_FILE() {
-        return QString("%1/fileformats.disabled").arg(CONFIG_DIR());
+    static const QString FILEFORMATSQT_FILE() {
+        return QString("%1/fileformats_qt_disabled").arg(CONFIG_DIR());
+    }
+
+    static const QString FILEFORMATSKDE_FILE() {
+        return QString("%1/fileformats_kde_disabled").arg(CONFIG_DIR());
+    }
+
+    static const QString FILEFORMATSGM_FILE() {
+        return QString("%1/fileformats_gm_disabled").arg(CONFIG_DIR());
+    }
+
+    static const QString FILEFORMATSGMGHOSTSCRIPT_FILE() {
+        return QString("%1/fileformats_gmghostscript_disabled").arg(CONFIG_DIR());
+    }
+
+    static const QString FILEFORMATSEXTRAS_FILE() {
+        return QString("%1/fileformats_extras_disabled").arg(CONFIG_DIR());
+    }
+
+    static const QString FILEFORMATSUNTESTED_FILE() {
+        return QString("%1/fileformats_untested_disabled").arg(CONFIG_DIR());
+    }
+
+    static const QString FILEFORMATSRAW_FILE() {
+        return QString("%1/fileformats_raw_disabled").arg(CONFIG_DIR());
     }
 
     static const QString SHORTCUTS_FILE() {

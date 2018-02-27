@@ -37,9 +37,9 @@ int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path, int selectionFil
 
     QDir dir(path);
     if(selectionFileTypes == 0)
-        dir.setNameFilters(formats->formats_qt + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw);
+        dir.setNameFilters(formats->formats_qt + formats->formats_kde + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw);
     else if(selectionFileTypes == 1)
-        dir.setNameFilters(formats->formats_qt);
+        dir.setNameFilters(formats->formats_qt+formats->formats_kde);
     else if(selectionFileTypes == 2)
         dir.setNameFilters(formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_untested);
     else if(selectionFileTypes == 3)
@@ -256,7 +256,7 @@ QVariantList GetAndDoStuffOpenFile::getFilesIn(QString file, QString filter, QSt
     else
         dir.setPath(info.absolutePath());
 
-    dir.setNameFilters(formats->formats_qt + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw);
+    dir.setNameFilters(formats->formats_qt + formats->formats_kde + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw);
     dir.setFilter(QDir::Files);
     dir.setSorting(QDir::IgnoreCase);
 
@@ -309,9 +309,9 @@ QVariantList GetAndDoStuffOpenFile::getFilesWithSizeIn(QString path, int selecti
 
     QDir dir(path);
     if(selectionFileTypes == 0)
-        dir.setNameFilters(formats->formats_qt + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw);
+        dir.setNameFilters(formats->formats_qt + formats->formats_kde + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw);
     else if(selectionFileTypes == 1)
-        dir.setNameFilters(formats->formats_qt);
+        dir.setNameFilters(formats->formats_qt + formats->formats_kde);
     else if(selectionFileTypes == 2)
         dir.setNameFilters(formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_untested);
     else if(selectionFileTypes == 3)

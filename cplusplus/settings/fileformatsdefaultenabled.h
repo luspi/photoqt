@@ -24,14 +24,17 @@
 #define FILEFORMATSDEFAULT_H
 
 #include <QStringList>
+#include <QImageReader>
 
 namespace FileFormatsHandler {
 
     namespace DefaultFormats {
 
-        static inline QStringList getList() {
+        static inline QStringList getListForQt() {
 
             QStringList ret;
+
+            QList<QByteArray> formats = QImageReader::supportedImageFormats();
 
             ret << "*.bmp"	// Microsoft Windows bitmap
                 << "*.bitmap"
@@ -76,11 +79,63 @@ namespace FileFormatsHandler {
 
                 << "*.xbm"	// X Windows system bitmap, black and white only
 
-                << "*.xpm"	// X Windows system pixmap
+                << "*.xpm";	// X Windows system pixmap
 
+            return ret;
 
+        }
 
-                << "*.avs"	//AVS X image
+        static inline QStringList getListForKde() {
+
+            QStringList ret;
+
+            QList<QByteArray> formats = QImageReader::supportedImageFormats();
+
+            if(formats.contains("eps") && formats.contains("epsf"))
+                ret << "*.eps"   // Adobe Encapsulated PostScript
+                    << "*.epsf";
+
+            if(formats.contains("exr"))
+                ret << "*.exr";   // OpenEXR
+
+            if(formats.contains("kra"))
+                ret << "*.kra";   // Krita Document
+
+            if(formats.contains("ora"))
+                ret << "*.ora";   // Open Raster Image File
+
+            if(formats.contains("pcx"))
+                ret << "*.pcx";   // PC Paintbrush
+
+            if(formats.contains("pic"))
+                ret << "*.pic";
+
+            if(formats.contains("psd") && formats.contains("psb"))
+                ret << "*.psd"   // Adobe PhotoShop
+                    << "*.psb";
+
+            if(formats.contains("ras"))
+                ret << "*.ras";   // Sun Graphics
+
+            if(formats.contains("rgb") && formats.contains("rgba"))
+                ret << "*.rgb"
+                    << "*.rgba";   // Silicon Graphics
+
+            if(formats.contains("tga"))
+                ret << "*.tga";   // Truevision Targa Graphic
+
+            if(formats.contains("xcf"))
+                ret << "*.xcf";    // Gimp format
+
+            return ret;
+
+        }
+
+        static inline QStringList getListForGm() {
+
+            QStringList ret;
+
+            ret << "*.avs"	//AVS X image
 
                 << "*.ras"	// Continuous Acquisition and Life-cycle Support Type 1 image
 
@@ -147,10 +202,17 @@ namespace FileFormatsHandler {
 
                 << "*.wpg"	// Word Perfect Graphics File
 
-                << "*.xwd"	// X Windows system window dump
+                << "*.xwd";	// X Windows system window dump
 
+            return ret;
 
-                << "*.3fr"							// Hasselblad
+        }
+
+        static inline QStringList getListForRaw() {
+
+            QStringList ret;
+
+            ret << "*.3fr"							// Hasselblad
                 << "*.ari"							// ARRIFLEX
                 << "*.arw" << "*.srf" << "*.sr2"	// Sony
                 << "*.bay"							// Casio

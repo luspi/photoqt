@@ -48,6 +48,7 @@
         <file>../qml/settingsmanager/tabs/metadata/OnlineMap.qml</file>
         <file>../qml/settingsmanager/tabs/TabFileformats.qml</file>
         <file>../qml/settingsmanager/tabs/fileformats/FileTypesQt.qml</file>
+        <file>../qml/settingsmanager/tabs/fileformats/FileTypesKde.qml</file>
         <file>../qml/settingsmanager/tabs/fileformats/FileTypesTile.qml</file>
         <file>../qml/settingsmanager/tabs/fileformats/FileTypesGM.qml</file>
         <file>../qml/settingsmanager/tabs/fileformats/FileTypesGMGhostscript.qml</file>

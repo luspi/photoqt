@@ -23,9 +23,6 @@
 #ifndef STARTUPCHECK_STARTUPMIGRATION_H
 #define STARTUPCHECK_STARTUPMIGRATION_H
 
-#include <QDir>
-#include <QTextStream>
-#include <QSettings>
 #include "../logger.h"
 
 namespace StartupCheck {
@@ -36,157 +33,52 @@ namespace StartupCheck {
 
             if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "StartupCheck::Migration" << NL;
 
-            // If this is true, then the new config folders have been created
-            bool migrated = false;
+            QFile oldfile(QString("%1/fileformats.disabled").arg(ConfigFiles::CONFIG_DIR()));
 
-            QDir dir;
+            QFileInfo fileinfo_qt(ConfigFiles::FILEFORMATSQT_FILE());
+            QFileInfo fileinfo_kde(ConfigFiles::FILEFORMATSKDE_FILE());
+            QFileInfo fileinfo_gm(ConfigFiles::FILEFORMATSGM_FILE());
+            QFileInfo fileinfo_gmghostscript(ConfigFiles::FILEFORMATSGMGHOSTSCRIPT_FILE());
+            QFileInfo fileinfo_extras(ConfigFiles::FILEFORMATSEXTRAS_FILE());
+            QFileInfo fileinfo_untested(ConfigFiles::FILEFORMATSUNTESTED_FILE());
+            QFileInfo fileinfo_raw(ConfigFiles::FILEFORMATSRAW_FILE());
 
-            // Check for configuration folder
-            if(!QDir(ConfigFiles::CONFIG_DIR()).exists()) {
-                if(!dir.mkpath(ConfigFiles::CONFIG_DIR())) {
-                    LOG << CURDATE << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to create configuration directory '"
-                        << ConfigFiles::CONFIG_DIR().toStdString() << "'" << NL;
-                    std::exit(1);
+            if(fileinfo_qt.exists() || fileinfo_kde.exists() || fileinfo_gm.exists() || fileinfo_gmghostscript.exists() ||
+               fileinfo_extras.exists() || fileinfo_untested.exists() || fileinfo_raw.exists()) {
+                if(oldfile.exists()) {
+                    if(!oldfile.remove())
+                        LOG << CURDATE << "StartupCheck::Migration::migrateIfNecessary() ERROR: Unable to remove old file with list of disabled fileformats" << NL;
                 } else
-                    migrated = true;
+                    return;
             }
 
-            // Check for data folder
-            if(!QDir(ConfigFiles::DATA_DIR()).exists()) {
-                if(!dir.mkpath(ConfigFiles::DATA_DIR())) {
-                    LOG << CURDATE << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to create data directory '"
-                        << ConfigFiles::DATA_DIR().toStdString() << "'" << NL;
-                    std::exit(1);
-                } else
-                    migrated = true;
+            if(!oldfile.open(QIODevice::ReadOnly)) {
+                LOG << CURDATE << "StartupCheck::Migration::migrateIfNecessary() ERROR: Unable to open old file with list of disabled fileformats for reading..." << NL;
+                return;
             }
 
-            // Check for cache folder
-            if(!QDir(ConfigFiles::CACHE_DIR()).exists()) {
-                if(!dir.mkpath(ConfigFiles::CACHE_DIR())) {
-                    LOG << CURDATE << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to create data directory '"
-                        << ConfigFiles::CACHE_DIR().toStdString() << "'" << NL;
-                    std::exit(1);
-                } else
-                    migrated = true;
-            }
+            if(!oldfile.copy(ConfigFiles::FILEFORMATSQT_FILE()))
+                LOG << CURDATE << "StartupCheck::Migration::migrateIfNecessary() ERROR: Unable to copy file with list of disabled fileformats to qt list" << NL;
+            // We don't copy it to the KDE file here, as we want them all to be enabled (as they all work) ASSUMING that the required plugins are installed
+            if(!oldfile.copy(ConfigFiles::FILEFORMATSGM_FILE()))
+                LOG << CURDATE << "StartupCheck::Migration::migrateIfNecessary() ERROR: Unable to copy file with list of disabled fileformats to gm list" << NL;
+            if(!oldfile.copy(ConfigFiles::FILEFORMATSGMGHOSTSCRIPT_FILE()))
+                LOG << CURDATE << "StartupCheck::Migration::migrateIfNecessary() ERROR: Unable to copy file with list of disabled fileformats to gmg list" << NL;
+            if(!oldfile.copy(ConfigFiles::FILEFORMATSEXTRAS_FILE()))
+                LOG << CURDATE << "StartupCheck::Migration::migrateIfNecessary() ERROR: Unable to copy file with list of disabled fileformats to extras list" << NL;
+            if(!oldfile.copy(ConfigFiles::FILEFORMATSUNTESTED_FILE()))
+                LOG << CURDATE << "StartupCheck::Migration::migrateIfNecessary() ERROR: Unable to copy file with list of disabled fileformats to untested list" << NL;
+            if(!oldfile.copy(ConfigFiles::FILEFORMATSRAW_FILE()))
+                LOG << CURDATE << "StartupCheck::Migration::migrateIfNecessary() ERROR: Unable to copy file with list of disabled fileformats to raw list" << NL;
 
-            // Old config paths
-            QStringList oldpaths;
-            oldpaths << QDir::homePath() + "/.photoqt";
-            // on Windows, the location has changed to the proper location (again)
-#ifdef Q_OS_WIN
-            oldpaths << QDir::homePath() + "/.local/share/PhotoQt";
-            oldpaths << QDir::homePath() + "/.cache/PhotoQt";
-            oldpaths << QDir::homePath() + "/.config/PhotoQt";
-#endif
+            // just make sure the kde file exists (empty)
+            QFile filekde(ConfigFiles::FILEFORMATSKDE_FILE());
+            filekde.open(QIODevice::ReadWrite);
+            filekde.close();
 
-            for(QString oldpath : oldpaths) {
+            if(!oldfile.remove())
+                LOG << CURDATE << "StartupCheck::Migration::migrateIfNecessary() ERROR: Unable to remove old file with list of disabled fileformats" << NL;
 
-                // If new folders have been created and old files exist -> need to move
-                if(migrated && QDir(oldpath).exists()) {
-
-                    // Migrate settings file
-                    QFile file(oldpath + "/settings");
-                    if(file.exists()) {
-
-                        LOG << CURDATE
-                            << "Migrating old settings file from '" << oldpath.toStdString() << "' to '"
-                            << ConfigFiles::CONFIG_DIR().toStdString() << "'"
-                            << NL;
-
-                        if(!file.rename(ConfigFiles::SETTINGS_FILE()))
-
-                            LOG << CURDATE
-                                << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to move settings file to new location! Default settings will be used."
-                                << NL;
-
-                    }
-
-                    // Migrate shortcuts file
-                    file.setFileName(oldpath + "/shortcuts");
-                    if(file.exists()) {
-
-                        LOG << CURDATE
-                            << "Migrating old shortcuts file from '" << oldpath.toStdString() << "' to '"
-                            << ConfigFiles::CONFIG_DIR().toStdString() << "'"
-                            << NL;
-
-                        if(!file.rename(ConfigFiles::SHORTCUTS_FILE()))
-
-                            LOG << CURDATE
-                                << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to move shortcuts file to new location! Default shortcuts will be used."
-                                << NL;
-
-                    }
-
-                    // Migrate contextmenu file
-                    file.setFileName(oldpath + "/contextmenu");
-                    if(file.exists()) {
-
-                        LOG << CURDATE
-                            << "Migrating old contextmenu file from '" << oldpath.toStdString() << "' to '"
-                            << ConfigFiles::CONFIG_DIR().toStdString() << "'"
-                            << NL;
-
-                        if(!file.rename(ConfigFiles::CONTEXTMENU_FILE()))
-
-                            LOG << CURDATE
-                                << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to move contextmenu file to new location! Default entries will be set."
-                                << NL;
-
-                    }
-
-                    // Migrate fileformats file
-                    file.setFileName(oldpath + "/fileformats.disabled");
-                    if(file.exists()) {
-
-                        LOG << CURDATE
-                            << "Migrating old fileformats.disabled file from '" << oldpath.toStdString() << "' to '"
-                            << ConfigFiles::CONFIG_DIR().toStdString() << "'"
-                            << NL;
-
-                        if(!file.rename(ConfigFiles::FILEFORMATS_FILE()))
-
-                            LOG << CURDATE
-                                << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to move fileformats.disabled file to new location! Default fileformats will be set."
-                                << NL;
-
-                    }
-
-                    // Migrate thumbnails file
-                    file.setFileName(oldpath + "/thumbnails");
-                    if(file.exists()) {
-
-                        LOG << CURDATE
-                            << "Migrating old thumbnails database from '" << oldpath.toStdString() << "' to '"
-                            << ConfigFiles::CACHE_DIR().toStdString() << "'"
-                            << NL;
-
-                        if(!file.rename(ConfigFiles::THUMBNAILS_DB()))
-
-                            LOG << CURDATE
-                                << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to move thumbnails database to new location!"
-                                << NL;
-
-                    }
-
-                    // If old config dir is empty now (it should be), then remove it
-                    dir.setPath(oldpath);
-                    if(dir.entryList(QDir::NoDotAndDotDot).length() == 0) {
-                        if(!dir.rmdir(oldpath))
-                            LOG << CURDATE
-                                << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to remove old config folder '" << oldpath.toStdString() << "'"
-                                << NL;
-                    } else {
-                        LOG << CURDATE
-                            << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to remove old config folder '" << oldpath.toStdString() << "', not empty!"
-                            << NL;
-                    }
-
-                }
-
-            }
 
         }
 

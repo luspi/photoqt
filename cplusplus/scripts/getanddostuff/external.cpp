@@ -80,7 +80,13 @@ QString GetAndDoStuffExternal::exportConfig(QString useThisFilename) {
     // All the config files to be exported
     QHash<QString,QString> allfiles;
     allfiles["CFG_SETTINGS_FILE"] = ConfigFiles::SETTINGS_FILE();
-    allfiles["CFG_FILEFORMATS_FILE"] = ConfigFiles::FILEFORMATS_FILE();
+    allfiles["CFG_FILEFORMATSQT_FILE"] = ConfigFiles::FILEFORMATSQT_FILE();
+    allfiles["CFG_FILEFORMATSKDE_FILE"] = ConfigFiles::FILEFORMATSKDE_FILE();
+    allfiles["CFG_FILEFORMATSGM_FILE"] = ConfigFiles::FILEFORMATSGM_FILE();
+    allfiles["CFG_FILEFORMATSGMGHOSTSCRIPT_FILE"] = ConfigFiles::FILEFORMATSGMGHOSTSCRIPT_FILE();
+    allfiles["CFG_FILEFORMATSUNTESTED_FILE"] = ConfigFiles::FILEFORMATSUNTESTED_FILE();
+    allfiles["CFG_FILEFORMATSEXTRAS_FILE"] = ConfigFiles::FILEFORMATSEXTRAS_FILE();
+    allfiles["CFG_FILEFORMATSRAW_FILE"] = ConfigFiles::FILEFORMATSRAW_FILE();
     allfiles["CFG_CONTEXTMENU_FILE"] = ConfigFiles::CONTEXTMENU_FILE();
     allfiles["CFG_SHORTCUTS_FILE"] = ConfigFiles::SHORTCUTS_FILE();
 
@@ -124,7 +130,13 @@ QString GetAndDoStuffExternal::importConfig(QString filename) {
     // All the config files to be imported
     QHash<QString,QString> allfiles;
     allfiles["CFG_SETTINGS_FILE"] = ConfigFiles::SETTINGS_FILE();
-    allfiles["CFG_FILEFORMATS_FILE"] = ConfigFiles::FILEFORMATS_FILE();
+    allfiles["CFG_FILEFORMATSQT_FILE"] = ConfigFiles::FILEFORMATSQT_FILE();
+    allfiles["CFG_FILEFORMATSKDE_FILE"] = ConfigFiles::FILEFORMATSKDE_FILE();
+    allfiles["CFG_FILEFORMATSGM_FILE"] = ConfigFiles::FILEFORMATSGM_FILE();
+    allfiles["CFG_FILEFORMATSGMGHOSTSCRIPT_FILE"] = ConfigFiles::FILEFORMATSGMGHOSTSCRIPT_FILE();
+    allfiles["CFG_FILEFORMATSUNTESTED_FILE"] = ConfigFiles::FILEFORMATSUNTESTED_FILE();
+    allfiles["CFG_FILEFORMATSEXTRAS_FILE"] = ConfigFiles::FILEFORMATSEXTRAS_FILE();
+    allfiles["CFG_FILEFORMATSRAW_FILE"] = ConfigFiles::FILEFORMATSRAW_FILE();
     allfiles["CFG_CONTEXTMENU_FILE"] = ConfigFiles::CONTEXTMENU_FILE();
     allfiles["CFG_SHORTCUTS_FILE"] = ConfigFiles::SHORTCUTS_FILE();
 
