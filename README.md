@@ -34,7 +34,7 @@ Even though GraphicsMagick initially started as a fork of ImageMagick (back in 2
 - XCFtools - https://github.com/j-jorge/xcftools
 - libqpsd - https://github.com/Code-ReaQtor/libqpsd
 
-These dependencies are not needed for compiling PhotoQt. However, if they are installed, you can set PhotoQt (via settings) to make use of them for improved XCF/PSD support.
+These dependencies are not needed for compiling PhotoQt. However, if they are installed then PhotoQt is able to support a wider range of image formats.
 
 ## INSTALL
 
@@ -82,4 +82,4 @@ These dependencies are not needed for compiling PhotoQt. However, if they are in
 
 ## UNINSTALL
 
-If you want to uninstall PhotoQt, simply run __make uninstall__ as root. This removes the desktop file (via _xdg-desktop-menu uninstall_), the icons, the binary file, and the appdata file. Alternatively you can simply remove all the files manually, that should yield the same result.
+If you want to uninstall PhotoQt, simply run __make uninstall__ as root. This removes the desktop file (via _xdg-desktop-menu uninstall_), the icons, the binary file, and the appdata file. Alternatively you can simply remove all the files manually which should yield the same result.
