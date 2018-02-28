@@ -42,7 +42,9 @@ public:
         txt.setTextWidth(440);
         txt.drawContents(&paint);
         paint.end();
-        return pix.toImage();
+        QImage pix2img = pix.toImage();
+        pix2img.setText("error", "error");
+        return pix2img;
     }
 
 };

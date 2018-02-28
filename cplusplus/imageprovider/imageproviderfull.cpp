@@ -114,10 +114,15 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
     else
         *ret = loaderQT->load(filename,maxSize,settings->metaApplyRotation);
 
-    // insert image into cache
-    if(qgetenv("PHOTOQT_DEBUG") == "yes")
-        LOG << CURDATE << "ImageProviderFull: Inserting full image into pixmap cache: " << QFileInfo(filename).fileName().toStdString() << NL;
-    pixmapcache->insert(cachekey, ret, ret->width()*ret->height()*ret->depth()/(8*1024));
+    // if returned image is not an error image ...
+    if(ret->text("error") != "error") {
+
+        // ... insert image into cache
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
+            LOG << CURDATE << "ImageProviderFull: Inserting full image into pixmap cache: " << QFileInfo(filename).fileName().toStdString() << NL;
+        pixmapcache->insert(cachekey, ret, ret->width()*ret->height()*ret->depth()/(8*1024));
+
+    }
 
     // return scaled version
     if(requestedSize.width() > 2 && requestedSize.height() > 2 && ret->width() > requestedSize.width() && ret->height() > requestedSize.height())

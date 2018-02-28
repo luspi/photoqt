@@ -164,7 +164,7 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
     delete tmp;
 
     // Only if the image itself is smaller than the requested thumbnail size are both dimensions less than (strictly) than ts -> no caching
-    if(p.width() < ts && p.height() < ts) {
+    if((p.width() < ts && p.height() < ts) || p.text("error") == "error") {
         if(qgetenv("PHOTOQT_DEBUG") == "yes")
             LOG << CURDATE << "ImageProviderThumbnail: Image is smaller than potential thumbnail, no need to cache: " << QFileInfo(filename).fileName().toStdString() << NL;
         return p;
