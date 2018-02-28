@@ -30,6 +30,7 @@ Even though GraphicsMagick initially started as a fork of ImageMagick (back in 2
 
 ## OPTIONAL DEPENDENCIES
 
+- KImageFormats - https://api.kde.org/frameworks/kimageformats/html/index.html
 - XCFtools - https://github.com/j-jorge/xcftools
 - libqpsd - https://github.com/Code-ReaQtor/libqpsd
 

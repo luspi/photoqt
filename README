@@ -33,6 +33,7 @@
 
  OPTIONAL DEPENDENCIES
 -----------------------
+- KImageFormats - https://api.kde.org/frameworks/kimageformats/html/index.html
 - XCFtools - https://github.com/j-jorge/xcftools
 - libqpsd - https://github.com/Code-ReaQtor/libqpsd
 
