@@ -27,7 +27,7 @@ ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider
     settings = new SlimSettingsReadOnly;
     fileformats = new FileFormats;
 
-    pixmapcache = new QCache<QByteArray, QPixmap>;
+    pixmapcache = new QCache<QByteArray, QImage>;
     pixmapcache->setMaxCost(8*1024*std::max(0, std::min(1000, settings->pixmapCache)));
 
     loaderGM = new LoadImageGM;
@@ -69,54 +69,62 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
             << (whatToUse=="gm" ? "GraphicsMagick" : (whatToUse=="qt" ? "ImageReader" : (whatToUse=="raw" ? "LibRaw" : "External Tool")))
             << " [" << whatToUse.toStdString() << "]" << NL;
 
+    // We use a pointer to be able to use it for caching
+    QImage *ret = new QImage;
 
-    QImage ret;
-
+    // the unique key for caching
     QByteArray cachekey = getUniqueCacheKey(filename);
 
+    // if image was already once loaded
     if(pixmapcache->contains(cachekey)) {
-        QPixmap *pix = pixmapcache->object(cachekey);
-        if(!pix->isNull()) {
+
+        // re-load image
+        ret = pixmapcache->object(cachekey);
+
+        // if valid...
+        if(!ret->isNull()) {
 
             if(qgetenv("PHOTOQT_DEBUG") == "yes")
                 LOG << CURDATE << "ImageProviderFull: Loading full image from pixmap cache: " << QFileInfo(filename).fileName().toStdString() << NL;
 
-            ret = pix->toImage();
+            // return scaled version
+            if(requestedSize.width() > 2 && requestedSize.height() > 2 && ret->width() > requestedSize.width() && ret->height() > requestedSize.height())
+                return ret->scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
-            if(requestedSize.width() > 2 && requestedSize.height() > 2 && ret.width() > requestedSize.width() && ret.height() > requestedSize.height())
-                return ret.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            // return full version
+            return *ret;
 
-            return ret;
         }
+
     }
 
     // Try to use XCFtools for XCF (if enabled)
     if(whatToUse == "xcftools")
-        ret = loaderXCF->load(filename,maxSize);
+        *ret = loaderXCF->load(filename,maxSize);
 
     // Try to use GraphicsMagick (if available)
     else if(whatToUse == "gm")
-        ret = loaderGM->load(filename, maxSize);
+        *ret = loaderGM->load(filename, maxSize);
 
+    // Try to use libraw (if available)
     else if(whatToUse == "raw")
-        ret = loaderRAW->load(filename, maxSize);
+        *ret = loaderRAW->load(filename, maxSize);
 
     // Try to use Qt
     else
-        ret = loaderQT->load(filename,maxSize,settings->metaApplyRotation);
+        *ret = loaderQT->load(filename,maxSize,settings->metaApplyRotation);
 
-    QPixmap *newpixPt = new QPixmap(ret.width(), ret.height());
-    *newpixPt = QPixmap::fromImage(ret);
-    if(!newpixPt->isNull()) {
-        if(qgetenv("PHOTOQT_DEBUG") == "yes")
-            LOG << CURDATE << "ImageProviderFull: Inserting full image into pixmap cache: " << QFileInfo(filename).fileName().toStdString() << NL;
-        pixmapcache->insert(cachekey, newpixPt, newpixPt->width()*newpixPt->height()*newpixPt->depth()/(8*1024));
-    }
+    // insert image into cache
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "ImageProviderFull: Inserting full image into pixmap cache: " << QFileInfo(filename).fileName().toStdString() << NL;
+    pixmapcache->insert(cachekey, ret, ret->width()*ret->height()*ret->depth()/(8*1024));
 
-    if(requestedSize.width() > 2 && requestedSize.height() > 2 && ret.width() > requestedSize.width() && ret.height() > requestedSize.height())
-        ret = ret.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    // return scaled version
+    if(requestedSize.width() > 2 && requestedSize.height() > 2 && ret->width() > requestedSize.width() && ret->height() > requestedSize.height())
+        return ret->scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
-    return ret;
+    // return full version
+    return *ret;
 
 }
 

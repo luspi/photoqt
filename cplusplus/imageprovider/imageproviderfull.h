@@ -59,7 +59,7 @@ private:
     LoadImageRaw *loaderRAW;
     LoadImageXCF *loaderXCF;
 
-    QCache<QByteArray,QPixmap> *pixmapcache;
+    QCache<QByteArray,QImage> *pixmapcache;
 
 
     QString whatDoIUse(QString filename);
