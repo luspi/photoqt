@@ -29,60 +29,34 @@ namespace FileFormatsHandler {
 
     namespace AvailableFormats {
 
-//		static inline void getList(QStringList *formats_qt, QStringList *formats_gm, QStringList *formats_gm_ghostscript, QStringList *formats_extras, QStringList *formats_untested, QStringList *formats_raw) {
-
         static inline QStringList getListForQt() {
-
-            QStringList ret;
 
             /*************************************
              ***** SUPPORTED QT FILE FORMATS *****
              *************************************/
 
-            ret << "*.bmp"	// Microsoft Windows bitmap
-                << "*.bitmap"
+            QStringList ret;
 
-                << "*.dds"	// Direct Draw Surface
-
-                << "*.gif"	// CompuServe Graphics Interchange Format
-
-                << "*.tif"	// Tagged Image File Format
-                << "*.tiff"
-
-                << "*.jpeg2000"	// JPEG-2000 Code Stream Syntax
-                << "*.jp2"
-                << "*.jpc"
-                << "*.j2k"
-                << "*.jpf"
-                << "*.jpx"
-                << "*.jpm"
-                << "*.mj2"
-
-                << "*.mng"	// Multiple-image Network Graphics
-
-                << "*.ico"	// Microsoft icon
-                << "*.icns"
-
-                << "*.jpeg"	// Joint Photographic Experts Group JFIF format
-                << "*.jpg"
-
-                << "*.png"	// Portable Network Graphics
-
-                << "*.pbm"	// Portable bitmap format (black and white)
-
-                << "*.pgm"	// Portable graymap format (gray scale)
-
-                << "*.ppm"	// Portable pixmap format (color)
-
-                << "*.svg"	// Scalable Vector Graphics
-                << "*.svgz"
-
-                << "*.wbmp"	// Wireless bitmap
-                << "*.webp"
-
-                << "*.xbm"	// X Windows system bitmap, black and white only
-
-                << "*.xpm";	// X Windows system pixmap
+            ret << "*.bmp" << "*.bitmap"            // Microsoft Windows bitmap
+                << "*.gif"                          // CompuServe Graphics Interchange Format
+                << "*.jp2" << "*.jpc" << "*.j2k"    // JPEG-2000 Code Stream Syntax
+                           << "*.jpeg2000"
+                           << "*.jpx"
+                << "*.mng"                          // Multiple-image Network Graphics
+                << "*.ico" << "*.cur"               // Microsoft icon
+                << "*.icns"                         // Macintosh OS X icon
+                << "*.jpeg" << "*.jpg"              // Joint Photographic Experts Group JFIF format
+                << "*.png"                          // Portable Network Graphics
+                << "*.pbm"                          // Portable bitmap format (black and white)
+                << "*.pgm"                          // Portable graymap format (gray scale)
+                << "*.ppm"                          // Portable pixmap format (color)
+                << "*.svg" << "*.svgz"              // Scalable Vector Graphics
+                << "*.tga"                          // Truevision Targa Graphic
+                << "*.tif" << "*.tiff"              // Tagged Image File Format
+                << "*.wbmp"                         // Wireless bitmap
+                << "*.webp"                         // Google webbrowser graphics?
+                << "*.xbm"                          // X Windows system bitmap, black and white only
+                << "*.xpm";                         // X Windows system pixmap
 
             return ret;
 
@@ -90,38 +64,34 @@ namespace FileFormatsHandler {
 
         static inline QStringList getListForKde() {
 
+            /**************************************
+             ***** SUPPORTED KDE FILE FORMATS *****
+             **************************************/
+
             QStringList ret;
 
-            ret << "*.eps"   // Adobe Encapsulated PostScript
-                << "*.epsf"
-
-                << "*.exr"   // OpenEXR
-
-                << "*.kra"   // Krita Document
-
-                << "*.ora"   // Open Raster Image File
-
-                << "*.pcx"   // PC Paintbrush
-
-                << "*.pic"   // Apple Macintosh QuickDraw /PICT file
-
-                << "*.psd"   // Adobe PhotoShop
-                << "*.psb"
-
-                << "*.ras"   // Sun Graphics
-
-                << "*.rgb"   // Silicon Graphics
-                << "*.rgba"
-
-                << "*.tga"   // Truevision Targa Graphic
-
-                << "*.xcf";    // Gimp format
+            ret << "*.eps" << "*.epsf" << "*.epsi"  // Adobe Encapsulated PostScript
+                << "*.exr"                          // OpenEXR
+                << "*.kra"                          // Krita Document
+                << "*.ora"                          // Open Raster Image File
+                << "*.pcx"                          // PC Paintbrush
+                << "*.pic"                          // Advanced Art Studio?
+                << "*.psd"                          // Adobe PhotoShop
+                << "*.ras"                          // Sun Graphics
+                << "*.bw" << "*.rgb" << "*.rgba"    // Silicon Graphics
+                          << "*.sgi"
+                << "*.tga"                          // Truevision Targa Graphic
+                << "*.xcf";                         // Gimp format
 
             return ret;
 
         }
 
         static inline QStringList getListForExtras() {
+
+            /*****************************************
+             ***** SUPPORTED EXTRAS FILE FORMATS *****
+             *****************************************/
 
             QStringList ret;
 
@@ -134,139 +104,52 @@ namespace FileFormatsHandler {
 
         static inline QStringList getListForGm() {
 
-            QStringList ret;
-
-#ifdef GM
-
-
             /*************************************
              ***** SUPPORTED GM FILE FORMATS *****
              *************************************/
 
-    // WORKING
-            ret << "*.avs"	//AVS X image
-                << "*.x"
+            QStringList ret;
 
-    // WORKING
-                << "*.cals"	// Continuous Acquisition and Life-cycle Support Type 1 image
-                << "*.cal"
-                << "*.dcl"
-                << "*.ras"
+#ifdef GM
 
-    // WORKING
-                << "*.cin"	// Kodak Cineon
-
-    // WORKING
-                << "*.cut"	// DR Halo
-
-    // WORKING
-                << "*.acr"	// Digital Imaging and Communications in Medicine (DICOM) image
-                << "*.dcm"
-                << "*.dicom"
-                << "*.dic"
-
-    // WORKING
-                << "*.dcx"	// ZSoft IBM PC multi-page Paintbrush image
-
-    // WORKING
-                << "*.dib"	// Microsoft Windows Device Independent Bitmap
-
-    // WORKING
-                << "*.dpx"	// Digital Moving Picture Exchange
-
-    // WORKING
-                << "*.epdf"	// Encapsulated Portable Document Format
-
-    // WORKING
-                << "*.fax"	// Group 3 FAX
-
-    // WORKING
-                << "*.fits"	// Flexible Image Transport System
-                << "*.fts"
-                << "*.fit"
-
-    // WORKING
-                << "*.fpx"	// FlashPix Format
-
-    // WORKING
-                << "*.jng"	// JPEG Network Graphics
-
-    // WORKING
-                << "*.mat"	// MATLAB image format
-
-    // WORKING
-                << "*.miff"	// Magick image file format
-
-    // WORKING
-                << "*.mono"	// Bi-level bitmap in least-significant-byte first order
-
-    // WORKING
-                << "*.mtv"	// MTV Raytracing image format
-
-    // WORKING
-                << "*.otb"	// On-the-air Bitmap
-
-    // WORKING
-                << "*.p7"	// Xv's Visual Schnauzer thumbnail format
-
-    // WORKING
-                << "*.palm"	// Palm pixmap
-
-    // WORKING
-                << "*.pam"	// Portable Arbitrary Map format
-
-    // WORKING
-                << "*.pcd"	// Photo CD
-                << "*.pcds"
-
-    // WORKING
-                << "*.pcx"	// ZSoft IBM PC Paintbrush file
-
-    // WORKING
-                << "*.pdb"	// Palm Database ImageViewer Format
-
-    // WORKING
-                << "*.pict"	// Apple Macintosh QuickDraw /PICT file
-                << "*.pct"
-                << "*.pic"
-
-    // WORKING
-                << "*.pix"	// Alias/Wavefront RLE image format
-                << "*.pal"
-
-    // WORKING
-                << "*.pnm"	// Portable anymap
-
-    // WORKING
-                << "*.psd"	// Adobe Photoshop bitmap file
-
-    // WORKING
-                << "*.ptif"	// Pyramid encoded TIFF
-                << "*.ptiff"
-
-    // WORKING
-                << "*.sfw"	// Seattle File Works image
-
-    // WORKING
-                << "*.sgi"	// Irix RGB image
-
-    // WORKING
-                << "*.sun"	// SUN Rasterfile
-
-    // WORKING
-                << "*.tga"	// Truevision Targa image
-
-    // WORKING
-                << "*.vicar"	// VICAR rasterfile format
-
-    // WORKING
-                << "*.viff"	// Khoros Visualization Image File Format
-
-    // WORKING
-                << "*.wpg"	// Word Perfect Graphics File
-
-    // WORKING
-                << "*.xwd";	// X Windows system window dump
+            ret << "*.avs" << "*.x"                 // AVS X image
+                << "*.cals" << "*.cal" << "*.dcl"   // Continuous Acquisition and Life-cycle Support Type 1 image
+                << "*.cin"                          // Kodak Cineon
+                << "*.cut"                          // DR Halo
+                << "*.acr" << "*.dcm" << "*.dicom"  // Digital Imaging and Communications in Medicine (DICOM) image
+                           << "*.dic"
+                << "*.dcx"                          // ZSoft IBM PC multi-page Paintbrush image
+                << "*.dib"                          // Microsoft Windows Device Independent Bitmap
+                << "*.dpx"                          // Digital Moving Picture Exchange
+                << "*.epdf"                         // Encapsulated Portable Document Format
+                << "*.fax"                          // Group 3 FAX
+                << "*.fits" << "*.fts" << "*.fit"   // Flexible Image Transport System
+                << "*.fpx"                          // FlashPix Format
+                << "*.jng"                          // JPEG Network Graphics
+                << "*.mat"                          // MATLAB image format
+                << "*.miff"                         // Magick image file format
+                << "*.mono"                         // Bi-level bitmap in least-significant-byte first order
+                << "*.mtv"                          // MTV Raytracing image format
+                << "*.otb"                          // On-the-air Bitmap
+                << "*.p7"                           // Xv's Visual Schnauzer thumbnail format
+                << "*.palm"                         // Palm pixmap
+                << "*.pam"                          // Portable Arbitrary Map format
+                << "*.pcd" << "*.pcds"              // Photo CD
+                << "*.pcx"                          // ZSoft IBM PC Paintbrush file
+                << "*.pdb"                          // Palm Database ImageViewer Format
+                << "*.pict" << "*.pct" << "*.pic"   // Apple Macintosh QuickDraw /PICT file
+                << "*.pix" << "*.pal"               // Alias/Wavefront RLE image format
+                << "*.pnm"                          // Portable anymap
+                << "*.psd"                          // Adobe Photoshop bitmap file
+                << "*.ptif" << "*.ptiff"            // Pyramid encoded TIFF
+                << "*.sfw"                          // Seattle File Works image
+                << "*.sgi"                          // Irix RGB image
+                << "*.sun"                          // SUN Rasterfile
+                << "*.tga"                          // Truevision Targa image
+                << "*.vicar"                        // VICAR rasterfile format
+                << "*.viff"                         // Khoros Visualization Image File Format
+                << "*.wpg"                          // Word Perfect Graphics File
+                << "*.xwd";                         // X Windows system window dump
 
 #endif
 
@@ -276,38 +159,24 @@ namespace FileFormatsHandler {
 
         static inline QStringList getListForGmGhostscript() {
 
+            /*************************************
+             ***** SUPPORTED GM FILE FORMATS *****
+             *****    Ghotscript required    *****
+             *************************************/
+
             QStringList ret;
 
 #ifdef GM
 
-    // WORKING (Ghostscript required)
-            ret << "*.epi"	// Adobe Encapsulated PostScript Interchange format
-                << "*.epsi"
-
-    // WORKING (Ghostscript required)
-                << "*.eps"	// Adobe Encapsulated PostScript
-                << "*.epsf"
-
-    // WORKING (Ghostscript required)
-                << "*.eps2"	// Adobe Level II Encapsulated PostScript
-
-    // WORKING (Ghostscript required)
-                << "*.eps3"	// Adobe Level III Encapsulated PostScript
-
-    // WORKING (Ghostscript required)
-                << "*.ept"	// Adobe Encapsulated PostScript Interchange format with TIFF preview
-
-    // WORKING (Ghostscript required)
-                << "*.pdf"	// Portable Document Format
-
-    // WORKING (Ghostscript required)
-                << "*.ps"	// Adobe PostScript file
-
-    // WORKING (Ghostscript required)
-                << "*.ps2"	// Adobe Level II PostScript file
-
-    // WORKING (Ghostscript required)
-                << "*.ps3";	// Adobe Level III PostScript file
+            ret << "*.epi" << "*.epsi"      // Adobe Encapsulated PostScript Interchange format
+                << "*.eps"<< "*.epsf"       // Adobe Encapsulated PostScript
+                << "*.eps2"                 // Adobe Level II Encapsulated PostScript
+                << "*.eps3"                 // Adobe Level III Encapsulated PostScript
+                << "*.ept"                  // Adobe Encapsulated PostScript Interchange format with TIFF preview
+                << "*.pdf"                  // Portable Document Format
+                << "*.ps"                   // Adobe PostScript file
+                << "*.ps2"                  // Adobe Level II PostScript file
+                << "*.ps3";                 // Adobe Level III PostScript file
 
 #endif
 
@@ -317,21 +186,23 @@ namespace FileFormatsHandler {
 
         static inline QStringList getListForUntested() {
 
+            /************************************
+             ***** UNTESTED GM FILE FORMATS *****
+             *****  no test image available *****
+             ************************************/
+
             QStringList ret;
 
 #ifdef GM
 
-    // UNTESTED (no test image available)
-            ret << "*.hp"	// HP-GL plotter language
-                << "*.hpgl"
-                << "*.jbig"	// Joint Bi-level Image experts Group file interchange format
-                << "*.jbg"
-                << "*.pwp"	// Seattle File Works multi-image file
-                << "*.rast"	// Sun Raster Image
-                << "*.rla"	// Alias/Wavefront image file
-                << "*.rle"	// Utah Run length encoded image file
-                << "*.sct"	// Scitex Continuous Tone Picture
-                << "*.tim";	// PSX TIM file
+            ret << "*.hp" << "*.hpgl"       // HP-GL plotter language
+                << "*.jbig" << "*.jbg"      // Joint Bi-level Image experts Group file interchange format
+                << "*.pwp"                  // Seattle File Works multi-image file
+                << "*.rast"                 // Sun Raster Image
+                << "*.rla"                  // Alias/Wavefront image file
+                << "*.rle"                  // Utah Run length encoded image file
+                << "*.sct"                  // Scitex Continuous Tone Picture
+                << "*.tim";                 // PSX TIM file
 
 #endif
 
@@ -341,36 +212,40 @@ namespace FileFormatsHandler {
 
         static inline QStringList getListForRaw() {
 
+            /**************************************
+             ***** SUPPORTED RAW FILE FORMATS *****
+             **************************************/
+
             QStringList ret;
 
 #ifdef RAW
 
-            ret << "*.3fr"							// Hasselblad
-                << "*.ari"							// ARRIFLEX
-                << "*.arw" << "*.srf" << "*.sr2"	// Sony
-                << "*.bay"							// Casio
-                << "*.crw" << "*.crr" << "*.cr2"	// Canon
-                << "*.cap" << "*.liq" << "*.eip"	// Phase_one
-                << "*.dcs" << "*.dcr" << "*.drf"	// Kodak
+            ret << "*.3fr"                          // Hasselblad
+                << "*.ari"                          // ARRIFLEX
+                << "*.arw" << "*.srf" << "*.sr2"    // Sony
+                << "*.bay"                          // Casio
+                << "*.crw" << "*.crr" << "*.cr2"    // Canon
+                << "*.cap" << "*.liq" << "*.eip"    // Phase_one
+                << "*.dcs" << "*.dcr" << "*.drf"    // Kodak
                             << "*.k25" << "*.kdc"
-                << "*.dng"							// Adobe
-                << "*.erf"							// Epson
-                << "*.fff"							// Imacon/Hasselblad raw
-                << "*.mef"							// Mamiya
-                << "*.mdc"							// Minolta, Agfa
-                << "*.mos"							// Leaf
-                << "*.mrw"							// Minolta, Konica Minolta
-                << "*.nef" << "*.nrw"				// Nikon
-                << "*.orf"							// Olympus
-                << "*.pef" << "*.ptx"				// Pentax
-                << "*.pxn"							// Logitech
-                << "*.r3d"							// RED Digital Cinema
-                << "*.raf"							// Fuji
-                << "*.raw" << "*.rw2"				// Panasonic
-                << "*.raw" << "*.rwl" << "*.dng"	// Leica
-                << "*.rwz"							// Rawzor
-                << "*.srw"							// Samsung
-                << "*.x3f";							// Sigma
+                << "*.dng"                          // Adobe
+                << "*.erf"                          // Epson
+                << "*.fff"                          // Imacon/Hasselblad raw
+                << "*.mef"                          // Mamiya
+                << "*.mdc"                          // Minolta, Agfa
+                << "*.mos"                          // Leaf
+                << "*.mrw"                          // Minolta, Konica Minolta
+                << "*.nef" << "*.nrw"               // Nikon
+                << "*.orf"                          // Olympus
+                << "*.pef" << "*.ptx"               // Pentax
+                << "*.pxn"                          // Logitech
+                << "*.r3d"                          // RED Digital Cinema
+                << "*.raf"                          // Fuji
+                << "*.raw" << "*.rw2"               // Panasonic
+                << "*.raw" << "*.rwl" << "*.dng"    // Leica
+                << "*.rwz"                          // Rawzor
+                << "*.srw"                          // Samsung
+                << "*.x3f";                         // Sigma
 
 #endif
 

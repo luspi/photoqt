@@ -25,6 +25,7 @@
 
 #include <QStringList>
 #include <QImageReader>
+#include <QtDebug>
 
 namespace FileFormatsHandler {
 
@@ -36,50 +37,86 @@ namespace FileFormatsHandler {
 
             QList<QByteArray> formats = QImageReader::supportedImageFormats();
 
-            ret << "*.bmp"	// Microsoft Windows bitmap
-                << "*.bitmap"
+            // Microsoft Windows bitmap
+            if(formats.contains("bmp"))
+                ret << "*.bmp"
+                    << "*.bitmap";
 
-                << "*.dds"	// Direct Draw Surface
+            // CompuServe Graphics Interchange Format
+            if(formats.contains("gif"))
+                ret << "*.gif";
 
-                << "*.gif"	// CompuServe Graphics Interchange Format
+            // JPEG-2000 Code Stream Syntax
+            if(formats.contains("jp2"))
+                ret << "*.jpeg2000"
+                    << "*.jp2"
+                    << "*.jpc"
+                    << "*.j2k"
+                    << "*.jpx";
 
-                << "*.tif"	// Tagged Image File Format
-                << "*.tiff"
+            // Multiple-image Network Graphics
+            if(formats.contains("mng"))
+                ret << "*.mng";
 
-                << "*.jpeg2000"	// JPEG-2000 Code Stream Syntax
-                << "*.jp2"
-                << "*.jpc"
-                << "*.j2k"
-                << "*.jpf"
-                << "*.jpx"
-                << "*.jpm"
-                << "*.mj2"
+            // Microsoft icon
+            if(formats.contains("ico") || formats.contains("cur"))
+                ret << "*.ico"
+                    << "*.cur";
 
-                << "*.mng"	// Multiple-image Network Graphics
+            // Macintosh OS X icon
+            if(formats.contains("icns"))
+                ret << "*.icns";
 
-                << "*.ico"	// Microsoft icon
-                << "*.icns"
+            // Joint Photographic Experts Group JFIF format
+            if(formats.contains("jpg") || formats.contains("jpeg"))
+                ret << "*.jpeg"
+                    << "*.jpg";
 
-                << "*.jpeg"	// Joint Photographic Experts Group JFIF format
-                << "*.jpg"
+            // Portable Network Graphics
+            if(formats.contains("png"))
+                ret << "*.png";
 
-                << "*.png"	// Portable Network Graphics
+            // Portable bitmap format (black and white)
+            if(formats.contains("pbm"))
+                ret << "*.pbm";
 
-                << "*.pbm"	// Portable bitmap format (black and white)
+            // Portable graymap format (gray scale)
+            if(formats.contains("pgm"))
+                ret << "*.pgm";
 
-                << "*.pgm"	// Portable graymap format (gray scale)
+            // Portable pixmap format (color)
+            if(formats.contains("ppm"))
+                ret << "*.ppm";
 
-                << "*.ppm"	// Portable pixmap format (color)
+            // Scalable Vector Graphics
+            if(formats.contains("svg") || formats.contains("svgz"))
+                ret << "*.svg"
+                    << "*.svgz";
 
-                << "*.svg"	// Scalable Vector Graphics
-                << "*.svgz"
+            // Truevision Targa Graphic
+            if(formats.contains("tga"))
+                ret << "*.tga";
 
-                << "*.wbmp"	// Wireless bitmap
-                << "*.webp"
+            // Tagged Image File Format
+            if(formats.contains("tif") || formats.contains("tiff"))
+                ret << "*.tif"
+                    << "*.tiff";
 
-                << "*.xbm"	// X Windows system bitmap, black and white only
+            // Wireless bitmap
+            if(formats.contains("wbmp"))
+                ret << "*.wbmp";
 
-                << "*.xpm";	// X Windows system pixmap
+            // Google webbrowser graphics?
+            if(formats.contains("webp"))
+                ret << "*.webp";
+
+            // X Windows system bitmap, black and white only
+            if(formats.contains("xbm"))
+                ret << "*.xbm";
+
+            // X Windows system pixmap
+            if(formats.contains("xpm"))
+                ret << "*.xpm";
 
             return ret;
 
@@ -91,41 +128,54 @@ namespace FileFormatsHandler {
 
             QList<QByteArray> formats = QImageReader::supportedImageFormats();
 
-            if(formats.contains("eps") && formats.contains("epsf"))
-                ret << "*.eps"   // Adobe Encapsulated PostScript
-                    << "*.epsf";
+            // Adobe Encapsulated PostScript
+            if(formats.contains("eps") || formats.contains("epsf") || formats.contains("epsi"))
+                ret << "*.eps"
+                    << "*.epsf"
+                    << "*.epsi";
 
+            // OpenEXR
             if(formats.contains("exr"))
-                ret << "*.exr";   // OpenEXR
+                ret << "*.exr";
 
+            // Krita Document
             if(formats.contains("kra"))
-                ret << "*.kra";   // Krita Document
+                ret << "*.kra";
 
+            // Open Raster Image File
             if(formats.contains("ora"))
-                ret << "*.ora";   // Open Raster Image File
+                ret << "*.ora";
 
+            // PC Paintbrush
             if(formats.contains("pcx"))
-                ret << "*.pcx";   // PC Paintbrush
+                ret << "*.pcx";
 
+            // Advanced Art Studio?
             if(formats.contains("pic"))
                 ret << "*.pic";
 
-            if(formats.contains("psd") && formats.contains("psb"))
-                ret << "*.psd"   // Adobe PhotoShop
-                    << "*.psb";
+            // Adobe PhotoShop
+            if(formats.contains("psd") || formats.contains("psb"))
+                ret << "*.psd";
 
+            // Sun Graphics
             if(formats.contains("ras"))
-                ret << "*.ras";   // Sun Graphics
+                ret << "*.ras";
 
-            if(formats.contains("rgb") && formats.contains("rgba"))
-                ret << "*.rgb"
-                    << "*.rgba";   // Silicon Graphics
+            // Silicon Graphics
+            if(formats.contains("bw") || formats.contains("rgb") || formats.contains("rgba") || formats.contains("sgi"))
+                ret << "*.bw"
+                    << "*.rgb"
+                    << "*.rgba"
+                    << "*.sgi";
 
+            // Truevision Targa Graphic
             if(formats.contains("tga"))
-                ret << "*.tga";   // Truevision Targa Graphic
+                ret << "*.tga";
 
+            // Gimp format
             if(formats.contains("xcf"))
-                ret << "*.xcf";    // Gimp format
+                ret << "*.xcf";
 
             return ret;
 
@@ -135,74 +185,40 @@ namespace FileFormatsHandler {
 
             QStringList ret;
 
-            ret << "*.avs"	//AVS X image
-
-                << "*.ras"	// Continuous Acquisition and Life-cycle Support Type 1 image
-
-                << "*.cin"	// Kodak Cineon
-
-                << "*.cut"	// DR Halo
-
-                << "*.acr"	// Digital Imaging and Communications in Medicine (DICOM) image
-                << "*.dcm"
-                << "*.dicom"
-                << "*.dic"
-
-                << "*.dcx"	// ZSoft IBM PC multi-page Paintbrush image
-
-                << "*.dib"	// Microsoft Windows Device Independent Bitmap
-
-                << "*.dpx"	// Digital Moving Picture Exchange
-
-                << "*.fax"	// Group 3 FAX
-
-                << "*.fits"	// Flexible Image Transport System
-                << "*.fts"
-                << "*.fit"
-
-                << "*.fpx"	// FlashPix Format
-
-                << "*.jng"	// JPEG Network Graphics
-
-                << "*.mat"	// MATLAB image format
-
-                << "*.miff"	// Magick image file format
-
-                << "*.mtv"	// MTV Raytracing image format
-
-                << "*.otb"	// On-the-air Bitmap
-
-                << "*.p7"	// Xv's Visual Schnauzer thumbnail format
-
-                << "*.palm"	// Palm pixmap
-
-                << "*.pam"	// Portable Arbitrary Map format
-
-                << "*.pcd"	// Photo CD
-                << "*.pcds"
-
-                << "*.pcx"	// ZSoft IBM PC Paintbrush file
-
-                << "*.pdb"	// Palm Database ImageViewer Format
-
-                << "*.pnm"	// Portable anymap
-
-                << "*.ptif"	// Pyramid encoded TIFF
-                << "*.ptiff"
-
-                << "*.sfw"	// Seattle File Works image
-
-                << "*.sgi"	// Irix RGB image
-
-                << "*.sun"	// SUN Rasterfile
-
-                << "*.tga"	// Truevision Targa image
-
-                << "*.vicar"	// VICAR rasterfile format
-
-                << "*.wpg"	// Word Perfect Graphics File
-
-                << "*.xwd";	// X Windows system window dump
+            ret << "*.avs"                  // AVS X image
+                << "*.cal" << "*.cals"      // Continuous Acquisition and Life-cycle Support Type 1 image
+                << "*.cin"                  // Kodak Cineon
+                << "*.cut"                  // DR Halo
+                << "*.acr" << "*.dcm"       // Digital Imaging and Communications in Medicine (DICOM) image
+                           << "*.dicom"
+                           << "*.dic"
+                << "*.dcx"                  // ZSoft IBM PC multi-page Paintbrush image
+                << "*.dib"                  // Microsoft Windows Device Independent Bitmap
+                << "*.dpx"                  // Digital Moving Picture Exchange
+                << "*.fax"                  // Group 3 FAX
+                << "*.fits" << "*.fts"      // Flexible Image Transport System
+                            << "*.fit"
+                << "*.fpx"                  // FlashPix Format
+                << "*.jng"                  // JPEG Network Graphics
+                << "*.mat"                  // MATLAB image format
+                << "*.miff"                 // Magick image file format
+                << "*.mtv"                  // MTV Raytracing image format
+                << "*.otb"                  // On-the-air Bitmap
+                << "*.p7"                   // Xv's Visual Schnauzer thumbnail format
+                << "*.palm"                 // Palm pixmap
+                << "*.pam"                  // Portable Arbitrary Map format
+                << "*.pcd" << "*.pcds"      // Photo CD
+                << "*.pcx"                  // ZSoft IBM PC Paintbrush file
+                << "*.pdb"                  // Palm Database ImageViewer Format
+                << "*.pnm"                  // Portable anymap
+                << "*.ptif" << "*.ptiff"    // Pyramid encoded TIFF
+                << "*.sfw"                  // Seattle File Works image
+                << "*.sgi"                  // Irix RGB image
+                << "*.sun"                  // SUN Rasterfile
+                << "*.tga"                  // Truevision Targa image
+                << "*.vicar"                // VICAR rasterfile format
+                << "*.wpg"                  // Word Perfect Graphics File
+                << "*.xwd";                 // X Windows system window dump
 
             return ret;
 
@@ -212,32 +228,32 @@ namespace FileFormatsHandler {
 
             QStringList ret;
 
-            ret << "*.3fr"							// Hasselblad
-                << "*.ari"							// ARRIFLEX
-                << "*.arw" << "*.srf" << "*.sr2"	// Sony
-                << "*.bay"							// Casio
-                << "*.crw" << "*.crr" << "*.cr2"	// Canon
-                << "*.cap" << "*.liq" << "*.eip"	// Phase_one
-                << "*.dcs" << "*.dcr" << "*.drf"	// Kodak
+            ret << "*.3fr"                          // Hasselblad
+                << "*.ari"                          // ARRIFLEX
+                << "*.arw" << "*.srf" << "*.sr2"    // Sony
+                << "*.bay"                          // Casio
+                << "*.crw" << "*.crr" << "*.cr2"    // Canon
+                << "*.cap" << "*.liq" << "*.eip"    // Phase_one
+                << "*.dcs" << "*.dcr" << "*.drf"    // Kodak
                            << "*.k25" << "*.kdc"
-                << "*.dng"							// Adobe
-                << "*.erf"							// Epson
-                << "*.fff"							// Imacon/Hasselblad raw
-                << "*.mef"							// Mamiya
-                << "*.mdc"							// Minolta, Agfa
-                << "*.mos"							// Leaf
-                << "*.mrw"							// Minolta, Konica Minolta
-                << "*.nef" << "*.nrw"				// Nikon
-                << "*.orf"							// Olympus
-                << "*.pef" << "*.ptx"				// Pentax
-                << "*.pxn"							// Logitech
-                << "*.r3d"							// RED Digital Cinema
-                << "*.raf"							// Fuji
-                << "*.raw" << "*.rw2"				// Panasonic
-                << "*.raw" << "*.rwl" << "*.dng"	// Leica
-                << "*.rwz"							// Rawzor
-                << "*.srw"							// Samsung
-                << "*.x3f";						// Sigma
+                << "*.dng"                          // Adobe
+                << "*.erf"                          // Epson
+                << "*.fff"                          // Imacon/Hasselblad raw
+                << "*.mef"                          // Mamiya
+                << "*.mdc"                          // Minolta, Agfa
+                << "*.mos"                          // Leaf
+                << "*.mrw"                          // Minolta, Konica Minolta
+                << "*.nef" << "*.nrw"               // Nikon
+                << "*.orf"                          // Olympus
+                << "*.pef" << "*.ptx"               // Pentax
+                << "*.pxn"                          // Logitech
+                << "*.r3d"                          // RED Digital Cinema
+                << "*.raf"                          // Fuji
+                << "*.raw" << "*.rw2"               // Panasonic
+                << "*.raw" << "*.rwl" << "*.dng"    // Leica
+                << "*.rwz"                          // Rawzor
+                << "*.srw"                          // Samsung
+                << "*.x3f";                         // Sigma
 
             return ret;
 

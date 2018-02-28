@@ -107,7 +107,7 @@ EntryContainer {
                   ["Open Raster Image File", "*.ora"],
                   ["PC Paintbrush", "*.pcx"],
                   ["Apple Macintosh QuickDraw /PICT file", "*.pic"],
-                  ["Adobe PhotoShop", "*.psd", "*.psb"],
+                  ["Adobe PhotoShop", "*.psd"],
                   ["Sun Graphics", "*.ras"],
                   ["Silicon Graphics", "*.rgb", "*.rgba"],
                   ["Truevision Targa Graphic", "*.tga"],
