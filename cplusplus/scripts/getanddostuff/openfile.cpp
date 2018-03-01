@@ -510,3 +510,13 @@ QString GetAndDoStuffOpenFile::getDirectoryDirName(QString path) {
     return QDir(path).dirName();
 
 }
+
+bool GetAndDoStuffOpenFile::isSupportedImageType(QString path) {
+
+    QString suffix = QFileInfo(path).suffix().toLower();
+
+    QStringList allendings = formats->formats_qt + formats->formats_kde + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw + formats->formats_devil;
+
+    return allendings.contains("*."+suffix);
+
+}

@@ -137,6 +137,7 @@ public:
     Q_INVOKABLE QString getLastOpenedImage() { return openfile->getLastOpenedImage(); }
     Q_INVOKABLE QString getCurrentWorkingDirectory() { return openfile->getCurrentWorkingDirectory(); }
     Q_INVOKABLE QString getDirectoryDirName(QString path) { return openfile->getDirectoryDirName(path); }
+    Q_INVOKABLE bool isSupportedImageType(QString path) { return openfile->isSupportedImageType(path); }
 
 private:
     GetAndDoStuffContext *context;

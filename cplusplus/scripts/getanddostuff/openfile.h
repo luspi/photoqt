@@ -57,6 +57,7 @@ public:
     QString getLastOpenedImage();
     QString getCurrentWorkingDirectory();
     QString getDirectoryDirName(QString path);
+    bool isSupportedImageType(QString path);
 
 private:
     FileFormats *formats;
