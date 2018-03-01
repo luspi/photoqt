@@ -43,6 +43,11 @@ ContextMenu::ContextMenu(QObject *parent) : QObject(parent) {
                       "background-color: transparent;"
                       "color: #aa808080;"
                   "}"
+                  "QMenu::separator {"
+                        "background-color: white;"
+                        "height: 1px;"
+                        "margin: 5px 0px 5px 0px;"
+                  "}"
                   // the individual items, hovered
                   "QMenu::item:selected {"
                       "background-color: #4f4f4f;"
