@@ -212,14 +212,21 @@ Rectangle {
                 asynchronous: true
                 fillMode: Image.PreserveAspectFit
 
+                property bool supported: false
+
                 // the source depends on settings and visibility
-                source: (filename!=undefined&&settings.openThumbnails&&openfile_top.visible)
-                          ? ("image://thumb/" + openvariables.currentDirectory + "/" + filename)
-                          : "image://icon/image-" + getanddostuff.getSuffix(openvariables.currentDirectory + "/" + filename)
+                source: supported
+                            ? (filename!=undefined&&settings.openThumbnails&&openfile_top.visible)
+                                ? ("image://thumb/" + openvariables.currentDirectory + "/" + filename)
+                                : "image://icon/image-" + getanddostuff.getSuffix(openvariables.currentDirectory + "/" + filename)
+                            : ""
 
                 // the thumbnail fades in when ready
                 opacity: Image.Ready&&source!="" ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
+
+                Component.onCompleted:
+                    supported = getanddostuff.isSupportedImageType(filename)
 
             }
 
@@ -238,7 +245,9 @@ Rectangle {
                 fillMode: Image.PreserveAspectFit
 
                 // the source is always this, as this icon image loads almost instantly there is no need to set/remove it
-                source: "image://icon/image-" + getanddostuff.getSuffix(openvariables.currentDirectory + "/" + filename)
+                source: thumb.supported
+                          ? "image://icon/image-" + getanddostuff.getSuffix(openvariables.currentDirectory + "/" + filename)
+                          : "image://icon/unknown"
 
             }
 
@@ -530,7 +539,7 @@ Rectangle {
         // if we have a filename
         } else {
             // set background/preview image (if enabled)
-            bgthumb.source = settings.openPreview
+            bgthumb.source = settings.openPreview&&getanddostuff.isSupportedImageType(f)
                                 ? "image://" + (settings.openPreviewHighQuality ? "full" : "thumb") + "/" + openvariables.currentDirectory + "/" + f
                                 : ""
             // if the change in currentIndex hasn't happened through user input, update the text in the edit rect and select it all
