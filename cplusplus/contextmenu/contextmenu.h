@@ -44,7 +44,7 @@ public:
     void setUserData(QString val) { m_userData = val; emit userDataChanged(val); }
 
     // add items
-    Q_INVOKABLE void addItem(QString text);
+    Q_INVOKABLE void addItem(QString text, bool bold = false);
     Q_INVOKABLE void addSeparator();
 
     // get/set checked/checkable status

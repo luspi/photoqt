@@ -87,8 +87,13 @@ ContextMenu::~ContextMenu() {
 }
 
 // add a new item to the menu
-void ContextMenu::addItem(QString text) {
+void ContextMenu::addItem(QString text, bool bold) {
     QAction *ac = new QAction(text, 0);
+    if(bold) {
+        QFont font = ac->font();
+        font.setBold(true);
+        ac->setFont(font);
+    }
     allActions.append(ac);
     menu->addAction(ac);
     connect(ac, &QAction::toggled, this, &ContextMenu::itemChecked);
