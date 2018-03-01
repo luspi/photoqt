@@ -34,6 +34,7 @@ ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider
     loaderQT = new LoadImageQt;
     loaderRAW = new LoadImageRaw;
     loaderXCF = new LoadImageXCF;
+    loaderDevil = new LoadImageDevil;
 
 }
 
@@ -110,6 +111,10 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
     else if(whatToUse == "raw")
         *ret = loaderRAW->load(filename, maxSize);
 
+    // Try to use DevIL (if available)
+    else if(whatToUse == "devil")
+        *ret = loaderDevil->load(filename, maxSize);
+
     // Try to use Qt
     else
         *ret = loaderQT->load(filename,maxSize,settings->metaApplyRotation);
@@ -169,6 +174,18 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
     foreach(QString raw, fileformats->formats_raw) {
         if(filename.toLower().endsWith(raw.remove(0,1)))
             return "raw";
+    }
+
+#endif
+
+#ifdef DEVIL
+
+    /***********************************************************/
+    // DevIL library
+
+    foreach(QString devil, fileformats->formats_devil) {
+        if(filename.toLower().endsWith(devil.remove(0,1)))
+            return "devil";
     }
 
 #endif

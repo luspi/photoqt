@@ -88,7 +88,8 @@ Rectangle {
             FileTypesGM { id: filetypesgm; alternating: true }
             FileTypesGMGhostscript { id: filetypesgmghostscript }
             FileTypesRaw { id: filetypesraw; alternating: true }
-            FileTypesUntested { id: filetypesuntested }
+            FileTypesDevIL { id: filetypesdevil }
+            FileTypesUntested { id: filetypesuntested; alternating: true }
 
 
         }
@@ -104,6 +105,7 @@ Rectangle {
         filetypesextras.setData()
         filetypesuntested.setData()
         filetypesraw.setData()
+        filetypesdevil.setData()
     }
 
     function saveData() {
@@ -115,6 +117,7 @@ Rectangle {
         filetypesextras.saveData()
         filetypesuntested.saveData()
         filetypesraw.saveData()
+        filetypesdevil.saveData()
     }
 
 }

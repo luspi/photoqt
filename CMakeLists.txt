@@ -55,6 +55,7 @@ include(CMake/ListFilesResources.cmake)
 option(RAW "Use libraw library" ON)
 option(EXIV2 "Use exiv2 library" ON)
 option(GM "Use graphicsmagick library" ON)
+option(DEVIL "Use DevIL library" ON)
 option(QTONLY "ONLY USE QT-ONLY FEATURES" OFF)
 option(TESTING "Enable some tests" OFF)
 
@@ -68,6 +69,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
 find_package(Magick)
 find_package(Exiv2)
 find_package(LibRaw)
+find_package(DevIL)
 
 
 ####################################
@@ -168,6 +170,19 @@ endif(GM)
 ########################
 #### CUSTOM OPTIONS ####
 ########################
+
+if(DEVIL)
+    if(NOT ${IL_FOUND})
+        message(FATAL_ERROR "** Unable to locate DevIL... is it installed?")
+    elseif(${IL_FOUND})
+        include_directories(${IL_INCLUDE_DIR})
+        target_link_libraries(${PROJECT_NAME} "IL")
+        message("** DevIL enabled")
+        add_definitions(-DDEVIL)
+    endif(NOT ${IL_FOUND})
+elseif(NOT DEVIL)
+    message("** DevIL DISABLED")
+endif(DEVIL)
 
 if(RAW)
     if(NOT ${LIBRAW_FOUND})

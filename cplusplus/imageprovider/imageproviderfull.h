@@ -35,6 +35,7 @@
 #include "loader/loadimage_gm.h"
 #include "loader/loadimage_xcf.h"
 #include "loader/loadimage_raw.h"
+#include "loader/loadimage_devil.h"
 
 #ifdef GM
 #include <GraphicsMagick/Magick++.h>
@@ -58,6 +59,7 @@ private:
     LoadImageQt *loaderQT;
     LoadImageRaw *loaderRAW;
     LoadImageXCF *loaderXCF;
+    LoadImageDevil *loaderDevil;
 
     QCache<QByteArray,QImage> *pixmapcache;
 

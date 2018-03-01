@@ -71,6 +71,7 @@ public:
         connect(this, SIGNAL(formats_extrasChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
         connect(this, SIGNAL(formats_untestedChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
         connect(this, SIGNAL(formats_rawChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
+        connect(this, SIGNAL(formats_devilChanged(QStringList)), saveFileformatsTimer, SLOT(start()));
 
         loadFormats();
 
@@ -86,6 +87,7 @@ public:
     QStringList formats_extras;
     QStringList formats_untested;
     QStringList formats_raw;
+    QStringList formats_devil;
 
     Q_PROPERTY(QStringList formats_qt MEMBER formats_qt NOTIFY formats_qtChanged)
     Q_PROPERTY(QStringList formats_kde MEMBER formats_kde NOTIFY formats_kdeChanged)
@@ -94,6 +96,7 @@ public:
     Q_PROPERTY(QStringList formats_extras MEMBER formats_extras NOTIFY formats_extrasChanged)
     Q_PROPERTY(QStringList formats_untested MEMBER formats_untested NOTIFY formats_untestedChanged)
     Q_PROPERTY(QStringList formats_raw MEMBER formats_raw NOTIFY formats_rawChanged)
+    Q_PROPERTY(QStringList formats_devil MEMBER formats_devil NOTIFY formats_devilChanged)
 
     void setAvailableFormats() {
 
@@ -107,6 +110,7 @@ public:
         formats_extras = FileFormatsHandler::AvailableFormats::getListForExtras();
         formats_untested = FileFormatsHandler::AvailableFormats::getListForUntested();
         formats_raw = FileFormatsHandler::AvailableFormats::getListForRaw();
+        formats_devil = FileFormatsHandler::AvailableFormats::getListForDevIL();
 
     }
 
@@ -121,6 +125,7 @@ public:
         QStringList defaultEnabledKde = FileFormatsHandler::DefaultFormats::getListForKde();
         QStringList defaultEnabledGm = FileFormatsHandler::DefaultFormats::getListForGm();
         QStringList defaultEnabledRaw = FileFormatsHandler::DefaultFormats::getListForRaw();
+        QStringList defaultEnabledDevIL = FileFormatsHandler::DefaultFormats::getListForDevIL();
 
         QStringList tmp;
         for(QString f : formats_qt)
@@ -146,6 +151,12 @@ public:
                 tmp.append(f);
         formats_raw = tmp;
 
+        tmp.clear();
+        for(QString f : formats_devil)
+            if(defaultEnabledDevIL.contains(f))
+                tmp.append(f);
+        formats_devil = tmp;
+
     }
 
 public slots:
@@ -154,7 +165,7 @@ public slots:
         if(!QFile(ConfigFiles::FILEFORMATSQT_FILE()).exists() || !QFile(ConfigFiles::FILEFORMATSKDE_FILE()).exists() ||
            !QFile(ConfigFiles::FILEFORMATSGM_FILE()).exists() || !QFile(ConfigFiles::FILEFORMATSGMGHOSTSCRIPT_FILE()).exists() ||
            !QFile(ConfigFiles::FILEFORMATSEXTRAS_FILE()).exists() || !QFile(ConfigFiles::FILEFORMATSUNTESTED_FILE()).exists() ||
-           !QFile(ConfigFiles::FILEFORMATSRAW_FILE()).exists())
+           !QFile(ConfigFiles::FILEFORMATSRAW_FILE()).exists() || !QFile(ConfigFiles::FILEFORMATSDEVIL_FILE()).exists())
             QTimer::singleShot(1000, this, SLOT(setFilesToWatcher()));
         else
             watcher->addPaths(QStringList() << ConfigFiles::FILEFORMATSQT_FILE()
@@ -163,7 +174,8 @@ public slots:
                               << ConfigFiles::FILEFORMATSGMGHOSTSCRIPT_FILE()
                               << ConfigFiles::FILEFORMATSEXTRAS_FILE()
                               << ConfigFiles::FILEFORMATSUNTESTED_FILE()
-                              << ConfigFiles::FILEFORMATSRAW_FILE());
+                              << ConfigFiles::FILEFORMATSRAW_FILE()
+                              << ConfigFiles::FILEFORMATSDEVIL_FILE());
     }
 
     void loadFormats() {
@@ -178,10 +190,11 @@ public slots:
         QFile file_extras(ConfigFiles::FILEFORMATSEXTRAS_FILE());
         QFile file_untested(ConfigFiles::FILEFORMATSUNTESTED_FILE());
         QFile file_raw(ConfigFiles::FILEFORMATSRAW_FILE());
+        QFile file_devil(ConfigFiles::FILEFORMATSDEVIL_FILE());
 
         // At first startup, this file might not (yet) exist, but we can simply set the
         // default formats as they are currently in the process of being set anyways
-        if(!file_qt.exists() && !file_kde.exists() && !file_gm.exists() && !file_gmghostscript.exists() && !file_extras.exists() && !file_untested.exists() && !file_raw.exists()) {
+        if(!file_qt.exists() && !file_kde.exists() && !file_gm.exists() && !file_gmghostscript.exists() && !file_extras.exists() && !file_untested.exists() && !file_raw.exists() && !file_devil.exists()) {
             setDefaultFormats();
             return;
         }
@@ -301,6 +314,22 @@ public slots:
                 tmp.append(f);
         formats_raw = tmp;
 
+        /*****************************************/
+        // DevIL disabled
+
+        if(!file_devil.open(QIODevice::ReadOnly)) {
+            LOG << CURDATE << "FileFormats::loadFormats() - ERROR: Unable to open file to load DevIL disabled fileformats. Using default fileformats..." << NL;
+            setDefaultFormats();
+            return;
+        }
+        QTextStream in_devil(&file_devil);
+        QStringList disabled_devil = in_devil.readAll().split("\n",QString::SkipEmptyParts);
+        tmp.clear();
+        for(QString f : formats_devil)
+            if(!disabled_devil.contains(f))
+                tmp.append(f);
+        formats_devil = tmp;
+
     }
 
     void saveFormats() {
@@ -315,6 +344,7 @@ public slots:
         QStringList current_extras = formats_extras;
         QStringList current_untested = formats_untested;
         QStringList current_raw = formats_raw;
+        QStringList current_devil = formats_devil;
 
         setAvailableFormats();
 
@@ -437,6 +467,23 @@ public slots:
         out_raw << disabled_raw.join("\n");
         file_raw.close();
 
+        /*******************************************/
+        // DevIL fileformats
+
+        QStringList disabled_devil;
+        for(QString f : formats_devil)
+            if(!current_devil.contains(f))
+                disabled_devil.append(f);
+
+        QFile file_devil(ConfigFiles::FILEFORMATSDEVIL_FILE());
+        if(!file_devil.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+            LOG << CURDATE << "ERROR! Unable to save updated DevIL fileformats..." << NL;
+            return;
+        }
+        QTextStream out_devil(&file_devil);
+        out_devil << disabled_devil.join("\n");
+        file_devil.close();
+
     }
 
 signals:
@@ -447,6 +494,7 @@ signals:
     void formats_extrasChanged(QStringList val);
     void formats_untestedChanged(QStringList val);
     void formats_rawChanged(QStringList val);
+    void formats_devilChanged(QStringList val);
 
 };
 

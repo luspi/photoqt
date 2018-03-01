@@ -38,8 +38,12 @@ EntryContainer {
         EntryTitle {
 
             id: title
-            title: em.pty+qsTr("File Formats") + ":<br>&gt; KDE"
-            helptext: em.pty+qsTr("These are the file types supported by KDE. If the KDE image formats are installed, they are registered as normal Qt image plugins and can lead the respective image formats very efficiently.")
+            title: em.pty+qsTr("File Formats") + ":<br>&gt; DevIL"
+            helptext: entry.enabled
+                        ? em.pty+qsTr("These are the file types supported by the Developer's Image Library (DevIL). PhotoQt needs to be compiled with DevIL support in order for PhotoQt to be able to take advantage of them. Not all of these image formats have been tested, as for several no appropriate test images were available.")
+                        : "<div color='red'>" + em.pty+qsTr("PhotoQt was built without DevIL support!") + "</div>"
+
+            helptext_warning: !entry.enabled
 
         }
 
@@ -48,9 +52,11 @@ EntryContainer {
             id: entry
 
             // the model array
-            property var types_kde: [["", "", true]]
+            property var types_devil: [["", "", true]]
             // which item is checked
             property var modeldata: {"" : ""}
+
+            enabled: getanddostuff.isDevILSupportEnabled()
 
             GridView {
 
@@ -63,12 +69,12 @@ EntryContainer {
 
                 interactive: false
 
-                model: entry.types_kde.length
+                model: entry.types_devil.length
                 delegate: FileTypesTile {
                     id: tile
-                    fileType: entry.types_kde[index][0]
-                    fileEnding: entry.types_kde[index][1]
-                    checked: entry.types_kde[index][2]
+                    fileType: entry.types_devil[index][0]
+                    fileEnding: entry.types_devil[index][1]
+                    checked: entry.types_devil[index][2]
                     width: grid.cellWidth-grid.spacing*2
                     x: grid.spacing
                     height: grid.cellHeight-grid.spacing*2
@@ -76,9 +82,9 @@ EntryContainer {
 
                     // Store updates
                     Component.onCompleted:
-                        entry.modeldata[entry.types_kde[index][1]] = checked
+                        entry.modeldata[entry.types_devil[index][1]] = checked
                     onCheckedChanged:
-                        entry.modeldata[entry.types_kde[index][1]] = checked
+                        entry.modeldata[entry.types_devil[index][1]] = checked
                 }
 
             }
@@ -92,31 +98,33 @@ EntryContainer {
         verboseMessage("Settings::TabFiletypes::setData()","")
 
         // Remove data
-        entry.types_kde = []
+        entry.types_devil = []
 
         // storing intermediate results
-        var tmp_types_kde = []
+        var tmp_types_devil = []
 
         // Get current settings
-        var setformats = fileformats.formats_kde
+        var setformats = fileformats.formats_devil
 
         // Valid fileformats
-        var kde = [["Adobe Encapsulated PostScript", "*.eps", "*.epsf"],
-                  ["OpenEXR", "*.exr"],
-                  ["Krita Document", "*.kra"],
-                  ["Open Raster Image File", "*.ora"],
-                  ["PC Paintbrush", "*.pcx"],
-                  ["Apple Macintosh QuickDraw/PICT file", "*.pic"],
-                  ["Adobe PhotoShop", "*.psd"],
-                  ["Sun Graphics", "*.ras"],
-                  ["Silicon Graphics", "*.rgb", "*.rgba"],
-                  ["Truevision Targa Graphic", "*.tga"],
-                  ["Gimp XCF", "*.xcf"]]
+        var devil = [["DR Halo", "*.cut"],
+                ["DirectDraw Surface","*.dds"],
+                ["Interlaced Bitmap","*.lbm"],
+                ["Homeworld File","*.lif"],
+                ["Doom Walls / Flats","*.lmp"],
+                ["Half-Life Model","*.mdl"],
+                ["PhotoCD","*.pcd"],
+                ["ZSoft PCX","*.pcx"],
+                ["Apple Macintosh QuickDraw/PICT file","*.pic"],
+                ["Adobe PhotoShop","*.psd"],
+                ["Silicon Graphics","*.bw","*.rgb","*.rgba","*.sgi"],
+                ["Truevision Targa Graphic","*.tga"],
+                ["Quake2 Texture","*.wal"]]
 
-        for(var i = 0; i < kde.length; ++i) {
+        for(var i = 0; i < devil.length; ++i) {
 
             // the current file ending
-            var cur = kde[i]
+            var cur = devil[i]
             // if it has been found
             var found = true
             // And the file endings composed in string
@@ -134,12 +142,12 @@ EntryContainer {
             }
 
             // Add to temporary array
-            tmp_types_kde = tmp_types_kde.concat([[cur[0],composed,found]])
+            tmp_types_devil = tmp_types_devil.concat([[cur[0],composed,found]])
 
         }
 
         // Set new data
-        entry.types_kde = tmp_types_kde
+        entry.types_devil = tmp_types_devil
 
     }
 
@@ -155,7 +163,7 @@ EntryContainer {
         }
 
         // Update data
-        fileformats.formats_kde = tobesaved.filter(function(n){ return n !== ""; })
+        fileformats.formats_devil = tobesaved.filter(function(n){ return n !== ""; })
 
     }
 

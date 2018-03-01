@@ -50,6 +50,7 @@ namespace FileFormatsHandler {
                 << "*.pbm"                          // Portable bitmap format (black and white)
                 << "*.pgm"                          // Portable graymap format (gray scale)
                 << "*.ppm"                          // Portable pixmap format (color)
+                << "*.pnm"                          // Portable anymap (can contain any one of pbm, pgm, ppm)
                 << "*.svg" << "*.svgz"              // Scalable Vector Graphics
                 << "*.tga"                          // Truevision Targa Graphic
                 << "*.tif" << "*.tiff"              // Tagged Image File Format
@@ -74,8 +75,8 @@ namespace FileFormatsHandler {
                 << "*.exr"                          // OpenEXR
                 << "*.kra"                          // Krita Document
                 << "*.ora"                          // Open Raster Image File
-                << "*.pcx"                          // PC Paintbrush
-                << "*.pic"                          // Advanced Art Studio?
+                << "*.pcx"                          // ZSoft PCX
+                << "*.pic"                          // Apple Macintosh QuickDraw/PICT file
                 << "*.psd"                          // Adobe PhotoShop
                 << "*.ras"                          // Sun Graphics
                 << "*.bw" << "*.rgb" << "*.rgba"    // Silicon Graphics
@@ -246,6 +247,38 @@ namespace FileFormatsHandler {
                 << "*.rwz"                          // Rawzor
                 << "*.srw"                          // Samsung
                 << "*.x3f";                         // Sigma
+
+#endif
+
+            return ret;
+
+        }
+
+        static inline QStringList getListForDevIL() {
+
+            /**************************************
+             ***** SUPPORTED RAW FILE FORMATS *****
+             **************************************/
+
+            QStringList ret;
+
+#ifdef DEVIL
+
+            ret << "*.cut"              // DR Halo
+                << "*.dds"              // DirectDraw Surface
+                << "*.lbm"              // Interlaced Bitmap
+                << "*.lif"              // Homeworld File
+                << "*.lmp"              // Doom Walls / Flats
+                << "*.mdl"              // Half-Life Model
+                << "*.pcd"              // PhotoCD
+                << "*.pcx"              // ZSoft PCX
+                << "*.pic"              // Apple Macintosh QuickDraw/PICT file
+                << "*.psd"              // Adobe PhotoShop
+                << "*.bw" << "*.rgb"    // Silicon Graphics
+                          << "*.rgba"
+                          << "*.sgi"
+                << "*.tga"              // Truevision Targa Graphic
+                << "*.wal";              // Quake2 Texture
 
 #endif
 

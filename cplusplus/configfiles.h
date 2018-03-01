@@ -87,6 +87,10 @@ public:
         return QString("%1/fileformats_raw_disabled").arg(CONFIG_DIR());
     }
 
+    static const QString FILEFORMATSDEVIL_FILE() {
+        return QString("%1/fileformats_devil_disabled").arg(CONFIG_DIR());
+    }
+
     static const QString SHORTCUTS_FILE() {
         return QString("%1/shortcuts").arg(CONFIG_DIR());
     }

@@ -259,6 +259,30 @@ namespace FileFormatsHandler {
 
         }
 
+        static inline QStringList getListForDevIL() {
+
+            QStringList ret;
+
+            ret << "*.cut"              // DR Halo
+                << "*.dds"              // DirectDraw Surface
+                << "*.lbm"              // Interlaced Bitmap
+                << "*.lif"              // Homeworld File
+                << "*.lmp"              // Doom Walls / Flats
+                << "*.mdl"              // Half-Life Model
+                << "*.pcd"              // PhotoCD
+                << "*.pcx"              // ZSoft PCX
+                << "*.pic"              // PIC
+                << "*.psd"              // Adobe PhotoShop
+                << "*.bw" << "*.rgb"    // Silicon Graphics
+                          << "*.rgba"
+                          << "*.sgi"
+                << "*.tga"              // Truevision Targa Graphic
+                << "*.wal";              // Quake2 Texture
+
+            return ret;
+
+        }
+
     }
 
 }

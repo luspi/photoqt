@@ -122,6 +122,13 @@ bool GetAndDoStuffOther::isLibRawSupportEnabled() {
     return false;
 }
 
+bool GetAndDoStuffOther::isDevILSupportEnabled() {
+#ifdef DEVIL
+    return true;
+#endif
+    return false;
+}
+
 QString GetAndDoStuffOther::getVersionString() {
     return VERSION;
 }

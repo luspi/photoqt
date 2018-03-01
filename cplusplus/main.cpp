@@ -26,6 +26,9 @@
 #ifdef GM
 #include <GraphicsMagick/Magick++.h>
 #endif
+#ifdef DEVIL
+#include <IL/il.h>
+#endif
 
 int main(int argc, char *argv[]) {
 
@@ -44,6 +47,10 @@ int main(int argc, char *argv[]) {
 #ifdef GM
     // Initialise Magick as early as possible
     Magick::InitializeMagick(*argv);
+#endif
+
+#ifdef DEVIL
+    ilInit();
 #endif
 
     // This means, that, e.g., --export or --import was passed along -> we will simply quit (preparation for that is done in the handleExportImport() function)

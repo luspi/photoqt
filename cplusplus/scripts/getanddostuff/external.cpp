@@ -87,6 +87,7 @@ QString GetAndDoStuffExternal::exportConfig(QString useThisFilename) {
     allfiles["CFG_FILEFORMATSUNTESTED_FILE"] = ConfigFiles::FILEFORMATSUNTESTED_FILE();
     allfiles["CFG_FILEFORMATSEXTRAS_FILE"] = ConfigFiles::FILEFORMATSEXTRAS_FILE();
     allfiles["CFG_FILEFORMATSRAW_FILE"] = ConfigFiles::FILEFORMATSRAW_FILE();
+    allfiles["CFG_FILEFORMATSDEVIL_FILE"] = ConfigFiles::FILEFORMATSDEVIL_FILE();
     allfiles["CFG_CONTEXTMENU_FILE"] = ConfigFiles::CONTEXTMENU_FILE();
     allfiles["CFG_SHORTCUTS_FILE"] = ConfigFiles::SHORTCUTS_FILE();
 
@@ -137,6 +138,7 @@ QString GetAndDoStuffExternal::importConfig(QString filename) {
     allfiles["CFG_FILEFORMATSUNTESTED_FILE"] = ConfigFiles::FILEFORMATSUNTESTED_FILE();
     allfiles["CFG_FILEFORMATSEXTRAS_FILE"] = ConfigFiles::FILEFORMATSEXTRAS_FILE();
     allfiles["CFG_FILEFORMATSRAW_FILE"] = ConfigFiles::FILEFORMATSRAW_FILE();
+    allfiles["CFG_FILEFORMATSDEVIL_FILE"] = ConfigFiles::FILEFORMATSDEVIL_FILE();
     allfiles["CFG_CONTEXTMENU_FILE"] = ConfigFiles::CONTEXTMENU_FILE();
     allfiles["CFG_SHORTCUTS_FILE"] = ConfigFiles::SHORTCUTS_FILE();
 

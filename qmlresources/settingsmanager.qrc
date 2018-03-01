@@ -55,6 +55,7 @@
         <file>../qml/settingsmanager/tabs/fileformats/FileTypesExtras.qml</file>
         <file>../qml/settingsmanager/tabs/fileformats/FileTypesUntested.qml</file>
         <file>../qml/settingsmanager/tabs/fileformats/FileTypesRaw.qml</file>
+        <file>../qml/settingsmanager/tabs/fileformats/FileTypesDevIL.qml</file>
         <file>../qml/settingsmanager/tabs/TabOther.qml</file>
         <file>../qml/settingsmanager/tabs/other/Language.qml</file>
         <file>../qml/settingsmanager/tabs/other/LanguageTile.qml</file>
