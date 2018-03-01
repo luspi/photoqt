@@ -43,13 +43,17 @@ Rectangle {
         currentIndex: 0
         onCurrentIndexChanged:
             openvariables.filesFileTypeSelection = currentIndex
-        model: [em.pty+qsTr("All supported images"), "Qt " +
+        model: ["[B]"+em.pty+qsTr("All supported images"),
+            "---SEP---",
             //: Used as in 'Qt images'
-            em.pty+qsTr("images"), "GraphicsMagick " +
+            "Qt " + em.pty+qsTr("images"),
             //: Used as in 'GraphicsMagick images'
-            em.pty+qsTr("images"), "LibRaw " +
+            "GraphicsMagick " + em.pty+qsTr("images"),
             //: Used as in 'LibRaw images'
-            em.pty+qsTr("images")]
+            "LibRaw " + em.pty+qsTr("images"),
+            //: Used as in 'DevIL images'
+            "DevIL " + em.pty+qsTr("images"),
+            em.pty+qsTr("All files")]
     }
 
 }

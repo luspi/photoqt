@@ -45,6 +45,8 @@ int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path, int selectionFil
     else if(selectionFileTypes == 3)
         dir.setNameFilters(formats->formats_raw);
     else if(selectionFileTypes == 4)
+        dir.setNameFilters(formats->formats_devil);
+    else if(selectionFileTypes == 5)
         dir.setNameFilters(QStringList() << "*.*");
     dir.setFilter(QDir::Files);
 
@@ -317,6 +319,8 @@ QVariantList GetAndDoStuffOpenFile::getFilesWithSizeIn(QString path, int selecti
     else if(selectionFileTypes == 3)
         dir.setNameFilters(formats->formats_raw);
     else if(selectionFileTypes == 4)
+        dir.setNameFilters(formats->formats_devil);
+    else if(selectionFileTypes == 5)
         dir.setNameFilters(QStringList() << "*.*");
 
     if(showHidden)
