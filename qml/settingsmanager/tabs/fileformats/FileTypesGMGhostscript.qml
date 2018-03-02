@@ -56,7 +56,7 @@ EntryContainer {
             enabled: getanddostuff.isGraphicsMagickSupportEnabled()
 
             // the model array
-            property var types_gm: [["", "", true]]
+            property var types_gm: [["", "", true, ""]]
             // which item is checked
             property var modeldata: {"" : ""}
 
@@ -76,6 +76,7 @@ EntryContainer {
                     id: tile
                     fileType: entry.types_gm[index][0]
                     fileEnding: entry.types_gm[index][1]
+                    displayFileEnding: entry.types_gm[index][3]
                     checked: entry.types_gm[index][2]
                     width: grid.cellWidth-grid.spacing*2
                     x: grid.spacing
@@ -104,10 +105,11 @@ EntryContainer {
         var setformats = fileformats.formats_gm_ghostscript
 
         // Valid fileformats
-        var gm = [["Encapsulated PostScript","*.eps", "*.epsf"],
-            ["Encapsulated PostScript Interchange","*.epi", "*.epsi", "*.ept"],
+        var gm = [["Encapsulated PostScript Interchange","*.epi", "*.epsi"],
+            ["Encapsulated PostScript","*.eps", "*.epsf"],
             ["Level II Encapsulated PostScript","*.eps2"],
             ["Level III Encapsulated PostScript","*.eps3"],
+            ["Adobe Encapsulated PostScript Interchange format with TIFF preview","*.ept"],
             ["Portable Document Format","*.pdf"],
             ["Adobe PostScript","*.ps"],
             ["Adobe Level II PostScript","*.ps2"],
@@ -121,6 +123,8 @@ EntryContainer {
             var found = true
             // And the file endings composed in string
             var composed = ""
+            // This string will be written on the tiles, without "*." and all upper case
+            var composedDisplayed = ""
 
             for(var j = 1; j < cur.length; ++j) {
 
@@ -130,11 +134,13 @@ EntryContainer {
 
                 // The space aftet eh comma is very important! It is needed when saving data
                 if(composed != "") composed += ", "
+                if(composedDisplayed != "") composedDisplayed += ", "
                 composed += cur[j]
+                composedDisplayed += cur[j].substr(2,cur[j].length).toUpperCase()
             }
 
             // Add to temporary array
-            tmp_types_gm = tmp_types_gm.concat([[cur[0],composed,found]])
+            tmp_types_gm = tmp_types_gm.concat([[cur[0],composed,found, composedDisplayed]])
 
         }
 

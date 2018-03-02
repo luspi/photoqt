@@ -51,7 +51,7 @@ EntryContainer {
             id: entry
 
             // the model array
-            property var types_extras: [["", "", "", true]]
+            property var types_extras: [["", "", "", true, ""]]
             // which item is checked
             property var modeldata: {"" : ""}
 
@@ -71,6 +71,7 @@ EntryContainer {
                     id: tile
                     fileType: entry.types_extras[index][0]
                     fileEnding: entry.types_extras[index][1]
+                    displayFileEnding: entry.types_extras[index][3]
                     description: entry.types_extras[index][2]
                     checked: entry.types_extras[index][3]
                     width: grid.cellWidth-grid.spacing*2
@@ -112,6 +113,8 @@ EntryContainer {
             var found = true
             // And the file endings composed in string
             var composed = ""
+            // This string will be written on the tiles, without "*." and all upper case
+            var composedDisplayed = ""
 
             for(var j = 1; j < cur.length-1; ++j) {
 
@@ -121,11 +124,13 @@ EntryContainer {
 
                 // The space aftet eh comma is very important! It is needed when saving data
                 if(composed != "") composed += ", "
+                if(composedDisplayed != "") composedDisplayed += ", "
                 composed += cur[j]
+                composedDisplayed += cur[j].substr(2,cur[j].length).toUpperCase()
             }
 
             // Add to temporary array
-            tmp_types_extras = tmp_types_extras.concat([[cur[0],composed,cur[cur.length-1],found]])
+            tmp_types_extras = tmp_types_extras.concat([[cur[0],composed,cur[cur.length-1],found, composedDisplayed]])
 
         }
 

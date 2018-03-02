@@ -31,6 +31,7 @@ Rectangle {
 
     property string fileEnding: ""
     property string fileType: ""
+    property string displayFileEnding: ""
     property string description: ""
 
     property bool checked: false
@@ -52,7 +53,7 @@ Rectangle {
         x: y
         fixedwidth: parent.width-2*x
         elide: Text.ElideRight
-        text: parent.fileType
+        text: displayFileEnding // parent.fileType
         textColour: (hovered || checked) ? colour.tiles_text_active : colour.tiles_text_inactive
         indicatorColourEnabled: colour.tiles_indicator_col
         indicatorBackgroundColourEnabled: colour.tiles_indicator_bg

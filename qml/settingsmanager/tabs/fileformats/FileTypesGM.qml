@@ -54,7 +54,7 @@ EntryContainer {
             id: entry
 
             // the model array
-            property var types_gm: [["", "", true]]
+            property var types_gm: [["", "", true, ""]]
             // which item is checked
             property var modeldata: {"" : ""}
 
@@ -76,6 +76,7 @@ EntryContainer {
                     id: tile
                     fileType: entry.types_gm[index][0]
                     fileEnding: entry.types_gm[index][1]
+                    displayFileEnding: entry.types_gm[index][3]
                     checked: entry.types_gm[index][2]
                     width: grid.cellWidth-grid.spacing*2
                     x: grid.spacing
@@ -105,10 +106,10 @@ EntryContainer {
 
         // Valid fileformats
         var gm = [["AVS X image", "*.avs", "*.x"],
-            ["Continuous Acquisition and Life-cycle Support Type 1", "*.cals", "*.cal", "*.dcl", "*.ras"],
+            ["Continuous Acquisition and Life-cycle Support Type 1", "*.cals", "*.cal", "*.dcl"],
             ["Kodak Cineon", "*.cin"],
             ["Dr Halo", "*.cut"],
-            ["Digital Imaging and Communications in Medicine (DICOM)", "*.acr", "*.dcm", "*.dicom", "*.dic"],
+            ["Digital Imaging and Communications in Medicine (DICOM)", "*.dcm", "*.dicom", "*.dic", "*.acr"],
             ["ZSoft IBM PC multi-page Paintbrush image", "*.dcx"],
             ["Microsoft Windows Device Independent Bitmap", "*.dib"],
             ["Digital Moving Picture Exchange", "*.dpx"],
@@ -117,6 +118,7 @@ EntryContainer {
             ["Flexible Image Transport System", "*.fits", "*.fts", "*.fit"],
             ["FlashPix Format", "*.fpx"],
             ["JPEG Network Graphics", "*.jng"],
+            ["Joint Photographic Experts Group (JPEG)", "*.jpg", "*.jpeg", "*.jpe"],
             ["MATLAB image format", "*.mat"],
             ["Magick image file format", "*.miff"],
             ["Bi-level bitmap in least-significant-byte first order", "*.mono"],
@@ -150,6 +152,8 @@ EntryContainer {
             var found = true
             // And the file endings composed in string
             var composed = ""
+            // This string will be written on the tiles, without "*." and all upper case
+            var composedDisplayed = ""
 
             for(var j = 1; j < cur.length; ++j) {
 
@@ -159,11 +163,13 @@ EntryContainer {
 
                 // The space aftet eh comma is very important! It is needed when saving data
                 if(composed != "") composed += ", "
+                if(composedDisplayed != "") composedDisplayed += ", "
                 composed += cur[j]
+                composedDisplayed += cur[j].substr(2,cur[j].length).toUpperCase()
             }
 
             // Add to temporary array
-            tmp_types_gm = tmp_types_gm.concat([[cur[0],composed,found]])
+            tmp_types_gm = tmp_types_gm.concat([[cur[0],composed,found, composedDisplayed]])
 
         }
 
