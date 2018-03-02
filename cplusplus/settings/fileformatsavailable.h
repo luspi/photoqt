@@ -55,7 +55,7 @@ namespace FileFormatsHandler {
                 << "*.tga"                          // Truevision Targa Graphic
                 << "*.tif" << "*.tiff"              // Tagged Image File Format
                 << "*.wbmp"                         // Wireless bitmap
-                << "*.webp"                         // Google webbrowser graphics?
+                << "*.webp"                         // Google web image format
                 << "*.xbm"                          // X Windows system bitmap, black and white only
                 << "*.xpm";                         // X Windows system pixmap
 

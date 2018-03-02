@@ -107,7 +107,7 @@ namespace FileFormatsHandler {
             if(formats.contains("wbmp"))
                 ret << "*.wbmp";
 
-            // Google webbrowser graphics?
+            // Google web image format
             if(formats.contains("webp"))
                 ret << "*.webp";
 
