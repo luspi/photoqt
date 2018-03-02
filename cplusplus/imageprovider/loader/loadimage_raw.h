@@ -159,7 +159,7 @@ public:
         raw.recycle();
 
         if(maxSize.width() > 5 && maxSize.height() > 5 && (image.width() > maxSize.width() || image.height() > maxSize.height()))
-            image = image.scaled(maxSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            return image.scaled(maxSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
         return image;
 
