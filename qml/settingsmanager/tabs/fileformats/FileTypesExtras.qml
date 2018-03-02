@@ -71,7 +71,7 @@ EntryContainer {
                     id: tile
                     fileType: entry.types_extras[index][0]
                     fileEnding: entry.types_extras[index][1]
-                    displayFileEnding: entry.types_extras[index][3]
+                    displayFileEnding: entry.types_extras[index][4]
                     description: entry.types_extras[index][2]
                     checked: entry.types_extras[index][3]
                     width: grid.cellWidth-grid.spacing*2
