@@ -47,7 +47,7 @@ public:
             LOG << CURDATE << "LoadImageGM: Loading image using GraphicsMagick: " << QFileInfo(filename).fileName().toStdString() << NL;
 
         GmImageMagick imagemagick;
-        QSize origSize;
+        QSize finalSize;
 
         // We first read the image into memory
         QFile file(filename);
@@ -69,49 +69,48 @@ public:
         try {
 
             // Prepare Magick
-            QString suf = QFileInfo(filename).suffix().toLower();
+            QString suf = QFileInfo(filename).suffix().toUpper();
             Magick::Image image;
             image = imagemagick.setImageMagick(image,suf);
 
             // Read image into Magick
             image.read(blob);
 
+            finalSize = QSize(image.columns(), image.rows());
+
             // Scale image if necessary
             if(maxSize.width() != -1) {
 
-                int dispWidth = image.columns();
-                int dispHeight = image.rows();
-
                 double q;
 
-                if(dispWidth > maxSize.width()) {
-                        q = maxSize.width()/(dispWidth*1.0);
-                        dispWidth *= q;
-                        dispHeight *= q;
+                if(finalSize.width() > maxSize.width()) {
+                        q = maxSize.width()/(finalSize.width()*1.0);
+                        finalSize.setWidth(finalSize.width()*q);
+                        finalSize.setHeight(finalSize.height()*q);
                 }
-                if(dispHeight > maxSize.height()) {
-                    q = maxSize.height()/(dispHeight*1.0);
-                    dispWidth *= q;
-                    dispHeight *= q;
+                if(finalSize.height() > maxSize.height()) {
+                    q = maxSize.height()/(finalSize.height()*1.0);
+                    finalSize.setWidth(finalSize.width()*q);
+                    finalSize.setHeight(finalSize.height()*q);
                 }
 
                 // For small images we can use the faster algorithm, as the quality is good enough for that
-                if(dispWidth < 300 && dispHeight < 300)
-                    image.thumbnail(Magick::Geometry(dispWidth,dispHeight));
+                if(finalSize.width() < 300 && finalSize.height() < 300)
+                    image.thumbnail(Magick::Geometry(finalSize.width(),finalSize.height()));
                 else
-                    image.scale(Magick::Geometry(dispWidth,dispHeight));
+                    image.scale(Magick::Geometry(finalSize.width(),finalSize.height()));
 
             }
 
-            // Write Magick as PNG to memory
+            // Write Magick as JPG to memory
+            // We used to use PNG here, but JPG is waaaayyyyyy faster
             Magick::Blob ob;
-            image.type(Magick::TrueColorMatteType);
-            image.magick("PNG");
+            image.magick("JPG");
             image.write(&ob);
 
-            // And load PNG from memory into QImage
+            // And load JPG from memory into QImage
             const QByteArray imgData((char*)(ob.data()),ob.length());
-            QImage img((maxSize.width() > -1 ? maxSize : QSize(4000,3000)), QImage::Format_ARGB32);	// zoomed or not?
+            QImage img((maxSize.width() > -1 ? maxSize : finalSize), QImage::Format_ARGB32);
             img.loadFromData(imgData);
 
             // And we're done!
