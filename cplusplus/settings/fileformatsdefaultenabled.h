@@ -70,7 +70,8 @@ namespace FileFormatsHandler {
             // Joint Photographic Experts Group JFIF format
             if(formats.contains("jpg") || formats.contains("jpeg"))
                 ret << "*.jpeg"
-                    << "*.jpg";
+                    << "*.jpg"
+                    << "*.jpe";
 
             // Portable Network Graphics
             if(formats.contains("png"))

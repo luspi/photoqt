@@ -45,7 +45,7 @@ namespace FileFormatsHandler {
                 << "*.mng"                          // Multiple-image Network Graphics
                 << "*.ico" << "*.cur"               // Microsoft icon
                 << "*.icns"                         // Macintosh OS X icon
-                << "*.jpeg" << "*.jpg"              // Joint Photographic Experts Group JFIF format
+                << "*.jpeg" << "*.jpg" << "*.jpe"   // Joint Photographic Experts Group JFIF format
                 << "*.png"                          // Portable Network Graphics
                 << "*.pbm"                          // Portable bitmap format (black and white)
                 << "*.pgm"                          // Portable graymap format (gray scale)
@@ -127,6 +127,7 @@ namespace FileFormatsHandler {
                 << "*.fits" << "*.fts" << "*.fit"   // Flexible Image Transport System
                 << "*.fpx"                          // FlashPix Format
                 << "*.jng"                          // JPEG Network Graphics
+                << "*.jpg" << "*.jpeg" << "*.jpe"
                 << "*.mat"                          // MATLAB image format
                 << "*.miff"                         // Magick image file format
                 << "*.mono"                         // Bi-level bitmap in least-significant-byte first order
