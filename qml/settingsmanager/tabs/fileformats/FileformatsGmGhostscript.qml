@@ -193,6 +193,21 @@ EntryContainer {
 
                     }
 
+                    CustomButton {
+
+                        id: selectdefault
+
+                        // size reflects the size of the entries
+                        anchors.left: selectnone.right
+                        anchors.leftMargin: 2*grid.spacing
+                        anchors.topMargin: grid.spacing
+                        width: grid.cellWidth-grid.spacing*2
+
+                        text: qsTr("Set default")
+                        onClickedButton: imageformats.setDefaultFormatsGmGhostscript()
+
+                    }
+
                 }
 
             }
