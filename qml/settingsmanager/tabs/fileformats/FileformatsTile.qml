@@ -38,7 +38,7 @@ Rectangle {
     width: 100
     height: 30
 
-    color: checked ? colour.tiles_active : (hovered ? colour.tiles_inactive : colour.tiles_disabled)
+    color: checked ? (hovered ? colour.tiles_active_hovered : colour.tiles_active) : (hovered ? colour.tiles_inactive : colour.tiles_disabled)
     Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
     radius: variables.global_item_radius
 

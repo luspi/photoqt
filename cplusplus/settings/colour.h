@@ -61,6 +61,7 @@ public:
     Q_PROPERTY(QString thumbnails_border MEMBER thumbnails_border NOTIFY thumbnails_borderChanged)
     Q_PROPERTY(QString thumbnails_filename_bg MEMBER thumbnails_filename_bg NOTIFY thumbnails_filename_bgChanged)
 
+    Q_PROPERTY(QString tiles_active_hovered MEMBER tiles_active_hovered NOTIFY tiles_active_hoveredChanged)
     Q_PROPERTY(QString tiles_active MEMBER tiles_active NOTIFY tiles_activeChanged)
     Q_PROPERTY(QString tiles_inactive MEMBER tiles_inactive NOTIFY tiles_inactiveChanged)
     Q_PROPERTY(QString tiles_disabled MEMBER tiles_disabled NOTIFY tiles_disabledChanged)
@@ -157,6 +158,7 @@ public:
     QString thumbnails_filename_bg;
 
     // Tiles in settings
+    QString tiles_active_hovered;
     QString tiles_active;
     QString tiles_inactive;
     QString tiles_disabled;
@@ -266,6 +268,7 @@ public slots:
         thumbnails_filename_bg = "#88000000";
 
         // Tiles in settings
+        tiles_active_hovered = "#99cccccc";
         tiles_active = "#77cccccc";
         tiles_inactive = "#55cccccc";
         tiles_disabled = "#44cccccc";
@@ -377,6 +380,7 @@ public slots:
         txt += QString("thumbnails_border=%1\n").arg(thumbnails_border);
         txt += QString("thumbnails_filename_bg=%1\n\n").arg(thumbnails_filename_bg);
 
+        txt += QString("tiles_active_hovered=%1\n").arg(tiles_active_hovered);
         txt += QString("tiles_active=%1\n").arg(tiles_active);
         txt += QString("tiles_inactive=%1\n").arg(tiles_inactive);
         txt += QString("tiles_disabled=%1\n").arg(tiles_disabled);
@@ -513,6 +517,8 @@ public slots:
                 else if(property == "thumbnails_filename_bg")
                     thumbnails_filename_bg = color;
 
+                else if(property == "tiles_active_hovered")
+                    tiles_active_hovered = color;
                 else if(property == "tiles_active")
                     tiles_active = color;
                 else if(property == "tiles_inactive")
@@ -662,6 +668,7 @@ signals:
     void thumbnails_bgChanged(QString val);
     void thumbnails_borderChanged(QString val);
     void thumbnails_filename_bgChanged(QString val);
+    void tiles_active_hoveredChanged(QString val);
     void tiles_activeChanged(QString val);
     void tiles_inactiveChanged(QString val);
     void tiles_disabledChanged(QString val);
