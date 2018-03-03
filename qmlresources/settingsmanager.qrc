@@ -64,6 +64,7 @@
         <file>../qml/settingsmanager/tabs/fileformats/FileformatsGm.qml</file>
         <file>../qml/settingsmanager/tabs/fileformats/FileformatsGmGhostscript.qml</file>
         <file>../qml/settingsmanager/tabs/fileformats/FileformatsRAW.qml</file>
+        <file>../qml/settingsmanager/tabs/fileformats/FileformatsDevIL.qml</file>
         <file>../qml/settingsmanager/tabs/TabOther.qml</file>
         <file>../qml/settingsmanager/tabs/other/Language.qml</file>
         <file>../qml/settingsmanager/tabs/other/LanguageTile.qml</file>

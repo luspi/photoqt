@@ -17,13 +17,13 @@ class ImageFormats : public QObject {
 public:
     ImageFormats(QObject *parent = 0) : QObject(parent) {
 
-        categories << "qt" << "kde" << "extras" << "gm" << "gmghostscript" << "raw";
+        categories << "qt" << "kde" << "extras" << "gm" << "gmghostscript" << "raw" << "devil";
         formatsfiles << ConfigFiles::FILEFORMATSQT_FILE() << ConfigFiles::FILEFORMATSKDE_FILE()
                      << ConfigFiles::FILEFORMATSEXTRAS_FILE() << ConfigFiles::FILEFORMATSGM_FILE()
-                     << ConfigFiles::FILEFORMATSGMGHOSTSCRIPT_FILE() << ConfigFiles::FILEFORMATSRAW_FILE();
+                     << ConfigFiles::FILEFORMATSGMGHOSTSCRIPT_FILE() << ConfigFiles::FILEFORMATSRAW_FILE()
+                     << ConfigFiles::FILEFORMATSDEVIL_FILE();
 
         setupAvailable = new QMap<QString, QStringList>[categories.length()];
-
 
         // Qt
         setupAvailable[0].insert("bmp"     , QStringList() << "Microsoft Windows bitmap"                        << "1");
@@ -186,6 +186,23 @@ public:
         setupAvailable[5].insert("srw"      , QStringList() << "Samsung"                    << "1");
         setupAvailable[5].insert("x3f"      , QStringList() << "Sigma"                      << "1");
 
+        // DevIL
+        setupAvailable[6].insert("cut"      , QStringList() << "DR Halo"                    << "1");
+        setupAvailable[6].insert("dds"      , QStringList() << "DirectDraw Surface"         << "1");
+        setupAvailable[6].insert("lbm"      , QStringList() << "Interlaced Bitmap"          << "1");
+        setupAvailable[6].insert("lif"      , QStringList() << "Homeworld File"             << "1");
+        setupAvailable[6].insert("lmp"      , QStringList() << "Doom Walls / Flats"         << "1");
+        setupAvailable[6].insert("mdl"      , QStringList() << "Half-Life Model"            << "1");
+        setupAvailable[6].insert("pcd"      , QStringList() << "PhotoCD"                    << "1");
+        setupAvailable[6].insert("pcx"      , QStringList() << "ZSoft PCX"                  << "1");
+        setupAvailable[6].insert("pic"      , QStringList() << "Apple Macintosh QuickDraw/PICT file" << "1");
+        setupAvailable[6].insert("psd"      , QStringList() << "Adobe PhotoShop"            << "1");
+        setupAvailable[6].insert("bw"       , QStringList() << "Silicon Graphics"           << "1");
+        setupAvailable[6].insert("rgb"      , QStringList() << "Silicon Graphics"           << "1");
+        setupAvailable[6].insert("rgba"     , QStringList() << "Silicon Graphics"           << "1");
+        setupAvailable[6].insert("sgi"      , QStringList() << "Silicon Graphics"           << "1");
+        setupAvailable[6].insert("tga"      , QStringList() << "Truevision Targa Graphic"   << "1");
+        setupAvailable[6].insert("wal"      , QStringList() << "Quake2 Texture"             << "1");
 
 
         availableFileformats = new QVariantList[categories.length()];
@@ -207,6 +224,7 @@ public:
         connect(this, SIGNAL(enabledFileformatsGmChanged(QVariantList)), saveTimer, SLOT(start()));
         connect(this, SIGNAL(enabledFileformatsGmGhostscriptChanged(QVariantList)), saveTimer, SLOT(start()));
         connect(this, SIGNAL(enabledFileformatsRAWChanged(QVariantList)), saveTimer, SLOT(start()));
+        connect(this, SIGNAL(enabledFileformatsDevILChanged(QVariantList)), saveTimer, SLOT(start()));
 
     }
 
@@ -223,6 +241,8 @@ public:
             setEnabledFileformatsGmGhostscript(val);
         else if(cat == "raw")
             setEnabledFileformatsRAW(val);
+        else if(cat == "devil")
+            setEnabledFileformatsDevIL(val);
     }
 
     // All possibly available file formats for the various categories
@@ -232,6 +252,7 @@ public:
     Q_INVOKABLE QVariantList getAvailableEndingsGm() { return availableFileformats[categories.indexOf("gm")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsGmGhostscript() { return availableFileformats[categories.indexOf("gmghostscript")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsRAW() { return availableFileformats[categories.indexOf("raw")]; }
+    Q_INVOKABLE QVariantList getAvailableEndingsDevIL() { return availableFileformats[categories.indexOf("devil")]; }
 
     // All possibly available file formats INCLUDING a description of the image type for the various categories
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionQt() { return availableFileformatsWithDescription[categories.indexOf("qt")]; }
@@ -240,6 +261,7 @@ public:
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionGm() { return availableFileformatsWithDescription[categories.indexOf("gm")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionGmGhostscript() { return availableFileformatsWithDescription[categories.indexOf("gmghostscript")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionRAW() { return availableFileformatsWithDescription[categories.indexOf("raw")]; }
+    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionDevIL() { return availableFileformatsWithDescription[categories.indexOf("devil")]; }
 
     // All currently enabled file formats for ...
     // ... Qt
@@ -266,6 +288,10 @@ public:
     Q_PROPERTY(QVariantList enabledFileformatsRAW READ getEnabledFileformatsRAW WRITE setEnabledFileformatsRAW NOTIFY enabledFileformatsRAWChanged)
     QVariantList getEnabledFileformatsRAW() { return enabledFileformats[categories.indexOf("raw")]; }
     void setEnabledFileformatsRAW(QVariantList val) { enabledFileformats[categories.indexOf("raw")] = val; emit enabledFileformatsRAWChanged(val); }
+    // ... DevIL
+    Q_PROPERTY(QVariantList enabledFileformatsDevIL READ getEnabledFileformatsDevIL WRITE setEnabledFileformatsDevIL NOTIFY enabledFileformatsDevILChanged)
+    QVariantList getEnabledFileformatsDevIL() { return enabledFileformats[categories.indexOf("devil")]; }
+    void setEnabledFileformatsDevIL(QVariantList val) { enabledFileformats[categories.indexOf("devil")] = val; emit enabledFileformatsDevILChanged(val); }
 
     // Can be called from QML when resetting the settings
     Q_INVOKABLE void setDefaultFileformats() {
@@ -275,6 +301,7 @@ public:
         setEnabledFileformatsGm(defaultEnabledFileformats[categories.indexOf("gm")]);
         setEnabledFileformatsGmGhostscript(defaultEnabledFileformats[categories.indexOf("gmghostscript")]);
         setEnabledFileformatsRAW(defaultEnabledFileformats[categories.indexOf("raw")]);
+        setEnabledFileformatsDevIL(defaultEnabledFileformats[categories.indexOf("devil")]);
     }
 
 signals:
@@ -284,6 +311,7 @@ signals:
     void enabledFileformatsGmChanged(QVariantList val);
     void enabledFileformatsGmGhostscriptChanged(QVariantList val);
     void enabledFileformatsRAWChanged(QVariantList val);
+    void enabledFileformatsDevILChanged(QVariantList val);
 
     /****************************************************************************************/
     /****************************************************************************************/
