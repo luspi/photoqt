@@ -24,6 +24,8 @@
 #define FILEFORMATSAVAILABLE_H
 
 #include <QStringList>
+#include <QMap>
+#include <QVariantList>
 
 namespace FileFormatsHandler {
 

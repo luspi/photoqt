@@ -82,35 +82,42 @@ Rectangle {
 
             Rectangle { color: "transparent"; width: 1; height: 20; }
 
-            FileformatsQt { id: fileformatsqt }
-            FileformatsKDE { id: fileformatskde; alternating: true }
-            FileformatsExtras { id: fileformatsextras }
-            FileformatsGm { id: fileformatsgm; alternating: true }
+            FileTypesQt { id: filetypesqt }
+            FileTypesKde { id: filetypeskde; alternating: true }
+            FileTypesExtras { id: filetypesextras }
+            FileTypesGM { id: filetypesgm; alternating: true }
+            FileTypesGMGhostscript { id: filetypesgmghostscript }
+            FileTypesRaw { id: filetypesraw; alternating: true }
+            FileTypesDevIL { id: filetypesdevil }
+            FileTypesUntested { id: filetypesuntested; alternating: true }
+
 
         }
 
     }
 
     function setData() {
-
         verboseMessage("SettingsManager/TabFileFormats", "setData()")
-
-        fileformatsqt.setData()
-        fileformatskde.setData()
-        fileformatsextras.setData()
-        fileformatsgm.setData()
-
+        filetypesqt.setData()
+        filetypeskde.setData()
+        filetypesgm.setData()
+        filetypesgmghostscript.setData()
+        filetypesextras.setData()
+        filetypesuntested.setData()
+        filetypesraw.setData()
+        filetypesdevil.setData()
     }
 
     function saveData() {
-
         verboseMessage("SettingsManager/TabFileFormats", "saveData()")
-
-        fileformatsqt.saveData()
-        fileformatskde.saveData()
-        fileformatsextras.saveData()
-        fileformatsgm.saveData()
-
+        filetypesqt.saveData()
+        filetypeskde.saveData()
+        filetypesgm.saveData()
+        filetypesgmghostscript.saveData()
+        filetypesextras.saveData()
+        filetypesuntested.saveData()
+        filetypesraw.saveData()
+        filetypesdevil.saveData()
     }
 
 }

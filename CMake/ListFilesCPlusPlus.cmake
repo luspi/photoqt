@@ -13,7 +13,7 @@ SET(d "cplusplus/imageprovider/loader")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/errorimage.h ${d}/loadimage_gm.h ${d}/loadimage_qt.h ${d}/loadimage_raw.h ${d}/loadimage_xcf.h ${d}/loadimage_devil.h)
 
 SET(d "cplusplus/settings")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/colour.h ${d}/fileformats.h ${d}/fileformatsavailable.h ${d}/fileformatsdefaultenabled.h ${d}/settings.h ${d}/slimsettingsreadonly.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/colour.h ${d}/imageformats.h ${d}/fileformats.h ${d}/fileformatsavailable.h ${d}/fileformatsdefaultenabled.h ${d}/settings.h ${d}/slimsettingsreadonly.h)
 
 SET(d "cplusplus/scripts")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/getanddostuff.h ${d}/getmetadata.cpp ${d}/gmimagemagick.h ${d}/runprocess.h)

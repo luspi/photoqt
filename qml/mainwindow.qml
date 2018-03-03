@@ -24,6 +24,7 @@ import QtQuick 2.5
 
 import PSettings 1.0
 import PFileFormats 1.0
+import PImageFormats 1.0
 import PGetAndDoStuff 1.0
 import PGetMetaData 1.0
 import PToolTip 1.0
@@ -81,6 +82,7 @@ Rectangle {
 
     // The fileformats known to PhotoQt
     PFileFormats { id: fileformats; }
+    PImageFormats { id: imageformats; }
 
     // The colouring of PhotoQt
     PColour { id: colour; }

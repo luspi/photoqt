@@ -47,6 +47,7 @@
         <file>../qml/settingsmanager/tabs/metadata/RotateFlip.qml</file>
         <file>../qml/settingsmanager/tabs/metadata/OnlineMap.qml</file>
         <file>../qml/settingsmanager/tabs/TabFileformats.qml</file>
+        <file>../qml/settingsmanager/tabs/TabFileformatsOld.qml</file>
         <file>../qml/settingsmanager/tabs/fileformats/FileTypesQt.qml</file>
         <file>../qml/settingsmanager/tabs/fileformats/FileTypesKde.qml</file>
         <file>../qml/settingsmanager/tabs/fileformats/FileTypesTile.qml</file>
@@ -56,6 +57,11 @@
         <file>../qml/settingsmanager/tabs/fileformats/FileTypesUntested.qml</file>
         <file>../qml/settingsmanager/tabs/fileformats/FileTypesRaw.qml</file>
         <file>../qml/settingsmanager/tabs/fileformats/FileTypesDevIL.qml</file>
+        <file>../qml/settingsmanager/tabs/fileformats/FileformatsTile.qml</file>
+        <file>../qml/settingsmanager/tabs/fileformats/FileformatsQt.qml</file>
+        <file>../qml/settingsmanager/tabs/fileformats/FileformatsKDE.qml</file>
+        <file>../qml/settingsmanager/tabs/fileformats/FileformatsExtras.qml</file>
+        <file>../qml/settingsmanager/tabs/fileformats/FileformatsGm.qml</file>
         <file>../qml/settingsmanager/tabs/TabOther.qml</file>
         <file>../qml/settingsmanager/tabs/other/Language.qml</file>
         <file>../qml/settingsmanager/tabs/other/LanguageTile.qml</file>
