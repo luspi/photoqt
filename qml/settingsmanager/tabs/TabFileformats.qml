@@ -86,6 +86,8 @@ Rectangle {
             FileformatsKDE { id: fileformatskde; alternating: true }
             FileformatsExtras { id: fileformatsextras }
             FileformatsGm { id: fileformatsgm; alternating: true }
+            FileformatsGmGhostscript { id: fileformatsgmghostscript }
+            FileformatsRAW { id: fileformatsraw; alternating: true }
 
         }
 
@@ -99,6 +101,8 @@ Rectangle {
         fileformatskde.setData()
         fileformatsextras.setData()
         fileformatsgm.setData()
+        fileformatsgmghostscript.setData()
+        fileformatsraw.setData()
 
     }
 
@@ -110,6 +114,8 @@ Rectangle {
         fileformatskde.saveData()
         fileformatsextras.saveData()
         fileformatsgm.saveData()
+        fileformatsgmghostscript.saveData()
+        fileformatsraw.saveData()
 
     }
 

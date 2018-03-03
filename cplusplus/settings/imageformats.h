@@ -17,13 +17,15 @@ class ImageFormats : public QObject {
 public:
     ImageFormats(QObject *parent = 0) : QObject(parent) {
 
-        categories << "qt" << "kde"
-                   << "extras" << "gm";
+        categories << "qt" << "kde" << "extras" << "gm" << "gmghostscript" << "raw";
         formatsfiles << ConfigFiles::FILEFORMATSQT_FILE() << ConfigFiles::FILEFORMATSKDE_FILE()
-                     << ConfigFiles::FILEFORMATSEXTRAS_FILE() << ConfigFiles::FILEFORMATSGM_FILE();
+                     << ConfigFiles::FILEFORMATSEXTRAS_FILE() << ConfigFiles::FILEFORMATSGM_FILE()
+                     << ConfigFiles::FILEFORMATSGMGHOSTSCRIPT_FILE() << ConfigFiles::FILEFORMATSRAW_FILE();
 
         setupAvailable = new QMap<QString, QStringList>[categories.length()];
 
+
+        // Qt
         setupAvailable[0].insert("bmp"     , QStringList() << "Microsoft Windows bitmap"                        << "1");
         setupAvailable[0].insert("bitmap"  , QStringList() << "Microsoft Windows bitmap"                        << "1");
         setupAvailable[0].insert("gif"     , QStringList() << "CompuServe Graphics Interchange Format"          << "1");
@@ -54,6 +56,7 @@ public:
         setupAvailable[0].insert("xbm"     , QStringList() << "X Windows system bitmap, black and white only"   << "1");
         setupAvailable[0].insert("xpm"     , QStringList() << "X Windows system pixmap"                         << "1");
 
+        // KDE
         setupAvailable[1].insert("eps"     , QStringList() << "Adobe Encapsulated PostScript"                   << "1");
         setupAvailable[1].insert("epsf"    , QStringList() << "Adobe Encapsulated PostScript"                   << "1");
         setupAvailable[1].insert("epsi"    , QStringList() << "Adobe Encapsulated PostScript"                   << "1");
@@ -71,10 +74,12 @@ public:
         setupAvailable[1].insert("tga"     , QStringList() << "Truevision Targa Graphic"                        << "1");
         setupAvailable[1].insert("xcf"     , QStringList() << "Gimp format"                                     << "1");
 
+        // Extras
         setupAvailable[2].insert("psb"     , QStringList() << "Adobe PhotoShop - Makes use of 'libqpsd'"        << "0");
         setupAvailable[2].insert("psd"     , QStringList() << "Adobe PhotoShop - Makes use of 'libqpsd'"        << "0");
         setupAvailable[2].insert("xcf"     , QStringList() << "Gimp format - Makes use of 'xcftoold'"           << "0");
 
+        // GraphicsMagick
         setupAvailable[3].insert("avs"      , QStringList() << "AVS X image"                                    << "1");
         setupAvailable[3].insert("x"        , QStringList() << "AVS X image"                                    << "0");
         setupAvailable[3].insert("cals"     , QStringList() << "Continuous Acquisition and Life-cycle Support Type 1 image"   << "1");
@@ -126,6 +131,62 @@ public:
         setupAvailable[3].insert("wpg"      , QStringList() << "Word Perfect Graphics File"                     << "1");
         setupAvailable[3].insert("xwd"      , QStringList() << "X Windows system window dump"                   << "1");
 
+        // GraphicsMagick w/ Ghostscript
+        setupAvailable[4].insert("epi"      , QStringList() << "Adobe Encapsulated PostScript Interchange format"   << "0");
+        setupAvailable[4].insert("epsi"     , QStringList() << "Adobe Encapsulated PostScript Interchange format"   << "0");
+        setupAvailable[4].insert("eps"      , QStringList() << "Adobe Encapsulated PostScript"                      << "0");
+        setupAvailable[4].insert("epsf"     , QStringList() << "Adobe Encapsulated PostScript"                      << "0");
+        setupAvailable[4].insert("eps2"     , QStringList() << "Adobe Level II Encapsulated PostScript"             << "0");
+        setupAvailable[4].insert("eps3"     , QStringList() << "Adobe Level III Encapsulated PostScript"            << "0");
+        setupAvailable[4].insert("ept"      , QStringList() << "Adobe Encapsulated PostScript Interchange format with TIFF preview" << "0");
+        setupAvailable[4].insert("pdf"      , QStringList() << "Portable Document Format"                           << "0");
+        setupAvailable[4].insert("ps"       , QStringList() << "Adobe PostScript file"                              << "0");
+        setupAvailable[4].insert("ps2"      , QStringList() << "Adobe Level II PostScript file"                     << "0");
+        setupAvailable[4].insert("ps3"      , QStringList() << "Adobe Level III PostScript file"                    << "0");
+
+        // RAW
+        setupAvailable[5].insert("3fr"      , QStringList() << "Hasselblad"                 << "1");
+        setupAvailable[5].insert("ari"      , QStringList() << "ARRIFLEX"                   << "1");
+        setupAvailable[5].insert("arw"      , QStringList() << "Sony"                       << "1");
+        setupAvailable[5].insert("srf"      , QStringList() << "Sony"                       << "1");
+        setupAvailable[5].insert("sr2"      , QStringList() << "Sony"                       << "1");
+        setupAvailable[5].insert("bay"      , QStringList() << "Casio"                      << "1");
+        setupAvailable[5].insert("crw"      , QStringList() << "Canon"                      << "1");
+        setupAvailable[5].insert("crr"      , QStringList() << "Canon"                      << "1");
+        setupAvailable[5].insert("cr2"      , QStringList() << "Canon"                      << "1");
+        setupAvailable[5].insert("cap"      , QStringList() << "Phase_one"                  << "1");
+        setupAvailable[5].insert("liq"      , QStringList() << "Phase_one"                  << "1");
+        setupAvailable[5].insert("eip"      , QStringList() << "Phase_one"                  << "1");
+        setupAvailable[5].insert("dcs"      , QStringList() << "Kodak"                      << "1");
+        setupAvailable[5].insert("dcr"      , QStringList() << "Kodak"                      << "1");
+        setupAvailable[5].insert("drf"      , QStringList() << "Kodak"                      << "1");
+        setupAvailable[5].insert("k25"      , QStringList() << "Kodak"                      << "1");
+        setupAvailable[5].insert("kdc"      , QStringList() << "Kodak"                      << "1");
+        setupAvailable[5].insert("dng"      , QStringList() << "Adobe"                      << "1");
+        setupAvailable[5].insert("erf"      , QStringList() << "Epson"                      << "1");
+        setupAvailable[5].insert("fff"      , QStringList() << "Imacon/Hasselblad raw"      << "1");
+        setupAvailable[5].insert("mef"      , QStringList() << "Mamiya"                     << "1");
+        setupAvailable[5].insert("mdc"      , QStringList() << "Minolta, Agfa"              << "1");
+        setupAvailable[5].insert("mos"      , QStringList() << "Leaf"                       << "1");
+        setupAvailable[5].insert("mrw"      , QStringList() << "Minolta, Konica Minolta"    << "1");
+        setupAvailable[5].insert("nef"      , QStringList() << "Nikon"                      << "1");
+        setupAvailable[5].insert("nrw"      , QStringList() << "Nikon"                      << "1");
+        setupAvailable[5].insert("orf"      , QStringList() << "Olympus"                    << "1");
+        setupAvailable[5].insert("pef"      , QStringList() << "Pentax"                     << "1");
+        setupAvailable[5].insert("ptx"      , QStringList() << "Pentax"                     << "1");
+        setupAvailable[5].insert("pxn"      , QStringList() << "Logitech"                   << "1");
+        setupAvailable[5].insert("r3d"      , QStringList() << "RED Digital Cinema"         << "1");
+        setupAvailable[5].insert("raf"      , QStringList() << "Fuji"                       << "1");
+        setupAvailable[5].insert("raw"      , QStringList() << "Panasonic"                  << "1");
+        setupAvailable[5].insert("rw2"      , QStringList() << "Panasonic"                  << "1");
+        setupAvailable[5].insert("raw"      , QStringList() << "Leica"                      << "1");
+        setupAvailable[5].insert("rwl"      , QStringList() << "Leica"                      << "1");
+        setupAvailable[5].insert("dng"      , QStringList() << "Leica"                      << "1");
+        setupAvailable[5].insert("rwz"      , QStringList() << "Rawzor"                     << "1");
+        setupAvailable[5].insert("srw"      , QStringList() << "Samsung"                    << "1");
+        setupAvailable[5].insert("x3f"      , QStringList() << "Sigma"                      << "1");
+
+
 
         availableFileformats = new QVariantList[categories.length()];
         availableFileformatsWithDescription = new QVariantList[categories.length()];
@@ -144,6 +205,8 @@ public:
         connect(this, SIGNAL(enabledFileformatsKDEChanged(QVariantList)), saveTimer, SLOT(start()));
         connect(this, SIGNAL(enabledFileformatsExtrasChanged(QVariantList)), saveTimer, SLOT(start()));
         connect(this, SIGNAL(enabledFileformatsGmChanged(QVariantList)), saveTimer, SLOT(start()));
+        connect(this, SIGNAL(enabledFileformatsGmGhostscriptChanged(QVariantList)), saveTimer, SLOT(start()));
+        connect(this, SIGNAL(enabledFileformatsRAWChanged(QVariantList)), saveTimer, SLOT(start()));
 
     }
 
@@ -156,6 +219,10 @@ public:
             setEnabledFileformatsExtras(val);
         else if(cat == "gm")
             setEnabledFileformatsGm(val);
+        else if(cat == "gmghostscript")
+            setEnabledFileformatsGmGhostscript(val);
+        else if(cat == "raw")
+            setEnabledFileformatsRAW(val);
     }
 
     // All possibly available file formats for the various categories
@@ -163,12 +230,16 @@ public:
     Q_INVOKABLE QVariantList getAvailableEndingsKDE() { return availableFileformats[categories.indexOf("kde")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsExtras() { return availableFileformats[categories.indexOf("extras")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsGm() { return availableFileformats[categories.indexOf("gm")]; }
+    Q_INVOKABLE QVariantList getAvailableEndingsGmGhostscript() { return availableFileformats[categories.indexOf("gmghostscript")]; }
+    Q_INVOKABLE QVariantList getAvailableEndingsRAW() { return availableFileformats[categories.indexOf("raw")]; }
 
     // All possibly available file formats INCLUDING a description of the image type for the various categories
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionQt() { return availableFileformatsWithDescription[categories.indexOf("qt")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionKDE() { return availableFileformatsWithDescription[categories.indexOf("kde")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionExtras() { return availableFileformatsWithDescription[categories.indexOf("extras")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionGm() { return availableFileformatsWithDescription[categories.indexOf("gm")]; }
+    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionGmGhostscript() { return availableFileformatsWithDescription[categories.indexOf("gmghostscript")]; }
+    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionRAW() { return availableFileformatsWithDescription[categories.indexOf("raw")]; }
 
     // All currently enabled file formats for ...
     // ... Qt
@@ -187,6 +258,14 @@ public:
     Q_PROPERTY(QVariantList enabledFileformatsGm READ getEnabledFileformatsGm WRITE setEnabledFileformatsGm NOTIFY enabledFileformatsGmChanged)
     QVariantList getEnabledFileformatsGm() { return enabledFileformats[categories.indexOf("gm")]; }
     void setEnabledFileformatsGm(QVariantList val) { enabledFileformats[categories.indexOf("gm")] = val; emit enabledFileformatsGmChanged(val); }
+    // ... GraphicsMagick w/ Ghostscript
+    Q_PROPERTY(QVariantList enabledFileformatsGmGhostscript READ getEnabledFileformatsGmGhostscript WRITE setEnabledFileformatsGmGhostscript NOTIFY enabledFileformatsGmGhostscriptChanged)
+    QVariantList getEnabledFileformatsGmGhostscript() { return enabledFileformats[categories.indexOf("gmghostscript")]; }
+    void setEnabledFileformatsGmGhostscript(QVariantList val) { enabledFileformats[categories.indexOf("gmghostscript")] = val; emit enabledFileformatsGmGhostscriptChanged(val); }
+    // ... RAW
+    Q_PROPERTY(QVariantList enabledFileformatsRAW READ getEnabledFileformatsRAW WRITE setEnabledFileformatsRAW NOTIFY enabledFileformatsRAWChanged)
+    QVariantList getEnabledFileformatsRAW() { return enabledFileformats[categories.indexOf("raw")]; }
+    void setEnabledFileformatsRAW(QVariantList val) { enabledFileformats[categories.indexOf("raw")] = val; emit enabledFileformatsRAWChanged(val); }
 
     // Can be called from QML when resetting the settings
     Q_INVOKABLE void setDefaultFileformats() {
@@ -194,6 +273,8 @@ public:
         setEnabledFileformatsKDE(defaultEnabledFileformats[categories.indexOf("kde")]);
         setEnabledFileformatsExtras(defaultEnabledFileformats[categories.indexOf("extras")]);
         setEnabledFileformatsGm(defaultEnabledFileformats[categories.indexOf("gm")]);
+        setEnabledFileformatsGmGhostscript(defaultEnabledFileformats[categories.indexOf("gmghostscript")]);
+        setEnabledFileformatsRAW(defaultEnabledFileformats[categories.indexOf("raw")]);
     }
 
 signals:
@@ -201,6 +282,15 @@ signals:
     void enabledFileformatsKDEChanged(QVariantList val);
     void enabledFileformatsExtrasChanged(QVariantList val);
     void enabledFileformatsGmChanged(QVariantList val);
+    void enabledFileformatsGmGhostscriptChanged(QVariantList val);
+    void enabledFileformatsRAWChanged(QVariantList val);
+
+    /****************************************************************************************/
+    /****************************************************************************************/
+    /****** Anything below here is agnostic to how many and what categories there are *******/
+    /*********** As long as everything above is adjusted properly, that is enough ***********/
+    /****************************************************************************************/
+    /****************************************************************************************/
 
 private:
 
