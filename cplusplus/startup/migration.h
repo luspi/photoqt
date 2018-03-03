@@ -59,17 +59,17 @@ namespace StartupCheck {
 
             if(!oldfile.copy(ConfigFiles::FILEFORMATSQT_FILE()))
                 LOG << CURDATE << "StartupCheck::Migration::migrateIfNecessary() ERROR: Unable to copy file with list of disabled fileformats to qt list" << NL;
-            // We don't copy it to the KDE file here, as we want them all to be enabled (as they all work) ASSUMING that the required plugins are installed
+            // We don't copy it to the KDE file here, as we want them all to be enabled (as they all work) if the required plugins are installed
             if(!oldfile.copy(ConfigFiles::FILEFORMATSGM_FILE()))
                 LOG << CURDATE << "StartupCheck::Migration::migrateIfNecessary() ERROR: Unable to copy file with list of disabled fileformats to gm list" << NL;
             if(!oldfile.copy(ConfigFiles::FILEFORMATSGMGHOSTSCRIPT_FILE()))
                 LOG << CURDATE << "StartupCheck::Migration::migrateIfNecessary() ERROR: Unable to copy file with list of disabled fileformats to gmg list" << NL;
             if(!oldfile.copy(ConfigFiles::FILEFORMATSEXTRAS_FILE()))
                 LOG << CURDATE << "StartupCheck::Migration::migrateIfNecessary() ERROR: Unable to copy file with list of disabled fileformats to extras list" << NL;
-            if(!oldfile.copy(ConfigFiles::FILEFORMATSUNTESTED_FILE()))
-                LOG << CURDATE << "StartupCheck::Migration::migrateIfNecessary() ERROR: Unable to copy file with list of disabled fileformats to untested list" << NL;
             if(!oldfile.copy(ConfigFiles::FILEFORMATSRAW_FILE()))
                 LOG << CURDATE << "StartupCheck::Migration::migrateIfNecessary() ERROR: Unable to copy file with list of disabled fileformats to raw list" << NL;
+            if(!oldfile.copy(ConfigFiles::FILEFORMATSDEVIL_FILE()))
+                LOG << CURDATE << "StartupCheck::Migration::migrateIfNecessary() ERROR: Unable to copy file with list of disabled fileformats to devil list" << NL;
 
             // just make sure the kde file exists (empty)
             QFile filekde(ConfigFiles::FILEFORMATSKDE_FILE());
