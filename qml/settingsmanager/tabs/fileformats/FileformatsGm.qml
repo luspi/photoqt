@@ -53,7 +53,7 @@ EntryContainer {
                       //: Used as in 'disabled category'
                    + (helptext_warning ? "<br><br><font color=\"red\"><i>&gt; " + em.pty+qsTr("disabled") + "!</i></font>" : "")
             helptext: entry.enabled
-                        ? em.pty+qsTr("PhotoQt can make use of GraphicsMagick for support of many different image formats. The list below are all those formats that were successfully displayed using test images. There are a few formats, that were not tested in PhotoQt (due to lack of a test image). Those can be found in the 'Untested' category.")+"<br><br>" + em.pty+qsTr("Use left click to check/uncheck an individual entry, and right click to check/uncheck all endings related to the same image type.")
+                        ? em.pty+qsTr("PhotoQt can make use of GraphicsMagick for support of a large variety of image formats. Most of the formats below have been tested successfully. Some could not be tested due to a lack of test images. They might still very well work, however, they are disabled by default.")+"<br><br>" + em.pty+qsTr("Use left click to check/uncheck an individual entry, and right click to check/uncheck all endings related to the same image type.")
                         : "<div color='red'>" + em.pty+qsTr("PhotoQt was built without GraphicsMagick support!") + "</div>"
 
             helptext_warning: !entry.enabled

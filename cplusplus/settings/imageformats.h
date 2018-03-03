@@ -103,7 +103,7 @@ public:
         setupAvailable[3].insert("jng"      , QStringList() << "JPEG Network Graphics"                          << "1");
         setupAvailable[3].insert("mat"      , QStringList() << "MATLAB image format"                            << "1");
         setupAvailable[3].insert("miff"     , QStringList() << "Magick image file format"                       << "1");
-        setupAvailable[3].insert("mono"     , QStringList() << "Bi-level bitmap in least-significant-byte first order"        << "0");
+        setupAvailable[3].insert("mono"     , QStringList() << "Bi-level bitmap in least-significant-byte first order" << "0");
         setupAvailable[3].insert("mtv"      , QStringList() << "MTV Raytracing image format"                    << "1");
         setupAvailable[3].insert("otb"      , QStringList() << "On-the-air Bitmap"                              << "1");
         setupAvailable[3].insert("p7"       , QStringList() << "Xv's Visual Schnauzer thumbnail format"         << "1");
@@ -130,6 +130,17 @@ public:
         setupAvailable[3].insert("viff"     , QStringList() << "Khoros Visualization Image File Format"         << "0");
         setupAvailable[3].insert("wpg"      , QStringList() << "Word Perfect Graphics File"                     << "1");
         setupAvailable[3].insert("xwd"      , QStringList() << "X Windows system window dump"                   << "1");
+        // The following formats are untested (no test image) and are thus disabled by default, but they might very well work
+        setupAvailable[3].insert("hp"       , QStringList() << "HP-GL plotter language"                         << "0");
+        setupAvailable[3].insert("hpgl"     , QStringList() << "HP-GL plotter language"                         << "0");
+        setupAvailable[3].insert("jbig"     , QStringList() << "Joint Bi-level Image experts Group file interchange format" << "0");
+        setupAvailable[3].insert("jbg"      , QStringList() << "Joint Bi-level Image experts Group file interchange format" << "0");
+        setupAvailable[3].insert("pwp"      , QStringList() << "Seattle File Works multi-image file"            << "0");
+        setupAvailable[3].insert("rast"     , QStringList() << "Sun Raster Image"                               << "0");
+        setupAvailable[3].insert("rla"      , QStringList() << "Alias/Wavefront image file"                     << "0");
+        setupAvailable[3].insert("rle"      , QStringList() << "Utah Run length encoded image file"             << "0");
+        setupAvailable[3].insert("sct"      , QStringList() << "Scitex Continuous Tone Picture"                 << "0");
+        setupAvailable[3].insert("tim"      , QStringList() << "PSX TIM file"                                   << "0");
 
         // GraphicsMagick w/ Ghostscript
         setupAvailable[4].insert("epi"      , QStringList() << "Adobe Encapsulated PostScript Interchange format"   << "0");

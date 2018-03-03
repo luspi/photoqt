@@ -49,9 +49,9 @@ EntryContainer {
 
             id: title
             title: em.pty+qsTr("File Formats") + ":<br>&gt; RAW"
-            helptext: em.pty+qsTr("PhotoQt can open and display most raw image formats. It uses libraw for this task. Here you can adjust the list of fileformats known to PhotoQt.") +
-                      "<br><br>" +
-                      em.pty+qsTr("Use left click to check/uncheck an individual entry, and right click to check/uncheck all endings related to the same image type.")
+            helptext: entry.enabled
+                        ? em.pty+qsTr("PhotoQt can open and display most raw image formats. It uses libraw for this task. Here you can adjust the list of fileformats known to PhotoQt.")+"<br><br>" + em.pty+qsTr("Use left click to check/uncheck an individual entry, and right click to check/uncheck all endings related to the same image type.")
+                        : "<div color='red'>" + em.pty+qsTr("PhotoQt was built without libRAW support!") + "</div>"
 
         }
 
