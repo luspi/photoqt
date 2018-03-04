@@ -158,27 +158,6 @@ Rectangle {
 
         Tab {
 
-            title: em.pty+qsTr("Fileformats OLD")
-
-            TabFileformatsOld {
-                Connections {
-                    target: settings_top
-                    onSetData:{
-                        setData()
-                    }
-                    onSaveData:{
-                        saveData()
-                    }
-                }
-                Component.onCompleted: {
-                    setData()
-                }
-            }
-
-        }
-
-        Tab {
-
             title: em.pty+qsTr("Fileformats")
 
             TabFileformats {

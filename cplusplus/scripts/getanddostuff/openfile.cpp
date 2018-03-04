@@ -24,10 +24,10 @@
 #include "../sortlist.h"
 
 GetAndDoStuffOpenFile::GetAndDoStuffOpenFile(QObject *parent) : QObject(parent) {
-    formats = new FileFormats;
+    imageformats = new ImageFormats;
 }
 GetAndDoStuffOpenFile::~GetAndDoStuffOpenFile() {
-    delete formats;
+    delete imageformats;
 }
 
 int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path, int selectionFileTypes) {
@@ -37,15 +37,15 @@ int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path, int selectionFil
 
     QDir dir(path);
     if(selectionFileTypes == 0)
-        dir.setNameFilters(formats->formats_qt + formats->formats_kde + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw + formats->formats_devil);
+        dir.setNameFilters(imageformats->getAllEnabledFileformats());
     else if(selectionFileTypes == 1)
-        dir.setNameFilters(formats->formats_qt+formats->formats_kde);
+        dir.setNameFilters(imageformats->getEnabledFileformatsQt()+imageformats->getEnabledFileformatsKDE());
     else if(selectionFileTypes == 2)
-        dir.setNameFilters(formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_untested);
+        dir.setNameFilters(imageformats->getEnabledFileformatsGm()+imageformats->getEnabledFileformatsGmGhostscript());
     else if(selectionFileTypes == 3)
-        dir.setNameFilters(formats->formats_raw);
+        dir.setNameFilters(imageformats->getEnabledFileformatsRAW());
     else if(selectionFileTypes == 4)
-        dir.setNameFilters(formats->formats_devil);
+        dir.setNameFilters(imageformats->getEnabledFileformatsDevIL());
     else if(selectionFileTypes == 5)
         dir.setNameFilters(QStringList() << "*.*");
     dir.setFilter(QDir::Files);
@@ -258,7 +258,7 @@ QVariantList GetAndDoStuffOpenFile::getFilesIn(QString file, QString filter, QSt
     else
         dir.setPath(info.absolutePath());
 
-    dir.setNameFilters(formats->formats_qt + formats->formats_kde + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw + formats->formats_devil);
+    dir.setNameFilters(imageformats->getAllEnabledFileformats());
     dir.setFilter(QDir::Files);
     dir.setSorting(QDir::IgnoreCase);
 
@@ -311,15 +311,15 @@ QVariantList GetAndDoStuffOpenFile::getFilesWithSizeIn(QString path, int selecti
 
     QDir dir(path);
     if(selectionFileTypes == 0)
-        dir.setNameFilters(formats->formats_qt + formats->formats_kde + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw + formats->formats_devil);
+        dir.setNameFilters(imageformats->getAllEnabledFileformats());
     else if(selectionFileTypes == 1)
-        dir.setNameFilters(formats->formats_qt + formats->formats_kde);
+        dir.setNameFilters(imageformats->getEnabledFileformatsQt()+imageformats->getEnabledFileformatsKDE());
     else if(selectionFileTypes == 2)
-        dir.setNameFilters(formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_untested);
+        dir.setNameFilters(imageformats->getEnabledFileformatsGm()+imageformats->getEnabledFileformatsGmGhostscript());
     else if(selectionFileTypes == 3)
-        dir.setNameFilters(formats->formats_raw);
+        dir.setNameFilters(imageformats->getEnabledFileformatsRAW());
     else if(selectionFileTypes == 4)
-        dir.setNameFilters(formats->formats_devil);
+        dir.setNameFilters(imageformats->getEnabledFileformatsDevIL());
     else if(selectionFileTypes == 5)
         dir.setNameFilters(QStringList() << "*.*");
 
@@ -519,8 +519,6 @@ bool GetAndDoStuffOpenFile::isSupportedImageType(QString path) {
 
     QString suffix = QFileInfo(path).suffix().toLower();
 
-    QStringList allendings = formats->formats_qt + formats->formats_kde + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw + formats->formats_devil;
-
-    return allendings.contains("*."+suffix);
+    return imageformats->getAllEnabledFileformats().contains("*."+suffix);
 
 }

@@ -32,7 +32,7 @@
 #include <thread>
 #include <QCollator>
 #include "../../logger.h"
-#include "../../settings/fileformats.h"
+#include "../../settings/imageformats.h"
 #include "../../settings/settings.h"
 #include <QStorageInfo>
 
@@ -60,7 +60,7 @@ public:
     bool isSupportedImageType(QString path);
 
 private:
-    FileFormats *formats;
+    ImageFormats *imageformats;
 
 };
 

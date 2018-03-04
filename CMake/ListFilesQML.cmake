@@ -28,10 +28,9 @@ SET(d "qml/settingsmanager")
 SET(photoqt_QML ${photoqt_QML} ${d}/DetectShortcut.qml ${d}/EntryContainer.qml ${d}/EntrySetting.qml ${d}/EntryTitle.qml ${d}/ExportImport.qml ${d}/SettingInfoOverlay.qml ${d}/SettingsManager.qml)
 
 SET(d "qml/settingsmanager/tabs")
-SET(photoqt_QML ${photoqt_QML} ${d}/TabFileformats.qml ${d}/TabFileformatsOld.qml ${d}/TabLookAndFeel.qml ${d}/TabMetadata.qml ${d}/TabOther.qml ${d}/TabShortcuts.qml ${d}/TabThumbnails.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/TabFileformats.qml ${d}/TabLookAndFeel.qml ${d}/TabMetadata.qml ${d}/TabOther.qml ${d}/TabShortcuts.qml ${d}/TabThumbnails.qml)
 
 SET(d "qml/settingsmanager/tabs/fileformats")
-SET(photoqt_QML ${photoqt_QML} ${d}/FileTypesUntested.qml ${d}/FileTypesDevIL.qml)
 SET(photoqt_QML ${photoqt_QML} ${d}/FileformatsTile.qml ${d}/FileformatsQt.qml ${d}/FileformatsKDE.qml ${d}/FileformatsExtras.qml ${d}/FileformatsGm.qml ${d}/FileformatsGmGhostscript.qml ${d}/FileformatsRAW.qml ${d}/FileformatsDevIL.qml)
 
 SET(d "qml/settingsmanager/tabs/lookandfeel")
