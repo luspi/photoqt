@@ -31,6 +31,7 @@ Rectangle {
 
     property string displaytext: ""
     property string description: ""
+    property string category: ""
 
     property bool checked: false
     property bool hovered: false
@@ -67,8 +68,20 @@ Rectangle {
             if(mouse.button == Qt.LeftButton)
                 checked = !checked
             else
-                changeAllWithDescription(rect.description, !checked)
+                changeAllWithDescription(rect.category, !checked)
         }
+    }
+
+    Connections {
+
+        target: item_top
+
+        // Toggle all in this category
+        onChangeAllWithDescription: {
+            if(category == desc)
+                checked = chkd
+        }
+
     }
 
 }

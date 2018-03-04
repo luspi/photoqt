@@ -99,6 +99,7 @@ EntryContainer {
                         // Set the data of the current file ending
                         displaytext: grid.available[index][0]
                         description: grid.available[index][1]
+                        category: grid.available[index][2]
 
                         // some spacing around each entry
                         x: grid.spacing
@@ -142,12 +143,6 @@ EntryContainer {
 
                         Connections {
                             target: item_top
-
-                            // Toggle all in this category
-                            onChangeAllWithDescription: {
-                                if(tile.description == desc)
-                                    tile.checked = chkd
-                            }
 
                             // Select all items in this category
                             onSelectAllItems:
