@@ -44,7 +44,7 @@ public:
 
     Magick::Image setImageMagick(Magick::Image image, QString suf) {
 
-        std::string magick = getImageMagickString(suf);
+        std::string magick = getImageMagickString(suf.toLower());
 
         if(magick != "")
             image.magick(magick);
@@ -61,6 +61,10 @@ public:
         if(suf == "x" || suf == "avs")
 
             return "AVS";
+
+        else if(suf == "art")
+
+            return "ART";
 
         else if(suf == "cals" || suf == "cal" || suf == "dcl"  || suf == "ras")
 

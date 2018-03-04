@@ -80,6 +80,7 @@ public:
         setupAvailable[2].insert("*.xcf"     , QStringList() << "Gimp format - Makes use of 'xcftoold'"           << "0");
 
         // GraphicsMagick
+        setupAvailable[3].insert("*.art"      , QStringList() << "PFS: 1st Publisher"                             << "1");
         setupAvailable[3].insert("*.avs"      , QStringList() << "AVS X image"                                    << "1");
         setupAvailable[3].insert("*.x"        , QStringList() << "AVS X image"                                    << "0");
         setupAvailable[3].insert("*.cals"     , QStringList() << "Continuous Acquisition and Life-cycle Support Type 1 image"   << "1");
