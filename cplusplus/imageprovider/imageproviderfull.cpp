@@ -25,7 +25,7 @@
 ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider::Image) {
 
     settings = new SlimSettingsReadOnly;
-    fileformats = new FileFormats;
+    imageformats = new ImageFormats;
 
     pixmapcache = new QCache<QByteArray, QImage>;
     pixmapcache->setMaxCost(8*1024*std::max(0, std::min(1000, settings->pixmapCache)));
@@ -40,7 +40,7 @@ ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider
 
 ImageProviderFull::~ImageProviderFull() {
     delete settings;
-    delete fileformats;
+    delete imageformats;
     delete pixmapcache;
 }
 
@@ -145,23 +145,23 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
     /***********************************************************/
     // Qt image plugins
 
-    foreach(QString qt, fileformats->formats_qt) {
+    foreach(QString qt, imageformats->getEnabledFileformatsQt()) {
         if(filename.toLower().endsWith(qt.remove(0,1)))
             return "qt";
     }
-    foreach(QString qt, fileformats->formats_kde) {
+    foreach(QString qt, imageformats->getEnabledFileformatsKDE()) {
         if(filename.toLower().endsWith(qt.remove(0,1)))
             return "qt";
     }
-    if((fileformats->formats_extras.contains("*.psb") && filename.endsWith(".psb")) ||
-       (fileformats->formats_extras.contains("*.psd") && filename.endsWith(".psd")))
+    if((imageformats->getEnabledFileformatsExtras().contains("*.psb") && filename.endsWith(".psb")) ||
+       (imageformats->getEnabledFileformatsExtras().contains("*.psd") && filename.endsWith(".psd")))
         return "qt";
 
 
     /***********************************************************/
     // xcftools
 
-    if((fileformats->formats_extras.contains("*.xcf") && filename.endsWith(".xcf")))
+    if((imageformats->getEnabledFileformatsExtras().contains("*.xcf") && filename.endsWith(".xcf")))
         return "xcftools";
 
 
@@ -171,7 +171,7 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
     /***********************************************************/
     // libraw library
 
-    foreach(QString raw, fileformats->formats_raw) {
+    foreach(QString raw, imageformats->getEnabledFileformatsRAW()) {
         if(filename.toLower().endsWith(raw.remove(0,1)))
             return "raw";
     }
@@ -183,7 +183,7 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
     /***********************************************************/
     // DevIL library
 
-    foreach(QString devil, fileformats->formats_devil) {
+    foreach(QString devil, imageformats->getEnabledFileformatsDevIL()) {
         if(filename.toLower().endsWith(devil.remove(0,1)))
             return "devil";
     }

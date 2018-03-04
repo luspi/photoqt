@@ -111,7 +111,6 @@ void MainHandler::setObjectAndConnect() {
 // Add settings/scripts/... access to QML
 void MainHandler::registerQmlTypes() {
     qmlRegisterType<Settings>("PSettings", 1, 0, "PSettings");
-    qmlRegisterType<FileFormats>("PFileFormats", 1, 0, "PFileFormats");
     qmlRegisterType<GetMetaData>("PGetMetaData", 1, 0, "PGetMetaData");
     qmlRegisterType<GetAndDoStuff>("PGetAndDoStuff", 1, 0, "PGetAndDoStuff");
     qmlRegisterType<ToolTip>("PToolTip", 1, 0, "PToolTip");

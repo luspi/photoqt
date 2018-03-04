@@ -31,7 +31,6 @@
 #include "hideclose.h"
 
 #include "settings/colour.h"
-#include "settings/fileformats.h"
 #include "settings/settings.h"
 #include "scripts/getanddostuff.h"
 #include "scripts/getmetadata.h"
