@@ -84,10 +84,19 @@ public:
         setupAvailable[3].insert("*.avs"        , QStringList() << "avs" << "AVS X image"                                   << "1");
         setupAvailable[3].insert("*.x"          , QStringList() << "avs" << "AVS X image"                                   << "1");
         setupAvailable[3].insert("*.mbfavs"     , QStringList() << "avs" << "AVS X image"                                   << "1");
-
+        setupAvailable[3].insert("*.bmp"        , QStringList() << "bmp" << "Microsoft Windows bitmap"                      << "1");
+        setupAvailable[3].insert("*.rle"        , QStringList() << "bmp" << "RLE-compressed bitmap"                         << "1");
+        setupAvailable[3].insert("*.dib"        , QStringList() << "bmp" << "Device-Independent bitmap"                     << "1");
         setupAvailable[3].insert("*.cals"       , QStringList() << "cal" << "Continuous Acquisition and Life-cycle Support Type 1 image"    << "1");
         setupAvailable[3].insert("*.cal"        , QStringList() << "cal" << "Continuous Acquisition and Life-cycle Support Type 1 image"    << "1");
-        setupAvailable[3].insert("*.dcl"        , QStringList() << "cal" << "Continuous Acquisition and Life-cycle Support Type 1 image"    << "1");
+        setupAvailable[3].insert("*.ras"        , QStringList() << "cal" << "Continuous Acquisition and Life-cycle Support Type 1 image"    << "1");
+        setupAvailable[3].insert("*.ct1"        , QStringList() << "cal" << "Continuous Acquisition and Life-cycle Support Type 1 image"    << "1");
+        setupAvailable[3].insert("*.ct2"        , QStringList() << "cal" << "Continuous Acquisition and Life-cycle Support Type 1 image"    << "1");
+        setupAvailable[3].insert("*.ct3"        , QStringList() << "cal" << "Continuous Acquisition and Life-cycle Support Type 1 image"    << "1");
+        setupAvailable[3].insert("*.nif"        , QStringList() << "cal" << "Continuous Acquisition and Life-cycle Support Type 1 image"    << "1");
+        setupAvailable[3].insert("*.ct4"        , QStringList() << "cal" << "Continuous Acquisition and Life-cycle Support Type 1 image"    << "1");
+        setupAvailable[3].insert("*.c4"         , QStringList() << "cal" << "Continuous Acquisition and Life-cycle Support Type 1 image"    << "1");
+
         setupAvailable[3].insert("*.cin"        , QStringList() << "cin" << "Kodak Cineon"                                  << "1");
         setupAvailable[3].insert("*.cut"        , QStringList() << "cut" << "DR Halo"                                       << "1");
         setupAvailable[3].insert("*.acr"        , QStringList() << "dic" << "Digital Imaging and Communications in Medicine (DICOM) image"  << "1");

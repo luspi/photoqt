@@ -64,7 +64,7 @@ public:
 
             magick = "AVS";
 
-        else if(suf == "cal" || suf == "dcl"  || suf == "ras")
+        else if(suf == "ct1" || suf == "cal" || suf == "ras" || suf == "ct2" || suf == "ct3" || suf == "nif" || suf == "ct4" || suf == "c4")
 
             magick = "CALS";
 
