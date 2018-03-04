@@ -58,89 +58,33 @@ public:
 
     std::string getImageMagickString(QString suf) {
 
-        if(suf == "x" || suf == "avs")
+        std::string magick = suf.toUpper().toStdString();
 
-            return "AVS";
+        if(suf == "x")
 
-        else if(suf == "art")
+            magick = "AVS";
 
-            return "ART";
+        else if(suf == "cal" || suf == "dcl"  || suf == "ras")
 
-        else if(suf == "cals" || suf == "cal" || suf == "dcl"  || suf == "ras")
+            magick = "CALS";
 
-            return "CALS";
+        else if(suf == "acr" || suf == "dicom" || suf == "dic")
 
-        else if(suf == "cgm")
+            magick = "DCM";
 
-            return "CGM";
+        else if(suf == "pct" || suf == "pic")
 
-        else if(suf == "cut")
+            magick = "PICT";
 
-            return "CUT";
+        else if(suf == "pal")
 
-        else if(suf == "cur")
+            magick = "PIX";
 
-            return "CUR";
+        else if(suf == "wbm")
 
-        else if(suf == "acr" || suf == "dcm" || suf == "dicom" || suf == "dic")
+            magick = "WBMP";
 
-            return "DCM";
-
-        else if(suf == "fax")
-
-            return "FAX";
-
-        else if(suf == "ico")
-
-            return "ICO";
-
-        else if(suf == "mono")
-
-            return "MONO";
-
-        else if(suf == "mtv")
-
-            return "MTV";
-
-        else if(suf == "otb")
-
-            return "OTB";
-
-        else if(suf == "palm")
-
-            return "PALM";
-
-        else if(suf == "pfb")
-
-            return "PFB";
-
-        else if(suf == "pict" || suf == "pct" || suf == "pic")
-
-            return "PICT";
-
-        else if(suf == "pix"
-            || suf == "pal")
-
-            return "PIX";
-
-        else if(suf == "tga")
-
-            return "TGA";
-
-        else if(suf == "ttf")
-
-            return "TTF";
-
-        else if(suf == "txt")
-
-            return "TXT";
-
-        else if(suf == "wbm"
-            || suf == "wbmp")
-
-            return "WBMP";
-
-        return "";
+        return magick;
     }
 };
 
