@@ -82,7 +82,8 @@ public:
         // GraphicsMagick
         setupAvailable[3].insert("*.art"      , QStringList() << "PFS: 1st Publisher"                             << "1");
         setupAvailable[3].insert("*.avs"      , QStringList() << "AVS X image"                                    << "1");
-        setupAvailable[3].insert("*.x"        , QStringList() << "AVS X image"                                    << "0");
+        setupAvailable[3].insert("*.x"        , QStringList() << "AVS X image"                                    << "1");
+        setupAvailable[3].insert("*.mbfavs"   , QStringList() << "AVS X image"                                    << "1");
         setupAvailable[3].insert("*.cals"     , QStringList() << "Continuous Acquisition and Life-cycle Support Type 1 image"   << "1");
         setupAvailable[3].insert("*.cal"      , QStringList() << "Continuous Acquisition and Life-cycle Support Type 1 image"   << "1");
         setupAvailable[3].insert("*.dcl"      , QStringList() << "Continuous Acquisition and Life-cycle Support Type 1 image"   << "1");
