@@ -34,7 +34,7 @@
             "cmake": true,
             "builddir": true,
             "config-opts": ["-DGM=ON", "-DEXIV2=ON", "-DRAW=ON"],
-			"sources": [ { "type": "git", "tag": "v1.6", "commit": "9d9c8210b1a93487c43ab8c139c9032844ee128f", "url": "https://gitlab.com/luspi/photoqt.git" } ]
+			"sources": [ { "type": "git", "tag": "v1.6-flatpakready", "commit": "b7c7e75eeff766e84ab314808dc58117f10e2d3f", "url": "https://gitlab.com/luspi/photoqt.git" } ]
 		}
     ]
 }
