@@ -4,6 +4,9 @@
     "runtime-version": "5.10",
     "sdk": "org.kde.Sdk",
     "command": "photoqt",
+    "rename-desktop-file": "photoqt.desktop",
+    "rename-appdata-file": "photoqt.appdata.xml",
+    "rename-icon": "photoqt",
     "finish-args": ["--share=ipc","--socket=x11","--socket=wayland","--filesystem=host","--device=dri","--socket=pulseaudio"],
 
     "modules": [
