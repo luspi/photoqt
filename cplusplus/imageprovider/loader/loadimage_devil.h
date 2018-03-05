@@ -63,16 +63,6 @@ public:
         int const width  = ilGetInteger(IL_IMAGE_WIDTH);
         int const height = ilGetInteger(IL_IMAGE_HEIGHT);
 
-        // Load the image data
-        ILubyte *data = ilGetData();
-
-        // Make sure the image contains data
-        if(!data) {
-            ilBindImage(0);
-            ilDeleteImages(1, &imageID);
-            return ErrorImage::load("Failed to load image with DevIL, found empty image!");
-        }
-
         // This is the temporary file we will load the image into
         QString tempimage = QDir::tempPath() + "/photoqtdevil.jpg";
 
