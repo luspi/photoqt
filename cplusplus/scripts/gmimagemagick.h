@@ -49,7 +49,7 @@ public:
         if(magick != "")
             image.magick(magick);
 
-        if(suf == "mono")
+        if(magick == "mono")
             image.size(Magick::Geometry(4000,3000));
 
         return image;
@@ -83,6 +83,38 @@ public:
         else if(suf == "wbm")
 
             magick = "WBMP";
+
+        else if(suf == "jpe")
+
+            magick = "JPEG";
+
+        else if(suf == "mif")
+
+            magick = "MIFF";
+
+        else if(suf == "alb" || suf == "sfw" || suf == "pwm")
+
+            magick = "PWP";
+
+        else if(suf == "bw" || suf == "rgb" || suf == "rgba")
+
+            magick = "SGI";
+
+        else if(suf == "ras" || suf == "rast" || suf == "rs" || suf == "sr" || suf == "scr" || suf == "im1" || suf == "im8" || suf == "im24" || suf == "im32")
+
+            magick = "SUN";
+
+        else if(suf == "icb" || suf == "vda" || suf == "vst")
+
+            magick = "TGA";
+
+        else if(suf == "vic" || suf == "img")
+
+            magick = "VICAR";
+
+        else if(suf == "bm")
+
+            magick = "XBM";
 
         return magick;
     }
