@@ -452,6 +452,10 @@ void MainHandler::toggleWindow() {
 // When quitting simply say GoodBye. Not necessary at all, just nice...
 void MainHandler::aboutToQuit() {
 
+#ifdef FREEIMAGE
+    FreeImage_DeInitialise();
+#endif
+
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE;
     LOG << "Goodbye!" << NL;

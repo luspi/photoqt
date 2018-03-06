@@ -100,6 +100,7 @@ public:
 #else
         if(qgetenv("PHOTOQT_DEBUG") == "yes")
             LOG << CURDATE << "LoadImageDevil: PhotoQt was compiled without DevIL support, returning error image" << NL;
+        return ErrorImage::load("Failed to load image, DevIL not supported by this build of PhotoQt!");
 #endif
 
     }

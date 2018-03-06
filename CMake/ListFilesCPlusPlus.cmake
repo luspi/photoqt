@@ -10,7 +10,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/imageproviderempty.h ${d}/imageprovi
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/imageproviderhistogram.h ${d}/imageprovidericon.h ${d}/pixmapcache.h)
 
 SET(d "cplusplus/imageprovider/loader")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/errorimage.h ${d}/loadimage_gm.h ${d}/loadimage_qt.h ${d}/loadimage_raw.h ${d}/loadimage_xcf.h ${d}/loadimage_devil.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/errorimage.h ${d}/loadimage_gm.h ${d}/loadimage_qt.h ${d}/loadimage_raw.h ${d}/loadimage_xcf.h ${d}/loadimage_devil.h ${d}/loadimage_freeimage.cpp)
 
 SET(d "cplusplus/settings")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/colour.h ${d}/imageformats.h ${d}/settings.h ${d}/slimsettingsreadonly.h)

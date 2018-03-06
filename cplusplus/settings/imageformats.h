@@ -17,11 +17,11 @@ class ImageFormats : public QObject {
 public:
     ImageFormats(QObject *parent = 0) : QObject(parent) {
 
-        categories << "qt" << "kde" << "extras" << "gm" << "gmghostscript" << "raw" << "devil";
+        categories << "qt" << "kde" << "extras" << "gm" << "gmghostscript" << "raw" << "devil" << "freeimage";
         formatsfiles << ConfigFiles::FILEFORMATSQT_FILE() << ConfigFiles::FILEFORMATSKDE_FILE()
                      << ConfigFiles::FILEFORMATSEXTRAS_FILE() << ConfigFiles::FILEFORMATSGM_FILE()
                      << ConfigFiles::FILEFORMATSGMGHOSTSCRIPT_FILE() << ConfigFiles::FILEFORMATSRAW_FILE()
-                     << ConfigFiles::FILEFORMATSDEVIL_FILE();
+                     << ConfigFiles::FILEFORMATSDEVIL_FILE() << ConfigFiles::FILEFORMATSFREEIMAGE_FILE();
 
         setupAvailable = new QMap<QString, QStringList>[categories.length()];
 
@@ -312,6 +312,12 @@ public:
         setupAvailable[6].insert("*.wdp"        , QStringList() << "hdp" << "JPEG XR aka HD Photo"                          << "0");
         setupAvailable[6].insert("*.hdp"        , QStringList() << "hdp" << "JPEG XR aka HD Photo"                          << "0");
 
+        // FreeImage
+//        setupAvailable[7].insert("*.bmp"        , QStringList() << "bmp" << "Microsoft Windows bitmap"                      << "1");
+//        setupAvailable[7].insert("*.jpg", QStringList() << "jpg" << "Joint Photographic Experts Group JFIF format" << "1");
+//        setupAvailable[7].insert("*.tga", QStringList() << "tga" << "Truevision Targa Graphic" << "1");
+//        setupAvailable[7].insert("*.png", QStringList() << "png" << "Portable Network Graphics" << "1");
+
 
         availableFileformats = new QVariantList[categories.length()];
         availableFileformatsWithDescription = new QVariantList[categories.length()];
@@ -333,6 +339,7 @@ public:
         connect(this, SIGNAL(enabledFileformatsGmGhostscriptChanged(QStringList)), saveTimer, SLOT(start()));
         connect(this, SIGNAL(enabledFileformatsRAWChanged(QStringList)), saveTimer, SLOT(start()));
         connect(this, SIGNAL(enabledFileformatsDevILChanged(QStringList)), saveTimer, SLOT(start()));
+        connect(this, SIGNAL(enabledFileformatsFreeImageChanged(QStringList)), saveTimer, SLOT(start()));
 
     }
 
@@ -351,6 +358,8 @@ public:
             setEnabledFileformatsRAW(val);
         else if(cat == "devil")
             setEnabledFileformatsDevIL(val);
+        else if(cat == "freeimage")
+            setEnabledFileformatsFreeImage(val);
     }
 
     // All possibly available file formats for the various categories
@@ -361,6 +370,7 @@ public:
     Q_INVOKABLE QVariantList getAvailableEndingsGmGhostscript() { return availableFileformats[categories.indexOf("gmghostscript")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsRAW() { return availableFileformats[categories.indexOf("raw")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsDevIL() { return availableFileformats[categories.indexOf("devil")]; }
+    Q_INVOKABLE QVariantList getAvailableEndingsFreeImage() { return availableFileformats[categories.indexOf("freeimage")]; }
 
     // All possibly available file formats INCLUDING a description of the image type for the various categories
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionQt() { return availableFileformatsWithDescription[categories.indexOf("qt")]; }
@@ -370,6 +380,7 @@ public:
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionGmGhostscript() { return availableFileformatsWithDescription[categories.indexOf("gmghostscript")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionRAW() { return availableFileformatsWithDescription[categories.indexOf("raw")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionDevIL() { return availableFileformatsWithDescription[categories.indexOf("devil")]; }
+    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionFreeImage() { return availableFileformatsWithDescription[categories.indexOf("freeimage")]; }
 
     // All currently enabled file formats for ...
     // ... Qt
@@ -400,6 +411,10 @@ public:
     Q_PROPERTY(QStringList enabledFileformatsDevIL READ getEnabledFileformatsDevIL WRITE setEnabledFileformatsDevIL NOTIFY enabledFileformatsDevILChanged)
     QStringList getEnabledFileformatsDevIL() { return enabledFileformats[categories.indexOf("devil")]; }
     void setEnabledFileformatsDevIL(QStringList val) { enabledFileformats[categories.indexOf("devil")] = val; emit enabledFileformatsDevILChanged(val); }
+    // ... FreeImage
+    Q_PROPERTY(QStringList enabledFileformatsFreeImage READ getEnabledFileformatsFreeImage WRITE setEnabledFileformatsFreeImage NOTIFY enabledFileformatsFreeImageChanged)
+    QStringList getEnabledFileformatsFreeImage() { return enabledFileformats[categories.indexOf("freeimage")]; }
+    void setEnabledFileformatsFreeImage(QStringList val) { enabledFileformats[categories.indexOf("freeimage")] = val; emit enabledFileformatsFreeImageChanged(val); }
 
     Q_INVOKABLE void setDefaultFormatsQt() { setEnabledFileformatsQt(defaultEnabledFileformats[categories.indexOf("qt")]); }
     Q_INVOKABLE void setDefaultFormatsKDE() { setEnabledFileformatsKDE(defaultEnabledFileformats[categories.indexOf("kde")]); }
@@ -408,6 +423,7 @@ public:
     Q_INVOKABLE void setDefaultFormatsGmGhostscript() { setEnabledFileformatsGmGhostscript(defaultEnabledFileformats[categories.indexOf("gmghostscript")]); }
     Q_INVOKABLE void setDefaultFormatsRAW() { setEnabledFileformatsRAW(defaultEnabledFileformats[categories.indexOf("raw")]); }
     Q_INVOKABLE void setDefaultFormatsDevIL() { setEnabledFileformatsDevIL(defaultEnabledFileformats[categories.indexOf("devil")]); }
+    Q_INVOKABLE void setDefaultFormatsFreeImage() { setEnabledFileformatsFreeImage(defaultEnabledFileformats[categories.indexOf("freeimage")]); }
 
     // Can be called from QML when resetting the settings
     Q_INVOKABLE void setDefaultFileformats() {
@@ -418,6 +434,7 @@ public:
         setEnabledFileformatsGmGhostscript(defaultEnabledFileformats[categories.indexOf("gmghostscript")]);
         setEnabledFileformatsRAW(defaultEnabledFileformats[categories.indexOf("raw")]);
         setEnabledFileformatsDevIL(defaultEnabledFileformats[categories.indexOf("devil")]);
+        setEnabledFileformatsFreeImage(defaultEnabledFileformats[categories.indexOf("freeimage")]);
     }
 
     Q_INVOKABLE QStringList getAllEnabledFileformats() {
@@ -437,6 +454,7 @@ signals:
     void enabledFileformatsGmGhostscriptChanged(QStringList val);
     void enabledFileformatsRAWChanged(QStringList val);
     void enabledFileformatsDevILChanged(QStringList val);
+    void enabledFileformatsFreeImageChanged(QStringList val);
 
     /****************************************************************************************/
     /****************************************************************************************/

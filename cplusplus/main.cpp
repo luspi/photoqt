@@ -53,6 +53,10 @@ int main(int argc, char *argv[]) {
     ilInit();
 #endif
 
+#ifdef FREEIMAGE
+    FreeImage_Initialise();
+#endif
+
     // This means, that, e.g., --export or --import was passed along -> we will simply quit (preparation for that is done in the handleExportImport() function)
     if(StartupCheck::ExportImport::handleExportImport(&app) != -1) return 0;
 

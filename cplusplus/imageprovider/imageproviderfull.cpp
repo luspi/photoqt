@@ -35,6 +35,7 @@ ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider
     loaderRAW = new LoadImageRaw;
     loaderXCF = new LoadImageXCF;
     loaderDevil = new LoadImageDevil;
+    loaderFreeImage = new LoadImageFreeImage;
 
 }
 
@@ -64,6 +65,7 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
 
     // Which GraphicsEngine should we use?
     QString whatToUse = whatDoIUse(filename);
+    qDebug() << "whatToUse =" << whatToUse;
 
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE << "ImageProviderFull: Using graphics engine: "
@@ -114,6 +116,10 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
     // Try to use DevIL (if available)
     else if(whatToUse == "devil")
         *ret = loaderDevil->load(filename, maxSize);
+
+    // Try to use FreeImage (if available)
+    else if(whatToUse == "freeimage")
+        *ret = loaderFreeImage->load(filename, maxSize);
 
     // Try to use Qt
     else
@@ -186,6 +192,18 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
     foreach(QString devil, imageformats->getEnabledFileformatsDevIL()) {
         if(filename.toLower().endsWith(devil.remove(0,1)))
             return "devil";
+    }
+
+#endif
+
+#ifdef FREEIMAGE
+
+    /***********************************************************/
+    // FreeImage library
+
+    foreach(QString freeimage, imageformats->getEnabledFileformatsFreeImage()) {
+        if(filename.toLower().endsWith(freeimage.remove(0,1)))
+            return "freeimage";
     }
 
 #endif

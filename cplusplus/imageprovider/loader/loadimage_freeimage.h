@@ -20,67 +20,28 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef IMAGEPROVIDERFULL_H
-#define IMAGEPROVIDERFULL_H
+#ifndef LOADIMAGE_FREEIMAGE_H
+#define LOADIMAGE_FREEIMAGE_H
 
-#include <QQuickImageProvider>
-#include <QFileInfo>
-#include <QtSvg/QtSvg>
-#include "pixmapcache.h"
-#include "../settings/imageformats.h"
-#include "../settings/slimsettingsreadonly.h"
-#include "../logger.h"
+#include <QImage>
+#include <FreeImagePlus.h>
+#include <QPixmap>
 
-#include "loader/loadimage_qt.h"
-#include "loader/loadimage_gm.h"
-#include "loader/loadimage_xcf.h"
-#include "loader/loadimage_devil.h"
-// Both the libraw and the freeimage library have typedefs for INT64 and UINT64.
-// As we never use them directly, we can redefine one of them (here for libraw) to use a different name and thus avoid the clash.
-#define INT64 INT64_SOMETHINGELSE
-#define UINT64 UINT64_SOMETHINGELSE
-#include "loader/loadimage_raw.h"
-#undef INT64
-#undef UINT64
-#include "loader/loadimage_freeimage.h"
+#include "errorimage.h"
 
-#ifdef GM
-#include <GraphicsMagick/Magick++.h>
-#include "../scripts/gmimagemagick.h"
-#endif
+// We need to use a header AND source file here, as otherwise the linker has problems with the static members,
+// but they are necessary as this is how FreeImage passes on error messages
 
-class ImageProviderFull : public QQuickImageProvider {
+class LoadImageFreeImage {
 
 public:
-    explicit ImageProviderFull();
-    ~ImageProviderFull();
-
-    QImage requestImage(const QString &filename_encoded, QSize *size, const QSize &requestedSize);
+    QImage load(QString filename, QSize maxSize);
 
 private:
-    QSize maxSize;
-    SlimSettingsReadOnly *settings;
-    ImageFormats *imageformats;
-
-    LoadImageGM *loaderGM;
-    LoadImageQt *loaderQT;
-    LoadImageRaw *loaderRAW;
-    LoadImageXCF *loaderXCF;
-    LoadImageDevil *loaderDevil;
-    LoadImageFreeImage *loaderFreeImage;
-
-    QCache<QByteArray,QImage> *pixmapcache;
-
-
-    QString whatDoIUse(QString filename);
-
-#ifdef GM
-    GmImageMagick imagemagick;
-#endif
-
-    QByteArray getUniqueCacheKey(QString path);
+    static QString errorMessage;
+    static FREE_IMAGE_FORMAT errorFormat;
 
 };
 
 
-#endif // IMAGEPROVIDERFULL_H
+#endif
