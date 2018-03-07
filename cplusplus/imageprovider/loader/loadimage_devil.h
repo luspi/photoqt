@@ -64,7 +64,7 @@ public:
         int const height = ilGetInteger(IL_IMAGE_HEIGHT);
 
         // This is the temporary file we will load the image into
-        QString tempimage = QDir::tempPath() + "/photoqtdevil.jpg";
+        QString tempimage = QDir::tempPath() + "/photoqtdevil.bmp";
 
         // Make sure DevIL can overwrite any previously created file
         ilEnable(IL_FILE_OVERWRITE);
@@ -92,6 +92,8 @@ public:
 
         // Return read image file
         QImage img = reader.read();
+        QFile(tempimage).remove();
+
         if(img.isNull() || img.size() == QSize(1,1))
             return ErrorImage::load("Failed to load image with DevIL!");
 
