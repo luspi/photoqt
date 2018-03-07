@@ -44,7 +44,6 @@
 #include "scripts/thumbnailsmanagement.h"
 #include "shortcuts/shortcuts.h"
 #include "scripts/filedialog.h"
-#include "shortcuts/composestring.h"
 #include "scripts/watcher.h"
 #include "scripts/localisation.h"
 #include "contextmenu/contextmenu.h"

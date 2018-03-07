@@ -21,6 +21,7 @@
  **************************************************************************/
 
 #include "mainhandler.h"
+#include "shortcuts/composestring.h"
 
 MainHandler::MainHandler(QWindow *parent) : QQuickView(parent) {
 
