@@ -339,7 +339,6 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[7].insert("*.webp"       , QStringList() << "wep" << "Google web image format"                       << "1");
     setupAvailable[7].insert("*.xbm"        , QStringList() << "xbm" << "X Windows system bitmap, black and white only" << "1");
     setupAvailable[7].insert("*.xpm"        , QStringList() << "xpm" << "X Windows system pixmap"                       << "1");
-
     // missing test image
     setupAvailable[7].insert("*.koa"        , QStringList() << "koa" << "KOALA files"                                   << "0");
     // fails currently (apparently needs some more code for proper conversion)
@@ -356,11 +355,11 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     enabledFileformats = new QStringList[categories.length()];
     defaultEnabledFileformats = new QStringList[categories.length()];
 
+    // watch for changes, load changes with delay and without re-saving files (this is the parameter 'false')
     watcherTimer = new QTimer;
     watcherTimer->setSingleShot(true);
     watcherTimer->setInterval(250);
     connect(watcherTimer, &QTimer::timeout, this, [=]() { composeEnabledFormats(false); enabledFileformatsChanged(); });
-
     watcher = new QFileSystemWatcher;
     watcher->addPaths(formatsfiles);
     connect(watcher, &QFileSystemWatcher::fileChanged, this, [=](QString) { watcherTimer->start(); });

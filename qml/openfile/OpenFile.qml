@@ -199,6 +199,7 @@ Rectangle {
             Handle.loadDirectory()
     }
 
+    // Changes in the formats triggers a reload of the OpenFile interface (with slight delay)
     Connections {
         target: imageformats
         onEnabledFileformatsChanged: imageformatsChangedSoReload.restart()

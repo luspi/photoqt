@@ -132,7 +132,7 @@ signals:
     /****************************************************************************************/
 
 private:
-
+    // Watch for changes to the imageformats file
     QFileSystemWatcher *watcher;
     QTimer *watcherTimer;
 

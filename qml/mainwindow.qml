@@ -82,6 +82,7 @@ Rectangle {
     // The fileformats known to PhotoQt
     PImageFormats {
         id: imageformats;
+        // Changes in the fileoformats trigger a forced reload of the current directory
         onEnabledFileformatsSaved: forceReloadFile.restart()
         onEnabledFileformatsChanged: forceReloadFile.restart()
     }
