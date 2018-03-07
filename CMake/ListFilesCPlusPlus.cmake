@@ -39,7 +39,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/exportimport.h ${d}/migration.h ${d}
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/thumbnails.h ${d}/updatecheck.h ${d}/shortcuts.h ${d}/settings.h)
 
 SET(d "cplusplus/singleinstance")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/commandlineparser.h ${d}/singleinstance.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/commandlineparser.cpp ${d}/singleinstance.cpp)
 
 SET(d "cplusplus/shortcuts")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/shortcutsnotifier.h ${d}/shortcuts.cpp ${d}/composestring.h)
