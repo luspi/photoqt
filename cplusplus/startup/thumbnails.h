@@ -32,7 +32,7 @@ namespace StartupCheck {
 
     namespace Thumbnails {
 
-        static inline void checkThumbnailsDatabase(int update, Settings *settings) {
+        static void checkThumbnailsDatabase(int update, Settings *settings) {
 
             bool debug = (qgetenv("PHOTOQT_DEBUG") == "yes");
 

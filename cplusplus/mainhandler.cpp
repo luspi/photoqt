@@ -21,6 +21,13 @@
  **************************************************************************/
 
 #include "mainhandler.h"
+
+#include "startup/migration.h"
+#include "startup/screenshots.h"
+#include "startup/thumbnails.h"
+#include "startup/updatecheck.h"
+#include "startup/shortcuts.h"
+#include "startup/settings.h"
 #include "shortcuts/composestring.h"
 
 MainHandler::MainHandler(QWindow *parent) : QQuickView(parent) {

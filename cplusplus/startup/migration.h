@@ -29,7 +29,7 @@ namespace StartupCheck {
 
     namespace Migration {
 
-        static inline void migrateIfNecessary() {
+        static void migrateIfNecessary() {
 
             if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "StartupCheck::Migration" << NL;
 

@@ -23,6 +23,7 @@
 #include <QApplication>
 #include "mainhandler.h"
 #include "singleinstance/singleinstance.h"
+#include "startup/exportimport.h"
 #ifdef GM
 #include <GraphicsMagick/Magick++.h>
 #endif

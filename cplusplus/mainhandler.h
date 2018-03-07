@@ -55,14 +55,6 @@
 #include "imageprovider/imageprovidericon.h"
 #include "imageprovider/imageproviderthumbnail.h"
 
-#include "startup/exportimport.h"
-#include "startup/migration.h"
-#include "startup/screenshots.h"
-#include "startup/thumbnails.h"
-#include "startup/updatecheck.h"
-#include "startup/shortcuts.h"
-#include "startup/settings.h"
-
 class MainHandler : public QQuickView {
 
     Q_OBJECT

@@ -31,7 +31,7 @@ namespace StartupCheck {
 
     namespace ExportImport {
 
-        static inline int handleExportImport(SingleInstance *a) {
+        static int handleExportImport(SingleInstance *a) {
 
             if(a->exportAndQuitNow != "") {
                 GetAndDoStuffExternal external;

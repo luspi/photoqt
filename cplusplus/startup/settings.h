@@ -31,7 +31,7 @@ namespace StartupCheck {
 
     namespace Settings {
 
-        static inline void moveToNewKeyNames() {
+        static void moveToNewKeyNames() {
 
             QFile fileIn(ConfigFiles::SETTINGS_FILE());
 

@@ -32,7 +32,7 @@ namespace StartupCheck {
 
     namespace Screenshots {
 
-        static inline void getAndStore() {
+        static void getAndStore() {
 
             if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "StartupCheck::Screenshots" << NL;
 
