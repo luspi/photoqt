@@ -89,6 +89,7 @@ Rectangle {
             FileformatsGmGhostscript { id: fileformatsgmghostscript }
             FileformatsRAW { id: fileformatsraw; alternating: true }
             FileformatsDevIL { id: fileformatsdevil }
+            FileformatsFreeImage { id: fileformatsfreeimage; alternating: true }
 
         }
 
@@ -105,6 +106,7 @@ Rectangle {
         fileformatsgmghostscript.setData()
         fileformatsraw.setData()
         fileformatsdevil.setData()
+        fileformatsfreeimage.setData()
 
     }
 
@@ -119,6 +121,7 @@ Rectangle {
         fileformatsgmghostscript.saveData()
         fileformatsraw.saveData()
         fileformatsdevil.saveData()
+        fileformatsfreeimage.saveData()
 
     }
 

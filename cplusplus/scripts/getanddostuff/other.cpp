@@ -129,6 +129,14 @@ bool GetAndDoStuffOther::isDevILSupportEnabled() {
     return false;
 }
 
+bool GetAndDoStuffOther::isFreeImageSupportEnabled() {
+#ifdef FREEIMAGE
+    return true;
+#endif
+    return false;
+}
+
+
 QString GetAndDoStuffOther::getVersionString() {
     return VERSION;
 }

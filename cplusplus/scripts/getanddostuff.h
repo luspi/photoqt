@@ -110,6 +110,7 @@ public:
     Q_INVOKABLE bool isGraphicsMagickSupportEnabled() { return other->isGraphicsMagickSupportEnabled(); }
     Q_INVOKABLE bool isLibRawSupportEnabled() { return other->isLibRawSupportEnabled(); }
     Q_INVOKABLE bool isDevILSupportEnabled() { return other->isDevILSupportEnabled(); }
+    Q_INVOKABLE bool isFreeImageSupportEnabled() { return other->isFreeImageSupportEnabled(); }
     Q_INVOKABLE QString getVersionString() { return other->getVersionString(); }
     Q_INVOKABLE void storeGeometry(QRect rect) { other->storeGeometry(rect); }
     Q_INVOKABLE QRect getStoredGeometry() { return other->getStoredGeometry(); }

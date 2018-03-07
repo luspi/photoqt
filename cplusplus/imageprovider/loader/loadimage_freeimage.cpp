@@ -71,6 +71,10 @@ QImage LoadImageFreeImage::load(QString filename, QSize maxSize) {
     } else
         return ErrorImage::load("FreeImage ERROR: FIF not supported!");
 
+    // the width/height of the image, needed to ensure we respect the maxSize further down
+    int width  = FreeImage_GetWidth(dib);
+    int height = FreeImage_GetHeight(dib);
+
     // This will be the access handler for the data that we can load into QImage
     FIMEMORY *stream = FreeImage_OpenMemory();
 
@@ -81,8 +85,9 @@ QImage LoadImageFreeImage::load(QString filename, QSize maxSize) {
     if(errorMessage != "")
         return ErrorImage::load(QString("FreeImage failed to convert image to 24bits: %1 (image type: %2)").arg(errorMessage).arg(errorFormat));
 
-    // We save the image to memory as JPEG as Qt can understand JPEG very well
-    FreeImage_SaveToMemory(FIF_JPEG, dib, stream);
+    // We save the image to memory as BMP as Qt can understand BMP very well
+    // Note: BMP seems to be about 10 times faster than JPEG!
+    FreeImage_SaveToMemory(FIF_BMP, dib, stream);
 
     // Error check!
     if(errorMessage != "")
@@ -105,7 +110,15 @@ QImage LoadImageFreeImage::load(QString filename, QSize maxSize) {
     // Load the raw JPEG data into the QByteArray ...
     QByteArray array = QByteArray::fromRawData((char*)mem_buffer, size_in_bytes);
     // ... and load QByteArray into QImage
-    return QImage::fromData(array);
+    QImage img = QImage::fromData(array);
+
+    // If image needs to be scaled down, return scaled down version
+    if(maxSize.width() > 5 && maxSize.height() > 5)
+        if(width > maxSize.width() || height > maxSize.height())
+            return img.scaled(maxSize, Qt::KeepAspectRatio);
+
+    // return full image
+    return img;
 
 #endif
 
