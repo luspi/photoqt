@@ -27,12 +27,13 @@
 
 #ifdef GM
 #include <GraphicsMagick/Magick++.h>
-#include "../../scripts/gmimagemagick.h"
 #endif
 
 namespace LoadImage {
 
     namespace GraphicsMagick {
+
+        static std::string getImageMagickString(QString suf);
 
         static QImage load(QString filename, QSize maxSize) {
 
@@ -41,7 +42,6 @@ namespace LoadImage {
             if(qgetenv("PHOTOQT_DEBUG") == "yes")
                 LOG << CURDATE << "LoadImageGM: Loading image using GraphicsMagick: " << QFileInfo(filename).fileName().toStdString() << NL;
 
-            GmImageMagick imagemagick;
             QSize finalSize;
 
             // We first read the image into memory
@@ -66,7 +66,10 @@ namespace LoadImage {
                 // Prepare Magick
                 QString suf = QFileInfo(filename).suffix().toUpper();
                 Magick::Image image;
-                image = imagemagick.setImageMagick(image,suf);
+
+                // Detect and set Magick format
+                std::string magick = getImageMagickString(suf.toLower());
+                if(magick != "") image.magick(magick);
 
                 // Read image into Magick
                 image.read(blob);
@@ -125,6 +128,69 @@ namespace LoadImage {
 
             return ErrorImage::load("Failed to load image with GraphicsMagick!");
 
+        }
+
+        static std::string getImageMagickString(QString suf) {
+
+            std::string magick = suf.toUpper().toStdString();
+
+            if(suf == "x")
+
+                magick = "AVS";
+
+            else if(suf == "ct1" || suf == "cal" || suf == "ras" || suf == "ct2" || suf == "ct3" || suf == "nif" || suf == "ct4" || suf == "c4")
+
+                magick = "CALS";
+
+            else if(suf == "acr" || suf == "dicom" || suf == "dic")
+
+                magick = "DCM";
+
+            else if(suf == "pct" || suf == "pic")
+
+                magick = "PICT";
+
+            else if(suf == "pal")
+
+                magick = "PIX";
+
+            else if(suf == "wbm")
+
+                magick = "WBMP";
+
+            else if(suf == "jpe")
+
+                magick = "JPEG";
+
+            else if(suf == "mif")
+
+                magick = "MIFF";
+
+            else if(suf == "alb" || suf == "sfw" || suf == "pwm")
+
+                magick = "PWP";
+
+            else if(suf == "bw" || suf == "rgb" || suf == "rgba")
+
+                magick = "SGI";
+
+            else if(suf == "ras" || suf == "rast" || suf == "rs" || suf == "sr" || suf == "scr" || suf == "im1" || suf == "im8" || suf == "im24" || suf == "im32")
+
+                magick = "SUN";
+
+            else if(suf == "icb" || suf == "vda" || suf == "vst")
+
+                magick = "TGA";
+
+            else if(suf == "vic" || suf == "img")
+
+                magick = "VICAR";
+
+            else if(suf == "bm")
+
+                magick = "XBM";
+
+            return magick;
         }
 
     }

@@ -34,7 +34,6 @@
 
 #ifdef GM
 #include <GraphicsMagick/Magick++.h>
-#include "../scripts/gmimagemagick.h"
 #endif
 
 class ImageProviderFull : public QQuickImageProvider {
@@ -54,10 +53,6 @@ private:
 
 
     QString whatDoIUse(QString filename);
-
-#ifdef GM
-    GmImageMagick imagemagick;
-#endif
 
     QByteArray getUniqueCacheKey(QString path);
 

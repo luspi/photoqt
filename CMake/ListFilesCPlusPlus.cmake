@@ -16,7 +16,7 @@ SET(d "cplusplus/settings")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/colour.h ${d}/imageformats.cpp ${d}/settings.h ${d}/slimsettingsreadonly.h)
 
 SET(d "cplusplus/scripts")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/getanddostuff.h ${d}/getmetadata.cpp ${d}/gmimagemagick.h ${d}/runprocess.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/getanddostuff.h ${d}/getmetadata.cpp ${d}/runprocess.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/thumbnailsmanagement.cpp ${d}/filedialog.h ${d}/watcher.h ${d}/sortlist.h ${d}/localisation.h)
 
 SET(d "cplusplus/scripts/getanddostuff")

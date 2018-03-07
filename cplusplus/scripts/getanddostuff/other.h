@@ -42,7 +42,6 @@
 
 #ifdef GM
 #include <GraphicsMagick/Magick++.h>
-#include "../gmimagemagick.h"
 #endif
 
 class GetAndDoStuffOther : public QObject {
