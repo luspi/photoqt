@@ -6,6 +6,7 @@
 #include <QVariant>
 #include <QFile>
 #include <QTimer>
+#include <QFileSystemWatcher>
 
 #include "../configfiles.h"
 #include "../logger.h"
@@ -17,7 +18,7 @@ class ImageFormats : public QObject {
 public:
     ImageFormats(QObject *parent = 0);
 
-    void setEnabledFileformats(QString cat, QStringList val);
+    void setEnabledFileformats(QString cat, QStringList val, bool withSaving = true);
 
     // All possibly available file formats for the various categories
     Q_INVOKABLE QVariantList getAvailableEndingsQt() { return availableFileformats[categories.indexOf("qt")]; }
@@ -43,35 +44,43 @@ public:
     // ... Qt
     Q_PROPERTY(QStringList enabledFileformatsQt READ getEnabledFileformatsQt WRITE setEnabledFileformatsQt NOTIFY enabledFileformatsQtChanged)
     QStringList getEnabledFileformatsQt() { return enabledFileformats[categories.indexOf("qt")]; }
-    void setEnabledFileformatsQt(QStringList val) { enabledFileformats[categories.indexOf("qt")] = val; emit enabledFileformatsQtChanged(val); }
+    void setEnabledFileformatsQt(QStringList val) { enabledFileformats[categories.indexOf("qt")] = val; enabledFileformatsQtChanged(val); }
+    void setEnabledFileformatsQtWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("qt")] = val; }
     // ... KDE
     Q_PROPERTY(QStringList enabledFileformatsKDE READ getEnabledFileformatsKDE WRITE setEnabledFileformatsKDE NOTIFY enabledFileformatsKDEChanged)
     QStringList getEnabledFileformatsKDE() { return enabledFileformats[categories.indexOf("kde")]; }
     void setEnabledFileformatsKDE(QStringList val) { enabledFileformats[categories.indexOf("kde")] = val; emit enabledFileformatsKDEChanged(val); }
+    void setEnabledFileformatsKDEWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("kde")] = val;}
     // ... Extras
     Q_PROPERTY(QStringList enabledFileformatsExtras READ getEnabledFileformatsExtras WRITE setEnabledFileformatsExtras NOTIFY enabledFileformatsExtrasChanged)
     QStringList getEnabledFileformatsExtras() { return enabledFileformats[categories.indexOf("extras")]; }
     void setEnabledFileformatsExtras(QStringList val) { enabledFileformats[categories.indexOf("extras")] = val; emit enabledFileformatsExtrasChanged(val); }
+    void setEnabledFileformatsExtrasWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("extras")] = val; }
     // ... GraphicsMagick
     Q_PROPERTY(QStringList enabledFileformatsGm READ getEnabledFileformatsGm WRITE setEnabledFileformatsGm NOTIFY enabledFileformatsGmChanged)
     QStringList getEnabledFileformatsGm() { return enabledFileformats[categories.indexOf("gm")]; }
     void setEnabledFileformatsGm(QStringList val) { enabledFileformats[categories.indexOf("gm")] = val; emit enabledFileformatsGmChanged(val); }
+    void setEnabledFileformatsGmWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("gm")] = val; }
     // ... GraphicsMagick w/ Ghostscript
     Q_PROPERTY(QStringList enabledFileformatsGmGhostscript READ getEnabledFileformatsGmGhostscript WRITE setEnabledFileformatsGmGhostscript NOTIFY enabledFileformatsGmGhostscriptChanged)
     QStringList getEnabledFileformatsGmGhostscript() { return enabledFileformats[categories.indexOf("gmghostscript")]; }
     void setEnabledFileformatsGmGhostscript(QStringList val) { enabledFileformats[categories.indexOf("gmghostscript")] = val; emit enabledFileformatsGmGhostscriptChanged(val); }
+    void setEnabledFileformatsGmGhostscriptWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("gmghostscript")] = val; }
     // ... RAW
     Q_PROPERTY(QStringList enabledFileformatsRAW READ getEnabledFileformatsRAW WRITE setEnabledFileformatsRAW NOTIFY enabledFileformatsRAWChanged)
     QStringList getEnabledFileformatsRAW() { return enabledFileformats[categories.indexOf("raw")]; }
     void setEnabledFileformatsRAW(QStringList val) { enabledFileformats[categories.indexOf("raw")] = val; emit enabledFileformatsRAWChanged(val); }
+    void setEnabledFileformatsRAWWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("raw")] = val; }
     // ... DevIL
     Q_PROPERTY(QStringList enabledFileformatsDevIL READ getEnabledFileformatsDevIL WRITE setEnabledFileformatsDevIL NOTIFY enabledFileformatsDevILChanged)
     QStringList getEnabledFileformatsDevIL() { return enabledFileformats[categories.indexOf("devil")]; }
     void setEnabledFileformatsDevIL(QStringList val) { enabledFileformats[categories.indexOf("devil")] = val; emit enabledFileformatsDevILChanged(val); }
+    void setEnabledFileformatsDevILWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("devil")] = val; }
     // ... FreeImage
     Q_PROPERTY(QStringList enabledFileformatsFreeImage READ getEnabledFileformatsFreeImage WRITE setEnabledFileformatsFreeImage NOTIFY enabledFileformatsFreeImageChanged)
     QStringList getEnabledFileformatsFreeImage() { return enabledFileformats[categories.indexOf("freeimage")]; }
     void setEnabledFileformatsFreeImage(QStringList val) { enabledFileformats[categories.indexOf("freeimage")] = val; emit enabledFileformatsFreeImageChanged(val); }
+    void setEnabledFileformatsFreeImageWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("freeimage")] = val; }
 
     Q_INVOKABLE void setDefaultFormatsQt() { setEnabledFileformatsQt(defaultEnabledFileformats[categories.indexOf("qt")]); }
     Q_INVOKABLE void setDefaultFormatsKDE() { setEnabledFileformatsKDE(defaultEnabledFileformats[categories.indexOf("kde")]); }
@@ -112,6 +121,8 @@ signals:
     void enabledFileformatsRAWChanged(QStringList val);
     void enabledFileformatsDevILChanged(QStringList val);
     void enabledFileformatsFreeImageChanged(QStringList val);
+    void enabledFileformatsChanged();
+    void enabledFileformatsSaved();
 
     /****************************************************************************************/
     /****************************************************************************************/
@@ -121,6 +132,9 @@ signals:
     /****************************************************************************************/
 
 private:
+
+    QFileSystemWatcher *watcher;
+    QTimer *watcherTimer;
 
     // This is only used for entering which file endings are available, the name of the image and whether it is enabled by default
     QMap<QString, QStringList> *setupAvailable;
@@ -141,13 +155,13 @@ private:
     // Called at setup, these do not change during runtime
     void composeAvailableFormats();
 
-    // Read the currently disabled file formats from file (and thus compose the list of currently enabled formats)
-    void composeEnabledFormats();
-
 private slots:
 
     // Save Qt file formats
     void saveEnabledFormats();
+
+    // Read the currently disabled file formats from file (and thus compose the list of currently enabled formats)
+    void composeEnabledFormats(bool withSaving = true);
 
 };
 

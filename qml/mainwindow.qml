@@ -80,7 +80,17 @@ Rectangle {
     PSettings { id: settings }
 
     // The fileformats known to PhotoQt
-    PImageFormats { id: imageformats; }
+    PImageFormats {
+        id: imageformats;
+        onEnabledFileformatsSaved: forceReloadFile.restart()
+        onEnabledFileformatsChanged: forceReloadFile.restart()
+    }
+    Timer {
+        id: forceReloadFile
+        repeat: false
+        interval: 500
+        onTriggered: Handle.loadFile(variables.currentFile, variables.filter, true)
+    }
 
     // The colouring of PhotoQt
     PColour { id: colour; }

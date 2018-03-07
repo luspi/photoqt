@@ -51,7 +51,6 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[1].insert("*.ora"        , QStringList() << "ora" << "Open Raster Image File"                        << "1");
     setupAvailable[1].insert("*.pcx"        , QStringList() << "pcx" << "ZSoft PCX"                                     << "1");
     setupAvailable[1].insert("*.psd"        , QStringList() << "psd" << "Adobe PhotoShop"                               << "1");
-    setupAvailable[1].insert("*.ras"        , QStringList() << "ras" << "Sun Graphics"                                  << "1");
     setupAvailable[1].insert("*.bw"         , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
     setupAvailable[1].insert("*.rgb"        , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
     setupAvailable[1].insert("*.rgba"       , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
@@ -60,6 +59,7 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[1].insert("*.xcf"        , QStringList() << "xcf" << "Gimp format"                                   << "1");
     // fails to load test image
     setupAvailable[1].insert("*.pic"        , QStringList() << "pic" << "Apple Macintosh QuickDraw/PICT file"           << "0");
+    setupAvailable[1].insert("*.ras"        , QStringList() << "ras" << "Sun Graphics"                                  << "0");
 
     // Extras
     setupAvailable[2].insert("*.psb"        , QStringList() << "psd" << "Adobe PhotoShop - Makes use of 'libqpsd'"      << "0");
@@ -351,18 +351,26 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[7].insert("*.hdp"        , QStringList() << "jxr" << "JPEG-XR"                                       << "0");
     setupAvailable[7].insert("*.wdp"        , QStringList() << "jxr" << "JPEG-XR"                                       << "0");
 
-
     availableFileformats = new QVariantList[categories.length()];
     availableFileformatsWithDescription = new QVariantList[categories.length()];
     enabledFileformats = new QStringList[categories.length()];
     defaultEnabledFileformats = new QStringList[categories.length()];
+
+    watcherTimer = new QTimer;
+    watcherTimer->setSingleShot(true);
+    watcherTimer->setInterval(250);
+    connect(watcherTimer, &QTimer::timeout, this, [=]() { composeEnabledFormats(false); enabledFileformatsChanged(); });
+
+    watcher = new QFileSystemWatcher;
+    watcher->addPaths(formatsfiles);
+    connect(watcher, SIGNAL(fileChanged(QString)), watcherTimer, SLOT(start()));
 
     composeAvailableFormats();
     composeEnabledFormats();
 
     saveTimer = new QTimer;
     saveTimer->setSingleShot(true);
-    saveTimer->setInterval(500);
+    saveTimer->setInterval(250);
     connect(saveTimer, &QTimer::timeout, this, &ImageFormats::saveEnabledFormats);
 
     connect(this, SIGNAL(enabledFileformatsQtChanged(QStringList)), saveTimer, SLOT(start()));
@@ -376,23 +384,47 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
 
 }
 
-void ImageFormats::setEnabledFileformats(QString cat, QStringList val) {
-    if(cat == "qt")
-        setEnabledFileformatsQt(val);
-    else if(cat == "kde")
-        setEnabledFileformatsKDE(val);
-    else if(cat == "extras")
-        setEnabledFileformatsExtras(val);
-    else if(cat == "gm")
-        setEnabledFileformatsGm(val);
-    else if(cat == "gmghostscript")
-        setEnabledFileformatsGmGhostscript(val);
-    else if(cat == "raw")
-        setEnabledFileformatsRAW(val);
-    else if(cat == "devil")
-        setEnabledFileformatsDevIL(val);
-    else if(cat == "freeimage")
-        setEnabledFileformatsFreeImage(val);
+void ImageFormats::setEnabledFileformats(QString cat, QStringList val, bool withSaving) {
+
+    if(withSaving) {
+
+        if(cat == "qt")
+            setEnabledFileformatsQt(val);
+        else if(cat == "kde")
+            setEnabledFileformatsKDE(val);
+        else if(cat == "extras")
+            setEnabledFileformatsExtras(val);
+        else if(cat == "gm")
+            setEnabledFileformatsGm(val);
+        else if(cat == "gmghostscript")
+            setEnabledFileformatsGmGhostscript(val);
+        else if(cat == "raw")
+            setEnabledFileformatsRAW(val);
+        else if(cat == "devil")
+            setEnabledFileformatsDevIL(val);
+        else if(cat == "freeimage")
+            setEnabledFileformatsFreeImage(val);
+
+    } else {
+
+        if(cat == "qt")
+            setEnabledFileformatsQtWithoutSaving(val);
+        else if(cat == "kde")
+            setEnabledFileformatsKDEWithoutSaving(val);
+        else if(cat == "extras")
+            setEnabledFileformatsExtrasWithoutSaving(val);
+        else if(cat == "gm")
+            setEnabledFileformatsGmWithoutSaving(val);
+        else if(cat == "gmghostscript")
+            setEnabledFileformatsGmGhostscriptWithoutSaving(val);
+        else if(cat == "raw")
+            setEnabledFileformatsRAWWithoutSaving(val);
+        else if(cat == "devil")
+            setEnabledFileformatsDevILWithoutSaving(val);
+        else if(cat == "freeimage")
+            setEnabledFileformatsFreeImageWithoutSaving(val);
+
+    }
 }
 
 // Called at setup, these do not change during runtime
@@ -420,7 +452,7 @@ void ImageFormats::composeAvailableFormats() {
 }
 
 // Read the currently disabled file formats from file (and thus compose the list of currently enabled formats)
-void ImageFormats::composeEnabledFormats() {
+void ImageFormats::composeEnabledFormats(bool withSaving) {
 
     for(int i = 0; i < categories.length(); ++i) {
 
@@ -464,7 +496,7 @@ void ImageFormats::composeEnabledFormats() {
         }
 
         // Set enabled formats to file
-        setEnabledFileformats(cat, setTheseAsEnabled);
+        setEnabledFileformats(cat, setTheseAsEnabled, withSaving);
 
         // close file...
         disabledfile.close();
@@ -502,5 +534,7 @@ void ImageFormats::saveEnabledFormats() {
         file.close();
 
     }
+
+    emit enabledFileformatsSaved();
 
 }

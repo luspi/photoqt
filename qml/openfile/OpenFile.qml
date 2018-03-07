@@ -199,6 +199,20 @@ Rectangle {
             Handle.loadDirectory()
     }
 
+    Connections {
+        target: imageformats
+        onEnabledFileformatsChanged: imageformatsChangedSoReload.restart()
+    }
+    Timer {
+        id: imageformatsChangedSoReload
+        interval: 250
+        repeat: false
+        onTriggered: {
+            Handle.loadDirectoryFolders()
+            Handle.loadDirectoryFiles()
+        }
+    }
+
     Component.onCompleted: {
 
         // We needto do that here, as it seems to be not possible to compose a string in the dict definition
