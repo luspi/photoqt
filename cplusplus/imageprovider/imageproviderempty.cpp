@@ -20,35 +20,19 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef LOADIMAGE_ERROR_H
-#define LOADIMAGE_ERROR_H
+#include "imageproviderempty.h"
 
-#include <QImage>
-#include <QPainter>
-#include <QPixmap>
-#include <QTextDocument>
-#include "../../logger.h"
+QImage ImageProviderEmpty::requestImage(const QString &filename_encoded, QSize *, const QSize &) {
 
-namespace LoadImage {
+    int w = filename_encoded.split("x").at(0).toInt();
+    int h = filename_encoded.split("x").at(1).toInt();
 
-    namespace ErrorImage {
+    if(w < 5) w  = 100;
+    if(h < 5) h  = 100;
 
-        static QImage load(QString errormessage) {
-            QPixmap pix(":/img/plainerrorimg.png");
-            QPainter paint(&pix);
-            QTextDocument txt;
-            txt.setHtml(QString("<center><div style=\"text-align: center; font-size: 12pt; font-wight: bold; color: white; background: none;\"><b>ERROR LOADING IMAGE</b><br><br><bR>%1</div></center>").arg(errormessage));
-            paint.translate(100,150);
-            txt.setTextWidth(440);
-            txt.drawContents(&paint);
-            paint.end();
-            QImage pix2img = pix.toImage();
-            pix2img.setText("error", "error");
-            return pix2img;
-        }
+    QImage ret(w, h, QImage::Format_ARGB32);
+    ret.fill(Qt::transparent);
 
-    }
+    return ret;
 
 }
-
-#endif // LOADIMAGE_ERROR_H

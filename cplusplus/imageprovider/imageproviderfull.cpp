@@ -21,6 +21,19 @@
  **************************************************************************/
 
 #include "imageproviderfull.h"
+#include "loader/loadimage_devil.h"
+#include "loader/loadimage_gm.h"
+#include "loader/loadimage_qt.h"
+#include "loader/loadimage_xcf.h"
+
+// Both the libraw and the freeimage library have typedefs for INT64 and UINT64.
+// As we never use them directly, we can redefine one of them (here for libraw) to use a different name and thus avoid the clash.
+#define INT64 INT64_SOMETHINGELSE
+#define UINT64 UINT64_SOMETHINGELSE
+#include "loader/loadimage_raw.h"
+#undef INT64
+#undef UINT64
+#include "loader/loadimage_freeimage.h"
 
 ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider::Image) {
 
@@ -29,13 +42,6 @@ ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider
 
     pixmapcache = new QCache<QByteArray, QImage>;
     pixmapcache->setMaxCost(8*1024*std::max(0, std::min(1000, settings->pixmapCache)));
-
-    loaderGM = new LoadImageGM;
-    loaderQT = new LoadImageQt;
-    loaderRAW = new LoadImageRaw;
-    loaderXCF = new LoadImageXCF;
-    loaderDevil = new LoadImageDevil;
-    loaderFreeImage = new LoadImageFreeImage;
 
 }
 
@@ -60,7 +66,7 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
         QString err = QCoreApplication::translate("imageprovider", "File failed to load, it doesn't exist!");
         LOG << CURDATE << "ImageProviderFull: ERROR: " << err.toStdString() << NL;
         LOG << CURDATE << "ImageProviderFull: Filename: " << filename.toStdString() << NL;
-        return ErrorImage::load(err);
+        return LoadImage::ErrorImage::load(err);
     }
 
     // Which GraphicsEngine should we use?
@@ -103,27 +109,27 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
 
     // Try to use XCFtools for XCF (if enabled)
     if(whatToUse == "xcftools")
-        *ret = loaderXCF->load(filename,maxSize);
+        *ret = LoadImage::XCF::load(filename,maxSize);
 
     // Try to use GraphicsMagick (if available)
     else if(whatToUse == "gm")
-        *ret = loaderGM->load(filename, maxSize);
+        *ret = LoadImage::GraphicsMagick::load(filename, maxSize);
 
     // Try to use libraw (if available)
     else if(whatToUse == "raw")
-        *ret = loaderRAW->load(filename, maxSize);
+        *ret = LoadImage::Raw::load(filename, maxSize);
 
     // Try to use DevIL (if available)
     else if(whatToUse == "devil")
-        *ret = loaderDevil->load(filename, maxSize);
+        *ret = LoadImage::Devil::load(filename, maxSize);
 
     // Try to use FreeImage (if available)
     else if(whatToUse == "freeimage")
-        *ret = loaderFreeImage->load(filename, maxSize);
+        *ret = LoadImage::FreeImage::load(filename, maxSize);
 
     // Try to use Qt
     else
-        *ret = loaderQT->load(filename,maxSize,settings->metaApplyRotation);
+        *ret = LoadImage::Qt::load(filename,maxSize,settings->metaApplyRotation);
 
     // if returned image is not an error image ...
     if(ret->text("error") != "error") {

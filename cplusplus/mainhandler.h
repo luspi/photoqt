@@ -28,6 +28,10 @@
 #include <QQmlProperty>
 #include <iostream>
 
+#ifdef FREEIMAGE
+#include <FreeImagePlus.h>
+#endif
+
 #include "hideclose.h"
 
 #include "settings/colour.h"

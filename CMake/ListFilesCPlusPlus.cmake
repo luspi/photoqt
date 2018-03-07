@@ -6,11 +6,11 @@ SET(d "cplusplus")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/main.cpp ${d}/mainhandler.cpp ${d}/logger.h ${d}/configfiles.h ${d}/hideclose.h)
 
 SET(d "cplusplus/imageprovider")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/imageproviderempty.h ${d}/imageproviderfull.cpp ${d}/imageproviderthumbnail.cpp)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/imageproviderhistogram.h ${d}/imageprovidericon.h ${d}/pixmapcache.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/imageproviderempty.cpp ${d}/imageproviderfull.cpp ${d}/imageproviderthumbnail.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/imageproviderhistogram.cpp ${d}/imageprovidericon.cpp ${d}/pixmapcache.h)
 
 SET(d "cplusplus/imageprovider/loader")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/errorimage.h ${d}/loadimage_gm.h ${d}/loadimage_qt.h ${d}/loadimage_raw.h ${d}/loadimage_xcf.h ${d}/loadimage_devil.h ${d}/loadimage_freeimage.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/errorimage.h ${d}/loadimage_gm.h ${d}/loadimage_qt.h ${d}/loadimage_raw.h ${d}/loadimage_xcf.h ${d}/loadimage_devil.h ${d}/loadimage_freeimage.h)
 
 SET(d "cplusplus/settings")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/colour.h ${d}/imageformats.cpp ${d}/settings.h ${d}/slimsettingsreadonly.h)

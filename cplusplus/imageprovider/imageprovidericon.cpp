@@ -20,35 +20,39 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef LOADIMAGE_ERROR_H
-#define LOADIMAGE_ERROR_H
+#include "imageprovidericon.h"
 
-#include <QImage>
-#include <QPainter>
-#include <QPixmap>
-#include <QTextDocument>
-#include "../../logger.h"
+QPixmap ImageProviderIcon::requestPixmap(const QString &icon, QSize *, const QSize &requestedSize) {
 
-namespace LoadImage {
+    if(qgetenv("PHOTOQT_DEBUG") == "yes")
+        LOG << CURDATE << "ImageProviderIcon: Attempting to load icon from theme: " << icon.toStdString() << NL;
 
-    namespace ErrorImage {
+    QSize use = requestedSize;
 
-        static QImage load(QString errormessage) {
-            QPixmap pix(":/img/plainerrorimg.png");
-            QPainter paint(&pix);
-            QTextDocument txt;
-            txt.setHtml(QString("<center><div style=\"text-align: center; font-size: 12pt; font-wight: bold; color: white; background: none;\"><b>ERROR LOADING IMAGE</b><br><br><bR>%1</div></center>").arg(errormessage));
-            paint.translate(100,150);
-            txt.setTextWidth(440);
-            txt.drawContents(&paint);
-            paint.end();
-            QImage pix2img = pix.toImage();
-            pix2img.setText("error", "error");
-            return pix2img;
-        }
-
+    if(use == QSize(-1,-1)) {
+        use.setWidth(300);
+        use.setHeight(300);
     }
 
-}
+    // Attempt to load icon from current theme
+    QIcon ret;
+    ret = ret.fromTheme(icon);
 
-#endif // LOADIMAGE_ERROR_H
+    // If icon is not available or if on Windows, choose from a small selection of custom provided icons
+    // These backup icons are taken from the Breese-Dark icon theme, created by KDE/Plasma
+    if(ret.isNull()) {
+        if(qgetenv("PHOTOQT_DEBUG") == "yes")
+            LOG << CURDATE << "ImageProviderIcon: Icon not found in theme, using fallback icon: " << icon.toStdString() << NL;
+        if(QFile(":/img/openfile/backupicons/" + icon + ".svg").exists())
+            ret = QIcon(":/img/openfile/backupicons/" + icon + ".svg");
+        else if(icon.contains("folder") || icon.contains("directory"))
+            ret = QIcon(":/img/openfile/backupicons/folder.svg");
+        else if(icon.contains("image"))
+            ret = QIcon(":/img/openfile/backupicons/image.svg");
+        else
+            ret = QIcon(":/img/openfile/backupicons/unknown.svg");
+    }
+
+    return QPixmap(ret.pixmap(use));
+
+}

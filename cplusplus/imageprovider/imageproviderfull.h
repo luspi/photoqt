@@ -31,18 +31,6 @@
 #include "../settings/slimsettingsreadonly.h"
 #include "../logger.h"
 
-#include "loader/loadimage_qt.h"
-#include "loader/loadimage_gm.h"
-#include "loader/loadimage_xcf.h"
-#include "loader/loadimage_devil.h"
-// Both the libraw and the freeimage library have typedefs for INT64 and UINT64.
-// As we never use them directly, we can redefine one of them (here for libraw) to use a different name and thus avoid the clash.
-#define INT64 INT64_SOMETHINGELSE
-#define UINT64 UINT64_SOMETHINGELSE
-#include "loader/loadimage_raw.h"
-#undef INT64
-#undef UINT64
-#include "loader/loadimage_freeimage.h"
 
 #ifdef GM
 #include <GraphicsMagick/Magick++.h>
@@ -61,13 +49,6 @@ private:
     QSize maxSize;
     SlimSettingsReadOnly *settings;
     ImageFormats *imageformats;
-
-    LoadImageGM *loaderGM;
-    LoadImageQt *loaderQT;
-    LoadImageRaw *loaderRAW;
-    LoadImageXCF *loaderXCF;
-    LoadImageDevil *loaderDevil;
-    LoadImageFreeImage *loaderFreeImage;
 
     QCache<QByteArray,QImage> *pixmapcache;
 
