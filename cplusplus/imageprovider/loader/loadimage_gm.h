@@ -102,10 +102,10 @@ public:
 
             }
 
-            // Write Magick as JPG to memory
-            // We used to use PNG here, but JPG is waaaayyyyyy faster
+            // Write Magick as BMP to memory
+            // We used to use PNG here, but BMP is waaaayyyyyy faster (even faster than JPG)
             Magick::Blob ob;
-            image.magick("JPG");
+            image.magick("BMP");
             image.write(&ob);
 
             // And load JPG from memory into QImage
