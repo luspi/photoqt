@@ -28,7 +28,7 @@
 
 namespace Sort {
 
-    static void sortList(QFileInfoList *list, QString sortby, bool sortbyAscending) {
+    static void list(QFileInfoList *list, QString sortby, bool sortbyAscending) {
 
         QCollator collator;
         collator.setCaseSensitivity(Qt::CaseInsensitive);

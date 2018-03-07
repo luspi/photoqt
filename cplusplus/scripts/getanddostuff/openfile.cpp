@@ -266,7 +266,7 @@ QVariantList GetAndDoStuffOpenFile::getFilesIn(QString file, QString filter, QSt
     if(!list.contains(info) && !info.isDir())
         list.append(info);
 
-    Sort::sortList(&list, sortby, sortbyAscending);
+    Sort::list(&list, sortby, sortbyAscending);
 
     QVariantList ret;
     if(filter.startsWith(".")) {
@@ -335,7 +335,7 @@ QVariantList GetAndDoStuffOpenFile::getFilesWithSizeIn(QString path, int selecti
     collator.setCaseSensitivity(Qt::CaseInsensitive);
     collator.setIgnorePunctuation(true);
 
-    Sort::sortList(&list, sortby, sortbyAscending);
+    Sort::list(&list, sortby, sortbyAscending);
 
     QVariantList ret;
     for(QFileInfo l : list) {
