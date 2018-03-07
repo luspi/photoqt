@@ -69,7 +69,7 @@ int main(int argc, char *argv[]) {
     MainHandler handle;
 
     // A remote action passed on via command line triggers the 'interaction' signal, so we pass it on to the MainWindow
-    QObject::connect(&app, SIGNAL(interaction(QString)), &handle, SLOT(remoteAction(QString)));
+    QObject::connect(&app, &SingleInstance::interaction, &handle, &MainHandler::remoteAction);
 
     // How to proceed when starting PhotoQt in tray or passing on a filename
     handle.manageStartupFilename(app.startintray, app.filename);

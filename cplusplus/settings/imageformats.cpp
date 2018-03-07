@@ -363,7 +363,7 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
 
     watcher = new QFileSystemWatcher;
     watcher->addPaths(formatsfiles);
-    connect(watcher, SIGNAL(fileChanged(QString)), watcherTimer, SLOT(start()));
+    connect(watcher, &QFileSystemWatcher::fileChanged, this, [=](QString) { watcherTimer->start(); });
 
     composeAvailableFormats();
     composeEnabledFormats();
@@ -373,14 +373,14 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     saveTimer->setInterval(250);
     connect(saveTimer, &QTimer::timeout, this, &ImageFormats::saveEnabledFormats);
 
-    connect(this, SIGNAL(enabledFileformatsQtChanged(QStringList)), saveTimer, SLOT(start()));
-    connect(this, SIGNAL(enabledFileformatsKDEChanged(QStringList)), saveTimer, SLOT(start()));
-    connect(this, SIGNAL(enabledFileformatsExtrasChanged(QStringList)), saveTimer, SLOT(start()));
-    connect(this, SIGNAL(enabledFileformatsGmChanged(QStringList)), saveTimer, SLOT(start()));
-    connect(this, SIGNAL(enabledFileformatsGmGhostscriptChanged(QStringList)), saveTimer, SLOT(start()));
-    connect(this, SIGNAL(enabledFileformatsRAWChanged(QStringList)), saveTimer, SLOT(start()));
-    connect(this, SIGNAL(enabledFileformatsDevILChanged(QStringList)), saveTimer, SLOT(start()));
-    connect(this, SIGNAL(enabledFileformatsFreeImageChanged(QStringList)), saveTimer, SLOT(start()));
+    connect(this, &ImageFormats::enabledFileformatsQtChanged, this, [=](QStringList) {saveTimer->start();});
+    connect(this, &ImageFormats::enabledFileformatsKDEChanged, this, [=](QStringList) {saveTimer->start();});
+    connect(this, &ImageFormats::enabledFileformatsExtrasChanged, this, [=](QStringList) {saveTimer->start();});
+    connect(this, &ImageFormats::enabledFileformatsGmChanged, this, [=](QStringList) {saveTimer->start();});
+    connect(this, &ImageFormats::enabledFileformatsGmGhostscriptChanged, this, [=](QStringList) {saveTimer->start();});
+    connect(this, &ImageFormats::enabledFileformatsRAWChanged, this, [=](QStringList) {saveTimer->start();});
+    connect(this, &ImageFormats::enabledFileformatsDevILChanged, this, [=](QStringList) {saveTimer->start();});
+    connect(this, &ImageFormats::enabledFileformatsFreeImageChanged, this, [=](QStringList) {saveTimer->start();});
 
 }
 

@@ -333,7 +333,7 @@ int ShareOnline::Imgur::upload(QString filename) {
     connect(reply, &QNetworkReply::finished, this, &ShareOnline::Imgur::uploadFinished);
     connect(reply, &QNetworkReply::uploadProgress, this, &ShareOnline::Imgur::uploadProgress);
     // The following has to use the old syntax, as there is also a accessor member (not a signal) to access the error with the same name
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(uploadError(QNetworkReply::NetworkError)));
+    connect(reply, static_cast<void (QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), this, &Imgur::uploadError);
     connect(this, &ShareOnline::Imgur::abortAllRequests, reply, &QNetworkReply::abort);
 
     // Phew, no error occured!
@@ -378,7 +378,7 @@ int ShareOnline::Imgur::anonymousUpload(QString filename) {
     QNetworkReply *reply = networkManager->post(request, byteArray);
     connect(reply, &QNetworkReply::finished, this, &ShareOnline::Imgur::uploadFinished);
     connect(reply, &QNetworkReply::uploadProgress, this, &ShareOnline::Imgur::uploadProgress);
-    connect(reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(uploadError(QNetworkReply::NetworkError)));
+    connect(reply, static_cast<void (QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), this, &Imgur::uploadError);
     connect(this, &ShareOnline::Imgur::abortAllRequests, reply, &QNetworkReply::abort);
 
     // Phew, no error occured!

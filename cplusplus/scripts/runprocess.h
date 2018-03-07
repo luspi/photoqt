@@ -37,8 +37,8 @@ public:
         proc = new QProcess;
         gotOutput = false;
         error = false;
-        connect(proc, SIGNAL(readyRead()), this, SLOT(read()));
-        connect(proc, SIGNAL(error(QProcess::ProcessError)), this, SLOT(readError(QProcess::ProcessError)));
+        connect(proc, &QProcess::readyRead, this, &RunProcess::read);
+        connect(proc, static_cast<void (QProcess::*)(QProcess::ProcessError)>(&QProcess::error), this, &RunProcess::readError);
     }
     ~RunProcess() { while(proc->waitForFinished()) {} delete proc; }
     // START PROCESS

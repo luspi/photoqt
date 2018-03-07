@@ -48,7 +48,7 @@ public:
         wallpaper = new GetAndDoStuffWallpaper;
         openfile = new GetAndDoStuffOpenFile;
 
-        connect(manipulation, SIGNAL(reloadDirectory(QString,bool)), this, SIGNAL(reloadDirectory(QString,bool)));
+        connect(manipulation, &GetAndDoStuffManipulation::reloadDirectory, this, &GetAndDoStuff::reloadDirectory);
 
     }
 

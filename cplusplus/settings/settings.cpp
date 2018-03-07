@@ -29,7 +29,7 @@ Settings::Settings(QObject *parent) : QObject(parent) {
     saveSettingsTimer = new QTimer;
     saveSettingsTimer->setInterval(400);
     saveSettingsTimer->setSingleShot(true);
-    connect(saveSettingsTimer, SIGNAL(timeout()), this, SLOT(saveSettings()));
+    connect(saveSettingsTimer, &QTimer::timeout, this, &Settings::saveSettings);
 
     watcher = new QFileSystemWatcher;
     connect(watcher, &QFileSystemWatcher::fileChanged, [this](QString){ readSettings(); });
