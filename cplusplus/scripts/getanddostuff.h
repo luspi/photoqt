@@ -129,8 +129,7 @@ public:
     Q_INVOKABLE QVariantList getUserPlaces() { return this->openfile->getUserPlaces(); }
     Q_INVOKABLE QVariantList getStorageInfo() { return this->openfile->getStorageInfo(); }
     Q_INVOKABLE QVariantList getFoldersIn(QString path, bool getDotDot = true, bool showHidden = false) { return this->openfile->getFoldersIn(path, getDotDot, showHidden); }
-    Q_INVOKABLE QVariantList getFilesIn(QString file, QString filter, QString sortby, bool sortbyAscending) { return this->openfile->getFilesIn(file, filter, sortby, sortbyAscending); }
-    Q_INVOKABLE QVariantList getFilesWithSizeIn(QString path, int selectionFileTypes, bool showHidden, QString sortby, bool sortbyAscending) { return this->openfile->getFilesWithSizeIn(path,selectionFileTypes, showHidden, sortby, sortbyAscending); }
+    Q_INVOKABLE QVariantList getAllFilesIn(QString file, int selectionFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize) { return this->openfile->getAllFilesIn(file, selectionFileTypes, filter, showHidden, sortby, sortbyAscending, includeSize); }
     Q_INVOKABLE void saveUserPlaces(QVariantList enabled) { return this->openfile->saveUserPlaces(enabled); }
     Q_INVOKABLE QString getOpenFileLastLocation() {  return this->openfile->getOpenFileLastLocation(); }
     Q_INVOKABLE void setOpenFileLastLocation(QString path) { openfile->setOpenFileLastLocation(path); }

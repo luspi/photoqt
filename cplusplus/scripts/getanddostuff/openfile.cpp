@@ -238,10 +238,14 @@ QVariantList GetAndDoStuffOpenFile::getFoldersIn(QString path, bool getDotDot, b
 
 }
 
-QVariantList GetAndDoStuffOpenFile::getFilesIn(QString file, QString filter, QString sortby, bool sortbyAscending) {
+QVariantList GetAndDoStuffOpenFile::getAllFilesIn(QString file, int selectionFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize) {
 
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
-        LOG << CURDATE << "GetAndDoStuffOpenFile::getFilesIn() - " << file.toStdString() << " / " << filter.toStdString() << " / " << sortby.toStdString() << " / " << sortbyAscending << NL;
+        LOG << CURDATE << "GetAndDoStuffOpenFile::getAllFilesIn() - " << file.toStdString() << " / "
+                                                                      << selectionFileTypes << " / "
+                                                                      << showHidden << " / "
+                                                                      << sortby.toStdString() << " / "
+                                                                      << sortbyAscending << NL;
 
     if(file.startsWith("file:/"))
         file = file.remove(0,6);
@@ -258,58 +262,6 @@ QVariantList GetAndDoStuffOpenFile::getFilesIn(QString file, QString filter, QSt
     else
         dir.setPath(info.absolutePath());
 
-    dir.setNameFilters(imageformats->getAllEnabledFileformats());
-    dir.setFilter(QDir::Files);
-    dir.setSorting(QDir::IgnoreCase);
-
-    QFileInfoList list = dir.entryInfoList();
-    if(!list.contains(info) && !info.isDir())
-        list.append(info);
-
-    Sort::list(&list, sortby, sortbyAscending);
-
-    QVariantList ret;
-    if(filter.startsWith(".")) {
-        for(QFileInfo l : list) {
-            QString fn = l.fileName().trimmed();
-            if(fn.endsWith(filter) && fn != "")
-                ret.append(fn);
-        }
-    } else if(filter != "") {
-        for(QFileInfo l : list) {
-            QString fn = l.fileName().trimmed();
-            if(fn.contains(filter) && fn != "")
-                ret.append(fn);
-        }
-    } else {
-        for(QFileInfo l : list) {
-            QString fn = l.fileName().trimmed();
-            if(fn != "")
-                ret.append(fn);
-        }
-    }
-
-    return ret;
-
-}
-
-QVariantList GetAndDoStuffOpenFile::getFilesWithSizeIn(QString path, int selectionFileTypes, bool showHidden, QString sortby, bool sortbyAscending) {
-
-    if(qgetenv("PHOTOQT_DEBUG") == "yes")
-        LOG << CURDATE << "GetAndDoStuffOpenFile::getFilesWithSizeIn() - " << path.toStdString() << " / "
-                                                                           << selectionFileTypes << " / "
-                                                                           << showHidden << " / "
-                                                                           << sortby.toStdString() << " / "
-                                                                           << sortbyAscending << NL;
-
-    if(path.startsWith("file:/"))
-        path = path.remove(0,6);
-#ifdef Q_OS_WIN
-    while(path.startsWith("/"))
-        path = path.remove(0,1);
-#endif
-
-    QDir dir(path);
     if(selectionFileTypes == 0)
         dir.setNameFilters(imageformats->getAllEnabledFileformats());
     else if(selectionFileTypes == 1)
@@ -330,23 +282,78 @@ QVariantList GetAndDoStuffOpenFile::getFilesWithSizeIn(QString path, int selecti
     dir.setSorting(QDir::IgnoreCase);
 
     QFileInfoList list = dir.entryInfoList();
-
-    QCollator collator;
-    collator.setCaseSensitivity(Qt::CaseInsensitive);
-    collator.setIgnorePunctuation(true);
+    if(!list.contains(info) && !info.isDir())
+        list.append(info);
 
     Sort::list(&list, sortby, sortbyAscending);
 
     QVariantList ret;
-    for(QFileInfo l : list) {
-        ret.append(l.fileName());
-        qint64 s = l.size();
-        if(s <= 1024)
-            ret.append(QString::number(s) + " B");
-        else if(s <= 1024*1024)
-            ret.append(QString::number(qRound(10.0*(s/1024.0))/10.0) + " KB");
-        else
-            ret.append(QString::number(qRound(100.0*(s/(1024.0*1024.0)))/100.0) + " MB");
+
+    if(includeSize) {
+
+        if(filter.startsWith(".")) {
+            for(QFileInfo l : list) {
+                QString fn = l.fileName().trimmed();
+                if(!fn.endsWith(filter) || fn == "") continue;
+                ret.append(fn);
+                qint64 s = l.size();
+                if(s <= 1024)
+                    ret.append(QString::number(s) + " B");
+                else if(s <= 1024*1024)
+                    ret.append(QString::number(qRound(10.0*(s/1024.0))/10.0) + " KB");
+                else
+                    ret.append(QString::number(qRound(100.0*(s/(1024.0*1024.0)))/100.0) + " MB");
+            }
+        } else if(filter != "") {
+            for(QFileInfo l : list) {
+                QString fn = l.fileName().trimmed();
+                if(!fn.contains(filter) || fn == "") continue;
+                ret.append(fn);
+                qint64 s = l.size();
+                if(s <= 1024)
+                    ret.append(QString::number(s) + " B");
+                else if(s <= 1024*1024)
+                    ret.append(QString::number(qRound(10.0*(s/1024.0))/10.0) + " KB");
+                else
+                    ret.append(QString::number(qRound(100.0*(s/(1024.0*1024.0)))/100.0) + " MB");
+            }
+        } else {
+            for(QFileInfo l : list) {
+                QString fn = l.fileName().trimmed();
+                if(fn == "") continue;
+                ret.append(fn);
+                qint64 s = l.size();
+                if(s <= 1024)
+                    ret.append(QString::number(s) + " B");
+                else if(s <= 1024*1024)
+                    ret.append(QString::number(qRound(10.0*(s/1024.0))/10.0) + " KB");
+                else
+                    ret.append(QString::number(qRound(100.0*(s/(1024.0*1024.0)))/100.0) + " MB");
+            }
+        }
+
+    } else {
+
+        if(filter.startsWith(".")) {
+            for(QFileInfo l : list) {
+                QString fn = l.fileName().trimmed();
+                if(fn.endsWith(filter) && fn != "")
+                    ret.append(fn);
+            }
+        } else if(filter != "") {
+            for(QFileInfo l : list) {
+                QString fn = l.fileName().trimmed();
+                if(fn.contains(filter) && fn != "")
+                    ret.append(fn);
+            }
+        } else {
+            for(QFileInfo l : list) {
+                QString fn = l.fileName().trimmed();
+                if(fn != "")
+                    ret.append(fn);
+            }
+        }
+
     }
 
     return ret;

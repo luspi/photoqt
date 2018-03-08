@@ -41,7 +41,7 @@ function loadFile(filename, filter, forceReloadDirectory) {
 
         // If it's a new path or a forced reload, load folder contents and set up thumbnails (if enabled)
         if(filenameonly == "" || pathonly != variables.currentDir || (forceReloadDirectory !== undefined && forceReloadDirectory)) {
-            variables.allFilesCurrentDir = getanddostuff.getFilesIn(filename, filter, settings.sortby, settings.sortbyAscending)
+            variables.allFilesCurrentDir = getanddostuff.getAllFilesIn(filename, 0, filter, false, settings.sortby, settings.sortbyAscending, false)
             variables.totalNumberImagesCurrentFolder = variables.allFilesCurrentDir.length
             variables.currentDir = pathonly
             variables.currentFile = filenameonly
