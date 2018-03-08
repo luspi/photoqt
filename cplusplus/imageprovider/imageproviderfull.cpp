@@ -190,6 +190,18 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
 
 #endif
 
+#ifdef GM
+
+    /***********************************************************/
+    // GraphicsMagick library
+
+    foreach(QString gm, imageformats->getEnabledFileformatsGm()) {
+        if(filename.toLower().endsWith(gm.remove(0,1)))
+            return "gm";
+    }
+
+#endif
+
 #ifdef DEVIL
 
     /***********************************************************/
@@ -214,18 +226,11 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
 
 #endif
 
+    /***********************************************************/
+    // If the image was found, we default to GraphicsMagick if enabled, and otherwise to the Qt image plugins
 #ifdef GM
-
-    /***********************************************************/
-    // GraphicsMagick is our swiss army knife, if nothing else then this should hopefully be able to load the image
-
     return "gm";
-
 #endif
-
-    /***********************************************************/
-    // If GraphicsMagick is disabled, we default to the built-in Qt image plugins
-
     return "qt";
 
 }

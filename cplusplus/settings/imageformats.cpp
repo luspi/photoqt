@@ -158,6 +158,7 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[3].insert("*.viff"       , QStringList() << "vif" << "Khoros Visualization Image File Format"        << "1");
     setupAvailable[3].insert("*.xv"         , QStringList() << "vif" << "Khoros Visualization Image File Format"        << "1");
     setupAvailable[3].insert("*.wbmp"       , QStringList() << "wbm" << "Wireless Bitmap"                               << "1");
+    setupAvailable[3].insert("*.webp"       , QStringList() << "web" << "Google web image format"                       << "1");
     setupAvailable[3].insert("*.wpg"        , QStringList() << "wpg" << "Word Perfect Graphics File"                    << "1");
     setupAvailable[3].insert("*.xbm"        , QStringList() << "xbm" << "X Windows system bitmap, black and white only" << "1");
     setupAvailable[3].insert("*.bm"         , QStringList() << "xbm" << "X Windows system bitmap, black and white only" << "1");
