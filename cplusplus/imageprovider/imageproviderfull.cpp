@@ -40,8 +40,8 @@ ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider
     settings = new SlimSettingsReadOnly;
     imageformats = new ImageFormats;
 
-    pixmapcache = new QCache<QByteArray, QImage>;
-    pixmapcache->setMaxCost(8*1024*std::max(0, std::min(1000, settings->pixmapCache)));
+    pixmapcache = new QPixmapCache;
+    pixmapcache->setCacheLimit(8*1024*std::max(0, std::min(1000, settings->pixmapCache)));
 
 }
 
@@ -78,30 +78,31 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
             << (whatToUse=="gm" ? "GraphicsMagick" : (whatToUse=="qt" ? "ImageReader" : (whatToUse=="raw" ? "LibRaw" : "External Tool")))
             << " [" << whatToUse.toStdString() << "]" << NL;
 
-    // We use a pointer to be able to use it for caching
-    QImage *ret = new QImage;
+    // The return image
+    QImage ret;
 
     // the unique key for caching
     QByteArray cachekey = getUniqueCacheKey(filename);
 
     // if image was already once loaded
-    if(pixmapcache->contains(cachekey)) {
+    QPixmap retPix;
+    if(pixmapcache->find(cachekey, &retPix)) {
 
         // re-load image
-        ret = pixmapcache->object(cachekey);
+        ret = retPix.toImage();
 
         // if valid...
-        if(!ret->isNull()) {
+        if(!ret.isNull()) {
 
             if(qgetenv("PHOTOQT_DEBUG") == "yes")
                 LOG << CURDATE << "ImageProviderFull: Loading full image from pixmap cache: " << QFileInfo(filename).fileName().toStdString() << NL;
 
             // return scaled version
-            if(requestedSize.width() > 2 && requestedSize.height() > 2 && ret->width() > requestedSize.width() && ret->height() > requestedSize.height())
-                return ret->scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            if(requestedSize.width() > 2 && requestedSize.height() > 2 && ret.width() > requestedSize.width() && ret.height() > requestedSize.height())
+                return ret.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
             // return full version
-            return *ret;
+            return ret;
 
         }
 
@@ -109,44 +110,44 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
 
     // Try to use XCFtools for XCF (if enabled)
     if(whatToUse == "xcftools")
-        *ret = LoadImage::XCF::load(filename,maxSize);
+        ret = LoadImage::XCF::load(filename,maxSize);
 
     // Try to use GraphicsMagick (if available)
     else if(whatToUse == "gm")
-        *ret = LoadImage::GraphicsMagick::load(filename, maxSize);
+        ret = LoadImage::GraphicsMagick::load(filename, maxSize);
 
     // Try to use libraw (if available)
     else if(whatToUse == "raw")
-        *ret = LoadImage::Raw::load(filename, maxSize);
+        ret = LoadImage::Raw::load(filename, maxSize);
 
     // Try to use DevIL (if available)
     else if(whatToUse == "devil")
-        *ret = LoadImage::Devil::load(filename, maxSize);
+        ret = LoadImage::Devil::load(filename, maxSize);
 
     // Try to use FreeImage (if available)
     else if(whatToUse == "freeimage")
-        *ret = LoadImage::FreeImage::load(filename, maxSize);
+        ret = LoadImage::FreeImage::load(filename, maxSize);
 
     // Try to use Qt
     else
-        *ret = LoadImage::Qt::load(filename,maxSize,settings->metaApplyRotation);
+        ret = LoadImage::Qt::load(filename,maxSize,settings->metaApplyRotation);
 
     // if returned image is not an error image ...
-    if(ret->text("error") != "error") {
+    if(ret.text("error") != "error") {
 
         // ... insert image into cache
         if(qgetenv("PHOTOQT_DEBUG") == "yes")
             LOG << CURDATE << "ImageProviderFull: Inserting full image into pixmap cache: " << QFileInfo(filename).fileName().toStdString() << NL;
-        pixmapcache->insert(cachekey, ret, ret->width()*ret->height()*ret->depth()/(8*1024));
+        pixmapcache->insert(cachekey, QPixmap::fromImage(ret));
 
     }
 
     // return scaled version
-    if(requestedSize.width() > 2 && requestedSize.height() > 2 && ret->width() > requestedSize.width() && ret->height() > requestedSize.height())
-        return ret->scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    if(requestedSize.width() > 2 && requestedSize.height() > 2 && ret.width() > requestedSize.width() && ret.height() > requestedSize.height())
+        return ret.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
     // return full version
-    return *ret;
+    return ret;
 
 }
 

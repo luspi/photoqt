@@ -108,8 +108,7 @@ namespace LoadImage {
 
                 // And load JPG from memory into QImage
                 const QByteArray imgData((char*)(ob.data()),ob.length());
-                QImage img((maxSize.width() > -1 ? maxSize : finalSize), QImage::Format_ARGB32);
-                img.loadFromData(imgData);
+                QImage img = QImage::fromData(imgData);//((maxSize.width() > -1 ? maxSize : finalSize), QImage::Format_ARGB32);
 
                 // And we're done!
                 delete[] data;

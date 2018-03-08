@@ -22,6 +22,7 @@
 
 #include <QProcess>
 #include <QDir>
+#include <QImageReader>
 
 #include "../../logger.h"
 #include "errorimage.h"
@@ -34,8 +35,6 @@ namespace LoadImage {
 
             if(qgetenv("PHOTOQT_DEBUG") == "yes")
                 LOG << CURDATE << "LoadImageXCF: Load image using xcftools: " << QFileInfo(filename).fileName().toStdString() << NL;
-
-            QSize origSize;
 
             // We first check if xcftools is actually installed
             QProcess which;
@@ -55,27 +54,13 @@ namespace LoadImage {
             // And load it
             QImageReader reader(QDir::tempPath() + "/photoqt_tmp.png");
 
-            origSize = reader.size();
-
-            int dispWidth = origSize.width();
-            int dispHeight = origSize.height();
-
-            double q;
-
-            if(dispWidth > maxSize.width()) {
-                q = maxSize.width()/(dispWidth*1.0);
-                dispWidth *= q;
-                dispHeight *= q;
-            }
-
-            // If thumbnails are kept visible, then we need to subtract their height from the absolute height otherwise they overlap with the main image
-            if(dispHeight > maxSize.height()) {
-                q = maxSize.height()/(dispHeight*1.0);
-                dispWidth *= q;
-                dispHeight *= q;
-            }
-
-            reader.setScaledSize(QSize(dispWidth,dispHeight));
+            // Make sure image fits into size specified by maxSize
+            double q = 1;
+            if(reader.size().width() > maxSize.width())
+                q = (double)maxSize.width()/(double)reader.size().width();
+            if(reader.size().height()*q > maxSize.height())
+                q = (double)maxSize.height()/(double)reader.size().height();
+            reader.setScaledSize(reader.size()*q);
 
             return reader.read();
 

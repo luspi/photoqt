@@ -26,7 +26,6 @@
 #include <QQuickImageProvider>
 #include <QFileInfo>
 #include <QtSvg/QtSvg>
-#include "pixmapcache.h"
 #include "../settings/imageformats.h"
 #include "../settings/slimsettingsreadonly.h"
 #include "../logger.h"
@@ -49,8 +48,7 @@ private:
     SlimSettingsReadOnly *settings;
     ImageFormats *imageformats;
 
-    QCache<QByteArray,QImage> *pixmapcache;
-
+    QPixmapCache *pixmapcache;
 
     QString whatDoIUse(QString filename);
 
