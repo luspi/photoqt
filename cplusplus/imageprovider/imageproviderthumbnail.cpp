@@ -21,7 +21,6 @@
  **************************************************************************/
 
 #include "imageproviderthumbnail.h"
-#include "loader/errorimage.h"
 
 ImageProviderThumbnail::ImageProviderThumbnail() : QQuickImageProvider(QQuickImageProvider::Image) {
 
@@ -58,17 +57,8 @@ QImage ImageProviderThumbnail::requestImage(const QString &filename_encoded, QSi
 
     QByteArray filename = QByteArray::fromPercentEncoding(filename_encoded.toUtf8());
 
-    filename = filename.replace("//","/");
-
-    if(!QFileInfo(filename).exists()) {
-        QString err = QCoreApplication::translate("imageprovider", "File failed to load, it doesn't exist!");
-        LOG << CURDATE << "ImageProviderFull: ERROR: " << err.toStdString() << NL;
-        LOG << CURDATE << "ImageProviderFull: Filename: " << filename.toStdString() << NL;
-        return LoadImage::ErrorImage::load(err);
-    }
-
     // Return full thumbnail
-    return getThumbnailImage(filename);
+    return getThumbnailImage(filename.replace("//","/"));
 
 }
 
