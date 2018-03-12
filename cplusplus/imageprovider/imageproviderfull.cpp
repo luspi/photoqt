@@ -162,12 +162,8 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
     /***********************************************************/
     // PDF with poppler library
 
-    if(filename.contains("__::pqt::__"))
+    if(filename.contains("__::pqt::__") || filename.toLower().endsWith(".pdf") || filename.toLower().endsWith(".epdf"))
         return "poppler";
-    foreach(QString pdf, imageformats->getEnabledFileformatsPoppler()) {
-        if(filename.toLower().endsWith(pdf.remove(0,1)))
-            return "poppler";
-    }
 
     /***********************************************************/
     // Qt image plugins

@@ -49,7 +49,7 @@ EntryContainer {
 
             id: title
             title: em.pty+qsTr("File Formats") + ":<br>&gt; Extras"
-            helptext: em.pty+qsTr("These formats are available given that the required tools are installed (check each one for the name of the tool). If they are enabled without the tool being installed, PhotoQt might not be able to display these images.") +
+            helptext: em.pty+qsTr("These formats are available given that the required tools are installed (check each one for the name of the tool).") +
                       "<br><br>" +
                       em.pty+qsTr("Use left click to check/uncheck an individual entry, and right click to check/uncheck all endings related to the same image type.")
 

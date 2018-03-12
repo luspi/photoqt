@@ -2,12 +2,11 @@
 
 ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
 
-    categories << "qt" << "kde" << "extras" << "gm" << "gmghostscript" << "raw" << "devil" << "freeimage" << "poppler";
+    categories << "qt" << "kde" << "extras" << "gm" << "gmghostscript" << "raw" << "devil" << "freeimage";
     formatsfiles << ConfigFiles::FILEFORMATSQT_FILE() << ConfigFiles::FILEFORMATSKDE_FILE()
                  << ConfigFiles::FILEFORMATSEXTRAS_FILE() << ConfigFiles::FILEFORMATSGM_FILE()
                  << ConfigFiles::FILEFORMATSGMGHOSTSCRIPT_FILE() << ConfigFiles::FILEFORMATSRAW_FILE()
-                 << ConfigFiles::FILEFORMATSDEVIL_FILE() << ConfigFiles::FILEFORMATSFREEIMAGE_FILE()
-                 << ConfigFiles::FILEFORMATSPOPPLER_FILE();
+                 << ConfigFiles::FILEFORMATSDEVIL_FILE() << ConfigFiles::FILEFORMATSFREEIMAGE_FILE();
 
     setupAvailable = new QMap<QString, QStringList>[categories.length()];
 
@@ -66,6 +65,8 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[2].insert("*.psb"        , QStringList() << "psd" << "Adobe PhotoShop - Makes use of 'libqpsd'"      << "0");
     setupAvailable[2].insert("*.psd"        , QStringList() << "psd" << "Adobe PhotoShop - Makes use of 'libqpsd'"      << "0");
     setupAvailable[2].insert("*.xcf"        , QStringList() << "xcf" << "Gimp format - Makes use of 'xcftoold'"         << "0");
+    setupAvailable[2].insert("*.pdf"        , QStringList() << "pdf" << "Portable Document Format - Makes use of 'poppler'"              << "1");
+    setupAvailable[2].insert("*.epdf"       , QStringList() << "pdf" << "Encapsulated Portable Document Format - Makes use of 'poppler'" << "1");
 
     // GraphicsMagick
     setupAvailable[3].insert("*.art"        , QStringList() << "art" << "PFS: 1st Publisher"                            << "1");
@@ -352,10 +353,6 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[7].insert("*.hdp"        , QStringList() << "jxr" << "JPEG-XR"                                       << "0");
     setupAvailable[7].insert("*.wdp"        , QStringList() << "jxr" << "JPEG-XR"                                       << "0");
 
-    // POPPLER
-    setupAvailable[8].insert("*.pdf"        , QStringList() << "pdf" << "Portable Document Format"                      << "1");
-    setupAvailable[8].insert("*.epdf"       , QStringList() << "pdf" << "Encapsulated Portable Document Format"         << "1");
-
     availableFileformats = new QVariantList[categories.length()];
     availableFileformatsWithDescription = new QVariantList[categories.length()];
     enabledFileformats = new QStringList[categories.length()];
@@ -386,7 +383,6 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     connect(this, &ImageFormats::enabledFileformatsRAWChanged, this, [=](QStringList) {saveTimer->start();});
     connect(this, &ImageFormats::enabledFileformatsDevILChanged, this, [=](QStringList) {saveTimer->start();});
     connect(this, &ImageFormats::enabledFileformatsFreeImageChanged, this, [=](QStringList) {saveTimer->start();});
-    connect(this, &ImageFormats::enabledFileformatsPopplerChanged, this, [=](QStringList) {saveTimer->start();});
 
 }
 
@@ -410,8 +406,6 @@ void ImageFormats::setEnabledFileformats(QString cat, QStringList val, bool with
             setEnabledFileformatsDevIL(val);
         else if(cat == "freeimage")
             setEnabledFileformatsFreeImage(val);
-        else if(cat == "poppler")
-            setEnabledFileformatsPoppler(val);
 
     } else {
 
@@ -431,8 +425,6 @@ void ImageFormats::setEnabledFileformats(QString cat, QStringList val, bool with
             setEnabledFileformatsDevILWithoutSaving(val);
         else if(cat == "freeimage")
             setEnabledFileformatsFreeImageWithoutSaving(val);
-        else if(cat == "poppler")
-            setEnabledFileformatsPopplerWithoutSaving(val);
 
     }
 }

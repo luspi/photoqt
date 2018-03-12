@@ -113,11 +113,9 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, int selectionFi
                     bool pdfloaded = false;
 #ifdef POPPLER
                     if(pdfLoadAllPage) {
-                        for(QString pdf : imageformats->getEnabledFileformatsPoppler()) {
-                            if(fn.endsWith(pdf.remove(0,1))) {
-                                loadAllPdfPages(l, &ret);
-                                pdfloaded = true;
-                            }
+                        if(fn.endsWith(".pdf") || fn.endsWith(".epdf")) {
+                            loadAllPdfPages(l, &ret);
+                            pdfloaded = true;
                         }
                     }
 #endif
@@ -132,11 +130,9 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, int selectionFi
                     bool pdfloaded = false;
 #ifdef POPPLER
                     if(pdfLoadAllPage) {
-                        for(QString pdf : imageformats->getEnabledFileformatsPoppler()) {
-                            if(fn.endsWith(pdf.remove(0,1))) {
-                                loadAllPdfPages(l, &ret);
-                                pdfloaded = true;
-                            }
+                        if(fn.endsWith(".pdf") || fn.endsWith(".epdf")) {
+                            loadAllPdfPages(l, &ret);
+                            pdfloaded = true;
                         }
                     }
 #endif
@@ -151,11 +147,9 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, int selectionFi
                     bool pdfloaded = false;
 #ifdef POPPLER
                     if(pdfLoadAllPage) {
-                        for(QString pdf : imageformats->getEnabledFileformatsPoppler()) {
-                            if(fn.endsWith(pdf.remove(0,1))) {
-                                loadAllPdfPages(l, &ret);
-                                pdfloaded = true;
-                            }
+                        if(fn.endsWith(".pdf") || fn.endsWith(".epdf")) {
+                            loadAllPdfPages(l, &ret);
+                            pdfloaded = true;
                         }
                     }
 #endif
@@ -186,15 +180,13 @@ void GetAndDoStuffListFiles::loadAllPdfPages(QFileInfo l, QVariantList *list) {
 }
 
 bool GetAndDoStuffListFiles::loadOnlyPdfPages(QString file, QVariantList *list) {
-    for(QString pdf : imageformats->getEnabledFileformatsPoppler()) {
-        if(file.endsWith(pdf.remove(0,2))) {
-            loadAllPdfPages(QFileInfo(file), list);
-            if(list->length() == 0) {
-                LOG << "GetAndDoStuffListFiles::loadOnlyPdfPages(): ERROR: Invalid PDF, no pages found" << NL;
-                list->append("invalidpdf.pdf");
-            }
-            return true;
+    if(file.endsWith(".pdf") || file.endsWith(".epdf")) {
+        loadAllPdfPages(QFileInfo(file), list);
+        if(list->length() == 0) {
+            LOG << "GetAndDoStuffListFiles::loadOnlyPdfPages(): ERROR: Invalid PDF, no pages found" << NL;
+            list->append("invalidpdf.pdf");
         }
+        return true;
     }
     return false;
 }
