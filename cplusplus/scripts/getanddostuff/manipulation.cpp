@@ -192,21 +192,50 @@ void GetAndDoStuffManipulation::deleteImage(QString filename, bool trash) {
                 // Set the base path and make sure all the dirs exist
                 baseTrash = ConfigFiles::GENERIC_DATA_DIR() + "/Trash/";
 
-                if(!QDir(baseTrash).exists())
-                    QDir().mkpath(baseTrash);
-                if(!QDir(baseTrash + "files").exists())
-                    QDir().mkdir(baseTrash + "files");
-                if(!QDir(baseTrash + "info").exists())
-                    QDir().mkdir(baseTrash + "info");
+                QDir dir;
+                dir.setPath(baseTrash);
+                if(!dir.exists())
+                    if(!dir.mkpath(baseTrash))
+                        LOG << "GetAndDoStuffManipulation [mkdir home: baseTrash] ERROR: mkdir() failed!";
+                dir.setPath(baseTrash + "files");
+                if(!dir.exists())
+                    if(!dir.mkdir(baseTrash + "files"))
+                        LOG << "GetAndDoStuffManipulation [mkdir home: baseTrash/Trash] ERROR: mkdir() failed!";
+                dir.setPath(baseTrash + "info");
+                if(!dir.exists())
+                    if(!dir.mkdir(baseTrash + "info"))
+                        LOG << "GetAndDoStuffManipulation [mkdir home: baseTrash/info] ERROR: mkdir() failed!";
             } else {
-                // Set the base path and make sure all the dirs exist
-                baseTrash = "/" + filename.split("/").at(1) + "/" + filename.split("/").at(2) + QString("/.Trash-%1/").arg(getuid());
-                if(!QDir(baseTrash).exists())
-                    QDir().mkdir(baseTrash);
-                if(!QDir(baseTrash + "files").exists())
-                    QDir().mkdir(baseTrash + "files");
-                if(!QDir(baseTrash + "info").exists())
-                    QDir().mkdir(baseTrash + "info");
+                // Set the base path ...
+                for(QStorageInfo &storage : QStorageInfo::mountedVolumes()) {
+                    if(!storage.isReadOnly() && storage.isValid() && filename.startsWith(storage.rootPath()) && baseTrash.length() < storage.rootPath().length()) {
+                        baseTrash = storage.rootPath();
+                    }
+                }
+                baseTrash += "/" + QString("/.Trash-%1/").arg(getuid());
+                // ... and make sure all the dirs exist
+                QDir dir;
+                dir.setPath(baseTrash);
+                if(!dir.exists()) {
+                    if(!dir.mkdir(baseTrash)) {
+                        LOG << "GetAndDoStuffManipulation [mkdir baseTrash] ERROR: mkdir() failed!";
+                        return;
+                    }
+                }
+                dir.setPath(baseTrash + "files");
+                if(!dir.exists()) {
+                    if(!dir.mkdir(baseTrash + "files")) {
+                        LOG << "GetAndDoStuffManipulation [mkdir baseTrash/files] ERROR: mkdir() failed!";
+                        return;
+                    }
+                }
+                dir.setPath(baseTrash + "info");
+                if(!dir.exists()) {
+                    if(!dir.mkdir(baseTrash + "info")) {
+                        LOG << "GetAndDoStuffManipulation [mkdir baseTrash/info] ERROR: mkdir() failed!";
+                        return;
+                    }
+                }
 
             }
 
