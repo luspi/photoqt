@@ -65,10 +65,13 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[2].insert("*.psb"        , QStringList() << "psd" << "Adobe PhotoShop - Makes use of 'libqpsd'"      << "0");
     setupAvailable[2].insert("*.psd"        , QStringList() << "psd" << "Adobe PhotoShop - Makes use of 'libqpsd'"      << "0");
     setupAvailable[2].insert("*.xcf"        , QStringList() << "xcf" << "Gimp format - Makes use of 'xcftoold'"         << "0");
+#ifdef POPPLER
     setupAvailable[2].insert("*.pdf"        , QStringList() << "pdf" << "Portable Document Format - Makes use of 'poppler'"              << "1");
     setupAvailable[2].insert("*.epdf"       , QStringList() << "pdf" << "Encapsulated Portable Document Format - Makes use of 'poppler'" << "1");
+#endif
 
     // GraphicsMagick
+#ifdef GM
     setupAvailable[3].insert("*.art"        , QStringList() << "art" << "PFS: 1st Publisher"                            << "1");
     setupAvailable[3].insert("*.avs"        , QStringList() << "avs" << "AVS X image"                                   << "1");
     setupAvailable[3].insert("*.x"          , QStringList() << "avs" << "AVS X image"                                   << "1");
@@ -204,8 +207,10 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[4].insert("*.ps"         , QStringList() << "ps " << "Adobe PostScript file"                             << "0");
     setupAvailable[4].insert("*.ps2"        , QStringList() << "ps " << "Adobe Level II PostScript file"                    << "0");
     setupAvailable[4].insert("*.ps3"        , QStringList() << "ps " << "Adobe Level III PostScript file"                   << "0");
+#endif
 
     // RAW
+#ifdef RAW
     setupAvailable[5].insert("*.3fr"        , QStringList() << "3fr" << "Hasselblad"                << "1");
     setupAvailable[5].insert("*.ari"        , QStringList() << "ari" << "ARRIFLEX"                  << "1");
     setupAvailable[5].insert("*.arw"        , QStringList() << "arw" << "Sony"                      << "1");
@@ -246,8 +251,10 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[5].insert("*.rwz"        , QStringList() << "rwz" << "Rawzor"                    << "1");
     setupAvailable[5].insert("*.srw"        , QStringList() << "srw" << "Samsung"                   << "1");
     setupAvailable[5].insert("*.x3f"        , QStringList() << "x3f" << "Sigma"                     << "1");
+#endif
 
     // DevIL
+#ifdef DEVIL
     setupAvailable[6].insert("*.bmp"        , QStringList() << "bmp" << "Microsoft Windows bitmap"                      << "1");
     setupAvailable[6].insert("*.dds"        , QStringList() << "dds" << "DirectDraw Surface"                            << "1");
     setupAvailable[6].insert("*.exr"        , QStringList() << "exr" << "OpenEXR"                                       << "1");
@@ -301,8 +308,10 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[6].insert("*.pix"        , QStringList() << "pix" << "Alias | Wavefront"                             << "0");
     setupAvailable[6].insert("*.wdp"        , QStringList() << "hdp" << "JPEG XR aka HD Photo"                          << "0");
     setupAvailable[6].insert("*.hdp"        , QStringList() << "hdp" << "JPEG XR aka HD Photo"                          << "0");
+#endif
 
     // FreeImage
+#ifdef FREEIMAGE
     setupAvailable[7].insert("*.bmp"        , QStringList() << "bmp" << "Microsoft Windows bitmap"                      << "1");
     setupAvailable[7].insert("*.cut"        , QStringList() << "cut" << "Dr. Halo"                                      << "1");
     setupAvailable[7].insert("*.dds"        , QStringList() << "dds" << "DirectDraw Surface"                            << "1");
@@ -352,6 +361,7 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[7].insert("*.jxr"        , QStringList() << "jxr" << "JPEG-XR"                                       << "0");
     setupAvailable[7].insert("*.hdp"        , QStringList() << "jxr" << "JPEG-XR"                                       << "0");
     setupAvailable[7].insert("*.wdp"        , QStringList() << "jxr" << "JPEG-XR"                                       << "0");
+#endif
 
     availableFileformats = new QVariantList[categories.length()];
     availableFileformatsWithDescription = new QVariantList[categories.length()];
