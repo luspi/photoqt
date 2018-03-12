@@ -39,9 +39,15 @@ function loadFile(filename, filter, forceReloadDirectory) {
         var filenameonly = getanddostuff.removePathFromFilename(filename)
         var pathonly = getanddostuff.removeFilenameFromPath(filename)
 
+        if((getanddostuff.doesStringEndsWith(filenameonly, ".pdf") || getanddostuff.doesStringEndsWith(filenameonly, ".epdf")) && filenameonly.indexOf("__::pqt::__") == -1) {
+            var tot = getanddostuff.getTotalNumberOfPagesOfPdf(pathonly + "/" + filenameonly)
+            filenameonly = filenameonly.replace(".pdf", "__::pqt::__0__" + tot + ".pdf")
+            filenameonly = filenameonly.replace(".epdf", "__::pqt::__0__" + tot + ".epdf")
+        }
+
         // If it's a new path or a forced reload, load folder contents and set up thumbnails (if enabled)
         if(filenameonly == "" || pathonly != variables.currentDir || (forceReloadDirectory !== undefined && forceReloadDirectory)) {
-            variables.allFilesCurrentDir = getanddostuff.getAllFilesIn(filename, 0, filter, false, settings.sortby, settings.sortbyAscending, false)
+            variables.allFilesCurrentDir = getanddostuff.getAllFilesIn(filename, 0, filter, false, settings.sortby, settings.sortbyAscending, false, true, false)
             variables.totalNumberImagesCurrentFolder = variables.allFilesCurrentDir.length
             variables.currentDir = pathonly
             variables.currentFile = filenameonly
