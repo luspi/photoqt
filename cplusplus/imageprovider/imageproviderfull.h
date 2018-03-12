@@ -30,7 +30,6 @@
 #include "../settings/slimsettingsreadonly.h"
 #include "../logger.h"
 
-
 #ifdef GM
 #include <GraphicsMagick/Magick++.h>
 #endif

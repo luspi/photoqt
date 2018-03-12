@@ -25,6 +25,7 @@
 #include "loader/loadimage_gm.h"
 #include "loader/loadimage_qt.h"
 #include "loader/loadimage_xcf.h"
+#include "loader/loadimage_poppler.h"
 
 // Both the libraw and the freeimage library have typedefs for INT64 and UINT64.
 // As we never use them directly, we can redefine one of them (here for libraw) to use a different name and thus avoid the clash.
@@ -62,7 +63,7 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
 #endif
     QString filename = full_filename;
 
-    if(!QFileInfo(filename).exists()) {
+    if(!QFileInfo(filename).exists() && !filename.contains("__::pqt::__")) {
         QString err = QCoreApplication::translate("imageprovider", "File failed to load, it doesn't exist!");
         LOG << CURDATE << "ImageProviderFull: ERROR: " << err.toStdString() << NL;
         LOG << CURDATE << "ImageProviderFull: Filename: " << filename.toStdString() << NL;
@@ -128,6 +129,9 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
     else if(whatToUse == "freeimage")
         ret = LoadImage::FreeImage::load(filename, maxSize);
 
+    else if(whatToUse == "poppler")
+        ret = LoadImage::PDF::load(filename, maxSize);
+
     // Try to use Qt
     else
         ret = LoadImage::Qt::load(filename,maxSize,settings->metaApplyRotation);
@@ -154,6 +158,16 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
 QString ImageProviderFull::whatDoIUse(QString filename) {
 
     if(filename.trimmed() == "") return "qt";
+
+    /***********************************************************/
+    // PDF with poppler library
+
+    if(filename.contains("__::pqt::__"))
+        return "poppler";
+    foreach(QString pdf, imageformats->getEnabledFileformatsPoppler()) {
+        if(filename.toLower().endsWith(pdf.remove(0,1)))
+            return "poppler";
+    }
 
     /***********************************************************/
     // Qt image plugins
