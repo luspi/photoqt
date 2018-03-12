@@ -21,7 +21,9 @@
  **************************************************************************/
 
 #include <QImage>
+#ifdef POPPLER
 #include <poppler/qt5/poppler-qt5.h>
+#endif
 
 #include "errorimage.h"
 #include "../../logger.h"
