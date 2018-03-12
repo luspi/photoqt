@@ -29,6 +29,7 @@ public:
     Q_INVOKABLE QVariantList getAvailableEndingsRAW() { return availableFileformats[categories.indexOf("raw")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsDevIL() { return availableFileformats[categories.indexOf("devil")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsFreeImage() { return availableFileformats[categories.indexOf("freeimage")]; }
+    Q_INVOKABLE QVariantList getAvailableEndingsPoppler() { return availableFileformats[categories.indexOf("poppler")]; }
 
     // All possibly available file formats INCLUDING a description of the image type for the various categories
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionQt() { return availableFileformatsWithDescription[categories.indexOf("qt")]; }
@@ -39,6 +40,7 @@ public:
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionRAW() { return availableFileformatsWithDescription[categories.indexOf("raw")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionDevIL() { return availableFileformatsWithDescription[categories.indexOf("devil")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionFreeImage() { return availableFileformatsWithDescription[categories.indexOf("freeimage")]; }
+    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionPoppler() { return availableFileformatsWithDescription[categories.indexOf("poppler")]; }
 
     // All currently enabled file formats for ...
     // ... Qt
@@ -81,6 +83,11 @@ public:
     QStringList getEnabledFileformatsFreeImage() { return enabledFileformats[categories.indexOf("freeimage")]; }
     void setEnabledFileformatsFreeImage(QStringList val) { enabledFileformats[categories.indexOf("freeimage")] = val; emit enabledFileformatsFreeImageChanged(val); }
     void setEnabledFileformatsFreeImageWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("freeimage")] = val; }
+    // ... Poppler
+    Q_PROPERTY(QStringList enabledFileformatsPoppler READ getEnabledFileformatsPoppler WRITE setEnabledFileformatsPoppler NOTIFY enabledFileformatsPopplerChanged)
+    QStringList getEnabledFileformatsPoppler() { return enabledFileformats[categories.indexOf("poppler")]; }
+    void setEnabledFileformatsPoppler(QStringList val) { enabledFileformats[categories.indexOf("poppler")] = val; emit enabledFileformatsPopplerChanged(val); }
+    void setEnabledFileformatsPopplerWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("poppler")] = val; }
 
     Q_INVOKABLE void setDefaultFormatsQt() { setEnabledFileformatsQt(defaultEnabledFileformats[categories.indexOf("qt")]); }
     Q_INVOKABLE void setDefaultFormatsKDE() { setEnabledFileformatsKDE(defaultEnabledFileformats[categories.indexOf("kde")]); }
@@ -90,6 +97,7 @@ public:
     Q_INVOKABLE void setDefaultFormatsRAW() { setEnabledFileformatsRAW(defaultEnabledFileformats[categories.indexOf("raw")]); }
     Q_INVOKABLE void setDefaultFormatsDevIL() { setEnabledFileformatsDevIL(defaultEnabledFileformats[categories.indexOf("devil")]); }
     Q_INVOKABLE void setDefaultFormatsFreeImage() { setEnabledFileformatsFreeImage(defaultEnabledFileformats[categories.indexOf("freeimage")]); }
+    Q_INVOKABLE void setDefaultFormatsPoppler() { setEnabledFileformatsPoppler(defaultEnabledFileformats[categories.indexOf("poppler")]); }
 
     // Can be called from QML when resetting the settings
     Q_INVOKABLE void setDefaultFileformats() {
@@ -101,6 +109,7 @@ public:
         setEnabledFileformatsRAW(defaultEnabledFileformats[categories.indexOf("raw")]);
         setEnabledFileformatsDevIL(defaultEnabledFileformats[categories.indexOf("devil")]);
         setEnabledFileformatsFreeImage(defaultEnabledFileformats[categories.indexOf("freeimage")]);
+        setEnabledFileformatsPoppler(defaultEnabledFileformats[categories.indexOf("poppler")]);
     }
 
     Q_INVOKABLE QStringList getAllEnabledFileformats() {
@@ -121,6 +130,7 @@ signals:
     void enabledFileformatsRAWChanged(QStringList val);
     void enabledFileformatsDevILChanged(QStringList val);
     void enabledFileformatsFreeImageChanged(QStringList val);
+    void enabledFileformatsPopplerChanged(QStringList val);
     void enabledFileformatsChanged();
     void enabledFileformatsSaved();
 

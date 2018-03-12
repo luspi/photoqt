@@ -95,6 +95,10 @@ public:
         return QString("%1/fileformats_freeimage_disabled").arg(CONFIG_DIR());
     }
 
+    static const QString FILEFORMATSPOPPLER_FILE() {
+        return QString("%1/fileformats_poppler_disabled").arg(CONFIG_DIR());
+    }
+
     static const QString SHORTCUTS_FILE() {
         return QString("%1/shortcuts").arg(CONFIG_DIR());
     }
