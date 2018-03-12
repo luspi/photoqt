@@ -55,12 +55,14 @@ namespace LoadImage {
             QImageReader reader(QDir::tempPath() + "/photoqt_tmp.png");
 
             // Make sure image fits into size specified by maxSize
-            double q = 1;
-            if(reader.size().width() > maxSize.width())
-                q = (double)maxSize.width()/(double)reader.size().width();
-            if(reader.size().height()*q > maxSize.height())
-                q = (double)maxSize.height()/(double)reader.size().height();
-            reader.setScaledSize(reader.size()*q);
+            if(maxSize.width() > 5 && maxSize.height() > 5) {
+                double q = 1;
+                if(reader.size().width() > maxSize.width())
+                    q = (double)maxSize.width()/(double)reader.size().width();
+                if(reader.size().height()*q > maxSize.height())
+                    q = (double)maxSize.height()/(double)reader.size().height();
+                reader.setScaledSize(reader.size()*q);
+            }
 
             return reader.read();
 
