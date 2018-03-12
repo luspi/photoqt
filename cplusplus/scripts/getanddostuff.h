@@ -116,6 +116,7 @@ public:
     Q_INVOKABLE QRect getStoredGeometry() { return other->getStoredGeometry(); }
     Q_INVOKABLE bool isImageAnimated(QString path) { return other->isImageAnimated(path); }
     Q_INVOKABLE QString convertIdIntoString(QObject *object) { return other->convertIdIntoString(object); }
+    Q_INVOKABLE bool doesStringEndsWith(QString str, QString val) { return str.endsWith(val); }
 
     // WALLPAPER
     Q_INVOKABLE QString detectWindowManager() { return wallpaper->detectWindowManager(); }
