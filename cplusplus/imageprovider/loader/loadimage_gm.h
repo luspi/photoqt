@@ -33,11 +33,13 @@ namespace LoadImage {
 
     namespace GraphicsMagick {
 
+#ifdef GM
         static std::string getImageMagickString(QString suf);
+#endif
 
         static QImage load(QString filename, QSize maxSize) {
 
-    #ifdef GM
+#ifdef GM
 
             if(qgetenv("PHOTOQT_DEBUG") == "yes")
                 LOG << CURDATE << "LoadImageGM: Loading image using GraphicsMagick: " << QFileInfo(filename).fileName().toStdString() << NL;
@@ -120,15 +122,16 @@ namespace LoadImage {
                 return ErrorImage::load(QString(error_.what()));
             }
 
-    #else
+#else
             if(qgetenv("PHOTOQT_DEBUG") == "yes")
                 LOG << CURDATE << "LoadImageGM: PhotoQt was compiled without GraphicsMagick support, returning error image" << NL;
-    #endif
+#endif
 
             return ErrorImage::load("Failed to load image with GraphicsMagick!");
 
         }
 
+#ifdef GM
         static std::string getImageMagickString(QString suf) {
 
             std::string magick = suf.toUpper().toStdString();
@@ -191,6 +194,7 @@ namespace LoadImage {
 
             return magick;
         }
+#endif
 
     }
 
