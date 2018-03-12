@@ -48,7 +48,6 @@ public:
     QVariantList getUserPlaces();
     QVariantList getStorageInfo();
     QVariantList getFoldersIn(QString path, bool getDotDot = true, bool showHidden = false);
-    QVariantList getAllFilesIn(QString file, int selectionFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize);
     void saveUserPlaces(QVariantList enabled);
     QString getOpenFileLastLocation();
     void setOpenFileLastLocation(QString path);

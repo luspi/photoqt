@@ -32,6 +32,7 @@
 #include "getanddostuff/other.h"
 #include "getanddostuff/wallpaper.h"
 #include "getanddostuff/openfile.h"
+#include "getanddostuff/listfiles.h"
 
 class GetAndDoStuff : public QObject {
 
@@ -47,6 +48,7 @@ public:
         other = new GetAndDoStuffOther;
         wallpaper = new GetAndDoStuffWallpaper;
         openfile = new GetAndDoStuffOpenFile;
+        listfiles = new GetAndDoStuffListFiles;
 
         connect(manipulation, &GetAndDoStuffManipulation::reloadDirectory, this, &GetAndDoStuff::reloadDirectory);
 
@@ -60,6 +62,7 @@ public:
         delete other;
         delete wallpaper;
         delete openfile;
+        delete listfiles;
     }
 
     // CONTEXT
@@ -130,7 +133,6 @@ public:
     Q_INVOKABLE QVariantList getUserPlaces() { return this->openfile->getUserPlaces(); }
     Q_INVOKABLE QVariantList getStorageInfo() { return this->openfile->getStorageInfo(); }
     Q_INVOKABLE QVariantList getFoldersIn(QString path, bool getDotDot = true, bool showHidden = false) { return this->openfile->getFoldersIn(path, getDotDot, showHidden); }
-    Q_INVOKABLE QVariantList getAllFilesIn(QString file, int selectionFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize) { return this->openfile->getAllFilesIn(file, selectionFileTypes, filter, showHidden, sortby, sortbyAscending, includeSize); }
     Q_INVOKABLE void saveUserPlaces(QVariantList enabled) { return this->openfile->saveUserPlaces(enabled); }
     Q_INVOKABLE QString getOpenFileLastLocation() {  return this->openfile->getOpenFileLastLocation(); }
     Q_INVOKABLE void setOpenFileLastLocation(QString path) { openfile->setOpenFileLastLocation(path); }
@@ -140,6 +142,10 @@ public:
     Q_INVOKABLE QString getDirectoryDirName(QString path) { return openfile->getDirectoryDirName(path); }
     Q_INVOKABLE bool isSupportedImageType(QString path) { return openfile->isSupportedImageType(path); }
 
+    // LISTFILES
+    Q_INVOKABLE QVariantList getAllFilesIn(QString file, int selectionFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize, bool pdfLoadAllPage, bool loadSinglePdf) { return this->listfiles->getAllFilesIn(file, selectionFileTypes, filter, showHidden, sortby, sortbyAscending, includeSize, pdfLoadAllPage, loadSinglePdf); }
+    Q_INVOKABLE int getTotalNumberOfPagesOfPdf(QString file) { return listfiles->getTotalNumberOfPagesOfPdf(file); }
+
 private:
     GetAndDoStuffContext *context;
     GetAndDoStuffExternal *external;
@@ -148,6 +154,7 @@ private:
     GetAndDoStuffOther *other;
     GetAndDoStuffWallpaper *wallpaper;
     GetAndDoStuffOpenFile *openfile;
+    GetAndDoStuffListFiles *listfiles;
 
 signals:
     void reloadDirectory(QString path, bool deleted = false);

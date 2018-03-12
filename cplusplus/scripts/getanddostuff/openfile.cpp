@@ -21,7 +21,6 @@
  **************************************************************************/
 
 #include "openfile.h"
-#include "../sortlist.h"
 
 GetAndDoStuffOpenFile::GetAndDoStuffOpenFile(QObject *parent) : QObject(parent) {
     imageformats = new ImageFormats;
@@ -233,128 +232,6 @@ QVariantList GetAndDoStuffOpenFile::getFoldersIn(QString path, bool getDotDot, b
     QVariantList ret;
     for(QString l : list)
         ret.append(l);
-
-    return ret;
-
-}
-
-QVariantList GetAndDoStuffOpenFile::getAllFilesIn(QString file, int selectionFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize) {
-
-    if(qgetenv("PHOTOQT_DEBUG") == "yes")
-        LOG << CURDATE << "GetAndDoStuffOpenFile::getAllFilesIn() - " << file.toStdString() << " / "
-                                                                      << selectionFileTypes << " / "
-                                                                      << showHidden << " / "
-                                                                      << sortby.toStdString() << " / "
-                                                                      << sortbyAscending << NL;
-
-    if(file.startsWith("file:/"))
-        file = file.remove(0,6);
-#ifdef Q_OS_WIN
-    while(file.startsWith("/"))
-        file = file.remove(0,1);
-#endif
-
-    QFileInfo info(file);
-
-    QDir dir;
-    if(info.isDir())
-        dir.setPath(file);
-    else
-        dir.setPath(info.absolutePath());
-
-    if(selectionFileTypes == 0)
-        dir.setNameFilters(imageformats->getAllEnabledFileformats());
-    else if(selectionFileTypes == 1)
-        dir.setNameFilters(imageformats->getEnabledFileformatsQt()+imageformats->getEnabledFileformatsKDE());
-    else if(selectionFileTypes == 2)
-        dir.setNameFilters(imageformats->getEnabledFileformatsGm()+imageformats->getEnabledFileformatsGmGhostscript());
-    else if(selectionFileTypes == 3)
-        dir.setNameFilters(imageformats->getEnabledFileformatsRAW());
-    else if(selectionFileTypes == 4)
-        dir.setNameFilters(imageformats->getEnabledFileformatsDevIL());
-    else if(selectionFileTypes == 5)
-        dir.setNameFilters(QStringList() << "*.*");
-
-    if(showHidden)
-        dir.setFilter(QDir::Files|QDir::Hidden);
-    else
-        dir.setFilter(QDir::Files);
-    dir.setSorting(QDir::IgnoreCase);
-
-    QFileInfoList list = dir.entryInfoList();
-    if(!list.contains(info) && !info.isDir())
-        list.append(info);
-
-    Sort::list(&list, sortby, sortbyAscending);
-
-    QVariantList ret;
-
-    if(includeSize) {
-
-        if(filter.startsWith(".")) {
-            for(QFileInfo l : list) {
-                QString fn = l.fileName().trimmed();
-                if(!fn.endsWith(filter) || fn == "") continue;
-                ret.append(fn);
-                qint64 s = l.size();
-                if(s <= 1024)
-                    ret.append(QString::number(s) + " B");
-                else if(s <= 1024*1024)
-                    ret.append(QString::number(qRound(10.0*(s/1024.0))/10.0) + " KB");
-                else
-                    ret.append(QString::number(qRound(100.0*(s/(1024.0*1024.0)))/100.0) + " MB");
-            }
-        } else if(filter != "") {
-            for(QFileInfo l : list) {
-                QString fn = l.fileName().trimmed();
-                if(!fn.contains(filter) || fn == "") continue;
-                ret.append(fn);
-                qint64 s = l.size();
-                if(s <= 1024)
-                    ret.append(QString::number(s) + " B");
-                else if(s <= 1024*1024)
-                    ret.append(QString::number(qRound(10.0*(s/1024.0))/10.0) + " KB");
-                else
-                    ret.append(QString::number(qRound(100.0*(s/(1024.0*1024.0)))/100.0) + " MB");
-            }
-        } else {
-            for(QFileInfo l : list) {
-                QString fn = l.fileName().trimmed();
-                if(fn == "") continue;
-                ret.append(fn);
-                qint64 s = l.size();
-                if(s <= 1024)
-                    ret.append(QString::number(s) + " B");
-                else if(s <= 1024*1024)
-                    ret.append(QString::number(qRound(10.0*(s/1024.0))/10.0) + " KB");
-                else
-                    ret.append(QString::number(qRound(100.0*(s/(1024.0*1024.0)))/100.0) + " MB");
-            }
-        }
-
-    } else {
-
-        if(filter.startsWith(".")) {
-            for(QFileInfo l : list) {
-                QString fn = l.fileName().trimmed();
-                if(fn.endsWith(filter) && fn != "")
-                    ret.append(fn);
-            }
-        } else if(filter != "") {
-            for(QFileInfo l : list) {
-                QString fn = l.fileName().trimmed();
-                if(fn.contains(filter) && fn != "")
-                    ret.append(fn);
-            }
-        } else {
-            for(QFileInfo l : list) {
-                QString fn = l.fileName().trimmed();
-                if(fn != "")
-                    ret.append(fn);
-            }
-        }
-
-    }
 
     return ret;
 
