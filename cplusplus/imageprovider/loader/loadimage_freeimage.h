@@ -21,7 +21,9 @@
  **************************************************************************/
 
 #include <QImage>
+#ifdef FREEIMAGE
 #include <FreeImagePlus.h>
+#endif
 
 #include "errorimage.h"
 
@@ -29,8 +31,10 @@ namespace LoadImage {
 
     namespace FreeImage {
 
+#ifdef FREEIMAGE
         QString errorMessage = "";
         FREE_IMAGE_FORMAT errorFormat = FIF_UNKNOWN;
+#endif
 
         static QImage load(QString filename, QSize maxSize) {
 
