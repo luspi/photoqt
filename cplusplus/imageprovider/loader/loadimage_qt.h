@@ -122,7 +122,7 @@ namespace LoadImage {
                 reader.setAutoTransform(metaRotate);
 
                 // Eventually load the image
-                img = reader.read();
+                reader.read(&img);
 
                 // If an error occured
                 if(img.isNull()) {
