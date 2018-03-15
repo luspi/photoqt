@@ -59,8 +59,8 @@ public:
         return QString("%1/contextmenu").arg(CONFIG_DIR());
     }
 
-    static const QString FILEFORMATS_FILE() {
-        return QString("%1/fileformats_disabled").arg(CONFIG_DIR());
+    static const QString IMAGEFORMATS_FILE() {
+        return QString("%1/imageformats_disabled").arg(CONFIG_DIR());
     }
 
     static const QString SHORTCUTS_FILE() {

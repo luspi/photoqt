@@ -422,7 +422,7 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     watcherTimer->setInterval(250);
     connect(watcherTimer, &QTimer::timeout, this, [=]() { composeEnabledFormats(false); enabledFileformatsChanged(); });
     watcher = new QFileSystemWatcher;
-    watcher->addPath(ConfigFiles::FILEFORMATS_FILE());
+    watcher->addPath(ConfigFiles::IMAGEFORMATS_FILE());
     connect(watcher, &QFileSystemWatcher::fileChanged, this, [=](QString) { watcherTimer->start(); });
 
     composeAvailableFormats();
@@ -514,7 +514,7 @@ void ImageFormats::composeAvailableFormats() {
 // Read the currently disabled file formats from file (and thus compose the list of currently enabled formats)
 void ImageFormats::composeEnabledFormats(bool withSaving) {
 
-    QFile disabled(ConfigFiles::FILEFORMATS_FILE());
+    QFile disabled(ConfigFiles::IMAGEFORMATS_FILE());
     if(!disabled.exists() || !disabled.open(QIODevice::ReadOnly)) {
         LOG << CURDATE << "ImageFormats::composeEnabledFormats() :: NOTE: Disabled formats file doesn't exist or cannot be opened for reading. Setting default entries..." << NL;
         for(QString cat : categories)
@@ -593,7 +593,7 @@ void ImageFormats::saveEnabledFormats() {
     }
 
     // Access and open disabled formats file for writing
-    QFile file(ConfigFiles::FILEFORMATS_FILE());
+    QFile file(ConfigFiles::IMAGEFORMATS_FILE());
     if(!file.open(QIODevice::WriteOnly|QIODevice::Truncate)) {
         LOG << CURDATE << "ImageFormats::saveEnabledFormats() :: ERROR: Unable to open disabled formats for writing/truncating..." << NL;
         return;
