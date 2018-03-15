@@ -143,9 +143,8 @@ QString GetAndDoStuffExternal::importConfig(QString filename) {
     for(ZipReader::FileInfo item : reader.fileInfoList()) {
 
         if(!allfiles.keys().contains(item.filePath)) {
-            QString err = "ERROR: Not a valid PhotoQt config file!";
-            LOG << CURDATE << err.toStdString() << NL;
-            return err;
+            LOG << CURDATE << "WARNING: Unknown key found, skipping to next file!" << NL;
+            continue;
         }
 
         // start file with file path to be written to
