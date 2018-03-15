@@ -9,8 +9,8 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
 
     QList<QByteArray> imageReaderSup = QImageReader::supportedImageFormats();
 
-    /*************************/
-    /*************************/
+    /************************************************************/
+    /************************************************************/
     // Qt (incl. plugins, like qt5-imageformats, KDE, libqpsd)
 
     if(imageReaderSup.contains("bmp")) {
@@ -106,14 +106,21 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
         setupAvailable[0].insert("*.ras"        , QStringList() << "ras" << "Sun Graphics"                                  << "0");
 
 
+    /************************************************************/
+    /************************************************************/
+    // xcftools
     setupAvailable[1].insert("*.xcf"        , QStringList() << "xcf" << "Gimp format - Makes use of 'xcftoold'"         << "0");
 
+    /************************************************************/
+    /************************************************************/
+    // poppler
 #ifdef POPPLER
     setupAvailable[2].insert("*.pdf"        , QStringList() << "pdf" << "Portable Document Format - Makes use of 'poppler'"              << "1");
     setupAvailable[2].insert("*.epdf"       , QStringList() << "pdf" << "Encapsulated Portable Document Format - Makes use of 'poppler'" << "1");
 #endif
 
-    /*************************/
+    /************************************************************/
+    /************************************************************/
     // GraphicsMagick
 #ifdef GM
     setupAvailable[3].insert("*.art"        , QStringList() << "art" << "PFS: 1st Publisher"                            << "1");
@@ -241,7 +248,8 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[3].insert("*.jb2"        , QStringList() << "jbg" << "Joint Bi-level Image experts Group file interchange format" << "0");
     setupAvailable[3].insert("*.bie"        , QStringList() << "jbg" << "Joint Bi-level Image experts Group file interchange format" << "0");
 
-    /*************************/
+    /************************************************************/
+    /************************************************************/
     // GraphicsMagick w/ Ghostscript
     setupAvailable[4].insert("*.epi"        , QStringList() << "pse" << "Adobe Encapsulated PostScript Interchange format"  << "0");
     setupAvailable[4].insert("*.epsi"       , QStringList() << "pse" << "Adobe Encapsulated PostScript Interchange format"  << "0");
@@ -254,7 +262,8 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[4].insert("*.ps3"        , QStringList() << "ps " << "Adobe Level III PostScript file"                   << "0");
 #endif
 
-    /*************************/
+    /************************************************************/
+    /************************************************************/
     // RAW
 #ifdef RAW
     setupAvailable[5].insert("*.3fr"        , QStringList() << "3fr" << "Hasselblad"                << "1");
@@ -299,7 +308,8 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[5].insert("*.x3f"        , QStringList() << "x3f" << "Sigma"                     << "1");
 #endif
 
-    /*************************/
+    /************************************************************/
+    /************************************************************/
     // DevIL
 #ifdef DEVIL
     setupAvailable[6].insert("*.bmp"        , QStringList() << "bmp" << "Microsoft Windows bitmap"                      << "1");
@@ -357,7 +367,8 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[6].insert("*.hdp"        , QStringList() << "hdp" << "JPEG XR aka HD Photo"                          << "0");
 #endif
 
-    /*************************/
+    /************************************************************/
+    /************************************************************/
     // FreeImage
 #ifdef FREEIMAGE
     setupAvailable[7].insert("*.bmp"        , QStringList() << "bmp" << "Microsoft Windows bitmap"                      << "1");
@@ -535,6 +546,8 @@ void ImageFormats::composeEnabledFormats(bool withSaving) {
                 }
             }
         } else {
+
+            if(cat == "") continue;
 
             if(allDisabled.keys().contains(cat))
                 allDisabled[cat].append(line.trimmed());
