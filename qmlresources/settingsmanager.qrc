@@ -49,7 +49,6 @@
         <file>../qml/settingsmanager/tabs/TabFileformats.qml</file>
         <file>../qml/settingsmanager/tabs/fileformats/FileformatsTile.qml</file>
         <file>../qml/settingsmanager/tabs/fileformats/FileformatsQt.qml</file>
-        <file>../qml/settingsmanager/tabs/fileformats/FileformatsKDE.qml</file>
         <file>../qml/settingsmanager/tabs/fileformats/FileformatsExtras.qml</file>
         <file>../qml/settingsmanager/tabs/fileformats/FileformatsGm.qml</file>
         <file>../qml/settingsmanager/tabs/fileformats/FileformatsGmGhostscript.qml</file>

@@ -1,75 +1,119 @@
 #include "imageformats.h"
+#include <QtDebug>
 
 ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
 
-    categories << "qt" << "kde" << "extras" << "gm" << "gmghostscript" << "raw" << "devil" << "freeimage";
-    formatsfiles << ConfigFiles::FILEFORMATSQT_FILE() << ConfigFiles::FILEFORMATSKDE_FILE()
-                 << ConfigFiles::FILEFORMATSEXTRAS_FILE() << ConfigFiles::FILEFORMATSGM_FILE()
-                 << ConfigFiles::FILEFORMATSGMGHOSTSCRIPT_FILE() << ConfigFiles::FILEFORMATSRAW_FILE()
-                 << ConfigFiles::FILEFORMATSDEVIL_FILE() << ConfigFiles::FILEFORMATSFREEIMAGE_FILE();
+    categories << "qt" << "xcftools" << "poppler" << "gm" << "gmghostscript" << "raw" << "devil" << "freeimage";
 
     setupAvailable = new QMap<QString, QStringList>[categories.length()];
 
-    // Qt
-    setupAvailable[0].insert("*.bmp"        , QStringList() << "bmp" << "Microsoft Windows bitmap"                      << "1");
-    setupAvailable[0].insert("*.bitmap"     , QStringList() << "bmp" << "Microsoft Windows bitmap"                      << "1");
-    setupAvailable[0].insert("*.gif"        , QStringList() << "gif" << "CompuServe Graphics Interchange Format"        << "1");
-    setupAvailable[0].insert("*.jp2"        , QStringList() << "jp2" << "JPEG-2000 Code Stream Syntax"                  << "1");
-    setupAvailable[0].insert("*.jpc"        , QStringList() << "jp2" << "JPEG-2000 Code Stream Syntax"                  << "1");
-    setupAvailable[0].insert("*.j2k"        , QStringList() << "jp2" << "JPEG-2000 Code Stream Syntax"                  << "1");
-    setupAvailable[0].insert("*.jpeg2000"   , QStringList() << "jp2" << "JPEG-2000 Code Stream Syntax"                  << "1");
-    setupAvailable[0].insert("*.jpx"        , QStringList() << "jp2" << "JPEG-2000 Code Stream Syntax"                  << "1");
-    setupAvailable[0].insert("*.mng"        , QStringList() << "mng" << "Multiple-image Network Graphics"               << "1");
-    setupAvailable[0].insert("*.ico"        , QStringList() << "ico" << "Microsoft icon"                                << "1");
-    setupAvailable[0].insert("*.cur"        , QStringList() << "ico" << "Microsoft icon"                                << "1");
-    setupAvailable[0].insert("*.icns"       , QStringList() << "icn" << "Macintosh OS X icon"                           << "1");
-    setupAvailable[0].insert("*.jpeg"       , QStringList() << "jpg" << "Joint Photographic Experts Group JFIF format"  << "1");
-    setupAvailable[0].insert("*.jpg"        , QStringList() << "jpg" << "Joint Photographic Experts Group JFIF format"  << "1");
-    setupAvailable[0].insert("*.jpe"        , QStringList() << "jpg" << "Joint Photographic Experts Group JFIF format"  << "1");
-    setupAvailable[0].insert("*.png"        , QStringList() << "png" << "Portable Network Graphics"                     << "1");
-    setupAvailable[0].insert("*.pbm"        , QStringList() << "pbm" << "Portable bitmap format (black and white)"      << "1");
-    setupAvailable[0].insert("*.pgm"        , QStringList() << "pbm" << "Portable graymap format (gray scale)"          << "1");
-    setupAvailable[0].insert("*.ppm"        , QStringList() << "pbm" << "Portable pixmap format (color)"                << "1");
-    setupAvailable[0].insert("*.pnm"        , QStringList() << "pbm" << "Portable anymap (pbm, pgm, or ppm)"            << "1");
-    setupAvailable[0].insert("*.svg"        , QStringList() << "svg" << "Scalable Vector Graphics"                      << "1");
-    setupAvailable[0].insert("*.svgz"       , QStringList() << "svg" << "Scalable Vector Graphics"                      << "1");
-    setupAvailable[0].insert("*.tga"        , QStringList() << "tga" << "Truevision Targa Graphic"                      << "1");
-    setupAvailable[0].insert("*.tif"        , QStringList() << "tif" << "Tagged Image File Format"                      << "1");
-    setupAvailable[0].insert("*.tiff"       , QStringList() << "tif" << "Tagged Image File Format"                      << "1");
-    setupAvailable[0].insert("*.wbmp"       , QStringList() << "wbp" << "Wireless bitmap"                               << "1");
-    setupAvailable[0].insert("*.xbm"        , QStringList() << "xbm" << "X Windows system bitmap, black and white only" << "1");
-    setupAvailable[0].insert("*.xpm"        , QStringList() << "xpm" << "X Windows system pixmap"                       << "1");
-    // fails to load test image
-    setupAvailable[0].insert("*.webp"       , QStringList() << "wep" << "Google web image format"                       << "0");
+    QList<QByteArray> imageReaderSup = QImageReader::supportedImageFormats();
 
-    // KDE
-    setupAvailable[1].insert("*.eps"        , QStringList() << "eps" << "Adobe Encapsulated PostScript"                 << "1");
-    setupAvailable[1].insert("*.epsf"       , QStringList() << "eps" << "Adobe Encapsulated PostScript"                 << "1");
-    setupAvailable[1].insert("*.epsi"       , QStringList() << "eps" << "Adobe Encapsulated PostScript"                 << "1");
-    setupAvailable[1].insert("*.exr"        , QStringList() << "exr" << "OpenEXR"                                       << "1");
-    setupAvailable[1].insert("*.kra"        , QStringList() << "kra" << "Krita Document"                                << "1");
-    setupAvailable[1].insert("*.ora"        , QStringList() << "ora" << "Open Raster Image File"                        << "1");
-    setupAvailable[1].insert("*.pcx"        , QStringList() << "pcx" << "ZSoft PCX"                                     << "1");
-    setupAvailable[1].insert("*.psd"        , QStringList() << "psd" << "Adobe PhotoShop"                               << "1");
-    setupAvailable[1].insert("*.bw"         , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
-    setupAvailable[1].insert("*.rgb"        , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
-    setupAvailable[1].insert("*.rgba"       , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
-    setupAvailable[1].insert("*.sgi"        , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
-    setupAvailable[1].insert("*.tga"        , QStringList() << "tga" << "Truevision Targa Graphic"                      << "1");
-    setupAvailable[1].insert("*.xcf"        , QStringList() << "xcf" << "Gimp format"                                   << "1");
-    // fails to load test image
-    setupAvailable[1].insert("*.pic"        , QStringList() << "pic" << "Apple Macintosh QuickDraw/PICT file"           << "0");
-    setupAvailable[1].insert("*.ras"        , QStringList() << "ras" << "Sun Graphics"                                  << "0");
+    /*************************/
+    /*************************/
+    // Qt (incl. plugins, like qt5-imageformats, KDE, libqpsd)
 
-    // Extras
-    setupAvailable[2].insert("*.psb"        , QStringList() << "psd" << "Adobe PhotoShop - Makes use of 'libqpsd'"      << "0");
-    setupAvailable[2].insert("*.psd"        , QStringList() << "psd" << "Adobe PhotoShop - Makes use of 'libqpsd'"      << "0");
-    setupAvailable[2].insert("*.xcf"        , QStringList() << "xcf" << "Gimp format - Makes use of 'xcftoold'"         << "0");
+    if(imageReaderSup.contains("bmp")) {
+        setupAvailable[0].insert("*.bmp"        , QStringList() << "bmp" << "Microsoft Windows bitmap"                      << "1");
+        setupAvailable[0].insert("*.bitmap"     , QStringList() << "bmp" << "Microsoft Windows bitmap"                      << "1");
+    }
+    if(imageReaderSup.contains("gif"))
+        setupAvailable[0].insert("*.gif"        , QStringList() << "gif" << "CompuServe Graphics Interchange Format"        << "1");
+    if(imageReaderSup.contains("jp2")) {
+        setupAvailable[0].insert("*.jp2"        , QStringList() << "jp2" << "JPEG-2000 Code Stream Syntax"                  << "1");
+        setupAvailable[0].insert("*.jpc"        , QStringList() << "jp2" << "JPEG-2000 Code Stream Syntax"                  << "1");
+        setupAvailable[0].insert("*.j2k"        , QStringList() << "jp2" << "JPEG-2000 Code Stream Syntax"                  << "1");
+        setupAvailable[0].insert("*.jpeg2000"   , QStringList() << "jp2" << "JPEG-2000 Code Stream Syntax"                  << "1");
+        setupAvailable[0].insert("*.jpx"        , QStringList() << "jp2" << "JPEG-2000 Code Stream Syntax"                  << "1");
+    }
+    if(imageReaderSup.contains("mng"))
+        setupAvailable[0].insert("*.mng"        , QStringList() << "mng" << "Multiple-image Network Graphics"               << "1");
+    if(imageReaderSup.contains("ico"))
+        setupAvailable[0].insert("*.ico"        , QStringList() << "ico" << "Microsoft icon"                                << "1");
+    if(imageReaderSup.contains("cur"))
+        setupAvailable[0].insert("*.cur"        , QStringList() << "ico" << "Microsoft icon"                                << "1");
+    if(imageReaderSup.contains("icns"))
+        setupAvailable[0].insert("*.icns"       , QStringList() << "icn" << "Macintosh OS X icon"                           << "1");
+    if(imageReaderSup.contains("jpeg") || imageReaderSup.contains("jpg")) {
+        setupAvailable[0].insert("*.jpeg"       , QStringList() << "jpg" << "Joint Photographic Experts Group JFIF format"  << "1");
+        setupAvailable[0].insert("*.jpg"        , QStringList() << "jpg" << "Joint Photographic Experts Group JFIF format"  << "1");
+        setupAvailable[0].insert("*.jpe"        , QStringList() << "jpg" << "Joint Photographic Experts Group JFIF format"  << "1");
+    }
+    if(imageReaderSup.contains("png"))
+        setupAvailable[0].insert("*.png"        , QStringList() << "png" << "Portable Network Graphics"                     << "1");
+    if(imageReaderSup.contains("pbm"))
+        setupAvailable[0].insert("*.pbm"        , QStringList() << "pbm" << "Portable bitmap format (black and white)"      << "1");
+    if(imageReaderSup.contains("pgm"))
+        setupAvailable[0].insert("*.pgm"        , QStringList() << "pbm" << "Portable graymap format (gray scale)"          << "1");
+    if(imageReaderSup.contains("ppm"))
+        setupAvailable[0].insert("*.ppm"        , QStringList() << "pbm" << "Portable pixmap format (color)"                << "1");
+    if(imageReaderSup.contains("pbm") || imageReaderSup.contains("pgm") || imageReaderSup.contains("ppm"))
+        setupAvailable[0].insert("*.pnm"        , QStringList() << "pbm" << "Portable anymap (pbm, pgm, or ppm)"            << "1");
+    if(imageReaderSup.contains("svg") || imageReaderSup.contains("svgz")) {
+        setupAvailable[0].insert("*.svg"        , QStringList() << "svg" << "Scalable Vector Graphics"                      << "1");
+        setupAvailable[0].insert("*.svgz"       , QStringList() << "svg" << "Scalable Vector Graphics"                      << "1");
+    }
+    if(imageReaderSup.contains("tga"))
+        setupAvailable[0].insert("*.tga"        , QStringList() << "tga" << "Truevision Targa Graphic"                      << "1");
+    if(imageReaderSup.contains("tif") || imageReaderSup.contains("tiff")) {
+        setupAvailable[0].insert("*.tif"        , QStringList() << "tif" << "Tagged Image File Format"                      << "1");
+        setupAvailable[0].insert("*.tiff"       , QStringList() << "tif" << "Tagged Image File Format"                      << "1");
+    }
+    if(imageReaderSup.contains("wbmp"))
+        setupAvailable[0].insert("*.wbmp"       , QStringList() << "wbp" << "Wireless bitmap"                               << "1");
+    if(imageReaderSup.contains("xbm"))
+        setupAvailable[0].insert("*.xbm"        , QStringList() << "xbm" << "X Windows system bitmap, black and white only" << "1");
+    if(imageReaderSup.contains("xpm"))
+        setupAvailable[0].insert("*.xpm"        , QStringList() << "xpm" << "X Windows system pixmap"                       << "1");
+    if(imageReaderSup.contains("eps") || imageReaderSup.contains("epsf") || imageReaderSup.contains("epsi")) {
+        setupAvailable[0].insert("*.eps"        , QStringList() << "eps" << "Adobe Encapsulated PostScript"                 << "1");
+        setupAvailable[0].insert("*.epsf"       , QStringList() << "eps" << "Adobe Encapsulated PostScript"                 << "1");
+        setupAvailable[0].insert("*.epsi"       , QStringList() << "eps" << "Adobe Encapsulated PostScript"                 << "1");
+    }
+    if(imageReaderSup.contains("exr"))
+        setupAvailable[0].insert("*.exr"        , QStringList() << "exr" << "OpenEXR"                                       << "1");
+    if(imageReaderSup.contains("kra"))
+        setupAvailable[0].insert("*.kra"        , QStringList() << "kra" << "Krita Document"                                << "1");
+    if(imageReaderSup.contains("ora"))
+        setupAvailable[0].insert("*.ora"        , QStringList() << "ora" << "Open Raster Image File"                        << "1");
+    if(imageReaderSup.contains("pcx"))
+        setupAvailable[0].insert("*.pcx"        , QStringList() << "pcx" << "ZSoft PCX"                                     << "1");
+    if(imageReaderSup.contains("psd"))
+        setupAvailable[0].insert("*.psd"        , QStringList() << "psd" << "Adobe PhotoShop"                               << "1");
+    if(imageReaderSup.contains("psb"))
+        setupAvailable[0].insert("*.psb"        , QStringList() << "psd" << "Adobe PhotoShop"                               << "1");
+    if(imageReaderSup.contains("bw"))
+        setupAvailable[0].insert("*.bw"         , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
+    if(imageReaderSup.contains("rgb"))
+        setupAvailable[0].insert("*.rgb"        , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
+    if(imageReaderSup.contains("rgba"))
+        setupAvailable[0].insert("*.rgba"       , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
+    if(imageReaderSup.contains("sgi"))
+        setupAvailable[0].insert("*.sgi"        , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
+    if(imageReaderSup.contains("tga"))
+        setupAvailable[0].insert("*.tga"        , QStringList() << "tga" << "Truevision Targa Graphic"                      << "1");
+    if(imageReaderSup.contains("xcf"))
+        setupAvailable[0].insert("*.xcf"        , QStringList() << "xcf" << "Gimp format"                                   << "1");
+#ifndef FREEIMAGE
+    // CAUSES CRASH when FreeImage is enabled:
+    if(imageReaderSup.contains("webp"))
+        setupAvailable[0].insert("*.webp"       , QStringList() << "wep" << "Google web image format"                       << "1");
+#endif
+    // FAILS TO LOAD test image:
+    if(imageReaderSup.contains("pic"))
+        setupAvailable[0].insert("*.pic"        , QStringList() << "pic" << "Apple Macintosh QuickDraw/PICT file"           << "0");
+    if(imageReaderSup.contains("ras"))
+        setupAvailable[0].insert("*.ras"        , QStringList() << "ras" << "Sun Graphics"                                  << "0");
+
+
+    setupAvailable[1].insert("*.xcf"        , QStringList() << "xcf" << "Gimp format - Makes use of 'xcftoold'"         << "0");
+
 #ifdef POPPLER
     setupAvailable[2].insert("*.pdf"        , QStringList() << "pdf" << "Portable Document Format - Makes use of 'poppler'"              << "1");
     setupAvailable[2].insert("*.epdf"       , QStringList() << "pdf" << "Encapsulated Portable Document Format - Makes use of 'poppler'" << "1");
 #endif
 
+    /*************************/
     // GraphicsMagick
 #ifdef GM
     setupAvailable[3].insert("*.art"        , QStringList() << "art" << "PFS: 1st Publisher"                            << "1");
@@ -197,6 +241,7 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[3].insert("*.jb2"        , QStringList() << "jbg" << "Joint Bi-level Image experts Group file interchange format" << "0");
     setupAvailable[3].insert("*.bie"        , QStringList() << "jbg" << "Joint Bi-level Image experts Group file interchange format" << "0");
 
+    /*************************/
     // GraphicsMagick w/ Ghostscript
     setupAvailable[4].insert("*.epi"        , QStringList() << "pse" << "Adobe Encapsulated PostScript Interchange format"  << "0");
     setupAvailable[4].insert("*.epsi"       , QStringList() << "pse" << "Adobe Encapsulated PostScript Interchange format"  << "0");
@@ -209,6 +254,7 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[4].insert("*.ps3"        , QStringList() << "ps " << "Adobe Level III PostScript file"                   << "0");
 #endif
 
+    /*************************/
     // RAW
 #ifdef RAW
     setupAvailable[5].insert("*.3fr"        , QStringList() << "3fr" << "Hasselblad"                << "1");
@@ -253,6 +299,7 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[5].insert("*.x3f"        , QStringList() << "x3f" << "Sigma"                     << "1");
 #endif
 
+    /*************************/
     // DevIL
 #ifdef DEVIL
     setupAvailable[6].insert("*.bmp"        , QStringList() << "bmp" << "Microsoft Windows bitmap"                      << "1");
@@ -310,6 +357,7 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[6].insert("*.hdp"        , QStringList() << "hdp" << "JPEG XR aka HD Photo"                          << "0");
 #endif
 
+    /*************************/
     // FreeImage
 #ifdef FREEIMAGE
     setupAvailable[7].insert("*.bmp"        , QStringList() << "bmp" << "Microsoft Windows bitmap"                      << "1");
@@ -374,7 +422,7 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     watcherTimer->setInterval(250);
     connect(watcherTimer, &QTimer::timeout, this, [=]() { composeEnabledFormats(false); enabledFileformatsChanged(); });
     watcher = new QFileSystemWatcher;
-    watcher->addPaths(formatsfiles);
+    watcher->addPath(ConfigFiles::FILEFORMATS_FILE());
     connect(watcher, &QFileSystemWatcher::fileChanged, this, [=](QString) { watcherTimer->start(); });
 
     composeAvailableFormats();
@@ -386,8 +434,8 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     connect(saveTimer, &QTimer::timeout, this, &ImageFormats::saveEnabledFormats);
 
     connect(this, &ImageFormats::enabledFileformatsQtChanged, this, [=](QStringList) {saveTimer->start();});
-    connect(this, &ImageFormats::enabledFileformatsKDEChanged, this, [=](QStringList) {saveTimer->start();});
-    connect(this, &ImageFormats::enabledFileformatsExtrasChanged, this, [=](QStringList) {saveTimer->start();});
+    connect(this, &ImageFormats::enabledFileformatsXCFToolsChanged, this, [=](QStringList) {saveTimer->start();});
+    connect(this, &ImageFormats::enabledFileformatsPopplerChanged, this, [=](QStringList) {saveTimer->start();});
     connect(this, &ImageFormats::enabledFileformatsGmChanged, this, [=](QStringList) {saveTimer->start();});
     connect(this, &ImageFormats::enabledFileformatsGmGhostscriptChanged, this, [=](QStringList) {saveTimer->start();});
     connect(this, &ImageFormats::enabledFileformatsRAWChanged, this, [=](QStringList) {saveTimer->start();});
@@ -402,10 +450,10 @@ void ImageFormats::setEnabledFileformats(QString cat, QStringList val, bool with
 
         if(cat == "qt")
             setEnabledFileformatsQt(val);
-        else if(cat == "kde")
-            setEnabledFileformatsKDE(val);
-        else if(cat == "extras")
-            setEnabledFileformatsExtras(val);
+        else if(cat == "xcftools")
+            setEnabledFileformatsXCFTools(val);
+        else if(cat == "poppler")
+            setEnabledFileformatsPoppler(val);
         else if(cat == "gm")
             setEnabledFileformatsGm(val);
         else if(cat == "gmghostscript")
@@ -421,10 +469,10 @@ void ImageFormats::setEnabledFileformats(QString cat, QStringList val, bool with
 
         if(cat == "qt")
             setEnabledFileformatsQtWithoutSaving(val);
-        else if(cat == "kde")
-            setEnabledFileformatsKDEWithoutSaving(val);
-        else if(cat == "extras")
-            setEnabledFileformatsExtrasWithoutSaving(val);
+        else if(cat == "xcftools")
+            setEnabledFileformatsXCFToolsWithoutSaving(val);
+        else if(cat == "poppler")
+            setEnabledFileformatsPopplerWithoutSaving(val);
         else if(cat == "gm")
             setEnabledFileformatsGmWithoutSaving(val);
         else if(cat == "gmghostscript")
@@ -466,34 +514,41 @@ void ImageFormats::composeAvailableFormats() {
 // Read the currently disabled file formats from file (and thus compose the list of currently enabled formats)
 void ImageFormats::composeEnabledFormats(bool withSaving) {
 
-    for(int i = 0; i < categories.length(); ++i) {
-
-        QString cat = categories.at(i);
-
-        // This is the file with disabled formats
-        QFile disabledfile(formatsfiles.at(i));
-
-        // If file doesn't exist, we use the default set of enabled formats
-        if(!disabledfile.exists()) {
-            LOG << CURDATE << "ImageFormats::composeEnabledFormats() :: NOTE: Disabled " << cat.toStdString() << " formats file doesn't exist. Setting default entries..." << NL;
+    QFile disabled(ConfigFiles::FILEFORMATS_FILE());
+    if(!disabled.exists() || !disabled.open(QIODevice::ReadOnly)) {
+        LOG << CURDATE << "ImageFormats::composeEnabledFormats() :: NOTE: Disabled formats file doesn't exist or cannot be opened for reading. Setting default entries..." << NL;
+        for(QString cat : categories)
             setEnabledFileformats(cat, defaultEnabledFileformats[categories.indexOf(cat)]);
-            return;
+        return;
+    }
+
+    QTextStream in(&disabled);
+    QString line, cat = "";
+    QMap<QString,QStringList> allDisabled;
+    while(in.readLineInto(&line)) {
+
+        if(line.startsWith("[")) {
+            for(int i = 0; i < categories.length(); ++i) {
+                if(line.trimmed() == QString("[%1]").arg(categories.at(i))) {
+                    cat = categories.at(i);
+                    i = categories.length();
+                }
+            }
+        } else {
+
+            if(allDisabled.keys().contains(cat))
+                allDisabled[cat].append(line.trimmed());
+            else
+                allDisabled.insert(cat, QStringList() << line.trimmed());
+
         }
 
-        // If we can't open the file for reading, we also use the default set of enabled formats
-        if(!disabledfile.open(QIODevice::ReadOnly)) {
-            LOG << CURDATE << "ImageFormats::composeEnabledFormats() :: ERROR: Unable to open disabled " << cat.toStdString() << " formats for reading..." << NL;
-            setEnabledFileformats(cat, defaultEnabledFileformats[categories.indexOf(cat)]);
-            return;
-        }
+    }
+
+    for(QString cat : categories) {
 
         // These will hold the formats that are enabled
         QStringList setTheseAsEnabled;
-
-        // Read disabled formats and split into each line
-        QTextStream in(&disabledfile);
-        QStringList alldisabled = in.readAll().split("\n", QString::SkipEmptyParts);
-
 
         // Loop over each item of available formats
         foreach(QVariant item, availableFileformats[categories.indexOf(cat)]) {
@@ -502,16 +557,15 @@ void ImageFormats::composeEnabledFormats(bool withSaving) {
             QString avail = item.toString();
 
             // If format is not disabled, add to list of enabled formats
-            if(!alldisabled.contains(avail))
+            if(!allDisabled[cat].contains(avail)) {
                 setTheseAsEnabled.append(avail);
+            }
 
         }
 
+
         // Set enabled formats to file
         setEnabledFileformats(cat, setTheseAsEnabled, withSaving);
-
-        // close file...
-        disabledfile.close();
 
     }
 
@@ -520,32 +574,37 @@ void ImageFormats::composeEnabledFormats(bool withSaving) {
 // Save Qt file formats
 void ImageFormats::saveEnabledFormats() {
 
+    QString disabled = "";
+
     for(int i = 0; i < categories.length(); ++i) {
 
         QString cat = categories.at(i);
 
+        disabled += QString("[%1]\n").arg(cat);
+
         // Compose list of disabled formats
-        QString disabled = "";
         foreach(QVariant avail, availableFileformats[categories.indexOf(cat)]) {
             if(!enabledFileformats[categories.indexOf(cat)].contains(avail.toString()))
                 disabled += avail.toString()+"\n";
         }
 
-        // Access and open disabled formats file for writing
-        QFile file(formatsfiles.at(i));
-        if(!file.open(QIODevice::WriteOnly|QIODevice::Truncate)) {
-            LOG << CURDATE << "ImageFormats::saveEnabledFormats() :: ERROR: Unable to open disabled " << cat.toStdString() << " formats for writing/truncating..." << NL;
-            return;
-        }
-
-        // Write disabled formats
-        QTextStream out(&file);
-        out << disabled;
-
-        // close file
-        file.close();
+        disabled += "\n";
 
     }
+
+    // Access and open disabled formats file for writing
+    QFile file(ConfigFiles::FILEFORMATS_FILE());
+    if(!file.open(QIODevice::WriteOnly|QIODevice::Truncate)) {
+        LOG << CURDATE << "ImageFormats::saveEnabledFormats() :: ERROR: Unable to open disabled formats for writing/truncating..." << NL;
+        return;
+    }
+
+    // Write disabled formats
+    QTextStream out(&file);
+    out << disabled;
+
+    // close file
+    file.close();
 
     emit enabledFileformatsSaved();
 

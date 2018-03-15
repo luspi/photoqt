@@ -204,7 +204,7 @@ QFileInfoList GetAndDoStuffListFiles::getEntryList(QString file, int selectionFi
     if(selectionFileTypes == 0)
         dir.setNameFilters(imageformats->getAllEnabledFileformats());
     else if(selectionFileTypes == 1)
-        dir.setNameFilters(imageformats->getEnabledFileformatsQt()+imageformats->getEnabledFileformatsKDE());
+        dir.setNameFilters(imageformats->getEnabledFileformatsQt());
     else if(selectionFileTypes == 2)
         dir.setNameFilters(imageformats->getEnabledFileformatsGm()+imageformats->getEnabledFileformatsGmGhostscript());
     else if(selectionFileTypes == 3)

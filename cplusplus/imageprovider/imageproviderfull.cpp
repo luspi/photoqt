@@ -162,7 +162,7 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
     /***********************************************************/
     // PDF with poppler library
 
-    if(filename.contains("__::pqt::__") || filename.toLower().endsWith(".pdf") || filename.toLower().endsWith(".epdf"))
+    if((imageformats->getEnabledFileformatsPoppler().contains("*.pdf") && filename.toLower().endsWith(".pdf")) || (imageformats->getEnabledFileformatsPoppler().contains("*.epdf") && filename.toLower().endsWith(".epdf")))
         return "poppler";
 
     /***********************************************************/
@@ -172,19 +172,12 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
         if(filename.toLower().endsWith(qt.remove(0,1)))
             return "qt";
     }
-    foreach(QString qt, imageformats->getEnabledFileformatsKDE()) {
-        if(filename.toLower().endsWith(qt.remove(0,1)))
-            return "qt";
-    }
-    if((imageformats->getEnabledFileformatsExtras().contains("*.psb") && filename.endsWith(".psb")) ||
-       (imageformats->getEnabledFileformatsExtras().contains("*.psd") && filename.endsWith(".psd")))
-        return "qt";
 
 
     /***********************************************************/
     // xcftools
 
-    if((imageformats->getEnabledFileformatsExtras().contains("*.xcf") && filename.endsWith(".xcf")))
+    if((imageformats->getEnabledFileformatsXCFTools().contains("*.xcf") && filename.endsWith(".xcf")))
         return "xcftools";
 
 

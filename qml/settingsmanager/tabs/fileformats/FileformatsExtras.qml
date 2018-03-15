@@ -81,7 +81,7 @@ EntryContainer {
 
                     interactive: false
 
-                    property var available: imageformats.getAvailableEndingsWithDescriptionExtras()
+                    property var available: []//imageformats.getAvailableEndingsWithDescriptionExtras()
 
                     model: available.length
 
@@ -199,7 +199,7 @@ EntryContainer {
                         width: grid.cellWidth-grid.spacing*2
 
                         text: qsTr("Set default")
-                        onClickedButton: imageformats.setDefaultFormatsExtras()
+//                        onClickedButton: imageformats.setDefaultFormatsExtras()
 
                     }
 
@@ -218,7 +218,7 @@ EntryContainer {
 
     // Save data is as simple as writing them to the imageformats settings property
     function saveData() {
-        imageformats.enabledFileformatsExtras = entry.checkeditems
+//        imageformats.enabledFileformatsExtras = entry.checkeditems
     }
 
 }

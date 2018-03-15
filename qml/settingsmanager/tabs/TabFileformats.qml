@@ -83,13 +83,12 @@ Rectangle {
             Rectangle { color: "transparent"; width: 1; height: 20; }
 
             FileformatsQt { id: fileformatsqt }
-            FileformatsKDE { id: fileformatskde; alternating: true }
-            FileformatsExtras { id: fileformatsextras }
-            FileformatsGm { id: fileformatsgm; alternating: true }
-            FileformatsGmGhostscript { id: fileformatsgmghostscript }
-            FileformatsRAW { id: fileformatsraw; alternating: true }
-            FileformatsDevIL { id: fileformatsdevil }
-            FileformatsFreeImage { id: fileformatsfreeimage; alternating: true }
+            FileformatsExtras { id: fileformatsextras; alternating: true }
+            FileformatsGm { id: fileformatsgm }
+            FileformatsGmGhostscript { id: fileformatsgmghostscript; alternating: true }
+            FileformatsRAW { id: fileformatsraw }
+            FileformatsDevIL { id: fileformatsdevil; alternating: true }
+            FileformatsFreeImage { id: fileformatsfreeimage }
 
         }
 
@@ -100,7 +99,6 @@ Rectangle {
         verboseMessage("SettingsManager/TabFileFormats", "setData()")
 
         fileformatsqt.setData()
-        fileformatskde.setData()
         fileformatsextras.setData()
         fileformatsgm.setData()
         fileformatsgmghostscript.setData()
@@ -115,7 +113,6 @@ Rectangle {
         verboseMessage("SettingsManager/TabFileFormats", "saveData()")
 
         fileformatsqt.saveData()
-        fileformatskde.saveData()
         fileformatsextras.saveData()
         fileformatsgm.saveData()
         fileformatsgmghostscript.saveData()

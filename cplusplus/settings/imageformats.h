@@ -7,6 +7,7 @@
 #include <QFile>
 #include <QTimer>
 #include <QFileSystemWatcher>
+#include <QImageReader>
 
 #include "../configfiles.h"
 #include "../logger.h"
@@ -22,8 +23,8 @@ public:
 
     // All possibly available file formats for the various categories
     Q_INVOKABLE QVariantList getAvailableEndingsQt() { return availableFileformats[categories.indexOf("qt")]; }
-    Q_INVOKABLE QVariantList getAvailableEndingsKDE() { return availableFileformats[categories.indexOf("kde")]; }
-    Q_INVOKABLE QVariantList getAvailableEndingsExtras() { return availableFileformats[categories.indexOf("extras")]; }
+    Q_INVOKABLE QVariantList getAvailableEndingsXCFTools() { return availableFileformats[categories.indexOf("xcftools")]; }
+    Q_INVOKABLE QVariantList getAvailableEndingsPoppler() { return availableFileformats[categories.indexOf("poppler")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsGm() { return availableFileformats[categories.indexOf("gm")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsGmGhostscript() { return availableFileformats[categories.indexOf("gmghostscript")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsRAW() { return availableFileformats[categories.indexOf("raw")]; }
@@ -32,8 +33,8 @@ public:
 
     // All possibly available file formats INCLUDING a description of the image type for the various categories
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionQt() { return availableFileformatsWithDescription[categories.indexOf("qt")]; }
-    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionKDE() { return availableFileformatsWithDescription[categories.indexOf("kde")]; }
-    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionExtras() { return availableFileformatsWithDescription[categories.indexOf("extras")]; }
+    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionXCFTools() { return availableFileformatsWithDescription[categories.indexOf("xcftools")]; }
+    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionPoppler() { return availableFileformatsWithDescription[categories.indexOf("poppler")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionGm() { return availableFileformatsWithDescription[categories.indexOf("gm")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionGmGhostscript() { return availableFileformatsWithDescription[categories.indexOf("gmghostscript")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionRAW() { return availableFileformatsWithDescription[categories.indexOf("raw")]; }
@@ -46,16 +47,16 @@ public:
     QStringList getEnabledFileformatsQt() { return enabledFileformats[categories.indexOf("qt")]; }
     void setEnabledFileformatsQt(QStringList val) { enabledFileformats[categories.indexOf("qt")] = val; enabledFileformatsQtChanged(val); }
     void setEnabledFileformatsQtWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("qt")] = val; }
-    // ... KDE
-    Q_PROPERTY(QStringList enabledFileformatsKDE READ getEnabledFileformatsKDE WRITE setEnabledFileformatsKDE NOTIFY enabledFileformatsKDEChanged)
-    QStringList getEnabledFileformatsKDE() { return enabledFileformats[categories.indexOf("kde")]; }
-    void setEnabledFileformatsKDE(QStringList val) { enabledFileformats[categories.indexOf("kde")] = val; emit enabledFileformatsKDEChanged(val); }
-    void setEnabledFileformatsKDEWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("kde")] = val;}
-    // ... Extras
-    Q_PROPERTY(QStringList enabledFileformatsExtras READ getEnabledFileformatsExtras WRITE setEnabledFileformatsExtras NOTIFY enabledFileformatsExtrasChanged)
-    QStringList getEnabledFileformatsExtras() { return enabledFileformats[categories.indexOf("extras")]; }
-    void setEnabledFileformatsExtras(QStringList val) { enabledFileformats[categories.indexOf("extras")] = val; emit enabledFileformatsExtrasChanged(val); }
-    void setEnabledFileformatsExtrasWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("extras")] = val; }
+    // ... XCF
+    Q_PROPERTY(QStringList enabledFileformatsXCFTools READ getEnabledFileformatsXCFTools WRITE setEnabledFileformatsXCFTools NOTIFY enabledFileformatsXCFToolsChanged)
+    QStringList getEnabledFileformatsXCFTools() { return enabledFileformats[categories.indexOf("xcftools")]; }
+    void setEnabledFileformatsXCFTools(QStringList val) { enabledFileformats[categories.indexOf("xcftools")] = val; emit enabledFileformatsXCFToolsChanged(val); }
+    void setEnabledFileformatsXCFToolsWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("xcftools")] = val;}
+    // ... Poppler
+    Q_PROPERTY(QStringList enabledFileformatsPoppler READ getEnabledFileformatsPoppler WRITE setEnabledFileformatsPoppler NOTIFY enabledFileformatsPopplerChanged)
+    QStringList getEnabledFileformatsPoppler() { return enabledFileformats[categories.indexOf("poppler")]; }
+    void setEnabledFileformatsPoppler(QStringList val) { enabledFileformats[categories.indexOf("poppler")] = val; emit enabledFileformatsPopplerChanged(val); }
+    void setEnabledFileformatsPopplerWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("poppler")] = val; }
     // ... GraphicsMagick
     Q_PROPERTY(QStringList enabledFileformatsGm READ getEnabledFileformatsGm WRITE setEnabledFileformatsGm NOTIFY enabledFileformatsGmChanged)
     QStringList getEnabledFileformatsGm() { return enabledFileformats[categories.indexOf("gm")]; }
@@ -83,8 +84,8 @@ public:
     void setEnabledFileformatsFreeImageWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("freeimage")] = val; }
 
     Q_INVOKABLE void setDefaultFormatsQt() { setEnabledFileformatsQt(defaultEnabledFileformats[categories.indexOf("qt")]); }
-    Q_INVOKABLE void setDefaultFormatsKDE() { setEnabledFileformatsKDE(defaultEnabledFileformats[categories.indexOf("kde")]); }
-    Q_INVOKABLE void setDefaultFormatsExtras() { setEnabledFileformatsExtras(defaultEnabledFileformats[categories.indexOf("extras")]); }
+    Q_INVOKABLE void setDefaultFormatsXCFTools() { setEnabledFileformatsXCFTools(defaultEnabledFileformats[categories.indexOf("xcftools")]); }
+    Q_INVOKABLE void setDefaultFormatsPoppler() { setEnabledFileformatsPoppler(defaultEnabledFileformats[categories.indexOf("poppler")]); }
     Q_INVOKABLE void setDefaultFormatsGm() { setEnabledFileformatsGm(defaultEnabledFileformats[categories.indexOf("gm")]); }
     Q_INVOKABLE void setDefaultFormatsGmGhostscript() { setEnabledFileformatsGmGhostscript(defaultEnabledFileformats[categories.indexOf("gmghostscript")]); }
     Q_INVOKABLE void setDefaultFormatsRAW() { setEnabledFileformatsRAW(defaultEnabledFileformats[categories.indexOf("raw")]); }
@@ -94,8 +95,8 @@ public:
     // Can be called from QML when resetting the settings
     Q_INVOKABLE void setDefaultFileformats() {
         setEnabledFileformatsQt(defaultEnabledFileformats[categories.indexOf("qt")]);
-        setEnabledFileformatsKDE(defaultEnabledFileformats[categories.indexOf("kde")]);
-        setEnabledFileformatsExtras(defaultEnabledFileformats[categories.indexOf("extras")]);
+        setEnabledFileformatsXCFTools(defaultEnabledFileformats[categories.indexOf("xcftools")]);
+        setEnabledFileformatsPoppler(defaultEnabledFileformats[categories.indexOf("poppler")]);
         setEnabledFileformatsGm(defaultEnabledFileformats[categories.indexOf("gm")]);
         setEnabledFileformatsGmGhostscript(defaultEnabledFileformats[categories.indexOf("gmghostscript")]);
         setEnabledFileformatsRAW(defaultEnabledFileformats[categories.indexOf("raw")]);
@@ -114,8 +115,8 @@ public:
 
 signals:
     void enabledFileformatsQtChanged(QStringList val);
-    void enabledFileformatsKDEChanged(QStringList val);
-    void enabledFileformatsExtrasChanged(QStringList val);
+    void enabledFileformatsXCFToolsChanged(QStringList val);
+    void enabledFileformatsPopplerChanged(QStringList val);
     void enabledFileformatsGmChanged(QStringList val);
     void enabledFileformatsGmGhostscriptChanged(QStringList val);
     void enabledFileformatsRAWChanged(QStringList val);
@@ -140,7 +141,6 @@ private:
     QMap<QString, QStringList> *setupAvailable;
 
     QStringList categories;
-    QStringList formatsfiles;
 
     // These are accessible from QML and hold the set info about the file endings
     QVariantList *availableFileformats;
