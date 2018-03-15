@@ -538,6 +538,8 @@ void ImageFormats::composeEnabledFormats(bool withSaving) {
     QMap<QString,QStringList> allDisabled;
     while(in.readLineInto(&line)) {
 
+        if(line.trimmed() == "") continue;
+
         if(line.startsWith("[")) {
             for(int i = 0; i < categories.length(); ++i) {
                 if(line.trimmed() == QString("[%1]").arg(categories.at(i))) {
