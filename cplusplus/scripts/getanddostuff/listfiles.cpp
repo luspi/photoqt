@@ -47,6 +47,9 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, int selectionFi
         file = file.remove(0,1);
 #endif
 
+    if(file.contains("__::pqt::__"))
+        file = file.split("__::pqt::__").at(0) + "." + QFileInfo(file).suffix();
+
 #ifdef POPPLER
     if(loadSinglePdf && file.endsWith(".pdf")) {
         QVariantList ret;
