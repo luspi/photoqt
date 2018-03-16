@@ -311,7 +311,7 @@ Rectangle {
     // Called from c++ code to load an image file (needed for remote controlling)
     function loadFile(filename) {
         variables.filter = ""
-        Handle.loadFile(filename, "", false)
+        Handle.loadFile(filename, "", true)
     }
 
     // Called from c++ code to get the filename of the currently loaded image file (needed for remote controlling)
