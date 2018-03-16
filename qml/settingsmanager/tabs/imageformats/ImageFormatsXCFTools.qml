@@ -21,65 +21,52 @@
  **************************************************************************/
 
 import QtQuick 2.5
+import QtQuick.Controls 1.4
+import QtQuick.Layouts 1.2
 
-import "../elements"
+import "../../../elements"
+import "../../"
 
-Rectangle {
+EntryContainer {
 
-    id: top
+    id: item_top
 
-    property string title: ""
-    property string helptext: ""
-    property bool helptext_warning: false
-
-    property string imageSource: ""
-    property int imageHeight: titletext.height*1.5
-
-    width: tab_top.titlewidth + 40
-    height: childrenRect.height
-    y: (item_top.height-height)/2
-    color: "transparent"
     Row {
-        spacing: 10
-        Rectangle { color: "transparent"; width: 10; height: 1; }
-        Image {
-            id: titleimage
-            source: top.imageSource
-            fillMode: Image.PreserveAspectFit
-            height: imageSource!=""?top.imageHeight:0
-            visible: imageSource!=""
+
+        spacing: 20
+
+        EntryTitle {
+
+            id: titletext
+            title: "xcftools: XCF (Gimp)"
+            helptext: em.pty+qsTr("PhotoQt can take advantage of xcftools to display Gimp's XCF file format. It can only be enabled if xcftools is installed!")
+            imageSource: "qrc:/img/settings/imageformats/empty.png"
+
         }
 
-        Text {
-            id: titletext
-            y: (parent.height-height)/2
-            color: colour.text
-            font.pointSize: 12
-            font.bold: true
-            textFormat: Text.RichText
-            wrapMode: Text.WordWrap
-            text: top.title
-            Component.onCompleted:
-                if(width > tab_top.titlewidth)
-                    tab_top.titlewidth = width+titleimage.width
+        EntrySetting {
+
+            Row {
+
+                spacing: 10
+
+                CustomCheckBox {
+                    id: xcftools
+                    text: em.pty+qsTr("Use xcftools")
+                }
+
+            }
+
         }
 
     }
 
-    ToolTip {
-        text: parent.helptext
-        cursorShape: Qt.PointingHandCursor
-        waitbefore: 100
-        onEntered: {
-            if(parent.helptext_warning)
-                globaltooltip.setTextColor(colour.tooltip_warning)
-            else
-                globaltooltip.setTextColor(colour.tooltip_text)
-        }
-        onExited:
-            globaltooltip.setTextColor(colour.tooltip_text)
-        onClicked:
-            settingsinfooverlay.show(title, helptext)
+    function setData() {
+        xcftools.checkedButton = (imageformats.enabledFileformatsXCFTools.indexOf("*.xcf") != -1)
+    }
+
+    function saveData() {
+        imageformats.enabledFileformatsXCFTools = (xcftools.checkedButton ? ["*.xcf"] : [])
     }
 
 }

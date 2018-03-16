@@ -21,65 +21,67 @@
  **************************************************************************/
 
 import QtQuick 2.5
+import QtQuick.Controls 1.4
 
-import "../elements"
+import "../../../elements"
 
 Rectangle {
 
-    id: top
+    id: rect
 
-    property string title: ""
-    property string helptext: ""
-    property bool helptext_warning: false
+    property string displaytext: ""
+    property string description: ""
+    property string category: ""
 
-    property string imageSource: ""
-    property int imageHeight: titletext.height*1.5
+    property bool checked: false
+    property bool hovered: false
 
-    width: tab_top.titlewidth + 40
-    height: childrenRect.height
-    y: (item_top.height-height)/2
-    color: "transparent"
-    Row {
-        spacing: 10
-        Rectangle { color: "transparent"; width: 10; height: 1; }
-        Image {
-            id: titleimage
-            source: top.imageSource
-            fillMode: Image.PreserveAspectFit
-            height: imageSource!=""?top.imageHeight:0
-            visible: imageSource!=""
-        }
+    width: 100
+    height: 30
 
-        Text {
-            id: titletext
-            y: (parent.height-height)/2
-            color: colour.text
-            font.pointSize: 12
-            font.bold: true
-            textFormat: Text.RichText
-            wrapMode: Text.WordWrap
-            text: top.title
-            Component.onCompleted:
-                if(width > tab_top.titlewidth)
-                    tab_top.titlewidth = width+titleimage.width
-        }
+    color: checked ? (hovered ? colour.tiles_active_hovered : colour.tiles_active) : (hovered ? colour.tiles_inactive : colour.tiles_disabled)
+    Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
+    radius: variables.global_item_radius
 
+    CustomCheckBox {
+        y: (parent.height-height)/2
+        x: y
+        fixedwidth: parent.width-2*x
+        elide: Text.ElideRight
+        text: displaytext
+        textColour: (hovered || checked) ? colour.tiles_text_active : colour.tiles_text_inactive
+        indicatorColourEnabled: colour.tiles_indicator_col
+        indicatorBackgroundColourEnabled: colour.tiles_indicator_bg
+        fsize: 9
+        checkedButton: parent.checked
     }
 
     ToolTip {
-        text: parent.helptext
+        text: "<b>"+description+"</b>" + "<br><br>" + em.pty+qsTr("Left click to check/uncheck. Right click to check/uncheck all endings for this image type.")
         cursorShape: Qt.PointingHandCursor
-        waitbefore: 100
-        onEntered: {
-            if(parent.helptext_warning)
-                globaltooltip.setTextColor(colour.tooltip_warning)
-            else
-                globaltooltip.setTextColor(colour.tooltip_text)
-        }
+        acceptedButtons: Qt.LeftButton|Qt.RightButton
+        onEntered:
+            hovered = true
         onExited:
-            globaltooltip.setTextColor(colour.tooltip_text)
-        onClicked:
-            settingsinfooverlay.show(title, helptext)
+            hovered = false
+        onClicked: {
+            if(mouse.button == Qt.LeftButton)
+                checked = !checked
+            else
+                popuptop.changeAllWithDescription(rect.category, !checked)
+        }
+    }
+
+    Connections {
+
+        target: popuptop
+
+        // Toggle all in this category
+        onChangeAllWithDescription: {
+            if(category == desc)
+                checked = chkd
+        }
+
     }
 
 }

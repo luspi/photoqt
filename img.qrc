@@ -64,5 +64,7 @@
         <file>img/contextmenu/unchecked.png</file>
         <file>img/contextmenu/checked_disabled.png</file>
         <file>img/contextmenu/unchecked_disabled.png</file>
+        <file>img/settings/imageformats/qt.png</file>
+        <file>img/settings/imageformats/empty.png</file>
     </qresource>
 </RCC>

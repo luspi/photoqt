@@ -41,6 +41,16 @@ public:
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionDevIL() { return availableFileformatsWithDescription[categories.indexOf("devil")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionFreeImage() { return availableFileformatsWithDescription[categories.indexOf("freeimage")]; }
 
+    // All possibly available file formats for the various categories
+    Q_INVOKABLE QStringList getDefaultEnabledEndingsQt() { return defaultEnabledFileformats[categories.indexOf("qt")]; }
+    Q_INVOKABLE QStringList getDefaultEnabledEndingsXCFTools() { return defaultEnabledFileformats[categories.indexOf("xcftools")]; }
+    Q_INVOKABLE QStringList getDefaultEnabledEndingsPoppler() { return defaultEnabledFileformats[categories.indexOf("poppler")]; }
+    Q_INVOKABLE QStringList getDefaultEnabledEndingsGm() { return defaultEnabledFileformats[categories.indexOf("gm")]; }
+    Q_INVOKABLE QStringList getDefaultEnabledEndingsGmGhostscript() { return defaultEnabledFileformats[categories.indexOf("gmghostscript")]; }
+    Q_INVOKABLE QStringList getDefaultEnabledEndingsRAW() { return defaultEnabledFileformats[categories.indexOf("raw")]; }
+    Q_INVOKABLE QStringList getDefaultEnabledEndingsDevIL() { return defaultEnabledFileformats[categories.indexOf("devil")]; }
+    Q_INVOKABLE QStringList getDefaultEnabledEndingsFreeImage() { return defaultEnabledFileformats[categories.indexOf("freeimage")]; }
+
     // All currently enabled file formats for ...
     // ... Qt
     Q_PROPERTY(QStringList enabledFileformatsQt READ getEnabledFileformatsQt WRITE setEnabledFileformatsQt NOTIFY enabledFileformatsQtChanged)
