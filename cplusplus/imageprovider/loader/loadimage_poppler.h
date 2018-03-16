@@ -32,7 +32,7 @@ namespace LoadImage {
 
     namespace PDF {
 
-        QImage load(QString filename, QSize maxSize) {
+        QImage load(QString filename, QSize maxSize, int pdfQuality) {
 
 #ifdef POPPLER
 
@@ -50,7 +50,7 @@ namespace LoadImage {
 
             // Load poppler document and render to QImage
             Poppler::Document* document = Poppler::Document::load(filename);
-            QImage ret = document->page(page)->renderToImage(150, 150);
+            QImage ret = document->page(page)->renderToImage(pdfQuality, pdfQuality);
 
             // ensure it fits inside maxSize
             if(maxSize.width() > 5 && maxSize.height() > 5) {

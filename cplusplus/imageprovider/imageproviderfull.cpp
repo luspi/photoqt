@@ -130,7 +130,7 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
         ret = LoadImage::FreeImage::load(filename, maxSize);
 
     else if(whatToUse == "poppler")
-        ret = LoadImage::PDF::load(filename, maxSize);
+        ret = LoadImage::PDF::load(filename, maxSize, settings->pdfQuality);
 
     // Try to use Qt
     else
@@ -244,5 +244,6 @@ QByteArray ImageProviderFull::getUniqueCacheKey(QString path) {
     path = path.remove("file:/");
     QFileInfo info(path);
     QString fn = QString("%1%2").arg(path).arg(info.lastModified().toMSecsSinceEpoch());
+    if(path.endsWith(".pdf") || path.endsWith(".epdf")) fn = QString("%1%2").arg(fn).arg(settings->pdfQuality);
     return QCryptographicHash::hash(fn.toUtf8(),QCryptographicHash::Md5).toHex();
 }

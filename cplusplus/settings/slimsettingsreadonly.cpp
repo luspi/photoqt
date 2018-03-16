@@ -62,6 +62,7 @@ void SlimSettingsReadOnly::setDefault() {
     metaLocation = true;
     metaCopyright = true;
     metaGps = true;
+    pdfQuality = 150;
 
 }
 
@@ -127,6 +128,8 @@ void SlimSettingsReadOnly::readSettings() {
                 metaLocation = line.split("=").at(1).toInt();
             else if(line.startsWith("MetaCopyright="))
                 metaCopyright = line.split("=").at(1).toInt();
+            else if(line.startsWith("PdfQuality="))
+                pdfQuality = line.split("=").at(1).toInt();
 
         }
 

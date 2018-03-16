@@ -60,6 +60,7 @@ public:
     bool metaLocation;
     bool metaCopyright;
     bool metaGps;
+    int pdfQuality;
 
     void setDefault();
     void readSettings();
