@@ -52,7 +52,7 @@ EntryContainer {
 
                 CustomCheckBox {
                     id: xcftools
-                    text: em.pty+qsTr("Use xcftools")
+                    text: "xcftools (*.xcf)"
                 }
 
             }
