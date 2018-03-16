@@ -60,6 +60,7 @@
         <file>../qml/settingsmanager/tabs/imageformats/ImageFormatsTile.qml</file>
         <file>../qml/settingsmanager/tabs/imageformats/ImageFormatsQt.qml</file>
         <file>../qml/settingsmanager/tabs/imageformats/ImageFormatsXCFTools.qml</file>
+        <file>../qml/settingsmanager/tabs/imageformats/ImageFormatsPoppler.qml</file>
         <file>../qml/settingsmanager/tabs/TabOther.qml</file>
         <file>../qml/settingsmanager/tabs/other/Language.qml</file>
         <file>../qml/settingsmanager/tabs/other/LanguageTile.qml</file>

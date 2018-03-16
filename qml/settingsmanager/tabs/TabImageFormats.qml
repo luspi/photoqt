@@ -84,6 +84,7 @@ Rectangle {
 
             ImageFormatsQt { id: imageformatsqt }
             ImageFormatsXCFTools { id: imageformatsxcftools }
+            ImageFormatsPoppler { id: imageformatspoppler }
 
         }
 
@@ -95,6 +96,7 @@ Rectangle {
 
         imageformatsqt.setData()
         imageformatsxcftools.setData()
+        imageformatspoppler.setData()
 
     }
 
@@ -104,6 +106,7 @@ Rectangle {
 
         imageformatsqt.saveData()
         imageformatsxcftools.saveData()
+        imageformatspoppler.saveData()
 
     }
 
