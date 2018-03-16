@@ -48,6 +48,7 @@ Rectangle {
             fillMode: Image.PreserveAspectFit
             height: imageSource!=""?top.imageHeight:0
             visible: imageSource!=""
+            mipmap: true
         }
 
         Text {
