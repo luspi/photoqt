@@ -105,6 +105,8 @@ private:
     int     m_pixmapCache;
     bool    m_showTransparencyMarkerBackground;
     bool    m_leftButtonMouseClickAndMove;
+    bool    m_pdfSingleDocument;
+    int     m_pdfQuality;
 
     bool    m_quickInfoHideCounter;
     bool    m_quickInfoHideFilepath;
@@ -546,6 +548,26 @@ public:
     void setLeftButtonMouseClickAndMove(bool val) { if(val != m_leftButtonMouseClickAndMove) { m_leftButtonMouseClickAndMove = val;
                                                                                                emit leftButtonMouseClickAndMoveChanged(val);
                                                                                                saveSettingsTimer->start(); } }
+
+    // pdfSingleDocument
+    Q_PROPERTY(bool   pdfSingleDocument
+               READ   getPdfSingleDocument
+               WRITE  setPdfSingleDocument
+               NOTIFY pdfSingleDocumentChanged)
+    bool getPdfSingleDocument() { return m_pdfSingleDocument; }
+    void setPdfSingleDocument(bool val) { if(val != m_pdfSingleDocument) { m_pdfSingleDocument = val;
+                                                                           emit pdfSingleDocumentChanged(val);
+                                                                           saveSettingsTimer->start(); } }
+
+    // pdfSingleDocument
+    Q_PROPERTY(bool   pdfQuality
+               READ   getPdfQuality
+               WRITE  setPdfQuality
+               NOTIFY pdfQualityChanged)
+    bool getPdfQuality() { return m_pdfQuality; }
+    void setPdfQuality(bool val) { if(val != m_pdfQuality) { m_pdfQuality = val;
+                                                             emit pdfQualityChanged(val);
+                                                             saveSettingsTimer->start(); } }
 
     // quickInfoHideCounter
     Q_PROPERTY(bool   quickInfoHideCounter
@@ -1326,6 +1348,8 @@ signals:
     void pixmapCacheChanged(int val);
     void showTransparencyMarkerBackgroundChanged(bool val);
     void leftButtonMouseClickAndMoveChanged(bool val);
+    void pdfSingleDocumentChanged(bool val);
+    void pdfQualityChanged(int val);
 
     void quickInfoHideCounterChanged(bool val);
     void quickInfoHideFilepathChanged(bool val);

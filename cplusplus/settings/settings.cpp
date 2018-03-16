@@ -119,6 +119,8 @@ void Settings::setDefault() {
     setShowTransparencyMarkerBackground(false);
     setStartupLoadLastLoadedImage(false);
     setMainMenuWindowWidth(350);
+    setPdfSingleDocument(true);
+    setPdfQuality(150);
 
     setQuickInfoHideCounter(false);
     setQuickInfoHideFilepath(true);
@@ -268,6 +270,8 @@ void Settings::saveSettings() {
         cont += QString("PixmapCache=%1\n").arg(m_pixmapCache);
         cont += QString("ShowTransparencyMarkerBackground=%1\n").arg(int(m_showTransparencyMarkerBackground));
         cont += QString("LeftButtonMouseClickAndMove=%1\n").arg(int(m_leftButtonMouseClickAndMove));
+        cont += QString("PdfSingleDocument=%1\n").arg(int(m_pdfSingleDocument));
+        cont += QString("PdfQuality=%1\n").arg(m_pdfQuality);
 
         cont += "\n[QuickInfo]\n";
 
@@ -496,6 +500,12 @@ void Settings::readSettings() {
 
             else if(line.startsWith("LeftButtonMouseClickAndMove="))
                 setLeftButtonMouseClickAndMove(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("PdfSingleDocument="))
+                setPdfSingleDocument(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("PdfQuality="))
+                setPdfQuality(line.split("=").at(1).toInt());
 
 
             else if(line.startsWith("QuickInfoHideCounter="))
