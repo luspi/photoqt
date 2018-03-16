@@ -31,7 +31,7 @@ GetAndDoStuffListFiles::~GetAndDoStuffListFiles() {
     delete imageformats;
 }
 
-QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, int selectionFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize, bool pdfLoadAllPage, bool loadSinglePdf) {
+QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, int selectionFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize, bool pdfLoadAllPages, bool loadSinglePdf) {
 
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE << "GetAndDoStuffOpenFile::getAllFilesIn() - " << file.toStdString() << " / "
@@ -48,7 +48,7 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, int selectionFi
 #endif
 
 #ifdef POPPLER
-    if(loadSinglePdf) {
+    if(loadSinglePdf && file.endsWith(".pdf")) {
         QVariantList ret;
         if(loadOnlyPdfPages(file, &ret))
             return ret;
@@ -110,9 +110,9 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, int selectionFi
             for(QFileInfo l : list) {
                 QString fn = l.fileName().trimmed();
                 if(fn.endsWith(filter) && fn != "") {
-                    bool pdfloaded = false;
+                    bool pdfloaded = (loadSinglePdf&&fn.endsWith(".pdf"));
 #ifdef POPPLER
-                    if(pdfLoadAllPage) {
+                    if(pdfLoadAllPages && !loadSinglePdf) {
                         if(fn.endsWith(".pdf") || fn.endsWith(".epdf")) {
                             loadAllPdfPages(l, &ret);
                             pdfloaded = true;
@@ -127,9 +127,9 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, int selectionFi
             for(QFileInfo l : list) {
                 QString fn = l.fileName().trimmed();
                 if(fn.contains(filter) && fn != "") {
-                    bool pdfloaded = false;
+                    bool pdfloaded = (loadSinglePdf&&fn.endsWith(".pdf"));
 #ifdef POPPLER
-                    if(pdfLoadAllPage) {
+                    if(pdfLoadAllPages && !loadSinglePdf) {
                         if(fn.endsWith(".pdf") || fn.endsWith(".epdf")) {
                             loadAllPdfPages(l, &ret);
                             pdfloaded = true;
@@ -144,9 +144,9 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, int selectionFi
             for(QFileInfo l : list) {
                 QString fn = l.fileName().trimmed();
                 if(fn != "") {
-                    bool pdfloaded = false;
+                    bool pdfloaded = (loadSinglePdf&&fn.endsWith(".pdf"));
 #ifdef POPPLER
-                    if(pdfLoadAllPage) {
+                    if(pdfLoadAllPages && !loadSinglePdf) {
                         if(fn.endsWith(".pdf") || fn.endsWith(".epdf")) {
                             loadAllPdfPages(l, &ret);
                             pdfloaded = true;
