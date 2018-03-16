@@ -560,14 +560,14 @@ public:
                                                                            saveSettingsTimer->start(); } }
 
     // pdfSingleDocument
-    Q_PROPERTY(bool   pdfQuality
+    Q_PROPERTY(int    pdfQuality
                READ   getPdfQuality
                WRITE  setPdfQuality
                NOTIFY pdfQualityChanged)
-    bool getPdfQuality() { return m_pdfQuality; }
-    void setPdfQuality(bool val) { if(val != m_pdfQuality) { m_pdfQuality = val;
-                                                             emit pdfQualityChanged(val);
-                                                             saveSettingsTimer->start(); } }
+    int  getPdfQuality() { return m_pdfQuality; }
+    void setPdfQuality(int val) { if(val != m_pdfQuality) { m_pdfQuality = val;
+                                                            emit pdfQualityChanged(val);
+                                                            saveSettingsTimer->start(); } }
 
     // quickInfoHideCounter
     Q_PROPERTY(bool   quickInfoHideCounter
