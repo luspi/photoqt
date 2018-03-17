@@ -142,8 +142,11 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[3].insert("*.dicom"      , QStringList() << "dic" << "Digital Imaging and Communications in Medicine (DICOM) image"  << "1");
     setupAvailable[3].insert("*.dic"        , QStringList() << "dic" << "Digital Imaging and Communications in Medicine (DICOM) image"  << "1");
     setupAvailable[3].insert("*.dpx"        , QStringList() << "dpx" << "Digital Moving Picture Exchange"               << "1");
-    setupAvailable[3].insert("*.epdf"       , QStringList() << "pdf" << "Encapsulated Portable Document Format"         << "0");
-    setupAvailable[3].insert("*.fig"        , QStringList() << "fig" << "FIG graphics format"                           << "1");
+    setupAvailable[3].insert("*.g3"         , QStringList() << "fax" << "Group 3 FAX"                                   << "1");
+    setupAvailable[3].insert("*.fax"        , QStringList() << "fax" << "Group 3 FAX"                                   << "1");
+    setupAvailable[3].insert("*.gp3"        , QStringList() << "fax" << "Group 3 FAX"                                   << "1");
+    setupAvailable[3].insert("*.cg3"        , QStringList() << "fax" << "Group 3 FAX"                                   << "1");
+    setupAvailable[3].insert("*.g4"         , QStringList() << "fax" << "Group 4 FAX"                                   << "1");
     setupAvailable[3].insert("*.fits"       , QStringList() << "fit" << "Flexible Image Transport System"               << "1");
     setupAvailable[3].insert("*.fit"        , QStringList() << "fit" << "Flexible Image Transport System"               << "1");
     setupAvailable[3].insert("*.fts"        , QStringList() << "fit" << "Flexible Image Transport System"               << "1");
@@ -182,6 +185,7 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[3].insert("*.alb"        , QStringList() << "pwp" << "Seattle File Works image"                      << "1");
     setupAvailable[3].insert("*.pwp"        , QStringList() << "pwp" << "Seattle File Works image"                      << "1");
     setupAvailable[3].insert("*.pwm"        , QStringList() << "pwp" << "Seattle File Works image"                      << "1");
+    setupAvailable[3].insert("*.pix"        , QStringList() << "pix" << "Alias/Wavefront RLE image format"              << "1");
     setupAvailable[3].insert("*.rla"        , QStringList() << "rla" << "Wavefront RLA File Format"                     << "1");
     setupAvailable[3].insert("*.rle"        , QStringList() << "rle" << "Utah Run length encoded image file"            << "1");
     setupAvailable[3].insert("*.sgi"        , QStringList() << "sgi" << "Irix RGB image"                                << "1");
@@ -230,6 +234,8 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[3].insert("*.ico"        , QStringList() << "ico" << "Microsoft icon"                                << "0");
     setupAvailable[3].insert("*.cgm"        , QStringList() << "cgm" << "Computer Graphics Metafile"                    << "0");
     setupAvailable[3].insert("*.cur"        , QStringList() << "cur" << "Microsoft Cursor Icon"                         << "0");
+    setupAvailable[3].insert("*.dcx"        , QStringList() << "dcx" << "DR HaloZSoft IBM PC multi-page Paintbrush image"   << "0");
+    setupAvailable[3].insert("*.fig"        , QStringList() << "fig" << "FIG graphics format"                           << "0");
     setupAvailable[3].insert("*.man"        , QStringList() << "man" << "Unix reference manual pages"                   << "0");
     setupAvailable[3].insert("*.mvg"        , QStringList() << "mtv" << "Magick Vector Graphics"                        << "0");
     setupAvailable[3].insert("*.svg"        , QStringList() << "svg" << "Scalable Vector Graphics"                      << "0");
@@ -253,6 +259,7 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[4].insert("*.eps"        , QStringList() << "pse" << "Adobe Encapsulated PostScript"                     << "0");
     setupAvailable[4].insert("*.epsf"       , QStringList() << "pse" << "Adobe Encapsulated PostScript"                     << "0");
     setupAvailable[4].insert("*.ept"        , QStringList() << "ept" << "Adobe Encapsulated PostScript Interchange format with TIFF preview" << "0");
+    setupAvailable[4].insert("*.epdf"       , QStringList() << "pdf" << "Encapsulated Portable Document Format"             << "0");
     setupAvailable[4].insert("*.pdf"        , QStringList() << "pdf" << "Portable Document Format"                          << "0");
     setupAvailable[4].insert("*.ps"         , QStringList() << "ps " << "Adobe PostScript file"                             << "0");
     setupAvailable[4].insert("*.ps2"        , QStringList() << "ps " << "Adobe Level II PostScript file"                    << "0");
