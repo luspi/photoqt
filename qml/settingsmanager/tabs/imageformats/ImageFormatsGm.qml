@@ -37,18 +37,26 @@ EntryContainer {
 
         EntryTitle {
 
+            enabled: getanddostuff.isGraphicsMagickSupportEnabled()
+
             id: titletext
             title: em.pty+qsTr("GraphicsMagick")
             helptext: em.pty+qsTr("GraphicsMagick calls itself the 'swiss army knife of image processing'. It supports a wide variety of image formats, and PhotoQt can display the vast majority of them.") +
                       "<br><br>" +
                       em.pty+qsTr("Use left click to check/uncheck an individual entry, and right click to check/uncheck all endings related to the same image type.")
             imageSource: "qrc:/img/settings/imageformats/gm.png"
+            fontcolor: enabled ? colour.text : colour.text_disabled
 
         }
 
         EntrySetting {
 
+            enabled: getanddostuff.isGraphicsMagickSupportEnabled()
+
             Row {
+
+                id: entryrow
+                y: height/2
 
                 spacing: 10
 
@@ -73,6 +81,18 @@ EntryContainer {
                     text: em.pty+qsTr("There are currently %1 file endings selected").arg("<b>"+formatsPopup.numItemsChecked+"</b>")
                 }
 
+            }
+
+            Text {
+                width: entryrow.width
+                height: entryrow.height*2
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                font.pointSize: 20
+                font.bold: true
+                visible: !getanddostuff.isGraphicsMagickSupportEnabled()
+                color: "white"
+                text: em.pty+qsTr("UNAVAILABLE")
             }
 
         }

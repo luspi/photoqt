@@ -51,7 +51,7 @@ Rectangle {
             height: imageSource!=""?top.imageHeight:0
             visible: imageSource!=""
             mipmap: true
-            opacity: enabled ? 1 : 0.5
+            opacity: enabled ? 1 : 0.3
         }
 
         Text {

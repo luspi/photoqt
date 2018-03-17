@@ -97,7 +97,7 @@ EntryContainer {
                 font.bold: true
                 visible: !getanddostuff.isPopplerSupportEnabled()
                 color: "white"
-                text: "DISABLED"
+                text: em.pty+qsTr("UNAVAILABLE")
             }
 
         }

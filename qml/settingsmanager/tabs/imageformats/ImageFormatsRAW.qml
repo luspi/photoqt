@@ -37,18 +37,26 @@ EntryContainer {
 
         EntryTitle {
 
+            enabled: getanddostuff.isLibRawSupportEnabled()
+
             id: titletext
             title: em.pty+qsTr("RAW images")
             helptext: em.pty+qsTr("With the help of libraw PhotoQt can display almost any raw image that exists.") +
                       "<br><br>" +
                       em.pty+qsTr("Use left click to check/uncheck an individual entry, and right click to check/uncheck all endings related to the same image type.")
             imageSource: "qrc:/img/settings/imageformats/empty.png"
+            fontcolor: enabled ? colour.text : colour.text_disabled
 
         }
 
         EntrySetting {
 
+            enabled: getanddostuff.isLibRawSupportEnabled()
+
             Row {
+
+                id: entryrow
+                y: height/2
 
                 spacing: 10
 
@@ -73,6 +81,18 @@ EntryContainer {
                     text: em.pty+qsTr("There are currently %1 file endings selected").arg("<b>"+formatsPopup.numItemsChecked+"</b>")
                 }
 
+            }
+
+            Text {
+                width: entryrow.width
+                height: entryrow.height*2
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                font.pointSize: 20
+                font.bold: true
+                visible: !getanddostuff.isLibRawSupportEnabled()
+                color: "white"
+                text: em.pty+qsTr("UNAVAILABLE")
             }
 
         }
