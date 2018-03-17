@@ -67,6 +67,7 @@ public:
     bool isLibRawSupportEnabled();
     bool isDevILSupportEnabled();
     bool isFreeImageSupportEnabled();
+    bool isPopplerSupportEnabled();
     QString getVersionString();
     void storeGeometry(QRect rect);
     QRect getStoredGeometry();

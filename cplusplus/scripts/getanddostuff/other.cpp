@@ -136,6 +136,12 @@ bool GetAndDoStuffOther::isFreeImageSupportEnabled() {
     return false;
 }
 
+bool GetAndDoStuffOther::isPopplerSupportEnabled() {
+#ifdef POPPLER
+    return true;
+#endif
+    return false;
+}
 
 QString GetAndDoStuffOther::getVersionString() {
     return VERSION;
