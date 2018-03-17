@@ -46,15 +46,6 @@
         <file>../qml/settingsmanager/tabs/metadata/Opacity.qml</file>
         <file>../qml/settingsmanager/tabs/metadata/RotateFlip.qml</file>
         <file>../qml/settingsmanager/tabs/metadata/OnlineMap.qml</file>
-        <file>../qml/settingsmanager/tabs/TabFileformats.qml</file>
-        <file>../qml/settingsmanager/tabs/fileformats/FileformatsTile.qml</file>
-        <file>../qml/settingsmanager/tabs/fileformats/FileformatsQt.qml</file>
-        <file>../qml/settingsmanager/tabs/fileformats/FileformatsExtras.qml</file>
-        <file>../qml/settingsmanager/tabs/fileformats/FileformatsGm.qml</file>
-        <file>../qml/settingsmanager/tabs/fileformats/FileformatsGmGhostscript.qml</file>
-        <file>../qml/settingsmanager/tabs/fileformats/FileformatsRAW.qml</file>
-        <file>../qml/settingsmanager/tabs/fileformats/FileformatsDevIL.qml</file>
-        <file>../qml/settingsmanager/tabs/fileformats/FileformatsFreeImage.qml</file>
         <file>../qml/settingsmanager/tabs/TabImageFormats.qml</file>
         <file>../qml/settingsmanager/tabs/imageformats/Popup.qml</file>
         <file>../qml/settingsmanager/tabs/imageformats/ImageFormatsTile.qml</file>

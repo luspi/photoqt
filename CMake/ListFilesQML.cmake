@@ -28,10 +28,7 @@ SET(d "qml/settingsmanager")
 SET(photoqt_QML ${photoqt_QML} ${d}/DetectShortcut.qml ${d}/EntryContainer.qml ${d}/EntrySetting.qml ${d}/EntryTitle.qml ${d}/ExportImport.qml ${d}/SettingInfoOverlay.qml ${d}/SettingsManager.qml)
 
 SET(d "qml/settingsmanager/tabs")
-SET(photoqt_QML ${photoqt_QML} ${d}/TabFileformats.qml ${d}/TabLookAndFeel.qml ${d}/TabMetadata.qml ${d}/TabOther.qml ${d}/TabShortcuts.qml ${d}/TabThumbnails.qml ${d}/TabImageFormats.qml)
-
-SET(d "qml/settingsmanager/tabs/fileformats")
-SET(photoqt_QML ${photoqt_QML} ${d}/FileformatsTile.qml ${d}/FileformatsQt.qml ${d}/FileformatsExtras.qml ${d}/FileformatsGm.qml ${d}/FileformatsGmGhostscript.qml ${d}/FileformatsRAW.qml ${d}/FileformatsDevIL.qml ${d}/FileformatsFreeImage.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/TabLookAndFeel.qml ${d}/TabMetadata.qml ${d}/TabOther.qml ${d}/TabShortcuts.qml ${d}/TabThumbnails.qml ${d}/TabImageFormats.qml)
 
 SET(d "qml/settingsmanager/tabs/imageformats")
 SET(photoqt_QML ${photoqt_QML} ${d}/Popup.qml ${d}/ImageFormatsTile.qml ${d}/ImageFormatsQt.qml ${d}/ImageFormatsXCFTools.qml ${d}/ImageFormatsPoppler.qml ${d}/ImageFormatsGm.qml ${d}/ImageFormatsGmGhostscript.qml ${d}/ImageFormatsRAW.qml ${d}/ImageFormatsDevil.qml ${d}/ImageFormatsFreeImage.qml)
