@@ -85,6 +85,11 @@ Rectangle {
             ImageFormatsQt { id: imageformatsqt }
             ImageFormatsXCFTools { id: imageformatsxcftools }
             ImageFormatsPoppler { id: imageformatspoppler }
+            ImageFormatsGm { id: imageformatsgm }
+            ImageFormatsGmGhostscript { id: imageformatsgmghostscript }
+            ImageFormatsRAW { id: imageformatsraw }
+            ImageFormatsDevil { id: imageformatsdevil }
+            ImageFormatsFreeImage { id: imageformatsfreeimage }
 
         }
 
@@ -97,6 +102,11 @@ Rectangle {
         imageformatsqt.setData()
         imageformatsxcftools.setData()
         imageformatspoppler.setData()
+        imageformatsgm.setData()
+        imageformatsgmghostscript.setData()
+        imageformatsraw.setData()
+        imageformatsdevil.setData()
+        imageformatsfreeimage.setData()
 
     }
 
@@ -107,6 +117,11 @@ Rectangle {
         imageformatsqt.saveData()
         imageformatsxcftools.saveData()
         imageformatspoppler.saveData()
+        imageformatsgm.saveData()
+        imageformatsgmghostscript.saveData()
+        imageformatsraw.saveData()
+        imageformatsdevil.saveData()
+        imageformatsfreeimage.saveData()
 
     }
 

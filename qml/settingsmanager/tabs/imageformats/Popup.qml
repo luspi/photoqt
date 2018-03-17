@@ -142,8 +142,10 @@ Rectangle {
                 margins: 10
             }
 
-            cellWidth: 200
+            cellWidth: 125
             cellHeight: 30+spacing*2
+
+            clip: true
 
             property var available: popuptop.availableFormats
 

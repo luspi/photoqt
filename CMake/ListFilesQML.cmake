@@ -34,7 +34,7 @@ SET(d "qml/settingsmanager/tabs/fileformats")
 SET(photoqt_QML ${photoqt_QML} ${d}/FileformatsTile.qml ${d}/FileformatsQt.qml ${d}/FileformatsExtras.qml ${d}/FileformatsGm.qml ${d}/FileformatsGmGhostscript.qml ${d}/FileformatsRAW.qml ${d}/FileformatsDevIL.qml ${d}/FileformatsFreeImage.qml)
 
 SET(d "qml/settingsmanager/tabs/imageformats")
-SET(photoqt_QML ${photoqt_QML} ${d}/Popup.qml ${d}/ImageFormatsTile.qml ${d}/ImageFormatsQt.qml ${d}/ImageFormatsXCFTools.qml ${d}/ImageFormatsPoppler.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/Popup.qml ${d}/ImageFormatsTile.qml ${d}/ImageFormatsQt.qml ${d}/ImageFormatsXCFTools.qml ${d}/ImageFormatsPoppler.qml ${d}/ImageFormatsGm.qml ${d}/ImageFormatsGmGhostscript.qml ${d}/ImageFormatsRAW.qml ${d}/ImageFormatsDevil.qml ${d}/ImageFormatsFreeImage.qml)
 
 SET(d "qml/settingsmanager/tabs/lookandfeel")
 SET(photoqt_QML ${photoqt_QML} ${d}/Animation.qml ${d}/Background.qml ${d}/BorderAroundImage.qml ${d}/CloseOnClick.qml ${d}/ClosingX.qml ${d}/FitInWindow.qml ${d}/HotEdge.qml ${d}/Interpolation.qml ${d}/Keep.qml ${d}/Loop.qml ${d}/MouseWheelSensitivity.qml ${d}/OverlayColor.qml ${d}/PixmapCache.qml ${d}/Quickinfo.qml ${d}/ReOpenFile.qml ${d}/SortBy.qml ${d}/Transition.qml ${d}/TrayIcon.qml ${d}/WindowMode.qml ${d}/TransparencyMarker.qml)

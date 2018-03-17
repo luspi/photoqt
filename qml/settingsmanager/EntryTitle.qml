@@ -32,6 +32,8 @@ Rectangle {
     property string helptext: ""
     property bool helptext_warning: false
 
+    property string fontcolor: colour.text
+
     property string imageSource: ""
     property int imageHeight: titletext.height*1.5
 
@@ -49,12 +51,13 @@ Rectangle {
             height: imageSource!=""?top.imageHeight:0
             visible: imageSource!=""
             mipmap: true
+            opacity: enabled ? 1 : 0.5
         }
 
         Text {
             id: titletext
             y: (parent.height-height)/2
-            color: colour.text
+            color: top.fontcolor
             font.pointSize: 12
             font.bold: true
             textFormat: Text.RichText
