@@ -62,7 +62,7 @@ EntryContainer {
 
                 CustomButton {
                     //: Used as in 'Use set of default file endings'
-                    text: em.pty+qsTr("Use default")
+                    text: em.pty+qsTr("Use default formats")
                     onClickedButton: formatsPopup.setDefault()
                 }
                 CustomButton {
