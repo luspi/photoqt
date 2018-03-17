@@ -113,6 +113,8 @@ EntryContainer {
                 formatsPopup.enabledFormats = imageformats.enabledFileformatsGm
         }
 
+        onVisibleChanged: settings_top.imageFormatsAdvancedTuningPopupVisible = visible
+
     }
 
     function setData() {

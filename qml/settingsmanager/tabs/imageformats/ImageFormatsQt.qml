@@ -93,6 +93,8 @@ EntryContainer {
                 formatsPopup.enabledFormats = imageformats.enabledFileformatsQt
         }
 
+        onVisibleChanged: settings_top.imageFormatsAdvancedTuningPopupVisible = visible
+
     }
 
     function setData() {

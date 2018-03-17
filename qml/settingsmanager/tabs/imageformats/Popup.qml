@@ -236,6 +236,11 @@ Rectangle {
 
     }
 
+    Connections {
+        target: settings_top
+        onImageFormatsHidePopup: hide()
+    }
+
     function setDefault() {
         resetDefaultItems()
     }

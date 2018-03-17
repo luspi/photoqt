@@ -46,6 +46,9 @@ Rectangle {
 
     property alias settingsDetectShortcuts: detectshortcut
 
+    property bool imageFormatsAdvancedTuningPopupVisible: false
+    signal imageFormatsHidePopup()
+
     // setData is only emitted when settings have been 'closed without saving'
     // See comment above 'setData_restore()' function below
     signal setData()
@@ -496,6 +499,8 @@ Rectangle {
             exportimport.hide()
         else if(settingsinfooverlay.visible)
             settingsinfooverlay.hide()
+        else if(imageFormatsAdvancedTuningPopupVisible)
+            imageFormatsHidePopup()
         else {
             opacity = 0
             if(variables.currentFile === "" )
@@ -522,6 +527,8 @@ Rectangle {
             exportimport.hide()
         if(settingsinfooverlay.opacity == 1)
             settingsinfooverlay.hide()
+        if(imageFormatsAdvancedTuningPopupVisible)
+            imageFormatsHidePopup()
         opacity = 0
         variables.guiBlocked = false
     }
