@@ -13,7 +13,7 @@ public:
     GetAndDoStuffListFiles(QObject *parent = 0);
     ~GetAndDoStuffListFiles();
 
-    QVariantList getAllFilesIn(QString file, int selectionFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize, bool pdfLoadAllPage, bool loadSinglePdf);
+    QVariantList getAllFilesIn(QString file, QString categoryFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize, bool pdfLoadAllPage, bool loadSinglePdf);
 
     int getTotalNumberOfPagesOfPdf(QString file);
 
@@ -21,7 +21,7 @@ private:
     ImageFormats *imageformats;
     void loadAllPdfPages(QFileInfo l, QVariantList *list);
     bool loadOnlyPdfPages(QString file, QVariantList *list);
-    QFileInfoList getEntryList(QString file, int selectionFileTypes, bool showHidden);
+    QFileInfoList getEntryList(QString file, QString categoryFileTypes, bool showHidden);
 
 };
 

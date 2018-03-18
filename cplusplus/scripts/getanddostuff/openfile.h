@@ -44,7 +44,7 @@ public:
     explicit GetAndDoStuffOpenFile(QObject *parent = 0);
     ~GetAndDoStuffOpenFile();
 
-    int getNumberFilesInFolder(QString path, int selectionFileTypes);
+    int getNumberFilesInFolder(QString path, QString categoryFileTypes);
     QVariantList getUserPlaces();
     QVariantList getStorageInfo();
     QVariantList getFoldersIn(QString path, bool getDotDot = true, bool showHidden = false);

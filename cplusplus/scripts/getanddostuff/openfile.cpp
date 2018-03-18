@@ -29,23 +29,27 @@ GetAndDoStuffOpenFile::~GetAndDoStuffOpenFile() {
     delete imageformats;
 }
 
-int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path, int selectionFileTypes) {
+int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path, QString categoryFileTypes) {
 
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
-        LOG << CURDATE << "GetAndDoStuffOpenFile::getNumberFilesInFolder() - " << path.toStdString() << " / " << selectionFileTypes << NL;
+        LOG << CURDATE << "GetAndDoStuffOpenFile::getNumberFilesInFolder() - " << path.toStdString() << " / " << categoryFileTypes.toStdString() << NL;
 
     QDir dir(path);
-    if(selectionFileTypes == 0)
+    if(categoryFileTypes == "all")
         dir.setNameFilters(imageformats->getAllEnabledFileformats());
-    else if(selectionFileTypes == 1)
+    else if(categoryFileTypes == "qt")
         dir.setNameFilters(imageformats->getEnabledFileformatsQt());
-    else if(selectionFileTypes == 2)
+    else if(categoryFileTypes == "gm")
         dir.setNameFilters(imageformats->getEnabledFileformatsGm()+imageformats->getEnabledFileformatsGmGhostscript());
-    else if(selectionFileTypes == 3)
+    else if(categoryFileTypes == "raw")
         dir.setNameFilters(imageformats->getEnabledFileformatsRAW());
-    else if(selectionFileTypes == 4)
+    else if(categoryFileTypes == "devil")
         dir.setNameFilters(imageformats->getEnabledFileformatsDevIL());
-    else if(selectionFileTypes == 5)
+    else if(categoryFileTypes == "freeimage")
+        dir.setNameFilters(imageformats->getEnabledFileformatsFreeImage());
+    else if(categoryFileTypes == "poppler")
+        dir.setNameFilters(imageformats->getEnabledFileformatsPoppler());
+    else if(categoryFileTypes == "allfiles")
         dir.setNameFilters(QStringList() << "*.*");
     dir.setFilter(QDir::Files);
 

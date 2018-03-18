@@ -31,11 +31,11 @@ GetAndDoStuffListFiles::~GetAndDoStuffListFiles() {
     delete imageformats;
 }
 
-QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, int selectionFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize, bool pdfLoadAllPages, bool loadSinglePdf) {
+QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categoryFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize, bool pdfLoadAllPages, bool loadSinglePdf) {
 
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE << "GetAndDoStuffOpenFile::getAllFilesIn() - " << file.toStdString() << " / "
-                                                                      << selectionFileTypes << " / "
+                                                                      << categoryFileTypes.toStdString() << " / "
                                                                       << showHidden << " / "
                                                                       << sortby.toStdString() << " / "
                                                                       << sortbyAscending << NL;
@@ -58,7 +58,7 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, int selectionFi
     }
 #endif
 
-    QFileInfoList list = getEntryList(file, selectionFileTypes, showHidden);
+    QFileInfoList list = getEntryList(file, categoryFileTypes, showHidden);
 
     Sort::list(&list, sortby, sortbyAscending);
 
@@ -194,7 +194,7 @@ bool GetAndDoStuffListFiles::loadOnlyPdfPages(QString file, QVariantList *list) 
     return false;
 }
 
-QFileInfoList GetAndDoStuffListFiles::getEntryList(QString file, int selectionFileTypes, bool showHidden) {
+QFileInfoList GetAndDoStuffListFiles::getEntryList(QString file, QString categoryFileTypes, bool showHidden) {
 
     QFileInfo info(file);
 
@@ -204,17 +204,21 @@ QFileInfoList GetAndDoStuffListFiles::getEntryList(QString file, int selectionFi
     else
         dir.setPath(info.absolutePath());
 
-    if(selectionFileTypes == 0)
+    if(categoryFileTypes == "all")
         dir.setNameFilters(imageformats->getAllEnabledFileformats());
-    else if(selectionFileTypes == 1)
+    else if(categoryFileTypes == "qt")
         dir.setNameFilters(imageformats->getEnabledFileformatsQt());
-    else if(selectionFileTypes == 2)
+    else if(categoryFileTypes == "gm")
         dir.setNameFilters(imageformats->getEnabledFileformatsGm()+imageformats->getEnabledFileformatsGmGhostscript());
-    else if(selectionFileTypes == 3)
+    else if(categoryFileTypes == "raw")
         dir.setNameFilters(imageformats->getEnabledFileformatsRAW());
-    else if(selectionFileTypes == 4)
+    else if(categoryFileTypes == "devil")
         dir.setNameFilters(imageformats->getEnabledFileformatsDevIL());
-    else if(selectionFileTypes == 5)
+    else if(categoryFileTypes == "freeimage")
+        dir.setNameFilters(imageformats->getEnabledFileformatsFreeImage());
+    else if(categoryFileTypes == "poppler")
+        dir.setNameFilters(imageformats->getEnabledFileformatsPoppler());
+    else if(categoryFileTypes == "allfiles")
         dir.setNameFilters(QStringList() << "*.*");
 
     if(showHidden)

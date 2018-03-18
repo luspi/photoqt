@@ -130,7 +130,7 @@ public:
     Q_INVOKABLE QList<int> getEnlightenmentWorkspaceCount() { return wallpaper->getEnlightenmentWorkspaceCount(); }
 
     // OPENFILE
-    Q_INVOKABLE int getNumberFilesInFolder(QString path, int selectionFileTypes) { return this->openfile->getNumberFilesInFolder(path, selectionFileTypes); }
+    Q_INVOKABLE int getNumberFilesInFolder(QString path, QString categoryFileTypes) { return this->openfile->getNumberFilesInFolder(path, categoryFileTypes); }
     Q_INVOKABLE QVariantList getUserPlaces() { return this->openfile->getUserPlaces(); }
     Q_INVOKABLE QVariantList getStorageInfo() { return this->openfile->getStorageInfo(); }
     Q_INVOKABLE QVariantList getFoldersIn(QString path, bool getDotDot = true, bool showHidden = false) { return this->openfile->getFoldersIn(path, getDotDot, showHidden); }
@@ -144,7 +144,7 @@ public:
     Q_INVOKABLE bool isSupportedImageType(QString path) { return openfile->isSupportedImageType(path); }
 
     // LISTFILES
-    Q_INVOKABLE QVariantList getAllFilesIn(QString file, int selectionFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize, bool pdfLoadAllPages, bool loadSinglePdf) { return this->listfiles->getAllFilesIn(file, selectionFileTypes, filter, showHidden, sortby, sortbyAscending, includeSize, pdfLoadAllPages, loadSinglePdf); }
+    Q_INVOKABLE QVariantList getAllFilesIn(QString file, QString categoryFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize, bool pdfLoadAllPages, bool loadSinglePdf) { return this->listfiles->getAllFilesIn(file, categoryFileTypes, filter, showHidden, sortby, sortbyAscending, includeSize, pdfLoadAllPages, loadSinglePdf); }
     Q_INVOKABLE int getTotalNumberOfPagesOfPdf(QString file) { return listfiles->getTotalNumberOfPagesOfPdf(file); }
 
 private:

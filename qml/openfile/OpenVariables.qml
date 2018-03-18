@@ -44,8 +44,8 @@ Item {
     property var currentDirectoryFolders: []
     property var currentDirectoryFiles: []
 
-    property int filesFileTypeSelection: 0
-    onFilesFileTypeSelectionChanged: {
+    property string filesFileTypeCategorySelected: "all"
+    onFilesFileTypeCategorySelectedChanged: {
         Handle.loadDirectoryFiles()
         Handle.loadDirectoryFolders()
     }

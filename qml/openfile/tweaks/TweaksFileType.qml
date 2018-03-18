@@ -42,18 +42,44 @@ Rectangle {
         showBorder: false
         currentIndex: 0
         onCurrentIndexChanged:
-            openvariables.filesFileTypeSelection = currentIndex
-        model: ["[B]"+em.pty+qsTr("All supported images"),
-            "---SEP---",
+            openvariables.filesFileTypeCategorySelected = allfiletypes[currentIndex]
+        property var allfiletypes: []
+        model: []
+        Component.onCompleted: {
+            model.push("[B]"+em.pty+qsTr("All supported images"))
+            allfiletypes.push("all")
+            model.push("---SEP---")
             //: Used as in 'Qt images'
-            "Qt " + em.pty+qsTr("images"),
-            //: Used as in 'GraphicsMagick images'
-            "GraphicsMagick " + em.pty+qsTr("images"),
+            model.push("Qt " + em.pty+qsTr("images"))
+            allfiletypes.push("qt")
+            if(getanddostuff.isGraphicsMagickSupportEnabled()) {
+                //: Used as in 'GraphicsMagick images'
+                model.push("GraphicsMagick " + em.pty+qsTr("images"))
+                allfiletypes.push("gm")
+            }
             //: Used as in 'LibRaw images'
-            "LibRaw " + em.pty+qsTr("images"),
+            if(getanddostuff.isLibRawSupportEnabled()) {
+                model.push("LibRaw " + em.pty+qsTr("images"))
+                allfiletypes.push("raw")
+            }
             //: Used as in 'DevIL images'
-            "DevIL " + em.pty+qsTr("images"),
-            em.pty+qsTr("All files")]
+            if(getanddostuff.isDevILSupportEnabled()) {
+                model.push("DevIL " + em.pty+qsTr("images"))
+                allfiletypes.push("devil")
+            }
+            //: Used as in 'FreeImage images'
+            if(getanddostuff.isFreeImageSupportEnabled()) {
+                model.push("FreeImage " + em.pty+qsTr("images"))
+                allfiletypes.push("freeimage")
+            }
+            //: Used as in 'Poppler documents'
+            if(getanddostuff.isPopplerSupportEnabled()) {
+                model.push("Poppler " + em.pty+qsTr("documents"))
+                allfiletypes.push("poppler")
+            }
+            model.push(em.pty+qsTr("All files"))
+            allfiletypes.push("allfiles")
+        }
     }
 
 }

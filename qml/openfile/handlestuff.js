@@ -112,9 +112,9 @@ function loadDirectoryFolders() {
     for(var j = 0; j < openvariables.currentDirectoryFolders.length; ++j)
         folders.folderListView.model.append({"folder" : openvariables.currentDirectoryFolders[j],
                                              "path" : openvariables.currentDirectory+"/"+openvariables.currentDirectoryFolders[j],
-                                             "counter" : getanddostuff.getNumberFilesInFolder(openvariables.currentDirectory
-                                                                                              + "/"
-                                                                                              + openvariables.currentDirectoryFolders[j], openvariables.filesFileTypeSelection),
+                                             "counter" : getanddostuff.getNumberFilesInFolder(openvariables.currentDirectory + "/" +
+                                                                                              openvariables.currentDirectoryFolders[j],
+                                                                                              openvariables.filesFileTypeCategorySelected),
                                              "icon" : "folder",
                                              "id" : "",
                                              "hidden" : "false",
@@ -136,7 +136,7 @@ function loadDirectoryFiles() {
     }
     filesview.showUnsupportedProtocolFolderMessage = false
 
-    openvariables.currentDirectoryFiles = getanddostuff.getAllFilesIn(openvariables.currentDirectory, openvariables.filesFileTypeSelection, "", settings.openShowHiddenFilesFolders, settings.sortby, settings.sortbyAscending, true, false, false)
+    openvariables.currentDirectoryFiles = getanddostuff.getAllFilesIn(openvariables.currentDirectory, openvariables.filesFileTypeCategorySelected, "", settings.openShowHiddenFilesFolders, settings.sortby, settings.sortbyAscending, true, false, false)
 
     filesview.filesView.contentY = 0
     for(var j = 0; j < openvariables.currentDirectoryFiles.length; j+=2)
