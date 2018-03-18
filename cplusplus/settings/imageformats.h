@@ -116,10 +116,42 @@ public:
 
     Q_INVOKABLE QStringList getAllEnabledFileformats() {
         QStringList allFormats;
-        for(int i = 0; i < categories.length(); ++i) {
-            foreach(QVariant entry, enabledFileformats[i])
-                allFormats.append(entry.toString());
-        }
+
+        // Qt
+        foreach(QVariant entry, enabledFileformats[categories.indexOf("qt")])
+            allFormats.append(entry.toString());
+        // xcftools
+        foreach(QVariant entry, enabledFileformats[categories.indexOf("xcftools")])
+            allFormats.append(entry.toString());
+#ifdef POPPLER
+        // Poppler
+        foreach(QVariant entry, enabledFileformats[categories.indexOf("poppler")])
+            allFormats.append(entry.toString());
+#endif
+#ifdef GM
+        // GraphicsMagick
+        foreach(QVariant entry, enabledFileformats[categories.indexOf("gm")])
+            allFormats.append(entry.toString());
+        // GraphicsMagick+Ghostscript
+        foreach(QVariant entry, enabledFileformats[categories.indexOf("gmghostscript")])
+            allFormats.append(entry.toString());
+#endif
+#ifdef RAW
+        // RAW
+        foreach(QVariant entry, enabledFileformats[categories.indexOf("raw")])
+            allFormats.append(entry.toString());
+#endif
+#ifdef DEVIL
+        // DevIL
+        foreach(QVariant entry, enabledFileformats[categories.indexOf("devil")])
+            allFormats.append(entry.toString());
+#endif
+#ifdef FREEIMAGE
+        // FreeImage
+        foreach(QVariant entry, enabledFileformats[categories.indexOf("freeimage")])
+            allFormats.append(entry.toString());
+#endif
+
         return allFormats;
     }
 
