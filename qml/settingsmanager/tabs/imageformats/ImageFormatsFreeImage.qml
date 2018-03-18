@@ -31,16 +31,16 @@ EntryContainer {
 
     id: item_top
 
+    visible: getanddostuff.isFreeImageSupportEnabled()
+
     Row {
 
         spacing: 20
 
         EntryTitle {
 
-            enabled: getanddostuff.isFreeImageSupportEnabled()
-
             id: titletext
-            title: em.pty+qsTr("FreeImage image library")
+            title: "FreeImage image library"
             helptext: em.pty+qsTr("FreeImage is an open source image library supporting a number of image formats, many of which have been successfully tested in PhotoQt.") +
                       "<br><br>" +
                       em.pty+qsTr("Use left click to check/uncheck an individual entry, and right click to check/uncheck all endings related to the same image type.")
@@ -50,8 +50,6 @@ EntryContainer {
         }
 
         EntrySetting {
-
-            enabled: getanddostuff.isFreeImageSupportEnabled()
 
             Row {
 
@@ -81,18 +79,6 @@ EntryContainer {
                     text: em.pty+qsTr("There are currently %1 file endings selected").arg("<b>"+formatsPopup.numItemsChecked+"</b>")
                 }
 
-            }
-
-            Text {
-                width: entryrow.width
-                height: entryrow.height*2
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                font.pointSize: 20
-                font.bold: true
-                visible: !getanddostuff.isFreeImageSupportEnabled()
-                color: "white"
-                text: em.pty+qsTr("UNAVAILABLE")
             }
 
         }

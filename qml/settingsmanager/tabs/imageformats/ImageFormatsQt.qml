@@ -38,7 +38,7 @@ EntryContainer {
         EntryTitle {
 
             id: titletext
-            title: em.pty+qsTr("Qt image formats plugins")
+            title: "Qt plugins"
             helptext: em.pty+qsTr("These are all the image formats either natively supported by Qt or through an image formats plugins:") + " <b>qt5-imageformats, kimageformats, libqpsd</b>" +
                       "<br><br>" +
                       em.pty+qsTr("Use left click to check/uncheck an individual entry, and right click to check/uncheck all endings related to the same image type.")

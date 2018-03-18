@@ -65,9 +65,9 @@
         <file>img/contextmenu/checked_disabled.png</file>
         <file>img/contextmenu/unchecked_disabled.png</file>
         <file>img/settings/imageformats/qt.png</file>
-        <file>img/settings/imageformats/poppler.png</file>
-        <file>img/settings/imageformats/gm.png</file>
-        <file>img/settings/imageformats/devil.png</file>
+        <file>img/settings/imageformats/poppler.jpg</file>
+        <file>img/settings/imageformats/gm.jpg</file>
+        <file>img/settings/imageformats/devil.jpg</file>
         <file>img/settings/imageformats/freeimage.jpg</file>
         <file>img/settings/imageformats/empty.png</file>
     </qresource>

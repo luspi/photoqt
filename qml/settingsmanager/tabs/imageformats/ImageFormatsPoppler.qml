@@ -31,25 +31,23 @@ EntryContainer {
 
     id: item_top
 
+    visible: getanddostuff.isPopplerSupportEnabled()
+
     Row {
 
         spacing: 20
 
         EntryTitle {
 
-            enabled: getanddostuff.isPopplerSupportEnabled()
-
             id: titletext
-            title: "poppler: PDF"
+            title: "poppler: Adobe PDF"
             helptext: em.pty+qsTr("PhotoQt can take advantage of poppler to load PDF documents. It can either load them together with the rest of the picture (each page as one picture) or it can ignore such documents except when asked to open one, it wont load any other picture (like a document viewer).")
-            imageSource: "qrc:/img/settings/imageformats/poppler.png"
+            imageSource: "qrc:/img/settings/imageformats/poppler.jpg"
             fontcolor: enabled ? colour.text : colour.text_disabled
 
         }
 
         EntrySetting {
-
-            enabled: getanddostuff.isPopplerSupportEnabled()
 
             Row {
 
@@ -86,18 +84,6 @@ EntryContainer {
                     text: "High quality"
                 }
 
-            }
-
-            Text {
-                width: entryrow.width
-                height: entryrow.height*2
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                font.pointSize: 20
-                font.bold: true
-                visible: !getanddostuff.isPopplerSupportEnabled()
-                color: "white"
-                text: em.pty+qsTr("UNAVAILABLE")
             }
 
         }

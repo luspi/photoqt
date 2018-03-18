@@ -31,27 +31,25 @@ EntryContainer {
 
     id: item_top
 
+    visible: getanddostuff.isDevILSupportEnabled()
+
     Row {
 
         spacing: 20
 
         EntryTitle {
 
-            enabled: getanddostuff.isDevILSupportEnabled()
-
             id: titletext
-            title: em.pty+qsTr("DevIL - Developer's Image Library")
+            title: "DevIL - Developer's Image Library"
             helptext: em.pty+qsTr("The Developer's Image Library (DevIL) supports a large number of image formats, many of which have been successfully tested with PhotoQt.") +
                       "<br><br>" +
                       em.pty+qsTr("Use left click to check/uncheck an individual entry, and right click to check/uncheck all endings related to the same image type.")
-            imageSource: "qrc:/img/settings/imageformats/devil.png"
+            imageSource: "qrc:/img/settings/imageformats/devil.jpg"
             fontcolor: enabled ? colour.text : colour.text_disabled
 
         }
 
         EntrySetting {
-
-            enabled: getanddostuff.isDevILSupportEnabled()
 
             Row {
 
@@ -81,18 +79,6 @@ EntryContainer {
                     text: em.pty+qsTr("There are currently %1 file endings selected").arg("<b>"+formatsPopup.numItemsChecked+"</b>")
                 }
 
-            }
-
-            Text {
-                width: entryrow.width
-                height: entryrow.height*2
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                font.pointSize: 20
-                font.bold: true
-                visible: !getanddostuff.isDevILSupportEnabled()
-                color: "white"
-                text: em.pty+qsTr("UNAVAILABLE")
             }
 
         }
