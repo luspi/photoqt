@@ -50,6 +50,8 @@ namespace LoadImage {
 
             // Load poppler document and render to QImage
             Poppler::Document* document = Poppler::Document::load(filename);
+            document->setRenderHint(Poppler::Document::TextAntialiasing);
+            document->setRenderHint(Poppler::Document::Antialiasing);
             QImage ret = document->page(page)->renderToImage(pdfQuality, pdfQuality);
 
             // ensure it fits inside maxSize
