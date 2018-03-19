@@ -25,10 +25,12 @@
 
 GetAndDoStuffListFiles::GetAndDoStuffListFiles(QObject *parent) : QObject(parent) {
     imageformats = new ImageFormats;
+    mimetypes = new MimeTypes;
 }
 
 GetAndDoStuffListFiles::~GetAndDoStuffListFiles() {
     delete imageformats;
+    delete mimetypes;
 }
 
 QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categoryFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize, bool pdfLoadAllPages, bool loadSinglePdf) {
@@ -204,34 +206,59 @@ QFileInfoList GetAndDoStuffListFiles::getEntryList(QString file, QString categor
     else
         dir.setPath(info.absolutePath());
 
-    if(categoryFileTypes == "all")
-        dir.setNameFilters(imageformats->getAllEnabledFileformats());
-    else if(categoryFileTypes == "qt")
-        dir.setNameFilters(imageformats->getEnabledFileformatsQt());
-    else if(categoryFileTypes == "gm")
-        dir.setNameFilters(imageformats->getEnabledFileformatsGm()+imageformats->getEnabledFileformatsGmGhostscript());
-    else if(categoryFileTypes == "raw")
-        dir.setNameFilters(imageformats->getEnabledFileformatsRAW());
-    else if(categoryFileTypes == "devil")
-        dir.setNameFilters(imageformats->getEnabledFileformatsDevIL());
-    else if(categoryFileTypes == "freeimage")
-        dir.setNameFilters(imageformats->getEnabledFileformatsFreeImage());
-    else if(categoryFileTypes == "poppler")
-        dir.setNameFilters(imageformats->getEnabledFileformatsPoppler());
-    else if(categoryFileTypes == "allfiles")
-        dir.setNameFilters(QStringList() << "*.*");
-
     if(showHidden)
         dir.setFilter(QDir::Files|QDir::Hidden);
     else
         dir.setFilter(QDir::Files);
     dir.setSorting(QDir::IgnoreCase);
 
-    QFileInfoList list = dir.entryInfoList();
-    if(!list.contains(info) && !info.isDir() && !file.endsWith(".pdf") && !file.endsWith(".epdf"))
-        list.append(info);
+    QFileInfoList entrylist = dir.entryInfoList();
 
-    return list;
+    if(categoryFileTypes == "allfiles") {
+        if(!entrylist.contains(info) && !info.isDir() && !file.endsWith(".pdf") && !file.endsWith(".epdf"))
+            entrylist.append(info);
+        return entrylist;
+    }
+
+    QStringList checkForTheseFormats;
+    QStringList checkForTheseMimeTypes;
+    if(categoryFileTypes == "all") {
+        checkForTheseFormats = imageformats->getAllEnabledFileformats();
+        checkForTheseMimeTypes = mimetypes->getAllEnabledMimeTypes();
+    } else if(categoryFileTypes == "qt") {
+        checkForTheseFormats = imageformats->getEnabledFileformatsQt();
+        checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesQt();
+    } else if(categoryFileTypes == "gm") {
+        checkForTheseFormats = imageformats->getEnabledFileformatsGm()+imageformats->getEnabledFileformatsGmGhostscript();
+        checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesGm()+mimetypes->getEnabledMimeTypesGmGhostscript();
+    } else if(categoryFileTypes == "raw") {
+        checkForTheseFormats = imageformats->getEnabledFileformatsRAW();
+        checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesRAW();
+    } else if(categoryFileTypes == "devil") {
+        checkForTheseFormats = imageformats->getEnabledFileformatsDevIL();
+        checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesDevIL();
+    } else if(categoryFileTypes == "freeimage") {
+        checkForTheseFormats = imageformats->getEnabledFileformatsFreeImage();
+        checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesFreeImage();
+    } else if(categoryFileTypes == "poppler") {
+        checkForTheseFormats = imageformats->getEnabledFileformatsPoppler();
+        checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesPoppler();
+    }
+
+    QFileInfoList retlist;
+
+    QMimeDatabase db;
+    foreach(QFileInfo entry, entrylist) {
+        if(checkForTheseFormats.contains("*." + entry.suffix().toLower()))
+            retlist.append(entry);
+        else if(checkForTheseMimeTypes.contains(db.mimeTypeForFile(entry.absoluteFilePath()).name()))
+            retlist.append(entry);
+    }
+
+    if(!retlist.contains(info) && !info.isDir() && !file.endsWith(".pdf") && !file.endsWith(".epdf"))
+        retlist.append(info);
+
+    return retlist;
 
 }
 

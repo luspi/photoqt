@@ -33,8 +33,10 @@
 #include <QCollator>
 #include "../../logger.h"
 #include "../../settings/imageformats.h"
+#include "../../settings/mimetypes.h"
 #include "../../settings/settings.h"
 #include <QStorageInfo>
+#include <QMimeDatabase>
 
 class GetAndDoStuffOpenFile : public QObject {
 
@@ -59,6 +61,7 @@ public:
 
 private:
     ImageFormats *imageformats;
+    MimeTypes *mimetypes;
 
 };
 

@@ -81,6 +81,7 @@ QString GetAndDoStuffExternal::exportConfig(QString useThisFilename) {
     QHash<QString,QString> allfiles;
     allfiles["CFG_SETTINGS_FILE"] = ConfigFiles::SETTINGS_FILE();
     allfiles["CFG_IMAGEFORMATS_FILE"] = ConfigFiles::IMAGEFORMATS_FILE();
+    allfiles["CFG_MIMEFORMATS_FILE"] = ConfigFiles::MIMEFORMATS_FILE();
     allfiles["CFG_CONTEXTMENU_FILE"] = ConfigFiles::CONTEXTMENU_FILE();
     allfiles["CFG_SHORTCUTS_FILE"] = ConfigFiles::SHORTCUTS_FILE();
 
@@ -125,6 +126,7 @@ QString GetAndDoStuffExternal::importConfig(QString filename) {
     QHash<QString,QString> allfiles;
     allfiles["CFG_SETTINGS_FILE"] = ConfigFiles::SETTINGS_FILE();
     allfiles["CFG_IMAGEFORMATS_FILE"] = ConfigFiles::IMAGEFORMATS_FILE();
+    allfiles["CFG_MIMEFORMATS_FILE"] = ConfigFiles::MIMEFORMATS_FILE();
     allfiles["CFG_CONTEXTMENU_FILE"] = ConfigFiles::CONTEXTMENU_FILE();
     allfiles["CFG_SHORTCUTS_FILE"] = ConfigFiles::SHORTCUTS_FILE();
 

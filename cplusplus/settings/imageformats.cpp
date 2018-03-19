@@ -72,8 +72,6 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     }
     if(imageReaderSup.contains("exr"))
         setupAvailable[0].insert("*.exr"        , QStringList() << "exr" << "OpenEXR"                                       << "1");
-    if(imageReaderSup.contains("kra"))
-        setupAvailable[0].insert("*.kra"        , QStringList() << "kra" << "Krita Document"                                << "1");
     if(imageReaderSup.contains("ora"))
         setupAvailable[0].insert("*.ora"        , QStringList() << "ora" << "Open Raster Image File"                        << "1");
     if(imageReaderSup.contains("pcx"))
@@ -100,6 +98,8 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
         setupAvailable[0].insert("*.webp"       , QStringList() << "wep" << "Google web image format"                       << "1");
 #endif
     // FAILS TO LOAD test image:
+    if(imageReaderSup.contains("kra"))
+        setupAvailable[0].insert("*.kra"        , QStringList() << "kra" << "Krita Document"                                << "1");
     if(imageReaderSup.contains("pic"))
         setupAvailable[0].insert("*.pic"        , QStringList() << "pic" << "Apple Macintosh QuickDraw/PICT file"           << "0");
     if(imageReaderSup.contains("ras"))
@@ -327,6 +327,7 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[6].insert("*.jpg"        , QStringList() << "jpg" << "Joint Photographic Experts Group JFIF format"  << "1");
     setupAvailable[6].insert("*.jpe"        , QStringList() << "jpg" << "Joint Photographic Experts Group JFIF format"  << "1");
     setupAvailable[6].insert("*.jpeg"       , QStringList() << "jpg" << "Joint Photographic Experts Group JFIF format"  << "1");
+    setupAvailable[6].insert("*.jp2"        , QStringList() << "jp2" << "JPEG-2000 JP2 File Format Syntax"              << "1");
     setupAvailable[6].insert("*.lbm"        , QStringList() << "lbm" << "Interlaced Bitmap"                             << "1");
     setupAvailable[6].insert("*.pcd"        , QStringList() << "pcd" << "Kodak PhotoCD"                                 << "1");
     setupAvailable[6].insert("*.png"        , QStringList() << "png" << "Portable Network Graphics"                     << "1");
@@ -359,7 +360,6 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[6].insert("*.dcx"        , QStringList() << "dcx" << "Multi-PCX"                                     << "0");
     setupAvailable[6].insert("*.dcm"        , QStringList() << "dic" << "Digital Imaging and Communications in Medicine (DICOM) image"  << "0");
     setupAvailable[6].insert("*.dicom"      , QStringList() << "dic" << "Digital Imaging and Communications in Medicine (DICOM) image"  << "0");
-    setupAvailable[6].insert("*.jp2"        , QStringList() << "jp2" << "JPEG-2000 JP2 File Format Syntax"              << "0");
     setupAvailable[6].insert("*.pcx"        , QStringList() << "pcx" << "ZSoft PCX"                                     << "0");
     setupAvailable[6].insert("*.pic"        , QStringList() << "pic" << "Softimage PIC"                                 << "0");
     setupAvailable[6].insert("*.pix"        , QStringList() << "pix" << "Alias | Wavefront"                             << "0");

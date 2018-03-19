@@ -27,6 +27,7 @@
 #include <QFileInfo>
 #include <QtSvg/QtSvg>
 #include "../settings/imageformats.h"
+#include "../settings/mimetypes.h"
 #include "../settings/slimsettingsreadonly.h"
 #include "../logger.h"
 
@@ -46,6 +47,7 @@ private:
     QSize maxSize;
     SlimSettingsReadOnly *settings;
     ImageFormats *imageformats;
+    MimeTypes *mimetypes;
 
     QPixmapCache *pixmapcache;
 

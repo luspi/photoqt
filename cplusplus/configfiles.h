@@ -63,6 +63,10 @@ public:
         return QString("%1/imageformats_disabled").arg(CONFIG_DIR());
     }
 
+    static const QString MIMEFORMATS_FILE() {
+        return QString("%1/mimeformats_disabled").arg(CONFIG_DIR());
+    }
+
     static const QString SHORTCUTS_FILE() {
         return QString("%1/shortcuts").arg(CONFIG_DIR());
     }

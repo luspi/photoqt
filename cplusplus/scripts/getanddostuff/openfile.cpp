@@ -24,9 +24,11 @@
 
 GetAndDoStuffOpenFile::GetAndDoStuffOpenFile(QObject *parent) : QObject(parent) {
     imageformats = new ImageFormats;
+    mimetypes = new MimeTypes;
 }
 GetAndDoStuffOpenFile::~GetAndDoStuffOpenFile() {
     delete imageformats;
+    delete mimetypes;
 }
 
 int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path, QString categoryFileTypes) {
@@ -35,25 +37,46 @@ int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path, QString category
         LOG << CURDATE << "GetAndDoStuffOpenFile::getNumberFilesInFolder() - " << path.toStdString() << " / " << categoryFileTypes.toStdString() << NL;
 
     QDir dir(path);
-    if(categoryFileTypes == "all")
-        dir.setNameFilters(imageformats->getAllEnabledFileformats());
-    else if(categoryFileTypes == "qt")
-        dir.setNameFilters(imageformats->getEnabledFileformatsQt());
-    else if(categoryFileTypes == "gm")
-        dir.setNameFilters(imageformats->getEnabledFileformatsGm()+imageformats->getEnabledFileformatsGmGhostscript());
-    else if(categoryFileTypes == "raw")
-        dir.setNameFilters(imageformats->getEnabledFileformatsRAW());
-    else if(categoryFileTypes == "devil")
-        dir.setNameFilters(imageformats->getEnabledFileformatsDevIL());
-    else if(categoryFileTypes == "freeimage")
-        dir.setNameFilters(imageformats->getEnabledFileformatsFreeImage());
-    else if(categoryFileTypes == "poppler")
-        dir.setNameFilters(imageformats->getEnabledFileformatsPoppler());
-    else if(categoryFileTypes == "allfiles")
-        dir.setNameFilters(QStringList() << "*.*");
-    dir.setFilter(QDir::Files);
+    QFileInfoList list = dir.entryInfoList(QDir::Files);
 
-    return dir.entryList().length();
+    if(categoryFileTypes == "allfiles")
+        return list.length();
+
+    QStringList checkForTheseFormats;
+    QStringList checkForTheseMimeTypes;
+    if(categoryFileTypes == "all") {
+        checkForTheseFormats = imageformats->getAllEnabledFileformats();
+        checkForTheseMimeTypes = mimetypes->getAllEnabledMimeTypes();
+    } else if(categoryFileTypes == "qt") {
+        checkForTheseFormats = imageformats->getEnabledFileformatsQt();
+        checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesQt();
+    } else if(categoryFileTypes == "gm") {
+        checkForTheseFormats = imageformats->getEnabledFileformatsGm()+imageformats->getEnabledFileformatsGmGhostscript();
+        checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesGm()+mimetypes->getEnabledMimeTypesGmGhostscript();
+    } else if(categoryFileTypes == "raw") {
+        checkForTheseFormats = imageformats->getEnabledFileformatsRAW();
+        checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesRAW();
+    } else if(categoryFileTypes == "devil") {
+        checkForTheseFormats = imageformats->getEnabledFileformatsDevIL();
+        checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesDevIL();
+    } else if(categoryFileTypes == "freeimage") {
+        checkForTheseFormats = imageformats->getEnabledFileformatsFreeImage();
+        checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesFreeImage();
+    } else if(categoryFileTypes == "poppler") {
+        checkForTheseFormats = imageformats->getEnabledFileformatsPoppler();
+        checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesPoppler();
+    }
+
+    int count = 0;
+    QMimeDatabase db;
+    foreach(QFileInfo info, list) {
+        if(checkForTheseFormats.contains("*." + info.suffix()))
+            ++count;
+        else if(checkForTheseMimeTypes.contains(db.mimeTypeForFile(info.absoluteFilePath()).name()))
+            ++count;
+    }
+
+    return count;
 
 }
 
@@ -405,8 +428,12 @@ QString GetAndDoStuffOpenFile::getDirectoryDirName(QString path) {
 
 bool GetAndDoStuffOpenFile::isSupportedImageType(QString path) {
 
-    QString suffix = QFileInfo(path).suffix().toLower();
+    QFileInfo info(path);
 
-    return imageformats->getAllEnabledFileformats().contains("*."+suffix);
+    if(imageformats->getAllEnabledFileformats().contains("*."+info.suffix().toLower()))
+        return true;
+
+    QMimeDatabase db;
+    return mimetypes->getAllEnabledMimeTypes().contains(db.mimeTypeForFile(path).name());
 
 }
