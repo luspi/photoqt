@@ -286,14 +286,3 @@ int GetAndDoStuffListFiles::getTotalNumberOfPagesOfPdf(QString file) {
     return totalpage;
 
 }
-
-QString GetAndDoStuffListFiles::getMimeType(QString file) {
-
-    if(file.contains("::PQT1::") && file.contains("::PQT2::"))
-        file = file.split("::PQT1::").at(0)+file.split("::PQT2::").at(1);
-
-    QMimeDatabase db;
-    return db.mimeTypeForFile(file).name();
-
-
-}

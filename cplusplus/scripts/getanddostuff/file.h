@@ -28,6 +28,7 @@
 #include <QStringList>
 #include <QIcon>
 #include <QImageReader>
+#include <QMimeDatabase>
 #include "../../logger.h"
 
 class GetAndDoStuffFile : public QObject {
@@ -47,6 +48,8 @@ public:
     QString getIconPathFromTheme(QString binary);
     QString getSaveFilename(QString caption, QString file);
     bool doesThisExist(QString path);
+
+    QString getMimeType(QString file);
 
 };
 

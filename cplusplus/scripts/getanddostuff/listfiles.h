@@ -20,8 +20,6 @@ public:
 
     int getTotalNumberOfPagesOfPdf(QString file);
 
-    QString getMimeType(QString file);
-
 private:
     ImageFormats *imageformats;
     MimeTypes *mimetypes;

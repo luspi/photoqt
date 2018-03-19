@@ -89,6 +89,7 @@ public:
     Q_INVOKABLE QString getIconPathFromTheme(QString binary) { return file->getIconPathFromTheme(binary); }
     Q_INVOKABLE QString getSaveFilename(QString caption, QString file) { return this->file->getSaveFilename(caption, file); }
     Q_INVOKABLE bool doesThisExist(QString path) { return this->file->doesThisExist(path); }
+    Q_INVOKABLE QString getMimeType(QString file) { return this->file->getMimeType(file); }
 
     // MANIPULATION
     Q_INVOKABLE bool canBeScaled(QString filename) { return manipulation->canBeScaled(filename); }
@@ -146,7 +147,6 @@ public:
     // LISTFILES
     Q_INVOKABLE QVariantList getAllFilesIn(QString file, QString categoryFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize, bool pdfLoadAllPages, bool loadSinglePdf) { return this->listfiles->getAllFilesIn(file, categoryFileTypes, filter, showHidden, sortby, sortbyAscending, includeSize, pdfLoadAllPages, loadSinglePdf); }
     Q_INVOKABLE int getTotalNumberOfPagesOfPdf(QString file) { return listfiles->getTotalNumberOfPagesOfPdf(file); }
-    Q_INVOKABLE QString getMimeType(QString file) { return listfiles->getMimeType(file); }
 
 private:
     GetAndDoStuffContext *context;
