@@ -35,7 +35,8 @@ function loadFile(filename, filter, forceReloadDirectory) {
     // If there is a page number (or if there should be one), make sure it is part of the filename and also store it in two variables (current and total)
     // The two variables make handling easier in other files, the info thoug has to be part of the filename to distinguish entries for different pages
     if((imageformats.enabledFileformatsPoppler.indexOf("*." + getanddostuff.getSuffix(filename)) != -1 ||
-        mimetypes.enabledMimeTypesPoppler.indexOf(getanddostuff.getMimeType(filename)) != -1)) {
+        mimetypes.enabledMimeTypesPoppler.indexOf(getanddostuff.getMimeType(filename)) != -1) ||
+            (filename.indexOf("::PQT1::") != -1 && filename.indexOf("::PQT2::") != -1)) {
         if(filename.indexOf("::PQT1::") == -1 || filename.indexOf("::PQT2::") == -1) {
             var tot = getanddostuff.getTotalNumberOfPagesOfPdf(filename)
             filename = getanddostuff.removeFilenameFromPath(filename)+"/::PQT1::0::" + tot + "::PQT2::" + getanddostuff.removePathFromFilename(filename)
