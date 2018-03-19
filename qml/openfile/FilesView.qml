@@ -226,7 +226,7 @@ Rectangle {
                 Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
                 Component.onCompleted:
-                    supported = getanddostuff.isSupportedImageType(filename)
+                    supported = getanddostuff.isSupportedImageType(openvariables.currentDirectory + "/" + filename)
 
             }
 
@@ -539,7 +539,7 @@ Rectangle {
         // if we have a filename
         } else {
             // set background/preview image (if enabled)
-            bgthumb.source = settings.openPreview&&getanddostuff.isSupportedImageType(f)
+            bgthumb.source = settings.openPreview&&getanddostuff.isSupportedImageType(openvariables.currentDirectory + "/" + f)
                                 ? "image://" + (settings.openPreviewHighQuality ? "full" : "thumb") + "/" + openvariables.currentDirectory + "/" + f
                                 : ""
             // if the change in currentIndex hasn't happened through user input, update the text in the edit rect and select it all
