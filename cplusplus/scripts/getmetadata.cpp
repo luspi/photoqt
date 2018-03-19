@@ -49,6 +49,9 @@ QVariantMap GetMetaData::getExiv2(QString path) {
         path = path.remove(0,1);
 #endif
 
+    if(path.contains("::PQT1::") && path.contains("::PQT2::"))
+        path = path.split("::PQT1::").at(0) + path.split("::PQT2::").at(1);
+
     path = QUrl::fromPercentEncoding(path.toUtf8());
     QFileInfo info(path);
 

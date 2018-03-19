@@ -56,14 +56,14 @@ Item {
     Connections {
         target: container
         onItemShown:
-            filedialog.getFilename(em.pty+qsTr("Move Image to..."), variables.currentDir + "/" +  variables.currentFile)
+            filedialog.getFilename(em.pty+qsTr("Move Image to..."), variables.currentDir + "/" + variables.currentFileWithoutPQT)
         onItemHidden:
             filedialog.close()
     }
 
     function moveFile(file) {
         verboseMessage("FileManagement/Move", "moveFile(): " + file)
-        getanddostuff.moveImage(variables.currentDir + "/" + variables.currentFile, file)
+        getanddostuff.moveImage(variables.currentDir + "/" + variables.currentFileWithoutPQT, file)
         if(getanddostuff.removeFilenameFromPath(file) === variables.currentDir) {
             Handle.loadFile(file, variables.filter, true)
             management_top.hide()

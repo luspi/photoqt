@@ -123,10 +123,10 @@ Rectangle {
         volume: volumeslider.value/100.0
         onError: console.error("AUDIO ERROR:",errorString,"-",source)
         onStopped: if(variables.slideshowRunning) slideshowmusic.play()
-        Connections {
-            target: variables
-            onSlideshowRunningChanged: if(!variables.slideshowRunning) slideshowmusic.stop()
-        }
+    }
+    Connections {
+        target: variables
+        onSlideshowRunningChanged: if(!variables.slideshowRunning) slideshowmusic.stop()
     }
 
     Connections {

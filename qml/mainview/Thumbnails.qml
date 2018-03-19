@@ -23,7 +23,7 @@
 import QtQuick 2.5
 import QtGraphicalEffects 1.0
 import "../elements"
-import "../handlestuff.js" as Handle
+//import "../handlestuff.js" as Handle
 
 Item {
 
@@ -296,7 +296,7 @@ Item {
                 // Load the selected thumbnail as main image
                 onClicked: {
                     variables.currentFile = getanddostuff.removePathFromFilename(imagePath)
-                    Handle.loadFile(variables.currentFile, variables.filter, false)
+                    mainwindow.loadFileFromThumbnails(variables.currentFile, variables.filter)
                 }
             }
 

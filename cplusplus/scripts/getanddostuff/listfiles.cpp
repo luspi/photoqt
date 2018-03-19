@@ -48,12 +48,12 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
     while(file.startsWith("/"))
         file = file.remove(0,1);
 #endif
-
-    if(file.contains("__::pqt::__"))
-        file = file.split("__::pqt::__").at(0) + "." + QFileInfo(file).suffix();
+    if(file.contains("::PQT1::"))
+        file = file.split("::PQT1::").at(0) + file.split("::PQT2::").at(1);
 
 #ifdef POPPLER
-    if(loadSinglePdf && file.endsWith(".pdf")) {
+    QMimeDatabase mimedb;
+    if(loadSinglePdf && (imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(file).suffix().toLower()) || mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(file).name()))) {
         QVariantList ret;
         if(loadOnlyPdfPages(file, &ret))
             return ret;
@@ -111,14 +111,19 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
 
     } else {
 
+        QMimeDatabase mimedb;
+
         if(filter.startsWith(".")) {
             for(QFileInfo l : list) {
                 QString fn = l.fileName().trimmed();
                 if(fn.endsWith(filter) && fn != "") {
-                    bool pdfloaded = (loadSinglePdf&&fn.endsWith(".pdf"));
+                    bool pdfloaded = (loadSinglePdf &&
+                                        (imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(fn).suffix()) ||
+                                         mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())));
 #ifdef POPPLER
                     if(pdfLoadAllPages && !loadSinglePdf) {
-                        if(fn.endsWith(".pdf") || fn.endsWith(".epdf")) {
+                        if(imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(fn).suffix()) ||
+                           mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())) {
                             loadAllPdfPages(l, &ret);
                             pdfloaded = true;
                         }
@@ -132,10 +137,13 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
             for(QFileInfo l : list) {
                 QString fn = l.fileName().trimmed();
                 if(fn.contains(filter) && fn != "") {
-                    bool pdfloaded = (loadSinglePdf&&fn.endsWith(".pdf"));
+                    bool pdfloaded = (loadSinglePdf &&
+                                        (imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(fn).suffix()) ||
+                                         mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())));
 #ifdef POPPLER
                     if(pdfLoadAllPages && !loadSinglePdf) {
-                        if(fn.endsWith(".pdf") || fn.endsWith(".epdf")) {
+                        if(imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(fn).suffix()) ||
+                           mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())) {
                             loadAllPdfPages(l, &ret);
                             pdfloaded = true;
                         }
@@ -149,10 +157,13 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
             for(QFileInfo l : list) {
                 QString fn = l.fileName().trimmed();
                 if(fn != "") {
-                    bool pdfloaded = (loadSinglePdf&&fn.endsWith(".pdf"));
+                    bool pdfloaded = (loadSinglePdf &&
+                                        (imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(fn).suffix()) ||
+                                         mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())));
 #ifdef POPPLER
                     if(pdfLoadAllPages && !loadSinglePdf) {
-                        if(fn.endsWith(".pdf") || fn.endsWith(".epdf")) {
+                        if(imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(fn).suffix()) ||
+                           mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())) {
                             loadAllPdfPages(l, &ret);
                             pdfloaded = true;
                         }
@@ -177,7 +188,7 @@ void GetAndDoStuffListFiles::loadAllPdfPages(QFileInfo l, QVariantList *list) {
     if(document && !document->isLocked()) {
         int numPages = document->numPages();
         for(int i = 0; i < numPages; ++i)
-            list->append(l.baseName() + QString("__::pqt::__%1__%2.").arg(i).arg(numPages) + l.suffix());
+            list->append(QString("::PQT1::%1::%2::PQT2::%3").arg(i).arg(numPages).arg(l.fileName()));
     }
     delete document;
 #endif
@@ -185,7 +196,8 @@ void GetAndDoStuffListFiles::loadAllPdfPages(QFileInfo l, QVariantList *list) {
 }
 
 bool GetAndDoStuffListFiles::loadOnlyPdfPages(QString file, QVariantList *list) {
-    if(file.endsWith(".pdf") || file.endsWith(".epdf")) {
+    QMimeDatabase mimedb;
+    if(imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(file).suffix().toLower()) || mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(file).name())) {
         loadAllPdfPages(QFileInfo(file), list);
         if(list->length() == 0) {
             LOG << "GetAndDoStuffListFiles::loadOnlyPdfPages(): ERROR: Invalid PDF, no pages found" << NL;
@@ -255,7 +267,7 @@ QFileInfoList GetAndDoStuffListFiles::getEntryList(QString file, QString categor
             retlist.append(entry);
     }
 
-    if(!retlist.contains(info) && !info.isDir() && !file.endsWith(".pdf") && !file.endsWith(".epdf"))
+    if(!retlist.contains(info) && !info.isDir() && !imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(file).suffix()) && !mimetypes->getEnabledMimeTypesPoppler().contains(db.mimeTypeForFile(info.absoluteFilePath()).name()))
         retlist.append(info);
 
     return retlist;
@@ -272,5 +284,16 @@ int GetAndDoStuffListFiles::getTotalNumberOfPagesOfPdf(QString file) {
     delete document;
 #endif
     return totalpage;
+
+}
+
+QString GetAndDoStuffListFiles::getMimeType(QString file) {
+
+    if(file.contains("::PQT1::") && file.contains("::PQT2::"))
+        file = file.split("::PQT1::").at(0)+file.split("::PQT2::").at(1);
+
+    QMimeDatabase db;
+    return db.mimeTypeForFile(file).name();
+
 
 }

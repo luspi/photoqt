@@ -88,20 +88,17 @@ Item {
             anchors.left: counter.right
             anchors.leftMargin: visible ? (counter.visible ? 10 : 5) : 0
 
-            // This keeps the binding while allowing to convert ".pdf?p=n" into ".pdf - Page #n"
-            property string textWithBinding: (variables.currentFile==""||(settings.quickInfoHideFilepath&&settings.quickInfoHideFilename) ? "" : (settings.quickInfoHideFilepath ? variables.currentFile :(settings.quickInfoHideFilename ? variables.currentDir : variables.currentDir+"/"+variables.currentFile)))
-            onTextWithBindingChanged: {
-                var txt = textWithBinding
-                if(txt.indexOf("__::pqt::__") != -1) {
-                    var pts = txt.split("__::pqt::__")
-                    var page = (pts[1].split("__")[0]*1+1)
-                    var totalpage = (pts[1].split("__")[1].split(".")[0]*1)
-                    txt = pts[0] + ".pdf - Page #" + (pts[1].split("__")[0]*1+1)+""
-                    if(totalpage != -1)
-                        txt += "/" + totalpage
-                }
-                text = txt
-            }
+            text: (variables.currentFile==""||(settings.quickInfoHideFilepath&&settings.quickInfoHideFilename) ?
+                       "" :
+                       (settings.quickInfoHideFilepath ?
+                            variables.currentFileWithoutPQT+(variables.multiPageCurrentPage!=-1 ?
+                                                                 " - Page #"+(1+1*variables.multiPageCurrentPage)+"/"+variables.multiPageTotalNumber :
+                                                                 "") :
+                            (settings.quickInfoHideFilename ?
+                                 variables.currentDir :
+                                 variables.currentDir+"/"+variables.currentFileWithoutPQT+(variables.multiPageCurrentPage!=-1 ?
+                                                                                               " - Page #"+(1+1*variables.multiPageCurrentPage)+"/"+variables.multiPageTotalNumber :
+                                                                                               ""))))
 
             color: colour.quickinfo_text
             font.bold: true

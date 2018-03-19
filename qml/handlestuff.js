@@ -32,18 +32,31 @@ function loadFile(filename, filter, forceReloadDirectory) {
     if(forceReloadDirectory && ((filename.substring(0,1) != "/" && !getanddostuff.amIOnWindows()) || (filename.substring(1,3) != ":/" && getanddostuff.amIOnWindows())))
         filename = variables.currentDir + "/" + filename
 
+    // If there is a page number (or if there should be one), make sure it is part of the filename and also store it in two variables (current and total)
+    // The two variables make handling easier in other files, the info thoug has to be part of the filename to distinguish entries for different pages
+    if((imageformats.enabledFileformatsPoppler.indexOf("*." + getanddostuff.getSuffix(filename)) != -1 ||
+        mimetypes.enabledMimeTypesPoppler.indexOf(getanddostuff.getMimeType(filename)) != -1)) {
+        if(filename.indexOf("::PQT1::") == -1 || filename.indexOf("::PQT2::") == -1) {
+            var tot = getanddostuff.getTotalNumberOfPagesOfPdf(filename)
+            filename = getanddostuff.removeFilenameFromPath(filename)+"/::PQT1::0::" + tot + "::PQT2::" + getanddostuff.removePathFromFilename(filename)
+            variables.multiPageCurrentPage = 0
+            variables.multiPageTotalNumber = tot
+        } else {
+            var info = filename.split("::PQT1::")[1].split("::PQT2::")[0].split("::")
+            variables.multiPageCurrentPage = 1*info[0]
+            variables.multiPageTotalNumber = 1*info[1]
+        }
+    } else {
+        variables.multiPageCurrentPage = -1
+        variables.multiPageTotalNumber = -1
+    }
+
     // Load a file from full path
     if((filename.substring(0,1) == "/" && !getanddostuff.amIOnWindows()) || (filename.substring(1,3) == ":/" && getanddostuff.amIOnWindows())) {
 
         // Separate filename and path
         var filenameonly = getanddostuff.removePathFromFilename(filename)
         var pathonly = getanddostuff.removeFilenameFromPath(filename)
-
-        if((getanddostuff.doesStringEndsWith(filenameonly, ".pdf") || getanddostuff.doesStringEndsWith(filenameonly, ".epdf")) && filenameonly.indexOf("__::pqt::__") == -1) {
-            var tot = getanddostuff.getTotalNumberOfPagesOfPdf(pathonly + "/" + filenameonly)
-            filenameonly = filenameonly.replace(".pdf", "__::pqt::__0__" + tot + ".pdf")
-            filenameonly = filenameonly.replace(".epdf", "__::pqt::__0__" + tot + ".epdf")
-        }
 
         // If it's a new path or a forced reload, load folder contents and set up thumbnails (if enabled)
         if(filenameonly == "" || pathonly != variables.currentDir || (forceReloadDirectory !== undefined && forceReloadDirectory)) {

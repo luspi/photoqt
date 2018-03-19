@@ -204,6 +204,10 @@ Rectangle {
         target: imageformats
         onEnabledFileformatsChanged: imageformatsChangedSoReload.restart()
     }
+    Connections {
+        target: mimetypes
+        onEnabledMimeTypesChanged: imageformatsChangedSoReload.restart()
+    }
     Timer {
         id: imageformatsChangedSoReload
         interval: 250

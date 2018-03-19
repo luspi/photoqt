@@ -257,7 +257,7 @@ FadeInTemplate {
                         "feh_option" : other.getFehCurrentText(),
                         "nitrogen_option" : other.getNitrogenCurrentText() }
         }
-        getanddostuff.setWallpaper(wm, options, variables.currentDir + "/" + variables.currentFile)
+        getanddostuff.setWallpaper(wm, options, variables.currentDir + "/" + variables.getCurrentFileWithoutPQT())
 
         hide()
 

@@ -36,16 +36,14 @@ namespace LoadImage {
 
 #ifdef POPPLER
 
-            // extract page and totalpage value from filename (appended to end, before suffix)
+            // extract page and totalpage value from filename (prepended to filename (after filepath))
             int page = 0;
-            int totalpage = -1;
-            if(filename.contains("__::pqt::__")) {
-                QStringList parts = filename.split("__::pqt::__");
-                QStringList pageparts = parts.at(1).split("__");
-                page = pageparts.at(0).toInt();
-                if(pageparts.size() > 1)
-                    totalpage = pageparts.at(1).split(".").at(0).toInt();
-                filename = filename.remove(QString("__::pqt::__%1__%2").arg(page).arg(totalpage));
+            if(filename.contains("::PQT1::") && filename.contains("::PQT2::")) {
+
+                QString pageinfo = filename.split("::PQT1::").at(1).split("::PQT2::").at(0);
+                page = pageinfo.split("::").at(0).toInt();
+
+                filename = filename.remove(QString("::PQT1::%1::PQT2::").arg(pageinfo));
             }
 
             // Load poppler document and render to QImage

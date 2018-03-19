@@ -375,7 +375,7 @@ Item {
             mod.clear()
 
             if(settings.metaFilename) {
-                var fname = getanddostuff.removePathFromFilename(variables.currentFile, false)
+                var fname = getanddostuff.removePathFromFilename(variables.currentFileWithoutPQT, false)
                 //: Keep string short!
                 mod.append({"name" : qsTranslate("metadata", "Filename"), "prop" : "", "value" : fname, "tooltip" : fname })
             }

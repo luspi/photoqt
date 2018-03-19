@@ -24,6 +24,7 @@ import QtQuick 2.5
 
 import PSettings 1.0
 import PImageFormats 1.0
+import PMimeTypes 1.0
 import PGetAndDoStuff 1.0
 import PGetMetaData 1.0
 import PToolTip 1.0
@@ -82,9 +83,16 @@ Rectangle {
     // The fileformats known to PhotoQt
     PImageFormats {
         id: imageformats;
-        // Changes in the fileoformats trigger a forced reload of the current directory
+        // Changes in the fileformats trigger a forced reload of the current directory
         onEnabledFileformatsSaved: forceReloadFile.restart()
         onEnabledFileformatsChanged: forceReloadFile.restart()
+    }
+    // The mime types known to PhotoQt
+    PMimeTypes {
+        id: mimetypes
+        // Changes in the mime types trigger a forced reload of the current directory
+        onEnabledMimeTypesSaved: forceReloadFile.restart()
+        onEnabledMimeTypesChanged: forceReloadFile.restart()
     }
     Timer {
         id: forceReloadFile
@@ -312,6 +320,10 @@ Rectangle {
     function loadFile(filename) {
         variables.filter = ""
         Handle.loadFile(filename, "", true)
+    }
+
+    function loadFileFromThumbnails(filename, filter) {
+        Handle.loadFile(filename, filter, false)
     }
 
     // Called from c++ code to get the filename of the currently loaded image file (needed for remote controlling)

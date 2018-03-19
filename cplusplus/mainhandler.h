@@ -48,6 +48,7 @@
 #include "scripts/localisation.h"
 #include "contextmenu/contextmenu.h"
 #include "settings/imageformats.h"
+#include "settings/mimetypes.h"
 
 #include "imageprovider/imageproviderempty.h"
 #include "imageprovider/imageproviderfull.h"
