@@ -39,7 +39,6 @@ FadeInTemplate {
     showSeperators: false
 
     property string current: ""
-    onCurrentChanged: variables.filemanagementCurrentCategory = current
 
     signal hideAllItems()
 

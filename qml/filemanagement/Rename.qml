@@ -146,7 +146,7 @@ Item {
 
     function setupRename() {
         verboseMessage("FileManagement/Rename", "setupRename()")
-        filename.text = getanddostuff.currentFileWithoutPQT
+        filename.text = variables.currentFileWithoutPQT
         newfilename.text = ""	// This is needed, otherwise the lineedit might keep its old contents
                                 // (if opened twice for same image with different keys pressed in between)
         newfilename.text = getanddostuff.getImageBaseName(variables.currentFileWithoutPQT)

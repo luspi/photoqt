@@ -24,50 +24,88 @@ import QtQuick 2.5
 
 Item {
 
-    // Element radius is the radius of "windows" (e.g., About or Quicksettings)
-    // Item radius is the radius of smaller items (e.g., spinbox)
-    readonly property int global_element_radius: 10
-    readonly property int global_item_radius: 5
+    // GLOBAL/MISC
 
+    // Element radius is the radius of "windows" (e.g., About or Quicksettings)
+    readonly property int global_element_radius: 10
+    // Item radius is the radius of smaller items (e.g., spinbox)
+    readonly property int global_item_radius: 5
+    // The speed of the animations (how fast elements fade in/out)
+    property int animationSpeed: settings.animations ? 250 : 0
+
+    // This is set to true whenever an element is open in front focus (e.g., settings manager, ...)
     property bool guiBlocked: false
 
-    property bool imageItemBlocked: false
+    // This is set to true when a file was deleted and nothing is left in the directory
+    property bool deleteNothingLeft: false
 
-    property bool slideshowRunning: false
+    // This is set to true when a filter string was entered that resulted in no match
+    property bool filterNoMatch: false
 
-    property int totalNumberImagesCurrentFolder: 0
+    // stores the update status to pass on to startup element
+    property int startupUpdateStatus: 0
+
+    // This is the file that is to be loaded after the startup element is closed
+    property string startupFilenameAfter: ""
+
+    // The height of the thumbnails, set by ThumbnailBar used by MainImage to make sure there's enough space
+    property int thumbnailsheight: 0
+
+    // The x/y of the root window (set by c++ code)
+    property point windowXY: Qt.point(-1,-1)
+
+
+    // INFO ABOUT CUR DIR/FILE
+
+    // The current file (without path)
+    property string currentFile: ""
+    // The current directory (without filename)
+    property string currentDir: ""
+
+    // This is the position of the current file in the folder
     property int currentFilePos: allFilesCurrentDir.indexOf(getanddostuff.removePathFromFilename(currentFile))>=0
                                     ? allFilesCurrentDir.indexOf(getanddostuff.removePathFromFilename(currentFile))
                                     : -1
-    property string currentFile: ""
+
+    // Sometimes the page number is stored in the filename (e.g., for Poppler (PDF) documents). This string is the filename WITHOUT that information
     readonly property string currentFileWithoutPQT: (currentFile.indexOf("::PQT1::")!=-1&&currentFile.indexOf("::PQT2::")!=-1) ? (currentFile.split("::PQT1::")[0] + currentFile.split("::PQT2::")[1]) : currentFile
 
-    property string filter: ""
-    property string currentDir: ""
+    // The total number of images in current folder
+    property int totalNumberImagesCurrentFolder: 0
+
+    // The list of all files loaded in the current directory
     property var allFilesCurrentDir: []
 
+    // The string for filtering the current directory
+    property string filter: ""
+
+    // These two are convenience functions, storing the current page and total page number
     property int multiPageCurrentPage: -1
     property int multiPageTotalNumber: -1
 
-    property bool deleteNothingLeft: false
-    property bool filterNoMatch: false
 
-    property string filemanagementCurrentCategory: ""
+    // SLIDESHOW
 
-    property int startupUpdateStatus: 0
-    property string startupFilenameAfter: ""
+    // This is set by the slideshowbar while the slideshow is running (to prevent the image from being moved)
+    property bool imageItemBlocked: false
 
+    // This is true whenever the slideshow is running
+    property bool slideshowRunning: false
+
+
+    // SHORTCUTS
+
+    // The mouse gesture string, used by mouseshortcuts.js
     property var shortcutsMouseGesture: []
+
+    // The intermediate points of the mouse gesture, used by mouseshortcuts.js
     property point shorcutsMouseGesturePointIntermediate: Qt.point(-1,-1)
 
-    property int thumbnailsheight: 0
-
-    property point windowXY: Qt.point(-1,-1)
-
-    property int animationSpeed: settings.animations ? 250 : 0
-
+    // how much wheel movement in a direction (used for mouse shortcuts)
     property int wheelUpDown: 0
     property int wheelLeftRight: 0
+
+
 
     // temporary solution to avoid having to retranslate the names for the possible shortcuts (will be replaced with better solution for following release)
     property var shortcutTitles: ({})
