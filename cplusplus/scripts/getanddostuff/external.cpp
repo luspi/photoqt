@@ -74,8 +74,29 @@ QString GetAndDoStuffExternal::exportConfig(QString useThisFilename) {
         zipFile = useThisFilename;
 
     // if no suffix, append the pqt suffix
-    if(QFileInfo(zipFile).suffix() == "")
+    if(!zipFile.endsWith(".pqt"))
         zipFile += ".pqt";
+
+#ifdef QUAZIP
+
+    QStringList list;
+    if(QFileInfo(ConfigFiles::SETTINGS_FILE()).exists())
+        list << ConfigFiles::SETTINGS_FILE();
+    if(QFileInfo(ConfigFiles::IMAGEFORMATS_FILE()).exists())
+        list << ConfigFiles::IMAGEFORMATS_FILE();
+    if(QFileInfo(ConfigFiles::MIMEFORMATS_FILE()).exists())
+        list << ConfigFiles::MIMEFORMATS_FILE();
+    if(QFileInfo(ConfigFiles::CONTEXTMENU_FILE()).exists())
+        list << ConfigFiles::CONTEXTMENU_FILE();
+    if(QFileInfo(ConfigFiles::SHORTCUTS_FILE()).exists())
+        list << ConfigFiles::SHORTCUTS_FILE();
+
+    if(list.length() == 0)
+        return "No config files have been found for exporting... Nothing for me to do!\n";
+
+    JlCompress::compressFiles(zipFile, list);
+
+#else
 
     // All the config files to be exported
     QHash<QString,QString> allfiles;
@@ -94,6 +115,10 @@ QString GetAndDoStuffExternal::exportConfig(QString useThisFilename) {
 
         // Create and open file in read only mode
         QFile file(i.value());
+        if(!file.exists()) {
+            ++i;
+            continue;
+        }
         if(!file.open(QIODevice::ReadOnly)) {
             std::stringstream ss;
             ss << "ERROR: Unable to open '" << i.value().toStdString() << "' file for composing config file: " << file.errorString().trimmed().toStdString();
@@ -113,6 +138,8 @@ QString GetAndDoStuffExternal::exportConfig(QString useThisFilename) {
     // close zip writer
     writer.close();
 
+#endif
+
     return "";
 
 }
@@ -122,13 +149,55 @@ QString GetAndDoStuffExternal::importConfig(QString filename) {
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE << "GetAndDoStuffExternal::importConfig() - " << filename.toStdString() << NL;
 
-    // All the config files to be imported
+    // All the config files to be imported. To be backwards-compatible we use the filename keys (old way) and the real filenames (new way)
     QHash<QString,QString> allfiles;
     allfiles["CFG_SETTINGS_FILE"] = ConfigFiles::SETTINGS_FILE();
-    allfiles["CFG_IMAGEFORMATS_FILE"] = ConfigFiles::IMAGEFORMATS_FILE();
-    allfiles["CFG_MIMEFORMATS_FILE"] = ConfigFiles::MIMEFORMATS_FILE();
     allfiles["CFG_CONTEXTMENU_FILE"] = ConfigFiles::CONTEXTMENU_FILE();
     allfiles["CFG_SHORTCUTS_FILE"] = ConfigFiles::SHORTCUTS_FILE();
+    allfiles[QFileInfo(ConfigFiles::SETTINGS_FILE()).fileName()] = ConfigFiles::SETTINGS_FILE();
+    allfiles[QFileInfo(ConfigFiles::IMAGEFORMATS_FILE()).fileName()] = ConfigFiles::IMAGEFORMATS_FILE();
+    allfiles[QFileInfo(ConfigFiles::MIMEFORMATS_FILE()).fileName()] = ConfigFiles::MIMEFORMATS_FILE();
+    allfiles[QFileInfo(ConfigFiles::CONTEXTMENU_FILE()).fileName()] = ConfigFiles::CONTEXTMENU_FILE();
+    allfiles[QFileInfo(ConfigFiles::SHORTCUTS_FILE()).fileName()] = ConfigFiles::SHORTCUTS_FILE();
+
+#ifdef QUAZIP
+
+    // Handler for input file
+    QFile file(filename);
+
+    // Display and return error message if file doesn't exist
+    if(!file.exists()) {
+        std::stringstream ss;
+        ss << "ERROR: Config file '" << filename.toStdString() << "' does not seem to exist... Abort!";
+        LOG << CURDATE << ss.str() << NL;
+        // on error, return error string
+        return QString::fromStdString(ss.str());
+    }
+
+    // Open file for reading (aborts on error)
+    if(!file.open(QIODevice::ReadOnly)) {
+        std::stringstream ss;
+        ss << "ERROR: Config file '" << filename.toStdString() << "' cannot be opened for reading... Abort!";
+        LOG << CURDATE << ss.str() << NL;
+        // on error, return error string
+        return QString::fromStdString(ss.str());
+    }
+
+    // Get list of filenames in zip file
+    QStringList filelist = JlCompress::getFileList(&file);
+
+    // Loop over entries in zip file
+    foreach(QString fn, filelist) {
+
+        // If file inside zip file is a config file
+        if(allfiles.contains(fn))
+            // try to extract file into destination file, return empty string on error
+            if(JlCompress::extractFile(&file, fn, allfiles[fn]) == "")
+                LOG << CURDATE << "WARNING: unable to extract file '" << fn.toStdString() << "'... Ignoring!" << NL;
+
+    }
+
+#else
 
     // Start zip reader
     ZipReader reader(filename);
@@ -174,6 +243,8 @@ QString GetAndDoStuffExternal::importConfig(QString filename) {
 
     // finish reader
     reader.close();
+
+#endif
 
     return "";
 
