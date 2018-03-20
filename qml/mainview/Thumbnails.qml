@@ -173,6 +173,8 @@ Item {
             // Some extra margin for visual improvements
             property int thumbnailExtraMargin: 25
 
+            property string filenameWithoutPQT: ""
+
             // activated is the image that is currently hovered by the mouse
             property bool activated: false
 
@@ -186,8 +188,22 @@ Item {
                     loaded = (getanddostuff.removePathFromFilename(imagePath)===variables.currentFile)
             }
 
-            Component.onCompleted:
+            Component.onCompleted: {
+
                 loaded = (getanddostuff.removePathFromFilename(imagePath)===variables.currentFile)
+
+                if(imagePath.indexOf("::PQT1::") == -1 || imagePath.indexOf("::PQT2::") == -1)
+                    rect.filenameWithoutPQT = getanddostuff.removePathFromFilename(imagePath)
+                else {
+                    var fn = getanddostuff.removePathFromFilename(imagePath)
+                    var info = fn.split("::PQT1::")[1].split("::PQT2::")[0]
+                    var txt = fn.replace("::PQT1::"+info+"::PQT2::", "")
+                    info = " - Page #" + (1+1*info.split("::")[0]) + "/" + info.split("::")[1]
+                    txt += info
+                    rect.filenameWithoutPQT = txt
+                }
+
+            }
 
             // The color behind the thumbnail
             color: colour.thumbnails_bg
@@ -281,7 +297,7 @@ Item {
                 cursorShape: Qt.PointingHandCursor
 
                 // The tooltip is the current image filename
-                text: getanddostuff.removePathFromFilename(imagePath)
+                text: rect.filenameWithoutPQT
 
                 // set lift up/down of thumbnails
                 onEntered: {
@@ -337,7 +353,7 @@ Item {
                     horizontalAlignment: Qt.AlignHCenter
 
                     // the filename
-                    text: getanddostuff.removePathFromFilename(imagePath)
+                    text: rect.filenameWithoutPQT
 
                 }
 
@@ -383,7 +399,7 @@ Item {
                     elide: Text.ElideRight
 
                     // Set the tooltip
-                    text: getanddostuff.removePathFromFilename(imagePath)
+                    text: filenameWithoutPQT
 
                 }
             }
