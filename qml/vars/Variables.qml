@@ -40,7 +40,7 @@ Item {
                                     ? allFilesCurrentDir.indexOf(getanddostuff.removePathFromFilename(currentFile))
                                     : -1
     property string currentFile: ""
-    readonly property string currentFileWithoutPQT: (currentFile.indexOf("::PQT1::")!=-1&&currentFile.indexOf("::PQT2::")!=-1) ? (currentFile.split("::PQT1::")[0] + currentFile.split("::PQT2::")[1]) : ""
+    readonly property string currentFileWithoutPQT: (currentFile.indexOf("::PQT1::")!=-1&&currentFile.indexOf("::PQT2::")!=-1) ? (currentFile.split("::PQT1::")[0] + currentFile.split("::PQT2::")[1]) : currentFile
 
     property string filter: ""
     property string currentDir: ""
