@@ -163,14 +163,14 @@ Item {
 
     Connections {
         target: container
-        onItemShown: filename.text = variables.currentFileWithoutPQT
+        onItemShown: filename.text = variables.currentFileWithoutExtras
     }
 
     // These two 'simulate' functions can be called via shortcuts
     function simulateEnter() {
         verboseMessage("Filemanagement/Delete", "simulateEnter()")
         hideDelete()
-        getanddostuff.deleteImage(variables.currentDir + "/" + variables.currentFileWithoutPQT,getanddostuff.amIOnLinux())
+        getanddostuff.deleteImage(variables.currentDir + "/" + variables.currentFileWithoutExtras,getanddostuff.amIOnLinux())
         var newfilename = Handle.getNewFilenameAfterDeletion()
         if(newfilename === "")
             variables.deleteNothingLeft = true
@@ -180,7 +180,7 @@ Item {
     function simulateShiftEnter() {
         verboseMessage("Filemanagement/Delete", "simulateShiftEnter()")
         hideDelete()
-        getanddostuff.deleteImage(variables.currentDir + "/" + variables.currentFileWithoutPQT,false)
+        getanddostuff.deleteImage(variables.currentDir + "/" + variables.currentFileWithoutExtras,false)
         var newfilename = Handle.getNewFilenameAfterDeletion()
         if(newfilename === "")
             variables.deleteNothingLeft = true

@@ -137,7 +137,7 @@ QString GetAndDoStuffFile::removeFilenameFromPath(QString file) {
 
 QString GetAndDoStuffFile::getSuffix(QString file) {
 
-    return QFileInfo(file).completeSuffix();
+    return QFileInfo(file).suffix();
 
 }
 
@@ -165,5 +165,18 @@ QString GetAndDoStuffFile::getMimeType(QString file) {
     QMimeDatabase db;
     return db.mimeTypeForFile(file).name();
 
+
+}
+
+QString GetAndDoStuffFile::streamlineFilePath(QString path) {
+
+    return QFileInfo(path).absoluteFilePath();
+
+}
+
+QString GetAndDoStuffFile::removeSuffixFromFilename(QString file) {
+
+    QString suffix = QFileInfo(file).suffix();
+    return file.remove(file.length()-suffix.length()-1, file.length());
 
 }

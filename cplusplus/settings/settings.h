@@ -105,8 +105,10 @@ private:
     int     m_pixmapCache;
     bool    m_showTransparencyMarkerBackground;
     bool    m_leftButtonMouseClickAndMove;
+
     bool    m_pdfSingleDocument;
     int     m_pdfQuality;
+    bool    m_zipSingleFile;
 
     bool    m_quickInfoHideCounter;
     bool    m_quickInfoHideFilepath;
@@ -568,6 +570,16 @@ public:
     void setPdfQuality(int val) { if(val != m_pdfQuality) { m_pdfQuality = val;
                                                             emit pdfQualityChanged(val);
                                                             saveSettingsTimer->start(); } }
+
+    // zipSingleFile
+    Q_PROPERTY(int    zipSingleFile
+               READ   getZipSingleFile
+               WRITE  setZipSingleFile
+               NOTIFY zipSingleFileChanged)
+    int  getZipSingleFile() { return m_zipSingleFile; }
+    void setZipSingleFile(int val) { if(val != m_zipSingleFile) { m_zipSingleFile = val;
+                                                                  emit zipSingleFileChanged(val);
+                                                                  saveSettingsTimer->start(); } }
 
     // quickInfoHideCounter
     Q_PROPERTY(bool   quickInfoHideCounter
@@ -1350,6 +1362,7 @@ signals:
     void leftButtonMouseClickAndMoveChanged(bool val);
     void pdfSingleDocumentChanged(bool val);
     void pdfQualityChanged(int val);
+    void zipSingleFileChanged(int val);
 
     void quickInfoHideCounterChanged(bool val);
     void quickInfoHideFilepathChanged(bool val);

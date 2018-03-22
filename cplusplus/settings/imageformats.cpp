@@ -3,7 +3,8 @@
 
 ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
 
-    categories << "qt" << "xcftools" << "poppler" << "gm" << "gmghostscript" << "raw" << "devil" << "freeimage";
+    categories << "qt" << "xcftools" << "poppler" << "gm" << "gmghostscript"
+               << "raw" << "devil" << "freeimage" << "quazip";
 
     setupAvailable = new QMap<QString, QStringList>[categories.length()];
 
@@ -419,6 +420,10 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[7].insert("*.hdp"        , QStringList() << "jxr" << "JPEG-XR"                                       << "0");
     setupAvailable[7].insert("*.wdp"        , QStringList() << "jxr" << "JPEG-XR"                                       << "0");
 
+    // QuaZIP
+    setupAvailable[8].insert("*.cbz"        , QStringList() << "zip" << "Comic book archive (ZIP)"                      << "1");
+    setupAvailable[8].insert("*.zip"        , QStringList() << "zip" << "Zip file format"                               << "1");
+
     availableFileformats = new QVariantList[categories.length()];
     availableFileformatsWithDescription = new QVariantList[categories.length()];
     enabledFileformats = new QStringList[categories.length()];
@@ -450,6 +455,7 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     connect(this, &ImageFormats::enabledFileformatsRAWChanged, this, [=](QStringList) {saveTimer->start();});
     connect(this, &ImageFormats::enabledFileformatsDevILChanged, this, [=](QStringList) {saveTimer->start();});
     connect(this, &ImageFormats::enabledFileformatsFreeImageChanged, this, [=](QStringList) {saveTimer->start();});
+    connect(this, &ImageFormats::enabledFileformatsQuaZIPChanged, this, [=](QStringList) {saveTimer->start();});
 
 }
 
@@ -473,6 +479,8 @@ void ImageFormats::setEnabledFileformats(QString cat, QStringList val, bool with
             setEnabledFileformatsDevIL(val);
         else if(cat == "freeimage")
             setEnabledFileformatsFreeImage(val);
+        else if(cat == "quazip")
+            setEnabledFileformatsQuaZIP(val);
 
     } else {
 
@@ -492,6 +500,8 @@ void ImageFormats::setEnabledFileformats(QString cat, QStringList val, bool with
             setEnabledFileformatsDevILWithoutSaving(val);
         else if(cat == "freeimage")
             setEnabledFileformatsFreeImageWithoutSaving(val);
+        else if(cat == "quazip")
+            setEnabledFileformatsQuaZIPWithoutSaving(val);
 
     }
 }

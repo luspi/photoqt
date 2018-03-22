@@ -29,15 +29,20 @@ function loadFile(filename, filter, forceReloadDirectory) {
     if(filename === undefined || filename == "")
         return
 
+    // Streamline path (remove '//', streamline '/path1/../path2/to/file')
+    filename = getanddostuff.streamlineFilePath(filename)
+
     if(forceReloadDirectory && ((filename.substring(0,1) != "/" && !getanddostuff.amIOnWindows()) || (filename.substring(1,3) != ":/" && getanddostuff.amIOnWindows())))
         filename = variables.currentDir + "/" + filename
 
     // If there is a page number (or if there should be one), make sure it is part of the filename and also store it in two variables (current and total)
     // The two variables make handling easier in other files, the info thoug has to be part of the filename to distinguish entries for different pages
+    var nopqt = (filename.indexOf("::PQT1::") == -1 || filename.indexOf("::PQT2::") == -1)
+    var nozip = (filename.indexOf("::ZIP1::") == -1 || filename.indexOf("::ZIP2::") == -1)
     if((imageformats.enabledFileformatsPoppler.indexOf("*." + getanddostuff.getSuffix(filename)) != -1 ||
         mimetypes.enabledMimeTypesPoppler.indexOf(getanddostuff.getMimeType(filename)) != -1) ||
             (filename.indexOf("::PQT1::") != -1 && filename.indexOf("::PQT2::") != -1)) {
-        if(filename.indexOf("::PQT1::") == -1 || filename.indexOf("::PQT2::") == -1) {
+        if(nopqt) {
             var tot = getanddostuff.getTotalNumberOfPagesOfPdf(filename)
             filename = getanddostuff.removeFilenameFromPath(filename)+"/::PQT1::0::" + tot + "::PQT2::" + getanddostuff.removePathFromFilename(filename)
             variables.multiPageCurrentPage = 0
@@ -61,8 +66,22 @@ function loadFile(filename, filter, forceReloadDirectory) {
 
         // If it's a new path or a forced reload, load folder contents and set up thumbnails (if enabled)
         if(filenameonly == "" || pathonly != variables.currentDir || (forceReloadDirectory !== undefined && forceReloadDirectory)) {
-            variables.allFilesCurrentDir = getanddostuff.getAllFilesIn(filename, "all", filter, false, settings.sortby, settings.sortbyAscending, false, true, settings.pdfSingleDocument)
+            variables.allFilesCurrentDir = getanddostuff.getAllFilesIn(filename, "all", filter, false, settings.sortby, settings.sortbyAscending, false, true, settings.pdfSingleDocument, true, settings.zipSingleFile)
             variables.totalNumberImagesCurrentFolder = variables.allFilesCurrentDir.length
+
+            // If it is a zip file, we need to set the first entry as the current file
+            variables.currentFileInsideZip = ""
+            if((filename.indexOf("::ZIP1::") == -1 || filename.indexOf("::ZIP2::") == -1) && (imageformats.enabledFileformatsQuaZIP.indexOf("*."+getanddostuff.getSuffix(filename)) != -1 || mimetypes.enabledMimeTypesQuaZIP.indexOf(getanddostuff.getMimeType(filename)) != -1)) {
+                for(var i = 0; i < variables.totalNumberImagesCurrentFolder; ++i) {
+                    if(variables.allFilesCurrentDir[i].indexOf(filename) != -1) {
+                        filenameonly = variables.allFilesCurrentDir[i]
+                        i = variables.totalNumberImagesCurrentFolder
+                        variables.currentFileInsideZip = getanddostuff.removeSuffixFromFilename(filenameonly.split("::ZIP2::")[1])
+                    }
+                }
+            }
+
+
             variables.currentDir = pathonly
             variables.currentFile = filenameonly
             // If no filename is available (e.g., when a directory was passed on during startup ...
@@ -84,8 +103,13 @@ function loadFile(filename, filter, forceReloadDirectory) {
             variables.currentFile = filenameonly
 
     // Image in current folder, display
-    } else
+    } else {
+        // If it is a zip file, we need to set the first entry as the current file
+        variables.currentFileInsideZip = ""
+        if((filename.indexOf("::ZIP1::") != -1 && filename.indexOf("::ZIP2::") != -1) || imageformats.enabledFileformatsQuaZIP.indexOf("*."+getanddostuff.getSuffix(filename)) != -1 || mimetypes.enabledMimeTypesQuaZIP.indexOf(getanddostuff.getMimeType(filename)) != -1)
+            variables.currentFileInsideZip = getanddostuff.removeSuffixFromFilename(filename.split("::ZIP2::")[1])
         variables.currentFile = filename
+    }
 
     // Reset these two, as something has arrived here
     variables.deleteNothingLeft = false
@@ -93,13 +117,14 @@ function loadFile(filename, filter, forceReloadDirectory) {
 
     // Set the image and load the metadata
     var src = variables.currentDir + "/" + variables.currentFile
+    var srcWithoutExtras = variables.currentDir + "/" + variables.currentFileWithoutExtras
     var anim = getanddostuff.isImageAnimated(src)
     var prefix = (anim ? "file://" : "image://full/")
 
     if(variables.currentFile != "") {
         imageitem.loadImage(prefix + src, anim)
-        metadata.setData(getmetadata.getExiv2(src))
-        watcher.setCurrentImageForWatching(src);
+        metadata.setData(getmetadata.getExiv2(srcWithoutExtras))
+        watcher.setCurrentImageForWatching(srcWithoutExtras);
         getanddostuff.saveLastOpenedImage(src)
     } else {
         call.show("openfile")

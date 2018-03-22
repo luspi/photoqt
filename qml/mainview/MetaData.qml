@@ -351,7 +351,7 @@ Item {
     Connections {
         target: watcher
         onImageUpdated:
-            setData(getmetadata.getExiv2(variables.currentDir + "/" + variables.currentFile))
+            setData(getmetadata.getExiv2(variables.currentDir + "/" + variables.currentFileWithoutExtras))
     }
 
     function setData(d) {
@@ -375,7 +375,7 @@ Item {
             mod.clear()
 
             if(settings.metaFilename) {
-                var fname = getanddostuff.removePathFromFilename(variables.currentFileWithoutPQT, false)
+                var fname = getanddostuff.removePathFromFilename(variables.currentFileWithoutExtras, false)
                 //: Keep string short!
                 mod.append({"name" : qsTranslate("metadata", "Filename"), "prop" : "", "value" : fname, "tooltip" : fname })
             }

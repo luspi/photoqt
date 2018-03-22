@@ -173,7 +173,7 @@ Item {
             // Some extra margin for visual improvements
             property int thumbnailExtraMargin: 25
 
-            property string filenameWithoutPQT: ""
+            property string filenameWithoutExtras: ""
 
             // activated is the image that is currently hovered by the mouse
             property bool activated: false
@@ -192,15 +192,21 @@ Item {
 
                 loaded = (getanddostuff.removePathFromFilename(imagePath)===variables.currentFile)
 
-                if(imagePath.indexOf("::PQT1::") == -1 || imagePath.indexOf("::PQT2::") == -1)
-                    rect.filenameWithoutPQT = getanddostuff.removePathFromFilename(imagePath)
+                var pqt = (imagePath.indexOf("::PQT1::") != -1 && imagePath.indexOf("::PQT2::") != -1)
+                var zip = (imagePath.indexOf("::ZIP1::") != -1 && imagePath.indexOf("::ZIP2::") != -1)
+
+                if(!pqt && !zip)
+                    rect.filenameWithoutExtras = getanddostuff.removePathFromFilename(imagePath)
                 else {
-                    var fn = getanddostuff.removePathFromFilename(imagePath)
-                    var info = fn.split("::PQT1::")[1].split("::PQT2::")[0]
-                    var txt = fn.replace("::PQT1::"+info+"::PQT2::", "")
-                    info = " - Page #" + (1+1*info.split("::")[0]) + "/" + info.split("::")[1]
-                    txt += info
-                    rect.filenameWithoutPQT = txt
+                    if(pqt) {
+                        var fn = getanddostuff.removePathFromFilename(imagePath)
+                        var info = fn.split("::PQT1::")[1].split("::PQT2::")[0]
+                        var txt = fn.replace("::PQT1::"+info+"::PQT2::", "")
+                        info = " - Page #" + (1+1*info.split("::")[0]) + "/" + info.split("::")[1]
+                        txt += info
+                        rect.filenameWithoutExtras = txt
+                    } else if(zip)
+                        rect.filenameWithoutExtras = getanddostuff.removeSuffixFromFilename(imagePath.split("::ZIP2::")[1])
                 }
 
             }
@@ -297,7 +303,7 @@ Item {
                 cursorShape: Qt.PointingHandCursor
 
                 // The tooltip is the current image filename
-                text: rect.filenameWithoutPQT
+                text: rect.filenameWithoutExtras
 
                 // set lift up/down of thumbnails
                 onEntered: {
@@ -311,7 +317,10 @@ Item {
 
                 // Load the selected thumbnail as main image
                 onClicked: {
-                    variables.currentFile = getanddostuff.removePathFromFilename(imagePath)
+                    if(imagePath.indexOf("::ZIP1::") == -1 || imagePath.indexOf("::ZIP2::") == -1)
+                        variables.currentFile = getanddostuff.removePathFromFilename(imagePath)
+                    else
+                        variables.currentFile = "::ZIP1::"+imagePath.split("::ZIP1::")[1]
                     mainwindow.loadFileFromThumbnails(variables.currentFile, variables.filter)
                 }
             }
@@ -353,7 +362,7 @@ Item {
                     horizontalAlignment: Qt.AlignHCenter
 
                     // the filename
-                    text: rect.filenameWithoutPQT
+                    text: rect.filenameWithoutExtras
 
                 }
 
@@ -399,7 +408,7 @@ Item {
                     elide: Text.ElideRight
 
                     // Set the tooltip
-                    text: filenameWithoutPQT
+                    text: rect.filenameWithoutExtras
 
                 }
             }

@@ -49,6 +49,9 @@ public:
     QString getSaveFilename(QString caption, QString file);
     bool doesThisExist(QString path);
 
+    QString streamlineFilePath(QString path);
+    QString removeSuffixFromFilename(QString file);
+
     QString getMimeType(QString file);
 
 };

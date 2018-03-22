@@ -90,6 +90,8 @@ public:
     Q_INVOKABLE QString getSaveFilename(QString caption, QString file) { return this->file->getSaveFilename(caption, file); }
     Q_INVOKABLE bool doesThisExist(QString path) { return this->file->doesThisExist(path); }
     Q_INVOKABLE QString getMimeType(QString file) { return this->file->getMimeType(file); }
+    Q_INVOKABLE QString streamlineFilePath(QString path) { return this->file->streamlineFilePath(path); }
+    Q_INVOKABLE QString removeSuffixFromFilename(QString file) { return this->file->removeSuffixFromFilename(file); }
 
     // MANIPULATION
     Q_INVOKABLE bool canBeScaled(QString filename) { return manipulation->canBeScaled(filename); }
@@ -145,7 +147,7 @@ public:
     Q_INVOKABLE bool isSupportedImageType(QString path) { return openfile->isSupportedImageType(path); }
 
     // LISTFILES
-    Q_INVOKABLE QVariantList getAllFilesIn(QString file, QString categoryFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize, bool pdfLoadAllPages, bool loadSinglePdf) { return this->listfiles->getAllFilesIn(file, categoryFileTypes, filter, showHidden, sortby, sortbyAscending, includeSize, pdfLoadAllPages, loadSinglePdf); }
+    Q_INVOKABLE QVariantList getAllFilesIn(QString file, QString categoryFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize, bool pdfLoadAllPages, bool loadSinglePdf, bool zipLoadAllFiles, bool loadSingleZip) { return this->listfiles->getAllFilesIn(file, categoryFileTypes, filter, showHidden, sortby, sortbyAscending, includeSize, pdfLoadAllPages, loadSinglePdf, zipLoadAllFiles, loadSingleZip); }
     Q_INVOKABLE int getTotalNumberOfPagesOfPdf(QString file) { return listfiles->getTotalNumberOfPagesOfPdf(file); }
 
 private:

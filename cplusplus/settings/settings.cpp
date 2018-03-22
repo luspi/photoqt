@@ -121,6 +121,7 @@ void Settings::setDefault() {
     setMainMenuWindowWidth(350);
     setPdfSingleDocument(true);
     setPdfQuality(150);
+    setZipSingleFile(true);
 
     setQuickInfoHideCounter(false);
     setQuickInfoHideFilepath(true);
@@ -272,6 +273,7 @@ void Settings::saveSettings() {
         cont += QString("LeftButtonMouseClickAndMove=%1\n").arg(int(m_leftButtonMouseClickAndMove));
         cont += QString("PdfSingleDocument=%1\n").arg(int(m_pdfSingleDocument));
         cont += QString("PdfQuality=%1\n").arg(m_pdfQuality);
+        cont += QString("ZipSingleFile=%1\n").arg(int(m_zipSingleFile));
 
         cont += "\n[QuickInfo]\n";
 
@@ -506,6 +508,9 @@ void Settings::readSettings() {
 
             else if(line.startsWith("PdfQuality="))
                 setPdfQuality(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("ZipSingleFile="))
+                setZipSingleFile(line.split("=").at(1).toInt());
 
 
             else if(line.startsWith("QuickInfoHideCounter="))

@@ -88,20 +88,21 @@ Item {
             anchors.left: counter.right
             anchors.leftMargin: visible ? (counter.visible ? 10 : 5) : 0
 
-            text: (variables.currentFile==""||(settings.quickInfoHideFilepath&&settings.quickInfoHideFilename) ?
-                       "" :
-                       (settings.quickInfoHideFilepath ?
-                            variables.currentFileWithoutPQT+(variables.multiPageCurrentPage!=-1 ?
-                                                                 " - Page #"+(1+1*variables.multiPageCurrentPage)+"/"+variables.multiPageTotalNumber :
-                                                                 "") :
-                            (settings.quickInfoHideFilename ?
-                                 variables.currentDir :
-                                 variables.currentDir+"/"+variables.currentFileWithoutPQT+(variables.multiPageCurrentPage!=-1 ?
-                                                                                               " - Page #"+(1+1*variables.multiPageCurrentPage)+"/"+variables.multiPageTotalNumber :
-                                                                                               ""))))
+            property bool poppler: variables.multiPageCurrentPage!=-1
+            property string popplerAppend: " - Page #"+(1+1*variables.multiPageCurrentPage)+"/"+variables.multiPageTotalNumber
+            property bool quazip: variables.currentFileInsideZip!=""
+            property string quazipAppend: ": "+variables.currentFileInsideZip
+
+            text: (settings.quickInfoHideFilepath&&settings.quickInfoHideFilename) ?
+                      "" :
+                      (settings.quickInfoHideFilepath ?
+                           "<b>"+variables.currentFileWithoutExtras+"</b>" :
+                           (settings.quickInfoHideFilename ?
+                                "<b>"+variables.currentDir+"</b>" :
+                                "<b>"+variables.currentDir+"/"+variables.currentFileWithoutExtras+"</b>")) +
+                      (poppler ? popplerAppend : quazip ? quazipAppend : "")
 
             color: colour.quickinfo_text
-            font.bold: true
             font.pointSize: 10
             visible: text!=""
 

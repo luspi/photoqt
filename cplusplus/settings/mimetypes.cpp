@@ -2,7 +2,8 @@
 
 MimeTypes::MimeTypes(QObject *parent) : QObject(parent) {
 
-    categories << "qt" << "xcftools" << "poppler" << "gm" << "gmghostscript" << "raw" << "devil" << "freeimage";
+    categories << "qt" << "xcftools" << "poppler" << "gm" << "gmghostscript"
+               << "raw" << "devil" << "freeimage" << "quazip";
 
     setupAvailable = new QMap<QString, QStringList>[categories.length()];
 
@@ -214,6 +215,12 @@ MimeTypes::MimeTypes(QObject *parent) : QObject(parent) {
     setupAvailable[7].insert("image/x-xbitmap"              , QStringList() << "X Windows system bitmap, black and white only"  << "1");
     setupAvailable[7].insert("image/x-xpixmap"              , QStringList() << "X Windows system pixmap"                        << "1");
 
+    /************************************************************/
+    /************************************************************/
+    // QuaZIP
+    setupAvailable[8].insert("application/zip"              , QStringList() << "Zip file format"                                << "1");
+
+
     availableMimeTypes = new QVariantList[categories.length()];
     availableMimeTypesWithDescription = new QVariantList[categories.length()];
     enabledMimeTypes = new QStringList[categories.length()];
@@ -245,6 +252,7 @@ MimeTypes::MimeTypes(QObject *parent) : QObject(parent) {
     connect(this, &MimeTypes::enabledMimeTypesRAWChanged, this, [=](QStringList) {saveTimer->start();});
     connect(this, &MimeTypes::enabledMimeTypesDevILChanged, this, [=](QStringList) {saveTimer->start();});
     connect(this, &MimeTypes::enabledMimeTypesFreeImageChanged, this, [=](QStringList) {saveTimer->start();});
+    connect(this, &MimeTypes::enabledMimeTypesQuaZIPChanged, this, [=](QStringList) {saveTimer->start();});
 
 }
 
@@ -268,6 +276,8 @@ void MimeTypes::setEnabledMimeTypes(QString cat, QStringList val, bool withSavin
             setEnabledMimeTypesDevIL(val);
         else if(cat == "freeimage")
             setEnabledMimeTypesFreeImage(val);
+        else if(cat == "quazip")
+            setEnabledMimeTypesQuaZIP(val);
 
     } else {
 
@@ -287,6 +297,8 @@ void MimeTypes::setEnabledMimeTypes(QString cat, QStringList val, bool withSavin
             setEnabledMimeTypesDevILWithoutSaving(val);
         else if(cat == "freeimage")
             setEnabledMimeTypesFreeImageWithoutSaving(val);
+        else if(cat == "quazip")
+            setEnabledMimeTypesQuaZIPWithoutSaving(val);
 
     }
 }

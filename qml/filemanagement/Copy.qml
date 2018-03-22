@@ -55,7 +55,7 @@ Item {
     Connections {
         target: container
         onItemShown:
-            filedialog.getFilename(em.pty+qsTr("Copy Image to..."), variables.currentDir + "/" + variables.currentFileWithoutPQT)
+            filedialog.getFilename(em.pty+qsTr("Copy Image to..."), variables.currentDir + "/" + variables.currentFileWithoutExtras)
         onItemHidden:
             filedialog.close()
     }
