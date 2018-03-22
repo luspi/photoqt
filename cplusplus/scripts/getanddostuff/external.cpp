@@ -65,40 +65,19 @@ QString GetAndDoStuffExternal::exportConfig(QString useThisFilename) {
         LOG << CURDATE << "GetAndDoStuffExternal::exportConfig() - " << useThisFilename.toStdString() << NL;
 
     // Obtain a filename from the user or used passed on filename
-    QString zipFile;
+    QString archiveFile;
     if(useThisFilename == "") {
-        zipFile = QFileDialog::getSaveFileName(0, "Select Location", QDir::homePath() + "/photoqtconfig.pqt", "PhotoQt Config File (*.pqt);;All Files (*.*)");
-        if(zipFile.trimmed() == "")
+        archiveFile = QFileDialog::getSaveFileName(0, "Select Location", QDir::homePath() + "/photoqtconfig.pqt", "PhotoQt Config File (*.pqt);;All Files (*.*)");
+        if(archiveFile.trimmed() == "")
             return "-";
     } else
-        zipFile = useThisFilename;
+        archiveFile = useThisFilename;
 
     // if no suffix, append the pqt suffix
-    if(!zipFile.endsWith(".pqt"))
-        zipFile += ".pqt";
+    if(!archiveFile.endsWith(".pqt"))
+        archiveFile += ".pqt";
 
-#ifdef QUAZIP
-
-    QStringList list;
-    if(QFileInfo(ConfigFiles::SETTINGS_FILE()).exists())
-        list << ConfigFiles::SETTINGS_FILE();
-    if(QFileInfo(ConfigFiles::IMAGEFORMATS_FILE()).exists())
-        list << ConfigFiles::IMAGEFORMATS_FILE();
-    if(QFileInfo(ConfigFiles::MIMEFORMATS_FILE()).exists())
-        list << ConfigFiles::MIMEFORMATS_FILE();
-    if(QFileInfo(ConfigFiles::CONTEXTMENU_FILE()).exists())
-        list << ConfigFiles::CONTEXTMENU_FILE();
-    if(QFileInfo(ConfigFiles::SHORTCUTS_FILE()).exists())
-        list << ConfigFiles::SHORTCUTS_FILE();
-
-    if(list.length() == 0)
-        return "No config files have been found for exporting... Nothing for me to do!\n";
-
-    JlCompress::compressFiles(zipFile, list);
-
-#else
-
-    // All the config files to be exported
+    // All the config files
     QHash<QString,QString> allfiles;
     allfiles["CFG_SETTINGS_FILE"] = ConfigFiles::SETTINGS_FILE();
     allfiles["CFG_IMAGEFORMATS_FILE"] = ConfigFiles::IMAGEFORMATS_FILE();
@@ -106,39 +85,58 @@ QString GetAndDoStuffExternal::exportConfig(QString useThisFilename) {
     allfiles["CFG_CONTEXTMENU_FILE"] = ConfigFiles::CONTEXTMENU_FILE();
     allfiles["CFG_SHORTCUTS_FILE"] = ConfigFiles::SHORTCUTS_FILE();
 
-    // Start a writer for the zip file
-    ZipWriter writer(zipFile);
+    // handler to the file
+    struct archive *a = archive_write_new();
 
-    // Iterate over filenames to be exported
-    QHash<QString, QString>::const_iterator i = allfiles.constBegin();
-    while(i != allfiles.constEnd()) {
+    // Write a zip file with gzip compression
+    archive_write_add_filter_gzip(a);
+    archive_write_set_format_zip(a);
 
-        // Create and open file in read only mode
-        QFile file(i.value());
-        if(!file.exists()) {
-            ++i;
-            continue;
+    // open archive for writing
+    archive_write_open_filename(a, archiveFile.toLatin1());
+
+    // loop over config files
+    QHash<QString, QString>::const_iterator iter = allfiles.constBegin();
+    while(iter != allfiles.constEnd()) {
+
+        QFile config(iter.value());
+
+        // Ignore files that do not exist
+        if(config.exists()) {
+
+            if(config.open(QIODevice::ReadOnly)) {
+
+                // Get file content
+                QTextStream in(&config);
+                QByteArray configtxt = in.readAll().toLatin1();
+
+                // create new entry in archive
+                struct archive_entry *entry = archive_entry_new();
+
+                // Set some metadata
+                archive_entry_set_pathname(entry, iter.key().toLatin1());
+                archive_entry_set_size(entry, config.size());
+                archive_entry_set_filetype(entry, AE_IFREG);
+                archive_entry_set_perm(entry, 0644);
+
+                // write header info
+                archive_write_header(a, entry);
+
+                // write config data to compressed file
+                archive_write_data(a, configtxt, config.size());
+
+                // Clean up memory
+                archive_entry_free(entry);
+
+            } else
+                LOG << CURDATE << "GetAndDoStuffExternal::exportConfig(): ERROR: Unable to read config file '" << iter.value().toStdString() << "'... Skipping!" << NL;
         }
-        if(!file.open(QIODevice::ReadOnly)) {
-            std::stringstream ss;
-            ss << "ERROR: Unable to open '" << i.value().toStdString() << "' file for composing config file: " << file.errorString().trimmed().toStdString();
-            LOG << CURDATE << ss.str() << NL;
-            // on error, return error string
-            return QString::fromStdString(ss.str());
-        }
-
-        // Add the file to the zip file
-        writer.addFile(i.key(),file.readAll());
-
-        file.close();
-
-        ++i;
+        ++iter;
     }
 
-    // close zip writer
-    writer.close();
-
-#endif
+    // Clean up memory
+    archive_write_close(a);
+    archive_write_free(a);
 
     return "";
 
@@ -154,97 +152,73 @@ QString GetAndDoStuffExternal::importConfig(QString filename) {
     allfiles["CFG_SETTINGS_FILE"] = ConfigFiles::SETTINGS_FILE();
     allfiles["CFG_CONTEXTMENU_FILE"] = ConfigFiles::CONTEXTMENU_FILE();
     allfiles["CFG_SHORTCUTS_FILE"] = ConfigFiles::SHORTCUTS_FILE();
-    allfiles[QFileInfo(ConfigFiles::SETTINGS_FILE()).fileName()] = ConfigFiles::SETTINGS_FILE();
-    allfiles[QFileInfo(ConfigFiles::IMAGEFORMATS_FILE()).fileName()] = ConfigFiles::IMAGEFORMATS_FILE();
-    allfiles[QFileInfo(ConfigFiles::MIMEFORMATS_FILE()).fileName()] = ConfigFiles::MIMEFORMATS_FILE();
-    allfiles[QFileInfo(ConfigFiles::CONTEXTMENU_FILE()).fileName()] = ConfigFiles::CONTEXTMENU_FILE();
-    allfiles[QFileInfo(ConfigFiles::SHORTCUTS_FILE()).fileName()] = ConfigFiles::SHORTCUTS_FILE();
+    allfiles["IMAGEFORMATS_FILE"] = ConfigFiles::IMAGEFORMATS_FILE();
+    allfiles["MIMEFORMATS_FILE"] = ConfigFiles::MIMEFORMATS_FILE();
 
-#ifdef QUAZIP
+    // Create new archive handler
+    struct archive *a = archive_read_new();
 
-    // Handler for input file
-    QFile file(filename);
+    // We allow any type of compression and format
+    archive_read_support_filter_all(a);
+    archive_read_support_format_zip(a);
 
-    // Display and return error message if file doesn't exist
-    if(!file.exists()) {
+    // Read file
+    int r = archive_read_open_filename(a, filename.toLatin1(), 10240);
+
+    // If something went wrong, output error message and stop here
+    if(r != ARCHIVE_OK) {
         std::stringstream ss;
-        ss << "ERROR: Config file '" << filename.toStdString() << "' does not seem to exist... Abort!";
-        LOG << CURDATE << ss.str() << NL;
-        // on error, return error string
+        ss << CURDATE << "GetAndDoStuffExternal::importConfig(): ERROR: archive_read_open_filename() returned code of " << r << NL;
+        LOG << ss.str();
         return QString::fromStdString(ss.str());
     }
 
-    // Open file for reading (aborts on error)
-    if(!file.open(QIODevice::ReadOnly)) {
-        std::stringstream ss;
-        ss << "ERROR: Config file '" << filename.toStdString() << "' cannot be opened for reading... Abort!";
-        LOG << CURDATE << ss.str() << NL;
-        // on error, return error string
-        return QString::fromStdString(ss.str());
-    }
+    // Loop over entries in archive
+    struct archive_entry *entry;
+    while(archive_read_next_header(a, &entry) == ARCHIVE_OK) {
 
-    // Get list of filenames in zip file
-    QStringList filelist = JlCompress::getFileList(&file);
+        // Read the current file entry
+        QString filenameinside = QString::fromStdString(archive_entry_pathname(entry));
 
-    // Loop over entries in zip file
-    foreach(QString fn, filelist) {
+        if(allfiles.contains(filenameinside)) {
 
-        // If file inside zip file is a config file
-        if(allfiles.contains(fn))
+            // Find out the size of the data
+            size_t size = archive_entry_size(entry);
+
+            // Create a uchar buffer of that size to hold the data
+            uchar buff[size+1];
+
+            // And finally read the file into the buffer
+            int r = archive_read_data(a, (void*)buff, size);
+            if(r != (int)size) {
+                LOG << CURDATE << "GetAndDoStuffExternal::importConfig(): ERROR: Unable to extract file '" << allfiles[filenameinside].toStdString() << "'... Skipping file!" << NL;
+                qDebug() << "ERROR string: " << archive_error_string(a);
+                continue;
+            }
+            // libarchive does not add a null terminating character, but Qt expects it, so we need to add it on
+            buff[size] = '\0';
+
             // try to extract file into destination file, return empty string on error
-            if(JlCompress::extractFile(&file, fn, allfiles[fn]) == "")
-                LOG << CURDATE << "WARNING: unable to extract file '" << fn.toStdString() << "'... Ignoring!" << NL;
+            QByteArray dat = reinterpret_cast<char*>(&buff);
 
-    }
+            // The output file...
+            QFile file(allfiles[filenameinside]);
+            // Overwrite old content
+            if(file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+                QTextStream out(&file);
+                out << dat;
+                file.close();
+            } else
+                LOG << CURDATE << "GetAndDoStuffExternal::importConfig(): ERROR: Unable to write new config file '" << allfiles[filenameinside].toStdString() << "'... Skipping file!" << NL;
 
-#else
-
-    // Start zip reader
-    ZipReader reader(filename);
-
-    if(!reader.exists()) {
-        std::stringstream ss;
-        ss << "ERROR: File '" << filename.toStdString() << "' does not exist!";
-        LOG << CURDATE << ss.str() << NL;
-        // on error, return error string
-        return QString::fromStdString(ss.str());
-    }
-
-    // and iterate over all files in the zip file
-    for(ZipReader::FileInfo item : reader.fileInfoList()) {
-
-        if(!allfiles.keys().contains(item.filePath)) {
-            LOG << CURDATE << "WARNING: Unknown key found, skipping to next file!" << NL;
-            continue;
         }
 
-        // start file with file path to be written to
-        QFile file(allfiles[item.filePath]);
-        if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-            std::stringstream ss;
-            ss << "ERROR: Unable to open '" << allfiles[item.filePath].toStdString() << "' for writing/truncating: " << file.errorString().trimmed().toStdString();
-            LOG << CURDATE << ss.str() << NL;
-            // on error, return error string
-            return QString::fromStdString(ss.str());
-        }
-
-        // write file
-        file.write(reader.fileData(item.filePath));
-
-        file.close();
-
     }
 
-    if(reader.status() == ZipReader::FileNotAZipError) {
-        QString err = "ERROR: This is not a valid zip file!";
-        LOG << CURDATE << err.toStdString() << NL;
-        return err;
-    }
-
-    // finish reader
-    reader.close();
-
-#endif
+    // Close archive
+    r = archive_read_free(a);
+    if(r != ARCHIVE_OK)
+        LOG << CURDATE << "GetAndDoStuffExternal::importConfig(): ERROR: archive_read_free() returned code of " << r << NL;
 
     return "";
 

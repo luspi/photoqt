@@ -7,9 +7,6 @@
 #ifdef POPPLER
 #include <poppler/qt5/poppler-qt5.h>
 #endif
-#ifdef QUAZIP
-#include <quazip5/quazip.h>
-#endif
 
 #include <QMimeDatabase>
 
@@ -19,7 +16,7 @@ public:
     GetAndDoStuffListFiles(QObject *parent = 0);
     ~GetAndDoStuffListFiles();
 
-    QVariantList getAllFilesIn(QString file, QString categoryFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize, bool pdfLoadAllPage, bool loadSinglePdf, bool zipLoadAllFiles, bool loadSingleZip);
+    QVariantList getAllFilesIn(QString file, QString categoryFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize, bool pdfLoadAllPage, bool loadSinglePdf, bool archiveLoadAllFiles, bool loadSingleArchive);
 
     int getTotalNumberOfPagesOfPdf(QString file);
 
@@ -31,8 +28,8 @@ private:
     void loadAllPdfPages(QFileInfo l, QVariantList *list);
     bool loadOnlyPdfPages(QString file, QVariantList *list);
 
-    void loadAllZipFiles(QFileInfo l, QVariantList *list);
-    bool loadOnlyZipFiles(QString file, QVariantList *list);
+    void loadAllArchiveFiles(QFileInfo l, QVariantList *list);
+    bool loadOnlyArchiveFiles(QString file, QVariantList *list);
 
 };
 

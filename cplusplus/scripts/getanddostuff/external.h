@@ -37,12 +37,8 @@
 #include <QRegExpValidator>
 #include "../../logger.h"
 #include "../../imageprovider/imageproviderfull.h"
-#ifdef QUAZIP
-#include <quazip5/JlCompress.h>
-#endif
-
-#include "../../zip/zipreader.h"
-#include "../../zip/zipwriter.h"
+#include <archive.h>
+#include <archive_entry.h>
 
 class GetAndDoStuffExternal : public QObject {
 

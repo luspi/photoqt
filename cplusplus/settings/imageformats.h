@@ -30,7 +30,7 @@ public:
     Q_INVOKABLE QVariantList getAvailableEndingsRAW() { return availableFileformats[categories.indexOf("raw")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsDevIL() { return availableFileformats[categories.indexOf("devil")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsFreeImage() { return availableFileformats[categories.indexOf("freeimage")]; }
-    Q_INVOKABLE QVariantList getAvailableEndingsQuaZIP() { return availableFileformats[categories.indexOf("quazip")]; }
+    Q_INVOKABLE QVariantList getAvailableEndingsArchive() { return availableFileformats[categories.indexOf("archive")]; }
 
     // All possibly available file formats INCLUDING a description of the image type for the various categories
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionQt() { return availableFileformatsWithDescription[categories.indexOf("qt")]; }
@@ -41,7 +41,7 @@ public:
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionRAW() { return availableFileformatsWithDescription[categories.indexOf("raw")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionDevIL() { return availableFileformatsWithDescription[categories.indexOf("devil")]; }
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionFreeImage() { return availableFileformatsWithDescription[categories.indexOf("freeimage")]; }
-    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionQuaZIP() { return availableFileformatsWithDescription[categories.indexOf("quazip")]; }
+    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionArchive() { return availableFileformatsWithDescription[categories.indexOf("archive")]; }
 
     // All possibly available file formats for the various categories
     Q_INVOKABLE QStringList getDefaultEnabledEndingsQt() { return defaultEnabledFileformats[categories.indexOf("qt")]; }
@@ -52,7 +52,7 @@ public:
     Q_INVOKABLE QStringList getDefaultEnabledEndingsRAW() { return defaultEnabledFileformats[categories.indexOf("raw")]; }
     Q_INVOKABLE QStringList getDefaultEnabledEndingsDevIL() { return defaultEnabledFileformats[categories.indexOf("devil")]; }
     Q_INVOKABLE QStringList getDefaultEnabledEndingsFreeImage() { return defaultEnabledFileformats[categories.indexOf("freeimage")]; }
-    Q_INVOKABLE QStringList getDefaultEnabledEndingsQuaZIP() { return defaultEnabledFileformats[categories.indexOf("quazip")]; }
+    Q_INVOKABLE QStringList getDefaultEnabledEndingsArchive() { return defaultEnabledFileformats[categories.indexOf("archive")]; }
 
     // All currently enabled file formats for ...
     // ... Qt
@@ -95,11 +95,11 @@ public:
     QStringList getEnabledFileformatsFreeImage() { return enabledFileformats[categories.indexOf("freeimage")]; }
     void setEnabledFileformatsFreeImage(QStringList val) { enabledFileformats[categories.indexOf("freeimage")] = val; emit enabledFileformatsFreeImageChanged(val); }
     void setEnabledFileformatsFreeImageWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("freeimage")] = val; }
-    // ... QuaZIP
-    Q_PROPERTY(QStringList enabledFileformatsQuaZIP READ getEnabledFileformatsQuaZIP WRITE setEnabledFileformatsQuaZIP NOTIFY enabledFileformatsQuaZIPChanged)
-    QStringList getEnabledFileformatsQuaZIP() { return enabledFileformats[categories.indexOf("quazip")]; }
-    void setEnabledFileformatsQuaZIP(QStringList val) { enabledFileformats[categories.indexOf("quazip")] = val; emit enabledFileformatsQuaZIPChanged(val); }
-    void setEnabledFileformatsQuaZIPWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("quazip")] = val; }
+    // ... Archive
+    Q_PROPERTY(QStringList enabledFileformatsArchive READ getEnabledFileformatsArchive WRITE setEnabledFileformatsArchive NOTIFY enabledFileformatsArchiveChanged)
+    QStringList getEnabledFileformatsArchive() { return enabledFileformats[categories.indexOf("archive")]; }
+    void setEnabledFileformatsArchive(QStringList val) { enabledFileformats[categories.indexOf("archive")] = val; emit enabledFileformatsArchiveChanged(val); }
+    void setEnabledFileformatsArchiveWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("archive")] = val; }
 
     Q_INVOKABLE void setDefaultFormatsQt() { setEnabledFileformatsQt(defaultEnabledFileformats[categories.indexOf("qt")]); }
     Q_INVOKABLE void setDefaultFormatsXCFTools() { setEnabledFileformatsXCFTools(defaultEnabledFileformats[categories.indexOf("xcftools")]); }
@@ -109,7 +109,7 @@ public:
     Q_INVOKABLE void setDefaultFormatsRAW() { setEnabledFileformatsRAW(defaultEnabledFileformats[categories.indexOf("raw")]); }
     Q_INVOKABLE void setDefaultFormatsDevIL() { setEnabledFileformatsDevIL(defaultEnabledFileformats[categories.indexOf("devil")]); }
     Q_INVOKABLE void setDefaultFormatsFreeImage() { setEnabledFileformatsFreeImage(defaultEnabledFileformats[categories.indexOf("freeimage")]); }
-    Q_INVOKABLE void setDefaultFormatsQuaZIP() { setEnabledFileformatsQuaZIP(defaultEnabledFileformats[categories.indexOf("quazip")]); }
+    Q_INVOKABLE void setDefaultFormatsArchive() { setEnabledFileformatsArchive(defaultEnabledFileformats[categories.indexOf("archive")]); }
 
     // Can be called from QML when resetting the settings
     Q_INVOKABLE void setDefaultFileformats() {
@@ -121,7 +121,7 @@ public:
         setEnabledFileformatsRAW(defaultEnabledFileformats[categories.indexOf("raw")]);
         setEnabledFileformatsDevIL(defaultEnabledFileformats[categories.indexOf("devil")]);
         setEnabledFileformatsFreeImage(defaultEnabledFileformats[categories.indexOf("freeimage")]);
-        setEnabledFileformatsQuaZIP(defaultEnabledFileformats[categories.indexOf("quazip")]);
+        setEnabledFileformatsArchive(defaultEnabledFileformats[categories.indexOf("archive")]);
     }
 
     Q_INVOKABLE QStringList getAllEnabledFileformats() {
@@ -161,11 +161,9 @@ public:
         foreach(QVariant entry, enabledFileformats[categories.indexOf("freeimage")])
             allFormats.append(entry.toString());
 #endif
-#ifdef QUAZIP
-        // QuaZIP
-        foreach(QVariant entry, enabledFileformats[categories.indexOf("quazip")])
+        // Archive
+        foreach(QVariant entry, enabledFileformats[categories.indexOf("archive")])
             allFormats.append(entry.toString());
-#endif
 
         return allFormats;
     }
@@ -179,7 +177,7 @@ signals:
     void enabledFileformatsRAWChanged(QStringList val);
     void enabledFileformatsDevILChanged(QStringList val);
     void enabledFileformatsFreeImageChanged(QStringList val);
-    void enabledFileformatsQuaZIPChanged(QStringList val);
+    void enabledFileformatsArchiveChanged(QStringList val);
     void enabledFileformatsChanged();
     void enabledFileformatsSaved();
 

@@ -63,22 +63,22 @@ Item {
     property string currentDir: ""
 
     // This is the position of the current file in the folder
-    property int currentFilePos: (currentFile.indexOf("::ZIP1::")!=-1&&currentFile.indexOf("::ZIP2::")!=-1) ?
-                                     (allFilesCurrentDir.indexOf("::ZIP1::"+currentFile.split("::ZIP1::")[1])>= 0 ?
-                                          allFilesCurrentDir.indexOf("::ZIP1::"+currentFile.split("::ZIP1::")[1]) :
+    property int currentFilePos: (currentFile.indexOf("::ARCHIVE1::")!=-1&&currentFile.indexOf("::ARCHIVE2::")!=-1) ?
+                                     (allFilesCurrentDir.indexOf("::ARCHIVE1::"+currentFile.split("::ARCHIVE1::")[1])>= 0 ?
+                                          allFilesCurrentDir.indexOf("::ARCHIVE1::"+currentFile.split("::ARCHIVE1::")[1]) :
                                           -1) :
                                      (allFilesCurrentDir.indexOf(getanddostuff.removePathFromFilename(currentFile))>=0 ?
                                         allFilesCurrentDir.indexOf(getanddostuff.removePathFromFilename(currentFile)) :
                                         -1)
 
     // Sometimes the page number is stored in the filename (e.g., for Poppler (PDF) documents). This string is the filename WITHOUT that information
-    readonly property string currentFileWithoutExtras: (currentFile.indexOf("::ZIP1::")!=-1&&currentFile.indexOf("::ZIP2::")!=-1) ?
-                                                           getanddostuff.removePathFromFilename((currentFile.split("::ZIP1::")[1].split("::ZIP2::")[0])) :
+    readonly property string currentFileWithoutExtras: (currentFile.indexOf("::ARCHIVE1::")!=-1&&currentFile.indexOf("::ARCHIVE2::")!=-1) ?
+                                                           getanddostuff.removePathFromFilename((currentFile.split("::ARCHIVE1::")[1].split("::ARCHIVE2::")[0])) :
                                                            (currentFile.indexOf("::PQT1::")!=-1&&currentFile.indexOf("::PQT2::")!=-1) ?
                                                                (currentFile.split("::PQT1::")[0] + currentFile.split("::PQT2::")[1]) :
                                                                currentFile
 
-    property string currentFileInsideZip: ""
+    property string currentFileInsideArchive: ""
 
     // The total number of images in current folder
     property int totalNumberImagesCurrentFolder: 0

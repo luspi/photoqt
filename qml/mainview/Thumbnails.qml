@@ -193,9 +193,9 @@ Item {
                 loaded = (getanddostuff.removePathFromFilename(imagePath)===variables.currentFile)
 
                 var pqt = (imagePath.indexOf("::PQT1::") != -1 && imagePath.indexOf("::PQT2::") != -1)
-                var zip = (imagePath.indexOf("::ZIP1::") != -1 && imagePath.indexOf("::ZIP2::") != -1)
+                var arc = (imagePath.indexOf("::ARCHIVE1::") != -1 && imagePath.indexOf("::ARCHIVE2::") != -1)
 
-                if(!pqt && !zip)
+                if(!pqt && !arc)
                     rect.filenameWithoutExtras = getanddostuff.removePathFromFilename(imagePath)
                 else {
                     if(pqt) {
@@ -205,8 +205,8 @@ Item {
                         info = " - Page #" + (1+1*info.split("::")[0]) + "/" + info.split("::")[1]
                         txt += info
                         rect.filenameWithoutExtras = txt
-                    } else if(zip)
-                        rect.filenameWithoutExtras = getanddostuff.removeSuffixFromFilename(imagePath.split("::ZIP2::")[1])
+                    } else if(arc)
+                        rect.filenameWithoutExtras = getanddostuff.removeSuffixFromFilename(imagePath.split("::ARCHIVE2::")[1])
                 }
 
             }
@@ -317,10 +317,10 @@ Item {
 
                 // Load the selected thumbnail as main image
                 onClicked: {
-                    if(imagePath.indexOf("::ZIP1::") == -1 || imagePath.indexOf("::ZIP2::") == -1)
+                    if(imagePath.indexOf("::ARCHIVE1::") == -1 || imagePath.indexOf("::ARCHIVE2::") == -1)
                         variables.currentFile = getanddostuff.removePathFromFilename(imagePath)
                     else
-                        variables.currentFile = "::ZIP1::"+imagePath.split("::ZIP1::")[1]
+                        variables.currentFile = "::ARCHIVE1::"+imagePath.split("::ARCHIVE1::")[1]
                     mainwindow.loadFileFromThumbnails(variables.currentFile, variables.filter)
                 }
             }

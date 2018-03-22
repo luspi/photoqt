@@ -4,7 +4,7 @@
 ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
 
     categories << "qt" << "xcftools" << "poppler" << "gm" << "gmghostscript"
-               << "raw" << "devil" << "freeimage" << "quazip";
+               << "raw" << "devil" << "freeimage" << "archive";
 
     setupAvailable = new QMap<QString, QStringList>[categories.length()];
 
@@ -420,9 +420,15 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[7].insert("*.hdp"        , QStringList() << "jxr" << "JPEG-XR"                                       << "0");
     setupAvailable[7].insert("*.wdp"        , QStringList() << "jxr" << "JPEG-XR"                                       << "0");
 
-    // QuaZIP
+    // Archive
     setupAvailable[8].insert("*.cbz"        , QStringList() << "zip" << "Comic book archive (ZIP)"                      << "1");
-    setupAvailable[8].insert("*.zip"        , QStringList() << "zip" << "Zip file format"                               << "1");
+    setupAvailable[8].insert("*.cbr"        , QStringList() << "rar" << "Comic book archive (RAR)"                      << "1");
+    setupAvailable[8].insert("*.cb7"        , QStringList() << "7z " << "Comic book archive (7z)"                       << "1");
+    setupAvailable[8].insert("*.cbt"        , QStringList() << "tar" << "Comic book archive (TAR)"                      << "1");
+    setupAvailable[8].insert("*.zip"        , QStringList() << "zip" << "ZIP file format"                               << "0");
+    setupAvailable[8].insert("*.rar"        , QStringList() << "rar" << "RAR file format"                               << "0");
+    setupAvailable[8].insert("*.7z"         , QStringList() << "7z " << "7z file format"                                << "0");
+    setupAvailable[8].insert("*.tar"        , QStringList() << "tar" << "TAR file format"                               << "0");
 
     availableFileformats = new QVariantList[categories.length()];
     availableFileformatsWithDescription = new QVariantList[categories.length()];
@@ -455,7 +461,7 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     connect(this, &ImageFormats::enabledFileformatsRAWChanged, this, [=](QStringList) {saveTimer->start();});
     connect(this, &ImageFormats::enabledFileformatsDevILChanged, this, [=](QStringList) {saveTimer->start();});
     connect(this, &ImageFormats::enabledFileformatsFreeImageChanged, this, [=](QStringList) {saveTimer->start();});
-    connect(this, &ImageFormats::enabledFileformatsQuaZIPChanged, this, [=](QStringList) {saveTimer->start();});
+    connect(this, &ImageFormats::enabledFileformatsArchiveChanged, this, [=](QStringList) {saveTimer->start();});
 
 }
 
@@ -479,8 +485,8 @@ void ImageFormats::setEnabledFileformats(QString cat, QStringList val, bool with
             setEnabledFileformatsDevIL(val);
         else if(cat == "freeimage")
             setEnabledFileformatsFreeImage(val);
-        else if(cat == "quazip")
-            setEnabledFileformatsQuaZIP(val);
+        else if(cat == "archive")
+            setEnabledFileformatsArchive(val);
 
     } else {
 
@@ -500,8 +506,8 @@ void ImageFormats::setEnabledFileformats(QString cat, QStringList val, bool with
             setEnabledFileformatsDevILWithoutSaving(val);
         else if(cat == "freeimage")
             setEnabledFileformatsFreeImageWithoutSaving(val);
-        else if(cat == "quazip")
-            setEnabledFileformatsQuaZIPWithoutSaving(val);
+        else if(cat == "archive")
+            setEnabledFileformatsArchiveWithoutSaving(val);
 
     }
 }

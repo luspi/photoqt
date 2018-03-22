@@ -28,7 +28,7 @@ public:
     Q_INVOKABLE QVariantList getAvailableMimeTypesRAW() { return availableMimeTypes[categories.indexOf("raw")]; }
     Q_INVOKABLE QVariantList getAvailableMimeTypesDevIL() { return availableMimeTypes[categories.indexOf("devil")]; }
     Q_INVOKABLE QVariantList getAvailableMimeTypesFreeImage() { return availableMimeTypes[categories.indexOf("freeimage")]; }
-    Q_INVOKABLE QVariantList getAvailableMimeTypesQuaZIP() { return availableMimeTypes[categories.indexOf("quazip")]; }
+    Q_INVOKABLE QVariantList getAvailableMimeTypesArchive() { return availableMimeTypes[categories.indexOf("archive")]; }
 
     // All possibly available mime types INCLUDING a description of the image type for the various categories
     Q_INVOKABLE QVariantList getAvailableMimeTypesWithDescriptionQt() { return availableMimeTypesWithDescription[categories.indexOf("qt")]; }
@@ -39,7 +39,7 @@ public:
     Q_INVOKABLE QVariantList getAvailableMimeTypesWithDescriptionRAW() { return availableMimeTypesWithDescription[categories.indexOf("raw")]; }
     Q_INVOKABLE QVariantList getAvailableMimeTypesWithDescriptionDevIL() { return availableMimeTypesWithDescription[categories.indexOf("devil")]; }
     Q_INVOKABLE QVariantList getAvailableMimeTypesWithDescriptionFreeImage() { return availableMimeTypesWithDescription[categories.indexOf("freeimage")]; }
-    Q_INVOKABLE QVariantList getAvailableMimeTypesWithDescriptionQuaZIP() { return availableMimeTypesWithDescription[categories.indexOf("quazip")]; }
+    Q_INVOKABLE QVariantList getAvailableMimeTypesWithDescriptionArchive() { return availableMimeTypesWithDescription[categories.indexOf("archive")]; }
 
     // All possibly available mime types for the various categories
     Q_INVOKABLE QStringList getDefaultEnabledMimeTypesQt() { return defaultEnabledMimeTypes[categories.indexOf("qt")]; }
@@ -50,7 +50,7 @@ public:
     Q_INVOKABLE QStringList getDefaultEnabledMimeTypesRAW() { return defaultEnabledMimeTypes[categories.indexOf("raw")]; }
     Q_INVOKABLE QStringList getDefaultEnabledMimeTypesDevIL() { return defaultEnabledMimeTypes[categories.indexOf("devil")]; }
     Q_INVOKABLE QStringList getDefaultEnabledMimeTypesFreeImage() { return defaultEnabledMimeTypes[categories.indexOf("freeimage")]; }
-    Q_INVOKABLE QStringList getDefaultEnabledMimeTypesQuaZIP() { return defaultEnabledMimeTypes[categories.indexOf("quazip")]; }
+    Q_INVOKABLE QStringList getDefaultEnabledMimeTypesArchive() { return defaultEnabledMimeTypes[categories.indexOf("archive")]; }
 
     // All currently enabled mime types for ...
     // ... Qt
@@ -93,11 +93,11 @@ public:
     QStringList getEnabledMimeTypesFreeImage() { return enabledMimeTypes[categories.indexOf("freeimage")]; }
     void setEnabledMimeTypesFreeImage(QStringList val) { enabledMimeTypes[categories.indexOf("freeimage")] = val; emit enabledMimeTypesFreeImageChanged(val); }
     void setEnabledMimeTypesFreeImageWithoutSaving(QStringList val) { enabledMimeTypes[categories.indexOf("freeimage")] = val; }
-    // ... QuaZIP
-    Q_PROPERTY(QStringList enabledMimeTypesQuaZIP READ getEnabledMimeTypesQuaZIP WRITE setEnabledMimeTypesQuaZIP NOTIFY enabledMimeTypesQuaZIPChanged)
-    QStringList getEnabledMimeTypesQuaZIP() { return enabledMimeTypes[categories.indexOf("quazip")]; }
-    void setEnabledMimeTypesQuaZIP(QStringList val) { enabledMimeTypes[categories.indexOf("quazip")] = val; emit enabledMimeTypesQuaZIPChanged(val); }
-    void setEnabledMimeTypesQuaZIPWithoutSaving(QStringList val) { enabledMimeTypes[categories.indexOf("quazip")] = val; }
+    // ... Archive
+    Q_PROPERTY(QStringList enabledMimeTypesArchive READ getEnabledMimeTypesArchive WRITE setEnabledMimeTypesArchive NOTIFY enabledMimeTypesArchiveChanged)
+    QStringList getEnabledMimeTypesArchive() { return enabledMimeTypes[categories.indexOf("archive")]; }
+    void setEnabledMimeTypesArchive(QStringList val) { enabledMimeTypes[categories.indexOf("archive")] = val; emit enabledMimeTypesArchiveChanged(val); }
+    void setEnabledMimeTypesArchiveWithoutSaving(QStringList val) { enabledMimeTypes[categories.indexOf("archive")] = val; }
 
     Q_INVOKABLE void setDefaultMimeTypesQt() { setEnabledMimeTypesQt(defaultEnabledMimeTypes[categories.indexOf("qt")]); }
     Q_INVOKABLE void setDefaultMimeTypesXCFTools() { setEnabledMimeTypesXCFTools(defaultEnabledMimeTypes[categories.indexOf("xcftools")]); }
@@ -107,7 +107,7 @@ public:
     Q_INVOKABLE void setDefaultMimeTypesRAW() { setEnabledMimeTypesRAW(defaultEnabledMimeTypes[categories.indexOf("raw")]); }
     Q_INVOKABLE void setDefaultMimeTypesDevIL() { setEnabledMimeTypesDevIL(defaultEnabledMimeTypes[categories.indexOf("devil")]); }
     Q_INVOKABLE void setDefaultMimeTypesFreeImage() { setEnabledMimeTypesFreeImage(defaultEnabledMimeTypes[categories.indexOf("freeimage")]); }
-    Q_INVOKABLE void setDefaultMimeTypesQuaZIP() { setEnabledMimeTypesQuaZIP(defaultEnabledMimeTypes[categories.indexOf("quazip")]); }
+    Q_INVOKABLE void setDefaultMimeTypesArchive() { setEnabledMimeTypesArchive(defaultEnabledMimeTypes[categories.indexOf("archive")]); }
 
     // Can be called from QML when resetting the settings
     Q_INVOKABLE void setDefaultMimeTypes() {
@@ -119,7 +119,7 @@ public:
         setEnabledMimeTypesRAW(defaultEnabledMimeTypes[categories.indexOf("raw")]);
         setEnabledMimeTypesDevIL(defaultEnabledMimeTypes[categories.indexOf("devil")]);
         setEnabledMimeTypesFreeImage(defaultEnabledMimeTypes[categories.indexOf("freeimage")]);
-        setEnabledMimeTypesQuaZIP(defaultEnabledMimeTypes[categories.indexOf("quazip")]);
+        setEnabledMimeTypesArchive(defaultEnabledMimeTypes[categories.indexOf("archive")]);
     }
 
     Q_INVOKABLE QStringList getAllEnabledMimeTypes() {
@@ -159,11 +159,9 @@ public:
         foreach(QVariant entry, enabledMimeTypes[categories.indexOf("freeimage")])
             allMimeTypes.append(entry.toString());
 #endif
-#ifdef QUAZIP
-        // QuaZIP
-        foreach(QVariant entry, enabledMimeTypes[categories.indexOf("quazip")])
+        // Archive
+        foreach(QVariant entry, enabledMimeTypes[categories.indexOf("archive")])
             allMimeTypes.append(entry.toString());
-#endif
 
         return allMimeTypes;
     }
@@ -177,7 +175,7 @@ signals:
     void enabledMimeTypesRAWChanged(QStringList val);
     void enabledMimeTypesDevILChanged(QStringList val);
     void enabledMimeTypesFreeImageChanged(QStringList val);
-    void enabledMimeTypesQuaZIPChanged(QStringList val);
+    void enabledMimeTypesArchiveChanged(QStringList val);
     void enabledMimeTypesChanged();
     void enabledMimeTypesSaved();
 

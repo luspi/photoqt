@@ -108,7 +108,7 @@ private:
 
     bool    m_pdfSingleDocument;
     int     m_pdfQuality;
-    bool    m_zipSingleFile;
+    bool    m_archiveSingleFile;
 
     bool    m_quickInfoHideCounter;
     bool    m_quickInfoHideFilepath;
@@ -571,15 +571,15 @@ public:
                                                             emit pdfQualityChanged(val);
                                                             saveSettingsTimer->start(); } }
 
-    // zipSingleFile
-    Q_PROPERTY(int    zipSingleFile
-               READ   getZipSingleFile
-               WRITE  setZipSingleFile
-               NOTIFY zipSingleFileChanged)
-    int  getZipSingleFile() { return m_zipSingleFile; }
-    void setZipSingleFile(int val) { if(val != m_zipSingleFile) { m_zipSingleFile = val;
-                                                                  emit zipSingleFileChanged(val);
-                                                                  saveSettingsTimer->start(); } }
+    // archiveSingleFile
+    Q_PROPERTY(int    archiveSingleFile
+               READ   getArchiveSingleFile
+               WRITE  setArchiveSingleFile
+               NOTIFY archiveSingleFileChanged)
+    int  getArchiveSingleFile() { return m_archiveSingleFile; }
+    void setArchiveSingleFile(int val) { if(val != m_archiveSingleFile) { m_archiveSingleFile = val;
+                                                                          emit archiveSingleFileChanged(val);
+                                                                          saveSettingsTimer->start(); } }
 
     // quickInfoHideCounter
     Q_PROPERTY(bool   quickInfoHideCounter
@@ -1362,7 +1362,7 @@ signals:
     void leftButtonMouseClickAndMoveChanged(bool val);
     void pdfSingleDocumentChanged(bool val);
     void pdfQualityChanged(int val);
-    void zipSingleFileChanged(int val);
+    void archiveSingleFileChanged(int val);
 
     void quickInfoHideCounterChanged(bool val);
     void quickInfoHideFilepathChanged(bool val);

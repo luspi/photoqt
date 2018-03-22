@@ -147,7 +147,7 @@ public:
     Q_INVOKABLE bool isSupportedImageType(QString path) { return openfile->isSupportedImageType(path); }
 
     // LISTFILES
-    Q_INVOKABLE QVariantList getAllFilesIn(QString file, QString categoryFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize, bool pdfLoadAllPages, bool loadSinglePdf, bool zipLoadAllFiles, bool loadSingleZip) { return this->listfiles->getAllFilesIn(file, categoryFileTypes, filter, showHidden, sortby, sortbyAscending, includeSize, pdfLoadAllPages, loadSinglePdf, zipLoadAllFiles, loadSingleZip); }
+    Q_INVOKABLE QVariantList getAllFilesIn(QString file, QString categoryFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize, bool pdfLoadAllPages, bool loadSinglePdf, bool archiveLoadAllFiles, bool loadSingleArchive) { return this->listfiles->getAllFilesIn(file, categoryFileTypes, filter, showHidden, sortby, sortbyAscending, includeSize, pdfLoadAllPages, loadSinglePdf, archiveLoadAllFiles, loadSingleArchive); }
     Q_INVOKABLE int getTotalNumberOfPagesOfPdf(QString file) { return listfiles->getTotalNumberOfPagesOfPdf(file); }
 
 private:

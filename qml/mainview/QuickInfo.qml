@@ -90,8 +90,8 @@ Item {
 
             property bool poppler: variables.multiPageCurrentPage!=-1
             property string popplerAppend: " - Page #"+(1+1*variables.multiPageCurrentPage)+"/"+variables.multiPageTotalNumber
-            property bool quazip: variables.currentFileInsideZip!=""
-            property string quazipAppend: ": "+variables.currentFileInsideZip
+            property bool archive: variables.currentFileInsideArchive!=""
+            property string archiveAppend: ": "+variables.currentFileInsideArchive
 
             text: (settings.quickInfoHideFilepath&&settings.quickInfoHideFilename) ?
                       "" :
@@ -100,7 +100,7 @@ Item {
                            (settings.quickInfoHideFilename ?
                                 "<b>"+variables.currentDir+"</b>" :
                                 "<b>"+variables.currentDir+"/"+variables.currentFileWithoutExtras+"</b>")) +
-                      (poppler ? popplerAppend : quazip ? quazipAppend : "")
+                      (poppler ? popplerAppend : archive ? archiveAppend : "")
 
             color: colour.quickinfo_text
             font.pointSize: 10

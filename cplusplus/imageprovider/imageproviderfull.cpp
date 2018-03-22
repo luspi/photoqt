@@ -26,7 +26,7 @@
 #include "loader/loadimage_qt.h"
 #include "loader/loadimage_xcf.h"
 #include "loader/loadimage_poppler.h"
-#include "loader/loadimage_quazip.h"
+#include "loader/loadimage_archive.h"
 
 // Both the libraw and the freeimage library have typedefs for INT64 and UINT64.
 // As we never use them directly, we can redefine one of them (here for libraw) to use a different name and thus avoid the clash.
@@ -66,7 +66,7 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
 #endif
     QString filename = full_filename;
 
-    if(!QFileInfo(filename).exists() && !filename.contains("::PQT1::") && !filename.contains("::PQT2::") && !filename.contains("::ZIP1::") && !filename.contains("::ZIP2::")) {
+    if(!QFileInfo(filename).exists() && !filename.contains("::PQT1::") && !filename.contains("::PQT2::") && !filename.contains("::ARCHIVE1::") && !filename.contains("::ARCHIVE2::")) {
         QString err = QCoreApplication::translate("imageprovider", "File failed to load, it doesn't exist!");
         LOG << CURDATE << "ImageProviderFull: ERROR: " << err.toStdString() << NL;
         LOG << CURDATE << "ImageProviderFull: Filename: " << filename.toStdString() << NL;
@@ -135,8 +135,8 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
     else if(whatToUse == "poppler")
         ret = LoadImage::PDF::load(filename, maxSize, settings->pdfQuality);
 
-    else if(whatToUse == "quazip")
-        ret = LoadImage::QuaZIP::load(filename, maxSize);
+    else if(whatToUse == "archive")
+        ret = LoadImage::Archive::load(filename, maxSize);
 
     // Try to use Qt
     else
@@ -197,11 +197,11 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
 
 
     /***********************************************************/
-    // QuaZIP
+    // Archive
 
-    if(imageformats->getEnabledFileformatsQuaZIP().contains("*." + info.suffix().toLower()) ||
-       mimetypes->getEnabledMimeTypesQuaZIP().contains(mimedb.mimeTypeForFile(useThisFilename).name()))
-        return "quazip";
+    if(imageformats->getEnabledFileformatsArchive().contains("*." + info.suffix().toLower()) ||
+       mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(useThisFilename).name()))
+        return "archive";
 
 
 

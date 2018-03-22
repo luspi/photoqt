@@ -23,6 +23,10 @@
 #include "listfiles.h"
 #include "../sortlist.h"
 
+#include <archive.h>
+#include <archive_entry.h>
+#include <QtDebug>
+
 GetAndDoStuffListFiles::GetAndDoStuffListFiles(QObject *parent) : QObject(parent) {
     imageformats = new ImageFormats;
     mimetypes = new MimeTypes;
@@ -33,7 +37,7 @@ GetAndDoStuffListFiles::~GetAndDoStuffListFiles() {
     delete mimetypes;
 }
 
-QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categoryFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize, bool pdfLoadAllPages, bool loadSinglePdf, bool zipLoadAllFiles, bool loadSingleZip) {
+QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categoryFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize, bool pdfLoadAllPages, bool loadSinglePdf, bool archiveLoadAllFiles, bool loadSingleArchive) {
 
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE << "GetAndDoStuffOpenFile::getAllFilesIn() - " << file.toStdString() << " / "
@@ -59,14 +63,12 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
             return ret;
     }
 #endif
-#ifdef QUAZIP
-    QMimeDatabase mimedb_zip;
-    if(loadSingleZip && (imageformats->getEnabledFileformatsQuaZIP().contains("*."+QFileInfo(file).suffix().toLower()) || mimetypes->getEnabledMimeTypesQuaZIP().contains(mimedb_zip.mimeTypeForFile(file).name()))) {
+    QMimeDatabase mimedb_archive;
+    if(loadSingleArchive && (imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(file).suffix().toLower()) || mimetypes->getEnabledMimeTypesArchive().contains(mimedb_archive.mimeTypeForFile(file).name()))) {
         QVariantList ret;
-        if(loadOnlyZipFiles(file, &ret))
+        if(loadOnlyArchiveFiles(file, &ret))
             return ret;
     }
-#endif
 
     QFileInfoList list = getEntryList(file, categoryFileTypes, showHidden);
 
@@ -128,9 +130,9 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
                     bool pdfloaded = (loadSinglePdf &&
                                         (imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(fn).suffix()) ||
                                          mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())));
-                    bool ziploaded = (loadSingleZip &&
-                                        (imageformats->getEnabledFileformatsQuaZIP().contains("*."+QFileInfo(fn).suffix()) ||
-                                         mimetypes->getEnabledMimeTypesQuaZIP().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())));
+                    bool archiveloaded = (loadSingleArchive &&
+                                        (imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(fn).suffix()) ||
+                                         mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())));
 #ifdef POPPLER
                     if(pdfLoadAllPages && !loadSinglePdf) {
                         if(imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(fn).suffix()) ||
@@ -140,16 +142,14 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
                         }
                     }
 #endif
-#ifdef QUAZIP
-                    if(zipLoadAllFiles && !loadSingleZip) {
-                        if(imageformats->getEnabledFileformatsQuaZIP().contains("*."+QFileInfo(fn).suffix()) ||
-                           mimetypes->getEnabledMimeTypesQuaZIP().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())) {
-                            loadAllZipFiles(l, &ret);
-                            ziploaded = true;
+                    if(archiveLoadAllFiles && !loadSingleArchive) {
+                        if(imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(fn).suffix()) ||
+                           mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())) {
+                            loadAllArchiveFiles(l, &ret);
+                            archiveloaded = true;
                         }
                     }
-#endif
-                    if(!pdfloaded && !ziploaded)
+                    if(!pdfloaded && !archiveloaded)
                         ret.append(fn);
                 }
             }
@@ -160,9 +160,9 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
                     bool pdfloaded = (loadSinglePdf &&
                                         (imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(fn).suffix()) ||
                                          mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())));
-                    bool ziploaded = (loadSingleZip &&
-                                        (imageformats->getEnabledFileformatsQuaZIP().contains("*."+QFileInfo(fn).suffix()) ||
-                                         mimetypes->getEnabledMimeTypesQuaZIP().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())));
+                    bool archiveloaded = (loadSingleArchive &&
+                                        (imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(fn).suffix()) ||
+                                         mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())));
 #ifdef POPPLER
                     if(pdfLoadAllPages && !loadSinglePdf) {
                         if(imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(fn).suffix()) ||
@@ -172,16 +172,14 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
                         }
                     }
 #endif
-#ifdef QUAZIP
-                    if(zipLoadAllFiles && !loadSingleZip) {
-                        if(imageformats->getEnabledFileformatsQuaZIP().contains("*."+QFileInfo(fn).suffix()) ||
-                           mimetypes->getEnabledMimeTypesQuaZIP().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())) {
-                            loadAllZipFiles(l, &ret);
-                            ziploaded = true;
+                    if(archiveLoadAllFiles && !loadSingleArchive) {
+                        if(imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(fn).suffix()) ||
+                           mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())) {
+                            loadAllArchiveFiles(l, &ret);
+                            archiveloaded = true;
                         }
                     }
-#endif
-                    if(!pdfloaded && !ziploaded)
+                    if(!pdfloaded && !archiveloaded)
                         ret.append(fn);
                 }
             }
@@ -192,9 +190,9 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
                     bool pdfloaded = (loadSinglePdf &&
                                         (imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(fn).suffix()) ||
                                          mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())));
-                    bool ziploaded = (loadSingleZip &&
-                                        (imageformats->getEnabledFileformatsQuaZIP().contains("*."+QFileInfo(fn).suffix()) ||
-                                         mimetypes->getEnabledMimeTypesQuaZIP().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())));
+                    bool archiveloaded = (loadSingleArchive &&
+                                        (imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(fn).suffix()) ||
+                                         mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())));
 #ifdef POPPLER
                     if(pdfLoadAllPages && !loadSinglePdf) {
                         if(imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(fn).suffix()) ||
@@ -204,16 +202,14 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
                         }
                     }
 #endif
-#ifdef QUAZIP
-                    if(zipLoadAllFiles && !loadSingleZip) {
-                        if(imageformats->getEnabledFileformatsQuaZIP().contains("*."+QFileInfo(fn).suffix()) ||
-                           mimetypes->getEnabledMimeTypesQuaZIP().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())) {
-                            loadAllZipFiles(l, &ret);
-                            ziploaded = true;
+                    if(archiveLoadAllFiles && !loadSingleArchive) {
+                        if(imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(fn).suffix()) ||
+                           mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())) {
+                            loadAllArchiveFiles(l, &ret);
+                            archiveloaded = true;
                         }
                     }
-#endif
-                    if(!pdfloaded && !ziploaded)
+                    if(!pdfloaded && !archiveloaded)
                         ret.append(fn);
                 }
             }
@@ -225,31 +221,61 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
 
 }
 
-void GetAndDoStuffListFiles::loadAllZipFiles(QFileInfo l, QVariantList *list) {
+void GetAndDoStuffListFiles::loadAllArchiveFiles(QFileInfo l, QVariantList *list) {
 
-#ifdef QUAZIP
+    // Create new archive handler
+    struct archive *a = archive_read_new();
 
-    QMimeDatabase mimedb;
-    QuaZip zip(l.absoluteFilePath());
-    zip.open(QuaZip::mdUnzip);
-    QList<QuaZipFileInfo> infolist = zip.getFileInfoList();
-    foreach(QuaZipFileInfo info, infolist) {
-        QFileInfo fileinfo = QFileInfo(info.name);
-        if((imageformats->getEnabledFileformatsQt().contains("*." + fileinfo.suffix()) || mimetypes->getEnabledMimeTypesQt().contains(mimedb.mimeTypeForFile(fileinfo.fileName()).name())))
-            list->append(QString("::ZIP1::%2::ZIP2::%3.zip").arg(l.absoluteFilePath()).arg(info.name));
+    // We allow any type of compression and format
+    archive_read_support_filter_all(a);
+    archive_read_support_format_all(a);
+
+    // Read file
+    int r = archive_read_open_filename(a, l.absoluteFilePath().toLatin1(), 10240);
+
+    // If something went wrong, output error message and stop here
+    if(r != ARCHIVE_OK) {
+        LOG << CURDATE << "GetAndDoStuffListFiles::loadAllArchiveFiles(): ERROR: archive_read_open_filename() returned code of " << r << NL;
+        return;
     }
 
-#endif
+    // mime type database
+    QMimeDatabase mimedb;
+
+    // Loop over entries in archive
+    struct archive_entry *entry;
+    QStringList allfiles;
+    while(archive_read_next_header(a, &entry) == ARCHIVE_OK) {
+
+        // Read the current file entry
+        QString filenameinside = QString::fromStdString(archive_entry_pathname(entry));
+
+        // If supported file format, append to temporary list
+        if((imageformats->getEnabledFileformatsQt().contains("*." + QFileInfo(filenameinside).suffix()) ||
+            mimetypes->getEnabledMimeTypesQt().contains(mimedb.mimeTypeForFile(filenameinside).name())))
+            allfiles.append(filenameinside);
+
+    }
+
+    // Sort the temporary list and add to global list
+    allfiles.sort();
+    foreach(QString f, allfiles)
+        list->append(QString("::ARCHIVE1::%1::ARCHIVE2::%2.%3").arg(l.absoluteFilePath()).arg(f).arg(l.suffix()));
+
+    // Close archive
+    r = archive_read_free(a);
+    if(r != ARCHIVE_OK)
+        LOG << CURDATE << "GetAndDoStuffListFiles::loadAllArchiveFiles(): ERROR: archive_read_free() returned code of " << r << NL;
 
 }
 
-bool GetAndDoStuffListFiles::loadOnlyZipFiles(QString file, QVariantList *list) {
+bool GetAndDoStuffListFiles::loadOnlyArchiveFiles(QString file, QVariantList *list) {
     QMimeDatabase mimedb;
-    if(imageformats->getEnabledFileformatsQuaZIP().contains("*."+QFileInfo(file).suffix().toLower()) || mimetypes->getEnabledMimeTypesQuaZIP().contains(mimedb.mimeTypeForFile(file).name())) {
-        loadAllZipFiles(QFileInfo(file), list);
+    if(imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(file).suffix().toLower()) || mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(file).name())) {
+        loadAllArchiveFiles(QFileInfo(file), list);
         if(list->length() == 0) {
-            LOG << "GetAndDoStuffListFiles::loadOnlyZipFiles(): ERROR: Invalid/Empty ZIP file, no files found" << NL;
-            list->append("invalidzip.zip");
+            LOG << "GetAndDoStuffListFiles::loadOnlyArchiveFiles(): ERROR: Invalid/Empty archive file, no files found" << NL;
+            list->append("invalidarchive.zip");
         }
         return true;
     }
@@ -330,9 +356,9 @@ QFileInfoList GetAndDoStuffListFiles::getEntryList(QString file, QString categor
     } else if(categoryFileTypes == "poppler") {
         checkForTheseFormats = imageformats->getEnabledFileformatsPoppler();
         checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesPoppler();
-    } else if(categoryFileTypes == "quazip") {
-        checkForTheseFormats = imageformats->getEnabledFileformatsQuaZIP();
-        checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesQuaZIP();
+    } else if(categoryFileTypes == "archive") {
+        checkForTheseFormats = imageformats->getEnabledFileformatsArchive();
+        checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesArchive();
     }
 
     QFileInfoList retlist;

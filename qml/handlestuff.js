@@ -37,12 +37,10 @@ function loadFile(filename, filter, forceReloadDirectory) {
 
     // If there is a page number (or if there should be one), make sure it is part of the filename and also store it in two variables (current and total)
     // The two variables make handling easier in other files, the info thoug has to be part of the filename to distinguish entries for different pages
-    var nopqt = (filename.indexOf("::PQT1::") == -1 || filename.indexOf("::PQT2::") == -1)
-    var nozip = (filename.indexOf("::ZIP1::") == -1 || filename.indexOf("::ZIP2::") == -1)
     if((imageformats.enabledFileformatsPoppler.indexOf("*." + getanddostuff.getSuffix(filename)) != -1 ||
         mimetypes.enabledMimeTypesPoppler.indexOf(getanddostuff.getMimeType(filename)) != -1) ||
             (filename.indexOf("::PQT1::") != -1 && filename.indexOf("::PQT2::") != -1)) {
-        if(nopqt) {
+        if(filename.indexOf("::PQT1::") == -1 || filename.indexOf("::PQT2::") == -1) {
             var tot = getanddostuff.getTotalNumberOfPagesOfPdf(filename)
             filename = getanddostuff.removeFilenameFromPath(filename)+"/::PQT1::0::" + tot + "::PQT2::" + getanddostuff.removePathFromFilename(filename)
             variables.multiPageCurrentPage = 0
@@ -66,17 +64,17 @@ function loadFile(filename, filter, forceReloadDirectory) {
 
         // If it's a new path or a forced reload, load folder contents and set up thumbnails (if enabled)
         if(filenameonly == "" || pathonly != variables.currentDir || (forceReloadDirectory !== undefined && forceReloadDirectory)) {
-            variables.allFilesCurrentDir = getanddostuff.getAllFilesIn(filename, "all", filter, false, settings.sortby, settings.sortbyAscending, false, true, settings.pdfSingleDocument, true, settings.zipSingleFile)
+            variables.allFilesCurrentDir = getanddostuff.getAllFilesIn(filename, "all", filter, false, settings.sortby, settings.sortbyAscending, false, true, settings.pdfSingleDocument, true, settings.archiveSingleFile)
             variables.totalNumberImagesCurrentFolder = variables.allFilesCurrentDir.length
 
-            // If it is a zip file, we need to set the first entry as the current file
-            variables.currentFileInsideZip = ""
-            if((filename.indexOf("::ZIP1::") == -1 || filename.indexOf("::ZIP2::") == -1) && (imageformats.enabledFileformatsQuaZIP.indexOf("*."+getanddostuff.getSuffix(filename)) != -1 || mimetypes.enabledMimeTypesQuaZIP.indexOf(getanddostuff.getMimeType(filename)) != -1)) {
+            // If it is an archive file, we need to set the first entry as the current file
+            variables.currentFileInsideArchive = ""
+            if((filename.indexOf("::ARCHIVE1::") == -1 || filename.indexOf("::ARCHIVE2::") == -1) && (imageformats.enabledFileformatsArchive.indexOf("*."+getanddostuff.getSuffix(filename)) != -1 || mimetypes.enabledMimeTypesArchive.indexOf(getanddostuff.getMimeType(filename)) != -1)) {
                 for(var i = 0; i < variables.totalNumberImagesCurrentFolder; ++i) {
                     if(variables.allFilesCurrentDir[i].indexOf(filename) != -1) {
                         filenameonly = variables.allFilesCurrentDir[i]
                         i = variables.totalNumberImagesCurrentFolder
-                        variables.currentFileInsideZip = getanddostuff.removeSuffixFromFilename(filenameonly.split("::ZIP2::")[1])
+                        variables.currentFileInsideArchive = getanddostuff.removeSuffixFromFilename(filenameonly.split("::ARCHIVE2::")[1])
                     }
                 }
             }
@@ -104,10 +102,10 @@ function loadFile(filename, filter, forceReloadDirectory) {
 
     // Image in current folder, display
     } else {
-        // If it is a zip file, we need to set the first entry as the current file
-        variables.currentFileInsideZip = ""
-        if((filename.indexOf("::ZIP1::") != -1 && filename.indexOf("::ZIP2::") != -1) || imageformats.enabledFileformatsQuaZIP.indexOf("*."+getanddostuff.getSuffix(filename)) != -1 || mimetypes.enabledMimeTypesQuaZIP.indexOf(getanddostuff.getMimeType(filename)) != -1)
-            variables.currentFileInsideZip = getanddostuff.removeSuffixFromFilename(filename.split("::ZIP2::")[1])
+        // If it is an archive file, we need to set the first entry as the current file
+        variables.currentFileInsideArchive = ""
+        if((filename.indexOf("::ARCHIVE1::") != -1 && filename.indexOf("::ARCHIVE2::") != -1) || imageformats.enabledFileformatsArchive.indexOf("*."+getanddostuff.getSuffix(filename)) != -1 || mimetypes.enabledMimeTypesArchive.indexOf(getanddostuff.getMimeType(filename)) != -1)
+            variables.currentFileInsideArchive = getanddostuff.removeSuffixFromFilename(filename.split("::ARCHIVE2::")[1])
         variables.currentFile = filename
     }
 
