@@ -13,3 +13,6 @@ SET(photoqt_TESTING ${photoqt_TESTING} ${d}/context.cpp ${d}/file.cpp ${d}/manip
 
 SET(d "cplusplus/simplecrypt")
 SET(photoqt_TESTING ${photoqt_TESTING} ${d}/simplecrypt.cpp)
+
+SET(d "cplusplus/settings")
+SET(photoqt_TESTING ${photoqt_TESTING} ${d}/slimsettingsreadonly.cpp)

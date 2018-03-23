@@ -70,5 +70,13 @@
         <file>img/settings/imageformats/devil.jpg</file>
         <file>img/settings/imageformats/freeimage.jpg</file>
         <file>img/settings/imageformats/empty.png</file>
+        <file>img/openfile/archive/zip.png</file>
+        <file>img/openfile/archive/rar.png</file>
+        <file>img/openfile/archive/tar.png</file>
+        <file>img/openfile/archive/7z.png</file>
+        <file>img/openfile/archive/cbz.png</file>
+        <file>img/openfile/archive/cbr.png</file>
+        <file>img/openfile/archive/cbt.png</file>
+        <file>img/openfile/archive/cb7.png</file>
     </qresource>
 </RCC>

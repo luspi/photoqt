@@ -35,8 +35,30 @@ namespace LoadImage {
         QImage load(QString filename, QSize maxSize) {
 
             // If no archive info is stored, return error image
-            if(!filename.contains("::ARCHIVE1::") || !filename.contains("::ARCHIVE2::"))
-                return ErrorImage::load("LoadImage::Archive(): ERROR: Don't know which archive file to load file from...");
+            if(!filename.contains("::ARCHIVE1::") || !filename.contains("::ARCHIVE2::")) {
+
+                QString suffix = QFileInfo(filename).suffix();
+
+                QStringList knownSuffix = QStringList() << "cbz" << "cbr" << "cbt" << "cb7" << "zip" << "rar" << "tar" << "7z";
+
+                QImage ret;
+
+                if(knownSuffix.contains(suffix))
+                    ret = QImage(QString(":/img/openfile/archive/%1.png").arg(suffix));
+                else
+                    ret = QImage(":/img/openfile/archive/zip.png");
+
+                // This is to make sure that this type of thumbnail is not cached (pretends to be error image)
+                ret.setText("error", "error");
+
+                // If image needs to be scaled down, return scaled down version
+                if(maxSize.width() > 5 && maxSize.height() > 5)
+                    if(ret.width() > maxSize.width() || ret.height() > maxSize.height())
+                        return ret.scaled(maxSize, ::Qt::KeepAspectRatio);
+
+                return ret;
+
+            }
 
             // filter out name of archivefile and of compressed file inside
             QString archivefile = filename.split("::ARCHIVE1::").at(1).split("::ARCHIVE2::").at(0);
