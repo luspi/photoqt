@@ -146,9 +146,6 @@ elseif(NOT WIN32)
     qt5_use_modules(${PROJECT_NAME} Quick Sql Svg Core Xml)
 endif(WIN32)
 
-# We need to link to zlib for zip support
-target_link_libraries(${PROJECT_NAME} "z")
-
 
 ########################
 #### HANDLE TESTING ####
