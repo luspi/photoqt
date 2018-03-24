@@ -185,7 +185,7 @@ function loadNext() {
         loadpos = 0
     else
         loadpos += 1
-    loadFile(variables.allFilesCurrentDir[loadpos], variables.filter)
+    loadFile(variables.currentDir+"/"+variables.allFilesCurrentDir[loadpos], variables.filter)
 }
 
 // Load the previous image in the folder
@@ -203,21 +203,21 @@ function loadPrev() {
         loadpos = variables.allFilesCurrentDir.length-1
     else
         loadpos -= 1
-    loadFile(variables.allFilesCurrentDir[loadpos], variables.filter)
+    loadFile(variables.currentDir+"/"+variables.allFilesCurrentDir[loadpos], variables.filter)
 }
 
 // Jump to the first image in the folder
 function loadFirst() {
     verboseMessage("handlstuff.js","loadFirst(): " + variables.filterNoMatch + " / " + variables.deleteNothingLeft)
     if(variables.filterNoMatch || variables.deleteNothingLeft) return
-    loadFile(variables.allFilesCurrentDir[0], variables.filter)
+    loadFile(variables.currentDir+"/"+variables.allFilesCurrentDir[0], variables.filter)
 }
 
 // Jump to the last image in the folder
 function loadLast() {
     verboseMessage("handlstuff.js","loadLast(): " + variables.filterNoMatch + " / " + variables.deleteNothingLeft)
     if(variables.filterNoMatch || variables.deleteNothingLeft) return
-    loadFile(variables.allFilesCurrentDir[variables.allFilesCurrentDir.length -1], variables.filter)
+    loadFile(variables.currentDir+"/"+variables.allFilesCurrentDir[variables.allFilesCurrentDir.length -1], variables.filter)
 }
 
 function checkIfClickOnEmptyArea(prsd, rlsd) {
