@@ -53,13 +53,13 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
         setupAvailable[0].insert("*.svgz"       , QStringList() << "svg" << "Scalable Vector Graphics"                      << "1");
     }
     if(imageReaderSup.contains("tga"))
-        setupAvailable[0].insert("*.tga"        , QStringList() << "tga" << "Truevision Targa Graphic"                      << "1");
+        setupAvailable[0].insert("*.tga"        , QStringList() << "tga" << "Truevision Targa image"                        << "1");
     if(imageReaderSup.contains("tif") || imageReaderSup.contains("tiff")) {
         setupAvailable[0].insert("*.tif"        , QStringList() << "tif" << "Tagged Image File Format"                      << "1");
         setupAvailable[0].insert("*.tiff"       , QStringList() << "tif" << "Tagged Image File Format"                      << "1");
     }
     if(imageReaderSup.contains("wbmp"))
-        setupAvailable[0].insert("*.wbmp"       , QStringList() << "wbp" << "Wireless bitmap"                               << "1");
+        setupAvailable[0].insert("*.wbmp"       , QStringList() << "wbp" << "Wireless Bitmap"                               << "1");
     if(imageReaderSup.contains("xbm"))
         setupAvailable[0].insert("*.xbm"        , QStringList() << "xbm" << "X Windows system bitmap, black and white only" << "1");
     if(imageReaderSup.contains("xpm"))
@@ -88,7 +88,7 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     if(imageReaderSup.contains("sgi"))
         setupAvailable[0].insert("*.sgi"        , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
     if(imageReaderSup.contains("xcf"))
-        setupAvailable[0].insert("*.xcf"        , QStringList() << "xcf" << "Gimp format"                                   << "1");
+        setupAvailable[0].insert("*.xcf"        , QStringList() << "xcf" << "Gimp XCF"                                      << "1");
 #ifndef FREEIMAGE
     // CAUSES CRASH when FreeImage is enabled:
     if(imageReaderSup.contains("webp"))
@@ -106,7 +106,7 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     /************************************************************/
     /************************************************************/
     // xcftools
-    setupAvailable[1].insert("*.xcf"        , QStringList() << "xcf" << "Gimp format - Makes use of 'xcftoold'"         << "0");
+    setupAvailable[1].insert("*.xcf"        , QStringList() << "xcf" << "Gimp XCF - Makes use of 'xcftools'"                << "0");
 
     /************************************************************/
     /************************************************************/
@@ -231,7 +231,7 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[3].insert("*.ico"        , QStringList() << "ico" << "Microsoft icon"                                << "0");
     setupAvailable[3].insert("*.cgm"        , QStringList() << "cgm" << "Computer Graphics Metafile"                    << "0");
     setupAvailable[3].insert("*.cur"        , QStringList() << "cur" << "Microsoft Cursor Icon"                         << "0");
-    setupAvailable[3].insert("*.dcx"        , QStringList() << "dcx" << "DR HaloZSoft IBM PC multi-page Paintbrush image"   << "0");
+    setupAvailable[3].insert("*.dcx"        , QStringList() << "dcx" << "ZSoft IBM PC multi-page Paintbrush image"      << "0");
     setupAvailable[3].insert("*.fig"        , QStringList() << "fig" << "FIG graphics format"                           << "0");
     setupAvailable[3].insert("*.man"        , QStringList() << "man" << "Unix reference manual pages"                   << "0");
     setupAvailable[3].insert("*.mvg"        , QStringList() << "mtv" << "Magick Vector Graphics"                        << "0");
@@ -339,7 +339,7 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[6].insert("*.bw"         , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
     setupAvailable[6].insert("*.rgb"        , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
     setupAvailable[6].insert("*.rgba"       , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
-    setupAvailable[6].insert("*.tga"        , QStringList() << "tga" << "Truevision Targa Graphic"                      << "1");
+    setupAvailable[6].insert("*.tga"        , QStringList() << "tga" << "Truevision Targa image"                        << "1");
     setupAvailable[6].insert("*.tif"        , QStringList() << "tif" << "Tagged Image File Format"                      << "1");
     setupAvailable[6].insert("*.tiff"       , QStringList() << "tif" << "Tagged Image File Format"                      << "1");
     // no test image available
@@ -353,7 +353,7 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[6].insert("*.wal"        , QStringList() << "wal" << "Quake2 Texture"                                << "0");
     setupAvailable[6].insert("*.vtf"        , QStringList() << "vtf" << "Valve Texture Format"                          << "0");
     // fails on my system
-    setupAvailable[6].insert("*.cut"        , QStringList() << "cut" << "Dr. Halo"                                      << "0");
+    setupAvailable[6].insert("*.cut"        , QStringList() << "cut" << "DR Halo"                                       << "0");
     setupAvailable[6].insert("*.dcx"        , QStringList() << "dcx" << "Multi-PCX"                                     << "0");
     setupAvailable[6].insert("*.dcm"        , QStringList() << "dic" << "Digital Imaging and Communications in Medicine (DICOM) image"  << "0");
     setupAvailable[6].insert("*.dicom"      , QStringList() << "dic" << "Digital Imaging and Communications in Medicine (DICOM) image"  << "0");
@@ -367,7 +367,7 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     /************************************************************/
     // FreeImage
     setupAvailable[7].insert("*.bmp"        , QStringList() << "bmp" << "Microsoft Windows bitmap"                      << "1");
-    setupAvailable[7].insert("*.cut"        , QStringList() << "cut" << "Dr. Halo"                                      << "1");
+    setupAvailable[7].insert("*.cut"        , QStringList() << "cut" << "DR Halo"                                       << "1");
     setupAvailable[7].insert("*.dds"        , QStringList() << "dds" << "DirectDraw Surface"                            << "1");
     setupAvailable[7].insert("*.g3"         , QStringList() << "fax" << "Raw Fax"                                       << "1");
     setupAvailable[7].insert("*.g4"         , QStringList() << "fax" << "Raw Fax"                                       << "1");
@@ -398,7 +398,7 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[7].insert("*.rgb"        , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
     setupAvailable[7].insert("*.rgba"       , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
     setupAvailable[7].insert("*.sgi"        , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
-    setupAvailable[7].insert("*.tga"        , QStringList() << "tga" << "Truevision Targa Graphic"                      << "1");
+    setupAvailable[7].insert("*.tga"        , QStringList() << "tga" << "Truevision Targa image"                        << "1");
     setupAvailable[7].insert("*.tif"        , QStringList() << "tif" << "Tagged Image File Format"                      << "1");
     setupAvailable[7].insert("*.tiff"       , QStringList() << "tif" << "Tagged Image File Format"                      << "1");
     setupAvailable[7].insert("*.wbmp"       , QStringList() << "wbm" << "Wireless Bitmap"                               << "1");
