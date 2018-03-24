@@ -74,7 +74,19 @@ Rectangle {
 
     Connections {
 
-        target: popuptop
+        target: formatsPopupEndings
+
+        // Toggle all in this category
+        onChangeAllWithDescription: {
+            if(category == desc)
+                checked = chkd
+        }
+
+    }
+
+    Connections {
+
+        target: formatsPopupMimetypes
 
         // Toggle all in this category
         onChangeAllWithDescription: {

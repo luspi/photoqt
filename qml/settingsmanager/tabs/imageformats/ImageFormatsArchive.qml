@@ -38,7 +38,7 @@ EntryContainer {
         EntryTitle {
 
             id: titletext
-            title: "libarchive: Archives"
+            title: "libarchive: ZIP, RAR, TAR, 7z"
             helptext: em.pty+qsTr("PhotoQt takes advantage of libarchive to load packed files (zip, rar, tar, 7z). It can either load them together with the rest of the images (each (supported) file as one image) or it can ignore such files except when asked to open one, then it wont load any other images (like a document viewer).")
             imageSource: "qrc:/img/settings/imageformats/empty.png"
             fontcolor: enabled ? colour.text : colour.text_disabled

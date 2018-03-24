@@ -161,6 +161,7 @@ Rectangle {
                 // Set the data of the current file ending
                 displaytext: grid.available[index][0]
                 description: grid.available[index][1]
+                category: grid.available[index][2]
 
                 // some spacing around each entry
                 x: grid.spacing

@@ -87,8 +87,6 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
         setupAvailable[0].insert("*.rgba"       , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
     if(imageReaderSup.contains("sgi"))
         setupAvailable[0].insert("*.sgi"        , QStringList() << "sgi" << "Silicon Graphics"                              << "1");
-    if(imageReaderSup.contains("tga"))
-        setupAvailable[0].insert("*.tga"        , QStringList() << "tga" << "Truevision Targa Graphic"                      << "1");
     if(imageReaderSup.contains("xcf"))
         setupAvailable[0].insert("*.xcf"        , QStringList() << "xcf" << "Gimp format"                                   << "1");
 #ifndef FREEIMAGE
@@ -267,46 +265,46 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     /************************************************************/
     /************************************************************/
     // RAW
-    setupAvailable[5].insert("*.3fr"        , QStringList() << "3fr" << "Hasselblad"                << "1");
-    setupAvailable[5].insert("*.ari"        , QStringList() << "ari" << "ARRIFLEX"                  << "1");
-    setupAvailable[5].insert("*.arw"        , QStringList() << "arw" << "Sony"                      << "1");
-    setupAvailable[5].insert("*.srf"        , QStringList() << "srf" << "Sony"                      << "1");
-    setupAvailable[5].insert("*.sr2"        , QStringList() << "sr2" << "Sony"                      << "1");
-    setupAvailable[5].insert("*.bay"        , QStringList() << "bay" << "Casio"                     << "1");
-    setupAvailable[5].insert("*.crw"        , QStringList() << "crw" << "Canon"                     << "1");
-    setupAvailable[5].insert("*.crr"        , QStringList() << "crr" << "Canon"                     << "1");
-    setupAvailable[5].insert("*.cr2"        , QStringList() << "cr2" << "Canon"                     << "1");
-    setupAvailable[5].insert("*.cap"        , QStringList() << "cap" << "Phase_one"                 << "1");
-    setupAvailable[5].insert("*.liq"        , QStringList() << "liq" << "Phase_one"                 << "1");
-    setupAvailable[5].insert("*.eip"        , QStringList() << "eip" << "Phase_one"                 << "1");
-    setupAvailable[5].insert("*.dcs"        , QStringList() << "dcs" << "Kodak"                     << "1");
-    setupAvailable[5].insert("*.dcr"        , QStringList() << "dcr" << "Kodak"                     << "1");
-    setupAvailable[5].insert("*.drf"        , QStringList() << "drf" << "Kodak"                     << "1");
-    setupAvailable[5].insert("*.k25"        , QStringList() << "k25" << "Kodak"                     << "1");
-    setupAvailable[5].insert("*.kdc"        , QStringList() << "kdc" << "Kodak"                     << "1");
-    setupAvailable[5].insert("*.dng"        , QStringList() << "dng" << "Adobe"                     << "1");
-    setupAvailable[5].insert("*.erf"        , QStringList() << "erf" << "Epson"                     << "1");
+    setupAvailable[5].insert("*.3fr"        , QStringList() << "has" << "Hasselblad"                << "1");
+    setupAvailable[5].insert("*.ari"        , QStringList() << "arr" << "ARRIFLEX"                  << "1");
+    setupAvailable[5].insert("*.arw"        , QStringList() << "son" << "Sony"                      << "1");
+    setupAvailable[5].insert("*.srf"        , QStringList() << "son" << "Sony"                      << "1");
+    setupAvailable[5].insert("*.sr2"        , QStringList() << "son" << "Sony"                      << "1");
+    setupAvailable[5].insert("*.bay"        , QStringList() << "cas" << "Casio"                     << "1");
+    setupAvailable[5].insert("*.crw"        , QStringList() << "can" << "Canon"                     << "1");
+    setupAvailable[5].insert("*.crr"        , QStringList() << "can" << "Canon"                     << "1");
+    setupAvailable[5].insert("*.cr2"        , QStringList() << "can" << "Canon"                     << "1");
+    setupAvailable[5].insert("*.cap"        , QStringList() << "ph1" << "Phase_one"                 << "1");
+    setupAvailable[5].insert("*.liq"        , QStringList() << "ph1" << "Phase_one"                 << "1");
+    setupAvailable[5].insert("*.eip"        , QStringList() << "ph1" << "Phase_one"                 << "1");
+    setupAvailable[5].insert("*.dcs"        , QStringList() << "kod" << "Kodak"                     << "1");
+    setupAvailable[5].insert("*.dcr"        , QStringList() << "kod" << "Kodak"                     << "1");
+    setupAvailable[5].insert("*.drf"        , QStringList() << "kod" << "Kodak"                     << "1");
+    setupAvailable[5].insert("*.k25"        , QStringList() << "kod" << "Kodak"                     << "1");
+    setupAvailable[5].insert("*.kdc"        , QStringList() << "kod" << "Kodak"                     << "1");
+    setupAvailable[5].insert("*.dng"        , QStringList() << "ado" << "Adobe"                     << "1");
+    setupAvailable[5].insert("*.erf"        , QStringList() << "eps" << "Epson"                     << "1");
     setupAvailable[5].insert("*.fff"        , QStringList() << "fff" << "Imacon/Hasselblad raw"     << "1");
-    setupAvailable[5].insert("*.mef"        , QStringList() << "mef" << "Mamiya"                    << "1");
-    setupAvailable[5].insert("*.mdc"        , QStringList() << "mdc" << "Minolta, Agfa"             << "1");
+    setupAvailable[5].insert("*.mef"        , QStringList() << "mam" << "Mamiya"                    << "1");
+    setupAvailable[5].insert("*.mdc"        , QStringList() << "min" << "Minolta, Agfa"             << "1");
     setupAvailable[5].insert("*.mos"        , QStringList() << "mos" << "Leaf"                      << "1");
-    setupAvailable[5].insert("*.mrw"        , QStringList() << "mrw" << "Minolta, Konica Minolta"   << "1");
-    setupAvailable[5].insert("*.nef"        , QStringList() << "nef" << "Nikon"                     << "1");
-    setupAvailable[5].insert("*.nrw"        , QStringList() << "nrw" << "Nikon"                     << "1");
-    setupAvailable[5].insert("*.orf"        , QStringList() << "orf" << "Olympus"                   << "1");
-    setupAvailable[5].insert("*.pef"        , QStringList() << "pef" << "Pentax"                    << "1");
-    setupAvailable[5].insert("*.ptx"        , QStringList() << "ptx" << "Pentax"                    << "1");
-    setupAvailable[5].insert("*.pxn"        , QStringList() << "pxn" << "Logitech"                  << "1");
-    setupAvailable[5].insert("*.r3d"        , QStringList() << "r3d" << "RED Digital Cinema"        << "1");
-    setupAvailable[5].insert("*.raf"        , QStringList() << "raf" << "Fuji"                      << "1");
-    setupAvailable[5].insert("*.raw"        , QStringList() << "raw" << "Panasonic"                 << "1");
-    setupAvailable[5].insert("*.rw2"        , QStringList() << "rw2" << "Panasonic"                 << "1");
-    setupAvailable[5].insert("*.raw"        , QStringList() << "raw" << "Leica"                     << "1");
-    setupAvailable[5].insert("*.rwl"        , QStringList() << "rwl" << "Leica"                     << "1");
-    setupAvailable[5].insert("*.dng"        , QStringList() << "dng" << "Leica"                     << "1");
-    setupAvailable[5].insert("*.rwz"        , QStringList() << "rwz" << "Rawzor"                    << "1");
-    setupAvailable[5].insert("*.srw"        , QStringList() << "srw" << "Samsung"                   << "1");
-    setupAvailable[5].insert("*.x3f"        , QStringList() << "x3f" << "Sigma"                     << "1");
+    setupAvailable[5].insert("*.mrw"        , QStringList() << "min" << "Minolta, Konica Minolta"   << "1");
+    setupAvailable[5].insert("*.nef"        , QStringList() << "nik" << "Nikon"                     << "1");
+    setupAvailable[5].insert("*.nrw"        , QStringList() << "nik" << "Nikon"                     << "1");
+    setupAvailable[5].insert("*.orf"        , QStringList() << "oly" << "Olympus"                   << "1");
+    setupAvailable[5].insert("*.pef"        , QStringList() << "pen" << "Pentax"                    << "1");
+    setupAvailable[5].insert("*.ptx"        , QStringList() << "pen" << "Pentax"                    << "1");
+    setupAvailable[5].insert("*.pxn"        , QStringList() << "log" << "Logitech"                  << "1");
+    setupAvailable[5].insert("*.r3d"        , QStringList() << "red" << "RED Digital Cinema"        << "1");
+    setupAvailable[5].insert("*.raf"        , QStringList() << "fuj" << "Fuji"                      << "1");
+    setupAvailable[5].insert("*.raw"        , QStringList() << "pan" << "Panasonic"                 << "1");
+    setupAvailable[5].insert("*.rw2"        , QStringList() << "pan" << "Panasonic"                 << "1");
+    setupAvailable[5].insert("*.raw"        , QStringList() << "lei" << "Leica"                     << "1");
+    setupAvailable[5].insert("*.rwl"        , QStringList() << "lei" << "Leica"                     << "1");
+    setupAvailable[5].insert("*.dng"        , QStringList() << "lei" << "Leica"                     << "1");
+    setupAvailable[5].insert("*.rwz"        , QStringList() << "raw" << "Rawzor"                    << "1");
+    setupAvailable[5].insert("*.srw"        , QStringList() << "sam" << "Samsung"                   << "1");
+    setupAvailable[5].insert("*.x3f"        , QStringList() << "sig" << "Sigma"                     << "1");
 
     /************************************************************/
     /************************************************************/
