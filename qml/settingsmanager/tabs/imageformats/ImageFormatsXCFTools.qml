@@ -51,8 +51,12 @@ EntryContainer {
                 spacing: 10
 
                 CustomCheckBox {
-                    id: xcftools
-                    text: "xcftools (*.xcf)"
+                    id: xcftoolsEnding
+                    text: "File ending: *.xcf"
+                }
+                CustomCheckBox {
+                    id: xcftoolsMime
+                    text: "Mime type: image/x-xcf"
                 }
 
             }
@@ -62,11 +66,13 @@ EntryContainer {
     }
 
     function setData() {
-        xcftools.checkedButton = (imageformats.enabledFileformatsXCFTools.indexOf("*.xcf") != -1)
+        xcftoolsEnding.checkedButton = (imageformats.enabledFileformatsXCFTools.indexOf("*.xcf") != -1)
+        xcftoolsMime.checkedButton = (mimetypes.enabledMimeTypesXCFTools.indexOf("image/x-xcf") != -1)
     }
 
     function saveData() {
-        imageformats.enabledFileformatsXCFTools = (xcftools.checkedButton ? ["*.xcf"] : [])
+        imageformats.enabledFileformatsXCFTools = (xcftoolsEnding.checkedButton ? ["*.xcf"] : [])
+        mimetypes.enabledMimeTypesXCFTools = (xcftoolsMime.checkedButton ? ["image/x-xcf"] : [])
     }
 
 }

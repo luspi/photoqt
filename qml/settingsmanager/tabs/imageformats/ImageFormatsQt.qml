@@ -48,29 +48,96 @@ EntryContainer {
 
         EntrySetting {
 
-            Row {
+            Column {
 
                 spacing: 10
 
-                CustomButton {
-                    //: Used as in 'Use set of default file endings'
-                    text: em.pty+qsTr("Use default formats")
-                    onClickedButton: formatsPopup.setDefault()
-                }
-                CustomButton {
-                    //: Used as in 'Use none of the available file endings'
-                    text: em.pty+qsTr("Use none")
-                    onClickedButton: formatsPopup.setNone()
-                }
-                CustomButton {
-                    //: 'fine tuning' refers to selecting the individual file endings recognised by PhotoQt
-                    text: em.pty+qsTr("Advanced fine tuning")
-                    onClickedButton: formatsPopup.show()
+                Item {
+
+                    width: childrenRect.width
+                    height: but1.height
+
+                    Row {
+
+                        spacing: 10
+
+                        SettingsText {
+                            id: txt1
+                            y: (but1.height-height)/2
+                            horizontalAlignment: Text.AlignRight
+                            text: em.pty+qsTr("File endings:")
+                        }
+                        CustomButton {
+                            id: but1
+                            text: em.pty+qsTr("Use default")
+                            onClickedButton: formatsPopupEndings.setDefault()
+                        }
+                        CustomButton {
+                            //: Used as in 'Use none of the available file endings'
+                            text: em.pty+qsTr("Use none")
+                            onClickedButton: formatsPopupEndings.setNone()
+                        }
+                        CustomButton {
+                            //: 'fine tuning' refers to selecting the individual file endings recognised by PhotoQt
+                            text: em.pty+qsTr("Advanced fine tuning")
+                            onClickedButton: formatsPopupEndings.show()
+                        }
+
+                        SettingsText {
+                            y: (but1.height-height)/2
+                            text: em.pty+qsTr("There are currently %1 file endings selected").arg("<b>"+formatsPopupEndings.numItemsChecked+"</b>")
+                        }
+
+                    }
+
                 }
 
-                SettingsText {
-                    y: (parent.height-height)/2
-                    text: em.pty+qsTr("There are currently %1 file endings selected").arg("<b>"+formatsPopup.numItemsChecked+"</b>")
+                Item {
+
+                    width: childrenRect.width
+                    height: but2.height
+
+                    Row {
+
+                        spacing: 10
+
+                        SettingsText {
+                            id: txt2
+                            y: (but1.height-height)/2
+                            horizontalAlignment: Text.AlignRight
+                            text: em.pty+qsTr("Mime types:")
+                        }
+                        CustomButton {
+                            id: but2
+                            //: Used as in 'Use set of default file endings'
+                            text: em.pty+qsTr("Use default")
+                            onClickedButton: formatsPopupMimetypes.setDefault()
+                        }
+                        CustomButton {
+                            //: Used as in 'Use none of the available file endings'
+                            text: em.pty+qsTr("Use none")
+                            onClickedButton: formatsPopupMimetypes.setNone()
+                        }
+                        CustomButton {
+                            //: 'fine tuning' refers to selecting the individual file endings recognised by PhotoQt
+                            text: em.pty+qsTr("Advanced fine tuning")
+                            onClickedButton: formatsPopupMimetypes.show()
+                        }
+
+                        SettingsText {
+                            y: (but2.height-height)/2
+                            text: em.pty+qsTr("There are currently %1 mime types selected").arg("<b>"+formatsPopupMimetypes.numItemsChecked+"</b>")
+                        }
+
+                    }
+
+                }
+
+                Component.onCompleted: {
+                    but1.width = Math.max(but1.width, but2.width)
+                    but2.width = Math.max(but1.width, but2.width)
+                    txt1.width = Math.max(txt1.width, txt2.width)
+                    txt2.width = Math.max(txt1.width, txt2.width)
                 }
 
             }
@@ -79,9 +146,9 @@ EntryContainer {
 
     }
 
-    Popup {
+    PopupImageFormats {
 
-        id: formatsPopup
+        id: formatsPopupEndings
         title: titletext.title
         availableFormats: imageformats.getAvailableEndingsWithDescriptionQt()
         enabledFormats: imageformats.enabledFileformatsQt
@@ -90,7 +157,25 @@ EntryContainer {
         Connections {
             target: imageformats
             onEnabledFileformatsChanged:
-                formatsPopup.enabledFormats = imageformats.enabledFileformatsQt
+                formatsPopupEndings.enabledFormats = imageformats.enabledFileformatsQt
+        }
+
+        onVisibleChanged: settings_top.imageFormatsAdvancedTuningPopupVisible = visible
+
+    }
+
+    PopupMimeTypes {
+
+        id: formatsPopupMimetypes
+        title: titletext.title
+        availableFormats: mimetypes.getAvailableMimeTypesWithDescriptionQt()
+        enabledFormats: mimetypes.enabledMimeTypesQt
+        defaultFormats: mimetypes.getDefaultEnabledMimeTypesQt()
+
+        Connections {
+            target: mimetypes
+            onEnabledMimeTypesChanged:
+                formatsPopupMimetypes.enabledFormats = imageformats.enabledMimeTypesQt
         }
 
         onVisibleChanged: settings_top.imageFormatsAdvancedTuningPopupVisible = visible
@@ -98,11 +183,13 @@ EntryContainer {
     }
 
     function setData() {
-        formatsPopup.setCurrentlySet()
+        formatsPopupEndings.setCurrentlySet()
+        formatsPopupMimetypes.setCurrentlySet()
     }
 
     function saveData() {
-        imageformats.enabledFileformatsQt = formatsPopup.getEnabledFormats()
+        imageformats.enabledFileformatsQt = formatsPopupEndings.getEnabledFormats()
+        mimetypes.enabledMimeTypesQt = formatsPopupMimetypes.getEnabledFormats()
     }
 
 }

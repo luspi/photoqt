@@ -503,13 +503,13 @@ Rectangle {
             imageFormatsHidePopup()
         else {
             opacity = 0
-            if(variables.currentFile === "" )
+            if(variables.currentFile === "")
                 call.show("openfile")
             else
                 variables.guiBlocked = false
         }
     }
-    function forceHideEverything() {
+    function forceHideEverything(askForFileIfNoneOpen) {
         verboseMessage("SettingsManager", "forceHideEverything()")
         if(confirmclean.visible)
             confirmclean.reject()
@@ -530,7 +530,10 @@ Rectangle {
         if(imageFormatsAdvancedTuningPopupVisible)
             imageFormatsHidePopup()
         opacity = 0
-        variables.guiBlocked = false
+        if(variables.currentFile === "" && askForFileIfNoneOpen != undefined && askForFileIfNoneOpen == 1)
+            call.show("openfile")
+        else
+            variables.guiBlocked = false
     }
 
     // This function is only called, when settings have been opened and "closed without saving"
@@ -552,7 +555,7 @@ Rectangle {
 
     function saveSettings() {
         saveData();
-        hideSettings()
+        forceHideEverything(1)
     }
 
 }

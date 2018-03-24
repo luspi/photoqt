@@ -31,8 +31,6 @@ EntryContainer {
 
     id: item_top
 
-    visible: getanddostuff.isGraphicsMagickSupportEnabled()
-
     Row {
 
         spacing: 20
@@ -40,11 +38,9 @@ EntryContainer {
         EntryTitle {
 
             id: titletext
-            title: "GraphicsMagick"
-            helptext: em.pty+qsTr("GraphicsMagick calls itself the 'swiss army knife of image processing'. It supports a wide variety of image formats, and PhotoQt can display the vast majority of them.") +
-                      "<br><br>" +
-                      em.pty+qsTr("Use left click to check/uncheck an individual entry, and right click to check/uncheck all endings related to the same image type.")
-            imageSource: "qrc:/img/settings/imageformats/gm.jpg"
+            title: "libarchive: Archives"
+            helptext: em.pty+qsTr("PhotoQt takes advantage of libarchive to load packed files (zip, rar, tar, 7z). It can either load them together with the rest of the images (each (supported) file as one image) or it can ignore such files except when asked to open one, then it wont load any other images (like a document viewer).")
+            imageSource: "qrc:/img/settings/imageformats/empty.png"
             fontcolor: enabled ? colour.text : colour.text_disabled
 
         }
@@ -153,14 +149,14 @@ EntryContainer {
 
         id: formatsPopupEndings
         title: titletext.title
-        availableFormats: imageformats.getAvailableEndingsWithDescriptionGm()
-        enabledFormats: imageformats.enabledFileformatsGm
-        defaultFormats: imageformats.getDefaultEnabledEndingsGm()
+        availableFormats: imageformats.getAvailableEndingsWithDescriptionArchive()
+        enabledFormats: imageformats.enabledFileformatsArchive
+        defaultFormats: imageformats.getDefaultEnabledEndingsArchive()
 
         Connections {
             target: imageformats
             onEnabledFileformatsChanged:
-                formatsPopupEndings.enabledFormats = imageformats.enabledFileformatsGm
+                formatsPopupEndings.enabledFormats = imageformats.enabledFileformatsArchive
         }
 
         onVisibleChanged: settings_top.imageFormatsAdvancedTuningPopupVisible = visible
@@ -171,14 +167,14 @@ EntryContainer {
 
         id: formatsPopupMimetypes
         title: titletext.title
-        availableFormats: mimetypes.getAvailableMimeTypesWithDescriptionGm()
-        enabledFormats: mimetypes.enabledMimeTypesGm
-        defaultFormats: mimetypes.getDefaultEnabledMimeTypesGm()
+        availableFormats: mimetypes.getAvailableMimeTypesWithDescriptionArchive()
+        enabledFormats: mimetypes.enabledMimeTypesArchive
+        defaultFormats: mimetypes.getDefaultEnabledMimeTypesArchive()
 
         Connections {
             target: mimetypes
             onEnabledMimeTypesChanged:
-                formatsPopupMimetypes.enabledFormats = mimetypes.enabledMimeTypesGm
+                formatsPopupMimetypes.enabledFormats = mimetypes.enabledMimeTypesArchive
         }
 
         onVisibleChanged: settings_top.imageFormatsAdvancedTuningPopupVisible = visible
@@ -191,8 +187,8 @@ EntryContainer {
     }
 
     function saveData() {
-        imageformats.enabledFileformatsGm = formatsPopupEndings.getEnabledFormats()
-        mimetypes.enabledMimeTypesGm = formatsPopupMimetypes.getEnabledFormats()
+        imageformats.enabledFileformatsArchive = formatsPopupEndings.getEnabledFormats()
+        mimetypes.enabledMimeTypesArchive = formatsPopupMimetypes.getEnabledFormats()
     }
 
 }

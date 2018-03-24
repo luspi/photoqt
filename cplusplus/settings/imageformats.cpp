@@ -14,10 +14,8 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     /************************************************************/
     // Qt (incl. plugins, like qt5-imageformats, KDE, libqpsd)
 
-    if(imageReaderSup.contains("bmp")) {
+    if(imageReaderSup.contains("bmp"))
         setupAvailable[0].insert("*.bmp"        , QStringList() << "bmp" << "Microsoft Windows bitmap"                      << "1");
-        setupAvailable[0].insert("*.bitmap"     , QStringList() << "bmp" << "Microsoft Windows bitmap"                      << "1");
-    }
     if(imageReaderSup.contains("gif"))
         setupAvailable[0].insert("*.gif"        , QStringList() << "gif" << "CompuServe Graphics Interchange Format"        << "1");
     if(imageReaderSup.contains("jp2")) {

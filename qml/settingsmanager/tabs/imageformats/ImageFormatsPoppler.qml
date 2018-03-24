@@ -41,7 +41,7 @@ EntryContainer {
 
             id: titletext
             title: "poppler: Adobe PDF"
-            helptext: em.pty+qsTr("PhotoQt can take advantage of poppler to load PDF documents. It can either load them together with the rest of the picture (each page as one picture) or it can ignore such documents except when asked to open one, it wont load any other picture (like a document viewer).")
+            helptext: em.pty+qsTr("PhotoQt can take advantage of poppler to load PDF documents. It can either load them together with the rest of the images (each page as one image) or it can ignore such documents except when asked to open one, then it wont load any other images (like a document viewer).")
             imageSource: "qrc:/img/settings/imageformats/poppler.jpg"
             fontcolor: enabled ? colour.text : colour.text_disabled
 
@@ -52,17 +52,22 @@ EntryContainer {
             Row {
 
                 id: entryrow
-                y: height/2
 
                 spacing: 10
 
                 CustomCheckBox {
-                    id: poppler
-                    text: "poppler (*.pdf, *.epdf)"
+                    id: popplerEnding
+                    text: "File ending: *.pdf, *.epdf"
                 }
                 CustomCheckBox {
+                    id: popplerMime
+                    text: "Mime type: application/pdf"
+                }
+                Item { height: 2; width: 5 }
+                CustomCheckBox {
                     id: singledocument
-                    text: em.pty+qsTr("Load single document (like document viewer)")
+                    text: em.pty+qsTr("Document viewer mode")
+                    tooltip: em.pty+qsTr("When loading a PDF, only that PDF is loaded, nothing else in the folder")
                 }
                 Item { height: 2; width: 5 }
                 SettingsText {
@@ -91,7 +96,8 @@ EntryContainer {
     }
 
     function setData() {
-        poppler.checkedButton = (imageformats.enabledFileformatsPoppler.indexOf("*.pdf") != -1)
+        popplerEnding.checkedButton = (imageformats.enabledFileformatsPoppler.indexOf("*.pdf") != -1)
+        popplerMime.checkedButton = (mimetypes.enabledMimeTypesPoppler.indexOf("application/pdf") != -1)
         singledocument.checkedButton = settings.pdfSingleDocument
 
         // We always take the PDF quality in steps of 5!
@@ -107,7 +113,8 @@ EntryContainer {
     }
 
     function saveData() {
-        imageformats.enabledFileformatsPoppler = (poppler.checkedButton ? ["*.pdf", "*.epdf"] : [])
+        imageformats.enabledFileformatsPoppler = (popplerEnding.checkedButton ? ["*.pdf", "*.epdf"] : [])
+        mimetypes.enabledMimeTypesPoppler = (popplerMime.checkedButton ? ["application/pdf"] : [])
         settings.pdfSingleDocument = singledocument.checkedButton
         settings.pdfQuality = qualityslider.value
     }
