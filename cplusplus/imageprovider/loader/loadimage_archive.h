@@ -64,6 +64,13 @@ namespace LoadImage {
             QString archivefile = filename.split("::ARCHIVE1::").at(1).split("::ARCHIVE2::").at(0);
             QString compressedFilename = filename.split("::ARCHIVE2::").at(1);
 
+            if(!QFileInfo(archivefile).exists()) {
+                std::stringstream ss;
+                ss << "ERROR loading archive, file doesn't seem to exist...";
+                LOG << CURDATE << ss.str() << NL;
+                return ErrorImage::load(QString::fromStdString(ss.str()));
+            }
+
             // Extract suffix and remove (added on to signal archive compressed file, not part of actual compressed filename)
             QString suffix = QFileInfo(filename).suffix();
             compressedFilename = compressedFilename.remove(compressedFilename.length()-suffix.length()-1, compressedFilename.length());
@@ -98,13 +105,13 @@ namespace LoadImage {
                 if(filenameinside == compressedFilename) {
 
                     // Find out the size of the data
-                    size_t size = archive_entry_size(entry);
+                    la_int64_t size = archive_entry_size(entry);
 
                     // Create a uchar buffer of that size to hold the image data
                     uchar buff[size];
 
                     // And finally read the file into the buffer
-                    size_t r = archive_read_data(a, (void*)buff, size);
+                    la_ssize_t r = archive_read_data(a, (void*)buff, size);
                     if(r != size) {
                         std::stringstream ss;
                         ss << "LoadImage::Archive::load(): ERROR: Failed to read image data, read size (" << r << ") doesn't match expected size (" << size << ")...";

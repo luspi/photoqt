@@ -48,9 +48,16 @@ namespace LoadImage {
 
             // Load poppler document and render to QImage
             Poppler::Document* document = Poppler::Document::load(filename);
+            if(!document || document->isLocked()) {
+                std::stringstream ss;
+                ss << "LoadImage::PDF::load(): ERROR: Invalid PDF document, unable to load!";
+                LOG << CURDATE << ss.str() << NL;
+                return ErrorImage::load(QString::fromStdString(ss.str()));
+            }
             document->setRenderHint(Poppler::Document::TextAntialiasing);
             document->setRenderHint(Poppler::Document::Antialiasing);
             QImage ret = document->page(page)->renderToImage(pdfQuality, pdfQuality);
+            delete document;
 
             // ensure it fits inside maxSize
             if(maxSize.width() > 5 && maxSize.height() > 5) {
