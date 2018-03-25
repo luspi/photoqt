@@ -157,12 +157,16 @@ bool GetAndDoStuffFile::doesThisExist(QString path) {
 
 }
 
-QString GetAndDoStuffFile::getMimeType(QString file) {
+QString GetAndDoStuffFile::getMimeType(QString dir, QString file) {
 
     if(file.contains("::PQT1::") && file.contains("::PQT2::"))
         file = file.split("::PQT1::").at(0)+file.split("::PQT2::").at(1);
 
-    return mimedb.mimeTypeForFile(file).name();
+    QFileInfo info(file);
+    if(!info.isAbsolute())
+        info.setFile(dir+"/"+file);
+
+    return mimedb.mimeTypeForFile(info.absoluteFilePath(), QMimeDatabase::MatchContent).name();
 
 }
 
@@ -170,7 +174,7 @@ QString GetAndDoStuffFile::streamlineFilePath(QString path) {
 
     QFileInfo info(path);
     if(info.isAbsolute())
-        return info.absoluteFilePath();
+        return info.canonicalFilePath();
     return path;
 
 }

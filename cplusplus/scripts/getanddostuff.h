@@ -89,7 +89,7 @@ public:
     Q_INVOKABLE QString getIconPathFromTheme(QString binary) { return file->getIconPathFromTheme(binary); }
     Q_INVOKABLE QString getSaveFilename(QString caption, QString file) { return this->file->getSaveFilename(caption, file); }
     Q_INVOKABLE bool doesThisExist(QString path) { return this->file->doesThisExist(path); }
-    Q_INVOKABLE QString getMimeType(QString file) { return this->file->getMimeType(file); }
+    Q_INVOKABLE QString getMimeType(QString dir, QString file) { return this->file->getMimeType(dir, file); }
     Q_INVOKABLE QString streamlineFilePath(QString path) { return this->file->streamlineFilePath(path); }
     Q_INVOKABLE QString removeSuffixFromFilename(QString file) { return this->file->removeSuffixFromFilename(file); }
 

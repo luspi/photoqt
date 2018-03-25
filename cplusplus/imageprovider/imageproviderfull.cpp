@@ -170,7 +170,7 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
         useThisFilename = filename.split("::PQT1::").at(0) + filename.split("::PQT2::").at(1);
 
 
-    QString mime = mimedb.mimeTypeForFile(useThisFilename).name();
+    QString mime = mimedb.mimeTypeForFile(useThisFilename, QMimeDatabase::MatchContent).name();
 
     QFileInfo info(useThisFilename);
 
@@ -202,7 +202,7 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
     // Archive
 
     if(imageformats->getEnabledFileformatsArchive().contains("*." + info.suffix().toLower()) ||
-       mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(useThisFilename).name()))
+       mimetypes->getEnabledMimeTypesArchive().contains(mime))
         return "archive";
 
 

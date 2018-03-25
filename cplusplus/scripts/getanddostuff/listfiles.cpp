@@ -56,13 +56,13 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
         file = file.split("::PQT1::").at(0) + file.split("::PQT2::").at(1);
 
 #ifdef POPPLER
-    if(loadSinglePdf && (imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(file).suffix().toLower()) || mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(file).name()))) {
+    if(loadSinglePdf && (imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(file).suffix().toLower()) || mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(file, QMimeDatabase::MatchContent).name()))) {
         QVariantList ret;
         if(loadOnlyPdfPages(file, &ret))
             return ret;
     }
 #endif
-    if(loadSingleArchive && (imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(file).suffix().toLower()) || mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(file).name()))) {
+    if(loadSingleArchive && (imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(file).suffix().toLower()) || mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(file, QMimeDatabase::MatchContent).name()))) {
         QVariantList ret;
         if(loadOnlyArchiveFiles(file, &ret))
             return ret;
@@ -125,14 +125,14 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
                 if(fn.endsWith(filter) && fn != "") {
                     bool pdfloaded = (loadSinglePdf &&
                                         (imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(fn).suffix()) ||
-                                         mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())));
+                                         mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(l.absoluteFilePath(), QMimeDatabase::MatchContent).name())));
                     bool archiveloaded = (loadSingleArchive &&
                                         (imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(fn).suffix()) ||
-                                         mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())));
+                                         mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(l.absoluteFilePath(), QMimeDatabase::MatchContent).name())));
 #ifdef POPPLER
                     if(pdfLoadAllPages && !loadSinglePdf) {
                         if(imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(fn).suffix()) ||
-                           mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())) {
+                           mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(l.absoluteFilePath(), QMimeDatabase::MatchContent).name())) {
                             loadAllPdfPages(l, &ret);
                             pdfloaded = true;
                         }
@@ -140,7 +140,7 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
 #endif
                     if(archiveLoadAllFiles && !loadSingleArchive) {
                         if(imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(fn).suffix()) ||
-                           mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())) {
+                           mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(l.absoluteFilePath(), QMimeDatabase::MatchContent).name())) {
                             loadAllArchiveFiles(l, &ret);
                             archiveloaded = true;
                         }
@@ -155,14 +155,14 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
                 if(fn.contains(filter) && fn != "") {
                     bool pdfloaded = (loadSinglePdf &&
                                         (imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(fn).suffix()) ||
-                                         mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())));
+                                         mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(l.absoluteFilePath(), QMimeDatabase::MatchContent).name())));
                     bool archiveloaded = (loadSingleArchive &&
                                         (imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(fn).suffix()) ||
-                                         mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())));
+                                         mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(l.absoluteFilePath(), QMimeDatabase::MatchContent).name())));
 #ifdef POPPLER
                     if(pdfLoadAllPages && !loadSinglePdf) {
                         if(imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(fn).suffix()) ||
-                           mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())) {
+                           mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(l.absoluteFilePath(), QMimeDatabase::MatchContent).name())) {
                             loadAllPdfPages(l, &ret);
                             pdfloaded = true;
                         }
@@ -170,7 +170,7 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
 #endif
                     if(archiveLoadAllFiles && !loadSingleArchive) {
                         if(imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(fn).suffix()) ||
-                           mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())) {
+                           mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(l.absoluteFilePath(), QMimeDatabase::MatchContent).name())) {
                             loadAllArchiveFiles(l, &ret);
                             archiveloaded = true;
                         }
@@ -185,14 +185,14 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
                 if(fn != "") {
                     bool pdfloaded = (loadSinglePdf &&
                                         (imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(fn).suffix()) ||
-                                         mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())));
+                                         mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(l.absoluteFilePath(), QMimeDatabase::MatchContent).name())));
                     bool archiveloaded = (loadSingleArchive &&
                                         (imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(fn).suffix()) ||
-                                         mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())));
+                                         mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(l.absoluteFilePath(), QMimeDatabase::MatchContent).name())));
 #ifdef POPPLER
                     if(pdfLoadAllPages && !loadSinglePdf) {
                         if(imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(fn).suffix()) ||
-                           mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())) {
+                           mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(l.absoluteFilePath(), QMimeDatabase::MatchContent).name())) {
                             loadAllPdfPages(l, &ret);
                             pdfloaded = true;
                         }
@@ -200,7 +200,7 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
 #endif
                     if(archiveLoadAllFiles && !loadSingleArchive) {
                         if(imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(fn).suffix()) ||
-                           mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(l.absoluteFilePath()).name())) {
+                           mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(l.absoluteFilePath(), QMimeDatabase::MatchContent).name())) {
                             loadAllArchiveFiles(l, &ret);
                             archiveloaded = true;
                         }
@@ -245,7 +245,7 @@ void GetAndDoStuffListFiles::loadAllArchiveFiles(QFileInfo l, QVariantList *list
 
         // If supported file format, append to temporary list
         if((imageformats->getEnabledFileformatsQt().contains("*." + QFileInfo(filenameinside).suffix()) ||
-            mimetypes->getEnabledMimeTypesQt().contains(mimedb.mimeTypeForFile(filenameinside).name())))
+            mimetypes->getEnabledMimeTypesQt().contains(mimedb.mimeTypeForFile(filenameinside, QMimeDatabase::MatchExtension).name())))
             allfiles.append(filenameinside);
 
     }
@@ -263,7 +263,7 @@ void GetAndDoStuffListFiles::loadAllArchiveFiles(QFileInfo l, QVariantList *list
 }
 
 bool GetAndDoStuffListFiles::loadOnlyArchiveFiles(QString file, QVariantList *list) {
-    if(imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(file).suffix().toLower()) || mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(file).name())) {
+    if(imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(file).suffix().toLower()) || mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(file, QMimeDatabase::MatchContent).name())) {
         loadAllArchiveFiles(QFileInfo(file), list);
         if(list->length() == 0) {
             LOG << "GetAndDoStuffListFiles::loadOnlyArchiveFiles(): ERROR: Invalid/Empty archive file, no files found" << NL;
@@ -289,7 +289,7 @@ void GetAndDoStuffListFiles::loadAllPdfPages(QFileInfo l, QVariantList *list) {
 }
 
 bool GetAndDoStuffListFiles::loadOnlyPdfPages(QString file, QVariantList *list) {
-    if(imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(file).suffix().toLower()) || mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(file).name())) {
+    if(imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(file).suffix().toLower()) || mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(file, QMimeDatabase::MatchContent).name())) {
         loadAllPdfPages(QFileInfo(file), list);
         if(list->length() == 0) {
             LOG << "GetAndDoStuffListFiles::loadOnlyPdfPages(): ERROR: Invalid PDF, no pages found" << NL;
@@ -357,11 +357,11 @@ QFileInfoList GetAndDoStuffListFiles::getEntryList(QString file, QString categor
     foreach(QFileInfo entry, entrylist) {
         if(checkForTheseFormats.contains("*." + entry.suffix().toLower()))
             retlist.append(entry);
-        else if(checkForTheseMimeTypes.contains(mimedb.mimeTypeForFile(entry.absoluteFilePath()).name()))
+        else if(checkForTheseMimeTypes.contains(mimedb.mimeTypeForFile(entry.absoluteFilePath(), QMimeDatabase::MatchContent).name()))
             retlist.append(entry);
     }
 
-    if(!retlist.contains(info) && !info.isDir() && !imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(file).suffix()) && !mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(info.absoluteFilePath()).name()))
+    if(!retlist.contains(info) && !info.isDir() && !imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(file).suffix()) && !mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(info.absoluteFilePath(), QMimeDatabase::MatchContent).name()))
         retlist.append(info);
 
     return retlist;

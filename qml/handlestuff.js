@@ -38,7 +38,7 @@ function loadFile(filename, filter, forceReloadDirectory) {
     // If there is a page number (or if there should be one), make sure it is part of the filename and also store it in two variables (current and total)
     // The two variables make handling easier in other files, the info thoug has to be part of the filename to distinguish entries for different pages
     if((imageformats.enabledFileformatsPoppler.indexOf("*." + getanddostuff.getSuffix(filename)) != -1 ||
-        mimetypes.enabledMimeTypesPoppler.indexOf(getanddostuff.getMimeType(filename)) != -1) ||
+        mimetypes.enabledMimeTypesPoppler.indexOf(getanddostuff.getMimeType(variables.currentDir, filename)) != -1) ||
             (filename.indexOf("::PQT1::") != -1 && filename.indexOf("::PQT2::") != -1)) {
         if(filename.indexOf("::PQT1::") == -1 || filename.indexOf("::PQT2::") == -1) {
             var tot = getanddostuff.getTotalNumberOfPagesOfPdf(filename)
@@ -69,7 +69,7 @@ function loadFile(filename, filter, forceReloadDirectory) {
 
             // If it is an archive file, we need to set the first entry as the current file
             variables.currentFileInsideArchive = ""
-            if((filename.indexOf("::ARCHIVE1::") == -1 || filename.indexOf("::ARCHIVE2::") == -1) && (imageformats.enabledFileformatsArchive.indexOf("*."+getanddostuff.getSuffix(filename)) != -1 || mimetypes.enabledMimeTypesArchive.indexOf(getanddostuff.getMimeType(filename)) != -1)) {
+            if((filename.indexOf("::ARCHIVE1::") == -1 || filename.indexOf("::ARCHIVE2::") == -1) && (imageformats.enabledFileformatsArchive.indexOf("*."+getanddostuff.getSuffix(filename)) != -1 || mimetypes.enabledMimeTypesArchive.indexOf(getanddostuff.getMimeType(variables.currentDir, filename)) != -1)) {
                 for(var i = 0; i < variables.totalNumberImagesCurrentFolder; ++i) {
                     if(variables.allFilesCurrentDir[i].indexOf(filename) != -1) {
                         filenameonly = variables.allFilesCurrentDir[i]
@@ -104,7 +104,7 @@ function loadFile(filename, filter, forceReloadDirectory) {
     } else {
         // If it is an archive file, we need to set the first entry as the current file
         variables.currentFileInsideArchive = ""
-        if((filename.indexOf("::ARCHIVE1::") != -1 && filename.indexOf("::ARCHIVE2::") != -1) || imageformats.enabledFileformatsArchive.indexOf("*."+getanddostuff.getSuffix(filename)) != -1 || mimetypes.enabledMimeTypesArchive.indexOf(getanddostuff.getMimeType(filename)) != -1)
+        if((filename.indexOf("::ARCHIVE1::") != -1 && filename.indexOf("::ARCHIVE2::") != -1) || imageformats.enabledFileformatsArchive.indexOf("*."+getanddostuff.getSuffix(filename)) != -1 || mimetypes.enabledMimeTypesArchive.indexOf(getanddostuff.getMimeType(variables.currentDir, filename)) != -1)
             variables.currentFileInsideArchive = getanddostuff.removeSuffixFromFilename(filename.split("::ARCHIVE2::")[1])
         variables.currentFile = filename
     }

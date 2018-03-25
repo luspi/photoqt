@@ -171,7 +171,10 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
             // Set some required (and additional) meta information
             p.setText("Thumb::URI", QString("file://%1").arg(QString(filename)));
             p.setText("Thumb::MTime", QString("%1").arg(QFileInfo(filename).lastModified().toTime_t()));
-            p.setText("Thumb::Mimetype", mimedb.mimeTypeForFile(filename).name());
+            QString mime = mimedb.mimeTypeForFile(filename, QMimeDatabase::MatchContent).name();
+            // this is the default mime type if no mime type is available or file cannot be found
+            if(mime != "application/octet-stream")
+                p.setText("Thumb::Mimetype", mime);
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
             p.setText("Thumb::Size", QString("%1").arg(p.sizeInBytes()));
 #else

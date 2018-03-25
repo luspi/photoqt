@@ -37,7 +37,8 @@ int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path, QString category
         LOG << CURDATE << "GetAndDoStuffOpenFile::getNumberFilesInFolder() - " << path.toStdString() << " / " << categoryFileTypes.toStdString() << NL;
 
     QDir dir(path);
-    QFileInfoList list = dir.entryInfoList(QDir::Files);
+
+    QFileInfoList list = dir.entryInfoList(QDir::Files|QDir::NoSymLinks);
 
     if(categoryFileTypes == "allfiles")
         return list.length();
@@ -71,7 +72,7 @@ int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path, QString category
     foreach(QFileInfo info, list) {
         if(checkForTheseFormats.contains("*." + info.suffix()))
             ++count;
-        else if(checkForTheseMimeTypes.contains(mimedb.mimeTypeForFile(info.absoluteFilePath()).name()))
+        else if(checkForTheseMimeTypes.contains(mimedb.mimeTypeForFile(info.absoluteFilePath(), QMimeDatabase::MatchContent).name()))
             ++count;
     }
 
@@ -432,6 +433,6 @@ bool GetAndDoStuffOpenFile::isSupportedImageType(QString path) {
     if(imageformats->getAllEnabledFileformats().contains("*."+info.suffix().toLower()))
         return true;
 
-    return mimetypes->getAllEnabledMimeTypes().contains(mimedb.mimeTypeForFile(path).name());
+    return mimetypes->getAllEnabledMimeTypes().contains(mimedb.mimeTypeForFile(path, QMimeDatabase::MatchContent).name());
 
 }

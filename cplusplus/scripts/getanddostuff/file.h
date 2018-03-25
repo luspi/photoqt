@@ -52,7 +52,7 @@ public:
     QString streamlineFilePath(QString path);
     QString removeSuffixFromFilename(QString file);
 
-    QString getMimeType(QString file);
+    QString getMimeType(QString dir, QString file);
 
 private:
     QMimeDatabase mimedb;
