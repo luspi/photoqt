@@ -321,7 +321,7 @@ Item {
                         variables.currentFile = getanddostuff.removePathFromFilename(imagePath)
                     else
                         variables.currentFile = "::ARCHIVE1::"+imagePath.split("::ARCHIVE1::")[1]
-                    mainwindow.loadFileFromThumbnails(variables.currentDir+"/"+variables.currentFile, variables.filter)
+                    mainwindow.loadFileFromThumbnails(variables.currentFile, variables.filter)
                 }
             }
 

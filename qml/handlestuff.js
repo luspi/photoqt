@@ -29,11 +29,11 @@ function loadFile(filename, filter, forceReloadDirectory) {
     if(filename === undefined || filename == "")
         return
 
-    // Streamline path (remove '//', streamline '/path1/../path2/to/file')
-    filename = getanddostuff.streamlineFilePath(filename)
-
     if(forceReloadDirectory && ((filename.substring(0,1) != "/" && !getanddostuff.amIOnWindows()) || (filename.substring(1,3) != ":/" && getanddostuff.amIOnWindows())))
         filename = variables.currentDir + "/" + filename
+
+    // Streamline path (remove '//', streamline '/path1/../path2/to/file')
+    filename = getanddostuff.streamlineFilePath(filename)
 
     // If there is a page number (or if there should be one), make sure it is part of the filename and also store it in two variables (current and total)
     // The two variables make handling easier in other files, the info thoug has to be part of the filename to distinguish entries for different pages
@@ -185,7 +185,7 @@ function loadNext() {
         loadpos = 0
     else
         loadpos += 1
-    loadFile(variables.currentDir+"/"+variables.allFilesCurrentDir[loadpos], variables.filter)
+    loadFile(variables.allFilesCurrentDir[loadpos], variables.filter)
 }
 
 // Load the previous image in the folder
@@ -203,21 +203,21 @@ function loadPrev() {
         loadpos = variables.allFilesCurrentDir.length-1
     else
         loadpos -= 1
-    loadFile(variables.currentDir+"/"+variables.allFilesCurrentDir[loadpos], variables.filter)
+    loadFile(variables.allFilesCurrentDir[loadpos], variables.filter)
 }
 
 // Jump to the first image in the folder
 function loadFirst() {
     verboseMessage("handlstuff.js","loadFirst(): " + variables.filterNoMatch + " / " + variables.deleteNothingLeft)
     if(variables.filterNoMatch || variables.deleteNothingLeft) return
-    loadFile(variables.currentDir+"/"+variables.allFilesCurrentDir[0], variables.filter)
+    loadFile(variables.allFilesCurrentDir[0], variables.filter)
 }
 
 // Jump to the last image in the folder
 function loadLast() {
     verboseMessage("handlstuff.js","loadLast(): " + variables.filterNoMatch + " / " + variables.deleteNothingLeft)
     if(variables.filterNoMatch || variables.deleteNothingLeft) return
-    loadFile(variables.currentDir+"/"+variables.allFilesCurrentDir[variables.allFilesCurrentDir.length -1], variables.filter)
+    loadFile(variables.allFilesCurrentDir[variables.allFilesCurrentDir.length -1], variables.filter)
 }
 
 function checkIfClickOnEmptyArea(prsd, rlsd) {

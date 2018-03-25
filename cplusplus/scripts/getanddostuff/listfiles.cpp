@@ -275,7 +275,7 @@ bool GetAndDoStuffListFiles::loadOnlyArchiveFiles(QString file, QVariantList *li
         loadAllArchiveFiles(QFileInfo(file), list);
         if(list->length() == 0) {
             LOG << "GetAndDoStuffListFiles::loadOnlyArchiveFiles(): ERROR: Invalid/Empty archive file, no files found" << NL;
-            list->append("invalidarchive.zip");
+            list->append("::ARCHIVE1::nothingfound.zip::ARCHIVE2::emptyorinvalid.zip");
         }
         return true;
     }
@@ -302,7 +302,7 @@ bool GetAndDoStuffListFiles::loadOnlyPdfPages(QString file, QVariantList *list) 
         loadAllPdfPages(QFileInfo(file), list);
         if(list->length() == 0) {
             LOG << "GetAndDoStuffListFiles::loadOnlyPdfPages(): ERROR: Invalid PDF, no pages found" << NL;
-            list->append("invalidpdf.pdf");
+            list->append(file);
         }
         return true;
     }

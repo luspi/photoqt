@@ -170,7 +170,10 @@ QString GetAndDoStuffFile::getMimeType(QString file) {
 
 QString GetAndDoStuffFile::streamlineFilePath(QString path) {
 
-    return QFileInfo(path).absoluteFilePath();
+    QFileInfo info(path);
+    if(info.isAbsolute())
+        return info.absoluteFilePath();
+    return path;
 
 }
 
