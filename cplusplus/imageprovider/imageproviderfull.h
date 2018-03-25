@@ -55,6 +55,8 @@ private:
 
     QByteArray getUniqueCacheKey(QString path);
 
+    QMimeDatabase mimedb;
+
 };
 
 

@@ -63,6 +63,8 @@ private:
     ImageFormats *imageformats;
     MimeTypes *mimetypes;
 
+    QMimeDatabase mimedb;
+
 };
 
 

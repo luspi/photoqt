@@ -54,6 +54,9 @@ public:
 
     QString getMimeType(QString file);
 
+private:
+    QMimeDatabase mimedb;
+
 };
 
 #endif // GETANDDOSTUFFFILE_H

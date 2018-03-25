@@ -169,14 +169,16 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
     if(filename.contains("::PQT1::") && filename.contains("::PQT2::"))
         useThisFilename = filename.split("::PQT1::").at(0) + filename.split("::PQT2::").at(1);
 
-    QMimeDatabase mimedb;
+
+    QString mime = mimedb.mimeTypeForFile(useThisFilename).name();
+
     QFileInfo info(useThisFilename);
 
     /***********************************************************/
     // Qt image plugins
 
     if(imageformats->getEnabledFileformatsQt().contains("*." + info.suffix().toLower()) ||
-       mimetypes->getEnabledMimeTypesQt().contains(mimedb.mimeTypeForFile(useThisFilename).name()))
+       mimetypes->getEnabledMimeTypesQt().contains(mime))
         return "qt";
 
 
@@ -184,7 +186,7 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
     // PDF with poppler library
 
     if(imageformats->getEnabledFileformatsPoppler().contains("*." + info.suffix().toLower()) ||
-       mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(useThisFilename).name()))
+       mimetypes->getEnabledMimeTypesPoppler().contains(mime))
         return "poppler";
 
 
@@ -192,7 +194,7 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
     // xcftools
 
     if(imageformats->getEnabledFileformatsXCFTools().contains("*." + info.suffix().toLower()) ||
-       mimetypes->getEnabledMimeTypesXCFTools().contains(mimedb.mimeTypeForFile(useThisFilename).name()))
+       mimetypes->getEnabledMimeTypesXCFTools().contains(mime))
         return "xcftools";
 
 
@@ -211,7 +213,7 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
     // libraw library
 
     if(imageformats->getEnabledFileformatsRAW().contains("*." + info.suffix().toLower()) ||
-       mimetypes->getEnabledMimeTypesRAW().contains(mimedb.mimeTypeForFile(useThisFilename).name()))
+       mimetypes->getEnabledMimeTypesRAW().contains(mime))
         return "raw";
 
 #endif
@@ -222,11 +224,11 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
     // GraphicsMagick library
 
     if(imageformats->getEnabledFileformatsGm().contains("*." + info.suffix().toLower()) ||
-       mimetypes->getEnabledMimeTypesGm().contains(mimedb.mimeTypeForFile(useThisFilename).name()))
+       mimetypes->getEnabledMimeTypesGm().contains(mime))
         return "gm";
 
     if(imageformats->getEnabledFileformatsGmGhostscript().contains("*." + info.suffix().toLower()) ||
-       mimetypes->getEnabledMimeTypesGmGhostscript().contains(mimedb.mimeTypeForFile(useThisFilename).name()))
+       mimetypes->getEnabledMimeTypesGmGhostscript().contains(mime))
         return "gm";
 
 #endif
@@ -237,7 +239,7 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
     // DevIL library
 
     if(imageformats->getEnabledFileformatsDevIL().contains("*." + info.suffix().toLower()) ||
-       mimetypes->getEnabledMimeTypesDevIL().contains(mimedb.mimeTypeForFile(useThisFilename).name()))
+       mimetypes->getEnabledMimeTypesDevIL().contains(mime))
         return "devil";
 
 #endif
@@ -248,7 +250,7 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
     // FreeImage library
 
     if(imageformats->getEnabledFileformatsFreeImage().contains("*." + info.suffix().toLower()) ||
-       mimetypes->getEnabledMimeTypesFreeImage().contains(mimedb.mimeTypeForFile(useThisFilename).name()))
+       mimetypes->getEnabledMimeTypesFreeImage().contains(mime))
         return "freeimage";
 
 #endif

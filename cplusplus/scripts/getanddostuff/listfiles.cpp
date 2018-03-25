@@ -56,15 +56,13 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
         file = file.split("::PQT1::").at(0) + file.split("::PQT2::").at(1);
 
 #ifdef POPPLER
-    QMimeDatabase mimedb_poppler;
-    if(loadSinglePdf && (imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(file).suffix().toLower()) || mimetypes->getEnabledMimeTypesPoppler().contains(mimedb_poppler.mimeTypeForFile(file).name()))) {
+    if(loadSinglePdf && (imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(file).suffix().toLower()) || mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(file).name()))) {
         QVariantList ret;
         if(loadOnlyPdfPages(file, &ret))
             return ret;
     }
 #endif
-    QMimeDatabase mimedb_archive;
-    if(loadSingleArchive && (imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(file).suffix().toLower()) || mimetypes->getEnabledMimeTypesArchive().contains(mimedb_archive.mimeTypeForFile(file).name()))) {
+    if(loadSingleArchive && (imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(file).suffix().toLower()) || mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(file).name()))) {
         QVariantList ret;
         if(loadOnlyArchiveFiles(file, &ret))
             return ret;
@@ -120,8 +118,6 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
         }
 
     } else {
-
-        QMimeDatabase mimedb;
 
         if(filter.startsWith(".")) {
             for(QFileInfo l : list) {
@@ -239,9 +235,6 @@ void GetAndDoStuffListFiles::loadAllArchiveFiles(QFileInfo l, QVariantList *list
         return;
     }
 
-    // mime type database
-    QMimeDatabase mimedb;
-
     // Loop over entries in archive
     struct archive_entry *entry;
     QStringList allfiles;
@@ -270,7 +263,6 @@ void GetAndDoStuffListFiles::loadAllArchiveFiles(QFileInfo l, QVariantList *list
 }
 
 bool GetAndDoStuffListFiles::loadOnlyArchiveFiles(QString file, QVariantList *list) {
-    QMimeDatabase mimedb;
     if(imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(file).suffix().toLower()) || mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(file).name())) {
         loadAllArchiveFiles(QFileInfo(file), list);
         if(list->length() == 0) {
@@ -297,7 +289,6 @@ void GetAndDoStuffListFiles::loadAllPdfPages(QFileInfo l, QVariantList *list) {
 }
 
 bool GetAndDoStuffListFiles::loadOnlyPdfPages(QString file, QVariantList *list) {
-    QMimeDatabase mimedb;
     if(imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(file).suffix().toLower()) || mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(file).name())) {
         loadAllPdfPages(QFileInfo(file), list);
         if(list->length() == 0) {
@@ -363,15 +354,14 @@ QFileInfoList GetAndDoStuffListFiles::getEntryList(QString file, QString categor
 
     QFileInfoList retlist;
 
-    QMimeDatabase db;
     foreach(QFileInfo entry, entrylist) {
         if(checkForTheseFormats.contains("*." + entry.suffix().toLower()))
             retlist.append(entry);
-        else if(checkForTheseMimeTypes.contains(db.mimeTypeForFile(entry.absoluteFilePath()).name()))
+        else if(checkForTheseMimeTypes.contains(mimedb.mimeTypeForFile(entry.absoluteFilePath()).name()))
             retlist.append(entry);
     }
 
-    if(!retlist.contains(info) && !info.isDir() && !imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(file).suffix()) && !mimetypes->getEnabledMimeTypesPoppler().contains(db.mimeTypeForFile(info.absoluteFilePath()).name()))
+    if(!retlist.contains(info) && !info.isDir() && !imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(file).suffix()) && !mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(info.absoluteFilePath()).name()))
         retlist.append(info);
 
     return retlist;

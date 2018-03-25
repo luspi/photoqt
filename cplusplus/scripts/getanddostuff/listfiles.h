@@ -31,6 +31,8 @@ private:
     void loadAllArchiveFiles(QFileInfo l, QVariantList *list);
     bool loadOnlyArchiveFiles(QString file, QVariantList *list);
 
+    QMimeDatabase mimedb;
+
 };
 
 
