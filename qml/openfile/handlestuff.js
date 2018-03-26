@@ -112,13 +112,11 @@ function loadDirectoryFolders() {
     for(var j = 0; j < openvariables.currentDirectoryFolders.length; ++j)
         folders.folderListView.model.append({"folder" : openvariables.currentDirectoryFolders[j],
                                              "path" : openvariables.currentDirectory+"/"+openvariables.currentDirectoryFolders[j],
-                                             "counter" : getanddostuff.getNumberFilesInFolder(openvariables.currentDirectory + "/" +
-                                                                                              openvariables.currentDirectoryFolders[j],
-                                                                                              openvariables.filesFileTypeCategorySelected),
                                              "icon" : "folder",
                                              "id" : "",
                                              "hidden" : "false",
-                                             "systemitem" : ""})
+                                             "systemitem" : "",
+                                             "notvisible" : "0"})
 
 }
 

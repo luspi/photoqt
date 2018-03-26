@@ -213,6 +213,8 @@ Rectangle {
 
                         id: imagecountertextitem
 
+                        property int counter: 0
+
                         // top and bottom are tied to parent, width is defined by text
                         anchors {
                             top: parent.top
@@ -229,11 +231,20 @@ Rectangle {
 
                         // the text varies depending on if 0, 1, or 2+ images were found
                         text: ((counter==0||folder=="..") ? ""
-                                                         : counter + " " + (counter==1
+                                                          : counter + " " + (counter==1
                         //: Used as in '(1 image)'. This string is always used for the singular, exactly one image
                                                                                         ? em.pty+qsTr("image")
                         //: Used as in '(11 images)'. This string is always used for multiple images (at least 2)
                                                                                         : em.pty+qsTr("images")))
+
+                        Timer {
+                            id: checkForCounter
+                            interval: 100
+                            repeat: false
+                            running: true
+                            onTriggered:
+                                imagecountertextitem.counter = getanddostuff.getNumberFilesInFolder(openvariables.currentDirectory + "/" + folder, openvariables.filesFileTypeCategorySelected)
+                        }
 
                     }
 
