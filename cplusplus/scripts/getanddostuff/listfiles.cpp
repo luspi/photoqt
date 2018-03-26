@@ -354,12 +354,20 @@ QFileInfoList GetAndDoStuffListFiles::getEntryList(QString file, QString categor
 
     QFileInfoList retlist;
 
-    foreach(QFileInfo entry, entrylist) {
-        if(checkForTheseFormats.contains("*." + entry.suffix().toLower()))
-            retlist.append(entry);
-        else if(checkForTheseMimeTypes.contains(mimedb.mimeTypeForFile(entry.absoluteFilePath(), QMimeDatabase::MatchContent).name()))
-            retlist.append(entry);
+    if(checkForTheseMimeTypes.length() > 0) {
+        foreach(QFileInfo entry, entrylist) {
+            if(checkForTheseFormats.contains("*." + entry.suffix().toLower()))
+                retlist.append(entry);
+            else if(checkForTheseMimeTypes.contains(mimedb.mimeTypeForFile(entry.absoluteFilePath(), QMimeDatabase::MatchContent).name()))
+                retlist.append(entry);
+        }
+    } else {
+        foreach(QFileInfo entry, entrylist) {
+            if(checkForTheseFormats.contains("*." + entry.suffix().toLower()))
+                retlist.append(entry);
+        }
     }
+    qApp->processEvents();
 
     if(!retlist.contains(info) && !info.isDir() && !imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(file).suffix()) && !mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(info.absoluteFilePath(), QMimeDatabase::MatchContent).name()))
         retlist.append(info);

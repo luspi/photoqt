@@ -69,13 +69,20 @@ int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path, QString category
     }
 
     int count = 0;
-    foreach(QFileInfo info, list) {
-        if(checkForTheseFormats.contains("*." + info.suffix().toLower()))
-            ++count;
-        else if(checkForTheseMimeTypes.contains(mimedb.mimeTypeForFile(info.absoluteFilePath(), QMimeDatabase::MatchContent).name()))
-            ++count;
-        qApp->processEvents();
+    if(checkForTheseMimeTypes.length() > 0) {
+        foreach(QFileInfo info, list) {
+            if(checkForTheseFormats.contains("*." + info.suffix().toLower()))
+                ++count;
+            else if(checkForTheseMimeTypes.contains(mimedb.mimeTypeForFile(info.absoluteFilePath(), QMimeDatabase::MatchContent).name()))
+                ++count;
+        }
+    } else {
+        foreach(QFileInfo info, list) {
+            if(checkForTheseFormats.contains("*." + info.suffix().toLower()))
+                ++count;
+        }
     }
+    qApp->processEvents();
 
     return count;
 
