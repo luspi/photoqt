@@ -245,6 +245,11 @@ Item {
                 showLoadingImage.start()
         }
 
+        FaceTracker {
+            id: facetracker
+            anchors.fill: parent
+        }
+
         // This is necessary as otherwise for some reasom (not sure why) the zoom will always be reset. This ensures the scale property is properly set (if Keep* setting is set)
         Timer {
             id: resetScale

@@ -75,7 +75,6 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
 
     // Which GraphicsEngine should we use?
     QString whatToUse = whatDoIUse(filename);
-    qDebug() << "whatToUse =" << whatToUse;
 
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE << "ImageProviderFull: Using graphics engine: "

@@ -168,6 +168,13 @@ private:
     bool    m_metaCopyright;
     bool    m_metaGps;
 
+    bool    m_peopleTagInMetaDisplay;
+    bool    m_peopleTagInMetaShowBorderAroundFace;
+    bool    m_peopleTagInMetaAlwaysVisible;
+    bool    m_peopleTagInMetaIndependentLabels;
+    int     m_peopleTagInMetaFontSize;
+    bool    m_peopleTagInMetaLabelsIgnoreScale;
+
     QString m_openDefaultView;
     bool    m_openPreview;
     int     m_openZoomLevel;
@@ -1111,6 +1118,66 @@ public:
                                                        emit metaGpsChanged(val);
                                                        saveSettingsTimer->start(); } }
 
+    // peopleTagInMetaDisplay
+    Q_PROPERTY(bool   peopleTagInMetaDisplay
+               READ   getPeopleTagInMetaDisplay
+               WRITE  setPeopleTagInMetaDisplay
+               NOTIFY peopleTagInMetaDisplayChanged)
+    bool getPeopleTagInMetaDisplay() { return m_peopleTagInMetaDisplay; }
+    void setPeopleTagInMetaDisplay(bool val) { if(val != m_peopleTagInMetaDisplay) { m_peopleTagInMetaDisplay = val;
+                                                                                     emit peopleTagInMetaDisplayChanged(val);
+                                                                                     saveSettingsTimer->start(); } }
+
+    // peopleTagInMetaShowBorderAroundFace
+    Q_PROPERTY(bool   peopleTagInMetaShowBorderAroundFace
+               READ   getPeopleTagInMetaShowBorderAroundFace
+               WRITE  setPeopleTagInMetaShowBorderAroundFace
+               NOTIFY peopleTagInMetaShowBorderAroundFaceChanged)
+    bool getPeopleTagInMetaShowBorderAroundFace() { return m_peopleTagInMetaShowBorderAroundFace; }
+    void setPeopleTagInMetaShowBorderAroundFace(bool val) { if(val != m_peopleTagInMetaShowBorderAroundFace) { m_peopleTagInMetaShowBorderAroundFace = val;
+                                                                                                               emit peopleTagInMetaShowBorderAroundFaceChanged(val);
+                                                                                                               saveSettingsTimer->start(); } }
+
+    // peopleTagInMetaAlwaysVisible
+    Q_PROPERTY(bool   peopleTagInMetaAlwaysVisible
+               READ   getPeopleTagInMetaAlwaysVisible
+               WRITE  setPeopleTagInMetaAlwaysVisible
+               NOTIFY peopleTagInMetaAlwaysVisibleChanged)
+    bool getPeopleTagInMetaAlwaysVisible() { return m_peopleTagInMetaAlwaysVisible; }
+    void setPeopleTagInMetaAlwaysVisible(bool val) { if(val != m_peopleTagInMetaAlwaysVisible) { m_peopleTagInMetaAlwaysVisible = val;
+                                                                                                 emit peopleTagInMetaAlwaysVisibleChanged(val);
+                                                                                                 saveSettingsTimer->start(); } }
+
+    // peopleTagInMetaIndependentLabels
+    Q_PROPERTY(bool   peopleTagInMetaIndependentLabels
+               READ   getPeopleTagInMetaIndependentLabels
+               WRITE  setPeopleTagInMetaIndependentLabels
+               NOTIFY peopleTagInMetaIndependentLabelsChanged)
+    bool getPeopleTagInMetaIndependentLabels() { return m_peopleTagInMetaIndependentLabels; }
+    void setPeopleTagInMetaIndependentLabels(bool val) { if(val != m_peopleTagInMetaIndependentLabels) { m_peopleTagInMetaIndependentLabels = val;
+                                                                                                         emit peopleTagInMetaIndependentLabelsChanged(val);
+                                                                                                         saveSettingsTimer->start(); } }
+
+    // peopleTagInMetaFontSize
+    Q_PROPERTY(int    peopleTagInMetaFontSize
+               READ   getPeopleTagInMetaFontSize
+               WRITE  setPeopleTagInMetaFontSize
+               NOTIFY peopleTagInMetaFontSizeChanged)
+    int  getPeopleTagInMetaFontSize() { return m_peopleTagInMetaFontSize; }
+    void setPeopleTagInMetaFontSize(int val) { if(val != m_peopleTagInMetaFontSize) { m_peopleTagInMetaFontSize = val;
+                                                                                      emit peopleTagInMetaFontSizeChanged(val);
+                                                                                      saveSettingsTimer->start(); } }
+
+    // peopleTagInMetaLabelsIgnoreScale
+    Q_PROPERTY(bool   peopleTagInMetaLabelsIgnoreScale
+               READ   getPeopleTagInMetaLabelsIgnoreScale
+               WRITE  setPeopleTagInMetaLabelsIgnoreScale
+               NOTIFY peopleTagInMetaLabelsIgnoreScaleChanged)
+    bool getPeopleTagInMetaLabelsIgnoreScale() { return m_peopleTagInMetaLabelsIgnoreScale; }
+    void setPeopleTagInMetaLabelsIgnoreScale(bool val) { if(val != m_peopleTagInMetaLabelsIgnoreScale) { m_peopleTagInMetaLabelsIgnoreScale = val;
+                                                                                                         emit peopleTagInMetaLabelsIgnoreScaleChanged(val);
+                                                                                                         saveSettingsTimer->start(); } }
+
     // openDefaultView
     Q_PROPERTY(QString openDefaultView
                READ    getOpenDefaultView
@@ -1421,6 +1488,13 @@ signals:
     void metaLocationChanged(bool val);
     void metaCopyrightChanged(bool val);
     void metaGpsChanged(bool val);
+
+    void peopleTagInMetaDisplayChanged(bool val);
+    void peopleTagInMetaShowBorderAroundFaceChanged(bool val);
+    void peopleTagInMetaAlwaysVisibleChanged(bool val);
+    void peopleTagInMetaIndependentLabelsChanged(bool val);
+    void peopleTagInMetaFontSizeChanged(int val);
+    void peopleTagInMetaLabelsIgnoreScaleChanged(bool val);
 
     void openDefaultViewChanged(QString val);
     void openPreviewChanged(bool val);

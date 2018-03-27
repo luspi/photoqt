@@ -133,6 +133,7 @@ void MainHandler::registerQmlTypes() {
     qmlRegisterType<ContextMenu>("PContextMenu", 1, 0, "PContextMenu");
     qmlRegisterType<ImageFormats>("PImageFormats", 1, 0, "PImageFormats");
     qmlRegisterType<MimeTypes>("PMimeTypes", 1, 0, "PMimeTypes");
+    qmlRegisterType<GetPeopleTag>("PGetPeopleTag", 1, 0, "PGetPeopleTag");
 }
 
 // Add image providers to QML

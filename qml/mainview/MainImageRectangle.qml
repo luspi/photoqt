@@ -296,6 +296,11 @@ Item {
 
         }
 
+        FaceTracker {
+            id: facetracker
+            anchors.fill: parent
+        }
+
         Image {
             anchors.fill: parent
             visible: settings.showTransparencyMarkerBackground

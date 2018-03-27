@@ -49,6 +49,7 @@
 #include "contextmenu/contextmenu.h"
 #include "settings/imageformats.h"
 #include "settings/mimetypes.h"
+#include "scripts/getpeopletag.h"
 
 #include "imageprovider/imageproviderempty.h"
 #include "imageprovider/imageproviderfull.h"

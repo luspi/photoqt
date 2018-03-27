@@ -127,6 +127,8 @@ PinchArea {
             else
                 call.hide("slideshowbar")
 
+            variables.mouseCurrentPos = Qt.point(xPos, yPos)
+
         }
 
     }
