@@ -115,8 +115,12 @@ Item {
     property int wheelUpDown: 0
     property int wheelLeftRight: 0
 
+    property bool mousePressed: false
     property point mouseCurrentPos: Qt.point(-1,-1)
     property var peopleFaceTags: []
+    property bool taggingFaces: false
+    property bool mouseHoveringFaceTag: false
+    onPeopleFaceTagsChanged: mouseHoveringFaceTag = false
 
 
     // temporary solution to avoid having to retranslate the names for the possible shortcuts (will be replaced with better solution for following release)

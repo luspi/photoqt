@@ -36,7 +36,7 @@ import PThumbnailManagement 1.0
 import PShortcutsHandler 1.0
 import PWatcher 1.0
 import PLocalisation 1.0
-import PGetPeopleTag 1.0
+import PManagePeopleTags 1.0
 
 import "./mainview"
 import "./shortcuts"
@@ -111,7 +111,7 @@ Rectangle {
     // Read the Exif/IPTC metadata of images
     PGetMetaData { id: getmetadata; }
 
-    PGetPeopleTag { id: getpeopletag; }
+    PManagePeopleTags { id: managepeopletags; }
 
     // Share images to imgur.com
     PImgur { id: shareonline_imgur; }

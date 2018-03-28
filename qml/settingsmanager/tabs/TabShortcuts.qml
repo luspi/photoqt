@@ -152,7 +152,8 @@ Rectangle {
                                     ["__flipH", em.pty+qsTr("Flip Horizontally")],
                                     ["__flipV", em.pty+qsTr("Flip Vertically")],
                                     ["__scale", em.pty+qsTr("Scale Image")],
-                                    ["__playPauseAni", em.pty+qsTr("Play/Pause image animation")]]
+                                    ["__playPauseAni", em.pty+qsTr("Play/Pause image animation")],
+                                    ["__tagFaces", em.pty+qsTr("Tag faces (stored in metadata)")]]
             }
 
             Item { width: 1; height: 10 }

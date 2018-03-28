@@ -10,7 +10,7 @@ SET(photoqt_QML ${photoqt_QML} ${d}/Variables.qml ${d}/Strings.qml)
 
 SET(d "qml/mainview")
 SET(photoqt_QML ${photoqt_QML} ${d}/Background.qml ${d}/MainImage.qml ${d}/MainImageRectangle.qml ${d}/Thumbnails.qml ${d}/QuickInfo.qml ${d}/ClosingX.qml)
-SET(photoqt_QML ${photoqt_QML} ${d}/MainMenu.qml ${d}/HandleMouseMovements.qml ${d}/MetaData.qml ${d}/Histogram.qml ${d}/MainImageRectangleAnimated.qml ${d}/LoadingIndicator.qml ${d}/FaceTracker.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/MainMenu.qml ${d}/HandleMouseMovements.qml ${d}/MetaData.qml ${d}/Histogram.qml ${d}/MainImageRectangleAnimated.qml ${d}/LoadingIndicator.qml ${d}/FaceTracker.qml ${d}/FaceTagger.qml)
 
 SET(d "qml/shortcuts")
 SET(photoqt_QML ${photoqt_QML} ${d}/Shortcuts.qml ${d}/mouseshortcuts.js)

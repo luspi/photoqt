@@ -124,7 +124,7 @@ function loadFile(filename, filter, forceReloadDirectory) {
         metadata.setData(getmetadata.getExiv2(srcWithoutExtras))
         watcher.setCurrentImageForWatching(srcWithoutExtras);
         getanddostuff.saveLastOpenedImage(src)
-        variables.peopleFaceTags = (settings.peopleTagInMetaDisplay ? getpeopletag.getPeopleLocations(srcWithoutExtras) : [])
+        variables.peopleFaceTags = (settings.peopleTagInMetaDisplay ? managepeopletags.getFaceTags(srcWithoutExtras) : [])
     } else {
         call.show("openfile")
         call.load("openfileNavigateToCurrentDir")

@@ -24,6 +24,7 @@
 #define GETPEOPLETAG_H
 
 #include <QObject>
+#include <QMimeDatabase>
 
 #include "../logger.h"
 
@@ -32,15 +33,19 @@
 #include <exiv2/exif.hpp>
 #endif
 
-class GetPeopleTag : public QObject {
+class ManagePeopleTags : public QObject {
 
     Q_OBJECT
 
 public:
-    explicit GetPeopleTag(QObject *parent = 0);
-    ~GetPeopleTag();
+    explicit ManagePeopleTags(QObject *parent = 0);
+    ~ManagePeopleTags();
 
-    Q_INVOKABLE QVariantList getPeopleLocations(QString path);
+    Q_INVOKABLE QVariantList getFaceTags(QString path);
+    Q_INVOKABLE void setFaceTags(QString filename, QVariantList tags);
+
+    Q_INVOKABLE bool canReadXmpTags(QString filename);
+    Q_INVOKABLE bool canWriteXmpTags(QString filename);
 
 };
 

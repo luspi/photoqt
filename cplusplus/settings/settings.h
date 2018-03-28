@@ -169,11 +169,12 @@ private:
     bool    m_metaGps;
 
     bool    m_peopleTagInMetaDisplay;
-    bool    m_peopleTagInMetaShowBorderAroundFace;
+    bool    m_peopleTagInMetaBorderAroundFace;
+    QString m_peopleTagInMetaBorderAroundFaceColor;
+    int     m_peopleTagInMetaBorderAroundFaceWidth;
     bool    m_peopleTagInMetaAlwaysVisible;
     bool    m_peopleTagInMetaIndependentLabels;
     int     m_peopleTagInMetaFontSize;
-    bool    m_peopleTagInMetaLabelsIgnoreScale;
 
     QString m_openDefaultView;
     bool    m_openPreview;
@@ -1128,15 +1129,35 @@ public:
                                                                                      emit peopleTagInMetaDisplayChanged(val);
                                                                                      saveSettingsTimer->start(); } }
 
-    // peopleTagInMetaShowBorderAroundFace
-    Q_PROPERTY(bool   peopleTagInMetaShowBorderAroundFace
-               READ   getPeopleTagInMetaShowBorderAroundFace
-               WRITE  setPeopleTagInMetaShowBorderAroundFace
-               NOTIFY peopleTagInMetaShowBorderAroundFaceChanged)
-    bool getPeopleTagInMetaShowBorderAroundFace() { return m_peopleTagInMetaShowBorderAroundFace; }
-    void setPeopleTagInMetaShowBorderAroundFace(bool val) { if(val != m_peopleTagInMetaShowBorderAroundFace) { m_peopleTagInMetaShowBorderAroundFace = val;
-                                                                                                               emit peopleTagInMetaShowBorderAroundFaceChanged(val);
-                                                                                                               saveSettingsTimer->start(); } }
+    // peopleTagInMetaBorderAroundFace
+    Q_PROPERTY(bool   peopleTagInMetaBorderAroundFace
+               READ   getPeopleTagInMetaBorderAroundFace
+               WRITE  setPeopleTagInMetaBorderAroundFace
+               NOTIFY peopleTagInMetaBorderAroundFaceChanged)
+    bool getPeopleTagInMetaBorderAroundFace() { return m_peopleTagInMetaBorderAroundFace; }
+    void setPeopleTagInMetaBorderAroundFace(bool val) { if(val != m_peopleTagInMetaBorderAroundFace) { m_peopleTagInMetaBorderAroundFace = val;
+                                                                                                       emit peopleTagInMetaBorderAroundFaceChanged(val);
+                                                                                                       saveSettingsTimer->start(); } }
+
+    // peopleTagInMetaBorderAroundFaceColor
+    Q_PROPERTY(QString peopleTagInMetaBorderAroundFaceColor
+               READ    getPeopleTagInMetaBorderAroundFaceColor
+               WRITE   setPeopleTagInMetaBorderAroundFaceColor
+               NOTIFY  peopleTagInMetaBorderAroundFaceColorChanged)
+    QString getPeopleTagInMetaBorderAroundFaceColor() { return m_peopleTagInMetaBorderAroundFaceColor; }
+    void    setPeopleTagInMetaBorderAroundFaceColor(QString val) { if(val != m_peopleTagInMetaBorderAroundFaceColor) { m_peopleTagInMetaBorderAroundFaceColor = val;
+                                                                                                                       emit peopleTagInMetaBorderAroundFaceColorChanged(val);
+                                                                                                                       saveSettingsTimer->start(); } }
+
+    // peopleTagInMetaBorderAroundFaceWidth
+    Q_PROPERTY(int    peopleTagInMetaBorderAroundFaceWidth
+               READ   getPeopleTagInMetaBorderAroundFaceWidth
+               WRITE  setPeopleTagInMetaBorderAroundFaceWidth
+               NOTIFY peopleTagInMetaBorderAroundFaceWidthChanged)
+    int  getPeopleTagInMetaBorderAroundFaceWidth() { return m_peopleTagInMetaBorderAroundFaceWidth; }
+    void setPeopleTagInMetaBorderAroundFaceWidth(int val) { if(val != m_peopleTagInMetaBorderAroundFaceWidth) { m_peopleTagInMetaBorderAroundFaceWidth = val;
+                                                                                                                emit peopleTagInMetaBorderAroundFaceWidthChanged(val);
+                                                                                                                saveSettingsTimer->start(); } }
 
     // peopleTagInMetaAlwaysVisible
     Q_PROPERTY(bool   peopleTagInMetaAlwaysVisible
@@ -1167,16 +1188,6 @@ public:
     void setPeopleTagInMetaFontSize(int val) { if(val != m_peopleTagInMetaFontSize) { m_peopleTagInMetaFontSize = val;
                                                                                       emit peopleTagInMetaFontSizeChanged(val);
                                                                                       saveSettingsTimer->start(); } }
-
-    // peopleTagInMetaLabelsIgnoreScale
-    Q_PROPERTY(bool   peopleTagInMetaLabelsIgnoreScale
-               READ   getPeopleTagInMetaLabelsIgnoreScale
-               WRITE  setPeopleTagInMetaLabelsIgnoreScale
-               NOTIFY peopleTagInMetaLabelsIgnoreScaleChanged)
-    bool getPeopleTagInMetaLabelsIgnoreScale() { return m_peopleTagInMetaLabelsIgnoreScale; }
-    void setPeopleTagInMetaLabelsIgnoreScale(bool val) { if(val != m_peopleTagInMetaLabelsIgnoreScale) { m_peopleTagInMetaLabelsIgnoreScale = val;
-                                                                                                         emit peopleTagInMetaLabelsIgnoreScaleChanged(val);
-                                                                                                         saveSettingsTimer->start(); } }
 
     // openDefaultView
     Q_PROPERTY(QString openDefaultView
@@ -1490,11 +1501,12 @@ signals:
     void metaGpsChanged(bool val);
 
     void peopleTagInMetaDisplayChanged(bool val);
-    void peopleTagInMetaShowBorderAroundFaceChanged(bool val);
+    void peopleTagInMetaBorderAroundFaceChanged(bool val);
+    void peopleTagInMetaBorderAroundFaceColorChanged(QString val);
+    void peopleTagInMetaBorderAroundFaceWidthChanged(int val);
     void peopleTagInMetaAlwaysVisibleChanged(bool val);
     void peopleTagInMetaIndependentLabelsChanged(bool val);
     void peopleTagInMetaFontSizeChanged(int val);
-    void peopleTagInMetaLabelsIgnoreScaleChanged(bool val);
 
     void openDefaultViewChanged(QString val);
     void openPreviewChanged(bool val);

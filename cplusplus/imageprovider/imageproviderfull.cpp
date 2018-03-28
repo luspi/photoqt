@@ -168,7 +168,7 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
     if(filename.contains("::PQT1::") && filename.contains("::PQT2::"))
         useThisFilename = filename.split("::PQT1::").at(0) + filename.split("::PQT2::").at(1);
 
-    QString mime = mimedb.mimeTypeForFile(useThisFilename, QMimeDatabase::MatchContent).name();
+    QString mime = mimedb.mimeTypeForFile(useThisFilename).name();
 
     QFileInfo info(useThisFilename);
 

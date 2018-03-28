@@ -79,7 +79,7 @@ Item {
 
     }
 
-    opacity: variables.guiBlocked&&!variables.slideshowRunning ? 0.1 : 1
+    opacity: variables.guiBlocked&&!variables.slideshowRunning&&!variables.taggingFaces ? 0.1 : 1
     Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
     property bool paused: false

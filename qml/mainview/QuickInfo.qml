@@ -39,8 +39,8 @@ Item {
     width: childrenRect.width
     height: childrenRect.height
 
-    visible: ((!settings.quickInfoHideCounter || !settings.quickInfoHideFilename || !settings.quickInfoHideFilepath || variables.filter!="") && !variables.slideshowRunning && variables.currentFile!="") || (variables.slideshowRunning && !settings.slideShowHideQuickInfo)
-    opacity: variables.guiBlocked&&!variables.slideshowRunning ? 0.2 : 1
+    visible: (((!settings.quickInfoHideCounter || !settings.quickInfoHideFilename || !settings.quickInfoHideFilepath || variables.filter!="") && !variables.slideshowRunning && variables.currentFile!="") || (variables.slideshowRunning && !settings.slideShowHideQuickInfo)) && opacity!=0
+    opacity: variables.taggingFaces ? 0 : (variables.guiBlocked&&!variables.slideshowRunning ? 0.2 : 1)
     Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
     Rectangle {

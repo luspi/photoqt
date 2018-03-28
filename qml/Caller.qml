@@ -66,6 +66,8 @@ Item {
 
     signal closeAnyElement()
 
+    signal tagFaces()
+
     /***********************************************************/
     /***********************************************************/
 
@@ -158,6 +160,10 @@ Item {
     function passOnShortcut(sh) {
         verboseMessage("Caller","passOnShortcut(): " + sh)
         shortcut(sh)
+    }
+
+    function requestTagFaces() {
+        tagFaces()
     }
 
     function ensureElementSetup(component) {

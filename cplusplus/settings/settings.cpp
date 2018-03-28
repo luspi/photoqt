@@ -180,11 +180,12 @@ void Settings::setDefault() {
     setMetaGpsMapService("openstreetmap.org");
 
     setPeopleTagInMetaDisplay(true);
-    setPeopleTagInMetaShowBorderAroundFace(false);
+    setPeopleTagInMetaBorderAroundFace(false);
+    setPeopleTagInMetaBorderAroundFaceColor("#44ff0000");
+    setPeopleTagInMetaBorderAroundFaceWidth(3);
     setPeopleTagInMetaAlwaysVisible(false);
     setPeopleTagInMetaIndependentLabels(true);
     setPeopleTagInMetaFontSize(10);
-    setPeopleTagInMetaLabelsIgnoreScale(false);
 
     setMetadataEnableHotEdge(true);
     setMetadataFontSize(10);
@@ -352,11 +353,12 @@ void Settings::saveSettings() {
         cont += "\n[People Tags in Metadata]\n";
 
         cont += QString("PeopleTagInMetaDisplay=%1\n").arg(int(m_peopleTagInMetaDisplay));
-        cont += QString("PeopleTagInMetaShowBorderAroundFace=%1\n").arg(int(m_peopleTagInMetaShowBorderAroundFace));
+        cont += QString("PeopleTagInMetaBorderAroundFace=%1\n").arg(int(m_peopleTagInMetaBorderAroundFace));
+        cont += QString("PeopleTagInMetaBorderAroundFaceColor=%1\n").arg(m_peopleTagInMetaBorderAroundFaceColor);
+        cont += QString("PeopleTagInMetaBorderAroundFaceWidth=%1\n").arg(m_peopleTagInMetaBorderAroundFaceWidth);
         cont += QString("PeopleTagInMetaAlwaysVisible=%1\n").arg(int(m_peopleTagInMetaAlwaysVisible));
         cont += QString("PeopleTagInMetaIndependentLabels=%1\n").arg(int(m_peopleTagInMetaIndependentLabels));
         cont += QString("PeopleTagInMetaFontSize=%1\n").arg(m_peopleTagInMetaFontSize);
-        cont += QString("PeopleTagInMetaLabelsIgnoreScale=%1\n").arg(m_peopleTagInMetaLabelsIgnoreScale);
 
         cont += "\n[Open File]\n";
         cont += QString("OpenDefaultView=%1\n").arg(m_openDefaultView);
@@ -692,8 +694,14 @@ void Settings::readSettings() {
             else if(line.startsWith("PeopleTagInMetaDisplay="))
                 setPeopleTagInMetaDisplay(line.split("=").at(1).toInt());
 
-            else if(line.startsWith("PeopleTagInMetaShowBorderAroundFace="))
-                setPeopleTagInMetaShowBorderAroundFace(line.split("=").at(1).toInt());
+            else if(line.startsWith("PeopleTagInMetaBorderAroundFace="))
+                setPeopleTagInMetaBorderAroundFace(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("PeopleTagInMetaBorderAroundFaceColor="))
+                setPeopleTagInMetaBorderAroundFaceColor(line.split("=").at(1).trimmed());
+
+            else if(line.startsWith("PeopleTagInMetaBorderAroundFaceWidth="))
+                setPeopleTagInMetaBorderAroundFaceWidth(line.split("=").at(1).toInt());
 
             else if(line.startsWith("PeopleTagInMetaAlwaysVisible="))
                 setPeopleTagInMetaAlwaysVisible(line.split("=").at(1).toInt());
@@ -703,9 +711,6 @@ void Settings::readSettings() {
 
             else if(line.startsWith("PeopleTagInMetaFontSize="))
                 setPeopleTagInMetaFontSize(line.split("=").at(1).toInt());
-
-            else if(line.startsWith("PeopleTagInMetaLabelsIgnoreScale="))
-                setPeopleTagInMetaLabelsIgnoreScale(line.split("=").at(1).toInt());
 
 
             else if(line.startsWith("OpenDefaultView="))

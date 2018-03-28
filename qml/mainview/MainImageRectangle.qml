@@ -79,7 +79,7 @@ Item {
 
     }
 
-    opacity: variables.guiBlocked&&!variables.slideshowRunning ? 0.1 : 1
+    opacity: variables.guiBlocked&&!variables.slideshowRunning&&!variables.taggingFaces ? 0.1 : 1
     Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
     // Scaling of image
@@ -299,7 +299,12 @@ Item {
         FaceTracker {
             id: facetracker
             anchors.fill: parent
+            FaceTagger {
+                id: facetagger
+                anchors.fill: parent
+            }
         }
+
 
         Image {
             anchors.fill: parent
