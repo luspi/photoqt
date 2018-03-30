@@ -140,6 +140,8 @@ void ManagePeopleTags::setFaceTags(QString filename, QVariantList tags) {
     if(!canWriteXmpTags(filename))
         return;
 
+#ifdef EXIV2
+
     try {
 
         // Open image for exif reading
@@ -202,6 +204,8 @@ void ManagePeopleTags::setFaceTags(QString filename, QVariantList tags) {
         LOG << CURDATE << "GetPeopleTag::setFaceTags() - ERROR reading exiv data (caught exception): " << e << NL;
         return;
     }
+
+#endif
 
 }
 
