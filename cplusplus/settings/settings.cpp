@@ -184,7 +184,8 @@ void Settings::setDefault() {
     setPeopleTagInMetaBorderAroundFaceColor("#44ff0000");
     setPeopleTagInMetaBorderAroundFaceWidth(3);
     setPeopleTagInMetaAlwaysVisible(false);
-    setPeopleTagInMetaIndependentLabels(true);
+    setPeopleTagInMetaIndependentLabels(false);
+    setPeopleTagInMetaHybridMode(true);
     setPeopleTagInMetaFontSize(10);
 
     setMetadataEnableHotEdge(true);
@@ -358,6 +359,7 @@ void Settings::saveSettings() {
         cont += QString("PeopleTagInMetaBorderAroundFaceWidth=%1\n").arg(m_peopleTagInMetaBorderAroundFaceWidth);
         cont += QString("PeopleTagInMetaAlwaysVisible=%1\n").arg(int(m_peopleTagInMetaAlwaysVisible));
         cont += QString("PeopleTagInMetaIndependentLabels=%1\n").arg(int(m_peopleTagInMetaIndependentLabels));
+        cont += QString("PeopleTagInMetaHybridMode=%1\n").arg(int(m_peopleTagInMetaHybridMode));
         cont += QString("PeopleTagInMetaFontSize=%1\n").arg(m_peopleTagInMetaFontSize);
 
         cont += "\n[Open File]\n";
@@ -708,6 +710,9 @@ void Settings::readSettings() {
 
             else if(line.startsWith("PeopleTagInMetaIndependentLabels="))
                 setPeopleTagInMetaIndependentLabels(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("PeopleTagInMetaHybridMode="))
+                setPeopleTagInMetaHybridMode(line.split("=").at(1).toInt());
 
             else if(line.startsWith("PeopleTagInMetaFontSize="))
                 setPeopleTagInMetaFontSize(line.split("=").at(1).toInt());

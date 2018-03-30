@@ -4,17 +4,14 @@ Item {
 
     id: top
 
-    Connections {
-        target: variables
-        onPeopleFaceTagsChanged: resetModel()
-        onCurrentFileChanged: resetModel()
-    }
-
     function resetModel() {
         repeatermodel.clear()
         for(var i = 0; i < variables.peopleFaceTags.length/6; ++i)
             repeatermodel.append({"index" : i})
     }
+
+    property bool mouseInsideFullImage: false
+    property int mouseOverLabelWithIndex: -1
 
     // This displays info about people/faces in the current photo (stored in metadata)
     Repeater {
@@ -29,13 +26,22 @@ Item {
             id: labelitemdelegate
 
             // This is set to true/false depending on whether the mouse is hovering this face tag
-            property bool showThisLabel: false
             property bool mouseInsideThisLabel: false
-            onMouseInsideThisLabelChanged:
+            onMouseInsideThisLabelChanged: {
                 variables.mouseHoveringFaceTag = mouseInsideThisLabel
+                if(mouseInsideThisLabel)
+                    mouseOverLabelWithIndex = index
+                else {
+                    if(mouseOverLabelWithIndex == index)
+                        mouseOverLabelWithIndex = -1
+                }
+            }
 
             visible: (opacity!=0)
-            opacity: (settings.peopleTagInMetaAlwaysVisible||variables.taggingFaces||showThisLabel ? 1 : 0)
+            opacity: ((settings.peopleTagInMetaAlwaysVisible || variables.taggingFaces ||
+                      (settings.peopleTagInMetaIndependentLabels && mouseInsideThisLabel) ||
+                      (!settings.peopleTagInMetaIndependentLabels && !settings.peopleTagInMetaHybridMode && mouseInsideFullImage) ||
+                      (settings.peopleTagInMetaHybridMode && mouseInsideFullImage && (mouseOverLabelWithIndex==index || mouseOverLabelWithIndex == -1))) ? 1 : 0)
             Behavior on opacity { NumberAnimation { duration: 100 } }
 
             // The first two values are x and y ratios
@@ -86,6 +92,8 @@ Item {
                 text: " "+variables.peopleFaceTags[6*index+5]+" "
             }
 
+            property point mousePressStarted: Qt.point(-1,-1)
+
             // If the mouse position has changed, update visibility of labels
             Connections {
 
@@ -93,38 +101,52 @@ Item {
 
                 onMouseCurrentPosChanged: {
 
-                    var p = labelitemdelegate.mapFromItem(mainwindow, variables.mouseCurrentPos.x, variables.mouseCurrentPos.y)
-                    labelitemdelegate.mouseInsideThisLabel = !(p.x < 0 || p.x > labelitemdelegate.width || p.y < 0 || p.y > labelitemdelegate.height)
-
-                    // Consider only this individual label
-                    if(settings.peopleTagInMetaIndependentLabels)
-                        labelitemdelegate.showThisLabel = labelitemdelegate.mouseInsideThisLabel
-                    // Consider the image as a whole
-                    else {
-                        p = imageContainer.mapFromItem(mainwindow, variables.mouseCurrentPos.x, variables.mouseCurrentPos.y)
-                        labelitemdelegate.showThisLabel = !(p.x < 0 || p.x > imageContainer.width || p.y < 0 || p.y > imageContainer.height)
-                    }
-
+                    handleMouseMove()
                 }
 
                 onMousePressedChanged: {
-                    if(labelitemdelegate.mouseInsideThisLabel&&variables.taggingFaces) {
-                        var newfacedata = []
-                        for(var i = 0; i < variables.peopleFaceTags.length/6; ++i) {
-                            if(variables.peopleFaceTags[6*i] != labelitemdelegate.myIndex) {
-                                newfacedata.push(variables.peopleFaceTags[6*i])
-                                newfacedata.push(variables.peopleFaceTags[6*i+1])
-                                newfacedata.push(variables.peopleFaceTags[6*i+2])
-                                newfacedata.push(variables.peopleFaceTags[6*i+3])
-                                newfacedata.push(variables.peopleFaceTags[6*i+4])
-                                newfacedata.push(variables.peopleFaceTags[6*i+5])
+
+                    if(!imageContainer.visible) return
+
+                    if(variables.mousePressed) {
+                        labelitemdelegate.mousePressStarted = variables.mouseCurrentPos
+                    } else {
+                        var dx = Math.abs(variables.mouseCurrentPos.x-labelitemdelegate.mousePressStarted.x)
+                        var dy = Math.abs(variables.mouseCurrentPos.y-labelitemdelegate.mousePressStarted.y)
+                        if(labelitemdelegate.mouseInsideThisLabel&&variables.taggingFaces&&dx < 20 && dy < 20) {
+                            var newfacedata = []
+                            for(var i = 0; i < variables.peopleFaceTags.length/6; ++i) {
+                                if(variables.peopleFaceTags[6*i] != labelitemdelegate.myIndex) {
+                                    newfacedata.push(variables.peopleFaceTags[6*i])
+                                    newfacedata.push(variables.peopleFaceTags[6*i+1])
+                                    newfacedata.push(variables.peopleFaceTags[6*i+2])
+                                    newfacedata.push(variables.peopleFaceTags[6*i+3])
+                                    newfacedata.push(variables.peopleFaceTags[6*i+4])
+                                    newfacedata.push(variables.peopleFaceTags[6*i+5])
+                                }
                             }
+                            managepeopletags.setFaceTags(variables.currentDir+"/"+variables.currentFileWithoutExtras, newfacedata)
+                            variables.peopleFaceTags = newfacedata
                         }
-                        managepeopletags.setFaceTags(variables.currentDir+"/"+variables.currentFileWithoutExtras, newfacedata)
-                        variables.peopleFaceTags = newfacedata
                     }
                 }
 
+            }
+
+            function handleMouseMove() {
+                if(!imageContainer.visible) return
+
+                var p = labelitemdelegate.mapFromItem(mainwindow, variables.mouseCurrentPos.x, variables.mouseCurrentPos.y)
+                labelitemdelegate.mouseInsideThisLabel = !(p.x < 0 || p.x > labelitemdelegate.width || p.y < 0 || p.y > labelitemdelegate.height)
+
+                p = imageContainer.mapFromItem(mainwindow, variables.mouseCurrentPos.x, variables.mouseCurrentPos.y)
+                mouseInsideFullImage = !(p.x < 0 || p.x > imageContainer.width || p.y < 0 || p.y > imageContainer.height)
+
+            }
+
+            Connections {
+                target: imageContainer
+                onHideOther: handleMouseMove()
             }
 
         }
@@ -143,6 +165,12 @@ Item {
 
         }
 
+    }
+
+    Connections {
+        target: variables
+        onPeopleFaceTagsChanged: resetModel()
+        onCurrentFileChanged: resetModel()
     }
 
 }

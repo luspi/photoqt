@@ -174,6 +174,7 @@ private:
     int     m_peopleTagInMetaBorderAroundFaceWidth;
     bool    m_peopleTagInMetaAlwaysVisible;
     bool    m_peopleTagInMetaIndependentLabels;
+    bool    m_peopleTagInMetaHybridMode;
     int     m_peopleTagInMetaFontSize;
 
     QString m_openDefaultView;
@@ -1179,6 +1180,16 @@ public:
                                                                                                          emit peopleTagInMetaIndependentLabelsChanged(val);
                                                                                                          saveSettingsTimer->start(); } }
 
+    // peopleTagInMetaHybridMode
+    Q_PROPERTY(bool   peopleTagInMetaHybridMode
+               READ   getPeopleTagInMetaHybridMode
+               WRITE  setPeopleTagInMetaHybridMode
+               NOTIFY peopleTagInMetaHybridModeChanged)
+    bool getPeopleTagInMetaHybridMode() { return m_peopleTagInMetaHybridMode; }
+    void setPeopleTagInMetaHybridMode(bool val) { if(val != m_peopleTagInMetaHybridMode) { m_peopleTagInMetaHybridMode= val;
+                                                                                           emit peopleTagInMetaHybridModeChanged(val);
+                                                                                           saveSettingsTimer->start(); } }
+
     // peopleTagInMetaFontSize
     Q_PROPERTY(int    peopleTagInMetaFontSize
                READ   getPeopleTagInMetaFontSize
@@ -1506,6 +1517,7 @@ signals:
     void peopleTagInMetaBorderAroundFaceWidthChanged(int val);
     void peopleTagInMetaAlwaysVisibleChanged(bool val);
     void peopleTagInMetaIndependentLabelsChanged(bool val);
+    void peopleTagInMetaHybridModeChanged(bool val);
     void peopleTagInMetaFontSizeChanged(int val);
 
     void openDefaultViewChanged(QString val);

@@ -40,24 +40,56 @@ Item {
     Connections {
         target: variables
         onMousePressedChanged: {
+
+            // Is currently visible?
             if(entername.visible || !variables.taggingFaces || !top.visible) return
+
+            // Click or release of mouse
             if(variables.mousePressed) {
-                startTagging()
+
                 var localPos = top.mapFromItem(mainwindow, variables.mouseCurrentPos.x, variables.mouseCurrentPos.y)
+
                 pressedStartX = localPos.x
                 pressedStartY = localPos.y
+
                 drawrect.x = localPos.x
                 drawrect.y = localPos.y
                 drawrect.width = 0
                 drawrect.height = 0
+
                 drawrect.visible = true
-            } else {
+
+            } else if(drawrect.visible) {
+
+                // If the whole drawn rectangle is outside the image: Ignore tag
+                if(drawrect.x > imageContainer.width || drawrect.x+drawrect.width < 0 || drawrect.y > imageContainer.height || drawrect.y+drawrect.height < 0) {
+                    cancelNameEnter()
+                    return
+                }
+
+                // Make sure drawn rectangle is fully inside the image
+
+                if(drawrect.x < 0) {
+                    drawrect.width += drawrect.x
+                    drawrect.x = 0
+                }
+                if(drawrect.y < 0) {
+                    drawrect.height += drawrect.y
+                    drawrect.y = 0
+                }
+                if(drawrect.x+drawrect.width > imageContainer.width) drawrect.width = imageContainer.width-drawrect.x
+                if(drawrect.y+drawrect.height > imageContainer.height) drawrect.height = imageContainer.height-drawrect.y
+
+                // If rectangle is not too small
                 if(drawrect.width > 20 || drawrect.height > 20) {
+
                     entername.visible = true
                     enternamelineedit.clear()
                     enternamelineedit.selectAll()
+
                 } else
                     cancelNameEnter()
+
             }
         }
         onMouseCurrentPosChanged: {
