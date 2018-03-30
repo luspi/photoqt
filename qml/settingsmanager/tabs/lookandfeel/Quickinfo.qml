@@ -63,6 +63,11 @@ EntryContainer {
                 }
 
                 CustomCheckBox {
+                    id: quickinfo_zoomlevel
+                    text: em.pty+qsTr("Current zoom level")
+                }
+
+                CustomCheckBox {
                     id: quickinfo_closingx
                     text: em.pty+qsTr("Exit button ('x' in top right corner)")
                 }
@@ -77,6 +82,7 @@ EntryContainer {
         settings.quickInfoHideCounter = !quickinfo_counter.checkedButton
         settings.quickInfoHideFilepath = !quickinfo_filepath.checkedButton
         settings.quickInfoHideFilename = !quickinfo_filename.checkedButton
+        settings.quickInfoHideZoomLevel = !quickinfo_zoomlevel.checkedButton
         settings.quickInfoHideX = !quickinfo_closingx.checkedButton
     }
 
@@ -84,6 +90,7 @@ EntryContainer {
         quickinfo_counter.checkedButton = !settings.quickInfoHideCounter
         quickinfo_filepath.checkedButton = !settings.quickInfoHideFilepath
         quickinfo_filename.checkedButton = !settings.quickInfoHideFilename
+        quickinfo_zoomlevel.checkedButton = !settings.quickInfoHideZoomLevel
         quickinfo_closingx.checkedButton = !settings.quickInfoHideX
     }
 

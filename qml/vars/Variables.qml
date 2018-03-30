@@ -115,6 +115,10 @@ Item {
     property int wheelUpDown: 0
     property int wheelLeftRight: 0
 
+
+
+    property int currentZoomLevel: 75
+
     property bool mousePressed: false
     property point mouseCurrentPos: Qt.point(-1,-1)
     property var peopleFaceTags: []

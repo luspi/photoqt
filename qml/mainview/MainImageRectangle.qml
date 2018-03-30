@@ -90,8 +90,11 @@ Item {
     // When the image is zoomed in/out we emit a signal
     // this is needed, e.g., for the thumbnail bar in combination with the keepVisibleWhenNotZoomed property
     signal zoomChanged()
-    onScaleChanged:
+    onScaleChanged: {
         zoomChanged()
+        if(imageContainer.visible)
+            variables.currentZoomLevel = Math.round(scale*100)
+    }
 
     // The x and y positions depend on the image
     x: ( defaultWidth - width ) / 2 + imageMargin/2
@@ -242,6 +245,7 @@ Item {
                 mainImageFinishedLoading = true
                 hideOther()
                 loadingimage.opacity = 0
+                variables.currentZoomLevel = Math.round(imageContainer.scale*100)
             } else if(status == Image.Loading)
                 showLoadingImage.start()
         }

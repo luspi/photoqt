@@ -108,6 +108,22 @@ Item {
 
         }
 
+        Text {
+
+            id: zoomlevel
+
+            y: 3
+            anchors.left: filename.right
+            anchors.leftMargin: visible ? (counter.visible ? 10 : 5) : 0
+
+            text: visible ? "// Zoom: " + variables.currentZoomLevel + "%" : ""
+
+            color: colour.quickinfo_text
+            font.pointSize: 10
+            visible: !settings.quickInfoHideZoomLevel
+
+        }
+
         // Filter label
         Rectangle {
             id: filterLabel

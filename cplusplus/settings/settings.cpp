@@ -127,6 +127,7 @@ void Settings::setDefault() {
     setQuickInfoHideFilepath(true);
     setQuickInfoHideFilename(false);
     setQuickInfoHideX(false);
+    setQuickInfoHideZoomLevel(false);
     setQuickInfoFullX(true);
     setQuickInfoCloseXSize(10);
 
@@ -290,6 +291,7 @@ void Settings::saveSettings() {
         cont += QString("QuickInfoHideFilepath=%1\n").arg(int(m_quickInfoHideFilepath));
         cont += QString("QuickInfoHideFilename=%1\n").arg(int(m_quickInfoHideFilename));
         cont += QString("QuickInfoHideX=%1\n").arg(int(m_quickInfoHideX));
+        cont += QString("QuickInfoHideZoomLevel=%1\n").arg(int(m_quickInfoHideZoomLevel));
         cont += QString("QuickInfoFullX=%1\n").arg(int(m_quickInfoFullX));
         cont += QString("QuickInfoCloseXSize=%1\n").arg(m_quickInfoCloseXSize);
 
@@ -544,6 +546,9 @@ void Settings::readSettings() {
 
             else if(line.startsWith("QuickInfoHideX="))
                 setQuickInfoHideX(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("QuickInfoHideZoomLevel="))
+                setQuickInfoHideZoomLevel(line.split("=").at(1).toInt());
 
             else if(line.startsWith("QuickInfoCloseXSize="))
                 setQuickInfoCloseXSize(line.split("=").at(1).toInt());

@@ -114,6 +114,7 @@ private:
     bool    m_quickInfoHideFilepath;
     bool    m_quickInfoHideFilename;
     bool    m_quickInfoHideX;
+    bool    m_quickInfoHideZoomLevel;
     bool    m_quickInfoFullX;
     int     m_quickInfoCloseXSize;
 
@@ -629,6 +630,16 @@ public:
     void setQuickInfoHideX(bool val) { if(val != m_quickInfoHideX) { m_quickInfoHideX = val;
                                                                      emit quickInfoHideXChanged(val);
                                                                      saveSettingsTimer->start(); } }
+
+    // quickInfoHideZoomLevel
+    Q_PROPERTY(bool   quickInfoHideZoomLevel
+               READ   getQuickInfoHideZoomLevel
+               WRITE  setQuickInfoHideZoomLevel
+               NOTIFY quickInfoHideZoomLevelChanged)
+    bool getQuickInfoHideZoomLevel() { return m_quickInfoHideZoomLevel; }
+    void setQuickInfoHideZoomLevel(bool val) { if(val != m_quickInfoHideZoomLevel) { m_quickInfoHideZoomLevel = val;
+                                                                                     emit quickInfoHideZoomLevelChanged(val);
+                                                                                     saveSettingsTimer->start(); } }
 
     // quickInfoFullX
     Q_PROPERTY(bool   quickInfoFullX
@@ -1457,6 +1468,7 @@ signals:
     void quickInfoHideFilepathChanged(bool val);
     void quickInfoHideFilenameChanged(bool val);
     void quickInfoHideXChanged(bool val);
+    void quickInfoHideZoomLevelChanged(bool val);
     void quickInfoFullXChanged(bool val);
     void quickInfoCloseXSizeChanged(int val);
 
