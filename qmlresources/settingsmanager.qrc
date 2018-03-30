@@ -46,6 +46,7 @@
         <file>../qml/settingsmanager/tabs/metadata/Opacity.qml</file>
         <file>../qml/settingsmanager/tabs/metadata/RotateFlip.qml</file>
         <file>../qml/settingsmanager/tabs/metadata/OnlineMap.qml</file>
+        <file>../qml/settingsmanager/tabs/metadata/PeopleTags.qml</file>
         <file>../qml/settingsmanager/tabs/TabImageFormats.qml</file>
         <file>../qml/settingsmanager/tabs/imageformats/PopupImageFormats.qml</file>
         <file>../qml/settingsmanager/tabs/imageformats/PopupMimeTypes.qml</file>

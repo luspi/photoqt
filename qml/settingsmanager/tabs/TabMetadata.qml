@@ -99,6 +99,7 @@ Rectangle {
             Opacity { id: op; alternating: true }
             RotateFlip { id: rotateflip }
             OnlineMap { id: onlinemap; alternating: true }
+            PeopleTags { id: peopletags }
 
 
         }
@@ -113,6 +114,7 @@ Rectangle {
         op.setData()
         rotateflip.setData()
         onlinemap.setData()
+        peopletags.setData()
     }
 
     function saveData() {
@@ -123,6 +125,7 @@ Rectangle {
         op.saveData()
         rotateflip.saveData()
         onlinemap.saveData()
+        peopletags.saveData()
     }
 
 }

@@ -203,3 +203,17 @@ QString GetAndDoStuffOther::convertIdIntoString(QObject *object) {
     const auto context = qmlContext(object);
     return context ? context->nameForObject(object): QString("context not found");
 }
+
+QString GetAndDoStuffOther::selectColor(QString preselectColor) {
+
+    QColorDialog diag;
+    diag.setOption(QColorDialog::ShowAlphaChannel);
+    diag.setCurrentColor(preselectColor);
+    int ret = diag.exec();
+
+    if(ret == 0)
+        return preselectColor;
+
+    return diag.currentColor().name(QColor::HexArgb);
+
+}

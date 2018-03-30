@@ -36,6 +36,7 @@
 #include <QTextStream>
 #include <QStandardPaths>
 #include <QtQml>
+#include <QColorDialog>
 #include "../../logger.h"
 
 #include <QWindow>
@@ -73,6 +74,7 @@ public:
     QRect getStoredGeometry();
     bool isImageAnimated(QString path);
     QString convertIdIntoString(QObject *object);
+    QString selectColor(QString preselectColor);
 
 };
 

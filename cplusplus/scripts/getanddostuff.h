@@ -124,6 +124,7 @@ public:
     Q_INVOKABLE bool isImageAnimated(QString path) { return other->isImageAnimated(path); }
     Q_INVOKABLE QString convertIdIntoString(QObject *object) { return other->convertIdIntoString(object); }
     Q_INVOKABLE bool doesStringEndsWith(QString str, QString val) { return str.endsWith(val); }
+    Q_INVOKABLE QString selectColor(QString preselectColor) { return other->selectColor(preselectColor); }
 
     // WALLPAPER
     Q_INVOKABLE QString detectWindowManager() { return wallpaper->detectWindowManager(); }

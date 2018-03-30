@@ -42,7 +42,7 @@ Button {
     property int currentIndex: -1
 
     opacity: enabled ? 1 : disabledOpacity
-    Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
+    Behavior on opacity { NumberAnimation { duration: variables.animationSpeed/2 } }
 
     onWidthChanged: context.setFixedWidth(but.width)
     onFontsizeChanged: context.setFontSize(but.fontsize)
