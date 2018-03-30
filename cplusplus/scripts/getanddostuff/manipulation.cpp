@@ -82,6 +82,8 @@ bool GetAndDoStuffManipulation::scaleImage(QString filename, int width, int heig
 
     // This will store all the exif data
     Exiv2::ExifData exifData;
+    Exiv2::IptcData iptcData;
+    Exiv2::XmpData xmpData;
     bool gotExifData = false;
 
     if(formats.contains(QFileInfo(filename).suffix().toLower()) && formats.contains(QFileInfo(newfilename).suffix().toLower())) {
@@ -101,6 +103,8 @@ bool GetAndDoStuffManipulation::scaleImage(QString filename, int width, int heig
                 // read exif
                 image_read->readMetadata();
                 exifData = image_read->exifData();
+                iptcData = image_read->iptcData();
+                xmpData = image_read->xmpData();
 
                 // Update dimensions
                 exifData["Exif.Photo.PixelXDimension"] = int32_t(width);
@@ -142,6 +146,8 @@ bool GetAndDoStuffManipulation::scaleImage(QString filename, int width, int heig
             // And write exif data to new image file
             Exiv2::Image::AutoPtr image_write = Exiv2::ImageFactory::open(newfilename.toStdString());
             image_write->setExifData(exifData);
+            image_write->setIptcData(iptcData);
+            image_write->setXmpData(xmpData);
             image_write->writeMetadata();
 
         }
