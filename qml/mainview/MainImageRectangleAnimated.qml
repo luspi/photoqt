@@ -414,7 +414,7 @@ Item {
             return
         }
         scaleAni.duration = scaleDuration
-        scale = 1/Math.min( defaultWidth / image.sourceSize.width, defaultHeight / image.sourceSize.height)
+        scale = 1
         zoomAdjustedAfterRotation = false
         zoomHasBeenManuallyChanged = true
     }
