@@ -445,7 +445,7 @@ Item {
     function zoomIn() {
         verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "zoomIn()")
         scaleAni.duration = scaleDuration
-        imageContainer.scale *= 1.1
+        imageContainer.scale *= 1.2
         zoomAdjustedAfterRotation = false
         zoomHasBeenManuallyChanged = true
     }
@@ -453,7 +453,7 @@ Item {
     function zoomOut() {
         verboseMessage("MainView/MainImageRectangle - " + getanddostuff.convertIdIntoString(imageContainer), "zoomOut()")
         scaleAni.duration = scaleDuration
-        imageContainer.scale /= 1.1
+        imageContainer.scale /= 1.2
         zoomAdjustedAfterRotation = false
         zoomHasBeenManuallyChanged = true
     }
