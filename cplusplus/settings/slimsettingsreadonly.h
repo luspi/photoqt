@@ -27,6 +27,7 @@
 #include <QFileSystemWatcher>
 #include <QTimer>
 #include <QFileInfo>
+#include <QProcess>
 
 #include "../logger.h"
 #include "../configfiles.h"
@@ -61,6 +62,7 @@ public:
     bool metaCopyright;
     bool metaGps;
     int pdfQuality;
+    bool archiveUseExternalUnrar;
 
     void setDefault();
     void readSettings();

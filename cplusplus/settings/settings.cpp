@@ -123,6 +123,12 @@ void Settings::setDefault() {
     setPdfQuality(150);
     setArchiveSingleFile(true);
 
+    QProcess which;
+    which.setStandardOutputFile(QProcess::nullDevice());
+    which.start("which unrar");
+    which.waitForFinished();
+    setArchiveUseExternalUnrar(which.exitCode() ? false : true);
+
     setQuickInfoHideCounter(false);
     setQuickInfoHideFilepath(true);
     setQuickInfoHideFilename(false);
@@ -284,6 +290,7 @@ void Settings::saveSettings() {
         cont += QString("PdfSingleDocument=%1\n").arg(int(m_pdfSingleDocument));
         cont += QString("PdfQuality=%1\n").arg(m_pdfQuality);
         cont += QString("ArchiveSingleFile=%1\n").arg(int(m_archiveSingleFile));
+        cont += QString("ArchiveUseExternalUnrar=%1\n").arg(int(m_archiveUseExternalUnrar));
 
         cont += "\n[QuickInfo]\n";
 
@@ -533,6 +540,9 @@ void Settings::readSettings() {
 
             else if(line.startsWith("ArchiveSingleFile="))
                 setArchiveSingleFile(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("ArchiveUseExternalUnrar="))
+                setArchiveUseExternalUnrar(line.split("=").at(1).toInt());
 
 
             else if(line.startsWith("QuickInfoHideCounter="))

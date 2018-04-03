@@ -64,7 +64,7 @@ function loadFile(filename, filter, forceReloadDirectory) {
 
         // If it's a new path or a forced reload, load folder contents and set up thumbnails (if enabled)
         if(filenameonly == "" || pathonly != variables.currentDir || (forceReloadDirectory !== undefined && forceReloadDirectory)) {
-            variables.allFilesCurrentDir = getanddostuff.getAllFilesIn(filename, "all", filter, false, settings.sortby, settings.sortbyAscending, false, true, settings.pdfSingleDocument, true, settings.archiveSingleFile)
+            variables.allFilesCurrentDir = getanddostuff.getAllFilesIn(filename, "all", filter, false, settings.sortby, settings.sortbyAscending, false, true, settings.pdfSingleDocument, true, settings.archiveSingleFile, settings.archiveUseExternalUnrar)
             variables.totalNumberImagesCurrentFolder = variables.allFilesCurrentDir.length
 
             // If it is an archive file, we need to set the first entry as the current file

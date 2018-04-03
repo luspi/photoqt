@@ -27,6 +27,7 @@
 #include "loader/loadimage_xcf.h"
 #include "loader/loadimage_poppler.h"
 #include "loader/loadimage_archive.h"
+#include "loader/loadimage_unrar.h"
 
 // Both the libraw and the freeimage library have typedefs for INT64 and UINT64.
 // As we never use them directly, we can redefine one of them (here for libraw) to use a different name and thus avoid the clash.
@@ -134,6 +135,9 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
     else if(whatToUse == "poppler")
         ret = PLoadImage::PDF::load(filename, maxSize, settings->pdfQuality);
 
+    else if(whatToUse == "unrar")
+        ret = PLoadImage::UNRAR::load(filename, maxSize);
+
     else if(whatToUse == "archive")
         ret = PLoadImage::Archive::load(filename, maxSize);
 
@@ -194,6 +198,16 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
     if(imageformats->getEnabledFileformatsXCFTools().contains("*." + info.suffix().toLower()) ||
        mimetypes->getEnabledMimeTypesXCFTools().contains(mime))
         return "xcftools";
+
+
+    /***********************************************************/
+    // unrar
+
+    QString suffix = info.suffix().toLower();
+    if(settings->archiveUseExternalUnrar &&
+       (((suffix == "rar" || suffix == "cbr") && imageformats->getEnabledFileformatsArchive().contains("*."+suffix)) ||
+        (mime == "application/vnd.rar" && mimetypes->getEnabledMimeTypesArchive().contains(mime))))
+        return "unrar";
 
 
     /***********************************************************/

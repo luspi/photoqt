@@ -134,7 +134,7 @@ function loadDirectoryFiles() {
     }
     filesview.showUnsupportedProtocolFolderMessage = false
 
-    openvariables.currentDirectoryFiles = getanddostuff.getAllFilesIn(openvariables.currentDirectory, openvariables.filesFileTypeCategorySelected, "", settings.openShowHiddenFilesFolders, settings.sortby, settings.sortbyAscending, true, false, false, false, false)
+    openvariables.currentDirectoryFiles = getanddostuff.getAllFilesIn(openvariables.currentDirectory, openvariables.filesFileTypeCategorySelected, "", settings.openShowHiddenFilesFolders, settings.sortby, settings.sortbyAscending, true, false, false, false, false, false)
 
     filesview.filesView.contentY = 0
     for(var j = 0; j < openvariables.currentDirectoryFiles.length; j+=2)

@@ -2,6 +2,7 @@
 #define LISTFILES_H
 
 #include <QObject>
+#include <QProcess>
 #include "../../settings/imageformats.h"
 #include "../../settings/mimetypes.h"
 #ifdef POPPLER
@@ -16,7 +17,7 @@ public:
     GetAndDoStuffListFiles(QObject *parent = 0);
     ~GetAndDoStuffListFiles();
 
-    QVariantList getAllFilesIn(QString file, QString categoryFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize, bool pdfLoadAllPage, bool loadSinglePdf, bool archiveLoadAllFiles, bool loadSingleArchive);
+    QVariantList getAllFilesIn(QString file, QString categoryFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize, bool pdfLoadAllPage, bool loadSinglePdf, bool archiveLoadAllFiles, bool loadSingleArchive, bool archiveUseExternalUnrar);
 
     int getTotalNumberOfPagesOfPdf(QString file);
 
@@ -28,8 +29,8 @@ private:
     void loadAllPdfPages(QFileInfo l, QVariantList *list);
     bool loadOnlyPdfPages(QString file, QVariantList *list);
 
-    void loadAllArchiveFiles(QFileInfo l, QVariantList *list);
-    bool loadOnlyArchiveFiles(QString file, QVariantList *list);
+    void loadAllArchiveFiles(QFileInfo l, QVariantList *list, bool archiveUseExternalUnrar);
+    bool loadOnlyArchiveFiles(QString file, QVariantList *list, bool archiveUseExternalUnrar);
 
     QMimeDatabase mimedb;
 

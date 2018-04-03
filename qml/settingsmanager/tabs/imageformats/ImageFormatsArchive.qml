@@ -39,7 +39,8 @@ EntryContainer {
 
             id: titletext
             title: "libarchive: ZIP, RAR, TAR, 7z"
-            helptext: em.pty+qsTr("PhotoQt takes advantage of libarchive to load packed files (zip, rar, tar, 7z). It can either load them together with the rest of the images (each (supported) file as one image) or it can ignore such files except when asked to open one, then it wont load any other images (like a document viewer).")
+            helptext: em.pty+qsTr("PhotoQt takes advantage of tools such as 'libarchive' to load packed files (zip, rar, tar, 7z). It can either load them together with the rest of the images (each (supported) file as one image) or it can ignore such files except when asked to open one, then it wont load any other images (like a document viewer).") + "<br><br>" +
+                      em.pty+qsTr("Note regarding RAR archives: 'libarchive' supports RAR archives only partially and might fail to read certain archives. If installed, PhotoQt can use the external tool 'unrar' instead of 'libarchive' for proper support of RAR archives.")
             imageSource: "qrc:/img/settings/imageformats/empty.png"
             fontcolor: enabled ? colour.text : colour.text_disabled
 
@@ -131,6 +132,22 @@ EntryContainer {
                     }
 
                 }
+                Item {
+                    width: 10
+                    height: 1
+                }
+
+                Item {
+
+                    width: childrenRect.width
+                    height: childrenRect.height
+
+                    CustomCheckBox {
+                        id: externalUnrar
+                        text: em.pty+qsTr("Use external tool 'unrar' for RAR archives")
+                    }
+
+                }
 
                 Component.onCompleted: {
                     but1.width = Math.max(but1.width, but2.width)
@@ -184,11 +201,13 @@ EntryContainer {
     function setData() {
         formatsPopupEndings.setCurrentlySet()
         formatsPopupMimetypes.setCurrentlySet()
+        externalUnrar.checkedButton = settings.archiveUseExternalUnrar
     }
 
     function saveData() {
         imageformats.enabledFileformatsArchive = formatsPopupEndings.getEnabledFormats()
         mimetypes.enabledMimeTypesArchive = formatsPopupMimetypes.getEnabledFormats()
+        settings.archiveUseExternalUnrar = externalUnrar.checkedButton
     }
 
 }

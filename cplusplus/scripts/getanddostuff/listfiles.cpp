@@ -37,7 +37,7 @@ GetAndDoStuffListFiles::~GetAndDoStuffListFiles() {
     delete mimetypes;
 }
 
-QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categoryFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize, bool pdfLoadAllPages, bool loadSinglePdf, bool archiveLoadAllFiles, bool loadSingleArchive) {
+QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categoryFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize, bool pdfLoadAllPages, bool loadSinglePdf, bool archiveLoadAllFiles, bool loadSingleArchive, bool archiveUseExternalUnrar) {
 
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE << "GetAndDoStuffOpenFile::getAllFilesIn() - " << file.toStdString() << " / "
@@ -64,7 +64,7 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
 #endif
     if(loadSingleArchive && (imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(file).suffix().toLower()) || mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(file, QMimeDatabase::MatchContent).name()))) {
         QVariantList ret;
-        if(loadOnlyArchiveFiles(file, &ret))
+        if(loadOnlyArchiveFiles(file, &ret, archiveUseExternalUnrar))
             return ret;
     }
 
@@ -141,7 +141,7 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
                     if(archiveLoadAllFiles && !loadSingleArchive) {
                         if(imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(fn).suffix()) ||
                            mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(l.absoluteFilePath(), QMimeDatabase::MatchContent).name())) {
-                            loadAllArchiveFiles(l, &ret);
+                            loadAllArchiveFiles(l, &ret, archiveUseExternalUnrar);
                             archiveloaded = true;
                         }
                     }
@@ -171,7 +171,7 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
                     if(archiveLoadAllFiles && !loadSingleArchive) {
                         if(imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(fn).suffix()) ||
                            mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(l.absoluteFilePath(), QMimeDatabase::MatchContent).name())) {
-                            loadAllArchiveFiles(l, &ret);
+                            loadAllArchiveFiles(l, &ret, archiveUseExternalUnrar);
                             archiveloaded = true;
                         }
                     }
@@ -201,7 +201,7 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
                     if(archiveLoadAllFiles && !loadSingleArchive) {
                         if(imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(fn).suffix()) ||
                            mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(l.absoluteFilePath(), QMimeDatabase::MatchContent).name())) {
-                            loadAllArchiveFiles(l, &ret);
+                            loadAllArchiveFiles(l, &ret, archiveUseExternalUnrar);
                             archiveloaded = true;
                         }
                     }
@@ -217,54 +217,78 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
 
 }
 
-void GetAndDoStuffListFiles::loadAllArchiveFiles(QFileInfo l, QVariantList *list) {
+void GetAndDoStuffListFiles::loadAllArchiveFiles(QFileInfo l, QVariantList *list, bool archiveUseExternalUnrar) {
 
-    // Create new archive handler
-    struct archive *a = archive_read_new();
+    if(archiveUseExternalUnrar) {
 
-    // We allow any type of compression and format
-    archive_read_support_filter_all(a);
-    archive_read_support_format_all(a);
+        QProcess p;
+        p.start(QString("unrar lb \"%1\"").arg(l.absoluteFilePath()));
 
-    // Read file
-    int r = archive_read_open_filename(a, l.absoluteFilePath().toLatin1(), 10240);
+        if(p.waitForStarted()) {
 
-    // If something went wrong, output error message and stop here
-    if(r != ARCHIVE_OK) {
-        LOG << CURDATE << "GetAndDoStuffListFiles::loadAllArchiveFiles(): ERROR: archive_read_open_filename() returned code of " << r << NL;
-        return;
+            QByteArray outdata = "";
+
+            while(p.waitForReadyRead())
+                outdata.append(p.readAll());
+
+            QStringList allfiles = QString::fromLatin1(outdata).split('\n', QString::SkipEmptyParts);
+            allfiles.sort();
+            foreach(QString f, allfiles)
+                list->append(QString("::ARCHIVE1::%1::ARCHIVE2::%2.%3").arg(l.absoluteFilePath()).arg(f).arg(l.suffix()));
+
+
+        }
+
+    } else {
+
+        // Create new archive handler
+        struct archive *a = archive_read_new();
+
+        // We allow any type of compression and format
+        archive_read_support_filter_all(a);
+        archive_read_support_format_all(a);
+
+        // Read file
+        int r = archive_read_open_filename(a, l.absoluteFilePath().toLatin1(), 10240);
+
+        // If something went wrong, output error message and stop here
+        if(r != ARCHIVE_OK) {
+            LOG << CURDATE << "GetAndDoStuffListFiles::loadAllArchiveFiles(): ERROR: archive_read_open_filename() returned code of " << r << NL;
+            return;
+        }
+
+        // Loop over entries in archive
+        struct archive_entry *entry;
+        QStringList allfiles;
+        while(archive_read_next_header(a, &entry) == ARCHIVE_OK) {
+
+            // Read the current file entry
+            QString filenameinside = QString::fromStdString(archive_entry_pathname(entry));
+
+            // If supported file format, append to temporary list
+            if((imageformats->getEnabledFileformatsQt().contains("*." + QFileInfo(filenameinside).suffix()) ||
+                mimetypes->getEnabledMimeTypesQt().contains(mimedb.mimeTypeForFile(filenameinside, QMimeDatabase::MatchExtension).name())))
+                allfiles.append(filenameinside);
+
+        }
+
+        // Sort the temporary list and add to global list
+        allfiles.sort();
+        foreach(QString f, allfiles)
+            list->append(QString("::ARCHIVE1::%1::ARCHIVE2::%2.%3").arg(l.absoluteFilePath()).arg(f).arg(l.suffix()));
+
+        // Close archive
+        r = archive_read_free(a);
+        if(r != ARCHIVE_OK)
+            LOG << CURDATE << "GetAndDoStuffListFiles::loadAllArchiveFiles(): ERROR: archive_read_free() returned code of " << r << NL;
+
     }
-
-    // Loop over entries in archive
-    struct archive_entry *entry;
-    QStringList allfiles;
-    while(archive_read_next_header(a, &entry) == ARCHIVE_OK) {
-
-        // Read the current file entry
-        QString filenameinside = QString::fromStdString(archive_entry_pathname(entry));
-
-        // If supported file format, append to temporary list
-        if((imageformats->getEnabledFileformatsQt().contains("*." + QFileInfo(filenameinside).suffix()) ||
-            mimetypes->getEnabledMimeTypesQt().contains(mimedb.mimeTypeForFile(filenameinside, QMimeDatabase::MatchExtension).name())))
-            allfiles.append(filenameinside);
-
-    }
-
-    // Sort the temporary list and add to global list
-    allfiles.sort();
-    foreach(QString f, allfiles)
-        list->append(QString("::ARCHIVE1::%1::ARCHIVE2::%2.%3").arg(l.absoluteFilePath()).arg(f).arg(l.suffix()));
-
-    // Close archive
-    r = archive_read_free(a);
-    if(r != ARCHIVE_OK)
-        LOG << CURDATE << "GetAndDoStuffListFiles::loadAllArchiveFiles(): ERROR: archive_read_free() returned code of " << r << NL;
 
 }
 
-bool GetAndDoStuffListFiles::loadOnlyArchiveFiles(QString file, QVariantList *list) {
+bool GetAndDoStuffListFiles::loadOnlyArchiveFiles(QString file, QVariantList *list, bool archiveUseExternalUnrar) {
     if(imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(file).suffix().toLower()) || mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(file, QMimeDatabase::MatchContent).name())) {
-        loadAllArchiveFiles(QFileInfo(file), list);
+        loadAllArchiveFiles(QFileInfo(file), list, archiveUseExternalUnrar);
         if(list->length() == 0) {
             LOG << "GetAndDoStuffListFiles::loadOnlyArchiveFiles(): ERROR: Invalid/Empty archive file, no files found" << NL;
             list->append("::ARCHIVE1::nothingfound.zip::ARCHIVE2::emptyorinvalid.zip");

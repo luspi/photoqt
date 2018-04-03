@@ -64,6 +64,12 @@ void SlimSettingsReadOnly::setDefault() {
     metaGps = true;
     pdfQuality = 150;
 
+    QProcess which;
+    which.setStandardOutputFile(QProcess::nullDevice());
+    which.start("which unrar");
+    which.waitForFinished();
+    archiveUseExternalUnrar = (which.exitCode() ? false : true);
+
 }
 
 void SlimSettingsReadOnly::readSettings() {
@@ -130,6 +136,8 @@ void SlimSettingsReadOnly::readSettings() {
                 metaCopyright = line.split("=").at(1).toInt();
             else if(line.startsWith("PdfQuality="))
                 pdfQuality = line.split("=").at(1).toInt();
+            else if(line.startsWith("ArchiveUseExternalUnrar="))
+                archiveUseExternalUnrar = line.split("=").at(1).toInt();
 
         }
 

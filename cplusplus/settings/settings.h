@@ -35,6 +35,7 @@
 #include <QTextStream>
 #include <QPoint>
 #include <QSize>
+#include <QProcess>
 #ifdef Q_OS_WIN
 #include <QtWinExtras/QtWin>
 #endif
@@ -109,6 +110,7 @@ private:
     bool    m_pdfSingleDocument;
     int     m_pdfQuality;
     bool    m_archiveSingleFile;
+    bool    m_archiveUseExternalUnrar;
 
     bool    m_quickInfoHideCounter;
     bool    m_quickInfoHideFilepath;
@@ -590,6 +592,16 @@ public:
     void setArchiveSingleFile(int val) { if(val != m_archiveSingleFile) { m_archiveSingleFile = val;
                                                                           emit archiveSingleFileChanged(val);
                                                                           saveSettingsTimer->start(); } }
+
+    // archiveUseExternalUnrar
+    Q_PROPERTY(bool   archiveUseExternalUnrar
+               READ   getArchiveUseExternalUnrar
+               WRITE  setArchiveUseExternalUnrar
+               NOTIFY archiveUseExternalUnrarChanged)
+    bool getArchiveUseExternalUnrar() { return m_archiveUseExternalUnrar; }
+    void setArchiveUseExternalUnrar(bool val) { if(val != m_archiveUseExternalUnrar) { m_archiveUseExternalUnrar = val;
+                                                                                       emit archiveUseExternalUnrarChanged(val);
+                                                                                       saveSettingsTimer->start(); } }
 
     // quickInfoHideCounter
     Q_PROPERTY(bool   quickInfoHideCounter
@@ -1463,6 +1475,7 @@ signals:
     void pdfSingleDocumentChanged(bool val);
     void pdfQualityChanged(int val);
     void archiveSingleFileChanged(int val);
+    void archiveUseExternalUnrarChanged(bool val);
 
     void quickInfoHideCounterChanged(bool val);
     void quickInfoHideFilepathChanged(bool val);
