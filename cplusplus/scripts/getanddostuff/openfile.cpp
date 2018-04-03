@@ -229,10 +229,14 @@ QVariantList GetAndDoStuffOpenFile::getStorageInfo() {
     for(QStorageInfo s : QStorageInfo::mountedVolumes()) {
         if(s.isValid()) {
 
+            QString name = s.name();
+            if(name == "")
+                name = s.rootPath();
+
             QVariantList vol;
-            vol << s.name()
+            vol << name
                 << s.bytesTotal()
-                << s.fileSystemType()
+                << QString(s.fileSystemType())
                 << s.rootPath();
 
             ret.append(vol);

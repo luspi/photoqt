@@ -275,6 +275,8 @@ Rectangle {
         highlightMoveDuration: 100
         highlightResizeDuration: 100
 
+        clip: true
+
         // used for handling reordering of userplaces by drag/drop
         property int dragItemIndex: -1
 
@@ -623,6 +625,7 @@ Rectangle {
 
         // displayed at bottom of left pane
         anchors.top: userPlaces.bottom
+        anchors.topMargin: marginBetweenCategories
         width: parent.width
         height: settings.openUserPlacesVolumes ? childrenRect.height : 1
 
@@ -710,6 +713,7 @@ Rectangle {
                     // size and position
                     anchors.fill: parent
                     anchors.leftMargin: iconitemstorage.width
+                    anchors.rightMargin: entrytextStorageSize.width+5
 
                     // vertically center text
                     verticalAlignment: Qt.AlignVCenter
@@ -725,13 +729,32 @@ Rectangle {
 
                 }
 
+                Text {
+
+                    id: entrytextStorageSize
+
+                    height: parent.height
+                    anchors.right: parent.right
+
+                    verticalAlignment: Text.AlignVCenter
+
+                    // some styling
+                    color: "white"
+                    font.bold: true
+                    font.pixelSize: 15
+                    elide: Text.ElideRight
+
+                    text: index==0 ? "" : size + " GB "
+
+                }
+
                 // mouse area handles changes to currentIndex and clicked events
                 ToolTip {
 
                     // a click everywhere works
                     anchors.fill: parent
 
-                    text: entrytextStorage.text
+                    text: entrytextStorage.text + "<br><i>(" + filesystemtype + ")</i>"
 
                     // some properties
                     hoverEnabled: true

@@ -200,21 +200,20 @@ function loadStorageInfo() {
     // for the heading
     userplaces.storageInfoModel.append({"name" : "",
                                        "location" : "",
+                                       "filesystemtype" : "",
                                        "icon" : ""})
 
     for(var i = 0; i < s.length; i+=4) {
+
         var name = s[i]
         var size = Math.round(s[i+1]/1024/1024/1024 +1);
         var filesystemtype = s[i+2]
         var path = s[i+3]
 
-        if(name == "")
-            //: This is used for the name of a storage device (e.g., USB), as in '5 GB device'
-            name = ""+size+" GB " + em.pty+qsTr("device")
-        name += " (" + filesystemtype + ")"
-
         userplaces.storageInfoModel.append({"name" : name,
+                                            "size" : size,
                                             "location" : path,
+                                            "filesystemtype" : filesystemtype,
                                             "icon" : "drive-harddisk"})
 
     }
