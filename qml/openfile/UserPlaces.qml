@@ -713,7 +713,7 @@ Rectangle {
                     // size and position
                     anchors.fill: parent
                     anchors.leftMargin: iconitemstorage.width
-                    anchors.rightMargin: entrytextStorageSize.width+5
+                    anchors.rightMargin: entrytextStorageSize.width+10
 
                     // vertically center text
                     verticalAlignment: Qt.AlignVCenter
@@ -722,7 +722,7 @@ Rectangle {
                     color: index==0 ? "grey" : "white"
                     font.bold: true
                     font.pixelSize: 15
-                    elide: Text.ElideRight
+                    elide: Text.ElideLeft
 
                     //: This is the category title of storage devices to open (like USB keys) in the element for opening files
                     text: index==0 ? em.pty+qsTr("Storage devices") : (name!=undefined ? name : "")
@@ -754,7 +754,7 @@ Rectangle {
                     // a click everywhere works
                     anchors.fill: parent
 
-                    text: entrytextStorage.text + "<br><i>(" + filesystemtype + ")</i>"
+                    text: location + "<br><i>" + entrytextStorageSize.text + " (" + filesystemtype + ")</i>"
 
                     // some properties
                     hoverEnabled: true
