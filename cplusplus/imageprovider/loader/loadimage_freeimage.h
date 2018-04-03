@@ -27,7 +27,7 @@
 
 #include "errorimage.h"
 
-namespace LoadImage {
+namespace PLoadImage {
 
     namespace FreeImage {
 
@@ -54,10 +54,10 @@ namespace LoadImage {
 
             // If an error occured (caught by output handler), return error image
             if(errorMessage != "")
-                return LoadImage::ErrorImage::load(QString("FreeImage failed to get image type: %1 (image type: %2)").arg(errorMessage).arg(errorFormat));
+                return PLoadImage::ErrorImage::load(QString("FreeImage failed to get image type: %1 (image type: %2)").arg(errorMessage).arg(errorFormat));
             // If loading the image failed for any other reason, return error image
             if(fif == FIF_UNKNOWN)
-                return LoadImage::ErrorImage::load("FreeImage failed to load image! Unknown file type...");
+                return PLoadImage::ErrorImage::load("FreeImage failed to load image! Unknown file type...");
 
             // This will be the handler for the image data
             FIBITMAP *dib = nullptr;
@@ -70,15 +70,15 @@ namespace LoadImage {
 
                 // Error check!
                 if(errorMessage != "")
-                    return LoadImage::ErrorImage::load(QString("FreeImage failed to load image: %1 (image type: %2)").arg(errorMessage).arg(errorFormat));
+                    return PLoadImage::ErrorImage::load(QString("FreeImage failed to load image: %1 (image type: %2)").arg(errorMessage).arg(errorFormat));
 
                 // If anything else went wrong, return error image
                 if(dib == nullptr)
-                    return LoadImage::ErrorImage::load("FreeImage ERROR: Loading failed, nullptr returned!");
+                    return PLoadImage::ErrorImage::load("FreeImage ERROR: Loading failed, nullptr returned!");
 
             // If reading of this format is not supported, return error image
             } else
-                return LoadImage::ErrorImage::load("FreeImage ERROR: FIF not supported!");
+                return PLoadImage::ErrorImage::load("FreeImage ERROR: FIF not supported!");
 
             // the width/height of the image, needed to ensure we respect the maxSize further down
             int width  = FreeImage_GetWidth(dib);
@@ -92,7 +92,7 @@ namespace LoadImage {
 
             // Error check!
             if(errorMessage != "")
-                return LoadImage::ErrorImage::load(QString("FreeImage failed to convert image to 24bits: %1 (image type: %2)").arg(errorMessage).arg(errorFormat));
+                return PLoadImage::ErrorImage::load(QString("FreeImage failed to convert image to 24bits: %1 (image type: %2)").arg(errorMessage).arg(errorFormat));
 
             // We save the image to memory as BMP as Qt can understand BMP very well
             // Note: BMP seems to be about 10 times faster than JPEG!
@@ -100,7 +100,7 @@ namespace LoadImage {
 
             // Error check!
             if(errorMessage != "")
-                return LoadImage::ErrorImage::load(QString("FreeImage failed to save image to memory as JPEG: %1 (image type: %2)").arg(errorMessage).arg(errorFormat));
+                return PLoadImage::ErrorImage::load(QString("FreeImage failed to save image to memory as JPEG: %1 (image type: %2)").arg(errorMessage).arg(errorFormat));
 
             // Free up some memory
             FreeImage_Unload(dib);
@@ -114,7 +114,7 @@ namespace LoadImage {
 
             // Error check!
             if(errorMessage != "")
-                return LoadImage::ErrorImage::load(QString("FreeImage failed to acquire memory: %1 (image type: %2)").arg(errorMessage).arg(errorFormat));
+                return PLoadImage::ErrorImage::load(QString("FreeImage failed to acquire memory: %1 (image type: %2)").arg(errorMessage).arg(errorFormat));
 
             // Load the raw JPEG data into the QByteArray ...
             QByteArray array = QByteArray::fromRawData((char*)mem_buffer, size_in_bytes);
@@ -133,7 +133,7 @@ namespace LoadImage {
 
             if(qgetenv("PHOTOQT_DEBUG") == "yes")
                 LOG << CURDATE << "LoadImageFreeImage: PhotoQt was compiled without FreeImage support, returning error image" << NL;
-            return LoadImage::ErrorImage::load("Failed to load image, FreeImage not supported by this build of PhotoQt!");
+            return PLoadImage::ErrorImage::load("Failed to load image, FreeImage not supported by this build of PhotoQt!");
 
         }
 

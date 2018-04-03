@@ -30,7 +30,7 @@
 #include "../../logger.h"
 #include "errorimage.h"
 
-namespace LoadImage {
+namespace PLoadImage {
 
     namespace Devil {
 

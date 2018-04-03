@@ -29,7 +29,7 @@
 #include <GraphicsMagick/Magick++.h>
 #endif
 
-namespace LoadImage {
+namespace PLoadImage {
 
     namespace GraphicsMagick {
 

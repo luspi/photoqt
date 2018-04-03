@@ -29,7 +29,7 @@
 #include <QTextDocument>
 #include "../../logger.h"
 
-namespace LoadImage {
+namespace PLoadImage {
 
     namespace ErrorImage {
 

@@ -27,7 +27,7 @@
 #include <libraw/libraw.h>
 #endif
 
-namespace LoadImage {
+namespace PLoadImage {
 
     namespace Raw {
 
@@ -57,7 +57,7 @@ namespace LoadImage {
             int ret = raw.open_file((const char*)(QFile::encodeName(filename)).constData());
             if(ret != LIBRAW_SUCCESS) {
                 raw.recycle();
-                return LoadImage::ErrorImage::load(QString("LibRaw: failed to run open_file: %1").arg(libraw_strerror(ret)));
+                return PLoadImage::ErrorImage::load(QString("LibRaw: failed to run open_file: %1").arg(libraw_strerror(ret)));
             }
 
             // If either dimension is set to 0 (or actually -1), then the full image is supposed to be loaded
@@ -80,7 +80,7 @@ namespace LoadImage {
 
             if(ret != LIBRAW_SUCCESS) {
                 raw.recycle();
-                return LoadImage::ErrorImage::load(QString("LibRaw: failed to run %1: %2").arg(thumb ? "unpack_thumb" : "unpack").arg(libraw_strerror(ret)));
+                return PLoadImage::ErrorImage::load(QString("LibRaw: failed to run %1: %2").arg(thumb ? "unpack_thumb" : "unpack").arg(libraw_strerror(ret)));
             }
 
             // Post-process image. Not necessary for embedded preview...
@@ -88,7 +88,7 @@ namespace LoadImage {
 
             if (ret != LIBRAW_SUCCESS) {
                 raw.recycle();
-                return LoadImage::ErrorImage::load(QString("LibRaw: failed to run dcraw_process: %1").arg(libraw_strerror(ret)));
+                return PLoadImage::ErrorImage::load(QString("LibRaw: failed to run dcraw_process: %1").arg(libraw_strerror(ret)));
             }
 
             // Create processed image
@@ -110,7 +110,7 @@ namespace LoadImage {
                 // The return image is loaded from the QByteArray above
                 if(!image.loadFromData(img->data, img->data_size, "JPEG")) {
                     raw.recycle();
-                    return LoadImage::ErrorImage::load("Failed to load JPEG data from LibRaw!");
+                    return PLoadImage::ErrorImage::load("Failed to load JPEG data from LibRaw!");
                 }
 
             } else {
@@ -137,13 +137,13 @@ namespace LoadImage {
 
                 if(imgData.isEmpty()) {
                     raw.recycle();
-                    return LoadImage::ErrorImage::load("Failed to load " + QString(half ? "half preview" : (thumb ? "thumbnail" : "image")) + " from LibRaw!");
+                    return PLoadImage::ErrorImage::load("Failed to load " + QString(half ? "half preview" : (thumb ? "thumbnail" : "image")) + " from LibRaw!");
                 }
 
                 // The return image is loaded from the QByteArray above
                 if(!image.loadFromData(imgData)) {
                     raw.recycle();
-                    return LoadImage::ErrorImage::load("Failed to load PPM data from LibRaw!");
+                    return PLoadImage::ErrorImage::load("Failed to load PPM data from LibRaw!");
                 }
 
             }
@@ -162,7 +162,7 @@ namespace LoadImage {
                 LOG << CURDATE << "LoadImageRaw: PhotoQt was compiled without LibRaw support, returning error image" << NL;
     #endif
 
-            return LoadImage::ErrorImage::load("ERROR! PhotoQt was compiled without LibRaw support!");
+            return PLoadImage::ErrorImage::load("ERROR! PhotoQt was compiled without LibRaw support!");
 
         }
 

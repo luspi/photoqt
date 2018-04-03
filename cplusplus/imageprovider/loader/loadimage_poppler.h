@@ -28,7 +28,7 @@
 #include "errorimage.h"
 #include "../../logger.h"
 
-namespace LoadImage {
+namespace PLoadImage {
 
     namespace PDF {
 

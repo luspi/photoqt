@@ -27,7 +27,7 @@
 #include "../../logger.h"
 #include "errorimage.h"
 
-namespace LoadImage {
+namespace PLoadImage {
 
     namespace XCF {
 
@@ -44,7 +44,7 @@ namespace LoadImage {
             // If it isn't -> display error
             if(which.exitCode()) {
                 LOG << CURDATE << "LoadImageXCF: reader xcf - Error: xcftools not found" << NL;
-                return LoadImage::ErrorImage::load("PhotoQt relies on 'xcftools'' to display XCF images, but it wasn't found!");
+                return PLoadImage::ErrorImage::load("PhotoQt relies on 'xcftools'' to display XCF images, but it wasn't found!");
             }
 
             // Convert xcf to png using xcf2png (part of xcftools)

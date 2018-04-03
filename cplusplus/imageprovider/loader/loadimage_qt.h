@@ -26,7 +26,7 @@
 #include "../../logger.h"
 #include "errorimage.h"
 
-namespace LoadImage {
+namespace PLoadImage {
 
     namespace Qt {
 
@@ -58,7 +58,7 @@ namespace LoadImage {
                 // Invalid vector graphic
                 if(!svg.isValid()) {
                     LOG << CURDATE << "LoadImageQt: reader svg - Error: invalid svg file" << NL;
-                    return LoadImage::ErrorImage::load("The file doesn't contain a valid vector graphic");
+                    return PLoadImage::ErrorImage::load("The file doesn't contain a valid vector graphic");
                 }
 
                 // Render SVG into pixmap
@@ -129,7 +129,7 @@ namespace LoadImage {
                     QString err = reader.errorString();
                     LOG << CURDATE << "LoadImageQt: reader qt - Error: file failed to load: " << err.toStdString() << NL;
                     LOG << CURDATE << "LoadImageQt: Filename: " << filename.toStdString() << NL;
-                    return LoadImage::ErrorImage::load(err);
+                    return PLoadImage::ErrorImage::load(err);
                 }
 
             }

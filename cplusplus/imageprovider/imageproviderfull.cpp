@@ -70,7 +70,7 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
         QString err = QCoreApplication::translate("imageprovider", "File failed to load, it doesn't exist!");
         LOG << CURDATE << "ImageProviderFull: ERROR: " << err.toStdString() << NL;
         LOG << CURDATE << "ImageProviderFull: Filename: " << filename.toStdString() << NL;
-        return LoadImage::ErrorImage::load(err);
+        return PLoadImage::ErrorImage::load(err);
     }
 
     // Which GraphicsEngine should we use?
@@ -113,33 +113,33 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
 
     // Try to use XCFtools for XCF (if enabled)
     if(whatToUse == "xcftools")
-        ret = LoadImage::XCF::load(filename,maxSize);
+        ret = PLoadImage::XCF::load(filename,maxSize);
 
     // Try to use GraphicsMagick (if available)
     else if(whatToUse == "gm")
-        ret = LoadImage::GraphicsMagick::load(filename, maxSize);
+        ret = PLoadImage::GraphicsMagick::load(filename, maxSize);
 
     // Try to use libraw (if available)
     else if(whatToUse == "raw")
-        ret = LoadImage::Raw::load(filename, maxSize);
+        ret = PLoadImage::Raw::load(filename, maxSize);
 
     // Try to use DevIL (if available)
     else if(whatToUse == "devil")
-        ret = LoadImage::Devil::load(filename, maxSize);
+        ret = PLoadImage::Devil::load(filename, maxSize);
 
     // Try to use FreeImage (if available)
     else if(whatToUse == "freeimage")
-        ret = LoadImage::FreeImage::load(filename, maxSize);
+        ret = PLoadImage::FreeImage::load(filename, maxSize);
 
     else if(whatToUse == "poppler")
-        ret = LoadImage::PDF::load(filename, maxSize, settings->pdfQuality);
+        ret = PLoadImage::PDF::load(filename, maxSize, settings->pdfQuality);
 
     else if(whatToUse == "archive")
-        ret = LoadImage::Archive::load(filename, maxSize);
+        ret = PLoadImage::Archive::load(filename, maxSize);
 
     // Try to use Qt
     else
-        ret = LoadImage::Qt::load(filename,maxSize,settings->metaApplyRotation);
+        ret = PLoadImage::Qt::load(filename,maxSize,settings->metaApplyRotation);
 
     // if returned image is not an error image ...
     if(ret.text("error") != "error") {
