@@ -66,7 +66,7 @@ MimeTypes::MimeTypes(QObject *parent) : QObject(parent) {
         setupAvailable[0].insert("image/x-xcf"              , QStringList() << "xcf" << "Gimp format"                                   << "1");
 #ifndef FREEIMAGE
     // CAUSES CRASH when FreeImage is enabled:
-    if(imageReaderSup.contains("webp"))
+    if(imageReaderSupported.contains("webp"))
         setupAvailable[0].insert("image/webp"               , QStringList() << "web" << "Google web image format"                       << "1");
 #endif
     // FAILS TO LOAD test image:
