@@ -92,10 +92,14 @@ Item {
             setCheckable(2, true)
             setChecked(2, !settings.quickInfoHideFilename)
 
+            addItem(em.pty+qsTr("Show zoom level"))
+            setCheckable(3, true)
+            setChecked(3, !settings.quickInfoHideZoomLevel)
+
             //: The clsoing 'x' is the button in the top right corner of the screen for closing PhotoQt
             addItem(em.pty+qsTr("Show closing 'x'"))
-            setCheckable(3, true)
-            setChecked(3, !settings.quickInfoHideX)
+            setCheckable(4, true)
+            setChecked(4, !settings.quickInfoHideX)
 
         }
 
@@ -107,6 +111,8 @@ Item {
             else if(index == 2)
                 settings.quickInfoHideFilename = !checked
             else if(index == 3)
+                settings.quickInfoHideZoomLevel = !checked
+            else if(index == 4)
                 settings.quickInfoHideX = !checked
         }
 
