@@ -123,11 +123,15 @@ void Settings::setDefault() {
     setPdfQuality(150);
     setArchiveSingleFile(true);
 
+#ifdef Q_OS_LINUX
     QProcess which;
     which.setStandardOutputFile(QProcess::nullDevice());
     which.start("which unrar");
     which.waitForFinished();
     setArchiveUseExternalUnrar(which.exitCode() ? false : true);
+#else
+    setArchiveUseExternalUnrar(false);
+#endif
 
     setQuickInfoHideCounter(false);
     setQuickInfoHideFilepath(true);

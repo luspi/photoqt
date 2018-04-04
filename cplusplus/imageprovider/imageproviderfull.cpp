@@ -203,11 +203,13 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
     /***********************************************************/
     // unrar
 
+#ifdef Q_OS_LINUX
     QString suffix = info.suffix().toLower();
     if(settings->archiveUseExternalUnrar &&
        (((suffix == "rar" || suffix == "cbr") && imageformats->getEnabledFileformatsArchive().contains("*."+suffix)) ||
         (mime == "application/vnd.rar" && mimetypes->getEnabledMimeTypesArchive().contains(mime))))
         return "unrar";
+#endif
 
 
     /***********************************************************/

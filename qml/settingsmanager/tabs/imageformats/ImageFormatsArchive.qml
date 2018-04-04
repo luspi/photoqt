@@ -133,11 +133,14 @@ EntryContainer {
 
                 }
                 Item {
+                    visible: !getanddostuff.amIOnWindows()
                     width: 10
                     height: 1
                 }
 
                 Item {
+
+                    visible: !getanddostuff.amIOnWindows()
 
                     width: childrenRect.width
                     height: childrenRect.height
