@@ -57,7 +57,7 @@ Rectangle {
     }
 
     ToolTip {
-        text: "<b>"+description+"</b>" + "<br><br>" + em.pty+qsTr("Left click to check/uncheck. Right click to check/uncheck all endings for this image type.")
+        text: "<b>"+description+"</b>" + "<br><br>" + em.pty+qsTranslate("SettingsManager/ImageFormats", "Left click to check/uncheck. Right click to check/uncheck all endings for this image type.")
         cursorShape: Qt.PointingHandCursor
         acceptedButtons: Qt.LeftButton|Qt.RightButton
         onEntered:

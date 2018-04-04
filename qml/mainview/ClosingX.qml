@@ -67,8 +67,13 @@ Item {
         onClicked: {
             if (mouse.button == Qt.RightButton)
                 context.popup()
-            else
-                mainwindow.closePhotoQt()
+            else {
+                // Hacky way to exit face tagging mode on click on button
+                if(variables.taggingFaces)
+                    call.passOnShortcut("Escape")
+                else
+                    mainwindow.closePhotoQt()
+            }
         }
     }
 

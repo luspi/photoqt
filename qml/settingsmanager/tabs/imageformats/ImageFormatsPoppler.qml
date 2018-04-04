@@ -41,7 +41,7 @@ EntryContainer {
 
             id: titletext
             title: "poppler: Adobe PDF"
-            helptext: em.pty+qsTr("PhotoQt can take advantage of poppler to load PDF documents. It can either load them together with the rest of the images (each page as one image) or it can ignore such documents except when asked to open one, then it wont load any other images (like a document viewer).")
+            helptext: em.pty+qsTranslate("SettingsManager/ImageFormats", "PhotoQt can take advantage of poppler to load PDF documents. It can either load them together with the rest of the images (each page as one image) or it can ignore such documents except when asked to open one, then it wont load any other images (like a document viewer).")
             imageSource: "qrc:/img/settings/imageformats/poppler.jpg"
             fontcolor: enabled ? colour.text : colour.text_disabled
 
@@ -66,8 +66,8 @@ EntryContainer {
                 Item { height: 2; width: 5 }
                 CustomCheckBox {
                     id: singledocument
-                    text: em.pty+qsTr("Document viewer mode")
-                    tooltip: em.pty+qsTr("When loading a PDF, only that PDF is loaded, nothing else in the folder")
+                    text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Document viewer mode")
+                    tooltip: em.pty+qsTranslate("SettingsManager/ImageFormats", "When loading a PDF, only that PDF is loaded, nothing else in the folder")
                 }
                 Item { height: 2; width: 5 }
                 SettingsText {

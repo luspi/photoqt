@@ -68,7 +68,7 @@ Item {
                     font.pointSize: 10/imageContainer.scale
                     font.bold: true
                     color: "white"
-                    text: em.pty+qsTr("Delete")
+                    text: em.pty+qsTranslate("PeopleFaceTags", "Delete")
                 }
             }
 

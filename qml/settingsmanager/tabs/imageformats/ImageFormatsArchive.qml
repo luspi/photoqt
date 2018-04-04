@@ -39,8 +39,8 @@ EntryContainer {
 
             id: titletext
             title: "libarchive: ZIP, RAR, TAR, 7z"
-            helptext: em.pty+qsTr("PhotoQt takes advantage of tools such as 'libarchive' to load packed files (zip, rar, tar, 7z). It can either load them together with the rest of the images (each (supported) file as one image) or it can ignore such files except when asked to open one, then it wont load any other images (like a document viewer).") + "<br><br>" +
-                      em.pty+qsTr("Note regarding RAR archives: 'libarchive' supports RAR archives only partially and might fail to read certain archives. If installed, PhotoQt can use the external tool 'unrar' instead of 'libarchive' for proper support of RAR archives.")
+            helptext: em.pty+qsTranslate("SettingsManager/ImageFormats", "PhotoQt takes advantage of tools such as 'libarchive' to load packed files (zip, rar, tar, 7z). It can either load them together with the rest of the images (each (supported) file as one image) or it can ignore such files except when asked to open one, then it wont load any other images (like a document viewer).") + "<br><br>" +
+                      em.pty+qsTranslate("SettingsManager/ImageFormats", "Note regarding RAR archives: 'libarchive' supports RAR archives only partially and might fail to read certain archives. If installed, PhotoQt can use the external tool 'unrar' instead of 'libarchive' for proper support of RAR archives.")
             imageSource: "qrc:/img/settings/imageformats/empty.png"
             fontcolor: enabled ? colour.text : colour.text_disabled
 
@@ -65,27 +65,30 @@ EntryContainer {
                             id: txt1
                             y: (but1.height-height)/2
                             horizontalAlignment: Text.AlignRight
-                            text: em.pty+qsTr("File endings:")
+                            //: File endings are the suffices (e.g., 'jpg' for 'image.jpg')
+                            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "File endings:")
                         }
                         CustomButton {
                             id: but1
-                            text: em.pty+qsTr("Use default")
+                            //: Used as in 'Use set of default file endings'
+                            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Use default")
                             onClickedButton: formatsPopupEndings.setDefault()
                         }
                         CustomButton {
                             //: Used as in 'Use none of the available file endings'
-                            text: em.pty+qsTr("Use none")
+                            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Use none")
                             onClickedButton: formatsPopupEndings.setNone()
                         }
                         CustomButton {
                             //: 'fine tuning' refers to selecting the individual file endings recognised by PhotoQt
-                            text: em.pty+qsTr("Advanced fine tuning")
+                            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Advanced fine tuning")
                             onClickedButton: formatsPopupEndings.show()
                         }
 
                         SettingsText {
                             y: (but1.height-height)/2
-                            text: em.pty+qsTr("There are currently %1 file endings selected").arg("<b>"+formatsPopupEndings.numItemsChecked+"</b>")
+                            //: Please do not forget the '%1'!
+                            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "There are currently %1 file endings selected.").arg("<b>"+formatsPopupEndings.numItemsChecked+"</b>")
                         }
 
                     }
@@ -105,28 +108,30 @@ EntryContainer {
                             id: txt2
                             y: (but1.height-height)/2
                             horizontalAlignment: Text.AlignRight
-                            text: em.pty+qsTr("Mime types:")
+                            //: Mime types are identifiers for file types.
+                            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Mime types:")
                         }
                         CustomButton {
                             id: but2
                             //: Used as in 'Use set of default file endings'
-                            text: em.pty+qsTr("Use default")
+                            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Use default")
                             onClickedButton: formatsPopupMimetypes.setDefault()
                         }
                         CustomButton {
                             //: Used as in 'Use none of the available file endings'
-                            text: em.pty+qsTr("Use none")
+                            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Use none")
                             onClickedButton: formatsPopupMimetypes.setNone()
                         }
                         CustomButton {
                             //: 'fine tuning' refers to selecting the individual file endings recognised by PhotoQt
-                            text: em.pty+qsTr("Advanced fine tuning")
+                            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Advanced fine tuning")
                             onClickedButton: formatsPopupMimetypes.show()
                         }
 
                         SettingsText {
                             y: (but2.height-height)/2
-                            text: em.pty+qsTr("There are currently %1 mime types selected").arg("<b>"+formatsPopupMimetypes.numItemsChecked+"</b>")
+                            //: Please do not forget the '%1'!
+                            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "There are currently %1 mime types selected.").arg("<b>"+formatsPopupMimetypes.numItemsChecked+"</b>")
                         }
 
                     }
@@ -147,7 +152,7 @@ EntryContainer {
 
                     CustomCheckBox {
                         id: externalUnrar
-                        text: em.pty+qsTr("Use external tool 'unrar' for RAR archives")
+                        text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Use external tool 'unrar' for RAR archives")
                     }
 
                 }

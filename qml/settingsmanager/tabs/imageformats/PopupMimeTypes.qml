@@ -108,19 +108,19 @@ Rectangle {
                 id: buttonsrow
                 spacing: 10
                 CustomButton {
-                    text: em.pty+qsTr("Enable default")
+                    text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Enable default")
                     onClickedButton: resetDefaultItems()
                 }
                 CustomButton {
-                    text: em.pty+qsTr("Enable all")
+                    text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Enable all")
                     onClickedButton: selectAllItems()
                 }
                 CustomButton {
-                    text: em.pty+qsTr("Disable all")
+                    text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Disable all")
                     onClickedButton: selectNoItems()
                 }
                 CustomButton {
-                    text: em.pty+qsTr("Reset selection")
+                    text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Reset selection")
                     onClickedButton: resetCheckedItems()
                 }
             }
@@ -227,7 +227,7 @@ Rectangle {
 
         CustomButton {
             id: donebutton
-            text: em.pty+qsTr("Done!")
+            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Done!")
             anchors {
                 left: inside.left
                 right: inside.right

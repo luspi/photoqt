@@ -78,5 +78,6 @@
         <file>img/openfile/archive/cbr.png</file>
         <file>img/openfile/archive/cbt.png</file>
         <file>img/openfile/archive/cb7.png</file>
+        <file>img/mainmenu/faces.png</file>
     </qresource>
 </RCC>

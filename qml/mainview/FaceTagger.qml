@@ -26,7 +26,7 @@ Item {
         color: "#88000000"
         radius: 5
         Text {
-            text: " "+em.pty+qsTr("Click&Drag to tag a face. Press Escape to return to normal PhotoQt use")+" "
+            text: " "+em.pty+qsTranslate("PeopleFaceTags", "Click and drag to tag a face. Press Escape to return to normal PhotoQt use")+" "
             color: "white"
             font.bold: true
             font.pointSize: 10
@@ -126,7 +126,7 @@ Item {
             color: "white"
             font.pointSize: 20
             font.bold: true
-            text: em.pty+qsTr("Who is this? Enter a name...")
+            text: em.pty+qsTranslate("PeopleFaceTags", "Who is this? Enter a name...")
         }
 
         // box to enter name
@@ -151,12 +151,12 @@ Item {
                 id: butrow
                 spacing: 10
                 CustomButton {
-                    text: em.pty+qsTr("Save")
+                    text: em.pty+qsTranslate("PeopleFaceTags", "Save")
                     fontsize: 30
                     onClickedButton: addFaceTag()
                 }
                 CustomButton {
-                    text: em.pty+qsTr("Cancel")
+                    text: em.pty+qsTranslate("PeopleFaceTags", "Cancel")
                     fontsize: 30
                     onClickedButton: cancelNameEnter()
                 }

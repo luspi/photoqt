@@ -175,7 +175,7 @@ Item {
             settings.histogram = !settings.histogram
         } else if(cmd === "__clipboard")
             getanddostuff.clipboardSetImage(variables.currentDir + "/" + variables.currentFile)
-        else if(cmd == "__tagFaces")
+        else if(cmd === "__tagFaces")
             call.requestTagFaces()
         else {
             getanddostuff.executeApp(cmd, variables.currentDir + "/" + variables.currentFile)

@@ -36,8 +36,8 @@ EntryContainer {
 
         EntryTitle {
 
-            title: em.pty+qsTr("Tagging of people's faces")
-            helptext: em.pty+qsTr("Connecting faces with names helps remember the context of photos. A variety of software stores such information in the image's XMP metadata. PhotoQt can find and display such information, and it also allows adding new face tags. When the tagging mode is enabled, rectangles around faces can be drawn followed by entering the connected name. To enable the tagging mode, use either the shortcut feature or the entry in the main menu.")
+            title: em.pty+qsTranslate("SettingsManager/PeopleFaceTags", "Tagging of people's faces")
+            helptext: em.pty+qsTranslate("SettingsManager/PeopleFaceTags", "Connecting faces with names helps remember the context of photos. A variety of software stores such information in the image's XMP metadata. PhotoQt can find and display such information, and it also allows adding new face tags. When the tagging mode is enabled, rectangles around faces can be drawn followed by entering the connected name. To enable the tagging mode, use either the shortcut feature or the entry in the main menu.")
 
         }
 
@@ -56,8 +56,8 @@ EntryContainer {
                     CustomCheckBox {
                         id: tagsEnable
                         y: (parent.height-height)/2
-                        text: em.pty+qsTr("Enable")
-                        tooltip: em.pty+qsTr("Find and display face tags")
+                        text: em.pty+qsTranslate("SettingsManager/PeopleFaceTags", "Enable")
+                        tooltip: em.pty+qsTranslate("SettingsManager/PeopleFaceTags", "Find and display face tags")
                     }
                     Item {
                         width: 10
@@ -66,7 +66,7 @@ EntryContainer {
                     SettingsText {
                         y: (parent.height-height)/2
                         enabled: tagsEnable.checkedButton
-                        text: em.pty+qsTr("Border around tags:")
+                        text: em.pty+qsTranslate("SettingsManager/PeopleFaceTags", "Border around tags:")
                     }
                     Item {
                         width: 5
@@ -77,7 +77,7 @@ EntryContainer {
                         y: (parent.height-height)/2
                         enabled: tagsEnable.checkedButton
                         //: Used as in: 'Show border around face tags'
-                        text: em.pty+qsTr("Show")
+                        text: em.pty+qsTranslate("SettingsManager/PeopleFaceTags", "Show")
                     }
                     Item {
                         width: 10
@@ -87,7 +87,7 @@ EntryContainer {
                         y: (parent.height-height)/2
                         enabled: tagsEnable.checkedButton
                         //: Refers to the width of the border around face tags
-                        text: em.pty+qsTr("Width:")
+                        text: em.pty+qsTranslate("SettingsManager/PeopleFaceTags", "Width:")
                     }
                     CustomSpinBox {
                         id: tagsBorderWidth
@@ -106,7 +106,7 @@ EntryContainer {
                         y: (parent.height-height)/2
                         enabled: tagsEnable.checkedButton
                         //: Refers to the color of the border around face tags
-                        text: em.pty+qsTr("Color:")
+                        text: em.pty+qsTranslate("SettingsManager/PeopleFaceTags", "Color:")
                     }
                     Image {
                         y: (parent.height-height)/2
@@ -126,7 +126,7 @@ EntryContainer {
                             anchors.fill: parent
                             cursorShape: Qt.PointingHandCursor
                             hoverEnabled: true
-                            text: em.pty+qsTr("Click to change color")
+                            text: em.pty+qsTranslate("SettingsManager/PeopleFaceTags", "Click to change color")
                             onClicked:
                                 tagsBorderColor.color = getanddostuff.selectColor(tagsBorderColor.color)
                         }
@@ -138,7 +138,7 @@ EntryContainer {
                     SettingsText {
                         enabled: tagsEnable.checkedButton
                         //: 'tags' refers to face tags
-                        text: em.pty+qsTr("Visibility of tags:")
+                        text: em.pty+qsTranslate("SettingsManager/PeopleFaceTags", "Visibility of tags:")
                     }
                     Item {
                         width: 5
@@ -148,32 +148,32 @@ EntryContainer {
                         id: tagsHybridMode
                         enabled: tagsEnable.checkedButton
                         //: The hybrid mode refers to a visibility mode for the face tags, in between of them always being visible, and only individual tags (a combination of the two, hence 'hybrid')
-                        text: em.pty+qsTr("Hybrid Mode")
-                        tooltip: em.pty+qsTr("Show all tags when mouse anywhere over image, but show only an individual label when mouse on top of it.")
+                        text: em.pty+qsTranslate("SettingsManager/PeopleFaceTags", "Hybrid Mode")
+                        tooltip: em.pty+qsTranslate("SettingsManager/PeopleFaceTags", "Show all tags when mouse anywhere over image, but show only an individual label when mouse on top of it.")
                         exclusiveGroup: visiblegrp
                     }
                     CustomRadioButton {
                         id: tagsShowAllAlways
                         enabled: tagsEnable.checkedButton
                         //: Shortened string from: 'Always show all face tags'
-                        text: em.pty+qsTr("Always show all")
-                        tooltip: em.pty+qsTr("Always show all face tags")
+                        text: em.pty+qsTranslate("SettingsManager/PeopleFaceTags", "Always show all")
+                        tooltip: em.pty+qsTranslate("SettingsManager/PeopleFaceTags", "Always show all face tags")
                         exclusiveGroup: visiblegrp
                     }
                     CustomRadioButton {
                         id: tagsShowAllHover
                         enabled: tagsEnable.checkedButton
                         //: Shortened string for 'Show all tags when mouse anywhere over image'
-                        text: em.pty+qsTr("Show all on hover")
-                        tooltip: em.pty+qsTr("Show all tags when mouse anywhere over image")
+                        text: em.pty+qsTranslate("SettingsManager/PeopleFaceTags", "Show all on hover")
+                        tooltip: em.pty+qsTranslate("SettingsManager/PeopleFaceTags", "Show all tags when mouse anywhere over image")
                         exclusiveGroup: visiblegrp
                     }
                     CustomRadioButton {
                         id: tagsShowOneHover
                         enabled: tagsEnable.checkedButton
                         //: Shortened string for 'Show a tag when hovered by mouse'
-                        text: em.pty+qsTr("Show one on hover")
-                        tooltip: em.pty+qsTr("Show an individual tag when hovered by mouse")
+                        text: em.pty+qsTranslate("SettingsManager/PeopleFaceTags", "Show one on hover")
+                        tooltip: em.pty+qsTranslate("SettingsManager/PeopleFaceTags", "Show an individual tag when hovered by mouse")
                         exclusiveGroup: visiblegrp
                     }
                 }
@@ -184,7 +184,7 @@ EntryContainer {
                         y: (parent.height-height)/2
                         enabled: tagsEnable.checkedButton
                         //: The name label refers to the label with the name shown for face tags on a photo
-                        text: em.pty+qsTr("Font size of name label:")
+                        text: em.pty+qsTranslate("SettingsManager/PeopleFaceTags", "Font size of name label:")
                     }
                     CustomSpinBox {
                         id: tagsFontSize
