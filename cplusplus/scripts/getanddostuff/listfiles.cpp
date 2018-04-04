@@ -233,8 +233,11 @@ void GetAndDoStuffListFiles::loadAllArchiveFiles(QFileInfo l, QVariantList *list
 
             QStringList allfiles = QString::fromLatin1(outdata).split('\n', QString::SkipEmptyParts);
             allfiles.sort();
-            foreach(QString f, allfiles)
-                list->append(QString("::ARCHIVE1::%1::ARCHIVE2::%2.%3").arg(l.absoluteFilePath()).arg(f).arg(l.suffix()));
+            foreach(QString f, allfiles) {
+                if((imageformats->getEnabledFileformatsQt().contains("*." + QFileInfo(f).suffix()) ||
+                    mimetypes->getEnabledMimeTypesQt().contains(mimedb.mimeTypeForFile(f, QMimeDatabase::MatchExtension).name())))
+                    list->append(QString("::ARCHIVE1::%1::ARCHIVE2::%2.%3").arg(l.absoluteFilePath()).arg(f).arg(l.suffix()));
+            }
 
 
         }
