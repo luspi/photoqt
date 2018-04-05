@@ -81,7 +81,7 @@ Item {
                 if(drawrect.y+drawrect.height > imageContainer.height) drawrect.height = imageContainer.height-drawrect.y
 
                 // If rectangle is not too small
-                if(drawrect.width > 20 || drawrect.height > 20) {
+                if(drawrect.width >= 10 && drawrect.height >= 10) {
 
                     entername.visible = true
                     enternamelineedit.clear()
