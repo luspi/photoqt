@@ -186,13 +186,13 @@ FadeInTemplate {
                 CustomButton {
                     id: okay
                     //: Along the lines of: Set image as wallpaper
-                    text: em.pty+qsTr("Okay, do it!")
+                    text: em.pty+qsTr("Set wallpaper")
                     enabled: enDisableEnter()
                     onClickedButton: simulateEnter();
                 }
                 CustomButton {
                     //: Along the lines of: Don't set image as wallpaper
-                    text: em.pty+qsTr("Nooo, don't!")
+                    text: em.pty+qsTr("Cancel")
                     onClickedButton: hide()
                 }
             }

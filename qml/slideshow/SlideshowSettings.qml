@@ -289,17 +289,17 @@ FadeInTemplate {
                 CustomButton {
                     id: okay
                     //: In the sense of 'ok, save the slideshow settings and lets start with the slideshow'
-                    text: em.pty+qsTr("Okay, lets start")
+                    text: em.pty+qsTr("Start slideshow")
                     onClickedButton: simulateEnter();
                 }
                 CustomButton {
                     //: In the sense of, 'no, don't save the slideshow settings and don't start a slideshow'
-                    text: em.pty+qsTr("Wait, maybe later")
+                    text: em.pty+qsTr("Cancel")
                     onClickedButton: hide()
                 }
                 CustomButton {
                     //: In the sense of 'ok, save the slideshow settings, but do not start a slideshow'
-                    text: em.pty+qsTr("Save changes, but don't start just yet")
+                    text: em.pty+qsTr("Save settings for later")
                     onClickedButton: hideSlideshowAndRememberSettings()
                 }
             }

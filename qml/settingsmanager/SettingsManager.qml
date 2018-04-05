@@ -345,9 +345,9 @@ Rectangle {
                      em.pty+qsTr("This removes all obsolete thumbnails, thus possibly making PhotoQt a little faster.") + "<bR><br>" +
                      em.pty+qsTr("This process might take a little while.")
         //: Along the lines of "Yes, clean the database for thumbnails caching"
-        confirmbuttontext: em.pty+qsTr("Yes, clean is good")
+        confirmbuttontext: em.pty+qsTr("Continue")
         //: Along the lines of "No, cleaning the database for thumbnails caching takes too long, don't do it"
-        rejectbuttontext: em.pty+qsTr("No, don't have time for that")
+        rejectbuttontext: em.pty+qsTr("Cancel")
         onAccepted: cleanDatabase()
     }
 
@@ -362,9 +362,9 @@ Rectangle {
                      em.pty+qsTr("This removes every single item from the database! This step should never really be necessary. Afterwards every thumbnail has to be re-created.") + "<br>" +
                      em.pty+qsTr("This step cannot be reversed!")
         //: Along the lines of "Yes, empty the database for thumbnails caching"
-        confirmbuttontext: em.pty+qsTr("Yes, get rid of it all")
+        confirmbuttontext: em.pty+qsTr("Continue")
         //: Along the lines of "No, don't empty the database for thumbnails caching, I want to keep it"
-        rejectbuttontext: em.pty+qsTr("No, I want to keep it")
+        rejectbuttontext: em.pty+qsTr("Cancel")
         onAccepted: eraseDatabase()
     }
 
@@ -374,9 +374,9 @@ Rectangle {
         header: em.pty+qsTr("Restore Default Settings")
         description: em.pty+qsTr("Are you sure you want to revert back to the default settings?") + "<br><br>" +
                      em.pty+qsTr("This step cannot be reversed!")
-        confirmbuttontext: em.pty+qsTr("Yes, go ahead")
+        confirmbuttontext: em.pty+qsTr("Continue")
         //: Used in settings manager when asking for confirmation for restoring default settings (written on button)
-        rejectbuttontext: em.pty+qsTr("No, thanks")
+        rejectbuttontext: em.pty+qsTr("Cancel")
         onAccepted: {
             settings.setDefault()
             imageformats.setDefaultFileformats()
@@ -390,8 +390,8 @@ Rectangle {
         header: em.pty+qsTr("Set Default Shortcuts")
         description: em.pty+qsTr("Are you sure you want to reset the shortcuts to the default set?") + "<br><br>" +
                      em.pty+qsTr("This step cannot be reversed!")
-        confirmbuttontext: em.pty+qsTr("Yes, please")
-        rejectbuttontext: em.pty+qsTr("No, don't")
+        confirmbuttontext: em.pty+qsTr("Continue")
+        rejectbuttontext: em.pty+qsTr("Cancel")
         maxwidth: 400
         onAccepted: {
             verboseMessage("SettingsManager","Setting default shortcuts...")

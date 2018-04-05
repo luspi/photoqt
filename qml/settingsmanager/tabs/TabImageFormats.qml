@@ -62,7 +62,7 @@ Rectangle {
                 color: "white"
                 font.pointSize: 20
                 font.bold: true
-                text: em.pty+qsTr("Image formats")
+                text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Image formats")
                 horizontalAlignment: Text.AlignHCenter
             }
 
@@ -84,7 +84,7 @@ Rectangle {
                 x: 10
                 wrapMode: Text.WordWrap
                 //: Introduction text of metadata tab in settings manager
-                text: em.pty+qsTr("PhotoQt can make use of a variety of image libraries. Which ones exactly are available depends on your system and your installation of PhotoQt. Some formats can be loaded by more than just one of the libraries. For each image PhotoQt will check each library in the same order as they are shown here and will use the first one for which the image type is enabled. There are two ways PhotoQt can find the right image library to be used: Either by the file ending, or by the mime type of the file itself (if one is available). So in order to disable a format from a library, make sure that neither the respective file ending nor the mime type is enabled.")
+                text: em.pty+qsTranslate("SettingsManager/ImageFormats", "PhotoQt can make use of a variety of image libraries. Which ones exactly are available depends on your system and your installation of PhotoQt. Some formats can be loaded by more than just one of the libraries. For each image PhotoQt will check each library in the same order as they are shown here and will use the first one for which the image type is enabled. There are two ways PhotoQt can find the right image library to be used: Either by the file ending, or by the mime type of the file itself (if one is available). So in order to disable a format from a library, make sure that neither the respective file ending nor the mime type is enabled.")
             }
 
             Rectangle { color: "transparent"; width: 1; height: 30; }

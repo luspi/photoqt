@@ -142,7 +142,7 @@ FadeInTemplate {
             height: 30
 
             // About element, written on button to close it
-            text: em.pty+qsTr("Okay, take me back")
+            text: em.pty+qsTr("Close")
             onClickedButton: hide()
 
         }

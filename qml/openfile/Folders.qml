@@ -231,11 +231,11 @@ Rectangle {
 
                         // the text varies depending on if 0, 1, or 2+ images were found
                         text: ((counter==0||folder=="..") ? ""
-                                                          : counter + " " + (counter==1
-                        //: Used as in '(1 image)'. This string is always used for the singular, exactly one image
-                                                                                        ? em.pty+qsTr("image")
-                        //: Used as in '(11 images)'. This string is always used for multiple images (at least 2)
-                                                                                        : em.pty+qsTr("images")))
+                                                          : (counter==1
+                                                                  //: Keep string short!
+                                                                ? em.pty+qsTr("1 image")
+                                                                  //: Always used for the plural (i.e., at least 2). Keep string short!
+                                                                : em.pty+qsTr("%1 images")))
 
                         Timer {
                             id: checkForCounter

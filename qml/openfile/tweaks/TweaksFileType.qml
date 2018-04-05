@@ -49,32 +49,26 @@ Rectangle {
             model.push("[B]"+em.pty+qsTr("All supported images"))
             allfiletypes.push("all")
             model.push("---SEP---")
-            //: Used as in 'Qt images'
-            model.push("Qt " + em.pty+qsTr("images"))
+            model.push("Qt")
             allfiletypes.push("qt")
             if(getanddostuff.isGraphicsMagickSupportEnabled()) {
-                //: Used as in 'GraphicsMagick images'
-                model.push("GraphicsMagick " + em.pty+qsTr("images"))
+                model.push("GraphicsMagick")
                 allfiletypes.push("gm")
             }
-            //: Used as in 'LibRaw images'
             if(getanddostuff.isLibRawSupportEnabled()) {
-                model.push("LibRaw " + em.pty+qsTr("images"))
+                model.push("LibRaw")
                 allfiletypes.push("raw")
             }
-            //: Used as in 'DevIL images'
             if(getanddostuff.isDevILSupportEnabled()) {
-                model.push("DevIL " + em.pty+qsTr("images"))
+                model.push("DevIL")
                 allfiletypes.push("devil")
             }
-            //: Used as in 'FreeImage images'
             if(getanddostuff.isFreeImageSupportEnabled()) {
-                model.push("FreeImage " + em.pty+qsTr("images"))
+                model.push("FreeImage")
                 allfiletypes.push("freeimage")
             }
-            //: Used as in 'Poppler documents'
             if(getanddostuff.isPopplerSupportEnabled()) {
-                model.push("Poppler " + em.pty+qsTr("documents"))
+                model.push("PDF (Poppler)")
                 allfiletypes.push("poppler")
             }
             model.push(em.pty+qsTr("All files"))

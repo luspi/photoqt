@@ -216,7 +216,7 @@ Rectangle {
 
                 CustomButton {
                     x: (parent.width-width)/2
-                    text: em.pty+qsTr("I don't want to know it!")
+                    text: em.pty+qsTr("Forget and close")
                     fontsize: 25
                     onClickedButton:
                         hide()
@@ -268,7 +268,7 @@ Rectangle {
 
                 CustomButton {
                     x: (feedback_top.width-width)/2
-                    text: em.pty+qsTr("Oh, ok, got it!")
+                    text: em.pty+qsTr("Close")
                     fontsize: 30
                     onClickedButton:
                         hide()
@@ -314,7 +314,7 @@ Rectangle {
 
                 CustomButton {
                     x: (parent.width-width)/2
-                    text: em.pty+qsTr("Oh, ok, got it!")
+                    text: em.pty+qsTr("Close")
                     fontsize: 30
                     onClickedButton:
                         hide()
@@ -432,7 +432,7 @@ Rectangle {
 
                 CustomButton {
                     x: (parent.width-width)/2
-                    text: em.pty+qsTr("Got it!")
+                    text: em.pty+qsTr("Close")
                     fontsize: 30
                     onClickedButton:
                         hide()

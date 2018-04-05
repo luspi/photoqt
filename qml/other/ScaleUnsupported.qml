@@ -61,7 +61,7 @@ FadeInTemplate {
         },
 
         CustomButton {
-            text: em.pty+qsTr("Okay, I understand")
+            text: em.pty+qsTr("Close")
             fontsize: 15
             x: (scaleUnsupported_top.contentWidth-width)/2
             onClickedButton: hide()
