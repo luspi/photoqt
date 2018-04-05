@@ -124,11 +124,9 @@ void Settings::setDefault() {
     setArchiveSingleFile(true);
 
 #ifdef Q_OS_LINUX
-    QProcess which;
-    which.setStandardOutputFile(QProcess::nullDevice());
-    which.start("which unrar");
-    which.waitForFinished();
-    setArchiveUseExternalUnrar(which.exitCode() ? false : true);
+    // We assume here that it is available (checking would be rather slow)
+    // This is okay as we check anyways before using unrar
+    setArchiveUseExternalUnrar(true);
 #else
     setArchiveUseExternalUnrar(false);
 #endif

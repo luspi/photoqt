@@ -63,12 +63,7 @@ void SlimSettingsReadOnly::setDefault() {
     metaCopyright = true;
     metaGps = true;
     pdfQuality = 150;
-
-    QProcess which;
-    which.setStandardOutputFile(QProcess::nullDevice());
-    which.start("which unrar");
-    which.waitForFinished();
-    archiveUseExternalUnrar = (which.exitCode() ? false : true);
+    archiveUseExternalUnrar = true;
 
 }
 

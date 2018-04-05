@@ -47,6 +47,9 @@ ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider
     pixmapcache = new QPixmapCache;
     pixmapcache->setCacheLimit(8*1024*std::max(0, std::min(1000, settings->pixmapCache)));
 
+    // Value of -1 means we need to check next time
+    foundExternalUnrar = -1;
+
 }
 
 ImageProviderFull::~ImageProviderFull() {
@@ -207,8 +210,18 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
     QString suffix = info.suffix().toLower();
     if(settings->archiveUseExternalUnrar &&
        (((suffix == "rar" || suffix == "cbr") && imageformats->getEnabledFileformatsArchive().contains("*."+suffix)) ||
-        (mime == "application/vnd.rar" && mimetypes->getEnabledMimeTypesArchive().contains(mime))))
-        return "unrar";
+        (mime == "application/vnd.rar" && mimetypes->getEnabledMimeTypesArchive().contains(mime)))) {
+        // The first time we get here we check whether unrar is available or not
+        if(foundExternalUnrar == -1) {
+            QProcess which;
+            which.setStandardOutputFile(QProcess::nullDevice());
+            which.start("which unrar");
+            which.waitForFinished();
+            foundExternalUnrar = which.exitCode() ? 0 : 1;
+        }
+        if(foundExternalUnrar == 1)
+            return "unrar";
+    }
 #endif
 
 

@@ -57,6 +57,8 @@ private:
 
     QMimeDatabase mimedb;
 
+    int foundExternalUnrar;
+
 };
 
 

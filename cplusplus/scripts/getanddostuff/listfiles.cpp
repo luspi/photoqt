@@ -219,7 +219,12 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
 
 void GetAndDoStuffListFiles::loadAllArchiveFiles(QFileInfo l, QVariantList *list, bool archiveUseExternalUnrar) {
 
-    if(archiveUseExternalUnrar) {
+    QProcess which;
+    which.setStandardOutputFile(QProcess::nullDevice());
+    which.start("which unrar");
+    which.waitForFinished();
+
+    if(!which.exitCode() && archiveUseExternalUnrar) {
 
         QProcess p;
         p.start(QString("unrar lb \"%1\"").arg(l.absoluteFilePath()));
