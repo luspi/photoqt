@@ -34,6 +34,7 @@ Item {
     Text {
         width: parent.width
         height: parent.height
+        wrapMode: Text.WordWrap
         verticalAlignment: Qt.AlignVCenter
         horizontalAlignment: Qt.AlignHCenter
         //: The destination location is a location on the computer to move a file to

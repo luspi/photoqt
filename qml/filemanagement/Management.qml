@@ -36,6 +36,11 @@ FadeInTemplate {
     width: mainwindow.width
     height: mainwindow.height
 
+    marginLeftRight: 0
+    marginTopBottom: 0
+    hideButtons: true
+    hideTitle: true
+
     showSeperators: false
 
     property string current: ""
@@ -93,7 +98,7 @@ FadeInTemplate {
                 id: management_item
 
                 width: management_top.width
-                height: management_top.height-250
+                height: management_top.height//-250
 
                 ManagementContainer {
                     category: "cp"

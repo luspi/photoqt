@@ -36,6 +36,7 @@ Item {
         height: parent.height
         verticalAlignment: Qt.AlignVCenter
         horizontalAlignment: Qt.AlignHCenter
+        wrapMode: Text.WordWrap
         text: em.pty+qsTr("Use the file dialog to select a destination location.")
         color: colour.bg_label
         font.bold: true
