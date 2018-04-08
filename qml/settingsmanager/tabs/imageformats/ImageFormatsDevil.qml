@@ -37,7 +37,7 @@ Entry {
     helptext: em.pty+qsTranslate("SettingsManager/ImageFormats", "The Developer's Image Library (DevIL) supports a large number of image formats, many of which have been successfully tested with PhotoQt.") +
               "<br><br>" +
               em.pty+qsTranslate("SettingsManager/ImageFormats", "Use left click to check/uncheck an individual entry, and right click to check/uncheck all endings related to the same image type.")
-//    imageSource: "qrc:/img/settings/imageformats/devil.jpg"
+    imageSource: "qrc:/img/settings/imageformats/devil.jpg"
 
     content: [
 

@@ -34,7 +34,7 @@ Entry {
     title: "libarchive: ZIP, RAR, TAR, 7z"
     helptext: em.pty+qsTranslate("SettingsManager/ImageFormats", "PhotoQt takes advantage of tools such as 'libarchive' to load packed files (zip, rar, tar, 7z). It can either load them together with the rest of the images (each (supported) file as one image) or it can ignore such files except when asked to open one, then it wont load any other images (like a document viewer).") + "<br><br>" +
               em.pty+qsTranslate("SettingsManager/ImageFormats", "Note regarding RAR archives: 'libarchive' supports RAR archives only partially and might fail to read certain archives. If installed, PhotoQt can use the external tool 'unrar' instead of 'libarchive' for proper support of RAR archives.")
-//    imageSource: "qrc:/img/settings/imageformats/empty.png"
+    imageSource: "qrc:/img/settings/imageformats/empty.png"
 
     content: [
 

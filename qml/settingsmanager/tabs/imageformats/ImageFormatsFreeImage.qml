@@ -37,7 +37,7 @@ Entry {
     helptext: em.pty+qsTranslate("SettingsManager/ImageFormats", "FreeImage is an open source image library supporting a number of image formats, many of which have been successfully tested in PhotoQt.") +
               "<br><br>" +
               em.pty+qsTranslate("SettingsManager/ImageFormats", "Use left click to check/uncheck an individual entry, and right click to check/uncheck all endings related to the same image type.")
-//    imageSource: "qrc:/img/settings/imageformats/freeimage.jpg"
+    imageSource: "qrc:/img/settings/imageformats/freeimage.jpg"
 
     content: [
         SettingsText {

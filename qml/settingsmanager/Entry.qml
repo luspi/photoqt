@@ -47,6 +47,9 @@ Rectangle {
 
     color: "transparent"
 
+    property string imageSource: ""
+
+
     // Two items next to each other: Entry and Content
     Item {
 
@@ -64,12 +67,26 @@ Rectangle {
             x: 0
             y: (Math.max(entrytitle.height, entrycontent.height)-height)/2
             width: Math.min(400, settings_top.width/4+20)
-            height: childrenRect.height
+            height: Math.max(titleimage.height, thetext.height)
+
+            Image {
+                id: titleimage
+                source: item_top.imageSource
+                fillMode: Image.PreserveAspectFit
+                width: 50
+                visible: imageSource!=""
+                mipmap: true
+                opacity: enabled ? 1 : 0.3
+            }
 
             // This holds the title text
             Text {
 
-                width: settings_top.width/4
+                id: thetext
+
+                x: (imageSource!=""?titleimage.width+10:0)
+                y: (imageSource!=""?(titleimage.height-height)/2:0)
+                width: settings_top.width/4 - (imageSource!=""?titleimage.width+10:0)
 
                 // some styling
                 color: item_top.fontcolor

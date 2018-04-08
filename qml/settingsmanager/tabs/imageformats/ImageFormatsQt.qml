@@ -35,7 +35,7 @@ Entry {
     helptext: em.pty+qsTranslate("SettingsManager/ImageFormats", "These are all the image formats either natively supported by Qt or through an image formats plugins:") + " <b>qt5-imageformats, kimageformats, libqpsd</b>" +
               "<br><br>" +
               em.pty+qsTranslate("SettingsManager/ImageFormats", "Use left click to check/uncheck an individual entry, and right click to check/uncheck all endings related to the same image type.")
-//    imageSource: "qrc:/img/settings/imageformats/qt.png"
+    imageSource: "qrc:/img/settings/imageformats/qt.png"
 
 
     content: [

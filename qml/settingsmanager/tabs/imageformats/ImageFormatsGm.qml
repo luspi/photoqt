@@ -37,7 +37,7 @@ Entry {
     helptext: em.pty+qsTranslate("SettingsManager/ImageFormats", "GraphicsMagick calls itself the 'swiss army knife of image processing'. It supports a wide variety of image formats, and PhotoQt can display the vast majority of them.") +
               "<br><br>" +
               em.pty+qsTranslate("SettingsManager/ImageFormats", "Use left click to check/uncheck an individual entry, and right click to check/uncheck all endings related to the same image type.")
-//    imageSource: "qrc:/img/settings/imageformats/gm.jpg"
+    imageSource: "qrc:/img/settings/imageformats/gm.jpg"
 
     content: [
 

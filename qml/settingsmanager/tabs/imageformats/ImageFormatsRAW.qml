@@ -37,7 +37,7 @@ Entry {
     helptext: em.pty+qsTranslate("SettingsManager/ImageFormats", "With the help of libraw PhotoQt can display almost any raw image that exists.") +
               "<br><br>" +
               em.pty+qsTranslate("SettingsManager/ImageFormats", "Use left click to check/uncheck an individual entry, and right click to check/uncheck all endings related to the same image type.")
-//    imageSource: "qrc:/img/settings/imageformats/empty.png"
+    imageSource: "qrc:/img/settings/imageformats/empty.png"
 
     content: [
 
