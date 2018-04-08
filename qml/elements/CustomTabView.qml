@@ -94,8 +94,9 @@ TabView {
                 visible: subtab
             }
             // Change cursor to pointing hand
-            MouseArea {
+            ToolTip {
                 anchors.fill: parent
+                text: styleData.title
                 cursorShape: Qt.PointingHandCursor
                 onClicked: view.currentIndex = styleData.index
             }
