@@ -26,7 +26,7 @@ import QtQuick.Controls.Styles 1.4
 
 Slider {
 
-    property int scrollStep: 3
+    property real scrollStep: 3
 
     property string tooltip: ""
 
