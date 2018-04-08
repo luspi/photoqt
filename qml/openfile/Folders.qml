@@ -235,7 +235,7 @@ Rectangle {
                                                                   //: Keep string short!
                                                                 ? em.pty+qsTr("1 image")
                                                                   //: Always used for the plural (i.e., at least 2). Keep string short!
-                                                                : em.pty+qsTr("%1 images")))
+                                                                : em.pty+qsTr("%1 images").arg(counter)))
 
                         Timer {
                             id: checkForCounter
