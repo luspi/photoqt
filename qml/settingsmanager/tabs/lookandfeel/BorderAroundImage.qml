@@ -25,65 +25,45 @@ import QtQuick 2.5
 import "../../../elements"
 import "../../"
 
-EntryContainer {
+Entry {
 
-    id: item_top
 
-    Row {
+    title: em.pty+qsTr("Margin Around Image")
+    helptext: em.pty+qsTr("Whenever you load an image, the image is per default not shown completely in fullscreen, i.e. it's not stretching from screen edge to screen edge. Instead there is a small margin around the image of a couple pixels. Here you can adjust the width of this margin (set to 0 to disable it).")
 
-        spacing: 20
+    content: [
 
-        EntryTitle {
+        CustomSlider {
 
-            id: entrytitle
+            id: border_sizeslider
 
-            title: em.pty+qsTr("Margin Around Image")
-            helptext: em.pty+qsTr("Whenever you load an image, the image is per default not shown completely in fullscreen, i.e. it's not stretching from screen edge to screen edge. Instead there is a small margin around the image of a couple pixels. Here you can adjust the width of this margin (set to 0 to disable it).")
+            width: Math.min(200, Math.max(200, parent.width-border_sizespinbox.width-50))
+            height: border_sizespinbox.height
 
-        }
+            minimumValue: 0
+            maximumValue: 100
 
-        EntrySetting {
+            stepSize: 1
+            scrollStep: 1
 
-            Row {
+        },
 
-                spacing: 10
+        CustomSpinBox {
 
-                CustomSlider {
+            id: border_sizespinbox
 
-                    id: border_sizeslider
+            width: 75
 
-                    width: Math.min(400, settings_top.width-entrytitle.width-border_sizespinbox.width-60)
-                    y: (parent.height-height)/2
+            minimumValue: 0
+            maximumValue: 100
 
-                    minimumValue: 0
-                    maximumValue: 100
-
-                    tickmarksEnabled: true
-                    stepSize: 1
-
-                }
-
-                CustomSpinBox {
-
-                    id: border_sizespinbox
-
-                    width: 75
-
-                    minimumValue: 0
-                    maximumValue: 100
-
-                    value: border_sizeslider.value
-                    onValueChanged:
-                        border_sizeslider.value = value
-                    suffix: " px"
-
-                }
-
-            }
+            value: border_sizeslider.value
+            onValueChanged: border_sizeslider.value = value
+            suffix: " px"
 
         }
 
-    }
+    ]
 
     function setData() {
         border_sizeslider.value = settings.marginAroundImage

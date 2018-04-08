@@ -27,13 +27,11 @@ import "./other"
 import "../../elements"
 
 
-Rectangle {
+Item {
 
     id: tab_top
 
     property int titlewidth: 100
-
-    color: "#00000000"
 
     anchors {
         fill: parent
@@ -55,7 +53,7 @@ Rectangle {
 
             id: maincol
 
-            Rectangle { color: "transparent"; width: 1; height: 10; }
+            Item { width: 1; height: 10 }
 
             Text {
                 width: flickable.width
@@ -66,7 +64,7 @@ Rectangle {
                 horizontalAlignment: Text.AlignHCenter
             }
 
-            Rectangle { color: "transparent"; width: 1; height: 20; }
+            Item { width: 1; height: 20 }
 
             Text {
                 width: flickable.width
@@ -76,14 +74,14 @@ Rectangle {
                 horizontalAlignment: Text.AlignHCenter
             }
 
-            Rectangle { color: "transparent"; width: 1; height: 30; }
+            Item { width: 1; height: 30 }
 
-            Rectangle { color: "#88ffffff"; width: parent.width; height: 1; }
+            Rectangle { color: "#88ffffff"; width: tab_top.width; height: 1; }
 
-            Rectangle { color: "transparent"; width: 1; height: 20; }
+            Item { width: 1; height: 20 }
 
             Language { id: language }
-            CustomEntries { id: customentries; alternating: true; enabled: !getanddostuff.amIOnWindows() }
+            CustomEntries { id: customentries; enabled: !getanddostuff.amIOnWindows() }
             Imgur { id: imgur; }
 
         }

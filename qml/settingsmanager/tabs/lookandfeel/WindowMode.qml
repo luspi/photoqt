@@ -25,43 +25,25 @@ import QtQuick 2.5
 import "../../../elements"
 import "../../"
 
-EntryContainer {
+Entry {
 
-    id: item_top
+    title: em.pty+qsTr("Window Mode")
+    helptext: em.pty+qsTr("PhotoQt can be used both in fullscreen mode or as a normal window. It was designed with a fullscreen/maximised application in mind, thus it will look best when used that way, but will work just as well any other way.")
 
-    Row {
+    content: [
 
-        spacing: 20
+        CustomCheckBox {
+            id: windowmode
+            text: em.pty+qsTr("Run PhotoQt in Window Mode")
+        },
 
-        EntryTitle {
-
-            title: em.pty+qsTr("Window Mode")
-            helptext: em.pty+qsTr("PhotoQt can be used both in fullscreen mode or as a normal window. It was designed with a fullscreen/maximised application in mind, thus it will look best when used that way, but will work just as well any other way.")
-
+        CustomCheckBox {
+            id: windowmode_deco
+            enabled: windowmode.checkedButton
+            text: em.pty+qsTr("Show Window Decoration")
         }
 
-        EntrySetting {
-
-            Row {
-
-                spacing: 10
-
-                CustomCheckBox {
-                    id: windowmode
-                    text: em.pty+qsTr("Run PhotoQt in Window Mode")
-                }
-
-                CustomCheckBox {
-                    id: windowmode_deco
-                    enabled: windowmode.checkedButton
-                    text: em.pty+qsTr("Show Window Decoration")
-                }
-
-            }
-
-        }
-
-    }
+    ]
 
     function setData() {
         windowmode.checkedButton = settings.windowMode

@@ -21,79 +21,82 @@
  **************************************************************************/
 
 import QtQuick 2.5
+import QtQuick.Layouts 1.2
 import QtQuick.Controls 1.4
 
 import "../../../elements"
 import "../../"
 
-EntryContainer {
+Entry {
 
-    id: item_top
+    title: em.pty+qsTr("Sort Images")
 
-    Row {
+    helptext: em.pty+qsTr("Images in the current folder can be sorted in varios ways. They can be sorted by filename, natural name (e.g., file10.jpg comes after file9.jpg and not after file1.jpg), filesize, and date, all of that both ascending or descending.")
 
-        spacing: 20
 
-        EntryTitle {
+    content: [
 
-            title: em.pty+qsTr("Sort Images")
+        // Wrapping this into an item makes them act as one unit in the flow
+        Item {
 
-            helptext: em.pty+qsTr("Images in the current folder can be sorted in varios ways. They can be sorted by filename, natural name (e.g., file10.jpg comes after file9.jpg and not after file1.jpg), filesize, and date, all of that both ascending or descending.")
+            width: sortimages_checkbox_text.width+sortimages_checkbox.width+10
+            height: childrenRect.height
 
-        }
+            // Label
+            Text {
+                id: sortimages_checkbox_text
+                height: sortimages_checkbox.height
+                verticalAlignment: Text.AlignVCenter
+                color: colour.text
+                //: As in "Sort the images by some criteria"
+                text: em.pty+qsTr("Sort by:")
+                font.pointSize: 10
+            }
+            // Choose Criteria
+            CustomComboBox {
+                id: sortimages_checkbox
+                x: sortimages_checkbox_text.width+10
+                width: 150
+                //: Refers to the filename
+                model: [em.pty+qsTr("Name"),
+                        //: Sorting by natural name means file10.jpg comes after file9.jpg and not after file1.jpg
+                        em.pty+qsTr("Natural Name"),
+                        //: The date the file was created
+                        em.pty+qsTr("Date"),
+                        em.pty+qsTr("Filesize")]
+            }
 
-        EntrySetting {
+        },
 
-            Row {
+        // Wrapping this into an item makes them act as one unit in the flow
+        Item {
 
-                spacing: 10
+            // Ascending or Descending
+            ExclusiveGroup { id: radiobuttons_sorting }
 
-                // Label
-                Text {
-                    y: (parent.height-height)/2
-                    color: colour.text
-                    //: As in "Sort the images by some criteria"
-                    text: em.pty+qsTr("Sort by:")
-                    font.pointSize: 10
-                }
-                // Choose Criteria
-                CustomComboBox {
-                    id: sortimages_checkbox
-                    y: (parent.height-height)/2
-                    width: 150
-                    //: Refers to the filename
-                    model: [em.pty+qsTr("Name"),
-                            //: Sorting by natural name means file10.jpg comes after file9.jpg and not after file1.jpg
-                            em.pty+qsTr("Natural Name"),
-                            //: The date the file was created
-                            em.pty+qsTr("Date"),
-                            em.pty+qsTr("Filesize")]
-                }
+            width: sortimages_ascending.width+sortimages_descending.width+10
+            height: sortimages_checkbox.height
 
-                // Ascending or Descending
-                ExclusiveGroup { id: radiobuttons_sorting }
-
-                CustomRadioButton {
-                    id: sortimages_ascending
-                    y: (parent.height-height)/2
-                    text: em.pty+qsTr("Ascending")
-                    icon: "qrc:/img/settings/sortascending.png"
-                    exclusiveGroup: radiobuttons_sorting
-                    checked: true
-                }
-                CustomRadioButton {
-                    id: sortimages_descending
-                    y: (parent.height-height)/2
-                    text: em.pty+qsTr("Descending")
-                    icon: "qrc:/img/settings/sortdescending.png"
-                    exclusiveGroup: radiobuttons_sorting
-                }
-
+            CustomRadioButton {
+                id: sortimages_ascending
+                height: parent.height
+                text: em.pty+qsTr("Ascending")
+                icon: "qrc:/img/settings/sortascending.png"
+                exclusiveGroup: radiobuttons_sorting
+                checked: true
+            }
+            CustomRadioButton {
+                id: sortimages_descending
+                x: sortimages_ascending.width+10
+                height: parent.height
+                text: em.pty+qsTr("Descending")
+                icon: "qrc:/img/settings/sortdescending.png"
+                exclusiveGroup: radiobuttons_sorting
             }
 
         }
 
-    }
+    ]
 
     function setData() {
         if(settings.sortby === "name")

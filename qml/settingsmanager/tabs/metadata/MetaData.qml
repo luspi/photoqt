@@ -27,61 +27,48 @@ import QtQuick.Layouts 1.2
 import "../../../elements"
 import "../../"
 
-EntryContainer {
+Entry {
 
-    id: item_top
+    id: entrytop
 
-    Row {
+    title: em.pty+qsTr("Meta Information")
+    helptext: em.pty+qsTr("PhotoQt can display a number of meta information about the image. Here you can choose which ones to show and which ones to hide.")
 
-        spacing: 20
+    content: [
 
-        EntryTitle {
+        GridView {
 
-            id: title
-            title: em.pty+qsTr("Meta Information")
-            helptext: em.pty+qsTr("PhotoQt can display a number of meta information about the image. Here you can choose which ones to show and which ones to hide.")
+            property var metadataitems: [["","",false]]
+            property var metadachecked: { "" : "" }
 
-        }
+            id: grid
+            width: Math.floor((parent.width)/(cellWidth)) * (cellWidth)
+            height: childrenRect.height
+            cellWidth: 200
+            cellHeight: 30 + 2*spacing
+            property int spacing: 3
 
-        EntrySetting {
+            interactive: false
 
-            id: entry
-
-            GridView {
-
-                property var metadataitems: [["","",false]]
-                property var metadachecked: { "" : "" }
-
-                id: grid
-                width: Math.floor((item_top.width-title.width-title.x-parent.parent.spacing-5)/(cellWidth)) * (cellWidth)
-                height: childrenRect.height
-                cellWidth: 200
-                cellHeight: 30 + 2*spacing
-                property int spacing: 3
-
-                interactive: false
-
-                model: metadataitems.length
-                delegate: MetaDataTile {
-                    id: tile
-                    text: grid.metadataitems[index][1]
-                    checked: grid.metadataitems[index][2]
-                    width: grid.cellWidth-grid.spacing*2
-                    x: grid.spacing
-                    height: grid.cellHeight-grid.spacing*2
-                    y: grid.spacing
-                    onCheckedChanged:
-                        grid.metadachecked[grid.metadataitems[index][0]] = checked
-                    Component.onCompleted:
-                        grid.metadachecked[grid.metadataitems[index][0]] = checked
-                }
-
-
+            model: metadataitems.length
+            delegate: MetaDataTile {
+                id: tile
+                text: grid.metadataitems[index][1]
+                checked: grid.metadataitems[index][2]
+                width: grid.cellWidth-grid.spacing*2
+                x: grid.spacing
+                height: grid.cellHeight-grid.spacing*2
+                y: grid.spacing
+                onCheckedChanged:
+                    grid.metadachecked[grid.metadataitems[index][0]] = checked
+                Component.onCompleted:
+                    grid.metadachecked[grid.metadataitems[index][0]] = checked
             }
 
+
         }
 
-    }
+    ]
 
     function setData() {
 

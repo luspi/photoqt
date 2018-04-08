@@ -26,35 +26,20 @@ import QtQuick.Controls 1.4
 import "../../../elements"
 import "../../"
 
-EntryContainer {
+Entry {
+    title: em.pty+qsTr("Disable thumbnails")
+    helptext: em.pty+qsTr("If you just don't need or don't want any thumbnails whatsoever, then you can disable them here completely. This will increase the speed of PhotoQt, but will make navigating with the mouse harder.")
 
-    id: item_top
+    content: [
 
-    Row {
+        CustomCheckBox {
 
-        spacing: 20
-
-        EntryTitle {
-
-            title: em.pty+qsTr("Disable thumbnails")
-            helptext: em.pty+qsTr("If you just don't need or don't want any thumbnails whatsoever, then you can disable them here completely. This will increase the speed of PhotoQt, but will make navigating with the mouse harder.")
+            id: disable
+            text: em.pty+qsTr("Disable Thumbnails altogether")
 
         }
 
-        EntrySetting {
-
-            id: entry
-
-            CustomCheckBox {
-
-                id: disable
-                text: em.pty+qsTr("Disable Thumbnails altogether")
-
-            }
-
-        }
-
-    }
+    ]
 
     function setData() {
         disable.checkedButton = settings.thumbnailDisable

@@ -135,9 +135,11 @@ Item {
                     rightMargin: 3
                 }
 
-                MouseArea {
+                ToolTip {
 
                     anchors.fill: parent
+
+                    text: "<b>" + desc + "</b>:<br>" + strings.translateShortcut(key)
 
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor

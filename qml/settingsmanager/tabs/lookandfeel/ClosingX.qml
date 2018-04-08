@@ -26,92 +26,85 @@ import QtQuick.Controls 1.4
 import "../../../elements"
 import "../../"
 
-EntryContainer {
+Entry {
 
-    id: item_top
+    title: em.pty+qsTr("Exit button")
+    helptext: em.pty+qsTr("The exit button is shown in the top right corner. It can have one of two looks: a normal 'x' or a plain text'x'. The normal 'x' fits in better with the overall design of PhotoQt, but the plain text 'x' is smaller and more discreet.")
 
-    Row {
+    ExclusiveGroup { id: clo; }
 
-        spacing: 20
+    content: [
 
-        EntryTitle {
+        Item {
 
-            id: entrytitle
+            width: closingx_fancy.width+closingx_normal.width+10
+            height: childrenRect.height
 
-            title: em.pty+qsTr("Exit button ('x' in top right corner)")
-            helptext: em.pty+qsTr("There are two looks for the exit button: a normal 'x' or a plain text'x'. The normal 'x' fits in better with the overall design of PhotoQt, but the plain text 'x' is smaller and more discreet.")
+            CustomRadioButton {
+                id: closingx_fancy
+                //: This is a type of exit button ('x' in top right screen corner)
+                text: em.pty+qsTr("Normal")
+                exclusiveGroup: clo
+            }
 
-        }
+            CustomRadioButton {
+                id: closingx_normal
+                x: closingx_fancy.width+10
+                //: This is a type of exit button ('x' in top right screen corner), showing a simple text 'x'
+                text: em.pty+qsTr("Plain")
+                exclusiveGroup: clo
+                checked: true
+            }
 
+        },
 
-        EntrySetting {
+        Item {
+            width: 10
+            height: 1
+        },
 
-            Row {
+        Item {
 
-                spacing: 10
+            width: txt_small.width+closingx_sizeslider.width+txt_large.width+10
+            height: childrenRect.height
 
-                ExclusiveGroup { id: clo; }
+            Text {
+                id: txt_small
+                x: 0
+                color: colour.text
+                font.pointSize: 10
+                //: The size of the exit button ('x' in top right screen corner)
+                text: em.pty+qsTr("Small")
+            }
 
-                CustomRadioButton {
-                    id: closingx_fancy
-                    //: This is a type of exit button ('x' in top right screen corner)
-                    text: em.pty+qsTr("Normal")
-                    exclusiveGroup: clo
-                }
-                CustomRadioButton {
-                    id: closingx_normal
-                    //: This is a type of exit button ('x' in top right screen corner), showing a simple text 'x'
-                    text: em.pty+qsTr("Plain")
-                    exclusiveGroup: clo
-                    checked: true
-                }
+            CustomSlider {
 
-                Rectangle { color: "transparent"; width: 1; height: 1; }
-                Rectangle { color: "transparent"; width: 1; height: 1; }
+                id: closingx_sizeslider
 
-                Row {
+                x: txt_small.width+5
+                y: (txt_small.height-height)/2
+                width: 100
 
-                    spacing: 5
+                minimumValue: 5
+                maximumValue: 25
 
-                    Text {
-                        id: txt_small
-                        color: colour.text
-                        font.pointSize: 10
-                        //: The size of the exit button ('x' in top right screen corner)
-                        text: em.pty+qsTr("Small Size")
-                    }
+                stepSize: 1
+                scrollStep: 1
 
-                    CustomSlider {
+            }
 
-                        id: closingx_sizeslider
-
-                        width: Math.min(300, settings_top.width-entrytitle.width-closingx_fancy.width-closingx_normal.width
-                               -txt_small.width-txt_large.width-80)
-                        y: (parent.height-height)/2
-
-                        minimumValue: 5
-                        maximumValue: 25
-
-                        tickmarksEnabled: true
-                        stepSize: 1
-
-                    }
-
-                    Text {
-                        id: txt_large
-                        color: colour.text
-                        font.pointSize: 10
-                        //: The size of the exit button ('x' in top right screen corner)
-                        text: em.pty+qsTr("Large Size")
-                    }
-
-                }
-
+            Text {
+                id: txt_large
+                x: txt_small.width+closingx_sizeslider.width+10
+                color: colour.text
+                font.pointSize: 10
+                //: The size of the exit button ('x' in top right screen corner)
+                text: em.pty+qsTr("Large")
             }
 
         }
 
-    }
+    ]
 
     function setData() {
         closingx_fancy.checked = settings.quickInfoFullX

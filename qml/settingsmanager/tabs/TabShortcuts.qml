@@ -23,17 +23,16 @@
 import QtQuick 2.5
 import QtQuick.Controls 1.4
 
+import "../"
 import "../../elements"
 import "shortcuts"
 
 
-Rectangle {
+Item {
 
     id: tab_top
 
     property int titlewidth: 100
-
-    color: "#00000000"
 
     anchors {
         fill: parent
@@ -55,7 +54,7 @@ Rectangle {
 
             id: maincol
 
-            Rectangle { color: "transparent"; width: 1; height: 10; }
+            Item { width: 1; height: 10 }
 
             Text {
                 width: flickable.width
@@ -66,7 +65,7 @@ Rectangle {
                 horizontalAlignment: Text.AlignHCenter
             }
 
-            Rectangle { color: "transparent"; width: 1; height: 20; }
+            Item { width: 1; height: 20 }
 
             SettingsText {
                 width: flickable.width-20
@@ -74,53 +73,39 @@ Rectangle {
                 text: em.pty+qsTr("Here you can adjust the shortcuts, add new or remove existing ones, or change a key/mouse combination. The shortcuts are grouped into 4 different categories for internal commands plus a category for external commands. The boxes on the right side contain all the possible commands. To add a shortcut for one of the available functions simply click on it. This will automatically open another element where you can set the desired shortcut.")
             }
 
-            Rectangle { color: "transparent"; width: 1; height: 30; }
+            Item { width: 1; height: 30 }
 
-            Rectangle { color: "#88ffffff"; width: parent.width; height: 1; }
+            Rectangle { color: "#88ffffff"; width: tab_top.width; height: 1; }
 
-            Rectangle { color: "transparent"; width: 1; height: 20; }
-
-            Item {
-
-                height: 50
-                width: tab_top.width
-
-                Item {
-                    id: leftClickText
-                    anchors.left: parent.left
-                    anchors.leftMargin: 10
-                    width: parent.width/2 -20
-                    height: childrenRect.height
-                    SettingsText {
-                        anchors.left: parent.left
-                        anchors.right: parent.right
-                        text: em.pty+qsTr("Pressing the left button of the mouse and moving it around can be used for moving an image around. If you put it to use for this purpose then any shortcut involving the left mouse button will have no effect! Note that it is not recommended to disable this if you do not have any other means to move an image around (e.g., touchscreen)!")
-                    }
-                }
-
-                Item {
-                    anchors.right: parent.right
-                    anchors.rightMargin: 10
-                    width: parent.width/2 -20
-                    height: Math.max(childrenRect.height, leftClickText.height)
-                    CustomCheckBox {
-                        id: mouseleftbutton
-                        y: (Math.max(height,leftClickText.height)-height)/2
-                        text: em.pty+qsTr("Mouse: Left button click-and-move")
-                    }
-                }
-
-            }
-
-            Rectangle { color: "transparent"; width: 1; height: 30; }
+            Item { width: 1; height: 20 }
 
             CustomButton {
-                x: (parent.width-width)/2
+                x: (tab_top.width-width)/2
                 text: em.pty+qsTr("Set default shortcuts")
                 onClickedButton: confirmdefaultshortcuts.show()
             }
 
-            Rectangle { color: "transparent"; width: 1; height: 20; }
+            Item { width: 1; height: 20 }
+
+            Rectangle { color: "#22ffffff"; width: tab_top.width; height: 1 }
+
+            Item { width: 1; height: 10 }
+
+            Entry {
+
+                title: "Mouse: Left Button"
+                helptext: "Pressing the left button of the mouse and moving it around can be used for moving an image around. If you put it to use for this purpose then any shortcut involving the left mouse button will have no effect! Note that it is not recommended to disable this if you do not have any other means to move an image around (e.g., touchscreen)!"
+
+                content: [
+                    CustomCheckBox {
+                        id: mouseleftbutton
+                        text: em.pty+qsTr("Mouse: Left button click-and-move")
+                    }
+                ]
+
+            }
+
+            Item { width: 1; height: 20 }
 
             ShortcutsContainer {
                 id: navigation

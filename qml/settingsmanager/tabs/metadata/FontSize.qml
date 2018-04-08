@@ -26,73 +26,59 @@ import QtQuick.Controls 1.4
 import "../../../elements"
 import "../../"
 
-EntryContainer {
+Entry {
 
-    id: item_top
+    id: entrytop
 
-    Row {
+    property int val: 12
 
-        spacing: 20
+    title: em.pty+qsTr("Font Size")
+    helptext: em.pty+qsTr("The fontsize of the metadata element can be adjusted independently of the rest of the application.")
 
-        EntryTitle {
+    content: [
 
-            title: em.pty+qsTr("Font Size")
-            helptext: em.pty+qsTr("The fontsize of the metadata element can be adjusted independently of the rest of the application.")
+        Row {
 
-        }
+            spacing: 10
 
-        EntrySetting {
+            CustomSlider {
 
-            id: entry
+                id: fontsize_slider
 
-            // This variable is needed to avoid a binding loop of slider<->spinbox
-            property int val: 20
+                width: Math.min(200, Math.max(200, parent.parent.width-fontsize_spinbox.width-50))
+                y: (parent.height-height)/2
 
-            Row {
+                minimumValue: 5
+                maximumValue: 20
 
-                spacing: 10
+                stepSize: 1
 
-                CustomSlider {
+                onValueChanged:
+                    entrytop.val = value
 
-                    id: fontsize_slider
+            }
 
-                    width: 400
-                    y: (parent.height-height)/2
+            CustomSpinBox {
 
-                    minimumValue: 5
-                    maximumValue: 20
+                id: fontsize_spinbox
 
-                    tickmarksEnabled: true
-                    stepSize: 1
+                width: 75
 
-                    onValueChanged:
-                        entry.val = value
+                minimumValue: 5
+                maximumValue: 20
 
-                }
+                suffix: " pt"
 
-                CustomSpinBox {
+                value: entrytop.val
 
-                    id: fontsize_spinbox
-
-                    width: 75
-
-                    minimumValue: 5
-                    maximumValue: 20
-
-                    suffix: " pt"
-
-                    value: entry.val
-
-                    onValueChanged:
-                        fontsize_slider.value = value
-
-                }
+                onValueChanged:
+                    fontsize_slider.value = value
 
             }
 
         }
 
-    }
+    ]
 
     function setData() {
         fontsize_slider.value = settings.metadataFontSize

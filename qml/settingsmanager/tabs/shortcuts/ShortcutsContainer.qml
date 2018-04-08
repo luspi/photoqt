@@ -29,7 +29,7 @@ Rectangle {
     color: "transparent"
 
     x: 5
-    width: parent.width-10
+    width: tab_top.width-10
     height: childrenRect.height
 
     // These are the ones that this element is responsible for

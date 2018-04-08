@@ -27,13 +27,11 @@ import "./thumbnails"
 import "../../elements"
 
 
-Rectangle {
+Item {
 
     id: tab_top
 
     property int titlewidth: 100
-
-    color: "#00000000"
 
     anchors {
         fill: parent
@@ -55,7 +53,7 @@ Rectangle {
 
             id: maincol
 
-            Rectangle { color: "transparent"; width: 1; height: 10; }
+            Item { width: 1; height: 10; }
 
             Text {
                 width: flickable.width
@@ -66,7 +64,7 @@ Rectangle {
                 horizontalAlignment: Text.AlignHCenter
             }
 
-            Rectangle { color: "transparent"; width: 1; height: 20; }
+            Item { width: 1; height: 20; }
 
             Text {
                 width: flickable.width
@@ -76,23 +74,22 @@ Rectangle {
                 horizontalAlignment: Text.AlignHCenter
             }
 
-            Rectangle { color: "transparent"; width: 1; height: 20; }
+            Item { width: 1; height: 20; }
 
-            Rectangle { color: "#88ffffff"; width: parent.width; height: 1; }
+            Rectangle { color: "#88ffffff"; width: tab_top.width; height: 1; }
 
-            Rectangle { color: "transparent"; width: 1; height: 20; }
+            Item { width: 1; height: 20; }
 
             ThumbnailSize { id: thumbnailsize }
-            Spacing { id: spacing; alternating: true }
+            Spacing { id: spacing }
             LiftUp { id: liftup }
-            KeepVisible { id: keepvisible; alternating: true }
+            KeepVisible { id: keepvisible }
             CenterOn { id: centeron }
-            TopOrBottom { id: toporbottom; alternating: true }
+            TopOrBottom { id: toporbottom }
             Label { id: label }
-            FilenameOnly { id: filenameonly; alternating: true }
+            FilenameOnly { id: filenameonly }
             Disable { id: disable }
-            Cache { id: cache; alternating: true }
-
+            Cache { id: cache }
 
         }
 

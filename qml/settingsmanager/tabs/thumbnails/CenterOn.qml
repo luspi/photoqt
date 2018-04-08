@@ -26,34 +26,20 @@ import QtQuick.Controls 1.4
 import "../../../elements"
 import "../../"
 
-EntryContainer {
+Entry {
 
-    id: item_top
+    //: the center is the center of the screen edge. The thing talked about are the thumbnails.
+    title: em.pty+qsTr("Keep in Center")
+    helptext: em.pty+qsTr("If this option is set, then the current thumbnail (i.e., the thumbnail of the currently displayed image) will always be kept in the center of the thumbnail bar (if possible). If this option is not set, then the active thumbnail will simply be kept visible, but not necessarily in the center.")
 
-    Row {
+    content: [
 
-        spacing: 20
-
-        EntryTitle {
-
-            //: the center is the center of the screen edge. The thing talked about are the thumbnails.
-            title: em.pty+qsTr("Keep in Center")
-            helptext: em.pty+qsTr("If this option is set, then the current thumbnail (i.e., the thumbnail of the currently displayed image) will always be kept in the center of the thumbnail bar (if possible). If this option is not set, then the active thumbnail will simply be kept visible, but not necessarily in the center.")
-
+        CustomCheckBox {
+            id: centeron
+            text: em.pty+qsTr("Center on Current Thumbnail")
         }
 
-        EntrySetting {
-
-            id: entry
-
-            CustomCheckBox {
-                id: centeron
-                text: em.pty+qsTr("Center on Current Thumbnail")
-            }
-
-        }
-
-    }
+    ]
 
     function setData() {
         centeron.checkedButton = settings.thumbnailCenterActive

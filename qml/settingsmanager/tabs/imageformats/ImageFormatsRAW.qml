@@ -27,137 +27,99 @@ import QtQuick.Layouts 1.2
 import "../../../elements"
 import "../../"
 
-EntryContainer {
+Entry {
 
-    id: item_top
+    id: entrytop
 
     visible: getanddostuff.isLibRawSupportEnabled()
 
-    Row {
+    title: "libraw: RAW"
+    helptext: em.pty+qsTranslate("SettingsManager/ImageFormats", "With the help of libraw PhotoQt can display almost any raw image that exists.") +
+              "<br><br>" +
+              em.pty+qsTranslate("SettingsManager/ImageFormats", "Use left click to check/uncheck an individual entry, and right click to check/uncheck all endings related to the same image type.")
+//    imageSource: "qrc:/img/settings/imageformats/empty.png"
 
-        spacing: 20
+    content: [
 
-        EntryTitle {
-
-            id: titletext
-            title: "libraw: RAW"
-            helptext: em.pty+qsTranslate("SettingsManager/ImageFormats", "With the help of libraw PhotoQt can display almost any raw image that exists.") +
-                      "<br><br>" +
-                      em.pty+qsTranslate("SettingsManager/ImageFormats", "Use left click to check/uncheck an individual entry, and right click to check/uncheck all endings related to the same image type.")
-            imageSource: "qrc:/img/settings/imageformats/empty.png"
-            fontcolor: enabled ? colour.text : colour.text_disabled
-
+        SettingsText {
+            id: txt1
+            height: but1.height
+            horizontalAlignment: Text.AlignRight
+            verticalAlignment: Text.AlignVCenter
+            //: File endings are the suffices (e.g., 'jpg' for 'image.jpg')
+            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "File endings:")
+        },
+        CustomButton {
+            id: but1
+            //: Used as in 'Use set of default file endings'
+            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Use default")
+            onClickedButton: formatsPopupEndings.setDefault()
+        },
+        CustomButton {
+            //: Used as in 'Use none of the available file endings'
+            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Use none")
+            onClickedButton: formatsPopupEndings.setNone()
+        },
+        CustomButton {
+            //: 'fine tuning' refers to selecting the individual file endings recognised by PhotoQt
+            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Advanced fine tuning")
+            onClickedButton: formatsPopupEndings.show()
+        },
+        SettingsText {
+            height: but1.height
+            verticalAlignment: Text.AlignVCenter
+            //: Please do not forget the '%1'!
+            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "There are currently %1 file endings selected.").arg("<b>"+formatsPopupEndings.numItemsChecked+"</b>")
         }
 
-        EntrySetting {
+    ]
 
-            Column {
+    content2: [
 
-                spacing: 10
-
-                Item {
-
-                    width: childrenRect.width
-                    height: but1.height
-
-                    Row {
-
-                        spacing: 10
-
-                        SettingsText {
-                            id: txt1
-                            y: (but1.height-height)/2
-                            horizontalAlignment: Text.AlignRight
-                            //: File endings are the suffices (e.g., 'jpg' for 'image.jpg')
-                            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "File endings:")
-                        }
-                        CustomButton {
-                            id: but1
-                            //: Used as in 'Use set of default file endings'
-                            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Use default")
-                            onClickedButton: formatsPopupEndings.setDefault()
-                        }
-                        CustomButton {
-                            //: Used as in 'Use none of the available file endings'
-                            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Use none")
-                            onClickedButton: formatsPopupEndings.setNone()
-                        }
-                        CustomButton {
-                            //: 'fine tuning' refers to selecting the individual file endings recognised by PhotoQt
-                            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Advanced fine tuning")
-                            onClickedButton: formatsPopupEndings.show()
-                        }
-
-                        SettingsText {
-                            y: (but1.height-height)/2
-                            //: Please do not forget the '%1'!
-                            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "There are currently %1 file endings selected.").arg("<b>"+formatsPopupEndings.numItemsChecked+"</b>")
-                        }
-
-                    }
-
-                }
-
-                Item {
-
-                    width: childrenRect.width
-                    height: but2.height
-
-                    Row {
-
-                        spacing: 10
-
-                        SettingsText {
-                            id: txt2
-                            y: (but1.height-height)/2
-                            horizontalAlignment: Text.AlignRight
-                            //: Mime types are identifiers for file types.
-                            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Mime types:")
-                        }
-                        CustomButton {
-                            id: but2
-                            //: Used as in 'Use set of default file endings'
-                            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Use default")
-                            onClickedButton: formatsPopupMimetypes.setDefault()
-                        }
-                        CustomButton {
-                            //: Used as in 'Use none of the available file endings'
-                            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Use none")
-                            onClickedButton: formatsPopupMimetypes.setNone()
-                        }
-                        CustomButton {
-                            //: 'fine tuning' refers to selecting the individual file endings recognised by PhotoQt
-                            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Advanced fine tuning")
-                            onClickedButton: formatsPopupMimetypes.show()
-                        }
-
-                        SettingsText {
-                            y: (but2.height-height)/2
-                            //: Please do not forget the '%1'!
-                            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "There are currently %1 mime types selected.").arg("<b>"+formatsPopupMimetypes.numItemsChecked+"</b>")
-                        }
-
-                    }
-
-                }
-
-                Component.onCompleted: {
-                    but1.width = Math.max(but1.width, but2.width)
-                    but2.width = Math.max(but1.width, but2.width)
-                    txt1.width = Math.max(txt1.width, txt2.width)
-                    txt2.width = Math.max(txt1.width, txt2.width)
-                }
-
-            }
-
+        SettingsText {
+            id: txt2
+            height: but2.height
+            horizontalAlignment: Text.AlignRight
+            verticalAlignment: Text.AlignVCenter
+            //: Mime types are identifiers for file types.
+            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Mime types:")
+        },
+        CustomButton {
+            id: but2
+            //: Used as in 'Use set of default file endings'
+            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Use default")
+            onClickedButton: formatsPopupMimetypes.setDefault()
+        },
+        CustomButton {
+            //: Used as in 'Use none of the available file endings'
+            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Use none")
+            onClickedButton: formatsPopupMimetypes.setNone()
+        },
+        CustomButton {
+            //: 'fine tuning' refers to selecting the individual file endings recognised by PhotoQt
+            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Advanced fine tuning")
+            onClickedButton: formatsPopupMimetypes.show()
+        },
+        SettingsText {
+            height: but2.height
+            verticalAlignment: Text.AlignVCenter
+            //: Please do not forget the '%1'!
+            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "There are currently %1 mime types selected.").arg("<b>"+formatsPopupMimetypes.numItemsChecked+"</b>")
         }
 
+    ]
+
+    Component.onCompleted: {
+        but1.width = Math.max(but1.width, but2.width)
+        but2.width = Math.max(but1.width, but2.width)
+        txt1.width = Math.max(txt1.width, txt2.width)
+        txt2.width = Math.max(txt1.width, txt2.width)
     }
 
     PopupImageFormats {
 
         id: formatsPopupEndings
-        title: titletext.title
+        title: entrytop.title
         availableFormats: imageformats.getAvailableEndingsWithDescriptionRAW()
         enabledFormats: imageformats.enabledFileformatsRAW
         defaultFormats: imageformats.getDefaultEnabledEndingsRAW()
@@ -175,7 +137,7 @@ EntryContainer {
     PopupMimeTypes {
 
         id: formatsPopupMimetypes
-        title: titletext.title
+        title: entrytop.title
         availableFormats: mimetypes.getAvailableMimeTypesWithDescriptionRAW()
         enabledFormats: mimetypes.enabledMimeTypesRAW
         defaultFormats: mimetypes.getDefaultEnabledMimeTypesRAW()

@@ -26,81 +26,67 @@ import QtQuick.Controls 1.4
 import "../../../elements"
 import "../../"
 
-EntryContainer {
+Entry {
 
-    id: item_top
+    id: entrytop
 
-    Row {
+    title: em.pty+qsTr("Lift-Up of Thumbnails")
+    helptext: em.pty+qsTr("When a thumbnail is hovered, it is lifted up some pixels. Here you can increase/decrease this value according to your personal preference.")
 
-        spacing: 20
+    // This variable is needed to avoid a binding loop of slider<->spinbox
+    property int val: 20
 
-        EntryTitle {
+    content: [
 
-            id: entrytitle
+        Row {
 
-            title: em.pty+qsTr("Lift-Up of Thumbnails")
-            helptext: em.pty+qsTr("When a thumbnail is hovered, it is lifted up some pixels. Here you can increase/decrease this value according to your personal preference.")
+            spacing: 10
 
-        }
+            CustomSlider {
 
-        EntrySetting {
+                id: liftup_slider
 
-            id: entry
+                width: Math.min(200, Math.max(200, parent.parent.width-liftup_spinbox.width-50))
+                y: (parent.height-height)/2
 
-            // This variable is needed to avoid a binding loop of slider<->spinbox
-            property int val: 20
+                minimumValue: 0
+                maximumValue: 40
 
-            Row {
+                stepSize: 1
+                scrollStep: 1
 
-                spacing: 10
+                onValueChanged:
+                    entrytop.val = value
 
-                CustomSlider {
+            }
 
-                    id: liftup_slider
+            CustomSpinBox {
 
-                    width: Math.min(400, settings_top.width-entrytitle.width-liftup_spinbox.width-50)
-                    y: (parent.height-height)/2
+                id: liftup_spinbox
 
-                    minimumValue: 0
-                    maximumValue: 40
+                width: 75
 
-                    tickmarksEnabled: true
-                    stepSize: 1
+                minimumValue: 0
+                maximumValue: 40
 
-                    onValueChanged:
-                        entry.val = value
+                suffix: " px"
 
-                }
+                value: entrytop.val
 
-                CustomSpinBox {
-
-                    id: liftup_spinbox
-
-                    width: 75
-
-                    minimumValue: 0
-                    maximumValue: 40
-
-                    suffix: " px"
-
-                    value: entry.val
-
-                    onValueChanged: {
-                        if(value%5 == 0)
-                            liftup_slider.value = value
-                    }
-
+                onValueChanged: {
+                    if(value%5 == 0)
+                        liftup_slider.value = value
                 }
 
             }
 
         }
 
-    }
+    ]
 
     function setData() {
         liftup_slider.value = settings.thumbnailLiftUp
-        entry.val = liftup_slider.value
+        entrytop.val = liftup_slider.value
     }
 
     function saveData() {

@@ -85,14 +85,12 @@ Rectangle {
             Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
 
 
-            Rectangle {
+            Item {
 
                 id: sh_title
 
-                width: parent.width/2
+                width: Math.max(parent.width/2, parent.width-shaddtext.width-30)
                 height: parent.height
-
-                color: "transparent"
 
                 // Which shortcut this is
                 Text {
@@ -102,39 +100,33 @@ Rectangle {
                     anchors.leftMargin: 4
                     color: colour.tiles_text_active
                     text: shortcuts[index][1]
+                    elide: Text.ElideRight
 
                 }
 
             }
 
-            // The buttons
-            Rectangle {
+            Text {
 
-                x: parent.width/2+2
-                y: 2
-                width: parent.width/2-4
-                height: parent.height-4
-
-                color: "transparent"
-
-                Text {
-                    anchors.fill: parent
-                    anchors.margins: 2
-                    anchors.leftMargin: 4
-                    horizontalAlignment: Text.AlignHCenter
-                    color: "grey"
-                    text: em.pty+qsTr("Click to add shortcut")
-                }
+                id: shaddtext
+                height: parent.height
+                anchors.right: parent.right
+                anchors.rightMargin: 20
+                verticalAlignment: Text.AlignVCenter
+                color: "grey"
+                text: em.pty+qsTr("Click to add shortcut")
 
             }
 
             // When hovered, change color of this element AND of 'key' button
             // A click adds a new shortcut
-            MouseArea {
+            ToolTip {
 
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
+
+                text: em.pty+qsTr("Click to add shortcut")+":<br><b>" + shortcuts[index][1] + "</b>"
 
                 onEntered:
                     deleg_top.hovered = true

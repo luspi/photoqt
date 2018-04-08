@@ -25,34 +25,22 @@ import QtQuick 2.5
 import "../../../elements"
 import "../../"
 
-EntryContainer {
+Entry {
 
-    id: item_top
+    //: Along the lines of 'zoom small images until they fill the window'
+    title: em.pty+qsTr("Fit in Window")
+    helptext: em.pty+qsTr("If the image dimensions are smaller than the screen dimensions, PhotoQt can automatically zoom those images to make them fit into the window.")
 
-    Row {
+    content: [
 
-        spacing: 20
+        CustomCheckBox {
 
-        EntryTitle {
-
-            //: Along the lines of 'zoom small images until they fill the window'
-            title: em.pty+qsTr("Fit in Window")
-            helptext: em.pty+qsTr("If the image dimensions are smaller than the screen dimensions, PhotoQt can automatically zoom those images to make them fit into the window.")
-
-        }
-
-        EntrySetting {
-
-            CustomCheckBox {
-
-                id: fitinwindow
-                text: em.pty+qsTr("Fit Smaller Images in Window")
-
-            }
+            id: fitinwindow
+            text: em.pty+qsTr("Fit Smaller Images in Window")
 
         }
 
-    }
+    ]
 
     function setData() {
         fitinwindow.checkedButton = settings.fitInWindow

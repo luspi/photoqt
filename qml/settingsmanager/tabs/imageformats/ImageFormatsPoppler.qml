@@ -27,73 +27,55 @@ import QtQuick.Layouts 1.2
 import "../../../elements"
 import "../../"
 
-EntryContainer {
-
-    id: item_top
+Entry {
 
     visible: getanddostuff.isPopplerSupportEnabled()
 
-    Row {
+    id: titletext
+    title: "poppler: Adobe PDF"
+    helptext: em.pty+qsTranslate("SettingsManager/ImageFormats", "PhotoQt can take advantage of poppler to load PDF documents. It can either load them together with the rest of the images (each page as one image) or it can ignore such documents except when asked to open one, then it wont load any other images (like a document viewer).")
+//            imageSource: "qrc:/img/settings/imageformats/poppler.jpg"
 
-        spacing: 20
+    content: [
 
-        EntryTitle {
-
-            id: titletext
-            title: "poppler: Adobe PDF"
-            helptext: em.pty+qsTranslate("SettingsManager/ImageFormats", "PhotoQt can take advantage of poppler to load PDF documents. It can either load them together with the rest of the images (each page as one image) or it can ignore such documents except when asked to open one, then it wont load any other images (like a document viewer).")
-            imageSource: "qrc:/img/settings/imageformats/poppler.jpg"
-            fontcolor: enabled ? colour.text : colour.text_disabled
-
-        }
-
-        EntrySetting {
-
-            Row {
-
-                id: entryrow
-
-                spacing: 10
-
-                CustomCheckBox {
-                    id: popplerEnding
-                    text: "File ending: *.pdf, *.epdf"
-                }
-                CustomCheckBox {
-                    id: popplerMime
-                    text: "Mime type: application/pdf"
-                }
-                Item { height: 2; width: 5 }
-                CustomCheckBox {
-                    id: singledocument
-                    text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Document viewer mode")
-                    tooltip: em.pty+qsTranslate("SettingsManager/ImageFormats", "When loading a PDF, only that PDF is loaded, nothing else in the folder")
-                }
-                Item { height: 2; width: 5 }
-                SettingsText {
-                    id: qualitytextleft
-                    text: "Low quality"
-                }
-                CustomSlider {
-                    id: qualityslider
-                    y: (qualitytextleft.height-height)/2
-                    minimumValue: 75
-                    maximumValue: 300
-                    value: 150
-                    stepSize: 5
-                    scrollStep: 5
-                    tooltip: value+"dpi"
-                }
-                SettingsText {
-                    id: qualitytextright
-                    text: "High quality"
-                }
-
+        CustomCheckBox {
+            id: popplerEnding
+            text: "File ending: *.pdf, *.epdf"
+        },
+        CustomCheckBox {
+            id: popplerMime
+            text: "Mime type: application/pdf"
+        },
+        Item { height: 2; width: 5 },
+        CustomCheckBox {
+            id: singledocument
+            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Document viewer mode")
+            tooltip: em.pty+qsTranslate("SettingsManager/ImageFormats", "When loading a PDF, only that PDF is loaded, nothing else in the folder")
+        },
+        Item { height: 2; width: 5 },
+        Row {
+            spacing: 10
+            SettingsText {
+                id: qualitytextleft
+                text: "Low quality"
             }
-
+            CustomSlider {
+                id: qualityslider
+                y: (qualitytextleft.height-height)/2
+                minimumValue: 75
+                maximumValue: 300
+                value: 150
+                stepSize: 5
+                scrollStep: 5
+                tooltip: value+"dpi"
+            }
+            SettingsText {
+                id: qualitytextright
+                text: "High quality"
+            }
         }
 
-    }
+    ]
 
     function setData() {
         popplerEnding.checkedButton = (imageformats.enabledFileformatsPoppler.indexOf("*.pdf") != -1)

@@ -22,6 +22,7 @@
 
 import QtQuick 2.5
 import QtQuick.Controls 1.4
+import PContextMenu 1.0
 
 import "./tabs"
 import "../elements"
@@ -250,28 +251,29 @@ Rectangle {
 
         color: "#00000000"
 
-        // Button to restore default settings - bottom left
         CustomButton {
-
-            id: restoredefault
-
+            id: managebut
             x: 5
             y: 5
             height: parent.height-10
-
-            text: em.pty+qsTr("Restore Default Settings")
-
-            onClickedButton: confirmdefaultssettings.show()
-
+            //: This is used as in 'Manage the settings', used on button referring to the action of restoring default settings and export/import of settings
+            text: em.pty+qsTr("Manage")
+            onClickedButton:
+                managebutmenu.popup(Qt.point(managebut.x+variables.windowXY.x, mainwindow.height-managebut.height-managebutmenu.height()+variables.windowXY.y))
         }
 
-        CustomButton {
-            id: exportimportbutton
-            text: "Export/Import"
-            x: restoredefault.x+restoredefault.width+10
-            y: 5
-            onClickedButton: {
-                exportimport.show()
+        PContextMenu {
+            id: managebutmenu
+            Component.onCompleted: {
+                managebutmenu.addItem(em.pty+qsTr("Restore Default Settings"))
+                //: Export/Import refers to doing this with all the settings and configurations
+                managebutmenu.addItem(em.pty+qsTr("Export/Import"))
+            }
+            onSelectedIndexChanged: {
+                if(index == 0)
+                    confirmdefaultssettings.show()
+                else
+                    exportimport.show()
             }
         }
 

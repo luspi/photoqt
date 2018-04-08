@@ -27,43 +27,23 @@ import QtQuick.Layouts 1.2
 import "../../../elements"
 import "../../"
 
-EntryContainer {
+Entry {
 
-    id: item_top
+    title: "xcftools: XCF (Gimp)"
+    helptext: em.pty+qsTranslate("SettingsManager/ImageFormats", "PhotoQt can take advantage of xcftools to display Gimp's XCF file format. It can only be enabled if xcftools is installed!")
+//    imageSource: "qrc:/img/settings/imageformats/empty.png"
 
-    Row {
-
-        spacing: 20
-
-        EntryTitle {
-
-            id: titletext
-            title: "xcftools: XCF (Gimp)"
-            helptext: em.pty+qsTranslate("SettingsManager/ImageFormats", "PhotoQt can take advantage of xcftools to display Gimp's XCF file format. It can only be enabled if xcftools is installed!")
-            imageSource: "qrc:/img/settings/imageformats/empty.png"
-
+    content: [
+        CustomCheckBox {
+            id: xcftoolsEnding
+            text: qsTranslate("SettingsManager/ImageFormats", "File endings:") + " *.xcf"
+        },
+        CustomCheckBox {
+            id: xcftoolsMime
+            text: qsTranslate("SettingsManager/ImageFormats", "Mime types:") + " image/x-xcf"
         }
 
-        EntrySetting {
-
-            Row {
-
-                spacing: 10
-
-                CustomCheckBox {
-                    id: xcftoolsEnding
-                    text: qsTranslate("SettingsManager/ImageFormats", "File endings:") + " *.xcf"
-                }
-                CustomCheckBox {
-                    id: xcftoolsMime
-                    text: qsTranslate("SettingsManager/ImageFormats", "Mime types:") + " image/x-xcf"
-                }
-
-            }
-
-        }
-
-    }
+    ]
 
     function setData() {
         xcftoolsEnding.checkedButton = (imageformats.enabledFileformatsXCFTools.indexOf("*.xcf") != -1)

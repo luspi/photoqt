@@ -25,28 +25,28 @@ SET(d "qml/elements")
 SET(photoqt_QML ${photoqt_QML} ${d}/CustomButton.qml ${d}/CustomCheckBox.qml ${d}/CustomComboBox.qml ${d}/CustomConfirm.qml ${d}/CustomFileSelect.qml ${d}/CustomLineEdit.qml ${d}/CustomProgressBar.qml ${d}/CustomRadioButton.qml ${d}/CustomSlider.qml ${d}/CustomSpinBox.qml ${d}/CustomTabView.qml ${d}/CustomTextEdit.qml ${d}/ScrollBarHorizontal.qml ${d}/ScrollBarVertical.qml ${d}/SettingsText.qml ${d}/ShortcutNotifier.qml ${d}/ToolTip.qml ${d}/FadeInTemplate.qml)
 
 SET(d "qml/settingsmanager")
-SET(photoqt_QML ${photoqt_QML} ${d}/DetectShortcut.qml ${d}/EntryContainer.qml ${d}/EntrySetting.qml ${d}/EntryTitle.qml ${d}/ExportImport.qml ${d}/SettingInfoOverlay.qml ${d}/SettingsManager.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/DetectShortcut.qml ${d}/Entry.qml ${d}/ExportImport.qml ${d}/SettingInfoOverlay.qml ${d}/SettingsManager.qml)
 
 SET(d "qml/settingsmanager/tabs")
 SET(photoqt_QML ${photoqt_QML} ${d}/TabLookAndFeel.qml ${d}/TabMetadata.qml ${d}/TabOther.qml ${d}/TabShortcuts.qml ${d}/TabThumbnails.qml ${d}/TabImageFormats.qml)
 
-SET(d "qml/settingsmanager/tabs/imageformats")
-SET(photoqt_QML ${photoqt_QML} ${d}/PopupImageFormats.qml ${d}/PopupMimeTypes.qml ${d}/ImageFormatsTile.qml ${d}/ImageFormatsQt.qml ${d}/ImageFormatsXCFTools.qml ${d}/ImageFormatsPoppler.qml ${d}/ImageFormatsGm.qml ${d}/ImageFormatsGmGhostscript.qml ${d}/ImageFormatsRAW.qml ${d}/ImageFormatsDevil.qml ${d}/ImageFormatsFreeImage.qml ${d}/ImageFormatsArchive.qml)
-
 SET(d "qml/settingsmanager/tabs/lookandfeel")
-SET(photoqt_QML ${photoqt_QML} ${d}/Animation.qml ${d}/Background.qml ${d}/BorderAroundImage.qml ${d}/CloseOnClick.qml ${d}/ClosingX.qml ${d}/FitInWindow.qml ${d}/HotEdge.qml ${d}/Interpolation.qml ${d}/Keep.qml ${d}/Loop.qml ${d}/MouseWheelSensitivity.qml ${d}/OverlayColor.qml ${d}/PixmapCache.qml ${d}/Quickinfo.qml ${d}/ReOpenFile.qml ${d}/SortBy.qml ${d}/Transition.qml ${d}/TrayIcon.qml ${d}/WindowMode.qml ${d}/TransparencyMarker.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/SortBy.qml ${d}/WindowMode.qml ${d}/TrayIcon.qml ${d}/ClosingX.qml ${d}/FitInWindow.qml ${d}/Quickinfo.qml ${d}/Background.qml ${d}/OverlayColor.qml ${d}/BorderAroundImage.qml ${d}/CloseOnClick.qml ${d}/Loop.qml ${d}/Transition.qml ${d}/TransparencyMarker.qml ${d}/HotEdge.qml ${d}/MouseWheelSensitivity.qml ${d}/Interpolation.qml ${d}/PixmapCache.qml ${d}/ReOpenFile.qml ${d}/Keep.qml ${d}/Animation.qml)
+
+SET(d "qml/settingsmanager/tabs/thumbnails")
+SET(photoqt_QML ${photoqt_QML} ${d}/ThumbnailSize.qml ${d}/Spacing.qml ${d}/LiftUp.qml ${d}/KeepVisible.qml ${d}/CenterOn.qml ${d}/TopOrBottom.qml ${d}/Label.qml ${d}/FilenameOnly.qml ${d}/Disable.qml ${d}/Cache.qml)
 
 SET(d "qml/settingsmanager/tabs/metadata")
-SET(photoqt_QML ${photoqt_QML} ${d}/FontSize.qml ${d}/MetaData.qml ${d}/MetaDataTile.qml ${d}/MouseTrigger.qml ${d}/OnlineMap.qml ${d}/Opacity.qml ${d}/RotateFlip.qml ${d}/PeopleTags.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/MouseTrigger.qml ${d}/MetaData.qml ${d}/MetaDataTile.qml ${d}/FontSize.qml ${d}/Opacity.qml ${d}/RotateFlip.qml ${d}/OnlineMap.qml ${d}/PeopleTags.qml)
+
+SET(d "qml/settingsmanager/tabs/imageformats")
+SET(photoqt_QML ${photoqt_QML} ${d}/PopupImageFormats.qml ${d}/PopupMimeTypes.qml ${d}/ImageFormatsTile.qml ${d}/ImageFormatsQt.qml ${d}/ImageFormatsPoppler.qml ${d}/ImageFormatsXCFTools.qml ${d}/ImageFormatsArchive.qml ${d}/ImageFormatsRAW.qml ${d}/ImageFormatsGm.qml ${d}/ImageFormatsGmGhostscript.qml ${d}/ImageFormatsDevil.qml ${d}/ImageFormatsFreeImage.qml)
 
 SET(d "qml/settingsmanager/tabs/other")
-SET(photoqt_QML ${photoqt_QML} ${d}/CustomEntries.qml ${d}/Imgur.qml ${d}/Language.qml ${d}/LanguageTile.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/Language.qml ${d}/LanguageTile.qml ${d}/CustomEntries.qml ${d}/Imgur.qml)
 
 SET(d "qml/settingsmanager/tabs/shortcuts")
 SET(photoqt_QML ${photoqt_QML} ${d}/Available.qml ${d}/Set.qml ${d}/ShortcutsContainer.qml)
-
-SET(d "qml/settingsmanager/tabs/thumbnails")
-SET(photoqt_QML ${photoqt_QML} ${d}/Cache.qml ${d}/CenterOn.qml ${d}/Disable.qml ${d}/FilenameOnly.qml ${d}/KeepVisible.qml ${d}/Label.qml ${d}/LiftUp.qml ${d}/Spacing.qml ${d}/ThumbnailSize.qml ${d}/TopOrBottom.qml)
 
 SET(d "qml/slideshow")
 SET(photoqt_QML ${photoqt_QML} ${d}/SlideshowBar.qml ${d}/SlideshowSettings.qml)

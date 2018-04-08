@@ -77,7 +77,7 @@ Rectangle {
         cursorShape: Qt.PointingHandCursor
         onEntered: hovered = true
         onExited: hovered = false
-        onClicked: checked = !checked
+        onClicked: checked = true
     }
 
 }

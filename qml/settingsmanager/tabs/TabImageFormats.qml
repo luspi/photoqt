@@ -27,13 +27,11 @@ import "./imageformats"
 import "../../elements"
 
 
-Rectangle {
+Item {
 
     id: tab_top
 
     property int titlewidth: 100
-
-    color: "#00000000"
 
     anchors {
         fill: parent
@@ -55,7 +53,7 @@ Rectangle {
 
             id: maincol
 
-            Rectangle { color: "transparent"; width: 1; height: 10; }
+            Item { width: 1; height: 10 }
 
             Text {
                 width: flickable.width
@@ -66,7 +64,7 @@ Rectangle {
                 horizontalAlignment: Text.AlignHCenter
             }
 
-            Rectangle { color: "transparent"; width: 1; height: 20; }
+            Item { width: 1; height: 20 }
 
             Text {
                 width: flickable.width
@@ -76,7 +74,7 @@ Rectangle {
                 horizontalAlignment: Text.AlignHCenter
             }
 
-            Rectangle { color: "transparent"; width: 1; height: 20; }
+            Item { width: 1; height: 20 }
 
             Text {
                 color: "white"
@@ -87,28 +85,20 @@ Rectangle {
                 text: em.pty+qsTranslate("SettingsManager/ImageFormats", "PhotoQt can make use of a variety of image libraries. Which ones exactly are available depends on your system and your installation of PhotoQt. Some formats can be loaded by more than just one of the libraries. For each image PhotoQt will check each library in the same order as they are shown here and will use the first one for which the image type is enabled. There are two ways PhotoQt can find the right image library to be used: Either by the file ending, or by the mime type of the file itself (if one is available). So in order to disable a format from a library, make sure that neither the respective file ending nor the mime type is enabled.")
             }
 
-            Rectangle { color: "transparent"; width: 1; height: 30; }
+            Item { width: 1; height: 30 }
 
-            Rectangle { color: "#88ffffff"; width: parent.width; height: 1; }
+            Rectangle { color: "#88ffffff"; width: tab_top.width; height: 1; }
 
-            Rectangle { color: "transparent"; width: 1; height: 20; }
+            Item { width: 1; height: 20 }
 
             ImageFormatsQt { id: imageformatsqt }
-            Rectangle { visible: imageformatsqt.visible; color: "#88444444"; width: parent.width; height: 2 }
             ImageFormatsPoppler { id: imageformatspoppler }
-            Rectangle { visible: imageformatsxcftools.visible; color: "#88444444"; width: parent.width; height: 2 }
             ImageFormatsXCFTools { id: imageformatsxcftools }
-            Rectangle { visible: imageformatsraw.visible; color: "#88444444"; width: parent.width; height: 2 }
             ImageFormatsArchive { id: imageformatsarchive }
-            Rectangle { visible: imageformatspoppler.visible; color: "#88444444"; width: parent.width; height: 2 }
             ImageFormatsRAW { id: imageformatsraw }
-            Rectangle { visible: imageformatsraw.visible; color: "#88444444"; width: parent.width; height: 2 }
             ImageFormatsGm { id: imageformatsgm }
-            Rectangle { visible: imageformatsgm.visible; color: "#88444444"; width: parent.width; height: 2 }
             ImageFormatsGmGhostscript { id: imageformatsgmghostscript }
-            Rectangle { visible: imageformatsgmghostscript.visible; color: "#88444444"; width: parent.width; height: 2 }
             ImageFormatsDevil { id: imageformatsdevil }
-            Rectangle { visible: imageformatsdevil.visible; color: "#88444444"; width: parent.width; height: 2 }
             ImageFormatsFreeImage { id: imageformatsfreeimage }
 
         }
