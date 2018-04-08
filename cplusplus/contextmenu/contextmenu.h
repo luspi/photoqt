@@ -58,6 +58,8 @@ public:
     Q_INVOKABLE void popup(QPoint pos = QPoint(0,0));
     Q_INVOKABLE void clear();
 
+    Q_INVOKABLE int height();
+
 
 private:
     // The menu

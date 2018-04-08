@@ -154,3 +154,7 @@ void ContextMenu::setEnabled(int index, bool enabled) {
 void ContextMenu::triggered(QAction *ac) {
     emit selectedIndexChanged(allActions.indexOf(ac));
 }
+
+int ContextMenu::height() {
+    return menu->sizeHint().height();
+}
