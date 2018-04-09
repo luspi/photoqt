@@ -105,13 +105,13 @@ namespace PLoadImage {
                 if(filenameinside == compressedFilename) {
 
                     // Find out the size of the data
-                    la_int64_t size = archive_entry_size(entry);
+                    int64_t size = archive_entry_size(entry);
 
                     // Create a uchar buffer of that size to hold the image data
                     uchar buff[size];
 
                     // And finally read the file into the buffer
-                    la_ssize_t r = archive_read_data(a, (void*)buff, size);
+                    ssize_t r = archive_read_data(a, (void*)buff, size);
                     if(r != size) {
                         std::stringstream ss;
                         ss << "LoadImage::Archive::load(): ERROR: Failed to read image data, read size (" << r << ") doesn't match expected size (" << size << ")...";
