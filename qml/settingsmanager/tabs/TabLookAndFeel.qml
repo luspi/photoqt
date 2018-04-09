@@ -99,6 +99,7 @@ Item {
             PixmapCache { id: pixmapcache }
             ReOpenFile { id: reopenfile }
             Keep { id: remember }
+            QuickInfoManageWindow { id: managewindow }
             Animation { id: animation }
         }
 
@@ -127,6 +128,7 @@ Item {
         pixmapcache.setData()
         reopenfile.setData()
         remember.setData()
+        managewindow.setData()
         animation.setData()
 
     }
@@ -154,6 +156,7 @@ Item {
         pixmapcache.saveData()
         reopenfile.saveData()
         remember.saveData()
+        managewindow.saveData()
         animation.saveData()
 
     }

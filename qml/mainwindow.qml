@@ -64,6 +64,10 @@ Rectangle {
 
     signal windowModeChanged(bool windowmode, bool windowdeco, bool keepontop)
 
+    signal moveWindowByX(int dx)
+    signal moveWindowByY(int dy)
+    signal toggleWindowMaximise()
+
     anchors.fill: parent
 
     // Transparent background, the Background element handles the actual background
@@ -378,6 +382,20 @@ Rectangle {
         else {
             hideEverythingAfterExit.stop()
         }
+    }
+
+    function emitMoveWindowByX(dx) {
+        moveWindowByX(dx)
+    }
+    function emitMoveWindowByY(dy) {
+        moveWindowByY(dy)
+    }
+    function emitToggleWindowMaximise() {
+        toggleWindowMaximise()
+    }
+
+    function setWhetherWindowFullscreen(fullscreen) {
+        variables.isWindowFullscreen = fullscreen
     }
 
     Timer {

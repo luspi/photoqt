@@ -119,6 +119,7 @@ private:
     bool    m_quickInfoHideZoomLevel;
     bool    m_quickInfoFullX;
     int     m_quickInfoCloseXSize;
+    bool    m_quickInfoManageWindow;
 
     int     m_slideShowTime;
     int     m_slideShowImageTransition;
@@ -672,6 +673,16 @@ public:
     void setQuickInfoCloseXSize(int val) { if(val != m_quickInfoCloseXSize) { m_quickInfoCloseXSize = val;
                                                                               emit quickInfoCloseXSizeChanged(val);
                                                                               saveSettingsTimer->start(); } }
+
+    // quickInfoManageWindow
+    Q_PROPERTY(bool   quickInfoManageWindow
+               READ   getQuickInfoManageWindow
+               WRITE  setQuickInfoManageWindow
+               NOTIFY quickInfoManageWindowChanged)
+    bool getQuickInfoManageWindow() { return m_quickInfoManageWindow; }
+    void setQuickInfoManageWindow(bool val) { if(val != m_quickInfoManageWindow) { m_quickInfoManageWindow = val;
+                                                                                   emit quickInfoManageWindowChanged(val);
+                                                                                   saveSettingsTimer->start(); } }
 
     // slideShowTime
     Q_PROPERTY(int    slideShowTime
@@ -1484,6 +1495,7 @@ signals:
     void quickInfoHideZoomLevelChanged(bool val);
     void quickInfoFullXChanged(bool val);
     void quickInfoCloseXSizeChanged(int val);
+    void quickInfoManageWindowChanged(bool val);
 
     void slideShowTimeChanged(int val);
     void slideShowMusicFileChanged(QString);

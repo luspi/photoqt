@@ -138,6 +138,11 @@ void Settings::setDefault() {
     setQuickInfoHideZoomLevel(false);
     setQuickInfoFullX(true);
     setQuickInfoCloseXSize(10);
+#ifdef Q_OS_WIN
+    setQuickInfoManageWindow(true);
+#else
+    setQuickInfoManageWindow(false);
+#endif
 
     setThumbnailSize(80);
     setThumbnailPosition("Bottom");
@@ -303,6 +308,7 @@ void Settings::saveSettings() {
         cont += QString("QuickInfoHideZoomLevel=%1\n").arg(int(m_quickInfoHideZoomLevel));
         cont += QString("QuickInfoFullX=%1\n").arg(int(m_quickInfoFullX));
         cont += QString("QuickInfoCloseXSize=%1\n").arg(m_quickInfoCloseXSize);
+        cont += QString("QuickInfoManageWindow=%1\n").arg(int(m_quickInfoManageWindow));
 
         cont += "\n[Thumbnail]\n";
 
@@ -567,6 +573,9 @@ void Settings::readSettings() {
 
             else if(line.startsWith("QuickInfoFullX="))
                 setQuickInfoFullX(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("QuickInfoManageWindow="))
+                setQuickInfoManageWindow(line.split("=").at(1).toInt());
 
 
             else if(line.startsWith("ThumbnailSize="))

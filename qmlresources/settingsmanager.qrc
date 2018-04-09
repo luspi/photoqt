@@ -25,6 +25,7 @@
         <file>../qml/settingsmanager/tabs/lookandfeel/ReOpenFile.qml</file>
         <file>../qml/settingsmanager/tabs/lookandfeel/Keep.qml</file>
         <file>../qml/settingsmanager/tabs/lookandfeel/Animation.qml</file>
+        <file>../qml/settingsmanager/tabs/lookandfeel/QuickInfoManageWindow.qml</file>
         <file>../qml/settingsmanager/tabs/TabThumbnails.qml</file>
         <file>../qml/settingsmanager/tabs/thumbnails/ThumbnailSize.qml</file>
         <file>../qml/settingsmanager/tabs/thumbnails/Spacing.qml</file>

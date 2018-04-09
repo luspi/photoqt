@@ -40,6 +40,9 @@ MainHandler::MainHandler(QWindow *parent) : QQuickView(parent) {
     // Ensures we only once call setOverrideCursor in order to be able to properly restore it
     overrideCursorSet = false;
 
+    defaultNotMaximizedSizeOfWindow = QSize(qMin(qApp->desktop()->availableGeometry().width(), 1024),
+                                            qMin(qApp->desktop()->availableGeometry().height(), 768));
+
     // Perform some startup checks/tasks
     update = performSomeStartupChecks();
 
@@ -113,6 +116,9 @@ void MainHandler::setObjectAndConnect() {
     connect(object, SIGNAL(quitPhotoQt()), this, SLOT(forceWindowQuit()));
     connect(object, SIGNAL(trayIconValueChanged(int)), this, SLOT(handleTrayIcon(int)));
     connect(object, SIGNAL(windowModeChanged(bool, bool, bool)), this, SLOT(handleWindowModeChanged(bool, bool, bool)));
+    connect(object, SIGNAL(moveWindowByX(int)), this, SLOT(moveWindowByX(int)));
+    connect(object, SIGNAL(moveWindowByY(int)), this, SLOT(moveWindowByY(int)));
+    connect(object, SIGNAL(toggleWindowMaximise()), this, SLOT(toggleWindowMaximise()));
 
 }
 
@@ -134,6 +140,7 @@ void MainHandler::registerQmlTypes() {
     qmlRegisterType<ImageFormats>("PImageFormats", 1, 0, "PImageFormats");
     qmlRegisterType<MimeTypes>("PMimeTypes", 1, 0, "PMimeTypes");
     qmlRegisterType<ManagePeopleTags>("PManagePeopleTags", 1, 0, "PManagePeopleTags");
+    qmlRegisterType<Integer64>("PInteger64", 1, 0, "PInteger64");
 }
 
 // Add image providers to QML
@@ -162,6 +169,8 @@ void MainHandler::qmlVerboseMessage(QString loc, QString msg) {
 void MainHandler::setupWindowProperties(bool dontCallShow) {
 
     this->setMinimumSize(QSize(640,480));
+    this->setWidth(defaultNotMaximizedSizeOfWindow.width());
+    this->setHeight(defaultNotMaximizedSizeOfWindow.height());
     this->setTitle("PhotoQt " + tr("Image Viewer"));
 
     bool debug = (qgetenv("PHOTOQT_DEBUG") == "yes");
@@ -248,6 +257,8 @@ void MainHandler::setupWindowProperties(bool dontCallShow) {
             this->showFullScreen();
 
     }
+
+    QMetaObject::invokeMethod(object, "setWhetherWindowFullscreen", Q_ARG(QVariant, this->windowState()==Qt::WindowFullScreen));
 
 }
 
@@ -470,4 +481,34 @@ void MainHandler::aboutToQuit() {
         LOG << CURDATE;
     LOG << "Goodbye!" << NL;
 
+}
+
+void MainHandler::moveWindowByX(int dx) {
+    if(this->windowState() == Qt::WindowFullScreen)
+        return;
+    if(this->windowState() == Qt::WindowMaximized) {
+        this->setWindowState(Qt::WindowNoState);
+        this->setWidth(defaultNotMaximizedSizeOfWindow.width());
+        this->setHeight(defaultNotMaximizedSizeOfWindow.height());
+    }
+    this->setX(this->x()+dx);
+}
+void MainHandler::moveWindowByY(int dy) {
+    if(this->windowState() == Qt::WindowFullScreen)
+        return;
+    if(this->windowState() == Qt::WindowMaximized) {
+        this->setWindowState(Qt::WindowNoState);
+        this->setWidth(defaultNotMaximizedSizeOfWindow.width());
+        this->setHeight(defaultNotMaximizedSizeOfWindow.height());
+    }
+    this->setY(this->y()+dy);
+}
+
+void MainHandler::toggleWindowMaximise() {
+    if(this->windowState() == Qt::WindowFullScreen)
+        return;
+    if(this->windowState() == Qt::WindowMaximized)
+        this->setWindowState(Qt::WindowNoState);
+    else
+        this->setWindowState(Qt::WindowMaximized);
 }

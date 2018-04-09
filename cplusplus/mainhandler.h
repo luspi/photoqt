@@ -50,6 +50,7 @@
 #include "settings/imageformats.h"
 #include "settings/mimetypes.h"
 #include "scripts/managepeopletags.h"
+#include "scripts/integer64.h"
 
 #include "imageprovider/imageproviderempty.h"
 #include "imageprovider/imageproviderfull.h"
@@ -89,6 +90,8 @@ private:
     bool overrideCursorSet;
     int update;
 
+    QSize defaultNotMaximizedSizeOfWindow;
+
     void setupWindowProperties(bool dontCallShow = false);
 
 private slots:
@@ -100,6 +103,9 @@ private slots:
     void aboutToQuit();
     void windowXYchanged(int);
     void handleWindowModeChanged(bool windowmode, bool windowdeco, bool keepontop);
+    void moveWindowByX(int dx);
+    void moveWindowByY(int dy);
+    void toggleWindowMaximise();
 
 protected:
     bool event(QEvent *e);

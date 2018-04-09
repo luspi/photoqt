@@ -54,6 +54,8 @@ Item {
     // The x/y of the root window (set by c++ code)
     property point windowXY: Qt.point(-1,-1)
 
+    property bool isWindowFullscreen: false
+
 
     // INFO ABOUT CUR DIR/FILE
 

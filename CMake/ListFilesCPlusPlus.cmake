@@ -17,7 +17,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/colour.cpp ${d}/mimetypes.cpp ${d}/i
 
 SET(d "cplusplus/scripts")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/getanddostuff.h ${d}/getmetadata.cpp ${d}/managepeopletags.cpp ${d}/runprocess.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/thumbnailsmanagement.cpp ${d}/filedialog.h ${d}/watcher.h ${d}/sortlist.h ${d}/localisation.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/thumbnailsmanagement.cpp ${d}/filedialog.h ${d}/watcher.h ${d}/sortlist.h ${d}/localisation.h ${d}/integer64.h)
 
 SET(d "cplusplus/scripts/getanddostuff")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/context.cpp ${d}/external.cpp ${d}/file.cpp ${d}/manipulation.cpp ${d}/openfile.cpp ${d}/other.cpp ${d}/wallpaper.cpp ${d}/listfiles.cpp)
