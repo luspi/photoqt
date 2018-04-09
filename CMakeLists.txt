@@ -58,7 +58,6 @@ option(GM "Use graphicsmagick library" ON)
 option(DEVIL "Use DevIL library" ON)
 option(FREEIMAGE "Use FreeImage library" ON)
 option(POPPLER "Use Poppler library" ON)
-option(QUAZIP "Use QuaZIP library" ON)
 option(QTONLY "ONLY USE QT-ONLY FEATURES" OFF)
 option(TESTING "Enable some tests" OFF)
 
