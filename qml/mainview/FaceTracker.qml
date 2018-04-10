@@ -55,7 +55,7 @@ Item {
 
             // The border around the face
             Rectangle {
-                visible: settings.peopleTagInMetaBorderAroundFace
+                visible: settings.peopleTagInMetaBorderAroundFace||variables.taggingFaces
                 anchors.fill: parent
                 color: (mouseInsideThisLabel&&variables.taggingFaces ? "#bb000000" : "transparent")
                 border.width: settings.peopleTagInMetaBorderAroundFaceWidth/imageContainer.scale
