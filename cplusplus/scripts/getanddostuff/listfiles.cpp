@@ -224,7 +224,8 @@ void GetAndDoStuffListFiles::loadAllArchiveFiles(QFileInfo l, QVariantList *list
     which.start("which unrar");
     which.waitForFinished();
 
-    if(!which.exitCode() && archiveUseExternalUnrar) {
+    if(!which.exitCode() && archiveUseExternalUnrar &&
+       (l.suffix() == "cbr" || l.suffix() == "rar" || mimedb.mimeTypeForFile(l.absoluteFilePath()).name() == "application/vnd.rar")) {
 
         QProcess p;
         p.start(QString("unrar lb \"%1\"").arg(l.absoluteFilePath()));
