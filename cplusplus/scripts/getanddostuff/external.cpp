@@ -186,7 +186,7 @@ QString GetAndDoStuffExternal::importConfig(QString filename) {
             size_t size = archive_entry_size(entry);
 
             // Create a uchar buffer of that size to hold the data
-            uchar buff[size+1];
+            uchar *buff = new uchar[size+1];
 
             // And finally read the file into the buffer
             int r = archive_read_data(a, (void*)buff, size);
@@ -200,6 +200,8 @@ QString GetAndDoStuffExternal::importConfig(QString filename) {
 
             // try to extract file into destination file, return empty string on error
             QByteArray dat = reinterpret_cast<char*>(&buff);
+
+            delete[] buff;
 
             // The output file...
             QFile file(allfiles[filenameinside]);

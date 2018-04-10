@@ -353,10 +353,10 @@ void MimeTypes::composeEnabledMimeTypes(bool withSaving) {
         if(line.trimmed() == "") continue;
 
         if(line.startsWith("[")) {
-            for(int i = 0; i < categories.length(); ++i) {
-                if(line.trimmed() == QString("[%1]").arg(categories.at(i))) {
-                    cat = categories.at(i);
-                    i = categories.length();
+            foreach(QString c, categories) {
+                if(line.trimmed() == QString("[%1]").arg(c)) {
+                    cat = c;
+                    break;
                 }
             }
         } else {

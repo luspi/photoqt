@@ -108,7 +108,7 @@ namespace PLoadImage {
                     int64_t size = archive_entry_size(entry);
 
                     // Create a uchar buffer of that size to hold the image data
-                    uchar buff[size];
+                    uchar *buff = new uchar[size];
 
                     // And finally read the file into the buffer
                     ssize_t r = archive_read_data(a, (void*)buff, size);
@@ -121,6 +121,8 @@ namespace PLoadImage {
 
                     // and finish off by turning it into an image
                     ret = QImage::fromData(buff, size);
+
+                    delete[] buff;
 
                     // Nothing more to do except some cleaning up below
                     break;
