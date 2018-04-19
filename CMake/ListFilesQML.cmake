@@ -31,7 +31,7 @@ SET(d "qml/settingsmanager/tabs")
 SET(photoqt_QML ${photoqt_QML} ${d}/TabLookAndFeel.qml ${d}/TabMetadata.qml ${d}/TabOther.qml ${d}/TabShortcuts.qml ${d}/TabThumbnails.qml ${d}/TabImageFormats.qml)
 
 SET(d "qml/settingsmanager/tabs/lookandfeel")
-SET(photoqt_QML ${photoqt_QML} ${d}/SortBy.qml ${d}/WindowMode.qml ${d}/TrayIcon.qml ${d}/ClosingX.qml ${d}/FitInWindow.qml ${d}/Quickinfo.qml ${d}/Background.qml ${d}/OverlayColor.qml ${d}/BorderAroundImage.qml ${d}/CloseOnClick.qml ${d}/Loop.qml ${d}/Transition.qml ${d}/TransparencyMarker.qml ${d}/HotEdge.qml ${d}/MouseWheelSensitivity.qml ${d}/Interpolation.qml ${d}/PixmapCache.qml ${d}/ReOpenFile.qml ${d}/Keep.qml ${d}/Animation.qml ${d}/QuickInfoManageWindow.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/SortBy.qml ${d}/WindowMode.qml ${d}/TrayIcon.qml ${d}/ClosingX.qml ${d}/FitInWindow.qml ${d}/Quickinfo.qml ${d}/Background.qml ${d}/OverlayColor.qml ${d}/BorderAroundImage.qml ${d}/CloseOnClick.qml ${d}/Loop.qml ${d}/Transition.qml ${d}/TransparencyMarker.qml ${d}/HotEdge.qml ${d}/MouseWheelSensitivity.qml ${d}/Interpolation.qml ${d}/PixmapCache.qml ${d}/ReOpenFile.qml ${d}/Keep.qml ${d}/Animation.qml ${d}/QuickInfoManageWindow.qml ${d}/ZoomSpeed.qml)
 
 SET(d "qml/settingsmanager/tabs/thumbnails")
 SET(photoqt_QML ${photoqt_QML} ${d}/ThumbnailSize.qml ${d}/Spacing.qml ${d}/LiftUp.qml ${d}/KeepVisible.qml ${d}/CenterOn.qml ${d}/TopOrBottom.qml ${d}/Label.qml ${d}/FilenameOnly.qml ${d}/Disable.qml ${d}/Cache.qml)

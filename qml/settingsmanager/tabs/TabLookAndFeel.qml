@@ -95,6 +95,7 @@ Item {
             TransparencyMarker { id: transparency }
             HotEdge { id: hotedge }
             MouseWheelSensitivity { id: mousewheel }
+            ZoomSpeed { id: zoomspeed }
             Interpolation { id: interpolation }
             PixmapCache { id: pixmapcache }
             ReOpenFile { id: reopenfile }
@@ -124,6 +125,7 @@ Item {
         transparency.setData()
         hotedge.setData()
         mousewheel.setData()
+        zoomspeed.setData()
         interpolation.setData()
         pixmapcache.setData()
         reopenfile.setData()
@@ -152,6 +154,7 @@ Item {
         transparency.saveData()
         hotedge.saveData()
         mousewheel.saveData()
+        zoomspeed.saveData()
         interpolation.saveData()
         pixmapcache.saveData()
         reopenfile.saveData()

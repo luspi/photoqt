@@ -122,6 +122,7 @@ void Settings::setDefault() {
     setPdfSingleDocument(true);
     setPdfQuality(150);
     setArchiveSingleFile(true);
+    setZoomSpeed(20);
 
 #ifdef Q_OS_LINUX
     // We assume here that it is available (checking would be rather slow)
@@ -294,6 +295,7 @@ void Settings::saveSettings() {
         cont += QString("PixmapCache=%1\n").arg(m_pixmapCache);
         cont += QString("ShowTransparencyMarkerBackground=%1\n").arg(int(m_showTransparencyMarkerBackground));
         cont += QString("LeftButtonMouseClickAndMove=%1\n").arg(int(m_leftButtonMouseClickAndMove));
+        cont += QString("ZoomSpeed=%1\n").arg(m_zoomSpeed);
         cont += QString("PdfSingleDocument=%1\n").arg(int(m_pdfSingleDocument));
         cont += QString("PdfQuality=%1\n").arg(m_pdfQuality);
         cont += QString("ArchiveSingleFile=%1\n").arg(int(m_archiveSingleFile));
@@ -551,6 +553,9 @@ void Settings::readSettings() {
 
             else if(line.startsWith("ArchiveUseExternalUnrar="))
                 setArchiveUseExternalUnrar(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("ZoomSpeed="))
+                setZoomSpeed(line.split("=").at(1).toInt());
 
 
             else if(line.startsWith("QuickInfoHideCounter="))

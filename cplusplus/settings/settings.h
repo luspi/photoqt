@@ -106,6 +106,7 @@ private:
     int     m_pixmapCache;
     bool    m_showTransparencyMarkerBackground;
     bool    m_leftButtonMouseClickAndMove;
+    int     m_zoomSpeed;
 
     bool    m_pdfSingleDocument;
     int     m_pdfQuality;
@@ -563,6 +564,16 @@ public:
     void setLeftButtonMouseClickAndMove(bool val) { if(val != m_leftButtonMouseClickAndMove) { m_leftButtonMouseClickAndMove = val;
                                                                                                emit leftButtonMouseClickAndMoveChanged(val);
                                                                                                saveSettingsTimer->start(); } }
+
+    // zoomSpeed
+    Q_PROPERTY(int    zoomSpeed
+               READ   getZoomSpeed
+               WRITE  setZoomSpeed
+               NOTIFY zoomSpeedChanged)
+    int  getZoomSpeed() { return m_zoomSpeed; }
+    void setZoomSpeed(int val) { if(val != m_zoomSpeed) { m_zoomSpeed = val;
+                                                          emit zoomSpeedChanged(val);
+                                                          saveSettingsTimer->start(); } }
 
     // pdfSingleDocument
     Q_PROPERTY(bool   pdfSingleDocument
@@ -1487,6 +1498,7 @@ signals:
     void pdfQualityChanged(int val);
     void archiveSingleFileChanged(int val);
     void archiveUseExternalUnrarChanged(bool val);
+    void zoomSpeedChanged(int val);
 
     void quickInfoHideCounterChanged(bool val);
     void quickInfoHideFilepathChanged(bool val);
