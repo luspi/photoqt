@@ -33,9 +33,6 @@ QVariantList ManagePeopleTags::getFaceTags(QString path) {
 
 #ifdef EXIV2
 
-    if(!canReadXmpTags(path))
-        return ret;
-
     Exiv2::Image::AutoPtr image;
     try {
         image  = Exiv2::ImageFactory::open(path.toStdString());
@@ -206,24 +203,6 @@ void ManagePeopleTags::setFaceTags(QString filename, QVariantList tags) {
     }
 
 #endif
-
-}
-
-bool ManagePeopleTags::canReadXmpTags(QString filename) {
-
-    QStringList supportedEndings;
-    supportedEndings << "jpg" << "jpeg" << "exv" << "cr2" << "mrw" << "tif" << "tiff" << "webp" << "dng" << "net" << "pef" << "arw" << "rw2"
-                     << "sr2" << "srw" << "orf" << "png" << "pgf" << "raf" << "eps" << "xmp" << "psd" << "jp2";
-
-    QStringList supportedMimeTypes;
-    supportedMimeTypes << "image/jpeg" << "image/x-canon-cr2" << "image/x-minolta-mrw" << "image/tiff" << "image/webp" << "image/x-adobe-dng"
-                       << "image/x-nikon-nef" << "image/x-pentax-pef"<< "image/x-sony-arw" << "image/x-panasonic-rw2" << "image/x-sony-sr2"
-                       << "image/x-olympus-orf" << "image/png" << "image/x-fuji-raf" << "image/x-eps" << "image/vnd.adobe.photoshop" << "image/jp2";
-
-    QMimeDatabase mimedb;
-    if(supportedEndings.contains(QFileInfo(filename).suffix()) || supportedMimeTypes.contains(mimedb.mimeTypeForFile(filename).name()))
-        return true;
-    return false;
 
 }
 

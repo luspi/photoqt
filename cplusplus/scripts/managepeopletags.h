@@ -44,7 +44,6 @@ public:
     Q_INVOKABLE QVariantList getFaceTags(QString path);
     Q_INVOKABLE void setFaceTags(QString filename, QVariantList tags);
 
-    Q_INVOKABLE bool canReadXmpTags(QString filename);
     Q_INVOKABLE bool canWriteXmpTags(QString filename);
 
 };
