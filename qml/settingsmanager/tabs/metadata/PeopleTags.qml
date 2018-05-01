@@ -105,7 +105,7 @@ Entry {
             SettingsText {
                 height: tagsBorderColor.height
                 verticalAlignment: Text.AlignVCenter
-                enabled: tagsEnable.checkedButton
+                enabled: tagsEnable.checkedButton&&tagsBorderShow.checkedButton
                 //: Refers to the width of the border around face tags
                 text: em.pty+qsTranslate("SettingsManager/PeopleFaceTags", "Width:")
             }
@@ -113,7 +113,7 @@ Entry {
             CustomSpinBox {
                 id: tagsBorderWidth
                 y: (parent.height-height)/2
-                enabled: tagsEnable.checkedButton
+                enabled: tagsEnable.checkedButton&&tagsBorderShow.checkedButton
                 minimumValue: 2
                 maximumValue: 99
                 suffix: " px"
@@ -128,14 +128,14 @@ Entry {
 
             SettingsText {
                 y: (parent.height-height)/2
-                enabled: tagsEnable.checkedButton
+                enabled: tagsEnable.checkedButton&&tagsBorderShow.checkedButton
                 //: Refers to the color of the border around face tags
                 text: em.pty+qsTranslate("SettingsManager/PeopleFaceTags", "Color:")
             }
 
             Image {
                 y: (parent.height-height)/2
-                enabled: tagsEnable.checkedButton
+                enabled: tagsEnable.checkedButton&&tagsBorderShow.checkedButton
                 opacity: enabled ? 1 : 0.4
                 Behavior on opacity { NumberAnimation { duration: variables.animationSpeed/2 } }
                 source: "qrc:/img/transparent.png"
