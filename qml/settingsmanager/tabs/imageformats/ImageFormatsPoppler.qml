@@ -80,8 +80,8 @@ Entry {
     ]
 
     function setData() {
-        popplerEnding.checkedButton = (imageformats.enabledFileformatsPoppler.indexOf("*.pdf") != -1)
-        popplerMime.checkedButton = (mimetypes.enabledMimeTypesPoppler.indexOf("application/pdf") != -1)
+        popplerEnding.checkedButton = (imageformats.enabledFileformatsPoppler.indexOf("*.pdf") !== -1)
+        popplerMime.checkedButton = (mimetypes.enabledMimeTypesPoppler.indexOf("application/pdf") !== -1)
         singledocument.checkedButton = settings.pdfSingleDocument
 
         // We always take the PDF quality in steps of 5!

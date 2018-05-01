@@ -192,8 +192,8 @@ Item {
 
                 loaded = (getanddostuff.removePathFromFilename(imagePath)===variables.currentFile)
 
-                var pqt = (imagePath.indexOf("::PQT1::") != -1 && imagePath.indexOf("::PQT2::") != -1)
-                var arc = (imagePath.indexOf("::ARCHIVE1::") != -1 && imagePath.indexOf("::ARCHIVE2::") != -1)
+                var pqt = (imagePath.indexOf("::PQT1::") !== -1 && imagePath.indexOf("::PQT2::") !== -1)
+                var arc = (imagePath.indexOf("::ARCHIVE1::") !== -1 && imagePath.indexOf("::ARCHIVE2::") !== -1)
 
                 if(!pqt && !arc)
                     rect.filenameWithoutExtras = getanddostuff.removePathFromFilename(imagePath)
@@ -322,7 +322,7 @@ Item {
 
                 // Load the selected thumbnail as main image
                 onClicked: {
-                    if(imagePath.indexOf("::ARCHIVE1::") == -1 || imagePath.indexOf("::ARCHIVE2::") == -1)
+                    if(imagePath.indexOf("::ARCHIVE1::") === -1 || imagePath.indexOf("::ARCHIVE2::") === -1)
                         variables.currentFile = getanddostuff.removePathFromFilename(imagePath)
                     else
                         variables.currentFile = "::ARCHIVE1::"+imagePath.split("::ARCHIVE1::")[1]

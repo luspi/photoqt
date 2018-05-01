@@ -117,7 +117,7 @@ Item {
                         if(labelitemdelegate.mouseInsideThisLabel&&variables.taggingFaces&&dx < 20 && dy < 20) {
                             var newfacedata = []
                             for(var i = 0; i < variables.peopleFaceTags.length/6; ++i) {
-                                if(variables.peopleFaceTags[6*i] != labelitemdelegate.myIndex) {
+                                if(variables.peopleFaceTags[6*i] !== labelitemdelegate.myIndex) {
                                     newfacedata.push(variables.peopleFaceTags[6*i])
                                     newfacedata.push(variables.peopleFaceTags[6*i+1])
                                     newfacedata.push(variables.peopleFaceTags[6*i+2])

@@ -47,8 +47,8 @@ Entry {
     ]
 
     function setData() {
-        xcftoolsEnding.checkedButton = (imageformats.enabledFileformatsXCFTools.indexOf("*.xcf") != -1)
-        xcftoolsMime.checkedButton = (mimetypes.enabledMimeTypesXCFTools.indexOf("image/x-xcf") != -1)
+        xcftoolsEnding.checkedButton = (imageformats.enabledFileformatsXCFTools.indexOf("*.xcf") !== -1)
+        xcftoolsMime.checkedButton = (mimetypes.enabledMimeTypesXCFTools.indexOf("image/x-xcf") !== -1)
     }
 
     function saveData() {

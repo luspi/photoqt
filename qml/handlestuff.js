@@ -26,12 +26,12 @@ function loadFile(filename, filter, forceReloadDirectory) {
     verboseMessage("handlstuff.js","loadFile(): "+ filename + " / " + filter + " / " + forceReloadDirectory)
 
     // Make sure a file is actually loaded
-    if(filename === undefined || filename == "")
+    if(filename === undefined || filename === "")
         return
 
-    if(forceReloadDirectory && ((filename.substring(0,1) != "/" &&
+    if(forceReloadDirectory && ((filename.substring(0,1) !== "/" &&
                                  !getanddostuff.amIOnWindows()) ||
-                                (filename.substring(1,3) != ":/" && getanddostuff.amIOnWindows())))
+                                (filename.substring(1,3) !== ":/" && getanddostuff.amIOnWindows())))
         filename = variables.currentDir + "/" + filename
 
     // Streamline path (remove '//', streamline '/path1/../path2/to/file')
@@ -39,10 +39,10 @@ function loadFile(filename, filter, forceReloadDirectory) {
 
     // If there is a page number (or if there should be one), make sure it is part of the filename and also store it in two variables (current and total)
     // The two variables make handling easier in other files, the info thoug has to be part of the filename to distinguish entries for different pages
-    if((imageformats.enabledFileformatsPoppler.indexOf("*." + getanddostuff.getSuffix(filename)) != -1 ||
-        mimetypes.enabledMimeTypesPoppler.indexOf(getanddostuff.getMimeType(variables.currentDir, filename)) != -1) ||
-            (filename.indexOf("::PQT1::") != -1 && filename.indexOf("::PQT2::") != -1)) {
-        if(filename.indexOf("::PQT1::") == -1 || filename.indexOf("::PQT2::") == -1) {
+    if((imageformats.enabledFileformatsPoppler.indexOf("*." + getanddostuff.getSuffix(filename)) !== -1 ||
+        mimetypes.enabledMimeTypesPoppler.indexOf(getanddostuff.getMimeType(variables.currentDir, filename)) !== -1) ||
+            (filename.indexOf("::PQT1::") !== -1 && filename.indexOf("::PQT2::") !== -1)) {
+        if(filename.indexOf("::PQT1::") === -1 || filename.indexOf("::PQT2::") === -1) {
             var tot = getanddostuff.getTotalNumberOfPagesOfPdf(filename)
             filename = getanddostuff.removeFilenameFromPath(filename)+"/::PQT1::0::" +tot+ "::PQT2::" + getanddostuff.removePathFromFilename(filename)
             variables.multiPageCurrentPage = 0
@@ -58,14 +58,14 @@ function loadFile(filename, filter, forceReloadDirectory) {
     }
 
     // Load a file from full path
-    if((filename.substring(0,1) == "/" && !getanddostuff.amIOnWindows()) || (filename.substring(1,3) == ":/" && getanddostuff.amIOnWindows())) {
+    if((filename.substring(0,1) === "/" && !getanddostuff.amIOnWindows()) || (filename.substring(1,3) === ":/" && getanddostuff.amIOnWindows())) {
 
         // Separate filename and path
         var filenameonly = getanddostuff.removePathFromFilename(filename)
         var pathonly = getanddostuff.removeFilenameFromPath(filename)
 
         // If it's a new path or a forced reload, load folder contents and set up thumbnails (if enabled)
-        if(filenameonly == "" || pathonly != variables.currentDir || (forceReloadDirectory !== undefined && forceReloadDirectory)) {
+        if(filenameonly === "" || pathonly !== variables.currentDir || (forceReloadDirectory !== undefined && forceReloadDirectory)) {
             variables.allFilesCurrentDir = getanddostuff.getAllFilesIn(filename, "all", filter, false, settings.sortby, settings.sortbyAscending,
                                                                        false, true, settings.pdfSingleDocument, true, settings.archiveSingleFile,
                                                                        settings.archiveUseExternalUnrar)
@@ -73,9 +73,9 @@ function loadFile(filename, filter, forceReloadDirectory) {
 
             // If it is an archive file, we need to set the first entry as the current file
             variables.currentFileInsideArchive = ""
-            if((filename.indexOf("::ARCHIVE1::") == -1 || filename.indexOf("::ARCHIVE2::") == -1) && (imageformats.enabledFileformatsArchive.indexOf("*."+getanddostuff.getSuffix(filename)) != -1 || mimetypes.enabledMimeTypesArchive.indexOf(getanddostuff.getMimeType(variables.currentDir, filename)) != -1)) {
+            if((filename.indexOf("::ARCHIVE1::") === -1 || filename.indexOf("::ARCHIVE2::") === -1) && (imageformats.enabledFileformatsArchive.indexOf("*."+getanddostuff.getSuffix(filename)) !== -1 || mimetypes.enabledMimeTypesArchive.indexOf(getanddostuff.getMimeType(variables.currentDir, filename)) !== -1)) {
                 for(var i = 0; i < variables.totalNumberImagesCurrentFolder; ++i) {
-                    if(variables.allFilesCurrentDir[i].indexOf(filename) != -1) {
+                    if(variables.allFilesCurrentDir[i].indexOf(filename) !== -1) {
                         filenameonly = variables.allFilesCurrentDir[i]
                         i = variables.totalNumberImagesCurrentFolder
                         variables.currentFileInsideArchive = getanddostuff.removeSuffixFromFilename(filenameonly.split("::ARCHIVE2::")[1])
@@ -87,7 +87,7 @@ function loadFile(filename, filter, forceReloadDirectory) {
             variables.currentDir = pathonly
             variables.currentFile = filenameonly
             // If no filename is available (e.g., when a directory was passed on during startup ...
-            if(filenameonly == "") {
+            if(filenameonly === "") {
                 // ... and if there are images in the current folder then load the first one ...
                 if(variables.totalNumberImagesCurrentFolder > 0) {
                     filenameonly = variables.allFilesCurrentDir[0]
@@ -108,9 +108,9 @@ function loadFile(filename, filter, forceReloadDirectory) {
     } else {
         // If it is an archive file, we need to set the first entry as the current file
         variables.currentFileInsideArchive = ""
-        if((filename.indexOf("::ARCHIVE1::") != -1 && filename.indexOf("::ARCHIVE2::") != -1) ||
-           imageformats.enabledFileformatsArchive.indexOf("*."+getanddostuff.getSuffix(filename)) != -1 ||
-           mimetypes.enabledMimeTypesArchive.indexOf(getanddostuff.getMimeType(variables.currentDir, filename)) != -1)
+        if((filename.indexOf("::ARCHIVE1::") !== -1 && filename.indexOf("::ARCHIVE2::") !== -1) ||
+           imageformats.enabledFileformatsArchive.indexOf("*."+getanddostuff.getSuffix(filename)) !== -1 ||
+           mimetypes.enabledMimeTypesArchive.indexOf(getanddostuff.getMimeType(variables.currentDir, filename)) !== -1)
             variables.currentFileInsideArchive = getanddostuff.removeSuffixFromFilename(filename.split("::ARCHIVE2::")[1])
         variables.currentFile = filename
     }
@@ -155,20 +155,20 @@ function getFilenameMatchingFilter(filter) {
 
     verboseMessage("handlstuff.js","getFilenameMatchingFilter(): " + filter)
 
-    if((filter.charAt(0) == "." && variables.currentFile.indexOf(filter) == variables.currentFile.length-filter.length)
-            || (filter.charAt(0) != "." && variables.currentFile.indexOf(filter) >= 0)) {
+    if((filter.charAt(0) === "." && variables.currentFile.indexOf(filter) == variables.currentFile.length-filter.length)
+            || (filter.charAt(0) !== "." && variables.currentFile.indexOf(filter) >= 0)) {
         return variables.currentFile
     } else {
-        if(filter.charAt(0) == ".") {
+        if(filter.charAt(0) === ".") {
             for(var i = 0; i < variables.totalNumberImagesCurrentFolder; ++i) {
-                if(variables.allFilesCurrentDir[i].indexOf(filter) == variables.allFilesCurrentDir[i].length-filter.length) {
+                if(variables.allFilesCurrentDir[i].indexOf(filter) === variables.allFilesCurrentDir[i].length-filter.length) {
                     return variables.allFilesCurrentDir[i]
                 }
             }
         } else {
-            for(var i = 0; i < variables.totalNumberImagesCurrentFolder; ++i) {
-                if(variables.allFilesCurrentDir[i].indexOf(filter) >= 0) {
-                    return variables.allFilesCurrentDir[i]
+            for(var j = 0; j < variables.totalNumberImagesCurrentFolder; ++j) {
+                if(variables.allFilesCurrentDir[j].indexOf(filter) >= 0) {
+                    return variables.allFilesCurrentDir[j]
                 }
             }
         }

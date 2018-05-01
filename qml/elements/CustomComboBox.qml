@@ -59,7 +59,7 @@ Button {
         label: Text {
             id: txt
             font.pointSize: fontsize
-            text: currentIndex==-1 ? "" : (model[currentIndex].substr(0,3)!="[B]" ?
+            text: currentIndex==-1 ? "" : (model[currentIndex].substr(0,3)!=="[B]" ?
                                                model[currentIndex] :
                                                model[currentIndex].substr(3,model[currentIndex].length))
             font.bold: displayAsError
@@ -77,9 +77,9 @@ Button {
 
             for(var i = 0; i < model.length; ++i) {
                 var txt = model[i]
-                if(txt == "---SEP---")
+                if(txt === "---SEP---")
                     addSeparator()
-                else if(txt.substr(0,3) == "[B]")
+                else if(txt.substr(0,3) === "[B]")
                     addItem(model[i].substr(3,model[i].length), true)
                 else
                     addItem(model[i])
@@ -89,7 +89,7 @@ Button {
             // and the one selected in the context menu (currentIndex could be unequal)
             model = model.filter(removeSep)
             function removeSep(e) {
-                return e!="---SEP---";
+                return e!=="---SEP---";
             }
 
             setFixedWidth(but.width)

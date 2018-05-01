@@ -537,7 +537,7 @@ Rectangle {
         if(imageFormatsAdvancedTuningPopupVisible)
             imageFormatsHidePopup()
         opacity = 0
-        if(variables.currentFile === "" && askForFileIfNoneOpen != undefined && askForFileIfNoneOpen == 1)
+        if(variables.currentFile === "" && askForFileIfNoneOpen !== undefined && askForFileIfNoneOpen === 1)
             call.show("openfile")
         else
             variables.guiBlocked = false

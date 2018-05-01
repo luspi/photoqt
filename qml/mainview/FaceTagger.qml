@@ -196,7 +196,7 @@ Item {
         if(!imageContainer.visible) return
 
         // If some name was entered...
-        if(enternamelineedit.getText() != "") {
+        if(enternamelineedit.getText() !== "") {
 
             // Add new face tag to list
             variables.peopleFaceTags.push(variables.peopleFaceTags.length/6 +1)
