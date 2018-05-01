@@ -31,7 +31,8 @@ Entry {
 
     title: em.pty+qsTr("Sort Images")
 
-    helptext: em.pty+qsTr("Images in the current folder can be sorted in varios ways. They can be sorted by filename, natural name (e.g., file10.jpg comes after file9.jpg and not after file1.jpg), filesize, and date, all of that both ascending or descending.")
+    helptext: em.pty+qsTr("Images in the current folder can be sorted in varios ways. They can be sorted by filename, natural name\
+ (e.g., file10.jpg comes after file9.jpg and not after file1.jpg), filesize, and date, all of that both ascending or descending.")
 
 
     content: [

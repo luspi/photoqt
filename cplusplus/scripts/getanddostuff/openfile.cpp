@@ -34,7 +34,8 @@ GetAndDoStuffOpenFile::~GetAndDoStuffOpenFile() {
 int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path, QString categoryFileTypes) {
 
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
-        LOG << CURDATE << "GetAndDoStuffOpenFile::getNumberFilesInFolder() - " << path.toStdString() << " / " << categoryFileTypes.toStdString() << NL;
+        LOG << CURDATE << "GetAndDoStuffOpenFile::getNumberFilesInFolder() - "
+            << path.toStdString() << " / " << categoryFileTypes.toStdString() << NL;
 
     QDir dir(path);
 
@@ -96,7 +97,8 @@ QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
     QFile file(QString(ConfigFiles::GENERIC_DATA_DIR()) + "/user-places.xbel");
 
     if(!file.exists()) {
-        LOG << CURDATE << "GetAndDoStuffOpenFile: File " << ConfigFiles::GENERIC_DATA_DIR().toStdString() << "/user-places.xbel does not exist! Creating dummy file..." << NL;
+        LOG << CURDATE << "GetAndDoStuffOpenFile: File " << ConfigFiles::GENERIC_DATA_DIR().toStdString()
+            << "/user-places.xbel does not exist! Creating dummy file..." << NL;
         saveUserPlaces(QVariantList());
         return QVariantList();
     } else if(!file.open(QIODevice::ReadOnly)) {

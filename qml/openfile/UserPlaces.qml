@@ -406,7 +406,8 @@ Rectangle {
 
             id: userPlacesDelegate
 
-            // This is needed for deleting an entry from the context menu, as the signal that is received there passes on a variable that is also named index
+            // This is needed for deleting an entry from the context menu,
+            // as the signal that is received there passes on a variable that is also named index
             property int myIndex: index
 
             // full width, fixed height of 30 (if entry not hidden)
@@ -939,32 +940,42 @@ Rectangle {
             // move from standard to userplaces
             if(standardlocations.currentIndex != -1 && userPlaces.visible && standardlocations.currentIndex+distance > standardlocations.model.count-1
                     && standardlocations.currentIndex-1+distance < (standardlocations.model.count-1)+(userPlaces.model.count-1)) {
-                userPlaces.currentIndex = Math.min(1 + ((standardlocations.currentIndex+distance) - standardlocations.model.count), userPlaces.model.count-1)
+                userPlaces.currentIndex = Math.min(1 + ((standardlocations.currentIndex+distance) - standardlocations.model.count),
+                                                   userPlaces.model.count-1)
                 return
             }
 
             // move from standard to storageinfo (userplaces too short)
             if(standardlocations.currentIndex != -1 && userPlaces.visible && storageinfo.visible &&
                     standardlocations.currentIndex+distance > (standardlocations.model.count-1)+(userPlaces.model.count-1)) {
-                storageinfo.currentIndex = Math.min(2 + ((standardlocations.currentIndex+distance) - standardlocations.model.count-userPlaces.model.count), storageinfo.model.count-1)
+                storageinfo.currentIndex =
+                        Math.min(2 + ((standardlocations.currentIndex+distance) - standardlocations.model.count-userPlaces.model.count),
+                                 storageinfo.model.count-1)
                 return
             }
 
             // move from standard to storageinfo (no userplaces)
-            if(standardlocations.currentIndex != -1 && !userPlaces.visible && storageinfo.visible && standardlocations.currentIndex+distance > standardlocations.model.count-1) {
-                storageinfo.currentIndex = Math.min(1 + ((standardlocations.currentIndex+distance) - standardlocations.model.count), storageinfo.model.count-1)
+            if(standardlocations.currentIndex != -1 &&
+                    !userPlaces.visible &&
+                    storageinfo.visible &&
+                    standardlocations.currentIndex+distance > standardlocations.model.count-1) {
+                storageinfo.currentIndex = Math.min(1 + ((standardlocations.currentIndex+distance) - standardlocations.model.count),
+                                                    storageinfo.model.count-1)
                 return
             }
 
             // move from userplaces to storageinfo
             if(userPlaces.currentIndex != -1 && storageinfo.visible && userPlaces.currentIndex+distance > userPlaces.model.count-1) {
-                storageinfo.currentIndex = Math.min(1 + ((userPlaces.currentIndex+distance) - userPlaces.model.count), storageinfo.model.count)
+                storageinfo.currentIndex = Math.min(1 + ((userPlaces.currentIndex+distance) - userPlaces.model.count),
+                                                    storageinfo.model.count)
                 return
             }
 
             // move inside standard
             if(standardlocations.currentIndex != -1) {
-                standardlocations.currentIndex = Math.min(standardlocations.currentIndex+distance, standardlocations.model.count-1)
+                standardlocations.currentIndex =
+                        Math.min(standardlocations.currentIndex+distance,
+                                 standardlocations.model.count-1)
                 return
             }
 
@@ -985,7 +996,8 @@ Rectangle {
 
             // move inside storageinfo
             if(storageinfo.currentIndex != -1) {
-                storageinfo.currentIndex = Math.min(storageinfo.currentIndex+distance, storageinfo.model.count-1)
+                storageinfo.currentIndex = Math.min(storageinfo.currentIndex+distance,
+                                                    storageinfo.model.count-1)
                 return
             }
 
@@ -1003,7 +1015,8 @@ Rectangle {
             // move from storageinfo to standard (userplaces too short)
             if(storageinfo.currentIndex != -1 && userPlaces.visible && standardlocations.visible && storageinfo.currentIndex-distance-1 < 1 &&
                     userPlaces.model.count-1-(distance-storageinfo.currentIndex) < 1) {
-                standardlocations.currentIndex = Math.max(standardlocations.count-1 - ((distance-storageinfo.currentIndex) - (userPlaces.model.count-1)), 1)
+                standardlocations.currentIndex =
+                        Math.max(standardlocations.count-1 - ((distance-storageinfo.currentIndex) - (userPlaces.model.count-1)), 1)
                 return
             }
 

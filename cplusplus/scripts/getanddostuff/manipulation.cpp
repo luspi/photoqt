@@ -55,7 +55,8 @@ bool GetAndDoStuffManipulation::canBeScaled(QString filename) {
 bool GetAndDoStuffManipulation::scaleImage(QString filename, int width, int height, int quality, QString newfilename) {
 
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
-        LOG << CURDATE << "GetAndDoStuffManipulation::scaleImage() - " << filename.toStdString() << " / " << width << " / " << height << " / " << quality << " / " << newfilename.toStdString() << NL;
+        LOG << CURDATE << "GetAndDoStuffManipulation::scaleImage() - " << filename.toStdString() << " / " << width << " / " << height << " / "
+            << quality << " / " << newfilename.toStdString() << NL;
 
     // These image formats known by exiv2 are also supported by PhotoQt
     QStringList formats;
@@ -214,7 +215,8 @@ void GetAndDoStuffManipulation::deleteImage(QString filename, bool trash) {
             } else {
                 // Set the base path ...
                 for(QStorageInfo &storage : QStorageInfo::mountedVolumes()) {
-                    if(!storage.isReadOnly() && storage.isValid() && filename.startsWith(storage.rootPath()) && baseTrash.length() < storage.rootPath().length()) {
+                    if(!storage.isReadOnly() && storage.isValid() && filename.startsWith(storage.rootPath()) &&
+                       baseTrash.length() < storage.rootPath().length()) {
                         baseTrash = storage.rootPath();
                     }
                 }

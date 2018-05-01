@@ -34,7 +34,8 @@ QString GetAndDoStuffWallpaper::detectWindowManager() {
         if(QString(getenv("KDE_SESSION_VERSION")).toLower() == "5")
             return "plasma5";
         return "kde4";
-    } else if(QString(getenv("DESKTOP_SESSION")).toLower() == "gnome" || QString(getenv("XDG_CURRENT_DESKTOP")).toLower() == "unity" || QString(getenv("DESKTOP_SESSION")).toLower() == "ubuntu")
+    } else if(QString(getenv("DESKTOP_SESSION")).toLower() == "gnome" || QString(getenv("XDG_CURRENT_DESKTOP")).toLower() == "unity" ||
+              QString(getenv("DESKTOP_SESSION")).toLower() == "ubuntu")
         return "gnome_unity";
     else if(QString(getenv("DESKTOP_SESSION")).toLower() == "xfce4" || QString(getenv("DESKTOP_SESSION")).toLower() == "xfce")
         return "xfce4";
@@ -48,7 +49,8 @@ QString GetAndDoStuffWallpaper::detectWindowManager() {
 void GetAndDoStuffWallpaper::setWallpaper(QString wm, QVariantMap options, QString file) {
 
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
-        LOG << CURDATE << "GetAndDoStuffWallpaper::setWallpaper() - " << wm.toStdString() << " / " << options.count() << " / " << file.toStdString() << NL;
+        LOG << CURDATE << "GetAndDoStuffWallpaper::setWallpaper() - "
+            << wm.toStdString() << " / " << options.count() << " / " << file.toStdString() << NL;
 
     // SET GNOME/UNITY WALLPAPER
     if(wm == "gnome_unity") {
@@ -56,7 +58,8 @@ void GetAndDoStuffWallpaper::setWallpaper(QString wm, QVariantMap options, QStri
         QProcess proc;
         int ret = proc.execute(QString("gsettings set org.gnome.desktop.background picture-options %1").arg(options.value("option").toString()));
         if(ret != 0)
-            LOG << CURDATE << "GetAndDoStuffWallpaper::setWallpaper() - ERROR: gsettings failed with exit code " << ret << " - are you sure Gnome/Unity is installed?" << NL;
+            LOG << CURDATE << "GetAndDoStuffWallpaper::setWallpaper() - ERROR: gsettings failed with exit code " << ret
+                << " - are you sure Gnome/Unity is installed?" << NL;
         else
             proc.execute(QString("gsettings set org.gnome.desktop.background picture-uri file:/%1").arg(file));
 
@@ -72,7 +75,8 @@ void GetAndDoStuffWallpaper::setWallpaper(QString wm, QVariantMap options, QStri
         proc.start("xfconf-query -c xfce4-desktop -lv");
         while(proc.waitForOutput()) {}
         if(proc.gotError()) {
-            LOG << CURDATE << "GetAndDoStuffWallpaper::setWallpaper() - ERROR (code: " << proc.getErrorCode() << "): Failed to start xfconf-query! Is XFCE4 installed?" << NL;
+            LOG << CURDATE << "GetAndDoStuffWallpaper::setWallpaper() - ERROR (code: " << proc.getErrorCode()
+                << "): Failed to start xfconf-query! Is XFCE4 installed?" << NL;
             return;
         }
 
@@ -121,16 +125,19 @@ void GetAndDoStuffWallpaper::setWallpaper(QString wm, QVariantMap options, QStri
         QVariantList screens = options.value("screens").toList();
         QVariantList workspaces = options.value("workspaces").toList();
 
-        // First we check if DBUS is enabled (we could enable it automatically, however, the available options presented to the user might change depending on its output!)
+        // First we check if DBUS is enabled
+        // (we could enable it automatically, however, the available options presented to the user might change depending on its output!)
         RunProcess proc;
         proc.start("enlightenment_remote -module-list");
         while(proc.waitForOutput()) {}
         if(proc.gotError()) {
-            LOG << CURDATE << "GetAndDoStuffWallpaper::setWallpaper() - ERROR (code: " << proc.getErrorCode() << "): Failed to start enlightenment_remote! Is Enlightenment installed?" << NL;
+            LOG << CURDATE << "GetAndDoStuffWallpaper::setWallpaper() - ERROR (code: " << proc.getErrorCode()
+                << "): Failed to start enlightenment_remote! Is Enlightenment installed?" << NL;
             return;
         }
         if(!proc.getOutput().contains("msgbus -- Enabled")) {
-            LOG << CURDATE << "GetAndDoStuffWallpaper::setWallpaper() - ERROR: Enlightenment module 'msgbus' doesn't seem to be loaded! Please check that..." << NL;
+            LOG << CURDATE << "GetAndDoStuffWallpaper::setWallpaper() - ERROR: Enlightenment module 'msgbus' doesn't seem to be loaded! "
+                           << "Please check that..." << NL;
             return;
         }
 
@@ -140,15 +147,18 @@ void GetAndDoStuffWallpaper::setWallpaper(QString wm, QVariantMap options, QStri
                 int currentworkspace = workspaces.at(j).toInt();
                 // >= 1e7 - This means, that there is a single COLUMN of workspaces
                 if(currentworkspace >= 1e7) {
-                    QProcess::execute(QString("enlightenment_remote -desktop-bg-add 0 %1 0 %2 \"%3\"").arg(currentscreen).arg((currentworkspace/1e7)-1).arg(file));
+                    QProcess::execute(QString("enlightenment_remote -desktop-bg-add 0 %1 0 %2 \"%3\"")
+                                      .arg(currentscreen).arg((currentworkspace/1e7)-1).arg(file));
                 // >= 1e4 - This means, that there is a single ROW of workspaces
                 } else if(currentworkspace >= 1e4) {
-                    QProcess::execute(QString("enlightenment_remote -desktop-bg-add 0 %1 %2 0 \"%3\"").arg(currentscreen).arg((currentworkspace/1e4)-1).arg(file));
+                    QProcess::execute(QString("enlightenment_remote -desktop-bg-add 0 %1 %2 0 \"%3\"")
+                                      .arg(currentscreen).arg((currentworkspace/1e4)-1).arg(file));
                 // This means, that there is a grid of workspaces, both dimensions larger than 1
                 } else {
                     int row = currentworkspace/100;
                     int column = currentworkspace%100;
-                    QProcess::execute(QString("enlightenment_remote -desktop-bg-add 0 %1 %2 %3 \"%3\"").arg(currentscreen).arg(row).arg(column).arg(file));
+                    QProcess::execute(QString("enlightenment_remote -desktop-bg-add 0 %1 %2 %3 \"%3\"")
+                                      .arg(currentscreen).arg(row).arg(column).arg(file));
                 }
 
             }
@@ -163,11 +173,13 @@ void GetAndDoStuffWallpaper::setWallpaper(QString wm, QVariantMap options, QStri
         if(app == "feh") {
             int ret = QProcess::execute(QString("feh %1 %2").arg(options.value("feh_option").toString()).arg(file));
             if(ret != 0)
-                LOG << CURDATE << "GetAndDoStuffWallpaper::setWallpaper() - ERROR: feh exited with error code " << ret << " - are you sure it is installed?" << NL;
+                LOG << CURDATE << "GetAndDoStuffWallpaper::setWallpaper() - ERROR: feh exited with error code " << ret
+                    << " - are you sure it is installed?" << NL;
         } else {
             int ret = QProcess::execute(QString("nitrogen %1 %2").arg(options.value("nitrogen_option").toString()).arg(file));
             if(ret != 0)
-                LOG << CURDATE << "GetAndDoStuffWallpaper::setWallpaper() - ERROR: nitrogen exited with error code " << ret << " - are you sure it is installed?" << NL;
+                LOG << CURDATE << "GetAndDoStuffWallpaper::setWallpaper() - ERROR: nitrogen exited with error code " << ret
+                    << " - are you sure it is installed?" << NL;
         }
 
     }
@@ -190,14 +202,16 @@ QList<int> GetAndDoStuffWallpaper::getEnlightenmentWorkspaceCount() {
     proc.start("enlightenment_remote -desktops-get");
     while(proc.waitForOutput()) {}
     if(proc.gotError()) {
-        LOG << CURDATE << "GetAndDoStuffWallpaper::getEnlightenmentWorkspaceCount() - ERROR (code: " << proc.getErrorCode() << "): Failed to start enlightenment_remote! Is Enlightenment installed and the DBUS module activated?" << NL;
+        LOG << CURDATE << "GetAndDoStuffWallpaper::getEnlightenmentWorkspaceCount() - ERROR (code: " << proc.getErrorCode()
+            << "): Failed to start enlightenment_remote! Is Enlightenment installed and the DBUS module activated?" << NL;
         return QList<int>() << 1 << 1;
     }
 
     QStringList parts = proc.getOutput().trimmed().split(" ");
     if(parts.length() != 2) {
         if(checkWallpaperTool("enlightenment") != 2)
-            LOG << CURDATE << "GetAndDoStuffWallpaper::getEnlightenmentWorkspaceCount() - ERROR: Failed to get proper workspace count! Falling back to default (1x1)" << NL;
+            LOG << CURDATE << "GetAndDoStuffWallpaper::getEnlightenmentWorkspaceCount() - ERROR: Failed to get proper workspace count! "
+                           << "Falling back to default (1x1)" << NL;
         return QList<int>() << 1 << 1;
     }
     // Enlightenment returns columns before rows

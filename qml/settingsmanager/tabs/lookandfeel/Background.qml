@@ -30,7 +30,9 @@ Entry {
 
     // The background of PhotoQt behind the main image
     title: em.pty+qsTr("Background")
-    helptext: em.pty+qsTr("The background of PhotoQt is the part, that is not covered by an image. It can be made either real (half-)transparent (using a compositor), or faked transparent (instead of the actual desktop a screenshot of it is shown), or a custom background image can be set, or none of the above. Please note: Fake transparency currently only really works when PhotoQt is run in fullscreen/maximised!")
+    helptext: em.pty+qsTr("The background of PhotoQt is the part, that is not covered by an image. It can be made either real (half-)transparent\
+ (using a compositor), or faked transparent (instead of the actual desktop a screenshot of it is shown), or a custom background image can be set,\
+ or none of the above. Please note: Fake transparency currently only really works when PhotoQt is run in fullscreen/maximised!")
 
     content: [
 

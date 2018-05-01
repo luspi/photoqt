@@ -69,7 +69,8 @@ function analyseMouseGestureUpdate(xPos, yPos, before) {
 
 function analyseMouseEvent(startedEventAtPos, event, forceThisButton, dontResetGesture) {
 
-    verboseMessage("Shortcuts/mouseshortcuts.js", "analyseMouseEvent(): " + startedEventAtPos + " / " + event.button + " / " + forceThisButton + " / " + dontResetGesture)
+    verboseMessage("Shortcuts/mouseshortcuts.js", "analyseMouseEvent(): " + startedEventAtPos + " / " +
+                   event.button + " / " + forceThisButton + " / " + dontResetGesture)
 
     var combostring = getModifiers(event)
 
@@ -91,7 +92,8 @@ function analyseMouseEvent(startedEventAtPos, event, forceThisButton, dontResetG
     variables.shortcutsMouseGesture = []
 
     if(movement != "") {
-        if(button == Qt.LeftButton && settings.leftButtonMouseClickAndMove && settingsmanager.status!=Loader.Null && !settingsmanager.item.settingsDetectShortcuts.visible)
+        if(button == Qt.LeftButton && settings.leftButtonMouseClickAndMove && settingsmanager.status!=Loader.Null &&
+                !settingsmanager.item.settingsDetectShortcuts.visible)
             return ""
         combostring += "+" + movement
     }

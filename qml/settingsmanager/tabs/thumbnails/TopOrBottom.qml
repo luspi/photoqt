@@ -30,7 +30,8 @@ Entry {
 
     //: Refers to the top and bottom screen edges
     title: em.pty+qsTr("Top or Bottom")
-    helptext: em.pty+qsTr("Per default the bar with the thumbnails is shown at the lower screen edge. However, some might find it nice and handy to have the thumbnail bar at the upper edge.")
+    helptext: em.pty+qsTr("Per default the bar with the thumbnails is shown at the lower screen edge. However, some might find it nice and handy\
+ to have the thumbnail bar at the upper edge.")
 
     ExclusiveGroup { id: edgegroup; }
 

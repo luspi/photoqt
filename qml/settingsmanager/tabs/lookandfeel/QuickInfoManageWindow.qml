@@ -28,7 +28,9 @@ import "../../"
 Entry {
 
     title: em.pty+qsTr("Basic window management")
-    helptext: em.pty+qsTr("It is possible to use the label with the quick infos (filename, etc.) for some basic window management. You can click and drag to move the window around, and a double click toggles whether the windows is maximized or not.") + "<br><br>" + em.pty+qsTr("Note: This is only possible when the window is not in fullscreen!")
+    helptext: em.pty+qsTr("It is possible to use the label with the quick infos (filename, etc.) for some basic window management.\
+ You can click and drag to move the window around, and a double click toggles whether the windows is maximized or not.") + "<br><br>" +
+              em.pty+qsTr("Note: This is only possible when the window is not in fullscreen!")
 
     content: [
 

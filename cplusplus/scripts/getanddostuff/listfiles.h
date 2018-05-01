@@ -17,7 +17,9 @@ public:
     GetAndDoStuffListFiles(QObject *parent = 0);
     ~GetAndDoStuffListFiles();
 
-    QVariantList getAllFilesIn(QString file, QString categoryFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize, bool pdfLoadAllPage, bool loadSinglePdf, bool archiveLoadAllFiles, bool loadSingleArchive, bool archiveUseExternalUnrar);
+    QVariantList getAllFilesIn(QString file, QString categoryFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending,
+                               bool includeSize, bool pdfLoadAllPage, bool loadSinglePdf, bool archiveLoadAllFiles, bool loadSingleArchive,
+                               bool archiveUseExternalUnrar);
 
     int getTotalNumberOfPagesOfPdf(QString file);
 

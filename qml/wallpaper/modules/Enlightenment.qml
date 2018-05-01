@@ -51,7 +51,8 @@ Rectangle {
             wrapMode: Text.WordWrap
             horizontalAlignment: Text.AlignHCenter
             //: "msgbus" and "DBUS" are fixed names, please don't translate
-            text: em.pty+qsTr("Warning: It seems that the 'msgbus' (DBUS) module is not activated! It can be activated in the settings console:") + " Add-ons > Modules > System";
+            text: em.pty+qsTr("Warning: It seems that the 'msgbus' (DBUS) module is not activated! It can be activated in the settings console:") +
+                  " Add-ons > Modules > System";
         }
         // NOTE (tool not existing)
         Text {
@@ -164,11 +165,19 @@ Rectangle {
                     }
                     onCheckedButtonChanged: {
                         if(checkedButton)
-                            selectedWorkspaces_enlightenment[selectedWorkspaces_enlightenment.length] = (row == -1 ? 10000*(column+1) : (column == -1 ? 10000000*(row+1) : row*100+column))
+                            selectedWorkspaces_enlightenment[selectedWorkspaces_enlightenment.length] = (row == -1 ?
+                                                                                                             10000*(column+1) :
+                                                                                                             (column == -1 ?
+                                                                                                                  10000000*(row+1) :
+                                                                                                                  row*100+column))
                         else {
                             var newlist = []
                             for(var i = 0; i < selectedWorkspaces_enlightenment.length; ++i)
-                                if(selectedWorkspaces_enlightenment[i] !== (row == -1 ? 10000*(column+1) : (column == -1 ? 10000000*(row+1) : row*100+column)))
+                                if(selectedWorkspaces_enlightenment[i] !== (row == -1 ?
+                                                                                10000*(column+1) :
+                                                                                (column == -1 ?
+                                                                                     10000000*(row+1) :
+                                                                                     row*100+column)))
                                     newlist[newlist.length] = selectedWorkspaces_enlightenment[i]
                             selectedWorkspaces_enlightenment = newlist
                         }

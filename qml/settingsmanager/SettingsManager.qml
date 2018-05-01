@@ -256,10 +256,12 @@ Rectangle {
             x: 5
             y: 5
             height: parent.height-10
-            //: This is used as in 'Manage the settings', used on button referring to the action of restoring default settings and export/import of settings
+            //: This is used as in 'Manage the settings', used on button referring to the action of restoring default settings
+            //: and export/import of settings
             text: em.pty+qsTr("Manage")
             onClickedButton:
-                managebutmenu.popup(Qt.point(managebut.x+variables.windowXY.x, mainwindow.height-managebut.height-managebutmenu.height()+variables.windowXY.y))
+                managebutmenu.popup(Qt.point(managebut.x+variables.windowXY.x,
+                                             mainwindow.height-managebut.height-managebutmenu.height()+variables.windowXY.y))
         }
 
         PContextMenu {
@@ -344,7 +346,7 @@ Rectangle {
         header: em.pty+qsTr("Clean Database!")
         //: The database refers to the database used for thumbnail caching
         description: em.pty+qsTr("Do you really want to clean up the database?") + "<br><br>" +
-                     em.pty+qsTr("This removes all obsolete thumbnails, thus possibly making PhotoQt a little faster.") + "<bR><br>" +
+                     em.pty+qsTr("This removes all obsolete thumbnails, thus possibly making PhotoQt a little faster.") + "<br><br>" +
                      em.pty+qsTr("This process might take a little while.")
         //: Along the lines of "Yes, clean the database for thumbnails caching"
         confirmbuttontext: em.pty+qsTr("Continue")
@@ -361,7 +363,8 @@ Rectangle {
          //: The database refers to the database used for thumbnail caching
         description: em.pty+qsTr("Do you really want to ERASE the entire database?") + "<br><br>" +
                       //: The database refers to the database used for thumbnail caching
-                     em.pty+qsTr("This removes every single item from the database! This step should never really be necessary. Afterwards every thumbnail has to be re-created.") + "<br>" +
+                     em.pty+qsTr("This removes every single item from the database! This step should never really be necessary.\\
+ Afterwards every thumbnail has to be re-created.") + "<br>" +
                      em.pty+qsTr("This step cannot be reversed!")
         //: Along the lines of "Yes, empty the database for thumbnails caching"
         confirmbuttontext: em.pty+qsTr("Continue")
@@ -423,9 +426,11 @@ Rectangle {
         //: The tab refers to the tabs in the settings manager
         settingsmanagershortcuts.shortcuts[strings.get("ctrl") + " + " + strings.get("tab")] = em.pty+qsTr("Go to the next tab")
         //: The tab refers to the tabs in the settings manager
-        settingsmanagershortcuts.shortcuts[strings.get("ctrl") + " + " + strings.get("shift") + " + " + strings.get("tab")] = em.pty+qsTr("Go to the previous tab")
+        settingsmanagershortcuts.shortcuts[strings.get("ctrl") + " + " + strings.get("shift") + " + " + strings.get("tab")] =
+                                                                                               em.pty+qsTr("Go to the previous tab")
         //: The tab refers to the tabs in the settings manager
-        settingsmanagershortcuts.shortcuts[strings.get("alt") + "+1 " + " ... " + " " + strings.get("alt") + "+6"] = em.pty+qsTr("Switch to tab 1 to 5")
+        settingsmanagershortcuts.shortcuts[strings.get("alt") + "+1 " + " ... " + " " + strings.get("alt") + "+6"] =
+                                                                                               em.pty+qsTr("Switch to tab 1 to 5")
         settingsmanagershortcuts.shortcuts[strings.get("ctrl") + "+S"] = em.pty+qsTr("Save settings")
         settingsmanagershortcuts.shortcuts[strings.get("escape")] = em.pty+qsTr("Discard settings")
     }
@@ -472,7 +477,7 @@ Rectangle {
         verboseMessage("SettingsManager", "showSettings()")
         opacity = 1
         variables.guiBlocked = true
-        setData()	// We DO need to call setData() here, as otherwise - once set up - a tab would not be updated (e.g. with changes from quicksettings)
+        setData()   // We DO need to call setData() here as otherwise (once set up) a tab would not be updated (e.g. with changes from quicksettings)
         updateDatabaseInfo()
         settingsmanagershortcuts.display()
     }

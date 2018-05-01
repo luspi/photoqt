@@ -100,7 +100,7 @@ namespace PLoadImage {
                 dispHeight *= q;
             }
 
-            // If thumbnails are kept visible, then we need to subtract their height from the absolute height otherwise they overlap with the main image
+            // If thumbnails are kept visible, then we need to subtract their height from the absolute height otherwise they overlap with main image
             if(dispHeight > maxSize.height()) {
                 q = maxSize.height()/(dispHeight*1.0);
                 dispWidth *= q;

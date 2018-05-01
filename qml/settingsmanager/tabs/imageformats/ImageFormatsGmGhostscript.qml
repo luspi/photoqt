@@ -34,9 +34,11 @@ Entry {
     visible: getanddostuff.isGraphicsMagickSupportEnabled()
 
     title: "GraphicsMagick + Ghostscript"
-    helptext: em.pty+qsTranslate("SettingsManager/ImageFormats", "With the help of Ghostscript, GraphicsMagick can render a range of Postscript and PDF documents. Only the first page of a document can be loaded. For PDF documents the use of Poppler instead is highly recommended!") +
+    helptext: em.pty+qsTranslate("SettingsManager/ImageFormats", "With the help of Ghostscript, GraphicsMagick can render a range of Postscript and\
+ PDF documents. Only the first page of a document can be loaded. For PDF documents the use of Poppler instead is highly recommended!") +
               "<br><br>" +
-              em.pty+qsTranslate("SettingsManager/ImageFormats", "Use left click to check/uncheck an individual entry, and right click to check/uncheck all endings related to the same image type.")
+              em.pty+qsTranslate("SettingsManager/ImageFormats", "Use left click to check/uncheck an individual entry, and right click to\
+ check/uncheck all endings related to the same image type.")
     imageSource: "qrc:/img/settings/imageformats/gm.jpg"
 
     content: [
@@ -69,7 +71,8 @@ Entry {
             height: but1.height
             verticalAlignment: Text.AlignVCenter
             //: Please do not forget the '%1'!
-            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "There are currently %1 file endings selected.").arg("<b>"+formatsPopupEndings.numItemsChecked+"</b>")
+            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "There are currently %1 file endings selected.")
+                                .arg("<b>"+formatsPopupEndings.numItemsChecked+"</b>")
         }
 
     ]
@@ -104,7 +107,8 @@ Entry {
             height: but2.height
             verticalAlignment: Text.AlignVCenter
             //: Please do not forget the '%1'!
-            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "There are currently %1 mime types selected.").arg("<b>"+formatsPopupMimetypes.numItemsChecked+"</b>")
+            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "There are currently %1 mime types selected.")
+                                .arg("<b>"+formatsPopupMimetypes.numItemsChecked+"</b>")
         }
 
     ]

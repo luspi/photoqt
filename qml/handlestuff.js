@@ -29,7 +29,9 @@ function loadFile(filename, filter, forceReloadDirectory) {
     if(filename === undefined || filename == "")
         return
 
-    if(forceReloadDirectory && ((filename.substring(0,1) != "/" && !getanddostuff.amIOnWindows()) || (filename.substring(1,3) != ":/" && getanddostuff.amIOnWindows())))
+    if(forceReloadDirectory && ((filename.substring(0,1) != "/" &&
+                                 !getanddostuff.amIOnWindows()) ||
+                                (filename.substring(1,3) != ":/" && getanddostuff.amIOnWindows())))
         filename = variables.currentDir + "/" + filename
 
     // Streamline path (remove '//', streamline '/path1/../path2/to/file')
@@ -42,7 +44,7 @@ function loadFile(filename, filter, forceReloadDirectory) {
             (filename.indexOf("::PQT1::") != -1 && filename.indexOf("::PQT2::") != -1)) {
         if(filename.indexOf("::PQT1::") == -1 || filename.indexOf("::PQT2::") == -1) {
             var tot = getanddostuff.getTotalNumberOfPagesOfPdf(filename)
-            filename = getanddostuff.removeFilenameFromPath(filename)+"/::PQT1::0::" + tot + "::PQT2::" + getanddostuff.removePathFromFilename(filename)
+            filename = getanddostuff.removeFilenameFromPath(filename)+"/::PQT1::0::" +tot+ "::PQT2::" + getanddostuff.removePathFromFilename(filename)
             variables.multiPageCurrentPage = 0
             variables.multiPageTotalNumber = tot
         } else {
@@ -64,7 +66,9 @@ function loadFile(filename, filter, forceReloadDirectory) {
 
         // If it's a new path or a forced reload, load folder contents and set up thumbnails (if enabled)
         if(filenameonly == "" || pathonly != variables.currentDir || (forceReloadDirectory !== undefined && forceReloadDirectory)) {
-            variables.allFilesCurrentDir = getanddostuff.getAllFilesIn(filename, "all", filter, false, settings.sortby, settings.sortbyAscending, false, true, settings.pdfSingleDocument, true, settings.archiveSingleFile, settings.archiveUseExternalUnrar)
+            variables.allFilesCurrentDir = getanddostuff.getAllFilesIn(filename, "all", filter, false, settings.sortby, settings.sortbyAscending,
+                                                                       false, true, settings.pdfSingleDocument, true, settings.archiveSingleFile,
+                                                                       settings.archiveUseExternalUnrar)
             variables.totalNumberImagesCurrentFolder = variables.allFilesCurrentDir.length
 
             // If it is an archive file, we need to set the first entry as the current file
@@ -104,7 +108,9 @@ function loadFile(filename, filter, forceReloadDirectory) {
     } else {
         // If it is an archive file, we need to set the first entry as the current file
         variables.currentFileInsideArchive = ""
-        if((filename.indexOf("::ARCHIVE1::") != -1 && filename.indexOf("::ARCHIVE2::") != -1) || imageformats.enabledFileformatsArchive.indexOf("*."+getanddostuff.getSuffix(filename)) != -1 || mimetypes.enabledMimeTypesArchive.indexOf(getanddostuff.getMimeType(variables.currentDir, filename)) != -1)
+        if((filename.indexOf("::ARCHIVE1::") != -1 && filename.indexOf("::ARCHIVE2::") != -1) ||
+           imageformats.enabledFileformatsArchive.indexOf("*."+getanddostuff.getSuffix(filename)) != -1 ||
+           mimetypes.enabledMimeTypesArchive.indexOf(getanddostuff.getMimeType(variables.currentDir, filename)) != -1)
             variables.currentFileInsideArchive = getanddostuff.removeSuffixFromFilename(filename.split("::ARCHIVE2::")[1])
         variables.currentFile = filename
     }

@@ -70,7 +70,8 @@ Item {
                 width: flickable.width
                 color: "white"
                 font.pointSize: 9
-                text: qsTranslate("SettingsManager", "Move your mouse cursor over (or click on) the different settings titles to see more information.")
+                text: qsTranslate("SettingsManager",
+                                  "Move your mouse cursor over (or click on) the different settings titles to see more information.")
                 horizontalAlignment: Text.AlignHCenter
             }
 

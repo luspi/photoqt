@@ -115,7 +115,8 @@ Rectangle {
                 ["__flipV","",em.pty+qsTranslate("MainMenu", "vertical"), "donthide"],
                 //: This is an entry in the main menu on the right, used as in 'Reset flip/mirror of image'. Keep short!
                 ["__flipReset","",em.pty+qsTranslate("MainMenu", "reset"), "donthide"]],
-        //: This is an entry in the main menu on the right, used to refer to the current file (specifically the file, not directly the image). Keep short!
+        //: This is an entry in the main menu on the right, used to refer to the current file (specifically the file, not directly the image).
+        //: Keep short!
         [["","copy",em.pty+qsTranslate("MainMenu", "File")],
                 //: This is an entry in the main menu on the right, used as in 'rename file'. Keep short!
                 ["__rename","",em.pty+qsTranslate("MainMenu", "rename"), "hide"],
@@ -260,7 +261,8 @@ Rectangle {
                     sourceSize.height: height
                     source: allitems[subview.mainindex][index][1]===""
                             ? "" : (allitems[subview.mainindex][index][0].slice(0,8)==="_:_EX_:_"
-                                    ? getanddostuff.getIconPathFromTheme(allitems[subview.mainindex][index][1]) : "qrc:/img/mainmenu/" + allitems[subview.mainindex][index][1] + ".png")
+                                    ? getanddostuff.getIconPathFromTheme(allitems[subview.mainindex][index][1]) :
+                                      "qrc:/img/mainmenu/" + allitems[subview.mainindex][index][1] + ".png")
                     opacity: (settings.trayIcon==1 || allitems[subview.mainindex][index][0] !== "hide") ? 1 : 0.5
                     visible: (source!="" || allitems[subview.mainindex][index][0]==="heading")
                 }
@@ -279,7 +281,9 @@ Rectangle {
                     font.pointSize: 11
                     font.bold: true
 
-                    enabled: (settings.trayIcon==1 || (allitems[subview.mainindex][index][0] !== "__close" && allitems[subview.mainindex][index][0] !=="heading" && (allitems[subview.mainindex].length === 1 || index > 0)))
+                    enabled: (settings.trayIcon==1 || (allitems[subview.mainindex][index][0] !== "__close" &&
+                                                       allitems[subview.mainindex][index][0] !=="heading" &&
+                                                       (allitems[subview.mainindex].length === 1 || index > 0)))
 
 
                     // The spaces guarantee a bit of space betwene icon and text
@@ -290,7 +294,9 @@ Rectangle {
                         anchors.fill: parent
 
                         hoverEnabled: true
-                        cursorShape: (allitems[subview.mainindex][index][0]!=="heading" && (allitems[subview.mainindex].length === 1 || index > 0)) ? Qt.PointingHandCursor : Qt.ArrowCursor
+                        cursorShape: (allitems[subview.mainindex][index][0]!=="heading" && (allitems[subview.mainindex].length === 1 || index > 0)) ?
+                                         Qt.PointingHandCursor :
+                                         Qt.ArrowCursor
 
                         onEntered: {
                             if(allitems[subview.mainindex][index][0]!=="heading" && (allitems[subview.mainindex].length === 1 || index > 0))

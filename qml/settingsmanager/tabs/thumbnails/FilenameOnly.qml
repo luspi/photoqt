@@ -29,7 +29,9 @@ import "../../"
 Entry {
 
     title: em.pty+qsTr("Filename Thumbnail")
-    helptext: em.pty+qsTr("If you don't want PhotoQt to always load the actual image thumbnail in the background, but you still want to have something for better navigating, then you can set a filename-only thumbnail, i.e. PhotoQt wont load any thumbnail images but simply puts the file name into the box. You can also adjust the font size of this text.")
+    helptext: em.pty+qsTr("If you don't want PhotoQt to always load the actual image thumbnail in the background, but you still want to have\
+ something for better navigating, then you can set a filename-only thumbnail, i.e. PhotoQt wont load any thumbnail images but simply puts the\
+ file name into the box. You can also adjust the font size of this text.")
 
     content: [
 

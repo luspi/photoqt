@@ -75,7 +75,8 @@ Item {
 
     // Sometimes the page number is stored in the filename (e.g., for Poppler (PDF) documents). This string is the filename WITHOUT that information
     readonly property string currentFileWithoutExtras: (currentFile.indexOf("::ARCHIVE1::")!=-1&&currentFile.indexOf("::ARCHIVE2::")!=-1) ?
-                                                           getanddostuff.removePathFromFilename((currentFile.split("::ARCHIVE1::")[1].split("::ARCHIVE2::")[0])) :
+                                                           getanddostuff.removePathFromFilename((currentFile.split("::ARCHIVE1::")[1]
+                                                                                                 .split("::ARCHIVE2::")[0])) :
                                                            (currentFile.indexOf("::PQT1::")!=-1&&currentFile.indexOf("::PQT2::")!=-1) ?
                                                                (currentFile.split("::PQT1::")[0] + currentFile.split("::PQT2::")[1]) :
                                                                currentFile
@@ -129,7 +130,8 @@ Item {
     onPeopleFaceTagsChanged: mouseHoveringFaceTag = false
 
 
-    // temporary solution to avoid having to retranslate the names for the possible shortcuts (will be replaced with better solution for following release)
+    // temporary solution to avoid having to retranslate the names for the possible shortcuts
+    // (will be replaced with better solution for following release)
     property var shortcutTitles: ({})
 
 }

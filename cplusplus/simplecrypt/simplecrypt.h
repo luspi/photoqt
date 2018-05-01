@@ -75,9 +75,9 @@ public:
       appears to be valid after decryption.
     */
     enum IntegrityProtectionMode {
-        ProtectionNone,    /*!< The integerity of the encrypted data is not protected. It is not really possible to detect a wrong key, for instance. */
+        ProtectionNone,  /*!< The integerity of the encrypted data is not protected. It is not really possible to detect a wrong key, for instance. */
         ProtectionChecksum,/*!< A simple checksum is used to verify that the data is in order. If not, an empty string is returned. */
-        ProtectionHash     /*!< A cryptographic hash is used to verify the integrity of the data. This method produces a much stronger, but longer check */
+        ProtectionHash/*!< A cryptographic hash is used to verify the integrity of the data. This method produces a much stronger, but longer check */
     };
     /**
       Error describes the type of error that occured.

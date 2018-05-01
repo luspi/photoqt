@@ -80,7 +80,8 @@ namespace PLoadImage {
 
             if(ret != LIBRAW_SUCCESS) {
                 raw.recycle();
-                return PLoadImage::ErrorImage::load(QString("LibRaw: failed to run %1: %2").arg(thumb ? "unpack_thumb" : "unpack").arg(libraw_strerror(ret)));
+                return PLoadImage::ErrorImage::load(QString("LibRaw: failed to run %1: %2").arg(thumb ? "unpack_thumb" : "unpack")
+                                                    .arg(libraw_strerror(ret)));
             }
 
             // Post-process image. Not necessary for embedded preview...
@@ -137,7 +138,9 @@ namespace PLoadImage {
 
                 if(imgData.isEmpty()) {
                     raw.recycle();
-                    return PLoadImage::ErrorImage::load("Failed to load " + QString(half ? "half preview" : (thumb ? "thumbnail" : "image")) + " from LibRaw!");
+                    return PLoadImage::ErrorImage::load("Failed to load " +
+                                                        QString(half ? "half preview" : (thumb ? "thumbnail" : "image")) +
+                                                        " from LibRaw!");
                 }
 
                 // The return image is loaded from the QByteArray above

@@ -29,7 +29,10 @@ Entry {
 
     //: The type of interpolation to use for small images
     title: em.pty+qsTr("Interpolation")
-    helptext: em.pty+qsTr("There are many different interpolation algorithms out there. Depending on the choice of interpolation algorithm, the image (when zoomed in) will look slightly differently. PhotoQt uses mipmaps to get the best quality for images. However, for very small images, that might lead to too much blurring causing them to look rather ugly. For those images, the 'Nearest Neighbour' algorithm tends to be a better choice. The threshold defines for which images to use which algorithm.");
+    helptext: em.pty+qsTr("There are many different interpolation algorithms out there. Depending on the choice of interpolation algorithm, the\
+ image (when zoomed in) will look slightly differently. PhotoQt uses mipmaps to get the best quality for images. However, for very small images,\
+ that might lead to too much blurring causing them to look rather ugly. For those images, the 'Nearest Neighbour' algorithm tends to be a better\
+ choice. The threshold defines for which images to use which algorithm.");
 
     content: [
 

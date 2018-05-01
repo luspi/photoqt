@@ -27,9 +27,12 @@ import "../../"
 
 Entry {
 
-    //: The hot edge refers to the left and right screen edge. When the mouse cursor enters the hot edge area, then the main menu/metadata element is shown
+    //: The hot edge refers to the left and right screen edge.
+    //: When the mouse cursor enters the hot edge area, then the main menu/metadata element is shown
     title: em.pty+qsTr("Size of 'Hot Edge'")
-    helptext: em.pty+qsTr("Here you can adjust the sensitivity of the metadata and main menu elements. The main menu opens when your mouse cursor gets close to the right screen edge, the metadata element when you go to the left screen edge. This setting controls how close to the screen edge you have to get before they are shown.")
+    helptext: em.pty+qsTr("Here you can adjust the sensitivity of the metadata and main menu elements. The main menu opens when your mouse cursor\
+ gets close to the right screen edge, the metadata element when you go to the left screen edge. This setting controls how close to the screen edge\
+ you have to get before they are shown.")
 
     content: [
 
@@ -40,7 +43,7 @@ Entry {
             Text {
                 id: txt_small
                 color: colour.text
-                //: This refers to the size of the hot edge, you have to get very close to the screen edge to trigger the main menu or metadata element
+                //: This refers to the size of the hot edge, you have to get close to the screen edge to trigger the main menu or metadata element
                 text: em.pty+qsTr("Small")
                 font.pointSize: 10
             }
@@ -63,7 +66,7 @@ Entry {
             Text {
                 id: txt_large
                 color: colour.text
-                //: This refers to the size of the hot edge, you don't have to get very close to the screen edge to trigger the main menu or metadata element
+                //: This refers to the size of the hot edge, you don't have to get close to the screen edge to trigger the mainmenu/metadata element
                 text: em.pty+qsTr("Large")
                 font.pointSize: 10
             }

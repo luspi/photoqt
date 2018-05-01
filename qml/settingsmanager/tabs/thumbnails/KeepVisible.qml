@@ -28,7 +28,8 @@ import "../../"
 Entry {
 
     title: em.pty+qsTr("Visibility")
-    helptext: em.pty+qsTr("The thumbnails normally fade out when not needed, however, they can be set to stay visible. The main image is shrunk to fit into the free space. When it is zoomed in the thumbnails can be set to fade out automatically.")
+    helptext: em.pty+qsTr("The thumbnails normally fade out when not needed, however, they can be set to stay visible. The main image is shrunk\
+ to fit into the free space. When it is zoomed in the thumbnails can be set to fade out automatically.")
 
     content: [
 

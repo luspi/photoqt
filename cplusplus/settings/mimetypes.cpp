@@ -93,8 +93,10 @@ MimeTypes::MimeTypes(QObject *parent) : QObject(parent) {
     // GraphicsMagick
     setupAvailable[3].insert("image/bmp"                    , QStringList() << "bmp" << "Microsoft Windows bitmap"                      << "1");
     setupAvailable[3].insert("image/rle"                    , QStringList() << "bmp" << "Microsoft Windows RLE-compressed bitmap"       << "1");
-    setupAvailable[3].insert("image/x-cmu-raster"           , QStringList() << "cal" << "Continuous Acquisition and Life-cycle Support Type 1 image"    << "1");
-    setupAvailable[3].insert("application/dicom"            , QStringList() << "dic" << "Digital Imaging and Communications in Medicine (DICOM) image"  << "1");
+    setupAvailable[3].insert("image/x-cmu-raster"           , QStringList() << "cal" << "Continuous Acquisition and Life-cycle Support Type 1 image"
+                                                                                                                                        << "1");
+    setupAvailable[3].insert("application/dicom"            , QStringList() << "dic" << "Digital Imaging and Communications in Medicine (DICOM) image"
+                                                                                                                                        << "1");
     setupAvailable[3].insert("image/dpx"                    , QStringList() << "dpx" << "Digital Moving Picture Exchange"               << "1");
     setupAvailable[3].insert("image/fax-g3"                 , QStringList() << "fax" << "Group 3 FAX"                                   << "1");
     setupAvailable[3].insert("image/fits"                   , QStringList() << "fit" << "Flexible Image Transport System"               << "1");
@@ -231,7 +233,9 @@ MimeTypes::MimeTypes(QObject *parent) : QObject(parent) {
     watcherTimer = new QTimer;
     watcherTimer->setSingleShot(true);
     watcherTimer->setInterval(250);
-    connect(watcherTimer, &QTimer::timeout, this, [=]() { composeEnabledMimeTypes(false); enabledMimeTypesChanged(); watcher->addPath(ConfigFiles::MIMEFORMATS_FILE()); });
+    connect(watcherTimer, &QTimer::timeout, this, [=]() { composeEnabledMimeTypes(false);
+                                                          enabledMimeTypesChanged();
+                                                          watcher->addPath(ConfigFiles::MIMEFORMATS_FILE()); });
     watcher = new QFileSystemWatcher;
     if(QFileInfo(ConfigFiles::MIMEFORMATS_FILE()).exists())
         watcher->addPath(ConfigFiles::MIMEFORMATS_FILE());
@@ -339,7 +343,8 @@ void MimeTypes::composeEnabledMimeTypes(bool withSaving) {
         return;
     }
     if(!disabled.open(QIODevice::ReadOnly)) {
-        LOG << CURDATE << "MimeTypes::composeEnabledMimeType() :: WARNING: Disabled mime types file cannot be opened for reading. Setting default entries..." << NL;
+        LOG << CURDATE << "MimeTypes::composeEnabledMimeType() :: WARNING: Disabled mime types file cannot be opened for reading. "
+                       << "Setting default entries..." << NL;
         for(QString cat : categories)
             setEnabledMimeTypes(cat, defaultEnabledMimeTypes[categories.indexOf(cat)]);
         return;

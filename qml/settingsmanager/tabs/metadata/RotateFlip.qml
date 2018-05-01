@@ -29,7 +29,8 @@ import "../../"
 Entry {
 
     title: em.pty+qsTr("Automatic Rotate/Flip")
-    helptext: em.pty+qsTr("Some cameras can detect - while taking the photo - whether the camera was turned and might store this information in the image exif data. If PhotoQt finds this information, it can rotate the image accordingly or simply ignore that information.")
+    helptext: em.pty+qsTr("Some cameras can detect - while taking the photo - whether the camera was turned and might store this information in\
+ the image exif data. If PhotoQt finds this information, it can rotate the image accordingly or simply ignore that information.")
 
     ExclusiveGroup { id: rotateflipgroup; }
 

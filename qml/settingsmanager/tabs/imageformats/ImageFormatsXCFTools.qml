@@ -30,7 +30,8 @@ import "../../"
 Entry {
 
     title: "xcftools: XCF (Gimp)"
-    helptext: em.pty+qsTranslate("SettingsManager/ImageFormats", "PhotoQt can take advantage of xcftools to display Gimp's XCF file format. It can only be enabled if xcftools is installed!")
+    helptext: em.pty+qsTranslate("SettingsManager/ImageFormats", "PhotoQt can take advantage of xcftools to display Gimp's XCF file format. It\
+ can only be enabled if xcftools is installed!")
     imageSource: "qrc:/img/settings/imageformats/empty.png"
 
     content: [

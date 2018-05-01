@@ -30,7 +30,8 @@ Entry {
     id: entrytop
 
     title: em.pty+qsTr("Thumbnail Size")
-    helptext: em.pty+qsTr("Here you can adjust the thumbnail size. You can set it to any size between 20 and 256 pixel. Per default it is set to 80 pixel, but the optimal size depends on the screen resolution.")
+    helptext: em.pty+qsTr("Here you can adjust the thumbnail size. You can set it to any size between 20 and 256 pixel. Per default it is set\
+ to 80 pixel, but the optimal size depends on the screen resolution.")
 
     // This variable is needed to avoid a binding loop of slider<->spinbox
     property int val: 20

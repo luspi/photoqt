@@ -29,7 +29,10 @@ import "../../"
 Entry {
 
     title: em.pty+qsTranslate("SettingsManager/PeopleFaceTags", "Tagging of people's faces")
-    helptext: em.pty+qsTranslate("SettingsManager/PeopleFaceTags", "Connecting faces with names helps remember the context of photos. A variety of software stores such information in the image's XMP metadata. PhotoQt can find and display such information, and it also allows adding new face tags. When the tagging mode is enabled, rectangles around faces can be drawn followed by entering the connected name. To enable the tagging mode, use either the shortcut feature or the entry in the main menu.")
+    helptext: em.pty+qsTranslate("SettingsManager/PeopleFaceTags", "Connecting faces with names helps remember the context of photos. A variety of\
+ software stores such information in the image's XMP metadata. PhotoQt can find and display such information, and it also allows adding new face\
+ tags. When the tagging mode is enabled, rectangles around faces can be drawn followed by entering the connected name. To enable the tagging mode,\
+ use either the shortcut feature or the entry in the main menu.")
 
     ExclusiveGroup { id: visiblegrp; }
 
@@ -175,9 +178,11 @@ Entry {
             CustomRadioButton {
                 id: tagsHybridMode
                 enabled: tagsEnable.checkedButton
-                //: The hybrid mode refers to a visibility mode for the face tags, in between of them always being visible, and only individual tags (a combination of the two, hence 'hybrid')
+                //: The hybrid mode refers to a visibility mode for the face tags, in between of them always being visible,
+                //: and only individual tags (a combination of the two, hence 'hybrid')
                 text: em.pty+qsTranslate("SettingsManager/PeopleFaceTags", "Hybrid Mode")
-                tooltip: em.pty+qsTranslate("SettingsManager/PeopleFaceTags", "Show all tags when mouse anywhere over image, but show only an individual label when mouse on top of it.")
+                tooltip: em.pty+qsTranslate("SettingsManager/PeopleFaceTags",
+                                           "Show all tags when mouse anywhere over image, but show only an individual label when mouse on top of it.")
                 exclusiveGroup: visiblegrp
             }
 
@@ -220,7 +225,9 @@ Entry {
         tagsShowAllAlways.checked = settings.peopleTagInMetaAlwaysVisible
         tagsShowOneHover.checked = settings.peopleTagInMetaIndependentLabels
         tagsHybridMode.checked = settings.peopleTagInMetaHybridMode
-        tagsShowAllHover.checked = (!settings.peopleTagInMetaAlwaysVisible && !settings.peopleTagInMetaIndependentLabels && !settings.peopleTagInMetaHybridMode)
+        tagsShowAllHover.checked = (!settings.peopleTagInMetaAlwaysVisible &&
+                                    !settings.peopleTagInMetaIndependentLabels &&
+                                    !settings.peopleTagInMetaHybridMode)
         tagsFontSize.value = settings.peopleTagInMetaFontSize
     }
 

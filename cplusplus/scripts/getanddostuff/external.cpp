@@ -67,7 +67,10 @@ QString GetAndDoStuffExternal::exportConfig(QString useThisFilename) {
     // Obtain a filename from the user or used passed on filename
     QString archiveFile;
     if(useThisFilename == "") {
-        archiveFile = QFileDialog::getSaveFileName(0, "Select Location", QDir::homePath() + "/photoqtconfig.pqt", "PhotoQt Config File (*.pqt);;All Files (*.*)");
+        archiveFile = QFileDialog::getSaveFileName(0,
+                                                   "Select Location",
+                                                   QDir::homePath() + "/photoqtconfig.pqt",
+                                                   "PhotoQt Config File (*.pqt);;All Files (*.*)");
         if(archiveFile.trimmed() == "")
             return "-";
     } else
@@ -129,7 +132,8 @@ QString GetAndDoStuffExternal::exportConfig(QString useThisFilename) {
                 archive_entry_free(entry);
 
             } else
-                LOG << CURDATE << "GetAndDoStuffExternal::exportConfig(): ERROR: Unable to read config file '" << iter.value().toStdString() << "'... Skipping!" << NL;
+                LOG << CURDATE << "GetAndDoStuffExternal::exportConfig(): ERROR: Unable to read config file '" <<
+                       iter.value().toStdString() << "'... Skipping!" << NL;
         }
         ++iter;
     }
@@ -191,7 +195,8 @@ QString GetAndDoStuffExternal::importConfig(QString filename) {
             // And finally read the file into the buffer
             int r = archive_read_data(a, (void*)buff, size);
             if(r != (int)size) {
-                LOG << CURDATE << "GetAndDoStuffExternal::importConfig(): ERROR: Unable to extract file '" << allfiles[filenameinside].toStdString() << "'... Skipping file!" << NL;
+                LOG << CURDATE << "GetAndDoStuffExternal::importConfig(): ERROR: Unable to extract file '" <<
+                       allfiles[filenameinside].toStdString() << "'... Skipping file!" << NL;
                 qDebug() << "ERROR string: " << archive_error_string(a);
                 continue;
             }
@@ -211,7 +216,8 @@ QString GetAndDoStuffExternal::importConfig(QString filename) {
                 out << dat;
                 file.close();
             } else
-                LOG << CURDATE << "GetAndDoStuffExternal::importConfig(): ERROR: Unable to write new config file '" << allfiles[filenameinside].toStdString() << "'... Skipping file!" << NL;
+                LOG << CURDATE << "GetAndDoStuffExternal::importConfig(): ERROR: Unable to write new config file '" <<
+                       allfiles[filenameinside].toStdString() << "'... Skipping file!" << NL;
 
         }
 

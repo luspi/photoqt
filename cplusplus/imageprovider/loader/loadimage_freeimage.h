@@ -54,7 +54,8 @@ namespace PLoadImage {
 
             // If an error occured (caught by output handler), return error image
             if(errorMessage != "")
-                return PLoadImage::ErrorImage::load(QString("FreeImage failed to get image type: %1 (image type: %2)").arg(errorMessage).arg(errorFormat));
+                return PLoadImage::ErrorImage::load(QString("FreeImage failed to get image type: %1 (image type: %2)")
+                                                    .arg(errorMessage).arg(errorFormat));
             // If loading the image failed for any other reason, return error image
             if(fif == FIF_UNKNOWN)
                 return PLoadImage::ErrorImage::load("FreeImage failed to load image! Unknown file type...");
@@ -70,7 +71,8 @@ namespace PLoadImage {
 
                 // Error check!
                 if(errorMessage != "")
-                    return PLoadImage::ErrorImage::load(QString("FreeImage failed to load image: %1 (image type: %2)").arg(errorMessage).arg(errorFormat));
+                    return PLoadImage::ErrorImage::load(QString("FreeImage failed to load image: %1 (image type: %2)")
+                                                        .arg(errorMessage).arg(errorFormat));
 
                 // If anything else went wrong, return error image
                 if(dib == nullptr)
@@ -92,7 +94,8 @@ namespace PLoadImage {
 
             // Error check!
             if(errorMessage != "")
-                return PLoadImage::ErrorImage::load(QString("FreeImage failed to convert image to 24bits: %1 (image type: %2)").arg(errorMessage).arg(errorFormat));
+                return PLoadImage::ErrorImage::load(QString("FreeImage failed to convert image to 24bits: %1 (image type: %2)")
+                                                    .arg(errorMessage).arg(errorFormat));
 
             // We save the image to memory as BMP as Qt can understand BMP very well
             // Note: BMP seems to be about 10 times faster than JPEG!
@@ -100,7 +103,8 @@ namespace PLoadImage {
 
             // Error check!
             if(errorMessage != "")
-                return PLoadImage::ErrorImage::load(QString("FreeImage failed to save image to memory as JPEG: %1 (image type: %2)").arg(errorMessage).arg(errorFormat));
+                return PLoadImage::ErrorImage::load(QString("FreeImage failed to save image to memory as JPEG: %1 (image type: %2)")
+                                                        .arg(errorMessage).arg(errorFormat));
 
             // Free up some memory
             FreeImage_Unload(dib);
@@ -114,7 +118,8 @@ namespace PLoadImage {
 
             // Error check!
             if(errorMessage != "")
-                return PLoadImage::ErrorImage::load(QString("FreeImage failed to acquire memory: %1 (image type: %2)").arg(errorMessage).arg(errorFormat));
+                return PLoadImage::ErrorImage::load(QString("FreeImage failed to acquire memory: %1 (image type: %2)")
+                                                    .arg(errorMessage).arg(errorFormat));
 
             // Load the raw JPEG data into the QByteArray ...
             QByteArray array = QByteArray::fromRawData((char*)mem_buffer, size_in_bytes);

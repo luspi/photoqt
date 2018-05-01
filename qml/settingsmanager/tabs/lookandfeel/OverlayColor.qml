@@ -29,7 +29,9 @@ Entry {
 
     //: This refers to the background color of PhotoQt, behind the main image (the part not covered by the image itself)
     title: em.pty+qsTr("Overlay Color")
-    helptext: em.pty+qsTr("Here you can adjust the background colour of PhotoQt (of the part not covered by an image). When using compositing or a background image, then you can also specify an alpha value, i.e. the transparency of the coloured overlay layer. When neither compositing is enabled nor a background image is set, then this colour will be the non-transparent background of PhotoQt.")
+    helptext: em.pty+qsTr("Here you can adjust the background colour of PhotoQt (of the part not covered by an image). When using compositing or a\
+ background image, then you can also specify an alpha value, i.e. the transparency of the coloured overlay layer. When neither compositing is\
+ enabled nor a background image is set, then this colour will be the non-transparent background of PhotoQt.")
 
     content: [
 

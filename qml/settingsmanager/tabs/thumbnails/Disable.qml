@@ -28,7 +28,8 @@ import "../../"
 
 Entry {
     title: em.pty+qsTr("Disable thumbnails")
-    helptext: em.pty+qsTr("If you just don't need or don't want any thumbnails whatsoever, then you can disable them here completely. This will increase the speed of PhotoQt, but will make navigating with the mouse harder.")
+    helptext: em.pty+qsTr("If you just don't need or don't want any thumbnails whatsoever, then you can disable them here completely. This will\
+ increase the speed of PhotoQt, but will make navigating with the mouse harder.")
 
     content: [
 

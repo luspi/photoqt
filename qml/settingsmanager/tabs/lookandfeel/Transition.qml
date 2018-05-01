@@ -29,7 +29,8 @@ Entry {
 
     //: The transition refers to images fading into one another when switching between them
     title: em.pty+qsTr("Smooth Transition")
-    helptext: em.pty+qsTr("Switching between images can be done smoothly, the new image can be set to fade into the old image. 'No transition' means, that the previous image is simply replaced instantly by the new image.")
+    helptext: em.pty+qsTr("Switching between images can be done smoothly, the new image can be set to fade into the old image.\
+ 'No transition' means, that the previous image is simply replaced instantly by the new image.")
 
     content: [
 

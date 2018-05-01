@@ -435,7 +435,8 @@ ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
     watcherTimer = new QTimer;
     watcherTimer->setSingleShot(true);
     watcherTimer->setInterval(250);
-    connect(watcherTimer, &QTimer::timeout, this, [=]() { composeEnabledFormats(false); enabledFileformatsChanged(); watcher->addPath(ConfigFiles::IMAGEFORMATS_FILE()); });
+    connect(watcherTimer, &QTimer::timeout, this, [=]() { composeEnabledFormats(false); enabledFileformatsChanged();
+                                                          watcher->addPath(ConfigFiles::IMAGEFORMATS_FILE()); });
     watcher = new QFileSystemWatcher;
     if(QFileInfo(ConfigFiles::IMAGEFORMATS_FILE()).exists())
         watcher->addPath(ConfigFiles::IMAGEFORMATS_FILE());
@@ -543,7 +544,8 @@ void ImageFormats::composeEnabledFormats(bool withSaving) {
         return;
     }
     if(!disabled.open(QIODevice::ReadOnly)) {
-        LOG << CURDATE << "ImageFormats::composeEnabledFormats() :: NOTE: Disabled formats file cannot be opened for reading. Setting default entries..." << NL;
+        LOG << CURDATE << "ImageFormats::composeEnabledFormats() :: NOTE: Disabled formats file cannot be opened for reading. "
+                       << "Setting default entries..." << NL;
         for(QString cat : categories)
             setEnabledFileformats(cat, defaultEnabledFileformats[categories.indexOf(cat)]);
         return;

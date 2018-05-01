@@ -34,9 +34,11 @@ Entry {
     visible: getanddostuff.isFreeImageSupportEnabled()
 
     title: "FreeImage image library"
-    helptext: em.pty+qsTranslate("SettingsManager/ImageFormats", "FreeImage is an open source image library supporting a number of image formats, many of which have been successfully tested in PhotoQt.") +
+    helptext: em.pty+qsTranslate("SettingsManager/ImageFormats", "FreeImage is an open source image library supporting a number of image formats,\
+ many of which have been successfully tested in PhotoQt.") +
               "<br><br>" +
-              em.pty+qsTranslate("SettingsManager/ImageFormats", "Use left click to check/uncheck an individual entry, and right click to check/uncheck all endings related to the same image type.")
+              em.pty+qsTranslate("SettingsManager/ImageFormats", "Use left click to check/uncheck an individual entry, and right click to\
+ check/uncheck all endings related to the same image type.")
     imageSource: "qrc:/img/settings/imageformats/freeimage.jpg"
 
     content: [
@@ -68,7 +70,8 @@ Entry {
             height: but1.height
             verticalAlignment: Text.AlignVCenter
             //: Please do not forget the '%1'!
-            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "There are currently %1 file endings selected.").arg("<b>"+formatsPopupEndings.numItemsChecked+"</b>")
+            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "There are currently %1 file endings selected.")
+                                .arg("<b>"+formatsPopupEndings.numItemsChecked+"</b>")
         }
 
     ]
@@ -103,7 +106,8 @@ Entry {
             height: but2.height
             verticalAlignment: Text.AlignVCenter
             //: Please do not forget the '%1'!
-            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "There are currently %1 mime types selected.").arg("<b>"+formatsPopupMimetypes.numItemsChecked+"</b>")
+            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "There are currently %1 mime types selected.")
+                                .arg("<b>"+formatsPopupMimetypes.numItemsChecked+"</b>")
         }
 
     ]

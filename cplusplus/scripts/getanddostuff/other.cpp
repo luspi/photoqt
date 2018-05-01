@@ -150,7 +150,8 @@ QString GetAndDoStuffOther::getVersionString() {
 void GetAndDoStuffOther::storeGeometry(QRect rect) {
 
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
-        LOG << CURDATE << "GetAndDoStuffOther::storeGeometry() - " << rect.x() << "x" << rect.y() << " / " << rect.width() << "x" << rect.height() << NL;
+        LOG << CURDATE << "GetAndDoStuffOther::storeGeometry() - "
+            << rect.x() << "x" << rect.y() << " / " << rect.width() << "x" << rect.height() << NL;
 
     QFile geo(ConfigFiles::MAINWINDOW_GEOMETRY_FILE());
     if(geo.open(QIODevice::WriteOnly | QIODevice::Truncate)) {

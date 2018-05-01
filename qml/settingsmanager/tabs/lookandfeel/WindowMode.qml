@@ -28,7 +28,8 @@ import "../../"
 Entry {
 
     title: em.pty+qsTr("Window Mode")
-    helptext: em.pty+qsTr("PhotoQt can be used both in fullscreen mode or as a normal window. It was designed with a fullscreen/maximised application in mind, thus it will look best when used that way, but will work just as well any other way.")
+    helptext: em.pty+qsTr("PhotoQt can be used both in fullscreen mode or as a normal window. It was designed with a fullscreen/maximised\
+ application in mind, thus it will look best when used that way, but will work just as well any other way.")
 
     content: [
 

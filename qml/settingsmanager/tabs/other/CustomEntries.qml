@@ -30,7 +30,8 @@ import "./"
 Entry {
 
     title: em.pty+qsTr("Custom Entries in Main Menu")
-    helptext: em.pty+qsTr("Here you can adjust the custom entries in the main menu. You can simply drag and drop the entries, edit them, add a new one and remove an existing one.")
+    helptext: em.pty+qsTr("Here you can adjust the custom entries in the main menu. You can simply drag and drop the entries, edit them,\
+ add a new one and remove an existing one.")
 
     content: [
 
@@ -131,7 +132,8 @@ Entry {
                     }
 
                     // The currentz property makes sure a dragged item is always displayed above others.
-                    // Each time a drag is started, this value plus one is used as z value of item, with this currentz value incremented by one afterwards
+                    // Each time a drag is started, this value plus one is used as z value of item,
+                    // with this currentz value incremented by one afterwards
                     property int currentz: 100
 
                     // this hold the index of the item that is being dragged
@@ -367,7 +369,8 @@ Entry {
                                 onXChanged: listview.executableEditX = x
                                 onWidthChanged: listview.executableEditWidth = width
 
-                                // We catch this one directly from the LineEdit. If we use the shortcuts engine, then the tab gets processed by the LineEdit (i.e., the LineEdit loses focus) BEFORE we rceive it from the shortcuts engine
+                                // We catch this one directly from the LineEdit. If we use the shortcuts engine, then the tab gets processed by
+                                // the LineEdit (i.e., the LineEdit loses focus) BEFORE we rceive it from the shortcuts engine
                                 onTabPressed: description.selectAll()
 
                             }
@@ -403,7 +406,8 @@ Entry {
                                 anchors.left: description.right
                                 anchors.leftMargin: dragitem.spacing
 
-                                //: KEEP THIS STRING SHORT! It is displayed for external applications of main menu as an option to quit PhotoQt after executing it
+                                //: KEEP THIS STRING SHORT! It is displayed for external applications of main menu as an option
+                                //: to quit PhotoQt after executing it
                                 text: em.pty+qsTr("quit")
 
                                 checkedButton: (close=="1")

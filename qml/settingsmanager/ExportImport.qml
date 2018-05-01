@@ -94,7 +94,8 @@ Rectangle {
 
                 // A short explanation text
                 Text {
-                    text: em.pty+qsTr("Here you can export all settings and shortcuts into a single packed file and, e.g., import it in another installation of PhotoQt.")
+                    text: em.pty+qsTr("Here you can export all settings and shortcuts into a single packed file and, e.g.,\
+ import it in another installation of PhotoQt.")
                     color: "white"
                     width: contrect.width
                     font.pointSize: 12

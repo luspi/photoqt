@@ -98,7 +98,8 @@ QVariantList ManagePeopleTags::getFaceTags(QString path) {
         }
 
     } catch(Exiv2::Error& e) {
-        LOG << CURDATE << "GetPeopleTag::getPeopleLocations() 2 - ERROR reading exiv data (caught exception): " << e << " (" << Exiv2::errMsg(e.code()) << ")" << NL;
+        LOG << CURDATE << "GetPeopleTag::getPeopleLocations() 2 - ERROR reading exiv data (caught exception): "
+            << e << " (" << Exiv2::errMsg(e.code()) << ")" << NL;
         return ret;
     }
 
@@ -181,13 +182,15 @@ void ManagePeopleTags::setFaceTags(QString filename, QVariantList tags) {
 
                 // Second: This is the rectangle where the face is located
                 Exiv2::XmpTextValue::AutoPtr arrayTwo(new Exiv2::XmpTextValue);
-                arrayTwo->read(QString("%1, %2, %3, %4").arg(tags[6*i+1].toString()).arg(tags[6*i+2].toString()).arg(tags[6*i+3].toString()).arg(tags[6*i+4].toString()).toStdString());
+                arrayTwo->read(QString("%1, %2, %3, %4").arg(tags[6*i+1].toString()).arg(tags[6*i+2].toString())
+                                                        .arg(tags[6*i+3].toString()).arg(tags[6*i+4].toString()).toStdString());
                 xmpDataNew.add(Exiv2::XmpKey(QString("Xmp.MP.RegionInfo/MPRI:Regions[%1]/MPReg:Rectangle").arg(i+1).toStdString()), arrayTwo.get());
 
                 // Third: This is the name of the person
                 Exiv2::XmpTextValue::AutoPtr arrayThree(new Exiv2::XmpTextValue);
                 arrayThree->read(tags[6*i+5].toString().toStdString());
-                xmpDataNew.add(Exiv2::XmpKey(QString("Xmp.MP.RegionInfo/MPRI:Regions[%1]/MPReg:PersonDisplayName").arg(i+1).toStdString()), arrayThree.get());
+                xmpDataNew.add(Exiv2::XmpKey(QString("Xmp.MP.RegionInfo/MPRI:Regions[%1]/MPReg:PersonDisplayName").arg(i+1).toStdString()),
+                               arrayThree.get());
 
             }
 
@@ -198,7 +201,8 @@ void ManagePeopleTags::setFaceTags(QString filename, QVariantList tags) {
         }
 
     } catch(Exiv2::Error& e) {
-        LOG << CURDATE << "GetPeopleTag::setFaceTags() - ERROR reading exiv data (caught exception): " << e << " (" << Exiv2::errMsg(e.code()) << ")" << NL;
+        LOG << CURDATE << "GetPeopleTag::setFaceTags() - ERROR reading exiv data (caught exception): "
+            << e << " (" << Exiv2::errMsg(e.code()) << ")" << NL;
         return;
     }
 

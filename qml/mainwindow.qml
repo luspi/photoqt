@@ -59,7 +59,8 @@ Rectangle {
     signal quitPhotoQt()
 
     // tell the c++ code to update the tray icon
-    // We need to pass on the value as there is a delay for writing a change of the settings to file, thus it might not be updated on harddrive when we get to this point
+    // We need to pass on the value as there is a delay for writing a change of the settings to file,
+    // thus it might not be updated on harddrive when we get to this point
     signal trayIconValueChanged(int icon)
 
     signal windowModeChanged(bool windowmode, bool windowdeco, bool keepontop)
@@ -406,7 +407,8 @@ Rectangle {
             if(!variables.guiBlocked) {
                 mainmenu.hide()
                 metadata.hide()
-                if((!settings.thumbnailKeepVisible && !settings.thumbnailKeepVisibleWhenNotZoomedIn) || (settings.thumbnailKeepVisibleWhenNotZoomedIn && imageitem.isZoomedIn()))
+                if((!settings.thumbnailKeepVisible && !settings.thumbnailKeepVisibleWhenNotZoomedIn) ||
+                        (settings.thumbnailKeepVisibleWhenNotZoomedIn && imageitem.isZoomedIn()))
                     call.hide("thumbnails")
                 call.hide("slideshowbar")
             }

@@ -32,7 +32,8 @@ Entry {
     id: entrytop
 
     title: "imgur.com"
-    helptext: em.pty+qsTr("Here you can connect PhotoQt to your imgur.com account for uploading images directly to it. Alternatively, you can always upload images anonymously to imgur.com without any user account. In either case, PhotoQt will return the image URL to you.")
+    helptext: em.pty+qsTr("Here you can connect PhotoQt to your imgur.com account for uploading images directly to it. Alternatively, you can\
+ always upload images anonymously to imgur.com without any user account. In either case, PhotoQt will return the image URL to you.")
 
     // This variable is needed to avoid a binding loop of slider<->spinbox
     property int val: 20

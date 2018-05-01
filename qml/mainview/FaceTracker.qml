@@ -41,7 +41,8 @@ Item {
             opacity: ((settings.peopleTagInMetaAlwaysVisible || variables.taggingFaces ||
                       (settings.peopleTagInMetaIndependentLabels && mouseInsideThisLabel) ||
                       (!settings.peopleTagInMetaIndependentLabels && !settings.peopleTagInMetaHybridMode && mouseInsideFullImage) ||
-                      (settings.peopleTagInMetaHybridMode && mouseInsideFullImage && (mouseOverLabelWithIndex==index || mouseOverLabelWithIndex == -1))) ? 1 : 0)
+                      (settings.peopleTagInMetaHybridMode && mouseInsideFullImage &&
+                                    (mouseOverLabelWithIndex==index || mouseOverLabelWithIndex == -1))) ? 1 : 0)
             Behavior on opacity { NumberAnimation { duration: 100 } }
 
             // The first two values are x and y ratios

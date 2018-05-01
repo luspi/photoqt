@@ -29,7 +29,8 @@ Entry {
 
     //: Along the lines of 'zoom small images until they fill the window'
     title: em.pty+qsTr("Fit in Window")
-    helptext: em.pty+qsTr("If the image dimensions are smaller than the screen dimensions, PhotoQt can automatically zoom those images to make them fit into the window.")
+    helptext: em.pty+qsTr("If the image dimensions are smaller than the screen dimensions, PhotoQt can automatically zoom those images to make them\
+ fit into the window.")
 
     content: [
 

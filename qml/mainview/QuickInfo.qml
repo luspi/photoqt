@@ -40,7 +40,10 @@ Item {
     width: childrenRect.width
     height: childrenRect.height
 
-    property bool settingsValues: (!settings.quickInfoHideCounter || !settings.quickInfoHideFilename || !settings.quickInfoHideFilepath || variables.filter!="")
+    property bool settingsValues: (!settings.quickInfoHideCounter ||
+                                   !settings.quickInfoHideFilename ||
+                                   !settings.quickInfoHideFilepath ||
+                                   variables.filter!="")
 
     visible: ( (variables.currentFile=="" && settings.quickInfoManageWindow && !variables.isWindowFullscreen) ||
                (settingsValues && !variables.slideshowRunning && variables.currentFile!="") ||
@@ -75,7 +78,9 @@ Item {
             x:3
             y:3
 
-            text: (variables.currentFile==""||settings.quickInfoHideCounter) ? "" : (variables.currentFilePos+1).toString() + "/" + variables.totalNumberImagesCurrentFolder.toString()
+            text: (variables.currentFile==""||settings.quickInfoHideCounter) ?
+                      "" :
+                      (variables.currentFilePos+1).toString() + "/" + variables.totalNumberImagesCurrentFolder.toString()
 
             visible: !settings.quickInfoHideCounter
 

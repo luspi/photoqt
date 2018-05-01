@@ -37,7 +37,8 @@ private slots:
     }
 
     void exifGps() {
-        QCOMPARE(meta.exifGps("W", "9/1 49/1 5257/100", "N", "53/1 37/1 5686/100"), QStringList() << "53°37'56.86'' N, 9°49'52.57'' W" << "53.6325 -9.83127");
+        QCOMPARE(meta.exifGps("W", "9/1 49/1 5257/100", "N", "53/1 37/1 5686/100"),
+                                                                            QStringList() << "53°37'56.86'' N, 9°49'52.57'' W" << "53.6325 -9.83127");
         QCOMPARE(meta.exifGps("W", "9 49 52.57", "N", "53 37 56.86"), QStringList() << "53°37'56.86'' N, 9°49'52.57'' W" << "53.6325 -9.83127");
         QCOMPARE(meta.exifGps("W", "9 49", "N", "53 37"), QStringList() << "53°37'0'' N, 9°49'0'' W" << "53.6167 -9.81667");
         QCOMPARE(meta.exifGps("W", "9", "N", "53"), QStringList() << "53°0'0'' N, 9°0'0'' W" << "53 -9");

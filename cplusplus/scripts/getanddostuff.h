@@ -95,7 +95,8 @@ public:
 
     // MANIPULATION
     Q_INVOKABLE bool canBeScaled(QString filename) { return manipulation->canBeScaled(filename); }
-    Q_INVOKABLE bool scaleImage(QString filename, int width, int height, int quality, QString newfilename) { return manipulation->scaleImage(filename, width, height, quality, newfilename); }
+    Q_INVOKABLE bool scaleImage(QString filename, int width, int height, int quality, QString newfilename) {
+        return manipulation->scaleImage(filename, width, height, quality, newfilename); }
     Q_INVOKABLE void deleteImage(QString filename, bool trash) { manipulation->deleteImage(filename, trash); }
     Q_INVOKABLE void copyImage(QString imagePath, QString destinationPath) { manipulation->copyImage(imagePath, destinationPath); }
     Q_INVOKABLE void moveImage(QString imagePath, QString destinationPath) { manipulation->moveImage(imagePath, destinationPath); }
@@ -134,10 +135,12 @@ public:
     Q_INVOKABLE QList<int> getEnlightenmentWorkspaceCount() { return wallpaper->getEnlightenmentWorkspaceCount(); }
 
     // OPENFILE
-    Q_INVOKABLE int getNumberFilesInFolder(QString path, QString categoryFileTypes) { return this->openfile->getNumberFilesInFolder(path, categoryFileTypes); }
+    Q_INVOKABLE int getNumberFilesInFolder(QString path, QString categoryFileTypes) {
+        return this->openfile->getNumberFilesInFolder(path, categoryFileTypes); }
     Q_INVOKABLE QVariantList getUserPlaces() { return this->openfile->getUserPlaces(); }
     Q_INVOKABLE QVariantList getStorageInfo() { return this->openfile->getStorageInfo(); }
-    Q_INVOKABLE QVariantList getFoldersIn(QString path, bool getDotDot = true, bool showHidden = false) { return this->openfile->getFoldersIn(path, getDotDot, showHidden); }
+    Q_INVOKABLE QVariantList getFoldersIn(QString path, bool getDotDot = true, bool showHidden = false) {
+        return this->openfile->getFoldersIn(path, getDotDot, showHidden); }
     Q_INVOKABLE void saveUserPlaces(QVariantList enabled) { return this->openfile->saveUserPlaces(enabled); }
     Q_INVOKABLE QString getOpenFileLastLocation() {  return this->openfile->getOpenFileLastLocation(); }
     Q_INVOKABLE void setOpenFileLastLocation(QString path) { openfile->setOpenFileLastLocation(path); }
@@ -148,7 +151,11 @@ public:
     Q_INVOKABLE bool isSupportedImageType(QString path) { return openfile->isSupportedImageType(path); }
 
     // LISTFILES
-    Q_INVOKABLE QVariantList getAllFilesIn(QString file, QString categoryFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending, bool includeSize, bool pdfLoadAllPages, bool loadSinglePdf, bool archiveLoadAllFiles, bool loadSingleArchive, bool archiveUseExternalUnrar) { return this->listfiles->getAllFilesIn(file, categoryFileTypes, filter, showHidden, sortby, sortbyAscending, includeSize, pdfLoadAllPages, loadSinglePdf, archiveLoadAllFiles, loadSingleArchive, archiveUseExternalUnrar); }
+    Q_INVOKABLE QVariantList getAllFilesIn(QString file, QString categoryFileTypes, QString filter, bool showHidden, QString sortby,
+                                           bool sortbyAscending, bool includeSize, bool pdfLoadAllPages, bool loadSinglePdf, bool archiveLoadAllFiles,
+                                           bool loadSingleArchive, bool archiveUseExternalUnrar) {
+        return this->listfiles->getAllFilesIn(file, categoryFileTypes, filter, showHidden, sortby, sortbyAscending, includeSize, pdfLoadAllPages,
+                                              loadSinglePdf, archiveLoadAllFiles, loadSingleArchive, archiveUseExternalUnrar); }
     Q_INVOKABLE int getTotalNumberOfPagesOfPdf(QString file) { return listfiles->getTotalNumberOfPagesOfPdf(file); }
 
 private:

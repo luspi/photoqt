@@ -194,7 +194,8 @@ Rectangle {
                     width: feedback_top.width-200
                     horizontalAlignment: Text.AlignHCenter
                     //: Refers to uploading an image to imgur.com
-                    text: em.pty+qsTr("This seems to take a long time... If it doesn't work, then there might be a problem with the imgur.com servers at the moment. In that case the only solution is to try again at some later point!")
+                    text: em.pty+qsTr("This seems to take a long time... If it doesn't work, then there might be a problem with the imgur.com\
+ servers at the moment. In that case the only solution is to try again at some later point!")
                     wrapMode: Text.WordWrap
                     color: "red"
                     font.pointSize: 20

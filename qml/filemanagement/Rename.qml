@@ -138,7 +138,8 @@ Item {
         verboseMessage("FileManagement/Rename", "simulateEnter()")
         if(newfilename.getText() !== "") {
             // a rename is the same as a move into the same directory
-            getanddostuff.moveImage(variables.currentDir + "/" + variables.currentFileWithoutExtras, variables.currentDir + "/" + newfilename.getText() + suffix.text)
+            getanddostuff.moveImage(variables.currentDir + "/" + variables.currentFileWithoutExtras,
+                                    variables.currentDir + "/" + newfilename.getText() + suffix.text)
             Handle.loadFile(variables.currentDir + "/" + newfilename.getText() + suffix.text, variables.filter, true)
             management_top.hide()
         }

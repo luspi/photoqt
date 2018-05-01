@@ -39,7 +39,8 @@ namespace StartupCheck {
                 return;
 
             if(!fileIn.open(QIODevice::ReadOnly)) {
-                LOG << CURDATE << "StartupCheck::Settings::moveToNewKeyNames() - ERROR: unable to open settings file for reading -> unable to ensure values are preserved between sessions." << NL;
+                LOG << CURDATE << "StartupCheck::Settings::moveToNewKeyNames() - ERROR: unable to open settings file for reading -> "
+                               << "unable to ensure values are preserved between sessions." << NL;
                 return;
             }
 
@@ -184,7 +185,8 @@ namespace StartupCheck {
 
             QFile fileOut(ConfigFiles::SETTINGS_FILE());
             if(!fileOut.open(QIODevice::WriteOnly|QIODevice::Truncate)) {
-                LOG << CURDATE << "ERROR! Startup::Settings - unable to open settings file for writing -> unable to ensure values are preserved between sessions." << NL;
+                LOG << CURDATE << "ERROR! Startup::Settings - unable to open settings file for writing -> "
+                               << "unable to ensure values are preserved between sessions." << NL;
                 return;
             }
 

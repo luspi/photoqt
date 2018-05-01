@@ -29,7 +29,8 @@ import "../../"
 Entry {
 
     title: em.pty+qsTr("Online Map for GPS")
-    helptext: em.pty+qsTr("If your image includes a GPS location, then a click on the location text will load this location in an online map using your default external browser. Here you can choose which online service to use (suggestions for other online maps always welcome).")
+    helptext: em.pty+qsTr("If your image includes a GPS location, then a click on the location text will load this location in an online\
+ map using your default external browser. Here you can choose which online service to use (suggestions for other online maps always welcome).")
 
     ExclusiveGroup { id: mapgroup; }
 

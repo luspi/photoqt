@@ -59,7 +59,9 @@ Button {
         label: Text {
             id: txt
             font.pointSize: fontsize
-            text: currentIndex==-1 ? "" : (model[currentIndex].substr(0,3)!="[B]" ? model[currentIndex] : model[currentIndex].substr(3,model[currentIndex].length))
+            text: currentIndex==-1 ? "" : (model[currentIndex].substr(0,3)!="[B]" ?
+                                               model[currentIndex] :
+                                               model[currentIndex].substr(3,model[currentIndex].length))
             font.bold: displayAsError
             elide: Text.ElideRight
             color: displayAsError ? colour.text_warning : colour.text
@@ -83,7 +85,8 @@ Button {
                     addItem(model[i])
             }
 
-            // Once the items are set, we remove the seperator items, as otherwise it would be much harder to sync the item visible on button and the one selected in the context menu (currentIndex could be unequal)
+            // Once the items are set, we remove the seperator items, as otherwise it would be much harder to sync the item visible on button
+            // and the one selected in the context menu (currentIndex could be unequal)
             model = model.filter(removeSep)
             function removeSep(e) {
                 return e!="---SEP---";

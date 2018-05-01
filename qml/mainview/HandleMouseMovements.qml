@@ -61,7 +61,10 @@ PinchArea {
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton|Qt.MiddleButton|Qt.RightButton
 
-        drag.target: (dragSource!==Qt.MouseEventNotSynthesized||(settings.leftButtonMouseClickAndMove&&!variables.imageItemBlocked&&buttonID==Qt.LeftButton)) ? imageitem.returnImageContainer() : undefined
+        drag.target: (dragSource!==Qt.MouseEventNotSynthesized||
+                      (settings.leftButtonMouseClickAndMove&&!variables.imageItemBlocked&&buttonID==Qt.LeftButton)) ?
+                            imageitem.returnImageContainer() :
+                            undefined
 
         property point pressedPosStart: Qt.point(-1,-1)
         property point pressedPosEnd: Qt.point(-1,-1)
@@ -117,12 +120,14 @@ PinchArea {
             if(settings.thumbnailPosition!="Top") {
                 if(yPos > mainwindow.height-w && !variables.slideshowRunning && !settings.thumbnailDisable && !variables.taggingFaces)
                     call.show("thumbnails")
-                else if((!settings.thumbnailKeepVisible && !settings.thumbnailKeepVisibleWhenNotZoomedIn) || (settings.thumbnailKeepVisibleWhenNotZoomedIn && imageitem.isZoomedIn()))
+                else if((!settings.thumbnailKeepVisible && !settings.thumbnailKeepVisibleWhenNotZoomedIn) ||
+                        (settings.thumbnailKeepVisibleWhenNotZoomedIn && imageitem.isZoomedIn()))
                     call.hide("thumbnails")
             } else {
                 if(yPos < w && !variables.slideshowRunning && !settings.thumbnailDisable && !variables.taggingFaces)
                     call.show("thumbnails")
-                else if((!settings.thumbnailKeepVisible && !settings.thumbnailKeepVisibleWhenNotZoomedIn) || (settings.thumbnailKeepVisibleWhenNotZoomedIn && imageitem.isZoomedIn()))
+                else if((!settings.thumbnailKeepVisible && !settings.thumbnailKeepVisibleWhenNotZoomedIn) ||
+                        (settings.thumbnailKeepVisibleWhenNotZoomedIn && imageitem.isZoomedIn()))
                     call.hide("thumbnails")
             }
 

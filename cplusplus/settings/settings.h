@@ -521,9 +521,10 @@ public:
                WRITE  setInterpolationNearestNeighbourThreshold
                NOTIFY interpolationNearestNeighbourThresholdChanged)
     int  getInterpolationNearestNeighbourThreshold() { return m_interpolationNearestNeighbourThreshold; }
-    void setInterpolationNearestNeighbourThreshold(int val) { if(val != m_interpolationNearestNeighbourThreshold) { m_interpolationNearestNeighbourThreshold = val;
-                                                                                                                    emit interpolationNearestNeighbourThresholdChanged(val);
-                                                                                                                    saveSettingsTimer->start(); } }
+    void setInterpolationNearestNeighbourThreshold(int val) { if(val != m_interpolationNearestNeighbourThreshold) {
+                                                                            m_interpolationNearestNeighbourThreshold = val;
+                                                                            emit interpolationNearestNeighbourThresholdChanged(val);
+                                                                            saveSettingsTimer->start(); } }
 
     // interpolationNearestNeighbourUpscale
     Q_PROPERTY(bool   interpolationNearestNeighbourUpscale
@@ -531,9 +532,10 @@ public:
                WRITE  setInterpolationNearestNeighbourUpscale
                NOTIFY interpolationNearestNeighbourUpscaleChanged)
     bool getInterpolationNearestNeighbourUpscale() { return m_interpolationNearestNeighbourUpscale; }
-    void setInterpolationNearestNeighbourUpscale(bool val) { if(val != m_interpolationNearestNeighbourUpscale) { m_interpolationNearestNeighbourUpscale = val;
-                                                                                                                 emit interpolationNearestNeighbourUpscaleChanged(val);
-                                                                                                                 saveSettingsTimer->start(); } }
+    void setInterpolationNearestNeighbourUpscale(bool val) { if(val != m_interpolationNearestNeighbourUpscale) {
+                                                                            m_interpolationNearestNeighbourUpscale = val;
+                                                                            emit interpolationNearestNeighbourUpscaleChanged(val);
+                                                                            saveSettingsTimer->start(); } }
 
     // pixmapCache
     Q_PROPERTY(int    pixmapCache
@@ -551,9 +553,10 @@ public:
                WRITE  setShowTransparencyMarkerBackground
                NOTIFY showTransparencyMarkerBackgroundChanged)
     bool getShowTransparencyMarkerBackground() { return m_showTransparencyMarkerBackground; }
-    void setShowTransparencyMarkerBackground(bool val) { if(val != m_showTransparencyMarkerBackground) { m_showTransparencyMarkerBackground = val;
-                                                                                                         emit showTransparencyMarkerBackgroundChanged(val);
-                                                                                                         saveSettingsTimer->start(); } }
+    void setShowTransparencyMarkerBackground(bool val) { if(val != m_showTransparencyMarkerBackground) {
+                                                                        m_showTransparencyMarkerBackground = val;
+                                                                        emit showTransparencyMarkerBackgroundChanged(val);
+                                                                        saveSettingsTimer->start(); } }
 
     // leftButtonMouseClickAndMove
     Q_PROPERTY(bool   leftButtonMouseClickAndMove
@@ -831,9 +834,10 @@ public:
                WRITE  setThumbnailKeepVisibleWhenNotZoomedIn
                NOTIFY thumbnailKeepVisibleWhenNotZoomedInChanged)
     bool getThumbnailKeepVisibleWhenNotZoomedIn() { return m_thumbnailKeepVisibleWhenNotZoomedIn; }
-    void setThumbnailKeepVisibleWhenNotZoomedIn(bool val) { if(val != m_thumbnailKeepVisibleWhenNotZoomedIn) { m_thumbnailKeepVisibleWhenNotZoomedIn = val;
-                                                                                                               emit thumbnailKeepVisibleWhenNotZoomedInChanged(val);
-                                                                                                               saveSettingsTimer->start(); } }
+    void setThumbnailKeepVisibleWhenNotZoomedIn(bool val) { if(val != m_thumbnailKeepVisibleWhenNotZoomedIn) {
+                                                                            m_thumbnailKeepVisibleWhenNotZoomedIn = val;
+                                                                            emit thumbnailKeepVisibleWhenNotZoomedInChanged(val);
+                                                                            saveSettingsTimer->start(); } }
 
     // thumbnailCenterActive
     Q_PROPERTY(bool   thumbnailCenterActive
@@ -861,9 +865,10 @@ public:
                WRITE  setThumbnailFilenameInsteadFontSize
                NOTIFY thumbnailFilenameInsteadFontSizeChanged)
     int  getThumbnailFilenameInsteadFontSize() { return m_thumbnailFilenameInsteadFontSize; }
-    void setThumbnailFilenameInsteadFontSize(int val) { if(val != m_thumbnailFilenameInsteadFontSize) { m_thumbnailFilenameInsteadFontSize = val;
-                                                                                                        emit thumbnailFilenameInsteadFontSizeChanged(val);
-                                                                                                        saveSettingsTimer->start(); } }
+    void setThumbnailFilenameInsteadFontSize(int val) { if(val != m_thumbnailFilenameInsteadFontSize) {
+                                                                        m_thumbnailFilenameInsteadFontSize = val;
+                                                                        emit thumbnailFilenameInsteadFontSizeChanged(val);
+                                                                        saveSettingsTimer->start(); } }
 
     // thumbnailDisable
     Q_PROPERTY(bool   thumbnailDisable
@@ -1181,9 +1186,10 @@ public:
                WRITE  setPeopleTagInMetaBorderAroundFace
                NOTIFY peopleTagInMetaBorderAroundFaceChanged)
     bool getPeopleTagInMetaBorderAroundFace() { return m_peopleTagInMetaBorderAroundFace; }
-    void setPeopleTagInMetaBorderAroundFace(bool val) { if(val != m_peopleTagInMetaBorderAroundFace) { m_peopleTagInMetaBorderAroundFace = val;
-                                                                                                       emit peopleTagInMetaBorderAroundFaceChanged(val);
-                                                                                                       saveSettingsTimer->start(); } }
+    void setPeopleTagInMetaBorderAroundFace(bool val) { if(val != m_peopleTagInMetaBorderAroundFace) {
+                                                                        m_peopleTagInMetaBorderAroundFace = val;
+                                                                        emit peopleTagInMetaBorderAroundFaceChanged(val);
+                                                                        saveSettingsTimer->start(); } }
 
     // peopleTagInMetaBorderAroundFaceColor
     Q_PROPERTY(QString peopleTagInMetaBorderAroundFaceColor
@@ -1191,9 +1197,10 @@ public:
                WRITE   setPeopleTagInMetaBorderAroundFaceColor
                NOTIFY  peopleTagInMetaBorderAroundFaceColorChanged)
     QString getPeopleTagInMetaBorderAroundFaceColor() { return m_peopleTagInMetaBorderAroundFaceColor; }
-    void    setPeopleTagInMetaBorderAroundFaceColor(QString val) { if(val != m_peopleTagInMetaBorderAroundFaceColor) { m_peopleTagInMetaBorderAroundFaceColor = val;
-                                                                                                                       emit peopleTagInMetaBorderAroundFaceColorChanged(val);
-                                                                                                                       saveSettingsTimer->start(); } }
+    void    setPeopleTagInMetaBorderAroundFaceColor(QString val) { if(val != m_peopleTagInMetaBorderAroundFaceColor) {
+                                                                                    m_peopleTagInMetaBorderAroundFaceColor = val;
+                                                                                    emit peopleTagInMetaBorderAroundFaceColorChanged(val);
+                                                                                    saveSettingsTimer->start(); } }
 
     // peopleTagInMetaBorderAroundFaceWidth
     Q_PROPERTY(int    peopleTagInMetaBorderAroundFaceWidth
@@ -1201,9 +1208,10 @@ public:
                WRITE  setPeopleTagInMetaBorderAroundFaceWidth
                NOTIFY peopleTagInMetaBorderAroundFaceWidthChanged)
     int  getPeopleTagInMetaBorderAroundFaceWidth() { return m_peopleTagInMetaBorderAroundFaceWidth; }
-    void setPeopleTagInMetaBorderAroundFaceWidth(int val) { if(val != m_peopleTagInMetaBorderAroundFaceWidth) { m_peopleTagInMetaBorderAroundFaceWidth = val;
-                                                                                                                emit peopleTagInMetaBorderAroundFaceWidthChanged(val);
-                                                                                                                saveSettingsTimer->start(); } }
+    void setPeopleTagInMetaBorderAroundFaceWidth(int val) { if(val != m_peopleTagInMetaBorderAroundFaceWidth) {
+                                                                            m_peopleTagInMetaBorderAroundFaceWidth = val;
+                                                                            emit peopleTagInMetaBorderAroundFaceWidthChanged(val);
+                                                                            saveSettingsTimer->start(); } }
 
     // peopleTagInMetaAlwaysVisible
     Q_PROPERTY(bool   peopleTagInMetaAlwaysVisible
@@ -1221,9 +1229,10 @@ public:
                WRITE  setPeopleTagInMetaIndependentLabels
                NOTIFY peopleTagInMetaIndependentLabelsChanged)
     bool getPeopleTagInMetaIndependentLabels() { return m_peopleTagInMetaIndependentLabels; }
-    void setPeopleTagInMetaIndependentLabels(bool val) { if(val != m_peopleTagInMetaIndependentLabels) { m_peopleTagInMetaIndependentLabels = val;
-                                                                                                         emit peopleTagInMetaIndependentLabelsChanged(val);
-                                                                                                         saveSettingsTimer->start(); } }
+    void setPeopleTagInMetaIndependentLabels(bool val) { if(val != m_peopleTagInMetaIndependentLabels) {
+                                                                        m_peopleTagInMetaIndependentLabels = val;
+                                                                        emit peopleTagInMetaIndependentLabelsChanged(val);
+                                                                        saveSettingsTimer->start(); } }
 
     // peopleTagInMetaHybridMode
     Q_PROPERTY(bool   peopleTagInMetaHybridMode

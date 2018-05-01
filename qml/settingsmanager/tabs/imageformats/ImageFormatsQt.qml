@@ -32,9 +32,11 @@ Entry {
     id: entrytop
 
     title: "Qt plugins"
-    helptext: em.pty+qsTranslate("SettingsManager/ImageFormats", "These are all the image formats either natively supported by Qt or through an image formats plugins:") + " <b>qt5-imageformats, kimageformats, libqpsd</b>" +
+    helptext: em.pty+qsTranslate("SettingsManager/ImageFormats", "These are all the image formats either natively supported by Qt or through an\
+ image formats plugins:") + " <b>qt5-imageformats, kimageformats, libqpsd</b>" +
               "<br><br>" +
-              em.pty+qsTranslate("SettingsManager/ImageFormats", "Use left click to check/uncheck an individual entry, and right click to check/uncheck all endings related to the same image type.")
+              em.pty+qsTranslate("SettingsManager/ImageFormats", "Use left click to check/uncheck an individual entry, and right click to\
+ check/uncheck all endings related to the same image type.")
     imageSource: "qrc:/img/settings/imageformats/qt.png"
 
 
@@ -68,7 +70,8 @@ Entry {
             height: but1.height
             verticalAlignment: Text.AlignVCenter
             //: Please do not forget the '%1'!
-            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "There are currently %1 file endings selected.").arg("<b>"+formatsPopupEndings.numItemsChecked+"</b>")
+            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "There are currently %1 file endings selected.")
+                                .arg("<b>"+formatsPopupEndings.numItemsChecked+"</b>")
         }
 
     ]
@@ -103,7 +106,8 @@ Entry {
             height: but2.height
             verticalAlignment: Text.AlignVCenter
             //: Please do not forget the '%1'!
-            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "There are currently %1 mime types selected.").arg("<b>"+formatsPopupMimetypes.numItemsChecked+"</b>")
+            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "There are currently %1 mime types selected.")
+                                .arg("<b>"+formatsPopupMimetypes.numItemsChecked+"</b>")
         }
 
     ]

@@ -34,9 +34,11 @@ Entry {
     visible: getanddostuff.isDevILSupportEnabled()
 
     title: "DevIL - Developer's Image Library"
-    helptext: em.pty+qsTranslate("SettingsManager/ImageFormats", "The Developer's Image Library (DevIL) supports a large number of image formats, many of which have been successfully tested with PhotoQt.") +
+    helptext: em.pty+qsTranslate("SettingsManager/ImageFormats", "The Developer's Image Library (DevIL) supports a large number of image formats,\
+ many of which have been successfully tested with PhotoQt.") +
               "<br><br>" +
-              em.pty+qsTranslate("SettingsManager/ImageFormats", "Use left click to check/uncheck an individual entry, and right click to check/uncheck all endings related to the same image type.")
+              em.pty+qsTranslate("SettingsManager/ImageFormats", "Use left click to check/uncheck an individual entry, and right click to\
+ check/uncheck all endings related to the same image type.")
     imageSource: "qrc:/img/settings/imageformats/devil.jpg"
 
     content: [
@@ -69,7 +71,8 @@ Entry {
             height: but1.height
             verticalAlignment: Text.AlignVCenter
             //: Please do not forget the '%1'!
-            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "There are currently %1 file endings selected.").arg("<b>"+formatsPopupEndings.numItemsChecked+"</b>")
+            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "There are currently %1 file endings selected.")
+                                .arg("<b>"+formatsPopupEndings.numItemsChecked+"</b>")
         }
 
     ]
@@ -104,7 +107,8 @@ Entry {
             height: but2.height
             verticalAlignment: Text.AlignVCenter
             //: Please do not forget the '%1'!
-            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "There are currently %1 mime types selected.").arg("<b>"+formatsPopupMimetypes.numItemsChecked+"</b>")
+            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "There are currently %1 mime types selected.")
+                                .arg("<b>"+formatsPopupMimetypes.numItemsChecked+"</b>")
         }
 
     ]

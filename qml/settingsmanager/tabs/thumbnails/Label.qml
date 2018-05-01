@@ -29,7 +29,8 @@ import "../../"
 Entry {
 
     title: em.pty+qsTr("Label on Thumbnails")
-    helptext: em.pty+qsTr("PhotoQt can write a label with some information on the thumbnails. Currently, only the filename is available. The slider adjusts the fontsize of the text for the filename.")
+    helptext: em.pty+qsTr("PhotoQt can write a label with some information on the thumbnails. Currently, only the filename is available. The\
+ slider adjusts the fontsize of the text for the filename.")
 
     content: [
 

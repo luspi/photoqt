@@ -263,14 +263,19 @@ Item {
                 property bool loadThumbnail: true
 
                 // Set the source based on the special imageloader (icon or thumbnail)
-                // loading depends on the loadThumbnail property which in turn depends on the mainimage and whether the thumbnail has already finished loading
-                source: loadThumbnail ? (settings.thumbnailFilenameInstead ? "image://icon/image-" + getanddostuff.getSuffix(imagePath) : "image://thumb/" + imagePath) : ""
+                // loading depends on the loadThumbnail property which in turn depends on the mainimage and
+                // whether the thumbnail has already finished loading
+                source: loadThumbnail ?
+                            (settings.thumbnailFilenameInstead ? "image://icon/image-" + getanddostuff.getSuffix(imagePath) :
+                                                                 "image://thumb/" + imagePath) :
+                            ""
 
                 // We react to changes in the status of loading the mainimage
                 Connections {
                     target: imageitem
                     onMainImageLoadingChanged:
-                        // whether we load a thumbnail depends on whether the mainimage has finished loading OR if the thumbnail has already finished loading
+                        // whether we load a thumbnail depends on whether the mainimage has finished loading
+                        // OR if the thumbnail has already finished loading
                         img.loadThumbnail = (imageitem.mainImageFinishedLoading||img.status==Image.Ready)
                 }
 

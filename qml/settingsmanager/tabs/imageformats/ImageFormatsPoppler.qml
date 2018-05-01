@@ -33,7 +33,9 @@ Entry {
 
     id: titletext
     title: "poppler: Adobe PDF"
-    helptext: em.pty+qsTranslate("SettingsManager/ImageFormats", "PhotoQt can take advantage of poppler to load PDF documents. It can either load them together with the rest of the images (each page as one image) or it can ignore such documents except when asked to open one, then it wont load any other images (like a document viewer).")
+    helptext: em.pty+qsTranslate("SettingsManager/ImageFormats", "PhotoQt can take advantage of poppler to load PDF documents. It can either load\
+ them together with the rest of the images (each page as one image) or it can ignore such documents except when asked to open one, then it wont\
+ load any other images (like a document viewer).")
             imageSource: "qrc:/img/settings/imageformats/poppler.jpg"
 
     content: [

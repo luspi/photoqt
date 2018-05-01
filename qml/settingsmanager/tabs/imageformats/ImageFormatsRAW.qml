@@ -36,7 +36,8 @@ Entry {
     title: "libraw: RAW"
     helptext: em.pty+qsTranslate("SettingsManager/ImageFormats", "With the help of libraw PhotoQt can display almost any raw image that exists.") +
               "<br><br>" +
-              em.pty+qsTranslate("SettingsManager/ImageFormats", "Use left click to check/uncheck an individual entry, and right click to check/uncheck all endings related to the same image type.")
+              em.pty+qsTranslate("SettingsManager/ImageFormats", "Use left click to check/uncheck an individual entry, and right click to\
+ check/uncheck all endings related to the same image type.")
     imageSource: "qrc:/img/settings/imageformats/empty.png"
 
     content: [
@@ -69,7 +70,8 @@ Entry {
             height: but1.height
             verticalAlignment: Text.AlignVCenter
             //: Please do not forget the '%1'!
-            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "There are currently %1 file endings selected.").arg("<b>"+formatsPopupEndings.numItemsChecked+"</b>")
+            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "There are currently %1 file endings selected.")
+                                .arg("<b>"+formatsPopupEndings.numItemsChecked+"</b>")
         }
 
     ]
@@ -104,7 +106,8 @@ Entry {
             height: but2.height
             verticalAlignment: Text.AlignVCenter
             //: Please do not forget the '%1'!
-            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "There are currently %1 mime types selected.").arg("<b>"+formatsPopupMimetypes.numItemsChecked+"</b>")
+            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "There are currently %1 mime types selected.")
+                                .arg("<b>"+formatsPopupMimetypes.numItemsChecked+"</b>")
         }
 
     ]

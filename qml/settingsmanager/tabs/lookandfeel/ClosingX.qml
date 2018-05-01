@@ -29,7 +29,8 @@ import "../../"
 Entry {
 
     title: em.pty+qsTr("Exit button")
-    helptext: em.pty+qsTr("The exit button is shown in the top right corner. It can have one of two looks: a normal 'x' or a plain text'x'. The normal 'x' fits in better with the overall design of PhotoQt, but the plain text 'x' is smaller and more discreet.")
+    helptext: em.pty+qsTr("The exit button is shown in the top right corner. It can have one of two looks: a normal 'x' or a plain text'x'.\
+ The normal 'x' fits in better with the overall design of PhotoQt, but the plain text 'x' is smaller and more discreet.")
 
     ExclusiveGroup { id: clo; }
 

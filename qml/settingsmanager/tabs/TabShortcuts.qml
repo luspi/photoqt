@@ -70,7 +70,10 @@ Item {
             SettingsText {
                 width: flickable.width-20
                 x: 10
-                text: em.pty+qsTr("Here you can adjust the shortcuts, add new or remove existing ones, or change a key/mouse combination. The shortcuts are grouped into 4 different categories for internal commands plus a category for external commands. The boxes on the right side contain all the possible commands. To add a shortcut for one of the available functions simply click on it. This will automatically open another element where you can set the desired shortcut.")
+                text: em.pty+qsTr("Here you can adjust the shortcuts, add new or remove existing ones, or change a key/mouse combination. The\
+ shortcuts are grouped into 4 different categories for internal commands plus a category for external commands. The boxes on the right side contain\
+ all the possible commands. To add a shortcut for one of the available functions simply click on it. This will automatically open another element\
+ where you can set the desired shortcut.")
             }
 
             Item { width: 1; height: 30 }
@@ -94,7 +97,9 @@ Item {
             Entry {
 
                 title: "Mouse: Left Button"
-                helptext: "Pressing the left button of the mouse and moving it around can be used for moving an image around. If you put it to use for this purpose then any shortcut involving the left mouse button will have no effect! Note that it is not recommended to disable this if you do not have any other means to move an image around (e.g., touchscreen)!"
+                helptext: "Pressing the left button of the mouse and moving it around can be used for moving an image around. If you put it to use\
+ for this purpose then any shortcut involving the left mouse button will have no effect! Note that it is not recommended to disable this if you do\
+ not have any other means to move an image around (e.g., touchscreen)!"
 
                 content: [
                     CustomCheckBox {

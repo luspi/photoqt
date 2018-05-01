@@ -114,7 +114,8 @@ namespace PLoadImage {
                     ssize_t r = archive_read_data(a, (void*)buff, size);
                     if(r != size) {
                         std::stringstream ss;
-                        ss << "LoadImage::Archive::load(): ERROR: Failed to read image data, read size (" << r << ") doesn't match expected size (" << size << ")...";
+                        ss << "LoadImage::Archive::load(): ERROR: Failed to read image data, read size (" << r << ")"
+                           << " doesn't match expected size (" << size << ")...";
                         LOG << CURDATE << ss.str();
                         return ErrorImage::load(QString::fromStdString(ss.str()));
                     }

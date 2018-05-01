@@ -176,7 +176,8 @@ namespace PLoadImage {
 
                 magick = "SGI";
 
-            else if(suf == "ras" || suf == "rast" || suf == "rs" || suf == "sr" || suf == "scr" || suf == "im1" || suf == "im8" || suf == "im24" || suf == "im32")
+            else if(suf == "ras" || suf == "rast" || suf == "rs" || suf == "sr" || suf == "scr" ||
+                    suf == "im1" || suf == "im8" || suf == "im24" || suf == "im32")
 
                 magick = "SUN";
 

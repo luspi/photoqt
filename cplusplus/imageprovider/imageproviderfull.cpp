@@ -70,7 +70,9 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
 #endif
     QString filename = full_filename;
 
-    if(!QFileInfo(filename).exists() && !filename.contains("::PQT1::") && !filename.contains("::PQT2::") && !filename.contains("::ARCHIVE1::") && !filename.contains("::ARCHIVE2::")) {
+    if(!QFileInfo(filename).exists() &&
+       !filename.contains("::PQT1::") && !filename.contains("::PQT2::") &&
+       !filename.contains("::ARCHIVE1::") && !filename.contains("::ARCHIVE2::")) {
         QString err = QCoreApplication::translate("imageprovider", "File failed to load, it doesn't exist!");
         LOG << CURDATE << "ImageProviderFull: ERROR: " << err.toStdString() << NL;
         LOG << CURDATE << "ImageProviderFull: Filename: " << filename.toStdString() << NL;
@@ -105,7 +107,8 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
                 LOG << CURDATE << "ImageProviderFull: Loading full image from pixmap cache: " << QFileInfo(filename).fileName().toStdString() << NL;
 
             // return scaled version
-            if(requestedSize.width() > 2 && requestedSize.height() > 2 && ret.width() > requestedSize.width() && ret.height() > requestedSize.height())
+            if(requestedSize.width() > 2 && requestedSize.height() > 2 &&
+               ret.width() > requestedSize.width() && ret.height() > requestedSize.height())
                 return ret.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
             // return full version

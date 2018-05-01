@@ -62,7 +62,8 @@ Item {
             } else if(drawrect.visible) {
 
                 // If the whole drawn rectangle is outside the image: Ignore tag
-                if(drawrect.x > imageContainer.width || drawrect.x+drawrect.width < 0 || drawrect.y > imageContainer.height || drawrect.y+drawrect.height < 0) {
+                if(drawrect.x > imageContainer.width || drawrect.x+drawrect.width < 0 ||
+                        drawrect.y > imageContainer.height || drawrect.y+drawrect.height < 0) {
                     cancelNameEnter()
                     return
                 }

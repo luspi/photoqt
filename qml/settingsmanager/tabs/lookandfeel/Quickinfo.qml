@@ -28,7 +28,8 @@ import "../../"
 Entry {
 
     title: em.pty+qsTr("Show Quickinfo (Text Labels)")
-    helptext: em.pty+qsTr("PhotoQt shows certain information about the current image and the folder in the top left corner of the screen. You can choose which information in particular to show there. This also includes the 'x' for closing PhotoQt in the top right corner.")
+    helptext: em.pty+qsTr("PhotoQt shows certain information about the current image and the folder in the top left corner of the screen.\
+ You can choose which information in particular to show there. This also includes the 'x' for closing PhotoQt in the top right corner.")
 
     content: [
 

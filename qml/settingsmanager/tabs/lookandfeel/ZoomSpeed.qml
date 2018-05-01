@@ -28,7 +28,8 @@ import "../../"
 Entry {
 
     title: em.pty+qsTr("Zoom speed")
-    helptext: em.pty+qsTr("Images in PhotoQt are zoomed at a relative speed. The current zoom level is increased (or decreased) by the percentage specified here. If you prefer a faster or slower zoom, you can increase or decrease this value. A higher value means faster zoom.")
+    helptext: em.pty+qsTr("Images in PhotoQt are zoomed at a relative speed. The current zoom level is increased (or decreased) by the percentage\
+ specified here. If you prefer a faster or slower zoom, you can increase or decrease this value. A higher value means faster zoom.")
 
     content: [
 

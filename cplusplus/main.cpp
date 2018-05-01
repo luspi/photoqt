@@ -58,7 +58,7 @@ int main(int argc, char *argv[]) {
     FreeImage_Initialise();
 #endif
 
-    // This means, that, e.g., --export or --import was passed along -> we will simply quit (preparation for that is done in the handleExportImport() function)
+    // This means, that, e.g., --export or --import was passed along -> we will simply quit (handling is done in the handleExportImport() function)
     if(StartupCheck::ExportImport::handleExportImport(&app) != -1) return 0;
 
     // Ensure that PhotoQt actually quits when last window is closed

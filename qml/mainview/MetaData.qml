@@ -395,7 +395,10 @@ Item {
                 if(settings.metaDimensions) {
                     if("dimensions" in d)
                         //: The dimensions of the loaded image. Keep string short!
-                        mod.append({"name" : qsTranslate("metadata", "Dimensions"), "prop" : "", "value" : d["dimensions"], "tooltip" : d["dimensions"]})
+                        mod.append({"name" : qsTranslate("metadata", "Dimensions"),
+                                    "prop" : "",
+                                    "value" : d["dimensions"],
+                                    "tooltip" : d["dimensions"]})
                     else if("Exif.Photo.PixelXDimension" in d && "Exif.Photo.PixelYDimension" in d) {
                         var dim = d["Exif.Photo.PixelXDimension"] + "x" + d["Exif.Photo.PixelYDimension"]
                         //: The dimensions of the loaded image. Keep string short!

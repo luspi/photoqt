@@ -30,7 +30,8 @@ Entry {
     id: entrytop
 
     title: em.pty+qsTr("Spacing Between Thumbnails")
-    helptext: em.pty+qsTr("The thumbnails are shown in a row at the lower or upper edge (depending on your setup). They are lined up side by side. Per default, there's no empty space between them.")
+    helptext: em.pty+qsTr("The thumbnails are shown in a row at the lower or upper edge (depending on your setup). They are lined up side by side.\
+ Per default, there's no empty space between them.")
 
     // This variable is needed to avoid a binding loop of slider<->spinbox
     property int val: 20

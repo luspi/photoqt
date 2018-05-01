@@ -99,19 +99,23 @@ public:
     Q_PROPERTY(QString slider_handle_color_inactive MEMBER slider_handle_color_inactive NOTIFY slider_handle_color_inactiveChanged)
     Q_PROPERTY(QString slider_handle_color_disabled MEMBER slider_handle_color_disabled NOTIFY slider_handle_color_disabledChanged)
     Q_PROPERTY(QString slider_handle_border_color MEMBER slider_handle_border_color NOTIFY slider_handle_border_colorChanged)
-    Q_PROPERTY(QString slider_handle_border_color_disabled MEMBER slider_handle_border_color_disabled NOTIFY slider_handle_border_color_disabledChanged)
+    Q_PROPERTY(QString slider_handle_border_color_disabled MEMBER slider_handle_border_color_disabled
+                                                                                                NOTIFY slider_handle_border_color_disabledChanged)
 
     Q_PROPERTY(QString radio_check_indicator_color MEMBER radio_check_indicator_color NOTIFY radio_check_indicator_colorChanged)
-    Q_PROPERTY(QString radio_check_indicator_color_disabled MEMBER radio_check_indicator_color_disabled NOTIFY radio_check_indicator_color_disabledChanged)
+    Q_PROPERTY(QString radio_check_indicator_color_disabled MEMBER radio_check_indicator_color_disabled
+                                                                                                NOTIFY radio_check_indicator_color_disabledChanged)
     Q_PROPERTY(QString radio_check_indicator_bg_color MEMBER radio_check_indicator_bg_color NOTIFY radio_check_indicator_bg_colorChanged)
-    Q_PROPERTY(QString radio_check_indicator_bg_color_disabled MEMBER radio_check_indicator_bg_color_disabled NOTIFY radio_check_indicator_bg_color_disabledChanged)
+    Q_PROPERTY(QString radio_check_indicator_bg_color_disabled MEMBER radio_check_indicator_bg_color_disabled
+                                                                                                NOTIFY radio_check_indicator_bg_color_disabledChanged)
 
     Q_PROPERTY(QString combo_dropdown_frame MEMBER combo_dropdown_frame NOTIFY combo_dropdown_frameChanged)
     Q_PROPERTY(QString combo_dropdown_frame_border MEMBER combo_dropdown_frame_border NOTIFY combo_dropdown_frame_borderChanged)
     Q_PROPERTY(QString combo_dropdown_text MEMBER combo_dropdown_text NOTIFY combo_dropdown_textChanged)
     Q_PROPERTY(QString combo_dropdown_text_highlight MEMBER combo_dropdown_text_highlight NOTIFY combo_dropdown_text_highlightChanged)
     Q_PROPERTY(QString combo_dropdown_background MEMBER combo_dropdown_background NOTIFY combo_dropdown_backgroundChanged)
-    Q_PROPERTY(QString combo_dropdown_background_highlight MEMBER combo_dropdown_background_highlight NOTIFY combo_dropdown_background_highlightChanged)
+    Q_PROPERTY(QString combo_dropdown_background_highlight MEMBER combo_dropdown_background_highlight
+                                                                                                NOTIFY combo_dropdown_background_highlightChanged)
 
     Q_PROPERTY(QString button_bg MEMBER button_bg NOTIFY button_bgChanged)
     Q_PROPERTY(QString button_bg_hovered MEMBER button_bg_hovered NOTIFY button_bg_hoveredChanged)

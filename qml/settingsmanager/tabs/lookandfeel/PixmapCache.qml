@@ -29,7 +29,10 @@ Entry {
 
     //: The pixmap cache is used to cache loaded images so they can be loaded much quicker a second time
     title: em.pty+qsTr("Pixmap Cache")
-    helptext: em.pty+qsTr("Here you can adjust the size of the pixmap cache. This cache holds the loaded image elements that have been displayed. This doesn't help when first displaying an image, but can speed up its second display significantly. On the other hand, it does increase the memory in use, up to the limit set here. If you disable the cache altogether (value of 0), then each time an image is displayed, it is loaded fresh from the harddrive.")
+    helptext: em.pty+qsTr("Here you can adjust the size of the pixmap cache. This cache holds the loaded image elements that have been displayed.\
+ This doesn't help when first displaying an image, but can speed up its second display significantly. On the other hand, it does increase\
+ the memory in use, up to the limit set here. If you disable the cache altogether (value of 0), then each time an image is displayed,\
+ it is loaded fresh from the harddrive.")
 
     content: [
 

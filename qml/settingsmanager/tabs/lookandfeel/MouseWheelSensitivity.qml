@@ -28,7 +28,8 @@ import "../../"
 Entry {
 
     title: em.pty+qsTr("Mouse Wheel Sensitivity")
-    helptext: em.pty+qsTr("The mouse can be used for various things, including many types of shortcuts. The sensitivity of the mouse wheel defines the distance the wheel has to be moved before triggering a shortcut.")
+    helptext: em.pty+qsTr("The mouse can be used for various things, including many types of shortcuts. The sensitivity of the mouse wheel defines\
+ the distance the wheel has to be moved before triggering a shortcut.")
 
     content: [
 

@@ -37,13 +37,17 @@ Entry {
               //: The two ways are the two types of thumbnail caching (files and database)
               em.pty+qsTr("Both ways have their advantages and disadvantages:") + "<br>" +
               //: The caching here refers to thumbnail caching
-              em.pty+qsTr("File Caching is done according to the freedesktop.org standard and thus different applications can share the same thumbnail for the same image file.") + "<br>" +
+              em.pty+qsTr("File Caching is done according to the freedesktop.org standard and thus different applications can share the same\
+ thumbnail for the same image file.") + "<br>" +
               //: The caching here refers to thumbnail caching
-              em.pty+qsTr("Database Caching doesn't have the advantage of sharing thumbnails with other applications (and thus every thumbnails has to be newly created for PhotoQt), but it allows PhotoQt to have more control over existing thumbnails and works better on systems like Windows.") + "<br><br>" +
+              em.pty+qsTr("Database Caching doesn't have the advantage of sharing thumbnails with other applications (and thus every thumbnails has\
+ to be newly created for PhotoQt), but it allows PhotoQt to have more control over existing thumbnails and works better on systems like Windows.") +
+              "<br><br>" +
               //: The options talked about are the two ways to cache thumbnails (files and database)
               em.pty+qsTr("PhotoQt works with either option, though the first way is set as default and strongly recommended.") + "<br><br>" +
               //: Talking about thumbnail caching with its two possible options, files and database caching
-              em.pty+qsTr("Although everybody is encouraged to use at least one of the two options, caching can be completely disabled altogether. However, this means that each thumbnail has to be recreated everytime it is needed.")
+              em.pty+qsTr("Although everybody is encouraged to use at least one of the two options, caching can be completely disabled altogether.\
+ However, this means that each thumbnail has to be recreated everytime it is needed.")
 
     content: [
 

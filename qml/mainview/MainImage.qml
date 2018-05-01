@@ -94,7 +94,8 @@ Item {
 
     // this property os false as long the mainimage has not yet completed loading. It switches to true once the mainimage gets displayed
     property bool mainImageFinishedLoading: false
-    // the changed signals of properties don't seem to be globally accessible, thus we need to emit a custom signal to let the world (in particular the Thumbnails) know of a change here
+    // the changed signals of properties don't seem to be globally accessible, thus we need to emit a custom signal to let the world
+    // (in particular the Thumbnails) know of a change here
     signal mainImageLoadingChanged()
     onMainImageFinishedLoadingChanged: {
         verboseMessage("MainView/MainImage", "mainImageFinishedLoadingChanged: " + mainImageFinishedLoading)

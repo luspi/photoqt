@@ -20,94 +20,202 @@ public:
     explicit MimeTypes(QObject *parent = 0);
 
     // All possibly available mime types for the various categories
-    Q_INVOKABLE QVariantList getAvailableMimeTypesQt() { return availableMimeTypes[categories.indexOf("qt")]; }
-    Q_INVOKABLE QVariantList getAvailableMimeTypesXCFTools() { return availableMimeTypes[categories.indexOf("xcftools")]; }
-    Q_INVOKABLE QVariantList getAvailableMimeTypesPoppler() { return availableMimeTypes[categories.indexOf("poppler")]; }
-    Q_INVOKABLE QVariantList getAvailableMimeTypesGm() { return availableMimeTypes[categories.indexOf("gm")]; }
-    Q_INVOKABLE QVariantList getAvailableMimeTypesGmGhostscript() { return availableMimeTypes[categories.indexOf("gmghostscript")]; }
-    Q_INVOKABLE QVariantList getAvailableMimeTypesRAW() { return availableMimeTypes[categories.indexOf("raw")]; }
-    Q_INVOKABLE QVariantList getAvailableMimeTypesDevIL() { return availableMimeTypes[categories.indexOf("devil")]; }
-    Q_INVOKABLE QVariantList getAvailableMimeTypesFreeImage() { return availableMimeTypes[categories.indexOf("freeimage")]; }
-    Q_INVOKABLE QVariantList getAvailableMimeTypesArchive() { return availableMimeTypes[categories.indexOf("archive")]; }
+    Q_INVOKABLE QVariantList getAvailableMimeTypesQt() {
+        return availableMimeTypes[categories.indexOf("qt")];
+    }
+    Q_INVOKABLE QVariantList getAvailableMimeTypesXCFTools() {
+        return availableMimeTypes[categories.indexOf("xcftools")];
+    }
+    Q_INVOKABLE QVariantList getAvailableMimeTypesPoppler() {
+        return availableMimeTypes[categories.indexOf("poppler")];
+    }
+    Q_INVOKABLE QVariantList getAvailableMimeTypesGm() {
+        return availableMimeTypes[categories.indexOf("gm")];
+    }
+    Q_INVOKABLE QVariantList getAvailableMimeTypesGmGhostscript() {
+        return availableMimeTypes[categories.indexOf("gmghostscript")];
+    }
+    Q_INVOKABLE QVariantList getAvailableMimeTypesRAW() {
+        return availableMimeTypes[categories.indexOf("raw")];
+    }
+    Q_INVOKABLE QVariantList getAvailableMimeTypesDevIL() {
+        return availableMimeTypes[categories.indexOf("devil")];
+    }
+    Q_INVOKABLE QVariantList getAvailableMimeTypesFreeImage() {
+        return availableMimeTypes[categories.indexOf("freeimage")];
+    }
+    Q_INVOKABLE QVariantList getAvailableMimeTypesArchive() {
+        return availableMimeTypes[categories.indexOf("archive")];
+    }
 
     // All possibly available mime types INCLUDING a description of the image type for the various categories
-    Q_INVOKABLE QVariantList getAvailableMimeTypesWithDescriptionQt() { return availableMimeTypesWithDescription[categories.indexOf("qt")]; }
-    Q_INVOKABLE QVariantList getAvailableMimeTypesWithDescriptionXCFTools() { return availableMimeTypesWithDescription[categories.indexOf("xcftools")]; }
-    Q_INVOKABLE QVariantList getAvailableMimeTypesWithDescriptionPoppler() { return availableMimeTypesWithDescription[categories.indexOf("poppler")]; }
-    Q_INVOKABLE QVariantList getAvailableMimeTypesWithDescriptionGm() { return availableMimeTypesWithDescription[categories.indexOf("gm")]; }
-    Q_INVOKABLE QVariantList getAvailableMimeTypesWithDescriptionGmGhostscript() { return availableMimeTypesWithDescription[categories.indexOf("gmghostscript")]; }
-    Q_INVOKABLE QVariantList getAvailableMimeTypesWithDescriptionRAW() { return availableMimeTypesWithDescription[categories.indexOf("raw")]; }
-    Q_INVOKABLE QVariantList getAvailableMimeTypesWithDescriptionDevIL() { return availableMimeTypesWithDescription[categories.indexOf("devil")]; }
-    Q_INVOKABLE QVariantList getAvailableMimeTypesWithDescriptionFreeImage() { return availableMimeTypesWithDescription[categories.indexOf("freeimage")]; }
-    Q_INVOKABLE QVariantList getAvailableMimeTypesWithDescriptionArchive() { return availableMimeTypesWithDescription[categories.indexOf("archive")]; }
+    Q_INVOKABLE QVariantList getAvailableMimeTypesWithDescriptionQt() {
+        return availableMimeTypesWithDescription[categories.indexOf("qt")];
+    }
+    Q_INVOKABLE QVariantList getAvailableMimeTypesWithDescriptionXCFTools() {
+        return availableMimeTypesWithDescription[categories.indexOf("xcftools")];
+    }
+    Q_INVOKABLE QVariantList getAvailableMimeTypesWithDescriptionPoppler() {
+        return availableMimeTypesWithDescription[categories.indexOf("poppler")];
+    }
+    Q_INVOKABLE QVariantList getAvailableMimeTypesWithDescriptionGm() {
+        return availableMimeTypesWithDescription[categories.indexOf("gm")];
+    }
+    Q_INVOKABLE QVariantList getAvailableMimeTypesWithDescriptionGmGhostscript() {
+        return availableMimeTypesWithDescription[categories.indexOf("gmghostscript")];
+    }
+    Q_INVOKABLE QVariantList getAvailableMimeTypesWithDescriptionRAW() {
+        return availableMimeTypesWithDescription[categories.indexOf("raw")];
+    }
+    Q_INVOKABLE QVariantList getAvailableMimeTypesWithDescriptionDevIL() {
+        return availableMimeTypesWithDescription[categories.indexOf("devil")];
+    }
+    Q_INVOKABLE QVariantList getAvailableMimeTypesWithDescriptionFreeImage() {
+        return availableMimeTypesWithDescription[categories.indexOf("freeimage")];
+    }
+    Q_INVOKABLE QVariantList getAvailableMimeTypesWithDescriptionArchive() {
+        return availableMimeTypesWithDescription[categories.indexOf("archive")];
+    }
 
     // All possibly available mime types for the various categories
-    Q_INVOKABLE QStringList getDefaultEnabledMimeTypesQt() { return defaultEnabledMimeTypes[categories.indexOf("qt")]; }
-    Q_INVOKABLE QStringList getDefaultEnabledMimeTypesXCFTools() { return defaultEnabledMimeTypes[categories.indexOf("xcftools")]; }
-    Q_INVOKABLE QStringList getDefaultEnabledMimeTypesPoppler() { return defaultEnabledMimeTypes[categories.indexOf("poppler")]; }
-    Q_INVOKABLE QStringList getDefaultEnabledMimeTypesGm() { return defaultEnabledMimeTypes[categories.indexOf("gm")]; }
-    Q_INVOKABLE QStringList getDefaultEnabledMimeTypesGmGhostscript() { return defaultEnabledMimeTypes[categories.indexOf("gmghostscript")]; }
-    Q_INVOKABLE QStringList getDefaultEnabledMimeTypesRAW() { return defaultEnabledMimeTypes[categories.indexOf("raw")]; }
-    Q_INVOKABLE QStringList getDefaultEnabledMimeTypesDevIL() { return defaultEnabledMimeTypes[categories.indexOf("devil")]; }
-    Q_INVOKABLE QStringList getDefaultEnabledMimeTypesFreeImage() { return defaultEnabledMimeTypes[categories.indexOf("freeimage")]; }
-    Q_INVOKABLE QStringList getDefaultEnabledMimeTypesArchive() { return defaultEnabledMimeTypes[categories.indexOf("archive")]; }
+    Q_INVOKABLE QStringList getDefaultEnabledMimeTypesQt() {
+        return defaultEnabledMimeTypes[categories.indexOf("qt")];
+    }
+    Q_INVOKABLE QStringList getDefaultEnabledMimeTypesXCFTools() {
+        return defaultEnabledMimeTypes[categories.indexOf("xcftools")];
+    }
+    Q_INVOKABLE QStringList getDefaultEnabledMimeTypesPoppler() {
+        return defaultEnabledMimeTypes[categories.indexOf("poppler")];
+    }
+    Q_INVOKABLE QStringList getDefaultEnabledMimeTypesGm() {
+        return defaultEnabledMimeTypes[categories.indexOf("gm")];
+    }
+    Q_INVOKABLE QStringList getDefaultEnabledMimeTypesGmGhostscript() {
+        return defaultEnabledMimeTypes[categories.indexOf("gmghostscript")];
+    }
+    Q_INVOKABLE QStringList getDefaultEnabledMimeTypesRAW() {
+        return defaultEnabledMimeTypes[categories.indexOf("raw")];
+    }
+    Q_INVOKABLE QStringList getDefaultEnabledMimeTypesDevIL() {
+        return defaultEnabledMimeTypes[categories.indexOf("devil")];
+    }
+    Q_INVOKABLE QStringList getDefaultEnabledMimeTypesFreeImage() {
+        return defaultEnabledMimeTypes[categories.indexOf("freeimage")];
+    }
+    Q_INVOKABLE QStringList getDefaultEnabledMimeTypesArchive() {
+        return defaultEnabledMimeTypes[categories.indexOf("archive")];
+    }
 
     // All currently enabled mime types for ...
     // ... Qt
-    Q_PROPERTY(QStringList enabledMimeTypesQt READ getEnabledMimeTypesQt WRITE setEnabledMimeTypesQt NOTIFY enabledMimeTypesQtChanged)
+    Q_PROPERTY(QStringList enabledMimeTypesQt
+               READ getEnabledMimeTypesQt
+               WRITE setEnabledMimeTypesQt
+               NOTIFY enabledMimeTypesQtChanged)
     QStringList getEnabledMimeTypesQt() { return enabledMimeTypes[categories.indexOf("qt")]; }
-    void setEnabledMimeTypesQt(QStringList val) { enabledMimeTypes[categories.indexOf("qt")] = val; enabledMimeTypesQtChanged(val); }
+    void setEnabledMimeTypesQt(QStringList val) { enabledMimeTypes[categories.indexOf("qt")] = val;
+                                                  emit enabledMimeTypesQtChanged(val); }
     void setEnabledMimeTypesQtWithoutSaving(QStringList val) { enabledMimeTypes[categories.indexOf("qt")] = val; }
     // ... XCF
-    Q_PROPERTY(QStringList enabledMimeTypesXCFTools READ getEnabledMimeTypesXCFTools WRITE setEnabledMimeTypesXCFTools NOTIFY enabledMimeTypesXCFToolsChanged)
+    Q_PROPERTY(QStringList enabledMimeTypesXCFTools
+               READ getEnabledMimeTypesXCFTools
+               WRITE setEnabledMimeTypesXCFTools
+               NOTIFY enabledMimeTypesXCFToolsChanged)
     QStringList getEnabledMimeTypesXCFTools() { return enabledMimeTypes[categories.indexOf("xcftools")]; }
-    void setEnabledMimeTypesXCFTools(QStringList val) { enabledMimeTypes[categories.indexOf("xcftools")] = val; emit enabledMimeTypesXCFToolsChanged(val); }
+    void setEnabledMimeTypesXCFTools(QStringList val) { enabledMimeTypes[categories.indexOf("xcftools")] = val;
+                                                        emit enabledMimeTypesXCFToolsChanged(val); }
     void setEnabledMimeTypesXCFToolsWithoutSaving(QStringList val) { enabledMimeTypes[categories.indexOf("xcftools")] = val;}
     // ... Poppler
-    Q_PROPERTY(QStringList enabledMimeTypesPoppler READ getEnabledMimeTypesPoppler WRITE setEnabledMimeTypesPoppler NOTIFY enabledMimeTypesPopplerChanged)
+    Q_PROPERTY(QStringList enabledMimeTypesPoppler
+               READ getEnabledMimeTypesPoppler
+               WRITE setEnabledMimeTypesPoppler
+               NOTIFY enabledMimeTypesPopplerChanged)
     QStringList getEnabledMimeTypesPoppler() { return enabledMimeTypes[categories.indexOf("poppler")]; }
-    void setEnabledMimeTypesPoppler(QStringList val) { enabledMimeTypes[categories.indexOf("poppler")] = val; emit enabledMimeTypesPopplerChanged(val); }
+    void setEnabledMimeTypesPoppler(QStringList val) { enabledMimeTypes[categories.indexOf("poppler")] = val;
+                                                       emit enabledMimeTypesPopplerChanged(val); }
     void setEnabledMimeTypesPopplerWithoutSaving(QStringList val) { enabledMimeTypes[categories.indexOf("poppler")] = val; }
     // ... GraphicsMagick
-    Q_PROPERTY(QStringList enabledMimeTypesGm READ getEnabledMimeTypesGm WRITE setEnabledMimeTypesGm NOTIFY enabledMimeTypesGmChanged)
+    Q_PROPERTY(QStringList enabledMimeTypesGm
+               READ getEnabledMimeTypesGm
+               WRITE setEnabledMimeTypesGm
+               NOTIFY enabledMimeTypesGmChanged)
     QStringList getEnabledMimeTypesGm() { return enabledMimeTypes[categories.indexOf("gm")]; }
-    void setEnabledMimeTypesGm(QStringList val) { enabledMimeTypes[categories.indexOf("gm")] = val; emit enabledMimeTypesGmChanged(val); }
+    void setEnabledMimeTypesGm(QStringList val) { enabledMimeTypes[categories.indexOf("gm")] = val;
+                                                  emit enabledMimeTypesGmChanged(val); }
     void setEnabledMimeTypesGmWithoutSaving(QStringList val) { enabledMimeTypes[categories.indexOf("gm")] = val; }
     // ... GraphicsMagick w/ Ghostscript
-    Q_PROPERTY(QStringList enabledMimeTypesGmGhostscript READ getEnabledMimeTypesGmGhostscript WRITE setEnabledMimeTypesGmGhostscript NOTIFY enabledMimeTypesGmGhostscriptChanged)
+    Q_PROPERTY(QStringList enabledMimeTypesGmGhostscript
+               READ getEnabledMimeTypesGmGhostscript
+               WRITE setEnabledMimeTypesGmGhostscript
+               NOTIFY enabledMimeTypesGmGhostscriptChanged)
     QStringList getEnabledMimeTypesGmGhostscript() { return enabledMimeTypes[categories.indexOf("gmghostscript")]; }
-    void setEnabledMimeTypesGmGhostscript(QStringList val) { enabledMimeTypes[categories.indexOf("gmghostscript")] = val; emit enabledMimeTypesGmGhostscriptChanged(val); }
+    void setEnabledMimeTypesGmGhostscript(QStringList val) { enabledMimeTypes[categories.indexOf("gmghostscript")] = val;
+                                                             emit enabledMimeTypesGmGhostscriptChanged(val); }
     void setEnabledMimeTypesGmGhostscriptWithoutSaving(QStringList val) { enabledMimeTypes[categories.indexOf("gmghostscript")] = val; }
     // ... RAW
-    Q_PROPERTY(QStringList enabledMimeTypesRAW READ getEnabledMimeTypesRAW WRITE setEnabledMimeTypesRAW NOTIFY enabledMimeTypesRAWChanged)
+    Q_PROPERTY(QStringList enabledMimeTypesRAW
+               READ getEnabledMimeTypesRAW
+               WRITE setEnabledMimeTypesRAW
+               NOTIFY enabledMimeTypesRAWChanged)
     QStringList getEnabledMimeTypesRAW() { return enabledMimeTypes[categories.indexOf("raw")]; }
-    void setEnabledMimeTypesRAW(QStringList val) { enabledMimeTypes[categories.indexOf("raw")] = val; emit enabledMimeTypesRAWChanged(val); }
+    void setEnabledMimeTypesRAW(QStringList val) { enabledMimeTypes[categories.indexOf("raw")] = val;
+                                                   emit enabledMimeTypesRAWChanged(val); }
     void setEnabledMimeTypesRAWWithoutSaving(QStringList val) { enabledMimeTypes[categories.indexOf("raw")] = val; }
     // ... DevIL
-    Q_PROPERTY(QStringList enabledMimeTypesDevIL READ getEnabledMimeTypesDevIL WRITE setEnabledMimeTypesDevIL NOTIFY enabledMimeTypesDevILChanged)
+    Q_PROPERTY(QStringList enabledMimeTypesDevIL
+               READ getEnabledMimeTypesDevIL
+               WRITE setEnabledMimeTypesDevIL
+               NOTIFY enabledMimeTypesDevILChanged)
     QStringList getEnabledMimeTypesDevIL() { return enabledMimeTypes[categories.indexOf("devil")]; }
-    void setEnabledMimeTypesDevIL(QStringList val) { enabledMimeTypes[categories.indexOf("devil")] = val; emit enabledMimeTypesDevILChanged(val); }
+    void setEnabledMimeTypesDevIL(QStringList val) { enabledMimeTypes[categories.indexOf("devil")] = val;
+                                                     emit enabledMimeTypesDevILChanged(val); }
     void setEnabledMimeTypesDevILWithoutSaving(QStringList val) { enabledMimeTypes[categories.indexOf("devil")] = val; }
     // ... FreeImage
-    Q_PROPERTY(QStringList enabledMimeTypesFreeImage READ getEnabledMimeTypesFreeImage WRITE setEnabledMimeTypesFreeImage NOTIFY enabledMimeTypesFreeImageChanged)
+    Q_PROPERTY(QStringList enabledMimeTypesFreeImage
+               READ getEnabledMimeTypesFreeImage
+               WRITE setEnabledMimeTypesFreeImage
+               NOTIFY enabledMimeTypesFreeImageChanged)
     QStringList getEnabledMimeTypesFreeImage() { return enabledMimeTypes[categories.indexOf("freeimage")]; }
-    void setEnabledMimeTypesFreeImage(QStringList val) { enabledMimeTypes[categories.indexOf("freeimage")] = val; emit enabledMimeTypesFreeImageChanged(val); }
+    void setEnabledMimeTypesFreeImage(QStringList val) { enabledMimeTypes[categories.indexOf("freeimage")] = val;
+                                                         emit enabledMimeTypesFreeImageChanged(val); }
     void setEnabledMimeTypesFreeImageWithoutSaving(QStringList val) { enabledMimeTypes[categories.indexOf("freeimage")] = val; }
     // ... Archive
-    Q_PROPERTY(QStringList enabledMimeTypesArchive READ getEnabledMimeTypesArchive WRITE setEnabledMimeTypesArchive NOTIFY enabledMimeTypesArchiveChanged)
+    Q_PROPERTY(QStringList enabledMimeTypesArchive
+               READ getEnabledMimeTypesArchive
+               WRITE setEnabledMimeTypesArchive
+               NOTIFY enabledMimeTypesArchiveChanged)
     QStringList getEnabledMimeTypesArchive() { return enabledMimeTypes[categories.indexOf("archive")]; }
-    void setEnabledMimeTypesArchive(QStringList val) { enabledMimeTypes[categories.indexOf("archive")] = val; emit enabledMimeTypesArchiveChanged(val); }
+    void setEnabledMimeTypesArchive(QStringList val) { enabledMimeTypes[categories.indexOf("archive")] = val;
+                                                       emit enabledMimeTypesArchiveChanged(val); }
     void setEnabledMimeTypesArchiveWithoutSaving(QStringList val) { enabledMimeTypes[categories.indexOf("archive")] = val; }
 
-    Q_INVOKABLE void setDefaultMimeTypesQt() { setEnabledMimeTypesQt(defaultEnabledMimeTypes[categories.indexOf("qt")]); }
-    Q_INVOKABLE void setDefaultMimeTypesXCFTools() { setEnabledMimeTypesXCFTools(defaultEnabledMimeTypes[categories.indexOf("xcftools")]); }
-    Q_INVOKABLE void setDefaultMimeTypesPoppler() { setEnabledMimeTypesPoppler(defaultEnabledMimeTypes[categories.indexOf("poppler")]); }
-    Q_INVOKABLE void setDefaultMimeTypesGm() { setEnabledMimeTypesGm(defaultEnabledMimeTypes[categories.indexOf("gm")]); }
-    Q_INVOKABLE void setDefaultMimeTypesGmGhostscript() { setEnabledMimeTypesGmGhostscript(defaultEnabledMimeTypes[categories.indexOf("gmghostscript")]); }
-    Q_INVOKABLE void setDefaultMimeTypesRAW() { setEnabledMimeTypesRAW(defaultEnabledMimeTypes[categories.indexOf("raw")]); }
-    Q_INVOKABLE void setDefaultMimeTypesDevIL() { setEnabledMimeTypesDevIL(defaultEnabledMimeTypes[categories.indexOf("devil")]); }
-    Q_INVOKABLE void setDefaultMimeTypesFreeImage() { setEnabledMimeTypesFreeImage(defaultEnabledMimeTypes[categories.indexOf("freeimage")]); }
-    Q_INVOKABLE void setDefaultMimeTypesArchive() { setEnabledMimeTypesArchive(defaultEnabledMimeTypes[categories.indexOf("archive")]); }
+    Q_INVOKABLE void setDefaultMimeTypesQt() {
+        setEnabledMimeTypesQt(defaultEnabledMimeTypes[categories.indexOf("qt")]);
+    }
+    Q_INVOKABLE void setDefaultMimeTypesXCFTools() {
+        setEnabledMimeTypesXCFTools(defaultEnabledMimeTypes[categories.indexOf("xcftools")]);
+    }
+    Q_INVOKABLE void setDefaultMimeTypesPoppler() {
+        setEnabledMimeTypesPoppler(defaultEnabledMimeTypes[categories.indexOf("poppler")]);
+    }
+    Q_INVOKABLE void setDefaultMimeTypesGm() {
+        setEnabledMimeTypesGm(defaultEnabledMimeTypes[categories.indexOf("gm")]);
+    }
+    Q_INVOKABLE void setDefaultMimeTypesGmGhostscript() {
+        setEnabledMimeTypesGmGhostscript(defaultEnabledMimeTypes[categories.indexOf("gmghostscript")]);
+    }
+    Q_INVOKABLE void setDefaultMimeTypesRAW() {
+        setEnabledMimeTypesRAW(defaultEnabledMimeTypes[categories.indexOf("raw")]);
+    }
+    Q_INVOKABLE void setDefaultMimeTypesDevIL() {
+        setEnabledMimeTypesDevIL(defaultEnabledMimeTypes[categories.indexOf("devil")]);
+    }
+    Q_INVOKABLE void setDefaultMimeTypesFreeImage() {
+        setEnabledMimeTypesFreeImage(defaultEnabledMimeTypes[categories.indexOf("freeimage")]);
+    }
+    Q_INVOKABLE void setDefaultMimeTypesArchive() {
+        setEnabledMimeTypesArchive(defaultEnabledMimeTypes[categories.indexOf("archive")]);
+    }
 
     // Can be called from QML when resetting the settings
     Q_INVOKABLE void setDefaultMimeTypes() {
@@ -201,7 +309,7 @@ private:
     QVariantList *availableMimeTypesWithDescription;
     QStringList *enabledMimeTypes;
 
-    // This is not accessible from outside. They are used when, e.g., the respective disabled MimeTypes file doesn't exist or when the settings are reset.
+    // Not publicly accessible. They are used when, e.g., the respective disabled MimeTypes file doesn't exist or when the settings are reset.
     QStringList *defaultEnabledMimeTypes;
 
     QTimer *saveTimer;

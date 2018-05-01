@@ -29,7 +29,8 @@ Entry {
 
     //: Refers to looping through the folder, i.e., from the last image go back to the first one (and vice versa)
     title: em.pty+qsTr("Transparency Marker")
-    helptext: em.pty+qsTr("Transparency in image viewers is often signalled by displaying a pattern of light and dark grey squares. PhotoQt can do the same, by default it will, however, show transparent areas as transparent.")
+    helptext: em.pty+qsTr("Transparency in image viewers is often signalled by displaying a pattern of light and dark grey squares.\
+ PhotoQt can do the same, by default it will, however, show transparent areas as transparent.")
 
     content: [
 
