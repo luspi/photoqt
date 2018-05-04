@@ -285,7 +285,9 @@ Item {
             source: (image.status==Image.Ready&&settings.pixmapCache>32) ? parent.source : ""
 
             // this image is loaded scaled down
-            sourceSize: Qt.size(defaultWidth, defaultHeight)
+            sourceSize: ((rotationAni.to%180 +180)%180 == 0) ?
+                            Qt.size(defaultWidth, defaultHeight) :
+                            Qt.size(defaultHeight, defaultWidth)
 
             // set fill mode
             fillMode: Image.PreserveAspectFit
