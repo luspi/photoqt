@@ -42,8 +42,10 @@ MimeTypes::MimeTypes(QObject *parent) : QObject(parent) {
         setupAvailable[0].insert("image/svg+xml"            , QStringList() << "svg" << "Scalable Vector Graphics"                      << "1");
     if(imageReaderSupported.contains("tga"))
         setupAvailable[0].insert("image/x-tga"              , QStringList() << "tga" << "Truevision Targa Graphic"                      << "1");
+#ifndef RAW
     if(imageReaderSupported.contains("tif") || imageReaderSupported.contains("tiff"))
         setupAvailable[0].insert("image/tiff"               , QStringList() << "tif" << "Tagged Image File Format"                      << "1");
+#endif
     if(imageReaderSupported.contains("wbmp"))
         setupAvailable[0].insert("image/vnd.wap.wbmp"       , QStringList() << "wbp" << "Wireless bitmap"                               << "1");
     if(imageReaderSupported.contains("xbm"))
