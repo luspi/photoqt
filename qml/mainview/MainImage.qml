@@ -133,11 +133,6 @@ Item {
             fitImageInWindow: settings.fitInWindow
             imageMargin: marginAroundImage
 
-            positionDuration: 250
-            transitionDuration: (variables.slideshowRunning ? settingsSlideShowImageTransition : settingsImageTransition)*150
-            scaleDuration: 250
-            rotationDuration: 250
-
             defaultHeight: mainimage_top.height-marginAroundImage
             defaultWidth: mainimage_top.width-marginAroundImage
 
@@ -163,11 +158,6 @@ Item {
 
             fitImageInWindow: settings.fitInWindow
             imageMargin: marginAroundImage
-
-            positionDuration: 250
-            transitionDuration: (variables.slideshowRunning ? settingsSlideShowImageTransition : settingsImageTransition)*150
-            scaleDuration: 250
-            rotationDuration: 250
 
             defaultHeight: mainimage_top.height-marginAroundImage
             defaultWidth: mainimage_top.width-marginAroundImage
@@ -195,11 +185,6 @@ Item {
             fitImageInWindow: settings.fitInWindow
             imageMargin: marginAroundImage
 
-            positionDuration: 250
-            transitionDuration: (variables.slideshowRunning ? settingsSlideShowImageTransition : settingsImageTransition)*150
-            scaleDuration: 250
-            rotationDuration: 250
-
             defaultHeight: mainimage_top.height-marginAroundImage
             defaultWidth: mainimage_top.width-marginAroundImage
 
@@ -225,11 +210,6 @@ Item {
 
             fitImageInWindow: settings.fitInWindow
             imageMargin: marginAroundImage
-
-            positionDuration: 250
-            transitionDuration: (variables.slideshowRunning ? settingsSlideShowImageTransition : settingsImageTransition)*150
-            scaleDuration: 250
-            rotationDuration: 250
 
             defaultHeight: mainimage_top.height-marginAroundImage
             defaultWidth: mainimage_top.width-marginAroundImage

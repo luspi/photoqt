@@ -36,10 +36,10 @@ Item {
     visible: (image.opacity!=0)
 
     // manipulate the timings of the animations
-    property int positionDuration: 200
-    property int transitionDuration: 200
-    property int scaleDuration: 200
-    property int rotationDuration: 200
+    property int positionDuration: (settings.animations ? 250 : 0)
+    property int transitionDuration: (variables.slideshowRunning ? settingsSlideShowImageTransition : settingsImageTransition)*150
+    property int scaleDuration: (settings.animations ? 250 : 0)
+    property int rotationDuration: (settings.animations ? 250 : 0)
 
     // The default maximum width/height of the image
     property int defaultWidth: 600
