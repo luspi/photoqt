@@ -130,7 +130,7 @@ Item {
             anchors.leftMargin: visible&&variables.currentFile!="" ? (counter.visible ? 10 : 5) : 0
 
             text: visible&&variables.currentFile!="" ?
-                      "// " + em.pty+qsTr("Zoom:") + " " + variables.currentZoomLevel + "%" :
+                      "// " + variables.currentZoomLevel + "%" :
                       ""
 
             color: colour.quickinfo_text
