@@ -10,17 +10,20 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/imageproviderempty.cpp ${d}/imagepro
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/imageproviderhistogram.cpp ${d}/imageprovidericon.cpp)
 
 SET(d "cplusplus/imageprovider/loader")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/errorimage.h ${d}/loadimage_gm.h ${d}/loadimage_qt.h ${d}/loadimage_raw.h ${d}/loadimage_xcf.h ${d}/loadimage_devil.h ${d}/loadimage_freeimage.h ${d}/loadimage_poppler.h ${d}/loadimage_archive.h ${d}/loadimage_unrar.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/errorimage.h ${d}/loadimage_gm.h ${d}/loadimage_qt.h ${d}/loadimage_raw.h ${d}/loadimage_xcf.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/loadimage_devil.h ${d}/loadimage_freeimage.h ${d}/loadimage_poppler.h ${d}/loadimage_archive.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/loadimage_unrar.h)
 
 SET(d "cplusplus/settings")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/colour.cpp ${d}/mimetypes.cpp ${d}/imageformats.cpp ${d}/settings.cpp ${d}/slimsettingsreadonly.cpp)
 
 SET(d "cplusplus/scripts")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/getanddostuff.h ${d}/getmetadata.cpp ${d}/managepeopletags.cpp ${d}/runprocess.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/thumbnailsmanagement.cpp ${d}/filedialog.h ${d}/watcher.h ${d}/sortlist.h ${d}/localisation.h ${d}/integer64.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/getanddostuff.h ${d}/getmetadata.cpp ${d}/managepeopletags.cpp ${d}/runprocess.h ${d}/filedialog.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/thumbnailsmanagement.cpp ${d}/watcher.h ${d}/sortlist.h ${d}/localisation.h ${d}/integer64.h)
 
 SET(d "cplusplus/scripts/getanddostuff")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/context.cpp ${d}/external.cpp ${d}/file.cpp ${d}/manipulation.cpp ${d}/openfile.cpp ${d}/other.cpp ${d}/wallpaper.cpp ${d}/listfiles.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/context.cpp ${d}/external.cpp ${d}/file.cpp ${d}/manipulation.cpp ${d}/openfile.cpp ${d}/other.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/wallpaper.cpp ${d}/listfiles.cpp)
 
 SET(d "cplusplus/scripts/shareonline")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/imgur.cpp ${d}/replytimeout.h)
