@@ -173,17 +173,12 @@ if(TESTING)
 endif(TESTING)
 
 
-#######################################
-#### EMPLY THE PROPER DESKTOP FILE ####
-#######################################
+##############################################
+#### COMPOSE THE APPROPRIATE DESKTOP FILE ####
+##############################################
 
-if(GM)
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/for_photoqt_desktop_FULL ${CMAKE_CURRENT_SOURCE_DIR}/photoqt.desktop)
-elseif(NOT GM)
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/for_photoqt_desktop_QT ${CMAKE_CURRENT_SOURCE_DIR}/photoqt.desktop)
-endif(GM)
+include("CMake/ComposeDesktopFile.cmake")
+composeDesktopFile()
 
 
 ########################
