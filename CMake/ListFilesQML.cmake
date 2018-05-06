@@ -18,7 +18,7 @@ SET(photoqt_QML ${photoqt_QML} ${d}/Shortcuts.qml ${d}/mouseshortcuts.js)
 
 SET(d "qml/openfile")
 SET(photoqt_QML ${photoqt_QML} ${d}/OpenFile.qml ${d}/BreadCrumbs.qml ${d}/handlestuff.js ${d}/OpenVariables.qml ${d}/UserPlaces.qml)
-SET(photoqt_QML ${photoqt_QML} {d}/Folders.qml ${d}/FilesView.qml ${d}/Tweaks.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/Folders.qml ${d}/FilesView.qml ${d}/Tweaks.qml)
 
 SET(d "qml/openfile/tweaks")
 SET(photoqt_QML ${photoqt_QML} ${d}/TweaksFileType.qml  ${d}/TweaksPreview.qml  ${d}/TweaksThumbnails.qml  ${d}/TweaksViewMode.qml)
@@ -27,7 +27,7 @@ SET(photoqt_QML ${photoqt_QML} ${d}/TweaksZoom.qml ${d}/TweaksRememberLocation.q
 SET(d "qml/elements")
 SET(photoqt_QML ${photoqt_QML} ${d}/CustomButton.qml ${d}/CustomCheckBox.qml ${d}/CustomComboBox.qml ${d}/CustomConfirm.qml)
 SET(photoqt_QML ${photoqt_QML} ${d}/CustomFileSelect.qml ${d}/CustomLineEdit.qml ${d}/CustomProgressBar.qml ${d}/CustomRadioButton.qml)
-SET(photoqt_QML ${photoqt_QML} {d}/CustomSlider.qml ${d}/CustomSpinBox.qml ${d}/CustomTabView.qml ${d}/CustomTextEdit.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/CustomSlider.qml ${d}/CustomSpinBox.qml ${d}/CustomTabView.qml ${d}/CustomTextEdit.qml)
 SET(photoqt_QML ${photoqt_QML} ${d}/ScrollBarHorizontal.qml ${d}/ScrollBarVertical.qml ${d}/SettingsText.qml ${d}/ShortcutNotifier.qml)
 SET(photoqt_QML ${photoqt_QML} ${d}/ToolTip.qml ${d}/FadeInTemplate.qml)
 
