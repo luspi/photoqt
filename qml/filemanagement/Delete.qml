@@ -174,7 +174,7 @@ Item {
     function simulateEnter() {
         verboseMessage("Filemanagement/Delete", "simulateEnter()")
         hideDelete()
-        getanddostuff.deleteImage(variables.currentDir + "/" + variables.currentFileWithoutExtras,getanddostuff.amIOnLinux())
+        getanddostuff.deleteImage(getanddostuff.toPercentEncoding(variables.currentDir + "/" + variables.currentFileWithoutExtras),getanddostuff.amIOnLinux())
         var newfilename = Handle.getNewFilenameAfterDeletion()
         if(newfilename === "")
             variables.deleteNothingLeft = true
@@ -184,7 +184,7 @@ Item {
     function simulateShiftEnter() {
         verboseMessage("Filemanagement/Delete", "simulateShiftEnter()")
         hideDelete()
-        getanddostuff.deleteImage(variables.currentDir + "/" + variables.currentFileWithoutExtras,false)
+        getanddostuff.deleteImage(getanddostuff.toPercentEncoding(variables.currentDir + "/" + variables.currentFileWithoutExtras),false)
         var newfilename = Handle.getNewFilenameAfterDeletion()
         if(newfilename === "")
             variables.deleteNothingLeft = true
