@@ -129,7 +129,7 @@ function loadFile(filename, filter, forceReloadDirectory) {
 
     if(variables.currentFile != "") {
         imageitem.loadImage(prefix + src, anim)
-        metadata.setData(getmetadata.getExiv2(srcWithoutExtras))
+        metadata.setData(getmetadata.getExiv2(getanddostuff.toPercentEncoding(srcWithoutExtras)))
         watcher.setCurrentImageForWatching(srcWithoutExtras);
         getanddostuff.saveLastOpenedImage(src)
         variables.peopleFaceTags = (settings.peopleTagInMetaDisplay ? managepeopletags.getFaceTags(srcWithoutExtras) : [])
