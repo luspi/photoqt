@@ -10,7 +10,7 @@ project(photoqt)
 ####  GLOBAL VERSION STRING FOR ALL FILES (INCLUDING CPP/QML) ####
 ##################################################################
 
-add_definitions(-DVERSION="dev")
+add_definitions(-DVERSION="1.7")
 
 
 #################################
@@ -18,7 +18,7 @@ add_definitions(-DVERSION="dev")
 #################################
 
 add_definitions(-DQT_DEPRECATED_WARNINGS)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3 -Wall")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3")
 
 
 ################################
@@ -58,7 +58,6 @@ option(GM "Use graphicsmagick library" ON)
 option(DEVIL "Use DevIL library" ON)
 option(FREEIMAGE "Use FreeImage library" ON)
 option(POPPLER "Use Poppler library" ON)
-option(QTONLY "ONLY USE QT-ONLY FEATURES" OFF)
 option(TESTING "Enable some tests" OFF)
 
 
@@ -83,7 +82,7 @@ endif(FREEIMAGE)
 find_package(LibArchive)
 
 find_package(ECM REQUIRED NO_MODULE)
-set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} "${CMAKE_MODULE_PATH}")
 if(POPPLER)
     find_package(Poppler COMPONENTS Qt5)
 endif(POPPLER)

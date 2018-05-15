@@ -1,71 +1,71 @@
-<?xml version="1.0" ?><!DOCTYPE TS><TS language="pt_PT" version="2.1">
+<?xml version="1.0" ?><!DOCTYPE TS><TS language="ru" version="2.1">
 <context>
     <name>About</name>
     <message>
         <location filename="../../qml/other/About.qml" line="32"/>
         <source>About PhotoQt</source>
-        <translation>Sobre o PhotoQt</translation>
+        <translation>О  PhotoQt</translation>
     </message>
     <message>
         <location filename="../../qml/other/About.qml" line="58"/>
         <source>PhotoQt is a simple image viewer, designed to be good looking, highly configurable, yet easy to use and fast.</source>
-        <translation>O PhotoQt é um visualizador de imagens criado com o intuito de ser elegante e ao mesmo tempo fácil de utilizar.</translation>
+        <translation>PhotoQt - это простой просмотрщик изображений, разработанный, чтобы быть красивым, настраиваемым, простым в использовании и быстрым.</translation>
     </message>
     <message>
         <location filename="../../qml/other/About.qml" line="60"/>
         <source>Another image viewer?</source>
-        <translation>Outro visualizador de imagens?</translation>
+        <translation>Еще одна программа просмотра изображений?</translation>
     </message>
     <message>
         <location filename="../../qml/other/About.qml" line="61"/>
         <source>There are many good image viewers out there. But PhotoQt is a little different than all of them. Its interface is kept very simple, yet there is an abundance of settings to turn PhotoQt from AN image viewer into YOUR image viewer.</source>
-        <translation>Existem visualizadores de imagem com boa qualidade mas, com o PhotoQt, tentámos fazer algo diferente. A interface é simples e existem diversas definições que podem ser ajustadas para personalizar o aspeto e o comportamento da aplicação.</translation>
+        <translation>Есть много хороших программ просмотра изображений. Но PhotoQt немного отличается от всех. Его интерфейс очень прост, есть множество настроек, чтобы превратить PhotoQt в один из удобных ВАМ просмотрщиков изображений.</translation>
     </message>
     <message>
         <location filename="../../qml/other/About.qml" line="62"/>
         <source>Occasionally someone comes along because they think PhotoQt is &apos;like Picasa&apos;. However, if you take a good look at it then you see that they are in fact quite different. I myself have never used Picasa, and don&apos;t have any intention to copy Picasa. With PhotoQt I want to do my own thing, and to do that as good as I can.</source>
-        <translation>Ocasionalmente, algumas pessoas, acham que o PhotoQt é um visualizador de imagens com o estilo do &apos;Picasa&apos;. Contudo, se verificar bem irá notar que são de facto muito diferentes. Eu, enquanto utilizador, nunca utilizei o &apos;Picasa&apos; e não tenho qualquer intenção de o copiar. No PhotoQt estou a tentar fazer à minha maneira e da melhor forma que consiga.</translation>
+        <translation>Иногда кто-то выбирает PhotoQt, потому что они думают  PhotoQt похож на &quot;Picasa&quot;. Однако, если вы хорошо посмотрите на него, вы увидите, что они на самом деле совсем разные. Я сам никогда не использовал Picasa, и не имею никакого намерения копировать Picasa. С PhotoQt, я хочу выполнять свое дело, и делать это так хорошо, как я могу.</translation>
     </message>
     <message>
         <location filename="../../qml/other/About.qml" line="64"/>
         <source>So then, who are you?</source>
-        <translation>E então quem é o programador?</translation>
+        <translation>Итак, а кто же ты?</translation>
     </message>
     <message>
         <location filename="../../qml/other/About.qml" line="69"/>
         <source>If you find a bug or if you have a question or suggestion, please tell me. I&apos;m open to any feedback I get!</source>
-        <translation>Se encontrar erros, tiver uma questão ou uma sugestão diga-me. Estou disponível a quaisquer comentários ou sugestões que possa ter!</translation>
+        <translation>Если вы нашли ошибку или у вас есть вопрос или предложение, Пожалуйста, скажите мне. Я открыт для любой обратной связи и предложений!</translation>
     </message>
     <message>
         <location filename="../../qml/other/About.qml" line="121"/>
         <source>If you want to support PhotoQt with a donation, you can do so via PayPal here:</source>
-        <translation>Se quiser ajudar no desenvolvimento do PhotoQt com um donativo, pode fazê-lo através de PayPal.</translation>
+        <translation>Если Вы хотите поддержать PhotoQt пожертвованием, Вы можете сделать это через PayPal здесь:</translation>
     </message>
     <message>
         <location filename="../../qml/other/About.qml" line="145"/>
         <source>Close</source>
-        <translation>Fechar</translation>
+        <translation>Закрыть</translation>
     </message>
     <message>
         <location filename="../../qml/other/About.qml" line="67"/>
         <source>Don&apos;t forget to check out the website:</source>
-        <translation>Não se esqueça de visitar o nosso site:</translation>
+        <translation>Не забудьте посетить веб-сайт:</translation>
     </message>
     <message>
         <location filename="../../qml/other/About.qml" line="65"/>
         <source>I am Lukas Spies, the sole developer of PhotoQt. Born and raised in the southwest of Germany, I left my home country for university shortly after finishing school. Since then I have live for some years in Ireland, Canada, USA, and France, studying and doing research in Mathematics and Scientific Computing. I started playing around with programming since I was about 15 years old. So most of my programming knowledge is self-taught through books and websites. The past few years of my studies I also did a lot of programming as part of my research. Through all of that I gained a good bit of experience in programming using different programming languages. This becomes especially apparent when looking at how PhotoQt has changed since it started at the end of 2011.</source>
-        <translation type="unfinished"/>
+        <translation>Я Lukas Spies, единственный Разработчик PhotoQt. Родился и вырос на юго-западе Германии, вскоре после окончания школы уехал из родной страны в университет. С тех пор я жил в течение нескольких лет в Ирландии, Канаде, США и Франции, изучая и проводя исследования в области математики и научных вычислений. Я увлекаюсь программированием с тех пор, как мне было около 15 лет. Большинство моих знаний программирования получены из книг и веб-сайтов. За последние несколько лет моих исследований я также сделал много в области программирования в рамках моих исследований. Благодаря всему этому я приобрел хороший опыт в программировании с использованием различных языков программирования. Это становится особенно очевидным при взгляде на то, как PhotoQt изменился с момента его начала в конце 2011 года.</translation>
     </message>
     <message>
         <location filename="../../qml/other/About.qml" line="104"/>
         <source>Thanks to everybody who contributed to PhotoQt and/or translated PhotoQt to another language! You guys rock!</source>
-        <translation>Muito obrigado a todas as pessoas que participaram no desenvolvimento ou tradução do PhotoQt!</translation>
+        <translation>Благодарю всех, кто внес свой вклад в PhotoQt и/или перевел PhotoQt на другой язык! Вы, реально - рок!</translation>
     </message>
     <message>
         <location filename="../../qml/other/About.qml" line="121"/>
         <source>You want to join the team and do something, e.g. translating PhotoQt to another language? Drop me and email (%1), and for translations, check the project page on Transifex:</source>
         <extracomment>Don't forget to add the %1 in your translation, it is a placeholder for the email address!!</extracomment>
-        <translation>Gostaria de integrar a equipa de desenvolvimento ou ajudar a traduzir o PhotoQt? Escreva-me uma mensagem (%1) ou consulte a nossa página de traduções no Transifex:</translation>
+        <translation>Вы хотите присоединиться к команде и сделать что-то, например, перевести PhotoQt на другой язык? Напишите мне на мыло (%1), а для переводов проверьте страницу проекта на Transifex:</translation>
     </message>
 </context>
 <context>
@@ -73,42 +73,42 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="30"/>
         <source>Animation and Window Geometry</source>
-        <translation>Geometria e animação de janelas</translation>
+        <translation>Анимация и Геометрия окна</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="31"/>
         <source>Save and restore of Window Geometry: On quitting PhotoQt, it stores the size and position of the window and can restore it the next time started.</source>
-        <translation>Guardar e restaurar geometria da janela: ao sair do PhotoQt, a aplicação guarda o tamanho e a posição da janela e, posteriormente, ao iniciar restaura estas definições.</translation>
+        <translation>Сохранение и восстановление геометрии окна: При выходе из PhotoQt, он сохраняет размер и положение окна и может восстановить его при следующем запуске.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="31"/>
         <source>Keep PhotoQt above all other windows at all time</source>
-        <translation>Manter o PhotoQt por cima de todas as outras janelas</translation>
+        <translation>Расположите PhotoQt поверх других окон в любое время</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="31"/>
         <source>There are three things that can be adjusted here:</source>
-        <translation>Existem aqui três elementos que podem ser ajustados:</translation>
+        <translation>Есть три эффекта, которые вы можете отрегулировать тут:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="31"/>
         <source>Animations of elements and items (like fade-in, etc.)</source>
-        <translation>Animação dos eventos e dos itens (como desvanecimento...)</translation>
+        <translation>Анимации элементов и предметов (например, затухание и т. д.)</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="39"/>
         <source>Enable Animations</source>
-        <translation>Ativar animações</translation>
+        <translation>Включить Анимацию</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="47"/>
         <source>Save and restore window geometry</source>
-        <translation>Guardar e restaurar geometria da janela</translation>
+        <translation>Сохранение и восстановление геометрии окна</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Animation.qml" line="55"/>
         <source>Keep above other windows</source>
-        <translation>Manter por cima das outras janelas</translation>
+        <translation>Расположить выше других окон</translation>
     </message>
 </context>
 <context>
@@ -117,7 +117,7 @@
         <location filename="../../qml/settingsmanager/tabs/shortcuts/Available.qml" line="117"/>
         <location filename="../../qml/settingsmanager/tabs/shortcuts/Available.qml" line="129"/>
         <source>Click to add shortcut</source>
-        <translation>Clique para adicionar o atalho</translation>
+        <translation>Нажмите, чтобы добавить комбинацию</translation>
     </message>
 </context>
 <context>
@@ -125,82 +125,82 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="32"/>
         <source>Background</source>
-        <translation>Fundo</translation>
+        <translation>Фон</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="33"/>
         <source>The background of PhotoQt is the part, that is not covered by an image. It can be made either real (half-)transparent (using a compositor), or faked transparent (instead of the actual desktop a screenshot of it is shown), or a custom background image can be set, or none of the above. Please note: Fake transparency currently only really works when PhotoQt is run in fullscreen/maximised!</source>
-        <translation>O fundo do PhotoQt é a área que não está coberta pela imagem. O fundo pode ser totalmente transparente (ou parcial) através de um compositor. Pode definir uma transparência fictícia (utiliza uma captura de ecrã do seu ambiente de trabalho), pode utilizar uma imagem ou então nenhuma das anteriores opções.&lt;br&gt;Nota: a transparência fictícia apenas funciona  se estiver a utilizar o PhotoQt no modo ecrã completo/maximizado!</translation>
+        <translation>Фон PhotoQt - это часть, которая не покрывается изображением. Он может быть сделан либо реальным (полупрозрачным) (с использованием компоновщика), либо фальшивым прозрачным (вместо фактического рабочего стола показан снимок экрана), либо может быть установлено пользовательское фоновое изображение или ни одно из вышеперечисленных. Обратите внимание: фальшивая прозрачность в настоящее время работает только в том случае, если PhotoQt запущен в полноэкранный режим/увеличен!</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="45"/>
         <source>(Half-)Transparent background</source>
-        <translation>Utilizar fundo semi-transparente</translation>
+        <translation>(Наполовину-)Прозрачный фон</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="51"/>
         <source>Faked transparency</source>
-        <translation>Transparência fictícia</translation>
+        <translation>Фальшивая прозрачность</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="56"/>
         <source>Custom background image</source>
-        <translation>Imagem de fundo personalizada</translation>
+        <translation>Пользовательское фоновое изображение</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="61"/>
         <source>Monochrome, non-transparent background</source>
-        <translation>Monocromático com cor com fundo opaca</translation>
+        <translation>Монохромный, непрозрачный фон</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="106"/>
         <source>No image selected</source>
-        <translation>Nenhuma imagem selecionada</translation>
+        <translation>Изображение не выбрано</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="133"/>
         <source>Scale to fit</source>
         <extracomment>Refers to a background image, scale it to fit</extracomment>
-        <translation>Ajustar para caber</translation>
+        <translation>По размеру</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="140"/>
         <source>Scale and Crop to fit</source>
         <extracomment>Refers to a background image, crop and scale it to fit perfectly</extracomment>
-        <translation>Ajustar e recortar para caber</translation>
+        <translation>Масштабировать и обрезать по размеру</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="146"/>
         <source>Stretch to fit</source>
         <extracomment>Refers to a background image, stretch it to fit perfectly</extracomment>
-        <translation>Esticar para caber</translation>
+        <translation>Растянуть по размеру</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="152"/>
         <source>Center image</source>
         <extracomment>Refers to a background image, center it</extracomment>
-        <translation>Centrar imagem</translation>
+        <translation>Изображение по центру</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Background.qml" line="158"/>
         <source>Tile image</source>
         <extracomment>Refers to a background image, tile it to fill everything</extracomment>
-        <translation>Imagem em mosaico</translation>
+        <translation>Изображение плиткой</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/Background.qml" line="89"/>
         <source>Open a file to begin</source>
-        <translation>Abrir um ficheiro</translation>
+        <translation>Откройте файл, чтобы начать</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/Background.qml" line="105"/>
         <source>Folder is now empty</source>
-        <translation>A pasta está agora vazia</translation>
+        <translation>Папка пуста</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/Background.qml" line="121"/>
         <source>No image matches selected filter</source>
-        <translation>Não existem imagens coincidentes com o filtro</translation>
+        <translation>Изображение не соответствует выбранному фильтру</translation>
     </message>
 </context>
 <context>
@@ -208,12 +208,12 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/BorderAroundImage.qml" line="31"/>
         <source>Margin Around Image</source>
-        <translation>Contorno da imagem</translation>
+        <translation>Поля Вокруг Изображения</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/BorderAroundImage.qml" line="32"/>
         <source>Whenever you load an image, the image is per default not shown completely in fullscreen, i.e. it&apos;s not stretching from screen edge to screen edge. Instead there is a small margin around the image of a couple pixels. Here you can adjust the width of this margin (set to 0 to disable it).</source>
-        <translation>Sempre que carregar uma imagem, esta não é mostrada completamente no modo de ecrã completo. Será mostrada uma pequena margem em redor da imagem com um conjunto de pixeis. Aqui pode ajustar a largura dessa margem (o valor 0 desativa a margem).</translation>
+        <translation>Всякий раз, когда вы загружаете изображение, изображение по умолчанию не отображается полностью в полноэкранном режиме, то есть оно не растягивается от края экрана до края экрана. Вместо этого есть небольшой запас вокруг изображения пары пикселей. Здесь вы можете настроить ширину этого поля (установите на 0, чтобы отключить его).</translation>
     </message>
 </context>
 <context>
@@ -224,7 +224,7 @@
         <location filename="../../qml/openfile/BreadCrumbs.qml" line="131"/>
         <source>Go backwards in history</source>
         <extracomment>The history is the list of visited folders in the element for opening files</extracomment>
-        <translation>Recuar no histórico</translation>
+        <translation>Вернуться назад в истории</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/BreadCrumbs.qml" line="91"/>
@@ -232,19 +232,19 @@
         <location filename="../../qml/openfile/BreadCrumbs.qml" line="132"/>
         <source>Go forwards in history</source>
         <extracomment>The history is the list of visited folders in the element for opening files</extracomment>
-        <translation>Avançar no histórico</translation>
+        <translation>Перейти вперед в истории</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/BreadCrumbs.qml" line="163"/>
         <source>Close element</source>
         <extracomment>The element in this case is the element for opening files</extracomment>
-        <translation>Fechar elemento</translation>
+        <translation>Закрыть элемент</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/BreadCrumbs.qml" line="250"/>
         <source>Go directly to subfolder of &apos;%1&apos;</source>
         <extracomment>Please do not for get the %1!</extracomment>
-        <translation>Ir para a sub-pasta de %1</translation>
+        <translation>Перейдите прямо в подкаталог &apos;%1&apos;</translation>
     </message>
 </context>
 <context>
@@ -252,96 +252,96 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="31"/>
         <source>Thumbnail Cache</source>
-        <translation>Cache de miniaturas</translation>
+        <translation>Кэш Миниатюр</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="36"/>
         <source>2) Database Caching</source>
         <extracomment>This refers to a type of cache for the thumbnails</extracomment>
-        <translation>2) Cache de base de dados</translation>
+        <translation>2) Кэширование Базы Данных</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="38"/>
         <source>Both ways have their advantages and disadvantages:</source>
         <extracomment>The two ways are the two types of thumbnail caching (files and database)</extracomment>
-        <translation>Ambos os métodos possuem vantagens e desvantagens:</translation>
+        <translation>Оба способа имеют свои преимущества и недостатки:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="32"/>
         <source>Thumbnails can be cached in two different ways:</source>
-        <translation>As miniaturas podem ser colocadas em cache de duas formas:</translation>
+        <translation>Эскизы можно кэшировать двумя различными способами:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="34"/>
         <source>1) File Caching (following the freedesktop.org standard)</source>
         <extracomment>This refers to a type of cache for the thumbnails</extracomment>
-        <translation>1) Cache de ficheiros (padrão freedesktop.org)</translation>
+        <translation>1) Кэширование файлов (в соответствии со стандартом freedesktop.org )</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="40"/>
         <source>File Caching is done according to the freedesktop.org standard and thus different applications can share the same thumbnail for the same image file.</source>
         <extracomment>The caching here refers to thumbnail caching</extracomment>
-        <translation>A cache de ficheiros é efetuada seguindo a norma freedesktop.org e, deste modo, a mesma miniatura pode ser partilhada pelas diversas aplicações.</translation>
+        <translation>Кэширование файлов выполняется в соответствии со стандартом freedesktop.org, и поэтому различные приложения могут совместно использовать один и тот же эскиз для одного и того же файла изображения.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="42"/>
         <source>Database Caching doesn&apos;t have the advantage of sharing thumbnails with other applications (and thus every thumbnails has to be newly created for PhotoQt), but it allows PhotoQt to have more control over existing thumbnails and works better on systems like Windows.</source>
         <extracomment>The caching here refers to thumbnail caching</extracomment>
-        <translation>A cache de base de dados não possui a vantagem de partilhar miniaturas com outras aplicações (e todas as miniaturas terão que ser criadas pelo PhotoQt), mas permite que o PhotoQt possua melhor controlo sobre as miniaturas e funciona melhor em sistemas Windows.</translation>
+        <translation>Кэширование базы данных не может быть применено в совместном использовании эскизов с другими приложениями (и, следовательно, все миниатюры должны быть вновь созданы для PhotoQt), но это позволяет PhotoQt иметь больше контроля над существующими эскизами и лучше работать в таких системах, как Windows.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="44"/>
         <source>PhotoQt works with either option, though the first way is set as default and strongly recommended.</source>
         <extracomment>The options talked about are the two ways to cache thumbnails (files and database)</extracomment>
-        <translation>O PhotoQt pode utilizar ambas as opções mas a primeira é a recomendada e a que é utilizada por defeito.</translation>
+        <translation>PhotoQt работает с любыми другими опциями, хотя первый способ задан по умолчанию и настоятельно рекомендуется.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="46"/>
         <source>Although everybody is encouraged to use at least one of the two options, caching can be completely disabled altogether. However, this means that each thumbnail has to be recreated everytime it is needed.</source>
         <extracomment>Talking about thumbnail caching with its two possible options, files and database caching</extracomment>
-        <translation>Embora os utilizadores devam utilizar uma das opções referidas, pode desativar a utilização de cache. Contudo, isto significa que, sempre que forem necessárias, as miniaturas terão que ser recriadas.</translation>
+        <translation>Хотя всем рекомендуется использовать хотя бы один из двух вариантов, кэширование может быть полностью отключено вообще. Однако это означает, что каждую миниатюру нужно воссоздавать каждый раз, когда это необходимо.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="53"/>
         <source>Enable Cache</source>
         <extracomment>The caching here refers to thumbnail caching</extracomment>
-        <translation>Ativar cache</translation>
+        <translation>Включить кеш</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="77"/>
         <source>File Caching</source>
         <extracomment>The caching here refers to thumbnail caching</extracomment>
-        <translation>Cache de ficheiros</translation>
+        <translation>Кэширование файлов</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="84"/>
         <source>Database Caching</source>
         <extracomment>The caching here refers to thumbnail caching</extracomment>
-        <translation>Cache para bases de dados</translation>
+        <translation>Кэширование базы данных</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="110"/>
         <source>Database filesize:</source>
         <extracomment>The database refers to the database used for caching thumbnail images</extracomment>
-        <translation>Tamanho da base de dados:</translation>
+        <translation>Размер файла базы данных:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="140"/>
         <source>Entries in database:</source>
         <extracomment>The database refers to the database used for caching thumbnail images (the entries)</extracomment>
-        <translation>Entradas na base de dados:</translation>
+        <translation>Записи в базе данных:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="168"/>
         <source>CLEAN UP</source>
         <extracomment>Refers to cleaning up the database for thumbnail caching</extracomment>
-        <translation>Limpar</translation>
+        <translation>ОЧИСТИТЬ</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Cache.qml" line="182"/>
         <source>ERASE</source>
         <extracomment>Refers to emptying the database for thumbnail caching</extracomment>
-        <translation>Apagar</translation>
+        <translation>УДАЛИТЬ</translation>
     </message>
 </context>
 <context>
@@ -350,17 +350,17 @@
         <location filename="../../qml/settingsmanager/tabs/thumbnails/CenterOn.qml" line="32"/>
         <source>Keep in Center</source>
         <extracomment>the center is the center of the screen edge. The thing talked about are the thumbnails.</extracomment>
-        <translation>Manter no centro</translation>
+        <translation>Расположить в центре</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/CenterOn.qml" line="33"/>
         <source>If this option is set, then the current thumbnail (i.e., the thumbnail of the currently displayed image) will always be kept in the center of the thumbnail bar (if possible). If this option is not set, then the active thumbnail will simply be kept visible, but not necessarily in the center.</source>
-        <translation>Se ativar esta opção, a miniatura atual (isto é: a miniatura da imagem em exibição) será mantida no centro da barra de miniaturas (se possível). Se não ativar a opção, a miniatura ativa estará visível, mas não necessariamente no centro da barra de miniaturas.</translation>
+        <translation>Если этот параметр установлен, то текущий эскиз (то есть миниатюра отображаемого в настоящее время изображения) всегда будет находиться в центре панели эскизов (по возможности). Если этот параметр не установлен, активный эскиз будет просто виден, но не обязательно в центре.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/CenterOn.qml" line="39"/>
         <source>Center on Current Thumbnail</source>
-        <translation>Centrar na miniatura atual</translation>
+        <translation>Переместить эскиз в центр</translation>
     </message>
 </context>
 <context>
@@ -369,18 +369,18 @@
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/CloseOnClick.qml" line="31"/>
         <source>Click on Empty Area</source>
         <extracomment>The empty area is the area around the main image</extracomment>
-        <translation>Clicar em área vazia</translation>
+        <translation>Нажмите на пустой области</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/CloseOnClick.qml" line="32"/>
         <source>This option makes PhotoQt behave a bit like the JavaScript image viewers you find on many websites. A click outside of the image on the empty background will close the application. This way PhotoQt will feel even more like a &apos;floating layer&apos;, however, this can easily be triggered accidentally. Note that if you use a mouse click for a shortcut already, then this option wont have any effect!</source>
-        <translation>Esta opção faz com que o PhotoQt se comporte como os visualizadores de imagem JavaScript, encontrados em muitos sites. Se clicar fora da área da imagem, a aplicação será fechada. Desta forma, a aplicação funciona como uma janela flutuante. Contudo pode ser facilmente fechada sem intenção. tenha em atenção de que, se utilizar o clique do rato como atalho, esta opção não produzirá qualquer efeito.</translation>
+        <translation>Этот параметр делает PhotoQt более похожим на просмотрщик изображений JavaScript, который вы найдете на многих веб-сайтах. Щелчок за пределами изображения на пустом фоне закроет приложение. Таким образом, PhotoQt будет чувствовать себя, как «свободный слой», однако это может привести к случайному закрытию. Обратите внимание, что если вы нажмете мышью на иконку, эта опция не будет иметь никакого эффекта!</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/CloseOnClick.qml" line="40"/>
         <source>Close on click in empty area</source>
         <extracomment>The empty area is the area around the main image</extracomment>
-        <translation>Fechar ao clicar na área vazia</translation>
+        <translation>Закрыть по щелчку в пустой области</translation>
     </message>
 </context>
 <context>
@@ -388,63 +388,63 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/ClosingX.qml" line="31"/>
         <source>Exit button</source>
-        <translation>Botão para sair</translation>
+        <translation>Кнопка Закрыть</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/ClosingX.qml" line="32"/>
         <source>The exit button is shown in the top right corner. It can have one of two looks: a normal &apos;x&apos; or a plain text&apos;x&apos;. The normal &apos;x&apos; fits in better with the overall design of PhotoQt, but the plain text &apos;x&apos; is smaller and more discreet.</source>
-        <translation>O botão para sair é mostrado no canto superior direito. Pode ter dois aspetos: um &apos;x&apos; normal e um &apos;x&apos; básico. O &apos;x&apos; normal adequa-se melhor ao aspeto do PhotoQt mas, por outro lado, o &apos;x&apos; básico é mais pequeno e discreto.</translation>
+        <translation>Кнопка выхода отображается в верхнем правом углу. Она может иметь один из двух видов: обычный &apos;x&apos; или простой text&apos;x&apos;. Нормальный &apos;x&apos; лучше подходит для общего дизайна PhotoQt, но простой text&apos;x&apos; меньше и более содержательный.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/ClosingX.qml" line="46"/>
         <source>Normal</source>
         <extracomment>This is a type of exit button ('x' in top right screen corner)</extracomment>
-        <translation>Normal</translation>
+        <translation>Нормальная</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/ClosingX.qml" line="54"/>
         <source>Plain</source>
         <extracomment>This is a type of exit button ('x' in top right screen corner), showing a simple text 'x'</extracomment>
-        <translation>Simples</translation>
+        <translation>Простая</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/ClosingX.qml" line="77"/>
         <source>Small</source>
         <extracomment>The size of the exit button ('x' in top right screen corner)</extracomment>
-        <translation>Pequeno</translation>
+        <translation>Уменьшить</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/ClosingX.qml" line="102"/>
         <source>Large</source>
         <extracomment>The size of the exit button ('x' in top right screen corner)</extracomment>
-        <translation>Grande</translation>
+        <translation>Увеличить</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/ClosingX.qml" line="88"/>
         <source>Show counter</source>
         <extracomment>The counter shows the position of the currently loaded image in the folder</extracomment>
-        <translation>Mostrar contagem</translation>
+        <translation>Показывать счетчик</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/ClosingX.qml" line="92"/>
         <source>Show filepath</source>
-        <translation>Mostrar caminho dos ficheiros</translation>
+        <translation>Показывать путь к файлу</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/ClosingX.qml" line="96"/>
         <source>Show filename</source>
-        <translation>Mostrar nome dos ficheiros</translation>
+        <translation>Показывать Имя файла</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/ClosingX.qml" line="100"/>
         <source>Show zoom level</source>
-        <translation>Mostrar nível de ampliação</translation>
+        <translation>Показать уровень масштабирования</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/ClosingX.qml" line="105"/>
         <source>Show closing &apos;x&apos;</source>
         <extracomment>The clsoing 'x' is the button in the top right corner of the screen for closing PhotoQt</extracomment>
-        <translation>Mostrar botão para sair &apos;x&apos;</translation>
+        <translation>Показать закрытие &apos;x&apos;</translation>
     </message>
 </context>
 <context>
@@ -452,12 +452,12 @@
     <message>
         <location filename="../../qml/filemanagement/Copy.qml" line="40"/>
         <source>Use the file dialog to select a destination location.</source>
-        <translation>Utilizar caixa de diálogo para escolher o destino.</translation>
+        <translation>Используйте диалоговое окно файла, чтобы выбрать место назначения.</translation>
     </message>
     <message>
         <location filename="../../qml/filemanagement/Copy.qml" line="59"/>
         <source>Copy Image to...</source>
-        <translation>Copiar imagem para...</translation>
+        <translation>Копировать изображение в...</translation>
     </message>
 </context>
 <context>
@@ -465,7 +465,7 @@
     <message>
         <location filename="../../qml/elements/CustomConfirm.qml" line="152"/>
         <source>Don&apos;t ask again</source>
-        <translation>Não perguntar novamente</translation>
+        <translation>Не спрашивать больше</translation>
     </message>
 </context>
 <context>
@@ -473,43 +473,43 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/CustomEntries.qml" line="32"/>
         <source>Custom Entries in Main Menu</source>
-        <translation>Entradas personalizadas no menu principal</translation>
+        <translation>Записи пользователя в главном меню</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/CustomEntries.qml" line="33"/>
         <source>Here you can adjust the custom entries in the main menu. You can simply drag and drop the entries, edit them, add a new one and remove an existing one.</source>
-        <translation>Aqui pode configurar as entradas do menu principal. Pode adicionar, remover e/ou arrastar e largar as entradas.</translation>
+        <translation>Здесь вы можете настроить пользовательские записи в главном меню. Вы можете просто перетаскивать записи, редактировать их, добавлять новые и удалять существующие.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/CustomEntries.qml" line="84"/>
         <source>Executable</source>
-        <translation>Executável</translation>
+        <translation>Выполняемый</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/CustomEntries.qml" line="102"/>
         <source>Menu Text</source>
-        <translation>Texto do menu</translation>
+        <translation>Меню Текст</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/CustomEntries.qml" line="291"/>
         <source>Click here to drag entry</source>
-        <translation>Clique aqui para arrastar a entrada</translation>
+        <translation>Нажмите здесь, чтобы перетащить запись</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/CustomEntries.qml" line="407"/>
         <source>quit</source>
         <extracomment>KEEP THIS STRING SHORT! It is displayed for external applications of main menu as an option to quit PhotoQt after executing it</extracomment>
-        <translation>sair</translation>
+        <translation>выход</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/CustomEntries.qml" line="503"/>
         <source>Add new entry</source>
-        <translation>Adicionar entrada</translation>
+        <translation>Добавить новую запись</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/CustomEntries.qml" line="520"/>
         <source>Set default entries</source>
-        <translation>Definir entradas padrão</translation>
+        <translation>Установить записи по умолчанию</translation>
     </message>
 </context>
 <context>
@@ -517,24 +517,24 @@
     <message>
         <location filename="../../qml/elements/CustomFileSelect.qml" line="74"/>
         <source>Click here to select a configuration file</source>
-        <translation>Clique aqui para selecionar o ficheiro de configuração</translation>
+        <translation>Нажмите здесь, чтобы выбрать файл конфигурации</translation>
     </message>
     <message>
         <location filename="../../qml/elements/CustomFileSelect.qml" line="104"/>
         <source>Select PhotoQt config file...</source>
         <extracomment>PhotoQt config file = configuration file</extracomment>
-        <translation>Selecione o ficheiro de configuração do PhotoQt...</translation>
+        <translation>Выберите файл конфигурации PhotoQt...</translation>
     </message>
     <message>
         <location filename="../../qml/elements/CustomFileSelect.qml" line="106"/>
         <source>PhotoQt Config Files</source>
         <extracomment>PhotoQt config file = configuration file</extracomment>
-        <translation>Ficheiros de configuração do PhotoQt</translation>
+        <translation>Файлы конфигурации PhotoQt </translation>
     </message>
     <message>
         <location filename="../../qml/elements/CustomFileSelect.qml" line="107"/>
         <source>All Files</source>
-        <translation>Todos os ficheiros</translation>
+        <translation>Все Файлы</translation>
     </message>
 </context>
 <context>
@@ -543,48 +543,48 @@
         <location filename="../../qml/elements/CustomLineEdit.qml" line="111"/>
         <source>Undo</source>
         <extracomment>As in 'Undo latest change'</extracomment>
-        <translation>Desfazer</translation>
+        <translation>Отменить</translation>
     </message>
     <message>
         <location filename="../../qml/elements/CustomLineEdit.qml" line="114"/>
         <source>Redo</source>
         <extracomment>As in 'Redo latest change'</extracomment>
-        <translation>Refazer</translation>
+        <translation>Вернуть</translation>
     </message>
     <message>
         <location filename="../../qml/elements/CustomLineEdit.qml" line="119"/>
         <source>Cut selection</source>
         <extracomment>selection = selected text</extracomment>
-        <translation>Cortar seleção</translation>
+        <translation>Вырезать выделение</translation>
     </message>
     <message>
         <location filename="../../qml/elements/CustomLineEdit.qml" line="122"/>
         <source>Copy selection to clipboard</source>
         <extracomment>selection = selected text</extracomment>
-        <translation>Copiar seleção para a área de transferência</translation>
+        <translation>Копировать выделение в буфер обмена</translation>
     </message>
     <message>
         <location filename="../../qml/elements/CustomLineEdit.qml" line="124"/>
         <source>Paste clipboard content</source>
-        <translation>Colar conteúdo da área de transferência</translation>
+        <translation>Вставить содержимое буфера обмена </translation>
     </message>
     <message>
         <location filename="../../qml/elements/CustomLineEdit.qml" line="127"/>
         <source>Delete content</source>
         <extracomment>content refers to text content in a line edit</extracomment>
-        <translation>Apagar conteúdo</translation>
+        <translation>Удалить содержимое</translation>
     </message>
     <message>
         <location filename="../../qml/elements/CustomLineEdit.qml" line="132"/>
         <source>Select all</source>
         <extracomment>Refering to all text</extracomment>
-        <translation>Selecionar tudo</translation>
+        <translation>Выделить все</translation>
     </message>
     <message>
         <location filename="../../qml/elements/CustomLineEdit.qml" line="135"/>
         <source>Select all and copy</source>
         <extracomment>In the sense of 'Selecting all text and copying it to clipboard'</extracomment>
-        <translation>Selecionar tudo e copiar</translation>
+        <translation>Выделить все и скопировать</translation>
     </message>
 </context>
 <context>
@@ -592,45 +592,45 @@
     <message>
         <location filename="../../qml/filemanagement/Delete.qml" line="42"/>
         <source>Delete File</source>
-        <translation>Apagar ficheiro</translation>
+        <translation>Удалить файл</translation>
     </message>
     <message>
         <location filename="../../qml/filemanagement/Delete.qml" line="65"/>
         <source>Are you sure?</source>
-        <translation>Tem a certeza?</translation>
+        <translation>Вы уверены?</translation>
     </message>
     <message>
         <location filename="../../qml/filemanagement/Delete.qml" line="97"/>
         <source>Move to Trash</source>
         <extracomment>In the sense of 'move the current image into the trash'</extracomment>
-        <translation>Mover para o Lixo</translation>
+        <translation>Переместить в корзину</translation>
     </message>
     <message>
         <location filename="../../qml/filemanagement/Delete.qml" line="99"/>
         <source>Delete</source>
         <extracomment>As in 'Delete the current image'</extracomment>
-        <translation>Apagar</translation>
+        <translation>Удалить</translation>
     </message>
     <message>
         <location filename="../../qml/filemanagement/Delete.qml" line="108"/>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location filename="../../qml/filemanagement/Delete.qml" line="130"/>
         <source>Delete permanently</source>
         <extracomment>In the sense of 'Delete the current image permanently'</extracomment>
-        <translation>Apagar permanentemente</translation>
+        <translation>Удалить навсегда</translation>
     </message>
     <message>
         <location filename="../../qml/filemanagement/Delete.qml" line="150"/>
         <source>Enter = Move to Trash, Shift+Enter = Delete permanently, Escape = Cancel</source>
-        <translation>Enter = Mover para o lixo, Shift+Enter = Apagar permanentemente, Escape = Cancelar</translation>
+        <translation>Enter = Удалить в корзину, Shift+Enter = Удалить навсегда, Escape = Отмена</translation>
     </message>
     <message>
         <location filename="../../qml/filemanagement/Delete.qml" line="151"/>
         <source>Enter = Delete, Escape = Cancel</source>
-        <translation>Enter = Apagar, Escape = Cancelar</translation>
+        <translation>Enter = Удалить, Escape = Отмена</translation>
     </message>
 </context>
 <context>
@@ -638,27 +638,27 @@
     <message>
         <location filename="../../qml/settingsmanager/DetectShortcut.qml" line="163"/>
         <source>Shortcut also already set for the following:</source>
-        <translation>Esta atalho já está a ser utilizado para:</translation>
+        <translation>Установить комбинации также для следующих:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/DetectShortcut.qml" line="213"/>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/DetectShortcut.qml" line="242"/>
         <source>Perform any mouse action or press any key combination.</source>
-        <translation>Execute uma ação do rato ou prima a combinação de teclas.</translation>
+        <translation>Выполните любое действие мыши или нажмите любую комбинацию клавиш.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/DetectShortcut.qml" line="243"/>
         <source>When your satisfied, click the button to the right.</source>
-        <translation>Quando estiver satisfeito, clique no botão à direita.</translation>
+        <translation>Когда вас устроит, нажмите кнопку справа.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/DetectShortcut.qml" line="266"/>
         <source>Set shortcut</source>
-        <translation>Definir atalho</translation>
+        <translation>Установить комбинацию</translation>
     </message>
 </context>
 <context>
@@ -666,17 +666,17 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Disable.qml" line="30"/>
         <source>Disable thumbnails</source>
-        <translation>Desativar miniaturas</translation>
+        <translation>Отключить миниатюры</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Disable.qml" line="31"/>
         <source>If you just don&apos;t need or don&apos;t want any thumbnails whatsoever, then you can disable them here completely. This will increase the speed of PhotoQt, but will make navigating with the mouse harder.</source>
-        <translation>Se não quiser ou não precisar de miniaturas, pode desativar aqui essa opção. Esta opção pode acelerar um pouco a velocidade de resposta do PhotoQt mas a navegação no diretório de imagens pode ser mais complicada.</translation>
+        <translation>Если вам просто не нужны или не нужны какие-либо миниатюры, вы можете полностью отключить их здесь. Это увеличит скорость PhotoQt, но сделает навигацию с помощью мыши сложнее.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Disable.qml" line="38"/>
         <source>Disable Thumbnails altogether</source>
-        <translation>Desativar miniaturas globalmente</translation>
+        <translation>Полностью отключить миниатюры</translation>
     </message>
 </context>
 <context>
@@ -685,36 +685,36 @@
         <location filename="../../qml/wallpaper/modules/Enlightenment.qml" line="54"/>
         <source>Warning: It seems that the &apos;msgbus&apos; (DBUS) module is not activated! It can be activated in the settings console:</source>
         <extracomment>&quot;msgbus&quot; and &quot;DBUS&quot; are fixed names, please don't translate</extracomment>
-        <translation>Aviso: parece que o módulo &apos;msgbus&apos; (DBUS) não está ativado! Pode ativar o módulo nas definições:</translation>
+        <translation>Предупреждение: похоже, что модуль &apos;msgbus&apos; (DBUS) не активирован! Его можно активировать в консоли настроек:</translation>
     </message>
     <message>
         <location filename="../../qml/wallpaper/modules/Enlightenment.qml" line="66"/>
         <source>Warning: &apos;enlightenment_remote&apos; doesn&apos;t seem to be available! Are you sure Enlightenment is installed?</source>
         <extracomment>&quot;enlightenment_remote&quot; and &quot;Enlightenment&quot; are fixed names, please don't translate</extracomment>
-        <translation>Aviso: parece que &apos;enlightenment_remote&apos; não está disponível! Tem a certeza de que o Enlightenment está instalado?</translation>
+        <translation>Предупреждение: &apos;enlightenment_remote&apos; кажется недоступен! Вы уверены, что Enlightenment установлен?</translation>
     </message>
     <message>
         <location filename="../../qml/wallpaper/modules/Enlightenment.qml" line="77"/>
         <source>The wallpaper can be set to any of the available monitors (one or any combination).</source>
-        <translation>Pode definir o papel de parede em qualquer um dos monitores disponíveis (ou qualquer combinação).</translation>
+        <translation>Обои могут быть установлены на любой из доступных мониторов (один или несколько комбинаций).</translation>
     </message>
     <message>
         <location filename="../../qml/wallpaper/modules/Enlightenment.qml" line="94"/>
         <source>Screen</source>
         <extracomment>Used as in 'Screen #4', the screen is not referring to multiple desktops/workspaces, but actual (physical) screens</extracomment>
-        <translation>Ecrã</translation>
+        <translation>Экран</translation>
     </message>
     <message>
         <location filename="../../qml/wallpaper/modules/Enlightenment.qml" line="129"/>
         <source>You can set the wallpaper to any sub-selection of workspaces</source>
-        <translation>Pode definir o papel de parede para qualquer sub-seleção de áreas de trabalho</translation>
+        <translation>Вы можете установить обои для любого подвыбора рабочего пространства</translation>
     </message>
     <message>
         <location filename="../../qml/wallpaper/modules/Enlightenment.qml" line="150"/>
         <location filename="../../qml/wallpaper/modules/Enlightenment.qml" line="153"/>
         <location filename="../../qml/wallpaper/modules/Enlightenment.qml" line="155"/>
         <source>Workspace</source>
-        <translation>Área de trabalho</translation>
+        <translation>Рабочее пространство</translation>
     </message>
 </context>
 <context>
@@ -722,53 +722,53 @@
     <message>
         <location filename="../../qml/settingsmanager/ExportImport.qml" line="87"/>
         <source>Export/Import settings and shortcuts</source>
-        <translation>Importar/exportar definições e atalhos</translation>
+        <translation>Экспорт/Импорта настроек и комбинаций клавиш</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/ExportImport.qml" line="97"/>
         <source>Here you can export all settings and shortcuts into a single packed file and, e.g., import it in another installation of PhotoQt.</source>
-        <translation>Aqui pode exportar as definições e os atalhos para um ficheiro e, mais tarde, importá-lo para outra instalação do PhotoQt.</translation>
+        <translation>Здесь вы можете экспортировать все настройки и комбинации клавиш в один упакованный файл и, например, импортировать его в другую установку PhotoQt.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/ExportImport.qml" line="115"/>
         <source>Export everything to file</source>
         <extracomment>Everything refers to all settings and shortcuts</extracomment>
-        <translation>Exportar tudo para ficheiro</translation>
+        <translation>Экспортировать все самое важное в файл</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/ExportImport.qml" line="151"/>
         <source>Import settings and shortcuts</source>
-        <translation>Importar definições e atalhos</translation>
+        <translation>Импорт настроек и комбинации клавиш</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/ExportImport.qml" line="175"/>
         <source>PhotoQt will attempt to automatically restart after a successful import!</source>
-        <translation>O PhotoQt será reiniciado após a importação ser concluída com sucesso!</translation>
+        <translation>PhotoQt попытается автоматически перезапустить после успешного импорта!</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/ExportImport.qml" line="189"/>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/ExportImport.qml" line="208"/>
         <source>Close</source>
-        <translation>Fechar</translation>
+        <translation>Закрыть</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/ExportImport.qml" line="202"/>
         <source>Error</source>
-        <translation>Erro</translation>
+        <translation>Ошибка</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/ExportImport.qml" line="206"/>
         <source>Exporting the configuration file failed with the following error message:</source>
-        <translation>A exportação não foi efetuada e foi devolvida a seguinte mensagem:</translation>
+        <translation>Ошибка экспорта файла конфигурации со следующим сообщением об ошибке:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/ExportImport.qml" line="207"/>
         <source>Importing the configuration file failed with the following error message:</source>
-        <translation>A importação não foi efetuada e foi devolvida a seguinte mensagem:</translation>
+        <translation>Не удалось импортировать файл конфигурации со следующим сообщением об ошибке:</translation>
     </message>
 </context>
 <context>
@@ -776,22 +776,22 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/FilenameOnly.qml" line="31"/>
         <source>Filename Thumbnail</source>
-        <translation>Miniatura com o nome do ficheiro</translation>
+        <translation>Имя файла Миниатюры</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/FilenameOnly.qml" line="32"/>
         <source>If you don&apos;t want PhotoQt to always load the actual image thumbnail in the background, but you still want to have something for better navigating, then you can set a filename-only thumbnail, i.e. PhotoQt wont load any thumbnail images but simply puts the file name into the box. You can also adjust the font size of this text.</source>
-        <translation>Se não quiser que o PhotoQt carregue a miniatura da imagem atual em segundo plano, mas ainda assim quiser algo para uma melhor navegação, aqui pode criar uma miniatura só com o nome do ficheiro. O PhotoQt não carregará quaisquer miniaturas mas coloca o nome do ficheiro na caixa. Também pode ajustar o tipo de letra do texto.</translation>
+        <translation>Если вы не хотите, чтобы PhotoQt всегда загружала фактический эскиз изображения в фоновом режиме, но вы все еще хотите что-то улучшить для навигации, вы можете установить миниатюру только для имени файла, то есть PhotoQt не загрузит изображения миниатюр, а просто добавит имя файла в поле. Вы также можете настроить размер шрифта этого текста.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/FilenameOnly.qml" line="38"/>
         <source>Use filename-only thumbnail</source>
-        <translation>Miniatura com o nome do ficheiro</translation>
+        <translation>Использовать для эскизов только имя файла.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/FilenameOnly.qml" line="54"/>
         <source>Fontsize</source>
-        <translation>Tamanho do tipo de letra</translation>
+        <translation>Размер шрифта</translation>
     </message>
 </context>
 <context>
@@ -800,25 +800,25 @@
         <location filename="../../qml/openfile/FilesView.qml" line="119"/>
         <source>This protocol is currently not supported</source>
         <extracomment>Protocol refers to a file protocol (e.g., for network folders)</extracomment>
-        <translation>Ainda não existe suporte para este tipo de protocolo</translation>
+        <translation>Этот протокол в настоящее время не поддерживается</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/FilesView.qml" line="121"/>
         <source>No image files found</source>
         <extracomment>Can also be expressed as 'zero subfolders' or '0 subfolders'. It is also possible to drop the 'sub' leaving 'folders' if that works better</extracomment>
-        <translation>Não foram encontradas imagens</translation>
+        <translation>Файлы изображений не найдены</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/FilesView.qml" line="385"/>
         <source>Name</source>
         <extracomment>Refers to the filename. Keep string short!</extracomment>
-        <translation>Nome</translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/FilesView.qml" line="387"/>
         <source>Size</source>
         <extracomment>Refers to the filesize. Keep string short!</extracomment>
-        <translation>Tamanho</translation>
+        <translation>Размер</translation>
     </message>
 </context>
 <context>
@@ -826,33 +826,33 @@
     <message>
         <location filename="../../qml/other/Filter.qml" line="43"/>
         <source>Filter images in current directory</source>
-        <translation>Filtrar imagens no diretório atual</translation>
+        <translation>Фильтрация изображений в текущем каталоге</translation>
     </message>
     <message>
         <location filename="../../qml/other/Filter.qml" line="58"/>
         <source>Enter here the term you want to filter the images by. Separate multiple terms by a space.</source>
-        <translation>Digite aqui o termo de pesquisa para filtrar as imagens. Pode separar vários termos com um espaço.</translation>
+        <translation>Введите здесь термин, по которому вы хотите отфильтровать изображения. Отделите несколько терминов пробелом.</translation>
     </message>
     <message>
         <location filename="../../qml/other/Filter.qml" line="65"/>
         <source>If you want to limit a term to file extensions, prepend a dot &apos;.&apos; to the term.</source>
-        <translation>Para restringir o termo a extensões de ficheiro, adicione um ponto &apos;.&apos; antes do termo.</translation>
+        <translation>Если вы хотите ограничить лимит терминов для расширений файлов, добавьте точку &apos;.&apos;. к термину.</translation>
     </message>
     <message>
         <location filename="../../qml/other/Filter.qml" line="114"/>
         <source>Filter</source>
         <extracomment>As in 'Go ahead and filter images'</extracomment>
-        <translation>Filtro</translation>
+        <translation>Фильтр</translation>
     </message>
     <message>
         <location filename="../../qml/other/Filter.qml" line="121"/>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location filename="../../qml/other/Filter.qml" line="135"/>
         <source>Remove Filter</source>
-        <translation>Remover filtro</translation>
+        <translation>Удалить фильтр</translation>
     </message>
 </context>
 <context>
@@ -861,17 +861,17 @@
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/FitInWindow.qml" line="31"/>
         <source>Fit in Window</source>
         <extracomment>Along the lines of 'zoom small images until they fill the window'</extracomment>
-        <translation>Ajustar à janela</translation>
+        <translation>Поместить в окне</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/FitInWindow.qml" line="32"/>
         <source>If the image dimensions are smaller than the screen dimensions, PhotoQt can automatically zoom those images to make them fit into the window.</source>
-        <translation>Se as dimensões da imagem forem inferiores às do ecrã, o PhotoQt pode ajustar automaticamente as imagens à janela.</translation>
+        <translation>Если размеры изображения меньше размеров экрана, PhotoQt может автоматически увеличивать эти изображения, чтобы они вписывались в окно.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/FitInWindow.qml" line="39"/>
         <source>Fit Smaller Images in Window</source>
-        <translation>Ajustar imagens mais pequenas à janela</translation>
+        <translation>Уменьшить размер изображения в окне</translation>
     </message>
 </context>
 <context>
@@ -880,25 +880,25 @@
         <location filename="../../qml/openfile/Folders.qml" line="95"/>
         <source>This protocol is currently not supported</source>
         <extracomment>Protocol refers to a file protocol (e.g., for network folders)</extracomment>
-        <translation>Ainda não existe suporte para este tipo de protocolo</translation>
+        <translation>Этот протокол в настоящее время не поддерживается</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/Folders.qml" line="97"/>
         <source>No subfolders</source>
         <extracomment>Can also be expressed as 'zero subfolders' or '0 subfolders'. It is also possible to drop the 'sub' leaving 'folders' if that works better</extracomment>
-        <translation>Nenhuma sub-pasta</translation>
+        <translation>Нет вложенных папок</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/Folders.qml" line="236"/>
         <source>1 image</source>
         <extracomment>Keep string short!</extracomment>
-        <translation>1 imagem</translation>
+        <translation>1 изображение</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/Folders.qml" line="238"/>
         <source>%1 images</source>
         <extracomment>Always used for the plural (i.e., at least 2). Keep string short!</extracomment>
-        <translation>%1 imagens</translation>
+        <translation>%1 изображений</translation>
     </message>
 </context>
 <context>
@@ -906,12 +906,12 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/FontSize.qml" line="35"/>
         <source>Font Size</source>
-        <translation>Tamanho do tipo de letra</translation>
+        <translation>Размер шрифта</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/FontSize.qml" line="36"/>
         <source>The fontsize of the metadata element can be adjusted independently of the rest of the application.</source>
-        <translation>O tamanho do tipo de letra dos meta-dados pode ser ajustado independentemente do resto da aplicação.</translation>
+        <translation>Шрифт элемента метаданных можно отрегулировать независимо от остальной части приложения.</translation>
     </message>
 </context>
 <context>
@@ -922,7 +922,7 @@
         <location filename="../../cplusplus/scripts/getanddostuff/context.cpp" line="44"/>
         <source>Edit with</source>
         <extracomment>Used as in 'Edit with tool abc'</extracomment>
-        <translation>Editar com</translation>
+        <translation>Изменить с помощью</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getanddostuff/context.cpp" line="46"/>
@@ -931,7 +931,7 @@
         <location filename="../../cplusplus/scripts/getanddostuff/context.cpp" line="52"/>
         <location filename="../../cplusplus/scripts/getanddostuff/context.cpp" line="54"/>
         <source>Open in</source>
-        <translation>Abrir com</translation>
+        <translation>Открыть в</translation>
     </message>
 </context>
 <context>
@@ -939,7 +939,7 @@
     <message>
         <location filename="../../cplusplus/scripts/getanddostuff/file.cpp" line="30"/>
         <source>Please select image file</source>
-        <translation>Por favor selecione uma imagem</translation>
+        <translation>Пожалуйста, выберите файл изображения</translation>
     </message>
 </context>
 <context>
@@ -947,172 +947,172 @@
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="428"/>
         <source>Unknown</source>
-        <translation>Desconhecida</translation>
+        <translation>Неизвестный</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="431"/>
         <source>Daylight</source>
-        <translation>Luz do dia</translation>
+        <translation>Дневной свет</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="434"/>
         <source>Fluorescent</source>
-        <translation>Fluorescente</translation>
+        <translation>Флюоресцент</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="437"/>
         <source>Tungsten (incandescent light)</source>
-        <translation>Tungsténio (luz incandescente)</translation>
+        <translation>Вольфрам (лампа накаливания)</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="440"/>
         <source>Flash</source>
-        <translation>Flash</translation>
+        <translation>Вспышка</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="443"/>
         <source>Fine weather</source>
-        <translation>Céu limpo</translation>
+        <translation>Хорошая погода</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="446"/>
         <source>Cloudy Weather</source>
-        <translation>Céu nublado</translation>
+        <translation>Облачная погода</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="449"/>
         <source>Shade</source>
-        <translation>Escuro</translation>
+        <translation>Тень</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="452"/>
         <source>Daylight fluorescent</source>
-        <translation>Luz natural fluorescente</translation>
+        <translation>Дневной свет флуоресцентный</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="455"/>
         <source>Day white fluorescent</source>
-        <translation>Dia branco fluorescente</translation>
+        <translation>Дневной белый флуоресцентный</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="458"/>
         <source>Cool white fluorescent</source>
-        <translation>Branco fluorescente frio</translation>
+        <translation>Белый холодный флуоресцентный</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="461"/>
         <source>White fluorescent</source>
-        <translation>Branco fluorescente</translation>
+        <translation>Белый флуоресцентный</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="464"/>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="467"/>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="470"/>
         <source>Standard light</source>
-        <translation>Luz padrão</translation>
+        <translation>Стандартный свет</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="483"/>
         <source>Other light source</source>
-        <translation>Outra fonte de luz</translation>
+        <translation>Другой источник света</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="486"/>
         <source>Invalid light source</source>
         <extracomment>This string refers to the light source stored in image metadata</extracomment>
-        <translation>Fonte de luz inválida</translation>
+        <translation>Ошибочный источник света</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="495"/>
         <source>yes</source>
         <extracomment>This string identifies that flash was fired, stored in image metadata</extracomment>
-        <translation>sim</translation>
+        <translation>да</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="497"/>
         <source>no</source>
         <extracomment>This string identifies that flash wasn't fired, stored in image metadata</extracomment>
-        <translation>não</translation>
+        <translation>нет</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="499"/>
         <source>No flash function</source>
         <extracomment>This string refers to the absense of a flash, stored in image metadata</extracomment>
-        <translation>Sem função de flash</translation>
+        <translation>Отсутствие использования вспышки</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="501"/>
         <source>strobe return light not detected</source>
         <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
-        <translation>luz de retorno strobe não detetada</translation>
+        <translation>световой сигнал вспышки не обнаружен</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="503"/>
         <source>strobe return light detected</source>
         <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
-        <translation>luz de retorno strobe detetada</translation>
+        <translation>световой сигнал вспышки обнаружен</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="505"/>
         <source>compulsory flash mode</source>
         <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
-        <translation>modo compulsivo de flash</translation>
+        <translation>принудительный режим вспышки</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="507"/>
         <source>auto mode</source>
         <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
-        <translation>modo automático</translation>
+        <translation>автоматический режим</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="509"/>
         <source>red-eye reduction mode</source>
         <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
-        <translation>redução de olhos vermelhos</translation>
+        <translation>режим уменьшения эффекта &quot;красных глаз&quot; </translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="511"/>
         <source>return light detected</source>
         <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
-        <translation>detetada luz de retorno</translation>
+        <translation>обратный свет обнаружен</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="513"/>
         <source>return light not detected</source>
         <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
-        <translation>luz de retorno não detetada</translation>
+        <translation>обратный свет не обнаружен</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="561"/>
         <source>Invalid flash</source>
         <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
-        <translation>Flash inválido</translation>
+        <translation>Недопустимая вспышка</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="571"/>
         <source>Standard</source>
-        <translation>Padrão</translation>
+        <translation>Стандарт</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="574"/>
         <source>Landscape</source>
-        <translation>Horizontal</translation>
+        <translation>Пейзаж</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="577"/>
         <source>Portrait</source>
-        <translation>Vertical</translation>
+        <translation>Портрет</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="580"/>
         <source>Night Scene</source>
-        <translation>Cena noturna</translation>
+        <translation>Ночная Сцена</translation>
     </message>
     <message>
         <location filename="../../cplusplus/scripts/getmetadata.cpp" line="583"/>
         <source>Invalid Scene Type</source>
         <extracomment>This string refers to a type of scene, stored in image metadata</extracomment>
-        <translation>Tipo de cena inválido</translation>
+        <translation>Недопустимый Тип Сцены</translation>
     </message>
 </context>
 <context>
@@ -1121,13 +1121,13 @@
         <location filename="../../qml/wallpaper/modules/GnomeUnity.qml" line="52"/>
         <source>Warning: &apos;gsettings&apos; doesn&apos;t seem to be available! Are you sure Gnome/Unity is installed?</source>
         <extracomment>&quot;gsettings&quot;, &quot;Gnome&quot; and &quot;Unity&quot; are fixed names, please don't translate</extracomment>
-        <translation>Aviso: parece que &apos;gsettings&apos; não está disponível! Tem a certeza de que Gnome/Unity está instalado?</translation>
+        <translation>Предупреждение: «gsettings», похоже, не доступно! Вы уверены, что установлен Gnome/Unity?</translation>
     </message>
     <message>
         <location filename="../../qml/wallpaper/modules/GnomeUnity.qml" line="63"/>
         <source>There are several picture options that can be set for the wallpaper image.</source>
         <extracomment>'picture options' refers to options like stretching the image to fill the background, or tile the image, center it, etc.</extracomment>
-        <translation>Existem diversas opções de imagens que podem ser definidas para o papel de parede.</translation>
+        <translation>Есть несколько вариантов изображения, которые могут быть установлены в качестве обоев.</translation>
     </message>
 </context>
 <context>
@@ -1136,29 +1136,29 @@
         <location filename="../../qml/mainview/Histogram.qml" line="162"/>
         <source>Histogram</source>
         <extracomment>A histogram visualises the color distribution in an image</extracomment>
-        <translation>Histograma</translation>
+        <translation>Гистограмма</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/Histogram.qml" line="196"/>
         <source>Loading...</source>
         <extracomment>As in 'Loading the histogram for the current image'</extracomment>
-        <translation>A carregar...</translation>
+        <translation>Загрузка...</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/Histogram.qml" line="229"/>
         <source>Click-and-drag to move. Right click to switch version.</source>
         <extracomment>Used for the histogram. The version refers to the type of histogram that is available (colored and greyscale)</extracomment>
-        <translation>Clique e arraste para mover. Botão direito para trocar de versão.</translation>
+        <translation>&apos;Щелчок-и-перетаскивание&apos; для перемещения. Щелкните правой кнопкой мыши, чтобы переключить версию.</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/Histogram.qml" line="340"/>
         <source>Click to switch between coloured and greyscale histogram. You can also switch by doing a right-click onto the histogram.</source>
-        <translation>Clique para alternar entre os histogramas colorido/escala de cinzento. Também pode trocar entre histogramas clicando com o botão direito no histograma.</translation>
+        <translation>Нажмите, чтобы переключаться между цветной и серой шкалой. Вы также можете переключиться, щелкнув правой кнопкой мыши на гистограмме.</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/Histogram.qml" line="384"/>
         <source>Click to hide histogram. It can always be shown again from the main menu.</source>
-        <translation>Clique para ocultar o histograma. Pode reativar a opção no menu principal.</translation>
+        <translation>Нажмите, чтобы скрыть гистограмму. Его всегда можно снова отобразить из главного меню.</translation>
     </message>
 </context>
 <context>
@@ -1167,24 +1167,24 @@
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/HotEdge.qml" line="31"/>
         <source>Size of &apos;Hot Edge&apos;</source>
         <extracomment>The hot edge refers to the left and right screen edge. When the mouse cursor enters the hot edge area, then the main menu/metadata element is shown</extracomment>
-        <translation>Tamanho da &apos;Margem de ativação&apos;</translation>
+        <translation>Размер &apos;Горячий край&apos;</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/HotEdge.qml" line="32"/>
         <source>Here you can adjust the sensitivity of the metadata and main menu elements. The main menu opens when your mouse cursor gets close to the right screen edge, the metadata element when you go to the left screen edge. This setting controls how close to the screen edge you have to get before they are shown.</source>
-        <translation>Aqui pode ajustar a sensibilidade dos meta-dados e dos elementos do menu principal. O menu é aberto ao colocar o cursor do rato na margem direita da janela e os meta-dados são mostrados ao colocar o cursor na margem esquerda. Esta definição controla a distância da margem de ecrã necessária para que sejam mostrados ambos os elementos.</translation>
+        <translation>Здесь вы можете настроить чувствительность элементов метаданных и основного меню. Главное меню открывается, когда курсор мыши приближается к краю правого края, элемент метаданных, когда вы переходите к левому краю экрана. Этот параметр определяет, насколько близко к краю экрана вы должны получить, прежде чем они будут показаны.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/HotEdge.qml" line="44"/>
         <source>Small</source>
         <extracomment>This refers to the size of the hot edge, you have to get very close to the screen edge to trigger the main menu or metadata element</extracomment>
-        <translation>Pequena</translation>
+        <translation>Уменьшить</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/HotEdge.qml" line="67"/>
         <source>Large</source>
         <extracomment>This refers to the size of the hot edge, you don't have to get very close to the screen edge to trigger the main menu or metadata element</extracomment>
-        <translation>Grande</translation>
+        <translation>Увеличить</translation>
     </message>
 </context>
 <context>
@@ -1192,78 +1192,78 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/Imgur.qml" line="35"/>
         <source>Here you can connect PhotoQt to your imgur.com account for uploading images directly to it. Alternatively, you can always upload images anonymously to imgur.com without any user account. In either case, PhotoQt will return the image URL to you.</source>
-        <translation>Aqui pode conectar o PhotoQt à sua conta imgur.com para enviar as fotos diretamente. Alternativamente, pode enviar as fotos para imgur.com sem qualquer conta e de modo anónimo. Independentemente da sua escolha o PhotoQt irá sempre obter o URL para aceder à sua imagem.</translation>
+        <translation>Здесь вы можете подключить PhotoQt к своей учетной записи imgur.com для загрузки изображений непосредственно на сервис. Кроме того, вы всегда можете загружать изображения анонимно на imgur.com без какой-либо учетной записи пользователя. В любом случае, PhotoQt вернет вам URL изображения.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/Imgur.qml" line="44"/>
         <source>Authenticated with account</source>
         <extracomment>Account refers to an imgur.com user account</extracomment>
-        <translation>Autenticado com a conta</translation>
+        <translation>Аутентификация с учетной записью</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/Imgur.qml" line="55"/>
         <source>not authenticated</source>
         <extracomment>As in &quot;not authenticated with imgur.com user account&quot;</extracomment>
-        <translation>não autenticado</translation>
+        <translation>аутентификация откл</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/Imgur.qml" line="64"/>
         <source>authenticated on</source>
         <extracomment>As in &quot;authenticated with imgur.com user account on 1991-07-23, 13:31&quot;</extracomment>
-        <translation>autenticado em</translation>
+        <translation>аутентификация вкл</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/Imgur.qml" line="76"/>
         <source>Connect to Account</source>
         <extracomment>Account refers to imgur.com user account</extracomment>
-        <translation>Conectar a uma conta</translation>
+        <translation>Подключение к учетной записи</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/Imgur.qml" line="78"/>
         <source>Connect to New Account</source>
         <extracomment>Account refers to imgur.com user account</extracomment>
-        <translation>Conectar a uma nova conta</translation>
+        <translation>Подключение к новой учетной записи</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/Imgur.qml" line="84"/>
         <source>Forget Account</source>
         <extracomment>Account refers to imgur.com user account</extracomment>
-        <translation>Esquecer conta</translation>
+        <translation>Забыл учетную запись</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/Imgur.qml" line="124"/>
         <source>Not connected to internet</source>
-        <translation>Não está ligado à Internet</translation>
+        <translation>Не подключения к интернету</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/Imgur.qml" line="130"/>
         <source>Go to this URL:</source>
-        <translation>Ir para este URL:</translation>
+        <translation>Перейти по этому URL:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/Imgur.qml" line="137"/>
         <source>loading...</source>
-        <translation>a carregar...</translation>
+        <translation>загрузка...</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/Imgur.qml" line="141"/>
         <source>open link</source>
-        <translation>abrir ligação</translation>
+        <translation>открыть ссылку</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/Imgur.qml" line="148"/>
         <source>Paste PIN here</source>
-        <translation>Digite aqui o PIN</translation>
+        <translation>Вставить PIN-код здесь</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/Imgur.qml" line="155"/>
         <source>Connect</source>
-        <translation>Conectar</translation>
+        <translation>Соединение</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/Imgur.qml" line="163"/>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Отмена</translation>
     </message>
 </context>
 <context>
@@ -1271,87 +1271,87 @@
     <message>
         <location filename="../../qml/other/ImgurFeedback.qml" line="79"/>
         <source>Uploading image to imgur.com anonymously</source>
-        <translation>Enviar imagem para imgur.com de forma anónima</translation>
+        <translation>Отправка изображения в imgur.com анонимно</translation>
     </message>
     <message>
         <location filename="../../qml/other/ImgurFeedback.qml" line="80"/>
         <source>Uploading image to imgur.com account:</source>
-        <translation>Enviar imagem para a conta imgur.com:</translation>
+        <translation>Отправка изображения в учетную запись imgur.com:</translation>
     </message>
     <message>
         <location filename="../../qml/other/ImgurFeedback.qml" line="110"/>
         <source>Cancel upload</source>
-        <translation>Cancelar envio</translation>
+        <translation>Отмена отправки</translation>
     </message>
     <message>
         <location filename="../../qml/other/ImgurFeedback.qml" line="150"/>
         <source>Obtaining image url</source>
         <extracomment>The image url is the url returned from imgur.com after uploading</extracomment>
-        <translation>A obter o URL da imagem</translation>
+        <translation>Получение url изображения</translation>
     </message>
     <message>
         <location filename="../../qml/other/ImgurFeedback.qml" line="184"/>
         <source>Please wait!</source>
-        <translation>Por favor aguarde...</translation>
+        <translation>Пожалуйста, подождите!</translation>
     </message>
     <message>
         <location filename="../../qml/other/ImgurFeedback.qml" line="197"/>
         <source>This seems to take a long time... If it doesn&apos;t work, then there might be a problem with the imgur.com servers at the moment. In that case the only solution is to try again at some later point!</source>
         <extracomment>Refers to uploading an image to imgur.com</extracomment>
-        <translation>O envio está a demorar muito tempo. Se não conseguir enviar as imagens é possível que os servidores imgur.com estejam com algum problema. Se assim for, tente enviar as imagens posteriormente.</translation>
+        <translation>Кажется, это занимает много времени... Если это не сработает, может возникнуть проблема с серверами imgur.com на данный момент. В этом случае единственное решение - попробовать снова в какой-то более поздний момент!</translation>
     </message>
     <message>
         <location filename="../../qml/other/ImgurFeedback.qml" line="219"/>
         <source>Forget and close</source>
-        <translation>Esquecer e fechar</translation>
+        <translation>Забыть и закрыть</translation>
     </message>
     <message>
         <location filename="../../qml/other/ImgurFeedback.qml" line="271"/>
         <location filename="../../qml/other/ImgurFeedback.qml" line="317"/>
         <location filename="../../qml/other/ImgurFeedback.qml" line="435"/>
         <source>Close</source>
-        <translation>Fechar</translation>
+        <translation>Закрыть</translation>
     </message>
     <message>
         <location filename="../../qml/other/ImgurFeedback.qml" line="263"/>
         <source>An Error occured while uploading image!</source>
         <extracomment>Refers to uploading an image to imgur.com</extracomment>
-        <translation>Ocorreu um erro ao enviar a imagem!</translation>
+        <translation>При загрузке изображения произошла ошибка!</translation>
     </message>
     <message>
         <location filename="../../qml/other/ImgurFeedback.qml" line="264"/>
         <source>Error code:</source>
-        <translation>Código de erro:</translation>
+        <translation>Ошибка кода:</translation>
     </message>
     <message>
         <location filename="../../qml/other/ImgurFeedback.qml" line="310"/>
         <source>You don&apos;t seem to be able to be connected to the internet... Unable to upload!</source>
         <extracomment>Refers to uploading an image to imgur.com</extracomment>
-        <translation>Parece que você não está ligado à Internet... Não será possível enviar!</translation>
+        <translation>Кажется, вы не подключены к интернету... Невозможно загрузить!</translation>
     </message>
     <message>
         <location filename="../../qml/other/ImgurFeedback.qml" line="356"/>
         <source>Image successfully uploaded!</source>
         <extracomment>Refers to uploading an image to imgur.com</extracomment>
-        <translation>Imagem enviada com sucesso!</translation>
+        <translation>Изображение успешно загружено!</translation>
     </message>
     <message>
         <location filename="../../qml/other/ImgurFeedback.qml" line="377"/>
         <source>URL for accessing image</source>
         <extracomment>The url is returned from imgur.com after uploading</extracomment>
-        <translation>URL para aceder à imagem</translation>
+        <translation>URL для доступа к изображению</translation>
     </message>
     <message>
         <location filename="../../qml/other/ImgurFeedback.qml" line="389"/>
         <location filename="../../qml/other/ImgurFeedback.qml" line="425"/>
         <source>visit link</source>
-        <translation>visitar ligação</translation>
+        <translation>перейти по ссылке</translation>
     </message>
     <message>
         <location filename="../../qml/other/ImgurFeedback.qml" line="413"/>
         <source>URL for deleting image</source>
         <extracomment>The url is returned from imgur.com after uploading</extracomment>
-        <translation>URL para eliminar a imagem</translation>
+        <translation>URL для удаления изображения</translation>
     </message>
 </context>
 <context>
@@ -1360,24 +1360,24 @@
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Interpolation.qml" line="31"/>
         <source>Interpolation</source>
         <extracomment>The type of interpolation to use for small images</extracomment>
-        <translation>Interpolação</translation>
+        <translation>Интерполяция</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Interpolation.qml" line="32"/>
         <source>There are many different interpolation algorithms out there. Depending on the choice of interpolation algorithm, the image (when zoomed in) will look slightly differently. PhotoQt uses mipmaps to get the best quality for images. However, for very small images, that might lead to too much blurring causing them to look rather ugly. For those images, the &apos;Nearest Neighbour&apos; algorithm tends to be a better choice. The threshold defines for which images to use which algorithm.</source>
-        <translation>Existem diversos algoritmos de interpolação. Dependendo do tipo de algoritmo, a imagem (se ampliada) irá ter algumas diferenças. O PhotoQt utiliza o algoritmo &apos;mipmaps&apos; para obter a melhor qualidade. Contudo, em imagens muito pequenas, este algoritmo pode originar algumas distorções, tornando a imagem feia. Para este tipo de imagens, o algoritmo &apos;Nearest Neighbour&apos; tende a ser a melhor escolha. Aqui pode ajustar o limite abaixo do qual o PhotoQt aplica o algoritmo &apos;Nearest Neighbour&apos;.</translation>
+        <translation>Существует много различных алгоритмов интерполяции. В зависимости от выбора алгоритма интерполяции изображение (при увеличении) будет выглядеть несколько иначе. PhotoQt использует mipmaps для получения наилучшего качества изображений. Тем не менее, для очень маленьких изображений это может привести к слишком сильному размытию, что приводит к тому, что они выглядят довольно уродливо. Для этих изображений алгоритм «Ближнее соседство» может быть лучшим выбором. Порог определяет, для каких изображений использовать какой алгоритм.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Interpolation.qml" line="45"/>
         <source>Threshold:</source>
         <extracomment>When to trigger an action, below which threshold</extracomment>
-        <translation>Limite:</translation>
+        <translation>Порог:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Interpolation.qml" line="82"/>
         <source>Use &apos;Nearest Neighbour&apos; algorithm for upscaling</source>
         <extracomment>'Nearest Neighbour' is the name of a specific algorithm</extracomment>
-        <translation>Utilizar algoritmo &apos;Nearest Neighbour&apos; para ajustar</translation>
+        <translation>Используйте алгоритм «Ближнее соседство» для масштабирования</translation>
     </message>
 </context>
 <context>
@@ -1386,7 +1386,7 @@
         <location filename="../../qml/wallpaper/modules/KDE4.qml" line="45"/>
         <source>Sorry, KDE4 doesn&apos;t offer the feature to change the wallpaper except from their own system settings. Unfortunately there&apos;s nothing I can do about that.</source>
         <extracomment>&quot;KDE4&quot; is a fixed name, please don't translate</extracomment>
-        <translation>O KDE4 ainda não disponibiliza a possibilidade de alterar o papel de parede sem ser através das definições do sistema. Infelizmente, não há nada que eu possa fazer.</translation>
+        <translation>К сожалению, KDE4 не предлагает функцию изменения обоев, за исключением собственных системных настроек. К сожалению, я ничего не могу с этим поделать.</translation>
     </message>
 </context>
 <context>
@@ -1395,18 +1395,18 @@
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Keep.qml" line="31"/>
         <source>Keep between images</source>
         <extracomment>Refers to keeping zoom/rotation/flip/position when switching images</extracomment>
-        <translation>Manter entre imagens</translation>
+        <translation>Сохранять положение изображения</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Keep.qml" line="32"/>
         <source>By default, PhotoQt resets the zoom, rotation, flipping/mirroring and position when switching to a different image. For certain tasks, for example for comparing two images, it can be helpful to keep these properties.</source>
-        <translation>Por definição, o PhotoQt restaura a ampliação, a rotação, a inversão e a posição de cada imagem. Para algumas tarefas como, por exemplo, a comparação entre duas imagens, pode ser útil manter estas propriedades.</translation>
+        <translation>По умолчанию PhotoQt сбрасывает масштабирование, вращение, отражение/зеркалирование и положение при переключении на другое изображение. Для некоторых задач, например, для сравнения двух изображений, может быть полезно сохранить эти свойства.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Keep.qml" line="39"/>
         <source>Keep Zoom, Rotation, Flip, Position</source>
         <extracomment>Remember all these levels when switching between images</extracomment>
-        <translation>Manter ampliação, rotação, inversão e posição</translation>
+        <translation>Сохранять Увеличение, Вращение, Отражение, Позицию</translation>
     </message>
 </context>
 <context>
@@ -1414,22 +1414,22 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/KeepVisible.qml" line="30"/>
         <source>Visibility</source>
-        <translation>Visibilidade</translation>
+        <translation>Видимость</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/KeepVisible.qml" line="31"/>
         <source>The thumbnails normally fade out when not needed, however, they can be set to stay visible. The main image is shrunk to fit into the free space. When it is zoomed in the thumbnails can be set to fade out automatically.</source>
-        <translation type="unfinished"/>
+        <translation>Миниатюры снизу обычно исчезают, когда они не нужны, однако их можно настроить на то, чтобы оставаться видимыми. Основное изображение сокращается, чтобы вписаться в свободное пространство. Когда он увеличен, эскизы могут быть автоматически отключены.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/KeepVisible.qml" line="54"/>
         <source>Keep thumbnails visible as long as the main image is not zoomed in</source>
-        <translation>Manter miniaturas visíveis enquanto a imagem principal não for ampliada</translation>
+        <translation>Сохранять изображения уменьшенными, пока основное изображение не будет увеличено</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/KeepVisible.qml" line="40"/>
         <source>Keep thumbnails visible, don&apos;t hide them past screen edge</source>
-        <translation>Manter miniaturas visíveis e não as ocultar ao ultrapassar a margem do ecrã</translation>
+        <translation>Сохранять миниатюры видимыми, не скрывать их на краю экрана</translation>
     </message>
 </context>
 <context>
@@ -1437,24 +1437,24 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Label.qml" line="31"/>
         <source>Label on Thumbnails</source>
-        <translation>Etiqueta nas miniaturas</translation>
+        <translation>Надпись на Миниатюрах</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Label.qml" line="32"/>
         <source>PhotoQt can write a label with some information on the thumbnails. Currently, only the filename is available. The slider adjusts the fontsize of the text for the filename.</source>
-        <translation type="unfinished"/>
+        <translation>PhotoQt может вывести иконку с некоторой информацией об эскизах. В настоящее время доступно только имя файла. Ползунок настраивает шрифт текста для имени файла.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Label.qml" line="45"/>
         <source>Write Filename</source>
         <extracomment>Settings: Write the filename on a thumbnail</extracomment>
-        <translation>Utilizar nome de ficheiro</translation>
+        <translation>Записать Имя Файла</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Label.qml" line="64"/>
         <source>Fontsize</source>
         <extracomment>Settings: Write the filename with this fontsize on a thumbnail</extracomment>
-        <translation>Tamanho do tipo de letra</translation>
+        <translation>Размер шрифта</translation>
     </message>
 </context>
 <context>
@@ -1462,12 +1462,12 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/Language.qml" line="32"/>
         <source>Language</source>
-        <translation>Idioma</translation>
+        <translation>Язык</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/other/Language.qml" line="33"/>
         <source>There are a good few different languages available. Thanks to everybody who took the time to translate PhotoQt!</source>
-        <translation>O PhotoQt está traduzido em diversos idiomas. Muito obrigado a todos os tradutores do PhotoQt!</translation>
+        <translation>Существует несколько различных языков. Спасибо всем, кто нашел время перевести PhotoQt!</translation>
     </message>
 </context>
 <context>
@@ -1475,12 +1475,12 @@
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/LiftUp.qml" line="33"/>
         <source>Lift-Up of Thumbnails</source>
-        <translation>Ampliar miniaturas</translation>
+        <translation>Lift-Up из эскизов</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/LiftUp.qml" line="34"/>
         <source>When a thumbnail is hovered, it is lifted up some pixels. Here you can increase/decrease this value according to your personal preference.</source>
-        <translation>Ao passar o ponteiro do rato sobre uma miniatura, esta é ampliada. Aqui pode aumentar/diminuir este valor.</translation>
+        <translation>При наведении курсора на миниатюру она поднимается на несколько пикселей. Здесь вы можете увеличить/уменьшить это значение в соответствии с вашими личными предпочтениями.</translation>
     </message>
 </context>
 <context>
@@ -1489,7 +1489,7 @@
         <location filename="../../qml/mainview/LoadingIndicator.qml" line="120"/>
         <source>Loading</source>
         <extracomment>Used as in 'Loading the image at the moment'. Please try to keep as short as possible!</extracomment>
-        <translation>A carregar</translation>
+        <translation>Загрузка</translation>
     </message>
 </context>
 <context>
@@ -1498,17 +1498,17 @@
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Loop.qml" line="31"/>
         <source>Looping</source>
         <extracomment>Refers to looping through the folder, i.e., from the last image go back to the first one (and vice versa)</extracomment>
-        <translation>Ciclo</translation>
+        <translation>Зацикливание</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Loop.qml" line="32"/>
         <source>PhotoQt can loop over the images in the folder, i.e., when reaching the last image it continues to the first one and vice versa. If disabled, it will stop at the first/last image.</source>
-        <translation>O PhotoQt pode percorrer todas as imagens da pasta, isto é, ao chegar à última foto, volta a mostrar a primeira e vice-versa. Se desativar esta opção, a exibição será parada assim que mostrar a primeira/última imagem.</translation>
+        <translation>PhotoQt может перемещаться по изображениям в папке, т.е. При достижении последнего изображения он продолжается до первого и наоборот. Если он отключен, он остановится на первом/последнем изображении.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Loop.qml" line="39"/>
         <source>Loop through images in folder</source>
-        <translation>Percorrer imagens da pasta</translation>
+        <translation>Прокрутка изображений в папке</translation>
     </message>
 </context>
 <context>
@@ -1517,17 +1517,17 @@
         <location filename="../../cplusplus/mainhandler.cpp" line="174"/>
         <location filename="../../cplusplus/mainhandler.cpp" line="408"/>
         <source>Image Viewer</source>
-        <translation>Visualizador de imagens</translation>
+        <translation>Просмотр изображений</translation>
     </message>
     <message>
         <location filename="../../cplusplus/mainhandler.cpp" line="413"/>
         <source>Hide/Show PhotoQt</source>
-        <translation>Mostrar/Ocultar PhotoQt</translation>
+        <translation>Скрыть/Показать PhotoQt</translation>
     </message>
     <message>
         <location filename="../../cplusplus/mainhandler.cpp" line="415"/>
         <source>Quit PhotoQt</source>
-        <translation>Sair do PhotoQt</translation>
+        <translation>Выход из PhotoQt</translation>
     </message>
 </context>
 <context>
@@ -1536,115 +1536,115 @@
         <location filename="../../qml/mainview/MainMenu.qml" line="58"/>
         <source>Open File</source>
         <extracomment>This is an entry in the main menu on the right. Keep short!</extracomment>
-        <translation>Abrir ficheiro</translation>
+        <translation>Открыть файл</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="60"/>
         <source>Settings</source>
         <extracomment>This is an entry in the main menu on the right. Keep short!</extracomment>
-        <translation>Definições</translation>
+        <translation>Настройки</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="62"/>
         <source>Set as Wallpaper</source>
         <extracomment>This is an entry in the main menu on the right. Keep short!</extracomment>
-        <translation>Definir como papel de parede</translation>
+        <translation>Установить в качестве обоев</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="64"/>
         <source>Slideshow</source>
         <extracomment>This is an entry in the main menu on the right. Keep short!</extracomment>
-        <translation>Apresentação</translation>
+        <translation>Слайдшоу</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="66"/>
         <source>setup</source>
         <extracomment>This is an entry in the main menu on the right, used as in 'setting up a slideshow'. Keep short!</extracomment>
-        <translation>configuração</translation>
+        <translation>настроить</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="68"/>
         <source>quickstart</source>
         <extracomment>This is an entry in the main menu on the right, used as in 'quickstarting a slideshow'. Keep short!</extracomment>
-        <translation>arranque rápido</translation>
+        <translation>быстрый запуск</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="70"/>
         <source>Filter Images in Folder</source>
         <extracomment>This is an entry in the main menu on the right. Keep short!</extracomment>
-        <translation>Filtrar imagens na pasta</translation>
+        <translation>Фильтровать изображения в Папке</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="72"/>
         <source>Show/Hide Metadata</source>
         <extracomment>This is an entry in the main menu on the right. Keep short!</extracomment>
-        <translation>Mostrar/ocultar metadados</translation>
+        <translation>Показать/скрыть Метаданные</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="74"/>
         <source>Show/Hide Histogram</source>
         <extracomment>This is an entry in the main menu on the right. Keep short!</extracomment>
-        <translation>Mostrar/ocultar histograma</translation>
+        <translation>Показать/скрыть Гистограмму</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="76"/>
         <source>Face tagging mode</source>
         <extracomment>This is an entry in the main menu on the right. Keep short!</extracomment>
-        <translation type="unfinished"/>
+        <translation>Режим маркировки лиц</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="78"/>
         <source>About PhotoQt</source>
         <extracomment>This is an entry in the main menu on the right. Keep short!</extracomment>
-        <translation>Sobre o PhotoQt</translation>
+        <translation>О  PhotoQt</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="80"/>
         <source>Hide (System Tray)</source>
         <extracomment>This is an entry in the main menu on the right. Keep short!</extracomment>
-        <translation>Ocultar (bandeja do sistema)</translation>
+        <translation>Скрыть (системный трей)</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="82"/>
         <source>Quit</source>
         <extracomment>This is an entry in the main menu on the right. Keep short!</extracomment>
-        <translation>Sair</translation>
+        <translation>Выход</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="87"/>
         <source>Go to</source>
         <extracomment>This is an entry in the main menu on the right, used as in 'Go To some image'. Keep short!</extracomment>
-        <translation>Ir para</translation>
+        <translation>Вперед</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="89"/>
         <source>previous</source>
         <extracomment>This is an entry in the main menu on the right, used as in 'go to previous image'. Keep short!</extracomment>
-        <translation>anterior</translation>
+        <translation>предыдущее</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="91"/>
         <source>next</source>
         <extracomment>This is an entry in the main menu on the right, used as in 'go to next image'. Keep short!</extracomment>
-        <translation>seguinte</translation>
+        <translation>следующее</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="93"/>
         <source>first</source>
         <extracomment>This is an entry in the main menu on the right, used as in 'go to first image'. Keep short!</extracomment>
-        <translation>primeira</translation>
+        <translation>первый</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="95"/>
         <source>last</source>
         <extracomment>This is an entry in the main menu on the right, used as in 'go to last image'. Keep short!</extracomment>
-        <translation>última</translation>
+        <translation>последний</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="97"/>
         <source>Zoom</source>
         <extracomment>This is an entry in the main menu on the right, used as in 'Zoom image'. Keep short!</extracomment>
-        <translation>Ampliação</translation>
+        <translation>Увеличение масштаба изображения</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="109"/>
@@ -1653,100 +1653,100 @@
         <extracomment>This is an entry in the main menu on the right, used as in 'Reset rotation of image'. Keep short!
 ----------
 This is an entry in the main menu on the right, used as in 'Reset flip/mirror of image'. Keep short!</extracomment>
-        <translation>repor</translation>
+        <translation>сброс</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="103"/>
         <source>Rotate</source>
         <extracomment>This is an entry in the main menu on the right, used as in 'Rotate image'. Keep short!</extracomment>
-        <translation>Rotação</translation>
+        <translation>Вращение</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="105"/>
         <source>left</source>
         <extracomment>This is an entry in the main menu on the right, used as in 'Rotate image left'. Keep short!</extracomment>
-        <translation>esquerda</translation>
+        <translation>влево</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="107"/>
         <source>right</source>
         <extracomment>This is an entry in the main menu on the right, used as in 'Rotate image right'. Keep short!</extracomment>
-        <translation>direita</translation>
+        <translation>вправо</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="111"/>
         <source>Flip</source>
         <extracomment>This is an entry in the main menu on the right, used as in 'Flip/Mirror image'. Keep short!</extracomment>
-        <translation>Inversão</translation>
+        <translation>перевернуть</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="113"/>
         <source>horizontal</source>
         <extracomment>This is an entry in the main menu on the right, used as in 'Flip/Mirror image horizontally'. Keep short!</extracomment>
-        <translation>horizontal</translation>
+        <translation>горизонтально</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="115"/>
         <source>vertical</source>
         <extracomment>This is an entry in the main menu on the right, used as in 'Flip/Mirror image vertically'. Keep short!</extracomment>
-        <translation>vertical</translation>
+        <translation>вертикально</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="119"/>
         <source>File</source>
         <extracomment>This is an entry in the main menu on the right, used to refer to the current file (specifically the file, not directly the image). Keep short!</extracomment>
-        <translation>Ficheiro</translation>
+        <translation>Файл</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="121"/>
         <source>rename</source>
         <extracomment>This is an entry in the main menu on the right, used as in 'rename file'. Keep short!</extracomment>
-        <translation>renomear</translation>
+        <translation>переименовать</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="123"/>
         <source>copy</source>
         <extracomment>This is an entry in the main menu on the right, used as in 'copy file'. Keep short!</extracomment>
-        <translation>copiar</translation>
+        <translation>копировать</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="125"/>
         <source>move</source>
         <extracomment>This is an entry in the main menu on the right, used as in 'move file'. Keep short!</extracomment>
-        <translation>mover</translation>
+        <translation>переместить</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="127"/>
         <source>delete</source>
         <extracomment>This is an entry in the main menu on the right, used as in 'delete file'. Keep short!</extracomment>
-        <translation>apagar</translation>
+        <translation>удалить</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="132"/>
         <source>Scale Image</source>
         <extracomment>This is an entry in the main menu on the right. Keep short!</extracomment>
-        <translation>Ajustar imagem</translation>
+        <translation>Масштабировать изображение</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="134"/>
         <source>Open in default file manager</source>
         <extracomment>This is an entry in the main menu on the right. Keep short!</extracomment>
-        <translation>Abrir no gestor de ficheiros</translation>
+        <translation>Открыть в файловом менеджере по умолчанию</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="173"/>
         <source>Close PhotoQt</source>
-        <translation>Fechar o PhotoQt</translation>
+        <translation>Закрыть PhotoQt</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="189"/>
         <source>Main Menu</source>
-        <translation>Menu principal</translation>
+        <translation>Главное меню</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MainMenu.qml" line="357"/>
         <source>Click here to go to the online manual for help regarding shortcuts, settings, features, ...</source>
-        <translation>Clique aqui para acedera ao manul &apos;online&apos; para saber mais sobre atalhos, definições, funcionalidades...</translation>
+        <translation>Нажмите здесь, чтобы перейти к онлайн-руководству о помощи по комбинациям клавиш, настройкам, функциям, ...</translation>
     </message>
 </context>
 <context>
@@ -1755,25 +1755,25 @@ This is an entry in the main menu on the right, used as in 'Reset flip/mirror of
         <location filename="../../qml/filemanagement/Management.qml" line="73"/>
         <source>Copy</source>
         <extracomment>As in 'Copy current image to a new location'. Keep string short!</extracomment>
-        <translation>Copiar</translation>
+        <translation>Копировать</translation>
     </message>
     <message>
         <location filename="../../qml/filemanagement/Management.qml" line="78"/>
         <source>Delete</source>
         <extracomment>As in 'Delete current image'. Keep string short!</extracomment>
-        <translation>Apagar</translation>
+        <translation>Удалить</translation>
     </message>
     <message>
         <location filename="../../qml/filemanagement/Management.qml" line="83"/>
         <source>Move</source>
         <extracomment>As in 'Move current image to a new location'. Keep string short!</extracomment>
-        <translation>Mover</translation>
+        <translation>Переместить</translation>
     </message>
     <message>
         <location filename="../../qml/filemanagement/Management.qml" line="88"/>
         <source>Rename</source>
         <extracomment>As in 'Rename current image'. Keep string short!</extracomment>
-        <translation>Renomear</translation>
+        <translation>Переименовать</translation>
     </message>
 </context>
 <context>
@@ -1781,43 +1781,43 @@ This is an entry in the main menu on the right, used as in 'Reset flip/mirror of
     <message>
         <location filename="../../qml/mainview/MetaData.qml" line="94"/>
         <source>Metadata</source>
-        <translation>Meta-dados</translation>
+        <translation>Метаданные</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MetaData.qml" line="134"/>
         <source>No File Loaded</source>
-        <translation>Nenhum ficheiro carregado</translation>
+        <translation>Нет загруженного файла</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MetaData.qml" line="160"/>
         <source>File Format Not Supported</source>
-        <translation>Formato de ficheiro não suportado</translation>
+        <translation>Формат файла не поддерживается</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MetaData.qml" line="186"/>
         <source>Invalid File</source>
-        <translation>Ficheiro inválido</translation>
+        <translation>Неверный файл</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MetaData.qml" line="249"/>
         <source>Keep Open</source>
         <extracomment>Used as in 'Keep the metadata element open even if the cursor leaves it'</extracomment>
-        <translation>Manter aberta</translation>
+        <translation>Держать открытым</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MetaData.qml" line="294"/>
         <source>Click to open GPS position with online map</source>
-        <translation>Clique para abrir a posição GPS no mapa online</translation>
+        <translation>Нажмите, чтобы открыть позицию GPS с онлайн-картой</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MetaData.qml" line="34"/>
         <source>Meta Information</source>
-        <translation>Meta-informação</translation>
+        <translation>Мета-информация</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MetaData.qml" line="35"/>
         <source>PhotoQt can display a number of meta information about the image. Here you can choose which ones to show and which ones to hide.</source>
-        <translation>O PhotoQt pode mostrar diversas informações sobre a sua imagem. Aqui pode escolher os dados a mostrar ou ocultar.</translation>
+        <translation>PhotoQt может отображать множество метаинформации об изображении. Здесь вы можете выбрать, какие из них показывать, а какие - скрывать.</translation>
     </message>
 </context>
 <context>
@@ -1826,18 +1826,18 @@ This is an entry in the main menu on the right, used as in 'Reset flip/mirror of
         <location filename="../../qml/settingsmanager/tabs/metadata/MouseTrigger.qml" line="32"/>
         <source>Enable &apos;Hot Edge&apos;</source>
         <extracomment>The hot edge refers to the left and right screen edge (here in particular only to the left one). When the mouse cursor enters the hot edge area, then the metadata element is shown</extracomment>
-        <translation>Ativar &apos;Margem de ativação&apos;</translation>
+        <translation>Включить  &apos;Горячий край&apos;</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MouseTrigger.qml" line="33"/>
         <source>Per default the info widget can be shown two ways: Moving the mouse cursor to the left screen edge to fade it in temporarily (as long as the mouse is hovering it), or permanently by clicking the checkbox (checkbox only stored per session, can&apos;t be saved permanently!). Alternatively the widget can also be triggered by shortcut or main menu item. On demand the mouse triggering can be disabled, so that the widget would only show on shortcut/menu item.</source>
-        <translation>As informações do widget podem ser mostradas de duas formas: mover o cursor do rato para a margem esquerda do ecrã para o mostrar temporariamente (enquanto o rato lá estiver), ou permanentemente clicando na caixa de seleção (opção apenas memorizada por sessão). Alternativamente, o widget também pode ser mostrado através de uma tecla de atalho. A opção de ativar o widget com o rato pode ser desativada para que o widget apenas seja mostrado através da tecla de atalho. </translation>
+        <translation>По умолчанию информационный виджет может быть показан двумя способами: Перемещение курсора мыши к краю левого экрана для временного исчезновения его (до тех пор, пока мышь его удерживает) или навсегда, нажав на флажок (флажок только для каждого сеанса, может быть не сохранен навсегда!). Кроме того, виджет может также запускаться с помощью ярлыка или основного пункта меню. По требованию выключение мыши можно отключить, чтобы виджет отображался только в ярлыке/пункте меню.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MouseTrigger.qml" line="41"/>
         <source>DISABLE Hot Edge</source>
         <extracomment>The hot edge refers to the area on the very left of the screen that triggers the showing of the metadata element when the mouse enters it</extracomment>
-        <translation>Desativar &apos;Margem de ativação&apos;</translation>
+        <translation>ОТКЛЮЧИТЬ Горячий край</translation>
     </message>
 </context>
 <context>
@@ -1845,24 +1845,24 @@ This is an entry in the main menu on the right, used as in 'Reset flip/mirror of
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/MouseWheelSensitivity.qml" line="30"/>
         <source>Mouse Wheel Sensitivity</source>
-        <translation>Sensibilidade da roda do rato</translation>
+        <translation>Чувствительность колесика мыши</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/MouseWheelSensitivity.qml" line="31"/>
         <source>The mouse can be used for various things, including many types of shortcuts. The sensitivity of the mouse wheel defines the distance the wheel has to be moved before triggering a shortcut.</source>
-        <translation>O rato pode ser utilizado para diversas ações tais como teclas de atalho. A sensibilidade da roda do rato define a distância que a roda terá de ser movida antes de ativar um atalho.</translation>
+        <translation>Мышь может использоваться для различных вещей, включая множество типов комбинаций клавиш. Чувствительность колеса мыши определяет расстояние, на которое колесо должно быть перемещено, прежде чем запускать ярлык.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/MouseWheelSensitivity.qml" line="44"/>
         <source>Not at all sensitive</source>
         <extracomment>Refers to the sensitivity of the mouse wheel</extracomment>
-        <translation>Pouco sensível</translation>
+        <translation>Совсем не чувствительно</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/MouseWheelSensitivity.qml" line="69"/>
         <source>Very sensitive</source>
         <extracomment>Refers to the sensitivity of the mouse wheel</extracomment>
-        <translation>Muito sensível</translation>
+        <translation>Очень чувствительно</translation>
     </message>
 </context>
 <context>
@@ -1871,12 +1871,12 @@ This is an entry in the main menu on the right, used as in 'Reset flip/mirror of
         <location filename="../../qml/filemanagement/Move.qml" line="41"/>
         <source>Use the file dialog to select a destination location.</source>
         <extracomment>The destination location is a location on the computer to move a file to</extracomment>
-        <translation>Utilizar caixa de diálogo para escolher o destino.</translation>
+        <translation>Используйте диалоговое окно файла, чтобы выбрать место назначения.</translation>
     </message>
     <message>
         <location filename="../../qml/filemanagement/Move.qml" line="60"/>
         <source>Move Image to...</source>
-        <translation>Mover imagem para...</translation>
+        <translation>Переместить изображение в...</translation>
     </message>
 </context>
 <context>
@@ -1884,12 +1884,12 @@ This is an entry in the main menu on the right, used as in 'Reset flip/mirror of
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/OnlineMap.qml" line="31"/>
         <source>Online Map for GPS</source>
-        <translation>Mapa para GPS</translation>
+        <translation>Онлайн-карта для GPS</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/OnlineMap.qml" line="32"/>
         <source>If your image includes a GPS location, then a click on the location text will load this location in an online map using your default external browser. Here you can choose which online service to use (suggestions for other online maps always welcome).</source>
-        <translation>Se a sua imagem incluir uma localização GPS e clicar no texto da localização, o seu navegador web abrirá esta localização num mapa web. Aqui pode escolher o serviço a utilizar para o efeito. Tenha em atenção que aceitamos sugestões para serviços de mapas.</translation>
+        <translation>Если ваше изображение включает местоположение GPS, то щелчок по тексту местоположения загрузит это местоположение в онлайн-карту, используя внешний браузер по умолчанию. Здесь вы можете выбрать, какую онлайн-услугу использовать (предложения для других онлайн-карт всегда приветствуются).</translation>
     </message>
 </context>
 <context>
@@ -1897,12 +1897,12 @@ This is an entry in the main menu on the right, used as in 'Reset flip/mirror of
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/Opacity.qml" line="35"/>
         <source>Opacity</source>
-        <translation>Opacidade</translation>
+        <translation>Непрозрачность</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/Opacity.qml" line="36"/>
         <source>By default, the metadata widget is overlapping the main image, thus you might prefer a different alpha value for opacity to increase/decrease readability. Values can be in the range of 0-255.</source>
-        <translation>Por definição, o widget de meta-dados é mostrado sobre a imagem principal. No entanto, pode alterar o valor alfa da opacidade para melhorar/dificultar a sua leitura. Pode introduzir valores entre 0 e 255.</translation>
+        <translation>По умолчанию виджет метаданных перекрывает основное изображение, поэтому вы можете предпочесть другое альфа-значение непрозрачности для увеличения/уменьшения читаемости. Значения могут быть в диапазоне 0-255.</translation>
     </message>
 </context>
 <context>
@@ -1911,65 +1911,65 @@ This is an entry in the main menu on the right, used as in 'Reset flip/mirror of
         <location filename="../../qml/openfile/OpenFile.qml" line="226"/>
         <source>Move focus between Places/Folders/Fileview</source>
         <extracomment>Refers to the three areas in the element for opening files</extracomment>
-        <translation>Mover foco entre locais/pastas/vista de ficheiros</translation>
+        <translation>Перемещение фокуса между Расположением/Каталогами/Просмотр файлов</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/OpenFile.qml" line="228"/>
         <source>Go up/down an entry</source>
         <extracomment>Entry refers to the list of files and folders loaded in the element for opening files</extracomment>
-        <translation>Subir/descer uma entrada</translation>
+        <translation>Перейти вверх/вниз к записи</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/OpenFile.qml" line="230"/>
         <source>Move 5 entries up/down</source>
         <extracomment>Entry refers to the list of files and folders loaded in the element for opening files</extracomment>
-        <translation>Mover 5 entradas para cima/baixo</translation>
+        <translation>Переместить 5 записей вверх/вниз</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/OpenFile.qml" line="232"/>
         <source>Move to the first/last entry</source>
         <extracomment>Entry refers to the list of files and folders loaded in the element for opening files</extracomment>
-        <translation>Mover para a primeira/última entrada</translation>
+        <translation>Перейти к первой/последней записи</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/OpenFile.qml" line="234"/>
         <source>Go one folder level up</source>
         <extracomment>This refers to loading the parent folder of the currently loaded folder in the element for opening files</extracomment>
-        <translation>Subir uma pasta</translation>
+        <translation>Перейти на один уровень вверх</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/OpenFile.qml" line="236"/>
         <source>Go backwards/forwards in history</source>
         <extracomment>The history is the list of visited folders in the element for opening files</extracomment>
-        <translation>Recuar/avançar no histórico</translation>
+        <translation>Перейти назад/вперед в истории</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/OpenFile.qml" line="238"/>
         <source>Load the currently highlighted item</source>
         <extracomment>Item refers to the image highlighted in the element for opening files</extracomment>
-        <translation>Carregar o item atualmente destacado</translation>
+        <translation>Загрузить выделенный элемент</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/OpenFile.qml" line="240"/>
         <source>Zoom files in/out</source>
         <extracomment>The files is the list of files in the element for opening files</extracomment>
-        <translation>Ampliar/reduzir ficheiros</translation>
+        <translation>Увеличение файлов в/из</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/OpenFile.qml" line="242"/>
         <source>or</source>
         <extracomment>The files/folders is the list of files/folders in the element for opening files</extracomment>
-        <translation>ou</translation>
+        <translation>или</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/OpenFile.qml" line="242"/>
         <source>Show/Hide hidden files/folders</source>
-        <translation>Mostrar/ocultar ficheiros e pastas ocultas</translation>
+        <translation>Показать/Скрыть скрытые файлы/папки</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/OpenFile.qml" line="243"/>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Отмена</translation>
     </message>
 </context>
 <context>
@@ -1978,31 +1978,31 @@ This is an entry in the main menu on the right, used as in 'Reset flip/mirror of
         <location filename="../../qml/wallpaper/modules/Other.qml" line="52"/>
         <source>Warning: &apos;feh&apos; doesn&apos;t seem to be installed!</source>
         <extracomment>&quot;feh&quot; is a fixed name (name of a tool), please don't translate</extracomment>
-        <translation>Aviso: parece que &apos;feh&apos; não está instalado!</translation>
+        <translation>Предупреждение: &apos;feh&apos;, похоже, не установлен!</translation>
     </message>
     <message>
         <location filename="../../qml/wallpaper/modules/Other.qml" line="64"/>
         <source>Warning: &apos;nitrogen&apos; doesn&apos;t seem to be installed!</source>
         <extracomment>&quot;nitrogen&quot; is a fixed name (name of a tool), please don't translate</extracomment>
-        <translation>Aviso: parece que &apos;nitrogen&apos; não está instalado!</translation>
+        <translation>Предупреждение: &apos;nitrogen&apos;, похоже, не установлен!</translation>
     </message>
     <message>
         <location filename="../../qml/wallpaper/modules/Other.qml" line="76"/>
         <source>Warning: Both &apos;feh&apos; and &apos;nitrogen&apos; don&apos;t seem to be installed!</source>
         <extracomment>&quot;feh&quot; and &quot;nitrogen&quot; are a fixed names (names of tools), please don't translate</extracomment>
-        <translation>Aviso: parece que tanto &apos;feh&apos; como &apos;nitrogen&apos; não estão instalados!</translation>
+        <translation>Предупреждение: &apos;feh&apos; и &apos;nitrogen&apos;, похоже, не установлены!</translation>
     </message>
     <message>
         <location filename="../../qml/wallpaper/modules/Other.qml" line="88"/>
         <source>PhotoQt can use &apos;feh&apos; or &apos;nitrogen&apos; to change the background of the desktop.</source>
         <extracomment>&quot;feh&quot; and &quot;nitrogen&quot; are a fixed names (names of tools), please don't translate</extracomment>
-        <translation>O PhotoQt pode utilizar as bibliotecas &apos;feh&apos; ou &apos;nitrogen&apos; para alterar a imagem do ambiente de trabalho.</translation>
+        <translation>PhotoQt может использовать &apos;feh&apos; или &apos;nitrogen&apos;, чтобы изменить фон рабочего стола.</translation>
     </message>
     <message>
         <location filename="../../qml/wallpaper/modules/Other.qml" line="91"/>
         <source>This is intended particularly for window managers that don&apos;t natively support wallpapers (like Blackbox, Fluxbox, or Openbox).</source>
         <extracomment>&quot;Blackbox&quot;, &quot;Fluxbox&quot; and &quot;Openbox&quot; are fixed names, please don't translate</extracomment>
-        <translation>Esta opção é particularmente útil para gestores de janelas sem suporte a esta opção (ex.: Openbox, Fluxbox e Blackbox).</translation>
+        <translation>Это особенно важно для оконных менеджеров, которые не поддерживают обои (например, Blackbox, Fluxbox или Openbox).</translation>
     </message>
     <message>
         <location filename="../../qml/wallpaper/modules/Other.qml" line="107"/>
@@ -2011,7 +2011,7 @@ This is an entry in the main menu on the right, used as in 'Reset flip/mirror of
         <extracomment>Used as in &quot;Use 'feh'&quot; (feh is a tool)
 ----------
 Used as in &quot;Use 'nitrogen'&quot; (nitrogen is a tool)</extracomment>
-        <translation>Utilizar</translation>
+        <translation>Использовать</translation>
     </message>
 </context>
 <context>
@@ -2020,38 +2020,38 @@ Used as in &quot;Use 'nitrogen'&quot; (nitrogen is a tool)</extracomment>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/OverlayColor.qml" line="31"/>
         <source>Overlay Color</source>
         <extracomment>This refers to the background color of PhotoQt, behind the main image (the part not covered by the image itself)</extracomment>
-        <translation>Cor de sobreposição</translation>
+        <translation>Цвет Наложения</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/OverlayColor.qml" line="32"/>
         <source>Here you can adjust the background colour of PhotoQt (of the part not covered by an image). When using compositing or a background image, then you can also specify an alpha value, i.e. the transparency of the coloured overlay layer. When neither compositing is enabled nor a background image is set, then this colour will be the non-transparent background of PhotoQt.</source>
-        <translation>Aqui pode ajustar a cor de fundo do PhotoQt (área não coberta pela imagem). Se utilizar um compositor ou uma imagem de fundo, pode especificar o seu valor alfa, isto é, a transparência da camada de sobreposição. Se não utilizar um compositor nem uma imagem de fundo, esta cor será o fundo opaco do PhotoQt.</translation>
+        <translation>Здесь вы можете настроить цвет фона PhotoQt (части, не покрытой изображением). При использовании композитинга или фонового изображения вы также можете указать альфа-значение, то есть прозрачность цветного слоя наложения. Если композитинг не включен, а фоновое изображение не установлено, тогда этот цвет будет непрозрачным фоном PhotoQt.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/OverlayColor.qml" line="53"/>
         <source>Red:</source>
-        <translation>Vermelho:</translation>
+        <translation>Красный:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/OverlayColor.qml" line="78"/>
         <source>Green:</source>
-        <translation>Verde:</translation>
+        <translation>Зеленый:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/OverlayColor.qml" line="103"/>
         <source>Blue:</source>
-        <translation>Azul:</translation>
+        <translation>Синий:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/OverlayColor.qml" line="129"/>
         <source>Alpha:</source>
         <extracomment>This refers to the alpha value of a color (i.e., how opaque/transparent the colour is)</extracomment>
-        <translation>Alfa:</translation>
+        <translation>Альфаканал:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/OverlayColor.qml" line="193"/>
         <source>Preview</source>
-        <translation>Pré-visualizar</translation>
+        <translation>Предварительный просмотр</translation>
     </message>
 </context>
 <context>
@@ -2059,27 +2059,27 @@ Used as in &quot;Use 'nitrogen'&quot; (nitrogen is a tool)</extracomment>
     <message>
         <location filename="../../qml/mainview/FaceTagger.qml" line="29"/>
         <source>Click and drag to tag a face. Press Escape to return to normal PhotoQt use</source>
-        <translation type="unfinished"/>
+        <translation>Нажмите и перетащите, чтобы пометить лицо. Нажмите Escape, чтобы вернуться к обычному использованию PhotoQt</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/FaceTagger.qml" line="129"/>
         <source>Who is this? Enter a name...</source>
-        <translation>Quem é? Digite um nome...</translation>
+        <translation>Кто это? Ввести имя...</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/FaceTagger.qml" line="154"/>
         <source>Save</source>
-        <translation>Guardar</translation>
+        <translation>Сохранить</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/FaceTagger.qml" line="159"/>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/FaceTracker.qml" line="71"/>
         <source>Delete</source>
-        <translation>Apagar</translation>
+        <translation>Удалить</translation>
     </message>
 </context>
 <context>
@@ -2088,12 +2088,12 @@ Used as in &quot;Use 'nitrogen'&quot; (nitrogen is a tool)</extracomment>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/PixmapCache.qml" line="31"/>
         <source>Pixmap Cache</source>
         <extracomment>The pixmap cache is used to cache loaded images so they can be loaded much quicker a second time</extracomment>
-        <translation>Cache pixmap</translation>
+        <translation>Кэш Растровых Изображений</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/PixmapCache.qml" line="32"/>
         <source>Here you can adjust the size of the pixmap cache. This cache holds the loaded image elements that have been displayed. This doesn&apos;t help when first displaying an image, but can speed up its second display significantly. On the other hand, it does increase the memory in use, up to the limit set here. If you disable the cache altogether (value of 0), then each time an image is displayed, it is loaded fresh from the harddrive.</source>
-        <translation>Aqui pode ajustar o tamanho de cache &apos;pixmaps. Esta cache armazena as imagens que foram apresentadas. Não ajuda ao carregar a primeira imagem, mas pode ajudar a acelerar o carregamento das seguintes. Por outro lado, aumenta a quantidade de memória utilizada, até ao limite aqui definido. Se desativar esta opção (valor 0), sempre que uma imagem for carregada, será carregada a partir do disco em vez da cache.</translation>
+        <translation>Здесь вы можете настроить размер кеша Растровых Изображений. Этот кеш содержит загруженные элементы изображения, которые были отображены. Это не помогает при первом отображении изображения, но может значительно ускорить его второй анализ. С другой стороны, он увеличивает используемую память до предела, установленного здесь. Если вы полностью отключите кеш (значение 0), то каждый раз, когда отображается изображение, оно загружается с жесткого диска.</translation>
     </message>
 </context>
 <context>
@@ -2102,7 +2102,7 @@ Used as in &quot;Use 'nitrogen'&quot; (nitrogen is a tool)</extracomment>
         <location filename="../../qml/wallpaper/modules/Plasma5.qml" line="45"/>
         <source>Sorry, Plasma 5 doesn&apos;t yet offer the feature to change the wallpaper except from their own system settings. Hopefully this will change soon, but until then there&apos;s nothing I can do about that.</source>
         <extracomment>&quot;Plasma 5&quot; is a fixed name, please don't translate</extracomment>
-        <translation>O Plasma 5 ainda não disponibiliza a possibilidade de alterar o papel de parede sem ser através das definições do sistema. Esperemos que esta função seja disponibilizada mas, por enquanto, nada podemos fazer.</translation>
+        <translation>Извините, Plasma 5 пока не предлагает функцию изменения обоев, за исключением собственных системных настроек. Надеюсь, это скоро изменится, но до сих пор я ничего не могу с этим поделать.</translation>
     </message>
 </context>
 <context>
@@ -2110,45 +2110,45 @@ Used as in &quot;Use 'nitrogen'&quot; (nitrogen is a tool)</extracomment>
     <message>
         <location filename="../../qml/mainview/QuickInfo.qml" line="103"/>
         <source>Click and drag to move and double click to maximize window</source>
-        <translation>Clique e arraste para mover e duplo clique para maximizar a janela.</translation>
+        <translation>Нажмите и перетащите, чтобы переместить и дважды щелкните, чтобы увеличить окно.</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/QuickInfo.qml" line="128"/>
         <source>Zoom:</source>
-        <translation>Ampliação:</translation>
+        <translation>Увеличение:</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/QuickInfo.qml" line="161"/>
         <source>Filter:</source>
         <extracomment>Used as in 'Filter images'</extracomment>
-        <translation>Filtro:</translation>
+        <translation>Фильтр:</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/QuickInfo.qml" line="275"/>
         <source>Show counter</source>
         <extracomment>The counter shows the position of the currently loaded image in the folder</extracomment>
-        <translation>Mostrar contagem</translation>
+        <translation>Показать счетчик</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/QuickInfo.qml" line="279"/>
         <source>Show filepath</source>
-        <translation>Mostrar caminho do ficheiro</translation>
+        <translation>Показать путь к файлу</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/QuickInfo.qml" line="283"/>
         <source>Show filename</source>
-        <translation>Mostrar nome do ficheiro</translation>
+        <translation>Показать Имя файла</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/QuickInfo.qml" line="287"/>
         <source>Show zoom level</source>
-        <translation>Mostrar nível de ampliação</translation>
+        <translation>Показать уровень масштабирования</translation>
     </message>
     <message>
         <location filename="../../qml/mainview/QuickInfo.qml" line="292"/>
         <source>Show closing &apos;x&apos;</source>
         <extracomment>The clsoing 'x' is the button in the top right corner of the screen for closing PhotoQt</extracomment>
-        <translation>Mostrar botão para sair &apos;x&apos;</translation>
+        <translation>Показать закрытие &apos;x&apos;</translation>
     </message>
 </context>
 <context>
@@ -2156,22 +2156,22 @@ Used as in &quot;Use 'nitrogen'&quot; (nitrogen is a tool)</extracomment>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/QuickInfoManageWindow.qml" line="30"/>
         <source>Basic window management</source>
-        <translation>Gestão básica de janelas</translation>
+        <translation>Управление основными окнами</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/QuickInfoManageWindow.qml" line="31"/>
         <source>It is possible to use the label with the quick infos (filename, etc.) for some basic window management. You can click and drag to move the window around, and a double click toggles whether the windows is maximized or not.</source>
-        <translation type="unfinished"/>
+        <translation>Можно использовать метки с быстрой информацией (имя файла и т.д.) для некоторых основных управлений окнами. Вы можете щелкнуть и перетащить, чтобы перемещать окна вокруг, а двойной щелчок переключает окна в развернутое и обратно.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/QuickInfoManageWindow.qml" line="31"/>
         <source>Note: This is only possible when the window is not in fullscreen!</source>
-        <translation>Nota: apenas possível se a janela não estiver no modo de ecrã completo.</translation>
+        <translation>Примечание. Это возможно, только если окно не находится в полноэкранном режиме!</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/QuickInfoManageWindow.qml" line="37"/>
         <source>Enable basic window management</source>
-        <translation>Ativar gestão básica de janelas</translation>
+        <translation>Включить управление базовыми окнами</translation>
     </message>
 </context>
 <context>
@@ -2179,38 +2179,38 @@ Used as in &quot;Use 'nitrogen'&quot; (nitrogen is a tool)</extracomment>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Quickinfo.qml" line="30"/>
         <source>Show Quickinfo (Text Labels)</source>
-        <translation>Mostrar informação rápida (textos)</translation>
+        <translation>Показать Краткие сведения (текстовые метки)</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Quickinfo.qml" line="31"/>
         <source>PhotoQt shows certain information about the current image and the folder in the top left corner of the screen. You can choose which information in particular to show there. This also includes the &apos;x&apos; for closing PhotoQt in the top right corner.</source>
-        <translation type="unfinished"/>
+        <translation>PhotoQt показывает определенную информацию о текущем изображении и папке в левом верхнем углу экрана. Вы можете выбрать, какую информацию, в частности, показать там. Это также включает &apos;x&apos; для закрытия PhotoQt в верхнем правом углу.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Quickinfo.qml" line="38"/>
         <source>Counter</source>
         <extracomment>The counter shows the current image position in the folder</extracomment>
-        <translation>Contador</translation>
+        <translation>Счетчик</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Quickinfo.qml" line="43"/>
         <source>Filepath</source>
-        <translation>Caminho do ficheiro</translation>
+        <translation>Путь к файлу</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Quickinfo.qml" line="48"/>
         <source>Filename</source>
-        <translation>Nome do ficheiro</translation>
+        <translation>Имя файла</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Quickinfo.qml" line="53"/>
         <source>Current zoom level</source>
-        <translation>Nível atual</translation>
+        <translation>Текущий уровень масштабирования</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Quickinfo.qml" line="58"/>
         <source>Exit button (&apos;x&apos; in top right corner)</source>
-        <translation>Botão para sair (&apos;x&apos; no canto superior direito)</translation>
+        <translation>Кнопка «Выход» (&apos;x&apos; в верхнем правом углу)</translation>
     </message>
 </context>
 <context>
@@ -2218,17 +2218,17 @@ Used as in &quot;Use 'nitrogen'&quot; (nitrogen is a tool)</extracomment>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/ReOpenFile.qml" line="30"/>
         <source>Re-open last used image at startup</source>
-        <translation>Abrir última imagem ao iniciar a aplicação</translation>
+        <translation>Повторное открытие последнего использованного изображения при запуске</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/ReOpenFile.qml" line="31"/>
         <source>At startup, you can set PhotoQt to re-open the last used image and directory. This doesn&apos;t keep any zooming/scaling/mirroring from before. If you pass an image to PhotoQt on the command line, it will always favor the passed-on image.</source>
-        <translation>Ao iniciar, pode definir que o PhotoQt abra a última imagem e diretório utilizado. As definições de ampliação/rotação/inversão não serão reutilizadas. Se enviar uma imagem ao PhotoQt através da linha de comandos, a aplicação ignora a definição aqui escolhida.</translation>
+        <translation>При запуске вы можете установить PhotoQt для повторного открытия последнего использованного изображения и каталога. Это не сохраняет масштабирование/масштабирование/зеркальное отображение. Если вы передадите изображение в PhotoQt в командной строке, оно всегда будет использовать переданное изображение.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/ReOpenFile.qml" line="37"/>
         <source>Re-open last used image</source>
-        <translation>Abrir última imagem utilizada</translation>
+        <translation>Повторно открыть последнее использованное изображение</translation>
     </message>
 </context>
 <context>
@@ -2236,17 +2236,17 @@ Used as in &quot;Use 'nitrogen'&quot; (nitrogen is a tool)</extracomment>
     <message>
         <location filename="../../qml/filemanagement/Rename.qml" line="41"/>
         <source>Rename File</source>
-        <translation>Renomear</translation>
+        <translation>Переименовать Файл</translation>
     </message>
     <message>
         <location filename="../../qml/filemanagement/Rename.qml" line="100"/>
         <source>Save</source>
-        <translation>Guardar</translation>
+        <translation>Сохранить</translation>
     </message>
     <message>
         <location filename="../../qml/filemanagement/Rename.qml" line="110"/>
         <source>Cancel</source>
-        <translation>Cancelar</translation>
+        <translation>Отмена</translation>
     </message>
 </context>
 <context>
@@ -2254,22 +2254,22 @@ Used as in &quot;Use 'nitrogen'&quot; (nitrogen is a tool)</extracomment>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/RotateFlip.qml" line="31"/>
         <source>Automatic Rotate/Flip</source>
-        <translation>Rotação/inversão automática</translation>
+        <translation>Автоматический Поворот/Переворот</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/RotateFlip.qml" line="32"/>
         <source>Some cameras can detect - while taking the photo - whether the camera was turned and might store this information in the image exif data. If PhotoQt finds this information, it can rotate the image accordingly or simply ignore that information.</source>
-        <translation>Alguns equipamentos podem detetar - ao tirar a foto - se a máquina fotográfica foi rodada e podem guardar essas informações nos dados Exif. Se o PhotoQt encontrar estas informações, pode rodar a imagem ou simplesmente ignorar a opção.</translation>
+        <translation>Некоторые камеры могут обнаруживать - при фотосъемке - была ли камера повернута и могла ли хранить эту информацию в изображениях exif-данных. Если PhotoQt обнаружит эту информацию, она может соответствующим образом повернуть изображение или просто проигнорировать эту информацию.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/RotateFlip.qml" line="40"/>
         <source>Never rotate/flip images</source>
-        <translation>Não rodar/inverter imagens</translation>
+        <translation>Никогда не поворачивать/переворачивать изображения</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/RotateFlip.qml" line="47"/>
         <source>Always rotate/flip images</source>
-        <translation>Rodar/inverter imagens</translation>
+        <translation>Всегда поворачивать/переворачивать изображения</translation>
     </message>
 </context>
 <context>
@@ -2277,65 +2277,65 @@ Used as in &quot;Use 'nitrogen'&quot; (nitrogen is a tool)</extracomment>
     <message>
         <location filename="../../qml/other/Scale.qml" line="45"/>
         <source>Scale Image</source>
-        <translation>Ajustar imagem</translation>
+        <translation>Масштаб Изображения</translation>
     </message>
     <message>
         <location filename="../../qml/other/Scale.qml" line="62"/>
         <source>Current Size:</source>
         <extracomment>'Size&quot; here refers to the dimensions (numbers of pixel), expressed here as 'width x height', NOT the filesize</extracomment>
-        <translation>Tamanho atual:</translation>
+        <translation>Текущий размер:</translation>
     </message>
     <message>
         <location filename="../../qml/other/Scale.qml" line="98"/>
         <source>Error! Something went wrong, unable to scale image...</source>
-        <translation>Erro! Algo errado aconteceu e não foi possível ajustar a imagem...</translation>
+        <translation>Ошибка! Что-то пошло не так, не удалось масштабировать изображение...</translation>
     </message>
     <message>
         <location filename="../../qml/other/Scale.qml" line="129"/>
         <source>New width:</source>
         <extracomment>The width (number of pixels) of the image</extracomment>
-        <translation>Nova largura:</translation>
+        <translation>Новая ширина:</translation>
     </message>
     <message>
         <location filename="../../qml/other/Scale.qml" line="137"/>
         <source>New height:</source>
         <extracomment>The height (number of pixels) of the image</extracomment>
-        <translation>Nova altura:</translation>
+        <translation>Новая высота:</translation>
     </message>
     <message>
         <location filename="../../qml/other/Scale.qml" line="214"/>
         <source>Aspect Ratio</source>
         <extracomment>This is the ratio of the image = width/height</extracomment>
-        <translation>Rácio de aspeto</translation>
+        <translation>Соотношение сторон</translation>
     </message>
     <message>
         <location filename="../../qml/other/Scale.qml" line="252"/>
         <source>Quality</source>
         <extracomment>Refers to the quality of scaling an image</extracomment>
-        <translation>Qualidade</translation>
+        <translation>Качество</translation>
     </message>
     <message>
         <location filename="../../qml/other/Scale.qml" line="296"/>
         <source>Scale in place</source>
         <extracomment>Scale as in &quot;Scale image&quot;</extracomment>
-        <translation>Ajustar no ficheiro atual</translation>
+        <translation>Размер по положению</translation>
     </message>
     <message>
         <location filename="../../qml/other/Scale.qml" line="312"/>
         <source>Scale into new file</source>
         <extracomment>Scale as in &quot;Scale image&quot;</extracomment>
-        <translation>Ajustar em novo ficheiro</translation>
+        <translation>Размер в новый файл</translation>
     </message>
     <message>
         <location filename="../../qml/other/Scale.qml" line="315"/>
         <source>Save file as...</source>
-        <translation>Guardar ficheiro como...</translation>
+        <translation>Сохранить файл как...</translation>
     </message>
     <message>
         <location filename="../../qml/other/Scale.qml" line="332"/>
         <source>Don&apos;t scale</source>
         <extracomment>Scale as in &quot;scale image&quot;</extracomment>
-        <translation>Não ajustar</translation>
+        <translation>Не менять размер</translation>
     </message>
 </context>
 <context>
@@ -2343,12 +2343,12 @@ Used as in &quot;Use 'nitrogen'&quot; (nitrogen is a tool)</extracomment>
     <message>
         <location filename="../../qml/other/ScaleUnsupported.qml" line="53"/>
         <source>Sorry, this fileformat cannot be scaled with PhotoQt yet!</source>
-        <translation>Desculpe mas este formato de ficheiro ainda não pode ser ajustado pelo PhotoQt!</translation>
+        <translation>К сожалению, этот файл не может масштабироваться с помощью PhotoQt!</translation>
     </message>
     <message>
         <location filename="../../qml/other/ScaleUnsupported.qml" line="64"/>
         <source>Close</source>
-        <translation>Fechar</translation>
+        <translation>Закрыть</translation>
     </message>
 </context>
 <context>
@@ -2357,28 +2357,28 @@ Used as in &quot;Use 'nitrogen'&quot; (nitrogen is a tool)</extracomment>
         <location filename="../../qml/settingsmanager/tabs/shortcuts/Set.qml" line="107"/>
         <source>quit</source>
         <extracomment>Shortcuts: KEEP THIS STRING SHORT! It is displayed for external shortcuts as an option to quit PhotoQt after executing shortcut</extracomment>
-        <translation>sair</translation>
+        <translation>выход</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/shortcuts/Set.qml" line="114"/>
         <source>Quit PhotoQt when executing shortcut</source>
-        <translation>Sair do PhotoQt ao executar o atalho</translation>
+        <translation>Закройте PhotoQt при выполнении комбинации</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/shortcuts/Set.qml" line="115"/>
         <source>Keep PhotoQt running when executing shortcut</source>
-        <translation>Continuar a executar o PhotoQt ao executar o atalho</translation>
+        <translation>Сохранять PhotoQt рабочим при выполнении комбинации</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/shortcuts/Set.qml" line="172"/>
         <source>The command goes here</source>
         <extracomment>Shortcuts: This is the command/executable to be executed (external shortcut)</extracomment>
-        <translation>Digite aqui o comando</translation>
+        <translation>Команда задана здесь</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/shortcuts/Set.qml" line="225"/>
         <source>Delete shortcut</source>
-        <translation>Apagar atalho</translation>
+        <translation>Удалить комбинацию</translation>
     </message>
 </context>
 <context>
@@ -2386,7 +2386,7 @@ Used as in &quot;Use 'nitrogen'&quot; (nitrogen is a tool)</extracomment>
     <message>
         <location filename="../../qml/settingsmanager/SettingInfoOverlay.qml" line="138"/>
         <source>Click to close</source>
-        <translation>Clique para fechar</translation>
+        <translation>Нажмите, чтобы закрыть</translation>
     </message>
 </context>
 <context>
@@ -2395,102 +2395,102 @@ Used as in &quot;Use 'nitrogen'&quot; (nitrogen is a tool)</extracomment>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="89"/>
         <source>Look and Feel</source>
         <extracomment>The look of PhotoQt and how it feels and behaves</extracomment>
-        <translation>Aparência</translation>
+        <translation>Look and Feel</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="112"/>
         <source>Thumbnails</source>
-        <translation>Miniaturas</translation>
+        <translation>Миниатюры</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="145"/>
         <source>Metadata</source>
-        <translation>Meta-dados</translation>
+        <translation>Метаданные</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="165"/>
         <source>Image Formats</source>
-        <translation>Formatos de imagem</translation>
+        <translation>Форматы изображения</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="186"/>
         <source>Other Settings</source>
-        <translation>Outras definições</translation>
+        <translation>Другие Настройки</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="206"/>
         <source>Shortcuts</source>
-        <translation>Atalhos</translation>
+        <translation>Комбинации клавиш</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="260"/>
         <source>Manage</source>
         <extracomment>This is used as in 'Manage the settings', used on button referring to the action of restoring default settings and export/import of settings</extracomment>
-        <translation>Gerir</translation>
+        <translation>Управление</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="268"/>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="376"/>
         <source>Restore Default Settings</source>
-        <translation>Restaurar definições padrão</translation>
+        <translation>Восстановить настройки по умолчанию</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="270"/>
         <source>Export/Import</source>
         <extracomment>Export/Import refers to doing this with all the settings and configurations</extracomment>
-        <translation>Exportar/Importar</translation>
+        <translation>Экспорт/Импорт</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="290"/>
         <source>Exit and Discard Changes</source>
         <extracomment>Changes here refer to changes in the settings manager</extracomment>
-        <translation>Sair e rejeitar alterações</translation>
+        <translation>Выйти и отменить изменения</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="309"/>
         <source>Save Changes and Exit</source>
         <extracomment>Changes here refer to changes in the settings manager</extracomment>
-        <translation>Guardar alterações e sair</translation>
+        <translation>Сохранить изменения и выйти</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="346"/>
         <source>Do you really want to clean up the database?</source>
         <extracomment>The database refers to the database used for thumbnail caching</extracomment>
-        <translation>Tem a certeza de que quer limpar a base de dados?</translation>
+        <translation>Вы действительно хотите очистить базу данных?</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="347"/>
         <source>This removes all obsolete thumbnails, thus possibly making PhotoQt a little faster.</source>
-        <translation>Esta operação remove todas as miniaturas obsoletas e pode acelerar o PhotoQt.</translation>
+        <translation>Это удаляет все устаревшие миниатюры, что, возможно, делает PhotoQt немного быстрее.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="348"/>
         <source>This process might take a little while.</source>
-        <translation>Este processo pode ser demorado.</translation>
+        <translation>Этот процесс может занять некоторое время.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="362"/>
         <source>Do you really want to ERASE the entire database?</source>
         <extracomment>The database refers to the database used for thumbnail caching</extracomment>
-        <translation>Tem a certeza de que quer apagar a base de dados?</translation>
+        <translation>Вы действительно хотите СТЕРЕТЬ всю базу данных?</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="365"/>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="378"/>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="394"/>
         <source>This step cannot be reversed!</source>
-        <translation>Esta operação não pode ser revertida!</translation>
+        <translation>Этот шаг не может быть отменен!</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="335"/>
         <source>Close settings manager</source>
-        <translation>Fechar gestor de definições</translation>
+        <translation>Закройте диспетчер параметров</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="344"/>
         <source>Clean Database!</source>
         <extracomment>The database refers to the database used for thumbnail caching</extracomment>
-        <translation>Limpar base de dados!</translation>
+        <translation>База данных очищена!</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="350"/>
@@ -2501,7 +2501,7 @@ Used as in &quot;Use 'nitrogen'&quot; (nitrogen is a tool)</extracomment>
         <extracomment>Along the lines of &quot;Yes, clean the database for thumbnails caching&quot;
 ----------
 Along the lines of &quot;Yes, empty the database for thumbnails caching&quot;</extracomment>
-        <translation>Continuar</translation>
+        <translation>Продолжить</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="352"/>
@@ -2514,62 +2514,62 @@ Along the lines of &quot;Yes, empty the database for thumbnails caching&quot;</e
 Along the lines of &quot;No, don't empty the database for thumbnails caching, I want to keep it&quot;
 ----------
 Used in settings manager when asking for confirmation for restoring default settings (written on button)</extracomment>
-        <translation>Cancelar</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="360"/>
         <source>Erase Database?</source>
         <extracomment>The database refers to the database used for thumbnail caching</extracomment>
-        <translation>Apagar base de dados?</translation>
+        <translation>Стереть Базу Данных?</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="364"/>
         <source>This removes every single item from the database! This step should never really be necessary. Afterwards every thumbnail has to be re-created.</source>
         <extracomment>The database refers to the database used for thumbnail caching</extracomment>
-        <translation>Esta ação remove todos os elementos da sua base de dados e não deve ser necessária! Após esta operação, todas as miniaturas terão de ser recriadas.</translation>
+        <translation>Это удаляет каждый элемент из базы данных! Этот шаг не должен быть действительно необходимым. После этого каждый эскиз должен быть создан заново.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="377"/>
         <source>Are you sure you want to revert back to the default settings?</source>
-        <translation>Tem a certeza de que deseja repor os atalhos padrão?</translation>
+        <translation>Вы действительно хотите вернуться к настройкам по умолчанию?</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="392"/>
         <source>Set Default Shortcuts</source>
-        <translation>Aplicar atalhos padrão</translation>
+        <translation>Установить хоткеи по умолчанию</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="393"/>
         <source>Are you sure you want to reset the shortcuts to the default set?</source>
-        <translation>Tem a certeza de que deseja repor os atalhos padrão?</translation>
+        <translation>Вы действительно хотите сбросить комбинации до установленных по умолчанию?</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="424"/>
         <source>Go to the next tab</source>
         <extracomment>The tab refers to the tabs in the settings manager</extracomment>
-        <translation>Ir para o separador seguinte</translation>
+        <translation>Перейти к следующей вкладке</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="426"/>
         <source>Go to the previous tab</source>
         <extracomment>The tab refers to the tabs in the settings manager</extracomment>
-        <translation>Ir para o separador anterior</translation>
+        <translation>Перейти к предыдущей вкладке</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="428"/>
         <source>Switch to tab 1 to 5</source>
         <extracomment>The tab refers to the tabs in the settings manager</extracomment>
-        <translation>Trocar entre os separadores 1 a 5</translation>
+        <translation>Переключиться на вкладку с 1 по 5</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="429"/>
         <source>Save settings</source>
-        <translation>Guardar definições</translation>
+        <translation>Сохранить настройки</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/SettingsManager.qml" line="430"/>
         <source>Discard settings</source>
-        <translation>Rejeitar alterações</translation>
+        <translation>Сбросить настройки</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabImageFormats.qml" line="73"/>
@@ -2578,7 +2578,7 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/settingsmanager/tabs/TabMetadata.qml" line="73"/>
         <location filename="../../qml/settingsmanager/tabs/TabLookAndFeel.qml" line="73"/>
         <source>Move your mouse cursor over (or click on) the different settings titles to see more information.</source>
-        <translation>Mova o cursor (ou clique) sobre o mosaico das definições para obter mais informações.</translation>
+        <translation>Наведите указатель мыши на (или щелкните) на различные заголовки настроек, чтобы увидеть дополнительную информацию.</translation>
     </message>
 </context>
 <context>
@@ -2586,7 +2586,7 @@ Used in settings manager when asking for confirmation for restoring default sett
     <message>
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsFreeImage.qml" line="37"/>
         <source>FreeImage is an open source image library supporting a number of image formats, many of which have been successfully tested in PhotoQt.</source>
-        <translation>FreeImage é uma biblioteca open source que tem suporte a diversos formatos de imagem, muitos dos quais foram testados com sucesso no PhotoQt.</translation>
+        <translation>FreeImage - это библиотека изображений с открытым исходным кодом, поддерживающая ряд форматов изображений, многие из которых были успешно протестированы в PhotoQt.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsFreeImage.qml" line="39"/>
@@ -2596,7 +2596,7 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsRAW.qml" line="39"/>
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsQt.qml" line="37"/>
         <source>Use left click to check/uncheck an individual entry, and right click to check/uncheck all endings related to the same image type.</source>
-        <translation>Botão esquerdo do rato para marcar/desmarcar itens individualmente e clique com o botão direito para marcar/desmarcar todas as extensões associadas ao mesmo tipo de imagem.</translation>
+        <translation>Используйте левый клик, чтобы проверить/снять отметку с отдельной записи, и щелкните правой кнопкой мыши, чтобы проверить/снять отметку со всех окончаний, относящихся к одному и тому же типу изображения.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsFreeImage.qml" line="49"/>
@@ -2609,7 +2609,7 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsQt.qml" line="49"/>
         <source>File endings:</source>
         <extracomment>File endings are the suffices (e.g., 'jpg' for 'image.jpg')</extracomment>
-        <translation>Extensão de ficheiros:</translation>
+        <translation>Окончания файлов:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsFreeImage.qml" line="54"/>
@@ -2628,7 +2628,7 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsQt.qml" line="89"/>
         <source>Use default</source>
         <extracomment>Used as in 'Use set of default file endings'</extracomment>
-        <translation>Utilizar padrões</translation>
+        <translation>Использовать по умолчанию</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsFreeImage.qml" line="59"/>
@@ -2647,7 +2647,7 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsQt.qml" line="94"/>
         <source>Use none</source>
         <extracomment>Used as in 'Use none of the available file endings'</extracomment>
-        <translation>Não utilizar</translation>
+        <translation>Не использовать</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsFreeImage.qml" line="64"/>
@@ -2666,7 +2666,7 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsQt.qml" line="99"/>
         <source>Advanced fine tuning</source>
         <extracomment>'fine tuning' refers to selecting the individual file endings recognised by PhotoQt</extracomment>
-        <translation>Ajustes avançados</translation>
+        <translation>Расширенная настройка</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsFreeImage.qml" line="71"/>
@@ -2678,7 +2678,7 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsQt.qml" line="71"/>
         <source>There are currently %1 file endings selected.</source>
         <extracomment>Please do not forget the '%1'!</extracomment>
-        <translation>Estão selecionadas %1 extensões de ficheiros.</translation>
+        <translation>В настоящее время %1 выбраны окончания файла.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsFreeImage.qml" line="84"/>
@@ -2691,7 +2691,7 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsQt.qml" line="84"/>
         <source>Mime types:</source>
         <extracomment>Mime types are identifiers for file types.</extracomment>
-        <translation>Tipos MIME:</translation>
+        <translation>типы Mime:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsFreeImage.qml" line="106"/>
@@ -2703,113 +2703,113 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsQt.qml" line="106"/>
         <source>There are currently %1 mime types selected.</source>
         <extracomment>Please do not forget the '%1'!</extracomment>
-        <translation>Estão selecionados %1 tipos MIME.</translation>
+        <translation>В настоящее время %1  mime типов выбрано.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsDevil.qml" line="37"/>
         <source>The Developer&apos;s Image Library (DevIL) supports a large number of image formats, many of which have been successfully tested with PhotoQt.</source>
-        <translation>Developer&apos;s Image Library (DevIL) tem suporte a diversos formatos de imagem, muitos dos quais foram testados com sucesso no PhotoQt.</translation>
+        <translation>Библиотека изображений разработчика (DevIL) поддерживает большое количество форматов изображений, многие из которых были успешно протестированы с помощью PhotoQt.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsGmGhostscript.qml" line="37"/>
         <source>With the help of Ghostscript, GraphicsMagick can render a range of Postscript and PDF documents. Only the first page of a document can be loaded. For PDF documents the use of Poppler instead is highly recommended!</source>
-        <translation type="unfinished"/>
+        <translation>С помощью Ghostscript GraphicsMagick может отображать ряд документов Postscript и PDF. Можно загружать только первую страницу документа. В PDF-документах настоятельно рекомендуется использовать Poppler!</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsGm.qml" line="37"/>
         <source>GraphicsMagick calls itself the &apos;swiss army knife of image processing&apos;. It supports a wide variety of image formats, and PhotoQt can display the vast majority of them.</source>
-        <translation type="unfinished"/>
+        <translation>GraphicsMagick называет себя &apos;швейцарским армейским ножом обработки изображений&apos;. Он поддерживает широкий спектр форматов изображений, а PhotoQt может отображать подавляющее большинство из них.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsRAW.qml" line="37"/>
         <source>With the help of libraw PhotoQt can display almost any raw image that exists.</source>
-        <translation>Com a ajuda da biblioteca &apos;libraw&apos;. o PhotoQt consegue mostrar quase todos os tipos de imagem &apos;raw&apos; existentes.</translation>
+        <translation>С помощью libraw PhotoQt может отображать практически любое необработанное изображение, которое существует.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsArchive.qml" line="35"/>
         <source>PhotoQt takes advantage of tools such as &apos;libarchive&apos; to load packed files (zip, rar, tar, 7z). It can either load them together with the rest of the images (each (supported) file as one image) or it can ignore such files except when asked to open one, then it wont load any other images (like a document viewer).</source>
-        <translation type="unfinished"/>
+        <translation>PhotoQt использует такие инструменты, как &apos;libarchive&apos; для загрузки упакованных файлов (zip, rar, tar, 7z). Он может либо загружать их вместе с остальными изображениями (каждый (поддерживаемый) файл как одно изображение), либо он может игнорировать такие файлы, кроме случаев, когда его попросят открыть его, а затем он не загрузит другие изображения (например, средство просмотра документов).</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsArchive.qml" line="36"/>
         <source>Note regarding RAR archives: &apos;libarchive&apos; supports RAR archives only partially and might fail to read certain archives. If installed, PhotoQt can use the external tool &apos;unrar&apos; instead of &apos;libarchive&apos; for proper support of RAR archives.</source>
-        <translation type="unfinished"/>
+        <translation>Замечание относительно архивов RAR: &apos;libarchive&apos; поддерживает RAR-архивы только частично и может не читать некоторые архивы. Если установлено, PhotoQt может использовать внешний инструмент &apos;unrar&apos; вместо &apos;libarchive&apos; для правильной поддержки RAR-архивов.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsArchive.qml" line="120"/>
         <source>Use external tool &apos;unrar&apos; for RAR archives</source>
-        <translation>Utilizar ferramenta externa &apos;unrar&apos; para arquivos RAR</translation>
+        <translation>Использовать внешний инструмент &apos;unrar&apos; для архивов RAR</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsXCFTools.qml" line="33"/>
         <source>PhotoQt can take advantage of xcftools to display Gimp&apos;s XCF file format. It can only be enabled if xcftools is installed!</source>
-        <translation type="unfinished"/>
+        <translation>PhotoQt может использовать xcftools для отображения формата файла XCF от Gimp. Он может быть включен только в случае установки xcftools!</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsPoppler.qml" line="36"/>
         <source>PhotoQt can take advantage of poppler to load PDF documents. It can either load them together with the rest of the images (each page as one image) or it can ignore such documents except when asked to open one, then it wont load any other images (like a document viewer).</source>
-        <translation type="unfinished"/>
+        <translation>PhotoQt может использовать poppler для загрузки PDF-документов. Он может либо загружать их вместе с остальными изображениями (каждая страница как одно изображение), либо может игнорировать такие документы, за исключением случаев, когда их просят открыть один, тогда он не загрузит другие изображения (например, средство просмотра документов).</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsPoppler.qml" line="52"/>
         <source>Document viewer mode</source>
-        <translation>Modo de visualização de documentos</translation>
+        <translation>Режим просмотра документов</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsPoppler.qml" line="53"/>
         <source>When loading a PDF, only that PDF is loaded, nothing else in the folder</source>
-        <translation>Ao carregar um PDF, o resto do conteúdo da pasta não será carregado</translation>
+        <translation>При загрузке PDF-файла загружается только этот PDF-файл, ничего больше в папке</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsQt.qml" line="35"/>
         <source>These are all the image formats either natively supported by Qt or through an image formats plugins:</source>
-        <translation type="unfinished"/>
+        <translation>Это все форматы изображений, которые либо поддерживаются Qt, либо через плагины форматов изображений:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/imageformats/ImageFormatsTile.qml" line="60"/>
         <source>Left click to check/uncheck. Right click to check/uncheck all endings for this image type.</source>
-        <translation>Botão esquerdo do rato para marcar/desmarcar e clique com o botão direito para marcar/desmarcar todas as extensões associadas a este tipo de imagem.</translation>
+        <translation>Щелкните левой кнопкой мыши, чтобы проверить/снять отметку. Щелкните правой кнопкой мыши, чтобы проверить/снять отметку со всех окончаний для этого типа изображения.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/imageformats/PopupMimeTypes.qml" line="111"/>
         <location filename="../../qml/settingsmanager/tabs/imageformats/PopupImageFormats.qml" line="111"/>
         <source>Enable default</source>
-        <translation>Ativar padrões</translation>
+        <translation>Включить по умолчанию</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/imageformats/PopupMimeTypes.qml" line="115"/>
         <location filename="../../qml/settingsmanager/tabs/imageformats/PopupImageFormats.qml" line="115"/>
         <source>Enable all</source>
-        <translation>Ativar tudo</translation>
+        <translation>Включить все</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/imageformats/PopupMimeTypes.qml" line="119"/>
         <location filename="../../qml/settingsmanager/tabs/imageformats/PopupImageFormats.qml" line="119"/>
         <source>Disable all</source>
-        <translation>Desativar tudo</translation>
+        <translation>Отключить все</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/imageformats/PopupMimeTypes.qml" line="123"/>
         <location filename="../../qml/settingsmanager/tabs/imageformats/PopupImageFormats.qml" line="123"/>
         <source>Reset selection</source>
-        <translation>Repor seleção</translation>
+        <translation>Сброс выделения</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/imageformats/PopupMimeTypes.qml" line="230"/>
         <location filename="../../qml/settingsmanager/tabs/imageformats/PopupImageFormats.qml" line="225"/>
         <source>Done!</source>
-        <translation>Terminado!</translation>
+        <translation>Принять!</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabImageFormats.qml" line="63"/>
         <source>Image formats</source>
-        <translation>Formatos de imagem</translation>
+        <translation>Форматы изображения</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabImageFormats.qml" line="85"/>
         <source>PhotoQt can make use of a variety of image libraries. Which ones exactly are available depends on your system and your installation of PhotoQt. Some formats can be loaded by more than just one of the libraries. For each image PhotoQt will check each library in the same order as they are shown here and will use the first one for which the image type is enabled. There are two ways PhotoQt can find the right image library to be used: Either by the file ending, or by the mime type of the file itself (if one is available). So in order to disable a format from a library, make sure that neither the respective file ending nor the mime type is enabled.</source>
         <extracomment>Introduction text of metadata tab in settings manager</extracomment>
-        <translation type="unfinished"/>
+        <translation>PhotoQt может использовать различные библиотеки изображений. Какие именно из них доступны, зависит от вашей системы и вашей установки PhotoQt. Некоторые форматы могут быть загружены не только одной из библиотек. Для каждого изображения PhotoQt проверяет каждую библиотеку в том же порядке, что и здесь, и будет использовать первый, для которого включен тип изображения. Существует два способа, которыми PhotoQt может найти нужную библиотеку изображений, которая будет использоваться: либо путем окончания формата файла, либо типом mime самого файла (если он доступен). Поэтому, чтобы отключить формат из библиотеки, убедитесь, что ни соответствующий файл не заканчивается, ни тип mime не включены.</translation>
     </message>
 </context>
 <context>
@@ -2817,106 +2817,106 @@ Used in settings manager when asking for confirmation for restoring default sett
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/PeopleTags.qml" line="31"/>
         <source>Tagging of people&apos;s faces</source>
-        <translation type="unfinished"/>
+        <translation>Пометка лиц людей</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/PeopleTags.qml" line="32"/>
         <source>Connecting faces with names helps remember the context of photos. A variety of software stores such information in the image&apos;s XMP metadata. PhotoQt can find and display such information, and it also allows adding new face tags. When the tagging mode is enabled, rectangles around faces can be drawn followed by entering the connected name. To enable the tagging mode, use either the shortcut feature or the entry in the main menu.</source>
-        <translation type="unfinished"/>
+        <translation>Подключение лиц с именами помогает запомнить контекст фотографий. Разнообразное программное обеспечение хранит такую информацию в метаданных XMP изображения. PhotoQt может находить и отображать такую информацию, а также добавлять новые теги лица. Когда режим тегирования включен, прямоугольники вокруг граней могут быть нарисованы с последующим вводом связанного имени. Чтобы включить режим тегов, используйте горячие клавиши, либо запись в главном меню.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/PeopleTags.qml" line="46"/>
         <source>Enable</source>
-        <translation>Ativar</translation>
+        <translation>Включить</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/PeopleTags.qml" line="47"/>
         <source>Find and display face tags</source>
-        <translation>Localizar e mostrar etiquetas dos rostos</translation>
+        <translation>Поиск и отображение лица по тегам</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/PeopleTags.qml" line="60"/>
         <source>Font size of name label:</source>
         <extracomment>The name label refers to the label with the name shown for face tags on a photo</extracomment>
-        <translation>Tamanho do tipo de letra:</translation>
+        <translation>Размер шрифта из метки названия:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/PeopleTags.qml" line="85"/>
         <source>Border around tags:</source>
-        <translation>Contorno das etiquetas:</translation>
+        <translation>Граница вокруг тегов:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/PeopleTags.qml" line="93"/>
         <source>Show</source>
         <extracomment>Used as in: 'Show border around face tags'</extracomment>
-        <translation>Mostrar</translation>
+        <translation>Показать</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/PeopleTags.qml" line="107"/>
         <source>Width:</source>
         <extracomment>Refers to the width of the border around face tags</extracomment>
-        <translation>Largura:</translation>
+        <translation>Ширина:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/PeopleTags.qml" line="130"/>
         <source>Color:</source>
         <extracomment>Refers to the color of the border around face tags</extracomment>
-        <translation>Cor:</translation>
+        <translation>Цвет:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/PeopleTags.qml" line="153"/>
         <source>Click to change color</source>
-        <translation>Clique para alterar a cor</translation>
+        <translation>Нажмите, чтобы изменить цвет</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/PeopleTags.qml" line="172"/>
         <source>Visibility of tags:</source>
         <extracomment>'tags' refers to face tags</extracomment>
-        <translation>Exibição das etiquetas:</translation>
+        <translation>Обзор тегов:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/PeopleTags.qml" line="179"/>
         <source>Hybrid Mode</source>
         <extracomment>The hybrid mode refers to a visibility mode for the face tags, in between of them always being visible, and only individual tags (a combination of the two, hence 'hybrid')</extracomment>
-        <translation>Modo híbrido</translation>
+        <translation>гибридный режим</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/PeopleTags.qml" line="180"/>
         <source>Show all tags when mouse anywhere over image, but show only an individual label when mouse on top of it.</source>
-        <translation type="unfinished"/>
+        <translation>Показать все теги, когда мышь в любом месте над изображением, но показывается только отдельная метка, когда мышь находится поверх нее.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/PeopleTags.qml" line="190"/>
         <source>Always show all</source>
         <extracomment>Shortened string from: 'Always show all face tags'</extracomment>
-        <translation>Permitir mostrar tudo</translation>
+        <translation>Всегда показывать все</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/PeopleTags.qml" line="191"/>
         <source>Always show all face tags</source>
-        <translation type="unfinished"/>
+        <translation>Всегда показывать все теги лиц</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/PeopleTags.qml" line="199"/>
         <source>Show all on hover</source>
         <extracomment>Shortened string for 'Show all tags when mouse anywhere over image'</extracomment>
-        <translation>Mostrar tudo ao passar com o rato</translation>
+        <translation>Показать все при наведении</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/PeopleTags.qml" line="200"/>
         <source>Show all tags when mouse anywhere over image</source>
-        <translation type="unfinished"/>
+        <translation>Показать все теги для мыши в любом месте изображения</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/PeopleTags.qml" line="208"/>
         <source>Show one on hover</source>
         <extracomment>Shortened string for 'Show a tag when hovered by mouse'</extracomment>
-        <translation>Mostrar ao passar com o rato</translation>
+        <translation>Показывать при наведении</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/PeopleTags.qml" line="209"/>
         <source>Show an individual tag when hovered by mouse</source>
-        <translation type="unfinished"/>
+        <translation>Показывать индивидуальный тег при наведении указателя мыши</translation>
     </message>
 </context>
 <context>
@@ -2925,24 +2925,24 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/elements/ShortcutNotifier.qml" line="34"/>
         <source>Shortcuts</source>
         <extracomment>Keep short!</extracomment>
-        <translation>Atalhos</translation>
+        <translation>Комбинация клавиш</translation>
     </message>
     <message>
         <location filename="../../qml/elements/ShortcutNotifier.qml" line="35"/>
         <source>You can use the following shortcuts for navigation</source>
-        <translation>Pode utilizar estes atalhos para navegar</translation>
+        <translation>Для навигации можно использовать следующие сочетания клавиш</translation>
     </message>
     <message>
         <location filename="../../qml/elements/ShortcutNotifier.qml" line="41"/>
         <source>Got it!</source>
         <extracomment>In the sense of 'I understand it'</extracomment>
-        <translation>Entendi!</translation>
+        <translation>Понял!</translation>
     </message>
     <message>
         <location filename="../../qml/elements/ShortcutNotifier.qml" line="44"/>
         <source>Don&apos;t show again</source>
         <extracomment>In the sense of 'Don't show me that confirmation element again'</extracomment>
-        <translation>Não mostrar novamente</translation>
+        <translation>Не показывать снова</translation>
     </message>
 </context>
 <context>
@@ -2951,7 +2951,7 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/settingsmanager/tabs/shortcuts/ShortcutsContainer.qml" line="99"/>
         <source>External</source>
         <extracomment>One of the shortcuts categories</extracomment>
-        <translation>Externo</translation>
+        <translation>Внешний</translation>
     </message>
 </context>
 <context>
@@ -2960,23 +2960,23 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/slideshow/SlideshowBar.qml" line="71"/>
         <source>Play Slideshow</source>
         <extracomment>Stays alone like that, not part of a full sentence. Written on button to allow user to play a currently paused slideshow.</extracomment>
-        <translation>Reproduzir apresentação</translation>
+        <translation>Включить Слайд-шоу</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowBar.qml" line="73"/>
         <source>Pause Slideshow</source>
         <extracomment>Stays alone like that, not part of a full sentence. Written on button to allow user to pause a currently playing slideshow.</extracomment>
-        <translation>Parar apresentação</translation>
+        <translation>Приостановить Слайд-шоу</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowBar.qml" line="88"/>
         <source>Music Volume:</source>
-        <translation>Volume áudio:</translation>
+        <translation>Громкость Музыки:</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowBar.qml" line="116"/>
         <source>Quit Slideshow</source>
-        <translation>Sair da apresentação</translation>
+        <translation>Завершить Слайд-шоу</translation>
     </message>
 </context>
 <context>
@@ -2984,144 +2984,144 @@ Used in settings manager when asking for confirmation for restoring default sett
     <message>
         <location filename="../../qml/slideshow/SlideshowSettings.qml" line="32"/>
         <source>Slideshow Setup</source>
-        <translation>Configurar apresentação</translation>
+        <translation>Настройка Слайд-шоу</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowSettings.qml" line="47"/>
         <source>There are several settings that can be adjusted for a slideshow, like the time between the image, if and how long the transition between the images should be, and also a music file can be specified that will be played in the background.</source>
-        <translation>Pode ajustar diversas definições para as apresentações. Pode ajustar o tempo de exibição das imagens, a duração da transição e o ficheiro áudio a reproduzir em segundo plano.</translation>
+        <translation>Есть несколько параметров, которые можно настроить для слайд-шоу, например, время между изображением, и как долго должен проходить переход между изображениями, а также файл музыки, который будет воспроизводиться в фоновом режиме.</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowSettings.qml" line="54"/>
         <source>Once you have set the desired options, you can also start a slideshow the next time via &apos;Quickstart&apos;, i.e. skipping this settings window.</source>
-        <translation>Assim que definir as opções, pode iniciar a apresentação através do inicio rápido, isto é, ignorando a janela de definições.</translation>
+        <translation>После того, как вы установили нужные параметры, вы также можете запустить слайд-шоу в следующий раз с помощью функции «Быстрый старт», то есть пропустить это окно настроек.</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowSettings.qml" line="65"/>
         <source>Time in between</source>
         <extracomment>This refers to the time the slideshow waits before loading the next image</extracomment>
-        <translation>Intervalo entre imagens</translation>
+        <translation>Время между</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowSettings.qml" line="72"/>
         <source>Adjust the time between the images, i.e., how long the slideshow will wait before loading the next image.</source>
-        <translation type="unfinished"/>
+        <translation>Отрегулировать время между изображениями, т.е. Как долго происходит слайд-шоу перед загрузкой следующего изображения.</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowSettings.qml" line="113"/>
         <source>Smooth Transition</source>
         <extracomment>This refers to the transition between two images, how quickly they fade into each other (if at all)</extracomment>
-        <translation>Transição suave</translation>
+        <translation>Плавный переход</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowSettings.qml" line="120"/>
         <source>Here you can set whether you want the images to fade into each other and how fast they are to do that.</source>
-        <translation>Aqui pode escolher se as imagens devem ser desvanecidas e a velocidade que isso ocorre.</translation>
+        <translation>Здесь вы можете установить, если хотите, чтобы изображения затухали друг за другом, и как быстро они должны это делать.</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowSettings.qml" line="135"/>
         <source>No Transition</source>
         <extracomment>This refers to the fading between images. No transition means that the new images simply replaces the old image instantly</extracomment>
-        <translation>Sem transição</translation>
+        <translation>Без перехода</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowSettings.qml" line="152"/>
         <source>Long Transition</source>
         <extracomment>This refers to the fading between images. A long transition means that two images fade very slowly into each other</extracomment>
-        <translation>Transição longa</translation>
+        <translation>Долгий переход</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowSettings.qml" line="165"/>
         <source>Shuffle and Loop</source>
         <extracomment>Shuffle means putting the list of all the files in the current folder into random order. Loop means that the slideshow will start again from the bginning when it reaches the last image.</extracomment>
-        <translation>Baralhar e percorrer</translation>
+        <translation>Перемешивание и зацикливание</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowSettings.qml" line="172"/>
         <source>If you want PhotoQt to loop over all images (i.e., once it shows the last image it starts from the beginning), or if you want PhotoQt to load your images in random order, you can check either or both boxes below. Note in the case of shuffling that no image will be shown twice before every image has been shown once.</source>
-        <translation>Se quiser que o PhotoQt percorra todas as imagens (assim que mostrar a última imagem, voltar à primeira) ou se quiser carregar as imagens aleatoriamente, pode ativar as caixas abaixo. Tenha em conta que nenhuma imagem será mostrada duas vezes sem mostrar uma vez todas as imagens. </translation>
+        <translation>Если вы хотите, чтобы PhotoQt перебирал все изображения (то есть, как только он показывает последнее изображение, он начинается с самого начала), или если вы хотите, чтобы PhotoQt загружал ваши изображения в произвольном порядке, вы можете проверить один или оба из них ниже. Обратите внимание, что в случае перетасовки изображение не будет отображаться дважды, прежде чем каждое изображение будет показано один раз.</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowSettings.qml" line="179"/>
         <source>Loop over images</source>
         <extracomment>This means that once the last image is reaches PhotoQt will start again from the first one</extracomment>
-        <translation>Percorrer imagens</translation>
+        <translation>Прокрутка изображений</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowSettings.qml" line="186"/>
         <source>Shuffle images</source>
         <extracomment>This means to put the list of files into random order.</extracomment>
-        <translation>Baralhar imagens</translation>
+        <translation>Перемешать изображения</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowSettings.qml" line="199"/>
         <source>Quickinfo</source>
         <extracomment>The quickinfo refers to the labels (like position in the folder, filename, closing 'x') that are normally shown on the main image</extracomment>
-        <translation>Informação rápida</translation>
+        <translation>Краткие сведения</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowSettings.qml" line="207"/>
         <source>Depending on your setup, PhotoQt displays some information at the top edge, like position in current directory or file path/name. Here you can disable them temporarily for the slideshow.</source>
-        <translation>Dependendo da configuração, o PhotoQt pode mostrar algumas informações na margem superior. Por exemplo, o diretório ou o nome do ficheiro. Aqui pode desativar estas informações.</translation>
+        <translation>В зависимости от вашей настройки PhotoQt отображает некоторую информацию на верхнем крае, например, текущую директорию или путь/имя файла. Здесь вы можете временно отключить их для слайд-шоу.</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowSettings.qml" line="213"/>
         <source>Hide Quickinfo</source>
         <extracomment>The quickinfo refers to the labels (like position in the folder, filename, closing 'x') that are normally shown on the main image</extracomment>
-        <translation>Ocultar informação rápida</translation>
+        <translation>Скрыть Краткие сведения</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowSettings.qml" line="225"/>
         <source>Background Music</source>
-        <translation>Música de fundo</translation>
+        <translation>Фоновая музыка</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowSettings.qml" line="232"/>
         <source>Some might like to listen to some music while the slideshow is running. Here you can select a music file you want to be played in the background.</source>
-        <translation>Algumas pessoas gostam de ouvir música durante uma apresentação. Aqui pode selecionar o ficheiro áudio que pretende reproduzir em segundo plano.</translation>
+        <translation>Некоторым может понравиться слушать музыку во время слайд-шоу. Здесь вы можете выбрать музыкальный файл, который хотите воспроизвести в фоновом режиме.</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowSettings.qml" line="239"/>
         <source>Enable Music</source>
-        <translation>Ativar música</translation>
+        <translation>Включить музыку</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowSettings.qml" line="269"/>
         <source>Click here to select a music file...</source>
-        <translation>Clique aqui para selecionar o ficheiro...</translation>
+        <translation>Нажмите здесь, чтобы выбрать музыкальный файл...</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowSettings.qml" line="292"/>
         <source>Start slideshow</source>
         <extracomment>In the sense of 'ok, save the slideshow settings and lets start with the slideshow'</extracomment>
-        <translation>Iniciar apresentação</translation>
+        <translation>Начать слайдшоу</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowSettings.qml" line="297"/>
         <source>Cancel</source>
         <extracomment>In the sense of, 'no, don't save the slideshow settings and don't start a slideshow'</extracomment>
-        <translation>Cancelar</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowSettings.qml" line="302"/>
         <source>Save settings for later</source>
         <extracomment>In the sense of 'ok, save the slideshow settings, but do not start a slideshow'</extracomment>
-        <translation>Guardar definições para mais tarde</translation>
+        <translation>Сохранить настройки позже</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowSettings.qml" line="329"/>
         <source>Select music file...</source>
-        <translation>Selecionar ficheiro áudio...</translation>
+        <translation>Выберите музыкальный файл...</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowSettings.qml" line="330"/>
         <source>Music Files</source>
-        <translation>Ficheiros áudio</translation>
+        <translation>Музыкальные файлы</translation>
     </message>
     <message>
         <location filename="../../qml/slideshow/SlideshowSettings.qml" line="331"/>
         <source>All Files</source>
-        <translation>Todos os ficheiros</translation>
+        <translation>Все файлы</translation>
     </message>
 </context>
 <context>
@@ -3129,51 +3129,51 @@ Used in settings manager when asking for confirmation for restoring default sett
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="32"/>
         <source>Sort Images</source>
-        <translation>Organizar imagens</translation>
+        <translation>Сортировать изображения</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="34"/>
         <source>Images in the current folder can be sorted in varios ways. They can be sorted by filename, natural name (e.g., file10.jpg comes after file9.jpg and not after file1.jpg), filesize, and date, all of that both ascending or descending.</source>
-        <translation type="unfinished"/>
+        <translation>Изображения в текущей папке можно сортировать различными способами. Они могут быть отсортированы по имени файла, естественному имени (например, file10.jpg появляется после файла file9.jpg, а не после file1.jpg), размер файла и дата, все это как по восходящей, так и по нисходящей.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="52"/>
         <source>Sort by:</source>
         <extracomment>As in &quot;Sort the images by some criteria&quot;</extracomment>
-        <translation>Organizar por:</translation>
+        <translation>Сортировать по:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="61"/>
         <source>Name</source>
         <extracomment>Refers to the filename</extracomment>
-        <translation>Nome</translation>
+        <translation>Имя</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="63"/>
         <source>Natural Name</source>
         <extracomment>Sorting by natural name means file10.jpg comes after file9.jpg and not after file1.jpg</extracomment>
-        <translation>Nome natural</translation>
+        <translation>Настоящее Имя</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="65"/>
         <source>Date</source>
         <extracomment>The date the file was created</extracomment>
-        <translation>Data</translation>
+        <translation>Дата</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="66"/>
         <source>Filesize</source>
-        <translation>Tamanho do ficheiro</translation>
+        <translation>Размер файла</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="83"/>
         <source>Ascending</source>
-        <translation>Ascendente</translation>
+        <translation>Возрастание</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/SortBy.qml" line="92"/>
         <source>Descending</source>
-        <translation>Descendente</translation>
+        <translation>Убывание</translation>
     </message>
 </context>
 <context>
@@ -3181,12 +3181,12 @@ Used in settings manager when asking for confirmation for restoring default sett
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Spacing.qml" line="32"/>
         <source>Spacing Between Thumbnails</source>
-        <translation>Espaço entre as miniaturas</translation>
+        <translation>Расстояние Между Миниатюрами</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/Spacing.qml" line="33"/>
         <source>The thumbnails are shown in a row at the lower or upper edge (depending on your setup). They are lined up side by side. Per default, there&apos;s no empty space between them.</source>
-        <translation>As miniaturas são mostradas na margem superior ou inferior do ecrã (conforme a configuração) e alinhadas lado a lado. Por definição, não existe qualquer espaço livre entre as miniaturas.</translation>
+        <translation>Миниатюры отображаются в строке на нижнем или верхнем краю (в зависимости от настроек). Они выстроены рядом. По умолчанию между ними нет пустого пространства.</translation>
     </message>
 </context>
 <context>
@@ -3194,32 +3194,32 @@ Used in settings manager when asking for confirmation for restoring default sett
     <message>
         <location filename="../../qml/other/Startup.qml" line="107"/>
         <source>Welcome to PhotoQt</source>
-        <translation>Bem-vindo ao PhotoQt</translation>
+        <translation>Добро пожаловать в PhotoQt</translation>
     </message>
     <message>
         <location filename="../../qml/other/Startup.qml" line="122"/>
         <source>PhotoQt was successfully installed!</source>
-        <translation>O PhotoQt foi instalado com sucesso!</translation>
+        <translation>PhotoQt был успешно установлен!</translation>
     </message>
     <message>
         <location filename="../../qml/other/Startup.qml" line="123"/>
         <source>An image viewer packed with features and adjustable in every detail awaits you... Go, enjoy :-)</source>
-        <translation>Um visualizador de imagens com diversas funcionalidades e detalhes passíveis de alteração. Divirta-se :-)</translation>
+        <translation>Просмотр изображений, с демонстрацией функций и детальная настройка, ждут вас... Наслаждайтесь :-)</translation>
     </message>
     <message>
         <location filename="../../qml/other/Startup.qml" line="124"/>
         <source>PhotoQt was successfully updated!</source>
-        <translation>O PhotoQt foi atualizado com sucesso!</translation>
+        <translation>PhotoQt был успешно обновлен!</translation>
     </message>
     <message>
         <location filename="../../qml/other/Startup.qml" line="125"/>
         <source>Many new features and bug fixes await you... Go, enjoy :-)</source>
-        <translation>Diversas correções e novas funcionalidades aguardam por si...</translation>
+        <translation>Многие новые функции и исправления ошибок ждут вас... Наслаждайтесь :-)</translation>
     </message>
     <message>
         <location filename="../../qml/other/Startup.qml" line="135"/>
         <source>Lets get started!</source>
-        <translation>Vamos começar!</translation>
+        <translation>Давайте начнем!</translation>
     </message>
 </context>
 <context>
@@ -3258,13 +3258,13 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/vars/Strings.qml" line="40"/>
         <source>Meta</source>
         <extracomment>Refers to the key that usually has the 'Windows' symbol on it</extracomment>
-        <translation>Meta</translation>
+        <translation> Meta</translation>
     </message>
     <message>
         <location filename="../../qml/vars/Strings.qml" line="42"/>
         <source>Keypad</source>
         <extracomment>Refers to the key that triggers the number block on keyboards</extracomment>
-        <translation>Teclado</translation>
+        <translation>Клавиатура</translation>
     </message>
     <message>
         <location filename="../../qml/vars/Strings.qml" line="44"/>
@@ -3276,37 +3276,37 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/vars/Strings.qml" line="46"/>
         <source>Right</source>
         <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
-        <translation>Direita</translation>
+        <translation>Right</translation>
     </message>
     <message>
         <location filename="../../qml/vars/Strings.qml" line="48"/>
         <source>Left</source>
         <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
-        <translation>Esquerda</translation>
+        <translation>Left</translation>
     </message>
     <message>
         <location filename="../../qml/vars/Strings.qml" line="50"/>
         <source>Up</source>
         <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
-        <translation>Cima</translation>
+        <translation>Up</translation>
     </message>
     <message>
         <location filename="../../qml/vars/Strings.qml" line="52"/>
         <source>Down</source>
         <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
-        <translation>Baixo</translation>
+        <translation>Down</translation>
     </message>
     <message>
         <location filename="../../qml/vars/Strings.qml" line="54"/>
         <source>Space</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation>Espaço</translation>
+        <translation>Space</translation>
     </message>
     <message>
         <location filename="../../qml/vars/Strings.qml" line="56"/>
         <source>Delete</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation>Apagar</translation>
+        <translation>Delete</translation>
     </message>
     <message>
         <location filename="../../qml/vars/Strings.qml" line="58"/>
@@ -3354,55 +3354,55 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/vars/Strings.qml" line="76"/>
         <source>Left Button</source>
         <extracomment>Refers to a mouse button</extracomment>
-        <translation>Botão esquerdo</translation>
+        <translation>ЛКМ</translation>
     </message>
     <message>
         <location filename="../../qml/vars/Strings.qml" line="78"/>
         <source>Right Button</source>
         <extracomment>Refers to a mouse button</extracomment>
-        <translation>Botão direito</translation>
+        <translation>ПКМ</translation>
     </message>
     <message>
         <location filename="../../qml/vars/Strings.qml" line="80"/>
         <source>Middle Button</source>
         <extracomment>Refers to a mouse button</extracomment>
-        <translation>Botão central</translation>
+        <translation>Средняя кнопка</translation>
     </message>
     <message>
         <location filename="../../qml/vars/Strings.qml" line="82"/>
         <source>Wheel Up</source>
         <extracomment>Refers to the mouse wheel</extracomment>
-        <translation>Roda para cima</translation>
+        <translation>Колесико вверх</translation>
     </message>
     <message>
         <location filename="../../qml/vars/Strings.qml" line="84"/>
         <source>Wheel Down</source>
         <extracomment>Refers to the mouse wheel</extracomment>
-        <translation>Roda para baixo</translation>
+        <translation>Колесико вниз</translation>
     </message>
     <message>
         <location filename="../../qml/vars/Strings.qml" line="86"/>
         <source>East</source>
         <extracomment>Refers to a direction of the mouse when performing a mouse gesture</extracomment>
-        <translation>Este</translation>
+        <translation>Восток</translation>
     </message>
     <message>
         <location filename="../../qml/vars/Strings.qml" line="88"/>
         <source>South</source>
         <extracomment>Refers to a direction of the mouse when performing a mouse gesture</extracomment>
-        <translation>Sul</translation>
+        <translation>Юг</translation>
     </message>
     <message>
         <location filename="../../qml/vars/Strings.qml" line="90"/>
         <source>West</source>
         <extracomment>Refers to a direction of the mouse when performing a mouse gesture</extracomment>
-        <translation>Oeste</translation>
+        <translation>Запад</translation>
     </message>
     <message>
         <location filename="../../qml/vars/Strings.qml" line="92"/>
         <source>North</source>
         <extracomment>Refers to a direction of the mouse when performing a mouse gesture</extracomment>
-        <translation>Norte</translation>
+        <translation>Север</translation>
     </message>
 </context>
 <context>
@@ -3411,7 +3411,7 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/settingsmanager/tabs/TabLookAndFeel.qml" line="62"/>
         <source>Look and Feel</source>
         <extracomment>The look of PhotoQt and how it feels and behaves</extracomment>
-        <translation>Aparência</translation>
+        <translation>Look and Feel</translation>
     </message>
 </context>
 <context>
@@ -3419,13 +3419,13 @@ Used in settings manager when asking for confirmation for restoring default sett
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabMetadata.qml" line="63"/>
         <source>Image Metadata</source>
-        <translation>Metadados da imagem</translation>
+        <translation>Метаданные Изображения</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabMetadata.qml" line="85"/>
         <source>PhotoQt can display different information of and about each image. The element for this information is hidden on the left side of the screen and fades in when the mouse cursor gets close to the left screen edge and/or when the set shortcut is triggered. On demand, the triggering by mouse movement can be disabled by checking the box below.</source>
         <extracomment>Introduction text of metadata tab in settings manager</extracomment>
-        <translation type="unfinished"/>
+        <translation>PhotoQt может отображать различную информацию о каждом изображении. Элемент для этой информации скрыт в левой части экрана и исчезает, когда курсор мыши приближается к краю левого экрана и/или когда запускается по хоткею. По требованию вы можете отключить запуск движения мыши, установив флажок ниже.</translation>
     </message>
 </context>
 <context>
@@ -3433,7 +3433,7 @@ Used in settings manager when asking for confirmation for restoring default sett
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabOther.qml" line="63"/>
         <source>Other Settings</source>
-        <translation>Outras definições</translation>
+        <translation>Другие Настройки</translation>
     </message>
 </context>
 <context>
@@ -3441,202 +3441,202 @@ Used in settings manager when asking for confirmation for restoring default sett
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="64"/>
         <source>Shortcuts</source>
-        <translation>Atalhos</translation>
+        <translation>Комбинации клавиш</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="102"/>
         <source>Mouse: Left button click-and-move</source>
-        <translation>Rato: botão esquerdo para clicar e mover</translation>
+        <translation>Мышь: левой кнопки мыши click-and-move</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="73"/>
         <source>Here you can adjust the shortcuts, add new or remove existing ones, or change a key/mouse combination. The shortcuts are grouped into 4 different categories for internal commands plus a category for external commands. The boxes on the right side contain all the possible commands. To add a shortcut for one of the available functions simply click on it. This will automatically open another element where you can set the desired shortcut.</source>
-        <translation type="unfinished"/>
+        <translation>Здесь вы можете настроить комбинации, добавить новые или удалить существующие или изменить комбинацию клавиш/мышек. Хоткеи сгруппированы в 4 разные категории для внутренних команд плюс категория для внешних команд. Колонки с правой стороны содержат все возможные команды. Чтобы добавить хоткей для одной из доступных функций, просто нажмите на нее. Это автоматически откроет другой элемент, где вы можете установить требуемую комбинацию.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="84"/>
         <source>Set default shortcuts</source>
-        <translation>Aplicar atalhos padrão</translation>
+        <translation>Установить хоткеи по умолчанию</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="113"/>
         <source>Navigation</source>
         <extracomment>A shortcuts category: navigating images</extracomment>
-        <translation>Navegação</translation>
+        <translation>Навигация</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="114"/>
         <source>Open New File</source>
-        <translation>Abrir novo ficheiro</translation>
+        <translation>Открыть новый файл</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="115"/>
         <source>Filter Images in Folder</source>
-        <translation>Filtrar imagens na pasta</translation>
+        <translation>Фильтрация изображений в Каталоге</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="116"/>
         <source>Next Image</source>
-        <translation>Imagem seguinte</translation>
+        <translation>Следующее изображение</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="117"/>
         <source>Previous Image</source>
-        <translation>Imagem anterior</translation>
+        <translation>Предыдущее изображение</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="118"/>
         <source>Go to first Image</source>
-        <translation>Ir para a primeira imagem</translation>
+        <translation>Перейти к первому изображению</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="119"/>
         <source>Go to last Image</source>
-        <translation>Ir para a última imagem</translation>
+        <translation>Перейти к последнему изображению</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="120"/>
         <source>Hide to System Tray (if enabled)</source>
-        <translation>Ocultar na bandeja (se ativa)</translation>
+        <translation>Скрыть в системный трей (если включено)</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="121"/>
         <source>Quit PhotoQt</source>
-        <translation>Sair do PhotoQt</translation>
+        <translation>Выход из PhotoQt</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="129"/>
         <source>Image</source>
         <extracomment>A shortcuts category: image manipulation</extracomment>
-        <translation>Imagem</translation>
+        <translation>изображение</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="130"/>
         <source>Zoom In</source>
-        <translation>Ampliar</translation>
+        <translation>Увеличить</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="131"/>
         <source>Zoom Out</source>
-        <translation>Reduzir</translation>
+        <translation>Уменьшить</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="132"/>
         <source>Zoom to Actual Size</source>
-        <translation>Ampliar ao tamanho real</translation>
+        <translation>Увеличить до реального размера</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="133"/>
         <source>Reset Zoom</source>
-        <translation>Reiniciar ampliação</translation>
+        <translation>Сбросить увеличение</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="134"/>
         <source>Rotate Right</source>
-        <translation>Rodar à direita</translation>
+        <translation>Вращать вправо</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="135"/>
         <source>Rotate Left</source>
-        <translation>Rodar à esquerda</translation>
+        <translation>Вращать влево</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="136"/>
         <source>Reset Rotation</source>
-        <translation>Repor rotação</translation>
+        <translation>Сбросить вращение</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="137"/>
         <source>Flip Horizontally</source>
-        <translation>Inversão horizontal</translation>
+        <translation>Отразить по горизонтали</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="138"/>
         <source>Flip Vertically</source>
-        <translation>Inversão vertical</translation>
+        <translation>Отразить по вертикали</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="139"/>
         <source>Scale Image</source>
-        <translation>Ajustar imagem</translation>
+        <translation>Масштаб Изображения</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="140"/>
         <source>Play/Pause image animation</source>
-        <translation>Reproduzir/pausa a animação</translation>
+        <translation>Play/Pause анимация изображения</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="141"/>
         <source>Tag faces (stored in metadata)</source>
-        <translation>Etiquetas de rosto (nos meta-dados)</translation>
+        <translation>Метки лиц (хранятся в метаданных)</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="149"/>
         <source>File</source>
         <extracomment>A shortcuts category: file management</extracomment>
-        <translation>Ficheiro</translation>
+        <translation>Файл</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="150"/>
         <source>Rename File</source>
-        <translation>Renomear</translation>
+        <translation>Переименовать файл</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="151"/>
         <source>Delete File</source>
-        <translation>Apagar ficheiro</translation>
+        <translation>Удалить файл</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="152"/>
         <source>Delete File (without confirmation)</source>
-        <translation>Apagar ficheiro (sem confirmação)</translation>
+        <translation>Удалить файл (без подтверждения)</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="153"/>
         <source>Copy File to a New Location</source>
-        <translation>Copiar ficheiro para outra localização</translation>
+        <translation>Скопировать файл в Новое Место</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="154"/>
         <source>Move File to a New Location</source>
-        <translation>Mover ficheiro para outra localização</translation>
+        <translation>Переместить файл в Новое Место</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="155"/>
         <source>Copy Image to Clipboard</source>
-        <translation>Copiar imagem para a área de transferência</translation>
+        <translation>Копировать изображение в буфер обмена</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="163"/>
         <source>Other</source>
         <extracomment>A shortcuts category: other functions</extracomment>
-        <translation>Outro</translation>
+        <translation>Другое</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="164"/>
         <source>Hide/Show Exif Info</source>
-        <translation>Mostrar/ocultar informações Exif</translation>
+        <translation>Скрыть/Показать Exif информацию</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="170"/>
         <source>Show Histogram</source>
-        <translation>Mostrar histograma</translation>
+        <translation>Показать Гистограмму</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="171"/>
         <source>Upload to imgur.com (anonymously)</source>
-        <translation>Enviar imagem para imgur.com (anonimamente)</translation>
+        <translation>Отправка в imgur.com (анонимно)</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="172"/>
         <source>Upload to imgur.com user account</source>
-        <translation>Enviar imagem para a conta imgur.com</translation>
+        <translation>Отправка в учетную запись imgur.com:</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="180"/>
         <source>External</source>
         <extracomment>A shortcuts category: external commands</extracomment>
-        <translation>Externo</translation>
+        <translation>Внешний</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="245"/>
@@ -3646,27 +3646,27 @@ Used in settings manager when asking for confirmation for restoring default sett
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="165"/>
         <source>Show Settings</source>
-        <translation>Mostrar definições</translation>
+        <translation>Показать настройки</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="166"/>
         <source>Start Slideshow</source>
-        <translation>Iniciar apresentação</translation>
+        <translation>Начать слайдшоу</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="167"/>
         <source>Start Slideshow (Quickstart)</source>
-        <translation>Iniciar apresentação (arranque rápido)</translation>
+        <translation>Запустить слайд-шоу (Быстрый старт)</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="168"/>
         <source>About PhotoQt</source>
-        <translation>Sobre o PhotoQt</translation>
+        <translation>О  PhotoQt</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="169"/>
         <source>Set as Wallpaper</source>
-        <translation>Definir como papel de parede</translation>
+        <translation>Установить в качестве обоев</translation>
     </message>
 </context>
 <context>
@@ -3674,7 +3674,7 @@ Used in settings manager when asking for confirmation for restoring default sett
     <message>
         <location filename="../../qml/settingsmanager/tabs/TabThumbnails.qml" line="63"/>
         <source>Thumbnails</source>
-        <translation>Miniaturas</translation>
+        <translation>Миниатюры</translation>
     </message>
 </context>
 <context>
@@ -3682,12 +3682,12 @@ Used in settings manager when asking for confirmation for restoring default sett
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/ThumbnailSize.qml" line="32"/>
         <source>Thumbnail Size</source>
-        <translation>Tamanho da miniatura</translation>
+        <translation>Размер Миниатюр</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/ThumbnailSize.qml" line="33"/>
         <source>Here you can adjust the thumbnail size. You can set it to any size between 20 and 256 pixel. Per default it is set to 80 pixel, but the optimal size depends on the screen resolution.</source>
-        <translation>Aqui pode ajustar o tamanho das miniaturas. Pode definir um valor entre 20 e 256 pixeis. O valor pré-definido é de 80 pixeis, mas o tamanho ideal depende da resolução do seu ecrã.</translation>
+        <translation>Здесь вы можете настроить размер эскизов. Вы можете установить его на любой размер от 20 до 256 пикселей. По умолчанию установлено значение 80 пикселей, но оптимальный размер зависит от разрешения экрана.</translation>
     </message>
 </context>
 <context>
@@ -3696,24 +3696,24 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/settingsmanager/tabs/thumbnails/TopOrBottom.qml" line="32"/>
         <source>Top or Bottom</source>
         <extracomment>Refers to the top and bottom screen edges</extracomment>
-        <translation>Margem superior ou inferior</translation>
+        <translation>Сверху или Снизу</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/TopOrBottom.qml" line="33"/>
         <source>Per default the bar with the thumbnails is shown at the lower screen edge. However, some might find it nice and handy to have the thumbnail bar at the upper edge.</source>
-        <translation>Por definição, a barra de miniaturas é mostrada na margem inferior do ecrã. Contudo, se preferir pode optar por colocar a barra na margem superior.</translation>
+        <translation>По умолчанию панель с эскизами отображается на нижней грани экрана. Тем не менее, некоторым может показаться приятным и удобно иметь миниатюру на верхнем краю.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/TopOrBottom.qml" line="42"/>
         <source>Show at lower edge</source>
         <extracomment>Edge refers to a screen edge</extracomment>
-        <translation>Mostrar na margem inferior</translation>
+        <translation>Показать на нижнем крае</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/thumbnails/TopOrBottom.qml" line="50"/>
         <source>Show at upper edge</source>
         <extracomment>Edge refers to a screen edge</extracomment>
-        <translation>Mostrar na margem superior</translation>
+        <translation>Показать на верхнем крае</translation>
     </message>
 </context>
 <context>
@@ -3722,24 +3722,24 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Transition.qml" line="31"/>
         <source>Smooth Transition</source>
         <extracomment>The transition refers to images fading into one another when switching between them</extracomment>
-        <translation>Transição suave</translation>
+        <translation>Плавный переход</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Transition.qml" line="32"/>
         <source>Switching between images can be done smoothly, the new image can be set to fade into the old image. &apos;No transition&apos; means, that the previous image is simply replaced instantly by the new image.</source>
-        <translation>A troca de imagens pode ser mais suave, uma vez que se pode definir o aparecimento gradual da nova imagem. A opção &apos;Sem transição&apos; implica a substituição de uma imagem por outra.</translation>
+        <translation>Переключение между изображениями можно сделать плавно, новое изображение может быть настроено на постепенное изменение старого изображения. &apos;Без перехода&apos; означает, что предыдущее изображение просто мгновенно заменяется новым изображением.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Transition.qml" line="44"/>
         <source>No Transition</source>
         <extracomment>No transition means that images are simply replaced when switching between them, no cross-fading</extracomment>
-        <translation>Sem transição</translation>
+        <translation>Без Перехода</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/Transition.qml" line="67"/>
         <source>Long Transition</source>
         <extracomment>A very long transition between images, they slowly fade into each other</extracomment>
-        <translation>Transição longa</translation>
+        <translation>Долгий Переход</translation>
     </message>
 </context>
 <context>
@@ -3748,17 +3748,17 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/TransparencyMarker.qml" line="31"/>
         <source>Transparency Marker</source>
         <extracomment>Refers to looping through the folder, i.e., from the last image go back to the first one (and vice versa)</extracomment>
-        <translation>Marcador de transparência</translation>
+        <translation>Маркер Прозрачности</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/TransparencyMarker.qml" line="32"/>
         <source>Transparency in image viewers is often signalled by displaying a pattern of light and dark grey squares. PhotoQt can do the same, by default it will, however, show transparent areas as transparent.</source>
-        <translation type="unfinished"/>
+        <translation>Прозрачность в просмотрщиках изображений часто мерцает, отображая образец светлых и темно-серых квадратов. PhotoQt может сделать то же самое, по умолчанию он будет показывать прозрачные области, как прозрачные.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/TransparencyMarker.qml" line="39"/>
         <source>Show Transparency Marker</source>
-        <translation>Mostrar marcador de transparência</translation>
+        <translation>Показать Маркер Прозрачности</translation>
     </message>
 </context>
 <context>
@@ -3766,30 +3766,30 @@ Used in settings manager when asking for confirmation for restoring default sett
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/TrayIcon.qml" line="31"/>
         <source>Hide to Tray Icon</source>
-        <translation>Ocultar na bandeja</translation>
+        <translation>Скрыть иконку в трее</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/TrayIcon.qml" line="32"/>
         <source>PhotoQt can make use of a tray icon in the system tray. It can also hide to the system tray when closing it instead of quitting. It is also possible to start PhotoQt already minimised to the tray (e.g. at system startup) when called with &quot;--start-in-tray&quot;.</source>
-        <translation type="unfinished"/>
+        <translation>Также можно запустить PhotoQt, уже свернутым в лоток (например, при запуске системы) при вызове с помощью &quot;--start-in-tray&quot;.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/TrayIcon.qml" line="42"/>
         <source>No tray icon</source>
         <extracomment>The tray icon is the icon in the system tray</extracomment>
-        <translation>Sem ícone na bandeja</translation>
+        <translation>Нет иконки в трее</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/TrayIcon.qml" line="50"/>
         <source>Hide to tray icon</source>
         <extracomment>The tray icon is the icon in the system tray</extracomment>
-        <translation>Ocultar na bandeja</translation>
+        <translation>Скрыть иконку в трее</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/TrayIcon.qml" line="57"/>
         <source>Show tray icon, but don&apos;t hide to it</source>
         <extracomment>The tray icon is the icon in the system tray</extracomment>
-        <translation>Mostrar ícone na bandeja</translation>
+        <translation>Показывать значок в трее, но не прятать в него</translation>
     </message>
 </context>
 <context>
@@ -3797,12 +3797,12 @@ Used in settings manager when asking for confirmation for restoring default sett
     <message>
         <location filename="../../qml/openfile/tweaks/TweaksFileType.qml" line="49"/>
         <source>All supported images</source>
-        <translation>Todas as imagens suportadas</translation>
+        <translation>Все поддерживаемые изображения</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/tweaks/TweaksFileType.qml" line="74"/>
         <source>All files</source>
-        <translation>Todos os ficheiros</translation>
+        <translation>Все файлы</translation>
     </message>
 </context>
 <context>
@@ -3811,13 +3811,13 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/openfile/tweaks/TweaksPreview.qml" line="68"/>
         <source>En-/Disable hover preview</source>
         <extracomment>The hover preview shows the image behind the files in the element for opening files</extracomment>
-        <translation>Ativar/desativar pré-visualização ao passar com o rato</translation>
+        <translation>Вкл-/отключить просмотр Зависание</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/tweaks/TweaksPreview.qml" line="107"/>
         <source>Use HIGH QUALITY preview</source>
         <extracomment>The preview shows the image behind the files in the element for opening files, use high quality preview</extracomment>
-        <translation>Pré-visualização de alta qualidade</translation>
+        <translation>Использовать предварительный просмотр ВЫСОКОГО КАЧЕСТВА</translation>
     </message>
 </context>
 <context>
@@ -3825,7 +3825,7 @@ Used in settings manager when asking for confirmation for restoring default sett
     <message>
         <location filename="../../qml/openfile/tweaks/TweaksRememberLocation.qml" line="67"/>
         <source>Remember current folder between sessions</source>
-        <translation>Memorizar última pasta entre sessões</translation>
+        <translation>Запомнить текущую папку между сеансами</translation>
     </message>
 </context>
 <context>
@@ -3834,7 +3834,7 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/openfile/tweaks/TweaksThumbnails.qml" line="68"/>
         <source>En-/Disable image thumbnails</source>
         <extracomment>The thumbnails in the element for opening files</extracomment>
-        <translation>Ativar/desativar miniaturas</translation>
+        <translation>Вкл-/отключить миниатюры изображений</translation>
     </message>
 </context>
 <context>
@@ -3843,7 +3843,7 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/openfile/tweaks/TweaksUserPlaces.qml" line="68"/>
         <source>Show/Hide UserPlaces</source>
         <extracomment>The thumbnails in the element for opening files</extracomment>
-        <translation>Mostrar/ocultar UserPlaces</translation>
+        <translation>Показать/Скрыть Места Пользователя</translation>
     </message>
 </context>
 <context>
@@ -3851,12 +3851,12 @@ Used in settings manager when asking for confirmation for restoring default sett
     <message>
         <location filename="../../qml/openfile/tweaks/TweaksViewMode.qml" line="65"/>
         <source>Show files as list</source>
-        <translation>Mostrar imagens em lista</translation>
+        <translation>Показать файлы в виде списка</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/tweaks/TweaksViewMode.qml" line="99"/>
         <source>Show files as grid</source>
-        <translation>Mostrar imagens em grelha</translation>
+        <translation>Показать файлы как сетку</translation>
     </message>
 </context>
 <context>
@@ -3865,12 +3865,12 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/openfile/tweaks/TweaksZoom.qml" line="41"/>
         <source>Zoom:</source>
         <extracomment>As in 'Zoom the files shown'</extracomment>
-        <translation>Ampliação:</translation>
+        <translation>Увеличение:</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/tweaks/TweaksZoom.qml" line="56"/>
         <source>Move slider to adjust the size of files</source>
-        <translation>Mova o controlo para ajustar o tamanho das imagens</translation>
+        <translation>Переместите ползунок для настройки размера файлов</translation>
     </message>
 </context>
 <context>
@@ -3879,77 +3879,77 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/openfile/UserPlaces.qml" line="783"/>
         <source>Show standard locations</source>
         <extracomment>The standard/common folders (like Home, Desktop, ...)</extracomment>
-        <translation>Mostrar localizações padrão</translation>
+        <translation>Показать стандартное расположение</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/UserPlaces.qml" line="787"/>
         <source>Show user locations</source>
         <extracomment>The user set folders (or favorites) in the element for opening files</extracomment>
-        <translation>Mostrar localizações do utilizador</translation>
+        <translation>Показать расположение пользователя</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/UserPlaces.qml" line="791"/>
         <source>Show devices</source>
         <extracomment>The storage devices (like USB keys)</extracomment>
-        <translation>Mostrar dispositivos</translation>
+        <translation>Показать устройства</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/UserPlaces.qml" line="133"/>
         <source>Home</source>
         <extracomment>This is used as name of the HOME folder</extracomment>
-        <translation>Pasta pessoal</translation>
+        <translation>Домой</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/UserPlaces.qml" line="97"/>
         <source>No categories enabled! They can be shown on right click!</source>
-        <translation>Não ativou qualquer categoria! Estas podem ser mostradas com clique no botão direito do rato.</translation>
+        <translation>Включен без категории! Они могут быть показаны щелчком правой кнопки мыши!</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/UserPlaces.qml" line="137"/>
         <source>Desktop</source>
         <extracomment>This is used as name of the DESKTOP folder</extracomment>
-        <translation>Ambiente de trabalho</translation>
+        <translation>Рабочий стол</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/UserPlaces.qml" line="141"/>
         <source>Pictures</source>
         <extracomment>This is used as name of the PICTURES folder</extracomment>
-        <translation>Imagens</translation>
+        <translation>Изображения</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/UserPlaces.qml" line="145"/>
         <source>Downloads</source>
         <extracomment>This is used as name of the DOWNLOADS folder</extracomment>
-        <translation>Descargas</translation>
+        <translation>Загрузки</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/UserPlaces.qml" line="227"/>
         <source>Standard</source>
         <extracomment>This is the category title of standard/common folders (like Home, Desktop, ...) in the element for opening files</extracomment>
-        <translation>Padrão</translation>
+        <translation>Стандарт</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/UserPlaces.qml" line="309"/>
         <source>No user places set yet. You can drag and drop folders here to bookmark them.</source>
-        <translation>Ainda não existem locais definidos. Pode arrastar e largar aqui as pastas para as utilizar como marcadores.</translation>
+        <translation>Места пользователя не заданы. Вы можете перетаскивать папки здесь, чтобы добавить их в закладки.</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/UserPlaces.qml" line="502"/>
         <source>Places</source>
         <extracomment>This is the category title of user set folders (or favorites) in the element for opening files</extracomment>
-        <translation>Locais</translation>
+        <translation>Места</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/UserPlaces.qml" line="554"/>
         <source>Remove entry</source>
         <extracomment>Remove an entry from the list of user places (or favorites) in the element for opening files</extracomment>
-        <translation>Remover entrada</translation>
+        <translation>Удалить запись</translation>
     </message>
     <message>
         <location filename="../../qml/openfile/UserPlaces.qml" line="728"/>
         <source>Storage devices</source>
         <extracomment>This is the category title of storage devices to open (like USB keys) in the element for opening files</extracomment>
-        <translation>Dispositivos de armazenamento</translation>
+        <translation>Запоминающее устройство</translation>
     </message>
 </context>
 <context>
@@ -3957,35 +3957,35 @@ Used in settings manager when asking for confirmation for restoring default sett
     <message>
         <location filename="../../qml/wallpaper/Wallpaper.qml" line="33"/>
         <source>Set as Wallpaper</source>
-        <translation>Definir como papel de parede</translation>
+        <translation>Установить в качестве обоев</translation>
     </message>
     <message>
         <location filename="../../qml/wallpaper/Wallpaper.qml" line="51"/>
         <source>Window Manager</source>
-        <translation>Gestor de janelas</translation>
+        <translation>Оконный режим</translation>
     </message>
     <message>
         <location filename="../../qml/wallpaper/Wallpaper.qml" line="59"/>
         <source>PhotoQt tries to detect your window manager according to the environment variables set by your system. If it still got it wrong, you can change the window manager manually.</source>
-        <translation>O PhotoQt tenta detetar o gestor de janelas definido nas variáveis do seu ambiente de trabalho. Se a deteção automática não funcionar, pode definir o gestor de janelas manualmente.</translation>
+        <translation>PhotoQt пытается определить ваш оконный менеджер в соответствии с переменными среды, установленными в вашей системе. Если он все еще не определил это, вы можете изменить оконный менеджер вручную.</translation>
     </message>
     <message>
         <location filename="../../qml/wallpaper/Wallpaper.qml" line="68"/>
         <source>Other</source>
         <extracomment>'Other' as in 'Other window managers'</extracomment>
-        <translation>Outro</translation>
+        <translation>Другое</translation>
     </message>
     <message>
         <location filename="../../qml/wallpaper/Wallpaper.qml" line="189"/>
         <source>Set wallpaper</source>
         <extracomment>Along the lines of: Set image as wallpaper</extracomment>
-        <translation>Definir papel de parede</translation>
+        <translation>Установить обои</translation>
     </message>
     <message>
         <location filename="../../qml/wallpaper/Wallpaper.qml" line="195"/>
         <source>Cancel</source>
         <extracomment>Along the lines of: Don't set image as wallpaper</extracomment>
-        <translation>Cancelar</translation>
+        <translation>Отмена</translation>
     </message>
 </context>
 <context>
@@ -3993,22 +3993,22 @@ Used in settings manager when asking for confirmation for restoring default sett
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/WindowMode.qml" line="30"/>
         <source>Window Mode</source>
-        <translation>Modo de janela</translation>
+        <translation>Оконный режим</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/WindowMode.qml" line="31"/>
         <source>PhotoQt can be used both in fullscreen mode or as a normal window. It was designed with a fullscreen/maximised application in mind, thus it will look best when used that way, but will work just as well any other way.</source>
-        <translation type="unfinished"/>
+        <translation>PhotoQt может использоваться как в полноэкранном режиме, так и в обычном окне. Он был разработан с учетом полноэкранного/максимизированного приложения, поэтому он будет выглядеть лучше всего при использовании таким образом, но будет работать так же хорошо и в любом другом виде.</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/WindowMode.qml" line="37"/>
         <source>Run PhotoQt in Window Mode</source>
-        <translation>Executar PhotoQt no modo de janela</translation>
+        <translation>Запустить PhotoQt в Режиме Окна</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/WindowMode.qml" line="43"/>
         <source>Show Window Decoration</source>
-        <translation>Mostrar decoração da janela</translation>
+        <translation>Показать оформление окна</translation>
     </message>
 </context>
 <context>
@@ -4017,60 +4017,60 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/wallpaper/modules/XFCE4.qml" line="54"/>
         <source>Warning: &apos;xfconf-query&apos; doesn&apos;t seem to be available! Are you sure XFCE4 is installed?</source>
         <extracomment>&quot;xfconf-query&quot; and &quot;XFCE4&quot; are fixed names, please don't translate</extracomment>
-        <translation>Aviso: parece que &apos;xfconf-query&apos; não está disponível! Tem a certeza de que o XFCE4 está instalado?</translation>
+        <translation>Предупреждение: &apos;xfconf-query&apos; , похоже, недоступен! Вы уверены, что установлен XFCE4?</translation>
     </message>
     <message>
         <location filename="../../qml/wallpaper/modules/XFCE4.qml" line="67"/>
         <source>The wallpaper can be set to any of the available monitors (one or any combination).</source>
-        <translation>Pode definir o papel de parede em qualquer um dos monitores disponíveis (ou qualquer combinação).</translation>
+        <translation>Обои можно установить на любой из доступных мониторов (одна или несколько комбинация).</translation>
     </message>
     <message>
         <location filename="../../qml/wallpaper/modules/XFCE4.qml" line="85"/>
         <source>Screen</source>
         <extracomment>Used as in 'Screen #4'</extracomment>
-        <translation>Ecrã</translation>
+        <translation>Экран</translation>
     </message>
     <message>
         <location filename="../../qml/wallpaper/modules/XFCE4.qml" line="121"/>
         <source>There are several picture options that can be set for the wallpaper image.</source>
         <extracomment>'picture options' refers to options like stretching the image to fill the background, or tile the image, center it, etc.</extracomment>
-        <translation>Existem diversas opções para definir o papel de parede.</translation>
+        <translation>Для изображения обоев можно установить несколько параметров изображения.</translation>
     </message>
     <message>
         <location filename="../../qml/wallpaper/modules/XFCE4.qml" line="137"/>
         <source>Automatic</source>
         <extracomment>&quot;Automatic&quot; means automatically choose how to set the image as wallpaper</extracomment>
-        <translation>Automático</translation>
+        <translation>Автоматический</translation>
     </message>
     <message>
         <location filename="../../qml/wallpaper/modules/XFCE4.qml" line="144"/>
         <source>Centered</source>
         <extracomment>&quot;Centered&quot; means set the image centered as wallpaper</extracomment>
-        <translation>Centrar</translation>
+        <translation>Центрированный</translation>
     </message>
     <message>
         <location filename="../../qml/wallpaper/modules/XFCE4.qml" line="151"/>
         <source>Tiled</source>
         <extracomment>&quot;Tiled&quot; means repeat the wallpaper image until the full screen is covered</extracomment>
-        <translation>Mosaico</translation>
+        <translation>Плиточный</translation>
     </message>
     <message>
         <location filename="../../qml/wallpaper/modules/XFCE4.qml" line="158"/>
         <source>Stretched</source>
         <extracomment>&quot;Stretched&quot; means make the wallpaper image fill the screen without regard to its aspect ratio</extracomment>
-        <translation>Esticado</translation>
+        <translation>Растянутый</translation>
     </message>
     <message>
         <location filename="../../qml/wallpaper/modules/XFCE4.qml" line="165"/>
         <source>Scaled</source>
         <extracomment>&quot;Scaled&quot; means that the wallpaper image is scaled to properly fill the screen</extracomment>
-        <translation>Ajustado</translation>
+        <translation>Масштабирование</translation>
     </message>
     <message>
         <location filename="../../qml/wallpaper/modules/XFCE4.qml" line="172"/>
         <source>Zoomed</source>
         <extracomment>&quot;Zoomed&quot; means that the wallpaper image is zoomed to fill the screen</extracomment>
-        <translation>Ampliado</translation>
+        <translation>Масштабирование</translation>
     </message>
 </context>
 <context>
@@ -4078,12 +4078,12 @@ Used in settings manager when asking for confirmation for restoring default sett
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/ZoomSpeed.qml" line="30"/>
         <source>Zoom speed</source>
-        <translation>Velocidade da ampliação</translation>
+        <translation>Скорость масштабирования</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/lookandfeel/ZoomSpeed.qml" line="31"/>
         <source>Images in PhotoQt are zoomed at a relative speed. The current zoom level is increased (or decreased) by the percentage specified here. If you prefer a faster or slower zoom, you can increase or decrease this value. A higher value means faster zoom.</source>
-        <translation type="unfinished"/>
+        <translation>Изображения в PhotoQt увеличиваются с относительной скоростью. Текущий уровень масштабирования увеличивается (или уменьшается) на указанный здесь процент. Если вы предпочитаете более быстрое или медленное масштабирование, вы можете увеличить или уменьшить это значение. Более высокое значение означает более быстрое масштабирование.</translation>
     </message>
 </context>
 <context>
@@ -4091,7 +4091,7 @@ Used in settings manager when asking for confirmation for restoring default sett
     <message>
         <location filename="../../cplusplus/imageprovider/imageproviderfull.cpp" line="74"/>
         <source>File failed to load, it doesn&apos;t exist!</source>
-        <translation>O ficheiro não existe!</translation>
+        <translation>Файл не загружается, его не существует!</translation>
     </message>
 </context>
 <context>
@@ -4102,7 +4102,7 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/mainview/MetaData.qml" line="380"/>
         <source>Filename</source>
         <extracomment>Keep string short!</extracomment>
-        <translation>Nome do ficheiro</translation>
+        <translation>Имя файла</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MetaData.qml" line="82"/>
@@ -4110,7 +4110,7 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/mainview/MetaData.qml" line="385"/>
         <source>Filesize</source>
         <extracomment>Keep string short!</extracomment>
-        <translation>Tamanho do ficheiro</translation>
+        <translation>Размер файла</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MetaData.qml" line="84"/>
@@ -4118,7 +4118,7 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/mainview/MetaData.qml" line="390"/>
         <source>Image</source>
         <extracomment>Used as in &quot;Image 3/16&quot;. The numbers (position of image in folder) are added on automatically. Keep string short!</extracomment>
-        <translation>Imagem</translation>
+        <translation>Изображение</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MetaData.qml" line="86"/>
@@ -4127,110 +4127,110 @@ Used in settings manager when asking for confirmation for restoring default sett
         <location filename="../../qml/mainview/MetaData.qml" line="402"/>
         <source>Dimensions</source>
         <extracomment>The dimensions of the loaded image. Keep string short!</extracomment>
-        <translation>Dimensões</translation>
+        <translation>Размеры</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MetaData.qml" line="88"/>
         <location filename="../../qml/mainview/MetaData.qml" line="409"/>
         <source>Make</source>
         <extracomment>Exif image metadata: the make of the camera used to take the photo. Keep string short!</extracomment>
-        <translation>Marca</translation>
+        <translation>Создать</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MetaData.qml" line="90"/>
         <location filename="../../qml/mainview/MetaData.qml" line="411"/>
         <source>Model</source>
         <extracomment>Exif image metadata: the model of the camera used to take the photo. Keep string short!</extracomment>
-        <translation>Modelo</translation>
+        <translation>Модель</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MetaData.qml" line="92"/>
         <location filename="../../qml/mainview/MetaData.qml" line="413"/>
         <source>Software</source>
         <extracomment>Exif image metadata: the software used to create the photo. Keep string short!</extracomment>
-        <translation>Software</translation>
+        <translation>Программное обеспечение</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MetaData.qml" line="94"/>
         <location filename="../../qml/mainview/MetaData.qml" line="416"/>
         <source>Time Photo was Taken</source>
         <extracomment>Exif image metadata: when the photo was taken. Keep string short!</extracomment>
-        <translation>Data da foto</translation>
+        <translation>Время создания фотографии</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MetaData.qml" line="96"/>
         <location filename="../../qml/mainview/MetaData.qml" line="418"/>
         <source>Exposure Time</source>
         <extracomment>Exif image metadata: how long the sensor was exposed to the light. Keep string short!</extracomment>
-        <translation>Tempo de exposição</translation>
+        <translation>Время выдержки</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MetaData.qml" line="98"/>
         <location filename="../../qml/mainview/MetaData.qml" line="420"/>
         <source>Flash</source>
         <extracomment>Exif image metadata: the flash setting when the photo was taken. Keep string short!</extracomment>
-        <translation>Flash</translation>
+        <translation>Вспышка</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MetaData.qml" line="101"/>
         <location filename="../../qml/mainview/MetaData.qml" line="423"/>
         <source>Scene Type</source>
         <extracomment>Exif image metadata: the specific scene type the camera used for the photo. Keep string short!</extracomment>
-        <translation>Tipo de cena</translation>
+        <translation>Тип сцены</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MetaData.qml" line="103"/>
         <location filename="../../qml/mainview/MetaData.qml" line="425"/>
         <source>Focal Length</source>
         <extracomment>Exif image metadata: https://en.wikipedia.org/wiki/Focal_length . Keep string short!</extracomment>
-        <translation>Distância focal</translation>
+        <translation>Фокусное расстояние</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MetaData.qml" line="105"/>
         <source>F-Number</source>
         <extracomment>Exif image metadata: https://en.wikipedia.org/wiki/F-number . Keep string short!</extracomment>
-        <translation>Número F</translation>
+        <translation>F-номер</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MetaData.qml" line="107"/>
         <location filename="../../qml/mainview/MetaData.qml" line="429"/>
         <source>Light Source</source>
         <extracomment>Exif image metadata: What type of light the camera detected. Keep string short!</extracomment>
-        <translation>Fonte de luz</translation>
+        <translation>Источник света</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MetaData.qml" line="109"/>
         <location filename="../../qml/mainview/MetaData.qml" line="432"/>
         <source>Keywords</source>
         <extracomment>IPTC image metadata: A description of the image by the user/software. Keep string short!</extracomment>
-        <translation>Palavras-chave</translation>
+        <translation>Ключевые слова</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MetaData.qml" line="111"/>
         <location filename="../../qml/mainview/MetaData.qml" line="434"/>
         <source>Location</source>
         <extracomment>IPTC image metadata: The CITY the imge was taken in. Keep string short!</extracomment>
-        <translation>Localização</translation>
+        <translation>Место нахождения</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MetaData.qml" line="113"/>
         <location filename="../../qml/mainview/MetaData.qml" line="436"/>
         <source>Copyright</source>
         <extracomment>IPTC image metadata. Keep string short!</extracomment>
-        <translation>Copyright</translation>
+        <translation>Авторские права</translation>
     </message>
     <message>
         <location filename="../../qml/settingsmanager/tabs/metadata/MetaData.qml" line="115"/>
         <location filename="../../qml/mainview/MetaData.qml" line="439"/>
         <source>GPS Position</source>
         <extracomment>Exif image metadata. Keep string short!</extracomment>
-        <translation>Posição GPS</translation>
+        <translation>GPS Позиция </translation>
     </message>
     <message>
         <location filename="../../qml/mainview/MetaData.qml" line="427"/>
         <source>F Number</source>
         <extracomment>Exif image metadata: https://en.wikipedia.org/wiki/F-number . Keep string short!</extracomment>
-        <translation>Número F</translation>
+        <translation>F номер</translation>
     </message>
 </context>
 </TS>

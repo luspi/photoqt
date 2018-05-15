@@ -1,5 +1,27 @@
-Changelog PhotoQt v1.6  - Copyright (C) 2011-2018, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
+Changelog PhotoQt v1.7  - Copyright (C) 2011-2018, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
+
+
+Release 1.7 - 15/05/2018
+----------------------------
+- Add: proper support for formats supported by KDE image plugins
+- Add: FreeImage image library
+- Add: DevIL image library
+- Add: Poppler (for: PDF (inline or document viewer mode))
+- Add: libarchive (for: comic book archives, ZIP, RAR, 7ZIP, TAR)
+- Add: unrar (Unix-only) (for: better RAR support)
+- Add: Detect images also by MIME type and not only by file ending
+- Add: Detect, display and manage people tags (stored in XMP metadata)
+- Add: Current Zoom level to quick info label
+- Add: Setting to adjust step size of zoom
+- Add: Basic Window Management (using quick info labels)
+- Improve: GraphicsMagick speed
+- Improve: Usability of PhotoQt on small screens
+- Improve: More efficient and compact fileformats handling
+- Fix: Trash for files on removable drive
+- Fix: Masking image display shown when needed
+- Fix: many small bugs
+- Improve: overall speed and responsiveness
 
 
 Release 1.6 - 20/02/2018

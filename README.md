@@ -1,4 +1,4 @@
-# PhotoQt v1.6
+# PhotoQt v1.7
 __Copyright (C) 2011-2018, Lukas Spies (Lukas@photoqt.org)
 License: GPLv2 (or later)
 Website: http://photoqt.org__
@@ -11,6 +11,8 @@ PhotoQt is a fast and highly configurable image viewer with a simple and nice in
 
 - Qt >= 5.5
 - CMake (needed for building PhotoQt)
+- libarchive
+- Qt5 ImageFormats
 
 Make sure that you have the required QML modules installed:  
 QtGraphicalEffects, QtMultimedia, QtQuick, QtQuick.Controls, QtQuick.Controls.Styles, QtQuick.Layouts, QtQuick.Window.  
@@ -19,6 +21,9 @@ Dependencies, that are needed by default, but can be disabled via CMake
 - Exiv2
 - GraphicsMagick
 - LibRaw
+- Poppler
+- FreeImage
+- DevIL
 
 #### NOTE
 
@@ -33,6 +38,7 @@ Even though GraphicsMagick initially started as a fork of ImageMagick (back in 2
 - KImageFormats - https://api.kde.org/frameworks/kimageformats/html/index.html
 - XCFtools - https://github.com/j-jorge/xcftools
 - libqpsd - https://github.com/Code-ReaQtor/libqpsd
+- unrar
 
 These dependencies are not needed for compiling PhotoQt. However, if they are installed then PhotoQt is able to support a wider range of image formats.
 
@@ -47,26 +53,23 @@ These dependencies are not needed for compiling PhotoQt. However, if they are in
 
     _cmake -DCMAKE\_INSTALL\_PREFIX=/usr .._
 
-    \# PhotoQt makes use of the libraries Exiv2, GraphicsMagick ("gm") and LibRaw.  
+    \# PhotoQt makes use of various libraries (Exiv2, GraphicsMagick, etc.).
     \# You can en-/disable them with the following options:  
     \# (if you don't specify anything, it asumes a value of ON)
 
     _-DEXIV2=OFF_  
     _-DGM=OFF_  
-    _-DRAW=OFF_
+    _-DRAW=OFF_  
+    _-DPOPPLER=OFF_  
+    _-DFREEIMAGE=OFF_  
+    _-DDEVIL=OFF_
 
-    \# You can combine them in any way you want.  
-    \# The following option equates to setting the three above options to OFF
-
-    _-DQTONLY=ON_
-
-    \# If CMake aborts with the error that it can't find Exiv2 and/or GraphicsMagick and/or LibRaw,  
-    \# but you're certain that the header files are available, then  
-    \# you can pass their locations to CMake:
+    \# If CMake aborts with the error that it can't find one of the libraries but they are in fact installed and available, then you can specify the location of some of them as:
 
     _-DMAGICK_LOCATION=/path/to/graphicsmagick_  
     _-DEXIV2_LOCATION=/path/to/exiv2_  
-    _-DLIBRAW_LOCATION=/path/to/libraw_
+    _-DLIBRAW_LOCATION=/path/to/libraw_  
+    _-DFREEIMAGE_LOCATION=/path/to/freeimage_
 
 3. _make_  
 
@@ -78,7 +81,7 @@ These dependencies are not needed for compiling PhotoQt. However, if they are in
     1. installs the desktop file to share/applications/  
     2. moves some icons to icons/hicolor/  
     3. moves the binary to bin/
-    4. Installs the appdata file to share/appdata/
+    4. installs the appdata file to share/appdata/
 
 ## UNINSTALL
 
