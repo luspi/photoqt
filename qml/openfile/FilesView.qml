@@ -218,7 +218,7 @@ Rectangle {
                 // the source depends on settings and visibility
                 source: supported
                             ? (filename!=undefined&&settings.openThumbnails&&openfile_top.visible)
-                                ? ("image://thumb/" + openvariables.currentDirectory + "/" + filename)
+                                ? getanddostuff.toPercentEncoding(("image://thumb/" + openvariables.currentDirectory + "/" + filename))
                                 : "image://icon/image-" + getanddostuff.getSuffix(openvariables.currentDirectory + "/" + filename)
                             : ""
 
@@ -541,7 +541,8 @@ Rectangle {
         } else {
             // set background/preview image (if enabled)
             bgthumb.source = settings.openPreview&&getanddostuff.isSupportedImageType(openvariables.currentDirectory + "/" + f)
-                                ? "image://" + (settings.openPreviewHighQuality ? "full" : "thumb") + "/" + openvariables.currentDirectory + "/" + f
+                                ? getanddostuff.toPercentEncoding("image://" + (settings.openPreviewHighQuality ? "full" : "thumb") +
+                                                                  "/" + openvariables.currentDirectory + "/" + f)
                                 : ""
             // if the change in currentIndex hasn't happened through user input, update the text in the edit rect and select it all
             if(!openvariables.highlightingFromUserInput) {

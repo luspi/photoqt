@@ -42,6 +42,7 @@ public:
     QString removePathFromFilename(QString path, bool removeSuffix = false);
     QString removeFilenameFromPath(QString file);
     QString getSuffix(QString file);
+    QByteArray toPercentEncoding(QByteArray file);
 
     QString getFilenameQtImage();
     QString getFilename(QString caption, QString dir, QString filter = "");

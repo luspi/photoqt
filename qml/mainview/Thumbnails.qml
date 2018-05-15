@@ -267,7 +267,7 @@ Item {
                 // whether the thumbnail has already finished loading
                 source: loadThumbnail ?
                             (settings.thumbnailFilenameInstead ? "image://icon/image-" + getanddostuff.getSuffix(imagePath) :
-                                                                 "image://thumb/" + imagePath) :
+                                                                 getanddostuff.toPercentEncoding("image://thumb/" + imagePath)) :
                             ""
 
                 // We react to changes in the status of loading the mainimage

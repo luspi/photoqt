@@ -37,6 +37,24 @@ QString GetAndDoStuffFile::getFilename(QString caption, QString dir, QString fil
 
 }
 
+QByteArray GetAndDoStuffFile::toPercentEncoding(QByteArray file) {
+
+    if(file.startsWith("image://full/"))
+        return ("image://full/" + file.remove(0,13).toPercentEncoding());
+
+    else if(file.startsWith("image://thumb/"))
+        return ("image://thumb/" + file.remove(0,14).toPercentEncoding());
+
+    else if(file.startsWith("image://icon/"))
+        return ("image://icon/" + file.remove(0,13).toPercentEncoding());
+
+    else if(file.startsWith("qrc:/"))
+        return ("qrc:/" + file.remove(0,5).toPercentEncoding());
+
+    return file.toPercentEncoding();
+
+}
+
 // Search for the file path of the icons in the hicolor theme (used by contextmenu)
 QString GetAndDoStuffFile::getIconPathFromTheme(QString binary) {
 

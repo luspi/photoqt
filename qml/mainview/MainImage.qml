@@ -73,19 +73,19 @@ Item {
             if(currentId == imageANIM1) {
                 imageANIM2.paused = false
                 imageANIM2.source = ""
-                imageANIM2.source = source
+                imageANIM2.source = getanddostuff.toPercentEncoding(source)
             } else {
                 imageANIM1.paused = false
                 imageANIM1.source = ""
-                imageANIM1.source = source
+                imageANIM1.source = getanddostuff.toPercentEncoding(source)
             }
         } else {
             if(currentId == image1) {
                 image2.source = ""
-                image2.source = source
+                image2.source = getanddostuff.toPercentEncoding(source)
             } else {
                 image1.source = ""
-                image1.source = source
+                image1.source = getanddostuff.toPercentEncoding(source)
             }
         }
     }

@@ -84,6 +84,7 @@ public:
     Q_INVOKABLE QString removePathFromFilename(QString path, bool removeSuffix = false) { return file->removePathFromFilename(path, removeSuffix); }
     Q_INVOKABLE QString removeFilenameFromPath(QString file) { return this->file->removeFilenameFromPath(file); }
     Q_INVOKABLE QString getSuffix(QString file) { return this->file->getSuffix(file); }
+    Q_INVOKABLE QByteArray toPercentEncoding(QByteArray file) { return this->file->toPercentEncoding(file); }
     Q_INVOKABLE QString getFilenameQtImage() { return file->getFilenameQtImage(); }
     Q_INVOKABLE QString getFilename(QString caption, QString dir, QString filter = "") { return file->getFilename(caption, dir, filter); }
     Q_INVOKABLE QString getIconPathFromTheme(QString binary) { return file->getIconPathFromTheme(binary); }
