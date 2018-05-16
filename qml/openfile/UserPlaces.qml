@@ -275,6 +275,8 @@ Rectangle {
         highlightMoveDuration: 100
         highlightResizeDuration: 100
 
+        clip: true
+
         // used for handling reordering of userplaces by drag/drop
         property int dragItemIndex: -1
 
@@ -404,7 +406,8 @@ Rectangle {
 
             id: userPlacesDelegate
 
-            // This is needed for deleting an entry from the context menu, as the signal that is received there passes on a variable that is also named index
+            // This is needed for deleting an entry from the context menu,
+            // as the signal that is received there passes on a variable that is also named index
             property int myIndex: index
 
             // full width, fixed height of 30 (if entry not hidden)
@@ -623,6 +626,7 @@ Rectangle {
 
         // displayed at bottom of left pane
         anchors.top: userPlaces.bottom
+        anchors.topMargin: marginBetweenCategories
         width: parent.width
         height: settings.openUserPlacesVolumes ? childrenRect.height : 1
 
@@ -710,6 +714,7 @@ Rectangle {
                     // size and position
                     anchors.fill: parent
                     anchors.leftMargin: iconitemstorage.width
+                    anchors.rightMargin: entrytextStorageSize.width+10
 
                     // vertically center text
                     verticalAlignment: Qt.AlignVCenter
@@ -718,10 +723,29 @@ Rectangle {
                     color: index==0 ? "grey" : "white"
                     font.bold: true
                     font.pixelSize: 15
-                    elide: Text.ElideRight
+                    elide: Text.ElideLeft
 
                     //: This is the category title of storage devices to open (like USB keys) in the element for opening files
                     text: index==0 ? em.pty+qsTr("Storage devices") : (name!=undefined ? name : "")
+
+                }
+
+                Text {
+
+                    id: entrytextStorageSize
+
+                    height: parent.height
+                    anchors.right: parent.right
+
+                    verticalAlignment: Text.AlignVCenter
+
+                    // some styling
+                    color: "white"
+                    font.bold: true
+                    font.pixelSize: 15
+                    elide: Text.ElideRight
+
+                    text: index==0 ? "" : size + " GB "
 
                 }
 
@@ -731,7 +755,7 @@ Rectangle {
                     // a click everywhere works
                     anchors.fill: parent
 
-                    text: entrytextStorage.text
+                    text: location + "<br><i>" + entrytextStorageSize.text + " (" + filesystemtype + ")</i>"
 
                     // some properties
                     hoverEnabled: true
@@ -916,32 +940,42 @@ Rectangle {
             // move from standard to userplaces
             if(standardlocations.currentIndex != -1 && userPlaces.visible && standardlocations.currentIndex+distance > standardlocations.model.count-1
                     && standardlocations.currentIndex-1+distance < (standardlocations.model.count-1)+(userPlaces.model.count-1)) {
-                userPlaces.currentIndex = Math.min(1 + ((standardlocations.currentIndex+distance) - standardlocations.model.count), userPlaces.model.count-1)
+                userPlaces.currentIndex = Math.min(1 + ((standardlocations.currentIndex+distance) - standardlocations.model.count),
+                                                   userPlaces.model.count-1)
                 return
             }
 
             // move from standard to storageinfo (userplaces too short)
             if(standardlocations.currentIndex != -1 && userPlaces.visible && storageinfo.visible &&
                     standardlocations.currentIndex+distance > (standardlocations.model.count-1)+(userPlaces.model.count-1)) {
-                storageinfo.currentIndex = Math.min(2 + ((standardlocations.currentIndex+distance) - standardlocations.model.count-userPlaces.model.count), storageinfo.model.count-1)
+                storageinfo.currentIndex =
+                        Math.min(2 + ((standardlocations.currentIndex+distance) - standardlocations.model.count-userPlaces.model.count),
+                                 storageinfo.model.count-1)
                 return
             }
 
             // move from standard to storageinfo (no userplaces)
-            if(standardlocations.currentIndex != -1 && !userPlaces.visible && storageinfo.visible && standardlocations.currentIndex+distance > standardlocations.model.count-1) {
-                storageinfo.currentIndex = Math.min(1 + ((standardlocations.currentIndex+distance) - standardlocations.model.count), storageinfo.model.count-1)
+            if(standardlocations.currentIndex != -1 &&
+                    !userPlaces.visible &&
+                    storageinfo.visible &&
+                    standardlocations.currentIndex+distance > standardlocations.model.count-1) {
+                storageinfo.currentIndex = Math.min(1 + ((standardlocations.currentIndex+distance) - standardlocations.model.count),
+                                                    storageinfo.model.count-1)
                 return
             }
 
             // move from userplaces to storageinfo
             if(userPlaces.currentIndex != -1 && storageinfo.visible && userPlaces.currentIndex+distance > userPlaces.model.count-1) {
-                storageinfo.currentIndex = Math.min(1 + ((userPlaces.currentIndex+distance) - userPlaces.model.count), storageinfo.model.count)
+                storageinfo.currentIndex = Math.min(1 + ((userPlaces.currentIndex+distance) - userPlaces.model.count),
+                                                    storageinfo.model.count)
                 return
             }
 
             // move inside standard
             if(standardlocations.currentIndex != -1) {
-                standardlocations.currentIndex = Math.min(standardlocations.currentIndex+distance, standardlocations.model.count-1)
+                standardlocations.currentIndex =
+                        Math.min(standardlocations.currentIndex+distance,
+                                 standardlocations.model.count-1)
                 return
             }
 
@@ -962,7 +996,8 @@ Rectangle {
 
             // move inside storageinfo
             if(storageinfo.currentIndex != -1) {
-                storageinfo.currentIndex = Math.min(storageinfo.currentIndex+distance, storageinfo.model.count-1)
+                storageinfo.currentIndex = Math.min(storageinfo.currentIndex+distance,
+                                                    storageinfo.model.count-1)
                 return
             }
 
@@ -980,7 +1015,8 @@ Rectangle {
             // move from storageinfo to standard (userplaces too short)
             if(storageinfo.currentIndex != -1 && userPlaces.visible && standardlocations.visible && storageinfo.currentIndex-distance-1 < 1 &&
                     userPlaces.model.count-1-(distance-storageinfo.currentIndex) < 1) {
-                standardlocations.currentIndex = Math.max(standardlocations.count-1 - ((distance-storageinfo.currentIndex) - (userPlaces.model.count-1)), 1)
+                standardlocations.currentIndex =
+                        Math.max(standardlocations.count-1 - ((distance-storageinfo.currentIndex) - (userPlaces.model.count-1)), 1)
                 return
             }
 

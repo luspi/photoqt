@@ -32,6 +32,7 @@
 #include "getanddostuff/other.h"
 #include "getanddostuff/wallpaper.h"
 #include "getanddostuff/openfile.h"
+#include "getanddostuff/listfiles.h"
 
 class GetAndDoStuff : public QObject {
 
@@ -47,8 +48,9 @@ public:
         other = new GetAndDoStuffOther;
         wallpaper = new GetAndDoStuffWallpaper;
         openfile = new GetAndDoStuffOpenFile;
+        listfiles = new GetAndDoStuffListFiles;
 
-        connect(manipulation, SIGNAL(reloadDirectory(QString,bool)), this, SIGNAL(reloadDirectory(QString,bool)));
+        connect(manipulation, &GetAndDoStuffManipulation::reloadDirectory, this, &GetAndDoStuff::reloadDirectory);
 
     }
 
@@ -60,6 +62,7 @@ public:
         delete other;
         delete wallpaper;
         delete openfile;
+        delete listfiles;
     }
 
     // CONTEXT
@@ -81,15 +84,20 @@ public:
     Q_INVOKABLE QString removePathFromFilename(QString path, bool removeSuffix = false) { return file->removePathFromFilename(path, removeSuffix); }
     Q_INVOKABLE QString removeFilenameFromPath(QString file) { return this->file->removeFilenameFromPath(file); }
     Q_INVOKABLE QString getSuffix(QString file) { return this->file->getSuffix(file); }
+    Q_INVOKABLE QByteArray toPercentEncoding(QByteArray file) { return this->file->toPercentEncoding(file); }
     Q_INVOKABLE QString getFilenameQtImage() { return file->getFilenameQtImage(); }
     Q_INVOKABLE QString getFilename(QString caption, QString dir, QString filter = "") { return file->getFilename(caption, dir, filter); }
     Q_INVOKABLE QString getIconPathFromTheme(QString binary) { return file->getIconPathFromTheme(binary); }
     Q_INVOKABLE QString getSaveFilename(QString caption, QString file) { return this->file->getSaveFilename(caption, file); }
     Q_INVOKABLE bool doesThisExist(QString path) { return this->file->doesThisExist(path); }
+    Q_INVOKABLE QString getMimeType(QString dir, QString file) { return this->file->getMimeType(dir, file); }
+    Q_INVOKABLE QString streamlineFilePath(QString path) { return this->file->streamlineFilePath(path); }
+    Q_INVOKABLE QString removeSuffixFromFilename(QString file) { return this->file->removeSuffixFromFilename(file); }
 
     // MANIPULATION
     Q_INVOKABLE bool canBeScaled(QString filename) { return manipulation->canBeScaled(filename); }
-    Q_INVOKABLE bool scaleImage(QString filename, int width, int height, int quality, QString newfilename) { return manipulation->scaleImage(filename, width, height, quality, newfilename); }
+    Q_INVOKABLE bool scaleImage(QString filename, int width, int height, int quality, QString newfilename) {
+        return manipulation->scaleImage(filename, width, height, quality, newfilename); }
     Q_INVOKABLE void deleteImage(QString filename, bool trash) { manipulation->deleteImage(filename, trash); }
     Q_INVOKABLE void copyImage(QString imagePath, QString destinationPath) { manipulation->copyImage(imagePath, destinationPath); }
     Q_INVOKABLE void moveImage(QString imagePath, QString destinationPath) { manipulation->moveImage(imagePath, destinationPath); }
@@ -109,11 +117,16 @@ public:
     Q_INVOKABLE bool isExivSupportEnabled() { return other->isExivSupportEnabled(); }
     Q_INVOKABLE bool isGraphicsMagickSupportEnabled() { return other->isGraphicsMagickSupportEnabled(); }
     Q_INVOKABLE bool isLibRawSupportEnabled() { return other->isLibRawSupportEnabled(); }
+    Q_INVOKABLE bool isDevILSupportEnabled() { return other->isDevILSupportEnabled(); }
+    Q_INVOKABLE bool isFreeImageSupportEnabled() { return other->isFreeImageSupportEnabled(); }
+    Q_INVOKABLE bool isPopplerSupportEnabled() { return other->isPopplerSupportEnabled(); }
     Q_INVOKABLE QString getVersionString() { return other->getVersionString(); }
     Q_INVOKABLE void storeGeometry(QRect rect) { other->storeGeometry(rect); }
     Q_INVOKABLE QRect getStoredGeometry() { return other->getStoredGeometry(); }
     Q_INVOKABLE bool isImageAnimated(QString path) { return other->isImageAnimated(path); }
     Q_INVOKABLE QString convertIdIntoString(QObject *object) { return other->convertIdIntoString(object); }
+    Q_INVOKABLE bool doesStringEndsWith(QString str, QString val) { return str.endsWith(val); }
+    Q_INVOKABLE QString selectColor(QString preselectColor) { return other->selectColor(preselectColor); }
 
     // WALLPAPER
     Q_INVOKABLE QString detectWindowManager() { return wallpaper->detectWindowManager(); }
@@ -123,12 +136,12 @@ public:
     Q_INVOKABLE QList<int> getEnlightenmentWorkspaceCount() { return wallpaper->getEnlightenmentWorkspaceCount(); }
 
     // OPENFILE
-    Q_INVOKABLE int getNumberFilesInFolder(QString path, int selectionFileTypes) { return this->openfile->getNumberFilesInFolder(path, selectionFileTypes); }
+    Q_INVOKABLE int getNumberFilesInFolder(QString path, QString categoryFileTypes) {
+        return this->openfile->getNumberFilesInFolder(path, categoryFileTypes); }
     Q_INVOKABLE QVariantList getUserPlaces() { return this->openfile->getUserPlaces(); }
     Q_INVOKABLE QVariantList getStorageInfo() { return this->openfile->getStorageInfo(); }
-    Q_INVOKABLE QVariantList getFoldersIn(QString path, bool getDotDot = true, bool showHidden = false) { return this->openfile->getFoldersIn(path, getDotDot, showHidden); }
-    Q_INVOKABLE QVariantList getFilesIn(QString file, QString filter, QString sortby, bool sortbyAscending) { return this->openfile->getFilesIn(file, filter, sortby, sortbyAscending); }
-    Q_INVOKABLE QVariantList getFilesWithSizeIn(QString path, int selectionFileTypes, bool showHidden, QString sortby, bool sortbyAscending) { return this->openfile->getFilesWithSizeIn(path,selectionFileTypes, showHidden, sortby, sortbyAscending); }
+    Q_INVOKABLE QVariantList getFoldersIn(QString path, bool getDotDot = true, bool showHidden = false) {
+        return this->openfile->getFoldersIn(path, getDotDot, showHidden); }
     Q_INVOKABLE void saveUserPlaces(QVariantList enabled) { return this->openfile->saveUserPlaces(enabled); }
     Q_INVOKABLE QString getOpenFileLastLocation() {  return this->openfile->getOpenFileLastLocation(); }
     Q_INVOKABLE void setOpenFileLastLocation(QString path) { openfile->setOpenFileLastLocation(path); }
@@ -136,6 +149,15 @@ public:
     Q_INVOKABLE QString getLastOpenedImage() { return openfile->getLastOpenedImage(); }
     Q_INVOKABLE QString getCurrentWorkingDirectory() { return openfile->getCurrentWorkingDirectory(); }
     Q_INVOKABLE QString getDirectoryDirName(QString path) { return openfile->getDirectoryDirName(path); }
+    Q_INVOKABLE bool isSupportedImageType(QString path) { return openfile->isSupportedImageType(path); }
+
+    // LISTFILES
+    Q_INVOKABLE QVariantList getAllFilesIn(QString file, QString categoryFileTypes, QString filter, bool showHidden, QString sortby,
+                                           bool sortbyAscending, bool includeSize, bool pdfLoadAllPages, bool loadSinglePdf, bool archiveLoadAllFiles,
+                                           bool loadSingleArchive, bool archiveUseExternalUnrar) {
+        return this->listfiles->getAllFilesIn(file, categoryFileTypes, filter, showHidden, sortby, sortbyAscending, includeSize, pdfLoadAllPages,
+                                              loadSinglePdf, archiveLoadAllFiles, loadSingleArchive, archiveUseExternalUnrar); }
+    Q_INVOKABLE int getTotalNumberOfPagesOfPdf(QString file) { return listfiles->getTotalNumberOfPagesOfPdf(file); }
 
 private:
     GetAndDoStuffContext *context;
@@ -145,6 +167,7 @@ private:
     GetAndDoStuffOther *other;
     GetAndDoStuffWallpaper *wallpaper;
     GetAndDoStuffOpenFile *openfile;
+    GetAndDoStuffListFiles *listfiles;
 
 signals:
     void reloadDirectory(QString path, bool deleted = false);

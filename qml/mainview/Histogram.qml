@@ -337,7 +337,8 @@ Rectangle {
             sourceSize.height: parent.height
         }
         ToolTip {
-            text: em.pty+qsTr("Click to switch between coloured and greyscale histogram. You can also switch by doing a right-click onto the histogram.")
+            text: em.pty+
+                  qsTr("Click to switch between coloured and greyscale histogram. You can also switch by doing a right-click onto the histogram.")
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor

@@ -10,7 +10,7 @@ project(photoqt)
 ####  GLOBAL VERSION STRING FOR ALL FILES (INCLUDING CPP/QML) ####
 ##################################################################
 
-add_definitions(-DVERSION="1.6")
+add_definitions(-DVERSION="1.7")
 
 
 #################################
@@ -18,7 +18,7 @@ add_definitions(-DVERSION="1.6")
 #################################
 
 add_definitions(-DQT_DEPRECATED_WARNINGS)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3 -Wall")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -O3")
 
 
 ################################
@@ -55,7 +55,9 @@ include(CMake/ListFilesResources.cmake)
 option(RAW "Use libraw library" ON)
 option(EXIV2 "Use exiv2 library" ON)
 option(GM "Use graphicsmagick library" ON)
-option(QTONLY "ONLY USE QT-ONLY FEATURES" OFF)
+option(DEVIL "Use DevIL library" ON)
+option(FREEIMAGE "Use FreeImage library" ON)
+option(POPPLER "Use Poppler library" ON)
 option(TESTING "Enable some tests" OFF)
 
 
@@ -65,10 +67,28 @@ option(TESTING "Enable some tests" OFF)
 
 find_package(Qt5 COMPONENTS Core Quick Svg Sql Xml LinguistTools REQUIRED)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
-find_package(Magick)
-find_package(Exiv2)
-find_package(LibRaw)
+if(GM)
+    find_package(Magick)
+endif(GM)
+if(EXIV2)
+    find_package(Exiv2)
+endif(EXIV2)
+if(RAW)
+    find_package(LibRaw)
+endif(RAW)
+if(FREEIMAGE)
+    find_package(FreeImage)
+endif(FREEIMAGE)
+find_package(LibArchive)
 
+find_package(ECM REQUIRED NO_MODULE)
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} "${CMAKE_MODULE_PATH}")
+if(POPPLER)
+    find_package(Poppler COMPONENTS Qt5)
+endif(POPPLER)
+if(DEVIL)
+    find_package(DevIL)
+endif(DEVIL)
 
 ####################################
 #### TRANSLATIONS AND RESOURCES ####
@@ -121,9 +141,6 @@ elseif(NOT WIN32)
     qt5_use_modules(${PROJECT_NAME} Quick Sql Svg Core Xml)
 endif(WIN32)
 
-# We need to link to zlib for zip support
-target_link_libraries(${PROJECT_NAME} "z")
-
 
 ########################
 #### HANDLE TESTING ####
@@ -152,22 +169,64 @@ if(TESTING)
 endif(TESTING)
 
 
-#######################################
-#### EMPLY THE PROPER DESKTOP FILE ####
-#######################################
+##############################################
+#### COMPOSE THE APPROPRIATE DESKTOP FILE ####
+##############################################
 
-if(GM)
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/for_photoqt_desktop_FULL ${CMAKE_CURRENT_SOURCE_DIR}/photoqt.desktop)
-elseif(NOT GM)
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/for_photoqt_desktop_QT ${CMAKE_CURRENT_SOURCE_DIR}/photoqt.desktop)
-endif(GM)
+include("CMake/ComposeDesktopFile.cmake")
+composeDesktopFile()
 
 
 ########################
 #### CUSTOM OPTIONS ####
 ########################
+
+if(NOT ${LibArchive_FOUND})
+    message(FATAL_ERROR "** Unable to locate LibArchive... is it installed?")
+elseif(${LibArchive_FOUND})
+    include_directories(${LibArchive_INCLUDE_DIRS})
+    target_link_libraries(${PROJECT_NAME} ${LibArchive_LIBRARIES})
+    message("** Found LibArchive " ${LibArchive_VERSION})
+endif(NOT ${LibArchive_FOUND})
+
+if(POPPLER)
+    if(NOT ${Poppler_FOUND})
+        message(FATAL_ERROR "** Unable to locate Poppler... is it installed?")
+    elseif(${Poppler_FOUND})
+        include_directories(${Poppler_INCLUDE_DIRS})
+        target_link_libraries(${PROJECT_NAME} ${Poppler_LIBRARIES})
+        message("** Poppler enabled")
+        add_definitions(-DPOPPLER)
+    endif(NOT ${Poppler_FOUND})
+elseif(NOT POPPLER)
+    message("** Poppler DISABLED")
+endif(POPPLER)
+
+if(DEVIL)
+    if(NOT ${IL_FOUND})
+        message(FATAL_ERROR "** Unable to locate DevIL... is it installed?")
+    elseif(${IL_FOUND})
+        include_directories(${IL_INCLUDE_DIR})
+        target_link_libraries(${PROJECT_NAME} ${IL_LIBRARIES})
+        message("** DevIL enabled")
+        add_definitions(-DDEVIL)
+    endif(NOT ${IL_FOUND})
+elseif(NOT DEVIL)
+    message("** DevIL DISABLED")
+endif(DEVIL)
+
+if(FREEIMAGE)
+    if(NOT ${FREEIMAGE_FOUND})
+        message(FATAL_ERROR "** Unable to locate FreeImage... is it installed?")
+    elseif(${FREEIMAGE_FOUND})
+        include_directories(${FREEIMAGE_INCLUDE_DIRS})
+        target_link_libraries(${PROJECT_NAME} ${FREEIMAGE_LIBRARIES})
+        message("** FreeImage enabled")
+        add_definitions(-DFREEIMAGE)
+    endif(NOT ${FREEIMAGE_FOUND})
+elseif(NOT FREEIMAGE)
+    message("** FreeImage DISABLED")
+endif(FREEIMAGE)
 
 if(RAW)
     if(NOT ${LIBRAW_FOUND})

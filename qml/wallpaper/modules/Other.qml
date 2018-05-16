@@ -88,7 +88,8 @@ Rectangle {
             text: em.pty+qsTr("PhotoQt can use 'feh' or 'nitrogen' to change the background of the desktop.")
                   + "<br>"
                     //: "Blackbox", "Fluxbox" and "Openbox" are fixed names, please don't translate
-                  + em.pty+qsTr("This is intended particularly for window managers that don't natively support wallpapers (like Blackbox, Fluxbox, or Openbox).")
+                  + em.pty+qsTr("This is intended particularly for window managers that don't natively support wallpapers (like Blackbox, Fluxbox,\
+ or Openbox).")
         }
 
         // SWITCH BETWEEN feh AND nitrogen

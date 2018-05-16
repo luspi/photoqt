@@ -34,6 +34,7 @@
 #include <QDir>
 #include <QTextStream>
 #include <QFileDialog>
+#include <QStorageInfo>
 #include "../../logger.h"
 
 #ifdef EXIV2

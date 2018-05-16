@@ -263,7 +263,7 @@ Rectangle {
             fontsize: 30
             fontBold: true
 
-            text: em.pty+qsTr("Ok, set shortcut")
+            text: em.pty+qsTr("Set shortcut")
 
             onClickedButton: {
                 gotNewShortcut(combo.currentCombo)

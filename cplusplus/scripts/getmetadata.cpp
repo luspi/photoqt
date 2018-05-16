@@ -49,6 +49,9 @@ QVariantMap GetMetaData::getExiv2(QString path) {
         path = path.remove(0,1);
 #endif
 
+    if(path.contains("::PQT1::") && path.contains("::PQT2::"))
+        path = path.split("::PQT1::").at(0) + path.split("::PQT2::").at(1);
+
     path = QUrl::fromPercentEncoding(path.toUtf8());
     QFileInfo info(path);
 
@@ -155,46 +158,52 @@ QVariantMap GetMetaData::getExiv2(QString path) {
             * Obtain EXIF data *
             ********************/
 
-            Exiv2::ExifData &exifData = image->exifData();
-            Exiv2::ExifData::const_iterator exifEnd = exifData.end();
-            for (Exiv2::ExifData::const_iterator it_exif = exifData.begin(); it_exif != exifEnd; ++it_exif) {
+            try {
 
-                // Key/Value
-                QString key = QString::fromStdString(it_exif->key());
+                Exiv2::ExifData &exifData = image->exifData();
+                Exiv2::ExifData::const_iterator exifEnd = exifData.end();
+                for (Exiv2::ExifData::const_iterator it_exif = exifData.begin(); it_exif != exifEnd; ++it_exif) {
 
-                if(returnMap.keys().contains(key)) {
+                    // Key/Value
+                    QString key = QString::fromStdString(it_exif->key());
 
-                    QString value = QString::fromStdString(Exiv2::toString(it_exif->value()));
+                    if(returnMap.keys().contains(key)) {
 
-                    // Compose data
+                        QString value = QString::fromStdString(Exiv2::toString(it_exif->value()));
 
-                    if(key == "Exif.Photo.ExposureTime")
-                        value = exifExposureTime(value) + " s";
+                        // Compose data
 
-                    else if(key == "Exif.Photo.FocalLength")
-                        value = exifFNumberFLength(value) + " mm";
+                        if(key == "Exif.Photo.ExposureTime")
+                            value = exifExposureTime(value) + " s";
 
-                    else if(key == "Exif.Photo.FNumber")
-                        value = "F" + exifFNumberFLength(value);
+                        else if(key == "Exif.Photo.FocalLength")
+                            value = exifFNumberFLength(value) + " mm";
 
-                    else if(key == "Exif.Photo.DateTimeOriginal")
-                        value = exifPhotoTaken(value);
+                        else if(key == "Exif.Photo.FNumber")
+                            value = "F" + exifFNumberFLength(value);
 
-                    else if(key == "Exif.Photo.LightSource")
-                        value = exifLightSource(value);
+                        else if(key == "Exif.Photo.DateTimeOriginal")
+                            value = exifPhotoTaken(value);
 
-                    else if(key == "Exif.Photo.Flash")
-                        value = exifFlash(value);
+                        else if(key == "Exif.Photo.LightSource")
+                            value = exifLightSource(value);
 
-                    else if(key == "Exif.Photo.SceneCaptureType")
-                        value = exifSceneType(value);
+                        else if(key == "Exif.Photo.Flash")
+                            value = exifFlash(value);
 
-                    // Store values
+                        else if(key == "Exif.Photo.SceneCaptureType")
+                            value = exifSceneType(value);
 
-                    returnMap[key] = value;
+                        // Store values
+
+                        returnMap[key] = value;
+
+                    }
 
                 }
 
+            } catch(Exiv2::Error &e) {
+                LOG << CURDATE << "GetMetaData::getExiv2() Unable to read Exif metadata: " << e << " (" << Exiv2::errMsg(e.code()) << ")" << NL;
             }
 
             // If GPS is set, compose into one string
@@ -217,21 +226,27 @@ QVariantMap GetMetaData::getExiv2(QString path) {
             * Obtain IPTC data *
             ********************/
 
-            Exiv2::IptcData &iptcData = image->iptcData();
+            try {
 
-            Exiv2::IptcData::iterator iptcEnd = iptcData.end();
-            for (Exiv2::IptcData::iterator it_iptc = iptcData.begin(); it_iptc != iptcEnd; ++it_iptc) {
+                Exiv2::IptcData &iptcData = image->iptcData();
 
-                // Key/Value
-                QString key = QString::fromStdString(it_iptc->key());
+                Exiv2::IptcData::iterator iptcEnd = iptcData.end();
+                for (Exiv2::IptcData::iterator it_iptc = iptcData.begin(); it_iptc != iptcEnd; ++it_iptc) {
 
-                if(returnMap.keys().contains(key)) {
+                    // Key/Value
+                    QString key = QString::fromStdString(it_iptc->key());
 
-                    QString value = QString::fromStdString(Exiv2::toString(it_iptc->value()));
-                    returnMap[key] = value;
+                    if(returnMap.keys().contains(key)) {
+
+                        QString value = QString::fromStdString(Exiv2::toString(it_iptc->value()));
+                        returnMap[key] = value;
+
+                    }
 
                 }
 
+            } catch(Exiv2::Error &e) {
+                LOG << CURDATE << "GetMetaData::getExiv2() ERROR reading IPTC metadata: " << e << " (" << Exiv2::errMsg(e.code()) << ")" << NL;
             }
 
             QString city = returnMap["Iptc.Application2.City"].toString();

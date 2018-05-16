@@ -22,6 +22,14 @@
 
 #include "mainhandler.h"
 
+#include "startup/migration.h"
+#include "startup/screenshots.h"
+#include "startup/thumbnails.h"
+#include "startup/updatecheck.h"
+#include "startup/shortcuts.h"
+#include "startup/settings.h"
+#include "shortcuts/composestring.h"
+
 MainHandler::MainHandler(QWindow *parent) : QQuickView(parent) {
 
     // holding some variables of the current session
@@ -31,6 +39,9 @@ MainHandler::MainHandler(QWindow *parent) : QQuickView(parent) {
 
     // Ensures we only once call setOverrideCursor in order to be able to properly restore it
     overrideCursorSet = false;
+
+    defaultNotMaximizedSizeOfWindow = QSize(qMin(qApp->desktop()->availableGeometry().width(), 1024),
+                                            qMin(qApp->desktop()->availableGeometry().height(), 768));
 
     // Perform some startup checks/tasks
     update = performSomeStartupChecks();
@@ -105,13 +116,15 @@ void MainHandler::setObjectAndConnect() {
     connect(object, SIGNAL(quitPhotoQt()), this, SLOT(forceWindowQuit()));
     connect(object, SIGNAL(trayIconValueChanged(int)), this, SLOT(handleTrayIcon(int)));
     connect(object, SIGNAL(windowModeChanged(bool, bool, bool)), this, SLOT(handleWindowModeChanged(bool, bool, bool)));
+    connect(object, SIGNAL(moveWindowByX(int)), this, SLOT(moveWindowByX(int)));
+    connect(object, SIGNAL(moveWindowByY(int)), this, SLOT(moveWindowByY(int)));
+    connect(object, SIGNAL(toggleWindowMaximise()), this, SLOT(toggleWindowMaximise()));
 
 }
 
 // Add settings/scripts/... access to QML
 void MainHandler::registerQmlTypes() {
     qmlRegisterType<Settings>("PSettings", 1, 0, "PSettings");
-    qmlRegisterType<FileFormats>("PFileFormats", 1, 0, "PFileFormats");
     qmlRegisterType<GetMetaData>("PGetMetaData", 1, 0, "PGetMetaData");
     qmlRegisterType<GetAndDoStuff>("PGetAndDoStuff", 1, 0, "PGetAndDoStuff");
     qmlRegisterType<ToolTip>("PToolTip", 1, 0, "PToolTip");
@@ -124,6 +137,10 @@ void MainHandler::registerQmlTypes() {
     qmlRegisterType<Watcher>("PWatcher", 1, 0, "PWatcher");
     qmlRegisterType<Localisation>("PLocalisation", 1, 0, "PLocalisation");
     qmlRegisterType<ContextMenu>("PContextMenu", 1, 0, "PContextMenu");
+    qmlRegisterType<ImageFormats>("PImageFormats", 1, 0, "PImageFormats");
+    qmlRegisterType<MimeTypes>("PMimeTypes", 1, 0, "PMimeTypes");
+    qmlRegisterType<ManagePeopleTags>("PManagePeopleTags", 1, 0, "PManagePeopleTags");
+    qmlRegisterType<Integer64>("PInteger64", 1, 0, "PInteger64");
 }
 
 // Add image providers to QML
@@ -152,6 +169,8 @@ void MainHandler::qmlVerboseMessage(QString loc, QString msg) {
 void MainHandler::setupWindowProperties(bool dontCallShow) {
 
     this->setMinimumSize(QSize(640,480));
+    this->setWidth(defaultNotMaximizedSizeOfWindow.width());
+    this->setHeight(defaultNotMaximizedSizeOfWindow.height());
     this->setTitle("PhotoQt " + tr("Image Viewer"));
 
     bool debug = (qgetenv("PHOTOQT_DEBUG") == "yes");
@@ -238,6 +257,8 @@ void MainHandler::setupWindowProperties(bool dontCallShow) {
             this->showFullScreen();
 
     }
+
+    QMetaObject::invokeMethod(object, "setWhetherWindowFullscreen", Q_ARG(QVariant, this->windowState()==Qt::WindowFullScreen));
 
 }
 
@@ -452,8 +473,42 @@ void MainHandler::toggleWindow() {
 // When quitting simply say GoodBye. Not necessary at all, just nice...
 void MainHandler::aboutToQuit() {
 
+#ifdef FREEIMAGE
+    FreeImage_DeInitialise();
+#endif
+
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE;
     LOG << "Goodbye!" << NL;
 
+}
+
+void MainHandler::moveWindowByX(int dx) {
+    if(this->windowState() == Qt::WindowFullScreen)
+        return;
+    if(this->windowState() == Qt::WindowMaximized) {
+        this->setWindowState(Qt::WindowNoState);
+        this->setWidth(defaultNotMaximizedSizeOfWindow.width());
+        this->setHeight(defaultNotMaximizedSizeOfWindow.height());
+    }
+    this->setX(this->x()+dx);
+}
+void MainHandler::moveWindowByY(int dy) {
+    if(this->windowState() == Qt::WindowFullScreen)
+        return;
+    if(this->windowState() == Qt::WindowMaximized) {
+        this->setWindowState(Qt::WindowNoState);
+        this->setWidth(defaultNotMaximizedSizeOfWindow.width());
+        this->setHeight(defaultNotMaximizedSizeOfWindow.height());
+    }
+    this->setY(this->y()+dy);
+}
+
+void MainHandler::toggleWindowMaximise() {
+    if(this->windowState() == Qt::WindowFullScreen)
+        return;
+    if(this->windowState() == Qt::WindowMaximized)
+        this->setWindowState(Qt::WindowNoState);
+    else
+        this->setWindowState(Qt::WindowMaximized);
 }

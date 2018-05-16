@@ -159,9 +159,11 @@ Rectangle {
             else if(sh == "Ctrl+F")
                 Handle.goForwardsInHistory()
             else if(sh == "Ctrl++" || sh == "Ctrl+=")
-                tweaks.tweaksZoom.tweaksZoomSlider.value += Math.min(3, tweaks.tweaksZoom.tweaksZoomSlider.maximumValue-tweaks.tweaksZoom.tweaksZoomSlider.value)
+                tweaks.tweaksZoom.tweaksZoomSlider.value += Math.min(3, tweaks.tweaksZoom.tweaksZoomSlider.maximumValue-
+                                                                        tweaks.tweaksZoom.tweaksZoomSlider.value)
             else if(sh == "Ctrl+-")
-                tweaks.tweaksZoom.tweaksZoomSlider.value -= Math.min(3, tweaks.tweaksZoom.tweaksZoomSlider.value-tweaks.tweaksZoom.tweaksZoomSlider.minimumValue)
+                tweaks.tweaksZoom.tweaksZoomSlider.value -= Math.min(3, tweaks.tweaksZoom.tweaksZoomSlider.value-
+                                                                        tweaks.tweaksZoom.tweaksZoomSlider.minimumValue)
             else if(sh == "Ctrl+H" || sh == "Alt+.")
                 settings.openShowHiddenFilesFolders = !settings.openShowHiddenFilesFolders
         }
@@ -171,7 +173,8 @@ Rectangle {
 
     }
 
-    // a notifier informing the user about the possible shortcuts. Only shown at first open until user clicks it away ('do not show again' checkbox checked by default)
+    // a notifier informing the user about the possible shortcuts.
+    // Only shown at first open until user clicks it away ('do not show again' checkbox checked by default)
     ShortcutNotifier {
 
         id: openshortcuts
@@ -199,18 +202,39 @@ Rectangle {
             Handle.loadDirectory()
     }
 
+    // Changes in the formats triggers a reload of the OpenFile interface (with slight delay)
+    Connections {
+        target: imageformats
+        onEnabledFileformatsChanged: imageformatsChangedSoReload.restart()
+    }
+    Connections {
+        target: mimetypes
+        onEnabledMimeTypesChanged: imageformatsChangedSoReload.restart()
+    }
+    Timer {
+        id: imageformatsChangedSoReload
+        interval: 250
+        repeat: false
+        onTriggered: {
+            Handle.loadDirectoryFolders()
+            Handle.loadDirectoryFiles()
+        }
+    }
+
     Component.onCompleted: {
 
         // We needto do that here, as it seems to be not possible to compose a string in the dict definition
         // (i.e., when defining the property, inside the {})
         //: Refers to the three areas in the element for opening files
-        openshortcuts.shortcuts[strings.get("alt") + " + " + strings.get("left") + "/" + strings.get("right")] = em.pty+qsTr("Move focus between Places/Folders/Fileview")
+        openshortcuts.shortcuts[strings.get("alt") + " + " + strings.get("left") + "/" + strings.get("right")] =
+                                                                                        em.pty+qsTr("Move focus between Places/Folders/Fileview")
         //: Entry refers to the list of files and folders loaded in the element for opening files
         openshortcuts.shortcuts[strings.get("up") + "/" + strings.get("down")] = em.pty+qsTr("Go up/down an entry")
         //: Entry refers to the list of files and folders loaded in the element for opening files
         openshortcuts.shortcuts[strings.get("page up") + "/" +strings.get("page down")] = em.pty+qsTr("Move 5 entries up/down")
         //: Entry refers to the list of files and folders loaded in the element for opening files
-        openshortcuts.shortcuts[strings.get("ctrl") + " + " + strings.get("up") + "/" + strings.get("down")] = em.pty+qsTr("Move to the first/last entry")
+        openshortcuts.shortcuts[strings.get("ctrl") + " + " + strings.get("up") + "/" + strings.get("down")] =
+                                                                                        em.pty+qsTr("Move to the first/last entry")
         //: This refers to loading the parent folder of the currently loaded folder in the element for opening files
         openshortcuts.shortcuts[strings.get("alt") + " + " + strings.get("up")] = em.pty+qsTr("Go one folder level up")
         //: The history is the list of visited folders in the element for opening files
@@ -220,7 +244,8 @@ Rectangle {
         //: The files is the list of files in the element for opening files
         openshortcuts.shortcuts[strings.get("ctrl") + " + +/-"] = em.pty+qsTr("Zoom files in/out")
         //: The files/folders is the list of files/folders in the element for opening files
-        openshortcuts.shortcuts[strings.get("ctrl") + " + H " + em.pty+qsTr("or") + " " + strings.get("alt") + " + ."] = em.pty+qsTr("Show/Hide hidden files/folders")
+        openshortcuts.shortcuts[strings.get("ctrl") + " + H " + em.pty+qsTr("or") + " " + strings.get("alt") + " + ."] =
+                                                                                        em.pty+qsTr("Show/Hide hidden files/folders")
         openshortcuts.shortcuts[strings.get("escape")] = em.pty+qsTr("Cancel")
 
         openshortcuts.display()

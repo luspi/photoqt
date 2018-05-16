@@ -23,168 +23,23 @@
 #ifndef STARTUPCHECK_STARTUPMIGRATION_H
 #define STARTUPCHECK_STARTUPMIGRATION_H
 
-#include <QDir>
-#include <QTextStream>
-#include <QSettings>
 #include "../logger.h"
 
 namespace StartupCheck {
 
     namespace Migration {
 
-        static inline void migrateIfNecessary() {
+        static void migrateIfNecessary() {
 
             if(qgetenv("PHOTOQT_DEBUG") == "yes") LOG << CURDATE << "StartupCheck::Migration" << NL;
 
-            // If this is true, then the new config folders have been created
-            bool migrated = false;
+            QFile oldDisabledImageFormats(QString("%1/fileformats.disabled").arg(ConfigFiles::CONFIG_DIR()));
+            if(oldDisabledImageFormats.exists()) {
 
-            QDir dir;
-
-            // Check for configuration folder
-            if(!QDir(ConfigFiles::CONFIG_DIR()).exists()) {
-                if(!dir.mkpath(ConfigFiles::CONFIG_DIR())) {
-                    LOG << CURDATE << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to create configuration directory '"
-                        << ConfigFiles::CONFIG_DIR().toStdString() << "'" << NL;
-                    std::exit(1);
-                } else
-                    migrated = true;
-            }
-
-            // Check for data folder
-            if(!QDir(ConfigFiles::DATA_DIR()).exists()) {
-                if(!dir.mkpath(ConfigFiles::DATA_DIR())) {
-                    LOG << CURDATE << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to create data directory '"
-                        << ConfigFiles::DATA_DIR().toStdString() << "'" << NL;
-                    std::exit(1);
-                } else
-                    migrated = true;
-            }
-
-            // Check for cache folder
-            if(!QDir(ConfigFiles::CACHE_DIR()).exists()) {
-                if(!dir.mkpath(ConfigFiles::CACHE_DIR())) {
-                    LOG << CURDATE << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to create data directory '"
-                        << ConfigFiles::CACHE_DIR().toStdString() << "'" << NL;
-                    std::exit(1);
-                } else
-                    migrated = true;
-            }
-
-            // Old config paths
-            QStringList oldpaths;
-            oldpaths << QDir::homePath() + "/.photoqt";
-            // on Windows, the location has changed to the proper location (again)
-#ifdef Q_OS_WIN
-            oldpaths << QDir::homePath() + "/.local/share/PhotoQt";
-            oldpaths << QDir::homePath() + "/.cache/PhotoQt";
-            oldpaths << QDir::homePath() + "/.config/PhotoQt";
-#endif
-
-            for(QString oldpath : oldpaths) {
-
-                // If new folders have been created and old files exist -> need to move
-                if(migrated && QDir(oldpath).exists()) {
-
-                    // Migrate settings file
-                    QFile file(oldpath + "/settings");
-                    if(file.exists()) {
-
-                        LOG << CURDATE
-                            << "Migrating old settings file from '" << oldpath.toStdString() << "' to '"
-                            << ConfigFiles::CONFIG_DIR().toStdString() << "'"
-                            << NL;
-
-                        if(!file.rename(ConfigFiles::SETTINGS_FILE()))
-
-                            LOG << CURDATE
-                                << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to move settings file to new location! Default settings will be used."
-                                << NL;
-
-                    }
-
-                    // Migrate shortcuts file
-                    file.setFileName(oldpath + "/shortcuts");
-                    if(file.exists()) {
-
-                        LOG << CURDATE
-                            << "Migrating old shortcuts file from '" << oldpath.toStdString() << "' to '"
-                            << ConfigFiles::CONFIG_DIR().toStdString() << "'"
-                            << NL;
-
-                        if(!file.rename(ConfigFiles::SHORTCUTS_FILE()))
-
-                            LOG << CURDATE
-                                << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to move shortcuts file to new location! Default shortcuts will be used."
-                                << NL;
-
-                    }
-
-                    // Migrate contextmenu file
-                    file.setFileName(oldpath + "/contextmenu");
-                    if(file.exists()) {
-
-                        LOG << CURDATE
-                            << "Migrating old contextmenu file from '" << oldpath.toStdString() << "' to '"
-                            << ConfigFiles::CONFIG_DIR().toStdString() << "'"
-                            << NL;
-
-                        if(!file.rename(ConfigFiles::CONTEXTMENU_FILE()))
-
-                            LOG << CURDATE
-                                << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to move contextmenu file to new location! Default entries will be set."
-                                << NL;
-
-                    }
-
-                    // Migrate fileformats file
-                    file.setFileName(oldpath + "/fileformats.disabled");
-                    if(file.exists()) {
-
-                        LOG << CURDATE
-                            << "Migrating old fileformats.disabled file from '" << oldpath.toStdString() << "' to '"
-                            << ConfigFiles::CONFIG_DIR().toStdString() << "'"
-                            << NL;
-
-                        if(!file.rename(ConfigFiles::FILEFORMATS_FILE()))
-
-                            LOG << CURDATE
-                                << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to move fileformats.disabled file to new location! Default fileformats will be set."
-                                << NL;
-
-                    }
-
-                    // Migrate thumbnails file
-                    file.setFileName(oldpath + "/thumbnails");
-                    if(file.exists()) {
-
-                        LOG << CURDATE
-                            << "Migrating old thumbnails database from '" << oldpath.toStdString() << "' to '"
-                            << ConfigFiles::CACHE_DIR().toStdString() << "'"
-                            << NL;
-
-                        if(!file.rename(ConfigFiles::THUMBNAILS_DB()))
-
-                            LOG << CURDATE
-                                << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to move thumbnails database to new location!"
-                                << NL;
-
-                    }
-
-                    // If old config dir is empty now (it should be), then remove it
-                    dir.setPath(oldpath);
-                    if(dir.entryList(QDir::NoDotAndDotDot).length() == 0) {
-                        if(!dir.rmdir(oldpath))
-                            LOG << CURDATE
-                                << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to remove old config folder '" << oldpath.toStdString() << "'"
-                                << NL;
-                    } else {
-                        LOG << CURDATE
-                            << "StartupCheck::Migration::migrateIfNecessary() - ERROR: Unable to remove old config folder '" << oldpath.toStdString() << "', not empty!"
-                            << NL;
-                    }
-
-                }
+                if(oldDisabledImageFormats.remove())
+                    LOG << CURDATE << "StartupCheck::Migration: old file with disabled image formats removed" << NL;
+                else
+                    LOG << CURDATE << "StartupCheck::Migration: old file with disabled image formats could not be removed" << NL;
 
             }
 

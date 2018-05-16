@@ -63,7 +63,6 @@ Item {
         visible: !textOnRight
 
         color: textColour
-        Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
 
         text: !textOnRight ? rect.text : ""
         font.pointSize: fsize
@@ -91,7 +90,6 @@ Item {
                 implicitHeight: fsize*2
                 radius: variables.global_item_radius/2
                 color: control.enabled ? indicatorBackgroundColourEnabled : colour.radio_check_indicator_bg_color_disabled
-                Behavior on color { ColorAnimation { duration: variables.animationSpeed } }
                 Rectangle {
                     visible: rect.checkedButton
                     color: control.enabled ? indicatorColourEnabled : colour.radio_check_indicator_color_disabled
@@ -103,7 +101,6 @@ Item {
             }
             label: Text {
                 color: textColour
-                Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
                 visible: textOnRight
                 elide: rect.elide
                 wrapMode: rect.wrapMode

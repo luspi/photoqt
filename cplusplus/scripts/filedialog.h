@@ -47,6 +47,7 @@ public:
         // Create and open the filedialog (not modal_
         filedialog = new QFileDialog;
         filedialog->setWindowTitle(windowTitle);
+        filedialog->setDirectory(QFileInfo(startFile).absolutePath());
         filedialog->selectFile(startFile);
         filedialog->setModal(false);
         filedialog->setNameFilter("*." + suffix);

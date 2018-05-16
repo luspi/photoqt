@@ -37,6 +37,24 @@ QString GetAndDoStuffFile::getFilename(QString caption, QString dir, QString fil
 
 }
 
+QByteArray GetAndDoStuffFile::toPercentEncoding(QByteArray file) {
+
+    if(file.startsWith("image://full/"))
+        return ("image://full/" + file.remove(0,13).toPercentEncoding());
+
+    else if(file.startsWith("image://thumb/"))
+        return ("image://thumb/" + file.remove(0,14).toPercentEncoding());
+
+    else if(file.startsWith("image://icon/"))
+        return ("image://icon/" + file.remove(0,13).toPercentEncoding());
+
+    else if(file.startsWith("qrc:/"))
+        return ("qrc:/" + file.remove(0,5).toPercentEncoding());
+
+    return file.toPercentEncoding();
+
+}
+
 // Search for the file path of the icons in the hicolor theme (used by contextmenu)
 QString GetAndDoStuffFile::getIconPathFromTheme(QString binary) {
 
@@ -137,7 +155,7 @@ QString GetAndDoStuffFile::removeFilenameFromPath(QString file) {
 
 QString GetAndDoStuffFile::getSuffix(QString file) {
 
-    return QFileInfo(file).completeSuffix();
+    return QFileInfo(file).suffix();
 
 }
 
@@ -154,5 +172,34 @@ bool GetAndDoStuffFile::doesThisExist(QString path) {
 #endif
 
     return QFileInfo(path).exists();
+
+}
+
+QString GetAndDoStuffFile::getMimeType(QString dir, QString file) {
+
+    if(file.contains("::PQT1::") && file.contains("::PQT2::"))
+        file = file.split("::PQT1::").at(0)+file.split("::PQT2::").at(1);
+
+    QFileInfo info(file);
+    if(!info.isAbsolute())
+        info.setFile(dir+"/"+file);
+
+    return mimedb.mimeTypeForFile(info.absoluteFilePath(), QMimeDatabase::MatchContent).name();
+
+}
+
+QString GetAndDoStuffFile::streamlineFilePath(QString path) {
+
+    QFileInfo info(path);
+    if(info.isAbsolute())
+        return info.canonicalFilePath();
+    return path;
+
+}
+
+QString GetAndDoStuffFile::removeSuffixFromFilename(QString file) {
+
+    QString suffix = QFileInfo(file).suffix();
+    return file.remove(file.length()-suffix.length()-1, file.length());
 
 }

@@ -44,14 +44,16 @@ FadeInTemplate {
             width: slideshow_top.contentWidth
             wrapMode: Text.WordWrap
             font.pointSize: 10
-            text: em.pty+qsTr("There are several settings that can be adjusted for a slideshow, like the time between the image, if and how long the transition between the images should be, and also a music file can be specified that will be played in the background.")
+            text: em.pty+qsTr("There are several settings that can be adjusted for a slideshow, like the time between the image, if and how long\
+ the transition between the images should be, and also a music file can be specified that will be played in the background.")
         },
         Text {
             color: colour.text
             width: slideshow_top.contentWidth
             wrapMode: Text.WordWrap
             font.pointSize: 10
-            text: em.pty+qsTr("Once you have set the desired options, you can also start a slideshow the next time via 'Quickstart', i.e. skipping this settings window.")
+            text: em.pty+qsTr("Once you have set the desired options, you can also start a slideshow the next time via 'Quickstart',\
+ i.e. skipping this settings window.")
         },
 
         // TIME BETWEEN IMAGES
@@ -161,7 +163,8 @@ FadeInTemplate {
             wrapMode: Text.WordWrap
             font.pointSize: 15
             font.bold: true
-            //: Shuffle means putting the list of all the files in the current folder into random order. Loop means that the slideshow will start again from the bginning when it reaches the last image.
+            //: Shuffle means putting the list of all the files in the current folder into random order. Loop means that the slideshow
+            //: will start again from the bginning when it reaches the last image.
             text: em.pty+qsTr("Shuffle and Loop")
         },
         Text {
@@ -169,7 +172,9 @@ FadeInTemplate {
             width: slideshow_top.contentWidth
             wrapMode: Text.WordWrap
             font.pointSize: 10
-            text: em.pty+qsTr("If you want PhotoQt to loop over all images (i.e., once it shows the last image it starts from the beginning), or if you want PhotoQt to load your images in random order, you can check either or both boxes below. Note in the case of shuffling that no image will be shown twice before every image has been shown once.")
+            text: em.pty+qsTr("If you want PhotoQt to loop over all images (i.e., once it shows the last image it starts from the beginning), or\
+ if you want PhotoQt to load your images in random order, you can check either or both boxes below. Note in the case of shuffling that no image\
+ will be shown twice before every image has been shown once.")
         },
 
         // Checkboxes to en-/disable it
@@ -204,7 +209,8 @@ FadeInTemplate {
             width: slideshow_top.contentWidth
             wrapMode: Text.WordWrap
             font.pointSize: 10
-            text: em.pty+qsTr("Depending on your setup, PhotoQt displays some information at the top edge, like position in current directory or file path/name. Here you can disable them temporarily for the slideshow.")
+            text: em.pty+qsTr("Depending on your setup, PhotoQt displays some information at the top edge, like position in current directory or\
+ file path/name. Here you can disable them temporarily for the slideshow.")
         },
 
         CustomCheckBox {
@@ -229,7 +235,8 @@ FadeInTemplate {
             width: slideshow_top.contentWidth
             wrapMode: Text.WordWrap
             font.pointSize: 10
-            text: em.pty+qsTr("Some might like to listen to some music while the slideshow is running. Here you can select a music file you want to be played in the background.")
+            text: em.pty+qsTr("Some might like to listen to some music while the slideshow is running. Here you can select a music file\
+ you want to be played in the background.")
         },
         // Checkbox to enable music
         CustomCheckBox {
@@ -289,17 +296,17 @@ FadeInTemplate {
                 CustomButton {
                     id: okay
                     //: In the sense of 'ok, save the slideshow settings and lets start with the slideshow'
-                    text: em.pty+qsTr("Okay, lets start")
+                    text: em.pty+qsTr("Start slideshow")
                     onClickedButton: simulateEnter();
                 }
                 CustomButton {
                     //: In the sense of, 'no, don't save the slideshow settings and don't start a slideshow'
-                    text: em.pty+qsTr("Wait, maybe later")
+                    text: em.pty+qsTr("Cancel")
                     onClickedButton: hide()
                 }
                 CustomButton {
                     //: In the sense of 'ok, save the slideshow settings, but do not start a slideshow'
-                    text: em.pty+qsTr("Save changes, but don't start just yet")
+                    text: em.pty+qsTr("Save settings for later")
                     onClickedButton: hideSlideshowAndRememberSettings()
                 }
             }

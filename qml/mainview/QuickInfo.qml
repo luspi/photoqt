@@ -24,6 +24,7 @@ import QtQuick 2.5
 import QtQuick.Controls 1.4
 import QtQuick.Controls.Styles 1.4
 import PContextMenu 1.0
+import PInteger64 1.0
 import "../elements"
 import "../handlestuff.js" as Handle
 
@@ -39,8 +40,16 @@ Item {
     width: childrenRect.width
     height: childrenRect.height
 
-    visible: ((!settings.quickInfoHideCounter || !settings.quickInfoHideFilename || !settings.quickInfoHideFilepath || variables.filter!="") && !variables.slideshowRunning && variables.currentFile!="") || (variables.slideshowRunning && !settings.slideShowHideQuickInfo)
-    opacity: variables.guiBlocked&&!variables.slideshowRunning ? 0.2 : 1
+    property bool settingsValues: (!settings.quickInfoHideCounter ||
+                                   !settings.quickInfoHideFilename ||
+                                   !settings.quickInfoHideFilepath ||
+                                   variables.filter!="")
+
+    visible: ( (variables.currentFile=="" && settings.quickInfoManageWindow && !variables.isWindowFullscreen) ||
+               (settingsValues && !variables.slideshowRunning && variables.currentFile!="") ||
+               (variables.slideshowRunning && !settings.slideShowHideQuickInfo) ) &&
+             opacity!=0
+    opacity: variables.taggingFaces ? 0 : (variables.guiBlocked&&!variables.slideshowRunning ? 0.2 : 1)
     Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
     Rectangle {
@@ -69,7 +78,9 @@ Item {
             x:3
             y:3
 
-            text: (variables.currentFile==""||settings.quickInfoHideCounter) ? "" : (variables.currentFilePos+1).toString() + "/" + variables.totalNumberImagesCurrentFolder.toString()
+            text: (variables.currentFile==""||settings.quickInfoHideCounter) ?
+                      "" :
+                      (variables.currentFilePos+1).toString() + "/" + variables.totalNumberImagesCurrentFolder.toString()
 
             visible: !settings.quickInfoHideCounter
 
@@ -88,11 +99,43 @@ Item {
             anchors.left: counter.right
             anchors.leftMargin: visible ? (counter.visible ? 10 : 5) : 0
 
-            text: (variables.currentFile==""||(settings.quickInfoHideFilepath&&settings.quickInfoHideFilename) ? "" : (settings.quickInfoHideFilepath ? variables.currentFile :(settings.quickInfoHideFilename ? variables.currentDir : variables.currentDir+"/"+variables.currentFile)))
+            property bool poppler: variables.multiPageCurrentPage!=-1
+            property string popplerAppend: " - Page #"+(1+1*variables.multiPageCurrentPage)+"/"+variables.multiPageTotalNumber
+            property bool archive: variables.currentFileInsideArchive!=""
+            property string archiveAppend: ": "+variables.currentFileInsideArchive
+
+            text: variables.currentFileWithoutExtras==""&&settings.quickInfoManageWindow&&!variables.isWindowFullscreen ?
+                      em.pty+qsTr("Click and drag to move and double click to maximize window") :
+                      (settings.quickInfoHideFilepath&&settings.quickInfoHideFilename) ?
+                          "" :
+                          (settings.quickInfoHideFilepath ?
+                               "<b>"+variables.currentFileWithoutExtras+"</b>" :
+                               (settings.quickInfoHideFilename ?
+                                    "<b>"+variables.currentDir+"</b>" :
+                                    "<b>"+variables.currentDir+"/"+variables.currentFileWithoutExtras+"</b>")) +
+                          (poppler ? popplerAppend : archive ? archiveAppend : "")
+
             color: colour.quickinfo_text
-            font.bold: true
             font.pointSize: 10
             visible: text!=""
+
+        }
+
+        Text {
+
+            id: zoomlevel
+
+            y: 3
+            anchors.left: filename.right
+            anchors.leftMargin: visible&&variables.currentFile!="" ? (counter.visible ? 10 : 5) : 0
+
+            text: visible&&variables.currentFile!="" ?
+                      "// " + variables.currentZoomLevel + "%" :
+                      ""
+
+            color: colour.quickinfo_text
+            font.pointSize: 10
+            visible: !settings.quickInfoHideZoomLevel
 
         }
 
@@ -137,7 +180,11 @@ Item {
         anchors.fill: parent
 
         // The label is draggable, though its position is not stored between sessions (i.e., at startup it is always reset to default)
-        drag.target: parent
+        drag.target: settings.quickInfoManageWindow&&!variables.isWindowFullscreen ? undefined : parent
+
+        property bool buttonPressed: false
+        property int previousX: -1
+        property int previousY: -1
 
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton|Qt.RightButton
@@ -146,16 +193,32 @@ Item {
         property bool overDeleteFilterLabel: false
         onClicked: {
             // A right click shows context menu
-            if(mouse.button == Qt.RightButton)
+            if(mouse.button == Qt.RightButton) {
                 context.popup()
+                return
+            }
             // A left click on 'x' deletes filter (only if set)
             if(overDeleteFilterLabel && Qt.LeftButton) {
                 variables.filter = ""
                 Handle.loadFile(variables.currentDir+"/"+variables.currentFile, "", true)
+                return
             }
 
+            if(settings.quickInfoManageWindow&&!variables.isWindowFullscreen) {
+
+                int64_curTime.value = Date.now()
+
+                if(Math.abs(int64_curTime.value-int64_timeOfPrevClick.value) < 300) {
+                    // caught double click
+                    mainwindow.emitToggleWindowMaximise()
+                    int64_timeOfPrevClick.value = 0
+                } else
+                    int64_timeOfPrevClick.value = int64_curTime.value
+
+            }
         }
         onPositionChanged: {
+
             // No filter visible => nothing to do
             if(!filterLabel.visible)  {
                 overDeleteFilterLabel = false
@@ -168,6 +231,42 @@ Item {
                 overDeleteFilterLabel = true
             else
                 overDeleteFilterLabel = false
+
+        }
+
+        PInteger64 {
+            id: int64_curTime
+            Component.onCompleted:
+                value = Date.now()
+        }
+        PInteger64 {
+            id: int64_timeOfPrevClick
+            Component.onCompleted:
+                value = Date.now()
+        }
+
+        onPressed: {
+            buttonPressed = true
+            previousX = mouse.x
+            previousY = mouse.y
+        }
+        onReleased: {
+            buttonPressed = false
+        }
+        // It's important to use the onMouseXChanged and onMouseYChanged here, otherwise the window wont move properly!
+        onMouseXChanged: {
+            if(buttonPressed && settings.quickInfoManageWindow && !variables.isWindowFullscreen) {
+                var dx = mouseX - previousX
+                if(dx < -5 || dx > 5)
+                    mainwindow.emitMoveWindowByX(dx)
+            }
+        }
+        onMouseYChanged: {
+            if(buttonPressed && settings.quickInfoManageWindow && !variables.isWindowFullscreen) {
+                var dy = mouseY - previousY
+                if(dy < -5 || dy > 5)
+                    mainwindow.emitMoveWindowByY(dy)
+            }
         }
     }
 
@@ -190,10 +289,14 @@ Item {
             setCheckable(2, true)
             setChecked(2, !settings.quickInfoHideFilename)
 
+            addItem(em.pty+qsTr("Show zoom level"))
+            setCheckable(3, true)
+            setChecked(3, !settings.quickInfoHideZoomLevel)
+
             //: The clsoing 'x' is the button in the top right corner of the screen for closing PhotoQt
             addItem(em.pty+qsTr("Show closing 'x'"))
-            setCheckable(3, true)
-            setChecked(3, !settings.quickInfoHideX)
+            setCheckable(4, true)
+            setChecked(4, !settings.quickInfoHideX)
 
         }
 
@@ -205,6 +308,8 @@ Item {
             else if(index == 2)
                 settings.quickInfoHideFilename = !checked
             else if(index == 3)
+                settings.quickInfoHideZoomLevel = !checked
+            else if(index == 4)
                 settings.quickInfoHideX = !checked
         }
 

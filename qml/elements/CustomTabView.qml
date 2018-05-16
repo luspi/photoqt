@@ -59,7 +59,11 @@ TabView {
         tab: Rectangle {
 
             // The color depending on state
-            color: (styleData.selected || styleData.pressed) ? colour.tab_color_selected : (styleData.hovered ? colour.tab_color_active : colour.tab_color_inactive)
+            color: (styleData.selected || styleData.pressed) ?
+                       colour.tab_color_selected :
+                       (styleData.hovered ?
+                            colour.tab_color_active :
+                            colour.tab_color_inactive)
             Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
 
             // Width and Height
@@ -68,7 +72,11 @@ TabView {
 
             // The tab text
             Text {
-                color: (styleData.selected || styleData.pressed) ? colour.tab_text_selected : (styleData.hovered ? colour.tab_text_active : colour.tab_text_inactive)
+                color: (styleData.selected || styleData.pressed) ?
+                           colour.tab_text_selected :
+                           (styleData.hovered ?
+                                colour.tab_text_active :
+                                colour.tab_text_inactive)
                 Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
                 font.bold: true
                 font.pointSize: 10
@@ -94,8 +102,9 @@ TabView {
                 visible: subtab
             }
             // Change cursor to pointing hand
-            MouseArea {
+            ToolTip {
                 anchors.fill: parent
+                text: styleData.title
                 cursorShape: Qt.PointingHandCursor
                 onClicked: view.currentIndex = styleData.index
             }

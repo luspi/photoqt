@@ -28,6 +28,7 @@
 #include <QStringList>
 #include <QIcon>
 #include <QImageReader>
+#include <QMimeDatabase>
 #include "../../logger.h"
 
 class GetAndDoStuffFile : public QObject {
@@ -41,12 +42,21 @@ public:
     QString removePathFromFilename(QString path, bool removeSuffix = false);
     QString removeFilenameFromPath(QString file);
     QString getSuffix(QString file);
+    QByteArray toPercentEncoding(QByteArray file);
 
     QString getFilenameQtImage();
     QString getFilename(QString caption, QString dir, QString filter = "");
     QString getIconPathFromTheme(QString binary);
     QString getSaveFilename(QString caption, QString file);
     bool doesThisExist(QString path);
+
+    QString streamlineFilePath(QString path);
+    QString removeSuffixFromFilename(QString file);
+
+    QString getMimeType(QString dir, QString file);
+
+private:
+    QMimeDatabase mimedb;
 
 };
 

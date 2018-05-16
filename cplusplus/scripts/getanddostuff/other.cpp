@@ -122,6 +122,27 @@ bool GetAndDoStuffOther::isLibRawSupportEnabled() {
     return false;
 }
 
+bool GetAndDoStuffOther::isDevILSupportEnabled() {
+#ifdef DEVIL
+    return true;
+#endif
+    return false;
+}
+
+bool GetAndDoStuffOther::isFreeImageSupportEnabled() {
+#ifdef FREEIMAGE
+    return true;
+#endif
+    return false;
+}
+
+bool GetAndDoStuffOther::isPopplerSupportEnabled() {
+#ifdef POPPLER
+    return true;
+#endif
+    return false;
+}
+
 QString GetAndDoStuffOther::getVersionString() {
     return VERSION;
 }
@@ -129,7 +150,8 @@ QString GetAndDoStuffOther::getVersionString() {
 void GetAndDoStuffOther::storeGeometry(QRect rect) {
 
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
-        LOG << CURDATE << "GetAndDoStuffOther::storeGeometry() - " << rect.x() << "x" << rect.y() << " / " << rect.width() << "x" << rect.height() << NL;
+        LOG << CURDATE << "GetAndDoStuffOther::storeGeometry() - "
+            << rect.x() << "x" << rect.y() << " / " << rect.width() << "x" << rect.height() << NL;
 
     QFile geo(ConfigFiles::MAINWINDOW_GEOMETRY_FILE());
     if(geo.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
@@ -181,4 +203,18 @@ bool GetAndDoStuffOther::isImageAnimated(QString path) {
 QString GetAndDoStuffOther::convertIdIntoString(QObject *object) {
     const auto context = qmlContext(object);
     return context ? context->nameForObject(object): QString("context not found");
+}
+
+QString GetAndDoStuffOther::selectColor(QString preselectColor) {
+
+    QColorDialog diag;
+    diag.setOption(QColorDialog::ShowAlphaChannel);
+    diag.setCurrentColor(preselectColor);
+    int ret = diag.exec();
+
+    if(ret == 0)
+        return preselectColor;
+
+    return diag.currentColor().name(QColor::HexArgb);
+
 }

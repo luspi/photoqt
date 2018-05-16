@@ -26,91 +26,84 @@ import QtQuick.Controls 1.4
 import "../../../elements"
 import "../../"
 
-EntryContainer {
+Entry {
 
-    id: item_top
+    title: em.pty+qsTr("Label on Thumbnails")
+    helptext: em.pty+qsTr("PhotoQt can write a label with some information on the thumbnails. Currently, only the filename is available. The\
+ slider adjusts the fontsize of the text for the filename.")
 
-    Row {
+    content: [
 
-        spacing: 20
+        Item {
 
-        EntryTitle {
+            width: writefilename.width
+            height: fontsize_spinbox.height
 
-            id: entrytitle
+            CustomCheckBox {
+                id: writefilename
+                y: (parent.height-height)/2
+                //: Settings: Write the filename on a thumbnail
+                text: em.pty+qsTr("Write Filename")
+            }
 
-            title: em.pty+qsTr("Label on Thumbnails")
-            helptext: em.pty+qsTr("PhotoQt can write a label with some information on the thumbnails. Currently, only the filename is available. The slider adjusts the fontsize of the text for the filename.")
+        },
 
-        }
+        Rectangle { color: "transparent"; width: 10; height: 1; },
 
-        EntrySetting {
+        Row {
 
-            id: entry
+            spacing: 10
 
-            Row {
+            Text {
+                id: txt_fontsize
+                color: enabled ? colour.text : colour.text_inactive
+                Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
+                y: (parent.height-height)/2
+                enabled: writefilename.checkedButton
+                opacity: enabled ? 1 : 0.5
+                //: Settings: Write the filename with this fontsize on a thumbnail
+                text: em.pty+qsTr("Fontsize") + ":"
+            }
 
-                spacing: 10
+            CustomSlider {
 
-                CustomCheckBox {
-                    id: writefilename
-                    y: (parent.height-height)/2
-                    //: Settings: Write the filename on a thumbnail
-                    text: em.pty+qsTr("Write Filename")
-                }
+                id: fontsize_slider
 
-                Rectangle { color: "transparent"; width: 10; height: 1; }
+                width: Math.min(200, Math.max(200,parent.parent.width-writefilename.width-txt_fontsize.width-fontsize_spinbox.width-50))
+                y: (parent.height-height)/2
 
-                Text {
-                    id: txt_fontsize
-                    color: enabled ? colour.text : colour.text_inactive
-                    Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
-                    y: (parent.height-height)/2
-                    enabled: writefilename.checkedButton
-                    opacity: enabled ? 1 : 0.5
-                    //: Settings: Write the filename with this fontsize on a thumbnail
-                    text: em.pty+qsTr("Fontsize") + ":"
-                }
+                minimumValue: 5
+                maximumValue: 20
 
-                CustomSlider {
+                value: fontsize_spinbox.value
+                stepSize: 1
+                scrollStep: 1
 
-                    id: fontsize_slider
+                enabled: writefilename.checkedButton
 
-                    width: Math.min(400, Math.max(50,settings_top.width-entrytitle.width-writefilename.width-txt_fontsize.width-fontsize_spinbox.width-80))
-                    y: (parent.height-height)/2
+            }
 
-                    minimumValue: 5
-                    maximumValue: 20
+            CustomSpinBox {
 
-                    value: fontsize_spinbox.value
-                    stepSize: 1
-                    scrollStep: 1
-                    tickmarksEnabled: true
+                id: fontsize_spinbox
+                y: (parent.height-height)/2
 
-                    enabled: writefilename.checkedButton
+                width: 75
 
-                }
+                minimumValue: 5
+                maximumValue: 20
 
-                CustomSpinBox {
+                suffix: " pt"
 
-                    id: fontsize_spinbox
-                    y: (parent.height-height)/2
+                value: fontsize_slider.value
 
-                    width: 75
-
-                    minimumValue: 5
-                    maximumValue: 20
-
-                    value: fontsize_slider.value
-
-                    enabled: writefilename.checkedButton
-
-                }
+                enabled: writefilename.checkedButton
 
             }
 
         }
 
-    }
+    ]
 
     function setData() {
         writefilename.checkedButton = settings.thumbnailWriteFilename

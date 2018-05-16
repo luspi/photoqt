@@ -25,77 +25,70 @@ import QtQuick 2.5
 import "../../../elements"
 import "../../"
 
-EntryContainer {
+Entry {
 
-    id: item_top
+    //: The type of interpolation to use for small images
+    title: em.pty+qsTr("Interpolation")
+    helptext: em.pty+qsTr("There are many different interpolation algorithms out there. Depending on the choice of interpolation algorithm, the\
+ image (when zoomed in) will look slightly differently. PhotoQt uses mipmaps to get the best quality for images. However, for very small images,\
+ that might lead to too much blurring causing them to look rather ugly. For those images, the 'Nearest Neighbour' algorithm tends to be a better\
+ choice. The threshold defines for which images to use which algorithm.");
 
-    Row {
+    content: [
 
-        spacing: 20
+        Row {
 
-        EntryTitle {
+            spacing: 10
 
-            id: entrytitle
+            Text {
 
-            //: The type of interpolation to use for small images
-            title: em.pty+qsTr("Interpolation")
-            helptext: em.pty+qsTr("There are many different interpolation algorithms out there. Depending on the choice of interpolation algorithm, the image (when zoomed in) will look slightly differently. PhotoQt uses mipmaps to get the best quality for images. However, for very small images, that might lead to too much blurring causing them to look rather ugly. For those images, the 'Nearest Neighbour' algorithm tends to be a better choice. The threshold defines for which images to use which algorithm.");
+                id: txt_label
+                color: colour.text
+                //: When to trigger an action, below which threshold
+                text: em.pty+qsTr("Threshold:")
+                font.pointSize: 10
+                y: (parent.height-height)/2
 
-        }
+            }
 
-        EntrySetting {
+            CustomSpinBox {
 
-            Row {
+                id: interpolationthreshold
 
-                spacing: 10
+                width: 100
 
-                Text {
+                minimumValue: 0
+                maximumValue: 99999
 
-                    id: txt_label
-                    color: colour.text
-                    //: When to trigger an action, below which threshold
-                    text: em.pty+qsTr("Threshold:")
-                    font.pointSize: 10
-                    y: (parent.height-height)/2
+                stepSize: 5
 
-                }
+                value: 100
+                suffix: " px"
 
-                CustomSpinBox {
+            }
 
-                    id: interpolationthreshold
+        },
 
-                    width: 100
+        Item { width: 5; height: 1 },
 
-                    minimumValue: 0
-                    maximumValue: 99999
+        Item {
 
-                    stepSize: 5
+            width: childrenRect.width
+            height: interpolationthreshold.height
 
-                    value: 100
-                    suffix: " px"
+            CustomCheckBox {
 
-                }
-
-                Rectangle { color: "transparent"; width: 1; height: 1; }
-                Rectangle { color: "transparent"; width: 1; height: 1; }
-                Rectangle { color: "transparent"; width: 1; height: 1; }
-
-                CustomCheckBox {
-
-                    id: interpolationupscale
-                    y: (parent.height-height)/2
-                    wrapMode: Text.WordWrap
-                    fixedwidth: settings_top.width-entrytitle.width-txt_label.width-interpolationthreshold.width-90
-                    //: 'Nearest Neighbour' is the name of a specific algorithm
-                    text: em.pty+qsTr("Use 'Nearest Neighbour' algorithm for upscaling")
-
-                }
+                id: interpolationupscale
+                y: (parent.height-height)/2
+                wrapMode: Text.WordWrap
+                //: 'Nearest Neighbour' is the name of a specific algorithm
+                text: em.pty+qsTr("Use 'Nearest Neighbour' algorithm for upscaling")
 
             }
 
         }
 
-    }
+    ]
 
     function setData() {
         interpolationthreshold.value = settings.interpolationNearestNeighbourThreshold

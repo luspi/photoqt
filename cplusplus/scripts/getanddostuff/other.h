@@ -36,13 +36,13 @@
 #include <QTextStream>
 #include <QStandardPaths>
 #include <QtQml>
+#include <QColorDialog>
 #include "../../logger.h"
 
 #include <QWindow>
 
 #ifdef GM
 #include <GraphicsMagick/Magick++.h>
-#include "../gmimagemagick.h"
 #endif
 
 class GetAndDoStuffOther : public QObject {
@@ -66,11 +66,15 @@ public:
     bool isExivSupportEnabled();
     bool isGraphicsMagickSupportEnabled();
     bool isLibRawSupportEnabled();
+    bool isDevILSupportEnabled();
+    bool isFreeImageSupportEnabled();
+    bool isPopplerSupportEnabled();
     QString getVersionString();
     void storeGeometry(QRect rect);
     QRect getStoredGeometry();
     bool isImageAnimated(QString path);
     QString convertIdIntoString(QObject *object);
+    QString selectColor(QString preselectColor);
 
 };
 

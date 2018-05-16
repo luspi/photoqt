@@ -32,7 +32,7 @@ namespace StartupCheck {
 
     namespace Thumbnails {
 
-        static inline void checkThumbnailsDatabase(int update, Settings *settings) {
+        static void checkThumbnailsDatabase(int update, Settings *settings) {
 
             bool debug = (qgetenv("PHOTOQT_DEBUG") == "yes");
 
@@ -48,9 +48,11 @@ namespace StartupCheck {
                 db.setDatabaseName(ConfigFiles::THUMBNAILS_DB());
                 if(!db.open()) LOG << CURDATE << "ERROR: Couldn't open thumbnail database:" << db.lastError().text().trimmed().toStdString() << NL;
                 QSqlQuery query(db);
-                query.prepare("CREATE TABLE Thumbnails (filepath TEXT,thumbnail BLOB, filelastmod INT, thumbcreated INT, origwidth INT, origheight INT)");
+                query.prepare(
+                        "CREATE TABLE Thumbnails (filepath TEXT,thumbnail BLOB, filelastmod INT, thumbcreated INT, origwidth INT, origheight INT)");
                 query.exec();
-                if(query.lastError().text().trimmed().length()) LOG << CURDATE << "ERROR (Creating Thumbnail Datbase):" << query.lastError().text().trimmed().toStdString() << NL;
+                if(query.lastError().text().trimmed().length()) LOG << CURDATE << "ERROR (Creating Thumbnail Datbase):" <<
+                                                                       query.lastError().text().trimmed().toStdString() << NL;
                 query.clear();
 
 
@@ -64,18 +66,21 @@ namespace StartupCheck {
                 if(!db.open()) LOG << CURDATE << "ERROR: Couldn't open thumbnail database:" << db.lastError().text().trimmed().toStdString() << NL;
 
                 QSqlQuery query_check(db);
-                query_check.prepare("SELECT COUNT( * ) AS 'Count' FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Thumbnails' AND COLUMN_NAME = 'origwidth'");
+                query_check.prepare(
+                        "SELECT COUNT( * ) AS 'Count' FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Thumbnails' AND COLUMN_NAME = 'origwidth'");
                 query_check.exec();
                 query_check.next();
                 if(query_check.record().value(0) == 0) {
                     QSqlQuery query(db);
                     query.prepare("ALTER TABLE Thumbnails ADD COLUMN origwidth INT");
                     query.exec();
-                    if(query.lastError().text().trimmed().length()) LOG << CURDATE << "ERROR (Adding origwidth to Thumbnail Database):" << query.lastError().text().trimmed().toStdString() << NL;
+                    if(query.lastError().text().trimmed().length()) LOG << CURDATE << "ERROR (Adding origwidth to Thumbnail Database):" <<
+                                                                           query.lastError().text().trimmed().toStdString() << NL;
                     query.clear();
                     query.prepare("ALTER TABLE Thumbnails ADD COLUMN origheight INT");
                     query.exec();
-                    if(query.lastError().text().trimmed().length()) LOG << CURDATE << "ERROR (Adding origheight to Thumbnail Database):" << query.lastError().text().trimmed().toStdString() << NL;
+                    if(query.lastError().text().trimmed().length()) LOG << CURDATE << "ERROR (Adding origheight to Thumbnail Database):" <<
+                                                                           query.lastError().text().trimmed().toStdString() << NL;
                     query.clear();
                 }
                 query_check.clear();

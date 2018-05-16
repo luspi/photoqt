@@ -26,7 +26,7 @@ import QtQuick.Controls.Styles 1.4
 
 Slider {
 
-    property int scrollStep: 3
+    property real scrollStep: 3
 
     property string tooltip: ""
 
@@ -41,7 +41,11 @@ Slider {
         }
         handle: Rectangle {
             anchors.centerIn: parent
-            color: control.enabled ? (control.pressed ? colour.slider_handle_color_active : colour.slider_handle_color_inactive) : colour.slider_handle_color_disabled
+            color: control.enabled ?
+                       (control.pressed ?
+                            colour.slider_handle_color_active :
+                            colour.slider_handle_color_inactive) :
+                       colour.slider_handle_color_disabled
             Behavior on color { ColorAnimation { duration: variables.animationSpeed/2 } }
             border.color: control.enabled ? colour.slider_handle_border_color : colour.slider_handle_border_color_disabled
             Behavior on border.color { ColorAnimation { duration: variables.animationSpeed/2 } }

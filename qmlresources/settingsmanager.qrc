@@ -1,32 +1,32 @@
 <RCC>
     <qresource prefix="/">
         <file>../qml/settingsmanager/SettingsManager.qml</file>
-        <file>../qml/settingsmanager/EntrySetting.qml</file>
-        <file>../qml/settingsmanager/EntryTitle.qml</file>
-        <file>../qml/settingsmanager/EntryContainer.qml</file>
+        <file>../qml/settingsmanager/Entry.qml</file>
         <file>../qml/settingsmanager/ExportImport.qml</file>
         <file>../qml/settingsmanager/SettingInfoOverlay.qml</file>
         <file>../qml/settingsmanager/tabs/TabLookAndFeel.qml</file>
-        <file>../qml/settingsmanager/tabs/lookandfeel/Animation.qml</file>
-        <file>../qml/settingsmanager/tabs/lookandfeel/Background.qml</file>
-        <file>../qml/settingsmanager/tabs/lookandfeel/BorderAroundImage.qml</file>
-        <file>../qml/settingsmanager/tabs/lookandfeel/CloseOnClick.qml</file>
+        <file>../qml/settingsmanager/tabs/lookandfeel/SortBy.qml</file>
+        <file>../qml/settingsmanager/tabs/lookandfeel/WindowMode.qml</file>
+        <file>../qml/settingsmanager/tabs/lookandfeel/TrayIcon.qml</file>
         <file>../qml/settingsmanager/tabs/lookandfeel/ClosingX.qml</file>
         <file>../qml/settingsmanager/tabs/lookandfeel/FitInWindow.qml</file>
-        <file>../qml/settingsmanager/tabs/lookandfeel/HotEdge.qml</file>
-        <file>../qml/settingsmanager/tabs/lookandfeel/Interpolation.qml</file>
-        <file>../qml/settingsmanager/tabs/lookandfeel/Loop.qml</file>
-        <file>../qml/settingsmanager/tabs/lookandfeel/MouseWheelSensitivity.qml</file>
-        <file>../qml/settingsmanager/tabs/lookandfeel/OverlayColor.qml</file>
         <file>../qml/settingsmanager/tabs/lookandfeel/Quickinfo.qml</file>
-        <file>../qml/settingsmanager/tabs/lookandfeel/Keep.qml</file>
-        <file>../qml/settingsmanager/tabs/lookandfeel/SortBy.qml</file>
+        <file>../qml/settingsmanager/tabs/lookandfeel/Background.qml</file>
+        <file>../qml/settingsmanager/tabs/lookandfeel/OverlayColor.qml</file>
+        <file>../qml/settingsmanager/tabs/lookandfeel/BorderAroundImage.qml</file>
+        <file>../qml/settingsmanager/tabs/lookandfeel/CloseOnClick.qml</file>
+        <file>../qml/settingsmanager/tabs/lookandfeel/Loop.qml</file>
         <file>../qml/settingsmanager/tabs/lookandfeel/Transition.qml</file>
-        <file>../qml/settingsmanager/tabs/lookandfeel/TrayIcon.qml</file>
-        <file>../qml/settingsmanager/tabs/lookandfeel/WindowMode.qml</file>
+        <file>../qml/settingsmanager/tabs/lookandfeel/TransparencyMarker.qml</file>
+        <file>../qml/settingsmanager/tabs/lookandfeel/HotEdge.qml</file>
+        <file>../qml/settingsmanager/tabs/lookandfeel/MouseWheelSensitivity.qml</file>
+        <file>../qml/settingsmanager/tabs/lookandfeel/Interpolation.qml</file>
         <file>../qml/settingsmanager/tabs/lookandfeel/PixmapCache.qml</file>
         <file>../qml/settingsmanager/tabs/lookandfeel/ReOpenFile.qml</file>
-        <file>../qml/settingsmanager/tabs/lookandfeel/TransparencyMarker.qml</file>
+        <file>../qml/settingsmanager/tabs/lookandfeel/Keep.qml</file>
+        <file>../qml/settingsmanager/tabs/lookandfeel/Animation.qml</file>
+        <file>../qml/settingsmanager/tabs/lookandfeel/QuickInfoManageWindow.qml</file>
+        <file>../qml/settingsmanager/tabs/lookandfeel/ZoomSpeed.qml</file>
         <file>../qml/settingsmanager/tabs/TabThumbnails.qml</file>
         <file>../qml/settingsmanager/tabs/thumbnails/ThumbnailSize.qml</file>
         <file>../qml/settingsmanager/tabs/thumbnails/Spacing.qml</file>
@@ -46,14 +46,20 @@
         <file>../qml/settingsmanager/tabs/metadata/Opacity.qml</file>
         <file>../qml/settingsmanager/tabs/metadata/RotateFlip.qml</file>
         <file>../qml/settingsmanager/tabs/metadata/OnlineMap.qml</file>
-        <file>../qml/settingsmanager/tabs/TabFileformats.qml</file>
-        <file>../qml/settingsmanager/tabs/fileformats/FileTypesQt.qml</file>
-        <file>../qml/settingsmanager/tabs/fileformats/FileTypesTile.qml</file>
-        <file>../qml/settingsmanager/tabs/fileformats/FileTypesGM.qml</file>
-        <file>../qml/settingsmanager/tabs/fileformats/FileTypesGMGhostscript.qml</file>
-        <file>../qml/settingsmanager/tabs/fileformats/FileTypesExtras.qml</file>
-        <file>../qml/settingsmanager/tabs/fileformats/FileTypesUntested.qml</file>
-        <file>../qml/settingsmanager/tabs/fileformats/FileTypesRaw.qml</file>
+        <file>../qml/settingsmanager/tabs/metadata/PeopleTags.qml</file>
+        <file>../qml/settingsmanager/tabs/TabImageFormats.qml</file>
+        <file>../qml/settingsmanager/tabs/imageformats/PopupImageFormats.qml</file>
+        <file>../qml/settingsmanager/tabs/imageformats/PopupMimeTypes.qml</file>
+        <file>../qml/settingsmanager/tabs/imageformats/ImageFormatsTile.qml</file>
+        <file>../qml/settingsmanager/tabs/imageformats/ImageFormatsQt.qml</file>
+        <file>../qml/settingsmanager/tabs/imageformats/ImageFormatsPoppler.qml</file>
+        <file>../qml/settingsmanager/tabs/imageformats/ImageFormatsXCFTools.qml</file>
+        <file>../qml/settingsmanager/tabs/imageformats/ImageFormatsArchive.qml</file>
+        <file>../qml/settingsmanager/tabs/imageformats/ImageFormatsRAW.qml</file>
+        <file>../qml/settingsmanager/tabs/imageformats/ImageFormatsGm.qml</file>
+        <file>../qml/settingsmanager/tabs/imageformats/ImageFormatsGmGhostscript.qml</file>
+        <file>../qml/settingsmanager/tabs/imageformats/ImageFormatsDevil.qml</file>
+        <file>../qml/settingsmanager/tabs/imageformats/ImageFormatsFreeImage.qml</file>
         <file>../qml/settingsmanager/tabs/TabOther.qml</file>
         <file>../qml/settingsmanager/tabs/other/Language.qml</file>
         <file>../qml/settingsmanager/tabs/other/LanguageTile.qml</file>

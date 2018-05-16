@@ -26,48 +26,30 @@ import QtQuick.Controls 1.4
 import "../../../elements"
 import "../../"
 
-EntryContainer {
+Entry {
 
-    id: item_top
+    title: em.pty+qsTr("Automatic Rotate/Flip")
+    helptext: em.pty+qsTr("Some cameras can detect - while taking the photo - whether the camera was turned and might store this information in\
+ the image exif data. If PhotoQt finds this information, it can rotate the image accordingly or simply ignore that information.")
 
-    Row {
+    ExclusiveGroup { id: rotateflipgroup; }
 
-        spacing: 20
+    content: [
 
-        EntryTitle {
+        CustomRadioButton {
+            id: neverrotate
+            text: em.pty+qsTr("Never rotate/flip images")
+            exclusiveGroup: rotateflipgroup
+            checked: true
+        },
 
-            title: em.pty+qsTr("Automatic Rotate/Flip")
-            helptext: em.pty+qsTr("Some cameras can detect - while taking the photo - whether the camera was turned and might store this information in the image exif data. If PhotoQt finds this information, it can rotate the image accordingly or simply ignore that information.")
-
+        CustomRadioButton {
+            id: alwaysrotate
+            text: em.pty+qsTr("Always rotate/flip images")
+            exclusiveGroup: rotateflipgroup
         }
 
-        EntrySetting {
-
-            id: entry
-
-            ExclusiveGroup { id: rotateflipgroup; }
-
-            Row {
-
-                spacing: 10
-
-                CustomRadioButton {
-                    id: neverrotate
-                    text: em.pty+qsTr("Never rotate/flip images")
-                    exclusiveGroup: rotateflipgroup
-                    checked: true
-                }
-                CustomRadioButton {
-                    id: alwaysrotate
-                    text: em.pty+qsTr("Always rotate/flip images")
-                    exclusiveGroup: rotateflipgroup
-                }
-
-            }
-
-        }
-
-    }
+    ]
 
     function setData() {
         neverrotate.checked = !settings.metaApplyRotation

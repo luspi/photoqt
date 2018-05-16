@@ -93,7 +93,8 @@ Rectangle {
             text: showUnsupportedProtocolFolderMessage
                                 //: Protocol refers to a file protocol (e.g., for network folders)
                               ? em.pty+qsTr("This protocol is currently not supported")
-                                //: Can also be expressed as 'zero subfolders' or '0 subfolders'. It is also possible to drop the 'sub' leaving 'folders' if that works better
+                                //: Can also be expressed as 'zero subfolders' or '0 subfolders'.
+                                //: It is also possible to drop the 'sub' leaving 'folders' if that works better
                               : em.pty+qsTr("No subfolders")
 
         }
@@ -213,6 +214,8 @@ Rectangle {
 
                         id: imagecountertextitem
 
+                        property int counter: 0
+
                         // top and bottom are tied to parent, width is defined by text
                         anchors {
                             top: parent.top
@@ -229,11 +232,21 @@ Rectangle {
 
                         // the text varies depending on if 0, 1, or 2+ images were found
                         text: ((counter==0||folder=="..") ? ""
-                                                         : counter + " " + (counter==1
-                        //: Used as in '(1 image)'. This string is always used for the singular, exactly one image
-                                                                                        ? em.pty+qsTr("image")
-                        //: Used as in '(11 images)'. This string is always used for multiple images (at least 2)
-                                                                                        : em.pty+qsTr("images")))
+                                                          : (counter==1
+                                                                  //: Keep string short!
+                                                                ? em.pty+qsTr("1 image")
+                                                                  //: Always used for the plural (i.e., at least 2). Keep string short!
+                                                                : em.pty+qsTr("%1 images").arg(counter)))
+
+                        Timer {
+                            id: checkForCounter
+                            interval: 100
+                            repeat: false
+                            running: true
+                            onTriggered:
+                                imagecountertextitem.counter = getanddostuff.getNumberFilesInFolder(openvariables.currentDirectory + "/" + folder,
+                                                                                                    openvariables.filesFileTypeCategorySelected)
+                        }
 
                     }
 

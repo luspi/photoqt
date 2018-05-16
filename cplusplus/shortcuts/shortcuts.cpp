@@ -130,6 +130,10 @@ void Shortcuts::saveShortcuts(QVariantList data) {
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE << "Shortcuts::saveShortcuts() - # of shortcuts: " << data.length() << NL;
 
+    QDir dir(ConfigFiles::CONFIG_DIR());
+    if(!dir.exists())
+        dir.mkpath(ConfigFiles::CONFIG_DIR());
+
     QFile file(ConfigFiles::SHORTCUTS_FILE());
     if(!file.open(QIODevice::WriteOnly|QIODevice::Truncate)) {
         LOG << CURDATE << "Shortcuts::saveShortcuts() - ERROR: unable to open shortcuts file for saving" << NL;

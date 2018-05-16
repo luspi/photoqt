@@ -47,7 +47,8 @@ public:
                 } while(!line.isNull());
                 file.close();
             } else
-                LOG << CURDATE << "ShortcutsNotifier - ERROR: Unable to retrieve initial states of shortcuts notifiers: " << file.errorString().trimmed().toStdString() << NL;
+                LOG << CURDATE << "ShortcutsNotifier - ERROR: Unable to retrieve initial states of shortcuts notifiers: " <<
+                       file.errorString().trimmed().toStdString() << NL;
         }
     }
 
@@ -60,7 +61,8 @@ public:
             out << (area+"\n");
             file.close();
         } else
-            LOG << CURDATE << "ShortcutsNotifier::setHidden() - ERROR: Unable to save state of shortcuts notifier of area '" << area.toStdString() << "': " << file.errorString().trimmed().toStdString() << NL;
+            LOG << CURDATE << "ShortcutsNotifier::setHidden() - ERROR: Unable to save state of shortcuts notifier of area '" <<
+                   area.toStdString() << "': " << file.errorString().trimmed().toStdString() << NL;
         hiddenareas.append(area);
     }
 

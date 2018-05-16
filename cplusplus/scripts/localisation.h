@@ -45,21 +45,27 @@ public:
         if(!trans->isEmpty())
             qApp->removeTranslator(trans);
 
-        if(QFile(":/photoqt_" + code + ".qm").exists()) {
-            trans->load(":/photoqt_" + code);
-            qApp->installTranslator(trans);
-            emit languageChanged();
-            return;
-        }
+        QStringList allcodes = code.split("/");
 
-        if(code.contains("_")) {
-            code = code.split("_").at(0);
-            if(QFile(":/photoqt_" + code + ".qm").exists()) {
-                trans->load(":/photoqt_" + code);
+        foreach(QString c, allcodes) {
+
+            if(QFile(":/photoqt_" + c + ".qm").exists()) {
+                trans->load(":/photoqt_" + c);
                 qApp->installTranslator(trans);
                 emit languageChanged();
                 return;
             }
+
+            if(c.contains("_")) {
+                c = c.split("_").at(0);
+                if(QFile(":/photoqt_" + c + ".qm").exists()) {
+                    trans->load(":/photoqt_" + c);
+                    qApp->installTranslator(trans);
+                    emit languageChanged();
+                    return;
+                }
+            }
+
         }
 
         // Store translation in settings file

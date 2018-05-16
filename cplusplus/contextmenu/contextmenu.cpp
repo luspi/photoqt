@@ -43,6 +43,11 @@ ContextMenu::ContextMenu(QObject *parent) : QObject(parent) {
                       "background-color: transparent;"
                       "color: #aa808080;"
                   "}"
+                  "QMenu::separator {"
+                        "background-color: white;"
+                        "height: 1px;"
+                        "margin: 5px 0px 5px 0px;"
+                  "}"
                   // the individual items, hovered
                   "QMenu::item:selected {"
                       "background-color: #4f4f4f;"
@@ -82,8 +87,13 @@ ContextMenu::~ContextMenu() {
 }
 
 // add a new item to the menu
-void ContextMenu::addItem(QString text) {
+void ContextMenu::addItem(QString text, bool bold) {
     QAction *ac = new QAction(text, 0);
+    if(bold) {
+        QFont font = ac->font();
+        font.setBold(true);
+        ac->setFont(font);
+    }
     allActions.append(ac);
     menu->addAction(ac);
     connect(ac, &QAction::toggled, this, &ContextMenu::itemChecked);
@@ -143,4 +153,8 @@ void ContextMenu::setEnabled(int index, bool enabled) {
 // slot called when user clicks on item
 void ContextMenu::triggered(QAction *ac) {
     emit selectedIndexChanged(allActions.indexOf(ac));
+}
+
+int ContextMenu::height() {
+    return menu->sizeHint().height();
 }

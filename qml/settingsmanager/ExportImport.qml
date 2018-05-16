@@ -94,7 +94,8 @@ Rectangle {
 
                 // A short explanation text
                 Text {
-                    text: em.pty+qsTr("Here you can export all settings and shortcuts into a single packed file and, e.g., import it in another installation of PhotoQt.")
+                    text: em.pty+qsTr("Here you can export all settings and shortcuts into a single packed file and, e.g.,\
+ import it in another installation of PhotoQt.")
                     color: "white"
                     width: contrect.width
                     font.pointSize: 12
@@ -186,7 +187,7 @@ Rectangle {
                 CustomButton {
                     x: (parent.width-width)/2
                     fontsize: 15
-                    text: em.pty+qsTr("I don't want to do this")
+                    text: em.pty+qsTr("Cancel")
                     onClickedButton: hide()
                 }
 
@@ -205,7 +206,7 @@ Rectangle {
         description: (exp
                       ? em.pty+qsTr("Exporting the configuration file failed with the following error message:")
                       : em.pty+qsTr("Importing the configuration file failed with the following error message:")) + "<br><br>" + error
-        rejectbuttontext: em.pty+qsTr("Oh, okay")
+        rejectbuttontext: em.pty+qsTr("Close")
         actAsErrorMessage: true
     }
 

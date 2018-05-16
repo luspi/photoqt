@@ -351,7 +351,7 @@ Item {
     Connections {
         target: watcher
         onImageUpdated:
-            setData(getmetadata.getExiv2(variables.currentDir + "/" + variables.currentFile))
+            setData(getmetadata.getExiv2(variables.currentDir + "/" + variables.currentFileWithoutExtras))
     }
 
     function setData(d) {
@@ -375,7 +375,7 @@ Item {
             mod.clear()
 
             if(settings.metaFilename) {
-                var fname = getanddostuff.removePathFromFilename(variables.currentFile, false)
+                var fname = getanddostuff.removePathFromFilename(variables.currentFileWithoutExtras, false)
                 //: Keep string short!
                 mod.append({"name" : qsTranslate("metadata", "Filename"), "prop" : "", "value" : fname, "tooltip" : fname })
             }
@@ -395,7 +395,10 @@ Item {
                 if(settings.metaDimensions) {
                     if("dimensions" in d)
                         //: The dimensions of the loaded image. Keep string short!
-                        mod.append({"name" : qsTranslate("metadata", "Dimensions"), "prop" : "", "value" : d["dimensions"], "tooltip" : d["dimensions"]})
+                        mod.append({"name" : qsTranslate("metadata", "Dimensions"),
+                                    "prop" : "",
+                                    "value" : d["dimensions"],
+                                    "tooltip" : d["dimensions"]})
                     else if("Exif.Photo.PixelXDimension" in d && "Exif.Photo.PixelYDimension" in d) {
                         var dim = d["Exif.Photo.PixelXDimension"] + "x" + d["Exif.Photo.PixelYDimension"]
                         //: The dimensions of the loaded image. Keep string short!

@@ -61,13 +61,18 @@ PinchArea {
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton|Qt.MiddleButton|Qt.RightButton
 
-        drag.target: (dragSource!==Qt.MouseEventNotSynthesized||(settings.leftButtonMouseClickAndMove&&!variables.imageItemBlocked&&buttonID==Qt.LeftButton)) ? imageitem.returnImageContainer() : undefined
+        drag.target: (dragSource!==Qt.MouseEventNotSynthesized||
+                      (settings.leftButtonMouseClickAndMove&&!variables.imageItemBlocked&&buttonID==Qt.LeftButton)) ?
+                            imageitem.returnImageContainer() :
+                            undefined
 
         property point pressedPosStart: Qt.point(-1,-1)
         property point pressedPosEnd: Qt.point(-1,-1)
 
         property int buttonID: Qt.LeftButton
         property int dragSource: Qt.MouseEventNotSynthesized
+
+        cursorShape: (variables.taggingFaces&&variables.mouseHoveringFaceTag ? Qt.PointingHandCursor : Qt.ArrowCursor)
 
         onPositionChanged:
             handleMousePositionChange(mouse.x, mouse.y)
@@ -78,12 +83,14 @@ PinchArea {
                 dragSource = mouse.source
             pressedPosStart = Qt.point(mouse.x, mouse.y)
             variables.shorcutsMouseGesturePointIntermediate = Qt.point(-1,-1)
+            variables.mousePressed = true
         }
         onReleased: {
             pressedPosEnd = Qt.point(mouse.x, mouse.y)
             shortcuts.analyseMouseEvent(pressedPosStart, mouse)
             Handle.checkIfClickOnEmptyArea(pressedPosStart, pressedPosEnd)
             pressedPosStart = Qt.point(-1,-1)
+            variables.mousePressed = false
         }
 
         onWheel: shortcuts.analyseWheelEvent(wheel)
@@ -99,26 +106,28 @@ PinchArea {
 
             var w = Math.max(1, Math.min(20, settings.hotEdgeWidth))*5
 
-            if(xPos > mainwindow.width-w && !variables.slideshowRunning)
+            if(xPos > mainwindow.width-w && !variables.slideshowRunning && !variables.taggingFaces)
                 mainmenu.show()
             else
                 mainmenu.hide()
 
-            if(xPos < w && !variables.slideshowRunning && settings.metadataEnableHotEdge) {
+            if(xPos < w && !variables.slideshowRunning && settings.metadataEnableHotEdge && !variables.taggingFaces) {
                 if((variables.filter != "" && yPos > quickinfo.x+quickinfo.height+25) || variables.filter == "")
                     metadata.show()
             } else
                 metadata.hide()
 
             if(settings.thumbnailPosition!="Top") {
-                if(yPos > mainwindow.height-w && !variables.slideshowRunning && !settings.thumbnailDisable)
+                if(yPos > mainwindow.height-w && !variables.slideshowRunning && !settings.thumbnailDisable && !variables.taggingFaces)
                     call.show("thumbnails")
-                else if((!settings.thumbnailKeepVisible && !settings.thumbnailKeepVisibleWhenNotZoomedIn) || (settings.thumbnailKeepVisibleWhenNotZoomedIn && imageitem.isZoomedIn()))
+                else if((!settings.thumbnailKeepVisible && !settings.thumbnailKeepVisibleWhenNotZoomedIn) ||
+                        (settings.thumbnailKeepVisibleWhenNotZoomedIn && imageitem.isZoomedIn()))
                     call.hide("thumbnails")
             } else {
-                if(yPos < w && !variables.slideshowRunning && !settings.thumbnailDisable)
+                if(yPos < w && !variables.slideshowRunning && !settings.thumbnailDisable && !variables.taggingFaces)
                     call.show("thumbnails")
-                else if((!settings.thumbnailKeepVisible && !settings.thumbnailKeepVisibleWhenNotZoomedIn) || (settings.thumbnailKeepVisibleWhenNotZoomedIn && imageitem.isZoomedIn()))
+                else if((!settings.thumbnailKeepVisible && !settings.thumbnailKeepVisibleWhenNotZoomedIn) ||
+                        (settings.thumbnailKeepVisibleWhenNotZoomedIn && imageitem.isZoomedIn()))
                     call.hide("thumbnails")
             }
 
@@ -126,6 +135,8 @@ PinchArea {
                 call.show("slideshowbar")
             else
                 call.hide("slideshowbar")
+
+            variables.mouseCurrentPos = Qt.point(xPos, yPos)
 
         }
 

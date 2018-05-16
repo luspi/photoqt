@@ -22,6 +22,7 @@
 
 import QtQuick 2.5
 import QtQuick.Controls 1.4
+import PContextMenu 1.0
 
 import "./tabs"
 import "../elements"
@@ -45,6 +46,9 @@ Rectangle {
     property int settingsQuickInfoCloseXSize: Math.max(5, Math.min(25, settings.quickInfoCloseXSize))
 
     property alias settingsDetectShortcuts: detectshortcut
+
+    property bool imageFormatsAdvancedTuningPopupVisible: false
+    signal imageFormatsHidePopup()
 
     // setData is only emitted when settings have been 'closed without saving'
     // See comment above 'setData_restore()' function below
@@ -158,9 +162,9 @@ Rectangle {
 
         Tab {
 
-            title: em.pty+qsTr("Fileformats")
+            title: em.pty+qsTr("Image Formats")
 
-            TabFileformats {
+            TabImageFormats {
                 Connections {
                     target: settings_top
                     onSetData:{
@@ -247,28 +251,31 @@ Rectangle {
 
         color: "#00000000"
 
-        // Button to restore default settings - bottom left
         CustomButton {
-
-            id: restoredefault
-
+            id: managebut
             x: 5
             y: 5
             height: parent.height-10
-
-            text: em.pty+qsTr("Restore Default Settings")
-
-            onClickedButton: confirmdefaultssettings.show()
-
+            //: This is used as in 'Manage the settings', used on button referring to the action of restoring default settings
+            //: and export/import of settings
+            text: em.pty+qsTr("Manage")
+            onClickedButton:
+                managebutmenu.popup(Qt.point(managebut.x+variables.windowXY.x,
+                                             mainwindow.height-managebut.height-managebutmenu.height()+variables.windowXY.y))
         }
 
-        CustomButton {
-            id: exportimportbutton
-            text: "Export/Import"
-            x: restoredefault.x+restoredefault.width+10
-            y: 5
-            onClickedButton: {
-                exportimport.show()
+        PContextMenu {
+            id: managebutmenu
+            Component.onCompleted: {
+                managebutmenu.addItem(em.pty+qsTr("Restore Default Settings"))
+                //: Export/Import refers to doing this with all the settings and configurations
+                managebutmenu.addItem(em.pty+qsTr("Export/Import"))
+            }
+            onSelectedIndexChanged: {
+                if(index == 0)
+                    confirmdefaultssettings.show()
+                else
+                    exportimport.show()
             }
         }
 
@@ -339,12 +346,12 @@ Rectangle {
         header: em.pty+qsTr("Clean Database!")
         //: The database refers to the database used for thumbnail caching
         description: em.pty+qsTr("Do you really want to clean up the database?") + "<br><br>" +
-                     em.pty+qsTr("This removes all obsolete thumbnails, thus possibly making PhotoQt a little faster.") + "<bR><br>" +
+                     em.pty+qsTr("This removes all obsolete thumbnails, thus possibly making PhotoQt a little faster.") + "<br><br>" +
                      em.pty+qsTr("This process might take a little while.")
         //: Along the lines of "Yes, clean the database for thumbnails caching"
-        confirmbuttontext: em.pty+qsTr("Yes, clean is good")
+        confirmbuttontext: em.pty+qsTr("Continue")
         //: Along the lines of "No, cleaning the database for thumbnails caching takes too long, don't do it"
-        rejectbuttontext: em.pty+qsTr("No, don't have time for that")
+        rejectbuttontext: em.pty+qsTr("Cancel")
         onAccepted: cleanDatabase()
     }
 
@@ -356,12 +363,13 @@ Rectangle {
          //: The database refers to the database used for thumbnail caching
         description: em.pty+qsTr("Do you really want to ERASE the entire database?") + "<br><br>" +
                       //: The database refers to the database used for thumbnail caching
-                     em.pty+qsTr("This removes every single item from the database! This step should never really be necessary. Afterwards every thumbnail has to be re-created.") + "<br>" +
+                     em.pty+qsTr("This removes every single item from the database! This step should never really be necessary.\\
+ Afterwards every thumbnail has to be re-created.") + "<br>" +
                      em.pty+qsTr("This step cannot be reversed!")
         //: Along the lines of "Yes, empty the database for thumbnails caching"
-        confirmbuttontext: em.pty+qsTr("Yes, get rid of it all")
+        confirmbuttontext: em.pty+qsTr("Continue")
         //: Along the lines of "No, don't empty the database for thumbnails caching, I want to keep it"
-        rejectbuttontext: em.pty+qsTr("No, I want to keep it")
+        rejectbuttontext: em.pty+qsTr("Cancel")
         onAccepted: eraseDatabase()
     }
 
@@ -371,11 +379,12 @@ Rectangle {
         header: em.pty+qsTr("Restore Default Settings")
         description: em.pty+qsTr("Are you sure you want to revert back to the default settings?") + "<br><br>" +
                      em.pty+qsTr("This step cannot be reversed!")
-        confirmbuttontext: em.pty+qsTr("Yes, go ahead")
+        confirmbuttontext: em.pty+qsTr("Continue")
         //: Used in settings manager when asking for confirmation for restoring default settings (written on button)
-        rejectbuttontext: em.pty+qsTr("No, thanks")
+        rejectbuttontext: em.pty+qsTr("Cancel")
         onAccepted: {
             settings.setDefault()
+            imageformats.setDefaultFileformats()
             setData()
         }
     }
@@ -386,8 +395,8 @@ Rectangle {
         header: em.pty+qsTr("Set Default Shortcuts")
         description: em.pty+qsTr("Are you sure you want to reset the shortcuts to the default set?") + "<br><br>" +
                      em.pty+qsTr("This step cannot be reversed!")
-        confirmbuttontext: em.pty+qsTr("Yes, please")
-        rejectbuttontext: em.pty+qsTr("No, don't")
+        confirmbuttontext: em.pty+qsTr("Continue")
+        rejectbuttontext: em.pty+qsTr("Cancel")
         maxwidth: 400
         onAccepted: {
             verboseMessage("SettingsManager","Setting default shortcuts...")
@@ -417,9 +426,11 @@ Rectangle {
         //: The tab refers to the tabs in the settings manager
         settingsmanagershortcuts.shortcuts[strings.get("ctrl") + " + " + strings.get("tab")] = em.pty+qsTr("Go to the next tab")
         //: The tab refers to the tabs in the settings manager
-        settingsmanagershortcuts.shortcuts[strings.get("ctrl") + " + " + strings.get("shift") + " + " + strings.get("tab")] = em.pty+qsTr("Go to the previous tab")
+        settingsmanagershortcuts.shortcuts[strings.get("ctrl") + " + " + strings.get("shift") + " + " + strings.get("tab")] =
+                                                                                               em.pty+qsTr("Go to the previous tab")
         //: The tab refers to the tabs in the settings manager
-        settingsmanagershortcuts.shortcuts[strings.get("alt") + "+1 " + " ... " + " " + strings.get("alt") + "+6"] = em.pty+qsTr("Switch to tab 1 to 5")
+        settingsmanagershortcuts.shortcuts[strings.get("alt") + "+1 " + " ... " + " " + strings.get("alt") + "+6"] =
+                                                                                               em.pty+qsTr("Switch to tab 1 to 5")
         settingsmanagershortcuts.shortcuts[strings.get("ctrl") + "+S"] = em.pty+qsTr("Save settings")
         settingsmanagershortcuts.shortcuts[strings.get("escape")] = em.pty+qsTr("Discard settings")
     }
@@ -466,7 +477,7 @@ Rectangle {
         verboseMessage("SettingsManager", "showSettings()")
         opacity = 1
         variables.guiBlocked = true
-        setData()	// We DO need to call setData() here, as otherwise - once set up - a tab would not be updated (e.g. with changes from quicksettings)
+        setData()   // We DO need to call setData() here as otherwise (once set up) a tab would not be updated (e.g. with changes from quicksettings)
         updateDatabaseInfo()
         settingsmanagershortcuts.display()
     }
@@ -495,15 +506,17 @@ Rectangle {
             exportimport.hide()
         else if(settingsinfooverlay.visible)
             settingsinfooverlay.hide()
+        else if(imageFormatsAdvancedTuningPopupVisible)
+            imageFormatsHidePopup()
         else {
             opacity = 0
-            if(variables.currentFile === "" )
+            if(variables.currentFile === "")
                 call.show("openfile")
             else
                 variables.guiBlocked = false
         }
     }
-    function forceHideEverything() {
+    function forceHideEverything(askForFileIfNoneOpen) {
         verboseMessage("SettingsManager", "forceHideEverything()")
         if(confirmclean.visible)
             confirmclean.reject()
@@ -521,8 +534,13 @@ Rectangle {
             exportimport.hide()
         if(settingsinfooverlay.opacity == 1)
             settingsinfooverlay.hide()
+        if(imageFormatsAdvancedTuningPopupVisible)
+            imageFormatsHidePopup()
         opacity = 0
-        variables.guiBlocked = false
+        if(variables.currentFile === "" && askForFileIfNoneOpen !== undefined && askForFileIfNoneOpen === 1)
+            call.show("openfile")
+        else
+            variables.guiBlocked = false
     }
 
     // This function is only called, when settings have been opened and "closed without saving"
@@ -544,7 +562,7 @@ Rectangle {
 
     function saveSettings() {
         saveData();
-        hideSettings()
+        forceHideEverything(1)
     }
 
 }

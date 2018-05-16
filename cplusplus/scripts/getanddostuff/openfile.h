@@ -32,9 +32,11 @@
 #include <thread>
 #include <QCollator>
 #include "../../logger.h"
-#include "../../settings/fileformats.h"
+#include "../../settings/imageformats.h"
+#include "../../settings/mimetypes.h"
 #include "../../settings/settings.h"
 #include <QStorageInfo>
+#include <QMimeDatabase>
 
 class GetAndDoStuffOpenFile : public QObject {
 
@@ -44,12 +46,10 @@ public:
     explicit GetAndDoStuffOpenFile(QObject *parent = 0);
     ~GetAndDoStuffOpenFile();
 
-    int getNumberFilesInFolder(QString path, int selectionFileTypes);
+    int getNumberFilesInFolder(QString path, QString categoryFileTypes);
     QVariantList getUserPlaces();
     QVariantList getStorageInfo();
     QVariantList getFoldersIn(QString path, bool getDotDot = true, bool showHidden = false);
-    QVariantList getFilesIn(QString path, QString filter, QString sortby, bool sortbyAscending);
-    QVariantList getFilesWithSizeIn(QString path, int selectionFileTypes, bool showHidden, QString sortby, bool sortbyAscending);
     void saveUserPlaces(QVariantList enabled);
     QString getOpenFileLastLocation();
     void setOpenFileLastLocation(QString path);
@@ -57,9 +57,13 @@ public:
     QString getLastOpenedImage();
     QString getCurrentWorkingDirectory();
     QString getDirectoryDirName(QString path);
+    bool isSupportedImageType(QString path);
 
 private:
-    FileFormats *formats;
+    ImageFormats *imageformats;
+    MimeTypes *mimetypes;
+
+    QMimeDatabase mimedb;
 
 };
 

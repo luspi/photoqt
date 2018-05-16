@@ -75,9 +75,9 @@ public:
       appears to be valid after decryption.
     */
     enum IntegrityProtectionMode {
-        ProtectionNone,    /*!< The integerity of the encrypted data is not protected. It is not really possible to detect a wrong key, for instance. */
+        ProtectionNone,  /*!< The integerity of the encrypted data is not protected. It is not really possible to detect a wrong key, for instance. */
         ProtectionChecksum,/*!< A simple checksum is used to verify that the data is in order. If not, an empty string is returned. */
-        ProtectionHash     /*!< A cryptographic hash is used to verify the integrity of the data. This method produces a much stronger, but longer check */
+        ProtectionHash/*!< A cryptographic hash is used to verify the integrity of the data. This method produces a much stronger, but longer check */
     };
     /**
       Error describes the type of error that occured.
@@ -209,7 +209,7 @@ public:
                     CryptoFlagChecksum = 0x02,
                     CryptoFlagHash = 0x04
                    };
-    Q_DECLARE_FLAGS(CryptoFlags, CryptoFlag);
+    Q_DECLARE_FLAGS(CryptoFlags, CryptoFlag)
 private:
 
     void splitKey();

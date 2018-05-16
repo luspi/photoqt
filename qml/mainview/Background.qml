@@ -28,26 +28,37 @@ Rectangle {
 
     anchors.fill: parent
 
-    color: settings.composite ? getanddostuff.convertRgbaToHex(settings.backgroundColorRed, settings.backgroundColorGreen, settings.backgroundColorBlue, settings.backgroundColorAlpha) : "#00000000"
+    color: settings.composite ? getanddostuff.convertRgbaToHex(settings.backgroundColorRed,
+                                                               settings.backgroundColorGreen,
+                                                               settings.backgroundColorBlue,
+                                                               settings.backgroundColorAlpha) :
+                                "#00000000"
 
     // Fake transparency
     Image {
         id: fake
         anchors.fill: parent
         visible: !settings.composite && settings.backgroundImageScreenshot
-        source: (!settings.composite && settings.backgroundImageScreenshot) ? "file:/" + getanddostuff.getTempDir() +"/photoqt_screenshot_" + getanddostuff.getCurrentScreen(variables.windowXY.x, variables.windowXY.y) + ".jpg" : ""
+        source: (!settings.composite && settings.backgroundImageScreenshot) ?
+                    "file:/" + getanddostuff.getTempDir() +"/photoqt_screenshot_" +
+                               getanddostuff.getCurrentScreen(variables.windowXY.x, variables.windowXY.y) + ".jpg" :
+                    ""
         cache: false
         Rectangle {
             anchors.fill: parent
             visible: parent.visible
-            color: getanddostuff.convertRgbaToHex(settings.backgroundColorRed, settings.backgroundColorGreen, settings.backgroundColorBlue, settings.backgroundColorAlpha)
+            color: getanddostuff.convertRgbaToHex(settings.backgroundColorRed,
+                                                  settings.backgroundColorGreen,
+                                                  settings.backgroundColorBlue,
+                                                  settings.backgroundColorAlpha)
         }
     }
     function reloadScreenshot() {
         verboseMessage("MainView/Background", "reloadScreenshot()")
         fake.source = ""
         if(!settings.composite && settings.backgroundImageScreenshot)
-            fake.source = "file:/" + getanddostuff.getTempDir() +"/photoqt_screenshot_" + getanddostuff.getCurrentScreen(variables.windowXY.x+background.width/2,variables.windowXY.y+background.height/2) + ".jpg"
+            fake.source = "file:/" + getanddostuff.getTempDir() +"/photoqt_screenshot_" +
+                    getanddostuff.getCurrentScreen(variables.windowXY.x+background.width/2,variables.windowXY.y+background.height/2) + ".jpg"
     }
 
     // Background screenshot
@@ -64,7 +75,10 @@ Rectangle {
         Rectangle {
             anchors.fill: parent
             visible: parent.visible
-            color: getanddostuff.convertRgbaToHex(settings.backgroundColorRed, settings.backgroundColorGreen, settings.backgroundColorBlue, settings.backgroundColorAlpha)
+            color: getanddostuff.convertRgbaToHex(settings.backgroundColorRed,
+                                                  settings.backgroundColorGreen,
+                                                  settings.backgroundColorBlue,
+                                                  settings.backgroundColorAlpha)
         }
 
     }
@@ -72,7 +86,10 @@ Rectangle {
     // BACKGROUND COLOR
     Rectangle {
         anchors.fill: parent
-        color: getanddostuff.convertRgbaToHex(settings.backgroundColorRed, settings.backgroundColorGreen, settings.backgroundColorBlue, settings.backgroundColorAlpha)
+        color: getanddostuff.convertRgbaToHex(settings.backgroundColorRed,
+                                              settings.backgroundColorGreen,
+                                              settings.backgroundColorBlue,
+                                              settings.backgroundColorAlpha)
         visible: !settings.composite && !settings.backgroundImageScreenshot && !settings.backgroundImageUse
     }
 

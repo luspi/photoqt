@@ -36,25 +36,25 @@ function analyseMouseGestureUpdate(xPos, yPos, before) {
     if(distance > threshold) {
 
         if(angle <= 45 || angle > 315) {
-            if(variables.shortcutsMouseGesture[variables.shortcutsMouseGesture.length-1] != "E") {
+            if(variables.shortcutsMouseGesture[variables.shortcutsMouseGesture.length-1] !== "E") {
                 variables.shortcutsMouseGesture.push("E")
                 variables.shorcutsMouseGesturePointIntermediate = Qt.point(xPos, yPos)
                 return true
             }
         } else if(angle > 45 && angle <= 135) {
-            if(variables.shortcutsMouseGesture[variables.shortcutsMouseGesture.length-1] != "S") {
+            if(variables.shortcutsMouseGesture[variables.shortcutsMouseGesture.length-1] !== "S") {
                 variables.shortcutsMouseGesture.push("S")
                 variables.shorcutsMouseGesturePointIntermediate = Qt.point(xPos, yPos)
                 return true
             }
         } else if(angle > 135 && angle <= 225) {
-            if(variables.shortcutsMouseGesture[variables.shortcutsMouseGesture.length-1] != "W") {
+            if(variables.shortcutsMouseGesture[variables.shortcutsMouseGesture.length-1] !== "W") {
                 variables.shortcutsMouseGesture.push("W")
                 variables.shorcutsMouseGesturePointIntermediate = Qt.point(xPos, yPos)
                 return true
             }
         } else if(angle > 225 && angle <= 315) {
-            if(variables.shortcutsMouseGesture[variables.shortcutsMouseGesture.length-1] != "N") {
+            if(variables.shortcutsMouseGesture[variables.shortcutsMouseGesture.length-1] !== "N") {
                 variables.shortcutsMouseGesture.push("N")
                 variables.shorcutsMouseGesturePointIntermediate = Qt.point(xPos, yPos)
                 return true
@@ -69,29 +69,31 @@ function analyseMouseGestureUpdate(xPos, yPos, before) {
 
 function analyseMouseEvent(startedEventAtPos, event, forceThisButton, dontResetGesture) {
 
-    verboseMessage("Shortcuts/mouseshortcuts.js", "analyseMouseEvent(): " + startedEventAtPos + " / " + event.button + " / " + forceThisButton + " / " + dontResetGesture)
+    verboseMessage("Shortcuts/mouseshortcuts.js", "analyseMouseEvent(): " + startedEventAtPos + " / " +
+                   event.button + " / " + forceThisButton + " / " + dontResetGesture)
 
     var combostring = getModifiers(event)
 
     var button = event.button
-    if(forceThisButton != undefined)
+    if(forceThisButton !== undefined)
         button = forceThisButton
 
-    if(button == Qt.LeftButton)
+    if(button === Qt.LeftButton)
         combostring += "Left Button"
-    else if(button == Qt.MiddleButton)
+    else if(button === Qt.MiddleButton)
             combostring += "Middle Button"
-    else if(button == Qt.RightButton)
+    else if(button === Qt.RightButton)
             combostring += "Right Button"
 
     var movement = ""
     for(var i = 0; i < variables.shortcutsMouseGesture.length; ++i)
         movement += variables.shortcutsMouseGesture[i]
-    if(dontResetGesture == undefined || !dontResetGesture)
+    if(dontResetGesture === undefined || !dontResetGesture)
     variables.shortcutsMouseGesture = []
 
     if(movement != "") {
-        if(button == Qt.LeftButton && settings.leftButtonMouseClickAndMove && settingsmanager.status!=Loader.Null && !settingsmanager.item.settingsDetectShortcuts.visible)
+        if(button === Qt.LeftButton && settings.leftButtonMouseClickAndMove && settingsmanager.status!==Loader.Null &&
+                !settingsmanager.item.settingsDetectShortcuts.visible)
             return ""
         combostring += "+" + movement
     }
@@ -156,7 +158,7 @@ function analyseWheelEvent(event, dontResetVariables) {
 
     }
 
-    if(dontResetVariables == undefined || !dontResetVariables) {
+    if(dontResetVariables === undefined || !dontResetVariables) {
         variables.wheelUpDown = 0
         variables.wheelLeftRight = 0
     }

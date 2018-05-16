@@ -34,6 +34,7 @@ Item {
     Text {
         width: parent.width
         height: parent.height
+        wrapMode: Text.WordWrap
         verticalAlignment: Qt.AlignVCenter
         horizontalAlignment: Qt.AlignHCenter
         //: The destination location is a location on the computer to move a file to
@@ -56,14 +57,14 @@ Item {
     Connections {
         target: container
         onItemShown:
-            filedialog.getFilename(em.pty+qsTr("Move Image to..."), variables.currentDir + "/" +  variables.currentFile)
+            filedialog.getFilename(em.pty+qsTr("Move Image to..."), variables.currentDir + "/" + variables.currentFileWithoutExtras)
         onItemHidden:
             filedialog.close()
     }
 
     function moveFile(file) {
         verboseMessage("FileManagement/Move", "moveFile(): " + file)
-        getanddostuff.moveImage(variables.currentDir + "/" + variables.currentFile, file)
+        getanddostuff.moveImage(variables.currentDir + "/" + variables.currentFileWithoutExtras, file)
         if(getanddostuff.removeFilenameFromPath(file) === variables.currentDir) {
             Handle.loadFile(file, variables.filter, true)
             management_top.hide()

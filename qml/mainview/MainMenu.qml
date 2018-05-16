@@ -55,81 +55,84 @@ Rectangle {
 
     property var allitems_static: [
         //: This is an entry in the main menu on the right. Keep short!
-        [["__open", "open", em.pty+qsTr("Open File"), "hide"]],
+        [["__open", "open", em.pty+qsTranslate("MainMenu", "Open File"), "hide"]],
         //: This is an entry in the main menu on the right. Keep short!
-        [["__settings", "settings", em.pty+qsTr("Settings"), "hide"]],
+        [["__settings", "settings", em.pty+qsTranslate("MainMenu", "Settings"), "hide"]],
         //: This is an entry in the main menu on the right. Keep short!
-        [["__wallpaper", "settings", em.pty+qsTr("Set as Wallpaper"), "hide"]],
+        [["__wallpaper", "settings", em.pty+qsTranslate("MainMenu", "Set as Wallpaper"), "hide"]],
         //: This is an entry in the main menu on the right. Keep short!
-        [["slideshow","slideshow",em.pty+qsTr("Slideshow")],
+        [["slideshow","slideshow",em.pty+qsTranslate("MainMenu", "Slideshow")],
                 //: This is an entry in the main menu on the right, used as in 'setting up a slideshow'. Keep short!
-                ["__slideshow","",em.pty+qsTr("setup"), "hide"],
+                ["__slideshow","",em.pty+qsTranslate("MainMenu", "setup"), "hide"],
                 //: This is an entry in the main menu on the right, used as in 'quickstarting a slideshow'. Keep short!
-                ["__slideshowQuick","",em.pty+qsTr("quickstart"), "hide"]],
+                ["__slideshowQuick","",em.pty+qsTranslate("MainMenu", "quickstart"), "hide"]],
         //: This is an entry in the main menu on the right. Keep short!
-        [["__filterImages", "filter", em.pty+qsTr("Filter Images in Folder"), "hide"]],
+        [["__filterImages", "filter", em.pty+qsTranslate("MainMenu", "Filter Images in Folder"), "hide"]],
         //: This is an entry in the main menu on the right. Keep short!
-        [["__hideMeta", "metadata", em.pty+qsTr("Show/Hide Metadata"), "donthide"]],
+        [["__hideMeta", "metadata", em.pty+qsTranslate("MainMenu", "Show/Hide Metadata"), "donthide"]],
         //: This is an entry in the main menu on the right. Keep short!
-        [["__histogram", "histogram", em.pty+qsTr("Show/Hide Histogram"), "donthide"]],
+        [["__histogram", "histogram", em.pty+qsTranslate("MainMenu", "Show/Hide Histogram"), "donthide"]],
         //: This is an entry in the main menu on the right. Keep short!
-        [["__about", "about", em.pty+qsTr("About PhotoQt"), "hide"]],
+        [["__tagFaces", "faces", em.pty+qsTranslate("MainMenu", "Face tagging mode"), "hide"]],
         //: This is an entry in the main menu on the right. Keep short!
-        [["__close", "hide", em.pty+qsTr("Hide (System Tray)"), "hide"]],
+        [["__about", "about", em.pty+qsTranslate("MainMenu", "About PhotoQt"), "hide"]],
         //: This is an entry in the main menu on the right. Keep short!
-        [["__quit", "quit", em.pty+qsTr("Quit"), "hide"]],
+        [["__close", "hide", em.pty+qsTranslate("MainMenu", "Hide (System Tray)"), "hide"]],
+        //: This is an entry in the main menu on the right. Keep short!
+        [["__quit", "quit", em.pty+qsTranslate("MainMenu", "Quit"), "hide"]],
 
         [["heading","",""]],
 
         //: This is an entry in the main menu on the right, used as in 'Go To some image'. Keep short!
-        [["","goto",em.pty+qsTr("Go to")],
+        [["","goto",em.pty+qsTranslate("MainMenu", "Go to")],
                 //: This is an entry in the main menu on the right, used as in 'go to previous image'. Keep short!
-                ["__prev","",em.pty+qsTr("previous"), "donthide"],
+                ["__prev","",em.pty+qsTranslate("MainMenu", "previous"), "donthide"],
                 //: This is an entry in the main menu on the right, used as in 'go to next image'. Keep short!
-                ["__next","",em.pty+qsTr("next"), "donthide"],
+                ["__next","",em.pty+qsTranslate("MainMenu", "next"), "donthide"],
                 //: This is an entry in the main menu on the right, used as in 'go to first image'. Keep short!
-                ["__gotoFirstThb","",em.pty+qsTr("first"), "donthide"],
+                ["__gotoFirstThb","",em.pty+qsTranslate("MainMenu", "first"), "donthide"],
                 //: This is an entry in the main menu on the right, used as in 'go to last image'. Keep short!
-                ["__gotoLastThb","",em.pty+qsTr("last"), "donthide"]],
+                ["__gotoLastThb","",em.pty+qsTranslate("MainMenu", "last"), "donthide"]],
         //: This is an entry in the main menu on the right, used as in 'Zoom image'. Keep short!
-        [["zoom","zoom",em.pty+qsTr("Zoom")],
+        [["zoom","zoom",em.pty+qsTranslate("MainMenu", "Zoom")],
                 ["__zoomIn","","+", "donthide"],
                 ["__zoomOut","","-", "donthide"],
                 ["__zoomReset","","0", "donthide"],
                 ["__zoomActual","","1:1", "donthide"]],
         //: This is an entry in the main menu on the right, used as in 'Rotate image'. Keep short!
-        [["rotate","rotate",em.pty+qsTr("Rotate")],
+        [["rotate","rotate",em.pty+qsTranslate("MainMenu", "Rotate")],
                 //: This is an entry in the main menu on the right, used as in 'Rotate image left'. Keep short!
-                ["__rotateL","",em.pty+qsTr("left"), "donthide"],
+                ["__rotateL","",em.pty+qsTranslate("MainMenu", "left"), "donthide"],
                 //: This is an entry in the main menu on the right, used as in 'Rotate image right'. Keep short!
-                ["__rotateR","",em.pty+qsTr("right"), "donthide"],
+                ["__rotateR","",em.pty+qsTranslate("MainMenu", "right"), "donthide"],
                 //: This is an entry in the main menu on the right, used as in 'Reset rotation of image'. Keep short!
-                ["__rotate0","",em.pty+qsTr("reset"), "donthide"]],
+                ["__rotate0","",em.pty+qsTranslate("MainMenu", "reset"), "donthide"]],
         //: This is an entry in the main menu on the right, used as in 'Flip/Mirror image'. Keep short!
-        [["flip","flip",em.pty+qsTr("Flip")],
+        [["flip","flip",em.pty+qsTranslate("MainMenu", "Flip")],
                 //: This is an entry in the main menu on the right, used as in 'Flip/Mirror image horizontally'. Keep short!
-                ["__flipH","",em.pty+qsTr("horizontal"), "donthide"],
+                ["__flipH","",em.pty+qsTranslate("MainMenu", "horizontal"), "donthide"],
                 //: This is an entry in the main menu on the right, used as in 'Flip/Mirror image vertically'. Keep short!
-                ["__flipV","",em.pty+qsTr("vertical"), "donthide"],
+                ["__flipV","",em.pty+qsTranslate("MainMenu", "vertical"), "donthide"],
                 //: This is an entry in the main menu on the right, used as in 'Reset flip/mirror of image'. Keep short!
-                ["__flipReset","",em.pty+qsTr("reset"), "donthide"]],
-        //: This is an entry in the main menu on the right, used to refer to the current file (specifically the file, not directly the image). Keep short!
-        [["","copy",em.pty+qsTr("File")],
+                ["__flipReset","",em.pty+qsTranslate("MainMenu", "reset"), "donthide"]],
+        //: This is an entry in the main menu on the right, used to refer to the current file (specifically the file, not directly the image).
+        //: Keep short!
+        [["","copy",em.pty+qsTranslate("MainMenu", "File")],
                 //: This is an entry in the main menu on the right, used as in 'rename file'. Keep short!
-                ["__rename","",em.pty+qsTr("rename"), "hide"],
+                ["__rename","",em.pty+qsTranslate("MainMenu", "rename"), "hide"],
                 //: This is an entry in the main menu on the right, used as in 'copy file'. Keep short!
-                ["__copy","",em.pty+qsTr("copy"), "hide"],
+                ["__copy","",em.pty+qsTranslate("MainMenu", "copy"), "hide"],
                 //: This is an entry in the main menu on the right, used as in 'move file'. Keep short!
-                ["__move","",em.pty+qsTr("move"), "hide"],
+                ["__move","",em.pty+qsTranslate("MainMenu", "move"), "hide"],
                 //: This is an entry in the main menu on the right, used as in 'delete file'. Keep short!
-                ["__delete","",em.pty+qsTr("delete"), "hide"]],
+                ["__delete","",em.pty+qsTranslate("MainMenu", "delete"), "hide"]],
 
         [["heading","",""]],
 
         //: This is an entry in the main menu on the right. Keep short!
-        [["__scale","scale",em.pty+qsTr("Scale Image"), "hide"]],
+        [["__scale","scale",em.pty+qsTranslate("MainMenu", "Scale Image"), "hide"]],
         //: This is an entry in the main menu on the right. Keep short!
-        [["__defaultFileManager","open",em.pty+qsTr("Open in default file manager"), "donthide"]]
+        [["__defaultFileManager","open",em.pty+qsTranslate("MainMenu", "Open in default file manager"), "donthide"]]
     ]
     property var allitems_external: []
     property var allitems: []
@@ -168,7 +171,7 @@ Rectangle {
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
             acceptedButtons: Qt.LeftButton | Qt.RightButton
-            text: em.pty+qsTr("Close PhotoQt")
+            text: em.pty+qsTranslate("MainMenu", "Close PhotoQt")
             onClicked:
                 mainwindow.closePhotoQt()
         }
@@ -184,7 +187,7 @@ Rectangle {
         font.pointSize: 15
         color: colour.text
         font.bold: true
-        text: em.pty+qsTr("Main Menu")
+        text: em.pty+qsTranslate("MainMenu", "Main Menu")
 
     }
 
@@ -258,7 +261,8 @@ Rectangle {
                     sourceSize.height: height
                     source: allitems[subview.mainindex][index][1]===""
                             ? "" : (allitems[subview.mainindex][index][0].slice(0,8)==="_:_EX_:_"
-                                    ? getanddostuff.getIconPathFromTheme(allitems[subview.mainindex][index][1]) : "qrc:/img/mainmenu/" + allitems[subview.mainindex][index][1] + ".png")
+                                    ? getanddostuff.getIconPathFromTheme(allitems[subview.mainindex][index][1]) :
+                                      "qrc:/img/mainmenu/" + allitems[subview.mainindex][index][1] + ".png")
                     opacity: (settings.trayIcon==1 || allitems[subview.mainindex][index][0] !== "hide") ? 1 : 0.5
                     visible: (source!="" || allitems[subview.mainindex][index][0]==="heading")
                 }
@@ -277,7 +281,9 @@ Rectangle {
                     font.pointSize: 11
                     font.bold: true
 
-                    enabled: (settings.trayIcon==1 || (allitems[subview.mainindex][index][0] !== "__close" && allitems[subview.mainindex][index][0] !=="heading" && (allitems[subview.mainindex].length === 1 || index > 0)))
+                    enabled: (settings.trayIcon==1 || (allitems[subview.mainindex][index][0] !== "__close" &&
+                                                       allitems[subview.mainindex][index][0] !=="heading" &&
+                                                       (allitems[subview.mainindex].length === 1 || index > 0)))
 
 
                     // The spaces guarantee a bit of space betwene icon and text
@@ -288,7 +294,9 @@ Rectangle {
                         anchors.fill: parent
 
                         hoverEnabled: true
-                        cursorShape: (allitems[subview.mainindex][index][0]!=="heading" && (allitems[subview.mainindex].length === 1 || index > 0)) ? Qt.PointingHandCursor : Qt.ArrowCursor
+                        cursorShape: (allitems[subview.mainindex][index][0]!=="heading" && (allitems[subview.mainindex].length === 1 || index > 0)) ?
+                                         Qt.PointingHandCursor :
+                                         Qt.ArrowCursor
 
                         onEntered: {
                             if(allitems[subview.mainindex][index][0]!=="heading" && (allitems[subview.mainindex].length === 1 || index > 0))
@@ -352,7 +360,7 @@ Rectangle {
         color: "grey"
         wrapMode: Text.WordWrap
 
-        text: em.pty+qsTr("Click here to go to the online manual for help regarding shortcuts, settings, features, ...")
+        text: em.pty+qsTranslate("MainMenu", "Click here to go to the online manual for help regarding shortcuts, settings, features, ...")
 
         ToolTip {
             anchors.fill: parent
@@ -431,7 +439,7 @@ Rectangle {
     Connections {
         target: variables
         onGuiBlockedChanged: {
-            if(variables.guiBlocked && mainmenu.opacity == 1)
+            if(variables.guiBlocked && mainmenu.opacity == 1 && !variables.taggingFaces)
                 mainmenu.opacity = 0.2
             else if(!variables.guiBlocked && mainmenu.opacity == 0.2)
                 mainmenu.opacity = 1

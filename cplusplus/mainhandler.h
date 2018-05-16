@@ -28,10 +28,13 @@
 #include <QQmlProperty>
 #include <iostream>
 
+#ifdef FREEIMAGE
+#include <FreeImagePlus.h>
+#endif
+
 #include "hideclose.h"
 
 #include "settings/colour.h"
-#include "settings/fileformats.h"
 #include "settings/settings.h"
 #include "scripts/getanddostuff.h"
 #include "scripts/getmetadata.h"
@@ -41,24 +44,19 @@
 #include "scripts/thumbnailsmanagement.h"
 #include "shortcuts/shortcuts.h"
 #include "scripts/filedialog.h"
-#include "shortcuts/composestring.h"
 #include "scripts/watcher.h"
 #include "scripts/localisation.h"
 #include "contextmenu/contextmenu.h"
+#include "settings/imageformats.h"
+#include "settings/mimetypes.h"
+#include "scripts/managepeopletags.h"
+#include "scripts/integer64.h"
 
 #include "imageprovider/imageproviderempty.h"
 #include "imageprovider/imageproviderfull.h"
 #include "imageprovider/imageproviderhistogram.h"
 #include "imageprovider/imageprovidericon.h"
 #include "imageprovider/imageproviderthumbnail.h"
-
-#include "startup/exportimport.h"
-#include "startup/migration.h"
-#include "startup/screenshots.h"
-#include "startup/thumbnails.h"
-#include "startup/updatecheck.h"
-#include "startup/shortcuts.h"
-#include "startup/settings.h"
 
 class MainHandler : public QQuickView {
 
@@ -92,6 +90,8 @@ private:
     bool overrideCursorSet;
     int update;
 
+    QSize defaultNotMaximizedSizeOfWindow;
+
     void setupWindowProperties(bool dontCallShow = false);
 
 private slots:
@@ -103,6 +103,9 @@ private slots:
     void aboutToQuit();
     void windowXYchanged(int);
     void handleWindowModeChanged(bool windowmode, bool windowdeco, bool keepontop);
+    void moveWindowByX(int dx);
+    void moveWindowByY(int dy);
+    void toggleWindowMaximise();
 
 protected:
     bool event(QEvent *e);

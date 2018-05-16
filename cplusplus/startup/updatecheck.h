@@ -34,7 +34,7 @@ namespace StartupCheck {
     namespace UpdateCheck {
 
         // 0 = nothing, 1 = update, 2 = install
-        static inline int checkForUpdateInstall(Settings *settings) {
+        static int checkForUpdateInstall(Settings *settings) {
 
             bool debug = (qgetenv("PHOTOQT_DEBUG") == "yes");
 

@@ -48,8 +48,8 @@ Rectangle {
     Rectangle {
         id: cont
         color: "#88000000"
-        width: 800
-        height: flick.height+40
+        width: 640
+        height: Math.min(Math.min(flick.height, 800), settings_top.height-20)
         radius: 5
         x: (parent.width-width)/2
         y: (parent.height-height)/2
@@ -73,7 +73,7 @@ Rectangle {
             x: 20
             y: 20
             width: parent.width-40
-            height: Math.min(flickcont.height,700)
+            height: Math.min(Math.min(flickcont.height,800), settings_top.height-20)
             contentHeight: flickcont.height
             clip: true
 
@@ -148,7 +148,7 @@ Rectangle {
     function show(title, helptext) {
         verboseMessage("SettingsManager/SettingsInfoOverlay", "show(): " + title + " / " + helptext)
         setting_title.text = title
-        setting_helptext.text = helptext
+        setting_helptext.text = helptext+"<br>"
         opacity = 1
     }
     function hide() {

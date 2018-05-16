@@ -26,71 +26,59 @@ import QtQuick.Controls 1.4
 import "../../../elements"
 import "../../"
 
-EntryContainer {
+Entry {
 
-    id: item_top
+    id: entrytop
 
-    Row {
+    property int val: 200
 
-        spacing: 20
+    title: em.pty+qsTr("Opacity")
+    helptext: em.pty+qsTr("By default, the metadata widget is overlapping the main image, thus you might prefer a different\
+ alpha value for opacity to increase/decrease readability. Values can be in the range of 0-255.")
 
-        EntryTitle {
+    content: [
 
-            title: em.pty+qsTr("Opacity")
-            helptext: em.pty+qsTr("By default, the metadata widget is overlapping the main image, thus you might prefer a different alpha value for opacity to increase/decrease readability. Values can be in the range of 0-255.")
+        Row {
 
-        }
+            spacing: 10
 
-        EntrySetting {
+            CustomSlider {
 
-            id: entry
+                id: opacity_slider
 
-            // This variable is needed to avoid a binding loop of slider<->spinbox
-            property int val: 20
+                width: Math.min(200, Math.max(200, parent.parent.width-opacity_spinbox.width-50))
+                y: (parent.height-height)/2
 
-            Row {
+                minimumValue: 0
+                maximumValue: 255
 
-                spacing: 10
+                stepSize: 5
+                scrollStep: 5
 
-                CustomSlider {
+                onValueChanged:
+                    entrytop.val = value
 
-                    id: opacity_slider
+            }
 
-                    width: 400
-                    y: (parent.height-height)/2
+            CustomSpinBox {
 
-                    minimumValue: 0
-                    maximumValue: 255
+                id: opacity_spinbox
 
-                    stepSize: 5
-                    scrollStep: 5
+                width: 75
 
-                    onValueChanged:
-                        entry.val = value
+                minimumValue: 0
+                maximumValue: 255
 
-                }
+                value: entrytop.val
 
-                CustomSpinBox {
-
-                    id: opacity_spinbox
-
-                    width: 75
-
-                    minimumValue: 0
-                    maximumValue: 255
-
-                    value: entry.val
-
-                    onValueChanged:
-                        opacity_slider.value = value
-
-                }
+                onValueChanged:
+                    opacity_slider.value = value
 
             }
 
         }
 
-    }
+    ]
 
     function setData() {
         opacity_slider.value = settings.metadataOpacity

@@ -27,13 +27,11 @@ import "./metadata"
 import "../../elements"
 
 
-Rectangle {
+Item {
 
     id: tab_top
 
     property int titlewidth: 100
-
-    color: "#00000000"
 
     anchors {
         fill: parent
@@ -55,7 +53,7 @@ Rectangle {
 
             id: maincol
 
-            Rectangle { color: "transparent"; width: 1; height: 10; }
+            Item { width: 1; height: 10 }
 
             Text {
                 width: flickable.width
@@ -66,17 +64,18 @@ Rectangle {
                 horizontalAlignment: Text.AlignHCenter
             }
 
-            Rectangle { color: "transparent"; width: 1; height: 20; }
+            Item { width: 1; height: 20 }
 
             Text {
                 width: flickable.width
                 color: "white"
                 font.pointSize: 9
-                text: qsTranslate("SettingsManager", "Move your mouse cursor over (or click on) the different settings titles to see more information.")
+                text: qsTranslate("SettingsManager",
+                                  "Move your mouse cursor over (or click on) the different settings titles to see more information.")
                 horizontalAlignment: Text.AlignHCenter
             }
 
-            Rectangle { color: "transparent"; width: 1; height: 20; }
+            Item { width: 1; height: 20 }
 
             Text {
                 color: "white"
@@ -84,22 +83,24 @@ Rectangle {
                 x: 10
                 wrapMode: Text.WordWrap
                 //: Introduction text of metadata tab in settings manager
-                text: em.pty+qsTr("PhotoQt can display different information of and about each image. The element for this information is hidden on the left side of the screen and fades in when the mouse cursor gets close to the left screen edge and/or when the set shortcut is triggered. On demand, the triggering by mouse movement can be disabled by checking the box below.")
+                text: em.pty+qsTr("PhotoQt can display different information of and about each image. The element for this information is hidden on\
+ the left side of the screen and fades in when the mouse cursor gets close to the left screen edge and/or when the set shortcut is triggered. On\
+ demand, the triggering by mouse movement can be disabled by checking the box below.")
             }
 
-            Rectangle { color: "transparent"; width: 1; height: 30; }
+            Item { width: 1; height: 30 }
 
-            Rectangle { color: "#88ffffff"; width: parent.width; height: 1; }
+            Rectangle { color: "#88ffffff"; width: tab_top.width; height: 1; }
 
-            Rectangle { color: "transparent"; width: 1; height: 20; }
+            Item { width: 1; height: 20 }
 
             MouseTrigger { id: trigger }
-            MetaData { id: metadata; alternating: true }
+            MetaData { id: metadata }
             FontSize { id: fontsize }
-            Opacity { id: op; alternating: true }
+            Opacity { id: op }
             RotateFlip { id: rotateflip }
-            OnlineMap { id: onlinemap; alternating: true }
-
+            OnlineMap { id: onlinemap }
+            PeopleTags { id: peopletags }
 
         }
 
@@ -113,6 +114,7 @@ Rectangle {
         op.setData()
         rotateflip.setData()
         onlinemap.setData()
+        peopletags.setData()
     }
 
     function saveData() {
@@ -123,6 +125,7 @@ Rectangle {
         op.saveData()
         rotateflip.saveData()
         onlinemap.saveData()
+        peopletags.saveData()
     }
 
 }

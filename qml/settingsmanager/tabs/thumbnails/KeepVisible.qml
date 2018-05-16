@@ -25,62 +25,43 @@ import QtQuick 2.5
 import "../../../elements"
 import "../../"
 
-EntryContainer {
+Entry {
 
-    id: item_top
+    title: em.pty+qsTr("Visibility")
+    helptext: em.pty+qsTr("The thumbnails normally fade out when not needed, however, they can be set to stay visible. The main image is shrunk\
+ to fit into the free space. When it is zoomed in the thumbnails can be set to fade out automatically.")
 
-    Row {
+    content: [
 
-        spacing: 20
+        CustomCheckBox {
 
-        EntryTitle {
+            id: keepvisible
 
-            title: em.pty+qsTr("Visibility")
-            helptext: em.pty+qsTr("The thumbnails normally fade out when not needed, however, they can be set to stay visible. The main image is shrunk to fit into the free space. When it is zoomed in the thumbnails can be set to fade out automatically.")
+            // Checkbox in settings manager, thumbnails tab
+            text: em.pty+qsTr("Keep thumbnails visible, don't hide them past screen edge")
 
-        }
+            onCheckedButtonChanged: {
+                if(checkedButton)
+                    keepvisiblewhennotzoomedin.checkedButton = false
+            }
 
-        EntrySetting {
+        },
 
-            id: entry
+        CustomCheckBox {
 
-            Row {
+            id: keepvisiblewhennotzoomedin
 
-                spacing: 10
+            // Checkbox in settings manager, thumbnails tab
+            text: em.pty+qsTr("Keep thumbnails visible as long as the main image is not zoomed in")
 
-                CustomCheckBox {
-
-                    id: keepvisible
-
-                    // Checkbox in settings manager, thumbnails tab
-                    text: em.pty+qsTr("Keep thumbnails visible, don't hide them past screen edge")
-
-                    onCheckedButtonChanged: {
-                        if(checkedButton)
-                            keepvisiblewhennotzoomedin.checkedButton = false
-                    }
-
-                }
-
-                CustomCheckBox {
-
-                    id: keepvisiblewhennotzoomedin
-
-                    // Checkbox in settings manager, thumbnails tab
-                    text: em.pty+qsTr("Keep thumbnails visible as long as the main image is not zoomed in")
-
-                    onCheckedButtonChanged: {
-                        if(checkedButton)
-                            keepvisible.checkedButton = false
-                    }
-
-                }
-
+            onCheckedButtonChanged: {
+                if(checkedButton)
+                    keepvisible.checkedButton = false
             }
 
         }
 
-    }
+    ]
 
     function setData() {
         keepvisible.checkedButton = settings.thumbnailKeepVisible

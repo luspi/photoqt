@@ -61,7 +61,8 @@ Rectangle {
 
         width: parent.width-6
 
-        // This is catched and processed here as otherwise it would be processed (i.e., the LineEdit loses focus) BEFORE the shortcuts engine would receive it
+        // This is catched and processed here as otherwise it would be processed (i.e., the LineEdit loses focus)
+        // BEFORE the shortcuts engine would receive it
         Keys.onTabPressed:
             tabPressed()
 
@@ -95,9 +96,21 @@ Rectangle {
                     contextmenu.popup()
             onDoubleClicked:
                 parent.selectAll()
-            onPressed: { if(mouse.button == Qt.LeftButton) { held = true; ed1.cursorPosition = ed1.positionAt(mouse.x,mouse.y); } parent.forceActiveFocus() }
-            onReleased: { if(mouse.button == Qt.LeftButton) held = false }
-            onPositionChanged: {if(held) ed1.moveCursorSelection(ed1.positionAt(mouse.x,mouse.y)) }
+            onPressed: {
+                if(mouse.button == Qt.LeftButton) {
+                    held = true;
+                    ed1.cursorPosition = ed1.positionAt(mouse.x,mouse.y);
+                }
+                parent.forceActiveFocus()
+            }
+            onReleased: {
+                if(mouse.button == Qt.LeftButton)
+                    held = false
+            }
+            onPositionChanged: {
+                if(held)
+                    ed1.moveCursorSelection(ed1.positionAt(mouse.x,mouse.y))
+            }
 
         }
 

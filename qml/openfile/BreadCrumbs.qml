@@ -246,8 +246,8 @@ Rectangle {
             }
 
             Component.onCompleted: {
-                //: Used as in "Go directly to subfolder of '/path/to/somewhere'"
-                contextmenu.addItem(em.pty+qsTr("Go directly to subfolder of") + " '" + getanddostuff.getDirectoryDirName(partialpath) + "'")
+                //: Please do not for get the %1!
+                contextmenu.addItem(em.pty+qsTr("Go directly to subfolder of '%1'").arg(getanddostuff.getDirectoryDirName(partialpath)))
                 contextmenu.setEnabled(0, false)
                 for(var i = 0; i < folders.length; ++i)
                     contextmenu.addItem(folders[i])

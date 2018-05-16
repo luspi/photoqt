@@ -64,5 +64,20 @@
         <file>img/contextmenu/unchecked.png</file>
         <file>img/contextmenu/checked_disabled.png</file>
         <file>img/contextmenu/unchecked_disabled.png</file>
+        <file>img/settings/imageformats/qt.png</file>
+        <file>img/settings/imageformats/poppler.jpg</file>
+        <file>img/settings/imageformats/gm.jpg</file>
+        <file>img/settings/imageformats/devil.jpg</file>
+        <file>img/settings/imageformats/freeimage.jpg</file>
+        <file>img/settings/imageformats/empty.png</file>
+        <file>img/openfile/archive/zip.png</file>
+        <file>img/openfile/archive/rar.png</file>
+        <file>img/openfile/archive/tar.png</file>
+        <file>img/openfile/archive/7z.png</file>
+        <file>img/openfile/archive/cbz.png</file>
+        <file>img/openfile/archive/cbr.png</file>
+        <file>img/openfile/archive/cbt.png</file>
+        <file>img/openfile/archive/cb7.png</file>
+        <file>img/mainmenu/faces.png</file>
     </qresource>
 </RCC>

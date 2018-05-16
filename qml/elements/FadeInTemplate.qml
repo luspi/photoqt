@@ -45,8 +45,8 @@ Rectangle {
         lastOpacityValue = opacity
     }
 
-    property int marginLeftRight: 50
-    property int marginTopBottom: 50
+    property int marginLeftRight: mainwindow.width > 800 ? 25 : 5
+    property int marginTopBottom: mainwindow.height > 600 ? 25 : 5
 
     property int contentWidth: fadein_top.width-2*marginLeftRight
     property int contentHeight: fadein_top.height-2*marginTopBottom
@@ -57,6 +57,9 @@ Rectangle {
     property string heading: ""
     property alias content: content_placeholder.children
     property alias buttons: button_placeholder.children
+
+    property bool hideButtons: false
+    property bool hideTitle: false
 
     property bool clipContent: true
 
@@ -74,6 +77,7 @@ Rectangle {
         x: marginLeftRight*1.5
         y: marginTopBottom
         width: fadein_top.width-2*marginLeftRight
+        visible: !hideTitle
         text: heading
 
         font.pointSize: 40
@@ -87,9 +91,9 @@ Rectangle {
         width: content_placeholder.width
         x: marginLeftRight
         anchors.top: title.bottom
-        anchors.topMargin: 5
-        height: 1
-        visible: showSeperators
+        anchors.topMargin: hideTitle ? 0 : 5
+        height: hideTitle ? 0 : 1
+        visible: showSeperators && !hideTitle
         color: colour.linecolour
     }
 
@@ -106,12 +110,12 @@ Rectangle {
         anchors {
             left: parent.left
             right: parent.right
-            top: sep1.bottom
-            bottom: sep2.top
+            top: hideTitle ? parent.top : sep1.bottom
+            bottom: hideButtons ? parent.bottom : sep2.top
             leftMargin: marginLeftRight
             rightMargin: marginLeftRight
-            bottomMargin: 5
-            topMargin: 5
+            topMargin: hideTitle ? 15 : 5
+            bottomMargin: hideButtons ? 15 : 5
         }
 
         Column {
@@ -130,10 +134,10 @@ Rectangle {
         id: sep2
         x: marginLeftRight
         anchors.bottom: button_placeholder.top
-        anchors.bottomMargin: 10
+        anchors.bottomMargin: hideButtons ? 0 : 10
         width: content_placeholder.width
-        height: 1
-        visible: showSeperators
+        height: hideButtons ? 0 : 1
+        visible: showSeperators && !hideButtons
         color: colour.linecolour
     }
 
@@ -143,11 +147,13 @@ Rectangle {
 
         id: button_placeholder
 
+        visible: !hideButtons
+
         x: marginLeftRight
         width: content_placeholder.width
-        height: childrenRect.height+10
+        height: hideButtons ? 0 : childrenRect.height+10
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: marginTopBottom
+        anchors.bottomMargin: hideButtons ? 0 : 40
 
         color: "#00000000"
 

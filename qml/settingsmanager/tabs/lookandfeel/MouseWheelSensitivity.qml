@@ -25,69 +25,56 @@ import QtQuick 2.5
 import "../../../elements"
 import "../../"
 
-EntryContainer {
+Entry {
 
-    id: item_top
+    title: em.pty+qsTr("Mouse Wheel Sensitivity")
+    helptext: em.pty+qsTr("The mouse can be used for various things, including many types of shortcuts. The sensitivity of the mouse wheel defines\
+ the distance the wheel has to be moved before triggering a shortcut.")
 
-    Row {
+    content: [
 
-        spacing: 20
+        Row {
 
-        EntryTitle {
+            spacing: 10
 
-            id: entrytitle
+            Text {
 
-            title: em.pty+qsTr("Mouse Wheel Sensitivity")
-            helptext: em.pty+qsTr("The mouse can be used for various things, including many types of shortcuts. The sensitivity of the mouse wheel defines the distance the wheel has to be moved before triggering a shortcut.")
+                id: txt_no
+                color: colour.text
+                //: Refers to the sensitivity of the mouse wheel
+                text: em.pty+qsTr("Not at all sensitive")
+                font.pointSize: 10
 
-        }
+            }
 
-        EntrySetting {
+            CustomSlider {
 
-            Row {
+                id: wheelsensitivity
 
-                spacing: 10
+                width: Math.min(200, Math.max(200, parent.width-txt_no.width-txt_very.width-50))
+                y: (parent.height-height)/2
 
-                Text {
+                minimumValue: 0
+                maximumValue: 10
 
-                    id: txt_no
-                    color: colour.text
-                    //: Refers to the sensitivity of the mouse wheel
-                    text: em.pty+qsTr("Not at all sensitive")
-                    font.pointSize: 10
+                stepSize: 1
+                scrollStep: 1
 
-                }
+            }
 
-                CustomSlider {
+            Text {
 
-                    id: wheelsensitivity
-
-                    width: Math.min(400, settings_top.width-entrytitle.width-txt_no.width-txt_very.width-60)
-                    y: (parent.height-height)/2
-
-                    minimumValue: 0
-                    maximumValue: 10
-
-                    tickmarksEnabled: true
-                    stepSize: 1
-
-                }
-
-                Text {
-
-                    id: txt_very
-                    color: colour.text
-                    //: Refers to the sensitivity of the mouse wheel
-                    text: em.pty+qsTr("Very sensitive")
-                    font.pointSize: 10
-
-                }
+                id: txt_very
+                color: colour.text
+                //: Refers to the sensitivity of the mouse wheel
+                text: em.pty+qsTr("Very sensitive")
+                font.pointSize: 10
 
             }
 
         }
 
-    }
+    ]
 
     function setData() {
         wheelsensitivity.value = wheelsensitivity.maximumValue-settings.mouseWheelSensitivity

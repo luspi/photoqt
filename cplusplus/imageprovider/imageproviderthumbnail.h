@@ -56,6 +56,8 @@ private:
     bool dbSetup;
     void setupDbWhenNotYetDone();
 
+    QMimeDatabase mimedb;
+
 };
 
 #endif // IMAGEPROVIDERTHUMBS_H

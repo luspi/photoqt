@@ -117,7 +117,8 @@ Rectangle {
             text: showUnsupportedProtocolFolderMessage
                       //: Protocol refers to a file protocol (e.g., for network folders)
                     ? em.pty+qsTr("This protocol is currently not supported")
-                      //: Can also be expressed as 'zero subfolders' or '0 subfolders'. It is also possible to drop the 'sub' leaving 'folders' if that works better
+                      //: Can also be expressed as 'zero subfolders' or '0 subfolders'. It is also possible to drop the 'sub' leaving 'folders'
+                      //: if that works better
                     : em.pty+qsTr("No image files found")
 
 
@@ -212,14 +213,21 @@ Rectangle {
                 asynchronous: true
                 fillMode: Image.PreserveAspectFit
 
+                property bool supported: false
+
                 // the source depends on settings and visibility
-                source: (filename!=undefined&&settings.openThumbnails&&openfile_top.visible)
-                          ? ("image://thumb/" + openvariables.currentDirectory + "/" + filename)
-                          : "image://icon/image-" + getanddostuff.getSuffix(openvariables.currentDirectory + "/" + filename)
+                source: supported
+                            ? (filename!=undefined&&settings.openThumbnails&&openfile_top.visible)
+                                ? getanddostuff.toPercentEncoding(("image://thumb/" + openvariables.currentDirectory + "/" + filename))
+                                : "image://icon/image-" + getanddostuff.getSuffix(openvariables.currentDirectory + "/" + filename)
+                            : ""
 
                 // the thumbnail fades in when ready
                 opacity: Image.Ready&&source!="" ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
+
+                Component.onCompleted:
+                    supported = getanddostuff.isSupportedImageType(openvariables.currentDirectory + "/" + filename)
 
             }
 
@@ -238,7 +246,9 @@ Rectangle {
                 fillMode: Image.PreserveAspectFit
 
                 // the source is always this, as this icon image loads almost instantly there is no need to set/remove it
-                source: "image://icon/image-" + getanddostuff.getSuffix(openvariables.currentDirectory + "/" + filename)
+                source: thumb.supported
+                          ? "image://icon/image-" + getanddostuff.getSuffix(openvariables.currentDirectory + "/" + filename)
+                          : "image://icon/unknown"
 
             }
 
@@ -530,8 +540,9 @@ Rectangle {
         // if we have a filename
         } else {
             // set background/preview image (if enabled)
-            bgthumb.source = settings.openPreview
-                                ? "image://" + (settings.openPreviewHighQuality ? "full" : "thumb") + "/" + openvariables.currentDirectory + "/" + f
+            bgthumb.source = settings.openPreview&&getanddostuff.isSupportedImageType(openvariables.currentDirectory + "/" + f)
+                                ? getanddostuff.toPercentEncoding("image://" + (settings.openPreviewHighQuality ? "full" : "thumb") +
+                                                                  "/" + openvariables.currentDirectory + "/" + f)
                                 : ""
             // if the change in currentIndex hasn't happened through user input, update the text in the edit rect and select it all
             if(!openvariables.highlightingFromUserInput) {

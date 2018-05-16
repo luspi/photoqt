@@ -23,7 +23,7 @@
 import QtQuick 2.5
 import QtGraphicalEffects 1.0
 import "../elements"
-import "../handlestuff.js" as Handle
+//import "../handlestuff.js" as Handle
 
 Item {
 
@@ -173,6 +173,8 @@ Item {
             // Some extra margin for visual improvements
             property int thumbnailExtraMargin: 25
 
+            property string filenameWithoutExtras: ""
+
             // activated is the image that is currently hovered by the mouse
             property bool activated: false
 
@@ -186,8 +188,28 @@ Item {
                     loaded = (getanddostuff.removePathFromFilename(imagePath)===variables.currentFile)
             }
 
-            Component.onCompleted:
+            Component.onCompleted: {
+
                 loaded = (getanddostuff.removePathFromFilename(imagePath)===variables.currentFile)
+
+                var pqt = (imagePath.indexOf("::PQT1::") !== -1 && imagePath.indexOf("::PQT2::") !== -1)
+                var arc = (imagePath.indexOf("::ARCHIVE1::") !== -1 && imagePath.indexOf("::ARCHIVE2::") !== -1)
+
+                if(!pqt && !arc)
+                    rect.filenameWithoutExtras = getanddostuff.removePathFromFilename(imagePath)
+                else {
+                    if(pqt) {
+                        var fn = getanddostuff.removePathFromFilename(imagePath)
+                        var info = fn.split("::PQT1::")[1].split("::PQT2::")[0]
+                        var txt = fn.replace("::PQT1::"+info+"::PQT2::", "")
+                        info = " - Page #" + (1+1*info.split("::")[0]) + "/" + info.split("::")[1]
+                        txt += info
+                        rect.filenameWithoutExtras = txt
+                    } else if(arc)
+                        rect.filenameWithoutExtras = getanddostuff.removeSuffixFromFilename(imagePath.split("::ARCHIVE2::")[1])
+                }
+
+            }
 
             // The color behind the thumbnail
             color: colour.thumbnails_bg
@@ -241,14 +263,19 @@ Item {
                 property bool loadThumbnail: true
 
                 // Set the source based on the special imageloader (icon or thumbnail)
-                // loading depends on the loadThumbnail property which in turn depends on the mainimage and whether the thumbnail has already finished loading
-                source: loadThumbnail ? (settings.thumbnailFilenameInstead ? "image://icon/image-" + getanddostuff.getSuffix(imagePath) : "image://thumb/" + imagePath) : ""
+                // loading depends on the loadThumbnail property which in turn depends on the mainimage and
+                // whether the thumbnail has already finished loading
+                source: loadThumbnail ?
+                            (settings.thumbnailFilenameInstead ? "image://icon/image-" + getanddostuff.getSuffix(imagePath) :
+                                                                 getanddostuff.toPercentEncoding("image://thumb/" + imagePath)) :
+                            ""
 
                 // We react to changes in the status of loading the mainimage
                 Connections {
                     target: imageitem
                     onMainImageLoadingChanged:
-                        // whether we load a thumbnail depends on whether the mainimage has finished loading OR if the thumbnail has already finished loading
+                        // whether we load a thumbnail depends on whether the mainimage has finished loading
+                        // OR if the thumbnail has already finished loading
                         img.loadThumbnail = (imageitem.mainImageFinishedLoading||img.status==Image.Ready)
                 }
 
@@ -281,7 +308,7 @@ Item {
                 cursorShape: Qt.PointingHandCursor
 
                 // The tooltip is the current image filename
-                text: getanddostuff.removePathFromFilename(imagePath)
+                text: rect.filenameWithoutExtras
 
                 // set lift up/down of thumbnails
                 onEntered: {
@@ -295,8 +322,11 @@ Item {
 
                 // Load the selected thumbnail as main image
                 onClicked: {
-                    variables.currentFile = getanddostuff.removePathFromFilename(imagePath)
-                    Handle.loadFile(variables.currentFile, variables.filter, false)
+                    if(imagePath.indexOf("::ARCHIVE1::") === -1 || imagePath.indexOf("::ARCHIVE2::") === -1)
+                        variables.currentFile = getanddostuff.removePathFromFilename(imagePath)
+                    else
+                        variables.currentFile = "::ARCHIVE1::"+imagePath.split("::ARCHIVE1::")[1]
+                    mainwindow.loadFileFromThumbnails(variables.currentFile, variables.filter)
                 }
             }
 
@@ -337,7 +367,7 @@ Item {
                     horizontalAlignment: Qt.AlignHCenter
 
                     // the filename
-                    text: getanddostuff.removePathFromFilename(imagePath)
+                    text: rect.filenameWithoutExtras
 
                 }
 
@@ -383,7 +413,7 @@ Item {
                     elide: Text.ElideRight
 
                     // Set the tooltip
-                    text: getanddostuff.removePathFromFilename(imagePath)
+                    text: rect.filenameWithoutExtras
 
                 }
             }

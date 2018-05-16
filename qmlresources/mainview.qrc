@@ -12,5 +12,7 @@
     <file>../qml/mainview/MetaData.qml</file>
     <file>../qml/mainview/Histogram.qml</file>
     <file>../qml/mainview/LoadingIndicator.qml</file>
+    <file>../qml/mainview/FaceTracker.qml</file>
+    <file>../qml/mainview/FaceTagger.qml</file>
     </qresource>
 </RCC>

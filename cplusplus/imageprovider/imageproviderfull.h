@@ -26,19 +26,13 @@
 #include <QQuickImageProvider>
 #include <QFileInfo>
 #include <QtSvg/QtSvg>
-#include "pixmapcache.h"
-#include "../settings/fileformats.h"
+#include "../settings/imageformats.h"
+#include "../settings/mimetypes.h"
 #include "../settings/slimsettingsreadonly.h"
 #include "../logger.h"
 
-#include "loader/loadimage_qt.h"
-#include "loader/loadimage_gm.h"
-#include "loader/loadimage_xcf.h"
-#include "loader/loadimage_raw.h"
-
 #ifdef GM
 #include <GraphicsMagick/Magick++.h>
-#include "../scripts/gmimagemagick.h"
 #endif
 
 class ImageProviderFull : public QQuickImageProvider {
@@ -52,28 +46,18 @@ public:
 private:
     QSize maxSize;
     SlimSettingsReadOnly *settings;
-    FileFormats *fileformats;
+    ImageFormats *imageformats;
+    MimeTypes *mimetypes;
 
-    QString qtfiles;
-    QString gmfiles;
-    QString extrasfiles;
-    QString rawfiles;
-
-    LoadImageGM *loaderGM;
-    LoadImageQt *loaderQT;
-    LoadImageRaw *loaderRAW;
-    LoadImageXCF *loaderXCF;
-
-    QCache<QByteArray,QPixmap> *pixmapcache;
-
+    QPixmapCache *pixmapcache;
 
     QString whatDoIUse(QString filename);
 
-#ifdef GM
-    GmImageMagick imagemagick;
-#endif
-
     QByteArray getUniqueCacheKey(QString path);
+
+    QMimeDatabase mimedb;
+
+    int foundExternalUnrar;
 
 };
 

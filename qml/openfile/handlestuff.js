@@ -112,13 +112,11 @@ function loadDirectoryFolders() {
     for(var j = 0; j < openvariables.currentDirectoryFolders.length; ++j)
         folders.folderListView.model.append({"folder" : openvariables.currentDirectoryFolders[j],
                                              "path" : openvariables.currentDirectory+"/"+openvariables.currentDirectoryFolders[j],
-                                             "counter" : getanddostuff.getNumberFilesInFolder(openvariables.currentDirectory
-                                                                                              + "/"
-                                                                                              + openvariables.currentDirectoryFolders[j], openvariables.filesFileTypeSelection),
                                              "icon" : "folder",
                                              "id" : "",
                                              "hidden" : "false",
-                                             "systemitem" : ""})
+                                             "systemitem" : "",
+                                             "notvisible" : "0"})
 
 }
 
@@ -136,7 +134,13 @@ function loadDirectoryFiles() {
     }
     filesview.showUnsupportedProtocolFolderMessage = false
 
-    openvariables.currentDirectoryFiles = getanddostuff.getFilesWithSizeIn(openvariables.currentDirectory, openvariables.filesFileTypeSelection, settings.openShowHiddenFilesFolders, settings.sortby, settings.sortbyAscending)
+    openvariables.currentDirectoryFiles = getanddostuff.getAllFilesIn(openvariables.currentDirectory,
+                                                                      openvariables.filesFileTypeCategorySelected,
+                                                                      "",
+                                                                      settings.openShowHiddenFilesFolders,
+                                                                      settings.sortby,
+                                                                      settings.sortbyAscending,
+                                                                      true, false, false, false, false, false)
 
     filesview.filesView.contentY = 0
     for(var j = 0; j < openvariables.currentDirectoryFiles.length; j+=2)
@@ -202,21 +206,20 @@ function loadStorageInfo() {
     // for the heading
     userplaces.storageInfoModel.append({"name" : "",
                                        "location" : "",
+                                       "filesystemtype" : "",
                                        "icon" : ""})
 
     for(var i = 0; i < s.length; i+=4) {
+
         var name = s[i]
         var size = Math.round(s[i+1]/1024/1024/1024 +1);
         var filesystemtype = s[i+2]
         var path = s[i+3]
 
-        if(name == "")
-            //: This is used for the name of a storage device (e.g., USB), as in '5 GB device'
-            name = ""+size+" GB " + em.pty+qsTr("device")
-        name += " (" + filesystemtype + ")"
-
         userplaces.storageInfoModel.append({"name" : name,
+                                            "size" : size,
                                             "location" : path,
+                                            "filesystemtype" : filesystemtype,
                                             "icon" : "drive-harddisk"})
 
     }

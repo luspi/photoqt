@@ -60,9 +60,11 @@ Item {
 
     Text {
         id: question
-        x: (parent.width-width)/2
-        text: em.pty+qsTr("Do you really want to delete this file?")
+        width: parent.width
+        horizontalAlignment: Text.AlignHCenter
+        text: em.pty+qsTr("Are you sure?")
         font.pointSize: 10*2
+        wrapMode: Text.WordWrap
         color: colour.text
         anchors.top: filename.bottom
         anchors.topMargin: 25
@@ -137,7 +139,9 @@ Item {
     // A little explanatory text informing the user about the shortcuts
     Text {
 
-        x: (parent.width-width)/2
+        width: parent.width
+        horizontalAlignment: Text.AlignHCenter
+        wrapMode: Text.WordWrap
 
         anchors.top: permanentdelete.bottom
         anchors.topMargin: 25
@@ -163,14 +167,14 @@ Item {
 
     Connections {
         target: container
-        onItemShown: filename.text = variables.currentFile
+        onItemShown: filename.text = variables.currentFileWithoutExtras
     }
 
     // These two 'simulate' functions can be called via shortcuts
     function simulateEnter() {
         verboseMessage("Filemanagement/Delete", "simulateEnter()")
         hideDelete()
-        getanddostuff.deleteImage(variables.currentDir + "/" + variables.currentFile,getanddostuff.amIOnLinux())
+        getanddostuff.deleteImage(getanddostuff.toPercentEncoding(variables.currentDir + "/" + variables.currentFileWithoutExtras),getanddostuff.amIOnLinux())
         var newfilename = Handle.getNewFilenameAfterDeletion()
         if(newfilename === "")
             variables.deleteNothingLeft = true
@@ -180,7 +184,7 @@ Item {
     function simulateShiftEnter() {
         verboseMessage("Filemanagement/Delete", "simulateShiftEnter()")
         hideDelete()
-        getanddostuff.deleteImage(variables.currentDir + "/" + variables.currentFile,false)
+        getanddostuff.deleteImage(getanddostuff.toPercentEncoding(variables.currentDir + "/" + variables.currentFileWithoutExtras),false)
         var newfilename = Handle.getNewFilenameAfterDeletion()
         if(newfilename === "")
             variables.deleteNothingLeft = true

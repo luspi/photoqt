@@ -23,8 +23,12 @@
 #include <QApplication>
 #include "mainhandler.h"
 #include "singleinstance/singleinstance.h"
+#include "startup/exportimport.h"
 #ifdef GM
 #include <GraphicsMagick/Magick++.h>
+#endif
+#ifdef DEVIL
+#include <IL/il.h>
 #endif
 
 int main(int argc, char *argv[]) {
@@ -46,7 +50,15 @@ int main(int argc, char *argv[]) {
     Magick::InitializeMagick(*argv);
 #endif
 
-    // This means, that, e.g., --export or --import was passed along -> we will simply quit (preparation for that is done in the handleExportImport() function)
+#ifdef DEVIL
+    ilInit();
+#endif
+
+#ifdef FREEIMAGE
+    FreeImage_Initialise();
+#endif
+
+    // This means, that, e.g., --export or --import was passed along -> we will simply quit (handling is done in the handleExportImport() function)
     if(StartupCheck::ExportImport::handleExportImport(&app) != -1) return 0;
 
     // Ensure that PhotoQt actually quits when last window is closed
@@ -57,7 +69,7 @@ int main(int argc, char *argv[]) {
     MainHandler handle;
 
     // A remote action passed on via command line triggers the 'interaction' signal, so we pass it on to the MainWindow
-    QObject::connect(&app, SIGNAL(interaction(QString)), &handle, SLOT(remoteAction(QString)));
+    QObject::connect(&app, &SingleInstance::interaction, &handle, &MainHandler::remoteAction);
 
     // How to proceed when starting PhotoQt in tray or passing on a filename
     handle.manageStartupFilename(app.startintray, app.filename);

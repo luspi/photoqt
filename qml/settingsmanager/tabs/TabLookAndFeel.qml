@@ -27,13 +27,9 @@ import "./lookandfeel"
 import "../../elements"
 
 
-Rectangle {
+Item {
 
     id: tab_top
-
-    property int titlewidth: 100
-
-    color: "#00000000"
 
     anchors {
         fill: parent
@@ -48,14 +44,14 @@ Rectangle {
 
         anchors.fill: parent
 
-        contentHeight: contentItem.childrenRect.height+20
+        contentHeight: maincol.height+50
         contentWidth: maincol.width
 
         Column {
 
             id: maincol
 
-            Rectangle { color: "transparent"; width: 1; height: 10; }
+            Item { width: 1; height: 10; }
 
             Text {
                 width: flickable.width
@@ -67,41 +63,45 @@ Rectangle {
                 horizontalAlignment: Text.AlignHCenter
             }
 
-            Rectangle { color: "transparent"; width: 1; height: 20; }
+            Item { width: 1; height: 20; }
 
             Text {
                 width: flickable.width
                 color: "white"
                 font.pointSize: 9
-                text: qsTranslate("SettingsManager", "Move your mouse cursor over (or click on) the different settings titles to see more information.")
+                wrapMode: Text.WordWrap
+                text: qsTranslate("SettingsManager",
+                                  "Move your mouse cursor over (or click on) the different settings titles to see more information.")
                 horizontalAlignment: Text.AlignHCenter
             }
 
-            Rectangle { color: "transparent"; width: 1; height: 20; }
+            Item { width: 1; height: 20; }
 
-            Rectangle { color: "#88ffffff"; width: parent.width; height: 1; }
+            Rectangle { color: "#88ffffff"; width: tab_top.width; height: 1; }
 
-            Rectangle { color: "transparent"; width: 1; height: 20; }
+            Item { width: 1; height: 20; }
 
             SortBy { id: sortby; }
-            WindowMode { id: windowmode; alternating: true }
+            WindowMode { id: windowmode }
             TrayIcon { id: trayicon }
-            ClosingX { id: closingx; alternating: true }
+            ClosingX { id: closingx }
             FitInWindow { id: fitin }
-            Quickinfo { id: quickinfo; alternating: true }
+            Quickinfo { id: quickinfo }
             Background { id: background }
-            OverlayColor { id: overlay; alternating: true }
-            BorderAroundImage { id: border; alternating: true }
+            OverlayColor { id: overlay }
+            BorderAroundImage { id: border }
             CloseOnClick { id: closeonclick }
-            Loop { id: loop; alternating: true }
+            Loop { id: loop }
             Transition { id: transition }
-            TransparencyMarker { id: transparency; alternating: true }
+            TransparencyMarker { id: transparency }
             HotEdge { id: hotedge }
-            MouseWheelSensitivity { id: mousewheel; alternating: true }
+            MouseWheelSensitivity { id: mousewheel }
+            ZoomSpeed { id: zoomspeed }
             Interpolation { id: interpolation }
-            PixmapCache { id: pixmapcache; alternating: true }
+            PixmapCache { id: pixmapcache }
             ReOpenFile { id: reopenfile }
-            Keep { id: remember; alternating: true }
+            Keep { id: remember }
+            QuickInfoManageWindow { id: managewindow }
             Animation { id: animation }
         }
 
@@ -126,10 +126,12 @@ Rectangle {
         transparency.setData()
         hotedge.setData()
         mousewheel.setData()
+        zoomspeed.setData()
         interpolation.setData()
         pixmapcache.setData()
         reopenfile.setData()
         remember.setData()
+        managewindow.setData()
         animation.setData()
 
     }
@@ -153,10 +155,12 @@ Rectangle {
         transparency.saveData()
         hotedge.saveData()
         mousewheel.saveData()
+        zoomspeed.saveData()
         interpolation.saveData()
         pixmapcache.saveData()
         reopenfile.saveData()
         remember.saveData()
+        managewindow.saveData()
         animation.saveData()
 
     }

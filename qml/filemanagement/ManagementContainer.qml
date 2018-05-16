@@ -30,7 +30,7 @@ Item {
     opacity: 0
     Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
     width: management_top.width-300
-    height: management_top.height-250
+    height: management_top.height//-250
 
     signal itemShown()
     signal itemHidden()

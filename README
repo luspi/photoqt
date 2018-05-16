@@ -1,4 +1,4 @@
- PhotoQt v1.6 - Copyright (C) 2011-2018, Lukas Spies (Lukas@photoqt.org),
+ PhotoQt v1.7 - Copyright (C) 2011-2018, Lukas Spies (Lukas@photoqt.org),
  License: GPLv2 (or later) -- Website: http://photoqt.org
 --------------------------------------------------------------------
 
@@ -10,6 +10,8 @@
 --------------
 - Qt >= 5.5
 - CMake (needed for building PhotoQt)
+- libarchive
+- Qt5 ImageFormats
 
 > Make sure that you have the required QML modules installed:
   QtGraphicalEffects, QtMultimedia, QtQuick, QtQuick.Controls,
@@ -20,6 +22,9 @@
 - Exiv2
 - GraphicsMagick
 - LibRaw
+- Poppler
+- FreeImage
+- DevIL
 
 > NOTE
   On some systems you also need the *-dev package for compiling (e.g.
@@ -33,12 +38,13 @@
 
  OPTIONAL DEPENDENCIES
 -----------------------
+- KImageFormats - https://api.kde.org/frameworks/kimageformats/html/index.html
 - XCFtools - https://github.com/j-jorge/xcftools
 - libqpsd - https://github.com/Code-ReaQtor/libqpsd
+- unrar
 
 > These dependencies are not needed for compiling PhotoQt. However, if they are
-  installed, you can set PhotoQt (via settings) to make use of them for improved
-  XCF/PSD support.
+  installed then PhotoQt is able to support a wider range of image formats.
 
 
  INSTALL
@@ -53,26 +59,25 @@
 
      cmake -DCMAKE_INSTALL_PREFIX=/usr ..
 
-     # PhotoQt makes use of the libraries Exiv2, GraphicsMagick ("gm") and LibRaw.
+     # PhotoQt makes use of various libraries (Exiv2, GraphicsMagick, etc.).
      # You can en-/disable them with the following options:
      # (if you don't specify anything, it asumes a default value of ON)
 
      -DEXIV2=OFF
      -DGM=OFF
      -DRAW=OFF
+     -DPOPPLER=OFF
+     -DFREEIMAGE=OFF
+     -DDEVIL=OFF
 
-     # You can combine them in any way you want.
-     # The following option equates to setting the three above options to OFF
-
-     -DQTONLY=ON
-
-     # If CMake aborts with the error that it can't find Exiv2 and/or GraphicsMagick,
-     # and/or LibRaw, but you're certain that the header files are available, then
-     # you can pass their locations to CMake:
+     # If CMake aborts with the error that it can't find one of the libraries,
+     # but they are in fact installed and available, then you can specify the
+     # location of some of them as:
 
      -DMAGICK_LOCATION=/path/to/graphicsmagick
      -DEXIV2_LOCATION=/path/to/exiv2
      -DLIBRAW_LOCATION=/path/to/libraw
+     -DFREEIMAGE_LOCATION=/path/to/freeimage
 
 3) make  # This creates an executeable photoqt binary located in the ./build/ folder
 
@@ -87,5 +92,5 @@
 -----------
  If you want to uninstall PhotoQt, simply run "make uninstall" as root. This removes
  the desktop file (via xdg-desktop-menu uninstall), the icons, the binary file, and
- the appdata file. Alternatively you can simply remove all the files manually, that
+ the appdata file. Alternatively you can simply remove all the files manually which
  should yield the same result.

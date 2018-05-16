@@ -35,6 +35,7 @@
 #include <QTextStream>
 #include <QPoint>
 #include <QSize>
+#include <QProcess>
 #ifdef Q_OS_WIN
 #include <QtWinExtras/QtWin>
 #endif
@@ -46,43 +47,13 @@ class Settings : public QObject {
     Q_OBJECT
 
 public:
-    explicit Settings(QObject *parent = 0) : QObject(parent) {
-
-        // When saving the settings, we don't want to write the settings file hundreds of time within a few milliseconds,
-        // but use a timer to save it once after all settings are set
-        saveSettingsTimer = new QTimer;
-        saveSettingsTimer->setInterval(400);
-        saveSettingsTimer->setSingleShot(true);
-        connect(saveSettingsTimer, SIGNAL(timeout()), this, SLOT(saveSettings()));
-
-        watcher = new QFileSystemWatcher;
-        connect(watcher, &QFileSystemWatcher::fileChanged, [this](QString){ readSettings(); });
-
-        watcherAddFileTimer = new QTimer;
-        watcherAddFileTimer->setInterval(500);
-        watcherAddFileTimer->setSingleShot(true);
-        connect(watcherAddFileTimer, &QTimer::timeout, this, &Settings::addFileToWatcher);
-
-        setDefault();
-        readSettings();
-
-    }
+    explicit Settings(QObject *parent = 0);
 
     // CLean-up
-    ~Settings() {
-        delete saveSettingsTimer;
-    }
+    ~Settings();
 
 private slots:
-    void addFileToWatcher() {
-        QFileInfo info(ConfigFiles::SETTINGS_FILE());
-        if(!info.exists()) {
-            watcherAddFileTimer->start();
-            return;
-        }
-        watcher->removePath(ConfigFiles::SETTINGS_FILE());
-        watcher->addPath(ConfigFiles::SETTINGS_FILE());
-    }
+    void addFileToWatcher();
 
 private:
 
@@ -135,13 +106,21 @@ private:
     int     m_pixmapCache;
     bool    m_showTransparencyMarkerBackground;
     bool    m_leftButtonMouseClickAndMove;
+    int     m_zoomSpeed;
+
+    bool    m_pdfSingleDocument;
+    int     m_pdfQuality;
+    bool    m_archiveSingleFile;
+    bool    m_archiveUseExternalUnrar;
 
     bool    m_quickInfoHideCounter;
     bool    m_quickInfoHideFilepath;
     bool    m_quickInfoHideFilename;
     bool    m_quickInfoHideX;
+    bool    m_quickInfoHideZoomLevel;
     bool    m_quickInfoFullX;
     int     m_quickInfoCloseXSize;
+    bool    m_quickInfoManageWindow;
 
     int     m_slideShowTime;
     int     m_slideShowImageTransition;
@@ -193,6 +172,15 @@ private:
     bool    m_metaLocation;
     bool    m_metaCopyright;
     bool    m_metaGps;
+
+    bool    m_peopleTagInMetaDisplay;
+    bool    m_peopleTagInMetaBorderAroundFace;
+    QString m_peopleTagInMetaBorderAroundFaceColor;
+    int     m_peopleTagInMetaBorderAroundFaceWidth;
+    bool    m_peopleTagInMetaAlwaysVisible;
+    bool    m_peopleTagInMetaIndependentLabels;
+    bool    m_peopleTagInMetaHybridMode;
+    int     m_peopleTagInMetaFontSize;
 
     QString m_openDefaultView;
     bool    m_openPreview;
@@ -533,9 +521,10 @@ public:
                WRITE  setInterpolationNearestNeighbourThreshold
                NOTIFY interpolationNearestNeighbourThresholdChanged)
     int  getInterpolationNearestNeighbourThreshold() { return m_interpolationNearestNeighbourThreshold; }
-    void setInterpolationNearestNeighbourThreshold(int val) { if(val != m_interpolationNearestNeighbourThreshold) { m_interpolationNearestNeighbourThreshold = val;
-                                                                                                                    emit interpolationNearestNeighbourThresholdChanged(val);
-                                                                                                                    saveSettingsTimer->start(); } }
+    void setInterpolationNearestNeighbourThreshold(int val) { if(val != m_interpolationNearestNeighbourThreshold) {
+                                                                            m_interpolationNearestNeighbourThreshold = val;
+                                                                            emit interpolationNearestNeighbourThresholdChanged(val);
+                                                                            saveSettingsTimer->start(); } }
 
     // interpolationNearestNeighbourUpscale
     Q_PROPERTY(bool   interpolationNearestNeighbourUpscale
@@ -543,9 +532,10 @@ public:
                WRITE  setInterpolationNearestNeighbourUpscale
                NOTIFY interpolationNearestNeighbourUpscaleChanged)
     bool getInterpolationNearestNeighbourUpscale() { return m_interpolationNearestNeighbourUpscale; }
-    void setInterpolationNearestNeighbourUpscale(bool val) { if(val != m_interpolationNearestNeighbourUpscale) { m_interpolationNearestNeighbourUpscale = val;
-                                                                                                                 emit interpolationNearestNeighbourUpscaleChanged(val);
-                                                                                                                 saveSettingsTimer->start(); } }
+    void setInterpolationNearestNeighbourUpscale(bool val) { if(val != m_interpolationNearestNeighbourUpscale) {
+                                                                            m_interpolationNearestNeighbourUpscale = val;
+                                                                            emit interpolationNearestNeighbourUpscaleChanged(val);
+                                                                            saveSettingsTimer->start(); } }
 
     // pixmapCache
     Q_PROPERTY(int    pixmapCache
@@ -563,9 +553,10 @@ public:
                WRITE  setShowTransparencyMarkerBackground
                NOTIFY showTransparencyMarkerBackgroundChanged)
     bool getShowTransparencyMarkerBackground() { return m_showTransparencyMarkerBackground; }
-    void setShowTransparencyMarkerBackground(bool val) { if(val != m_showTransparencyMarkerBackground) { m_showTransparencyMarkerBackground = val;
-                                                                                                         emit showTransparencyMarkerBackgroundChanged(val);
-                                                                                                         saveSettingsTimer->start(); } }
+    void setShowTransparencyMarkerBackground(bool val) { if(val != m_showTransparencyMarkerBackground) {
+                                                                        m_showTransparencyMarkerBackground = val;
+                                                                        emit showTransparencyMarkerBackgroundChanged(val);
+                                                                        saveSettingsTimer->start(); } }
 
     // leftButtonMouseClickAndMove
     Q_PROPERTY(bool   leftButtonMouseClickAndMove
@@ -576,6 +567,56 @@ public:
     void setLeftButtonMouseClickAndMove(bool val) { if(val != m_leftButtonMouseClickAndMove) { m_leftButtonMouseClickAndMove = val;
                                                                                                emit leftButtonMouseClickAndMoveChanged(val);
                                                                                                saveSettingsTimer->start(); } }
+
+    // zoomSpeed
+    Q_PROPERTY(int    zoomSpeed
+               READ   getZoomSpeed
+               WRITE  setZoomSpeed
+               NOTIFY zoomSpeedChanged)
+    int  getZoomSpeed() { return m_zoomSpeed; }
+    void setZoomSpeed(int val) { if(val != m_zoomSpeed) { m_zoomSpeed = val;
+                                                          emit zoomSpeedChanged(val);
+                                                          saveSettingsTimer->start(); } }
+
+    // pdfSingleDocument
+    Q_PROPERTY(bool   pdfSingleDocument
+               READ   getPdfSingleDocument
+               WRITE  setPdfSingleDocument
+               NOTIFY pdfSingleDocumentChanged)
+    bool getPdfSingleDocument() { return m_pdfSingleDocument; }
+    void setPdfSingleDocument(bool val) { if(val != m_pdfSingleDocument) { m_pdfSingleDocument = val;
+                                                                           emit pdfSingleDocumentChanged(val);
+                                                                           saveSettingsTimer->start(); } }
+
+    // pdfSingleDocument
+    Q_PROPERTY(int    pdfQuality
+               READ   getPdfQuality
+               WRITE  setPdfQuality
+               NOTIFY pdfQualityChanged)
+    int  getPdfQuality() { return m_pdfQuality; }
+    void setPdfQuality(int val) { if(val != m_pdfQuality) { m_pdfQuality = val;
+                                                            emit pdfQualityChanged(val);
+                                                            saveSettingsTimer->start(); } }
+
+    // archiveSingleFile
+    Q_PROPERTY(int    archiveSingleFile
+               READ   getArchiveSingleFile
+               WRITE  setArchiveSingleFile
+               NOTIFY archiveSingleFileChanged)
+    int  getArchiveSingleFile() { return m_archiveSingleFile; }
+    void setArchiveSingleFile(int val) { if(val != m_archiveSingleFile) { m_archiveSingleFile = val;
+                                                                          emit archiveSingleFileChanged(val);
+                                                                          saveSettingsTimer->start(); } }
+
+    // archiveUseExternalUnrar
+    Q_PROPERTY(bool   archiveUseExternalUnrar
+               READ   getArchiveUseExternalUnrar
+               WRITE  setArchiveUseExternalUnrar
+               NOTIFY archiveUseExternalUnrarChanged)
+    bool getArchiveUseExternalUnrar() { return m_archiveUseExternalUnrar; }
+    void setArchiveUseExternalUnrar(bool val) { if(val != m_archiveUseExternalUnrar) { m_archiveUseExternalUnrar = val;
+                                                                                       emit archiveUseExternalUnrarChanged(val);
+                                                                                       saveSettingsTimer->start(); } }
 
     // quickInfoHideCounter
     Q_PROPERTY(bool   quickInfoHideCounter
@@ -617,6 +658,16 @@ public:
                                                                      emit quickInfoHideXChanged(val);
                                                                      saveSettingsTimer->start(); } }
 
+    // quickInfoHideZoomLevel
+    Q_PROPERTY(bool   quickInfoHideZoomLevel
+               READ   getQuickInfoHideZoomLevel
+               WRITE  setQuickInfoHideZoomLevel
+               NOTIFY quickInfoHideZoomLevelChanged)
+    bool getQuickInfoHideZoomLevel() { return m_quickInfoHideZoomLevel; }
+    void setQuickInfoHideZoomLevel(bool val) { if(val != m_quickInfoHideZoomLevel) { m_quickInfoHideZoomLevel = val;
+                                                                                     emit quickInfoHideZoomLevelChanged(val);
+                                                                                     saveSettingsTimer->start(); } }
+
     // quickInfoFullX
     Q_PROPERTY(bool   quickInfoFullX
                READ   getQuickInfoFullX
@@ -636,6 +687,16 @@ public:
     void setQuickInfoCloseXSize(int val) { if(val != m_quickInfoCloseXSize) { m_quickInfoCloseXSize = val;
                                                                               emit quickInfoCloseXSizeChanged(val);
                                                                               saveSettingsTimer->start(); } }
+
+    // quickInfoManageWindow
+    Q_PROPERTY(bool   quickInfoManageWindow
+               READ   getQuickInfoManageWindow
+               WRITE  setQuickInfoManageWindow
+               NOTIFY quickInfoManageWindowChanged)
+    bool getQuickInfoManageWindow() { return m_quickInfoManageWindow; }
+    void setQuickInfoManageWindow(bool val) { if(val != m_quickInfoManageWindow) { m_quickInfoManageWindow = val;
+                                                                                   emit quickInfoManageWindowChanged(val);
+                                                                                   saveSettingsTimer->start(); } }
 
     // slideShowTime
     Q_PROPERTY(int    slideShowTime
@@ -773,9 +834,10 @@ public:
                WRITE  setThumbnailKeepVisibleWhenNotZoomedIn
                NOTIFY thumbnailKeepVisibleWhenNotZoomedInChanged)
     bool getThumbnailKeepVisibleWhenNotZoomedIn() { return m_thumbnailKeepVisibleWhenNotZoomedIn; }
-    void setThumbnailKeepVisibleWhenNotZoomedIn(bool val) { if(val != m_thumbnailKeepVisibleWhenNotZoomedIn) { m_thumbnailKeepVisibleWhenNotZoomedIn = val;
-                                                                                                               emit thumbnailKeepVisibleWhenNotZoomedInChanged(val);
-                                                                                                               saveSettingsTimer->start(); } }
+    void setThumbnailKeepVisibleWhenNotZoomedIn(bool val) { if(val != m_thumbnailKeepVisibleWhenNotZoomedIn) {
+                                                                            m_thumbnailKeepVisibleWhenNotZoomedIn = val;
+                                                                            emit thumbnailKeepVisibleWhenNotZoomedInChanged(val);
+                                                                            saveSettingsTimer->start(); } }
 
     // thumbnailCenterActive
     Q_PROPERTY(bool   thumbnailCenterActive
@@ -803,9 +865,10 @@ public:
                WRITE  setThumbnailFilenameInsteadFontSize
                NOTIFY thumbnailFilenameInsteadFontSizeChanged)
     int  getThumbnailFilenameInsteadFontSize() { return m_thumbnailFilenameInsteadFontSize; }
-    void setThumbnailFilenameInsteadFontSize(int val) { if(val != m_thumbnailFilenameInsteadFontSize) { m_thumbnailFilenameInsteadFontSize = val;
-                                                                                                        emit thumbnailFilenameInsteadFontSizeChanged(val);
-                                                                                                        saveSettingsTimer->start(); } }
+    void setThumbnailFilenameInsteadFontSize(int val) { if(val != m_thumbnailFilenameInsteadFontSize) {
+                                                                        m_thumbnailFilenameInsteadFontSize = val;
+                                                                        emit thumbnailFilenameInsteadFontSizeChanged(val);
+                                                                        saveSettingsTimer->start(); } }
 
     // thumbnailDisable
     Q_PROPERTY(bool   thumbnailDisable
@@ -1107,6 +1170,90 @@ public:
                                                        emit metaGpsChanged(val);
                                                        saveSettingsTimer->start(); } }
 
+    // peopleTagInMetaDisplay
+    Q_PROPERTY(bool   peopleTagInMetaDisplay
+               READ   getPeopleTagInMetaDisplay
+               WRITE  setPeopleTagInMetaDisplay
+               NOTIFY peopleTagInMetaDisplayChanged)
+    bool getPeopleTagInMetaDisplay() { return m_peopleTagInMetaDisplay; }
+    void setPeopleTagInMetaDisplay(bool val) { if(val != m_peopleTagInMetaDisplay) { m_peopleTagInMetaDisplay = val;
+                                                                                     emit peopleTagInMetaDisplayChanged(val);
+                                                                                     saveSettingsTimer->start(); } }
+
+    // peopleTagInMetaBorderAroundFace
+    Q_PROPERTY(bool   peopleTagInMetaBorderAroundFace
+               READ   getPeopleTagInMetaBorderAroundFace
+               WRITE  setPeopleTagInMetaBorderAroundFace
+               NOTIFY peopleTagInMetaBorderAroundFaceChanged)
+    bool getPeopleTagInMetaBorderAroundFace() { return m_peopleTagInMetaBorderAroundFace; }
+    void setPeopleTagInMetaBorderAroundFace(bool val) { if(val != m_peopleTagInMetaBorderAroundFace) {
+                                                                        m_peopleTagInMetaBorderAroundFace = val;
+                                                                        emit peopleTagInMetaBorderAroundFaceChanged(val);
+                                                                        saveSettingsTimer->start(); } }
+
+    // peopleTagInMetaBorderAroundFaceColor
+    Q_PROPERTY(QString peopleTagInMetaBorderAroundFaceColor
+               READ    getPeopleTagInMetaBorderAroundFaceColor
+               WRITE   setPeopleTagInMetaBorderAroundFaceColor
+               NOTIFY  peopleTagInMetaBorderAroundFaceColorChanged)
+    QString getPeopleTagInMetaBorderAroundFaceColor() { return m_peopleTagInMetaBorderAroundFaceColor; }
+    void    setPeopleTagInMetaBorderAroundFaceColor(QString val) { if(val != m_peopleTagInMetaBorderAroundFaceColor) {
+                                                                                    m_peopleTagInMetaBorderAroundFaceColor = val;
+                                                                                    emit peopleTagInMetaBorderAroundFaceColorChanged(val);
+                                                                                    saveSettingsTimer->start(); } }
+
+    // peopleTagInMetaBorderAroundFaceWidth
+    Q_PROPERTY(int    peopleTagInMetaBorderAroundFaceWidth
+               READ   getPeopleTagInMetaBorderAroundFaceWidth
+               WRITE  setPeopleTagInMetaBorderAroundFaceWidth
+               NOTIFY peopleTagInMetaBorderAroundFaceWidthChanged)
+    int  getPeopleTagInMetaBorderAroundFaceWidth() { return m_peopleTagInMetaBorderAroundFaceWidth; }
+    void setPeopleTagInMetaBorderAroundFaceWidth(int val) { if(val != m_peopleTagInMetaBorderAroundFaceWidth) {
+                                                                            m_peopleTagInMetaBorderAroundFaceWidth = val;
+                                                                            emit peopleTagInMetaBorderAroundFaceWidthChanged(val);
+                                                                            saveSettingsTimer->start(); } }
+
+    // peopleTagInMetaAlwaysVisible
+    Q_PROPERTY(bool   peopleTagInMetaAlwaysVisible
+               READ   getPeopleTagInMetaAlwaysVisible
+               WRITE  setPeopleTagInMetaAlwaysVisible
+               NOTIFY peopleTagInMetaAlwaysVisibleChanged)
+    bool getPeopleTagInMetaAlwaysVisible() { return m_peopleTagInMetaAlwaysVisible; }
+    void setPeopleTagInMetaAlwaysVisible(bool val) { if(val != m_peopleTagInMetaAlwaysVisible) { m_peopleTagInMetaAlwaysVisible = val;
+                                                                                                 emit peopleTagInMetaAlwaysVisibleChanged(val);
+                                                                                                 saveSettingsTimer->start(); } }
+
+    // peopleTagInMetaIndependentLabels
+    Q_PROPERTY(bool   peopleTagInMetaIndependentLabels
+               READ   getPeopleTagInMetaIndependentLabels
+               WRITE  setPeopleTagInMetaIndependentLabels
+               NOTIFY peopleTagInMetaIndependentLabelsChanged)
+    bool getPeopleTagInMetaIndependentLabels() { return m_peopleTagInMetaIndependentLabels; }
+    void setPeopleTagInMetaIndependentLabels(bool val) { if(val != m_peopleTagInMetaIndependentLabels) {
+                                                                        m_peopleTagInMetaIndependentLabels = val;
+                                                                        emit peopleTagInMetaIndependentLabelsChanged(val);
+                                                                        saveSettingsTimer->start(); } }
+
+    // peopleTagInMetaHybridMode
+    Q_PROPERTY(bool   peopleTagInMetaHybridMode
+               READ   getPeopleTagInMetaHybridMode
+               WRITE  setPeopleTagInMetaHybridMode
+               NOTIFY peopleTagInMetaHybridModeChanged)
+    bool getPeopleTagInMetaHybridMode() { return m_peopleTagInMetaHybridMode; }
+    void setPeopleTagInMetaHybridMode(bool val) { if(val != m_peopleTagInMetaHybridMode) { m_peopleTagInMetaHybridMode= val;
+                                                                                           emit peopleTagInMetaHybridModeChanged(val);
+                                                                                           saveSettingsTimer->start(); } }
+
+    // peopleTagInMetaFontSize
+    Q_PROPERTY(int    peopleTagInMetaFontSize
+               READ   getPeopleTagInMetaFontSize
+               WRITE  setPeopleTagInMetaFontSize
+               NOTIFY peopleTagInMetaFontSizeChanged)
+    int  getPeopleTagInMetaFontSize() { return m_peopleTagInMetaFontSize; }
+    void setPeopleTagInMetaFontSize(int val) { if(val != m_peopleTagInMetaFontSize) { m_peopleTagInMetaFontSize = val;
+                                                                                      emit peopleTagInMetaFontSizeChanged(val);
+                                                                                      saveSettingsTimer->start(); } }
+
     // openDefaultView
     Q_PROPERTY(QString openDefaultView
                READ    getOpenDefaultView
@@ -1299,683 +1446,22 @@ public:
 
 
     /*#################################################################################################*/
-    /*#################################################################################################*/
 
     // Set the default settings
-    Q_INVOKABLE void setDefault() {
+    Q_INVOKABLE void setDefault();
 
-        if(qgetenv("PHOTOQT_DEBUG") == "yes")
-            LOG << CURDATE << "Settings::setDefault()" << NL;
-
-        setVersion(QString::fromStdString(VERSION));
-        m_versionInTextFile = "";
-
-        setSortby("naturalname");
-        setSortbyAscending(true);
-
-        setWindowMode(true);
-        setWindowDecoration(false);
-
-        setAnimations(true);
-        setSaveWindowGeometry(false);
-        setKeepOnTop(false);
-
-        setLanguage(QLocale::system().name());
-
-        setBackgroundColorRed(0);
-        setBackgroundColorGreen(0);
-        setBackgroundColorBlue(0);
-        setBackgroundColorAlpha(190);
-
-#ifdef Q_OS_WIN
-        setBackgroundImageScreenshot(QtWin::isCompositionEnabled() ? false : true);
-#else
-        setBackgroundImageScreenshot(false);
-#endif
-        setBackgroundImageUse(false);
-        setBackgroundImagePath("");
-        setBackgroundImageScale(true);
-        setBackgroundImageScaleCrop(false);
-        setBackgroundImageStretch(false);
-        setBackgroundImageCenter(false);
-        setBackgroundImageTile(false);
-
-#ifdef Q_OS_WIN
-        setComposite(QtWin::isCompositionEnabled() ? true : false);
-#else
-        setComposite(true);
-#endif
-        setTrayIcon(0);
-        setImageTransition(1);
-        setLoopThroughFolder(true);
-        setHotEdgeWidth(4);
-        setCloseOnEmptyBackground(false);
-        setMarginAroundImage(5);
-        setMouseWheelSensitivity(1);
-        setKeepZoomRotationMirror(false);
-        setFitInWindow(false);
-        setInterpolationNearestNeighbourThreshold(100);
-        setInterpolationNearestNeighbourUpscale(true);
-        setPixmapCache(128);
-        setLeftButtonMouseClickAndMove(true);
-        setShowTransparencyMarkerBackground(false);
-        setStartupLoadLastLoadedImage(false);
-        setMainMenuWindowWidth(350);
-
-        setQuickInfoHideCounter(false);
-        setQuickInfoHideFilepath(true);
-        setQuickInfoHideFilename(false);
-        setQuickInfoHideX(false);
-        setQuickInfoFullX(true);
-        setQuickInfoCloseXSize(10);
-
-        setThumbnailSize(80);
-        setThumbnailPosition("Bottom");
-        setThumbnailCache(true);
-#ifdef Q_OS_WIN
-        setThumbnailCacheFile(false);
-#else
-        setThumbnailCacheFile(true);
-#endif
-        setThumbnailSpacingBetween(0);
-        setThumbnailLiftUp(6);
-        setThumbnailKeepVisible(false);
-        setThumbnailKeepVisibleWhenNotZoomedIn(false);
-        setThumbnailCenterActive(false);
-        setThumbnailDisable(false);
-        setThumbnailWriteFilename(true);
-        setThumbnailFontSize(7);
-        setThumbnailFilenameInstead(false);
-        setThumbnailFilenameInsteadFontSize(8);
-
-        setSlideShowTime(5);
-        setSlideShowImageTransition(4);
-        setSlideShowMusicFile("");
-        setSlideShowShuffle(false);
-        setSlideShowLoop(true);
-        setSlideShowHideQuickInfo(true);
-
-        setMetaFilename(true);
-        setMetaFileType(true);
-        setMetaFileSize(true);
-        setMetaImageNumber(true);
-        setMetaDimensions(true);
-        setMetaMake(true);
-        setMetaModel(true);
-        setMetaSoftware(true);
-        setMetaTimePhotoTaken(true);
-        setMetaExposureTime(true);
-        setMetaFlash(true);
-        setMetaIso(true);
-        setMetaSceneType(true);
-        setMetaFLength(true);
-        setMetaFNumber(true);
-        setMetaLightSource(true);
-        setMetaKeywords(true);
-        setMetaLocation(true);
-        setMetaCopyright(true);
-        setMetaGps(true);
-        setMetaApplyRotation(true);
-        setMetaGpsMapService("openstreetmap.org");
-
-        setMetadataEnableHotEdge(true);
-        setMetadataFontSize(10);
-        setMetadataOpacity(220);
-        setMetadataWindowWidth(350);
-
-        setOpenDefaultView("list");
-        setOpenPreview(true);
-        setOpenPreviewHighQuality(false);
-        setOpenZoomLevel(25);
-        setOpenUserPlacesWidth(300);
-        setOpenFoldersWidth(400);
-        setOpenThumbnails(true);
-        setOpenUserPlacesStandard(true);
-        setOpenUserPlacesUser(true);
-        setOpenUserPlacesVolumes(false);
-        setOpenKeepLastLocation(false);
-        setOpenShowHiddenFilesFolders(false);
-        setOpenHideUserPlaces(false);
-
-        setHistogram(false);
-        setHistogramVersion("color");
-        setHistogramPosition(QPoint(100,100));
-        setHistogramSize(QSize(300,200));
-
-    }
-
-
-    /*#################################################################################################*/
     /*#################################################################################################*/
 
 public slots:
 
     // Save settings
-    void saveSettings() {
+    void saveSettings();
 
-        if(qgetenv("PHOTOQT_DEBUG") == "yes")
-            LOG << CURDATE << "Settings::saveSettings()" << NL;
-
-        QFile file(ConfigFiles::SETTINGS_FILE());
-
-        if(file.exists() && !file.open(QIODevice::ReadWrite))
-
-            LOG << CURDATE << "Settings::saveSettings() - ERROR saving settings" << NL;
-
-        else {
-
-            if(file.exists()) {
-                file.close();
-                file.remove();
-            }
-            file.open(QIODevice::ReadWrite);
-
-            QTextStream out(&file);
-
-            QString cont = "Version=" + m_version + "\n";
-
-            cont += QString("Language=%1\n").arg(m_language);
-            cont += QString("WindowMode=%1\n").arg(int(m_windowMode));
-            cont += QString("WindowDecoration=%1\n").arg(int(m_windowDecoration));
-            cont += QString("Animations=%1\n").arg(int(m_animations));
-            cont += QString("SaveWindowGeometry=%1\n").arg(int(m_saveWindowGeometry));
-            cont += QString("KeepOnTop=%1\n").arg(int(m_keepOnTop));
-            cont += QString("StartupLoadLastLoadedImage=%1\n").arg(int(m_startupLoadLastLoadedImage));
-
-            cont += "\n[Look]\n";
-
-            cont += QString("Composite=%1\n").arg(int(m_composite));
-            cont += QString("BackgroundColorRed=%1\n").arg(m_backgroundColorRed);
-            cont += QString("BackgroundColorGreen=%1\n").arg(m_backgroundColorGreen);
-            cont += QString("BackgroundColorBlue=%1\n").arg(m_backgroundColorBlue);
-            cont += QString("BackgroundColorAlpha=%1\n").arg(m_backgroundColorAlpha);
-            cont += QString("BackgroundImageScreenshot=%1\n").arg(m_backgroundImageScreenshot);
-            cont += QString("BackgroundImageUse=%1\n").arg(m_backgroundImageUse);
-            cont += QString("BackgroundImagePath=%1\n").arg(m_backgroundImagePath);
-            cont += QString("BackgroundImageScale=%1\n").arg(m_backgroundImageScale);
-            cont += QString("BackgroundImageScaleCrop=%1\n").arg(m_backgroundImageScaleCrop);
-            cont += QString("BackgroundImageStretch=%1\n").arg(m_backgroundImageStretch);
-            cont += QString("BackgroundImageCenter=%1\n").arg(m_backgroundImageCenter);
-            cont += QString("BackgroundImageTile=%1\n").arg(m_backgroundImageTile);
-
-            cont += "\n[Behaviour]\n";
-
-            cont += QString("TrayIcon=%1\n").arg(m_trayIcon);
-            cont += QString("ImageTransition=%1\n").arg(m_imageTransition);
-            cont += QString("LoopThroughFolder=%1\n").arg(int(m_loopThroughFolder));
-            cont += QString("HotEdgeWidth=%1\n").arg(m_hotEdgeWidth);
-            cont += QString("CloseOnEmptyBackground=%1\n").arg(int(m_closeOnEmptyBackground));
-            cont += QString("MarginAroundImage=%1\n").arg(m_marginAroundImage);
-            cont += QString("SortImagesBy=%1\n").arg(m_sortby);
-            cont += QString("SortImagesAscending=%1\n").arg(int(m_sortbyAscending));
-            cont += QString("MouseWheelSensitivity=%1\n").arg(m_mouseWheelSensitivity);
-            cont += QString("KeepZoomRotationMirror=%1\n").arg(int(m_keepZoomRotationMirror));
-            cont += QString("FitInWindow=%1\n").arg(int(m_fitInWindow));
-            cont += QString("InterpolationNearestNeighbourThreshold=%1\n").arg(m_interpolationNearestNeighbourThreshold);
-            cont += QString("InterpolationNearestNeighbourUpscale=%1\n").arg(int(m_interpolationNearestNeighbourUpscale));
-            cont += QString("PixmapCache=%1\n").arg(m_pixmapCache);
-            cont += QString("ShowTransparencyMarkerBackground=%1\n").arg(int(m_showTransparencyMarkerBackground));
-            cont += QString("LeftButtonMouseClickAndMove=%1\n").arg(int(m_leftButtonMouseClickAndMove));
-
-            cont += "\n[QuickInfo]\n";
-
-            cont += QString("QuickInfoHideCounter=%1\n").arg(int(m_quickInfoHideCounter));
-            cont += QString("QuickInfoHideFilepath=%1\n").arg(int(m_quickInfoHideFilepath));
-            cont += QString("QuickInfoHideFilename=%1\n").arg(int(m_quickInfoHideFilename));
-            cont += QString("QuickInfoHideX=%1\n").arg(int(m_quickInfoHideX));
-            cont += QString("QuickInfoFullX=%1\n").arg(int(m_quickInfoFullX));
-            cont += QString("QuickInfoCloseXSize=%1\n").arg(m_quickInfoCloseXSize);
-
-            cont += "\n[Thumbnail]\n";
-
-            cont += QString("ThumbnailSize=%1\n").arg(m_thumbnailSize);
-            cont += QString("ThumbnailPosition=%1\n").arg(m_thumbnailPosition);
-            cont += QString("ThumbnailCache=%1\n").arg(int(m_thumbnailCache));
-            cont += QString("ThumbnailCacheFile=%1\n").arg(int(m_thumbnailCacheFile));
-            cont += QString("ThumbnailSpacingBetween=%1\n").arg(m_thumbnailSpacingBetween);
-            cont += QString("ThumbnailLiftUp=%1\n").arg(m_thumbnailLiftUp);
-            cont += QString("ThumbnailKeepVisible=%1\n").arg(int(m_thumbnailKeepVisible));
-            cont += QString("ThumbnailKeepVisibleWhenNotZoomedIn=%1\n").arg(int(m_thumbnailKeepVisibleWhenNotZoomedIn));
-            cont += QString("ThumbnailCenterActive=%1\n").arg(int(m_thumbnailCenterActive));
-            cont += QString("ThumbnailFilenameInstead=%1\n").arg(int(m_thumbnailFilenameInstead));
-            cont += QString("ThumbnailFilenameInsteadFontSize=%1\n").arg(m_thumbnailFilenameInsteadFontSize);
-            cont += QString("ThumbnailDisable=%1\n").arg(int(m_thumbnailDisable));
-            cont += QString("ThumbnailWriteFilename=%1\n").arg(int(m_thumbnailWriteFilename));
-            cont += QString("ThumbnailFontSize=%1\n").arg(m_thumbnailFontSize);
-
-            cont += "\n[Slideshow]\n";
-
-            cont += QString("SlideShowTime=%1\n").arg(m_slideShowTime);
-            cont += QString("SlideShowImageTransition=%1\n").arg(m_slideShowImageTransition);
-            cont += QString("SlideShowMusicFile=%1\n").arg(m_slideShowMusicFile);
-            cont += QString("SlideShowShuffle=%1\n").arg(int(m_slideShowShuffle));
-            cont += QString("SlideShowLoop=%1\n").arg(int(m_slideShowLoop));
-            cont += QString("SlideShowHideQuickInfo=%1\n").arg(int(m_slideShowHideQuickInfo));
-
-            cont += "\n[Metadata]\n";
-
-            cont += QString("MetaFilename=%1\n").arg(int(m_metaFilename));
-            cont += QString("MetaFileType=%1\n").arg(int(m_metaFileType));
-            cont += QString("MetaFileSize=%1\n").arg(int(m_metaFileSize));
-            cont += QString("MetaImageNumber=%1\n").arg(int(m_metaImageNumber));
-            cont += QString("MetaDimensions=%1\n").arg(int(m_metaDimensions));
-            cont += QString("MetaMake=%1\n").arg(int(m_metaMake));
-            cont += QString("MetaModel=%1\n").arg(int(m_metaModel));
-            cont += QString("MetaSoftware=%1\n").arg(int(m_metaSoftware));
-            cont += QString("MetaTimePhotoTaken=%1\n").arg(int(m_metaTimePhotoTaken));
-            cont += QString("MetaExposureTime=%1\n").arg(int(m_metaExposureTime));
-            cont += QString("MetaFlash=%1\n").arg(int(m_metaFlash));
-            cont += QString("MetaIso=%1\n").arg(int(m_metaIso));
-            cont += QString("MetaSceneType=%1\n").arg(int(m_metaSceneType));
-            cont += QString("MetaFLength=%1\n").arg(int(m_metaFLength));
-            cont += QString("MetaFNumber=%1\n").arg(int(m_metaFNumber));
-            cont += QString("MetaLightSource=%1\n").arg(int(m_metaLightSource));
-            cont += QString("MetaGps=%1\n").arg(int(m_metaGps));
-            cont += QString("MetaApplyRotation=%1\n").arg(int(m_metaApplyRotation));
-            cont += QString("MetaGpsMapService=%1\n").arg(m_metaGpsMapService);
-            cont += QString("MetaKeywords=%1\n").arg(int(m_metaKeywords));
-            cont += QString("MetaLocation=%1\n").arg(int(m_metaLocation));
-            cont += QString("MetaCopyright=%1\n").arg(int(m_metaCopyright));
-
-            cont += "\n[Metadata Element]\n";
-
-            cont += QString("MetadataEnableHotEdge=%1\n").arg(int(m_metadataEnableHotEdge));
-            cont += QString("MetadataFontSize=%1\n").arg(m_metadataFontSize);
-            cont += QString("MetadataOpacity=%1\n").arg(m_metadataOpacity);
-            cont += QString("MetadataWindowWidth=%1\n").arg(m_metadataWindowWidth);
-
-            cont += "\n[Open File]\n";
-            cont += QString("OpenDefaultView=%1\n").arg(m_openDefaultView);
-            cont += QString("OpenPreview=%1\n").arg(int(m_openPreview));
-            cont += QString("OpenPreviewHighQuality=%1\n").arg(int(m_openPreviewHighQuality));
-            cont += QString("OpenZoomLevel=%1\n").arg(m_openZoomLevel);
-            cont += QString("OpenUserPlacesWidth=%1\n").arg(m_openUserPlacesWidth);
-            cont += QString("OpenFoldersWidth=%1\n").arg(m_openFoldersWidth);
-            cont += QString("OpenThumbnails=%1\n").arg(int(m_openThumbnails));
-            cont += QString("OpenUserPlacesStandard=%1\n").arg(int(m_openUserPlacesStandard));
-            cont += QString("OpenUserPlacesUser=%1\n").arg(int(m_openUserPlacesUser));
-            cont += QString("OpenUserPlacesVolumes=%1\n").arg(int(m_openUserPlacesVolumes));
-            cont += QString("OpenKeepLastLocation=%1\n").arg(int(m_openKeepLastLocation));
-            cont += QString("OpenShowHiddenFilesFolders=%1\n").arg(int(m_openShowHiddenFilesFolders));
-            cont += QString("OpenHideUserPlaces=%1\n").arg(int(m_openHideUserPlaces));
-
-            cont += "\n[Histogram]\n";
-
-            cont += QString("Histogram=%1\n").arg(int(m_histogram));
-            cont += QString("HistogramVersion=%1\n").arg(m_histogramVersion);
-            cont += QString("HistogramPosition=%1,%2\n").arg(m_histogramPosition.x()).arg(m_histogramPosition.y());
-            cont += QString("HistogramSize=%1,%2\n").arg(m_histogramSize.width()).arg(m_histogramSize.height());
-
-            cont += "\n[Main Menu Element]\n";
-
-            cont += QString("MainMenuWindowWidth=%1\n").arg(m_mainMenuWindowWidth);
-
-            out << cont;
-            file.close();
-
-        }
-
-    }
-
-    /*#################################################################################################*/
     /*#################################################################################################*/
 
     // Read the current settings
-    void readSettings() {
+    void readSettings();
 
-        if(qgetenv("PHOTOQT_DEBUG") == "yes")
-            LOG << CURDATE << "Settings::readSettings()" << NL;
-
-        watcherAddFileTimer->start();
-
-        QFile file(ConfigFiles::SETTINGS_FILE());
-
-        if(file.exists() && !file.open(QIODevice::ReadOnly))
-
-            LOG << CURDATE  << "Settings::readSettings() - ERROR reading settings:" << file.errorString().trimmed().toStdString() << NL;
-
-        else if(file.exists() && file.isOpen()) {
-
-            // Read file
-            QTextStream in(&file);
-            QStringList parts = in.readAll().split("\n");
-            file.close();
-
-            for(QString line : parts) {
-
-                if(line.startsWith("Language="))
-                    setLanguage(line.split("=").at(1).trimmed());
-
-                else if(line.startsWith("Version="))
-                    m_versionInTextFile = line.split("=").at(1).trimmed();
-
-
-                else if(line.startsWith("SortImagesBy="))
-                    setSortby(line.split("=").at(1).trimmed());
-
-                else if(line.startsWith("SortImagesAscending="))
-                    setSortbyAscending(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("WindowMode="))
-                    setWindowMode(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("WindowDecoration="))
-                    setWindowDecoration(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("Animations="))
-                    setAnimations(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("SaveWindowGeometry="))
-                    setSaveWindowGeometry(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("KeepOnTop="))
-                    setKeepOnTop(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("Composite="))
-                    setComposite(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("StartupLoadLastLoadedImage="))
-                    setStartupLoadLastLoadedImage(line.split("=").at(1).toInt());
-
-
-                else if(line.startsWith("BackgroundColorRed="))
-                    setBackgroundColorRed(line.split("=").at(1).toInt());
-                else if(line.startsWith("BackgroundColorGreen="))
-                    setBackgroundColorGreen(line.split("=").at(1).toInt());
-                else if(line.startsWith("BackgroundColorBlue="))
-                    setBackgroundColorBlue(line.split("=").at(1).toInt());
-                else if(line.startsWith("BackgroundColorAlpha="))
-                    setBackgroundColorAlpha(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("BackgroundImageScreenshot="))
-                    setBackgroundImageScreenshot(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("BackgroundImagePath="))
-                    setBackgroundImagePath(line.split("=").at(1).trimmed());
-                else if(line.startsWith("BackgroundImageUse="))
-                    setBackgroundImageUse(line.split("=").at(1).toInt());
-                else if(line.startsWith("BackgroundImageScale="))
-                    setBackgroundImageScale(line.split("=").at(1).toInt());
-                else if(line.startsWith("BackgroundImageScaleCrop="))
-                    setBackgroundImageScaleCrop(line.split("=").at(1).toInt());
-                else if(line.startsWith("BackgroundImageStretch="))
-                    setBackgroundImageStretch(line.split("=").at(1).toInt());
-                else if(line.startsWith("BackgroundImageCenter="))
-                    setBackgroundImageCenter(line.split("=").at(1).toInt());
-                else if(line.startsWith("BackgroundImageTile="))
-                    setBackgroundImageTile(line.split("=").at(1).toInt());
-
-
-                else if(line.startsWith("TrayIcon="))
-                    setTrayIcon(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("ImageTransition="))
-                    setImageTransition(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("LoopThroughFolder="))
-                    setLoopThroughFolder(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("HotEdgeWidth="))
-                    setHotEdgeWidth(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("CloseOnEmptyBackground="))
-                    setCloseOnEmptyBackground(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("MarginAroundImage="))
-                    setMarginAroundImage(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("MouseWheelSensitivity="))
-                    setMouseWheelSensitivity(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("KeepZoomRotationMirror="))
-                    setKeepZoomRotationMirror(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("FitInWindow="))
-                    setFitInWindow(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("InterpolationNearestNeighbourThreshold="))
-                    setInterpolationNearestNeighbourThreshold(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("InterpolationNearestNeighbourUpscale="))
-                    setInterpolationNearestNeighbourUpscale(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("PixmapCache="))
-                    setPixmapCache(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("ShowTransparencyMarkerBackground="))
-                    setShowTransparencyMarkerBackground(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("LeftButtonMouseClickAndMove="))
-                    setLeftButtonMouseClickAndMove(line.split("=").at(1).toInt());
-
-
-                else if(line.startsWith("QuickInfoHideCounter="))
-                    setQuickInfoHideCounter(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("QuickInfoHideFilepath="))
-                    setQuickInfoHideFilepath(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("QuickInfoHideFilename="))
-                    setQuickInfoHideFilename(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("QuickInfoHideX="))
-                    setQuickInfoHideX(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("QuickInfoCloseXSize="))
-                    setQuickInfoCloseXSize(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("QuickInfoFullX="))
-                    setQuickInfoFullX(line.split("=").at(1).toInt());
-
-
-                else if(line.startsWith("ThumbnailSize="))
-                    setThumbnailSize(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("ThumbnailPosition="))
-                    setThumbnailPosition(line.split("=").at(1).trimmed());
-
-                else if(line.startsWith("ThumbnailCache="))
-                    setThumbnailCache(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("ThumbnailCacheFile="))
-                    setThumbnailCacheFile(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("ThumbnailSpacingBetween="))
-                    setThumbnailSpacingBetween(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("ThumbnailLiftUp="))
-                    setThumbnailLiftUp(line.split("=").at(1).toInt());
-
-                if(line.startsWith("ThumbnailKeepVisible="))
-                    setThumbnailKeepVisible(line.split("=").at(1).trimmed().toInt());
-
-                else if(line.startsWith("ThumbnailKeepVisibleWhenNotZoomedIn="))
-                    setThumbnailKeepVisibleWhenNotZoomedIn(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("ThumbnailCenterActive="))
-                    setThumbnailCenterActive(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("ThumbnailFilenameInstead="))
-                    setThumbnailFilenameInstead(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("ThumbnailFilenameInsteadFontSize="))
-                    setThumbnailFilenameInsteadFontSize(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("ThumbnailDisable="))
-                    setThumbnailDisable(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("ThumbnailWriteFilename="))
-                    setThumbnailWriteFilename(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("ThumbnailFontSize="))
-                    setThumbnailFontSize(line.split("=").at(1).toInt());
-
-
-                else if(line.startsWith("SlideShowTime="))
-                    setSlideShowTime(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("SlideShowImageTransition="))
-                    setSlideShowImageTransition(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("SlideShowMusicFile="))
-                    setSlideShowMusicFile(line.split("=").at(1).trimmed());
-
-                else if(line.startsWith("SlideShowShuffle="))
-                    setSlideShowShuffle(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("SlideShowLoop="))
-                    setSlideShowLoop(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("SlideShowHideQuickInfo="))
-                    setSlideShowHideQuickInfo(line.split("=").at(1).toInt());
-
-
-                else if(line.startsWith("MetaFilename="))
-                    setMetaFilename(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("MetaFileType="))
-                    setMetaFileType(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("MetaFileSize="))
-                    setMetaFileSize(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("MetaImageNumber="))
-                    setMetaImageNumber(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("MetaDimensions="))
-                    setMetaDimensions(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("MetaMake="))
-                    setMetaMake(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("MetaModel="))
-                    setMetaModel(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("MetaSoftware="))
-                    setMetaSoftware(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("MetaTimePhotoTaken="))
-                    setMetaTimePhotoTaken(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("MetaExposureTime="))
-                    setMetaExposureTime(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("MetaFlash="))
-                    setMetaFlash(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("MetaIso="))
-                    setMetaIso(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("MetaSceneType="))
-                    setMetaSceneType(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("MetaFLength="))
-                    setMetaFLength(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("MetaFNumber="))
-                    setMetaFNumber(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("MetaLightSource="))
-                    setMetaLightSource(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("MetaGps="))
-                    setMetaGps(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("MetaKeywords="))
-                    setMetaKeywords(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("MetaLocation="))
-                    setMetaLocation(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("MetaCopyright="))
-                    setMetaCopyright(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("MetaApplyRotation="))
-                    setMetaApplyRotation(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("MetaGpsMapService="))
-                    setMetaGpsMapService(line.split("=").at(1).trimmed());
-
-                else if(line.startsWith("MetadataEnableHotEdge="))
-                    setMetadataEnableHotEdge(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("MetadataFontSize="))
-                    setMetadataFontSize(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("MetadataOpacity="))
-                    setMetadataOpacity(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("MetadataWindowWidth="))
-                    setMetadataWindowWidth(line.split("=").at(1).toInt());
-
-
-                else if(line.startsWith("OpenDefaultView="))
-                    setOpenDefaultView(line.split("=").at(1).trimmed());
-
-                else if(line.startsWith("OpenPreview="))
-                    setOpenPreview(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("OpenZoomLevel="))
-                    setOpenZoomLevel(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("OpenUserPlacesWidth="))
-                    setOpenUserPlacesWidth(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("OpenFoldersWidth="))
-                    setOpenFoldersWidth(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("OpenThumbnails="))
-                    setOpenThumbnails(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("OpenPreviewHighQuality="))
-                    setOpenPreviewHighQuality(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("OpenUserPlacesStandard="))
-                    setOpenUserPlacesStandard(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("OpenUserPlacesUser="))
-                    setOpenUserPlacesUser(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("OpenUserPlacesVolumes="))
-                    setOpenUserPlacesVolumes(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("OpenKeepLastLocation="))
-                    setOpenKeepLastLocation(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("OpenShowHiddenFilesFolders="))
-                    setOpenShowHiddenFilesFolders(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("OpenHideUserPlaces="))
-                    setOpenHideUserPlaces(line.split("=").at(1).toInt());
-
-
-                else if(line.startsWith("MainMenuWindowWidth="))
-                    setMainMenuWindowWidth(line.split("=").at(1).toInt());
-
-
-                else if(line.startsWith("Histogram="))
-                    setHistogram(line.split("=").at(1).toInt());
-
-                else if(line.startsWith("HistogramVersion="))
-                    setHistogramVersion(line.split("=").at(1).trimmed());
-
-                else if(line.startsWith("HistogramPosition=")) {
-                    QStringList parts = line.split("HistogramPosition=").at(1).split(",");
-                    setHistogramPosition(QPoint(parts.at(0).toInt(), parts.at(1).toInt()));
-                }
-
-                else if(line.startsWith("HistogramSize=")) {
-                    QStringList parts = line.split("HistogramSize=").at(1).split(",");
-                    setHistogramSize(QSize(parts.at(0).toInt(), parts.at(1).toInt()));
-                }
-
-            }
-
-        }
-
-    }
-
-    /*#################################################################################################*/
     /*#################################################################################################*/
 
 signals:
@@ -2017,13 +1503,20 @@ signals:
     void pixmapCacheChanged(int val);
     void showTransparencyMarkerBackgroundChanged(bool val);
     void leftButtonMouseClickAndMoveChanged(bool val);
+    void pdfSingleDocumentChanged(bool val);
+    void pdfQualityChanged(int val);
+    void archiveSingleFileChanged(int val);
+    void archiveUseExternalUnrarChanged(bool val);
+    void zoomSpeedChanged(int val);
 
     void quickInfoHideCounterChanged(bool val);
     void quickInfoHideFilepathChanged(bool val);
     void quickInfoHideFilenameChanged(bool val);
     void quickInfoHideXChanged(bool val);
+    void quickInfoHideZoomLevelChanged(bool val);
     void quickInfoFullXChanged(bool val);
     void quickInfoCloseXSizeChanged(int val);
+    void quickInfoManageWindowChanged(bool val);
 
     void slideShowTimeChanged(int val);
     void slideShowMusicFileChanged(QString);
@@ -2075,6 +1568,15 @@ signals:
     void metaLocationChanged(bool val);
     void metaCopyrightChanged(bool val);
     void metaGpsChanged(bool val);
+
+    void peopleTagInMetaDisplayChanged(bool val);
+    void peopleTagInMetaBorderAroundFaceChanged(bool val);
+    void peopleTagInMetaBorderAroundFaceColorChanged(QString val);
+    void peopleTagInMetaBorderAroundFaceWidthChanged(int val);
+    void peopleTagInMetaAlwaysVisibleChanged(bool val);
+    void peopleTagInMetaIndependentLabelsChanged(bool val);
+    void peopleTagInMetaHybridModeChanged(bool val);
+    void peopleTagInMetaFontSizeChanged(int val);
 
     void openDefaultViewChanged(QString val);
     void openPreviewChanged(bool val);

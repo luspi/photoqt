@@ -138,7 +138,8 @@ Item {
         verboseMessage("FileManagement/Rename", "simulateEnter()")
         if(newfilename.getText() !== "") {
             // a rename is the same as a move into the same directory
-            getanddostuff.moveImage(variables.currentDir + "/" + variables.currentFile, variables.currentDir + "/" + newfilename.getText() + suffix.text)
+            getanddostuff.moveImage(variables.currentDir + "/" + variables.currentFileWithoutExtras,
+                                    variables.currentDir + "/" + newfilename.getText() + suffix.text)
             Handle.loadFile(variables.currentDir + "/" + newfilename.getText() + suffix.text, variables.filter, true)
             management_top.hide()
         }
@@ -146,10 +147,10 @@ Item {
 
     function setupRename() {
         verboseMessage("FileManagement/Rename", "setupRename()")
-        filename.text = variables.currentFile
+        filename.text = variables.currentFileWithoutExtras
         newfilename.text = ""	// This is needed, otherwise the lineedit might keep its old contents
                                 // (if opened twice for same image with different keys pressed in between)
-        newfilename.text = getanddostuff.getImageBaseName(variables.currentFile)
+        newfilename.text = getanddostuff.getImageBaseName(variables.currentFileWithoutExtras)
         suffix.text = "." + getanddostuff.getSuffix(variables.currentFile)
         newfilename.selectAll()
     }

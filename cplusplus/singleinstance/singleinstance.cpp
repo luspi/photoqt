@@ -111,7 +111,7 @@ SingleInstance::SingleInstance(int &argc, char *argv[]) : QApplication(argc, arg
         server = new QLocalServer();
         server->removeServer(server_str);
         server->listen(server_str);
-        connect(server, SIGNAL(newConnection()), this, SLOT(newConnection()));
+        connect(server, &QLocalServer::newConnection, this, &SingleInstance::newConnection);
 
         handleResponse(message);
 

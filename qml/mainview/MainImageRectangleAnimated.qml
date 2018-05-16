@@ -36,10 +36,10 @@ Item {
     visible: (image.opacity!=0)
 
     // manipulate the timings of the animations
-    property int positionDuration: 200
-    property int transitionDuration: 200
-    property int scaleDuration: 200
-    property int rotationDuration: 200
+    property int positionDuration: (settings.animations ? 250 : 0)
+    property int transitionDuration: (variables.slideshowRunning ? settingsSlideShowImageTransition : settingsImageTransition)*150
+    property int scaleDuration: (settings.animations ? 250 : 0)
+    property int rotationDuration: (settings.animations ? 250 : 0)
 
     // The default maximum width/height of the image
     property int defaultWidth: 600
@@ -64,7 +64,8 @@ Item {
     // This is called when a click occurs and the closeOnEmptyBackground setting is set to true
     function checkClickOnEmptyArea(posX, posY) {
 
-        verboseMessage("MainView/MainImageRectangleAnimated - " + getanddostuff.convertIdIntoString(imageContainer), "checkClickOnEmptyArea(): " + posX + "/" + posY)
+        verboseMessage("MainView/MainImageRectangleAnimated - " + getanddostuff.convertIdIntoString(imageContainer),
+                       "checkClickOnEmptyArea(): " + posX + "/" + posY)
 
         // safety margin, just in case
         var safetyMargin = 5
@@ -79,7 +80,7 @@ Item {
 
     }
 
-    opacity: variables.guiBlocked&&!variables.slideshowRunning ? 0.1 : 1
+    opacity: variables.guiBlocked&&!variables.slideshowRunning&&!variables.taggingFaces ? 0.1 : 1
     Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
     property bool paused: false
@@ -92,8 +93,11 @@ Item {
     // When the image is zoomed in/out we emit a signal
     // this is needed, e.g., for the thumbnail bar in combination with the keepVisibleWhenNotZoomed property
     signal zoomChanged()
-    onScaleChanged:
+    onScaleChanged: {
         zoomChanged()
+        if(imageContainer.visible)
+            variables.currentZoomLevel = Math.round(scale*100)
+    }
 
     // The x and y positions depend on the image
     x: ( defaultWidth - width ) / 2 + imageMargin/2
@@ -140,8 +144,12 @@ Item {
 
         // High quality
         antialiasing: true
-        smooth: (settingsInterpolationNearestNeighbourUpscale && image.paintedWidth<=settingsInterpolationNearestNeighbourThreshold && image.paintedHeight<=settingsInterpolationNearestNeighbourThreshold) ? false : true
-        mipmap: (settingsInterpolationNearestNeighbourUpscale && image.paintedWidth<=settingsInterpolationNearestNeighbourThreshold && image.paintedHeight<=settingsInterpolationNearestNeighbourThreshold) ? false : true
+        smooth: (settingsInterpolationNearestNeighbourUpscale &&
+                 image.paintedWidth<=settingsInterpolationNearestNeighbourThreshold &&
+                 image.paintedHeight<=settingsInterpolationNearestNeighbourThreshold) ? false : true
+        mipmap: (settingsInterpolationNearestNeighbourUpscale &&
+                 image.paintedWidth<=settingsInterpolationNearestNeighbourThreshold &&
+                 image.paintedHeight<=settingsInterpolationNearestNeighbourThreshold) ? false : true
 
         cache: false
 
@@ -192,7 +200,8 @@ Item {
                         rotationAni.complete()
                         resetScale.restoreScale(image1.scale)
                         image.mirror = image1.getMirror()
-                        // if the aspect ratio of the image has changed or the image dimensions, we reset the position, as this could otherwise lead to odd behavior
+                        // if the aspect ratio of the image has changed or the image dimensions, we reset the position,
+                        // as this could otherwise lead to odd behavior
                         // (not wrong behavior, just not very userfriendly)
                         if(getImageRatio() !== image1.getImageRatio() || getWidthPlusHeight() !== image1.getWidthPlusHeight())
                             resetPositionWithoutAnimation()
@@ -205,7 +214,8 @@ Item {
                         rotationAni.complete()
                         resetScale.restoreScale(image2.scale)
                         image.mirror = image2.getMirror()
-                        // if the aspect ratio of the image has changed or the image dimensions, we reset the position, as this could otherwise lead to odd behavior
+                        // if the aspect ratio of the image has changed or the image dimensions, we reset the position,
+                        // as this could otherwise lead to odd behavior
                         // (not wrong behavior, just not very userfriendly)
                         if(getImageRatio() !== image2.getImageRatio() || getWidthPlusHeight() !== image2.getWidthPlusHeight())
                             resetPositionWithoutAnimation()
@@ -218,7 +228,8 @@ Item {
                         rotationAni.complete()
                         resetScale.restoreScale(imageANIM1.scale)
                         image.mirror = imageANIM1.getMirror()
-                        // if the aspect ratio of the image has changed or the image dimensions, we reset the position, as this could otherwise lead to odd behavior
+                        // if the aspect ratio of the image has changed or the image dimensions, we reset the position,
+                        // as this could otherwise lead to odd behavior
                         // (not wrong behavior, just not very userfriendly)
                         if(getImageRatio() !== imageANIM1.getImageRatio() || getWidthPlusHeight() !== imageANIM1.getWidthPlusHeight())
                             resetPositionWithoutAnimation()
@@ -231,7 +242,8 @@ Item {
                         rotationAni.complete()
                         resetScale.restoreScale(imageANIM2.scale)
                         image.mirror = imageANIM2.getMirror()
-                        // if the aspect ratio of the image has changed or the image dimensions, we reset the position, as this could otherwise lead to odd behavior
+                        // if the aspect ratio of the image has changed or the image dimensions, we reset the position,
+                        // as this could otherwise lead to odd behavior
                         // (not wrong behavior, just not very userfriendly)
                         if(getImageRatio() !== imageANIM2.getImageRatio() || getWidthPlusHeight() !== imageANIM2.getWidthPlusHeight())
                             resetPositionWithoutAnimation()
@@ -241,11 +253,18 @@ Item {
                 mainImageFinishedLoading = true
                 hideOther()
                 loadingimage.opacity = 0
+                variables.currentZoomLevel = Math.round(imageContainer.scale*100)
             } else if(status == Image.Loading)
                 showLoadingImage.start()
         }
 
-        // This is necessary as otherwise for some reasom (not sure why) the zoom will always be reset. This ensures the scale property is properly set (if Keep* setting is set)
+        FaceTracker {
+            id: facetracker
+            anchors.fill: parent
+        }
+
+        // This is necessary as otherwise for some reasom (not sure why) the zoom will always be reset.
+        // This ensures the scale property is properly set (if Keep* setting is set)
         Timer {
             id: resetScale
             interval: 0
@@ -368,7 +387,8 @@ Item {
 
     // Reset position to center image on screen, not animated.
     function resetPositionWithoutAnimation() {
-        verboseMessage("MainView/MainImageRectangleAnimated - " + getanddostuff.convertIdIntoString(imageContainer), "resetPositionWithoutAnimation()")
+        verboseMessage("MainView/MainImageRectangleAnimated - " + getanddostuff.convertIdIntoString(imageContainer),
+                       "resetPositionWithoutAnimation()")
         x = Qt.binding(function() { return ( defaultWidth - width ) / 2 + imageMargin/2 })
         y = Qt.binding(function() { return ( defaultHeight - height ) / 2 + imageMargin/2 })
     }
@@ -389,7 +409,7 @@ Item {
     function zoomIn() {
         verboseMessage("MainView/MainImageRectangleAnimated - " + getanddostuff.convertIdIntoString(imageContainer), "zoomIn()")
         scaleAni.duration = scaleDuration
-        imageContainer.scale *= 1.1
+        imageContainer.scale *= (1+settings.zoomSpeed/100)
         zoomAdjustedAfterRotation = false
         zoomHasBeenManuallyChanged = true
     }
@@ -397,7 +417,7 @@ Item {
     function zoomOut() {
         verboseMessage("MainView/MainImageRectangleAnimated - " + getanddostuff.convertIdIntoString(imageContainer), "zoomOut()")
         scaleAni.duration = scaleDuration
-        imageContainer.scale /= 1.1
+        imageContainer.scale /= (1+settings.zoomSpeed/100)
         zoomAdjustedAfterRotation = false
         zoomHasBeenManuallyChanged = true
     }
@@ -409,7 +429,7 @@ Item {
             return
         }
         scaleAni.duration = scaleDuration
-        scale = 1/Math.min( defaultWidth / image.sourceSize.width, defaultHeight / image.sourceSize.height)
+        scale = 1
         zoomAdjustedAfterRotation = false
         zoomHasBeenManuallyChanged = true
     }
@@ -499,7 +519,8 @@ Item {
 
     function resetRotationWithoutAnimation() {
 
-        verboseMessage("MainView/MainImageRectangleAnimated - " + getanddostuff.convertIdIntoString(imageContainer), "resetRotationWithoutAnimation()")
+        verboseMessage("MainView/MainImageRectangleAnimated - " + getanddostuff.convertIdIntoString(imageContainer),
+                       "resetRotationWithoutAnimation()")
 
         var angle = (imageContainer.rotation%360 +360)%360
 

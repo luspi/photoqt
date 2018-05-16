@@ -21,34 +21,71 @@
  **************************************************************************/
 
 #include "openfile.h"
-#include "../sortlist.h"
 
 GetAndDoStuffOpenFile::GetAndDoStuffOpenFile(QObject *parent) : QObject(parent) {
-    formats = new FileFormats;
+    imageformats = new ImageFormats;
+    mimetypes = new MimeTypes;
 }
 GetAndDoStuffOpenFile::~GetAndDoStuffOpenFile() {
-    delete formats;
+    delete imageformats;
+    delete mimetypes;
 }
 
-int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path, int selectionFileTypes) {
+int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path, QString categoryFileTypes) {
 
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
-        LOG << CURDATE << "GetAndDoStuffOpenFile::getNumberFilesInFolder() - " << path.toStdString() << " / " << selectionFileTypes << NL;
+        LOG << CURDATE << "GetAndDoStuffOpenFile::getNumberFilesInFolder() - "
+            << path.toStdString() << " / " << categoryFileTypes.toStdString() << NL;
 
     QDir dir(path);
-    if(selectionFileTypes == 0)
-        dir.setNameFilters(formats->formats_qt + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw);
-    else if(selectionFileTypes == 1)
-        dir.setNameFilters(formats->formats_qt);
-    else if(selectionFileTypes == 2)
-        dir.setNameFilters(formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_untested);
-    else if(selectionFileTypes == 3)
-        dir.setNameFilters(formats->formats_raw);
-    else if(selectionFileTypes == 4)
-        dir.setNameFilters(QStringList() << "*.*");
-    dir.setFilter(QDir::Files);
 
-    return dir.entryList().length();
+    QFileInfoList list = dir.entryInfoList(QDir::Files|QDir::NoSymLinks);
+
+    if(categoryFileTypes == "allfiles")
+        return list.length();
+
+    QStringList checkForTheseFormats;
+    QStringList checkForTheseMimeTypes;
+    if(categoryFileTypes == "all") {
+        checkForTheseFormats = imageformats->getAllEnabledFileformats();
+        checkForTheseMimeTypes = mimetypes->getAllEnabledMimeTypes();
+    } else if(categoryFileTypes == "qt") {
+        checkForTheseFormats = imageformats->getEnabledFileformatsQt();
+        checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesQt();
+    } else if(categoryFileTypes == "gm") {
+        checkForTheseFormats = imageformats->getEnabledFileformatsGm()+imageformats->getEnabledFileformatsGmGhostscript();
+        checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesGm()+mimetypes->getEnabledMimeTypesGmGhostscript();
+    } else if(categoryFileTypes == "raw") {
+        checkForTheseFormats = imageformats->getEnabledFileformatsRAW();
+        checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesRAW();
+    } else if(categoryFileTypes == "devil") {
+        checkForTheseFormats = imageformats->getEnabledFileformatsDevIL();
+        checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesDevIL();
+    } else if(categoryFileTypes == "freeimage") {
+        checkForTheseFormats = imageformats->getEnabledFileformatsFreeImage();
+        checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesFreeImage();
+    } else if(categoryFileTypes == "poppler") {
+        checkForTheseFormats = imageformats->getEnabledFileformatsPoppler();
+        checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesPoppler();
+    }
+
+    int count = 0;
+    if(checkForTheseMimeTypes.length() > 0) {
+        foreach(QFileInfo info, list) {
+            if(checkForTheseFormats.contains("*." + info.suffix().toLower()))
+                ++count;
+            else if(checkForTheseMimeTypes.contains(mimedb.mimeTypeForFile(info.absoluteFilePath(), QMimeDatabase::MatchContent).name()))
+                ++count;
+        }
+    } else {
+        foreach(QFileInfo info, list) {
+            if(checkForTheseFormats.contains("*." + info.suffix().toLower()))
+                ++count;
+        }
+    }
+    qApp->processEvents();
+
+    return count;
 
 }
 
@@ -60,7 +97,8 @@ QVariantList GetAndDoStuffOpenFile::getUserPlaces() {
     QFile file(QString(ConfigFiles::GENERIC_DATA_DIR()) + "/user-places.xbel");
 
     if(!file.exists()) {
-        LOG << CURDATE << "GetAndDoStuffOpenFile: File " << ConfigFiles::GENERIC_DATA_DIR().toStdString() << "/user-places.xbel does not exist! Creating dummy file..." << NL;
+        LOG << CURDATE << "GetAndDoStuffOpenFile: File " << ConfigFiles::GENERIC_DATA_DIR().toStdString()
+            << "/user-places.xbel does not exist! Creating dummy file..." << NL;
         saveUserPlaces(QVariantList());
         return QVariantList();
     } else if(!file.open(QIODevice::ReadOnly)) {
@@ -193,10 +231,14 @@ QVariantList GetAndDoStuffOpenFile::getStorageInfo() {
     for(QStorageInfo s : QStorageInfo::mountedVolumes()) {
         if(s.isValid()) {
 
+            QString name = s.name();
+            if(name == "")
+                name = s.rootPath();
+
             QVariantList vol;
-            vol << s.name()
+            vol << name
                 << s.bytesTotal()
-                << s.fileSystemType()
+                << QString(s.fileSystemType())
                 << s.rootPath();
 
             ret.append(vol);
@@ -231,119 +273,6 @@ QVariantList GetAndDoStuffOpenFile::getFoldersIn(QString path, bool getDotDot, b
     QVariantList ret;
     for(QString l : list)
         ret.append(l);
-
-    return ret;
-
-}
-
-QVariantList GetAndDoStuffOpenFile::getFilesIn(QString file, QString filter, QString sortby, bool sortbyAscending) {
-
-    if(qgetenv("PHOTOQT_DEBUG") == "yes")
-        LOG << CURDATE << "GetAndDoStuffOpenFile::getFilesIn() - " << file.toStdString() << " / " << filter.toStdString() << " / " << sortby.toStdString() << " / " << sortbyAscending << NL;
-
-    if(file.startsWith("file:/"))
-        file = file.remove(0,6);
-#ifdef Q_OS_WIN
-    while(file.startsWith("/"))
-        file = file.remove(0,1);
-#endif
-
-    QFileInfo info(file);
-
-    QDir dir;
-    if(info.isDir())
-        dir.setPath(file);
-    else
-        dir.setPath(info.absolutePath());
-
-    dir.setNameFilters(formats->formats_qt + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw);
-    dir.setFilter(QDir::Files);
-    dir.setSorting(QDir::IgnoreCase);
-
-    QFileInfoList list = dir.entryInfoList();
-    if(!list.contains(info) && !info.isDir())
-        list.append(info);
-
-    Sort::sortList(&list, sortby, sortbyAscending);
-
-    QVariantList ret;
-    if(filter.startsWith(".")) {
-        for(QFileInfo l : list) {
-            QString fn = l.fileName().trimmed();
-            if(fn.endsWith(filter) && fn != "")
-                ret.append(fn);
-        }
-    } else if(filter != "") {
-        for(QFileInfo l : list) {
-            QString fn = l.fileName().trimmed();
-            if(fn.contains(filter) && fn != "")
-                ret.append(fn);
-        }
-    } else {
-        for(QFileInfo l : list) {
-            QString fn = l.fileName().trimmed();
-            if(fn != "")
-                ret.append(fn);
-        }
-    }
-
-    return ret;
-
-}
-
-QVariantList GetAndDoStuffOpenFile::getFilesWithSizeIn(QString path, int selectionFileTypes, bool showHidden, QString sortby, bool sortbyAscending) {
-
-    if(qgetenv("PHOTOQT_DEBUG") == "yes")
-        LOG << CURDATE << "GetAndDoStuffOpenFile::getFilesWithSizeIn() - " << path.toStdString() << " / "
-                                                                           << selectionFileTypes << " / "
-                                                                           << showHidden << " / "
-                                                                           << sortby.toStdString() << " / "
-                                                                           << sortbyAscending << NL;
-
-    if(path.startsWith("file:/"))
-        path = path.remove(0,6);
-#ifdef Q_OS_WIN
-    while(path.startsWith("/"))
-        path = path.remove(0,1);
-#endif
-
-    QDir dir(path);
-    if(selectionFileTypes == 0)
-        dir.setNameFilters(formats->formats_qt + formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_extras + formats->formats_untested + formats->formats_raw);
-    else if(selectionFileTypes == 1)
-        dir.setNameFilters(formats->formats_qt);
-    else if(selectionFileTypes == 2)
-        dir.setNameFilters(formats->formats_gm + formats->formats_gm_ghostscript + formats->formats_untested);
-    else if(selectionFileTypes == 3)
-        dir.setNameFilters(formats->formats_raw);
-    else if(selectionFileTypes == 4)
-        dir.setNameFilters(QStringList() << "*.*");
-
-    if(showHidden)
-        dir.setFilter(QDir::Files|QDir::Hidden);
-    else
-        dir.setFilter(QDir::Files);
-    dir.setSorting(QDir::IgnoreCase);
-
-    QFileInfoList list = dir.entryInfoList();
-
-    QCollator collator;
-    collator.setCaseSensitivity(Qt::CaseInsensitive);
-    collator.setIgnorePunctuation(true);
-
-    Sort::sortList(&list, sortby, sortbyAscending);
-
-    QVariantList ret;
-    for(QFileInfo l : list) {
-        ret.append(l.fileName());
-        qint64 s = l.size();
-        if(s <= 1024)
-            ret.append(QString::number(s) + " B");
-        else if(s <= 1024*1024)
-            ret.append(QString::number(qRound(10.0*(s/1024.0))/10.0) + " KB");
-        else
-            ret.append(QString::number(qRound(100.0*(s/(1024.0*1024.0)))/100.0) + " MB");
-    }
 
     return ret;
 
@@ -508,5 +437,16 @@ QString GetAndDoStuffOpenFile::getLastOpenedImage() {
 QString GetAndDoStuffOpenFile::getDirectoryDirName(QString path) {
 
     return QDir(path).dirName();
+
+}
+
+bool GetAndDoStuffOpenFile::isSupportedImageType(QString path) {
+
+    QFileInfo info(path);
+
+    if(imageformats->getAllEnabledFileformats().contains("*."+info.suffix().toLower()))
+        return true;
+
+    return mimetypes->getAllEnabledMimeTypes().contains(mimedb.mimeTypeForFile(path, QMimeDatabase::MatchContent).name());
 
 }

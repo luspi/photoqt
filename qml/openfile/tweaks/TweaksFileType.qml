@@ -42,14 +42,38 @@ Rectangle {
         showBorder: false
         currentIndex: 0
         onCurrentIndexChanged:
-            openvariables.filesFileTypeSelection = currentIndex
-        model: [em.pty+qsTr("All supported images"), "Qt " +
-            //: Used as in 'Qt images'
-            em.pty+qsTr("images"), "GraphicsMagick " +
-            //: Used as in 'GraphicsMagick images'
-            em.pty+qsTr("images"), "LibRaw " +
-            //: Used as in 'LibRaw images'
-            em.pty+qsTr("images")]
+            openvariables.filesFileTypeCategorySelected = allfiletypes[currentIndex]
+        property var allfiletypes: []
+        model: []
+        Component.onCompleted: {
+            model.push("[B]"+em.pty+qsTr("All supported images"))
+            allfiletypes.push("all")
+            model.push("---SEP---")
+            model.push("Qt")
+            allfiletypes.push("qt")
+            if(getanddostuff.isGraphicsMagickSupportEnabled()) {
+                model.push("GraphicsMagick")
+                allfiletypes.push("gm")
+            }
+            if(getanddostuff.isLibRawSupportEnabled()) {
+                model.push("LibRaw")
+                allfiletypes.push("raw")
+            }
+            if(getanddostuff.isDevILSupportEnabled()) {
+                model.push("DevIL")
+                allfiletypes.push("devil")
+            }
+            if(getanddostuff.isFreeImageSupportEnabled()) {
+                model.push("FreeImage")
+                allfiletypes.push("freeimage")
+            }
+            if(getanddostuff.isPopplerSupportEnabled()) {
+                model.push("PDF (Poppler)")
+                allfiletypes.push("poppler")
+            }
+            model.push(em.pty+qsTr("All files"))
+            allfiletypes.push("allfiles")
+        }
     }
 
 }

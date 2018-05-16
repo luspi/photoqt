@@ -26,9 +26,27 @@
 #include <QKeyEvent>
 #include "../logger.h"
 
-class ComposeString {
+namespace ComposeString {
 
-public:
+    static QString getModifiers(QKeyEvent *e) {
+
+        QString modstring = "";
+
+        if(e->modifiers() & Qt::ControlModifier)
+            modstring += "Ctrl+";
+        if(e->modifiers() & Qt::AltModifier)
+            modstring += "Alt+";
+        if(e->modifiers() & Qt::ShiftModifier)
+            modstring += "Shift+";
+        if(e->modifiers() & Qt::MetaModifier)
+            modstring += "Meta+";
+        if(e->modifiers() & Qt::KeypadModifier)
+            modstring += "Keypad+";
+
+        return modstring;
+
+    }
+
     static QString compose(QKeyEvent *e) {
 
         QString combostring = getModifiers(e);
@@ -245,26 +263,7 @@ public:
 
     }
 
-    static QString getModifiers(QKeyEvent *e) {
-
-        QString modstring = "";
-
-        if(e->modifiers() & Qt::ControlModifier)
-            modstring += "Ctrl+";
-        if(e->modifiers() & Qt::AltModifier)
-            modstring += "Alt+";
-        if(e->modifiers() & Qt::ShiftModifier)
-            modstring += "Shift+";
-        if(e->modifiers() & Qt::MetaModifier)
-            modstring += "Meta+";
-        if(e->modifiers() & Qt::KeypadModifier)
-            modstring += "Keypad+";
-
-        return modstring;
-
-    }
-
-};
+}
 
 
 #endif // COMPOSESTRING_H

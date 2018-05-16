@@ -56,7 +56,8 @@ FadeInTemplate {
             font.pointSize: 10
             width: wallpaper_top.width
             wrapMode: Text.WordWrap
-            text: em.pty+qsTr("PhotoQt tries to detect your window manager according to the environment variables set by your system. If it still got it wrong, you can change the window manager manually.")
+            text: em.pty+qsTr("PhotoQt tries to detect your window manager according to the environment variables set by your system.\
+ If it still got it wrong, you can change the window manager manually.")
         },
 
         CustomComboBox {
@@ -66,7 +67,8 @@ FadeInTemplate {
             width: 200
             //: 'Other' as in 'Other window managers'
             model: ["KDE4","Plasma 5","Gnome/Unity","XFCE4","Enlightenment",em.pty+qsTr("Other")]
-            // We detect the wm only here, right at the beginning, and NOT everytime the element is opened, as we don't want to change any settings that the user did during that runtime (this is useful to, e.g., play around with different wallpapers to see which one fits best)
+            // We detect the wm only here, right at the beginning, and NOT everytime the element is opened, as we don't want to change any settings
+            // that the user did during that runtime (this is useful to, e.g., play around with different wallpapers to see which one fits best)
             Component.onCompleted: {
                 var wm = getanddostuff.detectWindowManager();
                 verboseMessage("Wallpaper","onCompleted: Detected window manager: " + wm)
@@ -186,13 +188,13 @@ FadeInTemplate {
                 CustomButton {
                     id: okay
                     //: Along the lines of: Set image as wallpaper
-                    text: em.pty+qsTr("Okay, do it!")
+                    text: em.pty+qsTr("Set wallpaper")
                     enabled: enDisableEnter()
                     onClickedButton: simulateEnter();
                 }
                 CustomButton {
                     //: Along the lines of: Don't set image as wallpaper
-                    text: em.pty+qsTr("Nooo, don't!")
+                    text: em.pty+qsTr("Cancel")
                     onClickedButton: hide()
                 }
             }
@@ -257,7 +259,7 @@ FadeInTemplate {
                         "feh_option" : other.getFehCurrentText(),
                         "nitrogen_option" : other.getNitrogenCurrentText() }
         }
-        getanddostuff.setWallpaper(wm, options, variables.currentDir + "/" + variables.currentFile)
+        getanddostuff.setWallpaper(wm, options, variables.currentDir + "/" + variables.getCurrentFileWithoutPQT())
 
         hide()
 

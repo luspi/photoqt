@@ -103,7 +103,8 @@ Item {
 
                     color: close=="1" ? "white" : "grey"
 
-                    //: Shortcuts: KEEP THIS STRING SHORT! It is displayed for external shortcuts as an option to quit PhotoQt after executing shortcut
+                    //: Shortcuts: KEEP THIS STRING SHORT!
+                    //: It is displayed for external shortcuts as an option to quit PhotoQt after executing shortcut
                     text: em.pty+qsTr("quit") + "  "
 
                     ToolTip {
@@ -135,9 +136,11 @@ Item {
                     rightMargin: 3
                 }
 
-                MouseArea {
+                ToolTip {
 
                     anchors.fill: parent
+
+                    text: "<b>" + desc + "</b>:<br>" + strings.translateShortcut(key)
 
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor

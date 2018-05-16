@@ -64,9 +64,11 @@ Item {
         "insert" : em.pty+qsTr("Insert"),
         //: Refers to one of the keys on the keyboard
         "tab" : em.pty+qsTr("Tab"),
-        //: 'Return' refers to the enter key of the number block - please try to make the translations of 'Return' and 'Enter' (the main button) different if possible!
+        //: 'Return' refers to the enter key of the number block - please try to make the translations of 'Return' and 'Enter' (the main button)
+        //: different if possible!
         "return" : em.pty+qsTr("Return"),
-        //: 'Enter' refers to the main enter key - please try to make the translations of 'Return' (in the number block) and 'Enter' different if possible!
+        //: 'Enter' refers to the main enter key - please try to make the translations of 'Return' (in the number block) and 'Enter'
+        //: different if possible!
         "enter" : em.pty+qsTr("Enter"),
     }
 

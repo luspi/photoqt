@@ -23,7 +23,8 @@
 import QtQuick 2.5
 
 import PSettings 1.0
-import PFileFormats 1.0
+import PImageFormats 1.0
+import PMimeTypes 1.0
 import PGetAndDoStuff 1.0
 import PGetMetaData 1.0
 import PToolTip 1.0
@@ -35,6 +36,7 @@ import PThumbnailManagement 1.0
 import PShortcutsHandler 1.0
 import PWatcher 1.0
 import PLocalisation 1.0
+import PManagePeopleTags 1.0
 
 import "./mainview"
 import "./shortcuts"
@@ -57,10 +59,15 @@ Rectangle {
     signal quitPhotoQt()
 
     // tell the c++ code to update the tray icon
-    // We need to pass on the value as there is a delay for writing a change of the settings to file, thus it might not be updated on harddrive when we get to this point
+    // We need to pass on the value as there is a delay for writing a change of the settings to file,
+    // thus it might not be updated on harddrive when we get to this point
     signal trayIconValueChanged(int icon)
 
     signal windowModeChanged(bool windowmode, bool windowdeco, bool keepontop)
+
+    signal moveWindowByX(int dx)
+    signal moveWindowByY(int dy)
+    signal toggleWindowMaximise()
 
     anchors.fill: parent
 
@@ -80,7 +87,25 @@ Rectangle {
     PSettings { id: settings }
 
     // The fileformats known to PhotoQt
-    PFileFormats { id: fileformats; }
+    PImageFormats {
+        id: imageformats;
+        // Changes in the fileformats trigger a forced reload of the current directory
+        onEnabledFileformatsSaved: forceReloadFile.restart()
+        onEnabledFileformatsChanged: forceReloadFile.restart()
+    }
+    // The mime types known to PhotoQt
+    PMimeTypes {
+        id: mimetypes
+        // Changes in the mime types trigger a forced reload of the current directory
+        onEnabledMimeTypesSaved: forceReloadFile.restart()
+        onEnabledMimeTypesChanged: forceReloadFile.restart()
+    }
+    Timer {
+        id: forceReloadFile
+        repeat: false
+        interval: 500
+        onTriggered: Handle.loadFile(variables.currentFile, variables.filter, true)
+    }
 
     // The colouring of PhotoQt
     PColour { id: colour; }
@@ -90,6 +115,8 @@ Rectangle {
 
     // Read the Exif/IPTC metadata of images
     PGetMetaData { id: getmetadata; }
+
+    PManagePeopleTags { id: managepeopletags; }
 
     // Share images to imgur.com
     PImgur { id: shareonline_imgur; }
@@ -300,7 +327,11 @@ Rectangle {
     // Called from c++ code to load an image file (needed for remote controlling)
     function loadFile(filename) {
         variables.filter = ""
-        Handle.loadFile(filename, "", false)
+        Handle.loadFile(filename, "", true)
+    }
+
+    function loadFileFromThumbnails(filename, filter) {
+        Handle.loadFile(filename, filter, false)
     }
 
     // Called from c++ code to get the filename of the currently loaded image file (needed for remote controlling)
@@ -354,6 +385,20 @@ Rectangle {
         }
     }
 
+    function emitMoveWindowByX(dx) {
+        moveWindowByX(dx)
+    }
+    function emitMoveWindowByY(dy) {
+        moveWindowByY(dy)
+    }
+    function emitToggleWindowMaximise() {
+        toggleWindowMaximise()
+    }
+
+    function setWhetherWindowFullscreen(fullscreen) {
+        variables.isWindowFullscreen = fullscreen
+    }
+
     Timer {
         id: hideEverythingAfterExit
         interval: 1000
@@ -362,7 +407,8 @@ Rectangle {
             if(!variables.guiBlocked) {
                 mainmenu.hide()
                 metadata.hide()
-                if((!settings.thumbnailKeepVisible && !settings.thumbnailKeepVisibleWhenNotZoomedIn) || (settings.thumbnailKeepVisibleWhenNotZoomedIn && imageitem.isZoomedIn()))
+                if((!settings.thumbnailKeepVisible && !settings.thumbnailKeepVisibleWhenNotZoomedIn) ||
+                        (settings.thumbnailKeepVisibleWhenNotZoomedIn && imageitem.isZoomedIn()))
                     call.hide("thumbnails")
                 call.hide("slideshowbar")
             }
