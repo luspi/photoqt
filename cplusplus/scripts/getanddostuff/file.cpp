@@ -51,6 +51,9 @@ QByteArray GetAndDoStuffFile::toPercentEncoding(QByteArray file) {
     else if(file.startsWith("qrc:/"))
         return ("qrc:/" + file.remove(0,5).toPercentEncoding());
 
+    else if(file.startsWith("file:/"))
+        return ("file:/" + file.remove(0,6).toPercentEncoding());
+
     return file.toPercentEncoding();
 
 }
