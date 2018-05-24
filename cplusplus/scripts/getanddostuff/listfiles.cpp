@@ -74,164 +74,96 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
             return ret;
     }
 
-    QFileInfoList list = getEntryList(file, categoryFileTypes, showHidden);
-
-    Sort::list(&list, sortby, sortbyAscending);
+    QFileInfoList *list = getEntryList(file, categoryFileTypes, showHidden);
 
     QVariantList ret;
 
     if(includeSize) {
 
-        if(filter.startsWith(".")) {
-            for(QFileInfo l : list) {
-                QString fn = l.fileName().trimmed();
-                if(!fn.endsWith(filter) || fn == "") continue;
-                ret.append(fn);
-                qint64 s = l.size();
-                if(s <= 1024)
-                    ret.append(QString::number(s) + " B");
-                else if(s <= 1024*1024)
-                    ret.append(QString::number(qRound(10.0*(s/1024.0))/10.0) + " KB");
-                else
-                    ret.append(QString::number(qRound(100.0*(s/(1024.0*1024.0)))/100.0) + " MB");
-            }
-        } else if(filter != "") {
-            for(QFileInfo l : list) {
-                QString fn = l.fileName().trimmed();
-                if(!fn.contains(filter) || fn == "") continue;
-                ret.append(fn);
-                qint64 s = l.size();
-                if(s <= 1024)
-                    ret.append(QString::number(s) + " B");
-                else if(s <= 1024*1024)
-                    ret.append(QString::number(qRound(10.0*(s/1024.0))/10.0) + " KB");
-                else
-                    ret.append(QString::number(qRound(100.0*(s/(1024.0*1024.0)))/100.0) + " MB");
-            }
-        } else {
-            for(QFileInfo l : list) {
-                QString fn = l.fileName().trimmed();
-                if(fn == "") continue;
-                ret.append(fn);
-                qint64 s = l.size();
-                if(s <= 1024)
-                    ret.append(QString::number(s) + " B");
-                else if(s <= 1024*1024)
-                    ret.append(QString::number(qRound(10.0*(s/1024.0))/10.0) + " KB");
-                else
-                    ret.append(QString::number(qRound(100.0*(s/(1024.0*1024.0)))/100.0) + " MB");
-            }
+        Sort::list(&list[2], sortby, sortbyAscending);
+
+        for(QFileInfo l : list[2]) {
+
+            QString fn = l.fileName().trimmed();
+
+            if(fn == "" ||
+               (filter.startsWith(".") && !fn.endsWith(filter)) ||
+               (filter != "" && !fn.contains(filter)))
+                continue;
+
+            ret.append(fn);
+
+            qint64 s = l.size();
+            if(s <= 1024)
+                ret.append(QString::number(s) + " B");
+            else if(s <= 1024*1024)
+                ret.append(QString::number(qRound(10.0*(s/1024.0))/10.0) + " KB");
+            else
+                ret.append(QString::number(qRound(100.0*(s/(1024.0*1024.0)))/100.0) + " MB");
         }
+
+        return ret;
 
     } else {
 
-        if(filter.startsWith(".")) {
-            for(QFileInfo l : list) {
-                QString fn = l.fileName().trimmed();
-                if(fn.endsWith(filter) && fn != "") {
-                    bool pdfloaded = (loadSinglePdf &&
-                                      (imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(fn).suffix()) ||
-                                       mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(l.absoluteFilePath(),
-                                                                                                               QMimeDatabase::MatchContent).name())));
-                    bool archiveloaded = (loadSingleArchive &&
-                                        (imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(fn).suffix()) ||
-                                         mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(l.absoluteFilePath(),
-                                                                                                               QMimeDatabase::MatchContent).name())));
-#ifdef POPPLER
-                    if(pdfLoadAllPages && !loadSinglePdf) {
-                        if(imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(fn).suffix()) ||
-                           mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(l.absoluteFilePath(),
-                                                                                                   QMimeDatabase::MatchContent).name())) {
-                            loadAllPdfPages(l, &ret);
-                            pdfloaded = true;
-                        }
-                    }
-#endif
-                    if(archiveLoadAllFiles && !loadSingleArchive) {
-                        if(imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(fn).suffix()) ||
-                           mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(l.absoluteFilePath(),
-                                                                                                   QMimeDatabase::MatchContent).name())) {
-                            loadAllArchiveFiles(l, &ret, archiveUseExternalUnrar);
-                            archiveloaded = true;
-                        }
-                    }
-                    if(!pdfloaded && !archiveloaded)
-                        ret.append(fn);
-                }
+        // Add all the normal files to the list (if there are any)
+        for(QFileInfo l : list[0]) {
+
+            QString fn = l.fileName().trimmed();
+
+            if(fn != "") {
+
+                if((filter.startsWith(".") && fn.endsWith(filter)) ||
+                   (filter != "" && fn.contains(filter)) ||
+                   (filter == ""))
+
+                    ret.append(fn);
+
             }
-        } else if(filter != "") {
-            for(QFileInfo l : list) {
-                QString fn = l.fileName().trimmed();
-                if(fn.contains(filter) && fn != "") {
-                    bool pdfloaded = (loadSinglePdf &&
-                                      (imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(fn).suffix()) ||
-                                       mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(l.absoluteFilePath(),
-                                                                                                               QMimeDatabase::MatchContent).name())));
-                    bool arcloaded = (loadSingleArchive &&
-                                      (imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(fn).suffix()) ||
-                                       mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(l.absoluteFilePath(),
-                                                                                                               QMimeDatabase::MatchContent).name())));
-#ifdef POPPLER
-                    if(pdfLoadAllPages && !loadSinglePdf) {
-                        if(imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(fn).suffix()) ||
-                           mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(l.absoluteFilePath(),
-                                                                                                   QMimeDatabase::MatchContent).name())) {
-                            loadAllPdfPages(l, &ret);
-                            pdfloaded = true;
-                        }
-                    }
-#endif
-                    if(archiveLoadAllFiles && !loadSingleArchive) {
-                        if(imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(fn).suffix()) ||
-                           mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(l.absoluteFilePath(),
-                                                                                                   QMimeDatabase::MatchContent).name())) {
-                            loadAllArchiveFiles(l, &ret, archiveUseExternalUnrar);
-                            arcloaded = true;
-                        }
-                    }
-                    if(!pdfloaded && !arcloaded)
-                        ret.append(fn);
-                }
-            }
-        } else {
-            for(QFileInfo l : list) {
-                QString fn = l.fileName().trimmed();
-                if(fn != "") {
-                    bool pdfloaded = (loadSinglePdf &&
-                                      (imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(fn).suffix()) ||
-                                       mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(l.absoluteFilePath(),
-                                                                                                               QMimeDatabase::MatchContent).name())));
-                    bool arcloaded = (loadSingleArchive &&
-                                      (imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(fn).suffix()) ||
-                                       mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(l.absoluteFilePath(),
-                                                                                                               QMimeDatabase::MatchContent).name())));
-#ifdef POPPLER
-                    if(pdfLoadAllPages && !loadSinglePdf) {
-                        if(imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(fn).suffix()) ||
-                           mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(l.absoluteFilePath(),
-                                                                                                   QMimeDatabase::MatchContent).name())) {
-                            loadAllPdfPages(l, &ret);
-                            pdfloaded = true;
-                        }
-                    }
-#endif
-                    if(archiveLoadAllFiles && !loadSingleArchive) {
-                        if(imageformats->getEnabledFileformatsArchive().contains("*."+QFileInfo(fn).suffix()) ||
-                           mimetypes->getEnabledMimeTypesArchive().contains(mimedb.mimeTypeForFile(l.absoluteFilePath(),
-                                                                                                   QMimeDatabase::MatchContent).name())) {
-                            loadAllArchiveFiles(l, &ret, archiveUseExternalUnrar);
-                            arcloaded = true;
-                        }
-                    }
-                    if(!pdfloaded && !arcloaded)
-                        ret.append(fn);
-                }
-            }
+
         }
 
-    }
+        // Add all PDF/Archives to the list (if there are any)
+        for(QFileInfo l : list[1]) {
 
-    return ret;
+            QString fn = l.fileName().trimmed();
+
+            if((filter.startsWith(".") && fn.endsWith(filter)) ||
+               (filter != "" && fn.contains(filter)) ||
+               (filter == "")) {
+
+                QString mimename = mimedb.mimeTypeForFile(l.absoluteFilePath(), QMimeDatabase::MatchContent).name();
+                QString suffix = QFileInfo(fn).suffix();
+
+#ifdef POPPLER
+                if(pdfLoadAllPages && !loadSinglePdf) {
+
+                    if(imageformats->getEnabledFileformatsPoppler().contains("*."+suffix) ||
+                       mimetypes->getEnabledMimeTypesPoppler().contains(mimename))
+
+                        loadAllPdfPages(l, &ret);
+
+                }
+#endif
+
+                if(archiveLoadAllFiles && !loadSingleArchive) {
+
+                    if(imageformats->getEnabledFileformatsArchive().contains("*."+suffix) ||
+                       mimetypes->getEnabledMimeTypesArchive().contains(mimename))
+
+                        loadAllArchiveFiles(l, &ret, archiveUseExternalUnrar);
+
+                }
+
+            }
+
+        }
+
+        Sort::list(&ret, sortby, sortbyAscending);
+
+        return ret;
+
+    }
 
 }
 
@@ -353,7 +285,7 @@ bool GetAndDoStuffListFiles::loadOnlyPdfPages(QString file, QVariantList *list) 
     return false;
 }
 
-QFileInfoList GetAndDoStuffListFiles::getEntryList(QString file, QString categoryFileTypes, bool showHidden) {
+QFileInfoList *GetAndDoStuffListFiles::getEntryList(QString file, QString categoryFileTypes, bool showHidden) {
 
     QFileInfo info(file);
 
@@ -374,57 +306,82 @@ QFileInfoList GetAndDoStuffListFiles::getEntryList(QString file, QString categor
     if(categoryFileTypes == "allfiles") {
         if(!entrylist.contains(info) && !info.isDir() && !file.endsWith(".pdf") && !file.endsWith(".epdf"))
             entrylist.append(info);
-        return entrylist;
+        // 1. list: images only
+        // 2. list: Poppler/Archives only
+        // 3. list: ALL FILES
+        QFileInfoList *ret = new QFileInfoList[3];
+        ret[0] = entrylist;
+        ret[1].clear();
+        ret[2] = entrylist;
+        return ret;
     }
 
-    QStringList checkForTheseFormats;
-    QStringList checkForTheseMimeTypes;
+    QStringList checkForTheseFormatsImagesOnly;
+    QStringList checkForTheseMimeTypesImagesOnly;
+    QStringList checkForTheseFormatsPopplerArchiveOnly;
+    QStringList checkForTheseMimeTypesPopplerArchiveOnly;
     if(categoryFileTypes == "all") {
-        checkForTheseFormats = imageformats->getAllEnabledFileformats();
-        checkForTheseMimeTypes = mimetypes->getAllEnabledMimeTypes();
+        checkForTheseFormatsImagesOnly = imageformats->getAllEnabledFileformats();
+        checkForTheseMimeTypesImagesOnly = mimetypes->getAllEnabledMimeTypes();
     } else if(categoryFileTypes == "qt") {
-        checkForTheseFormats = imageformats->getEnabledFileformatsQt();
-        checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesQt();
+        checkForTheseFormatsImagesOnly = imageformats->getEnabledFileformatsQt();
+        checkForTheseMimeTypesImagesOnly = mimetypes->getEnabledMimeTypesQt();
     } else if(categoryFileTypes == "gm") {
-        checkForTheseFormats = imageformats->getEnabledFileformatsGm()+imageformats->getEnabledFileformatsGmGhostscript();
-        checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesGm()+mimetypes->getEnabledMimeTypesGmGhostscript();
+        checkForTheseFormatsImagesOnly = imageformats->getEnabledFileformatsGm()+imageformats->getEnabledFileformatsGmGhostscript();
+        checkForTheseMimeTypesImagesOnly = mimetypes->getEnabledMimeTypesGm()+mimetypes->getEnabledMimeTypesGmGhostscript();
     } else if(categoryFileTypes == "raw") {
-        checkForTheseFormats = imageformats->getEnabledFileformatsRAW();
-        checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesRAW();
+        checkForTheseFormatsImagesOnly = imageformats->getEnabledFileformatsRAW();
+        checkForTheseMimeTypesImagesOnly = mimetypes->getEnabledMimeTypesRAW();
     } else if(categoryFileTypes == "devil") {
-        checkForTheseFormats = imageformats->getEnabledFileformatsDevIL();
-        checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesDevIL();
+        checkForTheseFormatsImagesOnly = imageformats->getEnabledFileformatsDevIL();
+        checkForTheseMimeTypesImagesOnly = mimetypes->getEnabledMimeTypesDevIL();
     } else if(categoryFileTypes == "freeimage") {
-        checkForTheseFormats = imageformats->getEnabledFileformatsFreeImage();
-        checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesFreeImage();
+        checkForTheseFormatsImagesOnly = imageformats->getEnabledFileformatsFreeImage();
+        checkForTheseMimeTypesImagesOnly = mimetypes->getEnabledMimeTypesFreeImage();
     } else if(categoryFileTypes == "poppler") {
-        checkForTheseFormats = imageformats->getEnabledFileformatsPoppler();
-        checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesPoppler();
+        checkForTheseFormatsPopplerArchiveOnly = imageformats->getEnabledFileformatsPoppler();
+        checkForTheseMimeTypesPopplerArchiveOnly = mimetypes->getEnabledMimeTypesPoppler();
     } else if(categoryFileTypes == "archive") {
-        checkForTheseFormats = imageformats->getEnabledFileformatsArchive();
-        checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesArchive();
+        checkForTheseFormatsPopplerArchiveOnly = imageformats->getEnabledFileformatsArchive();
+        checkForTheseMimeTypesPopplerArchiveOnly = mimetypes->getEnabledMimeTypesArchive();
     }
 
-    QFileInfoList retlist;
+    // 1. list: images only
+    // 2. list: Poppler/Archives only
+    // 3. list: ALL FILES
+    QFileInfoList *retlist = new QFileInfoList[3];
 
-    if(checkForTheseMimeTypes.length() > 0) {
+    if(checkForTheseMimeTypesImagesOnly.length() > 0 || checkForTheseMimeTypesPopplerArchiveOnly.length() > 0) {
         foreach(QFileInfo entry, entrylist) {
-            if(checkForTheseFormats.contains("*." + entry.suffix().toLower()))
-                retlist.append(entry);
-            else if(checkForTheseMimeTypes.contains(mimedb.mimeTypeForFile(entry.absoluteFilePath(), QMimeDatabase::MatchContent).name()))
-                retlist.append(entry);
+            if(checkForTheseFormatsImagesOnly.contains("*." + entry.suffix().toLower())) {
+                retlist[0].append(entry);
+                retlist[2].append(entry);
+            } else if(checkForTheseFormatsPopplerArchiveOnly.contains("*." + entry.suffix().toLower())) {
+                retlist[1].append(entry);
+                retlist[2].append(entry);
+            } else if(checkForTheseMimeTypesImagesOnly.contains(mimedb.mimeTypeForFile(entry.absoluteFilePath(), QMimeDatabase::MatchContent).name())) {
+                retlist[0].append(entry);
+                retlist[2].append(entry);
+            } else if(checkForTheseMimeTypesPopplerArchiveOnly.contains(mimedb.mimeTypeForFile(entry.absoluteFilePath(), QMimeDatabase::MatchContent).name())) {
+                retlist[1].append(entry);
+                retlist[2].append(entry);
+            }
         }
     } else {
         foreach(QFileInfo entry, entrylist) {
-            if(checkForTheseFormats.contains("*." + entry.suffix().toLower()))
-                retlist.append(entry);
+            if(checkForTheseFormatsImagesOnly.contains("*." + entry.suffix().toLower())) {
+                retlist[0].append(entry);
+                retlist[2].append(entry);
+            }
         }
     }
     qApp->processEvents();
 
-    if(!retlist.contains(info) && !info.isDir() && !imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(file).suffix()) &&
-       !mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(info.absoluteFilePath(), QMimeDatabase::MatchContent).name()))
-        retlist.append(info);
+    if(!retlist[2].contains(info) && !info.isDir() && !imageformats->getEnabledFileformatsPoppler().contains("*."+QFileInfo(file).suffix()) &&
+       !mimetypes->getEnabledMimeTypesPoppler().contains(mimedb.mimeTypeForFile(info.absoluteFilePath(), QMimeDatabase::MatchContent).name())) {
+        retlist[0].append(info);
+        retlist[2].append(info);
+    }
 
     return retlist;
 

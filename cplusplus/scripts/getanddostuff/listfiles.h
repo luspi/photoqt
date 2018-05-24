@@ -26,7 +26,7 @@ public:
 private:
     ImageFormats *imageformats;
     MimeTypes *mimetypes;
-    QFileInfoList getEntryList(QString file, QString categoryFileTypes, bool showHidden);
+    QFileInfoList *getEntryList(QString file, QString categoryFileTypes, bool showHidden);
 
     void loadAllPdfPages(QFileInfo l, QVariantList *list);
     bool loadOnlyPdfPages(QString file, QVariantList *list);
