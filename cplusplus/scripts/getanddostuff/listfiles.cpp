@@ -74,6 +74,9 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
             return ret;
     }
 
+    // 1. list: images only
+    // 2. list: Poppler/Archives only
+    // 3. list: ALL SUPPORTED FILES (combination of the first two lists)
     QFileInfoList *list = getEntryList(file, categoryFileTypes, showHidden);
 
     QVariantList ret;
@@ -308,7 +311,7 @@ QFileInfoList *GetAndDoStuffListFiles::getEntryList(QString file, QString catego
             entrylist.append(info);
         // 1. list: images only
         // 2. list: Poppler/Archives only
-        // 3. list: ALL FILES
+        // 3. list: ALL SUPPORTED FILES (combination of the first two lists)
         QFileInfoList *ret = new QFileInfoList[3];
         ret[0] = entrylist;
         ret[1].clear();
@@ -348,8 +351,10 @@ QFileInfoList *GetAndDoStuffListFiles::getEntryList(QString file, QString catego
 
     // 1. list: images only
     // 2. list: Poppler/Archives only
-    // 3. list: ALL FILES
+    // 3. list: ALL SUPPORTED FILES (combination of the first two lists)
     QFileInfoList *retlist = new QFileInfoList[3];
+
+    // Whenever we add an entry to the first or second list, we always add the same entry to the third list
 
     if(checkForTheseMimeTypesImagesOnly.length() > 0 || checkForTheseMimeTypesPopplerArchiveOnly.length() > 0) {
         foreach(QFileInfo entry, entrylist) {
