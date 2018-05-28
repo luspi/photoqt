@@ -65,7 +65,12 @@ option(TESTING "Enable some tests" OFF)
 #### FIND REQUIRED PACKAGES ####
 ################################
 
-find_package(Qt5 COMPONENTS Core Quick Svg Sql Xml LinguistTools REQUIRED)
+if(WIN32)
+    find_package(Qt5 COMPONENTS Core Quick Svg Sql Xml LinguistTools WinExtras REQUIRED)
+elseif(NOT WIN32)
+    find_package(Qt5 COMPONENTS Core Quick Svg Sql Xml LinguistTools REQUIRED)
+endif(WIN32)
+
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
 if(GM)
     find_package(Magick)
