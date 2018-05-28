@@ -135,10 +135,10 @@ add_definitions(-DSIMPLECRYPTKEY="${CRYPTKEY}")
 # on windows we add application icons
 if(WIN32)
     add_executable(${PROJECT_NAME} WIN32 ${photoqt_SOURCES} ${photoqt_QML} ${RESOURCES} windowsicons.rc)
-    qt5_use_modules(${PROJECT_NAME} Quick Sql Svg Core Xml WinExtras)
+    target_link_libraries(${PROJECT_NAME} Qt5::Quick Qt5::Sql Qt5::Svg Qt5::Core Qt5::Xml Qt5::WinExtras)
 elseif(NOT WIN32)
     add_executable(${PROJECT_NAME} ${photoqt_SOURCES} ${photoqt_QML} ${RESOURCES})
-    qt5_use_modules(${PROJECT_NAME} Quick Sql Svg Core Xml)
+    target_link_libraries(${PROJECT_NAME} Qt5::Quick Qt5::Sql Qt5::Svg Qt5::Core Qt5::Xml)
 endif(WIN32)
 
 
