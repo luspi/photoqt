@@ -232,7 +232,8 @@ public:
         setEnabledFileformatsArchive(defaultEnabledFileformats[categories.indexOf("archive")]);
     }
 
-    Q_INVOKABLE QStringList getAllEnabledFileformats() {
+    Q_INVOKABLE QStringList getAllEnabledFileformatsWithoutPopplerArchive() {
+
         QStringList allFormats;
 
         // Qt
@@ -241,11 +242,6 @@ public:
         // xcftools
         foreach(QVariant entry, enabledFileformats[categories.indexOf("xcftools")])
             allFormats.append(entry.toString());
-#ifdef POPPLER
-        // Poppler
-        foreach(QVariant entry, enabledFileformats[categories.indexOf("poppler")])
-            allFormats.append(entry.toString());
-#endif
 #ifdef GM
         // GraphicsMagick
         foreach(QVariant entry, enabledFileformats[categories.indexOf("gm")])
@@ -269,9 +265,6 @@ public:
         foreach(QVariant entry, enabledFileformats[categories.indexOf("freeimage")])
             allFormats.append(entry.toString());
 #endif
-        // Archive
-        foreach(QVariant entry, enabledFileformats[categories.indexOf("archive")])
-            allFormats.append(entry.toString());
 
         return allFormats;
     }

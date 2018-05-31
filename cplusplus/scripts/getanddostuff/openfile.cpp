@@ -47,8 +47,8 @@ int GetAndDoStuffOpenFile::getNumberFilesInFolder(QString path, QString category
     QStringList checkForTheseFormats;
     QStringList checkForTheseMimeTypes;
     if(categoryFileTypes == "all") {
-        checkForTheseFormats = imageformats->getAllEnabledFileformats();
-        checkForTheseMimeTypes = mimetypes->getAllEnabledMimeTypes();
+        checkForTheseFormats = imageformats->getAllEnabledFileformatsWithoutPopplerArchive();
+        checkForTheseMimeTypes = mimetypes->getAllEnabledMimeTypesWithoutPopplerArchive();
     } else if(categoryFileTypes == "qt") {
         checkForTheseFormats = imageformats->getEnabledFileformatsQt();
         checkForTheseMimeTypes = mimetypes->getEnabledMimeTypesQt();
@@ -444,9 +444,9 @@ bool GetAndDoStuffOpenFile::isSupportedImageType(QString path) {
 
     QFileInfo info(path);
 
-    if(imageformats->getAllEnabledFileformats().contains("*."+info.suffix().toLower()))
+    if(imageformats->getAllEnabledFileformatsWithoutPopplerArchive().contains("*."+info.suffix().toLower()))
         return true;
 
-    return mimetypes->getAllEnabledMimeTypes().contains(mimedb.mimeTypeForFile(path, QMimeDatabase::MatchContent).name());
+    return mimetypes->getAllEnabledMimeTypesWithoutPopplerArchive().contains(mimedb.mimeTypeForFile(path, QMimeDatabase::MatchContent).name());
 
 }
