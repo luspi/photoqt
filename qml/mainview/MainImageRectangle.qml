@@ -132,8 +132,12 @@ Item {
         // Don't block interface while loading...
         asynchronous: true
 
-        // source is tied to imageContainer property
-        source: imageContainer.source
+        source: ""
+        // We use a connection here as a property binding above would somehow get broken when deleting an image.
+        Connections {
+            target: imageContainer
+            onSourceChanged: image.source = imageContainer.source
+        }
 
         // Center item in parent
         anchors.centerIn: parent
