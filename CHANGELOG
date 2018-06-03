@@ -1,5 +1,13 @@
-Changelog PhotoQt v1.7  - Copyright (C) 2011-2018, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
+Changelog PhotoQt v1.7.1  - Copyright (C) 2011-2018, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
+
+Release 1.7.1 - 2018-06-03
+----------------------------
+- Fix: Animated images would not load
+- Fix: The more images in a directory the slower PhotoQt would load first image
+- Fix: Deleting an image would lead to infinite 'loading' indicator
+- Fix: List of releases in appdata file was in reverse order
+- Add: Show 'busy' cursor while loading a Loader item
 
 
 Release 1.7 - 2018-05-15
