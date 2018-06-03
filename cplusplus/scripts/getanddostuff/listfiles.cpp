@@ -25,7 +25,6 @@
 
 #include <archive.h>
 #include <archive_entry.h>
-#include <QtDebug>
 
 GetAndDoStuffListFiles::GetAndDoStuffListFiles(QObject *parent) : QObject(parent) {
     imageformats = new ImageFormats;
