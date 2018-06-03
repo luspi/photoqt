@@ -21,7 +21,6 @@
  **************************************************************************/
 
 #include "managepeopletags.h"
-#include <QtDebug>
 
 ManagePeopleTags::ManagePeopleTags(QObject *parent) : QObject(parent) { }
 

@@ -26,13 +26,13 @@ public:
 private:
     ImageFormats *imageformats;
     MimeTypes *mimetypes;
-    QFileInfoList getEntryList(QString file, QString categoryFileTypes, bool showHidden);
+    QFileInfoList *getEntryList(QString file, QString categoryFileTypes, bool showHidden, bool loadSinglePdf, bool loadSingleArchive);
 
-    void loadAllPdfPages(QFileInfo l, QVariantList *list);
-    bool loadOnlyPdfPages(QString file, QVariantList *list);
+    void loadAllPdfPages(QFileInfo l, QVariantList *list, bool prependFilenameAndPagenumberForSorting);
+    bool loadOnlyPdfPages(QString file, QVariantList *list, bool prependFilenameAndPagenumberForSorting);
 
-    void loadAllArchiveFiles(QFileInfo l, QVariantList *list, bool archiveUseExternalUnrar);
-    bool loadOnlyArchiveFiles(QString file, QVariantList *list, bool archiveUseExternalUnrar);
+    void loadAllArchiveFiles(QFileInfo l, QVariantList *list, bool archiveUseExternalUnrar, bool prependFilenameForSorting);
+    bool loadOnlyArchiveFiles(QString file, QVariantList *list, bool archiveUseExternalUnrar, bool prependFilenameForSorting);
 
     QMimeDatabase mimedb;
 

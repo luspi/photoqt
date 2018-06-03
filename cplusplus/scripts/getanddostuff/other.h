@@ -75,6 +75,7 @@ public:
     bool isImageAnimated(QString path);
     QString convertIdIntoString(QObject *object);
     QString selectColor(QString preselectColor);
+    void setBusyCursor(bool busy);
 
 };
 

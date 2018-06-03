@@ -10,7 +10,7 @@ project(photoqt)
 ####  GLOBAL VERSION STRING FOR ALL FILES (INCLUDING CPP/QML) ####
 ##################################################################
 
-add_definitions(-DVERSION="1.7")
+add_definitions(-DVERSION="1.7.1")
 
 
 #################################
@@ -65,7 +65,12 @@ option(TESTING "Enable some tests" OFF)
 #### FIND REQUIRED PACKAGES ####
 ################################
 
-find_package(Qt5 COMPONENTS Core Quick Svg Sql Xml LinguistTools REQUIRED)
+if(WIN32)
+    find_package(Qt5 COMPONENTS Core Quick Svg Sql Xml LinguistTools WinExtras REQUIRED)
+elseif(NOT WIN32)
+    find_package(Qt5 COMPONENTS Core Quick Svg Sql Xml LinguistTools REQUIRED)
+endif(WIN32)
+
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
 if(GM)
     find_package(Magick)
@@ -135,10 +140,10 @@ add_definitions(-DSIMPLECRYPTKEY="${CRYPTKEY}")
 # on windows we add application icons
 if(WIN32)
     add_executable(${PROJECT_NAME} WIN32 ${photoqt_SOURCES} ${photoqt_QML} ${RESOURCES} windowsicons.rc)
-    qt5_use_modules(${PROJECT_NAME} Quick Sql Svg Core Xml WinExtras)
+    target_link_libraries(${PROJECT_NAME} Qt5::Quick Qt5::Sql Qt5::Svg Qt5::Core Qt5::Xml Qt5::WinExtras)
 elseif(NOT WIN32)
     add_executable(${PROJECT_NAME} ${photoqt_SOURCES} ${photoqt_QML} ${RESOURCES})
-    qt5_use_modules(${PROJECT_NAME} Quick Sql Svg Core Xml)
+    target_link_libraries(${PROJECT_NAME} Qt5::Quick Qt5::Sql Qt5::Svg Qt5::Core Qt5::Xml)
 endif(WIN32)
 
 

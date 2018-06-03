@@ -1,5 +1,4 @@
 #include "imageformats.h"
-#include <QtDebug>
 
 ImageFormats::ImageFormats(QObject *parent) : QObject(parent) {
 

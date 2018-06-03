@@ -230,7 +230,7 @@ public:
         setEnabledMimeTypesArchive(defaultEnabledMimeTypes[categories.indexOf("archive")]);
     }
 
-    Q_INVOKABLE QStringList getAllEnabledMimeTypes() {
+    Q_INVOKABLE QStringList getAllEnabledMimeTypesWithoutPopplerArchive() {
         QStringList allMimeTypes;
 
         // Qt
@@ -239,11 +239,6 @@ public:
         // xcftools
         foreach(QVariant entry, enabledMimeTypes[categories.indexOf("xcftools")])
             allMimeTypes.append(entry.toString());
-#ifdef POPPLER
-        // Poppler
-        foreach(QVariant entry, enabledMimeTypes[categories.indexOf("poppler")])
-            allMimeTypes.append(entry.toString());
-#endif
 #ifdef GM
         // GraphicsMagick
         foreach(QVariant entry, enabledMimeTypes[categories.indexOf("gm")])
@@ -267,9 +262,6 @@ public:
         foreach(QVariant entry, enabledMimeTypes[categories.indexOf("freeimage")])
             allMimeTypes.append(entry.toString());
 #endif
-        // Archive
-        foreach(QVariant entry, enabledMimeTypes[categories.indexOf("archive")])
-            allMimeTypes.append(entry.toString());
 
         return allMimeTypes;
     }
