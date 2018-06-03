@@ -218,3 +218,7 @@ QString GetAndDoStuffOther::selectColor(QString preselectColor) {
     return diag.currentColor().name(QColor::HexArgb);
 
 }
+
+void GetAndDoStuffOther::setBusyCursor(bool busy) {
+    qApp->setOverrideCursor(busy ? Qt::BusyCursor : Qt::ArrowCursor);
+}

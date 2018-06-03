@@ -74,6 +74,8 @@ Item {
     // Load and show a component
     function show(component) {
 
+        getanddostuff.setBusyCursor(true)
+
         verboseMessage("Caller","show(): " + component)
 
         ensureElementSetup(component)
@@ -108,6 +110,9 @@ Item {
             startupShow(variables.startupUpdateStatus, variables.startupFilenameAfter)
         else
             console.error("ERROR: Requested faulty show():", component)
+
+        getanddostuff.setBusyCursor(false)
+
     }
 
     // Hide a component
