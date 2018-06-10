@@ -58,7 +58,7 @@ function(composeDesktopFile)
 
     ##########################
     # KDE mime types
-    set(KDEMIME "image/x-eps;image/x-exr;image/openraster;image/vnd.zbrush.pcx;image/vnd.adobe.photoshop;image/x-tga;image/x-xcf")
+    set(KDEMIME "image/x-eps;image/x-exr;image/openraster;image/vnd.zbrush.pcx;image/vnd.adobe.photoshop;image/x-tga;image/x-xcf;")
     foreach(MIME ${KDEMIME})
         list(FIND COMBINEDMIMETYPE "${MIME}" FOUNDPOS)
         if(${FOUNDPOS} MATCHES -1)
@@ -137,7 +137,7 @@ function(composeDesktopFile)
     endif(FREEIMAGE)
 
     # ... and add to file
-    file(APPEND "photoqt.desktop" "MimeType=${COMBINEDMIMETYPE}")
+    file(APPEND "photoqt.desktop" "MimeType=${COMBINEDMIMETYPE};")
 
 endfunction()
 
