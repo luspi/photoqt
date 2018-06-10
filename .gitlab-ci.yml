@@ -18,14 +18,13 @@ trusty:
     - sudo make install
     - cd ../../
     - mkdir -p build && cd build/
-    - cmake .. -DCMAKE_BUILD_TYPE=Release -DPOPPLER=OFF -DCMAKE_INSTALL_PREFIX=/usr # -DPOPPLER=OFF due to "Unable to locate Poppler...  is it installed?"; -DGM=OFF due to loadimage_gm.h:99:31: error: 'class Magick::Image' has no member named 'thumbnail'
+    - cmake .. -DCMAKE_BUILD_TYPE=Release -DPOPPLER=OFF -DCMAKE_INSTALL_PREFIX=/usr # -DPOPPLER=OFF due to "Unable to locate Poppler...  is it installed?";
     - make -j$(nproc)
     - make DESTDIR=../appdir -j$(nproc) install ; find ../appdir/
     - cd -
     - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage" 
     - chmod a+x linuxdeployqt*.AppImage ; ./linuxdeployqt-*.AppImage --appimage-extract ; rm linuxdeployqt*.AppImage
     - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
-    - sed -i -r -e 's|^MimeType=(.*)$|MimeType=\1;|g' ./appdir/usr/share/applications/*.desktop # FIXME; add trailing semicolon so that it passes desktop-file-validate
 #    - ./squashfs-root/AppRun ./appdir/usr/share/applications/*.desktop -bundle-non-qt-libs
     - ./squashfs-root/AppRun ./appdir/usr/share/applications/*.desktop -appimage -qmldir=./qml
     - find ./appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq # fyi
