@@ -61,9 +61,9 @@ Rectangle {
         // fills all the space available in pane
         anchors.fill: parent
 
-        // item for highlighing moves fairly fast
-        highlightMoveDuration: 100
-        highlightResizeDuration: 100
+        // item for highlighing moves
+        highlightMoveDuration: variables.highlightDuration
+        highlightResizeDuration: variables.highlightDuration
 
         // used for dragging folders to userplaces
         property int dragItemIndex: -1

@@ -33,6 +33,9 @@ Item {
     // The speed of the animations (how fast elements fade in/out)
     property int animationSpeed: settings.animations ? 250 : 0
 
+    // The speed of animations (milliseconds) related to selection indicator or mouse hover
+    property int highlightDuration: settings.animations ? 100 : 0
+
     // This is set to true whenever an element is open in front focus (e.g., settings manager, ...)
     property bool guiBlocked: false
 
