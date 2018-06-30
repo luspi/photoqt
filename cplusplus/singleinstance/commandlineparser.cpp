@@ -31,23 +31,23 @@ CommandLineParser::CommandLineParser(QCoreApplication *app) : QObject() {
     validOptions << "h" << "help" << "v" << "version";
 
     // First category
-    QString cat = "Interaction with PhotoQt";
-    addOption(cat, QStringList() << "o" << "open", "Make PhotoQt ask for a new File.");
-    addOption(cat, QStringList() << "s" << "show", "Shows PhotoQt (does nothing if already shown).");
-    addOption(cat, QStringList() << "hide", "Hides PhotoQt to system tray (does nothing if already hidden).");
-    addOption(cat, QStringList() << "t" << "toggle", "Toggle PhotoQt - hides PhotoQt if visible, shows if hidden.");
-    addOption(cat, QStringList() << "thumbs" << "no-thumbs", "Enable/Disable thumbnails.");
+    QString cat = tr("Interaction with PhotoQt");
+    addOption(cat, QStringList() << "o" << "open", tr("Make PhotoQt ask for a new File."));
+    addOption(cat, QStringList() << "s" << "show", tr("Shows PhotoQt (does nothing if already shown)."));
+    addOption(cat, QStringList() << "hide", tr("Hides PhotoQt to system tray (does nothing if already hidden)."));
+    addOption(cat, QStringList() << "t" << "toggle", tr("Toggle PhotoQt - hides PhotoQt if visible, shows if hidden."));
+    addOption(cat, QStringList() << "thumbs" << "no-thumbs", tr("Enable/Disable thumbnails."));
 
     // Second category
-    cat = "Start-up-only options";
-    addOption(cat, QStringList() << "start-in-tray", "Start PhotoQt hidden to the system tray.");
-    addOption(cat, QStringList() << "standalone", "Create standalone PhotoQt, multiple instances but no remote interaction possible.");
+    cat = tr("Start-up-only options");
+    addOption(cat, QStringList() << "start-in-tray", tr("Start PhotoQt hidden to the system tray."));
+    addOption(cat, QStringList() << "standalone", tr("Create standalone PhotoQt, multiple instances but no remote interaction possible."));
 
     // Third category
-    cat = "General Options";
-    addOption(cat, QStringList() << "debug" << "no-debug", "Switch on/off debug messages.");
-    addOption(cat, QStringList() << "export", "Export configuration to given filename.", "filename");
-    addOption(cat, QStringList() << "import", "Import configuration from given filename.", "filename");
+    cat = tr("General Options");
+    addOption(cat, QStringList() << "debug" << "no-debug", tr("Switch on/off debug messages."));
+    addOption(cat, QStringList() << "export", tr("Export configuration to given filename."), tr("filename"));
+    addOption(cat, QStringList() << "import", tr("Import configuration from given filename."), tr("filename"));
 
     // Process the command line
     process(app);
@@ -106,12 +106,12 @@ void CommandLineParser::showHelp() {
     int maxWidth = 78;
 
     // Header
-    std::cout << "Usage: photoqt [options] [filename]" << std::endl;
-    std::cout << "PhotoQt Image Viewer" << std::endl << std::endl;
+    std::cout << tr("Usage: photoqt [options] [filename]").toStdString() << std::endl;
+    std::cout << tr("PhotoQt Image Viewer").toStdString() << std::endl << std::endl;
 
     // help and version option
-    std::cout << std::setfill(' ') << std::setw(entryWidth) << std::left << "  -h, --help" << "Displays this help." << std::endl;
-    std::cout << std::setfill(' ') << std::setw(entryWidth) << std::left << "  -v, --version" << "Displays version information." << std::endl;
+    std::cout << std::setfill(' ') << std::setw(entryWidth) << std::left << "  -h, --help" << tr("Displays this help.").toStdString() << std::endl;
+    std::cout << std::setfill(' ') << std::setw(entryWidth) << std::left << "  -v, --version" << tr("Displays version information.").toStdString() << std::endl;
 
     // Loop over all categories
     for(QString cat : categories) {
@@ -165,8 +165,8 @@ void CommandLineParser::showHelp() {
 
     // Output the positional argument at end
     std::cout << std::endl;
-    std::cout << "Arguments:" << std::endl;
-    std::cout << std::setfill(' ') << std::setw(entryWidth) << std::left << "  filename" << "File to open with PhotoQt." << std::endl;
+    std::cout << tr("Arguments:").toStdString() << std::endl;
+    std::cout << std::setfill(' ') << std::setw(entryWidth) << std::left << tr("  filename").toStdString() << tr("File to open with PhotoQt.").toStdString() << std::endl;
 
     // And quit application
     qApp->quit();
@@ -210,7 +210,7 @@ void CommandLineParser::process(QCoreApplication *app) {
                 foundFilename = a;
             // Else show error as only one filename is allowed
             else {
-                showError("Only one filename can be passed on!");
+	        showError(tr("Only one filename can be passed on!"));
                 return;
             }
 
@@ -223,7 +223,7 @@ void CommandLineParser::process(QCoreApplication *app) {
 
             // If option is not a valid one, show error and quit
             if(!validOptions.contains(a)) {
-                showError("Unknown option '" + a + "'.");
+	        showError(tr("Unknown option '") + a + "'.");
                 return;
             }
 
@@ -232,7 +232,7 @@ void CommandLineParser::process(QCoreApplication *app) {
 
                 // If no value was provided, show error and quit
                 if(i == args.length()-1 || args.at(i+1).startsWith("-")) {
-                    showError("Filename required for option '" + a + "'.");
+		    showError(tr("Filename required for option '") + a + "'.");
                     return;
                 // Store value
                 } else {

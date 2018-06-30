@@ -96,10 +96,10 @@ Item {
 
             Entry {
 
-                title: "Mouse: Left Button"
-                helptext: "Pressing the left button of the mouse and moving it around can be used for moving an image around. If you put it to use\
+                title: em.pty+qsTr("Mouse: Left Button")
+                helptext: em.pty+qsTr("Pressing the left button of the mouse and moving it around can be used for moving an image around. If you put it to use\
  for this purpose then any shortcut involving the left mouse button will have no effect! Note that it is not recommended to disable this if you do\
- not have any other means to move an image around (e.g., touchscreen)!"
+ not have any other means to move an image around (e.g., touchscreen)!")
 
                 content: [
                     CustomCheckBox {
