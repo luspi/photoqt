@@ -28,19 +28,25 @@ Rectangle {
 
     id: rect_top
 
-    x: settings.histogramPosition.x
-    y: settings.histogramPosition.y
-    width: settings.histogramSize.width
-    height: settings.histogramSize.height
+    x: Math.min(Math.max(settings.histogramPosition.x, 0), mainwindow.width-50)
+    y: Math.min(Math.max(settings.histogramPosition.y, 0), mainwindow.height-50)
+    width: Math.min(Math.max(settings.histogramSize.width, 50), mainwindow.width)
+    height: Math.min(Math.max(settings.histogramSize.height, 50), mainwindow.height)
 
-    onXChanged:
-        settings.histogramPosition = Qt.point(x, y)
-    onYChanged:
-        settings.histogramPosition = Qt.point(x, y)
-    onWidthChanged:
-        settings.histogramSize = Qt.size(width, height)
-    onHeightChanged:
-        settings.histogramSize = Qt.size(width, height)
+    onXChanged: savePosDim.restart()
+    onYChanged: savePosDim.restart()
+    onWidthChanged: savePosDim.restart()
+    onHeightChanged: savePosDim.restart()
+
+    Timer {
+        id: savePosDim
+        interval: 250
+        repeat: false
+        onTriggered: {
+            settings.histogramPosition = Qt.point(x, y)
+            settings.histogramSize = Qt.size(width, height)
+        }
+    }
 
     color: "transparent"
 
