@@ -33,6 +33,11 @@ namespace StartupCheck {
 
         static void moveToNewKeyNames() {
 
+            // ensure CONFIG_DIR exists
+            QDir configdir(ConfigFiles::CONFIG_DIR());
+            if(!configdir.exists())
+                configdir.mkpath(ConfigFiles::CONFIG_DIR());
+
             QFile fileIn(ConfigFiles::SETTINGS_FILE());
 
             if(!fileIn.exists())

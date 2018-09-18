@@ -38,6 +38,11 @@ namespace StartupCheck {
 
             if(debug) LOG << CURDATE << "StartupCheck::Thumbnails" << NL;
 
+            // ensure CACHE_DIR exists
+            QDir cachedir(ConfigFiles::CACHE_DIR());
+            if(!cachedir.exists())
+                cachedir.mkpath(ConfigFiles::CACHE_DIR());
+
             // Check if thumbnail database exists. If not, create it
             QFile database(ConfigFiles::THUMBNAILS_DB());
             if(!database.exists()) {
