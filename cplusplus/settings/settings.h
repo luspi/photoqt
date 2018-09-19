@@ -107,6 +107,7 @@ private:
     bool    m_showTransparencyMarkerBackground;
     bool    m_leftButtonMouseClickAndMove;
     int     m_zoomSpeed;
+    bool    m_rawLoadEmbeddedThumbnail;
 
     bool    m_pdfSingleDocument;
     int     m_pdfQuality;
@@ -577,6 +578,18 @@ public:
     void setZoomSpeed(int val) { if(val != m_zoomSpeed) { m_zoomSpeed = val;
                                                           emit zoomSpeedChanged(val);
                                                           saveSettingsTimer->start(); } }
+
+    // rawLoadEmbeddedThumbnail
+    Q_PROPERTY(bool   rawLoadEmbeddedThumbnail
+               READ   getRawLoadEmbeddedThumbnail
+               WRITE  setRawLoadEmbeddedThumbnail
+               NOTIFY rawLoadEmbeddedThumbnailChanged)
+    bool getRawLoadEmbeddedThumbnail() { return m_rawLoadEmbeddedThumbnail; }
+    void setRawLoadEmbeddedThumbnail(bool val) { if(val != m_rawLoadEmbeddedThumbnail) { m_rawLoadEmbeddedThumbnail = val;
+                                                                                         emit rawLoadEmbeddedThumbnailChanged(val);
+                                                                                         saveSettingsTimer->start(); } }
+
+
 
     // pdfSingleDocument
     Q_PROPERTY(bool   pdfSingleDocument
@@ -1508,6 +1521,7 @@ signals:
     void archiveSingleFileChanged(int val);
     void archiveUseExternalUnrarChanged(bool val);
     void zoomSpeedChanged(int val);
+    void rawLoadEmbeddedThumbnailChanged(bool val);
 
     void quickInfoHideCounterChanged(bool val);
     void quickInfoHideFilepathChanged(bool val);

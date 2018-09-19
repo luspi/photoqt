@@ -31,6 +31,8 @@
 #ifdef EXIV2
 #include <exiv2/image.hpp>
 #include <exiv2/exif.hpp>
+#include <QLockFile>
+#include <thread>
 #endif
 
 class ManagePeopleTags : public QObject {
@@ -45,6 +47,9 @@ public:
     Q_INVOKABLE void setFaceTags(QString filename, QVariantList tags);
 
     Q_INVOKABLE bool canWriteXmpTags(QString filename);
+
+private:
+    void safelyReadMetadata(Exiv2::Image::AutoPtr *image);
 
 };
 

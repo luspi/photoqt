@@ -128,7 +128,7 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
 
     // Try to use libraw (if available)
     else if(whatToUse == "raw")
-        ret = PLoadImage::Raw::load(filename, maxSize);
+        ret = PLoadImage::Raw::load(filename, maxSize, settings->rawLoadEmbeddedThumbnail, (requestedSize==QSize(256,256) ? true : false));
 
     // Try to use DevIL (if available)
     else if(whatToUse == "devil")
@@ -152,7 +152,7 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *,
         ret = PLoadImage::Qt::load(filename,maxSize,settings->metaApplyRotation);
 
     // if returned image is not an error image ...
-    if(ret.text("error") != "error") {
+    if(ret.text("error") != "error" && size->isEmpty()) {
 
         // ... insert image into cache
         if(qgetenv("PHOTOQT_DEBUG") == "yes")

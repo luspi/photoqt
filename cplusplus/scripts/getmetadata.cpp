@@ -145,8 +145,8 @@ QVariantMap GetMetaData::getExiv2(QString path) {
 
             Exiv2::Image::AutoPtr image;
             try {
-                image  = Exiv2::ImageFactory::open(path.toStdString());
-                image->readMetadata();
+                image = Exiv2::ImageFactory::open(path.toStdString());
+                safelyReadMetadata(&image);
             } catch (Exiv2::Error& e) {
                 LOG << CURDATE << "GetMetaData::getExiv2() - ERROR reading exiv data (caught exception): " << e.what() << NL;
                 returnMap.clear();
@@ -264,7 +264,23 @@ QVariantMap GetMetaData::getExiv2(QString path) {
 
 }
 
+// The metadata is needed at multiple different locations in the code.
+// At least up to v0.26, Exiv2 does not support reading metadata in parallel (causes crashes).
+// This function ensures that there is always only at most one call to readMetadata() at any time.
+void GetMetaData::safelyReadMetadata(Exiv2::Image::AutoPtr *image) {
 
+    QLockFile lock(ConfigFiles::EXIV2_LOCK_FILE());
+
+    // After 2s we just go ahead, something might have gone wrong.
+    if(!lock.tryLock(2000))
+        LOG << CURDATE << "GetMetaData::safelyReadMetadata(): WARNING: Unable to lock Exiv2::readMetadata(), potential cause for crash!" << NL;
+
+    (*image)->readMetadata();
+
+    // Free up access
+    lock.unlock();
+
+}
 
 // Format exposure time
 QString GetMetaData::exifExposureTime(QString value) {

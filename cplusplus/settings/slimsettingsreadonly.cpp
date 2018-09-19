@@ -64,6 +64,7 @@ void SlimSettingsReadOnly::setDefault() {
     metaGps = true;
     pdfQuality = 150;
     archiveUseExternalUnrar = true;
+    rawLoadEmbeddedThumbnail = true;
 
 }
 
@@ -133,6 +134,8 @@ void SlimSettingsReadOnly::readSettings() {
                 pdfQuality = line.split("=").at(1).toInt();
             else if(line.startsWith("ArchiveUseExternalUnrar="))
                 archiveUseExternalUnrar = line.split("=").at(1).toInt();
+            else if(line.startsWith("RawLoadEmbeddedThumbnail="))
+                rawLoadEmbeddedThumbnail = line.split("RawLoadEmbeddedThumbnail=").at(1).toInt();
 
         }
 

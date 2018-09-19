@@ -112,6 +112,15 @@ Entry {
 
     ]
 
+    content3: [
+
+        CustomCheckBox {
+            id: loadPreviewFromMetadata
+            text: em.pty+qsTranslate("SettingsManager/ImageFormats", "Try to speed up loading using preview potentially stored in the metadata (much faster).")
+        }
+
+    ]
+
     Component.onCompleted: {
         but1.width = Math.max(but1.width, but2.width)
         but2.width = Math.max(but1.width, but2.width)
@@ -158,11 +167,13 @@ Entry {
     function setData() {
         formatsPopupEndings.setCurrentlySet()
         formatsPopupMimetypes.setCurrentlySet()
+        loadPreviewFromMetadata.checkedButton = settings.rawLoadEmbeddedThumbnail
     }
 
     function saveData() {
         imageformats.enabledFileformatsRAW = formatsPopupEndings.getEnabledFormats()
         mimetypes.enabledMimeTypesRAW = formatsPopupMimetypes.getEnabledFormats()
+        settings.rawLoadEmbeddedThumbnail = loadPreviewFromMetadata.checkedButton
     }
 
 }

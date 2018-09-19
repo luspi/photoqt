@@ -102,6 +102,9 @@ public:
     static const QString COLOR_FILE() {
         return QString("%1/colors").arg(CONFIG_DIR());
     }
+    static const QString EXIV2_LOCK_FILE() {
+        return QString("%1/exiv2.lock").arg(CACHE_DIR());
+    }
 
 };
 

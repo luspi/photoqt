@@ -27,13 +27,121 @@
 #include <libraw/libraw.h>
 #endif
 
+#ifdef EXIV2
+#include <exiv2/exiv2.hpp>
+#include <QLockFile>
+#include <thread>
+#endif
+
 namespace PLoadImage {
 
     namespace Raw {
 
-        static QImage load(QString filename, QSize maxSize) {
+        // The metadata is needed at multiple different locations in the code.
+        // At least up to v0.26, Exiv2 does not support reading metadata in parallel (causes crashes).
+        // This function ensures that there is always only at most one call to readMetadata() at any time.
+        static void safelyReadMetadata(Exiv2::Image::AutoPtr *image) {
 
-    #ifdef RAW
+            QLockFile lock(ConfigFiles::EXIV2_LOCK_FILE());
+
+            // After 2s we just go ahead, something might have gone wrong.
+            if(!lock.tryLock(2000))
+                LOG << CURDATE << "PLoadImage::Raw::load(): safelyReadMetadata(): WARNING: Unable to lock Exiv2::readMetadata(), potential cause for crash!" << NL;
+
+            (*image)->readMetadata();
+
+            // Free up access
+            lock.unlock();
+
+        }
+
+        static QImage load(QString filename, QSize maxSize, bool loadEmbeddedThumbnail, bool neededForThumbnails) {
+
+#ifdef EXIV2
+
+            // If enabled, we try to load the preview image stored in the EXIF metadata (if there is one)
+            if(loadEmbeddedThumbnail) {
+
+                try {
+
+                    // First we access the metadata
+                    auto image  = Exiv2::ImageFactory::open(filename.toStdString());
+
+                    // Read the metadata
+                    safelyReadMetadata(&image);
+
+                    // Then we get a list of all the preview images stored in the metadata
+                    Exiv2::PreviewManager previewManager(*image);
+                    Exiv2::PreviewPropertiesList previewPropList = previewManager.getPreviewProperties();
+
+                    // These three variables are used to find the largest preview image
+                    QSize bestPreviewSize(0,0);
+                    int bestPreviewPos = -1;
+
+                    if(neededForThumbnails)
+                        bestPreviewSize = QSize(99999,99999);
+
+                    // We loop over each one (typically there are at most 2 or 3 only)
+                    for(int num = 0; num < previewPropList.size(); ++num) {
+
+                        // Get the current properties
+                        Exiv2::PreviewProperties prop = previewPropList[num];
+
+                        // If a thumbnail is to be loaded, we actually look for the smallest available preview
+                        if(neededForThumbnails && prop.width_ < bestPreviewSize.width() && prop.height_ < bestPreviewSize.height()) {
+                            bestPreviewSize = QSize(prop.width_, prop.height_);
+                            bestPreviewPos = num;
+                        // If we have one that is bigger than what we had before, save it
+                        } else if(!neededForThumbnails && prop.width_ > bestPreviewSize.width() && prop.height_ > bestPreviewSize.height()) {
+                            bestPreviewSize = QSize(prop.width_, prop.height_);
+                            bestPreviewPos = num;
+                        }
+
+                    }
+
+                    // Any image smaller than this can just as well be read from actual data
+                    // This also avoids the case when only tiny preview images are stored in exif data
+                    QSize minSizeForPreview(640,480);
+                    if(neededForThumbnails)
+                        minSizeForPreview = QSize(64, 64);
+
+                    // If we found any preview image:
+                    if(bestPreviewPos != -1) {
+
+                        // Load the preview image into a QByteArray
+                        Exiv2::PreviewImage previmg = previewManager.getPreviewImage(previewPropList[bestPreviewPos]);
+                        QByteArray data = QByteArray((const char*)previmg.pData(), previmg.size());
+
+                        // From the QByteArray we can load the image data
+                        QImage ret;
+                        if(ret.loadFromData(data) && !ret.isNull()) {
+
+                            // If preview image is not too small
+                            if(bestPreviewSize.width() >= minSizeForPreview.width() && bestPreviewSize.height() >= minSizeForPreview.height()) {
+
+                                // Scale if necessary
+                                if(maxSize.width() > 5 && maxSize.height() > 5 && (ret.width() > maxSize.width() || ret.height() > maxSize.height()))
+                                    return ret.scaled(maxSize, ::Qt::KeepAspectRatio, ::Qt::SmoothTransformation);
+
+                                // Return successfully loaded image!
+                                return ret;
+
+                            }
+
+                        }
+
+                    }
+
+                } catch (Exiv2::Error& e) {
+                    // Something went wrong. We let the user know but also continue on loading the file using libraw
+                    LOG << CURDATE << "PLoadImage::Raw::load() - ERROR loading preview thumbnail from exiv data (caught exception): " << e.what() << NL;
+                }
+
+            }
+
+#endif
+
+#ifdef RAW
 
             if(qgetenv("PHOTOQT_DEBUG") == "yes")
                 LOG << CURDATE << "LoadImageRaw: Load image using LibRaw: " << QFileInfo(filename).fileName().toStdString() << NL;
@@ -160,12 +268,13 @@ namespace PLoadImage {
 
             return image;
 
-    #else
+#else
             if(qgetenv("PHOTOQT_DEBUG") == "yes")
                 LOG << CURDATE << "LoadImageRaw: PhotoQt was compiled without LibRaw support, returning error image" << NL;
-    #endif
 
             return PLoadImage::ErrorImage::load("ERROR! PhotoQt was compiled without LibRaw support!");
+#endif
+
 
         }
 

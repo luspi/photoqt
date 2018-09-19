@@ -34,8 +34,8 @@ QVariantList ManagePeopleTags::getFaceTags(QString path) {
 
     Exiv2::Image::AutoPtr image;
     try {
-        image  = Exiv2::ImageFactory::open(path.toStdString());
-        image->readMetadata();
+        image = Exiv2::ImageFactory::open(path.toStdString());
+        safelyReadMetadata(&image);
     } catch (Exiv2::Error& e) {
         // An error code of 11 means image not supported. This is much more reliable than, e.g., checking a file ending
         if(e.code() != 11)
@@ -129,6 +129,24 @@ QVariantList ManagePeopleTags::getFaceTags(QString path) {
 
     // Done :)
     return ret;
+
+}
+
+// The metadata is needed at multiple different locations in the code.
+// At least up to v0.26, Exiv2 does not support reading metadata in parallel (causes crashes).
+// This function ensures that there is always only at most one call to readMetadata() at any time.
+void ManagePeopleTags::safelyReadMetadata(Exiv2::Image::AutoPtr *image) {
+
+    QLockFile lock(ConfigFiles::EXIV2_LOCK_FILE());
+
+    // After 2s we just go ahead, something might have gone wrong.
+    if(!lock.tryLock(2000))
+        LOG << CURDATE << "ManagePeopleTags::safelyReadMetadata(): WARNING: Unable to lock Exiv2::readMetadata(), potential cause for crash!" << NL;
+
+    (*image)->readMetadata();
+
+    // Free up access
+    lock.unlock();
 
 }
 

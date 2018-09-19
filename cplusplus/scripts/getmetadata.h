@@ -36,6 +36,8 @@
 #ifdef EXIV2
 #include <exiv2/image.hpp>
 #include <exiv2/exif.hpp>
+#include <QLockFile>
+#include <thread>
 #endif
 
 class GetMetaData : public QObject {
@@ -60,6 +62,8 @@ public:
 
 private:
     SlimSettingsReadOnly *settings;
+
+    void safelyReadMetadata(Exiv2::Image::AutoPtr *image);
 
 };
 

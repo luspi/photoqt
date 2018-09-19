@@ -63,6 +63,7 @@ public:
     bool metaGps;
     int pdfQuality;
     bool archiveUseExternalUnrar;
+    bool rawLoadEmbeddedThumbnail;
 
     void setDefault();
     void readSettings();
