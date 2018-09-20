@@ -20,65 +20,57 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef GETANDDOSTUFFOTHER_H
-#define GETANDDOSTUFFOTHER_H
+import QtQuick 2.5
 
-#include <QObject>
-#include <QMovie>
-#include <QFileInfo>
-#include <QSize>
-#include <QUrl>
-#include <QGuiApplication>
-#include <QCursor>
-#include <QScreen>
-#include <QColor>
-#include <QDir>
-#include <QTextStream>
-#include <QStandardPaths>
-#include <QtQml>
-#include <QColorDialog>
-#include "../../logger.h"
+import "../../../elements"
+import "../../"
 
-#include <QWindow>
+Entry {
 
-#ifdef GM
-#include <GraphicsMagick/Magick++.h>
-#endif
 
-class GetAndDoStuffOther : public QObject {
+    title: em.pty+qsTr("Hide Mouse Cursor")
+    helptext: em.pty+qsTr("A mouse cursor is nice and helpful, but sometimes it can simply be in the way of viewing your favourite photos. Thus, PhotoQt can automatically hide the mouse cursor after it hasn't been moved for some seconds. Here, this timeout can be set (in seconds). Setting a value of 0 disables this feature and keeps the mouse cursor always visible.")
 
-    Q_OBJECT
+    content: [
 
-public:
-    explicit GetAndDoStuffOther(QObject *parent = 0);
-    ~GetAndDoStuffOther();
+        CustomSlider {
 
-    QString convertRgbaToHex(int r, int g, int b, int a);
-    bool amIOnLinux();
-    bool amIOnWindows();
-    QString trim(QString s) { return s.trimmed(); }
-    int getCurrentScreen(int x, int y);
-    QString getTempDir();
-    QString getHomeDir();
-    QString getDesktopDir();
-    QString getPicturesDir();
-    QString getDownloadsDir();
-    bool isExivSupportEnabled();
-    bool isGraphicsMagickSupportEnabled();
-    bool isLibRawSupportEnabled();
-    bool isDevILSupportEnabled();
-    bool isFreeImageSupportEnabled();
-    bool isPopplerSupportEnabled();
-    QString getVersionString();
-    void storeGeometry(QRect rect);
-    QRect getStoredGeometry();
-    bool isImageAnimated(QString path);
-    QString convertIdIntoString(QObject *object);
-    QString selectColor(QString preselectColor);
-    void setBusyCursor(bool busy);
-    void hideCursor();
-    void showCursor();
+            id: timeoutSlider
 
-};
+            width: Math.min(200, Math.max(200, parent.width-timeoutSpinbox.width-50))
+            height: timeoutSpinbox.height
 
-#endif // GETANDDOSTUFFOTHER_H
+            minimumValue: 0
+            maximumValue: 20
+
+            stepSize: 1
+            scrollStep: 1
+
+        },
+
+        CustomSpinBox {
+
+            id: timeoutSpinbox
+
+            width: 75
+
+            minimumValue: 0
+            maximumValue: 20
+
+            value: timeoutSlider.value
+            onValueChanged: timeoutSlider.value = value
+            suffix: " s"
+
+        }
+
+    ]
+
+    function setData() {
+        timeoutSlider.value = settings.hideMouseCursorTimeout
+    }
+
+    function saveData() {
+        settings.hideMouseCursorTimeout = timeoutSlider.value
+    }
+
+}

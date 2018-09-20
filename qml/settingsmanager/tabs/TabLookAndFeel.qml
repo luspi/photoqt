@@ -96,6 +96,7 @@ Item {
             TransparencyMarker { id: transparency }
             HotEdge { id: hotedge }
             MouseWheelSensitivity { id: mousewheel }
+            HideMouseCursorTimeout { id: hidemousecursortimeout }
             ZoomSpeed { id: zoomspeed }
             Interpolation { id: interpolation }
             PixmapCache { id: pixmapcache }
@@ -126,6 +127,7 @@ Item {
         transparency.setData()
         hotedge.setData()
         mousewheel.setData()
+        hidemousecursortimeout.setData()
         zoomspeed.setData()
         interpolation.setData()
         pixmapcache.setData()
@@ -155,6 +157,7 @@ Item {
         transparency.saveData()
         hotedge.saveData()
         mousewheel.saveData()
+        hidemousecursortimeout.saveData()
         zoomspeed.saveData()
         interpolation.saveData()
         pixmapcache.saveData()

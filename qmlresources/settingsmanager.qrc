@@ -27,6 +27,7 @@
         <file>../qml/settingsmanager/tabs/lookandfeel/Animation.qml</file>
         <file>../qml/settingsmanager/tabs/lookandfeel/QuickInfoManageWindow.qml</file>
         <file>../qml/settingsmanager/tabs/lookandfeel/ZoomSpeed.qml</file>
+        <file>../qml/settingsmanager/tabs/lookandfeel/HideMouseCursorTimeout.qml</file>
         <file>../qml/settingsmanager/tabs/TabThumbnails.qml</file>
         <file>../qml/settingsmanager/tabs/thumbnails/ThumbnailSize.qml</file>
         <file>../qml/settingsmanager/tabs/thumbnails/Spacing.qml</file>

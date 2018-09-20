@@ -43,7 +43,7 @@ SET(photoqt_QML ${photoqt_QML} ${d}/SortBy.qml ${d}/WindowMode.qml ${d}/TrayIcon
 SET(photoqt_QML ${photoqt_QML} ${d}/Background.qml ${d}/OverlayColor.qml ${d}/BorderAroundImage.qml ${d}/CloseOnClick.qml ${d}/Loop.qml)
 SET(photoqt_QML ${photoqt_QML} ${d}/Transition.qml ${d}/TransparencyMarker.qml ${d}/HotEdge.qml ${d}/MouseWheelSensitivity.qml)
 SET(photoqt_QML ${photoqt_QML} ${d}/Interpolation.qml ${d}/PixmapCache.qml ${d}/ReOpenFile.qml ${d}/Keep.qml ${d}/Animation.qml)
-SET(photoqt_QML ${photoqt_QML} ${d}/QuickInfoManageWindow.qml ${d}/ZoomSpeed.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/QuickInfoManageWindow.qml ${d}/ZoomSpeed.qml ${d}/HideMouseCursorTimeout.qml)
 
 SET(d "qml/settingsmanager/tabs/thumbnails")
 SET(photoqt_QML ${photoqt_QML} ${d}/ThumbnailSize.qml ${d}/Spacing.qml ${d}/LiftUp.qml ${d}/KeepVisible.qml ${d}/CenterOn.qml ${d}/TopOrBottom.qml)

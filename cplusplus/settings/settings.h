@@ -108,6 +108,7 @@ private:
     bool    m_leftButtonMouseClickAndMove;
     int     m_zoomSpeed;
     bool    m_rawLoadEmbeddedThumbnail;
+    int     m_hideMouseCursorTimeout;
 
     bool    m_pdfSingleDocument;
     int     m_pdfQuality;
@@ -588,6 +589,16 @@ public:
     void setRawLoadEmbeddedThumbnail(bool val) { if(val != m_rawLoadEmbeddedThumbnail) { m_rawLoadEmbeddedThumbnail = val;
                                                                                          emit rawLoadEmbeddedThumbnailChanged(val);
                                                                                          saveSettingsTimer->start(); } }
+
+    // hideMouseCursorTimeout
+    Q_PROPERTY(int    hideMouseCursorTimeout
+               READ   getHideMouseCursorTimeout
+               WRITE  setHideMouseCursorTimeout
+               NOTIFY hideMouseCursorTimeoutChanged)
+    int  getHideMouseCursorTimeout() { return m_hideMouseCursorTimeout; }
+    void setHideMouseCursorTimeout(int val) { if(val != m_hideMouseCursorTimeout) { m_hideMouseCursorTimeout = val;
+                                                                                    emit hideMouseCursorTimeoutChanged(val);
+                                                                                    saveSettingsTimer->start(); } }
 
 
 
@@ -1522,6 +1533,7 @@ signals:
     void archiveUseExternalUnrarChanged(bool val);
     void zoomSpeedChanged(int val);
     void rawLoadEmbeddedThumbnailChanged(bool val);
+    void hideMouseCursorTimeoutChanged(int val);
 
     void quickInfoHideCounterChanged(bool val);
     void quickInfoHideFilepathChanged(bool val);

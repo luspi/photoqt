@@ -124,6 +124,7 @@ void Settings::setDefault() {
     setArchiveSingleFile(true);
     setZoomSpeed(20);
     setRawLoadEmbeddedThumbnail(true);
+    setHideMouseCursorTimeout(1);
 
 #ifdef Q_OS_LINUX
     // We assume here that it is available (checking would be rather slow)
@@ -298,6 +299,7 @@ void Settings::saveSettings() {
         cont += QString("LeftButtonMouseClickAndMove=%1\n").arg(int(m_leftButtonMouseClickAndMove));
         cont += QString("ZoomSpeed=%1\n").arg(m_zoomSpeed);
         cont += QString("RawLoadEmbeddedThumbnail=%1\n").arg(int(m_rawLoadEmbeddedThumbnail));
+        cont += QString("HideMouseCursorTimeout=%1\n").arg(m_hideMouseCursorTimeout);
         cont += QString("PdfSingleDocument=%1\n").arg(int(m_pdfSingleDocument));
         cont += QString("PdfQuality=%1\n").arg(m_pdfQuality);
         cont += QString("ArchiveSingleFile=%1\n").arg(int(m_archiveSingleFile));
@@ -561,6 +563,9 @@ void Settings::readSettings() {
 
             else if(line.startsWith("RawLoadEmbeddedThumbnail="))
                 setRawLoadEmbeddedThumbnail(line.split("RawLoadEmbeddedThumbnail=").at(1).toInt());
+
+            else if(line.startsWith("HideMouseCursorTimeout="))
+                setHideMouseCursorTimeout(line.split("HideMouseCursorTimeout=").at(1).toInt());
 
 
             else if(line.startsWith("QuickInfoHideCounter="))

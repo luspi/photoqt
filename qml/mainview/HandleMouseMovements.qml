@@ -97,6 +97,10 @@ PinchArea {
 
         function handleMousePositionChange(xPos, yPos) {
 
+            // every time the mouse is moved, we ensure the cursor is shown and restart the timer to hide it
+            getanddostuff.showCursor()
+            hideMouseCursorAfterTimeout.restart()
+
             if(pressedPosStart.x !== -1 || pressedPosStart.y !== -1) {
                 var before = variables.shorcutsMouseGesturePointIntermediate
                 if(variables.shorcutsMouseGesturePointIntermediate.x === -1 || variables.shorcutsMouseGesturePointIntermediate.y === -1)
@@ -140,6 +144,18 @@ PinchArea {
 
         }
 
+    }
+
+    // This handles the feature to hide the mouse cursor after a set timeout.
+    // The timeout can be adjusted by the user, a value of 0 disables this.
+    Timer {
+        id: hideMouseCursorAfterTimeout
+        interval: settings.hideMouseCursorTimeout*1000
+        repeat: false
+        onTriggered: {
+            if(settings.hideMouseCursorTimeout > 0)
+                getanddostuff.hideCursor()
+        }
     }
 
 }
