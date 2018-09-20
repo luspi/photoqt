@@ -24,7 +24,6 @@
 #define GETANDDOSTUFFCONTEXT_H
 
 #include "../../logger.h"
-#include <iostream>
 #include <QObject>
 #include <QStringList>
 #include <QFile>
@@ -40,7 +39,7 @@ class GetAndDoStuffContext : public QObject {
     Q_OBJECT
 
 public:
-    explicit GetAndDoStuffContext(QObject *parent = 0);
+    explicit GetAndDoStuffContext(QObject *parent = nullptr);
     ~GetAndDoStuffContext();
 
     QStringList getDefaultContextMenuEntries();

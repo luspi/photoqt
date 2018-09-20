@@ -27,13 +27,13 @@ GetAndDoStuffFile::~GetAndDoStuffFile() { }
 
 QString GetAndDoStuffFile::getFilenameQtImage() {
 
-    return QFileDialog::getOpenFileName(0,tr("Please select image file"),QDir::homePath());
+    return QFileDialog::getOpenFileName(nullptr,tr("Please select image file"),QDir::homePath());
 
 }
 
 QString GetAndDoStuffFile::getFilename(QString caption, QString dir, QString filter) {
 
-    return QFileDialog::getOpenFileName(0, caption, dir, filter);
+    return QFileDialog::getOpenFileName(nullptr, caption, dir, filter);
 
 }
 
@@ -108,7 +108,7 @@ QString GetAndDoStuffFile::getIconPathFromTheme(QString binary) {
 
 QString GetAndDoStuffFile::getSaveFilename(QString caption, QString file) {
 
-    return QFileDialog::getSaveFileName(0, caption, file);
+    return QFileDialog::getSaveFileName(nullptr, caption, file);
 
 }
 

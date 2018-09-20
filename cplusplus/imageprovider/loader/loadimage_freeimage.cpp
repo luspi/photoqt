@@ -98,10 +98,12 @@ QImage PLoadImage::FreeImage(QString filename, QSize maxSize) {
     // return full image
     return img;
 
-#endif
+#else
 
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE << "LoadImageFreeImage: PhotoQt was compiled without FreeImage support, returning error image" << NL;
     return PErrorImage::load("Failed to load image, FreeImage not supported by this build of PhotoQt!");
+
+#endif
 
 }

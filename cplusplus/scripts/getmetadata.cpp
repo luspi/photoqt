@@ -291,7 +291,7 @@ QString GetMetaData::exifExposureTime(QString value) {
         double t2 = split.at(1).split(" ").at(0).toDouble();
         // I got a bug report of PhotoQt crashing for certain images that have an exposure time
         // of "1/0". So we have to check for it, or we get a division by zero, i.e., crash
-        if(t1 == 0 || t2 == 0) {
+        if(t1 == 0 || ISZERO(t2)) {
             t1 = 0;
             t2 = 0;
             value = "0";
@@ -317,8 +317,8 @@ QString GetMetaData::exifFNumberFLength(QString value) {
 
     if(value.contains("/")) {
         QStringList split = value.split("/");
-        float t1 = split.at(0).toFloat();
-        float t2 = split.at(1).toFloat();
+        double t1 = split.at(0).toDouble();
+        double t2 = split.at(1).toDouble();
         t1 = t1/t2;
         value = QString("%1").arg(t1);
     }
@@ -351,13 +351,13 @@ QStringList GetMetaData::exifGps(QString gpsLonRef, QString gpsLon, QString gpsL
     // Some photos have the GPS minutes stored as decimal. That needs to be converted into:
     // - Integer value for minute
     // - Decimal value *60 for seconds
-    // This float holds the decimal value (if any)
-    float calcSecs = 0;
+    // This double holds the decimal value (if any)
+    double calcSecs = 0;
     for(int i = 0; i < split.length(); ++i) {
         if(split.at(i).contains("/")) {
-            float t1 = split.at(i).split("/").at(0).toFloat();
-            float t2 = split.at(i).split("/").at(1).toFloat();
-            float division = t1/t2;
+            double t1 = split.at(i).split("/").at(0).toDouble();
+            double t2 = split.at(i).split("/").at(1).toDouble();
+            double division = t1/t2;
             // If there's a decimal value...
             if(i == 1 && t2 > 1) {
                 calcSecs = division-int(division);
@@ -370,7 +370,7 @@ QStringList GetMetaData::exifGps(QString gpsLonRef, QString gpsLon, QString gpsL
     }
     // And calculate seconds and set them into third position
     if(calcSecs > 0 && split.length() >= 3)
-        split.replace(2,QString::number(split.at(2).toFloat()+calcSecs*60));
+        split.replace(2,QString::number(split.at(2).toDouble()+calcSecs*60));
 
     if(split.length() == 3)
         gpsLat = split.at(0) + "°" + split.at(1) + "'" + split.at(2) + "''";
@@ -379,29 +379,29 @@ QStringList GetMetaData::exifGps(QString gpsLonRef, QString gpsLon, QString gpsL
     else if(split.length() == 1)
         gpsLat = split.at(0) + "°0'0''";
 
-    float secL = 0;
+    double secL = 0;
     if(split.length() == 3)
-        secL = ((split.at(1).toFloat()*60+split.at(2).toFloat())/3600.0);
+        secL = ((split.at(1).toDouble()*60+split.at(2).toDouble())/3600.0);
     else if(split.length() == 2)
-        secL = ((split.at(1).toFloat()*60)/3600.0);
+        secL = ((split.at(1).toDouble()*60)/3600.0);
 
-    float left = split.at(0).toFloat() + secL;
+    double left = split.at(0).toDouble() + secL;
     if(gpsLatRef == "S") left *= -1;
 
 
     // Format the longitude string
     split = gpsLon.split(" ");
-    // See above for this float's role
+    // See above for this double's role
     calcSecs = 0;
     for(int i = 0; i < split.length(); ++i) {
         if(split.at(i).contains("/")) {
-            float t1 = split.at(i).split("/").at(0).toFloat();
-            float t2 = split.at(i).split("/").at(1).toFloat();
-            float division = t1/t2;
+            double t1 = split.at(i).split("/").at(0).toDouble();
+            double t2 = split.at(i).split("/").at(1).toDouble();
+            double division = t1/t2;
             // If there's a decimal value...
             if(i == 1 && t2 > 1) {
-                calcSecs = division-int(division);
-                division = int(division);
+                calcSecs = division-static_cast<int>(division);
+                division = static_cast<int>(division);
             }
             split.replace(i,QString("%1").arg(division));
         } else if(split.at(i) == "")
@@ -409,7 +409,7 @@ QStringList GetMetaData::exifGps(QString gpsLonRef, QString gpsLon, QString gpsL
     }
     // And calculate seconds and set them into third position
     if(calcSecs > 0 && split.length() > 2)
-        split.replace(2,QString::number(split.at(2).toFloat()+calcSecs*60));
+        split.replace(2,QString::number(split.at(2).toDouble()+calcSecs*60));
 
     if(split.length() == 3)
         gpsLon = split.at(0) + "°" + split.at(1) + "'" + split.at(2) + "''";
@@ -418,13 +418,13 @@ QStringList GetMetaData::exifGps(QString gpsLonRef, QString gpsLon, QString gpsL
     else if(split.length() == 1)
         gpsLon = split.at(0) + "°0'0''";
 
-    float secR = 0;
+    double secR = 0;
     if(split.length() == 3)
-        secR = ((split.at(1).toFloat()*60+split.at(2).toFloat())/3600.0);
+        secR = ((split.at(1).toDouble()*60+split.at(2).toDouble())/3600.0);
     else if(split.length() == 2)
-        secR = ((split.at(1).toFloat()*60)/3600.0);
+        secR = ((split.at(1).toDouble()*60)/3600.0);
 
-    float right = split.at(0).toFloat() + secR;
+    double right = split.at(0).toDouble() + secR;
     if(gpsLonRef == "W") right *= -1;
 
     QString value = gpsLat + " " + gpsLatRef + ", " + gpsLon + " " + gpsLonRef;

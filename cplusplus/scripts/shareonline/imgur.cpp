@@ -47,7 +47,7 @@ ShareOnline::Imgur::Imgur(QObject *parent) : QObject(parent) {
     dir.mkpath(info.absolutePath());
 
     // An encryption handler to encrypt sensitive user data. If the macro SIMPLECRYPTKEY doesn't exist, we use simply use a random pre-defined number
-    int key = QString(SIMPLECRYPTKEY).toInt();
+    quint64 key = QString(SIMPLECRYPTKEY).toULongLong();
     if(key == 0) key = 63871234;
     crypt = SimpleCrypt(key);
 
@@ -434,7 +434,7 @@ void ShareOnline::Imgur::uploadProgress(qint64 bytesSent, qint64 bytesTotal) {
         return;
 
     // Compute and emit progress, between 0 and 1
-    double progress = (double)bytesSent/(double)bytesTotal;
+    double progress = bytesSent/static_cast<double>(bytesTotal);
     emit imgurUploadProgress(progress);
 
 }
@@ -443,7 +443,7 @@ void ShareOnline::Imgur::uploadProgress(qint64 bytesSent, qint64 bytesTotal) {
 void ShareOnline::Imgur::uploadError(QNetworkReply::NetworkError err) {
 
     // Access sender object and delete it
-    QNetworkReply *reply = (QNetworkReply*)(sender());
+    QNetworkReply *reply = reinterpret_cast<QNetworkReply*>(sender());
     reply->deleteLater();
 
     // This is an error, but caused by the user (by calling abort())
@@ -461,7 +461,7 @@ void ShareOnline::Imgur::uploadError(QNetworkReply::NetworkError err) {
 void ShareOnline::Imgur::uploadFinished() {
 
     // The sending network reply
-    QNetworkReply *reply = (QNetworkReply*)(sender());
+    QNetworkReply *reply = reinterpret_cast<QNetworkReply*>(sender());
 
     // The reply is not open when operation was aborted
     if(!reply->isOpen()) {

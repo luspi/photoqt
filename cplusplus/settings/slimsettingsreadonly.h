@@ -37,7 +37,7 @@ class SlimSettingsReadOnly : public QObject {
     Q_OBJECT
 
 public:
-    SlimSettingsReadOnly(QObject *parent = 0);
+    SlimSettingsReadOnly(QObject *parent = nullptr);
 
     int pixmapCache;
     bool thumbnailCache;

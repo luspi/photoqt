@@ -62,7 +62,7 @@ public:
            IMGUR_NOT_CONNECTED_TO_INET,
            IMGUR_OTHER_ERROR};
 
-    explicit Imgur(QObject *parent = 0);
+    explicit Imgur(QObject *parent = nullptr);
     ~Imgur();
 
     // three public upload function

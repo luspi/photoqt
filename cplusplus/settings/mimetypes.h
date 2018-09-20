@@ -17,7 +17,7 @@ class MimeTypes : public QObject {
     Q_OBJECT
 
 public:
-    explicit MimeTypes(QObject *parent = 0);
+    explicit MimeTypes(QObject *parent = nullptr);
 
     // All possibly available mime types for the various categories
     Q_INVOKABLE QVariantList getAvailableMimeTypesQt() {

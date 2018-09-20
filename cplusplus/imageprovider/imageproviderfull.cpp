@@ -276,9 +276,9 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
     // If the image was found, we default to GraphicsMagick if enabled, and otherwise to the Qt image plugins
 #ifdef GM
     return "gm";
-#endif
-
+#else
     return "qt";
+#endif
 
 }
 

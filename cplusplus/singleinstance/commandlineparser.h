@@ -43,10 +43,12 @@ public:
 private:
 
     // Show the help message and quit
-    void showHelp();
+    // It is marked as 'noreturn' as it causes PhotoQt to quit
+    [[ noreturn ]] void showHelp();
 
-    // When an error was detected, display error and quit
-    void showError(QString err);
+    // Display a detected error
+    // It is marked as 'noreturn' as it causes PhotoQt to quit
+    [[ noreturn ]] void showError(QString err);
 
     // Process the command line
     void process(QCoreApplication *app);

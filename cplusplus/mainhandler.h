@@ -65,7 +65,7 @@ class MainHandler : public QQuickView {
 
 public:
 
-    MainHandler(QWindow *parent = 0);
+    MainHandler(QWindow *parent = nullptr);
 
     void setObjectAndConnect();
     int performSomeStartupChecks();

@@ -188,10 +188,10 @@ void CommandLineParser::process(QCoreApplication *app) {
     QStringList args = app->arguments();
 
     // If help flag is set, show help and quit
-    if(args.contains("-h") || args.contains("--help")) {
+    if(args.contains("-h") || args.contains("--help"))
+        // This function is marked as 'noreturn' and will never return control flow.
+        // Thus it does not need to be followed by a 'return' as it already stops and quits the application
         showHelp();
-        return;
-    }
 
     // Set the found filename to empty
     foundFilename = "";
@@ -209,10 +209,10 @@ void CommandLineParser::process(QCoreApplication *app) {
             if(foundFilename.trimmed() == "")
                 foundFilename = a;
             // Else show error as only one filename is allowed
-            else {
+            else
+                // This function is marked as 'noreturn' and will never return control flow.
+                // Thus it does not need to be followed by a 'return' as it already stops and quits the application
                 showError("Only one filename can be passed on!");
-                return;
-            }
 
         // 'Normal' flags
         } else {
@@ -222,18 +222,19 @@ void CommandLineParser::process(QCoreApplication *app) {
                 a = a.remove(0,1);
 
             // If option is not a valid one, show error and quit
-            if(!validOptions.contains(a)) {
+            if(!validOptions.contains(a))
+                // This function is marked as 'noreturn' and will never return control flow.
+                // Thus it does not need to be followed by a 'return' as it already stops and quits the application
                 showError("Unknown option '" + a + "'.");
-                return;
-            }
 
             // If option comes with a value
             if(optionsWithValue.contains(a)) {
 
                 // If no value was provided, show error and quit
                 if(i == args.length()-1 || args.at(i+1).startsWith("-")) {
+                    // This function is marked as 'noreturn' and will never return control flow.
+                    // Thus it does not need to be followed by a 'return' as it already stops and quits the application
                     showError("Filename required for option '" + a + "'.");
-                    return;
                 // Store value
                 } else {
                     foundValues.insert(a, args.at(++i));

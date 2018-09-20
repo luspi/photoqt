@@ -24,6 +24,9 @@
 #define REPLYTIMEOUT_H
 
 #include <QObject>
+#include <QBasicTimer>
+#include <QNetworkReply>
+#include <QTimerEvent>
 
 class ReplyTimeout : public QObject {
     Q_OBJECT

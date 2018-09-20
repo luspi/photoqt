@@ -39,7 +39,7 @@ class GetAndDoStuff : public QObject {
     Q_OBJECT
 
 public:
-     explicit GetAndDoStuff(QObject *parent = 0) : QObject(parent) {
+     explicit GetAndDoStuff(QObject *parent = nullptr) : QObject(parent) {
 
         context = new GetAndDoStuffContext;
         external = new GetAndDoStuffExternal;

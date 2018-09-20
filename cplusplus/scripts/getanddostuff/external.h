@@ -45,7 +45,7 @@ class GetAndDoStuffExternal : public QObject {
     Q_OBJECT
 
 public:
-    explicit GetAndDoStuffExternal(QObject *parent = 0);
+    explicit GetAndDoStuffExternal(QObject *parent = nullptr);
     ~GetAndDoStuffExternal();
 
     void executeApp(QString exec, QString fname);

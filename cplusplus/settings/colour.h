@@ -35,7 +35,7 @@ class Colour : public QObject {
     Q_OBJECT
 
 public:
-    explicit Colour(QObject *parent = 0);
+    explicit Colour(QObject *parent = nullptr);
 
     Q_PROPERTY(QString bg_label MEMBER bg_label NOTIFY bg_labelChanged)
 

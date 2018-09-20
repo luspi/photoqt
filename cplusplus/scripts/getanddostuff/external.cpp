@@ -67,7 +67,7 @@ QString GetAndDoStuffExternal::exportConfig(QString useThisFilename) {
     // Obtain a filename from the user or used passed on filename
     QString archiveFile;
     if(useThisFilename == "") {
-        archiveFile = QFileDialog::getSaveFileName(0,
+        archiveFile = QFileDialog::getSaveFileName(nullptr,
                                                    "Select Location",
                                                    QDir::homePath() + "/photoqtconfig.pqt",
                                                    "PhotoQt Config File (*.pqt);;All Files (*.*)");
@@ -126,7 +126,7 @@ QString GetAndDoStuffExternal::exportConfig(QString useThisFilename) {
                 archive_write_header(a, entry);
 
                 // write config data to compressed file
-                archive_write_data(a, configtxt, config.size());
+                archive_write_data(a, configtxt, static_cast<size_t>(config.size()));
 
                 // Clean up memory
                 archive_entry_free(entry);
@@ -187,14 +187,14 @@ QString GetAndDoStuffExternal::importConfig(QString filename) {
         if(allfiles.contains(filenameinside)) {
 
             // Find out the size of the data
-            size_t size = archive_entry_size(entry);
+            int64_t size = archive_entry_size(entry);
 
             // Create a uchar buffer of that size to hold the data
             uchar *buff = new uchar[size+1];
 
             // And finally read the file into the buffer
-            int r = archive_read_data(a, (void*)buff, size);
-            if(r != (int)size) {
+            int64_t r = archive_read_data(a, reinterpret_cast<void*>(buff), static_cast<size_t>(size));
+            if(r != size) {
                 LOG << CURDATE << "GetAndDoStuffExternal::importConfig(): ERROR: Unable to extract file '" <<
                        allfiles[filenameinside].toStdString() << "'... Skipping file!" << NL;
                 qDebug() << "ERROR string: " << archive_error_string(a);
@@ -256,7 +256,7 @@ bool GetAndDoStuffExternal::checkIfConnectedToInternet() {
 
     // a reg exp to validate an ip address
     QRegExp ipRegExp( "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}" );
-    QRegExpValidator ipRegExpValidator(ipRegExp, 0);
+    QRegExpValidator ipRegExpValidator(ipRegExp, nullptr);
 
     // loop over all network interfaces
     for(int i = 0; i < ifaces.count(); i++) {

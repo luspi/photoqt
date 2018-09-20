@@ -50,7 +50,7 @@ class GetAndDoStuffOther : public QObject {
     Q_OBJECT
 
 public:
-    explicit GetAndDoStuffOther(QObject *parent = 0);
+    explicit GetAndDoStuffOther(QObject *parent = nullptr);
     ~GetAndDoStuffOther();
 
     QString convertRgbaToHex(int r, int g, int b, int a);

@@ -36,7 +36,7 @@ class Shortcuts : public QObject {
     Q_OBJECT
 
 public:
-    Shortcuts(QObject *parent = 0);
+    Shortcuts(QObject *parent = nullptr);
     Q_INVOKABLE QVariantList load();
     Q_INVOKABLE QVariantList loadDefaults();
     Q_INVOKABLE void saveShortcuts(QVariantList data);

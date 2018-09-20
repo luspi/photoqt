@@ -33,7 +33,7 @@ class ToolTip : public QObject {
     Q_OBJECT
 
 public:
-    ToolTip(QObject *parent = 0);
+    ToolTip(QObject *parent = nullptr);
 
     Q_INVOKABLE void showText(QQuickItem *item, const QPointF &pos, const QString &text);
     Q_INVOKABLE void hideText();

@@ -35,7 +35,7 @@ class Watcher : public QObject {
     Q_OBJECT
 
 public:
-    Watcher(QObject *parent = 0) : QObject(parent) {
+    Watcher(QObject *parent = nullptr) : QObject(parent) {
 
         notifyAboutImageChange = new QTimer;
         notifyAboutImageChange->setInterval(1000);
@@ -194,7 +194,7 @@ private slots:
         }
     }
     QByteArray formStorageInfoHash() {
-        QByteArray fullhash = 0;
+        QByteArray fullhash = "";
         for(QStorageInfo s : QStorageInfo::mountedVolumes()) {
             if(s.isValid()) {
 

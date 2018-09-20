@@ -40,7 +40,7 @@ class ManagePeopleTags : public QObject {
     Q_OBJECT
 
 public:
-    explicit ManagePeopleTags(QObject *parent = 0);
+    explicit ManagePeopleTags(QObject *parent = nullptr);
     ~ManagePeopleTags();
 
     Q_INVOKABLE QVariantList getFaceTags(QString path);

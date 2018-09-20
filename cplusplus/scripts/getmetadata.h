@@ -32,6 +32,7 @@
 
 #include "../settings/slimsettingsreadonly.h"
 #include "../logger.h"
+#include "../utilities.h"
 
 #ifdef EXIV2
 #include <exiv2/image.hpp>
@@ -45,7 +46,7 @@ class GetMetaData : public QObject {
     Q_OBJECT
 
 public:
-    explicit GetMetaData(QObject *parent = 0);
+    explicit GetMetaData(QObject *parent = nullptr);
     ~GetMetaData();
 
     Q_INVOKABLE QVariantMap getExiv2(QString path);

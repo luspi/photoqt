@@ -162,7 +162,7 @@ void ManagePeopleTags::setFaceTags(QString filename, QVariantList tags) {
         // Open image for exif reading
         Exiv2::Image::AutoPtr xmpImage = Exiv2::ImageFactory::open(filename.toStdString());
 
-        if(xmpImage.get() != 0) {
+        if(xmpImage.get() != nullptr) {
 
             // read exif
             xmpImage->readMetadata();

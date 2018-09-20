@@ -14,7 +14,7 @@
 class GetAndDoStuffListFiles : public QObject {
 
 public:
-    GetAndDoStuffListFiles(QObject *parent = 0);
+    GetAndDoStuffListFiles(QObject *parent = nullptr);
     ~GetAndDoStuffListFiles();
 
     QVariantList getAllFilesIn(QString file, QString categoryFileTypes, QString filter, bool showHidden, QString sortby, bool sortbyAscending,
@@ -26,7 +26,7 @@ public:
 private:
     ImageFormats *imageformats;
     MimeTypes *mimetypes;
-    QFileInfoList *getEntryList(QString file, QString categoryFileTypes, bool showHidden, bool loadSinglePdf, bool loadSingleArchive);
+    QFileInfoList *getEntryList(QString file, QString categoryFileTypes, bool showHidden);
 
     void loadAllPdfPages(QFileInfo l, QVariantList *list, bool prependFilenameAndPagenumberForSorting);
     bool loadOnlyPdfPages(QString file, QVariantList *list, bool prependFilenameAndPagenumberForSorting);

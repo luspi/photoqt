@@ -79,7 +79,7 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
     //
     // The fourth and fifth parameter below controls whether pdf/archive files are supposed to be included in the general list or not
     // In the element for opening files they should be listed, otherwise it depends on the settings
-    QFileInfoList *list = getEntryList(file, categoryFileTypes, showHidden, !includeSize&&loadSinglePdf, !includeSize&&loadSingleArchive);
+    QFileInfoList *list = getEntryList(file, categoryFileTypes, showHidden);
 
     QVariantList ret;
 
@@ -317,7 +317,7 @@ bool GetAndDoStuffListFiles::loadOnlyPdfPages(QString file, QVariantList *list, 
     return false;
 }
 
-QFileInfoList *GetAndDoStuffListFiles::getEntryList(QString file, QString categoryFileTypes, bool showHidden, bool loadSinglePdf, bool loadSingleArchive) {
+QFileInfoList *GetAndDoStuffListFiles::getEntryList(QString file, QString categoryFileTypes, bool showHidden) {
 
     QFileInfo info(file);
 

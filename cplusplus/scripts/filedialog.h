@@ -31,7 +31,7 @@ class FileDialog : public QObject {
     Q_OBJECT
 
 public:
-    explicit FileDialog(QObject *parent = 0) : QObject(parent) {
+    explicit FileDialog(QObject *parent = nullptr) : QObject(parent) {
         filedialog = nullptr;
     }
 

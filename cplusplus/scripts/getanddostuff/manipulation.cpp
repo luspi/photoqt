@@ -96,7 +96,7 @@ bool GetAndDoStuffManipulation::scaleImage(QString filename, int width, int heig
             // Open image for exif reading
             Exiv2::Image::AutoPtr image_read = Exiv2::ImageFactory::open(filename.toStdString());
 
-            if(image_read.get() != 0) {
+            if(image_read.get() != nullptr) {
 
                 // YAY, WE FOUND SOME!!!!!
                 gotExifData = true;
@@ -132,7 +132,7 @@ bool GetAndDoStuffManipulation::scaleImage(QString filename, int width, int heig
     QImageReader reader(filename);
     reader.setScaledSize(QSize(width,height));
     QImage img = reader.read();
-    if(!img.save(newfilename,0,quality)) {
+    if(!img.save(newfilename,nullptr,quality)) {
         std::cerr << "ERROR [scale]: Unable to save file";
         return false;
     }

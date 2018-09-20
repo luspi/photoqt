@@ -35,7 +35,7 @@ class ThumbnailManagement : public QObject {
     Q_OBJECT
 
 public:
-    ThumbnailManagement(QObject *parent = 0);
+    ThumbnailManagement(QObject *parent = nullptr);
 
     Q_INVOKABLE qint64 getDatabaseFilesize();
 

@@ -17,7 +17,7 @@ class ImageFormats : public QObject {
     Q_OBJECT
 
 public:
-    ImageFormats(QObject *parent = 0);
+    ImageFormats(QObject *parent = nullptr);
 
     void setEnabledFileformats(QString cat, QStringList val, bool withSaving = true);
 

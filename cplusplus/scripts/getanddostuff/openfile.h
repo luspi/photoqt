@@ -29,7 +29,6 @@
 #include <QIcon>
 #include <QXmlStreamWriter>
 #include <QUrl>
-#include <thread>
 #include <QCollator>
 #include "../../logger.h"
 #include "../../settings/imageformats.h"
@@ -43,7 +42,7 @@ class GetAndDoStuffOpenFile : public QObject {
     Q_OBJECT
 
 public:
-    explicit GetAndDoStuffOpenFile(QObject *parent = 0);
+    explicit GetAndDoStuffOpenFile(QObject *parent = nullptr);
     ~GetAndDoStuffOpenFile();
 
     int getNumberFilesInFolder(QString path, QString categoryFileTypes);

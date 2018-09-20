@@ -23,8 +23,6 @@
 #ifndef GETANDDOSTUFFMANIPLULATION_H
 #define GETANDDOSTUFFMANIPLULATION_H
 
-#include <unistd.h>
-#include <iostream>
 #include <QObject>
 #include <QStringList>
 #include <QFileInfo>
@@ -47,7 +45,7 @@ class GetAndDoStuffManipulation : public QObject {
     Q_OBJECT
 
 public:
-    explicit GetAndDoStuffManipulation(QObject *parent = 0);
+    explicit GetAndDoStuffManipulation(QObject *parent = nullptr);
     ~GetAndDoStuffManipulation();
 
     bool canBeScaled(QString filename);

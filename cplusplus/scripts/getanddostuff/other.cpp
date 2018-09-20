@@ -104,43 +104,49 @@ QString GetAndDoStuffOther::getDownloadsDir() {
 bool GetAndDoStuffOther::isExivSupportEnabled() {
 #ifdef EXIV2
     return true;
-#endif
+#else
     return false;
+#endif
 }
 
 bool GetAndDoStuffOther::isGraphicsMagickSupportEnabled() {
 #ifdef GM
     return true;
-#endif
+#else
     return false;
+#endif
 }
 
 bool GetAndDoStuffOther::isLibRawSupportEnabled() {
 #ifdef RAW
     return true;
-#endif
+#else
     return false;
+#endif
 }
 
 bool GetAndDoStuffOther::isDevILSupportEnabled() {
 #ifdef DEVIL
     return true;
-#endif
+#else
     return false;
+#endif
 }
 
 bool GetAndDoStuffOther::isFreeImageSupportEnabled() {
 #ifdef FREEIMAGE
     return true;
-#endif
+#else
     return false;
+#endif
 }
 
 bool GetAndDoStuffOther::isPopplerSupportEnabled() {
 #ifdef POPPLER
     return true;
-#endif
+#else
     return false;
+#endif
 }
 
 QString GetAndDoStuffOther::getVersionString() {

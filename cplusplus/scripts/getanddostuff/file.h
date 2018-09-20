@@ -36,7 +36,7 @@ class GetAndDoStuffFile : public QObject {
     Q_OBJECT
 
 public:
-    explicit GetAndDoStuffFile(QObject *parent = 0);
+    explicit GetAndDoStuffFile(QObject *parent = nullptr);
     ~GetAndDoStuffFile();
 
     QString removePathFromFilename(QString path, bool removeSuffix = false);

@@ -23,7 +23,6 @@
 #ifndef GETANDDOSTUFFWALLPAPER_H
 #define GETANDDOSTUFFWALLPAPER_H
 
-#include <iostream>
 #include <QObject>
 #include <QVariantMap>
 #include <QProcess>
@@ -36,7 +35,7 @@ class GetAndDoStuffWallpaper : public QObject {
     Q_OBJECT
 
 public:
-    explicit GetAndDoStuffWallpaper(QObject *parent = 0);
+    explicit GetAndDoStuffWallpaper(QObject *parent = nullptr);
     ~GetAndDoStuffWallpaper();
 
     QString detectWindowManager();

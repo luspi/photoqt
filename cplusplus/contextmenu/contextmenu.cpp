@@ -88,7 +88,7 @@ ContextMenu::~ContextMenu() {
 
 // add a new item to the menu
 void ContextMenu::addItem(QString text, bool bold) {
-    QAction *ac = new QAction(text, 0);
+    QAction *ac = new QAction(text, nullptr);
     if(bold) {
         QFont font = ac->font();
         font.setBold(true);
@@ -140,7 +140,7 @@ bool ContextMenu::isChecked(int index) {
     return allActions.at(index)->isChecked();
 }
 void ContextMenu::itemChecked(bool) {
-    QAction *ac = (QAction*)sender();
+    QAction *ac = reinterpret_cast<QAction*>(sender());
     emit checkedChanged(allActions.indexOf(ac), ac->isChecked());
 }
 

@@ -34,8 +34,10 @@ MainHandler::MainHandler(QWindow *parent) : QQuickView(parent) {
     // Ensures we only once call setOverrideCursor in order to be able to properly restore it
     overrideCursorSet = false;
 
-    defaultNotMaximizedSizeOfWindow = QSize(qMin(qApp->desktop()->availableGeometry().width(), 1024),
-                                            qMin(qApp->desktop()->availableGeometry().height(), 768));
+    defaultNotMaximizedSizeOfWindow = QSize(qMin(QGuiApplication::primaryScreen()->availableGeometry().width(), 1024),
+                                            qMin(QGuiApplication::primaryScreen()->availableGeometry().height(), 768));
+//    defaultNotMaximizedSizeOfWindow = QSize(qMin(qApp->desktop()->availableGeometry().width(), 1024),
+//                                            qMin(qApp->desktop()->availableGeometry().height(), 768));
 
     // Perform some startup checks/tasks
     update = performSomeStartupChecks();
@@ -260,14 +262,14 @@ void MainHandler::setupWindowProperties(bool dontCallShow) {
 bool MainHandler::event(QEvent *e) {
 
     if(e->type() == QEvent::KeyPress)
-        QMetaObject::invokeMethod(object, "processShortcut", Q_ARG(QVariant, ComposeString::compose((QKeyEvent*)e)));
+        QMetaObject::invokeMethod(object, "processShortcut", Q_ARG(QVariant, ComposeString::compose(reinterpret_cast<QKeyEvent*>(e))));
     else if(e->type() == QEvent::KeyRelease)
         QMetaObject::invokeMethod(object, "keysRelease");
     else if(e->type() == QEvent::Close) {
         HideClose::handleCloseEvent(e, permanentSettings, this);
         return true;
     } else if(e->type() == QEvent::MouseMove) {
-        QMouseEvent *event = (QMouseEvent*)e;
+        QMouseEvent *event = reinterpret_cast<QMouseEvent*>(e);
         if(!(this->windowState() & Qt::WindowMaximized))
             QMetaObject::invokeMethod(object, "handleMouseExit", Q_ARG(QVariant, event->pos()));
     }

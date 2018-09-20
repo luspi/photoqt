@@ -33,7 +33,7 @@ class Localisation : public QObject {
     Q_OBJECT
 
 public:
-    Localisation(QObject *parent = 0) : QObject(parent) {
+    Localisation(QObject *parent = nullptr) : QObject(parent) {
         trans = new QTranslator;
     }
     ~Localisation() {

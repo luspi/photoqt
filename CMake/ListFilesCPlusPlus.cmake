@@ -3,14 +3,14 @@
 #####################
 
 SET(d "cplusplus")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/main.cpp ${d}/mainhandler.cpp ${d}/logger.h ${d}/configfiles.h ${d}/hideclose.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/main.cpp ${d}/mainhandler.cpp ${d}/logger.h ${d}/configfiles.h ${d}/hideclose.h ${d}/utilities.h)
 
 SET(d "cplusplus/imageprovider")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/imageproviderempty.cpp ${d}/imageproviderfull.cpp ${d}/imageproviderthumbnail.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/imageproviderhistogram.cpp ${d}/imageprovidericon.cpp)
 
 SET(d "cplusplus/imageprovider/loader")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/loader.h ${d}/errorimage.cpp ${d}/loadimage_qt.cpp ${d}/loadimage_freeimage.cpp ${d}/loadimage_archive.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/loader.h ${d}/errorimage.h ${d}/loadimage_qt.cpp ${d}/loadimage_freeimage.cpp ${d}/loadimage_archive.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/loadimage_devil.cpp ${d}/loadimage_raw.cpp ${d}/loadimage_gm.cpp ${d}/loadimage_poppler.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/loadimage_unrar.cpp ${d}/loadimage_xcf.cpp)
 
@@ -19,7 +19,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/colour.cpp ${d}/mimetypes.cpp ${d}/i
 
 SET(d "cplusplus/scripts")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/getanddostuff.h ${d}/getmetadata.cpp ${d}/managepeopletags.cpp ${d}/runprocess.h ${d}/filedialog.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/thumbnailsmanagement.cpp ${d}/watcher.h ${d}/sortlist.h ${d}/localisation.h ${d}/integer64.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/thumbnailsmanagement.cpp ${d}/watcher.h ${d}/sortlist.cpp ${d}/localisation.h ${d}/integer64.h)
 
 SET(d "cplusplus/scripts/getanddostuff")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/context.cpp ${d}/external.cpp ${d}/file.cpp ${d}/manipulation.cpp ${d}/openfile.cpp ${d}/other.cpp)
@@ -42,7 +42,7 @@ SET(d "cplusplus/singleinstance")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/commandlineparser.cpp ${d}/singleinstance.cpp)
 
 SET(d "cplusplus/shortcuts")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/shortcutsnotifier.h ${d}/shortcuts.cpp ${d}/composestring.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/shortcutsnotifier.h ${d}/shortcuts.cpp ${d}/composestring.cpp)
 
 SET(d "cplusplus/contextmenu")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/contextmenu.cpp)
