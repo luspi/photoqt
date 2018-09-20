@@ -114,9 +114,9 @@ Rectangle {
         // not interactive, fixed height
         interactive: false
 
-        // item for highlighing moves fairly fast
-        highlightMoveDuration: 100
-        highlightResizeDuration: 100
+        // item for highlighing moves
+        highlightMoveDuration: variables.highlightDuration
+        highlightResizeDuration: variables.highlightDuration
 
         // if the current index changes, then reset currentIndex for userplaces and storageinfo
         onCurrentIndexChanged:
@@ -271,9 +271,9 @@ Rectangle {
         // visibility depends on settings
         visible: settings.openUserPlacesUser
 
-        // item for highlighing moves fairly fast
-        highlightMoveDuration: 100
-        highlightResizeDuration: 100
+        // item for highlighing moves
+        highlightMoveDuration: variables.highlightDuration
+        highlightResizeDuration: variables.highlightDuration
 
         clip: true
 
@@ -636,9 +636,9 @@ Rectangle {
         // no interactivity, all items are always shown
         interactive: false
 
-        // item for highlighing moves fairly fast
-        highlightMoveDuration: 100
-        highlightResizeDuration: 100
+        // item for highlighing moves
+        highlightMoveDuration: variables.highlightDuration
+        highlightResizeDuration: variables.highlightDuration
 
         // if the current index changes, then reset currentIndex for standardlocations and userplaces
         onCurrentIndexChanged:

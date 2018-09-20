@@ -89,8 +89,8 @@ Rectangle {
             }
         }
 
-        // highlight item moves relatively fast
-        highlightMoveDuration: 100
+        // highlight item moves
+        highlightMoveDuration: variables.highlightDuration
 
         // Some status messages if no image is found in the folder or the protocol is not supported (like network:/)
         Text {
