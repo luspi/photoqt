@@ -35,8 +35,8 @@ SET(d "cplusplus/tooltip")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/tooltip.cpp)
 
 SET(d "cplusplus/startup")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/exportimport.h ${d}/migration.h ${d}/screenshots.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/thumbnails.h ${d}/updatecheck.h ${d}/shortcuts.h ${d}/settings.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/startupcheck.h ${d}/exportimport.cpp ${d}/migration.cpp ${d}/screenshots.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/thumbnails.cpp ${d}/updatecheck.cpp ${d}/shortcuts.cpp ${d}/settings.cpp)
 
 SET(d "cplusplus/singleinstance")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/commandlineparser.cpp ${d}/singleinstance.cpp)

@@ -51,6 +51,7 @@
 #include "settings/mimetypes.h"
 #include "scripts/managepeopletags.h"
 #include "scripts/integer64.h"
+#include "shortcuts/composestring.h"
 
 #include "imageprovider/imageproviderempty.h"
 #include "imageprovider/imageproviderfull.h"
