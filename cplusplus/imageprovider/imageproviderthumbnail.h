@@ -40,7 +40,7 @@ public:
     explicit ImageProviderThumbnail();
     ~ImageProviderThumbnail();
 
-    QImage requestImage(const QString &filename_encoded, QSize *size, const QSize &requestedSize);
+    QImage requestImage(const QString &filename_encoded, QSize *size, const QSize &);
 
 private:
     QSqlDatabase db;

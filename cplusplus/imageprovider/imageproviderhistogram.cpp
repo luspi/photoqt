@@ -89,7 +89,7 @@ QPixmap ImageProviderHistogram::requestPixmap(const QString &fpath, QSize *, con
         for(int i = 0; i < hei; ++i) {
 
             // Get the pixel data of row i of the image
-            QRgb *rowData = (QRgb*)histimg.scanLine(i);
+            QRgb *rowData = reinterpret_cast<QRgb*>(histimg.scanLine(i));
 
             // Loop over all columns
             for(int j = 0; j < wid; ++j) {
@@ -120,13 +120,13 @@ QPixmap ImageProviderHistogram::requestPixmap(const QString &fpath, QSize *, con
         // Figure out the greatest value for normalisation
         greatestvalue = 0;
         if(!colorversion)
-            greatestvalue = *std::max_element(levels_grey, levels_grey+256);
+            greatestvalue = static_cast<double>(*std::max_element(levels_grey, levels_grey+256));
         else {
             int allgreat[3];
             allgreat[0] = *std::max_element(levels_red, levels_red+256);
             allgreat[1] = *std::max_element(levels_green, levels_green+256);
             allgreat[2] = *std::max_element(levels_blue, levels_blue+256);
-            greatestvalue = *std::max_element(allgreat, allgreat+3);
+            greatestvalue = static_cast<double>(*std::max_element(allgreat, allgreat+3));
         }
 
     }
@@ -140,20 +140,20 @@ QPixmap ImageProviderHistogram::requestPixmap(const QString &fpath, QSize *, con
     if(!colorversion) {
         polyGREY << QPoint(0,h);
         for(int i = 0; i < 256; ++i)
-            polyGREY << QPoint(i*interval,h*(1-((double)levels_grey[i]/(double)greatestvalue)));
+            polyGREY << QPoint(i*interval,static_cast<int>(h*(1-(levels_grey[i]/greatestvalue))));
         polyGREY << QPoint(w,h);
     } else {
         polyRED << QPoint(0,h);
         for(int i = 0; i < 256; ++i)
-            polyRED << QPoint(i*interval,h*(1-((double)levels_red[i]/(double)greatestvalue)));
+            polyRED << QPoint(i*interval,static_cast<int>(h*(1-(levels_red[i]/greatestvalue))));
         polyRED << QPoint(w,h);
         polyGREEN << QPoint(0,h);
         for(int i = 0; i < 256; ++i)
-            polyGREEN << QPoint(i*interval,h*(1-((double)levels_green[i]/(double)greatestvalue)));
+            polyGREEN << QPoint(i*interval,static_cast<int>(h*(1-(levels_green[i]/greatestvalue))));
         polyGREEN << QPoint(w,h);
         polyBLUE << QPoint(0,h);
         for(int i = 0; i < 256; ++i)
-            polyBLUE << QPoint(i*interval,h*(1-((double)levels_blue[i]/(double)greatestvalue)));
+            polyBLUE << QPoint(i*interval,static_cast<int>(h*(1-(levels_blue[i]/greatestvalue))));
         polyBLUE << QPoint(w,h);
     }
 

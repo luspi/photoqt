@@ -53,7 +53,7 @@ void ImageProviderThumbnail::setupDbWhenNotYetDone() {
 
 }
 
-QImage ImageProviderThumbnail::requestImage(const QString &filename_encoded, QSize *, const QSize &requestedSize) {
+QImage ImageProviderThumbnail::requestImage(const QString &filename_encoded, QSize *, const QSize &) {
 
     QByteArray filename = QByteArray::fromPercentEncoding(filename_encoded.toUtf8());
 
@@ -92,7 +92,7 @@ QImage ImageProviderThumbnail::getThumbnailImage(QByteArray filename) {
                        QFileInfo(filename).fileName().toStdString() << NL;
 
             p.load(ConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails/large/" + md5 + ".png");
-            uint mtime = p.text("Thumb::MTime").trimmed().toInt();
+            uint mtime = p.text("Thumb::MTime").trimmed().toUInt();
 
             // Use image if it's up-to-date
             if(QFileInfo(filename).lastModified().toTime_t() == mtime)

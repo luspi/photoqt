@@ -21,22 +21,9 @@
  **************************************************************************/
 
 #include "imageproviderfull.h"
-#include "loader/loadimage_devil.h"
-#include "loader/loadimage_gm.h"
-#include "loader/loadimage_qt.h"
-#include "loader/loadimage_xcf.h"
-#include "loader/loadimage_poppler.h"
-#include "loader/loadimage_archive.h"
-#include "loader/loadimage_unrar.h"
+#include "loader/errorimage.h"
 
-// Both the libraw and the freeimage library have typedefs for INT64 and UINT64.
-// As we never use them directly, we can redefine one of them (here for libraw) to use a different name and thus avoid the clash.
-#define INT64 INT64_SOMETHINGELSE
-#define UINT64 UINT64_SOMETHINGELSE
-#include "loader/loadimage_raw.h"
-#undef INT64
-#undef UINT64
-#include "loader/loadimage_freeimage.h"
+#include "loader/loader.h"
 
 ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider::Image) {
 
@@ -76,7 +63,7 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *s
         QString err = QCoreApplication::translate("imageprovider", "File failed to load, it doesn't exist!");
         LOG << CURDATE << "ImageProviderFull: ERROR: " << err.toStdString() << NL;
         LOG << CURDATE << "ImageProviderFull: Filename: " << filename.toStdString() << NL;
-        return PLoadImage::ErrorImage::load(err);
+        return PErrorImage::load(err);
     }
 
     // Which GraphicsEngine should we use?
@@ -120,36 +107,36 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *s
 
     // Try to use XCFtools for XCF (if enabled)
     if(whatToUse == "xcftools")
-        ret = PLoadImage::XCF::load(filename,maxSize);
+        ret = PLoadImage::Xcftools(filename,maxSize);
 
     // Try to use GraphicsMagick (if available)
     else if(whatToUse == "gm")
-        ret = PLoadImage::GraphicsMagick::load(filename, maxSize);
+        ret = PLoadImage::GraphicsMagick(filename, maxSize);
 
     // Try to use libraw (if available)
     else if(whatToUse == "raw")
-        ret = PLoadImage::Raw::load(filename, maxSize, settings->rawLoadEmbeddedThumbnail, (requestedSize==QSize(256,256) ? true : false));
+        ret = PLoadImage::Raw(filename, maxSize, settings->rawLoadEmbeddedThumbnail, (requestedSize==QSize(256,256) ? true : false));
 
     // Try to use DevIL (if available)
     else if(whatToUse == "devil")
-        ret = PLoadImage::Devil::load(filename, maxSize);
+        ret = PLoadImage::DevIL(filename, maxSize);
 
     // Try to use FreeImage (if available)
     else if(whatToUse == "freeimage")
-        ret = PLoadImage::FreeImage::load(filename, maxSize);
+        ret = PLoadImage::FreeImage(filename, maxSize);
 
     else if(whatToUse == "poppler")
-        ret = PLoadImage::PDF::load(filename, maxSize, settings->pdfQuality);
+        ret = PLoadImage::Poppler(filename, maxSize, settings->pdfQuality);
 
     else if(whatToUse == "unrar")
-        ret = PLoadImage::UNRAR::load(filename, maxSize);
+        ret = PLoadImage::Unrar(filename, maxSize);
 
     else if(whatToUse == "archive")
-        ret = PLoadImage::Archive::load(filename, maxSize);
+        ret = PLoadImage::Archive(filename, maxSize);
 
     // Try to use Qt
     else
-        ret = PLoadImage::Qt::load(filename,maxSize,settings->metaApplyRotation);
+        ret = PLoadImage::Qt(filename,maxSize,settings->metaApplyRotation);
 
     // if returned image is not an error image ...
     if(ret.text("error") != "error" && size->isEmpty()) {
@@ -290,6 +277,7 @@ QString ImageProviderFull::whatDoIUse(QString filename) {
 #ifdef GM
     return "gm";
 #endif
+
     return "qt";
 
 }

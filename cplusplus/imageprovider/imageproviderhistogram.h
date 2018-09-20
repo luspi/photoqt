@@ -52,7 +52,7 @@ private:
     QString filepath;
     bool colorversion;
     QImage histimg;
-    int greatestvalue;
+    double greatestvalue;
 
 };
 

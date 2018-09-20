@@ -10,9 +10,9 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/imageproviderempty.cpp ${d}/imagepro
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/imageproviderhistogram.cpp ${d}/imageprovidericon.cpp)
 
 SET(d "cplusplus/imageprovider/loader")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/errorimage.h ${d}/loadimage_gm.h ${d}/loadimage_qt.h ${d}/loadimage_raw.h ${d}/loadimage_xcf.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/loadimage_devil.h ${d}/loadimage_freeimage.h ${d}/loadimage_poppler.h ${d}/loadimage_archive.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/loadimage_unrar.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/loader.h ${d}/errorimage.cpp ${d}/loadimage_qt.cpp ${d}/loadimage_freeimage.cpp ${d}/loadimage_archive.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/loadimage_devil.cpp ${d}/loadimage_raw.cpp ${d}/loadimage_gm.cpp ${d}/loadimage_poppler.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/loadimage_unrar.cpp ${d}/loadimage_xcf.cpp)
 
 SET(d "cplusplus/settings")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/colour.cpp ${d}/mimetypes.cpp ${d}/imageformats.cpp ${d}/settings.cpp ${d}/slimsettingsreadonly.cpp)
