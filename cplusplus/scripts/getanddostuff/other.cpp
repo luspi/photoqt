@@ -226,7 +226,10 @@ QString GetAndDoStuffOther::selectColor(QString preselectColor) {
 }
 
 void GetAndDoStuffOther::setBusyCursor(bool busy) {
-    qApp->setOverrideCursor(busy ? Qt::BusyCursor : Qt::ArrowCursor);
+    if(busy)
+        qApp->setOverrideCursor(Qt::BusyCursor);
+    else
+        qApp->restoreOverrideCursor();
 }
 
 void GetAndDoStuffOther::hideCursor() {
