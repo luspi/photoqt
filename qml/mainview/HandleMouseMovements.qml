@@ -153,7 +153,7 @@ PinchArea {
         interval: settings.hideMouseCursorTimeout*1000
         repeat: false
         onTriggered: {
-            if(settings.hideMouseCursorTimeout > 0)
+            if(settings.hideMouseCursorTimeout > 0 && !variables.guiBlocked)
                 getanddostuff.hideCursor()
         }
     }
