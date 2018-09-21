@@ -27,11 +27,26 @@
 #include <QDateTime>
 #include <QFileInfo>
 
+#include "../logger.h"
+#include "../configfiles.h"
+
+#ifdef EXIV2
+#include <exiv2/image.hpp>
+#include <exiv2/exif.hpp>
+#include <QLockFile>
+#include <thread>
+#endif
+
 class Sort {
 
 public:
         static void list(QFileInfoList *list, QString sortby, bool sortbyAscending);
         static void list(QVariantList *list, QString sortby, bool sortbyAscending);
+
+private:
+#ifdef EXIV2
+        static void safelyReadMetadata(Exiv2::Image::AutoPtr *image);
+#endif
 
 };
 

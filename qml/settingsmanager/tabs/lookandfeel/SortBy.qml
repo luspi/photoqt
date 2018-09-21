@@ -65,6 +65,7 @@ Entry {
                         //: The date the file was created
                         em.pty+qsTr("Date (file creation)"),
                         em.pty+qsTr("Date (file last modified)"),
+                        em.pty+qsTr("Date (EXIF timestamp) - SLOW!"),
                         em.pty+qsTr("Filesize")]
             }
 
@@ -100,15 +101,28 @@ Entry {
 
     ]
 
+    Timer {
+        id: somedelay
+        interval: 100
+        repeat: false
+        onTriggered:
+            sortimages_checkbox.setIndexEnabled(4, getanddostuff.isExivSupportEnabled())
+    }
+
     function setData() {
+
+        somedelay.start()
+
         if(settings.sortby === "name")
             sortimages_checkbox.currentIndex = 0
         else if(settings.sortby === "date")
             sortimages_checkbox.currentIndex = 2
         else if(settings.sortby === "datemodified")
             sortimages_checkbox.currentIndex = 3
-        else if(settings.sortby === "size")
+        else if(settings.sortby === "dateexif")
             sortimages_checkbox.currentIndex = 4
+        else if(settings.sortby === "size")
+            sortimages_checkbox.currentIndex = 5
         else // default to naturalname
             sortimages_checkbox.currentIndex = 1
         sortimages_ascending.checked = settings.sortbyAscending
@@ -125,6 +139,8 @@ Entry {
         else if(sortimages_checkbox.currentIndex == 3)
             settings.sortby = "datemodified"
         else if(sortimages_checkbox.currentIndex == 4)
+            settings.sortby = "dateexif"
+        else if(sortimages_checkbox.currentIndex == 5)
             settings.sortby = "size"
         settings.sortbyAscending = sortimages_ascending.checked
     }

@@ -85,12 +85,12 @@ Button {
                     addItem(model[i])
             }
 
-            // Once the items are set, we remove the seperator items, as otherwise it would be much harder to sync the item visible on button
-            // and the one selected in the context menu (currentIndex could be unequal)
-            model = model.filter(removeSep)
             function removeSep(e) {
                 return e!=="---SEP---";
             }
+            // Once the items are set, we remove the seperator items, as otherwise it would be much harder to sync the item visible on button
+            // and the one selected in the context menu (currentIndex could be unequal)
+            model = model.filter(removeSep)
 
             setFixedWidth(but.width)
             setFontSize(but.fontsize)
@@ -132,6 +132,10 @@ Button {
             }
             ttip.text = txt
         }
+    }
+
+    function setIndexEnabled(index, enabled) {
+        context.setEnabled(index, enabled)
     }
 
 }

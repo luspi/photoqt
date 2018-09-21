@@ -81,9 +81,9 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
     // In the element for opening files they should be listed, otherwise it depends on the settings
     QFileInfoList *list = getEntryList(file, categoryFileTypes, showHidden);
 
-    QVariantList ret;
-
     if(includeSize) {
+
+        QVariantList ret;
 
         Sort::list(&list[2], sortby, sortbyAscending);
 
@@ -111,6 +111,10 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
 
     } else {
 
+        // We need to use the full paths at first to be able to sort the list with all criteria
+        // At the end, we only want the filename in it, which we do when we clean it up anyways
+        QVariantList ret_fullpaths;
+
         // Add all the normal files to the list (if there are any)
         for(QFileInfo l : list[0]) {
 
@@ -122,7 +126,7 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
                    (filter != "" && fn.contains(filter)) ||
                    (filter == ""))
 
-                    ret.append(fn);
+                    ret_fullpaths.append(l.absoluteFilePath());
 
             }
 
@@ -146,7 +150,7 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
                     if(imageformats->getEnabledFileformatsPoppler().contains("*."+suffix) ||
                        mimetypes->getEnabledMimeTypesPoppler().contains(mimename))
 
-                        loadAllPdfPages(l, &ret, true);
+                        loadAllPdfPages(l, &ret_fullpaths, true);
 
                 }
 #endif
@@ -156,7 +160,7 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
                     if(imageformats->getEnabledFileformatsArchive().contains("*."+suffix) ||
                        mimetypes->getEnabledMimeTypesArchive().contains(mimename))
 
-                        loadAllArchiveFiles(l, &ret, archiveUseExternalUnrar, true);
+                        loadAllArchiveFiles(l, &ret_fullpaths, archiveUseExternalUnrar, true);
 
                 }
 
@@ -164,11 +168,12 @@ QVariantList GetAndDoStuffListFiles::getAllFilesIn(QString file, QString categor
 
         }
 
-        Sort::list(&ret, sortby, sortbyAscending);
+        // For this we need the full file paths, otherwise some sorting criteria might fail
+        Sort::list(&ret_fullpaths, sortby, sortbyAscending);
 
         QVariantList ret_cleaned;
-        foreach(QVariant entry, ret) {
-            QString ent = entry.toString();
+        for(QVariant entry : ret_fullpaths) {
+            QString ent = QFileInfo(entry.toString()).fileName();
             // A pdf or archive has the filename plus page number at beginning to allow for sorting, here we need to remove them again
             if(ent.contains("::PQT1::"))
                 ret_cleaned.append("::PQT1::"+ent.split("::PQT1::").at(1));
