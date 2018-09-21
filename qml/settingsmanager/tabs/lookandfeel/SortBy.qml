@@ -57,13 +57,14 @@ Entry {
             CustomComboBox {
                 id: sortimages_checkbox
                 x: sortimages_checkbox_text.width+10
-                width: 150
+                width: 200
                 //: Refers to the filename
                 model: [em.pty+qsTr("Name"),
                         //: Sorting by natural name means file10.jpg comes after file9.jpg and not after file1.jpg
                         em.pty+qsTr("Natural Name"),
                         //: The date the file was created
-                        em.pty+qsTr("Date"),
+                        em.pty+qsTr("Date (file creation)"),
+                        em.pty+qsTr("Date (file last modified)"),
                         em.pty+qsTr("Filesize")]
             }
 
@@ -104,8 +105,10 @@ Entry {
             sortimages_checkbox.currentIndex = 0
         else if(settings.sortby === "date")
             sortimages_checkbox.currentIndex = 2
-        else if(settings.sortby === "size")
+        else if(settings.sortby === "datemodified")
             sortimages_checkbox.currentIndex = 3
+        else if(settings.sortby === "size")
+            sortimages_checkbox.currentIndex = 4
         else // default to naturalname
             sortimages_checkbox.currentIndex = 1
         sortimages_ascending.checked = settings.sortbyAscending
@@ -120,6 +123,8 @@ Entry {
         else if(sortimages_checkbox.currentIndex == 2)
             settings.sortby = "date"
         else if(sortimages_checkbox.currentIndex == 3)
+            settings.sortby = "datemodified"
+        else if(sortimages_checkbox.currentIndex == 4)
             settings.sortby = "size"
         settings.sortbyAscending = sortimages_ascending.checked
     }

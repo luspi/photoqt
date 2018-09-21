@@ -53,6 +53,21 @@ void Sort::list(QFileInfoList *list, QString sortby, bool sortbyAscending) {
 
 #endif // (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
 
+    } else if(sortby == "modifieddate") {
+
+        collator.setNumericMode(true);
+
+        if(sortbyAscending)
+            std::sort(list->begin(), list->end(), [&collator](const QFileInfo &file1, const QFileInfo &file2) {
+                return collator.compare(QString::number(file1.lastModified().toMSecsSinceEpoch()),
+                                        QString::number(file2.lastModified().toMSecsSinceEpoch())) < 0;
+            });
+        else
+            std::sort(list->rbegin(), list->rend(), [&collator](const QFileInfo &file1, const QFileInfo &file2) {
+                return collator.compare(QString::number(file1.lastModified().toMSecsSinceEpoch()),
+                                        QString::number(file2.lastModified().toMSecsSinceEpoch())) < 0;
+            });
+
     } else if(sortby == "size") {
 
         collator.setNumericMode(true);
@@ -139,6 +154,19 @@ void Sort::list(QVariantList *list, QString sortby, bool sortbyAscending) {
             });
 
 #endif // (QT_VERSION >= QT_VERSION_CHECK(5, 10, 0))
+
+    } else if(sortby == "datemodified") {
+
+        if(sortbyAscending)
+            std::sort(list->begin(), list->end(), [&collator](const QVariant &file1, const QVariant &file2) {
+                return collator.compare(QString::number(QFileInfo(file1.toString()).lastModified().toMSecsSinceEpoch()),
+                                        QString::number(QFileInfo(file2.toString()).lastModified().toMSecsSinceEpoch())) < 0;
+            });
+        else
+            std::sort(list->rbegin(), list->rend(), [&collator](const QVariant &file1, const QVariant &file2) {
+                return collator.compare(QString::number(QFileInfo(file1.toString()).lastModified().toMSecsSinceEpoch()),
+                                        QString::number(QFileInfo(file2.toString()).lastModified().toMSecsSinceEpoch())) < 0;
+            });
 
     } else if(sortby == "size") {
 
