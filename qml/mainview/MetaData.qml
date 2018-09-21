@@ -71,7 +71,15 @@ Item {
     Behavior on opacity { NumberAnimation { duration: variables.animationSpeed } }
 
     // This mouseare catches all mouse movements and prevents them from being passed on to the background
-    MouseArea { anchors.fill: parent; hoverEnabled: true }
+    MouseArea {
+        anchors.fill: parent;
+        hoverEnabled: true;
+        onPositionChanged: {
+            // Make sure the mouse cursor is visible (might be hidden from Timer in HandleMouseMove)
+            handlemousemovements.stopHideMouseCursorAfterTimeoutTimer()
+            getanddostuff.showCursor()
+        }
+    }
 
     // HEADING OF RECTANGLE
     Text {

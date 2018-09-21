@@ -157,5 +157,8 @@ PinchArea {
                 getanddostuff.hideCursor()
         }
     }
+    function stopHideMouseCursorAfterTimeoutTimer() {
+        hideMouseCursorAfterTimeout.stop()
+    }
 
 }

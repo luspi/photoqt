@@ -108,6 +108,11 @@ Item {
             mouseHoveringThumbnails = true
         onExited:
             mouseHoveringThumbnails = false
+        onPositionChanged: {
+            // Make sure the mouse cursor is visible (might be hidden from Timer in HandleMouseMove)
+            handlemousemovements.stopHideMouseCursorAfterTimeoutTimer()
+            getanddostuff.showCursor()
+        }
     }
 
     // This item make sure, that the thumbnails are displayed centered when their combined width is less than the width of the screen
@@ -318,6 +323,12 @@ Item {
                 onExited: {
                     rect.activated = false
                     mouseHoveringThumbnails = false
+                }
+
+                onPositionChanged: {
+                    // Make sure the mouse cursor is visible (might be hidden from Timer in HandleMouseMove)
+                    handlemousemovements.stopHideMouseCursorAfterTimeoutTimer()
+                    getanddostuff.showCursor()
                 }
 
                 // Load the selected thumbnail as main image
