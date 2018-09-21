@@ -161,4 +161,15 @@ PinchArea {
         hideMouseCursorAfterTimeout.stop()
     }
 
+    Connections {
+        target: variables
+        onGuiBlockedChanged: {
+            if(variables.guiBlocked) {
+                hideMouseCursorAfterTimeout.stop()
+                getanddostuff.showCursor()
+            } else
+                hideMouseCursorAfterTimeout.restart()
+        }
+    }
+
 }
