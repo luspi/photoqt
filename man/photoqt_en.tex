@@ -1,0 +1,111 @@
+% Info: http://www.informatik-vollmer.de/software/latex2man-html.php
+\documentclass[10pt]{article}
+% Paquetes
+\usepackage[latin1]{inputenc}
+\usepackage{ae}
+\usepackage{aecompl}
+\usepackage[spanish]{babel}
+\usepackage[pdftex,bookmarksopen,bookmarksnumbered]{hyperref}
+\usepackage[nofancy]{latex2man}
+
+
+\begin{document}
+
+% Fecha y Version para LaTeX:
+% $ date '+%Y-%m-%d'
+\setDate{2018-11-24}
+\setVersion{1.7.1}
+
+\begin{Name}{1}{photoqt}{Lukas Spies}{\pkgname-\pkgversion}{photoqt -- A simple and attractive Image Viewer}
+\Prog{PhotoQt} - A simple and attractive Image Viewer
+\end{Name}
+
+\section{Synopsis}
+\noindent
+\Prog{photoqt} \oArg{options} \oArg{filename}
+
+\section{Description}
+\noindent
+\Prog{PhotoQt} is a fast and attractive image viewer developed for
+different platforms. The application uses different engines display,
+so it supports more than 80 types of image files. In addition, it
+allows a fast and intuitive performance and management of images,
+achieving to interact with the user through shortcuts totally
+customizable.\MANbr
+Thumbnails, slide shows, information on the Image (meta-data) and
+other features make \Prog{PhotoQt} a powerful choice as the default
+program for image viewing of your system.
+
+\section{Options}
+Generic options:
+\begin{Description}
+\item[\Opt{-h, --help}] Displays this help.
+\item[\Opt{-v, --version}] Displays version information.
+\end{Description}
+Interaction with PhotoQt:
+\begin{Description}
+\item[\Opt{-o, --open}] Make PhotoQt ask for a new File.
+\item[\Opt{-s, --show}] Shows PhotoQt (does nothing if already shown).
+\item[\Opt{--hide}] Hides PhotoQt to system tray (does nothing if already
+hidden).
+\item[\Opt{-t, --toggle}] Toggle PhotoQt - hides PhotoQt if visible,
+shows if hidden.
+\item[\Opt{--thumbs, --no-thumbs}] Enable/Disable thumbnails.
+\end{Description}
+Start-up-only options:
+\begin{Description}
+\item[\Opt{--start-in-tray}] Start PhotoQt hidden to the system tray.
+\item[\Opt{--standalone}] Create standalone PhotoQt, multiple instances
+but no remote interaction possible.
+\end{Description}
+General Options:
+\begin{Description}
+\item[\Opt{--debug, --no-debug}] Switch on/off debug messages.
+\item[\OptoArg{--export}{filename}] Export configuration to given filename.
+\item[\OptoArg{--import}{filename}] Import configuration from given filename.
+\end{Description}
+Arguments:
+\begin{Description}
+\item[\oArg{filename}] File to open with PhotoQt.
+\end{Description}
+
+\section{Files}
+\noindent
+The application create and use the follow configuration directories:
+\begin{description}
+\item[\$HOME/.config/PhotoQt] Personal settings on Linux platforms.
+Use the GUI interface in 'Settings' to modify them.
+\item[\%USERPROFILE\%\Bs AppData\Bs Local\Bs PhotoQt] Personal settings
+on Windows platforms. Use the GUI interface in 'Settings' to modify them.
+\end{description}
+
+\section{Author}
+\noindent
+Lukas Spies, developer, <\Email{Lukas@PhotoQt.org}>.\\
+Web page project: <\URL{http://photoqt.org/}>.
+
+\section{Bugs}
+\noindent
+Send a report of bugs in:
+\begin{itemize}[*]
+\item Email: <\Email{Lukas@PhotoQt.org}>
+\item Development page: <\URL{https://gitlab.com/luspi/photoqt/issues}>
+\end{itemize}
+
+\section{See also}
+For more information about the features of the application, visit the
+online manual:\\
+<\URL{https://photoqt.org/man/}>
+
+\section{Copyright}
+\noindent
+\Prog{PhotoQt} - Copyright \copyright\ 2011-2018 \textbf{Lukas Spies}\\
+This manual page was written and translated to Spanish by Miguel Molina
+<\Email{mmolina.unphysics@gmail.com}>. Permission is granted to copy,
+distribute and/or modify this document under the terms of the GNU General
+Public License, Version 2 any later version published by the Free Software
+Foundation.
+
+\LatexManEnd
+
+\end{document}

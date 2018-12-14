@@ -1,0 +1,6 @@
+# -*- Perl -*-
+# This file is part the LATEX2MAN
+# PhotoQt.trans - translation for MAN
+
+$manMacro{'pkgname'} = 'PhotoQt';
+$manMacro{'pkgversion'} = '1.7.1';

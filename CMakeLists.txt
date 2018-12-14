@@ -295,6 +295,77 @@ endif(GM)
 
 
 #######################
+#### BUILD MANPAGE ####
+#######################
+# How to translate?
+# 1. Translate the page in .tex format.
+# 2. The file name must be photoqt_xx.tex where xx is the language code
+#    according to ISO 639-1.
+# 3. Include the language code in the variables MAN_LANGS and MAN_TRANS
+#    in the CMakeLists.txt, section BUILD_MANPAGE.
+# 4. Rebuild the source code with cmake:
+#    $ mkdir build && cd build
+#    $ cmake .. -DBUILD_MANPAGES=ON
+#    $ make clean
+#    $ make
+# 5. Enjoy it!
+
+### Sources of manpage: en es de pt...
+set(MAN_LANGS en es)
+### Translation language of manpage: es de pt... Manpage in english (en) is the reference language.
+set(MAN_TRANS es)
+# Only to change if you understand what you're doing
+if(BUILD_MANPAGES)
+  ### Build progs
+  find_program(BINLATEX2MAN NAMES latex2man)
+  if(BINLATEX2MAN)
+    set(HAVE_LATEX2MAN 1)
+    message(STATUS "Found latex2man: ${BINLATEX2MAN}")
+    # latex2man flags
+    set(LATEX2MAN_OPTS
+      -t ${CMAKE_SOURCE_DIR}/man/photoqt.trans
+      -M)
+  else(BINLATEX2MAN)
+    message(STATUS "Error: install latex2man for to build manpage.")
+    message(STATUS "       Download from https://www.informatik-vollmer.de/software/latex2man.php")
+  endif(BINLATEX2MAN)
+  find_program(BINICONV NAMES iconv)
+  if(BINICONV)
+    set(HAVE_ICONV 1)
+    message(STATUS "Found iconv: ${BINICONV}")
+    # iconv flags: change character encoding source tex
+    set(ICONV_OPTS
+      -f ISO-8859-1
+      -t UTF-8)
+  else(BINICONV)
+    message(STATUS "Error: install iconv for to build manpage.")
+    message(STATUS "       Download from https://www.gnu.org/software/libiconv")
+  endif(BINICONV)
+  if(NOT HAVE_LATEX2MAN AND NOT HAVE_ICONV)
+    message(FATAL_ERROR STATUS "Error: need to install all tools for to build manpage!!!")
+  endif()
+  set(MAN_FILES)
+  foreach(l IN LISTS MAN_LANGS)
+    set(texfile ${CMAKE_SOURCE_DIR}/man/photoqt_${l}.tex)
+    set(manfile ${CMAKE_SOURCE_DIR}/man/photoqt_${l}.1)
+    add_custom_command(
+      OUTPUT ${manfile}
+      COMMAND ${BINLATEX2MAN} ${LATEX2MAN_OPTS} ${texfile} ${manfile}.t
+      COMMAND ${BINICONV} ${ICONV_OPTS} ${manfile}.t > ${manfile}
+      COMMAND rm -fR ${manfile}.t
+      DEPENDS ${texfile}
+      WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+      COMMENT "Building manpage ${manfile}"
+      VERBATIM)
+    list(APPEND MAN_FILES ${manfile})
+  endforeach()
+  add_custom_target(man ALL DEPENDS ${MAN_FILES})
+else(BUILD_MANPAGES)
+  message("-- Note: manpages will not be built.")
+endif(BUILD_MANPAGES)
+
+
+#######################
 #### INSTALL FILES ####
 #######################
 
@@ -339,6 +410,15 @@ if(UNIX)
     )
 endif(UNIX)
 
+### Install manpages
+if(UNIX)
+  # Install reference language (en)
+  install(FILES ${CMAKE_SOURCE_DIR}/man/photoqt_en.1 DESTINATION ${CMAKE_INSTALL_PREFIX}/share/man/man1 RENAME photoqt.1)
+  # Install language traslated (es..)
+  foreach(l IN LISTS MAN_TRANS)
+    install(FILES ${CMAKE_SOURCE_DIR}/man/photoqt_${l}.1 DESTINATION ${CMAKE_INSTALL_PREFIX}/share/man/${l}/man1 RENAME photoqt.1)
+  endforeach()
+endif(UNIX)
 
 
 ##########################

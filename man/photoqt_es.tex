@@ -1,0 +1,114 @@
+% Info: http://www.informatik-vollmer.de/software/latex2man-html.php
+\documentclass[10pt]{article}
+% Paquetes
+\usepackage[latin1]{inputenc}
+\usepackage{ae}
+\usepackage{aecompl}
+\usepackage[spanish]{babel}
+\usepackage[pdftex,bookmarksopen,bookmarksnumbered]{hyperref}
+\usepackage[nofancy]{latex2man}
+
+
+\begin{document}
+
+% Fecha y Version para LaTeX:
+% $ date '+%Y-%m-%d'
+\setDate{2018-11-24}
+\setVersion{1.7.1}
+
+\begin{Name}{1}{photoqt}{Lukas Spies}{\pkgname-\pkgversion}{photoqt -- Un simple y atractivo Visor de Imágenes}
+\Prog{PhotoQt} - Un simple y atractivo Visor de Imágenes
+\end{Name}
+
+\section{Sinopsis}
+\noindent
+\Prog{photoqt} \oArg{opciones} \oArg{nombre de archivo}
+
+\section{Descripción}
+\noindent
+\Prog{PhotoQt} es un visor de imágenes rápido y atractivo desarrollado
+para diferentes plataformas. La aplicación usa distintos motores de
+visualización, por lo que soporta más de 80 tipos de archivos de imagen.
+Además, permite un manejo y gestión de imágenes de forma rápida e
+intuitiva, logrando interactuar con el usuario a través de accesos
+rápidos totalmente personalizables.\MANbr
+Vistas en miniatura, presentaciones en diapositivas, información de la
+imagen y otras funciones hacen que \Prog{PhotoQt} sea una poderosa
+elección como el programa predeterminado para visualización de imágenes
+de su sistema.
+
+\section{Opciones}
+Opciones genéricas:
+\begin{Description}
+\item[\Opt{-h, --help}] Mostrar esta ayuda.
+\item[\Opt{-v, --version}] Mostrar versión.
+\end{Description}
+Interacción con PhotoQt:
+\begin{Description}
+\item[\Opt{-o, --open}] Hacer que PhotoQt solicite un nuevo archivo.
+\item[\Opt{-s, --show}] Muestra PhotoQt (no hace nada si está en ejecución).
+\item[\Opt{--hide}] Ocultar PhotoQt en la bandeja de entrada (no hace
+nada si está oculto).
+\item[\Opt{-t, --toggle}]  Alternar PhotoQt: ocultar PhotoQt si está
+visible, mostrar si está oculto.
+\item[\Opt{--thumbs, --no-thumbs}] Activar/Desactivar miniaturas.
+\end{Description}
+Opciones solamente al inicio:
+\begin{Description}
+\item[\Opt{--start-in-tray}] Iniciar PhotoQt oculto en la bandeja de entrada.
+\item[\Opt{--standalone}] Crea sesión PhotoQt independiente, múltiples
+instancias pero sin interacción remota.
+\end{Description}
+Opciones Generales:
+\begin{Description}
+\item[\Opt{--debug, --no-debug}] Activar/Desactivar mensajes de depuración.
+\item[\OptoArg{--export}{nombre de archivo}] Exportar configuración hacia
+un archivo.
+\item[\OptoArg{--import}{nombre de archivo}] Importar configuración desde
+un archivo.
+\end{Description}
+Argumentos:
+\begin{Description}
+\item[\oArg{nombre de archivo}] Abrir archivo con PhotoQt.
+\end{Description}
+
+\section{Archivos}
+\noindent
+La aplicación crea y usa los siguientes directorios de configuración:
+\begin{description}
+\item[\$HOME/.config/PhotoQt] Ajustes personales en plataformas Linux.
+Use la interfaz GUI en 'Ajustes' para modificarlas.
+\item[\%USERPROFILE\%\Bs AppData\Bs Local\Bs PhotoQt] Ajustes personales en
+plataformas Windows. Use la interfaz GUI en 'Ajustes' para modificarlas.
+\end{description}
+
+\section{Autor}
+\noindent
+Lukas Spies, desarrollador, <\Email{Lukas@PhotoQt.org}>.\\
+Página web del proyecto: <\URL{http://photoqt.org/}>.
+
+\section{Bugs}
+\noindent
+Puede enviar reporte de errores por medio de:
+\begin{itemize}[*]
+\item Email: <\Email{Lukas@PhotoQt.org}>
+\item Página de desarrollo: <\URL{https://gitlab.com/luspi/photoqt/issues}>
+\end{itemize}
+
+\section{Ver también}
+Para más información acerca de las características de la aplicación,
+visite el manual en línea:\\
+<\URL{https://photoqt.org/man/}>
+
+\section{Copyright}
+\noindent
+\Prog{PhotoQt} - Copyright \copyright\ 2011-2018 \textbf{Lukas Spies}\\
+Esta página fue escrita y traducida al español por Miguel Molina
+<\Email{mmolina.unphysics@gmail.com}>. Se permite copiar, distribuir y/o
+modificar este documento bajo los términos de GNU Licencia Pública
+General Versión 2 o cualquier versión posterior publicada por la Free
+Fundación de software.
+
+\LatexManEnd
+
+\end{document}
