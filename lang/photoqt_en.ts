@@ -3444,6 +3444,16 @@ Used in settings manager when asking for confirmation for restoring default sett
         <translation type="unfinished"/>
     </message>
     <message>
+        <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="99"/>
+        <source>Mouse: Left Button</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="100"/>
+        <source>Pressing the left button of the mouse and moving it around can be used for moving an image around. If you put it to use for this purpose then any shortcut involving the left mouse button will have no effect! Note that it is not recommended to disable this if you do not have any other means to move an image around (e.g., touchscreen)!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../../qml/settingsmanager/tabs/TabShortcuts.qml" line="102"/>
         <source>Mouse: Left button click-and-move</source>
         <translation type="unfinished"/>
