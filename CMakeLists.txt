@@ -314,6 +314,8 @@ endif(GM)
 set(MAN_LANGS en es)
 ### Translation language of manpage: es de pt... Manpage in english (en) is the reference language.
 set(MAN_TRANS es)
+### Sources of htmlpage: en es de pt...
+set(HTML_LANGS en es)
 # Only to change if you understand what you're doing
 if(BUILD_MANPAGES)
   ### Build progs
@@ -360,6 +362,23 @@ if(BUILD_MANPAGES)
     list(APPEND MAN_FILES ${manfile})
   endforeach()
   add_custom_target(man ALL DEPENDS ${MAN_FILES})
+  # Build HTML pages for windows (analogues to manpage)
+  if(WIN32)
+    set(HTML_FILES)
+    foreach(l IN LISTS HTML_LANGS)
+      set(texfile ${CMAKE_SOURCE_DIR}/man/photoqt_${l}.tex)
+      set(htmlfile ${CMAKE_SOURCE_DIR}/man/photoqt_${l}.htm)
+      add_custom_command(
+	OUTPUT ${htmlfile}
+	COMMAND ${BINLATEX2MAN} -H ${texfile} ${htmlfile}
+	DEPENDS ${texfile}
+	WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+	COMMENT "Building htmlpage ${htmlfile}"
+	VERBATIM)
+      list(APPEND HTML_FILES ${htmlfile})
+    endforeach()
+    add_custom_target(html ALL DEPENDS ${HTML_FILES})
+  endif(WIN32)
 else(BUILD_MANPAGES)
   message("-- Note: manpages will not be built.")
 endif(BUILD_MANPAGES)

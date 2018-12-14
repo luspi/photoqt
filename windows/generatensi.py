@@ -445,7 +445,8 @@ cont += "     ${If} $CheckboxStartMenu_State == ${BST_CHECKED}\n\n";
 
 cont += "         CreateDirectory \"$SMPROGRAMS\\PhotoQt\"\n";
 cont += "         CreateShortcut \"$SMPROGRAMS\\PhotoQt\\Uninstall.lnk\" \"$INSTDIR\\uninstall.exe\" \"\" \"\" 0\n";
-cont += "         CreateShortcut \"$SMPROGRAMS\\PhotoQt\\PhotoQt.lnk\" \"$INSTDIR\\photoqt.exe\" \"\" \"\" 0\n\n";
+cont += "         CreateShortcut \"$SMPROGRAMS\\PhotoQt\\PhotoQt.lnk\" \"$INSTDIR\\photoqt.exe\" \"\" \"\" 0\n";
+cont += "         CreateShortcut \"$SMPROGRAMS\\PhotoQt\\Readme.lnk\" \"$INSTDIR\\html\photoqt_en.htm\" \"\" \"\" 0\n\n";
 
 cont += "     ${EndIf}\n\n";
 
@@ -596,6 +597,7 @@ def deleteDirectory(direct):
 cont += "    Delete \"$desktop\\PhotoQt.lnk\"\n";
 cont += "    Delete \"$SMPROGRAMS\\PhotoQt\\PhotoQt.lnk\"\n";
 cont += "    Delete \"$SMPROGRAMS\\PhotoQt\\Uninstall.lnk\"\n";
+cont += "    Delete \"$SMPROGRAMS\\PhotoQt\\Readme.lnk\"\n";
 cont += "    RMDir \"$SMPROGRAMS\\PhotoQt\"\n\n";
 
 cont += "    DeleteRegKey \"HKLM\" \"Software\\PhotoQt\"\n";
