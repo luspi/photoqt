@@ -203,7 +203,7 @@ QVariantMap GetMetaData::getExiv2(QString path) {
                 }
 
             } catch(Exiv2::Error &e) {
-                LOG << CURDATE << "GetMetaData::getExiv2() Unable to read Exif metadata: " << e << " (" << Exiv2::errMsg(e.code()) << ")" << NL;
+                LOG << CURDATE << "GetMetaData::getExiv2() Unable to read Exif metadata: " << e.what() << NL;
             }
 
             // If GPS is set, compose into one string
@@ -246,7 +246,7 @@ QVariantMap GetMetaData::getExiv2(QString path) {
                 }
 
             } catch(Exiv2::Error &e) {
-                LOG << CURDATE << "GetMetaData::getExiv2() ERROR reading IPTC metadata: " << e << " (" << Exiv2::errMsg(e.code()) << ")" << NL;
+                LOG << CURDATE << "GetMetaData::getExiv2() ERROR reading IPTC metadata: " << e.what() << NL;
             }
 
             QString city = returnMap["Iptc.Application2.City"].toString();

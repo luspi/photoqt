@@ -98,7 +98,7 @@ QVariantList ManagePeopleTags::getFaceTags(QString path) {
 
     } catch(Exiv2::Error& e) {
         LOG << CURDATE << "GetPeopleTag::getPeopleLocations() 2 - ERROR reading exiv data (caught exception): "
-            << e << " (" << Exiv2::errMsg(e.code()) << ")" << NL;
+            << e.what() << NL;
         return ret;
     }
 
@@ -201,7 +201,7 @@ void ManagePeopleTags::setFaceTags(QString filename, QVariantList tags) {
 
     } catch(Exiv2::Error& e) {
         LOG << CURDATE << "GetPeopleTag::setFaceTags() - ERROR reading exiv data (caught exception): "
-            << e << " (" << Exiv2::errMsg(e.code()) << ")" << NL;
+            << e.what() << NL;
         return;
     }
 
