@@ -100,12 +100,9 @@ void PQHandlingFileDialog::moveUserPlacesEntry(QString id, bool moveDown, int ho
                 QString curId = cur.select_node("info/metadata/ID").node().child_value();
 
                 if(curId == addAfterId) {
-                    qDebug() << "Moving!";
-//                    pugi::xml_node ret = nodeInsertAfter.node().append_copy(nodeToBeMoved.node());
-//                    pugi::xml_node ret = doc.root().insert_move_after(nodeToBeMoved.node(), nodeInsertAfter.node());
-//                    pugi::xml_node ret = nodeInsertAfter.node().append_move(nodeToBeMoved.node());
-//                    if(ret == nullptr)
-                        qDebug() << "moving failed :(";
+                    pugi::xml_node ret = nodeInsertAfter.node().parent().insert_move_after(nodeToBeMoved.node(), nodeInsertAfter.node());
+                    if(ret == nullptr)
+                        LOG << CURDATE << "ERROR: Reordering items in user-places.xbel failed..." << NL;
                     break;
                 }
 
@@ -118,27 +115,6 @@ void PQHandlingFileDialog::moveUserPlacesEntry(QString id, bool moveDown, int ho
     }
 
     doc.save_file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8(), " ");
-
-//    QString addAfterId = "";
-//    if(moveDown)
-//        addAfterId = allIds[qMin(allIds.length()-1, allIds.indexOf(id)+howmany)];
-//    else
-//        addAfterId = allIds[qMax(0, allIds.indexOf(id)-howmany-1)];
-
-//    for(pugi::xpath_node node: bookmarks) {
-
-//        pugi::xml_node cur = node.node();
-//        QString curId = cur.select_node("info/metadata/ID").node().child_value();
-
-//        if(curId == addAfterId) {
-//            qDebug() << "Moving!";
-//            cur.append_move(nodeToBeMoved);
-//            break;
-//        }
-
-//    }
-
-//    qDebug() << "move" << id << "to after" << addAfterId;
 
 }
 
