@@ -42,15 +42,15 @@
 
 // Convenience class to access and change permanent settings
 
-class Settings : public QObject {
+class PQSettings : public QObject {
 
     Q_OBJECT
 
 public:
-    explicit Settings(QObject *parent = nullptr);
+    explicit PQSettings(QObject *parent = 0);
 
     // CLean-up
-    ~Settings();
+    ~PQSettings();
 
 private slots:
     void addFileToWatcher();
@@ -107,8 +107,6 @@ private:
     bool    m_showTransparencyMarkerBackground;
     bool    m_leftButtonMouseClickAndMove;
     int     m_zoomSpeed;
-    bool    m_rawLoadEmbeddedThumbnail;
-    int     m_hideMouseCursorTimeout;
 
     bool    m_pdfSingleDocument;
     int     m_pdfQuality;
@@ -579,28 +577,6 @@ public:
     void setZoomSpeed(int val) { if(val != m_zoomSpeed) { m_zoomSpeed = val;
                                                           emit zoomSpeedChanged(val);
                                                           saveSettingsTimer->start(); } }
-
-    // rawLoadEmbeddedThumbnail
-    Q_PROPERTY(bool   rawLoadEmbeddedThumbnail
-               READ   getRawLoadEmbeddedThumbnail
-               WRITE  setRawLoadEmbeddedThumbnail
-               NOTIFY rawLoadEmbeddedThumbnailChanged)
-    bool getRawLoadEmbeddedThumbnail() { return m_rawLoadEmbeddedThumbnail; }
-    void setRawLoadEmbeddedThumbnail(bool val) { if(val != m_rawLoadEmbeddedThumbnail) { m_rawLoadEmbeddedThumbnail = val;
-                                                                                         emit rawLoadEmbeddedThumbnailChanged(val);
-                                                                                         saveSettingsTimer->start(); } }
-
-    // hideMouseCursorTimeout
-    Q_PROPERTY(int    hideMouseCursorTimeout
-               READ   getHideMouseCursorTimeout
-               WRITE  setHideMouseCursorTimeout
-               NOTIFY hideMouseCursorTimeoutChanged)
-    int  getHideMouseCursorTimeout() { return m_hideMouseCursorTimeout; }
-    void setHideMouseCursorTimeout(int val) { if(val != m_hideMouseCursorTimeout) { m_hideMouseCursorTimeout = val;
-                                                                                    emit hideMouseCursorTimeoutChanged(val);
-                                                                                    saveSettingsTimer->start(); } }
-
-
 
     // pdfSingleDocument
     Q_PROPERTY(bool   pdfSingleDocument
@@ -1532,8 +1508,6 @@ signals:
     void archiveSingleFileChanged(int val);
     void archiveUseExternalUnrarChanged(bool val);
     void zoomSpeedChanged(int val);
-    void rawLoadEmbeddedThumbnailChanged(bool val);
-    void hideMouseCursorTimeoutChanged(int val);
 
     void quickInfoHideCounterChanged(bool val);
     void quickInfoHideFilepathChanged(bool val);

@@ -1,88 +1,49 @@
-/**************************************************************************
- **                                                                      **
- ** Copyright (C) 2018 Lukas Spies                                       **
- ** Contact: http://photoqt.org                                          **
- **                                                                      **
- ** This file is part of PhotoQt.                                        **
- **                                                                      **
- ** PhotoQt is free software: you can redistribute it and/or modify      **
- ** it under the terms of the GNU General Public License as published by **
- ** the Free Software Foundation, either version 2 of the License, or    **
- ** (at your option) any later version.                                  **
- **                                                                      **
- ** PhotoQt is distributed in the hope that it will be useful,           **
- ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
- ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
- ** GNU General Public License for more details.                         **
- **                                                                      **
- ** You should have received a copy of the GNU General Public License    **
- ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
- **                                                                      **
- **************************************************************************/
-
-#ifndef FILEDIALOG_H
-#define FILEDIALOG_H
+#ifndef PQHANDLINGFILEDIALOG_H
+#define PQHANDLINGFILEDIALOG_H
 
 #include <QObject>
-#include <QFileDialog>
+#include <QXmlStreamWriter>
+#include <QStorageInfo>
+#include <QUrl>
+#include <QFutureWatcher>
+#include <QJSValue>
+#include <QJSEngine>
+#include <QtConcurrent/QtConcurrent>
+#include <QDomDocument>
+#include <pugixml.hpp>
 
-class FileDialog : public QObject {
+#include "../logger.h"
+#include "imageformats.h"
+
+class PQHandlingFileDialog : public QObject {
 
     Q_OBJECT
 
 public:
-    explicit FileDialog(QObject *parent = nullptr) : QObject(parent) {
-        filedialog = nullptr;
-    }
+    explicit PQHandlingFileDialog(QObject *parent = nullptr);
+    ~PQHandlingFileDialog();
 
-    Q_INVOKABLE void getFilename(QString windowTitle, QString startFile) {
+    Q_INVOKABLE QVariantList getUserPlaces();
+    Q_INVOKABLE void moveUserPlacesEntry(QString id, bool moveDown, int howmany);
+    Q_INVOKABLE void addNewUserPlacesEntry(QVariantList entry, int pos);
+    Q_INVOKABLE QVariantList getStorageInfo();
 
-        // Delete old filedialog when one already exists. Otherwise the accepted signal will be fired for each once created filedialog
-        if(filedialog != nullptr)
-            delete filedialog;
+    unsigned int getNumberOfFilesInFolder(QString path);
+    Q_INVOKABLE void getNumberOfFilesInFolder(QString path, const QJSValue &callback);
 
-        // store suffix to make sure new file has the same suffix
-        this->suffix = QFileInfo(startFile).suffix();
+    QJSValue getFileSize(QString path);
+    Q_INVOKABLE void getFileSize(QString path, const QJSValue &callback);
 
-        // Create and open the filedialog (not modal_
-        filedialog = new QFileDialog;
-        filedialog->setWindowTitle(windowTitle);
-        filedialog->setDirectory(QFileInfo(startFile).absolutePath());
-        filedialog->selectFile(startFile);
-        filedialog->setModal(false);
-        filedialog->setNameFilter("*." + suffix);
-        filedialog->open();
+    Q_INVOKABLE QString cleanPath(QString path);
 
-        // We pass the rejected signal right on, but intercept the accepted one for checking the returned filename
-        connect(filedialog, &QFileDialog::rejected, this, &FileDialog::rejected);
-        connect(filedialog, &QFileDialog::accepted, this, &FileDialog::diagAccepted);
+    Q_INVOKABLE QStringList getFoldersIn(QString path);
 
-    }
-
-    Q_INVOKABLE void close() {
-        filedialog->close();
-    }
+    Q_INVOKABLE QString getHomeDir();
 
 private:
-    QFileDialog *filedialog;
-    QString suffix;
+    PQImageFormats *imageformats;
 
-private slots:
-    void diagAccepted() {
-
-        // Make sure the new filename has the same suffix as the old filename
-        QString fp = filedialog->selectedFiles().at(0);
-        if(QFileInfo(fp).suffix() != suffix)
-            fp += "." + suffix;
-
-        accepted(fp);
-
-    }
-
-signals:
-    void accepted(QString file);
-    void rejected();
 
 };
 
-#endif // FILEDIALOG_H
+#endif // PQHANDLINGFILEDIALOG_H

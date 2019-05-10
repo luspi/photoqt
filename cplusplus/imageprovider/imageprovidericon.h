@@ -29,11 +29,11 @@
 #include "../logger.h"
 
 
-class ImageProviderIcon : public QQuickImageProvider {
+class PQImageProviderIcon : public QQuickImageProvider {
 
 public:
-    explicit ImageProviderIcon() : QQuickImageProvider(QQuickImageProvider::Pixmap) { }
-    ~ImageProviderIcon() { }
+    explicit PQImageProviderIcon() : QQuickImageProvider(QQuickImageProvider::Pixmap) { }
+    ~PQImageProviderIcon() { }
 
     QPixmap requestPixmap(const QString &icon, QSize *, const QSize &requestedSize);
 

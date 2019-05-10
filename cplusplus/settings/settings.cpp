@@ -22,14 +22,14 @@
 
 #include "settings.h"
 
-Settings::Settings(QObject *parent) : QObject(parent) {
+PQSettings::PQSettings(QObject *parent) : QObject(parent) {
 
     // When saving the settings, we don't want to write the settings file hundreds of time within a few milliseconds,
     // but use a timer to save it once after all settings are set
     saveSettingsTimer = new QTimer;
     saveSettingsTimer->setInterval(400);
     saveSettingsTimer->setSingleShot(true);
-    connect(saveSettingsTimer, &QTimer::timeout, this, &Settings::saveSettings);
+    connect(saveSettingsTimer, &QTimer::timeout, this, &PQSettings::saveSettings);
 
     watcher = new QFileSystemWatcher;
     connect(watcher, &QFileSystemWatcher::fileChanged, [this](QString){ readSettings(); });
@@ -37,7 +37,7 @@ Settings::Settings(QObject *parent) : QObject(parent) {
     watcherAddFileTimer = new QTimer;
     watcherAddFileTimer->setInterval(500);
     watcherAddFileTimer->setSingleShot(true);
-    connect(watcherAddFileTimer, &QTimer::timeout, this, &Settings::addFileToWatcher);
+    connect(watcherAddFileTimer, &QTimer::timeout, this, &PQSettings::addFileToWatcher);
 
     setDefault();
     readSettings();
@@ -45,11 +45,11 @@ Settings::Settings(QObject *parent) : QObject(parent) {
 }
 
 // Clean-up
-Settings::~Settings() {
+PQSettings::~PQSettings() {
     delete saveSettingsTimer;
 }
 
-void Settings::addFileToWatcher() {
+void PQSettings::addFileToWatcher() {
     QFileInfo info(ConfigFiles::SETTINGS_FILE());
     if(!info.exists()) {
         watcherAddFileTimer->start();
@@ -60,7 +60,7 @@ void Settings::addFileToWatcher() {
 }
 
 // Set the default settings
-void Settings::setDefault() {
+void PQSettings::setDefault() {
 
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE << "Settings::setDefault()" << NL;
@@ -123,8 +123,6 @@ void Settings::setDefault() {
     setPdfQuality(150);
     setArchiveSingleFile(true);
     setZoomSpeed(20);
-    setRawLoadEmbeddedThumbnail(true);
-    setHideMouseCursorTimeout(1);
 
 #ifdef Q_OS_LINUX
     // We assume here that it is available (checking would be rather slow)
@@ -232,7 +230,7 @@ void Settings::setDefault() {
 }
 
 // Save settings
-void Settings::saveSettings() {
+void PQSettings::saveSettings() {
 
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE << "Settings::saveSettings()" << NL;
@@ -298,8 +296,6 @@ void Settings::saveSettings() {
         cont += QString("ShowTransparencyMarkerBackground=%1\n").arg(int(m_showTransparencyMarkerBackground));
         cont += QString("LeftButtonMouseClickAndMove=%1\n").arg(int(m_leftButtonMouseClickAndMove));
         cont += QString("ZoomSpeed=%1\n").arg(m_zoomSpeed);
-        cont += QString("RawLoadEmbeddedThumbnail=%1\n").arg(int(m_rawLoadEmbeddedThumbnail));
-        cont += QString("HideMouseCursorTimeout=%1\n").arg(m_hideMouseCursorTimeout);
         cont += QString("PdfSingleDocument=%1\n").arg(int(m_pdfSingleDocument));
         cont += QString("PdfQuality=%1\n").arg(m_pdfQuality);
         cont += QString("ArchiveSingleFile=%1\n").arg(int(m_archiveSingleFile));
@@ -419,7 +415,7 @@ void Settings::saveSettings() {
 }
 
 // Read the current settings
-void Settings::readSettings() {
+void PQSettings::readSettings() {
 
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE << "Settings::readSettings()" << NL;
@@ -560,12 +556,6 @@ void Settings::readSettings() {
 
             else if(line.startsWith("ZoomSpeed="))
                 setZoomSpeed(line.split("=").at(1).toInt());
-
-            else if(line.startsWith("RawLoadEmbeddedThumbnail="))
-                setRawLoadEmbeddedThumbnail(line.split("RawLoadEmbeddedThumbnail=").at(1).toInt());
-
-            else if(line.startsWith("HideMouseCursorTimeout="))
-                setHideMouseCursorTimeout(line.split("HideMouseCursorTimeout=").at(1).toInt());
 
 
             else if(line.startsWith("QuickInfoHideCounter="))

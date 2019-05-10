@@ -21,8 +21,9 @@
  **************************************************************************/
 
 #include "imageprovidericon.h"
+#include <QtDebug>
 
-QPixmap ImageProviderIcon::requestPixmap(const QString &icon, QSize *, const QSize &requestedSize) {
+QPixmap PQImageProviderIcon::requestPixmap(const QString &icon, QSize *, const QSize &requestedSize) {
 
     if(qgetenv("PHOTOQT_DEBUG") == "yes")
         LOG << CURDATE << "ImageProviderIcon: Attempting to load icon from theme: " << icon.toStdString() << NL;

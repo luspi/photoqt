@@ -21,32 +21,23 @@
  **************************************************************************/
 
 #include "imageproviderfull.h"
-#include "loader/errorimage.h"
+#include "loader/loadimage_qt.h"
 
-#include "loader/loader.h"
-
-ImageProviderFull::ImageProviderFull() : QQuickImageProvider(QQuickImageProvider::Image) {
-
-    settings = new SlimSettingsReadOnly;
-    imageformats = new ImageFormats;
-    mimetypes = new MimeTypes;
+PQImageProviderFull::PQImageProviderFull() : QQuickImageProvider(QQuickImageProvider::Image) {
 
     pixmapcache = new QPixmapCache;
-    pixmapcache->setCacheLimit(8*1024*std::max(0, std::min(1000, settings->pixmapCache)));
+    pixmapcache->setCacheLimit(8*1024*std::max(0, std::min(1000, 10000)));
 
-    // Value of -1 means we need to check next time
-    foundExternalUnrar = -1;
+    imageformats = new PQImageFormats;
 
 }
 
-ImageProviderFull::~ImageProviderFull() {
-    delete settings;
-    delete imageformats;
-    delete mimetypes;
+PQImageProviderFull::~PQImageProviderFull() {
     delete pixmapcache;
+    delete imageformats;
 }
 
-QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *size, const QSize &requestedSize) {
+QImage PQImageProviderFull::requestImage(const QString &filename_encoded, QSize *origSize, const QSize &requestedSize) {
 
     QString full_filename = QByteArray::fromPercentEncoding(filename_encoded.toUtf8());
 #ifdef Q_OS_WIN
@@ -57,22 +48,15 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *s
 #endif
     QString filename = full_filename;
 
-    if(!QFileInfo(filename).exists() &&
-       !filename.contains("::PQT1::") && !filename.contains("::PQT2::") &&
-       !filename.contains("::ARCHIVE1::") && !filename.contains("::ARCHIVE2::")) {
+    if(!QFileInfo(filename).exists()) {
         QString err = QCoreApplication::translate("imageprovider", "File failed to load, it doesn't exist!");
         LOG << CURDATE << "ImageProviderFull: ERROR: " << err.toStdString() << NL;
         LOG << CURDATE << "ImageProviderFull: Filename: " << filename.toStdString() << NL;
-        return PErrorImage::load(err);
+        return PQLoadImage::ErrorImage::load(err);
     }
 
     // Which GraphicsEngine should we use?
     QString whatToUse = whatDoIUse(filename);
-
-    if(qgetenv("PHOTOQT_DEBUG") == "yes")
-        LOG << CURDATE << "ImageProviderFull: Using graphics engine: "
-            << (whatToUse=="gm" ? "GraphicsMagick" : (whatToUse=="qt" ? "ImageReader" : (whatToUse=="raw" ? "LibRaw" : "External Tool")))
-            << " [" << whatToUse.toStdString() << "]" << NL;
 
     // The return image
     QImage ret;
@@ -90,9 +74,6 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *s
         // if valid...
         if(!ret.isNull()) {
 
-            if(qgetenv("PHOTOQT_DEBUG") == "yes")
-                LOG << CURDATE << "ImageProviderFull: Loading full image from pixmap cache: " << QFileInfo(filename).fileName().toStdString() << NL;
-
             // return scaled version
             if(requestedSize.width() > 2 && requestedSize.height() > 2 &&
                ret.width() > requestedSize.width() && ret.height() > requestedSize.height())
@@ -105,51 +86,18 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *s
 
     }
 
-    // Try to use XCFtools for XCF (if enabled)
-    if(whatToUse == "xcftools")
-        ret = PLoadImage::Xcftools(filename,maxSize);
-
-    // Try to use GraphicsMagick (if available)
-    else if(whatToUse == "gm")
-        ret = PLoadImage::GraphicsMagick(filename, maxSize);
-
-    // Try to use libraw (if available)
-    else if(whatToUse == "raw")
-        ret = PLoadImage::Raw(filename, maxSize, settings->rawLoadEmbeddedThumbnail, (requestedSize==QSize(256,256) ? true : false));
-
-    // Try to use DevIL (if available)
-    else if(whatToUse == "devil")
-        ret = PLoadImage::DevIL(filename, maxSize);
-
-    // Try to use FreeImage (if available)
-    else if(whatToUse == "freeimage")
-        ret = PLoadImage::FreeImage(filename, maxSize);
-
-    else if(whatToUse == "poppler")
-        ret = PLoadImage::Poppler(filename, maxSize, settings->pdfQuality);
-
-    else if(whatToUse == "unrar")
-        ret = PLoadImage::Unrar(filename, maxSize);
-
-    else if(whatToUse == "archive")
-        ret = PLoadImage::Archive(filename, maxSize);
-
-    // Try to use Qt
-    else
-        ret = PLoadImage::Qt(filename,maxSize,settings->metaApplyRotation);
+    ret = PQLoadImage::Qt::load(filename,requestedSize,origSize,true);
 
     // if returned image is not an error image ...
-    if(ret.text("error") != "error" && size->isEmpty()) {
+    if(!ret.isNull()) {
 
         // ... insert image into cache
-        if(qgetenv("PHOTOQT_DEBUG") == "yes")
-            LOG << CURDATE << "ImageProviderFull: Inserting full image into pixmap cache: " << QFileInfo(filename).fileName().toStdString() << NL;
         pixmapcache->insert(cachekey, QPixmap::fromImage(ret));
 
     }
 
     // return scaled version
-    if(requestedSize.width() > 2 && requestedSize.height() > 2 && ret.width() > requestedSize.width() && ret.height() > requestedSize.height())
+    if(requestedSize.width() > 2 && requestedSize.height() > 2 && origSize->width() > requestedSize.width() && origSize->height() > requestedSize.height())
         return ret.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
     // return full version
@@ -157,136 +105,27 @@ QImage ImageProviderFull::requestImage(const QString &filename_encoded, QSize *s
 
 }
 
-QString ImageProviderFull::whatDoIUse(QString filename) {
+QString PQImageProviderFull::whatDoIUse(QString filename) {
 
     if(filename.trimmed() == "") return "qt";
 
     QString useThisFilename = filename;
-    if(filename.contains("::PQT1::") && filename.contains("::PQT2::"))
-        useThisFilename = filename.split("::PQT1::").at(0) + filename.split("::PQT2::").at(1);
-
-    QString mime = mimedb.mimeTypeForFile(useThisFilename, QMimeDatabase::MatchContent).name();
-
     QFileInfo info(useThisFilename);
 
     /***********************************************************/
     // Qt image plugins
 
-    if(imageformats->getEnabledFileformatsQt().contains("*." + info.suffix().toLower()) ||
-       mimetypes->getEnabledMimeTypesQt().contains(mime))
+    if(imageformats->getEnabledFileformatsQt().contains("*." + info.suffix().toLower()))
         return "qt";
 
-
-    /***********************************************************/
-    // PDF with poppler library
-
-    if(imageformats->getEnabledFileformatsPoppler().contains("*." + info.suffix().toLower()) ||
-       mimetypes->getEnabledMimeTypesPoppler().contains(mime))
-        return "poppler";
-
-
-    /***********************************************************/
-    // xcftools
-
-    if(imageformats->getEnabledFileformatsXCFTools().contains("*." + info.suffix().toLower()) ||
-       mimetypes->getEnabledMimeTypesXCFTools().contains(mime))
-        return "xcftools";
-
-
-    /***********************************************************/
-    // unrar
-
-#ifdef Q_OS_LINUX
-    QString suffix = info.suffix().toLower();
-    if(settings->archiveUseExternalUnrar &&
-       (((suffix == "rar" || suffix == "cbr") && imageformats->getEnabledFileformatsArchive().contains("*."+suffix)) ||
-        (mime == "application/vnd.rar" && mimetypes->getEnabledMimeTypesArchive().contains(mime)))) {
-        // The first time we get here we check whether unrar is available or not
-        if(foundExternalUnrar == -1) {
-            QProcess which;
-            which.setStandardOutputFile(QProcess::nullDevice());
-            which.start("which unrar");
-            which.waitForFinished();
-            foundExternalUnrar = which.exitCode() ? 0 : 1;
-        }
-        if(foundExternalUnrar == 1)
-            return "unrar";
-    }
-#endif
-
-
-    /***********************************************************/
-    // Archive
-
-    if(imageformats->getEnabledFileformatsArchive().contains("*." + info.suffix().toLower()) ||
-       mimetypes->getEnabledMimeTypesArchive().contains(mime))
-        return "archive";
-
-
-
-#ifdef RAW
-
-    /***********************************************************/
-    // libraw library
-
-    if(imageformats->getEnabledFileformatsRAW().contains("*." + info.suffix().toLower()) ||
-       mimetypes->getEnabledMimeTypesRAW().contains(mime))
-        return "raw";
-
-#endif
-
-#ifdef GM
-
-    /***********************************************************/
-    // GraphicsMagick library
-
-    if(imageformats->getEnabledFileformatsGm().contains("*." + info.suffix().toLower()) ||
-       mimetypes->getEnabledMimeTypesGm().contains(mime))
-        return "gm";
-
-    if(imageformats->getEnabledFileformatsGmGhostscript().contains("*." + info.suffix().toLower()) ||
-       mimetypes->getEnabledMimeTypesGmGhostscript().contains(mime))
-        return "gm";
-
-#endif
-
-#ifdef DEVIL
-
-    /***********************************************************/
-    // DevIL library
-
-    if(imageformats->getEnabledFileformatsDevIL().contains("*." + info.suffix().toLower()) ||
-       mimetypes->getEnabledMimeTypesDevIL().contains(mime))
-        return "devil";
-
-#endif
-
-#ifdef FREEIMAGE
-
-    /***********************************************************/
-    // FreeImage library
-
-    if(imageformats->getEnabledFileformatsFreeImage().contains("*." + info.suffix().toLower()) ||
-       mimetypes->getEnabledMimeTypesFreeImage().contains(mime))
-        return "freeimage";
-
-#endif
-
-    /***********************************************************/
-    // If the image was found, we default to GraphicsMagick if enabled, and otherwise to the Qt image plugins
-#ifdef GM
-    return "gm";
-#else
     return "qt";
-#endif
 
 }
 
-QByteArray ImageProviderFull::getUniqueCacheKey(QString path) {
+QByteArray PQImageProviderFull::getUniqueCacheKey(QString path) {
     path = path.remove("image://full/");
     path = path.remove("file:/");
     QFileInfo info(path);
     QString fn = QString("%1%2").arg(path).arg(info.lastModified().toMSecsSinceEpoch());
-    if(path.endsWith(".pdf") || path.endsWith(".epdf")) fn = QString("%1%2").arg(fn).arg(settings->pdfQuality);
     return QCryptographicHash::hash(fn.toUtf8(),QCryptographicHash::Md5).toHex();
 }

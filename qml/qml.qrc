@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/">
+        <file>mainwindow.qml</file>
+        <file>mainwindow/PQImage.qml</file>
+        <file>mainwindow/PQFileDialog.qml</file>
+        <file>mainwindow/filedialog/PQPlaces.qml</file>
+        <file>mainwindow/filedialog/PQDevices.qml</file>
+        <file>mainwindow/filedialog/PQFileView.qml</file>
+        <file>mainwindow/filedialog/PQStandard.qml</file>
+        <file>mainwindow/image/PQImageAnimated.qml</file>
+        <file>mainwindow/image/PQImageNormal.qml</file>
+        <file>mainwindow/filedialog/PQTweaks.qml</file>
+        <file>elements/PQSlider.qml</file>
+        <file>elements/PQCheckbox.qml</file>
+        <file>mainwindow/image/PQLoading.qml</file>
+        <file>mainwindow/filedialog/PQBreadCrumbs.qml</file>
+        <file>elements/PQButton.qml</file>
+        <file>elements/PQMenu.qml</file>
+        <file>elements/PQMenuItem.qml</file>
+        <file>mainwindow/filedialog/PQPreview.qml</file>
+    </qresource>
+</RCC>

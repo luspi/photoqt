@@ -26,38 +26,24 @@
 #include <QQuickImageProvider>
 #include <QFileInfo>
 #include <QtSvg/QtSvg>
-#include "../settings/imageformats.h"
-#include "../settings/mimetypes.h"
-#include "../settings/slimsettingsreadonly.h"
+#include "../scripts/imageformats.h"
 #include "../logger.h"
 
-#ifdef GM
-#include <GraphicsMagick/Magick++.h>
-#endif
-
-class ImageProviderFull : public QQuickImageProvider {
+class PQImageProviderFull : public QQuickImageProvider {
 
 public:
-    explicit ImageProviderFull();
-    ~ImageProviderFull();
+    explicit PQImageProviderFull();
+    ~PQImageProviderFull();
 
-    QImage requestImage(const QString &filename_encoded, QSize *size, const QSize &requestedSize);
+    QImage requestImage(const QString &filename_encoded, QSize *origSize, const QSize &requestedSize);
 
 private:
-    QSize maxSize;
-    SlimSettingsReadOnly *settings;
-    ImageFormats *imageformats;
-    MimeTypes *mimetypes;
-
     QPixmapCache *pixmapcache;
+    PQImageFormats *imageformats;
 
     QString whatDoIUse(QString filename);
 
     QByteArray getUniqueCacheKey(QString path);
-
-    QMimeDatabase mimedb;
-
-    int foundExternalUnrar;
 
 };
 

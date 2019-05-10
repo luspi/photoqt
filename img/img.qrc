@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>filedialog/iconview.png</file>
+        <file>filedialog/listview.png</file>
+        <file>filedialog/unknownfile.svg</file>
+    </qresource>
+</RCC>

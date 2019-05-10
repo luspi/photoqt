@@ -20,23 +20,23 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef LOCALISATION_H
-#define LOCALISATION_H
+#ifndef PQLOCALISATION_H
+#define PQLOCALISATION_H
 
 #include <QObject>
 #include <QTranslator>
-#include <QApplication>
+#include <QGuiApplication>
 #include <QFile>
 
-class Localisation : public QObject {
+class PQLocalisation : public QObject {
 
     Q_OBJECT
 
 public:
-    Localisation(QObject *parent = nullptr) : QObject(parent) {
+    PQLocalisation(QObject *parent = nullptr) : QObject(parent) {
         trans = new QTranslator;
     }
-    ~Localisation() {
+    ~PQLocalisation() {
         delete trans;
     }
 
@@ -88,4 +88,4 @@ signals:
 
 };
 
-#endif // LOCALISATION_H
+#endif // PQLOCALISATION_H
