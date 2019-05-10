@@ -1,6 +1,6 @@
 bionic:
 
-  image: ubuntu:bionic
+  image: ubuntu:xenial
 
   only:
     - master
