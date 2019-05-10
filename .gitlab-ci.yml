@@ -11,7 +11,7 @@ bionic:
     - apt-get -y install git software-properties-common build-essential libgl1-mesa-dev cmake wget extra-cmake-modules
     - apt-get -y install qt5-default qtbase5-dev qtdeclarative5-dev libqt5svg5-dev qttools5-dev qttools5-dev-tools libarchive-dev libexiv2-dev libraw-dev libfreeimage-dev libdevil-dev graphicsmagick-libmagick-dev-compat libfreeimageplus-dev qml-module-qtquick-controls qml-module-qtmultimedia
     - mkdir -p build && cd build/
-    - cmake .. -DCMAKE_BUILD_TYPE=Release - -DCMAKE_INSTALL_PREFIX=/usr -DPOPPLER=OFF
+    - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DPOPPLER=OFF
     - make -j$(nproc)
     - make DESTDIR=../appdir -j$(nproc) install ; find ../appdir/
     - cd -
