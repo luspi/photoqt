@@ -9,7 +9,7 @@ bionic:
     - echo "${CI_PROJECT_URL}/-/jobs/artifacts/${CI_COMMIT_REF_NAME}/raw/QtQuickApp-x86_64.AppImage?job=${CI_JOB_NAME}"
     - apt-get update -qq
     - apt-get -y install git software-properties-common build-essential libgl1-mesa-dev cmake wget extra-cmake-modules
-    - apt-get -y install qt5-default qtbase5-dev qtdeclarative5-dev libqt5svg5-dev qttools5-dev qttools5-dev-tools libarchive-dev libexiv2-dev libraw-dev libfreeimage-dev libdevil-dev graphicsmagick-libmagick-dev-compat libfreeimageplus-dev qml-module-qtquick-controls qml-module-qtmultimedia qml-module-qtgraphicaleffects qml-module-qtquick-layouts qml-module-qtquick-extras libqt5quick5
+    - apt-get -y install qt5-default qtbase5-dev qtdeclarative5-dev qtdeclarative5-dev-tools libqt5svg5-dev qttools5-dev qttools5-dev-tools libarchive-dev libexiv2-dev libraw-dev libfreeimage-dev libdevil-dev graphicsmagick-libmagick-dev-compat libfreeimageplus-dev qml-module-qtquick-controls qml-module-qtmultimedia qml-module-qtgraphicaleffects qml-module-qtquick-layouts qml-module-qtquick-extras libqt5quick5
     - mkdir -p build && cd build/
     - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DPOPPLER=OFF
     - make -j$(nproc)
