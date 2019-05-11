@@ -6,6 +6,7 @@ import PQHandlingFileDialog 1.0
 import PQLocalisation 1.0
 import PQImageProperties 1.0
 import PQImageFormats 1.0
+import PQFileWatcher 1.0
 
 import "./mainwindow"
 
@@ -33,6 +34,7 @@ Window {
     PQSettings { id: settings }
     PQImageProperties { id: imageproperties }
     PQImageFormats { id: imageformats }
+    PQFileWatcher { id: filewatcher }
 
     PQHandlingFileDialog { id: handlingFileDialog }
 

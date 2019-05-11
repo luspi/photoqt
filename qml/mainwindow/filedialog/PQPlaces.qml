@@ -276,6 +276,13 @@ ListView {
     Component.onCompleted:
         loadUserPlaces()
 
+    Connections {
+        target: filewatcher
+        onUserPlacesChanged: {
+            loadUserPlaces()
+        }
+    }
+
     function loadUserPlaces() {
 
         var upl = handlingFileDialog.getUserPlaces()
