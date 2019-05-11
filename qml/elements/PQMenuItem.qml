@@ -27,6 +27,8 @@ MenuItem {
         checked: control.checked
         visible: control.checkable
         interactive: false
+        onCheckedChanged:
+            control.checked = checked
     }
 
     background: Rectangle {

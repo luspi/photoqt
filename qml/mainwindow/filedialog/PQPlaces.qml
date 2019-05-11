@@ -26,6 +26,26 @@ ListView {
         visible: ((path!=undefined&&(hidden=="false"||showHiddenEntries))||index==0)
         opacity: hidden=="false" ? 1 : 0.5
 
+        Rectangle {
+            x: 0
+            y: 0
+            width: userplaces_top.width
+            height: 1
+            z: 999
+            color: "white"
+            visible: index>0 && (dragItemIndex>-1&&hoverIndex==index || (dragItemIndex>-1&&hoverIndex==0&&index==1))
+        }
+
+        Rectangle {
+            x: 0
+            y: 29
+            width: userplaces_top.width
+            height: 1
+            z: 999
+            color: "white"
+            visible: (dragItemIndex>-1&&hoverIndex==index) || (dragItemIndex>-1&&hoverIndex==-1&&index==places_model.count-1)
+        }
+
         // the rectangle containing the actual content that can be dragged around
         Rectangle {
 
@@ -115,6 +135,13 @@ ListView {
                         splitview.dragSource = "userplaces"
                     }
                     deleg_container.Drag.drop();
+                    if(!mouseArea.drag.active) {
+                        // reset variables used for drag/drop
+                        rightcol.dragItemIndex = -1
+                        userplaces_top.dragItemIndex = -1
+                        userplaces_top.dragItemId = ""
+                        userplaces_top.hoverIndex = -1
+                    }
                 }
 
                 // clicking an entry loads the location or shows a context menu (depends on which button was used)
@@ -142,12 +169,16 @@ ListView {
                 id: contextmenu
 
                 PQMenuItem {
-                    text: "Hide entry"
+                    text: hidden=="true" ? "Show entry" : "Hide entry"
+                    onTriggered: {
+                        handlingFileDialog.hideUserPlacesEntry(id, hidden=="false")
+                    }
                 }
 
                 PQMenuItem {
                     text: "Remove entry"
-                    onTriggered: saveUserPlaces()
+                    onTriggered:
+                        handlingFileDialog.removeUserPlacesEntry(id)
                 }
 
             }
@@ -160,7 +191,7 @@ ListView {
                     text: "Show hidden entries"
                     checkable: true
                     onCheckedChanged:
-                        showHiddenEntries = checked
+                        userplaces_top.showHiddenEntries = checked
                 }
 
             }
@@ -235,11 +266,11 @@ ListView {
 
             }
 
-            // reset variables used for drag/drop
-            rightcol.dragItemIndex = -1
-            userplaces_top.hoverIndex = -1
-
         }
+
+        onPositionChanged:
+            hoverIndex = userplaces_top.indexAt(drag.x, drag.y+userplaces_top.contentY)
+
     }
 
     Component.onCompleted:

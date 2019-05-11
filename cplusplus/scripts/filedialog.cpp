@@ -60,8 +60,6 @@ QVariantList PQHandlingFileDialog::getUserPlaces() {
 
 void PQHandlingFileDialog::moveUserPlacesEntry(QString id, bool moveDown, int howmany) {
 
-    qDebug() << id << " // " << moveDown << " // " << howmany;
-
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
     if(!result) {
@@ -73,7 +71,7 @@ void PQHandlingFileDialog::moveUserPlacesEntry(QString id, bool moveDown, int ho
 
     // first get a handle for this node
     QStringList allIds;
-    for(pugi::xpath_node node: bookmarks) {
+    for(pugi::xpath_node node : bookmarks) {
         pugi::xml_node cur = node.node();
         QString curId = cur.select_node("info/metadata/ID").node().child_value();
         QString curPath = cur.attribute("href").value();
@@ -81,26 +79,34 @@ void PQHandlingFileDialog::moveUserPlacesEntry(QString id, bool moveDown, int ho
             allIds.append(curId);
     }
 
-    for(pugi::xpath_node nodeToBeMoved: bookmarks) {
+    for(pugi::xpath_node nodeToBeMoved : bookmarks) {
 
         pugi::xml_node cur = nodeToBeMoved.node();
         QString curId = cur.select_node("info/metadata/ID").node().child_value();
 
         if(id == curId) {
 
-            QString addAfterId = "";
+            QString targetId = "";
+            bool addAtBeginning = false;
             if(moveDown)
-                addAfterId = allIds[qMin(allIds.length()-1, allIds.indexOf(id)+howmany)];
-            else
-                addAfterId = allIds[qMax(0, allIds.indexOf(id)-howmany-1)];
+                targetId = allIds[qMin(allIds.length()-1, allIds.indexOf(id)+howmany)];
+            else {
+                int newid =allIds.indexOf(id)-howmany-1;
+                if(newid < 0)
+                    addAtBeginning = true;
+                targetId = allIds[qMax(0, newid)];
+            }
 
-            for(pugi::xpath_node nodeInsertAfter: bookmarks) {
+            for(pugi::xpath_node targetNode : bookmarks) {
 
-                pugi::xml_node cur = nodeInsertAfter.node();
-                QString curId = cur.select_node("info/metadata/ID").node().child_value();
+                QString curId = targetNode.node().select_node("info/metadata/ID").node().child_value();
 
-                if(curId == addAfterId) {
-                    pugi::xml_node ret = nodeInsertAfter.node().parent().insert_move_after(nodeToBeMoved.node(), nodeInsertAfter.node());
+                if(curId == targetId) {
+                    pugi::xml_node ret;
+                    if(addAtBeginning)
+                        ret = targetNode.node().parent().insert_move_before(nodeToBeMoved.node(), targetNode.node());
+                    else
+                        ret = targetNode.node().parent().insert_move_after(nodeToBeMoved.node(), targetNode.node());
                     if(ret == nullptr)
                         LOG << CURDATE << "ERROR: Reordering items in user-places.xbel failed..." << NL;
                     break;
@@ -118,8 +124,62 @@ void PQHandlingFileDialog::moveUserPlacesEntry(QString id, bool moveDown, int ho
 
 }
 
+void PQHandlingFileDialog::hideUserPlacesEntry(QString id, bool hidden) {
+
+    pugi::xml_document doc;
+    pugi::xml_parse_result result = doc.load_file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
+    if(!result) {
+        LOG << CURDATE << "ERROR: Unable to read user places. Either file doesn't exist (yet) or cannot be read..." << NL;
+        return;
+    }
+
+    pugi::xpath_node_set bookmarks = doc.select_nodes("/xbel/bookmark");
+
+    for(pugi::xpath_node node : bookmarks) {
+
+        pugi::xml_node cur = node.node();
+        QString curId = cur.select_node("info/metadata/ID").node().child_value();
+
+        if(curId == id) {
+            if(!cur.select_node("info/metadata/IsHidden").node().text().set(hidden ? "true" : "false"))
+                LOG << CURDATE << "ERROR: Unable to hide/show item with id " << id.toStdString() << NL;
+            break;
+        }
+    }
+
+    doc.save_file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8(), " ");
+
+}
+
 void PQHandlingFileDialog::addNewUserPlacesEntry(QVariantList, int) {
 //void PQHandlingFileDialog::addNewUserPlacesEntry(QVariantList entry, int pos) {
+
+}
+
+void PQHandlingFileDialog::removeUserPlacesEntry(QString id) {
+
+    pugi::xml_document doc;
+    pugi::xml_parse_result result = doc.load_file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
+    if(!result) {
+        LOG << CURDATE << "ERROR: Unable to read user places. Either file doesn't exist (yet) or cannot be read..." << NL;
+        return;
+    }
+
+    pugi::xpath_node_set bookmarks = doc.select_nodes("/xbel/bookmark");
+
+    for(pugi::xpath_node node : bookmarks) {
+
+        pugi::xml_node cur = node.node();
+        QString curId = cur.select_node("info/metadata/ID").node().child_value();
+
+        if(curId == id) {
+            if(!cur.parent().remove_child(cur))
+                LOG << CURDATE << "ERROR: Unable to remove item with id " << id.toStdString() << NL;
+            break;
+        }
+    }
+
+    doc.save_file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8(), " ");
 
 }
 
