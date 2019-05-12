@@ -53,6 +53,7 @@ Rectangle {
 
         // the dragsource, used to distinguish between dragging new folder and reordering userplaces
         property string dragSource: ""
+        property string dragItemPath: ""
 
         Rectangle {
 
@@ -101,9 +102,6 @@ Rectangle {
             id: rightcol
 
             Layout.fillWidth: true
-
-            // used for dragging folders to userplaces
-            property int dragItemIndex: -1
 
             PQBreadCrumbs {
 

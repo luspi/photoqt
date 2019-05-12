@@ -151,8 +151,93 @@ void PQHandlingFileDialog::hideUserPlacesEntry(QString id, bool hidden) {
 
 }
 
-void PQHandlingFileDialog::addNewUserPlacesEntry(QVariantList, int) {
-//void PQHandlingFileDialog::addNewUserPlacesEntry(QVariantList entry, int pos) {
+void PQHandlingFileDialog::addNewUserPlacesEntry(QString path, int pos) {
+
+    pugi::xml_document doc;
+    pugi::xml_parse_result result = doc.load_file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
+    if(!result) {
+        LOG << CURDATE << "ERROR: Unable to read user places. Either file doesn't exist (yet) or cannot be read..." << NL;
+        return;
+    }
+
+    pugi::xpath_node_set bookmarks = doc.select_nodes("/xbel/bookmark");
+
+    QStringList allIds;
+    for(pugi::xpath_node node : bookmarks) {
+
+        pugi::xml_node cur = node.node();
+
+        QString path = cur.attribute("href").value();
+
+        if(path == "trash:/" || path.startsWith("file:/"))
+            allIds.push_back(cur.select_node("info/metadata/ID").node().child_value());
+
+    }
+
+    QString newid_base = QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch());
+
+    int counter = 0;
+    while(allIds.contains(QString("%1/%2").arg(newid_base).arg(counter)))
+        ++counter;
+
+    QString insertAfterId = allIds[qMax(0, pos-2)];
+
+    for(pugi::xpath_node node : bookmarks) {
+
+        pugi::xml_node cur = node.node();
+
+        if(cur.select_node("info/metadata/ID").node().child_value() == insertAfterId) {
+
+            pugi::xml_node newnode = cur.parent().insert_child_after(pugi::node_element, cur);
+            if(newnode == nullptr)
+                LOG << CURDATE << "ERROR: Unable to add new node..." << NL;
+
+            // <bookmark>
+            newnode.set_name("bookmark");
+            newnode.append_attribute("href");
+            newnode.attribute("href").set_value(QString("file://%1").arg(path).toStdString().c_str());
+
+            // <title>
+            pugi::xml_node title = newnode.append_child("title");
+            title.text().set(QFileInfo(path).fileName().toStdString().c_str());
+
+            // <info>
+            pugi::xml_node info = newnode.append_child("info");
+
+            // <metadata> freedesktop.org
+            pugi::xml_node metadata1 = info.append_child("metadata");
+            metadata1.append_attribute("owner");
+            metadata1.attribute("owner").set_value("http://freedesktop.org");
+
+            // <bookmark:icon>
+            pugi::xml_node icon = metadata1.append_child("bookmark:icon");
+            icon.append_attribute("name");
+            icon.attribute("name").set_value("folder");
+
+            // <metadata> kde.org
+            pugi::xml_node metadata2 = info.append_child("metadata");
+            metadata2.append_attribute("owner");
+            metadata2.attribute("owner").set_value("http://www.kde.org");
+
+            // <ID>
+            pugi::xml_node ID = metadata2.append_child("ID");
+            ID.text().set(QString("%1/%2").arg(newid_base).arg(counter).toStdString().c_str());
+
+            // <IsHidden>
+            pugi::xml_node IsHidden = metadata2.append_child("IsHidden");
+            IsHidden.text().set("false");
+
+            // <isSystemItem>
+            pugi::xml_node isSystemItem = metadata2.append_child("isSystemItem");
+            isSystemItem.text().set("false");
+
+            break;
+
+        }
+
+    }
+
+    doc.save_file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8(), " ");
 
 }
 

@@ -26,7 +26,7 @@ public:
     Q_INVOKABLE QVariantList getUserPlaces();
     Q_INVOKABLE void moveUserPlacesEntry(QString id, bool moveDown, int howmany);
     Q_INVOKABLE void hideUserPlacesEntry(QString id, bool hidden);
-    Q_INVOKABLE void addNewUserPlacesEntry(QVariantList entry, int pos);
+    Q_INVOKABLE void addNewUserPlacesEntry(QString path, int pos);
     Q_INVOKABLE void removeUserPlacesEntry(QString id);
     Q_INVOKABLE QVariantList getStorageInfo();
 

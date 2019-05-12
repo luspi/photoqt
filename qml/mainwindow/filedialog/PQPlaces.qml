@@ -137,7 +137,6 @@ ListView {
                     deleg_container.Drag.drop();
                     if(!mouseArea.drag.active) {
                         // reset variables used for drag/drop
-                        rightcol.dragItemIndex = -1
                         userplaces_top.dragItemIndex = -1
                         userplaces_top.dragItemId = ""
                         userplaces_top.hoverIndex = -1
@@ -190,6 +189,7 @@ ListView {
                 PQMenuItem {
                     text: "Show hidden entries"
                     checkable: true
+                    checked: userplaces_top.showHiddenEntries
                     onCheckedChanged:
                         userplaces_top.showHiddenEntries = checked
                 }
@@ -238,15 +238,7 @@ ListView {
             // if drag/drop originated from folders pane
             if(splitview.dragSource == "folders") {
 
-                // if item was dropped on an item, insert folder at that location
-//                if(newindex !== -1)
-//                    userplaces_top.model.insert(newindex, .model.get(folders.folderListView.dragItemIndex))
-                // if item was dropped below the items, simply append it to the model
-//                else
-//                    userPlaces.model.append(folders.folderListView.model.get(folders.folderListView.dragItemIndex))
-
-                // and save the changes to file
-//                saveUserPlaces()
+                handlingFileDialog.addNewUserPlacesEntry(splitview.dragItemPath, newindex)
 
             // if drag/drop originated from userplaces (reordering)
             } else {

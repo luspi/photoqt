@@ -9,6 +9,7 @@ PQFileWatcher::PQFileWatcher(QObject *parent) : QObject(parent) {
 }
 
 void PQFileWatcher::userPlacesChangedSLOT() {
+
     emit userPlacesChanged();
 
     QFileInfo info(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel");
