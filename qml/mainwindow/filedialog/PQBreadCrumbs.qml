@@ -61,7 +61,7 @@ Item {
     Rectangle {
         id: sep1
         anchors.left: forwards.right
-        anchors.leftMargin: 10
+        anchors.leftMargin: 5
         width: 1
         height: bread_top.height
         color: "#444444"
@@ -73,7 +73,8 @@ Item {
 
         anchors.left: sep1.right
         anchors.leftMargin: 10
-        anchors.right: parent.right
+        anchors.right: sep2.left
+        anchors.rightMargin: 10
 
         height: bread_top.height
 
@@ -118,6 +119,34 @@ Item {
 
         }
 
+    }
+
+    Rectangle {
+        id: sep2
+        anchors.right: closefileview.left
+        anchors.rightMargin: 5
+        width: 1
+        height: bread_top.height
+        color: "#444444"
+    }
+
+    Text {
+        id: closefileview
+        anchors.right: parent.right
+        height: parent.height
+        width: height
+        color: "white"
+        verticalAlignment: Qt.AlignVCenter
+        horizontalAlignment: Qt.AlignHCenter
+        text: "x"
+        font.bold: true
+        font.pointSize: 12
+        MouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            onClicked: filedialog_top.hideFileDialog()
+        }
     }
 
     Rectangle {
