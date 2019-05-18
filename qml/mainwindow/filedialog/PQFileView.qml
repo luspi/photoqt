@@ -210,8 +210,8 @@ GridView {
             }
 
             Drag.active: mouseArea.drag.active
-            Drag.hotSpot.x: 10
-            Drag.hotSpot.y: 10
+            Drag.hotSpot.x: fileicon.width/2
+            Drag.hotSpot.y: fileicon.height/2
 
             states: [
                 State {
