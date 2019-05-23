@@ -22,6 +22,8 @@ Button {
 
     property bool mouseOver: false
 
+    property alias tooltip: mousearea.tooltip
+
     signal menuItemClicked(var item)
 
     contentItem: Text {
@@ -61,7 +63,8 @@ Button {
 
     }
 
-    MouseArea {
+    PQMouseArea {
+        id: mousearea
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor

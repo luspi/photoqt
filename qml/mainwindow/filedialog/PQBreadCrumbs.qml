@@ -1,4 +1,5 @@
 import QtQuick 2.9
+import QtQuick.Controls 2.2
 
 import "../../elements"
 
@@ -31,6 +32,8 @@ Item {
             }
         }
 
+        tooltip: "Backwards"
+
     }
 
     PQButton {
@@ -55,6 +58,8 @@ Item {
                 filedialog_top.setCurrentDirectory(filedialog_top.historyListDirectory[filedialog_top.historyListIndex], false)
             }
         }
+
+        tooltip: "Forwards"
 
     }
 
@@ -100,6 +105,8 @@ Item {
 
             property string completePath: ""
 
+            tooltip: index==0||index%2==0 ? "List subfolders" : "Go to here"
+
             onClicked:
                 filedialog_top.setCurrentDirectory(completePath)
 
@@ -141,13 +148,17 @@ Item {
         text: "x"
         font.bold: true
         font.pointSize: 12
-        MouseArea {
+
+        PQMouseArea {
             anchors.fill: parent
+            tooltip: "Close"
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             onClicked: filedialog_top.hideFileDialog()
         }
+
     }
+
 
     Rectangle {
 
