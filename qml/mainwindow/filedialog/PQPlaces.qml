@@ -145,9 +145,9 @@ ListView {
 
                 // clicking an entry loads the location or shows a context menu (depends on which button was used)
                 onClicked: {
-                        if(mouse.button == Qt.LeftButton)
+                        if(mouse.button == Qt.LeftButton && index > 0)
                             filedialog_top.setCurrentDirectory(path)
-                        else {
+                        else if(mouse.button == Qt.RightButton) {
                             if(index == 0)
                                 contextmenu_title.popup()
                             else
@@ -196,7 +196,7 @@ ListView {
 
             }
 
-            Drag.active: mouseArea.drag.active
+            Drag.active: mouseArea.drag.active&&index>0
             Drag.hotSpot.x: 10
             Drag.hotSpot.y: 10
 
