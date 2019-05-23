@@ -28,6 +28,7 @@ public:
     Q_INVOKABLE void hideUserPlacesEntry(QString id, bool hidden);
     Q_INVOKABLE void addNewUserPlacesEntry(QString path, int pos);
     Q_INVOKABLE void removeUserPlacesEntry(QString id);
+    QString getNewUniqueId();
     Q_INVOKABLE QVariantList getStorageInfo();
 
     unsigned int getNumberOfFilesInFolder(QString path);
@@ -44,7 +45,6 @@ public:
 
 private:
     PQImageFormats *imageformats;
-
 
 };
 

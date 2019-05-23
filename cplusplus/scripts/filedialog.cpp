@@ -9,6 +9,36 @@ PQHandlingFileDialog::~PQHandlingFileDialog() {
     delete imageformats;
 }
 
+QString PQHandlingFileDialog::getNewUniqueId() {
+
+    pugi::xml_document doc;
+    pugi::xml_parse_result result = doc.load_file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
+    if(!result) {
+        LOG << CURDATE << "ERROR: Unable to read user places. Either file doesn't exist (yet) or cannot be read..." << NL;
+        return "";
+    }
+
+    pugi::xpath_node_set bookmarks = doc.select_nodes("/xbel/bookmark");
+
+    QStringList allIds;
+    for(pugi::xpath_node node : bookmarks) {
+        pugi::xml_node cur = node.node();
+        QString curId = cur.select_node("info/metadata/ID").node().child_value();
+        QString curPath = cur.attribute("href").value();
+        if(curPath.startsWith("file:/") || curPath == "trash:/")
+            allIds.append(curId);
+    }
+
+    QString newid_base = QString::number(QDateTime::currentSecsSinceEpoch());
+
+    int counter = 0;
+    while(allIds.contains(QString("%1/%2").arg(newid_base).arg(counter)))
+        ++counter;
+
+    return QString("%1/%2").arg(newid_base).arg(counter);
+
+}
+
 QVariantList PQHandlingFileDialog::getUserPlaces() {
 
     QVariantList ret;
@@ -16,9 +46,11 @@ QVariantList PQHandlingFileDialog::getUserPlaces() {
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
     if(!result) {
-        LOG << CURDATE << "ERROR: Unable to read user places. Either file doesn't exist (yet) or cannot be read..." << NL;
+        LOG << CURDATE << "PQHandlingFileDialog::getUserPlaces(): ERROR: Unable to read user places. Either file doesn't exist (yet) or cannot be read..." << NL;
         return ret;
     }
+
+    bool docUpdated = false;
 
     pugi::xpath_node_set bookmarks = doc.select_nodes("/xbel/bookmark");
 
@@ -41,18 +73,56 @@ QVariantList PQHandlingFileDialog::getUserPlaces() {
 
         // name
         entry << bm.select_node("title").node().child_value();
+
         // path
         entry << path;
+
         // icon
         entry << bm.select_node("info/metadata/bookmark:icon").node().attribute("name").value();
+
         // id
-        entry << bm.select_node("info/metadata/ID").node().child_value();
+        QString id = bm.select_node("info/metadata/ID").node().child_value();
+        // id doesn't exist (i.e., kde metadata part missing)
+        if(id.isEmpty()) {
+
+            id = getNewUniqueId();
+
+            pugi::xml_node info = bm.select_node("info").node();
+
+            // <metadata> kde.org
+            pugi::xml_node metadata = info.append_child("metadata");
+            metadata.append_attribute("owner");
+            metadata.attribute("owner").set_value("http://www.kde.org");
+
+            // <ID>
+            pugi::xml_node ID = metadata.append_child("ID");
+            ID.text().set(id.toStdString().c_str());
+
+            // <IsHidden>
+            pugi::xml_node IsHidden = metadata.append_child("IsHidden");
+            IsHidden.text().set("false");
+
+            // <isSystemItem>
+            pugi::xml_node isSystemItem = metadata.append_child("isSystemItem");
+            isSystemItem.text().set("false");
+
+            docUpdated = true;
+
+        }
+        entry << id;
+
         // hidden
-        entry << bm.select_node("info/metadata/IsHidden").node().child_value();
+        QString hidden = bm.select_node("info/metadata/IsHidden").node().child_value();
+        if(hidden.isEmpty())
+            hidden = "false";
+        entry << hidden;
 
         ret.append(entry);
 
     }
+
+    if(docUpdated)
+        doc.save_file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8(), " ");
 
     return ret;
 
@@ -63,7 +133,7 @@ void PQHandlingFileDialog::moveUserPlacesEntry(QString id, bool moveDown, int ho
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
     if(!result) {
-        LOG << CURDATE << "ERROR: Unable to read user places. Either file doesn't exist (yet) or cannot be read..." << NL;
+        LOG << CURDATE << "PQHandlingFileDialog::moveUserPlacesEntry(): ERROR: Unable to read user places. Either file doesn't exist (yet) or cannot be read..." << NL;
         return;
     }
 
@@ -129,7 +199,7 @@ void PQHandlingFileDialog::hideUserPlacesEntry(QString id, bool hidden) {
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
     if(!result) {
-        LOG << CURDATE << "ERROR: Unable to read user places. Either file doesn't exist (yet) or cannot be read..." << NL;
+        LOG << CURDATE << "PQHandlingFileDialog::hideUserPlacesEntry(): ERROR: Unable to read user places. Either file doesn't exist (yet) or cannot be read..." << NL;
         return;
     }
 
@@ -141,8 +211,13 @@ void PQHandlingFileDialog::hideUserPlacesEntry(QString id, bool hidden) {
         QString curId = cur.select_node("info/metadata/ID").node().child_value();
 
         if(curId == id) {
-            if(!cur.select_node("info/metadata/IsHidden").node().text().set(hidden ? "true" : "false"))
-                LOG << CURDATE << "ERROR: Unable to hide/show item with id " << id.toStdString() << NL;
+            if(QString(cur.select_node("info/metadata/IsHidden").node().child_value()) == "") {
+                pugi::xml_node metadata = cur.select_node("info/metadata").node();
+                pugi::xml_node isHidden = metadata.append_child("IsHidden");
+                isHidden.text().set(hidden ? "true" : "false");
+            } else
+                if(!cur.select_node("info/metadata/IsHidden").node().text().set(hidden ? "true" : "false"))
+                    LOG << CURDATE << "ERROR: Unable to hide/show item with id " << id.toStdString() << NL;
             break;
         }
     }
@@ -156,7 +231,7 @@ void PQHandlingFileDialog::addNewUserPlacesEntry(QString path, int pos) {
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
     if(!result) {
-        LOG << CURDATE << "ERROR: Unable to read user places. Either file doesn't exist (yet) or cannot be read..." << NL;
+        LOG << CURDATE << "PQHandlingFileDialog::addNewUserPlacesEntry(): ERROR: Unable to read user places. Either file doesn't exist (yet) or cannot be read..." << NL;
         return;
     }
 
@@ -246,7 +321,7 @@ void PQHandlingFileDialog::removeUserPlacesEntry(QString id) {
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
     if(!result) {
-        LOG << CURDATE << "ERROR: Unable to read user places. Either file doesn't exist (yet) or cannot be read..." << NL;
+        LOG << CURDATE << "PQHandlingFileDialog::removeUserPlacesEntry(): ERROR: Unable to read user places. Either file doesn't exist (yet) or cannot be read..." << NL;
         return;
     }
 
