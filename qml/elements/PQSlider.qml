@@ -11,8 +11,9 @@ Slider {
 
     hoverEnabled: true
 
-    property int divideToolTipValue: 10
+    property int divideToolTipValue: 1
     property alias tooltip: slidertooltip.text
+    property string handleToolTipPrefix: ""
 
     background: Rectangle {
         x: control.leftPadding
@@ -47,7 +48,7 @@ Slider {
         parent: control.handle
         visible: control.pressed
         delay: 0
-        text: "Zoom factor: " + control.value/divideToolTipValue
+        text: handleToolTipPrefix + control.value/divideToolTipValue
     }
 
     PQToolTip {
