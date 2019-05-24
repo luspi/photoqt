@@ -180,7 +180,7 @@ GridView {
 
                 drag.target: fileIsDir ? parent : undefined
 
-                tooltip: filePath
+                tooltip: filePath + (filesizenum.text!="" ? ("  >  " + filesizenum.text) : "")
 
                 // if drag is started
                 drag.onActiveChanged: {
