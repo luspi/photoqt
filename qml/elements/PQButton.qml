@@ -23,6 +23,7 @@ Button {
     property bool mouseOver: false
 
     property alias tooltip: mousearea.tooltip
+    property alias tooltipFollowsMouse: mousearea.tooltipFollowsMouse
 
     signal menuItemClicked(var item)
 

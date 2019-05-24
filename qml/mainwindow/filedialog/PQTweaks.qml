@@ -33,6 +33,7 @@ Rectangle {
             acceptedButtons: Qt.NoButton
             hoverEnabled: true
             tooltip: "Adjust size of files and folders"
+            tooltipFollowsMouse: false
         }
 
     }
@@ -62,6 +63,7 @@ Rectangle {
         text: "Thumbnails"
 
         tooltip: checked ? "Click to hide thumbnails" : "Click to show thumbnails"
+        tooltipFollowsMouse: false
 
         anchors.right: allfiles.left
         y: (parent.height-height)/2
@@ -78,6 +80,7 @@ Rectangle {
         id: allfiles
 
         text: "All Files"
+        tooltipFollowsMouse: false
 
         tooltip: checked ? "Click to show only supported images" : "Click to show all files"
 
@@ -94,6 +97,7 @@ Rectangle {
         imageOpacity: (settings.openDefaultView=="icons") ? 1 : 0.3
 
         tooltip: "Show folders and files in a grid"
+        tooltipFollowsMouse: false
 
         height: parent.height-10
         width: height
@@ -114,6 +118,7 @@ Rectangle {
         imageOpacity: (settings.openDefaultView=="list") ? 1 : 0.3
 
         tooltip: "Show folders and files in a list"
+        tooltipFollowsMouse: false
 
         height: parent.height-10
         width: height

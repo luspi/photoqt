@@ -13,6 +13,8 @@ Item {
 
     property alias drag: tooltip_mousearea.drag
 
+    property bool tooltipFollowsMouse: true
+
     signal clicked(var mouse)
     signal doubleClicked(var mouse)
     signal pressAndHold(var mouse)
@@ -24,13 +26,13 @@ Item {
 
     PQToolTip {
         id: control
-        parent: curmouse
+        parent: top.tooltipFollowsMouse ? curmouse : parent
         visible: text!=""&&tooltip_mousearea.containsMouse
     }
 
     Item {
         id: curmouse
-        x: tooltip_mousearea.mouseX+control.width/2+10
+        x: tooltip_mousearea.mouseX + control.width/2
         y: tooltip_mousearea.mouseY
         width: 1
         height: 1

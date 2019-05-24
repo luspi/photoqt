@@ -9,6 +9,7 @@ CheckBox {
 
     property alias interactive: mousearea.enabled
     property alias tooltip: mousearea.tooltip
+    property alias tooltipFollowsMouse: mousearea.tooltipFollowsMouse
 
     indicator: Rectangle {
 
