@@ -13,8 +13,8 @@ ToolTip {
     }
 
     background: Rectangle {
-        color: "black"
-        border.color: "#666666"
+        color: "#ee000000"
+        border.color: "#ee666666"
     }
 
 }
