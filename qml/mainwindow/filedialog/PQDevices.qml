@@ -80,7 +80,7 @@ ListView {
                 elide: Text.ElideLeft
 
                 //: This is the category title of storage devices to open (like USB keys) in the element for opening files
-                text: index==0 ? em.pty+qsTr("Storage devices") : (name!=undefined ? name : "")
+                text: index==0 ? em.pty+qsTranslate("filedialog", "Storage devices") : (name!=undefined ? name : "")
 
             }
 
@@ -112,7 +112,7 @@ ListView {
 
                 acceptedButtons: Qt.LeftButton|Qt.RightButton
 
-                tooltip: index == 0 ? "Detected storage devices on your system" : (location + "<br><i>" + entrytextStorageSize.text + " (" + filesystemtype + ")</i>")
+                tooltip: index == 0 ? em.pty+qsTranslate("filedialog", "Detected storage devices on your system") : (location + "<br><i>" + entrytextStorageSize.text + " (" + filesystemtype + ")</i>")
 
                 // some properties
                 hoverEnabled: true
@@ -149,9 +149,9 @@ ListView {
 
         // for the heading
         storage_model.append({"name" : "",
-                                           "location" : "",
-                                           "filesystemtype" : "",
-                                           "icon" : ""})
+                              "location" : "",
+                              "filesystemtype" : "",
+                              "icon" : ""})
 
         for(var i = 0; i < s.length; i+=4) {
 

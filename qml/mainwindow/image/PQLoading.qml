@@ -90,7 +90,7 @@ Rectangle {
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 
             //: Used as in 'Loading the image at the moment'. Please try to keep as short as possible!
-            text: em.pty+qsTr("Loading")
+            text: em.pty+qsTranslate("other", "Loading")
 
         }
 

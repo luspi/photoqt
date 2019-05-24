@@ -72,7 +72,7 @@ ListView {
             elide: Text.ElideRight
 
             //: This is the category title of user-set folders (or favorites) in the file dialog
-            text: index==0 ? em.pty+qsTr("Standard") : locs[(index-1)*3 + 0]
+            text: index==0 ? em.pty+qsTranslate("filedialog", "Standard") : locs[(index-1)*3 + 0]
         }
 
         // mouse area handling clicks
@@ -88,7 +88,7 @@ ListView {
             acceptedButtons: Qt.RightButton|Qt.LeftButton
             cursorShape: index > 0 ? Qt.PointingHandCursor : Qt.ArrowCursor
 
-            tooltip: index == 0 ? "Some standard locations" : locs[(index-1)*3 + 1]
+            tooltip: index == 0 ? em.pty+qsTranslate("filedialog", "Some standard locations") : locs[(index-1)*3 + 1]
 
             // clicking an entry loads the location or shows a context menu (depends on which button was used)
             onClicked: {

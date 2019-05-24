@@ -111,7 +111,7 @@ ListView {
                 elide: Text.ElideRight
 
                 //: This is the category title of user-set folders (or favorites) in the file dialog
-                text: index==0 ? em.pty+qsTr("Favorites") : (folder != undefined ? folder : "")
+                text: index==0 ? em.pty+qsTranslate("filedialog", "Favorites") : (folder != undefined ? folder : "")
             }
 
             // mouse area handling clicks
@@ -127,7 +127,7 @@ ListView {
                 acceptedButtons: Qt.RightButton|Qt.LeftButton
                 cursorShape: index > 0 ? Qt.PointingHandCursor : Qt.ArrowCursor
 
-                tooltip: index == 0 ? "Your favorites" : path
+                tooltip: index == 0 ? em.pty+qsTranslate("filedialog", "Your favorites") : path
 
                 drag.target: parent
 
@@ -173,14 +173,14 @@ ListView {
                 id: contextmenu
 
                 PQMenuItem {
-                    text: hidden=="true" ? "Show entry" : "Hide entry"
+                    text: hidden=="true" ? em.pty+qsTranslate("filedialog", "Show entry") : em.pty+qsTranslate("filedialog", "Hide entry")
                     onTriggered: {
                         handlingFileDialog.hideUserPlacesEntry(id, hidden=="false")
                     }
                 }
 
                 PQMenuItem {
-                    text: "Remove entry"
+                    text: em.pty+qsTranslate("filedialog", "Remove entry")
                     onTriggered:
                         handlingFileDialog.removeUserPlacesEntry(id)
                 }
@@ -192,7 +192,7 @@ ListView {
                 id: contextmenu_title
 
                 PQMenuItem {
-                    text: "Show hidden entries"
+                    text: em.pty+qsTranslate("filedialog", "Show hidden entries")
                     checkable: true
                     checked: userplaces_top.showHiddenEntries
                     onCheckedChanged:

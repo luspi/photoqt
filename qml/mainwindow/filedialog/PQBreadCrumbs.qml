@@ -32,7 +32,7 @@ Item {
             }
         }
 
-        tooltip: "Backwards"
+        tooltip: em.pty+qsTranslate("filedialog", "Backwards")
         tooltipFollowsMouse: false
 
     }
@@ -60,7 +60,7 @@ Item {
             }
         }
 
-        tooltip: "Forwards"
+        tooltip: em.pty+qsTranslate("filedialog", "Forwards")
         tooltipFollowsMouse: false
 
     }
@@ -107,7 +107,7 @@ Item {
 
             property string completePath: ""
 
-            tooltip: index==0||index%2==0 ? "List subfolders" : completePath
+            tooltip: index==0||index%2==0 ? em.pty+qsTranslate("filedialog", "List subfolders") : completePath
             tooltipFollowsMouse: false
 
             onClicked:
@@ -159,7 +159,7 @@ Item {
 
         PQMouseArea {
             anchors.fill: parent
-            tooltip: "Close"
+            tooltip: em.pty+qsTranslate("filedialog", "Close")
             tooltipFollowsMouse: false
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor

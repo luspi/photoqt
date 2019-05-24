@@ -23,7 +23,7 @@ Window {
                    settings.backgroundColorBlue/256.0,
                    settings.backgroundColorAlpha/256.0)
 
-    title: qsTr("PhotoQt Image Viewer")
+    title: em.pty+qsTranslate("other", "PhotoQt Image Viewer")
 
     property int transitionDuration: 3
     // possible values: x, y, opacity

@@ -78,7 +78,7 @@ Rectangle {
                 id: rightclickmenu
 
                 PQMenuItem {
-                    text: settings.openUserPlacesStandard ? "Hide standard locations" : "Show standard locations"
+                    text: settings.openUserPlacesStandard ? em.pty+qsTranslate("filedialog", "Hide standard locations") : em.pty+qsTranslate("filedialog", "Show standard locations")
                     width: rightclickmenu.width
                     onTriggered: {
                         var old = settings.openUserPlacesStandard
@@ -87,7 +87,7 @@ Rectangle {
                 }
 
                 PQMenuItem {
-                    text: settings.openUserPlacesUser ? "Hide favorite locations" : "Show favorite locations"
+                    text: settings.openUserPlacesUser ? em.pty+qsTranslate("filedialog", "Hide favorite locations") : em.pty+qsTranslate("filedialog", "Show favorite locations")
                     width: rightclickmenu.width
                     onTriggered: {
                         var old = settings.openUserPlacesUser
@@ -96,7 +96,7 @@ Rectangle {
                 }
 
                 PQMenuItem {
-                    text: settings.openUserPlacesVolumes ? "Hide storage devices" : "Show storage devices"
+                    text: settings.openUserPlacesVolumes ? em.pty+qsTranslate("filedialog", "Hide storage devices") : em.pty+qsTranslate("filedialog", "Show storage devices")
                     width: rightclickmenu.width
                     onTriggered: {
                         var old = settings.openUserPlacesVolumes

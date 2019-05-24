@@ -23,7 +23,7 @@ Rectangle {
         id: zoomtext
 
         color: "white"
-        text: "Zoom:"
+        text: em.pty+qsTranslate("filedialog", "Zoom:")
         anchors.left: parent.left
         anchors.leftMargin: 5
         y: (parent.height-height)/2
@@ -32,7 +32,7 @@ Rectangle {
             anchors.fill: parent
             acceptedButtons: Qt.NoButton
             hoverEnabled: true
-            tooltip: "Adjust font size of files and folders"
+            tooltip: em.pty+qsTranslate("filedialog", "Adjust font size of files and folders")
             tooltipFollowsMouse: false
         }
 
@@ -47,7 +47,8 @@ Rectangle {
         value: settings.openZoomLevel
 
         divideToolTipValue: 10
-        tooltip: "Adjust font size of files and folders"
+        tooltip: em.pty+qsTranslate("filedialog", "Adjust font size of files and folders")
+        handleToolTipPrefix: qsTranslate("filedialog", "Zoom factor:") + " "
 
         anchors.left: zoomtext.right
         y: (parent.height-height)/2
@@ -61,9 +62,9 @@ Rectangle {
 
         id: thumb
 
-        text: "Thumbnails"
+        text: em.pty+qsTranslate("filedialog", "Thumbnails")
 
-        tooltip: checked ? "Click to hide thumbnails" : "Click to show thumbnails"
+        tooltip: checked ? em.pty+qsTranslate("filedialog", "Click to hide thumbnails") : em.pty+qsTranslate("filedialog", "Click to show thumbnails")
         tooltipFollowsMouse: false
 
         anchors.right: preview.left
@@ -82,7 +83,7 @@ Rectangle {
 
         text: "Preview"
 
-        tooltip: checked ? "Click to disable preview" : "Click to enable preview"
+        tooltip: checked ? em.pty+qsTranslate("filedialog", "Click to disable preview") : em.pty+qsTranslate("filedialog", "Click to enable preview")
         tooltipFollowsMouse: false
 
         anchors.right: allfiles.left
@@ -99,10 +100,10 @@ Rectangle {
 
         id: allfiles
 
-        text: "All Files"
+        text: em.pty+qsTranslate("filedialog", "All Files")
         tooltipFollowsMouse: false
 
-        tooltip: checked ? "Click to show only supported images" : "Click to show all files"
+        tooltip: checked ? em.pty+qsTranslate("filedialog", "Click to show only supported images") : em.pty+qsTranslate("filedialog", "Click to show all files")
 
         anchors.right: iconview.left
         y: (parent.height-height)/2
@@ -116,7 +117,7 @@ Rectangle {
         imageButtonSource: "/filedialog/iconview.png"
         imageOpacity: (settings.openDefaultView=="icons") ? 1 : 0.3
 
-        tooltip: "Show folders and files in a grid"
+        tooltip: em.pty+qsTranslate("filedialog", "Show folders and files in a grid")
         tooltipFollowsMouse: false
 
         height: parent.height-10
@@ -137,7 +138,7 @@ Rectangle {
         imageButtonSource: "/filedialog/listview.png"
         imageOpacity: (settings.openDefaultView=="list") ? 1 : 0.3
 
-        tooltip: "Show folders and files in a list"
+        tooltip: em.pty+qsTranslate("filedialog", "Show folders and files in a list")
         tooltipFollowsMouse: false
 
         height: parent.height-10
