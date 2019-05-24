@@ -19,5 +19,6 @@
         <file>elements/PQMenuItem.qml</file>
         <file>mainwindow/filedialog/PQPreview.qml</file>
         <file>elements/PQMouseArea.qml</file>
+        <file>elements/PQToolTip.qml</file>
     </qresource>
 </RCC>

@@ -9,6 +9,8 @@ Slider {
 
     stepSize: 1.0
 
+    property int divideToolTipValue: 10
+
     background: Rectangle {
         x: control.leftPadding
         y: control.topPadding + control.availableHeight / 2 - height / 2
@@ -35,6 +37,13 @@ Slider {
         radius: 10
         color: control.pressed ? "#f0f0f0" : "#f6f6f6"
         border.color: "#bdbebf"
+    }
+
+    PQToolTip {
+        parent: control.handle
+        visible: control.pressed
+        delay: 0
+        text: control.value/divideToolTipValue
     }
 
 }

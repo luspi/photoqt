@@ -28,6 +28,13 @@ Rectangle {
         anchors.leftMargin: 5
         y: (parent.height-height)/2
 
+        PQMouseArea {
+            anchors.fill: parent
+            acceptedButtons: Qt.NoButton
+            hoverEnabled: true
+            tooltip: "Adjust size of files and folders"
+        }
+
     }
 
     PQSlider {
@@ -37,6 +44,8 @@ Rectangle {
         from: 10
         to: 50
         value: settings.openZoomLevel
+
+        divideToolTipValue: 10
 
         anchors.left: zoomtext.right
         y: (parent.height-height)/2
@@ -51,6 +60,8 @@ Rectangle {
         id: thumb
 
         text: "Thumbnails"
+
+        tooltip: checked ? "Click to hide thumbnails" : "Click to show thumbnails"
 
         anchors.right: allfiles.left
         y: (parent.height-height)/2
@@ -68,6 +79,8 @@ Rectangle {
 
         text: "All Files"
 
+        tooltip: checked ? "Click to show only supported images" : "Click to show all files"
+
         anchors.right: iconview.left
         y: (parent.height-height)/2
 
@@ -79,6 +92,8 @@ Rectangle {
 
         imageButtonSource: "/filedialog/iconview.png"
         imageOpacity: (settings.openDefaultView=="icons") ? 1 : 0.3
+
+        tooltip: "Show folders and files in a grid"
 
         height: parent.height-10
         width: height
@@ -97,6 +112,8 @@ Rectangle {
 
         imageButtonSource: "/filedialog/listview.png"
         imageOpacity: (settings.openDefaultView=="list") ? 1 : 0.3
+
+        tooltip: "Show folders and files in a list"
 
         height: parent.height-10
         width: height

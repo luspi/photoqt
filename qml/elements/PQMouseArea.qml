@@ -22,23 +22,18 @@ Item {
     signal released()
     signal dragOnActiveChanged()
 
-    ToolTip {
+    PQToolTip {
         id: control
-        text: ""
-        delay: 500
+        parent: curmouse
         visible: text!=""&&tooltip_mousearea.containsMouse
+    }
 
-        contentItem: Text {
-            text: control.text
-            font: control.font
-            color: "white"
-        }
-
-        background: Rectangle {
-            color: "black"
-            border.color: "#666666"
-        }
-
+    Item {
+        id: curmouse
+        x: tooltip_mousearea.mouseX+control.width/2+10
+        y: tooltip_mousearea.mouseY
+        width: 1
+        height: 1
     }
 
     MouseArea {
