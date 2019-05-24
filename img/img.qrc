@@ -3,5 +3,6 @@
         <file>filedialog/iconview.png</file>
         <file>filedialog/listview.png</file>
         <file>filedialog/unknownfile.svg</file>
+        <file>filedialog/close.png</file>
     </qresource>
 </RCC>

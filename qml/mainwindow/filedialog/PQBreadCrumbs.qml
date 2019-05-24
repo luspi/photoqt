@@ -140,17 +140,22 @@ Item {
         color: "#444444"
     }
 
-    Text {
+    Item {
         id: closefileview
         anchors.right: parent.right
         height: parent.height
         width: height
-        color: "white"
-        verticalAlignment: Qt.AlignVCenter
-        horizontalAlignment: Qt.AlignHCenter
-        text: "x"
-        font.bold: true
-        font.pointSize: 12
+
+        Image {
+
+            anchors.fill: parent
+            anchors.margins: 10
+
+            verticalAlignment: Qt.AlignVCenter
+            horizontalAlignment: Qt.AlignHCenter
+            source: "/filedialog/close.png"
+
+        }
 
         PQMouseArea {
             anchors.fill: parent
