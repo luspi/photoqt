@@ -15,6 +15,9 @@ ListView {
     property string dragItemId: ""
     property int hoverIndex: -1
 
+    visible: settings.openUserPlacesUser
+    height: childrenRect.height
+
     delegate: Item {
 
         id: deleg
@@ -124,7 +127,7 @@ ListView {
                 acceptedButtons: Qt.RightButton|Qt.LeftButton
                 cursorShape: index > 0 ? Qt.PointingHandCursor : Qt.ArrowCursor
 
-                tooltip: index == 0 ? "Some of your favorites" : path
+                tooltip: index == 0 ? "Your favorites" : path
 
                 drag.target: parent
 

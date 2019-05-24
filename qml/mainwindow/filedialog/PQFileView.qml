@@ -12,6 +12,8 @@ GridView {
 
     property int dragItemIndex: -1
 
+    property string currentlyHoveredFile: ""
+
     model: FolderListModel {
         id: files_model
         showDirsFirst: true
@@ -98,7 +100,7 @@ GridView {
                     smooth: true
                     asynchronous: true
 
-                    source: (fileIsDir||!settings.openPreview) ? "" : ("image://thumb/" + filePath)
+                    source: (fileIsDir||!settings.openThumbnails) ? "" : ("image://thumb/" + filePath)
 
                 }
 
@@ -198,10 +200,14 @@ GridView {
                     }
                 }
 
-                onEntered:
+                onEntered: {
                     deleg_container.mouseInside = true
-                onExited:
+                    currentlyHoveredFile = fileIsDir?"":filePath
+                }
+                onExited: {
                     deleg_container.mouseInside = false
+                    currentlyHoveredFile = ""
+                }
                 onClicked: {
                     if(fileIsDir)
                         filedialog_top.setCurrentDirectory(filePath)

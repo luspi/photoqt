@@ -22,7 +22,7 @@ void PQAsyncImageResponseThumb::run() {
     QString filename = QByteArray::fromPercentEncoding(m_url.toUtf8());
 
 //    QString typeCache = "files"; // (settings->thumbnailCacheFile ? "files" : "db");
-    bool cacheEnabled = false; // settings->thumbnailCache;
+    bool cacheEnabled = true; // settings->thumbnailCache;
 
     // Create the md5 hash for the thumbnail file
     QByteArray path = QUrl::fromLocalFile(filename).toString().toUtf8();
@@ -33,7 +33,7 @@ void PQAsyncImageResponseThumb::run() {
 
     // We always opt for the 256px resolution for the thumbnails,
     // as then we don't have to re-create thumbnails depending on change in settings
-    int ts = 256;
+    m_requestedSize = QSize(256, 256);
 
     // If files in XDG_CACHE_HOME/thumbnails/ shall be used, then do use them
     if(cacheEnabled) {
@@ -99,7 +99,7 @@ void PQAsyncImageResponseThumb::run() {
 
     }
 
-    if((p.width() < ts && p.height() < ts)) {
+    if((p.width() < m_requestedSize.width() && p.height() < m_requestedSize.height())) {
         if(qgetenv("PHOTOQT_DEBUG") == "yes")
             LOG << CURDATE << "ImageProviderThumbnail: Image is smaller than potential thumbnail, no need to cache: " <<
                    QFileInfo(filename).fileName().toStdString() << NL;

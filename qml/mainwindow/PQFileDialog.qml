@@ -3,6 +3,7 @@ import QtQuick.Window 2.9
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.9
 import "./filedialog"
+import "../elements"
 
 Rectangle {
 
@@ -69,7 +70,40 @@ Rectangle {
                 anchors.fill: parent
                 acceptedButtons: Qt.RightButton
                 onClicked:
-                    console.log("right clicked")
+                    rightclickmenu.popup()
+            }
+
+            PQMenu {
+
+                id: rightclickmenu
+
+                PQMenuItem {
+                    text: settings.openUserPlacesStandard ? "Hide standard locations" : "Show standard locations"
+                    width: rightclickmenu.width
+                    onTriggered: {
+                        var old = settings.openUserPlacesStandard
+                        settings.openUserPlacesStandard = !old
+                    }
+                }
+
+                PQMenuItem {
+                    text: settings.openUserPlacesUser ? "Hide favorite locations" : "Show favorite locations"
+                    width: rightclickmenu.width
+                    onTriggered: {
+                        var old = settings.openUserPlacesUser
+                        settings.openUserPlacesUser = !old
+                    }
+                }
+
+                PQMenuItem {
+                    text: settings.openUserPlacesVolumes ? "Hide storage devices" : "Show storage devices"
+                    width: rightclickmenu.width
+                    onTriggered: {
+                        var old = settings.openUserPlacesVolumes
+                        settings.openUserPlacesVolumes = !old
+                    }
+                }
+
             }
 
             PQStandard {
@@ -83,8 +117,8 @@ Rectangle {
 
             PQPlaces {
                 anchors.fill: parent
-                anchors.topMargin: std.height+15
-                anchors.bottomMargin: dev.height+15
+                anchors.topMargin: std.visible ? std.height+15 : 0
+                anchors.bottomMargin: dev.visible ? dev.height+15 : 0
             }
 
             PQDevices {
@@ -126,6 +160,15 @@ Rectangle {
                 anchors.fill: parent
                 anchors.bottomMargin: tweaks.height
                 anchors.topMargin: breadcrumbs.height
+
+                PQPreview {
+
+                    z: -1
+
+                    anchors.fill: parent
+                    filePath: fileview.currentlyHoveredFile
+
+                }
 
             }
 

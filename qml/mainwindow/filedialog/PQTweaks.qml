@@ -47,6 +47,7 @@ Rectangle {
         value: settings.openZoomLevel
 
         divideToolTipValue: 10
+        tooltip: "Adjust size of files and folders"
 
         anchors.left: zoomtext.right
         y: (parent.height-height)/2
@@ -63,6 +64,25 @@ Rectangle {
         text: "Thumbnails"
 
         tooltip: checked ? "Click to hide thumbnails" : "Click to show thumbnails"
+        tooltipFollowsMouse: false
+
+        anchors.right: preview.left
+        y: (parent.height-height)/2
+
+        checked: settings.openThumbnails
+
+        onCheckedChanged:
+            settings.openThumbnails = checked
+
+    }
+
+    PQCheckbox {
+
+        id: preview
+
+        text: "Preview"
+
+        tooltip: checked ? "Click to disable preview" : "Click to enable preview"
         tooltipFollowsMouse: false
 
         anchors.right: allfiles.left

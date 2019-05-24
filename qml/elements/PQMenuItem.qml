@@ -9,8 +9,10 @@ MenuItem {
     height: 30
 
     property bool mouseOver: false
+    property alias textAlignment: contentItemText.horizontalAlignment
 
     contentItem: Text {
+        id: contentItemText
         text: control.text
         font: control.font
         opacity: enabled ? 1.0 : 0.3
@@ -24,6 +26,7 @@ MenuItem {
     indicator: PQCheckbox {
         text: ""
         y: (parent.height-height)/2
+        width: height
         checked: control.checked
         visible: control.checkable
         interactive: false

@@ -8,6 +8,8 @@ ListView {
 
     boundsBehavior: Flickable.StopAtBounds
 
+    visible: settings.openUserPlacesVolumes
+
     height: childrenRect.height
 
     // The model is a simple listmodel, not editable by user
@@ -110,7 +112,7 @@ ListView {
 
                 acceptedButtons: Qt.LeftButton|Qt.RightButton
 
-                tooltip: index == 0 ? "Storage devices" : (location + "<br><i>" + entrytextStorageSize.text + " (" + filesystemtype + ")</i>")
+                tooltip: index == 0 ? "Detected storage devices on your system" : (location + "<br><i>" + entrytextStorageSize.text + " (" + filesystemtype + ")</i>")
 
                 // some properties
                 hoverEnabled: true

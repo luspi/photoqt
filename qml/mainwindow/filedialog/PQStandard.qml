@@ -10,6 +10,8 @@ ListView {
 
     height: childrenRect.height
 
+    visible: settings.openUserPlacesStandard
+
     property var locs: [StandardPaths.displayName(StandardPaths.HomeLocation), handlingFileDialog.cleanPath(StandardPaths.writableLocation(StandardPaths.HomeLocation)), "user-home",
                         StandardPaths.displayName(StandardPaths.DesktopLocation), handlingFileDialog.cleanPath(StandardPaths.writableLocation(StandardPaths.DesktopLocation)), "user-desktop",
                         StandardPaths.displayName(StandardPaths.PicturesLocation), handlingFileDialog.cleanPath(StandardPaths.writableLocation(StandardPaths.PicturesLocation)), "folder-pictures",
