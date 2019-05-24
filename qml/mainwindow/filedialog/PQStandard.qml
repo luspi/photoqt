@@ -1,5 +1,6 @@
 import QtQuick 2.9
 import Qt.labs.platform 1.0
+import "../../elements"
 
 ListView {
 
@@ -73,7 +74,7 @@ ListView {
         }
 
         // mouse area handling clicks
-        MouseArea {
+        PQMouseArea {
 
             id: mouseArea
 
@@ -84,6 +85,8 @@ ListView {
             hoverEnabled: true
             acceptedButtons: Qt.RightButton|Qt.LeftButton
             cursorShape: index > 0 ? Qt.PointingHandCursor : Qt.ArrowCursor
+
+            tooltip: index == 0 ? "Some standard locations" : locs[(index-1)*3 + 1]
 
             // clicking an entry loads the location or shows a context menu (depends on which button was used)
             onClicked: {

@@ -1,4 +1,5 @@
 import QtQuick 2.9
+import "../../elements"
 
 // This listview holds the currently connected storage devices (harddrives, usb, ...)
 ListView {
@@ -102,14 +103,14 @@ ListView {
             }
 
             // mouse area handles changes to currentIndex and clicked events
-            MouseArea {
+            PQMouseArea {
 
                 // a click everywhere works
                 anchors.fill: parent
 
-//                text: location + "<br><i>" + entrytextStorageSize.text + " (" + filesystemtype + ")</i>"
-
                 acceptedButtons: Qt.LeftButton|Qt.RightButton
+
+                tooltip: index == 0 ? "Storage devices" : (location + "<br><i>" + entrytextStorageSize.text + " (" + filesystemtype + ")</i>")
 
                 // some properties
                 hoverEnabled: true

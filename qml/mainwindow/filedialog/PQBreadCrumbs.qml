@@ -105,7 +105,7 @@ Item {
 
             property string completePath: ""
 
-            tooltip: index==0||index%2==0 ? "List subfolders" : "Go to here"
+            tooltip: index==0||index%2==0 ? "List subfolders" : completePath
 
             onClicked:
                 filedialog_top.setCurrentDirectory(completePath)

@@ -9,6 +9,10 @@ Item {
     property alias hoverEnabled: tooltip_mousearea.hoverEnabled
     property alias cursorShape: tooltip_mousearea.cursorShape
     property alias propagateComposedEvents: tooltip_mousearea.propagateComposedEvents
+    property alias acceptedButtons: tooltip_mousearea.acceptedButtons
+
+    property alias drag: tooltip_mousearea.drag
+
     signal clicked(var mouse)
     signal doubleClicked(var mouse)
     signal pressAndHold(var mouse)
@@ -16,12 +20,13 @@ Item {
     signal exited()
     signal pressed()
     signal released()
+    signal dragOnActiveChanged()
 
     ToolTip {
         id: control
         text: ""
         delay: 500
-        visible: tooltip_mousearea.containsMouse
+        visible: text!=""&&tooltip_mousearea.containsMouse
 
         contentItem: Text {
             text: control.text
@@ -65,6 +70,8 @@ Item {
             top.released(mouse)
             mouse.accepted = !propagateComposedEvents
         }
+        drag.onActiveChanged:
+            top.dragOnActiveChanged()
 
     }
 

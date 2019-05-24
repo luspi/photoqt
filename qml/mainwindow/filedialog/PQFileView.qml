@@ -1,5 +1,6 @@
 import QtQuick 2.9
 import Qt.labs.folderlistmodel 2.3
+import "../../elements"
 
 GridView {
 
@@ -168,7 +169,7 @@ GridView {
 
             }
 
-            MouseArea {
+            PQMouseArea {
 
                 id: mouseArea
 
@@ -178,6 +179,8 @@ GridView {
                 cursorShape: Qt.PointingHandCursor
 
                 drag.target: fileIsDir ? parent : undefined
+
+                tooltip: filePath
 
                 // if drag is started
                 drag.onActiveChanged: {

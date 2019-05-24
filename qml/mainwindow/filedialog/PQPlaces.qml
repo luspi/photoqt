@@ -112,7 +112,7 @@ ListView {
             }
 
             // mouse area handling clicks
-            MouseArea {
+            PQMouseArea {
 
                 id: mouseArea
 
@@ -123,6 +123,8 @@ ListView {
                 hoverEnabled: true
                 acceptedButtons: Qt.RightButton|Qt.LeftButton
                 cursorShape: index > 0 ? Qt.PointingHandCursor : Qt.ArrowCursor
+
+                tooltip: index == 0 ? "Some of your favorites" : path
 
                 drag.target: parent
 
