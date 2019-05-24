@@ -32,7 +32,7 @@ Rectangle {
             anchors.fill: parent
             acceptedButtons: Qt.NoButton
             hoverEnabled: true
-            tooltip: "Adjust size of files and folders"
+            tooltip: "Adjust font size of files and folders"
             tooltipFollowsMouse: false
         }
 
@@ -47,7 +47,7 @@ Rectangle {
         value: settings.openZoomLevel
 
         divideToolTipValue: 10
-        tooltip: "Adjust size of files and folders"
+        tooltip: "Adjust font size of files and folders"
 
         anchors.left: zoomtext.right
         y: (parent.height-height)/2
