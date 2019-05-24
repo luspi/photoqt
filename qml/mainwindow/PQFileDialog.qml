@@ -63,6 +63,8 @@ Rectangle {
 
             color: "#22222222"
 
+            Layout.minimumWidth: 200
+
             MouseArea {
                 anchors.fill: parent
                 acceptedButtons: Qt.RightButton
@@ -102,6 +104,8 @@ Rectangle {
             id: rightcol
 
             Layout.fillWidth: true
+
+            Layout.minimumWidth: 200
 
             PQBreadCrumbs {
 
