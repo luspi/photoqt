@@ -20,5 +20,6 @@
         <file>mainwindow/filedialog/PQPreview.qml</file>
         <file>elements/PQMouseArea.qml</file>
         <file>elements/PQToolTip.qml</file>
+        <file>elements/PQComboBox.qml</file>
     </qresource>
 </RCC>
