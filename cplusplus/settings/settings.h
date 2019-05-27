@@ -188,13 +188,11 @@ private:
     int     m_openUserPlacesWidth;
     int     m_openFoldersWidth;
     bool    m_openThumbnails;
-    bool    m_openPreviewHighQuality;
     bool    m_openUserPlacesStandard;
     bool    m_openUserPlacesUser;
     bool    m_openUserPlacesVolumes;
     bool    m_openKeepLastLocation;
     bool    m_openShowHiddenFilesFolders;
-    bool    m_openHideUserPlaces;
 
     int     m_metadataWindowWidth;
     int     m_mainMenuWindowWidth;
@@ -1294,16 +1292,6 @@ public:
                                                                               emit openUserPlacesWidthChanged(val);
                                                                               saveSettingsTimer->start(); } }
 
-    // openFoldersWidth
-    Q_PROPERTY(int    openFoldersWidth
-               READ   getOpenFoldersWidth
-               WRITE  setOpenFoldersWidth
-               NOTIFY openFoldersWidthChanged)
-    int  getOpenFoldersWidth() { return m_openFoldersWidth; }
-    void setOpenFoldersWidth(int val) { if(val != m_openFoldersWidth) { m_openFoldersWidth = val;
-                                                                        emit openFoldersWidthChanged(val);
-                                                                        saveSettingsTimer->start(); } }
-
     // openThumbnails
     Q_PROPERTY(bool   openThumbnails
                READ   getOpenThumbnails
@@ -1313,16 +1301,6 @@ public:
     void setOpenThumbnails(bool val) { if(val != m_openThumbnails) { m_openThumbnails = val;
                                                                      emit openThumbnailsChanged(val);
                                                                      saveSettingsTimer->start(); } }
-
-    // openPreviewHighQuality
-    Q_PROPERTY(bool   openPreviewHighQuality
-               READ   getOpenPreviewHighQuality
-               WRITE  setOpenPreviewHighQuality
-               NOTIFY openPreviewHighQualityChanged)
-    bool getOpenPreviewHighQuality() { return m_openPreviewHighQuality; }
-    void setOpenPreviewHighQuality(bool val) { if(val != m_openPreviewHighQuality) { m_openPreviewHighQuality = val;
-                                                                                     emit openPreviewHighQualityChanged(val);
-                                                                                     saveSettingsTimer->start(); } }
 
     // openUserPlacesStandard
     Q_PROPERTY(bool   openUserPlacesStandard
@@ -1373,16 +1351,6 @@ public:
     void setOpenShowHiddenFilesFolders(bool val) { if(val != m_openShowHiddenFilesFolders) { m_openShowHiddenFilesFolders = val;
                                                                                              emit openShowHiddenFilesFoldersChanged(val);
                                                                                              saveSettingsTimer->start(); } }
-
-    // openHideUserPlaces
-    Q_PROPERTY(bool   openHideUserPlaces
-               READ   getOpenHideUserPlaces
-               WRITE  setOpenHideUserPlaces
-               NOTIFY openHideUserPlacesChanged)
-    bool getOpenHideUserPlaces() { return m_openHideUserPlaces; }
-    void setOpenHideUserPlaces(bool val) { if(val != m_openHideUserPlaces) { m_openHideUserPlaces = val;
-                                                                             emit openHideUserPlacesChanged(val);
-                                                                             saveSettingsTimer->start(); } }
 
     // metadataWindowWidth
     Q_PROPERTY(int    metadataWindowWidth
@@ -1580,17 +1548,14 @@ signals:
 
     void openDefaultViewChanged(QString val);
     void openPreviewChanged(bool val);
-    void openPreviewHighQualityChanged(bool val);
     void openZoomLevelChanged(int val);
     void openUserPlacesWidthChanged(int val);
-    void openFoldersWidthChanged(int val);
     void openThumbnailsChanged(bool val);
     void openUserPlacesStandardChanged(bool val);
     void openUserPlacesUserChanged(bool val);
     void openUserPlacesVolumesChanged(bool val);
     void openKeepLastLocationChanged(bool val);
     void openShowHiddenFilesFoldersChanged(bool val);
-    void openHideUserPlacesChanged(bool val);
 
     void metadataWindowWidthChanged(int val);
     void mainMenuWindowWidthChanged(int val);

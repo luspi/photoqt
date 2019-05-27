@@ -210,17 +210,14 @@ void PQSettings::setDefault() {
 
     setOpenDefaultView("list");
     setOpenPreview(true);
-    setOpenPreviewHighQuality(false);
     setOpenZoomLevel(25);
     setOpenUserPlacesWidth(300);
-    setOpenFoldersWidth(400);
     setOpenThumbnails(true);
     setOpenUserPlacesStandard(true);
     setOpenUserPlacesUser(true);
     setOpenUserPlacesVolumes(false);
     setOpenKeepLastLocation(false);
     setOpenShowHiddenFilesFolders(false);
-    setOpenHideUserPlaces(false);
 
     setHistogram(false);
     setHistogramVersion("color");
@@ -384,17 +381,14 @@ void PQSettings::saveSettings() {
         cont += "\n[Open File]\n";
         cont += QString("OpenDefaultView=%1\n").arg(m_openDefaultView);
         cont += QString("OpenPreview=%1\n").arg(int(m_openPreview));
-        cont += QString("OpenPreviewHighQuality=%1\n").arg(int(m_openPreviewHighQuality));
         cont += QString("OpenZoomLevel=%1\n").arg(m_openZoomLevel);
         cont += QString("OpenUserPlacesWidth=%1\n").arg(m_openUserPlacesWidth);
-        cont += QString("OpenFoldersWidth=%1\n").arg(m_openFoldersWidth);
         cont += QString("OpenThumbnails=%1\n").arg(int(m_openThumbnails));
         cont += QString("OpenUserPlacesStandard=%1\n").arg(int(m_openUserPlacesStandard));
         cont += QString("OpenUserPlacesUser=%1\n").arg(int(m_openUserPlacesUser));
         cont += QString("OpenUserPlacesVolumes=%1\n").arg(int(m_openUserPlacesVolumes));
         cont += QString("OpenKeepLastLocation=%1\n").arg(int(m_openKeepLastLocation));
         cont += QString("OpenShowHiddenFilesFolders=%1\n").arg(int(m_openShowHiddenFilesFolders));
-        cont += QString("OpenHideUserPlaces=%1\n").arg(int(m_openHideUserPlaces));
 
         cont += "\n[Histogram]\n";
 
@@ -761,14 +755,8 @@ void PQSettings::readSettings() {
             else if(line.startsWith("OpenUserPlacesWidth="))
                 setOpenUserPlacesWidth(line.split("=").at(1).toInt());
 
-            else if(line.startsWith("OpenFoldersWidth="))
-                setOpenFoldersWidth(line.split("=").at(1).toInt());
-
             else if(line.startsWith("OpenThumbnails="))
                 setOpenThumbnails(line.split("=").at(1).toInt());
-
-            else if(line.startsWith("OpenPreviewHighQuality="))
-                setOpenPreviewHighQuality(line.split("=").at(1).toInt());
 
             else if(line.startsWith("OpenUserPlacesStandard="))
                 setOpenUserPlacesStandard(line.split("=").at(1).toInt());
@@ -784,9 +772,6 @@ void PQSettings::readSettings() {
 
             else if(line.startsWith("OpenShowHiddenFilesFolders="))
                 setOpenShowHiddenFilesFolders(line.split("=").at(1).toInt());
-
-            else if(line.startsWith("OpenHideUserPlaces="))
-                setOpenHideUserPlaces(line.split("=").at(1).toInt());
 
 
             else if(line.startsWith("MainMenuWindowWidth="))
