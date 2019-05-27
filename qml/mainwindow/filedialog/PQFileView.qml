@@ -17,8 +17,24 @@ GridView {
     model: FolderListModel {
         id: files_model
         showDirsFirst: true
-        nameFilters: tweaks.showallfiles ? [] : imageformats.getAllEnabledFileformats()
+        nameFilters: tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="all" ?
+                         imageformats.getAllEnabledFileformats() :
+                         tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="qt" ?
+                             imageformats.getEnabledFileFormatsQt() :
+                             tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="gm" ?
+                                 imageformats.getEnabledFileFormatsGM() :
+                                 tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="raw" ?
+                                     imageformats.getEnabledFileFormatsRAW() :
+                                     tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="devil" ?
+                                         imageformats.getEnabledFileFormatsDevIL() :
+                                         tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="freeimage" ?
+                                             imageformats.getEnabledFileFormatsFreeImage() :
+                                             tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="poppler" ?
+                                                 imageformats.getEnabledFileFormatsPoppler() :
+                                                 []
         caseSensitive: false
+        showHidden: settings.openShowHiddenFilesFolders
+
     }
 
     cellWidth: settings.openDefaultView=="icons" ? settings.openZoomLevel*6 : width

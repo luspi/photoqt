@@ -6,16 +6,30 @@ ComboBox {
 
     property alias tooltip: combomousearea.tooltip
     property alias tooltipFollowsMouse: combomousearea.tooltipFollowsMouse
+    property bool firstItemEmphasized: false
+    property int lineBelowItem: -1
+
+    property int largestWidthOfItem: 0
+    width: largestWidthOfItem
 
     delegate: ItemDelegate {
         id: controldelegate
-        width: control.width
         contentItem: Text {
             text: modelData
             color: "white"
             font: control.font
             elide: Text.ElideRight
             verticalAlignment: Text.AlignVCenter
+            Component.onCompleted: {
+                if(firstItemEmphasized && index == 0)
+                    font.bold = true
+            }
+        }
+
+        Component.onCompleted: {
+            if(width+20 > largestWidthOfItem)
+                largestWidthOfItem = width+20
+            width = largestWidthOfItem
         }
 
         background: Rectangle {
@@ -23,6 +37,14 @@ ComboBox {
             implicitHeight: 40
             opacity: enabled ? 1 : 0.3
             color: (controldelegate.down||controldelegmouse.containsMouse) ? "#ff000000" : "#cc444444"
+            Rectangle {
+                width: parent.width
+                height: 1
+                x: 0
+                y: parent.height-1
+                color: "white"
+                visible: (firstItemEmphasized&&index==0)||(lineBelowItem==index)
+            }
         }
 
         MouseArea {

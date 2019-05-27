@@ -64,6 +64,73 @@ public:
             allFormats.append(entry.toString());
 
         return allFormats;
+
+    }
+
+    Q_INVOKABLE QStringList getEnabledFileFormatsQt() {
+
+        QStringList formats;
+
+        foreach(QVariant entry, enabledFileformats[categories.indexOf("qt")])
+            formats.append(entry.toString());
+
+        return formats;
+
+    }
+
+    Q_INVOKABLE QStringList getEnabledFileFormatsGM() {
+
+        QStringList formats;
+
+//        foreach(QVariant entry, enabledFileformats[categories.indexOf("gm")])
+//            formats.append(entry.toString());
+
+        return formats;
+
+    }
+
+    Q_INVOKABLE QStringList getEnabledFileFormatsRAW() {
+
+        QStringList formats;
+
+//        foreach(QVariant entry, enabledFileformats[categories.indexOf("raw")])
+//            formats.append(entry.toString());
+
+        return formats;
+
+    }
+
+    Q_INVOKABLE QStringList getEnabledFileFormatsDevIL() {
+
+        QStringList formats;
+
+//        foreach(QVariant entry, enabledFileformats[categories.indexOf("devil")])
+//            formats.append(entry.toString());
+
+        return formats;
+
+    }
+
+    Q_INVOKABLE QStringList getEnabledFileFormatsFreeImage() {
+
+        QStringList formats;
+
+//        foreach(QVariant entry, enabledFileformats[categories.indexOf("freeimage")])
+//            formats.append(entry.toString());
+
+        return formats;
+
+    }
+
+    Q_INVOKABLE QStringList getEnabledFileFormatsPoppler() {
+
+        QStringList formats;
+
+//        foreach(QVariant entry, enabledFileformats[categories.indexOf("poppler")])
+//            formats.append(entry.toString());
+
+        return formats;
+
     }
 
 signals:

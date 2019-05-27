@@ -8,7 +8,8 @@ Rectangle {
 
     height: 50
 
-    property alias showallfiles: allfiles.checked
+    property alias showWhichFileTypeIndex: allfiles.currentIndex
+    property alias allFileTypes: allfiles.allfiletypes
 
     Rectangle {
         x: 0
@@ -81,7 +82,7 @@ Rectangle {
 
         id: preview
 
-        text: "Preview"
+        text: em.pty+qsTranslate("filedialog", "Preview")
 
         tooltip: checked ? em.pty+qsTranslate("filedialog", "Click to disable preview") : em.pty+qsTranslate("filedialog", "Click to enable preview")
         tooltipFollowsMouse: false
@@ -96,17 +97,72 @@ Rectangle {
 
     }
 
-    PQCheckbox {
+    PQComboBox {
 
         id: allfiles
 
-        text: em.pty+qsTranslate("filedialog", "All Files")
+        model: []
+
+        anchors.right: hiddenfiles.left
+        y: (parent.height-height)/2
+
+        tooltip: em.pty+qsTranslate("filedialog", "Choose which selection of files to show")
         tooltipFollowsMouse: false
 
-        tooltip: checked ? em.pty+qsTranslate("filedialog", "Click to show only supported images") : em.pty+qsTranslate("filedialog", "Click to show all files")
+        firstItemEmphasized: true
+
+        property var allfiletypes: []
+
+        Component.onCompleted: {
+            var m = []
+            m.push(em.pty+qsTranslate("filedialog", "All supported images"))
+            allfiletypes.push("all")
+            m.push("Qt")
+            allfiletypes.push("qt")
+            if(handlingGeneral.isGraphicsMagickSupportEnabled()) {
+                m.push("GraphicsMagick")
+                allfiletypes.push("gm")
+            }
+            if(handlingGeneral.isLibRawSupportEnabled()) {
+                m.push("LibRaw")
+                allfiletypes.push("raw")
+            }
+            if(handlingGeneral.isDevILSupportEnabled()) {
+                m.push("DevIL")
+                allfiletypes.push("devil")
+            }
+            if(handlingGeneral.isFreeImageSupportEnabled()) {
+                m.push("FreeImage")
+                allfiletypes.push("freeimage")
+            }
+            if(handlingGeneral.isPopplerSupportEnabled()) {
+                m.push("PDF (Poppler)")
+                allfiletypes.push("poppler")
+            }
+            allfiles.lineBelowItem = allfiletypes.length-1
+            m.push(em.pty+qsTranslate("filedialog", "All files"))
+            allfiletypes.push("allfiles")
+            model = m
+        }
+
+    }
+
+    PQCheckbox {
+
+        id: hiddenfiles
+
+        text: em.pty+qsTranslate("filedialog", "Hidden")
+
+        tooltip: checked ? em.pty+qsTranslate("filedialog", "Click to hide hidden files and folders") : em.pty+qsTranslate("filedialog", "Click to show hidden files and folders")
+        tooltipFollowsMouse: false
 
         anchors.right: iconview.left
         y: (parent.height-height)/2
+
+        checked: settings.openShowHiddenFilesFolders
+
+        onCheckedChanged:
+            settings.openShowHiddenFilesFolders = checked
 
     }
 

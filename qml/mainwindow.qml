@@ -3,6 +3,7 @@ import QtQuick.Window 2.9
 
 import PQSettings 1.0
 import PQHandlingFileDialog 1.0
+import PQHandlingGeneral 1.0
 import PQLocalisation 1.0
 import PQImageProperties 1.0
 import PQImageFormats 1.0
@@ -37,6 +38,7 @@ Window {
     PQFileWatcher { id: filewatcher }
 
     PQHandlingFileDialog { id: handlingFileDialog }
+    PQHandlingGeneral { id: handlingGeneral }
 
     // Localisation handler, allows for runtime switches of languages
     PQLocalisation { id : em }

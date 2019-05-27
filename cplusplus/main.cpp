@@ -3,6 +3,7 @@
 
 #include "settings/settings.h"
 #include "scripts/filedialog.h"
+#include "scripts/general.h"
 #include "scripts/localisation.h"
 #include "scripts/imageproperties.h"
 #include "scripts/imageformats.h"
@@ -35,6 +36,7 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<PQSettings>("PQSettings", 1, 0, "PQSettings");
     qmlRegisterType<PQHandlingFileDialog>("PQHandlingFileDialog", 1, 0, "PQHandlingFileDialog");
+    qmlRegisterType<PQHandlingGeneral>("PQHandlingGeneral", 1, 0, "PQHandlingGeneral");
     qmlRegisterType<PQLocalisation>("PQLocalisation", 1, 0, "PQLocalisation");
     qmlRegisterType<PQImageProperties>("PQImageProperties", 1, 0, "PQImageProperties");
     qmlRegisterType<PQImageFormats>("PQImageFormats", 1, 0, "PQImageFormats");
