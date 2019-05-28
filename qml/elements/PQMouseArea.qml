@@ -26,7 +26,7 @@ Item {
 
     PQToolTip {
         id: control
-        parent: top.tooltipFollowsMouse ? curmouse : parent
+        parent: top.tooltipFollowsMouse ? curmouse : top
         visible: text!=""&&tooltip_mousearea.containsMouse
     }
 
