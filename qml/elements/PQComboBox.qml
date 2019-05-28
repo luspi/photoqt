@@ -9,13 +9,15 @@ ComboBox {
     property bool firstItemEmphasized: false
     property int lineBelowItem: -1
 
+    property string prefix: ""
+
     property int largestWidthOfItem: 0
     width: largestWidthOfItem
 
     delegate: ItemDelegate {
         id: controldelegate
         contentItem: Text {
-            text: modelData
+            text: control.prefix + modelData
             color: "white"
             font: control.font
             elide: Text.ElideRight
@@ -42,7 +44,7 @@ ComboBox {
                 height: 1
                 x: 0
                 y: parent.height-1
-                color: "white"
+                color: "#cccccc"
                 visible: (firstItemEmphasized&&index==0)||(lineBelowItem==index)
             }
         }
@@ -88,7 +90,7 @@ ComboBox {
         leftPadding: 5
         rightPadding: control.indicator.width + control.spacing
 
-        text: control.displayText
+        text: control.prefix + control.displayText
         font: control.font
         color: control.pressed ? "#cccccc" : "#ffffff"
         verticalAlignment: Text.AlignVCenter

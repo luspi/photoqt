@@ -11,6 +11,20 @@ Item {
 
     height: 50
 
+    function goBackwards() {
+        backwards.clicked()
+    }
+    function canGoBackwards() {
+        return backwards.enabled
+    }
+
+    function goForwards() {
+        forwards.clicked()
+    }
+    function canGoForwards() {
+        return forwards.enabled
+    }
+
     PQButton {
 
         id: backwards

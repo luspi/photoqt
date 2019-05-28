@@ -11,14 +11,18 @@ MenuItem {
     property bool mouseOver: false
     property alias textAlignment: contentItemText.horizontalAlignment
 
+    property bool lineBelowItem: false
+
+    width: parent.width
+
     contentItem: Text {
         id: contentItemText
         text: control.text
         font: control.font
         opacity: enabled ? 1.0 : 0.3
-        color: control.mouseOver ? "#222222" : "#bbbbbb"
+        color: control.mouseOver ? "#111111" : "#aaaaaa"
         Behavior on color { ColorAnimation { duration: 200 } }
-        horizontalAlignment: Text.AlignHCenter
+        horizontalAlignment: Text.AlignLeft // Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
     }
@@ -38,10 +42,16 @@ MenuItem {
         implicitWidth: 100
         implicitHeight: 30
         opacity: enabled ? 1 : 0.3
-        color: control.mouseOver ? "#bbbbbb" : "#222222"
+        color: control.mouseOver ? "#aaaaaa" : "#88111111"
         Behavior on color { ColorAnimation { duration: 200 } }
-        border.color: "#444444"
-        border.width: 1
+        Rectangle {
+            height: 1
+            width: parent.width
+            x: 0
+            y: parent.height-1
+            color: "#cccccc"
+            visible: lineBelowItem
+        }
     }
 
     MouseArea {

@@ -404,12 +404,7 @@ QJSValue PQHandlingFileDialog::getFileSize(QString path) {
 
     qint64 s = info.size();
 
-    if(s <= 1024)
-        return (QString::number(s) + " B");
-    else if(s <= 1024*1024)
-        return (QString::number(qRound(10.0*(s/1024.0))/10.0) + " KB");
-
-    return (QString::number(qRound(100.0*(s/(1024.0*1024.0)))/100.0) + " MB");
+    return convertBytesToHumanReadable(s);
 
 }
 
@@ -447,5 +442,20 @@ QStringList PQHandlingFileDialog::getFoldersIn(QString path) {
 
 QString PQHandlingFileDialog::getHomeDir() {
     return QDir::homePath();
+}
+
+QString PQHandlingFileDialog::convertBytesToHumanReadable(qint64 bytes) {
+    if(bytes <= 1024)
+        return (QString::number(bytes) + " B");
+    else if(bytes <= 1024*1024)
+        return (QString::number(qRound(10.0*(bytes/1024.0))/10.0) + " KB");
+
+    return (QString::number(qRound(100.0*(bytes/(1024.0*1024.0)))/100.0) + " MB");
+}
+
+QString PQHandlingFileDialog::getFileType(QString path) {
+    QMimeDatabase db;
+    QMimeType mime = db.mimeTypeForFile(path);
+    return mime.name();
 }
 

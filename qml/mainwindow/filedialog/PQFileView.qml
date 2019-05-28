@@ -14,51 +14,67 @@ GridView {
 
     property string currentlyHoveredFile: ""
 
-        FolderListModel {
-            id: files_model
-            showDirsFirst: true
-            nameFilters: tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="all" ?
-                             imageformats.getAllEnabledFileformats() :
-                             tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="qt" ?
-                                 imageformats.getEnabledFileFormatsQt() :
-                                 tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="gm" ?
-                                     imageformats.getEnabledFileFormatsGM() :
-                                     tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="raw" ?
-                                         imageformats.getEnabledFileFormatsRAW() :
-                                         tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="devil" ?
-                                             imageformats.getEnabledFileFormatsDevIL() :
-                                             tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="freeimage" ?
-                                                 imageformats.getEnabledFileFormatsFreeImage() :
-                                                 tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="poppler" ?
-                                                     imageformats.getEnabledFileFormatsPoppler() :
-                                                     []
-            caseSensitive: false
-            showHidden: false
+    FolderListModel {
+        id: files_model
+        showDirsFirst: true
+        nameFilters: tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="all" ?
+                         imageformats.getAllEnabledFileformats() :
+                         tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="qt" ?
+                             imageformats.getEnabledFileFormatsQt() :
+                             tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="gm" ?
+                                 imageformats.getEnabledFileFormatsGM() :
+                                 tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="raw" ?
+                                     imageformats.getEnabledFileFormatsRAW() :
+                                     tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="devil" ?
+                                         imageformats.getEnabledFileFormatsDevIL() :
+                                         tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="freeimage" ?
+                                             imageformats.getEnabledFileFormatsFreeImage() :
+                                             tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="poppler" ?
+                                                 imageformats.getEnabledFileFormatsPoppler() :
+                                                 []
+        caseSensitive: false
+        showHidden: false
+        sortField: settings.sortby=="name" ?
+                       FolderListModel.Name :
+                       (settings.sortby == "time" ?
+                            FolderListModel.Time :
+                            (settings.sortby == "size" ?
+                                FolderListModel.Size :
+                                FolderListModel.Type))
+        sortReversed: !settings.sortbyAscending
 
-        }
+    }
 
-        FolderListModel {
-            id: files_model_hidden
-            showDirsFirst: true
-            nameFilters: tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="all" ?
-                             imageformats.getAllEnabledFileformats() :
-                             tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="qt" ?
-                                 imageformats.getEnabledFileFormatsQt() :
-                                 tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="gm" ?
-                                     imageformats.getEnabledFileFormatsGM() :
-                                     tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="raw" ?
-                                         imageformats.getEnabledFileFormatsRAW() :
-                                         tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="devil" ?
-                                             imageformats.getEnabledFileFormatsDevIL() :
-                                             tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="freeimage" ?
-                                                 imageformats.getEnabledFileFormatsFreeImage() :
-                                                 tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="poppler" ?
-                                                     imageformats.getEnabledFileFormatsPoppler() :
-                                                     []
-            caseSensitive: false
-            showHidden: true
+    FolderListModel {
+        id: files_model_hidden
+        showDirsFirst: true
+        nameFilters: tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="all" ?
+                         imageformats.getAllEnabledFileformats() :
+                         tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="qt" ?
+                             imageformats.getEnabledFileFormatsQt() :
+                             tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="gm" ?
+                                 imageformats.getEnabledFileFormatsGM() :
+                                 tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="raw" ?
+                                     imageformats.getEnabledFileFormatsRAW() :
+                                     tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="devil" ?
+                                         imageformats.getEnabledFileFormatsDevIL() :
+                                         tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="freeimage" ?
+                                             imageformats.getEnabledFileFormatsFreeImage() :
+                                             tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="poppler" ?
+                                                 imageformats.getEnabledFileFormatsPoppler() :
+                                                 []
+        caseSensitive: false
+        showHidden: true
+        sortField: settings.sortby=="name" ?
+                       FolderListModel.Name :
+                       (settings.sortby == "time" ?
+                            FolderListModel.Time :
+                            (settings.sortby == "size" ?
+                                FolderListModel.Size :
+                                FolderListModel.Type))
+        sortReversed: !settings.sortbyAscending
 
-        }
+    }
 
     model: settings.openShowHiddenFilesFolders ? files_model_hidden : files_model
 
@@ -66,6 +82,21 @@ GridView {
     cellHeight: settings.openDefaultView=="icons" ? settings.openZoomLevel*6 : settings.openZoomLevel*2
     Behavior on cellWidth { NumberAnimation { id: cellWidthAni; duration: 125; } }
     Behavior on cellHeight { NumberAnimation { id: cellHeightAni; duration: 125; } }
+
+    PQMouseArea {
+        anchors.fill: parent
+        z: -1
+        acceptedButtons: Qt.RightButton
+        onClicked: {
+            rightclickmenu_bg.popup()
+        }
+    }
+
+    PQRightClickMenu {
+        id: rightclickmenu_bg
+        isFolder: false
+        isFile: false
+    }
 
     delegate: Item {
 
@@ -208,7 +239,7 @@ GridView {
                 visible: settings.openDefaultView=="list"
                 color: "white"
                 font.bold: true
-                text: ""
+                text: fileIsDir ? "" : handlingFileDialog.convertBytesToHumanReadable(fileSize)
 
             }
 
@@ -223,7 +254,16 @@ GridView {
 
                 drag.target: fileIsDir ? parent : undefined
 
-                tooltip: filePath + (filesizenum.text!="" ? ("  >  " + filesizenum.text) : "")
+                tooltip: fileIsDir ?
+                             ("<b>" + fileName + "</b>" + "<br>" +
+                              "# images: " + (numberOfFilesInsideFolder.text=="" ? "0" : numberOfFilesInsideFolder.text) + "<br>" +
+                              "Modified: " + fileModified.toLocaleString()) :
+                             ("<b>" + fileName + "</b>" + "<br>" +
+                              "Size: " + handlingFileDialog.convertBytesToHumanReadable(fileSize) + "<br>" +
+                              "Modified: " + fileModified.toLocaleString() + "<br>" +
+                              "Type: " + handlingFileDialog.getFileType(filePath))
+
+                acceptedButtons: Qt.LeftButton|Qt.RightButton
 
                 // if drag is started
                 drag.onActiveChanged: {
@@ -250,13 +290,24 @@ GridView {
                     currentlyHoveredFile = ""
                 }
                 onClicked: {
-                    if(fileIsDir)
-                        filedialog_top.setCurrentDirectory(filePath)
-                    else {
-                        hideFileDialog()
-                        imageitem.loadImage(filePath)
+                    if(mouse.button == Qt.LeftButton) {
+                        if(fileIsDir)
+                            filedialog_top.setCurrentDirectory(filePath)
+                        else {
+                            hideFileDialog()
+                            imageitem.loadImage(filePath)
+                        }
+                    } else {
+                        rightclickmenu.popup()
                     }
                 }
+            }
+
+            PQRightClickMenu {
+                id: rightclickmenu
+                isFolder: fileIsDir
+                isFile: !fileIsDir
+                path: filePath
             }
 
             Drag.active: mouseArea.drag.active
@@ -284,23 +335,11 @@ GridView {
                 if(fileIsDir && fileName != "..") {
                     handlingFileDialog.getNumberOfFilesInFolder(filePath, function(count) {
                         if(count > 0) {
-                            updateCount(count)
-                            setFileSize(count + " images")
+                            numberOfFilesInsideFolder.text = count
+                            filesizenum.text = count + " " + em.pty+qsTranslate("filedialog", "images")
                         }
                     })
-                } else if(!fileIsDir) {
-                    handlingFileDialog.getFileSize(filePath, function(s) {
-                        setFileSize(s)
-                    })
                 }
-            }
-
-            function updateCount(count) {
-                if(count > 0)
-                    numberOfFilesInsideFolder.text = count
-            }
-            function setFileSize(s) {
-                filesizenum.text = s
             }
 
         }

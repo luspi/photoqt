@@ -59,41 +59,27 @@ Rectangle {
 
     }
 
-    PQCheckbox {
+    PQComboBox {
 
-        id: thumb
+        id: sortby
 
-        text: em.pty+qsTranslate("filedialog", "Thumbnails")
+        prefix: "Sort by: "
 
-        tooltip: checked ? em.pty+qsTranslate("filedialog", "Click to hide thumbnails") : em.pty+qsTranslate("filedialog", "Click to show thumbnails")
-        tooltipFollowsMouse: false
-
-        anchors.right: preview.left
-        y: (parent.height-height)/2
-
-        checked: settings.openThumbnails
-
-        onCheckedChanged:
-            settings.openThumbnails = checked
-
-    }
-
-    PQCheckbox {
-
-        id: preview
-
-        text: em.pty+qsTranslate("filedialog", "Preview")
-
-        tooltip: checked ? em.pty+qsTranslate("filedialog", "Click to disable preview") : em.pty+qsTranslate("filedialog", "Click to enable preview")
-        tooltipFollowsMouse: false
+        model: ["Name", "Name (reversed)", "Time", "Time (reversed)", "File size", "File size (reversed)", "File type", "File type (reversed)"]
 
         anchors.right: allfiles.left
+        anchors.rightMargin: 5
         y: (parent.height-height)/2
 
-        checked: settings.openPreview
+        tooltip: em.pty+qsTranslate("filedialog", "Choose by what to sort the files")
+        tooltipFollowsMouse: false
 
-        onCheckedChanged:
-            settings.openPreview = checked
+        onCurrentIndexChanged: {
+            // round() always rounds to nearest integer -> .../2 always gives .0 or .5, thus doing -0.1 will work as intended
+            var currentIndexDiv2 = Math.round(currentIndex/2 - 0.1)
+            settings.sortbyAscending = (currentIndex%2==0)
+            settings.sortby = (currentIndexDiv2===0 ? "name" : (currentIndexDiv2===1 ? "time" : (currentIndexDiv2===2 ? "size" : "type")))
+        }
 
     }
 
@@ -103,7 +89,8 @@ Rectangle {
 
         model: []
 
-        anchors.right: hiddenfiles.left
+        anchors.right: whichview.left
+        anchors.rightMargin: 10
         y: (parent.height-height)/2
 
         tooltip: em.pty+qsTranslate("filedialog", "Choose which selection of files to show")
@@ -147,64 +134,20 @@ Rectangle {
 
     }
 
-    PQCheckbox {
-
-        id: hiddenfiles
-
-        text: em.pty+qsTranslate("filedialog", "Hidden")
-
-        tooltip: checked ? em.pty+qsTranslate("filedialog", "Click to hide hidden files and folders") : em.pty+qsTranslate("filedialog", "Click to show hidden files and folders")
-        tooltipFollowsMouse: false
-
-        anchors.right: iconview.left
-        y: (parent.height-height)/2
-
-        checked: settings.openShowHiddenFilesFolders
-
-        onCheckedChanged:
-            settings.openShowHiddenFilesFolders = checked
-
-    }
-
     PQButton {
 
-        id: iconview
-
-        imageButtonSource: "/filedialog/iconview.png"
-        imageOpacity: (settings.openDefaultView=="icons") ? 1 : 0.3
-
-        tooltip: em.pty+qsTranslate("filedialog", "Show folders and files in a grid")
-        tooltipFollowsMouse: false
-
-        height: parent.height-10
-        width: height
-
-        anchors.right: listview.left
-        y: (parent.height-height)/2
-
-        onClicked:
-            settings.openDefaultView="icons"
-
-    }
-
-    PQButton {
-
-        id: listview
-
-        imageButtonSource: "/filedialog/listview.png"
-        imageOpacity: (settings.openDefaultView=="list") ? 1 : 0.3
-
-        tooltip: em.pty+qsTranslate("filedialog", "Show folders and files in a list")
-        tooltipFollowsMouse: false
-
-        height: parent.height-10
-        width: height
+        id: whichview
 
         anchors.right: parent.right
+        anchors.rightMargin: 10
         y: (parent.height-height)/2
 
+        tooltip: em.pty+qsTranslate("filedialog", "Switch between list and icon view")
+
+        imageButtonSource: settings.openDefaultView=="icons" ? "/filedialog/iconview.png" : "/filedialog/listview.png"
+
         onClicked:
-            settings.openDefaultView="list"
+            settings.openDefaultView = (settings.openDefaultView=="icons" ? "list" : "icons")
 
     }
 
