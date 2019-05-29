@@ -397,30 +397,6 @@ void PQHandlingFileDialog::getNumberOfFilesInFolder(QString path, const QJSValue
     watcher->setFuture(QtConcurrent::run(this, &PQHandlingFileDialog::getNumberOfFilesInFolder, path));
 }
 
-
-QJSValue PQHandlingFileDialog::getFileSize(QString path) {
-
-    QFileInfo info(path);
-
-    qint64 s = info.size();
-
-    return convertBytesToHumanReadable(s);
-
-}
-
-void PQHandlingFileDialog::getFileSize(QString path, const QJSValue &callback) {
-    auto *watcher = new QFutureWatcher<QJSValue>(this);
-    QObject::connect(watcher, &QFutureWatcher<QJSValue>::finished,
-                     this, [this,watcher,callback]() {
-        QJSValue count = watcher->result();
-        QJSValue cbCopy(callback); // needed as callback is captured as const
-        QJSEngine *engine = qjsEngine(this);
-        cbCopy.call(QJSValueList { engine->toScriptValue(count) });
-        watcher->deleteLater();
-    });
-    watcher->setFuture(QtConcurrent::run(this, &PQHandlingFileDialog::getFileSize, path));
-}
-
 QString PQHandlingFileDialog::cleanPath(QString path) {
 
     if(path.startsWith("file:/"))

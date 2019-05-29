@@ -35,9 +35,6 @@ public:
     unsigned int getNumberOfFilesInFolder(QString path);
     Q_INVOKABLE void getNumberOfFilesInFolder(QString path, const QJSValue &callback);
 
-    QJSValue getFileSize(QString path);
-    Q_INVOKABLE void getFileSize(QString path, const QJSValue &callback);
-
     Q_INVOKABLE QString cleanPath(QString path);
 
     Q_INVOKABLE QStringList getFoldersIn(QString path);

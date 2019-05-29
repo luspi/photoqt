@@ -8,6 +8,7 @@
 #include "scripts/imageproperties.h"
 #include "scripts/imageformats.h"
 #include "scripts/filewatcher.h"
+#include "scripts/filefoldermodel.h"
 
 #include "imageprovider/imageprovidericon.h"
 #include "imageprovider/imageproviderthumb.h"
@@ -41,6 +42,8 @@ int main(int argc, char *argv[])
     qmlRegisterType<PQImageProperties>("PQImageProperties", 1, 0, "PQImageProperties");
     qmlRegisterType<PQImageFormats>("PQImageFormats", 1, 0, "PQImageFormats");
     qmlRegisterType<PQFileWatcher>("PQFileWatcher", 1, 0, "PQFileWatcher");
+
+    qmlRegisterType<PQFileFolderModel>("PQFileFolderModel", 1, 0, "PQFileFolderModel");
 
     engine.addImageProvider("icon",new PQImageProviderIcon);
     engine.addImageProvider("thumb",new PQAsyncImageProviderThumb);

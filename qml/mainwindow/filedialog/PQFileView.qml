@@ -1,5 +1,5 @@
 import QtQuick 2.9
-import Qt.labs.folderlistmodel 2.3
+import PQFileFolderModel 1.0
 import "../../elements"
 
 GridView {
@@ -14,9 +14,8 @@ GridView {
 
     property string currentlyHoveredFile: ""
 
-    FolderListModel {
+    PQFileFolderModel {
         id: files_model
-        showDirsFirst: true
         nameFilters: tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="all" ?
                          imageformats.getAllEnabledFileformats() :
                          tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="qt" ?
@@ -32,8 +31,7 @@ GridView {
                                              tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="poppler" ?
                                                  imageformats.getEnabledFileFormatsPoppler() :
                                                  []
-        caseSensitive: false
-        showHidden: false
+        showHidden: settings.openShowHiddenFilesFolders
         sortField: settings.sortby=="name" ?
                        FolderListModel.Name :
                        (settings.sortby == "time" ?
@@ -42,41 +40,9 @@ GridView {
                                 FolderListModel.Size :
                                 FolderListModel.Type))
         sortReversed: !settings.sortbyAscending
-
     }
 
-    FolderListModel {
-        id: files_model_hidden
-        showDirsFirst: true
-        nameFilters: tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="all" ?
-                         imageformats.getAllEnabledFileformats() :
-                         tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="qt" ?
-                             imageformats.getEnabledFileFormatsQt() :
-                             tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="gm" ?
-                                 imageformats.getEnabledFileFormatsGM() :
-                                 tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="raw" ?
-                                     imageformats.getEnabledFileFormatsRAW() :
-                                     tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="devil" ?
-                                         imageformats.getEnabledFileFormatsDevIL() :
-                                         tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="freeimage" ?
-                                             imageformats.getEnabledFileFormatsFreeImage() :
-                                             tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="poppler" ?
-                                                 imageformats.getEnabledFileFormatsPoppler() :
-                                                 []
-        caseSensitive: false
-        showHidden: true
-        sortField: settings.sortby=="name" ?
-                       FolderListModel.Name :
-                       (settings.sortby == "time" ?
-                            FolderListModel.Time :
-                            (settings.sortby == "size" ?
-                                FolderListModel.Size :
-                                FolderListModel.Type))
-        sortReversed: !settings.sortbyAscending
-
-    }
-
-    model: settings.openShowHiddenFilesFolders ? files_model_hidden : files_model
+    model: files_model
 
     cellWidth: settings.openDefaultView=="icons" ? settings.openZoomLevel*6 : width
     cellHeight: settings.openDefaultView=="icons" ? settings.openZoomLevel*6 : settings.openZoomLevel*2
@@ -353,8 +319,7 @@ GridView {
 
         loc = handlingFileDialog.cleanPath(loc)
 
-        files_model.folder = "file://" + loc
-        files_model_hidden.folder = "file://" + loc
+        files_model.folder = loc
 
         if(loc == "/")
             breadcrumbs.pathParts = [""]
