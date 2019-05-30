@@ -26,6 +26,15 @@ PQMenu {
     }
 
     PQMenuItem {
+        visible: isFolder
+        text: em.pty+qsTranslate("filedialog", "Add to Favorites")
+        lineBelowItem: true
+        onTriggered: {
+            handlingFileDialog.addNewUserPlacesEntry(filePath, upl.model.count)
+        }
+    }
+
+    PQMenuItem {
         text: settings.openShowHiddenFilesFolders ? qsTranslate("filedialog", "Hide hidden files") : qsTranslate("filedialog", "Show hidden files")
         onTriggered: {
             var old = settings.openShowHiddenFilesFolders

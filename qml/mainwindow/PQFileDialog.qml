@@ -116,6 +116,7 @@ Rectangle {
             }
 
             PQPlaces {
+                id: upl
                 anchors.fill: parent
                 anchors.topMargin: std.visible ? std.height+15 : 0
                 anchors.bottomMargin: dev.visible ? dev.height+15 : 0
