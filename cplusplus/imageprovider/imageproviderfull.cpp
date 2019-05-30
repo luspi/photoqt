@@ -86,7 +86,10 @@ QImage PQImageProviderFull::requestImage(const QString &filename_encoded, QSize 
 
     }
 
+    QString err = "";
+
     ret = PQLoadImage::Qt::load(filename,requestedSize,origSize,true);
+    err = PQLoadImage::Qt::errormsg;
 
     // if returned image is not an error image ...
     if(!ret.isNull()) {
@@ -94,7 +97,8 @@ QImage PQImageProviderFull::requestImage(const QString &filename_encoded, QSize 
         // ... insert image into cache
         pixmapcache->insert(cachekey, QPixmap::fromImage(ret));
 
-    }
+    } else
+        return PQLoadImage::ErrorImage::load(err);
 
     // return scaled version
     if(requestedSize.width() > 2 && requestedSize.height() > 2 && origSize->width() > requestedSize.width() && origSize->height() > requestedSize.height())

@@ -4,5 +4,6 @@
         <file>filedialog/listview.png</file>
         <file>filedialog/unknownfile.svg</file>
         <file>filedialog/close.png</file>
+        <file>image/plainerrorimg.png</file>
     </qresource>
 </RCC>

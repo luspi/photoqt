@@ -30,6 +30,8 @@ namespace PQLoadImage {
 
     namespace Qt {
 
+        static QString errormsg;
+
         static QImage load(QString filename, QSize maxSize, QSize *origSize, bool metaRotate) {
 
             if(qgetenv("PHOTOQT_DEBUG") == "yes")
@@ -116,8 +118,8 @@ namespace PQLoadImage {
 
                 // If an error occured
                 if(img.isNull()) {
-                    QString err = reader.errorString();
-                    LOG << CURDATE << "LoadImageQt: reader qt - Error: '" << QFileInfo(filename).fileName().toStdString() << "' failed to load: " << err.toStdString() << NL;
+                    errormsg = reader.errorString();
+                    LOG << CURDATE << "LoadImageQt: reader qt - Error: '" << QFileInfo(filename).fileName().toStdString() << "' failed to load: " << errormsg.toStdString() << NL;
                     return QImage(); // PQLoadImage::ErrorImage::load(err);
                 }
 

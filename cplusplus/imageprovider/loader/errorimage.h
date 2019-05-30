@@ -34,7 +34,7 @@ namespace PQLoadImage {
     namespace ErrorImage {
 
         static QImage load(QString errormessage) {
-            QPixmap pix(":/img/plainerrorimg.png");
+            QPixmap pix(":/image/plainerrorimg.png");
             QPainter paint(&pix);
             QTextDocument txt;
             txt.setHtml("<center><div style=\"text-align: center; font-size: 12pt; font-wight: bold; color: white; background: none;\">" +
