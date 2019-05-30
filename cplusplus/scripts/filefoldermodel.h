@@ -28,6 +28,7 @@ public:
     enum FileRoles {
         FileNameRole = Qt::UserRole + 1,
         FilePathRole,
+        PathRole,
         FileSizeRole,
         FileModifiedRole,
         FileIsDirRole
@@ -58,7 +59,7 @@ public:
         PQFileFolderEntry* entry = entries[index.row()];
         if (role == FileNameRole)
             return QVariant::fromValue(entry->fileName);
-        else if (role == FilePathRole)
+        else if (role == FilePathRole || role == PathRole)
             return QVariant::fromValue(entry->filePath);
         else if (role == FileSizeRole)
             return QVariant::fromValue(entry->fileSize);
@@ -74,33 +75,34 @@ public:
 
     Q_PROPERTY(QString folder READ getFolder WRITE setFolder)
     QString getFolder() { return m_folder; }
-    void setFolder(QString val) { qDebug() << "folder changed"; m_folder = val; loadDelay->start(); }
+    void setFolder(QString val) { m_folder = val; loadDelay->start(); }
 
     Q_PROPERTY(bool naturalOrdering READ getNaturalOrdering WRITE setNaturalOrdering)
     bool getNaturalOrdering() { return m_naturalOrdering; }
-    void setNaturalOrdering(bool val) { qDebug() << "naturalOrdering changed"; m_naturalOrdering = val; loadDelay->start(); }
+    void setNaturalOrdering(bool val) { m_naturalOrdering = val; loadDelay->start(); }
 
     Q_PROPERTY(QStringList nameFilters READ getNameFilters WRITE setNameFilters)
     QStringList getNameFilters() { return m_nameFilters; }
-    void setNameFilters(QStringList val) { qDebug() << "nameFilters changed"; m_nameFilters = val; loadDelay->start(); }
+    void setNameFilters(QStringList val) { m_nameFilters = val; loadDelay->start(); }
 
     Q_PROPERTY(bool showHidden READ getShowHidden WRITE setShowHidden)
     bool getShowHidden() { return m_showHidden; }
-    void setShowHidden(bool val) { qDebug() << "showHidden changed"; m_showHidden = val; loadDelay->start(); }
+    void setShowHidden(bool val) { m_showHidden = val; loadDelay->start(); }
 
     Q_PROPERTY(SortBy sortField READ getSortField WRITE setSortField)
     SortBy getSortField() { return m_sortField; }
-    void setSortField(SortBy val) { qDebug() << "sortField changed"; m_sortField = val; loadDelay->start(); }
+    void setSortField(SortBy val) { m_sortField = val; loadDelay->start(); }
 
     Q_PROPERTY(bool sortReversed READ getSortReversed WRITE setSortReversed)
     bool getSortReversed() { return m_sortReversed; }
-    void setSortReversed(bool val) { qDebug() << "sortReversed changed"; m_sortReversed = val; loadDelay->start(); }
+    void setSortReversed(bool val) { m_sortReversed = val; loadDelay->start(); }
 
 protected:
     QHash<int, QByteArray> roleNames() const {
         QHash<int, QByteArray> roles;
         roles[FileNameRole] = "fileName";
         roles[FilePathRole] = "filePath";
+        roles[PathRole] = "path";
         roles[FileSizeRole] = "fileSize";
         roles[FileModifiedRole] = "fileModified";
         roles[FileIsDirRole] = "fileIsDir";

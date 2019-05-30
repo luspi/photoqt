@@ -1,5 +1,6 @@
 import QtQuick 2.9
 import PQFileFolderModel 1.0
+import QtQuick.Controls 2.2
 import "../../elements"
 
 GridView {
@@ -13,6 +14,8 @@ GridView {
     property int dragItemIndex: -1
 
     property string currentlyHoveredFile: ""
+
+    ScrollBar.vertical: PQScrollBar { id: scroll }
 
     PQFileFolderModel {
         id: files_model
@@ -33,18 +36,20 @@ GridView {
                                                  []
         showHidden: settings.openShowHiddenFilesFolders
         sortField: settings.sortby=="name" ?
-                       FolderListModel.Name :
-                       (settings.sortby == "time" ?
-                            FolderListModel.Time :
-                            (settings.sortby == "size" ?
-                                FolderListModel.Size :
-                                FolderListModel.Type))
+                       PQFileFolderModel.Name :
+                       (settings.sortby == "naturalname" ?
+                            PQFileFolderModel.NaturalName :
+                            (settings.sortby == "time" ?
+                                 PQFileFolderModel.Time :
+                                 (settings.sortby == "size" ?
+                                     PQFileFolderModel.Size :
+                                     PQFileFolderModel.Type)))
         sortReversed: !settings.sortbyAscending
     }
 
     model: files_model
 
-    cellWidth: settings.openDefaultView=="icons" ? settings.openZoomLevel*6 : width
+    cellWidth: settings.openDefaultView=="icons" ? settings.openZoomLevel*6 : width-scroll.width
     cellHeight: settings.openDefaultView=="icons" ? settings.openZoomLevel*6 : settings.openZoomLevel*2
     Behavior on cellWidth { NumberAnimation { id: cellWidthAni; duration: 125; } }
     Behavior on cellHeight { NumberAnimation { id: cellHeightAni; duration: 125; } }
@@ -142,6 +147,43 @@ GridView {
 
                 }
 
+                PQMouseArea {
+
+                    id: dragArea
+
+                    anchors.fill: parent
+
+                    drag.target: fileIsDir ? parent.parent : undefined
+
+                    hoverEnabled: true
+                    tooltip: em.pty+qsTranslate("filedialog", "Click and drag to favorites")
+
+                    cursorShape: Qt.OpenHandCursor
+
+                    onPressed:
+                        cursorShape = Qt.ClosedHandCursor
+                    onReleased:
+                        cursorShape = Qt.OpenHandCursor
+
+                    drag.onActiveChanged: {
+                        if (dragArea.drag.active) {
+                            dragArea.cursorShape = Qt.ClosedHandCursor
+                            // store which index is being dragged and that the entry comes from the userplaces (reordering only)
+                            files_grid.dragItemIndex = index
+                            splitview.dragSource = "folders"
+                            splitview.dragItemPath = filePath
+                        }
+                        deleg_container.Drag.drop();
+                        if(!dragArea.drag.active) {
+                            dragArea.cursorShape = Qt.OpenHandCursor
+                            // reset variables used for drag/drop
+                            files_grid.dragItemIndex = -1
+                            splitview.dragItemPath = ""
+                        }
+                    }
+
+                }
+
             }
 
             Rectangle {
@@ -214,42 +256,25 @@ GridView {
                 id: mouseArea
 
                 anchors.fill: parent
+                anchors.leftMargin: fileicon.width
 
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
 
-                drag.target: fileIsDir ? parent : undefined
-
-                tooltip: fileIsDir ?
+                tooltip: (fileIsDir ?
                              ("<b>" + fileName + "</b>" + "<br>" +
                               "# images: " + (numberOfFilesInsideFolder.text=="" ? "0" : numberOfFilesInsideFolder.text) + "<br>" +
                               "Modified: " + fileModified.toLocaleString()) :
                              ("<b>" + fileName + "</b>" + "<br>" +
                               "Size: " + handlingFileDialog.convertBytesToHumanReadable(fileSize) + "<br>" +
                               "Modified: " + fileModified.toLocaleString() + "<br>" +
-                              "Type: " + handlingFileDialog.getFileType(filePath))
+                              "Type: " + handlingFileDialog.getFileType(filePath)))
 
                 acceptedButtons: Qt.LeftButton|Qt.RightButton
 
-                // if drag is started
-                drag.onActiveChanged: {
-                    if (mouseArea.drag.active) {
-                        // store which index is being dragged and that the entry comes from the userplaces (reordering only)
-                        files_grid.dragItemIndex = index
-                        splitview.dragSource = "folders"
-                        splitview.dragItemPath = filePath
-                    }
-                    deleg_container.Drag.drop();
-                    if(!mouseArea.drag.active) {
-                        // reset variables used for drag/drop
-                        files_grid.dragItemIndex = -1
-                        splitview.dragItemPath = ""
-                    }
-                }
-
                 onEntered: {
                     deleg_container.mouseInside = true
-                    currentlyHoveredFile = fileIsDir?"":filePath
+                    currentlyHoveredFile = (fileIsDir||filePath==undefined?"":filePath)
                 }
                 onExited: {
                     deleg_container.mouseInside = false
@@ -276,7 +301,7 @@ GridView {
                 path: filePath
             }
 
-            Drag.active: mouseArea.drag.active
+            Drag.active: dragArea.drag.active
             Drag.hotSpot.x: fileicon.width/2
             Drag.hotSpot.y: fileicon.height/2
 

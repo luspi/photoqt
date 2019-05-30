@@ -49,7 +49,7 @@ Rectangle {
 
         divideToolTipValue: 10
         tooltip: em.pty+qsTranslate("filedialog", "Adjust font size of files and folders")
-        handleToolTipPrefix: qsTranslate("filedialog", "Zoom factor:") + " "
+        handleToolTipPrefix: em.pty+qsTranslate("filedialog", "Zoom factor:") + " "
 
         anchors.left: zoomtext.right
         y: (parent.height-height)/2
@@ -63,9 +63,15 @@ Rectangle {
 
         id: sortby
 
-        prefix: "Sort by: "
+        prefix: em.pty+qsTranslate("filedialog", "Sort by:") + " "
 
-        model: ["Name", "Name (reversed)", "Time", "Time (reversed)", "File size", "File size (reversed)", "File type", "File type (reversed)"]
+        model: [em.pty+qsTranslate("filedialog", "Name"),
+                em.pty+qsTranslate("filedialog", "Natural Name"),
+                em.pty+qsTranslate("filedialog", "Time modified"),
+                em.pty+qsTranslate("filedialog", "File size"),
+                em.pty+qsTranslate("filedialog", "File type"),
+                "[" + em.pty+qsTranslate("filedialog", "reverse order") + "]"]
+        lineBelowItem: 4
 
         anchors.right: allfiles.left
         anchors.rightMargin: 5
@@ -74,11 +80,16 @@ Rectangle {
         tooltip: em.pty+qsTranslate("filedialog", "Choose by what to sort the files")
         tooltipFollowsMouse: false
 
+        property int prevCurIndex: -1
+
         onCurrentIndexChanged: {
-            // round() always rounds to nearest integer -> .../2 always gives .0 or .5, thus doing -0.1 will work as intended
-            var currentIndexDiv2 = Math.round(currentIndex/2 - 0.1)
-            settings.sortbyAscending = (currentIndex%2==0)
-            settings.sortby = (currentIndexDiv2===0 ? "name" : (currentIndexDiv2===1 ? "time" : (currentIndexDiv2===2 ? "size" : "type")))
+            if(currentIndex == 5) {
+                settings.sortbyAscending = !settings.sortbyAscending
+                currentIndex = prevCurIndex
+            } else {
+                settings.sortby = (currentIndex===0 ? "name" : (currentIndex===1 ? "naturalname" : (currentIndex===2 ? "time" : (currentIndex===3 ? "size" : "type"))))
+                prevCurIndex = currentIndex
+            }
         }
 
     }
@@ -143,6 +154,7 @@ Rectangle {
         y: (parent.height-height)/2
 
         tooltip: em.pty+qsTranslate("filedialog", "Switch between list and icon view")
+        tooltipFollowsMouse: false
 
         imageButtonSource: settings.openDefaultView=="icons" ? "/filedialog/iconview.png" : "/filedialog/listview.png"
 

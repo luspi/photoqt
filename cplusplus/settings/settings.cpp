@@ -68,7 +68,7 @@ void PQSettings::setDefault() {
     setVersion(QString::fromStdString(VERSION));
     m_versionInTextFile = "";
 
-    setSortby("name");
+    setSortby("naturalname");
     setSortbyAscending(true);
 
     setWindowMode(true);
