@@ -22,5 +22,6 @@
         <file>elements/PQToolTip.qml</file>
         <file>elements/PQComboBox.qml</file>
         <file>mainwindow/filedialog/PQRightClickMenu.qml</file>
+        <file>elements/PQScrollBar.qml</file>
     </qresource>
 </RCC>
