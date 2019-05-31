@@ -6,7 +6,7 @@ MenuItem {
     id: control
     text: ""
 
-    height: 30
+    height: visible ? 30 : 0
 
     property bool mouseOver: false
     property alias textAlignment: contentItemText.horizontalAlignment

@@ -14,6 +14,7 @@ GridView {
     property int dragItemIndex: -1
 
     property string currentlyHoveredFile: ""
+    property int currentlyHoveredIndex: -1
 
     ScrollBar.vertical: PQScrollBar { id: scroll }
 
@@ -87,8 +88,8 @@ GridView {
 
             property bool mouseInside: false
             color: fileIsDir
-                       ? (mouseInside ? "#44444455" : "#44222233")
-                       : (mouseInside ? "#44666666" : "#44444444")
+                       ? (currentlyHoveredIndex==index ? "#44444455" : "#44222233")
+                       : (currentlyHoveredIndex==index ? "#44666666" : "#44444444")
 
             border.width: 1
             border.color: "#282828"
@@ -109,7 +110,7 @@ GridView {
                 Behavior on width { NumberAnimation { duration: 100 } }
                 Behavior on height { NumberAnimation { duration: 100 } }
 
-                opacity: deleg_container.mouseInside ? 1 : 0.8
+                opacity: currentlyHoveredIndex==index ? 1 : 0.8
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
                 source: fileName==".."||filethumb.status==Image.Ready ? "" : "image://icon/" + (fileIsDir ? "folder" : "image")
@@ -273,11 +274,11 @@ GridView {
                 acceptedButtons: Qt.LeftButton|Qt.RightButton
 
                 onEntered: {
-                    deleg_container.mouseInside = true
+                    currentlyHoveredIndex = index
                     currentlyHoveredFile = (fileIsDir||filePath==undefined?"":filePath)
                 }
                 onExited: {
-                    deleg_container.mouseInside = false
+                    currentlyHoveredIndex = -1
                     currentlyHoveredFile = ""
                 }
                 onClicked: {
@@ -337,6 +338,92 @@ GridView {
 
     }
 
+    function keyEvent(key, modifiers) {
+
+        if(key == Qt.Key_Down) {
+
+            if(modifiers == Qt.NoModifier) {
+                if(currentlyHoveredIndex == -1)
+                    currentlyHoveredIndex = 0
+                else if(currentlyHoveredIndex < model.count-1)
+                    currentlyHoveredIndex += 1
+            } else if(modifiers == Qt.ControlModifier)
+                currentlyHoveredIndex = model.count-1
+
+        } else if(key == Qt.Key_Up) {
+
+            if(modifiers == Qt.NoModifier) {
+                if(currentlyHoveredIndex == -1)
+                    currentlyHoveredIndex = model.count-1
+                else if(currentlyHoveredIndex > 0)
+                    currentlyHoveredIndex -= 1
+            } else if(modifiers == Qt.ControlModifier)
+                currentlyHoveredIndex = 0
+            else if(modifiers == Qt.AltModifier && handlingFileDialog.cleanPath(filedialog_top.currentDirectory) != "/")
+                filedialog_top.setCurrentDirectory(filedialog_top.currentDirectory+"/..")
+
+        } else if(key == Qt.Key_Left) {
+
+            if(modifiers == Qt.AltModifier)
+                breadcrumbs.goBackwards()
+            else if(modifiers == Qt.NoModifier) {
+                if(currentlyHoveredIndex == -1)
+                    currentlyHoveredIndex = model.count-1
+                else if(currentlyHoveredIndex > 0)
+                    currentlyHoveredIndex -= 1
+            }
+
+
+        } else if(key == Qt.Key_Right) {
+
+            if(modifiers == Qt.AltModifier)
+                breadcrumbs.goForwards()
+            else if(modifiers == Qt.NoModifier) {
+                if(currentlyHoveredIndex == -1)
+                    currentlyHoveredIndex = 0
+                else if(currentlyHoveredIndex < model.count-1)
+                    currentlyHoveredIndex += 1
+            }
+
+        } else if(key == Qt.Key_PageUp && modifiers == Qt.NoModifier)
+
+            currentlyHoveredIndex = Math.max(currentlyHoveredIndex-5, 0)
+
+        else if(key == Qt.Key_PageDown && modifiers == Qt.NoModifier)
+
+            currentlyHoveredIndex = Math.max(currentlyHoveredIndex+5, 0)
+
+        else if((key == Qt.Key_Enter || key == Qt.Key_Return) && modifiers == Qt.NoModifier) {
+
+            var filePath = files_model.getFilePath(currentlyHoveredIndex)
+            var fileIsDir = files_model.getFileIsDir(currentlyHoveredIndex)
+            if(fileIsDir)
+                filedialog_top.setCurrentDirectory(filePath)
+            else {
+                hideFileDialog()
+                imageitem.loadImage(filePath)
+            }
+
+
+        } else if((key == Qt.Key_Plus || key == Qt.Key_Equal) && modifiers == Qt.ControlModifier)
+
+            tweaks.zoomIn()
+
+        else if(key == Qt.Key_Minus && modifiers == Qt.ControlModifier)
+
+            tweaks.zoomOut()
+
+        else if((key == Qt.Key_H && modifiers == Qt.ControlModifier) || (key == Qt.Key_Period && Qt.AltModifier)) {
+
+            var old = settings.openShowHiddenFilesFolders
+            settings.openShowHiddenFilesFolders = !old
+
+        } else if(key == Qt.Key_Escape && modifiers == Qt.NoModifier)
+
+            filedialog_top.hideFileDialog()
+
+    }
+
     Component.onCompleted:
         loadFolder(filedialog_top.currentDirectory)
 
@@ -345,6 +432,7 @@ GridView {
         loc = handlingFileDialog.cleanPath(loc)
 
         files_model.folder = loc
+        currentlyHoveredIndex = -1
 
         if(loc == "/")
             breadcrumbs.pathParts = [""]

@@ -221,4 +221,8 @@ Rectangle {
         filedialog_top.opacity = 0
     }
 
+    function keyEvent(key, modifiers) {
+        fileview.keyEvent(key, modifiers)
+    }
+
 }

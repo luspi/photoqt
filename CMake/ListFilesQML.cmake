@@ -16,3 +16,6 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQPlaces.qml ${d}/PQDevices.qml ${d}/PQFileV
 
 SET(d "qml/elements")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQSlider.qml ${d}/PQCheckbox.qml ${d}/PQButton.qml ${d}/PQMenu.qml ${d}/PQMenuItem.qml ${d}/PQToolTip.qml ${d}/PQMouseArea.qml ${d}/PQComboBox.qml ${d}/PQScrollBar.qml)
+
+SET(d "qml/shortcuts")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQShortcuts.qml)

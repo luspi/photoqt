@@ -10,6 +10,7 @@ import PQImageFormats 1.0
 import PQFileWatcher 1.0
 
 import "./mainwindow"
+import "./shortcuts"
 
 Window {
 
@@ -39,6 +40,8 @@ Window {
 
     PQHandlingFileDialog { id: handlingFileDialog }
     PQHandlingGeneral { id: handlingGeneral }
+
+    PQShortcuts { id: shortcuts }
 
     // Localisation handler, allows for runtime switches of languages
     PQLocalisation { id : em }

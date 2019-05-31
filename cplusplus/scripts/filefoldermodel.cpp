@@ -130,17 +130,19 @@ void PQFileFolderModel::loadData() {
 
     QFileInfoList entrylist = alldirs+allfiles;
 
-    if(entrylist.length() == 0)
+    m_count = entrylist.length();
+
+    if(m_count == 0)
         return;
 
     auto t9 = std::chrono::steady_clock::now();
     std::cout << "combine dirs and files: " << std::chrono::duration<double, std::milli>(t9-t8).count() << std::endl;
 
-    entries.reserve(entrylist.length());
+    entries.reserve(m_count);
 
     beginInsertRows(QModelIndex(), rowCount(), rowCount()+entrylist.length()-1);
 
-    for(int i = 0; i < entrylist.length(); ++i) {
+    for(int i = 0; i < m_count; ++i) {
 
         PQFileFolderEntry *entry = new PQFileFolderEntry;
         entry->fileName = entrylist.at(i).fileName();

@@ -163,4 +163,12 @@ Rectangle {
 
     }
 
+    function zoomOut() {
+        zoom.value -= 1
+    }
+
+    function zoomIn() {
+        zoom.value += 1
+    }
+
 }

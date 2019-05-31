@@ -97,6 +97,20 @@ public:
     bool getSortReversed() { return m_sortReversed; }
     void setSortReversed(bool val) { m_sortReversed = val; loadDelay->start(); }
 
+    Q_PROPERTY(int count READ getCount)
+    int getCount() { return m_count; }
+
+    Q_INVOKABLE QString getFilePath(int index) {
+        if(index >= 0 && index < m_count)
+            return entries[index]->filePath;
+        return "";
+    }
+    Q_INVOKABLE bool getFileIsDir(int index) {
+        if(index >= 0 && index < m_count)
+            return entries[index]->fileIsDir;
+        return false;
+    }
+
 protected:
     QHash<int, QByteArray> roleNames() const {
         QHash<int, QByteArray> roles;
@@ -118,6 +132,7 @@ private:
     bool m_showHidden;
     SortBy m_sortField;
     bool m_sortReversed;
+    int m_count;
 
     QTimer *loadDelay;
 
