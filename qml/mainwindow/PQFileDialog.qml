@@ -167,7 +167,7 @@ Rectangle {
                     z: -1
 
                     anchors.fill: parent
-                    filePath: fileview.currentlyHoveredFile
+                    filePath: fileview.model.getFileIsDir(fileview.currentlyHoveredIndex) ? "" : fileview.model.getFilePath(fileview.currentlyHoveredIndex)
 
                 }
 

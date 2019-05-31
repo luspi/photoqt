@@ -12,6 +12,7 @@
 #include <QDomDocument>
 #include <pugixml.hpp>
 #include <QMimeDatabase>
+#include <QKeySequence>
 
 #include "../logger.h"
 #include "imageformats.h"
@@ -43,6 +44,8 @@ public:
 
     Q_INVOKABLE QString convertBytesToHumanReadable(qint64 bytes);
     Q_INVOKABLE QString getFileType(QString path);
+
+    Q_INVOKABLE int convertCharacterToKeyCode(QString key);
 
 private:
     PQImageFormats *imageformats;

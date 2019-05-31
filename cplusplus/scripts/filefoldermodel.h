@@ -106,6 +106,13 @@ public:
             return entries[index]->filePath;
         return "";
     }
+
+    Q_INVOKABLE QString getFileName(int index) {
+        if(index >= 0 && index < m_count)
+            return entries[index]->fileName;
+        return "";
+    }
+
     Q_INVOKABLE bool getFileIsDir(int index) {
         if(index >= 0 && index < m_count)
             return entries[index]->fileIsDir;
@@ -117,7 +124,7 @@ protected:
         QHash<int, QByteArray> roles;
         roles[FileNameRole] = "fileName";
         roles[FilePathRole] = "filePath";
-        roles[PathRole] = "path";
+        roles[PathRole] = "path";   // this property *might* be necessary for the drag&drop in PQFileView
         roles[FileSizeRole] = "fileSize";
         roles[FileModifiedRole] = "fileModified";
         roles[FileIsDirRole] = "fileIsDir";

@@ -13,7 +13,6 @@ GridView {
 
     property int dragItemIndex: -1
 
-    property string currentlyHoveredFile: ""
     property int currentlyHoveredIndex: -1
 
     ScrollBar.vertical: PQScrollBar { id: scroll }
@@ -273,14 +272,10 @@ GridView {
 
                 acceptedButtons: Qt.LeftButton|Qt.RightButton
 
-                onEntered: {
+                onEntered:
                     currentlyHoveredIndex = index
-                    currentlyHoveredFile = (fileIsDir||filePath==undefined?"":filePath)
-                }
-                onExited: {
+                onExited:
                     currentlyHoveredIndex = -1
-                    currentlyHoveredFile = ""
-                }
                 onClicked: {
                     if(mouse.button == Qt.LeftButton) {
                         if(fileIsDir)
@@ -421,6 +416,37 @@ GridView {
         } else if(key == Qt.Key_Escape && modifiers == Qt.NoModifier)
 
             filedialog_top.hideFileDialog()
+
+        else {
+
+            var tmp = (currentlyHoveredIndex==-1 ? 0 : currentlyHoveredIndex+1)
+            var foundSomething = false
+
+            for(var i = tmp; i < files_model.count; ++i) {
+
+                if(handlingFileDialog.convertCharacterToKeyCode(files_model.getFileName(i)[0]) == key) {
+                    currentlyHoveredIndex = i
+                    foundSomething = true
+                    break;
+                }
+
+            }
+
+            if(!foundSomething) {
+
+                for(var i = 0; i < tmp; ++i) {
+
+                    if(handlingFileDialog.convertCharacterToKeyCode(files_model.getFileName(i)[0]) == key) {
+                        currentlyHoveredIndex = i
+                        foundSomething = true
+                        break;
+                    }
+
+                }
+
+            }
+
+        }
 
     }
 

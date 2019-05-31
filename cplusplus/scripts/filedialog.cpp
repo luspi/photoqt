@@ -435,3 +435,7 @@ QString PQHandlingFileDialog::getFileType(QString path) {
     return mime.name();
 }
 
+int PQHandlingFileDialog::convertCharacterToKeyCode(QString key) {
+    return QKeySequence(key)[0];
+}
+
