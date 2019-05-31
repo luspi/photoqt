@@ -7,6 +7,7 @@
 #include <QtDebug>
 #include <QTimer>
 #include <QCollator>
+#include <QFileSystemWatcher>
 #include "../logger.h"
 
 class PQFileFolderEntry {
@@ -135,6 +136,8 @@ private:
     int m_count;
 
     QTimer *loadDelay;
+
+    QFileSystemWatcher *watcher;
 
 private slots:
     void loadData();

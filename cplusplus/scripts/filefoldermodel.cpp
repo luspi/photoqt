@@ -32,6 +32,11 @@ void PQFileFolderModel::loadData() {
     auto t2 = std::chrono::steady_clock::now();
     std::cout << "remove rows: " << std::chrono::duration<double, std::milli>(t2-t1).count() << std::endl;
 
+    delete watcher;
+    watcher = new QFileSystemWatcher;
+    watcher->addPath(m_folder);
+    connect(watcher, &QFileSystemWatcher::directoryChanged, this, &PQFileFolderModel::loadData);
+
     // FIRST ALL DIRS
 
     QDir dir;
