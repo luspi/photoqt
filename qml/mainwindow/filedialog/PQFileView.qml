@@ -88,8 +88,8 @@ GridView {
 
             property bool mouseInside: false
             color: fileIsDir
-                       ? (currentlyHoveredIndex==index ? "#44444455" : "#44222233")
-                       : (currentlyHoveredIndex==index ? "#44666666" : "#44444444")
+                       ? (currentlyHoveredIndex==index ? "#44888899" : "#44222233")
+                       : (currentlyHoveredIndex==index ? "#44aaaaaa" : "#44444444")
 
             border.width: 1
             border.color: "#282828"
@@ -110,7 +110,7 @@ GridView {
                 Behavior on width { NumberAnimation { duration: 100 } }
                 Behavior on height { NumberAnimation { duration: 100 } }
 
-                opacity: currentlyHoveredIndex==index ? 1 : 0.8
+                opacity: currentlyHoveredIndex==index ? 1 : 0.6
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
                 source: fileName==".."||filethumb.status==Image.Ready ? "" : "image://icon/" + (fileIsDir ? "folder" : "image")
@@ -154,7 +154,7 @@ GridView {
 
                     anchors.fill: parent
 
-                    drag.target: fileIsDir ? parent.parent : undefined
+                    drag.target: parent.parent
 
                     hoverEnabled: true
                     tooltip: em.pty+qsTranslate("filedialog", "Click and drag to favorites")
@@ -257,7 +257,7 @@ GridView {
                 id: mouseArea
 
                 anchors.fill: parent
-                anchors.leftMargin: fileicon.width
+                anchors.leftMargin: settings.openDefaultView=="list"?fileicon.width:0
 
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
@@ -391,7 +391,7 @@ GridView {
 
         else if(key == Qt.Key_PageDown && modifiers == Qt.NoModifier)
 
-            currentlyHoveredIndex = Math.max(currentlyHoveredIndex+5, 0)
+            currentlyHoveredIndex = Math.min(currentlyHoveredIndex+5, files_model.count-1)
 
         else if((key == Qt.Key_Enter || key == Qt.Key_Return) && modifiers == Qt.NoModifier) {
 
