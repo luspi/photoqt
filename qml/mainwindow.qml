@@ -20,6 +20,12 @@ Window {
 
     visibility: Window.Maximized
 
+    minimumWidth: 600
+    minimumHeight: 400
+
+    width: 1024
+    height: 768
+
     color: Qt.rgba(settings.backgroundColorRed/256.0,
                    settings.backgroundColorGreen/256.0,
                    settings.backgroundColorBlue/256.0,
