@@ -18,6 +18,7 @@ ScrollBar {
 
     background: Rectangle {
         color: control.pressed ? "#88888888" : "#88666666"
+        visible: control.size<1.0
         Behavior on color { ColorAnimation { duration: 100 } }
     }
 
