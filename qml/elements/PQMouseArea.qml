@@ -14,6 +14,9 @@ Item {
     property alias drag: tooltip_mousearea.drag
 
     property bool tooltipFollowsMouse: true
+    property alias tooltipWrapMode: control.wrapMode
+    property alias tooltipWidth: control.width
+    property alias tooltipElide: control.elide
 
     signal clicked(var mouse)
     signal doubleClicked(var mouse)

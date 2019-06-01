@@ -261,14 +261,25 @@ GridView {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
 
-                tooltip: (fileIsDir ?
-                             ("<b>" + fileName + "</b>" + "<br>" +
-                              "# images: " + (numberOfFilesInsideFolder.text=="" ? "0" : numberOfFilesInsideFolder.text) + "<br>" +
-                              "Modified: " + fileModified.toLocaleString()) :
-                             ("<b>" + fileName + "</b>" + "<br>" +
-                              "Size: " + handlingFileDialog.convertBytesToHumanReadable(fileSize) + "<br>" +
-                              "Modified: " + fileModified.toLocaleString() + "<br>" +
-                              "Type: " + handlingFileDialog.getFileType(filePath)))
+                tooltipWrapMode: Text.WrapAnywhere
+                tooltipWidth: 256+10
+
+                tooltip: " <div align=center>" +
+
+                          (fileIsDir ?
+
+                          ("<b><span style=\"font-size: x-large\">" + fileName + "</span></b><br>" +
+                           (numberOfFilesInsideFolder.text!="" ? ("<font color=lightgrey>" + numberOfFilesInsideFolder.text + " images</font><br><br>") : "<br>") +
+                           fileModified.toLocaleDateString() + "<br>" +
+                           fileModified.toLocaleTimeString()) :
+
+                          ("<img src=\"image://thumb/__squaresize__" + filePath + "\"><br><br>" +
+                           "<b><span style=\"font-size: x-large\">" + fileName + "</span></b>" + "<br>" +
+                           "<i><font color=grey>" + handlingFileDialog.getFileType(filePath) + "</font></i><br><br>" +
+                           fileModified.toLocaleDateString() + "<br>" +
+                           fileModified.toLocaleTimeString())) +
+
+                          "</div> "
 
                 acceptedButtons: Qt.LeftButton|Qt.RightButton
 
