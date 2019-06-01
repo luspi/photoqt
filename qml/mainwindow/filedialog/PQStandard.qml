@@ -4,6 +4,8 @@ import "../../elements"
 
 ListView {
 
+    id: standard_top
+
     boundsBehavior: Flickable.StopAtBounds
 
     model: 5
@@ -11,6 +13,8 @@ ListView {
     height: childrenRect.height
 
     visible: settings.openUserPlacesStandard
+
+    property int hoverIndex: -1
 
     property var locs: [StandardPaths.displayName(StandardPaths.HomeLocation), handlingFileDialog.cleanPath(StandardPaths.writableLocation(StandardPaths.HomeLocation)), "user-home",
                         StandardPaths.displayName(StandardPaths.DesktopLocation), handlingFileDialog.cleanPath(StandardPaths.writableLocation(StandardPaths.DesktopLocation)), "user-desktop",
@@ -24,13 +28,15 @@ ListView {
         width: parent.width
         height: 30
 
-        color: "transparent"
+        color: standard_top.hoverIndex==index ? "#555555" : "#00555555"
         Behavior on color { ColorAnimation { duration: 200 } }
 
         // the icon for this entry (e.g., folder, ...)
         Item {
 
             id: entryicon
+
+            opacity: (standard_top.hoverIndex==index) ? 1 : 0.8
 
             // its size is square (height==width)
             width: deleg_container.height
@@ -99,12 +105,10 @@ ListView {
 //                            delegcontext.popup()
             }
 
-            onEntered: {
-                if(index > 0)
-                    deleg_container.color = "#444444"
-            }
+            onEntered:
+                hoverIndex = index
             onExited:
-                deleg_container.color = "transparent"
+                hoverIndex = -1
 
         }
 

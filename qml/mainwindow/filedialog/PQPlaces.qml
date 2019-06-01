@@ -63,13 +63,15 @@ ListView {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
 
-            color: (userplaces_top.hoverIndex==index||mouseArea.drag.active) ? "#444444" : "transparent"
+            color: (userplaces_top.hoverIndex==index||mouseArea.drag.active) ? "#555555" : "#00555555"
             Behavior on color { ColorAnimation { duration: 200 } }
 
             // the icon for this entry (e.g., folder, ...)
             Item {
 
                 id: entryicon
+
+                opacity: (userplaces_top.hoverIndex==index||mouseArea.drag.active) ? 1 : 0.8
 
                 // its size is square (height==width)
                 width: deleg_container.height

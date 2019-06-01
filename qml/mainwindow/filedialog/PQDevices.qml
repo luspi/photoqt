@@ -12,6 +12,8 @@ ListView {
 
     height: childrenRect.height
 
+    property int hoverIndex: -1
+
     // The model is a simple listmodel, not editable by user
     model: ListModel { id: storage_model }
 
@@ -31,7 +33,7 @@ ListView {
             width: parent.width
             height: 30
 
-            color: "transparent"
+            color: hoverIndex==index ? "#555555" : "#00555555"
             Behavior on color { ColorAnimation { duration: 200 } }
 
             // This item holds the icon for the folders
@@ -42,6 +44,8 @@ ListView {
                 // its size is square (height==width)
                 width: parent.height
                 height: width
+
+                opacity: hoverIndex==index ? 1 : 0.8
 
                 // the icon image
                 Image {
@@ -119,12 +123,10 @@ ListView {
                 cursorShape: index>0 ? Qt.PointingHandCursor : Qt.ArrowCursor
 
                 // entering the area sets entry as current item
-                onEntered: {
-                    if(index > 0)
-                        deleg_container.color = "#444444"
-                }
+                onEntered:
+                    hoverIndex = index
                 onExited:
-                    deleg_container.color = "transparent"
+                    hoverIndex = -1
 
                 // clicking an entry loads the location
                 onClicked: {
