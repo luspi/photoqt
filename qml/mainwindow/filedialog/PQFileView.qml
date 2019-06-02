@@ -261,25 +261,19 @@ GridView {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
 
-                tooltipWrapMode: Text.WrapAnywhere
-                tooltipWidth: 256+10
+                tooltip: (fileIsDir ?
 
-                tooltip: " <div align=center>" +
+                          ("<b><span style=\"font-size: x-large\">" + fileName + "</span></b><br><br>" +
+                           (numberOfFilesInsideFolder.text=="" ? "" : (em.pty+qsTranslate("filedialog", "# images")+": <b>" + numberOfFilesInsideFolder.text + "</b><br>")) +
+                           em.pty+qsTranslate("filedialog", "Date:")+" <b>" + fileModified.toLocaleDateString() + "</b><br>" +
+                           em.pty+qsTranslate("filedialog", "Time:")+" <b>" + fileModified.toLocaleTimeString() + "</b>") :
 
-                          (fileIsDir ?
-
-                          ("<b><span style=\"font-size: x-large\">" + fileName + "</span></b><br>" +
-                           (numberOfFilesInsideFolder.text!="" ? ("<font color=lightgrey>" + numberOfFilesInsideFolder.text + " images</font><br><br>") : "<br>") +
-                           fileModified.toLocaleDateString() + "<br>" +
-                           fileModified.toLocaleTimeString()) :
-
-                          ("<img src=\"image://thumb/__squaresize__" + filePath + "\"><br><br>" +
-                           "<b><span style=\"font-size: x-large\">" + fileName + "</span></b>" + "<br>" +
-                           "<i><font color=grey>" + handlingFileDialog.getFileType(filePath) + "</font></i><br><br>" +
-                           fileModified.toLocaleDateString() + "<br>" +
-                           fileModified.toLocaleTimeString())) +
-
-                          "</div> "
+                          ("<tr><td>&nbsp;</td><td><img src=\"image://thumb/" + filePath + "\"></td><td>&nbsp;&nbsp;</td>" +
+                           "<td valign=middle><b><span style=\"font-size: x-large\">" + fileName + "</span></b>" + "<br><br>" +
+                           em.pty+qsTranslate("filedialog", "File size:")+" <b>" + filesizenum.text + "</b><br>" +
+                           em.pty+qsTranslate("filedialog", "File type:")+" <b>" + handlingFileDialog.getFileType(filePath) + "</b><br>" +
+                           em.pty+qsTranslate("filedialog", "Date:")+" <b>" + fileModified.toLocaleDateString() + "</b><br>" +
+                           em.pty+qsTranslate("filedialog", "Time:")+" <b>" + fileModified.toLocaleTimeString()+ "</b></td></tr>"))
 
                 acceptedButtons: Qt.LeftButton|Qt.RightButton
 
@@ -334,7 +328,10 @@ GridView {
                     handlingFileDialog.getNumberOfFilesInFolder(filePath, function(count) {
                         if(count > 0) {
                             numberOfFilesInsideFolder.text = count
-                            filesizenum.text = count + " " + em.pty+qsTranslate("filedialog", "images")
+                            if(count == 1)
+                                filesizenum.text = em.pty+qsTranslate("filedialog", "%1 image").arg(count)
+                            else
+                                filesizenum.text = em.pty+qsTranslate("filedialog", "%1 images").arg(count)
                         }
                     })
                 }

@@ -19,14 +19,7 @@ QQuickTextureFactory *PQAsyncImageResponseThumb::textureFactory() const {
 
 void PQAsyncImageResponseThumb::run() {
 
-    bool squaresize = false;
-
     QString filename = QByteArray::fromPercentEncoding(m_url.toUtf8());
-
-    if(filename.startsWith("__squaresize__")) {
-        squaresize = true;
-        filename = filename.remove(0, QString("__squaresize__").size());
-    }
 
 //    QString typeCache = "files"; // (settings->thumbnailCacheFile ? "files" : "db");
     bool cacheEnabled = true; // settings->thumbnailCache;
@@ -58,8 +51,7 @@ void PQAsyncImageResponseThumb::run() {
             // Use image if it's up-to-date
             if(QFileInfo(filename).lastModified().toTime_t() == mtime) {
 
-                m_image = squaresize ? squarifyImage(p) : p;
-
+                m_image = p;
                 emit finished();
                 return;
             }
@@ -113,8 +105,7 @@ void PQAsyncImageResponseThumb::run() {
             LOG << CURDATE << "ImageProviderThumbnail: Image is smaller than potential thumbnail, no need to cache: " <<
                    QFileInfo(filename).fileName().toStdString() << NL;
 
-        m_image = squaresize ? squarifyImage(p) : p;
-
+        m_image = p;
         emit finished();
         return;
     }
@@ -157,70 +148,8 @@ void PQAsyncImageResponseThumb::run() {
     }
 
     // aaaaand done!
-    m_image = squaresize ? squarifyImage(p) : p;
+    m_image = p;
     emit finished();
-
-}
-
-QImage PQAsyncImageResponseThumb::squarifyImage(QImage &p) {
-
-    int x = 0, y = 0;
-
-    if(p.width() < m_requestedSize.width() && p.height() < m_requestedSize.height()) {
-
-        int iw = m_requestedSize.width();
-        int ih = m_requestedSize.height()/2;
-
-        double ratio = qMin(iw/p.width(), ih/p.height());
-
-        int pw = p.width()*ratio;
-        int ph = p.height()*ratio;
-
-        if(pw < iw)
-            x = (iw-pw)/2;
-        if(ph < ih)
-            y = (ih-ph)/2;
-
-        QPixmap result(iw, ih);
-        result.fill(Qt::transparent);
-
-        QPainter painter(&result);
-
-        painter.drawImage(QRect(x, y, pw, ph), p, QRect(0,0,p.width(), p.height()));
-
-        painter.end();
-
-        return result.toImage();
-
-    } else {
-
-        int iw = m_requestedSize.width();
-        int ih = m_requestedSize.height();
-
-        if(p.width() < m_requestedSize.width())
-            x = (m_requestedSize.width()-p.width())/2;
-        if(p.height() < m_requestedSize.height())
-            y = (m_requestedSize.height()-p.height())/2;
-
-        if(y > 10) {
-
-            ih -= 2*(y-10);
-            y = 10;
-
-        }
-
-        QPixmap result(iw, ih);
-        result.fill(Qt::transparent);
-
-        QPainter painter(&result);
-
-        painter.drawImage(x, y, p);
-
-        painter.end();
-
-        return result.toImage();
-
-    }
 
 }
 

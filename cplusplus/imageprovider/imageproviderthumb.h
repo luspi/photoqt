@@ -37,8 +37,6 @@ private:
     QString whatDoIUse(QString filename);
     QByteArray getUniqueCacheKey(QString path);
 
-    QImage squarifyImage(QImage &p);
-
 };
 
 #endif // PQASYNCIMAGEPROVIDERTHUMB_H
