@@ -255,106 +255,106 @@ void PQSettings::saveSettings() {
 
         cont += "\n[Look]\n";
 
-        cont += QString("BackgroundColorRed=%1\n").arg(m_backgroundColorRed);
-        cont += QString("BackgroundColorGreen=%1\n").arg(m_backgroundColorGreen);
-        cont += QString("BackgroundColorBlue=%1\n").arg(m_backgroundColorBlue);
         cont += QString("BackgroundColorAlpha=%1\n").arg(m_backgroundColorAlpha);
-        cont += QString("BackgroundImageScreenshot=%1\n").arg(m_backgroundImageScreenshot);
-        cont += QString("BackgroundImageUse=%1\n").arg(m_backgroundImageUse);
+        cont += QString("BackgroundColorBlue=%1\n").arg(m_backgroundColorBlue);
+        cont += QString("BackgroundColorGreen=%1\n").arg(m_backgroundColorGreen);
+        cont += QString("BackgroundColorRed=%1\n").arg(m_backgroundColorRed);
+        cont += QString("BackgroundImageCenter=%1\n").arg(m_backgroundImageCenter);
         cont += QString("BackgroundImagePath=%1\n").arg(m_backgroundImagePath);
         cont += QString("BackgroundImageScale=%1\n").arg(m_backgroundImageScale);
         cont += QString("BackgroundImageScaleCrop=%1\n").arg(m_backgroundImageScaleCrop);
+        cont += QString("BackgroundImageScreenshot=%1\n").arg(m_backgroundImageScreenshot);
         cont += QString("BackgroundImageStretch=%1\n").arg(m_backgroundImageStretch);
-        cont += QString("BackgroundImageCenter=%1\n").arg(m_backgroundImageCenter);
         cont += QString("BackgroundImageTile=%1\n").arg(m_backgroundImageTile);
+        cont += QString("BackgroundImageUse=%1\n").arg(m_backgroundImageUse);
 
         cont += "\n[Behaviour]\n";
 
-        cont += QString("TrayIcon=%1\n").arg(m_trayIcon);
-        cont += QString("LoopThroughFolder=%1\n").arg(int(m_loopThroughFolder));
-        cont += QString("HotEdgeWidth=%1\n").arg(m_hotEdgeWidth);
-        cont += QString("CloseOnEmptyBackground=%1\n").arg(int(m_closeOnEmptyBackground));
-        cont += QString("MarginAroundImage=%1\n").arg(m_marginAroundImage);
-        cont += QString("SortImagesBy=%1\n").arg(m_sortby);
-        cont += QString("SortImagesAscending=%1\n").arg(int(m_sortbyAscending));
-        cont += QString("MouseWheelSensitivity=%1\n").arg(m_mouseWheelSensitivity);
-        cont += QString("KeepZoomRotationMirror=%1\n").arg(int(m_keepZoomRotationMirror));
-        cont += QString("FitInWindow=%1\n").arg(int(m_fitInWindow));
-        cont += QString("InterpolationNearestNeighbourThreshold=%1\n").arg(m_interpolationNearestNeighbourThreshold);
-        cont += QString("InterpolationNearestNeighbourUpscale=%1\n").arg(int(m_interpolationNearestNeighbourUpscale));
-        cont += QString("PixmapCache=%1\n").arg(m_pixmapCache);
-        cont += QString("ShowTransparencyMarkerBackground=%1\n").arg(int(m_showTransparencyMarkerBackground));
-        cont += QString("LeftButtonMouseClickAndMove=%1\n").arg(int(m_leftButtonMouseClickAndMove));
-        cont += QString("ZoomSpeed=%1\n").arg(m_zoomSpeed);
         cont += QString("Animations=%1\n").arg(int(m_animations));
         cont += QString("AnimationDuration=%1\n").arg(m_animationDuration);
         cont += QString("AnimationType=%1\n").arg(m_animationType);
-        cont += QString("PdfSingleDocument=%1\n").arg(int(m_pdfSingleDocument));
-        cont += QString("PdfQuality=%1\n").arg(m_pdfQuality);
         cont += QString("ArchiveSingleFile=%1\n").arg(int(m_archiveSingleFile));
         cont += QString("ArchiveUseExternalUnrar=%1\n").arg(int(m_archiveUseExternalUnrar));
+        cont += QString("CloseOnEmptyBackground=%1\n").arg(int(m_closeOnEmptyBackground));
+        cont += QString("FitInWindow=%1\n").arg(int(m_fitInWindow));
+        cont += QString("HotEdgeWidth=%1\n").arg(m_hotEdgeWidth);
+        cont += QString("InterpolationNearestNeighbourThreshold=%1\n").arg(m_interpolationNearestNeighbourThreshold);
+        cont += QString("InterpolationNearestNeighbourUpscale=%1\n").arg(int(m_interpolationNearestNeighbourUpscale));
+        cont += QString("KeepZoomRotationMirror=%1\n").arg(int(m_keepZoomRotationMirror));
+        cont += QString("LeftButtonMouseClickAndMove=%1\n").arg(int(m_leftButtonMouseClickAndMove));
+        cont += QString("LoopThroughFolder=%1\n").arg(int(m_loopThroughFolder));
+        cont += QString("MarginAroundImage=%1\n").arg(m_marginAroundImage);
+        cont += QString("MouseWheelSensitivity=%1\n").arg(m_mouseWheelSensitivity);
+        cont += QString("PdfQuality=%1\n").arg(m_pdfQuality);
+        cont += QString("PdfSingleDocument=%1\n").arg(int(m_pdfSingleDocument));
+        cont += QString("PixmapCache=%1\n").arg(m_pixmapCache);
+        cont += QString("ShowTransparencyMarkerBackground=%1\n").arg(int(m_showTransparencyMarkerBackground));
+        cont += QString("SortImagesBy=%1\n").arg(m_sortby);
+        cont += QString("SortImagesAscending=%1\n").arg(int(m_sortbyAscending));
+        cont += QString("TrayIcon=%1\n").arg(m_trayIcon);
+        cont += QString("ZoomSpeed=%1\n").arg(m_zoomSpeed);
 
         cont += "\n[QuickInfo]\n";
 
+        cont += QString("QuickInfoCloseXSize=%1\n").arg(m_quickInfoCloseXSize);
+        cont += QString("QuickInfoFullX=%1\n").arg(int(m_quickInfoFullX));
         cont += QString("QuickInfoHideCounter=%1\n").arg(int(m_quickInfoHideCounter));
         cont += QString("QuickInfoHideFilepath=%1\n").arg(int(m_quickInfoHideFilepath));
         cont += QString("QuickInfoHideFilename=%1\n").arg(int(m_quickInfoHideFilename));
         cont += QString("QuickInfoHideX=%1\n").arg(int(m_quickInfoHideX));
         cont += QString("QuickInfoHideZoomLevel=%1\n").arg(int(m_quickInfoHideZoomLevel));
-        cont += QString("QuickInfoFullX=%1\n").arg(int(m_quickInfoFullX));
-        cont += QString("QuickInfoCloseXSize=%1\n").arg(m_quickInfoCloseXSize);
         cont += QString("QuickInfoManageWindow=%1\n").arg(int(m_quickInfoManageWindow));
 
         cont += "\n[Thumbnail]\n";
 
-        cont += QString("ThumbnailSize=%1\n").arg(m_thumbnailSize);
-        cont += QString("ThumbnailPosition=%1\n").arg(m_thumbnailPosition);
         cont += QString("ThumbnailCache=%1\n").arg(int(m_thumbnailCache));
         cont += QString("ThumbnailCacheFile=%1\n").arg(int(m_thumbnailCacheFile));
-        cont += QString("ThumbnailSpacingBetween=%1\n").arg(m_thumbnailSpacingBetween);
-        cont += QString("ThumbnailLiftUp=%1\n").arg(m_thumbnailLiftUp);
-        cont += QString("ThumbnailKeepVisible=%1\n").arg(int(m_thumbnailKeepVisible));
-        cont += QString("ThumbnailKeepVisibleWhenNotZoomedIn=%1\n").arg(int(m_thumbnailKeepVisibleWhenNotZoomedIn));
         cont += QString("ThumbnailCenterActive=%1\n").arg(int(m_thumbnailCenterActive));
+        cont += QString("ThumbnailDisable=%1\n").arg(int(m_thumbnailDisable));
         cont += QString("ThumbnailFilenameInstead=%1\n").arg(int(m_thumbnailFilenameInstead));
         cont += QString("ThumbnailFilenameInsteadFontSize=%1\n").arg(m_thumbnailFilenameInsteadFontSize);
-        cont += QString("ThumbnailDisable=%1\n").arg(int(m_thumbnailDisable));
-        cont += QString("ThumbnailWriteFilename=%1\n").arg(int(m_thumbnailWriteFilename));
         cont += QString("ThumbnailFontSize=%1\n").arg(m_thumbnailFontSize);
+        cont += QString("ThumbnailKeepVisible=%1\n").arg(int(m_thumbnailKeepVisible));
+        cont += QString("ThumbnailKeepVisibleWhenNotZoomedIn=%1\n").arg(int(m_thumbnailKeepVisibleWhenNotZoomedIn));
+        cont += QString("ThumbnailLiftUp=%1\n").arg(m_thumbnailLiftUp);
+        cont += QString("ThumbnailPosition=%1\n").arg(m_thumbnailPosition);
+        cont += QString("ThumbnailSize=%1\n").arg(m_thumbnailSize);
+        cont += QString("ThumbnailSpacingBetween=%1\n").arg(m_thumbnailSpacingBetween);
+        cont += QString("ThumbnailWriteFilename=%1\n").arg(int(m_thumbnailWriteFilename));
 
         cont += "\n[Slideshow]\n";
 
-        cont += QString("SlideShowTime=%1\n").arg(m_slideShowTime);
+        cont += QString("SlideShowHideQuickInfo=%1\n").arg(int(m_slideShowHideQuickInfo));
         cont += QString("SlideShowImageTransition=%1\n").arg(m_slideShowImageTransition);
+        cont += QString("SlideShowLoop=%1\n").arg(int(m_slideShowLoop));
         cont += QString("SlideShowMusicFile=%1\n").arg(m_slideShowMusicFile);
         cont += QString("SlideShowShuffle=%1\n").arg(int(m_slideShowShuffle));
-        cont += QString("SlideShowLoop=%1\n").arg(int(m_slideShowLoop));
-        cont += QString("SlideShowHideQuickInfo=%1\n").arg(int(m_slideShowHideQuickInfo));
+        cont += QString("SlideShowTime=%1\n").arg(m_slideShowTime);
 
         cont += "\n[Metadata]\n";
 
+        cont += QString("MetaApplyRotation=%1\n").arg(int(m_metaApplyRotation));
+        cont += QString("MetaCopyright=%1\n").arg(int(m_metaCopyright));
+        cont += QString("MetaDimensions=%1\n").arg(int(m_metaDimensions));
+        cont += QString("MetaExposureTime=%1\n").arg(int(m_metaExposureTime));
         cont += QString("MetaFilename=%1\n").arg(int(m_metaFilename));
         cont += QString("MetaFileType=%1\n").arg(int(m_metaFileType));
         cont += QString("MetaFileSize=%1\n").arg(int(m_metaFileSize));
-        cont += QString("MetaImageNumber=%1\n").arg(int(m_metaImageNumber));
-        cont += QString("MetaDimensions=%1\n").arg(int(m_metaDimensions));
-        cont += QString("MetaMake=%1\n").arg(int(m_metaMake));
-        cont += QString("MetaModel=%1\n").arg(int(m_metaModel));
-        cont += QString("MetaSoftware=%1\n").arg(int(m_metaSoftware));
-        cont += QString("MetaTimePhotoTaken=%1\n").arg(int(m_metaTimePhotoTaken));
-        cont += QString("MetaExposureTime=%1\n").arg(int(m_metaExposureTime));
         cont += QString("MetaFlash=%1\n").arg(int(m_metaFlash));
-        cont += QString("MetaIso=%1\n").arg(int(m_metaIso));
-        cont += QString("MetaSceneType=%1\n").arg(int(m_metaSceneType));
         cont += QString("MetaFLength=%1\n").arg(int(m_metaFLength));
         cont += QString("MetaFNumber=%1\n").arg(int(m_metaFNumber));
-        cont += QString("MetaLightSource=%1\n").arg(int(m_metaLightSource));
         cont += QString("MetaGps=%1\n").arg(int(m_metaGps));
-        cont += QString("MetaApplyRotation=%1\n").arg(int(m_metaApplyRotation));
         cont += QString("MetaGpsMapService=%1\n").arg(m_metaGpsMapService);
+        cont += QString("MetaImageNumber=%1\n").arg(int(m_metaImageNumber));
+        cont += QString("MetaIso=%1\n").arg(int(m_metaIso));
         cont += QString("MetaKeywords=%1\n").arg(int(m_metaKeywords));
+        cont += QString("MetaLightSource=%1\n").arg(int(m_metaLightSource));
         cont += QString("MetaLocation=%1\n").arg(int(m_metaLocation));
-        cont += QString("MetaCopyright=%1\n").arg(int(m_metaCopyright));
+        cont += QString("MetaMake=%1\n").arg(int(m_metaMake));
+        cont += QString("MetaModel=%1\n").arg(int(m_metaModel));
+        cont += QString("MetaSceneType=%1\n").arg(int(m_metaSceneType));
+        cont += QString("MetaSoftware=%1\n").arg(int(m_metaSoftware));
+        cont += QString("MetaTimePhotoTaken=%1\n").arg(int(m_metaTimePhotoTaken));
 
         cont += "\n[Metadata Element]\n";
 
@@ -365,33 +365,33 @@ void PQSettings::saveSettings() {
 
         cont += "\n[People Tags in Metadata]\n";
 
-        cont += QString("PeopleTagInMetaDisplay=%1\n").arg(int(m_peopleTagInMetaDisplay));
+        cont += QString("PeopleTagInMetaAlwaysVisible=%1\n").arg(int(m_peopleTagInMetaAlwaysVisible));
         cont += QString("PeopleTagInMetaBorderAroundFace=%1\n").arg(int(m_peopleTagInMetaBorderAroundFace));
         cont += QString("PeopleTagInMetaBorderAroundFaceColor=%1\n").arg(m_peopleTagInMetaBorderAroundFaceColor);
         cont += QString("PeopleTagInMetaBorderAroundFaceWidth=%1\n").arg(m_peopleTagInMetaBorderAroundFaceWidth);
-        cont += QString("PeopleTagInMetaAlwaysVisible=%1\n").arg(int(m_peopleTagInMetaAlwaysVisible));
-        cont += QString("PeopleTagInMetaIndependentLabels=%1\n").arg(int(m_peopleTagInMetaIndependentLabels));
-        cont += QString("PeopleTagInMetaHybridMode=%1\n").arg(int(m_peopleTagInMetaHybridMode));
+        cont += QString("PeopleTagInMetaDisplay=%1\n").arg(int(m_peopleTagInMetaDisplay));
         cont += QString("PeopleTagInMetaFontSize=%1\n").arg(m_peopleTagInMetaFontSize);
+        cont += QString("PeopleTagInMetaHybridMode=%1\n").arg(int(m_peopleTagInMetaHybridMode));
+        cont += QString("PeopleTagInMetaIndependentLabels=%1\n").arg(int(m_peopleTagInMetaIndependentLabels));
 
         cont += "\n[Open File]\n";
         cont += QString("OpenDefaultView=%1\n").arg(m_openDefaultView);
+        cont += QString("OpenKeepLastLocation=%1\n").arg(int(m_openKeepLastLocation));
         cont += QString("OpenPreview=%1\n").arg(int(m_openPreview));
-        cont += QString("OpenZoomLevel=%1\n").arg(m_openZoomLevel);
-        cont += QString("OpenUserPlacesWidth=%1\n").arg(m_openUserPlacesWidth);
+        cont += QString("OpenShowHiddenFilesFolders=%1\n").arg(int(m_openShowHiddenFilesFolders));
         cont += QString("OpenThumbnails=%1\n").arg(int(m_openThumbnails));
         cont += QString("OpenUserPlacesStandard=%1\n").arg(int(m_openUserPlacesStandard));
         cont += QString("OpenUserPlacesUser=%1\n").arg(int(m_openUserPlacesUser));
         cont += QString("OpenUserPlacesVolumes=%1\n").arg(int(m_openUserPlacesVolumes));
-        cont += QString("OpenKeepLastLocation=%1\n").arg(int(m_openKeepLastLocation));
-        cont += QString("OpenShowHiddenFilesFolders=%1\n").arg(int(m_openShowHiddenFilesFolders));
+        cont += QString("OpenUserPlacesWidth=%1\n").arg(m_openUserPlacesWidth);
+        cont += QString("OpenZoomLevel=%1\n").arg(m_openZoomLevel);
 
         cont += "\n[Histogram]\n";
 
         cont += QString("Histogram=%1\n").arg(int(m_histogram));
-        cont += QString("HistogramVersion=%1\n").arg(m_histogramVersion);
         cont += QString("HistogramPosition=%1,%2\n").arg(m_histogramPosition.x()).arg(m_histogramPosition.y());
         cont += QString("HistogramSize=%1,%2\n").arg(m_histogramSize.width()).arg(m_histogramSize.height());
+        cont += QString("HistogramVersion=%1\n").arg(m_histogramVersion);
 
         cont += "\n[Main Menu Element]\n";
 
