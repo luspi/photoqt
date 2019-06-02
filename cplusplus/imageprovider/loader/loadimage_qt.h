@@ -74,6 +74,12 @@ namespace PQLoadImage {
                 // Setting QImageReader
                 reader.setFileName(filename);
 
+                // Fix: this loads the image properly even if the extension is wrong
+                QMimeDatabase db;
+                QStringList mime = db.mimeTypeForFile(filename, QMimeDatabase::MatchContent).name().split("/");
+                if(mime.size() == 2 && mime.at(0) == "image")
+                    reader.setFormat(mime.at(1).toUtf8());
+
                 // Store the width/height for later use
                 *origSize = reader.size();
 
