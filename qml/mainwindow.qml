@@ -18,7 +18,7 @@ Window {
 
     visible: true
 
-    visibility: settings.windowMode ? Window.Maximized : Window.FullScreen
+    visibility: settings.saveWindowGeometry ? Window.Windowed : (settings.windowMode ? Window.Maximized : Window.FullScreen)
     flags: settings.windowDecoration ?
                (settings.keepOnTop ? (Qt.Window|Qt.WindowStaysOnTopHint) : Qt.Window) :
                (settings.keepOnTop ? (Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint) : Qt.FramelessWindowHint)
@@ -39,6 +39,30 @@ Window {
     property int transitionDuration: 3
     // possible values: x, y, opacity
     property string transitionAnimation: "x"
+    onClosing: {
+        if(settings.saveWindowGeometry)
+            handlingGeneral.saveWindowGeometry(toplevel.x, toplevel.y, toplevel.width, toplevel.height, toplevel.visibility==Window.Maximized)
+        close.accepted = true
+    }
+
+    Component.onCompleted:  {
+
+        if(settings.saveWindowGeometry) {
+
+            var geo = handlingGeneral.getWindowGeometry()
+
+            if(geo == Qt.rect(0,0,0,0))
+                toplevel.visibility = Window.Maximized
+            else {
+                toplevel.setX(geo.x)
+                toplevel.setY(geo.y)
+                toplevel.setWidth(geo.width)
+                toplevel.setHeight(geo.height)
+            }
+
+        }
+
+    }
 
     PQImage { id: imageitem }
     PQFileDialog { id: filedialog }
