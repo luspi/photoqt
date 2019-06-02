@@ -69,28 +69,28 @@ Image {
     }
 
     function showItem() {
-        if(transitionAnimation == "x") {
+        if(settings.animationType == "x") {
             xAnim.duration = 0
             x = -width
-            xAnim.duration = settings.imageTransition*150
+            xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
             x = 0
             opacityAnim.duration = 0
             opacity = 1
-        } else if(transitionAnimation == "y") {
+        } else if(settings.animationType == "y") {
             yAnim.duration = 0
             y = -height
-            yAnim.duration = settings.imageTransition*150
+            yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
             y = 0
             opacityAnim.duration = 0
             opacity = 1
         } else {
-            opacityAnim.duration = settings.imageTransition*150
+            opacityAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
             opacity = 1
         }
         update()
     }
 
-    Behavior on opacity { NumberAnimation { id: opacityAnim; duration: settings.imageTransition*150 } }
+    Behavior on opacity { NumberAnimation { id: opacityAnim; duration: (settings.animations ? settings.animationDuration*150 : 0) } }
     Behavior on x { NumberAnimation { id: xAnim; duration: 0 } }
     Behavior on y { NumberAnimation { id: yAnim; duration: 0 } }
 
@@ -121,12 +121,12 @@ Image {
             else {
                 elem.beingDeleted = true
                 // hide in x direction
-                if(transitionAnimation == "x") {
-                    xAnim.duration = settings.imageTransition*150
+                if(settings.animationType == "x") {
+                    xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
                     elem.x = container.width+100
                 // hide in y direction
-                } else if(transitionAnimation == "y") {
-                    yAnim.duration = settings.imageTransition*150
+                } else if(settings.animationType == "y") {
+                    yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
                     elem.y = container.height+100
                 // fade out image
                 } else
@@ -136,14 +136,14 @@ Image {
         onHideImageTemporary: {
             elem.beingHidden = true
             // hide in x direction
-            if(transitionAnimation == "x") {
+            if(settings.animationType == "x") {
                 hideTempX = elem.x
-                xAnim.duration = settings.imageTransition*150
+                xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
                 elem.x = container.width+100
             // hide in y direction
-            } else if(transitionAnimation == "y") {
+            } else if(settings.animationType == "y") {
                 hideTempY = elem.y
-                yAnim.duration = settings.imageTransition*150
+                yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
                 elem.y = container.height+100
             // fade out image
             } else
@@ -152,12 +152,12 @@ Image {
         onShowImageTemporary: {
             elem.beingHidden = false
             // show in x direction
-            if(transitionAnimation == "x") {
-                xAnim.duration = settings.imageTransition*150
+            if(settings.animationType == "x") {
+                xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
                 elem.x = hideTempX
             // show in y direction
-            } else if(transitionAnimation == "y") {
-                yAnim.duration = settings.imageTransition*150
+            } else if(settings.animationType == "y") {
+                yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
                 elem.y = hideTempY
             // fade in image
             } else

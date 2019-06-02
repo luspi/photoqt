@@ -74,7 +74,6 @@ private:
     bool    m_animations;
     bool    m_saveWindowGeometry;
     bool    m_keepOnTop;
-    bool    m_composite;
     bool    m_startupLoadLastLoadedImage;
 
     int     m_backgroundColorRed;
@@ -91,7 +90,6 @@ private:
     bool    m_backgroundImageTile;
 
     int     m_trayIcon;
-    int     m_imageTransition;
     bool    m_loopThroughFolder;
     int     m_hotEdgeWidth;
     bool    m_closeOnEmptyBackground;
@@ -107,6 +105,8 @@ private:
     bool    m_showTransparencyMarkerBackground;
     bool    m_leftButtonMouseClickAndMove;
     int     m_zoomSpeed;
+    QString m_animationType;
+    int     m_animationDuration;
 
     bool    m_pdfSingleDocument;
     int     m_pdfQuality;
@@ -263,16 +263,6 @@ public:
                                                            emit keepOnTopChanged(val);
                                                            saveSettingsTimer->start(); } }
 
-    // composite
-    Q_PROPERTY(bool   composite
-               READ   getComposite
-               WRITE  setComposite
-               NOTIFY compositeChanged)
-    bool getComposite() { return m_composite; }
-    void setComposite(bool val) { if(val != m_composite) { m_composite = val;
-                                                           emit compositeChanged(val);
-                                                           saveSettingsTimer->start(); } }
-
     // startupLoadLastLoadedImage
     Q_PROPERTY(bool   startupLoadLastLoadedImage
                READ   getStartupLoadLastLoadedImage
@@ -412,16 +402,6 @@ public:
     void setTrayIcon(int val) { if(val != m_trayIcon) { m_trayIcon = val;
                                                         emit trayIconChanged(val);
                                                         saveSettingsTimer->start(); } }
-
-    // imageTransition
-    Q_PROPERTY(int    imageTransition
-               READ   getImageTransition
-               WRITE  setImageTransition
-               NOTIFY imageTransitionChanged)
-    int  getImageTransition() { return m_imageTransition; }
-    void setImageTransition(int val) { if(val != m_imageTransition) { m_imageTransition = val;
-                                                                      emit imageTransitionChanged(val);
-                                                                      saveSettingsTimer->start(); } }
 
     // loopThroughFolder
     Q_PROPERTY(bool   loopThroughFolder
@@ -575,6 +555,26 @@ public:
     void setZoomSpeed(int val) { if(val != m_zoomSpeed) { m_zoomSpeed = val;
                                                           emit zoomSpeedChanged(val);
                                                           saveSettingsTimer->start(); } }
+
+    // animationType
+    Q_PROPERTY(QString animationType
+               READ    getAnimationType
+               WRITE   setAnimationType
+               NOTIFY  animationTypeChanged)
+    QString getAnimationType() { return m_animationType; }
+    void    setAnimationType(QString val) { if(val != m_animationType) { m_animationType = val;
+                                                                         emit animationTypeChanged(val);
+                                                                         saveSettingsTimer->start(); } }
+
+    // animationDuration
+    Q_PROPERTY(int    animationDuration
+               READ   getAnimationDuration
+               WRITE  setAnimationDuration
+               NOTIFY animationDurationChanged)
+    int  getAnimationDuration() { return m_animationDuration; }
+    void setAnimationDuration(int val) { if(val != m_animationDuration) { m_animationDuration = val;
+                                                                          emit animationDurationChanged(val);
+                                                                          saveSettingsTimer->start(); } }
 
     // pdfSingleDocument
     Q_PROPERTY(bool   pdfSingleDocument
@@ -1438,7 +1438,6 @@ signals:
     void animationsChanged(bool val);
     void saveWindowGeometryChanged(bool val);
     void keepOnTopChanged(bool val);
-    void compositeChanged(bool val);
     void startupLoadLastLoadedImageChanged(bool val);
 
     void backgroundColorRedChanged(int val);
@@ -1456,7 +1455,6 @@ signals:
     void backgroundImageTileChanged(bool val);
 
     void trayIconChanged(int val);
-    void imageTransitionChanged(int val);
     void loopThroughFolderChanged(bool val);
     void hotEdgeWidthChanged(int val);
     void closeOnEmptyBackgroundChanged(bool val);
@@ -1476,6 +1474,8 @@ signals:
     void archiveSingleFileChanged(int val);
     void archiveUseExternalUnrarChanged(bool val);
     void zoomSpeedChanged(int val);
+    void animationDurationChanged(int val);
+    void animationTypeChanged(QString val);
 
     void quickInfoHideCounterChanged(bool val);
     void quickInfoHideFilepathChanged(bool val);

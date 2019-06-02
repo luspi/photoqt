@@ -42,7 +42,7 @@ Rectangle {
 
     }
 
-    Behavior on opacity { NumberAnimation { id: opacityAnim; duration: settings.imageTransition*150 } }
+    Behavior on opacity { NumberAnimation { id: opacityAnim; duration: (settings.animations ? settings.animationDuration*150 : 0) } }
     Behavior on x { NumberAnimation { id: xAnim; duration: 0 } }
     Behavior on y { NumberAnimation { id: yAnim; duration: 0 } }
 
@@ -191,16 +191,16 @@ Rectangle {
 
     function showFileDialog() {
         // show in x direction
-        if(transitionAnimation == "x") {
+        if(settings.animationType == "x") {
             xAnim.duration = 0
             filedialog_top.x = -filedialog_top.width
-            xAnim.duration = settings.imageTransition*150
+            xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
             filedialog_top.x = 0
         // show in y direction
-        } else if(transitionAnimation == "y") {
+        } else if(settings.animationType == "y") {
             yAnim.duration = 0
             filedialog_top.y = -filedialog_top.height
-            yAnim.duration = settings.imageTransition*150
+            yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
             filedialog_top.y = 0
         // fade in image
         }
@@ -209,12 +209,12 @@ Rectangle {
 
     function hideFileDialog() {
         // hide in x direction
-        if(transitionAnimation == "x") {
-            xAnim.duration = settings.imageTransition*150
+        if(settings.animationType == "x") {
+            xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
             filedialog_top.x = width
         // hide in y direction
-        } else if(transitionAnimation == "y") {
-            yAnim.duration = settings.imageTransition*150
+        } else if(settings.animationType == "y") {
+            yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
             filedialog_top.y = height
         }
         // fade out image

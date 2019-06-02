@@ -98,13 +98,7 @@ void PQSettings::setDefault() {
     setBackgroundImageCenter(false);
     setBackgroundImageTile(false);
 
-#ifdef Q_OS_WIN
-    setComposite(QtWin::isCompositionEnabled() ? true : false);
-#else
-    setComposite(true);
-#endif
     setTrayIcon(0);
-    setImageTransition(1);
     setLoopThroughFolder(true);
     setHotEdgeWidth(4);
     setCloseOnEmptyBackground(false);
@@ -123,6 +117,8 @@ void PQSettings::setDefault() {
     setPdfQuality(150);
     setArchiveSingleFile(true);
     setZoomSpeed(20);
+    setAnimationType("x");
+    setAnimationDuration(3);
 
 #ifdef Q_OS_LINUX
     // We assume here that it is available (checking would be rather slow)
@@ -253,14 +249,12 @@ void PQSettings::saveSettings() {
         cont += QString("Language=%1\n").arg(m_language);
         cont += QString("WindowMode=%1\n").arg(int(m_windowMode));
         cont += QString("WindowDecoration=%1\n").arg(int(m_windowDecoration));
-        cont += QString("Animations=%1\n").arg(int(m_animations));
         cont += QString("SaveWindowGeometry=%1\n").arg(int(m_saveWindowGeometry));
         cont += QString("KeepOnTop=%1\n").arg(int(m_keepOnTop));
         cont += QString("StartupLoadLastLoadedImage=%1\n").arg(int(m_startupLoadLastLoadedImage));
 
         cont += "\n[Look]\n";
 
-        cont += QString("Composite=%1\n").arg(int(m_composite));
         cont += QString("BackgroundColorRed=%1\n").arg(m_backgroundColorRed);
         cont += QString("BackgroundColorGreen=%1\n").arg(m_backgroundColorGreen);
         cont += QString("BackgroundColorBlue=%1\n").arg(m_backgroundColorBlue);
@@ -277,7 +271,6 @@ void PQSettings::saveSettings() {
         cont += "\n[Behaviour]\n";
 
         cont += QString("TrayIcon=%1\n").arg(m_trayIcon);
-        cont += QString("ImageTransition=%1\n").arg(m_imageTransition);
         cont += QString("LoopThroughFolder=%1\n").arg(int(m_loopThroughFolder));
         cont += QString("HotEdgeWidth=%1\n").arg(m_hotEdgeWidth);
         cont += QString("CloseOnEmptyBackground=%1\n").arg(int(m_closeOnEmptyBackground));
@@ -293,6 +286,9 @@ void PQSettings::saveSettings() {
         cont += QString("ShowTransparencyMarkerBackground=%1\n").arg(int(m_showTransparencyMarkerBackground));
         cont += QString("LeftButtonMouseClickAndMove=%1\n").arg(int(m_leftButtonMouseClickAndMove));
         cont += QString("ZoomSpeed=%1\n").arg(m_zoomSpeed);
+        cont += QString("Animations=%1\n").arg(int(m_animations));
+        cont += QString("AnimationDuration=%1\n").arg(m_animationDuration);
+        cont += QString("AnimationType=%1\n").arg(m_animationType);
         cont += QString("PdfSingleDocument=%1\n").arg(int(m_pdfSingleDocument));
         cont += QString("PdfQuality=%1\n").arg(m_pdfQuality);
         cont += QString("ArchiveSingleFile=%1\n").arg(int(m_archiveSingleFile));
@@ -459,9 +455,6 @@ void PQSettings::readSettings() {
             else if(line.startsWith("KeepOnTop="))
                 setKeepOnTop(line.split("=").at(1).toInt());
 
-            else if(line.startsWith("Composite="))
-                setComposite(line.split("=").at(1).toInt());
-
             else if(line.startsWith("StartupLoadLastLoadedImage="))
                 setStartupLoadLastLoadedImage(line.split("=").at(1).toInt());
 
@@ -497,8 +490,8 @@ void PQSettings::readSettings() {
             else if(line.startsWith("TrayIcon="))
                 setTrayIcon(line.split("=").at(1).toInt());
 
-            else if(line.startsWith("ImageTransition="))
-                setImageTransition(line.split("=").at(1).toInt());
+            else if(line.startsWith("AnimationDuration="))
+                setAnimationDuration(line.split("=").at(1).toInt());
 
             else if(line.startsWith("LoopThroughFolder="))
                 setLoopThroughFolder(line.split("=").at(1).toInt());
@@ -550,6 +543,9 @@ void PQSettings::readSettings() {
 
             else if(line.startsWith("ZoomSpeed="))
                 setZoomSpeed(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("AnimationType="))
+                setAnimationType(line.split("=").at(1).trimmed());
 
 
             else if(line.startsWith("QuickInfoHideCounter="))

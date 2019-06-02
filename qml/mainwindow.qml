@@ -36,9 +36,6 @@ Window {
 
     title: em.pty+qsTranslate("other", "PhotoQt Image Viewer")
 
-    property int transitionDuration: 3
-    // possible values: x, y, opacity
-    property string transitionAnimation: "x"
     onClosing: {
         if(settings.saveWindowGeometry)
             handlingGeneral.saveWindowGeometry(toplevel.x, toplevel.y, toplevel.width, toplevel.height, toplevel.visibility==Window.Maximized)
