@@ -18,7 +18,10 @@ Window {
 
     visible: true
 
-    visibility: Window.Maximized
+    visibility: settings.windowMode ? Window.Maximized : Window.FullScreen
+    flags: settings.windowDecoration ?
+               (settings.keepOnTop ? (Qt.Window|Qt.WindowStaysOnTopHint) : Qt.Window) :
+               (settings.keepOnTop ? (Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint) : Qt.FramelessWindowHint)
 
     minimumWidth: 600
     minimumHeight: 400
