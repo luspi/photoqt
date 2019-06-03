@@ -3,7 +3,7 @@
 #####################
 
 SET(d "qml")
-SET(photoqt_QML ${photoqt_QML} ${d}/mainwindow.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/mainwindow.qml ${d}/PQLoader.qml)
 
 SET(d "qml/mainwindow")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQImage.qml ${d}/PQFileDialog.qml)
