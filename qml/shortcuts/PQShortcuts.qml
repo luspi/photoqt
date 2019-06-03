@@ -9,7 +9,7 @@ Item {
 
     Keys.onPressed: {
 
-        if(toplevel.visibleItem == "filedialog")
+        if(variables.visibleItem == "filedialog")
 
             loader.passKeyEvent("filedialog", event.key, event.modifiers)
 
@@ -32,10 +32,10 @@ Item {
             if(event.key != 16777249)
                 combo += handlingShortcuts.convertKeyCodeToText(event.key)
 
-            for(var i = 0; i < toplevel.allSetShortcuts.length; ++i) {
+            for(var i = 0; i < variables.shortcuts.length; ++i) {
 
-                if(toplevel.allSetShortcuts[i][1] === combo) {
-                    whatToDoWithFoundShortcut(toplevel.allSetShortcuts[i])
+                if(variables.shortcuts[i][1] === combo) {
+                    whatToDoWithFoundShortcut(variables.shortcuts[i])
                     break;
                 }
 
@@ -57,7 +57,7 @@ Item {
 
     Component.onCompleted: {
 
-        toplevel.allSetShortcuts = handlingShortcuts.loadFromFile()
+        variables.shortcuts = handlingShortcuts.loadFromFile()
 
     }
 
@@ -73,10 +73,10 @@ Item {
 //            mainwindow.closePhotoQt()
 //        else if(cmd === "__settings")
 //            call.show("settingsmanager")
-//        else if(cmd === "__next")
-//            Handle.loadNext()
-//        else if(cmd === "__prev")
-//            Handle.loadPrev()
+        /*else*/ if(cmd === "__next")
+            imageitem.loadNextImage()
+        else if(cmd === "__prev")
+            imageitem.loadPrevImage()
 //        else if(cmd === "__about")
 //            call.show("about")
 //        else if(cmd === "__slideshow")
@@ -85,7 +85,7 @@ Item {
 //            call.show("filter")
 //        else if(cmd === "__slideshowQuick")
 //            call.load("slideshowStart")
-        /*else */if(cmd === "__open")
+        else if(cmd === "__open")
             loader.show("filedialog")
 //        else if(cmd === "__zoomIn")
 //            imageitem.zoomIn()
@@ -127,10 +127,10 @@ Item {
 //                metadata.show()
 //            }
 //        }
-//        else if(cmd === "__gotoFirstThb")
-//            Handle.loadFirst()
-//        else if(cmd === "__gotoLastThb")
-//            Handle.loadLast()
+        else if(cmd === "__gotoFirstThb")
+            imageitem.loadFirstImage()
+        else if(cmd === "__gotoLastThb")
+            imageitem.loadLastImage()
 //        else if(cmd === "__wallpaper")
 //            call.show("wallpaper")
 //        else if(cmd === "__scale")

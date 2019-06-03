@@ -94,11 +94,39 @@ Item {
 
     }
 
+    Connections {
+        target: variables
+        onIndexOfCurrentImageChanged: {
+            hideOldImage()
+            image_model.append({"src" : handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])})
+        }
+        onAllImageFilesInOrderChanged: {
+            hideOldImage()
+            image_model.append({"src" : handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])})
+        }
+    }
 
 
-    function loadImage(src) {
-        hideOldImage()
-        image_model.append({"src" : handlingFileDialog.cleanPath(src)})
+    function loadNextImage() {
+        if(variables.indexOfCurrentImage < variables.allImageFilesInOrder.length-1)
+            ++variables.indexOfCurrentImage
+        if(variables.indexOfCurrentImage == variables.allImageFilesInOrder.length-1 && settings.loopThroughFolder)
+            variables.indexOfCurrentImage = 0
+    }
+
+    function loadPrevImage() {
+        if(variables.indexOfCurrentImage > 0)
+            --variables.indexOfCurrentImage
+        if(variables.indexOfCurrentImage == 0 && settings.loopThroughFolder)
+            variables.indexOfCurrentImage = variables.allImageFilesInOrder.length-1
+    }
+
+    function loadFirstImage() {
+        variables.indexOfCurrentImage = 0
+    }
+
+    function loadLastImage() {
+        variables.indexOfCurrentImage = variables.allImageFilesInOrder.length-1
     }
 
 }

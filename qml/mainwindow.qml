@@ -37,9 +37,6 @@ Window {
 
     title: em.pty+qsTranslate("other", "PhotoQt Image Viewer")
 
-    property var allSetShortcuts: []
-    property string visibleItem: ""
-
     onClosing: {
         if(settings.saveWindowGeometry)
             handlingGeneral.saveWindowGeometry(toplevel.x, toplevel.y, toplevel.width, toplevel.height, toplevel.visibility==Window.Maximized)
@@ -67,6 +64,7 @@ Window {
 
     }
 
+    PQVariables { id: variables }
     PQLoader { id: loader }
 
     PQImage { id: imageitem }

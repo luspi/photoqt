@@ -119,6 +119,14 @@ public:
         return false;
     }
 
+    Q_INVOKABLE QStringList getCopyOfAllFiles() {
+        QStringList ret;
+        ret.reserve(allImageFilesInOrder.size());
+        for(QFileInfo info : allImageFilesInOrder)
+            ret.push_back(info.filePath());
+        return ret;
+    }
+
 protected:
     QHash<int, QByteArray> roleNames() const {
         QHash<int, QByteArray> roles;
@@ -145,6 +153,8 @@ private:
     QTimer *loadDelay;
 
     QFileSystemWatcher *watcher;
+
+    QFileInfoList allImageFilesInOrder;
 
 private slots:
     void loadData();

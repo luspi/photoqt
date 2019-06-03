@@ -215,7 +215,7 @@ Rectangle {
         // fade in image
         }
         filedialog_top.opacity = 1
-        toplevel.visibleItem = "filedialog"
+        variables.visibleItem = "filedialog"
     }
 
     function hideFileDialog() {
@@ -230,7 +230,7 @@ Rectangle {
         }
         // fade out image
         filedialog_top.opacity = 0
-        toplevel.visibleItem = ""
+        variables.visibleItem = ""
     }
 
 }

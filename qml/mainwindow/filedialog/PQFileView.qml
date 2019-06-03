@@ -286,8 +286,9 @@ GridView {
                         if(fileIsDir)
                             filedialog_top.setCurrentDirectory(filePath)
                         else {
+                            variables.allImageFilesInOrder = files_model.getCopyOfAllFiles()
+                            variables.indexOfCurrentImage = variables.allImageFilesInOrder.indexOf(filePath)
                             hideFileDialog()
-                            imageitem.loadImage(filePath)
                         }
                     } else {
                         rightclickmenu.popup()

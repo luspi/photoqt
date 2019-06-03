@@ -25,9 +25,9 @@ void PQFileFolderModel::loadData() {
     for(int i = 0; i < entries.length(); ++i)
         delete entries[i];
     entries.clear();
+    allImageFilesInOrder.clear();
 
     endRemoveRows();
-
 
     delete watcher;
     watcher = new QFileSystemWatcher;
@@ -111,6 +111,8 @@ void PQFileFolderModel::loadData() {
         else
             std::sort(allfiles.begin(), allfiles.end(), [&collator](const QFileInfo &file1, const QFileInfo &file2) { return collator.compare(file1.fileName(), file2.fileName()) < 0; });
     }
+
+    allImageFilesInOrder = allfiles;
 
     QFileInfoList entrylist = alldirs+allfiles;
 

@@ -25,5 +25,6 @@
         <file>elements/PQScrollBar.qml</file>
         <file>shortcuts/PQShortcuts.qml</file>
         <file>PQLoader.qml</file>
+        <file>PQVariables.qml</file>
     </qresource>
 </RCC>
