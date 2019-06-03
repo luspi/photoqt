@@ -11,6 +11,9 @@ PQFileFolderModel::PQFileFolderModel(QObject *parent) : QAbstractListModel(paren
     if(m_folder.isNull())
         m_folder = QDir::homePath();
 
+    // this is needed so that the delete in loadData() is valid. Checking there for nullptr has led to crashes in the past
+    watcher = new QFileSystemWatcher;
+
     loadDelay->start();
 
 }
@@ -25,8 +28,8 @@ void PQFileFolderModel::loadData() {
 
     endRemoveRows();
 
-    if(watcher != nullptr)
-        delete watcher;
+
+    delete watcher;
     watcher = new QFileSystemWatcher;
     watcher->addPath(m_folder);
     connect(watcher, &QFileSystemWatcher::directoryChanged, this, &PQFileFolderModel::loadData);
