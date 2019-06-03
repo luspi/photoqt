@@ -17,10 +17,6 @@ PQFileFolderModel::PQFileFolderModel(QObject *parent) : QAbstractListModel(paren
 
 void PQFileFolderModel::loadData() {
 
-    qDebug() << "loadData";
-
-    auto t1 = std::chrono::steady_clock::now();
-
     beginRemoveRows(QModelIndex(), 0, rowCount());
 
     for(int i = 0; i < entries.length(); ++i)
@@ -29,10 +25,8 @@ void PQFileFolderModel::loadData() {
 
     endRemoveRows();
 
-    auto t2 = std::chrono::steady_clock::now();
-    std::cout << "remove rows: " << std::chrono::duration<double, std::milli>(t2-t1).count() << std::endl;
-
-    delete watcher;
+    if(watcher != nullptr)
+        delete watcher;
     watcher = new QFileSystemWatcher;
     watcher->addPath(m_folder);
     connect(watcher, &QFileSystemWatcher::directoryChanged, this, &PQFileFolderModel::loadData);
@@ -70,13 +64,7 @@ void PQFileFolderModel::loadData() {
 
     }
 
-    auto t3 = std::chrono::steady_clock::now();
-    std::cout << "setup dirs: " << std::chrono::duration<double, std::milli>(t3-t2).count() << std::endl;
-
     QFileInfoList alldirs = dir.entryInfoList();
-
-    auto t4 = std::chrono::steady_clock::now();
-    std::cout << "get dirs: " << std::chrono::duration<double, std::milli>(t4-t3).count() << std::endl;
 
     if(m_sortField == SortBy::NaturalName) {
         QCollator collator;
@@ -86,9 +74,6 @@ void PQFileFolderModel::loadData() {
         else
             std::sort(alldirs.begin(), alldirs.end(), [&collator](const QFileInfo &file1, const QFileInfo &file2) { return collator.compare(file1.fileName(), file2.fileName()) < 0; });
     }
-
-    auto t5 = std::chrono::steady_clock::now();
-    std::cout << "sort dirs: " << std::chrono::duration<double, std::milli>(t5-t4).count() << std::endl;
 
     // THEN ALL FILES
 
@@ -113,13 +98,7 @@ void PQFileFolderModel::loadData() {
 
     }
 
-    auto t6 = std::chrono::steady_clock::now();
-    std::cout << "setup files: " << std::chrono::duration<double, std::milli>(t6-t5).count() << std::endl;
-
     QFileInfoList allfiles = dir.entryInfoList();
-
-    auto t7 = std::chrono::steady_clock::now();
-    std::cout << "get files: " << std::chrono::duration<double, std::milli>(t7-t6).count() << std::endl;
 
     if(m_sortField == SortBy::NaturalName) {
         QCollator collator;
@@ -130,18 +109,12 @@ void PQFileFolderModel::loadData() {
             std::sort(allfiles.begin(), allfiles.end(), [&collator](const QFileInfo &file1, const QFileInfo &file2) { return collator.compare(file1.fileName(), file2.fileName()) < 0; });
     }
 
-    auto t8 = std::chrono::steady_clock::now();
-    std::cout << "sort files: " << std::chrono::duration<double, std::milli>(t8-t7).count() << std::endl;
-
     QFileInfoList entrylist = alldirs+allfiles;
 
     m_count = entrylist.length();
 
     if(m_count == 0)
         return;
-
-    auto t9 = std::chrono::steady_clock::now();
-    std::cout << "combine dirs and files: " << std::chrono::duration<double, std::milli>(t9-t8).count() << std::endl;
 
     entries.reserve(m_count);
 
@@ -161,9 +134,6 @@ void PQFileFolderModel::loadData() {
     }
 
     endInsertRows();
-
-    auto t10 = std::chrono::steady_clock::now();
-    std::cout << "add rows: " << std::chrono::duration<double, std::milli>(t10-t9).count() << std::endl;
 
     emit dataChanged(createIndex(0, 0, entries.first()), createIndex(entries.length()-1, 0, entries.last()));
 
