@@ -416,7 +416,7 @@ GridView {
 
             tweaks.zoomOut()
 
-        else if((key == Qt.Key_H && modifiers == Qt.ControlModifier) || (key == Qt.Key_Period && Qt.AltModifier)) {
+        else if((key == Qt.Key_H && modifiers == Qt.ControlModifier) || (key == Qt.Key_Period && modifiers == Qt.AltModifier)) {
 
             var old = settings.openShowHiddenFilesFolders
             settings.openShowHiddenFilesFolders = !old
