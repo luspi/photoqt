@@ -94,6 +94,11 @@ Image {
     Behavior on x { NumberAnimation { id: xAnim; duration: 0 } }
     Behavior on y { NumberAnimation { id: yAnim; duration: 0 } }
 
+    onStatusChanged: {
+        if(status == Image.Ready)
+            imageitem.hideOldImage()
+    }
+
     onOpacityChanged: {
         if(beingDeleted && opacity == 0) {
             console.log("delete opacity")

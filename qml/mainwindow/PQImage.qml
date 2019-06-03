@@ -10,6 +10,7 @@ Item {
     signal zoomIn()
     signal zoomOut()
 
+    // emitted inside of PQImageNormal/Animated whenever its status changed to Image.Reader
     signal hideOldImage()
 
     signal hideImageTemporary()
@@ -96,13 +97,14 @@ Item {
 
     Connections {
         target: variables
+        // we load the new image whenever one of the below properties has changed. The signal to hide old images is emitted whenever the new image has loaded (its status)
         onIndexOfCurrentImageChanged: {
-            hideOldImage()
-            image_model.append({"src" : handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])})
+            if(variables.allImageFilesInOrder.length > 0 && variables.indexOfCurrentImage > -1)
+                image_model.append({"src" : handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])})
         }
         onAllImageFilesInOrderChanged: {
-            hideOldImage()
-            image_model.append({"src" : handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])})
+            if(variables.allImageFilesInOrder.length > 0 && variables.indexOfCurrentImage > -1)
+                image_model.append({"src" : handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])})
         }
     }
 
