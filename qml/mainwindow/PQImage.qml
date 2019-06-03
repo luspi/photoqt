@@ -43,12 +43,13 @@ Item {
 
         delegate: Item {
 
-            PQImageAnimated {
-                id: animated
+            Loader {
+                id: theimage
+                property int imageStatus: Image.Null
             }
 
-            PQImageNormal {
-                id: normal
+            Component.onCompleted: {
+                theimage.source = (imageproperties.isAnimated(src) ? "image/PQImageAnimated.qml" : "image/PQImageNormal.qml")
             }
 
             PQLoading {
@@ -68,9 +69,7 @@ Item {
 
                 // show indicator only if the mainimage hasn't finished loading in the meantime
                 onTriggered: {
-                    if(animated.source != "" && animated.status == Image.Loading)
-                        loadingindicator.opacity = 1
-                    else if(normal.source != "" && normal.status == Image.Loading)
+                    if(theimage.imageStatus == Image.Loading)
                         loadingindicator.opacity = 1
 
                 }
@@ -78,16 +77,9 @@ Item {
             }
 
             Connections {
-                target: animated
-                onStatusChanged:
-                    if(animated.status == Image.Ready)
-                        loadingindicator.opacity = 0
-            }
-
-            Connections {
-                target: normal
-                onStatusChanged:
-                    if(normal.status == Image.Ready)
+                target: theimage
+                onImageStatusChanged:
+                    if(theimage.imageStatus == Image.Ready)
                         loadingindicator.opacity = 0
             }
 

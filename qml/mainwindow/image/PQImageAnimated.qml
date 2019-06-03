@@ -67,6 +67,7 @@ AnimatedImage {
     }
 
     function showItem() {
+        imageitem.hideOldImage()
         if(settings.animationType == "x") {
             xAnim.duration = 0
             x = -width
@@ -88,32 +89,24 @@ AnimatedImage {
         update()
     }
 
+    onStatusChanged:
+        theimage.imageStatus = status
+
     Behavior on opacity { NumberAnimation { id: opacityAnim; duration: (settings.animations ? settings.animationDuration*150 : 0) } }
     Behavior on x { NumberAnimation { id: xAnim; duration: 0 } }
     Behavior on y { NumberAnimation { id: yAnim; duration: 0 } }
 
-    onStatusChanged: {
-        if(status == Image.Ready)
-            imageitem.hideOldImage()
-    }
-
     onOpacityChanged: {
-        if(beingDeleted && opacity == 0) {
-            console.log("delete opacity")
+        if(beingDeleted && opacity == 0)
             image_model.remove(index)
-        }
     }
     onXChanged: {
-        if(beingDeleted && x >= container.width) {
-            console.log("delete x")
+        if(beingDeleted && x >= container.width)
             image_model.remove(index)
-        }
     }
     onYChanged: {
-        if(beingDeleted && y >= container.height) {
-            console.log("delete y")
+        if(beingDeleted && y >= container.height)
             image_model.remove(index)
-        }
     }
 
     Connections {
