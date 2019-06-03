@@ -1,4 +1,4 @@
-#include "filedialog.h"
+#include "handlingfiledialog.h"
 #include <QtDebug>
 
 PQHandlingFileDialog::PQHandlingFileDialog(QObject *parent) : QObject(parent) {

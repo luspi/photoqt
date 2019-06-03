@@ -4,6 +4,7 @@ import QtQuick.Window 2.9
 import PQSettings 1.0
 import PQHandlingFileDialog 1.0
 import PQHandlingGeneral 1.0
+import PQHandlingShortcuts 1.0
 import PQLocalisation 1.0
 import PQImageProperties 1.0
 import PQImageFormats 1.0
@@ -36,6 +37,9 @@ Window {
 
     title: em.pty+qsTranslate("other", "PhotoQt Image Viewer")
 
+    property var allSetShortcuts: []
+    property string visibleItem: ""
+
     onClosing: {
         if(settings.saveWindowGeometry)
             handlingGeneral.saveWindowGeometry(toplevel.x, toplevel.y, toplevel.width, toplevel.height, toplevel.visibility==Window.Maximized)
@@ -59,10 +63,14 @@ Window {
 
         }
 
+        loader.show("filedialog")
+
     }
 
+    PQLoader { id: loader }
+
     PQImage { id: imageitem }
-    PQFileDialog { id: filedialog }
+    Loader { id: filedialog }
     PQSettings { id: settings }
     PQImageProperties { id: imageproperties }
     PQImageFormats { id: imageformats }
@@ -70,28 +78,11 @@ Window {
 
     PQHandlingFileDialog { id: handlingFileDialog }
     PQHandlingGeneral { id: handlingGeneral }
+    PQHandlingShortcuts { id: handlingShortcuts }
 
     PQShortcuts { id: shortcuts }
 
     // Localisation handler, allows for runtime switches of languages
     PQLocalisation { id : em }
-
-    Timer {
-        interval: 100
-        repeat: false
-        running: true
-        onTriggered: {
-            imageitem.hideImageTemporary()
-            filedialog.showFileDialog()
-        }
-    }
-
-    Shortcut {
-        sequence: "o"
-        onActivated: {
-            imageitem.hideImageTemporary()
-            filedialog.showFileDialog()
-        }
-    }
 
 }

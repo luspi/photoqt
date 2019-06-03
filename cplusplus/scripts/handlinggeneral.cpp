@@ -1,4 +1,4 @@
-#include "general.h"
+#include "handlinggeneral.h"
 
 bool PQHandlingGeneral::isGraphicsMagickSupportEnabled() {
 #ifdef GM

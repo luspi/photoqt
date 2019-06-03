@@ -24,5 +24,6 @@
         <file>mainwindow/filedialog/PQRightClickMenu.qml</file>
         <file>elements/PQScrollBar.qml</file>
         <file>shortcuts/PQShortcuts.qml</file>
+        <file>PQLoader.qml</file>
     </qresource>
 </RCC>

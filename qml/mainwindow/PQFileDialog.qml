@@ -11,8 +11,8 @@ Rectangle {
 
     x: 0
     y: 0
-    width: parent.width
-    height: parent.height
+    width: toplevel.width
+    height: toplevel.height
 
     opacity: 0
     visible: (opacity != 0)
@@ -189,6 +189,16 @@ Rectangle {
 
     }
 
+    Connections {
+        target: loader
+        onFiledialogPassOn: {
+            if(what == "show")
+                showFileDialog()
+            else if(what == "keyevent")
+                fileview.keyEvent(param[0], param[1])
+        }
+    }
+
     function showFileDialog() {
         // show in x direction
         if(settings.animationType == "x") {
@@ -205,6 +215,7 @@ Rectangle {
         // fade in image
         }
         filedialog_top.opacity = 1
+        toplevel.visibleItem = "filedialog"
     }
 
     function hideFileDialog() {
@@ -219,10 +230,7 @@ Rectangle {
         }
         // fade out image
         filedialog_top.opacity = 0
-    }
-
-    function keyEvent(key, modifiers) {
-        fileview.keyEvent(key, modifiers)
+        toplevel.visibleItem = ""
     }
 
 }
