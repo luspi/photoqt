@@ -2,8 +2,8 @@
 #include <QQmlApplicationEngine>
 
 #include "settings/settings.h"
-#include "scripts/filedialog.h"
-#include "scripts/general.h"
+#include "scripts/handlingfiledialog.h"
+#include "scripts/handlinggeneral.h"
 #include "scripts/localisation.h"
 #include "scripts/imageproperties.h"
 #include "scripts/imageformats.h"
