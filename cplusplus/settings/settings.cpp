@@ -133,7 +133,6 @@ void PQSettings::setDefault() {
     setQuickInfoHideFilename(false);
     setQuickInfoHideX(false);
     setQuickInfoHideZoomLevel(false);
-    setQuickInfoFullX(true);
     setQuickInfoCloseXSize(10);
 #ifdef Q_OS_WIN
     setQuickInfoManageWindow(true);
@@ -297,7 +296,6 @@ void PQSettings::saveSettings() {
         cont += "\n[QuickInfo]\n";
 
         cont += QString("QuickInfoCloseXSize=%1\n").arg(m_quickInfoCloseXSize);
-        cont += QString("QuickInfoFullX=%1\n").arg(int(m_quickInfoFullX));
         cont += QString("QuickInfoHideCounter=%1\n").arg(int(m_quickInfoHideCounter));
         cont += QString("QuickInfoHideFilepath=%1\n").arg(int(m_quickInfoHideFilepath));
         cont += QString("QuickInfoHideFilename=%1\n").arg(int(m_quickInfoHideFilename));
@@ -565,9 +563,6 @@ void PQSettings::readSettings() {
 
             else if(line.startsWith("QuickInfoCloseXSize="))
                 setQuickInfoCloseXSize(line.split("=").at(1).toInt());
-
-            else if(line.startsWith("QuickInfoFullX="))
-                setQuickInfoFullX(line.split("=").at(1).toInt());
 
             else if(line.startsWith("QuickInfoManageWindow="))
                 setQuickInfoManageWindow(line.split("=").at(1).toInt());

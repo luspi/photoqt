@@ -1,4 +1,5 @@
 import QtQuick 2.9
+import QtQuick.Window 2.9
 import "../elements"
 
 Item {
@@ -135,11 +136,40 @@ Item {
     PQMouseArea {
         anchors.fill: parent
         hoverEnabled: true
-        drag.target: parent
+        drag.target: settings.quickInfoManageWindow&&toplevel.visibility!=Window.FullScreen ? undefined : parent
+        tooltip: em.pty+qsTranslate("quickinfo", "Some info about the current image and directory")
         acceptedButtons: Qt.LeftButton|Qt.RightButton
         onClicked: {
             if(mouse.button == Qt.RightButton)
                 rightclickmenu.popup()
+        }
+        property point clickPos: Qt.point(0,0)
+        property bool isPressed: false
+        onPressed: {
+            if(toplevel.visibility != Window.Maximized) {
+                isPressed = true
+                clickPos = Qt.point(mouse.x, mouse.y)
+            }
+        }
+        onPositionChanged: {
+            if(settings.quickInfoManageWindow && isPressed) {
+                if(toplevel.visibility == Window.Maximized)
+                    toplevel.visibility = Window.Windowed
+                var delta = Qt.point(mouse.x-clickPos.x, mouse.y-clickPos.y)
+                toplevel.x += delta.x;
+                toplevel.y += delta.y;
+            }
+        }
+        onReleased: {
+            isPressed = false
+        }
+        onDoubleClicked: {
+            if(toplevel.visibility == Window.Maximized)
+                toplevel.visibility = Window.Windowed
+            else if(toplevel.visibility == Window.Windowed)
+                toplevel.visibility = Window.Maximized
+            else if(toplevel.visibility == Window.FullScreen)
+                toplevel.visibility = Window.Maximized
         }
     }
 

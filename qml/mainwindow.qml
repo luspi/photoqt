@@ -19,7 +19,7 @@ Window {
 
     visible: true
 
-    visibility: settings.saveWindowGeometry ? Window.Windowed : (settings.windowMode ? Window.Maximized : Window.FullScreen)
+    visibility: settings.windowMode ? (settings.saveWindowGeometry ? Window.Windowed : Window.Maximized) : Window.FullScreen
     flags: settings.windowDecoration ?
                (settings.keepOnTop ? (Qt.Window|Qt.WindowStaysOnTopHint) : Qt.Window) :
                (settings.keepOnTop ? (Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint) : Qt.FramelessWindowHint)

@@ -23,9 +23,11 @@ Item {
     signal pressAndHold(var mouse)
     signal entered()
     signal exited()
-    signal pressed()
+    signal pressed(var mouse)
     signal released()
     signal dragOnActiveChanged()
+    signal positionChanged(var mouse)
+//    signal doubleClicked
 
     PQToolTip {
         id: control
@@ -70,6 +72,10 @@ Item {
             top.released(mouse)
             mouse.accepted = !propagateComposedEvents
         }
+        onPositionChanged: {
+            top.positionChanged(mouse)
+        }
+
         drag.onActiveChanged:
             top.dragOnActiveChanged()
 
