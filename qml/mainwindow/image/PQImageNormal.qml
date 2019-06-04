@@ -13,26 +13,11 @@ Image {
 
     cache: false
 
-    MouseArea {
-        anchors.fill: parent
-        drag.target: parent
-//        onWheel: {
-//            if(wheel.angleDelta.y < 0)
-//                zoomOut()
-//            else
-//                zoomIn()
-//        }
-    }
-
     fillMode: ((sourceSize.width<width&&sourceSize.height<height) ? Image.Pad : Image.PreserveAspectFit)
 
     Behavior on scale { NumberAnimation { duration: settings.animations ? 250 : 0 } }
-    onScaleChanged: {
+    onScaleChanged:
         variables.currentZoomLevel = (elem.paintedWidth/elem.sourceSize.width)*elem.scale*100
-    }
-
-    property bool beingDeleted: false
-    property bool beingShown: true
 
     x: 0
     y: 0
@@ -57,6 +42,11 @@ Image {
                 creationCheckStatus.stop()
             }
         }
+    }
+
+    MouseArea {
+        anchors.fill: parent
+        drag.target: parent
     }
 
     function showItem() {
@@ -112,44 +102,35 @@ Image {
     Behavior on y { NumberAnimation { id: yAnim; duration: 0 } }
 
     onOpacityChanged: {
-        if(beingDeleted && opacity == 0) {
-            if(beingShown) {
-                xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
-                yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
-                beingShown = false
-            } else {
-                console.log("delete opacity")
-                image_model.remove(index)
-            }
+        if(opacity == 0 && imageitem.imageLatestAdded != src) {
+            console.log("delete opacity")
+            image_model.remove(index)
+        } else {
+            xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+            yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
         }
     }
     Connections {
         target: xAnim
         onRunningChanged: {
-            if(!xAnim.running) {
-                if(beingShown) {
-                    xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
-                    yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
-                    beingShown = false
-                } else if(beingDeleted) {
-                    console.log("delete x")
-                    image_model.remove(index)
-                }
+            if(!xAnim.running && imageitem.imageLatestAdded != src) {
+                console.log("delete x")
+                image_model.remove(index)
+            } else {
+                xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
             }
         }
     }
     Connections {
         target: yAnim
         onRunningChanged: {
-            if(!yAnim.running) {
-                if(beingShown) {
-                    beingShown = false
-                    xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
-                    yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
-                } else if(beingDeleted) {
-                    console.log("delete y")
-                    image_model.remove(index)
-                }
+            if(!yAnim.running && imageitem.imageLatestAdded != src) {
+                console.log("delete y")
+                image_model.remove(index)
+            } else {
+                xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
             }
         }
     }
@@ -159,18 +140,15 @@ Image {
         onHideOldImage: {
             if(src == container.imageLatestAdded)
                 return
-            elem.beingDeleted = true
-            if(src != container.imageLatestAdded)
-                elem.beingShown = false
             if(forwards) {
                 // hide in x direction
                 if(settings.animationType == "x") {
                     xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
-                    elem.x = -container.width-100
+                    elem.x = -elem.width
                 // hide in y direction
                 } else if(settings.animationType == "y") {
                     yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
-                    elem.y = -container.height-100
+                    elem.y = -elem.height
                 // fade out image
                 } else
                     elem.opacity = 0
@@ -178,11 +156,11 @@ Image {
                 // hide in x direction
                 if(settings.animationType == "x") {
                     xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
-                    elem.x = container.width+100
+                    elem.x = container.width
                 // hide in y direction
                 } else if(settings.animationType == "y") {
                     yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
-                    elem.y = container.height+100
+                    elem.y = container.height
                 // fade out image
                 } else
                     elem.opacity = 0

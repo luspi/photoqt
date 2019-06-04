@@ -94,14 +94,14 @@ Item {
         // we load the new image whenever one of the below properties has changed. The signal to hide old images is emitted whenever the new image has loaded (its status)
         onIndexOfCurrentImageChanged: {
             if(variables.allImageFilesInOrder.length > 0 && variables.indexOfCurrentImage > -1) {
-                image_model.append({"src" : handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]), "forwards" : imageSwitchingForwards})
                 imageLatestAdded = handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+                image_model.append({"src" : handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]), "forwards" : imageSwitchingForwards})
             }
         }
         onAllImageFilesInOrderChanged: {
             if(variables.allImageFilesInOrder.length > 0 && variables.indexOfCurrentImage > -1) {
-                image_model.append({"src" : handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]), "forwards" : imageSwitchingForwards})
                 imageLatestAdded = handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+                image_model.append({"src" : handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]), "forwards" : imageSwitchingForwards})
             }
         }
     }
