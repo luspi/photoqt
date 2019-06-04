@@ -27,5 +27,6 @@
         <file>PQLoader.qml</file>
         <file>PQVariables.qml</file>
         <file>mainwindow/PQQuickInfo.qml</file>
+        <file>mainwindow/PQCloseButton.qml</file>
     </qresource>
 </RCC>

@@ -62,7 +62,7 @@ Item {
 
             id: seperator
 
-            color: "white"
+            color: "#cccccc"
 
             x: filename.x+filename.width+10
             y: 5
@@ -117,6 +117,14 @@ Item {
                 onTriggered: {
                     var old = settings.quickInfoHideZoomLevel
                     settings.quickInfoHideZoomLevel = !old
+                }
+            }
+
+            PQMenuItem {
+                text: settings.quickInfoHideX ? "Show button for closing PhotoQt" : "Hide button for closing PhotoQt"
+                onTriggered: {
+                    var old = settings.quickInfoHideX
+                    settings.quickInfoHideX = !old
                 }
             }
 
