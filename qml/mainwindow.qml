@@ -68,6 +68,7 @@ Window {
     PQLoader { id: loader }
 
     PQImage { id: imageitem }
+    PQQuickInfo { id: quickinfo }
     Loader { id: filedialog }
     PQSettings { id: settings }
     PQImageProperties { id: imageproperties }

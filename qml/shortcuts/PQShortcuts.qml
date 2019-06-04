@@ -87,13 +87,14 @@ Item {
 //            call.load("slideshowStart")
         else if(cmd === "__open")
             loader.show("filedialog")
-//        else if(cmd === "__zoomIn")
-//            imageitem.zoomIn()
-//        else if(cmd === "__zoomOut")
-//            imageitem.zoomOut()
-//        else if(cmd === "__zoomReset") {
+        else if(cmd === "__zoomIn")
+            imageitem.zoomIn()
+        else if(cmd === "__zoomOut")
+            imageitem.zoomOut()
+        else if(cmd === "__zoomReset") {
 //            imageitem.resetPosition()
-//            imageitem.resetZoom()
+            imageitem.zoomReset()
+        }
 //        } else if(cmd === "__zoomActual")
 //            imageitem.zoomActual()
 //        else if(cmd === "__rotateL")

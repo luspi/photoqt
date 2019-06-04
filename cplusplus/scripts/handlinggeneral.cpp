@@ -68,3 +68,11 @@ QRect PQHandlingGeneral::getWindowGeometry() {
         return QRect(0,0,0,0);
 
 }
+
+QString PQHandlingGeneral::getFileNameFromFullPath(QString path) {
+    return QFileInfo(path).fileName();
+}
+
+QString PQHandlingGeneral::getFilePathFromFullPath(QString path) {
+    return QFileInfo(path).absolutePath();
+}

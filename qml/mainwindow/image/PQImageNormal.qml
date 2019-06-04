@@ -4,7 +4,7 @@ Image {
 
     id: elem
 
-    source: imageproperties.isAnimated(src) ? "" : ("image://full/" + src)
+    source: "image://full/" + src
     visible: !imageproperties.isAnimated(src)
 
     asynchronous: true
@@ -27,21 +27,12 @@ Image {
     fillMode: ((sourceSize.width<width&&sourceSize.height<height) ? Image.Pad : Image.PreserveAspectFit)
 
     Behavior on scale { NumberAnimation { duration: settings.animations ? 250 : 0 } }
-    onScaleChanged:
-        redrawAfterScale.restart()
-
-    Timer {
-        id: redrawAfterScale
-        interval: 250
-        repeat: false
-        running: false
-        onTriggered: {
-            elem.update()
-        }
+    onScaleChanged: {
+        variables.currentZoomLevel = (elem.paintedWidth/elem.sourceSize.width)*elem.scale*100
     }
 
     property bool beingDeleted: false
-    property bool beingHidden: false
+    property bool beingShown: true
 
     x: 0
     y: 0
@@ -69,24 +60,46 @@ Image {
     }
 
     function showItem() {
-        imageitem.hideOldImage()
-        if(settings.animationType == "x") {
-            xAnim.duration = 0
-            x = -width
-            xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
-            x = 0
-            opacityAnim.duration = 0
-            opacity = 1
-        } else if(settings.animationType == "y") {
-            yAnim.duration = 0
-            y = -height
-            yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
-            y = 0
-            opacityAnim.duration = 0
-            opacity = 1
+        imageitem.hideOldImage(forwards)
+        variables.currentZoomLevel = (elem.paintedWidth/elem.sourceSize.width)*elem.scale*100
+        if(forwards) {
+            if(settings.animationType == "x") {
+                xAnim.duration = 0
+                x = width
+                xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                x = 0
+                opacityAnim.duration = 0
+                opacity = 1
+            } else if(settings.animationType == "y") {
+                yAnim.duration = 0
+                y = height
+                yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                y = 0
+                opacityAnim.duration = 0
+                opacity = 1
+            } else {
+                opacityAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                opacity = 1
+            }
         } else {
-            opacityAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
-            opacity = 1
+            if(settings.animationType == "x") {
+                xAnim.duration = 0
+                x = -width
+                xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                x = 0
+                opacityAnim.duration = 0
+                opacity = 1
+            } else if(settings.animationType == "y") {
+                yAnim.duration = 0
+                y = -height
+                yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                y = 0
+                opacityAnim.duration = 0
+                opacity = 1
+            } else {
+                opacityAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                opacity = 1
+            }
         }
         update()
     }
@@ -99,27 +112,69 @@ Image {
     Behavior on y { NumberAnimation { id: yAnim; duration: 0 } }
 
     onOpacityChanged: {
-        if(beingDeleted && opacity == 0)
-            image_model.remove(index)
+        if(beingDeleted && opacity == 0) {
+            if(beingShown) {
+                xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                beingShown = false
+            } else {
+                console.log("delete opacity")
+                image_model.remove(index)
+            }
+        }
     }
-    onXChanged: {
-        if(beingDeleted && x >= container.width)
-            image_model.remove(index)
+    Connections {
+        target: xAnim
+        onRunningChanged: {
+            if(!xAnim.running) {
+                if(beingShown) {
+                    xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                    yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                    beingShown = false
+                } else if(beingDeleted) {
+                    console.log("delete x")
+                    image_model.remove(index)
+                }
+            }
+        }
     }
-    onYChanged: {
-        if(beingDeleted && y >= container.height) {
-            console.log("delete y")
-            image_model.remove(index)
+    Connections {
+        target: yAnim
+        onRunningChanged: {
+            if(!yAnim.running) {
+                if(beingShown) {
+                    beingShown = false
+                    xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                    yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                } else if(beingDeleted) {
+                    console.log("delete y")
+                    image_model.remove(index)
+                }
+            }
         }
     }
 
     Connections {
         target: container
         onHideOldImage: {
-            if(elem.beingHidden)
-                image_model.remove(index)
-            else {
-                elem.beingDeleted = true
+            if(src == container.imageLatestAdded)
+                return
+            elem.beingDeleted = true
+            if(src != container.imageLatestAdded)
+                elem.beingShown = false
+            if(forwards) {
+                // hide in x direction
+                if(settings.animationType == "x") {
+                    xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                    elem.x = -container.width-100
+                // hide in y direction
+                } else if(settings.animationType == "y") {
+                    yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                    elem.y = -container.height-100
+                // fade out image
+                } else
+                    elem.opacity = 0
+            } else {
                 // hide in x direction
                 if(settings.animationType == "x") {
                     xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
@@ -133,41 +188,16 @@ Image {
                     elem.opacity = 0
             }
         }
-        onHideImageTemporary: {
-            elem.beingHidden = true
-            // hide in x direction
-            if(settings.animationType == "x") {
-                hideTempX = elem.x
-                xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
-                elem.x = container.width+100
-            // hide in y direction
-            } else if(settings.animationType == "y") {
-                hideTempY = elem.y
-                yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
-                elem.y = container.height+100
-            // fade out image
-            } else
-                elem.opacity = 0
-        }
-        onShowImageTemporary: {
-            elem.beingHidden = false
-            // show in x direction
-            if(settings.animationType == "x") {
-                xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
-                elem.x = hideTempX
-            // show in y direction
-            } else if(settings.animationType == "y") {
-                yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
-                elem.y = hideTempY
-            // fade in image
-            } else
-                elem.opacity = 1
-        }
         onZoomIn: {
             elem.scale *= (1+settings.zoomSpeed/100)
         }
         onZoomOut: {
             elem.scale /= (1+settings.zoomSpeed/100)
+        }
+        onZoomReset: {
+            elem.scale = 1
+            elem.x = 0
+            elem.y = 0
         }
     }
 

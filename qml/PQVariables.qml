@@ -4,7 +4,8 @@ Item {
 
     property var shortcuts: []
     property string visibleItem: ""
-    property var allImageFilesInOrder: undefined
+    property var allImageFilesInOrder: []
     property int indexOfCurrentImage: -1
+    property real currentZoomLevel: 1
 
 }

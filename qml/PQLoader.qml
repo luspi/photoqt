@@ -10,10 +10,8 @@ Item {
 
         ensureItIsReady(component)
 
-        if(component == "filedialog") {
-            imageitem.hideImageTemporary()
+        if(component == "filedialog")
             filedialogPassOn("show", undefined)
-        }
 
     }
 

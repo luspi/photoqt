@@ -26,5 +26,6 @@
         <file>shortcuts/PQShortcuts.qml</file>
         <file>PQLoader.qml</file>
         <file>PQVariables.qml</file>
+        <file>mainwindow/PQQuickInfo.qml</file>
     </qresource>
 </RCC>

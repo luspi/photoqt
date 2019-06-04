@@ -9,14 +9,16 @@ Item {
 
     signal zoomIn()
     signal zoomOut()
+    signal zoomReset()
 
     // emitted inside of PQImageNormal/Animated whenever its status changed to Image.Reader
-    signal hideOldImage()
+    signal hideOldImage(var forwards)
 
-    signal hideImageTemporary()
-    signal showImageTemporary()
     property int hideTempX: 0
     property int hideTempY: 0
+
+    property bool imageSwitchingForwards: true
+    property string imageLatestAdded: ""
 
     MouseArea {
 
@@ -91,36 +93,48 @@ Item {
         target: variables
         // we load the new image whenever one of the below properties has changed. The signal to hide old images is emitted whenever the new image has loaded (its status)
         onIndexOfCurrentImageChanged: {
-            if(variables.allImageFilesInOrder.length > 0 && variables.indexOfCurrentImage > -1)
-                image_model.append({"src" : handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])})
+            if(variables.allImageFilesInOrder.length > 0 && variables.indexOfCurrentImage > -1) {
+                image_model.append({"src" : handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]), "forwards" : imageSwitchingForwards})
+                imageLatestAdded = handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+            }
         }
         onAllImageFilesInOrderChanged: {
-            if(variables.allImageFilesInOrder.length > 0 && variables.indexOfCurrentImage > -1)
-                image_model.append({"src" : handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])})
+            if(variables.allImageFilesInOrder.length > 0 && variables.indexOfCurrentImage > -1) {
+                image_model.append({"src" : handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]), "forwards" : imageSwitchingForwards})
+                imageLatestAdded = handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+            }
         }
     }
 
 
     function loadNextImage() {
+        imageSwitchingForwards = true
         if(variables.indexOfCurrentImage < variables.allImageFilesInOrder.length-1)
             ++variables.indexOfCurrentImage
-        if(variables.indexOfCurrentImage == variables.allImageFilesInOrder.length-1 && settings.loopThroughFolder)
+        else if(variables.indexOfCurrentImage == variables.allImageFilesInOrder.length-1 && settings.loopThroughFolder)
             variables.indexOfCurrentImage = 0
     }
 
     function loadPrevImage() {
+        imageSwitchingForwards = false
         if(variables.indexOfCurrentImage > 0)
             --variables.indexOfCurrentImage
-        if(variables.indexOfCurrentImage == 0 && settings.loopThroughFolder)
+        else if(variables.indexOfCurrentImage == 0 && settings.loopThroughFolder)
             variables.indexOfCurrentImage = variables.allImageFilesInOrder.length-1
     }
 
     function loadFirstImage() {
+        imageSwitchingForwards = false
         variables.indexOfCurrentImage = 0
     }
 
     function loadLastImage() {
+        imageSwitchingForwards = true
         variables.indexOfCurrentImage = variables.allImageFilesInOrder.length-1
+    }
+
+    function resetZoom() {
+
     }
 
 }

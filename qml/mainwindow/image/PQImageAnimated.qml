@@ -4,7 +4,7 @@ AnimatedImage {
 
     id: elem
 
-    source: imageproperties.isAnimated(src) ? ("file:/" + src) : ""
+    source: "file:/" + src
     visible: imageproperties.isAnimated(src)
 
     asynchronous: true
@@ -40,6 +40,7 @@ AnimatedImage {
 
     property bool beingDeleted: false
     property bool beingHidden: false
+    property bool beingShown: true
 
     x: 0
     y: 0
@@ -67,7 +68,7 @@ AnimatedImage {
     }
 
     function showItem() {
-        imageitem.hideOldImage()
+        imageitem.hideOldImage(true)
         if(settings.animationType == "x") {
             xAnim.duration = 0
             x = -width
@@ -97,16 +98,38 @@ AnimatedImage {
     Behavior on y { NumberAnimation { id: yAnim; duration: 0 } }
 
     onOpacityChanged: {
-        if(beingDeleted && opacity == 0)
-            image_model.remove(index)
+        if(beingDeleted && opacity == 0) {
+            if(beingShown)
+                beingShown = false
+            else {
+                console.log("delete opacity")
+                image_model.remove(index)
+            }
+        }
     }
-    onXChanged: {
-        if(beingDeleted && x >= container.width)
-            image_model.remove(index)
+    Connections {
+        target: xAnim
+        onRunningChanged: {
+            if(!xAnim.running) {
+                if(beingShown)
+                    beingShown = false
+                else if(beingDeleted && !beingHidden) {
+                    console.log("delete x")
+                    image_model.remove(index)
+                }
+            }
+        }
     }
-    onYChanged: {
-        if(beingDeleted && y >= container.height)
-            image_model.remove(index)
+    Connections {
+        target: yAnim
+        onRunningChanged: {
+            if(!yAnim.running) {
+                if(beingShown)
+                    beingShown = false
+                else if(beingDeleted && !beingHidden)
+                    image_model.remove(index)
+            }
+        }
     }
 
     Connections {
@@ -128,36 +151,6 @@ AnimatedImage {
                 } else
                     elem.opacity = 0
             }
-        }
-        onHideImageTemporary: {
-            elem.beingHidden = true
-            // hide in x direction
-            if(settings.animationType == "x") {
-                hideTempX = elem.x
-                xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
-                elem.x = container.width+100
-            // hide in y direction
-            } else if(settings.animationType == "y") {
-                hideTempY = elem.y
-                yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
-                elem.y = container.height+100
-            // fade out image
-            } else
-                elem.opacity = 0
-        }
-        onShowImageTemporary: {
-            elem.beingHidden = false
-            // show in x direction
-            if(settings.animationType == "x") {
-                xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
-                elem.x = hideTempX
-            // show in y direction
-            } else if(settings.animationType == "y") {
-                yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
-                elem.y = hideTempY
-            // fade in image
-            } else
-                elem.opacity = 1
         }
         onZoomIn: {
             elem.scale *= (1+settings.zoomSpeed/100)

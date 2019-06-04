@@ -222,11 +222,11 @@ Rectangle {
         // hide in x direction
         if(settings.animationType == "x") {
             xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
-            filedialog_top.x = width
+            filedialog_top.x = -width
         // hide in y direction
         } else if(settings.animationType == "y") {
             yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
-            filedialog_top.y = height
+            filedialog_top.y = -height
         }
         // fade out image
         filedialog_top.opacity = 0
