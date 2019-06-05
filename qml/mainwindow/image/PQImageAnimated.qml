@@ -43,6 +43,7 @@ AnimatedImage {
     }
 
     MouseArea {
+        enabled: settings.leftButtonMouseClickAndMove
         anchors.fill: parent
         drag.target: parent
     }

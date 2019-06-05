@@ -20,19 +20,6 @@ Item {
     property bool imageSwitchingForwards: true
     property string imageLatestAdded: ""
 
-    MouseArea {
-
-        anchors.fill: parent
-
-        onWheel: {
-            if(wheel.angleDelta.y < 0)
-                zoomOut()
-            else if(wheel.angleDelta.y > 0)
-                zoomIn()
-        }
-
-    }
-
     Repeater {
 
         id: repeat
