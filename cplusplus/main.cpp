@@ -10,6 +10,7 @@
 #include "scripts/imageformats.h"
 #include "scripts/filewatcher.h"
 #include "scripts/filefoldermodel.h"
+#include "startup/commandlineparser.h"
 
 #include "imageprovider/imageprovidericon.h"
 #include "imageprovider/imageproviderthumb.h"
@@ -20,6 +21,11 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QGuiApplication app(argc, argv);
+    app.setApplicationName("photoqt");
+    app.setApplicationVersion(VERSION);
+
+    PQCommandLineParser parser;
+    parser.parse(app);
 
     // We store this as a QString, as this way we don't have to explicitely cast VERSION to a QString below
     QString version = VERSION;
