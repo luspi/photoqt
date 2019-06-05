@@ -82,7 +82,7 @@ Window {
     PQHandlingGeneral { id: handlingGeneral }
     PQHandlingShortcuts { id: handlingShortcuts }
 
-    PQShortcuts { id: shortcuts }
+    PQKeyShortcuts { id: shortcuts }
 
     // Localisation handler, allows for runtime switches of languages
     PQLocalisation { id : em }

@@ -23,12 +23,12 @@
         <file>elements/PQComboBox.qml</file>
         <file>mainwindow/filedialog/PQRightClickMenu.qml</file>
         <file>elements/PQScrollBar.qml</file>
-        <file>shortcuts/PQShortcuts.qml</file>
         <file>PQLoader.qml</file>
         <file>PQVariables.qml</file>
         <file>mainwindow/PQQuickInfo.qml</file>
         <file>mainwindow/PQCloseButton.qml</file>
         <file>shortcuts/PQMouseShortcuts.qml</file>
         <file>shortcuts/handleshortcuts.js</file>
+        <file>shortcuts/PQKeyShortcuts.qml</file>
     </qresource>
 </RCC>
