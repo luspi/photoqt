@@ -28,5 +28,7 @@
         <file>PQVariables.qml</file>
         <file>mainwindow/PQQuickInfo.qml</file>
         <file>mainwindow/PQCloseButton.qml</file>
+        <file>shortcuts/PQMouseShortcuts.qml</file>
+        <file>shortcuts/handleshortcuts.js</file>
     </qresource>
 </RCC>

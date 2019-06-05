@@ -67,6 +67,8 @@ Window {
     PQVariables { id: variables }
     PQLoader { id: loader }
 
+    PQMouseShortcuts { id: mouseshortcuts }
+
     PQImage { id: imageitem }
     PQQuickInfo { id: quickinfo }
     PQCloseButton { id: closebutton }
