@@ -7,7 +7,11 @@ Item {
 
     anchors.fill: parent
 
-    anchors.bottomMargin: settings.thumbnailKeepVisible ? thumbnails.height : 0
+    anchors.bottomMargin: ((settings.thumbnailKeepVisible || settings.thumbnailKeepVisibleWhenNotZoomedIn) && settings.thumbnailPosition!="Top" && !settings.thumbnailDisable) ? thumbnails.height : 0
+    Behavior on anchors.bottomMargin { NumberAnimation { duration: 150 } }
+
+    anchors.topMargin: ((settings.thumbnailKeepVisible || settings.thumbnailKeepVisibleWhenNotZoomedIn) && settings.thumbnailPosition=="Top" && !settings.thumbnailDisable) ? thumbnails.height : 0
+    Behavior on anchors.topMargin { NumberAnimation { duration: 150 } }
 
     signal zoomIn()
     signal zoomOut()
@@ -21,6 +25,7 @@ Item {
 
     property bool imageSwitchingForwards: true
     property string imageLatestAdded: ""
+    property real imageScale: 1
 
     Repeater {
 

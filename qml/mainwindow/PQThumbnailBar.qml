@@ -5,12 +5,23 @@ import "../elements"
 Item {
 
     x: 0
-    y: (settings.thumbnailKeepVisible ||
-        (variables.mousePos.y > toplevel.height-settings.hotEdgeWidth*5 && !visible) ||
-        (variables.mousePos.y > toplevel.height-height && visible)) ? (toplevel.height-height) : toplevel.height
+
+    y:
+        settings.thumbnailPosition=="Top" ?
+
+           ((settings.thumbnailKeepVisible ||
+           (variables.mousePos.y < settings.hotEdgeWidth*5 && !visible) ||
+           (variables.mousePos.y < height && visible) ||
+           (settings.thumbnailKeepVisibleWhenNotZoomedIn && imageitem.imageScale<=1)) ? 0 : -height) :
+
+           ((settings.thumbnailKeepVisible ||
+           (variables.mousePos.y > toplevel.height-settings.hotEdgeWidth*5 && !visible) ||
+           (variables.mousePos.y > toplevel.height-height && visible) ||
+           (settings.thumbnailKeepVisibleWhenNotZoomedIn && imageitem.imageScale<=1)) ? (toplevel.height-height) : toplevel.height)
+
     Behavior on y { NumberAnimation { duration: 200 } }
 
-    visible: y < toplevel.height
+    visible: settings.thumbnailPosition=="Top" ? (y > -height) : (y < toplevel.height)
 
     width: toplevel.width
 
@@ -26,7 +37,7 @@ Item {
 
         orientation: ListView.Horizontal
 
-        model: variables.allImageFilesInOrder.length
+        model: settings.thumbnailDisable ? 0 : variables.allImageFilesInOrder.length
 
         ScrollBar.horizontal: PQScrollBar { id: scroll }
 
@@ -51,10 +62,50 @@ Item {
 
             color: "#88000000"
 
+            Text {
+
+                anchors.fill: parent
+                anchors.margins: 5
+
+                visible: settings.thumbnailFilenameInstead
+                color: "white"
+
+                text: handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[index])
+                font.pointSize: settings.thumbnailFilenameInsteadFontSize
+                verticalAlignment: Qt.AlignVCenter
+                horizontalAlignment: Qt.AlignHCenter
+
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+
+            }
+
             Image {
                 anchors.fill: parent
                 fillMode: Image.Image.PreserveAspectFit
-                source: "image://thumb/" + variables.allImageFilesInOrder[index]
+                source: (settings.thumbnailFilenameInstead||settings.thumbnailDisable) ? "" : "image://thumb/" + variables.allImageFilesInOrder[index]
+
+                visible: !settings.thumbnailFilenameInstead
+
+                Rectangle {
+                    visible: settings.thumbnailWriteFilename
+                    color: "#88000000"
+                    width: parent.width
+                    height: parent.height/3
+                    x: 0
+                    y: 2*parent.height/3
+                    Text {
+                        anchors.fill: parent
+                        anchors.leftMargin: 2
+                        anchors.rightMargin: 2
+                        color: "white"
+                        elide: Text.ElideMiddle
+                        font.pointSize: settings.thumbnailFontSize
+                        font.bold: true
+                        verticalAlignment: Qt.AlignVCenter
+                        horizontalAlignment: Qt.AlignHCenter
+                        text: handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[index])
+                    }
+                }
             }
 
             PQMouseArea {

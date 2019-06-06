@@ -14,8 +14,10 @@ AnimatedImage {
     fillMode: ((sourceSize.width<width&&sourceSize.height<height) ? Image.Pad : Image.PreserveAspectFit)
 
     Behavior on scale { NumberAnimation { duration: settings.animations ? 250 : 0 } }
-    onScaleChanged:
+    onScaleChanged: {
         variables.currentZoomLevel = (elem.paintedWidth/elem.sourceSize.width)*elem.scale*100
+        container.imageScale = elem.scale
+    }
 
     x: 0
     y: 0

@@ -3,8 +3,6 @@ import QtQuick.Controls 2.2
 
 ScrollBar {
     id: control
-    size: 0.3
-    position: 0.2
     active: true
     orientation: Qt.Vertical
 
