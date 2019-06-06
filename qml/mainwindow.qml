@@ -72,6 +72,9 @@ Window {
     PQImage { id: imageitem }
     PQQuickInfo { id: quickinfo }
     PQCloseButton { id: closebutton }
+
+    PQThumbnailBar { id: thumbnails }
+
     Loader { id: filedialog }
     PQSettings { id: settings }
     PQImageProperties { id: imageproperties }

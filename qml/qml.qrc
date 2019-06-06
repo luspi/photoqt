@@ -30,5 +30,6 @@
         <file>shortcuts/PQMouseShortcuts.qml</file>
         <file>shortcuts/handleshortcuts.js</file>
         <file>shortcuts/PQKeyShortcuts.qml</file>
+        <file>mainwindow/PQThumbnailBar.qml</file>
     </qresource>
 </RCC>

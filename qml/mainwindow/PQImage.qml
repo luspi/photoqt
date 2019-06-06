@@ -7,6 +7,8 @@ Item {
 
     anchors.fill: parent
 
+    anchors.bottomMargin: settings.thumbnailKeepVisible ? thumbnails.height : 0
+
     signal zoomIn()
     signal zoomOut()
     signal zoomReset()

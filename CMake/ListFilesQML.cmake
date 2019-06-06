@@ -6,7 +6,7 @@ SET(d "qml")
 SET(photoqt_QML ${photoqt_QML} ${d}/mainwindow.qml ${d}/PQLoader.qml ${d}/PQVariables.qml)
 
 SET(d "qml/mainwindow")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQImage.qml ${d}/PQFileDialog.qml ${d}/PQQuickInfo.qml ${d}/PQCloseButton.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQImage.qml ${d}/PQFileDialog.qml ${d}/PQQuickInfo.qml ${d}/PQCloseButton.qml ${d}/PQThumbnailBar.qml)
 
 SET(d "qml/mainwindow/image")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQImageNormal.qml ${d}/PQImageAnimated.qml ${d}/PQLoading.qml)

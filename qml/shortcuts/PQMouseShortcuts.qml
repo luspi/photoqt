@@ -10,6 +10,9 @@ Item {
         enabled: variables.visibleItem==""
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton|Qt.RightButton|Qt.MiddleButton
+
+        hoverEnabled: true
+
         onWheel: {
 
             var combo = ""
@@ -135,6 +138,8 @@ Item {
                     prevPos = Qt.point(mouse.x, mouse.y)
                 }
             }
+
+            variables.mousePos = Qt.point(mouse.x, mouse.y)
         }
 
         onReleased: {
