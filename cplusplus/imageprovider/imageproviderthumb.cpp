@@ -23,7 +23,7 @@ void PQAsyncImageResponseThumb::run() {
     QString filename = QByteArray::fromPercentEncoding(m_url.toUtf8());
 
 //    QString typeCache = "files"; // (settings->thumbnailCacheFile ? "files" : "db");
-    bool cacheEnabled = PQSettings::instance().getThumbnailCache();
+    bool cacheEnabled = PQSettings::get().getThumbnailCache();
 
     // Create the md5 hash for the thumbnail file
     QByteArray path = QUrl::fromLocalFile(filename).toString().toUtf8();

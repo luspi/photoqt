@@ -19,7 +19,7 @@ class PQSettings : public QObject {
     Q_OBJECT
 
 public:
-        static PQSettings& instance() {
+        static PQSettings& get() {
             static PQSettings instance;
             return instance;
         }

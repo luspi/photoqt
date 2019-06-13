@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<PQImageFormats>("PQImageFormats", 1, 0, "PQImageFormats");
     qmlRegisterType<PQFileWatcher>("PQFileWatcher", 1, 0, "PQFileWatcher");
 
-    engine.rootContext()->setContextProperty("PQSettings", &PQSettings::instance());
+    engine.rootContext()->setContextProperty("PQSettings", &PQSettings::get());
 
     qmlRegisterType<PQFileFolderModel>("PQFileFolderModel", 1, 0, "PQFileFolderModel");
 
