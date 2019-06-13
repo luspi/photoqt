@@ -22,9 +22,6 @@ void PQAsyncImageResponseThumb::run() {
 
     QString filename = QByteArray::fromPercentEncoding(m_url.toUtf8());
 
-//    QString typeCache = "files"; // (settings->thumbnailCacheFile ? "files" : "db");
-    bool cacheEnabled = PQSettings::get().getThumbnailCache();
-
     // Create the md5 hash for the thumbnail file
     QByteArray path = QUrl::fromLocalFile(filename).toString().toUtf8();
     QByteArray md5 = QCryptographicHash::hash(path,QCryptographicHash::Md5).toHex();
@@ -37,7 +34,7 @@ void PQAsyncImageResponseThumb::run() {
     m_requestedSize = QSize(256, 256);
 
     // If files in XDG_CACHE_HOME/thumbnails/ shall be used, then do use them
-    if(cacheEnabled) {
+    if(PQSettings::get().getThumbnailCache()) {
 
         // If there exists a thumbnail of the current file already
         if(QFile(ConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails/large/" + md5 + ".png").exists()) {
@@ -81,9 +78,6 @@ void PQAsyncImageResponseThumb::run() {
 
     QSize origSize;
 
-    // the unique key for caching
-    QByteArray cachekey = getUniqueCacheKey(filename);
-
     if(whatToUse == "qt")
         p = PQLoadImage::Qt::load(filename, m_requestedSize, &origSize, true);
 
@@ -112,7 +106,7 @@ void PQAsyncImageResponseThumb::run() {
     }
 
     // Create file cache thumbnail
-    if(cacheEnabled) {
+    if(PQSettings::get().getThumbnailCache()) {
 
         // If the file itself wasn't read from the thumbnails folder, is not a temporary file, and if the original file isn't at thumbnail size itself
         if(!filename.startsWith(QString(ConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails").toUtf8())
@@ -172,12 +166,4 @@ QString PQAsyncImageResponseThumb::whatDoIUse(QString filename) {
 
     return "qt";
 
-}
-
-QByteArray PQAsyncImageResponseThumb::getUniqueCacheKey(QString path) {
-    path = path.remove("image://full/");
-    path = path.remove("file:/");
-    QFileInfo info(path);
-    QString fn = QString("%1%2").arg(path).arg(info.lastModified().toMSecsSinceEpoch());
-    return QCryptographicHash::hash(fn.toUtf8(),QCryptographicHash::Md5).toHex();
 }

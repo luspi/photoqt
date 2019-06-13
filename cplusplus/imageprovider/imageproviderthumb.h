@@ -35,7 +35,6 @@ private:
     QMimeDatabase mimedb;
 
     QString whatDoIUse(QString filename);
-    QByteArray getUniqueCacheKey(QString path);
 
 };
 
