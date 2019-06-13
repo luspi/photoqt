@@ -1,6 +1,7 @@
 #include "imageproviderthumb.h"
 #include "loader/errorimage.h"
 #include "loader/loadimage_qt.h"
+#include "../settings/settings.h"
 
 QQuickImageResponse *PQAsyncImageProviderThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
     PQAsyncImageResponseThumb *response = new PQAsyncImageResponseThumb(url, requestedSize);
@@ -22,7 +23,7 @@ void PQAsyncImageResponseThumb::run() {
     QString filename = QByteArray::fromPercentEncoding(m_url.toUtf8());
 
 //    QString typeCache = "files"; // (settings->thumbnailCacheFile ? "files" : "db");
-    bool cacheEnabled = true; // settings->thumbnailCache;
+    bool cacheEnabled = PQSettings::instance().getThumbnailCache();
 
     // Create the md5 hash for the thumbnail file
     QByteArray path = QUrl::fromLocalFile(filename).toString().toUtf8();
