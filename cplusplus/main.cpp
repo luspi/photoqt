@@ -13,8 +13,6 @@
 #include "scripts/filefoldermodel.h"
 #include "singleinstance/singleinstance.h"
 
-#include "settings/settingsold.h"
-
 #include "imageprovider/imageprovidericon.h"
 #include "imageprovider/imageproviderthumb.h"
 #include "imageprovider/imageproviderfull.h"
@@ -48,12 +46,6 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
 
-//    int abc = SingletonTest::instance().getSomeValue();
-
-//    qDebug() << "don't delete " << abc;
-
-//    qmlRegisterType<PQSettings>("PQSettings", 1, 0, "PQSettings");
-//    engine.rootContext()->setContextProperty("PQSettingsOld", &PQSettingsOld::instance);
     qmlRegisterType<PQHandlingFileDialog>("PQHandlingFileDialog", 1, 0, "PQHandlingFileDialog");
     qmlRegisterType<PQHandlingGeneral>("PQHandlingGeneral", 1, 0, "PQHandlingGeneral");
     qmlRegisterType<PQHandlingShortcuts>("PQHandlingShortcuts", 1, 0, "PQHandlingShortcuts");
@@ -62,10 +54,6 @@ int main(int argc, char *argv[])
     qmlRegisterType<PQImageFormats>("PQImageFormats", 1, 0, "PQImageFormats");
     qmlRegisterType<PQFileWatcher>("PQFileWatcher", 1, 0, "PQFileWatcher");
 
-//    qDebug() << "at start:" << SingletonTest::instance().getSomeValue();
-
-//    qmlRegisterSingletonType<SingletonTestAccess>("SingletonTestAccess", 1, 0, "SingletonTestAccess", example_qjsvalue_singletontype_provider);
-//    qmlRegisterType<SingletonTestAccess>("SingletonTestAccess", 1, 0, "SingletonTestAccess");
     engine.rootContext()->setContextProperty("PQSettings", &PQSettings::instance());
 
     qmlRegisterType<PQFileFolderModel>("PQFileFolderModel", 1, 0, "PQFileFolderModel");
@@ -75,12 +63,6 @@ int main(int argc, char *argv[])
     engine.addImageProvider("full",new PQImageProviderFull);
 
     engine.load(url);
-
-//    int ret = app.exec();
-
-//    qDebug() << "at end: " << SingletonTest::instance().getSomeValue();
-
-//    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
     return app.exec();
 }
