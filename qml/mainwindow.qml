@@ -1,7 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Window 2.9
 
-import PQSettings 1.0
+//import PQSettings 1.0
 import PQHandlingFileDialog 1.0
 import PQHandlingGeneral 1.0
 import PQHandlingShortcuts 1.0
@@ -9,6 +9,7 @@ import PQLocalisation 1.0
 import PQImageProperties 1.0
 import PQImageFormats 1.0
 import PQFileWatcher 1.0
+//import SingletonTestAccess 1.0
 
 import "./mainwindow"
 import "./shortcuts"
@@ -19,10 +20,10 @@ Window {
 
     visible: true
 
-    visibility: settings.windowMode ? (settings.saveWindowGeometry ? Window.Windowed : Window.Maximized) : Window.FullScreen
-    flags: settings.windowDecoration ?
-               (settings.keepOnTop ? (Qt.Window|Qt.WindowStaysOnTopHint) : Qt.Window) :
-               (settings.keepOnTop ? (Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint) : Qt.FramelessWindowHint)
+    visibility: PQSettings.windowMode ? (PQSettings.saveWindowGeometry ? Window.Windowed : Window.Maximized) : Window.FullScreen
+    flags: PQSettings.windowDecoration ?
+               (PQSettings.keepOnTop ? (Qt.Window|Qt.WindowStaysOnTopHint) : Qt.Window) :
+               (PQSettings.keepOnTop ? (Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint) : Qt.FramelessWindowHint)
 
     minimumWidth: 600
     minimumHeight: 400
@@ -30,22 +31,37 @@ Window {
     width: 1024
     height: 768
 
-    color: Qt.rgba(settings.backgroundColorRed/256.0,
-                   settings.backgroundColorGreen/256.0,
-                   settings.backgroundColorBlue/256.0,
-                   settings.backgroundColorAlpha/256.0)
+    color: Qt.rgba(PQSettings.backgroundColorRed/256.0,
+                   PQSettings.backgroundColorGreen/256.0,
+                   PQSettings.backgroundColorBlue/256.0,
+                   PQSettings.backgroundColorAlpha/256.0)
 
     title: em.pty+qsTranslate("other", "PhotoQt Image Viewer")
 
     onClosing: {
-        if(settings.saveWindowGeometry)
+        if(PQSettings.saveWindowGeometry)
             handlingGeneral.saveWindowGeometry(toplevel.x, toplevel.y, toplevel.width, toplevel.height, toplevel.visibility==Window.Maximized)
         close.accepted = true
     }
 
+//    SingletonTestAccess {
+//        id: singleton
+//        Component.onCompleted: {
+//            console.log("at start:", singleton.someValue)
+//        }
+//    }
+
+//    Timer {
+//        interval: 5000
+//        repeat: true
+//        running: true
+//        onTriggered:
+//            console.log("after 5s:", SingletonTest.someValue)
+//    }
+
     Component.onCompleted:  {
 
-        if(settings.saveWindowGeometry) {
+        if(PQSettings.saveWindowGeometry) {
 
             var geo = handlingGeneral.getWindowGeometry()
 
@@ -76,7 +92,7 @@ Window {
     PQThumbnailBar { id: thumbnails }
 
     Loader { id: filedialog }
-    PQSettings { id: settings }
+//    PQSettings { id: settings }
     PQImageProperties { id: imageproperties }
     PQImageFormats { id: imageformats }
     PQFileWatcher { id: filewatcher }

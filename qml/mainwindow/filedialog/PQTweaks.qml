@@ -45,7 +45,7 @@ Rectangle {
 
         from: 10
         to: 50
-        value: settings.openZoomLevel
+        value: PQSettings.openZoomLevel
 
         divideToolTipValue: 10
         tooltip: em.pty+qsTranslate("filedialog", "Adjust font size of files and folders")
@@ -55,7 +55,7 @@ Rectangle {
         y: (parent.height-height)/2
 
         onValueChanged:
-            settings.openZoomLevel = value
+            PQSettings.openZoomLevel = value
 
     }
 
@@ -84,10 +84,10 @@ Rectangle {
 
         onCurrentIndexChanged: {
             if(currentIndex == 5) {
-                settings.sortbyAscending = !settings.sortbyAscending
+                PQSettings.sortbyAscending = !PQSettings.sortbyAscending
                 currentIndex = prevCurIndex
             } else {
-                settings.sortby = (currentIndex===0 ? "name" : (currentIndex===1 ? "naturalname" : (currentIndex===2 ? "time" : (currentIndex===3 ? "size" : "type"))))
+                PQSettings.sortby = (currentIndex===0 ? "name" : (currentIndex===1 ? "naturalname" : (currentIndex===2 ? "time" : (currentIndex===3 ? "size" : "type"))))
                 prevCurIndex = currentIndex
             }
         }
@@ -156,10 +156,10 @@ Rectangle {
         tooltip: em.pty+qsTranslate("filedialog", "Switch between list and icon view")
         tooltipFollowsMouse: false
 
-        imageButtonSource: settings.openDefaultView=="icons" ? "/filedialog/iconview.png" : "/filedialog/listview.png"
+        imageButtonSource: PQSettings.openDefaultView=="icons" ? "/filedialog/iconview.png" : "/filedialog/listview.png"
 
         onClicked:
-            settings.openDefaultView = (settings.openDefaultView=="icons" ? "list" : "icons")
+            PQSettings.openDefaultView = (PQSettings.openDefaultView=="icons" ? "list" : "icons")
 
     }
 

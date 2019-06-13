@@ -15,7 +15,7 @@ ListView {
     property string dragItemId: ""
     property int hoverIndex: -1
 
-    visible: settings.openUserPlacesUser
+    visible: PQSettings.openUserPlacesUser
     height: childrenRect.height
 
     delegate: Item {

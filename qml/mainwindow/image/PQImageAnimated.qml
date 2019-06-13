@@ -13,7 +13,7 @@ AnimatedImage {
 
     fillMode: ((sourceSize.width<width&&sourceSize.height<height) ? Image.Pad : Image.PreserveAspectFit)
 
-    Behavior on scale { NumberAnimation { duration: settings.animations ? 250 : 0 } }
+    Behavior on scale { NumberAnimation { duration: PQSettings.animations ? 250 : 0 } }
     onScaleChanged: {
         variables.currentZoomLevel = (elem.paintedWidth/elem.sourceSize.width)*elem.scale*100
         container.imageScale = elem.scale
@@ -45,7 +45,7 @@ AnimatedImage {
     }
 
     MouseArea {
-        enabled: settings.leftButtonMouseClickAndMove
+        enabled: PQSettings.leftButtonMouseClickAndMove
         anchors.fill: parent
         drag.target: parent
     }
@@ -54,41 +54,41 @@ AnimatedImage {
         imageitem.hideOldImage(forwards)
         variables.currentZoomLevel = (elem.paintedWidth/elem.sourceSize.width)*elem.scale*100
         if(forwards) {
-            if(settings.animationType == "x") {
+            if(PQSettings.animationType == "x") {
                 xAnim.duration = 0
                 x = width
-                xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                xAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
                 x = 0
                 opacityAnim.duration = 0
                 opacity = 1
-            } else if(settings.animationType == "y") {
+            } else if(PQSettings.animationType == "y") {
                 yAnim.duration = 0
                 y = height
-                yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                yAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
                 y = 0
                 opacityAnim.duration = 0
                 opacity = 1
             } else {
-                opacityAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                opacityAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
                 opacity = 1
             }
         } else {
-            if(settings.animationType == "x") {
+            if(PQSettings.animationType == "x") {
                 xAnim.duration = 0
                 x = -width
-                xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                xAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
                 x = 0
                 opacityAnim.duration = 0
                 opacity = 1
-            } else if(settings.animationType == "y") {
+            } else if(PQSettings.animationType == "y") {
                 yAnim.duration = 0
                 y = -height
-                yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                yAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
                 y = 0
                 opacityAnim.duration = 0
                 opacity = 1
             } else {
-                opacityAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                opacityAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
                 opacity = 1
             }
         }
@@ -98,7 +98,7 @@ AnimatedImage {
     onStatusChanged:
         theimage.imageStatus = status
 
-    Behavior on opacity { NumberAnimation { id: opacityAnim; duration: (settings.animations ? settings.animationDuration*150 : 0) } }
+    Behavior on opacity { NumberAnimation { id: opacityAnim; duration: (PQSettings.animations ? PQSettings.animationDuration*150 : 0) } }
     Behavior on x { NumberAnimation { id: xAnim; duration: 0 } }
     Behavior on y { NumberAnimation { id: yAnim; duration: 0 } }
 
@@ -107,8 +107,8 @@ AnimatedImage {
             console.log("delete opacity")
             image_model.remove(index)
         } else {
-            xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
-            yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+            xAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
+            yAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
         }
     }
     Connections {
@@ -118,8 +118,8 @@ AnimatedImage {
                 console.log("delete x")
                 image_model.remove(index)
             } else {
-                xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
-                yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                xAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
+                yAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
             }
         }
     }
@@ -130,8 +130,8 @@ AnimatedImage {
                 console.log("delete y")
                 image_model.remove(index)
             } else {
-                xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
-                yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                xAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
+                yAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
             }
         }
     }
@@ -143,24 +143,24 @@ AnimatedImage {
                 return
             if(forwards) {
                 // hide in x direction
-                if(settings.animationType == "x") {
-                    xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                if(PQSettings.animationType == "x") {
+                    xAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
                     elem.x = -elem.width
                 // hide in y direction
-                } else if(settings.animationType == "y") {
-                    yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                } else if(PQSettings.animationType == "y") {
+                    yAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
                     elem.y = -elem.height
                 // fade out image
                 } else
                     elem.opacity = 0
             } else {
                 // hide in x direction
-                if(settings.animationType == "x") {
-                    xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                if(PQSettings.animationType == "x") {
+                    xAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
                     elem.x = container.width
                 // hide in y direction
-                } else if(settings.animationType == "y") {
-                    yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+                } else if(PQSettings.animationType == "y") {
+                    yAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
                     elem.y = container.height
                 // fade out image
                 } else
@@ -168,10 +168,10 @@ AnimatedImage {
             }
         }
         onZoomIn: {
-            elem.scale *= (1+settings.zoomSpeed/100)
+            elem.scale *= (1+PQSettings.zoomSpeed/100)
         }
         onZoomOut: {
-            elem.scale /= (1+settings.zoomSpeed/100)
+            elem.scale /= (1+PQSettings.zoomSpeed/100)
         }
         onZoomReset: {
             elem.scale = 1

@@ -8,7 +8,7 @@ ListView {
 
     boundsBehavior: Flickable.StopAtBounds
 
-    visible: settings.openUserPlacesVolumes
+    visible: PQSettings.openUserPlacesVolumes
 
     height: childrenRect.height
 

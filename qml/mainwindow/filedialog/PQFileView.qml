@@ -34,23 +34,23 @@ GridView {
                                              tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="poppler" ?
                                                  imageformats.getEnabledFileFormatsPoppler() :
                                                  []
-        showHidden: settings.openShowHiddenFilesFolders
-        sortField: settings.sortby=="name" ?
+        showHidden: PQSettings.openShowHiddenFilesFolders
+        sortField: PQSettings.sortby=="name" ?
                        PQFileFolderModel.Name :
-                       (settings.sortby == "naturalname" ?
+                       (PQSettings.sortby == "naturalname" ?
                             PQFileFolderModel.NaturalName :
-                            (settings.sortby == "time" ?
+                            (PQSettings.sortby == "time" ?
                                  PQFileFolderModel.Time :
-                                 (settings.sortby == "size" ?
+                                 (PQSettings.sortby == "size" ?
                                      PQFileFolderModel.Size :
                                      PQFileFolderModel.Type)))
-        sortReversed: !settings.sortbyAscending
+        sortReversed: !PQSettings.sortbyAscending
     }
 
     model: files_model
 
-    cellWidth: settings.openDefaultView=="icons" ? settings.openZoomLevel*6 : width-scroll.width
-    cellHeight: settings.openDefaultView=="icons" ? settings.openZoomLevel*6 : settings.openZoomLevel*2
+    cellWidth: PQSettings.openDefaultView=="icons" ? PQSettings.openZoomLevel*6 : width-scroll.width
+    cellHeight: PQSettings.openDefaultView=="icons" ? PQSettings.openZoomLevel*6 : PQSettings.openZoomLevel*2
     Behavior on cellWidth { NumberAnimation { id: cellWidthAni; duration: 125; } }
     Behavior on cellHeight { NumberAnimation { id: cellHeightAni; duration: 125; } }
 
@@ -101,7 +101,7 @@ GridView {
 
                 x: 5
                 y: 5
-                width: settings.openDefaultView=="icons" ? parent.width-10 : parent.height-10
+                width: PQSettings.openDefaultView=="icons" ? parent.width-10 : parent.height-10
                 height: parent.height-10
 
                 asynchronous: true
@@ -116,7 +116,7 @@ GridView {
 
                 Text {
                     id: numberOfFilesInsideFolder
-                    visible: settings.openDefaultView=="icons" && fileIsDir
+                    visible: PQSettings.openDefaultView=="icons" && fileIsDir
                     anchors.fill: parent
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
@@ -143,7 +143,7 @@ GridView {
                     smooth: true
                     asynchronous: true
 
-                    source: (fileIsDir||!settings.openThumbnails) ? "" : ("image://thumb/" + filePath)
+                    source: (fileIsDir||!PQSettings.openThumbnails) ? "" : ("image://thumb/" + filePath)
 
                 }
 
@@ -192,7 +192,7 @@ GridView {
                 height: fileName==".." ? parent.height : parent.height/2
                 y: parent.height-height
 
-                opacity: settings.openDefaultView=="icons" ? 1 : 0
+                opacity: PQSettings.openDefaultView=="icons" ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
                 color: "#66000000"
@@ -221,7 +221,7 @@ GridView {
                 anchors.fill: parent
                 anchors.leftMargin: fileName == ".." ? fileicon.width/2 : fileicon.width+10
 
-                opacity: settings.openDefaultView=="list" ? 1 : 0
+                opacity: PQSettings.openDefaultView=="list" ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
                 verticalAlignment: Text.AlignVCenter
@@ -244,7 +244,7 @@ GridView {
                     rightMargin: 5
                 }
                 verticalAlignment: Qt.AlignVCenter
-                visible: settings.openDefaultView=="list"
+                visible: PQSettings.openDefaultView=="list"
                 color: "white"
                 font.bold: true
                 text: fileIsDir ? "" : handlingFileDialog.convertBytesToHumanReadable(fileSize)
@@ -256,7 +256,7 @@ GridView {
                 id: mouseArea
 
                 anchors.fill: parent
-                anchors.leftMargin: settings.openDefaultView=="list"?fileicon.width:0
+                anchors.leftMargin: PQSettings.openDefaultView=="list"?fileicon.width:0
 
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
@@ -419,8 +419,8 @@ GridView {
 
         else if((key == Qt.Key_H && modifiers == Qt.ControlModifier) || (key == Qt.Key_Period && modifiers == Qt.AltModifier)) {
 
-            var old = settings.openShowHiddenFilesFolders
-            settings.openShowHiddenFilesFolders = !old
+            var old = PQSettings.openShowHiddenFilesFolders
+            PQSettings.openShowHiddenFilesFolders = !old
 
         } else if(key == Qt.Key_Escape && modifiers == Qt.NoModifier)
 

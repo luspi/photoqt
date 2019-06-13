@@ -35,26 +35,26 @@ PQMenu {
     }
 
     PQMenuItem {
-        text: settings.openShowHiddenFilesFolders ? qsTranslate("filedialog", "Hide hidden files") : qsTranslate("filedialog", "Show hidden files")
+        text: PQSettings.openShowHiddenFilesFolders ? qsTranslate("filedialog", "Hide hidden files") : qsTranslate("filedialog", "Show hidden files")
         onTriggered: {
-            var old = settings.openShowHiddenFilesFolders
-            settings.openShowHiddenFilesFolders = !old
+            var old = PQSettings.openShowHiddenFilesFolders
+            PQSettings.openShowHiddenFilesFolders = !old
         }
     }
 
     PQMenuItem {
-        text: settings.openThumbnails ? qsTranslate("filedialog", "Hide thumbnails") : qsTranslate("filedialog", "Show thumbnails")
+        text: PQSettings.openThumbnails ? qsTranslate("filedialog", "Hide thumbnails") : qsTranslate("filedialog", "Show thumbnails")
         onTriggered: {
-            var old = settings.openThumbnails
-            settings.openThumbnails = !old
+            var old = PQSettings.openThumbnails
+            PQSettings.openThumbnails = !old
         }
     }
 
     PQMenuItem {
-        text: settings.openPreview ? qsTranslate("filedialog", "Hide preview") : qsTranslate("filedialog", "Show preview")
+        text: PQSettings.openPreview ? qsTranslate("filedialog", "Hide preview") : qsTranslate("filedialog", "Show preview")
         onTriggered: {
-            var old = settings.openPreview
-            settings.openPreview = !old
+            var old = PQSettings.openPreview
+            PQSettings.openPreview = !old
         }
     }
 

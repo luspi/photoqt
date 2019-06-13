@@ -42,7 +42,7 @@ Rectangle {
 
     }
 
-    Behavior on opacity { NumberAnimation { id: opacityAnim; duration: (settings.animations ? settings.animationDuration*150 : 0) } }
+    Behavior on opacity { NumberAnimation { id: opacityAnim; duration: (PQSettings.animations ? PQSettings.animationDuration*150 : 0) } }
     Behavior on x { NumberAnimation { id: xAnim; duration: 0 } }
     Behavior on y { NumberAnimation { id: yAnim; duration: 0 } }
 
@@ -78,29 +78,29 @@ Rectangle {
                 id: rightclickmenu
 
                 PQMenuItem {
-                    text: settings.openUserPlacesStandard ? em.pty+qsTranslate("filedialog", "Hide standard locations") : em.pty+qsTranslate("filedialog", "Show standard locations")
+                    text: PQSettings.openUserPlacesStandard ? em.pty+qsTranslate("filedialog", "Hide standard locations") : em.pty+qsTranslate("filedialog", "Show standard locations")
                     width: rightclickmenu.width
                     onTriggered: {
-                        var old = settings.openUserPlacesStandard
-                        settings.openUserPlacesStandard = !old
+                        var old = PQSettings.openUserPlacesStandard
+                        PQSettings.openUserPlacesStandard = !old
                     }
                 }
 
                 PQMenuItem {
-                    text: settings.openUserPlacesUser ? em.pty+qsTranslate("filedialog", "Hide favorite locations") : em.pty+qsTranslate("filedialog", "Show favorite locations")
+                    text: PQSettings.openUserPlacesUser ? em.pty+qsTranslate("filedialog", "Hide favorite locations") : em.pty+qsTranslate("filedialog", "Show favorite locations")
                     width: rightclickmenu.width
                     onTriggered: {
-                        var old = settings.openUserPlacesUser
-                        settings.openUserPlacesUser = !old
+                        var old = PQSettings.openUserPlacesUser
+                        PQSettings.openUserPlacesUser = !old
                     }
                 }
 
                 PQMenuItem {
-                    text: settings.openUserPlacesVolumes ? em.pty+qsTranslate("filedialog", "Hide storage devices") : em.pty+qsTranslate("filedialog", "Show storage devices")
+                    text: PQSettings.openUserPlacesVolumes ? em.pty+qsTranslate("filedialog", "Hide storage devices") : em.pty+qsTranslate("filedialog", "Show storage devices")
                     width: rightclickmenu.width
                     onTriggered: {
-                        var old = settings.openUserPlacesVolumes
-                        settings.openUserPlacesVolumes = !old
+                        var old = PQSettings.openUserPlacesVolumes
+                        PQSettings.openUserPlacesVolumes = !old
                     }
                 }
 
@@ -201,16 +201,16 @@ Rectangle {
 
     function showFileDialog() {
         // show in x direction
-        if(settings.animationType == "x") {
+        if(PQSettings.animationType == "x") {
             xAnim.duration = 0
             filedialog_top.x = -filedialog_top.width
-            xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+            xAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
             filedialog_top.x = 0
         // show in y direction
-        } else if(settings.animationType == "y") {
+        } else if(PQSettings.animationType == "y") {
             yAnim.duration = 0
             filedialog_top.y = -filedialog_top.height
-            yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+            yAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
             filedialog_top.y = 0
         // fade in image
         }
@@ -220,12 +220,12 @@ Rectangle {
 
     function hideFileDialog() {
         // hide in x direction
-        if(settings.animationType == "x") {
-            xAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+        if(PQSettings.animationType == "x") {
+            xAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
             filedialog_top.x = -width
         // hide in y direction
-        } else if(settings.animationType == "y") {
-            yAnim.duration = (settings.animations ? settings.animationDuration*150 : 0)
+        } else if(PQSettings.animationType == "y") {
+            yAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
             filedialog_top.y = -height
         }
         // fade out image

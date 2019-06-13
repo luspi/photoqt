@@ -7,25 +7,25 @@ Item {
     x: 0
 
     y:
-        settings.thumbnailPosition=="Top" ?
+        PQSettings.thumbnailPosition=="Top" ?
 
-           ((settings.thumbnailKeepVisible ||
-           (variables.mousePos.y < settings.hotEdgeWidth*5 && !visible) ||
+           ((PQSettings.thumbnailKeepVisible ||
+           (variables.mousePos.y < PQSettings.hotEdgeWidth*5 && !visible) ||
            (variables.mousePos.y < height && visible) ||
-           (settings.thumbnailKeepVisibleWhenNotZoomedIn && imageitem.imageScale<=1)) ? 0 : -height) :
+           (PQSettings.thumbnailKeepVisibleWhenNotZoomedIn && imageitem.imageScale<=1)) ? 0 : -height) :
 
-           ((settings.thumbnailKeepVisible ||
-           (variables.mousePos.y > toplevel.height-settings.hotEdgeWidth*5 && !visible) ||
+           ((PQSettings.thumbnailKeepVisible ||
+           (variables.mousePos.y > toplevel.height-PQSettings.hotEdgeWidth*5 && !visible) ||
            (variables.mousePos.y > toplevel.height-height && visible) ||
-           (settings.thumbnailKeepVisibleWhenNotZoomedIn && imageitem.imageScale<=1)) ? (toplevel.height-height) : toplevel.height)
+           (PQSettings.thumbnailKeepVisibleWhenNotZoomedIn && imageitem.imageScale<=1)) ? (toplevel.height-height) : toplevel.height)
 
     Behavior on y { NumberAnimation { duration: 200 } }
 
-    visible: settings.thumbnailPosition=="Top" ? (y > -height) : (y < toplevel.height)
+    visible: PQSettings.thumbnailPosition=="Top" ? (y > -height) : (y < toplevel.height)
 
     width: toplevel.width
 
-    height: settings.thumbnailSize+settings.thumbnailLiftUp+scroll.height
+    height: PQSettings.thumbnailSize+PQSettings.thumbnailLiftUp+scroll.height
 
     ListView {
 
@@ -33,11 +33,19 @@ Item {
 
         anchors.fill: parent
 
-        spacing: settings.thumbnailSpacingBetween
+        spacing: PQSettings.thumbnailSpacingBetween
+
+        Timer {
+            interval: 3000
+            repeat: false
+            running: true
+            onTriggered:
+                console.log("thumbnailSpacingBetween =", PQSettings.thumbnailSize,"/", PQSettings.thumbnailSpacingBetween)
+        }
 
         orientation: ListView.Horizontal
 
-        model: settings.thumbnailDisable ? 0 : variables.allImageFilesInOrder.length
+        model: PQSettings.thumbnailDisable ? 0 : variables.allImageFilesInOrder.length
 
         ScrollBar.horizontal: PQScrollBar { id: scroll }
 
@@ -45,8 +53,8 @@ Item {
 
         highlightFollowsCurrentItem: true
         highlightMoveDuration: 200
-        preferredHighlightBegin: currentItem==null ? 0 : (settings.thumbnailCenterActive ? (view.width-currentItem.width)/2 : settings.thumbnailSize/2)
-        preferredHighlightEnd: currentItem==null ? width : (settings.thumbnailCenterActive ? (view.width-currentItem.width)/2+currentItem.width : (width-settings.thumbnailSize/2))
+        preferredHighlightBegin: currentItem==null ? 0 : (PQSettings.thumbnailCenterActive ? (view.width-currentItem.width)/2 : PQSettings.thumbnailSize/2)
+        preferredHighlightEnd: currentItem==null ? width : (PQSettings.thumbnailCenterActive ? (view.width-currentItem.width)/2+currentItem.width : (width-PQSettings.thumbnailSize/2))
         highlightRangeMode: ListView.ApplyRange
 
         Behavior on contentItem.x { NumberAnimation { duration: 200 } }
@@ -54,11 +62,11 @@ Item {
         delegate: Rectangle {
 
             x: 0
-            y: (view.currentIndex==index||view.mouseOverItem==index) ? 0 : settings.thumbnailLiftUp
+            y: (view.currentIndex==index||view.mouseOverItem==index) ? 0 : PQSettings.thumbnailLiftUp
             Behavior on y { NumberAnimation { duration: 100 } }
 
-            width: settings.thumbnailSize
-            height: settings.thumbnailSize
+            width: PQSettings.thumbnailSize
+            height: PQSettings.thumbnailSize
 
             color: "#88000000"
 
@@ -67,11 +75,11 @@ Item {
                 anchors.fill: parent
                 anchors.margins: 5
 
-                visible: settings.thumbnailFilenameInstead
+                visible: PQSettings.thumbnailFilenameInstead
                 color: "white"
 
                 text: handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[index])
-                font.pointSize: settings.thumbnailFilenameInsteadFontSize
+                font.pointSize: PQSettings.thumbnailFilenameInsteadFontSize
                 verticalAlignment: Qt.AlignVCenter
                 horizontalAlignment: Qt.AlignHCenter
 
@@ -82,12 +90,12 @@ Item {
             Image {
                 anchors.fill: parent
                 fillMode: Image.Image.PreserveAspectFit
-                source: (settings.thumbnailFilenameInstead||settings.thumbnailDisable) ? "" : "image://thumb/" + variables.allImageFilesInOrder[index]
+                source: (PQSettings.thumbnailFilenameInstead||PQSettings.thumbnailDisable) ? "" : "image://thumb/" + variables.allImageFilesInOrder[index]
 
-                visible: !settings.thumbnailFilenameInstead
+                visible: !PQSettings.thumbnailFilenameInstead
 
                 Rectangle {
-                    visible: settings.thumbnailWriteFilename
+                    visible: PQSettings.thumbnailWriteFilename
                     color: "#88000000"
                     width: parent.width
                     height: parent.height/3
@@ -99,7 +107,7 @@ Item {
                         anchors.rightMargin: 2
                         color: "white"
                         elide: Text.ElideMiddle
-                        font.pointSize: settings.thumbnailFontSize
+                        font.pointSize: PQSettings.thumbnailFontSize
                         font.bold: true
                         verticalAlignment: Qt.AlignVCenter
                         horizontalAlignment: Qt.AlignHCenter

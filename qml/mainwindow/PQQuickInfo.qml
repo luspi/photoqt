@@ -29,13 +29,13 @@ Item {
 
             id: counter
 
-            x: settings.quickInfoHideCounter ? 0 : 10
+            x: PQSettings.quickInfoHideCounter ? 0 : 10
             y: 5
             color: "white"
 
-            visible: !settings.quickInfoHideCounter
+            visible: !PQSettings.quickInfoHideCounter
 
-            text: settings.quickInfoHideCounter ? "" : ((variables.indexOfCurrentImage+1) + "/" + variables.allImageFilesInOrder.length)
+            text: PQSettings.quickInfoHideCounter ? "" : ((variables.indexOfCurrentImage+1) + "/" + variables.allImageFilesInOrder.length)
 
         }
 
@@ -50,11 +50,11 @@ Item {
 
             y: 5
             color: "white"
-            text: ((settings.quickInfoHideFilename&&settings.quickInfoHideFilepath) || variables.indexOfCurrentImage==-1) ?
+            text: ((PQSettings.quickInfoHideFilename&&PQSettings.quickInfoHideFilepath) || variables.indexOfCurrentImage==-1) ?
                       "" :
-                      (settings.quickInfoHideFilepath ?
+                      (PQSettings.quickInfoHideFilepath ?
                            handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]) :
-                           (settings.quickInfoHideFilename ?
+                           (PQSettings.quickInfoHideFilename ?
                                 handlingGeneral.getFilePathFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]) :
                                 variables.allImageFilesInOrder[variables.indexOfCurrentImage]))
         }
@@ -78,11 +78,11 @@ Item {
         // zoom level
         Text {
             id: zoomlevel
-            x: settings.quickInfoHideZoomLevel ? 0 : seperator.x+seperator.width+10
+            x: PQSettings.quickInfoHideZoomLevel ? 0 : seperator.x+seperator.width+10
             y: 5
             color: "white"
-            visible: !settings.quickInfoHideZoomLevel
-            text: settings.quickInfoHideZoomLevel ? "" : (Math.round(variables.currentZoomLevel)+"%")
+            visible: !PQSettings.quickInfoHideZoomLevel
+            text: PQSettings.quickInfoHideZoomLevel ? "" : (Math.round(variables.currentZoomLevel)+"%")
         }
 
         PQMenu {
@@ -90,42 +90,42 @@ Item {
             id: rightclickmenu
 
             PQMenuItem {
-                text: settings.quickInfoHideCounter ? "Show counter" : "Hide counter"
+                text: PQSettings.quickInfoHideCounter ? "Show counter" : "Hide counter"
                 onTriggered: {
-                    var old = settings.quickInfoHideCounter
-                    settings.quickInfoHideCounter = !old
+                    var old = PQSettings.quickInfoHideCounter
+                    PQSettings.quickInfoHideCounter = !old
                 }
             }
 
             PQMenuItem {
-                text: settings.quickInfoHideFilepath ? "Show file path" : "Hide file path"
+                text: PQSettings.quickInfoHideFilepath ? "Show file path" : "Hide file path"
                 onTriggered: {
-                    var old = settings.quickInfoHideFilepath
-                    settings.quickInfoHideFilepath = !old
+                    var old = PQSettings.quickInfoHideFilepath
+                    PQSettings.quickInfoHideFilepath = !old
                 }
             }
 
             PQMenuItem {
-                text: settings.quickInfoHideFilename ? "Show file name" : "Hide file name"
+                text: PQSettings.quickInfoHideFilename ? "Show file name" : "Hide file name"
                 onTriggered: {
-                    var old = settings.quickInfoHideFilename
-                    settings.quickInfoHideFilename = !old
+                    var old = PQSettings.quickInfoHideFilename
+                    PQSettings.quickInfoHideFilename = !old
                 }
             }
 
             PQMenuItem {
-                text: settings.quickInfoHideZoomLevel ? "Show zoom level" : "Hide zoom level"
+                text: PQSettings.quickInfoHideZoomLevel ? "Show zoom level" : "Hide zoom level"
                 onTriggered: {
-                    var old = settings.quickInfoHideZoomLevel
-                    settings.quickInfoHideZoomLevel = !old
+                    var old = PQSettings.quickInfoHideZoomLevel
+                    PQSettings.quickInfoHideZoomLevel = !old
                 }
             }
 
             PQMenuItem {
-                text: settings.quickInfoHideX ? "Show button for closing PhotoQt" : "Hide button for closing PhotoQt"
+                text: PQSettings.quickInfoHideX ? "Show button for closing PhotoQt" : "Hide button for closing PhotoQt"
                 onTriggered: {
-                    var old = settings.quickInfoHideX
-                    settings.quickInfoHideX = !old
+                    var old = PQSettings.quickInfoHideX
+                    PQSettings.quickInfoHideX = !old
                 }
             }
 
@@ -136,7 +136,7 @@ Item {
     PQMouseArea {
         anchors.fill: parent
         hoverEnabled: true
-        drag.target: settings.quickInfoManageWindow&&toplevel.visibility!=Window.FullScreen ? undefined : parent
+        drag.target: PQSettings.quickInfoManageWindow&&toplevel.visibility!=Window.FullScreen ? undefined : parent
         tooltip: em.pty+qsTranslate("quickinfo", "Some info about the current image and directory")
         acceptedButtons: Qt.LeftButton|Qt.RightButton
         onClicked: {
@@ -152,7 +152,7 @@ Item {
             }
         }
         onPositionChanged: {
-            if(settings.quickInfoManageWindow && isPressed) {
+            if(PQSettings.quickInfoManageWindow && isPressed) {
                 if(toplevel.visibility == Window.Maximized)
                     toplevel.visibility = Window.Windowed
                 var delta = Qt.point(mouse.x-clickPos.x, mouse.y-clickPos.y)

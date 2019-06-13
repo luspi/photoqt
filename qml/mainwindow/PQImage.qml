@@ -7,10 +7,10 @@ Item {
 
     anchors.fill: parent
 
-    anchors.bottomMargin: ((settings.thumbnailKeepVisible || settings.thumbnailKeepVisibleWhenNotZoomedIn) && settings.thumbnailPosition!="Top" && !settings.thumbnailDisable) ? thumbnails.height : 0
+    anchors.bottomMargin: ((PQSettings.thumbnailKeepVisible || PQSettings.thumbnailKeepVisibleWhenNotZoomedIn) && PQSettings.thumbnailPosition!="Top" && !PQSettings.thumbnailDisable) ? thumbnails.height : 0
     Behavior on anchors.bottomMargin { NumberAnimation { duration: 150 } }
 
-    anchors.topMargin: ((settings.thumbnailKeepVisible || settings.thumbnailKeepVisibleWhenNotZoomedIn) && settings.thumbnailPosition=="Top" && !settings.thumbnailDisable) ? thumbnails.height : 0
+    anchors.topMargin: ((PQSettings.thumbnailKeepVisible || PQSettings.thumbnailKeepVisibleWhenNotZoomedIn) && PQSettings.thumbnailPosition=="Top" && !PQSettings.thumbnailDisable) ? thumbnails.height : 0
     Behavior on anchors.topMargin { NumberAnimation { duration: 150 } }
 
     signal zoomIn()
@@ -105,7 +105,7 @@ Item {
         imageSwitchingForwards = true
         if(variables.indexOfCurrentImage < variables.allImageFilesInOrder.length-1)
             ++variables.indexOfCurrentImage
-        else if(variables.indexOfCurrentImage == variables.allImageFilesInOrder.length-1 && settings.loopThroughFolder)
+        else if(variables.indexOfCurrentImage == variables.allImageFilesInOrder.length-1 && PQSettings.loopThroughFolder)
             variables.indexOfCurrentImage = 0
     }
 
@@ -113,7 +113,7 @@ Item {
         imageSwitchingForwards = false
         if(variables.indexOfCurrentImage > 0)
             --variables.indexOfCurrentImage
-        else if(variables.indexOfCurrentImage == 0 && settings.loopThroughFolder)
+        else if(variables.indexOfCurrentImage == 0 && PQSettings.loopThroughFolder)
             variables.indexOfCurrentImage = variables.allImageFilesInOrder.length-1
     }
 
