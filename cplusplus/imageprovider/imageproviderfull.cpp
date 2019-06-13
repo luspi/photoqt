@@ -22,11 +22,12 @@
 
 #include "imageproviderfull.h"
 #include "loader/loadimage_qt.h"
+#include "../settings/settings.h"
 
 PQImageProviderFull::PQImageProviderFull() : QQuickImageProvider(QQuickImageProvider::Image) {
 
     pixmapcache = new QPixmapCache;
-    pixmapcache->setCacheLimit(8*1024*std::max(0, std::min(1000, 10000)));
+    pixmapcache->setCacheLimit(8*1024*std::max(0, std::min(1000, PQSettings::get().getPixmapCache())));
 
     imageformats = new PQImageFormats;
 
