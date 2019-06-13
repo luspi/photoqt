@@ -11,10 +11,13 @@ Rectangle {
 
     x: 0
     y: 0
-    width: toplevel.width
-    height: toplevel.height
+    width: parentWidth
+    height: parentHeight
 
-    opacity: 0
+    property int parentWidth: toplevel.width
+    property int parentHeight: toplevel.height
+
+    opacity: PQSettings.openPopoutElement ? 1 : 0
     visible: (opacity != 0)
 
     color: "#333333"
@@ -193,43 +196,53 @@ Rectangle {
         target: loader
         onFiledialogPassOn: {
             if(what == "show")
-                showFileDialog()
+                filedialog_top.showFileDialog()
             else if(what == "keyevent")
                 fileview.keyEvent(param[0], param[1])
         }
     }
 
     function showFileDialog() {
-        // show in x direction
-        if(PQSettings.animationType == "x") {
-            xAnim.duration = 0
-            filedialog_top.x = -filedialog_top.width
-            xAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
-            filedialog_top.x = 0
-        // show in y direction
-        } else if(PQSettings.animationType == "y") {
-            yAnim.duration = 0
-            filedialog_top.y = -filedialog_top.height
-            yAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
-            filedialog_top.y = 0
-        // fade in image
-        }
-        filedialog_top.opacity = 1
-        variables.visibleItem = "filedialog"
+        if(!PQSettings.openPopoutElement) {
+            // show in x direction
+            if(PQSettings.animationType == "x") {
+                xAnim.duration = 0
+                filedialog_top.x = -filedialog_top.width
+                xAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
+                filedialog_top.x = 0
+            // show in y direction
+            } else if(PQSettings.animationType == "y") {
+                yAnim.duration = 0
+                filedialog_top.y = -filedialog_top.height
+                yAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
+                filedialog_top.y = 0
+            }
+            // fade in item
+            filedialog_top.opacity = 1
+        } else
+            filedialog_window.visible = true
+        if(!PQSettings.openPopoutElementKeepOpen)
+            variables.visibleItem = "filedialog"
     }
 
     function hideFileDialog() {
-        // hide in x direction
-        if(PQSettings.animationType == "x") {
-            xAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
-            filedialog_top.x = -width
-        // hide in y direction
-        } else if(PQSettings.animationType == "y") {
-            yAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
-            filedialog_top.y = -height
-        }
-        // fade out image
-        filedialog_top.opacity = 0
+        if(PQSettings.openPopoutElementKeepOpen)
+            return
+        if(!PQSettings.openPopoutElement) {
+            // hide in x direction
+            if(PQSettings.animationType == "x") {
+                xAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
+                filedialog_top.x = -width
+            // hide in y direction
+            } else if(PQSettings.animationType == "y") {
+                yAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
+                filedialog_top.y = -height
+            }
+            // fade out item
+            filedialog_top.opacity = 0
+        } else
+            filedialog_window.visible = false
+
         variables.visibleItem = ""
     }
 

@@ -31,5 +31,6 @@
         <file>shortcuts/handleshortcuts.js</file>
         <file>shortcuts/PQKeyShortcuts.qml</file>
         <file>mainwindow/PQThumbnailBar.qml</file>
+        <file>mainwindow/PQFileDialogPopout.qml</file>
     </qresource>
 </RCC>

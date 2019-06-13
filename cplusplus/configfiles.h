@@ -83,7 +83,7 @@ public:
         return QString("%1/settings_session").arg(CACHE_DIR());
     }
 
-    static const QString MAINWINDOW_GEOMETRY_FILE() {
+    static const QString WINDOW_GEOMETRY_FILE() {
         return QString("%1/geometry").arg(CONFIG_DIR());
     }
 

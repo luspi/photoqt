@@ -25,8 +25,16 @@ Item {
     }
 
     function ensureItIsReady(component) {
-        if(component == "filedialog" && filedialog.status == Loader.Null) {
-            filedialog.source = "mainwindow/PQFileDialog.qml"
+        if(PQSettings.openPopoutElement) {
+            if(component == "filedialog" && filedialog_popout.status == Loader.Null) {
+                filedialog.source = ""
+                filedialog_popout.source = "mainwindow/PQFileDialogPopout.qml"
+            }
+        } else {
+            if(component == "filedialog" && filedialog.status == Loader.Null) {
+                filedialog.source = "mainwindow/PQFileDialog.qml"
+                filedialog_popout.source = ""
+            }
         }
     }
 

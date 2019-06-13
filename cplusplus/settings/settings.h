@@ -1178,6 +1178,26 @@ public:
             }
         }
 
+        Q_PROPERTY(bool openPopoutElement READ getOpenPopoutElement WRITE setOpenPopoutElement NOTIFY openPopoutElementChanged)
+        bool getOpenPopoutElement() { return m_openPopoutElement; }
+        void setOpenPopoutElement(bool val) {
+            if(m_openPopoutElement != val) {
+                m_openPopoutElement = val;
+                emit openPopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool openPopoutElementKeepOpen READ getOpenPopoutElementKeepOpen WRITE setOpenPopoutElementKeepOpen NOTIFY openPopoutElementKeepOpenChanged)
+        bool getOpenPopoutElementKeepOpen() { return m_openPopoutElementKeepOpen; }
+        void setOpenPopoutElementKeepOpen(bool val) {
+            if(m_openPopoutElementKeepOpen != val) {
+                m_openPopoutElementKeepOpen = val;
+                emit openPopoutElementKeepOpenChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
 
 
         Q_PROPERTY(int metadataWindowWidth READ getMetadataWindowWidth WRITE setMetadataWindowWidth NOTIFY metadataWindowWidthChanged)
@@ -1372,6 +1392,8 @@ private:
         bool    m_openUserPlacesVolumes;
         bool    m_openKeepLastLocation;
         bool    m_openShowHiddenFilesFolders;
+        bool    m_openPopoutElement;
+        bool    m_openPopoutElementKeepOpen;
 
         int     m_metadataWindowWidth;
         int     m_mainMenuWindowWidth;
@@ -1500,6 +1522,8 @@ signals:
         void openUserPlacesVolumesChanged();
         void openKeepLastLocationChanged();
         void openShowHiddenFilesFoldersChanged();
+        void openPopoutElementChanged();
+        void openPopoutElementKeepOpenChanged();
         void metadataWindowWidthChanged();
         void mainMenuWindowWidthChanged();
         void histogramChanged();

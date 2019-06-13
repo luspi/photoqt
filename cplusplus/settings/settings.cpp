@@ -167,6 +167,8 @@ void PQSettings::setDefault() {
     setOpenUserPlacesVolumes(true);
     setOpenKeepLastLocation(false);
     setOpenShowHiddenFilesFolders(false);
+    setOpenPopoutElement(false);
+    setOpenPopoutElementKeepOpen(false);
 
     setHistogram(false);
     setHistogramVersion("color");
@@ -540,6 +542,12 @@ void PQSettings::readSettings() {
             else if(line.startsWith("OpenShowHiddenFilesFolders="))
                 setOpenShowHiddenFilesFolders(line.split("=").at(1).toInt());
 
+            else if(line.startsWith("OpenPopoutElement="))
+                setOpenPopoutElement(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("OpenPopoutElementKeepOpen="))
+                setOpenPopoutElementKeepOpen(line.split("=").at(1).toInt());
+
 
             else if(line.startsWith("MainMenuWindowWidth="))
                 setMainMenuWindowWidth(line.split("=").at(1).toInt());
@@ -725,6 +733,8 @@ void PQSettings::saveSettings() {
         cont += QString("OpenUserPlacesVolumes=%1\n").arg(int(m_openUserPlacesVolumes));
         cont += QString("OpenUserPlacesWidth=%1\n").arg(m_openUserPlacesWidth);
         cont += QString("OpenZoomLevel=%1\n").arg(m_openZoomLevel);
+        cont += QString("OpenPopoutElement=%1\n").arg(int(m_openPopoutElement));
+        cont += QString("OpenPopoutElementKeepOpen=%1\n").arg(int(m_openPopoutElementKeepOpen));
 
         cont += "\n[Histogram]\n";
 

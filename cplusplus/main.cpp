@@ -12,6 +12,7 @@
 #include "scripts/filewatcher.h"
 #include "scripts/filefoldermodel.h"
 #include "singleinstance/singleinstance.h"
+#include "scripts/windowgeometry.h"
 
 #include "imageprovider/imageprovidericon.h"
 #include "imageprovider/imageproviderthumb.h"
@@ -53,6 +54,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<PQImageProperties>("PQImageProperties", 1, 0, "PQImageProperties");
     qmlRegisterType<PQImageFormats>("PQImageFormats", 1, 0, "PQImageFormats");
     qmlRegisterType<PQFileWatcher>("PQFileWatcher", 1, 0, "PQFileWatcher");
+    qmlRegisterType<PQWindowGeometry>("PQWindowGeometry", 1, 0, "PQWindowGeometry");
 
     engine.rootContext()->setContextProperty("PQSettings", &PQSettings::get());
 

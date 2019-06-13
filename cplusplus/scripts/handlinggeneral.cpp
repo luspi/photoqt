@@ -37,7 +37,7 @@ bool PQHandlingGeneral::isPopplerSupportEnabled() {
 
 void PQHandlingGeneral::saveWindowGeometry(int x, int y, int w, int h, bool maximized) {
 
-    QFile geo(ConfigFiles::MAINWINDOW_GEOMETRY_FILE());
+    QFile geo(ConfigFiles::WINDOW_GEOMETRY_FILE());
     if(geo.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
         QTextStream out(&geo);
         QString txt = "[General]\n";
@@ -51,7 +51,7 @@ void PQHandlingGeneral::saveWindowGeometry(int x, int y, int w, int h, bool maxi
 
 QRect PQHandlingGeneral::getWindowGeometry() {
 
-    QFile geo(ConfigFiles::MAINWINDOW_GEOMETRY_FILE());
+    QFile geo(ConfigFiles::WINDOW_GEOMETRY_FILE());
     if(geo.open(QIODevice::ReadOnly)) {
         QTextStream in(&geo);
         QString all = in.readAll();

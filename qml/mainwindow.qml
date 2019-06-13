@@ -1,7 +1,6 @@
 import QtQuick 2.9
 import QtQuick.Window 2.9
 
-//import PQSettings 1.0
 import PQHandlingFileDialog 1.0
 import PQHandlingGeneral 1.0
 import PQHandlingShortcuts 1.0
@@ -9,7 +8,7 @@ import PQLocalisation 1.0
 import PQImageProperties 1.0
 import PQImageFormats 1.0
 import PQFileWatcher 1.0
-//import SingletonTestAccess 1.0
+import PQWindowGeometry 1.0
 
 import "./mainwindow"
 import "./shortcuts"
@@ -39,39 +38,28 @@ Window {
     title: em.pty+qsTranslate("other", "PhotoQt Image Viewer")
 
     onClosing: {
-        if(PQSettings.saveWindowGeometry)
-            handlingGeneral.saveWindowGeometry(toplevel.x, toplevel.y, toplevel.width, toplevel.height, toplevel.visibility==Window.Maximized)
+        if(PQSettings.saveWindowGeometry) {
+            windowgeometry.mainWindowMaximized = (visibility==Window.Maximized)
+            windowgeometry.mainWindowGeometry = Qt.rect(toplevel.x, toplevel.y, toplevel.width, toplevel.height)
+        }
         close.accepted = true
     }
-
-//    SingletonTestAccess {
-//        id: singleton
-//        Component.onCompleted: {
-//            console.log("at start:", singleton.someValue)
-//        }
-//    }
-
-//    Timer {
-//        interval: 5000
-//        repeat: true
-//        running: true
-//        onTriggered:
-//            console.log("after 5s:", SingletonTest.someValue)
-//    }
 
     Component.onCompleted:  {
 
         if(PQSettings.saveWindowGeometry) {
 
-            var geo = handlingGeneral.getWindowGeometry()
+            if(windowgeometry.mainWindowMaximized)
 
-            if(geo == Qt.rect(0,0,0,0))
                 toplevel.visibility = Window.Maximized
+
             else {
-                toplevel.setX(geo.x)
-                toplevel.setY(geo.y)
-                toplevel.setWidth(geo.width)
-                toplevel.setHeight(geo.height)
+
+                toplevel.setX(windowgeometry.mainWindowGeometry.x)
+                toplevel.setY(windowgeometry.mainWindowGeometry.y)
+                toplevel.setWidth(windowgeometry.mainWindowGeometry.width)
+                toplevel.setHeight(windowgeometry.mainWindowGeometry.height)
+
             }
 
         }
@@ -92,7 +80,8 @@ Window {
     PQThumbnailBar { id: thumbnails }
 
     Loader { id: filedialog }
-//    PQSettings { id: settings }
+    Loader { id: filedialog_popout }
+
     PQImageProperties { id: imageproperties }
     PQImageFormats { id: imageformats }
     PQFileWatcher { id: filewatcher }
@@ -100,6 +89,8 @@ Window {
     PQHandlingFileDialog { id: handlingFileDialog }
     PQHandlingGeneral { id: handlingGeneral }
     PQHandlingShortcuts { id: handlingShortcuts }
+
+    PQWindowGeometry { id: windowgeometry }
 
     PQKeyShortcuts { id: shortcuts }
 
