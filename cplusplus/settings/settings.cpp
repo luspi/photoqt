@@ -102,11 +102,6 @@ void PQSettings::setDefault() {
     setThumbnailSize(80);
     setThumbnailPosition("Bottom");
     setThumbnailCache(true);
-#ifdef Q_OS_WIN
-    setThumbnailCacheFile(false);
-#else
-    setThumbnailCacheFile(true);
-#endif
     setThumbnailSpacingBetween(0);
     setThumbnailLiftUp(6);
     setThumbnailKeepVisible(false);
@@ -360,9 +355,6 @@ void PQSettings::readSettings() {
 
             else if(line.startsWith("ThumbnailCache="))
                 setThumbnailCache(line.split("=").at(1).toInt());
-
-            else if(line.startsWith("ThumbnailCacheFile="))
-                setThumbnailCacheFile(line.split("=").at(1).toInt());
 
             else if(line.startsWith("ThumbnailSpacingBetween="))
                 setThumbnailSpacingBetween(line.split("=").at(1).toInt());
@@ -657,7 +649,6 @@ void PQSettings::saveSettings() {
         cont += "\n[Thumbnail]\n";
 
         cont += QString("ThumbnailCache=%1\n").arg(int(m_thumbnailCache));
-        cont += QString("ThumbnailCacheFile=%1\n").arg(int(m_thumbnailCacheFile));
         cont += QString("ThumbnailCenterActive=%1\n").arg(int(m_thumbnailCenterActive));
         cont += QString("ThumbnailDisable=%1\n").arg(int(m_thumbnailDisable));
         cont += QString("ThumbnailFilenameInstead=%1\n").arg(int(m_thumbnailFilenameInstead));

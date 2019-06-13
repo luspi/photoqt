@@ -611,16 +611,6 @@ public:
             }
         }
 
-        Q_PROPERTY(bool thumbnailCacheFile READ getThumbnailCacheFile WRITE setThumbnailCacheFile NOTIFY thumbnailCacheFileChanged)
-        bool getThumbnailCacheFile() { return m_thumbnailCacheFile; }
-        void setThumbnailCacheFile(bool val) {
-            if(m_thumbnailCacheFile != val) {
-                m_thumbnailCacheFile = val;
-                emit thumbnailCacheFileChanged();
-                saveSettingsTimer->start();
-            }
-        }
-
         Q_PROPERTY(int thumbnailSpacingBetween READ getThumbnailSpacingBetween WRITE setThumbnailSpacingBetween NOTIFY thumbnailSpacingBetweenChanged)
         int getThumbnailSpacingBetween() { return m_thumbnailSpacingBetween; }
         void setThumbnailSpacingBetween(int val) {
@@ -1322,7 +1312,6 @@ private:
         int     m_thumbnailSize;
         QString m_thumbnailPosition;
         bool    m_thumbnailCache;
-        bool    m_thumbnailCacheFile;
         int     m_thumbnailSpacingBetween;
         int     m_thumbnailLiftUp;
         bool    m_thumbnailKeepVisible;
@@ -1455,7 +1444,6 @@ signals:
         void thumbnailSizeChanged();
         void thumbnailPositionChanged();
         void thumbnailCacheChanged();
-        void thumbnailCacheFileChanged();
         void thumbnailSpacingBetweenChanged();
         void thumbnailLiftUpChanged();
         void thumbnailKeepVisibleChanged();
