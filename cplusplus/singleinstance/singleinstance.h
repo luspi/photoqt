@@ -7,6 +7,7 @@
 #include <thread>
 #include "commandlineparser.h"
 #include "../logger.h"
+#include "../variables.h"
 
 // Makes sure only one instance of PhotoQt is running, and enables remote communication
 class PQSingleInstance : public QGuiApplication {

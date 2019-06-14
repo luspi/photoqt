@@ -127,8 +127,8 @@ public:
         return ret;
     }
 
-    Q_INVOKABLE QStringList loadFilesInFolder(QString path, bool showHidden, SortBy sortField, bool sortReversed) {
-        allImageFilesInOrder = getAllImagesInFolder(path, showHidden, QStringList(), sortField, sortReversed);
+    Q_INVOKABLE QStringList loadFilesInFolder(QString path, bool showHidden, QStringList nameFilters, SortBy sortField, bool sortReversed) {
+        allImageFilesInOrder = getAllImagesInFolder(path, showHidden, nameFilters, sortField, sortReversed);
         return getCopyOfAllFiles();
     }
 

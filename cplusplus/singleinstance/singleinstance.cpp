@@ -118,55 +118,43 @@ void PQSingleInstance::handleMessage(QString msg) {
 
     LOG << msg.toStdString() << NL;
 
-    // Analyse what action(s) to take
-/*
-    // If verbose/debug mode enabled, set environment variable. This variable can be read anywhere to detect this mode.
-    // On quit, this variable will be unset again
-    if(msg.contains("::debug::")) {
-        std::cout << "***********************" << std::endl;
-        std::cout << "ENABLING DEBUG MESSAGES" << std::endl;
-        std::cout << "***********************" << std::endl;
-        qputenv("PHOTOQT_DEBUG", "yes");
+    QStringList parts = msg.split(":://::");
+
+    for(QString m : parts) {
+
+        if(m.startsWith("_F_I_L_E_"))
+
+            PQVariables::get().setCmdFilePath(m.remove(0, 9));
+
+        else if(m.startsWith("_O_P_E_N_"))
+
+            PQVariables::get().setCmdOpen(true);
+
+        else if(m.startsWith("_S_H_O_W_"))
+
+            PQVariables::get().setCmdShow(true);
+
+        else if(m.startsWith("_H_I_D_E_"))
+
+            PQVariables::get().setCmdHide(true);
+
+        else if(m.startsWith("_T_O_G_G_L_E_"))
+
+            PQVariables::get().setCmdToggle(true);
+
+        else if(m.startsWith("_N_O_T_H_U_M_B_S_"))
+
+            PQVariables::get().setCmdNoThumbs(true);
+
+        else if(m.startsWith("_T_R_A_Y_"))
+
+            PQVariables::get().setCmdTray(true);
+
+        else if(m.startsWith("_D_E_B_U_G_"))
+
+            PQVariables::get().setCmdDebug(true);
+
     }
-    // This allows the user to undo the switch during runtime, enabling getting debug messages for specific actions only
-    if(msg.contains("::no-debug::")) {
-        std::cout << "************************" << std::endl;
-        std::cout << "DISABLING DEBUG MESSAGES" << std::endl;
-        std::cout << "************************" << std::endl;
-        qunsetenv("PHOTOQT_DEBUG");
-    }
-
-    // Reset this variable before checking
-    startintray = false;
-
-    bool debug = (qgetenv("PHOTOQT_DEBUG") == "yes");
-
-    if(msg.contains("::file::")) {
-        filename = msg.split("::file::").at(1).split(":-:-:").at(0);
-        if(debug) LOG << CURDATE << "SingleInstance - found filename: " << filename.toStdString() << NL;
-        emit interaction("::file::" + filename);
-    } else if(msg.contains("::start-in-tray::")) {
-        startintray = true;
-        if(debug) LOG << CURDATE << "SingleInstance - found flag: start-in-tray" << NL;
-    } else if((msg.contains("::open::") || msg.contains("::o::"))) {
-        if(debug) LOG << CURDATE << "SingleInstance - found flag: o/open" << NL;
-        emit interaction("open");
-    } else if(msg.contains("::thumbs::")) {
-        if(debug) LOG << CURDATE << "SingleInstance - found flag: thumbs" << NL;
-        emit interaction("thumbs");
-    } else if(msg.contains("::no-thumbs::")) {
-        if(debug) LOG << CURDATE << "SingleInstance - found flag: no-thumbs" << NL;
-        emit interaction("nothumbs");
-    } else if(msg.contains("::toggle::") || msg.contains("::t::")) {
-        if(debug) LOG << CURDATE << "SingleInstance - found flag: t/toggle" << NL;
-        emit interaction("toggle");
-    } else if(msg.contains("::show::") || msg.contains("::s::")) {
-        if(debug) LOG << CURDATE << "SingleInstance - found flag: s/show" << NL;
-        emit interaction("show");
-    } else if(msg.contains("::hide::")) {
-        if(debug) LOG << CURDATE << "SingleInstance - found flag: hide" << NL;
-        emit interaction("hide");
-    }*/
 
 }
 

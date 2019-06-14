@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QtDebug>
 
+#include "variables.h"
 #include "settings/settings.h"
 #include "scripts/handlingfiledialog.h"
 #include "scripts/handlinggeneral.h"
@@ -57,6 +58,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<PQWindowGeometry>("PQWindowGeometry", 1, 0, "PQWindowGeometry");
 
     engine.rootContext()->setContextProperty("PQSettings", &PQSettings::get());
+    engine.rootContext()->setContextProperty("PQCppVariables", &PQVariables::get());
 
     qmlRegisterType<PQFileFolderModel>("PQFileFolderModel", 1, 0, "PQFileFolderModel");
 
