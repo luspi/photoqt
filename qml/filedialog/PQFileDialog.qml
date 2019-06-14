@@ -22,16 +22,15 @@ Rectangle {
 
     color: "#333333"
 
-    property string currentDirectory: handlingFileDialog.getHomeDir()
     property var historyListDirectory: [handlingFileDialog.getHomeDir()]
     property int historyListIndex: 0
 
     function setCurrentDirectory(dir, addToHistory) {
 
-        if(dir == currentDirectory)
+        if(dir == variables.openCurrentDirectory)
             return
 
-        currentDirectory = dir
+        variables.openCurrentDirectory = dir
         if(addToHistory === true || addToHistory === undefined) {
 
             // purge old history beyond current point (if not at end already)

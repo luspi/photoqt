@@ -8,6 +8,8 @@ Item {
     property int indexOfCurrentImage: -1
     property real currentZoomLevel: 1
 
+    property string openCurrentDirectory: handlingFileDialog.getHomeDir()
+
     property point mousePos: Qt.point(-1, -1)
 
 }

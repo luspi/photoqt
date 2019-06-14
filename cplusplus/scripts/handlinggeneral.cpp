@@ -69,3 +69,7 @@ QString PQHandlingGeneral::getLastLoadedImage() {
     return ret;
 
 }
+
+bool PQHandlingGeneral::isDir(QString path) {
+    return QFileInfo(path).isDir();
+}

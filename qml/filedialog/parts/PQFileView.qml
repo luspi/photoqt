@@ -363,8 +363,8 @@ GridView {
                     currentlyHoveredIndex -= 1
             } else if(modifiers == Qt.ControlModifier)
                 currentlyHoveredIndex = 0
-            else if(modifiers == Qt.AltModifier && handlingFileDialog.cleanPath(filedialog_top.currentDirectory) != "/")
-                filedialog_top.setCurrentDirectory(filedialog_top.currentDirectory+"/..")
+            else if(modifiers == Qt.AltModifier && handlingFileDialog.cleanPath(variables.openCurrentDirectory) != "/")
+                filedialog_top.setCurrentDirectory(variables.openCurrentDirectory+"/..")
 
         } else if(key == Qt.Key_Left) {
 
@@ -460,7 +460,7 @@ GridView {
     }
 
     Component.onCompleted:
-        loadFolder(filedialog_top.currentDirectory)
+        loadFolder(variables.openCurrentDirectory)
 
     function loadFolder(loc) {
 
@@ -477,9 +477,9 @@ GridView {
     }
 
     Connections {
-        target: filedialog_top
-        onCurrentDirectoryChanged:
-            loadFolder(filedialog_top.currentDirectory)
+        target: variables
+        onOpenCurrentDirectoryChanged:
+            loadFolder(variables.openCurrentDirectory)
     }
 
 }

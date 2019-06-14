@@ -74,7 +74,7 @@ Window {
             if(PQCppVariables.cmdFilePath != "")
                 filenameToLoad = PQCppVariables.cmdFilePath
 
-            var lastFolder = handlingGeneral.getFilePathFromFullPath(filenameToLoad)
+            var folderToLoad = handlingGeneral.getFilePathFromFullPath(filenameToLoad)
 
             var sortField = PQSettings.sortby=="name" ?
                                 PQFileFolderModel.Name :
@@ -86,8 +86,18 @@ Window {
                                             PQFileFolderModel.Size :
                                             PQFileFolderModel.Type)))
 
-            variables.allImageFilesInOrder = filefoldermodel.loadFilesInFolder(lastFolder, PQSettings.openShowHiddenFilesFolders, imageformats.getAllEnabledFileformats(), sortField, !PQSettings.sortbyAscending)
-            variables.indexOfCurrentImage = variables.allImageFilesInOrder.indexOf(filenameToLoad)
+            variables.allImageFilesInOrder = filefoldermodel.loadFilesInFolder(folderToLoad, PQSettings.openShowHiddenFilesFolders, imageformats.getAllEnabledFileformats(), sortField, !PQSettings.sortbyAscending)
+
+            if(handlingGeneral.isDir(filenameToLoad)) {
+                if(variables.allImageFilesInOrder.length == 0) {
+                    loader.show("filedialog")
+                    variables.openCurrentDirectory = filenameToLoad
+                }else {
+                    filenameToLoad = variables.allImageFilesInOrder[0]
+                    variables.indexOfCurrentImage = variables.allImageFilesInOrder.indexOf(filenameToLoad)
+                }
+            } else
+                variables.indexOfCurrentImage = variables.allImageFilesInOrder.indexOf(filenameToLoad)
 
         } else
             loader.show("filedialog")
