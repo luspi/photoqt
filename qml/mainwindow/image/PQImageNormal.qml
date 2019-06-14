@@ -25,6 +25,14 @@ Image {
     width: container.width-2*PQSettings.marginAroundImage
     height: container.height-2*PQSettings.marginAroundImage
 
+    antialiasing: true
+    smooth: (PQSettings.interpolationNearestNeighbourUpscale &&
+             elem.paintedWidth<=PQSettings.interpolationNearestNeighbourThreshold &&
+             elem.paintedHeight<=PQSettings.interpolationNearestNeighbourThreshold) ? false : true
+    mipmap: (PQSettings.interpolationNearestNeighbourUpscale &&
+             elem.paintedWidth<=PQSettings.interpolationNearestNeighbourThreshold &&
+             elem.paintedHeight<=PQSettings.interpolationNearestNeighbourThreshold) ? false : true
+
     opacity: 0
     Component.onCompleted: {
         if(status == Image.Ready)
