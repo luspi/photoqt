@@ -42,3 +42,30 @@ QString PQHandlingGeneral::getFileNameFromFullPath(QString path) {
 QString PQHandlingGeneral::getFilePathFromFullPath(QString path) {
     return QFileInfo(path).absolutePath();
 }
+
+void PQHandlingGeneral::setLastLoadedImage(QString path) {
+
+    QFile file(ConfigFiles::LASTOPENEDIMAGE_FILE());
+    if(file.open(QIODevice::WriteOnly|QIODevice::Truncate)) {
+        QTextStream out(&file);
+        out << path;
+        out.flush();
+        file.close();
+    }
+
+}
+
+QString PQHandlingGeneral::getLastLoadedImage() {
+
+    QString ret = "";
+
+    QFile file(ConfigFiles::LASTOPENEDIMAGE_FILE());
+    if(file.open(QIODevice::ReadOnly)) {
+        QTextStream in(&file);
+        ret = in.readAll();
+        file.close();
+    }
+
+    return ret;
+
+}

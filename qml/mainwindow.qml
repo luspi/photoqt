@@ -9,6 +9,7 @@ import PQImageProperties 1.0
 import PQImageFormats 1.0
 import PQFileWatcher 1.0
 import PQWindowGeometry 1.0
+import PQFileFolderModel 1.0
 
 import "./mainwindow"
 import "./shortcuts"
@@ -42,6 +43,8 @@ Window {
             windowgeometry.mainWindowMaximized = (visibility==Window.Maximized)
             windowgeometry.mainWindowGeometry = Qt.rect(toplevel.x, toplevel.y, toplevel.width, toplevel.height)
         }
+        if(variables.indexOfCurrentImage > -1)
+            handlingGeneral.setLastLoadedImage(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
         close.accepted = true
     }
 
@@ -64,9 +67,32 @@ Window {
 
         }
 
-        loader.show("filedialog")
+        var lastLoaded = handlingGeneral.getLastLoadedImage()
+
+        if(PQSettings.startupLoadLastLoadedImage && lastLoaded != "") {
+
+            var lastFolder = handlingGeneral.getFilePathFromFullPath(lastLoaded)
+
+            var sortField = PQSettings.sortby=="name" ?
+                                PQFileFolderModel.Name :
+                                (PQSettings.sortby == "naturalname" ?
+                                    PQFileFolderModel.NaturalName :
+                                    (PQSettings.sortby == "time" ?
+                                        PQFileFolderModel.Time :
+                                        (PQSettings.sortby == "size" ?
+                                            PQFileFolderModel.Size :
+                                            PQFileFolderModel.Type)))
+
+            variables.allImageFilesInOrder = filefoldermodel.loadFilesInFolder(lastFolder, PQSettings.openShowHiddenFilesFolders, sortField, !PQSettings.sortbyAscending)
+            variables.indexOfCurrentImage = variables.allImageFilesInOrder.indexOf(lastLoaded)
+
+        } else
+            loader.show("filedialog")
 
     }
+
+    // needed to load folders without PQFileDialog
+    PQFileFolderModel { id: filefoldermodel }
 
     PQVariables { id: variables }
     PQLoader { id: loader }

@@ -20,6 +20,9 @@ public:
     Q_INVOKABLE QString getFileNameFromFullPath(QString path);
     Q_INVOKABLE QString getFilePathFromFullPath(QString path);
 
+    Q_INVOKABLE void setLastLoadedImage(QString path);
+    Q_INVOKABLE QString getLastLoadedImage();
+
 };
 
 #endif // PQHandlingGeneral

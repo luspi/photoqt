@@ -127,6 +127,14 @@ public:
         return ret;
     }
 
+    Q_INVOKABLE QStringList loadFilesInFolder(QString path, bool showHidden, SortBy sortField, bool sortReversed) {
+        allImageFilesInOrder = getAllImagesInFolder(path, showHidden, QStringList(), sortField, sortReversed);
+        return getCopyOfAllFiles();
+    }
+
+    static QFileInfoList getAllFoldersInFolder(QString path, bool showHidden, SortBy sortfield, bool sortReversed);
+    static QFileInfoList getAllImagesInFolder(QString path, bool showHidden, QStringList nameFilters, SortBy sortfield, bool sortReversed);
+
 protected:
     QHash<int, QByteArray> roleNames() const {
         QHash<int, QByteArray> roles;
