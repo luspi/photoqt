@@ -2,7 +2,6 @@ import QtQuick 2.9
 import QtQuick.Window 2.9
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.9
-import "./filedialog"
 import "../elements"
 
 Window {
@@ -14,6 +13,8 @@ Window {
 
     minimumWidth: 800
     minimumHeight: 600
+
+    modality: PQSettings.openPopoutElementKeepOpen ? Qt.NonModal : Qt.ApplicationModal
 
     color: "#88000000"
 
