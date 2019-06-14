@@ -16,6 +16,11 @@ Item {
     signal zoomIn()
     signal zoomOut()
     signal zoomReset()
+    signal rotate(var deg)
+    signal rotateReset()
+    signal mirrorH()
+    signal mirrorV()
+    signal mirrorReset()
 
     // emitted inside of PQImageNormal/Animated whenever its status changed to Image.Reader
     signal hideOldImage(var forwards)
@@ -26,6 +31,8 @@ Item {
     property bool imageSwitchingForwards: true
     property string imageLatestAdded: ""
     property real imageScale: 1
+
+    property var keepZoomRotationMirrorValues: ({})
 
     Repeater {
 
