@@ -252,7 +252,9 @@ AnimatedImage {
         onHideOldImage: {
             if(src == container.imageLatestAdded)
                 return
-            if(hideShowAni.running) {
+            if(elem.status != Image.Ready) {
+                image_model.remove(index)
+            } else if(hideShowAni.running) {
                 if(!hideShowAni.deleteWhenDone)
                     hideShowAni.startToHideWhenDone = true
             } else
