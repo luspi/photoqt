@@ -116,8 +116,6 @@ void PQSingleInstance::newConnection() {
 
 void PQSingleInstance::handleMessage(QString msg) {
 
-    LOG << msg.toStdString() << NL;
-
     QStringList parts = msg.split(":://::");
 
     for(QString m : parts) {
