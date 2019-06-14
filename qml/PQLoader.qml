@@ -28,11 +28,11 @@ Item {
         if(PQSettings.openPopoutElement) {
             if(component == "filedialog" && filedialog_popout.status == Loader.Null) {
                 filedialog.source = ""
-                filedialog_popout.source = "mainwindow/PQFileDialogPopout.qml"
+                filedialog_popout.source = "filedialog/PQFileDialogPopout.qml"
             }
         } else {
             if(component == "filedialog" && filedialog.status == Loader.Null) {
-                filedialog.source = "mainwindow/PQFileDialog.qml"
+                filedialog.source = "filedialog/PQFileDialog.qml"
                 filedialog_popout.source = ""
             }
         }

@@ -2,26 +2,17 @@
     <qresource prefix="/">
         <file>mainwindow.qml</file>
         <file>mainwindow/PQImage.qml</file>
-        <file>mainwindow/PQFileDialog.qml</file>
-        <file>mainwindow/filedialog/PQPlaces.qml</file>
-        <file>mainwindow/filedialog/PQDevices.qml</file>
-        <file>mainwindow/filedialog/PQFileView.qml</file>
-        <file>mainwindow/filedialog/PQStandard.qml</file>
         <file>mainwindow/image/PQImageAnimated.qml</file>
         <file>mainwindow/image/PQImageNormal.qml</file>
-        <file>mainwindow/filedialog/PQTweaks.qml</file>
         <file>elements/PQSlider.qml</file>
         <file>elements/PQCheckbox.qml</file>
         <file>mainwindow/image/PQLoading.qml</file>
-        <file>mainwindow/filedialog/PQBreadCrumbs.qml</file>
         <file>elements/PQButton.qml</file>
         <file>elements/PQMenu.qml</file>
         <file>elements/PQMenuItem.qml</file>
-        <file>mainwindow/filedialog/PQPreview.qml</file>
         <file>elements/PQMouseArea.qml</file>
         <file>elements/PQToolTip.qml</file>
         <file>elements/PQComboBox.qml</file>
-        <file>mainwindow/filedialog/PQRightClickMenu.qml</file>
         <file>elements/PQScrollBar.qml</file>
         <file>PQLoader.qml</file>
         <file>PQVariables.qml</file>
@@ -31,6 +22,15 @@
         <file>shortcuts/handleshortcuts.js</file>
         <file>shortcuts/PQKeyShortcuts.qml</file>
         <file>mainwindow/PQThumbnailBar.qml</file>
-        <file>mainwindow/PQFileDialogPopout.qml</file>
+        <file>filedialog/parts/PQBreadCrumbs.qml</file>
+        <file>filedialog/parts/PQDevices.qml</file>
+        <file>filedialog/parts/PQFileView.qml</file>
+        <file>filedialog/parts/PQPlaces.qml</file>
+        <file>filedialog/parts/PQPreview.qml</file>
+        <file>filedialog/parts/PQRightClickMenu.qml</file>
+        <file>filedialog/parts/PQStandard.qml</file>
+        <file>filedialog/parts/PQTweaks.qml</file>
+        <file>filedialog/PQFileDialog.qml</file>
+        <file>filedialog/PQFileDialogPopout.qml</file>
     </qresource>
 </RCC>
