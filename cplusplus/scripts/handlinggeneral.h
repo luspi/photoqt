@@ -17,9 +17,6 @@ public:
     Q_INVOKABLE bool isFreeImageSupportEnabled();
     Q_INVOKABLE bool isPopplerSupportEnabled();
 
-    Q_INVOKABLE void saveWindowGeometry(int x, int y, int w, int h, bool maximized);
-    Q_INVOKABLE QRect getWindowGeometry();
-
     Q_INVOKABLE QString getFileNameFromFullPath(QString path);
     Q_INVOKABLE QString getFilePathFromFullPath(QString path);
 

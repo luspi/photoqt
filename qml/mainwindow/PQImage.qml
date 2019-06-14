@@ -127,8 +127,4 @@ Item {
         variables.indexOfCurrentImage = variables.allImageFilesInOrder.length-1
     }
 
-    function resetZoom() {
-
-    }
-
 }

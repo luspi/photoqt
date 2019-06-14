@@ -35,7 +35,7 @@ Item {
             if(wheel.buttons & Qt.RightButton)
                 combo += "Right Button"
 
-            var threshold = Math.max(30, Math.max(0, Math.min(10, settings.mouseWheelSensitivity*120)))
+            var threshold = Math.max(30, Math.max(0, Math.min(10, PQSettings.mouseWheelSensitivity*120)))
 
             if(wheel.angleDelta.y < -threshold) {
                 if(wheel.angleDelta.x < -threshold)
@@ -152,9 +152,13 @@ Item {
                 combo += "+"
             combo += path.join("")
 
-            console.log(combo)
-
             pressed = false
+
+            // click outside of container
+            if(combo == "Left Button" && PQSettings.closeOnEmptyBackground) {
+                toplevel.close()
+                return
+            }
 
             for(var i = 0; i < variables.shortcuts.length; ++i) {
 

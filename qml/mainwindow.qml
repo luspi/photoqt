@@ -97,4 +97,6 @@ Window {
     // Localisation handler, allows for runtime switches of languages
     PQLocalisation { id : em }
 
+//    function close
+
 }

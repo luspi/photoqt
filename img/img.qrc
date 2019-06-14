@@ -6,5 +6,6 @@
         <file>filedialog/close.png</file>
         <file>image/plainerrorimg.png</file>
         <file>mainwindow/close.png</file>
+        <file>image/transparent.png</file>
     </qresource>
 </RCC>
