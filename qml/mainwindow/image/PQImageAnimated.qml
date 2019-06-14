@@ -5,11 +5,9 @@ AnimatedImage {
     id: elem
 
     source: "file:/" + src
-    visible: imageproperties.isAnimated(src)
 
     asynchronous: true
-
-    cache: false
+    cache: true
 
     fillMode: ((sourceSize.width<width&&sourceSize.height<height) ? Image.Pad : Image.PreserveAspectFit)
 
@@ -54,84 +52,125 @@ AnimatedImage {
         imageitem.hideOldImage(forwards)
         variables.currentZoomLevel = (elem.paintedWidth/elem.sourceSize.width)*elem.scale*100
         if(forwards) {
+            // show in x direction
             if(PQSettings.animationType == "x") {
-                xAnim.duration = 0
-                x = width
-                xAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
-                x = 0
-                opacityAnim.duration = 0
-                opacity = 1
+                hideShowAni.from = -elem.width
+                hideShowAni.to = 0
+                hideShowAni.deleteWhenDone = false
+                hideShowAni.property = "x"
+                hideShowAni.start()
+            // show in y direction
             } else if(PQSettings.animationType == "y") {
-                yAnim.duration = 0
-                y = height
-                yAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
-                y = 0
-                opacityAnim.duration = 0
-                opacity = 1
+                hideShowAni.from = -elem.height
+                hideShowAni.to = 0
+                hideShowAni.deleteWhenDone = false
+                hideShowAni.property = "y"
+                hideShowAni.start()
+            // fade in image
             } else {
-                opacityAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
-                opacity = 1
+                hideShowAni.from = 0
+                hideShowAni.to = 1
+                hideShowAni.deleteWhenDone = false
+                hideShowAni.property = "opacity"
+                hideShowAni.start()
             }
         } else {
+            // show in x direction
             if(PQSettings.animationType == "x") {
-                xAnim.duration = 0
-                x = -width
-                xAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
-                x = 0
-                opacityAnim.duration = 0
-                opacity = 1
+                hideShowAni.from = container.width
+                hideShowAni.to = 0
+                hideShowAni.deleteWhenDone = false
+                hideShowAni.property = "x"
+                hideShowAni.start()
+            // show in y direction
             } else if(PQSettings.animationType == "y") {
-                yAnim.duration = 0
-                y = -height
-                yAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
-                y = 0
-                opacityAnim.duration = 0
-                opacity = 1
+                hideShowAni.from = container.height
+                hideShowAni.to = 0
+                hideShowAni.deleteWhenDone = false
+                hideShowAni.property = "y"
+                hideShowAni.start()
+            // fade in image
             } else {
-                opacityAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
-                opacity = 1
+                hideShowAni.from = 0
+                hideShowAni.to = 1
+                hideShowAni.deleteWhenDone = false
+                hideShowAni.property = "opacity"
+                hideShowAni.start()
             }
         }
         update()
     }
 
-    onStatusChanged:
-        theimage.imageStatus = status
-
-    Behavior on opacity { NumberAnimation { id: opacityAnim; duration: (PQSettings.animations ? PQSettings.animationDuration*150 : 0) } }
-    Behavior on x { NumberAnimation { id: xAnim; duration: 0 } }
-    Behavior on y { NumberAnimation { id: yAnim; duration: 0 } }
-
-    onOpacityChanged: {
-        if(opacity == 0 && imageitem.imageLatestAdded != src) {
-            console.log("delete opacity")
-            image_model.remove(index)
-        } else {
-            xAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
-            yAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
-        }
-    }
-    Connections {
-        target: xAnim
-        onRunningChanged: {
-            if(!xAnim.running && imageitem.imageLatestAdded != src) {
-                console.log("delete x")
-                image_model.remove(index)
+    function hideItem() {
+        if(forwards) {
+            // hide in x direction
+            if(PQSettings.animationType == "x") {
+                hideShowAni.from = elem.x
+                hideShowAni.to = container.width
+                hideShowAni.deleteWhenDone = true
+                hideShowAni.property = "x"
+                hideShowAni.start()
+            // hide in y direction
+            } else if(PQSettings.animationType == "y") {
+                hideShowAni.from = elem.y
+                hideShowAni.to = container.height
+                hideShowAni.deleteWhenDone = true
+                hideShowAni.property = "y"
+                hideShowAni.start()
+            // fade out image
             } else {
-                xAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
-                yAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
+                hideShowAni.from = elem.opacity
+                hideShowAni.to = 0
+                hideShowAni.deleteWhenDone = true
+                hideShowAni.property = "opacity"
+                hideShowAni.start()
+            }
+        } else {
+            // hide in x direction
+            if(PQSettings.animationType == "x") {
+                hideShowAni.from = elem.x
+                hideShowAni.to = -elem.width
+                hideShowAni.deleteWhenDone = true
+                hideShowAni.property = "x"
+                hideShowAni.start()
+            // hide in y direction
+            } else if(PQSettings.animationType == "y") {
+                hideShowAni.from = elem.y
+                hideShowAni.to = -elem.height
+                hideShowAni.deleteWhenDone = true
+                hideShowAni.property = "y"
+                hideShowAni.start()
+            // fade out image
+            } else {
+                hideShowAni.from = elem.opacity
+                hideShowAni.to = 0
+                hideShowAni.deleteWhenDone = true
+                hideShowAni.property = "opacity"
+                hideShowAni.start()
             }
         }
     }
-    Connections {
-        target: yAnim
-        onRunningChanged: {
-            if(!yAnim.running && imageitem.imageLatestAdded != src) {
-                console.log("delete y")
+
+    onStatusChanged:
+        theimage.imageStatus = status
+
+    PropertyAnimation {
+        id: hideShowAni
+        target: parent
+        property: opacity
+        duration: (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
+        property bool deleteWhenDone: false
+        property bool startToHideWhenDone: false
+        onStarted:
+            elem.opacity = 1
+        onStopped: {
+            if(deleteWhenDone) {
                 image_model.remove(index)
-            } else {
-                xAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
-                yAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
+                deleteWhenDone = false
+            }
+            if(startToHideWhenDone) {
+                startToHideWhenDone = false
+                hideItem()
             }
         }
     }
@@ -141,31 +180,11 @@ AnimatedImage {
         onHideOldImage: {
             if(src == container.imageLatestAdded)
                 return
-            if(forwards) {
-                // hide in x direction
-                if(PQSettings.animationType == "x") {
-                    xAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
-                    elem.x = -elem.width
-                // hide in y direction
-                } else if(PQSettings.animationType == "y") {
-                    yAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
-                    elem.y = -elem.height
-                // fade out image
-                } else
-                    elem.opacity = 0
-            } else {
-                // hide in x direction
-                if(PQSettings.animationType == "x") {
-                    xAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
-                    elem.x = container.width
-                // hide in y direction
-                } else if(PQSettings.animationType == "y") {
-                    yAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
-                    elem.y = container.height
-                // fade out image
-                } else
-                    elem.opacity = 0
-            }
+            if(hideShowAni.running) {
+                if(!hideShowAni.deleteWhenDone)
+                    hideShowAni.startToHideWhenDone = true
+            } else
+                hideItem()
         }
         onZoomIn: {
             elem.scale *= (1+PQSettings.zoomSpeed/100)
