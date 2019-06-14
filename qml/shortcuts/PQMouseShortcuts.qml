@@ -13,6 +13,9 @@ Item {
 
         hoverEnabled: true
 
+        property int angleDeltaX: 0
+        property int angleDeltaY: 0
+
         onWheel: {
 
             var combo = ""
@@ -35,29 +38,37 @@ Item {
             if(wheel.buttons & Qt.RightButton)
                 combo += "Right Button"
 
-            var threshold = Math.max(30, Math.max(0, Math.min(10, PQSettings.mouseWheelSensitivity*120)))
+            angleDeltaX += wheel.angleDelta.x
+            angleDeltaY += wheel.angleDelta.y
 
-            if(wheel.angleDelta.y < -threshold) {
-                if(wheel.angleDelta.x < -threshold)
+            var threshold = Math.max(10, PQSettings.mouseWheelSensitivity*120)
+
+            if(Math.abs(angleDeltaX) <= threshold && Math.abs(angleDeltaY) <= threshold)
+                return;
+
+            if(angleDeltaY < -threshold) {
+                if(angleDeltaX < -threshold)
                     combo += "Wheel Up Left"
-                else if(wheel.angleDelta.x > threshold)
+                else if(angleDeltaX > threshold)
                     combo += "Wheel Up Right"
                 else
                     combo += "Wheel Up"
-            } else if(wheel.angleDelta.y > threshold) {
-                if(wheel.angleDelta.x < -threshold)
+            } else if(angleDeltaY > threshold) {
+                if(angleDeltaX < -threshold)
                     combo += "Wheel Down Left"
-                else if(wheel.angleDelta.x > threshold)
+                else if(angleDeltaX > threshold)
                     combo += "Wheel Down Right"
                 else
                     combo += "Wheel Down"
             } else {
-                if(wheel.angleDelta.x < -threshold)
+                if(angleDeltaX < -threshold)
                     combo += "Wheel Left"
-                else if(wheel.angleDelta.x > threshold)
+                else if(angleDeltaX > threshold)
                     combo += "Wheel Right"
             }
 
+            angleDeltaX = 0
+            angleDeltaY = 0
 
             for(var i = 0; i < variables.shortcuts.length; ++i) {
 
