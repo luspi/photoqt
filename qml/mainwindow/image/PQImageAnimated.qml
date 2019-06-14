@@ -7,7 +7,6 @@ AnimatedImage {
     source: "file://" + src
 
     asynchronous: true
-    sourceSize: undefined
     cache: false
 
     fillMode: ((sourceSize.width<width&&sourceSize.height<height&&!PQSettings.fitInWindow) ? Image.Pad : Image.PreserveAspectFit)
@@ -77,14 +76,14 @@ AnimatedImage {
         if(forwards) {
             // show in x direction
             if(PQSettings.animationType == "x") {
-                hideShowAni.from = -elem.width
+                hideShowAni.from = container.width
                 hideShowAni.to = 0
                 hideShowAni.deleteWhenDone = false
                 hideShowAni.property = "x"
                 hideShowAni.start()
             // show in y direction
             } else if(PQSettings.animationType == "y") {
-                hideShowAni.from = -elem.height
+                hideShowAni.from = container.height
                 hideShowAni.to = 0
                 hideShowAni.deleteWhenDone = false
                 hideShowAni.property = "y"
@@ -100,14 +99,14 @@ AnimatedImage {
         } else {
             // show in x direction
             if(PQSettings.animationType == "x") {
-                hideShowAni.from = container.width
+                hideShowAni.from = -elem.width
                 hideShowAni.to = 0
                 hideShowAni.deleteWhenDone = false
                 hideShowAni.property = "x"
                 hideShowAni.start()
             // show in y direction
             } else if(PQSettings.animationType == "y") {
-                hideShowAni.from = container.height
+                hideShowAni.from = -elem.height
                 hideShowAni.to = 0
                 hideShowAni.deleteWhenDone = false
                 hideShowAni.property = "y"
@@ -129,14 +128,14 @@ AnimatedImage {
             // hide in x direction
             if(PQSettings.animationType == "x") {
                 hideShowAni.from = elem.x
-                hideShowAni.to = container.width
+                hideShowAni.to = -elem.width
                 hideShowAni.deleteWhenDone = true
                 hideShowAni.property = "x"
                 hideShowAni.start()
             // hide in y direction
             } else if(PQSettings.animationType == "y") {
                 hideShowAni.from = elem.y
-                hideShowAni.to = container.height
+                hideShowAni.to = -elem.height
                 hideShowAni.deleteWhenDone = true
                 hideShowAni.property = "y"
                 hideShowAni.start()
@@ -152,14 +151,14 @@ AnimatedImage {
             // hide in x direction
             if(PQSettings.animationType == "x") {
                 hideShowAni.from = elem.x
-                hideShowAni.to = -elem.width
+                hideShowAni.to = container.width
                 hideShowAni.deleteWhenDone = true
                 hideShowAni.property = "x"
                 hideShowAni.start()
             // hide in y direction
             } else if(PQSettings.animationType == "y") {
                 hideShowAni.from = elem.y
-                hideShowAni.to = -elem.height
+                hideShowAni.to = container.height
                 hideShowAni.deleteWhenDone = true
                 hideShowAni.property = "y"
                 hideShowAni.start()
