@@ -405,7 +405,8 @@ GridView {
                 filedialog_top.setCurrentDirectory(filePath)
             else {
                 filedialog_top.hideFileDialog()
-                imageitem.loadImage(filePath)
+                variables.allImageFilesInOrder = files_model.getCopyOfAllFiles()
+                variables.indexOfCurrentImage = variables.allImageFilesInOrder.indexOf(filePath)
             }
 
 
