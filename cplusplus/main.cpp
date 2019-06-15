@@ -4,6 +4,7 @@
 
 #include "variables.h"
 #include "startup.h"
+#include "startup/exportimport.h"
 #include "settings/settings.h"
 #include "scripts/handlingfiledialog.h"
 #include "scripts/handlinggeneral.h"
@@ -26,20 +27,20 @@ int main(int argc, char *argv[])
 
     PQSingleInstance app(argc, argv);
 
-    if(app.exportAndQuit != "") {
-        LOG << "export to: " << app.exportAndQuit.toStdString() << NL;
-        std::exit(0);
-    } else if(app.importAndQuit != "") {
-        LOG << "import from: " << app.importAndQuit.toStdString() << NL;
-        std::exit(0);
-    }
-
     // We store this as a QString, as this way we don't have to explicitely cast VERSION to a QString below
     QString version = VERSION;
 
     // Set app name and version
     QGuiApplication::setApplicationName("PhotoQt");
     QGuiApplication::setApplicationVersion(version);
+
+    if(app.exportAndQuit != "") {
+        PQStartup::Export::perform(app.exportAndQuit);
+        std::exit(0);
+    } else if(app.importAndQuit != "") {
+        PQStartup::Import::perform(app.importAndQuit);
+        std::exit(0);
+    }
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/mainwindow.qml"));

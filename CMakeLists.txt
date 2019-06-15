@@ -70,7 +70,7 @@ endif()
 # if(FREEIMAGE)
 #     find_package(FreeImage)
 # endif(FREEIMAGE)
-# find_package(LibArchive)
+find_package(LibArchive)
 
 # find_package(ECM REQUIRED NO_MODULE)
 # set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} "${CMAKE_MODULE_PATH}")
@@ -189,14 +189,14 @@ endif()
 #### CUSTOM OPTIONS ####
 ########################
 
-# if(NOT ${LibArchive_FOUND})
-#     message(FATAL_ERROR "** Unable to locate LibArchive... is it installed?")
-# elseif(${LibArchive_FOUND})
-#     include_directories(${LibArchive_INCLUDE_DIRS})
-#     target_link_libraries(${PROJECT_NAME} ${LibArchive_LIBRARIES})
-#     message("** Found LibArchive " ${LibArchive_VERSION})
-# endif(NOT ${LibArchive_FOUND})
-# 
+if(NOT ${LibArchive_FOUND})
+    message(FATAL_ERROR "** Unable to locate LibArchive... is it installed?")
+elseif(${LibArchive_FOUND})
+    include_directories(${LibArchive_INCLUDE_DIRS})
+    target_link_libraries(${PROJECT_NAME} ${LibArchive_LIBRARIES})
+    message("** Found LibArchive " ${LibArchive_VERSION})
+endif(NOT ${LibArchive_FOUND})
+
 # if(POPPLER)
 #     if(NOT ${Poppler_FOUND})
 #         message(FATAL_ERROR "** Unable to locate Poppler... is it installed?")
