@@ -3,7 +3,7 @@
 #####################
 
 SET(d "cplusplus")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/main.cpp ${d}/logger.h ${d}/configfiles.h ${d}/variables.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/main.cpp ${d}/logger.h ${d}/configfiles.h ${d}/variables.h ${d}/startup.h)
 
 SET(d "cplusplus/settings")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/settings.cpp)
@@ -21,3 +21,6 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/errorimage.h ${d}/loadimage_qt.h)
 
 SET(d "cplusplus/singleinstance")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/commandlineparser.h ${d}/singleinstance.cpp)
+
+SET(d "cplusplus/startup")
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/screenshots.h)

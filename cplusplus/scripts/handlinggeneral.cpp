@@ -73,3 +73,20 @@ QString PQHandlingGeneral::getLastLoadedImage() {
 bool PQHandlingGeneral::isDir(QString path) {
     return QFileInfo(path).isDir();
 }
+
+QString PQHandlingGeneral::getTempDir() {
+    return QDir::tempPath();
+}
+
+void PQHandlingGeneral::cleanUpScreenshotsTakenAtStartup() {
+
+    int count = 0;
+    while(true) {
+        QFile file(QDir::tempPath() + QString("/photoqt_screenshot_%1.jpg").arg(count));
+        if(file.exists())
+            file.remove();
+        else
+            break;
+    }
+
+}

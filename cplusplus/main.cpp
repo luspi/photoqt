@@ -3,6 +3,7 @@
 #include <QtDebug>
 
 #include "variables.h"
+#include "startup.h"
 #include "settings/settings.h"
 #include "scripts/handlingfiledialog.h"
 #include "scripts/handlinggeneral.h"
@@ -47,6 +48,8 @@ int main(int argc, char *argv[])
         if (!obj && url == objUrl)
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
+
+    PQStartup::PQStartup();
 
     qmlRegisterType<PQHandlingFileDialog>("PQHandlingFileDialog", 1, 0, "PQHandlingFileDialog");
     qmlRegisterType<PQHandlingGeneral>("PQHandlingGeneral", 1, 0, "PQHandlingGeneral");

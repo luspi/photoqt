@@ -31,10 +31,38 @@ Window {
     width: 1024
     height: 768
 
-    color: Qt.rgba(PQSettings.backgroundColorRed/256.0,
-                   PQSettings.backgroundColorGreen/256.0,
-                   PQSettings.backgroundColorBlue/256.0,
-                   PQSettings.backgroundColorAlpha/256.0)
+    color: "#00000000"
+
+    Image {
+
+        anchors.fill: parent
+
+        source: PQSettings.backgroundImageScreenshot ?
+                    ("file://" + handlingGeneral.getTempDir() + "/photoqt_screenshot_0.jpg") :
+                    (PQSettings.backgroundImageUse ? ("file://"+PQSettings.backgroundImagePath) : "")
+
+        fillMode: PQSettings.backgroundImageScale ?
+                      Image.PreserveAspectFit :
+                      PQSettings.backgroundImageScaleCrop ?
+                          Image.PreserveAspectCrop :
+                          PQSettings.backgroundImageStretch ?
+                              Image.Stretch :
+                              PQSettings.backgroundImageCenter ?
+                                  Image.Pad :
+                                  Image.Tile
+
+        Rectangle {
+
+            anchors.fill: parent
+
+            color: Qt.rgba(PQSettings.backgroundColorRed/256.0,
+                           PQSettings.backgroundColorGreen/256.0,
+                           PQSettings.backgroundColorBlue/256.0,
+                           PQSettings.backgroundColorAlpha/256.0)
+
+        }
+
+    }
 
     title: em.pty+qsTranslate("other", "PhotoQt Image Viewer")
 
@@ -45,6 +73,7 @@ Window {
         }
         if(variables.indexOfCurrentImage > -1)
             handlingGeneral.setLastLoadedImage(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+        handlingGeneral.cleanUpScreenshotsTakenAtStartup()
         close.accepted = true
     }
 
