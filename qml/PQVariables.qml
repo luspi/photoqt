@@ -61,27 +61,6 @@ Item {
             }
         }
 
-        onCmdShowChanged: {
-            if(PQCppVariables.cmdShow) {
-                console.log("show")
-                PQCppVariables.cmdShow = false
-            }
-        }
-
-        onCmdHideChanged: {
-            if(PQCppVariables.cmdHide) {
-                console.log("hide")
-                PQCppVariables.cmdHide = false
-            }
-        }
-
-        onCmdToggleChanged: {
-            if(PQCppVariables.cmdToggle) {
-                console.log("toggle")
-                PQCppVariables.cmdToggle = false
-            }
-        }
-
         onCmdThumbsChanged: {
             if(PQCppVariables.cmdThumbs) {
                 console.log("thumbs")
@@ -96,17 +75,10 @@ Item {
             }
         }
 
-        onCmdTrayChanged: {
-            if(PQCppVariables.cmdTray) {
-                console.log("tray")
-                PQCppVariables.cmdTray = false
-            }
-        }
-
-        onCmdDebugChanged: {
-            // this we actually do not handle
-            // if this changes to true, we keep it at true and use it to detect debug modus
-        }
+//        onCmdDebugChanged: {
+            // this we actually do not handle here
+            // if this changes to true, we keep it at true and use it to detect debug modus everywhere
+//        }
 
     }
 

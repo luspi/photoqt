@@ -21,23 +21,12 @@ PQSingleInstance::PQSingleInstance(int &argc, char *argv[]) : QGuiApplication(ar
     if(result & PQCommandLineOpen)
         message += ":://::_O_P_E_N_";
 
-    if(result & PQCommandLineShow)
-        message += ":://::_S_H_O_W_";
-
-    if(result & PQCommandLineHide)
-        message += ":://::_H_I_D_E_";
-
-    if(result & PQCommandLineToggle)
-        message += ":://::_T_O_G_G_L_E_";
-
     if(result & PQCommandLineThumbs)
         message += ":://::_T_H_U_M_B_S_";
 
     if(result & PQCommandLineNoThumbs)
         message += ":://::_N_O_T_H_U_M_B_S_";
 
-    if(result & PQCommandLineTray)
-        message += ":://::_T_R_A_Y_";
 
     if(result & PQCommandLineDebug)
         message += ":://::_D_E_B_U_G_";
@@ -128,25 +117,11 @@ void PQSingleInstance::handleMessage(QString msg) {
 
             PQVariables::get().setCmdOpen(true);
 
-        else if(m.startsWith("_S_H_O_W_"))
-
-            PQVariables::get().setCmdShow(true);
-
-        else if(m.startsWith("_H_I_D_E_"))
-
-            PQVariables::get().setCmdHide(true);
-
-        else if(m.startsWith("_T_O_G_G_L_E_"))
-
-            PQVariables::get().setCmdToggle(true);
-
         else if(m.startsWith("_N_O_T_H_U_M_B_S_"))
 
             PQVariables::get().setCmdNoThumbs(true);
 
-        else if(m.startsWith("_T_R_A_Y_"))
 
-            PQVariables::get().setCmdTray(true);
 
         else if(m.startsWith("_D_E_B_U_G_"))
 

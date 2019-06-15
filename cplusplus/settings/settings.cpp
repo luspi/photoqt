@@ -57,7 +57,6 @@ void PQSettings::setDefault() {
     setBackgroundImageCenter(false);
     setBackgroundImageTile(false);
 
-    setTrayIcon(0);
     setLoopThroughFolder(true);
     setHotEdgeWidth(4);
     setCloseOnEmptyBackground(false);
@@ -265,9 +264,6 @@ void PQSettings::readSettings() {
             else if(line.startsWith("BackgroundImageTile="))
                 setBackgroundImageTile(line.split("=").at(1).toInt());
 
-
-            else if(line.startsWith("TrayIcon="))
-                setTrayIcon(line.split("=").at(1).toInt());
 
             else if(line.startsWith("AnimationDuration="))
                 setAnimationDuration(line.split("=").at(1).toInt());
@@ -641,7 +637,6 @@ void PQSettings::saveSettings() {
         cont += QString("ShowTransparencyMarkerBackground=%1\n").arg(int(m_showTransparencyMarkerBackground));
         cont += QString("SortImagesBy=%1\n").arg(m_sortby);
         cont += QString("SortImagesAscending=%1\n").arg(int(m_sortbyAscending));
-        cont += QString("TrayIcon=%1\n").arg(m_trayIcon);
         cont += QString("ZoomSpeed=%1\n").arg(m_zoomSpeed);
 
         cont += "\n[QuickInfo]\n";
