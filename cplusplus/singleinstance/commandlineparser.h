@@ -16,6 +16,7 @@ enum PQCommandLineResult {
     PQCommandLineNoDebug = 64,
     PQCommandLineExport = 128,
     PQCommandLineImport = 256,
+    PQShortcutSequence = 512
 };
 inline PQCommandLineResult operator|(PQCommandLineResult a, PQCommandLineResult b) {
     return static_cast<PQCommandLineResult>(static_cast<int>(a) | static_cast<int>(b));
@@ -40,6 +41,7 @@ public:
             {"thumbs", QGuiApplication::translate("commandlineparser", "Enable thumbnails.")},
             {"no-thumbs", QGuiApplication::translate("commandlineparser", "Disable thumbnails.")},
             {"standalone", QGuiApplication::translate("commandlineparser", "Open standalone PhotoQt, allows for multiple instances but without remote interaction.")},
+            {"send-shortcut", QGuiApplication::translate("commandlineparser", "Simulate a shortcut sequence"), "shortcut"},
             {"debug", QGuiApplication::translate("commandlineparser", "Switch on debug messages.")},
             {"no-debug", QGuiApplication::translate("commandlineparser", "Switch off debug messages.")},
             {"export", QGuiApplication::translate("commandlineparser", "Export configuration to given filename."), "filename"},
@@ -71,6 +73,10 @@ public:
         if(isSet("standalone"))
             ret = ret|PQCommandLineStandalone;
 
+        shortcutSequence = value("send-shortcut");
+        if(shortcutSequence != "")
+            ret = ret|PQShortcutSequence;
+
         if(isSet("debug"))
             ret = ret|PQCommandLineDebug;
 
@@ -92,6 +98,7 @@ public:
     QString exportFileName;
     QString importFileName;
     QString filename;
+    QString shortcutSequence;
 
 };
 

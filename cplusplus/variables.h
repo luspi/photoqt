@@ -52,6 +52,14 @@ public:
             }
         }
 
+        Q_PROPERTY(QString cmdShortcutSequence READ getCmdShortcutSequence WRITE setCmdShortcutSequence NOTIFY cmdShortcutSequenceChanged)
+        QString getCmdShortcutSequence() { return m_cmdShortcutSequence; }
+        void setCmdShortcutSequence(QString val) {
+            if(val != m_cmdShortcutSequence) {
+                m_cmdShortcutSequence = val;
+                emit cmdShortcutSequenceChanged();
+            }
+        }
 
         Q_PROPERTY(bool cmdDebug READ getCmdDebug WRITE setCmdDebug NOTIFY cmdDebugChanged)
         bool getCmdDebug() { return m_cmdDebug; }
@@ -69,6 +77,7 @@ private:
         bool m_cmdOpen;
         bool m_cmdThumbs;
         bool m_cmdNoThumbs;
+        QString m_cmdShortcutSequence;
         bool m_cmdDebug;
 
 signals:
@@ -76,6 +85,7 @@ signals:
         void cmdOpenChanged();
         void cmdThumbsChanged();
         void cmdNoThumbsChanged();
+        void cmdShortcutSequenceChanged();
         void cmdDebugChanged();
 
 };

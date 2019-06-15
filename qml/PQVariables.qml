@@ -1,5 +1,6 @@
 import QtQuick 2.9
 import PQFileFolderModel 1.0
+import "shortcuts/handleshortcuts.js" as HandleShortcuts
 
 Item {
 
@@ -65,6 +66,18 @@ Item {
             if(PQCppVariables.cmdThumbs) {
                 console.log("thumbs")
                 PQCppVariables.cmdThumbs = false
+            }
+        }
+
+        onCmdShortcutSequenceChanged: {
+            if(PQCppVariables.cmdShortcutSequence != "") {
+                for(var i = 0; i < variables.shortcuts.length; ++i) {
+                    if(variables.shortcuts[i][1] === PQCppVariables.cmdShortcutSequence) {
+                        HandleShortcuts.whatToDoWithFoundShortcut(variables.shortcuts[i])
+                        break;
+                    }
+                }
+                PQCppVariables.cmdShortcutSequence = ""
             }
         }
 

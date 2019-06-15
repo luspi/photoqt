@@ -27,6 +27,8 @@ PQSingleInstance::PQSingleInstance(int &argc, char *argv[]) : QGuiApplication(ar
     if(result & PQCommandLineNoThumbs)
         message += ":://::_N_O_T_H_U_M_B_S_";
 
+    if(result & PQShortcutSequence)
+        message += ":://::_S_H_O_R_T_C_U_T_" + parser.shortcutSequence;
 
     if(result & PQCommandLineDebug)
         message += ":://::_D_E_B_U_G_";
@@ -121,7 +123,9 @@ void PQSingleInstance::handleMessage(QString msg) {
 
             PQVariables::get().setCmdNoThumbs(true);
 
+        else if(m.startsWith("_S_H_O_R_T_C_U_T_"))
 
+            PQVariables::get().setCmdShortcutSequence(m.remove(0, 17));
 
         else if(m.startsWith("_D_E_B_U_G_"))
 
