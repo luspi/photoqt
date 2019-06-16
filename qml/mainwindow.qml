@@ -117,6 +117,8 @@ Window {
 
             variables.allImageFilesInOrder = filefoldermodel.loadFilesInFolder(folderToLoad, PQSettings.openShowHiddenFilesFolders, imageformats.getAllEnabledFileformats(), sortField, !PQSettings.sortbyAscending)
 
+            variables.openCurrentDirectory = folderToLoad
+
             if(handlingGeneral.isDir(filenameToLoad)) {
                 if(variables.allImageFilesInOrder.length == 0) {
                     loader.show("filedialog")

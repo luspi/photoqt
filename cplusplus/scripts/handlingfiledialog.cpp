@@ -420,6 +420,30 @@ QString PQHandlingFileDialog::getHomeDir() {
     return QDir::homePath();
 }
 
+QString PQHandlingFileDialog::getLastLocation() {
+
+    QString ret = QDir::currentPath();
+    QFile file(ConfigFiles::OPENFILE_LAST_LOCATION());
+    if(file.exists() && file.open(QIODevice::ReadOnly)) {
+        QTextStream in(&file);
+        ret = in.readAll().trimmed();
+        file.close();
+    }
+    return ret;
+
+}
+
+void PQHandlingFileDialog::setLastLocation(QString path) {
+
+    QFile file(ConfigFiles::OPENFILE_LAST_LOCATION());
+    if(file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        QTextStream out(&file);
+        out << path;
+        file.close();
+    }
+
+}
+
 QString PQHandlingFileDialog::convertBytesToHumanReadable(qint64 bytes) {
     if(bytes <= 1024)
         return (QString::number(bytes) + " B");

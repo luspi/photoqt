@@ -41,6 +41,8 @@ public:
     Q_INVOKABLE QStringList getFoldersIn(QString path);
 
     Q_INVOKABLE QString getHomeDir();
+    Q_INVOKABLE QString getLastLocation();
+    Q_INVOKABLE void setLastLocation(QString path);
 
     Q_INVOKABLE QString convertBytesToHumanReadable(qint64 bytes);
     Q_INVOKABLE QString getFileType(QString path);

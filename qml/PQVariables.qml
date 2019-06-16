@@ -10,7 +10,9 @@ Item {
     property int indexOfCurrentImage: -1
     property real currentZoomLevel: 1
 
-    property string openCurrentDirectory: handlingFileDialog.getHomeDir()
+    property string openCurrentDirectory: PQSettings.openKeepLastLocation ? handlingFileDialog.getLastLocation() : handlingFileDialog.getHomeDir()
+    onOpenCurrentDirectoryChanged:
+        handlingFileDialog.setLastLocation(openCurrentDirectory)
 
     property point mousePos: Qt.point(-1, -1)
 
