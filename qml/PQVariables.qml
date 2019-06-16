@@ -73,12 +73,7 @@ Item {
 
         onCmdShortcutSequenceChanged: {
             if(PQCppVariables.cmdShortcutSequence != "") {
-                for(var i = 0; i < variables.shortcuts.length; ++i) {
-                    if(variables.shortcuts[i][1] === PQCppVariables.cmdShortcutSequence) {
-                        HandleShortcuts.whatToDoWithFoundShortcut(variables.shortcuts[i])
-                        break;
-                    }
-                }
+                HandleShortcuts.checkComboForShortcut(PQCppVariables.cmdShortcutSequence)
                 PQCppVariables.cmdShortcutSequence = ""
             }
         }

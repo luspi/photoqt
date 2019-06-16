@@ -71,6 +71,7 @@ void PQSettings::setDefault() {
     setShowTransparencyMarkerBackground(false);
     setStartupLoadLastLoadedImage(false);
     setMainMenuWindowWidth(350);
+    setMainMenuPopoutElement(false);
     setPdfSingleDocument(true);
     setPdfQuality(150);
     setArchiveSingleFile(true);
@@ -548,6 +549,9 @@ void PQSettings::readSettings() {
             else if(line.startsWith("MainMenuWindowWidth="))
                 setMainMenuWindowWidth(line.split("=").at(1).toInt());
 
+            else if(line.startsWith("MainMenuPopoutElement="))
+                setMainMenuPopoutElement(line.split("=").at(1).toInt());
+
 
             else if(line.startsWith("Histogram="))
                 setHistogram(line.split("=").at(1).toInt());
@@ -741,6 +745,7 @@ void PQSettings::saveSettings() {
         cont += "\n[Main Menu Element]\n";
 
         cont += QString("MainMenuWindowWidth=%1\n").arg(m_mainMenuWindowWidth);
+        cont += QString("MainMenuPopoutElement=%1\n").arg(m_mainMenuPopoutElement);
 
         out << cont;
         file.close();

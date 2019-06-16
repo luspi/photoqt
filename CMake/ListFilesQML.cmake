@@ -22,3 +22,6 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQFileDialog.qml ${d}/PQFileDialogPopout.qml
 
 SET(d "qml/filedialog/parts")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQPlaces.qml ${d}/PQDevices.qml ${d}/PQFileView.qml ${d}/PQStandard.qml ${d}/PQTweaks.qml ${d}/PQBreadCrumbs.qml ${d}/PQPreview.qml ${d}/PQRightClickMenu.qml)
+
+SET(d "qml/menumeta")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQMainMenu.qml ${d}/PQMainMenuPopout.qml)

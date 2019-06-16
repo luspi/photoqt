@@ -8,5 +8,25 @@
         <file>mainwindow/close.png</file>
         <file>image/transparent.png</file>
         <file>other/icon.png</file>
+        <file>mainmenu/about.png</file>
+        <file>mainmenu/copy.png</file>
+        <file>mainmenu/delete.png</file>
+        <file>mainmenu/faces.png</file>
+        <file>mainmenu/filter.png</file>
+        <file>mainmenu/flip.png</file>
+        <file>mainmenu/goto.png</file>
+        <file>mainmenu/histogram.png</file>
+        <file>mainmenu/metadata.png</file>
+        <file>mainmenu/move.png</file>
+        <file>mainmenu/open.png</file>
+        <file>mainmenu/quit.png</file>
+        <file>mainmenu/rename.png</file>
+        <file>mainmenu/rotate.png</file>
+        <file>mainmenu/scale.png</file>
+        <file>mainmenu/settings.png</file>
+        <file>mainmenu/slideshow.png</file>
+        <file>mainmenu/zoom.png</file>
+        <file>mainmenu/zoomin.png</file>
+        <file>mainmenu/zoomout.png</file>
     </qresource>
 </RCC>

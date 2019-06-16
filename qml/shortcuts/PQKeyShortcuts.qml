@@ -34,14 +34,7 @@ Item {
             if(event.key != 16777249)
                 combo += handlingShortcuts.convertKeyCodeToText(event.key)
 
-            for(var i = 0; i < variables.shortcuts.length; ++i) {
-
-                if(variables.shortcuts[i][1] === combo) {
-                    HandleShortcuts.whatToDoWithFoundShortcut(variables.shortcuts[i])
-                    break;
-                }
-
-            }
+            HandleShortcuts.checkComboForShortcut(combo)
 
         }
 

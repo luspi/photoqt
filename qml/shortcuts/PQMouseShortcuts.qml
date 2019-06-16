@@ -70,14 +70,7 @@ Item {
             angleDeltaX = 0
             angleDeltaY = 0
 
-            for(var i = 0; i < variables.shortcuts.length; ++i) {
-
-                if(variables.shortcuts[i][1] === combo) {
-                    HandleShortcuts.whatToDoWithFoundShortcut(variables.shortcuts[i])
-                    break;
-                }
-
-            }
+            HandleShortcuts.checkComboForShortcut(combo)
 
         }
 
@@ -171,14 +164,7 @@ Item {
                 return
             }
 
-            for(var i = 0; i < variables.shortcuts.length; ++i) {
-
-                if(variables.shortcuts[i][1] === combo) {
-                    HandleShortcuts.whatToDoWithFoundShortcut(variables.shortcuts[i])
-                    break;
-                }
-
-            }
+            HandleShortcuts.checkComboForShortcut(combo)
 
         }
 

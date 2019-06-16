@@ -13,6 +13,7 @@ import PQFileFolderModel 1.0
 
 import "./mainwindow"
 import "./shortcuts"
+import "./menumeta"
 
 Window {
 
@@ -148,6 +149,9 @@ Window {
     PQCloseButton { id: closebutton }
 
     PQThumbnailBar { id: thumbnails }
+
+    PQMainMenu { id: mainmenu; visible: !PQSettings.mainMenuPopoutElement }
+    PQMainMenuPopout { id: mainmenu_popout; visible: PQSettings.mainMenuPopoutElement }
 
     Loader { id: filedialog }
     Loader { id: filedialog_popout }

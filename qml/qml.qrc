@@ -32,5 +32,9 @@
         <file>filedialog/parts/PQTweaks.qml</file>
         <file>filedialog/PQFileDialog.qml</file>
         <file>filedialog/PQFileDialogPopout.qml</file>
+        <file>menumeta/PQMainMenu.qml</file>
+        <file>menumeta/PQMainMenuPopout.qml</file>
+        <file>menumeta/PQMetaData.qml</file>
+        <file>menumeta/PQMetaDataPopout.qml</file>
     </qresource>
 </RCC>

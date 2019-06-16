@@ -1,3 +1,20 @@
+function checkComboForShortcut(combo) {
+
+    for(var i = 0; i < variables.shortcuts.length; ++i) {
+
+        if(variables.shortcuts[i][1] === combo) {
+            whatToDoWithFoundShortcut(variables.shortcuts[i])
+            break;
+        }
+
+    }
+
+}
+
+function executeInternalFunction(func) {
+    whatToDoWithFoundShortcut(["","",func])
+}
+
 function whatToDoWithFoundShortcut(sh) {
 
     console.log("SH:", sh)

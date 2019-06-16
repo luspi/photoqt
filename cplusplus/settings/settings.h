@@ -1210,6 +1210,16 @@ public:
             }
         }
 
+        Q_PROPERTY(int mainMenuPopoutElement READ getMainMenuPopoutElement WRITE setMainMenuPopoutElement NOTIFY mainMenuPopoutElementChanged)
+        int getMainMenuPopoutElement() { return m_mainMenuPopoutElement; }
+        void setMainMenuPopoutElement(int val) {
+            if(m_mainMenuPopoutElement != val) {
+                m_mainMenuPopoutElement = val;
+                emit mainMenuPopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
 
 
         Q_PROPERTY(bool histogram READ getHistogram WRITE setHistogram NOTIFY histogramChanged)
@@ -1386,6 +1396,7 @@ private:
 
         int     m_metadataWindowWidth;
         int     m_mainMenuWindowWidth;
+        bool    m_mainMenuPopoutElement;
 
         bool    m_histogram;
         QPoint  m_histogramPosition;
@@ -1514,6 +1525,7 @@ signals:
         void openPopoutElementKeepOpenChanged();
         void metadataWindowWidthChanged();
         void mainMenuWindowWidthChanged();
+        void mainMenuPopoutElementChanged();
         void histogramChanged();
         void histogramPositionChanged();
         void histogramSizeChanged();
