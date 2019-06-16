@@ -8,8 +8,12 @@ Window {
 
     id: mainmenu_window
 
-    width: PQSettings.mainMenuWindowWidth
-    height: 768
+    Component.onCompleted: {
+        mainmenu_window.x = windowgeometry.mainMenuWindowGeometry.x
+        mainmenu_window.y = windowgeometry.mainMenuWindowGeometry.y
+        mainmenu_window.width = windowgeometry.mainMenuWindowGeometry.width
+        mainmenu_window.height = windowgeometry.mainMenuWindowGeometry.height
+    }
 
     minimumWidth: 100
     minimumHeight: 600
@@ -17,7 +21,15 @@ Window {
     modality: Qt.NonModal
 
     onClosing: {
-        close.accepted = false
+        toplevel.close()
+    }
+
+    Connections {
+        target: toplevel
+        onClosing: {
+            windowgeometry.mainMenuWindowGeometry = Qt.rect(mainmenu_window.x, mainmenu_window.y, mainmenu_window.width, mainmenu_window.height)
+            windowgeometry.mainMenuWindowMaximized = (mainmenu_window.visibility==Window.Maximized)
+        }
     }
 
     visible: PQSettings.mainMenuPopoutElement

@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QRect>
 #include <QSettings>
+#include <QGuiApplication>
+#include <QScreen>
 #include "../logger.h"
 
 class PQWindowGeometry : public QObject {
@@ -49,12 +51,33 @@ public:
         }
     }
 
+    Q_PROPERTY(QRect mainMenuWindowGeometry READ getMainMenuWindowGeometry WRITE setMainMenuWindowGeometry)
+    QRect getMainMenuWindowGeometry() { return m_mainMenuWindowGeometry; }
+    void setMainMenuWindowGeometry(QRect rect) {
+        if(rect != m_mainMenuWindowGeometry) {
+            m_mainMenuWindowGeometry = rect;
+            saveGeometries();
+        }
+    }
+
+    Q_PROPERTY(bool mainMenuWindowMaximized READ getMainMenuWindowMaximized WRITE setMainMenuWindowMaximized)
+    bool getMainMenuWindowMaximized() { return m_mainMenuWindowMaximized; }
+    void setMainMenuWindowMaximized(bool maximized) {
+        if(maximized != m_mainMenuWindowMaximized) {
+            m_mainMenuWindowMaximized = maximized;
+            saveGeometries();
+        }
+    }
+
 private:
     QRect m_mainWindowGeometry;
     bool m_mainWindowMaximized;
 
     QRect m_fileDialogWindowGeometry;
     bool m_fileDialogWindowMaximized;
+
+    QRect m_mainMenuWindowGeometry;
+    bool m_mainMenuWindowMaximized;
 
     QSettings *settings;
 

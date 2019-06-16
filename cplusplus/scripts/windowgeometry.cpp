@@ -3,8 +3,15 @@
 
 PQWindowGeometry::PQWindowGeometry(QObject *parent) : QObject(parent) {
 
-    m_mainWindowMaximized = false;
-    m_mainWindowGeometry = QRect();
+    m_mainWindowMaximized = true;
+    m_mainWindowGeometry = QRect(0,0,1024,768);
+
+    m_fileDialogWindowMaximized = true;
+    m_fileDialogWindowGeometry = QRect(0,0,800,600);
+
+    m_mainMenuWindowMaximized = false;
+    QRect ref = QGuiApplication::screens().at(0)->geometry();
+    m_mainMenuWindowGeometry = QRect(ref.width()-400, 0, 400, 700);
 
     settings = new QSettings(ConfigFiles::WINDOW_GEOMETRY_FILE(), QSettings::IniFormat);
 
@@ -14,11 +21,20 @@ PQWindowGeometry::PQWindowGeometry(QObject *parent) : QObject(parent) {
 
 void PQWindowGeometry::readGeometries() {
 
-    m_mainWindowGeometry = settings->value("mainWindowGeometry").toRect();
-    m_mainWindowMaximized = settings->value("mainWindowMaximized").toBool();
+    if(settings->allKeys().contains("mainWindowGeometry"))
+        m_mainWindowGeometry = settings->value("mainWindowGeometry").toRect();
+    if(settings->allKeys().contains("mainWindowMaximized"))
+        m_mainWindowMaximized = settings->value("mainWindowMaximized").toBool();
 
-    m_fileDialogWindowGeometry = settings->value("fileDialogWindowGeometry").toRect();
-    m_fileDialogWindowMaximized = settings->value("fileDialogWindowMaximized").toBool();
+    if(settings->allKeys().contains("fileDialogWindowGeometry"))
+        m_fileDialogWindowGeometry = settings->value("fileDialogWindowGeometry").toRect();
+    if(settings->allKeys().contains("fileDialogWindowMaximized"))
+        m_fileDialogWindowMaximized = settings->value("fileDialogWindowMaximized").toBool();
+
+    if(settings->allKeys().contains("mainMenuWindowGeometry"))
+        m_mainMenuWindowGeometry = settings->value("mainMenuWindowGeometry").toRect();
+    if(settings->allKeys().contains("mainMenuWindowMaximized"))
+        m_mainMenuWindowMaximized = settings->value("mainMenuWindowMaximized").toBool();
 
 }
 
@@ -29,5 +45,8 @@ void PQWindowGeometry::saveGeometries() {
 
     settings->setValue("fileDialogWindowGeometry", m_fileDialogWindowGeometry);;
     settings->setValue("fileDialogWindowMaximized", m_fileDialogWindowMaximized);
+
+    settings->setValue("mainMenuWindowGeometry", m_mainMenuWindowGeometry);;
+    settings->setValue("mainMenuWindowMaximized", m_mainMenuWindowMaximized);
 
 }

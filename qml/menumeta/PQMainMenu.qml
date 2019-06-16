@@ -1,4 +1,5 @@
 import QtQuick 2.9
+import QtQuick.Controls 2.2
 import "../elements"
 import "../shortcuts/handleshortcuts.js" as HandleShortcuts
 
@@ -10,7 +11,7 @@ Rectangle {
 
     property int parentWidth: toplevel.width
     property int parentHeight: toplevel.height
-    width: opacity!=0 ? PQSettings.mainMenuWindowWidth : 0
+    width: opacity!=0 ? (PQSettings.mainMenuPopoutElement ? parentWidth : PQSettings.mainMenuWindowWidth) : 0
     height: parentHeight+2
     x: parentWidth-width+1
     y: -1
@@ -150,12 +151,14 @@ Rectangle {
         x: 10
         y: spacingbelowheader.y + spacingbelowheader.height+10
         height: parent.height-y-(helptext.height+5)
-        width: parent.width
+        width: parent.width-scroll.width
         model: allitems.length
         delegate: maindeleg
         clip: true
 
         orientation: ListView.Vertical
+
+        ScrollBar.vertical: PQScrollBar { id: scroll }
 
     }
 
