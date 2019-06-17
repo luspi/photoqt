@@ -376,7 +376,7 @@ unsigned int PQHandlingFileDialog::getNumberOfFilesInFolder(QString path) {
 
     QDir dir(path);
 
-    QStringList checkForTheseFormats = imageformats->getAllEnabledFileformats();
+    QStringList checkForTheseFormats = imageformats->getAllEnabledFileFormats();
     dir.setNameFilters(checkForTheseFormats);
     dir.setFilter(QDir::Files);
 

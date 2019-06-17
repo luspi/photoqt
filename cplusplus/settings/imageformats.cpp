@@ -298,6 +298,9 @@ void PQImageFormats::setEnabledFileformats(QString cat, QStringList val, bool wi
         if(cat == "qt")
             setEnabledFileformatsQt(val);
 
+        else if(cat == "xcftools")
+            setEnabledFileformatsXCF(val);
+
         else if(cat == "gm")
             setEnabledFileformatsGm(val);
 
@@ -305,6 +308,9 @@ void PQImageFormats::setEnabledFileformats(QString cat, QStringList val, bool wi
 
         if(cat == "qt")
             setEnabledFileformatsQtWithoutSaving(val);
+
+        else if(cat == "xcftools")
+            setEnabledFileformatsXCFWithoutSaving(val);
 
         else if(cat == "gm")
             setEnabledFileformatsGmWithoutSaving(val);
@@ -344,6 +350,7 @@ void PQImageFormats::composeEnabledFormats(bool withSaving) {
     if(!disabled.exists()) {
         for(QString cat : categories)
             setEnabledFileformats(cat, defaultEnabledFileformats[categories.indexOf(cat)]);
+
         return;
     }
     if(!disabled.open(QIODevice::ReadOnly)) {

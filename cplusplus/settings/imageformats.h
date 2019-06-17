@@ -27,6 +27,9 @@ public:
     Q_INVOKABLE QVariantList getAvailableEndingsGm() {
         return availableFileformats[categories.indexOf("gm")];
     }
+    Q_INVOKABLE QVariantList getAvailableEndingsXCF() {
+        return availableFileformats[categories.indexOf("xcftools")];
+    }
 
     // All possibly available file formats INCLUDING a description of the image type for the various categories
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionQt() {
@@ -34,6 +37,9 @@ public:
     }
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionGm() {
         return availableFileformatsWithDescription[categories.indexOf("gm")];
+    }
+    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionXCF() {
+        return availableFileformatsWithDescription[categories.indexOf("xcftools")];
     }
 
     // All possibly available file formats for the various categories
@@ -43,6 +49,10 @@ public:
     Q_INVOKABLE QStringList getDefaultEnabledEndingsGm() {
         return defaultEnabledFileformats[categories.indexOf("gm")];
     }
+    Q_INVOKABLE QStringList getDefaultEnabledEndingsXCF() {
+        return defaultEnabledFileformats[categories.indexOf("xcftools")];
+    }
+
 
     // All currently enabled file formats for ...
     // ... Qt
@@ -54,6 +64,7 @@ public:
     void setEnabledFileformatsQt(QStringList val) { enabledFileformats[categories.indexOf("qt")] = val;
                                                     emit enabledFileformatsQtChanged(val); }
     void setEnabledFileformatsQtWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("qt")] = val; }
+
     // ... GM
     Q_PROPERTY(QStringList enabledFileformatsGm
                READ getEnabledFileformatsGm
@@ -64,22 +75,30 @@ public:
                                                     emit enabledFileformatsGmChanged(val); }
     void setEnabledFileformatsGmWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("gm")] = val; }
 
+    // ... XCF
+    Q_PROPERTY(QStringList enabledFileformatsXCF
+               READ getEnabledFileformatsXCF
+               WRITE setEnabledFileformatsXCF
+               NOTIFY enabledFileformatsXCFChanged)
+    QStringList getEnabledFileformatsXCF() { return enabledFileformats[categories.indexOf("xcftools")]; }
+    void setEnabledFileformatsXCF(QStringList val) { enabledFileformats[categories.indexOf("xcftools")] = val;
+                                                    emit enabledFileformatsXCFChanged(val); }
+    void setEnabledFileformatsXCFWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("xcftools")] = val; }
 
-    Q_INVOKABLE void setDefaultFormatsQt() {
-        setEnabledFileformatsQt(defaultEnabledFileformats[categories.indexOf("qt")]);
-    }
-    Q_INVOKABLE void setDefaultFormatsGm() {
-        setEnabledFileformatsGm(defaultEnabledFileformats[categories.indexOf("gm")]);
-    }
+
 
     // Can be called from QML when resetting the settings
-    Q_INVOKABLE void setDefaultFileformats() {
-        setEnabledFileformatsQt(defaultEnabledFileformats[categories.indexOf("qt")]);
-        setEnabledFileformatsGm(defaultEnabledFileformats[categories.indexOf("gm")]);
+    Q_INVOKABLE void setDefaultFileformats(QString category = "") {
+        if(category == "" || category == "qt")
+            setEnabledFileformatsQt(defaultEnabledFileformats[categories.indexOf("qt")]);
+        if(category == "" || category == "gm")
+            setEnabledFileformatsGm(defaultEnabledFileformats[categories.indexOf("gm")]);
+        if(category == "" || category == "xcftools")
+            setEnabledFileformatsGm(defaultEnabledFileformats[categories.indexOf("xcftools")]);
     }
 
 
-    Q_INVOKABLE QStringList getAllEnabledFileformats() {
+    Q_INVOKABLE QStringList getAllEnabledFileFormats() {
 
         QStringList allFormats;
 
@@ -87,8 +106,12 @@ public:
         foreach(QVariant entry, enabledFileformats[categories.indexOf("qt")])
             allFormats.append(entry.toString());
 
-        // GM
+        // XCF
+        foreach(QVariant entry, enabledFileformats[categories.indexOf("xcftools")])
+            allFormats.append(entry.toString());
+
 #ifdef GM
+        // GM
         foreach(QVariant entry, enabledFileformats[categories.indexOf("gm")])
             allFormats.append(entry.toString());
 #endif
@@ -97,20 +120,10 @@ public:
 
     }
 
-    Q_INVOKABLE QStringList getEnabledFileFormats(QString category) {
-
-        QStringList formats;
-
-        foreach(QVariant entry, enabledFileformats[categories.indexOf(category)])
-            formats.append(entry.toString());
-
-        return formats;
-
-    }
-
 signals:
     void enabledFileformatsQtChanged(QStringList val);
     void enabledFileformatsGmChanged(QStringList val);
+    void enabledFileformatsXCFChanged(QStringList val);
     void enabledFileformatsChanged();
     void enabledFileformatsSaved();
 

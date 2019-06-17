@@ -2,6 +2,7 @@
 #include "loader/errorimage.h"
 #include "loader/loadimage_qt.h"
 #include "loader/loadimage_gm.h"
+#include "loader/loadimage_xcf.h"
 #include "../settings/settings.h"
 
 QQuickImageResponse *PQAsyncImageProviderThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
@@ -81,6 +82,8 @@ void PQAsyncImageResponseThumb::run() {
 
     if(whatToUse == "gm")
         p = PQLoadImage::GraphicsMagick::load(filename, m_requestedSize, &origSize);
+    else if(whatToUse == "xcftools")
+        p = PQLoadImage::XCF::load(filename, m_requestedSize, &origSize);
     else
         p = PQLoadImage::Qt::load(filename, m_requestedSize, &origSize);
 
@@ -166,6 +169,9 @@ QString PQAsyncImageResponseThumb::whatDoIUse(QString filename) {
 
     if(imageformats->getEnabledFileformatsQt().contains("*." + info.suffix().toLower()))
         return "qt";
+
+    if(imageformats->getEnabledFileformatsXCF().contains("*." + info.suffix().toLower()))
+        return "xcftools";
 
     if(imageformats->getEnabledFileformatsGm().contains("*." + info.suffix().toLower()))
         return "gm";

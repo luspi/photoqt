@@ -23,6 +23,7 @@
 #include "imageproviderfull.h"
 #include "loader/loadimage_qt.h"
 #include "loader/loadimage_gm.h"
+#include "loader/loadimage_xcf.h"
 #include "../settings/settings.h"
 
 PQImageProviderFull::PQImageProviderFull() : QQuickImageProvider(QQuickImageProvider::Image) {
@@ -93,6 +94,9 @@ QImage PQImageProviderFull::requestImage(const QString &filename_encoded, QSize 
     if(whatToUse == "gm") {
         ret = PQLoadImage::GraphicsMagick::load(filename, requestedSize, origSize);
         err = PQLoadImage::GraphicsMagick::errormsg;
+    } else if(whatToUse == "xcftools") {
+            ret = PQLoadImage::XCF::load(filename, requestedSize, origSize);
+            err = PQLoadImage::XCF::errormsg;
     } else {
         ret = PQLoadImage::Qt::load(filename, requestedSize, origSize);
         err = PQLoadImage::Qt::errormsg;
@@ -128,6 +132,9 @@ QString PQImageProviderFull::whatDoIUse(QString filename) {
 
     if(imageformats->getEnabledFileformatsQt().contains("*." + info.suffix().toLower()))
         return "qt";
+
+    if(imageformats->getEnabledFileformatsXCF().contains("*." + info.suffix().toLower()))
+        return "xcftools";
 
     if(imageformats->getEnabledFileformatsGm().contains("*." + info.suffix().toLower()))
         return "gm";

@@ -22,7 +22,7 @@ GridView {
 
         property var validcategories: ["qt", "gm", "raw", "devil", "freeimage", "poppler"]
         nameFilters: tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="all" ?
-                         imageformats.getAllEnabledFileformats() :
+                         imageformats.getAllEnabledFileFormats() :
                          validcategories.indexOf(tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]) > -1 ?
                              imageformats.getEnabledFileFormats(tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]) :
                              []

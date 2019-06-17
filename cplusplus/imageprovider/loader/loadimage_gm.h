@@ -1,7 +1,6 @@
 #include <QFile>
 
 #include "../../logger.h"
-#include "errorimage.h"
 
 #ifdef GM
 #include <GraphicsMagick/Magick++.h>
@@ -11,7 +10,7 @@ namespace PQLoadImage {
 
     namespace GraphicsMagick {
 
-    static QString errormsg = "";
+        static QString errormsg = "";
 
 #ifdef GM
         static std::string getImageMagickString(QString suf);
