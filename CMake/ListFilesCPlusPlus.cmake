@@ -11,7 +11,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/settings.cpp)
 SET(d "cplusplus/scripts")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/handlingfiledialog.cpp ${d}/localisation.h ${d}/imageformats.cpp ${d}/imageproperties.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/filewatcher.cpp ${d}/handlinggeneral.cpp ${d}/filefoldermodel.cpp ${d}/handlingshortcuts.cpp)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/windowgeometry.cpp ${d}/handlingexternal.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/windowgeometry.cpp ${d}/handlingexternal.cpp ${d}/metadata.cpp)
 
 SET(d "cplusplus/imageprovider")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/imageproviderfull.cpp ${d}/imageproviderthumb.cpp ${d}/imageprovidericon.cpp)

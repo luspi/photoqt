@@ -10,6 +10,7 @@ import PQImageFormats 1.0
 import PQFileWatcher 1.0
 import PQWindowGeometry 1.0
 import PQFileFolderModel 1.0
+import PQCppMetaData 1.0
 
 import "./mainwindow"
 import "./shortcuts"
@@ -152,6 +153,8 @@ Window {
 
     PQMainMenu { id: mainmenu; visible: !PQSettings.mainMenuPopoutElement }
     PQMainMenuPopout { id: mainmenu_popout; visible: PQSettings.mainMenuPopoutElement }
+    PQMetaData { id: metadata; visible: !PQSettings.metadataPopoutElement }
+    PQMetaDataPopout { id: metadata_popout; visible: PQSettings.metadataPopoutElement }
 
     Loader { id: filedialog }
     Loader { id: filedialog_popout }
@@ -165,6 +168,7 @@ Window {
     PQHandlingShortcuts { id: handlingShortcuts }
 
     PQWindowGeometry { id: windowgeometry }
+    PQCppMetaData { id: cppmetadata }
 
     PQKeyShortcuts { id: shortcuts }
 

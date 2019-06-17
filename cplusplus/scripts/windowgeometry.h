@@ -69,6 +69,24 @@ public:
         }
     }
 
+    Q_PROPERTY(QRect metaDataWindowGeometry READ getMetaDataWindowGeometry WRITE setMetaDataWindowGeometry)
+    QRect getMetaDataWindowGeometry() { return m_metaDataWindowGeometry; }
+    void setMetaDataWindowGeometry(QRect rect) {
+        if(rect != m_metaDataWindowGeometry) {
+            m_metaDataWindowGeometry = rect;
+            saveGeometries();
+        }
+    }
+
+    Q_PROPERTY(bool metaDataWindowMaximized READ getMetaDataWindowMaximized WRITE setMetaDataWindowMaximized)
+    bool getMetaDataWindowMaximized() { return m_metaDataWindowMaximized; }
+    void setMetaDataWindowMaximized(bool maximized) {
+        if(maximized != m_metaDataWindowMaximized) {
+            m_metaDataWindowMaximized = maximized;
+            saveGeometries();
+        }
+    }
+
 private:
     QRect m_mainWindowGeometry;
     bool m_mainWindowMaximized;
@@ -78,6 +96,9 @@ private:
 
     QRect m_mainMenuWindowGeometry;
     bool m_mainMenuWindowMaximized;
+
+    QRect m_metaDataWindowGeometry;
+    bool m_metaDataWindowMaximized;
 
     QSettings *settings;
 

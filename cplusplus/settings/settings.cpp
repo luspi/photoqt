@@ -156,6 +156,7 @@ void PQSettings::setDefault() {
     setMetadataFontSize(10);
     setMetadataOpacity(220);
     setMetadataWindowWidth(350);
+    setMetadataPopoutElement(false);
 
     setOpenDefaultView("list");
     setOpenPreview(true);
@@ -483,6 +484,9 @@ void PQSettings::readSettings() {
             else if(line.startsWith("MetadataWindowWidth="))
                 setMetadataWindowWidth(line.split("=").at(1).toInt());
 
+            else if(line.startsWith("MetadataPopoutElement="))
+                setMetadataPopoutElement(line.split("=").at(1).toInt());
+
 
             else if(line.startsWith("PeopleTagInMetaDisplay="))
                 setPeopleTagInMetaDisplay(line.split("=").at(1).toInt());
@@ -709,6 +713,7 @@ void PQSettings::saveSettings() {
         cont += QString("MetadataFontSize=%1\n").arg(m_metadataFontSize);
         cont += QString("MetadataOpacity=%1\n").arg(m_metadataOpacity);
         cont += QString("MetadataWindowWidth=%1\n").arg(m_metadataWindowWidth);
+        cont += QString("MetadataPopoutElement=%1\n").arg(m_metadataPopoutElement);
 
         cont += "\n[People Tags in Metadata]\n";
 

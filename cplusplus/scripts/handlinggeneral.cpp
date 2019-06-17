@@ -74,6 +74,10 @@ bool PQHandlingGeneral::isDir(QString path) {
     return QFileInfo(path).isDir();
 }
 
+QString PQHandlingGeneral::getFileSize(QString path) {
+    return QString::number(QFileInfo(path).size()/1024) + " KB";
+}
+
 QString PQHandlingGeneral::getTempDir() {
     return QDir::tempPath();
 }

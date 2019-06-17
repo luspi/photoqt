@@ -13,6 +13,9 @@ PQWindowGeometry::PQWindowGeometry(QObject *parent) : QObject(parent) {
     QRect ref = QGuiApplication::screens().at(0)->geometry();
     m_mainMenuWindowGeometry = QRect(ref.width()-400, 0, 400, 700);
 
+    m_metaDataWindowMaximized = false;
+    m_metaDataWindowGeometry = QRect(0, 0, 400, 700);
+
     settings = new QSettings(ConfigFiles::WINDOW_GEOMETRY_FILE(), QSettings::IniFormat);
 
     readGeometries();
@@ -36,6 +39,11 @@ void PQWindowGeometry::readGeometries() {
     if(settings->allKeys().contains("mainMenuWindowMaximized"))
         m_mainMenuWindowMaximized = settings->value("mainMenuWindowMaximized").toBool();
 
+    if(settings->allKeys().contains("metaDataWindowGeometry"))
+        m_metaDataWindowGeometry = settings->value("metaDataWindowGeometry").toRect();
+    if(settings->allKeys().contains("metaDataWindowMaximized"))
+        m_metaDataWindowMaximized = settings->value("metaDataWindowMaximized").toBool();
+
 }
 
 void PQWindowGeometry::saveGeometries() {
@@ -48,5 +56,8 @@ void PQWindowGeometry::saveGeometries() {
 
     settings->setValue("mainMenuWindowGeometry", m_mainMenuWindowGeometry);;
     settings->setValue("mainMenuWindowMaximized", m_mainMenuWindowMaximized);
+
+    settings->setValue("metaDataWindowGeometry", m_metaDataWindowGeometry);;
+    settings->setValue("metaDataWindowMaximized", m_metaDataWindowMaximized);
 
 }

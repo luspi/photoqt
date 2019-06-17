@@ -1200,6 +1200,16 @@ public:
             }
         }
 
+        Q_PROPERTY(int metadataPopoutElement READ getMetadataPopoutElement WRITE setMetadataPopoutElement NOTIFY metadataPopoutElementChanged)
+        int getMetadataPopoutElement() { return m_metadataPopoutElement; }
+        void setMetadataPopoutElement(int val) {
+            if(m_metadataPopoutElement != val) {
+                m_metadataPopoutElement = val;
+                emit metadataPopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
         Q_PROPERTY(int mainMenuWindowWidth READ getMainMenuWindowWidth WRITE setMainMenuWindowWidth NOTIFY mainMenuWindowWidthChanged)
         int getMainMenuWindowWidth() { return m_mainMenuWindowWidth; }
         void setMainMenuWindowWidth(int val) {
@@ -1395,6 +1405,7 @@ private:
         bool    m_openPopoutElementKeepOpen;
 
         int     m_metadataWindowWidth;
+        bool    m_metadataPopoutElement;
         int     m_mainMenuWindowWidth;
         bool    m_mainMenuPopoutElement;
 
@@ -1524,6 +1535,7 @@ signals:
         void openPopoutElementChanged();
         void openPopoutElementKeepOpenChanged();
         void metadataWindowWidthChanged();
+        void metadataPopoutElementChanged();
         void mainMenuWindowWidthChanged();
         void mainMenuPopoutElementChanged();
         void histogramChanged();

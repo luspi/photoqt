@@ -6,6 +6,8 @@ Item {
     id: container
 
     anchors.fill: parent
+    anchors.leftMargin: variables.metaDataWidthWhenKeptOpen
+    Behavior on anchors.leftMargin { NumberAnimation { duration: PQSettings.animationDuration*100 } }
 
     anchors.bottomMargin: ((PQSettings.thumbnailKeepVisible || PQSettings.thumbnailKeepVisibleWhenNotZoomedIn) && PQSettings.thumbnailPosition!="Top" && !PQSettings.thumbnailDisable) ? thumbnails.height : 0
     Behavior on anchors.bottomMargin { NumberAnimation { duration: 150 } }

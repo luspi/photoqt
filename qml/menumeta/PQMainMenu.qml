@@ -21,7 +21,7 @@ Rectangle {
 
     opacity: 0
     visible: opacity != 0
-    Behavior on opacity { NumberAnimation { duration: PQSettings.animationDuration*150 } }
+    Behavior on opacity { NumberAnimation { duration: PQSettings.mainMenuPopoutElement ? 0 : PQSettings.animationDuration*150 } }
 
     Connections {
         target: variables

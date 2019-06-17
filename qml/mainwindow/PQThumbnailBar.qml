@@ -4,7 +4,8 @@ import "../elements"
 
 Item {
 
-    x: 0
+    x: variables.metaDataWidthWhenKeptOpen
+    Behavior on x { NumberAnimation { duration: PQSettings.animationDuration*100 } }
 
     y:
         PQSettings.thumbnailPosition=="Top" ?
@@ -23,7 +24,9 @@ Item {
 
     visible: PQSettings.thumbnailPosition=="Top" ? (y > -height) : (y < toplevel.height)
 
-    width: toplevel.width
+    width: toplevel.width-x
+
+    clip: true
 
     height: PQSettings.thumbnailSize+PQSettings.thumbnailLiftUp+scroll.height
 
