@@ -701,6 +701,16 @@ public:
             }
         }
 
+        Q_PROPERTY(int thumbnailMaxNumberThreads READ getThumbnailMaxNumberThreads WRITE setThumbnailMaxNumberThreads NOTIFY thumbnailMaxNumberThreadsChanged)
+        int getThumbnailMaxNumberThreads() { return m_thumbnailMaxNumberThreads; }
+        void setThumbnailMaxNumberThreads(int val) {
+            if(m_thumbnailMaxNumberThreads != val) {
+                m_thumbnailMaxNumberThreads = val;
+                emit thumbnailMaxNumberThreadsChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
 
         Q_PROPERTY(bool windowMode READ getWindowMode WRITE setWindowMode NOTIFY windowModeChanged)
         bool getWindowMode() { return m_windowMode; }
@@ -1351,6 +1361,7 @@ private:
         bool    m_thumbnailDisable;
         bool    m_thumbnailWriteFilename;
         int     m_thumbnailFontSize;
+        int     m_thumbnailMaxNumberThreads;
 
         bool    m_windowMode;
         bool    m_windowDecoration;
@@ -1486,6 +1497,7 @@ signals:
         void thumbnailDisableChanged();
         void thumbnailWriteFilenameChanged();
         void thumbnailFontSizeChanged();
+        void thumbnailMaxNumberThreadsChanged();
         void windowModeChanged();
         void windowDecorationChanged();
         void metadataEnableHotEdgeChanged();

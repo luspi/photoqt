@@ -8,6 +8,7 @@
 
 QQuickImageResponse *PQAsyncImageProviderThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
     PQAsyncImageResponseThumb *response = new PQAsyncImageResponseThumb(url, requestedSize);
+    QThreadPool::globalInstance()->setMaxThreadCount(qMax(1,PQSettings::get().getThumbnailMaxNumberThreads()));
     pool.start(response);
     return response;
 }

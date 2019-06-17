@@ -112,6 +112,7 @@ void PQSettings::setDefault() {
     setThumbnailFontSize(7);
     setThumbnailFilenameInstead(false);
     setThumbnailFilenameInsteadFontSize(8);
+    setThumbnailMaxNumberThreads(4);
 
     setSlideShowTime(5);
     setSlideShowImageTransition(4);
@@ -385,6 +386,9 @@ void PQSettings::readSettings() {
 
             else if(line.startsWith("ThumbnailFontSize="))
                 setThumbnailFontSize(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("ThumbnailMaxNumberThreads="))
+                setThumbnailMaxNumberThreads(line.split("=").at(1).toInt());
 
 
             else if(line.startsWith("SlideShowTime="))
@@ -668,6 +672,7 @@ void PQSettings::saveSettings() {
         cont += QString("ThumbnailKeepVisible=%1\n").arg(int(m_thumbnailKeepVisible));
         cont += QString("ThumbnailKeepVisibleWhenNotZoomedIn=%1\n").arg(int(m_thumbnailKeepVisibleWhenNotZoomedIn));
         cont += QString("ThumbnailLiftUp=%1\n").arg(m_thumbnailLiftUp);
+        cont += QString("ThumbnailMaxNumberThreads=%1\n").arg(m_thumbnailMaxNumberThreads);
         cont += QString("ThumbnailPosition=%1\n").arg(m_thumbnailPosition);
         cont += QString("ThumbnailSize=%1\n").arg(m_thumbnailSize);
         cont += QString("ThumbnailSpacingBetween=%1\n").arg(m_thumbnailSpacingBetween);
