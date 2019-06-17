@@ -24,6 +24,7 @@
 #include "loader/loadimage_qt.h"
 #include "loader/loadimage_gm.h"
 #include "loader/loadimage_xcf.h"
+#include "loader/loadimage_poppler.h"
 #include "../settings/settings.h"
 
 PQImageProviderFull::PQImageProviderFull() : QQuickImageProvider(QQuickImageProvider::Image) {
@@ -51,10 +52,14 @@ QImage PQImageProviderFull::requestImage(const QString &filename_encoded, QSize 
 #endif
     QString filename = full_filename;
 
-    if(!QFileInfo(filename).exists()) {
+    QString filenameForChecking = filename;
+    if(filenameForChecking.contains("::PQT::"))
+        filenameForChecking = filenameForChecking.split("::PQT::").at(1);
+
+    if(!QFileInfo(filenameForChecking).exists()) {
         QString err = QCoreApplication::translate("imageprovider", "File failed to load, it doesn't exist!");
         LOG << CURDATE << "ImageProviderFull: ERROR: " << err.toStdString() << NL;
-        LOG << CURDATE << "ImageProviderFull: Filename: " << filename.toStdString() << NL;
+        LOG << CURDATE << "ImageProviderFull: Filename: " << filenameForChecking.toStdString() << NL;
         return PQLoadImage::ErrorImage::load(err);
     }
 
@@ -95,8 +100,11 @@ QImage PQImageProviderFull::requestImage(const QString &filename_encoded, QSize 
         ret = PQLoadImage::GraphicsMagick::load(filename, requestedSize, origSize);
         err = PQLoadImage::GraphicsMagick::errormsg;
     } else if(whatToUse == "xcftools") {
-            ret = PQLoadImage::XCF::load(filename, requestedSize, origSize);
-            err = PQLoadImage::XCF::errormsg;
+        ret = PQLoadImage::XCF::load(filename, requestedSize, origSize);
+        err = PQLoadImage::XCF::errormsg;
+    } else if(whatToUse == "poppler") {
+        ret = PQLoadImage::PDF::load(filename, requestedSize, origSize);
+        err = PQLoadImage::PDF::errormsg;
     } else {
         ret = PQLoadImage::Qt::load(filename, requestedSize, origSize);
         err = PQLoadImage::Qt::errormsg;
@@ -135,6 +143,9 @@ QString PQImageProviderFull::whatDoIUse(QString filename) {
 
     if(imageformats->getEnabledFileformatsXCF().contains("*." + info.suffix().toLower()))
         return "xcftools";
+
+    if(imageformats->getEnabledFileformatsPoppler().contains("*." + info.suffix().toLower()))
+        return "poppler";
 
     if(imageformats->getEnabledFileformatsGm().contains("*." + info.suffix().toLower()))
         return "gm";

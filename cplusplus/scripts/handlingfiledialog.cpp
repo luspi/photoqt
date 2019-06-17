@@ -406,6 +406,10 @@ QString PQHandlingFileDialog::cleanPath(QString path) {
 
 }
 
+QString PQHandlingFileDialog::getSuffix(QString path) {
+    return QFileInfo(path).suffix().toLower();
+}
+
 QStringList PQHandlingFileDialog::getFoldersIn(QString path) {
 
     QDir dir(path);
@@ -461,5 +465,25 @@ QString PQHandlingFileDialog::getFileType(QString path) {
 
 int PQHandlingFileDialog::convertCharacterToKeyCode(QString key) {
     return QKeySequence(key)[0];
+}
+
+QStringList PQHandlingFileDialog::listPDFPages(QString path) {
+
+    QStringList ret;
+
+#ifdef POPPLER
+
+    Poppler::Document* document = Poppler::Document::load(path);
+    if(document && !document->isLocked()) {
+        int numPages = document->numPages();
+        for(int i = 0; i < numPages; ++i)
+            ret.append(QString("%1::PQT::%2").arg(i).arg(path));
+    }
+    delete document;
+
+#endif
+
+    return ret;
+
 }
 

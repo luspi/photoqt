@@ -278,8 +278,16 @@ GridView {
                         if(fileIsDir)
                             filedialog_top.setCurrentDirectory(filePath)
                         else {
-                            variables.allImageFilesInOrder = files_model.getCopyOfAllFiles()
-                            variables.indexOfCurrentImage = variables.allImageFilesInOrder.indexOf(filePath)
+                            if(imageformats.enabledFileformatsPoppler.indexOf("*." + handlingFileDialog.getSuffix(filePath)) > -1 && PQSettings.pdfSingleDocument) {
+                                variables.allImageFilesInOrder = handlingFileDialog.listPDFPages(filePath)
+                                variables.indexOfCurrentImage = 0
+                            } else {
+                                variables.allImageFilesInOrder = files_model.getCopyOfAllFiles()
+                                var fp = filePath
+                                if(imageformats.enabledFileformatsPoppler.indexOf("*." + handlingFileDialog.getSuffix(fp)))
+                                    fp = "0::PQT::" + fp
+                                variables.indexOfCurrentImage = variables.allImageFilesInOrder.indexOf(fp)
+                            }
                             filedialog_top.hideFileDialog()
                         }
                     } else {

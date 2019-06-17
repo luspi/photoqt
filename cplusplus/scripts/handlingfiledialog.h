@@ -17,6 +17,10 @@
 #include "../logger.h"
 #include "../settings/imageformats.h"
 
+#ifdef POPPLER
+#include <poppler/qt5/poppler-qt5.h>
+#endif
+
 class PQHandlingFileDialog : public QObject {
 
     Q_OBJECT
@@ -37,6 +41,7 @@ public:
     Q_INVOKABLE void getNumberOfFilesInFolder(QString path, const QJSValue &callback);
 
     Q_INVOKABLE QString cleanPath(QString path);
+    Q_INVOKABLE QString getSuffix(QString path);
 
     Q_INVOKABLE QStringList getFoldersIn(QString path);
 
@@ -48,6 +53,8 @@ public:
     Q_INVOKABLE QString getFileType(QString path);
 
     Q_INVOKABLE int convertCharacterToKeyCode(QString key);
+
+    Q_INVOKABLE QStringList listPDFPages(QString path);
 
 private:
     PQImageFormats *imageformats;

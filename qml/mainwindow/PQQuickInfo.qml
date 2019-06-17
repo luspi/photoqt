@@ -62,14 +62,47 @@ Item {
 
         Rectangle {
 
-            id: seperator
+            id: seperator1
 
             color: "#cccccc"
 
-            x: filename.x+filename.width+10
+            x: filename.x+filename.width+(visible ? 10 : 0)
             y: 5
 
-            visible: (filename.visible||counter.visible) && zoomlevel.visible
+            visible: (filename.visible||counter.visible) && (pageInfo.visible)
+
+            width: 1
+            height: filename.height
+
+        }
+
+        Text {
+
+            id: pageInfo
+
+            anchors.left: seperator1.right
+            anchors.leftMargin: visible ? 10 : 0
+            y: 5
+
+            text: (variables.indexOfCurrentImage>-1 && variables.allImageFilesInOrder[variables.indexOfCurrentImage].indexOf("::PQT::")>-1) ?
+                      ("Page #" + (variables.allImageFilesInOrder[variables.indexOfCurrentImage].split("::PQT::")[0]*1+1) + "/" + variables.allImageFilesInOrder.length) :
+                      ""
+            visible: text != ""
+
+            color: "white"
+
+        }
+
+        Rectangle {
+
+            id: seperator2
+
+            color: "#cccccc"
+
+            x: pageInfo.x+pageInfo.width+10
+            y: 5
+
+            visible: (filename.visible||counter.visible||pageInfo.visible) && zoomlevel.visible
 
             width: 1
             height: filename.height
@@ -79,7 +112,7 @@ Item {
         // zoom level
         Text {
             id: zoomlevel
-            x: PQSettings.quickInfoHideZoomLevel ? 0 : seperator.x+seperator.width+10
+            x: PQSettings.quickInfoHideZoomLevel ? 0 : seperator2.x+seperator2.width+10
             y: 5
             color: "white"
             visible: !PQSettings.quickInfoHideZoomLevel

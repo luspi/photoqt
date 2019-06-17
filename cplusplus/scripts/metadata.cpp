@@ -31,6 +31,9 @@ PQMetaData::PQMetaData(QObject *parent) : QObject(parent) {
 
 void PQMetaData::updateMetadata(QString path) {
 
+    if(path.contains("::PQT::"))
+        path = path.split("::PQT::").at(1);
+
     QFileInfo info(path);
 
     if(!QFile(path).exists()) {

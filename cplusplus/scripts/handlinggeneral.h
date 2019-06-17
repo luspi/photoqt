@@ -17,7 +17,7 @@ public:
     Q_INVOKABLE bool isFreeImageSupportEnabled();
     Q_INVOKABLE bool isPopplerSupportEnabled();
 
-    Q_INVOKABLE QString getFileNameFromFullPath(QString path);
+    Q_INVOKABLE QString getFileNameFromFullPath(QString path, bool onlyExtraInfo = false);
     Q_INVOKABLE QString getFilePathFromFullPath(QString path);
     Q_INVOKABLE bool isDir(QString path);
     Q_INVOKABLE QString getFileSize(QString path);

@@ -301,6 +301,9 @@ void PQImageFormats::setEnabledFileformats(QString cat, QStringList val, bool wi
         else if(cat == "xcftools")
             setEnabledFileformatsXCF(val);
 
+        else if(cat == "poppler")
+            setEnabledFileformatsPoppler(val);
+
         else if(cat == "gm")
             setEnabledFileformatsGm(val);
 
@@ -311,6 +314,9 @@ void PQImageFormats::setEnabledFileformats(QString cat, QStringList val, bool wi
 
         else if(cat == "xcftools")
             setEnabledFileformatsXCFWithoutSaving(val);
+
+        else if(cat == "poppler")
+            setEnabledFileformatsPopplerWithoutSaving(val);
 
         else if(cat == "gm")
             setEnabledFileformatsGmWithoutSaving(val);

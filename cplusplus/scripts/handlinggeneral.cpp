@@ -35,8 +35,13 @@ bool PQHandlingGeneral::isPopplerSupportEnabled() {
     return false;
 }
 
-QString PQHandlingGeneral::getFileNameFromFullPath(QString path) {
-    return QFileInfo(path).fileName();
+QString PQHandlingGeneral::getFileNameFromFullPath(QString path, bool onlyExtraInfo) {
+    QString ret = QFileInfo(path).fileName();
+    if(onlyExtraInfo) {
+        if(path.contains("::PQT::"))
+            ret = QString("Page %1").arg(path.split("::PQT::").at(0).toInt()+1);
+    }
+    return ret;
 }
 
 QString PQHandlingGeneral::getFilePathFromFullPath(QString path) {

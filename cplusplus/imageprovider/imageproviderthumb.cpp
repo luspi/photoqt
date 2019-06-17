@@ -3,6 +3,7 @@
 #include "loader/loadimage_qt.h"
 #include "loader/loadimage_gm.h"
 #include "loader/loadimage_xcf.h"
+#include "loader/loadimage_poppler.h"
 #include "../settings/settings.h"
 
 QQuickImageResponse *PQAsyncImageProviderThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
@@ -67,12 +68,18 @@ void PQAsyncImageResponseThumb::run() {
 
     // If file wasn't loaded from file or database, then it doesn't exist yet (or isn't up-to-date anymore) and we have to create it
 
+    QString filenameForChecking = filename;
+    if(filenameForChecking.contains("::PQT::"))
+        filenameForChecking = filenameForChecking.split("::PQT::").at(1);
+
     // We create a temporary pointer, so that we can delete it properly afterwards
-    if(!QFileInfo(filename).exists()) {
+    if(!QFileInfo(filenameForChecking).exists()) {
         QString err = QCoreApplication::translate("imageprovider", "File failed to load, it doesn't exist!");
-        LOG << CURDATE << "ImageProviderFull: ERROR: " << err.toStdString() << NL;
-        LOG << CURDATE << "ImageProviderFull: Filename: " << filename.toStdString() << NL;
-        p = PQLoadImage::ErrorImage::load(err);
+        LOG << CURDATE << "ImageProviderThumb: ERROR: " << err.toStdString() << NL;
+        LOG << CURDATE << "ImageProviderThumb: Filename: " << filenameForChecking.toStdString() << NL;
+        m_image = PQLoadImage::ErrorImage::load(err);
+        emit finished();
+        return;
     }
 
     // Which GraphicsEngine should we use?
@@ -84,6 +91,8 @@ void PQAsyncImageResponseThumb::run() {
         p = PQLoadImage::GraphicsMagick::load(filename, m_requestedSize, &origSize);
     else if(whatToUse == "xcftools")
         p = PQLoadImage::XCF::load(filename, m_requestedSize, &origSize);
+    else if(whatToUse == "poppler")
+        p = PQLoadImage::PDF::load(filename, m_requestedSize, &origSize);
     else
         p = PQLoadImage::Qt::load(filename, m_requestedSize, &origSize);
 
@@ -172,6 +181,9 @@ QString PQAsyncImageResponseThumb::whatDoIUse(QString filename) {
 
     if(imageformats->getEnabledFileformatsXCF().contains("*." + info.suffix().toLower()))
         return "xcftools";
+
+    if(imageformats->getEnabledFileformatsPoppler().contains("*." + info.suffix().toLower()))
+        return "poppler";
 
     if(imageformats->getEnabledFileformatsGm().contains("*." + info.suffix().toLower()))
         return "gm";

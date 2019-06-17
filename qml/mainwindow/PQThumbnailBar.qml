@@ -115,7 +115,7 @@ Item {
                         font.bold: true
                         verticalAlignment: Qt.AlignVCenter
                         horizontalAlignment: Qt.AlignHCenter
-                        text: handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[index])
+                        text: handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[index], true)
                     }
                 }
             }
@@ -124,7 +124,7 @@ Item {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
                 hoverEnabled: true
-                tooltip: handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[index])
+                tooltip: handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[index], true)
                 onEntered:
                     view.mouseOverItem = index
                 onClicked:

@@ -9,6 +9,11 @@
 #include <QCollator>
 #include <QFileSystemWatcher>
 #include "../logger.h"
+#include "../settings/settings.h"
+
+#ifdef POPPLER
+#include <poppler/qt5/poppler-qt5.h>
+#endif
 
 class PQFileFolderEntry {
 
@@ -122,8 +127,24 @@ public:
     Q_INVOKABLE QStringList getCopyOfAllFiles() {
         QStringList ret;
         ret.reserve(allImageFilesInOrder.size());
-        for(QFileInfo info : allImageFilesInOrder)
-            ret.push_back(info.filePath());
+        for(QFileInfo info : allImageFilesInOrder) {
+            if(!PQSettings::get().getPdfSingleDocument()) {
+#ifdef POPPLER
+                if(info.suffix().toLower() == "pdf" || info.suffix().toLower() == "epdf") {
+                    Poppler::Document* document = Poppler::Document::load(info.absoluteFilePath());
+                    if(document && !document->isLocked()) {
+                        int numPages = document->numPages();
+                        for(int i = 0; i < numPages; ++i)
+                            ret.push_back(QString("%1::PQT::%2").arg(i).arg(info.absoluteFilePath()));
+                    }
+                    delete document;
+                } else
+#endif
+                    ret.push_back(info.absoluteFilePath());
+            } else if(info.suffix().toLower() != "pdf" && info.suffix().toLower() != "epdf")
+                ret.push_back(info.absoluteFilePath());
+        }
+        qDebug() << ret;
         return ret;
     }
 
