@@ -11,7 +11,7 @@ Rectangle {
 
     property int parentWidth: toplevel.width
     property int parentHeight: toplevel.height
-    width: opacity!=0 ? (PQSettings.mainMenuPopoutElement ? parentWidth : PQSettings.mainMenuWindowWidth) : 0
+    width: (PQSettings.mainMenuPopoutElement ? parentWidth : PQSettings.mainMenuWindowWidth)
     height: parentHeight+2
     x: parentWidth-width+1
     y: -1
@@ -40,7 +40,44 @@ Rectangle {
                 mainmenu_top.opacity = 1
     }
 
-    MouseArea { anchors.fill: parent; hoverEnabled: true }
+    MouseArea {
+        anchors.fill: parent;
+        hoverEnabled: true
+
+        PQMouseArea {
+
+            anchors {
+                left: parent.left
+                top: parent.top
+                bottom: parent.bottom
+            }
+            width: 5
+
+            enabled: !PQSettings.mainMenuPopoutElement
+
+            cursorShape: Qt.SizeHorCursor
+
+            tooltip: "Click and drag to resize main menu"
+
+            property int oldMouseX
+
+            onPressed:
+                oldMouseX = mouse.x
+
+            onReleased:
+                PQSettings.mainMenuWindowWidth = mainmenu_top.width
+
+            onPositionChanged: {
+                if (pressed) {
+                    var w = mainmenu_top.width + (oldMouseX-mouse.x)
+                    if(w < 2*toplevel.width/3)
+                        mainmenu_top.width = w
+                }
+            }
+
+        }
+
+    }
 
     property var allitems_static: [
         //: This is an entry in the main menu on the right. Keep short!

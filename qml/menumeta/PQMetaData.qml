@@ -15,7 +15,7 @@ Rectangle {
     property int parentWidth: toplevel.width
     property int parentHeight: toplevel.height
 
-    width: opacity!=0 ? (PQSettings.metadataPopoutElement ? parentWidth : PQSettings.metadataWindowWidth) : 0
+    width: (PQSettings.metadataPopoutElement ? parentWidth : PQSettings.metadataWindowWidth)
     height: parentHeight+2
     x: -1
     y: -1
@@ -41,8 +41,44 @@ Rectangle {
                 metadata_top.opacity = 1
     }
 
-    // This mouseare catches all mouse movements and prevents them from being passed on to the background
-    MouseArea { anchors.fill: parent; hoverEnabled: true }
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+
+        PQMouseArea {
+
+            anchors {
+                right: parent.right
+                top: parent.top
+                bottom: parent.bottom
+            }
+            width: 5
+
+            cursorShape: Qt.SizeHorCursor
+
+            enabled: !PQSettings.metadataPopoutElement
+
+            tooltip: "Click and drag to resize meta data"
+
+            property int oldMouseX
+
+            onPressed:
+                oldMouseX = mouse.x
+
+            onReleased:
+                PQSettings.metadataWindowWidth = metadata_top.width
+
+            onPositionChanged: {
+                if (pressed) {
+                    var w = metadata_top.width + (mouse.x-oldMouseX)
+                    if(w < 2*toplevel.width/3)
+                        metadata_top.width = w
+                }
+            }
+
+        }
+
+    }
 
     property var allMetaData: [
         //: Keep string short!
