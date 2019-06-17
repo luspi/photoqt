@@ -262,6 +262,51 @@ PQImageFormats::PQImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[3].insert("*.ps3"        , QStringList() << "ps " << "Adobe Level III PostScript file"                   << "0");
 
 
+    /************************************************************/
+    /************************************************************/
+    // RAW
+    setupAvailable[4].insert("*.3fr"        , QStringList() << "has" << "Hasselblad"                << "1");
+    setupAvailable[4].insert("*.ari"        , QStringList() << "arr" << "ARRIFLEX"                  << "1");
+    setupAvailable[4].insert("*.arw"        , QStringList() << "son" << "Sony"                      << "1");
+    setupAvailable[4].insert("*.srf"        , QStringList() << "son" << "Sony"                      << "1");
+    setupAvailable[4].insert("*.sr2"        , QStringList() << "son" << "Sony"                      << "1");
+    setupAvailable[4].insert("*.bay"        , QStringList() << "cas" << "Casio"                     << "1");
+    setupAvailable[4].insert("*.crw"        , QStringList() << "can" << "Canon"                     << "1");
+    setupAvailable[4].insert("*.crr"        , QStringList() << "can" << "Canon"                     << "1");
+    setupAvailable[4].insert("*.cr2"        , QStringList() << "can" << "Canon"                     << "1");
+    setupAvailable[4].insert("*.cap"        , QStringList() << "ph1" << "Phase_one"                 << "1");
+    setupAvailable[4].insert("*.liq"        , QStringList() << "ph1" << "Phase_one"                 << "1");
+    setupAvailable[4].insert("*.eip"        , QStringList() << "ph1" << "Phase_one"                 << "1");
+    setupAvailable[4].insert("*.dcs"        , QStringList() << "kod" << "Kodak"                     << "1");
+    setupAvailable[4].insert("*.dcr"        , QStringList() << "kod" << "Kodak"                     << "1");
+    setupAvailable[4].insert("*.drf"        , QStringList() << "kod" << "Kodak"                     << "1");
+    setupAvailable[4].insert("*.k25"        , QStringList() << "kod" << "Kodak"                     << "1");
+    setupAvailable[4].insert("*.kdc"        , QStringList() << "kod" << "Kodak"                     << "1");
+    setupAvailable[4].insert("*.dng"        , QStringList() << "ado" << "Adobe"                     << "1");
+    setupAvailable[4].insert("*.erf"        , QStringList() << "eps" << "Epson"                     << "1");
+    setupAvailable[4].insert("*.fff"        , QStringList() << "fff" << "Imacon/Hasselblad raw"     << "1");
+    setupAvailable[4].insert("*.mef"        , QStringList() << "mam" << "Mamiya"                    << "1");
+    setupAvailable[4].insert("*.mdc"        , QStringList() << "min" << "Minolta, Agfa"             << "1");
+    setupAvailable[4].insert("*.mos"        , QStringList() << "mos" << "Leaf"                      << "1");
+    setupAvailable[4].insert("*.mrw"        , QStringList() << "min" << "Minolta, Konica Minolta"   << "1");
+    setupAvailable[4].insert("*.nef"        , QStringList() << "nik" << "Nikon"                     << "1");
+    setupAvailable[4].insert("*.nrw"        , QStringList() << "nik" << "Nikon"                     << "1");
+    setupAvailable[4].insert("*.orf"        , QStringList() << "oly" << "Olympus"                   << "1");
+    setupAvailable[4].insert("*.pef"        , QStringList() << "pen" << "Pentax"                    << "1");
+    setupAvailable[4].insert("*.ptx"        , QStringList() << "pen" << "Pentax"                    << "1");
+    setupAvailable[4].insert("*.pxn"        , QStringList() << "log" << "Logitech"                  << "1");
+    setupAvailable[4].insert("*.r3d"        , QStringList() << "red" << "RED Digital Cinema"        << "1");
+    setupAvailable[4].insert("*.raf"        , QStringList() << "fuj" << "Fuji"                      << "1");
+    setupAvailable[4].insert("*.raw"        , QStringList() << "pan" << "Panasonic"                 << "1");
+    setupAvailable[4].insert("*.rw2"        , QStringList() << "pan" << "Panasonic"                 << "1");
+    setupAvailable[4].insert("*.raw"        , QStringList() << "lei" << "Leica"                     << "1");
+    setupAvailable[4].insert("*.rwl"        , QStringList() << "lei" << "Leica"                     << "1");
+    setupAvailable[4].insert("*.dng"        , QStringList() << "lei" << "Leica"                     << "1");
+    setupAvailable[4].insert("*.rwz"        , QStringList() << "raw" << "Rawzor"                    << "1");
+    setupAvailable[4].insert("*.srw"        , QStringList() << "sam" << "Samsung"                   << "1");
+    setupAvailable[4].insert("*.x3f"        , QStringList() << "sig" << "Sigma"                     << "1");
+
+
     availableFileformats = new QVariantList[categories.length()];
     availableFileformatsWithDescription = new QVariantList[categories.length()];
     enabledFileformats = new QStringList[categories.length()];
@@ -307,6 +352,9 @@ void PQImageFormats::setEnabledFileformats(QString cat, QStringList val, bool wi
         else if(cat == "gm")
             setEnabledFileformatsGm(val);
 
+        else if(cat == "raw")
+            setEnabledFileformatsRAW(val);
+
     } else {
 
         if(cat == "qt")
@@ -320,6 +368,9 @@ void PQImageFormats::setEnabledFileformats(QString cat, QStringList val, bool wi
 
         else if(cat == "gm")
             setEnabledFileformatsGmWithoutSaving(val);
+
+        else if(cat == "raw")
+            setEnabledFileformatsRAWWithoutSaving(val);
 
     }
 }

@@ -4,6 +4,7 @@
 #include "loader/loadimage_gm.h"
 #include "loader/loadimage_xcf.h"
 #include "loader/loadimage_poppler.h"
+#include "loader/loadimage_raw.h"
 #include "../settings/settings.h"
 
 QQuickImageResponse *PQAsyncImageProviderThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
@@ -94,6 +95,8 @@ void PQAsyncImageResponseThumb::run() {
         p = PQLoadImage::XCF::load(filename, m_requestedSize, &origSize);
     else if(whatToUse == "poppler")
         p = PQLoadImage::PDF::load(filename, m_requestedSize, &origSize);
+    else if(whatToUse == "raw")
+        p = PQLoadImage::Raw::load(filename, m_requestedSize, &origSize);
     else
         p = PQLoadImage::Qt::load(filename, m_requestedSize, &origSize);
 
@@ -188,6 +191,9 @@ QString PQAsyncImageResponseThumb::whatDoIUse(QString filename) {
 
     if(imageformats->getEnabledFileformatsGm().contains("*." + info.suffix().toLower()))
         return "gm";
+
+    if(imageformats->getEnabledFileformatsRAW().contains("*." + info.suffix().toLower()))
+        return "raw";
 
     return "qt";
 

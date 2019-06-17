@@ -25,6 +25,7 @@
 #include "loader/loadimage_gm.h"
 #include "loader/loadimage_xcf.h"
 #include "loader/loadimage_poppler.h"
+#include "loader/loadimage_raw.h"
 #include "../settings/settings.h"
 
 PQImageProviderFull::PQImageProviderFull() : QQuickImageProvider(QQuickImageProvider::Image) {
@@ -105,6 +106,9 @@ QImage PQImageProviderFull::requestImage(const QString &filename_encoded, QSize 
     } else if(whatToUse == "poppler") {
         ret = PQLoadImage::PDF::load(filename, requestedSize, origSize);
         err = PQLoadImage::PDF::errormsg;
+    } else if(whatToUse == "raw") {
+        ret = PQLoadImage::Raw::load(filename, requestedSize, origSize);
+        err = PQLoadImage::Raw::errormsg;
     } else {
         ret = PQLoadImage::Qt::load(filename, requestedSize, origSize);
         err = PQLoadImage::Qt::errormsg;
@@ -149,6 +153,9 @@ QString PQImageProviderFull::whatDoIUse(QString filename) {
 
     if(imageformats->getEnabledFileformatsGm().contains("*." + info.suffix().toLower()))
         return "gm";
+
+    if(imageformats->getEnabledFileformatsRAW().contains("*." + info.suffix().toLower()))
+        return "raw";
 
     return "qt";
 

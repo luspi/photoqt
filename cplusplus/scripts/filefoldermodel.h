@@ -144,7 +144,6 @@ public:
             } else if(info.suffix().toLower() != "pdf" && info.suffix().toLower() != "epdf")
                 ret.push_back(info.absoluteFilePath());
         }
-        qDebug() << ret;
         return ret;
     }
 
