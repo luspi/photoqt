@@ -7,7 +7,8 @@ Rectangle {
 
     id: metadata_top
 
-    color: "#cc000000"
+    color: Qt.rgba(0, 0, 0, PQSettings.metadataOpacity/256)
+    Behavior on color { ColorAnimation { duration: PQSettings.animationDuration*100 } }
 
     border.color: "#55bbbbbb"
     border.width: 1
@@ -29,7 +30,7 @@ Rectangle {
         onMousePosChanged: {
             if(PQSettings.metadataPopoutElement || keepopen.checked)
                 return
-            if(variables.mousePos.x < (PQSettings.hotEdgeWidth+5))
+            if(variables.mousePos.x < (PQSettings.hotEdgeWidth+5) && PQSettings.metadataEnableHotEdge)
                 metadata_top.opacity = 1
             else
                 metadata_top.opacity = 0
