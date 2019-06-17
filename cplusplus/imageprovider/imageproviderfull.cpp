@@ -89,7 +89,7 @@ QImage PQImageProviderFull::requestImage(const QString &filename_encoded, QSize 
 
     QString err = "";
 
-    ret = PQLoadImage::Qt::load(filename,requestedSize,origSize,true);
+    ret = PQLoadImage::Qt::load(filename,requestedSize,origSize);
     err = PQLoadImage::Qt::errormsg;
 
     // if returned image is not an error image ...

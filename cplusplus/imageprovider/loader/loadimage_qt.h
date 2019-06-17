@@ -25,6 +25,7 @@
 
 #include "../../logger.h"
 #include "errorimage.h"
+#include "../../settings/settings.h"
 
 namespace PQLoadImage {
 
@@ -32,7 +33,7 @@ namespace PQLoadImage {
 
         static QString errormsg;
 
-        static QImage load(QString filename, QSize maxSize, QSize *origSize, bool metaRotate) {
+        static QImage load(QString filename, QSize maxSize, QSize *origSize) {
 
             if(qgetenv("PHOTOQT_DEBUG") == "yes")
                 LOG << CURDATE << "LoadImageQt: Load image using Qt: " << QFileInfo(filename).fileName().toStdString() << NL;
@@ -116,7 +117,7 @@ namespace PQLoadImage {
 
                 }
 
-                reader.setAutoTransform(metaRotate);
+                reader.setAutoTransform(PQSettings::get().getMetaApplyRotation());
 
                 // Eventually load the image
                 QImage img;

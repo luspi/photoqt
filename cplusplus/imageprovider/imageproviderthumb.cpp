@@ -79,7 +79,7 @@ void PQAsyncImageResponseThumb::run() {
     QSize origSize;
 
     if(whatToUse == "qt")
-        p = PQLoadImage::Qt::load(filename, m_requestedSize, &origSize, true);
+        p = PQLoadImage::Qt::load(filename, m_requestedSize, &origSize);
 
     // return scaled version
     if(m_requestedSize.width() > 2 && m_requestedSize.height() > 2 && origSize.width() > m_requestedSize.width() && origSize.height() > m_requestedSize.height())
