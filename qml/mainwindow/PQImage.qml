@@ -16,6 +16,7 @@ Item {
     signal zoomIn()
     signal zoomOut()
     signal zoomReset()
+    signal zoomActual()
     signal rotate(var deg)
     signal rotateReset()
     signal mirrorH()

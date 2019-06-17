@@ -277,6 +277,9 @@ Image {
             elem.x = PQSettings.marginAroundImage
             elem.y = PQSettings.marginAroundImage
         }
+        onZoomActual: {
+            elem.scale = 100/variables.currentZoomLevel
+        }
         onRotate: {
             elem.rotateTo += deg
         }
