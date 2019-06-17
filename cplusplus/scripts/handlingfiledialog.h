@@ -15,7 +15,7 @@
 #include <QKeySequence>
 
 #include "../logger.h"
-#include "imageformats.h"
+#include "../settings/imageformats.h"
 
 class PQHandlingFileDialog : public QObject {
 

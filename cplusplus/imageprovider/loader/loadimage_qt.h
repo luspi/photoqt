@@ -31,7 +31,7 @@ namespace PQLoadImage {
 
     namespace Qt {
 
-        static QString errormsg;
+        static QString errormsg = "";
 
         static QImage load(QString filename, QSize maxSize, QSize *origSize) {
 

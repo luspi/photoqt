@@ -6,7 +6,7 @@
 #include <QPixmapCache>
 #include <QMimeDatabase>
 #include <QCryptographicHash>
-#include "../scripts/imageformats.h"
+#include "../settings/imageformats.h"
 
 class PQAsyncImageProviderThumb : public QQuickAsyncImageProvider {
 

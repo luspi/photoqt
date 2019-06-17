@@ -22,6 +22,7 @@
 
 #include "imageproviderfull.h"
 #include "loader/loadimage_qt.h"
+#include "loader/loadimage_gm.h"
 #include "../settings/settings.h"
 
 PQImageProviderFull::PQImageProviderFull() : QQuickImageProvider(QQuickImageProvider::Image) {
@@ -89,8 +90,13 @@ QImage PQImageProviderFull::requestImage(const QString &filename_encoded, QSize 
 
     QString err = "";
 
-    ret = PQLoadImage::Qt::load(filename,requestedSize,origSize);
-    err = PQLoadImage::Qt::errormsg;
+    if(whatToUse == "gm") {
+        ret = PQLoadImage::GraphicsMagick::load(filename, requestedSize, origSize);
+        err = PQLoadImage::GraphicsMagick::errormsg;
+    } else {
+        ret = PQLoadImage::Qt::load(filename, requestedSize, origSize);
+        err = PQLoadImage::Qt::errormsg;
+    }
 
     // if returned image is not an error image ...
     if(!ret.isNull()) {
@@ -117,11 +123,14 @@ QString PQImageProviderFull::whatDoIUse(QString filename) {
     QString useThisFilename = filename;
     QFileInfo info(useThisFilename);
 
-    /***********************************************************/
-    // Qt image plugins
+    if(info.suffix().toLower() == "svg" || info.suffix().toLower() == "svgz")
+        return "svg";
 
     if(imageformats->getEnabledFileformatsQt().contains("*." + info.suffix().toLower()))
         return "qt";
+
+    if(imageformats->getEnabledFileformatsGm().contains("*." + info.suffix().toLower()))
+        return "gm";
 
     return "qt";
 

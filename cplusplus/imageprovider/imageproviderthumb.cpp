@@ -1,6 +1,7 @@
 #include "imageproviderthumb.h"
 #include "loader/errorimage.h"
 #include "loader/loadimage_qt.h"
+#include "loader/loadimage_gm.h"
 #include "../settings/settings.h"
 
 QQuickImageResponse *PQAsyncImageProviderThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
@@ -78,7 +79,9 @@ void PQAsyncImageResponseThumb::run() {
 
     QSize origSize;
 
-    if(whatToUse == "qt")
+    if(whatToUse == "gm")
+        p = PQLoadImage::GraphicsMagick::load(filename, m_requestedSize, &origSize);
+    else
         p = PQLoadImage::Qt::load(filename, m_requestedSize, &origSize);
 
     // return scaled version
@@ -163,6 +166,9 @@ QString PQAsyncImageResponseThumb::whatDoIUse(QString filename) {
 
     if(imageformats->getEnabledFileformatsQt().contains("*." + info.suffix().toLower()))
         return "qt";
+
+    if(imageformats->getEnabledFileformatsGm().contains("*." + info.suffix().toLower()))
+        return "gm";
 
     return "qt";
 

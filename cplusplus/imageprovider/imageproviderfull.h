@@ -26,7 +26,7 @@
 #include <QQuickImageProvider>
 #include <QFileInfo>
 #include <QtSvg/QtSvg>
-#include "../scripts/imageformats.h"
+#include "../settings/imageformats.h"
 #include "../logger.h"
 
 class PQImageProviderFull : public QQuickImageProvider {

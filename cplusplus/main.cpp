@@ -11,19 +11,23 @@
 #include "scripts/handlingshortcuts.h"
 #include "scripts/localisation.h"
 #include "scripts/imageproperties.h"
-#include "scripts/imageformats.h"
+#include "settings/imageformats.h"
 #include "scripts/filewatcher.h"
 #include "scripts/filefoldermodel.h"
 #include "singleinstance/singleinstance.h"
-#include "scripts/windowgeometry.h"
+#include "settings/windowgeometry.h"
 #include "scripts/metadata.h"
 
 #include "imageprovider/imageprovidericon.h"
 #include "imageprovider/imageproviderthumb.h"
 #include "imageprovider/imageproviderfull.h"
 
-int main(int argc, char *argv[])
-{
+#ifdef GM
+#include <GraphicsMagick/Magick++.h>
+#endif
+
+int main(int argc, char **argv) {
+
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     PQSingleInstance app(argc, argv);
@@ -42,6 +46,11 @@ int main(int argc, char *argv[])
         PQStartup::Import::perform(app.importAndQuit);
         std::exit(0);
     }
+
+#ifdef GM
+    // Initialise Magick as early as possible
+    Magick::InitializeMagick(*argv);
+#endif
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/mainwindow.qml"));

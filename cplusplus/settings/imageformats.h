@@ -24,15 +24,24 @@ public:
     Q_INVOKABLE QVariantList getAvailableEndingsQt() {
         return availableFileformats[categories.indexOf("qt")];
     }
+    Q_INVOKABLE QVariantList getAvailableEndingsGm() {
+        return availableFileformats[categories.indexOf("gm")];
+    }
 
     // All possibly available file formats INCLUDING a description of the image type for the various categories
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionQt() {
         return availableFileformatsWithDescription[categories.indexOf("qt")];
     }
+    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionGm() {
+        return availableFileformatsWithDescription[categories.indexOf("gm")];
+    }
 
     // All possibly available file formats for the various categories
     Q_INVOKABLE QStringList getDefaultEnabledEndingsQt() {
         return defaultEnabledFileformats[categories.indexOf("qt")];
+    }
+    Q_INVOKABLE QStringList getDefaultEnabledEndingsGm() {
+        return defaultEnabledFileformats[categories.indexOf("gm")];
     }
 
     // All currently enabled file formats for ...
@@ -45,15 +54,30 @@ public:
     void setEnabledFileformatsQt(QStringList val) { enabledFileformats[categories.indexOf("qt")] = val;
                                                     emit enabledFileformatsQtChanged(val); }
     void setEnabledFileformatsQtWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("qt")] = val; }
+    // ... GM
+    Q_PROPERTY(QStringList enabledFileformatsGm
+               READ getEnabledFileformatsGm
+               WRITE setEnabledFileformatsGm
+               NOTIFY enabledFileformatsGmChanged)
+    QStringList getEnabledFileformatsGm() { return enabledFileformats[categories.indexOf("gm")]; }
+    void setEnabledFileformatsGm(QStringList val) { enabledFileformats[categories.indexOf("gm")] = val;
+                                                    emit enabledFileformatsGmChanged(val); }
+    void setEnabledFileformatsGmWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("gm")] = val; }
+
 
     Q_INVOKABLE void setDefaultFormatsQt() {
         setEnabledFileformatsQt(defaultEnabledFileformats[categories.indexOf("qt")]);
+    }
+    Q_INVOKABLE void setDefaultFormatsGm() {
+        setEnabledFileformatsGm(defaultEnabledFileformats[categories.indexOf("gm")]);
     }
 
     // Can be called from QML when resetting the settings
     Q_INVOKABLE void setDefaultFileformats() {
         setEnabledFileformatsQt(defaultEnabledFileformats[categories.indexOf("qt")]);
+        setEnabledFileformatsGm(defaultEnabledFileformats[categories.indexOf("gm")]);
     }
+
 
     Q_INVOKABLE QStringList getAllEnabledFileformats() {
 
@@ -63,71 +87,22 @@ public:
         foreach(QVariant entry, enabledFileformats[categories.indexOf("qt")])
             allFormats.append(entry.toString());
 
+        // GM
+#ifdef GM
+        foreach(QVariant entry, enabledFileformats[categories.indexOf("gm")])
+            allFormats.append(entry.toString());
+#endif
+
         return allFormats;
 
     }
 
-    Q_INVOKABLE QStringList getEnabledFileFormatsQt() {
+    Q_INVOKABLE QStringList getEnabledFileFormats(QString category) {
 
         QStringList formats;
 
-        foreach(QVariant entry, enabledFileformats[categories.indexOf("qt")])
+        foreach(QVariant entry, enabledFileformats[categories.indexOf(category)])
             formats.append(entry.toString());
-
-        return formats;
-
-    }
-
-    Q_INVOKABLE QStringList getEnabledFileFormatsGM() {
-
-        QStringList formats;
-
-//        foreach(QVariant entry, enabledFileformats[categories.indexOf("gm")])
-//            formats.append(entry.toString());
-
-        return formats;
-
-    }
-
-    Q_INVOKABLE QStringList getEnabledFileFormatsRAW() {
-
-        QStringList formats;
-
-//        foreach(QVariant entry, enabledFileformats[categories.indexOf("raw")])
-//            formats.append(entry.toString());
-
-        return formats;
-
-    }
-
-    Q_INVOKABLE QStringList getEnabledFileFormatsDevIL() {
-
-        QStringList formats;
-
-//        foreach(QVariant entry, enabledFileformats[categories.indexOf("devil")])
-//            formats.append(entry.toString());
-
-        return formats;
-
-    }
-
-    Q_INVOKABLE QStringList getEnabledFileFormatsFreeImage() {
-
-        QStringList formats;
-
-//        foreach(QVariant entry, enabledFileformats[categories.indexOf("freeimage")])
-//            formats.append(entry.toString());
-
-        return formats;
-
-    }
-
-    Q_INVOKABLE QStringList getEnabledFileFormatsPoppler() {
-
-        QStringList formats;
-
-//        foreach(QVariant entry, enabledFileformats[categories.indexOf("poppler")])
-//            formats.append(entry.toString());
 
         return formats;
 
@@ -135,6 +110,7 @@ public:
 
 signals:
     void enabledFileformatsQtChanged(QStringList val);
+    void enabledFileformatsGmChanged(QStringList val);
     void enabledFileformatsChanged();
     void enabledFileformatsSaved();
 

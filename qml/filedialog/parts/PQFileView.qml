@@ -19,21 +19,13 @@ GridView {
 
     PQFileFolderModel {
         id: files_model
+
+        property var validcategories: ["qt", "gm", "raw", "devil", "freeimage", "poppler"]
         nameFilters: tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="all" ?
                          imageformats.getAllEnabledFileformats() :
-                         tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="qt" ?
-                             imageformats.getEnabledFileFormatsQt() :
-                             tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="gm" ?
-                                 imageformats.getEnabledFileFormatsGM() :
-                                 tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="raw" ?
-                                     imageformats.getEnabledFileFormatsRAW() :
-                                     tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="devil" ?
-                                         imageformats.getEnabledFileFormatsDevIL() :
-                                         tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="freeimage" ?
-                                             imageformats.getEnabledFileFormatsFreeImage() :
-                                             tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="poppler" ?
-                                                 imageformats.getEnabledFileFormatsPoppler() :
-                                                 []
+                         validcategories.indexOf(tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]) > -1 ?
+                             imageformats.getEnabledFileFormats(tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]) :
+                             []
         showHidden: PQSettings.openShowHiddenFilesFolders
         sortField: PQSettings.sortby=="name" ?
                        PQFileFolderModel.Name :
