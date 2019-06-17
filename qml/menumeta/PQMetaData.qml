@@ -23,7 +23,7 @@ Rectangle {
 
     opacity: 0
     visible: opacity!=0
-    Behavior on opacity { NumberAnimation { duration: PQSettings.metadataPopoutElement ? 0 : PQSettings.animationDuration*150 } }
+    Behavior on opacity { NumberAnimation { duration: PQSettings.metadataPopoutElement ? 0 : PQSettings.animationDuration*100 } }
 
     Connections {
         target: variables
