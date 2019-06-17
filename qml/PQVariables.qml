@@ -20,7 +20,6 @@ Item {
         handlingFileDialog.setLastLocation(openCurrentDirectory)
 
 
-
     Connections {
         target: PQCppVariables
 
@@ -93,6 +92,18 @@ Item {
             // this we actually do not handle here
             // if this changes to true, we keep it at true and use it to detect debug modus everywhere
 //        }
+
+    }
+
+    Connections {
+
+        target: PQSettings
+
+        onMainMenuPopoutElementChanged:
+            loader.ensureItIsReady("mainmenu")
+
+        onMetadataPopoutElementChanged:
+            loader.ensureItIsReady("metadata")
 
     }
 

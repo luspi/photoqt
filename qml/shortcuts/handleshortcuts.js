@@ -71,15 +71,8 @@ function whatToDoWithFoundShortcut(sh) {
 //            call.load("filemanagementCopyShow")
 //        else if(cmd === "__move")
 //            call.load("filemanagementMoveShow")
-//        else if(cmd === "__hideMeta") {
-//            if(metadata.opacity > 0) {
-//                metadata.uncheckCheckbox()
-//                metadata.hide()
-//            } else {
-//                metadata.checkCheckbox()
-//                metadata.show()
-//            }
-//        }
+    else if(cmd === "__hideMeta")
+        loader.passOn("metadata", "toggle", undefined)
     else if(cmd === "__gotoFirstThb")
         imageitem.loadFirstImage()
     else if(cmd === "__gotoLastThb")

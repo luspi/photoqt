@@ -311,7 +311,7 @@ Rectangle {
             anchors.fill: parent
             tooltip: "http://photoqt.org/man"
             cursorShape: Qt.PointingHandCursor
-            onClicked: getanddostuff.openLink("http://photoqt.org/man")
+            onClicked: Qt.openUrlExternally("http://photoqt.org/man")
         }
 
     }

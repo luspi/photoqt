@@ -126,7 +126,29 @@ Rectangle {
 
     }
 
+    // Label at first start-up
+    Text {
 
+        anchors {
+            top: separatorTop.bottom
+            left: parent.left
+            right: parent.right
+            bottom: separatorBottom.bottom
+            margins: 10
+        }
+
+        visible: variables.indexOfCurrentImage==-1
+
+        horizontalAlignment: Qt.AlignHCenter
+        verticalAlignment: Qt.AlignVCenter
+
+        color: "#888888"
+        font.bold: true
+        font.pointSize: 18
+        wrapMode: Text.WordWrap
+        text: em.pty+qsTr("No File Loaded")
+
+    }
 
     ListView {
 
@@ -141,6 +163,8 @@ Rectangle {
         }
 
         visible: variables.indexOfCurrentImage!==-1
+
+        ScrollBar.vertical: PQScrollBar { id: scroll }
 
         model: allMetaData.length/2
         delegate: Item {
@@ -237,6 +261,23 @@ Rectangle {
         //: Used as in 'Keep the metadata element open even if the cursor leaves it'
         text: PQSettings.metadataPopoutElement ? "" : (em.pty+qsTr("Keep Open"))
 
+    }
+
+    Connections {
+        target: loader
+        onMetadataPassOn: {
+            if(what == "toggle") {
+                if(keepopen.checked) {
+                    keepopen.checked = false
+                    opacity = 0
+                    variables.metaDataWidthWhenKeptOpen = 0
+                } else {
+                    keepopen.checked = true
+                    opacity = 1
+                    variables.metaDataWidthWhenKeptOpen = metadata_top.width
+                }
+            }
+        }
     }
 
 }

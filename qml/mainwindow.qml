@@ -135,6 +135,9 @@ Window {
         } else
             loader.show("filedialog")
 
+        loader.ensureItIsReady("mainmenu")
+        loader.ensureItIsReady("metadata")
+
     }
 
     // needed to load folders without PQFileDialog
@@ -151,13 +154,10 @@ Window {
 
     PQThumbnailBar { id: thumbnails }
 
-    PQMainMenu { id: mainmenu; visible: !PQSettings.mainMenuPopoutElement }
-    PQMainMenuPopout { id: mainmenu_popout; visible: PQSettings.mainMenuPopoutElement }
-    PQMetaData { id: metadata; visible: !PQSettings.metadataPopoutElement }
-    PQMetaDataPopout { id: metadata_popout; visible: PQSettings.metadataPopoutElement }
+    Loader { id: mainmenu }
+    Loader { id: metadata }
 
     Loader { id: filedialog }
-    Loader { id: filedialog_popout }
 
     PQImageProperties { id: imageproperties }
     PQImageFormats { id: imageformats }
