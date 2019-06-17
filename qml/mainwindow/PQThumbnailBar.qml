@@ -4,7 +4,8 @@ import "../elements"
 
 Item {
 
-    x: variables.metaDataWidthWhenKeptOpen
+    property int xOffset: (view.contentWidth < (toplevel.width-variables.metaDataWidthWhenKeptOpen) ? ((toplevel.width-variables.metaDataWidthWhenKeptOpen)-view.contentWidth)/2 : 0)
+    x: variables.metaDataWidthWhenKeptOpen + xOffset
     Behavior on x { NumberAnimation { duration: PQSettings.animationDuration*100 } }
 
     y:
@@ -24,7 +25,7 @@ Item {
 
     visible: PQSettings.thumbnailPosition=="Top" ? (y > -height) : (y < toplevel.height)
 
-    width: toplevel.width-x
+    width: toplevel.width-(variables.metaDataWidthWhenKeptOpen + xOffset*2)
 
     clip: true
 
