@@ -134,6 +134,8 @@ namespace PQLoadImage {
             raw.dcraw_clear_mem(img);
             raw.recycle();
 
+            *origSize = image.size();
+
             if(maxSize.width() > 5 && maxSize.height() > 5 && (image.width() > maxSize.width() || image.height() > maxSize.height()))
                 return image.scaled(maxSize, ::Qt::KeepAspectRatio, ::Qt::SmoothTransformation);
 

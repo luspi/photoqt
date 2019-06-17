@@ -26,6 +26,10 @@
 #include <GraphicsMagick/Magick++.h>
 #endif
 
+#ifdef DEVIL
+#include <IL/il.h>
+#endif
+
 int main(int argc, char **argv) {
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -50,6 +54,10 @@ int main(int argc, char **argv) {
 #ifdef GM
     // Initialise Magick as early as possible
     Magick::InitializeMagick(*argv);
+#endif
+
+#ifdef DEVIL
+    ilInit();
 #endif
 
     QQmlApplicationEngine engine;

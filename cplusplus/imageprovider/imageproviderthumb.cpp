@@ -5,6 +5,7 @@
 #include "loader/loadimage_xcf.h"
 #include "loader/loadimage_poppler.h"
 #include "loader/loadimage_raw.h"
+#include "loader/loadimage_devil.h"
 #include "../settings/settings.h"
 
 QQuickImageResponse *PQAsyncImageProviderThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
@@ -97,6 +98,8 @@ void PQAsyncImageResponseThumb::run() {
         p = PQLoadImage::PDF::load(filename, m_requestedSize, &origSize);
     else if(whatToUse == "raw")
         p = PQLoadImage::Raw::load(filename, m_requestedSize, &origSize);
+    else if(whatToUse == "devil")
+        p = PQLoadImage::DevIL::load(filename, m_requestedSize, &origSize);
     else
         p = PQLoadImage::Qt::load(filename, m_requestedSize, &origSize);
 
@@ -194,6 +197,9 @@ QString PQAsyncImageResponseThumb::whatDoIUse(QString filename) {
 
     if(imageformats->getEnabledFileformatsRAW().contains("*." + info.suffix().toLower()))
         return "raw";
+
+    if(imageformats->getEnabledFileformatsDevIL().contains("*." + info.suffix().toLower()))
+        return "devil";
 
     return "qt";
 

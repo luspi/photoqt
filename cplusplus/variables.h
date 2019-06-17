@@ -2,6 +2,7 @@
 #define PQVARIABLES_H
 
 #include <QObject>
+#include <QMutex>
 
 class PQVariables : public QObject {
 
@@ -69,6 +70,11 @@ public:
                 emit cmdDebugChanged();
             }
         }
+
+#ifdef DEVIL
+        // DevIL is not threadsafe -> this ensures only one image is loaded at a time
+        QMutex devilMutex;
+#endif
 
 private:
         PQVariables() {}
