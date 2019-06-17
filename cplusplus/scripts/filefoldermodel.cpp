@@ -40,25 +40,35 @@ void PQFileFolderModel::loadData() {
     // Files
     allImageFilesInOrder = getAllImagesInFolder(m_folder, m_showHidden, m_nameFilters, m_sortField, m_sortReversed);
 
-    QFileInfoList entrylist = alldirs+allImageFilesInOrder;
-
-    m_count = entrylist.length();
+    m_count = alldirs.length()+allImageFilesInOrder.length();
 
     if(m_count == 0)
         return;
 
     entries.reserve(m_count);
 
-    beginInsertRows(QModelIndex(), rowCount(), rowCount()+entrylist.length()-1);
+    beginInsertRows(QModelIndex(), rowCount(), rowCount()+m_count-1);
 
-    for(int i = 0; i < m_count; ++i) {
+    for(int i = 0; i < alldirs.length(); ++i) {
 
         PQFileFolderEntry *entry = new PQFileFolderEntry;
-        entry->fileName = entrylist.at(i).fileName();
-        entry->filePath = entrylist.at(i).filePath();
-        entry->fileSize = entrylist.at(i).size();
-        entry->fileModified = entrylist.at(i).lastModified();
-        entry->fileIsDir = entrylist.at(i).isDir();
+        entry->fileName = alldirs.at(i).fileName();
+        entry->filePath = alldirs.at(i).filePath();
+        entry->fileSize = alldirs.at(i).size();
+        entry->fileModified = alldirs.at(i).lastModified();
+        entry->fileIsDir = alldirs.at(i).isDir();
+
+        entries.push_back(entry);
+
+    }
+    for(int i = 0; i < allImageFilesInOrder.length(); ++i) {
+
+        PQFileFolderEntry *entry = new PQFileFolderEntry;
+        entry->fileName = allImageFilesInOrder.at(i).fileName();
+        entry->filePath = allImageFilesInOrder.at(i).filePath();
+        entry->fileSize = allImageFilesInOrder.at(i).size();
+        entry->fileModified = allImageFilesInOrder.at(i).lastModified();
+        entry->fileIsDir = allImageFilesInOrder.at(i).isDir();
 
         entries.push_back(entry);
 
