@@ -85,9 +85,9 @@ Rectangle {
         //: Keep string short!
         qsTranslate("metadata", "File name"), handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]),
         //: Keep string short!
-        qsTranslate("metadata", "File size"), handlingGeneral.getFileSize(variables.allImageFilesInOrder[variables.indexOfCurrentImage]),
+        qsTranslate("metadata", "File size"), cppmetadata.fileSize,
         //: Used as in "Image 3/16". The numbers (position of image in folder) are added on automatically. Keep string short!
-        qsTranslate("metadata", "Image #/#"), (variables.indexOfCurrentImage+"/"+variables.allImageFilesInOrder.length),
+        qsTranslate("metadata", "Image #/#"), ((variables.indexOfCurrentImage+1)+"/"+variables.allImageFilesInOrder.length),
         //: The dimensions of the loaded image. Keep string short!
         qsTranslate("metadata", "Dimensions"), cppmetadata.dimensions,
         "", "",

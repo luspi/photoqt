@@ -44,11 +44,13 @@ void PQMetaData::updateMetadata(QString path) {
 
         setValidFile(false);
 
+        return;
+
     }
 
     setValidFile(true);
 
-    setFileSize(QString("%1").arg(static_cast<double>(info.size())/1024.0) + " KB");
+    setFileSize(QString("%1 KB").arg(info.size()/1024.0));
 
     // Obtain dimensions (if supported by ImageReader)
     if(QImageReader::supportedImageFormats().contains(info.suffix().toLower().toUtf8())) {
