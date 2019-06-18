@@ -85,7 +85,7 @@ Item {
             y: 5
 
             text: (variables.indexOfCurrentImage>-1 && variables.allImageFilesInOrder[variables.indexOfCurrentImage].indexOf("::PQT::")>-1) ?
-                      ("Page #" + (variables.allImageFilesInOrder[variables.indexOfCurrentImage].split("::PQT::")[0]*1+1) + "/" + variables.allImageFilesInOrder.length) :
+                      ("Page " + (variables.allImageFilesInOrder[variables.indexOfCurrentImage].split("::PQT::")[0]*1+1) + " of " + variables.allImageFilesInOrder.length) :
                       ""
             visible: text != ""
 
