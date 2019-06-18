@@ -34,6 +34,8 @@ private:
     PQImageFormats *imageformats;
     QMimeDatabase mimedb;
 
+    int foundExternalUnrar;
+
     QString whatDoIUse(QString filename);
 
 };

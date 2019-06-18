@@ -8,6 +8,7 @@
 #include "loader/loadimage_devil.h"
 #include "loader/loadimage_freeimage.h"
 #include "loader/loadimage_archive.h"
+#include "loader/loadimage_unrar.h"
 #include "../settings/settings.h"
 
 QQuickImageResponse *PQAsyncImageProviderThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
@@ -19,6 +20,7 @@ QQuickImageResponse *PQAsyncImageProviderThumb::requestImageResponse(const QStri
 
 PQAsyncImageResponseThumb::PQAsyncImageResponseThumb(const QString &url, const QSize &requestedSize) : m_url(url), m_requestedSize(requestedSize) {
     setAutoDelete(false);
+    foundExternalUnrar = -1;
     imageformats = new PQImageFormats;
 }
 
@@ -106,6 +108,8 @@ void PQAsyncImageResponseThumb::run() {
         p = PQLoadImage::DevIL::load(filename, m_requestedSize, &origSize);
     else if(whatToUse == "freeimage")
         p = PQLoadImage::FreeImage::load(filename, m_requestedSize, &origSize);
+    else if(whatToUse == "unrar")
+        p = PQLoadImage::UNRAR::load(filename, m_requestedSize, &origSize);
     else if(whatToUse == "archive")
         p = PQLoadImage::Archive::load(filename, m_requestedSize, &origSize);
     else
@@ -211,6 +215,18 @@ QString PQAsyncImageResponseThumb::whatDoIUse(QString filename) {
 
     if(imageformats->getEnabledFileformatsFreeImage().contains("*." + info.suffix().toLower()))
         return "freeimage";
+
+    if(info.suffix().toLower() == "rar" || info.suffix().toLower() == "cbr") {
+        if(foundExternalUnrar == -1) {
+            QProcess which;
+            which.setStandardOutputFile(QProcess::nullDevice());
+            which.start("which unrar");
+            which.waitForFinished();
+            foundExternalUnrar = which.exitCode() ? 0 : 1;
+        }
+        if(foundExternalUnrar == 1)
+            return "unrar";
+    }
 
     if(imageformats->getEnabledFileformatsArchive().contains("*." + info.suffix().toLower()))
         return "archive";

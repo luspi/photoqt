@@ -45,6 +45,8 @@ private:
 
     QByteArray getUniqueCacheKey(QString path);
 
+    int foundExternalUnrar;
+
 };
 
 

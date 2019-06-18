@@ -29,6 +29,7 @@
 #include "loader/loadimage_devil.h"
 #include "loader/loadimage_freeimage.h"
 #include "loader/loadimage_archive.h"
+#include "loader/loadimage_unrar.h"
 #include "../settings/settings.h"
 
 PQImageProviderFull::PQImageProviderFull() : QQuickImageProvider(QQuickImageProvider::Image) {
@@ -37,6 +38,8 @@ PQImageProviderFull::PQImageProviderFull() : QQuickImageProvider(QQuickImageProv
     pixmapcache->setCacheLimit(8*1024*std::max(0, std::min(1000, PQSettings::get().getPixmapCache())));
 
     imageformats = new PQImageFormats;
+
+    foundExternalUnrar = -1;
 
 }
 
@@ -120,6 +123,9 @@ QImage PQImageProviderFull::requestImage(const QString &filename_encoded, QSize 
     } else if(whatToUse == "freeimage") {
         ret = PQLoadImage::FreeImage::load(filename, requestedSize, origSize);
         err = PQLoadImage::FreeImage::errormsg;
+    } else if(whatToUse == "unrar") {
+        ret = PQLoadImage::UNRAR::load(filename, requestedSize, origSize);
+        err = PQLoadImage::UNRAR::errormsg;
     } else if(whatToUse == "archive") {
         ret = PQLoadImage::Archive::load(filename, requestedSize, origSize);
         err = PQLoadImage::Archive::errormsg;
@@ -176,6 +182,18 @@ QString PQImageProviderFull::whatDoIUse(QString filename) {
 
     if(imageformats->getEnabledFileformatsFreeImage().contains("*." + info.suffix().toLower()))
         return "freeimage";
+
+    if(info.suffix().toLower() == "rar" || info.suffix().toLower() == "cbr") {
+        if(foundExternalUnrar == -1) {
+            QProcess which;
+            which.setStandardOutputFile(QProcess::nullDevice());
+            which.start("which unrar");
+            which.waitForFinished();
+            foundExternalUnrar = which.exitCode() ? 0 : 1;
+        }
+        if(foundExternalUnrar == 1)
+            return "unrar";
+    }
 
     if(imageformats->getEnabledFileformatsArchive().contains("*." + info.suffix().toLower()))
         return "archive";
