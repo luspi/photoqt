@@ -37,14 +37,13 @@ GridView {
                                      PQFileFolderModel.Size :
                                      PQFileFolderModel.Type)))
         sortReversed: !PQSettings.sortbyAscending
+        folder: ""
     }
 
     model: files_model
 
     cellWidth: PQSettings.openDefaultView=="icons" ? PQSettings.openZoomLevel*6 : width-scroll.width
     cellHeight: PQSettings.openDefaultView=="icons" ? PQSettings.openZoomLevel*6 : PQSettings.openZoomLevel*2
-    Behavior on cellWidth { NumberAnimation { id: cellWidthAni; duration: 125; } }
-    Behavior on cellHeight { NumberAnimation { id: cellHeightAni; duration: 125; } }
 
     PQMouseArea {
         anchors.fill: parent
@@ -97,9 +96,6 @@ GridView {
                 height: parent.height-10
 
                 asynchronous: true
-
-                Behavior on width { NumberAnimation { duration: 100 } }
-                Behavior on height { NumberAnimation { duration: 100 } }
 
                 opacity: currentlyHoveredIndex==index ? 1 : 0.6
                 Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -464,7 +460,15 @@ GridView {
     }
 
     Component.onCompleted:
-        loadFolder(variables.openCurrentDirectory)
+        delayAtStartup.start()
+
+    Timer {
+        id: delayAtStartup
+        interval: 200
+        repeat: false
+        onTriggered:
+            loadFolder(variables.openCurrentDirectory)
+    }
 
     function loadFolder(loc) {
 

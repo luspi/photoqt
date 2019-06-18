@@ -24,7 +24,6 @@ ListView {
 
         width: parent.width
         height: !visible ? 0 : 30
-        Behavior on height { NumberAnimation { duration: 200 } }
 
         visible: ((path!=undefined&&(hidden=="false"||showHiddenEntries))||index==0)
         opacity: hidden=="false" ? 1 : 0.5
