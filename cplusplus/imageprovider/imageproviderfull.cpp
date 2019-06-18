@@ -27,6 +27,7 @@
 #include "loader/loadimage_poppler.h"
 #include "loader/loadimage_raw.h"
 #include "loader/loadimage_devil.h"
+#include "loader/loadimage_freeimage.h"
 #include "../settings/settings.h"
 
 PQImageProviderFull::PQImageProviderFull() : QQuickImageProvider(QQuickImageProvider::Image) {
@@ -113,6 +114,9 @@ QImage PQImageProviderFull::requestImage(const QString &filename_encoded, QSize 
     } else if(whatToUse == "devil") {
         ret = PQLoadImage::DevIL::load(filename, requestedSize, origSize);
         err = PQLoadImage::DevIL::errormsg;
+    } else if(whatToUse == "freeimage") {
+        ret = PQLoadImage::FreeImage::load(filename, requestedSize, origSize);
+        err = PQLoadImage::FreeImage::errormsg;
     } else {
         ret = PQLoadImage::Qt::load(filename, requestedSize, origSize);
         err = PQLoadImage::Qt::errormsg;
@@ -163,6 +167,9 @@ QString PQImageProviderFull::whatDoIUse(QString filename) {
 
     if(imageformats->getEnabledFileformatsDevIL().contains("*." + info.suffix().toLower()))
         return "devil";
+
+    if(imageformats->getEnabledFileformatsFreeImage().contains("*." + info.suffix().toLower()))
+        return "freeimage";
 
     return "qt";
 

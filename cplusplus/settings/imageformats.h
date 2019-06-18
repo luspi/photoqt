@@ -39,6 +39,9 @@ public:
     Q_INVOKABLE QVariantList getAvailableEndingsDevIL() {
         return availableFileformats[categories.indexOf("devil")];
     }
+    Q_INVOKABLE QVariantList getAvailableEndingsFreeImage() {
+        return availableFileformats[categories.indexOf("freeimage")];
+    }
 
     // All possibly available file formats INCLUDING a description of the image type for the various categories
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionQt() {
@@ -59,6 +62,9 @@ public:
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionDevIL() {
         return availableFileformatsWithDescription[categories.indexOf("devil")];
     }
+    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionFreeImage() {
+        return availableFileformatsWithDescription[categories.indexOf("freeimage")];
+    }
 
     // All possibly available file formats for the various categories
     Q_INVOKABLE QStringList getDefaultEnabledEndingsQt() {
@@ -78,6 +84,9 @@ public:
     }
     Q_INVOKABLE QStringList getDefaultEnabledEndingsDevIL() {
         return defaultEnabledFileformats[categories.indexOf("devil")];
+    }
+    Q_INVOKABLE QStringList getDefaultEnabledEndingsFreeImage() {
+        return defaultEnabledFileformats[categories.indexOf("freeimage")];
     }
 
 
@@ -142,6 +151,16 @@ public:
                                                     emit enabledFileformatsDevILChanged(val); }
     void setEnabledFileformatsDevILWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("devil")] = val; }
 
+    // ... FreeImage
+    Q_PROPERTY(QStringList enabledFileformatsFreeImage
+               READ getEnabledFileformatsFreeImage
+               WRITE setEnabledFileformatsFreeImage
+               NOTIFY enabledFileformatsFreeImageChanged)
+    QStringList getEnabledFileformatsFreeImage() { return enabledFileformats[categories.indexOf("freeimage")]; }
+    void setEnabledFileformatsFreeImage(QStringList val) { enabledFileformats[categories.indexOf("freeimage")] = val;
+                                                    emit enabledFileformatsFreeImageChanged(val); }
+    void setEnabledFileformatsFreeImageWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("freeimage")] = val; }
+
 
 
     // Can be called from QML when resetting the settings
@@ -149,7 +168,7 @@ public:
         if(category == "" || category == "qt")
             setEnabledFileformatsQt(defaultEnabledFileformats[categories.indexOf("qt")]);
         if(category == "" || category == "xcftools")
-            setEnabledFileformatsGm(defaultEnabledFileformats[categories.indexOf("xcftools")]);
+            setEnabledFileformatsXCF(defaultEnabledFileformats[categories.indexOf("xcftools")]);
         if(category == "" || category == "poppler")
             setEnabledFileformatsPoppler(defaultEnabledFileformats[categories.indexOf("poppler")]);
         if(category == "" || category == "gm")
@@ -158,6 +177,8 @@ public:
             setEnabledFileformatsRAW(defaultEnabledFileformats[categories.indexOf("raw")]);
         if(category == "" || category == "devil")
             setEnabledFileformatsDevIL(defaultEnabledFileformats[categories.indexOf("devil")]);
+        if(category == "" || category == "freeimage")
+            setEnabledFileformatsFreeImage(defaultEnabledFileformats[categories.indexOf("freeimage")]);
     }
 
 
@@ -197,6 +218,12 @@ public:
             allFormats.append(entry.toString());
 #endif
 
+#ifdef FREEIMAGE
+        // FREEIMAGE
+        foreach(QVariant entry, enabledFileformats[categories.indexOf("freeimage")])
+            allFormats.append(entry.toString());
+#endif
+
         return allFormats;
 
     }
@@ -208,6 +235,7 @@ signals:
     void enabledFileformatsPopplerChanged(QStringList val);
     void enabledFileformatsRAWChanged(QStringList val);
     void enabledFileformatsDevILChanged(QStringList val);
+    void enabledFileformatsFreeImageChanged(QStringList val);
     void enabledFileformatsChanged();
     void enabledFileformatsSaved();
 
