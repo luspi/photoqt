@@ -40,6 +40,8 @@ QString PQHandlingGeneral::getFileNameFromFullPath(QString path, bool onlyExtraI
     if(onlyExtraInfo) {
         if(path.contains("::PQT::"))
             ret = QString("Page %1").arg(path.split("::PQT::").at(0).toInt()+1);
+        if(path.contains("::ARC::"))
+            ret = path.split("::ARC::").at(0);
     }
     return ret;
 }
