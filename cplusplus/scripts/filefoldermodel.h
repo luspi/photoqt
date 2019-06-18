@@ -10,6 +10,8 @@
 #include <QFileSystemWatcher>
 #include "../logger.h"
 #include "../settings/settings.h"
+#include "handlingfiledialog.h"
+#include "../settings/imageformats.h"
 
 #ifdef POPPLER
 #include <poppler/qt5/poppler-qt5.h>
@@ -128,20 +130,16 @@ public:
         QStringList ret;
         ret.reserve(allImageFilesInOrder.size());
         for(QFileInfo info : allImageFilesInOrder) {
-            if(!PQSettings::get().getPdfSingleDocument()) {
 #ifdef POPPLER
-                if(info.suffix().toLower() == "pdf" || info.suffix().toLower() == "epdf") {
-                    Poppler::Document* document = Poppler::Document::load(info.absoluteFilePath());
-                    if(document && !document->isLocked()) {
-                        int numPages = document->numPages();
-                        for(int i = 0; i < numPages; ++i)
-                            ret.push_back(QString("%1::PQT::%2").arg(i).arg(info.absoluteFilePath()));
-                    }
-                    delete document;
-                } else
-#endif
+            if(!PQSettings::get().getPdfSingleDocument() && (info.suffix().toLower() == "pdf" || info.suffix().toLower() == "epdf"))
+                ret += handlingFileDialog.listPDFPages(info.absoluteFilePath());
+            else if(info.suffix().toLower() != "pdf" && info.suffix().toLower() != "epdf") {
+                if(!PQSettings::get().getArchiveSingleFile() && imageformats.getEnabledFileformatsArchive().contains(info.suffix().toLower()))
+                    ret += handlingFileDialog.listArchiveContent(info.absoluteFilePath());
+                else if(!imageformats.getEnabledFileformatsArchive().contains(info.suffix().toLower()))
                     ret.push_back(info.absoluteFilePath());
-            } else if(info.suffix().toLower() != "pdf" && info.suffix().toLower() != "epdf")
+            } else if(!imageformats.getEnabledFileformatsArchive().contains(info.suffix().toLower()))
+#endif
                 ret.push_back(info.absoluteFilePath());
         }
         return ret;
@@ -183,6 +181,9 @@ private:
     QFileSystemWatcher *watcher;
 
     QFileInfoList allImageFilesInOrder;
+
+    PQHandlingFileDialog handlingFileDialog;
+    PQImageFormats imageformats;
 
 private slots:
     void loadData();

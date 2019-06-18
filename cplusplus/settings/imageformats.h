@@ -42,6 +42,9 @@ public:
     Q_INVOKABLE QVariantList getAvailableEndingsFreeImage() {
         return availableFileformats[categories.indexOf("freeimage")];
     }
+    Q_INVOKABLE QVariantList getAvailableEndingsArchive() {
+        return availableFileformats[categories.indexOf("archive")];
+    }
 
     // All possibly available file formats INCLUDING a description of the image type for the various categories
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionQt() {
@@ -65,6 +68,9 @@ public:
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionFreeImage() {
         return availableFileformatsWithDescription[categories.indexOf("freeimage")];
     }
+    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionArchive() {
+        return availableFileformatsWithDescription[categories.indexOf("archive")];
+    }
 
     // All possibly available file formats for the various categories
     Q_INVOKABLE QStringList getDefaultEnabledEndingsQt() {
@@ -87,6 +93,9 @@ public:
     }
     Q_INVOKABLE QStringList getDefaultEnabledEndingsFreeImage() {
         return defaultEnabledFileformats[categories.indexOf("freeimage")];
+    }
+    Q_INVOKABLE QStringList getDefaultEnabledEndingsArchive() {
+        return defaultEnabledFileformats[categories.indexOf("archive")];
     }
 
 
@@ -161,6 +170,16 @@ public:
                                                     emit enabledFileformatsFreeImageChanged(val); }
     void setEnabledFileformatsFreeImageWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("freeimage")] = val; }
 
+    // ... Archive
+    Q_PROPERTY(QStringList enabledFileformatsArchive
+               READ getEnabledFileformatsArchive
+               WRITE setEnabledFileformatsArchive
+               NOTIFY enabledFileformatsArchiveChanged)
+    QStringList getEnabledFileformatsArchive() { return enabledFileformats[categories.indexOf("archive")]; }
+    void setEnabledFileformatsArchive(QStringList val) { enabledFileformats[categories.indexOf("archive")] = val;
+                                                    emit enabledFileformatsArchiveChanged(val); }
+    void setEnabledFileformatsArchiveWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("archive")] = val; }
+
 
 
     // Can be called from QML when resetting the settings
@@ -179,6 +198,8 @@ public:
             setEnabledFileformatsDevIL(defaultEnabledFileformats[categories.indexOf("devil")]);
         if(category == "" || category == "freeimage")
             setEnabledFileformatsFreeImage(defaultEnabledFileformats[categories.indexOf("freeimage")]);
+        if(category == "" || category == "archive")
+            setEnabledFileformatsArchive(defaultEnabledFileformats[categories.indexOf("archive")]);
     }
 
 
@@ -224,6 +245,10 @@ public:
             allFormats.append(entry.toString());
 #endif
 
+        // ARCHIVE
+        foreach(QVariant entry, enabledFileformats[categories.indexOf("archive")])
+            allFormats.append(entry.toString());
+
         return allFormats;
 
     }
@@ -236,6 +261,7 @@ signals:
     void enabledFileformatsRAWChanged(QStringList val);
     void enabledFileformatsDevILChanged(QStringList val);
     void enabledFileformatsFreeImageChanged(QStringList val);
+    void enabledFileformatsArchiveChanged(QStringList val);
     void enabledFileformatsChanged();
     void enabledFileformatsSaved();
 

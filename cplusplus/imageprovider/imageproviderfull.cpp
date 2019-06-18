@@ -28,6 +28,7 @@
 #include "loader/loadimage_raw.h"
 #include "loader/loadimage_devil.h"
 #include "loader/loadimage_freeimage.h"
+#include "loader/loadimage_archive.h"
 #include "../settings/settings.h"
 
 PQImageProviderFull::PQImageProviderFull() : QQuickImageProvider(QQuickImageProvider::Image) {
@@ -58,6 +59,8 @@ QImage PQImageProviderFull::requestImage(const QString &filename_encoded, QSize 
     QString filenameForChecking = filename;
     if(filenameForChecking.contains("::PQT::"))
         filenameForChecking = filenameForChecking.split("::PQT::").at(1);
+    if(filenameForChecking.contains("::ARC::"))
+        filenameForChecking = filenameForChecking.split("::ARC::").at(1);
 
     if(!QFileInfo(filenameForChecking).exists()) {
         QString err = QCoreApplication::translate("imageprovider", "File failed to load, it doesn't exist!");
@@ -117,6 +120,9 @@ QImage PQImageProviderFull::requestImage(const QString &filename_encoded, QSize 
     } else if(whatToUse == "freeimage") {
         ret = PQLoadImage::FreeImage::load(filename, requestedSize, origSize);
         err = PQLoadImage::FreeImage::errormsg;
+    } else if(whatToUse == "archive") {
+        ret = PQLoadImage::Archive::load(filename, requestedSize, origSize);
+        err = PQLoadImage::Archive::errormsg;
     } else {
         ret = PQLoadImage::Qt::load(filename, requestedSize, origSize);
         err = PQLoadImage::Qt::errormsg;
@@ -170,6 +176,9 @@ QString PQImageProviderFull::whatDoIUse(QString filename) {
 
     if(imageformats->getEnabledFileformatsFreeImage().contains("*." + info.suffix().toLower()))
         return "freeimage";
+
+    if(imageformats->getEnabledFileformatsArchive().contains("*." + info.suffix().toLower()))
+        return "archive";
 
     return "qt";
 

@@ -419,6 +419,17 @@ PQImageFormats::PQImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[6].insert("*.wdp"        , QStringList() << "jxr" << "JPEG-XR"                                       << "0");
 
 
+    // Archive
+    setupAvailable[7].insert("*.cbz"        , QStringList() << "zip" << "Comic book archive (ZIP)"                      << "1");
+    setupAvailable[7].insert("*.cbr"        , QStringList() << "rar" << "Comic book archive (RAR)"                      << "1");
+    setupAvailable[7].insert("*.cb7"        , QStringList() << "7z " << "Comic book archive (7z)"                       << "1");
+    setupAvailable[7].insert("*.cbt"        , QStringList() << "tar" << "Comic book archive (TAR)"                      << "1");
+    setupAvailable[7].insert("*.zip"        , QStringList() << "zip" << "ZIP file format"                               << "0");
+    setupAvailable[7].insert("*.rar"        , QStringList() << "rar" << "RAR file format"                               << "0");
+    setupAvailable[7].insert("*.7z"         , QStringList() << "7z " << "7z file format"                                << "0");
+    setupAvailable[7].insert("*.tar"        , QStringList() << "tar" << "TAR file format"                               << "0");
+
+
 
     availableFileformats = new QVariantList[categories.length()];
     availableFileformatsWithDescription = new QVariantList[categories.length()];
@@ -474,6 +485,9 @@ void PQImageFormats::setEnabledFileformats(QString cat, QStringList val, bool wi
         else if(cat == "freeimage")
             setEnabledFileformatsFreeImage(val);
 
+        else if(cat == "archive")
+            setEnabledFileformatsArchive(val);
+
     } else {
 
         if(cat == "qt")
@@ -496,6 +510,9 @@ void PQImageFormats::setEnabledFileformats(QString cat, QStringList val, bool wi
 
         else if(cat == "freeimage")
             setEnabledFileformatsFreeImageWithoutSaving(val);
+
+        else if(cat == "archive")
+            setEnabledFileformatsArchiveWithoutSaving(val);
 
     }
 }

@@ -281,6 +281,9 @@ GridView {
                             if(imageformats.enabledFileformatsPoppler.indexOf("*." + handlingFileDialog.getSuffix(filePath)) > -1 && PQSettings.pdfSingleDocument) {
                                 variables.allImageFilesInOrder = handlingFileDialog.listPDFPages(filePath)
                                 variables.indexOfCurrentImage = 0
+                            } else if(imageformats.enabledFileformatsArchive.indexOf("*." + handlingFileDialog.getSuffix(filePath)) > -1 && PQSettings.archiveSingleFile) {
+                                variables.allImageFilesInOrder = handlingFileDialog.listArchiveContent(filePath)
+                                variables.indexOfCurrentImage = 0
                             } else {
                                 variables.allImageFilesInOrder = files_model.getCopyOfAllFiles()
                                 var fp = filePath

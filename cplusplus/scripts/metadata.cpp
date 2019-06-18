@@ -33,6 +33,8 @@ void PQMetaData::updateMetadata(QString path) {
 
     if(path.contains("::PQT::"))
         path = path.split("::PQT::").at(1);
+    if(path.contains("::ARC::"))
+        path = path.split("::ARC::").at(1);
 
     QFileInfo info(path);
 
@@ -46,7 +48,7 @@ void PQMetaData::updateMetadata(QString path) {
 
     setValidFile(true);
 
-    setFileSize(QString("%1").arg(info.size()/1024) + " KB");
+    setFileSize(QString("%1").arg(static_cast<double>(info.size())/1024.0) + " KB");
 
     // Obtain dimensions (if supported by ImageReader)
     if(QImageReader::supportedImageFormats().contains(info.suffix().toLower().toUtf8())) {

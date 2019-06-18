@@ -16,10 +16,15 @@
 
 #include "../logger.h"
 #include "../settings/imageformats.h"
+#include "../settings/settings.h"
+#include "../variables.h"
 
 #ifdef POPPLER
 #include <poppler/qt5/poppler-qt5.h>
 #endif
+
+#include <archive.h>
+#include <archive_entry.h>
 
 class PQHandlingFileDialog : public QObject {
 
@@ -55,6 +60,7 @@ public:
     Q_INVOKABLE int convertCharacterToKeyCode(QString key);
 
     Q_INVOKABLE QStringList listPDFPages(QString path);
+    Q_INVOKABLE QStringList listArchiveContent(QString path);
 
 private:
     PQImageFormats *imageformats;

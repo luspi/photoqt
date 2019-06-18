@@ -18,7 +18,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/imageproviderfull.cpp ${d}/imageprov
 
 SET(d "cplusplus/imageprovider/loader")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/errorimage.h ${d}/loadimage_qt.h ${d}/loadimage_gm.h ${d}/loadimage_xcf.h ${d}/loadimage_poppler.h ${d}/loadimage_raw.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/loadimage_devil.h ${d}/loadimage_freeimage.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/loadimage_devil.h ${d}/loadimage_freeimage.h ${d}/loadimage_archive.h)
 
 SET(d "cplusplus/singleinstance")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/commandlineparser.h ${d}/singleinstance.cpp)

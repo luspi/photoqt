@@ -487,3 +487,98 @@ QStringList PQHandlingFileDialog::listPDFPages(QString path) {
 
 }
 
+QStringList PQHandlingFileDialog::listArchiveContent(QString path) {
+
+    QStringList ret;
+
+    QFileInfo info(path);
+
+#ifndef Q_OS_WIN
+    QProcess which;
+    which.setStandardOutputFile(QProcess::nullDevice());
+    which.start("which unrar");
+    which.waitForFinished();
+
+    if(!which.exitCode() && PQSettings::get().getArchiveUseExternalUnrar() && (info.suffix() == "cbr" || info.suffix() == "rar")) {
+
+        QProcess p;
+        p.start(QString("unrar lb \"%1\"").arg(info.absoluteFilePath()));
+
+        if(p.waitForStarted()) {
+
+            QByteArray outdata = "";
+
+            while(p.waitForReadyRead())
+                outdata.append(p.readAll());
+
+            QStringList allfiles = QString::fromLatin1(outdata).split('\n', QString::SkipEmptyParts);
+            allfiles.sort();
+            foreach(QString f, allfiles) {
+                if(imageformats->getEnabledFileformatsQt().contains("*." + QFileInfo(f).suffix()))
+                    ret.append(QString("%1::ARC::%2").arg(f).arg(path));
+            }
+
+        }
+
+    } else {
+
+#endif
+
+        // Create new archive handler
+        struct archive *a = archive_read_new();
+
+        // We allow any type of compression and format
+        archive_read_support_filter_all(a);
+        archive_read_support_format_all(a);
+
+        // Read file
+        int r = archive_read_open_filename(a, info.absoluteFilePath().toLatin1(), 10240);
+
+        // If something went wrong, output error message and stop here
+        if(r != ARCHIVE_OK) {
+            LOG << CURDATE << "GetAndDoStuffListFiles::loadAllArchiveFiles(): ERROR: archive_read_open_filename() returned code of " << r << NL;
+            return ret;
+        }
+
+        // Loop over entries in archive
+        struct archive_entry *entry;
+        QStringList allfiles;
+        while(archive_read_next_header(a, &entry) == ARCHIVE_OK) {
+
+            // Read the current file entry
+            QString filenameinside = QString::fromStdString(archive_entry_pathname(entry));
+
+            // If supported file format, append to temporary list
+            if((imageformats->getEnabledFileformatsQt().contains("*." + QFileInfo(filenameinside).suffix())))
+                allfiles.append(filenameinside);
+
+        }
+
+        // Sort the temporary list and add to global list
+        allfiles.sort();
+        foreach(QString f, allfiles)
+            ret.append(QString("%1::ARC::%2").arg(f).arg(path));
+
+        // Close archive
+        r = archive_read_free(a);
+        if(r != ARCHIVE_OK)
+            LOG << CURDATE << "GetAndDoStuffListFiles::loadAllArchiveFiles(): ERROR: archive_read_free() returned code of " << r << NL;
+
+#ifndef Q_OS_WIN
+    }
+#endif
+
+    QCollator collator;
+    collator.setCaseSensitivity(Qt::CaseInsensitive);
+    collator.setIgnorePunctuation(true);
+    collator.setNumericMode(true);
+
+    if(PQSettings::get().getSortbyAscending())
+        std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
+    else
+        std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file2, file1) < 0; });
+
+    return ret;
+
+}
+

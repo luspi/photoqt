@@ -7,6 +7,7 @@
 #include "loader/loadimage_raw.h"
 #include "loader/loadimage_devil.h"
 #include "loader/loadimage_freeimage.h"
+#include "loader/loadimage_archive.h"
 #include "../settings/settings.h"
 
 QQuickImageResponse *PQAsyncImageProviderThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
@@ -75,6 +76,8 @@ void PQAsyncImageResponseThumb::run() {
     QString filenameForChecking = filename;
     if(filenameForChecking.contains("::PQT::"))
         filenameForChecking = filenameForChecking.split("::PQT::").at(1);
+    if(filenameForChecking.contains("::ARC::"))
+        filenameForChecking = filenameForChecking.split("::ARC::").at(1);
 
     // We create a temporary pointer, so that we can delete it properly afterwards
     if(!QFileInfo(filenameForChecking).exists()) {
@@ -103,6 +106,8 @@ void PQAsyncImageResponseThumb::run() {
         p = PQLoadImage::DevIL::load(filename, m_requestedSize, &origSize);
     else if(whatToUse == "freeimage")
         p = PQLoadImage::FreeImage::load(filename, m_requestedSize, &origSize);
+    else if(whatToUse == "archive")
+        p = PQLoadImage::Archive::load(filename, m_requestedSize, &origSize);
     else
         p = PQLoadImage::Qt::load(filename, m_requestedSize, &origSize);
 
@@ -206,6 +211,9 @@ QString PQAsyncImageResponseThumb::whatDoIUse(QString filename) {
 
     if(imageformats->getEnabledFileformatsFreeImage().contains("*." + info.suffix().toLower()))
         return "freeimage";
+
+    if(imageformats->getEnabledFileformatsArchive().contains("*." + info.suffix().toLower()))
+        return "archive";
 
     return "qt";
 
