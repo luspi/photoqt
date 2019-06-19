@@ -26,16 +26,9 @@ Item {
     signal mirrorReset()
 
     // emitted inside of PQImageNormal/Animated whenever its status changed to Image.Reader
-    signal hideOldImage(var forwards)
+    signal newImageLoaded(var id)
 
-    property int hideTempX: 0
-    property int hideTempY: 0
-
-    property bool imageSwitchingForwards: true
     property string imageLatestAdded: ""
-    property real imageScale: 1
-
-    property var keepZoomRotationMirrorValues: ({})
 
     Repeater {
 
@@ -49,44 +42,88 @@ Item {
 
         delegate: Item {
 
+            id: deleg
+            x: 0
+            y: 0
+            width: repeat.width
+            height: repeat.height
+
             Loader {
                 id: theimage
-                property int imageStatus: Image.Null
+                property int imageStatus: Image.Loading
+                onImageStatusChanged: {
+                    if(imageStatus == Image.Ready && container.imageLatestAdded==deleg.uniqueid) {
+                        hideShowAni.showing = true
+                        hideShowAni.start()
+                        container.newImageLoaded(deleg.uniqueid)
+                    }
+                }
             }
+
+            property string uniqueid: handlingGeneral.getUniqueId()
 
             Component.onCompleted: {
-                theimage.source = (imageproperties.isAnimated(src) ? "image/PQImageAnimated.qml" : "image/PQImageNormal.qml")
-            }
-
-            PQLoading {
-                id: loadingindicator
-            }
-
-            // This timer allows for a little timeout before the loading indicator is shown
-            // Most images are loaded pretty quickly, no need to bother with this indicator for those
-            Timer {
-
-                id: showLoadingImage
-
-                // show indicator if the image takes more than 500ms to load
-                interval: 1000
-                repeat: false
-                running: true
-
-                // show indicator only if the mainimage hasn't finished loading in the meantime
-                onTriggered: {
-                    if(theimage.imageStatus == Image.Loading)
-                        loadingindicator.opacity = 1
-
-                }
-
+                container.imageLatestAdded = deleg.uniqueid
+                theimage.source = imageproperties.isAnimated(src) ? "image/PQImageAnimated.qml" : "image/PQImageNormal.qml"
             }
 
             Connections {
-                target: theimage
-                onImageStatusChanged:
-                    if(theimage.imageStatus == Image.Ready)
-                        loadingindicator.opacity = 0
+                target: container
+                onNewImageLoaded: {
+                    if(id != deleg.uniqueid) {
+                        if(hideShowAni.running) {
+                            if(hideShowAni.showing)
+                                hideShowAni.continueToDeleteAfterShowing = true
+                        } else {
+                            if(theimage.imageStatus == Image.Ready) {
+                                hideShowAni.showing = false
+                                hideShowAni.start()
+                            } else
+                                image_model.remove(index)
+                        }
+                    }
+                }
+            }
+
+            PropertyAnimation {
+                id: hideShowAni
+                target: deleg
+                property: PQSettings.animationType
+                duration: (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
+                property bool showing: true
+                property bool continueToDeleteAfterShowing: false
+                alwaysRunToEnd: true
+                from: showing ?
+                          (hideShowAni.property=="opacity" ?
+                              0 :
+                              (hideShowAni.property=="x" ?
+                                  -deleg.width :
+                                  -deleg.height)) :
+                          (hideShowAni.property=="opacity" ?
+                              1 :
+                              (hideShowAni.property=="x" ?
+                                  deleg.x:
+                                  deleg.y))
+                to: showing ?
+                        (hideShowAni.property=="opacity" ?
+                            1 :
+                            (hideShowAni.property=="x" ?
+                                PQSettings.marginAroundImage :
+                                PQSettings.marginAroundImage)) :
+                        (hideShowAni.property=="opacity" ?
+                            0 :
+                            (hideShowAni.property=="x" ?
+                                container.width:
+                                container.height))
+                onStopped: {
+                    if(!showing)
+                        image_model.remove(index)
+                    else if(continueToDeleteAfterShowing) {
+                        showing = false
+                        start()
+                    }
+                }
+
             }
 
         }
@@ -97,22 +134,17 @@ Item {
         target: variables
         // we load the new image whenever one of the below properties has changed. The signal to hide old images is emitted whenever the new image has loaded (its status)
         onIndexOfCurrentImageChanged: {
-            if(variables.allImageFilesInOrder.length > 0 && variables.indexOfCurrentImage > -1) {
-                imageLatestAdded = handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
-                image_model.append({"src" : handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]), "forwards" : imageSwitchingForwards})
-            }
+            if(variables.allImageFilesInOrder.length > 0 && variables.indexOfCurrentImage > -1)
+                image_model.append({"src" : handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])})
         }
         onAllImageFilesInOrderChanged: {
-            if(variables.allImageFilesInOrder.length > 0 && variables.indexOfCurrentImage > -1) {
-                imageLatestAdded = handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
-                image_model.append({"src" : handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]), "forwards" : imageSwitchingForwards})
-            }
+            if(variables.allImageFilesInOrder.length > 0 && variables.indexOfCurrentImage > -1)
+                image_model.append({"src" : handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])})
         }
     }
 
 
     function loadNextImage() {
-        imageSwitchingForwards = true
         if(variables.indexOfCurrentImage < variables.allImageFilesInOrder.length-1)
             ++variables.indexOfCurrentImage
         else if(variables.indexOfCurrentImage == variables.allImageFilesInOrder.length-1 && PQSettings.loopThroughFolder)
@@ -120,7 +152,6 @@ Item {
     }
 
     function loadPrevImage() {
-        imageSwitchingForwards = false
         if(variables.indexOfCurrentImage > 0)
             --variables.indexOfCurrentImage
         else if(variables.indexOfCurrentImage == 0 && PQSettings.loopThroughFolder)
@@ -128,12 +159,10 @@ Item {
     }
 
     function loadFirstImage() {
-        imageSwitchingForwards = false
         variables.indexOfCurrentImage = 0
     }
 
     function loadLastImage() {
-        imageSwitchingForwards = true
         variables.indexOfCurrentImage = variables.allImageFilesInOrder.length-1
     }
 

@@ -28,6 +28,8 @@ public:
     Q_INVOKABLE QString getTempDir();
     Q_INVOKABLE void cleanUpScreenshotsTakenAtStartup();
 
+    Q_INVOKABLE QString getUniqueId();
+
 };
 
 #endif // PQHandlingGeneral

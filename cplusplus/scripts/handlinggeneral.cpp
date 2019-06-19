@@ -101,3 +101,7 @@ void PQHandlingGeneral::cleanUpScreenshotsTakenAtStartup() {
     }
 
 }
+
+QString PQHandlingGeneral::getUniqueId() {
+    return QString::number(QDateTime::currentMSecsSinceEpoch());
+}
