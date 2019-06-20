@@ -45,6 +45,9 @@ public:
     Q_INVOKABLE QVariantList getAvailableEndingsArchive() {
         return availableFileformats[categories.indexOf("archive")];
     }
+    Q_INVOKABLE QVariantList getAvailableEndingsVideo() {
+        return availableFileformats[categories.indexOf("video")];
+    }
 
     // All possibly available file formats INCLUDING a description of the image type for the various categories
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionQt() {
@@ -71,6 +74,9 @@ public:
     Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionArchive() {
         return availableFileformatsWithDescription[categories.indexOf("archive")];
     }
+    Q_INVOKABLE QVariantList getAvailableEndingsWithDescriptionVideo() {
+        return availableFileformatsWithDescription[categories.indexOf("video")];
+    }
 
     // All possibly available file formats for the various categories
     Q_INVOKABLE QStringList getDefaultEnabledEndingsQt() {
@@ -96,6 +102,9 @@ public:
     }
     Q_INVOKABLE QStringList getDefaultEnabledEndingsArchive() {
         return defaultEnabledFileformats[categories.indexOf("archive")];
+    }
+    Q_INVOKABLE QStringList getDefaultEnabledEndingsVideo() {
+        return defaultEnabledFileformats[categories.indexOf("video")];
     }
 
 
@@ -180,6 +189,16 @@ public:
                                                     emit enabledFileformatsArchiveChanged(val); }
     void setEnabledFileformatsArchiveWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("archive")] = val; }
 
+    // ... Video
+    Q_PROPERTY(QStringList enabledFileformatsVideo
+               READ getEnabledFileformatsVideo
+               WRITE setEnabledFileformatsVideo
+               NOTIFY enabledFileformatsVideoChanged)
+    QStringList getEnabledFileformatsVideo() { return enabledFileformats[categories.indexOf("video")]; }
+    void setEnabledFileformatsVideo(QStringList val) { enabledFileformats[categories.indexOf("video")] = val;
+                                                    emit enabledFileformatsVideoChanged(val); }
+    void setEnabledFileformatsVideoWithoutSaving(QStringList val) { enabledFileformats[categories.indexOf("video")] = val; }
+
 
 
     // Can be called from QML when resetting the settings
@@ -200,6 +219,31 @@ public:
             setEnabledFileformatsFreeImage(defaultEnabledFileformats[categories.indexOf("freeimage")]);
         if(category == "" || category == "archive")
             setEnabledFileformatsArchive(defaultEnabledFileformats[categories.indexOf("archive")]);
+        if(category == "" || category == "video")
+            setEnabledFileformatsVideo(defaultEnabledFileformats[categories.indexOf("video")]);
+    }
+
+
+    Q_INVOKABLE QStringList getEnabledFileFormats(QString category) {
+        if(category == "qt")
+            return getEnabledFileformatsQt();
+        if(category == "xcftools")
+            return getEnabledFileformatsXCF();
+        if(category == "poppler")
+            return getEnabledFileformatsPoppler();
+        if(category == "gm")
+            return getEnabledFileformatsGm();
+        if(category == "raw")
+            return getEnabledFileformatsRAW();
+        if(category == "devil")
+            return getEnabledFileformatsDevIL();
+        if(category == "freeimage")
+            return getEnabledFileformatsFreeImage();
+        if(category == "archive")
+            return getEnabledFileformatsArchive();
+        if(category == "video")
+            return getEnabledFileformatsVideo();
+        return QStringList();
     }
 
 
@@ -249,6 +293,10 @@ public:
         foreach(QVariant entry, enabledFileformats[categories.indexOf("archive")])
             allFormats.append(entry.toString());
 
+        // VIDEO
+        foreach(QVariant entry, enabledFileformats[categories.indexOf("video")])
+            allFormats.append(entry.toString());
+
         return allFormats;
 
     }
@@ -262,6 +310,7 @@ signals:
     void enabledFileformatsDevILChanged(QStringList val);
     void enabledFileformatsFreeImageChanged(QStringList val);
     void enabledFileformatsArchiveChanged(QStringList val);
+    void enabledFileformatsVideoChanged(QStringList val);
     void enabledFileformatsChanged();
     void enabledFileformatsSaved();
 

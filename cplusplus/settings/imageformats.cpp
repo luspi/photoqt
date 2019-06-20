@@ -2,8 +2,8 @@
 
 PQImageFormats::PQImageFormats(QObject *parent) : QObject(parent) {
 
-    categories << "qt" << "xcftools" << "poppler" << "gm"
-               << "raw" << "devil" << "freeimage" << "archive";
+    categories << "qt" << "xcftools" << "poppler" << "gm" << "raw"
+               << "devil" << "freeimage" << "archive" << "video";
 
     setupAvailable = new QMap<QString, QStringList>[categories.length()];
 
@@ -419,6 +419,8 @@ PQImageFormats::PQImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[6].insert("*.wdp"        , QStringList() << "jxr" << "JPEG-XR"                                       << "0");
 
 
+    /************************************************************/
+    /************************************************************/
     // Archive
     setupAvailable[7].insert("*.cbz"        , QStringList() << "zip" << "Comic book archive (ZIP)"                      << "1");
     setupAvailable[7].insert("*.cbr"        , QStringList() << "rar" << "Comic book archive (RAR)"                      << "1");
@@ -428,6 +430,14 @@ PQImageFormats::PQImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[7].insert("*.rar"        , QStringList() << "rar" << "RAR file format"                               << "0");
     setupAvailable[7].insert("*.7z"         , QStringList() << "7z " << "7z file format"                                << "0");
     setupAvailable[7].insert("*.tar"        , QStringList() << "tar" << "TAR file format"                               << "0");
+
+
+    /************************************************************/
+    /************************************************************/
+    // Video
+    setupAvailable[8].insert("*.mp4"        , QStringList() << "mp4" << "MPEG-4"                                        << "1");
+    setupAvailable[8].insert("*.ogv"        , QStringList() << "ogv" << "Theora"                                        << "1");
+    setupAvailable[8].insert("*.webm"       , QStringList() << "wem" << "WebM"                                          << "1");
 
 
 
@@ -488,6 +498,9 @@ void PQImageFormats::setEnabledFileformats(QString cat, QStringList val, bool wi
         else if(cat == "archive")
             setEnabledFileformatsArchive(val);
 
+        else if(cat == "video")
+            setEnabledFileformatsVideo(val);
+
     } else {
 
         if(cat == "qt")
@@ -513,6 +526,9 @@ void PQImageFormats::setEnabledFileformats(QString cat, QStringList val, bool wi
 
         else if(cat == "archive")
             setEnabledFileformatsArchiveWithoutSaving(val);
+
+        else if(cat == "video")
+            setEnabledFileformatsVideoWithoutSaving(val);
 
     }
 }

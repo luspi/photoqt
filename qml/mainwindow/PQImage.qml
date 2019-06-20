@@ -64,7 +64,11 @@ Item {
 
             Component.onCompleted: {
                 container.imageLatestAdded = deleg.uniqueid
-                theimage.source = imageproperties.isAnimated(src) ? "image/PQImageAnimated.qml" : "image/PQImageNormal.qml"
+                theimage.source = (imageformats.enabledFileformatsVideo.indexOf("*."+handlingFileDialog.getSuffix(src))>-1) ?
+                                        "image/PQMovie.qml" :
+                                        (imageproperties.isAnimated(src) ?
+                                             "image/PQImageAnimated.qml" :
+                                             "image/PQImageNormal.qml")
             }
 
             Connections {

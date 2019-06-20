@@ -52,9 +52,9 @@ option(POPPLER "Use Poppler library" ON)
 ################################
 
 if(WIN32)
-    find_package(Qt5 COMPONENTS Core Quick Xml Svg WinExtras REQUIRED)
+    find_package(Qt5 COMPONENTS Core Quick Xml Svg Multimedia WinExtras REQUIRED)
 else()
-    find_package(Qt5 COMPONENTS Core Quick Xml Svg REQUIRED)
+    find_package(Qt5 COMPONENTS Core Quick Xml Svg Multimedia REQUIRED)
 endif()
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
@@ -124,10 +124,10 @@ add_definitions(-DSIMPLECRYPTKEY="${CRYPTKEY}")
 # on windows we add application icons
 if(WIN32)
     add_executable(${PROJECT_NAME} WIN32 ${photoqt_SOURCES} ${photoqt_QML} ${photoqt_RESOURCES} windowsicons.rc)
-    target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Xml Qt5::Svg Qt5::WinExtras)
+    target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Xml Qt5::Svg Qt5::Multimedia Qt5::WinExtras)
 elseif(NOT WIN32)
     add_executable(${PROJECT_NAME} ${photoqt_SOURCES} ${photoqt_QML} ${photoqt_RESOURCES})
-    target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Xml Qt5::Svg)
+    target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Xml Qt5::Svg Qt5::Multimedia)
 endif(WIN32)
 
 target_link_libraries(${PROJECT_NAME} "pugixml")

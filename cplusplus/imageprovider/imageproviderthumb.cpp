@@ -112,6 +112,8 @@ void PQAsyncImageResponseThumb::run() {
         p = PQLoadImage::UNRAR::load(filename, m_requestedSize, &origSize);
     else if(whatToUse == "archive")
         p = PQLoadImage::Archive::load(filename, m_requestedSize, &origSize);
+    else if(whatToUse == "video")
+        p = QImage();
     else
         p = PQLoadImage::Qt::load(filename, m_requestedSize, &origSize);
 
@@ -230,6 +232,9 @@ QString PQAsyncImageResponseThumb::whatDoIUse(QString filename) {
 
     if(imageformats->getEnabledFileformatsArchive().contains("*." + info.suffix().toLower()))
         return "archive";
+
+    if(imageformats->getEnabledFileformatsVideo().contains("*." + info.suffix().toLower()))
+        return "video";
 
     return "qt";
 

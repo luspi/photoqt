@@ -20,12 +20,13 @@ GridView {
     PQFileFolderModel {
         id: files_model
 
-        property var validcategories: ["qt", "gm", "raw", "devil", "freeimage", "poppler"]
+        property var validcategories: ["qt", "gm", "raw", "devil", "freeimage", "poppler", "video"]
         nameFilters: tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="all" ?
                          imageformats.getAllEnabledFileFormats() :
-                         validcategories.indexOf(tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]) > -1 ?
-                             imageformats.getEnabledFileFormats(tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]) :
-                             []
+                         (validcategories.indexOf(tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]) > -1 ?
+                              imageformats.getEnabledFileFormats(tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]) :
+                              [])
+
         showHidden: PQSettings.openShowHiddenFilesFolders
         sortField: PQSettings.sortby=="name" ?
                        PQFileFolderModel.Name :
@@ -283,7 +284,7 @@ GridView {
                             } else {
                                 variables.allImageFilesInOrder = files_model.getCopyOfAllFiles()
                                 var fp = filePath
-                                if(imageformats.enabledFileformatsPoppler.indexOf("*." + handlingFileDialog.getSuffix(fp)))
+                                if(imageformats.enabledFileformatsPoppler.indexOf("*." + handlingFileDialog.getSuffix(fp)) > -1)
                                     fp = "0::PQT::" + fp
                                 variables.indexOfCurrentImage = variables.allImageFilesInOrder.indexOf(fp)
                             }
@@ -459,13 +460,11 @@ GridView {
 
     }
 
-    Component.onCompleted:
-        delayAtStartup.start()
-
     Timer {
         id: delayAtStartup
         interval: 200
         repeat: false
+        running: true
         onTriggered:
             loadFolder(variables.openCurrentDirectory)
     }

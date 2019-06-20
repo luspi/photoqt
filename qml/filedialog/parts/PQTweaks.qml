@@ -137,6 +137,10 @@ Rectangle {
                 m.push("PDF (Poppler)")
                 allfiletypes.push("poppler")
             }
+            if(PQSettings.videoEnabled) {
+                m.push("Video Files")
+                allfiletypes.push("video")
+            }
             allfiles.lineBelowItem = allfiletypes.length-1
             m.push(em.pty+qsTranslate("filedialog", "All files"))
             allfiletypes.push("allfiles")
