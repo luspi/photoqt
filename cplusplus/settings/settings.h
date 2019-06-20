@@ -1282,6 +1282,28 @@ public:
             }
         }
 
+
+
+        Q_PROPERTY(bool videoAutoplay READ getVideoAutoplay WRITE setVideoAutoplay NOTIFY videoAutoplayChanged)
+        bool getVideoAutoplay() { return m_videoAutoplay; }
+        void setVideoAutoplay(bool val) {
+            if(m_videoAutoplay != val) {
+                m_videoAutoplay = val;
+                emit videoAutoplayChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool videoLoop READ getVideoLoop WRITE setVideoLoop NOTIFY videoLoopChanged)
+        bool getVideoLoop() { return m_videoLoop; }
+        void setVideoLoop(bool val) {
+            if(m_videoLoop != val) {
+                m_videoLoop = val;
+                emit videoLoopChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
 private:
         PQSettings();
 
@@ -1425,6 +1447,9 @@ private:
         QSize   m_histogramSize;
         QString m_histogramVersion;
 
+        bool    m_videoAutoplay;
+        bool    m_videoLoop;
+
 private slots:
         void readSettings();
         void saveSettings();
@@ -1554,6 +1579,8 @@ signals:
         void histogramPositionChanged();
         void histogramSizeChanged();
         void histogramVersionChanged();
+        void videoAutoplayChanged();
+        void videoLoopChanged();
 
 
 };

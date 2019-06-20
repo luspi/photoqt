@@ -21,9 +21,35 @@ Item {
         width: PQSettings.fitInWindow ? parent.width : (metaData.resolution ? Math.min(metaData.resolution.width, parent.width) : 0)
         height: PQSettings.fitInWindow ? parent.height : (metaData.resolution ? Math.min(metaData.resolution.height, parent.height) : 0)
 
+        notifyInterval: videoelem.duration>2000 ? 1000 : 50
+
         onStatusChanged: {
             theimage.imageStatus = (status==MediaPlayer.Loaded ? Image.Ready : Image.Loading)
-            if(status == MediaPlayer.Loaded)
+            if(status == MediaPlayer.Loaded) {
+                if(PQSettings.videoAutoplay)
+                    videoelem.play()
+                else
+                    videoelem.pause()
+            }
+        }
+
+        property bool reachedEnd: (position > videoelem.duration-2*notifyInterval&&notifyInterval==50)
+
+        onPositionChanged: {
+            if(!PQSettings.videoLoop) {
+                if(position > videoelem.duration-2*notifyInterval) {
+                    if(notifyInterval == 1000) {
+                        notifyInterval = 50
+                    } else if(notifyInterval == 50) {
+                        videoelem.pause()
+                        notifyInterval = videoelem.duration>2000 ? 1000 : 50
+                    }
+                }
+            }
+        }
+
+        onStopped: {
+            if(PQSettings.videoLoop)
                 videoelem.play()
         }
 
@@ -55,14 +81,13 @@ Item {
     MouseArea {
         enabled: PQSettings.leftButtonMouseClickAndMove
         anchors.fill: parent
-        drag.target: parent
-        onPressed: {
-            if(PQSettings.closeOnEmptyBackground) {
-                var paintedX = (container.width-elem.paintedWidth)/2
-                var paintedY = (container.height-elem.paintedHeight)/2
-                if(mouse.x < paintedX || mouse.x > paintedX+elem.paintedWidth ||
-                   mouse.y < paintedY || mouse.y > paintedY+elem.paintedHeight)
-                    toplevel.close()
+        onClicked: {
+            if(videoelem.playbackState == MediaPlayer.PlayingState)
+                videoelem.pause()
+            else {
+                if(videoelem.reachedEnd)
+                    videoelem.seek(0)
+                videoelem.play()
             }
         }
     }

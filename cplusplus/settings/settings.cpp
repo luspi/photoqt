@@ -177,6 +177,9 @@ void PQSettings::setDefault() {
     setHistogramPosition(QPoint(100,100));
     setHistogramSize(QSize(300,200));
 
+    setVideoAutoplay(true);
+    setVideoLoop(false);
+
 }
 
 void PQSettings::addFileToWatcher() {
@@ -577,6 +580,12 @@ void PQSettings::readSettings() {
                 setHistogramSize(QSize(parts.at(0).toInt(), parts.at(1).toInt()));
             }
 
+            else if(line.startsWith("VideoAutoplay="))
+                setVideoAutoplay(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("VideoLoop="))
+                setVideoLoop(line.split("=").at(1).toInt());
+
         }
 
     }
@@ -756,6 +765,11 @@ void PQSettings::saveSettings() {
 
         cont += QString("MainMenuWindowWidth=%1\n").arg(m_mainMenuWindowWidth);
         cont += QString("MainMenuPopoutElement=%1\n").arg(m_mainMenuPopoutElement);
+
+        cont += "\n[Video]\n";
+
+        cont += QString("VideoAutoplay=%1\n").arg(int(m_videoAutoplay));
+        cont += QString("VideoLoop=%1\n").arg(int(m_videoLoop));
 
         out << cont;
         file.close();
