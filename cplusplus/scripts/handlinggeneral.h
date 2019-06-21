@@ -30,6 +30,8 @@ public:
 
     Q_INVOKABLE QString getUniqueId();
 
+    Q_INVOKABLE QString convertSecsToProperTime(int secs, int sameFormatsAsVal);
+
 };
 
 #endif // PQHandlingGeneral

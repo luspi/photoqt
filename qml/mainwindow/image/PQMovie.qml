@@ -1,5 +1,6 @@
 import QtQuick 2.9
 import QtMultimedia 5.9
+import "../../elements"
 
 Item {
 
@@ -9,6 +10,20 @@ Item {
     y: PQSettings.marginAroundImage
     width: container.width-2*PQSettings.marginAroundImage
     height: container.height-2*PQSettings.marginAroundImage
+
+    MouseArea {
+        enabled: PQSettings.leftButtonMouseClickAndMove
+        anchors.fill: parent
+        onPressed: {
+            if(PQSettings.closeOnEmptyBackground) {
+                var paintedX = (container.width-videoelem.width)/2
+                var paintedY = (container.height-videoelem.height)/2
+                if(mouse.x < paintedX || mouse.x > paintedX+videoelem.width ||
+                   mouse.y < paintedY || mouse.y > paintedY+videoelem.height)
+                    toplevel.close()
+            }
+        }
+    }
 
     Video {
 
@@ -69,6 +84,101 @@ Item {
             }
         }
 
+        MouseArea {
+            enabled: PQSettings.leftButtonMouseClickAndMove
+            anchors.fill: parent
+            hoverEnabled: true
+            onPositionChanged: {
+                controls.mouseHasBeenMovedRecently = true
+                resetMouseHasBeenMovedRecently.restart()
+            }
+            onClicked: {
+                if(videoelem.playbackState == MediaPlayer.PlayingState)
+                    videoelem.pause()
+                else {
+                    if(videoelem.reachedEnd)
+                        videoelem.seek(0)
+                    videoelem.play()
+                }
+            }
+        }
+
+        Timer {
+            id: resetMouseHasBeenMovedRecently
+            interval: 1000
+            repeat: false
+            onTriggered:
+                controls.mouseHasBeenMovedRecently = false
+        }
+
+        Rectangle {
+
+            id: controls
+
+            color: "#88444444"
+
+            anchors {
+                left: parent.left
+                right: parent.right
+                bottom: parent.bottom
+            }
+            height: videoposslider.height
+
+            property bool mouseHasBeenMovedRecently: false
+
+            opacity: videoelem.playbackState==MediaPlayer.PausedState || mouseHasBeenMovedRecently
+            Behavior on opacity { NumberAnimation { duration: 250 } }
+
+            Text {
+                id: curpos
+                anchors {
+                    left: parent.left
+                    leftMargin: 5
+                }
+                height: videoposslider.height
+                verticalAlignment: Qt.AlignVCenter
+
+                color: "white"
+                text: handlingGeneral.convertSecsToProperTime(Math.round(videoelem.position/1000), Math.round((videoelem.duration-videoelem.position)/1000))
+            }
+
+            PQSlider {
+
+                id: videoposslider
+
+                anchors {
+                    left: curpos.right
+                    leftMargin: 5
+                    right: timeleft.left
+                    rightMargin: 5
+                    bottom: parent.bottom
+                }
+
+                from: 0
+                to: videoelem.duration
+                value: videoelem.position
+                onValueChanged: {
+                    if(pressed)
+                        videoelem.seek(value)
+                }
+
+            }
+
+            Text {
+                id: timeleft
+                anchors {
+                    right: parent.right
+                    rightMargin: 5
+                }
+                height: videoposslider.height
+                verticalAlignment: Qt.AlignVCenter
+
+                color: "white"
+                text: handlingGeneral.convertSecsToProperTime(Math.round((videoelem.duration-videoelem.position)/1000), Math.round(videoelem.position/1000))
+            }
+
+        }
+
     }
 
     Behavior on scale { NumberAnimation { id: scaleAni; duration: PQSettings.animations ? PQSettings.animationDuration*150 : 0 } }
@@ -77,20 +187,6 @@ Item {
 
     Behavior on x { NumberAnimation { id: xAni; duration: PQSettings.animationDuration*150 } }
     Behavior on y { NumberAnimation { id: yAni; duration: PQSettings.animationDuration*150 } }
-
-    MouseArea {
-        enabled: PQSettings.leftButtonMouseClickAndMove
-        anchors.fill: parent
-        onClicked: {
-            if(videoelem.playbackState == MediaPlayer.PlayingState)
-                videoelem.pause()
-            else {
-                if(videoelem.reachedEnd)
-                    videoelem.seek(0)
-                videoelem.play()
-            }
-        }
-    }
 
     Connections {
         target: container

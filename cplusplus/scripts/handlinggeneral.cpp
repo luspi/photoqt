@@ -105,3 +105,31 @@ void PQHandlingGeneral::cleanUpScreenshotsTakenAtStartup() {
 QString PQHandlingGeneral::getUniqueId() {
     return QString::number(QDateTime::currentMSecsSinceEpoch());
 }
+
+QString PQHandlingGeneral::convertSecsToProperTime(int secs, int sameFormatsAsVal) {
+
+    if(secs < 10 && sameFormatsAsVal < 10)
+        return QString("0%1").arg(secs);
+
+    if(secs <= 60 && sameFormatsAsVal <= 60)
+        return QString::number(secs);
+
+    if(secs < 3600 && sameFormatsAsVal < 3600) {
+        int mins_int = secs/60;
+        int secs_int = secs%60;
+        QString mins_str = QString(mins_int<10 ? "0%1" : "%1").arg(mins_int);
+        QString secs_str = QString(secs_int<10 ? "0%1" : "%1").arg(secs_int);
+        return mins_str+":"+secs_str;
+    }
+
+    int hours_int = secs/(60*60);
+    int mins_int = (secs - hours_int*60*60)/60;
+    int secs_int = (secs - hours_int*60*60 - mins_int*60)/60;
+
+    QString hours_str = QString(hours_int<10 ? "0%1" : "%1").arg(hours_int);
+    QString mins_str = QString(mins_int<10 ? "0%1" : "%1").arg(mins_int);
+    QString secs_str = QString(secs_int<10 ? "0%1" : "%1").arg(secs_int);
+
+    return hours_str+":"+mins_str+":"+secs_str;
+
+}
