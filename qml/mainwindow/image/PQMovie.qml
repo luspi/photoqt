@@ -36,7 +36,10 @@ Item {
         width: PQSettings.fitInWindow ? parent.width : (metaData.resolution ? Math.min(metaData.resolution.width, parent.width) : 0)
         height: PQSettings.fitInWindow ? parent.height : (metaData.resolution ? Math.min(metaData.resolution.height, parent.height) : 0)
 
-        notifyInterval: videoelem.duration>2000 ? 1000 : 50
+        property int notifyIntervalSHORT: 20
+        property int notifyIntervalLONG: 250
+
+        notifyInterval: videoelem.duration>2*notifyIntervalLONG ? notifyIntervalLONG : notifyIntervalSHORT
 
         onStatusChanged: {
             theimage.imageStatus = (status==MediaPlayer.Loaded ? Image.Ready : Image.Loading)
@@ -48,16 +51,16 @@ Item {
             }
         }
 
-        property bool reachedEnd: (position > videoelem.duration-2*notifyInterval&&notifyInterval==50)
+        property bool reachedEnd: (position > videoelem.duration-2*notifyInterval&&notifyInterval==notifyIntervalSHORT)
 
         onPositionChanged: {
             if(!PQSettings.videoLoop) {
                 if(position > videoelem.duration-2*notifyInterval) {
-                    if(notifyInterval == 1000) {
-                        notifyInterval = 50
-                    } else if(notifyInterval == 50) {
+                    if(notifyInterval == notifyIntervalLONG) {
+                        notifyInterval = notifyIntervalSHORT
+                    } else if(notifyInterval == notifyIntervalSHORT) {
                         videoelem.pause()
-                        notifyInterval = videoelem.duration>2000 ? 1000 : 50
+                        notifyInterval = videoelem.duration>2*notifyIntervalLONG ? notifyIntervalLONG : notifyIntervalSHORT
                     }
                 }
             }
