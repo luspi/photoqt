@@ -111,8 +111,11 @@ QString PQHandlingGeneral::convertSecsToProperTime(int secs, int sameFormatsAsVa
     if(secs < 10 && sameFormatsAsVal < 10)
         return QString("0%1").arg(secs);
 
-    if(secs <= 60 && sameFormatsAsVal <= 60)
+    if(secs <= 60 && sameFormatsAsVal <= 60) {
+        if(secs < 10)
+            return QString("0%1").arg(secs);
         return QString::number(secs);
+    }
 
     if(secs < 3600 && sameFormatsAsVal < 3600) {
         int mins_int = secs/60;

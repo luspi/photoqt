@@ -139,7 +139,7 @@ Item {
                 verticalAlignment: Qt.AlignVCenter
 
                 color: "white"
-                text: handlingGeneral.convertSecsToProperTime(Math.round(videoelem.position/1000), Math.round((videoelem.duration-videoelem.position)/1000))
+                text: handlingGeneral.convertSecsToProperTime(Math.round(videoelem.position/1000), Math.round(videoelem.duration/1000))
             }
 
             PQSlider {
@@ -174,7 +174,7 @@ Item {
                 verticalAlignment: Qt.AlignVCenter
 
                 color: "white"
-                text: handlingGeneral.convertSecsToProperTime(Math.round((videoelem.duration-videoelem.position)/1000), Math.round(videoelem.position/1000))
+                text: handlingGeneral.convertSecsToProperTime(Math.round((videoelem.duration-videoelem.position)/1000), Math.round(videoelem.duration/1000))
             }
 
         }
