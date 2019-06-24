@@ -126,6 +126,20 @@ Item {
                 controls.mouseHasBeenMovedRecently = false
         }
 
+        Image {
+
+            anchors.fill: parent
+
+            source: videoelem.playbackState==MediaPlayer.PlayingState ? "/multimedia/pause.png" : "/multimedia/play.png"
+
+            sourceSize: Qt.size(128, 128)
+
+            fillMode: Image.Pad
+
+            opacity: controls.opacity
+
+        }
+
         Rectangle {
 
             id: controls
@@ -210,12 +224,12 @@ Item {
                     anchors.right: volumecontrol_slider.left
 
                     source: volumecontrol_slider.value==0 ?
-                                "/audio/speaker_mute.png" :
+                                "/multimedia/speaker_mute.png" :
                                 (volumecontrol_slider.value <= 40 ?
-                                     "/audio/speaker_low.png" :
+                                     "/multimedia/speaker_low.png" :
                                      (volumecontrol_slider.value <= 80 ?
-                                          "/audio/speaker_medium.png" :
-                                          "/audio/speaker_high.png"))
+                                          "/multimedia/speaker_medium.png" :
+                                          "/multimedia/speaker_high.png"))
 
                     height: parent.height
                     width: height

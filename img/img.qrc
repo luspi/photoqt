@@ -28,9 +28,11 @@
         <file>mainmenu/zoom.png</file>
         <file>mainmenu/zoomin.png</file>
         <file>mainmenu/zoomout.png</file>
-        <file>audio/speaker_high.png</file>
-        <file>audio/speaker_low.png</file>
-        <file>audio/speaker_medium.png</file>
-        <file>audio/speaker_mute.png</file>
+        <file>multimedia/pause.png</file>
+        <file>multimedia/play.png</file>
+        <file>multimedia/speaker_high.png</file>
+        <file>multimedia/speaker_low.png</file>
+        <file>multimedia/speaker_medium.png</file>
+        <file>multimedia/speaker_mute.png</file>
     </qresource>
 </RCC>
