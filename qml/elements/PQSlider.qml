@@ -54,7 +54,7 @@ Slider {
     PQToolTip {
         id: slidertooltip
         parent: control
-        visible: control.hovered&&!handletooltip.visible
+        visible: control.hovered&&!handletooltip.visible&&text!=""
         delay: 500
     }
 
