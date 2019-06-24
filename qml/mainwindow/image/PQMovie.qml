@@ -267,6 +267,8 @@ Item {
                     width: manipulate?150:0
                     Behavior on width { NumberAnimation { duration: 150 } }
 
+                    handleToolTipSuffix: "%"
+
                     visible: manipulate
 
                     Connections {
