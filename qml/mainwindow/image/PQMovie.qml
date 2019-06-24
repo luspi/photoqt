@@ -91,6 +91,7 @@ Item {
             enabled: PQSettings.leftButtonMouseClickAndMove
             anchors.fill: parent
             hoverEnabled: true
+            drag.target: videoelem
             onPositionChanged: {
                 controls.mouseHasBeenMovedRecently = true
                 resetMouseHasBeenMovedRecently.restart()
