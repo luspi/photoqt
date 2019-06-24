@@ -36,6 +36,8 @@ Item {
         width: PQSettings.fitInWindow ? parent.width : (metaData.resolution ? Math.min(metaData.resolution.width, parent.width) : 0)
         height: PQSettings.fitInWindow ? parent.height : (metaData.resolution ? Math.min(metaData.resolution.height, parent.height) : 0)
 
+        volume: PQSettings.videoVolume/100
+
         property int notifyIntervalSHORT: 20
         property int notifyIntervalLONG: 250
 
@@ -79,8 +81,10 @@ Item {
             if((rotateTo%180+180)%180 == 90 && elem.scale == 1) {
                 var h = videoelem.height
                 var w = Math.min(metaData.resolution.width, parent.width)
-                elem.scale = Math.min(h/w, 1)
-                scaleAdjustedFromRotation = true
+                if(w > elem.height) {
+                    elem.scale = Math.min(h/w, 1)
+                    scaleAdjustedFromRotation = true
+                }
             } else if(scaleAdjustedFromRotation) {
                 elem.scale = 1
                 scaleAdjustedFromRotation = false
@@ -95,6 +99,7 @@ Item {
             onPositionChanged: {
                 controls.mouseHasBeenMovedRecently = true
                 resetMouseHasBeenMovedRecently.restart()
+                variables.mousePos = parent.mapToGlobal(mouse.x, mouse.y)
             }
             onClicked: {
                 if(videoelem.playbackState == MediaPlayer.PlayingState)
@@ -130,7 +135,7 @@ Item {
 
             property bool mouseHasBeenMovedRecently: false
 
-            opacity: videoelem.playbackState==MediaPlayer.PausedState || mouseHasBeenMovedRecently
+            opacity: (videoelem.playbackState==MediaPlayer.PausedState || mouseHasBeenMovedRecently || volumecontrol_slider.manipulate) ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 250 } }
 
             Text {
@@ -171,14 +176,91 @@ Item {
             Text {
                 id: timeleft
                 anchors {
-                    right: parent.right
-                    rightMargin: 5
+                    right: volumecontrol.left
+                    rightMargin: 10
                 }
                 height: videoposslider.height
                 verticalAlignment: Qt.AlignVCenter
 
                 color: "white"
                 text: handlingGeneral.convertSecsToProperTime(Math.round((videoelem.duration-videoelem.position)/1000), Math.round(videoelem.duration/1000))
+            }
+
+            Item {
+
+                id: volumecontrol
+
+                anchors.right: parent.right
+                anchors.rightMargin: 5
+
+                y: 5
+                height: videoposslider.height-10
+                width: volumecontrol_image.width+volumecontrol_slider.width
+
+                Image {
+
+                    id: volumecontrol_image
+
+                    anchors.right: volumecontrol_slider.left
+
+                    source: volumecontrol_slider.value==0 ?
+                                "/audio/speaker_mute.png" :
+                                (volumecontrol_slider.value <= 40 ?
+                                     "/audio/speaker_low.png" :
+                                     (volumecontrol_slider.value <= 80 ?
+                                          "/audio/speaker_medium.png" :
+                                          "/audio/speaker_high.png"))
+
+                    height: parent.height
+                    width: height
+                    sourceSize: Qt.size(height, height)
+
+                    MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: {
+                            if(volumecontrol_slider.manipulate)
+                                volumecontrol_slider.value = (volumecontrol_slider.value==0 ? 100 : 0)
+                            else
+                                volumecontrol_slider.manipulate = true
+                        }
+                    }
+
+                }
+
+                PQSlider {
+
+                    id: volumecontrol_slider
+
+                    anchors.right: parent.right
+
+                    property bool manipulate: false
+
+                    from: 0
+                    to: 100
+                    value: PQSettings.videoVolume
+                    onValueChanged:
+                        PQSettings.videoVolume = value
+
+                    y: (parent.height-height)/2
+                    width: manipulate?150:0
+                    Behavior on width { NumberAnimation { duration: 150 } }
+
+                    visible: manipulate
+
+                    Connections {
+                        target: variables
+                        onMousePosChanged: {
+                            var loc = volumecontrol_slider.mapFromGlobal(variables.mousePos.x, variables.mousePos.y)
+                            if(loc.x < 0 || loc.x > volumecontrol_slider.width ||
+                               loc.y < 0 || loc.y > volumecontrol_slider.height)
+                                volumecontrol_slider.manipulate = false
+                        }
+                    }
+
+                }
+
             }
 
         }

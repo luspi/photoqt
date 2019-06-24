@@ -1304,6 +1304,16 @@ public:
             }
         }
 
+        Q_PROPERTY(int videoVolume READ getVideoVolume WRITE setVideoVolume NOTIFY videoVolumeChanged)
+        int getVideoVolume() { return m_videoVolume; }
+        void setVideoVolume(int val) {
+            if(m_videoVolume != val) {
+                m_videoVolume = val;
+                emit videoVolumeChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
 private:
         PQSettings();
 
@@ -1449,6 +1459,7 @@ private:
 
         bool    m_videoAutoplay;
         bool    m_videoLoop;
+        int     m_videoVolume;
 
 private slots:
         void readSettings();
@@ -1581,6 +1592,7 @@ signals:
         void histogramVersionChanged();
         void videoAutoplayChanged();
         void videoLoopChanged();
+        void videoVolumeChanged();
 
 
 };

@@ -179,6 +179,7 @@ void PQSettings::setDefault() {
 
     setVideoAutoplay(true);
     setVideoLoop(false);
+    setVideoVolume(100);
 
 }
 
@@ -586,6 +587,9 @@ void PQSettings::readSettings() {
             else if(line.startsWith("VideoLoop="))
                 setVideoLoop(line.split("=").at(1).toInt());
 
+            else if(line.startsWith("VideoVolume="))
+                setVideoVolume(line.split("=").at(1).toInt());
+
         }
 
     }
@@ -770,6 +774,7 @@ void PQSettings::saveSettings() {
 
         cont += QString("VideoAutoplay=%1\n").arg(int(m_videoAutoplay));
         cont += QString("VideoLoop=%1\n").arg(int(m_videoLoop));
+        cont += QString("VideoVolume=%1\n").arg(m_videoVolume);
 
         out << cont;
         file.close();
