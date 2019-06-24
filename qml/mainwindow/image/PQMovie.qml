@@ -92,15 +92,11 @@ Item {
         }
 
         MouseArea {
+            id: videomouse
             enabled: PQSettings.leftButtonMouseClickAndMove
             anchors.fill: parent
-            hoverEnabled: true
-            drag.target: videoelem
-            onPositionChanged: {
-                controls.mouseHasBeenMovedRecently = true
-                resetMouseHasBeenMovedRecently.restart()
-                variables.mousePos = parent.mapToGlobal(mouse.x, mouse.y)
-            }
+            hoverEnabled: false // important, otherwise the mouse pos will not be caught globally!
+            drag.target: PQSettings.leftButtonMouseClickAndMove ? videoelem : undefined
             onClicked: {
                 if(videoelem.playbackState == MediaPlayer.PlayingState)
                     videoelem.pause()
@@ -108,6 +104,16 @@ Item {
                     if(videoelem.reachedEnd)
                         videoelem.seek(0)
                     videoelem.play()
+                }
+            }
+        }
+
+        Connections {
+            target: variables
+            onMousePosChanged: {
+                if(videomouse.contains(Qt.point(variables.mousePos.x-videoelem.x, variables.mousePos.y-videoelem.y))) {
+                    controls.mouseHasBeenMovedRecently = true
+                    resetMouseHasBeenMovedRecently.restart()
                 }
             }
         }
