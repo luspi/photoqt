@@ -25,3 +25,6 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQPlaces.qml ${d}/PQDevices.qml ${d}/PQFileV
 
 SET(d "qml/menumeta")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQMainMenu.qml ${d}/PQMainMenuPopout.qml ${d}/PQMetaData.qml ${d}/PQMetaDataPopout.qml)
+
+SET(d "qml/histogram")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQHistogram.qml)

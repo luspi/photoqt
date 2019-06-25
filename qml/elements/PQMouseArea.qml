@@ -10,6 +10,8 @@ Item {
     property alias cursorShape: tooltip_mousearea.cursorShape
     property alias propagateComposedEvents: tooltip_mousearea.propagateComposedEvents
     property alias acceptedButtons: tooltip_mousearea.acceptedButtons
+    property alias containsMouse: tooltip_mousearea.containsMouse
+    property alias buttonPressed: tooltip_mousearea.pressed
 
     property alias drag: tooltip_mousearea.drag
 
@@ -27,7 +29,10 @@ Item {
     signal released()
     signal dragOnActiveChanged()
     signal positionChanged(var mouse)
-//    signal doubleClicked
+
+    function containsMouse() {
+        return tooltip_mousearea.containsMouse()
+    }
 
     PQToolTip {
         id: control

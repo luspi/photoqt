@@ -34,5 +34,7 @@
         <file>multimedia/speaker_low.png</file>
         <file>multimedia/speaker_medium.png</file>
         <file>multimedia/speaker_mute.png</file>
+        <file>other/histogramswitch.png</file>
+        <file>other/histogramclose.png</file>
     </qresource>
 </RCC>
