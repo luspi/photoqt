@@ -138,6 +138,9 @@ Window {
         loader.ensureItIsReady("mainmenu")
         loader.ensureItIsReady("metadata")
 
+        if(PQSettings.histogram)
+            loader.ensureItIsReady("histogram")
+
     }
 
     // needed to load folders without PQFileDialog
@@ -154,7 +157,7 @@ Window {
 
     PQThumbnailBar { id: thumbnails }
 
-    PQHistogram { id: histogram }
+    Loader { id: histogram }
 
     Loader { id: mainmenu }
     Loader { id: metadata }

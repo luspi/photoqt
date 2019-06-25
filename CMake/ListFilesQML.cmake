@@ -27,4 +27,4 @@ SET(d "qml/menumeta")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQMainMenu.qml ${d}/PQMainMenuPopout.qml ${d}/PQMetaData.qml ${d}/PQMetaDataPopout.qml)
 
 SET(d "qml/histogram")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQHistogram.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQHistogram.qml ${d}/PQHistogramPopout.qml)

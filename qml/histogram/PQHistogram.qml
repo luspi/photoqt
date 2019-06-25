@@ -6,31 +6,43 @@ Rectangle {
 
     id: hist_top
 
-    x: PQSettings.histogramPosition.x
-    y: PQSettings.histogramPosition.y
-    width: PQSettings.histogramSize.width
-    height: PQSettings.histogramSize.height
+    x: PQSettings.histogramPopoutElement ? 0 : PQSettings.histogramPosition.x
+    y: PQSettings.histogramPopoutElement ? 0 : PQSettings.histogramPosition.y
+    width: PQSettings.histogramPopoutElement ? parentWidth : PQSettings.histogramSize.width
+    height: PQSettings.histogramPopoutElement ? parentHeight : PQSettings.histogramSize.height
+
+    property int parentWidth: 0
+    property int parentHeight: 0
 
     onXChanged:
-        PQSettings.histogramPosition = Qt.point(x, y)
+        if(!PQSettings.histogramPopoutElement)
+            PQSettings.histogramPosition = Qt.point(x, y)
     onYChanged:
-        PQSettings.histogramPosition = Qt.point(x, y)
+        if(!PQSettings.histogramPopoutElement)
+            PQSettings.histogramPosition = Qt.point(x, y)
     onWidthChanged:
-        PQSettings.histogramSize = Qt.size(width, height)
+        if(!PQSettings.histogramPopoutElement)
+            PQSettings.histogramSize = Qt.size(width, height)
     onHeightChanged:
-        PQSettings.histogramSize = Qt.size(width, height)
+        if(!PQSettings.histogramPopoutElement)
+            PQSettings.histogramSize = Qt.size(width, height)
 
     radius: 5
 
-    opacity: PQSettings.histogram==1 ?
-                 ((dragArea.containsMouse||switchmouse.containsMouse||closemouse.containsMouse) ?
-                      (dragArea.buttonPressed ? 1 : 0.9) :
-                      0.8) :
-                 0
+    opacity: PQSettings.histogramPopoutElement ?
+                 1 : (PQSettings.histogram==1 ?
+                     ((dragArea.containsMouse||switchmouse.containsMouse||closemouse.containsMouse) ?
+                          (dragArea.buttonPressed ? 1 : 0.9) :
+                          0.8) :
+                     0)
     Behavior on opacity { NumberAnimation { duration: 150 } }
     visible: opacity!=0
 
     color: "#dd000000"
+
+    Component.onCompleted:
+        if(variables.indexOfCurrentImage != -1)
+            updateHistogram()
 
     // This will hold the histogram image
     Image {
@@ -102,7 +114,7 @@ Rectangle {
 
         anchors.fill: parent
 
-        pinch.target: hist_top
+        pinch.target: PQSettings.histogramPopoutElement ? undefined : hist_top
         pinch.minimumRotation: -360
         pinch.maximumRotation: 360
         pinch.minimumScale: 0.1
@@ -120,10 +132,10 @@ Rectangle {
             id: dragArea
             hoverEnabled: true
             //: Used for the histogram. The version refers to the type of histogram that is available (colored and greyscale)
-            tooltip: em.pty+qsTr("Click-and-drag to move. Right click to switch version.")
+            tooltip: (PQSettings.histogramPopoutElement ? "" : (em.pty+qsTr("Click-and-drag to move.")+" ")) + em.pty+qsTr("Right click to switch version.")
             acceptedButtons: Qt.LeftButton | Qt.RightButton
             anchors.fill: parent
-            drag.target: hist_top
+            drag.target: PQSettings.histogramPopoutElement ? undefined : hist_top
 
             onPressed:
                 if(mouse.button == Qt.RightButton)
@@ -136,8 +148,8 @@ Rectangle {
 
         source: "/other/histogramswitch.png"
 
-        x: -5
-        y: -5
+        x: PQSettings.histogramPopoutElement ? 5 : -5
+        y: PQSettings.histogramPopoutElement ? 5 : -5
         width: 25
         height: 25
         mipmap: true
@@ -163,6 +175,8 @@ Rectangle {
         width: 25
         height: 25
 
+        visible: !PQSettings.histogramPopoutElement
+
         source: "/other/histogramclose.png"
 
         opacity: closemouse.containsMouse ? 0.8 : 0.2
@@ -182,6 +196,8 @@ Rectangle {
     PQMouseArea {
 
         id: resizeBotRight
+
+        enabled: !PQSettings.histogramPopoutElement
 
         anchors {
             right: parent.right
@@ -208,6 +224,8 @@ Rectangle {
     PQMouseArea {
 
         id: resizeBotLeft
+
+        enabled: !PQSettings.histogramPopoutElement
 
         anchors {
             left: parent.left

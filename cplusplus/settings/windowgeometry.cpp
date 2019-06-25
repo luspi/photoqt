@@ -16,6 +16,9 @@ PQWindowGeometry::PQWindowGeometry(QObject *parent) : QObject(parent) {
     m_metaDataWindowMaximized = false;
     m_metaDataWindowGeometry = QRect(0, 0, 400, 700);
 
+    m_histogramWindowMaximized = false;
+    m_histogramWindowGeometry = QRect(100, 100, 300, 200);
+
     settings = new QSettings(ConfigFiles::WINDOW_GEOMETRY_FILE(), QSettings::IniFormat);
 
     readGeometries();
@@ -44,6 +47,11 @@ void PQWindowGeometry::readGeometries() {
     if(settings->allKeys().contains("metaDataWindowMaximized"))
         m_metaDataWindowMaximized = settings->value("metaDataWindowMaximized").toBool();
 
+    if(settings->allKeys().contains("histogramWindowGeometry"))
+        m_histogramWindowGeometry = settings->value("histogramWindowGeometry").toRect();
+    if(settings->allKeys().contains("histogramWindowMaximized"))
+        m_histogramWindowMaximized = settings->value("histogramWindowMaximized").toBool();
+
 }
 
 void PQWindowGeometry::saveGeometries() {
@@ -59,5 +67,8 @@ void PQWindowGeometry::saveGeometries() {
 
     settings->setValue("metaDataWindowGeometry", m_metaDataWindowGeometry);;
     settings->setValue("metaDataWindowMaximized", m_metaDataWindowMaximized);
+
+    settings->setValue("histogramWindowGeometry", m_histogramWindowGeometry);;
+    settings->setValue("histogramWindowMaximized", m_histogramWindowMaximized);
 
 }

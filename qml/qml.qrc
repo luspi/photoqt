@@ -38,5 +38,6 @@
         <file>menumeta/PQMetaDataPopout.qml</file>
         <file>mainwindow/image/PQMovie.qml</file>
         <file>histogram/PQHistogram.qml</file>
+        <file>histogram/PQHistogramPopout.qml</file>
     </qresource>
 </RCC>

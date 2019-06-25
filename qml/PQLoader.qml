@@ -58,6 +58,14 @@ Item {
             else if(!PQSettings.metadataPopoutElement && metadata.source != "menumeta/PQMetaData.qml")
                 metadata.source = "menumeta/PQMetaData.qml"
 
+        } else if(component == "histogram") {
+
+            if(PQSettings.histogramPopoutElement && histogram.source != "histogram/PQHistogramPopout.qml")
+                histogram.source = "histogram/PQHistogramPopout.qml"
+
+            else if(!PQSettings.histogramPopoutElement && histogram.source != "histogram/PQHistogram.qml")
+                histogram.source = "histogram/PQHistogram.qml"
+
         }
 
     }

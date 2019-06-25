@@ -176,6 +176,7 @@ void PQSettings::setDefault() {
     setHistogramVersion("color");
     setHistogramPosition(QPoint(100,100));
     setHistogramSize(QSize(300,200));
+    setHistogramPopoutElement(false);
 
     setVideoAutoplay(true);
     setVideoLoop(false);
@@ -581,6 +582,9 @@ void PQSettings::readSettings() {
                 setHistogramSize(QSize(parts.at(0).toInt(), parts.at(1).toInt()));
             }
 
+            else if(line.startsWith("HistogramPopoutElement="))
+                setHistogramPopoutElement(line.split("=").at(1).toInt());
+
             else if(line.startsWith("VideoAutoplay="))
                 setVideoAutoplay(line.split("=").at(1).toInt());
 
@@ -764,6 +768,7 @@ void PQSettings::saveSettings() {
         cont += QString("HistogramPosition=%1,%2\n").arg(m_histogramPosition.x()).arg(m_histogramPosition.y());
         cont += QString("HistogramSize=%1,%2\n").arg(m_histogramSize.width()).arg(m_histogramSize.height());
         cont += QString("HistogramVersion=%1\n").arg(m_histogramVersion);
+        cont += QString("HistogramPopoutElement=%1\n").arg(int(m_histogramPopoutElement));
 
         cont += "\n[Main Menu Element]\n";
 

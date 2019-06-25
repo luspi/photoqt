@@ -1282,6 +1282,16 @@ public:
             }
         }
 
+        Q_PROPERTY(bool histogramPopoutElement READ getHistogramPopoutElement WRITE setHistogramPopoutElement NOTIFY histogramPopoutElementChanged)
+        bool getHistogramPopoutElement() { return m_histogramPopoutElement; }
+        void setHistogramPopoutElement(bool val) {
+            if(m_histogramPopoutElement != val) {
+                m_histogramPopoutElement = val;
+                emit histogramPopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
 
 
         Q_PROPERTY(bool videoAutoplay READ getVideoAutoplay WRITE setVideoAutoplay NOTIFY videoAutoplayChanged)
@@ -1456,6 +1466,7 @@ private:
         QPoint  m_histogramPosition;
         QSize   m_histogramSize;
         QString m_histogramVersion;
+        bool    m_histogramPopoutElement;
 
         bool    m_videoAutoplay;
         bool    m_videoLoop;
@@ -1590,6 +1601,7 @@ signals:
         void histogramPositionChanged();
         void histogramSizeChanged();
         void histogramVersionChanged();
+        void histogramPopoutElementChanged();
         void videoAutoplayChanged();
         void videoLoopChanged();
         void videoVolumeChanged();

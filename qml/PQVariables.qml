@@ -105,6 +105,9 @@ Item {
         onMetadataPopoutElementChanged:
             loader.ensureItIsReady("metadata")
 
+        onHistogramPopoutElementChanged:
+            loader.ensureItIsReady("histogram")
+
     }
 
 }

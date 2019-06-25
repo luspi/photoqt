@@ -87,6 +87,24 @@ public:
         }
     }
 
+    Q_PROPERTY(QRect histogramWindowGeometry READ getHistogramWindowGeometry WRITE setHistogramWindowGeometry)
+    QRect getHistogramWindowGeometry() { return m_histogramWindowGeometry; }
+    void setHistogramWindowGeometry(QRect rect) {
+        if(rect != m_histogramWindowGeometry) {
+            m_histogramWindowGeometry = rect;
+            saveGeometries();
+        }
+    }
+
+    Q_PROPERTY(bool histogramWindowMaximized READ getHistogramWindowMaximized WRITE setHistogramWindowMaximized)
+    bool getHistogramWindowMaximized() { return m_histogramWindowMaximized; }
+    void setHistogramWindowMaximized(bool maximized) {
+        if(maximized != m_histogramWindowMaximized) {
+            m_histogramWindowMaximized = maximized;
+            saveGeometries();
+        }
+    }
+
 private:
     QRect m_mainWindowGeometry;
     bool m_mainWindowMaximized;
@@ -99,6 +117,9 @@ private:
 
     QRect m_metaDataWindowGeometry;
     bool m_metaDataWindowMaximized;
+
+    QRect m_histogramWindowGeometry;
+    bool m_histogramWindowMaximized;
 
     QSettings *settings;
 
