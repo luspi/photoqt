@@ -178,6 +178,65 @@ Rectangle {
 
     }
 
+    PQMouseArea {
+
+        id: resizeBotRight
+
+        anchors {
+            right: parent.right
+            bottom: parent.bottom
+        }
+        width: 10
+        height: 10
+        cursorShape: Qt.SizeFDiagCursor
+
+        onPositionChanged: {
+            if(pressed) {
+                hist_top.width += (mouse.x-resizeBotRight.width)
+                hist_top.height += (mouse.y-resizeBotRight.height)
+                if(hist_top.width < 100)
+                    hist_top.width = 100
+                if(hist_top.height < 100)
+                    hist_top.height = 100
+
+            }
+        }
+
+    }
+
+    PQMouseArea {
+
+        id: resizeBotLeft
+
+        anchors {
+            left: parent.left
+            bottom: parent.bottom
+        }
+        width: 10
+        height: 10
+        cursorShape: Qt.SizeBDiagCursor
+
+        onPositionChanged: {
+
+            if(pressed) {
+
+                hist_top.width -= mouse.x
+                hist_top.height += (mouse.y-resizeBotRight.height)
+
+                if(hist_top.width < 100)
+                    hist_top.width = 100
+                else
+                    hist_top.x += mouse.x
+
+                if(hist_top.height < 100)
+                    hist_top.height = 100
+
+            }
+
+        }
+
+    }
+
     function updateHistogram() {
 
         // Don't calculate histogram if disabled
