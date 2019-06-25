@@ -26,6 +26,8 @@
 #include "../../logger.h"
 #include "errorimage.h"
 #include "../../settings/settings.h"
+#include "../pixmapcache.h"
+#include "helper.h"
 
 namespace PQLoadImage {
 
@@ -35,8 +37,11 @@ namespace PQLoadImage {
 
         static QImage load(QString filename, QSize maxSize, QSize *origSize) {
 
-            if(qgetenv("PHOTOQT_DEBUG") == "yes")
-                LOG << CURDATE << "LoadImageQt: Load image using Qt: " << QFileInfo(filename).fileName().toStdString() << NL;
+            QImage cachedImg = PQLoadImage::Helper::getCachedImage(filename);
+            if(!cachedImg.isNull()) {
+                PQLoadImage::Helper::ensureImageFitsMaxSize(cachedImg, maxSize);
+                return cachedImg;
+            }
 
             // For reading SVG files
             QSvgRenderer svg;
@@ -47,6 +52,8 @@ namespace PQLoadImage {
 
             // Suffix, for easier access later-on
             QString suffix = QFileInfo(filename).suffix().toLower();
+
+            bool scaledImageDoNotCache = false;
 
             if(suffix == "svg") {
 
@@ -84,16 +91,7 @@ namespace PQLoadImage {
                 // Store the width/height for later use
                 *origSize = reader.size();
 
-                // Sometimes the size returned by reader.size() is <= 0 (observed for, e.g., .jp2 files)
-                // -> then we need to load the actual image to get dimensions
-                if(origSize->width() <= 0 || origSize->height() <= 0) {
-//                    LOG << CURDATE << "LoadImageQt: imagereader qt - Error: failed to read origsize" << NL;
-                    QImageReader r;
-                    r.setFileName(filename);
-                    *origSize = r.read().size();
-                }
-
-                if(maxSize.width() > -1) {
+                if(maxSize.width() > -1 && origSize->width() > 0 && origSize->height() > 0) {
 
                     int dispWidth = origSize->width();
                     int dispHeight = origSize->height();
@@ -114,6 +112,8 @@ namespace PQLoadImage {
                     }
 
                     reader.setScaledSize(QSize(dispWidth,dispHeight));
+                    if(dispWidth != origSize->width() || dispHeight != origSize->height())
+                        scaledImageDoNotCache = true;
 
                 }
 
@@ -122,6 +122,9 @@ namespace PQLoadImage {
                 // Eventually load the image
                 QImage img;
                 reader.read(&img);
+
+                if(!scaledImageDoNotCache)
+                    PQLoadImage::Helper::saveImageToCache(filename, img);
 
                 // If an error occured
                 if(img.isNull()) {

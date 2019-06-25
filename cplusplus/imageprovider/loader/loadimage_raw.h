@@ -1,4 +1,5 @@
 #include <QImage>
+#include "helper.h"
 
 #ifdef RAW
 #include <libraw/libraw.h>
@@ -13,6 +14,12 @@ namespace PQLoadImage {
         static QImage load(QString filename, QSize maxSize, QSize *origSize) {
 
     #ifdef RAW
+
+            QImage cachedImg = PQLoadImage::Helper::getCachedImage(filename);
+            if(!cachedImg.isNull()) {
+                PQLoadImage::Helper::ensureImageFitsMaxSize(cachedImg, maxSize);
+                return cachedImg;
+            }
 
             // Later we decide according to thumbnail/image size whether to load thumbnail or half/full image
             bool thumb = false;
@@ -135,6 +142,9 @@ namespace PQLoadImage {
             raw.recycle();
 
             *origSize = image.size();
+
+            if(!thumb && !half)
+                PQLoadImage::Helper::saveImageToCache(filename, image);
 
             if(maxSize.width() > 5 && maxSize.height() > 5 && (image.width() > maxSize.width() || image.height() > maxSize.height()))
                 return image.scaled(maxSize, ::Qt::KeepAspectRatio, ::Qt::SmoothTransformation);

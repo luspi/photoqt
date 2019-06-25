@@ -22,9 +22,9 @@ GridView {
 
         property var validcategories: ["qt", "gm", "raw", "devil", "freeimage", "poppler", "video"]
         nameFilters: tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="all" ?
-                         imageformats.getAllEnabledFileFormats() :
+                         PQImageFormats.getAllEnabledFileFormats() :
                          (validcategories.indexOf(tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]) > -1 ?
-                              imageformats.getEnabledFileFormats(tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]) :
+                              PQImageFormats.getEnabledFileFormats(tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]) :
                               [])
 
         showHidden: PQSettings.openShowHiddenFilesFolders
@@ -275,19 +275,7 @@ GridView {
                         if(fileIsDir)
                             filedialog_top.setCurrentDirectory(filePath)
                         else {
-                            if(imageformats.enabledFileformatsPoppler.indexOf("*." + handlingFileDialog.getSuffix(filePath)) > -1 && PQSettings.pdfSingleDocument) {
-                                variables.allImageFilesInOrder = handlingFileDialog.listPDFPages(filePath)
-                                variables.indexOfCurrentImage = 0
-                            } else if(imageformats.enabledFileformatsArchive.indexOf("*." + handlingFileDialog.getSuffix(filePath)) > -1 && PQSettings.archiveSingleFile) {
-                                variables.allImageFilesInOrder = handlingFileDialog.listArchiveContent(filePath)
-                                variables.indexOfCurrentImage = 0
-                            } else {
-                                variables.allImageFilesInOrder = files_model.getCopyOfAllFiles()
-                                var fp = filePath
-                                if(imageformats.enabledFileformatsPoppler.indexOf("*." + handlingFileDialog.getSuffix(fp)) > -1)
-                                    fp = "0::PQT::" + fp
-                                variables.indexOfCurrentImage = variables.allImageFilesInOrder.indexOf(fp)
-                            }
+                            loadFile(filePath)
                             filedialog_top.hideFileDialog()
                         }
                     } else {
@@ -340,6 +328,22 @@ GridView {
 
         }
 
+    }
+
+    function loadFile(path) {
+        if(PQImageFormats.enabledFileformatsPoppler.indexOf("*." + handlingFileDialog.getSuffix(path)) > -1 && PQSettings.pdfSingleDocument) {
+            variables.allImageFilesInOrder = handlingFileDialog.listPDFPages(path)
+            variables.indexOfCurrentImage = 0
+        } else if(PQImageFormats.enabledFileformatsArchive.indexOf("*." + handlingFileDialog.getSuffix(path)) > -1 && PQSettings.archiveSingleFile) {
+            variables.allImageFilesInOrder = handlingFileDialog.listArchiveContent(path)
+            variables.indexOfCurrentImage = 0
+        } else {
+            variables.allImageFilesInOrder = files_model.getCopyOfAllFiles()
+            var fp = path
+            if(PQImageFormats.enabledFileformatsPoppler.indexOf("*." + handlingFileDialog.getSuffix(fp)) > -1)
+                fp = "0::PQT::" + fp
+            variables.indexOfCurrentImage = variables.allImageFilesInOrder.indexOf(fp)
+        }
     }
 
     function keyEvent(key, modifiers) {
@@ -399,16 +403,8 @@ GridView {
 
         else if((key == Qt.Key_Enter || key == Qt.Key_Return) && modifiers == Qt.NoModifier) {
 
-            var filePath = files_model.getFilePath(currentlyHoveredIndex)
-            var fileIsDir = files_model.getFileIsDir(currentlyHoveredIndex)
-            if(fileIsDir)
-                filedialog_top.setCurrentDirectory(filePath)
-            else {
-                filedialog_top.hideFileDialog()
-                variables.allImageFilesInOrder = files_model.getCopyOfAllFiles()
-                variables.indexOfCurrentImage = variables.allImageFilesInOrder.indexOf(filePath)
-            }
-
+            loadFile(files_model.getFilePath(currentlyHoveredIndex))
+            filedialog_top.hideFileDialog()
 
         } else if((key == Qt.Key_Plus || key == Qt.Key_Equal) && modifiers == Qt.ControlModifier)
 

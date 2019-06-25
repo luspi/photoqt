@@ -16,7 +16,13 @@ class PQImageFormats : public QObject {
     Q_OBJECT
 
 public:
-    explicit PQImageFormats(QObject *parent = nullptr);
+    static PQImageFormats& get() {
+        static PQImageFormats instance;
+        return instance;
+    }
+
+    PQImageFormats(PQImageFormats const&)     = delete;
+    void operator=(PQImageFormats const&) = delete;
 
     void setEnabledFileformats(QString cat, QStringList val, bool withSaving = true);
 
@@ -322,6 +328,8 @@ signals:
     /****************************************************************************************/
 
 private:
+    PQImageFormats();
+
     // Watch for changes to the imageformats file
     QFileSystemWatcher *watcher;
     QTimer *watcherTimer;

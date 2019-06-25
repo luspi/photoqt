@@ -1,4 +1,5 @@
 #include <QImage>
+#include "helper.h"
 #ifdef FREEIMAGE
 #include <FreeImagePlus.h>
 #endif
@@ -7,8 +8,8 @@ namespace PQLoadImage {
 
     namespace FreeImage {
 
-#ifdef FREEIMAGE
         static QString errormsg = "";
+#ifdef FREEIMAGE
         static QString freeImageErrorMessage = "";
         static FREE_IMAGE_FORMAT freeImageErrorFormat = FIF_UNKNOWN;
 #endif
@@ -16,6 +17,12 @@ namespace PQLoadImage {
         static QImage load(QString filename, QSize maxSize, QSize *origSize) {
 
 #ifdef FREEIMAGE
+
+            QImage cachedImg = PQLoadImage::Helper::getCachedImage(filename);
+            if(!cachedImg.isNull()) {
+                PQLoadImage::Helper::ensureImageFitsMaxSize(cachedImg, maxSize);
+                return cachedImg;
+            }
 
             // Reset variables at start, set handler for log output
             freeImageErrorMessage = "";
@@ -115,6 +122,8 @@ namespace PQLoadImage {
             QByteArray array = QByteArray::fromRawData((char*)mem_buffer, size_in_bytes);
             // ... and load QByteArray into QImage
             QImage img = QImage::fromData(array);
+
+            PQLoadImage::Helper::saveImageToCache(filename, img);
 
             // If image needs to be scaled down, return scaled down version
             if(maxSize.width() > 5 && maxSize.height() > 5)

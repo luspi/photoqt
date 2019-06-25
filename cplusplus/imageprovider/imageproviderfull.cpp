@@ -34,19 +34,11 @@
 
 PQImageProviderFull::PQImageProviderFull() : QQuickImageProvider(QQuickImageProvider::Image) {
 
-    pixmapcache = new QPixmapCache;
-    pixmapcache->setCacheLimit(8*1024*std::max(0, std::min(1000, PQSettings::get().getPixmapCache())));
-
-    imageformats = new PQImageFormats;
-
     foundExternalUnrar = -1;
 
 }
 
-PQImageProviderFull::~PQImageProviderFull() {
-    delete pixmapcache;
-    delete imageformats;
-}
+PQImageProviderFull::~PQImageProviderFull() { }
 
 QImage PQImageProviderFull::requestImage(const QString &filename_encoded, QSize *origSize, const QSize &requestedSize) {
 
@@ -73,35 +65,10 @@ QImage PQImageProviderFull::requestImage(const QString &filename_encoded, QSize 
     }
 
     // Which GraphicsEngine should we use?
-    QString whatToUse = whatDoIUse(filename);
+    QString whatToUse = PQLoadImage::Helper::whatEngineDoIUse(filename);
 
     // The return image
     QImage ret;
-
-    // the unique key for caching
-    QByteArray cachekey = getUniqueCacheKey(filename);
-
-    // if image was already once loaded
-    QPixmap retPix;
-    if(pixmapcache->find(cachekey, &retPix)) {
-
-        // re-load image
-        ret = retPix.toImage();
-
-        // if valid...
-        if(!ret.isNull()) {
-
-            // return scaled version
-            if(requestedSize.width() > 2 && requestedSize.height() > 2 &&
-               ret.width() > requestedSize.width() && ret.height() > requestedSize.height())
-                return ret.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
-            // return full version
-            return ret;
-
-        }
-
-    }
 
     QString err = "";
 
@@ -135,12 +102,7 @@ QImage PQImageProviderFull::requestImage(const QString &filename_encoded, QSize 
     }
 
     // if returned image is not an error image ...
-    if(!ret.isNull()) {
-
-        // ... insert image into cache
-        pixmapcache->insert(cachekey, QPixmap::fromImage(ret));
-
-    } else
+    if(ret.isNull())
         return PQLoadImage::ErrorImage::load(err);
 
     // return scaled version
@@ -149,56 +111,6 @@ QImage PQImageProviderFull::requestImage(const QString &filename_encoded, QSize 
 
     // return full version
     return ret;
-
-}
-
-QString PQImageProviderFull::whatDoIUse(QString filename) {
-
-    if(filename.trimmed() == "") return "qt";
-
-    QString useThisFilename = filename;
-    QFileInfo info(useThisFilename);
-
-    if(info.suffix().toLower() == "svg" || info.suffix().toLower() == "svgz")
-        return "svg";
-
-    if(imageformats->getEnabledFileformatsQt().contains("*." + info.suffix().toLower()))
-        return "qt";
-
-    if(imageformats->getEnabledFileformatsXCF().contains("*." + info.suffix().toLower()))
-        return "xcftools";
-
-    if(imageformats->getEnabledFileformatsPoppler().contains("*." + info.suffix().toLower()))
-        return "poppler";
-
-    if(imageformats->getEnabledFileformatsGm().contains("*." + info.suffix().toLower()))
-        return "gm";
-
-    if(imageformats->getEnabledFileformatsRAW().contains("*." + info.suffix().toLower()))
-        return "raw";
-
-    if(imageformats->getEnabledFileformatsDevIL().contains("*." + info.suffix().toLower()))
-        return "devil";
-
-    if(imageformats->getEnabledFileformatsFreeImage().contains("*." + info.suffix().toLower()))
-        return "freeimage";
-
-    if(info.suffix().toLower() == "rar" || info.suffix().toLower() == "cbr") {
-        if(foundExternalUnrar == -1) {
-            QProcess which;
-            which.setStandardOutputFile(QProcess::nullDevice());
-            which.start("which unrar");
-            which.waitForFinished();
-            foundExternalUnrar = which.exitCode() ? 0 : 1;
-        }
-        if(foundExternalUnrar == 1)
-            return "unrar";
-    }
-
-    if(imageformats->getEnabledFileformatsArchive().contains("*." + info.suffix().toLower()))
-        return "archive";
-
-    return "qt";
 
 }
 

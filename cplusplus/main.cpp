@@ -21,6 +21,7 @@
 #include "imageprovider/imageprovidericon.h"
 #include "imageprovider/imageproviderthumb.h"
 #include "imageprovider/imageproviderfull.h"
+#include "imageprovider/imageproviderhistogram.h"
 
 #ifdef GM
 #include <GraphicsMagick/Magick++.h>
@@ -75,19 +76,20 @@ int main(int argc, char **argv) {
     qmlRegisterType<PQHandlingShortcuts>("PQHandlingShortcuts", 1, 0, "PQHandlingShortcuts");
     qmlRegisterType<PQLocalisation>("PQLocalisation", 1, 0, "PQLocalisation");
     qmlRegisterType<PQImageProperties>("PQImageProperties", 1, 0, "PQImageProperties");
-    qmlRegisterType<PQImageFormats>("PQImageFormats", 1, 0, "PQImageFormats");
     qmlRegisterType<PQFileWatcher>("PQFileWatcher", 1, 0, "PQFileWatcher");
     qmlRegisterType<PQWindowGeometry>("PQWindowGeometry", 1, 0, "PQWindowGeometry");
     qmlRegisterType<PQMetaData>("PQCppMetaData", 1, 0, "PQCppMetaData");
 
     engine.rootContext()->setContextProperty("PQSettings", &PQSettings::get());
     engine.rootContext()->setContextProperty("PQCppVariables", &PQVariables::get());
+    engine.rootContext()->setContextProperty("PQImageFormats", &PQImageFormats::get());
 
     qmlRegisterType<PQFileFolderModel>("PQFileFolderModel", 1, 0, "PQFileFolderModel");
 
     engine.addImageProvider("icon",new PQImageProviderIcon);
     engine.addImageProvider("thumb",new PQAsyncImageProviderThumb);
     engine.addImageProvider("full",new PQImageProviderFull);
+    engine.addImageProvider("hist",new PQImageProviderHistogram);
 
     engine.load(url);
 

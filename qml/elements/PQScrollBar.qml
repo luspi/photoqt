@@ -6,6 +6,9 @@ ScrollBar {
     active: true
     orientation: Qt.Vertical
 
+    width: orientation==Qt.Vertical ? 6 : undefined
+    height: orientation==Qt.Vertical ? undefined : 6
+
     contentItem: Rectangle {
         implicitWidth: control.size==1.0 ? 0 : (control.orientation==Qt.Vertical ? 6 : 100)
         implicitHeight: control.size==1.0 ? 0 : (control.orientation==Qt.Vertical ? 100 : 6)

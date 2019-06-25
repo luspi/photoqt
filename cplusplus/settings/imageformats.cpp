@@ -1,6 +1,6 @@
 #include "imageformats.h"
 
-PQImageFormats::PQImageFormats(QObject *parent) : QObject(parent) {
+PQImageFormats::PQImageFormats() {
 
     categories << "qt" << "xcftools" << "poppler" << "gm" << "raw"
                << "devil" << "freeimage" << "archive" << "video";
@@ -438,6 +438,7 @@ PQImageFormats::PQImageFormats(QObject *parent) : QObject(parent) {
     setupAvailable[8].insert("*.mp4"        , QStringList() << "mp4" << "MPEG-4"                                        << "1");
     setupAvailable[8].insert("*.ogv"        , QStringList() << "ogv" << "Theora"                                        << "1");
     setupAvailable[8].insert("*.webm"       , QStringList() << "wem" << "WebM"                                          << "1");
+    setupAvailable[8].insert("*.m4v"       , QStringList() << "m4v" << "WebM"                                          << "1");
 
 
 

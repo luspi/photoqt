@@ -134,11 +134,11 @@ public:
             if(!PQSettings::get().getPdfSingleDocument() && (info.suffix().toLower() == "pdf" || info.suffix().toLower() == "epdf"))
                 ret += handlingFileDialog.listPDFPages(info.absoluteFilePath());
             else if(info.suffix().toLower() != "pdf" && info.suffix().toLower() != "epdf") {
-                if(!PQSettings::get().getArchiveSingleFile() && imageformats.getEnabledFileformatsArchive().contains(info.suffix().toLower()))
+                if(!PQSettings::get().getArchiveSingleFile() && PQImageFormats::get().getEnabledFileformatsArchive().contains(info.suffix().toLower()))
                     ret += handlingFileDialog.listArchiveContent(info.absoluteFilePath());
-                else if(!imageformats.getEnabledFileformatsArchive().contains(info.suffix().toLower()))
+                else if(!PQImageFormats::get().getEnabledFileformatsArchive().contains(info.suffix().toLower()))
                     ret.push_back(info.absoluteFilePath());
-            } else if(!imageformats.getEnabledFileformatsArchive().contains(info.suffix().toLower()))
+            } else if(!PQImageFormats::get().getEnabledFileformatsArchive().contains(info.suffix().toLower()))
 #endif
                 ret.push_back(info.absoluteFilePath());
         }
@@ -183,7 +183,6 @@ private:
     QFileInfoList allImageFilesInOrder;
 
     PQHandlingFileDialog handlingFileDialog;
-    PQImageFormats imageformats;
 
 private slots:
     void loadData();

@@ -8,6 +8,7 @@
 
 #include "../../logger.h"
 #include "../../variables.h"
+#include "helper.h"
 
 namespace PQLoadImage {
 
@@ -18,6 +19,12 @@ namespace PQLoadImage {
         static QImage load(QString filename, QSize maxSize, QSize *origSize) {
 
     #ifdef DEVIL
+
+            QImage cachedImg = PQLoadImage::Helper::getCachedImage(filename);
+            if(!cachedImg.isNull()) {
+                PQLoadImage::Helper::ensureImageFitsMaxSize(cachedImg, maxSize);
+                return cachedImg;
+            }
 
             // DevIL is NOT threadsafe -> need to ensure only one image is loaded at a time...
             QMutexLocker locker(&PQVariables::get().devilMutex);
@@ -58,10 +65,18 @@ namespace PQLoadImage {
             // Create reader for temporary image
             QImageReader reader(tempimage);
 
+            bool scaledImageDoNotCache = false;
+
             // If image needs to be scaled down, do so now
             if(maxSize.width() > 5 && maxSize.height() > 5) {
-                if(width > maxSize.width() || height > maxSize.height())
-                    reader.setScaledSize(maxSize);
+                double q = 1;
+                if(width > maxSize.width())
+                    q = (double)maxSize.width()/(double)width;
+                if(height*q > maxSize.height())
+                    q = (double)maxSize.height()/(double)height;
+                reader.setScaledSize(reader.size()*q);
+                if(fabs(q-1) > 5*std::numeric_limits<double>::epsilon())
+                    scaledImageDoNotCache = true;
             }
 
             // Clear the DevIL memory
@@ -71,6 +86,9 @@ namespace PQLoadImage {
             // Return read image file
             QImage img = reader.read();
             QFile(tempimage).remove();
+
+            if(!scaledImageDoNotCache)
+                PQLoadImage::Helper::saveImageToCache(filename, img);
 
             if(img.isNull() || img.size() == QSize(1,1)) {
                 errormsg = "Failed to load image with DevIL!";

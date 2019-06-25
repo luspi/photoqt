@@ -31,7 +31,6 @@ public:
     QImage m_image;
 
 private:
-    PQImageFormats *imageformats;
     QMimeDatabase mimedb;
 
     int foundExternalUnrar;

@@ -6,7 +6,6 @@ import PQHandlingGeneral 1.0
 import PQHandlingShortcuts 1.0
 import PQLocalisation 1.0
 import PQImageProperties 1.0
-import PQImageFormats 1.0
 import PQFileWatcher 1.0
 import PQWindowGeometry 1.0
 import PQFileFolderModel 1.0
@@ -15,6 +14,7 @@ import PQCppMetaData 1.0
 import "./mainwindow"
 import "./shortcuts"
 import "./menumeta"
+import "./histogram"
 
 Window {
 
@@ -117,7 +117,7 @@ Window {
                                             PQFileFolderModel.Size :
                                             PQFileFolderModel.Type)))
 
-            variables.allImageFilesInOrder = filefoldermodel.loadFilesInFolder(folderToLoad, PQSettings.openShowHiddenFilesFolders, imageformats.getAllEnabledFileformats(), sortField, !PQSettings.sortbyAscending)
+            variables.allImageFilesInOrder = filefoldermodel.loadFilesInFolder(folderToLoad, PQSettings.openShowHiddenFilesFolders, PQImageFormats.getAllEnabledFileformats(), sortField, !PQSettings.sortbyAscending)
 
             variables.openCurrentDirectory = folderToLoad
 
@@ -154,13 +154,14 @@ Window {
 
     PQThumbnailBar { id: thumbnails }
 
+    PQHistogram { id: histogram }
+
     Loader { id: mainmenu }
     Loader { id: metadata }
 
     Loader { id: filedialog }
 
     PQImageProperties { id: imageproperties }
-    PQImageFormats { id: imageformats }
     PQFileWatcher { id: filewatcher }
 
     PQHandlingFileDialog { id: handlingFileDialog }

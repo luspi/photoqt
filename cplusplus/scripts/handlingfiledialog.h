@@ -62,9 +62,6 @@ public:
     Q_INVOKABLE QStringList listPDFPages(QString path);
     Q_INVOKABLE QStringList listArchiveContent(QString path);
 
-private:
-    PQImageFormats *imageformats;
-
 };
 
 #endif // PQHANDLINGFILEDIALOG_H

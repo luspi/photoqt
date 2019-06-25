@@ -3,6 +3,7 @@
 #include <QImageReader>
 
 #include "../../logger.h"
+#include "helper.h"
 
 namespace PQLoadImage {
 
@@ -11,6 +12,12 @@ namespace PQLoadImage {
         static QString errormsg = "";
 
         static QImage load(QString filename, QSize maxSize, QSize *origSize) {
+
+            QImage cachedImg = PQLoadImage::Helper::getCachedImage(filename);
+            if(!cachedImg.isNull()) {
+                PQLoadImage::Helper::ensureImageFitsMaxSize(cachedImg, maxSize);
+                return cachedImg;
+            }
 
             // We first check if xcftools is actually installed
             QProcess which;
@@ -33,6 +40,8 @@ namespace PQLoadImage {
 
             *origSize = reader.size();
 
+            bool scaledImageDoNotCache = false;
+
             // Make sure image fits into size specified by maxSize
             if(maxSize.width() > 5 && maxSize.height() > 5) {
                 double q = 1;
@@ -41,9 +50,16 @@ namespace PQLoadImage {
                 if(reader.size().height()*q > maxSize.height())
                     q = (double)maxSize.height()/(double)reader.size().height();
                 reader.setScaledSize(reader.size()*q);
+                if(fabs(q-1) > std::numeric_limits<double>::epsilon()*5)
+                    scaledImageDoNotCache = true;
             }
 
-            return reader.read();
+            QImage img = reader.read();
+
+            if(!scaledImageDoNotCache)
+                PQLoadImage::Helper::saveImageToCache(filename, img);
+
+            return img;
 
         }
 

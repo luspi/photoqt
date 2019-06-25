@@ -1,13 +1,9 @@
 #include "handlingfiledialog.h"
 #include <QtDebug>
 
-PQHandlingFileDialog::PQHandlingFileDialog(QObject *parent) : QObject(parent) {
-    imageformats = new PQImageFormats;
-}
+PQHandlingFileDialog::PQHandlingFileDialog(QObject *parent) : QObject(parent) {}
 
-PQHandlingFileDialog::~PQHandlingFileDialog() {
-    delete imageformats;
-}
+PQHandlingFileDialog::~PQHandlingFileDialog() {}
 
 QString PQHandlingFileDialog::getNewUniqueId() {
 
@@ -376,7 +372,7 @@ unsigned int PQHandlingFileDialog::getNumberOfFilesInFolder(QString path) {
 
     QDir dir(path);
 
-    QStringList checkForTheseFormats = imageformats->getAllEnabledFileFormats();
+    QStringList checkForTheseFormats = PQImageFormats::get().getAllEnabledFileFormats();
     dir.setNameFilters(checkForTheseFormats);
     dir.setFilter(QDir::Files);
 
@@ -514,7 +510,7 @@ QStringList PQHandlingFileDialog::listArchiveContent(QString path) {
             QStringList allfiles = QString::fromLatin1(outdata).split('\n', QString::SkipEmptyParts);
             allfiles.sort();
             foreach(QString f, allfiles) {
-                if(imageformats->getEnabledFileformatsQt().contains("*." + QFileInfo(f).suffix()))
+                if(PQImageFormats::get().getEnabledFileformatsQt().contains("*." + QFileInfo(f).suffix()))
                     ret.append(QString("%1::ARC::%2").arg(f).arg(path));
             }
 
@@ -549,7 +545,7 @@ QStringList PQHandlingFileDialog::listArchiveContent(QString path) {
             QString filenameinside = QString::fromStdString(archive_entry_pathname(entry));
 
             // If supported file format, append to temporary list
-            if((imageformats->getEnabledFileformatsQt().contains("*." + QFileInfo(filenameinside).suffix())))
+            if((PQImageFormats::get().getEnabledFileformatsQt().contains("*." + QFileInfo(filenameinside).suffix())))
                 allfiles.append(filenameinside);
 
         }

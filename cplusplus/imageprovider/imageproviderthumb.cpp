@@ -21,7 +21,6 @@ QQuickImageResponse *PQAsyncImageProviderThumb::requestImageResponse(const QStri
 PQAsyncImageResponseThumb::PQAsyncImageResponseThumb(const QString &url, const QSize &requestedSize) : m_url(url), m_requestedSize(requestedSize) {
     setAutoDelete(false);
     foundExternalUnrar = -1;
-    imageformats = new PQImageFormats;
 }
 
 QQuickTextureFactory *PQAsyncImageResponseThumb::textureFactory() const {
@@ -92,7 +91,7 @@ void PQAsyncImageResponseThumb::run() {
     }
 
     // Which GraphicsEngine should we use?
-    QString whatToUse = whatDoIUse(filename);
+    QString whatToUse = PQLoadImage::Helper::whatEngineDoIUse(filename);
 
     QSize origSize;
 
@@ -181,61 +180,5 @@ void PQAsyncImageResponseThumb::run() {
     // aaaaand done!
     m_image = p;
     emit finished();
-
-}
-
-QString PQAsyncImageResponseThumb::whatDoIUse(QString filename) {
-
-    if(filename.trimmed() == "") return "qt";
-
-    QString useThisFilename = filename;
-    QFileInfo info(useThisFilename);
-
-    /***********************************************************/
-    // Qt image plugins
-
-    if(info.suffix().toLower() == "svg" || info.suffix().toLower() == "svgz")
-        return "svg";
-
-    if(imageformats->getEnabledFileformatsQt().contains("*." + info.suffix().toLower()))
-        return "qt";
-
-    if(imageformats->getEnabledFileformatsXCF().contains("*." + info.suffix().toLower()))
-        return "xcftools";
-
-    if(imageformats->getEnabledFileformatsPoppler().contains("*." + info.suffix().toLower()))
-        return "poppler";
-
-    if(imageformats->getEnabledFileformatsGm().contains("*." + info.suffix().toLower()))
-        return "gm";
-
-    if(imageformats->getEnabledFileformatsRAW().contains("*." + info.suffix().toLower()))
-        return "raw";
-
-    if(imageformats->getEnabledFileformatsDevIL().contains("*." + info.suffix().toLower()))
-        return "devil";
-
-    if(imageformats->getEnabledFileformatsFreeImage().contains("*." + info.suffix().toLower()))
-        return "freeimage";
-
-    if(info.suffix().toLower() == "rar" || info.suffix().toLower() == "cbr") {
-        if(foundExternalUnrar == -1) {
-            QProcess which;
-            which.setStandardOutputFile(QProcess::nullDevice());
-            which.start("which unrar");
-            which.waitForFinished();
-            foundExternalUnrar = which.exitCode() ? 0 : 1;
-        }
-        if(foundExternalUnrar == 1)
-            return "unrar";
-    }
-
-    if(imageformats->getEnabledFileformatsArchive().contains("*." + info.suffix().toLower()))
-        return "archive";
-
-    if(imageformats->getEnabledFileformatsVideo().contains("*." + info.suffix().toLower()))
-        return "video";
-
-    return "qt";
 
 }

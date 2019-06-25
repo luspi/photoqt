@@ -28,6 +28,7 @@
 #include <QtSvg/QtSvg>
 #include "../settings/imageformats.h"
 #include "../logger.h"
+#include "./pixmapcache.h"
 
 class PQImageProviderFull : public QQuickImageProvider {
 
@@ -38,9 +39,6 @@ public:
     QImage requestImage(const QString &filename_encoded, QSize *origSize, const QSize &requestedSize);
 
 private:
-    QPixmapCache *pixmapcache;
-    PQImageFormats *imageformats;
-
     QString whatDoIUse(QString filename);
 
     QByteArray getUniqueCacheKey(QString path);

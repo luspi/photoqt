@@ -1,6 +1,7 @@
 #include <QFile>
 
 #include "../../logger.h"
+#include "helper.h"
 
 #ifdef GM
 #include <GraphicsMagick/Magick++.h>
@@ -19,6 +20,12 @@ namespace PQLoadImage {
         static QImage load(QString filename, QSize maxSize, QSize *origSize) {
 
 #ifdef GM
+
+            QImage cachedImg = PQLoadImage::Helper::getCachedImage(filename);
+            if(!cachedImg.isNull()) {
+                PQLoadImage::Helper::ensureImageFitsMaxSize(cachedImg, maxSize);
+                return cachedImg;
+            }
 
             QSize finalSize;
 
@@ -39,6 +46,9 @@ namespace PQLoadImage {
                 errormsg = "ERROR reading image file data";
                 return QImage();
             }
+
+            bool scaledImageDoNotCache = false;
+
             // Read image into blob
             Magick::Blob blob(data, file.size());
             try {
@@ -74,10 +84,14 @@ namespace PQLoadImage {
                     }
 
                     // For small images we can use the faster algorithm, as the quality is good enough for that
-                    if(finalSize.width() < 300 && finalSize.height() < 300)
+                    if(finalSize.width() < 300 && finalSize.height() < 300) {
                         image.thumbnail(Magick::Geometry(finalSize.width(),finalSize.height()));
-                    else
+                        scaledImageDoNotCache = true;
+                    } else {
                         image.scale(Magick::Geometry(finalSize.width(),finalSize.height()));
+                        if(finalSize.width() != origSize->width() || finalSize.height() != origSize->height())
+                            scaledImageDoNotCache = true;
+                    }
 
                 }
 
@@ -90,6 +104,9 @@ namespace PQLoadImage {
                 // And load JPG from memory into QImage
                 const QByteArray imgData((char*)(ob.data()),ob.length());
                 QImage img = QImage::fromData(imgData);
+
+                if(!scaledImageDoNotCache)
+                    PQLoadImage::Helper::saveImageToCache(filename, img);
 
                 // And we're done!
                 delete[] data;

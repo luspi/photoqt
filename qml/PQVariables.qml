@@ -48,7 +48,7 @@ Item {
                                                 PQFileFolderModel.Size :
                                                 PQFileFolderModel.Type)))
 
-                variables.allImageFilesInOrder = filefoldermodel.loadFilesInFolder(folderNew, PQSettings.openShowHiddenFilesFolders, imageformats.getAllEnabledFileformats(), sortField, !PQSettings.sortbyAscending)
+                variables.allImageFilesInOrder = filefoldermodel.loadFilesInFolder(folderNew, PQSettings.openShowHiddenFilesFolders, PQImageFormats.getAllEnabledFileformats(), sortField, !PQSettings.sortbyAscending)
                 variables.indexOfCurrentImage = Math.max(0, variables.allImageFilesInOrder.indexOf(PQCppVariables.cmdFilePath))
 
                 // reset variable
