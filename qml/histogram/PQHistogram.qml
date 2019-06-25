@@ -28,6 +28,7 @@ Rectangle {
                       0.8) :
                  0
     Behavior on opacity { NumberAnimation { duration: 150 } }
+    visible: opacity!=0
 
     color: "#dd000000"
 
