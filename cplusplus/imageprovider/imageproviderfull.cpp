@@ -21,15 +21,7 @@
  **************************************************************************/
 
 #include "imageproviderfull.h"
-#include "loader/loadimage_qt.h"
-#include "loader/loadimage_gm.h"
-#include "loader/loadimage_xcf.h"
-#include "loader/loadimage_poppler.h"
-#include "loader/loadimage_raw.h"
-#include "loader/loadimage_devil.h"
-#include "loader/loadimage_freeimage.h"
-#include "loader/loadimage_archive.h"
-#include "loader/loadimage_unrar.h"
+#include "loadimage.h"
 #include "../settings/settings.h"
 
 PQImageProviderFull::PQImageProviderFull() : QQuickImageProvider(QQuickImageProvider::Image) {
@@ -64,42 +56,9 @@ QImage PQImageProviderFull::requestImage(const QString &filename_encoded, QSize 
         return PQLoadImage::ErrorImage::load(err);
     }
 
-    // Which GraphicsEngine should we use?
-    QString whatToUse = PQLoadImage::Helper::whatEngineDoIUse(filename);
-
-    // The return image
+    // Load image
     QImage ret;
-
-    QString err = "";
-
-    if(whatToUse == "gm") {
-        ret = PQLoadImage::GraphicsMagick::load(filename, requestedSize, origSize);
-        err = PQLoadImage::GraphicsMagick::errormsg;
-    } else if(whatToUse == "xcftools") {
-        ret = PQLoadImage::XCF::load(filename, requestedSize, origSize);
-        err = PQLoadImage::XCF::errormsg;
-    } else if(whatToUse == "poppler") {
-        ret = PQLoadImage::PDF::load(filename, requestedSize, origSize);
-        err = PQLoadImage::PDF::errormsg;
-    } else if(whatToUse == "raw") {
-        ret = PQLoadImage::Raw::load(filename, requestedSize, origSize);
-        err = PQLoadImage::Raw::errormsg;
-    } else if(whatToUse == "devil") {
-        ret = PQLoadImage::DevIL::load(filename, requestedSize, origSize);
-        err = PQLoadImage::DevIL::errormsg;
-    } else if(whatToUse == "freeimage") {
-        ret = PQLoadImage::FreeImage::load(filename, requestedSize, origSize);
-        err = PQLoadImage::FreeImage::errormsg;
-    } else if(whatToUse == "unrar") {
-        ret = PQLoadImage::UNRAR::load(filename, requestedSize, origSize);
-        err = PQLoadImage::UNRAR::errormsg;
-    } else if(whatToUse == "archive") {
-        ret = PQLoadImage::Archive::load(filename, requestedSize, origSize);
-        err = PQLoadImage::Archive::errormsg;
-    } else {
-        ret = PQLoadImage::Qt::load(filename, requestedSize, origSize);
-        err = PQLoadImage::Qt::errormsg;
-    }
+    QString err = PQLoadImage::load(filename, requestedSize, origSize, ret);
 
     // if returned image is not an error image ...
     if(ret.isNull())

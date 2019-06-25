@@ -1,14 +1,6 @@
 #include "imageproviderthumb.h"
 #include "loader/errorimage.h"
-#include "loader/loadimage_qt.h"
-#include "loader/loadimage_gm.h"
-#include "loader/loadimage_xcf.h"
-#include "loader/loadimage_poppler.h"
-#include "loader/loadimage_raw.h"
-#include "loader/loadimage_devil.h"
-#include "loader/loadimage_freeimage.h"
-#include "loader/loadimage_archive.h"
-#include "loader/loadimage_unrar.h"
+#include "loadimage.h"
 #include "../settings/settings.h"
 
 QQuickImageResponse *PQAsyncImageProviderThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
@@ -90,35 +82,9 @@ void PQAsyncImageResponseThumb::run() {
         return;
     }
 
-    // Which GraphicsEngine should we use?
-    QString whatToUse = PQLoadImage::Helper::whatEngineDoIUse(filename);
-
+    // Load image
     QSize origSize;
-
-    if(whatToUse == "gm")
-        p = PQLoadImage::GraphicsMagick::load(filename, m_requestedSize, &origSize);
-    else if(whatToUse == "xcftools")
-        p = PQLoadImage::XCF::load(filename, m_requestedSize, &origSize);
-    else if(whatToUse == "poppler")
-        p = PQLoadImage::PDF::load(filename, m_requestedSize, &origSize);
-    else if(whatToUse == "raw")
-        p = PQLoadImage::Raw::load(filename, m_requestedSize, &origSize);
-    else if(whatToUse == "devil")
-        p = PQLoadImage::DevIL::load(filename, m_requestedSize, &origSize);
-    else if(whatToUse == "freeimage")
-        p = PQLoadImage::FreeImage::load(filename, m_requestedSize, &origSize);
-    else if(whatToUse == "unrar")
-        p = PQLoadImage::UNRAR::load(filename, m_requestedSize, &origSize);
-    else if(whatToUse == "archive")
-        p = PQLoadImage::Archive::load(filename, m_requestedSize, &origSize);
-    else if(whatToUse == "video")
-        p = QImage();
-    else
-        p = PQLoadImage::Qt::load(filename, m_requestedSize, &origSize);
-
-    // return scaled version
-    if(m_requestedSize.width() > 2 && m_requestedSize.height() > 2 && origSize.width() > m_requestedSize.width() && origSize.height() > m_requestedSize.height())
-        p = p.scaled(m_requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    PQLoadImage::load(filename, m_requestedSize, &origSize, p);
 
     /**********************************************************/
 
@@ -139,6 +105,10 @@ void PQAsyncImageResponseThumb::run() {
         emit finished();
         return;
     }
+
+    // scale thumbnail
+    if(m_requestedSize.width() > 2 && m_requestedSize.height() > 2 && origSize.width() > m_requestedSize.width() && origSize.height() > m_requestedSize.height())
+        p = p.scaled(m_requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
     // Create file cache thumbnail
     if(PQSettings::get().getThumbnailCache()) {

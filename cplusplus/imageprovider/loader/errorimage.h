@@ -33,7 +33,7 @@ namespace PQLoadImage {
 
     namespace ErrorImage {
 
-        static QImage load(QString errormessage) {
+        static inline QImage load(QString errormessage) {
             QPixmap pix(":/image/plainerrorimg.png");
             QPainter paint(&pix);
             QTextDocument txt;
