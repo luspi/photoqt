@@ -36,5 +36,18 @@
         <file>multimedia/speaker_mute.png</file>
         <file>other/histogramswitch.png</file>
         <file>other/histogramclose.png</file>
+        <file>filedialog/backupicons/drive-harddisk.svg</file>
+        <file>filedialog/backupicons/folder-pictures.svg</file>
+        <file>filedialog/backupicons/folder-red.svg</file>
+        <file>filedialog/backupicons/folder.svg</file>
+        <file>filedialog/backupicons/image-bmp.svg</file>
+        <file>filedialog/backupicons/image-gif.svg</file>
+        <file>filedialog/backupicons/image-jpeg.svg</file>
+        <file>filedialog/backupicons/image-png.svg</file>
+        <file>filedialog/backupicons/image-tiff.svg</file>
+        <file>filedialog/backupicons/image.svg</file>
+        <file>filedialog/backupicons/unknown.svg</file>
+        <file>filedialog/backupicons/user-desktop.svg</file>
+        <file>filedialog/backupicons/user-home.svg</file>
     </qresource>
 </RCC>
