@@ -33,6 +33,9 @@
 
 int main(int argc, char **argv) {
 
+    // this forces the default style as some themes (e.g., from plasma) mess with some customizations (bug reported to KDE)
+    QApplication::setDesktopSettingsAware(false);
+
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     PQSingleInstance app(argc, argv);
@@ -42,6 +45,8 @@ int main(int argc, char **argv) {
 
     // Set app name and version
     QGuiApplication::setApplicationName("PhotoQt");
+    QGuiApplication::setOrganizationName("");
+    QGuiApplication::setOrganizationDomain("photoqt.org");
     QGuiApplication::setApplicationVersion(version);
 
     if(app.exportAndQuit != "") {
