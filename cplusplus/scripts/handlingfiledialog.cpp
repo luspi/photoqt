@@ -395,7 +395,9 @@ void PQHandlingFileDialog::getNumberOfFilesInFolder(QString path, const QJSValue
 
 QString PQHandlingFileDialog::cleanPath(QString path) {
 
-    if(path.startsWith("file:/"))
+    if(path.startsWith("file:///"))
+        path = path.remove(0, 7);
+    if(path.startsWith("file://"))
         path = path.remove(0, 6);
 
     return QDir::cleanPath(path);
