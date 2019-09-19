@@ -15,6 +15,10 @@ Item {
 
             loader.passKeyEvent("filedialog", event.key, event.modifiers)
 
+        else if(variables.visibleItem == "slideshowsettings")
+
+            loader.passKeyEvent("slideshowsettings", event.key, event.modifiers)
+
         else {
 
             var combo = ""

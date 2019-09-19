@@ -105,6 +105,24 @@ public:
         }
     }
 
+    Q_PROPERTY(QRect slideshowWindowGeometry READ getSlideshowWindowGeometry WRITE setSlideshowWindowGeometry)
+    QRect getSlideshowWindowGeometry() { return m_slideshowWindowGeometry; }
+    void setSlideshowWindowGeometry(QRect rect) {
+        if(rect != m_slideshowWindowGeometry) {
+            m_slideshowWindowGeometry = rect;
+            saveGeometries();
+        }
+    }
+
+    Q_PROPERTY(bool slideshowWindowMaximized READ getSlideshowWindowMaximized WRITE setSlideshowWindowMaximized)
+    bool getSlideshowWindowMaximized() { return m_slideshowWindowMaximized; }
+    void setSlideshowWindowMaximized(bool maximized) {
+        if(maximized != m_slideshowWindowMaximized) {
+            m_slideshowWindowMaximized = maximized;
+            saveGeometries();
+        }
+    }
+
 private:
     QRect m_mainWindowGeometry;
     bool m_mainWindowMaximized;
@@ -120,6 +138,9 @@ private:
 
     QRect m_histogramWindowGeometry;
     bool m_histogramWindowMaximized;
+
+    QRect m_slideshowWindowGeometry;
+    bool m_slideshowWindowMaximized;
 
     QSettings *settings;
 

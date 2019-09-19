@@ -6,6 +6,7 @@ Item {
 
     signal filedialogPassOn(var what, var param)
     signal metadataPassOn(var what, var param)
+    signal slideshowPassOn(var what, var param)
 
     function show(component) {
 
@@ -13,6 +14,9 @@ Item {
 
         if(component == "filedialog")
             filedialogPassOn("show", undefined)
+
+        else if(component == "slideshowsettings")
+            slideshowPassOn("show", undefined)
 
     }
 
@@ -29,6 +33,9 @@ Item {
 
         if(component == "filedialog")
             filedialogPassOn("keyevent", [key, mod])
+
+        else if(component == "slideshowsettings")
+            slideshowPassOn("keyevent", [key, mod])
 
     }
 
@@ -65,6 +72,14 @@ Item {
 
             else if(!PQSettings.histogramPopoutElement && histogram.source != "histogram/PQHistogram.qml")
                 histogram.source = "histogram/PQHistogram.qml"
+
+        } else if(component == "slideshowsettings") {
+
+            if(PQSettings.slideShowPopoutElement && slideshowsettings.source != "slideshow/PQSlideShowSettingsPopout.qml")
+                slideshowsettings.source = "slideshow/PQSlideShowSettingsPopout.qml"
+
+            else if(!PQSettings.slideShowPopoutElement && slideshowsettings.source != "slideshow/PQSlideShowSettings.qml")
+                slideshowsettings.source = "slideshow/PQSlideShowSettings.qml"
 
         }
 

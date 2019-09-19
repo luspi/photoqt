@@ -19,6 +19,9 @@ PQWindowGeometry::PQWindowGeometry(QObject *parent) : QObject(parent) {
     m_histogramWindowMaximized = false;
     m_histogramWindowGeometry = QRect(100, 100, 300, 200);
 
+    m_slideshowWindowMaximized = true;
+    m_slideshowWindowGeometry = QRect(0, 0, 800, 600);
+
     settings = new QSettings(ConfigFiles::WINDOW_GEOMETRY_FILE(), QSettings::IniFormat);
 
     readGeometries();
@@ -52,6 +55,11 @@ void PQWindowGeometry::readGeometries() {
     if(settings->allKeys().contains("histogramWindowMaximized"))
         m_histogramWindowMaximized = settings->value("histogramWindowMaximized").toBool();
 
+    if(settings->allKeys().contains("slideshowWindowGeometry"))
+        m_slideshowWindowGeometry = settings->value("slideshowWindowGeometry").toRect();
+    if(settings->allKeys().contains("slideshowWindowMaximized"))
+        m_slideshowWindowMaximized = settings->value("slideshowWindowMaximized").toBool();
+
 }
 
 void PQWindowGeometry::saveGeometries() {
@@ -70,5 +78,8 @@ void PQWindowGeometry::saveGeometries() {
 
     settings->setValue("histogramWindowGeometry", m_histogramWindowGeometry);;
     settings->setValue("histogramWindowMaximized", m_histogramWindowMaximized);
+
+    settings->setValue("slideshowWindowGeometry", m_slideshowWindowGeometry);;
+    settings->setValue("slideshowWindowMaximized", m_slideshowWindowMaximized);
 
 }

@@ -39,6 +39,8 @@
         <file>mainwindow/image/PQMovie.qml</file>
         <file>histogram/PQHistogram.qml</file>
         <file>histogram/PQHistogramPopout.qml</file>
+        <file>slideshow/PQSlideShowSettings.qml</file>
+        <file>slideshow/PQSlideShowSettingsPopout.qml</file>
         <file>elements/PQSpinBox.qml</file>
     </qresource>
 </RCC>

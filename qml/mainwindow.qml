@@ -15,6 +15,7 @@ import "./mainwindow"
 import "./shortcuts"
 import "./menumeta"
 import "./histogram"
+import "./slideshow"
 
 Window {
 
@@ -162,6 +163,7 @@ Window {
     Loader { id: mainmenu }
     Loader { id: metadata }
 
+    Loader { id: slideshowsettings }
     Loader { id: filedialog }
 
     PQImageProperties { id: imageproperties }

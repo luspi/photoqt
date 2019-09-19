@@ -108,6 +108,13 @@ Item {
         onHistogramPopoutElementChanged:
             loader.ensureItIsReady("histogram")
 
+        onSlideShowPopoutElementChanged: {
+            if(variables.visibleItem == "slideshowsettings") {
+                loader.ensureItIsReady("slideshowsettings")
+                loader.show("slideshowsettings")
+            }
+        }
+
     }
 
 }

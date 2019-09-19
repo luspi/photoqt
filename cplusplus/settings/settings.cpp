@@ -120,6 +120,7 @@ void PQSettings::setDefault() {
     setSlideShowShuffle(false);
     setSlideShowLoop(true);
     setSlideShowHideQuickInfo(true);
+    setSlideShowPopoutElement(false);
 
     setMetaFilename(true);
     setMetaFileType(true);
@@ -414,6 +415,9 @@ void PQSettings::readSettings() {
             else if(line.startsWith("SlideShowHideQuickInfo="))
                 setSlideShowHideQuickInfo(line.split("=").at(1).toInt());
 
+            else if(line.startsWith("SlideShowPopoutElement="))
+                setSlideShowPopoutElement(line.split("=").at(1).toInt());
+
 
             else if(line.startsWith("MetaFilename="))
                 setMetaFilename(line.split("=").at(1).toInt());
@@ -703,6 +707,7 @@ void PQSettings::saveSettings() {
         cont += QString("SlideShowMusicFile=%1\n").arg(m_slideShowMusicFile);
         cont += QString("SlideShowShuffle=%1\n").arg(int(m_slideShowShuffle));
         cont += QString("SlideShowTime=%1\n").arg(m_slideShowTime);
+        cont += QString("SlideShowPopoutElement=%1\n").arg(int(m_slideShowPopoutElement));
 
         cont += "\n[Metadata]\n";
 
