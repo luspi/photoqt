@@ -15,6 +15,7 @@ Slider {
     property alias tooltip: slidertooltip.text
     property string handleToolTipPrefix: ""
     property string handleToolTipSuffix: ""
+    property bool handleToolTipEnabled: true
 
     background: Rectangle {
         x: control.leftPadding
@@ -47,7 +48,7 @@ Slider {
     PQToolTip {
         id: handletooltip
         parent: control.handle
-        visible: control.pressed
+        visible: control.pressed&&handleToolTipEnabled
         delay: 0
         text: handleToolTipPrefix + (control.value/divideToolTipValue) + handleToolTipSuffix
     }
