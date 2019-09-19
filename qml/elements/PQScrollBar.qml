@@ -14,6 +14,7 @@ ScrollBar {
         implicitHeight: control.size==1.0 ? 0 : (control.orientation==Qt.Vertical ? 100 : 6)
         radius: control.orientation==Qt.Vertical ? width/2 : height/2
         color: control.pressed ? "#eeeeee" : "#aaaaaa"
+        visible: !(control.size==1.0)
         Behavior on color { ColorAnimation { duration: 100 } }
     }
 
