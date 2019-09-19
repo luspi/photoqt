@@ -73,6 +73,8 @@ Rectangle {
         target: PQSettings
         onHistogramVersionChanged:
             updateHistogram()
+        onHistogramChanged:
+            updateHistogram()
     }
 
     Timer {

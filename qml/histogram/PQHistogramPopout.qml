@@ -21,6 +21,9 @@ Window {
     modality: Qt.NonModal
 
     onClosing: {
+
+        windowgeometry.histogramWindowGeometry = Qt.rect(histogram_window.x, histogram_window.y, histogram_window.width, histogram_window.height)
+
         PQSettings.histogram = 0
     }
 
@@ -32,7 +35,7 @@ Window {
         }
     }
 
-    visible: PQSettings.histogramPopoutElement
+    visible: (PQSettings.histogramPopoutElement&&PQSettings.histogram)
 
     color: "#88000000"
 
