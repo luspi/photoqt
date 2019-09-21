@@ -240,13 +240,19 @@ Rectangle {
                 if(param[0] == Qt.Key_Space || param[0] == Qt.Key_Enter || param[0] == Qt.Key_Return)
                     controls_top.running = !controls_top.running
 
-                else if(param[0] == Qt.Key_Right)
+                else if(param[0] == Qt.Key_Right) {
+
                     loadNextImage()
+                    if(controls_top.running)
+                        switcher.restart()
 
-                else if(param[0] == Qt.Key_Left)
+                } else if(param[0] == Qt.Key_Left) {
+
                     loadPrevImage()
+                    if(controls_top.running)
+                        switcher.restart()
 
-                else if(param[0] == Qt.Key_Minus) {
+                } else if(param[0] == Qt.Key_Minus) {
 
                     var val = 1
                     if(param[1] & Qt.AltModifier)
@@ -286,13 +292,21 @@ Rectangle {
     Shortcut {
         sequence: "Right"
         enabled: PQSettings.slideShowControlsPopoutElement
-        onActivated: loadNextImage()
+        onActivated: {
+            loadNextImage()
+            if(controls_top.running)
+                switcher.restart()
+        }
     }
 
     Shortcut {
         sequence: "Left"
         enabled: PQSettings.slideShowControlsPopoutElement
-        onActivated: loadPrevImage()
+        onActivated: {
+            loadPrevImage()
+            if(controls_top.running)
+                switcher.restart()
+        }
     }
 
     Shortcut {
@@ -373,8 +387,6 @@ Rectangle {
     }
 
     function loadNextImage() {
-
-        console.log("loadNextImage", PQSettings.slideShowShuffle)
 
         if(!PQSettings.slideShowShuffle) {
             if(variables.indexOfCurrentImage < variables.allImageFilesInOrder.length-1)
