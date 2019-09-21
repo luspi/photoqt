@@ -47,7 +47,7 @@ Rectangle {
         id: prev
 
         x: 10
-        y: 10
+        y: 20
         width: parent.height-2*y
         height: parent.height-2*y
 
@@ -93,7 +93,7 @@ Rectangle {
         id: next
 
         x: playpause.x+playpause.width
-        y: 10
+        y: 20
         width: parent.height-2*y
         height: parent.height-2*y
 
