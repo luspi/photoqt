@@ -132,7 +132,7 @@ Rectangle {
 
         id: volumecont
 
-//        visible: slideshowmusic.source!=""
+        visible: slideshowmusic.source!=""
 
         x: (parent.width-width)/2
         y: PQSettings.slideShowControlsPopoutElement ? (playplausenextprev.y+playplausenextprev.height+50) : ((parent.height-height)/2)
