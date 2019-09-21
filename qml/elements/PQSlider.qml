@@ -30,7 +30,7 @@ Slider {
         Rectangle {
             width: control.visualPosition * parent.width
             height: parent.height
-            color: "#eeeeee"
+            color: control.enabled ? "#eeeeee" : "#666666"
             radius: 2
         }
     }
@@ -41,7 +41,7 @@ Slider {
         implicitWidth: 20
         implicitHeight: 20
         radius: 10
-        color: control.pressed ? "#f0f0f0" : "#f6f6f6"
+        color: control.enabled ? (control.pressed ? "#f0f0f0" : "#f6f6f6") : "#777777"
         border.color: "#bdbebf"
     }
 
