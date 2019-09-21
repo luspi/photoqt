@@ -75,10 +75,10 @@ Item {
 
         } else if(component == "slideshowsettings") {
 
-            if(PQSettings.slideShowPopoutElement && slideshowsettings.source != "slideshow/PQSlideShowSettingsPopout.qml")
+            if(PQSettings.slideShowSettingsPopoutElement && slideshowsettings.source != "slideshow/PQSlideShowSettingsPopout.qml")
                 slideshowsettings.source = "slideshow/PQSlideShowSettingsPopout.qml"
 
-            else if(!PQSettings.slideShowPopoutElement && slideshowsettings.source != "slideshow/PQSlideShowSettings.qml")
+            else if(!PQSettings.slideShowSettingsPopoutElement && slideshowsettings.source != "slideshow/PQSlideShowSettings.qml")
                 slideshowsettings.source = "slideshow/PQSlideShowSettings.qml"
 
         }

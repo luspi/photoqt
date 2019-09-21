@@ -569,12 +569,12 @@ public:
             }
         }
 
-        Q_PROPERTY(bool slideShowPopoutElement READ getSlideShowPopoutElement WRITE setSlideShowPopoutElement NOTIFY slideShowPopoutElementChanged)
-        bool getSlideShowPopoutElement() { return m_slideShowPopoutElement; }
-        void setSlideShowPopoutElement(bool val) {
-            if(m_slideShowPopoutElement != val) {
-                m_slideShowPopoutElement = val;
-                emit slideShowPopoutElementChanged();
+        Q_PROPERTY(bool slideShowSettingsPopoutElement READ getSlideShowSettingsPopoutElement WRITE setSlideShowSettingsPopoutElement NOTIFY slideShowSettingsPopoutElementChanged)
+        bool getSlideShowSettingsPopoutElement() { return m_slideShowSettingsPopoutElement; }
+        void setSlideShowSettingsPopoutElement(bool val) {
+            if(m_slideShowSettingsPopoutElement != val) {
+                m_slideShowSettingsPopoutElement = val;
+                emit slideShowSettingsPopoutElementChanged();
                 saveSettingsTimer->start();
             }
         }
@@ -1399,7 +1399,7 @@ private:
         bool    m_slideShowShuffle;
         bool    m_slideShowLoop;
         bool    m_slideShowHideQuickInfo;
-        bool    m_slideShowPopoutElement;
+        bool    m_slideShowSettingsPopoutElement;
 
         int     m_thumbnailSize;
         QString m_thumbnailPosition;
@@ -1542,7 +1542,7 @@ signals:
         void slideShowShuffleChanged();
         void slideShowLoopChanged();
         void slideShowHideQuickInfoChanged();
-        void slideShowPopoutElementChanged();
+        void slideShowSettingsPopoutElementChanged();
         void thumbnailSizeChanged();
         void thumbnailPositionChanged();
         void thumbnailCacheChanged();

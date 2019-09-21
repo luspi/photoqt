@@ -7,7 +7,7 @@ Rectangle {
 
     id: slideshowsettings_top
 
-    color: PQSettings.slideShowPopoutElement ? "#aa000000" : "#88000000"
+    color: PQSettings.slideShowSettingsPopoutElement ? "#aa000000" : "#88000000"
 
     width: parentWidth
     height: parentHeight
@@ -15,8 +15,8 @@ Rectangle {
     property int parentWidth: toplevel.width
     property int parentHeight: toplevel.height
 
-    opacity: PQSettings.slideShowPopoutElement ? 1 : 0
-    Behavior on opacity { NumberAnimation { duration: PQSettings.slideShowPopoutElement ? 0 : PQSettings.animationDuration*100 } }
+    opacity: PQSettings.slideShowSettingsPopoutElement ? 1 : 0
+    Behavior on opacity { NumberAnimation { duration: PQSettings.slideShowSettingsPopoutElement ? 0 : PQSettings.animationDuration*100 } }
     visible: opacity!=0
 
     PQMouseArea {
@@ -27,10 +27,10 @@ Rectangle {
 
         id: insidecont
 
-        x: PQSettings.slideShowPopoutElement ? 10 : ((parent.width-width)/2)
-        y: PQSettings.slideShowPopoutElement ? 10 : ((parent.height-height)/2)
-        width: PQSettings.slideShowPopoutElement ? parentWidth-20 : 600
-        height: PQSettings.slideShowPopoutElement ? parentHeight-20 : 400
+        x: PQSettings.slideShowSettingsPopoutElement ? 10 : ((parent.width-width)/2)
+        y: PQSettings.slideShowSettingsPopoutElement ? 10 : ((parent.height-height)/2)
+        width: PQSettings.slideShowSettingsPopoutElement ? parentWidth-20 : 600
+        height: PQSettings.slideShowSettingsPopoutElement ? parentHeight-20 : 400
 
         Text {
             id: heading
@@ -44,9 +44,9 @@ Rectangle {
 
         clip: true
 
-        color: PQSettings.slideShowPopoutElement ? "transparent" : "#88000000"
-        border.color: PQSettings.slideShowPopoutElement ? "transparent" : "#44ffffff"
-        radius: PQSettings.slideShowPopoutElement ? 0 : 10
+        color: PQSettings.slideShowSettingsPopoutElement ? "transparent" : "#88000000"
+        border.color: PQSettings.slideShowSettingsPopoutElement ? "transparent" : "#44ffffff"
+        radius: PQSettings.slideShowSettingsPopoutElement ? 0 : 10
 
         Flickable {
 
@@ -263,7 +263,7 @@ Rectangle {
                             PQSettings.slideShowMusicFile = ""
                             selectmusicfile.prevSelectedFile = ""
                         }
-                        if(PQSettings.slideShowPopoutElement) {
+                        if(PQSettings.slideShowSettingsPopoutElement) {
                             slideshow_window.visible = false
                         } else {
                             slideshowsettings_top.opacity = 0
@@ -280,7 +280,7 @@ Rectangle {
                             PQSettings.slideShowMusicFile = ""
                             selectmusicfile.prevSelectedFile = ""
                         }
-                        if(PQSettings.slideShowPopoutElement) {
+                        if(PQSettings.slideShowSettingsPopoutElement) {
                             slideshow_window.visible = false
                         } else {
                             slideshowsettings_top.opacity = 0
@@ -300,7 +300,7 @@ Rectangle {
         target: loader
         onSlideshowPassOn: {
             if(what == "show") {
-                if(PQSettings.slideShowPopoutElement) {
+                if(PQSettings.slideShowSettingsPopoutElement) {
                     slideshow_window.visible = true
                 } else {
                     if(variables.indexOfCurrentImage == -1)
@@ -321,13 +321,13 @@ Rectangle {
 
     Shortcut {
         sequence: "Esc"
-        enabled: PQSettings.slideShowPopoutElement
+        enabled: PQSettings.slideShowSettingsPopoutElement
         onActivated: button_cancel.clicked()
     }
 
     Shortcut {
         sequences: ["Enter", "Return"]
-        enabled: PQSettings.slideShowPopoutElement
+        enabled: PQSettings.slideShowSettingsPopoutElement
         onActivated: button_start.clicked()
     }
 

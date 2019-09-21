@@ -29,13 +29,13 @@ Window {
             variables.visibleItem = ""
     }
 
-    visible: PQSettings.slideShowPopoutElement&&curloader.item.opacity==1
+    visible: PQSettings.slideShowSettingsPopoutElement&&curloader.item.opacity==1
 
     Connections {
         target: PQSettings
         onSlideShowPopoutElementChanged: {
-            if(!PQSettings.slideShowPopoutElement)
-                slideshow_window.visible = Qt.binding(function() { return PQSettings.slideShowPopoutElement&&curloader.item.opacity==1; })
+            if(!PQSettings.slideShowSettingsPopoutElement)
+                slideshow_window.visible = Qt.binding(function() { return PQSettings.slideShowSettingsPopoutElement&&curloader.item.opacity==1; })
         }
     }
 
