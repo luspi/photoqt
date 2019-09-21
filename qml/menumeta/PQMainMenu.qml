@@ -28,9 +28,13 @@ Rectangle {
         onMousePosChanged: {
             if(PQSettings.mainMenuPopoutElement)
                 return
-            if(variables.mousePos.x > toplevel.width-(PQSettings.hotEdgeWidth+5))
+            if(variables.mousePos.x > toplevel.width-(PQSettings.hotEdgeWidth+5) && !variables.slideShowActive)
                 mainmenu_top.opacity = 1
             else
+                mainmenu_top.opacity = 0
+        }
+        onSlideShowActiveChanged: {
+            if(variables.slideShowActive)
                 mainmenu_top.opacity = 0
         }
     }

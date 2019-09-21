@@ -70,6 +70,10 @@ Window {
     title: em.pty+qsTranslate("other", "PhotoQt Image Viewer")
 
     onClosing: {
+
+        if(variables.slideShowActive)
+            loader.passOn("slideshowcontrols", "quit", undefined)
+
         if(PQSettings.saveWindowGeometry) {
             windowgeometry.mainWindowMaximized = (visibility==Window.Maximized)
             windowgeometry.mainWindowGeometry = Qt.rect(toplevel.x, toplevel.y, toplevel.width, toplevel.height)
@@ -164,6 +168,7 @@ Window {
     Loader { id: metadata }
 
     Loader { id: slideshowsettings }
+    Loader { id: slideshowcontrols }
     Loader { id: filedialog }
 
     PQImageProperties { id: imageproperties }

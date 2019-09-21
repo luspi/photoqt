@@ -23,7 +23,7 @@ Item {
 
     Behavior on y { NumberAnimation { duration: 200 } }
 
-    visible: PQSettings.thumbnailPosition=="Top" ? (y > -height) : (y < toplevel.height)
+    visible: !variables.slideShowActive && (PQSettings.thumbnailPosition=="Top" ? (y > -height) : (y < toplevel.height))
 
     width: toplevel.width-(variables.metaDataWidthWhenKeptOpen + xOffset*2)
 
@@ -38,14 +38,6 @@ Item {
         anchors.fill: parent
 
         spacing: PQSettings.thumbnailSpacingBetween
-
-        Timer {
-            interval: 3000
-            repeat: false
-            running: true
-            onTriggered:
-                console.log("thumbnailSpacingBetween =", PQSettings.thumbnailSize,"/", PQSettings.thumbnailSpacingBetween)
-        }
 
         orientation: ListView.Horizontal
 

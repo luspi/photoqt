@@ -7,7 +7,6 @@ Item {
     anchors.fill: parent
 
     MouseArea {
-        enabled: variables.visibleItem==""
         anchors.fill: parent
         acceptedButtons: Qt.LeftButton|Qt.RightButton|Qt.MiddleButton
 
@@ -17,6 +16,9 @@ Item {
         property int angleDeltaY: 0
 
         onWheel: {
+
+            if(variables.visibleItem!="")
+                return
 
             var combo = ""
 
@@ -82,6 +84,10 @@ Item {
         property bool pressed: false
 
         onPressed: {
+
+            if(variables.visibleItem!="")
+                return
+
             prevPos = Qt.point(mouse.x, mouse.y)
             lastDirection = ""
             path = []
@@ -147,6 +153,9 @@ Item {
         }
 
         onReleased: {
+
+            if(variables.visibleItem!="")
+                return
 
             var combo = modifiers.join("+")
             if(combo != "")

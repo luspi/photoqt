@@ -42,5 +42,7 @@
         <file>slideshow/PQSlideShowSettings.qml</file>
         <file>slideshow/PQSlideShowSettingsPopout.qml</file>
         <file>elements/PQSpinBox.qml</file>
+        <file>slideshow/PQSlideShowControls.qml</file>
+        <file>slideshow/PQSlideShowControlsPopout.qml</file>
     </qresource>
 </RCC>

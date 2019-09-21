@@ -269,7 +269,8 @@ Rectangle {
                             slideshowsettings_top.opacity = 0
                             variables.visibleItem = ""
                         }
-                        // start slideshow
+                        loader.ensureItIsReady("slideshowcontrols")
+                        loader.passOn("slideshowcontrols", "start", undefined)
                     }
                 }
                 PQButton {

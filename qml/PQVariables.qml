@@ -13,6 +13,8 @@ Item {
     property point mousePos: Qt.point(-1, -1)
     property int metaDataWidthWhenKeptOpen: 0
 
+    property bool slideShowActive: false
+
     onIndexOfCurrentImageChanged:
         cppmetadata.updateMetadata(indexOfCurrentImage != -1 ? allImageFilesInOrder[indexOfCurrentImage] : "")
 
@@ -108,7 +110,7 @@ Item {
         onHistogramPopoutElementChanged:
             loader.ensureItIsReady("histogram")
 
-        onSlideShowPopoutElementChanged: {
+        onSlideShowSettingsPopoutElementChanged: {
             if(variables.visibleItem == "slideshowsettings") {
                 loader.ensureItIsReady("slideshowsettings")
                 loader.show("slideshowsettings")

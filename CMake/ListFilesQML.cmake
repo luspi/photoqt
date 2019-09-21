@@ -30,4 +30,4 @@ SET(d "qml/histogram")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQHistogram.qml ${d}/PQHistogramPopout.qml)
 
 SET(d "qml/slideshow")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQSlideShowSettings.qml ${d}/PQSlideShowSettingsPopout.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQSlideShowSettings.qml ${d}/PQSlideShowSettingsPopout.qml ${d}/PQSlideShowControls.qml ${d}/PQSlideShowControlsPopout.qml)

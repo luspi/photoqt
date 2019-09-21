@@ -9,7 +9,7 @@ Item {
     width: 3*PQSettings.quickInfoCloseXSize
     height: 3*PQSettings.quickInfoCloseXSize
 
-    visible: !PQSettings.quickInfoHideX
+    visible: !(variables.slideShowActive&&PQSettings.slideShowHideQuickInfo) && !PQSettings.quickInfoHideX
 
     Image {
         anchors.fill: parent

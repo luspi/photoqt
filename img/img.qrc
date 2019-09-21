@@ -49,5 +49,14 @@
         <file>filedialog/backupicons/unknown.svg</file>
         <file>filedialog/backupicons/user-desktop.svg</file>
         <file>filedialog/backupicons/user-home.svg</file>
+        <file>slideshow/next.png</file>
+        <file>slideshow/pause.png</file>
+        <file>slideshow/play.png</file>
+        <file>slideshow/prev.png</file>
+        <file>slideshow/quit.png</file>
+        <file>slideshow/speaker_high.png</file>
+        <file>slideshow/speaker_low.png</file>
+        <file>slideshow/speaker_medium.png</file>
+        <file>slideshow/speaker_mute.png</file>
     </qresource>
 </RCC>

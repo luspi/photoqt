@@ -19,6 +19,10 @@ Item {
 
             loader.passKeyEvent("slideshowsettings", event.key, event.modifiers)
 
+        else if(variables.visibleItem == "slideshowcontrols")
+
+            loader.passKeyEvent("slideshowcontrols", event.key, event.modifiers)
+
         else {
 
             var combo = ""

@@ -11,7 +11,7 @@ Item {
     width: cont.width
     height: cont.height
 
-    visible: variables.indexOfCurrentImage>-1&&variables.allImageFilesInOrder.length>0
+    visible: !(variables.slideShowActive&&PQSettings.slideShowHideQuickInfo) && variables.indexOfCurrentImage>-1&&variables.allImageFilesInOrder.length>0
 
     Rectangle {
 

@@ -7,6 +7,7 @@ Item {
     signal filedialogPassOn(var what, var param)
     signal metadataPassOn(var what, var param)
     signal slideshowPassOn(var what, var param)
+    signal slideshowControlsPassOn(var what, var param)
 
     function show(component) {
 
@@ -18,12 +19,18 @@ Item {
         else if(component == "slideshowsettings")
             slideshowPassOn("show", undefined)
 
+        else if(component == "slideshowcontrols")
+            slideshowControlsPassOn("show", undefined)
+
     }
 
     function passOn(component, what, param) {
 
         if(component == "metadata")
             metadataPassOn(what, param)
+
+        else if(component == "slideshowcontrols")
+            slideshowControlsPassOn(what, param)
 
     }
 
@@ -36,6 +43,9 @@ Item {
 
         else if(component == "slideshowsettings")
             slideshowPassOn("keyevent", [key, mod])
+
+        else if(component == "slideshowcontrols")
+            slideshowControlsPassOn("keyevent", [key, mod])
 
     }
 
@@ -80,6 +90,14 @@ Item {
 
             else if(!PQSettings.slideShowSettingsPopoutElement && slideshowsettings.source != "slideshow/PQSlideShowSettings.qml")
                 slideshowsettings.source = "slideshow/PQSlideShowSettings.qml"
+
+        } else if(component == "slideshowcontrols") {
+
+            if(PQSettings.slideShowControlsPopoutElement && slideshowcontrols.source != "slideshow/PQSlideShowControlsPopout.qml")
+                slideshowcontrols.source = "slideshow/PQSlideShowControlsPopout.qml"
+
+            else if(!PQSettings.slideShowControlsPopoutElement && slideshowcontrols.source != "slideshow/PQSlideShowControls.qml")
+                slideshowcontrols.source = "slideshow/PQSlideShowControls.qml"
 
         }
 

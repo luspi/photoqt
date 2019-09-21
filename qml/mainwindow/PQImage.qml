@@ -9,10 +9,10 @@ Item {
     anchors.leftMargin: variables.metaDataWidthWhenKeptOpen
     Behavior on anchors.leftMargin { NumberAnimation { duration: PQSettings.animationDuration*100 } }
 
-    anchors.bottomMargin: ((PQSettings.thumbnailKeepVisible || PQSettings.thumbnailKeepVisibleWhenNotZoomedIn) && PQSettings.thumbnailPosition!="Top" && !PQSettings.thumbnailDisable) ? thumbnails.height : 0
+    anchors.bottomMargin: ((PQSettings.thumbnailKeepVisible || PQSettings.thumbnailKeepVisibleWhenNotZoomedIn) && PQSettings.thumbnailPosition!="Top" && !PQSettings.thumbnailDisable && !variables.slideShowActive) ? thumbnails.height : 0
     Behavior on anchors.bottomMargin { NumberAnimation { duration: 150 } }
 
-    anchors.topMargin: ((PQSettings.thumbnailKeepVisible || PQSettings.thumbnailKeepVisibleWhenNotZoomedIn) && PQSettings.thumbnailPosition=="Top" && !PQSettings.thumbnailDisable) ? thumbnails.height : 0
+    anchors.topMargin: ((PQSettings.thumbnailKeepVisible || PQSettings.thumbnailKeepVisibleWhenNotZoomedIn) && PQSettings.thumbnailPosition=="Top" && !PQSettings.thumbnailDisable && !variables.slideShowActive) ? thumbnails.height : 0
     Behavior on anchors.topMargin { NumberAnimation { duration: 150 } }
 
     signal zoomIn()
