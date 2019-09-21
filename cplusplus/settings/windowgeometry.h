@@ -123,6 +123,24 @@ public:
         }
     }
 
+    Q_PROPERTY(QRect slideshowControlsWindowGeometry READ getSlideshowControlsWindowGeometry WRITE setSlideshowControlsWindowGeometry)
+    QRect getSlideshowControlsWindowGeometry() { return m_slideshowControlsWindowGeometry; }
+    void setSlideshowControlsWindowGeometry(QRect rect) {
+        if(rect != m_slideshowControlsWindowGeometry) {
+            m_slideshowControlsWindowGeometry = rect;
+            saveGeometries();
+        }
+    }
+
+    Q_PROPERTY(bool slideshowControlsWindowMaximized READ getSlideshowControlsWindowMaximized WRITE setSlideshowControlsWindowMaximized)
+    bool getSlideshowControlsWindowMaximized() { return m_slideshowControlsWindowMaximized; }
+    void setSlideshowControlsWindowMaximized(bool maximized) {
+        if(maximized != m_slideshowControlsWindowMaximized) {
+            m_slideshowControlsWindowMaximized = maximized;
+            saveGeometries();
+        }
+    }
+
 private:
     QRect m_mainWindowGeometry;
     bool m_mainWindowMaximized;
@@ -141,6 +159,9 @@ private:
 
     QRect m_slideshowWindowGeometry;
     bool m_slideshowWindowMaximized;
+
+    QRect m_slideshowControlsWindowGeometry;
+    bool m_slideshowControlsWindowMaximized;
 
     QSettings *settings;
 
