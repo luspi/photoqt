@@ -363,6 +363,9 @@ Rectangle {
         controls_top.running = true
 
         controls_top.opacity = 1
+        if(PQSettings.slideShowControlsPopoutElement)
+            slideshowcontrols_window.visible = true
+
         hideBarAfterTimeout.start()
 
         if(PQSettings.slideShowMusicFile != "") {
