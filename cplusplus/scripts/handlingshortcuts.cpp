@@ -40,5 +40,7 @@ QVariantList PQHandlingShortcuts::loadFromFile() {
 }
 
 QString PQHandlingShortcuts::convertKeyCodeToText(int id) {
-    return QKeySequence(id).toString();
+    QString ret = QKeySequence(id).toString();
+    if(ret == "Esc") ret = "Escape";    // Up to v1.7.1 'Escape' was used so we should stick to that
+    return ret;
 }

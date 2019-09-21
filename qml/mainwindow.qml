@@ -186,6 +186,15 @@ Window {
     // Localisation handler, allows for runtime switches of languages
     PQLocalisation { id : em }
 
-//    function close
+    function quitPhotoQt() {
+        close()
+    }
+
+    function closePhotoQt() {
+
+        // TODO: check tray icon setting and potentially only hide window
+
+        close()
+    }
 
 }

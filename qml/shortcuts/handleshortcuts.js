@@ -21,10 +21,10 @@ function whatToDoWithFoundShortcut(sh) {
 
     var cmd = sh[2]
 
-//        if(cmd === "__quit")
-//            mainwindow.quitPhotoQt();
-//        else if(cmd === "__close")
-//            mainwindow.closePhotoQt()
+        if(cmd === "__quit")
+            toplevel.quitPhotoQt()
+        else if(cmd === "__close")
+            toplevel.closePhotoQt()
 //        else if(cmd === "__settings")
 //            call.show("settingsmanager")
     /*else*/ if(cmd === "__next")
