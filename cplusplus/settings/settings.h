@@ -223,6 +223,16 @@ public:
 
 
 
+        Q_PROPERTY(int trayIcon READ getTrayIcon WRITE setTrayIcon NOTIFY trayIconChanged)
+        int getTrayIcon() { return m_trayIcon; }
+        void setTrayIcon(int val) {
+            if(m_trayIcon != val) {
+                m_trayIcon = val;
+                emit trayIconChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
         Q_PROPERTY(int loopThroughFolder READ getLoopThroughFolder WRITE setLoopThroughFolder NOTIFY loopThroughFolderChanged)
         int getLoopThroughFolder() { return m_loopThroughFolder; }
         void setLoopThroughFolder(bool val) {
@@ -1372,6 +1382,7 @@ private:
         bool    m_backgroundImageCenter;
         bool    m_backgroundImageTile;
 
+        int     m_trayIcon;
         bool    m_loopThroughFolder;
         int     m_hotEdgeWidth;
         bool    m_closeOnEmptyBackground;
@@ -1519,6 +1530,7 @@ signals:
         void backgroundImageStretchChanged();
         void backgroundImageCenterChanged();
         void backgroundImageTileChanged();
+        void trayIconChanged();
         void loopThroughFolderChanged();
         void hotEdgeWidthChanged();
         void closeOnEmptyBackgroundChanged();

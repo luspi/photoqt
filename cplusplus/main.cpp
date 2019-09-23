@@ -49,6 +49,8 @@ int main(int argc, char **argv) {
     QGuiApplication::setOrganizationDomain("photoqt.org");
     QGuiApplication::setApplicationVersion(version);
 
+    QGuiApplication::setQuitOnLastWindowClosed(true);
+
     if(app.exportAndQuit != "") {
         PQStartup::Export::perform(app.exportAndQuit);
         std::exit(0);

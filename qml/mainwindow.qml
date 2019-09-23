@@ -81,7 +81,14 @@ Window {
         if(variables.indexOfCurrentImage > -1)
             handlingGeneral.setLastLoadedImage(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
         handlingGeneral.cleanUpScreenshotsTakenAtStartup()
-        close.accepted = true
+
+        if(PQSettings.trayIcon == 1) {
+            close.accepted = false
+            toplevel.visible = false
+        } else {
+            close.accepted = true
+            Qt.quit()
+        }
     }
 
     Component.onCompleted:  {
@@ -148,6 +155,8 @@ Window {
 
     }
 
+    PQSystemTrayIcon { id: trayicon }
+
     // needed to load folders without PQFileDialog
     PQFileFolderModel { id: filefoldermodel }
 
@@ -187,14 +196,16 @@ Window {
     PQLocalisation { id : em }
 
     function quitPhotoQt() {
-        close()
+        Qt.quit()
     }
 
     function closePhotoQt() {
 
-        // TODO: check tray icon setting and potentially only hide window
+        if(PQSettings.trayIcon == 1)
+            close()
+        else
+            Qt.quit()
 
-        close()
     }
 
 }

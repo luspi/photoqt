@@ -69,6 +69,27 @@ Item {
             }
         }
 
+        onCmdShowChanged: {
+            if(PQCppVariables.cmdShow) {
+                console.log("show")
+                PQCppVariables.cmdShow = false
+            }
+        }
+
+        onCmdHideChanged: {
+            if(PQCppVariables.cmdHide) {
+                console.log("hide")
+                PQCppVariables.cmdHide = false
+            }
+        }
+
+        onCmdToggleChanged: {
+            if(PQCppVariables.cmdToggle) {
+                console.log("toggle")
+                PQCppVariables.cmdToggle = false
+            }
+        }
+
         onCmdThumbsChanged: {
             if(PQCppVariables.cmdThumbs) {
                 console.log("thumbs")
@@ -87,6 +108,13 @@ Item {
             if(PQCppVariables.cmdNoThumbs) {
                 console.log("nothumbs")
                 PQCppVariables.cmdNoThumbs = false
+            }
+        }
+
+        onCmdTrayChanged: {
+            if(PQCppVariables.cmdTray) {
+                console.log("tray")
+                PQCppVariables.cmdTray = false
             }
         }
 
