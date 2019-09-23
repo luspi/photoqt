@@ -21,6 +21,9 @@ Rectangle {
 
     PQMouseArea {
         anchors.fill: parent
+        hoverEnabled: true
+        onClicked:
+            button_cancel.clicked()
     }
 
     Rectangle {
