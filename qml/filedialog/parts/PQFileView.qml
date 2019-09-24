@@ -388,7 +388,7 @@ GridView {
 
         else if((key == Qt.Key_Enter || key == Qt.Key_Return) && modifiers == Qt.NoModifier) {
 
-            loadFile(files_model.getFilePath(currentlyHoveredIndex))
+            LoadFiles.loadFile(files_model.getFilePath(currentlyHoveredIndex), files_model.getCopyOfAllFiles())
             filedialog_top.hideFileDialog()
 
         } else if((key == Qt.Key_Plus || key == Qt.Key_Equal) && modifiers == Qt.ControlModifier)
