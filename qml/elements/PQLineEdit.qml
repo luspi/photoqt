@@ -24,19 +24,9 @@ TextField {
         border.color: control.enabled ? "#cccccc" : "transparent"
     }
 
-    Timer {
-        id: setfocustimer
-        interval: 500
-        repeat: true
-        running: false
-        onTriggered: {
-            control.forceActiveFocus()
-            control.focus = true
-        }
-    }
-
     function setFocus() {
-        setfocustimer.restart()
+        control.forceActiveFocus()
+        control.focus = true
     }
 
 }
