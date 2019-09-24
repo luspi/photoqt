@@ -47,3 +47,12 @@ function loadFile(path, copyOfAllFiles) {
 
 
 }
+
+function changeCurrentFilename(dir, newfile) {
+
+    variables.allImageFilesInOrder[variables.indexOfCurrentImage] = dir + "/" + newfile
+    var tmp = variables.indexOfCurrentImage
+    variables.indexOfCurrentImage = -1
+    variables.indexOfCurrentImage = tmp
+
+}

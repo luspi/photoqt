@@ -152,9 +152,7 @@ Rectangle {
                             }
                             error.visible = false
 
-                            console.log("load new file:", dir + "/" + rename_top.currentNewFileName+"."+suf)
-                            LoadFiles.loadFile(dir + "/" + rename_top.currentNewFileName+"."+suf)
-//                            filedialog.item.loadFile(dir + "/" + rename_top.currentNewFileName+"."+suf, true)
+                            LoadFiles.changeCurrentFilename(dir, rename_top.currentNewFileName+"."+suf)
 
                             rename_top.opacity = 0
                             filenameeditloader.sourceComponent = emptyitem
