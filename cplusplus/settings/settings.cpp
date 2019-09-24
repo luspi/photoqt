@@ -80,6 +80,8 @@ void PQSettings::setDefault() {
     setAnimationType("x");
     setAnimationDuration(3);
 
+    setFileRenamePopoutElement(false);
+
 #ifdef Q_OS_LINUX
     // We assume here that it is available (checking would be rather slow)
     // This is okay as we check anyways before using unrar
@@ -335,6 +337,10 @@ void PQSettings::readSettings() {
 
             else if(line.startsWith("AnimationType="))
                 setAnimationType(line.split("=").at(1).trimmed());
+
+
+            else if(line.startsWith("FileRenamePopoutElement="))
+                setFileRenamePopoutElement(line.split("=").at(1).toInt());
 
 
             else if(line.startsWith("QuickInfoHideCounter="))
@@ -680,6 +686,10 @@ void PQSettings::saveSettings() {
         cont += QString("SortImagesAscending=%1\n").arg(int(m_sortbyAscending));
         cont += QString("TrayIcon=%1\n").arg(m_trayIcon);
         cont += QString("ZoomSpeed=%1\n").arg(m_zoomSpeed);
+
+        cont += "\n[File Management]\n";
+
+        cont += QString("FileRenamePopoutElement=%1\n").arg(int(m_fileRenamePopoutElement));
 
         cont += "\n[QuickInfo]\n";
 

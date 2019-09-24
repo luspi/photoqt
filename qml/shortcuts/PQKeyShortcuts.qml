@@ -5,6 +5,8 @@ import "./handleshortcuts.js" as HandleShortcuts
 
 Item {
 
+    id: keyshortcuts_top
+
     anchors.fill: parent
 
     focus: true
@@ -22,6 +24,10 @@ Item {
         else if(variables.visibleItem == "slideshowcontrols")
 
             loader.passKeyEvent("slideshowcontrols", event.key, event.modifiers)
+
+        else if(variables.visibleItem == "filerename")
+
+            loader.passKeyEvent("filerename", event.key, event.modifiers)
 
         else {
 
@@ -53,8 +59,13 @@ Item {
         interval: 500
         running: true
         repeat: true
-        onTriggered:
-            parent.focus = true
+        onTriggered: {
+            if(!variables.textEditFocused) {
+                keyshortcuts_top.forceActiveFocus()
+                keyshortcuts_top.focus = true
+                keyshortcuts_top.forceActiveFocus()
+            }
+        }
 
     }
 

@@ -4,6 +4,7 @@ import QtQuick.Window 2.9
 import PQHandlingFileDialog 1.0
 import PQHandlingGeneral 1.0
 import PQHandlingShortcuts 1.0
+import PQHandlingFileManagement 1.0
 import PQLocalisation 1.0
 import PQImageProperties 1.0
 import PQFileWatcher 1.0
@@ -16,6 +17,8 @@ import "./shortcuts"
 import "./menumeta"
 import "./histogram"
 import "./slideshow"
+
+import "./loadfiles.js" as LoadFiles
 
 Window {
 
@@ -119,17 +122,7 @@ Window {
 
             var folderToLoad = handlingGeneral.getFilePathFromFullPath(filenameToLoad)
 
-            var sortField = PQSettings.sortby=="name" ?
-                                PQFileFolderModel.Name :
-                                (PQSettings.sortby == "naturalname" ?
-                                    PQFileFolderModel.NaturalName :
-                                    (PQSettings.sortby == "time" ?
-                                        PQFileFolderModel.Time :
-                                        (PQSettings.sortby == "size" ?
-                                            PQFileFolderModel.Size :
-                                            PQFileFolderModel.Type)))
-
-            variables.allImageFilesInOrder = filefoldermodel.loadFilesInFolder(folderToLoad, PQSettings.openShowHiddenFilesFolders, PQImageFormats.getAllEnabledFileformats(), sortField, !PQSettings.sortbyAscending)
+            LoadFiles.loadFile(folderToLoad)
 
             variables.openCurrentDirectory = folderToLoad
 
@@ -180,12 +173,15 @@ Window {
     Loader { id: slideshowcontrols }
     Loader { id: filedialog }
 
+    Loader { id: filerename }
+
     PQImageProperties { id: imageproperties }
     PQFileWatcher { id: filewatcher }
 
     PQHandlingFileDialog { id: handlingFileDialog }
     PQHandlingGeneral { id: handlingGeneral }
     PQHandlingShortcuts { id: handlingShortcuts }
+    PQHandlingFileManagement { id: handlingFileManagement }
 
     PQWindowGeometry { id: windowgeometry }
     PQCppMetaData { id: cppmetadata }

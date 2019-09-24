@@ -2,6 +2,7 @@ import QtQuick 2.9
 import PQFileFolderModel 1.0
 import QtQuick.Controls 2.2
 import "../../elements"
+import "../../loadfiles.js" as LoadFiles
 
 GridView {
 
@@ -275,7 +276,7 @@ GridView {
                         if(fileIsDir)
                             filedialog_top.setCurrentDirectory(filePath)
                         else {
-                            loadFile(filePath)
+                            LoadFiles.loadFile(filePath, files_model.getCopyOfAllFiles())
                             filedialog_top.hideFileDialog()
                         }
                     } else {
@@ -328,22 +329,6 @@ GridView {
 
         }
 
-    }
-
-    function loadFile(path) {
-        if(PQImageFormats.enabledFileformatsPoppler.indexOf("*." + handlingFileDialog.getSuffix(path)) > -1 && PQSettings.pdfSingleDocument) {
-            variables.allImageFilesInOrder = handlingFileDialog.listPDFPages(path)
-            variables.indexOfCurrentImage = 0
-        } else if(PQImageFormats.enabledFileformatsArchive.indexOf("*." + handlingFileDialog.getSuffix(path)) > -1 && PQSettings.archiveSingleFile) {
-            variables.allImageFilesInOrder = handlingFileDialog.listArchiveContent(path)
-            variables.indexOfCurrentImage = 0
-        } else {
-            variables.allImageFilesInOrder = files_model.getCopyOfAllFiles()
-            var fp = path
-            if(PQImageFormats.enabledFileformatsPoppler.indexOf("*." + handlingFileDialog.getSuffix(fp)) > -1)
-                fp = "0::PQT::" + fp
-            variables.indexOfCurrentImage = variables.allImageFilesInOrder.indexOf(fp)
-        }
     }
 
     function keyEvent(key, modifiers) {

@@ -8,6 +8,7 @@ Item {
     signal metadataPassOn(var what, var param)
     signal slideshowPassOn(var what, var param)
     signal slideshowControlsPassOn(var what, var param)
+    signal fileRenamePassOn(var what, var param)
 
     function show(component) {
 
@@ -21,6 +22,9 @@ Item {
 
         else if(component == "slideshowcontrols")
             slideshowControlsPassOn("show", undefined)
+
+        else if(component == "filerename")
+            fileRenamePassOn("show", undefined)
 
     }
 
@@ -98,6 +102,14 @@ Item {
 
             else if(!PQSettings.slideShowControlsPopoutElement && slideshowcontrols.source != "slideshow/PQSlideShowControls.qml")
                 slideshowcontrols.source = "slideshow/PQSlideShowControls.qml"
+
+        } else if(component == "filerename") {
+
+            if(PQSettings.fileRenamePopoutElement && filerename.source != "filemanagement/PQRenamePopout.qml")
+                filerename.source = "filemanagement/PQRenamePopout.qml"
+
+            else if(!PQSettings.fileRenamePopoutElement && filerename.source != "filemanagement/PQRename.qml")
+                filerename.source = "filemanagement/PQRename.qml"
 
         }
 

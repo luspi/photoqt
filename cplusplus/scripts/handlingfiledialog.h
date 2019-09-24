@@ -47,6 +47,7 @@ public:
 
     Q_INVOKABLE QString cleanPath(QString path);
     Q_INVOKABLE QString getSuffix(QString path);
+    Q_INVOKABLE QString getBaseName(QString path);
 
     Q_INVOKABLE QStringList getFoldersIn(QString path);
 

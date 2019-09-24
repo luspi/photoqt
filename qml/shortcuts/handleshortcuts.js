@@ -62,8 +62,8 @@ function whatToDoWithFoundShortcut(sh) {
             imageitem.mirrorV()
         else if(cmd === "__flipReset")
             imageitem.mirrorReset()
-//        else if(cmd === "__rename") {
-//            call.load("filemanagementRenameShow")
+        else if(cmd === "__rename")
+            loader.show("filerename")
 //        } else if(cmd === "__delete")
 //            call.load("filemanagementDeleteShow")
 //        else if(cmd === "__deletePermanent")

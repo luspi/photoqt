@@ -15,6 +15,8 @@ Item {
 
     property bool slideShowActive: false
 
+    property bool textEditFocused: false
+
     onIndexOfCurrentImageChanged:
         cppmetadata.updateMetadata(indexOfCurrentImage != -1 ? allImageFilesInOrder[indexOfCurrentImage] : "")
 

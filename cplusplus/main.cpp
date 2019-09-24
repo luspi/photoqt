@@ -9,6 +9,7 @@
 #include "scripts/handlingfiledialog.h"
 #include "scripts/handlinggeneral.h"
 #include "scripts/handlingshortcuts.h"
+#include "scripts/handlingfilemanagement.h"
 #include "scripts/localisation.h"
 #include "scripts/imageproperties.h"
 #include "settings/imageformats.h"
@@ -81,6 +82,7 @@ int main(int argc, char **argv) {
     qmlRegisterType<PQHandlingFileDialog>("PQHandlingFileDialog", 1, 0, "PQHandlingFileDialog");
     qmlRegisterType<PQHandlingGeneral>("PQHandlingGeneral", 1, 0, "PQHandlingGeneral");
     qmlRegisterType<PQHandlingShortcuts>("PQHandlingShortcuts", 1, 0, "PQHandlingShortcuts");
+    qmlRegisterType<PQHandlingFileManagement>("PQHandlingFileManagement", 1, 0, "PQHandlingFileManagement");
     qmlRegisterType<PQLocalisation>("PQLocalisation", 1, 0, "PQLocalisation");
     qmlRegisterType<PQImageProperties>("PQImageProperties", 1, 0, "PQImageProperties");
     qmlRegisterType<PQFileWatcher>("PQFileWatcher", 1, 0, "PQFileWatcher");

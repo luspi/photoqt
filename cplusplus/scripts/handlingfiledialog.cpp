@@ -408,6 +408,10 @@ QString PQHandlingFileDialog::getSuffix(QString path) {
     return QFileInfo(path).suffix().toLower();
 }
 
+QString PQHandlingFileDialog::getBaseName(QString path) {
+    return QFileInfo(path).baseName().toLower();
+}
+
 QStringList PQHandlingFileDialog::getFoldersIn(QString path) {
 
     QDir dir(path);

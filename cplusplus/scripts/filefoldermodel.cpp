@@ -131,7 +131,12 @@ QFileInfoList PQFileFolderModel::getAllFoldersInFolder(QString path, bool showHi
 QFileInfoList PQFileFolderModel::getAllImagesInFolder(QString path, bool showHidden, QStringList nameFilters, SortBy sortfield, bool sortReversed) {
 
     QDir dir;
-    dir.setPath(path);
+
+    QFileInfo info(path);
+    if(info.isDir())
+        dir.setPath(path);
+    else
+        dir.setPath(info.absolutePath());
 
     if(!dir.exists()) {
         LOG << CURDATE << "ERROR: Folder location does not exist: " << path.toStdString() << NL;

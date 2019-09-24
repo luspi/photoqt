@@ -249,6 +249,8 @@ public:
             return getEnabledFileformatsArchive();
         if(category == "video")
             return getEnabledFileformatsVideo();
+        if(category == "all")
+            return getAllEnabledFileFormats();
         return QStringList();
     }
 
