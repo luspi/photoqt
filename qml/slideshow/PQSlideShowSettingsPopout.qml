@@ -33,7 +33,7 @@ Window {
 
     Connections {
         target: PQSettings
-        onSlideShowPopoutElementChanged: {
+        onSlideshowPopoutElementChanged: {
             if(!PQSettings.slideShowSettingsPopoutElement)
                 slideshow_window.visible = Qt.binding(function() { return PQSettings.slideShowSettingsPopoutElement&&curloader.item.opacity==1; })
         }

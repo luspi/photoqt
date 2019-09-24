@@ -25,6 +25,9 @@ PQWindowGeometry::PQWindowGeometry(QObject *parent) : QObject(parent) {
     m_slideshowControlsWindowMaximized = true;
     m_slideshowControlsWindowGeometry = QRect(0, 0, 200, 200);
 
+    m_fileRenameWindowMaximized = true;
+    m_fileRenameWindowGeometry = QRect(0, 0, 400, 300);
+
     settings = new QSettings(ConfigFiles::WINDOW_GEOMETRY_FILE(), QSettings::IniFormat);
 
     readGeometries();
@@ -68,6 +71,11 @@ void PQWindowGeometry::readGeometries() {
     if(settings->allKeys().contains("slideshowControlsWindowMaximized"))
         m_slideshowControlsWindowMaximized = settings->value("slideshowControlsWindowMaximized").toBool();
 
+    if(settings->allKeys().contains("fileRenameWindowGeometry"))
+        m_fileRenameWindowGeometry = settings->value("fileRenameWindowGeometry").toRect();
+    if(settings->allKeys().contains("fileRenameWindowMaximized"))
+        m_fileRenameWindowMaximized = settings->value("fileRenameWindowMaximized").toBool();
+
 }
 
 void PQWindowGeometry::saveGeometries() {
@@ -92,5 +100,8 @@ void PQWindowGeometry::saveGeometries() {
 
     settings->setValue("slideshowControlsWindowGeometry", m_slideshowControlsWindowGeometry);
     settings->setValue("slideshowControlsWindowMaximized", m_slideshowControlsWindowMaximized);
+
+    settings->setValue("fileRenameWindowGeometry", m_fileRenameWindowGeometry);
+    settings->setValue("fileRenameWindowMaximized", m_fileRenameWindowMaximized);
 
 }

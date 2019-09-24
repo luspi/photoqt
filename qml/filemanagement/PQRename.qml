@@ -73,7 +73,8 @@ Rectangle {
                 color: "red"
                 visible: false
                 font.pointSize: 15
-                text: "An error occured, file could not be renamed!"
+                horizontalAlignment: Qt.AlignHCenter
+                text: "An error occured,<br>file could not be renamed!"
             }
 
             // having a text field around messes with the shortcuts engine => only load when actually needed

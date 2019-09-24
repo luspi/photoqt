@@ -141,6 +141,24 @@ public:
         }
     }
 
+    Q_PROPERTY(QRect fileRenameWindowGeometry READ getFileRenameWindowGeometry WRITE setFileRenameWindowGeometry)
+    QRect getFileRenameWindowGeometry() { return m_fileRenameWindowGeometry; }
+    void setFileRenameWindowGeometry(QRect rect) {
+        if(rect != m_fileRenameWindowGeometry) {
+            m_fileRenameWindowGeometry = rect;
+            saveGeometries();
+        }
+    }
+
+    Q_PROPERTY(bool fileRenameWindowMaximized READ getFileRenameWindowMaximized WRITE setFileRenameWindowMaximized)
+    bool getFileRenameWindowMaximized() { return m_fileRenameWindowMaximized; }
+    void setFileRenameWindowMaximized(bool maximized) {
+        if(maximized != m_fileRenameWindowMaximized) {
+            m_fileRenameWindowMaximized = maximized;
+            saveGeometries();
+        }
+    }
+
 private:
     QRect m_mainWindowGeometry;
     bool m_mainWindowMaximized;
@@ -162,6 +180,9 @@ private:
 
     QRect m_slideshowControlsWindowGeometry;
     bool m_slideshowControlsWindowMaximized;
+
+    QRect m_fileRenameWindowGeometry;
+    bool  m_fileRenameWindowMaximized;
 
     QSettings *settings;
 
