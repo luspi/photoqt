@@ -49,5 +49,7 @@
         <file>filemanagement/PQRenamePopout.qml</file>
         <file>elements/PQLineEdit.qml</file>
         <file>loadfiles.js</file>
+        <file>filemanagement/PQDelete.qml</file>
+        <file>filemanagement/PQDeletePopout.qml</file>
     </qresource>
 </RCC>

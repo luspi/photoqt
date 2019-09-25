@@ -81,6 +81,7 @@ void PQSettings::setDefault() {
     setAnimationDuration(3);
 
     setFileRenamePopoutElement(false);
+    setFileDeletePopoutElement(false);
 
 #ifdef Q_OS_LINUX
     // We assume here that it is available (checking would be rather slow)
@@ -341,6 +342,9 @@ void PQSettings::readSettings() {
 
             else if(line.startsWith("FileRenamePopoutElement="))
                 setFileRenamePopoutElement(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("FileDeletePopoutElement="))
+                setFileDeletePopoutElement(line.split("=").at(1).toInt());
 
 
             else if(line.startsWith("QuickInfoHideCounter="))
@@ -690,6 +694,7 @@ void PQSettings::saveSettings() {
         cont += "\n[File Management]\n";
 
         cont += QString("FileRenamePopoutElement=%1\n").arg(int(m_fileRenamePopoutElement));
+        cont += QString("FileDeletePopoutElement=%1\n").arg(int(m_fileDeletePopoutElement));
 
         cont += "\n[QuickInfo]\n";
 

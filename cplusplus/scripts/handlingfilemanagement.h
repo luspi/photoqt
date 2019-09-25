@@ -3,6 +3,9 @@
 
 #include <QObject>
 #include <QFile>
+#include <QUrl>
+#include <QStorageInfo>
+#include <unistd.h>
 
 #include "../logger.h"
 
@@ -12,6 +15,7 @@ class PQHandlingFileManagement : public QObject {
 
 public:
     Q_INVOKABLE bool renameFile(QString dir, QString oldName, QString newName);
+    Q_INVOKABLE bool deleteFile(QString filename, bool permanent);
 };
 
 #endif // PQHANDLINGFILEMANAGEMENT_H

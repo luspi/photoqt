@@ -415,6 +415,16 @@ public:
             }
         }
 
+        Q_PROPERTY(bool fileDeletePopoutElement READ getFileDeletePopoutElement WRITE setFileDeletePopoutElement NOTIFY fileDeletePopoutElementChanged)
+        bool getFileDeletePopoutElement() { return m_fileDeletePopoutElement; }
+        void setFileDeletePopoutElement(bool val) {
+            if(m_fileDeletePopoutElement != val) {
+                m_fileDeletePopoutElement = val;
+                emit fileDeletePopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
 
         Q_PROPERTY(bool pdfSingleDocument READ getPdfSingleDocument WRITE setPdfSingleDocument NOTIFY pdfSingleDocumentChanged)
         bool getPdfSingleDocument() { return m_pdfSingleDocument; }
@@ -1413,6 +1423,7 @@ private:
         int     m_animationDuration;
 
         bool    m_fileRenamePopoutElement;
+        bool    m_fileDeletePopoutElement;
 
         bool    m_pdfSingleDocument;
         int     m_pdfQuality;
@@ -1562,6 +1573,7 @@ signals:
         void animationTypeChanged();
         void animationDurationChanged();
         void fileRenamePopoutElementChanged();
+        void fileDeletePopoutElementChanged();
         void pdfSingleDocumentChanged();
         void pdfQualityChanged();
         void archiveSingleFileChanged();

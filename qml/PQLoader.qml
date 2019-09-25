@@ -9,6 +9,7 @@ Item {
     signal slideshowPassOn(var what, var param)
     signal slideshowControlsPassOn(var what, var param)
     signal fileRenamePassOn(var what, var param)
+    signal fileDeletePassOn(var what, var param)
 
     function show(component) {
 
@@ -25,6 +26,9 @@ Item {
 
         else if(component == "filerename")
             fileRenamePassOn("show", undefined)
+
+        else if(component == "filedelete")
+            fileDeletePassOn("show", undefined)
 
     }
 
@@ -50,6 +54,9 @@ Item {
 
         else if(component == "slideshowcontrols")
             slideshowControlsPassOn("keyevent", [key, mod])
+
+        else if(component == "filedelete")
+            fileDeletePassOn("keyevent", [key, mod])
 
     }
 
@@ -110,6 +117,14 @@ Item {
 
             else if(!PQSettings.fileRenamePopoutElement && filerename.source != "filemanagement/PQRename.qml")
                 filerename.source = "filemanagement/PQRename.qml"
+
+        } else if(component == "filedelete") {
+
+            if(PQSettings.fileDeletePopoutElement && filedelete.source != "filemanagement/PQDeletePopout.qml")
+                filedelete.source = "filemanagement/PQDeletePopout.qml"
+
+            else if(!PQSettings.fileDeletePopoutElement && filedelete.source != "filemanagement/PQDelete.qml")
+                filedelete.source = "filemanagement/PQDelete.qml"
 
         }
 

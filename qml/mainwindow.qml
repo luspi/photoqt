@@ -174,6 +174,7 @@ Window {
     Loader { id: filedialog }
 
     Loader { id: filerename }
+    Loader { id: filedelete }
 
     PQImageProperties { id: imageproperties }
     PQFileWatcher { id: filewatcher }

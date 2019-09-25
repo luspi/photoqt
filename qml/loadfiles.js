@@ -56,3 +56,15 @@ function changeCurrentFilename(dir, newfile) {
     variables.indexOfCurrentImage = tmp
 
 }
+
+function removeCurrentFilenameFromList(file) {
+
+    variables.allImageFilesInOrder.splice(variables.indexOfCurrentImage, 1)
+    if(variables.indexOfCurrentImage >= variables.allImageFilesInOrder.length-1)
+        variables.indexOfCurrentImage -= 1
+
+    var tmp = variables.indexOfCurrentImage
+    variables.indexOfCurrentImage = -1
+    variables.indexOfCurrentImage = tmp
+
+}

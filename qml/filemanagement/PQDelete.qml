@@ -1,0 +1,202 @@
+import QtQuick 2.9
+import QtQuick.Controls 2.2
+import QtQuick.Dialogs 1.2
+
+import "../elements"
+import "../loadfiles.js" as LoadFiles
+
+Rectangle {
+
+    id: delete_top
+
+    color: "#dd000000"
+
+    width: parentWidth
+    height: parentHeight
+
+    property int parentWidth: toplevel.width
+    property int parentHeight: toplevel.height
+
+    opacity: 0
+    Behavior on opacity { NumberAnimation { duration: PQSettings.animationDuration*100 } }
+    visible: opacity!=0
+
+    PQMouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        onClicked:
+            button_cancel.clicked()
+    }
+
+    Item {
+
+        id: insidecont
+
+        x: ((parent.width-width)/2)
+        y: ((parent.height-height)/2)
+        width: parent.width
+        height: childrenRect.height
+
+        clip: true
+
+        PQMouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+        }
+
+        Column {
+
+            spacing: 10
+
+            Text {
+                id: heading
+                x: (insidecont.width-width)/2
+                color: "white"
+                font.pointSize: 20
+                font.bold: true
+                text: "Delete file?"
+            }
+
+            Text {
+                id: filename
+                x: (insidecont.width-width)/2
+                color: "grey"
+                font.pointSize: 15
+                text: "this_is_the_filename.jpg"
+            }
+
+            Text {
+                id: error
+                x: (insidecont.width-width)/2
+                color: "red"
+                visible: false
+                font.pointSize: 15
+                horizontalAlignment: Qt.AlignHCenter
+                text: "An error occured,<br>file could not be deleted!"
+            }
+
+            Item {
+
+                id: butcont
+
+                x: 0
+                width: insidecont.width
+                height: childrenRect.height
+
+                Row {
+
+                    spacing: 5
+
+                    x: (parent.width-width)/2
+
+                    PQButton {
+                        id: button_trash
+                        text: "Move to trash"
+                        onClicked: {
+
+                            if(!handlingFileManagement.deleteFile(variables.allImageFilesInOrder[variables.indexOfCurrentImage], false)) {
+                                error.visible = true
+                                return
+                            }
+
+                            LoadFiles.removeCurrentFilenameFromList(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+                            thumbnails.reloadThumbnails()
+
+                            delete_top.opacity = 0
+                            variables.visibleItem = ""
+                        }
+                    }
+                    PQButton {
+                        id: button_permanent
+                        text: "Delete permanently"
+                        onClicked: {
+
+                            if(!handlingFileManagement.deleteFile(variables.allImageFilesInOrder[variables.indexOfCurrentImage], true)) {
+                                error.visible = true
+                                return
+                            }
+
+                            LoadFiles.removeCurrentFilenameFromList(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+                            thumbnails.reloadThumbnails()
+
+                            delete_top.opacity = 0
+                            variables.visibleItem = ""
+                        }
+                    }
+                    PQButton {
+                        id: button_cancel
+                        text: "Cancel"
+                        onClicked: {
+                            delete_top.opacity = 0
+                            variables.visibleItem = ""
+                        }
+                    }
+
+                }
+
+            }
+
+            Item {
+                width: 1
+                height: 1
+            }
+
+            Text {
+                x: (parent.width-width)/2
+                font.pointSize: 8
+                font.bold: true
+                color: "white"
+                textFormat: Text.RichText
+                text: "<table><tr><td align=right>Enter</td><td>=</td><td>Move to Trash</td</tr><tr><td align=right>Shift+Enter</td><td>=</td><td>Delete permanently</td></tr></table>"
+            }
+
+        }
+
+    }
+
+    Connections {
+        target: loader
+        onFileDeletePassOn: {
+            if(what == "show") {
+                if(variables.indexOfCurrentImage == -1)
+                    return
+                opacity = 1
+                error.visible = false
+                variables.visibleItem = "filedelete"
+                filename.text = handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+            } else if(what == "hide") {
+                button_cancel.clicked()
+            } else if(what == "keyevent") {
+                if(param[0] == Qt.Key_Escape)
+                    button_cancel.clicked()
+                else if(param[0] == Qt.Key_Enter || param[0] == Qt.Key_Return) {
+                    if(param[1] & Qt.ShiftModifier)
+                        button_permanent.clicked()
+                    else
+                        button_trash.clicked()
+                }
+            }
+        }
+    }
+
+
+
+    Shortcut {
+        sequence: "Esc"
+        enabled: PQSettings.fileDeletePopoutElement
+        onActivated: button_cancel.clicked()
+    }
+
+    Shortcut {
+        sequences: ["Enter", "Return"]
+        enabled: PQSettings.fileDeletePopoutElement
+        onActivated: button_trash.clicked()
+    }
+
+    Shortcut {
+        sequences: ["Shift+Enter", "Shift+Return"]
+        enabled: PQSettings.fileDeletePopoutElement
+        onActivated: button_permanent.clicked()
+    }
+
+}

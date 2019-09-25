@@ -159,6 +159,24 @@ public:
         }
     }
 
+    Q_PROPERTY(QRect fileDeleteWindowGeometry READ getFileDeleteWindowGeometry WRITE setFileDeleteWindowGeometry)
+    QRect getFileDeleteWindowGeometry() { return m_fileDeleteWindowGeometry; }
+    void setFileDeleteWindowGeometry(QRect rect) {
+        if(rect != m_fileDeleteWindowGeometry) {
+            m_fileDeleteWindowGeometry = rect;
+            saveGeometries();
+        }
+    }
+
+    Q_PROPERTY(bool fileDeleteWindowMaximized READ getFileDeleteWindowMaximized WRITE setFileDeleteWindowMaximized)
+    bool getFileDeleteWindowMaximized() { return m_fileDeleteWindowMaximized; }
+    void setFileDeleteWindowMaximized(bool maximized) {
+        if(maximized != m_fileDeleteWindowMaximized) {
+            m_fileDeleteWindowMaximized = maximized;
+            saveGeometries();
+        }
+    }
+
 private:
     QRect m_mainWindowGeometry;
     bool m_mainWindowMaximized;
@@ -183,6 +201,9 @@ private:
 
     QRect m_fileRenameWindowGeometry;
     bool  m_fileRenameWindowMaximized;
+
+    QRect m_fileDeleteWindowGeometry;
+    bool  m_fileDeleteWindowMaximized;
 
     QSettings *settings;
 

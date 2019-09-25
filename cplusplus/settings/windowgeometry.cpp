@@ -28,6 +28,9 @@ PQWindowGeometry::PQWindowGeometry(QObject *parent) : QObject(parent) {
     m_fileRenameWindowMaximized = true;
     m_fileRenameWindowGeometry = QRect(0, 0, 400, 300);
 
+    m_fileDeleteWindowMaximized = true;
+    m_fileDeleteWindowGeometry = QRect(0, 0, 400, 300);
+
     settings = new QSettings(ConfigFiles::WINDOW_GEOMETRY_FILE(), QSettings::IniFormat);
 
     readGeometries();
@@ -76,6 +79,11 @@ void PQWindowGeometry::readGeometries() {
     if(settings->allKeys().contains("fileRenameWindowMaximized"))
         m_fileRenameWindowMaximized = settings->value("fileRenameWindowMaximized").toBool();
 
+    if(settings->allKeys().contains("fileDeleteWindowGeometry"))
+        m_fileDeleteWindowGeometry = settings->value("fileDeleteWindowGeometry").toRect();
+    if(settings->allKeys().contains("fileDeleteWindowMaximized"))
+        m_fileDeleteWindowMaximized = settings->value("fileDeleteWindowMaximized").toBool();
+
 }
 
 void PQWindowGeometry::saveGeometries() {
@@ -103,5 +111,8 @@ void PQWindowGeometry::saveGeometries() {
 
     settings->setValue("fileRenameWindowGeometry", m_fileRenameWindowGeometry);
     settings->setValue("fileRenameWindowMaximized", m_fileRenameWindowMaximized);
+
+    settings->setValue("fileDeleteWindowGeometry", m_fileDeleteWindowGeometry);
+    settings->setValue("fileDeleteWindowMaximized", m_fileDeleteWindowMaximized);
 
 }

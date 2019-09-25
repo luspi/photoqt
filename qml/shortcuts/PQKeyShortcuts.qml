@@ -29,6 +29,10 @@ Item {
 
             loader.passKeyEvent("filerename", event.key, event.modifiers)
 
+        else if(variables.visibleItem == "filedelete")
+
+            loader.passKeyEvent("filedelete", event.key, event.modifiers)
+
         else {
 
             var combo = ""
