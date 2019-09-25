@@ -135,4 +135,10 @@ Item {
             view.currentIndex = variables.indexOfCurrentImage
     }
 
+    function reloadThumbnails() {
+        view.model = 0
+        view.model = Qt.binding(function() { return (PQSettings.thumbnailDisable ? 0 : variables.allImageFilesInOrder.length) })
+        view.currentIndex = variables.indexOfCurrentImage
+    }
+
 }

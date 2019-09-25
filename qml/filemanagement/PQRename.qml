@@ -153,6 +153,7 @@ Rectangle {
                             error.visible = false
 
                             LoadFiles.changeCurrentFilename(dir, rename_top.currentNewFileName+"."+suf)
+                            thumbnails.reloadThumbnails()
 
                             rename_top.opacity = 0
                             filenameeditloader.sourceComponent = emptyitem
