@@ -130,6 +130,8 @@ AnimatedImage {
         onMirrorReset: {
             elem.mirror = false
         }
+        onPlayPauseAnim:
+            elem.paused = !elem.paused
     }
 
 }

@@ -25,6 +25,8 @@ Item {
     signal mirrorV()
     signal mirrorReset()
 
+    signal playPauseAnim()
+
     // emitted inside of PQImageNormal/Animated whenever its status changed to Image.Reader
     signal newImageLoaded(var id)
 
@@ -168,6 +170,10 @@ Item {
 
     function loadLastImage() {
         variables.indexOfCurrentImage = variables.allImageFilesInOrder.length-1
+    }
+
+    function playPauseAnimation() {
+        container.playPauseAnim()
     }
 
 }
