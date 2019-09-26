@@ -282,6 +282,7 @@ Rectangle {
                 text: "<table><tr><td align=right>Enter</td><td>=</td><td>Scale (create new file)</td</tr>
                       <tr><td align=right>Shift+Enter</td><td>=</td><td>Scale (change file in place)</td></tr>
                       <tr><td align=right>Left/Right</td><td>=</td><td>De-/Increase width and height by 10%</td></tr>
+                      <tr><td align=right>+/-</td><td>=</td><td>In-/Decrease quality by 5</td></tr>
                       </table>"
             }
 
@@ -307,6 +308,8 @@ Rectangle {
                 newwidth.origVal = s.width
                 newheight.origVal = s.height
 
+                quality.value = 80
+
                 opacity = 1
                 error.visible = false
                 variables.visibleItem = "scale"
@@ -326,7 +329,10 @@ Rectangle {
                 } else if(param[0] == Qt.Key_Right) {
                     newwidth.value += newwidth.origVal*0.1
                     newheight.value += newheight.origVal*0.1
-                }
+                } else if(param[0] == Qt.Key_Plus || param[0] == Qt.Key_Equal)
+                    quality.value += 5
+                else if(param[0] == Qt.Key_Minus)
+                    quality.value -= 5
             }
         }
     }
@@ -367,6 +373,20 @@ Rectangle {
             newwidth.value += newwidth.origVal*0.1
             newheight.value += newheight.origVal*0.1
         }
+    }
+
+    Shortcut {
+        sequences: ["+", "="]
+        enabled: PQSettings.scalePopoutElement
+        onActivated:
+            quality.value += 5
+    }
+
+    Shortcut {
+        sequence: "-"
+        enabled: PQSettings.scalePopoutElement
+        onActivated:
+            quality.value -= 5
     }
 
 }
