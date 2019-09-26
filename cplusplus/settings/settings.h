@@ -403,6 +403,16 @@ public:
             }
         }
 
+        Q_PROPERTY(int scalePopoutElement READ getScalePopoutElement WRITE setScalePopoutElement NOTIFY scalePopoutElementChanged)
+        int getScalePopoutElement() { return m_scalePopoutElement; }
+        void setScalePopoutElement(int val) {
+            if(m_scalePopoutElement != val) {
+                m_scalePopoutElement = val;
+                emit scalePopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
 
 
         Q_PROPERTY(bool fileRenamePopoutElement READ getFileRenamePopoutElement WRITE setFileRenamePopoutElement NOTIFY fileRenamePopoutElementChanged)
@@ -1421,6 +1431,7 @@ private:
         int     m_zoomSpeed;
         QString m_animationType;
         int     m_animationDuration;
+        bool    m_scalePopoutElement;
 
         bool    m_fileRenamePopoutElement;
         bool    m_fileDeletePopoutElement;
@@ -1572,6 +1583,7 @@ signals:
         void zoomSpeedChanged();
         void animationTypeChanged();
         void animationDurationChanged();
+        void scalePopoutElementChanged();
         void fileRenamePopoutElementChanged();
         void fileDeletePopoutElementChanged();
         void pdfSingleDocumentChanged();

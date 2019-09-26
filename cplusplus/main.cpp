@@ -10,6 +10,7 @@
 #include "scripts/handlinggeneral.h"
 #include "scripts/handlingshortcuts.h"
 #include "scripts/handlingfilemanagement.h"
+#include "scripts/handlingmanipulation.h"
 #include "scripts/localisation.h"
 #include "scripts/imageproperties.h"
 #include "settings/imageformats.h"
@@ -83,6 +84,7 @@ int main(int argc, char **argv) {
     qmlRegisterType<PQHandlingGeneral>("PQHandlingGeneral", 1, 0, "PQHandlingGeneral");
     qmlRegisterType<PQHandlingShortcuts>("PQHandlingShortcuts", 1, 0, "PQHandlingShortcuts");
     qmlRegisterType<PQHandlingFileManagement>("PQHandlingFileManagement", 1, 0, "PQHandlingFileManagement");
+    qmlRegisterType<PQHandlingManipulation>("PQHandlingManipulation", 1, 0, "PQHandlingManipulation");
     qmlRegisterType<PQLocalisation>("PQLocalisation", 1, 0, "PQLocalisation");
     qmlRegisterType<PQImageProperties>("PQImageProperties", 1, 0, "PQImageProperties");
     qmlRegisterType<PQFileWatcher>("PQFileWatcher", 1, 0, "PQFileWatcher");

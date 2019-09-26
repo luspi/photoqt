@@ -68,3 +68,7 @@ function removeCurrentFilenameFromList(file) {
     variables.indexOfCurrentImage = tmp
 
 }
+
+function addFilenameToList(file, index) {
+    variables.allImageFilesInOrder.splice(index, 0, file)
+}

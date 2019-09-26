@@ -177,6 +177,24 @@ public:
         }
     }
 
+    Q_PROPERTY(QRect scaleWindowGeometry READ getScaleWindowGeometry WRITE setScaleWindowGeometry)
+    QRect getScaleWindowGeometry() { return m_scaleWindowGeometry; }
+    void setScaleWindowGeometry(QRect rect) {
+        if(rect != m_scaleWindowGeometry) {
+            m_scaleWindowGeometry = rect;
+            saveGeometries();
+        }
+    }
+
+    Q_PROPERTY(bool scaleWindowMaximized READ getScaleWindowMaximized WRITE setScaleWindowMaximized)
+    bool getScaleWindowMaximized() { return m_scaleWindowMaximized; }
+    void setScaleWindowMaximized(bool maximized) {
+        if(maximized != m_scaleWindowMaximized) {
+            m_scaleWindowMaximized = maximized;
+            saveGeometries();
+        }
+    }
+
 private:
     QRect m_mainWindowGeometry;
     bool m_mainWindowMaximized;
@@ -204,6 +222,9 @@ private:
 
     QRect m_fileDeleteWindowGeometry;
     bool  m_fileDeleteWindowMaximized;
+
+    QRect m_scaleWindowGeometry;
+    bool  m_scaleWindowMaximized;
 
     QSettings *settings;
 

@@ -33,6 +33,10 @@ Item {
 
             loader.passKeyEvent("filedelete", event.key, event.modifiers)
 
+        else if(variables.visibleItem == "scale")
+
+            loader.passKeyEvent("scale", event.key, event.modifiers)
+
         else {
 
             var combo = ""

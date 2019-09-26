@@ -34,3 +34,6 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQSlideShowSettings.qml ${d}/PQSlideShowSett
 
 SET(d "qml/filemanagement")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQRename.qml ${d}/PQRenamePopout.qml ${d}/PQDelete.qml ${d}/PQDeletePopout.qml)
+
+SET(d "qml/scale")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQScale.qml ${d}/PQScalePopout.qml)

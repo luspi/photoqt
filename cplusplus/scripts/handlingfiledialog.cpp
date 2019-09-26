@@ -404,12 +404,16 @@ QString PQHandlingFileDialog::cleanPath(QString path) {
 
 }
 
-QString PQHandlingFileDialog::getSuffix(QString path) {
-    return QFileInfo(path).suffix().toLower();
+QString PQHandlingFileDialog::getSuffix(QString path, bool lowerCase) {
+    if(lowerCase)
+        return QFileInfo(path).suffix().toLower();
+    return QFileInfo(path).suffix();
 }
 
-QString PQHandlingFileDialog::getBaseName(QString path) {
-    return QFileInfo(path).baseName().toLower();
+QString PQHandlingFileDialog::getBaseName(QString path, bool lowerCase) {
+    if(lowerCase)
+        return QFileInfo(path).baseName().toLower();
+    return QFileInfo(path).baseName();
 }
 
 QStringList PQHandlingFileDialog::getFoldersIn(QString path) {

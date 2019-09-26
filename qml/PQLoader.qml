@@ -10,6 +10,7 @@ Item {
     signal slideshowControlsPassOn(var what, var param)
     signal fileRenamePassOn(var what, var param)
     signal fileDeletePassOn(var what, var param)
+    signal scalePassOn(var what, var param)
 
     function show(component) {
 
@@ -29,6 +30,9 @@ Item {
 
         else if(component == "filedelete")
             fileDeletePassOn("show", undefined)
+
+        else if(component == "scale")
+            scalePassOn("show", undefined)
 
     }
 
@@ -57,6 +61,9 @@ Item {
 
         else if(component == "filedelete")
             fileDeletePassOn("keyevent", [key, mod])
+
+        else if(component == "scale")
+            scalePassOn("keyevent", [key, mod])
 
     }
 
@@ -125,6 +132,14 @@ Item {
 
             else if(!PQSettings.fileDeletePopoutElement && filedelete.source != "filemanagement/PQDelete.qml")
                 filedelete.source = "filemanagement/PQDelete.qml"
+
+        } else if(component == "scale") {
+
+            if(PQSettings.scalePopoutElement && scaleimage.source != "scale/PQScalePopout.qml")
+                scaleimage.source = "scale/PQScalePopout.qml"
+
+            else if(!PQSettings.scalePopoutElement && scaleimage.source != "scale/PQScale.qml")
+                scaleimage.source = "scale/PQScale.qml"
 
         }
 

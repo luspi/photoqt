@@ -51,5 +51,7 @@
         <file>loadfiles.js</file>
         <file>filemanagement/PQDelete.qml</file>
         <file>filemanagement/PQDeletePopout.qml</file>
+        <file>scale/PQScale.qml</file>
+        <file>scale/PQScalePopout.qml</file>
     </qresource>
 </RCC>

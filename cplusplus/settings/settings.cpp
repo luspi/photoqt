@@ -79,6 +79,7 @@ void PQSettings::setDefault() {
     setZoomSpeed(20);
     setAnimationType("x");
     setAnimationDuration(3);
+    setScalePopoutElement(false);
 
     setFileRenamePopoutElement(false);
     setFileDeletePopoutElement(false);
@@ -338,6 +339,9 @@ void PQSettings::readSettings() {
 
             else if(line.startsWith("AnimationType="))
                 setAnimationType(line.split("=").at(1).trimmed());
+
+            else if(line.startsWith("ScalePopoutElement="))
+                setScalePopoutElement(line.split("=").at(1).toInt());
 
 
             else if(line.startsWith("FileRenamePopoutElement="))
@@ -685,6 +689,7 @@ void PQSettings::saveSettings() {
         cont += QString("PdfQuality=%1\n").arg(m_pdfQuality);
         cont += QString("PdfSingleDocument=%1\n").arg(int(m_pdfSingleDocument));
         cont += QString("PixmapCache=%1\n").arg(m_pixmapCache);
+        cont += QString("ScalePopoutElement=%1\n").arg(m_scalePopoutElement);
         cont += QString("ShowTransparencyMarkerBackground=%1\n").arg(int(m_showTransparencyMarkerBackground));
         cont += QString("SortImagesBy=%1\n").arg(m_sortby);
         cont += QString("SortImagesAscending=%1\n").arg(int(m_sortbyAscending));

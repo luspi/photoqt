@@ -5,6 +5,7 @@ import PQHandlingFileDialog 1.0
 import PQHandlingGeneral 1.0
 import PQHandlingShortcuts 1.0
 import PQHandlingFileManagement 1.0
+import PQHandlingManipulation 1.0
 import PQLocalisation 1.0
 import PQImageProperties 1.0
 import PQFileWatcher 1.0
@@ -176,6 +177,8 @@ Window {
     Loader { id: filerename }
     Loader { id: filedelete }
 
+    Loader { id: scaleimage }
+
     PQImageProperties { id: imageproperties }
     PQFileWatcher { id: filewatcher }
 
@@ -183,6 +186,7 @@ Window {
     PQHandlingGeneral { id: handlingGeneral }
     PQHandlingShortcuts { id: handlingShortcuts }
     PQHandlingFileManagement { id: handlingFileManagement }
+    PQHandlingManipulation { id: handlingManipulation }
 
     PQWindowGeometry { id: windowgeometry }
     PQCppMetaData { id: cppmetadata }

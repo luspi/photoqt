@@ -46,8 +46,8 @@ public:
     Q_INVOKABLE void getNumberOfFilesInFolder(QString path, const QJSValue &callback);
 
     Q_INVOKABLE QString cleanPath(QString path);
-    Q_INVOKABLE QString getSuffix(QString path);
-    Q_INVOKABLE QString getBaseName(QString path);
+    Q_INVOKABLE QString getSuffix(QString path, bool lowerCase = true);
+    Q_INVOKABLE QString getBaseName(QString path, bool lowerCase = true);
 
     Q_INVOKABLE QStringList getFoldersIn(QString path);
 
