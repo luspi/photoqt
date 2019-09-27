@@ -5,7 +5,7 @@
 #include <QRect>
 #include <QDesktopServices>
 #include <QUrl>
-
+#include "../imageprovider/imageproviderfull.h"
 #include "../logger.h"
 
 class PQHandlingGeneral : public QObject {
@@ -35,6 +35,10 @@ public:
     Q_INVOKABLE QString convertSecsToProperTime(int secs, int sameFormatsAsVal);
 
     Q_INVOKABLE void openInDefaultFileManager(QString filename);
+    Q_INVOKABLE void copyToClipboard(QString filename);
+
+private:
+    PQImageProviderFull *imageprovider;
 
 };
 

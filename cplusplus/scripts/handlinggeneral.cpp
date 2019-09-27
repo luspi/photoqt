@@ -140,3 +140,22 @@ QString PQHandlingGeneral::convertSecsToProperTime(int secs, int sameFormatsAsVa
 void PQHandlingGeneral::openInDefaultFileManager(QString filename) {
     QDesktopServices::openUrl(QUrl("file://" + QFileInfo(filename).absolutePath()));
 }
+
+void PQHandlingGeneral::copyToClipboard(QString filename) {
+
+    // Make sure image provider exists
+    if(imageprovider == nullptr)
+         imageprovider = new PQImageProviderFull;
+
+    // request image
+    QImage img = imageprovider->requestImage(filename, new QSize, QSize());
+
+    // create mime data object with url and image data
+    QMimeData *data = new QMimeData;
+    data->setUrls(QList<QUrl>() << "file://" + filename);
+    data->setImageData(img);
+
+    // set mime data to clipboard
+    qApp->clipboard()->setMimeData(data);
+
+}

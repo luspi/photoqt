@@ -98,8 +98,8 @@ function whatToDoWithFoundShortcut(sh) {
         loader.ensureItIsReady("histogram")
         PQSettings.histogram = !PQSettings.histogram
     }
-//    else if(cmd === "__clipboard")
-//        getanddostuff.clipboardSetImage(variables.currentDir + "/" + variables.currentFile)
+    else if(cmd === "__clipboard")
+        handlingGeneral.copyToClipboard(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
 //    else if(cmd === "__tagFaces")
 //        call.requestTagFaces()
 //    else {
