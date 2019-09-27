@@ -1386,6 +1386,16 @@ public:
             }
         }
 
+        Q_PROPERTY(bool aboutPopoutElement READ getAboutPopoutElement WRITE setAboutPopoutElement NOTIFY aboutPopoutElementChanged)
+        bool getAboutPopoutElement() { return m_aboutPopoutElement; }
+        void setAboutPopoutElement(bool val) {
+            if(m_aboutPopoutElement != val) {
+                m_aboutPopoutElement = val;
+                emit aboutPopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
 private:
         PQSettings();
 
@@ -1540,6 +1550,7 @@ private:
         bool    m_slideShowControlsPopoutElement;
         bool    m_fileRenamePopoutElement;
         bool    m_fileDeletePopoutElement;
+        bool    m_aboutPopoutElement;
 
 private slots:
         void readSettings();
@@ -1680,6 +1691,7 @@ signals:
         void slideShowControlsPopoutElementChanged();
         void fileRenamePopoutElementChanged();
         void fileDeletePopoutElementChanged();
+        void aboutPopoutElementChanged();
 
 
 };

@@ -178,6 +178,7 @@ Window {
     Loader { id: filedelete }
 
     Loader { id: scaleimage }
+    Loader { id: about }
 
     PQImageProperties { id: imageproperties }
     PQFileWatcher { id: filewatcher }

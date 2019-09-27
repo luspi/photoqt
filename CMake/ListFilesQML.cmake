@@ -37,3 +37,6 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQRename.qml ${d}/PQRenamePopout.qml ${d}/PQ
 
 SET(d "qml/scale")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQScale.qml ${d}/PQScalePopout.qml)
+
+SET(d "qml/about")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQAbout.qml ${d}/PQAboutPopout.qml)

@@ -37,6 +37,10 @@ Item {
 
             loader.passKeyEvent("scale", event.key, event.modifiers)
 
+        else if(variables.visibleItem == "about")
+
+            loader.passKeyEvent("about", event.key, event.modifiers)
+
         else {
 
             var combo = ""

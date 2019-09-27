@@ -11,6 +11,7 @@ Item {
     signal fileRenamePassOn(var what, var param)
     signal fileDeletePassOn(var what, var param)
     signal scalePassOn(var what, var param)
+    signal aboutPassOn(var what, var param)
 
     function show(component) {
 
@@ -33,6 +34,9 @@ Item {
 
         else if(component == "scale")
             scalePassOn("show", undefined)
+
+        else if(component == "about")
+            aboutPassOn("show", undefined)
 
     }
 
@@ -64,6 +68,9 @@ Item {
 
         else if(component == "scale")
             scalePassOn("keyevent", [key, mod])
+
+        else if(component == "about")
+            aboutPassOn("keyevent", [key, mod])
 
     }
 
@@ -140,6 +147,14 @@ Item {
 
             else if(!PQSettings.scalePopoutElement && scaleimage.source != "scale/PQScale.qml")
                 scaleimage.source = "scale/PQScale.qml"
+
+        } else if(component == "about") {
+
+            if(PQSettings.aboutPopoutElement && about.source != "about/PQAboutPopout.qml")
+                about.source = "about/PQAboutPopout.qml"
+
+            else if(!PQSettings.aboutPopoutElement && about.source != "about/PQAbout.qml")
+                about.source = "about/PQAbout.qml"
 
         }
 

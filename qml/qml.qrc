@@ -53,5 +53,7 @@
         <file>filemanagement/PQDeletePopout.qml</file>
         <file>scale/PQScale.qml</file>
         <file>scale/PQScalePopout.qml</file>
+        <file>about/PQAbout.qml</file>
+        <file>about/PQAboutPopout.qml</file>
     </qresource>
 </RCC>

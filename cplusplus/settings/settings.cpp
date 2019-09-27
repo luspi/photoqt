@@ -188,6 +188,7 @@ void PQSettings::setDefault() {
     setSlideShowControlsPopoutElement(false);
     setFileRenamePopoutElement(false);
     setFileDeletePopoutElement(false);
+    setAboutPopoutElement(false);
 
 }
 
@@ -620,6 +621,9 @@ void PQSettings::readSettings() {
             else if(line.startsWith("FileDeletePopoutElement="))
                 setFileDeletePopoutElement(line.split("=").at(1).toInt());
 
+            else if(line.startsWith("AboutPopoutElement="))
+                setAboutPopoutElement(line.split("=").at(1).toInt());
+
         }
 
     }
@@ -815,6 +819,7 @@ void PQSettings::saveSettings() {
         cont += QString("SlideShowControlsPopoutElement=%1\n").arg(int(m_slideShowControlsPopoutElement));
         cont += QString("FileRenamePopoutElement=%1\n").arg(int(m_fileRenamePopoutElement));
         cont += QString("FileDeletePopoutElement=%1\n").arg(int(m_fileDeletePopoutElement));
+        cont += QString("AboutPopoutElement=%1\n").arg(int(m_aboutPopoutElement));
 
         out << cont;
         file.close();

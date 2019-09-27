@@ -34,6 +34,9 @@ PQWindowGeometry::PQWindowGeometry(QObject *parent) : QObject(parent) {
     m_scaleWindowMaximized = true;
     m_scaleWindowGeometry = QRect(0, 0, 400, 500);
 
+    m_aboutWindowMaximized = true;
+    m_aboutWindowGeometry = QRect(0, 0, 800, 600);
+
     settings = new QSettings(ConfigFiles::WINDOW_GEOMETRY_FILE(), QSettings::IniFormat);
 
     readGeometries();
@@ -92,6 +95,11 @@ void PQWindowGeometry::readGeometries() {
     if(settings->allKeys().contains("scaleWindowMaximized"))
         m_scaleWindowMaximized = settings->value("scaleWindowMaximized").toBool();
 
+    if(settings->allKeys().contains("aboutWindowGeometry"))
+        m_aboutWindowGeometry = settings->value("aboutWindowGeometry").toRect();
+    if(settings->allKeys().contains("aboutWindowMaximized"))
+        m_aboutWindowMaximized = settings->value("aboutWindowMaximized").toBool();
+
 }
 
 void PQWindowGeometry::saveGeometries() {
@@ -125,5 +133,8 @@ void PQWindowGeometry::saveGeometries() {
 
     settings->setValue("scaleWindowGeometry", m_scaleWindowGeometry);
     settings->setValue("scaleWindowMaximized", m_scaleWindowMaximized);
+
+    settings->setValue("aboutWindowGeometry", m_aboutWindowGeometry);
+    settings->setValue("aboutWindowMaximized", m_aboutWindowMaximized);
 
 }
