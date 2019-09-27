@@ -136,3 +136,7 @@ QString PQHandlingGeneral::convertSecsToProperTime(int secs, int sameFormatsAsVa
     return hours_str+":"+mins_str+":"+secs_str;
 
 }
+
+void PQHandlingGeneral::openInDefaultFileManager(QString filename) {
+    QDesktopServices::openUrl(QUrl("file://" + QFileInfo(filename).absolutePath()));
+}

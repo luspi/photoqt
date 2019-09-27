@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QRect>
+#include <QDesktopServices>
+#include <QUrl>
 
 #include "../logger.h"
 
@@ -31,6 +33,8 @@ public:
     Q_INVOKABLE QString getUniqueId();
 
     Q_INVOKABLE QString convertSecsToProperTime(int secs, int sameFormatsAsVal);
+
+    Q_INVOKABLE void openInDefaultFileManager(QString filename);
 
 };
 
