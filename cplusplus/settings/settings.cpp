@@ -72,17 +72,12 @@ void PQSettings::setDefault() {
     setShowTransparencyMarkerBackground(false);
     setStartupLoadLastLoadedImage(false);
     setMainMenuWindowWidth(350);
-    setMainMenuPopoutElement(false);
     setPdfSingleDocument(true);
     setPdfQuality(150);
     setArchiveSingleFile(true);
     setZoomSpeed(20);
     setAnimationType("x");
     setAnimationDuration(3);
-    setScalePopoutElement(false);
-
-    setFileRenamePopoutElement(false);
-    setFileDeletePopoutElement(false);
 
 #ifdef Q_OS_LINUX
     // We assume here that it is available (checking would be rather slow)
@@ -125,8 +120,6 @@ void PQSettings::setDefault() {
     setSlideShowShuffle(false);
     setSlideShowLoop(true);
     setSlideShowHideQuickInfo(true);
-    setSlideShowSettingsPopoutElement(false);
-    setSlideShowControlsPopoutElement(false);
 
     setMetaFilename(true);
     setMetaFileType(true);
@@ -164,7 +157,6 @@ void PQSettings::setDefault() {
     setMetadataFontSize(10);
     setMetadataOpacity(220);
     setMetadataWindowWidth(350);
-    setMetadataPopoutElement(false);
 
     setOpenDefaultView("list");
     setOpenPreview(true);
@@ -176,18 +168,26 @@ void PQSettings::setDefault() {
     setOpenUserPlacesVolumes(true);
     setOpenKeepLastLocation(false);
     setOpenShowHiddenFilesFolders(false);
-    setOpenPopoutElement(false);
-    setOpenPopoutElementKeepOpen(false);
 
     setHistogram(false);
     setHistogramVersion("color");
     setHistogramPosition(QPoint(100,100));
     setHistogramSize(QSize(300,200));
-    setHistogramPopoutElement(false);
 
     setVideoAutoplay(true);
     setVideoLoop(false);
     setVideoVolume(100);
+
+    setMainMenuPopoutElement(false);
+    setMetadataPopoutElement(false);
+    setHistogramPopoutElement(false);
+    setScalePopoutElement(false);
+    setOpenPopoutElement(false);
+    setOpenPopoutElementKeepOpen(false);
+    setSlideShowSettingsPopoutElement(false);
+    setSlideShowControlsPopoutElement(false);
+    setFileRenamePopoutElement(false);
+    setFileDeletePopoutElement(false);
 
 }
 
@@ -340,16 +340,6 @@ void PQSettings::readSettings() {
             else if(line.startsWith("AnimationType="))
                 setAnimationType(line.split("=").at(1).trimmed());
 
-            else if(line.startsWith("ScalePopoutElement="))
-                setScalePopoutElement(line.split("=").at(1).toInt());
-
-
-            else if(line.startsWith("FileRenamePopoutElement="))
-                setFileRenamePopoutElement(line.split("=").at(1).toInt());
-
-            else if(line.startsWith("FileDeletePopoutElement="))
-                setFileDeletePopoutElement(line.split("=").at(1).toInt());
-
 
             else if(line.startsWith("QuickInfoHideCounter="))
                 setQuickInfoHideCounter(line.split("=").at(1).toInt());
@@ -434,12 +424,6 @@ void PQSettings::readSettings() {
             else if(line.startsWith("SlideShowHideQuickInfo="))
                 setSlideShowHideQuickInfo(line.split("=").at(1).toInt());
 
-            else if(line.startsWith("SlideShowSettingsPopoutElement="))
-                setSlideShowSettingsPopoutElement(line.split("=").at(1).toInt());
-
-            else if(line.startsWith("SlideShowControlsPopoutElement="))
-                setSlideShowControlsPopoutElement(line.split("=").at(1).toInt());
-
 
             else if(line.startsWith("MetaFilename="))
                 setMetaFilename(line.split("=").at(1).toInt());
@@ -519,9 +503,6 @@ void PQSettings::readSettings() {
             else if(line.startsWith("MetadataWindowWidth="))
                 setMetadataWindowWidth(line.split("=").at(1).toInt());
 
-            else if(line.startsWith("MetadataPopoutElement="))
-                setMetadataPopoutElement(line.split("=").at(1).toInt());
-
 
             else if(line.startsWith("PeopleTagInMetaDisplay="))
                 setPeopleTagInMetaDisplay(line.split("=").at(1).toInt());
@@ -578,18 +559,9 @@ void PQSettings::readSettings() {
             else if(line.startsWith("OpenShowHiddenFilesFolders="))
                 setOpenShowHiddenFilesFolders(line.split("=").at(1).toInt());
 
-            else if(line.startsWith("OpenPopoutElement="))
-                setOpenPopoutElement(line.split("=").at(1).toInt());
-
-            else if(line.startsWith("OpenPopoutElementKeepOpen="))
-                setOpenPopoutElementKeepOpen(line.split("=").at(1).toInt());
-
 
             else if(line.startsWith("MainMenuWindowWidth="))
                 setMainMenuWindowWidth(line.split("=").at(1).toInt());
-
-            else if(line.startsWith("MainMenuPopoutElement="))
-                setMainMenuPopoutElement(line.split("=").at(1).toInt());
 
 
             else if(line.startsWith("Histogram="))
@@ -608,9 +580,6 @@ void PQSettings::readSettings() {
                 setHistogramSize(QSize(parts.at(0).toInt(), parts.at(1).toInt()));
             }
 
-            else if(line.startsWith("HistogramPopoutElement="))
-                setHistogramPopoutElement(line.split("=").at(1).toInt());
-
             else if(line.startsWith("VideoAutoplay="))
                 setVideoAutoplay(line.split("=").at(1).toInt());
 
@@ -619,6 +588,37 @@ void PQSettings::readSettings() {
 
             else if(line.startsWith("VideoVolume="))
                 setVideoVolume(line.split("=").at(1).toInt());
+
+
+            else if(line.startsWith("MainMenuPopoutElement="))
+                setMainMenuPopoutElement(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("MetadataPopoutElement="))
+                setMetadataPopoutElement(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("HistogramPopoutElement="))
+                setHistogramPopoutElement(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("ScalePopoutElement="))
+                setScalePopoutElement(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("OpenPopoutElement="))
+                setOpenPopoutElement(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("OpenPopoutElementKeepOpen="))
+                setOpenPopoutElementKeepOpen(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("SlideShowSettingsPopoutElement="))
+                setSlideShowSettingsPopoutElement(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("SlideShowControlsPopoutElement="))
+                setSlideShowControlsPopoutElement(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("FileRenamePopoutElement="))
+                setFileRenamePopoutElement(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("FileDeletePopoutElement="))
+                setFileDeletePopoutElement(line.split("=").at(1).toInt());
 
         }
 
@@ -689,17 +689,11 @@ void PQSettings::saveSettings() {
         cont += QString("PdfQuality=%1\n").arg(m_pdfQuality);
         cont += QString("PdfSingleDocument=%1\n").arg(int(m_pdfSingleDocument));
         cont += QString("PixmapCache=%1\n").arg(m_pixmapCache);
-        cont += QString("ScalePopoutElement=%1\n").arg(m_scalePopoutElement);
         cont += QString("ShowTransparencyMarkerBackground=%1\n").arg(int(m_showTransparencyMarkerBackground));
         cont += QString("SortImagesBy=%1\n").arg(m_sortby);
         cont += QString("SortImagesAscending=%1\n").arg(int(m_sortbyAscending));
         cont += QString("TrayIcon=%1\n").arg(m_trayIcon);
         cont += QString("ZoomSpeed=%1\n").arg(m_zoomSpeed);
-
-        cont += "\n[File Management]\n";
-
-        cont += QString("FileRenamePopoutElement=%1\n").arg(int(m_fileRenamePopoutElement));
-        cont += QString("FileDeletePopoutElement=%1\n").arg(int(m_fileDeletePopoutElement));
 
         cont += "\n[QuickInfo]\n";
 
@@ -736,8 +730,6 @@ void PQSettings::saveSettings() {
         cont += QString("SlideShowMusicFile=%1\n").arg(m_slideShowMusicFile);
         cont += QString("SlideShowShuffle=%1\n").arg(int(m_slideShowShuffle));
         cont += QString("SlideShowTime=%1\n").arg(m_slideShowTime);
-        cont += QString("SlideShowSettingsPopoutElement=%1\n").arg(int(m_slideShowSettingsPopoutElement));
-        cont += QString("SlideShowControlsPopoutElement=%1\n").arg(int(m_slideShowControlsPopoutElement));
 
         cont += "\n[Metadata]\n";
 
@@ -770,7 +762,6 @@ void PQSettings::saveSettings() {
         cont += QString("MetadataFontSize=%1\n").arg(m_metadataFontSize);
         cont += QString("MetadataOpacity=%1\n").arg(m_metadataOpacity);
         cont += QString("MetadataWindowWidth=%1\n").arg(m_metadataWindowWidth);
-        cont += QString("MetadataPopoutElement=%1\n").arg(m_metadataPopoutElement);
 
         cont += "\n[People Tags in Metadata]\n";
 
@@ -794,8 +785,6 @@ void PQSettings::saveSettings() {
         cont += QString("OpenUserPlacesVolumes=%1\n").arg(int(m_openUserPlacesVolumes));
         cont += QString("OpenUserPlacesWidth=%1\n").arg(m_openUserPlacesWidth);
         cont += QString("OpenZoomLevel=%1\n").arg(m_openZoomLevel);
-        cont += QString("OpenPopoutElement=%1\n").arg(int(m_openPopoutElement));
-        cont += QString("OpenPopoutElementKeepOpen=%1\n").arg(int(m_openPopoutElementKeepOpen));
 
         cont += "\n[Histogram]\n";
 
@@ -803,18 +792,29 @@ void PQSettings::saveSettings() {
         cont += QString("HistogramPosition=%1,%2\n").arg(m_histogramPosition.x()).arg(m_histogramPosition.y());
         cont += QString("HistogramSize=%1,%2\n").arg(m_histogramSize.width()).arg(m_histogramSize.height());
         cont += QString("HistogramVersion=%1\n").arg(m_histogramVersion);
-        cont += QString("HistogramPopoutElement=%1\n").arg(int(m_histogramPopoutElement));
 
         cont += "\n[Main Menu Element]\n";
 
         cont += QString("MainMenuWindowWidth=%1\n").arg(m_mainMenuWindowWidth);
-        cont += QString("MainMenuPopoutElement=%1\n").arg(m_mainMenuPopoutElement);
 
         cont += "\n[Video]\n";
 
         cont += QString("VideoAutoplay=%1\n").arg(int(m_videoAutoplay));
         cont += QString("VideoLoop=%1\n").arg(int(m_videoLoop));
         cont += QString("VideoVolume=%1\n").arg(m_videoVolume);
+
+        cont += "\n[Popout]\n";
+
+        cont += QString("MainMenuPopoutElement=%1\n").arg(m_mainMenuPopoutElement);
+        cont += QString("MetadataPopoutElement=%1\n").arg(m_metadataPopoutElement);
+        cont += QString("HistogramPopoutElement=%1\n").arg(int(m_histogramPopoutElement));
+        cont += QString("ScalePopoutElement=%1\n").arg(m_scalePopoutElement);
+        cont += QString("OpenPopoutElement=%1\n").arg(int(m_openPopoutElement));
+        cont += QString("OpenPopoutElementKeepOpen=%1\n").arg(int(m_openPopoutElementKeepOpen));
+        cont += QString("SlideShowSettingsPopoutElement=%1\n").arg(int(m_slideShowSettingsPopoutElement));
+        cont += QString("SlideShowControlsPopoutElement=%1\n").arg(int(m_slideShowControlsPopoutElement));
+        cont += QString("FileRenamePopoutElement=%1\n").arg(int(m_fileRenamePopoutElement));
+        cont += QString("FileDeletePopoutElement=%1\n").arg(int(m_fileDeletePopoutElement));
 
         out << cont;
         file.close();

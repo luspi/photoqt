@@ -403,38 +403,6 @@ public:
             }
         }
 
-        Q_PROPERTY(int scalePopoutElement READ getScalePopoutElement WRITE setScalePopoutElement NOTIFY scalePopoutElementChanged)
-        int getScalePopoutElement() { return m_scalePopoutElement; }
-        void setScalePopoutElement(int val) {
-            if(m_scalePopoutElement != val) {
-                m_scalePopoutElement = val;
-                emit scalePopoutElementChanged();
-                saveSettingsTimer->start();
-            }
-        }
-
-
-
-        Q_PROPERTY(bool fileRenamePopoutElement READ getFileRenamePopoutElement WRITE setFileRenamePopoutElement NOTIFY fileRenamePopoutElementChanged)
-        bool getFileRenamePopoutElement() { return m_fileRenamePopoutElement; }
-        void setFileRenamePopoutElement(bool val) {
-            if(m_fileRenamePopoutElement != val) {
-                m_fileRenamePopoutElement = val;
-                emit fileRenamePopoutElementChanged();
-                saveSettingsTimer->start();
-            }
-        }
-
-        Q_PROPERTY(bool fileDeletePopoutElement READ getFileDeletePopoutElement WRITE setFileDeletePopoutElement NOTIFY fileDeletePopoutElementChanged)
-        bool getFileDeletePopoutElement() { return m_fileDeletePopoutElement; }
-        void setFileDeletePopoutElement(bool val) {
-            if(m_fileDeletePopoutElement != val) {
-                m_fileDeletePopoutElement = val;
-                emit fileDeletePopoutElementChanged();
-                saveSettingsTimer->start();
-            }
-        }
-
 
         Q_PROPERTY(bool pdfSingleDocument READ getPdfSingleDocument WRITE setPdfSingleDocument NOTIFY pdfSingleDocumentChanged)
         bool getPdfSingleDocument() { return m_pdfSingleDocument; }
@@ -606,26 +574,6 @@ public:
             if(m_slideShowHideQuickInfo != val) {
                 m_slideShowHideQuickInfo = val;
                 emit slideShowHideQuickInfoChanged();
-                saveSettingsTimer->start();
-            }
-        }
-
-        Q_PROPERTY(bool slideShowSettingsPopoutElement READ getSlideShowSettingsPopoutElement WRITE setSlideShowSettingsPopoutElement NOTIFY slideShowSettingsPopoutElementChanged)
-        bool getSlideShowSettingsPopoutElement() { return m_slideShowSettingsPopoutElement; }
-        void setSlideShowSettingsPopoutElement(bool val) {
-            if(m_slideShowSettingsPopoutElement != val) {
-                m_slideShowSettingsPopoutElement = val;
-                emit slideShowSettingsPopoutElementChanged();
-                saveSettingsTimer->start();
-            }
-        }
-
-        Q_PROPERTY(bool slideShowControlsPopoutElement READ getSlideShowControlsPopoutElement WRITE setSlideShowControlsPopoutElement NOTIFY slideShowControlsPopoutElementChanged)
-        bool getSlideShowControlsPopoutElement() { return m_slideShowControlsPopoutElement; }
-        void setSlideShowControlsPopoutElement(bool val) {
-            if(m_slideShowControlsPopoutElement != val) {
-                m_slideShowControlsPopoutElement = val;
-                emit slideShowControlsPopoutElementChanged();
                 saveSettingsTimer->start();
             }
         }
@@ -1239,26 +1187,6 @@ public:
             }
         }
 
-        Q_PROPERTY(bool openPopoutElement READ getOpenPopoutElement WRITE setOpenPopoutElement NOTIFY openPopoutElementChanged)
-        bool getOpenPopoutElement() { return m_openPopoutElement; }
-        void setOpenPopoutElement(bool val) {
-            if(m_openPopoutElement != val) {
-                m_openPopoutElement = val;
-                emit openPopoutElementChanged();
-                saveSettingsTimer->start();
-            }
-        }
-
-        Q_PROPERTY(bool openPopoutElementKeepOpen READ getOpenPopoutElementKeepOpen WRITE setOpenPopoutElementKeepOpen NOTIFY openPopoutElementKeepOpenChanged)
-        bool getOpenPopoutElementKeepOpen() { return m_openPopoutElementKeepOpen; }
-        void setOpenPopoutElementKeepOpen(bool val) {
-            if(m_openPopoutElementKeepOpen != val) {
-                m_openPopoutElementKeepOpen = val;
-                emit openPopoutElementKeepOpenChanged();
-                saveSettingsTimer->start();
-            }
-        }
-
 
 
         Q_PROPERTY(int metadataWindowWidth READ getMetadataWindowWidth WRITE setMetadataWindowWidth NOTIFY metadataWindowWidthChanged)
@@ -1271,32 +1199,12 @@ public:
             }
         }
 
-        Q_PROPERTY(int metadataPopoutElement READ getMetadataPopoutElement WRITE setMetadataPopoutElement NOTIFY metadataPopoutElementChanged)
-        int getMetadataPopoutElement() { return m_metadataPopoutElement; }
-        void setMetadataPopoutElement(int val) {
-            if(m_metadataPopoutElement != val) {
-                m_metadataPopoutElement = val;
-                emit metadataPopoutElementChanged();
-                saveSettingsTimer->start();
-            }
-        }
-
         Q_PROPERTY(int mainMenuWindowWidth READ getMainMenuWindowWidth WRITE setMainMenuWindowWidth NOTIFY mainMenuWindowWidthChanged)
         int getMainMenuWindowWidth() { return m_mainMenuWindowWidth; }
         void setMainMenuWindowWidth(int val) {
             if(m_mainMenuWindowWidth != val) {
                 m_mainMenuWindowWidth = val;
                 emit mainMenuWindowWidthChanged();
-                saveSettingsTimer->start();
-            }
-        }
-
-        Q_PROPERTY(int mainMenuPopoutElement READ getMainMenuPopoutElement WRITE setMainMenuPopoutElement NOTIFY mainMenuPopoutElementChanged)
-        int getMainMenuPopoutElement() { return m_mainMenuPopoutElement; }
-        void setMainMenuPopoutElement(int val) {
-            if(m_mainMenuPopoutElement != val) {
-                m_mainMenuPopoutElement = val;
-                emit mainMenuPopoutElementChanged();
                 saveSettingsTimer->start();
             }
         }
@@ -1343,16 +1251,6 @@ public:
             }
         }
 
-        Q_PROPERTY(bool histogramPopoutElement READ getHistogramPopoutElement WRITE setHistogramPopoutElement NOTIFY histogramPopoutElementChanged)
-        bool getHistogramPopoutElement() { return m_histogramPopoutElement; }
-        void setHistogramPopoutElement(bool val) {
-            if(m_histogramPopoutElement != val) {
-                m_histogramPopoutElement = val;
-                emit histogramPopoutElementChanged();
-                saveSettingsTimer->start();
-            }
-        }
-
 
 
         Q_PROPERTY(bool videoAutoplay READ getVideoAutoplay WRITE setVideoAutoplay NOTIFY videoAutoplayChanged)
@@ -1381,6 +1279,109 @@ public:
             if(m_videoVolume != val) {
                 m_videoVolume = val;
                 emit videoVolumeChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+
+
+
+        Q_PROPERTY(int mainMenuPopoutElement READ getMainMenuPopoutElement WRITE setMainMenuPopoutElement NOTIFY mainMenuPopoutElementChanged)
+        int getMainMenuPopoutElement() { return m_mainMenuPopoutElement; }
+        void setMainMenuPopoutElement(int val) {
+            if(m_mainMenuPopoutElement != val) {
+                m_mainMenuPopoutElement = val;
+                emit mainMenuPopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int metadataPopoutElement READ getMetadataPopoutElement WRITE setMetadataPopoutElement NOTIFY metadataPopoutElementChanged)
+        int getMetadataPopoutElement() { return m_metadataPopoutElement; }
+        void setMetadataPopoutElement(int val) {
+            if(m_metadataPopoutElement != val) {
+                m_metadataPopoutElement = val;
+                emit metadataPopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool histogramPopoutElement READ getHistogramPopoutElement WRITE setHistogramPopoutElement NOTIFY histogramPopoutElementChanged)
+        bool getHistogramPopoutElement() { return m_histogramPopoutElement; }
+        void setHistogramPopoutElement(bool val) {
+            if(m_histogramPopoutElement != val) {
+                m_histogramPopoutElement = val;
+                emit histogramPopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(int scalePopoutElement READ getScalePopoutElement WRITE setScalePopoutElement NOTIFY scalePopoutElementChanged)
+        int getScalePopoutElement() { return m_scalePopoutElement; }
+        void setScalePopoutElement(int val) {
+            if(m_scalePopoutElement != val) {
+                m_scalePopoutElement = val;
+                emit scalePopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool openPopoutElement READ getOpenPopoutElement WRITE setOpenPopoutElement NOTIFY openPopoutElementChanged)
+        bool getOpenPopoutElement() { return m_openPopoutElement; }
+        void setOpenPopoutElement(bool val) {
+            if(m_openPopoutElement != val) {
+                m_openPopoutElement = val;
+                emit openPopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool openPopoutElementKeepOpen READ getOpenPopoutElementKeepOpen WRITE setOpenPopoutElementKeepOpen NOTIFY openPopoutElementKeepOpenChanged)
+        bool getOpenPopoutElementKeepOpen() { return m_openPopoutElementKeepOpen; }
+        void setOpenPopoutElementKeepOpen(bool val) {
+            if(m_openPopoutElementKeepOpen != val) {
+                m_openPopoutElementKeepOpen = val;
+                emit openPopoutElementKeepOpenChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool slideShowSettingsPopoutElement READ getSlideShowSettingsPopoutElement WRITE setSlideShowSettingsPopoutElement NOTIFY slideShowSettingsPopoutElementChanged)
+        bool getSlideShowSettingsPopoutElement() { return m_slideShowSettingsPopoutElement; }
+        void setSlideShowSettingsPopoutElement(bool val) {
+            if(m_slideShowSettingsPopoutElement != val) {
+                m_slideShowSettingsPopoutElement = val;
+                emit slideShowSettingsPopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool slideShowControlsPopoutElement READ getSlideShowControlsPopoutElement WRITE setSlideShowControlsPopoutElement NOTIFY slideShowControlsPopoutElementChanged)
+        bool getSlideShowControlsPopoutElement() { return m_slideShowControlsPopoutElement; }
+        void setSlideShowControlsPopoutElement(bool val) {
+            if(m_slideShowControlsPopoutElement != val) {
+                m_slideShowControlsPopoutElement = val;
+                emit slideShowControlsPopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool fileRenamePopoutElement READ getFileRenamePopoutElement WRITE setFileRenamePopoutElement NOTIFY fileRenamePopoutElementChanged)
+        bool getFileRenamePopoutElement() { return m_fileRenamePopoutElement; }
+        void setFileRenamePopoutElement(bool val) {
+            if(m_fileRenamePopoutElement != val) {
+                m_fileRenamePopoutElement = val;
+                emit fileRenamePopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
+        Q_PROPERTY(bool fileDeletePopoutElement READ getFileDeletePopoutElement WRITE setFileDeletePopoutElement NOTIFY fileDeletePopoutElementChanged)
+        bool getFileDeletePopoutElement() { return m_fileDeletePopoutElement; }
+        void setFileDeletePopoutElement(bool val) {
+            if(m_fileDeletePopoutElement != val) {
+                m_fileDeletePopoutElement = val;
+                emit fileDeletePopoutElementChanged();
                 saveSettingsTimer->start();
             }
         }
@@ -1431,10 +1432,6 @@ private:
         int     m_zoomSpeed;
         QString m_animationType;
         int     m_animationDuration;
-        bool    m_scalePopoutElement;
-
-        bool    m_fileRenamePopoutElement;
-        bool    m_fileDeletePopoutElement;
 
         bool    m_pdfSingleDocument;
         int     m_pdfQuality;
@@ -1455,8 +1452,6 @@ private:
         bool    m_slideShowShuffle;
         bool    m_slideShowLoop;
         bool    m_slideShowHideQuickInfo;
-        bool    m_slideShowSettingsPopoutElement;
-        bool    m_slideShowControlsPopoutElement;
 
         int     m_thumbnailSize;
         QString m_thumbnailPosition;
@@ -1522,23 +1517,29 @@ private:
         bool    m_openUserPlacesVolumes;
         bool    m_openKeepLastLocation;
         bool    m_openShowHiddenFilesFolders;
-        bool    m_openPopoutElement;
-        bool    m_openPopoutElementKeepOpen;
 
         int     m_metadataWindowWidth;
-        bool    m_metadataPopoutElement;
         int     m_mainMenuWindowWidth;
-        bool    m_mainMenuPopoutElement;
 
         bool    m_histogram;
         QPoint  m_histogramPosition;
         QSize   m_histogramSize;
         QString m_histogramVersion;
-        bool    m_histogramPopoutElement;
 
         bool    m_videoAutoplay;
         bool    m_videoLoop;
         int     m_videoVolume;
+
+        bool    m_mainMenuPopoutElement;
+        bool    m_metadataPopoutElement;
+        bool    m_histogramPopoutElement;
+        bool    m_scalePopoutElement;
+        bool    m_openPopoutElement;
+        bool    m_openPopoutElementKeepOpen;
+        bool    m_slideShowSettingsPopoutElement;
+        bool    m_slideShowControlsPopoutElement;
+        bool    m_fileRenamePopoutElement;
+        bool    m_fileDeletePopoutElement;
 
 private slots:
         void readSettings();
@@ -1583,9 +1584,6 @@ signals:
         void zoomSpeedChanged();
         void animationTypeChanged();
         void animationDurationChanged();
-        void scalePopoutElementChanged();
-        void fileRenamePopoutElementChanged();
-        void fileDeletePopoutElementChanged();
         void pdfSingleDocumentChanged();
         void pdfQualityChanged();
         void archiveSingleFileChanged();
@@ -1603,8 +1601,6 @@ signals:
         void slideShowShuffleChanged();
         void slideShowLoopChanged();
         void slideShowHideQuickInfoChanged();
-        void slideShowSettingsPopoutElementChanged();
-        void slideShowControlsPopoutElementChanged();
         void thumbnailSizeChanged();
         void thumbnailPositionChanged();
         void thumbnailCacheChanged();
@@ -1665,20 +1661,25 @@ signals:
         void openUserPlacesVolumesChanged();
         void openKeepLastLocationChanged();
         void openShowHiddenFilesFoldersChanged();
-        void openPopoutElementChanged();
-        void openPopoutElementKeepOpenChanged();
         void metadataWindowWidthChanged();
-        void metadataPopoutElementChanged();
         void mainMenuWindowWidthChanged();
-        void mainMenuPopoutElementChanged();
         void histogramChanged();
         void histogramPositionChanged();
         void histogramSizeChanged();
         void histogramVersionChanged();
-        void histogramPopoutElementChanged();
         void videoAutoplayChanged();
         void videoLoopChanged();
         void videoVolumeChanged();
+        void mainMenuPopoutElementChanged();
+        void metadataPopoutElementChanged();
+        void histogramPopoutElementChanged();
+        void scalePopoutElementChanged();
+        void openPopoutElementChanged();
+        void openPopoutElementKeepOpenChanged();
+        void slideShowSettingsPopoutElementChanged();
+        void slideShowControlsPopoutElementChanged();
+        void fileRenamePopoutElementChanged();
+        void fileDeletePopoutElementChanged();
 
 
 };
