@@ -213,6 +213,24 @@ public:
         }
     }
 
+    Q_PROPERTY(QRect imgurWindowGeometry READ getImgurWindowGeometry WRITE setImgurWindowGeometry)
+    QRect getImgurWindowGeometry() { return m_imgurWindowGeometry; }
+    void setImgurWindowGeometry(QRect rect) {
+        if(rect != m_imgurWindowGeometry) {
+            m_imgurWindowGeometry = rect;
+            saveGeometries();
+        }
+    }
+
+    Q_PROPERTY(bool imgurWindowMaximized READ getImgurWindowMaximized WRITE setImgurWindowMaximized)
+    bool getImgurWindowMaximized() { return m_imgurWindowMaximized; }
+    void setImgurWindowMaximized(bool maximized) {
+        if(maximized != m_imgurWindowMaximized) {
+            m_imgurWindowMaximized = maximized;
+            saveGeometries();
+        }
+    }
+
 private:
     QRect m_mainWindowGeometry;
     bool m_mainWindowMaximized;
@@ -246,6 +264,9 @@ private:
 
     QRect m_aboutWindowGeometry;
     bool  m_aboutWindowMaximized;
+
+    QRect m_imgurWindowGeometry;
+    bool  m_imgurWindowMaximized;
 
     QSettings *settings;
 

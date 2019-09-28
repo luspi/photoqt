@@ -209,7 +209,7 @@ Rectangle {
 
     Shortcut {
         sequence: "Esc"
-        enabled: PQSettings.scalePopoutElement
+        enabled: PQSettings.aboutPopoutElement
         onActivated: button_close.clicked()
     }
 

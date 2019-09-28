@@ -1396,6 +1396,16 @@ public:
             }
         }
 
+        Q_PROPERTY(bool imgurPopoutElement READ getImgurPopoutElement WRITE setImgurPopoutElement NOTIFY imgurPopoutElementChanged)
+        bool getImgurPopoutElement() { return m_imgurPopoutElement; }
+        void setImgurPopoutElement(bool val) {
+            if(m_imgurPopoutElement != val) {
+                m_imgurPopoutElement = val;
+                emit imgurPopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
 private:
         PQSettings();
 
@@ -1551,6 +1561,7 @@ private:
         bool    m_fileRenamePopoutElement;
         bool    m_fileDeletePopoutElement;
         bool    m_aboutPopoutElement;
+        bool    m_imgurPopoutElement;
 
 private slots:
         void readSettings();
@@ -1692,6 +1703,7 @@ signals:
         void fileRenamePopoutElementChanged();
         void fileDeletePopoutElementChanged();
         void aboutPopoutElementChanged();
+        void imgurPopoutElementChanged();
 
 
 };

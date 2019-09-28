@@ -5,6 +5,7 @@
 #include <QRect>
 #include <QDesktopServices>
 #include <QUrl>
+#include <QNetworkInterface>
 #include "../imageprovider/imageproviderfull.h"
 #include "../logger.h"
 
@@ -36,6 +37,9 @@ public:
 
     Q_INVOKABLE void openInDefaultFileManager(QString filename);
     Q_INVOKABLE void copyToClipboard(QString filename);
+    Q_INVOKABLE void copyTextToClipboard(QString txt);
+
+    Q_INVOKABLE bool checkIfConnectedToInternet();
 
 private:
     PQImageProviderFull *imageprovider;

@@ -55,5 +55,8 @@
         <file>scale/PQScalePopout.qml</file>
         <file>about/PQAbout.qml</file>
         <file>about/PQAboutPopout.qml</file>
+        <file>imgur/PQImgur.qml</file>
+        <file>imgur/PQImgurPopout.qml</file>
+        <file>elements/PQProgress.qml</file>
     </qresource>
 </RCC>

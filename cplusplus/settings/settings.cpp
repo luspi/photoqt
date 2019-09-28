@@ -189,6 +189,7 @@ void PQSettings::setDefault() {
     setFileRenamePopoutElement(false);
     setFileDeletePopoutElement(false);
     setAboutPopoutElement(false);
+    setImgurPopoutElement(false);
 
 }
 
@@ -624,6 +625,9 @@ void PQSettings::readSettings() {
             else if(line.startsWith("AboutPopoutElement="))
                 setAboutPopoutElement(line.split("=").at(1).toInt());
 
+            else if(line.startsWith("ImgurPopoutElement="))
+                setImgurPopoutElement(line.split("=").at(1).toInt());
+
         }
 
     }
@@ -820,6 +824,8 @@ void PQSettings::saveSettings() {
         cont += QString("FileRenamePopoutElement=%1\n").arg(int(m_fileRenamePopoutElement));
         cont += QString("FileDeletePopoutElement=%1\n").arg(int(m_fileDeletePopoutElement));
         cont += QString("AboutPopoutElement=%1\n").arg(int(m_aboutPopoutElement));
+        cont += QString("ImgurPopoutElement=%1\n").arg(int(m_imgurPopoutElement));
+
 
         out << cont;
         file.close();

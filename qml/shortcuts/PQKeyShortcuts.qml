@@ -41,6 +41,10 @@ Item {
 
             loader.passKeyEvent("about", event.key, event.modifiers)
 
+        else if(variables.visibleItem == "imgur")
+
+            loader.passKeyEvent("imgur", event.key, event.modifiers)
+
         else {
 
             var combo = ""

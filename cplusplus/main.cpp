@@ -11,6 +11,7 @@
 #include "scripts/handlingshortcuts.h"
 #include "scripts/handlingfilemanagement.h"
 #include "scripts/handlingmanipulation.h"
+#include "scripts/handlingshareimgur.h"
 #include "scripts/localisation.h"
 #include "scripts/imageproperties.h"
 #include "settings/imageformats.h"
@@ -90,6 +91,7 @@ int main(int argc, char **argv) {
     qmlRegisterType<PQFileWatcher>("PQFileWatcher", 1, 0, "PQFileWatcher");
     qmlRegisterType<PQWindowGeometry>("PQWindowGeometry", 1, 0, "PQWindowGeometry");
     qmlRegisterType<PQMetaData>("PQCppMetaData", 1, 0, "PQCppMetaData");
+    qmlRegisterType<PQHandlingShareImgur>("PQHandlingShareImgur", 1, 0, "PQHandlingShareImgur");
 
     engine.rootContext()->setContextProperty("PQSettings", &PQSettings::get());
     engine.rootContext()->setContextProperty("PQCppVariables", &PQVariables::get());

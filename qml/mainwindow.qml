@@ -12,6 +12,7 @@ import PQFileWatcher 1.0
 import PQWindowGeometry 1.0
 import PQFileFolderModel 1.0
 import PQCppMetaData 1.0
+import PQHandlingShareImgur 1.0
 
 import "./mainwindow"
 import "./shortcuts"
@@ -179,6 +180,7 @@ Window {
 
     Loader { id: scaleimage }
     Loader { id: about }
+    Loader { id: imgur }
 
     PQImageProperties { id: imageproperties }
     PQFileWatcher { id: filewatcher }
@@ -188,6 +190,7 @@ Window {
     PQHandlingShortcuts { id: handlingShortcuts }
     PQHandlingFileManagement { id: handlingFileManagement }
     PQHandlingManipulation { id: handlingManipulation }
+    PQHandlingShareImgur { id: handlingShareImgur }
 
     PQWindowGeometry { id: windowgeometry }
     PQCppMetaData { id: cppmetadata }
