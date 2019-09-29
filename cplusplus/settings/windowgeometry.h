@@ -231,6 +231,24 @@ public:
         }
     }
 
+    Q_PROPERTY(QRect wallpaperWindowGeometry READ getWallpaperWindowGeometry WRITE setWallpaperWindowGeometry)
+    QRect getWallpaperWindowGeometry() { return m_wallpaperWindowGeometry; }
+    void setWallpaperWindowGeometry(QRect rect) {
+        if(rect != m_wallpaperWindowGeometry) {
+            m_wallpaperWindowGeometry = rect;
+            saveGeometries();
+        }
+    }
+
+    Q_PROPERTY(bool wallpaperWindowMaximized READ getWallpaperWindowMaximized WRITE setWallpaperWindowMaximized)
+    bool getWallpaperWindowMaximized() { return m_wallpaperWindowMaximized; }
+    void setWallpaperWindowMaximized(bool maximized) {
+        if(maximized != m_wallpaperWindowMaximized) {
+            m_wallpaperWindowMaximized = maximized;
+            saveGeometries();
+        }
+    }
+
 private:
     QRect m_mainWindowGeometry;
     bool m_mainWindowMaximized;
@@ -267,6 +285,9 @@ private:
 
     QRect m_imgurWindowGeometry;
     bool  m_imgurWindowMaximized;
+
+    QRect m_wallpaperWindowGeometry;
+    bool  m_wallpaperWindowMaximized;
 
     QSettings *settings;
 

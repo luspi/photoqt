@@ -1406,6 +1406,16 @@ public:
             }
         }
 
+        Q_PROPERTY(bool wallpaperPopoutElement READ getWallpaperPopoutElement WRITE setWallpaperPopoutElement NOTIFY wallpaperPopoutElementChanged)
+        bool getWallpaperPopoutElement() { return m_wallpaperPopoutElement; }
+        void setWallpaperPopoutElement(bool val) {
+            if(m_wallpaperPopoutElement != val) {
+                m_wallpaperPopoutElement = val;
+                emit wallpaperPopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
 private:
         PQSettings();
 
@@ -1562,6 +1572,7 @@ private:
         bool    m_fileDeletePopoutElement;
         bool    m_aboutPopoutElement;
         bool    m_imgurPopoutElement;
+        bool    m_wallpaperPopoutElement;
 
 private slots:
         void readSettings();
@@ -1704,6 +1715,7 @@ signals:
         void fileDeletePopoutElementChanged();
         void aboutPopoutElementChanged();
         void imgurPopoutElementChanged();
+        void wallpaperPopoutElementChanged();
 
 
 };

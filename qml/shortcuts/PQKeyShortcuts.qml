@@ -45,6 +45,10 @@ Item {
 
             loader.passKeyEvent("imgur", event.key, event.modifiers)
 
+        else if(variables.visibleItem == "wallpaper")
+
+            loader.passKeyEvent("wallpaper", event.key, event.modifiers)
+
         else {
 
             var combo = ""

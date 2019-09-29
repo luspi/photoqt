@@ -58,5 +58,13 @@
         <file>imgur/PQImgur.qml</file>
         <file>imgur/PQImgurPopout.qml</file>
         <file>elements/PQProgress.qml</file>
+        <file>wallpaper/PQWallpaper.qml</file>
+        <file>wallpaper/PQWallpaperPopout.qml</file>
+        <file>wallpaper/ele/PQPlasma.qml</file>
+        <file>wallpaper/ele/PQGnome.qml</file>
+        <file>elements/PQRadioButton.qml</file>
+        <file>wallpaper/ele/PQXfce.qml</file>
+        <file>wallpaper/ele/PQEnlightenment.qml</file>
+        <file>wallpaper/ele/PQOther.qml</file>
     </qresource>
 </RCC>

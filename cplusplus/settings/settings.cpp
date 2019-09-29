@@ -190,6 +190,7 @@ void PQSettings::setDefault() {
     setFileDeletePopoutElement(false);
     setAboutPopoutElement(false);
     setImgurPopoutElement(false);
+    setWallpaperPopoutElement(false);
 
 }
 
@@ -628,6 +629,9 @@ void PQSettings::readSettings() {
             else if(line.startsWith("ImgurPopoutElement="))
                 setImgurPopoutElement(line.split("=").at(1).toInt());
 
+            else if(line.startsWith("WallpaperPopoutElement="))
+                setWallpaperPopoutElement(line.split("=").at(1).toInt());
+
         }
 
     }
@@ -825,6 +829,7 @@ void PQSettings::saveSettings() {
         cont += QString("FileDeletePopoutElement=%1\n").arg(int(m_fileDeletePopoutElement));
         cont += QString("AboutPopoutElement=%1\n").arg(int(m_aboutPopoutElement));
         cont += QString("ImgurPopoutElement=%1\n").arg(int(m_imgurPopoutElement));
+        cont += QString("WallpaperPopoutElement=%1\n").arg(int(m_wallpaperPopoutElement));
 
 
         out << cont;

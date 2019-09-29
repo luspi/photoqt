@@ -40,6 +40,9 @@ PQWindowGeometry::PQWindowGeometry(QObject *parent) : QObject(parent) {
     m_imgurWindowMaximized = true;
     m_imgurWindowGeometry = QRect(0, 0, 800, 600);
 
+    m_wallpaperWindowMaximized = true;
+    m_wallpaperWindowGeometry = QRect(0, 0, 800, 600);
+
     settings = new QSettings(ConfigFiles::WINDOW_GEOMETRY_FILE(), QSettings::IniFormat);
 
     readGeometries();
@@ -108,6 +111,11 @@ void PQWindowGeometry::readGeometries() {
     if(settings->allKeys().contains("imgurWindowMaximized"))
         m_imgurWindowMaximized = settings->value("imgurWindowMaximized").toBool();
 
+
+    if(settings->allKeys().contains("wallpaperWindowGeometry"))
+        m_wallpaperWindowGeometry = settings->value("wallpaperWindowGeometry").toRect();
+    if(settings->allKeys().contains("wallpaperWindowMaximized"))
+        m_wallpaperWindowMaximized = settings->value("wallpaperWindowMaximized").toBool();
 }
 
 void PQWindowGeometry::saveGeometries() {
@@ -147,5 +155,8 @@ void PQWindowGeometry::saveGeometries() {
 
     settings->setValue("imgurWindowGeometry", m_imgurWindowGeometry);
     settings->setValue("imgurWindowMaximized", m_imgurWindowMaximized);
+
+    settings->setValue("wallpaperWindowGeometry", m_wallpaperWindowGeometry);
+    settings->setValue("wallpaperWindowMaximized", m_wallpaperWindowMaximized);
 
 }

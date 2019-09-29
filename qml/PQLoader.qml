@@ -13,6 +13,7 @@ Item {
     signal scalePassOn(var what, var param)
     signal aboutPassOn(var what, var param)
     signal imgurPassOn(var what, var param)
+    signal wallpaperPassOn(var what, var param)
 
     function show(component) {
 
@@ -44,6 +45,9 @@ Item {
 
         else if(component == "imguranonym")
             imgurPassOn("show_anonym", undefined)
+
+        else if(component == "wallpaper")
+            wallpaperPassOn("show", undefined)
 
     }
 
@@ -81,6 +85,9 @@ Item {
 
         else if(component == "imgur" || component == "imguranonym")
             imgurPassOn("keyevent", [key, mod])
+
+        else if(component == "wallpaper")
+            wallpaperPassOn("keyevent", [key, mod])
 
     }
 
@@ -173,6 +180,14 @@ Item {
 
             else if(!PQSettings.imgurPopoutElement && imgur.source != "imgur/PQImgur.qml")
                 imgur.source = "imgur/PQImgur.qml"
+
+        } else if(component == "wallpaper") {
+
+            if(PQSettings.wallpaperPopoutElement && wallpaper.source != "wallpaper/PQWallpaperPopout.qml")
+                wallpaper.source = "wallpaper/PQWallpaperPopout.qml"
+
+            else if(!PQSettings.wallpaperPopoutElement && wallpaper.source != "wallpaper/PQWallpaper.qml")
+                wallpaper.source = "wallpaper/PQWallpaper.qml"
 
         }
 
