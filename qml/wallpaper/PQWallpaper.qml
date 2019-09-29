@@ -200,7 +200,7 @@ Rectangle {
 
                     } else if(curCat == "enlightenment") {
 
-                        if(enlightenment.checkedScreens.length == 0)
+                        if(enlightenment.checkedScreens.length == 0 || enlightenment.checkedWorkspaces.length == 0)
                             return
 
                         args["screens"] = enlightenment.checkedScreens
@@ -212,7 +212,6 @@ Rectangle {
                         args["option"] = other.checkedOption
 
                     }
-
 
                     handlingWallpaper.setWallpaper(curCat, variables.allImageFilesInOrder[variables.indexOfCurrentImage], args)
 
