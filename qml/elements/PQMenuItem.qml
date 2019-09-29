@@ -54,8 +54,6 @@ MenuItem {
         }
     }
 
-    arrow: Item {}
-
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
