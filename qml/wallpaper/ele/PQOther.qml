@@ -196,4 +196,11 @@ Column {
 
     }
 
+    function changeTool() {
+        if(feh.checked)
+            nitrogen.checked = true
+        else
+            feh.checked = true
+    }
+
 }

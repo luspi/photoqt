@@ -302,6 +302,9 @@ Rectangle {
                     if(cur == avail.length)
                         cur = 0
                     curCat = avail[cur]
+                } else if(param[0] == Qt.Key_Right || param[0] == Qt.Key_Left) {
+                    if(curCat == "other")
+                        other.changeTool()
                 }
             }
         }
@@ -333,6 +336,12 @@ Rectangle {
         sequences: ["Enter", "Return"]
         enabled: PQSettings.wallpaperPopoutElement
         onActivated: button_ok.clicked()
+    }
+
+    Shortcut {
+        sequences: ["Left", "Right"]
+        enabled: PQSettings.wallpaperPopoutElement
+        onActivated: if(curCat == "other") other.changeTool()
     }
 
 }
