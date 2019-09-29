@@ -29,7 +29,7 @@ Column {
         x: (parent.width-width)/2
         color: "white"
         font.pointSize: 15
-        text: "Gnome/Unity"
+        text: "Gnome/Unity/Cinnamon"
         font.bold: true
     }
 

@@ -212,7 +212,7 @@ QString PQHandlingWallpaper::detectWM() {
     if(QString(getenv("KDE_FULL_SESSION")).toLower() == "true" && QString(getenv("KDE_SESSION_VERSION")).toLower() == "5")
         return "plasma";
     else if(QString(getenv("DESKTOP_SESSION")).toLower() == "gnome" || QString(getenv("DESKTOP_SESSION")).toLower() == "unity" ||
-              QString(getenv("DESKTOP_SESSION")).toLower() == "ubuntu")
+              QString(getenv("DESKTOP_SESSION")).toLower() == "ubuntu" || QString(getenv("DESKTOP_SESSION")).toLower() == "cinnamon")
         return "gnome";
     else if(QString(getenv("XDG_CURRENT_DESKTOP")).toLower() == "xfce4" || QString(getenv("XDG_CURRENT_DESKTOP")).toLower() == "xfce")
         return "xfce";

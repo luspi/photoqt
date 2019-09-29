@@ -74,12 +74,12 @@ Rectangle {
                         Behavior on color { ColorAnimation { duration: 150 } }
                         font.pointSize: 15
                         font.bold: true
-                        text: "Gnome/Unity"
+                        text: "Gnome<br>Unity<br>Cinnamon"
                         PQMouseArea {
                             anchors.fill: parent
                             cursorShape: Qt.PointingHandCursor
                             hoverEnabled: true
-                            tooltip: "Click to choose Gnome/Unity"
+                            tooltip: "Click to choose Gnome/Unity/Cinnamon"
                             onClicked:
                                 curCat = "gnome"
                         }
