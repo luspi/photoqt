@@ -1,5 +1,5 @@
 import QtQuick 2.9
-import QtQuick.Window 2.9
+import QtQuick.Window 2.2
 
 import PQHandlingFileDialog 1.0
 import PQHandlingGeneral 1.0

@@ -1,5 +1,5 @@
 import QtQuick 2.9
-import QtQml 2.9
+import QtQml 2.0
 
 import "./handleshortcuts.js" as HandleShortcuts
 
