@@ -46,7 +46,7 @@ void PQHandlingWallpaper::setWallpaper(QString category, QString filename, QVari
             LOG << CURDATE << "PQHandlingWallpaper::setWallpaper: ERROR: gsettings failed with exit code " << ret
                 << " - are you sure Gnome/Unity is installed?" << NL;
         else
-            proc.execute(QString("gsettings set org.gnome.desktop.background picture-uri file:/%1").arg(filename));
+            proc.execute(QString("gsettings set org.gnome.desktop.background picture-uri file://%1").arg(filename));
 
 
     } else if(category == "xfce") {
@@ -222,7 +222,7 @@ QString PQHandlingWallpaper::detectWM() {
 
     if(QString(getenv("KDE_FULL_SESSION")).toLower() == "true" && QString(getenv("KDE_SESSION_VERSION")).toLower() == "5")
         return "plasma";
-    else if(QString(getenv("DESKTOP_SESSION")).toLower() == "gnome" || QString(getenv("XDG_CURRENT_DESKTOP")).toLower() == "unity" ||
+    else if(QString(getenv("DESKTOP_SESSION")).toLower() == "gnome" || QString(getenv("DESKTOP_SESSION")).toLower() == "unity" ||
               QString(getenv("DESKTOP_SESSION")).toLower() == "ubuntu")
         return "gnome";
     else if(QString(getenv("XDG_CURRENT_DESKTOP")).toLower() == "xfce4" || QString(getenv("XDG_CURRENT_DESKTOP")).toLower() == "xfce")
