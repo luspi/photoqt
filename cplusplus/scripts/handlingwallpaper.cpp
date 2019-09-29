@@ -225,7 +225,7 @@ QString PQHandlingWallpaper::detectWM() {
     else if(QString(getenv("DESKTOP_SESSION")).toLower() == "gnome" || QString(getenv("XDG_CURRENT_DESKTOP")).toLower() == "unity" ||
               QString(getenv("DESKTOP_SESSION")).toLower() == "ubuntu")
         return "gnome";
-    else if(QString(getenv("DESKTOP_SESSION")).toLower() == "xfce4" || QString(getenv("DESKTOP_SESSION")).toLower() == "xfce")
+    else if(QString(getenv("XDG_CURRENT_DESKTOP")).toLower() == "xfce4" || QString(getenv("XDG_CURRENT_DESKTOP")).toLower() == "xfce")
         return "xfce";
     else if(QString(getenv("DESKTOP_SESSION")).toLower() == "enlightenment")
         return "enlightenment";
