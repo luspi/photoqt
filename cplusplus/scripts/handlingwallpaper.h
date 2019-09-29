@@ -16,7 +16,7 @@ public:
 
     Q_INVOKABLE void setWallpaper(QString category, QString filename, QVariantMap options);
     Q_INVOKABLE int getScreenCount();
-    Q_INVOKABLE int getEnlightenmentWorkspaceCount();
+    Q_INVOKABLE QList<int> getEnlightenmentWorkspaceCount();
     Q_INVOKABLE bool checkXfce();
     Q_INVOKABLE bool checkFeh();
     Q_INVOKABLE bool checkNitrogen();

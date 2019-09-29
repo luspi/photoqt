@@ -13,7 +13,7 @@ Column {
     width: parent.width
     height: childrenRect.height
 
-    property int numWorkspaces: 2
+    property var numWorkspaces: [1, 1]
     property bool msgbusError: true
     property bool enlightenmentRemoteError: true
 
@@ -120,18 +120,19 @@ Column {
             height: childrenRect.height
             id: ws_col
             Repeater {
-                model: numWorkspaces
+                model: numWorkspaces[0]*numWorkspaces[1]
                 PQCheckbox {
-                    text: "Workspace #" + (index+1)
+                    property string num: ((index%numWorkspaces[1] +1) + " - " + (Math.floor(index/numWorkspaces[1]) +1))
+                    text: "Workspace: " + num
                     checked: true
                     onCheckedChanged: {
                         if(!checked)
-                            checkedWorkspaces.splice(checkedWorkspaces.indexOf(index+1), 1)
+                            checkedWorkspaces.splice(checkedWorkspaces.indexOf(num), 1)
                         else
-                            checkedWorkspaces.push(index+1)
+                            checkedWorkspaces.push(num)
                     }
                     Component.onCompleted: {
-                        checkedWorkspaces.push(index+1)
+                        checkedWorkspaces.push(num)
                     }
                 }
             }

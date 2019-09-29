@@ -118,7 +118,8 @@ void PQHandlingWallpaper::setWallpaper(QString category, QString filename, QVari
             return;
         }
 
-        QStringList output = QString(proc.readAll()).split("\n");
+        QString sep = "\n";
+        QStringList output = QString(proc.readAll()).split(QRegularExpression("(\\s*)"+sep+"(\\s*)"));
 
         if(!output.contains("msgbus -- Enabled")) {
             LOG << CURDATE << "PQHandlingWallpaper::setWallpaper: ERROR: Enlightenment module 'msgbus' doesn't seem to be loaded! Please fix that first..." << NL;
@@ -126,25 +127,13 @@ void PQHandlingWallpaper::setWallpaper(QString category, QString filename, QVari
         }
 
         for(int i = 0; i < screens.length(); ++i) {
-            for(int j = 0; j < workspaces.length(); ++j) {
-                int currentscreen = screens.at(i).toInt()-1;
-                int currentworkspace = workspaces.at(j).toInt()-1;
-                // >= 1e7 - This means, that there is a single COLUMN of workspaces
-                if(currentworkspace >= 1e7) {
-                    QProcess::execute(QString("enlightenment_remote -desktop-bg-add 0 %1 0 %2 \"%3\"")
-                                      .arg(currentscreen).arg((currentworkspace/1e7)-1).arg(filename));
-                // >= 1e4 - This means, that there is a single ROW of workspaces
-                } else if(currentworkspace >= 1e4) {
-                    QProcess::execute(QString("enlightenment_remote -desktop-bg-add 0 %1 %2 0 \"%3\"")
-                                      .arg(currentscreen).arg((currentworkspace/1e4)-1).arg(filename));
-                // This means, that there is a grid of workspaces, both dimensions larger than 1
-                } else {
-                    int row = currentworkspace/100;
-                    int column = currentworkspace%100;
-                    QProcess::execute(QString("enlightenment_remote -desktop-bg-add 0 %1 %2 %3 \"%3\"")
-                                      .arg(currentscreen).arg(row).arg(column).arg(filename));
-                }
-
+            for(int w = 0; w < workspaces.length(); ++w) {
+                QString sep = "-";
+                QStringList w_parts = workspaces[w].toString().split(QRegularExpression("(\\s*)"+sep+"(\\s*)"));
+                int w_col = w_parts[0].toInt()-1;
+                int w_row = w_parts[1].toInt()-1;
+                QProcess::execute(QString("enlightenment_remote -desktop-bg-add 0 %1 %2 %3 \"%4\"")
+                                  .arg(screens.at(i).toInt()-1).arg(w_row).arg(w_col).arg(filename));
             }
         }
 
@@ -234,7 +223,7 @@ QString PQHandlingWallpaper::detectWM() {
 
 }
 
-int PQHandlingWallpaper::getEnlightenmentWorkspaceCount() {
+QList<int> PQHandlingWallpaper::getEnlightenmentWorkspaceCount() {
 
     QProcess proc;
     proc.setProcessChannelMode(QProcess::MergedChannels);
@@ -248,16 +237,16 @@ int PQHandlingWallpaper::getEnlightenmentWorkspaceCount() {
     if(ret != 0) {
         LOG << CURDATE << "PQHandlingWallpaper::getEnlightenmentWorkspaceCount: ERROR: enlightenment_remote failed with return code " << ret
             << " - is Enlightenment installed and the DBUS module activated?" << NL;
-        return 1;
+        return {1,1};
     }
 
     QStringList parts = out.trimmed().split(" ");
     if(parts.length() != 2) {
         LOG << CURDATE << "PQHandlingWallpaper::getEnlightenmentWorkspaceCount: ERROR: Failed to get proper workspace count! "
                        << "Falling back to default (1x1)" << NL;
-        return 1;
+        return {1,1};
     }
 
-    return parts.at(0).toInt()*parts.at(1).toInt();
+    return {parts.at(0).toInt(), parts.at(1).toInt()};
 
 }
