@@ -80,7 +80,7 @@ void PQHandlingWallpaper::setWallpaper(QString category, QString filename, QVari
                 bool ignore = true;
                 // Check for screen
                 for(int i = 0; i < screens.length(); ++i) {
-                    if(line.contains(QString("-%1/workspace").arg(screens.at(i).toInt()-1))) {
+                    if(line.contains(QString("%1/workspace").arg(screens.at(i).toInt()-1))) {
                         ignore = false;
                         break;
                     }
