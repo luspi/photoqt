@@ -67,9 +67,6 @@ Column {
         PQRadioButton {
             id: opt_wallpaper
             text: "wallpaper"
-            checked: true
-            Component.onCompleted:
-                checkedOption = text
             onCheckedChanged:
                 if(checked)
                     checkedOption = text
@@ -91,6 +88,9 @@ Column {
         PQRadioButton {
             id: opt_zoom
             text: "zoom"
+            checked: true
+            Component.onCompleted:
+                checkedOption = text
             onCheckedChanged:
                 if(checked)
                     checkedOption = text
