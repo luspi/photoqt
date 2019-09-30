@@ -27,6 +27,8 @@ Item {
 
     signal playPauseAnim()
 
+    signal hideAllImages()
+
     // emitted inside of PQImageNormal/Animated whenever its status changed to Image.Reader
     signal newImageLoaded(var id)
 
@@ -59,6 +61,14 @@ Item {
                         hideShowAni.start()
                         container.newImageLoaded(deleg.uniqueid)
                     }
+                }
+            }
+
+            Connections {
+                target: container
+                onHideAllImages: {
+                    hideShowAni.showing = false
+                    hideShowAni.start()
                 }
             }
 
