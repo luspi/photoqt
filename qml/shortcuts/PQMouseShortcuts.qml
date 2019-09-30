@@ -12,6 +12,8 @@ Item {
 
         hoverEnabled: true
 
+        cursorShape: emptymessage.visible ? Qt.PointingHandCursor : Qt.ArrowCursor
+
         property int angleDeltaX: 0
         property int angleDeltaY: 0
 
@@ -173,7 +175,11 @@ Item {
                 return
             }
 
-            HandleShortcuts.checkComboForShortcut(combo)
+            // a click on the empty background when no image is loaded shows filedialog
+            if(emptymessage.visible && combo == "Left Button")
+                loader.show("filedialog")
+            else
+                HandleShortcuts.checkComboForShortcut(combo)
 
         }
 

@@ -70,6 +70,7 @@ Window {
                            PQSettings.backgroundColorAlpha/256.0)
 
             Text {
+                id: emptymessage
                 anchors.centerIn: parent
                 text: "Open a file to begin"
                 visible: variables.indexOfCurrentImage==-1
