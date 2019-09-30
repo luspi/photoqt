@@ -20,6 +20,7 @@ function executeInternalFunction(func) {
 function whatToDoWithFoundShortcut(sh) {
 
     var cmd = sh[2]
+    var close = sh[0]
 
     if(cmd === "__quit")
         toplevel.quitPhotoQt()
@@ -102,10 +103,10 @@ function whatToDoWithFoundShortcut(sh) {
         handlingGeneral.copyToClipboard(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
 //    else if(cmd === "__tagFaces")
 //        call.requestTagFaces()
-//    else {
-//        getanddostuff.executeApp(cmd, variables.currentDir + "/" + variables.currentFile)
-//        if(close !== undefined && close === true)
-//            mainwindow.closePhotoQt()
-//    }
+    else {
+        handlingShortcuts.executeExternalApp(cmd, variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+        if(close === "1")
+            toplevel.closePhotoQt()
+    }
 
 }

@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QFile>
 #include <QKeySequence>
+#include <QProcess>
 #include "../logger.h"
 
 class PQHandlingShortcuts : public QObject {
@@ -15,6 +16,7 @@ public:
 
     Q_INVOKABLE QVariantList loadFromFile();
     Q_INVOKABLE QString convertKeyCodeToText(int id);
+    Q_INVOKABLE void executeExternalApp(QString cmd, QString filename);
 
 };
 

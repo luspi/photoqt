@@ -45,3 +45,20 @@ QString PQHandlingShortcuts::convertKeyCodeToText(int id) {
     if(ret == "Del") ret = "Delete";
     return ret;
 }
+
+void PQHandlingShortcuts::executeExternalApp(QString cmd, QString filename) {
+
+    QByteArray fn = QByteArray::fromPercentEncoding(filename.toUtf8());
+
+    QProcess *p = new QProcess;
+    cmd = cmd.replace("%f", "\"" + fn + "\"");
+    cmd = cmd.replace("%u", "\"" + QFileInfo(fn).fileName() + "\"");
+    cmd = cmd.replace("%d", "\"" + QFileInfo(fn).absolutePath() + "\"");
+
+    p->startDetached(cmd);
+    if(p->error() == QProcess::UnknownError)
+        p->waitForStarted(2000);
+
+    delete p;
+
+}
