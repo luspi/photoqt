@@ -69,6 +69,15 @@ Window {
                            PQSettings.backgroundColorBlue/256.0,
                            PQSettings.backgroundColorAlpha/256.0)
 
+            Text {
+                anchors.centerIn: parent
+                text: "Open a file to begin"
+                visible: variables.indexOfCurrentImage==-1
+                font.pointSize: 50
+                font.bold: true
+                color: "#bb808080"
+            }
+
         }
 
     }
