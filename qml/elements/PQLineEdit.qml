@@ -13,9 +13,7 @@ TextField {
 
     focus: true
 
-    enabled: visible
-    onEnabledChanged:
-        variables.textEditFocused = enabled
+    enabled: opacity>0 && visible
 
     background: Rectangle {
         implicitWidth: 200
@@ -25,8 +23,8 @@ TextField {
     }
 
     function setFocus() {
-        control.forceActiveFocus()
-        control.focus = true
+        forceActiveFocus()
+        selectAll()
     }
 
 }

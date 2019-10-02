@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QtDebug>
 
+#include "keypresschecker.h"
 #include "variables.h"
 #include "startup.h"
 #include "startup/exportimport.h"
@@ -82,6 +83,8 @@ int main(int argc, char **argv) {
 
     PQStartup::PQStartup();
 
+    app.installEventFilter(&PQKeyPressChecker::get());
+
     qmlRegisterType<PQHandlingFileDialog>("PQHandlingFileDialog", 1, 0, "PQHandlingFileDialog");
     qmlRegisterType<PQHandlingGeneral>("PQHandlingGeneral", 1, 0, "PQHandlingGeneral");
     qmlRegisterType<PQHandlingShortcuts>("PQHandlingShortcuts", 1, 0, "PQHandlingShortcuts");
@@ -98,6 +101,7 @@ int main(int argc, char **argv) {
     engine.rootContext()->setContextProperty("PQSettings", &PQSettings::get());
     engine.rootContext()->setContextProperty("PQCppVariables", &PQVariables::get());
     engine.rootContext()->setContextProperty("PQImageFormats", &PQImageFormats::get());
+    engine.rootContext()->setContextProperty("PQKeyPressChecker", &PQKeyPressChecker::get());
 
     qmlRegisterType<PQFileFolderModel>("PQFileFolderModel", 1, 0, "PQFileFolderModel");
 

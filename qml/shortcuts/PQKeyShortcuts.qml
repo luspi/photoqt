@@ -11,80 +11,71 @@ Item {
 
     focus: true
 
-    Keys.onPressed: {
+    Connections {
 
-        if(variables.visibleItem == "filedialog")
+        target: PQKeyPressChecker
 
-            loader.passKeyEvent("filedialog", event.key, event.modifiers)
+        onReceivedKeyPress: {
 
-        else if(variables.visibleItem == "slideshowsettings")
+            if(variables.visibleItem == "filedialog")
 
-            loader.passKeyEvent("slideshowsettings", event.key, event.modifiers)
+                loader.passKeyEvent("filedialog", key, modifiers)
 
-        else if(variables.visibleItem == "slideshowcontrols")
+            else if(variables.visibleItem == "slideshowsettings")
 
-            loader.passKeyEvent("slideshowcontrols", event.key, event.modifiers)
+                loader.passKeyEvent("slideshowsettings", key, modifiers)
 
-        else if(variables.visibleItem == "filerename")
+            else if(variables.visibleItem == "slideshowcontrols")
 
-            loader.passKeyEvent("filerename", event.key, event.modifiers)
+                loader.passKeyEvent("slideshowcontrols", key, modifiers)
 
-        else if(variables.visibleItem == "filedelete")
+            else if(variables.visibleItem == "filerename")
 
-            loader.passKeyEvent("filedelete", event.key, event.modifiers)
+                loader.passKeyEvent("filerename", key, modifiers)
 
-        else if(variables.visibleItem == "scale")
+            else if(variables.visibleItem == "filedelete")
 
-            loader.passKeyEvent("scale", event.key, event.modifiers)
+                loader.passKeyEvent("filedelete", key, modifiers)
 
-        else if(variables.visibleItem == "about")
+            else if(variables.visibleItem == "scale")
 
-            loader.passKeyEvent("about", event.key, event.modifiers)
+                loader.passKeyEvent("scale", key, modifiers)
 
-        else if(variables.visibleItem == "imgur")
+            else if(variables.visibleItem == "about")
 
-            loader.passKeyEvent("imgur", event.key, event.modifiers)
+                loader.passKeyEvent("about", key, modifiers)
 
-        else if(variables.visibleItem == "wallpaper")
+            else if(variables.visibleItem == "imgur")
 
-            loader.passKeyEvent("wallpaper", event.key, event.modifiers)
+                loader.passKeyEvent("imgur", key, modifiers)
 
-        else {
+            else if(variables.visibleItem == "wallpaper")
 
-            var combo = ""
+                loader.passKeyEvent("wallpaper", key, modifiers)
 
-            if(event.modifiers & Qt.ControlModifier)
-                combo += "Ctrl+";
-            if(event.modifiers & Qt.AltModifier)
-                combo += "Alt+";
-            if(event.modifiers & Qt.ShiftModifier)
-                combo += "Shift+";
-            if(event.modifiers & Qt.MetaModifier)
-                combo += "Meta+";
-            if(event.modifiers & Qt.KeypadModifier)
-                combo += "Keypad+";
+            else {
 
-            // this seems to be the id when a modifier but no key is pressed... ignore key in that case
-            if(event.key != 16777249)
-                combo += handlingShortcuts.convertKeyCodeToText(event.key)
+                var combo = ""
 
-            HandleShortcuts.checkComboForShortcut(combo)
+                if(modifiers & Qt.ControlModifier)
+                    combo += "Ctrl+";
+                if(modifiers & Qt.AltModifier)
+                    combo += "Alt+";
+                if(modifiers & Qt.ShiftModifier)
+                    combo += "Shift+";
+                if(modifiers & Qt.MetaModifier)
+                    combo += "Meta+";
+                if(modifiers & Qt.KeypadModifier)
+                    combo += "Keypad+";
 
-        }
+                // this seems to be the id when a modifier but no key is pressed... ignore key in that case
+                if(key != 16777249)
+                    combo += handlingShortcuts.convertKeyCodeToText(key)
 
-    }
+                HandleShortcuts.checkComboForShortcut(combo)
 
-    Timer {
-
-        interval: 500
-        running: true
-        repeat: true
-        onTriggered: {
-            if(!variables.textEditFocused) {
-                keyshortcuts_top.forceActiveFocus()
-                keyshortcuts_top.focus = true
-                keyshortcuts_top.forceActiveFocus()
             }
+
         }
 
     }

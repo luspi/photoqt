@@ -17,8 +17,6 @@ Rectangle {
     property int parentWidth: toplevel.width
     property int parentHeight: toplevel.height
 
-    property string currentNewFileName: ""
-
     opacity: 0
     Behavior on opacity { NumberAnimation { duration: PQSettings.animationDuration*100 } }
     visible: opacity!=0
@@ -77,47 +75,14 @@ Rectangle {
                 text: "An error occured,<br>file could not be renamed!"
             }
 
-            // having a text field around messes with the shortcuts engine => only load when actually needed
+            PQLineEdit {
 
-            Loader {
-                id: filenameeditloader
+                id: filenameedit
+
                 x: (insidecont.width-width)/2
-            }
+                width: 300
+                height: 40
 
-            Component {
-
-                id: filenameeditcomponent
-
-                PQLineEdit {
-
-                    id: filenameedit
-
-                    width: 300
-                    height: 40
-
-                    text: handlingFileDialog.getBaseName(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
-
-                    onAccepted:
-                        button_ok.clicked()
-                    Keys.onEscapePressed:
-                        button_cancel.clicked()
-
-                    Component.onCompleted: {
-                        rename_top.currentNewFileName = filenameedit.text
-                        setFocus()
-                        selectAll()
-                    }
-
-                    onTextEdited:
-                        rename_top.currentNewFileName = filenameedit.text
-
-                }
-
-            }
-
-            Component {
-                id: emptyitem
-                Item { }
             }
 
             Item {
@@ -137,27 +102,25 @@ Rectangle {
                     PQButton {
                         id: button_ok
                         text: "Rename file"
-                        enabled: rename_top.currentNewFileName!=""
+                        enabled: filenameedit.text!=""
                         onClicked: {
 
-                            if(rename_top.currentNewFileName == "")
+                            if(filenameedit.text == "")
                                 return
 
                             var cur = variables.allImageFilesInOrder[variables.indexOfCurrentImage]
                             var dir = handlingGeneral.getFilePathFromFullPath(cur)
                             var suf = handlingFileDialog.getSuffix(cur)
-                            if(!handlingFileManagement.renameFile(dir, filename.text, rename_top.currentNewFileName+"."+suf)) {
+                            if(!handlingFileManagement.renameFile(dir, filename.text, filenameedit.text+"."+suf)) {
                                 error.visible = true
                                 return
                             }
                             error.visible = false
 
-                            LoadFiles.changeCurrentFilename(dir, rename_top.currentNewFileName+"."+suf)
+                            LoadFiles.changeCurrentFilename(dir, filenameedit.text+"."+suf)
                             thumbnails.reloadThumbnails()
 
                             rename_top.opacity = 0
-                            filenameeditloader.sourceComponent = emptyitem
-                            variables.textEditFocused = false
                             variables.visibleItem = ""
 
                         }
@@ -167,8 +130,6 @@ Rectangle {
                         text: "Cancel"
                         onClicked: {
                             rename_top.opacity = 0
-                            filenameeditloader.sourceComponent = emptyitem
-                            variables.textEditFocused = false
                             variables.visibleItem = ""
                         }
                     }
@@ -191,7 +152,8 @@ Rectangle {
                 error.visible = false
                 variables.visibleItem = "filerename"
                 filename.text = handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
-                filenameeditloader.sourceComponent = filenameeditcomponent
+                filenameedit.text =  handlingFileDialog.getBaseName(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+                filenameedit.setFocus()
             } else if(what == "hide") {
                 button_cancel.clicked()
             } else if(what == "keyevent") {
