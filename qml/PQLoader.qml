@@ -77,6 +77,9 @@ Item {
         else if(component == "filedelete")
             fileDeletePassOn("keyevent", [key, mod])
 
+        else if(component == "filerename")
+            fileRenamePassOn("keyevent", [key, mod])
+
         else if(component == "scale")
             scalePassOn("keyevent", [key, mod])
 
