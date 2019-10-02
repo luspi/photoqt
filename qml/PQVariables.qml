@@ -15,6 +15,12 @@ Item {
 
     property bool slideShowActive: false
 
+    property bool filterSet: false
+    property var filterStrings: []
+    property var filterSuffixes: []
+    property string filterStringConcat: ""
+    property var allImageFilesInOrderFilterBackup: []
+
     onIndexOfCurrentImageChanged:
         cppmetadata.updateMetadata(indexOfCurrentImage != -1 ? allImageFilesInOrder[indexOfCurrentImage] : "")
 

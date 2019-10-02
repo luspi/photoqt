@@ -11,7 +11,7 @@ Item {
     width: cont.width
     height: cont.height
 
-    visible: !(variables.slideShowActive&&PQSettings.slideShowHideQuickInfo) && variables.indexOfCurrentImage>-1&&variables.allImageFilesInOrder.length>0
+    visible: !(variables.slideShowActive&&PQSettings.slideShowHideQuickInfo) && (variables.indexOfCurrentImage>-1 || variables.filterSet) && (variables.allImageFilesInOrder.length>0 || variables.filterSet)
 
     Rectangle {
 
@@ -34,7 +34,7 @@ Item {
             y: 5
             color: "white"
 
-            visible: !PQSettings.quickInfoHideCounter
+            visible: !PQSettings.quickInfoHideCounter && (variables.indexOfCurrentImage > -1)
 
             text: PQSettings.quickInfoHideCounter ? "" : ((variables.indexOfCurrentImage+1) + "/" + variables.allImageFilesInOrder.length)
 
@@ -47,7 +47,7 @@ Item {
 
             x: text=="" ? 0 : counter.x+counter.width+10
 
-            visible: text!=""
+            visible: text!="" && (variables.indexOfCurrentImage > -1)
 
             y: 5
             color: "white"
@@ -69,7 +69,7 @@ Item {
             x: filename.x+filename.width+(visible ? 10 : 0)
             y: 5
 
-            visible: (filename.visible||counter.visible) && (pageInfo.visible)
+            visible: (filename.visible||counter.visible) && (pageInfo.visible) && (variables.indexOfCurrentImage > -1)
 
             width: 1
             height: filename.height
@@ -84,10 +84,10 @@ Item {
             anchors.leftMargin: visible ? 10 : 0
             y: 5
 
-            text: (variables.indexOfCurrentImage>-1 && variables.allImageFilesInOrder[variables.indexOfCurrentImage].indexOf("::PQT::")>-1) ?
+            text: (variables.indexOfCurrentImage>-1 && variables.indexOfCurrentImage < variables.allImageFilesInOrder.length && variables.allImageFilesInOrder[variables.indexOfCurrentImage].indexOf("::PQT::")>-1) ?
                       ("Page " + (variables.allImageFilesInOrder[variables.indexOfCurrentImage].split("::PQT::")[0]*1+1) + " of " + variables.allImageFilesInOrder.length) :
                       ""
-            visible: text != ""
+            visible: text != "" && (variables.indexOfCurrentImage > -1)
 
             color: "white"
 
@@ -102,7 +102,7 @@ Item {
             x: pageInfo.x+pageInfo.width+10
             y: 5
 
-            visible: (filename.visible||counter.visible||pageInfo.visible) && zoomlevel.visible
+            visible: (filename.visible||counter.visible||pageInfo.visible) && zoomlevel.visible && (variables.indexOfCurrentImage > -1)
 
             width: 1
             height: filename.height
@@ -115,8 +115,33 @@ Item {
             x: PQSettings.quickInfoHideZoomLevel ? 0 : seperator2.x+seperator2.width+10
             y: 5
             color: "white"
-            visible: !PQSettings.quickInfoHideZoomLevel
+            visible: !PQSettings.quickInfoHideZoomLevel && (variables.indexOfCurrentImage > -1)
             text: PQSettings.quickInfoHideZoomLevel ? "" : (Math.round(variables.currentZoomLevel)+"%")
+        }
+
+        // filter string
+        Item {
+            id: filterremove_cont
+            x: counter.x
+            y: (variables.filterSet&&variables.indexOfCurrentImage==-1) ? 5 : (counter.y+counter.height + (visible ? 10 : 0))
+            visible: variables.filterSet
+            width: visible ? filtertext.width : 0
+            height: visible ? filtertext.height : 0
+            Row {
+                height: childrenRect.height
+                spacing: 5
+                Text {
+                    id: filterremove
+                    color: "#999999"
+                    text: "x"
+                }
+                Text {
+                    id: filtertext
+                    color: "white"
+                    text: "Filter: " + variables.filterStringConcat
+                }
+            }
+
         }
 
         PQMenu {
@@ -205,6 +230,20 @@ Item {
             else if(toplevel.visibility == Window.FullScreen)
                 toplevel.visibility = Window.Maximized
         }
+    }
+
+
+
+    PQMouseArea {
+        x: filterremove_cont.x
+        y: filterremove_cont.y
+        width: filterremove.width+5
+        height: filterremove_cont.height
+        hoverEnabled: true
+        cursorShape: Qt.PointingHandCursor
+        tooltip: "Click to remove filter"
+        onPressed:
+            loader.passOn("filter", "removeFilter", undefined)
     }
 
 }

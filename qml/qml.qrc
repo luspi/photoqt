@@ -66,5 +66,7 @@
         <file>wallpaper/ele/PQXfce.qml</file>
         <file>wallpaper/ele/PQEnlightenment.qml</file>
         <file>wallpaper/ele/PQOther.qml</file>
+        <file>filter/PQFilter.qml</file>
+        <file>filter/PQFilterPopout.qml</file>
     </qresource>
 </RCC>

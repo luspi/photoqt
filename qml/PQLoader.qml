@@ -14,6 +14,7 @@ Item {
     signal aboutPassOn(var what, var param)
     signal imgurPassOn(var what, var param)
     signal wallpaperPassOn(var what, var param)
+    signal filterPassOn(var what, var param)
 
     function show(component) {
 
@@ -49,6 +50,9 @@ Item {
         else if(component == "wallpaper")
             wallpaperPassOn("show", undefined)
 
+        else if(component == "filter")
+            filterPassOn("show", undefined)
+
     }
 
     function passOn(component, what, param) {
@@ -58,6 +62,9 @@ Item {
 
         else if(component == "slideshowcontrols")
             slideshowControlsPassOn(what, param)
+
+        else if(component == "filter")
+            filterPassOn(what, param)
 
     }
 
@@ -91,6 +98,9 @@ Item {
 
         else if(component == "wallpaper")
             wallpaperPassOn("keyevent", [key, mod])
+
+        else if(component == "filter")
+            filterPassOn("keyevent", [key, mod])
 
     }
 
@@ -191,6 +201,14 @@ Item {
 
             else if(!PQSettings.wallpaperPopoutElement && wallpaper.source != "wallpaper/PQWallpaper.qml")
                 wallpaper.source = "wallpaper/PQWallpaper.qml"
+
+        } else if(component == "filter") {
+
+            if(PQSettings.filterPopoutElement && filter.source != "filter/PQFilterPopout.qml")
+                filter.source = "filter/PQFilterPopout.qml"
+
+            else if(!PQSettings.filterPopoutElement && filter.source != "filter/PQFilter.qml")
+                filter.source = "filter/PQFilter.qml"
 
         }
 

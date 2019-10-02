@@ -5,7 +5,7 @@ TextField {
 
     id: control
 
-    placeholderText: qsTr("Enter new filename")
+    placeholderText: "Enter"
     placeholderTextColor: "#999999"
     color: "white"
     selectedTextColor: "black"

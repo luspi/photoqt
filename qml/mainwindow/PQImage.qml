@@ -150,12 +150,16 @@ Item {
         target: variables
         // we load the new image whenever one of the below properties has changed. The signal to hide old images is emitted whenever the new image has loaded (its status)
         onIndexOfCurrentImageChanged: {
-            if(variables.allImageFilesInOrder.length > 0 && variables.indexOfCurrentImage > -1)
+            if(variables.indexOfCurrentImage > -1 && variables.indexOfCurrentImage < variables.allImageFilesInOrder.length)
                 image_model.append({"src" : handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])})
+            else if(variables.indexOfCurrentImage == -1 || variables.allImageFilesInOrder.length == 0)
+                hideAllImages()
         }
         onAllImageFilesInOrderChanged: {
-            if(variables.allImageFilesInOrder.length > 0 && variables.indexOfCurrentImage > -1)
+            if(variables.indexOfCurrentImage > -1 && variables.indexOfCurrentImage < variables.allImageFilesInOrder.length)
                 image_model.append({"src" : handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])})
+            else if(variables.indexOfCurrentImage == -1 || variables.allImageFilesInOrder.length == 0)
+                hideAllImages()
         }
     }
 

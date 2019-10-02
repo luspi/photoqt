@@ -83,6 +83,8 @@ Rectangle {
                 width: 300
                 height: 40
 
+                placeholderText: "Enter new filename"
+
             }
 
             Item {

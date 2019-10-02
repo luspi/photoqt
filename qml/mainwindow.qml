@@ -73,7 +73,17 @@ Window {
                 id: emptymessage
                 anchors.centerIn: parent
                 text: "Open a file to begin"
-                visible: variables.indexOfCurrentImage==-1
+                visible: !variables.filterSet&&variables.indexOfCurrentImage==-1
+                font.pointSize: 50
+                font.bold: true
+                color: "#bb808080"
+            }
+
+            Text {
+                id: filtermessage
+                anchors.centerIn: parent
+                text: "No matches found"
+                visible: variables.filterSet&&variables.indexOfCurrentImage==-1
                 font.pointSize: 50
                 font.bold: true
                 color: "#bb808080"
@@ -193,6 +203,7 @@ Window {
     Loader { id: about }
     Loader { id: imgur }
     Loader { id: wallpaper }
+    Loader { id: filter }
 
     PQImageProperties { id: imageproperties }
     PQFileWatcher { id: filewatcher }

@@ -36,8 +36,8 @@ function whatToDoWithFoundShortcut(sh) {
         loader.show("about")
     else if(cmd === "__slideshow")
         loader.show("slideshowsettings")
-//    else if(cmd === "__filterImages")
-//        call.show("filter")
+    else if(cmd === "__filterImages")
+        loader.show("filter")
     else if(cmd === "__slideshowQuick") {
         loader.ensureItIsReady("slideshowcontrols")
         loader.passOn("slideshowcontrols", "start", undefined)

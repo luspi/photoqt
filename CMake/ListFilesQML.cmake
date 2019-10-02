@@ -49,3 +49,6 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQWallpaper.qml ${d}/PQWallpaperPopout.qml)
 
 SET(d "qml/wallpaper/ele")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQPlasma.qml ${d}/PQGnome.qml ${d}/PQXfce.qml ${d}/PQEnlightenment.qml ${d}/PQOther.qml)
+
+SET(d "qml/filter")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQFilter.qml ${d}/PQFilterPopout.qml)

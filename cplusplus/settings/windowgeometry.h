@@ -249,6 +249,24 @@ public:
         }
     }
 
+    Q_PROPERTY(QRect filterWindowGeometry READ getFilterWindowGeometry WRITE setFilterWindowGeometry)
+    QRect getFilterWindowGeometry() { return m_filterWindowGeometry; }
+    void setFilterWindowGeometry(QRect rect) {
+        if(rect != m_filterWindowGeometry) {
+            m_filterWindowGeometry = rect;
+            saveGeometries();
+        }
+    }
+
+    Q_PROPERTY(bool filterWindowMaximized READ getFilterWindowMaximized WRITE setFilterWindowMaximized)
+    bool getFilterWindowMaximized() { return m_filterWindowMaximized; }
+    void setFilterWindowMaximized(bool maximized) {
+        if(maximized != m_filterWindowMaximized) {
+            m_filterWindowMaximized = maximized;
+            saveGeometries();
+        }
+    }
+
 private:
     QRect m_mainWindowGeometry;
     bool m_mainWindowMaximized;
@@ -288,6 +306,9 @@ private:
 
     QRect m_wallpaperWindowGeometry;
     bool  m_wallpaperWindowMaximized;
+
+    QRect m_filterWindowGeometry;
+    bool  m_filterWindowMaximized;
 
     QSettings *settings;
 
