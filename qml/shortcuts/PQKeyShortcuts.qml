@@ -17,41 +17,9 @@ Item {
 
         onReceivedKeyPress: {
 
-            if(variables.visibleItem == "filedialog")
+            if(variables.visibleItem != "")
 
-                loader.passKeyEvent("filedialog", key, modifiers)
-
-            else if(variables.visibleItem == "slideshowsettings")
-
-                loader.passKeyEvent("slideshowsettings", key, modifiers)
-
-            else if(variables.visibleItem == "slideshowcontrols")
-
-                loader.passKeyEvent("slideshowcontrols", key, modifiers)
-
-            else if(variables.visibleItem == "filerename")
-
-                loader.passKeyEvent("filerename", key, modifiers)
-
-            else if(variables.visibleItem == "filedelete")
-
-                loader.passKeyEvent("filedelete", key, modifiers)
-
-            else if(variables.visibleItem == "scale")
-
-                loader.passKeyEvent("scale", key, modifiers)
-
-            else if(variables.visibleItem == "about")
-
-                loader.passKeyEvent("about", key, modifiers)
-
-            else if(variables.visibleItem == "imgur")
-
-                loader.passKeyEvent("imgur", key, modifiers)
-
-            else if(variables.visibleItem == "wallpaper")
-
-                loader.passKeyEvent("wallpaper", key, modifiers)
+                loader.passKeyEvent(variables.visibleItem, key, modifiers)
 
             else {
 
