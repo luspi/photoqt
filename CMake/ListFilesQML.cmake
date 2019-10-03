@@ -9,7 +9,7 @@ SET(d "qml/mainwindow")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQImage.qml ${d}/PQQuickInfo.qml ${d}/PQCloseButton.qml ${d}/PQThumbnailBar.qml ${d}/PQSystemTrayIcon.qml)
 
 SET(d "qml/mainwindow/image")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQImageNormal.qml ${d}/PQImageAnimated.qml ${d}/PQLoading.qml ${d}/PQMovie.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQImageNormal.qml ${d}/PQImageAnimated.qml ${d}/PQLoading.qml ${d}/PQMovie.qml ${d}/PQFaceTracker.qml)
 
 SET(d "qml/elements")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQSlider.qml ${d}/PQCheckbox.qml ${d}/PQButton.qml ${d}/PQMenu.qml ${d}/PQMenuItem.qml ${d}/PQToolTip.qml ${d}/PQMouseArea.qml ${d}/PQComboBox.qml ${d}/PQScrollBar.qml ${d}/PQSpinBox.qml ${d}/PQLineEdit.qml ${d}/PQProgress.qml ${d}/PQRadioButton.qml)

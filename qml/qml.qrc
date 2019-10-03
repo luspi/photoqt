@@ -68,5 +68,6 @@
         <file>wallpaper/ele/PQOther.qml</file>
         <file>filter/PQFilter.qml</file>
         <file>filter/PQFilterPopout.qml</file>
+        <file>mainwindow/image/PQFaceTracker.qml</file>
     </qresource>
 </RCC>

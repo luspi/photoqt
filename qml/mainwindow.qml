@@ -14,6 +14,7 @@ import PQFileFolderModel 1.0
 import PQCppMetaData 1.0
 import PQHandlingShareImgur 1.0
 import PQHandlingWallpaper 1.0
+import PQHandlingFaceTags 1.0
 
 import "./mainwindow"
 import "./shortcuts"
@@ -43,6 +44,8 @@ Window {
     color: "#00000000"
 
     Image {
+
+        id: bgimage
 
         anchors.fill: parent
 
@@ -215,6 +218,7 @@ Window {
     PQHandlingManipulation { id: handlingManipulation }
     PQHandlingShareImgur { id: handlingShareImgur }
     PQHandlingWallpaper { id: handlingWallpaper }
+    PQHandlingFaceTags { id: handlingFaceTags }
 
     PQWindowGeometry { id: windowgeometry }
     PQCppMetaData { id: cppmetadata }

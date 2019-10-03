@@ -76,6 +76,14 @@ Image {
         }
     }
 
+    PQFaceTracker {
+        x: (elem.width-width)/2
+        width: elem.paintedWidth
+        height: elem.paintedHeight
+        y: (elem.height-height)/2
+        filename: src
+    }
+
     Connections {
         target: container
         onZoomIn: {

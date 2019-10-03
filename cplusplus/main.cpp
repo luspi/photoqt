@@ -14,6 +14,7 @@
 #include "scripts/handlingmanipulation.h"
 #include "scripts/handlingshareimgur.h"
 #include "scripts/handlingwallpaper.h"
+#include "scripts/handlingfacetags.h"
 #include "scripts/localisation.h"
 #include "scripts/imageproperties.h"
 #include "settings/imageformats.h"
@@ -97,6 +98,7 @@ int main(int argc, char **argv) {
     qmlRegisterType<PQMetaData>("PQCppMetaData", 1, 0, "PQCppMetaData");
     qmlRegisterType<PQHandlingShareImgur>("PQHandlingShareImgur", 1, 0, "PQHandlingShareImgur");
     qmlRegisterType<PQHandlingWallpaper>("PQHandlingWallpaper", 1, 0, "PQHandlingWallpaper");
+    qmlRegisterType<PQHandlingFaceTags>("PQHandlingFaceTags", 1, 0, "PQHandlingFaceTags");
 
     engine.rootContext()->setContextProperty("PQSettings", &PQSettings::get());
     engine.rootContext()->setContextProperty("PQCppVariables", &PQVariables::get());
