@@ -15,6 +15,7 @@ Item {
     signal imgurPassOn(var what, var param)
     signal wallpaperPassOn(var what, var param)
     signal filterPassOn(var what, var param)
+    signal faceTaggerPassOn(var what, var param)
 
     function show(component) {
 
@@ -66,6 +67,9 @@ Item {
         else if(component == "filter")
             filterPassOn(what, param)
 
+        else if(component == "facetagger")
+            faceTaggerPassOn(what, param)
+
     }
 
     function passKeyEvent(component, key, mod) {
@@ -101,6 +105,16 @@ Item {
 
         else if(component == "filter")
             filterPassOn("keyevent", [key, mod])
+
+        else if(component == "facetagger")
+            faceTaggerPassOn("keyevent", [key, mod])
+
+    }
+
+    function passMouseEvent(component, button, mod) {
+
+        if(component == "facetagger")
+            faceTaggerPassOn("mouseevent", [button, mod])
 
     }
 

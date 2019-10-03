@@ -8,16 +8,11 @@ Item {
     property var faceTags: []
     property int indexOfLabelHovered: -1
 
-    onFilenameChanged: {
-        if(PQSettings.peopleTagInMetaDisplay)
-            faceTags = handlingFaceTags.getFaceTags(filename)
-    }
-
     Repeater {
 
         id: repeat
 
-        model: faceTags.length/6
+        model: ListModel { id: repeatermodel }
 
         delegate: Item {
 
@@ -93,11 +88,29 @@ Item {
 
     }
 
+    Component.onCompleted: {
+        faceTags = (PQSettings.peopleTagInMetaDisplay ? handlingFaceTags.getFaceTags(filename) : [])
+        refreshModel()
+    }
+
     Connections {
         target: PQSettings
-        onPeopleTagInMetaDisplayChanged:
+        onPeopleTagInMetaDisplayChanged: {
             faceTags = (PQSettings.peopleTagInMetaDisplay ? handlingFaceTags.getFaceTags(filename) : [])
+            refreshModel()
+        }
 
+    }
+
+    function updateData() {
+        faceTags = (PQSettings.peopleTagInMetaDisplay ? handlingFaceTags.getFaceTags(filename) : [])
+        refreshModel()
+    }
+
+    function refreshModel() {
+        repeatermodel.clear()
+        for(var i = 0; i < faceTags.length/6; ++i)
+            repeatermodel.append({"index" : i})
     }
 
 }

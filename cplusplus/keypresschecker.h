@@ -17,7 +17,7 @@ public:
 protected:
     bool eventFilter(QObject *obj, QEvent *event) override {
         qint64 cur = QDateTime::currentMSecsSinceEpoch();
-        if(event->type() == QEvent::KeyPress && cur-lastcheck > 25) {
+        if(event->type() == QEvent::KeyPress && cur-lastcheck > 50) {
             QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
             lastcheck = cur;
             emit receivedKeyPress(keyEvent->key(), keyEvent->modifiers());

@@ -69,5 +69,6 @@
         <file>filter/PQFilter.qml</file>
         <file>filter/PQFilterPopout.qml</file>
         <file>mainwindow/image/PQFaceTracker.qml</file>
+        <file>mainwindow/image/PQFaceTagger.qml</file>
     </qresource>
 </RCC>

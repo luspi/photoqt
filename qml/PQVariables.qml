@@ -14,6 +14,7 @@ Item {
     property int metaDataWidthWhenKeptOpen: 0
 
     property bool slideShowActive: false
+    property bool faceTaggingActive: false
 
     property bool filterSet: false
     property var filterStrings: []

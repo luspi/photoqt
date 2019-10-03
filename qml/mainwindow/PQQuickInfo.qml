@@ -11,7 +11,9 @@ Item {
     width: cont.width
     height: cont.height
 
-    visible: !(variables.slideShowActive&&PQSettings.slideShowHideQuickInfo) && (variables.indexOfCurrentImage>-1 || variables.filterSet) && (variables.allImageFilesInOrder.length>0 || variables.filterSet)
+    visible: !(variables.slideShowActive&&PQSettings.slideShowHideQuickInfo) &&
+             (variables.indexOfCurrentImage>-1 || variables.filterSet) &&
+             (variables.allImageFilesInOrder.length>0 || variables.filterSet)
 
     Rectangle {
 

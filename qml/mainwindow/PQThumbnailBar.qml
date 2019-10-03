@@ -23,7 +23,7 @@ Item {
 
     Behavior on y { NumberAnimation { duration: 200 } }
 
-    visible: !variables.slideShowActive && (PQSettings.thumbnailPosition=="Top" ? (y > -height) : (y < toplevel.height))
+    visible: !variables.slideShowActive && !variables.faceTaggingActive && (PQSettings.thumbnailPosition=="Top" ? (y > -height) : (y < toplevel.height))
 
     width: toplevel.width-(variables.metaDataWidthWhenKeptOpen + xOffset*2)
 

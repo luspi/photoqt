@@ -62,7 +62,7 @@ Image {
     }
 
     MouseArea {
-        enabled: PQSettings.leftButtonMouseClickAndMove
+        enabled: PQSettings.leftButtonMouseClickAndMove&&!facetagger.visible
         anchors.fill: parent
         drag.target: parent
         onPressed: {
@@ -77,6 +77,22 @@ Image {
     }
 
     PQFaceTracker {
+        id: facetracker
+        x: (elem.width-width)/2
+        width: elem.paintedWidth
+        height: elem.paintedHeight
+        y: (elem.height-height)/2
+        filename: src
+        visible: !facetagger.visible
+        Connections {
+            target: facetagger
+            onHasBeenUpdated:
+                facetracker.updateData()
+        }
+    }
+
+    PQFaceTagger {
+        id: facetagger
         x: (elem.width-width)/2
         width: elem.paintedWidth
         height: elem.paintedHeight

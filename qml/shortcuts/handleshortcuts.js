@@ -101,8 +101,8 @@ function whatToDoWithFoundShortcut(sh) {
     }
     else if(cmd === "__clipboard")
         handlingGeneral.copyToClipboard(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
-//    else if(cmd === "__tagFaces")
-//        call.requestTagFaces()
+    else if(cmd === "__tagFaces")
+        loader.passOn("facetagger", "start", undefined)
     else {
         handlingShortcuts.executeExternalApp(cmd, variables.allImageFilesInOrder[variables.indexOfCurrentImage])
         if(close === "1")

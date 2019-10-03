@@ -30,7 +30,7 @@ Rectangle {
         onMousePosChanged: {
             if(PQSettings.metadataPopoutElement || keepopen.checked)
                 return
-            if(variables.mousePos.x < (PQSettings.hotEdgeWidth+5) && PQSettings.metadataEnableHotEdge)
+            if(variables.mousePos.x < (PQSettings.hotEdgeWidth+5) && PQSettings.metadataEnableHotEdge && !variables.faceTaggingActive)
                 metadata_top.opacity = 1
             else
                 metadata_top.opacity = 0

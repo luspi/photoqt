@@ -109,3 +109,89 @@ QVariantList PQHandlingFaceTags::getFaceTags(QString filename) {
     return ret;
 
 }
+
+void PQHandlingFaceTags::setFaceTags(QString filename, QVariantList tags) {
+
+    if(!canWriteXmpTags(filename))
+        return;
+
+#ifdef EXIV2
+
+    try {
+
+        // Open image for exif reading
+        Exiv2::Image::AutoPtr xmpImage = Exiv2::ImageFactory::open(filename.toStdString());
+
+        if(xmpImage.get() != 0) {
+
+            // read exif
+            xmpImage->readMetadata();
+            Exiv2::XmpData &xmpDataOld = xmpImage->xmpData();
+            xmpImage->clearXmpData();
+            Exiv2::XmpData xmpDataNew;
+
+            // we first need to remove already existing data before replacing it with the new stuff
+            for(Exiv2::XmpData::const_iterator it_xmp = xmpDataOld.begin(); it_xmp != xmpDataOld.end(); ++it_xmp) {
+                QString key = QString::fromStdString(it_xmp->key());
+                if(!key.startsWith("Xmp.MP.RegionInfo")) {
+                    xmpDataNew.add(Exiv2::XmpKey(it_xmp->key()), &it_xmp->value());
+                }
+            }
+
+            // The intro node
+            Exiv2::Value::AutoPtr regioninfo = Exiv2::Value::create(Exiv2::xmpText);
+            regioninfo->read("type=\"Struct\"");
+            xmpDataNew.add(Exiv2::XmpKey("Xmp.MP.RegionInfo"), regioninfo.get());
+
+            // Start of 'Bag'
+            Exiv2::Value::AutoPtr arrayStart = Exiv2::Value::create(Exiv2::xmpText);
+            arrayStart->read("type=\"Bag\"");
+            xmpDataNew.add(Exiv2::XmpKey("Xmp.MP.RegionInfo/MPRI:Regions"), arrayStart.get());
+
+            // Loop over the passed on value
+            for(int i = 0; i < tags.length()/6; ++i) {
+
+                // First: This is a struct
+                Exiv2::XmpTextValue::AutoPtr arrayOne(new Exiv2::XmpTextValue);
+                arrayOne->read("type=\"Struct\"");
+                xmpDataNew.add(Exiv2::XmpKey(QString("Xmp.MP.RegionInfo/MPRI:Regions[%1]").arg(i+1).toStdString()), arrayOne.get());
+
+                // Second: This is the rectangle where the face is located
+                Exiv2::XmpTextValue::AutoPtr arrayTwo(new Exiv2::XmpTextValue);
+                arrayTwo->read(QString("%1, %2, %3, %4").arg(tags[6*i+1].toString()).arg(tags[6*i+2].toString())
+                                                        .arg(tags[6*i+3].toString()).arg(tags[6*i+4].toString()).toStdString());
+                xmpDataNew.add(Exiv2::XmpKey(QString("Xmp.MP.RegionInfo/MPRI:Regions[%1]/MPReg:Rectangle").arg(i+1).toStdString()), arrayTwo.get());
+
+                // Third: This is the name of the person
+                Exiv2::XmpTextValue::AutoPtr arrayThree(new Exiv2::XmpTextValue);
+                arrayThree->read(tags[6*i+5].toString().toStdString());
+                xmpDataNew.add(Exiv2::XmpKey(QString("Xmp.MP.RegionInfo/MPRI:Regions[%1]/MPReg:PersonDisplayName").arg(i+1).toStdString()),
+                               arrayThree.get());
+
+            }
+
+            // and write XMP metadata
+            xmpImage->setXmpData(xmpDataNew);
+            xmpImage->writeMetadata();
+
+        }
+
+    } catch(Exiv2::Error& e) {
+        LOG << CURDATE << "PQHandlingFaceTags::setFaceTags() - ERROR writing face tags (caught exception): "
+            << e.what() << NL;
+        return;
+    }
+
+#endif
+
+}
+
+bool PQHandlingFaceTags::canWriteXmpTags(QString filename) {
+
+    QStringList supportedEndings;
+    supportedEndings << "jpg" << "jpeg" << "exv" << "cr2" << "tif" << "tiff" << "webp" << "dng" << "net"
+                     << "pef" << "srw" << "orf" << "png" << "pgf" << "eps" << "xmp" << "psd" << "jp2";
+
+    return supportedEndings.contains(QFileInfo(filename).suffix().toLower());
+
+}

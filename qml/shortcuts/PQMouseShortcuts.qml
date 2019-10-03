@@ -87,15 +87,13 @@ Item {
 
         onPressed: {
 
-            if(variables.visibleItem!="")
-                return
-
             prevPos = Qt.point(mouse.x, mouse.y)
             lastDirection = ""
             path = []
             modifiers = []
             buttons = []
-            pressed = true
+            if(variables.visibleItem=="")
+                pressed = true
 
             if(mouse.buttons & Qt.LeftButton)
                 buttons.push("Left Button")
@@ -114,6 +112,9 @@ Item {
                 modifiers.push("Meta")
             if(mouse.modifiers & Qt.KeypadModifier)
                 modifiers.push("Keypad")
+
+            if(variables.visibleItem != "")
+                loader.passMouseEvent(variables.visibleItem, [buttons, modifiers])
 
         }
 
