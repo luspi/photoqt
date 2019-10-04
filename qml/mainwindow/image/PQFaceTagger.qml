@@ -249,6 +249,10 @@ Item {
 
                     } else {
                         var p = facetagger_top.mapFromItem(bgimage, variables.mousePos.x, variables.mousePos.y)
+
+                        if(p.x < 0 || p.x > facetagger_top.width || p.y < 0 || p.y > facetagger_top.height)
+                            return
+
                         newtag.setX = p.x
                         newtag.x = p.x
                         newtag.setY = p.y
