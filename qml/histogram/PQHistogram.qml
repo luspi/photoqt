@@ -16,10 +16,10 @@ Rectangle {
 
     onXChanged:
         if(!PQSettings.histogramPopoutElement)
-            PQSettings.histogramPosition = Qt.point(x, y)
+            PQSettings.histogramPosition = Qt.point(Math.max(0, Math.min(x, toplevel.width-width)), Math.max(0, Math.min(y, toplevel.height-height)))
     onYChanged:
         if(!PQSettings.histogramPopoutElement)
-            PQSettings.histogramPosition = Qt.point(x, y)
+            PQSettings.histogramPosition = Qt.point(Math.max(0, Math.min(x, toplevel.width-width)), Math.max(0, Math.min(y, toplevel.height-height)))
     onWidthChanged:
         if(!PQSettings.histogramPopoutElement)
             PQSettings.histogramSize = Qt.size(width, height)
