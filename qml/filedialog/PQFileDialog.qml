@@ -62,7 +62,9 @@ Rectangle {
 
             id: leftcol
 
-            width: 300
+            width: PQSettings.openUserPlacesWidth
+            onWidthChanged:
+                PQSettings.openUserPlacesWidth = width
 
             color: "#22222222"
 
