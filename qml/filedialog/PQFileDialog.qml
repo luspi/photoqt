@@ -44,7 +44,7 @@ Rectangle {
 
     }
 
-    Behavior on opacity { NumberAnimation { id: opacityAnim; duration: (PQSettings.animations ? PQSettings.animationDuration*150 : 0) } }
+    Behavior on opacity { NumberAnimation { id: opacityAnim; duration: PQSettings.animationDuration*100 } }
     Behavior on x { NumberAnimation { id: xAnim; duration: 0 } }
     Behavior on y { NumberAnimation { id: yAnim; duration: 0 } }
 
@@ -209,13 +209,13 @@ Rectangle {
             if(PQSettings.animationType == "x") {
                 xAnim.duration = 0
                 filedialog_top.x = -filedialog_top.width
-                xAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
+                xAnim.duration = PQSettings.animationDuration*100
                 filedialog_top.x = 0
             // show in y direction
             } else if(PQSettings.animationType == "y") {
                 yAnim.duration = 0
                 filedialog_top.y = -filedialog_top.height
-                yAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
+                yAnim.duration = PQSettings.animationDuration*100
                 filedialog_top.y = 0
             }
             // fade in item
@@ -232,11 +232,11 @@ Rectangle {
         if(!PQSettings.openPopoutElement) {
             // hide in x direction
             if(PQSettings.animationType == "x") {
-                xAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
+                xAnim.duration = PQSettings.animationDuration*100
                 filedialog_top.x = -width
             // hide in y direction
             } else if(PQSettings.animationType == "y") {
-                yAnim.duration = (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
+                yAnim.duration = PQSettings.animationDuration*100
                 filedialog_top.y = -height
             }
             // fade out item

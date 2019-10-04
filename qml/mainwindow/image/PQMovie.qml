@@ -76,7 +76,7 @@ Item {
         property bool scaleAdjustedFromRotation: false
         property int rotateTo: 0    // used to know where a rotation will end up before the animation has finished
         rotation: rotateTo
-        Behavior on rotation { NumberAnimation { id: rotationAni; duration: (PQSettings.animations ? PQSettings.animationDuration*150 : 0) } }
+        Behavior on rotation { NumberAnimation { id: rotationAni; duration: PQSettings.animationDuration*100 } }
         onRotateToChanged: {
             if((rotateTo%180+180)%180 == 90 && elem.scale == 1) {
                 var h = videoelem.height
@@ -289,12 +289,12 @@ Item {
 
     }
 
-    Behavior on scale { NumberAnimation { id: scaleAni; duration: PQSettings.animations ? PQSettings.animationDuration*150 : 0 } }
+    Behavior on scale { NumberAnimation { id: scaleAni; duration: PQSettings.animationDuration*100 } }
     onScaleChanged:
         variables.currentZoomLevel = (videoelem.width/videoelem.metaData.resolution.width)*elem.scale*100
 
-    Behavior on x { NumberAnimation { id: xAni; duration: PQSettings.animationDuration*150 } }
-    Behavior on y { NumberAnimation { id: yAni; duration: PQSettings.animationDuration*150 } }
+    Behavior on x { NumberAnimation { id: xAni; duration: PQSettings.animationDuration*100 } }
+    Behavior on y { NumberAnimation { id: yAni; duration: PQSettings.animationDuration*100 } }
 
     Connections {
         target: container
@@ -307,8 +307,8 @@ Item {
             videoelem.scaleAdjustedFromRotation = false
         }
         onZoomReset: {
-            xAni.duration = PQSettings.animationDuration*150
-            yAni.duration = PQSettings.animationDuration*150
+            xAni.duration = PQSettings.animationDuration*100
+            yAni.duration = PQSettings.animationDuration*100
             if(!videoelem.scaleAdjustedFromRotation)
                 elem.scale = 1
             elem.x = PQSettings.marginAroundImage

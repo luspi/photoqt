@@ -33,7 +33,6 @@ void PQSettings::setDefault() {
     setWindowMode(true);
     setWindowDecoration(false);
 
-    setAnimations(true);
     setSaveWindowGeometry(false);
     setKeepOnTop(false);
 
@@ -242,9 +241,6 @@ void PQSettings::readSettings() {
 
             else if(line.startsWith("WindowDecoration="))
                 setWindowDecoration(line.split("=").at(1).toInt());
-
-            else if(line.startsWith("Animations="))
-                setAnimations(line.split("=").at(1).toInt());
 
             else if(line.startsWith("SaveWindowGeometry="))
                 setSaveWindowGeometry(line.split("=").at(1).toInt());
@@ -687,7 +683,6 @@ void PQSettings::saveSettings() {
 
         cont += "\n[Behaviour]\n";
 
-        cont += QString("Animations=%1\n").arg(int(m_animations));
         cont += QString("AnimationDuration=%1\n").arg(m_animationDuration);
         cont += QString("AnimationType=%1\n").arg(m_animationType);
         cont += QString("ArchiveSingleFile=%1\n").arg(int(m_archiveSingleFile));

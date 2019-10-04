@@ -9,7 +9,7 @@ Item {
 
     property int progress: 0
 
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    Behavior on opacity { NumberAnimation { duration: 50 } }
 
     property var colors: ["#333333", "#444444", "#555555", "#666666", "#777777", "#888888",
                           "#999999", "#aaaaaa", "#bbbbbb", "#cccccc", "#dddddd", "#eeeeee"]

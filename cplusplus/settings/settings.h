@@ -59,16 +59,6 @@ public:
             }
         }
 
-        Q_PROPERTY(bool animations READ getAnimations WRITE setAnimations NOTIFY animationsChanged)
-        bool getAnimations() { return m_animations; }
-        void setAnimations(bool val) {
-            if(m_animations != val) {
-                m_animations = val;
-                emit animationsChanged();
-                saveSettingsTimer->start();
-            }
-        }
-
         Q_PROPERTY(bool saveWindowGeometry READ getSaveWindowGeometry WRITE setSaveWindowGeometry NOTIFY saveWindowGeometryChanged)
         bool getSaveWindowGeometry() { return m_saveWindowGeometry; }
         void setSaveWindowGeometry(bool val) {
@@ -1436,7 +1426,6 @@ private:
         QString m_version;
         QString m_versionInTextFile;  // differs from 'version' only when PhotoQt has been updated
         QString m_language;
-        bool    m_animations;
         bool    m_saveWindowGeometry;
         bool    m_keepOnTop;
         bool    m_startupLoadLastLoadedImage;
@@ -1594,7 +1583,6 @@ signals:
         void versionChanged();
         void versionInTextFileChanged();
         void languageChanged();
-        void animationsChanged();
         void saveWindowGeometryChanged();
         void keepOnTopChanged();
         void startupLoadLastLoadedImageChanged();

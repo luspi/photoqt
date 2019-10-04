@@ -10,10 +10,10 @@ Item {
     Behavior on anchors.leftMargin { NumberAnimation { duration: PQSettings.animationDuration*100 } }
 
     anchors.bottomMargin: ((PQSettings.thumbnailKeepVisible || PQSettings.thumbnailKeepVisibleWhenNotZoomedIn) && PQSettings.thumbnailPosition!="Top" && !PQSettings.thumbnailDisable && !variables.slideShowActive & !variables.faceTaggingActive) ? thumbnails.height : 0
-    Behavior on anchors.bottomMargin { NumberAnimation { duration: 150 } }
+    Behavior on anchors.bottomMargin { NumberAnimation { duration: PQSettings.animationDuration*100 } }
 
     anchors.topMargin: ((PQSettings.thumbnailKeepVisible || PQSettings.thumbnailKeepVisibleWhenNotZoomedIn) && PQSettings.thumbnailPosition=="Top" && !PQSettings.thumbnailDisable && !variables.slideShowActive && !variables.faceTaggingActive) ? thumbnails.height : 0
-    Behavior on anchors.topMargin { NumberAnimation { duration: 150 } }
+    Behavior on anchors.topMargin { NumberAnimation { duration: PQSettings.animationDuration*100 } }
 
     signal zoomIn()
     signal zoomOut()
@@ -110,7 +110,7 @@ Item {
                 id: hideShowAni
                 target: deleg
                 property: PQSettings.animationType
-                duration: (PQSettings.animations ? PQSettings.animationDuration*150 : 0)
+                duration: PQSettings.animationDuration*100
                 property bool showing: true
                 property bool continueToDeleteAfterShowing: false
                 alwaysRunToEnd: true

@@ -21,14 +21,14 @@ AnimatedImage {
         }
     }
 
-    Behavior on scale { NumberAnimation { id: scaleAni; duration: PQSettings.animations ? PQSettings.animationDuration*150 : 0 } }
+    Behavior on scale { NumberAnimation { id: scaleAni; duration: PQSettings.animationDuration*100 } }
     onScaleChanged: {
         variables.currentZoomLevel = (elem.paintedWidth/elem.sourceSize.width)*elem.scale*100
         variables.currentPaintedZoomLevel = elem.scale
     }
 
-    Behavior on x { NumberAnimation { id: xAni; duration: PQSettings.animationDuration*150 } }
-    Behavior on y { NumberAnimation { id: yAni; duration: PQSettings.animationDuration*150 } }
+    Behavior on x { NumberAnimation { id: xAni; duration: PQSettings.animationDuration*100 } }
+    Behavior on y { NumberAnimation { id: yAni; duration: PQSettings.animationDuration*100 } }
 
     asynchronous: true
     cache: false
@@ -43,7 +43,7 @@ AnimatedImage {
     property bool scaleAdjustedFromRotation: false
     property int rotateTo: 0    // used to know where a rotation will end up before the animation has finished
     rotation: rotateTo
-    Behavior on rotation { NumberAnimation { id: rotationAni; duration: (PQSettings.animations ? PQSettings.animationDuration*150 : 0) } }
+    Behavior on rotation { NumberAnimation { id: rotationAni; duration: PQSettings.animationDuration*100 } }
     onRotateToChanged: {
         if((rotateTo%180+180)%180 == 90 && elem.scale == 1) {
             elem.scale = Math.min(elem.height/elem.paintedWidth, 1)
@@ -91,8 +91,8 @@ AnimatedImage {
             scaleAdjustedFromRotation = false
         }
         onZoomReset: {
-            xAni.duration = PQSettings.animationDuration*150
-            yAni.duration = PQSettings.animationDuration*150
+            xAni.duration = PQSettings.animationDuration*100
+            yAni.duration = PQSettings.animationDuration*100
             if(!scaleAdjustedFromRotation)
                 elem.scale = 1
             elem.x = PQSettings.marginAroundImage
@@ -128,8 +128,7 @@ AnimatedImage {
             elem.mirror = !old
             rotationAni.duration = 0
             elem.rotateTo += 180
-            if(PQSettings.animations)
-                rotationAni.duration = PQSettings.animationDuration*150
+            rotationAni.duration = PQSettings.animationDuration*100
         }
         onMirrorReset: {
             elem.mirror = false
