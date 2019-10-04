@@ -193,11 +193,10 @@ ListView {
                 id: contextmenu_title
 
                 PQMenuItem {
-                    text: em.pty+qsTranslate("filedialog", "Show hidden entries")
-                    checkable: true
-                    checked: userplaces_top.showHiddenEntries
-                    onCheckedChanged:
-                        userplaces_top.showHiddenEntries = checked
+                    text: userplaces_top.showHiddenEntries ? em.pty+qsTranslate("filedialog", "Hide hidden entries") : em.pty+qsTranslate("filedialog", "Show hidden entries")
+                    property bool showHidden: userplaces_top.showHiddenEntries
+                    onClicked:
+                        userplaces_top.showHiddenEntries = !userplaces_top.showHiddenEntries
                 }
 
             }

@@ -20,7 +20,7 @@ Menu {
 
     background: Rectangle {
         implicitWidth: 200
-        implicitHeight: 40
+        implicitHeight: 30
         color: "#333333"
         radius: 2
         border.width: 1
