@@ -24,7 +24,13 @@ namespace PQLoadImage {
                 compressedFilename = parts.at(0);
             } else {
                 PQHandlingFileDialog handling;
-                compressedFilename = handling.listArchiveContent(archivefile).at(0).split("::ARC::").at(0);
+                QStringList cont = handling.listArchiveContent(archivefile);
+                if(cont.length() == 0) {
+                    errormsg = "Error: unable to list contents of archive file...";
+                    LOG << CURDATE << "PQLoadImage::Archive::load(): " << errormsg.toStdString() << NL;
+                    return QImage();
+                }
+                compressedFilename = cont.at(0).split("::ARC::").at(0);
             }
 
             if(!QFileInfo(archivefile).exists()) {

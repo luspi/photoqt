@@ -21,12 +21,18 @@ namespace PQLoadImage {
                 compressedFilename = parts.at(0);
             } else {
                 PQHandlingFileDialog handling;
-                compressedFilename = handling.listArchiveContent(archivefile).at(0).split("::ARC::").at(0);
+                QStringList cont = handling.listArchiveContent(archivefile);
+                if(cont.length() == 0) {
+                    errormsg = "Error: unable to list contents of archive file...";
+                    LOG << CURDATE << "PQLoadImage::UNRAR::load(): " << errormsg.toStdString() << NL;
+                    return QImage();
+                }
+                compressedFilename = cont.at(0).split("::ARC::").at(0);
             }
 
             if(!QFileInfo(archivefile).exists()) {
                 errormsg = "ERROR loading RAR archive, file doesn't seem to exist...";
-                LOG << CURDATE << errormsg.toStdString() << NL;
+                LOG << CURDATE << "PQLoadImage::UNRAR::load(): " << errormsg.toStdString() << NL;
                 return QImage();
             }
 

@@ -34,7 +34,13 @@ namespace PQLoadImage {
             }
             document->setRenderHint(Poppler::Document::TextAntialiasing);
             document->setRenderHint(Poppler::Document::Antialiasing);
-            QImage ret = document->page(page)->renderToImage(PQSettings::get().getPdfQuality(), PQSettings::get().getPdfQuality());
+            Poppler::Page *p = document->page(page);
+            if(p == nullptr) {
+                errormsg = QString("Error: unable to read page %1").arg(page);
+                LOG << CURDATE << "PQLoadImage::PDF::load(): " << errormsg.toStdString() << NL;
+                return QImage();
+            }
+            QImage ret = p->renderToImage(PQSettings::get().getPdfQuality(), PQSettings::get().getPdfQuality());
             *origSize = ret.size();
             delete document;
 
