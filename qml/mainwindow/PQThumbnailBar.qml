@@ -14,12 +14,12 @@ Item {
            ((PQSettings.thumbnailKeepVisible ||
            (variables.mousePos.y < PQSettings.hotEdgeWidth*5 && !visible) ||
            (variables.mousePos.y < height && visible) ||
-           (PQSettings.thumbnailKeepVisibleWhenNotZoomedIn && imageitem.imageScale<=1)) ? 0 : -height) :
+           (PQSettings.thumbnailKeepVisibleWhenNotZoomedIn && variables.currentPaintedZoomLevel<=1)) ? 0 : -height) :
 
            ((PQSettings.thumbnailKeepVisible ||
            (variables.mousePos.y > toplevel.height-PQSettings.hotEdgeWidth*5 && !visible) ||
            (variables.mousePos.y > toplevel.height-height && visible) ||
-           (PQSettings.thumbnailKeepVisibleWhenNotZoomedIn && imageitem.imageScale<=1)) ? (toplevel.height-height) : toplevel.height)
+           (PQSettings.thumbnailKeepVisibleWhenNotZoomedIn && variables.currentPaintedZoomLevel<=1)) ? (toplevel.height-height) : toplevel.height)
 
     Behavior on y { NumberAnimation { duration: 200 } }
 

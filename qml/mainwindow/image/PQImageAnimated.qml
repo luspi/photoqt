@@ -15,13 +15,17 @@ AnimatedImage {
 
     onStatusChanged: {
         theimage.imageStatus = status
-        if(status == Image.Ready)
+        if(status == Image.Ready) {
             variables.currentZoomLevel = (elem.paintedWidth/elem.sourceSize.width)*elem.scale*100
+            variables.currentPaintedZoomLevel = elem.scale
+        }
     }
 
     Behavior on scale { NumberAnimation { id: scaleAni; duration: PQSettings.animations ? PQSettings.animationDuration*150 : 0 } }
-    onScaleChanged:
+    onScaleChanged: {
         variables.currentZoomLevel = (elem.paintedWidth/elem.sourceSize.width)*elem.scale*100
+        variables.currentPaintedZoomLevel = elem.scale
+    }
 
     Behavior on x { NumberAnimation { id: xAni; duration: PQSettings.animationDuration*150 } }
     Behavior on y { NumberAnimation { id: yAni; duration: PQSettings.animationDuration*150 } }

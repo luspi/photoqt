@@ -9,6 +9,7 @@ Item {
     property var allImageFilesInOrder: []
     property int indexOfCurrentImage: -1
     property real currentZoomLevel: 1
+    property real currentPaintedZoomLevel: 1
     property string openCurrentDirectory: PQSettings.openKeepLastLocation ? handlingFileDialog.getLastLocation() : handlingFileDialog.getHomeDir()
     property point mousePos: Qt.point(-1, -1)
     property int metaDataWidthWhenKeptOpen: 0
