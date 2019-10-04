@@ -93,6 +93,11 @@ Item {
                         } else {
                             if(theimage.imageStatus == Image.Ready) {
                                 hideShowAni.showing = false
+                                // store pos/zoom/rotation/mirror, can be restored when setting enabled
+                                variables.zoomRotationMirror[src] = [Qt.point(theimage.item.x, theimage.item.y),
+                                                                     theimage.item.scale,
+                                                                     theimage.item.rotation,
+                                                                     theimage.item.mirror]
                                 hideShowAni.start()
                             } else
                                 image_model.remove(index)
@@ -131,13 +136,15 @@ Item {
                             (hideShowAni.property=="x" ?
                                 container.width:
                                 container.height))
+
                 onStopped: {
                     if(!showing)
                         image_model.remove(index)
                     else if(continueToDeleteAfterShowing) {
                         showing = false
                         start()
-                    }
+                    } else if(showing)
+                        theimage.item.restorePosZoomRotationMirror()
                 }
 
             }
@@ -162,7 +169,6 @@ Item {
                 hideAllImages()
         }
     }
-
 
     function loadNextImage() {
         if(variables.indexOfCurrentImage < variables.allImageFilesInOrder.length-1)

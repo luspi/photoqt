@@ -138,4 +138,17 @@ AnimatedImage {
             elem.paused = !elem.paused
     }
 
+    function restorePosZoomRotationMirror() {
+        if(PQSettings.keepZoomRotationMirror && src in variables.zoomRotationMirror) {
+
+            elem.x = variables.zoomRotationMirror[src][0].x
+            elem.y = variables.zoomRotationMirror[src][0].y
+
+            elem.scale = variables.zoomRotationMirror[src][1]
+            elem.rotation = variables.zoomRotationMirror[src][2]
+            elem.mirror = variables.zoomRotationMirror[src][3]
+
+        }
+    }
+
 }

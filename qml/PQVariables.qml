@@ -23,6 +23,8 @@ Item {
     property string filterStringConcat: ""
     property var allImageFilesInOrderFilterBackup: []
 
+    property var zoomRotationMirror: ({})
+
     onIndexOfCurrentImageChanged:
         cppmetadata.updateMetadata(indexOfCurrentImage != -1 ? allImageFilesInOrder[indexOfCurrentImage] : "")
 
