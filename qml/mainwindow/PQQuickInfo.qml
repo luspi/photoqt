@@ -13,7 +13,8 @@ Item {
 
     visible: !(variables.slideShowActive&&PQSettings.slideShowHideQuickInfo) &&
              (variables.indexOfCurrentImage>-1 || variables.filterSet) &&
-             (variables.allImageFilesInOrder.length>0 || variables.filterSet)
+             (variables.allImageFilesInOrder.length>0 || variables.filterSet) &&
+             !variables.faceTaggingActive
 
     Rectangle {
 

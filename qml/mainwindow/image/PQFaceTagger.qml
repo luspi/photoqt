@@ -211,6 +211,12 @@ Item {
                     refreshModel()
                 }
 
+            } else if(what == "stop") {
+
+                variables.visibleItem = ""
+                variables.faceTaggingActive = false
+                facetagger_top.visible = false
+
             } else if(what == "keyevent") {
 
                 if(param[0] == Qt.Key_Escape) {

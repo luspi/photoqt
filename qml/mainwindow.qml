@@ -186,6 +186,7 @@ Window {
 
     PQImage { id: imageitem }
     PQQuickInfo { id: quickinfo }
+    PQMessage { id: message }
     PQCloseButton { id: closebutton }
 
     PQThumbnailBar { id: thumbnails }
