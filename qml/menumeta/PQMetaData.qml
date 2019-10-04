@@ -83,46 +83,48 @@ Rectangle {
 
     property var allMetaData: [
         //: Keep string short!
-        qsTranslate("metadata", "File name"), handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]),
-        //: Keep string short!
-        qsTranslate("metadata", "File size"), cppmetadata.fileSize,
-        //: Used as in "Image 3/16". The numbers (position of image in folder) are added on automatically. Keep string short!
-        qsTranslate("metadata", "Image #/#"), ((variables.indexOfCurrentImage+1)+"/"+variables.allImageFilesInOrder.length),
+        qsTranslate("metadata", "File name"), handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]), PQSettings.metaFilename,
         //: The dimensions of the loaded image. Keep string short!
-        qsTranslate("metadata", "Dimensions"), cppmetadata.dimensions,
-        "", "",
+        qsTranslate("metadata", "Dimensions"), cppmetadata.dimensions, PQSettings.metaDimensions,
+        //: Used as in "Image 3/16". The numbers (position of image in folder) are added on automatically. Keep string short!
+        qsTranslate("metadata", "Image #/#"), ((variables.indexOfCurrentImage+1)+"/"+variables.allImageFilesInOrder.length), PQSettings.metaImageNumber,
+        //: Keep string short!
+        qsTranslate("metadata", "File size"), cppmetadata.fileSize, PQSettings.metaFileSize,
+        //: Keep string short!
+        qsTranslate("metadata", "File type"), handlingGeneral.getFileType(variables.allImageFilesInOrder[variables.indexOfCurrentImage]), PQSettings.metaFileType,
+        "", "", true,
         //: Exif image metadata: the make of the camera used to take the photo. Keep string short!
-        qsTranslate("metadata", "Make"), cppmetadata.exifImageMake,
+        qsTranslate("metadata", "Make"), cppmetadata.exifImageMake, PQSettings.metaMake,
         //: Exif image metadata: the model of the camera used to take the photo. Keep string short!
-        qsTranslate("metadata", "Model"), cppmetadata.exifImageModel,
+        qsTranslate("metadata", "Model"), cppmetadata.exifImageModel, PQSettings.metaModel,
         //: Exif image metadata: the software used to create the photo. Keep string short!
-        qsTranslate("metadata", "Software"), cppmetadata.exifImageSoftware,
-        "", "",
+        qsTranslate("metadata", "Software"), cppmetadata.exifImageSoftware, PQSettings.metaSoftware,
+        "", "", true,
         //: Exif image metadata: when the photo was taken. Keep string short!
-        qsTranslate("metadata", "Time Photo was Taken"), cppmetadata.exifPhotoDateTimeOriginal,
+        qsTranslate("metadata", "Time Photo was Taken"), cppmetadata.exifPhotoDateTimeOriginal, PQSettings.metaTimePhotoTaken,
         //: Exif image metadata: how long the sensor was exposed to the light. Keep string short!
-        qsTranslate("metadata", "Exposure Time"), cppmetadata.exifPhotoExposureTime,
+        qsTranslate("metadata", "Exposure Time"), cppmetadata.exifPhotoExposureTime, PQSettings.metaExposureTime,
         //: Exif image metadata: the flash setting when the photo was taken. Keep string short!
-        qsTranslate("metadata", "Flash"), cppmetadata.exifPhotoFlash,
-        "ISO", cppmetadata.exifPhotoISOSpeedRatings,
+        qsTranslate("metadata", "Flash"), cppmetadata.exifPhotoFlash, PQSettings.metaFlash,
+        "ISO", cppmetadata.exifPhotoISOSpeedRatings, PQSettings.metaIso,
         //: Exif image metadata: the specific scene type the camera used for the photo. Keep string short!
-        qsTranslate("metadata", "Scene Type"), cppmetadata.exifPhotoSceneCaptureType,
+        qsTranslate("metadata", "Scene Type"), cppmetadata.exifPhotoSceneCaptureType, PQSettings.metaSceneType,
         //: Exif image metadata: https://en.wikipedia.org/wiki/Focal_length . Keep string short!
-        qsTranslate("metadata", "Focal Length"), cppmetadata.exifPhotoFocalLength,
+        qsTranslate("metadata", "Focal Length"), cppmetadata.exifPhotoFocalLength, PQSettings.metaFLength,
         //: Exif image metadata: https://en.wikipedia.org/wiki/F-number . Keep string short!
-        qsTranslate("metadata", "F Number"), cppmetadata.exifPhotoFNumber,
+        qsTranslate("metadata", "F Number"), cppmetadata.exifPhotoFNumber, PQSettings.metaFNumber,
         //: Exif image metadata: What type of light the camera detected. Keep string short!
-        qsTranslate("metadata", "Light Source"), cppmetadata.exifPhotoLightSource,
-        "","",
+        qsTranslate("metadata", "Light Source"), cppmetadata.exifPhotoLightSource, PQSettings.metaLightSource,
+        "","", true,
         //: IPTC image metadata: A description of the image by the user/software. Keep string short!
-        qsTranslate("metadata", "Keywords"), cppmetadata.iptcApplication2Keywords,
+        qsTranslate("metadata", "Keywords"), cppmetadata.iptcApplication2Keywords, PQSettings.metaKeywords,
         //: IPTC image metadata: The CITY and COUNTRY the imge was taken in. Keep string short!
-        qsTranslate("metadata", "Location"), cppmetadata.iptcLocation,
+        qsTranslate("metadata", "Location"), cppmetadata.iptcLocation, PQSettings.metaLocation,
         //: IPTC image metadata. Keep string short!
-        qsTranslate("metadata", "Copyright"), cppmetadata.iptcApplication2Copyright,
-        "","",
+        qsTranslate("metadata", "Copyright"), cppmetadata.iptcApplication2Copyright, PQSettings.metaCopyright,
+        "","", true,
         //: Exif image metadata. Keep string short!
-        qsTranslate("metadata", "GPS Position"), cppmetadata.exifGPS
+        qsTranslate("metadata", "GPS Position"), cppmetadata.exifGPS, PQSettings.metaGps
     ]
 
     // HEADING OF RECTANGLE
@@ -203,52 +205,52 @@ Rectangle {
 
         ScrollBar.vertical: PQScrollBar { id: scroll }
 
-        model: allMetaData.length/2
+        model: allMetaData.length/3
         delegate: Item {
 
             width: parent.width
-            height: (allMetaData[2*index+1] !== "" || (allMetaData[2*index]===""&&allMetaData[2*index+1]==="")) ? val.height : 0
+            height: ((allMetaData[3*index+1] !== "" && allMetaData[3*index+2]) || (allMetaData[3*index]===""&&allMetaData[3*index+1]==="")) ? val.height : 0
 
             Text {
 
                 id: val;
 
-                visible: allMetaData[2*index+1] !== "" || (allMetaData[2*index]===""&&allMetaData[2*index+1]==="")
+                visible: (allMetaData[3*index+1] !== "" && allMetaData[3*index+2]) || (allMetaData[3*index]===""&&allMetaData[3*index+1]==="")
 
                 color: "#ffffff"
                 font.pointSize: PQSettings.metadataFontSize
-                lineHeight: ((allMetaData[2*index] == "" ? 0.8 : 1.3))
+                lineHeight: ((allMetaData[3*index] == "" ? 0.8 : 1.3))
                 textFormat: Text.RichText
                 width: parent.width
                 wrapMode: Text.WordWrap
-                text: (allMetaData[2*index] !== "") ? ("<b>" + allMetaData[2*index] + "</b>: " + allMetaData[2*index +1]) : ""
+                text: (allMetaData[3*index] !== "") ? ("<b>" + allMetaData[3*index] + "</b>: " + allMetaData[3*index +1]) : ""
 
             }
 
             PQMouseArea {
                 anchors.fill: parent
                 hoverEnabled: true
-                tooltip: (index==((allMetaData.length/2) -1)) ?
+                tooltip: (index==((allMetaData.length/3) -1)) ?
                              em.pty+qsTr("Click to open GPS position with online map") :
-                             (visible ? "<b>" + allMetaData[2*index] + "</b><br>" + allMetaData[2*index+1] : "")
-                cursorShape: index==(allMetaData.length/2 -1) ? Qt.PointingHandCursor : Qt.ArrowCursor
+                             (visible ? "<b>" + allMetaData[3*index] + "</b><br>" + allMetaData[3*index+1] : "")
+                cursorShape: index==(allMetaData.length/3 -1) ? Qt.PointingHandCursor : Qt.ArrowCursor
                 onClicked: {
-                    if(index == allMetaData.length/2 -1) {
+                    if(index == allMetaData.length/3 -1) {
 
                         if(PQSettings.metaGpsMapService == "bing.com/maps")
-                            Qt.openUrlExternally("http://www.bing.com/maps/?sty=r&q=" + allMetaData[2*index+1] + "&obox=1")
+                            Qt.openUrlExternally("http://www.bing.com/maps/?sty=r&q=" + allMetaData[3*index+1] + "&obox=1")
                         else if(PQSettings.metaGpsMapService == "maps.google.com")
-                            Qt.openUrlExternally("http://maps.google.com/maps?t=h&q=" + allMetaData[2*index+1])
+                            Qt.openUrlExternally("http://maps.google.com/maps?t=h&q=" + allMetaData[3*index+1])
                         else {
 
                             // For openstreetmap.org, we need to convert the GPS location into decimal format
 
-                            var one = allMetaData[2*index+1].split(", ")[0]
+                            var one = allMetaData[3*index+1].split(", ")[0]
                             var one_dec = 1*one.split("°")[0] + (1*(one.split("°")[1].split("'")[0]))/60 + (1*(one.split("'")[1].split("''")[0]))/3600
                             if(one.indexOf("S") !== -1)
                                 one_dec *= -1;
 
-                            var two = allMetaData[2*index+1].split(", ")[1]
+                            var two = allMetaData[3*index+1].split(", ")[1]
                             var two_dec = 1*two.split("°")[0] + (1*(two.split("°")[1].split("'")[0]))/60 + (1*(two.split("'")[1].split("''")[0]))/3600
                             if(two.indexOf("W") !== -1)
                                 two_dec *= -1;

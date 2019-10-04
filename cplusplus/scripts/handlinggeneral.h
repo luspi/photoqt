@@ -6,6 +6,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 #include <QNetworkInterface>
+#include <QMimeDatabase>
 #include "../imageprovider/imageproviderfull.h"
 #include "../logger.h"
 
@@ -41,8 +42,11 @@ public:
 
     Q_INVOKABLE bool checkIfConnectedToInternet();
 
+    Q_INVOKABLE QString getFileType(QString filename);
+
 private:
     PQImageProviderFull *imageprovider;
+    QMimeDatabase mimedb;
 
 };
 

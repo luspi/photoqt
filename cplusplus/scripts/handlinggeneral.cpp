@@ -211,3 +211,7 @@ bool PQHandlingGeneral::checkIfConnectedToInternet() {
     return internetConnected;
 
 }
+
+QString PQHandlingGeneral::getFileType(QString filename) {
+    return mimedb.mimeTypeForFile(filename).name();
+}
