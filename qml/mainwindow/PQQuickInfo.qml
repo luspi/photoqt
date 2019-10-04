@@ -48,7 +48,7 @@ Item {
 
             id: filename
 
-            x: text=="" ? 0 : counter.x+counter.width+10
+            x: counter.x+counter.width + (text=="" ? 0 : 10)
 
             visible: text!="" && (variables.indexOfCurrentImage > -1)
 
