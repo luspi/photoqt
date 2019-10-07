@@ -13,8 +13,6 @@ MenuItem {
 
     property bool lineBelowItem: false
 
-    width: parent.width
-
     contentItem: Text {
         id: contentItemText
         text: control.text
@@ -24,7 +22,6 @@ MenuItem {
         Behavior on color { ColorAnimation { duration: 200 } }
         horizontalAlignment: Text.AlignLeft // Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        elide: Text.ElideRight
     }
 
     indicator: PQCheckbox {
