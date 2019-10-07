@@ -44,7 +44,6 @@
         <file>elements/PQSpinBox.qml</file>
         <file>slideshow/PQSlideShowControls.qml</file>
         <file>slideshow/PQSlideShowControlsPopout.qml</file>
-        <file>mainwindow/PQSystemTrayIcon.qml</file>
         <file>filemanagement/PQRename.qml</file>
         <file>filemanagement/PQRenamePopout.qml</file>
         <file>elements/PQLineEdit.qml</file>

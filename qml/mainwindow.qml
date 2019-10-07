@@ -15,6 +15,7 @@ import PQCppMetaData 1.0
 import PQHandlingShareImgur 1.0
 import PQHandlingWallpaper 1.0
 import PQHandlingFaceTags 1.0
+import PQSystemTrayIcon 1.0
 
 import "./mainwindow"
 import "./shortcuts"
@@ -176,7 +177,18 @@ Window {
 
     }
 
-    PQSystemTrayIcon { id: trayicon }
+    PQSystemTrayIcon {
+        id: trayicon
+        visible: PQSettings.trayIcon>0
+        trayIconSetting: PQSettings.trayIcon
+        onToggleAction: {
+            if(PQSettings.trayIcon == 1)
+                toplevel.visible = !toplevel.visible
+        }
+        onQuitAction: {
+            Qt.quit();
+        }
+    }
 
     // needed to load folders without PQFileDialog
     PQFileFolderModel { id: filefoldermodel }
