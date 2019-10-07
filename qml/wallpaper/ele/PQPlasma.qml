@@ -39,7 +39,8 @@ Column {
         x: (parent.width-width)/2
         color: "white"
         font.pointSize: 15
-        text: "Set to which screens"
+        //: As in 'set wallpaper to which screens'
+        text: em.pty+qsTranslate("wallpaper", "Set to which screens")
     }
 
     Column {
@@ -49,7 +50,7 @@ Column {
         Repeater {
             model: numDesktops
             PQCheckbox {
-                text: "Screen #" + (index+1)
+                text: em.pty+qsTranslate("wallpaper", "Screen") + " #" + (index+1)
                 checked: true
                 onCheckedChanged: {
                     if(!checked)

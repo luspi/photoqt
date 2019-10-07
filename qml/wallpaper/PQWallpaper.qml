@@ -62,7 +62,8 @@ Rectangle {
                             anchors.fill: parent
                             cursorShape: Qt.PointingHandCursor
                             hoverEnabled: true
-                            tooltip: "Click to choose Plasma 5"
+                            //: '%1' is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
+                            tooltip: em.pty+qsTranslate("wallpaper", "Click to choose %1").arg("Plasma 5")
                             onClicked:
                                 curCat = "plasma"
                         }
@@ -79,7 +80,8 @@ Rectangle {
                             anchors.fill: parent
                             cursorShape: Qt.PointingHandCursor
                             hoverEnabled: true
-                            tooltip: "Click to choose Gnome/Unity/Cinnamon"
+                            //: '%1' is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
+                            tooltip: em.pty+qsTranslate("wallpaper", "Click to choose %1").arg("Gnome/Unity/Cinnamon")
                             onClicked:
                                 curCat = "gnome"
                         }
@@ -96,7 +98,8 @@ Rectangle {
                             anchors.fill: parent
                             cursorShape: Qt.PointingHandCursor
                             hoverEnabled: true
-                            tooltip: "Click to choose XFCE4"
+                            //: '%1' is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
+                            tooltip: em.pty+qsTranslate("wallpaper", "Click to choose %1").arg("XFCE4")
                             onClicked:
                                 curCat = "xfce"
                         }
@@ -113,7 +116,8 @@ Rectangle {
                             anchors.fill: parent
                             cursorShape: Qt.PointingHandCursor
                             hoverEnabled: true
-                            tooltip: "Click to choose Enlightenment"
+                            //: '%1' is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
+                            tooltip: em.pty+qsTranslate("wallpaper", "Click to choose %1").arg("Enlightenment")
                             onClicked:
                                 curCat = "enlightenment"
                         }
@@ -130,7 +134,10 @@ Rectangle {
                             anchors.fill: parent
                             cursorShape: Qt.PointingHandCursor
                             hoverEnabled: true
-                            tooltip: "Click to choose Other"
+                            //: '%1' is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
+                            tooltip: em.pty+qsTranslate("wallpaper", "Click to choose %1")
+                                        //: Used as in 'Other Desktop Environment'
+                                        .arg(em.pty+qsTranslate("wallpaper", "Other"))
                             onClicked:
                                 curCat = "other"
                         }
@@ -156,7 +163,8 @@ Rectangle {
             y: 0
             width: parent.width-x
             height: 100
-            text: "Set as Wallpaper"
+            //: Heading of wallpaper element
+            text: em.pty+qsTranslate("wallpaper", "Set as Wallpaper")
             color: "white"
             font.pointSize: 20
             font.bold: true
@@ -174,7 +182,8 @@ Rectangle {
             PQButton {
                 y: (parent.height-height)/2
                 id: button_ok
-                text: "Set as Wallpaper"
+                //: Written on clickable button
+                text: em.pty+qsTranslate("wallpaper", "Set as Wallpaper")
                 onClicked: {
 
                     var args = {}
@@ -222,7 +231,7 @@ Rectangle {
             PQButton {
                 y: (parent.height-height)/2
                 id: button_cancel
-                text: "Cancel"
+                text: genericStringCancel
                 onClicked: {
                     wallpaper_top.opacity = 0
                     variables.visibleItem = ""

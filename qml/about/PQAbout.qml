@@ -33,7 +33,7 @@ Rectangle {
         width: parent.width
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        text: "About PhotoQt"
+        text: em.pty+qsTranslate("about", "About PhotoQt")
         font.pointSize: 25
         font.bold: true
         color: "white"
@@ -76,26 +76,26 @@ Rectangle {
                 lineHeight: 1.1
                 text: {
                     "<style type='text/css'>a:link{color:white; text-decoration: none; font-style: italic; }</style><br>"
-                    + em.pty+qsTr("PhotoQt is a simple image viewer, designed to be good looking, highly configurable, yet easy to use and fast.")
+                    + em.pty+qsTranslate("about", "PhotoQt is a simple image viewer, designed to be good looking, highly configurable, yet easy to use and fast.")
                     + "<br><br>"
-                    + "<b>" + em.pty+qsTr("Another image viewer?") + "</b><br>"
-                    + em.pty+qsTr("There are many good image viewers out there. But PhotoQt is a little different than all of them. Its interface is\
+                    + "<b>" + em.pty+qsTranslate("about", "Another image viewer?") + "</b><br>"
+                    + em.pty+qsTranslate("about", "There are many good image viewers out there. But PhotoQt is a little different than all of them. Its interface is\
      kept very simple, yet there is an abundance of settings to turn PhotoQt from AN image viewer into YOUR image viewer.") + " "
-                    + em.pty+qsTr("Occasionally someone comes along because they think PhotoQt is 'like Picasa'. However, if you take a good look at it\
+                    + em.pty+qsTranslate("about", "Occasionally someone comes along because they think PhotoQt is 'like Picasa'. However, if you take a good look at it\
      then you see that they are in fact quite different. I myself have never used Picasa, and don't have any intention to copy Picasa. With PhotoQt I\
      want to do my own thing, and to do that as good as I can.")
                     + "<br><br>"
-                    +"<b>" + em.pty+qsTr("So then, who are you?") + "</b><br>"
-                    + em.pty+qsTr("I am Lukas Spies, the sole developer of PhotoQt. Born and raised in the southwest of Germany, I left my home country\
+                    +"<b>" + em.pty+qsTranslate("about", "So then, who are you?") + "</b><br>"
+                    + em.pty+qsTranslate("about", "I am Lukas Spies, the sole developer of PhotoQt. Born and raised in the southwest of Germany, I left my home country\
      for university shortly after finishing school. Since then I have live for some years in Ireland, Canada, USA, and France, studying and doing\
      research in Mathematics and Scientific Computing. I started playing around with programming since I was about 15 years old. So most of my\
      programming knowledge is self-taught through books and websites. The past few years of my studies I also did a lot of programming as part of my\
      research. Through all of that I gained a good bit of experience in programming using different programming languages. This becomes especially\
      apparent when looking at how PhotoQt has changed since it started at the end of 2011.")
                     + "<br><br><br>"
-                    + em.pty+qsTr("Don't forget to check out the website:")
+                    + em.pty+qsTranslate("about", "Don't forget to check out the website:")
                     + " <a href=\"http://photoqt.org\">http://PhotoQt.org</a>. "
-                    + em.pty+qsTr("If you find a bug or if you have a question or suggestion, please tell me. I'm open to any feedback I get!")
+                    + em.pty+qsTranslate("about", "If you find a bug or if you have a question or suggestion, please tell me. I'm open to any feedback I get!")
                     + "<br>";
 
                 }
@@ -131,7 +131,7 @@ Rectangle {
                     textFormat: Text.RichText
                     lineHeight: 1.1
 
-                    text: em.pty+qsTr("Thanks to everybody who contributed to PhotoQt and/or translated PhotoQt to another language! You guys rock!")
+                    text: em.pty+qsTranslate("about", "Thanks to everybody who contributed to PhotoQt and/or translated PhotoQt to another language! You guys rock!")
                 }
             }
 
@@ -149,10 +149,10 @@ Rectangle {
 
                 text: "<style type='text/css'>a:link{color:white; text-decoration: none; font-style: italic; }</style><br>" +
                       //: Don't forget to add the %1 in your translation, it is a placeholder for the email address!!
-                      em.pty+qsTr("You want to join the team and do something, e.g. translating PhotoQt to another language? Drop me and email (%1),\
+                      em.pty+qsTranslate("about", "You want to join the team and do something, e.g. translating PhotoQt to another language? Drop me and email (%1),\
                       and for translations, check the project page on Transifex:").arg("<a href=\"mailto:Lukas@photoqt.org\">Lukas@photoqt.org</a>") +
                       " <a href=\"http://transifex.com/projects/p/photo\">http://transifex.com/projects/p/photo</a>. " +
-                      em.pty+qsTr("If you want to support PhotoQt with a donation, you can do so via PayPal here:") +
+                      em.pty+qsTranslate("about", "If you want to support PhotoQt with a donation, you can do so via PayPal here:") +
                       " <a href=\"http://photoqt.org/donate\">http://photoqt.org/donate</a>."
 
                 MouseArea {
@@ -182,7 +182,7 @@ Rectangle {
         id: button_close
         x: (parent.width-width)/2
         y: parent.height-height-10
-        text: "Back to PhotoQt"
+        text: em.pty+qsTranslate("about", "Go back to PhotoQt")
         onClicked: {
             about_top.opacity = 0
             variables.visibleItem = ""

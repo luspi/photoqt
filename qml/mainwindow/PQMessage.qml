@@ -37,7 +37,7 @@ Item {
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                tooltip: "Click to exit face tagging mode"
+                tooltip: em.pty+qsTranslate("facetagging", "Click to exit face tagging mode")
                 onClicked:
                     loader.passOn("facetagger", "stop", undefined)
             }
@@ -49,7 +49,9 @@ Item {
             y: 5
             color: "white"
 
-            text: variables.faceTaggingActive ? "Click to tag faces, changes are saved automatically" : "Open a file to start"
+            text: variables.faceTaggingActive ?
+                      em.pty+qsTranslate("facetagging", "Click to tag faces, changes are saved automatically") :
+                      em.pty+qsTranslate("other", "Open a file to start")
 
         }
 

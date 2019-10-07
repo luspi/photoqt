@@ -71,7 +71,7 @@ Rectangle {
                     anchors.fill: parent
                     cursorShape: Qt.PointingHandCursor
                     hoverEnabled: true
-                    tooltip: "Click to go to the previous image"
+                    tooltip: em.pty+qsTranslate("slideshow", "Click to go to the previous image")
                     onClicked: {
                         switcher.restart()
                         loadPrevImage()
@@ -94,7 +94,9 @@ Rectangle {
                     anchors.fill: parent
                     cursorShape: Qt.PointingHandCursor
                     hoverEnabled: true
-                    tooltip: (controls_top.running ? "Click to pause slideshow" : "Click to play slideshow")
+                    tooltip: (controls_top.running ?
+                                  em.pty+qsTranslate("slideshow", "Click to pause slideshow") :
+                                  em.pty+qsTranslate("slideshow", "Click to play slideshow"))
                     onClicked:
                         controls_top.running = !controls_top.running
                 }
@@ -115,7 +117,7 @@ Rectangle {
                     anchors.fill: parent
                     cursorShape: Qt.PointingHandCursor
                     hoverEnabled: true
-                    tooltip: "Click to go to the next image"
+                    tooltip: em.pty+qsTranslate("slideshow", "Click to go to the next image")
                     onClicked: {
                         switcher.restart()
                         loadNextImage()
@@ -166,7 +168,7 @@ Rectangle {
                 width: 200
                 height: 20
 
-                handleToolTipPrefix: "Sound volume: "
+                handleToolTipPrefix: em.pty+qsTranslate("slideshow", "Sound volume:") + " "
                 handleToolTipSuffix: "%"
 
                 value: 80
@@ -198,7 +200,7 @@ Rectangle {
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
             hoverEnabled: true
-            tooltip: "Click to quit slideshow"
+            tooltip: em.pty+qsTranslate("slideshow", "Click to quit slideshow")
             onClicked:
                 quitSlideShow()
         }

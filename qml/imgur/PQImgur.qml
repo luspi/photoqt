@@ -58,7 +58,7 @@ Rectangle {
                 font.pointSize: 20
                 font.bold: true
                 visible: !report.visible
-                text: "Upload to imgur.com"
+                text: em.pty+qsTranslate("imgur", "Upload to imgur.com")
             }
 
             Text {
@@ -68,7 +68,8 @@ Rectangle {
                 font.bold: true
                 font.italic: true
                 visible: !report.visible
-                text: anonymous ? "anonymously" : accountname
+                //: Used as in 'Upload image as anonymous user'
+                text: anonymous ? em.pty+qsTranslate("imgur", "anonymous") : accountname
             }
 
             Item {
@@ -100,7 +101,7 @@ Rectangle {
                     visible: !report.visible && !error.visible && !nointernet.visible
                     color: "white"
                     font.pointSize: 12
-                    text: "Obtaining image url..."
+                    text: em.pty+qsTranslate("imgur", "Obtaining image url...")
                 }
 
                 Text {
@@ -111,7 +112,8 @@ Rectangle {
                     color: "red"
                     horizontalAlignment: Text.AlignHCenter
                     font.pointSize: 12
-                    text: "This seems to take a long time...<br>There might be a problem with your internet connection or the imgur.com servers."
+                    text: em.pty+qsTranslate("imgur", "This seems to take a long time...") + "<br>" +
+                          em.pty+qsTranslate("imgur", "There might be a problem with your internet connection or the imgur.com servers.")
                 }
 
                 Text {
@@ -122,7 +124,8 @@ Rectangle {
                     color: "red"
                     horizontalAlignment: Text.AlignHCenter
                     font.pointSize: 12
-                    text: "An Error occured while uploading image!<br>Error code: " + code
+                    text: em.pty+qsTranslate("imgur", "An Error occured while uploading image!") + "<br>" +
+                          em.pty+qsTranslate("imgur", "Error code:") + " " + code
                 }
 
                 Text {
@@ -133,7 +136,8 @@ Rectangle {
                     color: "red"
                     horizontalAlignment: Text.AlignHCenter
                     font.pointSize: 12
-                    text: "You don't seem to be connected to the internet...<br>Unable to upload!"
+                    text: em.pty+qsTranslate("imgur", "You don't seem to be connected to the internet...") + "<br>" +
+                          em.pty+qsTranslate("imgur", "Unable to upload!")
                 }
 
                 Item {
@@ -155,7 +159,7 @@ Rectangle {
 
                         Text {
                             color: "white"
-                            text: "Access Image"
+                            text: em.pty+qsTranslate("imgur", "Access Image")
                             font.pointSize: 15
                             font.bold: true
                         }
@@ -168,14 +172,14 @@ Rectangle {
                                 anchors.fill: parent
                                 cursorShape: Qt.PointingHandCursor
                                 hoverEnabled: true
-                                tooltip: "Click to open in browser"
+                                tooltip: em.pty+qsTranslate("imgur", "Click to open in browser")
                                 onClicked:
                                     Qt.openUrlExternally(parent.text)
                             }
                         }
 
                         PQButton {
-                            text: "Copy to clipboard"
+                            text: em.pty+qsTranslate("imgur", "Copy to clipboard")
                             onClicked:
                                 handlingGeneral.copyTextToClipboard(report.accessurl)
                         }
@@ -187,7 +191,7 @@ Rectangle {
 
                         Text {
                             color: "white"
-                            text: "Delete Image"
+                            text: em.pty+qsTranslate("imgur", "Delete Image")
                             font.pointSize: 15
                             font.bold: true
                         }
@@ -200,14 +204,14 @@ Rectangle {
                                 anchors.fill: parent
                                 cursorShape: Qt.PointingHandCursor
                                 hoverEnabled: true
-                                tooltip: "Click to open in browser"
+                                tooltip: em.pty+qsTranslate("imgur", "Click to open in browser")
                                 onClicked:
                                     Qt.openUrlExternally(parent.text)
                             }
                         }
 
                         PQButton {
-                            text: "Copy to clipboard"
+                            text: em.pty+qsTranslate("imgur", "Copy to clipboard")
                             onClicked:
                                 handlingGeneral.copyTextToClipboard(report.deleteurl)
                         }
@@ -226,7 +230,7 @@ Rectangle {
             PQButton {
 
                 x: (insidecont.width-width)/2
-                text: report.visible ? "Close" : "Cancel upload"
+                text: report.visible ? genericStringClose : genericStringCancel
                 onClicked:
                     abortUpload()
             }
@@ -290,8 +294,8 @@ Rectangle {
                 if(!anonymous) {
                     var ret = handlingShareImgur.authAccount()
                     if(ret !== 0) {
-                        console.log("Imgur authentication failed!!")
                         abortUpload()
+                        return
                     }
                     accountname = handlingShareImgur.getAccountUsername()
                     handlingShareImgur.upload(variables.allImageFilesInOrder[variables.indexOfCurrentImage])

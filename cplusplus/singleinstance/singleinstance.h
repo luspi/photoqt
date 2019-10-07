@@ -1,7 +1,7 @@
 #ifndef PQSINGLEINSTANCE_H
 #define PQSINGLEINSTANCE_H
 
-#include <QGuiApplication>
+#include <QApplication>
 #include <QLocalSocket>
 #include <QLocalServer>
 #include <thread>
@@ -10,7 +10,7 @@
 #include "../variables.h"
 
 // Makes sure only one instance of PhotoQt is running, and enables remote communication
-class PQSingleInstance : public QGuiApplication {
+class PQSingleInstance : public QApplication {
 
     Q_OBJECT
 

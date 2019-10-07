@@ -15,7 +15,7 @@ SET(d "qml/elements")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQSlider.qml ${d}/PQCheckbox.qml ${d}/PQButton.qml ${d}/PQMenu.qml ${d}/PQMenuItem.qml ${d}/PQToolTip.qml ${d}/PQMouseArea.qml ${d}/PQComboBox.qml ${d}/PQScrollBar.qml ${d}/PQSpinBox.qml ${d}/PQLineEdit.qml ${d}/PQProgress.qml ${d}/PQRadioButton.qml)
 
 SET(d "qml/shortcuts")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQKeyShortcuts.qml ${d}/PQMouseShortcuts.qml ${d}/handleshortcuts.js)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQKeyShortcuts.qml ${d}/PQMouseShortcuts.qml ${d}/handleshortcuts.js ${d}/PQKeyMouseStrings.qml)
 
 SET(d "qml/filedialog")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQFileDialog.qml ${d}/PQFileDialogPopout.qml)

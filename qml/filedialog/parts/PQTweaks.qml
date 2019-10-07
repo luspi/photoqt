@@ -8,8 +8,7 @@ Rectangle {
 
     height: 50
 
-    property alias showWhichFileTypeIndex: allfiles.currentIndex
-    property alias allFileTypes: allfiles.allfiletypes
+    property string showWhichFileTypeIndex: "all"
 
     Rectangle {
         x: 0
@@ -98,7 +97,38 @@ Rectangle {
 
         id: allfiles
 
-        model: []
+        property var allfiletypes: ["all", "qt", "gm", "raw", "devil", "freeimage", "poppler", "video", "allfiles"]
+
+        model: [em.pty+qsTranslate("filedialog", "All supported images"),
+                "Qt", "GraphicsMagick", "LibRaw", "DevIL",
+                "FreeImage", "PDF (Poppler)",
+                em.pty+qsTranslate("filedialog", "Video files"),
+                em.pty+qsTranslate("filedialog", "All files")]
+
+        Component.onCompleted: {
+            if(!handlingGeneral.isGraphicsMagickSupportEnabled())
+                hideItems.push(2)
+            if(!handlingGeneral.isLibRawSupportEnabled())
+                hideItems.push(3)
+            if(!handlingGeneral.isDevILSupportEnabled())
+                hideItems.push(4)
+            if(!handlingGeneral.isFreeImageSupportEnabled())
+                hideItems.push(5)
+            if(!handlingGeneral.isPopplerSupportEnabled())
+                hideItems.push(6)
+
+            var neg = 2
+            while(true) {
+                if(hideItems.indexOf(model.length-neg) != -1)
+                    neg += 1
+                else
+                    break
+            }
+            allfiles.lineBelowItem = model.length-neg
+        }
+
+        onCurrentIndexChanged:
+            showWhichFileTypeIndex = allfiletypes[allfiles.currentIndex]
 
         anchors.right: whichview.left
         anchors.rightMargin: 10
@@ -108,45 +138,6 @@ Rectangle {
         tooltipFollowsMouse: false
 
         firstItemEmphasized: true
-
-        property var allfiletypes: []
-
-        Component.onCompleted: {
-            var m = []
-            m.push(em.pty+qsTranslate("filedialog", "All supported images"))
-            allfiletypes.push("all")
-            m.push("Qt")
-            allfiletypes.push("qt")
-            if(handlingGeneral.isGraphicsMagickSupportEnabled()) {
-                m.push("GraphicsMagick")
-                allfiletypes.push("gm")
-            }
-            if(handlingGeneral.isLibRawSupportEnabled()) {
-                m.push("LibRaw")
-                allfiletypes.push("raw")
-            }
-            if(handlingGeneral.isDevILSupportEnabled()) {
-                m.push("DevIL")
-                allfiletypes.push("devil")
-            }
-            if(handlingGeneral.isFreeImageSupportEnabled()) {
-                m.push("FreeImage")
-                allfiletypes.push("freeimage")
-            }
-            if(handlingGeneral.isPopplerSupportEnabled()) {
-                m.push("PDF (Poppler)")
-                allfiletypes.push("poppler")
-            }
-            if(PQSettings.videoEnabled) {
-                m.push("Video Files")
-                allfiletypes.push("video")
-            }
-            allfiles.lineBelowItem = allfiletypes.length-1
-            m.push(em.pty+qsTranslate("filedialog", "All files"))
-            allfiletypes.push("allfiles")
-            model = m
-        }
-
     }
 
     PQButton {

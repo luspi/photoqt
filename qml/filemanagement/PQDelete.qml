@@ -54,7 +54,7 @@ Rectangle {
                 color: "white"
                 font.pointSize: 20
                 font.bold: true
-                text: "Delete file?"
+                text: em.pty+qsTranslate("filemanagement", "Delete file?")
             }
 
             Text {
@@ -72,7 +72,7 @@ Rectangle {
                 visible: false
                 font.pointSize: 15
                 horizontalAlignment: Qt.AlignHCenter
-                text: "An error occured,<br>file could not be deleted!"
+                text: em.pty+qsTranslate("filemanagement", "An error occured,<br>file could not be deleted!")
             }
 
             Item {
@@ -91,7 +91,7 @@ Rectangle {
 
                     PQButton {
                         id: button_trash
-                        text: "Move to trash"
+                        text: em.pty+qsTranslate("filemanagement", "Move to trash")
                         onClicked: {
 
                             if(!handlingFileManagement.deleteFile(variables.allImageFilesInOrder[variables.indexOfCurrentImage], false)) {
@@ -108,7 +108,7 @@ Rectangle {
                     }
                     PQButton {
                         id: button_permanent
-                        text: "Delete permanently"
+                        text: em.pty+qsTranslate("filemanagement", "Delete permanently")
                         onClicked: {
 
                             if(!handlingFileManagement.deleteFile(variables.allImageFilesInOrder[variables.indexOfCurrentImage], true)) {
@@ -125,7 +125,7 @@ Rectangle {
                     }
                     PQButton {
                         id: button_cancel
-                        text: "Cancel"
+                        text: genericStringCancel
                         onClicked: {
                             delete_top.opacity = 0
                             variables.visibleItem = ""
@@ -147,7 +147,10 @@ Rectangle {
                 font.bold: true
                 color: "white"
                 textFormat: Text.RichText
-                text: "<table><tr><td align=right>Enter</td><td>=</td><td>Move to Trash</td</tr><tr><td align=right>Shift+Enter</td><td>=</td><td>Delete permanently</td></tr></table>"
+                text: "<table><tr><td align=right>" + keymousestrings.translateShortcut("Enter") +
+                      "</td><td>=</td><td>" + em.pty+qsTranslate("filemanagement", "Move to Trash") +
+                      "</td</tr><tr><td align=right>" + keymousestrings.translateShortcut("Shift+Enter") +
+                      "</td><td>=</td><td>" + em.pty+qsTranslate("filemanagement", "Delete permanently") + "</td></tr></table>"
             }
 
         }

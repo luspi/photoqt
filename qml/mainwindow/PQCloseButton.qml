@@ -36,7 +36,9 @@ Item {
         id: rightclickmenu
 
         PQMenuItem {
-            text: PQSettings.quickInfoHideCounter ? "Show counter" : "Hide counter"
+            text: PQSettings.quickInfoHideCounter ?
+                      em.pty+qsTranslate("quickinfo", "Show counter") :
+                      em.pty+qsTranslate("quickinfo", "Hide counter")
             onTriggered: {
                 var old = PQSettings.quickInfoHideCounter
                 PQSettings.quickInfoHideCounter = !old
@@ -44,7 +46,9 @@ Item {
         }
 
         PQMenuItem {
-            text: PQSettings.quickInfoHideFilepath ? "Show file path" : "Hide file path"
+            text: PQSettings.quickInfoHideFilepath ?
+                      em.pty+qsTranslate("quickinfo", "Show file path") :
+                      em.pty+qsTranslate("quickinfo", "Hide file path")
             onTriggered: {
                 var old = PQSettings.quickInfoHideFilepath
                 PQSettings.quickInfoHideFilepath = !old
@@ -52,7 +56,9 @@ Item {
         }
 
         PQMenuItem {
-            text: PQSettings.quickInfoHideFilename ? "Show file name" : "Hide file name"
+            text: PQSettings.quickInfoHideFilename ?
+                      em.pty+qsTranslate("quickinfo", "Show file name") :
+                      em.pty+qsTranslate("quickinfo", "Hide file name")
             onTriggered: {
                 var old = PQSettings.quickInfoHideFilename
                 PQSettings.quickInfoHideFilename = !old
@@ -60,7 +66,9 @@ Item {
         }
 
         PQMenuItem {
-            text: PQSettings.quickInfoHideZoomLevel ? "Show zoom level" : "Hide zoom level"
+            text: PQSettings.quickInfoHideZoomLevel ?
+                      em.pty+qsTranslate("quickinfo", "Show zoom level") :
+                      em.pty+qsTranslate("quickinfo", "Hide zoom level")
             onTriggered: {
                 var old = PQSettings.quickInfoHideZoomLevel
                 PQSettings.quickInfoHideZoomLevel = !old
@@ -68,7 +76,9 @@ Item {
         }
 
         PQMenuItem {
-            text: PQSettings.quickInfoHideX ? "Show button for closing PhotoQt" : "Hide button for closing PhotoQt"
+            text: PQSettings.quickInfoHideX ?
+                      em.pty+qsTranslate("quickinfo", "Show button for closing PhotoQt") :
+                      em.pty+qsTranslate("quickinfo", "Hide button for closing PhotoQt")
             onTriggered: {
                 var old = PQSettings.quickInfoHideX
                 PQSettings.quickInfoHideX = !old

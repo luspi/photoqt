@@ -40,7 +40,7 @@
 int main(int argc, char **argv) {
 
     // this forces the default style as some themes (e.g., from plasma) mess with some customizations (bug reported to KDE)
-    QApplication::setDesktopSettingsAware(false);
+//    QApplication::setDesktopSettingsAware(false);
 
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 

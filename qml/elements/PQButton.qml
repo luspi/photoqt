@@ -1,11 +1,12 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import QtQml 2.0
 
 Button {
     id: control
 
     text: ""
+
+    implicitHeight: 40
 
     property string backgroundColor: "#333333"
     property string backgroundColorHover: "#3a3a3a"
@@ -27,22 +28,38 @@ Button {
 
     signal menuItemClicked(var item)
 
-    contentItem: Text {
-        text: control.text
-        font: control.font
-        opacity: enabled ? 1.0 : 0.3
-        color: control.down ? control.textColorActive : (control.mouseOver ? control.textColorHover : control.textColor)
-        Behavior on color { ColorAnimation { duration: 100 } }
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        elide: Text.ElideRight
+    //: This is a generic string written on clickable buttons - please keep short!
+    property string genericStringOk: em.pty+qsTranslate("buttongeneric", "Ok")
+    //: This is a generic string written on clickable buttons - please keep short!
+    property string genericStringCancel: em.pty+qsTranslate("buttongeneric", "Cancel")
+    //: This is a generic string written on clickable buttons - please keep short!
+    property string genericStringSave: em.pty+qsTranslate("buttongeneric", "Save")
+    //: This is a generic string written on clickable buttons - please keep short!
+    property string genericStringClose: em.pty+qsTranslate("buttongeneric", "Close")
+
+    contentItem: Item {
+        width: childrenRect.width+20
+        height: control.height
+        Text {
+            id: txt
+            text: control.text
+            font: control.font
+            y: (parent.height-height)/2
+            x: 10
+            opacity: enabled ? 1.0 : 0.3
+            color: control.down ? control.textColorActive : (control.mouseOver ? control.textColorHover : control.textColor)
+            Behavior on color { ColorAnimation { duration: 100 } }
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            elide: Text.ElideRight
+        }
     }
 
     background: Rectangle {
-//        implicitWidth: 100
+        implicitWidth: contentItem.width
         color: control.down ? control.backgroundColorActive : (control.mouseOver ? control.backgroundColorHover : control.backgroundColor)
         Behavior on color { ColorAnimation { duration: 100 } }
-        implicitHeight: 40
+        implicitHeight: contentItem.height
         opacity: enabled ? 1 : 0.3
         radius: 2
 

@@ -54,7 +54,7 @@ Rectangle {
                 color: "white"
                 font.pointSize: 30
                 font.bold: true
-                text: "Scale file"
+                text: em.pty+qsTranslate("scale", "Scale file")
             }
 
             Text {
@@ -64,7 +64,7 @@ Rectangle {
                 visible: false
                 font.pointSize: 15
                 horizontalAlignment: Qt.AlignHCenter
-                text: "An error occured,<br>file could not be scaled!"
+                text: em.pty+qsTranslate("scale", "An error occured,<br>file could not be scaled!")
             }
 
             Text {
@@ -74,7 +74,7 @@ Rectangle {
                 visible: false
                 font.pointSize: 15
                 horizontalAlignment: Qt.AlignHCenter
-                text: "This file format can currently not be scaled with PhotoQt!"
+                text: em.pty+qsTranslate("scale", "This file format can not (yet) be scaled with PhotoQt!")
             }
 
             Item {
@@ -85,7 +85,7 @@ Rectangle {
             Text {
                 x: (insidecont.width-width)/2
                 color: "white"
-                text: "New width x height: " + Math.round(newwidth.value) + " x " + Math.round(newheight.value)
+                text: em.pty+qsTranslate("scale", "New width x height:") + " " + Math.round(newwidth.value) + " x " + Math.round(newheight.value)
                 font.pointSize: 12
             }
 
@@ -162,7 +162,8 @@ Rectangle {
             PQCheckbox {
                 id: preserveaspect
                 x: (insidecont.width-width)/2
-                text: "Preserve aspect ratio"
+                //: The aspect ratio refers to the ratio of the width to the height of the image, e.g., 16:9 for most movies
+                text: em.pty+qsTranslate("scale", "Preserve aspect ratio")
                 checked: true
             }
 
@@ -172,7 +173,8 @@ Rectangle {
                     y: (quality.height-height)/2
                     color: "white"
                     font.pointSize: 12
-                    text: "Quality:"
+                    //: This refers to the quality to be used to scale the image
+                    text: em.pty+qsTranslate("scale", "Quality:")
                 }
                 PQSlider {
                     id: quality
@@ -204,7 +206,8 @@ Rectangle {
 
                     PQButton {
                         id: button_scalenew
-                        text: "Scale (create new file)"
+                        //: Written on a clickable button
+                        text: em.pty+qsTranslate("scale", "Scale (create new file)")
                         enabled: (newwidth.value>0 && newheight.value>0 && !unsupported.visible)
                         onClicked: {
 
@@ -233,7 +236,8 @@ Rectangle {
 
                     PQButton {
                         id: button_scaleinplace
-                        text: "Scale (change file in place)"
+                        //: Written on a clickable button
+                        text: em.pty+qsTranslate("scale", "Scale (change file in place)")
                         enabled: (newwidth.value>0 && newheight.value>0 && !unsupported.visible)
                         onClicked: {
 
@@ -257,7 +261,7 @@ Rectangle {
 
                     PQButton {
                         id: button_cancel
-                        text: "Cancel"
+                        text: genericStringCancel
                         onClicked: {
                             scale_top.opacity = 0
                             variables.visibleItem = ""
@@ -279,10 +283,10 @@ Rectangle {
                 font.bold: true
                 color: "white"
                 textFormat: Text.RichText
-                text: "<table><tr><td align=right>Enter</td><td>=</td><td>Scale (create new file)</td</tr>
-                      <tr><td align=right>Shift+Enter</td><td>=</td><td>Scale (change file in place)</td></tr>
-                      <tr><td align=right>Left/Right</td><td>=</td><td>De-/Increase width and height by 10%</td></tr>
-                      <tr><td align=right>+/-</td><td>=</td><td>In-/Decrease quality by 5</td></tr>
+                text: "<table><tr><td align=right>" + keymousestrings.translateShortcut("Enter") + "</td><td>=</td><td>" + em.pty+qsTranslate("scale", "Scale (create new file)") + "</td</tr>
+                      <tr><td align=right>" + keymousestrings.translateShortcut("Shift+Enter") + "</td><td>=</td><td>" + em.pty+qsTranslate("scale", "Scale (change file in place)") + "</td></tr>
+                      <tr><td align=right>" + keymousestrings.translateShortcut("Left") + "/" + keymousestrings.translateShortcut("Right") + "</td><td>=</td><td>" + em.pty+qsTranslate("scale", "De-/Increase width and height by 10%") + "</td></tr>
+                      <tr><td align=right>+/-</td><td>=</td><td>" + em.pty+qsTranslate("scale", "In-/Decrease quality by 5%") + "</td></tr>
                       </table>"
             }
 

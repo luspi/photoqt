@@ -71,5 +71,6 @@
         <file>mainwindow/image/PQFaceTracker.qml</file>
         <file>mainwindow/image/PQFaceTagger.qml</file>
         <file>mainwindow/PQMessage.qml</file>
+        <file>shortcuts/PQKeyMouseStrings.qml</file>
     </qresource>
 </RCC>

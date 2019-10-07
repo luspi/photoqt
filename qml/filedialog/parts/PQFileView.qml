@@ -22,10 +22,10 @@ GridView {
         id: files_model
 
         property var validcategories: ["qt", "gm", "raw", "devil", "freeimage", "poppler", "video"]
-        nameFilters: tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]==="all" ?
+        nameFilters: tweaks.showWhichFileTypeIndex==="all" ?
                          PQImageFormats.getAllEnabledFileFormats() :
-                         (validcategories.indexOf(tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]) > -1 ?
-                              PQImageFormats.getEnabledFileFormats(tweaks.allFileTypes[tweaks.showWhichFileTypeIndex]) :
+                         (validcategories.indexOf(tweaks.showWhichFileTypeIndex) > -1 ?
+                              PQImageFormats.getEnabledFileFormats(tweaks.showWhichFileTypeIndex) :
                               [])
 
         showHidden: PQSettings.openShowHiddenFilesFolders
@@ -285,12 +285,12 @@ GridView {
                 }
             }
 
-            PQRightClickMenu {
-                id: rightclickmenu
-                isFolder: fileIsDir
-                isFile: !fileIsDir
-                path: filePath
-            }
+//            PQRightClickMenu {
+//                id: rightclickmenu
+//                isFolder: fileIsDir
+//                isFile: !fileIsDir
+//                path: filePath
+//            }
 
             Drag.active: dragArea.drag.active
             Drag.hotSpot.x: fileicon.width/2

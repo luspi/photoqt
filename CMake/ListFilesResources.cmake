@@ -2,7 +2,7 @@
 SET(photoqt_RESOURCES ${photoqt_RESOURCES} qml/qml.qrc)
 
 # Add language resource file
-#SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${CMAKE_CURRENT_BINARY_DIR}/lang.qrc)
+SET(photoqt_RESOURCES ${photoqt_RESOURCES} ${CMAKE_CURRENT_BINARY_DIR}/lang.qrc)
 
 # And the images
 SET(photoqt_RESOURCES ${photoqt_RESOURCES} img/img.qrc)

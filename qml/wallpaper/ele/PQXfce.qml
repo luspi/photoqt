@@ -44,7 +44,7 @@ Column {
         color: "red"
         font.pointSize: 12
         font.bold: true
-        text: "Warning: <i>xfconf-query</i> not found"
+        text: em.pty+qsTranslate("wallpaper", "Warning: %1 not found").arg("<i>xfconf-query</i>")
     }
 
     Item {
@@ -65,7 +65,8 @@ Column {
             x: (parent.width-width)/2
             color: "white"
             font.pointSize: 15
-            text: "Set to which screens"
+            //: As in 'set wallpaper to which screens'
+            text: em.pty+qsTranslate("wallpaper", "Set to which screens")
         }
 
         Column {
@@ -76,7 +77,7 @@ Column {
             Repeater {
                 model: numDesktops
                 PQCheckbox {
-                    text: "Screen #" + (index+1)
+                    text: em.pty+qsTranslate("wallpaper", "Screen") + " #" + (index+1)
                     checked: true
                     onCheckedChanged: {
                         if(!checked)
@@ -100,7 +101,8 @@ Column {
             x: (parent.width-width)/2
             color: "white"
             font.pointSize: 15
-            text: "Choose picture option"
+            //: picture option refers to how to format a pictrue when setting it as wallpaper
+            text: em.pty+qsTranslate("wallpaper", "Choose picture option")
         }
 
         PQComboBox {

@@ -53,7 +53,7 @@ Rectangle {
                 color: "white"
                 font.pointSize: 20
                 font.bold: true
-                text: "Filter images in current directory"
+                text: em.pty+qsTranslate("filter", "Filter images in current directory")
             }
 
             Text {
@@ -64,7 +64,7 @@ Rectangle {
                 wrapMode: Text.WordWrap
                 color: "white"
                 font.pointSize: 12
-                text: "Enter here the terms you want to filter the images by. Separate multiple terms by a space."
+                text: em.pty+qsTranslate("filter", "Enter here the terms you want to filter the images by. Separate multiple terms by a space.")
             }
 
             Text {
@@ -75,7 +75,7 @@ Rectangle {
                 wrapMode: Text.WordWrap
                 color: "white"
                 font.pointSize: 12
-                text: "If you want to filter by file extension, put a dot '.' in front of the term."
+                text: em.pty+qsTranslate("filter", "If you want to filter by file extension, put a dot '.' in front of the term.")
             }
 
 
@@ -87,7 +87,7 @@ Rectangle {
                 width: 300
                 height: 40
 
-                placeholderText: "Enter term"
+                placeholderText: em.pty+qsTranslate("filter", "Enter filter term")
 
             }
 
@@ -107,7 +107,8 @@ Rectangle {
 
                     PQButton {
                         id: button_ok
-                        text: "Filter"
+                        //: Written on a clickable button - please keep short
+                        text: em.pty+qsTranslate("filter", "Filter")
                         onClicked: {
                             filter_top.opacity = 0
                             variables.visibleItem = ""
@@ -119,7 +120,7 @@ Rectangle {
                     }
                     PQButton {
                         id: button_cancel
-                        text: "Cancel"
+                        text: genericStringCancel
                         onClicked: {
                             filter_top.opacity = 0
                             variables.visibleItem = ""
@@ -128,7 +129,8 @@ Rectangle {
                     PQButton {
                         scale: 0.8
                         id: button_removefilter
-                        text: "Remove filter"
+                        //: Written on a clickable button - please keep short
+                        text: em.pty+qsTranslate("filter", "Remove filter")
                         onClicked: {
                             filter_top.opacity = 0
                             variables.visibleItem = ""

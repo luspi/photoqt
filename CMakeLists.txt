@@ -52,9 +52,9 @@ option(POPPLER "Use Poppler library" ON)
 ################################
 
 if(WIN32)
-    find_package(Qt5 COMPONENTS Core Quick Xml Svg Multimedia DBus WinExtras REQUIRED)
+    find_package(Qt5 COMPONENTS Core Quick Xml Svg Multimedia DBus LinguistTools WinExtras REQUIRED)
 else()
-    find_package(Qt5 COMPONENTS Core Quick Xml Svg Multimedia DBus REQUIRED)
+    find_package(Qt5 COMPONENTS Core Quick Xml Svg Multimedia DBus LinguistTools REQUIRED)
 endif()
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
@@ -89,21 +89,25 @@ endif(POPPLER)
 # We first copy the most recent *.ts files to the build directory and then process them
 # This way, we don't have to mess with files outside of the build folder
 
+#qt5_create_translation(qm_files ${photoqt_SOURCES} ${photoqt_HEADERS} ${photoqt_QML} ${CMAKE_CURRENT_BINARY_DIR}/de.ts)
+#qt5_create_translation(qm_files ${photoqt_SOURCES} ${photoqt_HEADERS} ${photoqt_QML} ${CMAKE_CURRENT_BINARY_DIR}/buildlang/de.ts OPTIONS "-no-obsolete")
+
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/buildlang)
 file(GLOB files "lang/*.ts")
 foreach(file ${files})
-#   get_filename_component(filename ${file} NAME)
-#   file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/lang/${filename} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/buildlang)
-#   qt5_create_translation(qm_files ${photoqt_SOURCES} ${photoqt_QML} ${CMAKE_CURRENT_BINARY_DIR}/buildlang/${filename} OPTIONS "-no-obsolete")
+   get_filename_component(filename ${file} NAME)
+   file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/lang/${filename} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/buildlang)
+   qt5_create_translation(qm_files ${photoqt_SOURCES} ${photoqt_QML} ${CMAKE_CURRENT_BINARY_DIR}/buildlang/${filename} OPTIONS "-no-obsolete")
 endforeach()
 
-# Copy the language QRC file to the output directory, because the files listed in the
-# qrc file are relative to that directory.
-# add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/lang.qrc
-#     COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/lang.qrc ${CMAKE_CURRENT_BINARY_DIR}/lang.qrc
-#     MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/lang.qrc
-#     DEPENDS ${qm_files})
+## Copy the language QRC file to the output directory, because the files listed in the
+## qrc file are relative to that directory.
+add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/lang.qrc
+     COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/lang/lang.qrc ${CMAKE_CURRENT_BINARY_DIR}/lang.qrc
+     MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/lang.qrc
+     DEPENDS ${qm_files})
 
+add_custom_target(translations DEPENDS ${qm_files})
 
 ##################################################################
 #### GENERATE RANDOM CRYPT KEY FOR SIMPLE ENCRYPTION          ####
@@ -123,10 +127,10 @@ add_definitions(-DSIMPLECRYPTKEY="${CRYPTKEY}")
 
 # on windows we add application icons
 if(WIN32)
-    add_executable(${PROJECT_NAME} WIN32 ${photoqt_SOURCES} ${photoqt_QML} ${photoqt_RESOURCES} windowsicons.rc)
+    add_executable(${PROJECT_NAME} WIN32 ${photoqt_SOURCES} ${photoqt_QML} ${photoqt_RESOURCES} ${qm_files} windowsicons.rc)
     target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Xml Qt5::Svg Qt5::Multimedia Qt5::DBus Qt5::WinExtras)
 elseif(NOT WIN32)
-    add_executable(${PROJECT_NAME} ${photoqt_SOURCES} ${photoqt_QML} ${photoqt_RESOURCES})
+    add_executable(${PROJECT_NAME} ${photoqt_SOURCES} ${photoqt_QML} ${photoqt_RESOURCES} ${qm_files})
     target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Xml Qt5::Svg Qt5::Multimedia Qt5::DBus)
 endif(WIN32)
 

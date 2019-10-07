@@ -54,7 +54,7 @@ Rectangle {
                 color: "white"
                 font.pointSize: 20
                 font.bold: true
-                text: "Rename"
+                text: em.pty+qsTranslate("filemanagement", "Rename file")
             }
 
             Text {
@@ -72,7 +72,7 @@ Rectangle {
                 visible: false
                 font.pointSize: 15
                 horizontalAlignment: Qt.AlignHCenter
-                text: "An error occured,<br>file could not be renamed!"
+                text: em.pty+qsTranslate("filemanagement", "An error occured,<br>file could not be renamed!")
             }
 
             PQLineEdit {
@@ -83,7 +83,7 @@ Rectangle {
                 width: 300
                 height: 40
 
-                placeholderText: "Enter new filename"
+                placeholderText: em.pty+qsTranslate("filemanagement", "Enter new filename")
 
             }
 
@@ -103,7 +103,7 @@ Rectangle {
 
                     PQButton {
                         id: button_ok
-                        text: "Rename file"
+                        text: em.pty+qsTranslate("filemanagement", "Rename file")
                         enabled: filenameedit.text!=""
                         onClicked: {
 
@@ -129,7 +129,7 @@ Rectangle {
                     }
                     PQButton {
                         id: button_cancel
-                        text: "Cancel"
+                        text: genericStringCancel
                         onClicked: {
                             rename_top.opacity = 0
                             variables.visibleItem = ""

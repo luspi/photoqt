@@ -75,7 +75,7 @@ Window {
             Text {
                 id: emptymessage
                 anchors.centerIn: parent
-                text: "Open a file to begin"
+                text: em.pty+qsTranslate("other", "Open a file to begin")
                 visible: !variables.filterSet&&variables.indexOfCurrentImage==-1
                 font.pointSize: 50
                 font.bold: true
@@ -85,7 +85,8 @@ Window {
             Text {
                 id: filtermessage
                 anchors.centerIn: parent
-                text: "No matches found"
+                //: Used as in 'No matches found for the currently set filter'
+                text: em.pty+qsTranslate("other", "No matches found")
                 visible: variables.filterSet&&variables.indexOfCurrentImage==-1
                 font.pointSize: 50
                 font.bold: true
@@ -96,6 +97,7 @@ Window {
 
     }
 
+    //: The window title of PhotoQt
     title: em.pty+qsTranslate("other", "PhotoQt Image Viewer")
 
     onClosing: {
@@ -225,9 +227,20 @@ Window {
     PQCppMetaData { id: cppmetadata }
 
     PQKeyShortcuts { id: shortcuts }
+    PQKeyMouseStrings { id: keymousestrings }
 
     // Localisation handler, allows for runtime switches of languages
-    PQLocalisation { id : em }
+    PQLocalisation {
+        id : em
+        Component.onCompleted:
+            em.setLanguage(PQSettings.language)
+    }
+
+    Connections {
+        target: PQSettings
+        onLanguageChanged:
+            em.setLanguage(PQSettings.language)
+    }
 
     function quitPhotoQt() {
         Qt.quit()

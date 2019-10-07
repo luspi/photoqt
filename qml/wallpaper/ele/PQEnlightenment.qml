@@ -46,7 +46,7 @@ Column {
         color: "red"
         font.pointSize: 12
         font.bold: true
-        text: "Warning: <i>msgbus (DBUS)</i> module not activated"
+        text: em.pty+qsTranslate("wallpaper", "Warning: %1 module not activated").arg("<i>msgbus (DBUS)</i>")
     }
 
     Text {
@@ -55,7 +55,7 @@ Column {
         color: "red"
         font.pointSize: 12
         font.bold: true
-        text: "Warning: <i>enlightenment_remote</i> not found"
+        text: em.pty+qsTranslate("wallpaper", "Warning: %1 not found").arg("<i>enlightenment_remote</i>")
     }
 
     Item {
@@ -76,7 +76,8 @@ Column {
             x: (parent.width-width)/2
             color: "white"
             font.pointSize: 15
-            text: "Set to which screens"
+            //: As in 'Set wallpaper to which screens'
+            text: em.pty+qsTranslate("wallpaper", "Set to which screens")
         }
 
         Column {
@@ -87,7 +88,8 @@ Column {
             Repeater {
                 model: numDesktops
                 PQCheckbox {
-                    text: "Screen #" + (index+1)
+                    //: Used in wallpaper element
+                    text: em.pty+qsTranslate("wallpaper", "Screen") + " #" + (index+1)
                     checked: true
                     onCheckedChanged: {
                         if(!checked)
@@ -111,7 +113,8 @@ Column {
             x: (parent.width-width)/2
             color: "white"
             font.pointSize: 15
-            text: "Set to which workspaces"
+            //: Enlightenment desktop environment handles wallpapers per workspace (different from screen)
+            text: em.pty+qsTranslate("wallpaper", "Set to which workspaces")
         }
 
         Column {
@@ -123,7 +126,8 @@ Column {
                 model: numWorkspaces[0]*numWorkspaces[1]
                 PQCheckbox {
                     property string num: ((index%numWorkspaces[1] +1) + " - " + (Math.floor(index/numWorkspaces[1]) +1))
-                    text: "Workspace: " + num
+                    //: Enlightenment desktop environment handles wallpapers per workspace (different from screen)
+                    text: em.pty+qsTranslate("wallpaper", "Workspace:") + " " + num
                     checked: true
                     onCheckedChanged: {
                         if(!checked)

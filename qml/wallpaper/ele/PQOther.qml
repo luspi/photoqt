@@ -31,7 +31,8 @@ Column {
         x: (parent.width-width)/2
         color: "white"
         font.pointSize: 15
-        text: "Other"
+        //: Used as in 'Other Desktop Environment'
+        text: em.pty+qsTranslate("wallpaper", "Other")
         font.bold: true
     }
 
@@ -46,7 +47,7 @@ Column {
         color: "red"
         font.pointSize: 12
         font.bold: true
-        text: "Warning: <i>feh</i> not found"
+        text: em.pty+qsTranslate("wallpaper", "Warning: %1 not found").arg("<i>feh</i>")
     }
 
     Text {
@@ -55,7 +56,7 @@ Column {
         color: "red"
         font.pointSize: 12
         font.bold: true
-        text: "Warning: <i>nitrogen</i> not found"
+        text: em.pty+qsTranslate("wallpaper", "Warning: %1 not found").arg("<i>nitrogen</i>")
     }
 
     Item {
@@ -72,7 +73,8 @@ Column {
         Text {
             y: (feh.height-height)/2
             color: "white"
-            text: "Tool:"
+            //: 'Tool' refers to a program that can be executed
+            text: em.pty+qsTranslate("wallpaper", "Tool:")
         }
 
         PQRadioButton {

@@ -102,9 +102,9 @@ Rectangle {
             x: 25
             y: 15
             text: variables.indexOfCurrentImage==-1 ?
-                      em.pty+qsTr("Histogram...") :
+                      em.pty+qsTranslate("histogram", "Histogram")+"..." :
                       //: As in 'Loading the histogram for the current image'
-                      em.pty+qsTr("Loading...")
+                      em.pty+qsTranslate("histogram", "Loading...")
             color: "white"
             font.pixelSize: 15
             font.bold: true
@@ -134,7 +134,7 @@ Rectangle {
             id: dragArea
             hoverEnabled: true
             //: Used for the histogram. The version refers to the type of histogram that is available (colored and greyscale)
-            tooltip: (PQSettings.histogramPopoutElement ? "" : (em.pty+qsTr("Click-and-drag to move.")+" ")) + em.pty+qsTr("Right click to switch version.")
+            tooltip: (PQSettings.histogramPopoutElement ? "" : (em.pty+qsTranslate("histogram", "Click-and-drag to move.")+" ")) + em.pty+qsTranslate("histogram", "Right click to switch version.")
             acceptedButtons: Qt.LeftButton | Qt.RightButton
             anchors.fill: parent
             drag.target: PQSettings.histogramPopoutElement ? undefined : hist_top

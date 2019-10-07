@@ -1,6 +1,6 @@
 #include "singleinstance.h"
 
-PQSingleInstance::PQSingleInstance(int &argc, char *argv[]) : QGuiApplication(argc, argv) {
+PQSingleInstance::PQSingleInstance(int &argc, char *argv[]) : QApplication(argc, argv) {
 
     setApplicationName("photoqt");
     setApplicationVersion(VERSION);

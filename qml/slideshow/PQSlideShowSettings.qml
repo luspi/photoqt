@@ -42,7 +42,8 @@ Rectangle {
             color: "white"
             font.pointSize: 20
             font.bold: true
-            text: "Slideshow"
+            //: This is the heading of the slideshow settings element
+            text: em.pty+qsTranslate("slideshow", "Slideshow")
         }
 
         clip: true
@@ -90,7 +91,7 @@ Rectangle {
                         Text {
                             y: (timetext.height-height)/2
                             color: "white"
-                            text: "Time before switching to next image:"
+                            text: em.pty+qsTranslate("slideshow", "Time before switching to next image:")
                         }
 
                         PQSpinBox {
@@ -127,7 +128,8 @@ Rectangle {
                         Text {
                             y: (transition.height-height)/2
                             color: "white"
-                            text: "Transition speed:"
+                            //: Refers to how slow/fast two image should transition into each other during a slideshow
+                            text: em.pty+qsTranslate("slideshow", "Transition speed:")
                         }
 
                         Column {
@@ -150,14 +152,19 @@ Rectangle {
 
                             Text {
                                 color: "white"
-                                text: "Current speed: <b>" +
+                                //: 'speed' refers to the transition speed during a slideshow
+                                text: em.pty+qsTranslate("slideshow", "Current speed:") + " <b>" +
                                           (transition.value == 15 ?
-                                              "immediately, without animation" :
+                                               //: Possible speed of transitioning two images during a slideshow
+                                              em.pty+qsTranslate("slideshow", "immediately, without animation") :
                                               (transition.value > 9 ?
-                                                   "pretty fast animation" :
+                                                   //: Possible speed of transitioning two images during a slideshow
+                                                   em.pty+qsTranslate("slideshow", "pretty fast animation") :
                                                    (transition.value > 4 ?
-                                                        "not too fast and not too slow" :
-                                                        "very slow animation"))) + "</b>"
+                                                        //: Possible speed of transitioning two images during a slideshow
+                                                        em.pty+qsTranslate("slideshow", "not too fast and not too slow") :
+                                                        //: Possible speed of transitioning two images during a slideshow
+                                                        em.pty+qsTranslate("slideshow", "very slow animation")))) + "</b>"
                             }
 
                         }
@@ -168,21 +175,21 @@ Rectangle {
 
                 PQCheckbox {
                     id: loopcheck
-                    text: "Loop over images"
+                    text: em.pty+qsTranslate("slideshow", "Loop over images")
                     checked: PQSettings.slideShowLoop
                     onCheckedChanged: PQSettings.slideShowLoop = checked
                 }
 
                 PQCheckbox {
                     id: shufflecheck
-                    text: "Shuffle images"
+                    text: em.pty+qsTranslate("slideshow", "Shuffle images")
                     checked: PQSettings.slideShowShuffle
                     onCheckedChanged: PQSettings.slideShowShuffle = checked
                 }
 
                 PQCheckbox {
                     id: quickcheck
-                    text: "Hide Quickinfo"
+                    text: em.pty+qsTranslate("slideshow", "Hide Quickinfo")
                     checked: PQSettings.slideShowHideQuickInfo
                     onCheckedChanged: PQSettings.slideShowHideQuickInfo = checked
                 }
@@ -192,7 +199,7 @@ Rectangle {
                     PQCheckbox {
                         id: music_check
                         y: (music_button.height-height)/2
-                        text: "Enable Music"
+                        text: em.pty+qsTranslate("slideshow", "Enable Music")
                         checked: PQSettings.slideShowMusicFile!=""
                     }
 
@@ -203,7 +210,7 @@ Rectangle {
                         PQButton {
                             id: music_button
                             height: 25
-                            text: "Select music file"
+                            text: em.pty+qsTranslate("slideshow", "Select music file")
                             enabled: music_check.checked
                             onClicked: {
                                 selectmusicfile.visible = true
@@ -214,7 +221,8 @@ Rectangle {
                             color: music_check.checked ? "#ffffff" : "#888888"
                             width: insidecont.width-music_check.width
                             wrapMode: Text.WordWrap
-                            text: "Currently selected file: <b>" + (selectmusicfile.prevSelectedFile=="" ? "---" : selectmusicfile.prevSelectedFile) + "</b>"
+                            //: This refers to the currently selected music file to be used during slideshow
+                            text: em.pty+qsTranslate("slideshow", "Currently selected file:") + " <b>" + (selectmusicfile.prevSelectedFile=="" ? "---" : selectmusicfile.prevSelectedFile) + "</b>"
                         }
 
                     }
@@ -225,7 +233,7 @@ Rectangle {
                         selectExisting: true
                         selectMultiple: false
                         visible: false
-                        title: "Select music file"
+                        title: em.pty+qsTranslate("slideshow", "Select music file")
                         folder: shortcuts.music
                         property string prevSelectedFile: PQSettings.slideShowMusicFile
                         onPrevSelectedFileChanged: PQSettings.slideShowMusicFile = prevSelectedFile
@@ -260,7 +268,8 @@ Rectangle {
 
                 PQButton {
                     id: button_start
-                    text: "Start slideshow"
+                    //: Written on a clickable button
+                    text: em.pty+qsTranslate("slideshow", "Start slideshow")
                     onClicked: {
                         if(!music_check.checked) {
                             PQSettings.slideShowMusicFile = ""
@@ -278,7 +287,7 @@ Rectangle {
                 }
                 PQButton {
                     id: button_cancel
-                    text: "Cancel"
+                    text: genericStringCancel
                     onClicked: {
                         if(!music_check.checked) {
                             PQSettings.slideShowMusicFile = ""

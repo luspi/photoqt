@@ -65,7 +65,7 @@ Rectangle {
 
             cursorShape: Qt.SizeHorCursor
 
-            tooltip: "Click and drag to resize main menu"
+            tooltip: em.pty+qsTranslate("MainMenu", "Click and drag to resize main menu")
 
             property int oldMouseX
 
@@ -88,82 +88,81 @@ Rectangle {
     }
 
     property var allitems_static: [
-        //: This is an entry in the main menu on the right. Keep short!
+        //: This is an entry in the main menu on the right. Please keep short!
         [["__open", "open", em.pty+qsTranslate("MainMenu", "Open File"), "hide"]],
-        //: This is an entry in the main menu on the right. Keep short!
+        //: This is an entry in the main menu on the right. Please keep short!
         [["__settings", "settings", em.pty+qsTranslate("MainMenu", "Settings"), "hide"]],
-        //: This is an entry in the main menu on the right. Keep short!
+        //: This is an entry in the main menu on the right. Please keep short!
         [["__wallpaper", "settings", em.pty+qsTranslate("MainMenu", "Set as Wallpaper"), "hide"]],
-        //: This is an entry in the main menu on the right. Keep short!
+        //: This is an entry in the main menu on the right. Please keep short!
         [["slideshow","slideshow",em.pty+qsTranslate("MainMenu", "Slideshow")],
-                //: This is an entry in the main menu on the right, used as in 'setting up a slideshow'. Keep short!
+                //: This is an entry in the main menu on the right, used as in 'setting up a slideshow'. Please keep short!
                 ["__slideshow","",em.pty+qsTranslate("MainMenu", "setup"), "hide"],
-                //: This is an entry in the main menu on the right, used as in 'quickstarting a slideshow'. Keep short!
+                //: This is an entry in the main menu on the right, used as in 'quickstarting a slideshow'. Please keep short!
                 ["__slideshowQuick","",em.pty+qsTranslate("MainMenu", "quickstart"), "hide"]],
-        //: This is an entry in the main menu on the right. Keep short!
+        //: This is an entry in the main menu on the right. Please keep short!
         [["__filterImages", "filter", em.pty+qsTranslate("MainMenu", "Filter Images in Folder"), "hide"]],
-        //: This is an entry in the main menu on the right. Keep short!
+        //: This is an entry in the main menu on the right. Please keep short!
         [["__hideMeta", "metadata", em.pty+qsTranslate("MainMenu", "Show/Hide Metadata"), "donthide"]],
-        //: This is an entry in the main menu on the right. Keep short!
+        //: This is an entry in the main menu on the right. Please keep short!
         [["__histogram", "histogram", em.pty+qsTranslate("MainMenu", "Show/Hide Histogram"), "donthide"]],
-        //: This is an entry in the main menu on the right. Keep short!
+        //: This is an entry in the main menu on the right. Please keep short!
         [["__tagFaces", "faces", em.pty+qsTranslate("MainMenu", "Face tagging mode"), "hide"]],
-        //: This is an entry in the main menu on the right. Keep short!
+        //: This is an entry in the main menu on the right. Please keep short!
         [["__about", "about", em.pty+qsTranslate("MainMenu", "About PhotoQt"), "hide"]],
-        //: This is an entry in the main menu on the right. Keep short!
+        //: This is an entry in the main menu on the right. Please keep short!
         [["__quit", "quit", em.pty+qsTranslate("MainMenu", "Quit"), "hide"]],
 
         [["heading","",""]],
 
-        //: This is an entry in the main menu on the right, used as in 'Go To some image'. Keep short!
+        //: This is an entry in the main menu on the right, used as in 'Go To some image'. Please keep short!
         [["","goto",em.pty+qsTranslate("MainMenu", "Go to")],
-                //: This is an entry in the main menu on the right, used as in 'go to previous image'. Keep short!
+                //: This is an entry in the main menu on the right, used as in 'go to previous image'. Please keep short!
                 ["__prev","",em.pty+qsTranslate("MainMenu", "previous"), "donthide"],
-                //: This is an entry in the main menu on the right, used as in 'go to next image'. Keep short!
+                //: This is an entry in the main menu on the right, used as in 'go to next image'. Please keep short!
                 ["__next","",em.pty+qsTranslate("MainMenu", "next"), "donthide"],
-                //: This is an entry in the main menu on the right, used as in 'go to first image'. Keep short!
+                //: This is an entry in the main menu on the right, used as in 'go to first image'. Please keep short!
                 ["__gotoFirstThb","",em.pty+qsTranslate("MainMenu", "first"), "donthide"],
-                //: This is an entry in the main menu on the right, used as in 'go to last image'. Keep short!
+                //: This is an entry in the main menu on the right, used as in 'go to last image'. Please keep short!
                 ["__gotoLastThb","",em.pty+qsTranslate("MainMenu", "last"), "donthide"]],
-        //: This is an entry in the main menu on the right, used as in 'Zoom image'. Keep short!
+        //: This is an entry in the main menu on the right, used as in 'Zoom image'. Please keep short!
         [["zoom","zoom",em.pty+qsTranslate("MainMenu", "Zoom")],
                 ["__zoomIn","","+", "donthide"],
                 ["__zoomOut","","-", "donthide"],
                 ["__zoomReset","","0", "donthide"],
                 ["__zoomActual","","1:1", "donthide"]],
-        //: This is an entry in the main menu on the right, used as in 'Rotate image'. Keep short!
+        //: This is an entry in the main menu on the right, used as in 'Rotate image'. Please keep short!
         [["rotate","rotate",em.pty+qsTranslate("MainMenu", "Rotate")],
-                //: This is an entry in the main menu on the right, used as in 'Rotate image left'. Keep short!
+                //: This is an entry in the main menu on the right, used as in 'Rotate image left'. Please keep short!
                 ["__rotateL","",em.pty+qsTranslate("MainMenu", "left"), "donthide"],
-                //: This is an entry in the main menu on the right, used as in 'Rotate image right'. Keep short!
+                //: This is an entry in the main menu on the right, used as in 'Rotate image right'. Please keep short!
                 ["__rotateR","",em.pty+qsTranslate("MainMenu", "right"), "donthide"],
-                //: This is an entry in the main menu on the right, used as in 'Reset rotation of image'. Keep short!
+                //: This is an entry in the main menu on the right, used as in 'Reset rotation of image'. Please keep short!
                 ["__rotate0","",em.pty+qsTranslate("MainMenu", "reset"), "donthide"]],
-        //: This is an entry in the main menu on the right, used as in 'Flip/Mirror image'. Keep short!
+        //: This is an entry in the main menu on the right, used as in 'Flip/Mirror image'. Please keep short!
         [["flip","flip",em.pty+qsTranslate("MainMenu", "Flip")],
-                //: This is an entry in the main menu on the right, used as in 'Flip/Mirror image horizontally'. Keep short!
+                //: This is an entry in the main menu on the right, used as in 'Flip/Mirror image horizontally'. Please keep short!
                 ["__flipH","",em.pty+qsTranslate("MainMenu", "horizontal"), "donthide"],
-                //: This is an entry in the main menu on the right, used as in 'Flip/Mirror image vertically'. Keep short!
+                //: This is an entry in the main menu on the right, used as in 'Flip/Mirror image vertically'. Please keep short!
                 ["__flipV","",em.pty+qsTranslate("MainMenu", "vertical"), "donthide"],
-                //: This is an entry in the main menu on the right, used as in 'Reset flip/mirror of image'. Keep short!
+                //: This is an entry in the main menu on the right, used as in 'Reset flip/mirror of image'. Please keep short!
                 ["__flipReset","",em.pty+qsTranslate("MainMenu", "reset"), "donthide"]],
-        //: This is an entry in the main menu on the right, used to refer to the current file (specifically the file, not directly the image).
-        //: Keep short!
+        //: This is an entry in the main menu on the right, used to refer to the current file (specifically the file, not directly the image). Please keep short!
         [["","copy",em.pty+qsTranslate("MainMenu", "File")],
-                //: This is an entry in the main menu on the right, used as in 'rename file'. Keep short!
+                //: This is an entry in the main menu on the right, used as in 'rename file'. Please keep short!
                 ["__rename","",em.pty+qsTranslate("MainMenu", "rename"), "hide"],
-                //: This is an entry in the main menu on the right, used as in 'copy file'. Keep short!
+                //: This is an entry in the main menu on the right, used as in 'copy file'. Please keep short!
                 ["__copy","",em.pty+qsTranslate("MainMenu", "copy"), "hide"],
-                //: This is an entry in the main menu on the right, used as in 'move file'. Keep short!
+                //: This is an entry in the main menu on the right, used as in 'move file'. Please keep short!
                 ["__move","",em.pty+qsTranslate("MainMenu", "move"), "hide"],
-                //: This is an entry in the main menu on the right, used as in 'delete file'. Keep short!
+                //: This is an entry in the main menu on the right, used as in 'delete file'. Please keep short!
                 ["__delete","",em.pty+qsTranslate("MainMenu", "delete"), "hide"]],
 
         [["heading","",""]],
 
-        //: This is an entry in the main menu on the right. Keep short!
+        //: This is an entry in the main menu on the right. Please keep short!
         [["__scale","scale",em.pty+qsTranslate("MainMenu", "Scale Image"), "hide"]],
-        //: This is an entry in the main menu on the right. Keep short!
+        //: This is an entry in the main menu on the right. Please keep short!
         [["__defaultFileManager","open",em.pty+qsTranslate("MainMenu", "Open in default file manager"), "donthide"]]
     ]
     property var allitems_external: []
@@ -177,6 +176,7 @@ Rectangle {
         font.pointSize: 15
         color: "white"
         font.bold: true
+        //: This is the heading of the main menu element
         text: em.pty+qsTranslate("MainMenu", "Main Menu")
 
     }

@@ -9,6 +9,8 @@ ComboBox {
     property bool firstItemEmphasized: false
     property int lineBelowItem: -1
 
+    property var hideItems: []
+
     property string prefix: ""
 
     property int largestWidthOfItem: 0
@@ -16,6 +18,8 @@ ComboBox {
 
     delegate: ItemDelegate {
         id: controldelegate
+        visible: hideItems.indexOf(index)==-1
+        height: visible ? background.height : 0
         contentItem: Text {
             text: control.prefix + modelData
             color: "white"
@@ -23,7 +27,7 @@ ComboBox {
             elide: Text.ElideRight
             verticalAlignment: Text.AlignVCenter
             Component.onCompleted: {
-                if(firstItemEmphasized && index == 0)
+                if(index == 0 && firstItemEmphasized)
                     font.bold = true
             }
         }

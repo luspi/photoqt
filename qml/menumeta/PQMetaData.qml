@@ -59,7 +59,7 @@ Rectangle {
 
             enabled: !PQSettings.metadataPopoutElement
 
-            tooltip: "Click and drag to resize meta data"
+            tooltip: em.pty+qsTranslate("metadata", "Click and drag to resize meta data")
 
             property int oldMouseX
 
@@ -82,49 +82,49 @@ Rectangle {
     }
 
     property var allMetaData: [
-        //: Keep string short!
-        qsTranslate("metadata", "File name"), handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]), PQSettings.metaFilename,
-        //: The dimensions of the loaded image. Keep string short!
-        qsTranslate("metadata", "Dimensions"), cppmetadata.dimensions, PQSettings.metaDimensions,
-        //: Used as in "Image 3/16". The numbers (position of image in folder) are added on automatically. Keep string short!
-        qsTranslate("metadata", "Image #/#"), ((variables.indexOfCurrentImage+1)+"/"+variables.allImageFilesInOrder.length), PQSettings.metaImageNumber,
-        //: Keep string short!
-        qsTranslate("metadata", "File size"), cppmetadata.fileSize, PQSettings.metaFileSize,
-        //: Keep string short!
-        qsTranslate("metadata", "File type"), handlingGeneral.getFileType(variables.allImageFilesInOrder[variables.indexOfCurrentImage]), PQSettings.metaFileType,
+        //: Please keep string short!
+        em.pty+qsTranslate("metadata", "File name"), handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage]), PQSettings.metaFilename,
+        //: The dimensions of the loaded image. Please keep string short!
+        em.pty+qsTranslate("metadata", "Dimensions"), cppmetadata.dimensions, PQSettings.metaDimensions,
+        //: Used as in "Image 3/16". The numbers (position of image in folder) are added on automatically. Please keep string short!
+        em.pty+qsTranslate("metadata", "Image #/#"), ((variables.indexOfCurrentImage+1)+"/"+variables.allImageFilesInOrder.length), PQSettings.metaImageNumber,
+        //: Please keep string short!
+        em.pty+qsTranslate("metadata", "File size"), cppmetadata.fileSize, PQSettings.metaFileSize,
+        //: Please keep string short!
+        em.pty+qsTranslate("metadata", "File type"), handlingGeneral.getFileType(variables.allImageFilesInOrder[variables.indexOfCurrentImage]), PQSettings.metaFileType,
         "", "", true,
-        //: Exif image metadata: the make of the camera used to take the photo. Keep string short!
-        qsTranslate("metadata", "Make"), cppmetadata.exifImageMake, PQSettings.metaMake,
-        //: Exif image metadata: the model of the camera used to take the photo. Keep string short!
-        qsTranslate("metadata", "Model"), cppmetadata.exifImageModel, PQSettings.metaModel,
-        //: Exif image metadata: the software used to create the photo. Keep string short!
-        qsTranslate("metadata", "Software"), cppmetadata.exifImageSoftware, PQSettings.metaSoftware,
+        //: Exif image metadata: the make of the camera used to take the photo. Please keep string short!
+        em.pty+qsTranslate("metadata", "Make"), cppmetadata.exifImageMake, PQSettings.metaMake,
+        //: Exif image metadata: the model of the camera used to take the photo. Please keep string short!
+        em.pty+qsTranslate("metadata", "Model"), cppmetadata.exifImageModel, PQSettings.metaModel,
+        //: Exif image metadata: the software used to create the photo. Please keep string short!
+        em.pty+qsTranslate("metadata", "Software"), cppmetadata.exifImageSoftware, PQSettings.metaSoftware,
         "", "", true,
-        //: Exif image metadata: when the photo was taken. Keep string short!
-        qsTranslate("metadata", "Time Photo was Taken"), cppmetadata.exifPhotoDateTimeOriginal, PQSettings.metaTimePhotoTaken,
-        //: Exif image metadata: how long the sensor was exposed to the light. Keep string short!
-        qsTranslate("metadata", "Exposure Time"), cppmetadata.exifPhotoExposureTime, PQSettings.metaExposureTime,
-        //: Exif image metadata: the flash setting when the photo was taken. Keep string short!
-        qsTranslate("metadata", "Flash"), cppmetadata.exifPhotoFlash, PQSettings.metaFlash,
+        //: Exif image metadata: when the photo was taken. Please keep string short!
+        em.pty+qsTranslate("metadata", "Time Photo was Taken"), cppmetadata.exifPhotoDateTimeOriginal, PQSettings.metaTimePhotoTaken,
+        //: Exif image metadata: how long the sensor was exposed to the light. Please keep string short!
+        em.pty+qsTranslate("metadata", "Exposure Time"), cppmetadata.exifPhotoExposureTime, PQSettings.metaExposureTime,
+        //: Exif image metadata: the flash setting when the photo was taken. Please keep string short!
+        em.pty+qsTranslate("metadata", "Flash"), cppmetadata.exifPhotoFlash, PQSettings.metaFlash,
         "ISO", cppmetadata.exifPhotoISOSpeedRatings, PQSettings.metaIso,
-        //: Exif image metadata: the specific scene type the camera used for the photo. Keep string short!
-        qsTranslate("metadata", "Scene Type"), cppmetadata.exifPhotoSceneCaptureType, PQSettings.metaSceneType,
-        //: Exif image metadata: https://en.wikipedia.org/wiki/Focal_length . Keep string short!
-        qsTranslate("metadata", "Focal Length"), cppmetadata.exifPhotoFocalLength, PQSettings.metaFLength,
-        //: Exif image metadata: https://en.wikipedia.org/wiki/F-number . Keep string short!
-        qsTranslate("metadata", "F Number"), cppmetadata.exifPhotoFNumber, PQSettings.metaFNumber,
-        //: Exif image metadata: What type of light the camera detected. Keep string short!
-        qsTranslate("metadata", "Light Source"), cppmetadata.exifPhotoLightSource, PQSettings.metaLightSource,
+        //: Exif image metadata: the specific scene type the camera used for the photo. Please keep string short!
+        em.pty+qsTranslate("metadata", "Scene Type"), cppmetadata.exifPhotoSceneCaptureType, PQSettings.metaSceneType,
+        //: Exif image metadata: https://en.wikipedia.org/wiki/Focal_length . Please keep string short!
+        em.pty+qsTranslate("metadata", "Focal Length"), cppmetadata.exifPhotoFocalLength, PQSettings.metaFLength,
+        //: Exif image metadata: https://en.wikipedia.org/wiki/F-number . Please keep string short!
+        em.pty+qsTranslate("metadata", "F Number"), cppmetadata.exifPhotoFNumber, PQSettings.metaFNumber,
+        //: Exif image metadata: What type of light the camera detected. Please keep string short!
+        em.pty+qsTranslate("metadata", "Light Source"), cppmetadata.exifPhotoLightSource, PQSettings.metaLightSource,
         "","", true,
-        //: IPTC image metadata: A description of the image by the user/software. Keep string short!
-        qsTranslate("metadata", "Keywords"), cppmetadata.iptcApplication2Keywords, PQSettings.metaKeywords,
-        //: IPTC image metadata: The CITY and COUNTRY the imge was taken in. Keep string short!
-        qsTranslate("metadata", "Location"), cppmetadata.iptcLocation, PQSettings.metaLocation,
-        //: IPTC image metadata. Keep string short!
-        qsTranslate("metadata", "Copyright"), cppmetadata.iptcApplication2Copyright, PQSettings.metaCopyright,
+        //: IPTC image metadata: A description of the image by the user/software. Please keep string short!
+        em.pty+qsTranslate("metadata", "Keywords"), cppmetadata.iptcApplication2Keywords, PQSettings.metaKeywords,
+        //: IPTC image metadata: The CITY and COUNTRY the imge was taken in. Please keep string short!
+        em.pty+qsTranslate("metadata", "Location"), cppmetadata.iptcLocation, PQSettings.metaLocation,
+        //: IPTC image metadata. Please keep string short!
+        em.pty+qsTranslate("metadata", "Copyright"), cppmetadata.iptcApplication2Copyright, PQSettings.metaCopyright,
         "","", true,
-        //: Exif image metadata. Keep string short!
-        qsTranslate("metadata", "GPS Position"), cppmetadata.exifGPS, PQSettings.metaGps
+        //: Exif image metadata. Please keep string short!
+        em.pty+qsTranslate("metadata", "GPS Position"), cppmetadata.exifGPS, PQSettings.metaGps
     ]
 
     // HEADING OF RECTANGLE
@@ -145,7 +145,8 @@ Rectangle {
         font.pointSize: 15
         font.bold: true
 
-        text: em.pty+qsTr("Metadata")
+        //: This is the heading of the metadata element
+        text: em.pty+qsTranslate("metadata", "Metadata")
 
     }
 
@@ -185,7 +186,7 @@ Rectangle {
         font.bold: true
         font.pointSize: 18
         wrapMode: Text.WordWrap
-        text: em.pty+qsTr("No File Loaded")
+        text: em.pty+qsTranslate("metadata", "No File Loaded")
 
     }
 
@@ -231,7 +232,7 @@ Rectangle {
                 anchors.fill: parent
                 hoverEnabled: true
                 tooltip: (index==((allMetaData.length/3) -1)) ?
-                             em.pty+qsTr("Click to open GPS position with online map") :
+                             em.pty+qsTranslate("metadata", "Click to open GPS position with online map") :
                              (visible ? "<b>" + allMetaData[3*index] + "</b><br>" + allMetaData[3*index+1] : "")
                 cursorShape: index==(allMetaData.length/3 -1) ? Qt.PointingHandCursor : Qt.ArrowCursor
                 onClicked: {
@@ -298,7 +299,7 @@ Rectangle {
             variables.metaDataWidthWhenKeptOpen = (checked ? metadata_top.width : 0)
 
         //: Used as in 'Keep the metadata element open even if the cursor leaves it'
-        text: PQSettings.metadataPopoutElement ? "" : (em.pty+qsTr("Keep Open"))
+        text: PQSettings.metadataPopoutElement ? "" : (em.pty+qsTranslate("metadata", "Keep Open"))
 
     }
 

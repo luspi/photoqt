@@ -44,7 +44,7 @@ Column {
         color: "red"
         font.pointSize: 12
         font.bold: true
-        text: "Warning: <i>gsettings</i> not found"
+        text: em.pty+qsTranslate("wallpaper", "Warning: %1 not found").arg("<i>gsettings</i>")
     }
 
     Item {
@@ -57,7 +57,8 @@ Column {
         x: (parent.width-width)/2
         color: "white"
         font.pointSize: 15
-        text: "Choose picture option"
+        //: picture option refers to how to format a pictrue when setting it as wallpaper
+        text: em.pty+qsTranslate("wallpaper", "Choose picture option")
     }
 
     Column {

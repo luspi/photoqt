@@ -129,7 +129,7 @@ Item {
                 color: "white"
                 font.pointSize: 15
                 font.bold: true
-                text: "Who is this?"
+                text: em.pty+qsTranslate("facetagging", "Who is this?")
             }
 
             // edit name
@@ -145,7 +145,7 @@ Item {
                 spacing: 10
                 PQButton {
                     id: savename
-                    text: "Save"
+                    text: genericStringSave
                     onClicked: {
                         addFaceTag()
                         newtag.visible = false
@@ -154,7 +154,7 @@ Item {
                 }
                 PQButton {
                     id: cancelname
-                    text: "Cancel"
+                    text: genericStringCancel
                     onClicked: {
                         namecont.opacity = 0
                         newtag.visible = false

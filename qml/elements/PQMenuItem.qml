@@ -38,6 +38,8 @@ MenuItem {
             control.checked = checked
     }
 
+    arrow: Item {}
+
     background: Rectangle {
         implicitWidth: 100
         implicitHeight: 30
