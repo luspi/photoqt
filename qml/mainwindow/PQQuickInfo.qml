@@ -152,54 +152,34 @@ Item {
 
             id: rightclickmenu
 
-            PQMenuItem {
-                text: PQSettings.quickInfoHideCounter ?
-                          em.pty+qsTranslate("quickinfo", "Show counter") :
-                          em.pty+qsTranslate("quickinfo", "Hide counter")
-                onTriggered: {
-                    var old = PQSettings.quickInfoHideCounter
-                    PQSettings.quickInfoHideCounter = !old
-                }
-            }
+            model: [(PQSettings.quickInfoHideCounter ?
+                         em.pty+qsTranslate("quickinfo", "Show counter") :
+                         em.pty+qsTranslate("quickinfo", "Hide counter")),
+                (PQSettings.quickInfoHideFilepath ?
+                     em.pty+qsTranslate("quickinfo", "Show file path") :
+                     em.pty+qsTranslate("quickinfo", "Hide file path")),
+                (PQSettings.quickInfoHideFilename ?
+                     em.pty+qsTranslate("quickinfo", "Show file name") :
+                     em.pty+qsTranslate("quickinfo", "Hide file name")),
+                (PQSettings.quickInfoHideZoomLevel ?
+                     em.pty+qsTranslate("quickinfo", "Show zoom level") :
+                     em.pty+qsTranslate("quickinfo", "Hide zoom level")),
+                (PQSettings.quickInfoHideX ?
+                     em.pty+qsTranslate("quickinfo", "Show button for closing PhotoQt") :
+                     em.pty+qsTranslate("quickinfo", "Hide button for closing PhotoQt"))
+            ]
 
-            PQMenuItem {
-                text: PQSettings.quickInfoHideFilepath ?
-                          em.pty+qsTranslate("quickinfo", "Show file path") :
-                          em.pty+qsTranslate("quickinfo", "Hide file path")
-                onTriggered: {
-                    var old = PQSettings.quickInfoHideFilepath
-                    PQSettings.quickInfoHideFilepath = !old
-                }
-            }
-
-            PQMenuItem {
-                text: PQSettings.quickInfoHideFilename ?
-                          em.pty+qsTranslate("quickinfo", "Show file name") :
-                          em.pty+qsTranslate("quickinfo", "Hide file name")
-                onTriggered: {
-                    var old = PQSettings.quickInfoHideFilename
-                    PQSettings.quickInfoHideFilename = !old
-                }
-            }
-
-            PQMenuItem {
-                text: PQSettings.quickInfoHideZoomLevel ?
-                          em.pty+qsTranslate("quickinfo", "Show zoom level") :
-                          em.pty+qsTranslate("quickinfo", "Hide zoom level")
-                onTriggered: {
-                    var old = PQSettings.quickInfoHideZoomLevel
-                    PQSettings.quickInfoHideZoomLevel = !old
-                }
-            }
-
-            PQMenuItem {
-                text: PQSettings.quickInfoHideX ?
-                          em.pty+qsTranslate("quickinfo", "Show button for closing PhotoQt") :
-                          em.pty+qsTranslate("quickinfo", "Hide button for closing PhotoQt")
-                onTriggered: {
-                    var old = PQSettings.quickInfoHideX
-                    PQSettings.quickInfoHideX = !old
-                }
+            onTriggered: {
+                if(index == 0)
+                    PQSettings.quickInfoHideCounter = !PQSettings.quickInfoHideCounter
+                else if(index == 1)
+                    PQSettings.quickInfoHideFilepath = !PQSettings.quickInfoHideFilepath
+                else if(index == 2)
+                    PQSettings.quickInfoHideFilename = !PQSettings.quickInfoHideFilename
+                 else if(index == 3)
+                    PQSettings.quickInfoHideZoomLevel = !PQSettings.quickInfoHideZoomLevel
+                else if(index == 4)
+                    PQSettings.quickInfoHideX = !PQSettings.quickInfoHideX
             }
 
         }
@@ -213,8 +193,10 @@ Item {
         tooltip: em.pty+qsTranslate("quickinfo", "Some info about the current image and directory")
         acceptedButtons: Qt.LeftButton|Qt.RightButton
         onClicked: {
-            if(mouse.button == Qt.RightButton)
-                rightclickmenu.popup()
+            if(mouse.button == Qt.RightButton) {
+                var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
+                rightclickmenu.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
+            }
         }
         property point clickPos: Qt.point(0,0)
         property bool isPressed: false

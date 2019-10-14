@@ -52,7 +52,8 @@ GridView {
         z: -1
         acceptedButtons: Qt.RightButton
         onClicked: {
-            rightclickmenu_bg.popup()
+            var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
+            rightclickmenu_bg.popup(Qt.point(pos.x, pos.y))
         }
     }
 
@@ -280,17 +281,18 @@ GridView {
                             filedialog_top.hideFileDialog()
                         }
                     } else {
-                        rightclickmenu.popup()
+                        var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
+                        rightclickmenu.popup(Qt.point(deleg_container.x+pos.x+(PQSettings.openDefaultView=="icons" ? 0 : fileicon.width), deleg_container.y+pos.y))
                     }
                 }
             }
 
-//            PQRightClickMenu {
-//                id: rightclickmenu
-//                isFolder: fileIsDir
-//                isFile: !fileIsDir
-//                path: filePath
-//            }
+            PQRightClickMenu {
+                id: rightclickmenu
+                isFolder: fileIsDir
+                isFile: !fileIsDir
+                path: filePath
+            }
 
             Drag.active: dragArea.drag.active
             Drag.hotSpot.x: fileicon.width/2

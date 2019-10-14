@@ -73,39 +73,29 @@ Rectangle {
             MouseArea {
                 anchors.fill: parent
                 acceptedButtons: Qt.RightButton
-                onClicked:
-                    rightclickmenu.popup()
+                onClicked: {
+                    var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
+                    rightclickmenu.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
+                }
             }
 
             PQMenu {
 
                 id: rightclickmenu
 
-                PQMenuItem {
-                    text: PQSettings.openUserPlacesStandard ? em.pty+qsTranslate("filedialog", "Hide standard locations") : em.pty+qsTranslate("filedialog", "Show standard locations")
-                    width: rightclickmenu.width
-                    onTriggered: {
-                        var old = PQSettings.openUserPlacesStandard
-                        PQSettings.openUserPlacesStandard = !old
-                    }
-                }
+                model: [
+                    (PQSettings.openUserPlacesStandard ? (em.pty+qsTranslate("filedialog", "Hide standard locations")) : (em.pty+qsTranslate("filedialog", "Show standard locations"))),
+                    (PQSettings.openUserPlacesUser ? (em.pty+qsTranslate("filedialog", "Hide favorite locations")) : (em.pty+qsTranslate("filedialog", "Show favorite locations"))),
+                    (PQSettings.openUserPlacesVolumes ? (em.pty+qsTranslate("filedialog", "Hide storage devices")) : (em.pty+qsTranslate("filedialog", "Show storage devices")))
+                ]
 
-                PQMenuItem {
-                    text: PQSettings.openUserPlacesUser ? em.pty+qsTranslate("filedialog", "Hide favorite locations") : em.pty+qsTranslate("filedialog", "Show favorite locations")
-                    width: rightclickmenu.width
-                    onTriggered: {
-                        var old = PQSettings.openUserPlacesUser
-                        PQSettings.openUserPlacesUser = !old
-                    }
-                }
-
-                PQMenuItem {
-                    text: PQSettings.openUserPlacesVolumes ? em.pty+qsTranslate("filedialog", "Hide storage devices") : em.pty+qsTranslate("filedialog", "Show storage devices")
-                    width: rightclickmenu.width
-                    onTriggered: {
-                        var old = PQSettings.openUserPlacesVolumes
-                        PQSettings.openUserPlacesVolumes = !old
-                    }
+                onTriggered: {
+                    if(index == 0)
+                        PQSettings.openUserPlacesStandard = !PQSettings.openUserPlacesStandard
+                    else if(index == 1)
+                        PQSettings.openUserPlacesUser = !PQSettings.openUserPlacesUser
+                    else if(index == 2)
+                        PQSettings.openUserPlacesVolumes = !PQSettings.openUserPlacesVolumes
                 }
 
             }

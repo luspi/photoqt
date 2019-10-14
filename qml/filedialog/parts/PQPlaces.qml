@@ -154,10 +154,13 @@ ListView {
                         if(mouse.button == Qt.LeftButton && index > 0)
                             filedialog_top.setCurrentDirectory(path)
                         else if(mouse.button == Qt.RightButton) {
-                            if(index == 0)
-                                contextmenu_title.popup()
-                            else
-                                contextmenu.popup()
+                            if(index == 0) {
+                                var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
+                                contextmenu_title.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
+                            } else {
+                                var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
+                                contextmenu.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
+                            }
                         }
                 }
 
@@ -173,16 +176,14 @@ ListView {
 
                 id: contextmenu
 
-                PQMenuItem {
-                    text: hidden=="true" ? em.pty+qsTranslate("filedialog", "Show entry") : em.pty+qsTranslate("filedialog", "Hide entry")
-                    onTriggered: {
+                model: [
+                    (hidden=="true" ? (em.pty+qsTranslate("filedialog", "Show entry")) : (em.pty+qsTranslate("filedialog", "Hide entry"))),
+                    (em.pty+qsTranslate("filedialog", "Remove entry"))
+                ]
+                onTriggered: {
+                    if(index == 0)
                         handlingFileDialog.hideUserPlacesEntry(id, hidden=="false")
-                    }
-                }
-
-                PQMenuItem {
-                    text: em.pty+qsTranslate("filedialog", "Remove entry")
-                    onTriggered:
+                    else if(index == 1)
                         handlingFileDialog.removeUserPlacesEntry(id)
                 }
 
@@ -192,10 +193,9 @@ ListView {
 
                 id: contextmenu_title
 
-                PQMenuItem {
-                    text: userplaces_top.showHiddenEntries ? em.pty+qsTranslate("filedialog", "Hide hidden entries") : em.pty+qsTranslate("filedialog", "Show hidden entries")
-                    property bool showHidden: userplaces_top.showHiddenEntries
-                    onClicked:
+                model: [(userplaces_top.showHiddenEntries ? (em.pty+qsTranslate("filedialog", "Hide hidden entries")) : (em.pty+qsTranslate("filedialog", "Show hidden entries")))]
+                onTriggered: {
+                    if(index == 0)
                         userplaces_top.showHiddenEntries = !userplaces_top.showHiddenEntries
                 }
 

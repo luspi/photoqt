@@ -9,7 +9,6 @@
         <file>mainwindow/image/PQLoading.qml</file>
         <file>elements/PQButton.qml</file>
         <file>elements/PQMenu.qml</file>
-        <file>elements/PQMenuItem.qml</file>
         <file>elements/PQMouseArea.qml</file>
         <file>elements/PQToolTip.qml</file>
         <file>elements/PQComboBox.qml</file>

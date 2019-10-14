@@ -95,9 +95,10 @@ Button {
         onReleased:
             control.down = false
         onClicked: {
-            if(clickOpensMenu)
-                menu.open()
-            else
+            if(clickOpensMenu) {
+                var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
+                menu.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
+            } else
                 control.clicked()
         }
     }
@@ -106,17 +107,8 @@ Button {
 
         id: menu
 
-        Instantiator {
-            id: menuitems
-            model: listMenuItems
-            delegate: PQMenuItem {
-                text: listMenuItems[index]
-                onTriggered: control.menuItemClicked(listMenuItems[index])
-            }
-
-            onObjectAdded: menu.addItem(object)
-            onObjectRemoved: menu.removeItem(object)
-        }
+        model: listMenuItems
+        onTriggered: control.menuItemClicked(listMenuItems[index])
 
     }
 
