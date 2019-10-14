@@ -39,7 +39,7 @@ GridView {
                                      PQFileFolderModel.Size :
                                      PQFileFolderModel.Type)))
         sortReversed: !PQSettings.sortbyAscending
-        folder: ""
+        folder: handlingFileDialog.getHomeDir()
     }
 
     model: files_model

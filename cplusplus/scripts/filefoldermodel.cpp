@@ -29,6 +29,9 @@ void PQFileFolderModel::loadData() {
 
     endRemoveRows();
 
+    if(m_folder.trimmed().isEmpty() || !QDir(m_folder).exists())
+        return;
+
     delete watcher;
     watcher = new QFileSystemWatcher;
     watcher->addPath(m_folder);

@@ -213,5 +213,7 @@ bool PQHandlingGeneral::checkIfConnectedToInternet() {
 }
 
 QString PQHandlingGeneral::getFileType(QString filename) {
+    if(filename.trimmed().isEmpty() || !QFile(filename).exists())
+        return "";
     return mimedb.mimeTypeForFile(filename).name();
 }
