@@ -3,6 +3,7 @@
 
 bool PQHandlingExternal::exportConfigTo(QString path) {
 
+#ifdef LIBARCHIVE
     // Obtain a filename from the user or used passed on filename
     QString archiveFile;
     if(path == "") {
@@ -82,9 +83,14 @@ bool PQHandlingExternal::exportConfigTo(QString path) {
 
     return true;
 
+#endif
+    return false;
+
 }
 
 bool PQHandlingExternal::importConfigFrom(QString path) {
+
+#ifdef LIBARCHIVE
 
     // All the config files to be imported. To be backwards-compatible we use the filename keys (old way) and the real filenames (new way)
     QHash<QString,QString> allfiles;
@@ -161,5 +167,9 @@ bool PQHandlingExternal::importConfigFrom(QString path) {
         LOG << CURDATE << "GetAndDoStuffExternal::importConfig(): ERROR: archive_read_free() returned code of " << r << NL;
 
     return true;
+
+#endif
+
+    return false;
 
 }

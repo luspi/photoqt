@@ -10,11 +10,14 @@ bool PQHandlingFileManagement::renameFile(QString dir, QString oldName, QString 
 
 bool PQHandlingFileManagement::deleteFile(QString filename, bool permanent) {
 
+#ifndef Q_OS_WIN
     if(permanent) {
+#endif
 
         QFile file(filename);
         return file.remove();
 
+#ifndef Q_OS_WIN
     } else {
 
         // The file to delete
@@ -139,5 +142,7 @@ bool PQHandlingFileManagement::deleteFile(QString filename, bool permanent) {
     }
 
     return true;
+
+#endif
 
 }

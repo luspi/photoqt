@@ -7,6 +7,8 @@ PQHandlingFileDialog::~PQHandlingFileDialog() {}
 
 QString PQHandlingFileDialog::getNewUniqueId() {
 
+#ifdef PUGIXML
+
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
     if(!result) {
@@ -33,11 +35,17 @@ QString PQHandlingFileDialog::getNewUniqueId() {
 
     return QString("%1/%2").arg(newid_base).arg(counter);
 
+#endif
+
+    return "";
+
 }
 
 QVariantList PQHandlingFileDialog::getUserPlaces() {
 
     QVariantList ret;
+
+#ifdef PUGIXML
 
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
@@ -120,11 +128,15 @@ QVariantList PQHandlingFileDialog::getUserPlaces() {
     if(docUpdated)
         doc.save_file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8(), " ");
 
+#endif
+
     return ret;
 
 }
 
 void PQHandlingFileDialog::moveUserPlacesEntry(QString id, bool moveDown, int howmany) {
+
+#ifdef PUGIXML
 
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
@@ -188,9 +200,13 @@ void PQHandlingFileDialog::moveUserPlacesEntry(QString id, bool moveDown, int ho
 
     doc.save_file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8(), " ");
 
+#endif
+
 }
 
 void PQHandlingFileDialog::hideUserPlacesEntry(QString id, bool hidden) {
+
+#ifdef PUGIXML
 
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
@@ -220,9 +236,13 @@ void PQHandlingFileDialog::hideUserPlacesEntry(QString id, bool hidden) {
 
     doc.save_file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8(), " ");
 
+#endif
+
 }
 
 void PQHandlingFileDialog::addNewUserPlacesEntry(QString path, int pos) {
+
+#ifdef PUGIXML
 
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
@@ -310,9 +330,13 @@ void PQHandlingFileDialog::addNewUserPlacesEntry(QString path, int pos) {
 
     doc.save_file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8(), " ");
 
+#endif
+
 }
 
 void PQHandlingFileDialog::removeUserPlacesEntry(QString id) {
+
+#ifdef PUGIXML
 
     pugi::xml_document doc;
     pugi::xml_parse_result result = doc.load_file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
@@ -336,6 +360,8 @@ void PQHandlingFileDialog::removeUserPlacesEntry(QString id) {
     }
 
     doc.save_file(QString(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8(), " ");
+
+#endif
 
 }
 
@@ -530,6 +556,8 @@ QStringList PQHandlingFileDialog::listArchiveContent(QString path) {
 
 #endif
 
+#ifdef LIBARCHIVE
+
         // Create new archive handler
         struct archive *a = archive_read_new();
 
@@ -569,6 +597,8 @@ QStringList PQHandlingFileDialog::listArchiveContent(QString path) {
         r = archive_read_free(a);
         if(r != ARCHIVE_OK)
             LOG << CURDATE << "GetAndDoStuffListFiles::loadAllArchiveFiles(): ERROR: archive_read_free() returned code of " << r << NL;
+
+#endif
 
 #ifndef Q_OS_WIN
     }

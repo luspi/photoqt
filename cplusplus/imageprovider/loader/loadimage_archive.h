@@ -1,7 +1,9 @@
 #include <QImage>
 
+#ifdef LIBARCHIVE
 #include <archive.h>
 #include <archive_entry.h>
+#endif
 
 #include "../../logger.h"
 #include "../../variables.h"
@@ -38,6 +40,8 @@ namespace PQLoadImage {
                 LOG << CURDATE << errormsg.toStdString() << NL;
                 return QImage();
             }
+
+#ifdef LIBARCHIVE
 
             // Create new archive handler
             struct archive *a = archive_read_new();
@@ -105,6 +109,14 @@ namespace PQLoadImage {
                     return ret.scaled(maxSize, ::Qt::KeepAspectRatio);
 
             return ret;
+
+#else
+
+            errormsg = "LoadImage::Archive::load(): ERROR: LibArchive support disabled at compile time...";
+            LOG << CURDATE << errormsg.toStdString() << NL;
+            return QImage();
+
+#endif
 
         }
 

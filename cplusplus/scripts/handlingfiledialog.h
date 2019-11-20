@@ -10,7 +10,9 @@
 #include <QJSEngine>
 #include <QtConcurrent/QtConcurrent>
 #include <QDomDocument>
+#ifdef PUGIXML
 #include <pugixml.hpp>
+#endif
 #include <QMimeDatabase>
 #include <QKeySequence>
 
@@ -23,8 +25,10 @@
 #include <poppler/qt5/poppler-qt5.h>
 #endif
 
+#ifdef LIBARCHIVE
 #include <archive.h>
 #include <archive_entry.h>
+#endif
 
 class PQHandlingFileDialog : public QObject {
 

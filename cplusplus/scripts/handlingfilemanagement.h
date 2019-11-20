@@ -5,7 +5,9 @@
 #include <QFile>
 #include <QUrl>
 #include <QStorageInfo>
+#ifndef Q_OS_WIN
 #include <unistd.h>
+#endif
 
 #include "../logger.h"
 

@@ -12,6 +12,10 @@
 #include <QFile>
 #include <QFileInfo>
 
+#ifdef Q_OS_WIN
+#include <QtWinExtras>
+#endif
+
 #include "../logger.h"
 
 class PQSettings : public QObject {

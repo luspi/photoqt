@@ -4,8 +4,10 @@
 #include <QObject>
 #include <QFileDialog>
 #include <QTextStream>
+#ifdef LIBARCHIVE
 #include <archive.h>
 #include <archive_entry.h>
+#endif
 #include "../logger.h"
 
 class PQHandlingExternal : public QObject {
