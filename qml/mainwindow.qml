@@ -110,8 +110,10 @@ Window {
             windowgeometry.mainWindowMaximized = (visibility==Window.Maximized)
             windowgeometry.mainWindowGeometry = Qt.rect(toplevel.x, toplevel.y, toplevel.width, toplevel.height)
         }
-        if(variables.indexOfCurrentImage > -1)
+        if(variables.indexOfCurrentImage > -1 && PQSettings.startupLoadLastLoadedImage)
             handlingGeneral.setLastLoadedImage(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+        else
+            handlingGeneral.deleteLastLoadedImage()
         handlingGeneral.cleanUpScreenshotsTakenAtStartup()
 
         if(PQSettings.trayIcon == 1) {

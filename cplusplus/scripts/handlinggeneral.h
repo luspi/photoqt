@@ -28,6 +28,7 @@ public:
 
     Q_INVOKABLE void setLastLoadedImage(QString path);
     Q_INVOKABLE QString getLastLoadedImage();
+    Q_INVOKABLE void deleteLastLoadedImage();
 
     Q_INVOKABLE QString getTempDir();
     Q_INVOKABLE void cleanUpScreenshotsTakenAtStartup();

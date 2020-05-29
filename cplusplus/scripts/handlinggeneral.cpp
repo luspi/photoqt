@@ -77,6 +77,16 @@ QString PQHandlingGeneral::getLastLoadedImage() {
 
 }
 
+void PQHandlingGeneral::deleteLastLoadedImage() {
+
+    // attempts to remove stored last loaded image
+    // not a big deal if this fails thus no need to error check
+    QFile file(ConfigFiles::LASTOPENEDIMAGE_FILE());
+    if(file.exists())
+        file.remove();
+
+}
+
 bool PQHandlingGeneral::isDir(QString path) {
     return QFileInfo(path).isDir();
 }
