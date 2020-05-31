@@ -100,7 +100,10 @@ PQImageFormats::PQImageFormats() {
         setupAvailable[0].insert("*.pic"        , QStringList() << "pic" << "Apple Macintosh QuickDraw/PICT file"           << "0");
     if(imageReaderSup.contains("ras"))
         setupAvailable[0].insert("*.ras"        , QStringList() << "ras" << "Sun Graphics"                                  << "0");
-
+    if(imageReaderSup.contains("avif"))
+        setupAvailable[0].insert("*.avif"       , QStringList() << "avif" << "AV1 Image File Format (AVIF)"                 << "1");
+    if(imageReaderSup.contains("avifs"))
+        setupAvailable[0].insert("*.avifs"      , QStringList() << "avif" << "AV1F image sequence"                          << "1");
 
 
     /************************************************************/
