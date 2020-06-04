@@ -46,7 +46,8 @@ public:
         }
     }
 
-    Q_PROPERTY(int trayIconSetting WRITE setTrayIconSetting)
+    Q_PROPERTY(int trayIconSetting READ getTrayIconSetting WRITE setTrayIconSetting)
+    int getTrayIconSetting() { return acToggle->isVisible(); }
     void setTrayIconSetting(int val) {
         acToggle->setVisible(val==1);
     }
