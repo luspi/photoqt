@@ -163,6 +163,18 @@ void PQSingleInstance::handleMessage(QString msg) {
 
 }
 
+bool PQSingleInstance::notify(QObject *receiver, QEvent *e) {
+
+    if(e->type() == QEvent::KeyPress) {
+        QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
+        emit PQKeyPressChecker::get().receivedKeyPress(ev->key(), ev->modifiers());
+        return true;
+    }
+
+    return QApplication::notify(receiver, e);
+
+}
+
 PQSingleInstance::~PQSingleInstance() {
     if(socket != nullptr)
         delete socket;

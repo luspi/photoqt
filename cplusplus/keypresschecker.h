@@ -1,9 +1,15 @@
+#ifndef PQKEYPRESSCHECKER
+#define PQKEYPRESSCHECKER
+
 #include <QObject>
 #include <QKeyEvent>
 #include <QDateTime>
 
 class PQKeyPressChecker : public QObject {
     Q_OBJECT
+
+    // the actual catching of key events is done in the notify() method of PQSingleInstance
+    // this class is used to communicate a key press throughout the application
 
 public:
     static PQKeyPressChecker& get() {
@@ -14,22 +20,12 @@ public:
     PQKeyPressChecker(PQKeyPressChecker const&)    = delete;
     void operator=(PQKeyPressChecker const&) = delete;
 
-protected:
-    bool eventFilter(QObject *obj, QEvent *event) override {
-        qint64 cur = QDateTime::currentMSecsSinceEpoch();
-        if(event->type() == QEvent::KeyPress && cur-lastcheck > 50) {
-            QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-            lastcheck = cur;
-            emit receivedKeyPress(keyEvent->key(), keyEvent->modifiers());
-        }
-        return QObject::eventFilter(obj, event);
-    }
-
 private:
-    PQKeyPressChecker() { lastcheck = 0; }
-    qint64 lastcheck;
+    PQKeyPressChecker() { }
 
 signals:
     void receivedKeyPress(int key, int modifiers);
 
 };
+
+#endif // PQKEYPRESSCHECKER

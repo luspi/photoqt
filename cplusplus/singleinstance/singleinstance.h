@@ -8,6 +8,7 @@
 #include "commandlineparser.h"
 #include "../logger.h"
 #include "../variables.h"
+#include "../keypresschecker.h"
 
 // Makes sure only one instance of PhotoQt is running, and enables remote communication
 class PQSingleInstance : public QApplication {
@@ -20,6 +21,9 @@ public:
 
     QString exportAndQuit;
     QString importAndQuit;
+
+protected:
+    virtual bool notify(QObject * receiver, QEvent * event);
 
 signals:
     // Interact with application

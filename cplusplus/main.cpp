@@ -2,7 +2,6 @@
 #include <QQmlApplicationEngine>
 #include <QtDebug>
 
-#include "keypresschecker.h"
 #include "variables.h"
 #include "startup.h"
 #include "startup/exportimport.h"
@@ -84,8 +83,6 @@ int main(int argc, char **argv) {
     }, Qt::QueuedConnection);
 
     PQStartup::PQStartup();
-
-    app.installEventFilter(&PQKeyPressChecker::get());
 
     qmlRegisterType<PQHandlingFileDialog>("PQHandlingFileDialog", 1, 0, "PQHandlingFileDialog");
     qmlRegisterType<PQHandlingGeneral>("PQHandlingGeneral", 1, 0, "PQHandlingGeneral");
