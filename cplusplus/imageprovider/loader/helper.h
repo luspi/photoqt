@@ -31,9 +31,9 @@ namespace PQLoadImage {
 
         }
 
-        static void saveImageToCache(QString filename, QImage &img) {
+        static bool saveImageToCache(QString filename, QImage &img) {
 
-            PQPixmapCache::get().insert(getUniqueCacheKey(filename), QPixmap::fromImage(img));
+            return PQPixmapCache::get().insert(getUniqueCacheKey(filename), QPixmap::fromImage(img));
 
         }
 

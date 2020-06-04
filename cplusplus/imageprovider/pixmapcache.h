@@ -21,7 +21,7 @@ public:
 
         bool find(const QString &key, QPixmap *pixmap) { return cache->find(key, pixmap); }
 
-        void insert(const QString &key, const QPixmap &pixmap) { cache->insert(key, pixmap); }
+        bool insert(const QString &key, const QPixmap &pixmap) { return cache->insert(key, pixmap); }
 
 private:
         QPixmapCache *cache;
