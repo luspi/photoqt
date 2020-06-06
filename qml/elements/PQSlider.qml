@@ -11,17 +11,21 @@ Slider {
 
     hoverEnabled: true
 
+    property real wheelStepSize: 1.0
+
     property int divideToolTipValue: 1
     property alias tooltip: slidertooltip.text
     property string handleToolTipPrefix: ""
     property string handleToolTipSuffix: ""
     property bool handleToolTipEnabled: true
 
+    property int convertToolTipValueToTimeWithDuration: -1
+
     background: Rectangle {
         x: control.leftPadding
         y: control.topPadding + control.availableHeight / 2 - height / 2
         implicitWidth: 200
-        implicitHeight: 4
+        implicitHeight: 6
         width: control.availableWidth
         height: implicitHeight
         radius: 2
@@ -33,6 +37,24 @@ Slider {
             color: control.enabled ? "#eeeeee" : "#666666"
             radius: 2
         }
+
+        MouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            propagateComposedEvents: true
+            onClicked: mouse.accepted = false
+            onDoubleClicked: mouse.accepted = false
+            onPressAndHold: mouse.accepted = false
+            onPressed: mouse.accepted = false
+            onWheel: {
+                if(wheel.angleDelta.y > 0)
+                    control.value -= control.wheelStepSize
+                else
+                    control.value += control.wheelStepSize
+            }
+        }
+
     }
 
     handle: Rectangle {
@@ -43,6 +65,22 @@ Slider {
         radius: 10
         color: control.enabled ? (control.pressed ? "#f0f0f0" : "#f6f6f6") : "#777777"
         border.color: "#bdbebf"
+        MouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: control.pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor
+            propagateComposedEvents: true
+            onClicked: mouse.accepted = false
+            onDoubleClicked: mouse.accepted = false
+            onPressAndHold: mouse.accepted = false
+            onPressed: mouse.accepted = false
+            onWheel: {
+                if(wheel.angleDelta.y > 0)
+                    control.value -= control.wheelStepSize
+                else
+                    control.value += control.wheelStepSize
+            }
+        }
     }
 
     PQToolTip {
@@ -50,7 +88,9 @@ Slider {
         parent: control.handle
         visible: control.pressed&&handleToolTipEnabled
         delay: 0
-        text: handleToolTipPrefix + (control.value/divideToolTipValue) + handleToolTipSuffix
+        text: convertToolTipValueToTimeWithDuration == -1
+                    ? (handleToolTipPrefix + (control.value/divideToolTipValue) + handleToolTipSuffix)
+                    : (handleToolTipPrefix + handlingGeneral.convertSecsToProperTime(control.value/divideToolTipValue, convertToolTipValueToTimeWithDuration) + handleToolTipSuffix)
     }
 
     PQToolTip {
