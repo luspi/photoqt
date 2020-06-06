@@ -32,7 +32,11 @@ Item {
     // emitted inside of PQImageNormal/Animated whenever its status changed to Image.Reader
     signal newImageLoaded(var id)
 
+    // id
     property string imageLatestAdded: ""
+
+    // currently shown index
+    property int currentlyShownIndex: -1
 
     Repeater {
 
@@ -58,7 +62,8 @@ Item {
                 onImageStatusChanged: {
                     if(imageStatus == Image.Ready && container.imageLatestAdded==deleg.uniqueid) {
                         hideShowAni.showing = true
-                        hideShowAni.start()
+                        hideShowAni.imageIndex = imageIndex
+                        hideShowAni.startAni()
                         container.newImageLoaded(deleg.uniqueid)
                     }
                 }
@@ -68,7 +73,7 @@ Item {
                 target: container
                 onHideAllImages: {
                     hideShowAni.showing = false
-                    hideShowAni.start()
+                    hideShowAni.startAni()
                 }
             }
 
@@ -98,7 +103,7 @@ Item {
                                                                      theimage.item.scale,
                                                                      theimage.item.rotation,
                                                                      theimage.item.mirror]
-                                hideShowAni.start()
+                                hideShowAni.startAni()
                             } else
                                 image_model.remove(index)
                         }
@@ -114,35 +119,96 @@ Item {
                 property bool showing: true
                 property bool continueToDeleteAfterShowing: false
                 alwaysRunToEnd: true
-                from: showing ?
-                          (hideShowAni.property=="opacity" ?
-                              0 :
-                              (hideShowAni.property=="x" ?
-                                  -deleg.width :
-                                  -deleg.height)) :
-                          (hideShowAni.property=="opacity" ?
-                              1 :
-                              (hideShowAni.property=="x" ?
-                                  deleg.x:
-                                  deleg.y))
-                to: showing ?
-                        (hideShowAni.property=="opacity" ?
-                            1 :
-                            (hideShowAni.property=="x" ?
-                                PQSettings.marginAroundImage :
-                                PQSettings.marginAroundImage)) :
-                        (hideShowAni.property=="opacity" ?
-                            0 :
-                            (hideShowAni.property=="x" ?
-                                container.width:
-                                container.height))
+
+                property int imageIndex: -1
+
+                function startAni() {
+
+                    var hideshow = ""
+
+                    if(showing) {
+                        if(imageIndex >= container.currentlyShownIndex)
+                            hideshow = "left"
+                        else
+                            hideshow = "right"
+
+                        container.currentlyShownIndex = imageIndex
+
+                    } else {
+                        if(imageIndex >= container.currentlyShownIndex)
+                            hideshow = "right"
+                        else
+                            hideshow = "left"
+                    }
+
+                    if(showing) {
+
+                        if(PQSettings.animationType == "x") {
+
+                            if(hideshow == "left") {
+                                from = container.width
+                                to = PQSettings.marginAroundImage
+                            } else {
+                                from = -deleg.width
+                                to = PQSettings.marginAroundImage
+                            }
+
+                        } else if(PQSettings.animationType == "y") {
+
+                            if(hideshow == "left") {
+                                from = container.height
+                                to = PQSettings.marginAroundImage
+                            } else {
+                                from = -deleg.height
+                                to = PQSettings.marginAroundImage
+                            }
+
+                        // we default to opacity
+                        } else {
+                            from = 0
+                            to = 1
+                        }
+
+                    } else {
+
+                        if(PQSettings.animationType == "x") {
+
+                            if(hideshow == "left") {
+                                from = deleg.x
+                                to = -deleg.width
+                            } else {
+                                from = deleg.x
+                                to = container.width
+                            }
+
+                        } else if(PQSettings.animationType == "y") {
+
+                            if(hideshow == "left") {
+                                from = deleg.x
+                                to = -deleg.height
+                            } else {
+                                from = deleg.x
+                                to = container.height
+                            }
+
+                        // we default to opacity
+                        } else {
+                            from = 1
+                            to = 0
+                        }
+
+                    }
+
+                    start()
+
+                }
 
                 onStopped: {
                     if(!showing)
                         image_model.remove(index)
                     else if(continueToDeleteAfterShowing) {
                         showing = false
-                        start()
+                        startAni()
                     } else if(showing)
                         theimage.item.restorePosZoomRotationMirror()
                 }
@@ -159,7 +225,7 @@ Item {
         onNewFileLoaded: {
             if(variables.indexOfCurrentImage > -1 && variables.indexOfCurrentImage < variables.allImageFilesInOrder.length) {
                 var src = handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
-                image_model.append({"src" : src})
+                image_model.append({"src" : src, "imageIndex" : variables.indexOfCurrentImage})
             } else if(variables.indexOfCurrentImage == -1 || variables.allImageFilesInOrder.length == 0)
                 hideAllImages()
         }
