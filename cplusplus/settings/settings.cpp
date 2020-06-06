@@ -176,6 +176,7 @@ void PQSettings::setDefault() {
     setVideoAutoplay(true);
     setVideoLoop(false);
     setVideoVolume(100);
+    setVideoThumbnailer("ffmpegthumbnailer");
 
     setMainMenuPopoutElement(false);
     setMetadataPopoutElement(false);
@@ -589,6 +590,9 @@ void PQSettings::readSettings() {
             else if(line.startsWith("VideoVolume="))
                 setVideoVolume(line.split("=").at(1).toInt());
 
+            else if(line.startsWith("VideoThumbnailer="))
+                setVideoThumbnailer(line.split("=").at(1));
+
 
             else if(line.startsWith("MainMenuPopoutElement="))
                 setMainMenuPopoutElement(line.split("=").at(1).toInt());
@@ -813,6 +817,7 @@ void PQSettings::saveSettings() {
         cont += QString("VideoAutoplay=%1\n").arg(int(m_videoAutoplay));
         cont += QString("VideoLoop=%1\n").arg(int(m_videoLoop));
         cont += QString("VideoVolume=%1\n").arg(m_videoVolume);
+        cont += QString("VideoThumbnailer=%1\n").arg(m_videoThumbnailer);
 
         cont += "\n[Popout]\n";
 

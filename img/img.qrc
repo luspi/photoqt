@@ -58,5 +58,6 @@
         <file>slideshow/speaker_low.png</file>
         <file>slideshow/speaker_medium.png</file>
         <file>slideshow/speaker_mute.png</file>
+        <file>image/filmborder.png</file>
     </qresource>
 </RCC>

@@ -1277,6 +1277,16 @@ public:
             }
         }
 
+        Q_PROPERTY(QString videoThumbnailer READ getVideoThumbnailer WRITE setVideoThumbnailer NOTIFY videoThumbnailerChanged)
+        QString getVideoThumbnailer() { return m_videoThumbnailer; }
+        void setVideoThumbnailer(QString val) {
+            if(m_videoThumbnailer != val) {
+                m_videoThumbnailer = val;
+                emit videoThumbnailerChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
 
 
 
@@ -1562,6 +1572,7 @@ private:
         bool    m_videoAutoplay;
         bool    m_videoLoop;
         int     m_videoVolume;
+        QString m_videoThumbnailer;
 
         bool    m_mainMenuPopoutElement;
         bool    m_metadataPopoutElement;
@@ -1706,6 +1717,7 @@ signals:
         void videoAutoplayChanged();
         void videoLoopChanged();
         void videoVolumeChanged();
+        void videoThumbnailerChanged();
         void mainMenuPopoutElementChanged();
         void metadataPopoutElementChanged();
         void histogramPopoutElementChanged();

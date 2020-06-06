@@ -14,6 +14,7 @@
 #include "loader/loadimage_freeimage.h"
 #include "loader/loadimage_archive.h"
 #include "loader/loadimage_unrar.h"
+#include "loader/loadimage_video.h"
 #include "loader/helper.h"
 
 class PQLoadImage {
@@ -32,6 +33,7 @@ public:
         load_freeimage = new PQLoadImageFreeImage;
         load_archive = new PQLoadImageArchive;
         load_unrar = new PQLoadImageUNRAR;
+        load_video = new PQLoadImageVideo;
     }
 
     ~PQLoadImage() {
@@ -46,6 +48,7 @@ public:
         delete load_freeimage;
         delete load_archive;
         delete load_unrar;
+        delete load_video;
     }
 
     QString load(QString filename, QSize requestedSize, QSize *origSize, QImage &img) {
@@ -112,6 +115,12 @@ public:
                 ret_err = load_unrar->errormsg;
             }
 
+        } else if(PQImageFormats::get().getEnabledFileformatsVideo().contains("*." + info.suffix().toLower())) {
+
+            qDebug() << "video thumb";
+            img = load_video->load(filename, requestedSize, origSize);
+            ret_err = load_video->errormsg;
+
         } else {
             img = load_qt->load(filename, requestedSize, origSize);
             ret_err = load_qt->errormsg;
@@ -138,6 +147,7 @@ private:
     PQLoadImageFreeImage *load_freeimage;
     PQLoadImageArchive *load_archive;
     PQLoadImageUNRAR *load_unrar;
+    PQLoadImageVideo *load_video;
 
 };
 
