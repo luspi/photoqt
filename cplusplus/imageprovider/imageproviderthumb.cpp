@@ -1,6 +1,4 @@
 #include "imageproviderthumb.h"
-#include "loader/errorimage.h"
-#include "loadimage.h"
 #include "../settings/settings.h"
 
 QQuickImageResponse *PQAsyncImageProviderThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
@@ -13,6 +11,8 @@ QQuickImageResponse *PQAsyncImageProviderThumb::requestImageResponse(const QStri
 PQAsyncImageResponseThumb::PQAsyncImageResponseThumb(const QString &url, const QSize &requestedSize) : m_url(url), m_requestedSize(requestedSize) {
     setAutoDelete(false);
     foundExternalUnrar = -1;
+    loader = new PQLoadImage;
+    load_err = new PQLoadImageErrorImage;
 }
 
 QQuickTextureFactory *PQAsyncImageResponseThumb::textureFactory() const {
@@ -77,14 +77,14 @@ void PQAsyncImageResponseThumb::run() {
         QString err = QCoreApplication::translate("imageprovider", "File failed to load, it doesn't exist!");
         LOG << CURDATE << "ImageProviderThumb: ERROR: " << err.toStdString() << NL;
         LOG << CURDATE << "ImageProviderThumb: Filename: " << filenameForChecking.toStdString() << NL;
-        m_image = PQLoadImage::ErrorImage::load(err);
+        m_image = load_err->load(err);
         emit finished();
         return;
     }
 
     // Load image
     QSize origSize;
-    PQLoadImage::load(filename, m_requestedSize, &origSize, p);
+    loader->load(filename, m_requestedSize, &origSize, p);
 
     /**********************************************************/
 

@@ -28,7 +28,7 @@
 #include <QtSvg/QtSvg>
 #include "../settings/imageformats.h"
 #include "../logger.h"
-#include "./pixmapcache.h"
+#include "loadimage.h"
 
 class PQImageProviderFull : public QQuickImageProvider {
 
@@ -44,6 +44,9 @@ private:
     QByteArray getUniqueCacheKey(QString path);
 
     int foundExternalUnrar;
+
+    PQLoadImage *loader;
+    PQLoadImageErrorImage *load_err;
 
 };
 

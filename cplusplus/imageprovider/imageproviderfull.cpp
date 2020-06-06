@@ -21,12 +21,14 @@
  **************************************************************************/
 
 #include "imageproviderfull.h"
-#include "loadimage.h"
 #include "../settings/settings.h"
 
 PQImageProviderFull::PQImageProviderFull() : QQuickImageProvider(QQuickImageProvider::Image) {
 
     foundExternalUnrar = -1;
+
+    loader = new PQLoadImage;
+    load_err = new PQLoadImageErrorImage;
 
 }
 
@@ -53,16 +55,16 @@ QImage PQImageProviderFull::requestImage(const QString &filename_encoded, QSize 
         QString err = QCoreApplication::translate("imageprovider", "File failed to load, it doesn't exist!");
         LOG << CURDATE << "ImageProviderFull: ERROR: " << err.toStdString() << NL;
         LOG << CURDATE << "ImageProviderFull: Filename: " << filenameForChecking.toStdString() << NL;
-        return PQLoadImage::ErrorImage::load(err);
+        return load_err->load(err);
     }
 
     // Load image
     QImage ret;
-    QString err = PQLoadImage::load(filename, requestedSize, origSize, ret);
+    QString err = loader->load(filename, requestedSize, origSize, ret);
 
     // if returned image is not an error image ...
     if(ret.isNull())
-        return PQLoadImage::ErrorImage::load(err);
+        return load_err->load(err);
 
     // return scaled version
     if(requestedSize.width() > 2 && requestedSize.height() > 2 && origSize->width() > requestedSize.width() && origSize->height() > requestedSize.height())

@@ -1,3 +1,6 @@
+#ifndef PQLOADIMAGEQT_H
+#define PQLOADIMAGEQT_H
+
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2018 Lukas Spies                                       **
@@ -24,121 +27,111 @@
 #include <QtSvg>
 
 #include "../../logger.h"
-#include "errorimage.h"
 #include "../../settings/settings.h"
 #include "../pixmapcache.h"
-#include "helper.h"
 
-namespace PQLoadImage {
+class PQLoadImageQt {
 
-    namespace Qt {
+public:
+    PQLoadImageQt() {
+        errormsg = "";
+    }
 
-        static QString errormsg = "";
+    QImage load(QString filename, QSize maxSize, QSize *origSize) {
 
-        static QImage load(QString filename, QSize maxSize, QSize *origSize) {
+        errormsg = "";
 
-            QImage cachedImg = PQLoadImage::Helper::getCachedImage(filename);
-            if(!cachedImg.isNull()) {
-                PQLoadImage::Helper::ensureImageFitsMaxSize(cachedImg, maxSize);
-                return cachedImg;
+        // For reading SVG files
+        QSvgRenderer svg;
+        QPixmap svg_pixmap;
+
+        // For all other supported file types
+        QImageReader reader;
+
+        // Suffix, for easier access later-on
+        QString suffix = QFileInfo(filename).suffix().toLower();
+
+        if(suffix == "svg") {
+
+            // Loading SVG file
+            svg.load(filename);
+
+            // Invalid vector graphic
+            if(!svg.isValid()) {
+                LOG << CURDATE << "LoadImageQt: reader svg - Error: invalid svg file" << NL;
+                return QImage(); // PQLoadImage::ErrorImage::load("The file doesn't contain a valid vector graphic");
             }
 
-            // For reading SVG files
-            QSvgRenderer svg;
-            QPixmap svg_pixmap;
+            // Render SVG into pixmap
+            svg_pixmap = QPixmap(svg.defaultSize());
+            svg_pixmap.fill(::Qt::transparent);
+            QPainter painter(&svg_pixmap);
+            svg.render(&painter);
 
-            // For all other supported file types
-            QImageReader reader;
+            // Store the width/height for later use
+            *origSize = svg.defaultSize();
 
-            // Suffix, for easier access later-on
-            QString suffix = QFileInfo(filename).suffix().toLower();
+            return svg_pixmap.toImage();
 
-            bool scaledImageDoNotCache = false;
+        } else {
 
-            if(suffix == "svg") {
+            // Setting QImageReader
+            reader.setFileName(filename);
 
-                // Loading SVG file
-                svg.load(filename);
+            // Fix: this loads the image properly even if the extension is wrong
+            QMimeDatabase db;
+            QStringList mime = db.mimeTypeForFile(filename, QMimeDatabase::MatchContent).name().split("/");
+            if(mime.size() == 2 && mime.at(0) == "image")
+                reader.setFormat(mime.at(1).toUtf8());
 
-                // Invalid vector graphic
-                if(!svg.isValid()) {
-                    LOG << CURDATE << "LoadImageQt: reader svg - Error: invalid svg file" << NL;
-                    return QImage(); // PQLoadImage::ErrorImage::load("The file doesn't contain a valid vector graphic");
+            // Store the width/height for later use
+            *origSize = reader.size();
+
+            if(maxSize.width() > -1 && origSize->width() > 0 && origSize->height() > 0) {
+
+                int dispWidth = origSize->width();
+                int dispHeight = origSize->height();
+
+                double q;
+
+                if(dispWidth > maxSize.width()) {
+                    q = maxSize.width()/(dispWidth*1.0);
+                    dispWidth = static_cast<int>(dispWidth*q);
+                    dispHeight = static_cast<int>(dispHeight*q);
                 }
 
-                // Render SVG into pixmap
-                svg_pixmap = QPixmap(svg.defaultSize());
-                svg_pixmap.fill(::Qt::transparent);
-                QPainter painter(&svg_pixmap);
-                svg.render(&painter);
-
-                // Store the width/height for later use
-                *origSize = svg.defaultSize();
-
-                return svg_pixmap.toImage();
-
-            } else {
-
-                // Setting QImageReader
-                reader.setFileName(filename);
-
-                // Fix: this loads the image properly even if the extension is wrong
-                QMimeDatabase db;
-                QStringList mime = db.mimeTypeForFile(filename, QMimeDatabase::MatchContent).name().split("/");
-                if(mime.size() == 2 && mime.at(0) == "image")
-                    reader.setFormat(mime.at(1).toUtf8());
-
-                // Store the width/height for later use
-                *origSize = reader.size();
-
-                if(maxSize.width() > -1 && origSize->width() > 0 && origSize->height() > 0) {
-
-                    int dispWidth = origSize->width();
-                    int dispHeight = origSize->height();
-
-                    double q;
-
-                    if(dispWidth > maxSize.width()) {
-                        q = maxSize.width()/(dispWidth*1.0);
-                        dispWidth = static_cast<int>(dispWidth*q);
-                        dispHeight = static_cast<int>(dispHeight*q);
-                    }
-
-                    // If thumbnails are kept visible, then we need to subtract their height from the absolute height otherwise they overlap with main image
-                    if(dispHeight > maxSize.height()) {
-                        q = maxSize.height()/(dispHeight*1.0);
-                        dispWidth = static_cast<int>(dispWidth*q);
-                        dispHeight = static_cast<int>(dispHeight*q);
-                    }
-
-                    reader.setScaledSize(QSize(dispWidth,dispHeight));
-                    if(dispWidth != origSize->width() || dispHeight != origSize->height())
-                        scaledImageDoNotCache = true;
-
+                // If thumbnails are kept visible, then we need to subtract their height from the absolute height otherwise they overlap with main image
+                if(dispHeight > maxSize.height()) {
+                    q = maxSize.height()/(dispHeight*1.0);
+                    dispWidth = static_cast<int>(dispWidth*q);
+                    dispHeight = static_cast<int>(dispHeight*q);
                 }
 
-                reader.setAutoTransform(PQSettings::get().getMetaApplyRotation());
-
-                // Eventually load the image
-                QImage img;
-                reader.read(&img);
-
-                if(!scaledImageDoNotCache)
-                    PQLoadImage::Helper::saveImageToCache(filename, img);
-
-                // If an error occured
-                if(img.isNull()) {
-                    errormsg = reader.errorString();
-                    LOG << CURDATE << "LoadImageQt: reader qt - Error: '" << QFileInfo(filename).fileName().toStdString() << "' failed to load: " << errormsg.toStdString() << NL;
-                    return QImage(); // PQLoadImage::ErrorImage::load(err);
-                }
-
-                return img;
+                reader.setScaledSize(QSize(dispWidth,dispHeight));
 
             }
+
+            reader.setAutoTransform(PQSettings::get().getMetaApplyRotation());
+
+            // Eventually load the image
+            QImage *img = new QImage;
+            reader.read(img);
+
+            // If an error occured
+            if(img->isNull()) {
+                errormsg = reader.errorString();
+                LOG << CURDATE << "LoadImageQt: reader qt - Error: '" << QFileInfo(filename).fileName().toStdString() << "' failed to load: " << errormsg.toStdString() << NL;
+                return QImage();
+            }
+
+            return *img;
 
         }
 
     }
 
-}
+    QString errormsg;
+
+};
+
+#endif

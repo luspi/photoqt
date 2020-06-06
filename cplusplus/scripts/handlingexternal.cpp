@@ -107,7 +107,7 @@ bool PQHandlingExternal::importConfigFrom(QString path) {
     archive_read_support_format_zip(a);
 
     // Read file
-    int r = archive_read_open_filename(a, path.toLatin1(), 10240);
+    int r = archive_read_open_filename(a, path.toLocal8Bit().data(), 10240);
 
     // If something went wrong, output error message and stop here
     if(r != ARCHIVE_OK) {

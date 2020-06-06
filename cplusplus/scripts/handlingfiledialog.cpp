@@ -442,6 +442,12 @@ QString PQHandlingFileDialog::getBaseName(QString path, bool lowerCase) {
     return QFileInfo(path).baseName();
 }
 
+QString PQHandlingFileDialog::getDirectory(QString path, bool lowerCase) {
+    if(lowerCase)
+        return QFileInfo(path).absolutePath().toLower();
+    return QFileInfo(path).absolutePath();
+}
+
 QStringList PQHandlingFileDialog::getFoldersIn(QString path) {
 
     QDir dir(path);
@@ -566,7 +572,7 @@ QStringList PQHandlingFileDialog::listArchiveContent(QString path) {
         archive_read_support_format_all(a);
 
         // Read file
-        int r = archive_read_open_filename(a, info.absoluteFilePath().toLatin1(), 10240);
+        int r = archive_read_open_filename(a, info.absoluteFilePath().toLocal8Bit().data(), 10240);
 
         // If something went wrong, output error message and stop here
         if(r != ARCHIVE_OK) {

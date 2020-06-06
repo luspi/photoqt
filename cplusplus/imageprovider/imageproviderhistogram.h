@@ -29,12 +29,15 @@
 #include <QPainter>
 #include <algorithm>
 #include "../logger.h"
+#include "loadimage.h"
 
 
 class PQImageProviderHistogram : public QQuickImageProvider {
 
 public:
-    explicit PQImageProviderHistogram() : QQuickImageProvider(QQuickImageProvider::Pixmap) { }
+    explicit PQImageProviderHistogram() : QQuickImageProvider(QQuickImageProvider::Pixmap) {
+        loader = new PQLoadImage;
+    }
     ~PQImageProviderHistogram() { }
 
     QPixmap requestPixmap(const QString &fpath, QSize *, const QSize &requestedSize);
@@ -52,6 +55,7 @@ private:
     bool colorversion;
     QImage histimg;
     int greatestvalue;
+    PQLoadImage *loader;
 
 };
 

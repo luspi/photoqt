@@ -7,6 +7,7 @@
 #include <QMimeDatabase>
 #include <QCryptographicHash>
 #include "../settings/imageformats.h"
+#include "loadimage.h"
 
 class PQAsyncImageProviderThumb : public QQuickAsyncImageProvider {
 
@@ -36,6 +37,9 @@ private:
     int foundExternalUnrar;
 
     QString whatDoIUse(QString filename);
+
+    PQLoadImage *loader;
+    PQLoadImageErrorImage *load_err;
 
 };
 
