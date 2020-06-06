@@ -6,10 +6,14 @@ function loadFile(path, copyOfAllFiles) {
         variables.allImageFilesInOrder = handlingFileDialog.listPDFPages(path)
         variables.indexOfCurrentImage = 0
 
+        variables.newFileLoaded()
+
     } else if(PQImageFormats.enabledFileformatsArchive.indexOf("*." + handlingFileDialog.getSuffix(path)) > -1 && PQSettings.archiveSingleFile) {
 
         variables.allImageFilesInOrder = handlingFileDialog.listArchiveContent(path)
         variables.indexOfCurrentImage = 0
+
+        variables.newFileLoaded()
 
     } else {
 
@@ -42,6 +46,8 @@ function loadFile(path, copyOfAllFiles) {
             fp = "0::PQT::" + fp
 
         variables.indexOfCurrentImage = variables.allImageFilesInOrder.indexOf(fp)
+
+        variables.newFileLoaded()
 
     }
 

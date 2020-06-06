@@ -11,13 +11,25 @@ AnimatedImage {
     width: container.width-2*PQSettings.marginAroundImage
     height: container.height-2*PQSettings.marginAroundImage
 
-    fillMode: ((sourceSize.width<width&&sourceSize.height<height&&!PQSettings.fitInWindow) ? Image.Pad : Image.PreserveAspectFit)
+    // set this as default
+    // this way larger images will not be reloaded when adjusting fillMode while smaller images will (might) be.
+    // As smaller images are very quick to load, especially from cache, this is acceptable.
+    // Note: The reason for all this is because a change in fillMode triggers a reload of the image
+    fillMode: Image.PreserveAspectFit
 
     onStatusChanged: {
         theimage.imageStatus = status
         if(status == Image.Ready) {
             variables.currentZoomLevel = (elem.paintedWidth/elem.sourceSize.width)*elem.scale*100
             variables.currentPaintedZoomLevel = elem.scale
+
+            // update fillmode (if change necessary)
+            if(sourceSize.width < width && sourceSize.height < height && !PQSettings.fitInWindow && fillMode != Image.Pad) {
+                fillMode = Image.Pad
+            } else if((sourceSize.width >= width || sourceSize.height >= height || PQSettings.fitInWindow) && fillMode != Image.PreserveAspectFit) {
+                fillMode = Image.PreserveAspectFit
+            }
+
         }
     }
 

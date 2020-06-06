@@ -31,6 +31,8 @@ Item {
     onOpenCurrentDirectoryChanged:
         handlingFileDialog.setLastLocation(openCurrentDirectory)
 
+    signal newFileLoaded()
+
 
     Connections {
         target: PQCppVariables

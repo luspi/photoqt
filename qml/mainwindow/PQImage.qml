@@ -155,17 +155,12 @@ Item {
 
     Connections {
         target: variables
-        // we load the new image whenever one of the below properties has changed. The signal to hide old images is emitted whenever the new image has loaded (its status)
-        onIndexOfCurrentImageChanged: {
-            if(variables.indexOfCurrentImage > -1 && variables.indexOfCurrentImage < variables.allImageFilesInOrder.length)
-                image_model.append({"src" : handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])})
-            else if(variables.indexOfCurrentImage == -1 || variables.allImageFilesInOrder.length == 0)
-                hideAllImages()
-        }
-        onAllImageFilesInOrderChanged: {
-            if(variables.indexOfCurrentImage > -1 && variables.indexOfCurrentImage < variables.allImageFilesInOrder.length)
-                image_model.append({"src" : handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])})
-            else if(variables.indexOfCurrentImage == -1 || variables.allImageFilesInOrder.length == 0)
+        // The signal to hide old images is emitted whenever the new image has loaded (its status)
+        onNewFileLoaded: {
+            if(variables.indexOfCurrentImage > -1 && variables.indexOfCurrentImage < variables.allImageFilesInOrder.length) {
+                var src = handlingFileDialog.cleanPath(variables.allImageFilesInOrder[variables.indexOfCurrentImage])
+                image_model.append({"src" : src})
+            } else if(variables.indexOfCurrentImage == -1 || variables.allImageFilesInOrder.length == 0)
                 hideAllImages()
         }
     }
@@ -175,6 +170,7 @@ Item {
             ++variables.indexOfCurrentImage
         else if(variables.indexOfCurrentImage == variables.allImageFilesInOrder.length-1 && PQSettings.loopThroughFolder)
             variables.indexOfCurrentImage = 0
+        variables.newFileLoaded()
     }
 
     function loadPrevImage() {
@@ -182,14 +178,17 @@ Item {
             --variables.indexOfCurrentImage
         else if(variables.indexOfCurrentImage == 0 && PQSettings.loopThroughFolder)
             variables.indexOfCurrentImage = variables.allImageFilesInOrder.length-1
+        variables.newFileLoaded()
     }
 
     function loadFirstImage() {
         variables.indexOfCurrentImage = 0
+        variables.newFileLoaded()
     }
 
     function loadLastImage() {
         variables.indexOfCurrentImage = variables.allImageFilesInOrder.length-1
+        variables.newFileLoaded()
     }
 
     function playPauseAnimation() {

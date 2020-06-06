@@ -119,8 +119,10 @@ Item {
                 tooltip: handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[index], true)
                 onEntered:
                     view.mouseOverItem = index
-                onClicked:
+                onClicked: {
                     variables.indexOfCurrentImage = index
+                    variables.newFileLoaded()
+                }
                 onExited:
                     view.mouseOverItem = -1
             }
