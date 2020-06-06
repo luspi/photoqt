@@ -2,6 +2,7 @@ import QtQuick 2.9
 import QtMultimedia 5.9
 import "../../elements"
 
+// for better control on fillMode we embed it inside an item
 Item {
 
     id: elem
@@ -25,6 +26,7 @@ Item {
         }
     }
 
+    // video element
     Video {
 
         id: videoelem
@@ -36,6 +38,9 @@ Item {
         width: PQSettings.fitInWindow ? parent.width : (metaData.resolution ? Math.min(metaData.resolution.width, parent.width) : 0)
         height: PQSettings.fitInWindow ? parent.height : (metaData.resolution ? Math.min(metaData.resolution.height, parent.height) : 0)
 
+        Behavior on x { NumberAnimation { id: xAni; duration: PQSettings.animationDuration*100 } }
+        Behavior on y { NumberAnimation { id: yAni; duration: PQSettings.animationDuration*100 } }
+
         volume: PQSettings.videoVolume/100
 
         property int notifyIntervalSHORT: 20
@@ -46,6 +51,8 @@ Item {
         onStatusChanged: {
             theimage.imageStatus = (status==MediaPlayer.Loaded ? Image.Ready : Image.Loading)
             if(status == MediaPlayer.Loaded) {
+                variables.currentZoomLevel = videoelem.scale*100
+                variables.currentPaintedZoomLevel = videoelem.scale
                 if(PQSettings.videoAutoplay)
                     videoelem.play()
                 else
@@ -120,7 +127,7 @@ Item {
 
         Timer {
             id: resetMouseHasBeenMovedRecently
-            interval: 1000
+            interval: 2000
             repeat: false
             onTriggered:
                 controls.mouseHasBeenMovedRecently = false
@@ -144,107 +151,95 @@ Item {
 
             id: controls
 
-            color: "#88444444"
+            color: "#ee000000"
 
             anchors {
                 left: parent.left
                 right: parent.right
                 bottom: parent.bottom
             }
-            height: videoposslider.height
+            height: 50
 
             property bool mouseHasBeenMovedRecently: false
 
             opacity: (videoelem.playbackState==MediaPlayer.PausedState || mouseHasBeenMovedRecently || volumecontrol_slider.manipulate) ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 250 } }
 
-            Text {
-                id: curpos
-                anchors {
-                    left: parent.left
-                    leftMargin: 5
-                }
-                height: videoposslider.height
-                verticalAlignment: Qt.AlignVCenter
+            Row {
 
-                color: "white"
-                text: handlingGeneral.convertSecsToProperTime(Math.round(videoelem.position/1000), Math.round(videoelem.duration/1000))
-            }
+                spacing: 10
 
-            PQSlider {
-
-                id: videoposslider
-
-                anchors {
-                    left: curpos.right
-                    leftMargin: 5
-                    right: timeleft.left
-                    rightMargin: 5
-                    bottom: parent.bottom
+                Item {
+                    width: 1
+                    height: 1
                 }
 
-                from: 0
-                to: videoelem.duration
-                value: videoelem.position
-                onValueChanged: {
-                    if(pressed)
-                        videoelem.seek(value)
+                Text {
+                    id: curpos
+                    y: (controls.height-height)/2
+                    color: "white"
+                    font.bold: true
+                    text: handlingGeneral.convertSecsToProperTime(Math.round(videoelem.position/1000), Math.round(videoelem.duration/1000))
                 }
 
-            }
-
-            Text {
-                id: timeleft
-                anchors {
-                    right: volumecontrol.left
-                    rightMargin: 10
-                }
-                height: videoposslider.height
-                verticalAlignment: Qt.AlignVCenter
-
-                color: "white"
-                text: handlingGeneral.convertSecsToProperTime(Math.round((videoelem.duration-videoelem.position)/1000), Math.round(videoelem.duration/1000))
-            }
-
-            Item {
-
-                id: volumecontrol
-
-                anchors.right: parent.right
-                anchors.rightMargin: 5
-
-                y: 5
-                height: videoposslider.height-10
-                width: volumecontrol_image.width+volumecontrol_slider.width
-
-                Image {
-
-                    id: volumecontrol_image
-
-                    anchors.right: volumecontrol_slider.left
-
-                    source: volumecontrol_slider.value==0 ?
-                                "/multimedia/speaker_mute.png" :
-                                (volumecontrol_slider.value <= 40 ?
-                                     "/multimedia/speaker_low.png" :
-                                     (volumecontrol_slider.value <= 80 ?
-                                          "/multimedia/speaker_medium.png" :
-                                          "/multimedia/speaker_high.png"))
-
-                    height: parent.height
-                    width: height
-                    sourceSize: Qt.size(height, height)
-
-                    MouseArea {
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: {
-                            if(volumecontrol_slider.manipulate)
-                                volumecontrol_slider.value = (volumecontrol_slider.value==0 ? 100 : 0)
-                            else
-                                volumecontrol_slider.manipulate = true
+                PQSlider {
+                    id: videopos_slider
+                    y: (controls.height-height)/2
+                    width: controls.width - curpos.width - timeleft.width - volumecontrol.width - volumecontrol_slider.width - 60
+                    from: 0
+                    to: videoelem.duration
+                    value: videoelem.position
+                    divideToolTipValue: 1000
+                    convertToolTipValueToTimeWithDuration: Math.round(videoelem.duration/1000)
+                    onValueChanged: {
+                        if(pressed) {
+                            videoelem.seek(value)
                         }
+                    }
+                }
+
+                Text {
+                    id: timeleft
+                    y: (controls.height-height)/2
+                    color: "white"
+                    font.bold: true
+                    text: handlingGeneral.convertSecsToProperTime(Math.round((videoelem.duration-videoelem.position)/1000), Math.round(videoelem.duration/1000))
+                }
+
+                Item {
+
+                    id: volumecontrol
+
+                    y: (controls.height-height)/2
+                    width: volumecontrol_image.width//+volumecontrol_slider.width
+                    height: 2*controls.height/3
+
+                    Image {
+
+                        id: volumecontrol_image
+
+                        source: volumecontrol_slider.value==0 ?
+                                    "/multimedia/speaker_mute.png" :
+                                    (volumecontrol_slider.value <= 40 ?
+                                         "/multimedia/speaker_low.png" :
+                                         (volumecontrol_slider.value <= 80 ?
+                                              "/multimedia/speaker_medium.png" :
+                                              "/multimedia/speaker_high.png"))
+
+                        height: parent.height
+                        width: height
+                        sourceSize: Qt.size(height, height)
+
+                        MouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: {
+                                var tmp = volumecontrol_slider.manipulate
+                                volumecontrol_slider.manipulate = !tmp
+                            }
+                        }
+
                     }
 
                 }
@@ -253,7 +248,13 @@ Item {
 
                     id: volumecontrol_slider
 
-                    anchors.right: parent.right
+                    x: 0
+                    y: (controls.height-height)/2
+                    width: manipulate ? 150 : 0
+
+                    Behavior on width { NumberAnimation { duration: 150 } }
+
+                    visible: width>0
 
                     property bool manipulate: false
 
@@ -263,24 +264,11 @@ Item {
                     onValueChanged:
                         PQSettings.videoVolume = value
 
-                    y: (parent.height-height)/2
-                    width: manipulate?150:0
-                    Behavior on width { NumberAnimation { duration: 150 } }
+                }
 
-                    handleToolTipSuffix: "%"
-
-                    visible: manipulate
-
-                    Connections {
-                        target: variables
-                        onMousePosChanged: {
-                            var loc = volumecontrol_slider.mapFromGlobal(variables.mousePos.x, variables.mousePos.y)
-                            if(loc.x < 0 || loc.x > volumecontrol_slider.width ||
-                               loc.y < 0 || loc.y > volumecontrol_slider.height)
-                                volumecontrol_slider.manipulate = false
-                        }
-                    }
-
+                Item {
+                    width: 1
+                    height: 1
                 }
 
             }
@@ -292,9 +280,6 @@ Item {
     Behavior on scale { NumberAnimation { id: scaleAni; duration: PQSettings.animationDuration*100 } }
     onScaleChanged:
         variables.currentZoomLevel = (videoelem.width/videoelem.metaData.resolution.width)*elem.scale*100
-
-    Behavior on x { NumberAnimation { id: xAni; duration: PQSettings.animationDuration*100 } }
-    Behavior on y { NumberAnimation { id: yAni; duration: PQSettings.animationDuration*100 } }
 
     Connections {
         target: container
@@ -311,8 +296,8 @@ Item {
             yAni.duration = PQSettings.animationDuration*100
             if(!videoelem.scaleAdjustedFromRotation)
                 elem.scale = 1
-            elem.x = PQSettings.marginAroundImage
-            elem.y = PQSettings.marginAroundImage
+            videoelem.x = PQSettings.marginAroundImage
+            videoelem.y = PQSettings.marginAroundImage
         }
         onZoomActual: {
             if(variables.currentZoomLevel != 100)
