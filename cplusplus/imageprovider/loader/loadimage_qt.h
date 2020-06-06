@@ -28,7 +28,6 @@
 
 #include "../../logger.h"
 #include "../../settings/settings.h"
-#include "../pixmapcache.h"
 
 class PQLoadImageQt {
 
