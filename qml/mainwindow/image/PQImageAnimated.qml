@@ -43,7 +43,7 @@ AnimatedImage {
     Behavior on y { NumberAnimation { id: yAni; duration: PQSettings.animationDuration*100 } }
 
     asynchronous: true
-    cache: false
+    cache: true
     antialiasing: true
     smooth: (PQSettings.interpolationNearestNeighbourUpscale &&
              elem.paintedWidth<=PQSettings.interpolationNearestNeighbourThreshold &&
