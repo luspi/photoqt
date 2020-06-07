@@ -25,6 +25,8 @@ Item {
 
     property var zoomRotationMirror: ({})
 
+    property bool settingsManagerExpertMode: true
+
     onIndexOfCurrentImageChanged:
         cppmetadata.updateMetadata(indexOfCurrentImage != -1 ? allImageFilesInOrder[indexOfCurrentImage] : "")
 

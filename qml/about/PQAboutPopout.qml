@@ -33,7 +33,7 @@ Window {
 
     Connections {
         target: PQSettings
-        onScalePopoutElementChanged: {
+        onAboutPopoutElementChanged: {
             if(!PQSettings.aboutPopoutElement)
                 about_window.visible = Qt.binding(function() { return PQSettings.aboutPopoutElement&&curloader.item.opacity==1; })
         }

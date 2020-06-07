@@ -192,6 +192,7 @@ void PQSettings::setDefault() {
     setImgurPopoutElement(false);
     setWallpaperPopoutElement(false);
     setFilterPopoutElement(false);
+    setSettingsManagerPopoutElement(false);
 
 }
 
@@ -636,6 +637,9 @@ void PQSettings::readSettings() {
             else if(line.startsWith("FilterPopoutElement="))
                 setFilterPopoutElement(line.split("=").at(1).toInt());
 
+            else if(line.startsWith("SettingsManagerPopoutElement="))
+                setSettingsManagerPopoutElement(line.split("=").at(1).toInt());
+
         }
 
     }
@@ -835,6 +839,7 @@ void PQSettings::saveSettings() {
         cont += QString("ImgurPopoutElement=%1\n").arg(int(m_imgurPopoutElement));
         cont += QString("WallpaperPopoutElement=%1\n").arg(int(m_wallpaperPopoutElement));
         cont += QString("FilterPopoutElement=%1\n").arg(int(m_filterPopoutElement));
+        cont += QString("SettingsManagerPopoutElement=%1\n").arg(int(m_settingsManagerPopoutElement));
 
 
         out << cont;

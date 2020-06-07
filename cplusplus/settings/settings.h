@@ -1430,6 +1430,16 @@ public:
             }
         }
 
+        Q_PROPERTY(bool settingsManagerPopoutElement READ getSettingsManagerPopoutElement WRITE setSettingsManagerPopoutElement NOTIFY settingsManagerPopoutElementChanged)
+        bool getSettingsManagerPopoutElement() { return m_settingsManagerPopoutElement; }
+        void setSettingsManagerPopoutElement(bool val) {
+            if(m_settingsManagerPopoutElement != val) {
+                m_settingsManagerPopoutElement = val;
+                emit settingsManagerPopoutElementChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
 private:
         PQSettings();
 
@@ -1588,6 +1598,7 @@ private:
         bool    m_imgurPopoutElement;
         bool    m_wallpaperPopoutElement;
         bool    m_filterPopoutElement;
+        bool    m_settingsManagerPopoutElement;
 
 private slots:
         void readSettings();
@@ -1732,6 +1743,7 @@ signals:
         void imgurPopoutElementChanged();
         void wallpaperPopoutElementChanged();
         void filterPopoutElementChanged();
+        void settingsManagerPopoutElementChanged();
 
 
 };

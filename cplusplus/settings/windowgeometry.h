@@ -267,6 +267,24 @@ public:
         }
     }
 
+    Q_PROPERTY(QRect settingsManagerWindowGeometry READ getSettingsManagerWindowGeometry WRITE setSettingsManagerWindowGeometry)
+    QRect getSettingsManagerWindowGeometry() { return m_settingsManagerWindowGeometry; }
+    void setSettingsManagerWindowGeometry(QRect rect) {
+        if(rect != m_settingsManagerWindowGeometry) {
+            m_settingsManagerWindowGeometry = rect;
+            saveGeometries();
+        }
+    }
+
+    Q_PROPERTY(bool settingsManagerWindowMaximized READ getSettingsManagerWindowMaximized WRITE setSettingsManagerWindowMaximized)
+    bool getSettingsManagerWindowMaximized() { return m_settingsManagerWindowMaximized; }
+    void setSettingsManagerWindowMaximized(bool maximized) {
+        if(maximized != m_settingsManagerWindowMaximized) {
+            m_settingsManagerWindowMaximized = maximized;
+            saveGeometries();
+        }
+    }
+
 private:
     QRect m_mainWindowGeometry;
     bool m_mainWindowMaximized;
@@ -309,6 +327,9 @@ private:
 
     QRect m_filterWindowGeometry;
     bool  m_filterWindowMaximized;
+
+    QRect m_settingsManagerWindowGeometry;
+    bool  m_settingsManagerWindowMaximized;
 
     QSettings *settings;
 

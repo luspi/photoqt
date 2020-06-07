@@ -70,5 +70,27 @@
         <file>mainwindow/image/PQFaceTagger.qml</file>
         <file>mainwindow/PQMessage.qml</file>
         <file>shortcuts/PQKeyMouseStrings.qml</file>
+        <file>settingsmanager/PQSettingsManager.qml</file>
+        <file>elements/PQTabButton.qml</file>
+        <file>settingsmanager/PQSettingsManagerPopout.qml</file>
+        <file>settingsmanager/tabs/PQTabImageView.qml</file>
+        <file>settingsmanager/tabs/PQTabInterface.qml</file>
+        <file>settingsmanager/tabs/PQTabMetadata.qml</file>
+        <file>settingsmanager/tabs/PQTabThumbnails.qml</file>
+        <file>settingsmanager/tabs/PQTabVideo.qml</file>
+        <file>settingsmanager/tabs/PQTabManageSettings.qml</file>
+        <file>elements/PQSetting.qml</file>
+        <file>settingsmanager/tabs/interface/PQBackground.qml</file>
+        <file>settingsmanager/tabs/interface/PQCloseOnEmpty.qml</file>
+        <file>settingsmanager/tabs/interface/PQHotEdgeWidth.qml</file>
+        <file>settingsmanager/tabs/interface/PQLanguage.qml</file>
+        <file>settingsmanager/tabs/interface/PQMouseWheel.qml</file>
+        <file>settingsmanager/tabs/interface/PQOverlayColor.qml</file>
+        <file>settingsmanager/tabs/interface/PQPopout.qml</file>
+        <file>settingsmanager/tabs/interface/PQQuickInfo.qml</file>
+        <file>settingsmanager/tabs/interface/PQStartupLoadLast.qml</file>
+        <file>settingsmanager/tabs/interface/PQTrayIcon.qml</file>
+        <file>settingsmanager/tabs/interface/PQWindowManagement.qml</file>
+        <file>settingsmanager/tabs/interface/PQWindowMode.qml</file>
     </qresource>
 </RCC>

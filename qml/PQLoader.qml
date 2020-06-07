@@ -16,6 +16,7 @@ Item {
     signal wallpaperPassOn(var what, var param)
     signal filterPassOn(var what, var param)
     signal faceTaggerPassOn(var what, var param)
+    signal settingsManagerPassOn(var what, var param)
 
     function show(component) {
 
@@ -53,6 +54,9 @@ Item {
 
         else if(component == "filter")
             filterPassOn("show", undefined)
+
+        else if(component == "settingsmanager")
+            settingsManagerPassOn("show", undefined)
 
     }
 
@@ -108,6 +112,9 @@ Item {
 
         else if(component == "facetagger")
             faceTaggerPassOn("keyevent", [key, mod])
+
+        else if(component == "settingsmanager")
+            settingsManagerPassOn("keyevent", [key, mod])
 
     }
 
@@ -223,6 +230,14 @@ Item {
 
             else if(!PQSettings.filterPopoutElement && filter.source != "filter/PQFilter.qml")
                 filter.source = "filter/PQFilter.qml"
+
+        } else if(component == "settingsmanager") {
+
+            if(PQSettings.settingsManagerPopoutElement && settingsmanager.source != "settingsmanager/PQSettingsManagerPopout.qml")
+                settingsmanager.source = "settingsmanager/PQSettingsManagerPopout.qml"
+
+            else if(!PQSettings.settingsManagerPopoutElement && settingsmanager.source != "settingsmanager/PQSettingsManager.qml")
+                settingsmanager.source = "settingsmanager/PQSettingsManager.qml"
 
         }
 

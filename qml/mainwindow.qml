@@ -22,6 +22,7 @@ import "./shortcuts"
 import "./menumeta"
 import "./histogram"
 import "./slideshow"
+import "./settingsmanager"
 
 import "./loadfiles.js" as LoadFiles
 
@@ -224,6 +225,7 @@ Window {
     Loader { id: imgur }
     Loader { id: wallpaper }
     Loader { id: filter }
+    Loader { id: settingsmanager }
 
     PQImageProperties { id: imageproperties }
     PQFileWatcher { id: filewatcher }
