@@ -133,20 +133,6 @@ Item {
                 controls.mouseHasBeenMovedRecently = false
         }
 
-        Image {
-
-            anchors.fill: parent
-
-            source: videoelem.playbackState==MediaPlayer.PlayingState ? "/multimedia/pause.png" : "/multimedia/play.png"
-
-            sourceSize: Qt.size(128, 128)
-
-            fillMode: Image.Pad
-
-            opacity: controls.opacity
-
-        }
-
         Rectangle {
 
             id: controls
@@ -165,6 +151,17 @@ Item {
             opacity: (videoelem.playbackState==MediaPlayer.PausedState || mouseHasBeenMovedRecently || volumecontrol_slider.manipulate) ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 250 } }
 
+            MouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                onContainsMouseChanged: {
+                    if(containsMouse)
+                        resetMouseHasBeenMovedRecently.stop()
+                    else
+                        resetMouseHasBeenMovedRecently.start()
+                }
+            }
+
             Row {
 
                 spacing: 10
@@ -172,6 +169,31 @@ Item {
                 Item {
                     width: 1
                     height: 1
+                }
+
+                Image {
+
+                    id: playpause
+
+                    source: videoelem.playbackState==MediaPlayer.PlayingState ? "/multimedia/pause.png" : "/multimedia/play.png"
+
+                    y: (controls.height-height)/2
+                    height: controls.height/2
+                    width: height
+                    sourceSize: Qt.size(height, height)
+
+                    MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: {
+                            if(videoelem.playbackState == MediaPlayer.PlayingState)
+                                videoelem.pause()
+                            else
+                                videoelem.play()
+                        }
+                    }
+
                 }
 
                 Text {
@@ -185,7 +207,7 @@ Item {
                 PQSlider {
                     id: videopos_slider
                     y: (controls.height-height)/2
-                    width: controls.width - curpos.width - timeleft.width - volumecontrol.width - volumecontrol_slider.width - 60
+                    width: controls.width - playpause.width - curpos.width - timeleft.width - volumecontrol.width - volumecontrol_slider.width - 60
                     from: 0
                     to: videoelem.duration
                     value: videoelem.position
@@ -206,40 +228,32 @@ Item {
                     text: handlingGeneral.convertSecsToProperTime(Math.round((videoelem.duration-videoelem.position)/1000), Math.round(videoelem.duration/1000))
                 }
 
-                Item {
+                Image {
 
                     id: volumecontrol
 
+                    source: volumecontrol_slider.value==0 ?
+                                "/multimedia/speaker_mute.png" :
+                                (volumecontrol_slider.value <= 40 ?
+                                     "/multimedia/speaker_low.png" :
+                                     (volumecontrol_slider.value <= 80 ?
+                                          "/multimedia/speaker_medium.png" :
+                                          "/multimedia/speaker_high.png"))
+
                     y: (controls.height-height)/2
-                    width: volumecontrol_image.width//+volumecontrol_slider.width
                     height: 2*controls.height/3
+                    width: height
+                    sourceSize: Qt.size(height, height)
 
-                    Image {
-
-                        id: volumecontrol_image
-
-                        source: volumecontrol_slider.value==0 ?
-                                    "/multimedia/speaker_mute.png" :
-                                    (volumecontrol_slider.value <= 40 ?
-                                         "/multimedia/speaker_low.png" :
-                                         (volumecontrol_slider.value <= 80 ?
-                                              "/multimedia/speaker_medium.png" :
-                                              "/multimedia/speaker_high.png"))
-
-                        height: parent.height
-                        width: height
-                        sourceSize: Qt.size(height, height)
-
-                        MouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            cursorShape: Qt.PointingHandCursor
-                            onClicked: {
-                                var tmp = volumecontrol_slider.manipulate
-                                volumecontrol_slider.manipulate = !tmp
-                            }
+                    PQMouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        tooltip: volumecontrol_slider.value + "%"
+                        onClicked: {
+                            var tmp = volumecontrol_slider.manipulate
+                            volumecontrol_slider.manipulate = !tmp
                         }
-
                     }
 
                 }
@@ -257,6 +271,8 @@ Item {
                     visible: width>0
 
                     property bool manipulate: false
+
+                    handleToolTipSuffix: "%"
 
                     from: 0
                     to: 100
