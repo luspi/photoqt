@@ -8,6 +8,7 @@ PQSetting {
     helptext: ""
     content: [
         PQComboBox {
+            id: tray_combo
             y: (parent.height-height)/2
             model: [
                 "No tray icon",
@@ -17,4 +18,19 @@ PQSetting {
         }
 
     ]
+
+    Connections {
+
+        target: settingsmanager_top
+
+        onLoadAllSettings: {
+            tray_combo.currentIndex = PQSettings.trayIcon
+        }
+
+        onSaveAllSettings: {
+            PQSettings.trayIcon = tray_combo.currentIndex
+        }
+
+    }
+
 }

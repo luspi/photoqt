@@ -8,9 +8,25 @@ PQSetting {
     helptext: "Re-opens last used image at startup."
     content: [
         PQCheckbox {
+            id: start_load_last
             y: (parent.height-height)/2
             text: "Re-open last used image at startup"
         }
 
     ]
+
+    Connections {
+
+        target: settingsmanager_top
+
+        onLoadAllSettings: {
+            start_load_last.checked = PQSettings.startupLoadLastLoadedImage
+        }
+
+        onSaveAllSettings: {
+            PQSettings.startupLoadLastLoadedImage = start_load_last.checked
+        }
+
+    }
+
 }

@@ -7,6 +7,7 @@
 #include <QUrl>
 #include <QNetworkInterface>
 #include <QMimeDatabase>
+#include <QStringRef>
 #include "../imageprovider/imageproviderfull.h"
 #include "../logger.h"
 
@@ -44,6 +45,8 @@ public:
     Q_INVOKABLE bool checkIfConnectedToInternet();
 
     Q_INVOKABLE QString getFileType(QString filename);
+
+    Q_INVOKABLE QVariantList convertHexToRgba(QString hex);
 
 private:
     PQImageProviderFull *imageprovider;

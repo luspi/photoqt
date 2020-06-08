@@ -8,9 +8,25 @@ PQSetting {
     helptext: ""
     content: [
         PQCheckbox {
+            id: closecheck
             y: (parent.height-height)/2
             text: "Close on click"
         }
 
     ]
+
+    Connections {
+
+        target: settingsmanager_top
+
+        onLoadAllSettings: {
+            closecheck.checked = PQSettings.closeOnEmptyBackground
+        }
+
+        onSaveAllSettings: {
+            PQSettings.closeOnEmptyBackground = closecheck.checked
+        }
+
+    }
+
 }

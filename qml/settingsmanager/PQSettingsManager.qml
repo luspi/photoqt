@@ -22,6 +22,12 @@ Rectangle {
     Behavior on opacity { NumberAnimation { duration: PQSettings.animationDuration*100 } }
     visible: opacity!=0
 
+    signal loadAllSettings()
+    signal saveAllSettings()
+
+    property bool modalWindowOpen: false
+    signal closeModalWindow()
+
     PQMouseArea {
         anchors.fill: parent
         hoverEnabled: true
@@ -103,12 +109,12 @@ Rectangle {
         width: parent.width-bar.width
         height: parent.height-buttons_container.height
         currentIndex: bar.currentIndex
-        PQTabInterface {}
-        PQTabImageView {}
-        PQTabThumbnails {}
-        PQTabMetadata {}
-        PQTabVideo {}
-        PQTabManageSettings {}
+        PQTabInterface { id: tab_interface }
+        PQTabImageView { id: tab_imageview }
+        PQTabThumbnails { id: tab_thumbnails }
+        PQTabMetadata { id: tab_metadata }
+        PQTabVideo { id: tab_video }
+        PQTabManageSettings { id: tab_manage }
     }
 
 
@@ -176,9 +182,12 @@ Rectangle {
                 id: button_cancel
                 text: "Exit and Discard Changes"
                 onClicked: {
-                    resetSettings()
-                    settingsmanager_top.opacity = 0
-                    variables.visibleItem = ""
+                    if(modalWindowOpen)
+                        closeModalWindow()
+                    else {
+                        settingsmanager_top.opacity = 0
+                        variables.visibleItem = ""
+                    }
                 }
             }
 
@@ -190,6 +199,7 @@ Rectangle {
         target: loader
         onSettingsManagerPassOn: {
             if(what == "show") {
+                resetSettings()
                 opacity = 1
                 variables.visibleItem = "settingsmanager"
             } else if(what == "hide") {
@@ -222,9 +232,15 @@ Rectangle {
 
     function saveSettings() {
 
+        // let everybody know to save
+        saveAllSettings()
+
     }
 
     function resetSettings() {
+
+        // let everybody know to load
+        loadAllSettings()
 
     }
 

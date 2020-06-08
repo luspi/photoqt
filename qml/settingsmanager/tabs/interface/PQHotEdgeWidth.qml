@@ -18,7 +18,13 @@ PQSetting {
             }
 
             PQSlider {
+                id: hotedge_slider
                 y: (parent.height-height)/2
+                from: 1
+                to: 20
+                stepSize: 1
+                wheelStepSize: 1
+
             }
 
             Text {
@@ -29,4 +35,19 @@ PQSetting {
         }
 
     ]
+
+    Connections {
+
+        target: settingsmanager_top
+
+        onLoadAllSettings: {
+            hotedge_slider.value = PQSettings.hotEdgeWidth
+        }
+
+        onSaveAllSettings: {
+            PQSettings.hotEdgeWidth = hotedge_slider.value
+        }
+
+    }
+
 }

@@ -227,3 +227,14 @@ QString PQHandlingGeneral::getFileType(QString filename) {
         return "";
     return mimedb.mimeTypeForFile(filename).name();
 }
+
+QVariantList PQHandlingGeneral::convertHexToRgba(QString hex) {
+
+    int a = QStringRef(&hex, 1, 2).toUInt(nullptr, 16);
+    int r = QStringRef(&hex, 3, 2).toUInt(nullptr, 16);
+    int g = QStringRef(&hex, 5, 2).toUInt(nullptr, 16);
+    int b = QStringRef(&hex, 7, 2).toUInt(nullptr, 16);
+
+    return QVariantList() << r << g << b << a;
+
+}

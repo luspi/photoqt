@@ -18,7 +18,12 @@ PQSetting {
             }
 
             PQSlider {
+                id: wheelsensitivity
                 y: (parent.height-height)/2
+                from: 0
+                to: 10
+                stepSize: 1
+                wheelStepSize: 1
             }
 
             Text {
@@ -28,4 +33,19 @@ PQSetting {
             }
         }
     ]
+
+    Connections {
+
+        target: settingsmanager_top
+
+        onLoadAllSettings: {
+            wheelsensitivity.value = PQSettings.mouseWheelSensitivity
+        }
+
+        onSaveAllSettings: {
+            PQSettings.mouseWheelSensitivity = wheelsensitivity.value
+        }
+
+    }
+
 }
