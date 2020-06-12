@@ -13,15 +13,11 @@ ComboBox {
 
     property string prefix: ""
 
-    property int largestWidthOfItem: 0
-    width: largestWidthOfItem
-
     delegate: ItemDelegate {
         id: controldelegate
-        visible: hideItems.indexOf(index)==-1
-        height: visible ? background.height : 0
+        width: control.width
         contentItem: Text {
-            text: control.prefix + modelData
+            text: modelData
             color: "white"
             font: control.font
             elide: Text.ElideRight
@@ -31,18 +27,13 @@ ComboBox {
                     font.bold = true
             }
         }
-
-        Component.onCompleted: {
-            if(width+20 > largestWidthOfItem)
-                largestWidthOfItem = width+20
-            width = largestWidthOfItem
-        }
+        highlighted: control.highlightedIndex === index
 
         background: Rectangle {
-            implicitWidth: 100
-            implicitHeight: 40
+            width: parent.width
+            height: parent.height
             opacity: enabled ? 1 : 0.3
-            color: (controldelegate.down||controldelegmouse.containsMouse) ? "#ff000000" : "#cc444444"
+            color: (controldelegate.down||controldelegmouse.containsMouse) ? "#f8111111" : "#f8444444"
             Rectangle {
                 width: parent.width
                 height: 1
@@ -57,11 +48,14 @@ ComboBox {
             id: controldelegmouse
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
-            propagateComposedEvents: true
             hoverEnabled: true
-            onClicked: controldelegate.clicked()
-            onPressed: controldelegate.down = true
-            onReleased: controldelegate.down = false
+            propagateComposedEvents: true
+            onClicked: mouse.accepted = false;
+            onPressed: mouse.accepted = false;
+            onReleased: mouse.accepted = false;
+            onDoubleClicked: mouse.accepted = false;
+            onPositionChanged: mouse.accepted = false;
+            onPressAndHold: mouse.accepted = false;
         }
 
     }
@@ -85,13 +79,13 @@ ComboBox {
             context.lineTo(width, 0);
             context.lineTo(width / 2, height);
             context.closePath();
-            context.fillStyle = control.pressed ? "#cccccc" : "#ffffff";
+            context.fillStyle = control.pressed ? "#cccccc" : "#ffffff"
             context.fill();
         }
     }
 
     contentItem: Text {
-        leftPadding: 5
+        leftPadding: 0
         rightPadding: control.indicator.width + control.spacing
 
         text: control.prefix + control.displayText
@@ -110,37 +104,19 @@ ComboBox {
         radius: 2
     }
 
-
-
-    popup: Popup {
-        y: control.height - 1
-        width: control.width
-        implicitHeight: contentItem.implicitHeight
-        padding: 1
-
-        contentItem: ListView {
-            clip: true
-            implicitHeight: contentHeight
-            model: control.popup.visible ? control.delegateModel : null
-        }
-
-        background: Rectangle {
-            color: "#cc444444"
-            border.color: "#cc666666"
-            radius: 2
-        }
-    }
-
     PQMouseArea {
         id: combomousearea
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
-        onClicked: {
-            if(control.popup.opened)
-                control.popup.close()
-            else
-                control.popup.open()
-        }
+
+        propagateComposedEvents: true
+        onClicked: mouse.accepted = false
+        onPressed: mouse.accepted = false
+        onReleased: mouse.accepted = false
+        onDoubleClicked: mouse.accepted = false
+        onPositionChanged: mouse.accepted = false
+        onPressAndHold: mouse.accepted = false
     }
+
 }
