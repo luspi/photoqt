@@ -26,6 +26,22 @@ ComboBox {
                 if(index == 0 && firstItemEmphasized)
                     font.bold = true
             }
+
+            PQMouseArea {
+                id: controldelegmouse
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+                hoverEnabled: true
+                tooltip: parent.text
+                propagateComposedEvents: true
+                onClicked: mouse.accepted = false;
+                onPressed: mouse.accepted = false;
+                onReleased: mouse.accepted = false;
+                onDoubleClicked: mouse.accepted = false;
+                onPositionChanged: mouse.accepted = false;
+                onPressAndHold: mouse.accepted = false;
+            }
+
         }
         highlighted: control.highlightedIndex === index
 
@@ -42,20 +58,6 @@ ComboBox {
                 color: "#cccccc"
                 visible: (firstItemEmphasized&&index==0)||(lineBelowItem==index)
             }
-        }
-
-        MouseArea {
-            id: controldelegmouse
-            anchors.fill: parent
-            cursorShape: Qt.PointingHandCursor
-            hoverEnabled: true
-            propagateComposedEvents: true
-            onClicked: mouse.accepted = false;
-            onPressed: mouse.accepted = false;
-            onReleased: mouse.accepted = false;
-            onDoubleClicked: mouse.accepted = false;
-            onPositionChanged: mouse.accepted = false;
-            onPressAndHold: mouse.accepted = false;
         }
 
     }
