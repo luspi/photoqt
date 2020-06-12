@@ -6,7 +6,6 @@ import "../../../elements"
 PQSetting {
     title: "Popout Elements"
     helptext: "Here you can choose for most elements whether they are to be shown integrated into the main window or in their own, separate window."
-    expertmodeonly: true
     content: [
 
         Flow {
