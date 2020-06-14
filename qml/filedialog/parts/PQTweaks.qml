@@ -48,7 +48,7 @@ Rectangle {
 
         divideToolTipValue: 10
         tooltip: em.pty+qsTranslate("filedialog", "Adjust font size of files and folders")
-        handleToolTipPrefix: em.pty+qsTranslate("filedialog", "Zoom factor:") + " "
+        toolTipPrefix: em.pty+qsTranslate("filedialog", "Zoom factor:") + " "
 
         anchors.left: zoomtext.right
         y: (parent.height-height)/2

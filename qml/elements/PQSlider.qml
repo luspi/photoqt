@@ -15,9 +15,10 @@ Slider {
 
     property int divideToolTipValue: 1
     property alias tooltip: slidertooltip.text
-    property string handleToolTipPrefix: ""
-    property string handleToolTipSuffix: ""
+    property string toolTipPrefix: ""
+    property string toolTipSuffix: ""
     property bool handleToolTipEnabled: true
+    property bool sliderToolTipEnabled: true
 
     property int convertToolTipValueToTimeWithDuration: -1
 
@@ -86,18 +87,19 @@ Slider {
     PQToolTip {
         id: handletooltip
         parent: control.handle
-        visible: control.pressed&&handleToolTipEnabled
+        visible: control.pressed&&handleToolTipEnabled&&text!=""
         delay: 0
         text: convertToolTipValueToTimeWithDuration == -1
-                    ? (handleToolTipPrefix + (control.value/divideToolTipValue) + handleToolTipSuffix)
-                    : (handleToolTipPrefix + handlingGeneral.convertSecsToProperTime(control.value/divideToolTipValue, convertToolTipValueToTimeWithDuration) + handleToolTipSuffix)
+                    ? (toolTipPrefix + (control.value/divideToolTipValue) + toolTipSuffix)
+                    : (toolTipPrefix + handlingGeneral.convertSecsToProperTime(control.value/divideToolTipValue, convertToolTipValueToTimeWithDuration) + toolTipSuffix)
     }
 
     PQToolTip {
         id: slidertooltip
         parent: control
-        visible: control.hovered&&!handletooltip.visible&&text!=""
-        delay: 500
+        visible: control.hovered&&sliderToolTipEnabled&&!handletooltip.visible&&text!=""
+        delay: 0
+        text: handletooltip.text
     }
 
 }

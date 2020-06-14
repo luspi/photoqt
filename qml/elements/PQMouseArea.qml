@@ -29,6 +29,7 @@ Item {
     signal released()
     signal dragOnActiveChanged()
     signal positionChanged(var mouse)
+    signal wheel(var wheel)
 
     function containsMouse() {
         return tooltip_mousearea.containsMouse()
@@ -79,7 +80,11 @@ Item {
         }
         onPositionChanged: {
             top.positionChanged(mouse)
+            mouse.accepted = !propagateComposedEvents
         }
+
+        onWheel:
+            top.wheel(wheel)
 
         drag.onActiveChanged:
             top.dragOnActiveChanged()
