@@ -22,8 +22,10 @@ public:
     QString exportAndQuit;
     QString importAndQuit;
 
+    void *rootQmlAddress;
+
 protected:
-    virtual bool notify(QObject * receiver, QEvent * event);
+    virtual bool notify(QObject * receiver, QEvent * event) override;
 
 signals:
     // Interact with application
