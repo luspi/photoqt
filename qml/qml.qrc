@@ -92,5 +92,16 @@
         <file>settingsmanager/tabs/interface/PQTrayIcon.qml</file>
         <file>settingsmanager/tabs/interface/PQWindowManagement.qml</file>
         <file>settingsmanager/tabs/interface/PQWindowMode.qml</file>
+        <file>settingsmanager/tabs/imageview/PQAnimation.qml</file>
+        <file>settingsmanager/tabs/imageview/PQFitInWindow.qml</file>
+        <file>settingsmanager/tabs/imageview/PQInterpolation.qml</file>
+        <file>settingsmanager/tabs/imageview/PQKeep.qml</file>
+        <file>settingsmanager/tabs/imageview/PQLeftButton.qml</file>
+        <file>settingsmanager/tabs/imageview/PQLoop.qml</file>
+        <file>settingsmanager/tabs/imageview/PQMargin.qml</file>
+        <file>settingsmanager/tabs/imageview/PQPixmapCache.qml</file>
+        <file>settingsmanager/tabs/imageview/PQSort.qml</file>
+        <file>settingsmanager/tabs/imageview/PQTransparencyMarker.qml</file>
+        <file>settingsmanager/tabs/imageview/PQZoomSpeed.qml</file>
     </qresource>
 </RCC>
