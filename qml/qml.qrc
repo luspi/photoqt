@@ -103,5 +103,16 @@
         <file>settingsmanager/tabs/imageview/PQSort.qml</file>
         <file>settingsmanager/tabs/imageview/PQTransparencyMarker.qml</file>
         <file>settingsmanager/tabs/imageview/PQZoomSpeed.qml</file>
+        <file>settingsmanager/tabs/thumbnails/PQCache.qml</file>
+        <file>settingsmanager/tabs/thumbnails/PQCenter.qml</file>
+        <file>settingsmanager/tabs/thumbnails/PQDisable.qml</file>
+        <file>settingsmanager/tabs/thumbnails/PQLiftUp.qml</file>
+        <file>settingsmanager/tabs/thumbnails/PQPosition.qml</file>
+        <file>settingsmanager/tabs/thumbnails/PQSize.qml</file>
+        <file>settingsmanager/tabs/thumbnails/PQSpacing.qml</file>
+        <file>settingsmanager/tabs/thumbnails/PQThreads.qml</file>
+        <file>settingsmanager/tabs/thumbnails/PQVisible.qml</file>
+        <file>settingsmanager/tabs/thumbnails/PQFilenameLabel.qml</file>
+        <file>settingsmanager/tabs/thumbnails/PQFilenameOnly.qml</file>
     </qresource>
 </RCC>
