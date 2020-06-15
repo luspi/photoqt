@@ -114,5 +114,6 @@
         <file>settingsmanager/tabs/thumbnails/PQVisible.qml</file>
         <file>settingsmanager/tabs/thumbnails/PQFilenameLabel.qml</file>
         <file>settingsmanager/tabs/thumbnails/PQFilenameOnly.qml</file>
+        <file>elements/PQTile.qml</file>
     </qresource>
 </RCC>
