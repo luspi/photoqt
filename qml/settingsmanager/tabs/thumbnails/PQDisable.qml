@@ -10,7 +10,6 @@ PQSetting {
 
         PQCheckbox {
             id: thb_disable
-            y: (parent.height-height)/2
             text: "Disable all thumbnails"
         }
 

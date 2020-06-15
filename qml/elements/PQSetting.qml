@@ -3,8 +3,10 @@ import QtQuick.Controls 2.2
 
 Item {
 
-    width: parent.width
-    height: ((expertmodeonly && variables.settingsManagerExpertMode) || (!normalmodeonly && variables.settingsManagerExpertMode) || (!expertmodeonly && !variables.settingsManagerExpertMode)) ? row.height+20 : 0
+    id: set_top
+
+    width: stack.width-20
+    height: ((expertmodeonly && variables.settingsManagerExpertMode) || (!normalmodeonly && variables.settingsManagerExpertMode) || (!expertmodeonly && !variables.settingsManagerExpertMode)) ? cont.height+20 : 0
     Behavior on height { NumberAnimation { duration: 200 } }
     visible: height>0
     clip: true
@@ -12,6 +14,8 @@ Item {
     property alias title: txt.text
     property alias content: cont.children
     property string helptext: ""
+
+    property alias contwidth: cont.width
 
     property bool expertmodeonly: false
     property bool normalmodeonly: false
@@ -21,8 +25,6 @@ Item {
         id: row
 
         y: 10
-        width: parent.width
-//        height: childrenRect.height
 
         Text {
             id: txt
@@ -42,11 +44,16 @@ Item {
         }
 
         Item {
+            id: cont_container
             x: txt.width
             y: (parent.height-height)/2
-            width: parent.width - txt.width
+            width: set_top.width - txt.width
             height: childrenRect.height
-            id: cont
+            Item {
+                id: cont
+                width: parent.width
+                height: childrenRect.height
+            }
         }
 
     }

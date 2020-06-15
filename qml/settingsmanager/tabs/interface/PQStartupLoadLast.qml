@@ -9,7 +9,6 @@ PQSetting {
     content: [
         PQCheckbox {
             id: start_load_last
-            y: (parent.height-height)/2
             text: "Re-open last used image at startup"
         }
 

@@ -4,13 +4,14 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
+    id: set
     title: "Window Management"
     helptext: "Some basic window management properties."
     expertmodeonly: true
     content: [
-        Row {
-            y: (parent.height-height)/2
+        Flow {
             spacing: 10
+            width: set.contwidth
             PQCheckbox {
                 id: wm_manage
                 text: "Manage window through quick info labels"

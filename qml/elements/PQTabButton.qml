@@ -9,6 +9,8 @@ TabButton {
     implicitHeight: 60
     implicitWidth: 250
 
+    font.pointSize: 12
+
     property string backgroundColor: "#333333"
     property string backgroundColorHover: "#3a3a3a"
     property string backgroundColorActive: "#444444"
@@ -33,6 +35,7 @@ TabButton {
             y: (parent.height-height)/2
             x: 10
             width: control.implicitWidth-20
+            wrapMode: Text.WordWrap
             opacity: enabled ? 1.0 : 0.3
             color: control.down ? control.textColorActive : (control.mouseOver ? control.textColorHover : control.textColor)
             Behavior on color { ColorAnimation { duration: 100 } }

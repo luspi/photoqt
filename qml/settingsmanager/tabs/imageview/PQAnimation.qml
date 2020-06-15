@@ -4,31 +4,41 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
+    id: set
     title: "Animation"
     helptext: "What type of animation to show, and how fast."
     content: [
 
-        Row {
+        Flow {
 
             spacing: 5
+            width: set.contwidth
 
-            Text {
-                y: (parent.height-height)/2
-                text: "no animation"
-                color: "white"
-            }
+            Row {
 
-            PQSlider {
-                id: anim_dur
-                y: (parent.height-height)/2
-                from: 1
-                to: 10
-            }
+                spacing: 5
 
-            Text {
-                y: (parent.height-height)/2
-                text: "long animation"
-                color: "white"
+                Text {
+                    height: anim_type.height
+                    verticalAlignment: Text.AlignVCenter
+                    text: "no animation"
+                    color: "white"
+                }
+
+                PQSlider {
+                    id: anim_dur
+                    height: anim_type.height
+                    from: 1
+                    to: 10
+                }
+
+                Text {
+                    height: anim_type.height
+                    verticalAlignment: Text.AlignVCenter
+                    text: "long animation"
+                    color: "white"
+                }
+
             }
 
             Item {

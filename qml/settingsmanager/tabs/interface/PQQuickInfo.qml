@@ -4,6 +4,7 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
+    id: set
     title: "Quick info"
     helptext: "The quick info refers to the labels along the top edge of the main view."
     content: [
@@ -40,6 +41,7 @@ PQSetting {
 
             Flow {
                 id: quick_flow
+                width: set.contwidth
                 spacing: 10
                 opacity: variables.settingsManagerExpertMode ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }

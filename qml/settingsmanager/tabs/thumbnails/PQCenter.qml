@@ -9,7 +9,6 @@ PQSetting {
     content: [
         PQCheckbox {
             id: thb_center
-            y: (parent.height-height)/2
             text: "Center on active thumbnail"
         }
 

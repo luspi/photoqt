@@ -10,7 +10,6 @@ PQSetting {
     content: [
         Row {
             spacing: 10
-            y: (parent.height-height)/2
             Text {
                 y: (parent.height-height)/2
                 color: "white"

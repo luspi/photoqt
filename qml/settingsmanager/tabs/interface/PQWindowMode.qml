@@ -4,11 +4,13 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
+    id: set
     title: "Window Mode"
     helptext: ""
     content: [
-        Row {
+        Flow {
             spacing: 10
+            width: set.contwidth
             PQCheckbox {
                 id: mode_enable
                 y: (parent.height-height)/2

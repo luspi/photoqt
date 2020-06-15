@@ -33,7 +33,6 @@ PQSetting {
     content: [
         PQComboBox {
             id: lang
-            y: (parent.height-height)/2
         }
     ]
 

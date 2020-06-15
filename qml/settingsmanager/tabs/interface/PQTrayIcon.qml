@@ -9,7 +9,6 @@ PQSetting {
     content: [
         PQComboBox {
             id: tray_combo
-            y: (parent.height-height)/2
             model: [
                 "No tray icon",
                 "Hide to tray icon",

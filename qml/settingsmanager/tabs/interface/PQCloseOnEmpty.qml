@@ -9,7 +9,6 @@ PQSetting {
     content: [
         PQCheckbox {
             id: closecheck
-            y: (parent.height-height)/2
             text: "Close on click"
         }
 

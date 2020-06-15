@@ -10,7 +10,6 @@ PQSetting {
     content: [
         PQCheckbox {
             id: thb_cache
-            y: (parent.height-height)/2
             text: "Enable cache"
         }
 

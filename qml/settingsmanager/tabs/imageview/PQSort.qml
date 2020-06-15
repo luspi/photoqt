@@ -4,35 +4,37 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
+    id: set
     title: "Sort Images"
     helptext: "Sort all images in a folder by the set property."
     content: [
 
-        Row  {
+        Flow  {
 
             spacing: 10
+            width: set.contwidth
 
             Text {
-                y: (parent.height-height)/2
+                height: sort_combo.height
+                verticalAlignment: Text.AlignVCenter
                 color: "white"
                 text: "Sort by:"
             }
 
             PQComboBox {
                 id: sort_combo
-                y: (parent.height-height)/2
                 model: ["Natural Name", "Name", "Time", "Size", "Type"]
             }
 
             PQRadioButton {
                 id: sort_asc
-                y: (parent.height-height)/2
+                height: sort_combo.height
                 text: "Ascending"
             }
 
             PQRadioButton {
                 id: sort_desc
-                y: (parent.height-height)/2
+                height: sort_combo.height
                 text: "Descending"
             }
 

@@ -4,13 +4,15 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
+    id: set
     title: "Popout Elements"
     helptext: "Here you can choose for most elements whether they are to be shown integrated into the main window or in their own, separate window."
     content: [
 
         Flow {
             spacing: 10
-            width: 500
+            width: set.contwidth
+
             PQCheckbox {
                 id: pop_mainmenu
                 text: "Main Menu"

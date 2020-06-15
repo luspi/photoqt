@@ -104,6 +104,7 @@ Rectangle {
     }
 
     StackLayout {
+        id: stack
         x: bar.width
         y: 0
         width: parent.width-bar.width

@@ -5,14 +5,14 @@ import Qt.labs.platform 1.1
 import "../../../elements"
 
 PQSetting {
+    id: set
     title: "Background"
     helptext: "What type of background is to be shown."
     content: [
-        Row {
+        Flow {
 
             spacing: 10
-
-            y: (parent.height-height)/2
+            width: set.contwidth
 
             PQComboBox {
                 id: bg_type
