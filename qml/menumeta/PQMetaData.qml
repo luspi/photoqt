@@ -219,7 +219,6 @@ Rectangle {
                 visible: (allMetaData[3*index+1] !== "" && allMetaData[3*index+2]) || (allMetaData[3*index]===""&&allMetaData[3*index+1]==="")
 
                 color: "#ffffff"
-                font.pointSize: PQSettings.metadataFontSize
                 lineHeight: ((allMetaData[3*index] == "" ? 0.8 : 1.3))
                 textFormat: Text.RichText
                 width: parent.width

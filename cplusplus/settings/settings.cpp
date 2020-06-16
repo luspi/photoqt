@@ -153,7 +153,6 @@ void PQSettings::setDefault() {
     setPeopleTagInMetaFontSize(10);
 
     setMetadataEnableHotEdge(true);
-    setMetadataFontSize(10);
     setMetadataOpacity(220);
     setMetadataWindowWidth(350);
 
@@ -496,9 +495,6 @@ void PQSettings::readSettings() {
             else if(line.startsWith("MetadataEnableHotEdge="))
                 setMetadataEnableHotEdge(line.split("=").at(1).toInt());
 
-            else if(line.startsWith("MetadataFontSize="))
-                setMetadataFontSize(line.split("=").at(1).toInt());
-
             else if(line.startsWith("MetadataOpacity="))
                 setMetadataOpacity(line.split("=").at(1).toInt());
 
@@ -778,7 +774,6 @@ void PQSettings::saveSettings() {
         cont += "\n[Metadata Element]\n";
 
         cont += QString("MetadataEnableHotEdge=%1\n").arg(int(m_metadataEnableHotEdge));
-        cont += QString("MetadataFontSize=%1\n").arg(m_metadataFontSize);
         cont += QString("MetadataOpacity=%1\n").arg(m_metadataOpacity);
         cont += QString("MetadataWindowWidth=%1\n").arg(m_metadataWindowWidth);
 

@@ -767,16 +767,6 @@ public:
             }
         }
 
-        Q_PROPERTY(int metadataFontSize READ getMetadataFontSize WRITE setMetadataFontSize NOTIFY metadataFontSizeChanged)
-        int getMetadataFontSize() { return m_metadataFontSize; }
-        void setMetadataFontSize(int val) {
-            if(m_metadataFontSize != val) {
-                m_metadataFontSize = val;
-                emit metadataFontSizeChanged();
-                saveSettingsTimer->start();
-            }
-        }
-
         Q_PROPERTY(int metadataOpacity READ getMetadataOpacity WRITE setMetadataOpacity NOTIFY metadataOpacityChanged)
         int getMetadataOpacity() { return m_metadataOpacity; }
         void setMetadataOpacity(int val) {
@@ -1527,7 +1517,6 @@ private:
         bool    m_metadataEnableHotEdge;
         bool    m_metaApplyRotation;
         QString m_metaGpsMapService;
-        int     m_metadataFontSize;
         int     m_metadataOpacity;
         bool    m_metaFilename;
         bool    m_metaFileType;
@@ -1678,7 +1667,6 @@ signals:
         void metadataEnableHotEdgeChanged();
         void metaApplyRotationChanged();
         void metaGpsMapServiceChanged();
-        void metadataFontSizeChanged();
         void metadataOpacityChanged();
         void metaFilenameChanged();
         void metaFileTypeChanged();
