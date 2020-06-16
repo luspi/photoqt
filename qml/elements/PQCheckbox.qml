@@ -18,7 +18,7 @@ CheckBox {
         x: control.leftPadding
         y: parent.height / 2 - height / 2
         radius: 3
-        color: control.checked ? "#ffffff" : "#aaaaaa"
+        color: control.checked ? (control.enabled ? "#ffffff" : "#dddddd" ) : "#aaaaaa"
         Behavior on color { ColorAnimation { duration: 50 } }
         border.color: "#333333"
         Rectangle {
@@ -27,7 +27,7 @@ CheckBox {
             x: 4
             y: 4
             radius: 2
-            color: "#333333"
+            color: control.enabled ? "#333333" : "#666666"
             opacity: control.checked ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 50 } }
         }
