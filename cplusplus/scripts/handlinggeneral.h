@@ -47,6 +47,7 @@ public:
     Q_INVOKABLE QString getFileType(QString filename);
 
     Q_INVOKABLE QVariantList convertHexToRgba(QString hex);
+    Q_INVOKABLE QString convertRgbaToHex(QVariantList rgba);
 
 private:
     PQImageProviderFull *imageprovider;

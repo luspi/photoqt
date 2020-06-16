@@ -238,3 +238,12 @@ QVariantList PQHandlingGeneral::convertHexToRgba(QString hex) {
     return QVariantList() << r << g << b << a;
 
 }
+
+QString PQHandlingGeneral::convertRgbaToHex(QVariantList rgba) {
+
+    std::stringstream ss;
+    ss << "#";
+    ss << std::hex << (rgba[3].toInt() << 24 | rgba[0].toInt() << 16 | rgba[1].toInt() << 8 | rgba[2].toInt());
+    return QString::fromStdString(ss.str());
+
+}

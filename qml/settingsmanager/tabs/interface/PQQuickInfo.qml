@@ -38,6 +38,7 @@ PQSetting {
         Column {
 
             spacing: 15
+            height: variables.settingsManagerExpertMode ? undefined : 0
 
             Flow {
                 id: quick_flow

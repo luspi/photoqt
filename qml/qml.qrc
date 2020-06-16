@@ -115,5 +115,15 @@
         <file>settingsmanager/tabs/thumbnails/PQFilenameLabel.qml</file>
         <file>settingsmanager/tabs/thumbnails/PQFilenameOnly.qml</file>
         <file>elements/PQTile.qml</file>
+        <file>settingsmanager/tabs/metadata/PQGPSMap.qml</file>
+        <file>settingsmanager/tabs/metadata/PQHotEdge.qml</file>
+        <file>settingsmanager/tabs/metadata/PQMetaData.qml</file>
+        <file>settingsmanager/tabs/metadata/PQOpacity.qml</file>
+        <file>settingsmanager/tabs/metadata/PQRotation.qml</file>
+        <file>settingsmanager/tabs/metadata/PQFaceTags.qml</file>
+        <file>settingsmanager/tabs/metadata/PQFaceTagsVisibility.qml</file>
+        <file>settingsmanager/tabs/metadata/PQFaceTagsFontSize.qml</file>
+        <file>settingsmanager/tabs/metadata/PQFaceTagsBorder.qml</file>
+        <file>elements/PQHorizontalLine.qml</file>
     </qresource>
 </RCC>
