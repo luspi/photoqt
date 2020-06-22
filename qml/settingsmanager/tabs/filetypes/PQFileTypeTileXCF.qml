@@ -8,6 +8,7 @@ PQFileTypeTile {
     defaultEnabled: PQImageFormats.getDefaultEnabledEndingsXCF()
     currentlyEnabled: PQImageFormats.enabledFileformatsXCF
     projectWebpage: ["henning.makholm.net", "http://henning.makholm.net/software"]
+    description: "PhotoQt can take advantage of xcftools to display Gimp's XCF file format. It can only be enabled if xcftools is installed!"
 
     Connections {
 

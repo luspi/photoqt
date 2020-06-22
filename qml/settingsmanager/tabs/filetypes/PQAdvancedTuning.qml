@@ -67,6 +67,13 @@ Rectangle {
                 color: "white"
                 font.pointSize: 20
                 font.bold: true
+                PQMouseArea {
+                    id: descriptionMouseArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.WhatsThisCursor
+                    tooltip: tile_top.description
+                }
             }
         }
 

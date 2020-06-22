@@ -12,6 +12,7 @@ PQFileTypeTile {
     defaultEnabled: PQImageFormats.getDefaultEnabledEndingsPoppler()
     currentlyEnabled: PQImageFormats.enabledFileformatsPoppler
     projectWebpage: ["poppler.freedesktop.org", "https://poppler.freedesktop.org"]
+    description: "PhotoQt can take advantage of poppler to load PDF documents. It can either load them together with the rest of the images (each page as one image) or it can ignore such documents except when asked to open one, then it wont load any other images (like a document viewer)."
 
     additionalSetting: [
         Row {

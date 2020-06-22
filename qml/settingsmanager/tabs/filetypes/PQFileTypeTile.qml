@@ -21,6 +21,8 @@ Rectangle {
     property var defaultEnabled: []
     property var currentlyEnabled: []
 
+    property string description: descriptionMouseArea.tooltip
+
     property var checkedItems: ({})
 
     Column {
@@ -49,6 +51,13 @@ Rectangle {
                 font.pointSize: 17
                 font.bold: true
                 color: "white"
+                PQMouseArea {
+                    id: descriptionMouseArea
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.WhatsThisCursor
+                    tooltip: tile_top.description
+                }
             }
         }
 

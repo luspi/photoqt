@@ -8,6 +8,7 @@ PQFileTypeTile {
     defaultEnabled: PQImageFormats.getDefaultEnabledEndingsDevIL()
     currentlyEnabled: PQImageFormats.enabledFileformatsDevIL
     projectWebpage: ["openil.sourceforge.net", "http://openil.sourceforge.net"]
+    description: "The Developer's Image Library (DevIL) supports a large number of image formats, many of which have been successfully tested with PhotoQt."
 
     iconsource: "/settingsmanager/filetypes/devil.jpg"
 
