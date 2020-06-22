@@ -4,14 +4,14 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "Auto-rotation"
+    title: "auto-rotation"
     helptext: "Automatically rotate images based on metadata information."
     expertmodeonly: true
     content: [
 
         PQCheckbox {
             id: meta_rot
-            text: "Auto-rotate based on metadata information"
+            text: "enable"
         }
 
     ]

@@ -5,7 +5,7 @@ import "../../../elements"
 
 PQSetting {
     id: set
-    title: "Animation"
+    title: "animation"
     helptext: "What type of animation to show, and how fast."
     content: [
 
@@ -13,6 +13,18 @@ PQSetting {
 
             spacing: 5
             width: set.contwidth
+
+            PQComboBox {
+                id: anim_type
+                tooltip: "type of animation"
+                y: (parent.height-height)/2
+                model: ["opacity", "along x-axis", "along y-axis"]
+            }
+
+            Item {
+                width: 10
+                height: 2
+            }
 
             Row {
 
@@ -39,18 +51,6 @@ PQSetting {
                     color: "white"
                 }
 
-            }
-
-            Item {
-                width: 10
-                height: 2
-            }
-
-            PQComboBox {
-                id: anim_type
-                tooltip: "Type of animation"
-                y: (parent.height-height)/2
-                model: ["opacity", "x-axis", "y-axis"]
             }
 
         }

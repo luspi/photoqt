@@ -4,7 +4,7 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "Spacing"
+    title: "spacing"
     helptext: "How much space to show between the thumbnails."
     content: [
 

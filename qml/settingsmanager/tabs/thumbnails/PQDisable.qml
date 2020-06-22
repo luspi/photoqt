@@ -4,13 +4,13 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "Disable"
+    title: "disable"
     helptext: "Disable thumbnails in case no thumbnails are desired whatsoever."
     content: [
 
         PQCheckbox {
             id: thb_disable
-            text: "Disable all thumbnails"
+            text: "disable all thumbnails"
         }
 
     ]

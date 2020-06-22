@@ -4,7 +4,7 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "Pixmap cache"
+    title: "pixmap cache"
     helptext: "Size of runtime cache for fully loaded images. This cache is cleared when the application quits."
     expertmodeonly: true
     content: [

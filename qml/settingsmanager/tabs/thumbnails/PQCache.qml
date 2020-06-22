@@ -4,13 +4,13 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "Thumbnail Cache"
+    title: "thumbnail cache"
     helptext: "Thumbnails can be cached (permanently), following the freedesktop.org standard."
     expertmodeonly: true
     content: [
         PQCheckbox {
             id: thb_cache
-            text: "Enable cache"
+            text: "enable"
         }
 
     ]

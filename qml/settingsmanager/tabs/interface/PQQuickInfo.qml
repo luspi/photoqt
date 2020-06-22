@@ -5,13 +5,13 @@ import "../../../elements"
 
 PQSetting {
     id: set
-    title: "Quick info"
+    title: "quick info"
     helptext: "The quick info refers to the labels along the top edge of the main view."
     content: [
 
         PQCheckbox {
             id: quick_show
-            text: "Show quick info"
+            text: "show quick info"
             opacity: variables.settingsManagerExpertMode ? 0 : 1
             Behavior on opacity { NumberAnimation { duration: 200 } }
             visible: opacity > 0
@@ -51,7 +51,7 @@ PQSetting {
                 PQCheckbox {
                     y: (parent.height-height)/2
                     id: quick_counter
-                    text: "Counter"
+                    text: "counter"
                     onCheckedChanged: {
                         quick_show.skipCheckedCheck = true
                         quick_show.checked = (howManyChecked() > 0)
@@ -63,7 +63,7 @@ PQSetting {
                 PQCheckbox {
                     y: (parent.height-height)/2
                     id: quick_filepath
-                    text: "Filepath"
+                    text: "filepath"
                     onCheckedChanged: {
                         quick_show.skipCheckedCheck = true
                         quick_show.checked = (howManyChecked() > 0)
@@ -74,7 +74,7 @@ PQSetting {
                 PQCheckbox {
                     y: (parent.height-height)/2
                     id: quick_filename
-                    text: "Filename"
+                    text: "filename"
                     onCheckedChanged: {
                         quick_show.skipCheckedCheck = true
                         quick_show.checked = (howManyChecked() > 0)
@@ -85,7 +85,7 @@ PQSetting {
                 PQCheckbox {
                     y: (parent.height-height)/2
                     id: quick_zoom
-                    text: "Current zoom level"
+                    text: "current zoom level"
                     onCheckedChanged: {
                         quick_show.skipCheckedCheck = true
                         quick_show.checked = (howManyChecked() > 0)
@@ -96,7 +96,7 @@ PQSetting {
                 PQCheckbox {
                     y: (parent.height-height)/2
                     id: quick_exit
-                    text: "Exit button"
+                    text: "exit button"
                     onCheckedChanged: {
                         quick_show.skipCheckedCheck = true
                         quick_show.checked = (howManyChecked() > 0)
@@ -115,7 +115,7 @@ PQSetting {
                 Text {
                     y: (parent.height-height)/2
                     color: "white"
-                    text: "Size of exit button:"
+                    text: "size of exit button:"
                 }
                 PQSlider {
                     id: quick_exitsize

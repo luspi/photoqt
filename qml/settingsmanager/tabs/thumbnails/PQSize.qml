@@ -4,7 +4,7 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "Size"
+    title: "size"
     helptext: "How large the thumbnails should be."
     content: [
 

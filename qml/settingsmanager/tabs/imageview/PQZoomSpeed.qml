@@ -4,7 +4,7 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "Zoom speed"
+    title: "zoom speed"
     helptext: "Images are zoomed at a relative speed as specified by this percentage. A higher value means faster zoom."
     expertmodeonly: true
     content: [

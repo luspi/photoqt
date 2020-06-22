@@ -59,5 +59,11 @@
         <file>slideshow/speaker_medium.png</file>
         <file>slideshow/speaker_mute.png</file>
         <file>image/filmborder.png</file>
+        <file>settingsmanager/filetypes/devil.jpg</file>
+        <file>settingsmanager/filetypes/freeimage.jpg</file>
+        <file>settingsmanager/filetypes/gm.jpg</file>
+        <file>settingsmanager/filetypes/poppler.jpg</file>
+        <file>settingsmanager/filetypes/qt.png</file>
+        <file>settingsmanager/filetypes/advancedclose.png</file>
     </qresource>
 </RCC>

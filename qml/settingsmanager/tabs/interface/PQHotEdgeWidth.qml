@@ -4,7 +4,7 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "Size of 'Hot Edge'"
+    title: "size of 'hot edge'"
     helptext: "Adjusts the sensitivity of the edges for showing elements like the metadata and main menu elements."
     expertmodeonly: true
     content: [

@@ -4,14 +4,14 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "Hot Edge"
+    title: "hot edge"
     helptext: "Show metadata element when the mouse cursor is close to the window edge"
     expertmodeonly: true
     content: [
 
         PQCheckbox {
             id: meta_hot
-            text: "Enable hot edge"
+            text: "enable"
         }
 
     ]

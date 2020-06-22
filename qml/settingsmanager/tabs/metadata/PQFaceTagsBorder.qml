@@ -6,7 +6,7 @@ import "../../../elements"
 
 PQSetting {
     id: set
-    title: "Face tags - border"
+    title: "face tags - border"
     helptext: "If and what style of border to show around tagged faces."
     expertmodeonly: true
     property var rgba: handlingGeneral.convertHexToRgba(PQSettings.peopleTagInMetaBorderAroundFaceColor)
@@ -18,7 +18,7 @@ PQSetting {
 
             PQCheckbox {
                 id: ft_border
-                text: "Show border"
+                text: "show border"
             }
 
             Row {
@@ -64,7 +64,7 @@ PQSetting {
                     color: "white"
                     style: Text.Outline
                     styleColor: "black"
-                    text: "RGBA = %1, %2, %3, %4".arg(rgba[0]).arg(rgba[1]).arg(rgba[2]).arg(rgba[3])
+                    text: "rgba = %1, %2, %3, %4".arg(rgba[0]).arg(rgba[1]).arg(rgba[2]).arg(rgba[3])
                 }
                 PQMouseArea {
                     anchors.fill: parent

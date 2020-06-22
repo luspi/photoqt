@@ -4,14 +4,14 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "Left Mouse Button"
+    title: "left mouse button"
     helptext: "The left button of the mouse is by default used to move the image around. However, this prevents the left mouse button from being used for shortcuts."
     expertmodeonly: true
     content: [
 
         PQCheckbox {
             id: left_check
-            text: "Use left button to move image"
+            text: "use left button to move image"
         }
 
     ]

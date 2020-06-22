@@ -5,7 +5,7 @@ import "../../../elements"
 
 PQSetting {
     id: set
-    title: "Face tags - font size"
+    title: "face tags - font size"
     helptext: "The font size of the name labels."
     expertmodeonly: true
     content: [

@@ -4,7 +4,7 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "Filename-only"
+    title: "filename-only"
     helptext: "Show only the filename as thumbnail, no actual image."
     expertmodeonly: true
     content: [
@@ -20,7 +20,7 @@ PQSetting {
                 PQCheckbox {
                     id: fname_chk
                     y: (parent.height-height)/2
-                    text: "Use filename-only thumbnails"
+                    text: "enable"
                 }
 
             }
@@ -32,7 +32,7 @@ PQSetting {
                 Text {
                     y: (parent.height-height)/2
                     color: fname_chk.checked ? "white" : "#cccccc"
-                    text: "Font size:"
+                    text: "font size:"
                 }
 
                 Text {

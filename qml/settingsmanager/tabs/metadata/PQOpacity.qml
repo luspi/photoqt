@@ -4,7 +4,7 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "Opacity"
+    title: "opacity"
     helptext: "The opacity of the metadata element."
     expertmodeonly: true
     content: [

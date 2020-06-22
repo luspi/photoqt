@@ -5,13 +5,13 @@ import "../../../elements"
 
 PQSetting {
     id: set
-    title: "Face tags"
+    title: "face tags"
     helptext: "Whether to show face tags (stored in metadata info)."
     content: [
 
         PQCheckbox {
             id: ft
-            text: "Enable"
+            text: "enable"
         }
 
     ]

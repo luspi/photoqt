@@ -4,7 +4,7 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "Mouse Wheel Sensitivity"
+    title: "mouse wheel sensitivity"
     helptext: "How sensitive the mouse wheel is for shortcuts/..."
     expertmodeonly: true
     content: [

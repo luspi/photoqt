@@ -4,12 +4,12 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "Remember last images"
+    title: "remember last images"
     helptext: "Re-opens last used image at startup."
     content: [
         PQCheckbox {
             id: start_load_last
-            text: "Re-open last used image at startup"
+            text: "re-open last used image at startup"
         }
 
     ]

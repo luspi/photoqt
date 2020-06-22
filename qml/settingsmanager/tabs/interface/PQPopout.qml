@@ -5,18 +5,19 @@ import "../../../elements"
 
 PQSetting {
     id: set
-    title: "Popout Elements"
+    title: "popout elements"
     helptext: "Here you can choose for most elements whether they are to be shown integrated into the main window or in their own, separate window."
 
-    property var pops: [["mainMenuPopoutElement", "Main Menu"],
+    property var pops: [["openPopoutElement", "File dialog", "openPopoutElementKeepOpen", "keep open"],
+                        ["settingsManagerPopoutElement", "Settings Manager"],
+                        ["mainMenuPopoutElement", "Main Menu"],
                         ["metadataPopoutElement", "Metadata"],
                         ["histogramPopoutElement", "Histogram"],
                         ["scalePopoutElement", "Scale"],
-                        ["openPopoutElement", "File dialog", "openPopoutElementKeepOpen", "keep open"],
-                        ["slideShowSettingsPopoutElement", "Slide show settings"],
-                        ["slideShowControlsPopoutElement", "Slide show controls"],
-                        ["fileRenamePopoutElement", "Rename file"],
-                        ["fileDeletePopoutElement", "Delete file"],
+                        ["slideShowSettingsPopoutElement", "Slideshow Settings"],
+                        ["slideShowControlsPopoutElement", "Slideshow Controls"],
+                        ["fileRenamePopoutElement", "Rename File"],
+                        ["fileDeletePopoutElement", "Delete File"],
                         ["aboutPopoutElement", "About"],
                         ["imgurPopoutElement", "Imgur"],
                         ["wallpaperPopoutElement", "Wallpaper"],

@@ -4,19 +4,19 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "Interpolation"
+    title: "interpolation"
     helptext: "There are many different interpolation algorithms out there. Depending on the choice of interpolation algorithm, the image (when zoomed in) will look slightly differently. PhotoQt uses mipmaps to get the best quality for images. However, for very small images, that might lead to too much blurring causing them to look rather ugly. For those images, the 'Nearest Neighbour' algorithm tends to be a better choice. The threshold defines at which size to switch from one to the other algorithm."
     expertmodeonly: true
     content: [
 
         Column {
 
-            spacing: 10
+            spacing: 15
 
             PQCheckbox {
                 id: interp_check
                 y: (parent.height-height)/2
-                text: "Use 'Nearest Neighbour' algorithm for upscaling"
+                text: "use 'nearest neighbour' algorithm for upscaling"
             }
 
             Row {
@@ -25,7 +25,7 @@ PQSetting {
 
                 Text {
                     y: (parent.height-height)/2
-                    text: "Threshold:"
+                    text: "threshold:"
                     color: interp_check.checked ? "white" : "#cccccc"
                 }
 

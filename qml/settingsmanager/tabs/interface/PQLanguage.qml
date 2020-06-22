@@ -28,7 +28,7 @@ PQSetting {
                                  ["zh/zh_CN","Chinese"],
                                  ["zh_TW","Chinese (traditional)"]]
 
-    title: "Language"
+    title: "language"
     helptext: "Change the language of the application."
     content: [
         PQComboBox {

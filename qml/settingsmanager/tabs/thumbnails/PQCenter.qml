@@ -4,12 +4,12 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "Keep in Center"
+    title: "keep in center"
     helptext: "Keep currently active thumbnail in the center of the screen"
     content: [
         PQCheckbox {
             id: thb_center
-            text: "Center on active thumbnail"
+            text: "center on active thumbnail"
         }
 
     ]

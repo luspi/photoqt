@@ -4,15 +4,15 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "Tray Icon"
-    helptext: ""
+    title: "tray icon"
+    helptext: "If a tray icon is to be shown, and, if shown, whether to hide to it or not."
     content: [
         PQComboBox {
             id: tray_combo
             model: [
-                "No tray icon",
-                "Hide to tray icon",
-                "Show tray icon but don't hide to it"
+                "no tray icon",
+                "hide to tray icon",
+                "show tray icon but don't hide to it"
             ]
         }
 

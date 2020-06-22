@@ -4,13 +4,13 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "Transparency Marker"
+    title: "transparency marker"
     helptext: "Show checkerboard pattern behind transparent areas of (half-)transparent images."
     content: [
 
         PQCheckbox {
             id: trans_chk
-            text: "Show checkerboard pattern"
+            text: "show checkerboard pattern"
         }
 
     ]

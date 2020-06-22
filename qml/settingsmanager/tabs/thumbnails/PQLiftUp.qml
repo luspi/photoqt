@@ -4,7 +4,7 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "Lift up"
+    title: "lift up"
     helptext: "How many pixels to lift up thumbnails when either hovered or active."
     content: [
 

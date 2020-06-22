@@ -47,7 +47,7 @@ Rectangle {
             implicitWidth: bar.width
             implicitHeight: bar.height/bar.count
             anchors.horizontalCenter: parent.horizontalCenter
-            text: "Interface"
+            text: "interface"
             selected: bar.currentIndex==0
             onClicked: bar.currentIndex = 0
         }
@@ -57,7 +57,7 @@ Rectangle {
             implicitWidth: bar.width
             implicitHeight: bar.height/bar.count
             anchors.horizontalCenter: parent.horizontalCenter
-            text: "Image View"
+            text: "image view"
             selected: bar.currentIndex==1
             onClicked: bar.currentIndex = 1
         }
@@ -67,7 +67,7 @@ Rectangle {
             implicitWidth: bar.width
             implicitHeight: bar.height/bar.count
             anchors.horizontalCenter: parent.horizontalCenter
-            text: "Thumbnails"
+            text: "thumbnails"
             selected: bar.currentIndex==2
             onClicked: bar.currentIndex = 2
         }
@@ -77,29 +77,39 @@ Rectangle {
             implicitWidth: bar.width
             implicitHeight: bar.height/bar.count
             anchors.horizontalCenter: parent.horizontalCenter
-            text: "Metadata"
+            text: "metadata"
             selected: bar.currentIndex==3
             onClicked: bar.currentIndex = 3
         }
         PQTabButton {
-            id: tabbutton_video
+            id: tabbutton_filetypes
             anchors.top: tabbutton_metadata.bottom
             implicitWidth: bar.width
             implicitHeight: bar.height/bar.count
             anchors.horizontalCenter: parent.horizontalCenter
-            text: "Video"
+            text: "file types"
             selected: bar.currentIndex==4
             onClicked: bar.currentIndex = 4
         }
         PQTabButton {
-            id: tabbutton_manage
-            anchors.top: tabbutton_video.bottom
+            id: tabbutton_shortcuts
+            anchors.top: tabbutton_filetypes.bottom
             implicitWidth: bar.width
             implicitHeight: bar.height/bar.count
             anchors.horizontalCenter: parent.horizontalCenter
-            text: "Manage Settings"
+            text: "shortcuts"
             selected: bar.currentIndex==5
             onClicked: bar.currentIndex = 5
+        }
+        PQTabButton {
+            id: tabbutton_manage
+            anchors.top: tabbutton_shortcuts.bottom
+            implicitWidth: bar.width
+            implicitHeight: bar.height/bar.count
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: "manage settings"
+            selected: bar.currentIndex==6
+            onClicked: bar.currentIndex = 6
         }
     }
 
@@ -114,7 +124,8 @@ Rectangle {
         PQTabImageView { id: tab_imageview }
         PQTabThumbnails { id: tab_thumbnails }
         PQTabMetadata { id: tab_metadata }
-        PQTabVideo { id: tab_video }
+        PQTabFileTypes { id: tab_filetypes }
+        PQTabShortcuts { id: tab_shortcuts }
         PQTabManageSettings { id: tab_manage }
     }
 
@@ -174,9 +185,11 @@ Rectangle {
                 //: Written on a clickable button - please keep short
                 text: "Save Changes and Exit"
                 onClicked: {
-                    saveSettings()
-                    settingsmanager_top.opacity = 0
-                    variables.visibleItem = ""
+                    if(!modalWindowOpen) {
+                        saveSettings()
+                        settingsmanager_top.opacity = 0
+                        variables.visibleItem = ""
+                    }
                 }
             }
             PQButton {
@@ -204,7 +217,7 @@ Rectangle {
                 opacity = 1
                 variables.visibleItem = "settingsmanager"
             } else if(what == "hide") {
-                button_close.clicked()
+                button_cancel.clicked()
             } else if(what == "keyevent") {
                 if(param[0] == Qt.Key_Escape)
                     button_cancel.clicked()

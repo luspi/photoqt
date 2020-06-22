@@ -5,8 +5,8 @@ import "../../../elements"
 
 PQSetting {
     id: set
-    title: "Window Mode"
-    helptext: ""
+    title: "window mode"
+    helptext: "Whether to run PhotoQt in window mode or fullscreen."
     content: [
         Flow {
             spacing: 10
@@ -14,12 +14,12 @@ PQSetting {
             PQCheckbox {
                 id: mode_enable
                 y: (parent.height-height)/2
-                text: "Run in window mode"
+                text: "run in window mode"
             }
             PQCheckbox {
                 id: mode_enable_deco
                 y: (parent.height-height)/2
-                text: "Show window decoration"
+                text: "show window decoration"
             }
         }
 

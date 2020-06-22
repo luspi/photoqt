@@ -5,7 +5,7 @@ import "../../../elements"
 
 PQSetting {
     id: set
-    title: "Sort Images"
+    title: "sort images by"
     helptext: "Sort all images in a folder by the set property."
     content: [
 
@@ -14,28 +14,21 @@ PQSetting {
             spacing: 10
             width: set.contwidth
 
-            Text {
-                height: sort_combo.height
-                verticalAlignment: Text.AlignVCenter
-                color: "white"
-                text: "Sort by:"
-            }
-
             PQComboBox {
                 id: sort_combo
-                model: ["Natural Name", "Name", "Time", "Size", "Type"]
+                model: ["natural name", "name", "time", "size", "type"]
             }
 
             PQRadioButton {
                 id: sort_asc
                 height: sort_combo.height
-                text: "Ascending"
+                text: "ascending"
             }
 
             PQRadioButton {
                 id: sort_desc
                 height: sort_combo.height
-                text: "Descending"
+                text: "descending"
             }
 
         }

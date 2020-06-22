@@ -6,7 +6,7 @@ import "../../../elements"
 
 PQSetting {
     id: set
-    title: "Background"
+    title: "background"
     helptext: "What type of background is to be shown."
     content: [
         Flow {
@@ -17,9 +17,9 @@ PQSetting {
             PQComboBox {
                 id: bg_type
                 model: [
-                    "(Half-)transparent background",
-                    "Faked transparency",
-                    "Custom background image"
+                    "(half-)transparent background",
+                    "faked transparency",
+                    "custom background image"
                 ]
             }
 
@@ -57,11 +57,11 @@ PQSetting {
                 id: bg_image_type
                 visible: bg_type.currentIndex==2
                 model: [
-                    "Scale to fit",
-                    "Scale and Crop to fit",
-                    "Stretch to fit",
-                    "Center image",
-                    "Tile image"
+                    "scale to fit",
+                    "scale and crop to fit",
+                    "stretch to fit",
+                    "center image",
+                    "tile image"
                 ]
             }
 

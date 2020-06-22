@@ -5,13 +5,13 @@ import "../../../elements"
 
 PQSetting {
     id: set
-    title: "Face tags - visibility"
+    title: "face tags - visibility"
     helptext: "When to show the face tags and for how long."
     content: [
 
         PQComboBox {
             id: ft_combo
-            model: ["Hybrid mode", "Always show all", "Show one on hover", "Show all on hover"]
+            model: ["hybrid mode", "always show all", "show one on hover", "show all on hover"]
         }
 
     ]

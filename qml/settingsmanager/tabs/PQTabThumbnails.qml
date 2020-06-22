@@ -15,6 +15,16 @@ Item {
         anchors.fill: parent
         anchors.margins: 10
 
+        Rectangle {
+
+            x: 278
+            y: title.height+desc.height+30
+            width: 2
+            height: cont.contentHeight-y
+            color: "#88444444"
+
+        }
+
         Column {
 
             id: col
@@ -22,6 +32,7 @@ Item {
             spacing: 15
 
             Text {
+                id: title
                 width: cont.width
                 horizontalAlignment: Text.AlignHCenter
                 font.pointSize: 25
@@ -31,6 +42,7 @@ Item {
             }
 
             Text {
+                id: desc
                 color: "white"
                 font.pointSize: 12
                 width: cont.width

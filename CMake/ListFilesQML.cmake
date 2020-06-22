@@ -57,7 +57,7 @@ SET(d "qml/settingsmanager")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQSettingsManager.qml ${d}/PQSettingsManagerPopout.qml)
 
 SET(d "qml/settingsmanager/tabs")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQTabInterface.qml ${d}/PQTabImageView.qml ${d}/PQTabThumbnails.qml ${d}/PQTabMetadata.qml ${d}/PQTabVideo.qml ${d}/PQTabManageSettings.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQTabInterface.qml ${d}/PQTabImageView.qml ${d}/PQTabThumbnails.qml ${d}/PQTabMetadata.qml ${d}/PQTabFileTypes.qml ${d}/PQTabShortcuts.qml ${d}/PQTabManageSettings.qml)
 
 SET(d "qml/settingsmanager/tabs/interface")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQHotEdgeWidth.qml ${d}/PQWindowManagement.qml ${d}/PQMouseWheel.qml ${d}/PQOverlayColor.qml ${d}/PQPopout.qml ${d}/PQQuickInfo.qml ${d}/PQBackground.qml ${d}/PQCloseOnEmpty.qml ${d}/PQLanguage.qml ${d}/PQStartupLoadLast.qml ${d}/PQTrayIcon.qml ${d}/PQWindowMode.qml)
@@ -70,3 +70,6 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQCache.qml ${d}/PQCenter.qml ${d}/PQDisable
 
 SET(d "qml/settingsmanager/tabs/metadata")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQHotEdge.qml ${d}/PQOpacity.qml ${d}/PQRotation.qml ${d}/PQGPSMap.qml ${d}/PQMetaData.qml ${d}/PQFaceTags.qml ${d}/PQFaceTagsFontSize.qml ${d}/PQFaceTagsBorder.qml ${d}/PQFaceTagsVisibility.qml)
+
+SET(d "qml/settingsmanager/tabs/filetypes")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQFileTypeTile.qml ${d}/PQAdvancedTuning.qml ${d}/PQFileTypeTileQt.qml ${d}/PQFileTypeTileLibArchive.qml ${d}/PQFileTypeTileLibRaw.qml ${d}/PQFileTypeTileGm.qml ${d}/PQFileTypeTileDevil.qml ${d}/PQFileTypeTileFreeImage.qml ${d}/PQFileTypeTilePoppler.qml ${d}/PQFileTypeTileXCF.qml)

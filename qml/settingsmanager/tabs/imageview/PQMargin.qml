@@ -4,7 +4,7 @@ import QtQuick.Controls 2.2
 import "../../../elements"
 
 PQSetting {
-    title: "Margin"
+    title: "margin"
     helptext: "How much space to show between the main image and the application border."
     expertmodeonly: true
     content: [

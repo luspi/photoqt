@@ -5,29 +5,29 @@ import "../../../elements"
 
 PQSetting {
     id: set
-    title: "Meta information"
+    title: "meta information"
     helptext: "Which meta information to extract and display."
 
-    property var meta: [["metaCopyright", "Copyright"],
-                        ["metaDimensions", "Dimensions"],
-                        ["metaExposureTime", "Exposure time"],
-                        ["metaFilename", "File name"],
-                        ["metaFileType", "File type"],
-                        ["metaFileSize", "File size"],
-                        ["metaFlash", "Flash"],
-                        ["metaFLength", "Focal length"],
-                        ["metaFNumber", "F-Number"],
+    property var meta: [["metaCopyright", "copyright"],
+                        ["metaDimensions", "dimensions"],
+                        ["metaExposureTime", "exposure time"],
+                        ["metaFilename", "file name"],
+                        ["metaFileType", "file type"],
+                        ["metaFileSize", "file size"],
+                        ["metaFlash", "flash"],
+                        ["metaFLength", "focal length"],
+                        ["metaFNumber", "f-number"],
                         ["metaGps", "GPS position"],
-                        ["metaImageNumber", "Image #/#"],
+                        ["metaImageNumber", "image #/#"],
                         ["metaIso", "ISO"],
-                        ["metaKeywords", "Keywords"],
-                        ["metaLightSource", "Light source"],
-                        ["metaLocation", "Location"],
-                        ["metaMake", "Make"],
-                        ["metaModel", "Model"],
-                        ["metaSceneType", "Scene type"],
-                        ["metaSoftware", "Software"],
-                        ["metaTimePhotoTaken", "Time photo was taken"]]
+                        ["metaKeywords", "keywords"],
+                        ["metaLightSource", "light source"],
+                        ["metaLocation", "location"],
+                        ["metaMake", "make"],
+                        ["metaModel", "model"],
+                        ["metaSceneType", "scene type"],
+                        ["metaSoftware", "software"],
+                        ["metaTimePhotoTaken", "time photo was taken"]]
 
     content: [
 
