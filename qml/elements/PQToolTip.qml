@@ -9,12 +9,15 @@ ToolTip {
     property alias wrapMode: contentText.wrapMode
     property alias elide: contentText.elide
 
+    implicitWidth: Math.min(contentWidth+12, 500)
+
     contentItem: Text {
         id: contentText
         text: control.text
         font: control.font
         color: "white"
         textFormat: Text.RichText
+        wrapMode: Text.WordWrap
     }
 
     background: Rectangle {

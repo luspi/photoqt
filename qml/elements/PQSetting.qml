@@ -31,9 +31,10 @@ Item {
             y: (parent.height-height)/2
             text: ""
             color: "white"
-            width: 300
+            width: 260
             font.bold: true
             font.pointSize: 12
+            horizontalAlignment: Text.AlignRight
 
             PQMouseArea {
                 anchors.fill: parent
@@ -44,10 +45,14 @@ Item {
         }
 
         Item {
+            width: 40
+            height: 1
+        }
+
+        Item {
             id: cont_container
-            x: txt.width
             y: (parent.height-height)/2
-            width: set_top.width - txt.width
+            width: set_top.width - txt.width-40
             height: childrenRect.height
             Item {
                 id: cont

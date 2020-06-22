@@ -19,6 +19,7 @@ Item {
     property alias tooltipWrapMode: control.wrapMode
     property alias tooltipWidth: control.width
     property alias tooltipElide: control.elide
+    property alias tooltipDelay: control.delay
 
     signal clicked(var mouse)
     signal doubleClicked(var mouse)

@@ -10,7 +10,8 @@ Rectangle {
 
     radius: 5
 
-    width: secondText=="" ? 250 : 505
+    property int overrideWidth: 0
+    width: overrideWidth!=0 ? overrideWidth : (secondText=="" ? 250 : 505)
     height: chk.height+20
     clip: true
 
@@ -22,22 +23,9 @@ Rectangle {
     property alias secondText: chk_2.text
     property alias secondChecked: chk_2.checked
 
-    PQMouseArea {
-        anchors.fill: parent
-        hoverEnabled: true
-        cursorShape: Qt.PointingHandCursor
+    property string tooltip: chk.text
 
-        onClicked: {
-            var old = chk.checked
-            chk.checked = !old
-        }
-        onEntered:
-            tile.hovered = true
-        onExited:
-            tile.hovered = false
-
-        tooltip: chk.text
-    }
+    signal rightClicked()
 
     Row {
 
@@ -49,19 +37,25 @@ Rectangle {
             y: 10
             width: 230
 
+            tooltip: ""
+
+            onRightClicked: tile.rightClicked()
+
             PQMouseArea {
+                id: checkmousearea
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-
-                onClicked: {
-                    var old = chk.checked
-                    chk.checked = !old
-                }
+                acceptedButtons: Qt.NoButton
 
                 onEntered:
                     tile.hovered = true
-                tooltip: chk.text
+                onExited:
+                    tile.hovered = false
+
+                tooltip: tile.tooltip
+                tooltipDelay: 1000
+
             }
 
         }
@@ -79,20 +73,22 @@ Rectangle {
             text: secondText
             enabled: chk.checked
 
+            tooltip: ""
 
             PQMouseArea {
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
+                acceptedButtons: Qt.NoButton
 
-                onClicked: {
-                    var old = chk_2.checked
-                    chk_2.checked = !old
-                }
                 onEntered:
                     tile.hovered = true
+                onExited:
+                    tile.hovered = false
 
                 tooltip: chk_2.text
+                tooltipDelay: 1000
+
             }
         }
 

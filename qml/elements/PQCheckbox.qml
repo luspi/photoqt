@@ -8,8 +8,13 @@ CheckBox {
     text: ""
 
     property alias interactive: mousearea.enabled
-    property alias tooltip: mousearea.tooltip
+    property string tooltip: text
     property alias tooltipFollowsMouse: mousearea.tooltipFollowsMouse
+    property alias tooltipDelay: mousearea.tooltipDelay
+
+    property bool disableClickToCheck: false
+    signal clicked(var mouse)
+    signal rightClicked(var mouse)
 
     indicator: Rectangle {
 
@@ -48,8 +53,12 @@ CheckBox {
         anchors.fill: control
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
+        tooltip: control.tooltip
+        acceptedButtons: Qt.RightButton
+
         onClicked:
-            control.checked = !control.checked
+            control.rightClicked(mouse)
+
     }
 
 }

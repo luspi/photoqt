@@ -78,6 +78,7 @@ TabButton {
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
+        tooltip: control.text
         onEntered:
             control.mouseOver = true
         onExited:

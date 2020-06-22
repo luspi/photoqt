@@ -7,6 +7,7 @@ Button {
     text: ""
 
     implicitHeight: 40
+    width: (forceWidth==0) ? undefined : forceWidth
 
     property string backgroundColor: "#333333"
     property string backgroundColorHover: "#3a3a3a"
@@ -25,6 +26,8 @@ Button {
 
     property alias tooltip: mousearea.tooltip
     property alias tooltipFollowsMouse: mousearea.tooltipFollowsMouse
+
+    property int forceWidth: 0
 
     signal menuItemClicked(var item)
 
@@ -46,6 +49,7 @@ Button {
             font: control.font
             y: (parent.height-height)/2
             x: 10
+            width: (forceWidth==0) ? undefined : forceWidth-20
             opacity: enabled ? 1.0 : 0.3
             color: control.down ? control.textColorActive : (control.mouseOver ? control.textColorHover : control.textColor)
             Behavior on color { ColorAnimation { duration: 100 } }
