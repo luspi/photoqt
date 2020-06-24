@@ -272,7 +272,7 @@ Item {
 
                     property bool manipulate: false
 
-                    handleToolTipSuffix: "%"
+                    toolTipSuffix: "%"
 
                     from: 0
                     to: 100

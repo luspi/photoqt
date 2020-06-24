@@ -168,8 +168,8 @@ Rectangle {
                 width: 200
                 height: 20
 
-                handleToolTipPrefix: em.pty+qsTranslate("slideshow", "Sound volume:") + " "
-                handleToolTipSuffix: "%"
+                toolTipPrefix: em.pty+qsTranslate("slideshow", "Sound volume:") + " "
+                toolTipSuffix: "%"
 
                 value: 80
 

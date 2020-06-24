@@ -181,7 +181,7 @@ Rectangle {
                     from: 0
                     to: 100
                     value: 80
-                    handleToolTipSuffix: "%"
+                    toolTipSuffix: "%"
                 }
             }
 
