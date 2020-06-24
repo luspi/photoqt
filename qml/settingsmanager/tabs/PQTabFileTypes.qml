@@ -56,6 +56,7 @@ Item {
                 PQFileTypeTileFreeImage {}
                 PQFileTypeTilePoppler {}
                 PQFileTypeTileXCF {}
+                PQFileTypeTileVideo {}
 
             }
 

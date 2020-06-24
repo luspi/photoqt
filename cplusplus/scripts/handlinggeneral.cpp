@@ -35,6 +35,13 @@ bool PQHandlingGeneral::isPopplerSupportEnabled() {
     return false;
 }
 
+bool PQHandlingGeneral::isVideoSupportEnabled() {
+#ifdef VIDEO
+    return true;
+#endif
+    return false;
+}
+
 QString PQHandlingGeneral::getFileNameFromFullPath(QString path, bool onlyExtraInfo) {
     QString ret = QFileInfo(path).fileName();
     if(onlyExtraInfo) {

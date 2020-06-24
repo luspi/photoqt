@@ -21,6 +21,7 @@ public:
     Q_INVOKABLE bool isDevILSupportEnabled();
     Q_INVOKABLE bool isFreeImageSupportEnabled();
     Q_INVOKABLE bool isPopplerSupportEnabled();
+    Q_INVOKABLE bool isVideoSupportEnabled();
 
     Q_INVOKABLE QString getFileNameFromFullPath(QString path, bool onlyExtraInfo = false);
     Q_INVOKABLE QString getFilePathFromFullPath(QString path);

@@ -438,10 +438,29 @@ PQImageFormats::PQImageFormats() {
     /************************************************************/
     /************************************************************/
     // Video
-    setupAvailable[8].insert("*.mp4"        , QStringList() << "mp4" << "MPEG-4"                                        << "1");
-    setupAvailable[8].insert("*.ogv"        , QStringList() << "ogv" << "Theora"                                        << "1");
-    setupAvailable[8].insert("*.webm"       , QStringList() << "wem" << "WebM"                                          << "1");
-    setupAvailable[8].insert("*.m4v"       , QStringList() << "m4v" << "WebM"                                          << "1");
+#ifdef VIDEO
+    setupAvailable[8].insert("*.webm"       , QStringList() << "webm" << "WebM"                                         << "1");
+    setupAvailable[8].insert("*.mkv"        , QStringList() << "mkv" << "Matroska Video"                                << "1");
+    setupAvailable[8].insert("*.flv"        , QStringList() << "flv" << "Flash Video"                                   << "0");
+    setupAvailable[8].insert("*.f4v"        , QStringList() << "flv" << "Flash Video"                                   << "0");
+    setupAvailable[8].insert("*.vob"        , QStringList() << "vob" << "Video Object"                                  << "0");
+    setupAvailable[8].insert("*.ogg"        , QStringList() << "ogg" << "Theora"                                        << "1");
+    setupAvailable[8].insert("*.ogv"        , QStringList() << "ogg" << "Theora"                                        << "1");
+    setupAvailable[8].insert("*.avi"        , QStringList() << "avi" << "Audio Video Interleave"                        << "1");
+    setupAvailable[8].insert("*.mov"        , QStringList() << "quk" << "QuickTime File Format"                         << "0");
+    setupAvailable[8].insert("*.qt"         , QStringList() << "quk" << "QuickTime File Format"                         << "0");
+    setupAvailable[8].insert("*.wmv"        , QStringList() << "wmv" << "Windows Media Video"                           << "1");
+    setupAvailable[8].insert("*.asf"        , QStringList() << "wmv" << "Advanced Systems Format"                       << "0");
+    setupAvailable[8].insert("*.amv"        , QStringList() << "amv" << "AMV video format"                              << "0");
+    setupAvailable[8].insert("*.mp4"        , QStringList() << "mp4" << "MPEG"                                          << "1");
+    setupAvailable[8].insert("*.m4v"        , QStringList() << "mp4" << "MPEG"                                          << "1");
+    setupAvailable[8].insert("*.3gp"        , QStringList() << "mp4" << "MPEG"                                          << "0");
+    setupAvailable[8].insert("*.3g2"        , QStringList() << "mp4" << "MPEG"                                          << "0");
+    setupAvailable[8].insert("*.mpg"        , QStringList() << "mpg" << "MPEG"                                          << "1");
+    setupAvailable[8].insert("*.mpeg"       , QStringList() << "mpg" << "MPEG"                                          << "1");
+    setupAvailable[8].insert("*.mpv"        , QStringList() << "mpg" << "MPEG"                                          << "1");
+    setupAvailable[8].insert("*.m2v"        , QStringList() << "mpg" << "MPEG"                                          << "1");
+#endif
 
 
 
