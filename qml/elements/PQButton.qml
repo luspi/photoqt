@@ -12,6 +12,7 @@ Button {
     property string backgroundColor: "#333333"
     property string backgroundColorHover: "#3a3a3a"
     property string backgroundColorActive: "#444444"
+    property string backgroundColorMenuOpen: "#666666"
     property string textColor: "#ffffff"
     property string textColorHover: "#ffffff"
     property string textColorActive: "#ffffff"
@@ -63,7 +64,7 @@ Button {
 
     background: Rectangle {
         implicitWidth: contentItem.width
-        color: control.down ? control.backgroundColorActive : (control.mouseOver ? control.backgroundColorHover : control.backgroundColor)
+        color: menu.visible ? control.backgroundColorMenuOpen : (control.down ? control.backgroundColorActive : (control.mouseOver ? control.backgroundColorHover : control.backgroundColor))
         Behavior on color { ColorAnimation { duration: 100 } }
         implicitHeight: contentItem.height
         opacity: enabled ? 1 : 0.3
