@@ -16,19 +16,40 @@ Rectangle {
     opacity: 0
     Behavior on opacity { NumberAnimation { duration: 100 } }
 
+    property string timeoutDone: "2"
+    property string timeoutWait: "10"
+
+    property string previouscombo: ""
     property string currentcombo: ""
     onCurrentcomboChanged: {
-        canceltime.text = ((currentcombo[currentcombo.length-1] == "+") ? "5" : "2")
+        canceltime.text = ((currentcombo[currentcombo.length-1] == "+") ? timeoutWait : timeoutDone)
         canceltimer.restart()
     }
 
     Text {
-        x: (parent.width-width)/2
-        y: 10
+        id: tit
+        x: 0
+        y: 20
+        width: parent.width
+        horizontalAlignment: Text.AlignHCenter
+        wrapMode: Text.WordWrap
         color: "white"
-        font.pointSize: 12
+        font.pointSize: 18
         font.bold: true
         text: "Press any key combination, or perform any mouse gesture."
+    }
+
+    Text {
+        x: 0
+        y: tit.y+tit.height+20
+        width: parent.width
+        visible: previouscombo!=""
+        horizontalAlignment: Text.AlignHCenter
+        wrapMode: Text.WordWrap
+        color: "#888888"
+        font.pointSize: 15
+        font.bold: true
+        text: "Current shortcut: <b>" + previouscombo + "</b>"
     }
 
     Text {
@@ -55,6 +76,7 @@ Rectangle {
         y: parent.height-height-10
         text: ""
         color: "white"
+        scale: 1.5
         Timer {
             id: canceltimer
             interval: 1000
@@ -76,6 +98,7 @@ Rectangle {
         width: 100
         height: 100
         opacity: 0.2
+        Behavior on opacity { NumberAnimation { duration: 100 } }
         source: "/settingsmanager/shortcuts/categorykeyboard.png"
     }
 
@@ -86,6 +109,7 @@ Rectangle {
         width: 100
         height: 100
         opacity: 0.2
+        Behavior on opacity { NumberAnimation { duration: 100 } }
         source: "/settingsmanager/shortcuts/categorymouse.png"
     }
 
@@ -105,7 +129,7 @@ Rectangle {
             pressedPosLast = Qt.point(mouse.x, mouse.y)
             currentcombo = (mouse.button == Qt.LeftButton ? "Left Button" : (mouse.button == Qt.MiddleButton ? "Middle Button" : "Right Button"))
             cat_keys.opacity = 0.2
-            cat_mouse.opacity = 0.6
+            cat_mouse.opacity = 0.8
         }
 
         onPositionChanged: {
@@ -121,14 +145,14 @@ Rectangle {
                     pressedPosLast = Qt.point(mouse.x, mouse.y)
                 }
 
-                canceltime.text = "5"
+                canceltime.text = timeoutWait
             }
         }
 
         onReleased: {
             pressedEventInProgress = false
             if(canceltime.text*1 > 2)
-                canceltime.text = "2"
+                canceltime.text = timeoutDone
         }
 
     }
@@ -152,17 +176,18 @@ Rectangle {
         target: settingsmanager_top
 
         onNewModsKeysCombo: {
-            cat_keys.opacity = 0.6
+            cat_keys.opacity = 0.8
             cat_mouse.opacity = 0.2
             currentcombo = handlingShortcuts.composeString(mods, keys)
         }
 
     }
 
-    function show() {
+    function show(curcombo) {
         opacity = 1
         currentcombo = ""
-        canceltime.text = "5"
+        previouscombo = curcombo
+        canceltime.text = timeoutWait
         canceltimer.start()
         settingsmanager_top.modalWindowOpen = true
         settingsmanager_top.detectingShortcutCombo = true

@@ -7,11 +7,12 @@ Item {
     id: availtop
 
     width: shcont.width/2-15
-    height: view.height+20
+    height: Math.max(view.height+20, nothingset.height)
 
     property bool thisIsAnExternalCategory: false
 
     Text {
+        id: nothingset
         width: parent.width
         height: 100
         horizontalAlignment: Text.AlignHCenter
@@ -136,7 +137,7 @@ Item {
 
             PQMouseArea {
                 anchors.fill: parent
-                anchors.leftMargin: parent.width/2
+                anchors.leftMargin: thisIsAnExternalCategory ? parent.width/2 : 0
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 onEntered: parent.hovered = true
@@ -144,7 +145,7 @@ Item {
                 tooltip: "Click to change key combincation"
                 onClicked: {
                     detectingNewShortcut = true
-                    detectcombo.show()
+                    detectcombo.show(handlingShortcuts.composeDisplayString(sh))
                 }
             }
 
@@ -162,8 +163,13 @@ Item {
                     parent.inProcessOfDeletingMe = true
             }
 
-            Component.onCompleted:
+            Component.onCompleted: {
                 inProcessOfCreatingMe = false
+                if(sh == "") {
+                    detectingNewShortcut = true
+                    detectcombo.show("")
+                }
+            }
 
             Connections {
                 target: shcont
