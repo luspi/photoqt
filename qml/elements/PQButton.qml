@@ -7,7 +7,7 @@ Button {
     text: ""
 
     implicitHeight: 40
-    width: (forceWidth==0) ? undefined : forceWidth
+    width: buttonSameWidthAsMenu ? menu.width : ((forceWidth==0) ? undefined : forceWidth)
 
     property string backgroundColor: "#333333"
     property string backgroundColorHover: "#3a3a3a"
@@ -17,6 +17,8 @@ Button {
     property string textColorActive: "#ffffff"
 
     property bool clickOpensMenu: false
+    property bool menuOpenDownward: true
+    property bool buttonSameWidthAsMenu: false
     property var listMenuItems: []
 
     property string imageButtonSource: ""
@@ -49,7 +51,7 @@ Button {
             font: control.font
             y: (parent.height-height)/2
             x: 10
-            width: (forceWidth==0) ? undefined : forceWidth-20
+            width: buttonSameWidthAsMenu ? menu.width-20 : ((forceWidth==0) ? undefined : forceWidth-20)
             opacity: enabled ? 1.0 : 0.3
             color: control.down ? control.textColorActive : (control.mouseOver ? control.textColorHover : control.textColor)
             Behavior on color { ColorAnimation { duration: 100 } }
@@ -100,8 +102,11 @@ Button {
             control.down = false
         onClicked: {
             if(clickOpensMenu) {
-                var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
-                menu.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
+                var pos = parent.mapFromItem(parent.parent, parent.x, parent.y)
+                if(menuOpenDownward)
+                    menu.popup(Qt.point(pos.x, pos.y+parent.height))
+                else
+                    menu.popup(Qt.point(pos.x + (parent.width-menu.width)/2, pos.y-menu.height))
             } else
                 control.clicked()
         }
