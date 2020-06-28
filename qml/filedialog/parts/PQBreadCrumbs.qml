@@ -138,7 +138,7 @@ Item {
                 var newpath = "/"
                 for(var i = 1; i < (index+1)/2; ++i)
                     newpath += pathParts[i] + "/"
-                filedialog_top.setCurrentDirectory(newpath+"/"+item)
+                filedialog_top.setCurrentDirectory(newpath+"/"+listMenuItems[pos])
             }
 
         }

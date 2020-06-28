@@ -31,7 +31,7 @@ Button {
 
     property int forceWidth: 0
 
-    signal menuItemClicked(var item)
+    signal menuItemClicked(var pos)
 
     //: This is a generic string written on clickable buttons - please keep short!
     property string genericStringOk: em.pty+qsTranslate("buttongeneric", "Ok")
@@ -117,7 +117,7 @@ Button {
         id: menu
 
         model: listMenuItems
-        onTriggered: control.menuItemClicked(listMenuItems[index])
+        onTriggered: control.menuItemClicked(index)
 
     }
 
