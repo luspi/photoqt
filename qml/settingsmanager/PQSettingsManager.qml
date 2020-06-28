@@ -28,6 +28,9 @@ Rectangle {
     property bool modalWindowOpen: false
     signal closeModalWindow()
 
+    property bool detectingShortcutCombo: false
+    signal newModsKeysCombo(var mods, var keys)
+
     PQMouseArea {
         anchors.fill: parent
         hoverEnabled: true
@@ -219,7 +222,9 @@ Rectangle {
             } else if(what == "hide") {
                 button_cancel.clicked()
             } else if(what == "keyevent") {
-                if(param[0] == Qt.Key_Escape)
+                if(detectingShortcutCombo)
+                    newModsKeysCombo(param[1], param[0])
+                else if(param[0] == Qt.Key_Escape)
                     button_cancel.clicked()
                 else if(param[0] == Qt.Key_S && param[1] == Qt.ControlModifier)
                     button_ok.clicked()

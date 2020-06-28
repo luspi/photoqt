@@ -27,7 +27,7 @@ Item {
     signal entered()
     signal exited()
     signal pressed(var mouse)
-    signal released()
+    signal released(var mouse)
     signal dragOnActiveChanged()
     signal positionChanged(var mouse)
     signal wheel(var wheel)

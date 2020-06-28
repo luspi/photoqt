@@ -137,5 +137,10 @@
         <file>settingsmanager/tabs/filetypes/PQFileTypeTilePoppler.qml</file>
         <file>settingsmanager/tabs/filetypes/PQFileTypeTileXCF.qml</file>
         <file>settingsmanager/tabs/filetypes/PQFileTypeTileVideo.qml</file>
+        <file>settingsmanager/tabs/shortcuts/PQAvailableCommands.qml</file>
+        <file>settingsmanager/tabs/shortcuts/PQContainer.qml</file>
+        <file>settingsmanager/tabs/shortcuts/PQActiveShortcuts.qml</file>
+        <file>settingsmanager/tabs/shortcuts/PQDetectCombo.qml</file>
+        <file>shortcuts/mouseshortcuts.js</file>
     </qresource>
 </RCC>

@@ -65,5 +65,7 @@
         <file>settingsmanager/filetypes/poppler.jpg</file>
         <file>settingsmanager/filetypes/qt.png</file>
         <file>settingsmanager/filetypes/advancedclose.png</file>
+        <file>settingsmanager/shortcuts/categorykeyboard.png</file>
+        <file>settingsmanager/shortcuts/categorymouse.png</file>
     </qresource>
 </RCC>
