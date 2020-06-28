@@ -2,6 +2,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 
 import "./shortcuts"
+import "../../elements"
 
 Item {
 
@@ -14,17 +15,20 @@ Item {
         contentHeight: col.height
 
         anchors.fill: parent
-        anchors.margins: 10
+
+        ScrollBar.vertical: PQScrollBar { id: scroll }
 
         Column {
 
             id: col
 
+            x: 10
+
             spacing: 15
 
             Text {
                 id: title
-                width: cont.width
+                width: cont.width-30
                 horizontalAlignment: Text.AlignHCenter
                 font.pointSize: 25
                 font.bold: true
@@ -36,7 +40,7 @@ Item {
                 id: desc
                 color: "white"
                 font.pointSize: 12
-                width: cont.width
+                width: cont.width-30
                 wrapMode: Text.WordWrap
                 text: "Here the shortcuts can be adjusted, new ones added and existing ones removed. Any key combination or mouse gesture can be used.\nBelow the shortcuts are grouped into 4 different categories for internal commands plus a category for external commands. A click on any available command starts the process of adding a new shortcut."
             }

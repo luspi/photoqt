@@ -13,20 +13,21 @@ Item {
         contentHeight: col.height
 
         anchors.fill: parent
-        anchors.margins: 10
+
+        ScrollBar.vertical: PQScrollBar { id: scroll }
 
         Column {
 
             id: col
 
-            x: 0
+            x: 10
             y: 0
 
             spacing: 15
 
             Text {
                 id: title
-                width: cont.width
+                width: cont.width-20
                 horizontalAlignment: Text.AlignHCenter
                 font.pointSize: 25
                 font.bold: true
@@ -38,14 +39,14 @@ Item {
                 id: desc
                 color: "white"
                 font.pointSize: 12
-                width: cont.width
+                width: cont.width-20
                 wrapMode: Text.WordWrap
                 text: "These settings govern which file types PhotoQt should recognize and open.\nNot all file types might be available below, depending on your setup and what library support was enabled at compile time"
             }
 
             Flow {
 
-                width: cont.width
+                width: cont.width-25
                 spacing: 10
 
                 PQFileTypeTileQt {}

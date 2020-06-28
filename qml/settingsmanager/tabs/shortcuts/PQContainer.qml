@@ -9,7 +9,7 @@ Rectangle {
     color: "#333333"
     radius: 10
 
-    width: cont.width
+    width: cont.width-25
     height: col.height+20
 
     property alias category: cat.text

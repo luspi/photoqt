@@ -13,7 +13,8 @@ Item {
         contentHeight: col.height
 
         anchors.fill: parent
-        anchors.margins: 10
+
+        ScrollBar.vertical: PQScrollBar { id: scroll }
 
         Rectangle {
 
@@ -29,14 +30,14 @@ Item {
 
             id: col
 
-            x: 0
+            x: 10
             y: 0
 
             spacing: 15
 
             Text {
                 id: title
-                width: cont.width
+                width: cont.width-20
                 horizontalAlignment: Text.AlignHCenter
                 font.pointSize: 25
                 font.bold: true
@@ -48,7 +49,7 @@ Item {
                 id: desc
                 color: "white"
                 font.pointSize: 12
-                width: cont.width
+                width: cont.width-20
                 wrapMode: Text.WordWrap
                 text: "These settings affect the interface in general, how the application looks like and behaves.\nThis includes the background, some of the labels in the main view, which elements are to be shown in their own window, and others. Some settings are only shown in expert mode."
             }

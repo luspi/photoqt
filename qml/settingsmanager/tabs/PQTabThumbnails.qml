@@ -13,7 +13,8 @@ Item {
         contentHeight: col.height
 
         anchors.fill: parent
-        anchors.margins: 10
+
+        ScrollBar.vertical: PQScrollBar { id: scroll }
 
         Rectangle {
 
@@ -29,11 +30,13 @@ Item {
 
             id: col
 
+            x: 10
+
             spacing: 15
 
             Text {
                 id: title
-                width: cont.width
+                width: cont.width-20
                 horizontalAlignment: Text.AlignHCenter
                 font.pointSize: 25
                 font.bold: true
@@ -45,7 +48,7 @@ Item {
                 id: desc
                 color: "white"
                 font.pointSize: 12
-                width: cont.width
+                width: cont.width-20
                 wrapMode: Text.WordWrap
                 text: "These settings affect the thumbnails shown, by default, along the bottom edge of the screen. This includes their look, behavior, and the user's interaction with them.\nSome settings are only shown in expert mode."
             }
