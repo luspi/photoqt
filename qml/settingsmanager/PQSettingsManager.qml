@@ -142,16 +142,19 @@ Rectangle {
 
         color: "#111111"
 
-        PQCheckbox {
-
+        PQButton {
             x: (parent.width-width)/2
             y: (parent.height-height)/2
-            text: "expert mode"
-
-            checked: variables.settingsManagerExpertMode
-            onCheckedChanged:
-                variables.settingsManagerExpertMode = checked
-
+            text: "advanced"
+            clickOpensMenu: true
+            menuOpenDownward: false
+            buttonSameWidthAsMenu: true
+            listMenuItems: ["import/export settings", (variables.settingsManagerExpertMode ? "disable expert mode" : "enable expert mode")]
+            onMenuItemClicked: {
+                if(pos == 1) {
+                    variables.settingsManagerExpertMode = !variables.settingsManagerExpertMode
+                }
+            }
         }
 
     }
