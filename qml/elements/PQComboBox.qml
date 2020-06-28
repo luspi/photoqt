@@ -18,7 +18,7 @@ ComboBox {
         width: control.width
         contentItem: Text {
             text: modelData
-            color: "white"
+            color: controldelegmouse.containsMouse ? "#ffffff" : "#000000"
             font: control.font
             elide: Text.ElideRight
             verticalAlignment: Text.AlignVCenter
@@ -49,7 +49,7 @@ ComboBox {
             width: parent.width
             height: parent.height
             opacity: enabled ? 1 : 0.3
-            color: (controldelegate.down||controldelegmouse.containsMouse) ? "#f8111111" : "#f8444444"
+            color: controldelegmouse.containsMouse ? "#666666" : "#cccccc"
             Rectangle {
                 width: parent.width
                 height: 1
