@@ -38,7 +38,7 @@ Item {
                 font.pointSize: 12
                 width: cont.width
                 wrapMode: Text.WordWrap
-                text: "All the shortcuts."
+                text: "Here the shortcuts can be adjusted, new ones added and existing ones removed. Any key combination or mouse gesture can be used.\nBelow the shortcuts are grouped into 4 different categories for internal commands plus a category for external commands. A click on any available command starts the process of adding a new shortcut."
             }
 
             PQContainer {
@@ -72,8 +72,6 @@ Item {
                             ["__tagFaces", "Tag faces (stored in metadata)"]]
             }
 
-            Item { width: 1; height: 10 }
-
             PQContainer {
                 id: sh_fil
                 //: A shortcuts category: file management
@@ -85,8 +83,6 @@ Item {
                             ["__move", "Move File to a New Location"],
                             ["__clipboard", "Copy Image to Clipboard"]]
             }
-
-            Item { width: 1; height: 10 }
 
             PQContainer {
                 id: sh_oth
@@ -103,14 +99,15 @@ Item {
                             ["__imgur", "Upload to imgur.com user account"]]
             }
 
-            Item { width: 1; height: 10 }
-
             PQContainer {
                 id: sh_ext
                 //: A shortcuts category: external shortcuts
                 category: "External"
+                subtitle: "%f = filename including path, %u = filename without path, %d = directory containing file"
                 thisIsAnExternalCategory: true
             }
+
+            Item { width: 1; height: 50 }
 
         }
 

@@ -13,6 +13,7 @@ Rectangle {
     height: col.height+20
 
     property alias category: cat.text
+    property alias subtitle: subcat.text
     property var available: ({})
     property bool thisIsAnExternalCategory: false
 
@@ -34,6 +35,24 @@ Rectangle {
             font.bold: true
             font.pointSize: 12
             x: (parent.width-width)/2
+        }
+
+        Item {
+            width: 1
+            height: 5
+        }
+
+        Text {
+            id: subcat
+            color: "#aaaaaa"
+            font.pointSize: 10
+            x: (parent.width-width)/2
+            visible: text != ""
+        }
+
+        Item {
+            width: 1
+            height: 5
         }
 
         Row {
