@@ -72,7 +72,7 @@ void PQHandlingShortcuts::executeExternalApp(QString cmd, QString filename) {
     cmd = cmd.replace("%u", "\"" + QFileInfo(fn).fileName() + "\"");
     cmd = cmd.replace("%d", "\"" + QFileInfo(fn).absolutePath() + "\"");
 
-    p->startDetached(cmd);
+    p->startDetached(cmd, QStringList());
     if(p->error() == QProcess::UnknownError)
         p->waitForStarted(2000);
 

@@ -41,12 +41,12 @@ void PQHandlingWallpaper::setWallpaper(QString category, QString filename, QVari
         QString opt = options.value("option").toString();
 
         QProcess proc;
-        int ret = proc.execute(QString("gsettings set org.gnome.desktop.background picture-options %1").arg(opt));
+        int ret = proc.execute("gsettings", QStringList() << "set" << "org.gnome.desktop.background" << "picture-options" << opt);
         if(ret != 0)
             LOG << CURDATE << "PQHandlingWallpaper::setWallpaper: ERROR: gsettings failed with exit code " << ret
                 << " - are you sure Gnome/Unity is installed?" << NL;
         else
-            proc.execute(QString("gsettings set org.gnome.desktop.background picture-uri file://%1").arg(filename));
+            proc.execute("gsettings", QStringList() << "set" << "org.gnome.desktop.background" << "picture-uri" << QString("file://%1").arg(filename));
 
 
     } else if(category == "xfce") {
@@ -58,7 +58,7 @@ void PQHandlingWallpaper::setWallpaper(QString category, QString filename, QVari
         QProcess proc;
         proc.setProcessChannelMode(QProcess::MergedChannels);
 
-        proc.start("xfconf-query -c xfce4-desktop -lv");
+        proc.start("xfconf-query", QStringList() << "-c" << "xfce4-desktop" << "-lv");
         while(proc.waitForFinished(1000)) {}
 
         int ret = proc.exitCode();
@@ -93,8 +93,8 @@ void PQHandlingWallpaper::setWallpaper(QString category, QString filename, QVari
 
         for(int i = 0; i < pathToSetImageTo.length(); ++i) {
             QProcess setwallpaper;
-            setwallpaper.execute(QString("xfconf-query -c xfce4-desktop -p %1/image-style -s \"%2\"").arg(pathToSetImageTo.at(i)).arg(opt));
-            setwallpaper.execute(QString("xfconf-query -c xfce4-desktop -p %1/last-image -s \"%2\"").arg(pathToSetImageTo.at(i)).arg(filename));
+            setwallpaper.execute("xfconf-query", QStringList() << "-c" << "xfce4-desktop" << "-p" << QString("%1/image-style").arg(pathToSetImageTo.at(i)) << "-s" << opt);
+            setwallpaper.execute("xfconf-query", QStringList() << "-c" << "xfce4-desktop" << "-p" << QString("%1/last-image").arg(pathToSetImageTo.at(i)) << "-s" << filename);
         }
 
 
@@ -108,7 +108,7 @@ void PQHandlingWallpaper::setWallpaper(QString category, QString filename, QVari
         // (we could enable it automatically, however, the available options presented to the user might change depending on its output!)
         QProcess proc;
         proc.setProcessChannelMode(QProcess::MergedChannels);
-        proc.start("enlightenment_remote -module-list");
+        proc.start("enlightenment_remote", QStringList() << "-module-list");
 
         while(proc.waitForFinished(1000)) {}
 
@@ -132,8 +132,7 @@ void PQHandlingWallpaper::setWallpaper(QString category, QString filename, QVari
                 QStringList w_parts = workspaces[w].toString().split(QRegularExpression("(\\s*)"+sep+"(\\s*)"));
                 int w_col = w_parts[0].toInt()-1;
                 int w_row = w_parts[1].toInt()-1;
-                QProcess::execute(QString("enlightenment_remote -desktop-bg-add 0 %1 %2 %3 \"%4\"")
-                                  .arg(screens.at(i).toInt()-1).arg(w_row).arg(w_col).arg(filename));
+                QProcess::execute("enlightenment_remote", QStringList() << "-desktop-bg-add" << "0" << QString::number(screens.at(i).toInt()-1) << QString::number(w_row) << QString::number(w_col) << filename);
             }
         }
 
@@ -145,12 +144,12 @@ void PQHandlingWallpaper::setWallpaper(QString category, QString filename, QVari
         QString opt = options.value("option").toString();
 
         if(app == "feh") {
-            int ret = QProcess::execute(QString("feh %1 %2").arg(opt).arg(filename));
+            int ret = QProcess::execute("feh", QStringList() << opt << filename);
             if(ret != 0)
                 LOG << CURDATE << "PQHandlingWallpaper::setWallpaper: ERROR: feh exited with return code " << ret
                     << " - are you sure it is installed?" << NL;
         } else {
-            int ret = QProcess::execute(QString("nitrogen %1 %2").arg(opt).arg(filename));
+            int ret = QProcess::execute("nitrogen", QStringList() << opt << filename);
             if(ret != 0)
                 LOG << CURDATE << "PQHandlingWallpaper::setWallpaper: ERROR: nitrogen exited with return code " << ret
                     << " - are you sure it is installed?" << NL;
@@ -200,7 +199,7 @@ bool PQHandlingWallpaper::checkEnlightenmentMsgbus() {
 bool PQHandlingWallpaper::checkCommand(QString cmd, QString &out) {
     QProcess proc;
     proc.setProcessChannelMode(QProcess::MergedChannels);
-    proc.start(cmd);
+    proc.start(cmd, QStringList());
     proc.waitForFinished(1000);
     out = proc.readAll();
     int ret = proc.exitCode();
@@ -228,7 +227,7 @@ QList<int> PQHandlingWallpaper::getEnlightenmentWorkspaceCount() {
     QProcess proc;
     proc.setProcessChannelMode(QProcess::MergedChannels);
 
-    proc.start("enlightenment_remote -desktops-get");
+    proc.start("enlightenment_remote", QStringList() << "-desktops-get");
     while(proc.waitForFinished()) {}
 
     QString out = proc.readAll();

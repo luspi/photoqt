@@ -334,7 +334,11 @@ int PQHandlingShareImgur::upload(QString filename) {
     connect(reply, &QNetworkReply::finished, this, &PQHandlingShareImgur::uploadFinished);
     connect(reply, &QNetworkReply::uploadProgress, this, &PQHandlingShareImgur::uploadProgress);
     // The following has to use the old syntax, as there is also a accessor member (not a signal) to access the error with the same name
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(reply, static_cast<void (QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), this, &PQHandlingShareImgur::uploadError);
+#else
+    connect(reply, &QNetworkReply::errorOccurred, this, &PQHandlingShareImgur::uploadError);
+#endif
     connect(this, &PQHandlingShareImgur::abortAllRequests, reply, &QNetworkReply::abort);
 
     // Phew, no error occured!
@@ -379,7 +383,11 @@ int PQHandlingShareImgur::anonymousUpload(QString filename) {
     QNetworkReply *reply = networkManager->post(request, byteArray);
     connect(reply, &QNetworkReply::finished, this, &PQHandlingShareImgur::uploadFinished);
     connect(reply, &QNetworkReply::uploadProgress, this, &PQHandlingShareImgur::uploadProgress);
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(reply, static_cast<void (QNetworkReply::*)(QNetworkReply::NetworkError)>(&QNetworkReply::error), this, &PQHandlingShareImgur::uploadError);
+#else
+    connect(reply, &QNetworkReply::errorOccurred, this, &PQHandlingShareImgur::uploadError);
+#endif
     connect(this, &PQHandlingShareImgur::abortAllRequests, reply, &QNetworkReply::abort);
 
     // Phew, no error occured!

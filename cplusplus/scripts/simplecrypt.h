@@ -30,6 +30,11 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <QString>
 #include <QVector>
 #include <QFlags>
+#if QT_VERSION > QT_VERSION_CHECK(5, 9, 0)
+#include <QRandomGenerator>
+#endif
+
+/* Replaced deprecated functions in this file wth updated versions. */
 
 /**
   @short Simple encryption and decryption of strings and byte arrays
@@ -213,6 +218,10 @@ public:
 private:
 
     void splitKey();
+
+#if QT_VERSION > QT_VERSION_CHECK(5, 9, 0)
+    QRandomGenerator randgen;
+#endif
 
     quint64 m_key;
     QVector<char> m_keyParts;

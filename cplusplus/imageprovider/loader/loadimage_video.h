@@ -16,7 +16,7 @@ public:
         errormsg = "";
     }
 
-    QImage load(QString filename, QSize maxSize, QSize *origSize) {
+    QImage load(QString filename, QSize maxSize, QSize *) {
 
         errormsg = "";
 

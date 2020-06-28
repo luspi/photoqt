@@ -21,7 +21,7 @@ public:
         // We first check if xcftools is actually installed
         QProcess which;
         which.setStandardOutputFile(QProcess::nullDevice());
-        which.start("which xcf2png");
+        which.start("which", QStringList() << "xcf2png");
         which.waitForFinished();
         // If it isn't -> display error
         if(which.exitCode()) {
@@ -32,7 +32,7 @@ public:
 
         // Convert xcf to png using xcf2png (part of xcftools)
         QProcess p;
-        p.execute(QString("xcf2png \"%1\" -o %2").arg(filename).arg(QDir::tempPath() + "/photoqt_xcf.png"));
+        p.execute("xcf2png", QStringList() << filename << "-o" << QString(QDir::tempPath() + "/photoqt_xcf.png"));
 
         // And load it
         QImageReader reader(QDir::tempPath() + "/photoqt_xcf.png");

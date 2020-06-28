@@ -45,7 +45,7 @@ public:
         // We first check if unrar is actually installed
         QProcess which;
         which.setStandardOutputFile(QProcess::nullDevice());
-        which.start("which unrar");
+        which.start("which", QStringList() << "unrar");
         which.waitForFinished();
         // If it isn't -> display error
         if(which.exitCode()) {
@@ -56,7 +56,7 @@ public:
 
         // Extract file to standard output (the -ierr flag moves any other output by unrar to standard error output -> ignored)
         QProcess p;
-        p.start(QString("unrar -ierr p \"%1\" \"%2\"").arg(archivefile).arg(compressedFilename));
+        p.start("unrar", QStringList() << "-ierr" << "p" << archivefile << compressedFilename);
 
         // Make sure everything starts off well
         if(!p.waitForStarted()) {

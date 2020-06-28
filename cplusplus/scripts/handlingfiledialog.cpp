@@ -534,13 +534,13 @@ QStringList PQHandlingFileDialog::listArchiveContent(QString path) {
 #ifndef Q_OS_WIN
     QProcess which;
     which.setStandardOutputFile(QProcess::nullDevice());
-    which.start("which unrar");
+    which.start("which", QStringList() << "unrar");
     which.waitForFinished();
 
     if(!which.exitCode() && PQSettings::get().getArchiveUseExternalUnrar() && (info.suffix() == "cbr" || info.suffix() == "rar")) {
 
         QProcess p;
-        p.start(QString("unrar lb \"%1\"").arg(info.absoluteFilePath()));
+        p.start("unrar", QStringList() << "lb" << info.absoluteFilePath());
 
         if(p.waitForStarted()) {
 
@@ -549,7 +549,7 @@ QStringList PQHandlingFileDialog::listArchiveContent(QString path) {
             while(p.waitForReadyRead())
                 outdata.append(p.readAll());
 
-            QStringList allfiles = QString::fromLatin1(outdata).split('\n', QString::SkipEmptyParts);
+            QStringList allfiles = QString::fromLatin1(outdata).split('\n', Qt::SkipEmptyParts);
             allfiles.sort();
             foreach(QString f, allfiles) {
                 if(PQImageFormats::get().getEnabledFileformatsQt().contains("*." + QFileInfo(f).suffix()))

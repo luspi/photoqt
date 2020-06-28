@@ -98,7 +98,7 @@ public:
                 if(foundExternalUnrar == -1) {
                     QProcess which;
                     which.setStandardOutputFile(QProcess::nullDevice());
-                    which.start("which unrar");
+                    which.start("which", QStringList() << "unrar");
                     which.waitForFinished();
                     foundExternalUnrar = which.exitCode() ? 0 : 1;
                 }
