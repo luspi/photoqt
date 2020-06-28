@@ -14,6 +14,7 @@ Rectangle {
 
     property alias category: cat.text
     property var available: ({})
+    property bool thisIsAnExternalCategory: false
 
     property var active: []
 
@@ -60,8 +61,8 @@ Rectangle {
 
             spacing: 10
 
-            PQActiveShortcuts { id: act }
-            PQAvailableCommands { id: ava }
+            PQActiveShortcuts { id: act; thisIsAnExternalCategory: shcont.thisIsAnExternalCategory }
+            PQAvailableCommands { id: ava; thisIsAnExternalCategory: shcont.thisIsAnExternalCategory }
 
         }
 
@@ -80,6 +81,9 @@ Rectangle {
     }
     function addShortcut(cmd) {
         act.addShortcut(cmd)
+    }
+    function getActiveShortcuts() {
+        return act.getActiveShortcuts()
     }
 
 }

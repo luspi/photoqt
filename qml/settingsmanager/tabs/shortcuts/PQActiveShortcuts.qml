@@ -9,6 +9,8 @@ Item {
     width: shcont.width/2-15
     height: view.height+20
 
+    property bool thisIsAnExternalCategory: false
+
     Text {
         width: parent.width
         height: 100
@@ -65,15 +67,45 @@ Item {
 
                 x: 10
                 y: 5
+                visible: !thisIsAnExternalCategory
                 color: "#dddddd"
                 text: ""
                 Component.onCompleted: {
-                    for(var i = 0; i < shcont.available.length; ++i) {
-                        if(shcont.available[i][0] == cmd) {
-                            text = shcont.available[i][1]
-                            break
+                    if(!thisIsAnExternalCategory) {
+                        for(var i = 0; i < shcont.available.length; ++i) {
+                            if(shcont.available[i][0] == cmd) {
+                                text = shcont.available[i][1]
+                                break
+                            }
                         }
                     }
+                }
+
+            }
+
+            PQCheckbox {
+
+                id: close_chk
+
+                visible: thisIsAnExternalCategory
+                x: 5
+                y: (parent.height-height)/2
+                text: "quit"
+                checked: close=="1"
+                onCheckedChanged:
+                    close = (checked ? "1" : "0")
+            }
+
+            PQLineEdit {
+
+                visible: thisIsAnExternalCategory
+
+                x: close_chk.width+10
+                height: delbut.height+10
+                width: parent.width/2-20 - close_chk.width
+                text: cmd
+                onTextEdited: {
+                    cmd = text
                 }
 
             }
@@ -104,6 +136,7 @@ Item {
 
             PQMouseArea {
                 anchors.fill: parent
+                anchors.leftMargin: parent.width/2
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 onEntered: parent.hovered = true
@@ -162,15 +195,24 @@ Item {
         setmodel.clear()
 
         for(var i = 0; i < shcont.active.length; ++i) {
-            var dat = {"sh" : shcont.active[i][1], "cmd" : shcont.active[i][2], "deleted" : false}
+            var dat = {"sh" : shcont.active[i][1], "cmd" : shcont.active[i][2], "close" : shcont.active[i][0], "deleted" : false}
             setmodel.append(dat)
         }
 
     }
 
     function addShortcut(cmd) {
-        var dat = {"sh" : "...", "cmd" : cmd, "deleted" : false}
+        var dat = {"sh" : "", "cmd" : cmd, "close" : "0", "deleted" : false}
         setmodel.append(dat)
+    }
+
+    function getActiveShortcuts() {
+        var ret = []
+        for(var i = 0; i < view.count; ++i) {
+            var tmp = [setmodel.get(i).close, setmodel.get(i).sh, setmodel.get(i).cmd]
+            ret.push(tmp)
+        }
+        return ret
     }
 
 }

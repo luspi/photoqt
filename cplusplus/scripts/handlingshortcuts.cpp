@@ -39,6 +39,23 @@ QVariantList PQHandlingShortcuts::loadFromFile() {
 
 }
 
+void PQHandlingShortcuts::saveToFile(QVariantList lst) {
+
+    QString cont = QString("Version=%1\n").arg(VERSION);
+    for(auto l : lst)
+        cont += QString("%1::%2::%3\n").arg(l.toList()[0].toString()).arg(l.toList()[1].toString()).arg(l.toList()[2].toString());
+
+    QFile file(ConfigFiles::SHORTCUTS_FILE());
+
+    if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        LOG << CURDATE << "PQHandlingShortcuts::saveToFile() - ERROR: Unable to open key shortcuts file for writing" << NL;
+        return;
+    }
+    QTextStream out(&file);
+    out << cont;
+    file.close();
+}
+
 QString PQHandlingShortcuts::convertKeyCodeToText(int id) {
     QString ret = QKeySequence(id).toString();
     if(ret == "Esc") ret = "Escape";    // Up to v1.7.1 'Escape' was used so we should stick to that
@@ -310,6 +327,8 @@ QString PQHandlingShortcuts::composeDisplayString(QString combo) {
     else
         ret = combo;
 
+    if(ret == "")
+        return "...";
     return ret;
 
 }

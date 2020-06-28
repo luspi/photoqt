@@ -103,6 +103,15 @@ Item {
                             ["__imgur", "Upload to imgur.com user account"]]
             }
 
+            Item { width: 1; height: 10 }
+
+            PQContainer {
+                id: sh_ext
+                //: A shortcuts category: external shortcuts
+                category: "External"
+                thisIsAnExternalCategory: true
+            }
+
         }
 
     }
@@ -121,6 +130,7 @@ Item {
                 sh_img.active = filterOutTheRightOnes(sh, sh_img.available)
                 sh_fil.active = filterOutTheRightOnes(sh, sh_fil.available)
                 sh_oth.active = filterOutTheRightOnes(sh, sh_oth.available)
+                sh_ext.active = filterOutExternalShortcuts(sh)
 
                 activeShortcutsLoaded = true
 
@@ -130,10 +140,18 @@ Item {
             sh_img.loadTiles()
             sh_fil.loadTiles()
             sh_oth.loadTiles()
+            sh_ext.loadTiles()
 
         }
 
         onSaveAllSettings: {
+            var allsh = [];
+            allsh = allsh.concat(sh_nav.getActiveShortcuts())
+            allsh = allsh.concat(sh_img.getActiveShortcuts())
+            allsh = allsh.concat(sh_fil.getActiveShortcuts())
+            allsh = allsh.concat(sh_oth.getActiveShortcuts())
+            allsh = allsh.concat(sh_ext.getActiveShortcuts())
+            handlingShortcuts.saveToFile(allsh)
         }
 
     }
@@ -141,13 +159,52 @@ Item {
     function filterOutTheRightOnes(allsh, takethese) {
         var ret = []
         for(var i = 0; i < allsh.length; ++i) {
-            var found = false
             for(var j = 0; j < takethese.length; ++j) {
                 if(takethese[j][0] == allsh[i][2]) {
                     ret.push(allsh[i])
                     break
                 }
             }
+        }
+        return ret
+    }
+
+    function filterOutExternalShortcuts(allsh) {
+        var ret = []
+        for(var i = 0; i < allsh.length; ++i) {
+            var found = false
+            for(var j = 0; j < sh_nav.available.length; ++j) {
+                if(sh_nav.available[j][0] == allsh[i][2]) {
+                    found = true
+                    break
+                }
+            }
+            if(!found) {
+                for(var j = 0; j < sh_img.available.length; ++j) {
+                    if(sh_img.available[j][0] == allsh[i][2]) {
+                        found = true
+                        break
+                    }
+                }
+            }
+            if(!found) {
+                for(var j = 0; j < sh_fil.available.length; ++j) {
+                    if(sh_fil.available[j][0] == allsh[i][2]) {
+                        found = true
+                        break
+                    }
+                }
+            }
+            if(!found) {
+                for(var j = 0; j < sh_oth.available.length; ++j) {
+                    if(sh_oth.available[j][0] == allsh[i][2]) {
+                        found = true
+                        break
+                    }
+                }
+            }
+            if(!found)
+                ret.push(allsh[i])
         }
         return ret
     }

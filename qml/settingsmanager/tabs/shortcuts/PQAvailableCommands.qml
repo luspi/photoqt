@@ -9,6 +9,8 @@ Item {
     width: shcont.width/2-15
     height: col.height+20
 
+    property bool thisIsAnExternalCategory: false
+
     Column {
 
         id: col
@@ -19,7 +21,7 @@ Item {
         spacing: 5
 
         Repeater {
-            model: shcont.available.length
+            model: thisIsAnExternalCategory ? 1 : shcont.available.length
 
             Rectangle {
                 radius: 5
@@ -35,7 +37,7 @@ Item {
                     x: 10
                     y: 5
                     color: "#dddddd"
-                    text: shcont.available[index][1]
+                    text: thisIsAnExternalCategory ? "External shortcut" : shcont.available[index][1]
                 }
 
                 Text {
@@ -56,7 +58,7 @@ Item {
                     onExited:
                         parent.hovered = false
                     onClicked: {
-                        shcont.addShortcut(shcont.available[index][0])
+                        shcont.addShortcut((thisIsAnExternalCategory ? "" : shcont.available[index][0]))
                     }
                 }
 
