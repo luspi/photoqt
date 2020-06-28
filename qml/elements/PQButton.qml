@@ -19,6 +19,7 @@ Button {
 
     property bool clickOpensMenu: false
     property bool menuOpenDownward: true
+    property bool centerMenuOnButton: false
     property bool buttonSameWidthAsMenu: false
     property var listMenuItems: []
 
@@ -105,9 +106,9 @@ Button {
             if(clickOpensMenu) {
                 var pos = parent.mapFromItem(parent.parent, parent.x, parent.y)
                 if(menuOpenDownward)
-                    menu.popup(Qt.point(pos.x, pos.y+parent.height))
+                    menu.popup(Qt.point(pos.x + (centerMenuOnButton ? (parent.width-menu.width)/2 : 0), pos.y+parent.height))
                 else
-                    menu.popup(Qt.point(pos.x + (parent.width-menu.width)/2, pos.y-menu.height))
+                    menu.popup(Qt.point(pos.x + (centerMenuOnButton ? (parent.width-menu.width)/2 : 0), pos.y-menu.height))
             } else
                 control.clicked()
         }
