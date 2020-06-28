@@ -168,6 +168,11 @@ Rectangle {
 
         color: "#111111"
 
+        PQMouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+        }
+
         Rectangle {
             x: 0
             y: 0
