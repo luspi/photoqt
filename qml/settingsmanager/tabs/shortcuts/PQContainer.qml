@@ -56,7 +56,7 @@ Rectangle {
         }
 
         Row {
-            width: parent.width
+            width: shcont.width
             Text {
                 width: parent.width/2
                 horizontalAlignment: Text.AlignHCenter

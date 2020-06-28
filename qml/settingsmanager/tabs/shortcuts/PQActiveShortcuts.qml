@@ -66,8 +66,11 @@ Item {
 
             Text {
 
+                id: cmd_txt
                 x: 10
                 y: 5
+                width: parent.width/2-15
+                elide: Text.ElideRight
                 visible: !thisIsAnExternalCategory
                 color: "#dddddd"
                 text: ""
@@ -118,6 +121,8 @@ Item {
                 property bool newsh: false
 
                 x: parent.width/2
+                width: parent.width/2 - delbut.width-20
+                elide: Text.ElideRight
                 y: 5
                 font.bold: true
                 color: newsh ? "#00ff00" : "#dddddd"
@@ -142,7 +147,7 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 onEntered: parent.hovered = true
                 onExited: parent.hovered = false
-                tooltip: "Click to change key combincation"
+                tooltip: cmd_txt.text + "<br><b>" + sh_txt.text + "</b><br><br>Click to change key combination."
                 onClicked: {
                     detectingNewShortcut = true
                     detectcombo.show(handlingShortcuts.composeDisplayString(sh))

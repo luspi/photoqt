@@ -52,7 +52,7 @@ Item {
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
-                    tooltip: "Click to add shortcut"
+                    tooltip: "<b>" + cmdtxt.text + "</b><br><br>Click to add shortcut."
                     onEntered:
                         parent.hovered = true
                     onExited:
