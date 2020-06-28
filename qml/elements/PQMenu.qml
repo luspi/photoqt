@@ -19,12 +19,6 @@ Popup {
 
     property int leftrightpadding: 5
 
-    background: Rectangle {
-        color: "transparent"
-        border.width: 1
-        border.color: "#aaaaaa"
-    }
-
     ColumnLayout {
         anchors.fill: parent
         spacing: 0
@@ -37,7 +31,7 @@ Popup {
                 property bool mouseOver: false
                 visible: (hideIndices.indexOf(index)==-1)
                 opacity: enabled ? 1 : 0.3
-                color: mouseOver ? "#aaaaaa" : "#cc111111"
+                color: mouseOver ? "#666666" : "#cccccc"
                 Behavior on color { ColorAnimation { duration: 200 } }
                 Text {
                     x: leftrightpadding
@@ -45,7 +39,7 @@ Popup {
                     text: control.model[index]
                     font: control.font
                     opacity: enabled ? 1.0 : 0.3
-                    color: parent.mouseOver ? "#111111" : "#aaaaaa"
+                    color: parent.mouseOver ? "#ffffff" : "#000000"
                     Behavior on color { ColorAnimation { duration: 200 } }
                     horizontalAlignment: Text.AlignLeft // Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
