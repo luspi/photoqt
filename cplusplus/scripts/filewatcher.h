@@ -16,12 +16,15 @@ public:
 
 private:
     QFileSystemWatcher *userPlacesWatcher;
+    QFileSystemWatcher *shortcutsWatcher;
 
 private slots:
     void userPlacesChangedSLOT();
+    void shortcutsChangedSLOT();
 
 signals:
     void userPlacesChanged();
+    void shortcutsChanged();
 
 };
 

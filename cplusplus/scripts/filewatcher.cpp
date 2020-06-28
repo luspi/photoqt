@@ -6,6 +6,10 @@ PQFileWatcher::PQFileWatcher(QObject *parent) : QObject(parent) {
     connect(userPlacesWatcher, &QFileSystemWatcher::fileChanged, this, &PQFileWatcher::userPlacesChangedSLOT);
     userPlacesWatcher->addPath(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel");
 
+    shortcutsWatcher = new QFileSystemWatcher;
+    connect(shortcutsWatcher, &QFileSystemWatcher::fileChanged, this, &PQFileWatcher::shortcutsChangedSLOT);
+    shortcutsWatcher->addPath(ConfigFiles::SHORTCUTS_FILE());
+
 }
 
 void PQFileWatcher::userPlacesChangedSLOT() {
@@ -20,5 +24,20 @@ void PQFileWatcher::userPlacesChangedSLOT() {
     }
     if(info.exists())
         userPlacesWatcher->addPath(ConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel");
+
+}
+
+void PQFileWatcher::shortcutsChangedSLOT() {
+
+    emit shortcutsChanged();
+
+    QFileInfo info(ConfigFiles::SHORTCUTS_FILE());
+    for(int i = 0; i < 40; ++i) {
+        if(info.exists())
+            break;
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+    }
+    if(info.exists())
+        shortcutsWatcher->addPath(ConfigFiles::SHORTCUTS_FILE());
 
 }

@@ -51,5 +51,11 @@ Item {
     Component.onCompleted:
         variables.shortcuts = handlingShortcuts.loadFromFile()
 
+    Connections {
+        target: filewatcher
+        onShortcutsChanged: {
+            variables.shortcuts = handlingShortcuts.loadFromFile()
+        }
+    }
 
 }
