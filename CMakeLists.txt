@@ -109,12 +109,7 @@ endforeach()
 
 ## Copy the language QRC file to the output directory, because the files listed in the
 ## qrc file are relative to that directory.
-add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/lang.qrc
-     COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/lang/lang.qrc ${CMAKE_CURRENT_BINARY_DIR}/lang.qrc
-     MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/lang.qrc
-     DEPENDS ${qm_files})
-
-add_custom_target(translations DEPENDS ${qm_files})
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/lang/lang.qrc DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 ##################################################################
 #### GENERATE RANDOM CRYPT KEY FOR SIMPLE ENCRYPTION          ####
