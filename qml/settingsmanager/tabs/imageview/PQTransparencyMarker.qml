@@ -20,13 +20,21 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            trans_chk.checked = PQSettings.showTransparencyMarkerBackground
+            load()
         }
 
         onSaveAllSettings: {
             PQSettings.showTransparencyMarkerBackground = trans_chk.checked
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        trans_chk.checked = PQSettings.showTransparencyMarkerBackground
     }
 
 }

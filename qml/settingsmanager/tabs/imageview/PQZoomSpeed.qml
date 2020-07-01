@@ -42,13 +42,21 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            zoomspeed.value = PQSettings.zoomSpeed
+            load()
         }
 
         onSaveAllSettings: {
             PQSettings.zoomSpeed = zoomspeed.value
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        zoomspeed.value = PQSettings.zoomSpeed
     }
 
 }

@@ -100,9 +100,7 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            ft_border.checked = PQSettings.peopleTagInMetaBorderAroundFace
-            ft_border_w.value = PQSettings.peopleTagInMetaBorderAroundFaceWidth
-            rgba = handlingGeneral.convertHexToRgba(PQSettings.peopleTagInMetaBorderAroundFaceColor)
+            load()
         }
 
         onSaveAllSettings: {
@@ -111,6 +109,16 @@ PQSetting {
             PQSettings.peopleTagInMetaBorderAroundFaceColor = handlingGeneral.convertRgbaToHex(rgba)
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        ft_border.checked = PQSettings.peopleTagInMetaBorderAroundFace
+        ft_border_w.value = PQSettings.peopleTagInMetaBorderAroundFaceWidth
+        rgba = handlingGeneral.convertHexToRgba(PQSettings.peopleTagInMetaBorderAroundFaceColor)
     }
 
 }

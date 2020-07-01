@@ -62,8 +62,7 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            interp_check.checked = PQSettings.interpolationNearestNeighbourUpscale
-            interp_thr.value = PQSettings.interpolationNearestNeighbourThreshold
+            load()
         }
 
         onSaveAllSettings: {
@@ -71,6 +70,15 @@ PQSetting {
             PQSettings.interpolationNearestNeighbourThreshold = interp_thr.value
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        interp_check.checked = PQSettings.interpolationNearestNeighbourUpscale
+        interp_thr.value = PQSettings.interpolationNearestNeighbourThreshold
     }
 
 }

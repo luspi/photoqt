@@ -20,13 +20,21 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            loop_check.checked = PQSettings.loopThroughFolder
+            load()
         }
 
         onSaveAllSettings: {
             PQSettings.loopThroughFolder = loop_check.checked
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        loop_check.checked = PQSettings.loopThroughFolder
     }
 
 }

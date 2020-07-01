@@ -40,19 +40,7 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            if(PQSettings.sortby == "name")
-                sort_combo.currentIndex = 1
-            else if(PQSettings.sortby == "time")
-                sort_combo.currentIndex = 2
-            else if(PQSettings.sortby == "size")
-                sort_combo.currentIndex = 3
-            else if(PQSettings.sortby == "type")
-                sort_combo.currentIndex = 4
-            else
-                sort_combo.currentIndex = 0
-
-            sort_asc.checked = PQSettings.sortbyAscending
-            sort_desc.checked = !PQSettings.sortbyAscending
+            load()
         }
 
         onSaveAllSettings: {
@@ -70,6 +58,26 @@ PQSetting {
             PQSettings.sortbyAscending = sort_asc.checked
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        if(PQSettings.sortby == "name")
+            sort_combo.currentIndex = 1
+        else if(PQSettings.sortby == "time")
+            sort_combo.currentIndex = 2
+        else if(PQSettings.sortby == "size")
+            sort_combo.currentIndex = 3
+        else if(PQSettings.sortby == "type")
+            sort_combo.currentIndex = 4
+        else
+            sort_combo.currentIndex = 0
+
+        sort_asc.checked = PQSettings.sortbyAscending
+        sort_desc.checked = !PQSettings.sortbyAscending
     }
 
 }

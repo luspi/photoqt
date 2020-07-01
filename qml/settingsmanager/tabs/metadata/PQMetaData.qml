@@ -53,8 +53,7 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            for(var i = 0; i < meta.length; ++i)
-                rpt.itemAt(i).checked = PQSettings[meta[i][0]]
+            load()
         }
 
         onSaveAllSettings: {
@@ -62,6 +61,15 @@ PQSetting {
                 PQSettings[meta[i][0]] = rpt.itemAt(i).checked
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        for(var i = 0; i < meta.length; ++i)
+            rpt.itemAt(i).checked = PQSettings[meta[i][0]]
     }
 
 }

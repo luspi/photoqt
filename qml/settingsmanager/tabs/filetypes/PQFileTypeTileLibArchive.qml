@@ -34,9 +34,7 @@ PQFileTypeTile {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            resetChecked()
-            ext_unrar.checked = PQSettings.archiveUseExternalUnrar
-            isolate.checked = PQSettings.archiveSingleFile
+            load()
         }
 
         onSaveAllSettings: {
@@ -50,6 +48,16 @@ PQFileTypeTile {
             PQSettings.archiveSingleFile = isolate.checked
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        resetChecked()
+        ext_unrar.checked = PQSettings.archiveUseExternalUnrar
+        isolate.checked = PQSettings.archiveSingleFile
     }
 
 }

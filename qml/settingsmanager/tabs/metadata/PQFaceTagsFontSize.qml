@@ -43,13 +43,21 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            ft_fs.value = PQSettings.peopleTagInMetaFontSize
+            load()
         }
 
         onSaveAllSettings: {
             PQSettings.peopleTagInMetaFontSize = ft_fs.value
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        ft_fs.value = PQSettings.peopleTagInMetaFontSize
     }
 
 }

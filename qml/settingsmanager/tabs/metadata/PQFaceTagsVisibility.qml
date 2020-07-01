@@ -21,14 +21,7 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            if(PQSettings.peopleTagInMetaHybridMode)
-                ft_combo.currentIndex = 0
-            else if(PQSettings.peopleTagInMetaAlwaysVisible)
-                ft_combo.currentIndex = 1
-            else if(PQSettings.peopleTagInMetaIndependentLabels)
-                ft_combo.currentIndex = 2
-            else
-                ft_combo.currentIndex = 3
+            load()
         }
 
         onSaveAllSettings: {
@@ -51,6 +44,21 @@ PQSetting {
             }
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        if(PQSettings.peopleTagInMetaHybridMode)
+            ft_combo.currentIndex = 0
+        else if(PQSettings.peopleTagInMetaAlwaysVisible)
+            ft_combo.currentIndex = 1
+        else if(PQSettings.peopleTagInMetaIndependentLabels)
+            ft_combo.currentIndex = 2
+        else
+            ft_combo.currentIndex = 3
     }
 
 }

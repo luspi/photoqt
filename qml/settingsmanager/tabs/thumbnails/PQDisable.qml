@@ -20,13 +20,21 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            thb_disable.checked = PQSettings.thumbnailDisable
+            load()
         }
 
         onSaveAllSettings: {
             PQSettings.thumbnailDisable = thb_disable.checked
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        thb_disable.checked = PQSettings.thumbnailDisable
     }
 
 }

@@ -20,13 +20,21 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            fitinwin.checked = PQSettings.fitInWindow
+            load()
         }
 
         onSaveAllSettings: {
             PQSettings.fitInWindow = fitinwin.checked
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        fitinwin.checked = PQSettings.fitInWindow
     }
 
 }

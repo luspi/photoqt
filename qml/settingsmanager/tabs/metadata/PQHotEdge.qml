@@ -21,13 +21,21 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            meta_hot.checked = PQSettings.metadataEnableHotEdge
+            load()
         }
 
         onSaveAllSettings: {
             PQSettings.metadataEnableHotEdge = meta_hot.checked
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        meta_hot.checked = PQSettings.metadataEnableHotEdge
     }
 
 }

@@ -66,8 +66,7 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            fname_chk.checked = PQSettings.thumbnailFilenameInstead
-            fname_fsize.value = PQSettings.thumbnailFilenameInsteadFontSize
+            load()
         }
 
         onSaveAllSettings: {
@@ -75,6 +74,15 @@ PQSetting {
             PQSettings.thumbnailFilenameInsteadFontSize = fname_fsize.value
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        fname_chk.checked = PQSettings.thumbnailFilenameInstead
+        fname_fsize.value = PQSettings.thumbnailFilenameInsteadFontSize
     }
 
 }

@@ -269,3 +269,10 @@ bool PQHandlingGeneral::askForConfirmation(QString text, QString informativeText
     return (ret==QMessageBox::Yes);
 
 }
+
+void PQHandlingGeneral::setOverrideCursor(bool enabled) {
+    if(enabled)
+        qApp->setOverrideCursor(Qt::BusyCursor);
+    else
+        qApp->restoreOverrideCursor();
+}

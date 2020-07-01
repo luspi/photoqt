@@ -21,13 +21,21 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            ft.checked = PQSettings.peopleTagInMetaDisplay
+            load()
         }
 
         onSaveAllSettings: {
             PQSettings.peopleTagInMetaDisplay = ft.checked
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        ft.checked = PQSettings.peopleTagInMetaDisplay
     }
 
 }

@@ -21,13 +21,21 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            meta_rot.checked = PQSettings.metaApplyRotation
+            load()
         }
 
         onSaveAllSettings: {
             PQSettings.metaApplyRotation = meta_rot.checked
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        meta_rot.checked = PQSettings.metaApplyRotation
     }
 
 }

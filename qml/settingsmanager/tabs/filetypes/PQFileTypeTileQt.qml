@@ -33,4 +33,8 @@ PQFileTypeTile {
         }
 
     }
+
+    Component.onCompleted: {
+        resetChecked()
+    }
 }

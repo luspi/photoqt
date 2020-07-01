@@ -62,13 +62,7 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            anim_dur.value = PQSettings.animationDuration
-            if(PQSettings.animationType == "x")
-                anim_type.currentIndex = 1
-            else if(PQSettings.animationType == "y")
-                anim_type.currentIndex = 2
-            else
-                anim_type.currentIndex = 0
+            load()
         }
 
         onSaveAllSettings: {
@@ -81,6 +75,20 @@ PQSetting {
                 PQSettings.animationType = "opacity"
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        anim_dur.value = PQSettings.animationDuration
+        if(PQSettings.animationType == "x")
+            anim_type.currentIndex = 1
+        else if(PQSettings.animationType == "y")
+            anim_type.currentIndex = 2
+        else
+            anim_type.currentIndex = 0
     }
 
 }

@@ -41,13 +41,21 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            spacing_slider.value = PQSettings.thumbnailSpacingBetween
+            load()
         }
 
         onSaveAllSettings: {
             PQSettings.thumbnailSpacingBetween = spacing_slider.value
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        spacing_slider.value = PQSettings.thumbnailSpacingBetween
     }
 
 }

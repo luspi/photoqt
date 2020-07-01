@@ -42,13 +42,21 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            meta_opacity.value = Math.round(100*PQSettings.metadataOpacity/255)
+            load()
         }
 
         onSaveAllSettings: {
             PQSettings.metadataOpacity = 255*meta_opacity.value/100
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        meta_opacity.value = Math.round(100*PQSettings.metadataOpacity/255)
     }
 
 }

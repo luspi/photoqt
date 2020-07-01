@@ -42,13 +42,21 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            pixcache.value = PQSettings.pixmapCache
+            load()
         }
 
         onSaveAllSettings: {
             PQSettings.pixmapCache = pixcache.value
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        pixcache.value = PQSettings.pixmapCache
     }
 
 }

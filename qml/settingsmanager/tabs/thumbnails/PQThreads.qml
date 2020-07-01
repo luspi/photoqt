@@ -42,13 +42,21 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            thrds.value = PQSettings.thumbnailMaxNumberThreads
+            load()
         }
 
         onSaveAllSettings: {
             PQSettings.thumbnailMaxNumberThreads = thrds.value
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        thrds.value = PQSettings.thumbnailMaxNumberThreads
     }
 
 }

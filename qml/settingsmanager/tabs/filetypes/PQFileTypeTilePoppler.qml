@@ -44,19 +44,7 @@ PQFileTypeTile {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            resetChecked()
-            docviewer.checked = PQSettings.pdfSingleDocument
-
-            // We always take the PDF quality in steps of 5!
-            var q = PQSettings.pdfQuality
-            var qp5 = q%5
-            if(qp5 != 0) {
-                if(qp5 < 3)
-                    q -= qp5
-                else
-                    q += (5-qp5)
-            }
-            qual_slider.value = q
+            load()
         }
 
         onSaveAllSettings: {
@@ -71,6 +59,26 @@ PQFileTypeTile {
             PQSettings.pdfQuality = qual_slider.value
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        resetChecked()
+        docviewer.checked = PQSettings.pdfSingleDocument
+
+        // We always take the PDF quality in steps of 5!
+        var q = PQSettings.pdfQuality
+        var qp5 = q%5
+        if(qp5 != 0) {
+            if(qp5 < 3)
+                q -= qp5
+            else
+                q += (5-qp5)
+        }
+        qual_slider.value = q
     }
 
 }

@@ -41,13 +41,21 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            size_slider.value = PQSettings.thumbnailSize
+            load()
         }
 
         onSaveAllSettings: {
             PQSettings.thumbnailSize = size_slider.value
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        size_slider.value = PQSettings.thumbnailSize
     }
 
 }

@@ -53,6 +53,8 @@ public:
 
     Q_INVOKABLE bool askForConfirmation(QString text, QString informativeText);
 
+    Q_INVOKABLE void setOverrideCursor(bool enabled);
+
 private:
     PQImageProviderFull *imageprovider;
     QMimeDatabase mimedb;

@@ -111,6 +111,31 @@ Rectangle {
             selected: bar.currentIndex==5
             onClicked: bar.currentIndex = 5
         }
+
+        onCurrentIndexChanged: {
+            if(currentIndex == 1 && tab_imageview.source == "") {
+                handlingGeneral.setOverrideCursor(true)
+                tab_imageview.source = "tabs/PQTabImageView.qml"
+                handlingGeneral.setOverrideCursor(false)
+            } else if(currentIndex == 2 && tab_thumbnails.source == "") {
+                handlingGeneral.setOverrideCursor(true)
+                tab_thumbnails.source = "tabs/PQTabThumbnails.qml"
+                handlingGeneral.setOverrideCursor(false)
+            } else if(currentIndex == 3 && tab_metadata.source == "") {
+                handlingGeneral.setOverrideCursor(true)
+                tab_metadata.source = "tabs/PQTabMetadata.qml"
+                handlingGeneral.setOverrideCursor(false)
+            } else if(currentIndex == 4 && tab_filetypes.source == "") {
+                handlingGeneral.setOverrideCursor(true)
+                tab_filetypes.source = "tabs/PQTabFileTypes.qml"
+                handlingGeneral.setOverrideCursor(false)
+            } else if(currentIndex == 5 && tab_shortcuts.source == "") {
+                handlingGeneral.setOverrideCursor(true)
+                tab_shortcuts.source = "tabs/PQTabShortcuts.qml"
+                handlingGeneral.setOverrideCursor(false)
+            }
+        }
+
     }
 
     StackLayout {
@@ -120,12 +145,13 @@ Rectangle {
         width: parent.width-bar.width
         height: parent.height-buttons_container.height
         currentIndex: bar.currentIndex
+
         PQTabInterface { id: tab_interface }
-        PQTabImageView { id: tab_imageview }
-        PQTabThumbnails { id: tab_thumbnails }
-        PQTabMetadata { id: tab_metadata }
-        PQTabFileTypes { id: tab_filetypes }
-        PQTabShortcuts { id: tab_shortcuts }
+        Loader { id: tab_imageview }
+        Loader { id: tab_thumbnails }
+        Loader { id: tab_metadata }
+        Loader { id: tab_filetypes }
+        Loader { id: tab_shortcuts }
     }
 
 

@@ -42,13 +42,21 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            marginwidth.value = PQSettings.marginAroundImage
+            load()
         }
 
         onSaveAllSettings: {
             PQSettings.marginAroundImage = marginwidth.value
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        marginwidth.value = PQSettings.marginAroundImage
     }
 
 }

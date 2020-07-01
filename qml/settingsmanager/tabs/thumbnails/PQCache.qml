@@ -20,13 +20,21 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            thb_cache.checked = PQSettings.thumbnailCache
+            load()
         }
 
         onSaveAllSettings: {
             PQSettings.thumbnailCache = thb_cache.checked
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        thb_cache.checked = PQSettings.thumbnailCache
     }
 
 }

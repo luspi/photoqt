@@ -43,9 +43,7 @@ PQFileTypeTile {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            resetChecked()
-            autoplay.checked = PQSettings.videoAutoplay
-            loop.checked = PQSettings.videoLoop
+            load()
         }
 
         onSaveAllSettings: {
@@ -61,4 +59,15 @@ PQFileTypeTile {
         }
 
     }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        resetChecked()
+        autoplay.checked = PQSettings.videoAutoplay
+        loop.checked = PQSettings.videoLoop
+    }
+
 }

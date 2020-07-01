@@ -21,13 +21,21 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            left_check.checked = PQSettings.leftButtonMouseClickAndMove
+            load()
         }
 
         onSaveAllSettings: {
             PQSettings.leftButtonMouseClickAndMove = left_check.checked
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        left_check.checked = PQSettings.leftButtonMouseClickAndMove
     }
 
 }

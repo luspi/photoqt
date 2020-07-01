@@ -21,13 +21,21 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            remember.checked = PQSettings.keepZoomRotationMirror
+            load()
         }
 
         onSaveAllSettings: {
             PQSettings.keepZoomRotationMirror = remember.checked
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        remember.checked = PQSettings.keepZoomRotationMirror
     }
 
 }

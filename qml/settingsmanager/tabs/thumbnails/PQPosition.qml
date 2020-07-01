@@ -21,10 +21,7 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            if(PQSettings.thumbnailPosition == "Top")
-                edge.currentIndex = 0
-            else
-                edge.currentIndex = 1
+            load()
         }
 
         onSaveAllSettings: {
@@ -34,6 +31,17 @@ PQSetting {
                 PQSettings.thumbnailPosition == "Top"
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        if(PQSettings.thumbnailPosition == "Top")
+            edge.currentIndex = 0
+        else
+            edge.currentIndex = 1
     }
 
 }

@@ -22,12 +22,7 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            if(PQSettings.thumbnailKeepVisible)
-                thb_vis.currentIndex = 1
-            else if(PQSettings.thumbnailKeepVisibleWhenNotZoomedIn)
-                thb_vis.currentIndex = 2
-            else
-                thb_vis.currentIndex = 0
+            load()
         }
 
         onSaveAllSettings: {
@@ -43,6 +38,19 @@ PQSetting {
             }
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        if(PQSettings.thumbnailKeepVisible)
+            thb_vis.currentIndex = 1
+        else if(PQSettings.thumbnailKeepVisibleWhenNotZoomedIn)
+            thb_vis.currentIndex = 2
+        else
+            thb_vis.currentIndex = 0
     }
 
 }

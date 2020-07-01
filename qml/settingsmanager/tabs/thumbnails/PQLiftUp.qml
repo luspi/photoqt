@@ -41,13 +41,21 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            liftup.value = PQSettings.thumbnailLiftUp
+            load()
         }
 
         onSaveAllSettings: {
             PQSettings.thumbnailLiftUp = liftup.value
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        liftup.value = PQSettings.thumbnailLiftUp
     }
 
 }

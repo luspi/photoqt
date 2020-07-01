@@ -19,13 +19,21 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            thb_center.checked = PQSettings.thumbnailCenterActive
+            load()
         }
 
         onSaveAllSettings: {
             PQSettings.thumbnailCenterActive = thb_center.checked
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        thb_center.checked = PQSettings.thumbnailCenterActive
     }
 
 }

@@ -21,15 +21,23 @@ PQSetting {
         target: settingsmanager_top
 
         onLoadAllSettings: {
-            for(var i = 0; i < gps_combo.count; ++i)
-                if(gps_combo.model[i] == PQSettings.metaGpsMapService)
-                    gps_combo.currentIndex = i
+            load()
         }
 
         onSaveAllSettings: {
             PQSettings.metaGpsMapService = gps_combo.currentText
         }
 
+    }
+
+    Component.onCompleted: {
+        load()
+    }
+
+    function load() {
+        for(var i = 0; i < gps_combo.count; ++i)
+            if(gps_combo.model[i] == PQSettings.metaGpsMapService)
+                gps_combo.currentIndex = i
     }
 
 }
