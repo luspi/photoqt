@@ -111,16 +111,6 @@ Rectangle {
             selected: bar.currentIndex==5
             onClicked: bar.currentIndex = 5
         }
-        PQTabButton {
-            id: tabbutton_manage
-            anchors.top: tabbutton_shortcuts.bottom
-            implicitWidth: bar.width
-            implicitHeight: bar.height/bar.count
-            anchors.horizontalCenter: parent.horizontalCenter
-            text: "manage settings"
-            selected: bar.currentIndex==6
-            onClicked: bar.currentIndex = 6
-        }
     }
 
     StackLayout {
@@ -136,7 +126,6 @@ Rectangle {
         PQTabMetadata { id: tab_metadata }
         PQTabFileTypes { id: tab_filetypes }
         PQTabShortcuts { id: tab_shortcuts }
-        PQTabManageSettings { id: tab_manage }
     }
 
 
