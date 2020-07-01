@@ -130,7 +130,7 @@ Rectangle {
         onCurrentIndexChanged:
             showWhichFileTypeIndex = allfiletypes[allfiles.currentIndex]
 
-        anchors.right: whichview.left
+        anchors.right: remember.left
         anchors.rightMargin: 10
         y: (parent.height-height)/2
 
@@ -138,6 +138,26 @@ Rectangle {
         tooltipFollowsMouse: false
 
         firstItemEmphasized: true
+    }
+
+    PQButton {
+
+        id: remember
+
+        anchors.right: whichview.left
+        anchors.rightMargin: 10
+        y: (parent.height-height)/2
+
+        tooltip: em.pty+qsTranslate("filedialog", "Remember loaded folder between sessions.")
+        tooltipFollowsMouse: false
+
+        imageButtonSource: PQSettings.openKeepLastLocation ? "/filedialog/remember.png" : "/filedialog/dontremember.png"
+
+        opacity: PQSettings.openKeepLastLocation ? 0.8 : 0.2
+
+        onClicked:
+            PQSettings.openKeepLastLocation = !(remember.opacity==0.8)
+
     }
 
     PQButton {

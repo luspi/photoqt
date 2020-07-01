@@ -67,5 +67,7 @@
         <file>settingsmanager/filetypes/advancedclose.png</file>
         <file>settingsmanager/shortcuts/categorykeyboard.png</file>
         <file>settingsmanager/shortcuts/categorymouse.png</file>
+        <file>filedialog/remember.png</file>
+        <file>filedialog/dontremember.png</file>
     </qresource>
 </RCC>
