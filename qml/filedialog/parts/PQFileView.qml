@@ -16,6 +16,8 @@ GridView {
 
     property int currentlyHoveredIndex: -1
 
+    property bool rightclickopen: false
+
     ScrollBar.vertical: PQScrollBar { id: scroll }
 
     PQFileFolderModel {
@@ -61,6 +63,13 @@ GridView {
         id: rightclickmenu_bg
         isFolder: false
         isFile: false
+        onVisibleChanged: {
+            if(visible) {
+                rightclickmenu_timer.stop()
+                files_grid.rightclickopen = true
+            } else
+                rightclickmenu_timer.restart()
+        }
     }
 
     delegate: Item {
@@ -274,11 +283,13 @@ GridView {
                     currentlyHoveredIndex = -1
                 onClicked: {
                     if(mouse.button == Qt.LeftButton) {
-                        if(fileIsDir)
-                            filedialog_top.setCurrentDirectory(filePath)
-                        else {
-                            LoadFiles.loadFile(filePath, files_model.getCopyOfAllFiles())
-                            filedialog_top.hideFileDialog()
+                        if(!files_grid.rightclickopen) {
+                            if(fileIsDir)
+                                filedialog_top.setCurrentDirectory(filePath)
+                            else {
+                                LoadFiles.loadFile(filePath, files_model.getCopyOfAllFiles())
+                                filedialog_top.hideFileDialog()
+                            }
                         }
                     } else {
                         var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
@@ -292,6 +303,14 @@ GridView {
                 isFolder: fileIsDir
                 isFile: !fileIsDir
                 path: filePath
+                onVisibleChanged: {
+                    if(visible) {
+                        rightclickmenu_timer.stop()
+                        files_grid.rightclickopen = true
+                    } else
+                        rightclickmenu_timer.restart()
+                }
+
             }
 
             Drag.active: dragArea.drag.active
@@ -441,6 +460,19 @@ GridView {
 
         }
 
+    }
+
+    // using this timer has the following effect:
+    // right click menu open, click on file/folder -> don't open file/folder but only close menu
+    Timer {
+        id: rightclickmenu_timer
+        interval: 250
+        repeat: false
+        running: false
+        onTriggered: {
+            if(!rightclickmenu.visible)
+                files_grid.rightclickopen = false
+        }
     }
 
     Timer {
