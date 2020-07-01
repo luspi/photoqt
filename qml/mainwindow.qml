@@ -16,6 +16,7 @@ import PQHandlingShareImgur 1.0
 import PQHandlingWallpaper 1.0
 import PQHandlingFaceTags 1.0
 import PQSystemTrayIcon 1.0
+import PQHandlingExternal 1.0
 
 import "./mainwindow"
 import "./shortcuts"
@@ -238,6 +239,7 @@ Window {
     PQHandlingShareImgur { id: handlingShareImgur }
     PQHandlingWallpaper { id: handlingWallpaper }
     PQHandlingFaceTags { id: handlingFaceTags }
+    PQHandlingExternal { id: handlingExternal }
 
     PQWindowGeometry { id: windowgeometry }
     PQCppMetaData { id: cppmetadata }

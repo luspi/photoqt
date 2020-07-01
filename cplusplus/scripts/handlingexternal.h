@@ -15,8 +15,8 @@ class PQHandlingExternal : public QObject {
     Q_OBJECT
 
 public:
-    bool exportConfigTo(QString path);
-    bool importConfigFrom(QString path);
+    Q_INVOKABLE bool exportConfigTo(QString path);
+    Q_INVOKABLE bool importConfigFrom(QString path);
 
 };
 

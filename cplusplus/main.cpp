@@ -14,6 +14,7 @@
 #include "scripts/handlingshareimgur.h"
 #include "scripts/handlingwallpaper.h"
 #include "scripts/handlingfacetags.h"
+#include "scripts/handlingexternal.h"
 #include "scripts/localisation.h"
 #include "scripts/imageproperties.h"
 #include "settings/imageformats.h"
@@ -95,6 +96,7 @@ int main(int argc, char **argv) {
     qmlRegisterType<PQHandlingWallpaper>("PQHandlingWallpaper", 1, 0, "PQHandlingWallpaper");
     qmlRegisterType<PQHandlingFaceTags>("PQHandlingFaceTags", 1, 0, "PQHandlingFaceTags");
     qmlRegisterType<PQSystemTrayIcon>("PQSystemTrayIcon", 1, 0, "PQSystemTrayIcon");
+    qmlRegisterType<PQHandlingExternal>("PQHandlingExternal", 1, 0, "PQHandlingExternal");
 
     engine.rootContext()->setContextProperty("PQSettings", &PQSettings::get());
     engine.rootContext()->setContextProperty("PQCppVariables", &PQVariables::get());
@@ -113,4 +115,5 @@ int main(int argc, char **argv) {
     app.rootQmlAddress = engine.rootObjects().at(0);
 
     return app.exec();
+
 }

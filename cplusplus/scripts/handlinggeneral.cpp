@@ -254,3 +254,18 @@ QString PQHandlingGeneral::convertRgbaToHex(QVariantList rgba) {
     return QString::fromStdString(ss.str());
 
 }
+
+bool PQHandlingGeneral::askForConfirmation(QString text, QString informativeText) {
+
+    QMessageBox msg;
+
+    msg.setText(text);
+    msg.setInformativeText(informativeText);
+    msg.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msg.setDefaultButton(QMessageBox::Yes);
+
+    int ret = msg.exec();
+
+    return (ret==QMessageBox::Yes);
+
+}

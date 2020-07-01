@@ -142,9 +142,6 @@ bool PQHandlingExternal::importConfigFrom(QString path) {
             // libarchive does not add a null terminating character, but Qt expects it, so we need to add it on
             buff[size] = '\0';
 
-            for(size_t i = 0; i < size; ++i)
-                std::cout << buff[i];
-
             // The output file...
             QFile file(allfiles[filenameinside]);
             // Overwrite old content

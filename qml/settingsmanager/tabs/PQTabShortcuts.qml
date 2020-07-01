@@ -123,19 +123,13 @@ Item {
 
         onLoadAllSettings: {
 
-            if(!activeShortcutsLoaded) {
+            var sh = handlingShortcuts.loadFromFile()
 
-                var sh = handlingShortcuts.loadFromFile()
-
-                sh_nav.active = filterOutTheRightOnes(sh, sh_nav.available)
-                sh_img.active = filterOutTheRightOnes(sh, sh_img.available)
-                sh_fil.active = filterOutTheRightOnes(sh, sh_fil.available)
-                sh_oth.active = filterOutTheRightOnes(sh, sh_oth.available)
-                sh_ext.active = filterOutExternalShortcuts(sh)
-
-                activeShortcutsLoaded = true
-
-            }
+            sh_nav.active = filterOutTheRightOnes(sh, sh_nav.available)
+            sh_img.active = filterOutTheRightOnes(sh, sh_img.available)
+            sh_fil.active = filterOutTheRightOnes(sh, sh_fil.available)
+            sh_oth.active = filterOutTheRightOnes(sh, sh_oth.available)
+            sh_ext.active = filterOutExternalShortcuts(sh)
 
             sh_nav.loadTiles()
             sh_img.loadTiles()

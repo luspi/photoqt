@@ -8,6 +8,7 @@
 #include <QNetworkInterface>
 #include <QMimeDatabase>
 #include <QStringRef>
+#include <QMessageBox>
 #include "../imageprovider/imageproviderfull.h"
 #include "../logger.h"
 
@@ -49,6 +50,8 @@ public:
 
     Q_INVOKABLE QVariantList convertHexToRgba(QString hex);
     Q_INVOKABLE QString convertRgbaToHex(QVariantList rgba);
+
+    Q_INVOKABLE bool askForConfirmation(QString text, QString informativeText);
 
 private:
     PQImageProviderFull *imageprovider;

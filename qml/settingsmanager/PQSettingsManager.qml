@@ -2,6 +2,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.9
+import Qt.labs.platform 1.1
 
 import "../elements"
 import "./tabs"
@@ -51,6 +52,7 @@ Rectangle {
             implicitHeight: bar.height/bar.count
             anchors.horizontalCenter: parent.horizontalCenter
             text: "interface"
+            tooltip: "Tab to control interface settings"
             selected: bar.currentIndex==0
             onClicked: bar.currentIndex = 0
         }
@@ -61,6 +63,7 @@ Rectangle {
             implicitHeight: bar.height/bar.count
             anchors.horizontalCenter: parent.horizontalCenter
             text: "image view"
+            tooltip: "Tab to control how images are viewed"
             selected: bar.currentIndex==1
             onClicked: bar.currentIndex = 1
         }
@@ -71,6 +74,7 @@ Rectangle {
             implicitHeight: bar.height/bar.count
             anchors.horizontalCenter: parent.horizontalCenter
             text: "thumbnails"
+            tooltip: "Tab to control the look and behaviour of thumbnails"
             selected: bar.currentIndex==2
             onClicked: bar.currentIndex = 2
         }
@@ -81,6 +85,7 @@ Rectangle {
             implicitHeight: bar.height/bar.count
             anchors.horizontalCenter: parent.horizontalCenter
             text: "metadata"
+            tooltip: "Tab to control metadata settings"
             selected: bar.currentIndex==3
             onClicked: bar.currentIndex = 3
         }
@@ -91,6 +96,7 @@ Rectangle {
             implicitHeight: bar.height/bar.count
             anchors.horizontalCenter: parent.horizontalCenter
             text: "file types"
+            tooltip: "Tab to control which file types are to be recognized"
             selected: bar.currentIndex==4
             onClicked: bar.currentIndex = 4
         }
@@ -101,6 +107,7 @@ Rectangle {
             implicitHeight: bar.height/bar.count
             anchors.horizontalCenter: parent.horizontalCenter
             text: "shortcuts"
+            tooltip: "Tab to control which shortcuts are set"
             selected: bar.currentIndex==5
             onClicked: bar.currentIndex = 5
         }
@@ -149,9 +156,15 @@ Rectangle {
             clickOpensMenu: true
             menuOpenDownward: false
             buttonSameWidthAsMenu: true
-            listMenuItems: ["import/export settings", (variables.settingsManagerExpertMode ? "disable expert mode" : "enable expert mode")]
+            listMenuItems: ["import settings", "export settings", (variables.settingsManagerExpertMode ? "disable expert mode" : "enable expert mode")]
             onMenuItemClicked: {
-                if(pos == 1) {
+                if(pos == 0) {
+                    console.log("import")
+                    openFileDialog.visible = true
+                } else if(pos == 1) {
+                    console.log("export")
+                    saveFileDialog.visible = true
+                } else if(pos == 2) {
                     variables.settingsManagerExpertMode = !variables.settingsManagerExpertMode
                 }
             }
@@ -159,6 +172,47 @@ Rectangle {
 
     }
 
+    FileDialog {
+        id: saveFileDialog
+        folder: "file://"+handlingFileDialog.getHomeDir()
+        modality: Qt.ApplicationModal
+        fileMode: FileDialog.SaveFile
+        nameFilters: ["PhotoQt backup (*.pqt)"]
+        onAccepted: {
+            if(saveFileDialog.file != "")
+                handlingExternal.exportConfigTo(handlingFileDialog.cleanPath(saveFileDialog.file))
+        }
+        onVisibleChanged: {
+            if(visible)
+                currentFile = "file://" + handlingFileDialog.getHomeDir() + "/PhotoQt_backup_" + new Date().toLocaleString(Qt.locale(), "yyyy_MM_dd") + ".pqt"
+        }
+    }
+
+    FileDialog {
+        id: openFileDialog
+        folder: "file://"+handlingFileDialog.getHomeDir()
+        modality: Qt.ApplicationModal
+        fileMode: FileDialog.OpenFile
+        nameFilters: ["PhotoQt backup (*.pqt)"]
+        onAccepted: {
+            if(openFileDialog.file != "") {
+                var yes = handlingGeneral.askForConfirmation("Import of '" + handlingGeneral.getFileNameFromFullPath(openFileDialog.file) + "'. This will replace your current settings with the ones stored in the backup.",
+                                                             "Do you want to continue?")
+                if(yes) {
+                    handlingExternal.importConfigFrom(handlingFileDialog.cleanPath(openFileDialog.file) )
+                    rst.start()
+                }
+            }
+        }
+    }
+
+    // Reload settings after short timeout. This ensures that the changed settings/... files have been detected and variables have been updated.
+    Timer {
+        id: rst
+        interval: 500
+        repeat: false
+        onTriggered: resetSettings()
+    }
 
     Rectangle {
 
