@@ -52,26 +52,26 @@ Item {
                 text: "These settings affect the viewing of images, how they are shown, in what order, how large a cache to use, etc.\nSome settings are only shown in expert mode."
             }
 
-            PQAnimation { id: ani }
-                PQHorizontalLine { expertModeOnly: ani.expertmodeonly }
-            PQFitInWindow { id: fiw }
-                PQHorizontalLine { expertModeOnly: fiw.expertmodeonly }
-            PQInterpolation { id: itp }
-                PQHorizontalLine { expertModeOnly: itp.expertmodeonly }
-            PQKeep { id: kee }
-                PQHorizontalLine { expertModeOnly: kee.expertmodeonly }
-            PQLeftButton { id: lfb }
-                PQHorizontalLine { expertModeOnly: lfb.expertmodeonly }
-            PQLoop { id: loo }
-                PQHorizontalLine { expertModeOnly: loo.expertmodeonly }
-            PQMargin { id: mrg }
-                PQHorizontalLine { expertModeOnly: mrg.expertmodeonly }
-            PQPixmapCache { id: pix }
-                PQHorizontalLine { expertModeOnly: pix.expertmodeonly }
             PQSort { id: srt }
                 PQHorizontalLine { expertModeOnly: srt.expertmodeonly }
             PQTransparencyMarker { id: trn }
                 PQHorizontalLine { expertModeOnly: trn.expertmodeonly }
+            PQFitInWindow { id: fiw }
+                PQHorizontalLine { expertModeOnly: fiw.expertmodeonly }
+            PQLoop { id: loo }
+                PQHorizontalLine { expertModeOnly: loo.expertmodeonly }
+            PQLeftButton { id: lfb }
+                PQHorizontalLine { expertModeOnly: lfb.expertmodeonly }
+            PQMargin { id: mrg }
+                PQHorizontalLine { expertModeOnly: mrg.expertmodeonly }
+            PQPixmapCache { id: pix }
+                PQHorizontalLine { expertModeOnly: pix.expertmodeonly }
+            PQAnimation { id: ani }
+                PQHorizontalLine { expertModeOnly: ani.expertmodeonly }
+            PQInterpolation { id: itp }
+                PQHorizontalLine { expertModeOnly: itp.expertmodeonly }
+            PQKeep { id: kee }
+                PQHorizontalLine { expertModeOnly: kee.expertmodeonly }
             PQZoomSpeed { id: zos }
 
         }

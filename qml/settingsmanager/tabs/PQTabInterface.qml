@@ -56,27 +56,28 @@ Item {
 
             PQLanguage { id: lng }
                 PQHorizontalLine { expertModeOnly: lng.expertmodeonly }
-            PQCloseOnEmpty { id: coe }
-                PQHorizontalLine { expertModeOnly: coe.expertmodeonly }
             PQQuickInfo { id: qck }
                 PQHorizontalLine { expertModeOnly: qck.expertmodeonly }
-            PQStartupLoadLast { id: sll }
-                PQHorizontalLine { expertModeOnly: sll.expertmodeonly }
-            PQTrayIcon { id: tic }
-                PQHorizontalLine { expertModeOnly: tic.expertmodeonly }
             PQWindowMode { id: wmo }
                 PQHorizontalLine { expertModeOnly: wmo.expertmodeonly }
+            PQTrayIcon { id: tic }
+                PQHorizontalLine { expertModeOnly: tic.expertmodeonly }
             PQBackground { id: bck }
                 PQHorizontalLine { expertModeOnly: bck.expertmodeonly }
+            PQOverlayColor { id: ovc }
+                PQHorizontalLine { expertModeOnly: mwh.expertmodeonly }
+            PQPopout { id: pop }
+                PQHorizontalLine { expertModeOnly: ovc.expertmodeonly }
+            PQStartupLoadLast { id: sll }
+                PQHorizontalLine { expertModeOnly: sll.expertmodeonly }
+            PQCloseOnEmpty { id: coe }
+                PQHorizontalLine { expertModeOnly: coe.expertmodeonly }
             PQHotEdgeWidth { id: hew }
                 PQHorizontalLine { expertModeOnly: hew.expertmodeonly }
             PQWindowManagement { id: wma }
                 PQHorizontalLine { expertModeOnly: wma.expertmodeonly }
             PQMouseWheel { id: mwh }
-                PQHorizontalLine { expertModeOnly: mwh.expertmodeonly }
-            PQOverlayColor { id: ovc }
-                PQHorizontalLine { expertModeOnly: ovc.expertmodeonly }
-            PQPopout { id: pop }
+
 
         }
 

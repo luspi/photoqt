@@ -53,27 +53,27 @@ Item {
                 text: "These settings affect the thumbnails shown, by default, along the bottom edge of the screen. This includes their look, behavior, and the user's interaction with them.\nSome settings are only shown in expert mode."
             }
 
-            PQCache { id: cac }
-                PQHorizontalLine { expertModeOnly: cac.expertmodeonly }
-            PQCenter { id: cent }
-                PQHorizontalLine { expertModeOnly: cent.expertmodeonly }
-            PQDisable { id: dis }
-                PQHorizontalLine { expertModeOnly: dis.expertmodeonly }
-            PQFilenameLabel { id: fnl }
-                PQHorizontalLine { expertModeOnly: fnl.expertmodeonly }
-            PQFilenameOnly { id: fno }
-                PQHorizontalLine { expertModeOnly: fno.expertmodeonly }
-            PQLiftUp { id: lft }
-                PQHorizontalLine { expertModeOnly: lft.expertmodeonly }
-            PQPosition { id: pos }
-                PQHorizontalLine { expertModeOnly: pos.expertmodeonly }
             PQSize { id: siz }
                 PQHorizontalLine { expertModeOnly: siz.expertmodeonly }
             PQSpacing { id: spc }
                 PQHorizontalLine { expertModeOnly: spc.expertmodeonly }
-            PQThreads { id: thr }
-                PQHorizontalLine { expertModeOnly: thr.expertmodeonly }
+            PQLiftUp { id: lft }
+                PQHorizontalLine { expertModeOnly: lft.expertmodeonly }
             PQVisible { id: vis }
+                PQHorizontalLine { expertModeOnly: thr.expertmodeonly }
+            PQCenter { id: cent }
+                PQHorizontalLine { expertModeOnly: cent.expertmodeonly }
+            PQPosition { id: pos }
+                PQHorizontalLine { expertModeOnly: pos.expertmodeonly }
+            PQFilenameLabel { id: fnl }
+                PQHorizontalLine { expertModeOnly: fnl.expertmodeonly }
+            PQFilenameOnly { id: fno }
+                PQHorizontalLine { expertModeOnly: fno.expertmodeonly }
+            PQDisable { id: dis }
+                PQHorizontalLine { expertModeOnly: dis.expertmodeonly }
+            PQCache { id: cac }
+                PQHorizontalLine { expertModeOnly: cac.expertmodeonly }
+            PQThreads { id: thr }
 
         }
 

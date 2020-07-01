@@ -53,16 +53,16 @@ Item {
                 text: "These settings affect the metadata element, what information it should show and some of its behavior.\nSome settings are only shown in expert mode."
             }
 
-            PQGPSMap { id: gps }
-                PQHorizontalLine { expertModeOnly: gps.expertmodeonly }
+            PQMetaData { id: mtd }
+                PQHorizontalLine { expertModeOnly: mtd.expertmodeonly }
             PQHotEdge { id: hot }
                 PQHorizontalLine { expertModeOnly: hot.expertmodeonly }
+            PQGPSMap { id: gps }
+                PQHorizontalLine { expertModeOnly: gps.expertmodeonly }
             PQOpacity { id: opa }
                 PQHorizontalLine { expertModeOnly: opa.expertmodeonly }
             PQRotation { id: rot }
                 PQHorizontalLine { expertModeOnly: rot.expertmodeonly }
-            PQMetaData { id: mtd }
-                PQHorizontalLine { expertModeOnly: mtd.expertmodeonly }
             PQFaceTags { id: ftg }
                 PQHorizontalLine { expertModeOnly: ftg.expertmodeonly }
             PQFaceTagsFontSize { id: ftf }
