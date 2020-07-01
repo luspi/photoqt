@@ -51,6 +51,7 @@ Rectangle {
         toolTipPrefix: em.pty+qsTranslate("filedialog", "Zoom factor:") + " "
 
         anchors.left: zoomtext.right
+        anchors.leftMargin: 5
         y: (parent.height-height)/2
 
         onValueChanged:
