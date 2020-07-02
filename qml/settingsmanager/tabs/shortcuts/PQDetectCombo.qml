@@ -9,7 +9,8 @@ Rectangle {
 
     parent: settingsmanager_top
 
-    anchors.fill: settingsmanager_top
+    anchors.fill: parent
+
     color: "#dd000000"
 
     visible: (opacity>0)
