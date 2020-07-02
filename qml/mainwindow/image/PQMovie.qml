@@ -118,10 +118,8 @@ Item {
         Connections {
             target: variables
             onMousePosChanged: {
-                if(videomouse.contains(Qt.point(variables.mousePos.x-videoelem.x, variables.mousePos.y-videoelem.y))) {
-                    controls.mouseHasBeenMovedRecently = true
-                    resetMouseHasBeenMovedRecently.restart()
-                }
+                controls.mouseHasBeenMovedRecently = true
+                resetMouseHasBeenMovedRecently.restart()
             }
         }
 
@@ -137,6 +135,8 @@ Item {
 
             id: controls
 
+            parent: container
+
             color: "#ee000000"
 
             anchors {
@@ -151,15 +151,8 @@ Item {
             opacity: (videoelem.playbackState==MediaPlayer.PausedState || mouseHasBeenMovedRecently || volumecontrol_slider.manipulate) ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 250 } }
 
-            MouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
-                onContainsMouseChanged: {
-                    if(containsMouse)
-                        resetMouseHasBeenMovedRecently.stop()
-                    else
-                        resetMouseHasBeenMovedRecently.start()
-                }
+            onOpacityChanged: {
+                variables.videoControlsVisible = opacity>0
             }
 
             Row {
@@ -167,7 +160,7 @@ Item {
                 spacing: 10
 
                 Item {
-                    width: 1
+                    width: 10
                     height: 1
                 }
 
@@ -207,14 +200,17 @@ Item {
                 PQSlider {
                     id: videopos_slider
                     y: (controls.height-height)/2
-                    width: controls.width - playpause.width - curpos.width - timeleft.width - volumecontrol.width - volumecontrol_slider.width - 60
+                    width: controls.width - playpause.width - curpos.width - timeleft.width - volumecontrol.width - volumecontrol_slider.width - 80
                     from: 0
                     to: videoelem.duration
                     value: videoelem.position
                     divideToolTipValue: 1000
                     convertToolTipValueToTimeWithDuration: Math.round(videoelem.duration/1000)
+                    overrideBackgroundHeight: 10
                     onValueChanged: {
                         if(pressed) {
+                            controls.mouseHasBeenMovedRecently = true
+                            resetMouseHasBeenMovedRecently.restart()
                             videoelem.seek(value)
                         }
                     }
@@ -262,7 +258,6 @@ Item {
 
                     id: volumecontrol_slider
 
-                    x: 0
                     y: (controls.height-height)/2
                     width: manipulate ? 150 : 0
 
@@ -283,7 +278,7 @@ Item {
                 }
 
                 Item {
-                    width: 1
+                    width: 10
                     height: 1
                 }
 
@@ -312,8 +307,8 @@ Item {
             yAni.duration = PQSettings.animationDuration*100
             if(!videoelem.scaleAdjustedFromRotation)
                 elem.scale = 1
-            videoelem.x = PQSettings.marginAroundImage
-            videoelem.y = PQSettings.marginAroundImage
+            videoelem.x = (elem.width-videoelem.width)/2
+            videoelem.y = (elem.height-videoelem.height)/2
         }
         onZoomActual: {
             if(variables.currentZoomLevel != 100)

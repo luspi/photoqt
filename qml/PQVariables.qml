@@ -27,6 +27,8 @@ Item {
 
     property bool settingsManagerExpertMode: false
 
+    property bool videoControlsVisible: false
+
     onIndexOfCurrentImageChanged:
         cppmetadata.updateMetadata(indexOfCurrentImage != -1 ? allImageFilesInOrder[indexOfCurrentImage] : "")
 

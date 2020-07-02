@@ -86,6 +86,8 @@ Item {
                                         (imageproperties.isAnimated(src) ?
                                              "image/PQImageAnimated.qml" :
                                              "image/PQImageNormal.qml")
+                if(theimage.source != "image/PQMovie.qml")
+                    variables.videoControlsVisible = false
             }
 
             Connections {

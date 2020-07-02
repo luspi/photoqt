@@ -19,7 +19,7 @@ Item {
            ((PQSettings.thumbnailKeepVisible ||
            (variables.mousePos.y > toplevel.height-PQSettings.hotEdgeWidth*5 && !visible) ||
            (variables.mousePos.y > toplevel.height-height && visible) ||
-           (PQSettings.thumbnailKeepVisibleWhenNotZoomedIn && variables.currentPaintedZoomLevel<=1)) ? (toplevel.height-height) : toplevel.height)
+           (PQSettings.thumbnailKeepVisibleWhenNotZoomedIn && variables.currentPaintedZoomLevel<=1)) ? (toplevel.height-height-(variables.videoControlsVisible ? 50 : 0)) : toplevel.height)
 
     Behavior on y { NumberAnimation { duration: 200 } }
 
