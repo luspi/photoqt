@@ -26,9 +26,9 @@ PQSetting {
 
         onSaveAllSettings: {
             if(edge.currentIndex == 0)
-                PQSettings.thumbnailPosition == "Bottom"
+                PQSettings.thumbnailPosition = "Top"
             else
-                PQSettings.thumbnailPosition == "Top"
+                PQSettings.thumbnailPosition = "Bottom"
         }
 
     }
