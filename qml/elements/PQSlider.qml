@@ -20,13 +20,15 @@ Slider {
     property bool handleToolTipEnabled: true
     property bool sliderToolTipEnabled: true
 
+    property int overrideBackgroundHeight: -1
+
     property int convertToolTipValueToTimeWithDuration: -1
 
     background: Rectangle {
         x: control.leftPadding
         y: control.topPadding + control.availableHeight / 2 - height / 2
         implicitWidth: 200
-        implicitHeight: 6
+        implicitHeight: overrideBackgroundHeight==-1 ? 6 : overrideBackgroundHeight
         width: control.availableWidth
         height: implicitHeight
         radius: 2
