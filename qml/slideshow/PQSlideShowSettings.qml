@@ -344,11 +344,13 @@ Rectangle {
             text: em.pty+qsTranslate("slideshow", "Start slideshow")
             onClicked: {
 
-                if(!music_check.checked) {
-                    PQSettings.slideShowMusicFile = ""
-                    music_button.musicfile = ""
-                } else
-                    PQSettings.slideShowMusicFile = music_button.musicfile
+                PQSettings.slideShowTime = interval_slider.value
+                PQSettings.slideShowTypeAnimation = (animtype_combo.currentIndex==0 ? "opacity" : (animtype_combo.currentIndex==1 ? "x" : "y"))
+                PQSettings.slideShowImageTransition = transition_slider.value
+                PQSettings.slideShowLoop = loop_check.checked
+                PQSettings.slideShowShuffle = shuffle_check.checked
+                PQSettings.slideShowHideQuickInfo = quick_check.checked
+                PQSettings.slideShowMusicFile = (music_check.checked&&music_button.musicfile!="" ? music_button.musicfile : "")
 
                 if(PQSettings.slideShowSettingsPopoutElement) {
                     slideshow_window.visible = false
