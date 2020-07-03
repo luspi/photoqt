@@ -119,6 +119,7 @@ void PQSettings::setDefault() {
     setSlideShowShuffle(false);
     setSlideShowLoop(true);
     setSlideShowHideQuickInfo(true);
+    setSlideShowTypeAnimation("opacity");
 
     setMetaFilename(true);
     setMetaFileType(true);
@@ -424,6 +425,9 @@ void PQSettings::readSettings() {
 
             else if(line.startsWith("SlideShowHideQuickInfo="))
                 setSlideShowHideQuickInfo(line.split("=").at(1).toInt());
+
+            else if(line.startsWith("SlideShowTypeAnimation="))
+                setSlideShowTypeAnimation(line.split("=").at(1).trimmed());
 
 
             else if(line.startsWith("MetaFilename="))
@@ -745,6 +749,7 @@ void PQSettings::saveSettings() {
         cont += QString("SlideShowMusicFile=%1\n").arg(m_slideShowMusicFile);
         cont += QString("SlideShowShuffle=%1\n").arg(int(m_slideShowShuffle));
         cont += QString("SlideShowTime=%1\n").arg(m_slideShowTime);
+        cont += QString("SlideShowTypeAnimation=%1\n").arg(m_slideShowTypeAnimation);
 
         cont += "\n[Metadata]\n";
 

@@ -107,6 +107,30 @@ Rectangle {
 
             }
 
+            Row {
+
+                spacing: 15
+
+                width: parent.width
+                height: childrenRect.height
+
+                Text {
+                    id: animtype_txt
+                    width: col.leftcolwidth
+                    horizontalAlignment: Text.AlignRight
+                    color: "white"
+                    font.pointSize: 15
+                    font.bold: true
+                    text: "animation:"
+                }
+
+                PQComboBox {
+                    id: animtype_combo
+                    model: ["opacity", "along x-axis", "along y-axis"]
+                }
+
+            }
+
 
             Row {
 
@@ -367,6 +391,7 @@ Rectangle {
                 }
 
                 interval_slider.value = PQSettings.slideShowTime
+                animtype_combo.currentIndex = (PQSettings.slideShowTypeAnimation=="opacity" ? 0 : (PQSettings.slideShowTypeAnimation=="x" ? 1 : 2))
                 transition_slider.value = PQSettings.slideShowImageTransition
                 loop_check.checked = PQSettings.slideShowLoop
                 shuffle_check.checked = PQSettings.slideShowShuffle

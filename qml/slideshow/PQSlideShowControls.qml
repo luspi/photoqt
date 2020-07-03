@@ -23,6 +23,8 @@ Rectangle {
     Behavior on opacity { NumberAnimation { duration: PQSettings.animationDuration*100 } }
     visible: (opacity != 0)
 
+    property string backupAnimType: ""
+
     MouseArea {
         id: controlsbgmousearea
         anchors.fill: parent
@@ -352,6 +354,9 @@ Rectangle {
         imageitem.zoomReset()
         imageitem.rotateReset()
 
+        backupAnimType = PQSettings.animationType
+        PQSettings.animationType = PQSettings.slideShowTypeAnimation
+
         if(PQSettings.slideShowShuffle) {
 
             controls_top.shuffledIndices = []
@@ -384,6 +389,8 @@ Rectangle {
     function quitSlideShow() {
 
         slideshowmusic.stop()
+
+        PQSettings.animationType = backupAnimType
 
         variables.visibleItem = ""
         variables.slideShowActive = false

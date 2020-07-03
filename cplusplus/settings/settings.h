@@ -572,6 +572,16 @@ public:
             }
         }
 
+        Q_PROPERTY(QString slideShowTypeAnimation READ getSlideShowTypeAnimation WRITE setSlideShowTypeAnimation NOTIFY slideShowTypeAnimationChanged)
+        QString getSlideShowTypeAnimation() { return m_slideShowTypeAnimation; }
+        void setSlideShowTypeAnimation(QString val) {
+            if(m_slideShowTypeAnimation != val) {
+                m_slideShowTypeAnimation = val;
+                emit slideShowTypeAnimationChanged();
+                saveSettingsTimer->start();
+            }
+        }
+
 
 
         Q_PROPERTY(int thumbnailSize READ getThumbnailSize WRITE setThumbnailSize NOTIFY thumbnailSizeChanged)
@@ -1495,6 +1505,7 @@ private:
         bool    m_slideShowShuffle;
         bool    m_slideShowLoop;
         bool    m_slideShowHideQuickInfo;
+        QString m_slideShowTypeAnimation;
 
         int     m_thumbnailSize;
         QString m_thumbnailPosition;
@@ -1648,6 +1659,7 @@ signals:
         void slideShowShuffleChanged();
         void slideShowLoopChanged();
         void slideShowHideQuickInfoChanged();
+        void slideShowTypeAnimationChanged();
         void thumbnailSizeChanged();
         void thumbnailPositionChanged();
         void thumbnailCacheChanged();
