@@ -14,7 +14,7 @@ Slider {
     property real wheelStepSize: 1.0
 
     property int divideToolTipValue: 1
-    property alias tooltip: slidertooltip.text
+    property alias tooltip: handletooltip.text
     property string toolTipPrefix: ""
     property string toolTipSuffix: ""
     property bool handleToolTipEnabled: true
