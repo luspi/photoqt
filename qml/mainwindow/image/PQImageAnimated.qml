@@ -78,7 +78,7 @@ AnimatedImage {
     }
 
     MouseArea {
-        enabled: PQSettings.leftButtonMouseClickAndMove
+        enabled: PQSettings.leftButtonMouseClickAndMove&&!variables.slideShowActive
         anchors.fill: parent
         drag.target: parent
         onPressed: {

@@ -100,7 +100,7 @@ Item {
 
         MouseArea {
             id: videomouse
-            enabled: PQSettings.leftButtonMouseClickAndMove
+            enabled: PQSettings.leftButtonMouseClickAndMove&&!variables.slideShowActive
             anchors.fill: parent
             hoverEnabled: false // important, otherwise the mouse pos will not be caught globally!
             drag.target: PQSettings.leftButtonMouseClickAndMove ? videoelem : undefined

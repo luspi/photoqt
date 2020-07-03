@@ -349,6 +349,9 @@ Rectangle {
         variables.visibleItem = "slideshowcontrols"
         variables.slideShowActive = true
 
+        imageitem.zoomReset()
+        imageitem.rotateReset()
+
         if(PQSettings.slideShowShuffle) {
 
             controls_top.shuffledIndices = []
@@ -394,19 +397,23 @@ Rectangle {
     function loadNextImage() {
 
         if(!PQSettings.slideShowShuffle) {
-            if(variables.indexOfCurrentImage < variables.allImageFilesInOrder.length-1)
+            if(variables.indexOfCurrentImage < variables.allImageFilesInOrder.length-1) {
                 ++variables.indexOfCurrentImage
-            else if(PQSettings.slideShowLoop)
+                variables.newFileLoaded()
+            } else if(PQSettings.slideShowLoop) {
                 variables.indexOfCurrentImage = 0
-            else
+                variables.newFileLoaded()
+            } else
                 quitSlideShow()
         } else {
             if(controls_top.shuffledCurrentIndex < controls_top.shuffledIndices.length-1) {
                 ++controls_top.shuffledCurrentIndex
                 variables.indexOfCurrentImage = controls_top.shuffledIndices[controls_top.shuffledCurrentIndex]
+                variables.newFileLoaded()
             } else if(PQSettings.slideShowLoop) {
                 controls_top.shuffledCurrentIndex = 0
                 variables.indexOfCurrentImage = controls_top.shuffledIndices[controls_top.shuffledCurrentIndex]
+                variables.newFileLoaded()
             } else
                 quitSlideShow()
 
@@ -417,17 +424,22 @@ Rectangle {
     function loadPrevImage() {
 
         if(!PQSettings.slideShowShuffle) {
-            if(variables.indexOfCurrentImage > 0)
+            if(variables.indexOfCurrentImage > 0) {
                 --variables.indexOfCurrentImage
-            else if(PQSettings.slideShowLoop)
+                variables.newFileLoaded()
+            } else if(PQSettings.slideShowLoop) {
                 variables.indexOfCurrentImage = variables.allImageFilesInOrder.length-1
+                variables.newFileLoaded()
+            }
         } else {
             if(controls_top.shuffledCurrentIndex > 0) {
                 --controls_top.shuffledCurrentIndex
                 variables.indexOfCurrentImage = controls_top.shuffledIndices[controls_top.shuffledCurrentIndex]
+                variables.newFileLoaded()
             } else if(PQSettings.slideShowLoop) {
                 controls_top.shuffledCurrentIndex = controls_top.shuffledIndices.length-1
                 variables.indexOfCurrentImage = controls_top.shuffledIndices[controls_top.shuffledCurrentIndex]
+                variables.newFileLoaded()
             }
         }
 

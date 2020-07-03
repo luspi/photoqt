@@ -78,7 +78,7 @@ Image {
     }
 
     MouseArea {
-        enabled: PQSettings.leftButtonMouseClickAndMove&&!facetagger.visible
+        enabled: PQSettings.leftButtonMouseClickAndMove&&!facetagger.visible&&!variables.slideShowActive
         anchors.fill: parent
         drag.target: parent
         onPressed: {
