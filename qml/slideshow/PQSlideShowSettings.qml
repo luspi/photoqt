@@ -1,13 +1,13 @@
 import QtQuick 2.9
-import QtQuick.Controls 2.2
-import QtQuick.Dialogs 1.2
+import Qt.labs.platform 1.1
+
 import "../elements"
 
 Rectangle {
 
     id: slideshowsettings_top
 
-    color: PQSettings.slideShowSettingsPopoutElement ? "#aa000000" : "#88000000"
+    color: PQSettings.slideShowSettingsPopoutElement ? "#aa000000" : "#dd000000"
 
     width: parentWidth
     height: parentHeight
@@ -22,292 +22,336 @@ Rectangle {
     PQMouseArea {
         anchors.fill: parent
         hoverEnabled: true
-        onClicked:
-            button_cancel.clicked()
+    }
+
+    Text {
+        id: heading
+        x: 0
+        y: 25
+        width: parent.width
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        text: em.pty+qsTranslate("slideshow", "Slideshow settings")
+        font.pointSize: 25
+        font.bold: true
+        color: "white"
     }
 
     Rectangle {
+        id: sep_top
+        color: "white"
+        x: 0
+        y: heading.y+heading.height+25
+        width: parent.width
+        height: 1
+    }
 
-        id: insidecont
-
-        x: PQSettings.slideShowSettingsPopoutElement ? 10 : ((parent.width-width)/2)
-        y: PQSettings.slideShowSettingsPopoutElement ? 10 : ((parent.height-height)/2)
-        width: PQSettings.slideShowSettingsPopoutElement ? parentWidth-20 : 600
-        height: PQSettings.slideShowSettingsPopoutElement ? parentHeight-20 : 400
-
-        Text {
-            id: heading
-            x: (parent.width-width)/2
-            y: 10
-            color: "white"
-            font.pointSize: 20
-            font.bold: true
-            //: This is the heading of the slideshow settings element
-            text: em.pty+qsTranslate("slideshow", "Slideshow")
+    Flickable {
+        id: flickable
+        anchors {
+            top: sep_top.bottom
+            bottom: sep_bot.top
+            left: parent.left
+            right: parent.right
+            margins: 10
         }
 
         clip: true
+        contentHeight: col.height
 
-        color: PQSettings.slideShowSettingsPopoutElement ? "transparent" : "#88000000"
-        border.color: PQSettings.slideShowSettingsPopoutElement ? "transparent" : "#44ffffff"
-        radius: PQSettings.slideShowSettingsPopoutElement ? 0 : 10
+        Column {
 
-        Flickable {
+            id: col
+
+            spacing: 25
+
+            property int leftcolwidth: 8*width/17
 
             width: parent.width
-            height: insidecont.height-heading.height-butcont.height-40
-            y: heading.y+heading.height+10
 
-            contentHeight: insidecolumn.height
-            clip: true
-
-            ScrollBar.vertical: PQScrollBar { id: scroll }
-
-            Column {
-
-                id: insidecolumn
-
-                width: parent.width
-
-                spacing: 5
-
-                Item {
-                    width: parent.width
-                    height: 1
-                }
-
-                Item {
-
-                    id: timeitem
-
-                    x: 10
-                    width: parent.width-2*x
-                    height: childrenRect.height
-
-                    Row {
-
-                        spacing: 10
-
-                        Text {
-                            y: (timetext.height-height)/2
-                            color: "white"
-                            text: em.pty+qsTranslate("slideshow", "Time before switching to next image:")
-                        }
-
-                        PQSpinBox {
-
-                            id: timetext
-
-                            height: 30
-
-                            from: 1
-                            to: 300
-
-                            value: PQSettings.slideShowTime
-                            onValueChanged: PQSettings.slideShowTime = value
-
-                            suffix: "s"
-
-                        }
-
-                    }
-                }
-
-                Item {
-
-                    id: transitionitem
-
-                    x: 10
-                    width: parent.width-2*x
-                    height: childrenRect.height
-
-                    Row {
-
-                        spacing: 10
-
-                        Text {
-                            y: (transition.height-height)/2
-                            color: "white"
-                            //: Refers to how slow/fast two image should transition into each other during a slideshow
-                            text: em.pty+qsTranslate("slideshow", "Transition speed:")
-                        }
-
-                        Column {
-
-                            PQSlider {
-
-                                id: transition
-
-                                width: 200
-
-                                from: 0
-                                to: 15
-
-                                handleToolTipEnabled: false
-
-                                value: 15-PQSettings.slideShowImageTransition
-                                onValueChanged: PQSettings.slideShowImageTransition = 15-value
-
-                            }
-
-                            Text {
-                                color: "white"
-                                //: 'speed' refers to the transition speed during a slideshow
-                                text: em.pty+qsTranslate("slideshow", "Current speed:") + " <b>" +
-                                          (transition.value == 15 ?
-                                               //: Possible speed of transitioning two images during a slideshow
-                                              em.pty+qsTranslate("slideshow", "immediately, without animation") :
-                                              (transition.value > 9 ?
-                                                   //: Possible speed of transitioning two images during a slideshow
-                                                   em.pty+qsTranslate("slideshow", "pretty fast animation") :
-                                                   (transition.value > 4 ?
-                                                        //: Possible speed of transitioning two images during a slideshow
-                                                        em.pty+qsTranslate("slideshow", "not too fast and not too slow") :
-                                                        //: Possible speed of transitioning two images during a slideshow
-                                                        em.pty+qsTranslate("slideshow", "very slow animation")))) + "</b>"
-                            }
-
-                        }
-
-                    }
-
-                }
-
-                PQCheckbox {
-                    id: loopcheck
-                    text: em.pty+qsTranslate("slideshow", "Loop over images")
-                    checked: PQSettings.slideShowLoop
-                    onCheckedChanged: PQSettings.slideShowLoop = checked
-                }
-
-                PQCheckbox {
-                    id: shufflecheck
-                    text: em.pty+qsTranslate("slideshow", "Shuffle images")
-                    checked: PQSettings.slideShowShuffle
-                    onCheckedChanged: PQSettings.slideShowShuffle = checked
-                }
-
-                PQCheckbox {
-                    id: quickcheck
-                    text: em.pty+qsTranslate("slideshow", "Hide Quickinfo")
-                    checked: PQSettings.slideShowHideQuickInfo
-                    onCheckedChanged: PQSettings.slideShowHideQuickInfo = checked
-                }
-
-                Row {
-
-                    PQCheckbox {
-                        id: music_check
-                        y: (music_button.height-height)/2
-                        text: em.pty+qsTranslate("slideshow", "Enable Music")
-                        checked: PQSettings.slideShowMusicFile!=""
-                    }
-
-                    Column {
-
-                        spacing: 10
-
-                        PQButton {
-                            id: music_button
-                            height: 25
-                            text: em.pty+qsTranslate("slideshow", "Select music file")
-                            enabled: music_check.checked
-                            onClicked: {
-                                selectmusicfile.visible = true
-                            }
-                        }
-
-                        Text {
-                            color: music_check.checked ? "#ffffff" : "#888888"
-                            width: insidecont.width-music_check.width
-                            wrapMode: Text.WordWrap
-                            //: This refers to the currently selected music file to be used during slideshow
-                            text: em.pty+qsTranslate("slideshow", "Currently selected file:") + " <b>" + (selectmusicfile.prevSelectedFile=="" ? "---" : selectmusicfile.prevSelectedFile) + "</b>"
-                        }
-
-                    }
-
-                    FileDialog {
-                        id: selectmusicfile
-                        nameFilters: ["Music files (*.mp3 *.flac *.wav *.acc *.ogg *.wma)", "All Files (*)"]
-                        selectExisting: true
-                        selectMultiple: false
-                        visible: false
-                        title: em.pty+qsTranslate("slideshow", "Select music file")
-                        folder: shortcuts.music
-                        property string prevSelectedFile: PQSettings.slideShowMusicFile
-                        onPrevSelectedFileChanged: PQSettings.slideShowMusicFile = prevSelectedFile
-                        onAccepted: {
-                            var fn = handlingFileDialog.cleanPath(fileUrl)
-                            if(fn != "")
-                                prevSelectedFile = fn
-                        }
-                    }
-
-                }
-
-
+            Item {
+                width: 1
+                height: PQSettings.slideShowSettingsPopoutElement ? 0 : 20
             }
-
-        }
-
-        Item {
-
-            id: butcont
-
-            x: 0
-            y: insidecont.height-10-childrenRect.height
-            width: insidecont.width
-            height: childrenRect.height
 
             Row {
 
-                spacing: 5
+                spacing: 15
 
-                x: (parent.width-width)/2
+                width: parent.width
+                height: childrenRect.height
 
-                PQButton {
-                    id: button_start
-                    //: Written on a clickable button
-                    text: em.pty+qsTranslate("slideshow", "Start slideshow")
-                    onClicked: {
-                        if(!music_check.checked) {
-                            PQSettings.slideShowMusicFile = ""
-                            selectmusicfile.prevSelectedFile = ""
-                        }
-                        if(PQSettings.slideShowSettingsPopoutElement) {
-                            slideshow_window.visible = false
-                        } else {
-                            slideshowsettings_top.opacity = 0
-                            variables.visibleItem = ""
-                        }
-                        loader.ensureItIsReady("slideshowcontrols")
-                        loader.passOn("slideshowcontrols", "start", undefined)
-                    }
+                Text {
+                    id: interval_txt
+                    width: col.leftcolwidth
+                    horizontalAlignment: Text.AlignRight
+                    color: "white"
+                    font.pointSize: 15
+                    font.bold: true
+                    text: "interval:"
                 }
-                PQButton {
-                    id: button_cancel
-                    text: genericStringCancel
-                    onClicked: {
-                        if(!music_check.checked) {
-                            PQSettings.slideShowMusicFile = ""
-                            selectmusicfile.prevSelectedFile = ""
-                        }
-                        if(PQSettings.slideShowSettingsPopoutElement) {
-                            slideshow_window.visible = false
-                        } else {
-                            slideshowsettings_top.opacity = 0
-                            variables.visibleItem = ""
+
+                PQSlider {
+                    id: interval_slider
+                    y: (interval_txt.height-height)/2
+                    from: 1
+                    to: 300
+                    toolTipSuffix: "s"
+                }
+
+                Text {
+                    y: (interval_txt.height-height)/2
+                    color: "white"
+                    text: interval_slider.value+"s"
+                }
+
+            }
+
+
+            Row {
+
+                spacing: 15
+
+                width: parent.width
+                height: childrenRect.height
+
+                Text {
+                    id: trans_txt
+                    width: col.leftcolwidth
+                    horizontalAlignment: Text.AlignRight
+                    verticalAlignment: Text.AlignTop
+                    color: "white"
+                    font.pointSize: 15
+                    font.bold: true
+                    text: "animation speed:"
+                }
+
+                Column {
+
+                    spacing: 10
+
+                    PQSlider {
+                        id: transition_slider
+                        height: trans_txt.height
+                        from: 0
+                        to: 15
+                        tooltip: (value == 15 ?
+                                     "immediately, without animation" :
+                                     (value > 9 ?
+                                          "pretty fast animation" :
+                                          (value > 4 ?
+                                               "not too fast and not too slow" :
+                                               "very slow animation")))
+                    }
+
+                    Text {
+                        id: transspeed_txt
+                        color: "white"
+                        text: "current speed: <b>" + transition_slider.tooltip + "</b>"
+                    }
+
+                }
+
+            }
+
+            Row {
+
+                spacing: 15
+
+                width: parent.width
+                height: childrenRect.height
+
+                Text {
+                    id: loop_txt
+                    width: col.leftcolwidth
+                    horizontalAlignment: Text.AlignRight
+                    verticalAlignment: Text.AlignTop
+                    color: "white"
+                    font.pointSize: 15
+                    font.bold: true
+                    text: "looping"
+                }
+
+                PQCheckbox {
+                    id: loop_check
+                    y: (loop_txt.height-height)/2
+                    text: "loop over all files"
+                }
+
+            }
+
+            Row {
+
+                spacing: 15
+
+                width: parent.width
+                height: childrenRect.height
+
+                Text {
+                    id: shuffle_txt
+                    width: col.leftcolwidth
+                    horizontalAlignment: Text.AlignRight
+                    verticalAlignment: Text.AlignTop
+                    color: "white"
+                    font.pointSize: 15
+                    font.bold: true
+                    text: "shuffle:"
+                }
+
+                PQCheckbox {
+                    id: shuffle_check
+                    y: (shuffle_txt.height-height)/2
+                    text: "shuffle all files"
+                }
+
+            }
+
+            Row {
+
+                spacing: 15
+
+                width: parent.width
+                height: childrenRect.height
+
+                Text {
+                    id: quick_txt
+                    y: (loop_txt-height)/2
+                    width: col.leftcolwidth
+                    horizontalAlignment: Text.AlignRight
+                    verticalAlignment: Text.AlignTop
+                    color: "white"
+                    font.pointSize: 15
+                    font.bold: true
+                    text: "quickinfo:"
+                }
+
+                PQCheckbox {
+                    id: quick_check
+                    y: (quick_txt.height-height)/2
+                    text: "hide quickinfo"
+                }
+
+            }
+
+            Row {
+
+                spacing: 15
+
+                width: parent.width
+                height: childrenRect.height
+
+                Text {
+                    id: music_txt
+                    width: col.leftcolwidth
+                    horizontalAlignment: Text.AlignRight
+                    verticalAlignment: Text.AlignTop
+                    color: "white"
+                    font.pointSize: 15
+                    font.bold: true
+                    text: "music:"
+                }
+
+                Column {
+
+                    spacing: 10
+
+                    PQCheckbox {
+                        id: music_check
+                        height: music_txt.height
+                        text: "enable music"
+                    }
+
+                    PQButton {
+                        id: music_button
+                        enabled: music_check.checked
+                        property string musicfile: ""
+                        text: musicfile=="" ? "[no file selected]" : handlingGeneral.getFileNameFromFullPath(musicfile)
+                        tooltip: (musicfile=="" ? "Click to select music file" : ("<b>"+musicfile+"</b><br><br>Click to change music file"))
+                        onClicked: {
+                            fileDialog.visible = true
                         }
                     }
+
+                    FileDialog {
+                        id: fileDialog
+                        currentFile: music_button.musicfile=="" ? "" : music_button.musicfile
+                        folder: (music_button.musicfile == "" ? "file://"+handlingFileDialog.getHomeDir() : "file://"+handlingGeneral.getFilePathFromFullPath(music_button.musicfile))
+                        modality: Qt.ApplicationModal
+                        nameFilters: ["Common music formats (aac *.flac *.mp3 *.ogg *.oga *.wav *.wma)", "All Files (*.*)"]
+                        onAccepted: {
+                            if(fileDialog.file != "")
+                                music_button.musicfile = handlingFileDialog.cleanPath(fileDialog.file)
+                        }
+                    }
+
                 }
 
             }
 
         }
 
+    }
+
+    Rectangle {
+        id: sep_bot
+        color: "white"
+        x: 0
+        y: button_row.y-10
+        width: parent.width
+        height: 1
+    }
+
+
+    Row {
+
+        id: button_row
+
+        spacing: 5
+
+        x: (parent.width-width)/2
+        y: (parent.height-height)
+
+        height: button_start.height+20
+
+        PQButton {
+            id: button_start
+            y: 5
+            //: Written on a clickable button
+            text: em.pty+qsTranslate("slideshow", "Start slideshow")
+            onClicked: {
+
+                if(!music_check.checked) {
+                    PQSettings.slideShowMusicFile = ""
+                    music_button.musicfile = ""
+                } else
+                    PQSettings.slideShowMusicFile = music_button.musicfile
+
+                if(PQSettings.slideShowSettingsPopoutElement) {
+                    slideshow_window.visible = false
+                } else {
+                    slideshowsettings_top.opacity = 0
+                    variables.visibleItem = ""
+                }
+                loader.ensureItIsReady("slideshowcontrols")
+                loader.passOn("slideshowcontrols", "start", undefined)
+            }
+        }
+        PQButton {
+            id: button_cancel
+            y: 5
+            text: genericStringCancel
+            onClicked: {
+                if(PQSettings.slideShowSettingsPopoutElement) {
+                    slideshow_window.visible = false
+                } else {
+                    slideshowsettings_top.opacity = 0
+                    variables.visibleItem = ""
+                }
+            }
+        }
 
     }
+
 
     Connections {
         target: loader
@@ -321,6 +365,15 @@ Rectangle {
                     opacity = 1
                     variables.visibleItem = "slideshowsettings"
                 }
+
+                interval_slider.value = PQSettings.slideShowTime
+                transition_slider.value = PQSettings.slideShowImageTransition
+                loop_check.checked = PQSettings.slideShowLoop
+                shuffle_check.checked = PQSettings.slideShowShuffle
+                quick_check.checked = PQSettings.slideShowHideQuickInfo
+                music_check.checked = (PQSettings.slideShowMusicFile!="")
+                music_button.musicfile = PQSettings.slideShowMusicFile
+
             } else if(what == "hide") {
                 button_cancel.clicked()
             } else if(what == "keyevent") {
