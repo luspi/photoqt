@@ -22,6 +22,7 @@ Rectangle {
     opacity: 0
     Behavior on opacity { NumberAnimation { duration: PQSettings.animationDuration*100 } }
     visible: opacity!=0
+    enabled: visible
 
     signal loadAllSettings()
     signal saveAllSettings()
