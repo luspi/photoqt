@@ -25,6 +25,11 @@ Rectangle {
     property var historyListDirectory: [handlingFileDialog.getHomeDir()]
     property int historyListIndex: 0
 
+    PQMouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+    }
+
     function setCurrentDirectory(dir, addToHistory) {
 
         if(dir == variables.openCurrentDirectory)
