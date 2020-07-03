@@ -8,8 +8,9 @@ ToolTip {
 
     property alias wrapMode: contentText.wrapMode
     property alias elide: contentText.elide
+    property int maxWidth: -1
 
-    implicitWidth: Math.min(contentWidth+12, 500)
+    implicitWidth: maxWidth>-1 ? Math.min(contentWidth+12, maxWidth) : (contentWidth+12)
 
     contentItem: Text {
         id: contentText

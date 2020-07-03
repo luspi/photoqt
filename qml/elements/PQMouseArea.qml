@@ -20,6 +20,7 @@ Item {
     property alias tooltipWidth: control.width
     property alias tooltipElide: control.elide
     property alias tooltipDelay: control.delay
+    property alias tooltipMaxWidth: control.maxWidth
 
     signal clicked(var mouse)
     signal doubleClicked(var mouse)
