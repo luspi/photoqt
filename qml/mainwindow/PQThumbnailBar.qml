@@ -116,7 +116,9 @@ Item {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
                 hoverEnabled: true
-                tooltip: handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[index], true)
+                tooltip: "<b><span style=\"font-size: x-large\">" + handlingGeneral.getFileNameFromFullPath(variables.allImageFilesInOrder[index], true) + "</span></b><br><br>" +
+                         "File size: " + handlingFileDialog.convertBytesToHumanReadable(1024*handlingGeneral.getFileSize(variables.allImageFilesInOrder[index]).split(" ")[0]) + "<br>" +
+                         "File type: " + handlingFileDialog.getFileType(variables.allImageFilesInOrder[index])
                 onEntered:
                     view.mouseOverItem = index
                 onClicked: {
