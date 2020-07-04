@@ -194,7 +194,7 @@ Item {
         acceptedButtons: Qt.LeftButton|Qt.RightButton
         onClicked: {
             if(mouse.button == Qt.RightButton) {
-                var pos = parent.mapFromItem(parent, mouse.x, mouse.y)
+                var pos = parent.mapFromItem(parent.parent, mouse.x, mouse.y)
                 rightclickmenu.popup(Qt.point(parent.x+pos.x, parent.y+pos.y))
             }
         }
