@@ -45,7 +45,7 @@ PQSetting {
                     y: (parent.height-height)/2
                     enabled: fnamelabel_chk.checked
                     from: 5
-                    to: 5
+                    to: 20
                 }
 
                 Text {
