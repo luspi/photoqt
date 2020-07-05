@@ -71,6 +71,14 @@ TabButton {
             color: backgroundColorSelected
         }
 
+        Rectangle {
+            x: parent.width-1
+            y: 0
+            width: 1
+            height: parent.height
+            color: backgroundColorSelected
+        }
+
     }
 
     PQMouseArea {
