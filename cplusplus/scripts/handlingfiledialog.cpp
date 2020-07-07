@@ -549,7 +549,11 @@ QStringList PQHandlingFileDialog::listArchiveContent(QString path) {
             while(p.waitForReadyRead())
                 outdata.append(p.readAll());
 
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
             QStringList allfiles = QString::fromLatin1(outdata).split('\n', Qt::SkipEmptyParts);
+#else
+            QStringList allfiles = QString::fromLatin1(outdata).split('\n', QString::SkipEmptyParts);
+#endif
             allfiles.sort();
             foreach(QString f, allfiles) {
                 if(PQImageFormats::get().getEnabledFileformatsQt().contains("*." + QFileInfo(f).suffix()))
