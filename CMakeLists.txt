@@ -2,7 +2,7 @@
 # CMakeLists for PhotoQt: http://photoqt.org #
 ##############################################
 
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.9)
 project(photoqt LANGUAGES CXX)
 
 
@@ -96,9 +96,6 @@ if(NOT WIN32)
 # We first copy the most recent *.ts files to the build directory and then process them
 # This way, we don't have to mess with files outside of the build folder
 
-#qt5_create_translation(qm_files ${photoqt_SOURCES} ${photoqt_HEADERS} ${photoqt_QML} ${CMAKE_CURRENT_BINARY_DIR}/de.ts)
-#qt5_create_translation(qm_files ${photoqt_SOURCES} ${photoqt_HEADERS} ${photoqt_QML} ${CMAKE_CURRENT_BINARY_DIR}/buildlang/de.ts OPTIONS "-no-obsolete")
-
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/buildlang)
 file(GLOB files "lang/*.ts")
 foreach(file ${files})
@@ -185,8 +182,8 @@ endif()
 #### COMPOSE THE APPROPRIATE DESKTOP FILE ####
 ##############################################
 
-# include("CMake/ComposeDesktopFile.cmake")
-# composeDesktopFile()
+include("CMake/ComposeDesktopFile.cmake")
+composeDesktopFile()
 
 
 ########################
