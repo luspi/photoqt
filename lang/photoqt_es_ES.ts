@@ -1,115 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="de">
+<TS version="2.1" language="es_ES">
 <context>
     <name>MainMenu</name>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="92"/>
         <source>Open File</source>
         <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
-        <translation>Datei öffnen</translation>
+        <translation>Abrir Fichero</translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="94"/>
         <source>Settings</source>
         <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
-        <translation>Einstellungen</translation>
+        <translation>Preferencias</translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="96"/>
         <source>Set as Wallpaper</source>
         <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
-        <translation>Als Hintergrundbild einstellen</translation>
+        <translation>Establecer como Fondo de pantalla</translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="98"/>
         <source>Slideshow</source>
         <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
-        <translation>Diaschau</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="100"/>
         <source>setup</source>
         <extracomment>This is an entry in the main menu on the right, used as in &apos;setting up a slideshow&apos;. Please keep short!</extracomment>
-        <translation>einrichten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="102"/>
         <source>quickstart</source>
         <extracomment>This is an entry in the main menu on the right, used as in &apos;quickstarting a slideshow&apos;. Please keep short!</extracomment>
-        <translation>schnellstart</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="104"/>
         <source>Filter Images in Folder</source>
         <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
-        <translation>Setze Dateifilter</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="106"/>
         <source>Show/Hide Metadata</source>
         <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
-        <translation>Metadaten anzeige/verbergen </translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="108"/>
         <source>Show/Hide Histogram</source>
         <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
-        <translation>Zeige/Verstecke Histogramm</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="110"/>
         <source>Face tagging mode</source>
         <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
-        <translation>Gesichtsmarkierungs-Modus</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="112"/>
         <source>About PhotoQt</source>
         <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
-        <translation>Über PhotoQt</translation>
+        <translation>Acerca de PhotoQt</translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="114"/>
         <source>Quit</source>
         <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
-        <translation>Beenden</translation>
+        <translation>Terminar</translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="119"/>
         <source>Go to</source>
         <extracomment>This is an entry in the main menu on the right, used as in &apos;Go To some image&apos;. Please keep short!</extracomment>
-        <translation>Gehe zu</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="121"/>
         <source>previous</source>
         <extracomment>This is an entry in the main menu on the right, used as in &apos;go to previous image&apos;. Please keep short!</extracomment>
-        <translation>vorheriges</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="123"/>
         <source>next</source>
         <extracomment>This is an entry in the main menu on the right, used as in &apos;go to next image&apos;. Please keep short!</extracomment>
-        <translation>nächstes</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="125"/>
         <source>first</source>
         <extracomment>This is an entry in the main menu on the right, used as in &apos;go to first image&apos;. Please keep short!</extracomment>
-        <translation>erstes</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="127"/>
         <source>last</source>
         <extracomment>This is an entry in the main menu on the right, used as in &apos;go to last image&apos;. Please keep short!</extracomment>
-        <translation>letztes</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="129"/>
         <source>Zoom</source>
         <extracomment>This is an entry in the main menu on the right, used as in &apos;Zoom image&apos;. Please keep short!</extracomment>
-        <translation>Zoom</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="141"/>
@@ -118,13 +118,13 @@
         <extracomment>This is an entry in the main menu on the right, used as in &apos;Reset rotation of image&apos;. Please keep short!
 ----------
 This is an entry in the main menu on the right, used as in &apos;Reset flip/mirror of image&apos;. Please keep short!</extracomment>
-        <translation>zurücksetzen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="135"/>
         <source>Rotate</source>
         <extracomment>This is an entry in the main menu on the right, used as in &apos;Rotate image&apos;. Please keep short!</extracomment>
-        <translation>Drehen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="68"/>
@@ -135,84 +135,84 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
         <location filename="../qml/menumeta/PQMainMenu.qml" line="137"/>
         <source>left</source>
         <extracomment>This is an entry in the main menu on the right, used as in &apos;Rotate image left&apos;. Please keep short!</extracomment>
-        <translation>links</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="139"/>
         <source>right</source>
         <extracomment>This is an entry in the main menu on the right, used as in &apos;Rotate image right&apos;. Please keep short!</extracomment>
-        <translation>rechts</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="143"/>
         <source>Flip</source>
         <extracomment>This is an entry in the main menu on the right, used as in &apos;Flip/Mirror image&apos;. Please keep short!</extracomment>
-        <translation>Spiegeln</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="145"/>
         <source>horizontal</source>
         <extracomment>This is an entry in the main menu on the right, used as in &apos;Flip/Mirror image horizontally&apos;. Please keep short!</extracomment>
-        <translation>horizontal</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="147"/>
         <source>vertical</source>
         <extracomment>This is an entry in the main menu on the right, used as in &apos;Flip/Mirror image vertically&apos;. Please keep short!</extracomment>
-        <translation>vertikal</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="151"/>
         <source>File</source>
         <extracomment>This is an entry in the main menu on the right, used to refer to the current file (specifically the file, not directly the image). Please keep short!</extracomment>
-        <translation>Datei</translation>
+        <translation type="unfinished">Fichero</translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="153"/>
         <source>rename</source>
         <extracomment>This is an entry in the main menu on the right, used as in &apos;rename file&apos;. Please keep short!</extracomment>
-        <translation>umbenennen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="155"/>
         <source>copy</source>
         <extracomment>This is an entry in the main menu on the right, used as in &apos;copy file&apos;. Please keep short!</extracomment>
-        <translation>kopieren</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="157"/>
         <source>move</source>
         <extracomment>This is an entry in the main menu on the right, used as in &apos;move file&apos;. Please keep short!</extracomment>
-        <translation>verschieben</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="159"/>
         <source>delete</source>
         <extracomment>This is an entry in the main menu on the right, used as in &apos;delete file&apos;. Please keep short!</extracomment>
-        <translation>löschen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="164"/>
         <source>Scale Image</source>
         <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
-        <translation>Bild skalieren</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="166"/>
         <source>Open in default file manager</source>
         <extracomment>This is an entry in the main menu on the right. Please keep short!</extracomment>
-        <translation>Im Dateimanager öffnen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="180"/>
         <source>Main Menu</source>
         <extracomment>This is the heading of the main menu element</extracomment>
-        <translation>Hauptmenü</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMainMenu.qml" line="353"/>
         <source>Click here to go to the online manual for help regarding shortcuts, settings, features, ...</source>
-        <translation>Klicke hier um zu dem Online-Handbuch für mehr Informationen bezüglich Kurzbefehle, Einstellungen, etc. zu gehen...</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -221,169 +221,169 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
         <location filename="../cplusplus/scripts/metadata.cpp" line="398"/>
         <source>yes</source>
         <extracomment>This string identifies that flash was fired, stored in image metadata</extracomment>
-        <translation type="unfinished">ja</translation>
+        <translation type="unfinished">si</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="400"/>
         <source>no</source>
         <extracomment>This string identifies that flash wasn&apos;t fired, stored in image metadata</extracomment>
-        <translation type="unfinished">nein</translation>
+        <translation type="unfinished">no</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="402"/>
         <source>No flash function</source>
         <extracomment>This string refers to the absense of a flash, stored in image metadata</extracomment>
-        <translation type="unfinished">Keine Blitzfunktion</translation>
+        <translation type="unfinished">Sin función flash</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="404"/>
         <source>strobe return light not detected</source>
         <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
-        <translation type="unfinished">keine Reflektion erkannt</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="406"/>
         <source>strobe return light detected</source>
         <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
-        <translation type="unfinished">Reflektion erkannt</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="408"/>
         <source>compulsory flash mode</source>
         <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
-        <translation type="unfinished">festgelegter Blitzmodus</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="410"/>
         <source>auto mode</source>
         <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
-        <translation type="unfinished">automatisch</translation>
+        <translation type="unfinished">modo automático</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="412"/>
         <source>red-eye reduction mode</source>
         <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
-        <translation type="unfinished">Rote-Augen-Reduktion</translation>
+        <translation type="unfinished">modo reducción de ojos rojos</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="414"/>
         <source>return light detected</source>
         <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
-        <translation type="unfinished">Reflektion erkannt</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="416"/>
         <source>return light not detected</source>
         <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
-        <translation type="unfinished">keine Reflektion erkannt</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="464"/>
         <source>Invalid flash</source>
         <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
-        <translation type="unfinished">Ungültiger Blitz</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="472"/>
         <source>Standard</source>
         <extracomment>This string refers to a type of scene, stored in image metadata</extracomment>
-        <translation type="unfinished">Standard</translation>
+        <translation type="unfinished">Estándar</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="475"/>
         <source>Landscape</source>
         <extracomment>This string refers to a type of scene, stored in image metadata</extracomment>
-        <translation type="unfinished">Landschaft</translation>
+        <translation type="unfinished">Paisaje</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="478"/>
         <source>Portrait</source>
         <extracomment>This string refers to a type of scene, stored in image metadata</extracomment>
-        <translation type="unfinished">Portrait</translation>
+        <translation type="unfinished">Retrato</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="481"/>
         <source>Night Scene</source>
         <extracomment>This string refers to a type of scene, stored in image metadata</extracomment>
-        <translation type="unfinished">Nachtszene</translation>
+        <translation type="unfinished">Escena nocturna</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="484"/>
         <source>Invalid Scene Type</source>
         <extracomment>This string refers to a type of scene, stored in image metadata</extracomment>
-        <translation type="unfinished">Ungültiger Szenentyp</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="528"/>
         <source>Unknown</source>
         <extracomment>This string refers to the light source stored in image metadata</extracomment>
-        <translation type="unfinished">Unbekannt</translation>
+        <translation type="unfinished">Desconocida</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="531"/>
         <source>Daylight</source>
         <extracomment>This string refers to the light source stored in image metadata</extracomment>
-        <translation type="unfinished">Tageslicht</translation>
+        <translation type="unfinished">Luz del día</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="534"/>
         <source>Fluorescent</source>
         <extracomment>This string refers to the light source stored in image metadata</extracomment>
-        <translation type="unfinished">Fluoreszierend</translation>
+        <translation type="unfinished">Fluorescente</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="537"/>
         <source>Tungsten (incandescent light)</source>
         <extracomment>This string refers to the light source stored in image metadata</extracomment>
-        <translation type="unfinished">weißglühendes Wolfram Licht</translation>
+        <translation type="unfinished">Tungsteno (luz incandescente)</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="540"/>
         <source>Flash</source>
         <extracomment>This string refers to the light source stored in image metadata</extracomment>
-        <translation type="unfinished">Blitz</translation>
+        <translation type="unfinished">Flash</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="543"/>
         <source>Fine weather</source>
         <extracomment>This string refers to the light source stored in image metadata</extracomment>
-        <translation type="unfinished">Gutes Wetter</translation>
+        <translation type="unfinished">Clima Normal</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="546"/>
         <source>Cloudy Weather</source>
         <extracomment>This string refers to the light source stored in image metadata</extracomment>
-        <translation type="unfinished">Bewölkt</translation>
+        <translation type="unfinished">Día Nublado</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="549"/>
         <source>Shade</source>
         <extracomment>This string refers to the light source stored in image metadata</extracomment>
-        <translation type="unfinished">Schatten</translation>
+        <translation type="unfinished">Sombra</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="552"/>
         <source>Daylight fluorescent</source>
         <extracomment>This string refers to the light source stored in image metadata</extracomment>
-        <translation type="unfinished">Fluoreszierendes Tageslicht</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="555"/>
         <source>Day white fluorescent</source>
         <extracomment>This string refers to the light source stored in image metadata</extracomment>
-        <translation type="unfinished">Fluoreszierendes Tagesweiß</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="558"/>
         <source>Cool white fluorescent</source>
         <extracomment>This string refers to the light source stored in image metadata</extracomment>
-        <translation type="unfinished">Kühl-Weiß-Fluroszierend</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="561"/>
         <source>White fluorescent</source>
         <extracomment>This string refers to the light source stored in image metadata</extracomment>
-        <translation type="unfinished">Weiß-Fluroszierend</translation>
+        <translation type="unfinished">Fluorescente blanco</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="564"/>
@@ -391,19 +391,19 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
         <location filename="../cplusplus/scripts/metadata.cpp" line="570"/>
         <source>Standard light</source>
         <extracomment>This string refers to the light source stored in image metadata</extracomment>
-        <translation type="unfinished">Standard-Licht</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="583"/>
         <source>Other light source</source>
         <extracomment>This string refers to the light source stored in image metadata</extracomment>
-        <translation type="unfinished">Andere Lichtquelle</translation>
+        <translation type="unfinished">Otra fuente de luz</translation>
     </message>
     <message>
         <location filename="../cplusplus/scripts/metadata.cpp" line="586"/>
         <source>Invalid light source</source>
         <extracomment>This string refers to the light source stored in image metadata</extracomment>
-        <translation type="unfinished">Ungültige Lichtquelle</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -419,17 +419,17 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
     <message>
         <location filename="../qml/about/PQAbout.qml" line="60"/>
         <source>About PhotoQt</source>
-        <translation type="unfinished">Über PhotoQt</translation>
+        <translation type="unfinished">Acerca de PhotoQt</translation>
     </message>
     <message>
         <location filename="../qml/about/PQAbout.qml" line="103"/>
         <source>PhotoQt is a simple image viewer, designed to be good looking, highly configurable, yet easy to use and fast.</source>
-        <translation type="unfinished">PhotoQt ist ein Bildbetrachter mit dem Ziel gut auszusehen und intuitiv und schnell benutzbar zu sein, gleichzeitig jedoch höchst konfigurierbar zu bleiben.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/about/PQAbout.qml" line="105"/>
         <source>Another image viewer?</source>
-        <translation type="unfinished">Ein weiterer Bildbetrachter?</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/about/PQAbout.qml" line="106"/>
@@ -444,7 +444,7 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
     <message>
         <location filename="../qml/about/PQAbout.qml" line="112"/>
         <source>So then, who are you?</source>
-        <translation type="unfinished">Und wer bist du dann?</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/about/PQAbout.qml" line="113"/>
@@ -454,17 +454,17 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
     <message>
         <location filename="../qml/about/PQAbout.qml" line="120"/>
         <source>Don&apos;t forget to check out the website:</source>
-        <translation type="unfinished">Nicht vergessen, einen Blick auf die Internetseite zu werfen:</translation>
+        <translation type="unfinished">No olvides pasar por el sitio web:</translation>
     </message>
     <message>
         <location filename="../qml/about/PQAbout.qml" line="122"/>
         <source>If you find a bug or if you have a question or suggestion, please tell me. I&apos;m open to any feedback I get!</source>
-        <translation type="unfinished">Wenn du einen Bug findest oder einen Vorschlag hast, dann schreib es mir. Ich freue mich über Rückmeldung jeder Art!</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/about/PQAbout.qml" line="158"/>
         <source>Thanks to everybody who contributed to PhotoQt and/or translated PhotoQt to another language! You guys rock!</source>
-        <translation type="unfinished">Danke an alle, die zu PhotoQt beigetragen und/oder es in eine andere Sprache übersetzt haben! Ihr seid super!</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/about/PQAbout.qml" line="176"/>
@@ -475,7 +475,7 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
     <message>
         <location filename="../qml/about/PQAbout.qml" line="179"/>
         <source>If you want to support PhotoQt with a donation, you can do so via PayPal here:</source>
-        <translation type="unfinished">Wenn du PhotoQt mit einer Spende unterstützen möchtest, dann kann du dies hier mit PayPal tun:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/about/PQAbout.qml" line="209"/>
@@ -495,19 +495,19 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
         <location filename="../qml/elements/PQButton.qml" line="41"/>
         <source>Cancel</source>
         <extracomment>This is a generic string written on clickable buttons - please keep short!</extracomment>
-        <translation type="unfinished">Abbrechen</translation>
+        <translation type="unfinished">Cancelar</translation>
     </message>
     <message>
         <location filename="../qml/elements/PQButton.qml" line="43"/>
         <source>Save</source>
         <extracomment>This is a generic string written on clickable buttons - please keep short!</extracomment>
-        <translation type="unfinished">Speichern</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/elements/PQButton.qml" line="45"/>
         <source>Close</source>
         <extracomment>This is a generic string written on clickable buttons - please keep short!</extracomment>
-        <translation type="unfinished">Schließen</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -515,7 +515,7 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
     <message>
         <location filename="../cplusplus/singleinstance/commandlineparser.h" line="36"/>
         <source>Image Viewer</source>
-        <translation type="unfinished">Bildbetrachter</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../cplusplus/singleinstance/commandlineparser.h" line="38"/>
@@ -626,13 +626,13 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
     <message>
         <location filename="../qml/filedialog/parts/PQBreadCrumbs.qml" line="176"/>
         <source>Close</source>
-        <translation type="unfinished">Schließen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/filedialog/parts/PQDevices.qml" line="87"/>
         <source>Storage devices</source>
         <extracomment>This is the category title of storage devices to open (like USB keys) in the element for opening files</extracomment>
-        <translation type="unfinished">Speichergeräte</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/filedialog/parts/PQDevices.qml" line="119"/>
@@ -679,7 +679,7 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
     <message>
         <location filename="../qml/filedialog/parts/PQFileView.qml" line="345"/>
         <source>%1 images</source>
-        <translation type="unfinished">%1 Bilder</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/filedialog/parts/PQPlaces.qml" line="115"/>
@@ -705,7 +705,7 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
     <message>
         <location filename="../qml/filedialog/parts/PQPlaces.qml" line="181"/>
         <source>Remove entry</source>
-        <translation type="unfinished">Eintrag entfernen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/filedialog/parts/PQPlaces.qml" line="196"/>
@@ -766,7 +766,7 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
         <location filename="../qml/filedialog/parts/PQStandard.qml" line="81"/>
         <source>Standard</source>
         <extracomment>This is the category title of user-set folders (or favorites) in the file dialog</extracomment>
-        <translation type="unfinished">Standard</translation>
+        <translation type="unfinished">Estándar</translation>
     </message>
     <message>
         <location filename="../qml/filedialog/parts/PQStandard.qml" line="97"/>
@@ -776,7 +776,7 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
     <message>
         <location filename="../qml/filedialog/parts/PQTweaks.qml" line="26"/>
         <source>Zoom:</source>
-        <translation type="unfinished">Vergrößerung:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/filedialog/parts/PQTweaks.qml" line="35"/>
@@ -792,17 +792,17 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
     <message>
         <location filename="../qml/filedialog/parts/PQTweaks.qml" line="66"/>
         <source>Sort by:</source>
-        <translation type="unfinished">Sortieren nach:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/filedialog/parts/PQTweaks.qml" line="68"/>
         <source>Name</source>
-        <translation type="unfinished">Name</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/filedialog/parts/PQTweaks.qml" line="69"/>
         <source>Natural Name</source>
-        <translation type="unfinished">Natürlicher Name</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/filedialog/parts/PQTweaks.qml" line="70"/>
@@ -832,7 +832,7 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
     <message>
         <location filename="../qml/filedialog/parts/PQTweaks.qml" line="103"/>
         <source>All supported images</source>
-        <translation type="unfinished">Alle unterstützten Bilder</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/filedialog/parts/PQTweaks.qml" line="106"/>
@@ -842,7 +842,7 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
     <message>
         <location filename="../qml/filedialog/parts/PQTweaks.qml" line="107"/>
         <source>All files</source>
-        <translation type="unfinished">Alle Dateien</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/filedialog/parts/PQTweaks.qml" line="138"/>
@@ -867,7 +867,7 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
     <message>
         <location filename="../qml/filedialog/PQFileDialog.qml" line="92"/>
         <source>Show standard locations</source>
-        <translation type="unfinished">Zeige Standardorte</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/filedialog/PQFileDialog.qml" line="93"/>
@@ -911,12 +911,12 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
         <location filename="../qml/filemanagement/PQDelete.qml" line="135"/>
         <location filename="../qml/filemanagement/PQDelete.qml" line="177"/>
         <source>Delete permanently</source>
-        <translation type="unfinished">Permanent löschen</translation>
+        <translation type="unfinished">Borrar permanentemente</translation>
     </message>
     <message>
         <location filename="../qml/filemanagement/PQDelete.qml" line="175"/>
         <source>Move to Trash</source>
-        <translation type="unfinished">In den Müll verschieben</translation>
+        <translation type="unfinished">Mover a la papelera</translation>
     </message>
     <message>
         <location filename="../qml/filemanagement/PQRename.qml" line="81"/>
@@ -940,7 +940,7 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
     <message>
         <location filename="../qml/filter/PQFilter.qml" line="80"/>
         <source>Filter images in current directory</source>
-        <translation type="unfinished">Filtere Bilder in aktuellem Verzeichnis</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/filter/PQFilter.qml" line="91"/>
@@ -961,7 +961,7 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
         <location filename="../qml/filter/PQFilter.qml" line="135"/>
         <source>Filter</source>
         <extracomment>Written on a clickable button - please keep short</extracomment>
-        <translation type="unfinished">Filter</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/filter/PQFilter.qml" line="157"/>
@@ -975,13 +975,13 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
     <message>
         <location filename="../qml/histogram/PQHistogram.qml" line="105"/>
         <source>Histogram</source>
-        <translation type="unfinished">Histogramm</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/histogram/PQHistogram.qml" line="107"/>
         <source>Loading...</source>
         <extracomment>As in &apos;Loading the histogram for the current image&apos;</extracomment>
-        <translation type="unfinished">Lade...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/histogram/PQHistogram.qml" line="137"/>
@@ -1001,7 +1001,7 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
         <location filename="../cplusplus/imageprovider/imageproviderfull.cpp" line="55"/>
         <location filename="../cplusplus/imageprovider/imageproviderthumb.cpp" line="77"/>
         <source>File failed to load, it doesn&apos;t exist!</source>
-        <translation>Laden der Datei fehlgeschlagen, sie existiert nicht!</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1035,12 +1035,12 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
     <message>
         <location filename="../qml/imgur/PQImgur.qml" line="151"/>
         <source>An Error occured while uploading image!</source>
-        <translation type="unfinished">Beim Hochladen ist ein Fehler aufgetreten!</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/imgur/PQImgur.qml" line="152"/>
         <source>Error code:</source>
-        <translation type="unfinished">Fehlercode:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/imgur/PQImgur.qml" line="163"/>
@@ -1081,91 +1081,91 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="8"/>
         <source>Alt</source>
         <extracomment>Refers to a keyboard modifier</extracomment>
-        <translation type="unfinished">Alt</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="10"/>
         <source>Ctrl</source>
         <extracomment>Refers to a keyboard modifier</extracomment>
-        <translation type="unfinished">Strg</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="12"/>
         <source>Shift</source>
         <extracomment>Refers to a keyboard modifier</extracomment>
-        <translation type="unfinished">Umschalt</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="14"/>
         <source>Page Up</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation type="unfinished">Bild auf</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="16"/>
         <source>Page Down</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation type="unfinished">Bild ab</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="18"/>
         <source>Meta</source>
         <extracomment>Refers to the key that usually has the &apos;Windows&apos; symbol on it</extracomment>
-        <translation type="unfinished">Meta</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="20"/>
         <source>Keypad</source>
         <extracomment>Refers to the key that triggers the number block on keyboards</extracomment>
-        <translation type="unfinished">Ziffernblock</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="22"/>
         <source>Escape</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation type="unfinished">Escape</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="24"/>
         <source>Right</source>
         <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
-        <translation type="unfinished">Rechts</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="26"/>
         <source>Left</source>
         <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
-        <translation type="unfinished">Links</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="28"/>
         <source>Up</source>
         <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
-        <translation type="unfinished">Aufwärts</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="30"/>
         <source>Down</source>
         <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
-        <translation type="unfinished">Abwärts</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="32"/>
         <source>Space</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation type="unfinished">Leertaste</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="34"/>
         <source>Delete</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation type="unfinished">Löschen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="36"/>
         <source>Backspace</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation type="unfinished">Rücktaste</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="38"/>
@@ -1177,85 +1177,85 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="40"/>
         <source>End</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation type="unfinished">Ende</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="42"/>
         <source>Insert</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation type="unfinished">Einfügen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="44"/>
         <source>Tab</source>
         <extracomment>Refers to one of the keys on the keyboard</extracomment>
-        <translation type="unfinished">Tabulator</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="47"/>
         <source>Return</source>
         <extracomment>&apos;Return&apos; refers to the enter key of the number block - please try to make the translations of &apos;Return&apos; and &apos;Enter&apos; (the main button) different if possible!</extracomment>
-        <translation type="unfinished">Eingabe</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="50"/>
         <source>Enter</source>
         <extracomment>&apos;Enter&apos; refers to the main enter key - please try to make the translations of &apos;Return&apos; (in the number block) and &apos;Enter&apos; different if possible!</extracomment>
-        <translation type="unfinished">Enter</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="56"/>
         <source>Left Button</source>
         <extracomment>Refers to a mouse button</extracomment>
-        <translation type="unfinished">Linksklick</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="58"/>
         <source>Right Button</source>
         <extracomment>Refers to a mouse button</extracomment>
-        <translation type="unfinished">Rechtsklick</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="60"/>
         <source>Middle Button</source>
         <extracomment>Refers to a mouse button</extracomment>
-        <translation type="unfinished">Mittelklick</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="62"/>
         <source>Wheel Up</source>
         <extracomment>Refers to the mouse wheel</extracomment>
-        <translation type="unfinished">Mausrad auf</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="64"/>
         <source>Wheel Down</source>
         <extracomment>Refers to the mouse wheel</extracomment>
-        <translation type="unfinished">Mausrad ab</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="66"/>
         <source>East</source>
         <extracomment>Refers to a direction of the mouse when performing a mouse gesture</extracomment>
-        <translation type="unfinished">Osten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="68"/>
         <source>South</source>
         <extracomment>Refers to a direction of the mouse when performing a mouse gesture</extracomment>
-        <translation type="unfinished">Süden</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="70"/>
         <source>West</source>
         <extracomment>Refers to a direction of the mouse when performing a mouse gesture</extracomment>
-        <translation type="unfinished">Westen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/shortcuts/PQKeyMouseStrings.qml" line="72"/>
         <source>North</source>
         <extracomment>Refers to a direction of the mouse when performing a mouse gesture</extracomment>
-        <translation type="unfinished">Norden</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1275,7 +1275,7 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
         <location filename="../qml/menumeta/PQMetaData.qml" line="88"/>
         <source>Dimensions</source>
         <extracomment>The dimensions of the loaded image. Please keep string short!</extracomment>
-        <translation>Bildgröße</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMetaData.qml" line="90"/>
@@ -1299,107 +1299,107 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
         <location filename="../qml/menumeta/PQMetaData.qml" line="97"/>
         <source>Make</source>
         <extracomment>Exif image metadata: the make of the camera used to take the photo. Please keep string short!</extracomment>
-        <translation>Hersteller</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMetaData.qml" line="99"/>
         <source>Model</source>
         <extracomment>Exif image metadata: the model of the camera used to take the photo. Please keep string short!</extracomment>
-        <translation>Modell</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMetaData.qml" line="101"/>
         <source>Software</source>
         <extracomment>Exif image metadata: the software used to create the photo. Please keep string short!</extracomment>
-        <translation>Software</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMetaData.qml" line="104"/>
         <source>Time Photo was Taken</source>
         <extracomment>Exif image metadata: when the photo was taken. Please keep string short!</extracomment>
-        <translation>Aufnahmezeit</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMetaData.qml" line="106"/>
         <source>Exposure Time</source>
         <extracomment>Exif image metadata: how long the sensor was exposed to the light. Please keep string short!</extracomment>
-        <translation>Belichtungszeit</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMetaData.qml" line="108"/>
         <source>Flash</source>
         <extracomment>Exif image metadata: the flash setting when the photo was taken. Please keep string short!</extracomment>
-        <translation>Blitz</translation>
+        <translation type="unfinished">Flash</translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMetaData.qml" line="111"/>
         <source>Scene Type</source>
         <extracomment>Exif image metadata: the specific scene type the camera used for the photo. Please keep string short!</extracomment>
-        <translation>Szenentyp</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMetaData.qml" line="113"/>
         <source>Focal Length</source>
         <extracomment>Exif image metadata: https://en.wikipedia.org/wiki/Focal_length . Please keep string short!</extracomment>
-        <translation>Brennweite</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMetaData.qml" line="149"/>
         <source>Metadata</source>
         <extracomment>This is the heading of the metadata element</extracomment>
-        <translation type="unfinished">Metadaten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMetaData.qml" line="189"/>
         <source>No File Loaded</source>
-        <translation type="unfinished">Keine Datei geladen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMetaData.qml" line="234"/>
         <source>Click to open GPS position with online map</source>
-        <translation type="unfinished">Klicke um GPS-Position mit einer Online-Karte zu öffnen</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMetaData.qml" line="301"/>
         <source>Keep Open</source>
         <extracomment>Used as in &apos;Keep the metadata element open even if the cursor leaves it&apos;</extracomment>
-        <translation type="unfinished">Offen bleiben</translation>
+        <translation type="unfinished">Mantener Abierto</translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMetaData.qml" line="117"/>
         <source>Light Source</source>
         <extracomment>Exif image metadata: What type of light the camera detected. Please keep string short!</extracomment>
-        <translation>Lichtquelle</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMetaData.qml" line="120"/>
         <source>Keywords</source>
         <extracomment>IPTC image metadata: A description of the image by the user/software. Please keep string short!</extracomment>
-        <translation>Schlüsselwörter</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMetaData.qml" line="122"/>
         <source>Location</source>
         <extracomment>IPTC image metadata: The CITY and COUNTRY the imge was taken in. Please keep string short!</extracomment>
-        <translation>Ort</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMetaData.qml" line="124"/>
         <source>Copyright</source>
         <extracomment>IPTC image metadata. Please keep string short!</extracomment>
-        <translation>Urheberrecht</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMetaData.qml" line="127"/>
         <source>GPS Position</source>
         <extracomment>Exif image metadata. Please keep string short!</extracomment>
-        <translation>GPS-Position</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/menumeta/PQMetaData.qml" line="115"/>
         <source>F Number</source>
         <extracomment>Exif image metadata: https://en.wikipedia.org/wiki/F-number . Please keep string short!</extracomment>
-        <translation>Blende</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1408,7 +1408,7 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
         <location filename="../qml/mainwindow/image/PQLoading.qml" line="93"/>
         <source>Loading</source>
         <extracomment>Used as in &apos;Loading the image at the moment&apos;. Please try to keep as short as possible!</extracomment>
-        <translation type="unfinished">Lade</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/mainwindow/PQMessage.qml" line="54"/>
@@ -1418,7 +1418,7 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
     <message>
         <location filename="../qml/mainwindow.qml" line="81"/>
         <source>Open a file to begin</source>
-        <translation type="unfinished">Eine Datei öffnen, um zu starten</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/mainwindow.qml" line="92"/>
@@ -1444,7 +1444,7 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
         <location filename="../qml/mainwindow/PQCloseButton.qml" line="42"/>
         <location filename="../qml/mainwindow/PQQuickInfo.qml" line="156"/>
         <source>Show counter</source>
-        <translation type="unfinished">Zeige Zähler</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/mainwindow/PQCloseButton.qml" line="43"/>
@@ -1480,7 +1480,7 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
         <location filename="../qml/mainwindow/PQCloseButton.qml" line="51"/>
         <location filename="../qml/mainwindow/PQQuickInfo.qml" line="165"/>
         <source>Show zoom level</source>
-        <translation type="unfinished">Zeige Vergrößerungsstufe</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/mainwindow/PQCloseButton.qml" line="52"/>
@@ -1509,7 +1509,7 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
     <message>
         <location filename="../qml/mainwindow/PQQuickInfo.qml" line="145"/>
         <source>Filter:</source>
-        <translation type="unfinished">Filter:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/mainwindow/PQQuickInfo.qml" line="193"/>
@@ -1622,7 +1622,7 @@ This is an entry in the main menu on the right, used as in &apos;Reset flip/mirr
         <location filename="../qml/slideshow/PQSlideShowSettings.qml" line="368"/>
         <source>Start slideshow</source>
         <extracomment>Written on a clickable button</extracomment>
-        <translation type="unfinished">Starte Diaschau</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1657,7 +1657,7 @@ As in &apos;set wallpaper to which screens&apos;</extracomment>
         <location filename="../qml/wallpaper/ele/PQXfce.qml" line="80"/>
         <source>Screen</source>
         <extracomment>Used in wallpaper element</extracomment>
-        <translation type="unfinished">Bildschirm</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/wallpaper/ele/PQEnlightenment.qml" line="117"/>
@@ -1683,7 +1683,7 @@ As in &apos;set wallpaper to which screens&apos;</extracomment>
         <location filename="../qml/wallpaper/PQWallpaper.qml" line="164"/>
         <source>Other</source>
         <extracomment>Used as in &apos;Other Desktop Environment&apos;</extracomment>
-        <translation type="unfinished">Andere</translation>
+        <translation type="unfinished">Otro</translation>
     </message>
     <message>
         <location filename="../qml/wallpaper/ele/PQOther.qml" line="77"/>
@@ -1708,7 +1708,7 @@ As in &apos;set wallpaper to which screens&apos;</extracomment>
         <extracomment>Heading of wallpaper element
 ----------
 Written on clickable button</extracomment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Establecer como Fondo de pantalla</translation>
     </message>
 </context>
 </TS>

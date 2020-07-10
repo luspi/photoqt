@@ -96,17 +96,17 @@ if(NOT WIN32)
 # We first copy the most recent *.ts files to the build directory and then process them
 # This way, we don't have to mess with files outside of the build folder
 
-file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/buildlang)
 file(GLOB files "lang/*.ts")
 foreach(file ${files})
    get_filename_component(filename ${file} NAME)
-   file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/lang/${filename} DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/buildlang)
-   qt5_create_translation(qm_files ${photoqt_SOURCES} ${photoqt_QML} ${CMAKE_CURRENT_BINARY_DIR}/buildlang/${filename} OPTIONS "-no-obsolete")
+   file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/lang/${filename} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+   qt5_add_translation(qm_files ${CMAKE_CURRENT_BINARY_DIR}/${filename})
 endforeach()
+add_custom_target(translations ALL DEPENDS ${qm_files})
 
-## Copy the language QRC file to the output directory, because the files listed in the
-## qrc file are relative to that directory.
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/lang/lang.qrc DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+# Create the lang resource file
+include("CMake/ComposeLangResourceFile.cmake")
+composeLangResourceFile()
 
 ##################################################################
 #### GENERATE RANDOM CRYPT KEY FOR SIMPLE ENCRYPTION          ####
@@ -133,7 +133,6 @@ elseif(NOT WIN32)
     target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::Quick Qt5::Xml Qt5::Svg Qt5::Multimedia Qt5::DBus)
 endif(WIN32)
 
-
 ######################################################
 #### CMAKE BUILD TYPE (DETERMINES COMPILER FLAGS) ####
 ######################################################
@@ -149,7 +148,6 @@ if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
 else()
     target_compile_options(${PROJECT_NAME} PRIVATE -O3)
 endif()
-
 
 ########################
 #### HANDLE TESTING ####
