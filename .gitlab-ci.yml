@@ -1,5 +1,9 @@
 localization:
+
   image: ubuntu:focal
+
+  only:
+    - schedules
 
   script:
     - export DEBIAN_FRONTEND=noninteractive
@@ -21,6 +25,9 @@ localization:
 appimage:
 
   image: ubuntu:xenial
+
+  only:
+    - schedules
 
   script:
     - echo "${CI_PROJECT_URL}/-/jobs/artifacts/${CI_COMMIT_REF_NAME}/raw/QtQuickApp-x86_64.AppImage?job=${CI_JOB_NAME}"
