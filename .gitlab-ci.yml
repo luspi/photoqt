@@ -1,14 +1,20 @@
-localisation:
+localization:
   image: ubuntu:focal
 
   script:
     - export DEBIAN_FRONTEND=noninteractive
-    - apt-get update && apt-get install -y  qttools5-dev-tools
-    - for f in lang/*.ts; do lupdate -no-obsolete qml/ cplusplus/ -ts $f; done
-
-  artifacts:
-    paths:
-      - "lang/*.ts"
+    - apt-get update && apt-get install -y  qttools5-dev-tools openssh-client git
+    - eval `ssh-agent -s`
+    - echo "${SSH_PRIVATE_KEY}" | tr -d '\r' | ssh-add - > /dev/null # add ssh key
+    - mkdir -p ~/.ssh && chmod 700 ~/.ssh
+    - echo "${SSH_PUBLIC_KEY}" >> ~/.ssh/id_rsa.pub
+    - echo "StrictHostKeyChecking no" > ~/.ssh/config
+    - git config --global user.email "${CI_EMAIL}"
+    - git config --global user.name "${CI_USERNAME}"
+    - git clone git@gitlab.com:luspi/photoqt-localization.git && cd photoqt-localization
+    - for f in *.ts; do lupdate -no-obsolete ../qml/ ../cplusplus/ -ts $f; done
+    - git add *.ts && git commit -m "updating language files from CI"
+    - git push
 
 
 appimage:
