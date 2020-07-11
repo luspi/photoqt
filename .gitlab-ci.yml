@@ -13,7 +13,8 @@ localization:
     - git config --global user.name "${CI_USERNAME}"
     - git clone git@gitlab.com:luspi/photoqt-localization.git && cd photoqt-localization
     - for f in *.ts; do lupdate -no-obsolete ../qml/ ../cplusplus/ -ts $f; done
-    - git add *.ts && git commit -m "updating language files from CI"
+    - git add *.ts
+    - git diff-index --quiet HEAD || git commit -m "updating language files from CI"
     - git push
 
 
