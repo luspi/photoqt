@@ -276,3 +276,7 @@ void PQHandlingGeneral::setOverrideCursor(bool enabled) {
     else
         qApp->restoreOverrideCursor();
 }
+
+QString PQHandlingGeneral::getVersion() {
+    return QString::fromStdString(VERSION);
+}

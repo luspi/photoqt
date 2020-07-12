@@ -55,6 +55,8 @@ public:
 
     Q_INVOKABLE void setOverrideCursor(bool enabled);
 
+    Q_INVOKABLE QString getVersion();
+
 private:
     PQImageProviderFull *imageprovider;
     QMimeDatabase mimedb;

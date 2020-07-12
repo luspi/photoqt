@@ -35,7 +35,7 @@ PQWindowGeometry::PQWindowGeometry(QObject *parent) : QObject(parent) {
     m_scaleWindowGeometry = QRect(0, 0, 400, 500);
 
     m_aboutWindowMaximized = true;
-    m_aboutWindowGeometry = QRect(0, 0, 800, 600);
+    m_aboutWindowGeometry = QRect(0, 0, 450, 350);
 
     m_imgurWindowMaximized = true;
     m_imgurWindowGeometry = QRect(0, 0, 800, 600);
