@@ -2,9 +2,6 @@ localization:
 
   image: ubuntu:focal
 
-  only:
-    - schedules
-
   script:
     - export DEBIAN_FRONTEND=noninteractive
     - apt-get update && apt-get install -y  qttools5-dev-tools openssh-client git
