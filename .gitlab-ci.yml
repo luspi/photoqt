@@ -15,10 +15,10 @@ localization:
     - echo "StrictHostKeyChecking no" > ~/.ssh/config
     - git config --global user.email "${CI_EMAIL}"
     - git config --global user.name "${CI_USERNAME}"
-    - git clone git@gitlab.com:luspi/photoqt-localization.git && cd photoqt-localization
-    - for f in *.ts; do lupdate -no-obsolete ../qml/ ../cplusplus/ -ts $f; done
-    - git add *.ts
-    - git diff-index --quiet HEAD || git commit -m "updating language files from CI"
+    - git clone git@gitlab.com:luspi/photoqt-lang.git && cd photoqt-lang
+    - lupdate -no-obsolete ../qml/ ../cplusplus/ -ts photoqt.ts
+    - git add photoqt.ts
+    - git diff-index --quiet HEAD || git commit -m "updating translation source files from CI"
     - git push
 
 
