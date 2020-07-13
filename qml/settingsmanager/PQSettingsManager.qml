@@ -1,8 +1,8 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Dialogs 1.2
-import QtQuick.Layouts 1.9
-import Qt.labs.platform 1.1
+import QtQuick.Layouts 1.3
+import Qt.labs.platform 1.0
 import QtGraphicalEffects 1.0
 
 import "../elements"

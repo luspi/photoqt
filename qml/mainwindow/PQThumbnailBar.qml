@@ -85,7 +85,7 @@ Item {
 
             Image {
                 anchors.fill: parent
-                fillMode: Image.Image.PreserveAspectFit
+                fillMode: Image.PreserveAspectFit
                 source: (PQSettings.thumbnailFilenameInstead||PQSettings.thumbnailDisable) ? "" : "image://thumb/" + variables.allImageFilesInOrder[index]
 
                 visible: !PQSettings.thumbnailFilenameInstead

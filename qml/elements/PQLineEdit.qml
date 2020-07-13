@@ -6,7 +6,6 @@ TextField {
     id: control
 
     placeholderText: "Enter"
-    placeholderTextColor: "#999999"
     color: "white"
     selectedTextColor: "black"
     selectionColor: "white"

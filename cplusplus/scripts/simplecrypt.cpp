@@ -121,7 +121,7 @@ QByteArray SimpleCrypt::encryptToByteArray(QByteArray plaintext)
     }
 
     //prepend a random char to the string
-#if QT_VERSION > QT_VERSION_CHECK(5, 9, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
     char randomChar = char(randgen.generate() & 0xFF);
 #else
     char randomChar = char(qrand() & 0xFF);
