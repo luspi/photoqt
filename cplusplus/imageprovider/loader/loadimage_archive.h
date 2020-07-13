@@ -61,7 +61,7 @@ public:
 
         // If something went wrong, output error message and stop here
         if(r != ARCHIVE_OK) {
-            errormsg = "PQLoadImage::Archive::load(): ERROR: archive_read_open_filename() returned code of " + r;
+            errormsg = QString("PQLoadImage::Archive::load(): ERROR: archive_read_open_filename() returned code of %1").arg(r);
             LOG << CURDATE << errormsg.toStdString() << NL;
             return QImage();
         }
