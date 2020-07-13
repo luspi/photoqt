@@ -96,7 +96,7 @@ Item {
                     visible: false
                     font.pointSize: 15
                     horizontalAlignment: Qt.AlignHCenter
-                    text: em.pty+qsTranslate("filemanagement", "An error occured,<br>file could not be deleted!")
+                    text: em.pty+qsTranslate("filemanagement", "An error occured, file could not be deleted!")
                 }
 
                 Item {

@@ -99,7 +99,7 @@ Item {
                     wrapMode: Text.WordWrap
                     color: "white"
                     font.pointSize: 12
-                    text: em.pty+qsTranslate("filter", "If you want to filter by file extension, put a dot '.' in front of the term.")
+                    text: em.pty+qsTranslate("filter", "If you want to filter by file extension, start the term with a dot.")
                 }
 
 

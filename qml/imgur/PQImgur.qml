@@ -160,7 +160,7 @@ Item {
                         color: "red"
                         horizontalAlignment: Text.AlignHCenter
                         font.pointSize: 12
-                        text: em.pty+qsTranslate("imgur", "You don't seem to be connected to the internet...") + "<br>" +
+                        text: em.pty+qsTranslate("imgur", "You do not seem to be connected to the internet...") + "<br>" +
                               em.pty+qsTranslate("imgur", "Unable to upload!")
                     }
 

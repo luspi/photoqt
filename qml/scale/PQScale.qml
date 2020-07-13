@@ -88,7 +88,7 @@ Item {
                     visible: false
                     font.pointSize: 15
                     horizontalAlignment: Qt.AlignHCenter
-                    text: em.pty+qsTranslate("scale", "An error occured,<br>file could not be scaled!")
+                    text: em.pty+qsTranslate("scale", "An error occured, file could not be scaled!")
                 }
 
                 Text {
