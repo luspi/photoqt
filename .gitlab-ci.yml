@@ -53,6 +53,7 @@ appimage:
     - ./squashfs-root/AppRun ./appdir/usr/share/applications/*.desktop -appimage -qmldir=./qml
     - find ./appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq # fyi
     - ./*.AppImage --appimage-updateinformation # fyi
+    - mv ./*.AppImage PhotoQt-nightly.AppImage
 
   artifacts:
     paths:
