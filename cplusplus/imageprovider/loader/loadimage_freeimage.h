@@ -16,8 +16,10 @@ class PQLoadImageFreeImage {
 public:
     PQLoadImageFreeImage() {
         errormsg = "";
+#ifdef FREEIMAGE
         freeImageErrorMessage = "";
         freeImageErrorFormat = FIF_UNKNOWN;
+#endif
     }
 
     QImage load(QString filename, QSize maxSize, QSize *origSize) {
