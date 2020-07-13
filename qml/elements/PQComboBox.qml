@@ -13,6 +13,8 @@ ComboBox {
 
     property string prefix: ""
 
+    implicitWidth: 200
+
     delegate: ItemDelegate {
         id: controldelegate
         width: control.width
