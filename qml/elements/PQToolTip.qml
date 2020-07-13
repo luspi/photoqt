@@ -10,10 +10,9 @@ ToolTip {
     property alias elide: contentText.elide
     property int maxWidth: -1
 
-    implicitWidth: maxWidth>-1 ? Math.min(contentWidth+12, maxWidth) : (contentWidth+12)
-
     contentItem: Text {
         id: contentText
+        width: handlingGeneral.getQtVersion().substring(0,4)=="5.9." ? childrenRect.width : undefined
         text: control.text
         font: control.font
         color: "white"

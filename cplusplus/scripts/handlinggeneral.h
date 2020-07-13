@@ -56,6 +56,7 @@ public:
     Q_INVOKABLE void setOverrideCursor(bool enabled);
 
     Q_INVOKABLE QString getVersion();
+    Q_INVOKABLE QString getQtVersion();
 
 private:
     PQImageProviderFull *imageprovider;
