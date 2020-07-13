@@ -74,7 +74,7 @@ void PQAsyncImageResponseThumb::run() {
 
     // We create a temporary pointer, so that we can delete it properly afterwards
     if(!QFileInfo(filenameForChecking).exists()) {
-        QString err = QCoreApplication::translate("imageprovider", "File failed to load, it doesn't exist!");
+        QString err = QCoreApplication::translate("imageprovider", "File failed to load, it does not exist!");
         LOG << CURDATE << "ImageProviderThumb: ERROR: " << err.toStdString() << NL;
         LOG << CURDATE << "ImageProviderThumb: Filename: " << filenameForChecking.toStdString() << NL;
         m_image = load_err->load(err);
