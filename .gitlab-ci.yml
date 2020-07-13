@@ -33,28 +33,26 @@ appimage:
     - echo "${CI_PROJECT_URL}/-/jobs/artifacts/${CI_COMMIT_REF_NAME}/raw/QtQuickApp-x86_64.AppImage?job=${CI_JOB_NAME}"
     - export DEBIAN_FRONTEND=noninteractive
     - apt-get update -qq && apt-get -y install git software-properties-common build-essential libgl1-mesa-dev cmake wget extra-cmake-modules apt-transport-https
-    - add-apt-repository -y ppa:beineri/opt-qt-5.14.2-xenial && apt-get update
-    - apt-get -y install qt514base qt514declarative qt514svg qt514tools qt514multimedia qt514quickcontrols qt514quickcontrols2 libarchive-dev libexiv2-dev libraw-dev libfreeimage-dev libdevil-dev graphicsmagick-libmagick-dev-compat libfreeimageplus-dev libpugixml-dev qt514imageformats qt514graphicaleffects
-    - export QTDIR=/opt/qt514  # Set new qt env variables
-    - export PATH=/opt/qt514/bin:$PATH
-    - export LD_LIBRARY_PATH=/opt/qt514/lib/x86_64-linux-gnu:/opt/qt514/lib:$LD_LIBRARY_PATH
-    - export PKG_CONFIG_PATH=/opt/qt514/lib/pkgconfig:$PKG_CONFIG_PATH
+    - add-apt-repository -y ppa:beineri/opt-qt597-xenial && apt-get update
+    - apt-get -y install qt59base qt59declarative qt59svg qt59tools qt59multimedia qt59quickcontrols qt59quickcontrols2 libarchive-dev libexiv2-dev libraw-dev libfreeimage-dev libdevil-dev graphicsmagick-libmagick-dev-compat libfreeimageplus-dev libpugixml-dev qt59imageformats qt59graphicaleffects
+    - export QTDIR=/opt/qt59  # Set new qt env variables
+    - export PATH=/opt/qt59/bin:$PATH
+    - export LD_LIBRARY_PATH=/opt/qt59/lib/x86_64-linux-gnu:/opt/qt59/lib:$LD_LIBRARY_PATH
+    - export PKG_CONFIG_PATH=/opt/qt59/lib/pkgconfig:$PKG_CONFIG_PATH
     - wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null  # update cmake
     - apt-add-repository 'deb https://apt.kitware.com/ubuntu/ xenial main' && apt-get update
     - apt-get install -y cmake
-    - mkdir -p build && cd build/
+    - mkdir -p build && cd build/  # build PhotoQt
     - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DPOPPLER=OFF -DEXIV2=OFF
     - make -j$(nproc)
     - make DESTDIR=../appdir -j$(nproc) install ; find ../appdir/
-    - cd -
+    - cd -  # Generate AppImage
     - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
     - chmod a+x linuxdeployqt*.AppImage ; ./linuxdeployqt-*.AppImage --appimage-extract ; rm linuxdeployqt*.AppImage
     - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
     - ./squashfs-root/AppRun ./appdir/usr/share/applications/*.desktop -appimage -qmldir=./qml
-    - find ./appdir -executable -type f -exec ldd {} \; | grep " => /usr" | cut -d " " -f 2-3 | sort | uniq # fyi
-    - ./*.AppImage --appimage-updateinformation # fyi
-    - mv ./*.AppImage PhotoQt-nightly.AppImage
+    - mv ./*.AppImage PhotoQt-nightly-$(date +"%Y-%m-%d").AppImage
 
   artifacts:
     paths:
-      - "*.AppImage*"
+      - PhotoQt-nightly-$(date +"%Y-%m-%d").AppImage
