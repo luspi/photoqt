@@ -30,7 +30,6 @@ appimage:
     - schedules
 
   script:
-    - echo "${CI_PROJECT_URL}/-/jobs/artifacts/${CI_COMMIT_REF_NAME}/raw/QtQuickApp-x86_64.AppImage?job=${CI_JOB_NAME}"
     - export DEBIAN_FRONTEND=noninteractive
     - apt-get update -qq && apt-get -y install git software-properties-common build-essential libgl1-mesa-dev cmake wget extra-cmake-modules apt-transport-https
     - add-apt-repository -y ppa:beineri/opt-qt597-xenial && apt-get update
@@ -45,14 +44,17 @@ appimage:
     - mkdir -p build && cd build/  # build PhotoQt
     - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DPOPPLER=OFF -DEXIV2=OFF
     - make -j$(nproc)
-    - make DESTDIR=../appdir -j$(nproc) install ; find ../appdir/
-    - cd -  # Generate AppImage
-    - wget -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-    - chmod a+x linuxdeployqt*.AppImage ; ./linuxdeployqt-*.AppImage --appimage-extract ; rm linuxdeployqt*.AppImage
-    - unset QTDIR; unset QT_PLUGIN_PATH ; unset LD_LIBRARY_PATH
-    - ./squashfs-root/AppRun ./appdir/usr/share/applications/*.desktop -appimage -qmldir=./qml
-    - mv ./*.AppImage PhotoQt-nightly-$(date +"%Y-%m-%d").AppImage
+    - make DESTDIR=../appdir -j$(nproc) install
+    - cd ..  # Generate AppImage
+    - wget -c https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+    - wget -c https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
+    - chmod a+x linuxdeploy-plugin-qt-x86_64.AppImage
+    - chmod a+x linuxdeploy-x86_64.AppImage
+    - ./linuxdeploy-plugin-qt-x86_64.AppImage --appimage-extract
+    - ./linuxdeploy-x86_64.AppImage --appimage-extract
+    - QML_SOURCES_PATHS=./qml ./squashfs-root/AppRun --appdir ./appdir/ -d ./appdir/usr/share/applications/photoqt.desktop --plugin=qt --output appimage
+    - mv ./PhotoQt*.AppImage PhotoQt-nightly.AppImage
 
   artifacts:
     paths:
-      - PhotoQt-nightly-$(date +"%Y-%m-%d").AppImage
+      - PhotoQt-nightly.AppImage
