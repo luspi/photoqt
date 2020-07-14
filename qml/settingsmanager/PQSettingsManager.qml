@@ -65,7 +65,7 @@ Item {
         TabBar {
             id: bar
             x: 0
-            y: 0
+            y: -tabbutton_interface.y
             width: 250
             height: parent.height-buttons_container.height
             background: Rectangle {
@@ -73,8 +73,8 @@ Item {
             }
             PQTabButton {
                 id: tabbutton_interface
-                implicitWidth: bar.width
-                implicitHeight: bar.height/bar.count
+                width: bar.width
+                height: bar.height/bar.count
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: "interface"
                 tooltip: "Tab to control interface settings"
@@ -84,8 +84,8 @@ Item {
             PQTabButton {
                 id: tabbutton_imageview
                 anchors.top: tabbutton_interface.bottom
-                implicitWidth: bar.width
-                implicitHeight: bar.height/bar.count
+                width: bar.width
+                height: bar.height/bar.count
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: "image view"
                 tooltip: "Tab to control how images are viewed"
@@ -95,8 +95,8 @@ Item {
             PQTabButton {
                 id: tabbutton_thumbnail
                 anchors.top: tabbutton_imageview.bottom
-                implicitWidth: bar.width
-                implicitHeight: bar.height/bar.count
+                width: bar.width
+                height: bar.height/bar.count
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: "thumbnails"
                 tooltip: "Tab to control the look and behaviour of thumbnails"
@@ -106,8 +106,8 @@ Item {
             PQTabButton {
                 id: tabbutton_metadata
                 anchors.top: tabbutton_thumbnail.bottom
-                implicitWidth: bar.width
-                implicitHeight: bar.height/bar.count
+                width: bar.width
+                height: bar.height/bar.count
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: "metadata"
                 tooltip: "Tab to control metadata settings"
@@ -117,8 +117,8 @@ Item {
             PQTabButton {
                 id: tabbutton_filetypes
                 anchors.top: tabbutton_metadata.bottom
-                implicitWidth: bar.width
-                implicitHeight: bar.height/bar.count
+                width: bar.width
+                height: bar.height/bar.count
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: "file types"
                 tooltip: "Tab to control which file types are to be recognized"
@@ -128,8 +128,8 @@ Item {
             PQTabButton {
                 id: tabbutton_shortcuts
                 anchors.top: tabbutton_filetypes.bottom
-                implicitWidth: bar.width
-                implicitHeight: bar.height/bar.count
+                width: bar.width
+                height: bar.height/bar.count
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: "shortcuts"
                 tooltip: "Tab to control which shortcuts are set"

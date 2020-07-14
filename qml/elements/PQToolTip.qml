@@ -12,7 +12,6 @@ ToolTip {
 
     contentItem: Text {
         id: contentText
-        width: handlingGeneral.getQtVersion().substring(0,4)=="5.9." ? childrenRect.width : undefined
         text: control.text
         font: control.font
         color: "white"

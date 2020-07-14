@@ -44,27 +44,23 @@ Button {
     //: This is a generic string written on clickable buttons - please keep short!
     property string genericStringClose: em.pty+qsTranslate("buttongeneric", "Close")
 
-    contentItem: Item {
-        width: childrenRect.width+20
-        height: control.height
-        Text {
-            id: txt
-            text: control.text
-            font: control.font
-            y: (parent.height-height)/2
-            x: 10
-            width: buttonSameWidthAsMenu ? menu.width-20 : ((forceWidth==0) ? undefined : forceWidth-20)
-            opacity: enabled ? 1.0 : 0.3
-            color: control.down ? control.textColorActive : (control.mouseOver ? control.textColorHover : control.textColor)
-            Behavior on color { ColorAnimation { duration: 100 } }
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            elide: Text.ElideRight
-        }
+    contentItem: Text {
+        id: txt
+        text: "   "+control.text+"   "
+        font: control.font
+        y: (parent.height-height)/2
+        x: (parent.width-width)/2
+        width: buttonSameWidthAsMenu ? menu.width-20 : ((forceWidth==0) ? undefined : forceWidth-20)
+        opacity: enabled ? 1.0 : 0.3
+        color: control.down ? control.textColorActive : (control.mouseOver ? control.textColorHover : control.textColor)
+        Behavior on color { ColorAnimation { duration: 100 } }
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        elide: Text.ElideRight
     }
 
     background: Rectangle {
-        implicitWidth: contentItem.width
+        implicitWidth: (iconview.visible ? iconview.width+txt.width : txt.width)
         color: menu.visible ? control.backgroundColorMenuOpen : (control.down ? control.backgroundColorActive : (control.mouseOver ? control.backgroundColorHover : control.backgroundColor))
         Behavior on color { ColorAnimation { duration: 100 } }
         implicitHeight: contentItem.height

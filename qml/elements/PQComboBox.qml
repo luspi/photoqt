@@ -14,6 +14,7 @@ ComboBox {
     property string prefix: ""
 
     implicitWidth: 200
+    padding: 5
 
     delegate: ItemDelegate {
         id: controldelegate
@@ -89,7 +90,6 @@ ComboBox {
     }
 
     contentItem: Text {
-        leftPadding: 0
         rightPadding: control.indicator.width + control.spacing
 
         text: control.prefix + control.displayText
