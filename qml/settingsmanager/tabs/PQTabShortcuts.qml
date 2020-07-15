@@ -14,7 +14,8 @@ Item {
 
         contentHeight: col.height
 
-        anchors.fill: parent
+        width: stack.width
+        height: stack.height
 
         ScrollBar.vertical: PQScrollBar { id: scroll }
 

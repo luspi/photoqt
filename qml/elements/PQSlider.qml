@@ -11,6 +11,8 @@ Slider {
 
     hoverEnabled: true
 
+    implicitHeight: 20
+
     property real wheelStepSize: 1.0
 
     property int divideToolTipValue: 1

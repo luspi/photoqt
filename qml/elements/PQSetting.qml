@@ -54,7 +54,7 @@ Item {
             id: cont_container
             y: (parent.height-height)/2
             width: set_top.width - txt.width-40
-            height: childrenRect.height
+            height: cont.height
             Item {
                 id: cont
                 width: parent.width

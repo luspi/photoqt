@@ -52,133 +52,122 @@ Item {
         radius: 32
     }
 
+    PQMouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+    }
+
     Rectangle {
 
         anchors.fill: parent
         color: "#cc000000"
 
-        PQMouseArea {
-            anchors.fill: parent
-            hoverEnabled: true
+        Column {
+
+            id: bar
+
+            width: 300
+            height: parent.height-buttons_container.height
+
+            property int currentIndex: 0
+
+            property var tabs: [["interface", "Tab to control interface settings"],
+                                ["image view", "Tab to control how images are viewed"],
+                                ["thumbnails", "Tab to control the look and behaviour of thumbnails"],
+                                ["metadata", "Tab to control metadata settings"],
+                                ["file types", "Tab to control which file types PhotoQt should recognize"],
+                                ["shortcuts", "Tab to control which shortcuts are set"]]
+
+            Repeater {
+
+                model: bar.tabs.length
+
+                Rectangle {
+
+                    width: bar.width
+                    height: bar.height/bar.tabs.length
+
+                    border {
+                        width: 1
+                        color: "#555555"
+                    }
+
+                    color: bar.currentIndex==index
+                                ? "#555555"
+                                : (mouse.containsPress
+                                   ? "#444444"
+                                   : (mouse.containsMouse
+                                      ? "#3a3a3a"
+                                      : "#333333"))
+
+                    PQMouseArea {
+                        id: mouse
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        tooltip: bar.tabs[index][1]
+                        onClicked:
+                            bar.currentIndex = index
+                    }
+
+                    Text {
+                        anchors.fill: parent
+                        horizontalAlignment: Text.AlignHCenter
+                        verticalAlignment: Text.AlignVCenter
+                        color: "#ffffff"
+                        wrapMode: Text.WordWrap
+                        font.pointSize: 12
+                        font.bold: true
+                        elide: Text.ElideRight
+                        text: bar.tabs[index][0]
+                    }
+                }
+
+            }
+
         }
 
-        TabBar {
-            id: bar
-            x: 0
-            y: -tabbutton_interface.y
-            width: 250
-            height: parent.height-buttons_container.height
-            background: Rectangle {
-                color: "black"
-            }
-            PQTabButton {
-                id: tabbutton_interface
-                width: bar.width
-                height: bar.height/bar.count
-                anchors.horizontalCenter: parent.horizontalCenter
-                text: "interface"
-                tooltip: "Tab to control interface settings"
-                selected: bar.currentIndex==0
-                onClicked: bar.currentIndex = 0
-            }
-            PQTabButton {
-                id: tabbutton_imageview
-                anchors.top: tabbutton_interface.bottom
-                width: bar.width
-                height: bar.height/bar.count
-                anchors.horizontalCenter: parent.horizontalCenter
-                text: "image view"
-                tooltip: "Tab to control how images are viewed"
-                selected: bar.currentIndex==1
-                onClicked: bar.currentIndex = 1
-            }
-            PQTabButton {
-                id: tabbutton_thumbnail
-                anchors.top: tabbutton_imageview.bottom
-                width: bar.width
-                height: bar.height/bar.count
-                anchors.horizontalCenter: parent.horizontalCenter
-                text: "thumbnails"
-                tooltip: "Tab to control the look and behaviour of thumbnails"
-                selected: bar.currentIndex==2
-                onClicked: bar.currentIndex = 2
-            }
-            PQTabButton {
-                id: tabbutton_metadata
-                anchors.top: tabbutton_thumbnail.bottom
-                width: bar.width
-                height: bar.height/bar.count
-                anchors.horizontalCenter: parent.horizontalCenter
-                text: "metadata"
-                tooltip: "Tab to control metadata settings"
-                selected: bar.currentIndex==3
-                onClicked: bar.currentIndex = 3
-            }
-            PQTabButton {
-                id: tabbutton_filetypes
-                anchors.top: tabbutton_metadata.bottom
-                width: bar.width
-                height: bar.height/bar.count
-                anchors.horizontalCenter: parent.horizontalCenter
-                text: "file types"
-                tooltip: "Tab to control which file types are to be recognized"
-                selected: bar.currentIndex==4
-                onClicked: bar.currentIndex = 4
-            }
-            PQTabButton {
-                id: tabbutton_shortcuts
-                anchors.top: tabbutton_filetypes.bottom
-                width: bar.width
-                height: bar.height/bar.count
-                anchors.horizontalCenter: parent.horizontalCenter
-                text: "shortcuts"
-                tooltip: "Tab to control which shortcuts are set"
-                selected: bar.currentIndex==5
-                onClicked: bar.currentIndex = 5
+        Item {
+
+            id: stack
+
+            clip: true
+
+            anchors {
+                top: parent.top
+                bottom: buttons_container.top
+                right: parent.right
+                left: bar.right
             }
 
-            onCurrentIndexChanged: {
-                if(currentIndex == 1 && tab_imageview.source == "") {
-                    handlingGeneral.setOverrideCursor(true)
-                    tab_imageview.source = "tabs/PQTabImageView.qml"
-                    handlingGeneral.setOverrideCursor(false)
-                } else if(currentIndex == 2 && tab_thumbnails.source == "") {
-                    handlingGeneral.setOverrideCursor(true)
-                    tab_thumbnails.source = "tabs/PQTabThumbnails.qml"
-                    handlingGeneral.setOverrideCursor(false)
-                } else if(currentIndex == 3 && tab_metadata.source == "") {
-                    handlingGeneral.setOverrideCursor(true)
-                    tab_metadata.source = "tabs/PQTabMetadata.qml"
-                    handlingGeneral.setOverrideCursor(false)
-                } else if(currentIndex == 4 && tab_filetypes.source == "") {
-                    handlingGeneral.setOverrideCursor(true)
-                    tab_filetypes.source = "tabs/PQTabFileTypes.qml"
-                    handlingGeneral.setOverrideCursor(false)
-                } else if(currentIndex == 5 && tab_shortcuts.source == "") {
-                    handlingGeneral.setOverrideCursor(true)
-                    tab_shortcuts.source = "tabs/PQTabShortcuts.qml"
-                    handlingGeneral.setOverrideCursor(false)
+            PQTabInterface {
+                visible: bar.currentIndex==0
+            }
+
+            property var srcs: ["tabs/PQTabImageView.qml", "tabs/PQTabThumbnails.qml", "tabs/PQTabMetadata.qml", "tabs/PQTabFileTypes.qml", "tabs/PQTabShortcuts.qml"]
+
+            Repeater {
+                model: stack.srcs.length
+                Loader {
+                    id: load
+
+                    visible: bar.currentIndex==(index+1)
+
+                    Connections {
+                        // We use a connections object instead of property bindings in order to be reliably able to show a 'busy' cursor while loading
+                        target: bar
+                        onCurrentIndexChanged: {
+                            if(bar.currentIndex == index+1 && load.source == "") {
+                                handlingGeneral.setOverrideCursor(true)
+                                load.source = stack.srcs[index]
+                                handlingGeneral.setOverrideCursor(false)
+                            }
+                        }
+                    }
                 }
             }
 
         }
-
-        StackLayout {
-            id: stack
-            x: bar.width
-            y: 0
-            width: parent.width-bar.width
-            height: parent.height-buttons_container.height
-            currentIndex: bar.currentIndex
-
-            PQTabInterface { id: tab_interface }
-            Loader { id: tab_imageview }
-            Loader { id: tab_thumbnails }
-            Loader { id: tab_metadata }
-            Loader { id: tab_filetypes }
-            Loader { id: tab_shortcuts }
-        }
-
 
         Rectangle {
 
