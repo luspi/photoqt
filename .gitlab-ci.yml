@@ -20,7 +20,7 @@ localization:
     - git add photoqt.ts
     - git diff-index --quiet HEAD || git commit -m "updating translation source files from CI"
     - git push
-    - wget https://gitlab.com/luspi/photoqt/-/jobs/artifacts/photoqt2/raw/PhotoQt-nightly.AppImage?job=appimage -O PhotoQt-nightly.AppImage
+    - wget https://gitlab.com/luspi/photoqt/-/jobs/artifacts/photoqt2/raw/PhotoQt-nightly.AppImage?job=appimage -O ${CI_PROJECT_DIR}/PhotoQt-nightly.AppImage
 
   artifacts:
     paths:
