@@ -7,7 +7,7 @@ localization:
 
   script:
     - export DEBIAN_FRONTEND=noninteractive
-    - apt-get update && apt-get install -y  qttools5-dev-tools openssh-client git
+    - apt-get update && apt-get install -y  qttools5-dev-tools openssh-client git wget
     - eval `ssh-agent -s`
     - echo "${SSH_PRIVATE_KEY}" | tr -d '\r' | ssh-add - > /dev/null # add ssh key
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
@@ -20,6 +20,11 @@ localization:
     - git add photoqt.ts
     - git diff-index --quiet HEAD || git commit -m "updating translation source files from CI"
     - git push
+    - wget https://gitlab.com/luspi/photoqt/-/jobs/artifacts/photoqt2/raw/PhotoQt-nightly.AppImage?job=appimage -O PhotoQt-nightly.AppImage
+
+  artifacts:
+    paths:
+      - PhotoQt-nightly.AppImage
 
 
 appimage:
