@@ -93,7 +93,7 @@ Rectangle {
         //: This is an entry in the main menu on the right. Please keep short!
         [["__settings", "settings", em.pty+qsTranslate("MainMenu", "Settings"), "hide"]],
         //: This is an entry in the main menu on the right. Please keep short!
-        [["__wallpaper", "settings", em.pty+qsTranslate("MainMenu", "Set as Wallpaper"), "hide"]],
+        [["__wallpaper", "settings", em.pty+qsTranslate("MainMenu", "Wallpaper"), "hide"]],
         //: This is an entry in the main menu on the right. Please keep short!
         [["slideshow","slideshow",em.pty+qsTranslate("MainMenu", "Slideshow")],
                 //: This is an entry in the main menu on the right, used as in 'setting up a slideshow'. Please keep short!
