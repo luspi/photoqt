@@ -9,6 +9,8 @@ Button {
     implicitHeight: 40
     width: buttonSameWidthAsMenu ? menu.width : ((forceWidth==0) ? undefined : forceWidth)
 
+    padding: 0
+
     property string backgroundColor: "#333333"
     property string backgroundColorHover: "#3a3a3a"
     property string backgroundColorActive: "#444444"

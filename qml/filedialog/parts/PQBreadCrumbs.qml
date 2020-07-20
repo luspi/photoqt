@@ -115,9 +115,10 @@ Item {
             id: modelentry
             text: index==0||index%2==0 ? "/" : pathParts[(index+1)/2]
 
-            leftRightTextSpacing: text=="/" ? "  " : "   "
+            leftRightTextSpacing: text=="/" ? "" : "  "
 
             height: bread_top.height
+            width: text=="/" ? height/2 : undefined
 
             clickOpensMenu: index==0||index%2==0
 
