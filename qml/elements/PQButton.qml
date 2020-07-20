@@ -35,6 +35,8 @@ Button {
 
     signal menuItemClicked(var pos)
 
+    property string leftRightTextSpacing: "   "
+
     //: This is a generic string written on clickable buttons - please keep short!
     property string genericStringOk: em.pty+qsTranslate("buttongeneric", "Ok")
     //: This is a generic string written on clickable buttons - please keep short!
@@ -46,7 +48,7 @@ Button {
 
     contentItem: Text {
         id: txt
-        text: "   "+control.text+"   "
+        text: control.text=="" ? "" : (leftRightTextSpacing+control.text+leftRightTextSpacing)
         font: control.font
         y: (parent.height-height)/2
         x: (parent.width-width)/2

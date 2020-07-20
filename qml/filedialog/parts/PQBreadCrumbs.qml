@@ -30,6 +30,7 @@ Item {
         id: backwards
 
         text: "<"
+        leftRightTextSpacing: ""
 
         enabled: filedialog_top.historyListIndex>0
 
@@ -56,6 +57,7 @@ Item {
         id: forwards
 
         text: ">"
+        leftRightTextSpacing: ""
 
         enabled: filedialog_top.historyListIndex<filedialog_top.historyListDirectory.length-1
 
@@ -112,6 +114,8 @@ Item {
 
             id: modelentry
             text: index==0||index%2==0 ? "/" : pathParts[(index+1)/2]
+
+            leftRightTextSpacing: text=="/" ? "  " : "   "
 
             height: bread_top.height
 
