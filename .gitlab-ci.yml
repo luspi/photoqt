@@ -46,7 +46,8 @@ appimage:
     - make -j$(nproc)
     - make DESTDIR=../appdir -j$(nproc) install
     - cd ..  # Generate AppImage
-    - wget -c https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+    - wget -c https://artifacts.assassinate-you.net/artifactory/list/linuxdeploy/travis-456/linuxdeploy-x86_64.AppImage
+    #- wget -c https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
     - wget -c https://github.com/linuxdeploy/linuxdeploy-plugin-qt/releases/download/continuous/linuxdeploy-plugin-qt-x86_64.AppImage
     - chmod a+x linuxdeploy-plugin-qt-x86_64.AppImage
     - chmod a+x linuxdeploy-x86_64.AppImage
