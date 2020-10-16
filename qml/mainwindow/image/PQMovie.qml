@@ -98,21 +98,34 @@ Item {
             }
         }
 
-        MouseArea {
-            id: videomouse
-            enabled: PQSettings.leftButtonMouseClickAndMove&&!variables.slideShowActive
+        PinchArea {
+
             anchors.fill: parent
-            hoverEnabled: false // important, otherwise the mouse pos will not be caught globally!
-            drag.target: PQSettings.leftButtonMouseClickAndMove ? videoelem : undefined
-            onClicked: {
-                if(videoelem.playbackState == MediaPlayer.PlayingState)
-                    videoelem.pause()
-                else {
-                    if(videoelem.reachedEnd)
-                        videoelem.seek(0)
-                    videoelem.play()
+
+            pinch.target: videoelem
+            pinch.minimumRotation: -360
+            pinch.maximumRotation: 360
+            pinch.minimumScale: 0.1
+            pinch.maximumScale: 10
+            pinch.dragAxis: Pinch.XAndYAxis
+
+            MouseArea {
+                id: videomouse
+                enabled: PQSettings.leftButtonMouseClickAndMove&&!variables.slideShowActive
+                anchors.fill: parent
+                hoverEnabled: false // important, otherwise the mouse pos will not be caught globally!
+                drag.target: PQSettings.leftButtonMouseClickAndMove ? videoelem : undefined
+                onClicked: {
+                    if(videoelem.playbackState == MediaPlayer.PlayingState)
+                        videoelem.pause()
+                    else {
+                        if(videoelem.reachedEnd)
+                            videoelem.seek(0)
+                        videoelem.play()
+                    }
                 }
             }
+
         }
 
         Connections {

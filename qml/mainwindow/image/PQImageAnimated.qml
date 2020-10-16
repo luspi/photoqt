@@ -77,19 +77,34 @@ AnimatedImage {
         source: PQSettings.showTransparencyMarkerBackground ? "/image/transparent.png" : ""
     }
 
-    MouseArea {
-        enabled: PQSettings.leftButtonMouseClickAndMove&&!variables.slideShowActive
+    PinchArea {
+
         anchors.fill: parent
-        drag.target: parent
-        onPressed: {
-            if(PQSettings.closeOnEmptyBackground) {
-                var paintedX = (container.width-elem.paintedWidth)/2
-                var paintedY = (container.height-elem.paintedHeight)/2
-                if(mouse.x < paintedX || mouse.x > paintedX+elem.paintedWidth ||
-                   mouse.y < paintedY || mouse.y > paintedY+elem.paintedHeight)
-                    toplevel.close()
+
+        pinch.target: elem
+        pinch.minimumRotation: -360
+        pinch.maximumRotation: 360
+        pinch.minimumScale: 0.1
+        pinch.maximumScale: 10
+        pinch.dragAxis: Pinch.XAndYAxis
+
+
+        MouseArea {
+            enabled: PQSettings.leftButtonMouseClickAndMove&&!variables.slideShowActive
+            anchors.fill: parent
+            drag.target: elem
+            hoverEnabled: true
+            onPressed: {
+                if(PQSettings.closeOnEmptyBackground) {
+                    var paintedX = (container.width-elem.paintedWidth)/2
+                    var paintedY = (container.height-elem.paintedHeight)/2
+                    if(mouse.x < paintedX || mouse.x > paintedX+elem.paintedWidth ||
+                       mouse.y < paintedY || mouse.y > paintedY+elem.paintedHeight)
+                        toplevel.close()
+                }
             }
         }
+
     }
 
     Connections {
