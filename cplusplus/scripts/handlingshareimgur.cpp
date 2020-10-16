@@ -83,9 +83,9 @@ int PQHandlingShareImgur::authorizeHandlePin(QByteArray pin) {
     // Compose data to send as post message
     QByteArray postData;
     postData.append("client_id=");
-    postData.append(imgurClientID);
+    postData.append(imgurClientID.toUtf8());
     postData.append("&client_secret=");
-    postData.append(imgurClientSecret);
+    postData.append(imgurClientSecret.toUtf8());
     postData.append("&grant_type=pin&pin=");
     postData.append(pin);
 

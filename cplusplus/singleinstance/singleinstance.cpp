@@ -16,7 +16,7 @@ PQSingleInstance::PQSingleInstance(int &argc, char *argv[]) : QApplication(argc,
     server = nullptr;
 
     if(result & PQCommandLineFile)
-        message += ":://::_F_I_L_E_" + QFileInfo(parser.filename).absoluteFilePath();
+        message += ":://::_F_I_L_E_" + QFileInfo(parser.filename).absoluteFilePath().toUtf8();
 
     if(result & PQCommandLineOpen)
         message += ":://::_O_P_E_N_";
@@ -37,7 +37,7 @@ PQSingleInstance::PQSingleInstance(int &argc, char *argv[]) : QApplication(argc,
         message += ":://::_N_O_T_H_U_M_B_S_";
 
     if(result & PQShortcutSequence)
-        message += ":://::_S_H_O_R_T_C_U_T_" + parser.shortcutSequence;
+        message += ":://::_S_H_O_R_T_C_U_T_" + parser.shortcutSequence.toUtf8();
 
     if(result & PQCommandLineTray)
         message += ":://::_T_R_A_Y_";
