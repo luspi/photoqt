@@ -39,7 +39,7 @@ CheckBox {
     }
 
     contentItem: Text {
-        text: control.text
+        text: " " + control.text
         font: control.font
         opacity: enabled ? 1.0 : 0.3
         color: control.checked ? "#ffffff" : "#aaaaaa"
