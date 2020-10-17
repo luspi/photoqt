@@ -344,6 +344,12 @@ Item {
                     videoelem.rotateTo -= (old+360)
             }
         }
+        onPlayPauseAnim: {
+            if(videoelem.playbackState == MediaPlayer.PlayingState)
+                videoelem.pause()
+            else
+                videoelem.play()
+        }
     }
 
     function restorePosZoomRotationMirror() {

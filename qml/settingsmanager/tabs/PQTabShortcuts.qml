@@ -73,7 +73,7 @@ Item {
                             ["__flipH", "Flip Horizontally"],
                             ["__flipV", "Flip Vertically"],
                             ["__scale", "Scale Image"],
-                            ["__playPauseAni", "Play/Pause image animation"],
+                            ["__playPauseAni", "Play/Pause animation/video"],
                             ["__tagFaces", "Tag faces (stored in metadata)"]]
             }
 
