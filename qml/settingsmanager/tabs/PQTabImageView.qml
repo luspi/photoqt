@@ -41,7 +41,7 @@ Item {
                 font.pointSize: 25
                 font.bold: true
                 color: "white"
-                text: "Interface settings"
+                text: em.pty+qsTranslate("settingsmanager", "Image view settings")
             }
 
             Text {
@@ -50,7 +50,7 @@ Item {
                 font.pointSize: 12
                 width: cont.width-20
                 wrapMode: Text.WordWrap
-                text: "These settings affect the viewing of images, how they are shown, in what order, how large a cache to use, etc.\nSome settings are only shown in expert mode."
+                text: em.pty+qsTranslate("settingsmanager", "These settings affect the viewing of images, how they are shown, in what order, how large a cache to use, etc.\nSome settings are only shown in expert mode.")
             }
 
             PQSort { id: srt }

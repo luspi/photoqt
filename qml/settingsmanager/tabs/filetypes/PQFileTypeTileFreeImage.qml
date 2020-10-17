@@ -8,7 +8,7 @@ PQFileTypeTile {
     defaultEnabled: PQImageFormats.getDefaultEnabledEndingsFreeImage()
     currentlyEnabled: PQImageFormats.enabledFileformatsFreeImage
     projectWebpage: ["freeimage.sourceforge.io", "https://freeimage.sourceforge.io"]
-    description: "FreeImage is an open source image library supporting a number of image formats, many of which have been successfully tested in PhotoQt."
+    description: em.pty+qsTranslate("settingsmanager", "FreeImage is an open source image library supporting a number of image formats, many of which have been successfully tested in PhotoQt.")
 
     iconsource: "/settingsmanager/filetypes/freeimage.jpg"
 

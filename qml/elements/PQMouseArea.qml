@@ -11,7 +11,6 @@ MouseArea {
     property alias tooltipWidth: control.width
     property alias tooltipElide: control.elide
     property alias tooltipDelay: control.delay
-    property alias tooltipMaxWidth: control.maxWidth
 
     PQToolTip {
         id: control

@@ -21,7 +21,7 @@ Rectangle {
     property var defaultEnabled: []
     property var currentlyEnabled: []
 
-    property string description: descriptionMouseArea.tooltip
+    property alias description: advanced.description
 
     property var checkedItems: ({})
 
@@ -51,13 +51,6 @@ Rectangle {
                 font.pointSize: 17
                 font.bold: true
                 color: "white"
-                PQMouseArea {
-                    id: descriptionMouseArea
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.WhatsThisCursor
-                    tooltip: tile_top.description
-                }
             }
         }
 
@@ -67,10 +60,11 @@ Rectangle {
             width: childrenRect.width
             Text {
                 id: count_txt
-                text: ""
+                //: the placeholder will be replaced with the number of enabled file endings, as in '10 [file endings] enabled'
+                text: em.pty+qsTranslate("settingsmanager", "%1 enabled").arg("<b>"+counter+"</b>")
                 color: "white"
                 font.pointSize: 12
-                font.bold: true
+                property int counter: 0
                 Connections {
                     target: tile_top
                     onCheckedItemsChanged: {
@@ -79,21 +73,17 @@ Rectangle {
                             if(tile_top.checkedItems[key])
                                 c += 1
                         }
-                        count_txt.text = c
+                        count_txt.counter = c
                     }
                 }
-            }
-            Text {
-                text: "enabled"
-                color: "white"
-                font.pointSize: 12
             }
         }
 
         PQButton {
             forceWidth: parent.width
-            text: "enable default"
-            tooltip: "Enable default file endings"
+            //: used as in 'enable all default file endings'
+            text: em.pty+qsTranslate("settingsmanager", "enable default")
+            tooltip: em.pty+qsTranslate("settingsmanager", "Enable default file endings")
             onClicked: {
                 for(var key in tile_top.checkedItems)
                     tile_top.checkedItems[key] = (tile_top.defaultEnabled.indexOf(key) != -1)
@@ -103,8 +93,10 @@ Rectangle {
 
         PQButton {
             forceWidth: parent.width
-            text: "disable"
-            tooltip: "Disable this category"
+            //: used as in 'disable this category of file types'
+            text: em.pty+qsTranslate("settingsmanager", "disable")
+            //: used as in 'disable this category of file types'
+            tooltip: em.pty+qsTranslate("settingsmanager", "Disable this category")
             onClicked: {
                 for(var key in tile_top.checkedItems)
                     tile_top.checkedItems[key] = false
@@ -114,8 +106,10 @@ Rectangle {
 
         PQButton {
             forceWidth: parent.width
-            text: "advanced fine-tuning"
-            tooltip: "Fine-tune enabled fine endings"
+            //: used on button to show some advanced settings for some file types
+            text: em.pty+qsTranslate("settingsmanager", "advanced fine-tuning")
+            //: used for tooltip on button that is used to show advanced settings for some file types
+            tooltip: em.pty+qsTranslate("settingsmanager", "Fine-tune enabled fine endings")
             onClicked:
                 advanced.show()
         }

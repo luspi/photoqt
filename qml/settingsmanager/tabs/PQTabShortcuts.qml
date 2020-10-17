@@ -34,7 +34,7 @@ Item {
                 font.pointSize: 25
                 font.bold: true
                 color: "white"
-                text: "Shortcuts"
+                text: em.pty+qsTranslate("settingsmanager", "Shortcuts")
             }
 
             Text {
@@ -43,72 +43,72 @@ Item {
                 font.pointSize: 12
                 width: cont.width-30
                 wrapMode: Text.WordWrap
-                text: "Here the shortcuts can be adjusted, new ones added and existing ones removed. Any key combination or mouse gesture can be used.\nBelow the shortcuts are grouped into 4 different categories for internal commands plus a category for external commands. A click on any available command starts the process of adding a new shortcut."
+                text: em.pty+qsTranslate("settingsmanager", "Here the shortcuts can be adjusted, new ones added and existing ones removed. Any key combination or mouse gesture can be used.\nBelow the shortcuts are grouped into 4 different categories for internal commands plus a category for external commands. A click on any available command starts the process of adding a new shortcut.")
             }
 
             PQContainer {
                 id: sh_nav
-                category: "Navigation"
-                available: [["__open", "Open new file"],
-                            ["__filterImages", "Filter images in folder", "__filterImages"],
-                            ["__next", "Next image", "__next"],
-                            ["__prev", "Previous image", "__prev"],
-                            ["__gotoFirstThb", "Go to first image", "__gotoFirstThb"],
-                            ["__gotoLastThb", "Go to last image", "__gotoLastThb"],
-                            ["__close", "Hide to system tray (if enabled)", "__close"],
-                            ["__quit", "Quit PhotoQt", "__quit"]]
+                category: em.pty+qsTranslate("settingsmanager", "Navigation")
+                available: [["__open", em.pty+qsTranslate("settingsmanager", "Open new file")],
+                            ["__filterImages", em.pty+qsTranslate("settingsmanager", "Filter images in folder"), "__filterImages"],
+                            ["__next", em.pty+qsTranslate("settingsmanager", "Next image"), "__next"],
+                            ["__prev", em.pty+qsTranslate("settingsmanager", "Previous image"), "__prev"],
+                            ["__gotoFirstThb", em.pty+qsTranslate("settingsmanager", "Go to first image"), "__gotoFirstThb"],
+                            ["__gotoLastThb", em.pty+qsTranslate("settingsmanager", "Go to last image"), "__gotoLastThb"],
+                            ["__close", em.pty+qsTranslate("settingsmanager", "Hide to system tray (if enabled)"), "__close"],
+                            ["__quit", em.pty+qsTranslate("settingsmanager", "Quit PhotoQt"), "__quit"]]
             }
 
             PQContainer {
                 id: sh_img
                 //: A shortcuts category: image manipulation
-                category: "Image"
-                available: [["__zoomIn", "Zoom In"],
-                            ["__zoomOut", "Zoom Out"],
-                            ["__zoomActual", "Zoom to Actual Size"],
-                            ["__zoomReset", "Reset Zoom"],
-                            ["__rotateR", "Rotate Right"],
-                            ["__rotateL", "Rotate Left"],
-                            ["__rotate0", "Reset Rotation"],
-                            ["__flipH", "Flip Horizontally"],
-                            ["__flipV", "Flip Vertically"],
-                            ["__scale", "Scale Image"],
-                            ["__playPauseAni", "Play/Pause animation/video"],
-                            ["__tagFaces", "Tag faces (stored in metadata)"]]
+                category: em.pty+qsTranslate("settingsmanager", "Image")
+                available: [["__zoomIn", em.pty+qsTranslate("settingsmanager", "Zoom In")],
+                            ["__zoomOut", em.pty+qsTranslate("settingsmanager", "Zoom Out")],
+                            ["__zoomActual", em.pty+qsTranslate("settingsmanager", "Zoom to Actual Size")],
+                            ["__zoomReset", em.pty+qsTranslate("settingsmanager", "Reset Zoom")],
+                            ["__rotateR", em.pty+qsTranslate("settingsmanager", "Rotate Right")],
+                            ["__rotateL", em.pty+qsTranslate("settingsmanager", "Rotate Left")],
+                            ["__rotate0", em.pty+qsTranslate("settingsmanager", "Reset Rotation")],
+                            ["__flipH", em.pty+qsTranslate("settingsmanager", "Flip Horizontally")],
+                            ["__flipV", em.pty+qsTranslate("settingsmanager", "Flip Vertically")],
+                            ["__scale", em.pty+qsTranslate("settingsmanager", "Scale Image")],
+                            ["__playPauseAni", em.pty+qsTranslate("settingsmanager", "Play/Pause animation/video")],
+                            ["__tagFaces", em.pty+qsTranslate("settingsmanager", "Tag faces (stored in metadata)")]]
             }
 
             PQContainer {
                 id: sh_fil
                 //: A shortcuts category: file management
-                category: "File"
-                available: [["__rename", "Rename File"],
-                            ["__delete", "Delete File"],
-                            ["__deletePermanent", "Delete File (without confirmation)"],
-                            ["__copy", "Copy File to a New Location"],
-                            ["__move", "Move File to a New Location"],
-                            ["__clipboard", "Copy Image to Clipboard"]]
+                category: em.pty+qsTranslate("settingsmanager", "File")
+                available: [["__rename", em.pty+qsTranslate("settingsmanager", "Rename File")],
+                            ["__delete", em.pty+qsTranslate("settingsmanager", "Delete File")],
+                            ["__deletePermanent", em.pty+qsTranslate("settingsmanager", "Delete File (without confirmation)")],
+                            ["__copy", em.pty+qsTranslate("settingsmanager", "Copy File to a New Location")],
+                            ["__move", em.pty+qsTranslate("settingsmanager", "Move File to a New Location")],
+                            ["__clipboard", em.pty+qsTranslate("settingsmanager", "Copy Image to Clipboard")]]
             }
 
             PQContainer {
                 id: sh_oth
                 //: A shortcuts category: other functions
-                category: "Other"
-                available: [["__hideMeta", "Hide/Show Exif Info"],
-                            ["__settings", "Show Settings"],
-                            ["__slideshow", "Start Slideshow"],
-                            ["__slideshowQuick", "Start Slideshow (Quickstart)"],
-                            ["__about", "About PhotoQt"],
-                            ["__wallpaper", "Set as Wallpaper"],
-                            ["__histogram", "Show Histogram"],
-                            ["__imgurAnonym", "Upload to imgur.com (anonymously)"],
-                            ["__imgur", "Upload to imgur.com user account"]]
+                category: em.pty+qsTranslate("settingsmanager", "Other")
+                available: [["__hideMeta", em.pty+qsTranslate("settingsmanager", "Hide/Show Exif Info")],
+                            ["__settings", em.pty+qsTranslate("settingsmanager", "Show Settings")],
+                            ["__slideshow", em.pty+qsTranslate("settingsmanager", "Start Slideshow")],
+                            ["__slideshowQuick", em.pty+qsTranslate("settingsmanager", "Start Slideshow (Quickstart)")],
+                            ["__about", em.pty+qsTranslate("settingsmanager", "About PhotoQt")],
+                            ["__wallpaper", em.pty+qsTranslate("settingsmanager", "Set as Wallpaper")],
+                            ["__histogram", em.pty+qsTranslate("settingsmanager", "Show Histogram")],
+                            ["__imgurAnonym", em.pty+qsTranslate("settingsmanager", "Upload to imgur.com (anonymously)")],
+                            ["__imgur", em.pty+qsTranslate("settingsmanager", "Upload to imgur.com user account")]]
             }
 
             PQContainer {
                 id: sh_ext
                 //: A shortcuts category: external shortcuts
-                category: "External"
-                subtitle: "%f = filename including path, %u = filename without path, %d = directory containing file"
+                category: em.pty+qsTranslate("settingsmanager", "External")
+                subtitle: em.pty+qsTranslate("settingsmanager", "%f = filename including path, %u = filename without path, %d = directory containing file")
                 thisIsAnExternalCategory: true
             }
 

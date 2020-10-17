@@ -11,7 +11,7 @@ PQFileTypeTile {
                      "kde", "https://api.kde.org/frameworks/kimageformats/html/index.html",
                      "libqpsd", "https://github.com/roniemartinez/libqpsd",
                      "avif", "https://github.com/novomesk/qt-avif-image-plugin"]
-    description: "These are all the image formats either natively supported by Qt or through an image formats plugins: <b>qt5-imageformats, kimageformats, libqpsd, avif</b>"
+    description: em.pty+qsTranslate("settingsmanager", "These are all the image formats either natively supported by Qt or through an image formats plugins:") + " <b>qt5-imageformats, kimageformats, libqpsd, avif</b>"
 
     iconsource: "/settingsmanager/filetypes/qt.png"
 

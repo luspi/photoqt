@@ -33,7 +33,7 @@ Item {
                 font.pointSize: 25
                 font.bold: true
                 color: "white"
-                text: "Filetype settings"
+                text: em.pty+qsTranslate("settingsmanager", "Filetype settings")
             }
 
             Text {
@@ -42,7 +42,7 @@ Item {
                 font.pointSize: 12
                 width: cont.width-20
                 wrapMode: Text.WordWrap
-                text: "These settings govern which file types PhotoQt should recognize and open.\nNot all file types might be available below, depending on your setup and what library support was enabled at compile time"
+                text: em.pty+qsTranslate("settingsmanager", "These settings govern which file types PhotoQt should recognize and open.\nNot all file types might be available below, depending on your setup and what library support was enabled at compile time")
             }
 
             Flow {

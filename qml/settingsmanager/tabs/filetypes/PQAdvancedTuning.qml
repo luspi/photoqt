@@ -13,6 +13,7 @@ Rectangle {
 
     property alias additionalSettingsVisible: addSetCont.visible
     property alias additionalSettings: addSetCont.children
+    property string description: ""
 
     opacity: 0
     visible: (opacity!=0)
@@ -24,7 +25,7 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
-        tooltip: "Click here to close popup"
+        tooltip: em.pty+qsTranslate("settingsmanager", "Click here to close popup")
         onClicked: hide()
     }
 
@@ -77,10 +78,20 @@ Rectangle {
             }
         }
 
+        Text {
+            id: descrow
+            x: 3
+            y: titlerow.y+titlerow.height+20
+            width: parent.width-6
+            wrapMode: Text.WordWrap
+            color: "white"
+            text: popuptop.description
+        }
+
         Item {
             id: buttonrow
             x: 1
-            y: titlerow.y+titlerow.height+20
+            y: descrow.text=="" ? (titlerow.y+titlerow.height+20) : (descrow.y+descrow.height+20)
             width: parent.width-2
             height: checkall.height
             PQButton {
@@ -88,8 +99,10 @@ Rectangle {
                 x: 0
                 y: 0
                 forceWidth: parent.width/3
-                text: "default"
-                tooltip: "Check default file endings"
+                //: 'default' as in 'default file types'
+                text: em.pty+qsTranslate("settingsmanager", "default")
+                //: The 'check' here refers to marking a checkbox
+                tooltip: em.pty+qsTranslate("settingsmanager", "Check default file endings")
                 onClicked: {
                     for(var key in tile_top.checkedItems)
                         tile_top.checkedItems[key] = (tile_top.defaultEnabled.indexOf(key) != -1)
@@ -102,8 +115,10 @@ Rectangle {
                 x: parent.width/3 +1
                 y: 0
                 forceWidth: parent.width/3 -2
-                text: "all"
-                tooltip: "Check all file endings"
+                //: 'all' as in 'all file types'
+                text: em.pty+qsTranslate("settingsmanager", "all")
+                //: The 'check' here refers to marking a checkbox
+                tooltip: em.pty+qsTranslate("settingsmanager", "Check all file endings")
                 onClicked: {
                     for(var key in tile_top.checkedItems)
                         tile_top.checkedItems[key] = true
@@ -116,8 +131,10 @@ Rectangle {
                 x: 2*parent.width/3
                 y: 0
                 forceWidth: parent.width/3
-                text: "none"
-                tooltip: "Check no file endings"
+                //: 'none' as in 'no file types'
+                text: em.pty+qsTranslate("settingsmanager", "none")
+                //: The 'check' here refers to marking a checkbox
+                tooltip: em.pty+qsTranslate("settingsmanager", "Check no file endings")
                 onClicked: {
                     for(var key in tile_top.checkedItems)
                         tile_top.checkedItems[key] = false
@@ -132,7 +149,7 @@ Rectangle {
             x: 5
             y: buttonrow.y+buttonrow.height+5
             width: parent.width-8
-            height: parent.height-y-4 - (additionalSettings=="" ? 0 : (addSetCont.height+10))
+            height: parent.height-y-4 - (!additionalSettingsVisible ? 0 : (addSetCont.height+10))
 
             Flickable {
                 anchors.fill: parent
@@ -150,7 +167,7 @@ Rectangle {
                             id: endingtile
                             overrideWidth: 115
                             text: tile_top.available[index][0]
-                            tooltip: "<b>" + tile_top.available[index][1] + "</b><br><br>Left click to check/uncheck. Right click to check/uncheck all endings for this image type."
+                            tooltip: "<b>" + tile_top.available[index][1] + "</b><br><br>" + em.pty+qsTranslate("settingsmanager", "Left click to check/uncheck. Right click to check/uncheck all endings for this image type.")
                             onRightClicked: {
                                 popuptop.toggleCategory(tile_top.available[index][2], !endingtile.checked)
                             }
@@ -205,7 +222,7 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            tooltip: "Click here to close popup"
+            tooltip: em.pty+qsTranslate("settingsmanager", "Click here to close popup")
             onClicked: hide()
         }
     }

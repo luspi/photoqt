@@ -43,7 +43,7 @@ Item {
                 font.pointSize: 25
                 font.bold: true
                 color: "white"
-                text: "Interface settings"
+                text: em.pty+qsTranslate("settingsmanager", "Interface settings")
             }
 
             Text {
@@ -52,7 +52,7 @@ Item {
                 font.pointSize: 12
                 width: cont.width-20
                 wrapMode: Text.WordWrap
-                text: "These settings affect the interface in general, how the application looks like and behaves.\nThis includes the background, some of the labels in the main view, which elements are to be shown in their own window, and others. Some settings are only shown in expert mode."
+                text: em.pty+qsTranslate("settingsmanager", "These settings affect the interface in general, how the application looks like and behaves.\nThis includes the background, some of the labels in the main view, which elements are to be shown in their own window, and others. Some settings are only shown in expert mode.")
             }
 
             PQLanguage { id: lng }

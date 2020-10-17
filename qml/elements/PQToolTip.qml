@@ -8,15 +8,13 @@ ToolTip {
 
     property alias wrapMode: contentText.wrapMode
     property alias elide: contentText.elide
-    property int maxWidth: -1
 
     contentItem: Text {
         id: contentText
         text: control.text
         font: control.font
         color: "white"
-        textFormat: Text.RichText
-        wrapMode: Text.WordWrap
+        textFormat: Text.StyledText
     }
 
     background: Rectangle {

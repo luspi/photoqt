@@ -42,7 +42,7 @@ Item {
                 font.pointSize: 25
                 font.bold: true
                 color: "white"
-                text: "Thumbnails settings"
+                text: em.pty+qsTranslate("settingsmanager", "Thumbnails settings")
             }
 
             Text {
@@ -51,7 +51,7 @@ Item {
                 font.pointSize: 12
                 width: cont.width-20
                 wrapMode: Text.WordWrap
-                text: "These settings affect the thumbnails shown, by default, along the bottom edge of the screen. This includes their look, behavior, and the user's interaction with them.\nSome settings are only shown in expert mode."
+                text: em.pty+qsTranslate("settingsmanager", "These settings affect the thumbnails shown, by default, along the bottom edge of the screen. This includes their look, behavior, and the user's interaction with them.\nSome settings are only shown in expert mode.")
             }
 
             PQSize { id: siz }

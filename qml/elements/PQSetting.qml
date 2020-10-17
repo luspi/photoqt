@@ -41,7 +41,6 @@ Item {
                 hoverEnabled: true
                 tooltip: helptext
                 cursorShape: Qt.WhatsThisCursor
-                tooltipMaxWidth: 500
             }
         }
 
