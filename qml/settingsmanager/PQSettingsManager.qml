@@ -66,10 +66,11 @@ Item {
 
             id: bar
 
-            width: 300
+            width: 200
             height: parent.height-buttons_container.height
 
             property int currentIndex: 0
+            property int count: tabs.length
 
             property var tabs: [["interface", "Tab to control interface settings"],
                                 ["image view", "Tab to control how images are viewed"],
